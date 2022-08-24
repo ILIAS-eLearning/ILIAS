@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -44,7 +46,7 @@ class ilBuddySystemNotification
     /**
      * @return int[]
      */
-    public function getRecipientIds() : array
+    public function getRecipientIds(): array
     {
         return $this->recipientIds;
     }
@@ -52,12 +54,12 @@ class ilBuddySystemNotification
     /**
      * @param int[] $recipientIds
      */
-    public function setRecipientIds(array $recipientIds) : void
+    public function setRecipientIds(array $recipientIds): void
     {
         $this->recipientIds = array_map('intval', $recipientIds);
     }
 
-    public function send() : void
+    public function send(): void
     {
         foreach ($this->getRecipientIds() as $usr_id) {
             $user = new ilObjUser($usr_id);
@@ -117,7 +119,7 @@ class ilBuddySystemNotification
         }
     }
 
-    protected function hasPublicProfile(int $recipientUsrId) : bool
+    protected function hasPublicProfile(int $recipientUsrId): bool
     {
         $portfolioId = ilObjPortfolio::getDefaultPortfolio($this->sender->getId());
         if (is_numeric($portfolioId) && $portfolioId > 0) {

@@ -1,4 +1,6 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 use ILIAS\Filesystem\Filesystem;
 use ILIAS\FileUpload\DTO\UploadResult;
 use ILIAS\FileUpload\FileUpload;
@@ -35,7 +37,7 @@ class ilWebDAVMountInstructionsDocumentFormGUI extends ilPropertyFormGUI
     protected bool $is_editable = false;
     protected string $translated_error = '';
     protected string $translated_info = '';
-    
+
     public function __construct(
         ilWebDAVMountInstructionsDocument $document,
         ilWebDAVMountInstructionsRepository $mount_instructions_repository,
@@ -63,8 +65,8 @@ class ilWebDAVMountInstructionsDocumentFormGUI extends ilPropertyFormGUI
 
         $this->initForm();
     }
-    
-    protected function initForm() : void
+
+    protected function initForm(): void
     {
         $document_already_exists = $this->document->getId() > 0;
         if ($document_already_exists) {
@@ -82,10 +84,10 @@ class ilWebDAVMountInstructionsDocumentFormGUI extends ilPropertyFormGUI
         $title->setValue($this->document->getTitle());
         $title->setMaxLength(255);
         $this->addItem($title);
-        
+
         $document_label = $this->lng->txt('webdav_form_document');
         $document_by_line = $this->lng->txt('webdav_form_document_info');
-        
+
         $language_selection = new ilSelectInputGUI(
             $this->lng->txt('language'),
             'lng'
@@ -121,8 +123,8 @@ class ilWebDAVMountInstructionsDocumentFormGUI extends ilPropertyFormGUI
             $this->addCommandButton($this->save_command, $this->lng->txt('save'));
         }
     }
-    
-    public function saveObject() : bool
+
+    public function saveObject(): bool
     {
         try {
             $this->document = $this->createFilledObject($this->document);
@@ -135,8 +137,8 @@ class ilWebDAVMountInstructionsDocumentFormGUI extends ilPropertyFormGUI
 
         return true;
     }
-    
-    public function updateObject() : bool
+
+    public function updateObject(): bool
     {
         try {
             $this->document = $this->createFilledObject($this->document);
@@ -146,36 +148,36 @@ class ilWebDAVMountInstructionsDocumentFormGUI extends ilPropertyFormGUI
             $this->translated_error .= $e->getMessage();
             return false;
         }
-        
+
         return true;
     }
-    
-    public function hasTranslatedInfo() : bool
+
+    public function hasTranslatedInfo(): bool
     {
         return strlen($this->translated_info) > 0;
     }
-    
-    public function hasTranslatedError() : bool
+
+    public function hasTranslatedError(): bool
     {
         return strlen($this->translated_error) > 0;
     }
-    
-    public function getTranslatedInfo() : string
+
+    public function getTranslatedInfo(): string
     {
         return $this->translated_info;
     }
-    
-    public function getTranslatedError() : string
+
+    public function getTranslatedError(): string
     {
         return $this->translated_error;
     }
-    
-    protected function createFilledObject(ilWebDAVMountInstructionsDocument $document) : ilWebDAVMountInstructionsDocument
+
+    protected function createFilledObject(ilWebDAVMountInstructionsDocument $document): ilWebDAVMountInstructionsDocument
     {
         if (!$this->checkInput()) {
             throw new InvalidArgumentException($this->lng->txt('form_input_not_valid'));
         }
-        
+
         $document_already_exists = $document->getId() > 0;
 
         if (!$document_already_exists) {
@@ -185,7 +187,7 @@ class ilWebDAVMountInstructionsDocumentFormGUI extends ilPropertyFormGUI
         if (!$document_already_exists && !$upload_result->isOK()) {
             throw new InvalidArgumentException($this->lng->txt('form_input_not_valid'));
         }
-        
+
         $title = $this->getInput('title');
         $language = $this->getInput('lng');
         $creation_ts = $document_already_exists ? $document->getCreationTs() : ilUtil::now();
@@ -193,13 +195,13 @@ class ilWebDAVMountInstructionsDocumentFormGUI extends ilPropertyFormGUI
         $owner_id = $document_already_exists ? $document->getOwnerUsrId() : $this->actor->getId();
         $last_modified_usr_id = $this->actor->getId();
         $sorting = $document_already_exists ? $document->getSorting() : $this->mount_instructions_repository->getHighestSortingNumber() + 1;
-        
+
         $mount_instruction_for_language_exists = $this->mount_instructions_repository->doMountInstructionsExistByLanguage($language);
 
         if (!$document_already_exists && $mount_instruction_for_language_exists) {
             throw new InvalidArgumentException($this->lng->txt("webdav_choosen_language_already_used"));
         }
-        
+
         if ($document_already_exists && $document->getLanguage() != $language &&
             $mount_instruction_for_language_exists > 0 &&
             $mount_instruction_for_language_exists != $document->getId()) {
@@ -233,13 +235,13 @@ class ilWebDAVMountInstructionsDocumentFormGUI extends ilPropertyFormGUI
             $sorting
         );
     }
-    
-    protected function getRawMountInstructionsFromFileUpload(UploadResult $upload_result) : string
+
+    protected function getRawMountInstructionsFromFileUpload(UploadResult $upload_result): string
     {
         if ($upload_result->getName() === '') {
             throw new InvalidArgumentException('uploaded file has no name');
         }
-        
+
         if (!$upload_result->isOK()) {
             $this->getItemByPostVar('document')->setAlert($upload_result->getStatus()->getMessage());
             throw new InvalidArgumentException($this->lng->txt('form_input_not_valid'));
@@ -265,8 +267,8 @@ class ilWebDAVMountInstructionsDocumentFormGUI extends ilPropertyFormGUI
 
         return $raw_content;
     }
-    
-    protected function getFileUploadResult() : UploadResult
+
+    protected function getFileUploadResult(): UploadResult
     {
         if (!$this->file_upload->hasUploads()) {
             throw new InvalidArgumentException("webdav_error_no_upload");

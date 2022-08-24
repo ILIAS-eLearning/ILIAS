@@ -23,7 +23,6 @@
  */
 class ilDclNumberFieldModel extends ilDclBaseFieldModel
 {
-
     /**
      * Returns a query-object for building the record-loader-sql-query
      * @param array|string $filter_value
@@ -31,7 +30,7 @@ class ilDclNumberFieldModel extends ilDclBaseFieldModel
     public function getRecordQueryFilterObject(
         $filter_value = "",
         ?ilDclBaseFieldModel $sort_field = null
-    ) : ?ilDclRecordQueryObject {
+    ): ?ilDclRecordQueryObject {
         global $DIC;
         $ilDB = $DIC['ilDB'];
 
@@ -58,7 +57,7 @@ class ilDclNumberFieldModel extends ilDclBaseFieldModel
         return $sql_obj;
     }
 
-    public function hasNumericSorting() : bool
+    public function hasNumericSorting(): bool
     {
         return true;
     }
@@ -66,7 +65,7 @@ class ilDclNumberFieldModel extends ilDclBaseFieldModel
     /**
      * @param float $value
      */
-    public function checkValidity($value, ?int $record_id = null) : bool
+    public function checkValidity($value, ?int $record_id = null): bool
     {
         $valid = parent::checkValidity($value, $record_id);
 

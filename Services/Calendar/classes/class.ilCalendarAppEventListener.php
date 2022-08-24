@@ -1,4 +1,6 @@
-<?php /** @noinspection ALL */
+<?php
+
+/** @noinspection ALL */
 declare(strict_types=1);
 /*
         +-----------------------------------------------------------------------------+
@@ -38,7 +40,7 @@ class ilCalendarAppEventListener implements ilAppEventListener
      * @param array  $a_parameter parameter array (assoc), array("name" => ..., "phone_office" => ...)     *
      * @static
      */
-    public static function handleEvent(string $a_component, string $a_event, array $a_parameter) : void
+    public static function handleEvent(string $a_component, string $a_event, array $a_parameter): void
     {
         global $DIC;
 
@@ -125,7 +127,7 @@ class ilCalendarAppEventListener implements ilAppEventListener
     /**
      * Create a category for a new object (crs,grp, ...)
      */
-    public static function createCategory(ilObject $a_obj, bool $a_check_existing = false) : int
+    public static function createCategory(ilObject $a_obj, bool $a_check_existing = false): int
     {
         global $DIC;
 
@@ -147,7 +149,7 @@ class ilCalendarAppEventListener implements ilAppEventListener
     /**
      * Update category for a object (crs,grp, ...)
      */
-    public static function updateCategory(ilObject $a_obj) : int
+    public static function updateCategory(ilObject $a_obj): int
     {
         if ($cat = ilCalendarCategory::_getInstanceByObjId($a_obj->getId())) {
             $cat->setTitle($a_obj->getTitle());
@@ -163,7 +165,7 @@ class ilCalendarAppEventListener implements ilAppEventListener
      * @param ilCalendarAppointmentTemplate[]
      * @return void
      */
-    public static function createAppointments(ilObject $a_obj, array $a_appointments) : void
+    public static function createAppointments(ilObject $a_obj, array $a_appointments): void
     {
         global $DIC;
 
@@ -216,7 +218,7 @@ class ilCalendarAppEventListener implements ilAppEventListener
     /**
      * delete category
      */
-    public static function deleteCategory(int $a_obj_id) : void
+    public static function deleteCategory(int $a_obj_id): void
     {
         global $DIC;
 

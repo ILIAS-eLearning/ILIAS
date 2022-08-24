@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -23,7 +25,7 @@
  */
 interface ilQTIFlowMatAware
 {
-    public function addFlowMat(ilQTIFlowMat $flow_mat) : void;
+    public function addFlowMat(ilQTIFlowMat $flow_mat): void;
 
-    public function getFlowMat(int $index) : ?ilQTIFlowMat;
+    public function getFlowMat(int $index): ?ilQTIFlowMat;
 }

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\UI\Implementation\Component\Menu;
 
 use ILIAS\UI\Component\Menu as IMenu;
@@ -33,7 +35,7 @@ class Factory implements IMenu\Factory
     /**
      * @inheritdoc
      */
-    public function drilldown(string $label, array $items) : IMenu\Drilldown
+    public function drilldown(string $label, array $items): IMenu\Drilldown
     {
         return new Drilldown($this->signal_generator, $label, $items);
     }
@@ -41,7 +43,7 @@ class Factory implements IMenu\Factory
     /**
      * @inheritdoc
      */
-    public function sub(string $label, array $items) : IMenu\Sub
+    public function sub(string $label, array $items): IMenu\Sub
     {
         return new Sub($label, $items);
     }

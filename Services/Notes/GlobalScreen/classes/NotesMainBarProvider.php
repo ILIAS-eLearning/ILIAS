@@ -28,12 +28,12 @@ use ILIAS\UI\Component\Symbol\Icon\Standard;
  */
 class NotesMainBarProvider extends AbstractStaticMainMenuProvider
 {
-    public function getStaticTopItems() : array
+    public function getStaticTopItems(): array
     {
         return [];
     }
 
-    public function getStaticSubItems() : array
+    public function getStaticSubItems(): array
     {
         $dic = $this->dic;
         $ctrl = $dic->ctrl();
@@ -49,7 +49,7 @@ class NotesMainBarProvider extends AbstractStaticMainMenuProvider
             ->withSymbol($icon)
             ->withNonAvailableReason($this->dic->ui()->factory()->legacy($this->dic->language()->txt('component_not_active')))
             ->withAvailableCallable(
-                static function () use ($dic) : bool {
+                static function () use ($dic): bool {
                     return !$dic->settings()->get("disable_comments");
                 }
             );
@@ -66,7 +66,7 @@ class NotesMainBarProvider extends AbstractStaticMainMenuProvider
             ->withSymbol($icon)
             ->withNonAvailableReason($this->dic->ui()->factory()->legacy($this->dic->language()->txt('component_not_active')))
             ->withAvailableCallable(
-                static function () use ($dic) : bool {
+                static function () use ($dic): bool {
                     return !$dic->settings()->get("disable_notes");
                 }
             );

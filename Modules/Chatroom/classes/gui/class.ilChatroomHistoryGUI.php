@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -25,13 +27,13 @@
  */
 class ilChatroomHistoryGUI extends ilChatroomGUIHandler
 {
-    public function byDayExport() : void
+    public function byDayExport(): void
     {
         $this->tabs->activateSubTab('byday');
         $this->byDay(true);
     }
 
-    public function byDay(bool $export = false) : void
+    public function byDay(bool $export = false): void
     {
         $room = ilChatroom::byObjectId($this->gui->getObject()->getId());
         $this->exitIfNoRoomExists($room);
@@ -87,7 +89,7 @@ class ilChatroomHistoryGUI extends ilChatroomGUIHandler
         array $psessions = [],
         ?ilDateTime $from = null,
         ?ilDateTime $to = null
-    ) : void {
+    ): void {
         $this->redirectIfNoPermission('read');
 
         $this->gui->switchToVisibleMode();
@@ -238,13 +240,13 @@ class ilChatroomHistoryGUI extends ilChatroomGUIHandler
         $this->mainTpl->setVariable('ADM_CONTENT', $roomTpl->get());
     }
 
-    public function bySessionExport() : void
+    public function bySessionExport(): void
     {
         $this->tabs->activateSubTab('bysession');
         $this->bySession(true);
     }
 
-    public function bySession(bool $export = false) : void
+    public function bySession(bool $export = false): void
     {
         $room = ilChatroom::byObjectId($this->gui->getObject()->getId());
         $this->exitIfNoRoomExists($room);
@@ -310,7 +312,7 @@ class ilChatroomHistoryGUI extends ilChatroomGUIHandler
         $this->showMessages($messages, $durationForm, $export, $psessions, $from, $to);
     }
 
-    public function executeDefault(string $requestedMethod) : void
+    public function executeDefault(string $requestedMethod): void
     {
         $this->byDay();
     }

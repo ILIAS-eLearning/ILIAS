@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 /**
@@ -19,7 +20,7 @@ declare(strict_types=1);
 
 final class ilObjTalkTemplate extends ilContainer
 {
-    const TYPE = 'talt';
+    public const TYPE = 'talt';
 
     private static int $root_ref_id = -1;
     private static int $root_id = -1;
@@ -61,7 +62,7 @@ final class ilObjTalkTemplate extends ilContainer
     /**
      * @return int
      */
-    public static function getRootOrgRefId() : int
+    public static function getRootOrgRefId(): int
     {
         self::loadRootOrgRefIdAndId();
 
@@ -72,7 +73,7 @@ final class ilObjTalkTemplate extends ilContainer
     /**
      * @return int
      */
-    public static function getRootOrgId() : int
+    public static function getRootOrgId(): int
     {
         self::loadRootOrgRefIdAndId();
 
@@ -80,7 +81,7 @@ final class ilObjTalkTemplate extends ilContainer
     }
 
 
-    private static function loadRootOrgRefIdAndId() : void
+    private static function loadRootOrgRefIdAndId(): void
     {
         if (self::$root_ref_id === -1 || self::$root_id === -1) {
             global $DIC;

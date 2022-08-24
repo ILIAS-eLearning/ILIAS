@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -36,7 +38,7 @@ class ilMailTemplateService
         string $subject,
         string $message,
         string $language
-    ) : ilMailTemplate {
+    ): ilMailTemplate {
         $template = new ilMailTemplate();
         $template->setContext($contextId);
         $template->setTitle($title);
@@ -56,7 +58,7 @@ class ilMailTemplateService
         string $subject,
         string $message,
         string $language
-    ) : void {
+    ): void {
         $template = $this->repository->findById($templateId);
 
         $template->setContext($contextId);
@@ -68,7 +70,7 @@ class ilMailTemplateService
         $this->repository->store($template);
     }
 
-    public function loadTemplateForId(int $templateId) : ilMailTemplate
+    public function loadTemplateForId(int $templateId): ilMailTemplate
     {
         return $this->repository->findById($templateId);
     }
@@ -77,7 +79,7 @@ class ilMailTemplateService
      * @param string $contextId
      * @return ilMailTemplate[]
      */
-    public function loadTemplatesForContextId(string $contextId) : array
+    public function loadTemplatesForContextId(string $contextId): array
     {
         return $this->repository->findByContextId($contextId);
     }
@@ -85,7 +87,7 @@ class ilMailTemplateService
     /**
      * @param int[] $templateIds
      */
-    public function deleteTemplatesByIds(array $templateIds) : void
+    public function deleteTemplatesByIds(array $templateIds): void
     {
         $this->repository->deleteByIds($templateIds);
     }
@@ -93,23 +95,23 @@ class ilMailTemplateService
     /**
      * @return array[]
      */
-    public function listAllTemplatesAsArray() : array
+    public function listAllTemplatesAsArray(): array
     {
         $templates = $this->repository->getAll();
 
-        return array_map(static function (ilMailTemplate $template) : array {
+        return array_map(static function (ilMailTemplate $template): array {
             return $template->toArray();
         }, $templates);
     }
-    
-    public function unsetAsContextDefault(ilMailTemplate $template) : void
+
+    public function unsetAsContextDefault(ilMailTemplate $template): void
     {
         $template->setAsDefault(false);
 
         $this->repository->store($template);
     }
 
-    public function setAsContextDefault(ilMailTemplate $template) : void
+    public function setAsContextDefault(ilMailTemplate $template): void
     {
         $allOfContext = $this->repository->findByContextId($template->getContext());
         foreach ($allOfContext as $otherTemplate) {

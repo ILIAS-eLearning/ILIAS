@@ -1,4 +1,5 @@
 <?php
+
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -12,7 +13,7 @@ class assErrorTextTest extends assBaseTestCase
 {
     protected $backupGlobals = false;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         chdir(dirname(__FILE__));
         chdir('../../../');
@@ -35,7 +36,7 @@ class assErrorTextTest extends assBaseTestCase
         $this->setGlobalVariable('ilDB', $this->getDatabaseMock());
     }
 
-    public function test_instantiateObjectSimple() : void
+    public function test_instantiateObjectSimple(): void
     {
         // Arrange
         require_once './Modules/TestQuestionPool/classes/class.assErrorText.php';
@@ -47,7 +48,7 @@ class assErrorTextTest extends assBaseTestCase
         $this->assertInstanceOf('assErrorText', $instance);
     }
 
-    public function test_getErrorsFromText() : void
+    public function test_getErrorsFromText(): void
     {
         // Arrange
         require_once './Modules/TestQuestionPool/classes/class.assErrorText.php';
@@ -71,7 +72,7 @@ class assErrorTextTest extends assBaseTestCase
         $this->assertEquals($expected, $actual);
     }
 
-    public function test_getErrorsFromText_noMatch() : void
+    public function test_getErrorsFromText_noMatch(): void
     {
         // Arrange
         require_once './Modules/TestQuestionPool/classes/class.assErrorText.php';
@@ -92,7 +93,7 @@ class assErrorTextTest extends assBaseTestCase
         $this->assertEquals($expected, $actual);
     }
 
-    public function test_getErrorsFromText_emptyArgShouldPullInternal() : void
+    public function test_getErrorsFromText_emptyArgShouldPullInternal(): void
     {
         // Arrange
         require_once './Modules/TestQuestionPool/classes/class.assErrorText.php';
@@ -117,7 +118,7 @@ class assErrorTextTest extends assBaseTestCase
         $this->assertEquals($expected, $actual);
     }
 
-    public function test_setErrordata_newError() : void
+    public function test_setErrordata_newError(): void
     {
         // Arrange
         require_once './Modules/TestQuestionPool/classes/class.assErrorText.php';
@@ -137,7 +138,7 @@ class assErrorTextTest extends assBaseTestCase
         $this->assertEquals($expected, $actual);
     }
 
-    public function test_setErrordata_oldErrordataPresent() : void
+    public function test_setErrordata_oldErrordataPresent(): void
     {
         // Arrange
         require_once './Modules/TestQuestionPool/classes/class.assErrorText.php';

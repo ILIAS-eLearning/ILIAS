@@ -1,4 +1,5 @@
 <?php
+
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -12,13 +13,13 @@ class assAnswerMatchingPairTest extends assBaseTestCase
 {
     protected $backupGlobals = false;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         chdir(dirname(__FILE__));
         chdir('../../../');
     }
 
-    public function test_instantiateObjectSimple() : void
+    public function test_instantiateObjectSimple(): void
     {
         // Arrange
         require_once './Modules/TestQuestionPool/classes/class.assAnswerMatchingPair.php';
@@ -30,7 +31,7 @@ class assAnswerMatchingPairTest extends assBaseTestCase
         $this->assertInstanceOf('assAnswerMatchingPair', $instance);
     }
 
-    public function test_setGetTerm() : void
+    public function test_setGetTerm(): void
     {
         // Arrange
         require_once './Modules/TestQuestionPool/classes/class.assAnswerMatchingPair.php';
@@ -45,7 +46,7 @@ class assAnswerMatchingPairTest extends assBaseTestCase
         $this->assertEquals($expected, $actual);
     }
 
-    public function test_setGetDefinition() : void
+    public function test_setGetDefinition(): void
     {
         // Arrange
         require_once './Modules/TestQuestionPool/classes/class.assAnswerMatchingPair.php';
@@ -60,7 +61,7 @@ class assAnswerMatchingPairTest extends assBaseTestCase
         $this->assertEquals($expected, $actual);
     }
 
-    public function test_setGetPoints() : void
+    public function test_setGetPoints(): void
     {
         // Arrange
         require_once './Modules/TestQuestionPool/classes/class.assAnswerMatchingPair.php';

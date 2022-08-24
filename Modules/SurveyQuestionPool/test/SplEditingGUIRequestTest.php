@@ -9,11 +9,11 @@ use PHPUnit\Framework\TestCase;
  */
 class SplEditingGUIRequestTest extends TestCase
 {
-    protected function tearDown() : void
+    protected function tearDown(): void
     {
     }
 
-    protected function getRequest(array $get, array $post) : \ILIAS\SurveyQuestionPool\Editing\EditingGUIRequest
+    protected function getRequest(array $get, array $post): \ILIAS\SurveyQuestionPool\Editing\EditingGUIRequest
     {
         $http_mock = $this->createMock(ILIAS\HTTP\Services::class);
         $lng_mock = $this->createMock(ilLanguage::class);
@@ -27,7 +27,7 @@ class SplEditingGUIRequestTest extends TestCase
         );
     }
 
-    public function testRefId() : void
+    public function testRefId(): void
     {
         $request = $this->getRequest(
             [
@@ -42,7 +42,7 @@ class SplEditingGUIRequestTest extends TestCase
         );
     }
 
-    public function testQuestionId() : void
+    public function testQuestionId(): void
     {
         $request = $this->getRequest(
             [
@@ -57,7 +57,7 @@ class SplEditingGUIRequestTest extends TestCase
         );
     }
 
-    public function testQuestionIds() : void
+    public function testQuestionIds(): void
     {
         $request = $this->getRequest(
             [
@@ -74,7 +74,7 @@ class SplEditingGUIRequestTest extends TestCase
         );
     }
 
-    public function testPreview() : void
+    public function testPreview(): void
     {
         $request = $this->getRequest(
             [
@@ -89,7 +89,7 @@ class SplEditingGUIRequestTest extends TestCase
         );
     }
 
-    public function testSelectedQuestionTypes() : void
+    public function testSelectedQuestionTypes(): void
     {
         $request = $this->getRequest(
             [
@@ -104,7 +104,7 @@ class SplEditingGUIRequestTest extends TestCase
         );
     }
 
-    public function testSort() : void
+    public function testSort(): void
     {
         $request = $this->getRequest(
             [
@@ -129,7 +129,7 @@ class SplEditingGUIRequestTest extends TestCase
         );
     }
 
-    public function testPhraseId() : void
+    public function testPhraseId(): void
     {
         $request = $this->getRequest(
             [
@@ -144,7 +144,7 @@ class SplEditingGUIRequestTest extends TestCase
         );
     }
 
-    public function testPhraseIds() : void
+    public function testPhraseIds(): void
     {
         $request = $this->getRequest(
             [

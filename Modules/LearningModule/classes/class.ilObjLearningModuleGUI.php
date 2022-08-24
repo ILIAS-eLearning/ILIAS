@@ -49,7 +49,7 @@ class ilObjLearningModuleGUI extends ilObjContentObjectGUI
         }
     }
 
-    protected function assignObject() : void
+    protected function assignObject(): void
     {
         $this->link_params = "ref_id=" . $this->ref_id;
         $this->object = new ilObjLearningModule($this->id, true);
@@ -58,7 +58,7 @@ class ilObjLearningModuleGUI extends ilObjContentObjectGUI
         $this->lm = $lm;
     }
 
-    public function view() : void
+    public function view(): void
     {
         if (strtolower($this->edit_request->getBaseClass()) == "iladministrationgui") {
             $this->prepareOutput();

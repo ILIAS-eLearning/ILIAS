@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 /**
@@ -41,7 +42,7 @@ class ilAppointmentPresentationEmployeeTalkGUI extends ilAppointmentPresentation
         $this->lng->loadLanguageModule(ilObjEmployeeTalk::TYPE);
     }
 
-    public function collectPropertiesAndActions() : void
+    public function collectPropertiesAndActions(): void
     {
         $talk = new ilObjEmployeeTalk($this->getObjIdForAppointment(), false);
 

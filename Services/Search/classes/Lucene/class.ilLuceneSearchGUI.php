@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -67,7 +69,7 @@ class ilLuceneSearchGUI extends ilSearchBaseGUI
     /**
      * Execute Command
      */
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         $next_class = $this->ctrl->getNextClass($this);
         $cmd = $this->ctrl->getCmd();
@@ -102,7 +104,7 @@ class ilLuceneSearchGUI extends ilSearchBaseGUI
     /**
      * Add admin panel command
      */
-    public function prepareOutput() : void
+    public function prepareOutput(): void
     {
         parent::prepareOutput();
         $this->getTabs();
@@ -111,7 +113,7 @@ class ilLuceneSearchGUI extends ilSearchBaseGUI
     /**
      * @todo rename
      */
-    protected function getType() : int
+    protected function getType(): int
     {
         return self::SEARCH_DETAILS;
     }
@@ -120,7 +122,7 @@ class ilLuceneSearchGUI extends ilSearchBaseGUI
      * Needed for base class search form
      * @todo rename
      */
-    protected function getDetails() : array
+    protected function getDetails(): array
     {
         return $this->search_cache->getItemFilter();
     }
@@ -129,7 +131,7 @@ class ilLuceneSearchGUI extends ilSearchBaseGUI
      * Needed for base class search form
      * @todo rename
      */
-    protected function getMimeDetails() : array
+    protected function getMimeDetails(): array
     {
         return $this->search_cache->getMimeFilter();
     }
@@ -137,7 +139,7 @@ class ilLuceneSearchGUI extends ilSearchBaseGUI
     /**
      * Search from main menu
      */
-    protected function remoteSearch() : void
+    protected function remoteSearch(): void
     {
         $queryString = '';
         if ($this->http->wrapper()->post()->has('queryString')) {
@@ -168,7 +170,7 @@ class ilLuceneSearchGUI extends ilSearchBaseGUI
     /**
      * Show saved results
      */
-    protected function showSavedResults() : bool
+    protected function showSavedResults(): bool
     {
         if (!strlen($this->search_cache->getQuery())) {
             $this->showSearchForm();
@@ -207,7 +209,7 @@ class ilLuceneSearchGUI extends ilSearchBaseGUI
      * Search (button pressed)
      * @return void
      */
-    protected function search() : void
+    protected function search(): void
     {
         if (!$this->form->checkInput()) {
             $this->search_cache->deleteCachedEntries();
@@ -227,7 +229,7 @@ class ilLuceneSearchGUI extends ilSearchBaseGUI
     /**
      * Perform search
      */
-    protected function performSearch() : void
+    protected function performSearch(): void
     {
         ilSession::clear('vis_references');
         $filter_query = '';
@@ -307,7 +309,7 @@ class ilLuceneSearchGUI extends ilSearchBaseGUI
     /**
      * Store new root node
      */
-    protected function storeRoot() : void
+    protected function storeRoot(): void
     {
         $form = $this->getSearchAreaForm();
 
@@ -324,7 +326,7 @@ class ilLuceneSearchGUI extends ilSearchBaseGUI
     /**
      * get tabs
      */
-    protected function getTabs() : void
+    protected function getTabs(): void
     {
         $this->help->setScreenIdComponent("src_luc");
 
@@ -347,7 +349,7 @@ class ilLuceneSearchGUI extends ilSearchBaseGUI
      * @access private
      *
      */
-    protected function initUserSearchCache() : void
+    protected function initUserSearchCache(): void
     {
         $this->search_cache = ilUserSearchCache::_getInstance($this->user->getId());
         $this->search_cache->switchSearchType(ilUserSearchCache::LUCENE_DEFAULT);
@@ -406,7 +408,7 @@ class ilLuceneSearchGUI extends ilSearchBaseGUI
     * - creation selector
     * - admin view on/off button
     */
-    protected function fillAdminPanel() : void
+    protected function fillAdminPanel(): void
     {
         $adm_view_cmp = $adm_cmds = $creation_selector = $adm_view = false;
 
@@ -481,7 +483,7 @@ class ilLuceneSearchGUI extends ilSearchBaseGUI
     /**
     * Add a command to the admin panel
     */
-    protected function addAdminPanelCommand(string $a_cmd, string $a_txt) : void
+    protected function addAdminPanelCommand(string $a_cmd, string $a_txt): void
     {
         $this->admin_panel_commands[] =
             array("cmd" => $a_cmd, "txt" => $a_txt);
@@ -490,13 +492,13 @@ class ilLuceneSearchGUI extends ilSearchBaseGUI
     /**
     * Show admin view button
     */
-    protected function setAdminViewButton(string $a_link, string $a_txt) : void
+    protected function setAdminViewButton(string $a_link, string $a_txt): void
     {
         $this->admin_view_button =
             array("link" => $a_link, "txt" => $a_txt);
     }
 
-    protected function setPageFormAction(string $a_action) : void
+    protected function setPageFormAction(string $a_action): void
     {
         $this->page_form_action = $a_action;
     }
@@ -505,7 +507,7 @@ class ilLuceneSearchGUI extends ilSearchBaseGUI
      * Show search form
      * @return void
      */
-    protected function showSearchForm() : void
+    protected function showSearchForm(): void
     {
         $this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.lucene_search.html', 'Services/Search');
 
@@ -553,7 +555,7 @@ class ilLuceneSearchGUI extends ilSearchBaseGUI
     /**
      * Parse creation date
      */
-    protected function parseCreationFilter() : string
+    protected function parseCreationFilter(): string
     {
         $options = $this->search_cache->getCreationFilter();
 

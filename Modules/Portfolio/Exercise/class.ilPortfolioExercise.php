@@ -37,7 +37,7 @@ class ilPortfolioExercise
         $this->obj_id = $a_obj_id;
     }
 
-    public function getAssignmentsOfPortfolio() : array
+    public function getAssignmentsOfPortfolio(): array
     {
         $user_id = $this->user_id;
         $obj_id = $this->obj_id;

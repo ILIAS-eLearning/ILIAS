@@ -16,7 +16,6 @@
  *
  *********************************************************************/
 
-
 namespace ILIAS\LTI\ToolProvider;
 
 use ILIAS\LTI\ToolProvider\Tool;
@@ -32,7 +31,6 @@ use ILIAS\LTI\ToolProvider\Http\HTTPMessage;
  */
 class AccessToken
 {
-
     /**
      * Access token string.
      *
@@ -104,7 +102,7 @@ class AccessToken
      *
      * @return Platform  Platform object for this resource link.
      */
-    public function getPlatform() : ?Platform
+    public function getPlatform(): ?Platform
     {
         return $this->platform;
     }
@@ -114,7 +112,7 @@ class AccessToken
      *
      * @return bool    True if the nonce value was successfully loaded
      */
-    public function load() : bool
+    public function load(): bool
     {
         return $this->platform->getDataConnector()->loadAccessToken($this);
     }
@@ -124,7 +122,7 @@ class AccessToken
      *
      * @return bool    True if the nonce value was successfully saved
      */
-    public function save() : bool
+    public function save(): bool
     {
         sort($this->scopes);
         return $this->platform->getDataConnector()->saveAccessToken($this);
@@ -135,7 +133,7 @@ class AccessToken
      * @param string $scope Access scope
      * @return bool    True if there is an unexpired access token for specified scope
      */
-    public function hasScope(string $scope = '') : bool
+    public function hasScope(string $scope = ''): bool
     {
         if (substr($scope, -9) === '.readonly') {
             $scope2 = substr($scope, 0, -9);
@@ -152,7 +150,7 @@ class AccessToken
      * @param bool   $scopeOnly If true, a token is requested just for the specified scope
      * @return AccessToken    New access token
      */
-    public function get(string $scope = '', bool $scopeOnly = false) : AccessToken
+    public function get(string $scope = '', bool $scopeOnly = false): AccessToken
     {
         $url = $this->platform->accessTokenUrl;
         if (!empty($url) && !empty(Tool::$defaultTool) && !empty(Tool::$defaultTool->rsaKey)) {

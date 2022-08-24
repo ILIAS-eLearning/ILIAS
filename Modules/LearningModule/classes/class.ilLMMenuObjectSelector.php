@@ -42,7 +42,7 @@ class ilLMMenuObjectSelector extends ilExplorer
         $this->menu_entry = $menu_entry;
 
         $this->ctrl = $ilCtrl;
-        
+
         $this->gui_obj = $a_gui_obj;
 
         parent::__construct($a_target);
@@ -54,12 +54,12 @@ class ilLMMenuObjectSelector extends ilExplorer
         $this->addFilter("adm");
     }
 
-    public function setSelectableTypes(array $a_types) : void
+    public function setSelectableTypes(array $a_types): void
     {
         $this->selectable_types = $a_types;
     }
 
-    public function setRefId(int $a_ref_id) : void
+    public function setRefId(int $a_ref_id): void
     {
         $this->ref_id = $a_ref_id;
     }
@@ -67,7 +67,7 @@ class ilLMMenuObjectSelector extends ilExplorer
     /**
      * @param object|array $a_node_id
      */
-    public function buildLinkTarget($a_node_id, string $a_type) : string
+    public function buildLinkTarget($a_node_id, string $a_type): string
     {
         if (in_array($a_type, $this->selectable_types)) {
             $this->ctrl->setParameter($this->gui_obj, 'link_ref_id', $a_node_id);
@@ -79,16 +79,16 @@ class ilLMMenuObjectSelector extends ilExplorer
         }
         return "";
     }
-    
-    public function isClickable(string $type, int $ref_id = 0) : bool
+
+    public function isClickable(string $type, int $ref_id = 0): bool
     {
         return in_array($type, $this->selectable_types) && $ref_id !== $this->ref_id;
     }
-    
+
     /**
      * @param int $a_parent_id
      */
-    public function showChilds($a_parent_id) : bool
+    public function showChilds($a_parent_id): bool
     {
         $rbacsystem = $this->rbacsystem;
 

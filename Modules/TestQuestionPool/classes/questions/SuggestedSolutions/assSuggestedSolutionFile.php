@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -24,10 +26,10 @@ namespace ILIAS\TA\Questions;
  */
 class assSuggestedSolutionFile extends assQuestionSuggestedSolution
 {
-    const ARRAY_KEY_FILENAME = 'name';
-    const ARRAY_KEY_TITLE = 'filename';
-    const ARRAY_KEY_MIME = 'type';
-    const ARRAY_KEY_SIZE = 'size';
+    public const ARRAY_KEY_FILENAME = 'name';
+    public const ARRAY_KEY_TITLE = 'filename';
+    public const ARRAY_KEY_MIME = 'type';
+    public const ARRAY_KEY_SIZE = 'size';
 
     protected string $filename;
     protected string $mime;
@@ -52,12 +54,12 @@ class assSuggestedSolutionFile extends assQuestionSuggestedSolution
         $this->mime = $v[self::ARRAY_KEY_MIME] ?? '';
     }
 
-    public function getType() : string
+    public function getType(): string
     {
         return parent::TYPE_FILE;
     }
 
-    public function getStorableValue() : string 
+    public function getStorableValue(): string
     {
         return serialize([
             self::ARRAY_KEY_FILENAME => $this->getFilename(),
@@ -67,51 +69,50 @@ class assSuggestedSolutionFile extends assQuestionSuggestedSolution
         ]);
     }
 
-    public function getTitle() : string
+    public function getTitle(): string
     {
-        if($this->title) {
+        if ($this->title) {
             return $this->title;
         }
         return $this->filename;
     }
-    public function withTitle(string $title) : static
+    public function withTitle(string $title): static
     {
         $clone = clone $this;
         $clone->title = $title;
         return $clone;
     }
 
-    public function getMime() : string
+    public function getMime(): string
     {
         return $this->mime;
     }
-    public function withMime(string $mime) : static
+    public function withMime(string $mime): static
     {
         $clone = clone $this;
         $clone->mime = $mime;
         return $clone;
     }
 
-    public function getSize() : int
+    public function getSize(): int
     {
         return $this->size;
     }
-    public function withSize(int $size) : static
+    public function withSize(int $size): static
     {
         $clone = clone $this;
         $clone->size = $size;
         return $clone;
     }
 
-    public function getFilename() : string
+    public function getFilename(): string
     {
         return $this->filename;
     }
-    public function withFilename(string $filename) : static
+    public function withFilename(string $filename): static
     {
         $clone = clone $this;
         $clone->filename = $filename;
         return $clone;
     }
-
 }

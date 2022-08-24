@@ -1,4 +1,6 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -44,7 +46,7 @@ class InternalRepoService
         );
     }*/
 
-    public function preferences() : \ilBookingPreferencesDBRepository
+    public function preferences(): \ilBookingPreferencesDBRepository
     {
         return new \ilBookingPreferencesDBRepository(
             $this->data,
@@ -52,14 +54,14 @@ class InternalRepoService
         );
     }
 
-    public function preferenceBasedBooking() : \ilBookingPrefBasedBookGatewayRepository
+    public function preferenceBasedBooking(): \ilBookingPrefBasedBookGatewayRepository
     {
         return new \ilBookingPrefBasedBookGatewayRepository(
             $this->db
         );
     }
 
-    public function reservationTable() : ReservationTableSessionRepository
+    public function reservationTable(): ReservationTableSessionRepository
     {
         return new ReservationTableSessionRepository();
     }

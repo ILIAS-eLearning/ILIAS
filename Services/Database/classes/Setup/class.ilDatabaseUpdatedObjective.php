@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,23 +17,23 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 use ILIAS\Setup;
 use ILIAS\DI;
 
 class ilDatabaseUpdatedObjective implements Setup\Objective
 {
-    public function getHash() : string
+    public function getHash(): string
     {
         return hash("sha256", self::class);
     }
 
-    public function getLabel() : string
+    public function getLabel(): string
     {
         return "The database is updated.";
     }
 
-    public function isNotable() : bool
+    public function isNotable(): bool
     {
         return true;
     }
@@ -39,7 +41,7 @@ class ilDatabaseUpdatedObjective implements Setup\Objective
     /**
      * @return \ilDatabaseInitializedObjective[]|\ILIAS\Setup\Objective\ClientIdReadObjective[]|\ilIniFilesPopulatedObjective[]
      */
-    public function getPreconditions(Setup\Environment $environment) : array
+    public function getPreconditions(Setup\Environment $environment): array
     {
         return [
             new Setup\Objective\ClientIdReadObjective(),
@@ -48,7 +50,7 @@ class ilDatabaseUpdatedObjective implements Setup\Objective
         ];
     }
 
-    public function achieve(Setup\Environment $environment) : Setup\Environment
+    public function achieve(Setup\Environment $environment): Setup\Environment
     {
         $db = $environment->getResource(Setup\Environment::RESOURCE_DATABASE);
         $io = $environment->getResource(Setup\Environment::RESOURCE_ADMIN_INTERACTION);
@@ -66,22 +68,22 @@ class ilDatabaseUpdatedObjective implements Setup\Objective
         $GLOBALS["DIC"]["ilDB"] = $db;
         $GLOBALS["ilDB"] = $db;
         $GLOBALS["DIC"]["ilBench"] = null;
-        $GLOBALS["DIC"]["ilLog"] = new class($io) {
+        $GLOBALS["DIC"]["ilLog"] = new class ($io) {
             public function __construct($io)
             {
                 $this->io = $io;
             }
-            public function write() : void
+            public function write(): void
             {
             }
-            public function info() : void
+            public function info(): void
             {
             }
-            public function warning($msg) : void
+            public function warning($msg): void
             {
                 $this->io->inform($msg);
             }
-            public function error($msg) : void
+            public function error($msg): void
             {
                 throw new Setup\UnachievableException(
                     "Problem in DB-Update: $msg"
@@ -89,21 +91,21 @@ class ilDatabaseUpdatedObjective implements Setup\Objective
             }
         };
         $GLOBALS["ilLog"] = $GLOBALS["DIC"]["ilLog"];
-        $GLOBALS["DIC"]["ilLoggerFactory"] = new class() {
-            public function getRootLogger() : object
+        $GLOBALS["DIC"]["ilLoggerFactory"] = new class () {
+            public function getRootLogger(): object
             {
-                return new class() {
-                    public function write() : void
+                return new class () {
+                    public function write(): void
                     {
                     }
                 };
             }
         };
-        $GLOBALS["ilCtrlStructureReader"] = new class() {
-            public function getStructure() : void
+        $GLOBALS["ilCtrlStructureReader"] = new class () {
+            public function getStructure(): void
             {
             }
-            public function setIniFile() : void
+            public function setIniFile(): void
             {
             }
         };
@@ -143,7 +145,7 @@ class ilDatabaseUpdatedObjective implements Setup\Objective
     /**
      * @inheritDoc
      */
-    public function isApplicable(Setup\Environment $environment) : bool
+    public function isApplicable(Setup\Environment $environment): bool
     {
         return true;
     }

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -41,7 +43,7 @@ class ilTestVerificationTableGUI extends ilTable2GUI
         $this->getItems();
     }
 
-    protected function getItems() : void
+    protected function getItems(): void
     {
         global $DIC;
 
@@ -66,7 +68,7 @@ class ilTestVerificationTableGUI extends ilTable2GUI
         $this->setData($data);
     }
 
-    protected function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set): void
     {
         global $DIC;
         $ilCtrl = $DIC['ilCtrl'];

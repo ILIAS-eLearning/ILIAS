@@ -65,7 +65,7 @@ class ilSyntaxHighlighter
         $this->lang = $a_lang;
     }
 
-    public static function getInstance(string $a_lang) : self
+    public static function getInstance(string $a_lang): self
     {
         return new self($a_lang);
     }
@@ -74,7 +74,7 @@ class ilSyntaxHighlighter
      * Get supported languages (keys are internal values, values are for representation)
      * @return string[]
      */
-    public static function getSupportedLanguages() : array
+    public static function getSupportedLanguages(): array
     {
         return self::$langs;
     }
@@ -82,7 +82,7 @@ class ilSyntaxHighlighter
     /**
      * Is language supported?
      */
-    public static function isSupported(string $a_lang) : bool
+    public static function isSupported(string $a_lang): bool
     {
         return isset(self::$langs[$a_lang]);
     }
@@ -90,7 +90,7 @@ class ilSyntaxHighlighter
     /**
      * Get new language id (for an old one)
      */
-    public static function getNewLanguageId(string $a_old_lang_id) : string
+    public static function getNewLanguageId(string $a_old_lang_id): string
     {
         return self::$v51_map[$a_old_lang_id] ?? $a_old_lang_id;
     }
@@ -99,7 +99,7 @@ class ilSyntaxHighlighter
     /**
      * Get supported languages (keys are ILIAS <= 5.1 internal values, values are for representation)
      */
-    public static function getSupportedLanguagesV51() : array
+    public static function getSupportedLanguagesV51(): array
     {
         $langs = array();
         $map = array_flip(self::$v51_map);
@@ -112,7 +112,7 @@ class ilSyntaxHighlighter
         return $langs;
     }
 
-    public function highlight(string $a_code) : string
+    public function highlight(string $a_code): string
     {
         include_once("./libs/composer/vendor/geshi/geshi/src/geshi.php");
         $geshi = new Geshi(html_entity_decode($a_code), $this->lang);

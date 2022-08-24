@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /* Copyright (c) 2021 - Daniel Weise <daniel.weise@concepts-and-training.de> - Extended GPL, see LICENSE */
 
@@ -20,14 +22,14 @@ class ilIndividualAssessmentMemberTest extends TestCase
      */
     private $obj_user;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         $this->iass_object = $this->createMock(ilObjIndividualAssessment::class);
         $this->grading = $this->createMock(ilIndividualAssessmentUserGrading::class);
         $this->obj_user = $this->createMock(ilObjUser::class);
     }
 
-    public function test_createObject() : void
+    public function test_createObject(): void
     {
         $obj = new ilIndividualAssessmentMember(
             $this->iass_object,
@@ -39,7 +41,7 @@ class ilIndividualAssessmentMemberTest extends TestCase
         $this->assertInstanceOf(ilIndividualAssessmentMember::class, $obj);
     }
 
-    public function test_getRecord() : void
+    public function test_getRecord(): void
     {
         $this->grading
             ->expects($this->once())
@@ -57,7 +59,7 @@ class ilIndividualAssessmentMemberTest extends TestCase
         $this->assertEquals("testRecord", $obj->record());
     }
 
-    public function test_internalNote() : void
+    public function test_internalNote(): void
     {
         $this->grading
             ->expects($this->once())
@@ -75,7 +77,7 @@ class ilIndividualAssessmentMemberTest extends TestCase
         $this->assertEquals("internalNote", $obj->internalNote());
     }
 
-    public function test_examinerId_not_set() : void
+    public function test_examinerId_not_set(): void
     {
         $obj = new ilIndividualAssessmentMember(
             $this->iass_object,
@@ -87,7 +89,7 @@ class ilIndividualAssessmentMemberTest extends TestCase
         $this->assertNull($obj->examinerId());
     }
 
-    public function test_examinerId() : void
+    public function test_examinerId(): void
     {
         $obj = new ilIndividualAssessmentMember(
             $this->iass_object,
@@ -100,7 +102,7 @@ class ilIndividualAssessmentMemberTest extends TestCase
         $this->assertEquals(3434, $obj->examinerId());
     }
 
-    public function test_changerId_not_set() : void
+    public function test_changerId_not_set(): void
     {
         $obj = new ilIndividualAssessmentMember(
             $this->iass_object,
@@ -112,7 +114,7 @@ class ilIndividualAssessmentMemberTest extends TestCase
         $this->assertNull($obj->changerId());
     }
 
-    public function test_changerId() : void
+    public function test_changerId(): void
     {
         $obj = new ilIndividualAssessmentMember(
             $this->iass_object,
@@ -126,7 +128,7 @@ class ilIndividualAssessmentMemberTest extends TestCase
         $this->assertEquals(5656, $obj->changerId());
     }
 
-    public function test_changeTime_not_set() : void
+    public function test_changeTime_not_set(): void
     {
         $obj = new ilIndividualAssessmentMember(
             $this->iass_object,
@@ -138,7 +140,7 @@ class ilIndividualAssessmentMemberTest extends TestCase
         $this->assertNull($obj->changeTime());
     }
 
-    public function test_changeTime() : void
+    public function test_changeTime(): void
     {
         $obj = new ilIndividualAssessmentMember(
             $this->iass_object,
@@ -153,7 +155,7 @@ class ilIndividualAssessmentMemberTest extends TestCase
         $this->assertEquals('2021-11-25', $obj->changeTime()->format('Y-m-d'));
     }
 
-    public function test_notify() : void
+    public function test_notify(): void
     {
         $this->grading
             ->expects($this->once())
@@ -171,7 +173,7 @@ class ilIndividualAssessmentMemberTest extends TestCase
         $this->assertTrue($obj->notify());
     }
 
-    public function test_maybeSendNotification_not_finalized() : void
+    public function test_maybeSendNotification_not_finalized(): void
     {
         $notificator = $this->createMock(ilIndividualAssessmentNotificator::class);
 
@@ -193,7 +195,7 @@ class ilIndividualAssessmentMemberTest extends TestCase
         $obj->maybeSendNotification($notificator);
     }
 
-    public function test_maybeSendNotification_not_notify() : void
+    public function test_maybeSendNotification_not_notify(): void
     {
         $notificator = $this->createMock(ilIndividualAssessmentNotificator::class);
 
@@ -218,7 +220,7 @@ class ilIndividualAssessmentMemberTest extends TestCase
         $this->assertEquals($obj, $obj->maybeSendNotification($notificator));
     }
 
-    public function test_id() : void
+    public function test_id(): void
     {
         $this->obj_user
             ->expects($this->once())
@@ -236,7 +238,7 @@ class ilIndividualAssessmentMemberTest extends TestCase
         $this->assertEquals(22, $obj->id());
     }
 
-    public function test_assessmentId() : void
+    public function test_assessmentId(): void
     {
         $this->iass_object
             ->expects($this->once())
@@ -254,7 +256,7 @@ class ilIndividualAssessmentMemberTest extends TestCase
         $this->assertEquals(22, $obj->assessmentId());
     }
 
-    public function test_assessment() : void
+    public function test_assessment(): void
     {
         $obj = new ilIndividualAssessmentMember(
             $this->iass_object,
@@ -266,7 +268,7 @@ class ilIndividualAssessmentMemberTest extends TestCase
         $this->assertEquals($this->iass_object, $obj->assessment());
     }
 
-    public function test_finalized() : void
+    public function test_finalized(): void
     {
         $this->grading
             ->expects($this->once())
@@ -284,7 +286,7 @@ class ilIndividualAssessmentMemberTest extends TestCase
         $this->assertTrue($obj->finalized());
     }
 
-    public function fileNamesDataProvider() : array
+    public function fileNamesDataProvider(): array
     {
         return [
             [''],
@@ -295,7 +297,7 @@ class ilIndividualAssessmentMemberTest extends TestCase
     /**
      * @dataProvider fileNamesDataProvider
      */
-    public function test_mayBeFinalized_file_required_filename_empty(?string $filename) : void
+    public function test_mayBeFinalized_file_required_filename_empty(?string $filename): void
     {
         $settings = $this->createMock(ilIndividualAssessmentSettings::class);
         $settings
@@ -326,7 +328,7 @@ class ilIndividualAssessmentMemberTest extends TestCase
         $this->assertFalse($obj->mayBeFinalized());
     }
 
-    public function positiveLPStatusDataProvider() : array
+    public function positiveLPStatusDataProvider(): array
     {
         return [
             [ilIndividualAssessmentMembers::LP_COMPLETED],
@@ -337,7 +339,7 @@ class ilIndividualAssessmentMemberTest extends TestCase
     /**
      * @dataProvider positiveLPStatusDataProvider
      */
-    public function test_mayBeFinalized_with_positive_lp_status(int $lp_status) : void
+    public function test_mayBeFinalized_with_positive_lp_status(int $lp_status): void
     {
         $settings = $this->createMock(ilIndividualAssessmentSettings::class);
         $settings
@@ -373,7 +375,7 @@ class ilIndividualAssessmentMemberTest extends TestCase
         $this->assertTrue($obj->mayBeFinalized());
     }
 
-    public function test_mayBeFinalized_already_finalized() : void
+    public function test_mayBeFinalized_already_finalized(): void
     {
         $settings = $this->createMock(ilIndividualAssessmentSettings::class);
         $settings
@@ -409,7 +411,7 @@ class ilIndividualAssessmentMemberTest extends TestCase
         $this->assertFalse($obj->mayBeFinalized());
     }
 
-    public function negativeLPStatusDataProvider() : array
+    public function negativeLPStatusDataProvider(): array
     {
         return [
             [ilIndividualAssessmentMembers::LP_NOT_ATTEMPTED],
@@ -420,7 +422,7 @@ class ilIndividualAssessmentMemberTest extends TestCase
     /**
      * @dataProvider negativeLPStatusDataProvider
      */
-    public function test_mayBeFinalized_with_negative_lp_status(int $lp_status) : void
+    public function test_mayBeFinalized_with_negative_lp_status(int $lp_status): void
     {
         $settings = $this->createMock(ilIndividualAssessmentSettings::class);
         $settings
@@ -451,7 +453,7 @@ class ilIndividualAssessmentMemberTest extends TestCase
         $this->assertFalse($obj->mayBeFinalized());
     }
 
-    public function test_withExaminerId() : void
+    public function test_withExaminerId(): void
     {
         $obj = new ilIndividualAssessmentMember(
             $this->iass_object,
@@ -466,7 +468,7 @@ class ilIndividualAssessmentMemberTest extends TestCase
         $this->assertEquals(333, $new_obj->examinerId());
     }
 
-    public function test_withChangerId() : void
+    public function test_withChangerId(): void
     {
         $obj = new ilIndividualAssessmentMember(
             $this->iass_object,
@@ -481,7 +483,7 @@ class ilIndividualAssessmentMemberTest extends TestCase
         $this->assertEquals(534, $new_obj->changerId());
     }
 
-    public function test_withChangeTime() : void
+    public function test_withChangeTime(): void
     {
         $obj = new ilIndividualAssessmentMember(
             $this->iass_object,
@@ -496,7 +498,7 @@ class ilIndividualAssessmentMemberTest extends TestCase
         $this->assertEquals("2021-11-25", $new_obj->changeTime()->format("Y-m-d"));
     }
 
-    public function test_lastname() : void
+    public function test_lastname(): void
     {
         $this->obj_user
             ->expects($this->once())
@@ -514,7 +516,7 @@ class ilIndividualAssessmentMemberTest extends TestCase
         $this->assertEquals("lastname", $obj->lastname());
     }
 
-    public function test_firstname() : void
+    public function test_firstname(): void
     {
         $this->obj_user
             ->expects($this->once())
@@ -532,7 +534,7 @@ class ilIndividualAssessmentMemberTest extends TestCase
         $this->assertEquals("firstname", $obj->firstname());
     }
 
-    public function test_login() : void
+    public function test_login(): void
     {
         $this->obj_user
             ->expects($this->once())
@@ -550,7 +552,7 @@ class ilIndividualAssessmentMemberTest extends TestCase
         $this->assertEquals("login", $obj->login());
     }
 
-    public function test_name() : void
+    public function test_name(): void
     {
         $this->obj_user
             ->expects($this->once())
@@ -568,7 +570,7 @@ class ilIndividualAssessmentMemberTest extends TestCase
         $this->assertEquals("first last", $obj->name());
     }
 
-    public function test_LPStatus() : void
+    public function test_LPStatus(): void
     {
         $this->grading
             ->expects($this->once())
@@ -586,7 +588,7 @@ class ilIndividualAssessmentMemberTest extends TestCase
         $this->assertEquals(ilIndividualAssessmentMembers::LP_COMPLETED, $obj->LPStatus());
     }
 
-    public function test_notificationTS() : void
+    public function test_notificationTS(): void
     {
         $obj = new ilIndividualAssessmentMember(
             $this->iass_object,
@@ -598,7 +600,7 @@ class ilIndividualAssessmentMemberTest extends TestCase
         $this->assertEquals(22222, $obj->notificationTS());
     }
 
-    public function test_place() : void
+    public function test_place(): void
     {
         $this->grading
             ->expects($this->once())
@@ -616,7 +618,7 @@ class ilIndividualAssessmentMemberTest extends TestCase
         $this->assertEquals("place", $obj->place());
     }
 
-    public function test_eventTime() : void
+    public function test_eventTime(): void
     {
         $this->grading
             ->expects($this->once())
@@ -634,7 +636,7 @@ class ilIndividualAssessmentMemberTest extends TestCase
         $this->assertEquals("2021-11-25", $obj->eventTime()->format("Y-m-d"));
     }
 
-    public function test_fileName() : void
+    public function test_fileName(): void
     {
         $this->grading
             ->expects($this->once())
@@ -652,7 +654,7 @@ class ilIndividualAssessmentMemberTest extends TestCase
         $this->assertEquals("file_name", $obj->fileName());
     }
 
-    public function test_viewFile() : void
+    public function test_viewFile(): void
     {
         $this->grading
             ->expects($this->once())
@@ -670,7 +672,7 @@ class ilIndividualAssessmentMemberTest extends TestCase
         $this->assertTrue($obj->viewFile());
     }
 
-    public function test_getGrading() : void
+    public function test_getGrading(): void
     {
         $obj = new ilIndividualAssessmentMember(
             $this->iass_object,
@@ -682,7 +684,7 @@ class ilIndividualAssessmentMemberTest extends TestCase
         $this->assertEquals($this->grading, $obj->getGrading());
     }
 
-    public function test_withGrading() : void
+    public function test_withGrading(): void
     {
         $obj = new ilIndividualAssessmentMember(
             $this->iass_object,

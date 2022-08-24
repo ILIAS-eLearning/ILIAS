@@ -15,16 +15,16 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * Interface ilBiblAdminLibraryFacadeInterface
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
 interface ilBiblAdminLibraryFacadeInterface
 {
-    public function iliasObjId() : int;
+    public function iliasObjId(): int;
 
-    public function iliasRefId() : int;
+    public function iliasRefId(): int;
 
-    public function libraryFactory() : \ilBiblLibraryFactoryInterface;
+    public function libraryFactory(): \ilBiblLibraryFactoryInterface;
 }

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,12 +17,12 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\UI\Component\Symbol\Avatar;
 
 interface Letter extends Avatar
 {
-    public function getAbbreviation() : string;
+    public function getAbbreviation(): string;
 
-    public function getBackgroundColorVariant() : int;
+    public function getBackgroundColorVariant(): int;
 }

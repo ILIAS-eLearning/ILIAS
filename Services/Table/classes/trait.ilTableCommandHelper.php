@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -40,7 +42,7 @@ trait ilTableCommandHelper
      * @see ilTable2GUI::addMultiItemSelectionButton()
      * @deprecated
      */
-    protected function getMultiCommandPostArray() : array
+    protected function getMultiCommandPostArray(): array
     {
         global $DIC;
 
@@ -53,7 +55,7 @@ trait ilTableCommandHelper
             $multi_cmd = $post_parameters->retrieve(
                 'table_top_cmd',
                 $refinery->custom()->transformation(
-                    static function ($post_array) : ?string {
+                    static function ($post_array): ?string {
                         return is_array($post_array) ? key($post_array) : null;
                     }
                 )
@@ -64,7 +66,7 @@ trait ilTableCommandHelper
             $multi_value_key = $post_parameters->retrieve(
                 'cmd_sv',
                 $refinery->custom()->transformation(
-                    static function ($post_array) use ($multi_cmd) : ?string {
+                    static function ($post_array) use ($multi_cmd): ?string {
                         return is_array($post_array) ? $post_array[$multi_cmd] : null;
                     }
                 )
@@ -90,7 +92,7 @@ trait ilTableCommandHelper
      * @return bool[]
      * @deprecated
      */
-    protected function getSelectAllPostArray() : array
+    protected function getSelectAllPostArray(): array
     {
         global $DIC;
 

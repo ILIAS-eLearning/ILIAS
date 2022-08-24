@@ -1,4 +1,6 @@
-<?php declare(strict_types=0);
+<?php
+
+declare(strict_types=0);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * XML writer class
  * Class to simplify manual writing of xml documents.
@@ -53,17 +55,17 @@ class ilCourseXMLWriter extends ilXmlWriter
         $this->course_obj = $course_obj;
     }
 
-    public function setMode(int $a_mode) : void
+    public function setMode(int $a_mode): void
     {
         $this->mode = $a_mode;
     }
 
-    public function getMode() : int
+    public function getMode(): int
     {
         return $this->mode;
     }
 
-    public function start() : void
+    public function start(): void
     {
         if ($this->getMode() == self::MODE_SOAP) {
             $this->__buildHeader();
@@ -93,7 +95,7 @@ class ilCourseXMLWriter extends ilXmlWriter
         }
     }
 
-    public function getXML() : string
+    public function getXML(): string
     {
         return $this->xmlDumpMem(true);
     }
@@ -108,14 +110,14 @@ class ilCourseXMLWriter extends ilXmlWriter
     }
 
     // PRIVATE
-    public function __buildHeader() : void
+    public function __buildHeader(): void
     {
         $this->xmlSetDtdDef("<!DOCTYPE Course PUBLIC \"-//ILIAS//DTD Course//EN\" \"" . ILIAS_HTTP_PATH . "/xml/ilias_crs_5_0.dtd\">");
         $this->xmlSetGenCmt("Export of ILIAS course " . $this->course_obj->getId() . " of installation " . $this->setting->get('inst_id') . ".");
         $this->xmlHeader();
     }
 
-    public function __buildCourseStart() : void
+    public function __buildCourseStart(): void
     {
         $attrs["exportVersion"] = self::EXPORT_VERSION;
         $attrs["id"] = "il_" . $this->setting->get('inst_id') . '_crs_' . $this->course_obj->getId();
@@ -123,19 +125,19 @@ class ilCourseXMLWriter extends ilXmlWriter
         $this->xmlStartTag("Course", $attrs);
     }
 
-    public function __buildMetaData() : void
+    public function __buildMetaData(): void
     {
         $md2xml = new ilMD2XML($this->course_obj->getId(), $this->course_obj->getId(), 'crs');
         $md2xml->startExport();
         $this->appendXML($md2xml->getXML());
     }
 
-    private function __buildAdvancedMetaData() : void
+    private function __buildAdvancedMetaData(): void
     {
         ilAdvancedMDValues::_appendXMLByObjId($this, $this->course_obj->getId());
     }
 
-    public function __buildAdmin() : void
+    public function __buildAdmin(): void
     {
         $admins = $this->course_obj->getMembersObject()->getAdmins();
         $admins = $GLOBALS['DIC']->access()->filterUserIdsByRbacOrPositionOfCurrentUser(
@@ -156,7 +158,7 @@ class ilCourseXMLWriter extends ilXmlWriter
         }
     }
 
-    public function __buildTutor() : void
+    public function __buildTutor(): void
     {
         $tutors = $this->course_obj->getMembersObject()->getTutors();
         $tutors = $this->access->filterUserIdsByRbacOrPositionOfCurrentUser(
@@ -176,7 +178,7 @@ class ilCourseXMLWriter extends ilXmlWriter
         }
     }
 
-    public function __buildMember() : void
+    public function __buildMember(): void
     {
         $members = $this->course_obj->getMembersObject()->getMembers();
         $members = $GLOBALS['DIC']->access()->filterUserIdsByRbacOrPositionOfCurrentUser(
@@ -195,7 +197,7 @@ class ilCourseXMLWriter extends ilXmlWriter
         }
     }
 
-    public function __buildSubscriber() : void
+    public function __buildSubscriber(): void
     {
         $subs = $this->course_obj->getMembersObject()->getSubscribers();
         $subs = $this->access->filterUserIdsByRbacOrPositionOfCurrentUser(
@@ -216,7 +218,7 @@ class ilCourseXMLWriter extends ilXmlWriter
         }
     }
 
-    public function __buildWaitingList() : void
+    public function __buildWaitingList(): void
     {
         $waiting_list = new ilCourseWaitingList($this->course_obj->getId());
         $wait = $waiting_list->getAllUsers();
@@ -240,7 +242,7 @@ class ilCourseXMLWriter extends ilXmlWriter
         }
     }
 
-    public function __buildSetting() : void
+    public function __buildSetting(): void
     {
         $this->xmlStartTag('Settings');
 
@@ -353,12 +355,12 @@ class ilCourseXMLWriter extends ilXmlWriter
         $this->xmlEndTag('Settings');
     }
 
-    public function __buildFooter() : void
+    public function __buildFooter(): void
     {
         $this->xmlEndTag('Course');
     }
 
-    public function setAttachUsers($value) : void
+    public function setAttachUsers($value): void
     {
         $this->attach_users = (bool) $value;
     }

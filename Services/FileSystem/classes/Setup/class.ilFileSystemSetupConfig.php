@@ -25,18 +25,18 @@ class ilFileSystemSetupConfig implements Setup\Config
         $this->data_dir = $this->normalizePath($data_dir);
     }
 
-    protected function normalizePath(string $p) : ?string
+    protected function normalizePath(string $p): ?string
     {
         $p = preg_replace("/\\\\/", "/", $p);
         return preg_replace("%/+$%", "", $p);
     }
 
-    public function getDataDir() : string
+    public function getDataDir(): string
     {
         return $this->data_dir;
     }
 
-    public function getWebDir() : string
+    public function getWebDir(): string
     {
         return dirname(__DIR__, 4) . "/data";
     }

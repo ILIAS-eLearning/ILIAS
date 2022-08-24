@@ -1,4 +1,6 @@
-<?php declare(strict_types=0);
+<?php
+
+declare(strict_types=0);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * Class ilObjCourseAccess
  * @author  Alex Killing <alex.killing@gmx.de>
@@ -45,7 +47,7 @@ class ilObjCourseAccess extends ilObjectAccess implements ilConditionHandling
      * Get operators
      * @return string[]
      */
-    public static function getConditionOperators() : array
+    public static function getConditionOperators(): array
     {
         return array(
             ilConditionHandler::OPERATOR_PASSED
@@ -60,7 +62,7 @@ class ilObjCourseAccess extends ilObjectAccess implements ilConditionHandling
         string $a_operator,
         string $a_value,
         int $a_usr_id
-    ) : bool {
+    ): bool {
         switch ($a_operator) {
             case ilConditionHandler::OPERATOR_PASSED:
                 return ilCourseParticipants::_hasPassed($a_trigger_obj_id, $a_usr_id);
@@ -71,7 +73,7 @@ class ilObjCourseAccess extends ilObjectAccess implements ilConditionHandling
     /**
      * @inheritDoc
      */
-    public function _checkAccess(string $cmd, string $permission, int $ref_id, int $obj_id, ?int $user_id = null) : bool
+    public function _checkAccess(string $cmd, string $permission, int $ref_id, int $obj_id, ?int $user_id = null): bool
     {
         if (is_null($user_id)) {
             $user_id = $this->user->getId();
@@ -181,7 +183,7 @@ class ilObjCourseAccess extends ilObjectAccess implements ilConditionHandling
     /**
      * @inheritDoc
      */
-    public static function _getCommands() : array
+    public static function _getCommands(): array
     {
         $commands = array();
         $commands[] = array("permission" => "crs_linked", "cmd" => "", "lang_var" => "view", "default" => true);
@@ -210,7 +212,7 @@ class ilObjCourseAccess extends ilObjectAccess implements ilConditionHandling
     /**
      * @inheritDoc
      */
-    public static function _checkGoto(string $target) : bool
+    public static function _checkGoto(string $target): bool
     {
         global $DIC;
 
@@ -239,7 +241,7 @@ class ilObjCourseAccess extends ilObjectAccess implements ilConditionHandling
         return false;
     }
 
-    public static function _lookupViewMode(int $a_id) : int
+    public static function _lookupViewMode(int $a_id): int
     {
         global $DIC;
 
@@ -253,7 +255,7 @@ class ilObjCourseAccess extends ilObjectAccess implements ilConditionHandling
         return ilContainer::VIEW_DEFAULT;
     }
 
-    public static function _isActivated(int $a_obj_id, ?bool &$a_visible_flag = null, bool $a_mind_member_view = true) : bool
+    public static function _isActivated(int $a_obj_id, ?bool &$a_visible_flag = null, bool $a_mind_member_view = true): bool
     {
         // #7669
         if ($a_mind_member_view) {
@@ -281,7 +283,7 @@ class ilObjCourseAccess extends ilObjectAccess implements ilConditionHandling
         }
     }
 
-    public static function _registrationEnabled(int $a_obj_id) : bool
+    public static function _registrationEnabled(int $a_obj_id): bool
     {
         global $DIC;
 
@@ -316,7 +318,7 @@ class ilObjCourseAccess extends ilObjectAccess implements ilConditionHandling
         }
     }
 
-    public static function lookupRegistrationInfo(int $a_obj_id) : array
+    public static function lookupRegistrationInfo(int $a_obj_id): array
     {
         global $DIC;
 
@@ -383,7 +385,7 @@ class ilObjCourseAccess extends ilObjectAccess implements ilConditionHandling
         return $info;
     }
 
-    public static function _isOffline(int $obj_id) : bool
+    public static function _isOffline(int $obj_id): bool
     {
         $dummy = null;
         return !self::_isActivated($obj_id, $dummy, false);
@@ -392,7 +394,7 @@ class ilObjCourseAccess extends ilObjectAccess implements ilConditionHandling
     /**
      * Preload data
      */
-    public static function _preloadData(array $obj_ids, array $ref_ids) : void
+    public static function _preloadData(array $obj_ids, array $ref_ids): void
     {
         global $DIC;
 
@@ -411,17 +413,17 @@ class ilObjCourseAccess extends ilObjectAccess implements ilConditionHandling
         self::$booking_repo = $f->getRepoWithContextObjCache($obj_ids);
     }
 
-    public static function getBookingInfoRepo() : ?ilBookingReservationDBRepository
+    public static function getBookingInfoRepo(): ?ilBookingReservationDBRepository
     {
         return self::$booking_repo;
     }
 
-    public static function _usingRegistrationCode() : bool
+    public static function _usingRegistrationCode(): bool
     {
         return self::$using_code;
     }
 
-    public static function lookupPeriodInfo(int $a_obj_id) : array
+    public static function lookupPeriodInfo(int $a_obj_id): array
     {
         global $DIC;
 

@@ -12,11 +12,11 @@ class ilPublicSectionSettings
      * @var ilPublicSectionSettings
      */
     protected static $instance = null;
-    
+
     private ilSetting $settings;
 
     private bool $enabled = false;
-    
+
     /**
      * @var string[]
      */
@@ -33,7 +33,7 @@ class ilPublicSectionSettings
         $this->read();
     }
 
-    public static function getInstance() : ilPublicSectionSettings
+    public static function getInstance(): ilPublicSectionSettings
     {
         if (!self::$instance) {
             self::$instance = new self();
@@ -44,7 +44,7 @@ class ilPublicSectionSettings
     /**
      * @param string[] $domains
      */
-    public function setDomains(array $domains) : void
+    public function setDomains(array $domains): void
     {
         $this->domains = $domains;
     }
@@ -53,17 +53,17 @@ class ilPublicSectionSettings
      *
      * @return string[]
      */
-    public function getDomains() : array
+    public function getDomains(): array
     {
         return $this->domains;
     }
 
-    public function isEnabled() : bool
+    public function isEnabled(): bool
     {
         return $this->enabled;
     }
 
-    public function isEnabledForDomain(string $a_domain) : bool
+    public function isEnabledForDomain(string $a_domain): bool
     {
         if (!$this->enabled) {
             return false;
@@ -78,12 +78,12 @@ class ilPublicSectionSettings
         return true;
     }
 
-    public function setEnabled(bool $stat) : void
+    public function setEnabled(bool $stat): void
     {
         $this->enabled = $stat;
     }
 
-    public function save() : void
+    public function save(): void
     {
         $this->settings->set('pub_section', (string) $this->isEnabled());
         $this->settings->set('pub_section_domains', serialize($this->getDomains()));
@@ -92,7 +92,7 @@ class ilPublicSectionSettings
     /**
      * read settings
      */
-    protected function read() : void
+    protected function read(): void
     {
         $this->enabled = (bool) $this->settings->get('pub_section', (string) $this->enabled);
         $domains = $this->settings->get('pub_section_domains', serialize($this->domains));

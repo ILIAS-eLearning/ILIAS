@@ -1,4 +1,6 @@
-<?php declare(strict_types=0);
+<?php
+
+declare(strict_types=0);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * Course to lp connector
  * @author  Jörg Lützenkirchen <luetzenkirchen@leifos.com>
@@ -23,7 +25,7 @@
  */
 class ilCourseLP extends ilObjectLP
 {
-    public static function getDefaultModes(bool $a_lp_active) : array
+    public static function getDefaultModes(bool $a_lp_active): array
     {
         if (!$a_lp_active) {
             return array(
@@ -37,7 +39,7 @@ class ilCourseLP extends ilObjectLP
         }
     }
 
-    public function getDefaultMode() : int
+    public function getDefaultMode(): int
     {
         if ($this->checkObjectives()) {
             return ilLPObjSettings::LP_MODE_OBJECTIVES;
@@ -45,7 +47,7 @@ class ilCourseLP extends ilObjectLP
         return ilLPObjSettings::LP_MODE_MANUAL_BY_TUTOR;
     }
 
-    public function getValidModes() : array
+    public function getValidModes(): array
     {
         if ($this->checkObjectives()) {
             return array(ilLPObjSettings::LP_MODE_OBJECTIVES);
@@ -57,7 +59,7 @@ class ilCourseLP extends ilObjectLP
         );
     }
 
-    public function getCurrentMode() : int
+    public function getCurrentMode(): int
     {
         if ($this->checkObjectives()) {
             return ilLPObjSettings::LP_MODE_OBJECTIVES;
@@ -65,12 +67,12 @@ class ilCourseLP extends ilObjectLP
         return parent::getCurrentMode();
     }
 
-    protected function checkObjectives() : bool
+    protected function checkObjectives(): bool
     {
         return ilObjCourse::_lookupViewMode($this->obj_id) == ilCourseConstants::IL_CRS_VIEW_OBJECTIVE;
     }
 
-    public function getSettingsInfo() : string
+    public function getSettingsInfo(): string
     {
         global $DIC;
 
@@ -87,13 +89,13 @@ class ilCourseLP extends ilObjectLP
     /**
      * @return int[]
      */
-    public function getMembers(bool $a_search = true) : array
+    public function getMembers(bool $a_search = true): array
     {
         $member_obj = ilCourseParticipants::_getInstanceByObjId($this->obj_id);
         return $member_obj->getMembers();
     }
 
-    protected static function isLPMember(array &$a_res, int $a_usr_id, array $a_obj_ids) : bool
+    protected static function isLPMember(array &$a_res, int $a_usr_id, array $a_obj_ids): bool
     {
         global $DIC;
 
@@ -122,7 +124,7 @@ class ilCourseLP extends ilObjectLP
         return true;
     }
 
-    public function getMailTemplateId() : string
+    public function getMailTemplateId(): string
     {
         return ilCourseMailTemplateTutorContext::ID;
     }

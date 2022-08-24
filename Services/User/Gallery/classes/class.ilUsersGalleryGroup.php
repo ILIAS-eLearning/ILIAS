@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -30,22 +32,22 @@ class ilUsersGalleryGroup implements ilUsersGalleryUserCollection
         $this->users = $users;
     }
 
-    public function setHighlighted(bool $status) : void
+    public function setHighlighted(bool $status): void
     {
         $this->highlighted = $status;
     }
 
-    public function isHighlighted() : bool
+    public function isHighlighted(): bool
     {
         return $this->highlighted;
     }
 
-    public function setLabel(string $label) : void
+    public function setLabel(string $label): void
     {
         $this->label = $label;
     }
 
-    public function getLabel() : string
+    public function getLabel(): string
     {
         return $this->label;
     }
@@ -53,7 +55,7 @@ class ilUsersGalleryGroup implements ilUsersGalleryUserCollection
     /**
      * @param ilUsersGalleryUser[] $items
      */
-    public function setItems(array $items) : void
+    public function setItems(array $items): void
     {
         $this->users = $items;
     }
@@ -61,22 +63,22 @@ class ilUsersGalleryGroup implements ilUsersGalleryUserCollection
     /**
      * @return ilUsersGalleryUser[]
      */
-    public function getItems() : array
+    public function getItems(): array
     {
         return $this->users;
     }
 
-    public function count() : int
+    public function count(): int
     {
         return count($this->users);
     }
 
-    public function current() : ilUsersGalleryUser
+    public function current(): ilUsersGalleryUser
     {
         return current($this->users);
     }
 
-    public function next() : void
+    public function next(): void
     {
         next($this->users);
     }
@@ -86,12 +88,12 @@ class ilUsersGalleryGroup implements ilUsersGalleryUserCollection
         return key($this->users);
     }
 
-    public function valid() : bool
+    public function valid(): bool
     {
         return key($this->users) !== null;
     }
 
-    public function rewind() : void
+    public function rewind(): void
     {
         reset($this->users);
     }

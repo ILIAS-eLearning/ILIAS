@@ -1,4 +1,6 @@
-<?php declare(strict_types=0);
+<?php
+
+declare(strict_types=0);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -14,7 +16,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * This class handles all operations of archive files for the course object
  * @author    Stefan Meyer <meyer@leifos.com>
@@ -47,7 +49,7 @@ class ilFileDataCourse extends ilFileData
         $this->__checkImportPath();
     }
 
-    public function getArchiveFile($a_rel_name) : string
+    public function getArchiveFile($a_rel_name): string
     {
         if (file_exists($this->course_path . '/' . $a_rel_name . '.zip')) {
             return $this->course_path . '/' . $a_rel_name . '.zip';
@@ -58,7 +60,7 @@ class ilFileDataCourse extends ilFileData
         return '';
     }
 
-    public function getMemberExportFiles() : array
+    public function getMemberExportFiles(): array
     {
         $files = array();
         $dp = opendir($this->course_path);
@@ -87,7 +89,7 @@ class ilFileDataCourse extends ilFileData
         return $files;
     }
 
-    public function deleteMemberExportFile(string $a_name) : void
+    public function deleteMemberExportFile(string $a_name): void
     {
         $file_name = $this->course_path . '/' . $a_name;
         if (file_exists($file_name)) {
@@ -95,7 +97,7 @@ class ilFileDataCourse extends ilFileData
         }
     }
 
-    public function getMemberExportFile(string $a_name) : string
+    public function getMemberExportFile(string $a_name): string
     {
         $file_name = $this->course_path . '/' . $a_name;
         if (file_exists($file_name)) {
@@ -104,7 +106,7 @@ class ilFileDataCourse extends ilFileData
         return '';
     }
 
-    public function deleteArchive(string $a_rel_name) : void
+    public function deleteArchive(string $a_rel_name): void
     {
         $this->deleteZipFile($this->course_path . '/' . $a_rel_name . '.zip');
         $this->deleteDirectory($this->course_path . '/' . $a_rel_name);
@@ -112,7 +114,7 @@ class ilFileDataCourse extends ilFileData
         $this->deletePdf($this->course_path . '/' . $a_rel_name . '.pdf');
     }
 
-    public function deleteZipFile(string $a_abs_name) : bool
+    public function deleteZipFile(string $a_abs_name): bool
     {
         if (file_exists($a_abs_name)) {
             unlink($a_abs_name);
@@ -121,7 +123,7 @@ class ilFileDataCourse extends ilFileData
         return false;
     }
 
-    public function deleteDirectory(string $a_abs_name) : bool
+    public function deleteDirectory(string $a_abs_name): bool
     {
         if (file_exists($a_abs_name)) {
             ilFileUtils::delDir($a_abs_name);
@@ -131,7 +133,7 @@ class ilFileDataCourse extends ilFileData
         return false;
     }
 
-    public function deletePdf(string $a_abs_name) : bool
+    public function deletePdf(string $a_abs_name): bool
     {
         if (file_exists($a_abs_name)) {
             unlink($a_abs_name);
@@ -141,7 +143,7 @@ class ilFileDataCourse extends ilFileData
         return false;
     }
 
-    public function copy(string $a_from, string $a_to) : bool
+    public function copy(string $a_from, string $a_to): bool
     {
         if (file_exists($a_from)) {
             copy($a_from, $this->getCoursePath() . '/' . $a_to);
@@ -151,19 +153,19 @@ class ilFileDataCourse extends ilFileData
         return false;
     }
 
-    public function rCopy(string $a_from, string $a_to) : bool
+    public function rCopy(string $a_from, string $a_to): bool
     {
         ilFileUtils::rCopy($a_from, $this->getCoursePath() . '/' . $a_to);
         return true;
     }
 
-    public function addDirectory(string $a_rel_name) : bool
+    public function addDirectory(string $a_rel_name): bool
     {
         ilFileUtils::makeDir($this->getCoursePath() . '/' . $a_rel_name);
         return true;
     }
 
-    public function writeToFile(string $a_data, string $a_rel_name) : bool
+    public function writeToFile(string $a_data, string $a_rel_name): bool
     {
         if (!$fp = fopen($this->getCoursePath() . '/' . $a_rel_name, 'w+')) {
             die("Cannot open file: " . $this->getCoursePath() . '/' . $a_rel_name);
@@ -172,7 +174,7 @@ class ilFileDataCourse extends ilFileData
         return true;
     }
 
-    public function zipFile(string $a_rel_name, string $a_zip_name) : int
+    public function zipFile(string $a_rel_name, string $a_zip_name): int
     {
         ilFileUtils::zip($this->getCoursePath() . '/' . $a_rel_name, $this->getCoursePath() . '/' . $a_zip_name);
 
@@ -180,24 +182,24 @@ class ilFileDataCourse extends ilFileData
         return (int) filesize($this->getCoursePath() . '/' . $a_zip_name);
     }
 
-    public function getCoursePath() : string
+    public function getCoursePath(): string
     {
         return $this->course_path;
     }
 
-    public function createOnlineVersion(string $a_rel_name) : bool
+    public function createOnlineVersion(string $a_rel_name): bool
     {
         ilFileUtils::makeDir(CLIENT_WEB_DIR . '/courses/' . $a_rel_name);
         ilFileUtils::rCopy($this->getCoursePath() . '/' . $a_rel_name, CLIENT_WEB_DIR . '/courses/' . $a_rel_name);
         return true;
     }
 
-    public function getOnlineLink(string $a_rel_name) : string
+    public function getOnlineLink(string $a_rel_name): string
     {
         return ilFileUtils::getWebspaceDir('filesystem') . '/courses/' . $a_rel_name . '/index.html';
     }
 
-    public function __checkPath() : bool
+    public function __checkPath(): bool
     {
         if (!file_exists($this->getCoursePath())) {
             return false;
@@ -211,7 +213,7 @@ class ilFileDataCourse extends ilFileData
         return true;
     }
 
-    public function __checkImportPath() : void
+    public function __checkImportPath(): void
     {
         if (!file_exists($this->getCoursePath() . '/import')) {
             ilFileUtils::makeDir($this->getCoursePath() . '/import');
@@ -222,7 +224,7 @@ class ilFileDataCourse extends ilFileData
         }
     }
 
-    public function __checkReadWrite() : bool
+    public function __checkReadWrite(): bool
     {
         if (is_writable($this->course_path) && is_readable($this->course_path)) {
             return true;
@@ -232,7 +234,7 @@ class ilFileDataCourse extends ilFileData
         return false;
     }
 
-    public function __initDirectory() : bool
+    public function __initDirectory(): bool
     {
         if (is_writable($this->getPath())) {
             ilFileUtils::makeDir($this->getPath() . '/' . COURSE_PATH);

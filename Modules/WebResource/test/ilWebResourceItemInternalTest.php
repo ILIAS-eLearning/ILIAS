@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -28,7 +30,7 @@ class ilWebResourceItemInternalTest extends TestCase
      * @runInSeparateProcess
      * @preserveGlobalState disabled
      */
-    public function testGetResolvedLink() : void
+    public function testGetResolvedLink(): void
     {
         $array_util = Mockery::mock('alias:' . ilLink::class);
         $array_util->shouldReceive('_getStaticLink')

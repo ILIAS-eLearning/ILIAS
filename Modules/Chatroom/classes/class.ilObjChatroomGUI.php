@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -41,7 +43,7 @@ class ilObjChatroomGUI extends ilChatroomObjectGUI implements ilCtrlSecurityInte
     /**
      * @ineritdoc
      */
-    public static function _goto($params) : void
+    public static function _goto($params): void
     {
         global $DIC;
         $main_tpl = $DIC->ui()->mainTemplate();
@@ -90,12 +92,12 @@ class ilObjChatroomGUI extends ilChatroomObjectGUI implements ilCtrlSecurityInte
         );
     }
 
-    protected function getObjectDefinition() : ilChatroomObjectDefinition
+    protected function getObjectDefinition(): ilChatroomObjectDefinition
     {
         return ilChatroomObjectDefinition::getDefaultDefinition('Chatroom');
     }
 
-    protected function initCreationForms(string $new_type) : array
+    protected function initCreationForms(string $new_type): array
     {
         $forms = parent::initCreationForms($new_type);
 
@@ -106,7 +108,7 @@ class ilObjChatroomGUI extends ilChatroomObjectGUI implements ilCtrlSecurityInte
         return $forms;
     }
 
-    protected function addLocatorItems() : void
+    protected function addLocatorItems(): void
     {
         if (is_object($this->object)) {
             $this->locator->addItem(
@@ -118,7 +120,7 @@ class ilObjChatroomGUI extends ilChatroomObjectGUI implements ilCtrlSecurityInte
         }
     }
 
-    public function getRefId() : int
+    public function getRefId(): int
     {
         return $this->object->getRefId();
     }
@@ -126,7 +128,7 @@ class ilObjChatroomGUI extends ilChatroomObjectGUI implements ilCtrlSecurityInte
     /**
      * @inheritDoc
      */
-    public function getUnsafeGetCommands() : array
+    public function getUnsafeGetCommands(): array
     {
         return [];
     }
@@ -134,14 +136,14 @@ class ilObjChatroomGUI extends ilChatroomObjectGUI implements ilCtrlSecurityInte
     /**
      * @inheritDoc
      */
-    public function getSafePostCommands() : array
+    public function getSafePostCommands(): array
     {
         return [
             'view-toggleAutoMessageDisplayState',
         ];
     }
 
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         global $DIC;
 
@@ -255,7 +257,7 @@ class ilObjChatroomGUI extends ilChatroomObjectGUI implements ilCtrlSecurityInte
         }
     }
 
-    public function getConnector() : ilChatroomServerConnector
+    public function getConnector(): ilChatroomServerConnector
     {
         return new ilChatroomServerConnector(ilChatroomAdmin::getDefaultConfiguration()->getServerSettings());
     }
@@ -263,7 +265,7 @@ class ilObjChatroomGUI extends ilChatroomObjectGUI implements ilCtrlSecurityInte
     /**
      * Calls $this->prepareOutput method and sets template variable.
      */
-    public function fallback() : void
+    public function fallback(): void
     {
         $this->prepareOutput();
         $this->tpl->setVariable('ADM_CONTENT', $this->lng->txt('invalid_operation'));
@@ -272,12 +274,12 @@ class ilObjChatroomGUI extends ilChatroomObjectGUI implements ilCtrlSecurityInte
     /**
      * Calls prepareOutput method.
      */
-    public function settings() : void
+    public function settings(): void
     {
         $this->prepareOutput();
     }
 
-    public function insertObject() : ilObjChatroom
+    public function insertObject(): ilObjChatroom
     {
         $new_type = $this->type;
         $refId = $this->http->wrapper()->query()->retrieve('ref_id', $this->refinery->kindlyTo()->int());

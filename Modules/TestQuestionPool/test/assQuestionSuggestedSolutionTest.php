@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -41,7 +43,7 @@ class assQuestionSuggestedSolutionRepoMock extends assQuestionSuggestedSolutions
         string $type,
         string $value,
         \DateTimeImmutable $last_update
-    ) : assQuestionSuggestedSolution {
+    ): assQuestionSuggestedSolution {
         return $this->buildSuggestedSolution(
             $id,
             $question_id,
@@ -57,12 +59,12 @@ class assQuestionSuggestedSolutionRepoMock extends assQuestionSuggestedSolutions
 
 class assQuestionSuggestedSolutionTest extends TestCase
 {
-    protected function setUp() : void
+    protected function setUp(): void
     {
         $this->repo = new assQuestionSuggestedSolutionRepoMock();
     }
 
-    public function testSuggestedSolutionText() : assSuggestedSolutionText
+    public function testSuggestedSolutionText(): assSuggestedSolutionText
     {
         $id = 123;
         $question_id = 321;
@@ -72,7 +74,7 @@ class assQuestionSuggestedSolutionTest extends TestCase
         $type = assQuestionSuggestedSolution::TYPE_TEXT;
         $value = 'some value' ;
         $last_update = new \DateTimeImmutable();
-        
+
         $sugsol = $this->repo->getSolution(
             $id,
             $question_id,
@@ -106,7 +108,7 @@ class assQuestionSuggestedSolutionTest extends TestCase
     /**
      * @depends testSuggestedSolutionText
      */
-    public function testSuggestedSolutionMutators(assQuestionSuggestedSolution $sugsol) : void
+    public function testSuggestedSolutionMutators(assQuestionSuggestedSolution $sugsol): void
     {
         $id = 654;
         $question_id = 456;
@@ -116,7 +118,7 @@ class assQuestionSuggestedSolutionTest extends TestCase
 
         $value = 'some other value' ;
         $last_update = new \DateTimeImmutable();
-        
+
         $sugsol = $sugsol
             ->withId($id)
             ->withQuestionId($question_id)
@@ -132,7 +134,7 @@ class assQuestionSuggestedSolutionTest extends TestCase
         $this->assertNotEquals($last_update, $sugsol->getLastUpdate());
     }
 
-    public function testSuggestedSolutionFile() : assSuggestedSolutionFile
+    public function testSuggestedSolutionFile(): assSuggestedSolutionFile
     {
         $id = 123;
         $question_id = 321;
@@ -140,7 +142,7 @@ class assQuestionSuggestedSolutionTest extends TestCase
         $import_id = 'imported_xy';
         $subquestion_index = 0;
         $type = assQuestionSuggestedSolution::TYPE_FILE;
-        
+
         $values = [
             'name' => 'something.jpg',
             'type' => 'image/jpeg',
@@ -149,7 +151,7 @@ class assQuestionSuggestedSolutionTest extends TestCase
         ];
 
         $last_update = new \DateTimeImmutable();
-        
+
         $sugsol = $this->repo->getSolution(
             $id,
             $question_id,
@@ -179,7 +181,7 @@ class assQuestionSuggestedSolutionTest extends TestCase
     /**
      * @depends testSuggestedSolutionFile
      */
-    public function testSuggestedSolutionMutatorsFile(assSuggestedSolutionFile $sugsol) : void
+    public function testSuggestedSolutionMutatorsFile(assSuggestedSolutionFile $sugsol): void
     {
         $values = [
             'name' => 'somethingelse.ico',

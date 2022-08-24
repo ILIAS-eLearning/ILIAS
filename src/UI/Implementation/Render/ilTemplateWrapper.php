@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\UI\Implementation\Render;
 
 use ilGlobalTemplateInterface;
@@ -38,7 +40,7 @@ class ilTemplateWrapper implements Template
     /**
      * @inheritdocs
      */
-    public function setCurrentBlock(string $name) : bool
+    public function setCurrentBlock(string $name): bool
     {
         return $this->tpl->setCurrentBlock($name);
     }
@@ -46,7 +48,7 @@ class ilTemplateWrapper implements Template
     /**
      * @inheritdocs
      */
-    public function parseCurrentBlock() : bool
+    public function parseCurrentBlock(): bool
     {
         return $this->tpl->parseCurrentBlock();
     }
@@ -54,7 +56,7 @@ class ilTemplateWrapper implements Template
     /**
      * @inheritdocs
      */
-    public function touchBlock(string $name) : bool
+    public function touchBlock(string $name): bool
     {
         return $this->tpl->touchBlock($name);
     }
@@ -62,7 +64,7 @@ class ilTemplateWrapper implements Template
     /**
      * @inheritdocs
      */
-    public function setVariable(string $name, $value) : void
+    public function setVariable(string $name, $value): void
     {
         $this->tpl->setVariable($name, $value);
     }
@@ -70,7 +72,7 @@ class ilTemplateWrapper implements Template
     /**
      * @inheritdocs
      */
-    public function get(string $block = null) : string
+    public function get(string $block = null): string
     {
         if ($block === null) {
             $block = "__global__";
@@ -81,7 +83,7 @@ class ilTemplateWrapper implements Template
     /**
      * @inheritdocs
      */
-    public function addOnLoadCode(string $code) : void
+    public function addOnLoadCode(string $code): void
     {
         $this->global_tpl->addOnLoadCode($code);
     }

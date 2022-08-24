@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\UI\Implementation\Component\ViewControl;
 
 use ILIAS\UI\Component as C;
@@ -45,7 +47,7 @@ class Section implements C\ViewControl\Section
     /**
      * Returns the action executed by clicking on previous.
      */
-    public function getPreviousActions() : Button
+    public function getPreviousActions(): Button
     {
         return $this->previous_action;
     }
@@ -53,7 +55,7 @@ class Section implements C\ViewControl\Section
     /**
      * Returns the action executed by clicking on next.
      */
-    public function getNextActions() : Button
+    public function getNextActions(): Button
     {
         return $this->next_action;
     }
@@ -63,7 +65,7 @@ class Section implements C\ViewControl\Section
      *
      * @return Component the Default- or Split-Button placed in the middle of the control
      */
-    public function getSelectorButton() : Component
+    public function getSelectorButton(): Component
     {
         return $this->button;
     }

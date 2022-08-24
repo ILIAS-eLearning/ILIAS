@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /* Copyright (c) 2019 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
@@ -21,17 +23,17 @@ class ilSetupConfig implements Setup\Config
         $this->register_nic = $register_nic;
     }
 
-    public function getClientId() : \ILIAS\Data\ClientId
+    public function getClientId(): \ILIAS\Data\ClientId
     {
         return $this->client_id;
     }
 
-    public function getServerTimeZone() : \DateTimeZone
+    public function getServerTimeZone(): \DateTimeZone
     {
         return $this->server_timezone;
     }
 
-    public function getRegisterNIC() : bool
+    public function getRegisterNIC(): bool
     {
         return $this->register_nic;
     }

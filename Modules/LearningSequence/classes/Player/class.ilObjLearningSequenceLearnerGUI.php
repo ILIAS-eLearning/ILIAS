@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -17,17 +19,17 @@
  *********************************************************************/
 
 use ILIAS\HTTP\Wrapper\RequestWrapper;
- 
+
 class ilObjLearningSequenceLearnerGUI
 {
-    const CMD_STANDARD = 'learnerView';
-    const CMD_EXTRO = 'learnerViewFinished';
-    const CMD_UNSUBSCRIBE = 'unsubscribe';
-    const CMD_VIEW = 'view';
-    const CMD_START = 'start';
-    const PARAM_LSO_NEXT_ITEM = 'lsoni';
-    const LSO_CMD_NEXT = 'lson';
-    const LSO_CMD_PREV = 'lsop';
+    public const CMD_STANDARD = 'learnerView';
+    public const CMD_EXTRO = 'learnerViewFinished';
+    public const CMD_UNSUBSCRIBE = 'unsubscribe';
+    public const CMD_VIEW = 'view';
+    public const CMD_START = 'start';
+    public const PARAM_LSO_NEXT_ITEM = 'lsoni';
+    public const LSO_CMD_NEXT = 'lson';
+    public const LSO_CMD_PREV = 'lsop';
 
     protected ilAccess $access;
     protected ilCtrl $ctrl;
@@ -44,7 +46,7 @@ class ilObjLearningSequenceLearnerGUI
     protected string $intro;
     protected string $extro;
     protected RequestWrapper $get;
-    
+
 
 
     public function __construct(
@@ -83,7 +85,7 @@ class ilObjLearningSequenceLearnerGUI
         $this->get = $get;
     }
 
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         $cmd = $this->ctrl->getCmd();
         switch ($cmd) {
@@ -113,7 +115,7 @@ class ilObjLearningSequenceLearnerGUI
         }
     }
 
-    protected function view(string $cmd) : void
+    protected function view(string $cmd): void
     {
         $content = $this->getWrappedHTML(
             $this->getMainContent($cmd)
@@ -135,7 +137,7 @@ class ilObjLearningSequenceLearnerGUI
         }
     }
 
-    protected function addMember(int $usr_id) : void
+    protected function addMember(int $usr_id): void
     {
         $admins = $this->roles->getLearningSequenceAdminIds();
         if (!in_array($usr_id, $admins)) {
@@ -154,7 +156,7 @@ class ilObjLearningSequenceLearnerGUI
         }
     }
 
-    private function getWrappedHTML(array $components) : string
+    private function getWrappedHTML(array $components): string
     {
         array_unshift(
             $components,
@@ -165,7 +167,7 @@ class ilObjLearningSequenceLearnerGUI
         return $this->renderer->render($components);
     }
 
-    private function getMainContent(string $cmd) : array
+    private function getMainContent(string $cmd): array
     {
         $img = null;
         $contents = [];
@@ -196,7 +198,7 @@ class ilObjLearningSequenceLearnerGUI
         return $contents;
     }
 
-    protected function play() : void
+    protected function play(): void
     {
         $response = $this->player->play($this->get);
 

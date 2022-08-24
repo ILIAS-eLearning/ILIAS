@@ -1,7 +1,9 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 
-    
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,7 +19,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * Cron for course/group minimum members
  * @author  Jörg Lützenkirchen <luetzenkirchen@leifos.com>
@@ -34,42 +36,42 @@ class ilMembershipCronMinMembers extends ilCronJob
         $this->lng = $DIC->language();
     }
 
-    public function getId() : string
+    public function getId(): string
     {
         return "mem_min_members";
     }
 
-    public function getTitle() : string
+    public function getTitle(): string
     {
         return $this->lng->txt("mem_cron_min_members");
     }
 
-    public function getDescription() : string
+    public function getDescription(): string
     {
         return $this->lng->txt("mem_cron_min_members_info");
     }
 
-    public function getDefaultScheduleType() : int
+    public function getDefaultScheduleType(): int
     {
         return self::SCHEDULE_TYPE_DAILY;
     }
 
-    public function getDefaultScheduleValue() : ?int
+    public function getDefaultScheduleValue(): ?int
     {
         return null;
     }
 
-    public function hasAutoActivation() : bool
+    public function hasAutoActivation(): bool
     {
         return true;
     }
 
-    public function hasFlexibleSchedule() : bool
+    public function hasFlexibleSchedule(): bool
     {
         return false;
     }
 
-    public function run() : ilCronJobResult
+    public function run(): ilCronJobResult
     {
         $status = ilCronJobResult::STATUS_NO_ACTION;
         $message = null;
@@ -95,11 +97,11 @@ class ilMembershipCronMinMembers extends ilCronJob
         return $result;
     }
 
-    protected function getCourses(array &$a_recipients_map) : void
+    protected function getCourses(array &$a_recipients_map): void
     {
         foreach (ilObjCourse::findCoursesWithNotEnoughMembers() as $obj_id => $item) {
             $too_few = (bool) $item[0];
-            
+
 
             if ($too_few) {
                 // not enough members: notifiy course admins
@@ -110,11 +112,11 @@ class ilMembershipCronMinMembers extends ilCronJob
         }
     }
 
-    protected function getGroups(array &$a_recipients_map) : void
+    protected function getGroups(array &$a_recipients_map): void
     {
         foreach (ilObjGroup::findGroupsWithNotEnoughMembers() as $obj_id => $item) {
             $too_few = (bool) $item[0];
-            
+
 
             if ($too_few) {
                 // not enough members: notifiy group admins
@@ -125,7 +127,7 @@ class ilMembershipCronMinMembers extends ilCronJob
         }
     }
 
-    protected function sendMessage(int $a_reci_id, array $a_items) : void
+    protected function sendMessage(int $a_reci_id, array $a_items): void
     {
         $ntf = new ilSystemNotification();
         $ntf->setLangModules(array("crs"));

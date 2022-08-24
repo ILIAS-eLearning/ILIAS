@@ -22,42 +22,42 @@
  */
 class ilUserProfileBadge implements ilBadgeType, ilBadgeAuto
 {
-    public function getId() : string
+    public function getId(): string
     {
         return "profile";
     }
-    
-    public function getCaption() : string
+
+    public function getCaption(): string
     {
         global $DIC;
 
         $lng = $DIC['lng'];
         return $lng->txt("badge_user_profile");
     }
-    
-    public function isSingleton() : bool
+
+    public function isSingleton(): bool
     {
         return false;
     }
-    
-    public function getValidObjectTypes() : array // Missing array type.
+
+    public function getValidObjectTypes(): array // Missing array type.
     {
         return array("bdga");
     }
-    
-    public function getConfigGUIInstance() : ?ilBadgeTypeGUI
+
+    public function getConfigGUIInstance(): ?ilBadgeTypeGUI
     {
         return new ilUserProfileBadgeGUI();
     }
-    
-    public function evaluate(int $a_user_id, array $a_params, array $a_config) : bool // Missing array type.
+
+    public function evaluate(int $a_user_id, array $a_params, array $a_config): bool // Missing array type.
     {
         global $DIC;
 
         $ilSetting = $DIC['ilSetting'];
-        
+
         $user = new ilObjUser($a_user_id);
-        
+
         // active profile portfolio?
         $has_prtf = false;
         if ($ilSetting->get('user_portfolios')) {
@@ -69,16 +69,16 @@ class ilUserProfileBadge implements ilBadgeType, ilBadgeAuto
                 return false;
             }
         }
-        
+
         // use getter mapping from user profile
         $up = new ilUserProfile();
         $pfields = $up->getStandardFields();
-        
+
         // check for value AND publication status
-        
+
         foreach ($a_config["profile"] as $field) {
             $field = substr($field, 4);
-            
+
             if (substr($field, 0, 4) === "udf_") {
                 $udf_field_id = substr($field, 4);
                 if ($user->getPref("public_udf_" . $udf_field_id) !== "y") {
@@ -110,7 +110,7 @@ class ilUserProfileBadge implements ilBadgeType, ilBadgeAuto
                 }
             }
         }
-        
+
         return true;
     }
 }

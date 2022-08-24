@@ -1,4 +1,5 @@
 <?php
+
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 require_once 'Services/Component/classes/class.ilPlugin.php';
@@ -32,7 +33,7 @@ class ilTestExportFilename
     /**
      * @return int
      */
-    public function getTimestamp() : int
+    public function getTimestamp(): int
     {
         return $this->timestamp;
     }
@@ -43,7 +44,7 @@ class ilTestExportFilename
      * @return string
      * @throws ilException
      */
-    public function getPathname($extension, $additional = '') : string
+    public function getPathname($extension, $additional = ''): string
     {
         if (!is_string($extension) || !strlen($extension)) {
             throw new ilException('Missing file extension! Please pass a file extension of type string.');

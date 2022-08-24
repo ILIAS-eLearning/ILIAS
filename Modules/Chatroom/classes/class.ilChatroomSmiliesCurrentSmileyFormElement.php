@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -28,7 +30,7 @@ class ilChatroomSmiliesCurrentSmileyFormElement extends ilCustomInputGUI
 {
     private string $value = '';
 
-    public function getHtml() : string
+    public function getHtml(): string
     {
         global $DIC;
 
@@ -39,17 +41,17 @@ class ilChatroomSmiliesCurrentSmileyFormElement extends ilCustomInputGUI
         return $tpl->get();
     }
 
-    public function getValue() : string
+    public function getValue(): string
     {
         return $this->value;
     }
 
-    public function setValue(string $a_value) : void
+    public function setValue(string $a_value): void
     {
         $this->value = $a_value;
     }
 
-    public function checkInput() : bool
+    public function checkInput(): bool
     {
         return true;
     }

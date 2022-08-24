@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -54,7 +56,7 @@ class ilLDAPResult
      * Total count of resulted rows
      * @return int
      */
-    public function numRows() : int
+    public function numRows(): int
     {
         return is_array($this->rows) ? count($this->rows) : 0;
     }
@@ -72,7 +74,7 @@ class ilLDAPResult
      * Resource from ldap_search()
      * @param resource $result
      */
-    public function setResult($result) : void
+    public function setResult($result): void
     {
         $this->result = $result;
     }
@@ -81,7 +83,7 @@ class ilLDAPResult
      * Returns last result
      * @return array
      */
-    public function get() : array
+    public function get(): array
     {
         return is_array($this->last_row) ? $this->last_row : [];
     }
@@ -89,7 +91,7 @@ class ilLDAPResult
     /**
      * Returns complete results
      */
-    public function getRows() : array
+    public function getRows(): array
     {
         return is_array($this->rows) ? $this->rows : [];
     }
@@ -98,7 +100,7 @@ class ilLDAPResult
      * Starts ldap_get_entries() and transforms results
      * @return self $this
      */
-    public function run() : self
+    public function run(): self
     {
         $entries = ldap_get_entries($this->handle, $this->result);
         $this->addEntriesToRows($entries);
@@ -109,7 +111,7 @@ class ilLDAPResult
     /**
      * Adds Results from ldap_get_entries() to rows
      */
-    private function addEntriesToRows(array $entries) : void
+    private function addEntriesToRows(array $entries): void
     {
         $num = $entries['count'];
         $this->rows = [];
@@ -129,7 +131,7 @@ class ilLDAPResult
      * Transforms results from ldap_get_entries() to a simple format
      */
 
-    private function toSimpleArray(array $entry) : array
+    private function toSimpleArray(array $entry): array
     {
         $data = array();
         foreach ($entry as $key => $value) {

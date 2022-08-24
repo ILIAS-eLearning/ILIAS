@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -33,12 +35,12 @@ class ilAdvancedMDFieldDefinitionInteger extends ilAdvancedMDFieldDefinition
     // generic types
     //
 
-    public function getType() : int
+    public function getType(): int
     {
         return self::TYPE_INTEGER;
     }
 
-    public function isFilterSupported() : bool
+    public function isFilterSupported(): bool
     {
         return false;
     }
@@ -46,22 +48,22 @@ class ilAdvancedMDFieldDefinitionInteger extends ilAdvancedMDFieldDefinition
     /**
      * @return array<string, string>
      */
-    public function getSuffixTranslations() : array
+    public function getSuffixTranslations(): array
     {
         return $this->suffix_translations;
     }
 
-    public function setSuffixTranslation(string $language, string $suffix) : void
+    public function setSuffixTranslation(string $language, string $suffix): void
     {
         $this->suffix_translations[$language] = $suffix;
     }
 
-    public function setSuffixTranslations(array $suffix_translations) : void
+    public function setSuffixTranslations(array $suffix_translations): void
     {
         $this->suffix_translations = $suffix_translations;
     }
 
-    protected function initADTDefinition() : ilADTDefinition
+    protected function initADTDefinition(): ilADTDefinition
     {
         $def = ilADTFactory::getInstance()->getDefinitionInstanceByType('Integer');
         $def->setMin((int) $this->getMin());
@@ -70,7 +72,7 @@ class ilAdvancedMDFieldDefinitionInteger extends ilAdvancedMDFieldDefinition
         return $def;
     }
 
-    public function setMin(?int $a_value) : void
+    public function setMin(?int $a_value): void
     {
         if ($a_value !== null) {
             $a_value = $a_value;
@@ -78,12 +80,12 @@ class ilAdvancedMDFieldDefinitionInteger extends ilAdvancedMDFieldDefinition
         $this->min = $a_value;
     }
 
-    public function getMin() : ?int
+    public function getMin(): ?int
     {
         return $this->min;
     }
 
-    public function setMax(?int $a_value) : void
+    public function setMax(?int $a_value): void
     {
         if ($a_value !== null) {
             $a_value = $a_value;
@@ -91,12 +93,12 @@ class ilAdvancedMDFieldDefinitionInteger extends ilAdvancedMDFieldDefinition
         $this->max = $a_value;
     }
 
-    public function getMax() : ?int
+    public function getMax(): ?int
     {
         return $this->max;
     }
 
-    public function setSuffix(?string $a_value) : void
+    public function setSuffix(?string $a_value): void
     {
         if ($a_value !== null) {
             $a_value = trim($a_value);
@@ -104,12 +106,12 @@ class ilAdvancedMDFieldDefinitionInteger extends ilAdvancedMDFieldDefinition
         $this->suffix = $a_value;
     }
 
-    public function getSuffix() : ?string
+    public function getSuffix(): ?string
     {
         return $this->suffix;
     }
 
-    protected function importFieldDefinition(array $a_def) : void
+    protected function importFieldDefinition(array $a_def): void
     {
         $this->setMin($a_def["min"]);
         $this->setMax($a_def["max"]);
@@ -117,7 +119,7 @@ class ilAdvancedMDFieldDefinitionInteger extends ilAdvancedMDFieldDefinition
         $this->setSuffixTranslations($a_def['suffix_translations'] ?? []);
     }
 
-    protected function getFieldDefinition() : array
+    protected function getFieldDefinition(): array
     {
         return array(
             "min" => $this->getMin(),
@@ -127,7 +129,7 @@ class ilAdvancedMDFieldDefinitionInteger extends ilAdvancedMDFieldDefinition
         );
     }
 
-    public function getFieldDefinitionForTableGUI(string $content_language) : array
+    public function getFieldDefinitionForTableGUI(string $content_language): array
     {
         $res = [];
 
@@ -152,7 +154,7 @@ class ilAdvancedMDFieldDefinitionInteger extends ilAdvancedMDFieldDefinition
         ilPropertyFormGUI $a_form,
         bool $a_disabled = false,
         string $language = ''
-    ) : void {
+    ): void {
         $min = new ilNumberInputGUI($this->lng->txt("md_adv_number_min"), "min");
         $min->setValue((string) $this->getMin());
         $min->setSize(10);
@@ -183,7 +185,7 @@ class ilAdvancedMDFieldDefinitionInteger extends ilAdvancedMDFieldDefinition
         }
     }
 
-    public function importCustomDefinitionFormPostValues(ilPropertyFormGUI $a_form, string $language = '') : void
+    public function importCustomDefinitionFormPostValues(ilPropertyFormGUI $a_form, string $language = ''): void
     {
         $min = $a_form->getInput("min");
         $this->setMin(($min !== "") ? (int) $min : null);
@@ -200,7 +202,7 @@ class ilAdvancedMDFieldDefinitionInteger extends ilAdvancedMDFieldDefinition
         }
     }
 
-    protected function addPropertiesToXML(ilXmlWriter $a_writer) : void
+    protected function addPropertiesToXML(ilXmlWriter $a_writer): void
     {
         $a_writer->xmlElement('FieldValue', array("id" => "min"), $this->getMin());
         $a_writer->xmlElement('FieldValue', array("id" => "max"), $this->getMax());
@@ -211,7 +213,7 @@ class ilAdvancedMDFieldDefinitionInteger extends ilAdvancedMDFieldDefinition
         }
     }
 
-    public function importXMLProperty(string $a_key, string $a_value) : void
+    public function importXMLProperty(string $a_key, string $a_value): void
     {
         if ($a_key == "min") {
             $this->setMin($a_value != "" ? (int) $a_value : null);
@@ -232,12 +234,12 @@ class ilAdvancedMDFieldDefinitionInteger extends ilAdvancedMDFieldDefinition
         }
     }
 
-    public function getValueForXML(ilADT $element) : string
+    public function getValueForXML(ilADT $element): string
     {
         return $element->getNumber();
     }
 
-    public function importValueFromXML(string $a_cdata) : void
+    public function importValueFromXML(string $a_cdata): void
     {
         $this->getADT()->setNumber($a_cdata);
     }

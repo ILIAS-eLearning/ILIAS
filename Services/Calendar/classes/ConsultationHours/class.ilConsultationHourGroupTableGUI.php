@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
@@ -21,7 +23,7 @@ class ilConsultationHourGroupTableGUI extends ilTable2GUI
     /**
      * Init table
      */
-    protected function initTable() : void
+    protected function initTable(): void
     {
         $this->setRowTemplate('tpl.ch_group_row.html', 'Services/Calendar');
 
@@ -42,7 +44,7 @@ class ilConsultationHourGroupTableGUI extends ilTable2GUI
     /**
      * @inheritDoc
      */
-    protected function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set): void
     {
         $this->tpl->setVariable('TITLE', $a_set['title']);
         $this->tpl->setVariable('MAX_BOOKINGS', $a_set['max_books']);
@@ -81,7 +83,7 @@ class ilConsultationHourGroupTableGUI extends ilTable2GUI
      * Parse Groups
      * @param ilConsultationHourGroup[] $groups
      */
-    public function parse(array $groups) : void
+    public function parse(array $groups): void
     {
         $rows = array();
         $counter = 0;

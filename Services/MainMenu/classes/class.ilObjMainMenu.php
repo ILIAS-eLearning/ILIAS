@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * Class ilObjMainMenuGUI
@@ -7,7 +9,6 @@
  */
 class ilObjMainMenu extends ilObject
 {
-
     /**
      * ilObjMainMenu constructor.
      *
@@ -24,7 +25,7 @@ class ilObjMainMenu extends ilObject
     /**
      * @inheritDoc
      */
-    public function getPresentationTitle() : string
+    public function getPresentationTitle(): string
     {
         return $this->lng->txt("main_menu");
     }
@@ -33,7 +34,7 @@ class ilObjMainMenu extends ilObject
     /**
      * @inheritDoc
      */
-    public function getLongDescription() : string
+    public function getLongDescription(): string
     {
         return $this->lng->txt("add_remove_edit_entries_of_main_menu");
     }

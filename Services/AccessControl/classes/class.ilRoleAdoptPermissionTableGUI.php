@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * Copy Permission Settings
  * @author  Fabian Wolf <wolf@leifos.com>
@@ -46,7 +48,7 @@ class ilRoleAdoptPermissionTableGUI extends ilTable2GUI
     /**
      * Fill a single data row.
      */
-    protected function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set): void
     {
         $this->tpl->setVariable("PARAM", "adopt");
         $this->tpl->setVariable("VAL_ID", $a_set["role_id"]);

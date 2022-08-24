@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -27,10 +29,10 @@ class MakeClickable implements Transformation
 {
     use DeriveApplyToFromTransform;
     use DeriveInvokeFromTransform;
-    
-    const PATTERN = '(^|[^[:alnum:]])(((https?:\/\/)|(www.))[^[:cntrl:][:space:]<>\'"]+)([^[:alnum:]]|$)';
-    
-    protected function determineParameters() : array
+
+    public const PATTERN = '(^|[^[:alnum:]])(((https?:\/\/)|(www.))[^[:cntrl:][:space:]<>\'"]+)([^[:alnum:]]|$)';
+
+    protected function determineParameters(): array
     {
         if (function_exists('mb_ereg')) {
             $matcher = 'mb_ereg';
@@ -41,11 +43,11 @@ class MakeClickable implements Transformation
         }
         return [$matcher, $pattern];
     }
-    
+
     /**
      * @inheritDoc
      */
-    public function transform($from) : string
+    public function transform($from): string
     {
         $this->requireString($from);
 
@@ -53,12 +55,12 @@ class MakeClickable implements Transformation
         $stringParts = [];
         $matches = [];
         [$matcher, $pattern] = $this->determineParameters();
-    
-        $checker = function () use ($matcher, $pattern, &$from, &$endOfMatch, &$matches) : bool {
+
+        $checker = function () use ($matcher, $pattern, &$from, &$endOfMatch, &$matches): bool {
             $r = call_user_func_array($matcher, [$pattern, substr($from, $endOfMatch), &$matches]);
             return $r === true || $r >>= 1; // since the return value differs in PHP7.4/8 and in preg_match/mb_ereg
         };
-        
+
         while ($checker()) {
             $oldIndex = $endOfMatch;
             $endOfMatch += strpos(substr($from, $endOfMatch), $matches[0]);
@@ -83,7 +85,7 @@ class MakeClickable implements Transformation
         return implode('', $stringParts);
     }
 
-    private function regexPos(string $regexp, string $string) : int
+    private function regexPos(string $regexp, string $string): int
     {
         $matches = [];
         if (1 === preg_match($regexp, $string, $matches)) {
@@ -97,14 +99,14 @@ class MakeClickable implements Transformation
      * @param mixed $maybeHTML
      * @return void
      */
-    private function requireString($maybeHTML) : void
+    private function requireString($maybeHTML): void
     {
         if (!is_string($maybeHTML)) {
             throw new ConstraintViolationException('not a string', 'not_a_string');
         }
     }
 
-    private function shouldReplace(string $maybeHTML, int $startOfMatch, int $endOfMatch) : bool
+    private function shouldReplace(string $maybeHTML, int $startOfMatch, int $endOfMatch): bool
     {
         $isNotInAnchor = $this->regexPos('@<a.*</a>@', substr($maybeHTML, $endOfMatch)) <= $this->regexPos('@</a>@', substr($maybeHTML, $endOfMatch));
         $isNotATagAttribute = 0 === preg_match('/^[^>]*[[:space:]][[:alpha:]]+</', strrev(substr($maybeHTML, 0, $startOfMatch)));

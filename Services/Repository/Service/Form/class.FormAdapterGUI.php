@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -56,7 +58,7 @@ class FormAdapterGUI
         $this->http = $DIC->http();
     }
 
-    public function getTitle() : string
+    public function getTitle(): string
     {
         return $this->title;
     }
@@ -65,7 +67,7 @@ class FormAdapterGUI
         string $key,
         string $title,
         string $description = ""
-    ) : self {
+    ): self {
         if ($this->title == "") {
             $this->title = $title;
         }
@@ -83,7 +85,7 @@ class FormAdapterGUI
         string $title,
         string $description = "",
         ?string $value = null
-    ) : self {
+    ): self {
         $field = $this->ui->factory()->input()->field()->text($title, $description);
         if (!is_null($value)) {
             $field = $field->withValue($value);
@@ -97,7 +99,7 @@ class FormAdapterGUI
         string $title,
         string $description = "",
         ?string $value = null
-    ) : self {
+    ): self {
         $field = $this->ui->factory()->input()->field()->textarea($title, $description);
         if (!is_null($value)) {
             $field = $field->withValue($value);
@@ -112,7 +114,7 @@ class FormAdapterGUI
         array $options,
         string $description = "",
         ?string $value = null
-    ) : self {
+    ): self {
         $field = $this->ui->factory()->input()->field()->select($title, $options, $description);
         if (!is_null($value)) {
             $field = $field->withValue($value);
@@ -131,7 +133,7 @@ class FormAdapterGUI
         string $id_parameter,
         int $max_files = 1,
         array $mime_types = []
-    ) : self {
+    ): self {
         $this->upload_handler[$key] = new \ilRepoStandardUploadHandlerGUI(
             $result_handler,
             $id_parameter
@@ -154,7 +156,7 @@ class FormAdapterGUI
         return $this;
     }
 
-    public function getRepoStandardUploadHandlerGUI(string $key) : \ilRepoStandardUploadHandlerGUI
+    public function getRepoStandardUploadHandlerGUI(string $key): \ilRepoStandardUploadHandlerGUI
     {
         if (!isset($this->upload_handler[$key])) {
             throw new \ilException("Unknown file upload field: " . $key);
@@ -163,7 +165,7 @@ class FormAdapterGUI
     }
 
 
-    protected function addField(string $key, FormInput $field) : void
+    protected function addField(string $key, FormInput $field): void
     {
         if (isset($this->section_of_field[$key])) {
             throw new \ilException("Duplicate Input Key: " . $key);
@@ -176,7 +178,7 @@ class FormAdapterGUI
         $this->form = null;
     }
 
-    protected function getForm() : Form\Standard
+    protected function getForm(): Form\Standard
     {
         $ctrl = $this->ctrl;
 
@@ -232,7 +234,7 @@ class FormAdapterGUI
         return $section_data[$key];
     }
 
-    public function render() : string
+    public function render(): string
     {
         return $this->ui->renderer()->render($this->getForm());
     }

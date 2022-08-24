@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /******************************************************************************
  *
@@ -40,23 +42,23 @@ class ilOpenIdConnectUserSync
         $this->writer = new ilXmlWriter();
     }
 
-    public function setExternalAccount(string $ext_account) : void
+    public function setExternalAccount(string $ext_account): void
     {
         $this->ext_account = $ext_account;
     }
 
-    public function setInternalAccount(string $int_account) : void
+    public function setInternalAccount(string $int_account): void
     {
         $this->int_account = $int_account;
         $this->usr_id = ilObjUser::_lookupId($this->int_account);
     }
 
-    public function getUserId() : int
+    public function getUserId(): int
     {
         return $this->usr_id;
     }
 
-    public function needsCreation() : bool
+    public function needsCreation(): bool
     {
         $this->logger->dump($this->int_account, ilLogLevel::DEBUG);
 
@@ -66,7 +68,7 @@ class ilOpenIdConnectUserSync
     /**
      * @throws ilOpenIdConnectSyncForbiddenException
      */
-    public function updateUser() : bool
+    public function updateUser(): bool
     {
         if ($this->needsCreation() && !$this->settings->isSyncAllowed()) {
             throw new ilOpenIdConnectSyncForbiddenException('No internal account given.');
@@ -93,7 +95,7 @@ class ilOpenIdConnectUserSync
         return true;
     }
 
-    protected function transformToXml() : void
+    protected function transformToXml(): void
     {
         $this->writer->xmlStartTag('Users');
 
@@ -169,7 +171,7 @@ class ilOpenIdConnectUserSync
      * Parse role assignments
      * @return array<int, int> array of role assignments
      */
-    protected function parseRoleAssignments() : array
+    protected function parseRoleAssignments(): array
     {
         $this->logger->debug('Parsing role assignments');
 
@@ -246,7 +248,7 @@ class ilOpenIdConnectUserSync
         return $roles_assignable;
     }
 
-    protected function valueFrom(string $connect_name) : string
+    protected function valueFrom(string $connect_name): string
     {
         if (!$connect_name) {
             return '';

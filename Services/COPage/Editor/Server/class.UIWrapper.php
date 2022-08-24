@@ -42,7 +42,7 @@ class UIWrapper
         string $action,
         array $data = null,
         string $component = ""
-    ) : \ILIAS\UI\Component\Button\Standard {
+    ): \ILIAS\UI\Component\Button\Standard {
         $ui = $this->ui;
         $f = $ui->factory();
         $b = $f->button()->standard($content, "");
@@ -63,7 +63,7 @@ class UIWrapper
         return $b;
     }
 
-    public function getRenderedInfoBox(string $text) : string
+    public function getRenderedInfoBox(string $text): string
     {
         $ui = $this->ui;
         $f = $ui->factory();
@@ -71,7 +71,7 @@ class UIWrapper
         return $ui->renderer()->renderAsync($m);
     }
 
-    public function getRenderedFailureBox() : string
+    public function getRenderedFailureBox(): string
     {
         $ui = $this->ui;
         $f = $ui->factory();
@@ -87,13 +87,13 @@ class UIWrapper
         string $action,
         array $data = null,
         string $component = ""
-    ) : string {
+    ): string {
         $ui = $this->ui;
         $b = $this->getButton($content, $type, $action, $data, $component);
         return $ui->renderer()->renderAsync($b);
     }
 
-    public function getRenderedModalFailureBox() : string
+    public function getRenderedModalFailureBox(): string
     {
         $ui = $this->ui;
         $f = $ui->factory();
@@ -106,7 +106,7 @@ class UIWrapper
         return $ui->renderer()->renderAsync($m) . "<p>" . $this->lng->txt("copg_details") . ":</p>";
     }
 
-    public function getRenderedButtonGroups(array $groups) : string
+    public function getRenderedButtonGroups(array $groups): string
     {
         $ui = $this->ui;
         $r = $ui->renderer();
@@ -127,7 +127,7 @@ class UIWrapper
         return $tpl->get();
     }
 
-    public function getRenderedFormFooter(array $buttons) : string
+    public function getRenderedFormFooter(array $buttons): string
     {
         $ui = $this->ui;
         $r = $ui->renderer();
@@ -147,7 +147,7 @@ class UIWrapper
     public function getRenderedForm(
         \ilPropertyFormGUI $form,
         array $buttons
-    ) : string {
+    ): string {
         $form->clearCommandButtons();
         $cnt = 0;
         foreach ($buttons as $button) {
@@ -175,7 +175,7 @@ class UIWrapper
     public function sendPage(
         \ilPageObjectGUI $page_gui,
         $updated
-    ) : Response {
+    ): Response {
         $error = null;
         $page_data = "";
         $last_change = null;
@@ -211,7 +211,7 @@ class UIWrapper
 
     public function getRenderedViewControl(
         array $actions
-    ) : string {
+    ): string {
         $ui = $this->ui;
         $cnt = 0;
         $view_modes = [];
@@ -241,7 +241,7 @@ class UIWrapper
         string $type,
         string $action,
         array $data = null
-    ) : \ILIAS\UI\Component\Button\Shy {
+    ): \ILIAS\UI\Component\Button\Shy {
         $ui = $this->ui;
         $f = $ui->factory();
         $l = $f->button()->shy($content, "");
@@ -268,13 +268,13 @@ class UIWrapper
         string $type,
         string $action,
         array $data = null
-    ) : string {
+    ): string {
         $ui = $this->ui;
         $l = $this->getLink($content, $component, $type, $action, $data);
         return $ui->renderer()->renderAsync($l);
     }
 
-    public function getRenderedIcon(string $type) : string
+    public function getRenderedIcon(string $type): string
     {
         $ui = $this->ui;
         $f = $ui->factory();

@@ -1,4 +1,6 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -31,13 +33,13 @@ class TermSessionRepository
     {
     }
 
-    public function setLang(int $ref_id, string $lang) : void
+    public function setLang(int $ref_id, string $lang): void
     {
         $key = self::KEY_BASE . $ref_id . "_lang";
         \ilSession::set($key, $lang);
     }
 
-    public function getLang(int $ref_id) : string
+    public function getLang(int $ref_id): string
     {
         $key = self::KEY_BASE . $ref_id . "_lang";
         if (\ilSession::has($key)) {

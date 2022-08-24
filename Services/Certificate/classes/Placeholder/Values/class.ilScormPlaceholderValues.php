@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -90,7 +92,7 @@ class ilScormPlaceholderValues implements ilCertificatePlaceholderValues
      * @throws ilException
      * @throws ilObjectNotFoundException
      */
-    public function getPlaceholderValues(int $userId, int $objId) : array
+    public function getPlaceholderValues(int $userId, int $objId): array
     {
         $this->language->loadLanguageModule('certificate');
 
@@ -193,7 +195,7 @@ class ilScormPlaceholderValues implements ilCertificatePlaceholderValues
      * @param int $objId
      * @return array
      */
-    public function getPlaceholderValuesForPreview(int $userId, int $objId) : array
+    public function getPlaceholderValuesForPreview(int $userId, int $objId): array
     {
         $placeholders = $this->defaultPlaceholderValuesObject->getPlaceholderValuesForPreview($userId, $objId);
 

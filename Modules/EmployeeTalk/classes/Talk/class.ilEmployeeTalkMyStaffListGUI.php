@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 /**
@@ -69,7 +70,7 @@ final class ilEmployeeTalkMyStaffListGUI implements ControlFlowCommandHandler
         $this->repository = new IliasDBEmployeeTalkRepository($container->database());
     }
 
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         $nextClass = $this->controlFlow->getNextClass();
         $command = $this->controlFlow->getCmd(ControlFlowCommand::DEFAULT);
@@ -122,7 +123,7 @@ final class ilEmployeeTalkMyStaffListGUI implements ControlFlowCommandHandler
             echo $listGUI->getHTML(true);
             exit;
         }
-        
+
         $refId = $this->http
             ->wrapper()
             ->query()

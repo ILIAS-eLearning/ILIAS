@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\UI\Implementation\Component\Table;
 
 use ILIAS\UI\Component\Table as T;
@@ -40,7 +42,7 @@ class Factory implements T\Factory
     /**
      * @inheritdoc
      */
-    public function presentation(string $title, array $view_controls, Closure $row_mapping) : T\Presentation
+    public function presentation(string $title, array $view_controls, Closure $row_mapping): T\Presentation
     {
         return new Presentation($title, $view_controls, $row_mapping, $this->signal_generator);
     }
@@ -48,7 +50,7 @@ class Factory implements T\Factory
     /**
      * @inheritdoc
      */
-    public function data(string $title, ?int $page_size = 50) : T\Data
+    public function data(string $title, ?int $page_size = 50): T\Data
     {
         throw new NotImplementedException('NYI');
     }
@@ -56,7 +58,7 @@ class Factory implements T\Factory
     /**
      * @inheritdoc
      */
-    public function column() : T\Column\Factory
+    public function column(): T\Column\Factory
     {
         return new Column\Factory();
     }

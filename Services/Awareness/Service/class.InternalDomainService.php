@@ -1,4 +1,6 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -58,7 +60,7 @@ class InternalDomainService
         );
     }*/
 
-    public function widget(int $user_id, int $ref_id = 0) : WidgetManager
+    public function widget(int $user_id, int $ref_id = 0): WidgetManager
     {
         if (!isset(self::$managers[$user_id])) {
             self::$managers[$user_id] = new WidgetManager(
@@ -72,7 +74,7 @@ class InternalDomainService
         return self::$managers[$user_id];
     }
 
-    public function admin(int $ref_id) : AdminManager
+    public function admin(int $ref_id): AdminManager
     {
         return new AdminManager(
             $ref_id,
@@ -81,17 +83,17 @@ class InternalDomainService
         );
     }
 
-    public function awarenessSettings() : \ilSetting
+    public function awarenessSettings(): \ilSetting
     {
         return new \ilSetting("awrn");
     }
 
-    public function userProvider() : User\ProviderFactory
+    public function userProvider(): User\ProviderFactory
     {
         return new User\ProviderFactory($this->dic);
     }
 
-    public function userCollector(int $user_id, int $ref_id = 0) : User\Collector
+    public function userCollector(int $user_id, int $ref_id = 0): User\Collector
     {
         if (!isset(self::$collectors[$user_id])) {
             self::$collectors[$user_id] = new User\Collector(

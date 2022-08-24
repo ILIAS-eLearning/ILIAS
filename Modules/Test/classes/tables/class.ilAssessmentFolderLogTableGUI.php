@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -53,7 +55,7 @@ class ilAssessmentFolderLogTableGUI extends ilTable2GUI
         $this->disable('select_all');
     }
 
-    protected function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set): void
     {
         $this->tpl->setVariable("DATE", ilDatePresentation::formatDate(new ilDateTime((int) $a_set['tstamp'], IL_CAL_UNIX)));
         $user = ilObjUser::_lookupName((int) $a_set["user_fi"]);

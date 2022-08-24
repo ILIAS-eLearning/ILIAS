@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -38,62 +40,62 @@ abstract class ilDidacticTemplateFilterPattern
         }
     }
 
-    public function setPatternId(int $a_id) : void
+    public function setPatternId(int $a_id): void
     {
         $this->pattern_id = $a_id;
     }
 
-    public function getPatternId() : int
+    public function getPatternId(): int
     {
         return $this->pattern_id;
     }
 
-    public function setParentId(int $a_id) : void
+    public function setParentId(int $a_id): void
     {
         $this->parent_id = $a_id;
     }
 
-    public function getParentId() : int
+    public function getParentId(): int
     {
         return $this->parent_id;
     }
 
-    public function setParentType(string $a_type) : void
+    public function setParentType(string $a_type): void
     {
         $this->parent_type = $a_type;
     }
 
-    public function getParentType() : string
+    public function getParentType(): string
     {
         return $this->parent_type;
     }
 
-    public function setPatternType(int $a_type) : void
+    public function setPatternType(int $a_type): void
     {
         $this->pattern_type = $a_type;
     }
 
-    public function getPatternType() : int
+    public function getPatternType(): int
     {
         return $this->pattern_type;
     }
 
-    public function setPatternSubType(int $a_subtype) : void
+    public function setPatternSubType(int $a_subtype): void
     {
         $this->pattern_sub_type = $a_subtype;
     }
 
-    public function getPatternSubType() : int
+    public function getPatternSubType(): int
     {
         return $this->pattern_sub_type;
     }
 
-    public function setPattern(string $a_pattern) : void
+    public function setPattern(string $a_pattern): void
     {
         $this->pattern = $a_pattern;
     }
 
-    public function getPattern() : string
+    public function getPattern(): string
     {
         return $this->pattern;
     }
@@ -103,19 +105,19 @@ abstract class ilDidacticTemplateFilterPattern
      * @param mixed
      * @return bool
      */
-    abstract public function valid(string $a_source) : bool;
+    abstract public function valid(string $a_source): bool;
 
     /**
      * Get xml representation of pattern
      * @param ilXmlWriter $writer
      * @return string
      */
-    abstract public function toXml(ilXmlWriter $writer) : void;
+    abstract public function toXml(ilXmlWriter $writer): void;
 
     /**
      * Update pattern definition
      */
-    public function update() : void
+    public function update(): void
     {
         $query = 'UPDATE didactic_tpl_fp ' .
             'SET ' .
@@ -133,7 +135,7 @@ abstract class ilDidacticTemplateFilterPattern
      * Returns new pattern id
      * @return int
      */
-    public function save() : int
+    public function save(): int
     {
         $this->setPatternId($this->db->nextId('didactic_tpl_fp'));
         $query = 'INSERT INTO didactic_tpl_fp (pattern_id,pattern_type,pattern_sub_type,pattern,parent_id,parent_type) ' .
@@ -150,7 +152,7 @@ abstract class ilDidacticTemplateFilterPattern
         return $this->getPatternId();
     }
 
-    public function delete() : void
+    public function delete(): void
     {
         $query = 'DELETE FROM didactic_tpl_fp ' .
             'WHERE pattern_id = ' . $this->db->quote($this->getPatternId(), 'integer');
@@ -167,7 +169,7 @@ abstract class ilDidacticTemplateFilterPattern
      * Read pattern definition from db
      * @return void
      */
-    protected function read() : void
+    protected function read(): void
     {
         $query = 'SELECT * FROM didactic_tpl_fp ' .
             'WHERE pattern_id = ' . $this->db->quote($this->getPatternId(), 'integer');

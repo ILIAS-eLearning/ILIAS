@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * ilAppointmentPresentationMilestoneGUI class presents milestones information.
@@ -9,7 +11,7 @@
  */
 class ilAppointmentPresentationMilestoneGUI extends ilAppointmentPresentationGUI implements ilCalendarAppointmentPresentation
 {
-    public function collectPropertiesAndActions() : void
+    public function collectPropertiesAndActions(): void
     {
         global $DIC;
 

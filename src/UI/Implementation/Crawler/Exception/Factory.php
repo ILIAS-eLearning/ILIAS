@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\UI\Implementation\Crawler\Exception;
 
 class Factory
@@ -24,7 +26,7 @@ class Factory
      * Those assertions are used to wrap the throwing of exception to make to code more readable.
      * @return CrawlerAssertion
      */
-    public function assertion() : CrawlerAssertion
+    public function assertion(): CrawlerAssertion
     {
         return new CrawlerAssertion();
     }
@@ -35,7 +37,7 @@ class Factory
      * @param string $info
      * @return CrawlerException
      */
-    public function exception(int $type = -1, string $info = "") : CrawlerException
+    public function exception(int $type = -1, string $info = ""): CrawlerException
     {
         return new CrawlerException($type, $info);
     }

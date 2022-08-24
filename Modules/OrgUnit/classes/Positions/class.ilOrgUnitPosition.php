@@ -25,7 +25,7 @@ class ilOrgUnitPosition extends \ActiveRecord
     public const CORE_POSITION_EMPLOYEE = 1;
     public const CORE_POSITION_SUPERIOR = 2;
 
-    public static function returnDbTableName() : string
+    public static function returnDbTableName(): string
     {
         return "il_orgu_positions";
     }
@@ -34,19 +34,19 @@ class ilOrgUnitPosition extends \ActiveRecord
      * Override for correct on return value
      * @return ilOrgUnitPosition[]
      */
-    public static function get() : array
+    public static function get(): array
     {
         /** @noinspection PhpIncompatibleReturnTypeInspection */
         return parent::get();
     }
 
-    public static function getCorePosition(int $core_identifier) : self
+    public static function getCorePosition(int $core_identifier): self
     {
         /** @noinspection PhpIncompatibleReturnTypeInspection */
         return self::where(['core_identifier' => $core_identifier])->first();
     }
 
-    public static function getCorePositionId(int $core_identifier) : int
+    public static function getCorePositionId(int $core_identifier): int
     {
         return self::getCorePosition($core_identifier)->getId();
     }
@@ -54,7 +54,7 @@ class ilOrgUnitPosition extends \ActiveRecord
     /**
      * @throws ilException
      */
-    public function delete() : void
+    public function delete(): void
     {
         if ($this->isCorePosition()) {
             throw new ilException('Cannot delete Core-Position');
@@ -66,7 +66,7 @@ class ilOrgUnitPosition extends \ActiveRecord
      * @return \ilOrgUnitPosition[] array of Positions (all core-positions and all positions which
      *                              have already UserAssignments)
      */
-    public static function getActive() : array
+    public static function getActive(): array
     {
         arObjectCache::flush(self::class);
         $q = "SELECT DISTINCT il_orgu_positions.id, il_orgu_positions.*
@@ -93,7 +93,7 @@ class ilOrgUnitPosition extends \ActiveRecord
      * @return ilOrgUnitPosition[] array of Positions (all core-positions and all positions which
      *                              have already UserAssignments at this place)
      */
-    public static function getActiveForPosition(int $orgu_ref_id) : array
+    public static function getActiveForPosition(int $orgu_ref_id): array
     {
         arObjectCache::flush(self::class);
         $q = "SELECT DISTINCT il_orgu_positions.id, il_orgu_positions.*
@@ -159,25 +159,25 @@ class ilOrgUnitPosition extends \ActiveRecord
      */
     protected array $authorities = array();
 
-    public function afterObjectLoad() : void
+    public function afterObjectLoad(): void
     {
         $this->authorities = ilOrgUnitAuthority::where(array(ilOrgUnitAuthority::POSITION_ID => $this->getId()))
                                                ->get();
     }
 
-    public function update() : void
+    public function update(): void
     {
         parent::update();
         $this->storeAuthorities();
     }
 
-    public function create() : void
+    public function create(): void
     {
         parent::create();
         $this->storeAuthorities();
     }
 
-    public function getAuthoritiesAsArray() : array
+    public function getAuthoritiesAsArray(): array
     {
         $return = array();
         foreach ($this->authorities as $authority) {
@@ -187,7 +187,7 @@ class ilOrgUnitPosition extends \ActiveRecord
         return $return;
     }
 
-    public function __toString() : string
+    public function __toString(): string
     {
         return $this->getTitle();
     }
@@ -195,7 +195,7 @@ class ilOrgUnitPosition extends \ActiveRecord
     /**
      * @return ilOrgUnitAuthority[] it's own authorities and also all which use this position
      */
-    public function getDependentAuthorities() : array
+    public function getDependentAuthorities(): array
     {
         $dependent = ilOrgUnitAuthority::where(array(ilOrgUnitAuthority::FIELD_OVER => $this->getId()))
                                        ->get();
@@ -206,7 +206,7 @@ class ilOrgUnitPosition extends \ActiveRecord
     /**
      * This deletes the Position, it's Authorities, dependent Authorities and all User-Assignements!
      */
-    public function deleteWithAllDependencies() : void
+    public function deleteWithAllDependencies(): void
     {
         foreach ($this->getDependentAuthorities() as $authority) {
             $authority->delete();
@@ -219,7 +219,7 @@ class ilOrgUnitPosition extends \ActiveRecord
         parent::delete();
     }
 
-    public function getId() : ?int
+    public function getId(): ?int
     {
         return $this->id;
     }
@@ -229,7 +229,7 @@ class ilOrgUnitPosition extends \ActiveRecord
         $this->id = $id;
     }
 
-    public function getTitle() : string
+    public function getTitle(): string
     {
         return $this->title;
     }
@@ -239,7 +239,7 @@ class ilOrgUnitPosition extends \ActiveRecord
         $this->title = $title;
     }
 
-    public function getDescription() : string
+    public function getDescription(): string
     {
         return $this->description;
     }
@@ -249,7 +249,7 @@ class ilOrgUnitPosition extends \ActiveRecord
         $this->description = $description;
     }
 
-    public function isCorePosition() : bool
+    public function isCorePosition(): bool
     {
         return $this->core_position;
     }
@@ -262,7 +262,7 @@ class ilOrgUnitPosition extends \ActiveRecord
     /**
      * @return ilOrgUnitAuthority[]
      */
-    public function getAuthorities() : array
+    public function getAuthorities(): array
     {
         return $this->authorities;
     }
@@ -278,7 +278,7 @@ class ilOrgUnitPosition extends \ActiveRecord
     /**
      * @return int
      */
-    public function getCoreIdentifier() : int
+    public function getCoreIdentifier(): int
     {
         return $this->core_identifier;
     }
@@ -291,7 +291,7 @@ class ilOrgUnitPosition extends \ActiveRecord
         $this->core_identifier = $core_identifier;
     }
 
-    private function storeAuthorities() : void
+    private function storeAuthorities(): void
     {
         $ids = [];
         foreach ($this->getAuthorities() as $authority) {

@@ -36,7 +36,7 @@ class ilBlogExercise
         $this->node_id = $a_node_id;
     }
 
-    public function getAssignmentsOfBlog() : array
+    public function getAssignmentsOfBlog(): array
     {
         $user = $this->user;
         $node_id = $this->node_id;

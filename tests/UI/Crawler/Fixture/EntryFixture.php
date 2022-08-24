@@ -1,4 +1,6 @@
-<?php return
+<?php
+
+return
         array(
             'id' => 'Entry1',
             'title' => 'Entry1Title',

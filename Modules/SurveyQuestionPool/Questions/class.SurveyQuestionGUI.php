@@ -42,7 +42,7 @@ abstract class SurveyQuestionGUI
     protected string $parent_url = "";
     protected ilLogger $log;
     public ?SurveyQuestion $object = null;
-        
+
     public function __construct($a_id = -1)
     {
         global $DIC;
@@ -74,9 +74,9 @@ abstract class SurveyQuestionGUI
         );
         $this->cumulated = array();
         $this->tabs = $DIC->tabs();
-        
+
         $this->initObject();
-        
+
         if ($a_id > 0) {
             $this->object->loadFromDb($a_id);
         }
@@ -87,12 +87,12 @@ abstract class SurveyQuestionGUI
             ->domain()
             ->editing();
     }
-    
-    abstract protected function initObject() : void;
 
-    abstract public function setQuestionTabs() : void;
-    
-    public function executeCommand() : string
+    abstract protected function initObject(): void;
+
+    abstract public function setQuestionTabs(): void;
+
+    public function executeCommand(): string
     {
         $cmd = $this->ctrl->getCmd();
         $next_class = $this->ctrl->getNextClass($this);
@@ -111,7 +111,7 @@ abstract class SurveyQuestionGUI
     public static function _getQuestionGUI(
         ?string $questiontype,
         int $question_id = -1
-    ) : SurveyQuestionGUI {
+    ): SurveyQuestionGUI {
         if ((!$questiontype) and ($question_id > 0)) {
             $questiontype = SurveyQuestion::_getQuestionType($question_id);
         }
@@ -120,28 +120,28 @@ abstract class SurveyQuestionGUI
         $question = new $question_type_gui($question_id);
         return $question;
     }
-    
-    public static function _getGUIClassNameForId(int $a_q_id) : string
+
+    public static function _getGUIClassNameForId(int $a_q_id): string
     {
         $q_type = SurveyQuestion::_getQuestionType($a_q_id);
         $class_name = SurveyQuestionGUI::_getClassNameForQType($q_type);
         return $class_name;
     }
 
-    public static function _getClassNameForQType(string $q_type) : string
+    public static function _getClassNameForQType(string $q_type): string
     {
         return $q_type;
     }
-    
+
     /**
      * Returns the question type string
      */
-    public function getQuestionType() : string
+    public function getQuestionType(): string
     {
         return $this->object->getQuestionType();
     }
-        
-    protected function outQuestionText(ilTemplate $template) : void
+
+    protected function outQuestionText(ilTemplate $template): void
     {
         $questiontext = $this->object->getQuestiontext();
         if (preg_match("/^<.[\\>]?>(.*?)<\\/.[\\>]*?>$/", $questiontext, $matches)) {
@@ -152,24 +152,24 @@ abstract class SurveyQuestionGUI
             $template->setVariable("OBLIGATORY_TEXT", ' *');
         }
     }
-    
-    public function setBackUrl(string $a_url) : void
+
+    public function setBackUrl(string $a_url): void
     {
         $this->parent_url = $a_url;
     }
-    
-    public function setQuestionTabsForClass(string $guiclass) : void
+
+    public function setQuestionTabsForClass(string $guiclass): void
     {
         $rbacsystem = $this->rbacsystem;
         $ilTabs = $this->tabs;
-        
+
         $this->ctrl->setParameterByClass($guiclass, "sel_question_types", $this->getQuestionType());
         $this->ctrl->setParameterByClass(
             $guiclass,
             "q_id",
             $this->request->getQuestionId()
         );
-        
+
         if ($this->parent_url) {
             $addurl = "";
             if ($this->request->getNewForSurvey() > 0) {
@@ -186,14 +186,14 @@ abstract class SurveyQuestionGUI
                 $this->ctrl->getLinkTargetByClass($guiclass, "preview")
             );
         }
-        
+
         if ($rbacsystem->checkAccess('edit', $this->request->getRefId())) {
             $ilTabs->addTab(
                 "edit_properties",
                 $this->lng->txt("properties"),
                 $this->ctrl->getLinkTargetByClass($guiclass, "editQuestion")
             );
-            
+
             if (stripos($guiclass, "matrix") !== false) {
                 $ilTabs->addTab(
                     "layout",
@@ -219,12 +219,12 @@ abstract class SurveyQuestionGUI
         $this->tpl->setVariable("HEADER", $title);
     }
 
-    
+
     //
     // EDITOR
     //
-    
-    protected function initEditForm() : ilPropertyFormGUI
+
+    protected function initEditForm(): ilPropertyFormGUI
     {
         $form = new ilPropertyFormGUI();
         $form->setFormAction($this->ctrl->getFormAction($this, "save"));
@@ -237,7 +237,7 @@ abstract class SurveyQuestionGUI
         $title = new ilTextInputGUI($this->lng->txt("title"), "title");
         $title->setRequired(true);
         $form->addItem($title);
-        
+
         // label
         $label = new ilTextInputGUI($this->lng->txt("label"), "label");
         $label->setInfo($this->lng->txt("label_info"));
@@ -248,12 +248,12 @@ abstract class SurveyQuestionGUI
         $author = new ilTextInputGUI($this->lng->txt("author"), "author");
         $author->setRequired(true);
         $form->addItem($author);
-        
+
         // description
         $description = new ilTextInputGUI($this->lng->txt("description"), "description");
         $description->setRequired(false);
         $form->addItem($description);
-        
+
         // questiontext
         $question = new ilTextAreaInputGUI($this->lng->txt("question"), "question");
         $question->setRequired(true);
@@ -266,17 +266,17 @@ abstract class SurveyQuestionGUI
         $question->addButton("pastelatex");
         $question->setRTESupport($this->object->getId(), "spl", "survey");
         $form->addItem($question);
-        
+
         // obligatory
         $shuffle = new ilCheckboxInputGUI($this->lng->txt("obligatory"), "obligatory");
         $shuffle->setValue(1);
         $shuffle->setRequired(false);
         $form->addItem($shuffle);
-        
+
         $this->addFieldsToEditForm($form);
-        
+
         $this->addCommandButtons($form);
-                
+
         // values
         $title->setValue($this->object->getTitle());
         $label->setValue($this->object->label);
@@ -284,44 +284,44 @@ abstract class SurveyQuestionGUI
         $description->setValue($this->object->getDescription());
         $question->setValue($this->object->prepareTextareaOutput($this->object->getQuestiontext()));
         $shuffle->setChecked($this->object->getObligatory());
-        
+
         return $form;
     }
-    
-    protected function addCommandButtons(ilPropertyFormGUI $a_form) : void
+
+    protected function addCommandButtons(ilPropertyFormGUI $a_form): void
     {
         $a_form->addCommandButton("saveReturn", $this->lng->txt("save_return"));
         $a_form->addCommandButton("save", $this->lng->txt("save"));
-        
+
         // pool question?
         if (ilObject::_lookupType($this->object->getObjId()) === "spl" && $this->object->hasCopies()) {
             $a_form->addCommandButton("saveSync", $this->lng->txt("svy_save_sync"));
         }
     }
-            
-    protected function editQuestion(ilPropertyFormGUI $a_form = null) : void
+
+    protected function editQuestion(ilPropertyFormGUI $a_form = null): void
     {
         $ilTabs = $this->tabs;
-        
+
         $ilTabs->activateTab("edit_properties");
-        
+
         if (!$a_form) {
             $a_form = $this->initEditForm();
         }
         $this->tpl->setContent($a_form->getHTML());
     }
-    
-    protected function saveSync() : void
+
+    protected function saveSync(): void
     {
         $this->save($this->request->getReturn(), true);
     }
 
-    protected function saveReturn() : void
+    protected function saveReturn(): void
     {
         $this->save(true);
     }
-    
-    protected function saveForm() : bool
+
+    protected function saveForm(): bool
     {
         $form = $this->initEditForm();
         if ($form->checkInput() && $this->validateEditForm($form)) {
@@ -331,26 +331,26 @@ abstract class SurveyQuestionGUI
             $this->object->setDescription($form->getInput("description"));
             $this->object->setQuestiontext($form->getInput("question"));
             $this->object->setObligatory($form->getInput("obligatory"));
-            
+
             $this->importEditFormValues($form);
-            
+
             // will save both core and extended data
             $this->object->saveToDb();
-            
+
             return true;
         }
-                
+
         $form->setValuesByPost();
         $this->editQuestion($form);
         return false;
     }
-    
+
     protected function save(
         bool $a_return = false,
         bool $a_sync = false
-    ) : void {
+    ): void {
         $ilUser = $this->user;
-                    
+
         if ($this->saveForm()) {
             // #13784
             if ($a_return &&
@@ -359,7 +359,7 @@ abstract class SurveyQuestionGUI
                 $this->editQuestion();
                 return;
             }
-            
+
             $ilUser->setPref("svy_lastquestiontype", $this->object->getQuestionType());
             $ilUser->writePref("svy_lastquestiontype", $this->object->getQuestionType());
 
@@ -383,19 +383,19 @@ abstract class SurveyQuestionGUI
             $this->redirectAfterSaving($a_return);
         }
     }
-        
-    protected function copySyncForm() : void
+
+    protected function copySyncForm(): void
     {
         $ilTabs = $this->tabs;
-        
+
         $ilTabs->activateTab("edit_properties");
-        
+
         $tbl = new ilSurveySyncTableGUI($this, "copySyncForm", $this->object);
-        
+
         $this->tpl->setContent($tbl->getHTML());
     }
-    
-    protected function syncCopies() : void
+
+    protected function syncCopies(): void
     {
         $lng = $this->lng;
         $ilAccess = $this->access;
@@ -406,7 +406,7 @@ abstract class SurveyQuestionGUI
             $this->copySyncForm();
             return;
         }
-        
+
         foreach ($this->object->getCopyIds(true) as $survey_id => $questions) {
             // check permissions for "parent" survey
             $can_write = false;
@@ -417,7 +417,7 @@ abstract class SurveyQuestionGUI
                     break;
                 }
             }
-            
+
             if ($can_write) {
                 foreach ($questions as $qid) {
                     if (in_array($qid, $qids)) {
@@ -436,19 +436,19 @@ abstract class SurveyQuestionGUI
                 }
             }
         }
-        
+
         $this->tpl->setOnScreenMessage('success', $lng->txt("survey_sync_success"), true);
         $this->redirectAfterSaving($this->request->getReturn());
     }
-    
-    protected function originalSyncForm() : void
+
+    protected function originalSyncForm(): void
     {
         $ilTabs = $this->tabs;
-        
+
         $ilTabs->activateTab("edit_properties");
-        
+
         $this->ctrl->saveParameter($this, "rtrn");
-        
+
         $cgui = new ilConfirmationGUI();
         $cgui->setHeaderText($this->lng->txt("confirm_sync_questions"));
 
@@ -458,8 +458,8 @@ abstract class SurveyQuestionGUI
 
         $this->tpl->setContent($cgui->getHTML());
     }
-    
-    protected function sync() : void
+
+    protected function sync(): void
     {
         $original_id = $this->object->original_id;
         if ($original_id) {
@@ -470,18 +470,18 @@ abstract class SurveyQuestionGUI
         $this->redirectAfterSaving($this->request->getReturn());
     }
 
-    protected function cancelSync() : void
+    protected function cancelSync(): void
     {
         $this->tpl->setOnScreenMessage('info', $this->lng->txt("question_changed_in_survey_only"), true);
         $this->redirectAfterSaving($this->request->getReturn());
     }
-            
+
     /**
      * Redirect to calling survey or to edit form
      */
     protected function redirectAfterSaving(
         bool $a_return = false
-    ) : void {
+    ): void {
         // return?
         if ($a_return) {
             // to calling survey
@@ -517,8 +517,8 @@ abstract class SurveyQuestionGUI
             $this->ctrl->redirectByClass($this->ctrl->getCmdClass(), "editQuestion");
         }
     }
-    
-    protected function cancel() : void
+
+    protected function cancel(): void
     {
         if ($this->parent_url) {
             ilUtil::redirect($this->parent_url);
@@ -526,26 +526,26 @@ abstract class SurveyQuestionGUI
             $this->ctrl->redirectByClass("ilobjsurveyquestionpoolgui", "questions");
         }
     }
-        
-    protected function validateEditForm(ilPropertyFormGUI $a_form) : bool
+
+    protected function validateEditForm(ilPropertyFormGUI $a_form): bool
     {
         return true;
     }
-        
-    abstract protected function addFieldsToEditForm(ilPropertyFormGUI $a_form) : void;
 
-    abstract protected function importEditFormValues(ilPropertyFormGUI $a_form) : void;
-                
+    abstract protected function addFieldsToEditForm(ilPropertyFormGUI $a_form): void;
+
+    abstract protected function importEditFormValues(ilPropertyFormGUI $a_form): void;
+
     abstract public function getPrintView(
         int $question_title = 1,
         bool $show_questiontext = true,
         ?int $survey_id = null,
         ?array $working_data = null
-    ) : string;
-    
+    ): string;
+
     protected function getPrintViewQuestionTitle(
         int $question_title = 1
-    ) : string {
+    ): string {
         $title = "";
         switch ($question_title) {
             case ilObjSurvey::PRINT_HIDE_LABELS:
@@ -568,34 +568,34 @@ abstract class SurveyQuestionGUI
         }
         return $title;
     }
-    
-    public function preview() : void
+
+    public function preview(): void
     {
         $ilTabs = $this->tabs;
-        
+
         $ilTabs->activateTab("preview");
-        
+
         $tpl = new ilTemplate("tpl.il_svy_qpl_preview.html", true, true, "Modules/SurveyQuestionPool");
-        
+
         if ($this->object->getObligatory()) {
             $tpl->setCurrentBlock("required");
             $tpl->setVariable("TEXT_REQUIRED", $this->lng->txt("required_field"));
             $tpl->parseCurrentBlock();
         }
-        
+
         $tpl->setVariable("QUESTION_OUTPUT", $this->getWorkingForm());
-        
+
         $panel = ilPanelGUI::getInstance();
         $panel->setBody($tpl->get());
-        
+
         $this->tpl->setContent($panel->getHTML());
     }
-    
-    
+
+
     //
     // EXECUTION
     //
-    
+
     abstract public function getWorkingForm(
         array $working_data = null,
         int $question_title = 1,
@@ -603,12 +603,12 @@ abstract class SurveyQuestionGUI
         string $error_message = "",
         int $survey_id = null,
         bool $compress_view = false
-    ) : string;
-    
+    ): string;
+
     /**
      * Creates the HTML output of the question material(s)
      */
-    protected function getMaterialOutput() : string
+    protected function getMaterialOutput(): string
     {
         if (count($this->object->getMaterial())) {
             $template = new ilTemplate("tpl.il_svy_qpl_material.html", true, true, "Modules/SurveyQuestionPool");
@@ -631,17 +631,17 @@ abstract class SurveyQuestionGUI
         }
         return "";
     }
-    
+
     //
     // MATERIAL
     //
-    
+
     /**
      * Material tab of the survey questions
      */
     public function material(
         bool $checkonly = false
-    ) : bool {
+    ): bool {
         $rbacsystem = $this->rbacsystem;
 
         $ilTabs = $this->tabs;
@@ -711,8 +711,8 @@ abstract class SurveyQuestionGUI
         }
         return $errors;
     }
-    
-    public function deleteMaterial() : void
+
+    public function deleteMaterial(): void
     {
         $mids = $this->request->getMaterialIndexes();
         if (count($mids) > 0) {
@@ -727,18 +727,18 @@ abstract class SurveyQuestionGUI
     /**
      * Add materials to a question
      */
-    public function addMaterial() : void
+    public function addMaterial(): void
     {
         $ilTabs = $this->tabs;
         $ilToolbar = $this->toolbar;
-        
+
         $ilTabs->activateTab("material");
-        
+
         $ilToolbar->addButton(
             $this->lng->txt("cancel"),
             $this->ctrl->getLinkTarget($this, "material")
         );
-        
+
         if ($this->edit_manager->getNewLinkType() !== "" || !$this->material(true)) {
             switch ($this->request->getNewLinkType()) {
                 case "lm":
@@ -774,22 +774,22 @@ abstract class SurveyQuestionGUI
             }
         }
     }
-    
-    public function removeMaterial() : void
+
+    public function removeMaterial(): void
     {
         $this->object->material = array();
         $this->object->saveToDb();
         $this->editQuestion();
     }
-    
-    public function cancelExplorer() : void
+
+    public function cancelExplorer(): void
     {
         $this->edit_manager->clearNewLinkType();
         $this->tpl->setOnScreenMessage('info', $this->lng->txt("msg_cancel"), true);
         $this->ctrl->redirect($this, 'material');
     }
-        
-    public function addPG() : void
+
+    public function addPG(): void
     {
         $this->object->addInternalLink("il__pg_" . $this->request->getLinkItemId("pg"));
         $this->edit_manager->clearNewLinkType();
@@ -797,8 +797,8 @@ abstract class SurveyQuestionGUI
         $this->tpl->setOnScreenMessage('success', $this->lng->txt("material_added_successfully"), true);
         $this->ctrl->redirect($this, "material");
     }
-    
-    public function addST() : void
+
+    public function addST(): void
     {
         $this->object->addInternalLink("il__st_" . $this->request->getLinkItemId("st"));
         $this->edit_manager->clearNewLinkType();
@@ -807,7 +807,7 @@ abstract class SurveyQuestionGUI
         $this->ctrl->redirect($this, "material");
     }
 
-    public function addGIT() : void
+    public function addGIT(): void
     {
         $this->object->addInternalLink("il__git_" . $this->request->getLinkItemId("git"));
         $this->edit_manager->clearNewLinkType();
@@ -815,13 +815,13 @@ abstract class SurveyQuestionGUI
         $this->tpl->setOnScreenMessage('success', $this->lng->txt("material_added_successfully"), true);
         $this->ctrl->redirect($this, "material");
     }
-    
-    public function linkChilds() : void
+
+    public function linkChilds(): void
     {
         $ilTabs = $this->tabs;
-        
+
         $selectable_items = array();
-        
+
         $source_id = $this->request->getLinkSourceId();
 
         switch ($this->edit_manager->getSearchLinkType()) {
@@ -839,7 +839,7 @@ abstract class SurveyQuestionGUI
                     }
                 }
                 break;
-                
+
             case "st":
                 $cont_obj_gui = new ilObjContentObjectGUI("", $source_id, true);
                 $cont_obj = $cont_obj_gui->getObject();
@@ -856,7 +856,7 @@ abstract class SurveyQuestionGUI
                     }
                 }
                 break;
-                
+
             case "glo":
                 $glossary = new ilObjGlossary($source_id, true);
                 // get all glossary items
@@ -869,17 +869,17 @@ abstract class SurveyQuestionGUI
                         );
                 }
                 break;
-                
+
             case "lm":
                 $this->object->addInternalLink("il__lm_" . $source_id);
                 break;
         }
-        
+
         if (count($selectable_items)) {
             $ilTabs->activateTab("material");
             $this->ctrl->setParameter($this, "q_id", $this->object->getId());
             $this->ctrl->setParameter($this, "source_id", $source_id);
-                
+
             $tbl = new SurveyMaterialsSourceTableGUI($this, "linkChilds", "addMaterial");
             $tbl->setData($selectable_items);
             $this->tpl->setContent($tbl->getHTML());
@@ -894,30 +894,30 @@ abstract class SurveyQuestionGUI
             $this->ctrl->redirect($this, "addMaterial");
         }
     }
-    
-        
+
+
     //
     // PHRASES (see SurveyMatrixQuestionGUI)
     //
-    
-    protected function initPhrasesForm() : ilPropertyFormGUI
+
+    protected function initPhrasesForm(): ilPropertyFormGUI
     {
         $form = new ilPropertyFormGUI();
         $form->setFormAction($this->ctrl->getFormAction($this, "addSelectedPhrase"));
         $form->setTitle($this->lng->txt("add_phrase"));
         // $form->setDescription($this->lng->txt("add_phrase_introduction"));
-        
+
         $group = new ilRadioGroupInputGUI($this->lng->txt("phrase"), "phrases");
         $group->setRequired(true);
         $form->addItem($group);
-        
+
         foreach (ilSurveyPhrases::_getAvailablePhrases() as $phrase_id => $phrase_array) {
             $categories = ilSurveyPhrases::_getCategoriesForPhrase($phrase_id);
-                
+
             $opt = new ilRadioOption($phrase_array["title"], $phrase_id);
             $opt->setInfo(implode(",", $categories));
             $group->addOption($opt);
-            
+
             if (($phrase_array["org_title"] ?? "") === "dp_standard_numbers") {
                 $min = new ilNumberInputGUI($this->lng->txt("lower_limit"), "lower_limit");
                 $min->setRequired(true);
@@ -930,40 +930,40 @@ abstract class SurveyQuestionGUI
                 $opt->addSubItem($max);
             }
         }
-        
+
         $form->addCommandButton("addSelectedPhrase", $this->lng->txt("add_phrase"));
         $form->addCommandButton("editQuestion", $this->lng->txt("cancel"));
-        
+
         return $form;
     }
-        
+
     /**
      * Creates an output for the addition of phrases
      */
-    protected function addPhrase(ilPropertyFormGUI $a_form = null) : void
+    protected function addPhrase(ilPropertyFormGUI $a_form = null): void
     {
         $ilTabs = $this->tabs;
-        
+
         $ilTabs->activateTab("edit_properties");
-        
+
         if (!$a_form) {
             $result = $this->saveForm();
             if ($result) {
                 $this->object->saveToDb();
             }
-            
+
             $a_form = $this->initPhrasesForm();
         }
-                    
+
         $this->tpl->setContent($a_form->getHTML());
     }
 
-    protected function addSelectedPhrase() : void
+    protected function addSelectedPhrase(): void
     {
         $form = $this->initPhrasesForm();
         if ($form->checkInput()) {
             $phrase_id = $form->getInput("phrases");
-            
+
             $valid = true;
             if (strcmp($this->object->getPhrase($phrase_id), "dp_standard_numbers") !== 0) {
                 $this->object->addPhrase($phrase_id);
@@ -979,45 +979,45 @@ abstract class SurveyQuestionGUI
                     $this->object->addStandardNumbers($min, $max);
                 }
             }
-            
+
             if ($valid) {
                 $this->object->saveToDb();
-                
+
                 $this->tpl->setOnScreenMessage('success', $this->lng->txt('phrase_added'), true);
                 $this->ctrl->redirect($this, 'editQuestion');
             }
         }
-        
+
         $form->setValuesByPost();
         $this->addPhrase($form);
     }
-    
+
     /**
      * Creates an output to save the current answers as a phrase
      */
     public function savePhrase(
         bool $a_reload = false
-    ) : void {
+    ): void {
         $ilTabs = $this->tabs;
         $ilToolbar = $this->toolbar;
-        
+
         $ilTabs->activateTab("edit_properties");
-        
+
         if (!$a_reload) {
             $result = $this->saveForm();
             if ($result) {
                 $this->object->saveToDb();
             }
         }
-        
+
         $txt = new ilTextInputGUI($this->lng->txt("enter_phrase_title"), "phrase_title");
         $ilToolbar->addInputItem($txt, true);
         $ilToolbar->addFormButton($this->lng->txt("confirm"), "confirmSavePhrase");
         $ilToolbar->setFormAction($this->ctrl->getFormAction($this));
-        
+
         $table_gui = new ilSurveySavePhraseTableGUI($this, 'editQuestion');
         $table_gui->setDescription($this->lng->txt("save_phrase_introduction"));
-        
+
         // matrix?
         if (method_exists($this->object, "getCategories")) {
             $categories = $this->object->getCategories();
@@ -1028,7 +1028,7 @@ abstract class SurveyQuestionGUI
         $data = array();
         for ($i = 0; $i < $categories->getCategoryCount(); $i++) {
             $cat = $categories->getCategory($i);
-            
+
             $data[] = array(
                 "answer" => $cat->title,
                 "other" => $cat->other,
@@ -1038,17 +1038,17 @@ abstract class SurveyQuestionGUI
         }
         $table_gui->setData($data);
         $this->edit_manager->setPhraseData($data);
-        
+
         $this->tpl->setContent($table_gui->getHTML());
     }
 
     /**
      * Save a new phrase to the database
      */
-    public function confirmSavePhrase() : void
+    public function confirmSavePhrase(): void
     {
         $title = $this->request->getPhraseTitle();
-        
+
         $valid = true;
         if (!trim($title)) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt("qpl_savephrase_empty"));
@@ -1057,22 +1057,22 @@ abstract class SurveyQuestionGUI
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt("qpl_savephrase_exists"));
             $valid = false;
         }
-        
+
         if ($valid) {
             $this->object->savePhrase($title);
 
             $this->tpl->setOnScreenMessage('success', $this->lng->txt("phrase_saved"), true);
             $this->ctrl->redirect($this, "editQuestion");
         }
-        
+
         $this->savePhrase(true);
     }
-    
+
     protected function renderStatisticsDetailsTable(
         array $a_head,
         array $a_rows,
         array $a_foot = null
-    ) : string {
+    ): string {
         $html = array();
         $html[] = '<div class="ilTableOuter table-responsive">';
         $html[] = '<table class="table table-striped">';
@@ -1100,7 +1100,7 @@ abstract class SurveyQuestionGUI
             $html[] = "</tr>";
         }
         $html[] = "</tbody>";
-                
+
         if ($a_foot) {
             $html[] = "<tfoot>";
             $html[] = "<tr>";
@@ -1113,7 +1113,7 @@ abstract class SurveyQuestionGUI
             $html[] = "</tr>";
             $html[] = "</tfoot>";
         }
-                
+
         $html[] = "</table>";
         $html[] = "</div>";
         return implode("\n", $html);

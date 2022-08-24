@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -39,7 +41,7 @@ class ilLoggingSetupAgent implements Setup\Agent
     /**
      * @inheritdoc
      */
-    public function hasConfig() : bool
+    public function hasConfig(): bool
     {
         return true;
     }
@@ -47,7 +49,7 @@ class ilLoggingSetupAgent implements Setup\Agent
     /**
      * @inheritdoc
      */
-    public function getArrayToConfigTransformation() : Transformation
+    public function getArrayToConfigTransformation(): Transformation
     {
         return $this->refinery->custom()->transformation(function ($data) {
             return new \ilLoggingSetupConfig(
@@ -61,7 +63,7 @@ class ilLoggingSetupAgent implements Setup\Agent
     /**
      * @inheritdoc
      */
-    public function getInstallObjective(Config $config = null) : Objective
+    public function getInstallObjective(Config $config = null): Objective
     {
         return new ilLoggingConfigStoredObjective($config);
     }
@@ -69,7 +71,7 @@ class ilLoggingSetupAgent implements Setup\Agent
     /**
      * @inheritdoc
      */
-    public function getUpdateObjective(Config $config = null) : Objective
+    public function getUpdateObjective(Config $config = null): Objective
     {
         $objective = new Setup\Objective\NullObjective();
         if ($config !== null) {
@@ -88,7 +90,7 @@ class ilLoggingSetupAgent implements Setup\Agent
     /**
      * @inheritdoc
      */
-    public function getBuildArtifactObjective() : Objective
+    public function getBuildArtifactObjective(): Objective
     {
         return new Setup\Objective\NullObjective();
     }
@@ -96,7 +98,7 @@ class ilLoggingSetupAgent implements Setup\Agent
     /**
      * @inheritdoc
      */
-    public function getStatusObjective(Storage $storage) : Objective
+    public function getStatusObjective(Storage $storage): Objective
     {
         return new ilLoggingMetricsCollectedObjective($storage);
     }
@@ -104,7 +106,7 @@ class ilLoggingSetupAgent implements Setup\Agent
     /**
      * @inheritDoc
      */
-    public function getMigrations() : array
+    public function getMigrations(): array
     {
         return [];
     }

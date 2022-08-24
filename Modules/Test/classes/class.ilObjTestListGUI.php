@@ -1,4 +1,5 @@
 <?php
+
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -33,7 +34,7 @@ class ilObjTestListGUI extends ilObjectListGUI
     /**
     * initialisation
     */
-    public function init() : void
+    public function init(): void
     {
         $this->static_link_enabled = true;
         $this->delete_enabled = true;
@@ -58,7 +59,7 @@ class ilObjTestListGUI extends ilObjectListGUI
     *
     * @return	string		command target frame
     */
-    public function getCommandFrame(string $cmd) : string
+    public function getCommandFrame(string $cmd): string
     {
         $frame = '';
         switch ($cmd) {
@@ -86,7 +87,7 @@ class ilObjTestListGUI extends ilObjectListGUI
     *						"property" (string) => property name
     *						"value" (string) => property value
     */
-    public function getProperties() : array
+    public function getProperties(): array
     {
         global $DIC;
         $lng = $DIC['lng'];
@@ -108,7 +109,7 @@ class ilObjTestListGUI extends ilObjectListGUI
     /**
     * Get command link url.
     */
-    public function getCommandLink(string $cmd) : string
+    public function getCommandLink(string $cmd): string
     {
         global $DIC;
         $ilCtrl = $DIC['ilCtrl'];
@@ -130,7 +131,7 @@ class ilObjTestListGUI extends ilObjectListGUI
         return $cmd_link;
     }
 
-    public function getCommands() : array
+    public function getCommands(): array
     {
         $commands = parent::getCommands();
 
@@ -157,7 +158,7 @@ class ilObjTestListGUI extends ilObjectListGUI
         return $commands;
     }
 
-    private function isObjectiveTest() : bool
+    private function isObjectiveTest(): bool
     {
         require_once 'Modules/Course/classes/Objectives/class.ilLOSettings.php';
         return ilLOSettings::isObjectiveTest($this->ref_id);
@@ -182,7 +183,7 @@ class ilObjTestListGUI extends ilObjectListGUI
      * @param
      * @return
      */
-    public function createDefaultCommand(array $command) : array
+    public function createDefaultCommand(array $command): array
     {
         return $command;
     }
@@ -200,7 +201,7 @@ class ilObjTestListGUI extends ilObjectListGUI
     }
 
     // begin-patch lok
-    protected function modifyTitleLink(string $default_link) : string
+    protected function modifyTitleLink(string $default_link): string
     {
         include_once './Modules/Course/classes/Objectives/class.ilLOSettings.php';
         $id = ilLOSettings::isObjectiveTest($this->ref_id);

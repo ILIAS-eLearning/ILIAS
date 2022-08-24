@@ -76,7 +76,7 @@ class ilMultilingualism
     /**
      * @param int $a_obj_id (repository) object id
      */
-    public static function getInstance(int $a_obj_id, string $a_type) : self
+    public static function getInstance(int $a_obj_id, string $a_type): self
     {
         if (!isset(self::$instances[$a_type][$a_obj_id])) {
             self::$instances[$a_type][$a_obj_id] = new self($a_obj_id, $a_type);
@@ -85,12 +85,12 @@ class ilMultilingualism
         return self::$instances[$a_type][$a_obj_id];
     }
 
-    public function setObjId(int $a_val) : void
+    public function setObjId(int $a_val): void
     {
         $this->obj_id = $a_val;
     }
 
-    public function getObjId() : int
+    public function getObjId(): int
     {
         return $this->obj_id;
     }
@@ -99,7 +99,7 @@ class ilMultilingualism
      * @param array<string, array{lang_code: string, lang_default: bool, title: string, description: string}> $a_val
      * @return void
      */
-    public function setLanguages(array $a_val) : void
+    public function setLanguages(array $a_val): void
     {
         $this->languages = $a_val;
     }
@@ -107,31 +107,31 @@ class ilMultilingualism
     /**
      * @return array<string, array{lang_code: string, lang_default: bool, title: string, description: string}>
      */
-    public function getLanguages() : array
+    public function getLanguages(): array
     {
         return $this->languages;
     }
 
-    public function getType() : string
+    public function getType(): string
     {
         return $this->type;
     }
 
-    public function setType(string $type) : void
+    public function setType(string $type): void
     {
         $this->type = $type;
     }
-    
-    public function getDefaultLanguage() : string
+
+    public function getDefaultLanguage(): string
     {
         $lng = $this->lng;
-        
+
         foreach ($this->languages as $k => $v) {
             if ($v["lang_default"]) {
                 return $k;
             }
         }
-        
+
         return $lng->getDefaultLanguage();
     }
 
@@ -151,7 +151,7 @@ class ilMultilingualism
         string $a_description,
         bool $a_default,
         bool $a_force = false
-    ) : void {
+    ): void {
         if ($a_lang !== "" && (!isset($this->languages[$a_lang]) || $a_force)) {
             if ($a_default) {
                 foreach ($this->languages as $k => $l) {
@@ -171,7 +171,7 @@ class ilMultilingualism
      * Get default title
      * @return string title of default language
      */
-    public function getDefaultTitle() : string
+    public function getDefaultTitle(): string
     {
         foreach ($this->languages as $l) {
             if ($l["lang_default"]) {
@@ -184,7 +184,7 @@ class ilMultilingualism
     /**
      * Set title for default language
      */
-    public function setDefaultTitle(string $a_title) : void
+    public function setDefaultTitle(string $a_title): void
     {
         foreach ($this->languages as $k => $l) {
             if ($l["lang_default"]) {
@@ -196,7 +196,7 @@ class ilMultilingualism
     /**
      * @return string description of default language
      */
-    public function getDefaultDescription() : string
+    public function getDefaultDescription(): string
     {
         foreach ($this->languages as $l) {
             if ($l["lang_default"]) {
@@ -209,7 +209,7 @@ class ilMultilingualism
     /**
      * Set default description
      */
-    public function setDefaultDescription(string $a_description) : void
+    public function setDefaultDescription(string $a_description): void
     {
         foreach ($this->languages as $k => $l) {
             if ($l["lang_default"]) {
@@ -222,14 +222,14 @@ class ilMultilingualism
     /**
      * @param string $a_lang language code
      */
-    public function removeLanguage(string $a_lang) : void
+    public function removeLanguage(string $a_lang): void
     {
         if ($a_lang !== $this->getDefaultLanguage()) {
             unset($this->languages[$a_lang]);
         }
     }
 
-    public function read() : void
+    public function read(): void
     {
         $this->setLanguages(array());
         $set = $this->db->query(
@@ -247,7 +247,7 @@ class ilMultilingualism
         }
     }
 
-    public function delete() : void
+    public function delete(): void
     {
         $this->db->manipulate(
             "DELETE FROM il_translations " .
@@ -256,7 +256,7 @@ class ilMultilingualism
         );
     }
 
-    public function save() : void
+    public function save(): void
     {
         $this->delete();
 
@@ -277,7 +277,7 @@ class ilMultilingualism
      * Copy multilinguality settings
      * @throws ilObjectException
      */
-    public function copy(int $a_obj_id) : self
+    public function copy(int $a_obj_id): self
     {
         $target_ml = new self($a_obj_id, $this->getType());
         $target_ml->setLanguages($this->getLanguages());
@@ -286,15 +286,15 @@ class ilMultilingualism
     }
 
 
-    
+
     /**
      * Export to xml
      */
     public function toXml(
         ilXmlWriter $writer
-    ) : ilXmlWriter {
+    ): ilXmlWriter {
         $writer->xmlStartTag('translations');
-        
+
         foreach ($this->getLanguages() as $k => $v) {
             $writer->xmlStartTag('translation', array('language' => $k, 'default' => $v['lang_default'] ? 1 : 0));
             $writer->xmlElement('title', array(), $v['title']);
@@ -310,12 +310,12 @@ class ilMultilingualism
      * xml import
      * @param SimpleXMLElement $root
      */
-    public function fromXML(SimpleXMLElement $root) : void
+    public function fromXML(SimpleXMLElement $root): void
     {
         if ($root->translations) {
             $root = $root->translations;
         }
-        
+
         foreach ($root->translation as $trans) {
             $this->addLanguage(
                 trim($trans["language"]),

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -51,74 +53,74 @@ class ilQTIConditionvar
     public array $varsubstring = [];
     /** @var array{field: string, index: int} */
     public array $order = [];
-    
-    public function addNot() : void
+
+    public function addNot(): void
     {
         $this->arr_not[] = 1;
         $this->order[] = array("field" => "arr_not", "index" => count($this->arr_not) - 1);
     }
-    
-    public function addAnd() : void
+
+    public function addAnd(): void
     {
         $this->arr_and[] = 1;
         $this->order[] = array("field" => "arr_and", "index" => count($this->arr_and) - 1);
     }
 
-    public function addOr() : void
+    public function addOr(): void
     {
         $this->arr_or[] = 1;
         $this->order[] = array("field" => "arr_or", "index" => count($this->arr_or) - 1);
     }
 
-    public function addVarequal(ilQTIResponseVar $a_varequal) : void
+    public function addVarequal(ilQTIResponseVar $a_varequal): void
     {
         $this->varequal[] = $a_varequal;
         $this->order[] = array("field" => "varequal", "index" => count($this->varequal) - 1);
     }
 
-    public function addVarlt(ilQTIResponseVar $a_varlt) : void
+    public function addVarlt(ilQTIResponseVar $a_varlt): void
     {
         $this->varlt[] = $a_varlt;
         $this->order[] = array("field" => "varlt", "index" => count($this->varlt) - 1);
     }
 
-    public function addVarlte(ilQTIResponseVar $a_varlte) : void
+    public function addVarlte(ilQTIResponseVar $a_varlte): void
     {
         $this->varlte[] = $a_varlte;
         $this->order[] = array("field" => "varlte", "index" => count($this->varlte) - 1);
     }
 
-    public function addVargt(ilQTIResponseVar $a_vargt) : void
+    public function addVargt(ilQTIResponseVar $a_vargt): void
     {
         $this->vargt[] = $a_vargt;
         $this->order[] = array("field" => "vargt", "index" => count($this->vargt) - 1);
     }
 
-    public function addVargte(ilQTIResponseVar $a_vargte) : void
+    public function addVargte(ilQTIResponseVar $a_vargte): void
     {
         $this->vargte[] = $a_vargte;
         $this->order[] = array("field" => "vargte", "index" => count($this->vargte) - 1);
     }
 
-    public function addVarsubset(ilQTIResponseVar $a_varsubset) : void
+    public function addVarsubset(ilQTIResponseVar $a_varsubset): void
     {
         $this->varsubset[] = $a_varsubset;
         $this->order[] = array("field" => "varsubset", "index" => count($this->varsubset) - 1);
     }
 
-    public function addVarinside(ilQTIResponseVar $a_varinside) : void
+    public function addVarinside(ilQTIResponseVar $a_varinside): void
     {
         $this->varinside[] = $a_varinside;
         $this->order[] = array("field" => "varinside", "index" => count($this->varinside) - 1);
     }
 
-    public function addVarsubstring(ilQTIResponseVar $a_varsubstring) : void
+    public function addVarsubstring(ilQTIResponseVar $a_varsubstring): void
     {
         $this->varsubstring[] = $a_varsubstring;
         $this->order[] = array("field" => "varsubstring", "index" => count($this->varsubstring) - 1);
     }
 
-    public function addResponseVar(ilQTIResponseVar $a_responsevar) : void
+    public function addResponseVar(ilQTIResponseVar $a_responsevar): void
     {
         switch ($a_responsevar->getVartype()) {
             case ilQTIResponseVar::RESPONSEVAR_EQUAL:

@@ -26,7 +26,7 @@ class ilMediaObjectsImporter extends ilXmlImporter
     protected ilImportConfig $config;
     protected ilMediaObjectDataSet $ds;
 
-    public function init() : void
+    public function init(): void
     {
         $this->ds = new ilMediaObjectDataSet();
         $this->ds->setDSPrefix("ds");
@@ -43,7 +43,7 @@ class ilMediaObjectsImporter extends ilXmlImporter
         string $a_id,
         string $a_xml,
         ilImportMapping $a_mapping
-    ) : void {
+    ): void {
         $parser = new ilDataSetImportParser(
             $a_entity,
             $this->getSchemaVersion(),

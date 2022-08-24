@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -49,12 +51,12 @@ class ilConsultationHoursTableGUI extends ilTable2GUI
         $this->addMultiCommand('confirmDelete', $this->lng->txt('delete'));
     }
 
-    public function getUserId() : int
+    public function getUserId(): int
     {
         return $this->user_id;
     }
 
-    public function hasGroups() : bool
+    public function hasGroups(): bool
     {
         return $this->has_groups;
     }
@@ -62,7 +64,7 @@ class ilConsultationHoursTableGUI extends ilTable2GUI
     /**
      * @inheritDoc
      */
-    protected function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set): void
     {
         $this->tpl->setVariable('VAL_ID', $a_set['id']);
         $this->tpl->setVariable('START', $a_set['start_p']);

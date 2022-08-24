@@ -1,4 +1,6 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -54,14 +56,14 @@ class InternalDomainService
         );
     }*/
 
-    public function import() : ImportManager
+    public function import(): ImportManager
     {
         return new ImportManager(
             $this->repo_service->import()
         );
     }
 
-    public function editing() : EditManager
+    public function editing(): EditManager
     {
         return new EditManager(
             $this->repo_service->editing()

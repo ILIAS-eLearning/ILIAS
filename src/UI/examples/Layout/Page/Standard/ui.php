@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace ILIAS\UI\examples\Layout\Page\Standard;
 
@@ -6,7 +8,7 @@ use ILIAS\UI\Component\MainControls\MainBar;
 use ILIAS\UI\Renderer;
 use ILIAS\DI\Container;
 
-function ui() : string
+function ui(): string
 {
     global $DIC;
     $f = $DIC->ui()->factory();
@@ -35,7 +37,7 @@ if (isset($request_wrapper) && isset($refinery) && $request_wrapper->has('new_ui
     echo renderFooterInFullscreenMode($DIC);
 }
 
-function renderFooterInFullscreenMode(Container $dic) : string
+function renderFooterInFullscreenMode(Container $dic): string
 {
     $f = $dic->ui()->factory();
     $renderer = $dic->ui()->renderer();
@@ -86,7 +88,7 @@ function pagedemoCrumbs($f)
     return $f->breadcrumbs($crumbs);
 }
 
-function pagedemoContent(\ILIAS\UI\Factory $f, Renderer $r, MainBar $mainbar) : array
+function pagedemoContent(\ILIAS\UI\Factory $f, Renderer $r, MainBar $mainbar): array
 {
     $tools = $mainbar->getToolEntries();
 
@@ -125,7 +127,7 @@ function pagedemoContent(\ILIAS\UI\Factory $f, Renderer $r, MainBar $mainbar) : 
     ];
 }
 
-function pagedemoFooter(\ILIAS\UI\Factory $f) : \ILIAS\UI\Component\MainControls\Footer
+function pagedemoFooter(\ILIAS\UI\Factory $f): \ILIAS\UI\Component\MainControls\Footer
 {
     $df = new \ILIAS\Data\Factory();
     $text = 'Additional info:';
@@ -145,7 +147,7 @@ function pagedemoFooter(\ILIAS\UI\Factory $f) : \ILIAS\UI\Component\MainControls
              );
 }
 
-function pagedemoMetabar(\ILIAS\UI\Factory $f) : \ILIAS\UI\Component\MainControls\MetaBar
+function pagedemoMetabar(\ILIAS\UI\Factory $f): \ILIAS\UI\Component\MainControls\MetaBar
 {
     $help = $f->button()->bulky($f->symbol()->glyph()->help(), 'Help', '#');
     $user = $f->button()->bulky($f->symbol()->glyph()->user(), 'User', '#');
@@ -167,7 +169,7 @@ function pagedemoMetabar(\ILIAS\UI\Factory $f) : \ILIAS\UI\Component\MainControl
              ->withAdditionalEntry('user', $user);
 }
 
-function pagedemoMainbar(\ILIAS\UI\Factory $f, Renderer $r) : MainBar
+function pagedemoMainbar(\ILIAS\UI\Factory $f, Renderer $r): MainBar
 {
     $tools_btn = $f->button()->bulky(
         $f->symbol()->icon()->custom('./src/UI/examples/Layout/Page/Standard/grid.svg', ''),
@@ -200,7 +202,7 @@ function pagedemoMainbar(\ILIAS\UI\Factory $f, Renderer $r) : MainBar
 }
 
 
-function getDemoEntryRepository(\ILIAS\UI\Factory $f) : \ILIAS\UI\Component\MainControls\Slate\Combined
+function getDemoEntryRepository(\ILIAS\UI\Factory $f): \ILIAS\UI\Component\MainControls\Slate\Combined
 {
     $symbol = $f->symbol()->icon()
         ->custom('./src/UI/examples/Layout/Page/Standard/layers.svg', '')
@@ -247,7 +249,7 @@ function getDemoEntryRepository(\ILIAS\UI\Factory $f) : \ILIAS\UI\Component\Main
     return $slate;
 }
 
-function getDemoEntryPersonalWorkspace(\ILIAS\UI\Factory $f, Renderer $r) : \ILIAS\UI\Component\MainControls\Slate\Combined
+function getDemoEntryPersonalWorkspace(\ILIAS\UI\Factory $f, Renderer $r): \ILIAS\UI\Component\MainControls\Slate\Combined
 {
     $icon = $f->symbol()->icon()
         ->standard('', '')
@@ -292,7 +294,7 @@ function getDemoEntryPersonalWorkspace(\ILIAS\UI\Factory $f, Renderer $r) : \ILI
         ->withAdditionalEntry($slate_bookmarks);
 }
 
-function getDemoEntryAchievements(\ILIAS\UI\Factory $f) : \ILIAS\UI\Component\MainControls\Slate\Legacy
+function getDemoEntryAchievements(\ILIAS\UI\Factory $f): \ILIAS\UI\Component\MainControls\Slate\Legacy
 {
     $symbol = $f->symbol()->icon()
         ->custom('./src/UI/examples/Layout/Page/Standard/achievements.svg', '')
@@ -304,7 +306,7 @@ function getDemoEntryAchievements(\ILIAS\UI\Factory $f) : \ILIAS\UI\Component\Ma
     );
 }
 
-function getDemoEntryCommunication(\ILIAS\UI\Factory $f) : \ILIAS\UI\Component\MainControls\Slate\Legacy
+function getDemoEntryCommunication(\ILIAS\UI\Factory $f): \ILIAS\UI\Component\MainControls\Slate\Legacy
 {
     $symbol = $f->symbol()->icon()
         ->custom('./src/UI/examples/Layout/Page/Standard/communication.svg', '')
@@ -316,7 +318,7 @@ function getDemoEntryCommunication(\ILIAS\UI\Factory $f) : \ILIAS\UI\Component\M
     );
 }
 
-function getDemoEntryOrganisation(\ILIAS\UI\Factory $f) : \ILIAS\UI\Component\MainControls\Slate\Combined
+function getDemoEntryOrganisation(\ILIAS\UI\Factory $f): \ILIAS\UI\Component\MainControls\Slate\Combined
 {
     $symbol = $f->symbol()->icon()
         ->custom('./src/UI/examples/Layout/Page/Standard/organisation.svg', '')
@@ -341,7 +343,7 @@ function getDemoEntryOrganisation(\ILIAS\UI\Factory $f) : \ILIAS\UI\Component\Ma
               ->withAdditionalEntry($sf->combined('4', $symbol));
 }
 
-function getDemoEntryAdministration(\ILIAS\UI\Factory $f) : \ILIAS\UI\Component\MainControls\Slate\Legacy
+function getDemoEntryAdministration(\ILIAS\UI\Factory $f): \ILIAS\UI\Component\MainControls\Slate\Legacy
 {
     $symbol = $f->symbol()->icon()
         ->custom('./src/UI/examples/Layout/Page/Standard/administration.svg', '')
@@ -353,7 +355,7 @@ function getDemoEntryAdministration(\ILIAS\UI\Factory $f) : \ILIAS\UI\Component\
     );
 }
 
-function getDemoEntryTools(\ILIAS\UI\Factory $f) : array
+function getDemoEntryTools(\ILIAS\UI\Factory $f): array
 {
     $tools = [];
 
@@ -417,7 +419,7 @@ function getDemoEntryTools(\ILIAS\UI\Factory $f) : array
     return $tools;
 }
 
-function loremIpsum() : string
+function loremIpsum(): string
 {
     return <<<EOT
 	<h2>Lorem ipsum</h2>

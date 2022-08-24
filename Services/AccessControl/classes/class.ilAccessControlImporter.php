@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -14,7 +16,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * role role template xml importer
  * @author  Stefan Meyer <meyer@leifos.com>
@@ -22,7 +24,7 @@
  */
 class ilAccessControlImporter extends ilXmlImporter
 {
-    public function init() : void
+    public function init(): void
     {
     }
 
@@ -35,7 +37,7 @@ class ilAccessControlImporter extends ilXmlImporter
         string $a_id,
         string $a_xml,
         ilImportMapping $a_mapping
-    ) : void {
+    ): void {
         $role_folder_id = $a_mapping->getMapping('Services/AccessControl', 'rolf', (string) 0);
 
         $importer = new ilRoleXmlImporter((int) $role_folder_id);

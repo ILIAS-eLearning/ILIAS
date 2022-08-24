@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 use ILIAS\UI\Factory;
 use ILIAS\UI\Renderer;
@@ -53,7 +55,7 @@ class ilDidacticTemplateSettingsTableFilter
     /**
      * Init Filter
      */
-    public function init() : void
+    public function init(): void
     {
         $inputs[self::FILTER_NAME_ICON] = $this->ui_factory->input()->field()->select(
             $this->lng->txt('icon'),
@@ -103,7 +105,7 @@ class ilDidacticTemplateSettingsTableFilter
         );
     }
 
-    public function render() : string
+    public function render(): string
     {
         return $this->ui_renderer->render(
             [
@@ -116,7 +118,7 @@ class ilDidacticTemplateSettingsTableFilter
      * @param ilDidacticTemplateSetting[] $settings
      * @return ilDidacticTemplateSetting[]
      */
-    public function filter(array $settings) : array
+    public function filter(array $settings): array
     {
         $this->loadFilterValues();
 
@@ -131,7 +133,7 @@ class ilDidacticTemplateSettingsTableFilter
         return $filtered;
     }
 
-    protected function isFiltered(ilDidacticTemplateSetting $setting) : bool
+    protected function isFiltered(ilDidacticTemplateSetting $setting): bool
     {
         if (!$this->filter->isActivated()) {
             return false;
@@ -195,7 +197,7 @@ class ilDidacticTemplateSettingsTableFilter
         return $this->filter_values[$name] ?? null;
     }
 
-    protected function loadFilterValues() : void
+    protected function loadFilterValues(): void
     {
         foreach ($this->filter->getInputs() as $name => $input) {
             $this->filter_values[$name] = $input->getValue();

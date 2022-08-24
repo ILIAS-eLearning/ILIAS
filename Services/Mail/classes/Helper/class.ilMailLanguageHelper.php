@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -22,15 +24,15 @@
  */
 class ilMailLanguageHelper
 {
-    public function getLanguageByIsoCode(string $isoCode) : ilLanguage
+    public function getLanguageByIsoCode(string $isoCode): ilLanguage
     {
         return ilLanguageFactory::_getLanguage($isoCode);
     }
 
-    public function getCurrentLanguage() : ilLanguage
+    public function getCurrentLanguage(): ilLanguage
     {
         global $DIC;
-        
+
         return $DIC->language();
     }
 }

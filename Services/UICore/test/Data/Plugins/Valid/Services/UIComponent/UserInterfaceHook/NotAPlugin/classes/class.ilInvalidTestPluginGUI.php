@@ -1,4 +1,6 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types=1);
 
 /* Copyright (c) 2021 Thibeau Fuhrer <thf@studer-raimann.ch> Extended GPL, see docs/LICENSE */
 
@@ -11,7 +13,7 @@
  */
 class ilInvalidTestPluginGUI
 {
-    public function executeCommand() : string
+    public function executeCommand(): string
     {
         return "Goodbye World!";
     }

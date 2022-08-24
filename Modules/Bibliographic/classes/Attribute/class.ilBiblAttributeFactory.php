@@ -14,7 +14,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * Class ilBiblAttributeFactory
  * @author: Benjamin Seglias   <bs@studer-raimann.ch>
@@ -34,7 +34,7 @@ class ilBiblAttributeFactory implements ilBiblAttributeFactoryInterface
     /**
      * @inheritDoc
      */
-    public function getPossibleValuesForFieldAndObject(ilBiblFieldInterface $field, int $object_id) : array
+    public function getPossibleValuesForFieldAndObject(ilBiblFieldInterface $field, int $object_id): array
     {
         $q = "SELECT DISTINCT(a.value) FROM il_bibl_data AS d
 JOIN il_bibl_entry AS e ON e.data_id = d.id
@@ -56,7 +56,7 @@ WHERE a.name = %s AND d.id = %s";
     /**
      * @inheritDoc
      */
-    public function getAttributesForEntry(ilBiblEntryInterface $entry) : array
+    public function getAttributesForEntry(ilBiblEntryInterface $entry): array
     {
         return ilBiblAttribute::where(['entry_id' => $entry->getId()])->get();
     }
@@ -64,7 +64,7 @@ WHERE a.name = %s AND d.id = %s";
     /**
      * @inheritDoc
      */
-    public function sortAttributes(array $attributes) : array
+    public function sortAttributes(array $attributes): array
     {
         $sorted = [];
         $type_id = $this->field_factory->getType()->getId();
@@ -89,7 +89,7 @@ WHERE a.name = %s AND d.id = %s";
     /**
      * @inheritDoc
      */
-    public function createAttribute(string $name, string $value, int $entry_id) : bool
+    public function createAttribute(string $name, string $value, int $entry_id): bool
     {
         $ilBiblAttribute = new ilBiblAttribute();
         $ilBiblAttribute->setName($name);
@@ -98,7 +98,7 @@ WHERE a.name = %s AND d.id = %s";
         $ilBiblAttribute->store();
 
         $this->field_factory->findOrCreateFieldOfAttribute($ilBiblAttribute);
-        
+
         return true;
     }
 }

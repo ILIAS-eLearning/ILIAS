@@ -38,22 +38,22 @@ class StandardGUIRequest
         );
     }
 
-    public function getNewType() : string
+    public function getNewType(): string
     {
         return $this->str("new_type");
     }
 
-    public function getMode() : string
+    public function getMode(): string
     {
         return $this->str("mep_mode");
     }
 
-    public function getExportFormat() : string
+    public function getExportFormat(): string
     {
         return $this->str("format");
     }
 
-    public function getUploadHash() : string
+    public function getUploadHash(): string
     {
         $hash = $this->str("mep_hash");
         if ($hash === "") {
@@ -62,54 +62,54 @@ class StandardGUIRequest
         return $hash;
     }
 
-    public function getItemId() : int
+    public function getItemId(): int
     {
         return $this->int("mepitem_id");
     }
 
     /** @return int[] */
-    public function getItemIds() : array
+    public function getItemIds(): array
     {
         return $this->intArray("id");
     }
 
-    public function getRefId() : int
+    public function getRefId(): int
     {
         return $this->int("ref_id");
     }
 
-    public function getOldNr() : int
+    public function getOldNr(): int
     {
         return $this->int("old_nr");
     }
 
-    public function getFolderEditMode() : bool
+    public function getFolderEditMode(): bool
     {
         return (bool) $this->int("foldereditmode");
     }
 
-    public function getForceFilter() : int
+    public function getForceFilter(): int
     {
         return $this->int("force_filter");
     }
 
-    public function getFolderId($par) : int
+    public function getFolderId($par): int
     {
         return $this->int($par);
     }
 
-    public function getImportLang() : string
+    public function getImportLang(): string
     {
         return $this->str("import_lang");
     }
 
     /** @return string[] */
-    public function getFiles() : array
+    public function getFiles(): array
     {
         return $this->strArray("file");
     }
 
-    public function getFileAction() : string
+    public function getFileAction(): string
     {
         return $this->str("action");
     }

@@ -42,7 +42,7 @@ abstract class ilPlugin
     /**
      * @return string
      */
-    public function getMessage() : string
+    public function getMessage(): string
     {
         return $this->message;
     }
@@ -84,7 +84,7 @@ abstract class ilPlugin
      * during __construct. If this contains expensive stuff this will be bad for
      * overall system performance, because Plugins tend to be constructed a lot.
      */
-    protected function init() : void
+    protected function init(): void
     {
     }
 
@@ -93,12 +93,12 @@ abstract class ilPlugin
     // General Information About Plugin
     // ------------------------------------------
 
-    public function getPluginName() : string
+    public function getPluginName(): string
     {
         return $this->getPluginInfo()->getName();
     }
 
-    public function getId() : string
+    public function getId(): string
     {
         return $this->getPluginInfo()->getId();
     }
@@ -109,7 +109,7 @@ abstract class ilPlugin
      *
      * @return string
      */
-    public function getVersion() : string
+    public function getVersion(): string
     {
         return (string) $this->getPluginInfo()->getAvailableVersion();
     }
@@ -119,7 +119,7 @@ abstract class ilPlugin
      *     - Services/COPage/classes/class.ilPCPlugged.php
      *     - Modules/DataCollection/classes/Fields/class.ilDclFieldFactory.php
      */
-    public function getDirectory() : string
+    public function getDirectory(): string
     {
         return $this->getPluginInfo()->getPath();
     }
@@ -129,17 +129,17 @@ abstract class ilPlugin
      *    - Services/Component/classes/class.ilObjComponentSettingsGUI.php
      *    - Services/Repository/classes/class.ilRepositoryObjectPluginSlot.php
      */
-    public function isActive() : bool
+    public function isActive(): bool
     {
         return $this->getPluginInfo()->isActive();
     }
 
-    public function needsUpdate() : bool
+    public function needsUpdate(): bool
     {
         return $this->getPluginInfo()->isUpdateRequired();
     }
 
-    protected function getPluginInfo() : ilPluginInfo
+    protected function getPluginInfo(): ilPluginInfo
     {
         return $this->component_repository
             ->getPluginById(
@@ -147,12 +147,12 @@ abstract class ilPlugin
             );
     }
 
-    protected function getComponentInfo() : ilComponentInfo
+    protected function getComponentInfo(): ilComponentInfo
     {
         return $this->getPluginInfo()->getComponent();
     }
 
-    protected function getPluginSlotInfo() : ilPluginSlotInfo
+    protected function getPluginSlotInfo(): ilPluginSlotInfo
     {
         return $this->getPluginInfo()->getPluginSlot();
     }
@@ -162,12 +162,12 @@ abstract class ilPlugin
     // (De-)Installation
     // ------------------------------------------
 
-    public function install() : void
+    public function install(): void
     {
         $this->afterInstall();
     }
 
-    public function uninstall() : bool
+    public function uninstall(): bool
     {
         if (!$this->beforeUninstall()) {
             return false;
@@ -184,7 +184,7 @@ abstract class ilPlugin
      * @deprecate If you cannot get rid of the requirement to use this, adjust the
      *            install method in your subclass instead.
      */
-    protected function afterInstall() : void
+    protected function afterInstall(): void
     {
     }
 
@@ -192,7 +192,7 @@ abstract class ilPlugin
      * @deprecate If you cannot get rid of the requirement to use this, adjust the
      *            uninstall method in your subclass instead.
      */
-    protected function beforeUninstall() : bool
+    protected function beforeUninstall(): bool
     {
         return true;
     }
@@ -201,7 +201,7 @@ abstract class ilPlugin
      * @deprecate If you cannot get rid of the requirement to use this, adjust the
      *            uninstall method in your subclass instead.
      */
-    protected function afterUninstall() : void
+    protected function afterUninstall(): void
     {
     }
 
@@ -213,7 +213,7 @@ abstract class ilPlugin
     /**
      * This will update (if required) and activate the plugin.
      */
-    public function activate() : bool
+    public function activate(): bool
     {
         if ($this->needsUpdate() && !$this->update()) {
             return false;
@@ -229,7 +229,7 @@ abstract class ilPlugin
         return true;
     }
 
-    public function deactivate() : bool
+    public function deactivate(): bool
     {
         $this->component_repository->setActivation($this->getId(), false);
         $this->afterDeactivation();
@@ -241,7 +241,7 @@ abstract class ilPlugin
      * @deprecate If you cannot get rid of the requirement to use this, adjust the
      *            activate method in your subclass instead.
      */
-    protected function beforeActivation() : bool
+    protected function beforeActivation(): bool
     {
         return true;
     }
@@ -250,7 +250,7 @@ abstract class ilPlugin
      * @deprecate If you cannot get rid of the requirement to use this, adjust the
      *            activate method in your subclass instead.
      */
-    protected function afterActivation() : void
+    protected function afterActivation(): void
     {
     }
 
@@ -258,7 +258,7 @@ abstract class ilPlugin
      * @deprecate If you cannot get rid of the requirement to use this, adjust the
      *            activate method in your subclass instead.
      */
-    protected function afterDeactivation() : void
+    protected function afterDeactivation(): void
     {
     }
 
@@ -267,7 +267,7 @@ abstract class ilPlugin
     // Update
     // ------------------------------------------
 
-    public function update() : bool
+    public function update(): bool
     {
         global $DIC;
         $ilDB = $DIC->database();
@@ -298,7 +298,7 @@ abstract class ilPlugin
         return true;
     }
 
-    protected function updateDatabase() : int
+    protected function updateDatabase(): int
     {
         global $DIC;
         $ilDB = $DIC->database();
@@ -318,13 +318,13 @@ abstract class ilPlugin
      * @deprecate If you cannot get rid of the requirement to use this, adjust the
      *            update method in your subclass instead.
      */
-    protected function beforeUpdate() : bool
+    protected function beforeUpdate(): bool
     {
         return true;
     }
 
 
-    protected function afterUpdate() : void
+    protected function afterUpdate(): void
     {
     }
 
@@ -333,7 +333,7 @@ abstract class ilPlugin
     // Language Handling
     // ------------------------------------------
 
-    protected function getLanguageHandler() : ilPluginLanguage
+    protected function getLanguageHandler(): ilPluginLanguage
     {
         if ($this->language_handler === null) {
             $this->language_handler = $this->buildLanguageHandler();
@@ -341,7 +341,7 @@ abstract class ilPlugin
         return $this->language_handler;
     }
 
-    protected function buildLanguageHandler() : ilPluginLanguage
+    protected function buildLanguageHandler(): ilPluginLanguage
     {
         return new ilPluginLanguage($this->getPluginInfo());
     }
@@ -351,7 +351,7 @@ abstract class ilPlugin
      *
      * @deprecate Just use `txt`, this will automatically load the language module.
      */
-    public function loadLanguageModule() : void
+    public function loadLanguageModule(): void
     {
         $this->getLanguageHandler()->loadLanguageModule();
     }
@@ -359,7 +359,7 @@ abstract class ilPlugin
     /**
      * Get Language Variable (prefix will be prepended automatically)
      */
-    public function txt(string $a_var) : string
+    public function txt(string $a_var): string
     {
         return $this->getLanguageHandler()->txt($a_var);
     }
@@ -373,7 +373,7 @@ abstract class ilPlugin
      * @deprecate ILIAS is moving towards UI components and plugins are expected
      *            to use these components. Hence, this method will be removed.
      */
-    public function getTemplate(string $a_template, bool $a_par1 = true, bool $a_par2 = true) : ilTemplate
+    public function getTemplate(string $a_template, bool $a_par1 = true, bool $a_par2 = true): ilTemplate
     {
         return new ilTemplate($this->getDirectory() . "/templates/" . $a_template, $a_par1, $a_par2);
     }
@@ -382,7 +382,7 @@ abstract class ilPlugin
      * @deprecate ILIAS is moving towards UI components and plugins are expected
      *            to use these components. Hence, this method will be removed.
      */
-    public function getStyleSheetLocation(string $a_css_file) : string
+    public function getStyleSheetLocation(string $a_css_file): string
     {
         $d2 = $this->getComponentInfo()->getId() . "_" . $this->getPluginSlotInfo()->getId() . "_" . $this->getPluginInfo()->getId();
 
@@ -399,7 +399,7 @@ abstract class ilPlugin
      * @deprecate ILIAS is moving towards UI components and plugins are expected
      *            to use these components. Hence, this method will be removed.
      */
-    public function addBlockFile($a_tpl, $a_var, $a_block, $a_tplname) : void
+    public function addBlockFile($a_tpl, $a_var, $a_block, $a_tplname): void
     {
         $a_tpl->addBlockFile(
             $a_var,
@@ -413,7 +413,7 @@ abstract class ilPlugin
     // Event Handling
     // ------------------------------------------
 
-    protected function readEventListening() : void
+    protected function readEventListening(): void
     {
         $reader = new ilPluginReader(
             $this->getDirectory() . '/plugin.xml',
@@ -426,7 +426,7 @@ abstract class ilPlugin
         $reader->startParsing();
     }
 
-    protected function clearEventListening() : void
+    protected function clearEventListening(): void
     {
         $reader = new ilPluginReader(
             $this->getDirectory() . '/plugin.xml',
@@ -443,7 +443,7 @@ abstract class ilPlugin
     // Global Screen
     // ------------------------------------------
 
-    final public function getGlobalScreenProviderCollection() : PluginProviderCollection
+    final public function getGlobalScreenProviderCollection(): PluginProviderCollection
     {
         return $this->provider_collection;
     }
@@ -464,7 +464,7 @@ abstract class ilPlugin
      * Note: Note that plugins might conflict by replacing the renderer, so only use if you
      * are sure, that no other plugin will do this for a given context.
      */
-    public function exchangeUIRendererAfterInitialization(\ILIAS\DI\Container $dic) : Closure
+    public function exchangeUIRendererAfterInitialization(\ILIAS\DI\Container $dic): Closure
     {
         //This returns the callable of $c['ui.renderer'] without executing it.
         return $dic->raw('ui.renderer');
@@ -484,7 +484,7 @@ abstract class ilPlugin
      * Note: Note that plugins might conflict by replacing the same factory, so only use if you
      * are sure, that no other plugin will do this for a given context.
      */
-    public function exchangeUIFactoryAfterInitialization(string $dic_key, \ILIAS\DI\Container $dic) : Closure
+    public function exchangeUIFactoryAfterInitialization(string $dic_key, \ILIAS\DI\Container $dic): Closure
     {
         //This returns the callable of $c[$key] without executing it.
         return $dic->raw($dic_key);

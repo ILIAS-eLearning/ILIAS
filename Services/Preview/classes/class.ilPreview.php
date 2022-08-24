@@ -65,7 +65,7 @@ class ilPreview
      */
     private string $render_status = self::RENDER_STATUS_NONE;
     protected ilRendererFactory $factory;
-    
+
     /**
      * Creates a new ilPreview.
      *
@@ -87,7 +87,7 @@ class ilPreview
      * @param bool $a_force true, to force the creation of the preview; false, to create the preview only if needed.
      * @return bool true, if the preview was created; otherwise, false.
      */
-    public static function createPreview(\ilObject $a_obj, bool $a_force = false) : bool
+    public static function createPreview(\ilObject $a_obj, bool $a_force = false): bool
     {
         $preview = new ilPreview($a_obj->getId(), $a_obj->getType());
         return $preview->create($a_obj, $a_force);
@@ -98,7 +98,7 @@ class ilPreview
      *
      * @param int $a_obj_id The id of the object to create the preview for.
      */
-    public static function deletePreview(int $a_obj_id) : void
+    public static function deletePreview(int $a_obj_id): void
     {
         $preview = new ilPreview($a_obj_id);
         $preview->delete();
@@ -110,7 +110,7 @@ class ilPreview
      * @param int $a_src_id The id of the object to copy from.
      * @param int $a_dest_id The id of the object to copy to.
      */
-    public static function copyPreviews(int $a_src_id, int $a_dest_id) : void
+    public static function copyPreviews(int $a_src_id, int $a_dest_id): void
     {
         if (!ilPreviewSettings::isPreviewEnabled()) {
             return;
@@ -145,7 +145,7 @@ class ilPreview
      * @param string $a_type The type of the object to check.
      * @return bool true, if the object has a preview; otherwise, false.
      */
-    public static function hasPreview(int $a_obj_id, string $a_type = "") : bool
+    public static function hasPreview(int $a_obj_id, string $a_type = ""): bool
     {
         if (!ilPreviewSettings::isPreviewEnabled()) {
             return false;
@@ -166,7 +166,7 @@ class ilPreview
      * @param int $a_obj_id The id of the object to get the status for.
      * @return string The status of the rendering process.
      */
-    public static function lookupRenderStatus(int $a_obj_id) : string
+    public static function lookupRenderStatus(int $a_obj_id): string
     {
         $preview = new ilPreview($a_obj_id);
         return $preview->getRenderStatus();
@@ -177,7 +177,7 @@ class ilPreview
      *
      * @return bool true, if a preview exists for the object; otherwise, false.
      */
-    public function exists() : bool
+    public function exists(): bool
     {
         return $this->exists;
     }
@@ -189,7 +189,7 @@ class ilPreview
      * @param bool $a_force true, to force the creation of the preview; false, to create the preview only if needed.
      * @return bool true, if the preview was created; otherwise, false.
      */
-    public function create(\ilObject $a_obj, bool $a_force = false) : bool
+    public function create(\ilObject $a_obj, bool $a_force = false): bool
     {
         if (!ilPreviewSettings::isPreviewEnabled()) {
             return false;
@@ -233,7 +233,7 @@ class ilPreview
     /**
      * Deletes the preview.
      */
-    public function delete() : void
+    public function delete(): void
     {
         // does exist?
         if ($this->exists()) {
@@ -253,7 +253,7 @@ class ilPreview
      *
      * @return array The preview images.
      */
-    public function getImages() : array
+    public function getImages(): array
     {
         $images = array();
 
@@ -293,7 +293,7 @@ class ilPreview
     /**
      * Saves the preview data to the database.
      */
-    public function save() : void
+    public function save(): void
     {
         if ($this->exists) {
             $this->doUpdate();
@@ -305,7 +305,7 @@ class ilPreview
     /**
      * Create entry in database.
      */
-    protected function doCreate() : void
+    protected function doCreate(): void
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -324,7 +324,7 @@ class ilPreview
     /**
      * Read data from database.
      */
-    protected function doRead() : void
+    protected function doRead(): void
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -345,7 +345,7 @@ class ilPreview
     /**
      * Update data in database.
      */
-    protected function doUpdate() : void
+    protected function doUpdate(): void
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -363,7 +363,7 @@ class ilPreview
     /**
      * Delete data from database.
      */
-    protected function doDelete() : void
+    protected function doDelete(): void
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -380,7 +380,7 @@ class ilPreview
      *
      * @return int The id of the object the preview is for.
      */
-    public function getObjId() : ?int
+    public function getObjId(): ?int
     {
         return $this->obj_id;
     }
@@ -390,7 +390,7 @@ class ilPreview
      *
      * @return string The type of the object the preview is for.
      */
-    public function getObjType() : string
+    public function getObjType(): string
     {
         // not evaluated before or specified?
         if (empty($this->obj_type)) {
@@ -405,7 +405,7 @@ class ilPreview
      *
      * @return string The path where the previews are stored.
      */
-    public function getStoragePath() : string
+    public function getStoragePath(): string
     {
         return $this->getStorage()->getPath();
     }
@@ -415,7 +415,7 @@ class ilPreview
      *
      * @return string The path where the previews are stored.
      */
-    public function getAbsoluteStoragePath() : string
+    public function getAbsoluteStoragePath(): string
     {
         return ILIAS_WEB_DIR . "/" . CLIENT_ID . "/{$this->getStorage()->getPath()}";
     }
@@ -426,18 +426,18 @@ class ilPreview
      *
      * @return string The format of the absolute file path.
      */
-    public function getFilePathFormat() : string
+    public function getFilePathFormat(): string
     {
         $path = ilFileUtils::removeTrailingPathSeparators($this->getAbsoluteStoragePath());
         return $path . "/" . self::FILENAME_FORMAT;
     }
 
-    public function getRenderDate() : ?string
+    public function getRenderDate(): ?string
     {
         return $this->render_date;
     }
 
-    public function setRenderDate(string $a_date) : void
+    public function setRenderDate(string $a_date): void
     {
         $this->render_date = $a_date;
     }
@@ -447,7 +447,7 @@ class ilPreview
      *
      * @return string The status of the rendering process.
      */
-    public function getRenderStatus() : string
+    public function getRenderStatus(): string
     {
         return $this->render_status;
     }
@@ -457,7 +457,7 @@ class ilPreview
      *
      * @param string $a_status The status to set.
      */
-    public function setRenderStatus(string $a_status) : void
+    public function setRenderStatus(string $a_status): void
     {
         $this->render_status = $a_status;
     }
@@ -467,7 +467,7 @@ class ilPreview
      *
      * @return ilFSStoragePreview The storage object.
      */
-    public function getStorage() : \ilFSStoragePreview
+    public function getStorage(): \ilFSStoragePreview
     {
         if ($this->storage === null) {
             $this->storage = new ilFSStoragePreview($this->obj_id);
@@ -479,7 +479,7 @@ class ilPreview
     /**
      * Initializes the preview object.
      */
-    private function init() : void
+    private function init(): void
     {
         // read entry
         $this->doRead();

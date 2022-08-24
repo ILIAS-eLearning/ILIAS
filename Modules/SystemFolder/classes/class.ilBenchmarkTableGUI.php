@@ -163,7 +163,7 @@ class ilBenchmarkTableGUI extends ilTable2GUI
     /**
      * Fill table row
      */
-    protected function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set): void
     {
         $lng = $this->lng;
 

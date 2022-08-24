@@ -39,7 +39,7 @@ class ilSurveyPhrasesGUI
     protected ilCtrl $ctrl;
     protected ilTree $tree;
     protected int $ref_id;
-    
+
     public function __construct(
         ilObjSurveyQuestionPoolGUI $a_object
     ) {
@@ -66,8 +66,8 @@ class ilSurveyPhrasesGUI
                                   ->editing()
                                   ->request();
     }
-    
-    public function executeCommand() : string
+
+    public function executeCommand(): string
     {
         $cmd = $this->ctrl->getCmd();
         $next_class = $this->ctrl->getNextClass($this);
@@ -83,7 +83,7 @@ class ilSurveyPhrasesGUI
     /**
      * Creates a confirmation form to delete personal phases from the database
      */
-    public function deletePhrase() : void
+    public function deletePhrase(): void
     {
         $checked_phrases = $this->request->getPhraseIds();
         if (count($checked_phrases) > 0) {
@@ -98,19 +98,19 @@ class ilSurveyPhrasesGUI
     /**
      * List phrases
      */
-    public function phrases() : void
+    public function phrases(): void
     {
         $rbacsystem = $this->rbacsystem;
         $ilToolbar = $this->toolbar;
-        
+
         $this->ctrl->setParameter($this, "p_id", "");
-        
+
         if ($rbacsystem->checkAccess("write", $this->ref_id)) {
             $button = ilLinkButton::getInstance();
             $button->setCaption("phrase_new");
             $button->setUrl($this->ctrl->getLinkTarget($this, "newPhrase"));
             $ilToolbar->addButtonInstance($button);
-        
+
             $table_gui = new ilSurveyPhrasesTableGUI($this, 'phrases');
             $phrases = ilSurveyPhrases::_getAvailablePhrases(1);
             $data = array();
@@ -128,12 +128,12 @@ class ilSurveyPhrasesGUI
         }
     }
 
-    public function cancelDeletePhrase() : void
+    public function cancelDeletePhrase(): void
     {
         $this->ctrl->redirect($this, "phrases");
     }
-    
-    public function confirmDeletePhrase() : void
+
+    public function confirmDeletePhrase(): void
     {
         $phrases = $this->request->getPhraseIds();
         $this->object->deletePhrases($phrases);
@@ -148,9 +148,9 @@ class ilSurveyPhrasesGUI
      */
     protected function getCategoriesForPhrase(
         int $phrase_id
-    ) : SurveyCategories {
+    ): SurveyCategories {
         $ilDB = $this->db;
-        
+
         $categories = new SurveyCategories();
         $result = $ilDB->queryF(
             "SELECT svy_category.title, svy_category.neutral, svy_phrase_cat.sequence FROM svy_phrase_cat, svy_category WHERE svy_phrase_cat.phrase_fi = %s AND svy_phrase_cat.category_fi = svy_category.category_id ORDER BY svy_phrase_cat.sequence ASC",
@@ -170,9 +170,9 @@ class ilSurveyPhrasesGUI
      */
     protected function getPhraseTitle(
         int $phrase_id
-    ) : string {
+    ): string {
         $ilDB = $this->db;
-        
+
         $result = $ilDB->queryF(
             "SELECT svy_phrase.title FROM svy_phrase WHERE svy_phrase.phrase_id = %s",
             array('integer'),
@@ -184,14 +184,14 @@ class ilSurveyPhrasesGUI
         }
         return "";
     }
-    
+
     /**
      * Creates a confirmation form to delete personal phases from the database
      * @param array $checked_phrases array with the id's of the phrases checked for deletion
      */
     public function deletePhrasesForm(
         array $checked_phrases
-    ) : void {
+    ): void {
         $table_gui = new ilSurveyPhrasesTableGUI($this, 'phrases', true);
         $phrases = ilSurveyPhrases::_getAvailablePhrases(1);
         $data = array();
@@ -206,13 +206,13 @@ class ilSurveyPhrasesGUI
         $table_gui->setData($data);
         $this->tpl->setVariable('ADM_CONTENT', $table_gui->getHTML());
     }
-    
-    public function cancelEditPhrase() : void
+
+    public function cancelEditPhrase(): void
     {
         $this->ctrl->redirect($this, 'phrases');
     }
-    
-    public function saveEditPhrase() : void
+
+    public function saveEditPhrase(): void
     {
         $result = $this->writePostData();
         if ($result === 0) {
@@ -233,7 +233,7 @@ class ilSurveyPhrasesGUI
      */
     public function writePostData(
         bool $always = false
-    ) : int {
+    ): int {
         $hasErrors = !$always && $this->phraseEditor(true);
         if (!$hasErrors) {
             $form = $this->form;
@@ -261,13 +261,13 @@ class ilSurveyPhrasesGUI
 
         return 1;
     }
-    
-    public function newPhrase() : void
+
+    public function newPhrase(): void
     {
         $this->ctrl->redirect($this, 'phraseEditor');
     }
-    
-    public function editPhrase() : void
+
+    public function editPhrase(): void
     {
         $ids = $this->request->getPhraseIds();
         if (count($ids) === 0) {
@@ -287,7 +287,7 @@ class ilSurveyPhrasesGUI
 
     public function phraseEditor(
         bool $checkonly = false
-    ) : bool {
+    ): bool {
         $save = strcmp($this->ctrl->getCmd(), "saveEditPhrase") === 0;
 
         $form = new ilPropertyFormGUI();

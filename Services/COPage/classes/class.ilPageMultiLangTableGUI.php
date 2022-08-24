@@ -52,11 +52,11 @@ class ilPageMultiLangTableGUI extends ilTable2GUI
         //}
         //$this->addCommandButton("", $lng->txt(""));
     }
-    
+
     /**
      * Fill table row
      */
-    protected function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set): void
     {
         $lng = $this->lng;
 

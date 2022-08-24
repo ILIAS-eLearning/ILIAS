@@ -28,8 +28,8 @@ include_once 'Modules/Test/classes/inc.AssessmentConstants.php';
  */
 class ilTestScoringByQuestionsGUI extends ilTestScoringGUI
 {
-    const ONLY_FINALIZED = 1;
-    const EXCEPT_FINALIZED = 2;
+    public const ONLY_FINALIZED = 1;
+    public const EXCEPT_FINALIZED = 2;
 
     /**
      * @param ilObjTest $a_object
@@ -42,19 +42,19 @@ class ilTestScoringByQuestionsGUI extends ilTestScoringGUI
     /**
      * @return string
      */
-    protected function getDefaultCommand() : string
+    protected function getDefaultCommand(): string
     {
         return 'showManScoringByQuestionParticipantsTable';
     }
-    
+
     /**
      * @return string
      */
-    protected function getActiveSubTabId() : string
+    protected function getActiveSubTabId(): string
     {
         return 'man_scoring_by_qst';
     }
-    
+
     /**
      * @param array $manPointsPost
      */
@@ -64,7 +64,7 @@ class ilTestScoringByQuestionsGUI extends ilTestScoringGUI
 
         $tpl = $DIC->ui()->mainTemplate();
         $ilAccess = $DIC->access();
-        
+
         $DIC->tabs()->activateTab(ilTestTabsManager::TAB_ID_MANUAL_SCORING);
 
         if (
@@ -114,7 +114,7 @@ class ilTestScoringByQuestionsGUI extends ilTestScoringGUI
                 ilTestParticipantAccessFilter::getScoreParticipantsUserFilter($this->ref_id)
             );
             $participantData->load($this->object->getTestId());
-                
+
             foreach ($participantData->getActiveIds() as $active_id) {
                 $participant = $participants[$active_id];
                 $testResultData = $this->object->getTestResult($active_id, $passNr - 1);
@@ -175,7 +175,7 @@ class ilTestScoringByQuestionsGUI extends ilTestScoringGUI
         $tpl->setContent($table->getHTML());
     }
 
-    protected function saveManScoringByQuestion(bool $ajax = false) : void
+    protected function saveManScoringByQuestion(bool $ajax = false): void
     {
         global $DIC;
         $ilAccess = $DIC->access();
@@ -214,17 +214,17 @@ class ilTestScoringByQuestionsGUI extends ilTestScoringGUI
 
         foreach ($participantData->getActiveIds() as $active_id) {
             $questions = $activeData[$active_id];
-            
+
             // check for existing test result data
             if (!$this->object->getTestResult($active_id, $pass)) {
                 if (!isset($skipParticipant[$pass])) {
                     $skipParticipant[$pass] = [];
                 }
                 $skipParticipant[$pass][$active_id] = true;
-                
+
                 continue;
             }
-            
+
             foreach ((array) $questions as $qst_id => $reached_points) {
                 if (!isset($manPointsPost[$pass])) {
                     $manPointsPost[$pass] = [];
@@ -357,11 +357,11 @@ class ilTestScoringByQuestionsGUI extends ilTestScoringGUI
         $active_id = $this->testrequest->getActiveId();
         $pass = $this->testrequest->getPassId();
         $question_id = (int) $this->testrequest->raw('qst_id');
-        
+
         if (!$this->getTestAccess()->checkScoreParticipantsAccessForActiveId($active_id)) {
             exit; // illegal ajax call
         }
-        
+
         $data = $this->object->getCompleteEvaluationData(false);
         $participant = $data->getParticipant($active_id);
         $question_gui = $this->object->createQuestionGUI('', $question_id);
@@ -603,7 +603,7 @@ class ilTestScoringByQuestionsGUI extends ilTestScoringGUI
         );
     }
 
-    protected function saveFeedback(int $active_id, int $qst_id, int $pass, bool $is_single_feedback) : void
+    protected function saveFeedback(int $active_id, int $qst_id, int $pass, bool $is_single_feedback): void
     {
         $feedback = null;
         if ($this->doesValueExistsInPostArray('feedback', $active_id, $qst_id, $pass)) {
@@ -620,7 +620,7 @@ class ilTestScoringByQuestionsGUI extends ilTestScoringGUI
         int $pass,
         ?string $feedback,
         bool $is_single_feedback
-    ) : void {
+    ): void {
         $evaluated = false;
         if ($this->doesValueExistsInPostArray('evaluated', $active_id, $qst_id, $pass)) {
             $evaluated = (bool) ($_POST['evaluated'][$pass][$active_id][$qst_id] ?? false);
@@ -642,7 +642,7 @@ class ilTestScoringByQuestionsGUI extends ilTestScoringGUI
      * @param $pass
      * @return bool
      */
-    protected function doesValueExistsInPostArray($post_value, $active_id, $qst_id, $pass) : bool
+    protected function doesValueExistsInPostArray($post_value, $active_id, $qst_id, $pass): bool
     {
         return (
             isset($_POST[$post_value][$pass][$active_id][$qst_id]) &&

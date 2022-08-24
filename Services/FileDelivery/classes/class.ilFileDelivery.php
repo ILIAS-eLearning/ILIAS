@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 use ILIAS\FileDelivery\FileDeliveryTypes\DeliveryMethod;
@@ -31,13 +32,13 @@ final class ilFileDelivery implements ilFileDeliveryService
 {
     use HttpServiceAware;
 
-    const DIRECT_PHP_OUTPUT = Delivery::DIRECT_PHP_OUTPUT;
-    const DELIVERY_METHOD_XSENDFILE = DeliveryMethod::XSENDFILE;
-    const DELIVERY_METHOD_XACCEL = DeliveryMethod::XACCEL;
-    const DELIVERY_METHOD_PHP = DeliveryMethod::PHP;
-    const DELIVERY_METHOD_PHP_CHUNKED = DeliveryMethod::PHP_CHUNKED;
-    const DISP_ATTACHMENT = Delivery::DISP_ATTACHMENT;
-    const DISP_INLINE = Delivery::DISP_INLINE;
+    public const DIRECT_PHP_OUTPUT = Delivery::DIRECT_PHP_OUTPUT;
+    public const DELIVERY_METHOD_XSENDFILE = DeliveryMethod::XSENDFILE;
+    public const DELIVERY_METHOD_XACCEL = DeliveryMethod::XACCEL;
+    public const DELIVERY_METHOD_PHP = DeliveryMethod::PHP;
+    public const DELIVERY_METHOD_PHP_CHUNKED = DeliveryMethod::PHP_CHUNKED;
+    public const DISP_ATTACHMENT = Delivery::DISP_ATTACHMENT;
+    public const DISP_INLINE = Delivery::DISP_INLINE;
     private Delivery $delivery;
 
     /**
@@ -55,7 +56,7 @@ final class ilFileDelivery implements ilFileDeliveryService
         ?string $download_file_name = null,
         ?string $mime_type = null,
         bool $delete_file = false
-    ) : void {
+    ): void {
         $obj = new Delivery($path_to_file, self::http());
 
         if ($download_file_name !== null) {
@@ -72,7 +73,7 @@ final class ilFileDelivery implements ilFileDeliveryService
     public static function streamVideoInline(
         string $path_to_file,
         ?string $download_file_name = null
-    ) : void {
+    ): void {
         $obj = new Delivery($path_to_file, self::http());
         if ($download_file_name !== null) {
             $obj->setDownloadFileName($download_file_name);
@@ -84,7 +85,7 @@ final class ilFileDelivery implements ilFileDeliveryService
     public static function deliverFileInline(
         string $path_to_file,
         ?string $download_file_name = null
-    ) : void {
+    ): void {
         $obj = new Delivery($path_to_file, self::http());
         if ($download_file_name !== null) {
             $obj->setDownloadFileName($download_file_name);
@@ -93,7 +94,7 @@ final class ilFileDelivery implements ilFileDeliveryService
         $obj->deliver();
     }
 
-    public static function returnASCIIFileName(string $original_filename) : string
+    public static function returnASCIIFileName(string $original_filename): string
     {
         return Delivery::returnASCIIFileName($original_filename);
     }
@@ -121,7 +122,7 @@ final class ilFileDelivery implements ilFileDeliveryService
         ?bool $isInline = false,
         ?bool $removeAfterDelivery = false,
         ?bool $a_exit_after = true
-    ) : void {
+    ): void {
         global $DIC;
         // should we fail silently?
         if (!file_exists($a_file)) {

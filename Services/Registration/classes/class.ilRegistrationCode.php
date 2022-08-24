@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -30,7 +32,7 @@ class ilRegistrationCode
         array $limit_date,
         bool $reg_type,
         bool $ext_type
-    ) : int {
+    ): int {
         global $DIC;
 
         $ilDB = $DIC->database();
@@ -69,7 +71,7 @@ class ilRegistrationCode
         return $id;
     }
 
-    protected static function generateRandomCode() : string
+    protected static function generateRandomCode(): string
     {
         // missing : 01iloO
         $map = "23456789abcdefghjkmnpqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ";
@@ -91,7 +93,7 @@ class ilRegistrationCode
         int $filter_role,
         string $filter_generated,
         string $filter_access_limitation
-    ) : array {
+    ): array {
         global $DIC;
 
         $ilDB = $DIC->database();
@@ -125,7 +127,7 @@ class ilRegistrationCode
         return ["cnt" => $cnt, "set" => $result];
     }
 
-    public static function loadCodesByIds(array $ids) : array
+    public static function loadCodesByIds(array $ids): array
     {
         global $DIC;
 
@@ -144,7 +146,7 @@ class ilRegistrationCode
         return $result;
     }
 
-    public static function deleteCodes(array $ids) : bool
+    public static function deleteCodes(array $ids): bool
     {
         global $DIC;
 
@@ -160,7 +162,7 @@ class ilRegistrationCode
         return false;
     }
 
-    public static function getGenerationDates() : array
+    public static function getGenerationDates(): array
     {
         global $DIC;
 
@@ -179,7 +181,7 @@ class ilRegistrationCode
         int $filter_role,
         string $filter_generated,
         string $filter_access_limitation
-    ) : string {
+    ): string {
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
@@ -209,7 +211,7 @@ class ilRegistrationCode
         int $filter_role,
         string $filter_generated,
         string $filter_access_limitation
-    ) : array {
+    ): array {
         global $DIC;
 
         $ilDB = $DIC->database();
@@ -226,7 +228,7 @@ class ilRegistrationCode
         return $result;
     }
 
-    public static function isUnusedCode(string $code) : bool
+    public static function isUnusedCode(string $code): bool
     {
         global $DIC;
 
@@ -237,7 +239,7 @@ class ilRegistrationCode
         return $set && !$set["used"];
     }
 
-    public static function isValidRegistrationCode(string $a_code) : bool
+    public static function isValidRegistrationCode(string $a_code): bool
     {
         global $DIC;
 
@@ -252,7 +254,7 @@ class ilRegistrationCode
         return (bool) $res->numRows();
     }
 
-    public static function useCode(string $code) : bool
+    public static function useCode(string $code): bool
     {
         global $DIC;
 
@@ -264,7 +266,7 @@ class ilRegistrationCode
         );
     }
 
-    public static function getCodeRole(string $code) : int
+    public static function getCodeRole(string $code): int
     {
         global $DIC;
 
@@ -277,7 +279,7 @@ class ilRegistrationCode
         return 0;
     }
 
-    public static function getCodeData(string $code) : array
+    public static function getCodeData(string $code): array
     {
         global $DIC;
 

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * GUI class for service settings (calendar, notes, comments)
  *
@@ -32,23 +34,23 @@ class ilObjectServiceSettingsGUI
     // accessing these, see ilObjectDataSet (changes should be
     // made there accordingly)
 
-    const CALENDAR_CONFIGURATION = 'cont_cal_configuration';
-    const CALENDAR_VISIBILITY = 'cont_show_calendar';
-    const CALENDAR_ACTIVATION = 'cont_activation_calendar';
+    public const CALENDAR_CONFIGURATION = 'cont_cal_configuration';
+    public const CALENDAR_VISIBILITY = 'cont_show_calendar';
+    public const CALENDAR_ACTIVATION = 'cont_activation_calendar';
 
-    const NEWS_VISIBILITY = 'cont_show_news';
-    const USE_NEWS = 'cont_use_news';
-    const AUTO_RATING_NEW_OBJECTS = 'cont_auto_rate_new_obj';
-    const INFO_TAB_VISIBILITY = 'cont_show_info_tab';
-    const TAXONOMIES = 'cont_taxonomies';
-    const TAG_CLOUD = 'cont_tag_cloud';
-    const CUSTOM_METADATA = 'cont_custom_md';
-    const BADGES = 'cont_badges';
-    const ORGU_POSITION_ACCESS = 'obj_orgunit_positions';
-    const SKILLS = 'cont_skills';
-    const FILTER = 'filter';
-    const BOOKING = 'cont_bookings';
-    const EXTERNAL_MAIL_PREFIX = 'mail_external_prefix';
+    public const NEWS_VISIBILITY = 'cont_show_news';
+    public const USE_NEWS = 'cont_use_news';
+    public const AUTO_RATING_NEW_OBJECTS = 'cont_auto_rate_new_obj';
+    public const INFO_TAB_VISIBILITY = 'cont_show_info_tab';
+    public const TAXONOMIES = 'cont_taxonomies';
+    public const TAG_CLOUD = 'cont_tag_cloud';
+    public const CUSTOM_METADATA = 'cont_custom_md';
+    public const BADGES = 'cont_badges';
+    public const ORGU_POSITION_ACCESS = 'obj_orgunit_positions';
+    public const SKILLS = 'cont_skills';
+    public const FILTER = 'filter';
+    public const BOOKING = 'cont_bookings';
+    public const EXTERNAL_MAIL_PREFIX = 'mail_external_prefix';
 
     protected ilCtrl $ctrl;
     protected ilGlobalTemplateInterface $main_tpl;
@@ -72,22 +74,22 @@ class ilObjectServiceSettingsGUI
         $this->modes = $DIC->refinery()->to()->listOf(
             $DIC->refinery()->kindlyTo()->string()
         )->transform($modes);
-        
+
         $this->obj_id = $obj_id;
     }
-    
-    public function executeCommand() : void
+
+    public function executeCommand(): void
     {
         $this->ctrl->getNextClass($this);
         $cmd = $this->ctrl->getCmd('editSettings');
         $this->$cmd();
     }
-    
+
     public static function initServiceSettingsForm(
         int $obj_id,
         ilPropertyFormGUI $form,
         array $services
-    ) : ilPropertyFormGUI {
+    ): ilPropertyFormGUI {
         global $DIC;
 
         $ilSetting = $DIC->settings();
@@ -108,7 +110,7 @@ class ilObjectServiceSettingsGUI
             $info->setInfo($lng->txt('obj_tool_setting_info_tab_info'));
             $form->addItem($info);
         }
-        
+
         // calendar
         if (in_array(self::CALENDAR_CONFIGURATION, $services)) {
             $settings = ilCalendarSettings::_getInstance();
@@ -133,7 +135,7 @@ class ilObjectServiceSettingsGUI
                 $form->addItem($active);
             }
         }
-        
+
         // news
         if (in_array(self::USE_NEWS, $services)) {
             $news = new ilCheckboxInputGUI($lng->txt('obj_tool_setting_use_news'), self::USE_NEWS);
@@ -164,16 +166,16 @@ class ilObjectServiceSettingsGUI
                 //$news->setOptionTitle($lng->txt('obj_tool_setting_news'));
                 $news->setInfo($lng->txt('obj_tool_setting_news_info'));
                 $form->addItem($news);
-                
+
                 if (in_array(ilObject::_lookupType($obj_id), array('crs', 'grp'))) {
                     $refs = ilObject::_getAllReferences($obj_id);
                     $ref_id = array_pop($refs);
-                    
+
                     ilMembershipNotifications::addToSettingsForm($ref_id, null, $news);
                 }
             }
         }
-        
+
         // (local) custom metadata
         if (in_array(self::CUSTOM_METADATA, $services)) {
             $md = new ilCheckboxInputGUI($lng->txt('obj_tool_setting_custom_metadata'), self::CUSTOM_METADATA);
@@ -185,7 +187,7 @@ class ilObjectServiceSettingsGUI
             ));
             $form->addItem($md);
         }
-                
+
         // tag cloud
         if (in_array(self::TAG_CLOUD, $services)) {
             $tags_active = new ilSetting("tags");
@@ -211,11 +213,11 @@ class ilObjectServiceSettingsGUI
             ));
             $form->addItem($tax);
         }
-        
+
         // auto rating
         if (in_array(self::AUTO_RATING_NEW_OBJECTS, $services)) {
             $lng->loadLanguageModule("rating");
-            
+
             // auto rating for new objects
             $rate = new ilCheckboxInputGUI($lng->txt('rating_new_objects_auto'), self::AUTO_RATING_NEW_OBJECTS);
             $rate->setValue("1");
@@ -227,7 +229,7 @@ class ilObjectServiceSettingsGUI
             ));
             $form->addItem($rate);
         }
-        
+
         // badges
         if (in_array(self::BADGES, $services)) {
             if (ilBadgeHandler::getInstance()->isActive()) {
@@ -325,7 +327,7 @@ class ilObjectServiceSettingsGUI
     /**
      * @param string[] $services
      */
-    public static function updateServiceSettingsForm(int $obj_id, ilPropertyFormGUI $form, array $services) : bool
+    public static function updateServiceSettingsForm(int $obj_id, ilPropertyFormGUI $form, array $services): bool
     {
         // info
         if (in_array(self::INFO_TAB_VISIBILITY, $services)) {
@@ -335,7 +337,7 @@ class ilObjectServiceSettingsGUI
                 $form->getInput(self::INFO_TAB_VISIBILITY)
             );
         }
-        
+
         // calendar
         if (in_array(self::CALENDAR_CONFIGURATION, $services)) {
             if (ilCalendarSettings::_getInstance()->isEnabled()) {
@@ -359,15 +361,15 @@ class ilObjectServiceSettingsGUI
         }
         if (in_array(self::NEWS_VISIBILITY, $services)) {
             ilContainer::_writeContainerSetting($obj_id, self::NEWS_VISIBILITY, $form->getInput(self::NEWS_VISIBILITY));
-            
+
             if (in_array(ilObject::_lookupType($obj_id), array('crs', 'grp'))) {
                 $refs = ilObject::_getAllReferences($obj_id);
                 $ref_id = array_pop($refs);
-                    
+
                 ilMembershipNotifications::importFromForm($ref_id, $form);
             }
         }
-        
+
         // rating
         if (in_array(self::AUTO_RATING_NEW_OBJECTS, $services)) {
             ilContainer::_writeContainerSetting(
@@ -386,19 +388,19 @@ class ilObjectServiceSettingsGUI
         if (in_array(self::TAG_CLOUD, $services)) {
             ilContainer::_writeContainerSetting($obj_id, self::TAG_CLOUD, $form->getInput(self::TAG_CLOUD));
         }
-        
+
         // (local) custom metadata
         if (in_array(self::CUSTOM_METADATA, $services)) {
             ilContainer::_writeContainerSetting($obj_id, self::CUSTOM_METADATA, $form->getInput(self::CUSTOM_METADATA));
         }
-        
+
         // badges
         if (in_array(self::BADGES, $services)) {
             if (ilBadgeHandler::getInstance()->isActive()) {
                 ilContainer::_writeContainerSetting($obj_id, self::BADGES, $form->getInput(self::BADGES));
             }
         }
-        
+
         // booking
         if (in_array(self::BOOKING, $services)) {
             ilContainer::_writeContainerSetting($obj_id, self::BOOKING, $form->getInput(self::BOOKING));
@@ -409,7 +411,7 @@ class ilObjectServiceSettingsGUI
             $position_settings = ilOrgUnitGlobalSettings::getInstance()->getObjectPositionSettingsByType(
                 ilObject::_lookupType($obj_id)
             );
-            
+
             if ($position_settings->isActive() && $position_settings->isChangeableForObject()) {
                 $orgu_object_settings = new ilOrgUnitObjectPositionSetting($obj_id);
                 $orgu_object_settings->setActive(
@@ -440,34 +442,34 @@ class ilObjectServiceSettingsGUI
         return true;
     }
 
-    
+
     /**
      * Get active modes
      * @return string[]
      */
-    public function getModes() : array
+    public function getModes(): array
     {
         return $this->modes;
     }
-    
+
     /**
      * Get obj id
      */
-    public function getObjId() : int
+    public function getObjId(): int
     {
         return $this->obj_id;
     }
-    
-    protected function cancel() : void
+
+    protected function cancel(): void
     {
         $this->ctrl->returnToParent($this);
     }
-    
+
     /**
      * Edit tool settings (calendar, news, comments, ...)
      * @param ilPropertyFormGUI $form
      */
-    protected function editSettings(ilPropertyFormGUI $form = null) : void
+    protected function editSettings(ilPropertyFormGUI $form = null): void
     {
         if (!$form instanceof ilPropertyFormGUI) {
             // TODO: cant find initSettingsForm, is editSettings ever called?
@@ -475,12 +477,12 @@ class ilObjectServiceSettingsGUI
         }
         $this->main_tpl->setContent($form->getHTML());
     }
-    
-    
+
+
     /**
      * Update settings
      */
-    protected function updateToolSettings() : void
+    protected function updateToolSettings(): void
     {
         // TODO: cant find initSettingsForm, is updateToolSettings ever called?
         $form = $this->initSettingsForm();
@@ -493,16 +495,16 @@ class ilObjectServiceSettingsGUI
             $this->main_tpl->setOnScreenMessage('success', $this->lng->txt('settings_saved'), true);
             $this->ctrl->redirect($this);
         }
-        
+
         $this->main_tpl->setOnScreenMessage('failure', $this->lng->txt('err_check_input'));
         $form->setValuesByPost();
         $this->editSettings($form);
     }
-    
+
     /**
      * Check if specific mode is active
      */
-    protected function isModeActive(string $mode) : bool
+    protected function isModeActive(string $mode): bool
     {
         return in_array($mode, $this->getModes(), true);
     }

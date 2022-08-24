@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\UI\Implementation\Component\Link;
 
 use ILIAS\UI\Component as C;
@@ -33,7 +35,7 @@ class Standard extends Link implements C\Link\Standard
     /**
      * @inheritdoc
      */
-    public function getLabel() : string
+    public function getLabel(): string
     {
         return $this->label;
     }

@@ -54,7 +54,7 @@ class ilPasswordAssistanceGUI
     /**
      * as replacement for "this->ilias"
      */
-    protected function getClientId() : string
+    protected function getClientId(): string
     {
         return CLIENT_ID;
     }
@@ -107,7 +107,7 @@ class ilPasswordAssistanceGUI
     /**
      * Returns the ILIAS http path without a trailing /
      */
-    protected function getBaseUrl() : string
+    protected function getBaseUrl(): string
     {
         return rtrim(ILIAS_HTTP_PATH, '/');
     }
@@ -117,7 +117,7 @@ class ilPasswordAssistanceGUI
      * @param array  $queryParameters
      * @return string
      */
-    protected function buildUrl(string $script, array $queryParameters) : string
+    protected function buildUrl(string $script, array $queryParameters): string
     {
         $url = implode('/', [
             $this->getBaseUrl(),
@@ -132,7 +132,7 @@ class ilPasswordAssistanceGUI
         return $url;
     }
 
-    protected function getAssistanceForm() : ilPropertyFormGUI
+    protected function getAssistanceForm(): ilPropertyFormGUI
     {
         $form = new ilPropertyFormGUI();
 
@@ -152,7 +152,7 @@ class ilPasswordAssistanceGUI
         return $form;
     }
 
-    public function showAssistanceForm(ilPropertyFormGUI $form = null) : void
+    public function showAssistanceForm(ilPropertyFormGUI $form = null): void
     {
         $tpl = ilStartUpGUI::initStartUpTemplate('tpl.pwassist_assistance.html', true);
         $this->tpl->setVariable('IMG_PAGEHEADLINE', ilUtil::getImagePath('icon_auth.svg'));
@@ -190,7 +190,7 @@ class ilPasswordAssistanceGUI
      * For details about the creation of the session and the e-mail see function
      * sendPasswordAssistanceMail().
      */
-    public function submitAssistanceForm() : void
+    public function submitAssistanceForm(): void
     {
         $form = $this->getAssistanceForm();
         if (!$form->checkInput()) {
@@ -204,7 +204,7 @@ class ilPasswordAssistanceGUI
             $defaultAuth = $GLOBALS['DIC']['ilSetting']->get('auth_mode');
         }
 
-        $assistance_callback = function () use ($form, $defaultAuth) : void {
+        $assistance_callback = function () use ($form, $defaultAuth): void {
             $username = $form->getInput('username');
             $email = $form->getInput('email');
 
@@ -283,7 +283,7 @@ class ilPasswordAssistanceGUI
      * client_id
      * key
      */
-    public function sendPasswordAssistanceMail(ilObjUser $userObj) : void
+    public function sendPasswordAssistanceMail(ilObjUser $userObj): void
     {
         global $DIC;
 
@@ -347,7 +347,7 @@ class ilPasswordAssistanceGUI
         $mm->Send();
     }
 
-    protected function getAssignPasswordForm(string $pwassist_id) : ilPropertyFormGUI
+    protected function getAssignPasswordForm(string $pwassist_id): ilPropertyFormGUI
     {
         $form = new ilPropertyFormGUI();
         $form->setFormAction($this->ctrl->getFormAction($this, 'submitAssignPasswordForm'));
@@ -379,7 +379,7 @@ class ilPasswordAssistanceGUI
      * If the key is missing, or if the password assistance session has expired, the
      * password assistance form will be shown instead of this form.
      */
-    public function showAssignPasswordForm(ilPropertyFormGUI $form = null, string $pwassist_id = '') : void
+    public function showAssignPasswordForm(ilPropertyFormGUI $form = null, string $pwassist_id = ''): void
     {
         // Retrieve form data
         if (!$pwassist_id) {
@@ -436,7 +436,7 @@ class ilPasswordAssistanceGUI
      * Note: To prevent replay attacks, the session is deleted when the
      * password has been assigned successfully.
      */
-    public function submitAssignPasswordForm() : void
+    public function submitAssignPasswordForm(): void
     {
         require_once 'include/inc.pwassist_session_handler.php';
 
@@ -520,8 +520,8 @@ class ilPasswordAssistanceGUI
             }
         }
     }
-    
-    protected function getUsernameAssistanceForm() : ilPropertyFormGUI
+
+    protected function getUsernameAssistanceForm(): ilPropertyFormGUI
     {
         $form = new ilPropertyFormGUI();
 
@@ -545,7 +545,7 @@ class ilPasswordAssistanceGUI
      * When the user submits the form, then this script is invoked with the cmd
      * 'submitAssistanceForm'.
      */
-    public function showUsernameAssistanceForm(ilPropertyFormGUI $form = null) : void
+    public function showUsernameAssistanceForm(ilPropertyFormGUI $form = null): void
     {
         $tpl = ilStartUpGUI::initStartUpTemplate('tpl.pwassist_username_assistance.html', true);
         $tpl->setVariable('IMG_PAGEHEADLINE', ilUtil::getImagePath('icon_auth.svg'));
@@ -584,7 +584,7 @@ class ilPasswordAssistanceGUI
      * For details about the creation of the session and the e-mail see function
      * sendPasswordAssistanceMail().
      */
-    public function submitUsernameAssistanceForm() : void
+    public function submitUsernameAssistanceForm(): void
     {
         $form = $this->getUsernameAssistanceForm();
         if (!$form->checkInput()) {
@@ -594,7 +594,7 @@ class ilPasswordAssistanceGUI
             return;
         }
 
-        $assistance_callback = function () use ($form) : void {
+        $assistance_callback = function () use ($form): void {
             $email = $form->getInput('email');
             $logins = ilObjUser::getUserLoginsByEmail($email);
 
@@ -628,7 +628,7 @@ class ilPasswordAssistanceGUI
      * client_id
      * key
      */
-    public function sendUsernameAssistanceMail(string $email, array $logins) : void
+    public function sendUsernameAssistanceMail(string $email, array $logins): void
     {
         global $DIC;
 
@@ -671,7 +671,7 @@ class ilPasswordAssistanceGUI
     /**
      * This form is used to show a message to the user.
      */
-    public function showMessageForm(string $text) : void
+    public function showMessageForm(string $text): void
     {
         $tpl = ilStartUpGUI::initStartUpTemplate('tpl.pwassist_message.html', true);
         $tpl->setVariable('TXT_PAGEHEADLINE', $this->lng->txt('password_assistance'));
@@ -682,7 +682,7 @@ class ilPasswordAssistanceGUI
         ilStartUpGUI::printToGlobalTemplate($tpl);
     }
 
-    protected function fillPermanentLink(string $context) : void
+    protected function fillPermanentLink(string $context): void
     {
         $this->tpl->setPermanentLink('usr', 0, $context);
     }

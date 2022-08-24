@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /******************************************************************************
  *
@@ -33,17 +35,17 @@ class ilConditionService
         }
     }
 
-    public static function getInstance(ilConditionObjectAdapterInterface $cond_obj_adapter = null) : ilConditionService
+    public static function getInstance(ilConditionObjectAdapterInterface $cond_obj_adapter = null): ilConditionService
     {
         return new self($cond_obj_adapter);
     }
 
-    public function factory() : ilConditionFactory
+    public function factory(): ilConditionFactory
     {
         return new ilConditionFactory($this->cond_obj_adapter);
     }
 
-    public function util() : ilConditionUtil
+    public function util(): ilConditionUtil
     {
         return new ilConditionUtil();
     }

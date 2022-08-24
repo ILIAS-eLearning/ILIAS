@@ -47,22 +47,22 @@ class ilBookingSchedule
 
     public function setTitle(
         string $a_title
-    ) : void {
+    ): void {
         $this->title = $a_title;
     }
 
-    public function getTitle() : string
+    public function getTitle(): string
     {
         return $this->title;
     }
-    
+
     public function setPoolId(
         int $a_pool_id
-    ) : void {
+    ): void {
         $this->pool_id = $a_pool_id;
     }
 
-    public function getPoolId() : int
+    public function getPoolId(): int
     {
         return $this->pool_id;
     }
@@ -72,11 +72,11 @@ class ilBookingSchedule
      */
     public function setRaster(
         int $a_raster
-    ) : void {
+    ): void {
         $this->raster = $a_raster;
     }
 
-    public function getRaster() : int
+    public function getRaster(): int
     {
         return $this->raster;
     }
@@ -86,11 +86,11 @@ class ilBookingSchedule
      */
     public function setMinRental(
         int $a_min
-    ) : void {
+    ): void {
         $this->rent_min = $a_min;
     }
 
-    public function getMinRental() : int
+    public function getMinRental(): int
     {
         return $this->rent_min;
     }
@@ -100,22 +100,22 @@ class ilBookingSchedule
      */
     public function setMaxRental(
         int $a_max
-    ) : void {
+    ): void {
         $this->rent_max = $a_max;
     }
 
-    public function getMaxRental() : int
+    public function getMaxRental(): int
     {
         return $this->rent_max;
     }
 
     // set break time
-    public function setAutoBreak(int $a_break) : void
+    public function setAutoBreak(int $a_break): void
     {
         $this->auto_break = $a_break;
     }
 
-    public function getAutoBreak() : int
+    public function getAutoBreak(): int
     {
         return $this->auto_break;
     }
@@ -123,12 +123,12 @@ class ilBookingSchedule
     /**
      * Set deadline
      */
-    public function setDeadline(int $a_deadline) : void
+    public function setDeadline(int $a_deadline): void
     {
         $this->deadline = $a_deadline;
     }
 
-    public function getDeadline() : int
+    public function getDeadline(): int
     {
         return $this->deadline;
     }
@@ -138,41 +138,41 @@ class ilBookingSchedule
      */
     public function setDefinition(
         array $a_definition
-    ) : void {
+    ): void {
         $this->definition = $a_definition;
     }
 
-    public function getDefinition() : array
+    public function getDefinition(): array
     {
         return $this->definition;
     }
-    
+
     public function setAvailabilityFrom(
         ?ilDateTime $a_date = null
-    ) : void {
+    ): void {
         $this->av_from = $a_date;
     }
-    
-    public function getAvailabilityFrom() : ?ilDateTime
+
+    public function getAvailabilityFrom(): ?ilDateTime
     {
         return $this->av_from;
     }
-    
+
     public function setAvailabilityTo(
         ?ilDateTime $a_date = null
-    ) : void {
+    ): void {
         $this->av_to = $a_date;
     }
-    
-    public function getAvailabilityTo() : ?ilDateTime
+
+    public function getAvailabilityTo(): ?ilDateTime
     {
         return $this->av_to;
     }
 
-    protected function read() : void
+    protected function read(): void
     {
         $ilDB = $this->db;
-        
+
         if ($this->id) {
             $set = $ilDB->query('SELECT title,raster,rent_min,rent_max,auto_break,' .
                 'deadline,av_from,av_to' .
@@ -202,7 +202,7 @@ class ilBookingSchedule
         }
     }
 
-    public function save() : bool
+    public function save(): bool
     {
         $ilDB = $this->db;
 
@@ -229,11 +229,11 @@ class ilBookingSchedule
             ',' . $ilDB->quote($av_from, 'integer') . ',' . $ilDB->quote($av_to, 'integer') . ')');
 
         $this->saveDefinition();
-        
+
         return $this->id;
     }
 
-    public function update() : bool
+    public function update(): bool
     {
         $ilDB = $this->db;
 
@@ -247,7 +247,7 @@ class ilBookingSchedule
         $av_to = ($this->getAvailabilityTo() && !$this->getAvailabilityTo()->isNull())
             ? $this->getAvailabilityTo()->get(IL_CAL_UNIX)
             : null;
-        
+
         $ilDB->manipulate('UPDATE booking_schedule' .
             ' SET title = ' . $ilDB->quote($this->getTitle(), 'text') .
             ', pool_id = ' . $ilDB->quote($this->getPoolId(), 'integer') .
@@ -263,8 +263,8 @@ class ilBookingSchedule
         $this->saveDefinition();
         return true;
     }
-    
-    public function doClone(int $a_pool_id) : bool
+
+    public function doClone(int $a_pool_id): bool
     {
         $new_obj = new self();
         $new_obj->setPoolId($a_pool_id);
@@ -283,7 +283,7 @@ class ilBookingSchedule
     /**
      * Save current definition (slots)
      */
-    protected function saveDefinition() : bool
+    protected function saveDefinition(): bool
     {
         $ilDB = $this->db;
 
@@ -314,7 +314,7 @@ class ilBookingSchedule
     /**
      * Check if given pool has any defined schedules
      */
-    public static function hasExistingSchedules(int $a_pool_id) : bool
+    public static function hasExistingSchedules(int $a_pool_id): bool
     {
         global $DIC;
 
@@ -329,7 +329,7 @@ class ilBookingSchedule
     /**
      * Get list of booking objects for given pool
      */
-    public static function getList(int $a_pool_id) : array
+    public static function getList(int $a_pool_id): array
     {
         global $DIC;
 
@@ -354,7 +354,7 @@ class ilBookingSchedule
         return $res;
     }
 
-    public function delete() : int
+    public function delete(): int
     {
         $ilDB = $this->db;
 
@@ -364,11 +364,11 @@ class ilBookingSchedule
         }
         return 0;
     }
-    
+
     /**
      * Return definition grouped by slots (not days)
      */
-    public function getDefinitionBySlots() : array
+    public function getDefinitionBySlots(): array
     {
         $def = $this->getDefinition();
         $slots = array();
@@ -383,8 +383,8 @@ class ilBookingSchedule
         ksort($slots);
         return $slots;
     }
-    
-    public function setDefinitionBySlots(array $a_def) : void
+
+    public function setDefinitionBySlots(array $a_def): void
     {
         $slots = array();
         foreach ($a_def as $time => $days) {

@@ -1,37 +1,39 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 use ILIAS\Data;
 use PHPUnit\Framework\TestCase;
 
 class VersionTest extends TestCase
 {
-    protected function setUp() : void
+    protected function setUp(): void
     {
         $this->f = new Data\Factory();
     }
 
-    public function testSmoke() : void
+    public function testSmoke(): void
     {
         $v = $this->f->version("0.1.0");
 
         $this->assertEquals("0.1.0", (string) $v);
     }
 
-    public function testMajorOnly() : void
+    public function testMajorOnly(): void
     {
         $v = $this->f->version("1");
 
         $this->assertEquals("1.0.0", (string) $v);
     }
 
-    public function testNoPatchVersion() : void
+    public function testNoPatchVersion(): void
     {
         $v = $this->f->version("1.2");
 
         $this->assertEquals("1.2.0", (string) $v);
     }
 
-    public function testSubVersions() : void
+    public function testSubVersions(): void
     {
         $v = $this->f->version("1.2.3");
 
@@ -43,7 +45,7 @@ class VersionTest extends TestCase
     /**
      * @dataProvider greaterThanProvider
      */
-    public function testGreaterThan(Data\Version $l, Data\Version $r) : void
+    public function testGreaterThan(Data\Version $l, Data\Version $r): void
     {
         $this->assertTrue($l->isGreaterThan($r));
         $this->assertTrue($r->isSmallerThan($l));
@@ -53,7 +55,7 @@ class VersionTest extends TestCase
         $this->assertFalse($r->equals($l));
     }
 
-    public function greaterThanProvider() : array
+    public function greaterThanProvider(): array
     {
         $f = new Data\Factory();
         return [
@@ -69,7 +71,7 @@ class VersionTest extends TestCase
     /**
      * @dataProvider equalsProvider
      */
-    public function testEquals(Data\Version $l, Data\Version $r) : void
+    public function testEquals(Data\Version $l, Data\Version $r): void
     {
         $this->assertFalse($l->isGreaterThan($r));
         $this->assertFalse($r->isSmallerThan($l));
@@ -79,7 +81,7 @@ class VersionTest extends TestCase
         $this->assertTrue($r->equals($l));
     }
 
-    public function equalsProvider() : array
+    public function equalsProvider(): array
     {
         $f = new Data\Factory();
         return [

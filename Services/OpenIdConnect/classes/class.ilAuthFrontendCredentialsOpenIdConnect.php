@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /******************************************************************************
  *
@@ -37,17 +39,17 @@ class ilAuthFrontendCredentialsOpenIdConnect extends ilAuthFrontendCredentials
         }
     }
 
-    protected function getSettings() : ilOpenIdConnectSettings
+    protected function getSettings(): ilOpenIdConnectSettings
     {
         return $this->settings;
     }
 
-    public function getRedirectionTarget() : ?string
+    public function getRedirectionTarget(): ?string
     {
         return $this->target;
     }
 
-    public function initFromRequest() : void
+    public function initFromRequest(): void
     {
         $this->setUsername('');
         $this->setPassword('');
@@ -55,7 +57,7 @@ class ilAuthFrontendCredentialsOpenIdConnect extends ilAuthFrontendCredentials
         $this->parseRedirectionTarget();
     }
 
-    protected function parseRedirectionTarget() : void
+    protected function parseRedirectionTarget(): void
     {
         if ($this->target) {
             ilSession::set(self::SESSION_TARGET, $this->target);

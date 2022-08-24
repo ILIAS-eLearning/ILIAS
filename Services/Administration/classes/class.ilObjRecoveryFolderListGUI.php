@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -21,7 +23,7 @@
  */
 class ilObjRecoveryFolderListGUI extends ilObjectListGUI
 {
-    public function init() : void
+    public function init(): void
     {
         $this->type = "recf";
         $this->gui_class_name = "ilobjrecoveryfoldergui";

@@ -26,7 +26,7 @@
  */
 class ilEditClipboard
 {
-    public static function getContentObjectType() : string
+    public static function getContentObjectType(): string
     {
         global $DIC;
         $user = $DIC->user();
@@ -38,21 +38,21 @@ class ilEditClipboard
         }
     }
 
-    public static function setAction(string $a_action) : void
+    public static function setAction(string $a_action): void
     {
         global $DIC;
         $user = $DIC->user();
         $user->writePref("lm_clipboard_action", $a_action);
     }
 
-    public static function getAction() : string
+    public static function getAction(): string
     {
         global $DIC;
         $user = $DIC->user();
         return (string) $user->getPref("lm_clipboard_action");
     }
 
-    public static function getContentObjectId() : int
+    public static function getContentObjectId(): int
     {
         global $DIC;
         $user = $DIC->user();
@@ -67,7 +67,7 @@ class ilEditClipboard
         string $a_type,
         int $a_id,
         string $a_action = "cut"
-    ) : void {
+    ): void {
         global $DIC;
         $user = $DIC->user();
         $user->writePref("lm_clipboard_id", $a_id);
@@ -75,7 +75,7 @@ class ilEditClipboard
         self::setAction($a_action);
     }
 
-    public static function clear() : void
+    public static function clear(): void
     {
         global $DIC;
         $user = $DIC->user();

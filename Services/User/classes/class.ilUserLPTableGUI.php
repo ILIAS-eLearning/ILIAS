@@ -36,10 +36,10 @@ class ilUserLPTableGUI extends ilTable2GUI
 
         $this->ref_id = $a_ref_id;
         $this->setId("admusrlp");
-        
+
         parent::__construct($a_parent_obj, $a_parent_cmd);
         // $this->setTitle($this->lng->txt("obj_usr"));
-        
+
         $this->addColumn($this->lng->txt("login"), "login");
         $this->addColumn($this->lng->txt("firstname"), "firstname");
         $this->addColumn($this->lng->txt("lastname"), "lastname");
@@ -47,23 +47,23 @@ class ilUserLPTableGUI extends ilTable2GUI
         $this->addColumn($this->lng->txt("last_login"), "last_login");
         $this->setExternalSorting(true);
         $this->setExternalSegmentation(true);
-    
+
         $this->setFormAction($ilCtrl->getFormAction($this->parent_obj));
-        
+
         $this->setRowTemplate("tpl.user_list_lp_row.html", "Services/User");
-        
+
         $this->setDefaultOrderField("login");
         $this->setDefaultOrderDirection("asc");
-        
+
         $this->setExportFormats(array(self::EXPORT_EXCEL));
 
         $this->getItems();
     }
-    
-    public function getItems() : void
+
+    public function getItems(): void
     {
         $this->determineOffsetAndOrder();
-            
+
         $usr_data = ilUserQuery::getUserListData(
             ilUtil::stripSlashes($this->getOrderField()),
             ilUtil::stripSlashes($this->getOrderDirection()),
@@ -81,7 +81,7 @@ class ilUserLPTableGUI extends ilTable2GUI
             null,
             null
         );
-            
+
         if (count($usr_data["set"]) == 0 && $this->getOffset() > 0) {
             $this->resetOffset();
             $usr_data = ilUserQuery::getUserListData(
@@ -105,7 +105,7 @@ class ilUserLPTableGUI extends ilTable2GUI
 
         $this->setMaxCount($usr_data["cnt"]);
         $this->setData($usr_data["set"]);
-        
+
         $this->lp_active = ilObjUserTracking::_enabledLearningProgress();
     }
 
@@ -114,12 +114,12 @@ class ilUserLPTableGUI extends ilTable2GUI
      * @throws ilDateTimeException
      * @throws ilTemplateException
      */
-    protected function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set): void
     {
         global $DIC;
 
         $ilCtrl = $DIC['ilCtrl'];
-        
+
         if ($this->lp_active) {
             $ilCtrl->setParameterByClass("illearningprogressgui", "ref_id", $this->ref_id);
             $ilCtrl->setParameterByClass("illearningprogressgui", "obj_id", $a_set["usr_id"]);
@@ -145,8 +145,8 @@ class ilUserLPTableGUI extends ilTable2GUI
             ilDatePresentation::formatDate(new ilDateTime($a_set["last_login"], IL_CAL_DATETIME))
         );
     }
-    
-    protected function fillRowExcel(ilExcel $a_excel, int &$a_row, array $a_set) : void // Missing array type.
+
+    protected function fillRowExcel(ilExcel $a_excel, int &$a_row, array $a_set): void // Missing array type.
     {
         $a_excel->setCell($a_row, 0, $a_set["login"]);
         $a_excel->setCell($a_row, 1, $a_set["firstname"]);
@@ -158,12 +158,12 @@ class ilUserLPTableGUI extends ilTable2GUI
         );
         $a_excel->setCell($a_row, 4, new ilDateTime($a_set["last_login"], IL_CAL_DATETIME));
     }
-    
+
     /**
      * converts seconds to string:
      * Long: 7 days 4 hour(s) ...
      */
-    protected static function secondsToShortString(int $seconds) : string
+    protected static function secondsToShortString(int $seconds): string
     {
         $seconds = $seconds ?: 0;
         $days = floor($seconds / 86400);

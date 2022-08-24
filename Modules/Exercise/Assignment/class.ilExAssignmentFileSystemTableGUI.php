@@ -71,7 +71,7 @@ class ilExAssignmentFileSystemTableGUI extends ilFileSystemTableGUI
      * Add Order Values (extension of ilFilesystemgui getEntries)
      * @throws ilExcUnknownAssignmentTypeException
      */
-    public function getEntries() : array
+    public function getEntries(): array
     {
         $entries = parent::getEntries();
         if ($entries !== []) {
@@ -81,7 +81,7 @@ class ilExAssignmentFileSystemTableGUI extends ilFileSystemTableGUI
         return $ass->fileAddOrder($entries);
     }
 
-    public function numericOrdering(string $a_field) : bool
+    public function numericOrdering(string $a_field): bool
     {
         if ($a_field == "order_val") {
             return true;
@@ -89,7 +89,7 @@ class ilExAssignmentFileSystemTableGUI extends ilFileSystemTableGUI
         return false;
     }
 
-    public function addColumns() : void
+    public function addColumns(): void
     {
         if ($this->has_multi) {
             $this->setSelectAllCheckbox("file[]");
@@ -112,7 +112,7 @@ class ilExAssignmentFileSystemTableGUI extends ilFileSystemTableGUI
         }
     }
 
-    protected function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set): void
     {
         $this->tpl->setCurrentBlock("Order");
         $this->tpl->setVariable("ID", (string) $a_set['order_id']);

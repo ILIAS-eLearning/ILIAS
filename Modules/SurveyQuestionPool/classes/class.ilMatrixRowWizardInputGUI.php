@@ -31,7 +31,7 @@ class ilMatrixRowWizardInputGUI extends ilTextInputGUI
     protected string $categorytext;
     protected string $labeltext;
     protected bool $use_other_answer;
-    
+
     public function __construct(
         string $a_title = "",
         string $a_postvar = ""
@@ -51,21 +51,21 @@ class ilMatrixRowWizardInputGUI extends ilTextInputGUI
 
         $this->setMaxLength(1000); // #6803
     }
-    
-    public function getUseOtherAnswer() : bool
+
+    public function getUseOtherAnswer(): bool
     {
         return $this->use_other_answer;
     }
-    
-    public function setUseOtherAnswer(bool $a_value) : void
+
+    public function setUseOtherAnswer(bool $a_value): void
     {
         $this->use_other_answer = $a_value;
     }
-    
+
     /**
      * @param string|array $a_value
      */
-    public function setValue($a_value) : void
+    public function setValue($a_value): void
     {
         $this->values = new SurveyCategories();
         if (is_array($a_value) && is_array($a_value['answer'])) {
@@ -75,67 +75,67 @@ class ilMatrixRowWizardInputGUI extends ilTextInputGUI
         }
     }
 
-    public function setValues(SurveyCategories $a_values) : void
+    public function setValues(SurveyCategories $a_values): void
     {
         $this->values = $a_values;
     }
 
-    public function getValues() : SurveyCategories
+    public function getValues(): SurveyCategories
     {
         return $this->values;
     }
 
-    public function setAllowMove(bool $a_allow_move) : void
+    public function setAllowMove(bool $a_allow_move): void
     {
         $this->allowMove = $a_allow_move;
     }
 
-    public function getAllowMove() : bool
+    public function getAllowMove(): bool
     {
         return $this->allowMove;
     }
-    
-    public function setShowWizard(bool $a_value) : void
+
+    public function setShowWizard(bool $a_value): void
     {
         $this->show_wizard = $a_value;
     }
-    
-    public function getShowWizard() : bool
+
+    public function getShowWizard(): bool
     {
         return $this->show_wizard;
     }
-    
-    public function setCategoryText(string $a_text) : void
+
+    public function setCategoryText(string $a_text): void
     {
         $this->categorytext = $a_text;
     }
-    
-    public function getCategoryText() : string
+
+    public function getCategoryText(): string
     {
         return $this->categorytext;
     }
-    
-    public function setLabelText(string $a_text) : void
+
+    public function setLabelText(string $a_text): void
     {
         $this->labeltext = $a_text;
     }
-    
-    public function getLabelText() : string
+
+    public function getLabelText(): string
     {
         return $this->labeltext;
     }
-    
-    public function setShowSavePhrase(bool $a_value) : void
+
+    public function setShowSavePhrase(bool $a_value): void
     {
         $this->show_save_phrase = $a_value;
     }
-    
-    public function getShowSavePhrase() : bool
+
+    public function getShowSavePhrase(): bool
     {
         return $this->show_save_phrase;
     }
-    
-    public function checkInput() : bool
+
+    public function checkInput(): bool
     {
         $lng = $this->lng;
         $foundvalues = $this->getInput();
@@ -153,21 +153,21 @@ class ilMatrixRowWizardInputGUI extends ilTextInputGUI
             $this->setAlert($lng->txt("msg_input_is_required"));
             return false;
         }
-        
+
         return $this->checkSubItemsInput();
     }
 
-    public function getInput() : array
+    public function getInput(): array
     {
         $val = $this->arrayArray($this->getPostVar());
         $val = ilArrayUtil::stripSlashesRecursive($val);
         return $val;
     }
 
-    public function insert(ilTemplate $a_tpl) : void
+    public function insert(ilTemplate $a_tpl): void
     {
         $lng = $this->lng;
-        
+
         $tpl = new ilTemplate("tpl.prop_matrixrowwizardinput.html", true, true, "Modules/SurveyQuestionPool");
         if (is_object($this->values)) {
             for ($i = 0; $i < $this->values->getCategoryCount(); $i++) {
@@ -199,7 +199,7 @@ class ilMatrixRowWizardInputGUI extends ilTextInputGUI
                     $tpl->setVariable("DOWN_BUTTON", ilGlyphGUI::get(ilGlyphGUI::DOWN));
                     $tpl->parseCurrentBlock();
                 }
-                
+
                 $tpl->setCurrentBlock("row");
                 $tpl->setVariable("POST_VAR", $this->getPostVar());
                 $tpl->setVariable("ROW_NUMBER", $i);
@@ -228,14 +228,14 @@ class ilMatrixRowWizardInputGUI extends ilTextInputGUI
             $tpl->setVariable("WIZARD_TEXT", $lng->txt('add_phrase'));
             $tpl->parseCurrentBlock();
         }
-        
+
         if ($this->getShowSavePhrase()) {
             $tpl->setCurrentBlock('savephrase');
             $tpl->setVariable("POST_VAR", $this->getPostVar());
             $tpl->setVariable("VALUE_SAVE_PHRASE", $lng->txt('save_phrase'));
             $tpl->parseCurrentBlock();
         }
-        
+
         if ($this->getUseOtherAnswer()) {
             $tpl->setCurrentBlock('other_answer_title');
             $tpl->setVariable("OTHER_TEXT", $lng->txt('use_other_answer'));
@@ -246,11 +246,11 @@ class ilMatrixRowWizardInputGUI extends ilTextInputGUI
         $tpl->setVariable("ANSWER_TEXT", $this->getCategoryText());
         $tpl->setVariable("LABEL_TEXT", $this->getLabelText());
         $tpl->setVariable("ACTIONS_TEXT", $lng->txt('actions'));
-    
+
         $a_tpl->setCurrentBlock("prop_generic");
         $a_tpl->setVariable("PROP_GENERIC", $tpl->get());
         $a_tpl->parseCurrentBlock();
-        
+
         $tpl = $this->tpl;
         $tpl->addJavaScript("./Services/Form/js/ServiceFormWizardInput.js");
         $tpl->addJavaScript("./Modules/SurveyQuestionPool/js/matrixrowwizard.js");

@@ -1,15 +1,17 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 class ilADTGroupFormBridge extends ilADTFormBridge
 {
     protected array $elements = [];
 
-    protected function isValidADT(ilADT $a_adt) : bool
+    protected function isValidADT(ilADT $a_adt): bool
     {
         return ($a_adt instanceof ilADTGroup);
     }
 
-    protected function prepareElements() : void
+    protected function prepareElements(): void
     {
         if (count($this->elements)) {
             return;
@@ -27,13 +29,13 @@ class ilADTGroupFormBridge extends ilADTFormBridge
         }
     }
 
-    public function getElements() : array
+    public function getElements(): array
     {
         $this->prepareElements();
         return $this->elements;
     }
 
-    public function getElement(string $a_name) : ?ilADTFormBridge
+    public function getElement(string $a_name): ?ilADTFormBridge
     {
         $this->prepareElements();
         if (array_key_exists($a_name, $this->elements)) {
@@ -42,7 +44,7 @@ class ilADTGroupFormBridge extends ilADTFormBridge
         return null;
     }
 
-    public function addToForm() : void
+    public function addToForm(): void
     {
         if ($this->getTitle()) {
             $section = new ilFormSectionHeaderGUI();
@@ -61,7 +63,7 @@ class ilADTGroupFormBridge extends ilADTFormBridge
         }
     }
 
-    public function addJS(ilGlobalTemplateInterface $a_tpl) : void
+    public function addJS(ilGlobalTemplateInterface $a_tpl): void
     {
         $this->prepareElements();
         foreach ($this->elements as $element) {
@@ -69,7 +71,7 @@ class ilADTGroupFormBridge extends ilADTFormBridge
         }
     }
 
-    public function importFromPost() : void
+    public function importFromPost(): void
     {
         $this->prepareElements();
         foreach ($this->elements as $element) {
@@ -87,7 +89,7 @@ class ilADTGroupFormBridge extends ilADTFormBridge
         }
     }
 
-    public function validate() : bool
+    public function validate(): bool
     {
         $valid = true;
 

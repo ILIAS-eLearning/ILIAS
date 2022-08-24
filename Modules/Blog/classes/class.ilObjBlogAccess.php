@@ -33,7 +33,7 @@ class ilObjBlogAccess extends ilObjectAccess
         $this->access = $DIC->access();
     }
 
-    public static function _getCommands() : array
+    public static function _getCommands(): array
     {
         return array(
             array("permission" => "read", "cmd" => "preview", "lang_var" => "show", "default" => true),
@@ -43,19 +43,19 @@ class ilObjBlogAccess extends ilObjectAccess
             array("permission" => "write", "cmd" => "export", "lang_var" => "export_html")
         );
     }
-    
-    public static function _checkGoto(string $target) : bool
+
+    public static function _checkGoto(string $target): bool
     {
         global $DIC;
 
         $ilAccess = $DIC->access();
-        
+
         $t_arr = explode("_", $target);
-        
+
         if (substr($target, -3) === "wsp") {
             return ilSharedResourceGUI::hasAccess($t_arr[1]);
         }
-        
+
         if ($t_arr[0] !== "blog" || ((int) $t_arr[1]) <= 0) {
             return false;
         }
@@ -68,7 +68,7 @@ class ilObjBlogAccess extends ilObjectAccess
         return false;
     }
 
-    public function canBeDelivered(ilWACPath $ilWACPath) : bool
+    public function canBeDelivered(ilWACPath $ilWACPath): bool
     {
         $ilUser = $this->user;
         $ilAccess = $this->access;
@@ -77,7 +77,7 @@ class ilObjBlogAccess extends ilObjectAccess
             if ($obj_id == "") {
                 return false;
             }
-            
+
             // personal workspace
             $tree = new ilWorkspaceTree(0);
             $node_id = $tree->lookupNodeId((int) $obj_id);
@@ -101,7 +101,7 @@ class ilObjBlogAccess extends ilObjectAccess
         return false;
     }
 
-    public static function isCommentsExportPossible(int $blog_id) : bool
+    public static function isCommentsExportPossible(int $blog_id): bool
     {
         global $DIC;
 

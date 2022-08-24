@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\UI\Implementation\Component\Input\Field;
 
 use ILIAS\UI\Component as C;
@@ -47,7 +49,7 @@ class Link extends Group implements C\Input\Field\Link
         $this->addTransformation();
     }
 
-    protected function addValidation() : void
+    protected function addValidation(): void
     {
         $txt_id = 'label_cannot_be_empty_if_url_is_set';
         $error = fn (callable $txt, $value) => $txt($txt_id, $value);
@@ -68,9 +70,9 @@ class Link extends Group implements C\Input\Field\Link
     }
 
 
-    protected function addTransformation() : void
+    protected function addTransformation(): void
     {
-        $trafo = $this->refinery->custom()->transformation(function ($v) : ?\ILIAS\Data\Link {
+        $trafo = $this->refinery->custom()->transformation(function ($v): ?\ILIAS\Data\Link {
             list($label, $url) = $v;
             if (is_null($url) || $url === "") {
                 return null;
@@ -84,7 +86,7 @@ class Link extends Group implements C\Input\Field\Link
     /**
      * @inheritdoc
      */
-    protected function isClientSideValueOk($value) : bool
+    protected function isClientSideValueOk($value): bool
     {
         return true;
     }
@@ -92,7 +94,7 @@ class Link extends Group implements C\Input\Field\Link
     /**
      * @inheritdoc
      */
-    protected function getConstraintForRequirement() : ?Constraint
+    protected function getConstraintForRequirement(): ?Constraint
     {
         return null;
     }

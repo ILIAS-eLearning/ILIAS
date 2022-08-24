@@ -12,21 +12,21 @@ class EditorEditSessionRepositoryTest extends TestCase
     //protected $backupGlobals = false;
     protected \ILIAS\COPage\Editor\EditSessionRepository $repo;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         parent::setUp();
         $this->repo = new \ILIAS\COPage\Editor\EditSessionRepository();
         $this->repo->clear();
     }
 
-    protected function tearDown() : void
+    protected function tearDown(): void
     {
     }
 
     /**
      * Test clear
      */
-    public function testClear() : void
+    public function testClear(): void
     {
         $repo = $this->repo;
         $repo->setPageError("page_error");
@@ -48,7 +48,7 @@ class EditorEditSessionRepositoryTest extends TestCase
     /**
      * Test page error
      */
-    public function testPageError() : void
+    public function testPageError(): void
     {
         $repo = $this->repo;
         $repo->setPageError("page_error");
@@ -61,7 +61,7 @@ class EditorEditSessionRepositoryTest extends TestCase
     /**
      * Test sub-command
      */
-    public function testSubCmd() : void
+    public function testSubCmd(): void
     {
         $repo = $this->repo;
         $repo->setSubCmd("sub");
@@ -74,7 +74,7 @@ class EditorEditSessionRepositoryTest extends TestCase
     /**
      * Test question pool
      */
-    public function testQuestionPool() : void
+    public function testQuestionPool(): void
     {
         $repo = $this->repo;
         $repo->setQuestionPool(15);
@@ -87,7 +87,7 @@ class EditorEditSessionRepositoryTest extends TestCase
     /**
      * Test media pool
      */
-    public function testMediaPool() : void
+    public function testMediaPool(): void
     {
         $repo = $this->repo;
         $repo->setMediaPool(12);
@@ -100,7 +100,7 @@ class EditorEditSessionRepositoryTest extends TestCase
     /**
      * Test text lang
      */
-    public function testTextLang() : void
+    public function testTextLang(): void
     {
         $repo = $this->repo;
         $repo->setTextLang(17, "fr");

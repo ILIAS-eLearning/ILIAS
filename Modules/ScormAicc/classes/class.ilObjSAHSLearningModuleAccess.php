@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -24,12 +26,11 @@
  */
 class ilObjSAHSLearningModuleAccess extends ilObjectAccess implements ilConditionHandling
 {
-
     /**
      * Get possible conditions operaditors
      * @return string[]
      */
-    public static function getConditionOperators() : array
+    public static function getConditionOperators(): array
     {
         return array(
             ilConditionHandler::OPERATOR_FINISHED,
@@ -42,7 +43,7 @@ class ilObjSAHSLearningModuleAccess extends ilObjectAccess implements ilConditio
         string $a_operator,
         string $a_value,
         int $a_usr_id
-    ) : bool {
+    ): bool {
         switch ($a_operator) {
 
             case ilConditionHandler::OPERATOR_FAILED:
@@ -67,7 +68,7 @@ class ilObjSAHSLearningModuleAccess extends ilObjectAccess implements ilConditio
      *    );
      * @return array<int, array>
      */
-    public static function _getCommands(int $a_obj_id = null) : array
+    public static function _getCommands(int $a_obj_id = null): array
     {
         $commands = array(
             array("permission" => "read", "cmd" => "view", "lang_var" => "show", "default" => true),
@@ -80,7 +81,7 @@ class ilObjSAHSLearningModuleAccess extends ilObjectAccess implements ilConditio
     /**
      * check whether goto script will succeed
      */
-    public static function _checkGoto(string $target) : bool
+    public static function _checkGoto(string $target): bool
     {
         global $DIC;
         $ilAccess = $DIC->access();
@@ -124,7 +125,7 @@ class ilObjSAHSLearningModuleAccess extends ilObjectAccess implements ilConditio
      * with the specified object id.
      * @param int object id of a file object.
      */
-    public static function _lookupDiskUsage(int $a_id) : int
+    public static function _lookupDiskUsage(int $a_id): int
     {
         $lm_data_dir = ilFileUtils::getWebspaceDir('filesystem') . "/lm_data";
         $lm_dir = $lm_data_dir . DIRECTORY_SEPARATOR . "lm_" . $a_id;

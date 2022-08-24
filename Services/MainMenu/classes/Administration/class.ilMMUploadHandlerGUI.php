@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 use ILIAS\FileUpload\DTO\UploadResult;
 use ILIAS\FileUpload\Handler\AbstractCtrlAwareUploadHandler;
@@ -17,7 +19,6 @@ use ILIAS\ResourceStorage\Services;
  */
 class ilMMUploadHandlerGUI extends AbstractCtrlAwareUploadHandler
 {
-
     /**
      * @var Services
      */
@@ -43,7 +44,7 @@ class ilMMUploadHandlerGUI extends AbstractCtrlAwareUploadHandler
     /**
      * @inheritDoc
      */
-    protected function getUploadResult() : HandlerResultInterface
+    protected function getUploadResult(): HandlerResultInterface
     {
         $this->upload->process();
         /**
@@ -66,7 +67,7 @@ class ilMMUploadHandlerGUI extends AbstractCtrlAwareUploadHandler
     }
 
 
-    protected function getRemoveResult(string $identifier) : HandlerResultInterface
+    protected function getRemoveResult(string $identifier): HandlerResultInterface
     {
         $id = $this->storage->manage()->find($identifier);
         if ($id !== null) {
@@ -79,7 +80,7 @@ class ilMMUploadHandlerGUI extends AbstractCtrlAwareUploadHandler
     }
 
 
-    public function getInfoResult(string $identifier) : ?FileInfoResult
+    public function getInfoResult(string $identifier): ?FileInfoResult
     {
         $id = $this->storage->manage()->find($identifier);
         if ($id === null) {
@@ -91,7 +92,7 @@ class ilMMUploadHandlerGUI extends AbstractCtrlAwareUploadHandler
     }
 
 
-    public function getInfoForExistingFiles(array $file_ids) : array
+    public function getInfoForExistingFiles(array $file_ids): array
     {
         $infos = [];
         foreach ($file_ids as $file_id) {

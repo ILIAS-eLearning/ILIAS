@@ -19,108 +19,108 @@
 class ilIdentifiedMultiValuesJsPositionIndexRemover implements ilFormValuesManipulator
 {
     public const IDENTIFIER_INDICATOR_PREFIX = 'IDENTIFIER~';
-    
-    public function manipulateFormInputValues(array $inputValues) : array
+
+    public function manipulateFormInputValues(array $inputValues): array
     {
         return $this->brandIdentifiersWithIndicator($inputValues);
     }
-    
-    protected function brandIdentifiersWithIndicator(array $origValues) : array
+
+    protected function brandIdentifiersWithIndicator(array $origValues): array
     {
         $brandedValues = array();
-        
+
         foreach ($origValues as $identifier => $val) {
             $brandedValues[$this->getIndicatorBrandedIdentifier($identifier)] = $val;
         }
 
         return $brandedValues;
     }
-    
-    protected function getIndicatorBrandedIdentifier(string $identifier) : string
+
+    protected function getIndicatorBrandedIdentifier(string $identifier): string
     {
         return self::IDENTIFIER_INDICATOR_PREFIX . $identifier;
     }
-    
-    public function manipulateFormSubmitValues(array $submitValues) : array
+
+    public function manipulateFormSubmitValues(array $submitValues): array
     {
         //$_POST['cmd'] = $this->cleanSubmitCommandFromPossibleIdentifierIndicators($_POST['cmd']);
         return $this->removePositionIndexLevels($submitValues);
     }
-    
+
     protected function cleanSubmitCommandFromPossibleIdentifierIndicators($cmdArrayLevel)
     {
         if (is_array($cmdArrayLevel)) {
             $currentKey = key($cmdArrayLevel);
             $nextLevel = current($cmdArrayLevel);
-            
+
             $nextLevel = $this->cleanSubmitCommandFromPossibleIdentifierIndicators($nextLevel);
-            
+
             unset($cmdArrayLevel[$currentKey]);
-            
+
             if ($this->isValueIdentifier($currentKey)) {
                 $currentKey = $this->removeIdentifierIndicator($currentKey);
             }
-            
+
             $cmdArrayLevel[$currentKey] = $nextLevel;
         }
-        
+
         return $cmdArrayLevel;
     }
-    
-    protected function removePositionIndexLevels(array $values) : array
+
+    protected function removePositionIndexLevels(array $values): array
     {
         foreach ($values as $key => $val) {
             unset($values[$key]);
-            
+
             if ($this->isValueIdentifier($key)) {
                 $key = $this->removeIdentifierIndicator($key);
-                
+
                 if ($this->isPositionIndexLevel($val)) {
                     $val = $this->fetchPositionIndexedValue($val);
                 }
             } elseif (is_array($val)) {
                 $val = $this->removePositionIndexLevels($val);
             }
-            
+
             $values[$key] = $val;
         }
-        
+
         return $values;
     }
-    
-    protected function isPositionIndexLevel($val) : bool
+
+    protected function isPositionIndexLevel($val): bool
     {
         if (!is_array($val)) {
             return false;
         }
-        
+
         if (count($val) != 1) {
             return false;
         }
-        
+
         return true;
     }
-    
-    protected function isValueIdentifier($key) : bool
+
+    protected function isValueIdentifier($key): bool
     {
         $indicatorPrefixLength = self::IDENTIFIER_INDICATOR_PREFIX;
-        
+
         if (strlen($key) <= strlen($indicatorPrefixLength)) {
             return false;
         }
-        
+
         if (substr($key, 0, strlen($indicatorPrefixLength)) != $indicatorPrefixLength) {
             return false;
         }
-        
+
         return true;
     }
-    
+
     protected function removeIdentifierIndicator($key)
     {
         return str_replace(self::IDENTIFIER_INDICATOR_PREFIX, '', $key);
     }
-    
+
     protected function fetchPositionIndexedValue($value)
     {
         return current($value);

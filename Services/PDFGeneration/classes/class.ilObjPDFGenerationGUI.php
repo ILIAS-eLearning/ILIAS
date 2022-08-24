@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -29,17 +31,17 @@ class ilObjPDFGenerationGUI extends ilObject2GUI
         $this->pdfRequest = new ilPDFGenerationRequest($this->refinery, $DIC->http());
     }
 
-    protected function hasWritePermission() : bool
+    protected function hasWritePermission(): bool
     {
         return $this->checkPermissionBool('write');
     }
 
-    public function getType() : string
+    public function getType(): string
     {
         return 'pdfg';
     }
 
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         $next_class = $this->ctrl->getNextClass();
         $cmd = $this->ctrl->getCmd();
@@ -66,7 +68,7 @@ class ilObjPDFGenerationGUI extends ilObject2GUI
         }
     }
 
-    public function configForm() : void
+    public function configForm(): void
     {
         $form = new ilPropertyFormGUI();
         $form->setFormAction($this->ctrl->getFormAction($this, 'view'));
@@ -123,7 +125,7 @@ class ilObjPDFGenerationGUI extends ilObject2GUI
         $this->setActiveTab('settings');
     }
 
-    public function saveSettings(bool $redirect_after = true) : void
+    public function saveSettings(bool $redirect_after = true): void
     {
         if ($this->hasWritePermission()) {
             $form = new ilPropertyFormGUI();
@@ -152,45 +154,45 @@ class ilObjPDFGenerationGUI extends ilObject2GUI
             $this->ctrl->redirect($this, "view");
         }
     }
-    
-    protected function handleSaveAndConf(string $command) : void
+
+    protected function handleSaveAndConf(string $command): void
     {
         if ($this->checkPermissionBool('edit')) {
             $this->saveSettings(false);
-    
+
             $parts = explode('::', $command);
             $service = $parts[0];
             $purpose = $parts[1];
-    
+
             $renderers = ilPDFGeneratorUtils::getRenderers();
 
             $selected = $this->pdfRequest->securedString('selected_' . $service . '::' . $purpose);
             $posted_renderer = $renderers[$service][$purpose][$selected];
-    
-    
+
+
             $form = new ilPropertyFormGUI();
             $form->setFormAction($this->ctrl->getFormAction($this, 'view'));
-    
+
             $form->setTitle($this->lng->txt('settings') . ' ' . $posted_renderer . ' / ' . $service . ' / ' . $purpose);
             $service_hidden = new ilHiddenInputGUI('service');
             $service_hidden->setValue($service);
             $form->addItem($service_hidden);
-    
+
             $purpose_hidden = new ilHiddenInputGUI('purpose');
             $purpose_hidden->setValue($purpose);
             $form->addItem($purpose_hidden);
-    
+
             $renderer_hidden = new ilHiddenInputGUI('renderer');
             $renderer_hidden->setValue($posted_renderer);
             $form->addItem($renderer_hidden);
-    
+
             // Add In RendererConfig
             $renderer = ilPDFGeneratorUtils::getRendererInstance($posted_renderer);
             $config = ilPDFGeneratorUtils::getRendererConfig($service, $purpose, $posted_renderer);
-    
+
             $renderer->addConfigElementsToForm($form, $service, $purpose);
             $renderer->populateConfigElementsInForm($form, $service, $purpose, $config);
-    
+
             $form->addCommandButton("saveConfig", $this->lng->txt("save"));
             $form->addCommandButton("view", $this->lng->txt("cancel"));
             $form->addCommandButton("resetSettings", $this->lng->txt("reset_to_default"));
@@ -201,8 +203,8 @@ class ilObjPDFGenerationGUI extends ilObject2GUI
             $this->ctrl->redirect($this, "view");
         }
     }
-    
-    public function resetSettings() : void
+
+    public function resetSettings(): void
     {
         $renderer = $this->pdfRequest->securedString('renderer');
         $service = $this->pdfRequest->securedString('service');
@@ -212,7 +214,7 @@ class ilObjPDFGenerationGUI extends ilObject2GUI
         $this->ctrl->redirect($this, "view");
     }
 
-    protected function saveConfig() : void
+    protected function saveConfig(): void
     {
         $form = new ilPropertyFormGUI();
 
@@ -234,7 +236,7 @@ class ilObjPDFGenerationGUI extends ilObject2GUI
         $this->ctrl->redirect($this, "view");
     }
 
-    protected function doCleanUp() : void
+    protected function doCleanUp(): void
     {
         ilPDFCompInstaller::doCleanUp();
         $this->tpl->setOnScreenMessage('success', $this->lng->txt('config_saved'), true);
@@ -244,7 +246,7 @@ class ilObjPDFGenerationGUI extends ilObject2GUI
     /**
      * {@inheritdoc}
      */
-    public function getAdminTabs() : void
+    public function getAdminTabs(): void
     {
         if (strpos($this->ctrl->getCmd(), 'saveandconf') !== 0) {
             if ($this->checkPermissionBool('read')) {
@@ -267,7 +269,7 @@ class ilObjPDFGenerationGUI extends ilObject2GUI
         }
     }
 
-    protected function setActiveTab(string $tab = '') : void
+    protected function setActiveTab(string $tab = ''): void
     {
         $this->tabs_gui->setTabActive($tab === '' ? $this->active_tab : $tab);
     }

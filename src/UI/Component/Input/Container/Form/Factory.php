@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\UI\Component\Input\Container\Form;
 
 use ILIAS\UI\Component\Input\Field\FormInput;
@@ -62,5 +64,5 @@ interface Factory
      * @param    array<mixed,\ILIAS\UI\Component\Input\Field\FormInput>    $inputs
      * @return    \ILIAS\UI\Component\Input\Container\Form\Standard
      */
-    public function standard(string $post_url, array $inputs) : Standard;
+    public function standard(string $post_url, array $inputs): Standard;
 }

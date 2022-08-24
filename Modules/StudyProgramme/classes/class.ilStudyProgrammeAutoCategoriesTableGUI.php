@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -53,7 +55,7 @@ class ilStudyProgrammeAutoCategoriesTableGUI extends ilTable2GUI
         $this->addMultiCommand('deleteConfirmation', $this->lng->txt('delete'));
     }
 
-    protected function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set): void
     {
         [$ac, $title, $usr, $actions] = $a_set;
 

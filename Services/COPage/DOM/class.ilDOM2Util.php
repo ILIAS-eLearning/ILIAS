@@ -28,7 +28,7 @@ class ilDOM2Util
         DOMNode $node,
         string $name,
         bool $keep_attributes = true
-    ) : DOMNode {
+    ): DOMNode {
         $newnode = $node->ownerDocument->createElement($name);
 
         foreach ($node->childNodes as $child) {
@@ -44,12 +44,12 @@ class ilDOM2Util
 
         return $newnode;
     }
-    
+
     // Add parent
     public static function addParent(
         DOMNode $node,
         string $name
-    ) : DOMNode {
+    ): DOMNode {
         $newnode = $node->ownerDocument->createElement($name);
         $par = $node->parentNode;
         if ($next_sib = $node->nextSibling) {
@@ -57,14 +57,14 @@ class ilDOM2Util
         } else {
             $newnode = $par->appendChild($newnode);
         }
-        
+
         $node = $par->removeChild($node);
         $newnode->appendChild($node);
         return $newnode;
     }
-    
+
     // Replace a node by its child
-    public static function replaceByChilds(DOMNode $node) : void
+    public static function replaceByChilds(DOMNode $node): void
     {
         foreach ($node->childNodes as $child) {
             $child2 = $child->cloneNode(true);

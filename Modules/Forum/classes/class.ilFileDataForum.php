@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -48,22 +50,22 @@ class ilFileDataForum extends ilFileData
         $this->pos_id = $a_pos_id;
     }
 
-    public function getObjId() : int
+    public function getObjId(): int
     {
         return $this->obj_id;
     }
 
-    public function getPosId() : int
+    public function getPosId(): int
     {
         return $this->pos_id;
     }
 
-    public function setPosId(int $a_id) : void
+    public function setPosId(int $a_id): void
     {
         $this->pos_id = $a_id;
     }
 
-    public function getForumPath() : string
+    public function getForumPath(): string
     {
         return $this->forum_path;
     }
@@ -71,7 +73,7 @@ class ilFileDataForum extends ilFileData
     /**
      * @return array{path: string, md5: string, name: string, size: int, ctime: string}[]
      */
-    public function getFiles() : array
+    public function getFiles(): array
     {
         $files = [];
 
@@ -99,7 +101,7 @@ class ilFileDataForum extends ilFileData
     /**
      * @return array<string, array{path: string, md5: string, name: string, size: int, ctime: string}>
      */
-    public function getFilesOfPost() : array
+    public function getFilesOfPost(): array
     {
         $files = [];
 
@@ -127,7 +129,7 @@ class ilFileDataForum extends ilFileData
         return $files;
     }
 
-    public function moveFilesOfPost(int $a_new_frm_id = 0) : bool
+    public function moveFilesOfPost(int $a_new_frm_id = 0): bool
     {
         if ($a_new_frm_id) {
             foreach (new DirectoryIterator($this->forum_path) as $file) {
@@ -154,7 +156,7 @@ class ilFileDataForum extends ilFileData
         return false;
     }
 
-    public function ilClone(int $a_new_obj_id, int $a_new_pos_id) : bool
+    public function ilClone(int $a_new_obj_id, int $a_new_pos_id): bool
     {
         foreach ($this->getFilesOfPost() as $file) {
             copy(
@@ -165,7 +167,7 @@ class ilFileDataForum extends ilFileData
         return true;
     }
 
-    public function delete() : bool
+    public function delete(): bool
     {
         foreach ($this->getFiles() as $file) {
             if (is_file($this->getForumPath() . '/' . $this->getObjId() . '_' . $file['name'])) {
@@ -176,7 +178,7 @@ class ilFileDataForum extends ilFileData
         return true;
     }
 
-    public function storeUploadedFile(array $files) : bool
+    public function storeUploadedFile(array $files): bool
     {
         if (isset($files['name']) && is_array($files['name'])) {
             foreach ($files['name'] as $index => $name) {
@@ -212,7 +214,7 @@ class ilFileDataForum extends ilFileData
         return false;
     }
 
-    public function unlinkFile(string $a_filename) : bool
+    public function unlinkFile(string $a_filename): bool
     {
         if (is_file($this->forum_path . '/' . $this->obj_id . '_' . $this->pos_id . '_' . $a_filename)) {
             return unlink($this->forum_path . '/' . $this->obj_id . '_' . $this->pos_id . '_' . $a_filename);
@@ -225,7 +227,7 @@ class ilFileDataForum extends ilFileData
      * @param string $hashedFilename
      * @return array{path: string, filename: string, clean_filename: string}|null
      */
-    public function getFileDataByMD5Filename(string $hashedFilename) : ?array
+    public function getFileDataByMD5Filename(string $hashedFilename): ?array
     {
         $files = ilFileUtils::getDir($this->forum_path);
         foreach ($files as $file) {
@@ -245,7 +247,7 @@ class ilFileDataForum extends ilFileData
      * @param string|string[] $hashedFilenameOrFilenames
      * @return bool
      */
-    public function unlinkFilesByMD5Filenames($hashedFilenameOrFilenames) : bool
+    public function unlinkFilesByMD5Filenames($hashedFilenameOrFilenames): bool
     {
         $files = ilFileUtils::getDir($this->forum_path);
         if (is_array($hashedFilenameOrFilenames)) {
@@ -267,7 +269,7 @@ class ilFileDataForum extends ilFileData
         return false;
     }
 
-    private function checkForumPath() : bool
+    private function checkForumPath(): bool
     {
         if (!is_dir($this->getForumPath())) {
             return false;
@@ -277,14 +279,14 @@ class ilFileDataForum extends ilFileData
         return true;
     }
 
-    private function checkReadWrite() : void
+    private function checkReadWrite(): void
     {
         if (!is_writable($this->forum_path) || !is_readable($this->forum_path)) {
             $this->error->raiseError('Forum directory is not readable/writable by webserver', $this->error->FATAL);
         }
     }
 
-    private function initDirectory() : void
+    private function initDirectory(): void
     {
         if (is_writable($this->getPath()) && mkdir($this->getPath() . '/' . self::FORUM_PATH) && chmod(
             $this->getPath() . '/' . self::FORUM_PATH,
@@ -294,7 +296,7 @@ class ilFileDataForum extends ilFileData
         }
     }
 
-    private function rotateFiles(string $a_path) : void
+    private function rotateFiles(string $a_path): void
     {
         if (is_file($a_path)) {
             $this->rotateFiles($a_path . '.old');
@@ -302,7 +304,7 @@ class ilFileDataForum extends ilFileData
         }
     }
 
-    public function deliverFile(string $file) : void
+    public function deliverFile(string $file): void
     {
         global $DIC;
 
@@ -313,7 +315,7 @@ class ilFileDataForum extends ilFileData
         }
     }
 
-    public function deliverZipFile() : bool
+    public function deliverZipFile(): bool
     {
         global $DIC;
 
@@ -330,7 +332,7 @@ class ilFileDataForum extends ilFileData
         return true; // never
     }
 
-    protected function createZipFile() : ?string
+    protected function createZipFile(): ?string
     {
         $filesOfPost = $this->getFilesOfPost();
         ksort($filesOfPost);

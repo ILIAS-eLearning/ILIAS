@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -31,7 +33,7 @@ trait ProblemBuilder
     /**
      * @inheritDoc
      */
-    final public function withProblemBuilder(callable $builder) : self
+    final public function withProblemBuilder(callable $builder): self
     {
         $clone = clone $this;
         $clone->error = $builder;
@@ -43,7 +45,7 @@ trait ProblemBuilder
      * @param mixed $value
      * @return string
      */
-    final public function getErrorMessage($value) : string
+    final public function getErrorMessage($value): string
     {
         $error = $this->getError();
         if (!is_callable($error)) {
@@ -57,7 +59,7 @@ trait ProblemBuilder
      * Get the closure to be passed to the error-function that does i18n and sprintf.
      * @return Closure
      */
-    final protected function getLngClosure() : Closure
+    final protected function getLngClosure(): Closure
     {
         return function () {
             $args = func_get_args();

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -24,12 +26,12 @@ class NullTransformationTest extends TestCase
 {
     private NullTransformation $transformation;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         $this->transformation = new NullTransformation();
     }
 
-    public function NullTestDataProvider() : array
+    public function NullTestDataProvider(): array
     {
         return [
             'empty string' => ['', true],
@@ -52,7 +54,7 @@ class NullTransformationTest extends TestCase
      * @param bool $valid
      * @throws Exception
      */
-    public function testNullTransformation($value, bool $valid) : void
+    public function testNullTransformation($value, bool $valid): void
     {
         if (!$valid) {
             $this->expectException(ConstraintViolationException::class);

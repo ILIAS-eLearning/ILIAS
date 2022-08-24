@@ -14,7 +14,7 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *********************************************************************/
- 
+
 namespace ILIAS\ResourceStorage\Policy;
 
 /**
@@ -24,22 +24,22 @@ namespace ILIAS\ResourceStorage\Policy;
  */
 class NoneFileNamePolicy implements FileNamePolicy
 {
-    public function check(string $extension) : bool
+    public function check(string $extension): bool
     {
         return true;
     }
 
-    public function isValidExtension(string $extension) : bool
+    public function isValidExtension(string $extension): bool
     {
         return true;
     }
 
-    public function isBlockedExtension(string $extension) : bool
+    public function isBlockedExtension(string $extension): bool
     {
         return true;
     }
 
-    public function prepareFileNameForConsumer(string $filename_with_extension) : string
+    public function prepareFileNameForConsumer(string $filename_with_extension): string
     {
         return $filename_with_extension;
     }

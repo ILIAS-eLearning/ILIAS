@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\UI\Component\Player;
 
 /**
@@ -43,7 +45,7 @@ interface Factory
      * @param string $transcript
      * @return \ILIAS\UI\Component\Player\Audio
      */
-    public function audio(string $source, string $transcript = "") : Audio;
+    public function audio(string $source, string $transcript = ""): Audio;
 
     /**
      * ---
@@ -68,5 +70,5 @@ interface Factory
      *                       youtube or vimeo URL
      * @return \ILIAS\UI\Component\Player\Video
      */
-    public function video(string $source) : Video;
+    public function video(string $source): Video;
 }

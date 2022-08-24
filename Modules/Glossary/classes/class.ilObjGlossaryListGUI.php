@@ -23,7 +23,7 @@
  */
 class ilObjGlossaryListGUI extends ilObjectListGUI
 {
-    public function init() : void
+    public function init(): void
     {
         $this->static_link_enabled = true;
         $this->delete_enabled = true;
@@ -34,12 +34,12 @@ class ilObjGlossaryListGUI extends ilObjectListGUI
         $this->info_screen_enabled = true;
         $this->type = "glo";
         $this->gui_class_name = "ilobjglossarygui";
-        
+
         // general commands array
         $this->commands = ilObjGlossaryAccess::_getCommands();
     }
 
-    public function getCommandLink(string $cmd) : string
+    public function getCommandLink(string $cmd): string
     {
         switch ($cmd) {
             case "view":
@@ -58,7 +58,7 @@ class ilObjGlossaryListGUI extends ilObjectListGUI
             case "infoScreen":
                 $cmd_link = "ilias.php?baseClass=ilGlossaryPresentationGUI&amp;cmd=infoScreen&amp;ref_id=" . $this->ref_id;
                 break;
-                
+
             default:
                 $this->ctrl->setParameterByClass("ilrepositorygui", "ref_id", $this->ref_id);
                 $cmd_link = $this->ctrl->getLinkTargetByClass("ilrepositorygui", $cmd);
@@ -69,7 +69,7 @@ class ilObjGlossaryListGUI extends ilObjectListGUI
         return $cmd_link;
     }
 
-    public function getCommandFrame(string $cmd) : string
+    public function getCommandFrame(string $cmd): string
     {
         switch ($cmd) {
             case "view":
@@ -87,7 +87,7 @@ class ilObjGlossaryListGUI extends ilObjectListGUI
     }
 
 
-    public function getProperties() : array
+    public function getProperties(): array
     {
         $lng = $this->lng;
         $props = array();

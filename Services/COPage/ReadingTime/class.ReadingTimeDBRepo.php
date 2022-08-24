@@ -25,7 +25,7 @@ class ReadingTimeDBRepo
         int $page_id,
         string $parent_type,
         string $lang = "-"
-    ) : int {
+    ): int {
         $db = $this->db;
         $set = $db->queryF(
             "SELECT est_reading_time FROM page_object " .
@@ -44,7 +44,7 @@ class ReadingTimeDBRepo
         string $parent_type,
         string $lang = "-",
         int $est_reading_time = 0
-    ) : void {
+    ): void {
         $db = $this->db;
         $db->update(
             "page_object",
@@ -85,7 +85,7 @@ class ReadingTimeDBRepo
     public function getParentReadingTime(
         string $a_parent_type,
         int $a_parent_id
-    ) : int {
+    ): int {
         $db = $this->db;
         $q = "SELECT SUM(est_reading_time) as rt FROM page_object " .
             " WHERE parent_id = " . $db->quote($a_parent_id, "integer") .

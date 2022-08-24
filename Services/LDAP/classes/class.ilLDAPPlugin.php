@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -26,7 +28,7 @@ abstract class ilLDAPPlugin extends ilPlugin
     /**
      * Check if user data matches a keyword value combination
      */
-    protected function checkValue(array $a_user_data, string $a_keyword, string $a_value) : bool
+    protected function checkValue(array $a_user_data, string $a_keyword, string $a_value): bool
     {
         if (!$a_user_data[$a_keyword]) {
             return false;

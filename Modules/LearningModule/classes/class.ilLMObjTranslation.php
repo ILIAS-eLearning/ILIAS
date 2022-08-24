@@ -44,61 +44,61 @@ class ilLMObjTranslation
             $this->read();
         }
     }
-    
-    public function setId(int $a_val) : void
+
+    public function setId(int $a_val): void
     {
         $this->id = $a_val;
     }
-    
-    public function getId() : int
+
+    public function getId(): int
     {
         return $this->id;
     }
-    
-    public function setLang(string $a_val) : void
+
+    public function setLang(string $a_val): void
     {
         $this->lang = $a_val;
     }
-    
-    public function getLang() : string
+
+    public function getLang(): string
     {
         return $this->lang;
     }
 
-    public function setTitle(string $a_val) : void
+    public function setTitle(string $a_val): void
     {
         $this->title = $a_val;
     }
 
-    public function getTitle() : string
+    public function getTitle(): string
     {
         return $this->title;
     }
 
-    public function setShortTitle(string $a_val) : void
+    public function setShortTitle(string $a_val): void
     {
         $this->short_title = $a_val;
     }
 
-    public function getShortTitle() : string
+    public function getShortTitle(): string
     {
         return $this->short_title;
     }
 
-    public function getCreateDate() : string
+    public function getCreateDate(): string
     {
         return $this->create_date;
     }
 
-    public function getLastUpdate() : string
+    public function getLastUpdate(): string
     {
         return $this->last_update;
     }
-    
-    public function read() : void
+
+    public function read(): void
     {
         $ilDB = $this->db;
-        
+
         $set = $ilDB->query(
             "SELECT * FROM lm_data_transl " .
             " WHERE id = " . $ilDB->quote($this->getId(), "integer") .
@@ -110,11 +110,11 @@ class ilLMObjTranslation
         $this->create_date = ($rec["create_date"] ?? 0);
         $this->last_update = ($rec["last_update"] ?? 0);
     }
-    
-    public function save() : void
+
+    public function save(): void
     {
         $ilDB = $this->db;
-        
+
         if (!self::exists($this->getId(), $this->getLang())) {
             $ilDB->manipulate("INSERT INTO lm_data_transl " .
                 "(id, lang, title, short_title, create_date, last_update) VALUES (" .
@@ -143,11 +143,11 @@ class ilLMObjTranslation
     public static function exists(
         int $a_id,
         string $a_lang
-    ) : bool {
+    ): bool {
         global $DIC;
 
         $ilDB = $DIC->database();
-        
+
         $set = $ilDB->query(
             "SELECT * FROM lm_data_transl " .
             " WHERE id = " . $ilDB->quote($a_id, "integer") .
@@ -165,7 +165,7 @@ class ilLMObjTranslation
     public static function copy(
         string $a_source_id,
         string $a_target_id
-    ) : void {
+    ): void {
         global $DIC;
 
         $ilDB = $DIC->database();

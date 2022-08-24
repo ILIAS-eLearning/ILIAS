@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -64,7 +66,7 @@ class ilContentStyleSettingsGUI
         $this->cs_settings = new ilContentStyleSettings();
     }
 
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         $next_class = $this->ctrl->getNextClass($this);
         $cmd = $this->ctrl->getCmd("edit");
@@ -91,7 +93,7 @@ class ilContentStyleSettingsGUI
      * Check permission
      * @throws ilObjectException
      */
-    public function checkPermission(string $a_perm, bool $a_throw_exc = true) : bool
+    public function checkPermission(string $a_perm, bool $a_throw_exc = true): bool
     {
         if (!$this->rbacsystem->checkAccess($a_perm, $this->ref_id)) {
             if ($a_throw_exc) {
@@ -102,7 +104,7 @@ class ilContentStyleSettingsGUI
         return true;
     }
 
-    public function createStyle() : void
+    public function createStyle(): void
     {
         $ilCtrl = $this->ctrl;
 
@@ -113,7 +115,7 @@ class ilContentStyleSettingsGUI
     /**
      * List styles
      */
-    public function edit() : void
+    public function edit(): void
     {
         $this->checkPermission("visible,read");
 
@@ -182,7 +184,7 @@ class ilContentStyleSettingsGUI
     /**
      * move learning modules from one style to another
      */
-    public function moveLMStyles() : void
+    public function moveLMStyles(): void
     {
         $this->checkPermission("sty_write_content");
 
@@ -202,7 +204,7 @@ class ilContentStyleSettingsGUI
     /**
      * move all learning modules with individual styles to new style
      */
-    public function moveIndividualStyles() : void
+    public function moveIndividualStyles(): void
     {
         $this->checkPermission("sty_write_content");
 
@@ -210,7 +212,7 @@ class ilContentStyleSettingsGUI
         $this->ctrl->redirect($this, "edit");
     }
 
-    public function confirmDeleteIndividualStyles() : void
+    public function confirmDeleteIndividualStyles(): void
     {
         $this->checkPermission("sty_write_content");
 
@@ -232,7 +234,7 @@ class ilContentStyleSettingsGUI
     /**
      * display deletion confirmation screen
      */
-    public function deleteStyle() : void
+    public function deleteStyle(): void
     {
         $this->checkPermission("sty_write_content");
 
@@ -262,7 +264,7 @@ class ilContentStyleSettingsGUI
     /**
      * delete selected style objects
      */
-    public function confirmedDelete() : void
+    public function confirmedDelete(): void
     {
         $this->checkPermission("sty_write_content");
 
@@ -283,7 +285,7 @@ class ilContentStyleSettingsGUI
     /**
      * Toggle global default style
      */
-    public function toggleGlobalDefault() : void
+    public function toggleGlobalDefault(): void
     {
         $ilSetting = $this->settings;
         $lng = $this->lng;
@@ -307,7 +309,7 @@ class ilContentStyleSettingsGUI
     /**
      * Toggle global fixed style
      */
-    public function toggleGlobalFixed() : void
+    public function toggleGlobalFixed(): void
     {
         $ilSetting = $this->settings;
         $lng = $this->lng;
@@ -327,7 +329,7 @@ class ilContentStyleSettingsGUI
         ilUtil::redirect($this->ctrl->getLinkTarget($this, "edit", ""));
     }
 
-    public function saveActiveStyles() : void
+    public function saveActiveStyles(): void
     {
         $styles = $this->cs_settings->getStyles();
         foreach ($styles as $style) {
@@ -343,7 +345,7 @@ class ilContentStyleSettingsGUI
     /**
      * show possible action (form buttons)
      */
-    public function showActions(bool $with_subobjects = false) : void
+    public function showActions(bool $with_subobjects = false): void
     {
         // delete
         $this->tpl->setCurrentBlock("tbl_action_btn");
@@ -380,13 +382,13 @@ class ilContentStyleSettingsGUI
         $this->tpl->parseCurrentBlock();
     }
 
-    public function cancelDelete() : void
+    public function cancelDelete(): void
     {
         $this->tpl->setOnScreenMessage('info', $this->lng->txt("msg_cancel"), true);
         $this->ctrl->redirect($this, "edit");
     }
 
-    public function setScope() : void
+    public function setScope(): void
     {
         $tpl = $this->tpl;
         $ilCtrl = $this->ctrl;
@@ -407,7 +409,7 @@ class ilContentStyleSettingsGUI
         }
     }
 
-    public function saveScope() : void
+    public function saveScope(): void
     {
         $tree = $this->tree;
 

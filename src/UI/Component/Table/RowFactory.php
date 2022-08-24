@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\UI\Component\Table;
 
 use Exception;
@@ -25,5 +27,5 @@ interface RowFactory
     /**
      * @throws Exception if record cannot be processed to row
      */
-    public function map(array $record) : array;
+    public function map(array $record): array;
 }

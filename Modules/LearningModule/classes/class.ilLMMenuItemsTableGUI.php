@@ -37,34 +37,34 @@ class ilLMMenuItemsTableGUI extends ilTable2GUI
         $this->access = $DIC->access();
         $ilCtrl = $DIC->ctrl();
         $lng = $DIC->language();
-        
+
         parent::__construct($a_parent_obj, $a_parent_cmd);
-        
+
         $this->lmme = $a_lmme;
         $entries = $this->lmme->getMenuEntries();
 
         $this->setData($entries);
         $this->setTitle($lng->txt("cont_custom_menu_entries"));
         $this->disable("footer");
-        
+
         //		$this->addColumn("", "", "1px", true);
         $this->addColumn($this->lng->txt("link"));
         $this->addColumn($this->lng->txt("active"));
         $this->addColumn($this->lng->txt("actions"));
-        
+
         $this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
         $this->setRowTemplate("tpl.lm_menu_entry_row.html", "Modules/LearningModule");
 
         //		$this->addMultiCommand("deleteMenuEntry", $lng->txt("delete"));
         $this->addCommandButton("saveMenuProperties", $lng->txt("save"));
     }
-    
-    protected function fillRow(array $a_set) : void
+
+    protected function fillRow(array $a_set): void
     {
         $ilCtrl = $this->ctrl;
-        
+
         $ilCtrl->setParameter($this->parent_obj, "menu_entry", $a_set["id"]);
-        
+
         $this->tpl->setCurrentBlock("cmd");
         $this->tpl->setVariable("HREF_CMD", $ilCtrl->getLinkTarget($this->parent_obj, "editMenuEntry"));
         $this->tpl->setVariable("CMD", $this->lng->txt("edit"));
@@ -78,7 +78,7 @@ class ilLMMenuItemsTableGUI extends ilTable2GUI
         $ilCtrl->setParameter($this, "menu_entry", "");
 
         $this->tpl->setVariable("LINK_ID", $a_set["id"]);
-        
+
         if ($a_set["type"] == "intern") {
             $a_set["link"] = ILIAS_HTTP_PATH . "/goto.php?target=" . $a_set["link"];
         }

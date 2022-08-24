@@ -44,7 +44,7 @@ class McstImageGalleryGUI
         $this->toolbar = $DIC->toolbar();
     }
 
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         $ctrl = $this->ctrl;
 
@@ -59,7 +59,7 @@ class McstImageGalleryGUI
         }
     }
 
-    public function getHTML() : string
+    public function getHTML(): string
     {
         $f = $this->ui->factory();
         $renderer = $this->ui->renderer();
@@ -170,7 +170,7 @@ class McstImageGalleryGUI
         return "<div id='il-mcst-img-gallery'>" . $renderer->render(array_merge([$deck], [$main_modal])) . "</div>";
     }
 
-    protected function downloadAll() : void
+    protected function downloadAll(): void
     {
         $user = $this->user;
         $download_task = new \ILIAS\MediaCast\BackgroundTasks\DownloadAllBackgroundTask(

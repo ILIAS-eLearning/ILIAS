@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\Tests\UI\Component\Input;
 
 use ILIAS\UI\Implementation\Component\Input\DynamicInputDataIterator;
@@ -29,7 +31,7 @@ use ILIAS\UI\Implementation\Component\Input\DynamicInputsNameSource;
  */
 class DynamicInputDataIteratorTest extends TestCase
 {
-    public function testValidityWithEmptyData() : void
+    public function testValidityWithEmptyData(): void
     {
         $iterator = new DynamicInputDataIterator(
             $this->getTestInputData([]),
@@ -41,7 +43,7 @@ class DynamicInputDataIteratorTest extends TestCase
         $this->assertNull($iterator->current());
     }
 
-    public function testValidityWithData() : void
+    public function testValidityWithData(): void
     {
         $iterator = new DynamicInputDataIterator(
             $this->getTestInputData([
@@ -65,7 +67,7 @@ class DynamicInputDataIteratorTest extends TestCase
         $this->assertNull($iterator->current());
     }
 
-    public function testCurrentValue() : void
+    public function testCurrentValue(): void
     {
         $test_value = 'val1';
         $parent_input_name = 'parent_input';
@@ -96,9 +98,9 @@ class DynamicInputDataIteratorTest extends TestCase
         );
     }
 
-    protected function getTestInputData(array $data) : InputData
+    protected function getTestInputData(array $data): InputData
     {
-        return new class($data) implements InputData {
+        return new class ($data) implements InputData {
             protected array $data;
 
             public function __construct(array $data)

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -14,7 +16,7 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *********************************************************************/
- 
+
 namespace ILIAS\ResourceStorage\Lock;
 
 /**
@@ -34,13 +36,13 @@ class LockHandlerilDB implements LockHandler
         $this->db = $db;
     }
 
-    public function lockTables(array $table_names, callable $during) : LockHandlerResult
+    public function lockTables(array $table_names, callable $during): LockHandlerResult
     {
         $lock = $this->db->buildAtomQuery();
         foreach ($table_names as $table_name) {
             $lock->addTableLock($table_name);
         }
-        $lock->addQueryCallable(static function (\ilDBInterface $db) use ($during) : void {
+        $lock->addQueryCallable(static function (\ilDBInterface $db) use ($during): void {
             $during();
         });
 

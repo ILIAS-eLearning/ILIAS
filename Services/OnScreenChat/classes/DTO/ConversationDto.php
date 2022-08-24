@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -36,22 +38,22 @@ class ConversationDto
         $this->lastMessage = new MessageDto('', $this);
     }
 
-    public function getId() : string
+    public function getId(): string
     {
         return $this->id;
     }
 
-    public function setId(string $id) : void
+    public function setId(string $id): void
     {
         $this->id = $id;
     }
 
-    public function isGroup() : bool
+    public function isGroup(): bool
     {
         return $this->isGroup;
     }
 
-    public function setIsGroup(bool $isGroup) : void
+    public function setIsGroup(bool $isGroup): void
     {
         $this->isGroup = $isGroup;
     }
@@ -59,7 +61,7 @@ class ConversationDto
     /**
      * @return int[]
      */
-    public function getSubscriberUsrIds() : array
+    public function getSubscriberUsrIds(): array
     {
         return $this->subscriberUsrIds;
     }
@@ -67,17 +69,17 @@ class ConversationDto
     /**
      * @param int[] $subscriberUsrIds
      */
-    public function setSubscriberUsrIds(array $subscriberUsrIds) : void
+    public function setSubscriberUsrIds(array $subscriberUsrIds): void
     {
         $this->subscriberUsrIds = $subscriberUsrIds;
     }
 
-    public function getLastMessage() : MessageDto
+    public function getLastMessage(): MessageDto
     {
         return $this->lastMessage;
     }
 
-    public function setLastMessage(MessageDto $lastMessage) : void
+    public function setLastMessage(MessageDto $lastMessage): void
     {
         $this->lastMessage = $lastMessage;
     }

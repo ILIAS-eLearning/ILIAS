@@ -35,7 +35,7 @@ class BlacklistExtensionPreProcessor implements PreProcessor
      * @var string[]
      */
     private array $blacklist;
-    
+
     /**
      * BlacklistExtensionPreProcessor constructor.
      * Example:
@@ -57,34 +57,34 @@ class BlacklistExtensionPreProcessor implements PreProcessor
         $this->blacklist = $blacklist;
         $this->reason = $reason;
     }
-    
+
     /**
      * @inheritDoc
      */
-    public function process(FileStream $stream, Metadata $metadata) : ProcessingStatus
+    public function process(FileStream $stream, Metadata $metadata): ProcessingStatus
     {
         if ($this->isBlacklisted($metadata, $stream)) {
             return new ProcessingStatus(ProcessingStatus::REJECTED, $this->reason);
         }
-        
+
         return new ProcessingStatus(ProcessingStatus::OK, 'Extension is not blacklisted.');
     }
-    
+
     /**
      * Checks if the current filename has a listed extension. (*.png, *.mp4 etc ...)
      *
      * @return bool True if the extension is listed, otherwise false.
      */
-    private function isBlacklisted(Metadata $metadata, FileStream $stream) : bool
+    private function isBlacklisted(Metadata $metadata, FileStream $stream): bool
     {
         $filename = $metadata->getFilename();
         $extension = $this->getExtensionForFilename($filename);
-        
+
         if (strtolower($extension) === 'zip') {
             $zip_file_path = $stream->getMetadata('uri');
             $zip = new \ZipArchive();
             $zip->open($zip_file_path);
-            
+
             for ($i = 0; $i < $zip->numFiles; $i++) {
                 $original_path = $zip->getNameIndex($i);
                 $extension_sub_file = $this->getExtensionForFilename($original_path);
@@ -94,24 +94,24 @@ class BlacklistExtensionPreProcessor implements PreProcessor
                 if (in_array($extension_sub_file, $this->blacklist, true)) {
                     $zip->close();
                     $this->reason = $this->reason .= " ($original_path in $filename)";
-                    
+
                     return true;
                 }
             }
             $zip->close();
         }
-        
+
         $in_array = in_array($extension, $this->blacklist, true);
         if (!$in_array) {
             $this->reason = $this->reason .= " ($filename)";
         }
         return $in_array;
     }
-    
-    private function getExtensionForFilename(string $filename) : string
+
+    private function getExtensionForFilename(string $filename): string
     {
         $extensions = explode('.', $filename);
-        
+
         return count($extensions) <= 1 ? '' : strtolower(end($extensions));
     }
 }

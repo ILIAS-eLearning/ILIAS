@@ -30,7 +30,7 @@ abstract class ilPreviewRenderer
      *
      * @return string The name of the renderer.
      */
-    public function getName() : string
+    public function getName(): string
     {
         $name = get_class($this);
 
@@ -50,7 +50,7 @@ abstract class ilPreviewRenderer
      *
      * @return bool true, if the renderer is a plugin; otherwise, false.
      */
-    final public function isPlugin() : bool
+    final public function isPlugin(): bool
     {
         return !is_file("./Services/Preview/classes/class." . get_class($this) . ".php");
     }
@@ -60,7 +60,7 @@ abstract class ilPreviewRenderer
      *
      * @return array An array containing the supported repository types.
      */
-    abstract public function getSupportedRepositoryTypes() : array;
+    abstract public function getSupportedRepositoryTypes(): array;
 
     /**
      * Determines whether the specified preview object is supported by the renderer.
@@ -68,7 +68,7 @@ abstract class ilPreviewRenderer
      * @param ilPreview $preview The preview object to check.
      * @return bool true, if the renderer supports the specified preview object; otherwise, false.
      */
-    public function supports(\ilPreview $preview) : bool
+    public function supports(\ilPreview $preview): bool
     {
         // contains type?
         return in_array($preview->getObjType(), $this->getSupportedRepositoryTypes());
@@ -82,7 +82,7 @@ abstract class ilPreviewRenderer
      * @param bool $async true, if the rendering should be done asynchronously; otherwise, false.
      * @return bool true, if the preview was successfully rendered; otherwise, false.
      */
-    final public function render(\ilPreview $preview, \ilObject $obj, bool $async) : ?bool
+    final public function render(\ilPreview $preview, \ilObject $obj, bool $async): ?bool
     {
         $preview->setRenderDate(ilUtil::now());
         $preview->setRenderStatus(ilPreview::RENDER_STATUS_PENDING);
@@ -122,7 +122,7 @@ abstract class ilPreviewRenderer
      * @param string $dest_img_path The destination image path.
      * @return bool true, if the preview was created; otherwise, false.
      */
-    private function createPreviewImage(string $src_img_path, string $dest_img_path) : bool
+    private function createPreviewImage(string $src_img_path, string $dest_img_path): bool
     {
         // create resize argument
         $imgSize = $this->getImageSize();
@@ -149,14 +149,14 @@ abstract class ilPreviewRenderer
      * @param ilObject $obj The object to create images from.
      * @return array An array of ilRenderedImage containing the absolute file paths to the images.
      */
-    abstract protected function renderImages(\ilObject $obj) : array;
+    abstract protected function renderImages(\ilObject $obj): array;
 
     /**
      * Gets the size of the preview images in pixels.
      *
      * @return int The current value
      */
-    final protected function getImageSize() : int
+    final protected function getImageSize(): int
     {
         return ilPreviewSettings::getImageSize();
     }
@@ -166,7 +166,7 @@ abstract class ilPreviewRenderer
      *
      * @return int The current value
      */
-    final protected function getImageQuality() : int
+    final protected function getImageQuality(): int
     {
         return ilPreviewSettings::getImageQuality();
     }
@@ -176,7 +176,7 @@ abstract class ilPreviewRenderer
      *
      * @return int The current value
      */
-    final protected function getMaximumNumberOfPreviews() : int
+    final protected function getMaximumNumberOfPreviews(): int
     {
         return ilPreviewSettings::getMaximumPreviews();
     }

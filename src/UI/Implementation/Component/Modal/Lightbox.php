@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\UI\Implementation\Component\Modal;
 
 use ILIAS\UI\Component as Component;
@@ -48,7 +50,7 @@ class Lightbox extends Modal implements Component\Modal\Lightbox
     /**
      * @inheritdoc
      */
-    public function getPages() : array
+    public function getPages(): array
     {
         return $this->pages;
     }

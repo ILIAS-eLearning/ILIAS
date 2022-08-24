@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -24,7 +26,7 @@
  */
 class ilAuthProviderLTI extends \ilAuthProvider implements \ilAuthProviderInterface
 {
-    const AUTH_MODE_PREFIX = 'lti';
+    public const AUTH_MODE_PREFIX = 'lti';
     private ?ilLTIDataConnector $dataConnector = null;
     private string $lti_context_id = "";
     private int $ref_id = 0;
@@ -36,7 +38,7 @@ class ilAuthProviderLTI extends \ilAuthProvider implements \ilAuthProviderInterf
      * @param string $a_auth_mode
      * @return string auth_mode
      */
-    public static function getAuthModeByKey(string $a_auth_key) : string
+    public static function getAuthModeByKey(string $a_auth_key): string
     {
         $auth_arr = explode('_', $a_auth_key);
         if (count($auth_arr) > 1) {
@@ -63,7 +65,7 @@ class ilAuthProviderLTI extends \ilAuthProvider implements \ilAuthProviderInterf
      * get all active authmode server ids
      * @return array
      */
-    public static function getActiveAuthModes() : array
+    public static function getActiveAuthModes(): array
     {
         global $ilDB;
 
@@ -81,7 +83,7 @@ class ilAuthProviderLTI extends \ilAuthProvider implements \ilAuthProviderInterf
     /**
      * @return array
      */
-    public static function getAuthModes() : array
+    public static function getAuthModes(): array
     {
         global $ilDB;
 
@@ -101,7 +103,7 @@ class ilAuthProviderLTI extends \ilAuthProvider implements \ilAuthProviderInterf
      * @param int $a_sid
      * @return string
      */
-    public static function lookupConsumer(int $a_sid) : string
+    public static function lookupConsumer(int $a_sid): string
     {
         $connector = new ilLTIDataConnector();
         $consumer = ilLTIPlatform::fromRecordId($a_sid, $connector);
@@ -113,7 +115,7 @@ class ilAuthProviderLTI extends \ilAuthProvider implements \ilAuthProviderInterf
      * @param string $a_auth_mode
      * @return int|null
      */
-    public static function getServerIdByAuthMode(string $a_auth_mode) : ?int
+    public static function getServerIdByAuthMode(string $a_auth_mode): ?int
     {
         if (self::isAuthModeLTI($a_auth_mode)) {
             $auth_arr = explode('_', $a_auth_mode);
@@ -127,7 +129,7 @@ class ilAuthProviderLTI extends \ilAuthProvider implements \ilAuthProviderInterf
      * @param string $a_auth_mode
      * @return bool
      */
-    public static function isAuthModeLTI(string $a_auth_mode) : bool
+    public static function isAuthModeLTI(string $a_auth_mode): bool
     {
         if (!$a_auth_mode) {
             ilLoggerFactory::getLogger('ltis')->warning('No auth mode given.');
@@ -142,7 +144,7 @@ class ilAuthProviderLTI extends \ilAuthProvider implements \ilAuthProviderInterf
      * @param string $a_oauth_consumer_key
      * @return int
      */
-    protected function findAuthKeyId(string $a_oauth_consumer_key) : int
+    protected function findAuthKeyId(string $a_oauth_consumer_key): int
     {
         global $ilDB;
 
@@ -168,7 +170,7 @@ class ilAuthProviderLTI extends \ilAuthProvider implements \ilAuthProviderInterf
      * @param int $a_lti_id
      * @return string
      */
-    protected function findAuthPrefix(int $a_lti_id) : string
+    protected function findAuthPrefix(int $a_lti_id): string
     {
         global $ilDB;
 
@@ -190,7 +192,7 @@ class ilAuthProviderLTI extends \ilAuthProvider implements \ilAuthProviderInterf
      * @param int $a_lti_id
      * @return int|null
      */
-    protected function findGlobalRole(int $a_lti_id) : ?int
+    protected function findGlobalRole(int $a_lti_id): ?int
     {
         global $ilDB;
 
@@ -211,7 +213,7 @@ class ilAuthProviderLTI extends \ilAuthProvider implements \ilAuthProviderInterf
      * @param \ilAuthStatus $status
      * @return bool
      */
-    public function doAuthentication(\ilAuthStatus $status) : bool
+    public function doAuthentication(\ilAuthStatus $status): bool
     {
         global $DIC;
         //fix for Ilias Consumer
@@ -325,7 +327,7 @@ class ilAuthProviderLTI extends \ilAuthProvider implements \ilAuthProviderInterf
 
         $status->setStatus(ilAuthStatus::STATUS_AUTHENTICATED);
         $status->setAuthenticatedUserId($internal_account);
-        
+
         return true;
     }
 
@@ -336,7 +338,7 @@ class ilAuthProviderLTI extends \ilAuthProvider implements \ilAuthProviderInterf
      * @param string $a_user_prefix
      * @return int
      */
-    protected function findUserId(string $a_oauth_user, string $a_oauth_id, string $a_user_prefix) : int
+    protected function findUserId(string $a_oauth_user, string $a_oauth_id, string $a_user_prefix): int
     {
         $user_name = ilObjUser::_checkExternalAuthAccount(
             self::AUTH_MODE_PREFIX . '_' . $a_oauth_id,
@@ -357,7 +359,7 @@ class ilAuthProviderLTI extends \ilAuthProvider implements \ilAuthProviderInterf
      * @param ilLTIPlatform $consumer
      * @return int
      */
-    protected function updateUser(int $a_local_user_id, ilLTIPlatform $consumer) : int
+    protected function updateUser(int $a_local_user_id, ilLTIPlatform $consumer): int
     {
         global $ilClientIniFile, $DIC;
 //        if (empty($this->messageParameters)) {
@@ -396,7 +398,7 @@ class ilAuthProviderLTI extends \ilAuthProvider implements \ilAuthProviderInterf
      * @throws ilPasswordException
      * @throws ilUserException
      */
-    protected function createUser(ilLTIPlatform $consumer) : int
+    protected function createUser(ilLTIPlatform $consumer): int
     {
         global $ilClientIniFile, $DIC;
 //        if (empty($this->messageParameters)) {
@@ -496,7 +498,7 @@ class ilAuthProviderLTI extends \ilAuthProvider implements \ilAuthProviderInterf
         return $userObj->getId();
     }
 
-    protected function handleLocalRoleAssignments(int $user_id, ilLTIPlatform $consumer) : bool
+    protected function handleLocalRoleAssignments(int $user_id, ilLTIPlatform $consumer): bool
     {
         global $DIC;
 //        if (empty($this->messageParameters)) {

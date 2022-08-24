@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * @author  Alex Killing <killing@leifos.com>
@@ -6,7 +8,7 @@
  */
 class ilCalendarAppointmentBaseFactory
 {
-    public static function getClassBaseName($a_appointment) : string
+    public static function getClassBaseName($a_appointment): string
     {
         $cat_id = ilCalendarCategoryAssignments::_lookupCategory($a_appointment['event']->getEntryId());
         $cat = ilCalendarCategory::getInstanceByCategoryId($cat_id);

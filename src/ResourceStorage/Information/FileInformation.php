@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -14,7 +16,7 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *********************************************************************/
- 
+
 namespace ILIAS\ResourceStorage\Information;
 
 use DateTimeImmutable;
@@ -31,60 +33,60 @@ class FileInformation implements Information
     protected int $size = 0;
     protected ?\DateTimeImmutable $creation_date = null;
 
-    public function getTitle() : string
+    public function getTitle(): string
     {
         return $this->title;
     }
 
-    public function setTitle(string $title) : self
+    public function setTitle(string $title): self
     {
         $this->title = $title;
 
         return $this;
     }
 
-    public function getSuffix() : string
+    public function getSuffix(): string
     {
         return $this->suffix;
     }
 
-    public function setSuffix(string $suffix) : self
+    public function setSuffix(string $suffix): self
     {
         $this->suffix = $suffix;
 
         return $this;
     }
 
-    public function getMimeType() : string
+    public function getMimeType(): string
     {
         return $this->mime_type;
     }
 
-    public function setMimeType(string $mime_type) : self
+    public function setMimeType(string $mime_type): self
     {
         $this->mime_type = $mime_type;
 
         return $this;
     }
 
-    public function getSize() : int
+    public function getSize(): int
     {
         return $this->size;
     }
 
-    public function setSize(int $size) : self
+    public function setSize(int $size): self
     {
         $this->size = $size;
 
         return $this;
     }
 
-    public function getCreationDate() : DateTimeImmutable
+    public function getCreationDate(): DateTimeImmutable
     {
         return $this->creation_date ?? new DateTimeImmutable();
     }
 
-    public function setCreationDate(DateTimeImmutable $creation_date) : void
+    public function setCreationDate(DateTimeImmutable $creation_date): void
     {
         $this->creation_date = $creation_date;
     }

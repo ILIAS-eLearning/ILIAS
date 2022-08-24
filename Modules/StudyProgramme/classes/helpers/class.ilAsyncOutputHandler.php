@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -52,7 +54,7 @@ class ilAsyncOutputHandler
      * self::OUTPUT_MODAL: Output as bootstrap modal
      * self::OUTPUT_EMPTY: Only content without ILIAS-layout
      */
-    public function terminate(string $type = self::OUTPUT_MODAL) : void
+    public function terminate(string $type = self::OUTPUT_MODAL): void
     {
         if ($type === self::OUTPUT_MODAL) {
             $tpl = new ilTemplate('tpl.modal_content.html', false, false, 'Modules/StudyProgramme');
@@ -81,7 +83,7 @@ class ilAsyncOutputHandler
     /**
      * Encode data as json for async output
      */
-    public static function encodeAsyncResponse(array $data = array()) : string
+    public static function encodeAsyncResponse(array $data = array()): string
     {
         global $DIC;
         $ilCtrl = $DIC['ilCtrl'];
@@ -106,7 +108,7 @@ class ilAsyncOutputHandler
         $tpl = $DIC['tpl'];
         $http = $DIC['http'];
 
-        $content = ($ilCtrl->isAsynch() && $async_content !== null)? $async_content : $normal_content;
+        $content = ($ilCtrl->isAsynch() && $async_content !== null) ? $async_content : $normal_content;
 
         if ($ilCtrl->isAsynch()) {
             $http->saveResponse(
@@ -139,7 +141,7 @@ class ilAsyncOutputHandler
      *
      * @param mixed $content
      */
-    public function setContent($content) : void
+    public function setContent($content): void
     {
         $this->content = $content;
     }
@@ -159,7 +161,7 @@ class ilAsyncOutputHandler
      *
      * @param mixed $heading
      */
-    public function setHeading($heading) : void
+    public function setHeading($heading): void
     {
         $this->heading = $heading;
     }
@@ -167,7 +169,7 @@ class ilAsyncOutputHandler
     /**
      * Return all window properties
      */
-    public function getWindowProperties() : array
+    public function getWindowProperties(): array
     {
         return $this->window_properties;
     }
@@ -175,7 +177,7 @@ class ilAsyncOutputHandler
     /**
      * Set windows properties
      */
-    public function setWindowProperties(array $window_properties) : void
+    public function setWindowProperties(array $window_properties): void
     {
         $this->window_properties = $window_properties;
     }

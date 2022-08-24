@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /*
         +-----------------------------------------------------------------------------+
         | ILIAS open source                                                           |
@@ -32,13 +34,13 @@
 
 class ilGroupWaitingList extends ilWaitingList
 {
-    public function addToList(int $a_usr_id) : bool
+    public function addToList(int $a_usr_id): bool
     {
         global $DIC;
 
         $ilAppEventHandler = $DIC['ilAppEventHandler'];
         $ilLog = $DIC['ilLog'];
-        
+
         if (!parent::addToList($a_usr_id)) {
             return false;
         }

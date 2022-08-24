@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace ILIAS\FileDelivery\FileDeliveryTypes;
@@ -29,8 +30,8 @@ use ILIAS\HTTP\Services;
 final class XSendfile implements ilFileDeliveryType
 {
     use HeaderBasedDeliveryHelper;
-    const X_SENDFILE = 'X-Sendfile';
-    const X_SENDFILE_TEMPORARY = 'X-Sendfile-Temporary';
+    public const X_SENDFILE = 'X-Sendfile';
+    public const X_SENDFILE_TEMPORARY = 'X-Sendfile-Temporary';
     private \ILIAS\HTTP\Services $httpService;
 
 
@@ -49,7 +50,7 @@ final class XSendfile implements ilFileDeliveryType
     /**
      * @inheritDoc
      */
-    public function doesFileExists(string $path_to_file) : bool
+    public function doesFileExists(string $path_to_file): bool
     {
         return is_readable($path_to_file);
     }
@@ -58,7 +59,7 @@ final class XSendfile implements ilFileDeliveryType
     /**
      * @inheritdoc
      */
-    public function prepare(string $path_to_file) : bool
+    public function prepare(string $path_to_file): bool
     {
         //	Nothing has to be done here
         return true;
@@ -68,9 +69,9 @@ final class XSendfile implements ilFileDeliveryType
     /**
      * @inheritdoc
      */
-    public function deliver(string $path_to_file, bool $file_marked_to_delete) : void
+    public function deliver(string $path_to_file, bool $file_marked_to_delete): void
     {
-        $delivery = function () use ($path_to_file) : void {
+        $delivery = function () use ($path_to_file): void {
             $response = $this->httpService->response()
                 ->withHeader(self::X_SENDFILE, realpath($path_to_file));
             $this->httpService->saveResponse($response);
@@ -88,7 +89,7 @@ final class XSendfile implements ilFileDeliveryType
     /**
      * @inheritdoc
      */
-    public function supportsInlineDelivery() : bool
+    public function supportsInlineDelivery(): bool
     {
         return true;
     }
@@ -97,7 +98,7 @@ final class XSendfile implements ilFileDeliveryType
     /**
      * @inheritdoc
      */
-    public function supportsAttachmentDelivery() : bool
+    public function supportsAttachmentDelivery(): bool
     {
         return true;
     }
@@ -106,7 +107,7 @@ final class XSendfile implements ilFileDeliveryType
     /**
      * @inheritdoc
      */
-    public function supportsStreaming() : bool
+    public function supportsStreaming(): bool
     {
         return true;
     }
@@ -115,7 +116,7 @@ final class XSendfile implements ilFileDeliveryType
     /**
      * @inheritdoc
      */
-    public function handleFileDeletion(string $path_to_file) : bool
+    public function handleFileDeletion(string $path_to_file): bool
     {
         return unlink($path_to_file);
     }

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -35,8 +37,8 @@ class ContactNotificationProvider extends AbstractNotificationProvider
 {
     public const MUTED_UNTIL_PREFERENCE_KEY = 'bs_nc_muted_until';
 
-    
-    private function getIdentifier(string $id) : IdentificationInterface
+
+    private function getIdentifier(string $id): IdentificationInterface
     {
         return $this->if->identifier($id);
     }
@@ -44,7 +46,7 @@ class ContactNotificationProvider extends AbstractNotificationProvider
     /**
      * @inheritDoc
      */
-    public function getNotifications() : array
+    public function getNotifications(): array
     {
         if (
             0 === $this->dic->user()->getId() ||
@@ -60,7 +62,7 @@ class ContactNotificationProvider extends AbstractNotificationProvider
         $relations = ilBuddyList::getInstanceByGlobalUser()->getRequestRelationsForOwner();
 
         $openRequests = $relations->filter(
-            function (\ilBuddySystemRelation $relation) use ($leftIntervalTimestamp, &$latestRequestTimestamp, $relations) : bool {
+            function (\ilBuddySystemRelation $relation) use ($leftIntervalTimestamp, &$latestRequestTimestamp, $relations): bool {
                 $timeStamp = $relation->getTimestamp();
 
                 if ($timeStamp > $latestRequestTimestamp) {
@@ -122,7 +124,7 @@ class ContactNotificationProvider extends AbstractNotificationProvider
                 $factory->standard($this->getIdentifier('contact_bucket'))
                     ->withNotificationItem($notificationItem)
                     ->withClosedCallable(
-                        function () : void {
+                        function (): void {
                             $this->dic->user()->writePref(self::MUTED_UNTIL_PREFERENCE_KEY, (string) time());
                         }
                     )->withNewAmount(1)

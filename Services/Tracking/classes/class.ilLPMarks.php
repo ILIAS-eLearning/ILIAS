@@ -57,7 +57,7 @@ class ilLPMarks
         $this->__read();
     }
 
-    public static function deleteObject(int $a_obj_id) : void
+    public static function deleteObject(int $a_obj_id): void
     {
         global $DIC;
 
@@ -68,52 +68,52 @@ class ilLPMarks
         $res = $ilDB->manipulate($query);
     }
 
-    public function getUserId() : int
+    public function getUserId(): int
     {
         return $this->usr_id;
     }
 
-    public function setMark(string $a_mark) : void
+    public function setMark(string $a_mark): void
     {
         $this->mark = $a_mark;
     }
 
-    public function getMark() : string
+    public function getMark(): string
     {
         return $this->mark;
     }
 
-    public function setComment(string $a_comment) : void
+    public function setComment(string $a_comment): void
     {
         $this->comment = $a_comment;
     }
 
-    public function getComment() : string
+    public function getComment(): string
     {
         return $this->comment;
     }
 
-    public function setCompleted(bool $a_status) : void
+    public function setCompleted(bool $a_status): void
     {
         $this->completed = $a_status;
     }
 
-    public function getCompleted() : bool
+    public function getCompleted(): bool
     {
         return $this->completed;
     }
 
-    public function getStatusChanged() : string
+    public function getStatusChanged(): string
     {
         return $this->status_changed;
     }
 
-    public function getObjId() : int
+    public function getObjId(): int
     {
         return $this->obj_id;
     }
 
-    public function update() : void
+    public function update(): void
     {
         if (!$this->has_entry) {
             $this->__add();
@@ -137,7 +137,7 @@ class ilLPMarks
     }
 
     // Static
-    public static function _hasCompleted(int $a_usr_id, int $a_obj_id) : bool
+    public static function _hasCompleted(int $a_usr_id, int $a_obj_id): bool
     {
         global $DIC;
 
@@ -158,7 +158,7 @@ class ilLPMarks
         int $user_id,
         string $from,
         string $to
-    ) : array {
+    ): array {
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
@@ -191,7 +191,7 @@ class ilLPMarks
         return $completions;
     }
 
-    public static function _lookupMark(int $a_usr_id, int $a_obj_id) : string
+    public static function _lookupMark(int $a_usr_id, int $a_obj_id): string
     {
         global $DIC;
 
@@ -208,7 +208,7 @@ class ilLPMarks
         return '';
     }
 
-    public static function _lookupComment(int $a_usr_id, int $a_obj_id) : string
+    public static function _lookupComment(int $a_usr_id, int $a_obj_id): string
     {
         global $DIC;
 
@@ -226,7 +226,7 @@ class ilLPMarks
     }
 
     // Private
-    public function __read() : bool
+    public function __read(): bool
     {
         $res = $this->db->query(
             "SELECT * FROM ut_lp_marks " .
@@ -247,7 +247,7 @@ class ilLPMarks
         return false;
     }
 
-    public function __add() : void
+    public function __add(): void
     {
         $query = "INSERT INTO ut_lp_marks (mark,u_comment, completed,obj_id,usr_id) " .
             "VALUES( " .
@@ -264,7 +264,7 @@ class ilLPMarks
     public static function _deleteForUsers(
         int $a_obj_id,
         array $a_user_ids
-    ) : void {
+    ): void {
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
@@ -275,7 +275,7 @@ class ilLPMarks
         );
     }
 
-    public static function _getAllUserIds(int $a_obj_id) : array
+    public static function _getAllUserIds(int $a_obj_id): array
     {
         global $DIC;
 

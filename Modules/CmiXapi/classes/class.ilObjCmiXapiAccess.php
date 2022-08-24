@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -30,10 +32,10 @@ class ilObjCmiXapiAccess extends ilObjectAccess implements ilConditionHandling
     /**
      * @return array<int, mixed[]>
      */
-    public static function _getCommands() : array
+    public static function _getCommands(): array
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
-        
+
         $commands = array(
             array(
                 "permission" => "read",
@@ -47,31 +49,31 @@ class ilObjCmiXapiAccess extends ilObjectAccess implements ilConditionHandling
                 'lang_var' => ilObjCmiXapiGUI::TAB_ID_SETTINGS
             )
         );
-        
+
         return $commands;
     }
 
     /**
      * @return string[]
      */
-    public static function getConditionOperators() : array
+    public static function getConditionOperators(): array
     {
         return [
             ilConditionHandler::OPERATOR_FINISHED,
             ilConditionHandler::OPERATOR_FAILED
         ];
     }
-    
-    public static function checkCondition(int $a_trigger_obj_id, string $a_operator, string $a_value, int $a_usr_id) : bool
+
+    public static function checkCondition(int $a_trigger_obj_id, string $a_operator, string $a_value, int $a_usr_id): bool
     {
         switch ($a_operator) {
             case ilConditionHandler::OPERATOR_FAILED:
                 return ilLPStatus::_lookupStatus($a_trigger_obj_id, $a_usr_id) == ilLPStatus::LP_STATUS_FAILED_NUM;
-            
+
             case ilConditionHandler::OPERATOR_FINISHED:
                 return ilLPStatus::_hasUserCompleted($a_trigger_obj_id, $a_usr_id);
         }
-        
+
         return false;
     }
 }

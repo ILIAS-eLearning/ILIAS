@@ -15,7 +15,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 use ILIAS\BackgroundTasks\Implementation\Values\AbstractValue;
 use ILIAS\BackgroundTasks\Implementation\Values\ScalarValues\BooleanValue;
 use ILIAS\BackgroundTasks\Value;
@@ -26,8 +26,8 @@ use ILIAS\BackgroundTasks\Value;
  */
 class ilCopyDefinition extends AbstractValue
 {
-    const COPY_SOURCE_DIR = 'source';
-    const COPY_TARGET_DIR = 'target';
+    public const COPY_SOURCE_DIR = 'source';
+    public const COPY_TARGET_DIR = 'target';
     /**
      * Copy Jobs: source file => relative target file in zip directory.
      * @param string[]
@@ -57,91 +57,91 @@ class ilCopyDefinition extends AbstractValue
      * States if the sum of all file sizes adheres to the global limit.
      */
     private ?BooleanValue $adheres_to_limit;
-    
+
     /**
      * Get copy definitions
      * @return array<string, string>[]|string[]
      */
-    public function getCopyDefinitions() : array
+    public function getCopyDefinitions(): array
     {
         return $this->copy_definitions;
     }
-    
+
     /**
      * Set copy definitions
      * @param string[] $a_definitions
      */
-    public function setCopyDefinitions(array $a_definitions) : void
+    public function setCopyDefinitions(array $a_definitions): void
     {
         $this->copy_definitions = $a_definitions;
     }
-    
+
     /**
      * Get directory name located in /temp/ directory.
      */
-    public function getTempDir() : string
+    public function getTempDir(): string
     {
         return $this->temp_dir;
     }
-    
+
     /**
      * Set directory name located in /temp/ directory.
      * @param $temp_dir
      */
-    public function setTempDir(string $temp_dir) : void
+    public function setTempDir(string $temp_dir): void
     {
         $this->temp_dir = $temp_dir;
     }
-    
+
     /**
      * @return int[]
      */
-    public function getObjectRefIds() : array
+    public function getObjectRefIds(): array
     {
         return $this->object_ref_ids;
     }
-    
+
     /**
      * @param int[] $object_ref_ids
      */
-    public function setObjectRefIds(array $object_ref_ids, bool $append = false) : void
+    public function setObjectRefIds(array $object_ref_ids, bool $append = false): void
     {
         $this->object_ref_ids = $append ? array_merge($this->object_ref_ids, $object_ref_ids) : $object_ref_ids;
     }
-    
-    public function getNumFiles() : int
+
+    public function getNumFiles(): int
     {
         return $this->num_files;
     }
-    
-    public function setNumFiles(int $num_files) : void
+
+    public function setNumFiles(int $num_files): void
     {
         $this->num_files = $num_files;
     }
-    
-    public function getSumFileSizes() : int
+
+    public function getSumFileSizes(): int
     {
         return $this->sum_file_sizes ?? 0;
     }
-    
-    public function setSumFileSizes(int $sum_file_sizes) : void
+
+    public function setSumFileSizes(int $sum_file_sizes): void
     {
         $this->sum_file_sizes = $sum_file_sizes;
     }
-    
-    public function getAdheresToLimit() : BooleanValue
+
+    public function getAdheresToLimit(): BooleanValue
     {
         $fallback = new BooleanValue();
         $fallback->setValue(false);
         return $this->adheres_to_limit ?? $fallback;
     }
-    
-    public function setAdheresToLimit(BooleanValue $adheres_to_limit) : void
+
+    public function setAdheresToLimit(BooleanValue $adheres_to_limit): void
     {
         $this->adheres_to_limit = $adheres_to_limit;
     }
-    
-    public function addCopyDefinition(string $a_source, string $a_target) : void
+
+    public function addCopyDefinition(string $a_source, string $a_target): void
     {
         $this->copy_definitions[]
             = [
@@ -149,23 +149,23 @@ class ilCopyDefinition extends AbstractValue
             self::COPY_TARGET_DIR => $a_target,
         ];
     }
-    
+
     /**
      * Check equality
      */
-    public function equals(Value $other) : bool
+    public function equals(Value $other): bool
     {
         return strcmp($this->getHash(), $other->getHash());
     }
-    
+
     /**
      * Get hash
      */
-    public function getHash() : string
+    public function getHash(): string
     {
         return md5($this->serialize());
     }
-    
+
     /**
      * Serialize content
      * @return string
@@ -183,16 +183,16 @@ class ilCopyDefinition extends AbstractValue
             ]
         );
     }
-    
+
     /**
      * Set value
      * @param $value
      */
-    public function setValue($value) : void
+    public function setValue($value): void
     {
         $this->copy_definitions = $value;
     }
-    
+
     /**
      * Unserialize definitions
      * @param string $serialized
@@ -200,7 +200,7 @@ class ilCopyDefinition extends AbstractValue
     public function unserialize($serialized)
     {
         $elements = unserialize($serialized);
-        
+
         $this->setCopyDefinitions($elements["copy_definition"]);
         $this->setTempDir($elements['temp_dir']);
         $this->setObjectRefIds(explode(",", $elements["object_ref_ids"]));

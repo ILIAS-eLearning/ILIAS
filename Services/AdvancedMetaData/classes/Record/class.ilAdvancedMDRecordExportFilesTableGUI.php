@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -47,7 +49,7 @@ class ilAdvancedMDRecordExportFilesTableGUI extends ilTable2GUI
      * @access public
      * @param
      */
-    protected function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set): void
     {
         $this->tpl->setVariable('VAL_ID', $a_set['id']);
         $this->tpl->setVariable('VAL_SIZE', sprintf("%.1f KB", (string) ((int) $a_set['file_size'] / 1024)));
@@ -68,7 +70,7 @@ class ilAdvancedMDRecordExportFilesTableGUI extends ilTable2GUI
      * @access public
      * @param
      */
-    public function parseFiles(array $a_file_data) : void
+    public function parseFiles(array $a_file_data): void
     {
         $defs_arr = [];
         foreach ($a_file_data as $id => $data) {

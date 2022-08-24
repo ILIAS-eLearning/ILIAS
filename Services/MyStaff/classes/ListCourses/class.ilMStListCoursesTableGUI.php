@@ -112,13 +112,13 @@ class ilMStListCoursesTableGUI extends ilTable2GUI
         $data = $result->getDataset();
 
         // Workaround because the fillRow Method only accepts arrays
-        $data = array_map(function (ilMStListCourse $it) : array {
+        $data = array_map(function (ilMStListCourse $it): array {
             return [$it];
         }, $data);
         $this->setData($data);
     }
 
-    final public function initFilter() : void
+    final public function initFilter(): void
     {
         global $DIC;
 
@@ -196,7 +196,7 @@ class ilMStListCoursesTableGUI extends ilTable2GUI
         }
     }
 
-    final public function getSelectableColumns() : array
+    final public function getSelectableColumns(): array
     {
         global $DIC;
 
@@ -270,7 +270,7 @@ class ilMStListCoursesTableGUI extends ilTable2GUI
         return $cols;
     }
 
-    private function addColumns() : void
+    private function addColumns(): void
     {
         global $DIC;
 
@@ -297,12 +297,12 @@ class ilMStListCoursesTableGUI extends ilTable2GUI
      * @throws \ilCtrlException
      * @throws \ilTemplateException
      */
-    final public function fillRow(array $a_set) : void
+    final public function fillRow(array $a_set): void
     {
         global $DIC;
 
         $set = array_pop($a_set);
-        
+
         $propGetter = Closure::bind(function ($prop) {
             return $this->$prop;
         }, $set, $set);
@@ -368,7 +368,7 @@ class ilMStListCoursesTableGUI extends ilTable2GUI
         $this->tpl->parseCurrentBlock();
     }
 
-    protected function fillRowExcel(ilExcel $a_excel, int &$a_row, array $a_set) : void
+    protected function fillRowExcel(ilExcel $a_excel, int &$a_row, array $a_set): void
     {
         $set = array_pop($a_set);
 
@@ -379,7 +379,7 @@ class ilMStListCoursesTableGUI extends ilTable2GUI
         }
     }
 
-    protected function fillRowCSV(ilCSVWriter $a_csv, array $a_set) : void
+    protected function fillRowCSV(ilCSVWriter $a_csv, array $a_set): void
     {
         $set = array_pop($a_set);
 
@@ -389,7 +389,7 @@ class ilMStListCoursesTableGUI extends ilTable2GUI
         $a_csv->addRow();
     }
 
-    protected function getFieldValuesForExport(ilMStListCourse $my_staff_course) : array
+    protected function getFieldValuesForExport(ilMStListCourse $my_staff_course): array
     {
         $propGetter = Closure::bind(function ($prop) {
             return $this->$prop;

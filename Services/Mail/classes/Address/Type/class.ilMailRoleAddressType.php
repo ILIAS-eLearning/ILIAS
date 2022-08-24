@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -44,7 +46,7 @@ class ilMailRoleAddressType extends ilBaseMailAddressType
     /**
      * @return int[]
      */
-    protected function getRoleIdsByAddress(ilMailAddress $address) : array
+    protected function getRoleIdsByAddress(ilMailAddress $address): array
     {
         $combinedAddress = (string) $address;
 
@@ -53,7 +55,7 @@ class ilMailRoleAddressType extends ilBaseMailAddressType
         return $roleIds;
     }
 
-    protected function maySendToGlobalRole(int $senderId) : bool
+    protected function maySendToGlobalRole(int $senderId): bool
     {
         if ($senderId === ANONYMOUS_USER_ID) {
             return true;
@@ -68,7 +70,7 @@ class ilMailRoleAddressType extends ilBaseMailAddressType
         return $maySendToGlobalRoles;
     }
 
-    protected function isValid(int $senderId) : bool
+    protected function isValid(int $senderId): bool
     {
         $roleIds = $this->getRoleIdsByAddress($this->address);
         if (!$this->maySendToGlobalRole($senderId)) {
@@ -96,7 +98,7 @@ class ilMailRoleAddressType extends ilBaseMailAddressType
         return true;
     }
 
-    public function resolve() : array
+    public function resolve(): array
     {
         $usrIds = [];
 

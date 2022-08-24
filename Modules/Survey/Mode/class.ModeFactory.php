@@ -1,4 +1,6 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -41,12 +43,12 @@ class ModeFactory
         ];
     }
 
-    public function setInternalService(InternalService $service) : void
+    public function setInternalService(InternalService $service): void
     {
         $this->service = $service;
     }
 
-    public function getModeById(int $id) : ModeProvider
+    public function getModeById(int $id): ModeProvider
     {
         foreach ($this->providers as $provider) {
             if ($provider->getId() === $id) {

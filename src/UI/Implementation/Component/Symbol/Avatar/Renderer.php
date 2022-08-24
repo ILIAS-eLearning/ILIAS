@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\UI\Implementation\Component\Symbol\Avatar;
 
 use ILIAS\UI\Component;
@@ -24,7 +26,7 @@ use ILIAS\UI\Renderer as RendererInterface;
 
 class Renderer extends AbstractComponentRenderer
 {
-    public function render(Component\Component $component, RendererInterface $default_renderer) : string
+    public function render(Component\Component $component, RendererInterface $default_renderer): string
     {
         $this->checkComponent($component);
         $tpl = null;
@@ -53,7 +55,7 @@ class Renderer extends AbstractComponentRenderer
         return $tpl->get();
     }
 
-    protected function getComponentInterfaceName() : array
+    protected function getComponentInterfaceName(): array
     {
         return array(
             Component\Symbol\Avatar\Letter::class,

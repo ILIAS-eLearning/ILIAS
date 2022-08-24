@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -51,7 +53,7 @@ class ilSCORM2004TrackingItemsTableGUI extends ilTable2GUI
         $this->lng = $lng;
         $this->access = $DIC->access();
         $this->rbacsystem = $DIC->rbac()->system();
-    
+
         $this->obj_id = $a_obj_id;
         $this->report = $a_report;
         $this->scosSelected = $a_scosSelected;
@@ -112,11 +114,11 @@ class ilSCORM2004TrackingItemsTableGUI extends ilTable2GUI
     /**
      * @return mixed[]
      */
-    public function getSelectableColumns() : array
+    public function getSelectableColumns(): array
     {
         // default fields
         $cols = array();
-        
+
         switch ($this->report) {
             case "exportSelectedCore":
                 $cols = ilSCORM2004TrackingItems::exportSelectedCoreColumns($this->bySCO, $this->allowExportPrivacy);
@@ -143,20 +145,20 @@ class ilSCORM2004TrackingItemsTableGUI extends ilTable2GUI
                 $cols = ilSCORM2004TrackingItems::exportSelectedSuccessColumns();
             break;
         }
-        
+
         return $cols;
     }
 
-    public function getObjId() : int
+    public function getObjId(): int
     {
         return $this->obj_id;
     }
 
-    public function getItems() : void
+    public function getItems(): void
     {
         $this->determineOffsetAndOrder(true);
         $this->determineLimit();
-        
+
         $ilSCORM2004TrackingItems = new ilSCORM2004TrackingItems();
         switch ($this->report) {
             case "exportSelectedCore":
@@ -192,7 +194,7 @@ class ilSCORM2004TrackingItemsTableGUI extends ilTable2GUI
                 ilUtil::stripSlashes($this->getOrderDirection())
             );
         }
-        
+
         $this->setData($tr_data);
     }
 
@@ -205,7 +207,7 @@ class ilSCORM2004TrackingItemsTableGUI extends ilTable2GUI
         if ($id === "status") {
             $icons = ilLPStatusIcons::getInstance(ilLPStatusIcons::ICON_VARIANT_SCORM);
             $path = $icons->getImagePathForStatus($value);
-            $text = ilLearningProgressBaseGUI::_getStatusText((integer) $value);
+            $text = ilLearningProgressBaseGUI::_getStatusText((int) $value);
             $value = ilUtil::img($path, $text);
         }
         //BLUM round
@@ -222,7 +224,7 @@ class ilSCORM2004TrackingItemsTableGUI extends ilTable2GUI
      * Fill table row
      * @throws ilTemplateException
      */
-    protected function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set): void
     {
         foreach ($this->getSelectedColumns() as $c) {
             $this->tpl->setCurrentBlock("user_field");
@@ -232,7 +234,7 @@ class ilSCORM2004TrackingItemsTableGUI extends ilTable2GUI
         }
     }
 
-    protected function fillHeaderExcel(ilExcel $a_excel, int &$a_row) : void
+    protected function fillHeaderExcel(ilExcel $a_excel, int &$a_row): void
     {
         $labels = $this->getSelectableColumns();
         $cnt = 0;
@@ -242,7 +244,7 @@ class ilSCORM2004TrackingItemsTableGUI extends ilTable2GUI
         }
     }
 
-    protected function fillRowExcel(ilExcel $a_excel, int &$a_row, array $a_set) : void
+    protected function fillRowExcel(ilExcel $a_excel, int &$a_row, array $a_set): void
     {
 //        $lng = $this->lng;
 //        $lng->loadLanguageModule("trac");
@@ -258,7 +260,7 @@ class ilSCORM2004TrackingItemsTableGUI extends ilTable2GUI
         }
     }
 
-    protected function fillHeaderCSV(ilCSVWriter $a_csv) : void
+    protected function fillHeaderCSV(ilCSVWriter $a_csv): void
     {
         $labels = $this->getSelectableColumns();
         foreach ($this->getSelectedColumns() as $c) {
@@ -268,7 +270,7 @@ class ilSCORM2004TrackingItemsTableGUI extends ilTable2GUI
         $a_csv->addRow();
     }
 
-    protected function fillRowCSV(ilCSVWriter $a_csv, array $a_set) : void
+    protected function fillRowCSV(ilCSVWriter $a_csv, array $a_set): void
     {
 //        $lng = $this->lng;
 //        $lng->loadLanguageModule("trac");
@@ -280,7 +282,7 @@ class ilSCORM2004TrackingItemsTableGUI extends ilTable2GUI
             }
             $a_csv->addColumn($val);
         }
-        
+
         $a_csv->addRow();
     }
 }

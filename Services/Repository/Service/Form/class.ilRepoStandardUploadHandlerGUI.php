@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -49,14 +51,14 @@ class ilRepoStandardUploadHandlerGUI extends AbstractCtrlAwareUploadHandler
         $this->file_id_parameter = $file_id_parameter;
     }
 
-    protected function debug(string $mess) : void
+    protected function debug(string $mess): void
     {
         if (!is_null($this->log)) {
             $this->log->debug($mess);
         }
     }
 
-    protected function getUploadResult() : HandlerResult
+    protected function getUploadResult(): HandlerResult
     {
         $this->debug("checking for uploads...");
         if ($this->upload->hasUploads()) {
@@ -93,7 +95,7 @@ class ilRepoStandardUploadHandlerGUI extends AbstractCtrlAwareUploadHandler
         return $result;
     }
 
-    protected function getRemoveResult(string $identifier) : HandlerResult
+    protected function getRemoveResult(string $identifier): HandlerResult
     {
         return new BasicHandlerResult(
             $this->getFileIdentifierParameterName(),
@@ -103,17 +105,17 @@ class ilRepoStandardUploadHandlerGUI extends AbstractCtrlAwareUploadHandler
         );
     }
 
-    public function getInfoResult(string $identifier) : ?FileInfoResult
+    public function getInfoResult(string $identifier): ?FileInfoResult
     {
         return null;
     }
 
-    public function getInfoForExistingFiles(array $file_ids) : array
+    public function getInfoForExistingFiles(array $file_ids): array
     {
         return [];
     }
 
-    public function getFileIdentifierParameterName() : string
+    public function getFileIdentifierParameterName(): string
     {
         return $this->file_id_parameter;
     }

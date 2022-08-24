@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -31,7 +33,7 @@ class ilStudyProgrammeMembershipSourceReaderParticipants implements ilStudyProgr
     /**
      * @inheritdoc
      */
-    public function getMemberIds() : array
+    public function getMemberIds(): array
     {
         return array_map(
             'intval',

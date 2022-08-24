@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,7 +19,6 @@
 
 class ilSCORMExplorer extends ilExplorer
 {
-
     /**
      * id of root folder
      */
@@ -34,17 +35,17 @@ class ilSCORMExplorer extends ilExplorer
         $this->setOrderColumn("");
     }
 
-    public function getItem(int $a_node_id) : \ilSCORMItem
+    public function getItem(int $a_node_id): \ilSCORMItem
     {
         return new ilSCORMItem($a_node_id);
     }
 
-    public function getIconImagePathPrefix() : string
+    public function getIconImagePathPrefix(): string
     {
         return "scorm/";
     }
 
-    public function getNodesToSkip() : int
+    public function getNodesToSkip(): int
     {
         return 2;
     }
@@ -53,7 +54,7 @@ class ilSCORMExplorer extends ilExplorer
      * overwritten method from base class
      * @throws ilTemplateException
      */
-    public function formatHeader(ilTemplate $tpl, $a_obj_id, array $a_option) : void //Missing typehint because ilExplorer
+    public function formatHeader(ilTemplate $tpl, $a_obj_id, array $a_option): void //Missing typehint because ilExplorer
     {
         global $DIC;
         $lng = $DIC->language();
@@ -72,7 +73,7 @@ class ilSCORMExplorer extends ilExplorer
     /**
      * Creates Get Parameter
      */
-    public function createTarget(string $a_type, $a_node_id, bool $a_highlighted_subtree = false, bool $a_append_anch = true) : string //Missing typehint because ilExplorer
+    public function createTarget(string $a_type, $a_node_id, bool $a_highlighted_subtree = false, bool $a_append_anch = true): string //Missing typehint because ilExplorer
     {
         // SET expand parameter:
         //     positive if object is expanded
@@ -84,7 +85,7 @@ class ilSCORMExplorer extends ilExplorer
         return $_SERVER["PATH_INFO"] . "?cmd=explorer&ref_id=" . $this->slm_obj->getRefId() . "&scexpand=" . $a_node_id; //ToDo $_SERVER?
     }
 
-    public function setOutput($a_parent_id, int $a_depth = 1, int $a_obj_id = 0, $a_highlighted_subtree = false) : void
+    public function setOutput($a_parent_id, int $a_depth = 1, int $a_obj_id = 0, $a_highlighted_subtree = false): void
 //    public function setOutput(int $a_parent_id, int $a_depth = 1, int $a_obj_id = 0, bool $a_highlighted_subtree = false) : void
     {
         $this->format_options = $this->createOutputArray($a_parent_id);
@@ -94,7 +95,7 @@ class ilSCORMExplorer extends ilExplorer
                  * recursive creating of outputs
                  * @return mixed[]
                  */
-    protected function createOutputArray(int $a_parent_id, array $options = array()) : array
+    protected function createOutputArray(int $a_parent_id, array $options = array()): array
     {
         global $ilErr;
         $types_do_not_display = array("sos", "sma");
@@ -133,7 +134,7 @@ class ilSCORMExplorer extends ilExplorer
         return $options;
     }
 
-    public function isVisible($a_ref_id, string $a_type) : bool //Typehint not possible now - see ilExplorer
+    public function isVisible($a_ref_id, string $a_type): bool //Typehint not possible now - see ilExplorer
     {
         return $a_type !== "sre";
     }
@@ -142,7 +143,7 @@ class ilSCORMExplorer extends ilExplorer
      * Creates output template
      * @throws ilTemplateException
      */
-    public function getOutput(bool $jsApi = false) : string
+    public function getOutput(bool $jsApi = false): string
     {
         return $this->createOutput($this->format_options, $jsApi)->get();
     }
@@ -151,7 +152,7 @@ class ilSCORMExplorer extends ilExplorer
      * recursive creation of output templates
      * @throws ilTemplateException
      */
-    public function createOutput(array $option, bool $jsApi) : \ilTemplate
+    public function createOutput(array $option, bool $jsApi): \ilTemplate
     {
         global $DIC;
         $ilBench = $DIC['ilBench'];
@@ -177,7 +178,7 @@ class ilSCORMExplorer extends ilExplorer
     /**
      * can i click on the module name
      */
-    public function isClickable(string $type, int $ref_id = 0) : bool
+    public function isClickable(string $type, int $ref_id = 0): bool
     {
         if ($type !== "sit") {
             return false;
@@ -191,7 +192,7 @@ class ilSCORMExplorer extends ilExplorer
      * insert the option data in $tpl
      * @throws ilTemplateException
      */
-    protected function insertObject(array $option, ilTemplate $tpl, bool $jsApi) : \ilTemplate
+    protected function insertObject(array $option, ilTemplate $tpl, bool $jsApi): \ilTemplate
     {
         global $ilErr;
         if (!is_array($option) || !isset($option["id"])) {
@@ -248,7 +249,7 @@ class ilSCORMExplorer extends ilExplorer
      * tpl is filled with option state
      * @throws ilTemplateException
      */
-    public function getOutputIcons(\ilTemplate $tpl, array $a_option, int $a_node_id, string $scormtype = "sco") : void
+    public function getOutputIcons(\ilTemplate $tpl, array $a_option, int $a_node_id, string $scormtype = "sco"): void
     {
         global $DIC;
         $lng = $DIC->language();
@@ -287,7 +288,7 @@ class ilSCORMExplorer extends ilExplorer
         } elseif ($statusChar === "r") {
             $status = "running";
         }
-            
+
         $alt = $lng->txt("cont_status") . ": " .
                 $lng->txt("cont_sc_stat_" . str_replace(" ", "_", $status));
 

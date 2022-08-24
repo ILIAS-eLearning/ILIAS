@@ -61,7 +61,7 @@ class ilObjOrgUnit extends ilContainer
         parent::__construct($a_id, $a_call_by_reference);
     }
 
-    public function read() : void
+    public function read(): void
     {
         parent::read();
         /** @var */
@@ -73,7 +73,7 @@ class ilObjOrgUnit extends ilContainer
         }
     }
 
-    public function create() : int
+    public function create(): int
     {
         $id = parent::create();
         $this->ilDb->insert(self::TABLE_NAME, array(
@@ -83,7 +83,7 @@ class ilObjOrgUnit extends ilContainer
         return $id;
     }
 
-    public function update() : bool
+    public function update(): bool
     {
         parent::update();
         $sql = 'SELECT * FROM ' . self::TABLE_NAME . ' WHERE orgu_id = ' . $this->ilDb->quote(
@@ -118,17 +118,17 @@ class ilObjOrgUnit extends ilContainer
         return true;
     }
 
-    public function getOrgUnitTypeId() : int
+    public function getOrgUnitTypeId(): int
     {
         return $this->orgu_type_id;
     }
 
-    public function getOrgUnitType() : ?ilOrgUnitType
+    public function getOrgUnitType(): ?ilOrgUnitType
     {
         return ilOrgUnitType::getInstance($this->getOrgUnitTypeId());
     }
 
-    public function setOrgUnitTypeId(int $a_id) : void
+    public function setOrgUnitTypeId(int $a_id): void
     {
         $this->orgu_type_id = $a_id;
     }
@@ -139,7 +139,7 @@ class ilObjOrgUnit extends ilContainer
      * belonging to this record. If no record_id is given, returns an associative array with
      * record-IDs as keys and ilADT objects as values
      */
-    public function getAdvancedMDValues(int $a_record_id = 0) : array
+    public function getAdvancedMDValues(int $a_record_id = 0): array
     {
         if (!$this->getOrgUnitTypeId()) {
             return array();
@@ -170,7 +170,7 @@ class ilObjOrgUnit extends ilContainer
      * OrgUnit type. Keys = OrgUnit object IDs, values = Path to the icon This allows to get the
      * Icons of OrgUnits without loading the object (e.g. used in the tree explorer)
      */
-    public static function getIconsCache() : array
+    public static function getIconsCache(): array
     {
         if (is_array(self::$icons_cache)) {
             return self::$icons_cache;
@@ -193,21 +193,21 @@ class ilObjOrgUnit extends ilContainer
         return $icons_cache;
     }
 
-    public static function getRootOrgRefId() : int
+    public static function getRootOrgRefId(): int
     {
         self::loadRootOrgRefIdAndId();
 
         return self::$root_ref_id;
     }
 
-    public static function getRootOrgId() : int
+    public static function getRootOrgId(): int
     {
         self::loadRootOrgRefIdAndId();
 
         return self::$root_id;
     }
 
-    private static function loadRootOrgRefIdAndId() : void
+    private static function loadRootOrgRefIdAndId(): void
     {
         if (self::$root_ref_id === 0 || self::$root_id === 0) {
             global $DIC;
@@ -226,7 +226,7 @@ class ilObjOrgUnit extends ilContainer
      * Adds the user ids to the position employee.
      * @param int[] $user_ids
      */
-    public function assignUsersToEmployeeRole(array $user_ids) : void
+    public function assignUsersToEmployeeRole(array $user_ids): void
     {
         $position_id = ilOrgUnitPosition::getCorePositionId(ilOrgUnitPosition::CORE_POSITION_EMPLOYEE);
 
@@ -247,7 +247,7 @@ class ilObjOrgUnit extends ilContainer
      * Adds the user ids to the position superior.
      * @param int[] $user_ids
      */
-    public function assignUsersToSuperiorRole(array $user_ids) : void
+    public function assignUsersToSuperiorRole(array $user_ids): void
     {
         $position_id = ilOrgUnitPosition::getCorePositionId(ilOrgUnitPosition::CORE_POSITION_SUPERIOR);
 
@@ -264,7 +264,7 @@ class ilObjOrgUnit extends ilContainer
         }
     }
 
-    public function deassignUserFromEmployeeRole(int $user_id) : void
+    public function deassignUserFromEmployeeRole(int $user_id): void
     {
         $position_id = ilOrgUnitPosition::getCorePositionId(ilOrgUnitPosition::CORE_POSITION_EMPLOYEE);
         ilOrgUnitUserAssignment::findOrCreateAssignment($user_id, $position_id, $this->getRefId())->delete();
@@ -278,7 +278,7 @@ class ilObjOrgUnit extends ilContainer
         ));
     }
 
-    public function deassignUserFromSuperiorRole(int $user_id) : void
+    public function deassignUserFromSuperiorRole(int $user_id): void
     {
         $position_id = ilOrgUnitPosition::getCorePositionId(ilOrgUnitPosition::CORE_POSITION_SUPERIOR);
         ilOrgUnitUserAssignment::findOrCreateAssignment($user_id, $position_id, $this->getRefId())->delete();
@@ -295,7 +295,7 @@ class ilObjOrgUnit extends ilContainer
     /**
      * Assign a given user to a given local role
      */
-    public function assignUserToLocalRole(int $role_id, int $user_id) : bool
+    public function assignUserToLocalRole(int $role_id, int $user_id): bool
     {
         $arrLocalRoles = $this->rbacreview->getLocalRoles($this->getRefId());
         if (!in_array($role_id, $arrLocalRoles)) {
@@ -318,7 +318,7 @@ class ilObjOrgUnit extends ilContainer
     /**
      * Deassign a given user to a given local role
      */
-    public function deassignUserFromLocalRole(int $role_id, int $user_id) : bool
+    public function deassignUserFromLocalRole(int $role_id, int $user_id): bool
     {
         $arrLocalRoles = $this->rbacreview->getLocalRoles($this->getRefId());
         if (!in_array($role_id, $arrLocalRoles)) {
@@ -338,12 +338,12 @@ class ilObjOrgUnit extends ilContainer
         return $return;
     }
 
-    public static function _exists(int $id, bool $isReference = false, ?string $type = "orgu") : bool
+    public static function _exists(int $id, bool $isReference = false, ?string $type = "orgu"): bool
     {
         return parent::_exists($id, $isReference, "orgu");
     }
 
-    public function getTitle() : string
+    public function getTitle(): string
     {
         if (parent::getTitle() !== "__OrgUnitAdministration") {
             return parent::getTitle();
@@ -355,7 +355,7 @@ class ilObjOrgUnit extends ilContainer
     /**
      * get object long description (stored in object_description)
      */
-    public function getLongDescription() : string
+    public function getLongDescription(): string
     {
         if (parent::getTitle() === "__OrgUnitAdministration") {
             return $this->lng->txt("obj_orgu_description");
@@ -404,7 +404,7 @@ class ilObjOrgUnit extends ilContainer
      * @return    bool    true if all object data were removed; false if only a references were
      *                       removed
      */
-    public function delete() : bool
+    public function delete(): bool
     {
         // always call parent delete function first!!
         if (!parent::delete()) {
@@ -444,7 +444,7 @@ class ilObjOrgUnit extends ilContainer
     /**
      * remove all Translations of current OrgUnit
      */
-    public function removeTranslations() : void
+    public function removeTranslations(): void
     {
         $query = "DELETE FROM object_translation WHERE obj_id= " . $this->ilDb->quote($this->getId(), 'integer');
         $res = $this->ilDb->manipulate($query);
@@ -454,7 +454,7 @@ class ilObjOrgUnit extends ilContainer
      * remove translations of current OrgUnit
      * @param $a_lang string en|de|...
      */
-    public function deleteTranslation(string $a_lang) : void
+    public function deleteTranslation(string $a_lang): void
     {
         $query = "DELETE FROM object_translation WHERE obj_id= " . $this->quote(
             $this->getId(),
@@ -467,7 +467,7 @@ class ilObjOrgUnit extends ilContainer
     /**
      * add a new translation to current OrgUnit
      */
-    public function addTranslation(string $a_title, string $a_desc, string $a_lang, string $a_lang_default) : void
+    public function addTranslation(string $a_title, string $a_desc, string $a_lang, string $a_lang_default): void
     {
         if (empty($a_title)) {
             $a_title = "NO TITLE";
@@ -485,7 +485,7 @@ class ilObjOrgUnit extends ilContainer
     /**
      * update a translation to current OrgUnit
      */
-    public function updateTranslation(string $title, string $desc, string $lang, string $lang_default) : void
+    public function updateTranslation(string $title, string $desc, string $lang, string $lang_default): void
     {
         if (empty($title)) {
             $a_title = "NO TITLE";
@@ -508,7 +508,7 @@ class ilObjOrgUnit extends ilContainer
         $this->ilDb->manipulate($query);
     }
 
-    public function writePath() : void
+    public function writePath(): void
     {
         if ($this->getRefId()) {
             ilOrgUnitPathStorage::writePathByRefId($this->getRefId());

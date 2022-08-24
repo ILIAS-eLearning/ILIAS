@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /******************************************************************************
  *
@@ -30,7 +32,7 @@ class ilObjRemoteGroupAccess extends ilObjectAccess
     * checks whether a user may invoke a command or not
     * (this method is called by ilAccessHandler::checkAccess)
     */
-    public function _checkAccess(string $cmd, string $permission, int $ref_id, int $obj_id, ?int $user_id = null) : bool
+    public function _checkAccess(string $cmd, string $permission, int $ref_id, int $obj_id, ?int $user_id = null): bool
     {
         global $ilUser, $lng, $rbacsystem, $ilAccess;
 
@@ -80,14 +82,14 @@ class ilObjRemoteGroupAccess extends ilObjectAccess
      *		array("permission" => "write", "cmd" => "edit", "lang_var" => "edit"),
      *	);
      */
-    public static function _getCommands() : array
+    public static function _getCommands(): array
     {
         $commands = array(
             array("permission" => "read", "cmd" => "show", "lang_var" => "info",
                 "default" => true),
             array("permission" => "write", "cmd" => "edit", "lang_var" => "edit")
         );
-        
+
         return $commands;
     }
 }

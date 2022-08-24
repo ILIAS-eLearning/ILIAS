@@ -1,4 +1,6 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -54,13 +56,13 @@ class InternalDomainService
         $this->mode_factory = $mode_factory;
     }
 
-    public function modeFeatureConfig(int $mode) : FeatureConfig
+    public function modeFeatureConfig(int $mode): FeatureConfig
     {
         $mode_provider = $this->mode_factory->getModeById($mode);
         return $mode_provider->getFeatureConfig();
     }
 
-    public function participants() : Participants\DomainService
+    public function participants(): Participants\DomainService
     {
         return new Participants\DomainService(
             $this,
@@ -68,7 +70,7 @@ class InternalDomainService
         );
     }
 
-    public function execution() : Execution\DomainService
+    public function execution(): Execution\DomainService
     {
         return new Execution\DomainService(
             $this->repo_service,
@@ -76,7 +78,7 @@ class InternalDomainService
         );
     }
 
-    public function access(int $ref_id, int $user_id) : Access\AccessManager
+    public function access(int $ref_id, int $user_id): Access\AccessManager
     {
         return new Access\AccessManager(
             $this,
@@ -86,7 +88,7 @@ class InternalDomainService
         );
     }
 
-    public function code(\ilObjSurvey $survey, int $user_id) : CodeManager
+    public function code(\ilObjSurvey $survey, int $user_id): CodeManager
     {
         return new CodeManager(
             $this->repo_service->code(),
@@ -102,7 +104,7 @@ class InternalDomainService
         int $user_id,
         int $requested_appr_id = 0,
         string $requested_rater_id = ""
-    ) : Evaluation\EvaluationManager {
+    ): Evaluation\EvaluationManager {
         return new Evaluation\EvaluationManager(
             $this,
             $this->repo_service,
@@ -113,7 +115,7 @@ class InternalDomainService
         );
     }
 
-    public function edit() : EditManager
+    public function edit(): EditManager
     {
         return new EditManager(
             $this->repo_service,

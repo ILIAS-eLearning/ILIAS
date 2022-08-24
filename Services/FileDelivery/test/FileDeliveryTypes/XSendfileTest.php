@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace ILIAS\FileDelivery\FileDeliveryTypes;
@@ -34,7 +35,6 @@ use Psr\Http\Message\ResponseInterface;
  */
 class XSendfileTest extends TestCase
 {
-
     /**
      * @var Services|\PHPUnit\Framework\MockObject\MockObject
      */
@@ -43,7 +43,7 @@ class XSendfileTest extends TestCase
     /**
      * @inheritDoc
      */
-    protected function setUp() : void
+    protected function setUp(): void
     {
         $this->httpServiceMock = $this->getMockBuilder(Services::class)
                                       ->disableOriginalConstructor()
@@ -53,7 +53,7 @@ class XSendfileTest extends TestCase
     /**
      * @Test
      */
-    public function testSendFileWithXSendHeaderWhichShouldSucceed() : void
+    public function testSendFileWithXSendHeaderWhichShouldSucceed(): void
     {
         $expectedHeader = 'X-Sendfile';
         $filePath = __FILE__;

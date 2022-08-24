@@ -55,7 +55,7 @@ class ilWorkspaceExplorerGUI extends ilTreeExplorerGUI
 
         $this->ctrl = $DIC->ctrl();
         $this->lng = $DIC->language();
-        
+
         $this->select_gui = (is_object($a_select_gui))
             ? strtolower(get_class($a_select_gui))
             : $a_select_gui;
@@ -75,46 +75,46 @@ class ilWorkspaceExplorerGUI extends ilTreeExplorerGUI
         $this->setSkipRootNode(false);
         $this->setAjax(true);
         $this->setPathOpen($this->root_id);
-        
+
         $this->setTypeWhiteList(array("wsrt", "wfld"));
     }
-    
-    public function setLinkToNodeClass(bool $a_val) : void
+
+    public function setLinkToNodeClass(bool $a_val): void
     {
         $this->link_to_node_class = $a_val;
     }
-    
-    public function getLinkToNodeClass() : bool
+
+    public function getLinkToNodeClass(): bool
     {
         return $this->link_to_node_class;
     }
-    
-    public function setActivateHighlighting(bool $a_val) : void
+
+    public function setActivateHighlighting(bool $a_val): void
     {
         $this->activate_highlighting = $a_val;
     }
-    
-    public function getActivateHighlighting() : bool
+
+    public function getActivateHighlighting(): bool
     {
         return $this->activate_highlighting;
     }
 
-    public function setSelectableTypes(array $a_val) : void
+    public function setSelectableTypes(array $a_val): void
     {
         $this->selectable_types = $a_val;
     }
-    
-    public function getSelectableTypes() : array
+
+    public function getSelectableTypes(): array
     {
         return $this->selectable_types;
     }
 
-    public function setCustomLinkTarget(string $a_val) : void
+    public function setCustomLinkTarget(string $a_val): void
     {
         $this->custom_link_target = $a_val;
     }
 
-    public function getCustomLinkTarget() : string
+    public function getCustomLinkTarget(): string
     {
         return $this->custom_link_target;
     }
@@ -122,7 +122,7 @@ class ilWorkspaceExplorerGUI extends ilTreeExplorerGUI
     /**
      * @inheritcoc
      */
-    public function getNodeHref($a_node) : string
+    public function getNodeHref($a_node): string
     {
         if ($this->select_postvar != "") {
             return "";
@@ -161,7 +161,7 @@ class ilWorkspaceExplorerGUI extends ilTreeExplorerGUI
     /**
      * @inheritcoc
      */
-    public function getNodeContent($a_node) : string
+    public function getNodeContent($a_node): string
     {
         $lng = $this->lng;
 
@@ -175,7 +175,7 @@ class ilWorkspaceExplorerGUI extends ilTreeExplorerGUI
     /**
      * @inheritcoc
      */
-    public function isNodeClickable($a_node) : bool
+    public function isNodeClickable($a_node): bool
     {
         if (in_array($a_node["type"], $this->getSelectableTypes())) {
             return true;
@@ -186,7 +186,7 @@ class ilWorkspaceExplorerGUI extends ilTreeExplorerGUI
     /**
      * @inheritcoc
      */
-    protected function isNodeSelectable($a_node) : bool
+    protected function isNodeSelectable($a_node): bool
     {
         if (in_array($a_node["type"], $this->getSelectableTypes())) {
             return true;
@@ -197,7 +197,7 @@ class ilWorkspaceExplorerGUI extends ilTreeExplorerGUI
     /**
      * @inheritcoc
      */
-    public function getNodeIcon($a_node) : string
+    public function getNodeIcon($a_node): string
     {
         $t = $a_node["type"];
         if (in_array($t, array("sktr"))) {
@@ -209,7 +209,7 @@ class ilWorkspaceExplorerGUI extends ilTreeExplorerGUI
     /**
      * @inheritcoc
      */
-    public function isNodeHighlighted($a_node) : bool
+    public function isNodeHighlighted($a_node): bool
     {
         $wsp_id = $this->request->getWspId();
         if ($this->getActivateHighlighting() &&

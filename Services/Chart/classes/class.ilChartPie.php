@@ -19,24 +19,24 @@
  */
 class ilChartPie extends ilChart
 {
-    public function getDataInstance(int $a_type = null) : ilChartData
+    public function getDataInstance(int $a_type = null): ilChartData
     {
         return new ilChartDataPie();
     }
-    
-    protected function isValidDataType(ilChartData $a_series) : bool
+
+    protected function isValidDataType(ilChartData $a_series): bool
     {
         return ($a_series instanceof ilChartDataPie);
     }
-    
-    protected function addCustomJS() : void
+
+    protected function addCustomJS(): void
     {
         $tpl = $this->tpl;
-        
+
         $tpl->addJavaScript("Services/Chart/js/flot/jquery.flot.pie.js");
     }
-    
-    public function parseGlobalOptions(stdClass $a_options) : void
+
+    public function parseGlobalOptions(stdClass $a_options): void
     {
         // if no inner labels set, use legend
         if (!isset($a_options->series->pie->label) &&

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\UI\Implementation\Component\Input\Container\ViewControl;
 
 use ILIAS\UI\Component\Input\Container\ViewControl as I;
@@ -33,7 +35,7 @@ class ViewControl implements I\ViewControl
         $this->controls = $controls;
     }
 
-    public function getInputs() : array
+    public function getInputs(): array
     {
         return [];
     }
@@ -43,7 +45,7 @@ class ViewControl implements I\ViewControl
         return $this;
     }
 
-    public function getData() : array
+    public function getData(): array
     {
         return [];
     }

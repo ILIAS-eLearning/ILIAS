@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -29,18 +31,18 @@ class BasicGroupTest extends TestCase
 {
     private InGroup $group;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         $this->group = new InGroup();
     }
-    
-    public function testParallelInstanceCreated() : void
+
+    public function testParallelInstanceCreated(): void
     {
         $transformation = $this->group->parallel([new StringTransformation(), new IntegerTransformation()]);
         $this->assertInstanceOf(Parallel::class, $transformation);
     }
 
-    public function testSeriesInstanceCreated() : void
+    public function testSeriesInstanceCreated(): void
     {
         $transformation = $this->group->series([new StringTransformation(), new IntegerTransformation()]);
         $this->assertInstanceOf(Series::class, $transformation);

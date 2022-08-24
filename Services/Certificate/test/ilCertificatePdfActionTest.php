@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -21,7 +23,7 @@
  */
 class ilCertificatePdfActionTest extends ilCertificateBaseTestCase
 {
-    public function testCreatePdfWillCreatedAndIsDownloadable() : void
+    public function testCreatePdfWillCreatedAndIsDownloadable(): void
     {
         $logger = $this->getMockBuilder(ilLogger::class)
             ->disableOriginalConstructor()
@@ -55,7 +57,7 @@ class ilCertificatePdfActionTest extends ilCertificateBaseTestCase
         $this->assertSame('Something', $result);
     }
 
-    public function testPdfDownloadAction() : void
+    public function testPdfDownloadAction(): void
     {
         $logger = $this->getMockBuilder(ilLogger::class)
             ->disableOriginalConstructor()
@@ -98,7 +100,7 @@ class ilCertificatePdfActionTest extends ilCertificateBaseTestCase
         $this->assertSame('Something', $result);
     }
 
-    public function testDownloadResultsInExceptionBecauseTheServerIsNotActive() : void
+    public function testDownloadResultsInExceptionBecauseTheServerIsNotActive(): void
     {
         $logger = $this->getMockBuilder(ilLogger::class)
             ->disableOriginalConstructor()

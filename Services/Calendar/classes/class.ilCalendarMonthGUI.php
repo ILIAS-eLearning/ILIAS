@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /* Copyright (c) 1998-2017 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -21,7 +23,7 @@ class ilCalendarMonthGUI extends ilCalendarViewGUI
         parent::__construct($seed_date, ilCalendarViewGUI::CAL_PRESENTATION_MONTH);
     }
 
-    public function initialize(int $a_calendar_presentation_type) : void
+    public function initialize(int $a_calendar_presentation_type): void
     {
         parent::initialize($a_calendar_presentation_type);
         $this->tabs_gui->setSubTabActive('app_month');
@@ -32,7 +34,7 @@ class ilCalendarMonthGUI extends ilCalendarViewGUI
         }
     }
 
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         $this->ctrl->saveParameter($this, 'seed');
 
@@ -64,12 +66,12 @@ class ilCalendarMonthGUI extends ilCalendarViewGUI
     /**
      * Add schedule filter
      */
-    public function addScheduleFilter(ilCalendarScheduleFilter $a_filter) : void
+    public function addScheduleFilter(ilCalendarScheduleFilter $a_filter): void
     {
         $this->schedule_filters[] = $a_filter;
     }
 
-    public function show() : void
+    public function show(): void
     {
         $this->tpl = new ilTemplate('tpl.month_view.html', true, true, 'Services/Calendar');
 
@@ -207,13 +209,13 @@ class ilCalendarMonthGUI extends ilCalendarViewGUI
         }
     }
 
-    public function getHTML() : string
+    public function getHTML(): string
     {
         $this->show();
         return $this->tpl->get();
     }
 
-    protected function showEvents(ilCalendarSchedule $scheduler, ilDate $date) : int
+    protected function showEvents(ilCalendarSchedule $scheduler, ilDate $date): int
     {
         $count = 0;
         $time = '';

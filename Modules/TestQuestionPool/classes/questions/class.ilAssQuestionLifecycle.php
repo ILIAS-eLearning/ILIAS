@@ -37,12 +37,12 @@ class ilAssQuestionLifecycle
         $this->setIdentifier(self::DRAFT);
     }
 
-    public function getIdentifier() : string
+    public function getIdentifier(): string
     {
         return $this->identifier;
     }
 
-    private function setIdentifier(string $identifier) : void
+    private function setIdentifier(string $identifier): void
     {
         $this->identifier = $identifier;
     }
@@ -50,12 +50,12 @@ class ilAssQuestionLifecycle
     /**
      * @return string[]
      */
-    public function getValidIdentifiers() : array
+    public function getValidIdentifiers(): array
     {
         return [self::DRAFT, self::REVIEW, self::REJECTED, self::FINAL, self::SHARABLE, self::OUTDATED];
     }
 
-    public function getMappedLomLifecycle() : string
+    public function getMappedLomLifecycle(): string
     {
         switch ($this->getIdentifier()) {
             case self::OUTDATED:
@@ -73,12 +73,12 @@ class ilAssQuestionLifecycle
         }
     }
 
-    public function getTranslation(ilLanguage $lng) : string
+    public function getTranslation(ilLanguage $lng): string
     {
         return $this->getTranslationByIdentifier($lng, $this->getIdentifier());
     }
 
-    private function getTranslationByIdentifier(ilLanguage $lng, string $identifier) : string
+    private function getTranslationByIdentifier(ilLanguage $lng, string $identifier): string
     {
         switch ($identifier) {
             case self::DRAFT:
@@ -108,7 +108,7 @@ class ilAssQuestionLifecycle
      * @param ilLanguage $lng
      * @return array<string, string>
      */
-    public function getSelectOptions(ilLanguage $lng) : array
+    public function getSelectOptions(ilLanguage $lng): array
     {
         $selectOptions = [];
 
@@ -123,7 +123,7 @@ class ilAssQuestionLifecycle
      * @param mixed $identifier
      * @throws ilTestQuestionPoolInvalidArgumentException
      */
-    private function validateIdentifier($identifier) : void
+    private function validateIdentifier($identifier): void
     {
         if (!in_array($identifier, $this->getValidIdentifiers(), true)) {
             throw new ilTestQuestionPoolInvalidArgumentException(
@@ -137,7 +137,7 @@ class ilAssQuestionLifecycle
      * @return self
      * @throws ilTestQuestionPoolInvalidArgumentException
      */
-    public static function getInstance($identifier) : self
+    public static function getInstance($identifier): self
     {
         $lifecycle = new self();
         $lifecycle->validateIdentifier($identifier);
@@ -146,7 +146,7 @@ class ilAssQuestionLifecycle
         return $lifecycle;
     }
 
-    public static function getDraftInstance() : self
+    public static function getDraftInstance(): self
     {
         $lifecycle = new self();
         $lifecycle->setIdentifier(self::DRAFT);

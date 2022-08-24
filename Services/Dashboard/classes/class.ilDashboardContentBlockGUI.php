@@ -23,7 +23,7 @@ class ilDashboardContentBlockGUI extends ilBlockGUI
     public static string $block_type = "dashcontent";
     protected int $currentitemnumber;
     protected string $content;
-    
+
     public function __construct()
     {
         global $DIC;
@@ -33,54 +33,54 @@ class ilDashboardContentBlockGUI extends ilBlockGUI
         $this->user = $DIC->user();
 
         parent::__construct();
-        
+
         $this->setEnableNumInfo(false);
         $this->setLimit(99999);
         $this->setPresentation(self::PRES_MAIN_LEG);
         $this->allow_moving = false;
     }
 
-    public function getBlockType() : string
+    public function getBlockType(): string
     {
         return self::$block_type;
     }
 
-    public function setCurrentItemNumber(int $a_currentitemnumber) : void
+    public function setCurrentItemNumber(int $a_currentitemnumber): void
     {
         $this->currentitemnumber = $a_currentitemnumber;
     }
 
-    public function getCurrentItemNumber() : int
+    public function getCurrentItemNumber(): int
     {
         return $this->currentitemnumber;
     }
 
-    protected function isRepositoryObject() : bool
+    protected function isRepositoryObject(): bool
     {
         return false;
     }
 
-    public function getHTML() : string
+    public function getHTML(): string
     {
         return parent::getHTML();
     }
-    
-    public function getContent() : string
+
+    public function getContent(): string
     {
         return $this->content;
     }
-    
-    public function setContent(string $a_content) : void
+
+    public function setContent(string $a_content): void
     {
         $this->content = $a_content;
     }
-    
-    public function fillDataSection() : void
+
+    public function fillDataSection(): void
     {
         $this->tpl->setVariable("BLOCK_ROW", $this->getContent());
     }
 
-    public function fillFooter() : void
+    public function fillFooter(): void
     {
         //$this->fillFooterLinks();
         $lng = $this->lng;
@@ -88,19 +88,19 @@ class ilDashboardContentBlockGUI extends ilBlockGUI
         if (is_array($this->data)) {
             $this->max_count = count($this->data);
         }
-                
+
         // table footer numinfo
         if ($this->getEnableNumInfo()) {
             $numinfo = "(" . $this->getCurrentItemNumber() . " " .
                 strtolower($lng->txt("of")) . " " . $this->max_count . ")";
-    
+
             if ($this->max_count > 0) {
                 $this->tpl->setVariable("NUMINFO", $numinfo);
             }
         }
     }
-    
-    public function fillPreviousNext() : void
+
+    public function fillPreviousNext(): void
     {
     }
 }

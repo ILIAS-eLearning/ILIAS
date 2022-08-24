@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -47,7 +49,7 @@ class ilLTIConsumerLaunch
      * @param array|null $a_valid_types  list of valid types
      * @return array|null  context array ("ref_id", "title", "type")
      */
-    public function getContext(?array $a_valid_types = array('crs', 'grp', 'cat', 'root')) : ?array
+    public function getContext(?array $a_valid_types = array('crs', 'grp', 'cat', 'root')): ?array
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
         $tree = $DIC->repositoryTree();
@@ -78,7 +80,7 @@ class ilLTIConsumerLaunch
 
 
 
-    public static function getLTIContextType(string $a_type) : string
+    public static function getLTIContextType(string $a_type): string
     {
         switch ($a_type) {
             case "crs":
@@ -94,7 +96,7 @@ class ilLTIConsumerLaunch
     }
 
 
-    
+
     /**
      * sign request data with OAuth
      *
@@ -120,18 +122,18 @@ class ilLTIConsumerLaunch
 //            case "RSA_SHA1":
 //                $method = new ILIAS\LTIOAuth\OAuthSignatureMethod_RSA_SHA1();
 //                break;
-                
+
             default:
                 return "ERROR: unsupported signature method!";
         }
         $consumer = new ILIAS\LTIOAuth\OAuthConsumer($a_params["key"], $a_params["secret"], $a_params["callback"]);
         $request = ILIAS\LTIOAuth\OAuthRequest::from_consumer_and_token($consumer, $a_params["token"], $a_params["http_method"], $a_params["url"], $a_params["data"]);
         $request->sign_request($method, $consumer, $a_params["token"]);
-        
+
         // Pass this back up "out of band" for debugging
 //        self::$last_oauth_base_string = $request->get_signature_base_string();
         // die(self::$last_oauth_base_string);
-        
+
         return $request->get_parameters();
     }
 }

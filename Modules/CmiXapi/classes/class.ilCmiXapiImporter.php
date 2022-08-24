@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -73,7 +75,7 @@ class ilCmiXapiImporter extends ilXmlImporter
      * @throws \ILIAS\Filesystem\Exception\FileNotFoundException
      * @throws \ILIAS\Filesystem\Exception\IOException
      */
-    public function importXmlRepresentation(string $a_entity, string $a_id, string $a_xml, ilImportMapping $a_mapping) : void
+    public function importXmlRepresentation(string $a_entity, string $a_id, string $a_xml, ilImportMapping $a_mapping): void
     {
         $this->_import_objId = (int) $a_id;
         $this->_mapping = $a_mapping;
@@ -94,7 +96,7 @@ class ilCmiXapiImporter extends ilXmlImporter
     /**
      * Builds the CmiXapi Object
      */
-    private function prepareSingleObject() : self
+    private function prepareSingleObject(): self
     {
         // create new cmix object
         $this->_cmixObj = new ilObjCmiXapi();
@@ -117,7 +119,7 @@ class ilCmiXapiImporter extends ilXmlImporter
     /**
      * Builds the CmiXapi Object
      */
-    private function prepareContainerObject() : void
+    private function prepareContainerObject(): void
     {
         if ($this->_newId = $this->_mapping->getMapping('Services/Container', 'objs', (string) $this->_import_objId)) {
             // container content
@@ -136,7 +138,7 @@ class ilCmiXapiImporter extends ilXmlImporter
      * @throws \ILIAS\Filesystem\Exception\FileNotFoundException
      * @throws \ILIAS\Filesystem\Exception\IOException
      */
-    private function prepareLocalSourceStorage() : self
+    private function prepareLocalSourceStorage(): self
     {
         if (true === $this->filesystemTemp->has($this->_relImportDir . '/content.zip')) {
 //            $this->_hasContent = true;
@@ -158,7 +160,7 @@ class ilCmiXapiImporter extends ilXmlImporter
       * @throws \ILIAS\Filesystem\Exception\FileNotFoundException
       * @throws \ILIAS\Filesystem\Exception\IOException
       */
-    private function parseXmlFileProperties() : self
+    private function parseXmlFileProperties(): self
     {
         $xmlRoot = null;
         $xml = $this->filesystemTemp->readStream($this->_relImportDir . '/properties.xml');
@@ -177,7 +179,7 @@ class ilCmiXapiImporter extends ilXmlImporter
      * Finalize the new CmiXapi Object
      * @return $this
      */
-    private function updateNewObj() : self
+    private function updateNewObj(): self
     {
         $this->_cmixObj->setTitle($this->_moduleProperties['Title'] . " " . $this->dic->language()->txt("copy_of_suffix"));
         $this->_cmixObj->setDescription($this->_moduleProperties['Description']);
@@ -243,7 +245,7 @@ class ilCmiXapiImporter extends ilXmlImporter
      * @throws \ILIAS\Filesystem\Exception\FileNotFoundException
      * @throws \ILIAS\Filesystem\Exception\IOException
      */
-    private function deleteImportDirectiry() : self
+    private function deleteImportDirectiry(): self
     {
         $this->filesystemTemp->delete($this->_relImportDir);
         return $this;
@@ -253,7 +255,7 @@ class ilCmiXapiImporter extends ilXmlImporter
      * Gets the relative path to the Filesystem::temp Folder
      * @return $this
      */
-    private function getImportDirectorySingle() : self
+    private function getImportDirectorySingle(): self
     {
         $importTempDir = $this->getImportDirectory();
         $dirArr = array_reverse(explode('/', $importTempDir));
@@ -265,17 +267,17 @@ class ilCmiXapiImporter extends ilXmlImporter
      * Gets the relative path to the Filesystem::temp Folder
      * @return $this
      */
-    private function getImportDirectoryContainer() : self
+    private function getImportDirectoryContainer(): self
     {
         $importTempDir = $this->getImportDirectory();
         $dirArr = array_reverse(explode('/', $importTempDir));
         $this->_relImportDir = $dirArr[3] . '/' . $dirArr[2] . '/' . $dirArr[1] . '/' . $dirArr[0];
-        
+
         return $this;
     }
 
     /**  */
-    public function init() : void
+    public function init(): void
     {
     }
 

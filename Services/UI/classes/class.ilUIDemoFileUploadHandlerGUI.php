@@ -30,11 +30,10 @@ use ILIAS\FileUpload\Handler\HandlerResult;
  */
 class ilUIDemoFileUploadHandlerGUI extends AbstractCtrlAwareUploadHandler
 {
-
     /**
      * @inheritDoc
      */
-    public function getUploadURL() : string
+    public function getUploadURL(): string
     {
         return $this->ctrl->getLinkTargetByClass([ilUIPluginRouterGUI::class, self::class], self::CMD_UPLOAD);
     }
@@ -43,7 +42,7 @@ class ilUIDemoFileUploadHandlerGUI extends AbstractCtrlAwareUploadHandler
     /**
      * @inheritDoc
      */
-    public function getExistingFileInfoURL() : string
+    public function getExistingFileInfoURL(): string
     {
         return $this->ctrl->getLinkTargetByClass([ilUIPluginRouterGUI::class, self::class], self::CMD_INFO);
     }
@@ -52,7 +51,7 @@ class ilUIDemoFileUploadHandlerGUI extends AbstractCtrlAwareUploadHandler
     /**
      * @inheritDoc
      */
-    public function getFileRemovalURL() : string
+    public function getFileRemovalURL(): string
     {
         return $this->ctrl->getLinkTargetByClass(
             [ilUIPluginRouterGUI::class, self::class],
@@ -66,7 +65,7 @@ class ilUIDemoFileUploadHandlerGUI extends AbstractCtrlAwareUploadHandler
     /**
      * @inheritDoc
      */
-    public function getFileIdentifierParameterName() : string
+    public function getFileIdentifierParameterName(): string
     {
         return 'my_file_id';
     }
@@ -75,7 +74,7 @@ class ilUIDemoFileUploadHandlerGUI extends AbstractCtrlAwareUploadHandler
     /**
      * @inheritDoc
      */
-    protected function getUploadResult() : HandlerResult
+    protected function getUploadResult(): HandlerResult
     {
         $status = HandlerResult::STATUS_OK;
         $identifier = md5(random_bytes(65));
@@ -85,7 +84,7 @@ class ilUIDemoFileUploadHandlerGUI extends AbstractCtrlAwareUploadHandler
     }
 
 
-    protected function getRemoveResult(string $identifier) : HandlerResult
+    protected function getRemoveResult(string $identifier): HandlerResult
     {
         $status = HandlerResult::STATUS_OK;
         $message = 'File Deleted';
@@ -94,7 +93,7 @@ class ilUIDemoFileUploadHandlerGUI extends AbstractCtrlAwareUploadHandler
     }
 
 
-    public function getInfoResult(string $identifier) : ?FileInfoResult
+    public function getInfoResult(string $identifier): ?FileInfoResult
     {
         return new BasicFileInfoResult(
             $this->getFileIdentifierParameterName(),
@@ -106,7 +105,7 @@ class ilUIDemoFileUploadHandlerGUI extends AbstractCtrlAwareUploadHandler
     }
 
 
-    public function getInfoForExistingFiles(array $file_ids) : array
+    public function getInfoForExistingFiles(array $file_ids): array
     {
         $infos = [];
         foreach ($file_ids as $file_id) {

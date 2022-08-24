@@ -35,7 +35,7 @@ class ilSkillResources implements ilSkillUsageInfo
     protected ilTree $tree;
     protected int $base_skill_id = 0;
     protected int $tref_id = 0;
-    
+
     // The resources array has the following keys (int)
     // first dimension is "level_id" (int): the skill level id
     // second dimension is "rep_ref_id" (int): the ref id of the repository resource
@@ -58,37 +58,37 @@ class ilSkillResources implements ilSkillUsageInfo
         $this->tree = $DIC->repositoryTree();
         $this->setBaseSkillId($a_skill_id);
         $this->setTemplateRefId($a_tref_id);
-        
+
         if ($a_skill_id > 0) {
             $this->readResources();
         }
     }
 
-    public function setBaseSkillId(int $a_val) : void
+    public function setBaseSkillId(int $a_val): void
     {
         $this->base_skill_id = $a_val;
     }
 
-    public function getBaseSkillId() : int
+    public function getBaseSkillId(): int
     {
         return $this->base_skill_id;
     }
 
-    public function setTemplateRefId(int $a_val) : void
+    public function setTemplateRefId(int $a_val): void
     {
         $this->tref_id = $a_val;
     }
 
-    public function getTemplateRefId() : int
+    public function getTemplateRefId(): int
     {
         return $this->tref_id;
     }
 
-    public function readResources() : void
+    public function readResources(): void
     {
         $ilDB = $this->db;
         $tree = $this->tree;
-        
+
         $set = $ilDB->query(
             "SELECT * FROM skl_skill_resource " .
             " WHERE base_skill_id = " . $ilDB->quote($this->getBaseSkillId(), "integer") .
@@ -106,10 +106,10 @@ class ilSkillResources implements ilSkillUsageInfo
         }
     }
 
-    public function save() : void
+    public function save(): void
     {
         $ilDB = $this->db;
-        
+
         $ilDB->manipulate(
             "DELETE FROM skl_skill_resource WHERE " .
             " base_skill_id = " . $ilDB->quote($this->getBaseSkillId(), "integer") .
@@ -135,7 +135,7 @@ class ilSkillResources implements ilSkillUsageInfo
     /**
      * @return array<int, array<int, array{level_id: int, rep_ref_id: int, trigger: int, imparting: int}>>
      */
-    public function getResources() : array
+    public function getResources(): array
     {
         return $this->resources;
     }
@@ -143,16 +143,16 @@ class ilSkillResources implements ilSkillUsageInfo
     /**
      * @return array<int, array{level_id: int, rep_ref_id: int, trigger: int, imparting: int}>
      */
-    public function getResourcesOfLevel(int $a_level_id) : array
+    public function getResourcesOfLevel(int $a_level_id): array
     {
         $ret = (isset($this->resources[$a_level_id]) && is_array($this->resources[$a_level_id]))
             ? $this->resources[$a_level_id]
             : [];
-            
+
         return $ret;
     }
 
-    public function setResourceAsTrigger(int $a_level_id, int $a_rep_ref_id, bool $a_trigger = true) : void
+    public function setResourceAsTrigger(int $a_level_id, int $a_rep_ref_id, bool $a_trigger = true): void
     {
         if (!is_array($this->resources[$a_level_id])) {
             $this->resources[$a_level_id] = [];
@@ -160,11 +160,11 @@ class ilSkillResources implements ilSkillUsageInfo
         if (!is_array($this->resources[$a_level_id][$a_rep_ref_id])) {
             $this->resources[$a_level_id][$a_rep_ref_id] = [];
         }
-        
+
         $this->resources[$a_level_id][$a_rep_ref_id]["trigger"] = $a_trigger;
     }
 
-    public function setResourceAsImparting(int $a_level_id, int $a_rep_ref_id, bool $a_imparting = true) : void
+    public function setResourceAsImparting(int $a_level_id, int $a_rep_ref_id, bool $a_imparting = true): void
     {
         if (!is_array($this->resources[$a_level_id])) {
             $this->resources[$a_level_id] = [];
@@ -172,7 +172,7 @@ class ilSkillResources implements ilSkillUsageInfo
         if (!is_array($this->resources[$a_level_id][$a_rep_ref_id])) {
             $this->resources[$a_level_id][$a_rep_ref_id] = [];
         }
-        
+
         $this->resources[$a_level_id][$a_rep_ref_id]["imparting"] = $a_imparting;
     }
 
@@ -181,7 +181,7 @@ class ilSkillResources implements ilSkillUsageInfo
      *
      * @return array<string, array<string, array{key: string}[]>>
      */
-    public static function getUsageInfo(array $a_cskill_ids) : array
+    public static function getUsageInfo(array $a_cskill_ids): array
     {
         return ilSkillUsage::getUsageInfoGeneric(
             $a_cskill_ids,
@@ -195,7 +195,7 @@ class ilSkillResources implements ilSkillUsageInfo
     /**
      * @return array{base_skill_id: int, tref_id: int, level_id: int}[]
      */
-    public static function getTriggerLevelsForRefId(int $a_ref_id) : array
+    public static function getTriggerLevelsForRefId(int $a_ref_id): array
     {
         global $DIC;
 

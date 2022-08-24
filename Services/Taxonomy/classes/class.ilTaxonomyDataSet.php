@@ -29,12 +29,12 @@ class ilTaxonomyDataSet extends ilDataSet
 {
     protected ilObjTaxonomy $current_obj;
 
-    public function getSupportedVersions() : array
+    public function getSupportedVersions(): array
     {
         return array("4.3.0");
     }
 
-    protected function getXmlNamespace(string $a_entity, string $a_schema_version) : string
+    protected function getXmlNamespace(string $a_entity, string $a_schema_version): string
     {
         return "http://www.ilias.de/xml/Services/Taxonomy/" . $a_entity;
     }
@@ -42,7 +42,7 @@ class ilTaxonomyDataSet extends ilDataSet
     /**
      * @inheritDoc
      */
-    protected function getTypes(string $a_entity, string $a_version) : array
+    protected function getTypes(string $a_entity, string $a_version): array
     {
         // tax
         if ($a_entity == "tax") {
@@ -102,7 +102,7 @@ class ilTaxonomyDataSet extends ilDataSet
     /**
      * @inheritDoc
      */
-    public function readData(string $a_entity, string $a_version, array $a_ids) : void
+    public function readData(string $a_entity, string $a_version, array $a_ids): void
     {
         $ilDB = $this->db;
 
@@ -170,7 +170,7 @@ class ilTaxonomyDataSet extends ilDataSet
         string $a_version,
         ?array $a_rec = null,
         ?array $a_ids = null
-    ) : array {
+    ): array {
         switch ($a_entity) {
             case "tax":
                 return array(
@@ -195,7 +195,7 @@ class ilTaxonomyDataSet extends ilDataSet
         array $a_rec,
         ilImportMapping $a_mapping,
         string $a_schema_version
-    ) : void {
+    ): void {
         switch ($a_entity) {
             case "tax":
                 $newObj = new ilObjTaxonomy();

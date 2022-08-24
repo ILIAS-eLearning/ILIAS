@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\UI\Implementation\Component\Panel;
 
 use ILIAS\UI\Component as C;
@@ -53,7 +55,7 @@ class Panel implements C\Panel\Panel
     /**
      * @inheritdoc
      */
-    public function getTitle() : string
+    public function getTitle(): string
     {
         return $this->title;
     }
@@ -69,7 +71,7 @@ class Panel implements C\Panel\Panel
     /**
      * @inheritdoc
      */
-    public function withActions(C\Dropdown\Standard $actions) : C\Panel\Panel
+    public function withActions(C\Dropdown\Standard $actions): C\Panel\Panel
     {
         $clone = clone $this;
         $clone->actions = $actions;
@@ -79,7 +81,7 @@ class Panel implements C\Panel\Panel
     /**
      * @inheritdoc
      */
-    public function getActions() : ?C\Dropdown\Standard
+    public function getActions(): ?C\Dropdown\Standard
     {
         return $this->actions;
     }

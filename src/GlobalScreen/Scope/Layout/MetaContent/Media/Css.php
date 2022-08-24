@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -25,10 +27,10 @@ use LogicException;
  */
 class Css extends AbstractMediaWithPath
 {
-    const MEDIA_ALL = "all";
-    const MEDIA_SCREEN = "screen";
-    const MEDIA_PRINT = "print";
-    const MEDIA_SPEECH = "speech";
+    public const MEDIA_ALL = "all";
+    public const MEDIA_SCREEN = "screen";
+    public const MEDIA_PRINT = "print";
+    public const MEDIA_SPEECH = "speech";
 
     private string $media = self::MEDIA_SCREEN;
 
@@ -49,7 +51,7 @@ class Css extends AbstractMediaWithPath
     /**
      * @return string
      */
-    public function getMedia() : string
+    public function getMedia(): string
     {
         return $this->media;
     }

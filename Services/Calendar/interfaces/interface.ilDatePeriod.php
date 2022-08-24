@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /*
         +-----------------------------------------------------------------------------+
         | ILIAS open source                                                           |
@@ -32,16 +34,16 @@ interface ilDatePeriod
     /**
      * Get start of date period
      */
-    public function getStart() : ?ilDateTime;
-    
+    public function getStart(): ?ilDateTime;
+
     /**
      * Get end of period
      */
-    public function getEnd() : ?ilDateTime;
-    
-    
+    public function getEnd(): ?ilDateTime;
+
+
     /**
      * is event a fullday period
      */
-    public function isFullday() : bool;
+    public function isFullday(): bool;
 }

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -36,7 +38,7 @@ class ilPrivacySecuritySetupAgent implements Setup\Agent
     /**
      * @inheritdoc
      */
-    public function hasConfig() : bool
+    public function hasConfig(): bool
     {
         return true;
     }
@@ -44,7 +46,7 @@ class ilPrivacySecuritySetupAgent implements Setup\Agent
     /**
      * @inheritdoc
      */
-    public function getConfigInput(Setup\Config $config = null) : UI\Component\Input\Field\Input
+    public function getConfigInput(Setup\Config $config = null): UI\Component\Input\Field\Input
     {
         throw new LogicException("Not yet implemented.");
     }
@@ -52,7 +54,7 @@ class ilPrivacySecuritySetupAgent implements Setup\Agent
     /**
      * @inheritdoc
      */
-    public function getArrayToConfigTransformation() : Refinery\Transformation
+    public function getArrayToConfigTransformation(): Refinery\Transformation
     {
         return $this->refinery->custom()->transformation(function ($data) {
             return new ilPrivacySecuritySetupConfig(
@@ -66,7 +68,7 @@ class ilPrivacySecuritySetupAgent implements Setup\Agent
     /**
      * @inheritdoc
      */
-    public function getInstallObjective(Setup\Config $config = null) : Setup\Objective
+    public function getInstallObjective(Setup\Config $config = null): Setup\Objective
     {
         return new Setup\ObjectiveCollection(
             "Complete objectives from Services/PrivacySecurity",
@@ -78,7 +80,7 @@ class ilPrivacySecuritySetupAgent implements Setup\Agent
     /**
      * @inheritdoc
      */
-    public function getUpdateObjective(Setup\Config $config = null) : Setup\Objective
+    public function getUpdateObjective(Setup\Config $config = null): Setup\Objective
     {
         return $this->getInstallObjective($config);
     }
@@ -86,7 +88,7 @@ class ilPrivacySecuritySetupAgent implements Setup\Agent
     /**
      * @inheritdoc
      */
-    public function getBuildArtifactObjective() : Setup\Objective
+    public function getBuildArtifactObjective(): Setup\Objective
     {
         return new Setup\Objective\NullObjective();
     }
@@ -94,7 +96,7 @@ class ilPrivacySecuritySetupAgent implements Setup\Agent
     /**
      * @inheritdoc
      */
-    public function getStatusObjective(Setup\Metrics\Storage $storage) : Setup\Objective
+    public function getStatusObjective(Setup\Metrics\Storage $storage): Setup\Objective
     {
         return new Setup\Objective\NullObjective();
     }
@@ -102,7 +104,7 @@ class ilPrivacySecuritySetupAgent implements Setup\Agent
     /**
      * @inheritDoc
      */
-    public function getMigrations() : array
+    public function getMigrations(): array
     {
         return [];
     }

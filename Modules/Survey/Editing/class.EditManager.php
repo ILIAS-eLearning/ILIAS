@@ -1,4 +1,6 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -39,52 +41,52 @@ class EditManager
         $this->domain_service = $domain_service;
     }
 
-    public function setConstraintStructure(?array $structure) : void
+    public function setConstraintStructure(?array $structure): void
     {
         $this->repo->setConstraintStructure($structure);
     }
 
-    public function getConstraintStructure() : ?array
+    public function getConstraintStructure(): ?array
     {
         return $this->repo->getConstraintStructure();
     }
 
-    public function clearConstraintStructure() : void
+    public function clearConstraintStructure(): void
     {
         $this->repo->clearConstraintStructure();
     }
 
-    public function setConstraintElements(?array $elements) : void
+    public function setConstraintElements(?array $elements): void
     {
         $this->repo->setConstraintElements($elements);
     }
 
-    public function getConstraintElements() : ?array
+    public function getConstraintElements(): ?array
     {
         return $this->repo->getConstraintElements();
     }
 
-    public function clearConstraintElements() : void
+    public function clearConstraintElements(): void
     {
         $this->repo->clearConstraintElements();
     }
 
-    public function setMoveSurveyQuestions(int $survey_id, array $question_ids) : void
+    public function setMoveSurveyQuestions(int $survey_id, array $question_ids): void
     {
         $this->repo->setMoveSurveyQuestions($survey_id, $question_ids);
     }
 
-    public function clearMoveSurveyQuestions() : void
+    public function clearMoveSurveyQuestions(): void
     {
         $this->repo->clearMoveSurveyQuestions();
     }
 
-    public function getMoveSurveyQuestions() : array
+    public function getMoveSurveyQuestions(): array
     {
         return $this->repo->getMoveSurveyQuestions();
     }
 
-    public function getMoveSurveyId() : int
+    public function getMoveSurveyId(): int
     {
         return $this->repo->getMoveSurveyId();
     }
@@ -94,53 +96,53 @@ class EditManager
         int $page,
         string $mode,
         array $question_ids
-    ) : void {
+    ): void {
         $this->repo->setQuestionClipboard($ref_id, $page, $mode, $question_ids);
     }
 
-    public function clearQuestionClipboard(int $ref_id) : void
+    public function clearQuestionClipboard(int $ref_id): void
     {
         $this->repo->clearQuestionClipboard($ref_id);
     }
 
-    public function getQuestionClipboardSourcePage(int $ref_id) : ?int
+    public function getQuestionClipboardSourcePage(int $ref_id): ?int
     {
         return $this->repo->getQuestionClipboardSourcePage($ref_id);
     }
 
-    public function getQuestionClipboardMode(int $ref_id) : string
+    public function getQuestionClipboardMode(int $ref_id): string
     {
         return $this->repo->getQuestionClipboardMode($ref_id);
     }
 
-    public function getQuestionClipboardQuestions(int $ref_id) : array
+    public function getQuestionClipboardQuestions(int $ref_id): array
     {
         return $this->repo->getQuestionClipboardQuestions($ref_id);
     }
 
-    public function isQuestionClipboardEmpty(int $ref_id) : bool
+    public function isQuestionClipboardEmpty(int $ref_id): bool
     {
         return $this->repo->isQuestionClipboardEmpty($ref_id);
     }
 
     // 1: no pool; 2: new pool, 3: existing pool
     // @todo: avoid session use or introduce constants
-    public function setPoolChoice(int $id) : void
+    public function setPoolChoice(int $id): void
     {
         $this->repo->setPoolChoice($id);
     }
 
-    public function getPoolChoice() : int
+    public function getPoolChoice(): int
     {
         return $this->repo->getPoolChoice();
     }
 
-    public function setExternalText(string $text) : void
+    public function setExternalText(string $text): void
     {
         $this->repo->setExternalText($text);
     }
 
-    public function getExternalText() : string
+    public function getExternalText(): string
     {
         return $this->repo->getExternalText();
     }

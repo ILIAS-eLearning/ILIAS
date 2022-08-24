@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 /**
  * Class XAccelTest
@@ -48,7 +49,7 @@ class XAccelTest extends TestCase
     /**
      * @inheritDoc
      */
-    protected function setUp() : void
+    protected function setUp(): void
     {
         $this->httpServiceMock = $this->getMockBuilder(Services::class)
                                       ->disableOriginalConstructor()
@@ -58,7 +59,7 @@ class XAccelTest extends TestCase
     /**
      * @Test
      */
-    public function testPrepareWhichShouldSucceed() : void
+    public function testPrepareWhichShouldSucceed(): void
     {
         $expectedContentValue = '';
 
@@ -91,7 +92,7 @@ class XAccelTest extends TestCase
     /**
      * @Test
      */
-    public function testDeliverWithNormalPathWhichShouldSucceed() : void
+    public function testDeliverWithNormalPathWhichShouldSucceed(): void
     {
         $expectedHeader = 'X-Accel-Redirect';
         $path = './normal/path';
@@ -124,7 +125,7 @@ class XAccelTest extends TestCase
     /**
      * @Test
      */
-    public function testDeliverWithDataPathWhichShouldSucceed() : void
+    public function testDeliverWithDataPathWhichShouldSucceed(): void
     {
         $expectedHeader = 'X-Accel-Redirect';
         $path = './data/path/to/what/ever';

@@ -1,4 +1,5 @@
 <?php
+
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 require_once './Modules/TestQuestionPool/classes/class.assAnswerSimple.php';
@@ -35,7 +36,7 @@ class assAnswerCloze extends ASS_AnswerSimple
     protected ?string $upperBound;
 
     protected int $gap_size;
-    
+
 
     /**
      * assAnswerCloze constructor
@@ -61,7 +62,7 @@ class assAnswerCloze extends ASS_AnswerSimple
      * @param $bound string A string defining the lower bound of an answer for numeric gaps.
      * @TODO: Refactor method to get rid of "locale magic".
      */
-    public function setLowerBound(string $bound) : void
+    public function setLowerBound(string $bound): void
     {
         $boundvalue = $this->getNumericValueFromText($bound);
         $value = $this->getNumericValueFromAnswerText();
@@ -78,18 +79,18 @@ class assAnswerCloze extends ASS_AnswerSimple
      * @param $bound string A string defining the upper bound of an answer for numeric gaps.
      * @TODO: Refactor method to get rid of "locale magic".
      */
-    public function setUpperBound(string $bound) : void
+    public function setUpperBound(string $bound): void
     {
         $boundvalue = $this->getNumericValueFromText($bound);
         $value = $this->getNumericValueFromAnswerText();
-        
+
         if ($boundvalue === false || $boundvalue < $value) {
             $this->upperBound = $this->getAnswertext();
         } else {
             $this->upperBound = $bound;
         }
     }
-    
+
     protected function getNumericValueFromAnswerText()
     {
         return $this->getNumericValueFromText($this->getAnswertext());
@@ -109,7 +110,7 @@ class assAnswerCloze extends ASS_AnswerSimple
      *
      * @return null|string
      */
-    public function getLowerBound() : ?string
+    public function getLowerBound(): ?string
     {
         return $this->lowerBound;
     }
@@ -119,7 +120,7 @@ class assAnswerCloze extends ASS_AnswerSimple
      *
      * @return null|string
      */
-    public function getUpperBound() : ?string
+    public function getUpperBound(): ?string
     {
         return $this->upperBound;
     }
@@ -127,7 +128,7 @@ class assAnswerCloze extends ASS_AnswerSimple
     /**
      * @param int $gap_size
      */
-    public function setGapSize(int $gap_size) : void
+    public function setGapSize(int $gap_size): void
     {
         $this->gap_size = $gap_size;
     }
@@ -135,7 +136,7 @@ class assAnswerCloze extends ASS_AnswerSimple
     /**
      * @return int
      */
-    public function getGapSize() : int
+    public function getGapSize(): int
     {
         return $this->gap_size;
     }

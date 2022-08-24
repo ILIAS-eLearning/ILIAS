@@ -38,17 +38,17 @@ class ilLinkTargetObjectExplorerGUI extends ilRepositorySelectorExplorerGUI
      * Set clickable type
      * @param string $a_val clickable type
      */
-    public function setClickableType(string $a_val) : void
+    public function setClickableType(string $a_val): void
     {
         $this->clickable_type = $a_val;
     }
-    
+
     /**
      * Get clickable type
      *
      * @return string clickable type
      */
-    public function getClickableType() : string
+    public function getClickableType(): string
     {
         return $this->clickable_type;
     }
@@ -56,7 +56,7 @@ class ilLinkTargetObjectExplorerGUI extends ilRepositorySelectorExplorerGUI
     /**
      * @param mixed $a_node node object/array
      */
-    public function getNodeOnClick($a_node) : string
+    public function getNodeOnClick($a_node): string
     {
         return "il.IntLink.selectLinkTargetObject('" . $a_node["type"] . "','" . $a_node["child"] . "','" . $this->link_type . "'); return(false);";
     }
@@ -64,7 +64,7 @@ class ilLinkTargetObjectExplorerGUI extends ilRepositorySelectorExplorerGUI
     /**
      * @param mixed $a_node node object/array
      */
-    public function getNodeHref($a_node) : string
+    public function getNodeHref($a_node): string
     {
         return "#";
     }
@@ -72,7 +72,7 @@ class ilLinkTargetObjectExplorerGUI extends ilRepositorySelectorExplorerGUI
     /**
      * @param mixed $a_node node object/array
      */
-    public function isNodeClickable($a_node) : bool
+    public function isNodeClickable($a_node): bool
     {
         if ($a_node["type"] === $this->getClickableType()) {
             return true;

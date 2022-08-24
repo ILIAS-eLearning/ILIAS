@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -41,11 +43,11 @@ class ilMailOnlyExternalAddressList implements ilMailAddressList
         $this->getUsrIdByLoginCallable = $getUsrIdByLoginCallable;
     }
 
-    public function value() : array
+    public function value(): array
     {
         $addresses = $this->origin->value();
 
-        $filteredAddresses = array_filter($addresses, function (ilMailAddress $address) : bool {
+        $filteredAddresses = array_filter($addresses, function (ilMailAddress $address): bool {
             $c = $this->getUsrIdByLoginCallable;
             if ($c((string) $address)) {
                 // Fixed mantis bug #5875

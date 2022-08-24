@@ -64,7 +64,7 @@ class ilLMPresentationStatus
         $this->init();
     }
 
-    protected function init() : void
+    protected function init(): void
     {
         // determine language
         $this->lang = "-";
@@ -87,8 +87,8 @@ class ilLMPresentationStatus
             $this->focus_id = $this->requested_focus_id;
         }
     }
-    
-    public function getLang() : string
+
+    public function getLang(): string
     {
         return $this->lang;
     }
@@ -97,42 +97,42 @@ class ilLMPresentationStatus
      * Only difference to getLang():
      * if current language is the master lang the language key will be returned, not "-"
      */
-    public function getConcreteLang() : string
+    public function getConcreteLang(): string
     {
         return $this->concrete_lang;
     }
 
-    public function getFocusId() : int
+    public function getFocusId(): int
     {
         return $this->focus_id;
     }
 
-    public function getFocusReturn() : string
+    public function getFocusReturn(): string
     {
         return $this->requested_focus_return;
     }
 
-    public function getSearchString() : string
+    public function getSearchString(): string
     {
         return $this->requested_search_string;
     }
 
-    public function offline() : bool
+    public function offline(): bool
     {
         return $this->offline;
     }
 
-    public function exportAllLanguages() : bool
+    public function exportAllLanguages(): bool
     {
         return $this->export_all_languages;
     }
 
-    public function getExportFormat() : string
+    public function getExportFormat(): string
     {
         return $this->export_format;
     }
 
-    public function getLMPresentationTitle() : string
+    public function getLMPresentationTitle(): string
     {
         if ($this->offline() && $this->lang != "" && $this->lang != "-") {
             $ot = $this->ot;
@@ -153,7 +153,7 @@ class ilLMPresentationStatus
      * Is TOC necessary, see #30027
      * Check if at least two entries will be shown
      */
-    public function isTocNecessary() : bool
+    public function isTocNecessary(): bool
     {
         $childs = $this->lm_tree->getChilds($this->lm_tree->getRootId());
         if (count($childs) == 0) {      // no chapter -> false

@@ -29,8 +29,8 @@ class ilAssSingleChoiceCorrectionsInputGUI extends ilSingleChoiceWizardInputGUI
      * @var assSingleChoice
      */
     protected $qstObject;
-    
-    public function setValue($a_value) : void
+
+    public function setValue($a_value): void
     {
         if (is_array($a_value)) {
             if (is_array($a_value['points'])) {
@@ -40,14 +40,14 @@ class ilAssSingleChoiceCorrectionsInputGUI extends ilSingleChoiceWizardInputGUI
             }
         }
     }
-    
-    public function checkInput() : bool
+
+    public function checkInput(): bool
     {
         global $DIC;
         $lng = $DIC['lng'];
-        
+
         include_once "./Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php";
-        
+
         if (is_array($_POST[$this->getPostVar()])) {
             $_POST[$this->getPostVar()] = ilArrayUtil::stripSlashesRecursive(
                 $_POST[$this->getPostVar()],
@@ -78,23 +78,23 @@ class ilAssSingleChoiceCorrectionsInputGUI extends ilSingleChoiceWizardInputGUI
             $this->setAlert($lng->txt("msg_input_is_required"));
             return false;
         }
-        
+
         return $this->checkSubItemsInput();
     }
-    
-    public function insert(ilTemplate $a_tpl) : void
+
+    public function insert(ilTemplate $a_tpl): void
     {
         global $DIC; /* @var ILIAS\DI\Container $DIC */
         $lng = $DIC->language();
-        
+
         $tpl = new ilTemplate("tpl.prop_singlechoicecorrection_input.html", true, true, "Modules/TestQuestionPool");
-        
+
         $i = 0;
-        
+
         if ($this->values === null) {
             $this->values = $this->value;
         }
-        
+
         foreach ($this->values as $value) {
             if ($this->qstObject->isSingleline()) {
                 if (strlen($value->getImage())) {
@@ -104,7 +104,7 @@ class ilAssSingleChoiceCorrectionsInputGUI extends ilSingleChoiceWizardInputGUI
                             $imagename = $this->qstObject->getImagePathWeb() . $this->qstObject->getThumbPrefix() . $value->getImage();
                         }
                     }
-                    
+
                     $tpl->setCurrentBlock('image');
                     $tpl->setVariable('SRC_IMAGE', $imagename);
                     $tpl->setVariable('IMAGE_NAME', $value->getImage());
@@ -116,34 +116,34 @@ class ilAssSingleChoiceCorrectionsInputGUI extends ilSingleChoiceWizardInputGUI
                     $tpl->parseCurrentBlock();
                 }
             }
-            
+
             $tpl->setCurrentBlock("answer");
             $tpl->setVariable("ANSWER", $value->getAnswertext());
             $tpl->parseCurrentBlock();
-            
+
             $tpl->setCurrentBlock("prop_points_propval");
             $tpl->setVariable("POINTS_POST_VAR", $this->getPostVar());
             $tpl->setVariable("PROPERTY_VALUE", ilLegacyFormElementsUtil::prepareFormOutput($value->getPoints()));
             $tpl->parseCurrentBlock();
-            
+
             $tpl->setCurrentBlock("row");
             $tpl->parseCurrentBlock();
         }
-        
+
         if ($this->qstObject->isSingleline()) {
             $tpl->setCurrentBlock("image_heading");
             $tpl->setVariable("ANSWER_IMAGE", $lng->txt('answer_image'));
             $tpl->setVariable("TXT_MAX_SIZE", ilFileUtils::getFileSizeInfo());
             $tpl->parseCurrentBlock();
         }
-        
+
         $tpl->setCurrentBlock("points_heading");
         $tpl->setVariable("POINTS_TEXT", $lng->txt('points'));
         $tpl->parseCurrentBlock();
-        
+
         $tpl->setVariable("ELEMENT_ID", $this->getPostVar());
         $tpl->setVariable("ANSWER_TEXT", $lng->txt('answer_text'));
-        
+
         $a_tpl->setCurrentBlock("prop_generic");
         $a_tpl->setVariable("PROP_GENERIC", $tpl->get());
         $a_tpl->parseCurrentBlock();

@@ -20,7 +20,7 @@ use PHPUnit\Framework\TestSuite;
 
 class ilServicesExceptionsSuite extends TestSuite
 {
-    public static function suite() : self
+    public static function suite(): self
     {
         $suite = new self();
         include_once('./Services/Exceptions/test/ilExceptionTest.php');

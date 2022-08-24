@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -22,7 +24,7 @@
  */
 class ilTermsOfServiceCriterionFormGUITest extends ilTermsOfServiceBaseTest
 {
-    public function testFormIsProperlyBuiltForNewCriterionAssignment() : void
+    public function testFormIsProperlyBuiltForNewCriterionAssignment(): void
     {
         $document = $this
             ->getMockBuilder(ilTermsOfServiceDocument::class)
@@ -98,7 +100,7 @@ class ilTermsOfServiceCriterionFormGUITest extends ilTermsOfServiceBaseTest
         $this->assertSame($criterionType1->getTypeIdent(), $form->getItemByPostVar('criterion')->getValue());
     }
 
-    public function testFormIsProperlyBuiltForExistingCriterionAssignment() : void
+    public function testFormIsProperlyBuiltForExistingCriterionAssignment(): void
     {
         $document = $this
             ->getMockBuilder(ilTermsOfServiceDocument::class)
@@ -178,7 +180,7 @@ class ilTermsOfServiceCriterionFormGUITest extends ilTermsOfServiceBaseTest
         $this->assertSame($criterionType2->getTypeIdent(), $form->getItemByPostVar('criterion')->getValue());
     }
 
-    public function testFormForNewCriterionAssignmentCanBeSavedForValidInput() : void
+    public function testFormForNewCriterionAssignmentCanBeSavedForValidInput(): void
     {
         $document = $this
             ->getMockBuilder(ilTermsOfServiceDocument::class)
@@ -284,7 +286,7 @@ class ilTermsOfServiceCriterionFormGUITest extends ilTermsOfServiceBaseTest
         $this->assertEmpty($form->getTranslatedError());
     }
 
-    public function testFormForExistingAssignmentCannotBeSavedForInvalidInput() : void
+    public function testFormForExistingAssignmentCannotBeSavedForInvalidInput(): void
     {
         $lng = $this->getLanguageMock();
 

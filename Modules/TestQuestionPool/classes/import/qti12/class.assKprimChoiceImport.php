@@ -30,8 +30,8 @@ class assKprimChoiceImport extends assQuestionImport
      * @var assKprimChoice
      */
     public $object;
-    
-    public function fromXML(&$item, $questionpool_id, &$tst_id, &$tst_object, &$question_counter, &$import_mapping) : void
+
+    public function fromXML(&$item, $questionpool_id, &$tst_id, &$tst_object, &$question_counter, &$import_mapping): void
     {
         global $DIC;
         $ilUser = $DIC['ilUser'];

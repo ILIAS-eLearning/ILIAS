@@ -25,7 +25,7 @@ class ilHelpExporter extends ilXmlExporter
 {
     private ilHelpDataSet $ds;
 
-    public function init() : void
+    public function init(): void
     {
         $this->ds = new ilHelpDataSet();
         $this->ds->setExportDirectories($this->dir_relative, $this->dir_absolute);
@@ -36,7 +36,7 @@ class ilHelpExporter extends ilXmlExporter
         string $a_entity,
         string $a_target_release,
         array $a_ids
-    ) : array {
+    ): array {
         if ($a_entity === "help") {
             $lm_node_ids = array();
             foreach ($a_ids as $lm_id) {
@@ -65,11 +65,11 @@ class ilHelpExporter extends ilXmlExporter
         string $a_entity,
         string $a_schema_version,
         string $a_id
-    ) : string {
+    ): string {
         return $this->ds->getXmlRepresentation($a_entity, $a_schema_version, [$a_id], "", true, true);
     }
 
-    public function getValidSchemaVersions(string $a_entity) : array
+    public function getValidSchemaVersions(string $a_entity): array
     {
         return array(
             "4.3.0" => array(

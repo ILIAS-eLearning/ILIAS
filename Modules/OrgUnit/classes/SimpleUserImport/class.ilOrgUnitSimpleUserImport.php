@@ -25,7 +25,6 @@
  */
 class ilOrgUnitSimpleUserImport extends ilOrgUnitImporter
 {
-
     /**
      * @param $file_path
      */

@@ -29,7 +29,7 @@ class ilObjWorkflowEngine extends ilObject
         parent::__construct($id, $call_by_reference);
     }
 
-    public static function getTempDir(bool $relative) : string
+    public static function getTempDir(bool $relative): string
     {
         $relativeTempPath = 'wfe/upload_temp/';
 
@@ -40,7 +40,7 @@ class ilObjWorkflowEngine extends ilObject
         return ILIAS_DATA_DIR . '/' . CLIENT_ID . '/' . $relativeTempPath;
     }
 
-    public static function getRepositoryDir(bool $relative = false) : string
+    public static function getRepositoryDir(bool $relative = false): string
     {
         $relativeRepositoryPath = 'wfe/repository/';
 

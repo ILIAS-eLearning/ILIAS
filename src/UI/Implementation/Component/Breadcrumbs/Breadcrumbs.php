@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\UI\Implementation\Component\Breadcrumbs;
 
 use ILIAS\UI\Component\Breadcrumbs as B;
@@ -44,7 +46,7 @@ class Breadcrumbs implements B\Breadcrumbs
     /**
      * @inheritdoc
      */
-    public function getItems() : array
+    public function getItems(): array
     {
         return $this->crumbs;
     }
@@ -52,7 +54,7 @@ class Breadcrumbs implements B\Breadcrumbs
     /**
      * @inheritdoc
      */
-    public function withAppendedItem(Standard $crumb) : B\Breadcrumbs
+    public function withAppendedItem(Standard $crumb): B\Breadcrumbs
     {
         $clone = clone $this;
         $clone->crumbs[] = $crumb;

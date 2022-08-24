@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,16 +18,16 @@
  *
  *********************************************************************/
 
-use \ILIAS\DI\Container;
+use ILIAS\DI\Container;
 
 class lti13lib
 {
-    const LTI_JWT_CLAIM_PREFIX = 'https://purl.imsglobal.org/spec/lti';
-    const LTI_1_3_KID = 'lti_1_3_kid';
-    const LTI_1_3_PRIVATE_KEY = 'lti_1_3_privatekey';
-    const ERROR_OPEN_SSL_CONF = 'error openssl config invalid';
-    const OPENSSL_KEYTYPE_RSA = '';
-    const ASN1_BIT_STRING = '';
+    public const LTI_JWT_CLAIM_PREFIX = 'https://purl.imsglobal.org/spec/lti';
+    public const LTI_1_3_KID = 'lti_1_3_kid';
+    public const LTI_1_3_PRIVATE_KEY = 'lti_1_3_privatekey';
+    public const ERROR_OPEN_SSL_CONF = 'error openssl config invalid';
+    public const OPENSSL_KEYTYPE_RSA = '';
+    public const ASN1_BIT_STRING = '';
     private ilSetting $setting;
 
     protected Container $dic;
@@ -50,7 +52,7 @@ class lti13lib
         $this->setting = $ilSetting;
     }
 
-    public function verifyPrivateKey() : string
+    public function verifyPrivateKey(): string
     {
         $key = $this->setting->get(self::LTI_1_3_PRIVATE_KEY);
 
@@ -76,7 +78,7 @@ class lti13lib
     /**
      * @return array<string, null>|array<string, string>
      */
-    public function getPrivateKey() : array
+    public function getPrivateKey(): array
     {
         $privatekey = $this->setting->get(self::LTI_1_3_PRIVATE_KEY);
         $kid = $this->setting->get(self::LTI_1_3_KID);
@@ -89,7 +91,7 @@ class lti13lib
     /**
      * @return array<string, array<int, array<string, mixed>>>
      */
-    public function getJwks() : array
+    public function getJwks(): array
     {
         $jwks = ['keys' => []];
 
@@ -125,7 +127,7 @@ class lti13lib
      * @uses JsonEncode
      * @uses UrlSafeB64Encode
      */
-    public function JwtEncode($payLoad, string $key, string $alg = 'RS256', $keyId = null, ?array $head = null) : string
+    public function JwtEncode($payLoad, string $key, string $alg = 'RS256', $keyId = null, ?array $head = null): string
     {
         $header = ['typ' => 'JWT', 'alg' => $alg];
         if ($keyId !== null) {
@@ -150,12 +152,12 @@ class lti13lib
      * @param string $input The string you want encoded
      * @return string The base64 encode of what you passed in
      */
-    public function UrlSafeB64Encode(string $input) : string
+    public function UrlSafeB64Encode(string $input): string
     {
         return str_replace('=', '', strtr(base64_encode($input), '+/', '-_'));
     }
 
-    public function OpenSSLSign(string $msg, string $key, string $alg = 'HS256') : string
+    public function OpenSSLSign(string $msg, string $key, string $alg = 'HS256'): string
     {
         if (empty($this->supported_algs[$alg])) {
             throw new DomainException('Algorithm not supported');
@@ -179,7 +181,7 @@ class lti13lib
         return '';
     }
 
-    public function signatureFromDER(string $der, $keySize) : string
+    public function signatureFromDER(string $der, $keySize): string
     {
         // OpenSSL returns the ECDSA signatures as a binary ASN.1 DER SEQUENCE
         list($offset, $_) = self::readDER($der);
@@ -207,7 +209,7 @@ class lti13lib
      * @param string $nonce    Nonce value to use
      * @return array|null
      */
-    public function LTISignJWT(array $parms, string $endPoint, string $oAuthConsumerKey, $typeId = 0, string $nonce = '') : array
+    public function LTISignJWT(array $parms, string $endPoint, string $oAuthConsumerKey, $typeId = 0, string $nonce = ''): array
     {
         if (empty($typeId)) {
             $typeId = 0;
@@ -298,7 +300,7 @@ class lti13lib
      * to decode
      * @return array [$offset, $data] the new offset and the decoded object
      */
-    private static function readDER(string $der, int $offset = 0) : array
+    private static function readDER(string $der, int $offset = 0): array
     {
         $pos = $offset;
         $size = \strlen($der);
@@ -335,7 +337,7 @@ class lti13lib
      * @return array
      */
 
-    public function LTIGetJWTMessageTypeMapping() : array
+    public function LTIGetJWTMessageTypeMapping(): array
     {
         return array(
             'basic-lti-launch-request' => 'LtiResourceLinkRequest',
@@ -349,7 +351,7 @@ class lti13lib
      *
      * @return array
      */
-    public function LTIGetJWTClaimMapping() : array
+    public function LTIGetJWTClaimMapping(): array
     {
         return array(
             'accept_copy_advice' => [

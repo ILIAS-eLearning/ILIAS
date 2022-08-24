@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -25,7 +27,7 @@ class ilTestQuestionBrowserTableGUITest extends ilTestBaseTestCase
     private ilTestQuestionBrowserTableGUI $tableGui;
     private ilObjTestGUI $parentObj_mock;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -80,12 +82,12 @@ class ilTestQuestionBrowserTableGUITest extends ilTestBaseTestCase
         );
     }
 
-    public function test_instantiateObject_shouldReturnInstance() : void
+    public function test_instantiateObject_shouldReturnInstance(): void
     {
         $this->assertInstanceOf(ilTestQuestionBrowserTableGUI::class, $this->tableGui);
     }
 
-    public function testWriteAccess() : void
+    public function testWriteAccess(): void
     {
         $this->tableGui->setWriteAccess(false);
         $this->assertFalse($this->tableGui->hasWriteAccess());

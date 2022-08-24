@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -31,9 +33,9 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 
     protected string $imsmanifestFile;
 
-    const CONVERT_XSL = './Modules/Scorm2004/templates/xsl/op/scorm12To2004.xsl';
-    const WRAPPER_HTML = './Modules/Scorm2004/scripts/converter/GenericRunTimeWrapper1.0_aadlc/GenericRunTimeWrapper.htm';
-    const WRAPPER_JS = './Modules/Scorm2004/scripts/converter/GenericRunTimeWrapper1.0_aadlc/SCOPlayerWrapper.js';
+    public const CONVERT_XSL = './Modules/Scorm2004/templates/xsl/op/scorm12To2004.xsl';
+    public const WRAPPER_HTML = './Modules/Scorm2004/scripts/converter/GenericRunTimeWrapper1.0_aadlc/GenericRunTimeWrapper.htm';
+    public const WRAPPER_JS = './Modules/Scorm2004/scripts/converter/GenericRunTimeWrapper1.0_aadlc/SCOPlayerWrapper.js';
 
     /**
     * Constructor
@@ -59,7 +61,7 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
      *
      * @param boolean $a_val import sequencing information
      */
-    public function setImportSequencing(bool $a_val) : void
+    public function setImportSequencing(bool $a_val): void
     {
         $this->import_sequencing = $a_val;
     }
@@ -69,7 +71,7 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
      *
      * @return boolean import sequencing information
      */
-    public function getImportSequencing() : bool
+    public function getImportSequencing(): bool
     {
         return $this->import_sequencing;
     }
@@ -77,7 +79,7 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
     /**
     * read manifest file
     */
-    public function readObject() : string
+    public function readObject(): string
     {
         global $DIC;
         $lng = $this->lng;
@@ -204,7 +206,7 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
     }
 
 
-    public function fixReload() : void
+    public function fixReload(): void
     {
         $out = file_get_contents($this->imsmanifestFile);
         $check = '/xmlns="http:\/\/www.imsglobal.org\/xsd\/imscp_v1p1"/';
@@ -214,7 +216,7 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
     }
 
 
-    public function convert_1_2_to_2004(string $manifest) : void
+    public function convert_1_2_to_2004(string $manifest): void
     {
         $ilDB = $this->db;
         $ilLog = $this->log;
@@ -277,10 +279,10 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
         $this->totransform = $doc;
         $ilLog->write("SCORM: about to transform to SCORM 2004");
 
-        $xsl = new DOMDocument;
+        $xsl = new DOMDocument();
         $xsl->async = false;
         $xsl->load(self::CONVERT_XSL);
-        $prc = new XSLTProcessor;
+        $prc = new XSLTProcessor();
         $r = @$prc->importStyleSheet($xsl);
 
         file_put_contents($this->imsmanifestFile, $prc->transformToXML($this->totransform));
@@ -291,7 +293,7 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
     /**
      * Return the last access timestamp for a given user
      */
-    public static function _lookupLastAccess(int $a_obj_id, int $a_usr_id) : ?string
+    public static function _lookupLastAccess(int $a_obj_id, int $a_usr_id): ?string
     {
         global $DIC;
 
@@ -316,7 +318,7 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
         return null;
     }
 
-    public function deleteTrackingDataOfUsers(array $a_users) : void
+    public function deleteTrackingDataOfUsers(array $a_users): void
     {
         $ilDB = $this->db;
         ilChangeEvent::_deleteReadEventsForUsers($this->getId(), $a_users);
@@ -332,7 +334,7 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
      * get all tracked items of current user
      * @return array<int, array<string, mixed>>
      */
-    public function getTrackedItems() : array
+    public function getTrackedItems(): array
     {
         $ilUser = $this->user;
         $ilDB = $this->db;
@@ -363,7 +365,7 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
      * @throws ilDateTimeException
      * @return array<int|string, mixed[]>
      */
-    public function getTrackingDataAgg(int $a_user_id, ?bool $raw = false) : array
+    public function getTrackingDataAgg(int $a_user_id, ?bool $raw = false): array
     {
         $ilDB = $this->db;
 
@@ -433,7 +435,7 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
     /**
      * get number of atttempts for a certain user and package
      */
-    public function getAttemptsForUser(int $a_user_id) : int
+    public function getAttemptsForUser(int $a_user_id): int
     {
         $ilDB = $this->db;
         $val_set = $ilDB->queryF(
@@ -454,7 +456,7 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
     /**
      * get module version that tracking data for a user was recorded on
      */
-    public function getModuleVersionForUser(int $a_user_id) : string
+    public function getModuleVersionForUser(int $a_user_id): string
     {
         $ilDB = $this->db;
         $val_set = $ilDB->queryF(
@@ -471,7 +473,7 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
         return $val_rec["module_version"];
     }
 
-    public function importSuccess(string $a_file) : bool
+    public function importSuccess(string $a_file): bool
     {
         $ilDB = $this->db;
         $ilUser = $this->user;
@@ -613,7 +615,7 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
     /**
      * convert ISO 8601 Timeperiods to centiseconds
      */
-    public static function _ISODurationToCentisec(string $str) : float
+    public static function _ISODurationToCentisec(string $str): float
     {
         $aV = array(0, 0, 0, 0, 0, 0);
         $bErr = false;
@@ -666,7 +668,7 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
         return $aV[0] * 3_155_760_000 + $aV[1] * 262_980_000 + $aV[2] * 8_640_000 + $aV[3] * 360000 + $aV[4] * 6000 + round($aV[5] * 100);
     }
 
-    public static function getQuantityOfSCOs(int $a_slm_id) : int
+    public static function getQuantityOfSCOs(int $a_slm_id): int
     {
         global $DIC;
         $val_set = $DIC->database()->queryF(
@@ -687,7 +689,7 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
     * Get the completion of a SCORM module for a given user
     * @return boolean Completion status
     */
-    public static function _getCourseCompletionForUser(int $a_id, int $a_user) : bool
+    public static function _getCourseCompletionForUser(int $a_id, int $a_user): bool
     {
         global $DIC;
 
@@ -745,7 +747,7 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
     * Conditions: Only one SCO may set cmi.score.scaled
     * @return float scaled score, -1 if not unique
     */
-    public static function _getUniqueScaledScoreForUser(int $a_id, int $a_user) : float
+    public static function _getUniqueScaledScoreForUser(int $a_id, int $a_user): float
     {
         global $DIC;
 
@@ -786,7 +788,7 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
      * currently a for learning progress only
      * @return array<int, array<string, mixed>>
      */
-    public static function _getTrackingItems(int $a_obj_id) : array
+    public static function _getTrackingItems(int $a_obj_id): array
     {
         global $DIC;
 
@@ -905,7 +907,7 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
         return false;
     }
 
-    public static function _lookupItemTitle(int $a_node_id) : string
+    public static function _lookupItemTitle(int $a_node_id): string
     {
         global $DIC;
 
@@ -928,7 +930,7 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
     /**
      * Returns score.max for the learning module, refered to the last sco where score.max is set.
      */
-    public static function _getMaxScoreForUser(int $a_id, int $a_user) : ?float
+    public static function _getMaxScoreForUser(int $a_id, int $a_user): ?float
     {
         global $DIC;
 
@@ -974,7 +976,7 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
     /**
      * @return array<string, mixed>
      */
-    public static function _getScores2004ForUser(int $a_cp_node_id, int $a_user) : array
+    public static function _getScores2004ForUser(int $a_cp_node_id, int $a_user): array
     {
         global $DIC;
 

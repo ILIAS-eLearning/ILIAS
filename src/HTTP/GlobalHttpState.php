@@ -41,22 +41,22 @@ use ILIAS\HTTP\Duration\DurationFactory;
  */
 interface GlobalHttpState
 {
-    public function durations() : DurationFactory;
+    public function durations(): DurationFactory;
 
-    public function wrapper() : WrapperFactory;
+    public function wrapper(): WrapperFactory;
 
     /**
      * Returns the current psr-7 server request.
      *
      * @return ServerRequestInterface
      */
-    public function request() : RequestInterface;
+    public function request(): RequestInterface;
 
 
     /**
      * Returns the current psr-7 response.
      */
-    public function response() : ResponseInterface;
+    public function response(): ResponseInterface;
 
 
     /**
@@ -64,7 +64,7 @@ interface GlobalHttpState
      * Make sure to call the saveResponse method when the cookies are rendered into the response
      * object.
      */
-    public function cookieJar() : CookieJar;
+    public function cookieJar(): CookieJar;
 
 
     /**
@@ -74,7 +74,7 @@ interface GlobalHttpState
      *
      * @param ServerRequestInterface $request The server request which should be saved.
      */
-    public function saveRequest(ServerRequestInterface $request) : void;
+    public function saveRequest(ServerRequestInterface $request): void;
 
 
     /**
@@ -82,7 +82,7 @@ interface GlobalHttpState
      *
      * @param ResponseInterface $response The response which should be saved.
      */
-    public function saveResponse(ResponseInterface $response) : void;
+    public function saveResponse(ResponseInterface $response): void;
 
 
     /**
@@ -90,8 +90,8 @@ interface GlobalHttpState
      *
      * @throws ResponseSendingException Each subsequent call will throw this exception.
      */
-    public function sendResponse() : void;
+    public function sendResponse(): void;
 
 
-    public function close() : void;
+    public function close(): void;
 }

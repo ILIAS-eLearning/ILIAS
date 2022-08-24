@@ -11,7 +11,6 @@ include_once "Modules/TestQuestionPool/classes/questions/LogicalAnswerCompare/Fa
  */
 class ilAssLacExpressionManufacturer extends ilAssLacAbstractManufacturer
 {
-
     /**
      * A Singleton Instance of the ExpressionManufacturer
      *
@@ -27,7 +26,7 @@ class ilAssLacExpressionManufacturer extends ilAssLacAbstractManufacturer
      *
      * @return ilAssLacExpressionManufacturer
      */
-    public static function _getInstance() : ?ilAssLacExpressionManufacturer
+    public static function _getInstance(): ?ilAssLacExpressionManufacturer
     {
         if (self::$instance == null) {
             self::$instance = new ilAssLacExpressionManufacturer();
@@ -42,7 +41,7 @@ class ilAssLacExpressionManufacturer extends ilAssLacAbstractManufacturer
      * @return ilAssLacAbstractComposite
      * @throws ilAssLacUnsupportedExpression
      */
-    public function manufacture(string $attribute) : ilAssLacAbstractComposite
+    public function manufacture(string $attribute): ilAssLacAbstractComposite
     {
         $expression = null;
 
@@ -108,7 +107,7 @@ class ilAssLacExpressionManufacturer extends ilAssLacAbstractManufacturer
      *
      * @return string
      */
-    public function getPattern() : string
+    public function getPattern(): string
     {
         return
             "/" .

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /* Copyright (c) 2021 - Daniel Weise <daniel.weise@concepts-and-training.de> - Extended GPL, see LICENSE */
 
@@ -16,29 +18,29 @@ class ilAccessRBACOperationDeletedObjective implements Setup\Objective
         $this->ops_id = $ops_id;
     }
 
-    public function getHash() : string
+    public function getHash(): string
     {
         return hash("sha256", self::class);
     }
 
-    public function getLabel() : string
+    public function getLabel(): string
     {
         return "Delete rbac operation and rbac template for type $this->type and id $this->ops_id";
     }
 
-    public function isNotable() : bool
+    public function isNotable(): bool
     {
         return true;
     }
 
-    public function getPreconditions(Environment $environment) : array
+    public function getPreconditions(Environment $environment): array
     {
         return [
             new ilDatabaseInitializedObjective()
         ];
     }
 
-    public function achieve(Environment $environment) : Environment
+    public function achieve(Environment $environment): Environment
     {
         $db = $environment->getResource(Environment::RESOURCE_DATABASE);
 
@@ -63,7 +65,7 @@ class ilAccessRBACOperationDeletedObjective implements Setup\Objective
         return $environment;
     }
 
-    public function isApplicable(Environment $environment) : bool
+    public function isApplicable(Environment $environment): bool
     {
         return true;
     }

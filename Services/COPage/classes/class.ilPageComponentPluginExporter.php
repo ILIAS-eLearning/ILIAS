@@ -47,14 +47,14 @@ abstract class ilPageComponentPluginExporter extends ilXmlExporter
     public static function setPCProperties(
         string $a_id,
         array $a_properties
-    ) : void {
+    ): void {
         self::$pc_properties[$a_id] = $a_properties;
     }
 
     /**
      * Get the properties of a plugged page content
      */
-    public static function getPCProperties(string $a_id) : ?array
+    public static function getPCProperties(string $a_id): ?array
     {
         return self::$pc_properties[$a_id] ?? null;
     }
@@ -66,14 +66,14 @@ abstract class ilPageComponentPluginExporter extends ilXmlExporter
     public static function setPCVersion(
         string $a_id,
         string $a_version
-    ) : void {
+    ): void {
         self::$pc_version[$a_id] = $a_version;
     }
 
     /**
      * Get the version of a plugged page content
      */
-    public static function getPCVersion(string $a_id) : ?string
+    public static function getPCVersion(string $a_id): ?string
     {
         return self::$pc_version[$a_id] ?? null;
     }

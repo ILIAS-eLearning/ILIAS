@@ -1,5 +1,7 @@
-<?php declare(strict_types=1);
-    
+<?php
+
+declare(strict_types=1);
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * Interface for all objects that offer registration with access codes
  * @author  Stefan Meyer <meyer@leifos.com>
@@ -28,11 +30,11 @@ interface ilMembershipRegistrationCodes
      * Lookup all objects with reg_access_code enabled and
      * @return int[]
      */
-    public static function lookupObjectsByCode(string $a_code) : array;
+    public static function lookupObjectsByCode(string $a_code): array;
 
     /**
      * Register an user.
      * @todo Throw exeption if registration is impossible due to other restrictions.
      */
-    public function register(int $a_user_id) : void;
+    public function register(int $a_user_id): void;
 }

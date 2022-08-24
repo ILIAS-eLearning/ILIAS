@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -34,10 +36,10 @@
 
 class ilMediaCastSearch extends ilAbstractSearch
 {
-    public function performSearch() : ilSearchResult
+    public function performSearch(): ilSearchResult
     {
         // Search in glossary term
-        
+
         $this->setFields(array('title','content'));
 
         $where = $this->__createWhereCondition();

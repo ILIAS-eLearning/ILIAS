@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -24,7 +26,7 @@ use ilMail;
 
 class MailNotification extends ilMimeMailNotification
 {
-    private function buildFolderTitle(FolderDto $folder_object) : string
+    private function buildFolderTitle(FolderDto $folder_object): string
     {
         $folder_title = $folder_object->getFolderTitle();
         $folder_translation = $this->getLanguage()->txt('deleted');
@@ -41,13 +43,13 @@ class MailNotification extends ilMimeMailNotification
         return $folder_translation;
     }
 
-    protected function initLanguageByIso2Code(string $a_code = '') : void
+    protected function initLanguageByIso2Code(string $a_code = ''): void
     {
         parent::initLanguageByIso2Code($a_code);
         $this->getLanguage()->loadLanguageModule('user');
     }
 
-    public function send() : void
+    public function send(): void
     {
         foreach ($this->getRecipients() as $rcp) {
             try {
@@ -71,7 +73,7 @@ class MailNotification extends ilMimeMailNotification
         }
     }
 
-    public function appendOrphanedMailsBody() : void
+    public function appendOrphanedMailsBody(): void
     {
         $additional_information = $this->getAdditionalInformation();
         /** @var FolderDto[] $mail_folders */

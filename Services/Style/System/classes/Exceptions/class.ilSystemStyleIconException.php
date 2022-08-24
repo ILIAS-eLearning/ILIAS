@@ -26,7 +26,7 @@ class ilSystemStyleIconException extends ilSystemStyleExceptionBase
     public const IMAGES_FOLDER_DOES_NOT_EXIST = 1001;
     public const ICON_DOES_NOT_EXIST = 1002;
 
-    protected function assignMessageToCode() : void
+    protected function assignMessageToCode(): void
     {
         switch ($this->code) {
             case self::IMAGES_FOLDER_DOES_NOT_EXIST:

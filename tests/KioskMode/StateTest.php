@@ -7,7 +7,7 @@ use ILIAS\KioskMode\State;
 
 class StateTest extends TestCase
 {
-    public function testGetNullValue() : State
+    public function testGetNullValue(): State
     {
         $state = new State();
         $this->assertNull($state->getValueFor('invalid_key'));
@@ -17,7 +17,7 @@ class StateTest extends TestCase
     /**
      * @depends testGetNullValue
      */
-    public function testValue(State $state) : State
+    public function testValue(State $state): State
     {
         $key = 'key';
         $value = 'value';
@@ -29,7 +29,7 @@ class StateTest extends TestCase
     /**
      * @depends testValue
      */
-    public function testSerialize(State $state) : void
+    public function testSerialize(State $state): void
     {
         $expected = json_encode(['key' => 'value'], JSON_THROW_ON_ERROR);
         $this->assertEquals($expected, $state->serialize());
@@ -38,7 +38,7 @@ class StateTest extends TestCase
     /**
      * @depends testValue
      */
-    public function testRemoveValue(State $state) : void
+    public function testRemoveValue(State $state): void
     {
         $state = $state->withValueFor('keep', 'this');
         $state = $state->withoutKey('key');

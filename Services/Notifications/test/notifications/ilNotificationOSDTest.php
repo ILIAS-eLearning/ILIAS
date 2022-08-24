@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -29,14 +31,14 @@ class ilNotificationOSDTest extends ilNotificationsBaseTest
     private array $database;
     private array $result;
 
-    private function createDBFunctionCalls(int $insert = 0, int $queryF = 0, int $fetchAssoc = 0, int $manipulateF = 0) : void
+    private function createDBFunctionCalls(int $insert = 0, int $queryF = 0, int $fetchAssoc = 0, int $manipulateF = 0): void
     {
         $this->database = [];
         $this->result = [];
-        $this->db->expects(self::exactly($insert))->method('nextId')->willReturnCallback(function (string $table) : int {
+        $this->db->expects(self::exactly($insert))->method('nextId')->willReturnCallback(function (string $table): int {
             return count($this->database) + 1;
         });
-        $this->db->expects(self::exactly($insert))->method('insert')->willReturnCallback(function (string $table, array $object) : int {
+        $this->db->expects(self::exactly($insert))->method('insert')->willReturnCallback(function (string $table, array $object): int {
             foreach ($object as &$value) {
                 $value = $value[1];
             }
@@ -44,7 +46,7 @@ class ilNotificationOSDTest extends ilNotificationsBaseTest
             $this->database[] = $object;
             return $object['notification_osd_id'];
         });
-        $this->db->expects(self::exactly($queryF))->method('queryF')->willReturnCallback(function (string $query, array $types, array $values) : ilPDOStatement {
+        $this->db->expects(self::exactly($queryF))->method('queryF')->willReturnCallback(function (string $query, array $types, array $values): ilPDOStatement {
             $this->result = [];
             if (strpos($query, 'WHERE usr_id') !== false) {
                 foreach ($this->database as $row) {
@@ -65,10 +67,10 @@ class ilNotificationOSDTest extends ilNotificationsBaseTest
             }
             return $this->createMock(ilPDOStatement::class);
         });
-        $this->db->expects(self::exactly($fetchAssoc))->method('fetchAssoc')->willReturnCallback(function (ilPDOStatement $rset) : ?array {
+        $this->db->expects(self::exactly($fetchAssoc))->method('fetchAssoc')->willReturnCallback(function (ilPDOStatement $rset): ?array {
             return array_shift($this->result);
         });
-        $this->db->expects(self::exactly($manipulateF))->method('manipulateF')->willReturnCallback(function (string $query, array $types, array $values) : int {
+        $this->db->expects(self::exactly($manipulateF))->method('manipulateF')->willReturnCallback(function (string $query, array $types, array $values): int {
             if (count($values) === 1) {
                 foreach ($this->database as $key => $row) {
                     if ($row['notification_osd_id'] === $values[0]) {
@@ -91,7 +93,7 @@ class ilNotificationOSDTest extends ilNotificationsBaseTest
         });
     }
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         $this->db = $this->createMock(ilDBPdo::class);
         $this->handler = new \ILIAS\Notifications\ilNotificationOSDHandler(
@@ -101,7 +103,7 @@ class ilNotificationOSDTest extends ilNotificationsBaseTest
         $this->user->method('getId')->willReturn(4);
     }
 
-    public function testCreateNotification() : void
+    public function testCreateNotification(): void
     {
         $this->createDBFunctionCalls(1);
         $config = new \ILIAS\Notifications\Model\ilNotificationConfig('test_type');
@@ -113,13 +115,13 @@ class ilNotificationOSDTest extends ilNotificationsBaseTest
         $this->assertCount(1, $this->database);
     }
 
-    public function testGet0Notification() : void
+    public function testGet0Notification(): void
     {
         $this->createDBFunctionCalls(0, 1, 1);
         $this->assertCount(0, $this->handler->getNotificationsForUser($this->user->getId()));
     }
 
-    public function testGetNotification() : void
+    public function testGetNotification(): void
     {
         $this->createDBFunctionCalls(1, 1, 2);
         $config = new \ILIAS\Notifications\Model\ilNotificationConfig('test_type');
@@ -129,7 +131,7 @@ class ilNotificationOSDTest extends ilNotificationsBaseTest
         $this->assertCount(1, $this->handler->getNotificationsForUser($this->user->getId()));
     }
 
-    public function testRemoveNotification() : void
+    public function testRemoveNotification(): void
     {
         $this->createDBFunctionCalls(1, 3, 4, 1);
         $config = new \ILIAS\Notifications\Model\ilNotificationConfig('test_type');
@@ -143,16 +145,16 @@ class ilNotificationOSDTest extends ilNotificationsBaseTest
         $this->assertCount(0, $this->handler->getNotificationsForUser($this->user->getId()));
     }
 
-    public function testRemoveNoNotification() : void
+    public function testRemoveNoNotification(): void
     {
         $this->createDBFunctionCalls(0, 2, 2, 0);
         $this->assertCount(0, $this->handler->getNotificationsForUser($this->user->getId()));
         $this->assertFalse($this->handler->removeNotification(3));
     }
 
-    public function testCreateMultipleUniqueNotifications() : void
+    public function testCreateMultipleUniqueNotifications(): void
     {
-        $this->createDBFunctionCalls(3, 0,0, 3);
+        $this->createDBFunctionCalls(3, 0, 0, 3);
         $config = new \ILIAS\Notifications\Model\ilNotificationConfig('who_is_online');
         $config->setTitleVar('Unique Test Notification');
         $config->setShortDescriptionVar('This is a unqiue test notification');

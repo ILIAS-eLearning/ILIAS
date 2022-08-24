@@ -32,7 +32,7 @@ class ilSystemStyleOverviewGUITest extends ilSystemStyleBaseFSTest
 
     protected ilCtrl $ctrl;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         parent::setUp();
         $ui_helper = new UITestHelper();
@@ -80,7 +80,7 @@ class ilSystemStyleOverviewGUITest extends ilSystemStyleBaseFSTest
         );
     }
 
-    public function testConstruct() : void
+    public function testConstruct(): void
     {
         $this->assertInstanceOf(ilSystemStyleOverviewGUI::class, $this->overview_gui);
     }

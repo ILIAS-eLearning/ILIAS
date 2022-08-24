@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /******************************************************************************
  *
@@ -23,20 +25,20 @@ class ilSecurePathDefinitionProcessor implements ilComponentDefinitionProcessor
         $this->db = $db;
     }
 
-    public function purge() : void
+    public function purge(): void
     {
     }
 
-    public function beginComponent(string $component, string $type) : void
+    public function beginComponent(string $component, string $type): void
     {
         $this->component = $type . "/" . $component;
     }
 
-    public function endComponent(string $component, string $type) : void
+    public function endComponent(string $component, string $type): void
     {
     }
 
-    public function beginTag(string $name, array $attributes) : void
+    public function beginTag(string $name, array $attributes): void
     {
         if ($name !== "secure_path") {
             return;
@@ -55,7 +57,7 @@ class ilSecurePathDefinitionProcessor implements ilComponentDefinitionProcessor
         $ilWACSecurePath->update();
     }
 
-    public function endTag(string $name) : void
+    public function endTag(string $name): void
     {
     }
 }

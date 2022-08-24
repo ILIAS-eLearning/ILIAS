@@ -58,7 +58,7 @@ class ilGlossaryExport
                     $this->glo_obj->getType() . "_" . $this->glo_obj->getId();
                 $this->filename = $this->subdir . ".xml";
                 break;
-        
+
             case "html":
                 $this->export_dir = $this->glo_obj->getExportDirectory("html");
                 $this->subdir = $this->glo_obj->getType() . "_" . $this->glo_obj->getId();
@@ -68,15 +68,15 @@ class ilGlossaryExport
         }
     }
 
-    public function getInstId() : int
+    public function getInstId(): int
     {
         return $this->inst_id;
     }
-    
+
     /**
      * build export file (complete zip file)
      */
-    public function buildExportFile() : string
+    public function buildExportFile(): string
     {
         switch ($this->mode) {
             case "html":
@@ -90,7 +90,7 @@ class ilGlossaryExport
     /**
      * build export file (complete zip file)
      */
-    public function buildExportFileXML() : string
+    public function buildExportFileXML(): string
     {
         $this->xml = new ilXmlWriter();
 
@@ -143,7 +143,7 @@ class ilGlossaryExport
     /**
      * build html export file
      */
-    public function buildExportFileHTML() : string
+    public function buildExportFileHTML(): string
     {
         // create directories
         $this->glo_obj->createExportDirectory("html");

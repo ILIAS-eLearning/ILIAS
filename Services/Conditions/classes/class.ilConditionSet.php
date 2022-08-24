@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /******************************************************************************
  *
@@ -45,7 +47,7 @@ class ilConditionSet
     /**
      * @return ilCondition[]
      */
-    public function getConditions() : array
+    public function getConditions(): array
     {
         return $this->conditions;
     }
@@ -53,14 +55,14 @@ class ilConditionSet
     /**
      * Set hidden status (trigger objects should be hidden in presentation)
      */
-    public function withHiddenStatus(bool $hidden_status) : ilConditionSet
+    public function withHiddenStatus(bool $hidden_status): ilConditionSet
     {
         $clone = clone $this;
         $clone->hidden_status = $hidden_status;
         return $clone;
     }
 
-    public function getHiddenStatus() : ?bool
+    public function getHiddenStatus(): ?bool
     {
         return $this->hidden_status;
     }
@@ -68,14 +70,14 @@ class ilConditionSet
     /**
      * Set all conditions being obligatory (standard behaviour)
      */
-    public function withAllObligatory() : ilConditionSet
+    public function withAllObligatory(): ilConditionSet
     {
         $clone = clone $this;
         $clone->all_obligatory = true;
         return $clone;
     }
 
-    public function getAllObligatory() : ?bool
+    public function getAllObligatory(): ?bool
     {
         return $this->all_obligatory;
     }
@@ -83,7 +85,7 @@ class ilConditionSet
     /**
      * Set number of obligatory conditions
      */
-    public function withNumObligatory(int $num_obligatory) : ilConditionSet
+    public function withNumObligatory(int $num_obligatory): ilConditionSet
     {
         $clone = clone $this;
         $clone->num_obligatory = $num_obligatory;
@@ -93,7 +95,7 @@ class ilConditionSet
     /**
      * Get number of obligatory conditions
      */
-    public function getNumObligatory() : ?int
+    public function getNumObligatory(): ?int
     {
         return $this->num_obligatory;
     }

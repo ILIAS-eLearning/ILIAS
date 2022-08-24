@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -55,7 +57,7 @@ class CharacteristicManager
         string $type,
         string $char,
         bool $hidden = false
-    ) : void {
+    ): void {
         $this->repo->addCharacteristic(
             $this->style_id,
             $type,
@@ -72,7 +74,7 @@ class CharacteristicManager
     public function exists(
         string $type,
         string $char
-    ) : bool {
+    ): bool {
         return $this->repo->exists(
             $this->style_id,
             $type,
@@ -86,7 +88,7 @@ class CharacteristicManager
     public function getByKey(
         string $type,
         string $characteristic
-    ) : ?Characteristic {
+    ): ?Characteristic {
         return $this->repo->getByKey(
             $this->style_id,
             $type,
@@ -99,7 +101,7 @@ class CharacteristicManager
      */
     public function getByType(
         string $type
-    ) : array {
+    ): array {
         return $this->repo->getByType(
             $this->style_id,
             $type
@@ -113,7 +115,7 @@ class CharacteristicManager
         array $types,
         bool $include_hidden = true,
         bool $include_outdated = true
-    ) : array {
+    ): array {
         return $this->repo->getByTypes(
             $this->style_id,
             $types,
@@ -127,7 +129,7 @@ class CharacteristicManager
      */
     public function getBySuperType(
         string $supertype
-    ) : array {
+    ): array {
         return $this->repo->getBySuperType(
             $this->style_id,
             $supertype
@@ -141,7 +143,7 @@ class CharacteristicManager
         string $type,
         string $characteristic,
         bool $fallback_to_characteristic = true
-    ) : string {
+    ): string {
         $char = $this->repo->getByKey(
             $this->style_id,
             $type,
@@ -169,7 +171,7 @@ class CharacteristicManager
         string $type,
         string $characteristic,
         array $titles
-    ) : void {
+    ): void {
         if (!$this->access_manager->checkWrite()) {
             throw new ContentStyleNoPermissionException("No write permission for style.");
         }
@@ -188,7 +190,7 @@ class CharacteristicManager
         string $type,
         string $characteristic,
         bool $hide
-    ) : void {
+    ): void {
         if (!$this->access_manager->checkWrite()) {
             throw new ContentStyleNoPermissionException("No write permission for style.");
         }
@@ -207,7 +209,7 @@ class CharacteristicManager
         string $type,
         string $characteristic,
         bool $outdated
-    ) : void {
+    ): void {
         if (!$this->access_manager->checkWrite()) {
             throw new ContentStyleNoPermissionException("No write permission for style.");
         }
@@ -226,7 +228,7 @@ class CharacteristicManager
     public function saveOrderNrs(
         string $type,
         array $order_nrs
-    ) : void {
+    ): void {
         if (!$this->access_manager->checkWrite()) {
             throw new ContentStyleNoPermissionException("No write permission for style.");
         }
@@ -251,7 +253,7 @@ class CharacteristicManager
     public function deleteCharacteristic(
         string $type,
         string $class
-    ) : void {
+    ): void {
         if (!$this->access_manager->checkWrite()) {
             throw new ContentStyleNoPermissionException("No write permission for style.");
         }
@@ -274,36 +276,36 @@ class CharacteristicManager
     public function setCopyCharacteristics(
         string $style_type,
         array $characteristics
-    ) : void {
+    ): void {
         $this->session->set($this->style_id, $style_type, $characteristics);
     }
 
     /**
      * Is in copy process?
      */
-    public function hasCopiedCharacteristics(string $style_type) : bool
+    public function hasCopiedCharacteristics(string $style_type): bool
     {
         return $this->session->hasEntries($style_type);
     }
 
-    public function clearCopyCharacteristics() : void
+    public function clearCopyCharacteristics(): void
     {
         $this->session->clear();
     }
 
-    public function getCopyCharacteristicStyleId() : int
+    public function getCopyCharacteristicStyleId(): int
     {
         $data = $this->session->getData();
         return $data->style_id;
     }
 
-    public function getCopyCharacteristicStyleType() : string
+    public function getCopyCharacteristicStyleType(): string
     {
         $data = $this->session->getData();
         return $data->style_type;
     }
 
-    public function getCopyCharacteristics() : array
+    public function getCopyCharacteristics(): array
     {
         $data = $this->session->getData();
         return $data->characteristics;
@@ -319,7 +321,7 @@ class CharacteristicManager
         string $source_char,
         string $new_char,
         array $new_titles
-    ) : void {
+    ): void {
         if (!$this->access_manager->checkWrite()) {
             throw new ContentStyleNoPermissionException("No write permission for style.");
         }
@@ -374,7 +376,7 @@ class CharacteristicManager
         string $a_type,
         int $a_mq_id = 0,
         bool $a_custom = false
-    ) : void {
+    ): void {
         if ($a_val != "") {
             $this->repo->replaceParameter(
                 $this->style_id,
@@ -405,7 +407,7 @@ class CharacteristicManager
         string $a_type,
         int $a_mq_id = 0,
         bool $a_custom = false
-    ) : void {
+    ): void {
         $this->repo->deleteParameter(
             $this->style_id,
             $a_tag,

@@ -1,4 +1,5 @@
 <?php
+
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 use ILIAS\UI\Factory;
@@ -35,7 +36,7 @@ class ilCalendarSubscriptionGUI
         $this->ui_renderer = $DIC->ui()->renderer();
     }
 
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         $next_class = $this->ctrl->getNextClass($this);
         switch ($next_class) {
@@ -49,7 +50,7 @@ class ilCalendarSubscriptionGUI
     /**
      * Show subscription info
      */
-    protected function show() : void
+    protected function show(): void
     {
         $this->tpl->setOnScreenMessage('info', $this->lng->txt('cal_subscription_info'));
 
@@ -76,7 +77,7 @@ class ilCalendarSubscriptionGUI
         $this->tpl->setContent($info->getHTML());
     }
 
-    private function createToken($user_id, $selection, $id) : string
+    private function createToken($user_id, $selection, $id): string
     {
         $hash = ilCalendarAuthenticationToken::lookupAuthToken($user_id, $selection, $id);
         if (strlen($hash)) {
@@ -88,7 +89,7 @@ class ilCalendarSubscriptionGUI
         return $token->add();
     }
 
-    protected function getModalForSubscription() : void
+    protected function getModalForSubscription(): void
     {
         $tpl = new ilTemplate(
             'tpl.subscription_dialog.html',

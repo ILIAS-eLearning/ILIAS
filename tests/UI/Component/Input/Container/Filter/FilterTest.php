@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 require_once(__DIR__ . "/../../../../Base.php");
 
 use ILIAS\UI\Implementation\Component as I;
@@ -34,7 +36,7 @@ class FixedNameSourceFilter implements NameSource
 {
     public string $name = "name";
 
-    public function getNewName() : string
+    public function getNewName(): string
     {
         return $this->name;
     }
@@ -79,13 +81,13 @@ class ConcreteFilter extends Filter
     }
 
 
-    public function _extractParamData(ServerRequestInterface $request) : Input\InputData
+    public function _extractParamData(ServerRequestInterface $request): Input\InputData
     {
         return $this->extractParamData($request);
     }
 
 
-    public function extractParamData(ServerRequestInterface $request) : Input\InputData
+    public function extractParamData(ServerRequestInterface $request): Input\InputData
     {
         if ($this->input_data !== null) {
             return $this->input_data;
@@ -95,7 +97,7 @@ class ConcreteFilter extends Filter
     }
 
 
-    public function setInputs(array $inputs) : void
+    public function setInputs(array $inputs): void
     {
         $this->input_group = $this->input_factory->group($inputs);
         $this->inputs = $inputs;
@@ -113,7 +115,7 @@ class ConcreteFilter extends Filter
  */
 class FilterTest extends ILIAS_UI_TestBase
 {
-    protected function buildFactory() : Input\Container\Filter\Factory
+    protected function buildFactory(): Input\Container\Filter\Factory
     {
         return new ILIAS\UI\Implementation\Component\Input\Container\Filter\Factory(
             new SignalGenerator(),
@@ -121,7 +123,7 @@ class FilterTest extends ILIAS_UI_TestBase
         );
     }
 
-    protected function buildInputFactory() : Input\Field\Factory
+    protected function buildInputFactory(): Input\Field\Factory
     {
         $df = new Data\Factory();
         $language = $this->createMock(ilLanguage::class);
@@ -134,32 +136,32 @@ class FilterTest extends ILIAS_UI_TestBase
         );
     }
 
-    protected function buildButtonFactory() : I\Button\Factory
+    protected function buildButtonFactory(): I\Button\Factory
     {
-        return new ILIAS\UI\Implementation\Component\Button\Factory;
+        return new ILIAS\UI\Implementation\Component\Button\Factory();
     }
 
-    protected function buildGlyphFactory() : I\Symbol\Factory
+    protected function buildGlyphFactory(): I\Symbol\Factory
     {
         return new ILIAS\UI\Implementation\Component\Symbol\Factory();
     }
 
-    protected function buildPopoverFactory() : I\Popover\Factory
+    protected function buildPopoverFactory(): I\Popover\Factory
     {
         return new ILIAS\UI\Implementation\Component\Popover\Factory(new SignalGenerator());
     }
 
-    protected function buildLegacyFactory() : I\Legacy\Factory
+    protected function buildLegacyFactory(): I\Legacy\Factory
     {
         return new ILIAS\UI\Implementation\Component\Legacy\Factory();
     }
 
-    protected function buildListingFactory() : I\Listing\Factory
+    protected function buildListingFactory(): I\Listing\Factory
     {
-        return new ILIAS\UI\Implementation\Component\Listing\Factory;
+        return new ILIAS\UI\Implementation\Component\Listing\Factory();
     }
 
-    public function getUIFactory() : NoUIFactory
+    public function getUIFactory(): NoUIFactory
     {
         return new WithNoUIFactories(
             $this->buildButtonFactory(),
@@ -170,12 +172,12 @@ class FilterTest extends ILIAS_UI_TestBase
         );
     }
 
-    public function buildDataFactory() : Data\Factory
+    public function buildDataFactory(): Data\Factory
     {
-        return new Data\Factory;
+        return new Data\Factory();
     }
 
-    public function test_getInputs() : void
+    public function test_getInputs(): void
     {
         $f = $this->buildFactory();
         $if = $this->buildInputFactory();
@@ -216,7 +218,7 @@ class FilterTest extends ILIAS_UI_TestBase
         }
     }
 
-    public function test_extractParamData() : void
+    public function test_extractParamData(): void
     {
         $filter = new ConcreteFilter(
             new SignalGenerator(),
@@ -241,7 +243,7 @@ class FilterTest extends ILIAS_UI_TestBase
         $this->assertInstanceOf(InputData::class, $input_data);
     }
 
-    public function test_withRequest() : void
+    public function test_withRequest(): void
     {
         $request = $this->createMock(ServerRequestInterface::class);
         $input_data = $this->createMock(InputData::class);
@@ -294,7 +296,7 @@ class FilterTest extends ILIAS_UI_TestBase
         $this->assertEquals([$input_1, $input_2], $filter2->getInputs());
     }
 
-    public function test_getData() : void
+    public function test_getData(): void
     {
         $df = $this->buildDataFactory();
         $request = $this->createMock(ServerRequestInterface::class);
@@ -342,7 +344,7 @@ class FilterTest extends ILIAS_UI_TestBase
         $this->assertEquals([1, 2], $filter->getData());
     }
 
-    public function test_with_activated() : void
+    public function test_with_activated(): void
     {
         $f = $this->buildFactory();
         $if = $this->buildInputFactory();
@@ -367,7 +369,7 @@ class FilterTest extends ILIAS_UI_TestBase
         $this->assertTrue($filter1->isActivated());
     }
 
-    public function test_with_deactivated() : void
+    public function test_with_deactivated(): void
     {
         $f = $this->buildFactory();
         $if = $this->buildInputFactory();
@@ -392,7 +394,7 @@ class FilterTest extends ILIAS_UI_TestBase
         $this->assertFalse($filter1->isActivated());
     }
 
-    public function test_with_expanded() : void
+    public function test_with_expanded(): void
     {
         $f = $this->buildFactory();
         $if = $this->buildInputFactory();
@@ -417,7 +419,7 @@ class FilterTest extends ILIAS_UI_TestBase
         $this->assertTrue($filter1->isExpanded());
     }
 
-    public function test_with_collapsed() : void
+    public function test_with_collapsed(): void
     {
         $f = $this->buildFactory();
         $if = $this->buildInputFactory();

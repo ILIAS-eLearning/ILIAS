@@ -1,7 +1,9 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 
-    
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,7 +19,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 use ILIAS\HTTP\GlobalHttpState;
 use ILIAS\Refinery\Factory;
 
@@ -46,12 +48,12 @@ class ilMembershipMailGUI
         $this->lng = $DIC->language();
     }
 
-    public function getCurrentObject() : ilObjectGUI
+    public function getCurrentObject(): ilObjectGUI
     {
         return $this->object;
     }
 
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         $next_class = $this->ctrl->getNextClass($this);
         $cmd = $this->ctrl->getCmd();
@@ -63,7 +65,7 @@ class ilMembershipMailGUI
         }
     }
 
-    protected function initRecipientsFromPost(string $name) : array
+    protected function initRecipientsFromPost(string $name): array
     {
         if ($this->http->wrapper()->post()->has($name)) {
             return $this->http->wrapper()->post()->retrieve(
@@ -76,7 +78,7 @@ class ilMembershipMailGUI
         return [];
     }
 
-    protected function initMemberIdFromGet() : int
+    protected function initMemberIdFromGet(): int
     {
         if ($this->http->wrapper()->query()->has('member_id')) {
             return $this->http->wrapper()->query()->retrieve(
@@ -87,7 +89,7 @@ class ilMembershipMailGUI
         return 0;
     }
 
-    public function sendMailToSelectedUsers() : void
+    public function sendMailToSelectedUsers(): void
     {
         if ($this->http->wrapper()->query()->has('member_id')) {
             $particpants = [$this->initMemberIdFromGet()];
@@ -125,7 +127,7 @@ class ilMembershipMailGUI
         );
     }
 
-    protected function createMailSignature() : string
+    protected function createMailSignature(): string
     {
         $this->lng->loadLanguageModule($this->getCurrentObject()->getObject()->getType());
 

@@ -24,14 +24,14 @@ class ilHTMLLearningModuleExporter extends ilXmlExporter
 {
     private ilHTMLLearningModuleDataSet $ds;
 
-    public function init() : void
+    public function init(): void
     {
         $this->ds = new ilHTMLLearningModuleDataSet();
         $this->ds->setExportDirectories($this->dir_relative, $this->dir_absolute);
         $this->ds->setDSPrefix("ds");
     }
 
-    public function getXmlExportTailDependencies(string $a_entity, string $a_target_release, array $a_ids) : array
+    public function getXmlExportTailDependencies(string $a_entity, string $a_target_release, array $a_ids): array
     {
         $deps = [];
         $md_ids = [];
@@ -55,13 +55,13 @@ class ilHTMLLearningModuleExporter extends ilXmlExporter
         return $deps;
     }
 
-    public function getXmlRepresentation(string $a_entity, string $a_schema_version, string $a_id) : string
+    public function getXmlRepresentation(string $a_entity, string $a_schema_version, string $a_id): string
     {
         $this->ds->setExportDirectories($this->dir_relative, $this->dir_absolute);
         return $this->ds->getXmlRepresentation($a_entity, $a_schema_version, [$a_id], "", true, true);
     }
 
-    public function getValidSchemaVersions(string $a_entity) : array
+    public function getValidSchemaVersions(string $a_entity): array
     {
         return array(
             "4.1.0" => array(

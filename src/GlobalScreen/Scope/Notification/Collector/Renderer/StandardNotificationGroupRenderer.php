@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -28,12 +30,11 @@ use ILIAS\UI\Component\MainControls\Slate\Notification;
  */
 class StandardNotificationGroupRenderer extends AbstractBaseNotificationRenderer implements NotificationRenderer
 {
-
     /**
      * @param isItem|canHaveSymbol $item
      * @return Notification
      */
-    public function getNotificationComponentForItem(isItem $item) : \ILIAS\UI\Component\Component
+    public function getNotificationComponentForItem(isItem $item): \ILIAS\UI\Component\Component
     {
         if (!$item instanceof StandardNotificationGroup) {
             throw new \LogicException("item is not a StandardNotificationGroup");

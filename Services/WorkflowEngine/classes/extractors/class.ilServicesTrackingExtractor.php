@@ -28,7 +28,7 @@ class ilServicesTrackingExtractor extends ilBaseExtractor
      * @param array  $parameters
      * @return ilExtractedParams
      */
-    public function extract(string $event, array $parameters) : ilExtractedParams
+    public function extract(string $event, array $parameters): ilExtractedParams
     {
         //$this->ilExtractedParams->setSubjectType('tracking'); See below what we do here different from other impl.
 
@@ -44,7 +44,7 @@ class ilServicesTrackingExtractor extends ilBaseExtractor
     /**
      * @param array $parameters
      */
-    protected function extractTracking(array $parameters) : void
+    protected function extractTracking(array $parameters): void
     {
         $this->ilExtractedParams->setSubjectType('tracking_' . $parameters['status']);
         $this->ilExtractedParams->setSubjectId($parameters['obj_id']);

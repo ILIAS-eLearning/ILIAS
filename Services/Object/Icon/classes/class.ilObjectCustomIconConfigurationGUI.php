@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 use ILIAS\DI\Container;
 
 class ilObjectCustomIconConfigurationGUI
@@ -38,12 +40,12 @@ class ilObjectCustomIconConfigurationGUI
         $this->object = $object;
     }
 
-    public function setUploadFieldInformationText(?string $uploadFieldInformationText) : void
+    public function setUploadFieldInformationText(?string $uploadFieldInformationText): void
     {
         $this->uploadFieldInformationText = $uploadFieldInformationText;
     }
 
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         $this->dic->ctrl()->getNextClass($this);
         $cmd = $this->dic->ctrl()->getCmd(self::DEFAULT_CMD);
@@ -59,7 +61,7 @@ class ilObjectCustomIconConfigurationGUI
         }
     }
 
-    protected function showForm(?ilPropertyFormGUI $form = null) : void
+    protected function showForm(?ilPropertyFormGUI $form = null): void
     {
         if (null === $form) {
             $form = $this->getForm();
@@ -68,7 +70,7 @@ class ilObjectCustomIconConfigurationGUI
         $this->dic->ui()->mainTemplate()->setContent($form->getHTML());
     }
 
-    protected function getForm() : ilPropertyFormGUI
+    protected function getForm(): ilPropertyFormGUI
     {
         $this->dic->language()->loadLanguageModule('cntr');
 
@@ -83,7 +85,7 @@ class ilObjectCustomIconConfigurationGUI
         return $form;
     }
 
-    public function addSettingsToForm(ilPropertyFormGUI $form) : void
+    public function addSettingsToForm(ilPropertyFormGUI $form): void
     {
         /** @var ilObjectCustomIconFactory $customIconFactory */
         $customIconFactory = $this->dic['object.customicons.factory'];
@@ -104,7 +106,7 @@ class ilObjectCustomIconConfigurationGUI
         $form->addItem($icon);
     }
 
-    protected function saveForm() : void
+    protected function saveForm(): void
     {
         $form = $this->getForm();
         if ($form->checkInput()) {
@@ -118,7 +120,7 @@ class ilObjectCustomIconConfigurationGUI
         $this->showForm($form);
     }
 
-    public function saveIcon(ilPropertyFormGUI $form) : void
+    public function saveIcon(ilPropertyFormGUI $form): void
     {
         /** @var ilObjectCustomIconFactory $customIconFactory */
         $customIconFactory = $this->dic['object.customicons.factory'];

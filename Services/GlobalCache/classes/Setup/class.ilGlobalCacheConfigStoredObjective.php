@@ -15,7 +15,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 use ILIAS\Setup;
 
 class ilGlobalCacheConfigStoredObjective implements Setup\Objective
@@ -28,29 +28,29 @@ class ilGlobalCacheConfigStoredObjective implements Setup\Objective
         $this->settings = $settings;
     }
 
-    public function getHash() : string
+    public function getHash(): string
     {
         return hash("sha256", self::class);
     }
 
-    public function getLabel() : string
+    public function getLabel(): string
     {
         return "Store configuration of Services/GlobalCache";
     }
 
-    public function isNotable() : bool
+    public function isNotable(): bool
     {
         return false;
     }
 
-    public function getPreconditions(Setup\Environment $environment) : array
+    public function getPreconditions(Setup\Environment $environment): array
     {
         return [
             new ilIniFilesLoadedObjective()
         ];
     }
 
-    public function achieve(Setup\Environment $environment) : Setup\Environment
+    public function achieve(Setup\Environment $environment): Setup\Environment
     {
         $client_ini = $environment->getResource(Setup\Environment::RESOURCE_CLIENT_INI);
         $db = $environment->getResource(Setup\Environment::RESOURCE_DATABASE);
@@ -74,7 +74,7 @@ class ilGlobalCacheConfigStoredObjective implements Setup\Objective
     /**
      * @inheritDoc
      */
-    public function isApplicable(Setup\Environment $environment) : bool
+    public function isApplicable(Setup\Environment $environment): bool
     {
         // The effort to check the whole ini file is too big here.
         return true;

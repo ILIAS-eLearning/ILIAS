@@ -35,7 +35,7 @@ class ilHelpViewLayoutProvider extends AbstractModificationProvider
     use Hasher;
     use ilHelpDisplayed;
 
-    public function isInterestedInContexts() : ContextCollection
+    public function isInterestedInContexts(): ContextCollection
     {
         return $this->context_collection->main();
     }
@@ -45,7 +45,7 @@ class ilHelpViewLayoutProvider extends AbstractModificationProvider
      */
     public function getMainBarModification(
         CalledContexts $screen_context_stack
-    ) : ?MainBarModification {
+    ): ?MainBarModification {
         if (!$this->showHelpTool()) {
             return null;
         }
@@ -57,8 +57,8 @@ class ilHelpViewLayoutProvider extends AbstractModificationProvider
             $tt_text = addslashes(str_replace(array("\n", "\r"), '', $tt_text));
 
             if ($tt_text !== "" && $item instanceof hasSymbol && $item->hasSymbol()) {
-                $item->addSymbolDecorator(static function (Symbol $symbol) use ($tt_text) : Symbol {
-                    return $symbol->withAdditionalOnLoadCode(static function ($id) use ($tt_text) : string {
+                $item->addSymbolDecorator(static function (Symbol $symbol) use ($tt_text): Symbol {
+                    return $symbol->withAdditionalOnLoadCode(static function ($id) use ($tt_text): string {
                         return "il.Tooltip.addToNearest('$id', 'button,a', { context:'', my:'bottom center', at:'top center', text:'$tt_text' });";
                     });
                 });

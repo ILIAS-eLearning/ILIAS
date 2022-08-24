@@ -15,14 +15,14 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 use ILIAS\BackgroundTasks\Implementation\TaskManager\AsyncTaskManager;
 use ILIAS\BackgroundTasks\Persistence;
 
 class ilSoapBackgroundTasksAdministration extends ilSoapAdministration
 {
     public Persistence $persistence;
-    
+
     public function __construct(bool $use_nusoap = true)
     {
         global $DIC;
@@ -37,7 +37,7 @@ class ilSoapBackgroundTasksAdministration extends ilSoapAdministration
     {
         $this->initAuth($sid);
         $this->initIlias();
-        
+
         if (!$this->checkSession($sid)) {
             return $this->raiseError($this->getMessage(), $this->getMessageCode());
         }

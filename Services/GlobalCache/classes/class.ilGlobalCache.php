@@ -15,7 +15,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * Class ilGlobalCache
  * @author  Fabian Schmid <fs@studer-raimann.ch>
@@ -26,67 +26,67 @@ class ilGlobalCache
     /**
      * @var string
      */
-    const MSG = 'Global Cache not active, can not access cache';
+    public const MSG = 'Global Cache not active, can not access cache';
     /**
      * @var bool
      */
-    const ACTIVE = true;
+    public const ACTIVE = true;
     /**
      * @var int
      */
-    const TYPE_STATIC = 0;
+    public const TYPE_STATIC = 0;
     /**
      * @var int
      */
-    const TYPE_MEMCACHED = 2;
+    public const TYPE_MEMCACHED = 2;
     /**
      * @var int
      */
-    const TYPE_APC = 3;
+    public const TYPE_APC = 3;
     /**
      * @var int
      */
-    const TYPE_FALLBACK = self::TYPE_STATIC;
+    public const TYPE_FALLBACK = self::TYPE_STATIC;
     /**
      * @var string
      */
-    const COMP_CLNG = 'clng';
+    public const COMP_CLNG = 'clng';
     /**
      * @var string
      */
-    const COMP_OBJ_DEF = 'obj_def';
+    public const COMP_OBJ_DEF = 'obj_def';
     /**
      * @var string
      */
-    const COMP_TEMPLATE = 'tpl';
+    public const COMP_TEMPLATE = 'tpl';
     /**
      * @var string
      */
-    const COMP_ILCTRL = 'ilctrl';
+    public const COMP_ILCTRL = 'ilctrl';
     /**
      * @var string
      */
-    const COMP_PLUGINS = 'plugins';
+    public const COMP_PLUGINS = 'plugins';
     /**
      * @var string
      */
-    const COMP_RBAC_UA = 'rbac_ua';
+    public const COMP_RBAC_UA = 'rbac_ua';
     /**
      * @var string
      */
-    const COMP_EVENTS = 'events';
+    public const COMP_EVENTS = 'events';
     /**
      * @var string
      */
-    const COMP_TPL_BLOCKS = 'tpl_blocks';
+    public const COMP_TPL_BLOCKS = 'tpl_blocks';
     /**
      * @var string
      */
-    const COMP_TPL_VARIABLES = 'tpl_variables';
+    public const COMP_TPL_VARIABLES = 'tpl_variables';
     /**
      * @var string
      */
-    const COMP_GLOBAL_SCREEN = 'global_screen';
+    public const COMP_GLOBAL_SCREEN = 'global_screen';
     protected static array $types = array(
         self::TYPE_MEMCACHED,
         self::TYPE_APC,
@@ -117,13 +117,13 @@ class ilGlobalCache
     protected int $service_type = ilGlobalCache::TYPE_STATIC;
     protected static ?\ilGlobalCacheSettings $settings = null;
 
-    public static function setup(ilGlobalCacheSettings $ilGlobalCacheSettings) : void
+    public static function setup(ilGlobalCacheSettings $ilGlobalCacheSettings): void
     {
         self::setSettings($ilGlobalCacheSettings);
         self::setActiveComponents($ilGlobalCacheSettings->getActivatedComponents());
     }
 
-    public static function getInstance(?string $component) : \ilGlobalCache
+    public static function getInstance(?string $component): \ilGlobalCache
     {
         if (!isset(self::$instances[$component])) {
             $service_type = self::getSettings()->getService();
@@ -143,7 +143,7 @@ class ilGlobalCache
         $this->setServiceType($service_type);
     }
 
-    protected function initCachingService() : void
+    protected function initCachingService(): void
     {
         /**
          * @var $ilGlobalCacheService ilGlobalCacheService
@@ -159,11 +159,11 @@ class ilGlobalCache
         $this->setActive(in_array($this->getComponent(), self::getActiveComponents()));
     }
 
-    protected function checkSettings() : void
+    protected function checkSettings(): void
     {
     }
 
-    public static function log(string $message, int $log_level) : void
+    public static function log(string $message, int $log_level): void
     {
         if ($log_level <= self::getSettings()->getLogLevel()) {
             global $DIC;
@@ -177,7 +177,7 @@ class ilGlobalCache
         }
     }
 
-    protected static function generateServiceId() : string
+    protected static function generateServiceId(): string
     {
         if (!isset(self::$unique_service_id)) {
             $raw_service_id = '_';
@@ -189,7 +189,7 @@ class ilGlobalCache
         return self::$unique_service_id;
     }
 
-    public static function flushAll() : void
+    public static function flushAll(): void
     {
         self::log('requested...', ilGlobalCacheSettings::LOG_LEVEL_NORMAL);
         /**
@@ -209,7 +209,7 @@ class ilGlobalCache
         }
     }
 
-    public static function getAllInstallableTypes() : array
+    public static function getAllInstallableTypes(): array
     {
         $types = array();
         foreach (self::getAllTypes() as $type) {
@@ -221,7 +221,7 @@ class ilGlobalCache
         return $types;
     }
 
-    public static function getAllTypes(bool $only_available = true) : array
+    public static function getAllTypes(bool $only_available = true): array
     {
         $types = array();
         foreach (self::$types as $type) {
@@ -236,7 +236,7 @@ class ilGlobalCache
         return $types;
     }
 
-    public static function lookupServiceClassName(int $service_type) : string
+    public static function lookupServiceClassName(int $service_type): string
     {
         switch ($service_type) {
             case self::TYPE_APC:
@@ -250,7 +250,7 @@ class ilGlobalCache
 
     protected static array $active_cache = array();
 
-    public function isActive() : bool
+    public function isActive(): bool
     {
         $c = $this->getComponent();
         if (isset(self::$active_cache[$c]) && self::$active_cache[$c] !== null) {
@@ -276,22 +276,22 @@ class ilGlobalCache
         return $isActive;
     }
 
-    public function isValid(string $key) : bool
+    public function isValid(string $key): bool
     {
         return $this->global_cache->isValid($key);
     }
 
-    public function isInstallable() : bool
+    public function isInstallable(): bool
     {
         return count(self::getAllInstallableTypes()) > 0;
     }
 
-    public function isCacheServiceInstallable() : bool
+    public function isCacheServiceInstallable(): bool
     {
         return $this->global_cache->isInstallable();
     }
 
-    public function getInstallationFailureReason() : string
+    public function getInstallationFailureReason(): string
     {
         return $this->global_cache->getInstallationFailureReason();
     }
@@ -299,7 +299,7 @@ class ilGlobalCache
     /**
      * @throws RuntimeException
      */
-    public function exists(string $key) : bool
+    public function exists(string $key): bool
     {
         if (!$this->global_cache->isActive()) {
             return false;
@@ -312,7 +312,7 @@ class ilGlobalCache
      * @param mixed $value
      * @throws RuntimeException
      */
-    public function set(string $key, $value, int $ttl = null) : bool
+    public function set(string $key, $value, int $ttl = null): bool
     {
         if (!$this->isActive()) {
             return false;
@@ -353,7 +353,7 @@ class ilGlobalCache
         return null;
     }
 
-    public function delete(string $key) : bool
+    public function delete(string $key): bool
     {
         if (!$this->isActive()) {
             return false;
@@ -365,7 +365,7 @@ class ilGlobalCache
     /**
      * @throws RuntimeException
      */
-    public function flush(bool $complete = false) : bool
+    public function flush(bool $complete = false): bool
     {
         if ($this->global_cache->isActive()) {
             return $this->global_cache->flush($complete);
@@ -374,67 +374,67 @@ class ilGlobalCache
         return false;
     }
 
-    public function getInfo() : array
+    public function getInfo(): array
     {
         return $this->global_cache->getInfo();
     }
 
-    public function setComponent(string $component) : void
+    public function setComponent(string $component): void
     {
         $this->component = $component;
     }
 
-    public function getComponent() : ?string
+    public function getComponent(): ?string
     {
         return $this->component;
     }
 
-    public function setActive(bool $active) : void
+    public function setActive(bool $active): void
     {
         $this->active = $active;
     }
 
-    public function getActive() : bool
+    public function getActive(): bool
     {
         return $this->active;
     }
 
-    public function setServiceType(int $service_type) : void
+    public function setServiceType(int $service_type): void
     {
         $this->service_type = $service_type;
     }
 
-    public function getServiceType() : int
+    public function getServiceType(): int
     {
         return $this->service_type;
     }
 
-    public static function getSettings() : ilGlobalCacheSettings
+    public static function getSettings(): ilGlobalCacheSettings
     {
         return (self::$settings instanceof ilGlobalCacheSettings ? self::$settings : new ilGlobalCacheSettings());
     }
 
-    public static function setSettings(ilGlobalCacheSettings $settings) : void
+    public static function setSettings(ilGlobalCacheSettings $settings): void
     {
         self::$settings = $settings;
     }
 
-    public static function getActiveComponents() : array
+    public static function getActiveComponents(): array
     {
         return self::$active_components;
     }
 
-    public static function setActiveComponents(array $active_components) : void
+    public static function setActiveComponents(array $active_components): void
     {
         self::$active_components = $active_components;
     }
 
-    public static function getAvailableComponents() : array
+    public static function getAvailableComponents(): array
     {
         return self::$available_components;
     }
 
-    public static function setAvailableComponents(array $available_components) : void
+    public static function setAvailableComponents(array $available_components): void
     {
         self::$available_components = $available_components;
     }

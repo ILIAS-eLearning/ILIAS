@@ -9,7 +9,6 @@
 
 interface ilAssLacCompositeInterface
 {
-
     /**
      * Adds an CompositeInterface object to the node array which represents the condition tree structure
      *
@@ -22,12 +21,12 @@ interface ilAssLacCompositeInterface
      *
      * @return string
      */
-    public function describe() : string;
+    public function describe(): string;
 
     /**
      * Get a human readable description of the Composite element
      *
      * @return string
      */
-    public function getDescription() : string;
+    public function getDescription(): string;
 }

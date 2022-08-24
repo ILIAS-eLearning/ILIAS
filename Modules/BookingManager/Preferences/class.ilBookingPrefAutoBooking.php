@@ -33,7 +33,7 @@ class ilBookingPrefAutoBooking
     /**
      * @throws ilBookingCalculationException
      */
-    public function run() : void
+    public function run(): void
     {
         $service = $this->service;
 

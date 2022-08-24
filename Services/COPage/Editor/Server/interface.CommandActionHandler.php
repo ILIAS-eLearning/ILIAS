@@ -24,5 +24,5 @@ namespace ILIAS\COPage\Editor\Server;
  */
 interface CommandActionHandler
 {
-    public function handle(array $query, array $body) : Response;
+    public function handle(array $query, array $body): Response;
 }

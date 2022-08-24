@@ -1,4 +1,5 @@
 <?php
+
 /* Copyright (c) 1998-2014 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -17,23 +18,23 @@ class ilCounterDetectorTest extends ilWorkflowEngineBaseTest
     private ilEmptyWorkflow $workflow;
     private ilBasicNode $node;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         // Empty workflow.
         require_once './Services/WorkflowEngine/classes/workflows/class.ilEmptyWorkflow.php';
         $this->workflow = new ilEmptyWorkflow();
-        
+
         // Basic node
         require_once './Services/WorkflowEngine/classes/nodes/class.ilBasicNode.php';
         $this->node = new ilBasicNode($this->workflow);
-        
+
         // Wiring up so the node is attached to the workflow.
         $this->workflow->addNode($this->node);
-        
+
         require_once './Services/WorkflowEngine/classes/detectors/class.ilCounterDetector.php';
     }
-    
-    protected function tearDown() : void
+
+    protected function tearDown(): void
     {
         global $DIC;
 
@@ -42,12 +43,12 @@ class ilCounterDetectorTest extends ilWorkflowEngineBaseTest
             $DIC['ilSetting']->delete('IL_PHPUNIT_TEST_MICROTIME');
         }
     }
-    
-    public function testConstructorValidContext() : void
+
+    public function testConstructorValidContext(): void
     {
         // Act
         $detector = new ilCounterDetector($this->node);
-        
+
         // Assert
         // No exception - good
         $this->assertTrue(
@@ -56,35 +57,35 @@ class ilCounterDetectorTest extends ilWorkflowEngineBaseTest
         );
     }
 
-    public function testSetGetExpectedTriggerEvents() : void
+    public function testSetGetExpectedTriggerEvents(): void
     {
         // Arrange
         $detector = new ilCounterDetector($this->node);
         $expected = 4711;
-        
+
         // Act
         $detector->setExpectedTriggerEvents($expected);
         $actual = $detector->getExpectedTriggerEvents();
-        
+
         // Assert
         $this->assertEquals($actual, $expected);
     }
-    
-    public function testSetGetActualTriggerEvents() : void
+
+    public function testSetGetActualTriggerEvents(): void
     {
         // Arrange
         $detector = new ilCounterDetector($this->node);
         $expected = 4711;
-        
+
         // Act
         $detector->setActualTriggerEvents($expected);
         $actual = $detector->getActualTriggerEvents();
-        
+
         // Assert
         $this->assertEquals($actual, $expected);
     }
-    
-    public function testTriggerUnsatisfy() : void
+
+    public function testTriggerUnsatisfy(): void
     {
         // Arrange
         $detector = new ilCounterDetector($this->node);
@@ -93,13 +94,13 @@ class ilCounterDetectorTest extends ilWorkflowEngineBaseTest
 
         // Act
         $detector->trigger(null);
-        
+
         // Assert
         $valid_state = true;
         if ($detector->getActualTriggerEvents() !== 1) {
             $valid_state = false;
         }
-        
+
         if ($detector->getExpectedTriggerEvents() !== $expected) {
             $valid_state = false;
         }
@@ -107,11 +108,11 @@ class ilCounterDetectorTest extends ilWorkflowEngineBaseTest
         if ($detector->getDetectorState()) {
             $valid_state = false;
         }
-        
+
         $this->assertTrue($valid_state, 'Detector state invalid.');
     }
-    
-    public function testTriggerSatisfy() : void
+
+    public function testTriggerSatisfy(): void
     {
         // Arrange
         $detector = new ilCounterDetector($this->node);
@@ -121,14 +122,14 @@ class ilCounterDetectorTest extends ilWorkflowEngineBaseTest
         // Act
         $detector->trigger(null);
         $detector->trigger(null);
-        
+
         // Assert
         $valid_state = true;
-        
+
         if ($detector->getActualTriggerEvents() !== 2) {
             $valid_state = false;
         }
-        
+
         if ($detector->getExpectedTriggerEvents() !== $expected) {
             $valid_state = false;
         }
@@ -136,11 +137,11 @@ class ilCounterDetectorTest extends ilWorkflowEngineBaseTest
         if (!$detector->getDetectorState()) {
             $valid_state = false;
         }
-        
+
         $this->assertTrue($valid_state, 'Detector state invalid.');
     }
 
-    public function testTriggerOversatisfy() : void
+    public function testTriggerOversatisfy(): void
     {
         // Arrange
         $detector = new ilCounterDetector($this->node);
@@ -153,14 +154,14 @@ class ilCounterDetectorTest extends ilWorkflowEngineBaseTest
         $this->assertFalse($detector->trigger(null));
     }
 
-    public function testGetContext() : void
+    public function testGetContext(): void
     {
         // Arrange
         $detector = new ilCounterDetector($this->node);
-        
+
         // Act
         $actual = $detector->getContext();
-        
+
         // Assert
         if ($actual === $this->node) {
             $this->assertEquals($actual, $this->node);

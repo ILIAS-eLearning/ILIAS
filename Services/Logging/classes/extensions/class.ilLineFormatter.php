@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /* Copyright (c) 1998-2014 ILIAS open source, Extended GPL, see docs/LICENSE */
 
@@ -15,7 +17,7 @@ class ilLineFormatter extends LineFormatter
     /**
      * @inheritDoc
      */
-    public function format(array $record) : string
+    public function format(array $record): string
     {
         if (isset($record["extra"]["trace"])) {
             $record["message"] = $record["extra"]["trace"] . " " . $record["message"];

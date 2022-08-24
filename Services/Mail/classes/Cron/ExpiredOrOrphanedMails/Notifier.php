@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -63,7 +65,7 @@ class Notifier
         );
     }
 
-    private function markAsNotified(ReportDto $collection_obj) : void
+    private function markAsNotified(ReportDto $collection_obj): void
     {
         $notify_days_before = 1;
         if ($this->mail_expiration_days > $this->mail_expiration_warning_days) {
@@ -94,7 +96,7 @@ class Notifier
         }
     }
 
-    private function sendMail(ReportDto $collection_obj) : void
+    private function sendMail(ReportDto $collection_obj): void
     {
         $mail = new MailNotification();
         $mail->setRecipients([$collection_obj->getUserId()]);
@@ -102,7 +104,7 @@ class Notifier
         $mail->send();
     }
 
-    public function send() : void
+    public function send(): void
     {
         $i = 0;
         foreach ($this->collector->getCollection() as $collection_obj) {

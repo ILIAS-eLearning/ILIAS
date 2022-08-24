@@ -97,12 +97,12 @@ class SurveyQuestion
             ->editing();
     }
 
-    public function setComplete(bool $a_complete) : void
+    public function setComplete(bool $a_complete): void
     {
         $this->complete = $a_complete;
     }
-    
-    public function isComplete() : bool
+
+    public function isComplete(): bool
     {
         return false;
     }
@@ -110,9 +110,9 @@ class SurveyQuestion
     public function questionTitleExists(
         string $title,
         int $questionpool_object = 0
-    ) : bool {
+    ): bool {
         $ilDB = $this->db;
-        
+
         $refwhere = "";
         if ($questionpool_object > 0) {
             $refwhere = sprintf(
@@ -128,32 +128,32 @@ class SurveyQuestion
         return $result->numRows() > 0;
     }
 
-    public function setTitle(string $title = "") : void
+    public function setTitle(string $title = ""): void
     {
         $this->title = $title;
     }
 
-    public function setObligatory(bool $obligatory = true) : void
+    public function setObligatory(bool $obligatory = true): void
     {
         $this->obligatory = $obligatory;
     }
 
-    public function setOrientation(int $orientation = 0) : void
+    public function setOrientation(int $orientation = 0): void
     {
         $this->orientation = $orientation;
     }
 
-    public function setId(int $id = -1) : void
+    public function setId(int $id = -1): void
     {
         $this->id = $id;
     }
 
-    public function setSurveyId(int $id = -1) : void
+    public function setSurveyId(int $id = -1): void
     {
         $this->survey_id = $id;
     }
 
-    public function setDescription(string $description = "") : void
+    public function setDescription(string $description = ""): void
     {
         $this->description = $description;
     }
@@ -161,7 +161,7 @@ class SurveyQuestion
     public function addMaterials(
         string $materials_file,
         string $materials_name = ""
-    ) : void {
+    ): void {
         if (empty($materials_name)) {
             $materials_name = $materials_file;
         }
@@ -177,7 +177,7 @@ class SurveyQuestion
         string $materials_filename,
         string $materials_tempfilename = "",
         string $materials_name = ""
-    ) : void {
+    ): void {
         if (!empty($materials_filename)) {
             $materialspath = $this->getMaterialsPath();
             if (!file_exists($materialspath)) {
@@ -197,7 +197,7 @@ class SurveyQuestion
 
     public function deleteMaterial(
         string $materials_name = ""
-    ) : void {
+    ): void {
         foreach ($this->materials as $key => $value) {
             if (strcmp($key, $materials_name) === 0) {
                 if (file_exists($this->getMaterialsPath() . $value)) {
@@ -212,12 +212,12 @@ class SurveyQuestion
      * Deletes all materials uris
      * @todo check if unlink is necessary
      */
-    public function flushMaterials() : void
+    public function flushMaterials(): void
     {
         $this->materials = array();
     }
 
-    public function setAuthor(string $author = "") : void
+    public function setAuthor(string $author = ""): void
     {
         $ilUser = $this->user;
 
@@ -227,7 +227,7 @@ class SurveyQuestion
         $this->author = $author;
     }
 
-    public function setQuestiontext(string $questiontext = "") : void
+    public function setQuestiontext(string $questiontext = ""): void
     {
         $this->questiontext = $questiontext;
     }
@@ -235,32 +235,32 @@ class SurveyQuestion
     /**
      * @param int $owner user id of owner
      */
-    public function setOwner(int $owner = 0) : void
+    public function setOwner(int $owner = 0): void
     {
         $this->owner = $owner;
     }
 
-    public function getTitle() : string
+    public function getTitle(): string
     {
         return $this->title;
     }
-    
-    public function getLabel() : string
+
+    public function getLabel(): string
     {
         return $this->label;
     }
 
-    public function getId() : int
+    public function getId(): int
     {
         return $this->id;
     }
 
-    public function getObligatory() : bool
+    public function getObligatory(): bool
     {
         return $this->obligatory;
     }
 
-    public function getSurveyId() : int
+    public function getSurveyId(): int
     {
         return $this->survey_id;
     }
@@ -268,7 +268,7 @@ class SurveyQuestion
     /**
      * @return int 0 = vertical, 1 = horizontal
      */
-    public function getOrientation() : int
+    public function getOrientation(): int
     {
         switch ($this->orientation) {
             case 0:
@@ -283,22 +283,22 @@ class SurveyQuestion
     }
 
 
-    public function getDescription() : string
+    public function getDescription(): string
     {
         return $this->description;
     }
 
-    public function getAuthor() : string
+    public function getAuthor(): string
     {
         return $this->author;
     }
 
-    public function getOwner() : int
+    public function getOwner(): int
     {
         return $this->owner;
     }
 
-    public function getQuestiontext() : string
+    public function getQuestiontext(): string
     {
         return $this->questiontext;
     }
@@ -306,7 +306,7 @@ class SurveyQuestion
     /**
      * Get the reference(?) id of the container object
      */
-    public function getObjId() : int
+    public function getObjId(): int
     {
         return $this->obj_id;
     }
@@ -314,7 +314,7 @@ class SurveyQuestion
     /**
      * Set the reference(?) id of the container object
      */
-    public function setObjId(int $obj_id = 0) : void
+    public function setObjId(int $obj_id = 0): void
     {
         $this->obj_id = $obj_id;
     }
@@ -325,7 +325,7 @@ class SurveyQuestion
         string $author = "",
         int $owner = 0,
         int $a_survey_id = 0
-    ) : ?int {
+    ): ?int {
         if ($this->getId() <= 0) {
             // The question has not been saved. It cannot be duplicated
             return null;
@@ -361,7 +361,7 @@ class SurveyQuestion
     public function copyObject(
         int $target_questionpool,
         string $title = ""
-    ) : ?int {
+    ): ?int {
         if ($this->getId() <= 0) {
             // The question has not been saved. It cannot be copied
             return null;
@@ -374,7 +374,7 @@ class SurveyQuestion
         if ($title) {
             $clone->setTitle($title);
         }
-        
+
         $clone->saveToDb();
 
         // duplicate the materials
@@ -383,27 +383,27 @@ class SurveyQuestion
         $clone->copyXHTMLMediaObjectsOfQuestion($original_id);
         return $clone->getId();
     }
-    
+
     /**
      * Copy media object usages from other question
      */
     public function copyXHTMLMediaObjectsOfQuestion(
         int $a_q_id
-    ) : void {
+    ): void {
         $mobs = ilObjMediaObject::_getMobsOfObject("spl:html", $a_q_id);
         foreach ($mobs as $mob) {
             ilObjMediaObject::_saveUsage($mob, "spl:html", $this->getId());
         }
     }
-    
+
     /**
      * load question data into object
      * note: this base implementation only loads the material data
      */
-    public function loadFromDb(int $question_id) : void
+    public function loadFromDb(int $question_id): void
     {
         $ilDB = $this->db;
-        
+
         $result = $ilDB->queryF(
             "SELECT * FROM svy_material WHERE question_fi = %s",
             array('integer'),
@@ -428,7 +428,7 @@ class SurveyQuestion
     /**
      * Checks whether the question is complete or not
      */
-    public static function _isComplete(int $question_id) : bool
+    public static function _isComplete(int $question_id): bool
     {
         global $DIC;
 
@@ -447,15 +447,15 @@ class SurveyQuestion
         }
         return false;
     }
-    
+
     /**
      * Saves the complete flag to the database
      */
     public function saveCompletionStatus(
         int $original_id = 0
-    ) : void {
+    ): void {
         $ilDB = $this->db;
-        
+
         $question_id = $this->getId();
         if ($original_id > 0) {
             $question_id = $original_id;
@@ -476,10 +476,10 @@ class SurveyQuestion
     /**
      * Saves a SurveyQuestion object to a database
      */
-    public function saveToDb(int $original_id = 0) : int
+    public function saveToDb(int $original_id = 0): int
     {
         $ilDB = $this->db;
-        
+
         // cleanup RTE images which are not inserted into the question text
         ilRTE::_cleanupMediaObjectUsage($this->getQuestiontext(), "spl:html", $this->getId());
         $affectedRows = 0;
@@ -525,11 +525,11 @@ class SurveyQuestion
         }
         return $affectedRows;
     }
-    
-    public function saveMaterial() : void
+
+    public function saveMaterial(): void
     {
         $ilDB = $this->db;
-        
+
         $this->log->debug("DELETE: svy_material question_fi=" . $this->getId());
 
         $affectedRows = $ilDB->manipulateF(
@@ -560,16 +560,16 @@ class SurveyQuestion
             }
         }
     }
-    
+
     /**
      * Creates a new question with a 0 timestamp when a new question is created
      * This assures that an ID is given to the question if a file upload or something else occurs
      * @return int ID of the new question
      */
-    public function createNewQuestion() : int
+    public function createNewQuestion(): int
     {
         $ilDB = $this->db;
-                
+
         $obj_id = $this->getObjId();
         if ($obj_id > 0) {
             $next_id = $ilDB->nextId('svy_question');
@@ -606,7 +606,7 @@ class SurveyQuestion
     /**
      * Returns the image path for web accessible images of a question.
      */
-    public function getImagePath() : string
+    public function getImagePath(): string
     {
         return CLIENT_WEB_DIR . "/survey/$this->obj_id/$this->id/images/";
     }
@@ -614,7 +614,7 @@ class SurveyQuestion
     /**
      * Returns the materials path for web accessible materials of a question.
      */
-    public function getMaterialsPath() : string
+    public function getMaterialsPath(): string
     {
         return CLIENT_WEB_DIR . "/survey/$this->obj_id/$this->id/materials/";
     }
@@ -622,7 +622,7 @@ class SurveyQuestion
     /**
      * Returns the web image path for web accessible images of a question.
      */
-    public function getImagePathWeb() : string
+    public function getImagePathWeb(): string
     {
         $webdir = ilFileUtils::removeTrailingPathSeparators(CLIENT_WEB_DIR) . "/survey/$this->obj_id/$this->id/images/";
         return str_replace(
@@ -635,7 +635,7 @@ class SurveyQuestion
     /**
      * Returns the web image path for web accessable images of a question.
      */
-    public function getMaterialsPathWeb() : string
+    public function getMaterialsPathWeb(): string
     {
         $webdir = ilFileUtils::removeTrailingPathSeparators(CLIENT_WEB_DIR) . "/survey/$this->obj_id/$this->id/materials/";
         return str_replace(
@@ -651,10 +651,10 @@ class SurveyQuestion
     public function saveCategoryToDb(
         string $categorytext,
         int $neutral = 0
-    ) : int {
+    ): int {
         $ilUser = $this->user;
         $ilDB = $this->db;
-        
+
         $result = $ilDB->queryF(
             "SELECT title, category_id FROM svy_category WHERE title = %s AND neutral = %s AND owner_fi = %s",
             array('text','text','integer'),
@@ -689,7 +689,7 @@ class SurveyQuestion
     /**
      * Deletes datasets from the additional question table in the database
      */
-    public function deleteAdditionalTableData(int $question_id) : void
+    public function deleteAdditionalTableData(int $question_id): void
     {
         $ilDB = $this->db;
 
@@ -705,10 +705,10 @@ class SurveyQuestion
     /**
      * Deletes a question and all materials from the database
      */
-    public function delete(int $question_id) : void
+    public function delete(int $question_id): void
     {
         $ilDB = $this->db;
-        
+
         if ($question_id < 1) {
             return;
         }
@@ -724,7 +724,7 @@ class SurveyQuestion
         } else {
             return;
         }
-        
+
         $affectedRows = $ilDB->manipulateF(
             "DELETE FROM svy_answer WHERE question_fi = %s",
             array('integer'),
@@ -749,7 +749,7 @@ class SurveyQuestion
                 array($row->constraint_fi)
             );
         }
-    
+
         $affectedRows = $ilDB->manipulateF(
             "DELETE FROM svy_qst_constraint WHERE question_fi = %s",
             array('integer'),
@@ -777,7 +777,7 @@ class SurveyQuestion
         );
 
         $this->deleteAdditionalTableData($question_id);
-        
+
         $affectedRows = $ilDB->manipulateF(
             "DELETE FROM svy_material WHERE question_fi = %s",
             array('integer'),
@@ -803,7 +803,7 @@ class SurveyQuestion
             $mob_obj = new ilObjMediaObject($mob);
             $mob_obj->delete();
         }
-        
+
         ilSurveySkill::handleQuestionDeletion($question_id, $obj_id);
 
         $this->log->debug("UPDATE svy_question");
@@ -817,7 +817,7 @@ class SurveyQuestion
     /**
      * Returns the question type of a question with a given id
      */
-    public static function _getQuestionType(int $question_id) : string
+    public static function _getQuestionType(int $question_id): string
     {
         global $DIC;
 
@@ -843,7 +843,7 @@ class SurveyQuestion
     /**
      * Returns the question title of a question with a given id
      */
-    public static function _getTitle(int $question_id) : string
+    public static function _getTitle(int $question_id): string
     {
         global $DIC;
 
@@ -867,7 +867,7 @@ class SurveyQuestion
     public static function _getOriginalId(
         int $question_id,
         bool $a_return_question_id_if_no_original = true
-    ) : int {
+    ): int {
         global $DIC;
 
         $ilDB = $DIC->database();
@@ -886,11 +886,11 @@ class SurveyQuestion
         }
         return 0;
     }
-    
-    public function syncWithOriginal() : void
+
+    public function syncWithOriginal(): void
     {
         $ilDB = $this->db;
-        
+
         if ($this->getOriginalId()) {
             $id = $this->getId();
             $original = $this->getOriginalId();
@@ -930,10 +930,10 @@ class SurveyQuestion
     /**
      * Returns a phrase title for phrase id
      */
-    public function getPhrase(int $phrase_id) : string
+    public function getPhrase(int $phrase_id): string
     {
         $ilDB = $this->db;
-        
+
         $result = $ilDB->queryF(
             "SELECT title FROM svy_phrase WHERE phrase_id = %s",
             array('integer'),
@@ -948,11 +948,11 @@ class SurveyQuestion
     /**
      * Returns true if the phrase title already exists for the current user(!)
      */
-    public function phraseExists(string $title) : bool
+    public function phraseExists(string $title): bool
     {
         $ilUser = $this->user;
         $ilDB = $this->db;
-        
+
         $result = $ilDB->queryF(
             "SELECT phrase_id FROM svy_phrase WHERE title = %s AND owner_fi = %s",
             array('text', 'integer'),
@@ -961,7 +961,7 @@ class SurveyQuestion
         return $result->numRows() > 0;
     }
 
-    public static function _questionExists(int $question_id) : bool
+    public static function _questionExists(int $question_id): bool
     {
         global $DIC;
 
@@ -970,7 +970,7 @@ class SurveyQuestion
         if ($question_id < 1) {
             return false;
         }
-        
+
         $result = $ilDB->queryF(
             "SELECT question_id FROM svy_question WHERE question_id = %s",
             array('integer'),
@@ -979,7 +979,7 @@ class SurveyQuestion
         return $result->numRows() === 1;
     }
 
-    public function addInternalLink(string $material_id) : void
+    public function addInternalLink(string $material_id): void
     {
         $material_title = "";
         if ($material_id !== '') {
@@ -1028,11 +1028,11 @@ class SurveyQuestion
             $this->saveMaterial();
         }
     }
-    
+
     /**
      * @param array $a_array Array with indexes of the materials to delete
      */
-    public function deleteMaterials(array $a_array) : void
+    public function deleteMaterials(array $a_array): void
     {
         foreach ($a_array as $idx) {
             unset($this->material[$idx]);
@@ -1046,7 +1046,7 @@ class SurveyQuestion
      * @param int $question_id
      * @throws ilSurveyException
      */
-    public function duplicateMaterials(int $question_id) : void
+    public function duplicateMaterials(int $question_id): void
     {
         foreach ($this->materials as $filename) {
             $materialspath = $this->getMaterialsPath();
@@ -1059,12 +1059,12 @@ class SurveyQuestion
             }
         }
     }
-    
-    public function addMaterial(ilSurveyMaterial $obj_material) : void
+
+    public function addMaterial(ilSurveyMaterial $obj_material): void
     {
         $this->material[] = $obj_material;
     }
-    
+
     /**
      * Sets a material link for the question
      * @param string $material_id An internal link pointing to the material
@@ -1074,7 +1074,7 @@ class SurveyQuestion
         string $material_id = "",
         bool $is_import = false,
         string $material_title = ""
-    ) : void {
+    ): void {
         if (strcmp($material_id, "") !== 0) {
             $import_id = "";
             if ($is_import) {
@@ -1127,10 +1127,10 @@ class SurveyQuestion
         }
         $this->saveMaterial();
     }
-    
+
     public static function _resolveInternalLink(
         string $internal_link
-    ) : string {
+    ): string {
         $resolved_link = "";
         if (preg_match("/il_(\d+)_(\w+)_(\d+)/", $internal_link, $matches)) {
             switch ($matches[2]) {
@@ -1158,10 +1158,10 @@ class SurveyQuestion
         }
         return $resolved_link;
     }
-    
+
     public static function _resolveIntLinks(
         int $question_id
-    ) : void {
+    ): void {
         global $DIC;
 
         $ilDB = $DIC->database();
@@ -1206,11 +1206,11 @@ class SurveyQuestion
             }
         }
     }
-    
+
     public static function _getInternalLinkHref(
         string $target = "",
         int $a_parent_ref_id = null
-    ) : string {
+    ): string {
         $linktypes = array(
             "lm" => "LearningModule",
             "pg" => "PageObject",
@@ -1238,14 +1238,14 @@ class SurveyQuestion
         }
         return $href;
     }
-    
+
     /**
      * is question writeable by a certain user
      */
     public static function _isWriteable(
         int $question_id,
         int $user_id
-    ) : bool {
+    ): bool {
         global $DIC;
 
         $ilDB = $DIC->database();
@@ -1253,7 +1253,7 @@ class SurveyQuestion
         if (($question_id < 1) || ($user_id < 1)) {
             return false;
         }
-        
+
         $result = $ilDB->queryF(
             "SELECT obj_fi FROM svy_question WHERE question_id = %s",
             array('integer'),
@@ -1268,7 +1268,7 @@ class SurveyQuestion
         return false;
     }
 
-    public function getQuestionTypeID() : int
+    public function getQuestionTypeID(): int
     {
         $ilDB = $this->db;
         $result = $ilDB->queryF(
@@ -1284,7 +1284,7 @@ class SurveyQuestion
         return 0;
     }
 
-    public function getQuestionType() : string
+    public function getQuestionType(): string
     {
         return "";
     }
@@ -1296,7 +1296,7 @@ class SurveyQuestion
     public static function _includeClass(
         string $question_type,
         int $gui = 0
-    ) : bool {
+    ): bool {
         $type = $question_type;
         if ($gui === 1) {
             $type .= "GUI";
@@ -1324,7 +1324,7 @@ class SurveyQuestion
      */
     public static function _getQuestionTypeName(
         string $type_tag
-    ) : string {
+    ): string {
         global $DIC;
 
         if (file_exists("./Modules/SurveyQuestionPool/Questions/class." . $type_tag . ".php")) {
@@ -1341,11 +1341,11 @@ class SurveyQuestion
         return "";
     }
 
-    
+
     /**
      * Get question object
      */
-    public static function _instanciateQuestion(int $question_id) : ?SurveyQuestion
+    public static function _instanciateQuestion(int $question_id): ?SurveyQuestion
     {
         $question_type = self::_getQuestionType($question_id);
         if ($question_type) {
@@ -1362,7 +1362,7 @@ class SurveyQuestion
      */
     public static function _instanciateQuestionGUI(
         int $question_id
-    ) : ?SurveyQuestionGUI {
+    ): ?SurveyQuestionGUI {
         $question_type = self::_getQuestionType($question_id);
         if ($question_type) {
             self::_includeClass($question_type, 1);
@@ -1376,7 +1376,7 @@ class SurveyQuestion
     public static function _instanciateQuestionEvaluation(
         int $question_id,
         array $a_finished_ids = null
-    ) : ?SurveyQuestionEvaluation {
+    ): ?SurveyQuestionEvaluation {
         $question = self::_instanciateQuestion($question_id);
         if (is_null($a_finished_ids)) {
             $a_finished_ids = [];
@@ -1394,7 +1394,7 @@ class SurveyQuestion
     /**
      * @todo move to manager
      */
-    public function isHTML(string $a_text) : bool
+    public function isHTML(string $a_text): bool
     {
         if (preg_match("/<[^>]*?>/", $a_text)) {
             return true;
@@ -1402,11 +1402,11 @@ class SurveyQuestion
 
         return false;
     }
-    
+
     /**
      * Reads an QTI material tag an creates a text string
      */
-    public function QTIMaterialToString(ilQTIMaterial $a_material) : string
+    public function QTIMaterialToString(ilQTIMaterial $a_material): string
     {
         $svy_log = ilLoggerFactory::getLogger("svy");
         $svy_log->debug("material count: " . $a_material->getMaterialCount());
@@ -1430,7 +1430,7 @@ class SurveyQuestion
         }
         return $result;
     }
-    
+
     /**
      * Creates an XML material tag from a plain text or xhtml text
      */
@@ -1440,7 +1440,7 @@ class SurveyQuestion
         bool $close_material_tag = true,
         bool $add_mobs = true,
         ?array $a_attrs = null
-    ) : void {
+    ): void {
         $a_xml_writer->xmlStartTag("material");
         $attrs = array(
             "type" => "text/plain"
@@ -1477,14 +1477,14 @@ class SurveyQuestion
     public function prepareTextareaOutput(
         string $txt_output,
         bool $prepare_for_latex_output = false
-    ) : string {
+    ): string {
         return ilLegacyFormElementsUtil::prepareTextareaOutput($txt_output, $prepare_for_latex_output);
     }
 
     /**
      * Returns the question data
      */
-    public function getQuestionDataArray(int $id) : array
+    public function getQuestionDataArray(int $id): array
     {
         return array();
     }
@@ -1493,27 +1493,27 @@ class SurveyQuestion
      * Creates the user data of the svy_answer table from the POST data
      * @return array User data according to the svy_answer table
      */
-    public function getWorkingDataFromUserInput(array $post_data) : array
+    public function getWorkingDataFromUserInput(array $post_data): array
     {
         // overwrite in inherited classes
         $data = array();
         return $data;
     }
-    
+
     /**
      * Import additional meta data from the question import file. Usually
      * the meta data section is used to store question elements which are not
      * part of the standard XML schema.
      */
-    public function importAdditionalMetadata(array $a_meta) : void
+    public function importAdditionalMetadata(array $a_meta): void
     {
         // overwrite in inherited classes
     }
-    
+
     /**
      * Import response data from the question import file
      */
-    public function importResponses(array $a_data) : void
+    public function importResponses(array $a_data): void
     {
         // overwrite in inherited classes
     }
@@ -1521,7 +1521,7 @@ class SurveyQuestion
     /**
      * Import bipolar adjectives from the question import file
      */
-    public function importAdjectives(array $a_data) : void
+    public function importAdjectives(array $a_data): void
     {
         // overwrite in inherited classes
     }
@@ -1529,7 +1529,7 @@ class SurveyQuestion
     /**
      * Import matrix rows from the question import file
      */
-    public function importMatrix(array $a_data) : void
+    public function importMatrix(array $a_data): void
     {
         // overwrite in inherited classes
     }
@@ -1537,7 +1537,7 @@ class SurveyQuestion
     /**
      * Returns if the question is usable for preconditions
      */
-    public function usableForPrecondition() : bool
+    public function usableForPrecondition(): bool
     {
         // overwrite in inherited classes
         return false;
@@ -1546,7 +1546,7 @@ class SurveyQuestion
     /**
      * Returns the available relations for the question
      */
-    public function getAvailableRelations() : array
+    public function getAvailableRelations(): array
     {
         // overwrite in inherited classes
         return array();
@@ -1555,18 +1555,18 @@ class SurveyQuestion
     /**
      * Returns the options for preconditions
      */
-    public function getPreconditionOptions() : array
+    public function getPreconditionOptions(): array
     {
         // overwrite in inherited classes
         return [];
     }
-    
+
     /**
      * Returns the output for a precondition value
      * @param string $value The precondition value
      * @return string The output of the precondition value
      */
-    public function getPreconditionValueOutput(string $value) : string
+    public function getPreconditionValueOutput(string $value): string
     {
         // overwrite in inherited classes
         return $value;
@@ -1579,38 +1579,38 @@ class SurveyQuestion
         string $default,
         string $title,
         string $variable
-    ) : ?ilFormPropertyGUI {
+    ): ?ilFormPropertyGUI {
         // overwrite in inherited classes
         return null;
     }
 
-    public function setOriginalId(?int $original_id) : void
+    public function setOriginalId(?int $original_id): void
     {
         $this->original_id = $original_id;
     }
-    
-    public function getOriginalId() : ?int
+
+    public function getOriginalId(): ?int
     {
         return $this->original_id;
     }
-    
-    public function getMaterial() : array
+
+    public function getMaterial(): array
     {
         return $this->material;
     }
-    
-    public function setSubtype(int $a_subtype) : void
+
+    public function setSubtype(int $a_subtype): void
     {
         // do nothing
     }
 
-    public function getSubtype() : ?int
+    public function getSubtype(): ?int
     {
         // do nothing
         return null;
     }
 
-    public function __get(string $value) : ?string
+    public function __get(string $value): ?string
     {
         switch ($value) {
             default:
@@ -1622,7 +1622,7 @@ class SurveyQuestion
         }
     }
 
-    public function __set(string $key, string $value) : void
+    public function __set(string $key, string $value): void
     {
         switch ($key) {
             default:
@@ -1638,7 +1638,7 @@ class SurveyQuestion
         int $a_question_id,
         int $a_original_id,
         int $a_object_id
-    ) : void {
+    ): void {
         global $DIC;
 
         $ilDB = $DIC->database();
@@ -1648,12 +1648,12 @@ class SurveyQuestion
             " obj_fi = " . $ilDB->quote($a_object_id, "integer") .
             " WHERE question_id = " . $ilDB->quote($a_question_id, "integer"));
     }
-    
+
     public function getCopyIds(
         bool $a_group_by_survey = false
-    ) : array {
+    ): array {
         $ilDB = $this->db;
-        
+
         $set = $ilDB->query("SELECT q.question_id,s.obj_fi" .
             " FROM svy_question q" .
             " JOIN svy_svy_qst sq ON (sq.question_fi = q.question_id)" .
@@ -1669,19 +1669,19 @@ class SurveyQuestion
         }
         return $res;
     }
-    
-    public function hasCopies() : bool
+
+    public function hasCopies(): bool
     {
         return (bool) count($this->getCopyIds());
     }
-    
+
     public static function _lookupSurveyObjId(
         int $a_question_id
-    ) : ?int {
+    ): ?int {
         global $DIC;
 
         $ilDB = $DIC->database();
-        
+
         $set = $ilDB->query("SELECT svy_svy.obj_fi FROM svy_svy_qst" .
             " JOIN svy_svy ON (svy_svy.survey_id = svy_svy_qst.survey_fi)" .
             " WHERE svy_svy_qst.question_fi = " . $ilDB->quote($a_question_id, "integer"));
@@ -1694,7 +1694,7 @@ class SurveyQuestion
 
     public static function lookupObjFi(
         int $a_qid
-    ) : ?int {
+    ): ?int {
         global $DIC;
 
         $ilDB = $DIC->database();
@@ -1713,7 +1713,7 @@ class SurveyQuestion
      * Strip slashes with add space fallback, see https://mantis.ilias.de/view.php?id=19727
      *                                        and https://mantis.ilias.de/view.php?id=24200
      */
-    public function stripSlashesAddSpaceFallback(string $a_str) : string
+    public function stripSlashesAddSpaceFallback(string $a_str): string
     {
         $str = ilUtil::stripSlashes($a_str);
         if ($str !== $a_str) {
@@ -1725,7 +1725,7 @@ class SurveyQuestion
     /**
      * Get max sum score for specific survey (and this question type)
      */
-    public static function getMaxSumScore(int $survey_id) : int
+    public static function getMaxSumScore(int $survey_id): int
     {
         return 0;
     }

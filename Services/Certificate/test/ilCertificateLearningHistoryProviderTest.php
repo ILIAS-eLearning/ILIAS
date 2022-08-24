@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -18,7 +20,7 @@
 
 class ilCertificateLearningHistoryProviderTest extends ilCertificateBaseTestCase
 {
-    public function testIsActive() : void
+    public function testIsActive(): void
     {
         $learningHistoryFactory = $this->getMockBuilder(ilLearningHistoryFactory::class)
             ->disableOriginalConstructor()
@@ -75,7 +77,7 @@ class ilCertificateLearningHistoryProviderTest extends ilCertificateBaseTestCase
         $this->assertTrue($provider->isActive());
     }
 
-    public function testGetEntries() : void
+    public function testGetEntries(): void
     {
         $learningHistoryFactory = $this->getMockBuilder(ilLearningHistoryFactory::class)
             ->disableOriginalConstructor()
@@ -256,7 +258,7 @@ class ilCertificateLearningHistoryProviderTest extends ilCertificateBaseTestCase
         $this->assertEquals($expectedEntries, $actualEntries);
     }
 
-    public function testGetName() : void
+    public function testGetName(): void
     {
         $learningHistoryFactory = $this->getMockBuilder(ilLearningHistoryFactory::class)
             ->disableOriginalConstructor()

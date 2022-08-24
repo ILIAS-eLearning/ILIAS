@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\UI\Implementation\Component\Dropzone\File;
 
 use ILIAS\UI\Implementation\Component\Input\UploadLimitResolver;
@@ -59,7 +61,7 @@ class Wrapper extends File implements WrapperInterface
         $this->components = $content;
     }
 
-    public function getContent() : array
+    public function getContent(): array
     {
         return $this->components;
     }
@@ -68,7 +70,7 @@ class Wrapper extends File implements WrapperInterface
      * Checks if the passed array contains at least one element, throws a LogicException otherwise.
      * @throws LogicException if the passed in argument counts 0
      */
-    private function checkEmptyArray(array $array) : void
+    private function checkEmptyArray(array $array): void
     {
         if (count($array) === 0) {
             throw new LogicException("At least one component from the UI framework is required, otherwise

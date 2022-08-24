@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -24,7 +26,7 @@ use ILIAS\Tests\Refinery\TestCase;
 
 class GroupTest extends TestCase
 {
-    public function testStringTransformationInstance() : void
+    public function testStringTransformationInstance(): void
     {
         $group = new URIGroup();
         $transformation = $group->toString();

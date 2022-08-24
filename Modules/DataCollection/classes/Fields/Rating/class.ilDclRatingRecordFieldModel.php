@@ -37,15 +37,14 @@ class ilDclRatingRecordFieldModel extends ilDclBaseRecordFieldModel
         $this->dcl_obj_id = $dclTable->getCollectionObject()->getId();
     }
 
-    public function addHiddenItemsToConfirmation(ilConfirmationGUI $confirmation) : void
+    public function addHiddenItemsToConfirmation(ilConfirmationGUI $confirmation): void
     {
-
     }
 
     /**
      * override the loadValue.
      */
-    protected function loadValue() : void
+    protected function loadValue(): void
     {
         // explicitly do nothing. we don't have to load the value as it is saved somewhere else.
     }
@@ -55,17 +54,17 @@ class ilDclRatingRecordFieldModel extends ilDclBaseRecordFieldModel
      * @param mixed $value
      * @param bool  $omit_parsing If true, does not parse the value and stores it in the given format
      */
-    public function setValue($value, bool $omit_parsing = false) : void
+    public function setValue($value, bool $omit_parsing = false): void
     {
         // explicitly do nothing. the value is handled via the model and gui of ilRating.
     }
 
-    public function doUpdate() : void
+    public function doUpdate(): void
     {
         // explicitly do nothing. the value is handled via the model and gui of ilRating.
     }
 
-    protected function doRead() : void
+    protected function doRead(): void
     {
         // explicitly do nothing. the value is handled via the model and gui of ilRating.
     }
@@ -74,10 +73,14 @@ class ilDclRatingRecordFieldModel extends ilDclBaseRecordFieldModel
      * return Export values
      * @return string
      */
-    public function getExportValue() : string
+    public function getExportValue(): string
     {
-        $val = ilRating::getOverallRatingForObject($this->getRecord()->getId(), "dcl_record",
-            $this->getField()->getId(), "dcl_field");
+        $val = ilRating::getOverallRatingForObject(
+            $this->getRecord()->getId(),
+            "dcl_record",
+            $this->getField()->getId(),
+            "dcl_field"
+        );
 
         return round($val["avg"], 1) . " (" . $val["cnt"] . ")";
     }
@@ -85,16 +88,20 @@ class ilDclRatingRecordFieldModel extends ilDclBaseRecordFieldModel
     /**
      * @return array
      */
-    public function getValue() : array
+    public function getValue(): array
     {
-        return ilRating::getOverallRatingForObject($this->getRecord()->getId(), "dcl_record",
-            $this->getField()->getId(), "dcl_field");
+        return ilRating::getOverallRatingForObject(
+            $this->getRecord()->getId(),
+            "dcl_record",
+            $this->getField()->getId(),
+            "dcl_field"
+        );
     }
 
     /**
      * delete
      */
-    public function delete() : void
+    public function delete(): void
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];

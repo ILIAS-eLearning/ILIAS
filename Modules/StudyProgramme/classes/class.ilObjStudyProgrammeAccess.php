@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -25,7 +27,7 @@
  */
 class ilObjStudyProgrammeAccess extends ilObjectAccess implements ilConditionHandling
 {
-    public function _checkAccess(string $cmd, string $permission, int $ref_id, int $obj_id, ?int $user_id = null) : bool
+    public function _checkAccess(string $cmd, string $permission, int $ref_id, int $obj_id, ?int $user_id = null): bool
     {
         if ($user_id === 0 || $user_id === null) {
             global $DIC;
@@ -54,7 +56,7 @@ class ilObjStudyProgrammeAccess extends ilObjectAccess implements ilConditionHan
      *        array('permission' => 'write', 'cmd' => 'edit', 'lang_var' => 'edit'),
      *    );
      */
-    public static function _getCommands() : array
+    public static function _getCommands(): array
     {
         $commands = [];
         $commands[] = ['permission' => 'read', 'cmd' => 'view', 'lang_var' => 'show', 'default' => true];
@@ -67,7 +69,7 @@ class ilObjStudyProgrammeAccess extends ilObjectAccess implements ilConditionHan
     /**
      * check whether goto script will succeed
      */
-    public static function _checkGoto(string $target) : bool
+    public static function _checkGoto(string $target): bool
     {
         global $DIC;
         $ilAccess = $DIC->access();
@@ -82,7 +84,7 @@ class ilObjStudyProgrammeAccess extends ilObjectAccess implements ilConditionHan
     /**
      * Get operators
      */
-    public static function getConditionOperators() : array
+    public static function getConditionOperators(): array
     {
         return array(
             ilConditionHandler::OPERATOR_ACCREDITED_OR_PASSED
@@ -101,7 +103,7 @@ class ilObjStudyProgrammeAccess extends ilObjectAccess implements ilConditionHan
         string $a_operator,
         string $a_value,
         int $a_usr_id
-    ) : bool {
+    ): bool {
         if ($a_operator === ilConditionHandler::OPERATOR_ACCREDITED_OR_PASSED) {
             $valid_progress = array(
                 ilStudyProgrammeProgress::STATUS_COMPLETED,

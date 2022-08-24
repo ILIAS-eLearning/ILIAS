@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -42,7 +44,7 @@ class ilAdvancedMDValueParser implements ilSaxSubsetParser
     /**
      * Set object id (id of new created object)
      */
-    public function setObjId(int $a_obj_id) : void
+    public function setObjId(int $a_obj_id): void
     {
         $this->obj_id = $a_obj_id;
     }
@@ -51,7 +53,7 @@ class ilAdvancedMDValueParser implements ilSaxSubsetParser
      * Save values
      * @access public
      */
-    public function save() : bool
+    public function save(): bool
     {
         foreach ($this->values_records as $values_record) {
             $values_record->write();
@@ -66,7 +68,7 @@ class ilAdvancedMDValueParser implements ilSaxSubsetParser
      * @param string   $a_name       element name
      * @param array    $a_attribs    element attributes array
      */
-    public function handlerBeginTag($a_xml_parser, string $a_name, array $a_attribs) : void
+    public function handlerBeginTag($a_xml_parser, string $a_name, array $a_attribs): void
     {
         switch ($a_name) {
             case 'AdvancedMetaData':
@@ -93,7 +95,7 @@ class ilAdvancedMDValueParser implements ilSaxSubsetParser
      * @param resource $a_xml_parser xml parser
      * @param string   $a_name       element name
      */
-    public function handlerEndTag($a_xml_parser, string $a_name) : void
+    public function handlerEndTag($a_xml_parser, string $a_name): void
     {
         switch ($a_name) {
             case 'AdvancedMetaData':
@@ -115,7 +117,7 @@ class ilAdvancedMDValueParser implements ilSaxSubsetParser
      * @param resource $a_xml_parser xml parser
      * @param string   $a_data       character data
      */
-    public function handlerCharacterData($a_xml_parser, string $a_data) : void
+    public function handlerCharacterData($a_xml_parser, string $a_data): void
     {
         if ($a_data != "\n") {
             // Replace multiple tabs with one space
@@ -128,7 +130,7 @@ class ilAdvancedMDValueParser implements ilSaxSubsetParser
     /**
      * init new value object
      */
-    private function initValue(string $a_import_id) : void
+    private function initValue(string $a_import_id): void
     {
         if (isset($this->values[$a_import_id])) {
             $this->current_value = $this->values[$a_import_id];

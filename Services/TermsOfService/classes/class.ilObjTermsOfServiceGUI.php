@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -45,12 +47,12 @@ class ilObjTermsOfServiceGUI extends ilObject2GUI implements ilTermsOfServiceCon
         $this->lng->loadLanguageModule('meta');
     }
 
-    public function getType() : string
+    public function getType(): string
     {
         return 'tos';
     }
 
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         $this->prepareOutput();
 
@@ -121,7 +123,7 @@ class ilObjTermsOfServiceGUI extends ilObject2GUI implements ilTermsOfServiceCon
         }
     }
 
-    public function getAdminTabs() : void
+    public function getAdminTabs(): void
     {
         if ($this->rbac_system->checkAccess('read', $this->object->getRefId())) {
             $this->tabs_gui->addTarget(
@@ -163,7 +165,7 @@ class ilObjTermsOfServiceGUI extends ilObject2GUI implements ilTermsOfServiceCon
         }
     }
 
-    protected function getSettingsForm() : ilTermsOfServiceSettingsFormGUI
+    protected function getSettingsForm(): ilTermsOfServiceSettingsFormGUI
     {
         /** @var ilObjTermsOfService $obj */
         $obj = $this->object;
@@ -183,7 +185,7 @@ class ilObjTermsOfServiceGUI extends ilObject2GUI implements ilTermsOfServiceCon
         return $form;
     }
 
-    protected function saveSettings() : void
+    protected function saveSettings(): void
     {
         if (!$this->rbac_system->checkAccess('write', $this->object->getRefId())) {
             $this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
@@ -200,7 +202,7 @@ class ilObjTermsOfServiceGUI extends ilObject2GUI implements ilTermsOfServiceCon
         $this->tpl->setContent($form->getHTML());
     }
 
-    protected function showMissingDocuments() : void
+    protected function showMissingDocuments(): void
     {
         if ($this->object->getStatus()) {
             return;
@@ -211,7 +213,7 @@ class ilObjTermsOfServiceGUI extends ilObject2GUI implements ilTermsOfServiceCon
         }
     }
 
-    protected function settings() : void
+    protected function settings(): void
     {
         if (!$this->rbac_system->checkAccess('read', $this->object->getRefId())) {
             $this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);

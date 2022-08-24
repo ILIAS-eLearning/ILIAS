@@ -35,18 +35,18 @@ class ilLMGSToolProvider extends AbstractDynamicToolProvider
     public const LM_QUERY_PARAMS = 'lm_query_params';
     public const LM_OFFLINE = 'lm_offline';
 
-    public function isInterestedInContexts() : ContextCollection
+    public function isInterestedInContexts(): ContextCollection
     {
         return $this->context_collection->main()->repository();
     }
 
     public function getToolsForContextStack(
         CalledContexts $called_contexts
-    ) : array {
+    ): array {
         global $DIC;
         $lng = $DIC->language();
         $access = $DIC->access();
-        
+
         $lng->loadLanguageModule("content");
 
         $tools = [];
@@ -74,7 +74,7 @@ class ilLMGSToolProvider extends AbstractDynamicToolProvider
             $identification = $iff("lm_glossary");
             $hashed = $this->hash($identification->serialize());
             $tools[] = $this->factory->tool($identification)
-                ->addComponentDecorator(static function (ILIAS\UI\Component\Component $c) use ($hashed) : ILIAS\UI\Component\Component {
+                ->addComponentDecorator(static function (ILIAS\UI\Component\Component $c) use ($hashed): ILIAS\UI\Component\Component {
                     if ($c instanceof LegacySlate) {
                         $signal_id = $c->getToggleSignal()->getId();
                         return $c->withAdditionalOnLoadCode(static function ($id) use ($hashed) {
@@ -99,7 +99,7 @@ class ilLMGSToolProvider extends AbstractDynamicToolProvider
             $identification = $iff("lm_media");
             $hashed = $this->hash($identification->serialize());
             $tools[] = $this->factory->tool($identification)
-                ->addComponentDecorator(static function (ILIAS\UI\Component\Component $c) use ($hashed) : ILIAS\UI\Component\Component {
+                ->addComponentDecorator(static function (ILIAS\UI\Component\Component $c) use ($hashed): ILIAS\UI\Component\Component {
                     if ($c instanceof LegacySlate) {
                         $signal_id = $c->getToggleSignal()->getId();
                         return $c->withAdditionalOnLoadCode(static function ($id) use ($hashed) {
@@ -124,7 +124,7 @@ class ilLMGSToolProvider extends AbstractDynamicToolProvider
             $identification = $iff("lm_faq");
             $hashed = $this->hash($identification->serialize());
             $tools[] = $this->factory->tool($identification)
-                ->addComponentDecorator(static function (ILIAS\UI\Component\Component $c) use ($hashed) : ILIAS\UI\Component\Component {
+                ->addComponentDecorator(static function (ILIAS\UI\Component\Component $c) use ($hashed): ILIAS\UI\Component\Component {
                     if ($c instanceof LegacySlate) {
                         $signal_id = $c->getToggleSignal()->getId();
                         return $c->withAdditionalOnLoadCode(static function ($id) use ($hashed) {
@@ -147,7 +147,7 @@ class ilLMGSToolProvider extends AbstractDynamicToolProvider
         return $tools;
     }
 
-    public function getOfflineToolIds() : array
+    public function getOfflineToolIds(): array
     {
         $iff = function ($id) {
             return $this->identification_provider->contextAwareIdentifier($id);
@@ -162,7 +162,7 @@ class ilLMGSToolProvider extends AbstractDynamicToolProvider
 
     public function getTocTool(
         Collection $additional_data
-    ) : Tool {
+    ): Tool {
         global $DIC;
 
         $lng = $DIC->language();
@@ -186,7 +186,7 @@ class ilLMGSToolProvider extends AbstractDynamicToolProvider
     }
 
 
-    private function getToc(Collection $additional_data) : string
+    private function getToc(Collection $additional_data): string
     {
         global $DIC;
 
@@ -210,7 +210,7 @@ class ilLMGSToolProvider extends AbstractDynamicToolProvider
         //}
     }
 
-    protected function getLinkSlateContent(string $type) : string
+    protected function getLinkSlateContent(string $type): string
     {
         return "<div style='height:100%; overflow:hidden;' id='" . $type . "_area'><iframe style='border:0; padding:0; height:100%; width:100%'></iframe></div>";
     }

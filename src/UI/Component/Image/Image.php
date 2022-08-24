@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\UI\Component\Image;
 
 use ILIAS\UI\Component\JavaScriptBindable;
@@ -40,34 +42,34 @@ interface Image extends Component, JavaScriptBindable, Clickable
     /**
      * Set the source (path) of the image. The complete path to the image has to be provided.
      */
-    public function withSource(string $source) : Image;
+    public function withSource(string $source): Image;
 
     /**
      * Get the source (path) of the image.
      */
-    public function getSource() : string;
+    public function getSource(): string;
 
     /**
      * Get the type of the image
      */
-    public function getType() : string;
+    public function getType(): string;
 
     /**
      * Set the alternative text for screen readers.
      */
-    public function withAlt(string $alt) : Image;
+    public function withAlt(string $alt): Image;
 
 
     /**
      * Get the alternative text for screen readers.
      */
-    public function getAlt() : string;
+    public function getAlt(): string;
 
     /**
      * Get an image like this with an action
      * @param string|Signal[] $action
      */
-    public function withAction($action) : Image;
+    public function withAction($action): Image;
 
     /**
      * Get the action of the image

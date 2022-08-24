@@ -27,7 +27,7 @@ class ilSkillAppEventListener implements ilAppEventListener
     /**
      * @inheritDoc
      */
-    public static function handleEvent(string $a_component, string $a_event, array $a_parameter) : void
+    public static function handleEvent(string $a_component, string $a_event, array $a_parameter): void
     {
         global $DIC;
 

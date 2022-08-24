@@ -1,4 +1,6 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -41,7 +43,7 @@ class InternalDomainService
         $this->initDomainServices($DIC);
     }
 
-    public function noteAccess() : AccessManager
+    public function noteAccess(): AccessManager
     {
         return new AccessManager(
             $this->data_service,
@@ -50,7 +52,7 @@ class InternalDomainService
         );
     }
 
-    public function notes() : NotesManager
+    public function notes(): NotesManager
     {
         return new NotesManager(
             $this->data_service,
@@ -59,7 +61,7 @@ class InternalDomainService
         );
     }
 
-    public function notification() : NotificationsManager
+    public function notification(): NotificationsManager
     {
         return new NotificationsManager(
             $this->data_service,

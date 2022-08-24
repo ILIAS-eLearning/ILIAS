@@ -41,7 +41,7 @@ class ilWikiPageTemplate
 
     public function getAllInfo(
         int $a_type = self::TYPE_ALL
-    ) : array {
+    ): array {
         $and = "";
         if ($a_type === self::TYPE_NEW_PAGES) {
             $and = " AND t.new_pages = " . $this->db->quote(1, "integer");
@@ -71,7 +71,7 @@ class ilWikiPageTemplate
         int $a_id,
         int $a_new_pages = 0,
         int $a_add_to_page = 0
-    ) : void {
+    ): void {
         if ($a_id <= 0) {
             return;
         }
@@ -106,18 +106,18 @@ class ilWikiPageTemplate
      */
     public function remove(
         int $a_id
-    ) : void {
+    ): void {
         $this->db->manipulate(
             "DELETE FROM wiki_page_template WHERE " .
             " wiki_id = " . $this->db->quote($this->wiki_id, "integer") .
             " AND wpage_id = " . $this->db->quote($a_id, "integer")
         );
     }
-    
+
     /**
      * Is page set as template?
      */
-    public function isPageTemplate(int $a_id) : bool
+    public function isPageTemplate(int $a_id): bool
     {
         $set = $this->db->query("SELECT t.wpage_id" .
             " FROM wiki_page_template t" .

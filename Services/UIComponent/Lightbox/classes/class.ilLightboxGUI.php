@@ -27,7 +27,7 @@ class ilLightboxGUI
     protected ilGlobalTemplateInterface $tpl;
     protected string $id = "";
     protected string $width;
-    
+
     public function __construct(string $a_id)
     {
         global $DIC;
@@ -36,35 +36,35 @@ class ilLightboxGUI
         $this->setId($a_id);
     }
 
-    public function setId(string $a_val) : void
+    public function setId(string $a_val): void
     {
         $this->id = $a_val;
     }
 
-    public function getId() : string
+    public function getId(): string
     {
         return $this->id;
     }
-    
-    public function setWidth(string $a_val) : void
+
+    public function setWidth(string $a_val): void
     {
         $this->width = $a_val;
     }
 
-    public function getWidth() : string
+    public function getWidth(): string
     {
         return $this->width;
     }
-    
-    public static function getLocalLightboxJsPath() : string
+
+    public static function getLocalLightboxJsPath(): string
     {
         return "./Services/UIComponent/Lightbox/js/Lightbox.js";
     }
 
-    public function addLightbox(\ilGlobalTemplateInterface $a_tpl = null) : void
+    public function addLightbox(\ilGlobalTemplateInterface $a_tpl = null): void
     {
         $tpl = $this->tpl;
-        
+
         if ($a_tpl === null) {
             $a_tpl = $tpl;
         }
@@ -72,8 +72,8 @@ class ilLightboxGUI
         $a_tpl->addJavaScript(self::getLocalLightboxJsPath());
         $a_tpl->addLightbox($this->getHTML(), $this->getId());
     }
-    
-    public function getHTML() : string
+
+    public function getHTML(): string
     {
         $tpl = new ilTemplate("tpl.lightbox.html", true, true, "Services/UIComponent/Lightbox");
         $tpl->setVariable("LIGHTBOX_CONTENT", "");

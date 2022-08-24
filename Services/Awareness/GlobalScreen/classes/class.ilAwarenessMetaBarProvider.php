@@ -29,17 +29,17 @@ use ILIAS\UI\Implementation\Component\Link\Bulky as BulkyLink;
  */
 class ilAwarenessMetaBarProvider extends AbstractStaticMetaBarProvider
 {
-    private function getId() : IdentificationInterface
+    private function getId(): IdentificationInterface
     {
         return $this->if->identifier('awareness');
     }
-    
-    public function getAllIdentifications() : array
+
+    public function getAllIdentifications(): array
     {
         return [$this->getId()];
     }
 
-    public function getMetaBarItems() : array
+    public function getMetaBarItems(): array
     {
         $ilUser = $this->dic->user();
         $ref_id = $this->dic->awareness()
@@ -78,9 +78,9 @@ class ilAwarenessMetaBarProvider extends AbstractStaticMetaBarProvider
 
         $item = $mb
             ->topLegacyItem($this->getId())
-            ->addComponentDecorator(static function (ILIAS\UI\Component\Component $c) : ILIAS\UI\Component\Component {
+            ->addComponentDecorator(static function (ILIAS\UI\Component\Component $c): ILIAS\UI\Component\Component {
                 if ($c instanceof BulkyButton || $c instanceof BulkyLink) {
-                    return $c->withAdditionalOnLoadCode(static function (string $id) : string {
+                    return $c->withAdditionalOnLoadCode(static function (string $id): string {
                         return "$('#$id').on('click', function() {
                                     console.log('trigger awareness slate');
                                 })";

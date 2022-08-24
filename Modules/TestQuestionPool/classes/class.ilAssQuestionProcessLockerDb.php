@@ -1,4 +1,5 @@
 <?php
+
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionProcessLocker.php';
@@ -34,12 +35,12 @@ class ilAssQuestionProcessLockerDb extends ilAssQuestionProcessLocker
         $this->db = $db;
     }
 
-    public function isAssessmentLogEnabled() : bool
+    public function isAssessmentLogEnabled(): bool
     {
         return $this->assessmentLogEnabled;
     }
 
-    public function setAssessmentLogEnabled($assessmentLogEnabled) : void
+    public function setAssessmentLogEnabled($assessmentLogEnabled): void
     {
         $this->assessmentLogEnabled = $assessmentLogEnabled;
     }
@@ -47,7 +48,7 @@ class ilAssQuestionProcessLockerDb extends ilAssQuestionProcessLocker
     /**
      * @return array
      */
-    private function getTablesUsedDuringAssessmentLog() : array
+    private function getTablesUsedDuringAssessmentLog(): array
     {
         return array(
             array('name' => 'qpl_questions', 'sequence' => false),
@@ -60,7 +61,7 @@ class ilAssQuestionProcessLockerDb extends ilAssQuestionProcessLocker
     /**
      * @return array
      */
-    private function getTablesUsedDuringSolutionUpdate() : array
+    private function getTablesUsedDuringSolutionUpdate(): array
     {
         return array(
             array('name' => 'tst_solutions', 'sequence' => true)
@@ -70,7 +71,7 @@ class ilAssQuestionProcessLockerDb extends ilAssQuestionProcessLocker
     /**
      * @return array
      */
-    private function getTablesUsedDuringResultUpdate() : array
+    private function getTablesUsedDuringResultUpdate(): array
     {
         return array(
             array('name' => 'tst_test_result', 'sequence' => true)
@@ -80,7 +81,7 @@ class ilAssQuestionProcessLockerDb extends ilAssQuestionProcessLocker
     /**
      * {@inheritdoc}
      */
-    protected function onBeforeExecutingUserSolutionUpdateOperation() : void
+    protected function onBeforeExecutingUserSolutionUpdateOperation(): void
     {
         $tables = $this->getTablesUsedDuringSolutionUpdate();
 
@@ -97,7 +98,7 @@ class ilAssQuestionProcessLockerDb extends ilAssQuestionProcessLocker
     /**
      * {@inheritdoc}
      */
-    protected function onBeforeExecutingUserQuestionResultUpdateOperation() : void
+    protected function onBeforeExecutingUserQuestionResultUpdateOperation(): void
     {
         $this->atom_query = $this->db->buildAtomQuery();
         foreach ($this->getTablesUsedDuringResultUpdate() as $table) {
@@ -108,7 +109,7 @@ class ilAssQuestionProcessLockerDb extends ilAssQuestionProcessLocker
     /**
      * {@inheritdoc}
      */
-    protected function onBeforeExecutingUserSolutionAdoptOperation() : void
+    protected function onBeforeExecutingUserSolutionAdoptOperation(): void
     {
         $this->atom_query = $this->db->buildAtomQuery();
         foreach (array_merge(
@@ -122,7 +123,7 @@ class ilAssQuestionProcessLockerDb extends ilAssQuestionProcessLocker
     /**
      * {@inheritdoc}
      */
-    protected function onBeforeExecutingUserTestResultUpdateOperation() : void
+    protected function onBeforeExecutingUserTestResultUpdateOperation(): void
     {
         $this->atom_query = $this->db->buildAtomQuery();
         $this->atom_query->addTableLock('tst_result_cache');
@@ -133,7 +134,7 @@ class ilAssQuestionProcessLockerDb extends ilAssQuestionProcessLocker
     /**
      * {@inheritdoc}
      */
-    protected function executeOperation(callable $operation) : void
+    protected function executeOperation(callable $operation): void
     {
         if ($this->atom_query) {
             $this->atom_query->addQueryCallable(function (ilDBInterface $ilDB) use ($operation) {

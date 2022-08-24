@@ -25,12 +25,12 @@ class ilWikiDBUpdateSteps implements \ilDatabaseUpdateSteps
 {
     protected \ilDBInterface $db;
 
-    public function prepare(\ilDBInterface $db) : void
+    public function prepare(\ilDBInterface $db): void
     {
         $this->db = $db;
     }
 
-    public function step_1() : void
+    public function step_1(): void
     {
         $db = $this->db;
         foreach (["int_links", "ext_links", "footnotes", "num_ratings", "num_words", "avg_rating", "deleted"] as $field) {
@@ -43,7 +43,7 @@ class ilWikiDBUpdateSteps implements \ilDatabaseUpdateSteps
         }
     }
 
-    public function step_2() : void
+    public function step_2(): void
     {
         $db = $this->db;
         foreach (["num_chars"] as $field) {
@@ -56,7 +56,7 @@ class ilWikiDBUpdateSteps implements \ilDatabaseUpdateSteps
         }
     }
 
-    public function step_3() : void
+    public function step_3(): void
     {
         $db = $this->db;
         foreach (["num_pages", "del_pages", "avg_rating"] as $field) {

@@ -46,7 +46,7 @@ class ParagraphCommandActionHandler implements Server\CommandActionHandler
         $this->ui_wrapper = new Server\UIWrapper($this->ui, $this->lng);
     }
 
-    public function handle(array $query, array $body) : Server\Response
+    public function handle(array $query, array $body): Server\Response
     {
         switch ($body["action"]) {
             case "insert":
@@ -84,7 +84,7 @@ class ParagraphCommandActionHandler implements Server\CommandActionHandler
     protected function insertCommand(
         array $body,
         bool $auto = false
-    ) : Server\Response {
+    ): Server\Response {
         $updated = $this->insertParagraph($body["data"]["pcid"], $body["data"]["after_pcid"], $body["data"]["content"], $body["data"]["characteristic"], $body["data"]["fromPlaceholder"]);
 
         return $this->response_factory->getResponseObject($this->page_gui, $updated, $body["data"]["pcid"]);
@@ -122,14 +122,14 @@ class ParagraphCommandActionHandler implements Server\CommandActionHandler
 
     protected function autoInsertCommand(
         array $body
-    ) : Server\Response {
+    ): Server\Response {
         return $this->insertCommand($body, true);
     }
 
     protected function updateCommand(
         array $body,
         bool $auto = false
-    ) : Server\Response {
+    ): Server\Response {
         $updated = $this->updateParagraph($body["data"]["pcid"], $body["data"]["content"], $body["data"]["characteristic"]);
         return $this->response_factory->getResponseObject($this->page_gui, $updated, $body["data"]["pcid"]);
     }
@@ -158,7 +158,7 @@ class ParagraphCommandActionHandler implements Server\CommandActionHandler
         );
     }
 
-    protected function autoUpdateCommand(array $body) : Server\Response
+    protected function autoUpdateCommand(array $body): Server\Response
     {
         return $this->updateCommand($body, true);
     }
@@ -166,7 +166,7 @@ class ParagraphCommandActionHandler implements Server\CommandActionHandler
     protected function split(
         array $body,
         bool $auto = false
-    ) : Server\Response {
+    ): Server\Response {
         $page = $this->page_gui->getPageObject();
 
         $pcid = ":" . $body["data"]["pcid"];
@@ -216,7 +216,7 @@ class ParagraphCommandActionHandler implements Server\CommandActionHandler
     protected function getFullIdForPCId(
         \ilPageObject $page,
         string $pc_id
-    ) : string {
+    ): string {
         $id = "pg:";
         if (!in_array($pc_id, ["", "pg"])) {
             $hier_ids = $page->getHierIdsForPCIds([$pc_id]);
@@ -229,7 +229,7 @@ class ParagraphCommandActionHandler implements Server\CommandActionHandler
         string $pcid,
         string $content,
         string $characteristic
-    ) : string {
+    ): string {
         $content = str_replace("&nbsp;", " ", $content);
         return "<div id='" .
             $pcid . "' class='ilc_text_block_" .
@@ -242,7 +242,7 @@ class ParagraphCommandActionHandler implements Server\CommandActionHandler
      * @throws \ilCOPageUnknownPCTypeException
      * @throws \ilDateTimeException
      */
-    protected function sectionClassCommand(array $body) : Server\Response
+    protected function sectionClassCommand(array $body): Server\Response
     {
         $insert_mode = $body["data"]["insert_mode"];
         $after_pcid = $body["data"]["after_pcid"];
@@ -315,7 +315,7 @@ class ParagraphCommandActionHandler implements Server\CommandActionHandler
     /**
      * Merge with previous paragraph
      */
-    protected function mergePrevious(array $body) : Server\Response
+    protected function mergePrevious(array $body): Server\Response
     {
         $page = $this->page_gui->getPageObject();
 
@@ -341,7 +341,7 @@ class ParagraphCommandActionHandler implements Server\CommandActionHandler
      * @throws \ilCOPageUnknownPCTypeException
      * @throws \ilDateTimeException
      */
-    protected function cancelCommand(array $body) : Server\Response
+    protected function cancelCommand(array $body): Server\Response
     {
         $remove_section_for_pcid = $body["data"]["removeSectionFromPcid"];
         $par_text = $body["data"]["paragraphText"];
@@ -385,7 +385,7 @@ class ParagraphCommandActionHandler implements Server\CommandActionHandler
     /**
      * Delete paragraph
      */
-    protected function deleteCommand(array $body) : Server\Response
+    protected function deleteCommand(array $body): Server\Response
     {
         $pcids = [$body["data"]["pcid"]];
 
@@ -407,7 +407,7 @@ class ParagraphCommandActionHandler implements Server\CommandActionHandler
         return $this->ui_wrapper->sendPage($this->page_gui, $updated);
     }
 
-    protected function getIdForPCId(string $pcid) : string
+    protected function getIdForPCId(string $pcid): string
     {
         $page = $this->page_gui->getPageObject();
         $id = "pg:";

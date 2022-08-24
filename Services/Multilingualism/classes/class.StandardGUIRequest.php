@@ -38,27 +38,27 @@ class StandardGUIRequest
         );
     }
 
-    public function getTitles() : array
+    public function getTitles(): array
     {
         return $this->strArray("title");
     }
 
-    public function getDescriptions() : array
+    public function getDescriptions(): array
     {
         return $this->strArray("desc");
     }
 
-    public function getLanguages() : array
+    public function getLanguages(): array
     {
         return $this->strArray("lang");
     }
 
-    public function getCheck() : array
+    public function getCheck(): array
     {
         return $this->strArray("check");
     }
 
-    public function getDefault() : string
+    public function getDefault(): string
     {
         return $this->str("default");
     }

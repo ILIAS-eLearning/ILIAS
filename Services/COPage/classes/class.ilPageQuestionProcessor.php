@@ -32,7 +32,7 @@ class ilPageQuestionProcessor
         string $a_type,
         int $a_id,
         string $a_answer
-    ) : void {
+    ): void {
         global $DIC;
 
         $ilUser = $DIC->user();
@@ -81,7 +81,7 @@ class ilPageQuestionProcessor
 
     public static function getQuestionStatistics(
         int $a_q_id
-    ) : array {
+    ): array {
         global $DIC;
 
         $ilDB = $DIC->database();
@@ -106,7 +106,7 @@ class ilPageQuestionProcessor
             );
             $rec = $ilDB->fetchAssoc($set);
             $first = $rec["usr_cnt"];
-            
+
             $set = $ilDB->query(
                 "SELECT count(user_id) usr_cnt FROM page_qst_answer WHERE " .
                 " qst_id = " . $ilDB->quote($a_q_id, "integer") . " AND " .
@@ -140,7 +140,7 @@ class ilPageQuestionProcessor
         string $a_type,
         int $a_id,
         array $a_choice
-    ) : int {
+    ): int {
         $points = 0;
 
         switch ($a_type) {
@@ -238,9 +238,9 @@ class ilPageQuestionProcessor
                 break;
 
             case "assOrderingQuestion":
-                
+
                 // TODO-LSD: change calculation strategy according to lsd cleanup changes
-                
+
                 $q = new assOrderingQuestion();
                 $q->loadFromDb($a_id);
                 $points = 0;
@@ -284,7 +284,7 @@ class ilPageQuestionProcessor
     public static function getAnswerStatus(
         $a_q_id,
         int $a_user_id = 0
-    ) : array {
+    ): array {
         global $DIC;
 
         $ilDB = $DIC->database();
@@ -323,7 +323,7 @@ class ilPageQuestionProcessor
     public static function resetTries(
         int $a_q_id,
         int $a_user_id
-    ) : void {
+    ): void {
         global $DIC;
 
         $ilDB = $DIC->database();
@@ -345,7 +345,7 @@ class ilPageQuestionProcessor
     public static function unlock(
         int $a_q_id,
         int $a_user_id
-    ) : void {
+    ): void {
         global $DIC;
 
         $ilDB = $DIC->database();

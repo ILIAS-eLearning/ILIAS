@@ -27,7 +27,7 @@ class ilUserActionCollection
      */
     protected array $actions = array();
 
-    public static function getInstance() : ilUserActionCollection
+    public static function getInstance(): ilUserActionCollection
     {
         return new self();
     }
@@ -37,7 +37,7 @@ class ilUserActionCollection
      *
      * @param ilUserAction $a_action action object
      */
-    public function addAction(ilUserAction $a_action) : void
+    public function addAction(ilUserAction $a_action): void
     {
         $this->actions[] = $a_action;
     }
@@ -45,7 +45,7 @@ class ilUserActionCollection
     /**
      * @return ilUserAction[]
      */
-    public function getActions() : array
+    public function getActions(): array
     {
         return $this->actions;
     }

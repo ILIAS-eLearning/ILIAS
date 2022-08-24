@@ -1,4 +1,5 @@
 <?php
+
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -31,12 +32,12 @@ class ilLPCollectionSettingsTableGUI extends ilTable2GUI
         $this->setShowRowsSelector(false);
     }
 
-    public function getNode() : int
+    public function getNode(): int
     {
         return $this->node_id;
     }
 
-    public function getMode() : int
+    public function getMode(): int
     {
         return $this->mode;
     }
@@ -44,7 +45,7 @@ class ilLPCollectionSettingsTableGUI extends ilTable2GUI
     /**
      * Read and parse items
      */
-    public function parse(ilLPCollection $a_collection) : void
+    public function parse(ilLPCollection $a_collection): void
     {
         $this->setData($a_collection->getTableGUIData($this->getNode()));
         $this->initTable();
@@ -73,7 +74,7 @@ class ilLPCollectionSettingsTableGUI extends ilTable2GUI
         }
     }
 
-    protected function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set): void
     {
         $this->tpl->setCurrentBlock('item_row');
         $this->tpl->setVariable('ITEM_ID', $a_set['id']);
@@ -332,7 +333,7 @@ class ilLPCollectionSettingsTableGUI extends ilTable2GUI
         }
     }
 
-    protected function initTable() : void
+    protected function initTable(): void
     {
         $this->setFormAction(
             $this->ctrl->getFormAction($this->getParentObject())

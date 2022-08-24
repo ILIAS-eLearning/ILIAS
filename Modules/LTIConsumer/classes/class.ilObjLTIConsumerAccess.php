@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -29,7 +31,7 @@ class ilObjLTIConsumerAccess extends ilObjectAccess implements ilConditionHandli
     /**
      * @return array<int, array>
      */
-    public static function _getCommands() : array
+    public static function _getCommands(): array
     {
         return array(
             array(
@@ -49,19 +51,19 @@ class ilObjLTIConsumerAccess extends ilObjectAccess implements ilConditionHandli
     /**
      * @return string[]
      */
-    public static function getConditionOperators() : array
+    public static function getConditionOperators(): array
     {
         return [
             ilConditionHandler::OPERATOR_PASSED
         ];
     }
-    
-    public static function checkCondition(int $a_trigger_obj_id, string $a_operator, string $a_value, int $a_usr_id) : bool
+
+    public static function checkCondition(int $a_trigger_obj_id, string $a_operator, string $a_value, int $a_usr_id): bool
     {
         if ($a_operator == ilConditionHandler::OPERATOR_PASSED) {
             return ilLPStatus::_hasUserCompleted($a_trigger_obj_id, $a_usr_id);
         }
-        
+
         return false;
     }
 }

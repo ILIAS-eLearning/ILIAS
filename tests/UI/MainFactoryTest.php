@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 require_once 'tests/UI/AbstractFactoryTest.php';
 
 /**
@@ -41,7 +43,7 @@ class MainFactoryTest extends AbstractFactoryTest
     /**
      * @doesNotPerformAssertions
      */
-    public function test_proper_namespace() : void
+    public function test_proper_namespace(): void
     {
         // Nothing to test here.
     }
@@ -49,12 +51,12 @@ class MainFactoryTest extends AbstractFactoryTest
     /**
      * @doesNotPerformAssertions
      */
-    public function test_proper_name() : void
+    public function test_proper_name(): void
     {
         // Nothing to test here.
     }
 
-    protected function get_regex_factory_namespace() : string
+    protected function get_regex_factory_namespace(): string
     {
         return "\\\\ILIAS\\\\UI\\\\Component";
     }

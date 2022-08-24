@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /******************************************************************************
  *
@@ -24,50 +26,50 @@ class ilServicesActiveRecordConnectorTest extends TestCase
      * @var ilDBInterface|\PHPUnit\Framework\MockObject\MockObject
      */
     protected $db_mock;
-    
-    protected function setUp() : void
+
+    protected function setUp(): void
     {
         global $DIC;
         $this->dic_backup = is_object($DIC) ? clone $DIC : $DIC;
-        
+
         $DIC = new Container();
         $DIC['ilDB'] = $this->db_mock = $this->createMock(ilDBInterface::class);
     }
-    
-    protected function tearDown() : void
+
+    protected function tearDown(): void
     {
         global $DIC;
         $DIC = $this->dic_backup;
     }
-    
-    public function testDbConnector() : void
+
+    public function testDbConnector(): void
     {
         $test_ar = new ilBiblEntry();
         $this->db_mock->expects($this->once())
                       ->method('nextId')
                       ->with(ilBiblEntry::TABLE_NAME)
                       ->willReturn(1);
-        
+
         $connector = new arConnectorDB();
         $this->assertEquals(1, $connector->nextID($test_ar));
-        
+
         $this->db_mock->expects($this->once())
                       ->method('tableExists')
                       ->with(ilBiblEntry::TABLE_NAME)
                       ->willReturn(true);
         $this->assertEquals(true, $connector->checkTableExists($test_ar));
-        
+
         $this->db_mock->expects($this->once())
                       ->method('tableColumnExists')
                       ->with(ilBiblEntry::TABLE_NAME, 'data_id')
                       ->willReturn(true);
         $this->assertEquals(true, $connector->checkFieldExists($test_ar, 'data_id'));
     }
-    
-    public function testConnectorMap() : void
+
+    public function testConnectorMap(): void
     {
         $cache_connector = new arConnectorCache(new arConnectorDB());
-        $ar = new class extends ActiveRecord {
+        $ar = new class () extends ActiveRecord {
             /**
              * @var int
              *

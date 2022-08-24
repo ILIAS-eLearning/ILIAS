@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -35,24 +37,24 @@ class ilLTIConsumerVerificationTableGUI extends ilTable2GUI
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
 
         parent::__construct($a_parent_obj, $a_parent_cmd);
-        
+
         $this->addColumn($this->lng->txt("title"), "title");
         $this->addColumn($this->lng->txt("passed"), "passed");
         $this->addColumn($this->lng->txt("action"), "");
-        
+
         $this->setTitle($this->lng->txt("ltiv_create"));
         $this->setDescription($this->lng->txt("ltiv_create_info"));
-        
+
         $this->setRowTemplate("tpl.lti_verification_row.html", "Modules/LTIConsumer");
         $this->setFormAction($DIC->ctrl()->getFormAction($a_parent_obj, $a_parent_cmd));
-        
+
         $this->getItems();
     }
-    
+
     /**
      * Get all completed tests
      */
-    protected function getItems() : void
+    protected function getItems(): void
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
 
@@ -78,18 +80,18 @@ class ilLTIConsumerVerificationTableGUI extends ilTable2GUI
 
         $this->setData($data);
     }
-    
+
     /**
      * Fill template row
      */
-    protected function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set): void
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
-        
+
         $this->tpl->setVariable("TITLE", $a_set["title"]);
         $this->tpl->setVariable("PASSED", ($a_set["passed"]) ? $this->lng->txt("yes") :
             $this->lng->txt("no"));
-        
+
         if ($a_set["passed"]) {
             $DIC->ctrl()->setParameter($this->parent_obj, "lti_id", $a_set["id"]);
             $action = $DIC->ctrl()->getLinkTarget($this->parent_obj, "save");

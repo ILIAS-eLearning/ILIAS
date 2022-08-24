@@ -15,7 +15,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * Exercise participant table
  *
@@ -24,8 +24,8 @@
 class ilAssignmentsPerParticipantTableGUI extends ilExerciseSubmissionTableGUI
 {
     protected ilObjUser $user;
-    
-    protected function initMode(int $a_item_id) : void
+
+    protected function initMode(int $a_item_id): void
     {
         $lng = $this->lng;
 
@@ -52,7 +52,7 @@ class ilAssignmentsPerParticipantTableGUI extends ilExerciseSubmissionTableGUI
     /**
      * @throws ilExcUnknownAssignmentTypeException
      */
-    protected function parseData() : array
+    protected function parseData(): array
     {
         $ilAccess = $this->access;
         $ilCtrl = $this->ctrl;
@@ -138,7 +138,7 @@ class ilAssignmentsPerParticipantTableGUI extends ilExerciseSubmissionTableGUI
         return $data;
     }
 
-    protected function parseModeColumns() : array
+    protected function parseModeColumns(): array
     {
         $cols = array();
 
@@ -154,7 +154,7 @@ class ilAssignmentsPerParticipantTableGUI extends ilExerciseSubmissionTableGUI
      * @throws ilDateTimeException
      * @throws ilObjectNotFoundException
      */
-    protected function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set): void
     {
         $ilCtrl = $this->ctrl;
         $ilCtrl->setParameter($this->parent_obj, "member_id", $this->user->getId());
@@ -166,12 +166,12 @@ class ilAssignmentsPerParticipantTableGUI extends ilExerciseSubmissionTableGUI
         $this->tpl->setVariable("VAL_ID", $a_set["ass"]->getId());
 
         $this->parseRow($this->user->getId(), $a_set["ass"], $a_set);
-            
+
         $ilCtrl->setParameter($this->parent_obj, "ass_id", "");
         $ilCtrl->setParameter($this->parent_obj, "member_id", $this->user->getId());
     }
 
-    public function numericOrdering(string $a_field) : bool
+    public function numericOrdering(string $a_field): bool
     {
         return $a_field === "order_nr";
     }

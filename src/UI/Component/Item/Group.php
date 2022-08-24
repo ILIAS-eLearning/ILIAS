@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\UI\Component\Item;
 
 use ILIAS\UI\Component\Component;
@@ -29,22 +31,22 @@ interface Group extends Component
     /**
      * Gets the title of the group
      */
-    public function getTitle() : string;
+    public function getTitle(): string;
 
     /**
      * Gets item of the group
      *
      * @return Item[]
      */
-    public function getItems() : array;
+    public function getItems(): array;
 
     /**
      * Create a new appointment item with a set of actions to perform on it.
      */
-    public function withActions(Standard $dropdown) : Group;
+    public function withActions(Standard $dropdown): Group;
 
     /**
      * Get the actions Dropdown of the group
      */
-    public function getActions() : ?Standard;
+    public function getActions(): ?Standard;
 }

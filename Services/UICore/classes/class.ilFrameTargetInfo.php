@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /* Copyright (c) 1998-2022 ILIAS open source, Extended GPL, see docs/LICENSE */
 
@@ -8,7 +10,7 @@
  */
 class ilFrameTargetInfo
 {
-    public static function _getFrame(string $a_class) : string
+    public static function _getFrame(string $a_class): string
     {
         switch ($a_class) {
             case 'RepositoryContent':
@@ -23,7 +25,7 @@ class ilFrameTargetInfo
         }
     }
 
-    protected static function getLtiFrame() : string
+    protected static function getLtiFrame(): string
     {
         global $DIC;
 

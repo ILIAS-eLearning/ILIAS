@@ -1,4 +1,5 @@
 <?php
+
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 require_once 'Modules/TestQuestionPool/classes/class.ilAnswerWizardInputGUI.php';
@@ -13,7 +14,7 @@ require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionSolutionCompar
  */
 class ilLogicalAnswerComparisonExpressionInputGUI extends ilAnswerWizardInputGUI
 {
-    public function setValues($modelValues) : void
+    public function setValues($modelValues): void
     {
         $formValues = array();
 
@@ -34,7 +35,7 @@ class ilLogicalAnswerComparisonExpressionInputGUI extends ilAnswerWizardInputGUI
         parent::setValues($formValues);
     }
 
-    public function getValues() : array
+    public function getValues(): array
     {
         $formValues = parent::getValues();
 
@@ -72,12 +73,12 @@ class ilLogicalAnswerComparisonExpressionInputGUI extends ilAnswerWizardInputGUI
     /**
      * @return string
      */
-    protected function getTemplate() : string
+    protected function getTemplate(): string
     {
         return "tpl.prop_lac_expression_input.html";
     }
-    
-    protected function sanitizeSuperGlobalSubmitValue() : void
+
+    protected function sanitizeSuperGlobalSubmitValue(): void
     {
         if (isset($_POST[$this->getPostVar()]) && is_array($_POST[$this->getPostVar()])) {
             $_POST[$this->getPostVar()] = ilArrayUtil::stripSlashesRecursive($_POST[$this->getPostVar()], false);

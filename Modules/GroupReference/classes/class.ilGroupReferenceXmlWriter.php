@@ -1,4 +1,5 @@
 <?php
+
 /* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 include_once './Services/ContainerReference/classes/class.ilContainerReferenceXmlWriter.php';
@@ -13,7 +14,6 @@ include_once './Services/ContainerReference/classes/class.ilContainerReferenceXm
  */
 class ilGroupReferenceXmlWriter extends ilContainerReferenceXmlWriter
 {
-
     /**
      * ilGroupReferenceXmlWriter constructor.
      * @param ilObjGroupReference|null $ref
@@ -23,7 +23,7 @@ class ilGroupReferenceXmlWriter extends ilContainerReferenceXmlWriter
         parent::__construct($ref);
     }
 
-    protected function buildHeader() : void
+    protected function buildHeader(): void
     {
         global $DIC;
 

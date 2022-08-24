@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\UI\Implementation\Component\Button;
 
 use ILIAS\UI\Component as C;
@@ -40,7 +42,7 @@ class Month implements C\Button\Month
     /**
      * @inheritdoc
      */
-    public function getDefault() : string
+    public function getDefault(): string
     {
         return $this->default;
     }

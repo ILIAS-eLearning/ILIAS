@@ -45,14 +45,14 @@ class ilAssLacAnswerIndexNotExist extends ilAssLacException implements ilAssLacF
                 $this->getAnswerIndex()
             );
         }
-        
+
         parent::__construct($msg);
     }
 
     /**
      * @return int
      */
-    public function getQuestionIndex() : int
+    public function getQuestionIndex(): int
     {
         return $this->question_index;
     }
@@ -60,7 +60,7 @@ class ilAssLacAnswerIndexNotExist extends ilAssLacException implements ilAssLacF
     /**
      * @return int
      */
-    public function getAnswerIndex() : int
+    public function getAnswerIndex(): int
     {
         return $this->answer_index;
     }
@@ -69,7 +69,7 @@ class ilAssLacAnswerIndexNotExist extends ilAssLacException implements ilAssLacF
      * @param ilLanguage $lng
      * @return string
      */
-    public function getFormAlert(ilLanguage $lng) : string
+    public function getFormAlert(ilLanguage $lng): string
     {
         if ($this->getQuestionIndex() === null) {
             return sprintf(
@@ -77,7 +77,7 @@ class ilAssLacAnswerIndexNotExist extends ilAssLacException implements ilAssLacF
                 $this->getAnswerIndex()
             );
         }
-        
+
         return sprintf(
             $lng->txt("ass_lac_answer_index_not_exist"),
             $this->getQuestionIndex(),

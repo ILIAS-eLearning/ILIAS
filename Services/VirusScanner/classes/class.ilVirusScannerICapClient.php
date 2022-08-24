@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -26,12 +28,12 @@ class ilVirusScannerICapClient extends ilVirusScanner
         $this->scanCommand = IL_ICAP_CLIENT;
     }
 
-    protected function buildScanCommand(string $file = '-') : string
+    protected function buildScanCommand(string $file = '-'): string
     {
         return $this->scanCommand . ' -i ' . IL_ICAP_HOST . ' -p ' . IL_ICAP_PORT . ' -v -s ' . IL_ICAP_AV_COMMAND . ' -f ' . $file;
     }
 
-    public function scanFile(string $file_path, string $org_name = "") : string
+    public function scanFile(string $file_path, string $org_name = ""): string
     {
         $return_string = '';
         if (is_readable($file_path)) {

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -53,52 +55,52 @@ final class ilPDSelectedItemBlockMembershipsDTO
         $this->periodEnd = $periodEnd;
     }
 
-    public function getRefId() : int
+    public function getRefId(): int
     {
         return $this->refId;
     }
 
-    public function getObjId() : int
+    public function getObjId(): int
     {
         return $this->objId;
     }
 
-    public function getType() : string
+    public function getType(): string
     {
         return $this->type;
     }
 
-    public function getTitle() : string
+    public function getTitle(): string
     {
         return $this->title;
     }
 
-    public function getDescription() : string
+    public function getDescription(): string
     {
         return $this->description;
     }
 
-    public function getParentRefId() : int
+    public function getParentRefId(): int
     {
         return $this->parentRefId;
     }
 
-    public function getParentLftTree() : int
+    public function getParentLftTree(): int
     {
         return $this->parentLftTree;
     }
 
-    public function objectPeriodHasTime() : bool
+    public function objectPeriodHasTime(): bool
     {
         return $this->objectPeriodHasTime;
     }
 
-    public function getPeriodStart() : ?DateTimeImmutable
+    public function getPeriodStart(): ?DateTimeImmutable
     {
         return $this->periodStart;
     }
 
-    public function getPeriodEnd() : ?DateTimeImmutable
+    public function getPeriodEnd(): ?DateTimeImmutable
     {
         return $this->periodEnd;
     }

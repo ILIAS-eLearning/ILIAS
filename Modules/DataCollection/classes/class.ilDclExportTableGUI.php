@@ -28,7 +28,7 @@ class ilDclExportTableGUI extends ilExportTableGUI
         $this->addCustomColumn($this->lng->txt('status'), $this, 'parseExportStatus');
     }
 
-    public function getExportFiles() : array
+    public function getExportFiles(): array
     {
         $types = array();
         foreach ($this->parent_obj->getFormats() as $f) {
@@ -74,7 +74,7 @@ class ilDclExportTableGUI extends ilExportTableGUI
         return $file;
     }
 
-    protected function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set): void
     {
         global $DIC;
         $ilCtrl = $DIC['ilCtrl'];
@@ -93,13 +93,18 @@ class ilDclExportTableGUI extends ilExportTableGUI
             : $a_set['type'];
         $this->tpl->setVariable('VAL_TYPE', $type);
 
-        $filename = ($this->isExportInProgress($a_set['file'])) ? substr($a_set['file'], 0,
-                -strlen(ilDclContentExporter::IN_PROGRESS_POSTFIX)) . ".xlsx" : $a_set['file'];
+        $filename = ($this->isExportInProgress($a_set['file'])) ? substr(
+            $a_set['file'],
+            0,
+            -strlen(ilDclContentExporter::IN_PROGRESS_POSTFIX)
+        ) . ".xlsx" : $a_set['file'];
         $this->tpl->setVariable('VAL_FILE', $filename);
 
         $this->tpl->setVariable('VAL_SIZE', ilUtil::formatSize($a_set['size']));
-        $this->tpl->setVariable('VAL_DATE',
-            ilDatePresentation::formatDate(new ilDateTime($a_set['timestamp'], IL_CAL_UNIX)));
+        $this->tpl->setVariable(
+            'VAL_DATE',
+            ilDatePresentation::formatDate(new ilDateTime($a_set['timestamp'], IL_CAL_UNIX))
+        );
 
         if (!$this->isExportInProgress($a_set['file'])) {
             $this->tpl->setVariable('TXT_DOWNLOAD', $this->lng->txt('download'));
@@ -111,7 +116,7 @@ class ilDclExportTableGUI extends ilExportTableGUI
         }
     }
 
-    public function parseExportStatus(string $type, string $file) : string
+    public function parseExportStatus(string $type, string $file): string
     {
         if ($type == 'xlsx') {
             if ($this->isExportInProgress($file)) {
@@ -124,7 +129,7 @@ class ilDclExportTableGUI extends ilExportTableGUI
         }
     }
 
-    protected function isExportInProgress(string $file) : string
+    protected function isExportInProgress(string $file): string
     {
         $ending = substr($file, -strlen(ilDclContentExporter::IN_PROGRESS_POSTFIX));
 

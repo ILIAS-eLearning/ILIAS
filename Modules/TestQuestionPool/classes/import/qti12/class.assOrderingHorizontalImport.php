@@ -41,7 +41,7 @@ class assOrderingHorizontalImport extends assQuestionImport
     * @param array $import_mapping An array containing references to included ILIAS objects
     * @access public
     */
-    public function fromXML(&$item, $questionpool_id, &$tst_id, &$tst_object, &$question_counter, &$import_mapping) : void
+    public function fromXML(&$item, $questionpool_id, &$tst_id, &$tst_object, &$question_counter, &$import_mapping): void
     {
         global $DIC;
         $ilUser = $DIC['ilUser'];
@@ -72,10 +72,10 @@ class assOrderingHorizontalImport extends assQuestionImport
             $this->fetchAdditionalContentEditingModeInformation($item)
         );
         $this->object->saveToDb();
-        
+
         $feedbacks = $this->getFeedbackAnswerSpecific($item);
         $feedbacksgeneric = $this->getFeedbackGeneric($item);
-        
+
         // handle the import of media objects in XHTML code
         $questiontext = $this->object->getQuestion();
         if (is_array(ilSession::get("import_mob_xhtml"))) {
@@ -87,14 +87,14 @@ class assOrderingHorizontalImport extends assQuestionImport
                 } else {
                     $importfile = $this->getQplImportArchivDirectory() . '/' . $mob["uri"];
                 }
-                
+
                 global $DIC; /* @var ILIAS\DI\Container $DIC */
                 $DIC['ilLog']->write(__METHOD__ . ': import mob from dir: ' . $importfile);
-                
+
                 $media_object = ilObjMediaObject::_saveTempFileAsMediaObject(basename($importfile), $importfile, false);
                 ilObjMediaObject::_saveUsage($media_object->getId(), "qpl:html", $this->object->getId());
                 $questiontext = str_replace("src=\"" . $mob["mob"] . "\"", "src=\"" . "il_" . IL_INST_ID . "_mob_" . $media_object->getId() . "\"", $questiontext);
-                
+
                 foreach ($feedbacks as $ident => $material) {
                     $feedbacks[$ident] = str_replace("src=\"" . $mob["mob"] . "\"", "src=\"" . "il_" . IL_INST_ID . "_mob_" . $media_object->getId() . "\"", $material);
                 }
@@ -104,10 +104,10 @@ class assOrderingHorizontalImport extends assQuestionImport
             }
         }
         $this->object->setQuestion(ilRTE::_replaceMediaObjectImageSrc($questiontext, 1));
-        
+
         foreach ($feedbacks as $ident => $material) {
             $index = $this->fetchIndexFromFeedbackIdent($ident);
-            
+
             $this->object->feedbackOBJ->importSpecificAnswerFeedback(
                 $this->object->getId(),
                 0,
@@ -124,7 +124,7 @@ class assOrderingHorizontalImport extends assQuestionImport
         }
 
         $this->object->saveToDb();
-        
+
         if (count($item->suggested_solutions)) {
             foreach ($item->suggested_solutions as $suggested_solution) {
                 $this->importSuggestedSolution(

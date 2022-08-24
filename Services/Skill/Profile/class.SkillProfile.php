@@ -71,37 +71,37 @@ class SkillProfile implements \ilSkillUsageInfo
         }
     }
 
-    public function getId() : int
+    public function getId(): int
     {
         return $this->id;
     }
 
-    public function getTitle() : string
+    public function getTitle(): string
     {
         return $this->title;
     }
 
-    public function getDescription() : string
+    public function getDescription(): string
     {
         return $this->description;
     }
 
-    public function getRefId() : int
+    public function getRefId(): int
     {
         return $this->ref_id;
     }
 
-    public function getImageId() : string
+    public function getImageId(): string
     {
         return $this->image_id;
     }
 
-    public function getSkillTreeId() : int
+    public function getSkillTreeId(): int
     {
         return $this->skill_tree_id;
     }
 
-    public function addSkillLevel(int $base_skill_id, int $tref_id, int $level_id, int $order_nr) : void
+    public function addSkillLevel(int $base_skill_id, int $tref_id, int $level_id, int $order_nr): void
     {
         $this->skill_level[] = array(
             "base_skill_id" => $base_skill_id,
@@ -111,7 +111,7 @@ class SkillProfile implements \ilSkillUsageInfo
         );
     }
 
-    public function removeSkillLevel(int $base_skill_id, int $tref_id, int $level_id, int $order_nr) : void
+    public function removeSkillLevel(int $base_skill_id, int $tref_id, int $level_id, int $order_nr): void
     {
         foreach ($this->skill_level as $k => $sl) {
             if ((int) $sl["base_skill_id"] == $base_skill_id &&
@@ -126,9 +126,9 @@ class SkillProfile implements \ilSkillUsageInfo
     /**
      * @return array{base_skill_id: int, tref_id: int, level_id: int, order_nr: int}[]
      */
-    public function getSkillLevels() : array
+    public function getSkillLevels(): array
     {
-        usort($this->skill_level, static function (array $level_a, array $level_b) : int {
+        usort($this->skill_level, static function (array $level_a, array $level_b): int {
             return $level_a['order_nr'] <=> $level_b['order_nr'];
         });
 
@@ -140,7 +140,7 @@ class SkillProfile implements \ilSkillUsageInfo
      *
      * @return array<string, array<string, array{key: string}[]>>
      */
-    public static function getUsageInfo(array $a_cskill_ids) : array
+    public static function getUsageInfo(array $a_cskill_ids): array
     {
         return \ilSkillUsage::getUsageInfoGeneric(
             $a_cskill_ids,

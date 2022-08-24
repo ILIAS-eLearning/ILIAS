@@ -16,7 +16,6 @@
  *
  *********************************************************************/
 
-
 namespace ILIAS\LTI\ToolProvider;
 
 use ILIAS\LTI\ToolProvider\DataConnector\DataConnector;
@@ -44,32 +43,32 @@ class Tool
     /**
      * Default connection error message.
      */
-    const CONNECTION_ERROR_MESSAGE = 'Sorry, there was an error connecting you to the application.';
+    public const CONNECTION_ERROR_MESSAGE = 'Sorry, there was an error connecting you to the application.';
 
     /**
      * Use ID value only.
      */
-    const ID_SCOPE_ID_ONLY = 0;
+    public const ID_SCOPE_ID_ONLY = 0;
 
     /**
      * Prefix an ID with the consumer key.
      */
-    const ID_SCOPE_GLOBAL = 1;
+    public const ID_SCOPE_GLOBAL = 1;
 
     /**
      * Prefix the ID with the consumer key and context ID.
      */
-    const ID_SCOPE_CONTEXT = 2;
+    public const ID_SCOPE_CONTEXT = 2;
 
     /**
      * Prefix the ID with the consumer key and resource ID.
      */
-    const ID_SCOPE_RESOURCE = 3;
+    public const ID_SCOPE_RESOURCE = 3;
 
     /**
      * Character used to separate each element of an ID.
      */
-    const ID_SCOPE_SEPARATOR = ':';
+    public const ID_SCOPE_SEPARATOR = ':';
 
     /**
      * List of supported incoming message types.
@@ -414,7 +413,7 @@ class Tool
      *
      * @return bool    True if the object was successfully saved
      */
-    public function save() : bool
+    public function save(): bool
     {
         return $this->dataConnector->saveTool($this);
     }
@@ -424,7 +423,7 @@ class Tool
      *
      * @return bool    True if the object was successfully deleted
      */
-    public function delete() : bool
+    public function delete(): bool
     {
         return $this->dataConnector->deleteTool($this);
     }
@@ -434,7 +433,7 @@ class Tool
      *
      * @return array The message parameter array
      */
-    public function getMessageParameters() : array
+    public function getMessageParameters(): array
     {
         if (is_null($this->messageParameters)) {
             $this->parseMessage();
@@ -548,7 +547,7 @@ class Tool
      *
      * @return array Array of Platform objects
      */
-    public function getPlatforms() : array
+    public function getPlatforms(): array
     {
         return $this->dataConnector->getPlatforms();
     }
@@ -726,7 +725,7 @@ class Tool
      * @param array $requestParameters Request parameters
      * @param array $authParameters    Authentication request parameters
      */
-    
+
     protected function onInitiateLogin(array $requestParameters, array &$authParameters)
     {
     }
@@ -744,7 +743,7 @@ class Tool
      *
      * @return array|null  Platform configuration data
      */
-    protected function getPlatformConfiguration() : ?array
+    protected function getPlatformConfiguration(): ?array
     {
         if ($this->ok) {
             $parameters = Util::getRequestParameters();
@@ -801,7 +800,7 @@ class Tool
      * @param array $platformConfig Platform configuration data
      * @return array  Tool configuration data
      */
-    protected function getConfiguration(array $platformConfig) : array
+    protected function getConfiguration(array $platformConfig): array
     {
         $claimsMapping = array(
             'User.id' => 'sub',
@@ -907,7 +906,7 @@ class Tool
      * @param array $toolConfig     Tool configuration data
      * @return array  Registration data
      */
-    protected function sendRegistration(array $platformConfig, array $toolConfig) : ?array
+    protected function sendRegistration(array $platformConfig, array $toolConfig): ?array
     {
         if ($this->ok) {
             $parameters = Util::getRequestParameters();
@@ -943,7 +942,7 @@ class Tool
      * @param bool  $doSave             True if the platform should be saved (optional, default is true)
      * @return Platform  Platform object
      */
-    protected function getPlatformToRegister(array $platformConfig, array $registrationConfig, bool $doSave = true) : ?Platform
+    protected function getPlatformToRegister(array $platformConfig, array $registrationConfig, bool $doSave = true): ?Platform
     {
         $domain = $platformConfig['issuer'];
         $pos = strpos($domain, '//');
@@ -1086,7 +1085,7 @@ EOD;
      * @param bool               $autoEnable    true if the tool is to be enabled automatically (optional, default is false)
      * @return Tool           The tool object
      */
-    public static function fromConsumerKey(string $key = null, DataConnector $dataConnector = null, bool $autoEnable = false) : Tool
+    public static function fromConsumerKey(string $key = null, DataConnector $dataConnector = null, bool $autoEnable = false): Tool
     {
         $tool = new static($dataConnector);
         $tool->key = $key;
@@ -1107,7 +1106,7 @@ EOD;
      * @param bool               $autoEnable       True if the tool is to be enabled automatically (optional, default is false)
      * @return Tool           The tool object
      */
-    public static function fromInitiateLoginUrl(string $initiateLoginUrl, DataConnector $dataConnector = null, bool $autoEnable = false) : Tool
+    public static function fromInitiateLoginUrl(string $initiateLoginUrl, DataConnector $dataConnector = null, bool $autoEnable = false): Tool
     {
         $tool = new static($dataConnector);
         $tool->initiateLoginUrl = $initiateLoginUrl;
@@ -1126,7 +1125,7 @@ EOD;
      * @param DataConnector $dataConnector A data connector object
      * @return Tool           The tool object
      */
-    public static function fromRecordId(string $id, DataConnector $dataConnector) : Tool
+    public static function fromRecordId(string $id, DataConnector $dataConnector): Tool
     {
         $tool = new static($dataConnector);
         $tool->setRecordId($id);
@@ -1146,7 +1145,7 @@ EOD;
      *
      * returns string Output to be displayed (redirection, or display HTML or message) //UK: erased @return
      */
-    private function result() : void
+    private function result(): void
     {
         if (!$this->ok) {
             $this->message = self::CONNECTION_ERROR_MESSAGE;
@@ -1216,7 +1215,7 @@ EOD;
      * @param bool    $strictMode True if full compliance with the LTI specification is required
      * @return bool    True if the request has been successfully validated.
      */
-    private function authenticate(bool $strictMode) : bool
+    private function authenticate(bool $strictMode): bool
     {
         $doSavePlatform = false;
         $this->ok = $this->checkMessage();
@@ -1937,7 +1936,7 @@ EOD;
      *
      * @return bool    True if no error is reported
      */
-    private function checkForShare() : bool
+    private function checkForShare(): bool
     {
         $ok = true;
         $doSaveResourceLink = true;
@@ -2016,7 +2015,7 @@ EOD;
      * @param array $parameters Request parameters
      * @return bool True if form was generated
      */
-    private function sendAuthenticationRequest(array $parameters) : bool
+    private function sendAuthenticationRequest(array $parameters): bool
     {
         $clientId = null;
         if (isset($parameters['client_id'])) {
@@ -2133,7 +2132,7 @@ EOD;
      * @param bool   $ignoreInvalid True if invalid values are to be ignored (optional default is false)
      * @return bool    True if value is valid
      */
-    private function checkValue(&$value, array $values, string $reason, bool $strictMode, bool $ignoreInvalid = false) : bool
+    private function checkValue(&$value, array $values, string $reason, bool $strictMode, bool $ignoreInvalid = false): bool
     {
         $lookupValue = $value;
         if (!$strictMode) {

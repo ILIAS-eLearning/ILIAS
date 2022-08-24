@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -27,7 +29,7 @@ use ILIAS\HTTP\Response\ResponseHeader;
  */
 class ilChatroomViewGUI extends ilChatroomGUIHandler
 {
-    public function joinWithCustomName() : void
+    public function joinWithCustomName(): void
     {
         $this->redirectIfNoPermission('read');
 
@@ -73,7 +75,7 @@ class ilChatroomViewGUI extends ilChatroomGUIHandler
     /**
      * Adds CSS and JavaScript files that should be included in the header.
      */
-    private function setupTemplate() : void
+    private function setupTemplate(): void
     {
         $this->mainTpl->addJavaScript('Modules/Chatroom/js/chat.js');
         $this->mainTpl->addJavaScript('Modules/Chatroom/js/iliaschat.jquery.js');
@@ -90,7 +92,7 @@ class ilChatroomViewGUI extends ilChatroomGUIHandler
      * @param ilChatroom $room
      * @param ilChatroomUser $chat_user
      */
-    private function showRoom(ilChatroom $room, ilChatroomUser $chat_user) : void
+    private function showRoom(ilChatroom $room, ilChatroomUser $chat_user): void
     {
         $this->redirectIfNoPermission('read');
 
@@ -197,7 +199,7 @@ class ilChatroomViewGUI extends ilChatroomGUIHandler
                     $params = [];
                     $params['user'] = $chat_user->getUserId();
                     $params['sub'] = $sub;
-                    
+
                     $params['message'] = json_encode([
                         'type' => 'private_room_entered',
                         'user' => $user_id
@@ -241,7 +243,7 @@ class ilChatroomViewGUI extends ilChatroomGUIHandler
         if ($this->ilUser->getPref('chat_hide_automsg_' . $room->getRoomId())) {
             $showAutoMessages = false;
         }
-        
+
         $roomTpl->setVariable(
             'TOGGLE_SCROLLING_COMPONENT',
             $this->uiRenderer->render(
@@ -252,7 +254,7 @@ class ilChatroomViewGUI extends ilChatroomGUIHandler
                     true
                 )
                 ->withAriaLabel($this->ilLng->txt('auto_scroll'))
-                ->withOnLoadCode(static function (string $id) : string {
+                ->withOnLoadCode(static function (string $id): string {
                     return '
                         $("#' . $id . '")
                             .on("click", function(e) {
@@ -279,7 +281,7 @@ class ilChatroomViewGUI extends ilChatroomGUIHandler
                     $showAutoMessages
                 )
                 ->withAriaLabel($this->ilLng->txt('chat_show_auto_messages'))
-                ->withOnLoadCode(static function (string $id) use ($toggleUrl) : string {
+                ->withOnLoadCode(static function (string $id) use ($toggleUrl): string {
                     return '
                         $("#' . $id . '")
                             .on("click", function(e) {
@@ -320,12 +322,12 @@ class ilChatroomViewGUI extends ilChatroomGUIHandler
         $this->mainTpl->setRightContent($right_content_panel->getHTML());
     }
 
-    public function toggleAutoMessageDisplayState() : void
+    public function toggleAutoMessageDisplayState(): void
     {
         $this->redirectIfNoPermission('read');
 
         $room = ilChatroom::byObjectId($this->gui->getObject()->getId());
- 
+
         $state = 0;
         if ($this->http->wrapper()->post()->has('state')) {
             $state = $this->http->wrapper()->post()->retrieve('state', $this->refinery->kindlyTo()->int());
@@ -350,12 +352,12 @@ class ilChatroomViewGUI extends ilChatroomGUIHandler
      * Calls ilUtil::sendFailure method using given $message as parameter.
      * @param string $message
      */
-    private function cancelJoin(string $message) : void
+    private function cancelJoin(string $message): void
     {
         $this->mainTpl->setOnScreenMessage('failure', $message);
     }
 
-    protected function renderSendMessageBox(ilTemplate $roomTpl) : void
+    protected function renderSendMessageBox(ilTemplate $roomTpl): void
     {
         $roomTpl->setVariable('LBL_MESSAGE', $this->ilLng->txt('chat_message'));
         $roomTpl->setVariable('LBL_TOALL', $this->ilLng->txt('chat_message_to_all'));
@@ -364,7 +366,7 @@ class ilChatroomViewGUI extends ilChatroomGUIHandler
         $roomTpl->setVariable('LBL_SEND', $this->ilLng->txt('send'));
     }
 
-    protected function renderLanguageVariables(ilTemplate $roomTpl) : void
+    protected function renderLanguageVariables(ilTemplate $roomTpl): void
     {
         $js_translations = [
             'LBL_MAINROOM' => 'chat_mainroom',
@@ -421,12 +423,12 @@ class ilChatroomViewGUI extends ilChatroomGUIHandler
         $roomTpl->setVariable('LBL_USER_IN_ILIAS', $this->ilLng->txt('user_in_ilias'));
     }
 
-    protected function renderRightUsersBlock(ilTemplate $roomTpl) : void
+    protected function renderRightUsersBlock(ilTemplate $roomTpl): void
     {
         $roomTpl->setVariable('LBL_NO_FURTHER_USERS', $this->ilLng->txt('no_further_users'));
     }
 
-    private function showNameSelection(ilChatroomUser $chat_user) : void
+    private function showNameSelection(ilChatroomUser $chat_user): void
     {
         $name_options = $chat_user->getChatNameSuggestions();
         $formFactory = new ilChatroomFormFactory();
@@ -448,7 +450,7 @@ class ilChatroomViewGUI extends ilChatroomGUIHandler
      * method is called if user isn't already registered in the Chatroom.
      * @inheritDoc
      */
-    public function executeDefault(string $requestedMethod) : void
+    public function executeDefault(string $requestedMethod): void
     {
         $this->redirectIfNoPermission('read');
 
@@ -482,7 +484,7 @@ class ilChatroomViewGUI extends ilChatroomGUIHandler
         }
     }
 
-    public function invitePD() : void
+    public function invitePD(): void
     {
         $chatSettings = new ilSetting('chatroom');
         if (!$chatSettings->get('chat_enabled', '0')) {
@@ -493,7 +495,7 @@ class ilChatroomViewGUI extends ilChatroomGUIHandler
         $chat_user = new ilChatroomUser($this->ilUser, $room);
 
         $user_id = $this->getRequestValue('usr_id', $this->refinery->kindlyTo()->int());
-        
+
         $connector = $this->gui->getConnector();
         $title = $room->getUniquePrivateRoomTitle($chat_user->buildLogin());
         $subRoomId = $room->addPrivateRoom($title, $chat_user, ['public' => false]);
@@ -510,14 +512,14 @@ class ilChatroomViewGUI extends ilChatroomGUIHandler
         $this->ilCtrl->redirect($this->gui, 'view');
     }
 
-    public function logout() : void
+    public function logout(): void
     {
         $pid = $this->tree->getParentId($this->gui->getRefId());
         $this->ilCtrl->setParameterByClass(ilRepositoryGUI::class, 'ref_id', $pid);
         $this->ilCtrl->redirectByClass(ilRepositoryGUI::class);
     }
 
-    public function lostConnection() : void
+    public function lostConnection(): void
     {
         if ($this->http->wrapper()->query()->has('msg')) {
             switch ($this->http->wrapper()->query()->retrieve('msg', $this->refinery->kindlyTo()->string())) {
@@ -540,7 +542,7 @@ class ilChatroomViewGUI extends ilChatroomGUIHandler
         $this->ilCtrl->redirectByClass(ilInfoScreenGUI::class, 'info');
     }
 
-    public function getUserProfileImages() : void
+    public function getUserProfileImages(): void
     {
         global $DIC;
 
@@ -557,14 +559,14 @@ class ilChatroomViewGUI extends ilChatroomGUIHandler
         $this->ilLng->loadLanguageModule('user');
 
         ilWACSignedPath::setTokenMaxLifetimeInSeconds(30);
-        
+
         $user_ids = array_filter(array_map('intval', array_map('trim', explode(',', $usr_ids))));
 
         $room = ilChatroom::byObjectId($this->gui->getObject()->getId());
         $chatRoomUserDetails = ilChatroomUser::getUserInformation($user_ids, $room->getRoomId());
         $chatRoomUserDetailsByUsrId = array_combine(
             array_map(
-                static function (stdClass $userData) : int {
+                static function (stdClass $userData): int {
                     return (int) $userData->id;
                 },
                 $chatRoomUserDetails

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -54,7 +56,7 @@ class ilMailAttachmentTableGUI extends ilTable2GUI
         $this->setLimit(PHP_INT_MAX);
     }
 
-    protected function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set): void
     {
         /**
          * We need to encode this because of filenames with the following format: "anystring".txt (with ")
@@ -77,12 +79,12 @@ class ilMailAttachmentTableGUI extends ilTable2GUI
         );
     }
 
-    public function numericOrdering(string $a_field) : bool
+    public function numericOrdering(string $a_field): bool
     {
         return $a_field === 'filesize' || $a_field === 'filecreatedate';
     }
 
-    protected function formatValue(string $column, string $value) : ?string
+    protected function formatValue(string $column, string $value): ?string
     {
         switch ($column) {
             case 'filecreatedate':

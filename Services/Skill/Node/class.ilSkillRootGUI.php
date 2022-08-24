@@ -43,23 +43,23 @@ class ilSkillRootGUI extends ilSkillTreeNodeGUI
         $this->toolbar = $DIC->toolbar();
         $this->lng = $DIC->language();
         $ilCtrl = $DIC->ctrl();
-        
+
         $ilCtrl->saveParameter($this, "node_id");
-        
+
         parent::__construct($node_manager, $a_node_id);
     }
 
-    public function getType() : string
+    public function getType(): string
     {
         return "skrt";
     }
 
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         $ilCtrl = $this->ctrl;
         $tpl = $this->tpl;
         $ilTabs = $this->tabs;
-        
+
         $next_class = $ilCtrl->getNextClass($this);
         $cmd = $ilCtrl->getCmd();
 
@@ -70,14 +70,14 @@ class ilSkillRootGUI extends ilSkillTreeNodeGUI
         }
     }
 
-    public function listTemplates() : void
+    public function listTemplates(): void
     {
         $tpl = $this->tpl;
         $ilToolbar = $this->toolbar;
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
         $ilTabs = $this->tabs;
-        
+
         $skmg_set = new ilSetting("skmg");
         $enable_skmg = $skmg_set->get("enable_skmg");
         if (!$enable_skmg) {
@@ -97,11 +97,11 @@ class ilSkillRootGUI extends ilSkillTreeNodeGUI
             $this->requested_node_id,
             ilSkillCatTableGUI::MODE_SCTP
         );
-        
+
         $tpl->setContent($table->getHTML());
     }
 
-    public function listSkills() : void
+    public function listSkills(): void
     {
         $tpl = $this->tpl;
         $ilToolbar = $this->toolbar;
@@ -128,11 +128,11 @@ class ilSkillRootGUI extends ilSkillTreeNodeGUI
             $this->requested_node_id,
             ilSkillCatTableGUI::MODE_SCAT
         );
-        
+
         $tpl->setContent($table->getHTML());
     }
 
-    public function cancelDelete() : void
+    public function cancelDelete(): void
     {
         $ilCtrl = $this->ctrl;
 
@@ -143,7 +143,7 @@ class ilSkillRootGUI extends ilSkillTreeNodeGUI
         }
     }
 
-    public function showImportForm() : void
+    public function showImportForm(): void
     {
         $tpl = $this->tpl;
         $ilTabs = $this->tabs;
@@ -159,7 +159,7 @@ class ilSkillRootGUI extends ilSkillTreeNodeGUI
         $tpl->setContent($this->initInputForm()->getHTML());
     }
 
-    public function initInputForm() : ilPropertyFormGUI
+    public function initInputForm(): ilPropertyFormGUI
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
@@ -181,7 +181,7 @@ class ilSkillRootGUI extends ilSkillTreeNodeGUI
         return $form;
     }
 
-    public function importSkills() : void
+    public function importSkills(): void
     {
         $tpl = $this->tpl;
         $lng = $this->lng;

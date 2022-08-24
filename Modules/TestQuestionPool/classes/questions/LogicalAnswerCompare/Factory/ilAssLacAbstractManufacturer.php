@@ -11,7 +11,6 @@ include_once "Modules/TestQuestionPool/classes/questions/LogicalAnswerCompare/Fa
  */
 abstract class ilAssLacAbstractManufacturer implements ilAssLacManufacturerInterface
 {
-
     /**
      * Matches a delivered string with a the pattern returned by getPattern implemented in the explicit Manufacturer
      * @param string $subject
@@ -19,7 +18,7 @@ abstract class ilAssLacAbstractManufacturer implements ilAssLacManufacturerInter
      *@throws ilAssLacUnableToParseCondition
      * @see ManufacturerInterface::getPattern()
      */
-    public function match(string $subject) : array
+    public function match(string $subject): array
     {
         $matches = array();
         $num_matches = preg_match_all($this->getPattern(), $subject, $matches);

@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace ILIAS\FileDelivery\FileDeliveryTypes;
@@ -46,7 +47,7 @@ final class PHPChunked implements ilFileDeliveryType
     /**
      * @inheritDoc
      */
-    public function doesFileExists(string $path_to_file) : bool
+    public function doesFileExists(string $path_to_file): bool
     {
         return is_readable($path_to_file);
     }
@@ -55,7 +56,7 @@ final class PHPChunked implements ilFileDeliveryType
     /**
      * @inheritdoc
      */
-    public function prepare(string $path_to_file) : bool
+    public function prepare(string $path_to_file): bool
     {
         // nothing to do here
         return true;
@@ -65,7 +66,7 @@ final class PHPChunked implements ilFileDeliveryType
     /**
      * @inheritdoc
      */
-    public function deliver(string $path_to_file, bool $file_marked_to_delete) : void
+    public function deliver(string $path_to_file, bool $file_marked_to_delete): void
     {
         $file = $path_to_file;
         $fp = @fopen($file, 'rb');
@@ -174,7 +175,7 @@ final class PHPChunked implements ilFileDeliveryType
     /**
      * @inheritdoc
      */
-    public function supportsInlineDelivery() : bool
+    public function supportsInlineDelivery(): bool
     {
         return true;
     }
@@ -183,7 +184,7 @@ final class PHPChunked implements ilFileDeliveryType
     /**
      * @inheritdoc
      */
-    public function supportsAttachmentDelivery() : bool
+    public function supportsAttachmentDelivery(): bool
     {
         return true;
     }
@@ -192,13 +193,13 @@ final class PHPChunked implements ilFileDeliveryType
     /**
      * @inheritdoc
      */
-    public function supportsStreaming() : bool
+    public function supportsStreaming(): bool
     {
         return true;
     }
 
 
-    private function close() : void
+    private function close(): void
     {
         //render response
         $this->httpService->sendResponse();
@@ -209,7 +210,7 @@ final class PHPChunked implements ilFileDeliveryType
     /**
      * @inheritdoc
      */
-    public function handleFileDeletion(string $path_to_file) : bool
+    public function handleFileDeletion(string $path_to_file): bool
     {
         return unlink($path_to_file);
     }

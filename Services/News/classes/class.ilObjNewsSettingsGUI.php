@@ -35,7 +35,7 @@ class ilObjNewsSettingsGUI extends ilObjectGUI
         $this->lng->loadLanguageModule('feed');
     }
 
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         $next_class = $this->ctrl->getNextClass($this);
         $cmd = $this->ctrl->getCmd();
@@ -63,7 +63,7 @@ class ilObjNewsSettingsGUI extends ilObjectGUI
         }
     }
 
-    public function getAdminTabs() : void
+    public function getAdminTabs(): void
     {
         $rbacsystem = $this->rbac_system;
 
@@ -85,22 +85,22 @@ class ilObjNewsSettingsGUI extends ilObjectGUI
         }
     }
 
-    public function editSettings() : void
+    public function editSettings(): void
     {
         $form = $this->getSettingsForm();
         $this->tpl->setContent($form->getHTML());
     }
 
-    public function getSettingsForm() : ilPropertyFormGUI
+    public function getSettingsForm(): ilPropertyFormGUI
     {
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
         $ilSetting = $this->settings;
         $ilAccess = $this->access;
-        
+
         $news_set = new ilSetting("news");
         $feed_set = new ilSetting("feed");
-        
+
         $enable_internal_news = $ilSetting->get("block_activated_news");
         $enable_internal_rss = $news_set->get("enable_rss_for_internal");
         $rss_title_format = $news_set->get("rss_title_format");
@@ -111,13 +111,13 @@ class ilObjNewsSettingsGUI extends ilObjectGUI
 
         $allow_shorter_periods = $news_set->get("allow_shorter_periods");
         $allow_longer_periods = $news_set->get("allow_longer_periods");
-    
+
         $rss_period = ilNewsItem::_lookupRSSPeriod();
-        
+
         $form = new ilPropertyFormGUI();
         $form->setFormAction($ilCtrl->getFormAction($this));
         $form->setTitle($lng->txt("news_settings"));
-        
+
         // Enable internal news
         $cb_prop = new ilCheckboxInputGUI(
             $lng->txt("news_enable_internal_news"),
@@ -160,7 +160,7 @@ class ilObjNewsSettingsGUI extends ilObjectGUI
         $min_sel->setOptions($min_opts);
         $min_sel->setValue((string) $news_set->get("acc_cache_mins"));
         $form->addItem($min_sel);
-        
+
         // PD News Period
         $per_opts = [
             7 => "1 " . $lng->txt("week"),
@@ -261,12 +261,12 @@ class ilObjNewsSettingsGUI extends ilObjectGUI
         return $form;
     }
 
-    public function saveSettings() : void
+    public function saveSettings(): void
     {
         $ilCtrl = $this->ctrl;
         $ilSetting = $this->settings;
         $ilAccess = $this->access;
-        
+
         if (!$ilAccess->checkAccess('write', '', $this->object->getRefId())) {
             $ilCtrl->redirect($this, "view");
         }
@@ -274,7 +274,7 @@ class ilObjNewsSettingsGUI extends ilObjectGUI
         // empty news cache
         $this->acache = new ilNewsCache();
         $this->acache->deleteAllEntries();
-        
+
         $news_set = new ilSetting("news");
         $feed_set = new ilSetting("feed");
 
@@ -301,7 +301,7 @@ class ilObjNewsSettingsGUI extends ilObjectGUI
 
             $this->tpl->setOnScreenMessage('success', $this->lng->txt("settings_saved"), true);
         }
-        
+
         $ilCtrl->redirect($this, "view");
     }
 }

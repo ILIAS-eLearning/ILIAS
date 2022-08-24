@@ -1,7 +1,9 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 
-    
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,7 +19,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * Course/group notifications
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
@@ -44,42 +46,42 @@ class ilMembershipCronNotifications extends ilCronJob
      */
     protected ilMembershipCronNotificationsData $data;
 
-    public function getId() : string
+    public function getId(): string
     {
         return "mem_notification";
     }
 
-    public function getTitle() : string
+    public function getTitle(): string
     {
         return $this->lng->txt("enable_course_group_notifications");
     }
 
-    public function getDescription() : string
+    public function getDescription(): string
     {
         return $this->lng->txt("enable_course_group_notifications_desc");
     }
 
-    public function getDefaultScheduleType() : int
+    public function getDefaultScheduleType(): int
     {
         return self::SCHEDULE_TYPE_DAILY;
     }
 
-    public function getDefaultScheduleValue() : ?int
+    public function getDefaultScheduleValue(): ?int
     {
         return null;
     }
 
-    public function hasAutoActivation() : bool
+    public function hasAutoActivation(): bool
     {
         return false;
     }
 
-    public function hasFlexibleSchedule() : bool
+    public function hasFlexibleSchedule(): bool
     {
         return true;
     }
 
-    public function run() : ilCronJobResult
+    public function run(): ilCronJobResult
     {
         global $DIC;
 
@@ -155,7 +157,7 @@ class ilMembershipCronNotifications extends ilCronJob
         array $a_item,
         $a_is_sub = false,
         int $a_user_id = 0
-    ) : string {
+    ): string {
         global $DIC;
 
         $obj_definiton = $DIC["objDefinition"];
@@ -304,7 +306,7 @@ class ilMembershipCronNotifications extends ilCronJob
     /**
      * Filter duplicate news items from structure*
      */
-    protected function filterDuplicateItems(array $a_objects) : array
+    protected function filterDuplicateItems(array $a_objects): array
     {
         $parent_map = $news_map = $parsed_map = array();
 
@@ -344,7 +346,7 @@ class ilMembershipCronNotifications extends ilCronJob
      * Send news mail for 1 user and n objects
      * @throws ilDateTimeException|ilWACException
      */
-    protected function sendMail(int $a_user_id, array $a_objects, string $a_last_run) : void
+    protected function sendMail(int $a_user_id, array $a_objects, string $a_last_run): void
     {
         global $DIC;
 
@@ -461,7 +463,7 @@ class ilMembershipCronNotifications extends ilCronJob
         );
     }
 
-    public function addToExternalSettingsForm(int $a_form_id, array &$a_fields, bool $a_is_active) : void
+    public function addToExternalSettingsForm(int $a_form_id, array &$a_fields, bool $a_is_active): void
     {
         switch ($a_form_id) {
             case ilAdministrationSettingsFormHandler::FORM_COURSE:
@@ -473,7 +475,7 @@ class ilMembershipCronNotifications extends ilCronJob
         }
     }
 
-    public function activationWasToggled(ilDBInterface $db, ilSetting $setting, bool $a_currently_active) : void
+    public function activationWasToggled(ilDBInterface $db, ilSetting $setting, bool $a_currently_active): void
     {
         $setting->set("crsgrp_ntf", (string) ((int) $a_currently_active));
     }

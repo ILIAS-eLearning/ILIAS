@@ -34,48 +34,48 @@ class ilObjHelpSettings extends ilObject2
         $this->settings = $DIC->settings();
     }
 
-    protected function initType() : void
+    protected function initType(): void
     {
         $this->type = "hlps";
     }
 
-    public static function createHelpModule() : int
+    public static function createHelpModule(): int
     {
         global $DIC;
 
         $ilDB = $DIC->database();
-        
+
         $id = $ilDB->nextId("help_module");
-        
+
         $ilDB->manipulate("INSERT INTO help_module " .
             "(id) VALUES (" .
             $ilDB->quote($id, "integer") .
             ")");
-        
+
         return $id;
     }
-    
+
     public static function writeHelpModuleLmId(
         int $a_id,
         int $a_lm_id
-    ) : void {
+    ): void {
         global $DIC;
 
         $ilDB = $DIC->database();
-        
+
         $ilDB->manipulate(
             "UPDATE help_module SET " .
             " lm_id = " . $ilDB->quote($a_lm_id, "integer") .
             " WHERE id = " . $ilDB->quote($a_id, "integer")
         );
     }
-    
-    
+
+
     public function uploadHelpModule(
         array $a_file
-    ) : void {
+    ): void {
         $id = self::createHelpModule();
-        
+
         try {
             $imp = new ilImport();
             $conf = $imp->getConfig("Services/Help");
@@ -98,33 +98,33 @@ class ilObjHelpSettings extends ilObject2
             )
         );
     }
-    
-    public function getHelpModules() : array
+
+    public function getHelpModules(): array
     {
         $ilDB = $this->db;
-        
+
         $set = $ilDB->query("SELECT * FROM help_module");
-        
+
         $mods = array();
         while ($rec = $ilDB->fetchAssoc($set)) {
             if (ilObject::_lookupType((int) $rec["lm_id"]) === "lm") {
                 $rec["title"] = ilObject::_lookupTitle($rec["lm_id"]);
                 $rec["create_date"] = ilObject::_lookupCreationDate((int) $rec["lm_id"]);
             }
-            
+
             $mods[] = $rec;
         }
-        
+
         return $mods;
     }
-    
+
     public static function lookupModuleTitle(
         int $a_id
-    ) : string {
+    ): string {
         global $DIC;
 
         $ilDB = $DIC->database();
-        
+
         $set = $ilDB->query(
             "SELECT * FROM help_module " .
             " WHERE id = " . $ilDB->quote($a_id, "integer")
@@ -135,14 +135,14 @@ class ilObjHelpSettings extends ilObject2
         }
         return "";
     }
-    
+
     public static function lookupModuleLmId(
         int $a_id
-    ) : int {
+    ): int {
         global $DIC;
 
         $ilDB = $DIC->database();
-        
+
         $set = $ilDB->query(
             "SELECT lm_id FROM help_module " .
             " WHERE id = " . $ilDB->quote($a_id, "integer")
@@ -150,18 +150,18 @@ class ilObjHelpSettings extends ilObject2
         $rec = $ilDB->fetchAssoc($set);
         return (int) $rec["lm_id"];
     }
-    
+
     public function deleteModule(
         int $a_id
-    ) : void {
+    ): void {
         $ilDB = $this->db;
         $ilSetting = $this->settings;
-        
+
         // if this is the currently activated one, deactivate it first
         if ($a_id === (int) $ilSetting->get("help_module")) {
             $ilSetting->set("help_module", "");
         }
-        
+
         $set = $ilDB->query(
             "SELECT * FROM help_module " .
             " WHERE id = " . $ilDB->quote($a_id, "integer")
@@ -173,13 +173,13 @@ class ilObjHelpSettings extends ilObject2
             $lm = new ilObjLearningModule((int) $rec["lm_id"], false);
             $lm->delete();
         }
-        
+
         // delete mappings
         ilHelpMapping::deleteEntriesOfModule($a_id);
-        
+
         // delete tooltips
         ilHelp::deleteTooltipsOfModule($a_id);
-        
+
         // delete help module record
         $ilDB->manipulate("DELETE FROM help_module WHERE " .
             " id = " . $ilDB->quote($a_id, "integer"));
@@ -190,7 +190,7 @@ class ilObjHelpSettings extends ilObject2
      */
     public static function isHelpLM(
         int $a_lm_id
-    ) : bool {
+    ): bool {
         global $DIC;
 
         $ilDB = $DIC->database();

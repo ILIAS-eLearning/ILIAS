@@ -43,21 +43,21 @@ class ilTestQuestionSetConfigFactory
         $this->component_repository = $component_repository;
         $this->testOBJ = $testOBJ;
     }
-    
+
     /**
      * creates and returns an instance of a test question set config
      * that corresponds to the test's current question set type (test mode)
      */
-    public function getQuestionSetConfig() : ilTestQuestionSetConfig
+    public function getQuestionSetConfig(): ilTestQuestionSetConfig
     {
         return $this->getQuestionSetConfigByType();
     }
-    
+
     /**
      * creates and returns an instance of a test question set config
      * that corresponds to the passed question set type (test mode)
      */
-    public function getQuestionSetConfigByType() : ilTestQuestionSetConfig
+    public function getQuestionSetConfigByType(): ilTestQuestionSetConfig
     {
         if ($this->testQuestionSetConfig === null) {
             if ($this->testOBJ->isFixedTest()) {
@@ -76,7 +76,7 @@ class ilTestQuestionSetConfigFactory
                     $this->testOBJ
                 );
             }
-            
+
             if ($this->testOBJ->isDynamicTest()) {
                 $this->testQuestionSetConfig = new ilObjTestDynamicQuestionSetConfig(
                     $this->tree,

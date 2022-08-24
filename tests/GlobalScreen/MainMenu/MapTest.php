@@ -25,30 +25,30 @@ class MapTest extends TestCase
     protected IdentificationFactory $identification;
     protected MainMenuItemFactory $factory;
     protected StaticMainMenuProvider $provider;
-    
-    private function getMap() : Map
+
+    private function getMap(): Map
     {
         return new Map($this->factory);
     }
-    
+
     /**
      * @inheritDoc
      */
-    protected function setUp() : void
+    protected function setUp(): void
     {
         parent::setUp();
-        
+
         $this->provider = $this->getDummyProvider();
         $this->identification = new IdentificationFactory(new NullProviderFactory());
         $this->factory = new MainMenuItemFactory();
     }
-    
-    private function getId(string $id) : IdentificationInterface
+
+    private function getId(string $id): IdentificationInterface
     {
         return $this->identification->core($this->provider)->identifier($id);
     }
-    
-    public function testAddItem() : void
+
+    public function testAddItem(): void
     {
         $map = $this->getMap();
 
@@ -60,10 +60,10 @@ class MapTest extends TestCase
             $this->factory->topParentItem($p2),
             $this->factory->topParentItem($p3)
         );
-        
+
         $p4 = $this->getId('parent_4');
         $map->add($this->factory->topParentItem($p4));
-        
+
         $this->assertTrue($map->has());
         $this->assertSame(count(iterator_to_array($map->getAllFromFilter())), 4);
         $this->assertTrue($map->existsInFilter($p1));
@@ -71,8 +71,8 @@ class MapTest extends TestCase
         $this->assertTrue($map->existsInFilter($p3));
         $this->assertTrue($map->existsInFilter($p4));
     }
-    
-    public function testFilterItems() : void
+
+    public function testFilterItems(): void
     {
         $map = $this->getMap();
 
@@ -86,26 +86,26 @@ class MapTest extends TestCase
             $this->factory->topParentItem($p3),
             $this->factory->topParentItem($p4)
         );
-        
+
         $this->assertTrue($map->has());
         $this->assertSame(count(iterator_to_array($map->getAllFromFilter())), 4);
-        
+
         $map->filter(static function () {
             return true;
         });
-        
+
         $this->assertSame(count(iterator_to_array($map->getAllFromFilter())), 4);
-        
+
         $map->filter(static function (isItem $i) {
             return $i->getProviderIdentification()->getInternalIdentifier() !== 'parent_1';
         });
-        
+
         $this->assertSame(count(iterator_to_array($map->getAllFromFilter())), 3);
         $this->assertFalse($map->existsInFilter($p1));
         $this->assertTrue($map->existsInFilter($p2));
         $this->assertTrue($map->existsInFilter($p3));
         $this->assertTrue($map->existsInFilter($p4));
-        
+
         $map->filter(static function () {
             return false;
         });
@@ -114,73 +114,73 @@ class MapTest extends TestCase
         $this->assertFalse($map->existsInFilter($p3));
         $this->assertFalse($map->existsInFilter($p4));
     }
-    
-    public function testSortingTopItems() : void
+
+    public function testSortingTopItems(): void
     {
         $map = $this->getMap();
 
         for ($x = 1; $x <= 10; $x++) {
             $map->add($this->factory->topParentItem($this->getId((string) $x))->withPosition(11 - $x));
         }
-        
+
         $x = 10;
         foreach ($map->getAllFromFilter() as $i) {
             $this->assertSame($i->getPosition(), $x);
             $x--;
         }
-        
+
         $map->sort();
-        
+
         $generator = $map->getAllFromFilter();
-        
-        $one = static function () use ($generator) : isItem {
+
+        $one = static function () use ($generator): isItem {
             $i = $generator->current();
             $generator->next();
             return $i;
         };
-        
+
         $i = $one();
         $this->assertSame('10', $i->getProviderIdentification()->getInternalIdentifier());
         $this->assertSame(1, $i->getPosition());
-        
+
         $i = $one();
         $this->assertSame('9', $i->getProviderIdentification()->getInternalIdentifier());
         $this->assertSame(2, $i->getPosition());
-        
+
         $i = $one();
         $this->assertSame('8', $i->getProviderIdentification()->getInternalIdentifier());
         $this->assertSame(3, $i->getPosition());
-        
+
         $i = $one();
         $this->assertSame('7', $i->getProviderIdentification()->getInternalIdentifier());
         $this->assertSame(4, $i->getPosition());
-        
+
         $i = $one();
         $this->assertSame('6', $i->getProviderIdentification()->getInternalIdentifier());
         $this->assertSame(5, $i->getPosition());
-        
+
         $i = $one();
         $this->assertSame('5', $i->getProviderIdentification()->getInternalIdentifier());
         $this->assertSame(6, $i->getPosition());
-        
+
         $i = $one();
         $this->assertSame('4', $i->getProviderIdentification()->getInternalIdentifier());
         $this->assertSame(7, $i->getPosition());
-        
+
         $i = $one();
         $this->assertSame('3', $i->getProviderIdentification()->getInternalIdentifier());
         $this->assertSame(8, $i->getPosition());
-        
+
         $i = $one();
         $this->assertSame('2', $i->getProviderIdentification()->getInternalIdentifier());
         $this->assertSame(9, $i->getPosition());
-        
+
         $i = $one();
         $this->assertSame('1', $i->getProviderIdentification()->getInternalIdentifier());
         $this->assertSame(10, $i->getPosition());
     }
-    
-    public function testSortingNestedItems() : void
+
+    public function testSortingNestedItems(): void
     {
         $map = $this->getMap();
         /** @var TopParentItem $tp_1 */
@@ -199,7 +199,7 @@ class MapTest extends TestCase
         $map->add($tp_1);
         $map->add($tp_1_2);
         $map->add($tp_1_1);
-        
+
         $tp_2 = $this->factory->topParentItem($this->getId('tp_2'))
                               ->withPosition(2);
         $tp_2_1 = $this->factory->link($this->getId('tp_2_1'))
@@ -215,31 +215,31 @@ class MapTest extends TestCase
         $map->add($tp_2);
         $map->add($tp_2_1);
         $map->add($tp_2_2);
-        
+
         $map->sort();
-        
+
         $this->assertEquals(1, $map->getSingleItemFromRaw($this->getId('tp_1'))->getPosition());
         $this->assertEquals(1, $map->getSingleItemFromRaw($this->getId('tp_1_1'))->getPosition());
         $this->assertEquals(2, $map->getSingleItemFromRaw($this->getId('tp_1_2'))->getPosition());
         $this->assertEquals(2, $map->getSingleItemFromRaw($this->getId('tp_2'))->getPosition());
         $this->assertEquals(1, $map->getSingleItemFromRaw($this->getId('tp_2_1'))->getPosition());
         $this->assertEquals(2, $map->getSingleItemFromRaw($this->getId('tp_2_2'))->getPosition());
-        
+
         // check position in parent
         $get_tp_1 = $map->getSingleItemFromFilter($this->getId('tp_1'));
         $children_of_tp_1 = $get_tp_1->getChildren();
         $first = reset($children_of_tp_1);
         $this->assertEquals($tp_1_1, $first);
         $this->assertEquals(1, $first->getPosition());
-        
+
         $get_tp_2 = $map->getSingleItemFromFilter($this->getId('tp_2'));
         $children_of_tp_2 = $get_tp_2->getChildren();
         $first = reset($children_of_tp_2);
         $this->assertEquals($tp_2_1, $first);
         $this->assertEquals(1, $first->getPosition());
     }
-    
-    public function testSamePositionResolution() : void
+
+    public function testSamePositionResolution(): void
     {
         $map = $this->getMap();
         /** @var TopParentItem $tp_1 */
@@ -263,35 +263,35 @@ class MapTest extends TestCase
         $this->assertCount(2, $item->getChildren());
     }
 
-    private function getDummyProvider() : StaticMainMenuProvider
+    private function getDummyProvider(): StaticMainMenuProvider
     {
-        return new class implements StaticMainMenuProvider {
-            public function getAllIdentifications() : array
+        return new class () implements StaticMainMenuProvider {
+            public function getAllIdentifications(): array
             {
                 return [];
             }
-            
-            public function getFullyQualifiedClassName() : string
+
+            public function getFullyQualifiedClassName(): string
             {
                 return 'Provider';
             }
-            
-            public function getProviderNameForPresentation() : string
+
+            public function getProviderNameForPresentation(): string
             {
                 return 'Provider';
             }
-            
-            public function getStaticTopItems() : array
+
+            public function getStaticTopItems(): array
             {
                 return [];
             }
-            
-            public function getStaticSubItems() : array
+
+            public function getStaticSubItems(): array
             {
                 return [];
             }
-            
-            public function provideTypeInformation() : TypeInformationCollection
+
+            public function provideTypeInformation(): TypeInformationCollection
             {
                 return new TypeInformationCollection();
             }

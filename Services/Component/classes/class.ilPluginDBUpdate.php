@@ -1,4 +1,5 @@
 <?php
+
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 use ILIAS\Data\Version;
@@ -46,7 +47,7 @@ class ilPluginDBUpdate extends ilDBUpdate
     /**
      * FROM ilDBUpdate
      */
-    public function getFileForStep(int $a_version /* doesn't matter */) : string
+    public function getFileForStep(int $a_version /* doesn't matter */): string
     {
         return "dbupdate.php";
     }
@@ -54,7 +55,7 @@ class ilPluginDBUpdate extends ilDBUpdate
     /**
      * Get current DB version
      */
-    public function getCurrentVersion() : int
+    public function getCurrentVersion(): int
     {
         return $this->currentVersion;
     }
@@ -62,20 +63,20 @@ class ilPluginDBUpdate extends ilDBUpdate
     /**
      * Set current DB version
      */
-    public function setCurrentVersion(int $a_version) : void
+    public function setCurrentVersion(int $a_version): void
     {
         $this->currentVersion = $a_version;
     }
 
-    public function loadXMLInfo() : bool
+    public function loadXMLInfo(): bool
     {
         return true;
     }
-    
+
     /**
      * This is a very simple check. Could be done better.
      */
-    public function checkQuery(string $q) : bool
+    public function checkQuery(string $q): bool
     {
         if ((is_int(stripos($q, "create table")) || is_int(stripos($q, "alter table")) ||
                 is_int(stripos($q, "drop table")))
@@ -86,12 +87,12 @@ class ilPluginDBUpdate extends ilDBUpdate
         return true;
     }
 
-    public function getDBUpdateScriptName() : string
+    public function getDBUpdateScriptName(): string
     {
         return $this->plugin->getPath() . self::PLUGIN_UPDATE_FILE;
     }
 
-    protected function getTablePrefix() : string
+    protected function getTablePrefix(): string
     {
         $component = $this->plugin->getComponent();
         $slot = $this->plugin->getPluginSlot();

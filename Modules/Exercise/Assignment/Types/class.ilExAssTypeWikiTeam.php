@@ -15,7 +15,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 use ILIAS\Wiki\Export\WikiHtmlExport;
 
 /**
@@ -42,34 +42,34 @@ class ilExAssTypeWikiTeam implements ilExAssignmentTypeInterface
             ?: $DIC->language();
     }
 
-    public function isActive() : bool
+    public function isActive(): bool
     {
         return true;
     }
 
-    public function usesTeams() : bool
+    public function usesTeams(): bool
     {
         return true;
     }
 
-    public function usesFileUpload() : bool
+    public function usesFileUpload(): bool
     {
         return false;
     }
 
-    public function getTitle() : string
+    public function getTitle(): string
     {
         $lng = $this->lng;
         $lng->loadLanguageModule("wiki");
         return $lng->txt("wiki_type_wiki_team");
     }
 
-    public function getSubmissionType() : string
+    public function getSubmissionType(): string
     {
         return ilExSubmission::TYPE_REPO_OBJECT;
     }
 
-    public function isSubmissionAssignedToTeam() : bool
+    public function isSubmissionAssignedToTeam(): bool
     {
         return true;
     }
@@ -80,7 +80,7 @@ class ilExAssTypeWikiTeam implements ilExAssignmentTypeInterface
      * @throws ilTemplateException
      * @throws ilWikiExportException
      */
-    public function submitWiki(int $a_ass_id, int $a_user_id, int $a_wiki_ref_id) : void
+    public function submitWiki(int $a_ass_id, int $a_user_id, int $a_wiki_ref_id): void
     {
         $ass = new ilExAssignment($a_ass_id);
         $submission = new ilExSubmission($ass, $a_user_id);
@@ -126,7 +126,7 @@ class ilExAssTypeWikiTeam implements ilExAssignmentTypeInterface
         ilExAssignment $ass,
         ilExSubmission $submission,
         $a_no_notifications = false
-    ) : void {
+    ): void {
         $has_submitted = $submission->hasSubmitted();
 
         // we need one ref id here
@@ -161,7 +161,7 @@ class ilExAssTypeWikiTeam implements ilExAssignmentTypeInterface
     public function cloneSpecificProperties(
         ilExAssignment $source,
         ilExAssignment $target
-    ) : void {
+    ): void {
         $source_ar = new ilExAssWikiTeamAR($source->getId());
         $target_ar = new ilExAssWikiTeamAR();
         $target_ar->setId($target->getId());
@@ -170,18 +170,18 @@ class ilExAssTypeWikiTeam implements ilExAssignmentTypeInterface
         $target_ar->save();
     }
 
-    public function supportsWebDirAccess() : bool
+    public function supportsWebDirAccess(): bool
     {
         return true;
     }
 
-    public function getStringIdentifier() : string
+    public function getStringIdentifier(): string
     {
         return self::STR_IDENTIFIER;
     }
 
     // In case of wikis we get the ref id as resource id
-    public function getExportObjIdForResourceId(int $resource_id) : int
+    public function getExportObjIdForResourceId(int $resource_id): int
     {
         return ilObject::_lookupObjectId($resource_id);
     }

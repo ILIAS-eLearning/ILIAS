@@ -54,7 +54,7 @@ class FlySystemFileAccessTest extends TestCase
      * Sets up the fixture, for example, open a network connection.
      * This method is called before a test is executed.
      */
-    protected function setUp() : void
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -67,7 +67,7 @@ class FlySystemFileAccessTest extends TestCase
      * @Test
      * @small
      */
-    public function testReadWhichShouldSucceed() : void
+    public function testReadWhichShouldSucceed(): void
     {
         $fileContent = 'Test file content.';
 
@@ -91,7 +91,7 @@ class FlySystemFileAccessTest extends TestCase
      * @Test
      * @small
      */
-    public function testReadWithGeneralFileAccessErrorWhichShouldFail() : void
+    public function testReadWithGeneralFileAccessErrorWhichShouldFail(): void
     {
         $path = 'path/to/your/file';
 
@@ -117,7 +117,7 @@ class FlySystemFileAccessTest extends TestCase
      * @Test
      * @small
      */
-    public function testReadWithMissingFileWhichShouldFail() : void
+    public function testReadWithMissingFileWhichShouldFail(): void
     {
         $path = 'path/to/your/file';
 
@@ -139,7 +139,7 @@ class FlySystemFileAccessTest extends TestCase
      * @Test
      * @small
      */
-    public function testGetMimeTypeWhichShouldSucceed() : void
+    public function testGetMimeTypeWhichShouldSucceed(): void
     {
         $mimeType = 'image/jpeg';
         $this->filesystemMock->shouldReceive('getMimetype')
@@ -154,7 +154,7 @@ class FlySystemFileAccessTest extends TestCase
      * @Test
      * @small
      */
-    public function testGetMimeTypeWithUnknownMimeTypeWhichShouldFail() : void
+    public function testGetMimeTypeWithUnknownMimeTypeWhichShouldFail(): void
     {
         $path = '/path/to/your/file';
         $this->filesystemMock->shouldReceive('getMimetype')
@@ -172,7 +172,7 @@ class FlySystemFileAccessTest extends TestCase
      * @Test
      * @small
      */
-    public function testGetMimeTypeWithMissingFileWhichShouldFail() : void
+    public function testGetMimeTypeWithMissingFileWhichShouldFail(): void
     {
         $path = '/path/to/your/file';
         $this->filesystemMock->shouldReceive('getMimetype')
@@ -190,7 +190,7 @@ class FlySystemFileAccessTest extends TestCase
      * @Test
      * @small
      */
-    public function testGetTimestampWhichShouldSucceed() : void
+    public function testGetTimestampWhichShouldSucceed(): void
     {
         $timestamp = '06.02.2012';
         $this->filesystemMock->shouldReceive('getTimestamp')
@@ -217,7 +217,7 @@ class FlySystemFileAccessTest extends TestCase
      * @Test
      * @small
      */
-    public function testGetTimestampWithUnknownErrorWhichShouldFail() : void
+    public function testGetTimestampWithUnknownErrorWhichShouldFail(): void
     {
         $path = '/path/to/your/file';
         $this->filesystemMock->shouldReceive('getTimestamp')
@@ -235,7 +235,7 @@ class FlySystemFileAccessTest extends TestCase
      * @Test
      * @small
      */
-    public function testGetTimestampWithMissingFileWhichShouldFail() : void
+    public function testGetTimestampWithMissingFileWhichShouldFail(): void
     {
         $path = '/path/to/your/file';
         $this->filesystemMock->shouldReceive('getTimestamp')
@@ -253,7 +253,7 @@ class FlySystemFileAccessTest extends TestCase
      * @Test
      * @small
      */
-    public function testGetSizeWhichShouldSucceed() : void
+    public function testGetSizeWhichShouldSucceed(): void
     {
         $rawSize = 1024;
         $size = new DataSize($rawSize, DataSize::KiB);
@@ -271,7 +271,7 @@ class FlySystemFileAccessTest extends TestCase
      * @Test
      * @small
      */
-    public function testGetSizeWithUnknownAdapterErrorWhichShouldFail() : void
+    public function testGetSizeWithUnknownAdapterErrorWhichShouldFail(): void
     {
         $path = '/path/to/your/file';
         $this->filesystemMock->shouldReceive('getSize')
@@ -289,7 +289,7 @@ class FlySystemFileAccessTest extends TestCase
      * @Test
      * @small
      */
-    public function testGetSizeWithMissingFileWhichShouldFail() : void
+    public function testGetSizeWithMissingFileWhichShouldFail(): void
     {
         $path = '/path/to/your/file';
         $this->filesystemMock->shouldReceive('getSize')
@@ -307,7 +307,7 @@ class FlySystemFileAccessTest extends TestCase
      * @Test
      * @small
      */
-    public function testSetVisibilityWhichShouldSucceed() : void
+    public function testSetVisibilityWhichShouldSucceed(): void
     {
         $path = '/path/to/your/file';
         $visibility = "private";
@@ -330,7 +330,7 @@ class FlySystemFileAccessTest extends TestCase
      * @Test
      * @small
      */
-    public function testSetVisibilityThatFailedDueToAdapterFailureWhichShouldFail() : void
+    public function testSetVisibilityThatFailedDueToAdapterFailureWhichShouldFail(): void
     {
         $path = '/path/to/your/file';
         $visibility = "private";
@@ -353,7 +353,7 @@ class FlySystemFileAccessTest extends TestCase
      * @Test
      * @small
      */
-    public function testSetVisibilityWithMissingFileWhichShouldFail() : void
+    public function testSetVisibilityWithMissingFileWhichShouldFail(): void
     {
         $path = '/path/to/your/file';
         $visibility = "private";
@@ -373,7 +373,7 @@ class FlySystemFileAccessTest extends TestCase
      * @Test
      * @small
      */
-    public function testSetVisibilityWithInvalidAccessModifierWhichShouldFail() : void
+    public function testSetVisibilityWithInvalidAccessModifierWhichShouldFail(): void
     {
         $path = '/path/to/your/file';
         $visibility = "not valid";
@@ -393,7 +393,7 @@ class FlySystemFileAccessTest extends TestCase
      * @Test
      * @small
      */
-    public function testGetVisibilityWhichShouldSucceed() : void
+    public function testGetVisibilityWhichShouldSucceed(): void
     {
         $path = '/path/to/your/file';
         $visibility = "private";
@@ -416,7 +416,7 @@ class FlySystemFileAccessTest extends TestCase
      * @Test
      * @small
      */
-    public function testGetVisibilityWithMissingFileWhichShouldFail() : void
+    public function testGetVisibilityWithMissingFileWhichShouldFail(): void
     {
         $path = '/path/to/your/file';
 
@@ -435,7 +435,7 @@ class FlySystemFileAccessTest extends TestCase
      * @Test
      * @small
      */
-    public function testGetVisibilityWithAdapterErrorWhichShouldFail() : void
+    public function testGetVisibilityWithAdapterErrorWhichShouldFail(): void
     {
         $path = '/path/to/your/file';
 
@@ -459,7 +459,7 @@ class FlySystemFileAccessTest extends TestCase
      * @Test
      * @small
      */
-    public function testWriteWhichShouldSucceed() : void
+    public function testWriteWhichShouldSucceed(): void
     {
         $path = '/path/to/your/file';
         $content = "some awesome content";
@@ -476,7 +476,7 @@ class FlySystemFileAccessTest extends TestCase
      * @Test
      * @small
      */
-    public function testWriteWithAlreadyExistingFileWhichShouldFail() : void
+    public function testWriteWithAlreadyExistingFileWhichShouldFail(): void
     {
         $path = '/path/to/your/file';
         $content = "some awesome content";
@@ -496,7 +496,7 @@ class FlySystemFileAccessTest extends TestCase
      * @Test
      * @small
      */
-    public function testWriteWithAdapterErrorWhichShouldFail() : void
+    public function testWriteWithAdapterErrorWhichShouldFail(): void
     {
         $path = '/path/to/your/file';
         $content = "some awesome content";
@@ -516,7 +516,7 @@ class FlySystemFileAccessTest extends TestCase
      * @Test
      * @small
      */
-    public function testUpdateWhichShouldSucceed() : void
+    public function testUpdateWhichShouldSucceed(): void
     {
         $path = '/path/to/your/file';
         $content = "some awesome content";
@@ -533,7 +533,7 @@ class FlySystemFileAccessTest extends TestCase
      * @Test
      * @small
      */
-    public function testUpdateWithAdapterErrorWhichShouldFail() : void
+    public function testUpdateWithAdapterErrorWhichShouldFail(): void
     {
         $path = '/path/to/your/file';
         $content = "some awesome content";
@@ -553,7 +553,7 @@ class FlySystemFileAccessTest extends TestCase
      * @Test
      * @small
      */
-    public function testUpdateWithMissingFileWhichShouldFail() : void
+    public function testUpdateWithMissingFileWhichShouldFail(): void
     {
         $path = '/path/to/your/file';
         $content = "some awesome content";
@@ -573,7 +573,7 @@ class FlySystemFileAccessTest extends TestCase
      * @Test
      * @small
      */
-    public function testPutWhichShouldSucceed() : void
+    public function testPutWhichShouldSucceed(): void
     {
         $path = '/path/to/your/file';
         $content = "some awesome content";
@@ -590,7 +590,7 @@ class FlySystemFileAccessTest extends TestCase
      * @Test
      * @small
      */
-    public function testPutWithAdapterErrorWhichShouldFail() : void
+    public function testPutWithAdapterErrorWhichShouldFail(): void
     {
         $path = '/path/to/your/file';
         $content = "some awesome content";
@@ -610,7 +610,7 @@ class FlySystemFileAccessTest extends TestCase
      * @Test
      * @small
      */
-    public function testDeleteWhichShouldSucceed() : void
+    public function testDeleteWhichShouldSucceed(): void
     {
         $path = '/path/to/your/file';
 
@@ -626,7 +626,7 @@ class FlySystemFileAccessTest extends TestCase
      * @Test
      * @small
      */
-    public function testDeleteWithAdapterErrorWhichShouldFail() : void
+    public function testDeleteWithAdapterErrorWhichShouldFail(): void
     {
         $path = '/path/to/your/file';
 
@@ -645,7 +645,7 @@ class FlySystemFileAccessTest extends TestCase
      * @Test
      * @small
      */
-    public function testDeleteWithMissingFileWhichShouldFail() : void
+    public function testDeleteWithMissingFileWhichShouldFail(): void
     {
         $path = '/path/to/your/file';
 
@@ -665,7 +665,7 @@ class FlySystemFileAccessTest extends TestCase
      * @small
      * Maybe a useless test.
      */
-    public function testReadAndDeleteWhichShouldSucceed() : void
+    public function testReadAndDeleteWhichShouldSucceed(): void
     {
         $path = '/path/to/your/file';
         $content = "awesome content";
@@ -690,7 +690,7 @@ class FlySystemFileAccessTest extends TestCase
      * @Test
      * @small
      */
-    public function testRenameWhichShouldSucceed() : void
+    public function testRenameWhichShouldSucceed(): void
     {
         $source = '/source/path';
         $destination = '/dest/path';
@@ -708,7 +708,7 @@ class FlySystemFileAccessTest extends TestCase
      * @Test
      * @small
      */
-    public function testRenameWithMissingSourceWhichShouldFail() : void
+    public function testRenameWithMissingSourceWhichShouldFail(): void
     {
         $source = '/source/path';
         $destination = '/dest/path';
@@ -729,7 +729,7 @@ class FlySystemFileAccessTest extends TestCase
      * @Test
      * @small
      */
-    public function testRenameWithExistingDestinationWhichShouldFail() : void
+    public function testRenameWithExistingDestinationWhichShouldFail(): void
     {
         $source = '/source/path';
         $destination = '/dest/path';
@@ -750,7 +750,7 @@ class FlySystemFileAccessTest extends TestCase
      * @Test
      * @small
      */
-    public function testRenameWithGeneralErrorWhichShouldFail() : void
+    public function testRenameWithGeneralErrorWhichShouldFail(): void
     {
         $source = '/source/path';
         $destination = '/dest/path';
@@ -771,7 +771,7 @@ class FlySystemFileAccessTest extends TestCase
      * @Test
      * @small
      */
-    public function testCopyWhichShouldSucceed() : void
+    public function testCopyWhichShouldSucceed(): void
     {
         $sourcePath = '/path/to/your/source/file';
         $destinationPath = '/path/to/your/destination/file';
@@ -788,7 +788,7 @@ class FlySystemFileAccessTest extends TestCase
      * @Test
      * @small
      */
-    public function testCopyWithAdapterErrorWhichShouldFail() : void
+    public function testCopyWithAdapterErrorWhichShouldFail(): void
     {
         $sourcePath = '/path/to/your/source/file';
         $destinationPath = '/path/to/your/destination/file';
@@ -808,7 +808,7 @@ class FlySystemFileAccessTest extends TestCase
      * @Test
      * @small
      */
-    public function testCopyWithMissingFileWhichShouldFail() : void
+    public function testCopyWithMissingFileWhichShouldFail(): void
     {
         $sourcePath = '/path/to/your/source/file';
         $destinationPath = '/path/to/your/destination/file';
@@ -828,7 +828,7 @@ class FlySystemFileAccessTest extends TestCase
      * @Test
      * @small
      */
-    public function testCopyWithExistingDestinationFileWhichShouldFail() : void
+    public function testCopyWithExistingDestinationFileWhichShouldFail(): void
     {
         $sourcePath = '/path/to/your/source/file';
         $destinationPath = '/path/to/your/destination/file';

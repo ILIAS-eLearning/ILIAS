@@ -24,8 +24,8 @@
 class ilPortfolioImporter extends ilXmlImporter
 {
     protected ilPortfolioDataSet $ds;
-    
-    public function init() : void
+
+    public function init(): void
     {
         $this->ds = new ilPortfolioDataSet();
         $this->ds->setDSPrefix("ds");
@@ -36,7 +36,7 @@ class ilPortfolioImporter extends ilXmlImporter
         string $a_id,
         string $a_xml,
         ilImportMapping $a_mapping
-    ) : void {
+    ): void {
         $this->ds->setImportDirectory($this->getImportDirectory());
         $parser = new ilDataSetImportParser(
             $a_entity,
@@ -46,10 +46,10 @@ class ilPortfolioImporter extends ilXmlImporter
             $a_mapping
         );
     }
-    
+
     public function finalProcessing(
         ilImportMapping $a_mapping
-    ) : void {
+    ): void {
         $prttpg_map = $a_mapping->getMappingsOfEntity("Services/COPage", "pg");
         foreach ($prttpg_map as $prttpg_id) {
             $prttpg_id = substr($prttpg_id, 5);

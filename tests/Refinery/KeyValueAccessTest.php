@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -28,12 +30,12 @@ class KeyValueAccessTest extends PHPUnitTestCase
 {
     private Refinery $refinery;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
-        $this->refinery = new Refinery(new DataFactory, $this->createMock(ilLanguage::class));
+        $this->refinery = new Refinery(new DataFactory(), $this->createMock(ilLanguage::class));
     }
 
-    public function testAccess() : void
+    public function testAccess(): void
     {
         $array = [
             'key_one' => '1',
@@ -50,7 +52,7 @@ class KeyValueAccessTest extends PHPUnitTestCase
         $this->assertEquals(null, $kv['key_four']);
     }
 
-    public function testRecursion() : void
+    public function testRecursion(): void
     {
         $array = [
             'key_one' => '1',

@@ -33,7 +33,7 @@ class ImportOrgUnitTree extends Base
      * @return void
      * @throws \ilSoapPluginException
      */
-    protected function run(array $params) : bool
+    protected function run(array $params): bool
     {
         global $DIC;
         $DIC->language()->loadLanguageModule('orgu');
@@ -71,7 +71,7 @@ class ImportOrgUnitTree extends Base
         return true;
     }
 
-    public function getName() : string
+    public function getName(): string
     {
         return "importOrgUnitsSimpleXML";
     }
@@ -81,12 +81,12 @@ class ImportOrgUnitTree extends Base
         return array(self::ORG_UNIT_TREE => Base::TYPE_STRING);
     }
 
-    public function getOutputParams() : array
+    public function getOutputParams(): array
     {
         return [];
     }
 
-    public function getDocumentation() : string
+    public function getDocumentation(): string
     {
         return "Imports ILIAS Organisational Units (SimpleXML)";
     }

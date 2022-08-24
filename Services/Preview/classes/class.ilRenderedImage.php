@@ -30,13 +30,13 @@ class ilRenderedImage
      * The absolute path to the image.
      */
     private ?string $img_path = null;
-    
+
     /**
      * Defines whether the image is temporary and can be deleted after
      * the preview was created from the image.
      */
     private bool $is_temporary = true;
-    
+
     /**
      * Constructor
      *
@@ -48,31 +48,31 @@ class ilRenderedImage
         $this->img_path = $img_path;
         $this->is_temporary = $is_temporary;
     }
-    
+
     /**
      * Gets the absolute path to the rendered image.
      *
      * @return string The absolute path to the rendered image.
      */
-    public function getImagePath() : ?string
+    public function getImagePath(): ?string
     {
         return $this->img_path;
     }
-    
+
     /**
      * Defines whether the image is temporary and can be deleted after the preview was created.
      *
      * @return bool true, if the image is temporary and can be deleted after the preview was created; otherwise, false.
      */
-    public function isTemporary() : bool
+    public function isTemporary(): bool
     {
         return $this->is_temporary;
     }
-    
+
     /**
      * Deletes the image file if it is temporary.
      */
-    public function delete() : void
+    public function delete(): void
     {
         // only delete if not temporary
         if ($this->isTemporary() && is_file($this->getImagePath())) {

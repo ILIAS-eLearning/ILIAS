@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -21,7 +23,7 @@ interface ilBuddySystemRelationStateTableFilterMapper
     /**
      * @return array<string, string> A map of options for a state, where the value is the translation and the key a unique key describing the state
      */
-    public function optionsForState() : array;
+    public function optionsForState(): array;
 
-    public function filterMatchesRelation(string $filterKey, ilBuddySystemRelation $relation) : bool;
+    public function filterMatchesRelation(string $filterKey, ilBuddySystemRelation $relation): bool;
 }

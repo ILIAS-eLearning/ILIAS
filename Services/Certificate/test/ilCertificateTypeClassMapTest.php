@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -23,40 +25,40 @@ class ilCertificateTypeClassMapTest extends ilCertificateBaseTestCase
 {
     private ilCertificateTypeClassMap $classMap;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         $this->classMap = new ilCertificateTypeClassMap();
     }
 
-    public function testFetchCoursePlaceHolderClass() : void
+    public function testFetchCoursePlaceHolderClass(): void
     {
         $class = $this->classMap->getPlaceHolderClassNameByType('crs');
 
         $this->assertSame(ilCoursePlaceholderValues::class, $class);
     }
 
-    public function testFetchTestPlaceHolderClass() : void
+    public function testFetchTestPlaceHolderClass(): void
     {
         $class = $this->classMap->getPlaceHolderClassNameByType('tst');
 
         $this->assertSame(ilTestPlaceholderValues::class, $class);
     }
 
-    public function testFetchExercisePlaceHolderClass() : void
+    public function testFetchExercisePlaceHolderClass(): void
     {
         $class = $this->classMap->getPlaceHolderClassNameByType('exc');
 
         $this->assertSame(ilExercisePlaceholderValues::class, $class);
     }
 
-    public function testFetchScormPlaceHolderClass() : void
+    public function testFetchScormPlaceHolderClass(): void
     {
         $class = $this->classMap->getPlaceHolderClassNameByType('sahs');
 
         $this->assertSame(ilScormPlaceholderValues::class, $class);
     }
 
-    public function testFetchUnknownClassWillResultInException() : void
+    public function testFetchUnknownClassWillResultInException(): void
     {
         $this->expectException(ilException::class);
 
@@ -65,28 +67,28 @@ class ilCertificateTypeClassMapTest extends ilCertificateBaseTestCase
         $this->fail('Should never happen. No Exception thrown?');
     }
 
-    public function testIsCourseExisting() : void
+    public function testIsCourseExisting(): void
     {
         $result = $this->classMap->typeExistsInMap('crs');
 
         $this->assertTrue($result);
     }
 
-    public function testIsTestExisting() : void
+    public function testIsTestExisting(): void
     {
         $result = $this->classMap->typeExistsInMap('tst');
 
         $this->assertTrue($result);
     }
 
-    public function testIsExerciseExisting() : void
+    public function testIsExerciseExisting(): void
     {
         $result = $this->classMap->typeExistsInMap('exc');
 
         $this->assertTrue($result);
     }
 
-    public function testUnknownTypeIsNotExisting() : void
+    public function testUnknownTypeIsNotExisting(): void
     {
         $result = $this->classMap->typeExistsInMap('something');
 

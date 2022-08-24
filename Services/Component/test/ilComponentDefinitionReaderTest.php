@@ -21,18 +21,18 @@ class ilComponentDefinitionReaderTest extends TestCase
         ["Services", "A_Service", "/other/path/to/service.xml"]
     ];
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         $this->processor1 = $this->createMock(ilComponentDefinitionProcessorMock1::class);
         $this->processor2 = $this->createMock(ilComponentDefinitionProcessorMock2::class);
 
-        $this->reader = new class($this->processor1, $this->processor2) extends ilComponentDefinitionReader {
-            protected function getComponents() : Iterator
+        $this->reader = new class ($this->processor1, $this->processor2) extends ilComponentDefinitionReader {
+            protected function getComponents(): Iterator
             {
                 return new ArrayIterator(ilComponentDefinitionReaderTest::$components);
             }
             public $read_files = [];
-            protected function readFile(string $path) : string
+            protected function readFile(string $path): string
             {
                 $this->read_files[] = $path;
                 if ($path === "/path/to/module.xml") {
@@ -56,7 +56,7 @@ class ilComponentDefinitionReaderTest extends TestCase
         };
     }
 
-    public function testPurge() : void
+    public function testPurge(): void
     {
         $this->processor1
             ->expects($this->once())
@@ -70,13 +70,13 @@ class ilComponentDefinitionReaderTest extends TestCase
         $this->reader->purge();
     }
 
-    public function testGetComponents() : void
+    public function testGetComponents(): void
     {
-        $reader = new class extends ilComponentDefinitionReader {
+        $reader = new class () extends ilComponentDefinitionReader {
             public function __construct()
             {
             }
-            public function _getComponents() : array
+            public function _getComponents(): array
             {
                 return iterator_to_array($this->getComponents());
             }
@@ -89,7 +89,7 @@ class ilComponentDefinitionReaderTest extends TestCase
         $this->assertContains(["Services", "Component", realpath(__DIR__ . "/../../../Services/Component/service.xml")], $components);
     }
 
-    public function testReadComponentDefinitions() : void
+    public function testReadComponentDefinitions(): void
     {
         $processor1_stack = [];
         $this->processor1

@@ -29,7 +29,6 @@ namespace ILIAS\FileUpload\Collection;
  */
 interface StringMap extends ImmutableStringMap
 {
-
     /**
      * Puts a new key value pair into the string array.
      *
@@ -41,5 +40,5 @@ interface StringMap extends ImmutableStringMap
      *                                          string.
      * @since 5.3
      */
-    public function put(string $key, string $value) : void;
+    public function put(string $key, string $value): void;
 }

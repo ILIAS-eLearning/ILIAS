@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -22,7 +24,7 @@
  */
 class ilTermsOfServiceAppEventListenerTest extends ilTermsOfServiceBaseTest
 {
-    public function testAcceptanceHistoryDeletionIsDelegatedWhenUserIsDeleted() : void
+    public function testAcceptanceHistoryDeletionIsDelegatedWhenUserIsDeleted(): void
     {
         $helper = $this->getMockBuilder(ilTermsOfServiceHelper::class)->disableOriginalConstructor()->getMock();
 
@@ -51,7 +53,7 @@ class ilTermsOfServiceAppEventListenerTest extends ilTermsOfServiceBaseTest
             ->handle();
     }
 
-    public function testStaticEventListeningWorksAsExpected() : void
+    public function testStaticEventListeningWorksAsExpected(): void
     {
         $database = $this
             ->getMockBuilder(ilDBInterface::class)
@@ -89,7 +91,7 @@ class ilTestableTermsOfServiceAppEventListener extends ilTermsOfServiceAppEventL
 {
     public static ilTermsOfServiceHelper $mockHelper;
 
-    public static function handleEvent(string $a_component, string $a_event, array $a_parameter) : void
+    public static function handleEvent(string $a_component, string $a_event, array $a_parameter): void
     {
         $listener = new self(self::$mockHelper);
         $listener

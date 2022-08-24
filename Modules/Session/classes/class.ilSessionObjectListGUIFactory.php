@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -27,21 +29,21 @@
 class ilSessionObjectListGUIFactory
 {
     private static array $item_list_gui = [];
-    
+
     /**
      * Get list gui by type
      * This method caches all the returned list guis
      */
-    public static function factory(string $a_type) : ?ilObjectListGUI
+    public static function factory(string $a_type): ?ilObjectListGUI
     {
         global $DIC;
 
         $objDefinition = $DIC['objDefinition'];
-        
+
         if (isset(self::$item_list_gui[$a_type])) {
             return self::$item_list_gui[$a_type];
         }
-        
+
         if (!$a_type) {
             return null;
         }

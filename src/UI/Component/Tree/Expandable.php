@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,10 +17,10 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\UI\Component\Tree;
 
-use \ILIAS\UI\Component\JavaScriptBindable;
+use ILIAS\UI\Component\JavaScriptBindable;
 
 /**
  * This describes a Tree Control

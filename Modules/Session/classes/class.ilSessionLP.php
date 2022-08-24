@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -26,20 +28,20 @@
  */
 class ilSessionLP extends ilObjectLP
 {
-    public static function getDefaultModes(bool $a_lp_active) : array
+    public static function getDefaultModes(bool $a_lp_active): array
     {
         return array(
             ilLPObjSettings::LP_MODE_DEACTIVATED,
             ilLPObjSettings::LP_MODE_EVENT
         );
     }
-    
-    public function getDefaultMode() : int
+
+    public function getDefaultMode(): int
     {
         return ilLPObjSettings::LP_MODE_EVENT;
     }
-    
-    public function getValidModes() : array
+
+    public function getValidModes(): array
     {
         return array(
             ilLPObjSettings::LP_MODE_DEACTIVATED,

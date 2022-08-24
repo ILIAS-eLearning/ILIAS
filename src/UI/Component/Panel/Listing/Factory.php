@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\UI\Component\Panel\Listing;
 
 use ILIAS\UI\Component\Item\Group;
@@ -41,5 +43,5 @@ interface Factory
      * @param \ILIAS\UI\Component\Item\Group[] $item_groups Item groups
      * @return \ILIAS\UI\Component\Panel\Listing\Standard
      */
-    public function standard(string $title, array $item_groups) : Standard;
+    public function standard(string $title, array $item_groups): Standard;
 }

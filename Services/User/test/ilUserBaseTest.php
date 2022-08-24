@@ -23,7 +23,7 @@ use PHPUnit\Framework\TestCase;
  */
 class ilUserBaseTest extends TestCase
 {
-    protected function assertException(string $exception_class) : void
+    protected function assertException(string $exception_class): void
     {
         $this->expectException($exception_class);
     }

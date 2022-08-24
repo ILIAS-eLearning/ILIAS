@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace ILIAS\UI\examples\Layout\Page\Standard;
 
@@ -7,7 +9,7 @@ use Psr\Http\Message\RequestInterface;
 use ILIAS\Data\Factory;
 use ILIAS\UI\Component\MainControls\MainBar;
 
-function ui_mainbar() : string
+function ui_mainbar(): string
 {
     global $DIC;
     $f = $DIC->ui()->factory();
@@ -25,7 +27,7 @@ function ui_mainbar() : string
     ]);
 }
 
-function getUIMainbar(\ILIAS\UI\Factory $f, \ILIAS\Data\URI $uri, bool $condensed = false) : MainBar
+function getUIMainbar(\ILIAS\UI\Factory $f, \ILIAS\Data\URI $uri, bool $condensed = false): MainBar
 {
     $symbol = $f->symbol()->icon()->standard('rcat', 'Fischotter');
     $link010 = $f->link()->bulky($symbol, '2021 - Fischotter', $uri->withParameter('c', 1));
@@ -112,7 +114,7 @@ EOT;
         ->withAdditionalEntry('slate0', $slate_base);
 }
 
-function getUIContent(\ILIAS\UI\Factory $f, RequestInterface $request) : array
+function getUIContent(\ILIAS\UI\Factory $f, RequestInterface $request): array
 {
     $params = $request->getQueryParams();
     $cidx = -1;
@@ -163,7 +165,7 @@ function getUIContent(\ILIAS\UI\Factory $f, RequestInterface $request) : array
                 ,$f->link()->standard("Quelle: Wikipedia", "https://de.wikipedia.org/wiki/Tier_des_Jahres")
             ];
             break;
-     
+
         case 7:
             $t = 'Frühbarock';
             $c = [
@@ -179,7 +181,7 @@ function getUIContent(\ILIAS\UI\Factory $f, RequestInterface $request) : array
             $t = 'Spätbarock';
             $c = [$f->legacy('<h1>Spätbarock</h1><p><b>etwa 1710 bis 1750</b><br>Entwickelte sich im Hochbarock die Musik noch unabhängig in verschiedenen Regionen Europas, so zeichnete sich der Spätbarock durch eine grenzübergreifende Verbreitung der Stile aus. Im deutschen Raum trieb Georg Philipp Telemann (1681–1767) diese Entwicklung voran und wurde schließlich zur „Ikone“ unter den Tonkünstlern.</p>')];
             break;
-     
+
         default:
             $t = 'Mainbar-Demo';
             $c = [$f->legacy('Dies ist ein reduziertes Beispiel für die Mainbar des UI-Frameworks.')];
@@ -208,7 +210,7 @@ if (isset($request_wrapper) && isset($refinery) && $request_wrapper->has('ui_mai
     }
 }
 
-function getURI() : \ILIAS\Data\URI
+function getURI(): \ILIAS\Data\URI
 {
     $df = new Factory();
     return $df->uri(
@@ -220,7 +222,7 @@ function getURI() : \ILIAS\Data\URI
     );
 }
 
-function getRenderedPage(Container $dic, MainBar $mainbar) : string
+function getRenderedPage(Container $dic, MainBar $mainbar): string
 {
     $f = $dic->ui()->factory();
     list($page_title, $content) = getUIContent($f, $dic->http()->request());
@@ -253,12 +255,12 @@ function getRenderedPage(Container $dic, MainBar $mainbar) : string
     return $dic->ui()->renderer()->render($page);
 }
 
-function getUIMainbarExampleFull(Container $dic) : string
+function getUIMainbarExampleFull(Container $dic): string
 {
     return getRenderedPage($dic, getUIMainbar($dic->ui()->factory(), getURI()));
 }
 
-function getUIMainbarExampleCondensed(Container $dic) : string
+function getUIMainbarExampleCondensed(Container $dic): string
 {
     return getRenderedPage($dic, getUIMainbar($dic->ui()->factory(), getURI(), true));
 }

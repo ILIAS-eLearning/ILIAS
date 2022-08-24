@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\UI\Implementation\Component\Chart\Bar;
 
 use ILIAS\UI\Component as C;
@@ -32,19 +34,19 @@ class Horizontal extends Bar implements C\Chart\Bar\Horizontal
         $this->x_axis = new XAxis();
     }
 
-    public function getIndexAxis() : string
+    public function getIndexAxis(): string
     {
         return "y";
     }
 
-    public function withCustomXAxis(XAxis $x_axis) : self
+    public function withCustomXAxis(XAxis $x_axis): self
     {
         $clone = clone $this;
         $clone->x_axis = $x_axis;
         return $clone;
     }
 
-    public function getXAxis() : XAxis
+    public function getXAxis(): XAxis
     {
         return $this->x_axis;
     }

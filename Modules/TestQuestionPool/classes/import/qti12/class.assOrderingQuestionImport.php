@@ -30,7 +30,7 @@ class assOrderingQuestionImport extends assQuestionImport
      * @var assOrderingQuestion
      */
     public $object;
-    
+
     /**
     * Creates a question from a QTI file
     *
@@ -44,7 +44,7 @@ class assOrderingQuestionImport extends assQuestionImport
     * @param array $import_mapping An array containing references to included ILIAS objects
     * @access public
     */
-    public function fromXML(&$item, $questionpool_id, &$tst_id, &$tst_object, &$question_counter, &$import_mapping) : void
+    public function fromXML(&$item, $questionpool_id, &$tst_id, &$tst_object, &$question_counter, &$import_mapping): void
     {
         global $DIC;
         $ilUser = $DIC['ilUser'];
@@ -60,7 +60,7 @@ class assOrderingQuestionImport extends assQuestionImport
         $created = sprintf("%04d%02d%02d%02d%02d%02d", $now['year'], $now['mon'], $now['mday'], $now['hours'], $now['minutes'], $now['seconds']);
         $answers = array();
         $type = OQ_TERMS;
-        
+
         foreach ($presentation->order as $entry) {
             switch ($entry["type"]) {
                 case "response":
@@ -191,7 +191,7 @@ class assOrderingQuestionImport extends assQuestionImport
                 }
             }
         }
-        
+
         $itemfeedbacks = $this->getFeedbackAnswerSpecific($item, 'link_');
 
         $this->addGeneralMetadata($item);
@@ -209,7 +209,7 @@ class assOrderingQuestionImport extends assQuestionImport
         $this->object->setShuffle($shuffle);
         $points = 0;
         $solanswers = array();
-        
+
         foreach ($answers as $answer) {
             $solanswers[$answer["solutionorder"]] = $answer;
         }
@@ -217,9 +217,9 @@ class assOrderingQuestionImport extends assQuestionImport
         $position = 0;
         foreach ($solanswers as $answer) {
             $points += $answer["points"];
-            
+
             $element = new ilAssOrderingElement();
-            
+
             if ($element->isExportIdent($answer['ident'])) {
                 $element->setExportIdent($answer['ident']);
             } else {
@@ -228,13 +228,13 @@ class assOrderingQuestionImport extends assQuestionImport
                     $element->setIndentation($answer['answerdepth']);
                 }
             }
-            
+
             if ($this->object->isImageOrderingType()) {
                 $element->setContent($answer["answerimage"]["label"]);
             } else {
                 $element->setContent($answer["answertext"]);
             }
-            
+
             $this->object->getOrderingElementList()->addElement($element);
         }
         $points = ($item->getMetadataEntry("points") > 0) ? $item->getMetadataEntry("points") : $points;
@@ -293,10 +293,10 @@ class assOrderingQuestionImport extends assQuestionImport
                 } else {
                     $importfile = $this->getQplImportArchivDirectory() . '/' . $mob["uri"];
                 }
-                
+
                 global $DIC; /* @var ILIAS\DI\Container $DIC */
                 $DIC['ilLog']->write(__METHOD__ . ': import mob from dir: ' . $importfile);
-                
+
                 $media_object = ilObjMediaObject::_saveTempFileAsMediaObject(basename($importfile), $importfile, false);
                 ilObjMediaObject::_saveUsage($media_object->getId(), "qpl:html", $this->object->getId());
                 $questiontext = str_replace("src=\"" . $mob["mob"] . "\"", "src=\"" . "il_" . IL_INST_ID . "_mob_" . $media_object->getId() . "\"", $questiontext);
@@ -324,7 +324,7 @@ class assOrderingQuestionImport extends assQuestionImport
         }
         foreach ($itemfeedbacks as $ident => $material) {
             $index = $this->fetchIndexFromFeedbackIdent($ident, 'link_');
-            
+
             $this->object->feedbackOBJ->importSpecificAnswerFeedback(
                 $this->object->getId(),
                 0,

@@ -16,7 +16,6 @@
  *
  *********************************************************************/
 
-
 namespace ILIAS\LTI\ToolProvider\MediaType;
 
 use ILIAS\LTI\ToolProvider\Tool;
@@ -31,7 +30,6 @@ use ILIAS\LTI\ToolProvider\Profile;
  */
 class ResourceHandler
 {
-
     /**
      * Class constructor.
      * @param Tool                    $tool            Tool object
@@ -39,16 +37,16 @@ class ResourceHandler
      */
     public function __construct(Tool $tool, Profile\ResourceHandler $resourceHandler)
     {
-        $this->resource_type = new \stdClass;
+        $this->resource_type = new \stdClass();
         $this->resource_type->code = $resourceHandler->item->id;
-        $this->resource_name = new \stdClass;
+        $this->resource_name = new \stdClass();
         $this->resource_name->default_value = $resourceHandler->item->name;
         $this->resource_name->key = "{$resourceHandler->item->id}.resource.name";
-        $this->description = new \stdClass;
+        $this->description = new \stdClass();
         $this->description->default_value = $resourceHandler->item->description;
         $this->description->key = "{$resourceHandler->item->id}.resource.description";
-        $icon_info = new \stdClass;
-        $icon_info->default_location = new \stdClass;
+        $icon_info = new \stdClass();
+        $icon_info->default_location = new \stdClass();
         $icon_info->default_location->path = $resourceHandler->icon;
         $icon_info->key = "{$resourceHandler->item->id}.icon.path";
         $this->icon_info = array();

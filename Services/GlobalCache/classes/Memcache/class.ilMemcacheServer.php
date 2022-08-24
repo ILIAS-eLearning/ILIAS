@@ -15,7 +15,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * Class ilMemcacheServer
  * @author  Fabian Schmid <fs@studer-raimann.ch>
@@ -26,27 +26,27 @@ class ilMemcacheServer extends ActiveRecord
     /**
      * @var int
      */
-    const STATUS_INACTIVE = -1;
+    public const STATUS_INACTIVE = -1;
     /**
      * @var int
      */
-    const STATUS_ACTIVE = 1;
+    public const STATUS_ACTIVE = 1;
 
     /**
      * @description Return the Name of your Database Table
      * @deprecated
      */
-    public static function returnDbTableName() : string
+    public static function returnDbTableName(): string
     {
         return 'il_gc_memcache_server';
     }
 
-    public function isActive() : bool
+    public function isActive(): bool
     {
         return $this->getStatus() === self::STATUS_ACTIVE;
     }
 
-    public function isReachable() : bool
+    public function isReachable(): bool
     {
         $mem = new Memcached();
         $mem->resetServerList();
@@ -99,62 +99,62 @@ class ilMemcacheServer extends ActiveRecord
      */
     protected $flush_needed = false;
 
-    public function getId() : int
+    public function getId(): int
     {
         return $this->id;
     }
 
-    public function setId(int $id) : void
+    public function setId(int $id): void
     {
         $this->id = $id;
     }
 
-    public function getStatus() : int
+    public function getStatus(): int
     {
         return $this->status;
     }
 
-    public function setStatus(int $status) : void
+    public function setStatus(int $status): void
     {
         $this->status = $status;
     }
 
-    public function getHost() : string
+    public function getHost(): string
     {
         return $this->host;
     }
 
-    public function setHost(string $host) : void
+    public function setHost(string $host): void
     {
         $this->host = $host;
     }
 
-    public function getPort() : int
+    public function getPort(): int
     {
         return $this->port;
     }
 
-    public function setPort(int $port) : void
+    public function setPort(int $port): void
     {
         $this->port = $port;
     }
 
-    public function getFlushNeeded() : string
+    public function getFlushNeeded(): string
     {
         return $this->flush_needed;
     }
 
-    public function setFlushNeeded(string $flush_needed) : void
+    public function setFlushNeeded(string $flush_needed): void
     {
         $this->flush_needed = $flush_needed;
     }
 
-    public function getWeight() : int
+    public function getWeight(): int
     {
         return $this->weight;
     }
 
-    public function setWeight(int $weight) : void
+    public function setWeight(int $weight): void
     {
         $this->weight = $weight;
     }

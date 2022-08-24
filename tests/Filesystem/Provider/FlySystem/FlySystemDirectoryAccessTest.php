@@ -57,7 +57,7 @@ class FlySystemDirectoryAccessTest extends TestCase
     /**
      * @inheritDoc
      */
-    protected function setUp() : void
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -71,7 +71,7 @@ class FlySystemDirectoryAccessTest extends TestCase
      * @Test
      * @small
      */
-    public function testHasDirWhichShouldSucceed() : void
+    public function testHasDirWhichShouldSucceed(): void
     {
         $path = '/path/to/dir';
         $metadata = [
@@ -97,7 +97,7 @@ class FlySystemDirectoryAccessTest extends TestCase
      * @Test
      * @small
      */
-    public function testHasDirWithFileTargetWhichShouldFail() : void
+    public function testHasDirWithFileTargetWhichShouldFail(): void
     {
         $path = '/path/to/file';
         $metadata = [
@@ -123,7 +123,7 @@ class FlySystemDirectoryAccessTest extends TestCase
      * @Test
      * @small
      */
-    public function testHasDirWithoutTypeInformationWhichShouldFail() : void
+    public function testHasDirWithoutTypeInformationWhichShouldFail(): void
     {
         $path = '/path/to/file';
         $metadata = [
@@ -151,7 +151,7 @@ class FlySystemDirectoryAccessTest extends TestCase
      * @Test
      * @small
      */
-    public function testHasDirWithMissingDirWhichShouldSucceed() : void
+    public function testHasDirWithMissingDirWhichShouldSucceed(): void
     {
         $path = '/path/to/dir';
 
@@ -168,7 +168,7 @@ class FlySystemDirectoryAccessTest extends TestCase
      * @Test
      * @small
      */
-    public function testListContentsWhichShouldSucceed() : void
+    public function testListContentsWhichShouldSucceed(): void
     {
         $path = '/path/to/dir';
         $file = ['type' => 'file', 'path' => $path];
@@ -214,7 +214,7 @@ class FlySystemDirectoryAccessTest extends TestCase
      * @Test
      * @small
      */
-    public function testListContentsWithMissingRootDirectoryWhichShouldFail() : void
+    public function testListContentsWithMissingRootDirectoryWhichShouldFail(): void
     {
         $path = '/path/to/dir';
 
@@ -233,7 +233,7 @@ class FlySystemDirectoryAccessTest extends TestCase
      * @Test
      * @small
      */
-    public function testListContentsWithInvalidMetadataWhichShouldFail() : void
+    public function testListContentsWithInvalidMetadataWhichShouldFail(): void
     {
         $path = '/path/to/dir';
         $file = ['type' => 'file', 'path' => $path];
@@ -268,7 +268,7 @@ class FlySystemDirectoryAccessTest extends TestCase
      * @Test
      * @small
      */
-    public function testCreateDirWhichShouldSucceed() : void
+    public function testCreateDirWhichShouldSucceed(): void
     {
         $path = '/path/to/dir';
         $access = Visibility::PRIVATE_ACCESS;
@@ -286,7 +286,7 @@ class FlySystemDirectoryAccessTest extends TestCase
      * @Test
      * @small
      */
-    public function testCreateDirWithGeneralErrorWhichShouldFail() : void
+    public function testCreateDirWithGeneralErrorWhichShouldFail(): void
     {
         $path = '/path/to/dir';
         $access = Visibility::PRIVATE_ACCESS;
@@ -307,7 +307,7 @@ class FlySystemDirectoryAccessTest extends TestCase
      * @Test
      * @small
      */
-    public function testCreateDirWithInvalidVisibilityWhichShouldFail() : void
+    public function testCreateDirWithInvalidVisibilityWhichShouldFail(): void
     {
         $path = '/path/to/dir';
         $access = 'invalid';
@@ -322,7 +322,7 @@ class FlySystemDirectoryAccessTest extends TestCase
      * @Test
      * @small
      */
-    public function testCopyDirWhichShouldSucceed() : void
+    public function testCopyDirWhichShouldSucceed(): void
     {
         $srcPath = '/source/path/to/dir';
         $destPath = '/dest/path/to/dir';
@@ -392,7 +392,7 @@ class FlySystemDirectoryAccessTest extends TestCase
      * @Test
      * @small
      */
-    public function testCopyDirWithDestinationListContentErrorWhichShouldSucceed() : void
+    public function testCopyDirWithDestinationListContentErrorWhichShouldSucceed(): void
     {
         $srcPath = '/source/path/to/dir';
         $destPath = '/dest/path/to/dir';
@@ -460,7 +460,7 @@ class FlySystemDirectoryAccessTest extends TestCase
      * @Test
      * @small
      */
-    public function testCopyDirWithFullDestinationDirWhichShouldFail() : void
+    public function testCopyDirWithFullDestinationDirWhichShouldFail(): void
     {
         $srcPath = '/source/path/to/dir';
         $destPath = '/dest/path/to/dir';
@@ -504,7 +504,7 @@ class FlySystemDirectoryAccessTest extends TestCase
      * @Test
      * @small
      */
-    public function testCopyDirWithMissingSourceDirWhichShouldFail() : void
+    public function testCopyDirWithMissingSourceDirWhichShouldFail(): void
     {
         $srcPath = '/source/path/to/dir';
         $destPath = '/dest/path/to/dir';
@@ -529,7 +529,7 @@ class FlySystemDirectoryAccessTest extends TestCase
      * @Test
      * @small
      */
-    public function testDeleteDirWhichShouldSucceed() : void
+    public function testDeleteDirWhichShouldSucceed(): void
     {
         $path = '/directory/which/should/be/removed';
 
@@ -546,7 +546,7 @@ class FlySystemDirectoryAccessTest extends TestCase
      * @Test
      * @small
      */
-    public function testDeleteDirWithRootViolationWhichShouldFail() : void
+    public function testDeleteDirWithRootViolationWhichShouldFail(): void
     {
         $path = '';
 
@@ -566,7 +566,7 @@ class FlySystemDirectoryAccessTest extends TestCase
      * @Test
      * @small
      */
-    public function testDeleteDirWithGeneralErrorWhichShouldFail() : void
+    public function testDeleteDirWithGeneralErrorWhichShouldFail(): void
     {
         $path = '/directory/which/should/be/removed';
 

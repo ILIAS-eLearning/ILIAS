@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -25,7 +27,7 @@ class ilTestSkillEvaluationTest extends ilTestBaseTestCase
 {
     private ilTestSkillEvaluation $testObj;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -37,30 +39,30 @@ class ilTestSkillEvaluationTest extends ilTestBaseTestCase
         );
     }
 
-    public function test_instantiateObject_shouldReturnInstance() : void
+    public function test_instantiateObject_shouldReturnInstance(): void
     {
         $this->assertInstanceOf(ilTestSkillEvaluation::class, $this->testObj);
     }
 
-    public function testUserId() : void
+    public function testUserId(): void
     {
         $this->testObj->setUserId(125);
         $this->assertEquals(125, $this->testObj->getUserId());
     }
 
-    public function testActiveId() : void
+    public function testActiveId(): void
     {
         $this->testObj->setActiveId(125);
         $this->assertEquals(125, $this->testObj->getActiveId());
     }
 
-    public function testPass() : void
+    public function testPass(): void
     {
         $this->testObj->setPass(125);
         $this->assertEquals(125, $this->testObj->getPass());
     }
 
-    public function testNumRequiredBookingsForSkillTriggering() : void
+    public function testNumRequiredBookingsForSkillTriggering(): void
     {
         $this->testObj->setNumRequiredBookingsForSkillTriggering(125);
         $this->assertEquals(125, $this->testObj->getNumRequiredBookingsForSkillTriggering());

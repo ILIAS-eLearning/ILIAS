@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -23,19 +25,18 @@ namespace ILIAS\GlobalScreen\Scope\Layout\MetaContent\Media;
  */
 class OnLoadCodeCollection extends AbstractCollection
 {
-    
     /**
      * @param OnLoadCode $item
      */
-    public function addItem(OnLoadCode $item) : void
+    public function addItem(OnLoadCode $item): void
     {
         $this->items[] = $item;
     }
-    
+
     /**
      * @return OnLoadCode[]
      */
-    public function getItemsInOrderOfDelivery() : array
+    public function getItemsInOrderOfDelivery(): array
     {
         return parent::getItemsInOrderOfDelivery();
     }

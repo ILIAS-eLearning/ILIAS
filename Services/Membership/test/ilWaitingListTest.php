@@ -1,5 +1,7 @@
-<?php declare(strict_types=1);
-    
+<?php
+
+declare(strict_types=1);
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 use PHPUnit\Framework\TestCase;
 use ILIAS\DI\Container;
 
@@ -30,22 +32,22 @@ class ilWaitingListTest extends TestCase
 
     protected Container $dic;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         $this->initDependencies();
         parent::setUp();
     }
 
-    public function testConstruction() : void
+    public function testConstruction(): void
     {
         $obj_id = 0;
-        $some_waiting_list = new class($obj_id) extends ilWaitingList {
+        $some_waiting_list = new class ($obj_id) extends ilWaitingList {
         };
         $instance = new $some_waiting_list($obj_id);
         $this->assertInstanceOf(ilWaitingList::class, $instance);
     }
 
-    protected function initDependencies() : void
+    protected function initDependencies(): void
     {
         $this->dic = new Container();
         $GLOBALS['DIC'] = $this->dic;
@@ -54,7 +56,7 @@ class ilWaitingListTest extends TestCase
         $this->setGlobalVariable('ilAppEventHandler', $this->createMock(ilAppEventHandler::class));
     }
 
-    protected function setGlobalVariable(string $name, $value) : void
+    protected function setGlobalVariable(string $name, $value): void
     {
         global $DIC;
 

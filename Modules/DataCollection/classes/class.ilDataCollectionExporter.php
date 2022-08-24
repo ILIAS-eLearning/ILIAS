@@ -26,7 +26,7 @@ class ilDataCollectionExporter extends ilXmlExporter
     protected ilDataCollectionDataSet $ds;
     protected ilDBInterface $db;
 
-    public function init() : void
+    public function init(): void
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -39,7 +39,7 @@ class ilDataCollectionExporter extends ilXmlExporter
      * @param string $a_entity
      * @return array
      */
-    public function getValidSchemaVersions(string $a_entity) : array
+    public function getValidSchemaVersions(string $a_entity): array
     {
         return array(
             '4.5.0' => array(
@@ -52,7 +52,7 @@ class ilDataCollectionExporter extends ilXmlExporter
         );
     }
 
-    public function getXmlRepresentation(string $a_entity, string $a_schema_version, string $a_id) : string
+    public function getXmlRepresentation(string $a_entity, string $a_schema_version, string $a_id): string
     {
         ilFileUtils::makeDirParents($this->getAbsoluteExportDirectory());
         $this->ds->setExportDirectories($this->dir_relative, $this->dir_absolute);
@@ -68,7 +68,7 @@ class ilDataCollectionExporter extends ilXmlExporter
      * @param array  $a_ids
      * @return array
      */
-    public function getXmlExportHeadDependencies(string $a_entity, string $a_target_release, array $a_ids) : array
+    public function getXmlExportHeadDependencies(string $a_entity, string $a_target_release, array $a_ids): array
     {
         $dependencies = array(
             ilDclDatatype::INPUTFORMAT_FILE => array(
@@ -89,10 +89,14 @@ class ilDataCollectionExporter extends ilXmlExporter
                 . "INNER JOIN il_dcl_record_field AS rf ON (rf." . $this->db->quoteIdentifier('id') . " = stloc2." . $this->db->quoteIdentifier('record_field_id') . ") "
                 . "INNER JOIN il_dcl_field AS f ON (rf." . $this->db->quoteIdentifier('field_id') . " = f." . $this->db->quoteIdentifier('id') . ") " . "INNER JOIN il_dcl_table AS t ON (t."
                 . $this->db->quoteIdentifier('id') . " = f." . $this->db->quoteIdentifier('table_id') . ") "
-                . "WHERE t." . $this->db->quoteIdentifier('obj_id') . " = " . $this->db->quote($dcl_obj_id,
-                    'integer') . " " . "AND f.datatype_id IN ("
-                . implode(',',
-                    array_keys($dependencies)) . ") AND stloc2." . $this->db->quoteIdentifier('value') . " IS NOT NULL";
+                . "WHERE t." . $this->db->quoteIdentifier('obj_id') . " = " . $this->db->quote(
+                    $dcl_obj_id,
+                    'integer'
+                ) . " " . "AND f.datatype_id IN ("
+                . implode(
+                    ',',
+                    array_keys($dependencies)
+                ) . ") AND stloc2." . $this->db->quoteIdentifier('value') . " IS NOT NULL";
             $set = $this->db->query($sql);
             while ($rec = $this->db->fetchObject($set)) {
                 $dependencies[$rec->datatype_id]['ids'][] = (int) $rec->ext_id;
@@ -117,14 +121,16 @@ class ilDataCollectionExporter extends ilXmlExporter
      * @param array  $a_ids
      * @return array
      */
-    public function getXmlExportTailDependencies(string $a_entity, string $a_target_release, array $a_ids) : array
+    public function getXmlExportTailDependencies(string $a_entity, string $a_target_release, array $a_ids): array
     {
         $page_object_ids = array();
         foreach ($a_ids as $dcl_obj_id) {
             // If a DCL table has a detail view, we need to export the associated page objects!
             $sql = "SELECT page_id FROM page_object "
-                . "WHERE parent_type = " . $this->db->quote('dclf',
-                    'text') . " AND parent_id = " . $this->db->quote($dcl_obj_id, 'integer');
+                . "WHERE parent_type = " . $this->db->quote(
+                    'dclf',
+                    'text'
+                ) . " AND parent_id = " . $this->db->quote($dcl_obj_id, 'integer');
             $set = $this->db->query($sql);
             while ($rec = $this->db->fetchObject($set)) {
                 $page_object_ids[] = "dclf:" . $rec->page_id;

@@ -70,16 +70,16 @@ class ResultsDetailsPrintViewProviderGUI extends Export\AbstractPrintViewProvide
             ->gui();
     }
 
-    public function getTemplateInjectors() : array
+    public function getTemplateInjectors(): array
     {
         return [
-            static function (\ilGlobalTemplate $tpl) : void {
+            static function (\ilGlobalTemplate $tpl): void {
                 //$tpl add js/css
             }
         ];
     }
 
-    public function getSelectionForm() : ?ilPropertyFormGUI
+    public function getSelectionForm(): ?ilPropertyFormGUI
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
@@ -120,7 +120,7 @@ class ResultsDetailsPrintViewProviderGUI extends Export\AbstractPrintViewProvide
         return $form;
     }
 
-    public function getPages() : array
+    public function getPages(): array
     {
         $print_pages = [];
 
@@ -148,7 +148,7 @@ class ResultsDetailsPrintViewProviderGUI extends Export\AbstractPrintViewProvide
         return $print_pages;
     }
 
-    public function autoPageBreak() : bool
+    public function autoPageBreak(): bool
     {
         return false;
     }

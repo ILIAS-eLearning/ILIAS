@@ -41,12 +41,12 @@ class ilLearningHistoryTimelineItem implements ilTimelineItemInt
         $this->tree = $tree;
     }
 
-    public function getDatetime() : ilDateTime
+    public function getDatetime(): ilDateTime
     {
         return new ilDateTime($this->lh_entry->getTimestamp(), IL_CAL_UNIX);
     }
 
-    public function render() : string
+    public function render(): string
     {
         $access = $this->access;
         $parent_ref_id = 0;
@@ -100,14 +100,14 @@ class ilLearningHistoryTimelineItem implements ilTimelineItemInt
         return $tpl->get();
     }
 
-    protected function getEmphasizedTitle(string $title) : string
+    protected function getEmphasizedTitle(string $title): string
     {
         $tpl = new ilTemplate("tpl.emphasized_title.php", true, true, "Services/LearningHistory");
         $tpl->setVariable("TITLE", $title);
         return $tpl->get();
     }
 
-    public function renderFooter() : string
+    public function renderFooter(): string
     {
         return "";
     }

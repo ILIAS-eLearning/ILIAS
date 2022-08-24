@@ -35,7 +35,7 @@ class ilAccessibilityUserHasLanguageCriterionGUI implements ilAccessibilityCrite
         $this->lng = $lng;
     }
 
-    public function appendOption(ilRadioGroupInputGUI $group, ilAccessibilityCriterionConfig $config) : void
+    public function appendOption(ilRadioGroupInputGUI $group, ilAccessibilityCriterionConfig $config): void
     {
         $option = new ilRadioOption($this->getIdentPresentation(), $this->type->getTypeIdent());
 
@@ -60,7 +60,7 @@ class ilAccessibilityUserHasLanguageCriterionGUI implements ilAccessibilityCrite
         $group->addOption($option);
     }
 
-    public function getSelection(ilAccessibilityCriterionConfig $config) : ilSelectInputGUI
+    public function getSelection(ilAccessibilityCriterionConfig $config): ilSelectInputGUI
     {
         $languageSelection = new ilSelectInputGUI(
             $this->lng->txt('language'),
@@ -81,7 +81,7 @@ class ilAccessibilityUserHasLanguageCriterionGUI implements ilAccessibilityCrite
         return $languageSelection;
     }
 
-    public function getConfigByForm(ilPropertyFormGUI $form) : ilAccessibilityCriterionConfig
+    public function getConfigByForm(ilPropertyFormGUI $form): ilAccessibilityCriterionConfig
     {
         $config = new ilAccessibilityCriterionConfig([
             'lng' => (string) $form->getInput($this->type->getTypeIdent() . '_lng')
@@ -90,12 +90,12 @@ class ilAccessibilityUserHasLanguageCriterionGUI implements ilAccessibilityCrite
         return $config;
     }
 
-    public function getIdentPresentation() : string
+    public function getIdentPresentation(): string
     {
         return $this->lng->txt('acc_crit_type_usr_language');
     }
 
-    public function getValuePresentation(ilAccessibilityCriterionConfig $config, Factory $uiFactory) : Component
+    public function getValuePresentation(ilAccessibilityCriterionConfig $config, Factory $uiFactory): Component
     {
         $lng = $config['lng'] ?? '';
 

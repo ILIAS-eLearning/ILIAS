@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -22,7 +24,7 @@
  */
 class ilTermsOfServiceTableDataProviderFactoryTest extends ilTermsOfServiceBaseTest
 {
-    public function testInstanceCanBeCreated() : ilTermsOfServiceTableDataProviderFactory
+    public function testInstanceCanBeCreated(): ilTermsOfServiceTableDataProviderFactory
     {
         $factory = new ilTermsOfServiceTableDataProviderFactory();
         $factory->setDatabaseAdapter($this->getMockBuilder(ilDBInterface::class)->getMock());
@@ -38,7 +40,7 @@ class ilTermsOfServiceTableDataProviderFactoryTest extends ilTermsOfServiceBaseT
      */
     public function testExceptionIsRaisedWhenUnsupportedProviderIsRequested(
         ilTermsOfServiceTableDataProviderFactory $factory
-    ) : void {
+    ): void {
         $this->expectException(InvalidArgumentException::class);
 
         $factory->getByContext('PHP unit');
@@ -50,7 +52,7 @@ class ilTermsOfServiceTableDataProviderFactoryTest extends ilTermsOfServiceBaseT
      */
     public function testFactoryShouldReturnDatabaseAdapterWhenDatabaseAdapterIsSet(
         ilTermsOfServiceTableDataProviderFactory $factory
-    ) : void {
+    ): void {
         $db = $this->getMockBuilder(ilDBInterface::class)->getMock();
         $factory->setDatabaseAdapter($db);
 
@@ -63,7 +65,7 @@ class ilTermsOfServiceTableDataProviderFactoryTest extends ilTermsOfServiceBaseT
      */
     public function testExceptionIsRaisedWhenAcceptanceHistoryProviderIsRequestedWithoutCompleteFactoryConfiguration(
         ilTermsOfServiceTableDataProviderFactory $factory
-    ) : void {
+    ): void {
         $this->expectException(ilTermsOfServiceMissingDatabaseAdapterException::class);
 
         $factory->setDatabaseAdapter(null);
@@ -76,7 +78,7 @@ class ilTermsOfServiceTableDataProviderFactoryTest extends ilTermsOfServiceBaseT
      */
     public function testFactoryShouldReturnAcceptanceHistoryProviderWhenRequested(
         ilTermsOfServiceTableDataProviderFactory $factory
-    ) : void {
+    ): void {
         $factory->setDatabaseAdapter($this->getMockBuilder(ilDBInterface::class)->getMock());
 
         $this->assertInstanceOf(

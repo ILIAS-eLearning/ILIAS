@@ -37,37 +37,37 @@ class ilBadgeGUIRequest
     protected function initRequest(
         HTTP\Services $http,
         Refinery\Factory $refinery
-    ) : void {
+    ): void {
         $this->http = $http;
         $this->refinery = $refinery;
     }
 
     // get string parameter kindly
-    protected function str(string $key) : string
+    protected function str(string $key): string
     {
         $t = $this->refinery->kindlyTo()->string();
         return \ilUtil::stripSlashes((string) ($this->get($key, $t) ?? ""));
     }
 
     // get integer parameter kindly
-    protected function int(string $key) : int
+    protected function int(string $key): int
     {
         $t = $this->refinery->kindlyTo()->int();
         return (int) ($this->get($key, $t) ?? 0);
     }
 
     // get integer array kindly
-    protected function intArray(string $key) : array
+    protected function intArray(string $key): array
     {
         if (!$this->isArray($key)) {
             return [];
         }
         $t = $this->refinery->custom()->transformation(
-            static function (array $arr) : array {
+            static function (array $arr): array {
                 // keep keys(!), transform all values to int
                 return array_column(
                     array_map(
-                        static function ($k, $v) : array {
+                        static function ($k, $v): array {
                             return [$k, (int) $v];
                         },
                         array_keys($arr),
@@ -82,7 +82,7 @@ class ilBadgeGUIRequest
     }
 
     // get string array kindly
-    protected function strArray($key) : array
+    protected function strArray($key): array
     {
         if (!$this->isArray($key)) {
             return [];
@@ -112,7 +112,7 @@ class ilBadgeGUIRequest
     /**
      * Check if parameter is an array
      */
-    protected function isArray(string $key) : bool
+    protected function isArray(string $key): bool
     {
         $no_transform = $this->refinery->identity();
         $w = $this->http->wrapper();
@@ -141,7 +141,7 @@ class ilBadgeGUIRequest
     }
 
     /** @return int [] */
-    public function getBadgeIds() : array
+    public function getBadgeIds(): array
     {
         $badge_ids = $this->intArray("badge_id");
         if (count($badge_ids) === 0 && $this->int("badge_id") > 0) {
@@ -150,38 +150,38 @@ class ilBadgeGUIRequest
         return $badge_ids;
     }
 
-    public function getBadgeId() : int
+    public function getBadgeId(): int
     {
         return $this->int("bid");
     }
 
-    public function getId() : int
+    public function getId(): int
     {
         return $this->int("id");
     }
 
     /** @return string[] */
-    public function getIds() : array
+    public function getIds(): array
     {
         return $this->strArray("id");
     }
 
-    public function getType() : string
+    public function getType(): string
     {
         return $this->str("type");
     }
 
-    public function getTgt() : string
+    public function getTgt(): string
     {
         return $this->str("tgt");
     }
 
-    public function getTemplateId() : int
+    public function getTemplateId(): int
     {
         return $this->int("tid");
     }
 
-    public function getParentId() : int
+    public function getParentId(): int
     {
         return $this->int("pid");
     }

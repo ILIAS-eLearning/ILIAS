@@ -39,7 +39,7 @@ abstract class ilTestQuestionSetConfig
         $this->component_repository = $component_repository;
         $this->testOBJ = $testOBJ;
     }
-    
+
     /**
      * loads the question set config for current test from the database
      */
@@ -62,47 +62,47 @@ abstract class ilTestQuestionSetConfig
      */
     abstract public function deleteFromDb();
 
-    public function areDepenciesInVulnerableState() : bool
+    public function areDepenciesInVulnerableState(): bool
     {
         return false;
     }
-    
-    public function getDepenciesInVulnerableStateMessage(ilLanguage $lng) : string
+
+    public function getDepenciesInVulnerableStateMessage(ilLanguage $lng): string
     {
         return '';
     }
-    
-    public function areDepenciesBroken() : bool
+
+    public function areDepenciesBroken(): bool
     {
         return false;
     }
-    
-    public function getDepenciesBrokenMessage(ilLanguage $lng) : string
+
+    public function getDepenciesBrokenMessage(ilLanguage $lng): string
     {
         return '';
     }
-    
-    public function isValidRequestOnBrokenQuestionSetDepencies($nextClass, $cmd) : bool
+
+    public function isValidRequestOnBrokenQuestionSetDepencies($nextClass, $cmd): bool
     {
         return true;
     }
-    
-    public function getHiddenTabsOnBrokenDepencies() : array
+
+    public function getHiddenTabsOnBrokenDepencies(): array
     {
         return array();
     }
-        
+
     abstract public function isQuestionSetConfigured();
-    
+
     /**
      * checks wether question set config related data exists or not
      */
     abstract public function doesQuestionSetRelatedDataExist();
-    
+
     /**
      * removes all question set config related data
      */
-    abstract public function removeQuestionSetRelatedData() : void;
+    abstract public function removeQuestionSetRelatedData(): void;
 
     /**
      * resets all test settings that depends on a non changed question set config
@@ -115,12 +115,12 @@ abstract class ilTestQuestionSetConfig
      * @param ilObjTest $cloneTestOBJ
      */
     abstract public function cloneQuestionSetRelatedData(ilObjTest $cloneTestOBJ);
-    
+
     /**
      * @param integer $poolId
      * @return string
      */
-    public function getQuestionPoolPathString($poolId) : string
+    public function getQuestionPoolPathString($poolId): string
     {
         $ref_id = current(ilObject::_getAllReferences($poolId));
 
@@ -128,8 +128,8 @@ abstract class ilTestQuestionSetConfig
         $path->enableTextOnly(true);
         return $path->getPath(ROOT_FOLDER_ID, (int) $ref_id);
     }
-    
-    public function getFirstQuestionPoolRefIdByObjId(int $pool_obj_id) : int
+
+    public function getFirstQuestionPoolRefIdByObjId(int $pool_obj_id): int
     {
         $refs_ids = ilObject::_getAllReferences($pool_obj_id);
         $refs_id = current($refs_ids);

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 use ILIAS\ResourceStorage\Stakeholder\AbstractResourceStakeholder;
 
@@ -21,16 +23,15 @@ use ILIAS\ResourceStorage\Stakeholder\AbstractResourceStakeholder;
  */
 class ilMMStorageStakeholder extends AbstractResourceStakeholder
 {
-
     /**
      * @inheritDoc
      */
-    public function getId() : string
+    public function getId(): string
     {
         return 'mme';
     }
 
-    public function getOwnerOfNewResources() : int
+    public function getOwnerOfNewResources(): int
     {
         return 6;
     }

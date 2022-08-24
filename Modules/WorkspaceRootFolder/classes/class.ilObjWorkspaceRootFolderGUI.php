@@ -37,20 +37,20 @@ class ilObjWorkspaceRootFolderGUI extends ilObjWorkspaceFolderGUI
         $this->lng = $DIC->language();
     }
 
-    public function getType() : string
+    public function getType(): string
     {
         return "wsrt";
     }
-    
-    protected function setTabs(bool $a_show_settings = false) : void
+
+    protected function setTabs(bool $a_show_settings = false): void
     {
         $ilHelp = $this->help;
 
         parent::setTabs(false);
         $ilHelp->setScreenIdComponent("wsrt");
     }
-    
-    protected function setTitleAndDescription() : void
+
+    protected function setTitleAndDescription(): void
     {
         $tpl = $this->tpl;
         $lng = $this->lng;

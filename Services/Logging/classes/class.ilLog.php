@@ -82,7 +82,7 @@ class ilLog
         $this->open();
     }
 
-    public function setLogLevel(int $a_log_level) : int
+    public function setLogLevel(int $a_log_level): int
     {
         switch (strtolower($a_log_level)) {
             case "fatal":
@@ -99,7 +99,7 @@ class ilLog
     /**
      * @param int $a_log_level
      */
-    public function checkLogLevel($a_log_level) : int
+    public function checkLogLevel($a_log_level): int
     {
         if (empty($a_log_level)) {
             return $this->default_log_level;
@@ -111,17 +111,17 @@ class ilLog
         return $level;
     }
 
-    public function setLogFormat(string $a_format) : void
+    public function setLogFormat(string $a_format): void
     {
         $this->log_format = $a_format;
     }
 
-    public function getLogFormat() : string
+    public function getLogFormat(): string
     {
         return $this->log_format;
     }
 
-    public function setPath(string $a_str) : void
+    public function setPath(string $a_str): void
     {
         $this->path = $a_str;
 
@@ -132,7 +132,7 @@ class ilLog
         }
     }
 
-    public function setFilename(string $a_str) : void
+    public function setFilename(string $a_str): void
     {
         $this->filename = $a_str;
 
@@ -143,7 +143,7 @@ class ilLog
         }
     }
 
-    public function setTag(string $a_str) : void
+    public function setTag(string $a_str): void
     {
         $this->tag = $a_str;
     }
@@ -154,7 +154,7 @@ class ilLog
     * only add a log entry to the logfile
     * if there isn't a log entry for the topic
     */
-    public function writeLanguageLog(string $a_topic, string $a_lang_key) : void
+    public function writeLanguageLog(string $a_topic, string $a_lang_key): void
     {
         //TODO: go through logfile and search for the topic
         //only write the log if the error wasn't reported yet
@@ -164,7 +164,7 @@ class ilLog
     /**
     * special warning message
     */
-    public function writeWarning(string $a_message) : void
+    public function writeWarning(string $a_message): void
     {
         $this->write("WARNING: " . $a_message);
     }
@@ -173,7 +173,7 @@ class ilLog
     * this function is automatically called by class.ilErrorHandler in case of an error
     * To log manually please use $this::write
     */
-    public function logError(string $a_code, string $a_msg) : void
+    public function logError(string $a_code, string $a_msg): void
     {
         switch ($a_code) {
             case "3":
@@ -208,7 +208,7 @@ class ilLog
     * @param ?int $a_log_level
     *
     */
-    public function write(string $a_msg, $a_log_level = null) : void
+    public function write(string $a_msg, $a_log_level = null): void
     {
         $a_log_level = (int) $a_log_level;
         if ($this->enabled and $this->current_log_level >= $this->checkLogLevel($a_log_level)) {
@@ -230,7 +230,7 @@ class ilLog
         }
     }
 
-    public function logStack(string $a_message = '') : void
+    public function logStack(string $a_message = ''): void
     {
         try {
             throw new Exception($a_message);
@@ -239,7 +239,7 @@ class ilLog
         }
     }
 
-    public function dump($a_var, ?int $a_log_level = null) : void
+    public function dump($a_var, ?int $a_log_level = null): void
     {
         $this->write(print_r($a_var, true), $a_log_level);
     }
@@ -247,7 +247,7 @@ class ilLog
     /**
      * Open log file
      */
-    private function open() : void
+    private function open(): void
     {
         if (!$this->fp) {
             $this->fp = @fopen($this->path . "/" . $this->filename, "a");
@@ -261,7 +261,7 @@ class ilLog
     /**
     * delete logfile
     */
-    public function delete() : void
+    public function delete(): void
     {
         if (is_file($this->path . "/" . $this->filename)) {
             unlink($this->path . "/" . $this->filename);

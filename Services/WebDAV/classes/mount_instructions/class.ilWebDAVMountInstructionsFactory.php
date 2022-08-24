@@ -1,4 +1,6 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 use Psr\Http\Message\RequestInterface;
 
 /**
@@ -27,7 +29,7 @@ class ilWebDAVMountInstructionsFactory
     private ilWebDAVMountInstructionsRepositoryImpl $repo;
     private RequestInterface $request;
     private ilObjUser $user;
-    
+
     public function __construct(
         ilWebDAVMountInstructionsRepositoryImpl $a_repo,
         RequestInterface $a_request,
@@ -37,19 +39,19 @@ class ilWebDAVMountInstructionsFactory
         $this->request = $a_request;
         $this->user = $a_user;
     }
-    
-    public function getMountInstructionsObject() : ilWebDAVBaseMountInstructions
+
+    public function getMountInstructionsObject(): ilWebDAVBaseMountInstructions
     {
         $uri_builder = new ilWebDAVUriBuilder($this->request);
         $uri = $this->request->getUri()->getPath();
-        
+
         $splitted_uri = explode('/', $uri);
-        
+
         // Remove path elements before and until webdav script
         while (array_shift($splitted_uri) != 'webdav.php' && count($splitted_uri) > 0);
-        
+
         $path_value = $splitted_uri[1];
-        
+
         if (strlen($path_value) == 2) {
             return new ilWebDAVObjectlessMountInstructions(
                 $this->repo,
@@ -58,7 +60,7 @@ class ilWebDAVMountInstructionsFactory
                 $path_value
             );
         }
-        
+
         if (substr($path_value, 0, 4) == 'ref_') {
             return new ilWebDAVObjectMountInstructions(
                 $this->repo,
@@ -68,7 +70,7 @@ class ilWebDAVMountInstructionsFactory
                 (int) substr($path_value, 4)
             );
         }
-        
+
         throw new InvalidArgumentException("Invalid path given");
     }
 }

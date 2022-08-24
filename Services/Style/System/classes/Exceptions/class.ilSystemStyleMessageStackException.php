@@ -26,7 +26,7 @@ class ilSystemStyleMessageStackException extends ilSystemStyleExceptionBase
     public const MESSAGE_STACK_TYPE_ID_DOES_NOT_EXIST = 1001;
 
 
-    protected function assignMessageToCode() : void
+    protected function assignMessageToCode(): void
     {
         switch ($this->code) {
             case self::MESSAGE_STACK_TYPE_ID_DOES_NOT_EXIST:

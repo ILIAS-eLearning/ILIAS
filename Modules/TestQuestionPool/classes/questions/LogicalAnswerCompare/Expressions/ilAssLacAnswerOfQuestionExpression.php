@@ -12,7 +12,6 @@ require_once "Modules/TestQuestionPool/classes/questions/LogicalAnswerCompare/Ex
  */
 class ilAssLacAnswerOfQuestionExpression extends ilAssLacAbstractExpression implements ilAssLacQuestionExpressionInterface
 {
-
     /**
      * The pattern <b>'/Q[0-9]+([^\[|0-9]|$)/'</b> should match the following expression in a condition <br />
      * <br />
@@ -48,7 +47,7 @@ class ilAssLacAnswerOfQuestionExpression extends ilAssLacAbstractExpression impl
      *
      * @param array $matches
      */
-    protected function setMatches($matches) : void
+    protected function setMatches($matches): void
     {
         $this->question_index = $matches[0][0];
     }
@@ -58,7 +57,7 @@ class ilAssLacAnswerOfQuestionExpression extends ilAssLacAbstractExpression impl
      *
      * @return int
      */
-    public function getQuestionIndex() : int
+    public function getQuestionIndex(): int
     {
         return $this->question_index;
     }
@@ -67,7 +66,7 @@ class ilAssLacAnswerOfQuestionExpression extends ilAssLacAbstractExpression impl
      * Get the value of this Expression
      * @return string
      */
-    public function getValue() : string
+    public function getValue(): string
     {
         return "Q" . $this->question_index;
     }
@@ -76,7 +75,7 @@ class ilAssLacAnswerOfQuestionExpression extends ilAssLacAbstractExpression impl
      * Get a human readable description of the Composite element
      * @return string
      */
-    public function getDescription() : string
+    public function getDescription(): string
     {
         return "Frage " . $this->question_index . " ";
     }
@@ -85,7 +84,7 @@ class ilAssLacAnswerOfQuestionExpression extends ilAssLacAbstractExpression impl
      * Get the Pattern to match relevant informations for an Expression
      * @return string
      */
-    protected function getPattern() : string
+    protected function getPattern(): string
     {
         return '/-?[0-9]+/';
     }

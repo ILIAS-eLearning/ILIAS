@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,33 +17,33 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 class ilObjectCustomIconConfiguration implements ilCustomIconObjectConfiguration
 {
     /**
      * @return string[]
      */
-    public function getSupportedFileExtensions() : array
+    public function getSupportedFileExtensions(): array
     {
         return ['svg'];
     }
 
-    public function getTargetFileExtension() : string
+    public function getTargetFileExtension(): string
     {
         return 'svg';
     }
 
-    public function getBaseDirectory() : string
+    public function getBaseDirectory(): string
     {
         return 'custom_icons';
     }
 
-    public function getSubDirectoryPrefix() : string
+    public function getSubDirectoryPrefix(): string
     {
         return 'obj_';
     }
 
-    public function getUploadPostProcessors() : array
+    public function getUploadPostProcessors(): array
     {
         return [];
     }

@@ -77,9 +77,9 @@ class ilObjMediaCastGUI extends ilObjectGUI
         $lng->loadLanguageModule("mcst");
         $lng->loadLanguageModule("news");
         $lng->loadLanguageModule("rep");
-        
+
         $ilCtrl->saveParameter($this, "item_id");
-        
+
         $settings = ilMediaCastSettings::_getInstance();
         $this->purposeSuffixes = $settings->getPurposeSuffixes();
         $this->mimeTypes = array();
@@ -87,22 +87,22 @@ class ilObjMediaCastGUI extends ilObjectGUI
         foreach ($mime_types as $mt) {
             $this->mimeTypes[$mt] = $mt;
         }
-        
+
         foreach (MimeType::getExt2MimeMap() as $mt) {
 //            $this->mimeTypes[$mt] = $mt;
         }
         asort($this->mimeTypes);
     }
-    
-    public function executeCommand() : void
+
+    public function executeCommand(): void
     {
         $ilUser = $this->user;
         $ilTabs = $this->tabs;
-  
+
         $next_class = $this->ctrl->getNextClass($this);
         $cmd = $this->ctrl->getCmd();
         $this->prepareOutput();
-  
+
         switch ($next_class) {
             case "ilmediacreationgui":
                 $this->ctrl->setReturn($this, "listItems");
@@ -168,7 +168,7 @@ class ilObjMediaCastGUI extends ilObjectGUI
                 $gui = ilCommonActionDispatcherGUI::getInstanceFromAjaxCall();
                 $this->ctrl->forwardCommand($gui);
                 break;
-            
+
             case "illearningprogressgui":
                 $ilTabs->activateTab('learning_progress');
                 $new_gui = new ilLearningProgressGUI(
@@ -196,13 +196,13 @@ class ilObjMediaCastGUI extends ilObjectGUI
                     $this->checkPermission("visible");
                 }
                 $this->$cmd();
-    
+
             break;
         }
         $this->addHeaderAction();
     }
 
-    protected function initCreationForms(string $new_type) : array
+    protected function initCreationForms(string $new_type): array
     {
         $forms = array(self::CFORM_NEW => $this->initCreateForm($new_type),
                 self::CFORM_IMPORT => $this->initImportForm($new_type),
@@ -211,20 +211,20 @@ class ilObjMediaCastGUI extends ilObjectGUI
         return $forms;
     }
 
-    protected function afterSave(ilObject $new_object) : void
+    protected function afterSave(ilObject $new_object): void
     {
         // always send a message
         $this->tpl->setOnScreenMessage('success', $this->lng->txt("object_added"), true);
         ilUtil::redirect("ilias.php?baseClass=ilMediaCastHandlerGUI&ref_id=" . $new_object->getRefId() . "&cmd=editSettings");
     }
 
-    public function listItemsObject(bool $a_presentation_mode = false) : void
+    public function listItemsObject(bool $a_presentation_mode = false): void
     {
         $tpl = $this->tpl;
         $lng = $this->lng;
         $ilAccess = $this->access;
         $ilToolbar = $this->toolbar;
-        
+
         $this->checkPermission("read");
 
         if ($a_presentation_mode) {
@@ -237,7 +237,7 @@ class ilObjMediaCastGUI extends ilObjectGUI
         } else {
             $this->addContentSubTabs("manage");
         }
-        
+
         $med_items = $this->object->getSortedItemsArray();
 
         if ($a_presentation_mode) {
@@ -247,7 +247,7 @@ class ilObjMediaCastGUI extends ilObjectGUI
         }
 
         $table_gui->setData($med_items);
-        
+
         if ($ilAccess->checkAccess("write", "", $this->requested_ref_id) && !$a_presentation_mode) {
             if (in_array($this->object->getViewMode(), [
                 ilObjMediaCast::VIEW_VCAST,
@@ -267,25 +267,25 @@ class ilObjMediaCastGUI extends ilObjectGUI
         if ($feed_icon_html !== "") {
             $table_gui->setHeaderHTML($feed_icon_html);
         }
-        
+
         $tpl->setContent($table_gui->getHTML());
     }
-    
-    public function getFeedIconsHTML() : string
+
+    public function getFeedIconsHTML(): string
     {
         $lng = $this->lng;
         $row1 = "";
         $row2 = "";
 
         $html = "";
-        
+
         $public_feed = ilBlockSetting::_lookup(
             "news",
             "public_feed",
             0,
             $this->object->getId()
         );
-            
+
         // rss icon/link
         if ($public_feed) {
             $news_set = new ilSetting("news");
@@ -342,28 +342,28 @@ class ilObjMediaCastGUI extends ilObjectGUI
         }
         return $html;
     }
-    
+
     /**
      * Add media cast item
      */
-    public function addCastItemObject() : void
+    public function addCastItemObject(): void
     {
         $tpl = $this->tpl;
-        
+
         $this->checkPermission("write");
-        
+
         $this->initAddCastItemForm();
         $tpl->setContent($this->form_gui->getHTML());
     }
 
-    public function editCastItemObject() : void
+    public function editCastItemObject(): void
     {
         $tpl = $this->tpl;
         $ilToolbar = $this->toolbar;
         $ilCtrl = $this->ctrl;
-        
+
         $this->checkPermission("write");
-        
+
         // conversion toolbar
         if (ilFFmpeg::enabled()) {
             $this->mcst_item = new ilNewsItem(
@@ -390,13 +390,13 @@ class ilObjMediaCastGUI extends ilObjectGUI
                 }
             }
         }
-        
+
         $this->initAddCastItemForm("edit");
         $this->getCastItemValues();
         $tpl->setContent($this->form_gui->getHTML());
     }
 
-    public function finishSingleUpload(int $mob_id) : void
+    public function finishSingleUpload(int $mob_id): void
     {
         foreach ($this->object->getSortedItemsArray() as $item) {
             if ($mob_id == $item["mob_id"]) {
@@ -407,7 +407,7 @@ class ilObjMediaCastGUI extends ilObjectGUI
         $this->ctrl->redirect($this, "listItems");
     }
 
-    protected function onMobUpdate(int $mob_id) : void
+    protected function onMobUpdate(int $mob_id): void
     {
         foreach ($this->object->getSortedItemsArray() as $item) {
             if ($mob_id == $item["mob_id"]) {
@@ -420,33 +420,33 @@ class ilObjMediaCastGUI extends ilObjectGUI
         }
     }
 
-    public function initAddCastItemForm(string $a_mode = "create") : void
+    public function initAddCastItemForm(string $a_mode = "create"): void
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
         $ilTabs = $this->tabs;
-        
+
         $this->checkPermission("write");
         $ilTabs->activateTab("edit_content");
-        
+
         $lng->loadLanguageModule("mcst");
-        
+
         $news_set = new ilSetting("news");
         $enable_internal_rss = $news_set->get("enable_rss_for_internal");
 
         $this->form_gui = new ilPropertyFormGUI();
         $this->form_gui->setMultipart(true);
-        
+
         // Property Title
         $text_input = new ilTextInputGUI($lng->txt("title"), "title");
         $text_input->setMaxLength(200);
         $this->form_gui->addItem($text_input);
-        
+
         // Property Content
         $text_area = new ilTextAreaInputGUI($lng->txt("description"), "description");
         $text_area->setRequired(false);
         $this->form_gui->addItem($text_area);
-        
+
         // Property Visibility
         if ($enable_internal_rss) {
             $radio_group = new ilRadioGroupInputGUI($lng->txt("access_scope"), "visibility");
@@ -459,7 +459,7 @@ class ilObjMediaCastGUI extends ilObjectGUI
             $radio_group->setValue($this->object->getDefaultAccess() == 0 ? "users" : "public");
             $this->form_gui->addItem($radio_group);
         }
-        
+
         // Duration
         $dur = new ilDurationInputGUI($lng->txt("mcst_duration"), "duration");
         $dur->setInfo($lng->txt("mcst_duration_info"));
@@ -467,13 +467,13 @@ class ilObjMediaCastGUI extends ilObjectGUI
         $dur->setShowHours(true);
         $dur->setShowSeconds(true);
         $this->form_gui->addItem($dur);
-        
+
         foreach (ilObjMediaCast::$purposes as $purpose) {
             if ($purpose == "VideoAlternative" &&
                 $a_mode == "create") {
                 continue;
             }
-            
+
             $section = new ilFormSectionHeaderGUI();
             $section->setTitle($lng->txt("mcst_" . strtolower($purpose) . "_title"));
             $this->form_gui->addItem($section);
@@ -513,7 +513,7 @@ class ilObjMediaCastGUI extends ilObjectGUI
                 $options = array_merge($options, $this->mimeTypes);
                 $mimeTypeSelection->setOptions($options);
                 $this->form_gui->addItem($mimeTypeSelection);*/
-                
+
                 // preview picure
                 $pp = new ilImageFileInputGUI($lng->txt("mcst_preview_picture"), "preview_pic");
                 $pp->setSuffixes(array("png", "jpeg", "jpg"));
@@ -521,7 +521,7 @@ class ilObjMediaCastGUI extends ilObjectGUI
                 $this->form_gui->addItem($pp);
             }
         }
-        
+
         // save/cancel button
         if ($a_mode == "create") {
             $this->form_gui->setTitle($lng->txt("mcst_add_new_item"));
@@ -533,28 +533,28 @@ class ilObjMediaCastGUI extends ilObjectGUI
         $this->form_gui->addCommandButton("listItems", $lng->txt("cancel"));
         $this->form_gui->setFormAction($ilCtrl->getFormAction($this, "saveCastItem"));
     }
-    
+
     /**
      * Get cast item values into form.
      */
-    public function getCastItemValues() : void
+    public function getCastItemValues(): void
     {
         $lng = $this->lng;
-        
+
         // get mob
         $this->mcst_item = new ilNewsItem(
             $this->mc_request->getItemId()
         );
         $mob = new ilObjMediaObject($this->mcst_item->getMobId());
-        
+
         // preview
         $ppic = $mob->getVideoPreviewPic();
         if ($ppic != "") {
             $i = $this->form_gui->getItemByPostVar("preview_pic");
             $i->setImage($ppic);
         }
-        
-        
+
+
         $values = array();
         $mediaItems = $this->getMediaItems(
             $this->mc_request->getItemId()
@@ -569,7 +569,7 @@ class ilObjMediaCastGUI extends ilObjectGUI
                     $length = explode(":", $this->mcst_item->getPlaytime());
                     $values["duration"] = array("hh" => $length[0], "mm" => $length[1], "ss" => $length[2]);
                 }
-                
+
                 $values["value_" . $med->getPurpose()] = (strlen($med->getLocation()) > 100) ? "..." . substr($med->getLocation(), strlen($med->getLocation()) - 100) : $med->getLocation();
                 $values["label_value_" . $med->getPurpose()] = (strlen($med->getLocation()) > 100) ? "..." . substr($med->getLocation(), strlen($med->getLocation()) - 100) : $med->getLocation();
                 $values["mimetype_" . $med->getPurpose()] = $med->getFormat();
@@ -583,8 +583,8 @@ class ilObjMediaCastGUI extends ilObjectGUI
         }
         $this->form_gui->setValuesByArray($values);
     }
-    
-    public function saveCastItemObject() : void
+
+    public function saveCastItemObject(): void
     {
         return;
         $tpl = $this->tpl;
@@ -595,7 +595,7 @@ class ilObjMediaCastGUI extends ilObjectGUI
 
         $this->checkPermission("write");
         $ilTabs->activateTab("edit_content");
-        
+
         $this->initAddCastItemForm();
 
         if (!$this->form_gui->checkInput() ||
@@ -622,7 +622,7 @@ class ilObjMediaCastGUI extends ilObjectGUI
             if ($prevpic["size"] > 0) {
                 $mob->uploadVideoPreviewPic($prevpic);
             }
-            
+
             // determine duration for standard purpose
             $duration = $this->getDuration($file);
 
@@ -643,14 +643,14 @@ class ilObjMediaCastGUI extends ilObjectGUI
                 $mob = new ilObjMediaObject($mob->getId());
                 $mob->generatePreviewPic(320, 240);
             }
-            
+
             //
             // @todo: save usage
             //
-            
+
             $news_set = new ilSetting("news");
             $enable_internal_rss = $news_set->get("enable_rss_for_internal");
-            
+
             // create new media cast item
             $mc_item = new ilNewsItem();
             $mc_item->setMobId($mob->getId());
@@ -668,12 +668,12 @@ class ilObjMediaCastGUI extends ilObjectGUI
                 $mc_item->setVisibility("users");
             }
             $mc_item->create();
-            
+
             $ilCtrl->redirect($this, "listItems");
         }
     }
-    
-    private function getDuration(ilMediaItem $media_item) : string
+
+    private function getDuration(ilMediaItem $media_item): string
     {
         $duration = isset($this->form_gui)
             ? $this->form_gui->getInput("duration")
@@ -693,20 +693,20 @@ class ilObjMediaCastGUI extends ilObjectGUI
 
         return $duration_str;
     }
-    
+
     /**
      * Handle media item for given purpose
      */
     private function createMediaItemForPurpose(
         ilObjMediaObject $mob,
         string $purpose
-    ) : string {
+    ): string {
         $mediaItem = new ilMediaItem();
         $mob->addMediaItem($mediaItem);
         $mediaItem->setPurpose($purpose);
         return $this->updateMediaItem($mob, $mediaItem);
     }
-    
+
     /**
      * Update media item from form
      * @throws FileNotFoundException
@@ -717,7 +717,7 @@ class ilObjMediaCastGUI extends ilObjectGUI
     private function updateMediaItem(
         ilObjMediaObject $mob,
         ilMediaItem $mediaItem
-    ) : string {
+    ): string {
         $locationType = "";
         $location = "";
         $file = "";
@@ -744,7 +744,7 @@ class ilObjMediaCastGUI extends ilObjectGUI
                     $this->filesystem->delete($file->getPath());
                 }
             }
-            
+
             $file_name = ilFileUtils::getASCIIFilename($_FILES['file_' . $purpose]['name']);
             $file_name = str_replace(" ", "_", $file_name);
 
@@ -755,7 +755,7 @@ class ilObjMediaCastGUI extends ilObjectGUI
             ilFileUtils::moveUploadedFile($_FILES['file_' . $purpose]['tmp_name'], $file_name, $file);
             ilFileUtils::renameExecutables($mob_dir);
         }
-        
+
         // check if not automatic mimetype detection
         $format = ilObjMediaObject::getMimeType($mediaItem->getLocation(), ($locationType === "Reference"));
         $mediaItem->setFormat($format);
@@ -771,20 +771,20 @@ class ilObjMediaCastGUI extends ilObjectGUI
             $mediaItem->setLocation($location);
             $mediaItem->setLocationType($locationType);
             $mediaItem->setHAlign("Left");
-            $mediaItem->setHeight(self::isAudio($format)?0:180);
+            $mediaItem->setHeight(self::isAudio($format) ? 0 : 180);
         }
-                    
+
         if (($purpose === "Standard") && isset($title)) {
             $mob->setTitle($title);
         }
 
         return $file;
     }
-    
+
     /**
      * Update cast item
      */
-    public function updateCastItemObject() : void
+    public function updateCastItemObject(): void
     {
         $ilCtrl = $this->ctrl;
         $ilUser = $this->user;
@@ -794,7 +794,7 @@ class ilObjMediaCastGUI extends ilObjectGUI
         $file = null;
 
         $this->checkPermission("write");
-        
+
         $this->initAddCastItemForm("edit");
 
         if ($this->form_gui->checkInput()) {
@@ -803,7 +803,7 @@ class ilObjMediaCastGUI extends ilObjectGUI
                 $this->mc_request->getItemId()
             );
             $mob_id = $mc_item->getMobId();
-            
+
             // create dummy object in db (we need an id)
             $mob = new ilObjMediaObject($mob_id);
 
@@ -817,7 +817,7 @@ class ilObjMediaCastGUI extends ilObjectGUI
                 $media_item = $mob->getMediaItem($purpose);
                 $url_gui = $this->form_gui->getInput("url_" . $purpose);
                 $file_gui = $this->form_gui->getInput("file_" . $purpose);
-                
+
                 if ($media_item == null) {
                     if ($purpose != "Standard" &&
                        ($url_gui || $file_gui["size"] > 0)) {
@@ -833,10 +833,10 @@ class ilObjMediaCastGUI extends ilObjectGUI
                     $duration = $this->getDuration($media_item);
                     $title = $this->form_gui->getInput("title") != "" ? $this->form_gui->getInput("title") : basename($file);
                     $description = $this->form_gui->getInput("description");
-            
+
                     $mob->setTitle($title);
                     $mob->setDescription($description);
-                    
+
                     $prevpic = $this->form_gui->getInput("preview_pic");
                     if ($prevpic["size"] > 0) {
                         $mob->uploadVideoPreviewPic($prevpic);
@@ -848,14 +848,14 @@ class ilObjMediaCastGUI extends ilObjectGUI
                     }
                 }
             }
-            
+
             // set real meta and object data
             $mob->update();
-            
+
             //
             // @todo: save usage
             //
-            
+
             $news_set = new ilSetting("news");
             $enable_internal_rss = $news_set->get("enable_rss_for_internal");
 
@@ -881,13 +881,13 @@ class ilObjMediaCastGUI extends ilObjectGUI
         }
     }
 
-    public function confirmDeletionItemsObject() : void
+    public function confirmDeletionItemsObject(): void
     {
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
         $tpl = $this->tpl;
         $ilTabs = $this->tabs;
-        
+
         $this->checkPermission("write");
         $ilTabs->activateTab("edit_content");
 
@@ -896,9 +896,9 @@ class ilObjMediaCastGUI extends ilObjectGUI
             $this->listItemsObject();
             return;
         }
-        
+
         $c_gui = new ilConfirmationGUI();
-        
+
         // set confirm/cancel commands
         $c_gui->setFormAction($ilCtrl->getFormAction($this, "deleteItems"));
         $c_gui->setHeaderText($lng->txt("info_delete_sure"));
@@ -915,30 +915,30 @@ class ilObjMediaCastGUI extends ilObjectGUI
                 ilUtil::getImagePath("icon_mcst.svg")
             );
         }
-        
+
         $tpl->setContent($c_gui->getHTML());
     }
 
-    public function deleteItemsObject() : void
+    public function deleteItemsObject(): void
     {
         $ilCtrl = $this->ctrl;
-        
+
         $this->checkPermission("write");
-        
+
         // delete all selected news items
         $ids = $this->mc_request->getItemIds();
         foreach ($ids as $item_id) {
             $mc_item = new ilNewsItem($item_id);
             $mc_item->delete();
         }
-        
+
         $ilCtrl->redirect($this, "listItems");
     }
-    
+
     /**
      * Download news media item
      */
-    public function downloadItemObject() : void
+    public function downloadItemObject(): void
     {
         $ilCtrl = $this->ctrl;
         $ilUser = $this->user;
@@ -954,12 +954,12 @@ class ilObjMediaCastGUI extends ilObjectGUI
         }
         exit;
     }
-    
-    public function determinePlaytimeObject() : void
+
+    public function determinePlaytimeObject(): void
     {
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
-        
+
         $mc_item = new ilNewsItem($this->mc_request->getItemId());
         $mob = $mc_item->getMobId();
         $mob = new ilObjMediaObject($mob);
@@ -987,7 +987,7 @@ class ilObjMediaCastGUI extends ilObjectGUI
     /**
      * This one is called from the info button in the repository
      */
-    public function infoScreenObject() : void
+    public function infoScreenObject(): void
     {
         if (!$this->checkPermissionBool("read")) {
             $this->checkPermission("visible");
@@ -997,10 +997,10 @@ class ilObjMediaCastGUI extends ilObjectGUI
         $this->infoScreen();
     }
 
-    public function infoScreen() : void
+    public function infoScreen(): void
     {
         $ilTabs = $this->tabs;
-        
+
         $ilTabs->activateTab("id_info");
 
         if (!$this->checkPermissionBool("read")) {
@@ -1008,7 +1008,7 @@ class ilObjMediaCastGUI extends ilObjectGUI
         }
 
         $info = new ilInfoScreenGUI($this);
-        
+
         $info->enablePrivateNotes();
 
         // general information
@@ -1020,7 +1020,7 @@ class ilObjMediaCastGUI extends ilObjectGUI
             $this->lng->txt("mcst_nr_items"),
             count($med_items)
         );
-            
+
         if (count($med_items) > 0) {
             $cur = current($med_items);
             $last = ilDatePresentation::formatDate(new ilDateTime($cur["creation_date"], IL_CAL_DATETIME));
@@ -1034,15 +1034,15 @@ class ilObjMediaCastGUI extends ilObjectGUI
         $this->ctrl->forwardCommand($info);
     }
 
-    protected function setTabs() : void
+    protected function setTabs(): void
     {
         $ilAccess = $this->access;
         $ilTabs = $this->tabs;
         $lng = $this->lng;
         $ilHelp = $this->help;
-        
+
         $ilHelp->setScreenIdComponent("mcst");
-        
+
         // list items
         if ($ilAccess->checkAccess('read', "", $this->object->getRefId())) {
             $ilTabs->addTab(
@@ -1070,7 +1070,7 @@ class ilObjMediaCastGUI extends ilObjectGUI
                 $this->ctrl->getLinkTarget($this, "editSettings")
             );
         }
-        
+
         if (ilLearningProgressAccess::checkAccess($this->object->getRefId())) {
             $ilTabs->addTab(
                 'learning_progress',
@@ -1100,11 +1100,11 @@ class ilObjMediaCastGUI extends ilObjectGUI
 
     public function addContentSubTabs(
         string $a_active = "content"
-    ) : void {
+    ): void {
         $ilTabs = $this->tabs;
         $ilAccess = $this->access;
         $lng = $this->lng;
-        
+
         $ilTabs->addSubTab(
             "content",
             $lng->txt("view"),
@@ -1117,7 +1117,7 @@ class ilObjMediaCastGUI extends ilObjectGUI
                 $lng->txt("mcst_manage"),
                 $this->ctrl->getLinkTarget($this, "listItems")
             );
-            
+
             if ($this->object->getOrder() == ilObjMediaCast::ORDER_MANUAL) {
                 $ilTabs->addSubTab(
                     "sorting",
@@ -1126,48 +1126,48 @@ class ilObjMediaCastGUI extends ilObjectGUI
                 );
             }
         }
-        
+
         $ilTabs->activateSubTab($a_active);
         $ilTabs->activateTab("content");
     }
 
-    public function editSettingsObject() : void
+    public function editSettingsObject(): void
     {
         $tpl = $this->tpl;
         $ilTabs = $this->tabs;
-        
+
         $this->checkPermission("write");
         $ilTabs->activateTab("id_settings");
-        
+
         $this->initSettingsForm();
         $tpl->setContent($this->form_gui->getHTML());
     }
-    
+
     /**
      * Init Settings Form
      */
-    public function initSettingsForm() : void
+    public function initSettingsForm(): void
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
         $obj_service = $this->object_service;
-        
+
         $lng->loadLanguageModule("mcst");
-        
+
         $this->form_gui = new ilPropertyFormGUI();
         $this->form_gui->setTitle($lng->txt("mcst_settings"));
-        
+
         // Title
         $tit = new ilTextInputGUI($lng->txt("title"), "title");
         $tit->setValue($this->object->getTitle());
         $tit->setRequired(true);
         $this->form_gui->addItem($tit);
-        
+
         // description
         $des = new ilTextAreaInputGUI($lng->txt("description"), "description");
         $des->setValue($this->object->getLongDescription());
         $this->form_gui->addItem($des);
-        
+
         $sh = new ilFormSectionHeaderGUI();
         $sh->setTitle($lng->txt("rep_activation_availability"));
         $this->form_gui->addItem($sh);
@@ -1184,7 +1184,7 @@ class ilObjMediaCastGUI extends ilObjectGUI
 
         // tile image
         $obj_service->commonSettings()->legacyForm($this->form_gui, $this->object)->addTileImage();
-        
+
         // Sorting
         $sort = new ilRadioGroupInputGUI($lng->txt("mcst_ordering"), "order");
         $sort->addOption(new ilRadioOption(
@@ -1205,7 +1205,7 @@ class ilObjMediaCastGUI extends ilObjectGUI
         ));
         $sort->setValue($this->object->getOrder());
         $this->form_gui->addItem($sort);
-        
+
         // view mode
         $si = new ilRadioGroupInputGUI($this->lng->txt("mcst_viewmode"), "viewmode");
         /*$si->addOption(new ilRadioOption(
@@ -1255,7 +1255,7 @@ class ilObjMediaCastGUI extends ilObjectGUI
         $downloadable->setChecked($this->object->getDownloadable());
         $downloadable->setInfo($lng->txt("mcst_downloadable_info"));
         $this->form_gui->addItem($downloadable);
-        
+
         $news_set = new ilSetting("news");
         $enable_internal_rss = $news_set->get("enable_rss_for_internal");
 
@@ -1277,14 +1277,14 @@ class ilObjMediaCastGUI extends ilObjectGUI
             $radio_group->setValue($this->object->getDefaultAccess());
             #$ch->addSubItem($radio_group);
             $this->form_gui->addItem($radio_group);
-        
+
             //Extra Feed
             $public_feed = ilBlockSetting::_lookup("news", "public_feed", 0, $this->object->getId());
             $ch = new ilCheckboxInputGUI($lng->txt("news_public_feed"), "extra_feed");
             $ch->setInfo($lng->txt("news_public_feed_info"));
             $ch->setChecked((bool) $public_feed);
             $this->form_gui->addItem($ch);
-            
+
             // keep minimal x number of items
             $ni = new ilNumberInputGUI($this->lng->txt("news_keep_minimal_x_items"), "keep_rss_min");
             $ni->setMaxValue(100);
@@ -1295,7 +1295,7 @@ class ilObjMediaCastGUI extends ilObjectGUI
                     ilNewsItem::_lookupRSSPeriod() . " " . (ilNewsItem::_lookupRSSPeriod() == 1 ? $lng->txt("day") : $lng->txt("days")) . ")");
             $ni->setValue((int) ilBlockSetting::_lookup("news", "keep_rss_min", 0, $this->object->getId()));
             $ch->addSubItem($ni);
-            
+
             // Include Files in Pubic Items
             $incl_files = new ilCheckboxInputGUI($lng->txt("mcst_incl_files_in_rss"), "public_files");
             $incl_files->setChecked($this->object->getPublicFiles());
@@ -1321,21 +1321,21 @@ class ilObjMediaCastGUI extends ilObjectGUI
         $this->form_gui->addCommandButton("saveSettings", $lng->txt("save"));
         $this->form_gui->setFormAction($ilCtrl->getFormAction($this, "saveSettings"));
     }
-    
-    public function saveSettingsObject() : void
+
+    public function saveSettingsObject(): void
     {
         $ilCtrl = $this->ctrl;
         $ilTabs = $this->tabs;
         $obj_service = $this->object_service;
-        
+
         $this->checkPermission("write");
         $ilTabs->activateTab("id_settings");
-        
+
         $this->initSettingsForm();
         if ($this->form_gui->checkInput()) {
             $news_set = new ilSetting("news");
             $enable_internal_rss = $news_set->get("enable_rss_for_internal");
-            
+
             $this->object->setTitle($this->form_gui->getInput("title"));
             $this->object->setDescription($this->form_gui->getInput("description"));
             $this->object->setOnline($this->form_gui->getInput("online"));
@@ -1348,13 +1348,13 @@ class ilObjMediaCastGUI extends ilObjectGUI
 
             // tile image
             $obj_service->commonSettings()->legacyForm($this->form_gui, $this->object)->saveTileImage();
-            
+
             if ($enable_internal_rss) {
                 $this->object->setPublicFiles($this->form_gui->getInput("public_files"));
                 $this->object->setDefaultAccess($this->form_gui->getInput("defaultaccess"));
             }
             $this->object->update();
-            
+
             if ($enable_internal_rss) {
                 ilBlockSetting::_write(
                     "news",
@@ -1372,7 +1372,7 @@ class ilObjMediaCastGUI extends ilObjectGUI
                     $this->object->getId()
                 );
             }
-            
+
             $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_obj_modified"), true);
             $ilCtrl->redirect($this, "editSettings");
         } else {
@@ -1381,16 +1381,16 @@ class ilObjMediaCastGUI extends ilObjectGUI
         }
     }
 
-    protected function addLocatorItems() : void
+    protected function addLocatorItems(): void
     {
         $ilLocator = $this->locator;
-        
+
         if (is_object($this->object)) {
             $ilLocator->addItem($this->object->getTitle(), $this->ctrl->getLinkTarget($this, "listItems"), "", $this->requested_ref_id);
         }
     }
 
-    public static function _goto(string $a_target) : void
+    public static function _goto(string $a_target): void
     {
         global $DIC;
         $main_tpl = $DIC->ui()->mainTemplate();
@@ -1414,32 +1414,32 @@ class ilObjMediaCastGUI extends ilObjectGUI
 
         throw new ilPermissionException($lng->txt("msg_no_perm_read"));
     }
-    
-    protected static function isAudio(string $extension) : bool
+
+    protected static function isAudio(string $extension): bool
     {
         return strpos($extension, "audio") !== false;
     }
-    
+
     /**
      * Get MediaItem for id and updates local variable mcst_item
      */
-    protected function getMediaItem(int $id) : ilMediaItem
+    protected function getMediaItem(int $id): ilMediaItem
     {
         $this->mcst_item = new ilNewsItem($id);
         // create dummy object in db (we need an id)
         $mob = new ilObjMediaObject($this->mcst_item->getMobId());
         return $mob->getMediaItem("Standard");
     }
-    
-    protected function getMediaItems(int $id) : array
+
+    protected function getMediaItems(int $id): array
     {
         $this->mcst_item = new ilNewsItem($id);
         // create dummy object in db (we need an id)
         $mob = new ilObjMediaObject($this->mcst_item->getMobId());
         return $mob->getMediaItems();
     }
-    
-    private function populateFormFromPost() : void
+
+    private function populateFormFromPost(): void
     {
         $tpl = $this->tpl;
         $this->form_gui->setValuesByPost();
@@ -1454,22 +1454,22 @@ class ilObjMediaCastGUI extends ilObjectGUI
                 $input->setValue($this->form_gui->getInput("value_" . $purpose));
             }
         }
-        
+
         $this->form_gui->setValuesByPost();
         $tpl->setContent($this->form_gui->getHTML());
     }
-    
-    protected function editOrderObject() : void
+
+    protected function editOrderObject(): void
     {
         $ilTabs = $this->tabs;
         $lng = $this->lng;
         $tpl = $this->tpl;
-        
+
         $this->checkPermission("write");
         $ilTabs->activateTab("edit_content");
-        
+
         $this->addContentSubTabs("sorting");
-        
+
         // sort by order setting
         switch ($this->object->getOrder()) {
             case ilObjMediaCast::ORDER_TITLE:
@@ -1477,44 +1477,44 @@ class ilObjMediaCastGUI extends ilObjectGUI
             case ilObjMediaCast::ORDER_CREATION_DATE_DESC:
                 $this->listItemsObject();
                 return;
-            
+
             case ilObjMediaCast::ORDER_MANUAL:
                 // sub-tabs
                 break;
         }
-    
+
         $table_gui = new ilMediaCastTableGUI($this, "editOrder", true);
-                
+
         $table_gui->setTitle($lng->txt("mcst_media_cast"));
         $table_gui->setData($this->object->getSortedItemsArray());
-        
+
         $table_gui->addCommandButton("saveOrder", $lng->txt("mcst_save_order"));
-        
+
         $tpl->setContent($table_gui->getHTML());
     }
-    
-    public function saveOrderObject() : void
+
+    public function saveOrderObject(): void
     {
         $lng = $this->lng;
 
         $ids = $this->mc_request->getItemIds();
         asort($ids);
-        
+
         $items = array();
         foreach (array_keys($ids) as $id) {
             $items[] = $id;
         }
         $this->object->saveOrder($items);
-        
+
         $this->tpl->setOnScreenMessage('success', $lng->txt("settings_saved"), true);
         $this->ctrl->redirect($this, "editOrder");
     }
-    
+
     ////
     //// Show content
     ////
-    
-    public function showContentObject() : void
+
+    public function showContentObject(): void
     {
         $tpl = $this->tpl;
         $ilUser = $this->user;
@@ -1568,8 +1568,8 @@ class ilObjMediaCastGUI extends ilObjectGUI
 
         $tpl->setPermanentLink($this->object->getType(), $this->object->getRefId());
     }
-    
-    public function showGallery() : void
+
+    public function showGallery(): void
     {
         $tpl = $this->tpl;
         $ilTabs = $this->tabs;
@@ -1578,16 +1578,16 @@ class ilObjMediaCastGUI extends ilObjectGUI
         $this->tpl->setOnScreenMessage('info', $this->lng->txt("mcst_view_abandoned"));
     }
 
-    public function extractPreviewImageObject() : void
+    public function extractPreviewImageObject(): void
     {
         $ilCtrl = $this->ctrl;
         $add = "";
-        
+
         $this->checkPermission("write");
-        
+
         $this->mcst_item = new ilNewsItem($this->mc_request->getItemId());
         $mob = new ilObjMediaObject($this->mcst_item->getMobId());
-        
+
         try {
             $sec = $this->mc_request->getSeconds();
             if ($sec < 0) {
@@ -1609,18 +1609,18 @@ class ilObjMediaCastGUI extends ilObjectGUI
             }
             $this->tpl->setOnScreenMessage('failure', $e->getMessage() . $add, true);
         }
-        
+
         $ilCtrl->redirect($this, "editCastItem");
     }
 
-    public function handlePlayerEventObject() : void
+    public function handlePlayerEventObject(): void
     {
         if ($this->mc_request->getEvent() === "play") {
             $player = explode("_", $this->mc_request->getPlayer());
             $news_id = (int) $player[1];
             $item = new ilNewsItem($news_id);
             $item->increasePlayCounter();
-            
+
             $mob_id = $item->getMobId();
             if ($mob_id) {
                 $ilUser = $this->user;
@@ -1630,7 +1630,7 @@ class ilObjMediaCastGUI extends ilObjectGUI
         exit;
     }
 
-    protected function handlePlayerCompletedEventObject() : void
+    protected function handlePlayerCompletedEventObject(): void
     {
         $mob_id = $this->mc_request->getMobId();
         if ($mob_id > 0) {
@@ -1640,12 +1640,12 @@ class ilObjMediaCastGUI extends ilObjectGUI
         exit;
     }
 
-    protected function afterUpload($mob_ids) : void
+    protected function afterUpload($mob_ids): void
     {
         $this->addMobsToCast($mob_ids, "", false);
     }
 
-    protected function afterUrlSaving(int $mob_id, string $long_desc) : void
+    protected function afterUrlSaving(int $mob_id, string $long_desc): void
     {
         $this->addMobsToCast([$mob_id], $long_desc);
     }
@@ -1654,7 +1654,7 @@ class ilObjMediaCastGUI extends ilObjectGUI
         array $mob_ids,
         string $long_desc = "",
         bool $redirect = true
-    ) : void {
+    ): void {
         $ctrl = $this->ctrl;
         $user = $this->user;
 
@@ -1672,12 +1672,12 @@ class ilObjMediaCastGUI extends ilObjectGUI
         }
     }
 
-    protected function afterPoolInsert(array $mob_ids) : void
+    protected function afterPoolInsert(array $mob_ids): void
     {
         $this->addMobsToCast($mob_ids);
     }
 
-    protected function handleAutoplayTriggerObject() : void
+    protected function handleAutoplayTriggerObject(): void
     {
         $this->user->writePref(
             "mcst_autoplay",

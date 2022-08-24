@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 use ILIAS\Filesystem\Util\LegacyPathHelper;
 use ILIAS\Filesystem\Filesystem;
 use ILIAS\FileUpload\FileUpload;
@@ -41,12 +43,12 @@ class ilObjectTileImage implements ilObjectTileImageInterface
         $this->ext = ilContainer::_lookupContainerSetting($obj_id, 'tile_image');
     }
 
-    public function getExtension() : string
+    public function getExtension(): string
     {
         return $this->ext;
     }
 
-    public function copy(int $target_obj_id) : void
+    public function copy(int $target_obj_id): void
     {
         if (!$this->exists()) {
             ilContainer::_deleteContainerSettings($target_obj_id, 'tile_image');
@@ -69,7 +71,7 @@ class ilObjectTileImage implements ilObjectTileImageInterface
         }
     }
 
-    public function delete() : void
+    public function delete(): void
     {
         if ($this->web->hasDir($this->getRelativeDirectory())) {
             try {
@@ -81,7 +83,7 @@ class ilObjectTileImage implements ilObjectTileImageInterface
         ilContainer::_deleteContainerSettings($this->obj_id, 'tile_image');
     }
 
-    public function saveFromHttpRequest(string $tmp_name) : void
+    public function saveFromHttpRequest(string $tmp_name): void
     {
         $this->createDirectory();
 
@@ -133,7 +135,7 @@ class ilObjectTileImage implements ilObjectTileImageInterface
         $this->persistImageState($file_name);
     }
 
-    protected function persistImageState(string $filename) : void
+    protected function persistImageState(string $filename): void
     {
         $ext = pathinfo($filename, PATHINFO_EXTENSION);
 
@@ -147,12 +149,12 @@ class ilObjectTileImage implements ilObjectTileImageInterface
     /**
      * @throws IOException
      */
-    protected function createDirectory() : void
+    protected function createDirectory(): void
     {
         $this->web->createDir($this->getRelativeDirectory());
     }
 
-    public function getRelativeDirectory() : string
+    public function getRelativeDirectory(): string
     {
         return implode(
             DIRECTORY_SEPARATOR,
@@ -164,12 +166,12 @@ class ilObjectTileImage implements ilObjectTileImageInterface
         );
     }
 
-    protected function getFileName() : string
+    protected function getFileName(): string
     {
         return 'tile_image.' . $this->getExtension();
     }
 
-    protected function getRelativePath() : string
+    protected function getRelativePath(): string
     {
         return implode(
             DIRECTORY_SEPARATOR,
@@ -180,7 +182,7 @@ class ilObjectTileImage implements ilObjectTileImageInterface
         );
     }
 
-    public function exists() : bool
+    public function exists(): bool
     {
         if (!ilContainer::_lookupContainerSetting($this->obj_id, 'tile_image', '0')) {
             return false;
@@ -189,7 +191,7 @@ class ilObjectTileImage implements ilObjectTileImageInterface
         return $this->web->has($this->getRelativePath());
     }
 
-    public function getFullPath() : string
+    public function getFullPath(): string
     {
         // TODO: Currently there is no option to get the relative base directory of a filesystem
         return implode(
@@ -201,7 +203,7 @@ class ilObjectTileImage implements ilObjectTileImageInterface
         );
     }
 
-    public function createFromImportDir(string $source_dir, string $ext) : void
+    public function createFromImportDir(string $source_dir, string $ext): void
     {
         $target_dir = implode(
             DIRECTORY_SEPARATOR,
@@ -212,13 +214,13 @@ class ilObjectTileImage implements ilObjectTileImageInterface
         );
         $sourceFS = LegacyPathHelper::deriveFilesystemFrom($source_dir);
         $targetFS = LegacyPathHelper::deriveFilesystemFrom($target_dir);
-    
+
         $sourceDir = LegacyPathHelper::createRelativePath($source_dir);
         $targetDir = LegacyPathHelper::createRelativePath($target_dir);
-        
-    
+
+
         $sourceList = $sourceFS->listContents($sourceDir, true);
-    
+
         foreach ($sourceList as $item) {
             if ($item->isDir()) {
                 continue;
@@ -231,7 +233,7 @@ class ilObjectTileImage implements ilObjectTileImageInterface
                 // Do nothing with that type of exception
             }
         }
-        
+
         ilContainer::_writeContainerSetting($this->obj_id, 'tile_image', $ext);
     }
 }

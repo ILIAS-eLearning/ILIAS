@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 
@@ -14,17 +16,17 @@
  */
 class ilObjGroupAdministrationGUI extends ilMembershipAdministrationGUI
 {
-    protected function getType() : string
+    protected function getType(): string
     {
         return "grps";
     }
-    
-    protected function getParentObjType() : string
+
+    protected function getParentObjType(): string
     {
         return "grp";
     }
-    
-    protected function getAdministrationFormId() : int
+
+    protected function getAdministrationFormId(): int
     {
         return ilAdministrationSettingsFormHandler::FORM_GROUP;
     }

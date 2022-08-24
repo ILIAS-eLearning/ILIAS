@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -25,7 +27,7 @@ class ilRegistrationMailNotification extends ilMailNotification
      * Parse and send mail
      * @return
      */
-    public function send() : void
+    public function send(): void
     {
         switch ($this->getType()) {
             case self::TYPE_NOTIFICATION_APPROVERS:
@@ -93,7 +95,7 @@ class ilRegistrationMailNotification extends ilMailNotification
         }
     }
 
-    protected function initLanguage(int $a_usr_id) : void
+    protected function initLanguage(int $a_usr_id): void
     {
         parent::initLanguage($a_usr_id);
         $this->getLanguage()->loadLanguageModule('registration');

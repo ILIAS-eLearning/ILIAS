@@ -18,7 +18,7 @@ class ilAssessmentQuestionImporter extends ilXmlImporter
      * @param string          $a_xml
      * @param ilImportMapping $a_mapping
      */
-    public function importXmlRepresentation(string $a_entity, string $a_id, string $a_xml, ilImportMapping $a_mapping) : void
+    public function importXmlRepresentation(string $a_entity, string $a_id, string $a_xml, ilImportMapping $a_mapping): void
     {
         // TODO: Implement importXmlRepresentation() method.
     }

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -32,7 +34,7 @@ class ilLanguageSetupAgentTest extends TestCase
      */
     protected $obj;
 
-    public function setUp() : void
+    public function setUp(): void
     {
         $this->refinery = new Refinery($this->createMock(DataFactory::class), $this->createMock(\ilLanguage::class));
         $setup_language = $this->createMock(\ilSetupLanguage::class);
@@ -40,24 +42,24 @@ class ilLanguageSetupAgentTest extends TestCase
         $this->obj = new \ilLanguageSetupAgent($this->refinery, null, $setup_language);
     }
 
-    public function testCreate() : void
+    public function testCreate(): void
     {
         $this->assertInstanceOf(\ilLanguageSetupAgent::class, $this->obj);
     }
 
-    public function testHasConfig() : void
+    public function testHasConfig(): void
     {
         $this->assertFalse($this->obj->hasConfig());
     }
 
-    public function testGetArrayToConfigTransformation() : void
+    public function testGetArrayToConfigTransformation(): void
     {
         $this->expectException(LogicException::class);
-        
+
         $fnc = $this->obj->getArrayToConfigTransformation();
     }
 
-    public function testGetInstallObjectives() : void
+    public function testGetInstallObjectives(): void
     {
         $objective_collection = $this->obj->getInstallObjective();
 
@@ -66,7 +68,7 @@ class ilLanguageSetupAgentTest extends TestCase
         $this->assertCount(2, $objective_collection->getObjectives());
     }
 
-    public function testGetUpdateObjective() : void
+    public function testGetUpdateObjective(): void
     {
         $objective_collection = $this->obj->getUpdateObjective();
 
@@ -75,7 +77,7 @@ class ilLanguageSetupAgentTest extends TestCase
         $this->assertCount(1, $objective_collection->getObjectives());
     }
 
-    public function testGetBuildArtifactObjective() : void
+    public function testGetBuildArtifactObjective(): void
     {
         $result = $this->obj->getBuildArtifactObjective();
 

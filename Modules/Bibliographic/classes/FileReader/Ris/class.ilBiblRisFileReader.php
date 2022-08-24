@@ -15,7 +15,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * Class ilBiblRisFileReader
  *
@@ -24,7 +24,7 @@
 class ilBiblRisFileReader extends ilBiblFileReaderBase implements ilBiblFileReaderInterface
 {
     protected ilBiblRisFileReaderWrapper $wrapper;
-    
+
     public function __construct(
         ilBiblEntryFactoryInterface $entry_factory,
         ilBiblFieldFactoryInterface $field_factory,
@@ -33,15 +33,15 @@ class ilBiblRisFileReader extends ilBiblFileReaderBase implements ilBiblFileRead
         parent::__construct($entry_factory, $field_factory, $attribute_factory);
         $this->wrapper = new ilBiblRisFileReaderWrapper();
     }
-    
-    public function parseContent() : array
+
+    public function parseContent(): array
     {
         $content = $this->wrapper->parseContent($this->file_content);
-        
+
         return $this->flattenContent($content);
     }
-    
-    private function flattenContent(array $content) : array
+
+    private function flattenContent(array $content): array
     {
         $flattener = function ($i) {
             if (is_array($i)) {
@@ -49,7 +49,7 @@ class ilBiblRisFileReader extends ilBiblFileReaderBase implements ilBiblFileRead
             }
             return $i;
         };
-        
+
         $walker = function ($item) use ($flattener) {
             if (is_array($item)) {
                 foreach ($item as $k => $i) {
@@ -59,7 +59,7 @@ class ilBiblRisFileReader extends ilBiblFileReaderBase implements ilBiblFileRead
             }
             return $item;
         };
-        
+
         return array_map($walker, $content);
     }
 }

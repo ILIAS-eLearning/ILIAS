@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace ILIAS\Filesystem\Provider\FlySystem;
@@ -63,7 +64,7 @@ class FlySystemFileAccess implements FileAccess
      * @since   5.3
      * @version 1.0
      */
-    public function read(string $path) : string
+    public function read(string $path): string
     {
         try {
             $path = Util::normalizeRelativePath($path);
@@ -95,7 +96,7 @@ class FlySystemFileAccess implements FileAccess
      * @since   5.3
      * @version 1.0
      */
-    public function has(string $path) : bool
+    public function has(string $path): bool
     {
         return $this->flySystemFS->has($path);
     }
@@ -111,7 +112,7 @@ class FlySystemFileAccess implements FileAccess
      * @throws FileNotFoundException    If the file is not found.
      * @throws IOException              If the mime-type could not be determined.
      */
-    public function getMimeType(string $path) : string
+    public function getMimeType(string $path): string
     {
         try {
             $mimeType = $this->flySystemFS->getMimetype($path);
@@ -139,7 +140,7 @@ class FlySystemFileAccess implements FileAccess
      * @since   5.3
      * @version 1.0
      */
-    public function getTimestamp(string $path) : \DateTimeImmutable
+    public function getTimestamp(string $path): \DateTimeImmutable
     {
         try {
             $rawTimestamp = $this->flySystemFS->getTimestamp($path);
@@ -175,7 +176,7 @@ class FlySystemFileAccess implements FileAccess
      *
      * @see     DataSize
      */
-    public function getSize(string $path, int $fileSizeUnit) : DataSize
+    public function getSize(string $path, int $fileSizeUnit): DataSize
     {
         try {
             $byteSize = $this->flySystemFS->getSize($path);
@@ -210,7 +211,7 @@ class FlySystemFileAccess implements FileAccess
      * @since   5.3
      * @version 1.0
      */
-    public function setVisibility(string $path, string $visibility) : bool
+    public function setVisibility(string $path, string $visibility): bool
     {
         if ($this->has($path) === false) {
             throw new FileNotFoundException("Path \"$path\" not found.");
@@ -230,7 +231,7 @@ class FlySystemFileAccess implements FileAccess
      *
      * @throws \InvalidArgumentException Thrown if the given visibility was considered as invalid.
      */
-    private function validateVisibility(string $visibility) : void
+    private function validateVisibility(string $visibility): void
     {
         if (strcmp($visibility, Visibility::PUBLIC_ACCESS) !== 0 && strcmp($visibility, Visibility::PRIVATE_ACCESS) !== 0) {
             throw new \InvalidArgumentException("The access must be 'public' or 'private' but '$visibility' was given.");
@@ -255,7 +256,7 @@ class FlySystemFileAccess implements FileAccess
      * @since   5.3
      * @version 1.0
      */
-    public function getVisibility(string $path) : string
+    public function getVisibility(string $path): string
     {
         if ($this->has($path) === false) {
             throw new FileNotFoundException("Path \"$path\" not found.");
@@ -284,7 +285,7 @@ class FlySystemFileAccess implements FileAccess
      * @since   5.3
      * @version 1.0
      */
-    public function write(string $path, string $content) : void
+    public function write(string $path, string $content): void
     {
         try {
             if ($this->flySystemFS->write($path, $content) === false) {
@@ -310,7 +311,7 @@ class FlySystemFileAccess implements FileAccess
      * @since   5.3
      * @version 1.0
      */
-    public function update(string $path, string $new_content) : void
+    public function update(string $path, string $new_content): void
     {
         try {
             if ($this->flySystemFS->update($path, $new_content) === false) {
@@ -334,7 +335,7 @@ class FlySystemFileAccess implements FileAccess
      * @since   5.3
      * @version 1.0
      */
-    public function put(string $path, string $content) : void
+    public function put(string $path, string $content): void
     {
         if ($this->flySystemFS->put($path, $content) === false) {
             throw new IOException("Could not write to file \"$path\" because a general IO error occurred. Please check that your destination is writable.");
@@ -354,7 +355,7 @@ class FlySystemFileAccess implements FileAccess
      * @since   5.3
      * @version 1.0
      */
-    public function delete(string $path) : void
+    public function delete(string $path): void
     {
         try {
             if ($this->flySystemFS->delete($path) === false) {
@@ -379,7 +380,7 @@ class FlySystemFileAccess implements FileAccess
      * @since   5.3
      * @version 1.0
      */
-    public function readAndDelete(string $path) : string
+    public function readAndDelete(string $path): string
     {
         $content = $this->read($path);
         $this->delete($path);
@@ -402,7 +403,7 @@ class FlySystemFileAccess implements FileAccess
      * @since   5.3
      * @version 1.0
      */
-    public function rename(string $path, string $new_path) : void
+    public function rename(string $path, string $new_path): void
     {
         try {
             if ($this->flySystemFS->rename($path, $new_path) === false) {
@@ -430,7 +431,7 @@ class FlySystemFileAccess implements FileAccess
      * @since   5.3
      * @version 1.0
      */
-    public function copy(string $path, string $copy_path) : void
+    public function copy(string $path, string $copy_path): void
     {
         try {
             if ($this->flySystemFS->copy($path, $copy_path) === false) {

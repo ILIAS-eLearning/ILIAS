@@ -78,7 +78,7 @@ class ilLMPresentationLinker implements \ILIAS\COPage\PageLinker
 
     public function setOffline(
         bool $offline = true
-    ) : void {
+    ): void {
         $this->offline = $offline;
     }
 
@@ -93,7 +93,7 @@ class ilLMPresentationLinker implements \ILIAS\COPage\PageLinker
         string $a_back_link = "append",
         string $a_anchor = "",
         string $a_srcstring = ""
-    ) : string {
+    ): string {
         if ($a_cmd == "") {
             $a_cmd = "layout";
         }
@@ -267,7 +267,7 @@ class ilLMPresentationLinker implements \ILIAS\COPage\PageLinker
         return $link;
     }
 
-    public function getLayoutLinkTargets() : array
+    public function getLayoutLinkTargets(): array
     {
         $targets = [
             "New" => [
@@ -291,7 +291,7 @@ class ilLMPresentationLinker implements \ILIAS\COPage\PageLinker
     /**
      * Get XMl for Link Targets
      */
-    public function getLinkTargetsXML() : string
+    public function getLinkTargetsXML(): string
     {
         $link_info = "<LinkTargets>";
         foreach ($this->getLayoutLinkTargets() as $k => $t) {
@@ -306,7 +306,7 @@ class ilLMPresentationLinker implements \ILIAS\COPage\PageLinker
      */
     public function getLinkXML(
         array $int_links
-    ) : string {
+    ): string {
         $ilCtrl = $this->ctrl;
 
         $a_layoutframes = $this->getLayoutLinkTargets();
@@ -516,7 +516,7 @@ class ilLMPresentationLinker implements \ILIAS\COPage\PageLinker
         return $link_info;
     }
 
-    public function getFullscreenLink() : string
+    public function getFullscreenLink(): string
     {
         return $this->getLink("fullscreen");
     }

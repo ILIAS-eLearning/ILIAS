@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\UI\Implementation\Component\Menu;
 
 use ILIAS\UI\Component\Menu as IMenu;
@@ -47,12 +49,12 @@ class Drilldown extends Menu implements IMenu\Drilldown
         $this->signal = $signal_generator->create();
     }
 
-    public function getBacklinkSignal() : Signal
+    public function getBacklinkSignal(): Signal
     {
         return $this->signal;
     }
 
-    public function withPersistenceId(?string $id) : self
+    public function withPersistenceId(?string $id): self
     {
         if (is_null($id)) {
             return $this;
@@ -61,8 +63,8 @@ class Drilldown extends Menu implements IMenu\Drilldown
         $clone->persistence_id = $id;
         return $clone;
     }
-    
-    public function getPersistenceId() : ?string
+
+    public function getPersistenceId(): ?string
     {
         return $this->persistence_id;
     }

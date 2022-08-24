@@ -39,13 +39,13 @@
  */
 class ilObjDataCollectionGUI extends ilObject2GUI
 {
-    const GET_DCL_GTR = "dcl_gtr";
-    const GET_REF_ID = "ref_id";
-    const GET_VIEW_ID = "tableview_id";
-    const TAB_EDIT_DCL = 'settings';
-    const TAB_LIST_TABLES = 'dcl_tables';
-    const TAB_EXPORT = 'export';
-    const TAB_LIST_PERMISSIONS = 'perm_settings';
+    public const GET_DCL_GTR = "dcl_gtr";
+    public const GET_REF_ID = "ref_id";
+    public const GET_VIEW_ID = "tableview_id";
+    public const TAB_EDIT_DCL = 'settings';
+    public const TAB_LIST_TABLES = 'dcl_tables';
+    public const TAB_EXPORT = 'export';
+    public const TAB_LIST_PERMISSIONS = 'perm_settings';
 
     public ?ilObject $object = null;
 
@@ -86,7 +86,7 @@ class ilObjDataCollectionGUI extends ilObject2GUI
         $this->ctrl->saveParameter($this, "table_id");
     }
 
-    private function setTableId(int $objectOrRefId = 0) : void
+    private function setTableId(int $objectOrRefId = 0): void
     {
         if ($this->http->wrapper()->query()->has('table_id')) {
             $this->table_id = $this->http->wrapper()->query()->retrieve('table_id', $this->refinery->kindlyTo()->int());
@@ -99,17 +99,17 @@ class ilObjDataCollectionGUI extends ilObject2GUI
         }
     }
 
-    public function getObjectId() : int
+    public function getObjectId(): int
     {
         return $this->obj_id;
     }
 
-    public function getRefId() : int
+    public function getRefId(): int
     {
         return $this->ref_id;
     }
 
-    private function addJavaScript() : void
+    private function addJavaScript(): void
     {
         ilYuiUtil::initConnection();
         ilOverlayGUI::initJavascript();
@@ -131,12 +131,12 @@ class ilObjDataCollectionGUI extends ilObject2GUI
         );
     }
 
-    public function getStandardCmd() : string
+    public function getStandardCmd(): string
     {
         return "render";
     }
 
-    public function getType() : string
+    public function getType(): string
     {
         return "dcl";
     }
@@ -144,7 +144,7 @@ class ilObjDataCollectionGUI extends ilObject2GUI
     /**
      * @throws ilCtrlException
      */
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         global $DIC;
 
@@ -163,8 +163,10 @@ class ilObjDataCollectionGUI extends ilObject2GUI
         // Direct-Link Resource, redirect to viewgui
         if ($hasDclGtr) {
             $viewId = $this->http->wrapper()->query()->retrieve(self::GET_VIEW_ID, $this->refinery->kindlyTo()->int());
-            $record_id = $this->http->wrapper()->query()->retrieve(self::GET_DCL_GTR,
-                $this->refinery->kindlyTo()->int());
+            $record_id = $this->http->wrapper()->query()->retrieve(
+                self::GET_DCL_GTR,
+                $this->refinery->kindlyTo()->int()
+            );
 
             $this->ctrl->setParameterByClass(ilDclDetailedViewGUI::class, 'tableview_id', $viewId);
             $this->ctrl->setParameterByClass(ilDclDetailedViewGUI::class, 'record_id', $record_id);
@@ -223,12 +225,16 @@ class ilObjDataCollectionGUI extends ilObject2GUI
 
                 $tableview_id = 1;
                 if ($this->http->wrapper()->query()->has('tableview_id')) {
-                    $tableview_id = $this->http->wrapper()->query()->retrieve('tableview_id',
-                        $this->refinery->kindlyTo()->int());
+                    $tableview_id = $this->http->wrapper()->query()->retrieve(
+                        'tableview_id',
+                        $this->refinery->kindlyTo()->int()
+                    );
                 }
                 if ($this->http->wrapper()->post()->has('tableview_id')) {
-                    $tableview_id = $this->http->wrapper()->post()->retrieve('tableview_id',
-                        $this->refinery->kindlyTo()->int());
+                    $tableview_id = $this->http->wrapper()->post()->retrieve(
+                        'tableview_id',
+                        $this->refinery->kindlyTo()->int()
+                    );
                 }
 
                 $this->ctrl->setParameterByClass(ilDclRecordListGUI::class, 'tableview_id', $tableview_id);
@@ -319,7 +325,7 @@ class ilObjDataCollectionGUI extends ilObject2GUI
      * not very nice to set cmdClass/Cmd manually, if everything
      * works through ilCtrl in the future this may be changed
      */
-    public function infoScreen() : void
+    public function infoScreen(): void
     {
         $this->ctrl->setCmd("showSummary");
         $this->ctrl->setCmdClass("ilinfoscreengui");
@@ -329,11 +335,13 @@ class ilObjDataCollectionGUI extends ilObject2GUI
     /**
      * show Content; redirect to ilDclRecordListGUI::listRecords
      */
-    public function render() : void
+    public function render(): void
     {
         if ($this->http->wrapper()->query()->has('tableview_id')) {
-            $tableview_id = $this->http->wrapper()->query()->retrieve('tableview_id',
-                $this->refinery->kindlyTo()->int());
+            $tableview_id = $this->http->wrapper()->query()->retrieve(
+                'tableview_id',
+                $this->refinery->kindlyTo()->int()
+            );
         } else {
             $tableview_id = 0;
         }
@@ -345,7 +353,7 @@ class ilObjDataCollectionGUI extends ilObject2GUI
     /**
      * show information screen
      */
-    public function infoScreenForward() : void
+    public function infoScreenForward(): void
     {
         $this->tabs->activateTab('info_short');
 
@@ -363,7 +371,7 @@ class ilObjDataCollectionGUI extends ilObject2GUI
     /**
      * @throws ilCtrlException
      */
-    protected function addLocatorItems() : void
+    protected function addLocatorItems(): void
     {
         if (is_object($this->object) === true) {
             $this->dclUi->addLocatorItem(
@@ -374,7 +382,7 @@ class ilObjDataCollectionGUI extends ilObject2GUI
         }
     }
 
-    public static function _goto(string $a_target) : void
+    public static function _goto(string $a_target): void
     {
         global $DIC;
         $lng = $DIC->language();
@@ -413,7 +421,7 @@ class ilObjDataCollectionGUI extends ilObject2GUI
         }
     }
 
-    protected function afterSave(ilObject $new_object) : void
+    protected function afterSave(ilObject $new_object): void
     {
         $this->dclUi->displaySuccessMessage($this->lng->txt("object_added"));
 
@@ -426,7 +434,7 @@ class ilObjDataCollectionGUI extends ilObject2GUI
      * create tabs (repository/workspace switch)
      * this had to be moved here because of the context-specific permission tab
      */
-    protected function setTabs() : void
+    protected function setTabs(): void
     {
         $refId = $this->object->getRefId();
 
@@ -440,8 +448,10 @@ class ilObjDataCollectionGUI extends ilObject2GUI
         if ($this->dclAccess->hasReadPermission($refId) === true) {
             $tableview_id = 1;
             if ($this->http->wrapper()->query()->has('tableview_id')) {
-                $tableview_id = $this->http->wrapper()->query()->retrieve('tableview_id',
-                    $this->refinery->kindlyTo()->int());
+                $tableview_id = $this->http->wrapper()->query()->retrieve(
+                    'tableview_id',
+                    $this->refinery->kindlyTo()->int()
+                );
             }
 
             // list records
@@ -465,7 +475,7 @@ class ilObjDataCollectionGUI extends ilObject2GUI
         }
     }
 
-    private function addTab(string $langKey, string $link) : void
+    private function addTab(string $langKey, string $link): void
     {
         $this->tabs->addTab($langKey, $this->lng->txt($langKey), $link);
     }
@@ -474,7 +484,7 @@ class ilObjDataCollectionGUI extends ilObject2GUI
      * edit object
      * @access    public
      */
-    public function editObject() : void
+    public function editObject(): void
     {
         $dataCollectionTemplate = $this->tpl;
 
@@ -498,7 +508,7 @@ class ilObjDataCollectionGUI extends ilObject2GUI
         $dataCollectionTemplate->setContent($form->getHTML());
     }
 
-    protected function initEditForm() : ilPropertyFormGUI
+    protected function initEditForm(): ilPropertyFormGUI
     {
         $this->tabs->activateTab(self::TAB_EDIT_DCL);
 
@@ -540,7 +550,7 @@ class ilObjDataCollectionGUI extends ilObject2GUI
         return $form;
     }
 
-    final public function listRecords() : void
+    final public function listRecords(): void
     {
         $tableview_id = $this->http->wrapper()->query()->retrieve('tableview_id', $this->refinery->kindlyTo()->int());
 
@@ -549,12 +559,12 @@ class ilObjDataCollectionGUI extends ilObject2GUI
         $this->dclEndPoint->redirect($listRecordsLink);
     }
 
-    public function getDataCollectionObject() : ilObjDataCollection
+    public function getDataCollectionObject(): ilObjDataCollection
     {
         return new ilObjDataCollection($this->ref_id, true);
     }
 
-    protected function getEditFormCustomValues(array &$values) : void
+    protected function getEditFormCustomValues(array &$values): void
     {
         $values["is_online"] = $this->object->getOnline();
         $values["rating"] = $this->object->getRating();
@@ -563,7 +573,7 @@ class ilObjDataCollectionGUI extends ilObject2GUI
         $values["notification"] = $this->object->getNotification();
     }
 
-    protected function updateCustom(ilPropertyFormGUI $form) : void
+    protected function updateCustom(ilPropertyFormGUI $form): void
     {
         $this->object->setOnline($form->getInput("is_online"));
         $this->object->setRating($form->getInput("rating"));
@@ -576,7 +586,7 @@ class ilObjDataCollectionGUI extends ilObject2GUI
         $this->emptyInfo();
     }
 
-    private function emptyInfo() : void
+    private function emptyInfo(): void
     {
         global $DIC;
         $lng = $DIC['lng'];
@@ -589,7 +599,7 @@ class ilObjDataCollectionGUI extends ilObject2GUI
         }
     }
 
-    final public function toggleNotification() : void
+    final public function toggleNotification(): void
     {
         global $DIC;
         $ilCtrl = $DIC['ilCtrl'];
@@ -616,7 +626,7 @@ class ilObjDataCollectionGUI extends ilObject2GUI
         $ilCtrl->redirectByClass("ildclrecordlistgui", "show");
     }
 
-    protected function addHeaderAction() : void
+    protected function addHeaderAction(): void
     {
         ilObjectListGUI::prepareJSLinks(
             $this->ctrl->getLinkTarget($this, "redrawHeaderAction", "", true),

@@ -68,10 +68,10 @@ class SurveySearch
     }
 
     // perform search and store results in $this->search_results
-    public function search() : void
+    public function search(): void
     {
         $ilDB = $this->ilDB;
-        
+
         $where = "";
         $fields = array();
         if (strcmp($this->search_type, "all") !== 0) {

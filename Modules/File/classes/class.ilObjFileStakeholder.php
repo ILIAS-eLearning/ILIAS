@@ -14,7 +14,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 use ILIAS\ResourceStorage\Stakeholder\AbstractResourceStakeholder;
 use ILIAS\ResourceStorage\Identification\ResourceIdentification;
 
@@ -40,17 +40,17 @@ class ilObjFileStakeholder extends AbstractResourceStakeholder
     /**
      * @inheritDoc
      */
-    public function getId() : string
+    public function getId(): string
     {
         return 'file_obj';
     }
 
-    public function getOwnerOfNewResources() : int
+    public function getOwnerOfNewResources(): int
     {
         return $this->owner;
     }
 
-    public function resourceHasBeenDeleted(ResourceIdentification $identification) : bool
+    public function resourceHasBeenDeleted(ResourceIdentification $identification): bool
     {
         $r = $this->database->queryF(
             "SELECT file_id FROM file_data WHERE rid = %s",

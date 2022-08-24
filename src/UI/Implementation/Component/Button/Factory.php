@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\UI\Implementation\Component\Button;
 
 use ILIAS\UI\Component\Button as B;
@@ -28,7 +30,7 @@ class Factory implements B\Factory
     /**
      * @inheritdoc
      */
-    public function standard(string $label, $action) : B\Standard
+    public function standard(string $label, $action): B\Standard
     {
         return new Standard($label, $action);
     }
@@ -36,7 +38,7 @@ class Factory implements B\Factory
     /**
      * @inheritdoc
      */
-    public function primary(string $label, $action) : B\Primary
+    public function primary(string $label, $action): B\Primary
     {
         return new Primary($label, $action);
     }
@@ -44,7 +46,7 @@ class Factory implements B\Factory
     /**
      * @inheritdoc
      */
-    public function close() : B\Close
+    public function close(): B\Close
     {
         return new Close();
     }
@@ -52,7 +54,7 @@ class Factory implements B\Factory
     /**
      * @inheritdoc
      */
-    public function minimize() : B\Minimize
+    public function minimize(): B\Minimize
     {
         return new Minimize();
     }
@@ -60,7 +62,7 @@ class Factory implements B\Factory
     /**
      * @inheritdoc
      */
-    public function tag(string $label, $action) : B\Tag
+    public function tag(string $label, $action): B\Tag
     {
         return new Tag($label, $action);
     }
@@ -68,7 +70,7 @@ class Factory implements B\Factory
     /**
      * @inheritdoc
      */
-    public function shy(string $label, $action) : B\Shy
+    public function shy(string $label, $action): B\Shy
     {
         return new Shy($label, $action);
     }
@@ -76,7 +78,7 @@ class Factory implements B\Factory
     /**
      * @inheritdoc
      */
-    public function month(string $default) : B\Month
+    public function month(string $default): B\Month
     {
         return new Month($default);
     }
@@ -84,7 +86,7 @@ class Factory implements B\Factory
     /**
      * @inheritdoc
      */
-    public function bulky(Symbol $icon_or_glyph, string $label, string $action) : B\Bulky
+    public function bulky(Symbol $icon_or_glyph, string $label, string $action): B\Bulky
     {
         return new Bulky($icon_or_glyph, $label, $action);
     }
@@ -98,7 +100,7 @@ class Factory implements B\Factory
         $off_action,
         bool $is_on = false,
         Signal $click_signal = null
-    ) : B\Toggle {
+    ): B\Toggle {
         return new Toggle($label, $on_action, $off_action, $is_on, $click_signal);
     }
 }

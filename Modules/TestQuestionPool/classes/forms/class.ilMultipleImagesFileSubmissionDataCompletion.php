@@ -28,19 +28,19 @@ class ilMultipleImagesFileSubmissionDataCompletion implements ilFormValuesManipu
         $this->dodging_files = $dodging_files;
     }
 
-    public function manipulateFormInputValues(array $inputValues) : array
+    public function manipulateFormInputValues(array $inputValues): array
     {
         return $inputValues;
     }
-    
-    public function manipulateFormSubmitValues(array $submitValues) : array
+
+    public function manipulateFormSubmitValues(array $submitValues): array
     {
         $this->populateStoredFileCustomUploadProperty($submitValues);
 
         return $submitValues;
     }
 
-    protected function populateStoredFileCustomUploadProperty(array $submitValues) : void
+    protected function populateStoredFileCustomUploadProperty(array $submitValues): void
     {
         foreach ($submitValues as $identifier => $storedFilename) {
             $this->dodging_files->{$identifier} = $storedFilename;

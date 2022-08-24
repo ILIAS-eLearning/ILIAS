@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -25,7 +27,7 @@
 class ilSelectBuilderInputGUI extends ilTextWizardInputGUI
 {
     protected array $open_answer_indexes = array();
-    
+
     public function __construct(
         string $a_title = "",
         string $a_postvar = ""
@@ -36,32 +38,32 @@ class ilSelectBuilderInputGUI extends ilTextWizardInputGUI
         $this->tpl = $DIC["tpl"];
         parent::__construct($a_title, $a_postvar);
     }
-    
-    public function getOpenAnswerIndexes() : array
+
+    public function getOpenAnswerIndexes(): array
     {
         return $this->open_answer_indexes;
     }
-    
-    public function setOpenAnswerIndexes(array $a_indexes) : void
+
+    public function setOpenAnswerIndexes(array $a_indexes): void
     {
         $this->open_answer_indexes = $a_indexes;
     }
-    
+
     // Mark an index as open answer
-    public function addOpenAnswerIndex(string $a_idx) : void
+    public function addOpenAnswerIndex(string $a_idx): void
     {
         $this->open_answer_indexes[] = $a_idx;
     }
-    
-    public function isOpenAnswerIndex(string $a_idx) : bool
+
+    public function isOpenAnswerIndex(string $a_idx): bool
     {
         return in_array($a_idx, $this->open_answer_indexes);
     }
 
-    public function checkInput() : bool
+    public function checkInput(): bool
     {
         $lng = $this->lng;
-        
+
         $foundvalues = $this->getInput();
         $this->setOpenAnswerIndexes(array());
         if (is_array($foundvalues)) {
@@ -80,7 +82,7 @@ class ilSelectBuilderInputGUI extends ilTextWizardInputGUI
             $this->setAlert($lng->txt("msg_input_is_required"));
             return false;
         }
-        
+
         foreach ($this->strArray($this->getPostVar() . '_open') as $oindex => $ovalue) {
             $this->addOpenAnswerIndex((string) $oindex);
         }
@@ -88,12 +90,12 @@ class ilSelectBuilderInputGUI extends ilTextWizardInputGUI
         return $this->checkSubItemsInput();
     }
 
-    public function getInput() : array
+    public function getInput(): array
     {
         return $this->strArray($this->getPostVar());
     }
-    
-    public function setValueByArray(array $a_values) : void
+
+    public function setValueByArray(array $a_values): void
     {
         parent::setValueByArray($a_values);
 
@@ -101,18 +103,18 @@ class ilSelectBuilderInputGUI extends ilTextWizardInputGUI
             $this->addOpenAnswerIndex($oindex);
         }
     }
-    
-    public function insert(ilTemplate $a_tpl) : void
+
+    public function insert(ilTemplate $a_tpl): void
     {
         $lng = $this->lng;
-        
+
         $tpl = new ilTemplate("tpl.prop_selectbuilder.html", true, true, "Services/Form");
         $i = 0;
         foreach ($this->values as $value) {
             if (!is_string($value)) {
                 continue;
             }
-            
+
             if (strlen($value)) {
                 $tpl->setCurrentBlock("prop_text_propval");
                 $tpl->setVariable("PROPERTY_VALUE", ilLegacyFormElementsUtil::prepareFormOutput($value));
@@ -134,14 +136,14 @@ class ilSelectBuilderInputGUI extends ilTextWizardInputGUI
             $tpl->setVariable('POST_VAR_OPEN', $this->getPostVar() . '_open' . '[' . $i . ']');
             $tpl->setVariable('POST_VAR_OPEN_ID', $this->getPostVar() . '_open[' . $i . ']');
             $tpl->setVariable('TXT_OPEN', $lng->txt("form_open_answer"));
-            
+
             if ($this->isOpenAnswerIndex((string) $i)) {
                 $tpl->setVariable('PROP_OPEN_CHECKED', 'checked="checked"');
             }
             if ($this->getDisabled()) {
                 $tpl->setVariable('PROP_OPEN_DISABLED', 'disabled="disabled"');
             }
-            
+
             $tpl->setVariable("ID", $this->getFieldId() . "[$i]");
             $tpl->setVariable("CMD_ADD", "cmd[add" . $this->getFieldId() . "][$i]");
             $tpl->setVariable("CMD_REMOVE", "cmd[remove" . $this->getFieldId() . "][$i]");
@@ -163,7 +165,7 @@ class ilSelectBuilderInputGUI extends ilTextWizardInputGUI
         $a_tpl->setCurrentBlock("prop_generic");
         $a_tpl->setVariable("PROP_GENERIC", $tpl->get());
         $a_tpl->parseCurrentBlock();
-        
+
         $tpl = $this->tpl;
         $tpl->addJavascript("./Services/Form/js/ServiceFormWizardInput.js");
         $tpl->addJavascript("./Services/Form/templates/default/textwizard.js");

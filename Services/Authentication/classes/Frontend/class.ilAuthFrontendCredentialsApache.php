@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -46,7 +48,7 @@ class ilAuthFrontendCredentialsApache extends ilAuthFrontendCredentials
      * Check if an authentication attempt should be done when login page has been called.
      * Redirects in case no apache authentication has been tried before (GET['passed_sso'])
      */
-    public function tryAuthenticationOnLoginPage() : void
+    public function tryAuthenticationOnLoginPage(): void
     {
         $cmd = (string) ($this->httpRequest->getQueryParams()['cmd'] ?? '');
         if ('' === $cmd) {
@@ -93,12 +95,12 @@ class ilAuthFrontendCredentialsApache extends ilAuthFrontendCredentials
         );
     }
 
-    protected function getSettings() : ilSetting
+    protected function getSettings(): ilSetting
     {
         return $this->settings;
     }
 
-    public function initFromRequest() : void
+    public function initFromRequest(): void
     {
         $mappingFieldName = $this->getSettings()->get('apache_auth_username_direct_mapping_fieldname', '');
 
@@ -118,7 +120,7 @@ class ilAuthFrontendCredentialsApache extends ilAuthFrontendCredentials
         }
     }
 
-    public function hasValidTargetUrl() : bool
+    public function hasValidTargetUrl(): bool
     {
         $targetUrl = trim((string) ($this->httpRequest->getQueryParams()['r'] ?? ''));
         if ($targetUrl === '') {
@@ -138,7 +140,7 @@ class ilAuthFrontendCredentialsApache extends ilAuthFrontendCredentials
         return (new ilWhiteListUrlValidator($targetUrl, $validDomains))->isValid();
     }
 
-    public function getTargetUrl() : string
+    public function getTargetUrl(): string
     {
         return ilUtil::appendUrlParameterString(trim($this->httpRequest->getQueryParams()['r']), 'passed_sso=1');
     }

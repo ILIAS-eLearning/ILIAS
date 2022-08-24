@@ -36,10 +36,10 @@ class ilWikiRecentChangesTableGUI extends ilTable2GUI
         $this->lng = $DIC->language();
         $ilCtrl = $DIC->ctrl();
         $lng = $DIC->language();
-        
+
         parent::__construct($a_parent_obj, $a_parent_cmd);
         $this->wiki_id = $a_wiki_id;
-        
+
         $this->addColumn($lng->txt("wiki_last_changed"), "", "33%");
         $this->addColumn($lng->txt("wiki_page"), "", "33%");
         $this->addColumn($lng->txt("wiki_last_changed_by"), "", "67%");
@@ -50,21 +50,21 @@ class ilWikiRecentChangesTableGUI extends ilTable2GUI
             "Modules/Wiki"
         );
         $this->getRecentChanges();
-        
+
         $this->setShowRowsSelector(true);
-        
+
         $this->setTitle($lng->txt("wiki_recent_changes"));
     }
-    
-    public function getRecentChanges() : void
+
+    public function getRecentChanges(): void
     {
         $changes = ilWikiPage::getRecentChanges("wpg", $this->wiki_id);
         $this->setDefaultOrderField("date");
         $this->setDefaultOrderDirection("desc");
         $this->setData($changes);
     }
-    
-    protected function fillRow(array $a_set) : void
+
+    protected function fillRow(array $a_set): void
     {
         $ilCtrl = $this->ctrl;
 

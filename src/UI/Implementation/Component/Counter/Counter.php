@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\UI\Implementation\Component\Counter;
 
 use ILIAS\UI\Implementation\Component\ComponentHelper;
@@ -39,7 +41,7 @@ class Counter implements Spec
     /**
      * @inheritdoc
      */
-    public function getType() : string
+    public function getType(): string
     {
         return $this->type;
     }
@@ -47,7 +49,7 @@ class Counter implements Spec
     /**
      * @inheritdoc
      */
-    public function getNumber() : int
+    public function getNumber(): int
     {
         return $this->number;
     }

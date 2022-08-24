@@ -1,4 +1,6 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,10 +17,10 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 class ilWebDAVMountInstructionsTextDocumentProcessor extends ilWebDAVMountInstructionsDocumentProcessorBase
 {
-    public function processMountInstructions(string $a_raw_mount_instructions) : array
+    public function processMountInstructions(string $a_raw_mount_instructions): array
     {
         $stripped_instructions = htmlspecialchars($a_raw_mount_instructions);
         $stripped_instructions = nl2br($stripped_instructions);

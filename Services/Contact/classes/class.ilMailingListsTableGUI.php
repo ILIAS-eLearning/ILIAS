@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -39,7 +41,7 @@ class ilMailingListsTableGUI extends ilTable2GUI
         $this->initColumns();
     }
 
-    protected function initColumns() : void
+    protected function initColumns(): void
     {
         $this->addColumn('', 'check', '10%', true);
         $this->addColumn($this->lng->txt('title'), 'title', '30%');

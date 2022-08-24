@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -48,45 +50,45 @@ class Characteristic
         $this->outdated = $outdated;
     }
 
-    public function withStyleId(int $style_id) : Characteristic
+    public function withStyleId(int $style_id): Characteristic
     {
         $clone = clone $this;
         $clone->style_id = $style_id;
         return $clone;
     }
 
-    public function getStyleId() : int
+    public function getStyleId(): int
     {
         return $this->style_id;
     }
 
-    public function getCharacteristic() : string
+    public function getCharacteristic(): string
     {
         return $this->characteristic;
     }
 
-    public function getType() : string
+    public function getType(): string
     {
         return $this->type;
     }
 
     // Is char hidden?
-    public function isHidden() : bool
+    public function isHidden(): bool
     {
         return $this->hide;
     }
 
-    public function getTitles() : array
+    public function getTitles(): array
     {
         return $this->titles;
     }
 
-    public function getOrderNr() : int
+    public function getOrderNr(): int
     {
         return $this->order_nr;
     }
 
-    public function isOutdated() : bool
+    public function isOutdated(): bool
     {
         return $this->outdated;
     }

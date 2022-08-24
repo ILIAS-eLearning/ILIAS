@@ -1,4 +1,5 @@
 <?php
+
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 include_once "./Services/Object/classes/class.ilObjectAccess.php";
@@ -27,7 +28,7 @@ class ilObjQuestionPoolAccess extends ilObjectAccess
      *		array("permission" => "write", "cmd" => "edit", "lang_var" => "edit"),
      *	);
      */
-    public static function _getCommands() : array
+    public static function _getCommands(): array
     {
         $commands = array(
             array("permission" => "write", "cmd" => "questions", "lang_var" => "tst_edit_questions"),
@@ -37,11 +38,11 @@ class ilObjQuestionPoolAccess extends ilObjectAccess
             array("permission" => "read", "cmd" => "questions", "lang_var" => "edit",
                 "default" => true)
         );
-        
+
         return $commands;
     }
 
-    public function _checkAccess(string $cmd, string $permission, int $ref_id, int $obj_id, ?int $user_id = null) : bool
+    public function _checkAccess(string $cmd, string $permission, int $ref_id, int $obj_id, ?int $user_id = null): bool
     {
         global $DIC;
         $ilUser = $DIC['ilUser'];
@@ -76,7 +77,7 @@ class ilObjQuestionPoolAccess extends ilObjectAccess
      * @param integer $a_obj_id
      * @return boolean $online
      */
-    public static function isOnline($a_obj_id) : bool
+    public static function isOnline($a_obj_id): bool
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -90,7 +91,7 @@ class ilObjQuestionPoolAccess extends ilObjectAccess
 
         $res = $ilDB->queryF($query, array('integer'), array($a_obj_id));
         $row = $ilDB->fetchAssoc($res);
-        
+
         return $row['cnt'] > 0;
     }
 }

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -33,75 +35,75 @@ class AdministrativeNotification extends AbstractBaseNotification implements isI
     public const DENOTATION_NEUTRAL = 'neutral';
     public const DENOTATION_IMPORTANT = 'important';
     public const DENOTATION_BREAKING = 'breaking';
-    
+
     private bool $is_visible_static;
-    
+
     protected IdentificationInterface $provider_identification;
-    
+
     protected string $title;
-    
+
     protected string $summary;
-    
+
     protected ?Closure  $available_callable = null;
     protected ?Closure $visiblility_callable = null;
     protected bool $is_always_available = false;
     protected string $denotation = self::DENOTATION_NEUTRAL;
-    
+
     /**
      * @inheritDoc
      */
-    public function getRenderer(UIFactory $factory) : NotificationRenderer
+    public function getRenderer(UIFactory $factory): NotificationRenderer
     {
         return new AdministrativeNotificationRenderer($factory);
     }
-    
+
     /**
      * @inheritDoc
      */
-    public function withTitle(string $title) : hasTitle
+    public function withTitle(string $title): hasTitle
     {
         $clone = clone $this;
         $clone->title = $title;
-        
+
         return $clone;
     }
-    
+
     /**
      * @inheritDoc
      */
-    public function getTitle() : string
+    public function getTitle(): string
     {
         return $this->title;
     }
-    
+
     /**
      * @inheritDoc
      */
-    public function withSummary(string $summary) : isItem
+    public function withSummary(string $summary): isItem
     {
         $clone = clone $this;
         $clone->summary = $summary;
-        
+
         return $clone;
     }
-    
+
     /**
      * @inheritDoc
      */
-    public function getSummary() : string
+    public function getSummary(): string
     {
         return $this->summary;
     }
-    
-    public function withVisibilityCallable(callable $is_visible) : self
+
+    public function withVisibilityCallable(callable $is_visible): self
     {
         $clone = clone($this);
         $clone->visiblility_callable = $is_visible;
-        
+
         return $clone;
     }
-    
-    public function isVisible() : bool
+
+    public function isVisible(): bool
     {
         if (isset($this->is_visible_static)) {
             return $this->is_visible_static;
@@ -111,59 +113,59 @@ class AdministrativeNotification extends AbstractBaseNotification implements isI
         }
         if (is_callable($this->visiblility_callable)) {
             $callable = $this->visiblility_callable;
-            
+
             $value = $callable();
-            
+
             return $this->is_visible_static = $value;
         }
-        
+
         return $this->is_visible_static = true;
     }
-    
-    public function isAvailable() : bool
+
+    public function isAvailable(): bool
     {
         if (is_callable($this->available_callable)) {
             $callable = $this->available_callable;
-            
+
             return $callable();
         }
-        
+
         return true;
     }
-    
-    public function withAvailableCallable(callable $is_available) : self
+
+    public function withAvailableCallable(callable $is_available): self
     {
         $clone = clone($this);
         $clone->available_callable = $is_available;
-        
+
         return $clone;
     }
-    
-    public function withNeutralDenotation() : self
+
+    public function withNeutralDenotation(): self
     {
         $clone = clone($this);
         $clone->denotation = self::DENOTATION_NEUTRAL;
-        
+
         return $clone;
     }
-    
-    public function withImportantDenotation() : self
+
+    public function withImportantDenotation(): self
     {
         $clone = clone($this);
         $clone->denotation = self::DENOTATION_IMPORTANT;
-        
+
         return $clone;
     }
-    
-    public function withBreakingDenotation() : self
+
+    public function withBreakingDenotation(): self
     {
         $clone = clone($this);
         $clone->denotation = self::DENOTATION_BREAKING;
-        
+
         return $clone;
     }
-    
-    public function getDenotation() : string
+
+    public function getDenotation(): string
     {
         return $this->denotation ?? self::DENOTATION_NEUTRAL;
     }

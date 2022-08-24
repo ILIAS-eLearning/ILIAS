@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -43,7 +45,7 @@ class ilForumMailEventNotificationSender extends ilMailNotification
         $this->logger = $logger;
     }
 
-    protected function initMail() : ilMail
+    protected function initMail(): ilMail
     {
         $mail = parent::initMail();
         $this->logger->debug('Initialized mail service');
@@ -51,7 +53,7 @@ class ilForumMailEventNotificationSender extends ilMailNotification
         return $mail;
     }
 
-    public function sendMail(array $a_rcp, bool $a_parse_recipients = true) : void
+    public function sendMail(array $a_rcp, bool $a_parse_recipients = true): void
     {
         $this->logger->debug(sprintf(
             'Delegating notification transport to mail service for recipient "%s" ...',
@@ -61,7 +63,7 @@ class ilForumMailEventNotificationSender extends ilMailNotification
         $this->logger->debug('Notification transport delegated');
     }
 
-    protected function setSubject(string $a_subject) : string
+    protected function setSubject(string $a_subject): string
     {
         $value = parent::setSubject($a_subject);
         $this->logger->debug(sprintf('Setting subject to: %s', $a_subject));
@@ -69,7 +71,7 @@ class ilForumMailEventNotificationSender extends ilMailNotification
         return $value;
     }
 
-    public function send() : bool
+    public function send(): bool
     {
         global $DIC;
         $ilSetting = $DIC->settings();
@@ -258,23 +260,23 @@ class ilForumMailEventNotificationSender extends ilMailNotification
         return true;
     }
 
-    protected function initLanguage(int $a_usr_id) : void
+    protected function initLanguage(int $a_usr_id): void
     {
         parent::initLanguage($a_usr_id);
         $this->language->loadLanguageModule('forum');
     }
 
-    public function isCronjob() : bool
+    public function isCronjob(): bool
     {
         return $this->is_cronjob;
     }
 
-    public function setIsCronjob(bool $is_cronjob) : void
+    public function setIsCronjob(bool $is_cronjob): void
     {
         $this->is_cronjob = $is_cronjob;
     }
 
-    private function getPermanentLink(string $type = self::PERMANENT_LINK_POST) : string
+    private function getPermanentLink(string $type = self::PERMANENT_LINK_POST): string
     {
         global $DIC;
         $ilClientIniFile = $DIC['ilClientIniFile'];
@@ -310,7 +312,7 @@ class ilForumMailEventNotificationSender extends ilMailNotification
         return $posting_link;
     }
 
-    private function getPostMessage() : string
+    private function getPostMessage(): string
     {
         $pos_message = $this->provider->getPostMessage();
         if (strip_tags($pos_message) !== $pos_message) {
@@ -340,7 +342,7 @@ class ilForumMailEventNotificationSender extends ilMailNotification
         string $customText,
         string $action,
         string $date = ''
-    ) : ilMailValueObject {
+    ): ilMailValueObject {
         $subjectText = $this->createSubjectText($subjectLanguageId);
 
         $bodyText = $this->createMailBodyText(
@@ -385,7 +387,7 @@ class ilForumMailEventNotificationSender extends ilMailNotification
         string $customText,
         string $action,
         string $date = ''
-    ) : ilMailValueObject {
+    ): ilMailValueObject {
         $subjectText = $this->createSubjectText($subjectLanguageId);
 
         $bodyText = $this->createMailBodyText(
@@ -415,7 +417,7 @@ class ilForumMailEventNotificationSender extends ilMailNotification
         string $customText,
         string $action,
         string $date
-    ) : string {
+    ): string {
         $date = $this->createMailDate($date);
 
         $this->addMailSubject($subject);
@@ -456,7 +458,7 @@ class ilForumMailEventNotificationSender extends ilMailNotification
         return $body;
     }
 
-    private function createAttachmentText() : string
+    private function createAttachmentText(): string
     {
         $attachmentText = '';
         if (count($this->provider->getAttachments()) > 0) {
@@ -470,7 +472,7 @@ class ilForumMailEventNotificationSender extends ilMailNotification
         return $attachmentText;
     }
 
-    private function createAttachmentLinkText() : string
+    private function createAttachmentLinkText(): string
     {
         $body = $this->getPermanentLink();
         $body .= ilMail::_getInstallationSignature();
@@ -478,14 +480,14 @@ class ilForumMailEventNotificationSender extends ilMailNotification
         return $body;
     }
 
-    private function addMailSubject(string $subject) : void
+    private function addMailSubject(string $subject): void
     {
         $this->initMail();
 
         $this->setSubject($this->createSubjectText($subject));
     }
 
-    private function createMailDate(string $date) : string
+    private function createMailDate(string $date): string
     {
         ilDatePresentation::setLanguage($this->language);
 
@@ -496,7 +498,7 @@ class ilForumMailEventNotificationSender extends ilMailNotification
         return ilDatePresentation::formatDate(new ilDateTime($date, IL_CAL_DATETIME));
     }
 
-    private function createSubjectText(string $subject) : string
+    private function createSubjectText(string $subject): string
     {
         $container_text = '';
         if ($this->provider->providesClosestContainer()) {

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,21 +17,21 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 use ILIAS\HTTP\Wrapper\ArrayBasedRequestWrapper;
 use ILIAS\Refinery\Factory;
 
 class ilObjLearningSequenceContentGUI
 {
-    const CMD_MANAGE_CONTENT = "manageContent";
-    const CMD_SAVE = "save";
-    const CMD_DELETE = "delete";
-    const CMD_CONFIRM_DELETE = "confirmDelete";
-    const CMD_CANCEL = "cancel";
+    public const CMD_MANAGE_CONTENT = "manageContent";
+    public const CMD_SAVE = "save";
+    public const CMD_DELETE = "delete";
+    public const CMD_CONFIRM_DELETE = "confirmDelete";
+    public const CMD_CANCEL = "cancel";
 
-    const FIELD_ORDER = 'f_order';
-    const FIELD_ONLINE = 'f_online';
-    const FIELD_POSTCONDITION_TYPE = 'f_pct';
+    public const FIELD_ORDER = 'f_order';
+    public const FIELD_ONLINE = 'f_online';
+    public const FIELD_POSTCONDITION_TYPE = 'f_pct';
 
     protected ilObjLearningSequenceGUI $parent_gui;
     protected ilCtrl $ctrl;
@@ -63,7 +65,7 @@ class ilObjLearningSequenceContentGUI
         $this->refinery = $refinery;
     }
 
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         $cmd = $this->ctrl->getCmd();
 
@@ -82,7 +84,7 @@ class ilObjLearningSequenceContentGUI
         }
     }
 
-    protected function manageContent() : void
+    protected function manageContent(): void
     {
         // Adds a btn to the gui which allows adding possible objects.
         $this->parent_gui->showPossibleSubObjects();
@@ -93,7 +95,7 @@ class ilObjLearningSequenceContentGUI
         $this->renderTable($data);
     }
 
-    protected function renderTable(array $ls_items) : void
+    protected function renderTable(array $ls_items): void
     {
         $table = new ilObjLearningSequenceContentTableGUI(
             $this,
@@ -117,7 +119,7 @@ class ilObjLearningSequenceContentGUI
     /**
      * Handle the confirmDelete command
      */
-    protected function confirmDelete() : void
+    protected function confirmDelete(): void
     {
         $ref_ids = $this->post_wrapper->retrieve(
             "id",
@@ -142,7 +144,7 @@ class ilObjLearningSequenceContentGUI
         $this->tpl->setContent($this->confirmation_gui->getHTML());
     }
 
-    protected function delete() : void
+    protected function delete(): void
     {
         $ref_ids = $this->post_wrapper->retrieve(
             "id",
@@ -158,18 +160,18 @@ class ilObjLearningSequenceContentGUI
     /**
      * @return array<"value" => "option_text">
      */
-    public function getPossiblePostConditionsForType(string $type) : array
+    public function getPossiblePostConditionsForType(string $type): array
     {
         return $this->parent_gui->getObject()->getPossiblePostConditionsForType($type);
     }
 
 
-    public function getFieldName(string $field_name, int $ref_id) : string
+    public function getFieldName(string $field_name, int $ref_id): string
     {
         return implode('_', [$field_name, (string) $ref_id]);
     }
 
-    protected function save() : void
+    protected function save(): void
     {
         $data = $this->parent_gui->getObject()->getLSItems();
 

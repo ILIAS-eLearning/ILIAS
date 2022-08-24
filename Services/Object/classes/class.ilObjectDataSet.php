@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * Object data set class
  *
@@ -27,20 +29,20 @@
  */
 class ilObjectDataSet extends ilDataSet
 {
-    public function getSupportedVersions() : array
+    public function getSupportedVersions(): array
     {
         return array("4.4.0", "5.1.0", "5.2.0", "5.4.0");
     }
-    
-    protected function getXmlNamespace(string $entity, string $schema_version) : string
+
+    protected function getXmlNamespace(string $entity, string $schema_version): string
     {
         return "http://www.ilias.de/xml/Services/Object/" . $entity;
     }
-    
+
     /**
      * Get field types for entity
      */
-    protected function getTypes(string $entity, string $version) : array
+    protected function getTypes(string $entity, string $version): array
     {
         if ($entity == "transl_entry") {
             switch ($version) {
@@ -109,10 +111,10 @@ class ilObjectDataSet extends ilDataSet
         return [];
     }
 
-    public function readData(string $entity, string $version, array $ids) : void
+    public function readData(string $entity, string $version, array $ids): void
     {
         global $DIC;
-                
+
         if ($entity == "transl_entry") {
             switch ($version) {
                 case "4.4.0":
@@ -228,7 +230,7 @@ class ilObjectDataSet extends ilDataSet
         string $version,
         ?array $rec = null,
         ?array $ids = null
-    ) : array {
+    ): array {
         $rec["ObjId"] = $rec["ObjId"] ?? null;
         switch ($entity) {
             case "common":
@@ -247,14 +249,14 @@ class ilObjectDataSet extends ilDataSet
 
         return [];
     }
-    
+
     public function importRecord(
         string $entity,
         array $types,
         array $rec,
         ilImportMapping $mapping,
         string $schema_version
-    ) : void {
+    ): void {
         global $DIC;
 
         switch ($entity) {
@@ -328,13 +330,13 @@ class ilObjectDataSet extends ilDataSet
         }
     }
 
-    public function getNewObjId(ilImportMapping $mapping, string $old_id) : int
+    public function getNewObjId(ilImportMapping $mapping, string $old_id): int
     {
         global $DIC;
-        
+
         /** @var ilObjectDefinition $objDefinition */
         $objDefinition = $DIC["objDefinition"];
-        
+
         $new_id = $mapping->getMapping('Services/Container', 'objs', $old_id);
         if (!$new_id) {
             $new_id = $mapping->getMapping('Services/Object', 'objs', $old_id);

@@ -29,52 +29,52 @@ class ilDclRecordQueryObject
     protected string $groupStatement = "";
     protected string $orderStatement = "";
 
-    public function getSelectStatement() : string
+    public function getSelectStatement(): string
     {
         return $this->selectStatement;
     }
 
-    public function setSelectStatement(string $selectStatement) : void
+    public function setSelectStatement(string $selectStatement): void
     {
         $this->selectStatement = " " . $selectStatement;
     }
 
-    public function getJoinStatement() : string
+    public function getJoinStatement(): string
     {
         return $this->joinStatement;
     }
 
-    public function setJoinStatement(string $joinStatement) : void
+    public function setJoinStatement(string $joinStatement): void
     {
         $this->joinStatement = " " . $joinStatement;
     }
 
-    public function getWhereStatement() : string
+    public function getWhereStatement(): string
     {
         return $this->whereStatement;
     }
 
-    public function setWhereStatement(string $whereStatement) : void
+    public function setWhereStatement(string $whereStatement): void
     {
         $this->whereStatement = " " . $whereStatement;
     }
 
-    public function getGroupStatement() : string
+    public function getGroupStatement(): string
     {
         return $this->groupStatement;
     }
 
-    public function setGroupStatement(string $groupStatement) : void
+    public function setGroupStatement(string $groupStatement): void
     {
         $this->groupStatement = " " . $groupStatement;
     }
 
-    public function getOrderStatement() : string
+    public function getOrderStatement(): string
     {
         return $this->orderStatement;
     }
 
-    public function setOrderStatement(string $orderStatement) : void
+    public function setOrderStatement(string $orderStatement): void
     {
         $this->orderStatement = " " . $orderStatement;
     }
@@ -86,7 +86,7 @@ class ilDclRecordQueryObject
         ilDclBaseFieldModel $field,
         array $all_records,
         string $direction = 'asc'
-    ) : array {
+    ): array {
         return $all_records;
     }
 }

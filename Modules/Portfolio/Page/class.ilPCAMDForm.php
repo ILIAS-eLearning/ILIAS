@@ -27,7 +27,7 @@ class ilPCAMDForm extends ilPageContent
     protected ilDBInterface $db;
     protected ilLanguage $lng;
 
-    public function init() : void
+    public function init(): void
     {
         global $DIC;
 
@@ -43,18 +43,18 @@ class ilPCAMDForm extends ilPageContent
         $this->ref_id = $request->getRefId();
     }
 
-    public static function getLangVars() : array
+    public static function getLangVars(): array
     {
         return array("ed_insert_amdfrm", "pc_amdfrm");
     }
 
-    public function setNode(php4DOMElement $a_node) : void
+    public function setNode(php4DOMElement $a_node): void
     {
         parent::setNode($a_node);		// this is the PageContent node
         $this->amdfrm_node = $a_node->first_child();		// this is the courses node
     }
 
-    protected function isTemplate() : bool
+    protected function isTemplate(): bool
     {
         return ($this->getPage()->getParentType() === "prtt");
     }
@@ -63,19 +63,19 @@ class ilPCAMDForm extends ilPageContent
         ilPageObject $a_pg_obj,
         string $a_hier_id,
         string $a_pc_id = ""
-    ) : void {
+    ): void {
         $this->node = $this->createPageContentNode();
         $a_pg_obj->insertContent($this, $a_hier_id, IL_INSERT_AFTER, $a_pc_id);
         $this->amdfrm_node = $this->dom->create_element("AMDForm");
         $this->amdfrm_node = $this->node->append_child($this->amdfrm_node);
     }
 
-    public function setRecordIds(array $record_ids) : void
+    public function setRecordIds(array $record_ids): void
     {
         $this->amdfrm_node->set_attribute("RecordIds", implode(",", $record_ids));
     }
 
-    public function getRecordIds() : array
+    public function getRecordIds(): array
     {
         if (is_object($this->amdfrm_node)) {
             return explode(",", $this->amdfrm_node->get_attribute("RecordIds"));
@@ -88,7 +88,7 @@ class ilPCAMDForm extends ilPageContent
         string $a_output,
         string $a_mode,
         bool $a_abstract_only = false
-    ) : string {
+    ): string {
         $end = 0;
         $start = strpos($a_output, "[[[[[AMDForm;");
         if (is_int($start)) {
@@ -126,7 +126,7 @@ class ilPCAMDForm extends ilPageContent
         bool $a_clone_mobs = false,
         int $new_parent_id = 0,
         int $obj_copy_id = 0
-    ) : void {
+    ): void {
         if ($obj_copy_id > 0) {
             $cp_options = ilCopyWizardOptions::_getInstance($obj_copy_id);
             $mappings = $cp_options->getMappings();

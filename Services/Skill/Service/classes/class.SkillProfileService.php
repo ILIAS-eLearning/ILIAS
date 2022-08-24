@@ -39,41 +39,41 @@ class SkillProfileService
     /**
      * @throws \ilSkillProfileNotFoundException
      */
-    public function getById(int $profile_id) : Profile\SkillProfile
+    public function getById(int $profile_id): Profile\SkillProfile
     {
         return $this->profile_manager->getById($profile_id);
     }
 
-    public function delete(int $profile_id) : void
+    public function delete(int $profile_id): void
     {
         $this->profile_manager->delete($profile_id);
         $this->profile_completion_manager->deleteEntriesForProfile($profile_id);
     }
 
-    public function lookupTitle(int $profile_id) : string
+    public function lookupTitle(int $profile_id): string
     {
         $title = $this->profile_manager->lookupTitle($profile_id);
         return $title;
     }
 
-    public function lookupRefId(int $profile_id) : int
+    public function lookupRefId(int $profile_id): int
     {
         $ref_id = $this->profile_manager->lookupRefId($profile_id);
         return $ref_id;
     }
 
-    public function getProfilesOfUser(int $user_id) : array
+    public function getProfilesOfUser(int $user_id): array
     {
         return $this->profile_manager->getProfilesOfUser($user_id);
     }
 
-    public function getAllGlobalProfiles() : array
+    public function getAllGlobalProfiles(): array
     {
         $profiles = $this->profile_manager->getAllGlobalProfiles();
         return $profiles;
     }
 
-    public function addRoleToProfile(int $profile_id, int $role_id) : void
+    public function addRoleToProfile(int $profile_id, int $role_id): void
     {
         $this->profile_manager->addRoleToProfile($profile_id, $role_id);
     }
@@ -81,7 +81,7 @@ class SkillProfileService
     /**
      * Update the old ref id with the new ref id after import
      */
-    public function updateRefIdAfterImport(int $profile_id, int $new_ref_id) : void
+    public function updateRefIdAfterImport(int $profile_id, int $new_ref_id): void
     {
         $this->profile_manager->updateRefIdAfterImport($profile_id, $new_ref_id);
     }
@@ -89,7 +89,7 @@ class SkillProfileService
     /**
      * Write profile completion entries (fulfilled or non-fulfilled) of user for all profiles
      */
-    public function writeCompletionEntryForAllProfiles(int $user_id) : void
+    public function writeCompletionEntryForAllProfiles(int $user_id): void
     {
         $this->profile_completion_manager->writeCompletionEntryForAllProfiles($user_id);
     }

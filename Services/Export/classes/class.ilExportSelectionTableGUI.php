@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -63,7 +65,7 @@ class ilExportSelectionTableGUI extends ilTable2GUI
         $this->addCommandButton($a_parent_cmd, $this->lng->txt('cancel'));
     }
 
-    protected function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set): void
     {
         $a_set['copy'] = $a_set['copy'] ?? false;
         $a_set['perm_copy'] = $a_set['perm_copy'] ?? false;
@@ -178,7 +180,7 @@ class ilExportSelectionTableGUI extends ilTable2GUI
         $this->tpl->parseCurrentBlock();
     }
 
-    public function parseContainer(int $a_source) : void
+    public function parseContainer(int $a_source): void
     {
         $first = true;
         $rows = [];

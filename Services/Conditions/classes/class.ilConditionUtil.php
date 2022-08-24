@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /******************************************************************************
  *
@@ -47,7 +49,7 @@ class ilConditionUtil
      * This holds currently a dependency on $objDefinition and plugin activation
      * @return string[]
      */
-    public function getValidRepositoryTriggerTypes() : array
+    public function getValidRepositoryTriggerTypes(): array
     {
         return (new ilConditionHandler())->getTriggerTypes();
     }
@@ -56,7 +58,7 @@ class ilConditionUtil
      * Get operators for repository trigger object type
      * @return string[]
      */
-    public function getOperatorsForRepositoryTriggerType(string $a_type) : array
+    public function getOperatorsForRepositoryTriggerType(string $a_type): array
     {
         return (new ilConditionHandler())->getOperatorsByTriggerType($a_type);
     }
@@ -64,7 +66,7 @@ class ilConditionUtil
     /**
      * Check if a ref id is under condition control of its parent
      */
-    public function isUnderParentControl(int $ref_id) : bool
+    public function isUnderParentControl(int $ref_id): bool
     {
         // check if parent takes over control of condition
         $parent = $this->tree->getParentId($ref_id);

@@ -99,7 +99,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
     private function getTranslationForField(
         string $fieldName,
         array $properties
-    ) : string {
+    ): string {
         $translation = (!isset($properties["lang_var"]) || $properties["lang_var"] === "")
             ? $fieldName
             : $properties["lang_var"];
@@ -114,17 +114,17 @@ class ilObjUserFolderGUI extends ilObjectGUI
         return $this->lng->txt($translation);
     }
 
-    public function setUserOwnerId(int $a_id) : void
+    public function setUserOwnerId(int $a_id): void
     {
         $this->user_owner_id = $a_id;
     }
 
-    public function getUserOwnerId() : int
+    public function getUserOwnerId(): int
     {
         return $this->user_owner_id ?: USER_FOLDER_ID;
     }
 
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         global $DIC;
 
@@ -230,7 +230,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
         }
     }
 
-    protected function checkAccess(string $a_permission) : void
+    protected function checkAccess(string $a_permission): void
     {
         global $DIC;
 
@@ -244,7 +244,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
         }
     }
 
-    protected function checkAccessBool(string $a_permission) : bool
+    protected function checkAccessBool(string $a_permission): bool
     {
         return $this->access->checkAccess(
             $a_permission,
@@ -253,7 +253,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
         );
     }
 
-    public function resetFilterObject() : void
+    public function resetFilterObject(): void
     {
         $utab = new ilUserTableGUI(
             $this,
@@ -267,7 +267,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
     /**
      * Add new user
      */
-    public function addUserObject() : void
+    public function addUserObject(): void
     {
         $this->ctrl->setParameterByClass(
             "ilobjusergui",
@@ -280,7 +280,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
         );
     }
 
-    public function applyFilterObject() : void
+    public function applyFilterObject(): void
     {
         global $DIC;
 
@@ -300,7 +300,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
      */
     public function viewObject(
         bool $reset_filter = false
-    ) : void {
+    ): void {
         global $DIC;
 
         $rbacsystem = $DIC['rbacsystem'];
@@ -400,7 +400,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
     /**
      * Show auto complete results
      */
-    protected function addUserAutoCompleteObject() : void
+    protected function addUserAutoCompleteObject(): void
     {
         $auto = new ilUserAutoComplete();
         $auto->addUserAccessFilterCallable(\Closure::fromCallable([$this, 'filterUserIdsByRbacOrPositionOfCurrentUser']));
@@ -420,7 +420,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
     /**
      * @param int[] $user_ids
      */
-    public function filterUserIdsByRbacOrPositionOfCurrentUser(array $user_ids) : array
+    public function filterUserIdsByRbacOrPositionOfCurrentUser(array $user_ids): array
     {
         global $DIC;
 
@@ -433,7 +433,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
         );
     }
 
-    public function chooseLetterObject() : void
+    public function chooseLetterObject(): void
     {
         global $DIC;
 
@@ -449,7 +449,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
      * show possible subobjects (pulldown menu)
      * overwritten to prevent displaying of role templates in local role folders
      */
-    protected function showPossibleSubObjects() : void
+    protected function showPossibleSubObjects(): void
     {
         global $DIC;
 
@@ -506,7 +506,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
         }
     }
 
-    public function cancelUserFolderActionObject() : void
+    public function cancelUserFolderActionObject(): void
     {
         $this->ctrl->redirect(
             $this,
@@ -514,7 +514,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
         );
     }
 
-    public function cancelSearchActionObject() : void
+    public function cancelSearchActionObject(): void
     {
         $this->ctrl->redirectByClass(
             'ilrepositorysearchgui',
@@ -525,7 +525,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
     /**
      * Set the selected users active
      */
-    public function confirmactivateObject() : void
+    public function confirmactivateObject(): void
     {
         global $DIC;
 
@@ -571,7 +571,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
     /**
      * Set the selected users inactive
      */
-    public function confirmdeactivateObject() : void
+    public function confirmdeactivateObject(): void
     {
         global $DIC;
 
@@ -614,7 +614,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
         }
     }
 
-    protected function confirmaccessFreeObject() : void
+    protected function confirmaccessFreeObject(): void
     {
         if (!$this->checkUserManipulationAccessBool()) {
             $this->ilias->raiseError(
@@ -656,7 +656,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
     public function setAccessRestrictionObject(
         ?ilPropertyFormGUI $a_form = null,
         bool $a_from_search = false
-    ) : bool {
+    ): bool {
         if (!$a_form) {
             $a_form = $this->initAccessRestrictionForm($a_from_search);
         }
@@ -668,7 +668,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 
     protected function initAccessRestrictionForm(
         bool $a_from_search = false
-    ) : ?ilPropertyFormGUI {
+    ): ?ilPropertyFormGUI {
         $user_ids = $this->getActionUserIds();
         if (!$user_ids) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('select_one'));
@@ -731,7 +731,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
      * @throws ilDatabaseException
      * @throws ilObjectNotFoundException
      */
-    protected function confirmaccessRestrictObject() : bool
+    protected function confirmaccessRestrictObject(): bool
     {
         $form = $this->initAccessRestrictionForm();
         if (!$form->checkInput()) {
@@ -780,7 +780,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
         return false;
     }
 
-    public function confirmdeleteObject() : void
+    public function confirmdeleteObject(): void
     {
         global $DIC;
 
@@ -810,7 +810,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
                 $this->ilias->error_obj->WARNING
             );
         }
-        
+
         // FOR ALL SELECTED OBJECTS
         foreach ($ids as $id) {
             // instatiate correct object class (usr)
@@ -838,7 +838,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
      * Get selected items for table action
      * @return int[]
      */
-    protected function getActionUserIds() : array
+    protected function getActionUserIds(): array
     {
         global $DIC;
         $access = $DIC->access();
@@ -890,7 +890,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
     /**
      * Check if current user has access to manipulate user data
      */
-    private function checkUserManipulationAccessBool() : bool
+    private function checkUserManipulationAccessBool(): bool
     {
         global $DIC;
 
@@ -908,7 +908,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
     public function showActionConfirmation(
         string $action,
         bool $a_from_search = false
-    ) : bool {
+    ): bool {
         global $DIC;
 
         $ilTabs = $DIC['ilTabs'];
@@ -1006,22 +1006,22 @@ class ilObjUserFolderGUI extends ilObjectGUI
         return true;
     }
 
-    public function deleteUsersObject() : void
+    public function deleteUsersObject(): void
     {
         $this->showActionConfirmation("delete");
     }
 
-    public function activateUsersObject() : void
+    public function activateUsersObject(): void
     {
         $this->showActionConfirmation("activate");
     }
 
-    public function deactivateUsersObject() : void
+    public function deactivateUsersObject(): void
     {
         $this->showActionConfirmation("deactivate");
     }
 
-    public function restrictAccessObject() : void
+    public function restrictAccessObject(): void
     {
         $this->showActionConfirmation("accessRestrict");
     }
@@ -1029,12 +1029,12 @@ class ilObjUserFolderGUI extends ilObjectGUI
     /**
      * Free access
      */
-    public function freeAccessObject() : void
+    public function freeAccessObject(): void
     {
         $this->showActionConfirmation("accessFree");
     }
 
-    public function userActionObject() : void
+    public function userActionObject(): void
     {
         $this->showActionConfirmation($this->user_request->getSelectedAction());
     }
@@ -1042,7 +1042,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
     /**
      * display form for user import
      */
-    public function importUserFormObject() : void
+    public function importUserFormObject(): void
     {
         global $DIC;
 
@@ -1072,7 +1072,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
     /**
      * Init user import form.
      */
-    public function initUserImportForm() : void
+    public function initUserImportForm(): void
     {
         global $DIC;
 
@@ -1105,12 +1105,12 @@ class ilObjUserFolderGUI extends ilObjectGUI
         $this->form->setFormAction($ilCtrl->getFormAction($this));
     }
 
-    protected function inAdministration() : bool
+    protected function inAdministration(): bool
     {
         return (strtolower($this->user_request->getBaseClass()) === 'iladministrationgui');
     }
 
-    public function importCancelledObject() : void
+    public function importCancelledObject(): void
     {
         global $DIC;
         $filesystem = $DIC->filesystem()->storage();
@@ -1134,7 +1134,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
         }
     }
 
-    public function getImportDir() : string
+    public function getImportDir(): string
     {
         // For each user session a different directory must be used to prevent
         // that one user session overwrites the import data that another session
@@ -1151,7 +1151,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
     /**
      * display form for user import with new FileSystem implementation
      */
-    public function importUserRoleAssignmentObject() : void
+    public function importUserRoleAssignmentObject(): void
     {
         global $DIC;
 
@@ -1186,7 +1186,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
     /**
      * @throws ilCtrlException
      */
-    private function initUserRoleAssignmentForm(string $xml_file_full_path) : \ILIAS\UI\Component\Input\Container\Form\Standard
+    private function initUserRoleAssignmentForm(string $xml_file_full_path): \ILIAS\UI\Component\Input\Container\Form\Standard
     {
         global $DIC;
 
@@ -1518,7 +1518,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
         $form_elements = [
             "file_info" => $file_info_section
         ];
-        
+
         if (!empty($global_selects)) {
             $global_role_info_section = $ui->input()
                 ->field()
@@ -1557,7 +1557,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
     /**
      * Handles uploaded zip/xmp files with Filesystem implementation
      */
-    private function handleUploadedFiles() : string
+    private function handleUploadedFiles(): string
     {
         global $DIC;
 
@@ -1652,7 +1652,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
         return $xml_file;
     }
 
-    public function verifyXmlData(ilUserImportParser $importParser) : void
+    public function verifyXmlData(ilUserImportParser $importParser): void
     {
         global $DIC;
 
@@ -1683,7 +1683,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
     /**
      * Import Users with new form implementation
      */
-    public function importUsersObject() : void
+    public function importUsersObject(): void
     {
         global $DIC;
 
@@ -1866,7 +1866,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
     /**
      * Show user account general settings
      */
-    protected function generalSettingsObject() : void
+    protected function generalSettingsObject(): void
     {
         global $DIC;
 
@@ -1943,7 +1943,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
         $this->tpl->setContent($this->form->getHTML());
     }
 
-    private function getPasswordPolicySettingsMap(\ilSecuritySettings $security) : array // Missing array type.
+    private function getPasswordPolicySettingsMap(\ilSecuritySettings $security): array // Missing array type.
     {
         return [
             'password_must_not_contain_loginame' => $security->getPasswordMustNotContainLoginnameStatus() ? 1 : 0,
@@ -1959,7 +1959,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
     /**
      * Save user account settings
      */
-    public function saveGeneralSettingsObject() : void
+    public function saveGeneralSettingsObject(): void
     {
         global $DIC;
 
@@ -2145,7 +2145,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
         $this->tpl->setContent($this->form->getHTML());
     }
 
-    protected function forceUserPasswordResetObject() : void
+    protected function forceUserPasswordResetObject(): void
     {
         \ilUserPasswordManager::getInstance()->resetLastPasswordChangeForLocalUsers();
         $this->lng->loadLanguageModule('ps');
@@ -2157,7 +2157,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
         );
     }
 
-    protected function askForUserPasswordResetObject() : void
+    protected function askForUserPasswordResetObject(): void
     {
         $this->lng->loadLanguageModule('ps');
 
@@ -2184,7 +2184,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
     /**
      * init general settings form
      */
-    protected function initFormGeneralSettings() : void
+    protected function initFormGeneralSettings(): void
     {
         global $DIC;
 
@@ -2572,7 +2572,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
      *       specification of default values can be done elsewhere in ILIAS
      *       are not supported by this form.
      */
-    public function settingsObject() : void
+    public function settingsObject(): void
     {
         global $DIC;
 
@@ -2597,12 +2597,12 @@ class ilObjUserFolderGUI extends ilObjectGUI
         $tpl->setContent($tab->getHTML());
     }
 
-    public function confirmSavedObject() : void
+    public function confirmSavedObject(): void
     {
         $this->saveGlobalUserSettingsObject("save");
     }
 
-    public function saveGlobalUserSettingsObject(string $action = "") : void
+    public function saveGlobalUserSettingsObject(string $action = ""): void
     {
         global $DIC;
 
@@ -2826,7 +2826,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
         $this->settingsObject();
     }
 
-    public function confirmUsrFieldChangeListenersObject() : void
+    public function confirmUsrFieldChangeListenersObject(): void
     {
         $this->usrFieldChangeListenersAccepted = true;
         $this->confirmSavedObject();
@@ -2837,7 +2837,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
      */
     public function showFieldChangeComponentsListeningConfirmDialog(
         array $interestedChangeListeners
-    ) : void {
+    ): void {
         $post = $this->dic->http()->request()->getParsedBody();
         $confirmDialog = new ilConfirmationGUI();
         $confirmDialog->setHeaderText($this->lng->txt("usr_field_change_components_listening"));
@@ -2894,7 +2894,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
     public function handleChangeListeners(
         array $changedFields,
         array $fieldProperties
-    ) : bool {
+    ): bool {
         if (count($changedFields) > 0) {
             $interestedChangeListeners = [];
             foreach ($fieldProperties as $fieldName => $properties) {
@@ -2949,7 +2949,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
     /**
      * @return array<string, ChangedUserFieldAttribute>
      */
-    private function collectChangedFields() : array
+    private function collectChangedFields(): array
     {
         $changedFields = [];
         $post = $this->dic->http()->request()->getParsedBody();
@@ -2984,7 +2984,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
     /**
      * build select form to distinguish between active and non-active users
      */
-    public function __buildUserFilterSelect() : string
+    public function __buildUserFilterSelect(): string
     {
         $action[-1] = $this->lng->txt('all_users');
         $action[1] = $this->lng->txt('usr_active_only');
@@ -3009,7 +3009,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
      * Download selected export files
      * Sends a selected export file for download
      */
-    public function downloadExportFileObject() : void
+    public function downloadExportFileObject(): void
     {
         $files = $this->user_request->getFiles();
         if (count($files) == 0) {
@@ -3038,7 +3038,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
     /**
      * confirmation screen for export file deletion
      */
-    public function confirmDeleteExportFileObject() : void
+    public function confirmDeleteExportFileObject(): void
     {
         $files = $this->user_request->getFiles();
         if (count($files) == 0) {
@@ -3078,7 +3078,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
     /**
      * cancel deletion of export files
      */
-    public function cancelDeleteExportFileObject() : void
+    public function cancelDeleteExportFileObject(): void
     {
         $this->ctrl->redirectByClass(
             "ilobjuserfoldergui",
@@ -3089,7 +3089,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
     /**
      * delete export files
      */
-    public function deleteExportFileObject() : void
+    public function deleteExportFileObject(): void
     {
         $files = $this->user_request->getFiles();
         $export_dir = $this->object->getExportDirectory();
@@ -3111,7 +3111,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
      * @throws ilCtrlException
      * @throws ilObjectException
      */
-    protected function performExportObject() : void
+    protected function performExportObject(): void
     {
         $this->checkPermission("write,read_users");
 
@@ -3122,7 +3122,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
         );
     }
 
-    public function exportObject() : void
+    public function exportObject(): void
     {
         global $DIC;
 
@@ -3165,7 +3165,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
         $this->tpl->setContent($table->getHTML());
     }
 
-    protected function initNewAccountMailForm() : ilPropertyFormGUI
+    protected function initNewAccountMailForm(): ilPropertyFormGUI
     {
         global $DIC;
 
@@ -3263,7 +3263,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
     /**
      * new account mail administration
      */
-    public function newAccountMailObject() : void
+    public function newAccountMailObject(): void
     {
         global $DIC;
 
@@ -3364,7 +3364,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
         $this->tpl->setContent($ftpl->get());
     }
 
-    public function cancelNewAccountMailObject() : void
+    public function cancelNewAccountMailObject(): void
     {
         $this->ctrl->redirect(
             $this,
@@ -3372,7 +3372,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
         );
     }
 
-    public function saveNewAccountMailObject() : void
+    public function saveNewAccountMailObject(): void
     {
         global $DIC;
 
@@ -3409,12 +3409,12 @@ class ilObjUserFolderGUI extends ilObjectGUI
         );
     }
 
-    public function getAdminTabs() : void
+    public function getAdminTabs(): void
     {
         $this->getTabs();
     }
 
-    protected function getTabs() : void
+    protected function getTabs(): void
     {
         global $DIC;
 
@@ -3501,7 +3501,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
         }
     }
 
-    public function setSubTabs(string $a_tab) : void
+    public function setSubTabs(string $a_tab): void
     {
         global $DIC;
 
@@ -3570,7 +3570,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
         }
     }
 
-    public function showLoginnameSettingsObject() : void
+    public function showLoginnameSettingsObject(): void
     {
         global $DIC;
 
@@ -3594,7 +3594,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
         );
     }
 
-    private function initLoginSettingsForm() : void
+    private function initLoginSettingsForm(): void
     {
         $this->setSubTabs('settings');
         $this->tabs_gui->setTabActive('settings');
@@ -3646,7 +3646,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
         );
     }
 
-    public function saveLoginnameSettingsObject() : void
+    public function saveLoginnameSettingsObject(): void
     {
         global $DIC;
 
@@ -3699,7 +3699,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
         );
     }
 
-    public static function _goto(int $a_user) : void
+    public static function _goto(int $a_user): void
     {
         global $DIC;
         $main_tpl = $DIC->ui()->mainTemplate();
@@ -3739,7 +3739,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
     /**
      * Jump to edit screen for user
      */
-    public function jumpToUserObject() : void
+    public function jumpToUserObject(): void
     {
         global $DIC;
 
@@ -3759,7 +3759,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
         }
     }
 
-    public function searchUserAccessFilterCallable(array $a_user_ids) : array // Missing array type.
+    public function searchUserAccessFilterCallable(array $a_user_ids): array // Missing array type.
     {
         global $DIC;
         $access = $DIC->access();
@@ -3781,7 +3781,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
     public function searchResultHandler(
         array $a_usr_ids,
         string $a_cmd
-    ) : bool {
+    ): bool {
         if (!count($a_usr_ids)) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('select_one'));
             return false;
@@ -3801,7 +3801,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
         );
     }
 
-    public function getUserMultiCommands(bool $a_search_form = false) : array // Missing array type.
+    public function getUserMultiCommands(bool $a_search_form = false): array // Missing array type.
     {
         global $DIC;
 
@@ -3869,7 +3869,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
     /**
      * Export excel
      */
-    protected function usrExportX86Object() : void
+    protected function usrExportX86Object(): void
     {
         $user_ids = $this->getActionUserIds();
         if (!$user_ids) {
@@ -3908,7 +3908,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
     /**
      * Export csv
      */
-    protected function usrExportCsvObject() : void
+    protected function usrExportCsvObject(): void
     {
         $user_ids = $this->getActionUserIds();
         if (!$user_ids) {
@@ -3947,7 +3947,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
     /**
      * Export xml
      */
-    protected function usrExportXmlObject() : void
+    protected function usrExportXmlObject(): void
     {
         $user_ids = $this->getActionUserIds();
         if (!$user_ids) {
@@ -3982,7 +3982,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
         }
     }
 
-    protected function mailObject() : void
+    protected function mailObject(): void
     {
         global $DIC;
 
@@ -4051,7 +4051,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
         );
     }
 
-    public function addToExternalSettingsForm(int $a_form_id) : array // Missing array type.
+    public function addToExternalSettingsForm(int $a_form_id): array // Missing array type.
     {
         global $DIC;
 
@@ -4115,7 +4115,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
     /**
      * Add users to clipboard
      */
-    protected function addToClipboardObject() : void
+    protected function addToClipboardObject(): void
     {
         $users = $this->getActionUserIds();
         if (!count($users)) {

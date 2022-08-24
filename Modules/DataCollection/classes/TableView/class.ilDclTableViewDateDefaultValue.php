@@ -37,42 +37,42 @@ class ilDclTableViewDateDefaultValue extends ilDclTableViewBaseDefaultValue
      * @return string
      * @description Return the Name of your Database Table
      */
-    public static function returnDbTableName() : string
+    public static function returnDbTableName(): string
     {
         return "il_dcl_stloc3_default";
     }
 
-    public function getId() : int
+    public function getId(): int
     {
         return $this->id;
     }
 
-    public function setId(int $id) : void
+    public function setId(int $id): void
     {
         $this->id = $id;
     }
 
-    public function getTviewSetId() : int
+    public function getTviewSetId(): int
     {
         return $this->tview_set_id;
     }
 
-    public function setTviewSetId(int $tview_set_id) : void
+    public function setTviewSetId(int $tview_set_id): void
     {
         $this->tview_set_id = $tview_set_id;
     }
 
-    public function getValue() : string
+    public function getValue(): string
     {
         return $this->value;
     }
 
-    public function setValue(string $value) : void
+    public function setValue(string $value): void
     {
         $this->value = $value;
     }
 
-    public function createDefaultValueRecord() : void
+    public function createDefaultValueRecord(): void
     {
     }
 }

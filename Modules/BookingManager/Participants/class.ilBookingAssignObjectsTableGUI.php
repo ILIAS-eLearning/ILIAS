@@ -90,7 +90,7 @@ class ilBookingAssignObjectsTableGUI extends ilTable2GUI
         $this->getItems();
     }
 
-    public function getItems() : void
+    public function getItems(): void
     {
         $data = array();
         $obj_items = ilBookingObject::getList($this->pool_id);
@@ -115,7 +115,7 @@ class ilBookingAssignObjectsTableGUI extends ilTable2GUI
         $this->setData($data);
     }
 
-    protected function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set): void
     {
         if ($this->pool->getScheduleType() !== ilObjBookingPool::TYPE_FIX_SCHEDULE) {
             $this->tpl->setCurrentBlock("available");

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\UI\Component\Dropzone\File;
 
 use ILIAS\UI\Component\Component;
@@ -33,5 +35,5 @@ interface Wrapper extends File
      *
      * @return Component[]
      */
-    public function getContent() : array;
+    public function getContent(): array;
 }

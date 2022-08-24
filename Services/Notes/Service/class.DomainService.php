@@ -1,4 +1,6 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -37,7 +39,7 @@ class DomainService
     public function getNrOfNotesForContext(
         Context $context,
         bool $incl_sub = false
-    ) : int {
+    ): int {
         return $this->notes_manager->getNrOfNotesForContext(
             $context,
             Note::PRIVATE,
@@ -48,7 +50,7 @@ class DomainService
     public function getNrOfCommentsForContext(
         Context $context,
         bool $incl_sub = false
-    ) : int {
+    ): int {
         return $this->notes_manager->getNrOfNotesForContext(
             $context,
             Note::PUBLIC,
@@ -61,7 +63,7 @@ class DomainService
      */
     public function getById(
         int $id
-    ) : Note {
+    ): Note {
         return $this->notes_manager->getById($id);
     }
 
@@ -73,7 +75,7 @@ class DomainService
     public function getAllCommentsForObjId(
         int $obj_id,
         string $since = ""
-    ) : array {
+    ): array {
         return $this->notes_manager->getNotesForRepositoryObjId(
             $obj_id,
             Note::PUBLIC,
@@ -89,14 +91,14 @@ class DomainService
      */
     public function commentsActive(
         int $obj_id
-    ) : bool {
+    ): bool {
         return $this->notes_manager->commentsActive($obj_id);
     }
 
     public function activateComments(
         int $obj_id,
         bool $a_activate = true
-    ) : void {
+    ): void {
         $this->notes_manager->activateComments($obj_id, $a_activate);
     }
 
@@ -107,7 +109,7 @@ class DomainService
         int $obj_id,
         int $sub_obj_id,
         string $obj_type
-    ) : int {
+    ): int {
         return $this->notes_manager->getUserCount($obj_id, $sub_obj_id, $obj_type);
     }
 }

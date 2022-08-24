@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -27,7 +29,7 @@ class PollBlockTest extends TestCase
 {
     protected ilPollBlock $poll_block;
 
-    protected function setGlobalVariable(string $name, $value) : void
+    protected function setGlobalVariable(string $name, $value): void
     {
         global $DIC;
 
@@ -40,7 +42,7 @@ class PollBlockTest extends TestCase
     }
 
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -62,11 +64,11 @@ class PollBlockTest extends TestCase
         $this->poll_block = new ilPollBlock();
     }
 
-    protected function tearDown() : void
+    protected function tearDown(): void
     {
     }
 
-    public function testSetTitle() : void
+    public function testSetTitle(): void
     {
         $pb = $this->poll_block;
         $pb->setTitle("A poll block");

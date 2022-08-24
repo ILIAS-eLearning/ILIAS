@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -37,7 +39,7 @@ class ilWebLinkDraftItemsContainer extends ilWebLinkBaseItemsContainer
         parent::__construct($items);
     }
 
-    public function addItem(ilWebLinkDraftItem $item) : void
+    public function addItem(ilWebLinkDraftItem $item): void
     {
         $this->items[] = $item;
     }
@@ -45,12 +47,12 @@ class ilWebLinkDraftItemsContainer extends ilWebLinkBaseItemsContainer
     /**
      * @return ilWebLinkDraftItem[]
      */
-    public function getItems() : array
+    public function getItems(): array
     {
         return $this->items;
     }
 
-    public function getFirstItem() : ?ilWebLinkDraftItem
+    public function getFirstItem(): ?ilWebLinkDraftItem
     {
         return $this->items[0] ?? null;
     }

@@ -11,11 +11,11 @@ class SvyEvaluationGUIRequestTest extends TestCase
 {
     //protected $backupGlobals = false;
 
-    protected function tearDown() : void
+    protected function tearDown(): void
     {
     }
 
-    protected function getRequest(array $get, array $post) : \ILIAS\Survey\Evaluation\EvaluationGUIRequest
+    protected function getRequest(array $get, array $post): \ILIAS\Survey\Evaluation\EvaluationGUIRequest
     {
         $http_mock = $this->createMock(ILIAS\HTTP\Services::class);
         $lng_mock = $this->createMock(ilLanguage::class);
@@ -29,7 +29,7 @@ class SvyEvaluationGUIRequestTest extends TestCase
         );
     }
 
-    public function testShowTable() : void
+    public function testShowTable(): void
     {
         $request = $this->getRequest(
             [
@@ -44,7 +44,7 @@ class SvyEvaluationGUIRequestTest extends TestCase
         );
     }
 
-    public function testShowChart() : void
+    public function testShowChart(): void
     {
         $request = $this->getRequest(
             [
@@ -59,7 +59,7 @@ class SvyEvaluationGUIRequestTest extends TestCase
         );
     }
 
-    public function testShowAbsolute() : void
+    public function testShowAbsolute(): void
     {
         $request = $this->getRequest(
             [
@@ -74,7 +74,7 @@ class SvyEvaluationGUIRequestTest extends TestCase
         );
     }
 
-    public function testShowPercentage() : void
+    public function testShowPercentage(): void
     {
         $request = $this->getRequest(
             [
@@ -89,7 +89,7 @@ class SvyEvaluationGUIRequestTest extends TestCase
         );
     }
 
-    public function testAppraiseeId() : void
+    public function testAppraiseeId(): void
     {
         $request = $this->getRequest(
             [
@@ -104,7 +104,7 @@ class SvyEvaluationGUIRequestTest extends TestCase
         );
     }
 
-    public function testRaterId() : void
+    public function testRaterId(): void
     {
         $request = $this->getRequest(
             [
@@ -119,7 +119,7 @@ class SvyEvaluationGUIRequestTest extends TestCase
         );
     }
 
-    public function testRefId() : void
+    public function testRefId(): void
     {
         $request = $this->getRequest(
             [
@@ -134,7 +134,7 @@ class SvyEvaluationGUIRequestTest extends TestCase
         );
     }
 
-    public function testCompEvalMode() : void
+    public function testCompEvalMode(): void
     {
         $request = $this->getRequest(
             [
@@ -149,7 +149,7 @@ class SvyEvaluationGUIRequestTest extends TestCase
         );
     }
 
-    public function testSurveyCode() : void
+    public function testSurveyCode(): void
     {
         $request = $this->getRequest(
             [
@@ -164,7 +164,7 @@ class SvyEvaluationGUIRequestTest extends TestCase
         );
     }
 
-    public function testExportLabel() : void
+    public function testExportLabel(): void
     {
         $request = $this->getRequest(
             [
@@ -179,7 +179,7 @@ class SvyEvaluationGUIRequestTest extends TestCase
         );
     }
 
-    public function testExportFormat() : void
+    public function testExportFormat(): void
     {
         $request = $this->getRequest(
             [

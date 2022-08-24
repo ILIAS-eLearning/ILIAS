@@ -32,22 +32,22 @@ class ilObjBookingPoolAccess extends ilObjectAccess
         $this->rbacsystem = $DIC->rbac()->system();
     }
 
-    public static function _getCommands() : array
+    public static function _getCommands(): array
     {
         $commands = array();
         $commands[] = array("permission" => "read", "cmd" => "render", "lang_var" => "show", "default" => true);
         $commands[] = array("permission" => "write", "cmd" => "render", "lang_var" => "edit_content");
         $commands[] = array("permission" => "write", "cmd" => "edit", "lang_var" => "settings");
-        
+
         return $commands;
     }
-    
-    public static function _checkGoto(string $target) : bool
+
+    public static function _checkGoto(string $target): bool
     {
         global $DIC;
 
         $ilAccess = $DIC->access();
-        
+
         $t_arr = explode("_", $target);
 
         if ($t_arr[0] !== "book" || ((int) $t_arr[1]) <= 0) {
@@ -61,7 +61,7 @@ class ilObjBookingPoolAccess extends ilObjectAccess
         return false;
     }
 
-    public function _checkAccess(string $cmd, string $permission, int $ref_id, int $obj_id, ?int $user_id = null) : bool
+    public function _checkAccess(string $cmd, string $permission, int $ref_id, int $obj_id, ?int $user_id = null): bool
     {
         $ilUser = $this->user;
         $rbacsystem = $this->rbacsystem;
@@ -92,7 +92,7 @@ class ilObjBookingPoolAccess extends ilObjectAccess
      * Check whether booking pool is online (legacy version)
      * @deprecated
      */
-    public static function _lookupOnlineStatus(array $a_ids) : array
+    public static function _lookupOnlineStatus(array $a_ids): array
     {
         global $DIC;
 
@@ -108,7 +108,7 @@ class ilObjBookingPoolAccess extends ilObjectAccess
         return $status;
     }
 
-    public function canBeDelivered(ilWACPath $ilWACPath) : bool
+    public function canBeDelivered(ilWACPath $ilWACPath): bool
     {
 
         // we return always false, since the files in the file/ and post/ directoies

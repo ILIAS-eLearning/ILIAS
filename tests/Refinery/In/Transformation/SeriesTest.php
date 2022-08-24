@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -28,7 +30,7 @@ use UnexpectedValueException;
 
 class SeriesTest extends TestCase
 {
-    public function testSeriesTransformation() : void
+    public function testSeriesTransformation(): void
     {
         $series = new Series([new StringTransformation()]);
 
@@ -37,7 +39,7 @@ class SeriesTest extends TestCase
         $this->assertEquals('hello', $result);
     }
 
-    public function testSeriesApplyTo() : void
+    public function testSeriesApplyTo(): void
     {
         $series = new Series([
             new StringTransformation(),
@@ -49,7 +51,7 @@ class SeriesTest extends TestCase
         $this->assertEquals('hello', $result->value());
     }
 
-    public function testSeriesTransformationFails() : void
+    public function testSeriesTransformationFails(): void
     {
         $this->expectNotToPerformAssertions();
 
@@ -71,7 +73,7 @@ class SeriesTest extends TestCase
     /**
      * @throws \ilException
      */
-    public function testSeriesApply() : void
+    public function testSeriesApply(): void
     {
         $series = new Series([
             new IntegerTransformation(),
@@ -83,7 +85,7 @@ class SeriesTest extends TestCase
         $this->assertTrue($result->isError());
     }
 
-    public function testInvalidTransformationThrowsException() : void
+    public function testInvalidTransformationThrowsException(): void
     {
         $this->expectNotToPerformAssertions();
 

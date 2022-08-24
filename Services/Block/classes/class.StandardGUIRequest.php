@@ -1,4 +1,6 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -43,37 +45,37 @@ class StandardGUIRequest
         );
     }
 
-    public function getBlockType() : string
+    public function getBlockType(): string
     {
         return $this->str("block_type");
     }
 
-    public function getRefId() : int
+    public function getRefId(): int
     {
         return $this->int("ref_id");
     }
 
-    public function getNavPar(string $par) : string
+    public function getNavPar(string $par): string
     {
         return $this->str($par);
     }
 
-    public function getNavPage(string $par) : string
+    public function getNavPage(string $par): string
     {
         return $this->str($par . "page");
     }
 
-    public function getColSide() : string
+    public function getColSide(): string
     {
         return $this->str("col_side");
     }
 
-    public function getBlockId() : string
+    public function getBlockId(): string
     {
         return $this->str("block_id");
     }
 
-    public function getBlock() : string
+    public function getBlock(): string
     {
         return $this->str("block");
     }

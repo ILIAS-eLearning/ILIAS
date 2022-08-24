@@ -24,10 +24,10 @@ interface ilAccessibilityEvaluableCriterion
     /**
      * @return ilAccessibilityCriterionConfig
      */
-    public function getCriterionValue() : ilAccessibilityCriterionConfig;
+    public function getCriterionValue(): ilAccessibilityCriterionConfig;
 
     /**
      * @return string
      */
-    public function getCriterionId() : string;
+    public function getCriterionId(): string;
 }

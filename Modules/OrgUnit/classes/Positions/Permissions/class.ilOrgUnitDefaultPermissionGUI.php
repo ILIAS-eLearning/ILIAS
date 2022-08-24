@@ -34,9 +34,9 @@ class ilOrgUnitDefaultPermissionGUI extends BaseCommands
     public function __construct()
     {
         global $DIC;
-        
+
         parent::__construct();
-        
+
         $this->main_tpl = $DIC->ui()->mainTemplate();
         $this->objectDefintion = $DIC["objDefinition"];
         $this->http = $DIC->http();
@@ -44,7 +44,7 @@ class ilOrgUnitDefaultPermissionGUI extends BaseCommands
         $this->lng = $DIC->language();
     }
 
-    protected function index() : void
+    protected function index(): void
     {
         $this->getParentGui()->addSubTabs();
         $this->getParentGui()->activeSubTab(ilOrgUnitPositionGUI::SUBTAB_PERMISSIONS);

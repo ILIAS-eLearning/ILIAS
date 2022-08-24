@@ -102,7 +102,7 @@ interface ilMathAdapter
      * @param int|null $scale
      * @return bool
      */
-    public function equals($left_operand, $right_operand, int $scale = null) : bool;
+    public function equals($left_operand, $right_operand, int $scale = null): bool;
 
     /**
      * This method adapts the behaviour of bcscale()
@@ -115,5 +115,5 @@ interface ilMathAdapter
     /**
      * @param mixed $value
      */
-    public function round($value, int $precision = 0) : string;
+    public function round($value, int $precision = 0): string;
 }

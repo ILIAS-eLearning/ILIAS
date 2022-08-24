@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -32,12 +34,12 @@ abstract class ilXmlExporter
     {
     }
 
-    public function setExport(ilExport $a_exp) : void
+    public function setExport(ilExport $a_exp): void
     {
         $this->exp = $a_exp;
     }
 
-    public function getExport() : ilExport
+    public function getExport(): ilExport
     {
         return $this->exp;
     }
@@ -47,7 +49,7 @@ abstract class ilXmlExporter
         int $a_obj_id,
         string $a_export_type = 'xml',
         string $a_entity = ""
-    ) : string {
+    ): string {
         $ent = ($a_entity == "")
             ? ""
             : "_" . $a_entity;
@@ -62,22 +64,22 @@ abstract class ilXmlExporter
         string $a_entity,
         string $a_schema_version,
         string $a_id
-    ) : string;
+    ): string;
 
-    abstract public function init() : void;
+    abstract public function init(): void;
 
-    public function setExportDirectories(string $a_dir_relative, string $a_dir_absolute) : void
+    public function setExportDirectories(string $a_dir_relative, string $a_dir_absolute): void
     {
         $this->dir_relative = $a_dir_relative;
         $this->dir_absolute = $a_dir_absolute;
     }
 
-    public function getRelativeExportDirectory() : string
+    public function getRelativeExportDirectory(): string
     {
         return $this->dir_relative;
     }
 
-    public function getAbsoluteExportDirectory() : string
+    public function getAbsoluteExportDirectory(): string
     {
         return $this->dir_absolute;
     }
@@ -90,7 +92,7 @@ abstract class ilXmlExporter
         string $a_entity,
         string $a_target_release,
         array $a_ids
-    ) : array {
+    ): array {
         return [];
     }
 
@@ -102,7 +104,7 @@ abstract class ilXmlExporter
         string $a_entity,
         string $a_target_release,
         array $a_ids
-    ) : array {
+    ): array {
         return array();
     }
 
@@ -118,12 +120,12 @@ abstract class ilXmlExporter
      *            "max" => "")
      *        );
      */
-    abstract public function getValidSchemaVersions(string $a_entity) : array;
+    abstract public function getValidSchemaVersions(string $a_entity): array;
 
     final public function determineSchemaVersion(
         string $a_entity,
         string $a_target_release
-    ) : array {
+    ): array {
         $svs = $this->getValidSchemaVersions($a_entity);
         $found = false;
         $rsv = [];

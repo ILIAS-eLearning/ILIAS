@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -27,17 +29,17 @@ class ilExportImportDirectory extends ilImportDirectory
 {
     private const PATH_PREFIX = 'export';
 
-    protected function getPathPrefix() : string
+    protected function getPathPrefix(): string
     {
         return self::PATH_PREFIX;
     }
 
-    public function hasFilesFor(int $user_id, string $type) : bool
+    public function hasFilesFor(int $user_id, string $type): bool
     {
         return (bool) count($this->getFilesFor($user_id, $type));
     }
 
-    public function getFilesFor(int $user_id, string $type) : array
+    public function getFilesFor(int $user_id, string $type): array
     {
         if (!$this->exists()) {
             return [];
@@ -73,7 +75,7 @@ class ilExportImportDirectory extends ilImportDirectory
     /**
      * Check if filename matches a given type
      */
-    protected function matchesType(string $type, string $filename) : bool
+    protected function matchesType(string $type, string $filename): bool
     {
         $matches = [];
         $result = preg_match('/[0-9]{10}__[0-9]{1,6}__([a-z]{1,4})_[0-9]{2,9}.zip/', $filename, $matches);
@@ -86,7 +88,7 @@ class ilExportImportDirectory extends ilImportDirectory
         return false;
     }
 
-    public function getAbsolutePathForHash(int $user_id, string $type, string $post_hash) : string
+    public function getAbsolutePathForHash(int $user_id, string $type, string $post_hash): string
     {
         foreach ($this->getFilesFor($user_id, $type) as $hash => $file) {
             if (strcmp($hash, $post_hash) === 0) {

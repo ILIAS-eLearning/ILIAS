@@ -63,7 +63,7 @@ class ilTaxAssignInputGUI extends ilSelectInputGUI
      * Set taxonomy id
      * @param int $a_val taxonomy id
      */
-    public function setTaxonomyId(int $a_val) : void
+    public function setTaxonomyId(int $a_val): void
     {
         $this->taxononmy_id = $a_val;
     }
@@ -72,7 +72,7 @@ class ilTaxAssignInputGUI extends ilSelectInputGUI
      * Get taxonomy id
      * @return int taxonomy id
      */
-    public function getTaxonomyId() : int
+    public function getTaxonomyId(): int
     {
         return $this->taxononmy_id;
     }
@@ -81,7 +81,7 @@ class ilTaxAssignInputGUI extends ilSelectInputGUI
      * Set Options.
      * @param array $a_options Options. Array ("value" => "option_text")
      */
-    public function setOptions($a_options) : void
+    public function setOptions($a_options): void
     {
         throw new ilTaxonomyException("setOptions: Not supported for ilTaxAssignInputGUI.");
     }
@@ -90,7 +90,7 @@ class ilTaxAssignInputGUI extends ilSelectInputGUI
      * Get Options.
      * @return    array    Options. Array ("value" => "option_text")
      */
-    public function getOptions() : array
+    public function getOptions(): array
     {
         $lng = $this->lng;
 
@@ -120,7 +120,7 @@ class ilTaxAssignInputGUI extends ilSelectInputGUI
         int $a_obj_id,
         string $a_item_type,
         int $a_item_id
-    ) : void {
+    ): void {
         $tax_node_ass = new ilTaxNodeAssignment($a_component_id, $a_obj_id, $a_item_type, $this->getTaxonomyId());
 
         $body = $this->request->getParsedBody();
@@ -161,7 +161,7 @@ class ilTaxAssignInputGUI extends ilSelectInputGUI
         int $a_obj_id,
         string $a_item_type,
         int $a_item_id
-    ) : void {
+    ): void {
         $tax_node_ass = new ilTaxNodeAssignment($a_component_id, $a_obj_id, $a_item_type, $this->getTaxonomyId());
         $ass = $tax_node_ass->getAssignmentsOfItem($a_item_id);
 

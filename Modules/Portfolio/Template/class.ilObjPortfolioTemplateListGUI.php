@@ -22,7 +22,7 @@
  */
 class ilObjPortfolioTemplateListGUI extends ilObjectListGUI
 {
-    public function init() : void
+    public function init(): void
     {
         $this->copy_enabled = true;
         $this->delete_enabled = true;
@@ -36,8 +36,8 @@ class ilObjPortfolioTemplateListGUI extends ilObjectListGUI
         // general commands array
         $this->commands = ilObjPortfolioTemplateAccess::_getCommands();
     }
-    
-    public function getProperties() : array
+
+    public function getProperties(): array
     {
         $lng = $this->lng;
 

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -36,7 +38,7 @@ class KeyValueAccess implements ArrayAccess, Countable
     /**
      * @inheritDoc
      */
-    public function offsetExists($offset) : bool
+    public function offsetExists($offset): bool
     {
         return isset($this->raw_values[$offset]);
     }
@@ -55,7 +57,7 @@ class KeyValueAccess implements ArrayAccess, Countable
             : $this->getApplicator()($this->raw_values[$offset]);
     }
 
-    private function getApplicator() : Closure
+    private function getApplicator(): Closure
     {
         return function ($value) {
             if (is_array($value)) {
@@ -71,7 +73,7 @@ class KeyValueAccess implements ArrayAccess, Countable
     /**
      * @inheritDoc
      */
-    public function offsetSet($offset, $value) : void
+    public function offsetSet($offset, $value): void
     {
         $this->raw_values[$offset] = $value;
     }
@@ -79,7 +81,7 @@ class KeyValueAccess implements ArrayAccess, Countable
     /**
      * @inheritDoc
      */
-    public function offsetUnset($offset) : void
+    public function offsetUnset($offset): void
     {
         if ($this->offsetExists($offset)) {
             unset($this->raw_values[$offset]);
@@ -89,7 +91,7 @@ class KeyValueAccess implements ArrayAccess, Countable
     /**
      * @inheritDoc
      */
-    public function count() : int
+    public function count(): int
     {
         return count($this->raw_values);
     }

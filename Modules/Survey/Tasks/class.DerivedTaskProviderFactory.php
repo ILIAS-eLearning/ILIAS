@@ -47,7 +47,7 @@ class DerivedTaskProviderFactory implements \ilDerivedTaskProviderFactory
         $this->task_service = $task_service;
     }
 
-    public function getProviders() : array
+    public function getProviders(): array
     {
         return [
             new DerivedTaskProvider(

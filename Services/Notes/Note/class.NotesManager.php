@@ -1,4 +1,6 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -47,12 +49,12 @@ class NotesManager
         $this->notification = $domain->notification();
     }
 
-    public function setSortAscending(bool $asc) : void
+    public function setSortAscending(bool $asc): void
     {
         $this->sess_repo->setSortAscending($asc);
     }
 
-    public function getSortAscending() : bool
+    public function getSortAscending(): bool
     {
         return $this->sess_repo->getSortAscending();
     }
@@ -61,7 +63,7 @@ class NotesManager
         Note $note,
         array $observer,
         bool $use_provided_creation_date = false
-    ) : void {
+    ): void {
         if (!$use_provided_creation_date) {
             $note = $note->withCreationDate(\ilUtil::now());
         }
@@ -70,7 +72,7 @@ class NotesManager
         $this->notification->notifyObserver($observer, "new", $note);
     }
 
-    public function deleteNote(Note $note, int $user_id, $public_deletion_enabled = false) : void
+    public function deleteNote(Note $note, int $user_id, $public_deletion_enabled = false): void
     {
         if ($this->note_access->canDelete($note, $user_id, $public_deletion_enabled)) {
             $this->db_repo->deleteNote($note->getId());
@@ -81,7 +83,7 @@ class NotesManager
         int $id,
         string $text,
         array $observer
-    ) : void {
+    ): void {
         $note = $this->db_repo->getById($id);
         if ($this->note_access->canEdit($note)) {
             $this->db_repo->updateNoteText($id, $text);
@@ -103,7 +105,7 @@ class NotesManager
         bool $ascending = false,
         string $since = "",
         string $search_text = ""
-    ) : array {
+    ): array {
         return $this->db_repo->getNotesForContext(
             $context,
             $type,
@@ -126,7 +128,7 @@ class NotesManager
         int $author = 0,
         bool $ascending = false,
         string $since = ""
-    ) : array {
+    ): array {
         $context = $this->data->context(
             $obj_id,
             0,
@@ -155,7 +157,7 @@ class NotesManager
         bool $ascending = false,
         string $since = "",
         string $search_text = ""
-    ) : array {
+    ): array {
         return $this->db_repo->getNotesForObjIds(
             $obj_ids,
             $type,
@@ -172,7 +174,7 @@ class NotesManager
         Context $context,
         int $type = Note::PRIVATE,
         bool $incl_sub = false
-    ) : int {
+    ): int {
         return $this->db_repo->getNrOfNotesForContext(
             $context,
             $type,
@@ -186,7 +188,7 @@ class NotesManager
      * @param int $type Note::PRIVATE | Note::PUBLIC
      * @return int[]
      */
-    public function getRelatedObjectsOfUser(int $type) : array
+    public function getRelatedObjectsOfUser(int $type): array
     {
         $tree = $this->domain->repositoryTree();
         $user_id = $this->domain->user()->getId();
@@ -232,7 +234,7 @@ class NotesManager
     /**
      * @throws NoteNotFoundException
      */
-    public function getById(int $id) : Note
+    public function getById(int $id): Note
     {
         return $this->db_repo->getById($id);
     }
@@ -242,13 +244,13 @@ class NotesManager
      */
     public function commentsActive(
         int $obj_id
-    ) : bool {
+    ): bool {
         return $this->db_settings_repo->commentsActive($obj_id);
     }
 
     public function commentsActiveMultiple(
         array $obj_ids
-    ) : array {
+    ): array {
         return $this->db_settings_repo->commentsActiveMultiple($obj_ids);
     }
 
@@ -258,7 +260,7 @@ class NotesManager
     public function activateComments(
         int $obj_id,
         bool $a_activate = true
-    ) : void {
+    ): void {
         $this->db_settings_repo->activateComments(
             $obj_id,
             0,
@@ -274,7 +276,7 @@ class NotesManager
         int $obj_id,
         int $sub_obj_id,
         string $obj_type
-    ) : int {
+    ): int {
         return $this->db_repo->getUserCount($obj_id, $sub_obj_id, $obj_type);
     }
 
@@ -285,7 +287,7 @@ class NotesManager
     public function countNotesAndCommentsMultipleObjects(
         array $obj_ids,
         bool $no_sub_objs = false
-    ) : array {
+    ): array {
         return $this->db_repo->countNotesAndCommentsMultipleObjects(
             $obj_ids,
             $this->domain->user()->getId(),

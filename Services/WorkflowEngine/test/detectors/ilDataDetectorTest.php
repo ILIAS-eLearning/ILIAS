@@ -1,4 +1,5 @@
 <?php
+
 /* Copyright (c) 1998-2014 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -17,23 +18,23 @@ class ilDataDetectorTest extends ilWorkflowEngineBaseTest
     private ilEmptyWorkflow $workflow;
     private ilBasicNode $node;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         // Empty workflow.
         require_once './Services/WorkflowEngine/classes/workflows/class.ilEmptyWorkflow.php';
         $this->workflow = new ilEmptyWorkflow();
-        
+
         // Basic node
         require_once './Services/WorkflowEngine/classes/nodes/class.ilBasicNode.php';
         $this->node = new ilBasicNode($this->workflow);
-        
+
         // Wiring up so the node is attached to the workflow.
         $this->workflow->addNode($this->node);
-        
+
         require_once './Services/WorkflowEngine/classes/detectors/class.ilDataDetector.php';
     }
-    
-    protected function tearDown() : void
+
+    protected function tearDown(): void
     {
         global $DIC;
 
@@ -42,12 +43,12 @@ class ilDataDetectorTest extends ilWorkflowEngineBaseTest
             $DIC['ilSetting']->delete('IL_PHPUNIT_TEST_MICROTIME');
         }
     }
-    
-    public function testConstructorValidContext() : void
+
+    public function testConstructorValidContext(): void
     {
         // Act
         $detector = new ilDataDetector($this->node);
-        
+
         // Assert
         // No exception - good
         $this->assertTrue(
@@ -56,7 +57,7 @@ class ilDataDetectorTest extends ilWorkflowEngineBaseTest
         );
     }
 
-    public function testSetDetectorState() : void
+    public function testSetDetectorState(): void
     {
         // Arrange
         $workflow = new ilEmptyWorkflow();
@@ -64,18 +65,18 @@ class ilDataDetectorTest extends ilWorkflowEngineBaseTest
         $detector = new ilDataDetector($node);
         $workflow->addNode($node);
 
-        
+
         // Act
         $detector->setDetectorState(true);
-        
-        
+
+
         // Assert
         $valid_state = true;
-        
+
         if (!$detector->getDetectorState()) {
             $valid_state = false;
         }
-        
+
         if ($node->isActive()) {
             // With this single detector satisfied, the
             // parent node should have transitted and
@@ -83,11 +84,11 @@ class ilDataDetectorTest extends ilWorkflowEngineBaseTest
             // afterwards.
             $valid_state = false;
         }
-        
+
         $this->assertTrue($valid_state, 'Invalid state after setting of detector state.');
     }
-    
-    public function testTrigger() : void
+
+    public function testTrigger(): void
     {
         // Arrange
         $workflow = new ilEmptyWorkflow();
@@ -95,18 +96,18 @@ class ilDataDetectorTest extends ilWorkflowEngineBaseTest
         $detector = new ilDataDetector($node);
         $workflow->addNode($node);
 
-        
+
         // Act
         /** @noinspection PhpExpressionResultUnusedInspection */
         $detector->trigger(null);
-        
+
         // Assert
         $valid_state = true;
-        
+
         if (!$detector->getDetectorState()) {
             $valid_state = false;
         }
-        
+
         if ($node->isActive()) {
             // With this single detector satisfied, the
             // parent node should have transitted and
@@ -114,18 +115,18 @@ class ilDataDetectorTest extends ilWorkflowEngineBaseTest
             // afterwards.
             $valid_state = false;
         }
-        
+
         $this->assertTrue($valid_state, 'Invalid state after setting of detector state.');
     }
-    
-    public function testGetContext() : void
+
+    public function testGetContext(): void
     {
         // Arrange
         $detector = new ilDataDetector($this->node);
-        
+
         // Act
         $actual = $detector->getContext();
-        
+
         // Assert
         if ($actual === $this->node) {
             $this->assertEquals($actual, $this->node);

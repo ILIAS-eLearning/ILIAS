@@ -26,8 +26,8 @@ use ILIAS\ResourceStorage\Resource\StorableResource;
  */
 class ResourceDBRepository implements ResourceRepository
 {
-    const TABLE_NAME = 'il_resource';
-    const IDENTIFICATION = 'rid';
+    public const TABLE_NAME = 'il_resource';
+    public const IDENTIFICATION = 'rid';
 
     protected \ilDBInterface $db;
 
@@ -44,7 +44,7 @@ class ResourceDBRepository implements ResourceRepository
     /**
      * @return string[]
      */
-    public function getNamesForLocking() : array
+    public function getNamesForLocking(): array
     {
         return [self::TABLE_NAME];
     }
@@ -52,7 +52,7 @@ class ResourceDBRepository implements ResourceRepository
     /**
      * @inheritDoc
      */
-    public function blank(ResourceIdentification $identification) : StorableResource
+    public function blank(ResourceIdentification $identification): StorableResource
     {
         return new StorableFileResource($identification);
     }
@@ -60,7 +60,7 @@ class ResourceDBRepository implements ResourceRepository
     /**
      * @inheritDoc
      */
-    public function get(ResourceIdentification $identification) : StorableResource
+    public function get(ResourceIdentification $identification): StorableResource
     {
         if (isset($this->cache[$identification->serialize()])) {
             return $this->cache[$identification->serialize()];
@@ -81,7 +81,7 @@ class ResourceDBRepository implements ResourceRepository
     /**
      * @inheritDoc
      */
-    public function has(ResourceIdentification $identification) : bool
+    public function has(ResourceIdentification $identification): bool
     {
         if (isset($this->cache[$identification->serialize()])) {
             return true;
@@ -95,7 +95,7 @@ class ResourceDBRepository implements ResourceRepository
     /**
      * @inheritDoc
      */
-    public function store(StorableResource $resource) : void
+    public function store(StorableResource $resource): void
     {
         $rid = $resource->getIdentification()->serialize();
         if ($this->has($resource->getIdentification())) {
@@ -126,7 +126,7 @@ class ResourceDBRepository implements ResourceRepository
     /**
      * @inheritDoc
      */
-    public function delete(StorableResource $resource) : void
+    public function delete(StorableResource $resource): void
     {
         $rid = $resource->getIdentification()->serialize();
         $this->db->manipulateF(
@@ -140,12 +140,12 @@ class ResourceDBRepository implements ResourceRepository
     /**
      * @inheritDoc
      */
-    public function getAll() : \Generator
+    public function getAll(): \Generator
     {
         yield from [];
     }
 
-    public function preload(array $identification_strings) : void
+    public function preload(array $identification_strings): void
     {
         $r = $this->db->query(
             "SELECT rid, storage_id FROM " . self::TABLE_NAME . " WHERE "
@@ -156,7 +156,7 @@ class ResourceDBRepository implements ResourceRepository
         }
     }
 
-    public function populateFromArray(array $data) : void
+    public function populateFromArray(array $data): void
     {
         $resource = $this->blank(new ResourceIdentification($data['rid']));
         $resource->setStorageID($data['storage_id']);

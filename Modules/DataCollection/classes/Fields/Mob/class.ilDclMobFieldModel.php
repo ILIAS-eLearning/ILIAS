@@ -25,7 +25,7 @@ class ilDclMobFieldModel extends ilDclFileuploadFieldModel
 {
     public static array $mob_suffixes = array('jpg', 'jpeg', 'gif', 'png', 'mp3', 'flx', 'mp4', 'm4v', 'mov', 'wmv');
 
-    public function getValidFieldProperties() : array
+    public function getValidFieldProperties(): array
     {
         return array(ilDclBaseFieldModel::PROP_WIDTH,
                      ilDclBaseFieldModel::PROP_HEIGHT,
@@ -33,7 +33,7 @@ class ilDclMobFieldModel extends ilDclFileuploadFieldModel
         );
     }
 
-    public function allowFilterInListView() : bool
+    public function allowFilterInListView(): bool
     {
         return false;
     }

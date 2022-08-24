@@ -29,7 +29,7 @@ class ilContainerByTypeContentGUI extends ilContainerContentGUI
     protected $force_details = null;
     protected int $block_limit;
     protected ?ilContainerUserFilter $container_user_filter;
-    
+
     public function __construct(
         ilContainerGUI $container_gui_obj,
         ilContainerUserFilter $container_user_filter = null
@@ -43,8 +43,8 @@ class ilContainerByTypeContentGUI extends ilContainerContentGUI
         $this->block_limit = (int) ilContainer::_lookupContainerSetting($container_gui_obj->getObject()->getId(), "block_limit");
         $this->container_user_filter = $container_user_filter;
     }
-    
-    protected function getDetailsLevel(int $a_item_id) : int
+
+    protected function getDetailsLevel(int $a_item_id): int
     {
         if ($this->getContainerGUI()->isActiveAdministrationPanel()) {
             return self::DETAILS_DEACTIVATED;
@@ -59,7 +59,7 @@ class ilContainerByTypeContentGUI extends ilContainerContentGUI
         return self::DETAILS_TITLE;
     }
 
-    public function getMainContent() : string
+    public function getMainContent(): string
     {
         $ilAccess = $this->access;
 
@@ -69,7 +69,7 @@ class ilContainerByTypeContentGUI extends ilContainerContentGUI
             true,
             "Services/Container"
         );
-        
+
         // get all sub items
         $this->items = $this->getContainerObject()->getSubItems(
             $this->getContainerGUI()->isActiveAdministrationPanel(),
@@ -93,16 +93,16 @@ class ilContainerByTypeContentGUI extends ilContainerContentGUI
 
         return $tpl->get();
     }
-    
-    public function renderItemList() : string
+
+    public function renderItemList(): string
     {
         $this->clearAdminCommandsDetermination();
-    
+
         $this->initRenderer();
-        
+
         // text/media page content
         $output_html = $this->getContainerGUI()->getContainerPageHTML();
-        
+
         // get embedded blocks
         if ($output_html !== "") {
             $output_html = $this->insertPageEmbeddedBlocks($output_html);
@@ -110,13 +110,13 @@ class ilContainerByTypeContentGUI extends ilContainerContentGUI
 
         // item groups
         $pos = $this->getItemGroupsHTML();
-        
+
         // iterate all types
         foreach ($this->getGroupedObjTypes() as $type => $v) {
             if (isset($this->items[$type]) && is_array($this->items[$type]) &&
                 $this->renderer->addTypeBlock($type)) {
                 $this->renderer->setBlockPosition($type, ++$pos);
-                
+
                 $position = 1;
                 $counter = 1;
                 foreach ($this->items[$type] as $item_data) {
@@ -140,13 +140,13 @@ class ilContainerByTypeContentGUI extends ilContainerContentGUI
                 }
             }
         }
-        
+
         $output_html .= $this->renderer->getHTML();
-        
+
         return $output_html;
     }
-    
-    protected function initDetails() : void
+
+    protected function initDetails(): void
     {
         $this->handleSessionExpand();
 

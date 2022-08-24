@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -51,7 +53,7 @@ class ilUsersGalleryGUI
         $this->collection_provider = $collection_provider;
     }
 
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         $next_class = $this->ctrl->getNextClass();
         $cmd = $this->ctrl->getCmd('view');
@@ -78,7 +80,7 @@ class ilUsersGalleryGUI
         }
     }
 
-    protected function view() : void
+    protected function view(): void
     {
         $template = $this->populateTemplate($this->collection_provider->getGroupedCollections());
         $this->tpl->setContent($template->get());
@@ -88,7 +90,7 @@ class ilUsersGalleryGUI
      * @param ilObjUser $user
      * @param \ILIAS\UI\Component\Component[] $sections
      */
-    protected function addActionSection(ilObjUser $user, array &$sections) : void
+    protected function addActionSection(ilObjUser $user, array &$sections): void
     {
         $contact_btn_html = "";
 
@@ -115,7 +117,7 @@ class ilUsersGalleryGUI
      * @param ilUsersGalleryUserCollection[] $gallery_groups
      * @return ilTemplate
      */
-    protected function populateTemplate(array $gallery_groups) : ilTemplate
+    protected function populateTemplate(array $gallery_groups): ilTemplate
     {
         $buddylist = ilBuddyList::getInstanceByGlobalUser();
         $tpl = new ilTemplate('tpl.users_gallery.html', true, true, 'Services/User');
@@ -124,10 +126,10 @@ class ilUsersGalleryGUI
         $panel->setBody($this->lng->txt('no_gallery_users_available'));
         $tpl->setVariable('NO_ENTRIES_HTML', json_encode($panel->getHTML(), JSON_THROW_ON_ERROR));
 
-        $groups_with_users = array_filter($gallery_groups, static function (ilUsersGalleryGroup $group) : bool {
+        $groups_with_users = array_filter($gallery_groups, static function (ilUsersGalleryGroup $group): bool {
             return count($group) > 0;
         });
-        $groups_with_highlight = array_filter($groups_with_users, static function (ilUsersGalleryGroup $group) : bool {
+        $groups_with_highlight = array_filter($groups_with_users, static function (ilUsersGalleryGroup $group): bool {
             return $group->isHighlighted();
         });
 

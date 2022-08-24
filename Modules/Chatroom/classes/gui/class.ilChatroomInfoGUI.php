@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -25,12 +27,12 @@
  */
 class ilChatroomInfoGUI extends ilChatroomGUIHandler
 {
-    protected function createInfoScreenGUI(ilChatroomObjectGUI $gui) : ilInfoScreenGUI
+    protected function createInfoScreenGUI(ilChatroomObjectGUI $gui): ilInfoScreenGUI
     {
         return new ilInfoScreenGUI($gui);
     }
 
-    public function executeDefault(string $requestedMethod) : void
+    public function executeDefault(string $requestedMethod): void
     {
         $this->redirectIfNoPermission('visible');
 
@@ -39,7 +41,7 @@ class ilChatroomInfoGUI extends ilChatroomGUIHandler
         $info = $this->createInfoScreenGUI($this->gui);
 
         $info->enablePrivateNotes();
-        
+
         $refId = $this->getRequestValue('ref_id', $this->refinery->kindlyTo()->int());
         if (ilChatroom::checkUserPermissions('read', $refId, false)) {
             $info->enableNews();

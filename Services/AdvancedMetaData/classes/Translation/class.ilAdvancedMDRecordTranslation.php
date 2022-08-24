@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
@@ -37,32 +39,32 @@ class ilAdvancedMDRecordTranslation
         $this->lang_default = $lang_default;
     }
 
-    public function setTitle(string $title) : void
+    public function setTitle(string $title): void
     {
         $this->title = $title;
     }
 
-    public function setDescription(string $description) : void
+    public function setDescription(string $description): void
     {
         $this->description = $description;
     }
 
-    public function setLangDefault(bool $lang_default) : void
+    public function setLangDefault(bool $lang_default): void
     {
         $this->lang_default = $lang_default;
     }
 
-    public function getLangDefault() : bool
+    public function getLangDefault(): bool
     {
         return $this->lang_default;
     }
 
-    public function getRecordId() : int
+    public function getRecordId(): int
     {
         return $this->record_id;
     }
 
-    public function setRecordId(int $record_id) : void
+    public function setRecordId(int $record_id): void
     {
         $this->record_id = $record_id;
     }
@@ -70,7 +72,7 @@ class ilAdvancedMDRecordTranslation
     /**
      * @return string
      */
-    public function getTitle() : string
+    public function getTitle(): string
     {
         return $this->title;
     }
@@ -78,7 +80,7 @@ class ilAdvancedMDRecordTranslation
     /**
      * @return string
      */
-    public function getDescription() : string
+    public function getDescription(): string
     {
         return $this->description;
     }
@@ -86,12 +88,12 @@ class ilAdvancedMDRecordTranslation
     /**
      * @return string
      */
-    public function getLangKey() : string
+    public function getLangKey(): string
     {
         return $this->lang_key;
     }
 
-    public function update() : void
+    public function update(): void
     {
         $query = 'update ' . self::TABLE_NAME . ' ' .
             'set title = ' . $this->db->quote($this->getTitle(), ilDBConstants::T_TEXT) . ', ' .
@@ -102,7 +104,7 @@ class ilAdvancedMDRecordTranslation
         $this->db->manipulate($query);
     }
 
-    public function delete() : void
+    public function delete(): void
     {
         $query = 'delete from ' . self::TABLE_NAME . ' ' .
             'where record_id = ' . $this->db->quote($this->getRecordId(), ilDBConstants::T_INTEGER) . ' and ' .
@@ -110,7 +112,7 @@ class ilAdvancedMDRecordTranslation
         $this->db->manipulate($query);
     }
 
-    public function insert() : void
+    public function insert(): void
     {
         $query = 'insert into ' . self::TABLE_NAME . ' (record_id, title, lang_code, description) ' .
             'values (  ' .

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -54,7 +56,7 @@ class NotificationsCollector
         $this->collect();
     }
 
-    private function collect() : void
+    private function collect(): void
     {
         $mail_expiration_days = (int) $this->setting->get('mail_threshold', '0');
         $mail_expiration_warning_days = (int) $this->setting->get('mail_notify_orphaned', '0');
@@ -122,12 +124,12 @@ class NotificationsCollector
         }
     }
 
-    private function existsCollectionObjForUserId(int $user_id) : bool
+    private function existsCollectionObjForUserId(int $user_id): bool
     {
         return isset($this->collection[$user_id]);
     }
 
-    private function addCollectionObject(ReportDto $collection_obj) : void
+    private function addCollectionObject(ReportDto $collection_obj): void
     {
         $this->collection[$collection_obj->getUserId()] = $collection_obj;
     }
@@ -135,7 +137,7 @@ class NotificationsCollector
     /**
      * @return array<int, ReportDto>
      */
-    public function getCollection() : array
+    public function getCollection(): array
     {
         return $this->collection;
     }

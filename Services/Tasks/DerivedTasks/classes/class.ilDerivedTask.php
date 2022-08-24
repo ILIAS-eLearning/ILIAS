@@ -52,7 +52,7 @@ class ilDerivedTask
      *
      * @return int
      */
-    public function getRefId() : int
+    public function getRefId(): int
     {
         return $this->ref_id;
     }
@@ -62,7 +62,7 @@ class ilDerivedTask
      *
      * @return int
      */
-    public function getWspId() : int
+    public function getWspId(): int
     {
         return $this->wsp_id;
     }
@@ -70,7 +70,7 @@ class ilDerivedTask
     /**
      * @return int
      */
-    public function getDeadline() : int
+    public function getDeadline(): int
     {
         return $this->deadline;
     }
@@ -78,7 +78,7 @@ class ilDerivedTask
     /**
      * @return int
      */
-    public function getStartingTime() : int
+    public function getStartingTime(): int
     {
         return $this->starting_time;
     }
@@ -86,12 +86,12 @@ class ilDerivedTask
     /**
      * @return string
      */
-    public function getTitle() : string
+    public function getTitle(): string
     {
         return $this->title;
     }
 
-    public function withUrl(string $url) : self
+    public function withUrl(string $url): self
     {
         $clone = clone $this;
         $clone->url = $url;
@@ -99,7 +99,7 @@ class ilDerivedTask
         return $clone;
     }
 
-    public function getUrl() : string
+    public function getUrl(): string
     {
         return $this->url;
     }

@@ -44,7 +44,7 @@ class ilMStListCompetencesSkillsGUI
         $this->dic = $dic;
     }
 
-    protected function checkAccessOrFail() : void
+    protected function checkAccessOrFail(): void
     {
         if ($this->access->hasCurrentUserAccessToMyStaff()) {
             return;
@@ -54,7 +54,7 @@ class ilMStListCompetencesSkillsGUI
         }
     }
 
-    final public function executeCommand() : void
+    final public function executeCommand(): void
     {
         $cmd = $this->dic->ctrl()->getCmd();
         $next_class = $this->dic->ctrl()->getNextClass();
@@ -75,12 +75,12 @@ class ilMStListCompetencesSkillsGUI
         }
     }
 
-    final public function index() : void
+    final public function index(): void
     {
         $this->listUsers();
     }
 
-    final public function listUsers() : void
+    final public function listUsers(): void
     {
         $this->checkAccessOrFail();
 
@@ -89,7 +89,7 @@ class ilMStListCompetencesSkillsGUI
         $this->dic->ui()->mainTemplate()->setContent($this->table->getHTML());
     }
 
-    final public function applyFilter() : void
+    final public function applyFilter(): void
     {
         $this->table = new ilMStListCompetencesSkillsTableGUI($this, self::CMD_APPLY_FILTER, $this->dic);
         $this->table->writeFilterToSession();
@@ -97,7 +97,7 @@ class ilMStListCompetencesSkillsGUI
         $this->index();
     }
 
-    final public function resetFilter() : void
+    final public function resetFilter(): void
     {
         $this->table = new ilMStListCompetencesSkillsTableGUI($this, self::CMD_RESET_FILTER, $this->dic);
         $this->table->resetOffset();
@@ -105,19 +105,19 @@ class ilMStListCompetencesSkillsGUI
         $this->index();
     }
 
-    final public function getId() : string
+    final public function getId(): string
     {
         $this->table = new ilMStListCompetencesSkillsTableGUI($this, self::CMD_INDEX, $this->dic);
 
         return $this->table->getId();
     }
 
-    final public function cancel() : void
+    final public function cancel(): void
     {
         $this->dic->ctrl()->redirect($this);
     }
 
-    protected function getActions() : void
+    protected function getActions(): void
     {
         global $DIC;
 

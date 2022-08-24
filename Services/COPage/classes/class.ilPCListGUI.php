@@ -41,7 +41,7 @@ class ilPCListGUI extends ilPageContentGUI
         parent::__construct($a_pg_obj, $a_content_obj, $a_hier_id, $a_pc_id);
     }
 
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         // get next class that processes or forwards current command
         $next_class = $this->ctrl->getNextClass($this);
@@ -60,7 +60,7 @@ class ilPCListGUI extends ilPageContentGUI
     /**
      * insert new list form
      */
-    public function insert() : void
+    public function insert(): void
     {
         $this->displayValidationError();
         $this->initListForm("create");
@@ -71,7 +71,7 @@ class ilPCListGUI extends ilPageContentGUI
     /**
      * Save list
      */
-    public function create() : void
+    public function create(): void
     {
         $tpl = $this->tpl;
 
@@ -108,11 +108,11 @@ class ilPCListGUI extends ilPageContentGUI
         $this->form->setValuesByPost();
         $tpl->setContent($this->form->getHTML());
     }
-    
+
     /**
      * edit properties form
      */
-    public function edit() : void
+    public function edit(): void
     {
         $this->displayValidationError();
         $this->initListForm("edit");
@@ -123,10 +123,10 @@ class ilPCListGUI extends ilPageContentGUI
     /**
      * Save properties
      */
-    public function saveProperties() : void
+    public function saveProperties(): void
     {
         $tpl = $this->tpl;
-        
+
         $this->initListForm("edit");
         if ($this->form->checkInput()) {
             $this->content_obj->setStartValue(
@@ -149,7 +149,7 @@ class ilPCListGUI extends ilPageContentGUI
                     $this->form->getInput("number_style")
                 );
             }
-            
+
             $this->updated = $this->pg_obj->update();
             if ($this->updated === true) {
                 $this->ctrl->returnToParent($this, "jump" . $this->hier_id);
@@ -158,17 +158,17 @@ class ilPCListGUI extends ilPageContentGUI
         $this->form->setValuesByPost();
         $tpl->setContent($this->form->getHTML());
     }
-    
+
     public function initListForm(
         string $a_mode = "edit"
-    ) : void {
+    ): void {
         $lng = $this->lng;
         $this->form = new ilPropertyFormGUI();
-    
+
         // type
         $radg = new ilRadioGroupInputGUI($lng->txt("type"), "list_type");
         $op1 = new ilRadioOption($lng->txt("cont_bullet_list"), "Unordered");
-        
+
         // style of bullet list
         $style = new ilAdvSelectInputGUI(
             $this->lng->txt("cont_style"),
@@ -194,10 +194,10 @@ class ilPCListGUI extends ilPageContentGUI
             $style->setValue("");
             $op1->addSubItem($style);
         }
-            
+
         $radg->addOption($op1);
 
-        
+
         $op2 = new ilRadioOption($lng->txt("cont_numbered_list"), "Ordered");
 
         // style of numbered list
@@ -225,7 +225,7 @@ class ilPCListGUI extends ilPageContentGUI
             $style->setValue("");
             $op2->addSubItem($style);
         }
-        
+
         // numeric type
         $options = array(
                 "Number" => $this->lng->txt("cont_number_std"),
@@ -238,7 +238,7 @@ class ilPCListGUI extends ilPageContentGUI
         $si = new ilSelectInputGUI($this->lng->txt("cont_number_type"), "numbering_type");
         $si->setOptions($options);
         $op2->addSubItem($si);
-        
+
         // starting value
         $ni = new ilNumberInputGUI($this->lng->txt("cont_start_value"), "start_value");
         $ni->setMaxLength(3);
@@ -249,7 +249,7 @@ class ilPCListGUI extends ilPageContentGUI
         $radg->addOption($op2);
         $radg->setValue("Unordered");
         $this->form->addItem($radg);
-        
+
         // nr of items
         $options = array();
         if ($a_mode == "create") {
@@ -272,14 +272,14 @@ class ilPCListGUI extends ilPageContentGUI
             $this->form->addCommandButton("cancelUpdate", $lng->txt("cancel"));
             $this->form->setTitle($lng->txt("cont_list_properties"));
         }
-                    
+
         $this->form->setFormAction($this->ctrl->getFormAction($this));
     }
 
-    public function getValues() : void
+    public function getValues(): void
     {
         $values = array();
-    
+
         $values["start_value"] = $this->content_obj->getStartValue();
         $values["list_type"] = $this->content_obj->getListType();
         $values["numbering_type"] = $this->content_obj->getNumberingType();

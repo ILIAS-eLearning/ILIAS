@@ -21,12 +21,12 @@ class ilResourceStorageDB80 implements ilDatabaseUpdateSteps
 {
     protected ilDBInterface $db;
 
-    public function prepare(ilDBInterface $db) : void
+    public function prepare(ilDBInterface $db): void
     {
         $this->db = $db;
     }
 
-    public function step_1() : void
+    public function step_1(): void
     {
         if (!$this->db->tableExists('il_resource_stkh_u') && $this->db->tableExists('il_resource_stakeh')) {
             $this->db->renameTable('il_resource_stakeh', 'il_resource_stkh_u');
@@ -49,7 +49,7 @@ class ilResourceStorageDB80 implements ilDatabaseUpdateSteps
         }
     }
 
-    public function step_2() : void
+    public function step_2(): void
     {
         //  rename all identification columns to rid
         if (!$this->db->tableColumnExists('il_resource', 'rid')) {
@@ -82,7 +82,7 @@ class ilResourceStorageDB80 implements ilDatabaseUpdateSteps
         }
     }
 
-    public function step_3() : void
+    public function step_3(): void
     {
         // set all rid columns to the same size
         $attributes = [
@@ -120,7 +120,7 @@ class ilResourceStorageDB80 implements ilDatabaseUpdateSteps
         }
     }
 
-    public function step_4() : void
+    public function step_4(): void
     {
         if (!$this->db->tableColumnExists('il_resource_info', 'version_number')) {
             $this->db->addTableColumn(
@@ -139,7 +139,7 @@ SET il_resource_info.version_number = il_resource_revision.version_number
         }
     }
 
-    public function step_5() : void
+    public function step_5(): void
     {
         // remove internal columns and add primaries
         if ($this->db->tableColumnExists('il_resource_revision', 'internal')) {
@@ -174,7 +174,7 @@ SET il_resource_info.version_number = il_resource_revision.version_number
         }
     }
 
-    public function step_6() : void
+    public function step_6(): void
     {
         // set several fields to notnull
         $attributes = [
@@ -197,7 +197,7 @@ SET il_resource_info.version_number = il_resource_revision.version_number
         }
     }
 
-    public function step_7() : void
+    public function step_7(): void
     {
         // add index to file_data rid
         if (!$this->db->indexExistsByFields('file_data', ['rid'])) {
@@ -205,7 +205,7 @@ SET il_resource_info.version_number = il_resource_revision.version_number
         }
     }
 
-    public function step_8() : void
+    public function step_8(): void
     {
         // several changes to irss tables
         $this->db->modifyTableColumn(

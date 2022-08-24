@@ -24,7 +24,6 @@ use Psr\Http\Message\ResponseInterface;
  */
 interface ResponseSenderStrategy
 {
-
     /**
      * Sends the rendered response to the client.
      *
@@ -32,5 +31,5 @@ interface ResponseSenderStrategy
      *
      * @throws ResponseSendingException Thrown if the response was already sent to the client.
      */
-    public function sendResponse(ResponseInterface $response) : void;
+    public function sendResponse(ResponseInterface $response): void;
 }

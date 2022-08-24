@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -38,7 +40,7 @@ class ilMailSummaryNotification extends ilMailNotification
         parent::__construct($a_is_personal_workspace);
     }
 
-    public function send() : void
+    public function send(): void
     {
         $is_message_enabled = (bool) $this->settings->get("mail_notification_message", '0');
 
@@ -54,7 +56,7 @@ class ilMailSummaryNotification extends ilMailNotification
             ['integer', 'timestamp', 'text', 'integer'],
             [1, date('Y-m-d H:i:s', time() - 60 * 60 * 24), 'unread', 1]
         );
-        
+
         $users = [];
         $user_id = 0;
 
@@ -91,7 +93,7 @@ class ilMailSummaryNotification extends ilMailNotification
                 ));
             }
             $this->appendBody("\n\n");
-            
+
             $counter = 1;
             foreach ($mail_data as $mail) {
                 $this->appendBody("----------------------------------------------------------------------------------------------");

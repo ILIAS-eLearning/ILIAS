@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -45,7 +47,7 @@ class ilStudyProgrammeTypeAdvancedMetaDataFormGUI extends ilPropertyFormGUI
     /**
      * Save object (create or update)
      */
-    public function saveObject(ilStudyProgrammeType $type) : bool
+    public function saveObject(ilStudyProgrammeType $type): bool
     {
         $type = $this->fillObject($type);
         if (!$type) {
@@ -55,7 +57,7 @@ class ilStudyProgrammeTypeAdvancedMetaDataFormGUI extends ilPropertyFormGUI
         return true;
     }
 
-    protected function initForm() : void
+    protected function initForm(): void
     {
         /** @var ilAdvancedMDRecord $record */
         $records = $this->type_repository->getAllAMDRecords();
@@ -76,7 +78,7 @@ class ilStudyProgrammeTypeAdvancedMetaDataFormGUI extends ilPropertyFormGUI
     /**
      * Add all fields to the form
      */
-    public function fillForm(ilStudyProgrammeType $type) : void
+    public function fillForm(ilStudyProgrammeType $type): void
     {
         $records_selected = $this->type_repository->getAssignedAMDRecordIdsByType($type->getId());
         $item = $this->getItemByPostVar('amd_records');
@@ -86,7 +88,7 @@ class ilStudyProgrammeTypeAdvancedMetaDataFormGUI extends ilPropertyFormGUI
     /**
      * Check validity of form and pass values from form to object
      */
-    protected function fillObject(ilStudyProgrammeType $type) : ?ilStudyProgrammeType
+    protected function fillObject(ilStudyProgrammeType $type): ?ilStudyProgrammeType
     {
         $this->setValuesByPost();
         if (!$this->checkInput()) {

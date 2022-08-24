@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -74,7 +76,7 @@ class LevenshteinTransformation implements Transformation
      * @param string $secondary_string string which is used for a repeated distance calculation
      * @return float with Levenshtein distance, if an interrupt happens earlier than the return value is a -1
      */
-    protected function levenshtein(string $secondary_string) : float
+    protected function levenshtein(string $secondary_string): float
     {
         $cost_matrix = [];
         $primary_string_array = $this->stringToCharacterArray($this->primary_string);
@@ -120,7 +122,7 @@ class LevenshteinTransformation implements Transformation
      * @param string $string_to_convert the string that is converted into an character array
      * @return array an array containing the characters of the string, each in a single cell
      */
-    private function stringToCharacterArray(string $string_to_convert) : array
+    private function stringToCharacterArray(string $string_to_convert): array
     {
         $length = ilStr::strLen($string_to_convert);
         $character_array = [];
@@ -139,7 +141,7 @@ class LevenshteinTransformation implements Transformation
      * @param string $from a string is excepted with the word used to calculate the Levenshtein distance.
      * @return float with Levenshtein distance, if an interrupt happens earlier than the return value is a -1.
      */
-    public function transform($from) : float
+    public function transform($from): float
     {
         if (!is_string($from)) {
             throw new InvalidArgumentException(__METHOD__ . " the argument is not a string.");

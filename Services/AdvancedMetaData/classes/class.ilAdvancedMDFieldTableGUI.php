@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -60,7 +62,7 @@ class ilAdvancedMDFieldTableGUI extends ilTable2GUI
         $this->setDefaultOrderField("position");
     }
 
-    public function numericOrdering(string $a_field) : bool
+    public function numericOrdering(string $a_field): bool
     {
         if ($a_field === 'position') {
             return true;
@@ -68,7 +70,7 @@ class ilAdvancedMDFieldTableGUI extends ilTable2GUI
         return false;
     }
 
-    protected function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set): void
     {
         $this->tpl->setVariable('TXT_SEARCHABLE', $this->lng->txt('md_adv_searchable'));
         $this->tpl->setVariable('ASS_ID', $a_set['id']);
@@ -107,7 +109,7 @@ class ilAdvancedMDFieldTableGUI extends ilTable2GUI
         }
     }
 
-    public function parseDefinitions(array $a_definitions) : void
+    public function parseDefinitions(array $a_definitions): void
     {
         $counter = 0;
         $defs_arr = [];

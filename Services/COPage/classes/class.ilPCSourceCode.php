@@ -26,12 +26,12 @@
  */
 class ilPCSourceCode extends ilPCParagraph
 {
-    public function init() : void
+    public function init(): void
     {
         $this->setType("src");
     }
-    
-    public static function getLangVars() : array
+
+    public static function getLangVars(): array
     {
         return array("ed_insert_code", "pc_code");
     }
@@ -40,7 +40,7 @@ class ilPCSourceCode extends ilPCParagraph
         string $a_output,
         string $a_mode = "presentation",
         bool $a_abstract_only = false
-    ) : string {
+    ): string {
         $dom = $this->getPage()->getDom();
 
         $xpc = xpath_new_context($dom);
@@ -160,7 +160,7 @@ class ilPCSourceCode extends ilPCParagraph
     public function highlightText(
         string $a_text,
         string $proglang
-    ) : string {
+    ): string {
         $proglang = ilSyntaxHighlighter::getNewLanguageId($proglang);
         if (ilSyntaxHighlighter::isSupported($proglang)) {
             $highl = ilSyntaxHighlighter::getInstance($proglang);

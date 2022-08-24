@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\UI\Implementation\Component\Item;
 
 use ILIAS\UI\Component as C;
@@ -39,7 +41,7 @@ class Standard extends Item implements C\Item\Standard
     /**
      * @inheritdoc
      */
-    public function withColor(Color $color) : C\Item\Standard
+    public function withColor(Color $color): C\Item\Standard
     {
         $clone = clone $this;
         $clone->color = $color;
@@ -49,7 +51,7 @@ class Standard extends Item implements C\Item\Standard
     /**
      * @inheritdoc
      */
-    public function getColor() : ?Color
+    public function getColor(): ?Color
     {
         return $this->color;
     }
@@ -57,7 +59,7 @@ class Standard extends Item implements C\Item\Standard
     /**
      * @inheritdoc
      */
-    public function withLeadImage(Image $image) : C\Item\Standard
+    public function withLeadImage(Image $image): C\Item\Standard
     {
         $clone = clone $this;
         $clone->lead = $image;
@@ -67,7 +69,7 @@ class Standard extends Item implements C\Item\Standard
     /**
      * @inheritdoc
      */
-    public function withLeadAvatar(Avatar $avatar) : C\Item\Standard
+    public function withLeadAvatar(Avatar $avatar): C\Item\Standard
     {
         $clone = clone $this;
         $clone->lead = $avatar;
@@ -77,14 +79,14 @@ class Standard extends Item implements C\Item\Standard
     /**
      * @inheritdoc
      */
-    public function withAudioPlayer(Audio $audio) : C\Item\Standard
+    public function withAudioPlayer(Audio $audio): C\Item\Standard
     {
         $clone = clone $this;
         $clone->audio = $audio;
         return $clone;
     }
 
-    public function getAudioPlayer() : ?Audio
+    public function getAudioPlayer(): ?Audio
     {
         return $this->audio;
     }
@@ -92,7 +94,7 @@ class Standard extends Item implements C\Item\Standard
     /**
      * @inheritdoc
      */
-    public function withLeadIcon(Icon $icon) : C\Item\Standard
+    public function withLeadIcon(Icon $icon): C\Item\Standard
     {
         $clone = clone $this;
         $clone->lead = $icon;
@@ -102,7 +104,7 @@ class Standard extends Item implements C\Item\Standard
     /**
      * @inheritdoc
      */
-    public function withLeadText(string $text) : C\Item\Standard
+    public function withLeadText(string $text): C\Item\Standard
     {
         $clone = clone $this;
         $clone->lead = $text;
@@ -112,7 +114,7 @@ class Standard extends Item implements C\Item\Standard
     /**
      * @inheritdoc
      */
-    public function withNoLead() : C\Item\Standard
+    public function withNoLead(): C\Item\Standard
     {
         $clone = clone $this;
         $clone->lead = null;
@@ -130,14 +132,14 @@ class Standard extends Item implements C\Item\Standard
     /**
      * @inheritdoc
      */
-    public function withProgress(C\Chart\ProgressMeter\ProgressMeter $chart) : C\Item\Standard
+    public function withProgress(C\Chart\ProgressMeter\ProgressMeter $chart): C\Item\Standard
     {
         $clone = clone $this;
         $clone->chart = $chart;
         return $clone;
     }
 
-    public function getProgress() : ?C\Chart\ProgressMeter\ProgressMeter
+    public function getProgress(): ?C\Chart\ProgressMeter\ProgressMeter
     {
         return $this->chart;
     }
@@ -145,7 +147,7 @@ class Standard extends Item implements C\Item\Standard
     /**
      * @inheritdoc
      */
-    public function withActions(C\Dropdown\Standard $actions) : C\Item\Standard
+    public function withActions(C\Dropdown\Standard $actions): C\Item\Standard
     {
         $clone = clone $this;
         $clone->actions = $actions;
@@ -155,7 +157,7 @@ class Standard extends Item implements C\Item\Standard
     /**
      * @inheritdoc
      */
-    public function getActions() : ?C\Dropdown\Standard
+    public function getActions(): ?C\Dropdown\Standard
     {
         return $this->actions;
     }

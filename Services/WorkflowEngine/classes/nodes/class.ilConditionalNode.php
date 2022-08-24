@@ -109,7 +109,7 @@ class ilConditionalNode extends ilBaseNode
      *
      * @return bool True, if node is ready to transit.
      */
-    public function checkTransitionPreconditions() : bool
+    public function checkTransitionPreconditions(): bool
     {
         $eval_function = function ($detectors) {
             return eval($this->evaluation_expression);
@@ -126,7 +126,7 @@ class ilConditionalNode extends ilBaseNode
      *
      * @return bool True, if transition succeeded.
      */
-    public function attemptTransition() : bool
+    public function attemptTransition(): bool
     {
         $eval_function = function ($detectors) {
             return eval($this->evaluation_expression);
@@ -149,7 +149,7 @@ class ilConditionalNode extends ilBaseNode
     /**
      * Executes all 'then'-activities attached to the node.
      */
-    private function executeActivities() : void
+    private function executeActivities(): void
     {
         if (count($this->activities) !== 0) {
             foreach ($this->activities as $activity) {
@@ -161,7 +161,7 @@ class ilConditionalNode extends ilBaseNode
     /**
      * Exectes all 'else'-activities attached to the node.
      */
-    private function executeElseActivities() : void
+    private function executeElseActivities(): void
     {
         if (count($this->else_activities) !== 0) {
             foreach ($this->else_activities as $activity) {
@@ -173,7 +173,7 @@ class ilConditionalNode extends ilBaseNode
     /**
      * Executes all 'then'-emitters attached to the node.
      */
-    private function executeEmitters() : void
+    private function executeEmitters(): void
     {
         if (count($this->emitters) !== 0) {
             foreach ($this->emitters as $emitter) {
@@ -185,7 +185,7 @@ class ilConditionalNode extends ilBaseNode
     /**
      * Executes all 'else'-emitters attached to the node.
      */
-    private function executeElseEmitters() : void
+    private function executeElseEmitters(): void
     {
         if (count($this->else_emitters) !== 0) {
             foreach ($this->else_emitters as $emitter) {
@@ -207,7 +207,7 @@ class ilConditionalNode extends ilBaseNode
     /**
      * Executes the 'else'-transition of the node.
      */
-    public function executeElseTransition() : void
+    public function executeElseTransition(): void
     {
         $this->deactivate();
         $this->executeElseActivities();
@@ -219,7 +219,7 @@ class ilConditionalNode extends ilBaseNode
      * @param ilEmitter $emitter
      * @param bool   $else_emitter True, if the emitter should be an 'else'-emitter.
      */
-    public function addEmitter(ilEmitter $emitter, bool $else = false) : void
+    public function addEmitter(ilEmitter $emitter, bool $else = false): void
     {
         if (!$else) {
             $this->emitters[] = $emitter;
@@ -233,7 +233,7 @@ class ilConditionalNode extends ilBaseNode
      * @param ilActivity $activity
      * @param bool    $else_activity True, if the activity should be an 'else'-activity.
      */
-    public function addActivity(ilActivity $activity, bool $else = false) : void
+    public function addActivity(ilActivity $activity, bool $else = false): void
     {
         if (!$else) {
             $this->activities[] = $activity;
@@ -278,7 +278,7 @@ class ilConditionalNode extends ilBaseNode
      *
      * @var string PHP code to be executed to determine the 'decision' of the node.
      */
-    public function setEvaluationExpression($a_expression) : void
+    public function setEvaluationExpression($a_expression): void
     {
         $this->evaluation_expression = $a_expression;
     }
@@ -290,7 +290,7 @@ class ilConditionalNode extends ilBaseNode
      *
      * @return mixed|void
      */
-    public function notifyDetectorSatisfaction(ilDetector $detector) : void
+    public function notifyDetectorSatisfaction(ilDetector $detector): void
     {
         if ($this->isActive()) {
             $this->attemptTransition();
@@ -302,7 +302,7 @@ class ilConditionalNode extends ilBaseNode
      * @param bool $else True, if else activities should be returned.
      * @return Array Array with objects of ilActivity
      */
-    public function getActivities(bool $else = false) : array
+    public function getActivities(bool $else = false): array
     {
         if ($else) {
             return $this->else_activities;
@@ -316,7 +316,7 @@ class ilConditionalNode extends ilBaseNode
      * @param bool $else True, if else emitters should be returned.
      * @return Array Array with objects of ilEmitter
      */
-    public function getEmitters(bool $else = false) : array
+    public function getEmitters(bool $else = false): array
     {
         if ($else) {
             return $this->else_emitters;

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * XML writer for weblinks
  * @author  Stefan Meyer <smeyer.ilias@gmx.de>
@@ -34,7 +36,7 @@ class ilWebLinkXmlWriter extends ilXmlWriter
         parent::__construct();
     }
 
-    public function setObjId(int $a_obj_id) : void
+    public function setObjId(int $a_obj_id): void
     {
         $this->obj_id = $a_obj_id;
     }
@@ -42,7 +44,7 @@ class ilWebLinkXmlWriter extends ilXmlWriter
     /**
      * @throws UnexpectedValueException Thrown if obj_id is not of type webr or no obj_id is given
      */
-    public function write() : void
+    public function write(): void
     {
         $this->init();
         if ($this->add_header) {
@@ -53,7 +55,7 @@ class ilWebLinkXmlWriter extends ilXmlWriter
 
     /**
      */
-    protected function buildHeader() : bool
+    protected function buildHeader(): bool
     {
         $this->xmlSetDtdDef(
             "<!DOCTYPE WebLinks PUBLIC \"-//ILIAS//DTD WebLinkAdministration//EN\" \"" . ILIAS_HTTP_PATH . "/xml/ilias_weblinks_5_1.dtd\">"
@@ -66,7 +68,7 @@ class ilWebLinkXmlWriter extends ilXmlWriter
     /**
      * @throws UnexpectedValueException Thrown if obj_id is not of type webr
      */
-    protected function init() : void
+    protected function init(): void
     {
         $this->xmlClear();
 

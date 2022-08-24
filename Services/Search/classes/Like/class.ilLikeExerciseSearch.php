@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -34,7 +36,7 @@
 
 class ilLikeExerciseSearch extends ilExerciseSearch
 {
-    public function __createWhereCondition() : string
+    public function __createWhereCondition(): string
     {
         $concat = $this->db->concat(
             array(

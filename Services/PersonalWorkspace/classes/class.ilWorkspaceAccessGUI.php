@@ -44,7 +44,7 @@ class ilWorkspaceAccessGUI
      */
     protected $access_handler;
     protected string $footer = "";
-    
+
     protected string $blocking_message = "";
     protected StandardGUIRequest $std_request;
 
@@ -66,7 +66,7 @@ class ilWorkspaceAccessGUI
         $this->settings = $DIC->settings();
         $ilCtrl = $DIC->ctrl();
         $lng = $DIC->language();
-        
+
         $this->ctrl = $ilCtrl;
         $this->lng = $lng;
         $this->node_id = $a_node_id;
@@ -80,17 +80,17 @@ class ilWorkspaceAccessGUI
     }
 
     // Set blocking message
-    public function setBlockingMessage(string $a_val) : void
+    public function setBlockingMessage(string $a_val): void
     {
         $this->blocking_message = $a_val;
     }
 
-    public function getBlockingMessage() : string
+    public function getBlockingMessage(): string
     {
         return $this->blocking_message;
     }
 
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         $ilTabs = $this->tabs;
         $tpl = $this->tpl;
@@ -106,10 +106,10 @@ class ilWorkspaceAccessGUI
                 $csearch = new ilMailSearchCoursesGUI($this->access_handler, $this->node_id);
                 $this->ctrl->setReturn($this, 'share');
                 $this->ctrl->forwardCommand($csearch);
-                
+
                 $this->setObjectTitle();
                 break;
-            
+
             case "ilmailsearchgroupsgui":
                 $ilTabs->setBackTarget(
                     $this->lng->txt("back"),
@@ -118,10 +118,10 @@ class ilWorkspaceAccessGUI
                 $gsearch = new ilMailSearchGroupsGUI($this->access_handler, $this->node_id);
                 $this->ctrl->setReturn($this, 'share');
                 $this->ctrl->forwardCommand($gsearch);
-                
+
                 $this->setObjectTitle();
                 break;
-            
+
             case "ilmailsearchgui":
                 $ilTabs->setBackTarget(
                     $this->lng->txt("back"),
@@ -130,7 +130,7 @@ class ilWorkspaceAccessGUI
                 $usearch = new ilMailSearchGUI($this->access_handler, $this->node_id);
                 $this->ctrl->setReturn($this, 'share');
                 $this->ctrl->forwardCommand($usearch);
-                
+
                 $this->setObjectTitle();
                 break;
 
@@ -152,7 +152,7 @@ class ilWorkspaceAccessGUI
                     $this->lng->txt("back"),
                     $this->ctrl->getLinkTarget($this, "share")
                 );
-                
+
                 $prof = new ilPublicUserProfileGUI(
                     $this->std_request->getUser()
                 );
@@ -170,11 +170,11 @@ class ilWorkspaceAccessGUI
                 break;
         }
     }
-    
-    protected function setObjectTitle() : void
+
+    protected function setObjectTitle(): void
     {
         $tpl = $this->tpl;
-        
+
         if (!$this->is_portfolio) {
             $obj_id = $this->access_handler->getTree()->lookupObjectId($this->node_id);
         } else {
@@ -190,8 +190,8 @@ class ilWorkspaceAccessGUI
     {
         return $this->access_handler;
     }
-    
-    protected function share() : void
+
+    protected function share(): void
     {
         $ilToolbar = $this->toolbar;
         $tpl = $this->tpl;
@@ -204,24 +204,24 @@ class ilWorkspaceAccessGUI
             $tpl->setContent($this->getBlockingMessage());
             return;
         }
-        
+
         $options = array();
         $options["user"] = $this->lng->txt("wsp_set_permission_single_user");
-        
+
         $grp_ids = ilGroupParticipants::_getMembershipByType($ilUser->getId(), ['grp']);
         if (sizeof($grp_ids)) {
             $options["group"] = $this->lng->txt("wsp_set_permission_group");
         }
-        
+
         $crs_ids = ilCourseParticipants::_getMembershipByType($ilUser->getId(), ['crs']);
         if (sizeof($crs_ids)) {
             $options["course"] = $this->lng->txt("wsp_set_permission_course");
         }
-        
+
         if (!$this->getAccessHandler()->hasRegisteredPermission($this->node_id)) {
             $options["registered"] = $this->lng->txt("wsp_set_permission_registered");
         }
-        
+
         if ($ilSetting->get("enable_global_profiles")) {
             if (!$this->getAccessHandler()->hasGlobalPasswordPermission($this->node_id)) {
                 $options["password"] = $this->lng->txt("wsp_set_permission_all_password");
@@ -231,23 +231,23 @@ class ilWorkspaceAccessGUI
                 $options["all"] = $this->lng->txt("wsp_set_permission_all");
             }
         }
-        
+
         $actions = new ilSelectInputGUI("", "action");
         $actions->setOptions($options);
         $ilToolbar->addStickyItem($actions);
-        
+
         $ilToolbar->setFormAction($this->ctrl->getFormAction($this));
-        
+
         $button = ilSubmitButton::getInstance();
         $button->setCaption("add");
         $button->setCommand("addpermissionhandler");
         $ilToolbar->addStickyItem($button);
-    
+
         $table = new ilWorkspaceAccessTableGUI($this, "share", $this->node_id, $this->getAccessHandler());
         $tpl->setContent($table->getHTML() . $this->footer);
     }
-    
-    public function addPermissionHandler() : void
+
+    public function addPermissionHandler(): void
     {
         switch ($this->std_request->getAction()) {
             case "user":
@@ -269,25 +269,25 @@ class ilWorkspaceAccessGUI
                 $this->ctrl->setParameterByClass("ilmailsearchcoursesgui", "ref", "wsp");
                 $this->ctrl->redirectByClass("ilmailsearchcoursesgui");
                 break;
-            
+
             case "registered":
                 $this->getAccessHandler()->addPermission($this->node_id, self::PERMISSION_REGISTERED);
                 $this->tpl->setOnScreenMessage('success', $this->lng->txt("wsp_permission_registered_info"), true);
                 $this->ctrl->redirect($this, "share");
                 break;
-            
+
             case "password":
                 $this->showPasswordForm();
                 break;
-            
+
             case "all":
                 $this->getAccessHandler()->addPermission($this->node_id, self::PERMISSION_ALL);
                 $this->tpl->setOnScreenMessage('success', $this->lng->txt("wsp_permission_all_info"), true);
                 $this->ctrl->redirect($this, "share");
         }
     }
-    
-    public function removePermission() : void
+
+    public function removePermission(): void
     {
         $obj_id = $this->std_request->getObjId();
         if ($obj_id !== 0) {
@@ -297,34 +297,34 @@ class ilWorkspaceAccessGUI
 
         $this->ctrl->redirect($this, "share");
     }
-    
-    protected function initPasswordForm() : ilPropertyFormGUI
+
+    protected function initPasswordForm(): ilPropertyFormGUI
     {
         $form = new ilPropertyFormGUI();
         $form->setFormAction($this->ctrl->getFormAction($this));
         $form->setTitle($this->lng->txt("wsp_set_permission_all_password"));
-        
+
         $password = new ilPasswordInputGUI($this->lng->txt("password"), "password");
         $password->setRequired(true);
         $form->addItem($password);
-        
+
         $form->addCommandButton('savepasswordform', $this->lng->txt("save"));
         $form->addCommandButton('share', $this->lng->txt("cancel"));
-        
+
         return $form;
     }
-    
-    protected function showPasswordForm(ilPropertyFormGUI $a_form = null) : void
+
+    protected function showPasswordForm(ilPropertyFormGUI $a_form = null): void
     {
         $tpl = $this->tpl;
-        
+
         if (!$a_form) {
             $a_form = $this->initPasswordForm();
         }
         $tpl->setContent($a_form->getHTML());
     }
-    
-    protected function savePasswordForm() : void
+
+    protected function savePasswordForm(): void
     {
         $form = $this->initPasswordForm();
         if ($form->checkInput()) {
@@ -336,7 +336,7 @@ class ilWorkspaceAccessGUI
             $this->tpl->setOnScreenMessage('success', $this->lng->txt("wsp_permission_all_pw_info"), true);
             $this->ctrl->redirect($this, "share");
         }
-    
+
         $form->setValuesByPost();
         $this->showPasswordForm($form);
     }

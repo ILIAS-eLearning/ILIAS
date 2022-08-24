@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -44,7 +46,7 @@ class ilPDMailGUI
         $this->refinery = $DIC->refinery();
     }
 
-    public function getPDMailHTML(int $a_mail_id, int $a_mobj_id) : string
+    public function getPDMailHTML(int $a_mail_id, int $a_mobj_id): string
     {
         $this->lng->loadLanguageModule('mail');
 

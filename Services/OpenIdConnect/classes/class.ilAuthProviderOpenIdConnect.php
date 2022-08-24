@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /******************************************************************************
  *
@@ -37,7 +39,7 @@ class ilAuthProviderOpenIdConnect extends ilAuthProvider
         $this->body = $DIC->http()->request()->getParsedBody();
     }
 
-    public function handleLogout() : void
+    public function handleLogout(): void
     {
         if ($this->settings->getLogoutScope() === ilOpenIdConnectSettings::LOGOUT_SCOPE_LOCAL) {
             return;
@@ -56,7 +58,7 @@ class ilAuthProviderOpenIdConnect extends ilAuthProvider
         }
     }
 
-    public function doAuthentication(ilAuthStatus $status) : bool
+    public function doAuthentication(ilAuthStatus $status): bool
     {
         try {
             $oidc = $this->initClient();
@@ -123,7 +125,7 @@ class ilAuthProviderOpenIdConnect extends ilAuthProvider
      * @param stdClass $user_info
      * @return ilAuthStatus
      */
-    private function handleUpdate(ilAuthStatus $status, $user_info) : ilAuthStatus
+    private function handleUpdate(ilAuthStatus $status, $user_info): ilAuthStatus
     {
         if (!is_object($user_info)) {
             $this->logger->error('Received invalid user credentials: ');
@@ -169,7 +171,7 @@ class ilAuthProviderOpenIdConnect extends ilAuthProvider
         return $status;
     }
 
-    private function initClient() : OpenIDConnectClient
+    private function initClient(): OpenIDConnectClient
     {
         $oidc = new OpenIDConnectClient(
             $this->settings->getProvider(),

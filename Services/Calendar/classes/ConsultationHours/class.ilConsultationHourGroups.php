@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
@@ -11,7 +13,7 @@ class ilConsultationHourGroups
      * Get a all groups of an user
      * @return ilConsultationHourGroup[]
      */
-    public static function getGroupsOfUser(int $a_user_id) : array
+    public static function getGroupsOfUser(int $a_user_id): array
     {
         global $DIC;
 
@@ -29,7 +31,7 @@ class ilConsultationHourGroups
     /**
      * Get number of consultation hour groups
      */
-    public static function getCountGroupsOfUser(int $a_user_id) : int
+    public static function getCountGroupsOfUser(int $a_user_id): int
     {
         global $DIC;
 
@@ -46,7 +48,7 @@ class ilConsultationHourGroups
     /**
      * Lookup group title
      */
-    public static function lookupTitle(int $a_group_id) : string
+    public static function lookupTitle(int $a_group_id): string
     {
         global $DIC;
 
@@ -63,7 +65,7 @@ class ilConsultationHourGroups
     /**
      * Lookup max number of bookings for group
      */
-    public static function lookupMaxBookings(int $a_group_id) : int
+    public static function lookupMaxBookings(int $a_group_id): int
     {
         global $DIC;
 
@@ -80,7 +82,7 @@ class ilConsultationHourGroups
     /**
      * Get group selection options
      */
-    public static function getGroupSelectOptions(int $a_user_id) : array
+    public static function getGroupSelectOptions(int $a_user_id): array
     {
         global $DIC;
 

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\UI\Component\Chart\Bar;
 
 /**
@@ -28,7 +30,7 @@ class YAxis extends Axis
     protected string $abbreviation = "y";
     protected string $position = "left";
 
-    public function getAbbreviation() : string
+    public function getAbbreviation(): string
     {
         return $this->abbreviation;
     }
@@ -39,7 +41,7 @@ class YAxis extends Axis
      * @param string $position "left" or "right"
      * @return $this
      */
-    public function withPosition(string $position) : self
+    public function withPosition(string $position): self
     {
         if (!in_array($position, self::ALLOWED_POSITIONS)) {
             throw new \InvalidArgumentException(
@@ -51,7 +53,7 @@ class YAxis extends Axis
         return $clone;
     }
 
-    public function getPosition() : string
+    public function getPosition(): string
     {
         return $this->position;
     }

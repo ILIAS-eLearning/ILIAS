@@ -27,7 +27,7 @@ class ilMediaImageUtil
      * Get image size from location
      * @throws ilCurlConnectionException
      */
-    public static function getImageSize(string $a_location) : ?array
+    public static function getImageSize(string $a_location): ?array
     {
         if (substr($a_location, 0, 4) == "http") {
             if (ilCurlConnection::_isCurlExtensionLoaded()) {

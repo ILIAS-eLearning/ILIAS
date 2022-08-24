@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -29,25 +31,25 @@
  */
 class ilObjCmiXapiAdministrationGUI extends ilObjectGUI
 {
-    const TAB_ID_LRS_TYPES = 'tab_lrs_types';
-    const TAB_ID_PERMISSIONS = 'perm_settings';
-    
-    const CMD_SHOW_LRS_TYPES_LIST = 'showLrsTypesList';
-    const CMD_SHOW_LRS_TYPE_FORM = 'showLrsTypeForm';
-    const CMD_SAVE_LRS_TYPE_FORM = 'saveLrsTypeForm';
-    
-    const DEFAULT_CMD = self::CMD_SHOW_LRS_TYPES_LIST;
-    
-    public function getAdminTabs() : void
+    public const TAB_ID_LRS_TYPES = 'tab_lrs_types';
+    public const TAB_ID_PERMISSIONS = 'perm_settings';
+
+    public const CMD_SHOW_LRS_TYPES_LIST = 'showLrsTypesList';
+    public const CMD_SHOW_LRS_TYPE_FORM = 'showLrsTypeForm';
+    public const CMD_SAVE_LRS_TYPE_FORM = 'saveLrsTypeForm';
+
+    public const DEFAULT_CMD = self::CMD_SHOW_LRS_TYPES_LIST;
+
+    public function getAdminTabs(): void
     {
         // lrs types tab
-        
+
         $this->tabs_gui->addTab(
             self::TAB_ID_LRS_TYPES,
             $this->lng->txt(self::TAB_ID_LRS_TYPES),
             $this->ctrl->getLinkTargetByClass(self::class)
         );
-        
+
         // permissions tab
 
         $this->tabs_gui->addTab(
@@ -56,77 +58,77 @@ class ilObjCmiXapiAdministrationGUI extends ilObjectGUI
             $this->ctrl->getLinkTargetByClass(ilPermissionGUI::class, 'perm')
         );
     }
-    
-    public function executeCommand() : void
+
+    public function executeCommand(): void
     {
         $this->lng->loadLanguageModule('cmix');
-        
+
         $this->prepareOutput();
-        
+
         switch ($this->ctrl->getNextClass()) {
             case 'ilpermissiongui':
-                
+
                 $this->tabs_gui->activateTab(self::TAB_ID_PERMISSIONS);
                 $gui = new ilPermissionGUI($this);
                 $this->ctrl->forwardCommand($gui);
                 break;
-            
+
             default:
-                
+
                 $command = $this->ctrl->getCmd(self::DEFAULT_CMD) . 'Cmd';
                 $this->{$command}();
         }
     }
-    
-    protected function viewCmd() : void
+
+    protected function viewCmd(): void
     {
         $this->showLrsTypesListCmd();
     }
-    
-    protected function showLrsTypesListCmd() : void
+
+    protected function showLrsTypesListCmd(): void
     {
         $this->tabs_gui->activateTab(self::TAB_ID_LRS_TYPES);
-        
+
         $toolbar = $this->buildLrsTypesToolbarGUI();
-        
+
         $table = $this->buildLrsTypesTableGUI();
-        
+
         $table->setData(ilCmiXapiLrsTypeList::getTypesData(true));
         $this->tpl->setContent($toolbar->getHTML() . $table->getHTML());
     }
-    
-    protected function buildLrsTypesTableGUI() : \ilCmiXapiLrsTypesTableGUI
+
+    protected function buildLrsTypesTableGUI(): \ilCmiXapiLrsTypesTableGUI
     {
         return new ilCmiXapiLrsTypesTableGUI($this, self::CMD_SHOW_LRS_TYPES_LIST);
     }
-    
-    protected function buildLrsTypesToolbarGUI() : \ilToolbarGUI
+
+    protected function buildLrsTypesToolbarGUI(): \ilToolbarGUI
     {
         //todo
         $createTypeButton = ilLinkButton::getInstance();
         $createTypeButton->setCaption('btn_create_lrs_type');
         $createTypeButton->setUrl($this->ctrl->getLinkTarget($this, self::CMD_SHOW_LRS_TYPE_FORM));
-        
+
         $toolbar = new ilToolbarGUI();
         $toolbar->addButtonInstance($createTypeButton);
-        
+
         return $toolbar;
     }
-    
-    protected function showLrsTypeFormCmd(ilPropertyFormGUI $form = null) : void
+
+    protected function showLrsTypeFormCmd(ilPropertyFormGUI $form = null): void
     {
         $this->tabs_gui->activateTab(self::TAB_ID_LRS_TYPES);
-        
+
         if ($form === null) {
             $lrsType = $this->initLrsType();
-            
+
             $form = $this->buildLrsTypeForm($lrsType);
         }
 
         $this->tpl->setContent($form->getHTML());
     }
-    
-    protected function initLrsType() : \ilCmiXapiLrsType
+
+    protected function initLrsType(): \ilCmiXapiLrsType
     {
         if ($this->post_wrapper->has('lrs_type_id')) {
             if (is_int($this->post_wrapper->retrieve('lrs_type_id', $this->refinery->kindlyTo()->int()))) {
@@ -142,14 +144,14 @@ class ilObjCmiXapiAdministrationGUI extends ilObjectGUI
 
         return new ilCmiXapiLrsType();
     }
-    
-    protected function buildLrsTypeForm(ilCmiXapiLrsType $lrsType) : \ilPropertyFormGUI
+
+    protected function buildLrsTypeForm(ilCmiXapiLrsType $lrsType): \ilPropertyFormGUI
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
-        
+
         $form = new ilPropertyFormGUI();
         $form->setFormAction($DIC->ctrl()->getFormAction($this));
-        
+
         if ($lrsType->getTypeId()) {
             $form->setTitle($DIC->language()->txt('edit_lrs_type_form'));
             $form->addCommandButton(self::CMD_SAVE_LRS_TYPE_FORM, $DIC->language()->txt('save'));
@@ -157,21 +159,21 @@ class ilObjCmiXapiAdministrationGUI extends ilObjectGUI
             $form->setTitle($DIC->language()->txt('create_lrs_type_form'));
             $form->addCommandButton(self::CMD_SAVE_LRS_TYPE_FORM, $DIC->language()->txt('create'));
         }
-        
+
         $form->addCommandButton(self::CMD_SHOW_LRS_TYPES_LIST, $DIC->language()->txt('cancel'));
-        
+
         $hiddenId = new ilHiddenInputGUI('lrs_type_id');
         $hiddenId->setValue((string) $lrsType->getTypeId());
         $form->addItem($hiddenId);
-        
-        
+
+
         $item = new ilTextInputGUI($DIC->language()->txt('conf_title'), 'title');
         $item->setValue($lrsType->getTitle());
         $item->setInfo($DIC->language()->txt('info_title'));
         $item->setRequired(true);
         $item->setMaxLength(255);
         $form->addItem($item);
-        
+
         $item = new ilTextInputGUI($DIC->language()->txt('conf_description'), 'description');
         $item->setValue($lrsType->getDescription());
         $item->setInfo($DIC->language()->txt('info_description'));
@@ -201,41 +203,41 @@ class ilObjCmiXapiAdministrationGUI extends ilObjectGUI
         $sectionHeader = new ilFormSectionHeaderGUI();
         $sectionHeader->setTitle($DIC->language()->txt('lrs_authentication'));
         $form->addItem($sectionHeader);
-        
+
         $item = new ilTextInputGUI($DIC->language()->txt('conf_lrs_endpoint'), 'lrs_endpoint');
         $item->setValue($lrsType->getLrsEndpoint());
         $item->setInfo($DIC->language()->txt('info_lrs_endpoint'));
         $item->setRequired(true);
         $item->setMaxLength(255);
         $form->addItem($item);
-        
+
         $item = new ilTextInputGUI($DIC->language()->txt('conf_lrs_key'), 'lrs_key');
         $item->setValue($lrsType->getLrsKey());
         $item->setInfo($DIC->language()->txt('info_lrs_key'));
         $item->setRequired(true);
         $item->setMaxLength(128);
         $form->addItem($item);
-        
+
         $item = new ilTextInputGUI($DIC->language()->txt('conf_lrs_secret'), 'lrs_secret');
         $item->setValue($lrsType->getLrsSecret());
         $item->setInfo($DIC->language()->txt('info_lrs_secret'));
         $item->setRequired(true);
         $item->setMaxLength(128);
         $form->addItem($item);
-        
+
         $sectionHeader = new ilFormSectionHeaderGUI();
         $sectionHeader->setTitle($DIC->language()->txt('sect_learning_progress_options'));
         $form->addItem($sectionHeader);
-        
+
         $cronjob = new ilCheckboxInputGUI($DIC->language()->txt('conf_cronjob_neccessary'), 'cronjob_neccessary');
         $cronjob->setInfo($DIC->language()->txt('conf_cronjob_neccessary_info'));
         $cronjob->setChecked($lrsType->isBypassProxyEnabled());
         $form->addItem($cronjob);
-        
+
         $sectionHeader = new ilFormSectionHeaderGUI();
         $sectionHeader->setTitle('Privacy Settings');
         $form->addItem($sectionHeader);
-        
+
         $item = new ilRadioGroupInputGUI($DIC->language()->txt('conf_privacy_ident'), 'privacy_ident');
         $op = new ilRadioOption(
             $DIC->language()->txt('conf_privacy_ident_il_uuid_user_id'),
@@ -273,7 +275,7 @@ class ilObjCmiXapiAdministrationGUI extends ilObjectGUI
         );
         $item->setRequired(false);
         $form->addItem($item);
-        
+
         $item = new ilRadioGroupInputGUI($DIC->language()->txt('conf_privacy_name'), 'privacy_name');
         $op = new ilRadioOption(
             $DIC->language()->txt('conf_privacy_name_none'),
@@ -383,7 +385,7 @@ class ilObjCmiXapiAdministrationGUI extends ilObjectGUI
         $item->addOption($op);
         $item->setValue((string) ((int) $lrsType->getForcePrivacySettings()));
         $form->addItem($item);
-        
+
         $sectionHeader = new ilFormSectionHeaderGUI();
         $sectionHeader->setTitle('Hints');
         $form->addItem($sectionHeader);
@@ -398,37 +400,37 @@ class ilObjCmiXapiAdministrationGUI extends ilObjectGUI
         $item->setValue($lrsType->getPrivacyCommentDefault());
         $item->setRows(5);
         $form->addItem($item);
-        
+
         $item = new ilTextAreaInputGUI($DIC->language()->txt('conf_remarks'), 'remarks');
         $item->setInfo($DIC->language()->txt('info_remarks'));
         $item->setValue($lrsType->getRemarks());
         $item->setRows(5);
         $form->addItem($item);
-        
+
         return $form;
     }
-    
-    protected function saveLrsTypeFormCmd() : void
+
+    protected function saveLrsTypeFormCmd(): void
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
-        
+
         $lrsType = $this->initLrsType();
-        
+
         $form = $this->buildLrsTypeForm($lrsType);
-        
+
         if (!$form->checkInput()) {
             $this->showLrsTypeFormCmd($form);
             return;
         }
-        
+
         $lrsType->setTitle($form->getInput("title"));
         $lrsType->setDescription($form->getInput("description"));
         $lrsType->setAvailability((int) $form->getInput("availability"));
-        
+
         $lrsType->setLrsEndpoint(
             ilFileUtils::removeTrailingPathSeparators($form->getInput("lrs_endpoint"))
         );
-        
+
         $lrsType->setLrsKey($form->getInput("lrs_key"));
         $lrsType->setLrsSecret($form->getInput("lrs_secret"));
         $lrsType->setExternalLrs((bool) $form->getInput("external_lrs"));
@@ -436,7 +438,7 @@ class ilObjCmiXapiAdministrationGUI extends ilObjectGUI
         $lrsType->setPrivacyName((int) $form->getInput("privacy_name"));
         $lrsType->setPrivacyCommentDefault($form->getInput("privacy_comment_default"));
         $lrsType->setRemarks($form->getInput("remarks"));
-        
+
         $oldBypassProxyEnabled = $lrsType->isBypassProxyEnabled();
         $newBypassProxyEnabled = (bool) $form->getInput("cronjob_neccessary");
         $lrsType->setBypassProxyEnabled($newBypassProxyEnabled);
@@ -463,9 +465,9 @@ class ilObjCmiXapiAdministrationGUI extends ilObjectGUI
         if ($lrsType->getForcePrivacySettings()) {
             ilObjCmiXapi::updatePrivacySettingsFromLrsType($lrsType);
         }
-        
+
         $lrsType->save();
-        
+
         $DIC->ctrl()->redirect($this, self::CMD_SHOW_LRS_TYPES_LIST);
     }
 }

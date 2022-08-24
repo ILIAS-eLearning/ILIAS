@@ -20,7 +20,7 @@
  */
 class InitUIFramework
 {
-    public function init(\ILIAS\DI\Container $c) : void
+    public function init(\ILIAS\DI\Container $c): void
     {
         $c["ui.factory"] = function ($c) {
             $c["lng"]->loadLanguageModule("ui");
@@ -280,7 +280,7 @@ class InitUIFramework
             return new ILIAS\UI\Implementation\Component\Legacy\Factory($c["ui.signal_generator"]);
         };
 
-        $c["ui.pathresolver"] = function ($c) : ILIAS\UI\Implementation\Render\ImagePathResolver {
+        $c["ui.pathresolver"] = function ($c): ILIAS\UI\Implementation\Render\ImagePathResolver {
             return new ilImagePathResolver();
         };
     }

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -28,7 +30,7 @@ class ilMailForm
      * @param bool $doRecipientSearch
      * @return array{hasMoreResults: bool, items: array}
      */
-    public function getRecipientAsync(string $quotedTerm, string $term, bool $doRecipientSearch = true) : array
+    public function getRecipientAsync(string $quotedTerm, string $term, bool $doRecipientSearch = true): array
     {
         global $DIC;
 

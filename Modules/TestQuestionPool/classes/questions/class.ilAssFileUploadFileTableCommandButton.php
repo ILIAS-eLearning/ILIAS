@@ -1,4 +1,5 @@
 <?php
+
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 require_once 'Services/UIComponent/Button/classes/class.ilSubmitButton.php';
@@ -15,7 +16,7 @@ class ilAssFileUploadFileTableCommandButton extends ilSubmitButton
      * @var string
      */
     protected $action;
-    
+
     /**
      * ilAssFileUploadFileTableCommandButton constructor.
      */
@@ -25,12 +26,12 @@ class ilAssFileUploadFileTableCommandButton extends ilSubmitButton
         parent::__construct($buttonType);
         $this->lng($DIC['lng']);
     }
-    
+
     /**
      *
      * @return ilLanguage
      */
-    public function lng(ilLanguage $lng = null) : ilLanguage
+    public function lng(ilLanguage $lng = null): ilLanguage
     {
         if ($lng === null) {
             return $this->lng;
@@ -38,24 +39,24 @@ class ilAssFileUploadFileTableCommandButton extends ilSubmitButton
         $this->lng = $lng;
         return $lng;
     }
-    
+
     /**
      * @return string
      */
-    public function getAction() : string
+    public function getAction(): string
     {
         return $this->action;
     }
-    
+
     /**
      * @param string $action
      */
-    public function setAction($action) : void
+    public function setAction($action): void
     {
         $this->action = $action;
     }
-    
-    public function renderAttributes(array $a_additional_attr = null) : string
+
+    public function renderAttributes(array $a_additional_attr = null): string
     {
         if (is_array($a_additional_attr) && isset($a_additional_attr['name'])) {
             $a_additional_attr['name'] .= "[{$this->getAction()}]";

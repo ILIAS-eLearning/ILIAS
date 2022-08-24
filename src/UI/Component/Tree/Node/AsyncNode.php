@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\UI\Component\Tree\Node;
 
 /**
@@ -26,15 +28,15 @@ interface AsyncNode
     /**
      * Should this node load its children asynchronously?
      */
-    public function getAsyncLoading() : bool;
+    public function getAsyncLoading(): bool;
 
     /**
      * Set URL for async loading.
      */
-    public function withAsyncURL(string $url) : Simple;
+    public function withAsyncURL(string $url): Simple;
 
     /**
      * Get URL for async loading.
      */
-    public function getAsyncURL() : string;
+    public function getAsyncURL(): string;
 }

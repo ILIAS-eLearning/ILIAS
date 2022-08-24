@@ -1,4 +1,6 @@
-<?php declare(strict_types=0);
+<?php
+
+declare(strict_types=0);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -14,7 +16,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * LO test assignment form creator
  * @author  Stefan Meyer <smeyer.ilias@gmx.de>
@@ -50,27 +52,27 @@ class ilLOTestAssignmentForm
         $this->type = $a_type;
     }
 
-    public function getContainer() : ilObject
+    public function getContainer(): ilObject
     {
         return $this->container;
     }
 
-    public function getGUI() : object
+    public function getGUI(): object
     {
         return $this->gui;
     }
 
-    public function getSettings() : ilLOSettings
+    public function getSettings(): ilLOSettings
     {
         return $this->settings;
     }
 
-    public function getTestType() : int
+    public function getTestType(): int
     {
         return $this->type;
     }
 
-    public function initForm(bool $a_as_multi_assignment = false) : ilPropertyFormGUI
+    public function initForm(bool $a_as_multi_assignment = false): ilPropertyFormGUI
     {
         $form = new ilPropertyFormGUI();
         $form->setTitle($this->lng->txt('crs_loc_tst_assignment'));
@@ -194,7 +196,7 @@ class ilLOTestAssignmentForm
         return $form;
     }
 
-    protected function getAssignableTests() : array
+    protected function getAssignableTests(): array
     {
         $assignments = ilLOTestAssignments::getInstance($this->getContainer()->getId());
 

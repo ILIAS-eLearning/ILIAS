@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\UI\Implementation\Component\Symbol\Avatar;
 
 use ILIAS\UI\Component as C;
@@ -35,19 +37,19 @@ abstract class Avatar implements C\Symbol\Avatar\Avatar
         $this->username = $username;
     }
 
-    public function getUsername() : string
+    public function getUsername(): string
     {
         return $this->username;
     }
 
-    public function withLabel(string $text) : C\Symbol\Avatar\Avatar
+    public function withLabel(string $text): C\Symbol\Avatar\Avatar
     {
         $clone = clone $this;
         $clone->label = $text;
         return $clone;
     }
 
-    public function getLabel() : string
+    public function getLabel(): string
     {
         return $this->label;
     }

@@ -30,12 +30,12 @@ class DashboardLayoutProvider extends AbstractModificationProvider implements Mo
 {
     protected ?Collection $data_collection;
 
-    public function isInterestedInContexts() : ContextCollection
+    public function isInterestedInContexts(): ContextCollection
     {
         return $this->context_collection->desktop();
     }
 
-    public function getMainBarModification(CalledContexts $screen_context_stack) : ?MainBarModification
+    public function getMainBarModification(CalledContexts $screen_context_stack): ?MainBarModification
     {
         $this->data_collection = $screen_context_stack->current()->getAdditionalData();
         if (!$this->data_collection->is(\ilDashboardGUI::DISENGAGE_MAINBAR, true)) {
@@ -44,7 +44,7 @@ class DashboardLayoutProvider extends AbstractModificationProvider implements Mo
 
         return $this->globalScreen()->layout()->factory()->mainbar()
             ->withModification(
-                function (MainBar $mainbar) : ?MainBar {
+                function (MainBar $mainbar): ?MainBar {
                     return $mainbar->withActive($mainbar::NONE_ACTIVE);
                 }
             )

@@ -1,4 +1,5 @@
 <?php
+
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 require_once 'Modules/TestQuestionPool/classes/questions/class.ilAssQuestionSkillAssignmentImport.php';
@@ -15,7 +16,7 @@ class ilAssQuestionSkillAssignmentImportList implements Iterator
      * @var array[ilAssQuestionSkillAssignmentImport]
      */
     protected $assignments;
-    
+
     /**
      * ilAssQuestionSkillAssignmentImportList constructor.
      */
@@ -23,36 +24,36 @@ class ilAssQuestionSkillAssignmentImportList implements Iterator
     {
         $this->assignments = array();
     }
-    
+
     /**
      * @param ilAssQuestionSkillAssignmentImport $assignment
      */
-    public function addAssignment(ilAssQuestionSkillAssignmentImport $assignment) : void
+    public function addAssignment(ilAssQuestionSkillAssignmentImport $assignment): void
     {
         $this->assignments[] = $assignment;
     }
-    
-    public function assignmentsExist() : bool
+
+    public function assignmentsExist(): bool
     {
         return count($this->assignments) > 0;
     }
-    
+
     /**
      * @return ilAssQuestionSkillAssignmentImport
      */
-    public function current() : ilAssQuestionSkillAssignmentImport
+    public function current(): ilAssQuestionSkillAssignmentImport
     {
         return current($this->assignments);
     }
-    
+
     /**
      * @return ilAssQuestionSkillAssignmentImport
      */
-    public function next() : ilAssQuestionSkillAssignmentImport
+    public function next(): ilAssQuestionSkillAssignmentImport
     {
         return next($this->assignments);
     }
-    
+
     /**
      * @return integer|bool
      */
@@ -61,16 +62,16 @@ class ilAssQuestionSkillAssignmentImportList implements Iterator
         $res = key($this->assignments);
         return $res;
     }
-    
+
     /**
      * @return bool
      */
-    public function valid() : bool
+    public function valid(): bool
     {
         $res = key($this->assignments);
         return $res !== null;
     }
-    
+
     /**
      * @return ilAssQuestionSkillAssignmentImport|bool
      */
@@ -78,13 +79,13 @@ class ilAssQuestionSkillAssignmentImportList implements Iterator
     {
         return reset($this->assignments);
     }
-    
-    public function sleep() : void
+
+    public function sleep(): void
     {
         // TODO: Implement __sleep() method.
     }
-    
-    public function wakeup() : void
+
+    public function wakeup(): void
     {
         // TODO: Implement __wakeup() method.
     }

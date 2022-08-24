@@ -47,8 +47,8 @@ class ilMediaCastSettings
         $this->initStorage();
         $this->read();
     }
-    
-    public static function _getInstance() : self
+
+    public static function _getInstance(): self
     {
         if (self::$instance) {
             return self::$instance;
@@ -56,47 +56,47 @@ class ilMediaCastSettings
         return self::$instance = new ilMediaCastSettings();
     }
 
-    public function setPurposeSuffixes(array $purpose_filetypes) : void
+    public function setPurposeSuffixes(array $purpose_filetypes): void
     {
         $this->purposeSuffixes = $purpose_filetypes;
     }
 
-    public function getPurposeSuffixes() : array
+    public function getPurposeSuffixes(): array
     {
         return $this->purposeSuffixes;
     }
 
-    public function getDefaultAccess() : string
+    public function getDefaultAccess(): string
     {
         return $this->defaultAccess;
     }
-    
-    public function setDefaultAccess(string $value) : void
+
+    public function setDefaultAccess(string $value): void
     {
         $this->defaultAccess = $value === "users" ? "users" : "public";
     }
-    
-    public function getMimeTypes() : array
+
+    public function getMimeTypes(): array
     {
         return $this->mimeTypes;
     }
-    
-    public function setMimeTypes(array $mimeTypes) : void
+
+    public function setMimeTypes(array $mimeTypes): void
     {
         $this->mimeTypes = $mimeTypes;
     }
 
-    public function setVideoCompletionThreshold(int $a_val) : void
+    public function setVideoCompletionThreshold(int $a_val): void
     {
         $this->video_threshold = $a_val;
     }
 
-    public function getVideoCompletionThreshold() : int
+    public function getVideoCompletionThreshold(): int
     {
         return $this->video_threshold;
     }
 
-    public function save() : void
+    public function save(): void
     {
         foreach ($this->purposeSuffixes as $purpose => $filetypes) {
             $this->storage->set($purpose . "_types", implode(",", $filetypes));
@@ -106,7 +106,7 @@ class ilMediaCastSettings
         $this->storage->set("mimetypes", implode(",", $this->getMimeTypes()));
     }
 
-    private function read() : void
+    private function read(): void
     {
         foreach ($this->purposeSuffixes as $purpose => $filetypes) {
             if ($this->storage->get($purpose . "_types") != false) {
@@ -129,11 +129,11 @@ class ilMediaCastSettings
         }
     }
 
-    private function initStorage() : void
+    private function initStorage(): void
     {
         $this->storage = new ilSetting('mcst');
         $this->purposeSuffixes = array_flip(ilObjMediaCast::$purposes);
-        
+
         $this->purposeSuffixes["Standard"] = $this->supported_suffixes;
         $this->setDefaultAccess("users");
         $mimeTypes = array_unique(array_values(MimeType::getExt2MimeMap()));

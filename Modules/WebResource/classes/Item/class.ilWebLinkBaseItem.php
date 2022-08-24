@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -53,24 +55,24 @@ abstract class ilWebLinkBaseItem
         $this->parameters = $parameters;
     }
 
-    abstract public function isInternal() : bool;
+    abstract public function isInternal(): bool;
 
-    public function getTitle() : string
+    public function getTitle(): string
     {
         return $this->title;
     }
 
-    public function getDescription() : ?string
+    public function getDescription(): ?string
     {
         return $this->description;
     }
 
-    public function getTarget() : string
+    public function getTarget(): string
     {
         return $this->target;
     }
 
-    public function isActive() : bool
+    public function isActive(): bool
     {
         return $this->active;
     }
@@ -78,7 +80,7 @@ abstract class ilWebLinkBaseItem
     /**
      * @return ilWebLinkBaseParameter[]
      */
-    public function getParameters() : array
+    public function getParameters(): array
     {
         return $this->parameters;
     }

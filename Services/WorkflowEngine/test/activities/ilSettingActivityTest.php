@@ -1,4 +1,5 @@
 <?php
+
 /* Copyright (c) 1998-2014 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 require_once 'Services/WorkflowEngine/test/ilWorkflowEngineBaseTest.php';
@@ -18,21 +19,21 @@ class ilSettingActivityTest extends ilWorkflowEngineBaseTest
     private ilEmptyWorkflow $workflow;
     private ilBasicNode $node;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         parent::setUp();
 
         // Empty workflow.
         $this->workflow = new ilEmptyWorkflow();
-        
+
         // Basic node
         $this->node = new ilBasicNode($this->workflow);
-        
+
         // Wiring up so the node is attached to the workflow.
         $this->workflow->addNode($this->node);
     }
-    
-    protected function tearDown() : void
+
+    protected function tearDown(): void
     {
         global $DIC;
 
@@ -41,12 +42,12 @@ class ilSettingActivityTest extends ilWorkflowEngineBaseTest
             $DIC['ilSetting']->delete('IL_PHPUNIT_TEST_MICROTIME');
         }
     }
-    
-    public function testConstructorValidContext() : void
+
+    public function testConstructorValidContext(): void
     {
         // Act
         $activity = new ilSettingActivity($this->node);
-        
+
         // Assert
         // No exception - good
         $this->assertTrue(
@@ -55,7 +56,7 @@ class ilSettingActivityTest extends ilWorkflowEngineBaseTest
         );
     }
 
-    public function testSetGetSettingName() : void
+    public function testSetGetSettingName(): void
     {
         // Arrange
         $activity = new ilSettingActivity($this->node);
@@ -68,8 +69,8 @@ class ilSettingActivityTest extends ilWorkflowEngineBaseTest
         // Assert
         $this->assertEquals($actual, $expected);
     }
-    
-    public function testSetGetSettingValue() : void
+
+    public function testSetGetSettingValue(): void
     {
         // Arrange
         $activity = new ilSettingActivity($this->node);
@@ -82,27 +83,27 @@ class ilSettingActivityTest extends ilWorkflowEngineBaseTest
         // Assert
         $this->assertEquals($actual, $expected);
     }
-    
-    public function testSetSetting() : void
+
+    public function testSetSetting(): void
     {
         // Arrange
         $activity = new ilSettingActivity($this->node);
-        
+
         // Act
         $expected_name = 'Ralle';
         $expected_value = 'OK';
         $activity->setSetting($expected_name, $expected_value);
         $actual_name = $activity->getSettingName();
         $actual_value = $activity->getSettingValue();
-        
+
         // Assert
         $this->assertEquals(
             $actual_name . $actual_value,
             $expected_name . $expected_value
         );
     }
-    
-    public function testExecute() : void
+
+    public function testExecute(): void
     {
         // Arrange
         $activity = new ilSettingActivity($this->node);
@@ -126,15 +127,15 @@ class ilSettingActivityTest extends ilWorkflowEngineBaseTest
 
         $GLOBALS['DIC']['ilSetting'] = $stashed_real_object;
     }
-    
-    public function testGetContext() : void
+
+    public function testGetContext(): void
     {
         // Arrange
         $activity = new ilSettingActivity($this->node);
-        
+
         // Act
         $actual = $activity->getContext();
-        
+
         // Assert
         if ($actual === $this->node) {
             $this->assertEquals($actual, $this->node);

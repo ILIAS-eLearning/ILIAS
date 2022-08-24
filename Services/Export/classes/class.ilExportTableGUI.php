@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -50,7 +52,7 @@ class ilExportTableGUI extends ilTable2GUI
         $this->initMultiCommands();
     }
 
-    protected function initColumns() : void
+    protected function initColumns(): void
     {
         $this->addColumn($this->lng->txt(''), '', '1', true);
         $this->addColumn($this->lng->txt('type'), 'type');
@@ -59,7 +61,7 @@ class ilExportTableGUI extends ilTable2GUI
         $this->addColumn($this->lng->txt('date'), 'timestamp');
     }
 
-    protected function prepareOutput() : void
+    protected function prepareOutput(): void
     {
         // append at last position (after custom columns)
         $this->addColumn($this->lng->txt('actions'));
@@ -68,12 +70,12 @@ class ilExportTableGUI extends ilTable2GUI
     /**
      *
      */
-    protected function initMultiCommands() : void
+    protected function initMultiCommands(): void
     {
         $this->addMultiCommand('confirmDeletion', $this->lng->txt('delete'));
     }
 
-    public function addCustomColumn(string $a_txt, object $a_obj, string $a_func) : void
+    public function addCustomColumn(string $a_txt, object $a_obj, string $a_func): void
     {
         $this->addColumn($a_txt);
         $this->custom_columns[] = array('txt' => $a_txt,
@@ -87,12 +89,12 @@ class ilExportTableGUI extends ilTable2GUI
         $this->addMultiCommand($a_cmd, $a_txt);
     }
 
-    public function getCustomColumns() : array
+    public function getCustomColumns(): array
     {
         return $this->custom_columns;
     }
 
-    public function getExportFiles() : array
+    public function getExportFiles(): array
     {
         $types = array();
         foreach ($this->parent_obj->getFormats() as $f) {
@@ -106,7 +108,7 @@ class ilExportTableGUI extends ilTable2GUI
         );
     }
 
-    protected function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set): void
     {
         foreach ($this->getCustomColumns() as $c) {
             $this->tpl->setCurrentBlock('custom');
@@ -137,7 +139,7 @@ class ilExportTableGUI extends ilTable2GUI
         $this->tpl->setVariable('URL_DOWNLOAD', $url);
     }
 
-    protected function getRowId(array $row) : string
+    protected function getRowId(array $row): string
     {
         return $row['type'] . ':' . $row['file'];
     }

@@ -23,8 +23,7 @@
  */
 class ilDclIliasReferenceRecordRepresentation extends ilDclBaseRecordRepresentation
 {
-
-    public function getHTML(bool $link = true) : string
+    public function getHTML(bool $link = true): string
     {
         $title = $this->getRecordField()->getValueForRepresentation();
         if (!$title) {
@@ -45,7 +44,7 @@ class ilDclIliasReferenceRecordRepresentation extends ilDclBaseRecordRepresentat
         return $html;
     }
 
-    public function getSingleHTML(array $options = null, bool $link = true) : string
+    public function getSingleHTML(array $options = null, bool $link = true): string
     {
         $value = $this->getRecordField()->getValue();
         if (!$value) {
@@ -60,7 +59,7 @@ class ilDclIliasReferenceRecordRepresentation extends ilDclBaseRecordRepresentat
         return $value;
     }
 
-    public function getLinkHTML(string $title, bool $show_action_menu = false) : string
+    public function getLinkHTML(string $title, bool $show_action_menu = false): string
     {
         $lng = $this->lng;
         $link = ilLink::_getStaticLink($this->getRecordField()->getValue());
@@ -86,7 +85,7 @@ class ilDclIliasReferenceRecordRepresentation extends ilDclBaseRecordRepresentat
     /**
      * @param string $mode copy|link
      */
-    protected function getActionLink(string $mode) : string
+    protected function getActionLink(string $mode): string
     {
         global $DIC;
         $ilCtrl = $DIC['ilCtrl'];

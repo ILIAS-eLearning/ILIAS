@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -22,12 +24,12 @@
  */
 abstract class ilLearningSequencePageObjectGUI extends ilPageObjectGUI
 {
-    public function getTabs($a_activate = "") : void
+    public function getTabs($a_activate = ""): void
     {
         $this->tabs_gui->activateTab(ilObjLearningSequenceGUI::TAB_CONTENT_MAIN);
     }
 
-    public function getPageConfig() : ilPageConfig
+    public function getPageConfig(): ilPageConfig
     {
         $this->page_config->setEnablePCType(ilPCCurriculum::PCELEMENT, true);
         $this->page_config->setEnablePCType(ilPCLauncher::PCELEMENT, true);

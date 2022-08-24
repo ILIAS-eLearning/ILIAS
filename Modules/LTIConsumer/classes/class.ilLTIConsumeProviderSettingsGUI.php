@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -26,14 +28,14 @@
  */
 class ilLTIConsumeProviderSettingsGUI
 {
-    const CMD_SHOW_SETTINGS = 'showSettings';
-    const CMD_SAVE_SETTINGS = 'saveSettings';
-    
+    public const CMD_SHOW_SETTINGS = 'showSettings';
+    public const CMD_SAVE_SETTINGS = 'saveSettings';
+
     /**
      * @var ilObjLTIConsumer
      */
     protected ilObjLTIConsumer $object;
-    
+
     /**
      * @var ilLTIConsumerAccess
      */
@@ -47,64 +49,64 @@ class ilLTIConsumeProviderSettingsGUI
         $this->object = $object;
         $this->access = $access;
     }
-    
+
     /**
      * Execute Command
      */
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
-        
+
         switch ($DIC->ctrl()->getNextClass()) {
             default:
-                
+
                 $command = $DIC->ctrl()->getCmd(self::CMD_SHOW_SETTINGS) . 'Cmd';
                 $this->{$command}();
         }
     }
-    
-    protected function showSettingsCmd(ilLTIConsumeProviderFormGUI $form = null) : void
+
+    protected function showSettingsCmd(ilLTIConsumeProviderFormGUI $form = null): void
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
-        
+
         if ($form === null) {
             $form = $this->buildForm($this->object->getProvider());
         }
-        
+
         $DIC->ui()->mainTemplate()->setContent($form->getHTML());
     }
-    
-    protected function saveSettingsCmd() : void
+
+    protected function saveSettingsCmd(): void
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
-        
+
         $form = $this->buildForm($this->object->getProvider());
-        
+
         if ($form->checkInput()) {
             $form->initProvider($this->object->getProvider());
             $this->object->getProvider()->save();
-            
+
             $DIC->ctrl()->redirect($this, self::CMD_SHOW_SETTINGS);
         }
-        
+
         $this->showSettingsCmd($form);
     }
 
     /**
      * @throws ilCtrlException
      */
-    protected function buildForm(ilLTIConsumeProvider $provider) : ilLTIConsumeProviderFormGUI
+    protected function buildForm(ilLTIConsumeProvider $provider): ilLTIConsumeProviderFormGUI
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
-        
+
         $form = new ilLTIConsumeProviderFormGUI($provider);
-        
+
         $form->initForm(
             $DIC->ctrl()->getFormAction($this),
             self::CMD_SAVE_SETTINGS,
             self::CMD_SHOW_SETTINGS
         );
-        
+
         return $form;
     }
 }

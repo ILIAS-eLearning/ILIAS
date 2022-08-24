@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /******************************************************************************
  *
@@ -20,7 +22,7 @@
 class ilECSCommunityTableGUI extends ilTable2GUI
 {
     private ilAccessHandler $access;
-    
+
 
     private ilECSSetting $server;
 
@@ -29,7 +31,7 @@ class ilECSCommunityTableGUI extends ilTable2GUI
         parent::__construct($a_parent_obj, $a_parent_cmd);
 
         global $DIC;
-        
+
         $this->access = $DIC->access();
 
         // TODO: set id
@@ -56,17 +58,17 @@ class ilECSCommunityTableGUI extends ilTable2GUI
     /**
      * Get current server
      */
-    public function getServer() : ilECSSetting
+    public function getServer(): ilECSSetting
     {
         return $this->server;
     }
-    
+
     /**
      * Fill row
      *
      * @param array row data
      */
-    protected function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set): void
     {
         $this->tpl->setVariable('S_ID', $this->getServer()->getServerId());
         $this->tpl->setVariable('M_ID', $a_set['mid']);
@@ -84,8 +86,8 @@ class ilECSCommunityTableGUI extends ilTable2GUI
         $this->tpl->setVariable('TXT_ORG', $this->lng->txt('organization'));
 
         $part = new ilECSParticipantSetting($this->getServer()->getServerId(), $a_set['mid']);
-        
-        
+
+
         if ($part->isExportEnabled()) {
             foreach ($part->getExportTypes() as $obj_type) {
                 $this->tpl->setCurrentBlock('obj_erow');
@@ -96,7 +98,7 @@ class ilECSCommunityTableGUI extends ilTable2GUI
             $this->lng->loadLanguageModule('administration');
             $this->tpl->setVariable('TXT_OBJ_EINFO', $this->lng->txt('disabled'));
         }
-        
+
         if ($part->isImportEnabled()) {
             foreach ($part->getImportTypes() as $obj_type) {
                 $this->tpl->setCurrentBlock('obj_irow');
@@ -126,7 +128,7 @@ class ilECSCommunityTableGUI extends ilTable2GUI
         $list->setSelectionHeaderClass('small');
         $list->setId('actl_' . $this->getServer()->getServerId() . '_' . $a_set['mid']);
         $list->setListTitle($this->lng->txt('actions'));
-        
+
         $this->ctrl->setParameter($this->getParentObject(), 'server_id', $this->getServer()->getServerId());
         $this->ctrl->setParameter($this->getParentObject(), 'mid', $a_set['mid']);
         $list->addItem(
@@ -175,11 +177,11 @@ class ilECSCommunityTableGUI extends ilTable2GUI
             $this->tpl->parseCurrentBlock();
         }
     }
-    
+
     /**
      * @param ilECSCommunity[] $a_participants list of participants
      */
-    public function parse(array $participants) : void
+    public function parse(array $participants): void
     {
         foreach ($participants as $participant) {
             $tmp_arr['mid'] = $participant->getMID();
@@ -194,7 +196,7 @@ class ilECSCommunityTableGUI extends ilTable2GUI
             }
             $def[] = $tmp_arr;
         }
-        
+
         $this->setData($def ?? []);
     }
 }

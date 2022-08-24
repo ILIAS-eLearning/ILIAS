@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -34,7 +36,7 @@ class ilCertificateUserForObjectPreloader
         $this->activeValidator = $activeValidator;
     }
 
-    public function preLoadDownloadableCertificates(int $objectId) : void
+    public function preLoadDownloadableCertificates(int $objectId): void
     {
         if (true === $this->activeValidator->validate()) {
             $objectIdsWithUserCertificate = $this->userCertificateRepository->fetchUserIdsWithCertificateForObject($objectId);
@@ -42,7 +44,7 @@ class ilCertificateUserForObjectPreloader
         }
     }
 
-    public function isPreloaded(int $objId, int $userId) : bool
+    public function isPreloaded(int $objId, int $userId): bool
     {
         if (false === array_key_exists($objId, self::$certificates)) {
             return false;

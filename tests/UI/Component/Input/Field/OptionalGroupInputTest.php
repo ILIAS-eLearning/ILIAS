@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 require_once(__DIR__ . "/../../../../../libs/composer/vendor/autoload.php");
 require_once(__DIR__ . "/../../../Base.php");
 
@@ -57,7 +59,7 @@ class OptionalGroupInputTest extends ILIAS_UI_TestBase
     protected \ILIAS\UI\Component\Input\Field\Input $optional_group;
     protected OptionalGroup $group;
 
-    public function setUp() : void
+    public function setUp(): void
     {
         $this->child1 = $this->createMock(Input11::class);
         $this->child2 = $this->createMock(Input12::class);
@@ -79,15 +81,15 @@ class OptionalGroupInputTest extends ILIAS_UI_TestBase
             [$this->child1, $this->child2],
             "LABEL",
             "BYLINE"
-        ))->withNameFrom(new class implements NameSource {
-            public function getNewName() : string
+        ))->withNameFrom(new class () implements NameSource {
+            public function getNewName(): string
             {
                 return "name0";
             }
         });
     }
 
-    public function testWithDisabledDisablesChildren() : void
+    public function testWithDisabledDisablesChildren(): void
     {
         $this->assertNotSame($this->child1, $this->child2);
 
@@ -109,7 +111,7 @@ class OptionalGroupInputTest extends ILIAS_UI_TestBase
         $this->assertNotSame($this->optional_group, $new_group);
     }
 
-    public function testWithRequiredDoesNotRequire() : void
+    public function testWithRequiredDoesNotRequire(): void
     {
         $this->assertNotSame($this->child1, $this->child2);
 
@@ -127,7 +129,7 @@ class OptionalGroupInputTest extends ILIAS_UI_TestBase
         $this->assertNotSame($this->optional_group, $new_group);
     }
 
-    public function testOptionalGroupMayOnlyHaveInputChildren() : void
+    public function testOptionalGroupMayOnlyHaveInputChildren(): void
     {
         $this->expectException(InvalidArgumentException::class);
 
@@ -141,7 +143,7 @@ class OptionalGroupInputTest extends ILIAS_UI_TestBase
         );
     }
 
-    public function testOptionalGroupForwardsValuesOnWithValue() : void
+    public function testOptionalGroupForwardsValuesOnWithValue(): void
     {
         $this->assertNotSame($this->child1, $this->child2);
 
@@ -173,19 +175,19 @@ class OptionalGroupInputTest extends ILIAS_UI_TestBase
         $this->assertNotSame($this->optional_group, $new_group);
     }
 
-    public function testGroupOnlyDoesNoAcceptNonArrayValue() : void
+    public function testGroupOnlyDoesNoAcceptNonArrayValue(): void
     {
         $this->expectException(InvalidArgumentException::class);
         $this->optional_group->withValue(1);
     }
 
-    public function testGroupOnlyDoesNoAcceptArrayValuesWithWrongLength() : void
+    public function testGroupOnlyDoesNoAcceptArrayValuesWithWrongLength(): void
     {
         $this->expectException(InvalidArgumentException::class);
         $this->optional_group->withValue([1]);
     }
 
-    public function testGroupAcceptsNullButDoesNotForward() : void
+    public function testGroupAcceptsNullButDoesNotForward(): void
     {
         $this->assertNotSame($this->child1, $this->child2);
 
@@ -210,7 +212,7 @@ class OptionalGroupInputTest extends ILIAS_UI_TestBase
         $this->assertEquals(null, $new_group->getValue());
     }
 
-    public function testGroupForwardsValuesOnGetValue() : void
+    public function testGroupForwardsValuesOnGetValue(): void
     {
         $this->assertNotSame($this->child1, $this->child2);
 
@@ -230,7 +232,7 @@ class OptionalGroupInputTest extends ILIAS_UI_TestBase
         $this->assertEquals(["one", "two"], $vals);
     }
 
-    public function testWithInputCallsChildrenAndAppliesOperations() : void
+    public function testWithInputCallsChildrenAndAppliesOperations(): void
     {
         $this->assertNotSame($this->child1, $this->child2);
 
@@ -265,7 +267,7 @@ class OptionalGroupInputTest extends ILIAS_UI_TestBase
 
         $called = false;
         $new_group = $this->optional_group
-            ->withAdditionalTransformation($this->refinery->custom()->transformation(function ($v) use (&$called) : string {
+            ->withAdditionalTransformation($this->refinery->custom()->transformation(function ($v) use (&$called): string {
                 $called = true;
                 $this->assertEquals(["two", "one"], $v);
                 return "result";
@@ -279,7 +281,7 @@ class OptionalGroupInputTest extends ILIAS_UI_TestBase
         $this->assertEquals($this->data_factory->ok("result"), $new_group->getContent());
     }
 
-    public function testWithInputDoesNotApplyOperationsOnError() : void
+    public function testWithInputDoesNotApplyOperationsOnError(): void
     {
         $this->assertNotSame($this->child1, $this->child2);
 
@@ -318,7 +320,7 @@ class OptionalGroupInputTest extends ILIAS_UI_TestBase
             ->willReturn($i18n);
 
         $new_group = $this->optional_group
-            ->withAdditionalTransformation($this->refinery->custom()->transformation(function () : void {
+            ->withAdditionalTransformation($this->refinery->custom()->transformation(function (): void {
                 $this->fail("This should not happen.");
             }))
             ->withInput($input_data);
@@ -329,7 +331,7 @@ class OptionalGroupInputTest extends ILIAS_UI_TestBase
         $this->assertTrue($new_group->getContent()->isError());
     }
 
-    public function testWithInputDoesNotCallChildrenWhenUnchecked() : void
+    public function testWithInputDoesNotCallChildrenWhenUnchecked(): void
     {
         $this->assertNotSame($this->child1, $this->child2);
 
@@ -356,7 +358,7 @@ class OptionalGroupInputTest extends ILIAS_UI_TestBase
 
         $called = false;
         $new_group = $this->optional_group
-            ->withAdditionalTransformation($this->refinery->custom()->transformation(function ($v) use (&$called) : string {
+            ->withAdditionalTransformation($this->refinery->custom()->transformation(function ($v) use (&$called): string {
                 $called = true;
                 $this->assertEquals(null, $v);
                 return "result";

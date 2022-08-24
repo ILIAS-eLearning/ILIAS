@@ -31,7 +31,7 @@ class ilObjWorkspaceRootFolder extends ilObjWorkspaceFolder
         $this->db = $DIC->database();
     }
 
-    protected function initType() : void
+    protected function initType(): void
     {
         $this->type = "wsrt";
     }
@@ -39,7 +39,7 @@ class ilObjWorkspaceRootFolder extends ilObjWorkspaceFolder
     /**
      * get all translations from this category
      */
-    public function getTranslations() : array
+    public function getTranslations(): array
     {
         $ilDB = $this->db;
 
@@ -65,7 +65,7 @@ class ilObjWorkspaceRootFolder extends ilObjWorkspaceFolder
     }
 
     // remove all Translations of current category
-    public function removeTranslations() : void
+    public function removeTranslations(): void
     {
         $ilDB = $this->db;
 
@@ -80,7 +80,7 @@ class ilObjWorkspaceRootFolder extends ilObjWorkspaceFolder
         string $a_desc,
         string $a_lang,
         string $a_lang_default
-    ) : void {
+    ): void {
         $ilDB = $this->db;
 
         if (empty($a_title)) {

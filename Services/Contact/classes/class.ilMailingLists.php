@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -34,7 +36,7 @@ class ilMailingLists
         $this->user = $a_user;
     }
 
-    public function isOwner(int $a_ml_id, int $a_usr_id) : bool
+    public function isOwner(int $a_ml_id, int $a_usr_id): bool
     {
         $res = $this->db->queryF(
             'SELECT EXISTS(SELECT 1 FROM addressbook_mlist WHERE ml_id = %s AND user_id = %s) cnt',
@@ -46,7 +48,7 @@ class ilMailingLists
         return is_array($row) && (int) $row['cnt'] === 1;
     }
 
-    public function get(int $id = 0) : ilMailingList
+    public function get(int $id = 0): ilMailingList
     {
         return new ilMailingList($this->user, $id);
     }
@@ -55,7 +57,7 @@ class ilMailingLists
      * @param int[] $a_ids
      * @return ilMailingList[]
      */
-    public function getSelected(array $a_ids = []) : array
+    public function getSelected(array $a_ids = []): array
     {
         $entries = [];
 
@@ -66,7 +68,7 @@ class ilMailingLists
         return $entries;
     }
 
-    public function hasAny() : bool
+    public function hasAny(): bool
     {
         $res = $this->db->queryF(
             'SELECT EXISTS(SELECT 1 FROM addressbook_mlist WHERE user_id = %s) cnt',
@@ -81,7 +83,7 @@ class ilMailingLists
     /**
      * @return ilMailingList[]
      */
-    public function getAll() : array
+    public function getAll(): array
     {
         $res = $this->db->queryF(
             'SELECT * FROM addressbook_mlist WHERE user_id = %s',
@@ -112,7 +114,7 @@ class ilMailingLists
         return $entries;
     }
 
-    public function mailingListExists(string $a_list_name) : bool
+    public function mailingListExists(string $a_list_name): bool
     {
         $ml_id = (int) substr($a_list_name, strrpos($a_list_name, '_') + 1);
         if (!is_numeric($ml_id) || $ml_id <= 0) {
@@ -124,18 +126,18 @@ class ilMailingLists
         return true;
     }
 
-    public function setCurrentMailingList(int $id = 0) : void
+    public function setCurrentMailingList(int $id = 0): void
     {
         $this->ml = $this->get($id);
     }
 
 
-    public function getCurrentMailingList() : ?ilMailingList
+    public function getCurrentMailingList(): ?ilMailingList
     {
         return $this->ml;
     }
 
-    public function deleteTemporaryLists() : void
+    public function deleteTemporaryLists(): void
     {
         foreach ($this->getAll() as $mlist) {
             if ($mlist->getMode() === ilMailingList::MODE_TEMPORARY) {
@@ -144,7 +146,7 @@ class ilMailingLists
         }
     }
 
-    public function deleteAssignments() : void
+    public function deleteAssignments(): void
     {
         $this->db->manipulate(
             'DELETE FROM addressbook_mlist_ass WHERE usr_id = ' . $this->db->quote($this->user->getId(), 'integer')

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -28,7 +30,7 @@ use ILIAS\FileUpload\FileUpload;
  */
 class ilCertificateBackgroundImageUploadTest extends ilCertificateBaseTestCase
 {
-    public function testFileCanBeUploaded() : void
+    public function testFileCanBeUploaded(): void
     {
         $fileUpload = $this->getMockBuilder(FileUpload::class)
             ->getMock();
@@ -112,7 +114,7 @@ class ilCertificateBackgroundImageUploadTest extends ilCertificateBaseTestCase
     /**
      * This test ensures the workaround for https://mantis.ilias.de/view.php?id=28219 works as expected
      */
-    public function testPendingFilesCanBeUploaded() : void
+    public function testPendingFilesCanBeUploaded(): void
     {
         $fileUpload = $this->getMockBuilder(FileUpload::class)
             ->getMock();

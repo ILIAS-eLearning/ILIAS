@@ -36,10 +36,10 @@ class ilTermUsagesTableGUI extends ilTable2GUI
         $this->access = $DIC->access();
         $ilCtrl = $DIC->ctrl();
         $lng = $DIC->language();
-        
+
         parent::__construct($a_parent_obj, $a_parent_cmd);
         $this->term_id = $a_term_id;
-        
+
         $this->addColumn("", "", "1");	// checkbox
         $this->setEnableHeader(false);
         $this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
@@ -48,10 +48,10 @@ class ilTermUsagesTableGUI extends ilTable2GUI
         $this->setTitle($lng->txt("cont_usage"));
     }
 
-    public function getItems() : void
+    public function getItems(): void
     {
         $usages = ilGlossaryTerm::getUsages($this->term_id);
-        
+
         $agg_usages = array();
         foreach ($usages as $k => $usage) {
             if (empty($agg_usages[$usage["type"] . ":" . $usage["id"]])) {
@@ -65,8 +65,8 @@ class ilTermUsagesTableGUI extends ilTable2GUI
 
         $this->setData($agg_usages);
     }
-    
-    protected function fillRow(array $a_set) : void
+
+    protected function fillRow(array $a_set): void
     {
         $usage = $a_set;
 
@@ -95,7 +95,7 @@ class ilTermUsagesTableGUI extends ilTable2GUI
                             $item["obj_link"] = ilLink::_getStaticLink($ref_id, "lm");
                         }
                         break;
-                        
+
                     case "wpg":
                         $page_obj = new ilWikiPage($usage["id"]);
                         $item["obj_type_txt"] = $this->lng->txt("obj_wiki");
@@ -184,7 +184,7 @@ class ilTermUsagesTableGUI extends ilTable2GUI
                 $item["obj_title"] = "Type " . $usage["type"] . ", " . $usage["id"];
                 break;
         }
-        
+
         // show versions
         if (is_array($usage["hist_nr"]) &&
             (count($usage["hist_nr"]) > 1 || $usage["hist_nr"][0] > 0)) {
@@ -225,7 +225,7 @@ class ilTermUsagesTableGUI extends ilTable2GUI
             } else {
                 $this->tpl->setVariable("TXT_OBJECT_NO_LINK", $item["obj_title"]);
             }
-            
+
             if ($item["sub_txt"] != "") {
                 $this->tpl->setVariable("SEP", ", ");
                 $this->tpl->setVariable("SUB_TXT", $item["sub_txt"]);
@@ -240,10 +240,10 @@ class ilTermUsagesTableGUI extends ilTable2GUI
         }
     }
 
-    public function getFirstWritableRefId(int $a_obj_id) : int
+    public function getFirstWritableRefId(int $a_obj_id): int
     {
         $ilAccess = $this->access;
-        
+
         $ref_ids = ilObject::_getAllReferences($a_obj_id);
         foreach ($ref_ids as $ref_id) {
             if ($ilAccess->checkAccess("write", "", $ref_id)) {

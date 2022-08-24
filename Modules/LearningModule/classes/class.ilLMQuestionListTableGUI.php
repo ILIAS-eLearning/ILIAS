@@ -64,7 +64,7 @@ class ilLMQuestionListTableGUI extends ilTable2GUI
         $this->getItems();
     }
 
-    public function getItems() : void
+    public function getItems(): void
     {
         $this->determineOffsetAndOrder();
 
@@ -91,7 +91,7 @@ class ilLMQuestionListTableGUI extends ilTable2GUI
         $this->setData($questions["set"]);
     }
 
-    protected function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set): void
     {
         $this->tpl->setVariable(
             "PAGE_TITLE",

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 class ilADTMultiEnumDefinition extends ilADTDefinition
 {
@@ -7,7 +9,7 @@ class ilADTMultiEnumDefinition extends ilADTDefinition
 
     // default
 
-    public function reset() : void
+    public function reset(): void
     {
         parent::reset();
 
@@ -15,12 +17,12 @@ class ilADTMultiEnumDefinition extends ilADTDefinition
         $this->setNumeric(true);
     }
 
-    public function getOptions() : array
+    public function getOptions(): array
     {
         return $this->options;
     }
 
-    public function setOptions(array $a_values) : void
+    public function setOptions(array $a_values): void
     {
         if ($this->isNumeric()) {
             foreach (array_keys($a_values) as $key) {
@@ -32,24 +34,24 @@ class ilADTMultiEnumDefinition extends ilADTDefinition
         $this->options = $a_values;
     }
 
-    public function isNumeric() : bool
+    public function isNumeric(): bool
     {
         return $this->numeric;
     }
 
-    public function setNumeric(bool $a_value) : void
+    public function setNumeric(bool $a_value): void
     {
         $this->numeric = $a_value;
     }
 
-    public function isComparableTo(ilADT $a_adt) : bool
+    public function isComparableTo(ilADT $a_adt): bool
     {
         return ($a_adt instanceof ilADTMultiEnum);
     }
 
     // ADT instance
 
-    public function getADTInstance() : ilADT
+    public function getADTInstance(): ilADT
     {
         if ($this->isNumeric()) {
             $class = "ilADTMultiEnumNumeric";

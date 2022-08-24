@@ -39,7 +39,7 @@ class ilMStListUsers
         $this->dic = $dic;
     }
 
-    final public function getData(array $arr_usr_ids = array(), array $options = array()) : ListFetcherResult
+    final public function getData(array $arr_usr_ids = array(), array $options = array()): ListFetcherResult
     {
         //Permissions
         if (count($arr_usr_ids) == 0) {
@@ -125,7 +125,7 @@ class ilMStListUsers
     /**
      * Returns the WHERE Part for the Queries using parameter $user_ids AND local variable $filters
      */
-    private function createWhereStatement(array $arr_usr_ids, array $arr_filter) : string
+    private function createWhereStatement(array $arr_usr_ids, array $arr_filter): string
     {
         $where = array();
 

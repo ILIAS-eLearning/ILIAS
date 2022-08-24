@@ -35,11 +35,11 @@ class ilSurveySkillThresholds
         $this->survey = $a_survey;
         $this->read();
     }
-    
-    public function read() : void
+
+    public function read(): void
     {
         $ilDB = $this->db;
-        
+
         $set = $ilDB->query(
             "SELECT * FROM svy_skill_threshold " .
             " WHERE survey_id = " . $ilDB->quote($this->survey->getId(), "integer")
@@ -52,19 +52,19 @@ class ilSurveySkillThresholds
     /**
      * @return array<int, array<int, int>>
      */
-    public function getThresholds() : array
+    public function getThresholds(): array
     {
         return $this->threshold;
     }
-    
+
     public function writeThreshold(
         int $a_base_skill_id,
         int $a_tref_id,
         int $a_level_id,
         int $a_threshold
-    ) : void {
+    ): void {
         $ilDB = $this->db;
-        
+
         $ilDB->replace(
             "svy_skill_threshold",
             array("survey_id" => array("integer", $this->survey->getId()),

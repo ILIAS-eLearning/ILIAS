@@ -23,11 +23,10 @@
  */
 class ilDclFileuploadRecordRepresentation extends ilDclBaseRecordRepresentation
 {
-
     /**
      * Outputs html of a certain field
      */
-    public function getHTML(bool $link = true) : string
+    public function getHTML(bool $link = true): string
     {
         $value = $this->getRecordField()->getValue();
 
@@ -36,11 +35,16 @@ class ilDclFileuploadRecordRepresentation extends ilDclBaseRecordRepresentation
         if (is_array($value) && $has_ilfilehash) {
             $ilfilehash = $this->http->wrapper()->post()->retrieve('ilfilehash', $this->refinery->kindlyTo()->string());
             $this->ctrl->setParameterByClass("ildclrecordlistgui", "ilfilehash", $ilfilehash);
-            $this->ctrl->setParameterByClass("ildclrecordlistgui", "field_id",
-                $this->getRecordField()->getField()->getId());
+            $this->ctrl->setParameterByClass(
+                "ildclrecordlistgui",
+                "field_id",
+                $this->getRecordField()->getField()->getId()
+            );
 
-            return '<a href="' . $this->ctrl->getLinkTargetByClass("ildclrecordlistgui",
-                    "sendFile") . '">' . $value['name'] . '</a>';
+            return '<a href="' . $this->ctrl->getLinkTargetByClass(
+                "ildclrecordlistgui",
+                "sendFile"
+            ) . '">' . $value['name'] . '</a>';
         } else {
             if (!ilObject2::_exists($value) || ilObject2::_lookupType($value, false) != "file") {
                 return "";
@@ -48,20 +52,32 @@ class ilDclFileuploadRecordRepresentation extends ilDclBaseRecordRepresentation
         }
 
         $file_obj = new ilObjFile($value, false);
-        $this->ctrl->setParameterByClass("ildclrecordlistgui", "record_id",
-            $this->getRecordField()->getRecord()->getId());
-        $this->ctrl->setParameterByClass("ildclrecordlistgui", "field_id",
-            $this->getRecordField()->getField()->getId());
+        $this->ctrl->setParameterByClass(
+            "ildclrecordlistgui",
+            "record_id",
+            $this->getRecordField()->getRecord()->getId()
+        );
+        $this->ctrl->setParameterByClass(
+            "ildclrecordlistgui",
+            "field_id",
+            $this->getRecordField()->getField()->getId()
+        );
 
-        $html = '<a href="' . $this->ctrl->getLinkTargetByClass("ildclrecordlistgui",
-                "sendFile") . '">' . $file_obj->getFileName() . '</a>';
+        $html = '<a href="' . $this->ctrl->getLinkTargetByClass(
+            "ildclrecordlistgui",
+            "sendFile"
+        ) . '">' . $file_obj->getFileName() . '</a>';
         if (ilPreview::hasPreview($file_obj->getId())) {
             ilPreview::createPreview($file_obj); // Create preview if not already existing
 
             $ref_id = $this->http->wrapper()->query()->retrieve('ref_id', $this->refinery->kindlyTo()->int());
 
-            $preview = new ilPreviewGUI($ref_id, ilPreviewGUI::CONTEXT_REPOSITORY, $file_obj->getId(),
-                $this->access);
+            $preview = new ilPreviewGUI(
+                $ref_id,
+                ilPreviewGUI::CONTEXT_REPOSITORY,
+                $file_obj->getId(),
+                $this->access
+            );
             $preview_status = ilPreview::lookupRenderStatus($file_obj->getId());
             $preview_status_class = "";
             $preview_text_topic = "preview_show";

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -30,56 +32,56 @@ class ilLTIConsumeProviderFormGUI extends ilPropertyFormGUI
      * @var ilLTIConsumeProvider
      */
     protected ilLTIConsumeProvider $provider;
-    
+
     /**
      * @var bool
      */
     protected bool $adminContext = false;
-    
+
     /**
      * ilLTIConsumeProviderFormGUI constructor.
      */
     public function __construct(ilLTIConsumeProvider $provider)
     {
         parent::__construct();
-        
+
         $this->provider = $provider;
     }
-    
-    public function isAdminContext() : bool
+
+    public function isAdminContext(): bool
     {
         return $this->adminContext;
     }
-    
-    public function setAdminContext(bool $adminContext) : void
+
+    public function setAdminContext(bool $adminContext): void
     {
         $this->adminContext = $adminContext;
     }
 
-    public function initForm(string $formaction, string $saveCmd, string $cancelCmd) : void
+    public function initForm(string $formaction, string $saveCmd, string $cancelCmd): void
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
         $lng = $DIC->language();
-        
+
         $this->setFormAction($formaction);
         $this->addCommandButton($saveCmd, $lng->txt('save'));
         $this->addCommandButton($cancelCmd, $lng->txt('cancel'));
-        
+
         if ($this->provider->getId() !== 0) {
             $this->setTitle($lng->txt('lti_form_provider_edit'));
         } else {
             $this->setTitle($lng->txt('lti_form_provider_create'));
         }
-        
+
         $titleInp = new ilTextInputGUI($lng->txt('lti_con_prov_title'), 'title');
         $titleInp->setValue($this->provider->getTitle());
         $titleInp->setRequired(true);
         $this->addItem($titleInp);
-        
+
         $descInp = new ilTextInputGUI($lng->txt('lti_con_prov_description'), 'description');
         $descInp->setValue($this->provider->getDescription());
         $this->addItem($descInp);
-        
+
         $iconInp = new ilImageFileInputGUI($lng->txt('lti_con_prov_icon'), 'icon');
         $iconInp->setInfo($lng->txt('obj_tile_image_info'));
         $iconInp->setSuffixes(ilLTIConsumeProviderIcon::getSupportedFileExtensions());
@@ -90,7 +92,7 @@ class ilLTIConsumeProviderFormGUI extends ilPropertyFormGUI
             $iconInp->setImage('');//todo default image?
         }
         $this->addItem($iconInp);
-        
+
         if ($this->isAdminContext()) {
             $availabilityInp = new ilRadioGroupInputGUI($lng->txt('lti_con_prov_availability'), 'availability');
             $availabilityInp->setValue((string) $this->provider->getAvailability());
@@ -112,12 +114,12 @@ class ilLTIConsumeProviderFormGUI extends ilPropertyFormGUI
             $availabilityInp->addOption($optionCreate);
             $this->addItem($availabilityInp);
         }
-        
-        
+
+
         $sectionHeader = new ilFormSectionHeaderGUI();
         $sectionHeader->setTitle($lng->txt('lti_con_prov_authentication'));
         $this->addItem($sectionHeader);
-        
+
         $versionInp = new ilRadioGroupInputGUI($lng->txt('lti_con_version'), 'lti_version');
         $lti11 = new ilRadioOption($lng->txt('lti_con_version_1.1'), 'LTI-1p0');
         $versionInp->addOption($lti11);
@@ -223,7 +225,7 @@ class ilLTIConsumeProviderFormGUI extends ilPropertyFormGUI
         $sectionHeader = new ilFormSectionHeaderGUI();
         $sectionHeader->setTitle($lng->txt('lti_con_prov_privacy_settings'));
         $this->addItem($sectionHeader);
-        
+
         $item = new ilRadioGroupInputGUI($DIC->language()->txt('conf_privacy_ident'), 'privacy_ident');
         $op = new ilRadioOption(
             $DIC->language()->txt('conf_privacy_ident_il_uuid_user_id'),
@@ -326,8 +328,8 @@ class ilLTIConsumeProviderFormGUI extends ilPropertyFormGUI
         $masteryScore->setValue((string) $this->provider->getMasteryScorePercent());
         $item->addSubItem($masteryScore);
         $this->addItem($item);
-        
-        
+
+
         $sectionHeader = new ilFormSectionHeaderGUI();
         $sectionHeader->setTitle($lng->txt('lti_con_prov_launch_options'));
         $this->addItem($sectionHeader);
@@ -338,9 +340,9 @@ class ilLTIConsumeProviderFormGUI extends ilPropertyFormGUI
             $item->setChecked(true);
         }
         $item->setInfo($lng->txt('lti_con_prov_use_provider_id_info'));
-        
+
         $this->addItem($item);
-        
+
         $item = new ilCheckboxInputGUI($lng->txt('lti_con_prov_always_learner'), 'always_learner');
         $item->setValue("1");
         if ($this->provider->getAlwaysLearner()) {
@@ -355,7 +357,7 @@ class ilLTIConsumeProviderFormGUI extends ilPropertyFormGUI
             $item->setChecked(true);
         }
         $item->setInfo($lng->txt('lti_con_prov_use_xapi_info'));
-        
+
         $subitem = new ilTextInputGUI($lng->txt('lti_con_prov_xapi_launch_url'), 'xapi_launch_url');
         $subitem->setValue($this->provider->getXapiLaunchUrl());
         $subitem->setInfo($lng->txt('lti_con_prov_xapi_launch_url_info'));
@@ -376,13 +378,13 @@ class ilLTIConsumeProviderFormGUI extends ilPropertyFormGUI
         $subitem->setRequired(true);
         $subitem->setMaxLength(64);
         $item->addSubItem($subitem);
-    
+
         $subitem = new ilTextInputGUI($lng->txt('lti_con_prov_xapi_activity_id'), 'xapi_activity_id');
         $subitem->setValue($this->provider->getXapiActivityId());
         $subitem->setInfo($lng->txt('lti_con_prov_xapi_activity_id_info'));
         $subitem->setMaxLength(128);
         $item->addSubItem($subitem);
-        
+
         $this->addItem($item);
 
         $item = new ilTextAreaInputGUI($lng->txt('lti_con_prov_custom_params'), 'custom_params');
@@ -394,13 +396,13 @@ class ilLTIConsumeProviderFormGUI extends ilPropertyFormGUI
         $sectionHeader = new ilFormSectionHeaderGUI();
         $sectionHeader->setTitle($lng->txt('lti_con_prov_group_options'));
         $this->addItem($sectionHeader);
-        
+
         $item = new ilTextInputGUI($lng->txt('lti_con_prov_keywords'), 'keywords');
         $item->setValue($this->provider->getKeywords());
         $item->setInfo($lng->txt('lti_con_prov_keywords_info'));
         $item->setMaxLength(1000);
         $this->addItem($item);
-        
+
         $category = new ilRadioGroupInputGUI($DIC->language()->txt('lti_con_prov_category'), 'category');
         $category->setInfo($DIC->language()->txt('lti_con_prov_category_info'));
         $category->setValue($this->provider->getCategory());
@@ -419,18 +421,18 @@ class ilLTIConsumeProviderFormGUI extends ilPropertyFormGUI
         $remarksInp->setRows(6);
         $this->addItem($remarksInp);
     }
-    
-    public function initProvider(ilLTIConsumeProvider $provider) : void
+
+    public function initProvider(ilLTIConsumeProvider $provider): void
     {
         $provider->setTitle($this->getInput('title'));
         $provider->setDescription($this->getInput('description'));
-        
+
         $provider->setProviderIconUploadInput($this->getItemByPostVar('icon'));
-        
-        
+
+
         $provider->setHasOutcome((bool) $this->getInput('has_outcome_service'));
         $provider->setMasteryScorePercent($this->getInput('mastery_score'));
-        
+
         if ($this->isAdminContext()) {
             $provider->setAvailability((int) $this->getInput('availability'));
         }
@@ -471,23 +473,23 @@ class ilLTIConsumeProviderFormGUI extends ilPropertyFormGUI
         $provider->setInstructorSendName((bool) $this->getInput('instructor_name'));
         $provider->setIncludeUserPicture((bool) $this->getInput('inc_usr_pic'));
         $provider->setIsExternalProvider((bool) $this->getInput('is_external_provider'));
-        
+
         $provider->setAlwaysLearner((bool) $this->getInput('always_learner'));
-        
+
         $provider->setUseProviderId((bool) $this->getInput('use_provider_id'));
         $provider->setXapiActivityId($this->getInput('xapi_activity_id'));
-        
+
         $provider->setUseXapi((bool) $this->getInput('use_xapi'));
         $provider->setXapiLaunchUrl($this->getInput('xapi_launch_url'));
         $provider->setXapiLaunchKey($this->getInput('xapi_launch_key'));
         $provider->setXapiLaunchSecret($this->getInput('xapi_launch_secret'));
         $provider->setCustomParams($this->getInput('custom_params'));
         $provider->setKeywords($this->getInput('keywords'));
-        
+
         if ($provider->isValidCategory($this->getInput('category'))) {
             $provider->setCategory($this->getInput('category'));
         }
-        
+
         if ($provider->isProviderKeyCustomizable()) {
             $provider->setProviderKey($this->getInput('provider_key'));
             $provider->setProviderSecret($this->getInput('provider_secret'));

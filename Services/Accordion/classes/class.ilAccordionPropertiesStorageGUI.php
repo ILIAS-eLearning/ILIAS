@@ -49,17 +49,17 @@ class ilAccordionPropertiesStorageGUI implements ilCtrlBaseClassInterface
         $this->tab_nr = $this->request->getTabNr();
     }
 
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         $ilCtrl = $this->ctrl;
         $cmd = $ilCtrl->getCmd();
         $this->$cmd();
     }
-    
-    public function setOpenedTab() : void
+
+    public function setOpenedTab(): void
     {
         $ilUser = $this->user;
-        
+
         if ($this->user_id == $ilUser->getId()) {
             switch ($this->request->getAction()) {
 
@@ -120,7 +120,7 @@ class ilAccordionPropertiesStorageGUI implements ilCtrlBaseClassInterface
             }
         }
     }
-    
+
     /**
      * Store property in session
      */
@@ -129,7 +129,7 @@ class ilAccordionPropertiesStorageGUI implements ilCtrlBaseClassInterface
         int $a_user_id,
         string $a_property,
         string $a_value
-    ) : void {
+    ): void {
         switch ($this->properties[$a_property]["storage"]) {
             case "session":
                 if (ilSession::has("accordion")) {
@@ -140,12 +140,12 @@ class ilAccordionPropertiesStorageGUI implements ilCtrlBaseClassInterface
                 break;
         }
     }
-    
+
     public function getProperty(
         string $a_table_id,
         int $a_user_id,
         string $a_property
-    ) : string {
+    ): string {
         $acc = [];
         if (ilSession::has("accordion")) {
             $acc = ilSession::get("accordion");

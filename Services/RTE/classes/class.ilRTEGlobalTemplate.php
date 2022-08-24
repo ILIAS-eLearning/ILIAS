@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -61,20 +63,20 @@ class ilRTEGlobalTemplate implements ilGlobalTemplateInterface
         $this->template = new ilTemplate($file, $flag1, $flag2, $in_module, $vars, $plugin, $a_use_cache);
     }
 
-    public function printToString() : string
+    public function printToString(): string
     {
         throw new ilException('not implemented');
     }
 
-    public function hideFooter() : void
+    public function hideFooter(): void
     {
     }
 
-    public function setOnScreenMessage(string $type, string $a_txt, bool $a_keep = false) : void
+    public function setOnScreenMessage(string $type, string $a_txt, bool $a_keep = false): void
     {
     }
 
-    public function addJavaScript(string $a_js_file, bool $a_add_version_parameter = true, int $a_batch = 2) : void
+    public function addJavaScript(string $a_js_file, bool $a_add_version_parameter = true, int $a_batch = 2): void
     {
         // three batches currently
         if ($a_batch < 1 || $a_batch > 3) {
@@ -97,24 +99,24 @@ class ilRTEGlobalTemplate implements ilGlobalTemplateInterface
         }
     }
 
-    public function addOnLoadCode(string $a_code, int $a_batch = 2) : void
+    public function addOnLoadCode(string $a_code, int $a_batch = 2): void
     {
     }
 
 
-    public function getOnLoadCodeForAsynch() : string
+    public function getOnLoadCodeForAsynch(): string
     {
         return '';
     }
 
-    public function resetJavascript() : void
+    public function resetJavascript(): void
     {
         $this->js_files = [];
         $this->js_files_vp = [];
         $this->js_files_batch = [];
     }
 
-    public function fillJavaScriptFiles(bool $a_force = false) : void
+    public function fillJavaScriptFiles(bool $a_force = false): void
     {
         global $DIC;
 
@@ -148,7 +150,7 @@ class ilRTEGlobalTemplate implements ilGlobalTemplateInterface
         }
     }
 
-    protected function fillJavascriptFile(string $file, string $vers) : void
+    protected function fillJavascriptFile(string $file, string $vers): void
     {
         $this->setCurrentBlock('js_file');
         if ($this->js_files_vp[$file]) {
@@ -159,20 +161,20 @@ class ilRTEGlobalTemplate implements ilGlobalTemplateInterface
         $this->parseCurrentBlock();
     }
 
-    public function addCss(string $a_css_file, string $media = "screen") : void
+    public function addCss(string $a_css_file, string $media = "screen"): void
     {
     }
 
-    public function addInlineCss(string $a_css, string $media = "screen") : void
+    public function addInlineCss(string $a_css, string $media = "screen"): void
     {
     }
 
-    public function setBodyClass(string $a_class = '') : void
+    public function setBodyClass(string $a_class = ''): void
     {
         $this->body_class = $a_class;
     }
 
-    private function fillBodyClass() : void
+    private function fillBodyClass(): void
     {
         if ($this->body_class !== '' && $this->blockExists('body_class')) {
             $this->setCurrentBlock('body_class');
@@ -181,7 +183,7 @@ class ilRTEGlobalTemplate implements ilGlobalTemplateInterface
         }
     }
 
-    public function loadStandardTemplate() : void
+    public function loadStandardTemplate(): void
     {
         if ($this->standard_template_loaded) {
             return;
@@ -198,68 +200,68 @@ class ilRTEGlobalTemplate implements ilGlobalTemplateInterface
         $this->standard_template_loaded = true;
     }
 
-    public function setTitle(string $a_title, bool $hidden = false) : void
+    public function setTitle(string $a_title, bool $hidden = false): void
     {
     }
 
-    public function setDescription(string $a_descr) : void
+    public function setDescription(string $a_descr): void
     {
     }
 
-    public function setTitleIcon(string $a_icon_path, string $a_icon_desc = "") : void
+    public function setTitleIcon(string $a_icon_path, string $a_icon_desc = ""): void
     {
     }
 
-    public function setAlertProperties(array $alerts) : void
+    public function setAlertProperties(array $alerts): void
     {
     }
 
-    public function clearHeader() : void
+    public function clearHeader(): void
     {
     }
 
-    public function setHeaderActionMenu(string $a_header) : void
+    public function setHeaderActionMenu(string $a_header): void
     {
     }
 
-    public function setHeaderPageTitle(string $a_title) : void
+    public function setHeaderPageTitle(string $a_title): void
     {
     }
 
-    public function setLocator() : void
+    public function setLocator(): void
     {
     }
 
-    public function setTabs(string $a_tabs_html) : void
+    public function setTabs(string $a_tabs_html): void
     {
     }
 
 
-    public function setSubTabs(string $a_tabs_html) : void
+    public function setSubTabs(string $a_tabs_html): void
     {
     }
 
-    public function setContent(string $a_html) : void
+    public function setContent(string $a_html): void
     {
     }
 
-    public function setLeftContent(string $a_html) : void
+    public function setLeftContent(string $a_html): void
     {
     }
 
-    public function setLeftNavContent(string $a_content) : void
+    public function setLeftNavContent(string $a_content): void
     {
     }
 
-    public function setRightContent(string $a_html) : void
+    public function setRightContent(string $a_html): void
     {
     }
 
-    public function setPageFormAction(string $a_action) : void
+    public function setPageFormAction(string $a_action): void
     {
     }
 
-    public function setLoginTargetPar(string $a_val) : void
+    public function setLoginTargetPar(string $a_val): void
     {
     }
 
@@ -271,7 +273,7 @@ class ilRTEGlobalTemplate implements ilGlobalTemplateInterface
         bool $add_standard_elements = false,
         bool $a_main_menu = true,
         bool $a_tabs = true
-    ) : string {
+    ): string {
         return '';
     }
 
@@ -279,7 +281,7 @@ class ilRTEGlobalTemplate implements ilGlobalTemplateInterface
         string $part = self::DEFAULT_BLOCK,
         bool $has_tabs = true,
         bool $skip_main_menu = false
-    ) : void {
+    ): void {
         global $DIC;
 
         $http = $DIC->http();
@@ -308,11 +310,11 @@ class ilRTEGlobalTemplate implements ilGlobalTemplateInterface
         }
     }
 
-    public function setTreeFlatIcon(string $a_link, string $a_mode) : void
+    public function setTreeFlatIcon(string $a_link, string $a_mode): void
     {
     }
 
-    public function addLightbox(string $a_html, string $a_id) : void
+    public function addLightbox(string $a_html, string $a_id): void
     {
     }
 
@@ -320,7 +322,7 @@ class ilRTEGlobalTemplate implements ilGlobalTemplateInterface
         ilToolbarGUI $toolbar,
         bool $is_bottom_panel = true,
         bool $has_arrow = false
-    ) : void {
+    ): void {
     }
 
     public function setPermanentLink(
@@ -329,48 +331,48 @@ class ilRTEGlobalTemplate implements ilGlobalTemplateInterface
         string $a_append = "",
         string $a_target = "",
         string $a_title = ""
-    ) : void {
+    ): void {
     }
 
-    public function resetHeaderBlock(bool $a_reset_header_action = true) : void
+    public function resetHeaderBlock(bool $a_reset_header_action = true): void
     {
     }
 
-    public function setFileUploadRefId(int $a_ref_id) : void
+    public function setFileUploadRefId(int $a_ref_id): void
     {
     }
 
-    public function get(string $part = self::DEFAULT_BLOCK) : string
+    public function get(string $part = self::DEFAULT_BLOCK): string
     {
         return $this->template->get($part);
     }
 
-    public function setVariable(string $variable, $value = '') : void
+    public function setVariable(string $variable, $value = ''): void
     {
         $this->template->setVariable($variable, $value);
     }
 
-    public function setCurrentBlock(string $part = self::DEFAULT_BLOCK) : bool
+    public function setCurrentBlock(string $part = self::DEFAULT_BLOCK): bool
     {
         return $this->template->setCurrentBlock($part);
     }
 
-    public function touchBlock(string $block) : bool
+    public function touchBlock(string $block): bool
     {
         return $this->template->touchBlock($block);
     }
 
-    public function parseCurrentBlock(string $block_name = self::DEFAULT_BLOCK) : bool
+    public function parseCurrentBlock(string $block_name = self::DEFAULT_BLOCK): bool
     {
         return $this->template->parseCurrentBlock($block_name);
     }
 
-    public function addBlockFile(string $var, string $block, string $template_name, string $in_module = null) : bool
+    public function addBlockFile(string $var, string $block, string $template_name, string $in_module = null): bool
     {
         return $this->template->addBlockFile($var, $block, $template_name, $in_module);
     }
 
-    public function blockExists(string $block_name) : bool
+    public function blockExists(string $block_name): bool
     {
         return $this->template->blockExists($block_name);
     }

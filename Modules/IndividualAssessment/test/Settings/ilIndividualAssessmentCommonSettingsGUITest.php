@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /* Copyright (c) 2021 - Daniel Weise <daniel.weise@concepts-and-training.de> - Extended GPL, see LICENSE */
 
@@ -6,7 +8,7 @@ use PHPUnit\Framework\TestCase;
 
 class ilIndividualAssessmentCommonSettingsGUITest extends TestCase
 {
-    public function test_createObject() : void
+    public function test_createObject(): void
     {
         $iass = $this->createMock(ilObjIndividualAssessment::class);
         $ctrl = $this->createMock(ilCtrl::class);
@@ -25,7 +27,7 @@ class ilIndividualAssessmentCommonSettingsGUITest extends TestCase
         $this->assertInstanceOf(ilIndividualAssessmentCommonSettingsGUI::class, $obj);
     }
 
-    public function test_executeCommand_with_unknown_command() : void
+    public function test_executeCommand_with_unknown_command(): void
     {
         $iass = $this->createMock(ilObjIndividualAssessment::class);
         $ctrl = $this->createMock(ilCtrl::class);

@@ -51,7 +51,7 @@ class ilResourceStorageInfoGUI
         $this->language->loadLanguageModule('irss');
     }
 
-    public function append(ilInfoScreenGUI $info) : void
+    public function append(ilInfoScreenGUI $info): void
     {
         if ($this->is_storage) {
             $info->addSection($this->language->txt("storage_info"));

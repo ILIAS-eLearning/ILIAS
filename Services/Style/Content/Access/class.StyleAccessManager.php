@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -42,12 +44,12 @@ class StyleAccessManager
         $this->user_id = $user_id;
     }
 
-    public function enableWrite(bool $write) : void
+    public function enableWrite(bool $write): void
     {
         $this->enable_write = $write;
     }
 
-    public function checkWrite() : bool
+    public function checkWrite(): bool
     {
         $rbacsystem = $this->rbacsystem;
         if ($this->ref_id == 0) {

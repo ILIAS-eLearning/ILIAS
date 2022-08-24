@@ -15,7 +15,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\BackgroundTasks\Dependencies;
 
 use ILIAS\BackgroundTasks\Dependencies\DependencyMap\DependencyMap;
@@ -33,7 +33,7 @@ class Injector
 {
     protected \ILIAS\DI\Container $dic;
     protected \ILIAS\BackgroundTasks\Dependencies\DependencyMap\DependencyMap $dependencyMap;
-    
+
     /**
      * Factory constructor.
      * @param               $dic Container
@@ -43,7 +43,7 @@ class Injector
         $this->dic = $dic;
         $this->dependencyMap = $dependencyMap;
     }
-    
+
     /**
      * @param string $fullyQualifiedClassName The given class must type hint all its
      *                                        constructor arguments. Furthermore the types must
@@ -53,23 +53,23 @@ class Injector
         string $fullyQualifiedClassName,
         bool $requireFile = false,
         callable $with = null
-    ) : object {
+    ): object {
         // The reflection classes needed.
         $reflectionClass = new \ReflectionClass($fullyQualifiedClassName);
         $constructor = $reflectionClass->getConstructor();
         if ($constructor === null) {
             return $reflectionClass->newInstance();
         }
-        
+
         $parameters = $constructor->getParameters();
-        
+
         // we get the arguments to construct the object from the DIC and Typehinting.
         $constructorArguments = $this->createConstructorArguments($fullyQualifiedClassName, $parameters, $with);
-        
+
         // Crate the instance with the arguments.
         return $reflectionClass->newInstanceArgs($constructorArguments);
     }
-    
+
     /**
      * @param ReflectionParameter[] $parameters
      */
@@ -77,17 +77,17 @@ class Injector
         string $fullyQualifiedClassName,
         array $parameters,
         ?callable $with
-    ) : array {
+    ): array {
         $constructorArguments = [];
-        
+
         foreach ($parameters as $parameter) {
             // As long as there are given arguments we take those.
             $constructorArguments[] = $this->getDependency($fullyQualifiedClassName, $parameter, $with);
         }
-        
+
         return $constructorArguments;
     }
-    
+
     /**
      * @throws InvalidClassException
      */
@@ -100,18 +100,18 @@ class Injector
         //		if (!$parameter->getType()) {
         //			throw new InvalidClassException("The constructor of $fullyQualifiedClassName is not fully type hinted, or the type hints cannot be resolved.");
         //		}
-        
+
         //		$type = $parameter->getType()->__toString();
         $type = $parameter->getClass()->getName();
-        
+
         //		if ($parameter->getType()->isBuiltin()) {
         //			throw new InvalidClassException("The DI cannot instantiate $fullyQualifiedClassName because some of the constructors arguments are built in types. Only interfaces (and objects) are stored in the DI-Container.");
         //		}
-        
+
         if (!$type) {
             throw new InvalidClassException("The DI cannot instantiate $fullyQualifiedClassName because some of the constructors arguments are not type hinted. Make sure all parameters in the constructor have type hinting.");
         }
-        
+
         if ($with) {
             return $this->dependencyMap->getDependencyWith($this->dic, $type, $fullyQualifiedClassName, $with);
         } else {

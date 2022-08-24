@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -24,7 +26,7 @@
  */
 class ilChatroomKickGUI extends ilChatroomGUIHandler
 {
-    private function buildMessage(string $messageString, ilChatroomUser $chat_user) : stdClass
+    private function buildMessage(string $messageString, ilChatroomUser $chat_user): stdClass
     {
         $data = new stdClass();
 
@@ -36,7 +38,7 @@ class ilChatroomKickGUI extends ilChatroomGUIHandler
         return $data;
     }
 
-    public function executeDefault(string $requestedMethod) : void
+    public function executeDefault(string $requestedMethod): void
     {
         $this->redirectIfNoPermission(['read', 'moderate']);
 
@@ -57,7 +59,7 @@ class ilChatroomKickGUI extends ilChatroomGUIHandler
         $this->sendResponse($response);
     }
 
-    public function main() : void
+    public function main(): void
     {
         $room = ilChatroom::byObjectId($this->gui->getObject()->getId());
         $this->exitIfNoRoomExists($room);
@@ -79,7 +81,7 @@ class ilChatroomKickGUI extends ilChatroomGUIHandler
     /**
      * Kicks user from subroom into mainroom
      */
-    public function sub() : void
+    public function sub(): void
     {
         $room = ilChatroom::byObjectId($this->gui->getObject()->getId());
         if ($room) {

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 use PHPUnit\Framework\TestCase;
 use ILIAS\DI\Container;
@@ -12,7 +14,7 @@ class EventTest extends TestCase
 {
     //protected $backupGlobals = false;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         $dic = new ILIAS\DI\Container();
         $GLOBALS['DIC'] = $dic;
@@ -60,7 +62,7 @@ class EventTest extends TestCase
      * @param string $name
      * @param mixed  $value
      */
-    protected function setGlobalVariable(string $name, $value) : void
+    protected function setGlobalVariable(string $name, $value): void
     {
         global $DIC;
 
@@ -72,11 +74,11 @@ class EventTest extends TestCase
         };
     }
 
-    protected function tearDown() : void
+    protected function tearDown(): void
     {
     }
 
-    protected function getHandler() : ilAppEventHandler
+    protected function getHandler(): ilAppEventHandler
     {
         return new ilAppEventHandler();
     }
@@ -84,7 +86,7 @@ class EventTest extends TestCase
     /**
      * Test event
      */
-    public function testEvent() : void
+    public function testEvent(): void
     {
         $handler = $this->getHandler();
 

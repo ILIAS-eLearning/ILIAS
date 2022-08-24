@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -102,14 +104,14 @@ class ilAdministrationGUI implements ilCtrlBaseClassInterface
             $DIC->http(),
             $DIC->refinery()
         );
-        
+
         $this->ctrl->saveParameter($this, array("ref_id", "admin_mode"));
 
         $this->admin_mode = $this->request->getAdminMode();
         if ($this->admin_mode !== ilObjectGUI::ADMIN_MODE_REPOSITORY) {
             $this->admin_mode = ilObjectGUI::ADMIN_MODE_SETTINGS;
         }
-    
+
         $this->ctrl->setReturn($this, "");
 
         // determine current ref id and mode
@@ -123,18 +125,18 @@ class ilAdministrationGUI implements ilCtrlBaseClassInterface
         $this->requested_obj_id = $this->request->getObjId();
     }
 
-    
+
     /**
      * @throws ilCtrlException
      * @throws ilPermissionException
      */
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         $rbacsystem = $this->rbacsystem;
         $objDefinition = $this->objDefinition;
         $ilHelp = $this->help;
         $ilDB = $this->db;
-        
+
         // permission checks
         if (!$rbacsystem->checkAccess("visible", SYSTEM_FOLDER_ID) &&
                 !$rbacsystem->checkAccess("read", SYSTEM_FOLDER_ID)) {
@@ -179,7 +181,7 @@ class ilAdministrationGUI implements ilCtrlBaseClassInterface
         //echo "<br>cmd:$cmd:nextclass:$next_class:-".$_GET["cmdClass"]."-".$_GET["cmd"]."-";
         switch ($next_class) {
             default:
-            
+
                 // forward all other classes to gui commands
                 if ($next_class != "" && $next_class !== "iladministrationgui") {
                     // check db update
@@ -189,7 +191,7 @@ class ilAdministrationGUI implements ilCtrlBaseClassInterface
                     } elseif ($dbupdate->hotfixAvailable()) {
                         $this->tpl->setOnScreenMessage('failure', $this->lng->txt("db_need_hotfix"));
                     }
-                    
+
                     $class_path = $this->ctrl->lookupClassPath($next_class);
                     if (is_file($class_path)) {
                         require_once $class_path;   // note: org unit plugins still need the require
@@ -229,7 +231,7 @@ class ilAdministrationGUI implements ilCtrlBaseClassInterface
                     $tabs_out = true;
                     $ilHelp->setScreenIdComponent(ilObject::_lookupType($this->cur_ref_id, true));
                     $this->showTree();
-                        
+
                     $this->ctrl->setReturn($this, "return");
                     $ret = $this->ctrl->forwardCommand($this->gui_obj);
                     $html = $this->gui_obj->getHTML();
@@ -251,7 +253,7 @@ class ilAdministrationGUI implements ilCtrlBaseClassInterface
      * @throws ilCtrlException
      * @throws ilPermissionException
      */
-    public function forward() : void
+    public function forward(): void
     {
         if ($this->admin_mode !== "repository") {	// settings
             if ($this->request->getRefId() == USER_FOLDER_ID) {
@@ -302,7 +304,7 @@ class ilAdministrationGUI implements ilCtrlBaseClassInterface
         }
     }
 
-    public function showTree() : void
+    public function showTree(): void
     {
         global $DIC;
 
@@ -315,16 +317,16 @@ class ilAdministrationGUI implements ilCtrlBaseClassInterface
         $exp = new ilAdministrationExplorerGUI(self::class, "showTree");
         $exp->handleCommand();
     }
-    
+
     // Special jump to plugin slot after ilCtrl has been reloaded
-    public function jumpToPluginSlot() : void
+    public function jumpToPluginSlot(): void
     {
         $ilCtrl = $this->ctrl;
         $ilCtrl->redirectByClass("ilobjcomponentsettingsgui", "listPlugins");
     }
 
     // Jump to node
-    public function jump() : void
+    public function jump(): void
     {
         $ilCtrl = $this->ctrl;
         $objDefinition = $this->objDefinition;

@@ -26,17 +26,17 @@
  */
 class ilDclRecordListGUI
 {
-    const GET_TABLE_ID = 'table_id';
-    const GET_TABLEVIEW_ID = 'tableview_id';
-    const GET_MODE = 'mode';
-    const MODE_VIEW = 1;
-    const MODE_MANAGE = 2;
-    const CMD_LIST_RECORDS = 'listRecords';
-    const CMD_SHOW = 'show';
-    const CMD_CONFIRM_DELETE_RECORDS = 'confirmDeleteRecords';
-    const CMD_CANCEL_DELETE = 'cancelDelete';
-    const CMD_DELETE_RECORDS = 'deleteRecords';
-    const CMD_SHOW_IMPORT_EXCEL = 'showImportExcel';
+    public const GET_TABLE_ID = 'table_id';
+    public const GET_TABLEVIEW_ID = 'tableview_id';
+    public const GET_MODE = 'mode';
+    public const MODE_VIEW = 1;
+    public const MODE_MANAGE = 2;
+    public const CMD_LIST_RECORDS = 'listRecords';
+    public const CMD_SHOW = 'show';
+    public const CMD_CONFIRM_DELETE_RECORDS = 'confirmDeleteRecords';
+    public const CMD_CANCEL_DELETE = 'cancelDelete';
+    public const CMD_DELETE_RECORDS = 'deleteRecords';
+    public const CMD_SHOW_IMPORT_EXCEL = 'showImportExcel';
     /**
      * Stores current mode active
      */
@@ -59,7 +59,7 @@ class ilDclRecordListGUI
 
     private function init(
         ilDataCollectionOutboundsAdapter $adapter
-    ) : void {
+    ): void {
         $this->dclUi = $adapter->getDataCollectionUi();
         $this->dclAccess = $adapter->getDataCollectionAccess();
     }
@@ -110,12 +110,12 @@ class ilDclRecordListGUI
         }
     }
 
-    public function getRefId() : int
+    public function getRefId(): int
     {
         return $this->parent_obj->getRefId();
     }
 
-    public function getObjId() : int
+    public function getObjId(): int
     {
         return $this->parent_obj->getObject()->getId();
     }
@@ -124,7 +124,7 @@ class ilDclRecordListGUI
      * execute command
      * @throws ilCtrlException
      */
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         if (!$this->checkAccess()) {
             $this->dclUi->displayFailureMessage($this->lng->txt('permission_denied'));
@@ -163,7 +163,7 @@ class ilDclRecordListGUI
         }
     }
 
-    public function listRecords(bool $use_tableview_filter = false) : void
+    public function listRecords(bool $use_tableview_filter = false): void
     {
         global $DIC;
         $ilToolbar = $DIC['ilToolbar'];
@@ -177,8 +177,10 @@ class ilDclRecordListGUI
 
         $this->createSwitchers();
 
-        $permission_to_add_or_import = ilObjDataCollectionAccess::hasPermissionToAddRecord($this->parent_obj->getRefId(),
-            $this->table_id) and $this->table_obj->hasCustomFields();
+        $permission_to_add_or_import = ilObjDataCollectionAccess::hasPermissionToAddRecord(
+            $this->parent_obj->getRefId(),
+            $this->table_id
+        ) and $this->table_obj->hasCustomFields();
         if ($permission_to_add_or_import) {
             $this->ctrl->setParameterByClass("ildclrecordeditgui", "record_id", null);
 
@@ -200,8 +202,10 @@ class ilDclRecordListGUI
 
         if (count($this->table_obj->getRecordFields()) == 0) {
             $this->dclUi->displayInfoMessage($this->lng->txt("dcl_no_fields_yet") . " "
-                . (ilObjDataCollectionAccess::hasAccessToFields($this->parent_obj->getRefId(),
-                    $this->table_id) ? $this->lng->txt("dcl_create_fields") : ""));
+                . (ilObjDataCollectionAccess::hasAccessToFields(
+                    $this->parent_obj->getRefId(),
+                    $this->table_id
+                ) ? $this->lng->txt("dcl_create_fields") : ""));
         }
 
         $this->dclUi->addPermaLinkTableView($this->parent_obj->getRefId(), $this->tableview_id);
@@ -217,7 +221,7 @@ class ilDclRecordListGUI
         $this->dclUi->setContent($desc . $list->getHTML());
     }
 
-    public function showImportExcel(?ilPropertyFormGUI $form = null) : void
+    public function showImportExcel(?ilPropertyFormGUI $form = null): void
     {
         if (!$form) {
             $form = $this->initImportForm();
@@ -228,7 +232,7 @@ class ilDclRecordListGUI
     /**
      * Init form
      */
-    public function initImportForm() : ilPropertyFormGUI
+    public function initImportForm(): ilPropertyFormGUI
     {
         $form = new ilPropertyFormGUI();
 
@@ -253,10 +257,12 @@ class ilDclRecordListGUI
     /**
      * Import Data from Excel sheet
      */
-    public function importExcel() : void
+    public function importExcel(): void
     {
-        if (!(ilObjDataCollectionAccess::hasPermissionToAddRecord($this->parent_obj->getRefId(),
-                $this->table_id)) || !$this->table_obj->getImportEnabled()) {
+        if (!(ilObjDataCollectionAccess::hasPermissionToAddRecord(
+            $this->parent_obj->getRefId(),
+            $this->table_id
+        )) || !$this->table_obj->getImportEnabled()) {
             throw new ilDclException($this->lng->txt("access_denied"));
         }
         $form = $this->initImportForm();
@@ -273,7 +279,7 @@ class ilDclRecordListGUI
     /**
      * Import records from Excel file
      */
-    private function importRecords(string $file, bool $simulate = false) : void
+    private function importRecords(string $file, bool $simulate = false): void
     {
         $importer = new ilDclContentImporter($this->parent_obj->object->getRefId(), $this->table_id);
         $result = $importer->import($file, $simulate);
@@ -285,7 +291,7 @@ class ilDclRecordListGUI
      * End import
      * @throws ilTemplateException
      */
-    public function endImport(int $i, array $warnings) : void
+    public function endImport(int $i, array $warnings): void
     {
         $output = new ilTemplate("tpl.dcl_import_terminated.html", true, true, "Modules/DataCollection");
         $output->setVariable("IMPORT_TERMINATED", $this->lng->txt("dcl_import_terminated") . ": " . $i);
@@ -308,7 +314,7 @@ class ilDclRecordListGUI
      * doTableSwitch
      * @throws ilCtrlException
      */
-    public function doTableSwitch() : void
+    public function doTableSwitch(): void
     {
         $this->ctrl->clearParameters($this);
         $table_id = $this->http->wrapper()->post()->retrieve('table_id', $this->refinery->kindlyTo()->int());
@@ -322,7 +328,7 @@ class ilDclRecordListGUI
      * doTableViewSwitch
      * @throws ilCtrlException
      */
-    public function doTableViewSwitch() : void
+    public function doTableViewSwitch(): void
     {
         $tableview_id = $this->http->wrapper()->post()->retrieve('tableview_id', $this->refinery->kindlyTo()->int());
         $this->ctrl->setParameterByClass("ilObjDataCollectionGUI", "tableview_id", $tableview_id);
@@ -332,7 +338,7 @@ class ilDclRecordListGUI
     /**
      * @throws ilCtrlException
      */
-    protected function applyFilter() : void
+    protected function applyFilter(): void
     {
         $table = new ilDclRecordListTableGUI($this, "listRecords", $this->table_obj, $this->tableview_id);
         $table->initFilter();
@@ -344,7 +350,7 @@ class ilDclRecordListGUI
     /**
      * @throws ilCtrlException
      */
-    protected function resetFilter() : void
+    protected function resetFilter(): void
     {
         $table = new ilDclRecordListTableGUI($this, "show", $this->table_obj, $this->tableview_id);
         $table->initFilter();
@@ -356,15 +362,17 @@ class ilDclRecordListGUI
     /**
      * send File to User
      */
-    public function sendFile() : void
+    public function sendFile(): void
     {
         $hasIlFileHash = $this->http->wrapper()->query()->has('ilfilehash');
         //need read access to receive file
         if ($this->dclAccess->hasReadPermission($this->parent_obj->getRefId())) {
             // deliver temp-files
             if ($hasIlFileHash) {
-                $filehash = $this->http->wrapper()->query()->retrieve('ilfilehash',
-                    $this->refinery->kindlyTo()->string());
+                $filehash = $this->http->wrapper()->query()->retrieve(
+                    'ilfilehash',
+                    $this->refinery->kindlyTo()->string()
+                );
                 $field_id = $this->http->wrapper()->query()->retrieve('field_id', $this->refinery->kindlyTo()->int());
                 ilDclPropertyFormGUI::rebuildTempFileByHash($filehash);
 
@@ -389,7 +397,7 @@ class ilDclRecordListGUI
     /**
      * Confirm deletion of multiple records
      */
-    public function confirmDeleteRecords() : void
+    public function confirmDeleteRecords(): void
     {
         $this->tabs->clearTargets();
 
@@ -400,8 +408,10 @@ class ilDclRecordListGUI
         $has_record_ids = $this->http->wrapper()->post()->has('record_ids');
         $record_ids = [];
         if ($has_record_ids) {
-            $record_ids = $this->http->wrapper()->post()->retrieve('record_ids',
-                $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->int()));
+            $record_ids = $this->http->wrapper()->post()->retrieve(
+                'record_ids',
+                $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->int())
+            );
         }
         $all_fields = $this->table_obj->getRecordFields();
         foreach ($record_ids as $record_id) {
@@ -429,13 +439,15 @@ class ilDclRecordListGUI
     /**
      * Delete multiple records
      */
-    public function deleteRecords(array $record_ids = array()) : void
+    public function deleteRecords(array $record_ids = array()): void
     {
         $has_record_ids = $this->http->wrapper()->post()->has('record_ids');
         $record_ids = [];
         if ($has_record_ids) {
-            $record_ids = $this->http->wrapper()->post()->retrieve('record_ids',
-                $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->int()));
+            $record_ids = $this->http->wrapper()->post()->retrieve(
+                'record_ids',
+                $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->int())
+            );
         }
 
         // Invoke deletion
@@ -456,17 +468,21 @@ class ilDclRecordListGUI
 
         $n_deleted = (count($record_ids) - $n_skipped);
         if ($n_deleted) {
-            $this->dclUi->displaySuccessMessage(sprintf($this->lng->txt('dcl_deleted_records'),
-                $n_deleted));
+            $this->dclUi->displaySuccessMessage(sprintf(
+                $this->lng->txt('dcl_deleted_records'),
+                $n_deleted
+            ));
         }
         if ($n_skipped) {
-            $this->dclUi->displayInfoMessage(sprintf($this->lng->txt('dcl_skipped_delete_records'),
-                $n_skipped));
+            $this->dclUi->displayInfoMessage(sprintf(
+                $this->lng->txt('dcl_skipped_delete_records'),
+                $n_skipped
+            ));
         }
         $this->ctrl->redirect($this, self::CMD_LIST_RECORDS);
     }
 
-    private function recordBelongsToCollection(ilDclBaseRecordModel $record) : bool
+    private function recordBelongsToCollection(ilDclBaseRecordModel $record): bool
     {
         $table = $record->getTable();
         $obj_id = $this->parent_obj->object->getId();
@@ -475,18 +491,24 @@ class ilDclRecordListGUI
         return $obj_id == $obj_id_rec;
     }
 
-    protected function setSubTabs(string $active_id = self::GET_MODE) : void
+    protected function setSubTabs(string $active_id = self::GET_MODE): void
     {
         $this->ctrl->setParameter($this, self::GET_MODE, self::MODE_VIEW);
-        $this->tabs->addSubTab('mode_1', $this->lng->txt('view'),
-            $this->ctrl->getLinkTarget($this, self::CMD_LIST_RECORDS));
+        $this->tabs->addSubTab(
+            'mode_1',
+            $this->lng->txt('view'),
+            $this->ctrl->getLinkTarget($this, self::CMD_LIST_RECORDS)
+        );
         $this->ctrl->clearParameters($this);
 
         $ref_id = $this->http->wrapper()->query()->retrieve('ref_id', $this->refinery->kindlyTo()->int());
         if ($this->table_obj->hasPermissionToDeleteRecords($ref_id)) {
             $this->ctrl->setParameter($this, self::GET_MODE, self::MODE_MANAGE);
-            $this->tabs->addSubTab('mode_2', $this->lng->txt('dcl_manage'),
-                $this->ctrl->getLinkTarget($this, self::CMD_LIST_RECORDS));
+            $this->tabs->addSubTab(
+                'mode_2',
+                $this->lng->txt('dcl_manage'),
+                $this->ctrl->getLinkTarget($this, self::CMD_LIST_RECORDS)
+            );
             $this->ctrl->clearParameters($this);
         }
 
@@ -498,7 +520,7 @@ class ilDclRecordListGUI
     /**
      * @return string[]
      */
-    protected function getAvailableTables() : array
+    protected function getAvailableTables(): array
     {
         if (ilObjDataCollectionAccess::hasWriteAccess($this->parent_obj->getRefId())) {
             $tables = $this->parent_obj->object->getTables();
@@ -513,7 +535,7 @@ class ilDclRecordListGUI
         return $options;
     }
 
-    protected function getRecordListTableGUI(bool $use_tableview_filter) : ilDclRecordListTableGUI
+    protected function getRecordListTableGUI(bool $use_tableview_filter): ilDclRecordListTableGUI
     {
         $table_obj = $this->table_obj;
 
@@ -531,8 +553,13 @@ class ilDclRecordListGUI
         $limit = $list->getLimit();
         $offset = $list->getOffset();
 
-        $num_records = count($table_obj->getPartialRecords($list->getOrderField(), $list->getOrderDirection(), $limit,
-            $offset, $list->getFilter()));
+        $num_records = count($table_obj->getPartialRecords(
+            $list->getOrderField(),
+            $list->getOrderDirection(),
+            $limit,
+            $offset,
+            $list->getFilter()
+        ));
 
         // Fix no data found on new filter application when on a site other than the first
         if ($num_records === 0) {
@@ -540,8 +567,13 @@ class ilDclRecordListGUI
             $offset = 0;
         }
 
-        $data = $table_obj->getPartialRecords($list->getOrderField(), $list->getOrderDirection(), $limit, $offset,
-            $list->getFilter());
+        $data = $table_obj->getPartialRecords(
+            $list->getOrderField(),
+            $list->getOrderDirection(),
+            $limit,
+            $offset,
+            $list->getFilter()
+        );
         $records = $data['records'];
         $total = $data['total'];
 
@@ -554,7 +586,7 @@ class ilDclRecordListGUI
         return $list;
     }
 
-    protected function createSwitchers() : void
+    protected function createSwitchers(): void
     {
         $ilToolbar = $this->ilToolbar;
         $ilToolbar->setFormAction($this->ctrl->getFormActionByClass("ilDclRecordListGUI", "doTableSwitch"));
@@ -596,9 +628,12 @@ class ilDclRecordListGUI
         }
     }
 
-    protected function checkAccess() : bool
+    protected function checkAccess(): bool
     {
-        return ilObjDataCollectionAccess::hasAccessTo($this->parent_obj->getRefId(), $this->table_id,
-            $this->tableview_id);
+        return ilObjDataCollectionAccess::hasAccessTo(
+            $this->parent_obj->getRefId(),
+            $this->table_id,
+            $this->tableview_id
+        );
     }
 }

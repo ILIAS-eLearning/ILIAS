@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /******************************************************************************
  *
@@ -28,7 +30,7 @@ class ilECSCmsTree extends ilTree
         $this->useCache(false);
     }
 
-    public function insertRootNode(int $tree, int $a_child) : bool
+    public function insertRootNode(int $tree, int $a_child): bool
     {
         $query = 'INSERT INTO ecs_cms_tree ' .
             '(tree,child,parent,lft,rgt,depth) ' .
@@ -44,11 +46,11 @@ class ilECSCmsTree extends ilTree
 
         return true;
     }
-    
+
     /**
      * Delete tree by tree_id
      */
-    public static function deleteByTreeId(int $a_tree_id) : bool
+    public static function deleteByTreeId(int $a_tree_id): bool
     {
         global $DIC;
 
@@ -64,7 +66,7 @@ class ilECSCmsTree extends ilTree
     /**
      * Check if tree exists
      */
-    public function treeExists(int $a_tree_id) : bool
+    public function treeExists(int $a_tree_id): bool
     {
         $query = 'SELECT COUNT(*) num FROM ecs_cms_tree WHERE tree = ' . $this->db->quote($a_tree_id, 'integer');
         $res = $this->db->query($query);
@@ -78,7 +80,7 @@ class ilECSCmsTree extends ilTree
     /**
      * lookup root id
      */
-    public static function lookupRootId($a_tree_id) : int
+    public static function lookupRootId($a_tree_id): int
     {
         global $DIC;
 

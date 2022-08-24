@@ -44,7 +44,7 @@ class ilBookingSchedulesTableGUI extends ilTable2GUI
         $this->setId("bksd");
 
         parent::__construct($a_parent_obj, $a_parent_cmd);
-        
+
         $this->addColumn($this->lng->txt("title"), "title");
         $this->addColumn($this->lng->txt("book_is_used"));
         $this->addColumn($this->lng->txt("actions"));
@@ -52,7 +52,7 @@ class ilBookingSchedulesTableGUI extends ilTable2GUI
         $this->setEnableHeader(true);
         $this->setFormAction($ilCtrl->getFormAction($a_parent_obj, $a_parent_cmd));
         $this->setRowTemplate("tpl.booking_schedule_row.html", "Modules/BookingManager");
-    
+
         $this->getItems($ilObjDataCache->lookupObjId($this->ref_id));
     }
 
@@ -60,15 +60,15 @@ class ilBookingSchedulesTableGUI extends ilTable2GUI
      * Build summary item rows for given object and filter(s)
      * @param int $a_pool_id (aka parent obj id)
      */
-    public function getItems(int $a_pool_id) : void
+    public function getItems(int $a_pool_id): void
     {
         $data = ilBookingSchedule::getList($a_pool_id);
-        
+
         $this->setMaxCount(count($data));
         $this->setData($data);
     }
 
-    protected function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set): void
     {
         $lng = $this->lng;
         $ilAccess = $this->access;
@@ -87,10 +87,10 @@ class ilBookingSchedulesTableGUI extends ilTable2GUI
         $alist = new ilAdvancedSelectionListGUI();
         $alist->setId($a_set['booking_schedule_id']);
         $alist->setListTitle($lng->txt("actions"));
-    
+
         if ($ilAccess->checkAccess('write', '', $this->ref_id)) {
             $alist->addItem($lng->txt('edit'), 'edit', $ilCtrl->getLinkTarget($this->parent_obj, 'edit')); // #12306
-            
+
             if (!$a_set["is_used"]) {
                 $alist->addItem($lng->txt('delete'), 'delete', $ilCtrl->getLinkTarget($this->parent_obj, 'confirmDelete'));
             }

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /******************************************************************************
  *
  * This file is part of ILIAS, a powerful learning management system.
@@ -33,7 +35,7 @@ class ilProxySettings
         $this->read();
     }
 
-    public static function _getInstance() : ilProxySettings
+    public static function _getInstance(): ilProxySettings
     {
         if (null === self::$_instance) {
             self::$_instance = new self();
@@ -42,24 +44,24 @@ class ilProxySettings
         return self::$_instance;
     }
 
-    protected function read() : void
+    protected function read(): void
     {
         $this->host = (string) $this->setting->get('proxy_host');
         $this->port = (int) $this->setting->get('proxy_port');
         $this->active = (bool) $this->setting->get('proxy_status');
     }
 
-    public function isActive() : bool
+    public function isActive(): bool
     {
         return $this->active;
     }
 
-    public function getHost() : string
+    public function getHost(): string
     {
         return $this->host;
     }
 
-    public function getPort() : int
+    public function getPort(): int
     {
         return $this->port;
     }

@@ -36,30 +36,30 @@ abstract class ilPDSelectedItemsBlockViewGUI
         $this->provider = $provider;
     }
 
-    abstract public function getScreenId() : string;
+    abstract public function getScreenId(): string;
 
-    abstract public function getTitle() : string;
+    abstract public function getTitle(): string;
 
-    abstract public function supportsSelectAll() : bool;
+    abstract public function supportsSelectAll(): bool;
 
-    abstract public function getIntroductionHtml() : string;
+    abstract public function getIntroductionHtml(): string;
 
     /**
      * @return ilPDSelectedItemsBlockGroup[]
      */
-    abstract public function getGroups() : array;
+    abstract public function getGroups(): array;
 
-    public function mayRemoveItem(int $refId) : bool
+    public function mayRemoveItem(int $refId): bool
     {
         return true;
     }
 
-    public function setIsInManageMode(bool $isInManageMode) : void
+    public function setIsInManageMode(bool $isInManageMode): void
     {
         $this->isInManageMode = $isInManageMode;
     }
 
-    public function isInManageMode() : bool
+    public function isInManageMode(): bool
     {
         return $this->isInManageMode;
     }
@@ -67,7 +67,7 @@ abstract class ilPDSelectedItemsBlockViewGUI
     /**
      * @return ilPDSelectedItemsBlockGroup[]
      */
-    public function getItemGroups() : array
+    public function getItemGroups(): array
     {
         $items_groups = $this->getGroups();
         $this->preloadItemGroups($items_groups);
@@ -75,7 +75,7 @@ abstract class ilPDSelectedItemsBlockViewGUI
         return $items_groups;
     }
 
-    public static function bySettings(ilPDSelectedItemsBlockViewSettings $viewSettings) : ilPDSelectedItemsBlockViewGUI
+    public static function bySettings(ilPDSelectedItemsBlockViewSettings $viewSettings): ilPDSelectedItemsBlockViewGUI
     {
         if ($viewSettings->isMembershipsViewActive()) {
             return new ilPDSelectedItemsBlockMembershipsViewGUI(
@@ -90,12 +90,12 @@ abstract class ilPDSelectedItemsBlockViewGUI
         );
     }
 
-    protected function isRootNode(int $refId) : bool
+    protected function isRootNode(int $refId): bool
     {
         return $this->tree->getRootId() == $refId;
     }
 
-    protected function getRepositoryTitle() : string
+    protected function getRepositoryTitle(): string
     {
         $nd = $this->tree->getNodeData($this->tree->getRootId());
         $title = $nd['title'];
@@ -129,7 +129,7 @@ abstract class ilPDSelectedItemsBlockViewGUI
     /**
      * @return ilPDSelectedItemsBlockGroup[]
      */
-    protected function groupItemsByType() : array
+    protected function groupItemsByType(): array
     {
         global $DIC;
 
@@ -161,7 +161,7 @@ abstract class ilPDSelectedItemsBlockViewGUI
     /**
      * @return ilPDSelectedItemsBlockGroup[]
      */
-    protected function groupItemsByStartDate() : array
+    protected function groupItemsByStartDate(): array
     {
         $items = $this->provider->getItems();
 
@@ -252,7 +252,7 @@ abstract class ilPDSelectedItemsBlockViewGUI
     /**
      * @return ilPDSelectedItemsBlockGroup[]
      */
-    protected function groupItemsByLocation() : array
+    protected function groupItemsByLocation(): array
     {
         $grouped_items = array();
 
@@ -285,11 +285,11 @@ abstract class ilPDSelectedItemsBlockViewGUI
     /**
      * @return ilPDSelectedItemsBlockGroup[]
      */
-    protected function sortItemsByAlphabetInOneGroup() : array
+    protected function sortItemsByAlphabetInOneGroup(): array
     {
         $items = array_values($this->provider->getItems());
 
-        usort($items, static function (array $first, array $second) : int {
+        usort($items, static function (array $first, array $second): int {
             return strnatcmp(strtolower($first['title']), strtolower($second['title']));
         });
 

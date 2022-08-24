@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -22,18 +24,18 @@
  */
 class ilMailEnvironmentHelper
 {
-    public function getHttpPath() : string
+    public function getHttpPath(): string
     {
         return ilUtil::_getHttpPath();
     }
 
-    public function getClientId() : string
+    public function getClientId(): string
     {
         $clientId = '';
         if (defined('CLIENT_NAME')) {
             $clientId = CLIENT_NAME;
         }
-        
+
         return $clientId;
     }
 }

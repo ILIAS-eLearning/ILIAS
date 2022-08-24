@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,7 +18,7 @@
  *
  ********************************************************************
  */
- 
+
 /**
  * Class ilLanguageDetectorFactory
  * @author Michael Jansen <mjansen@databay.de>
@@ -43,7 +45,7 @@ class ilLanguageDetectorFactory
     /**
      * @throws ilLanguageException
      */
-    public function getValidInstances() : array
+    public function getValidInstances(): array
     {
         $detectors = array(
             $this->createDetectorByType(self::DEFAULT_DETECTOR)
@@ -54,7 +56,7 @@ class ilLanguageDetectorFactory
         ) {
             $detectors[] = $this->createDetectorByType(self::HTTP_REQUEST_DETECTOR);
         }
-        
+
         return $detectors;
     }
 

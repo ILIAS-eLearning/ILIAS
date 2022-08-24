@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -46,15 +48,15 @@ class ilStudyProgrammeProgressListGUI
         $this->lng->loadLanguageModule("prg");
         $this->ctrl = $DIC['ilCtrl'];
         $this->access = $DIC['ilAccess'];
-        
+
         $this->progress = $a_progress;
         $this->tpl = null;
         $this->html = null;
         $this->show_info_message = false;
         $this->visible_on_pd_mode = "read";
     }
-    
-    public function getHTML() : string
+
+    public function getHTML(): string
     {
         if ($this->html === null) {
             $tpl = $this->getTemplate("Modules/StudyProgramme", static::$tpl_file, true, true);
@@ -63,19 +65,19 @@ class ilStudyProgrammeProgressListGUI
         }
         return $this->html;
     }
-    
-    protected function fillTemplate(ilTemplate $tpl) : void
+
+    protected function fillTemplate(ilTemplate $tpl): void
     {
         $programme = ilObjStudyProgramme::getInstanceByObjId($this->progress->getNodeId());
         $title_and_icon_target = $this->getTitleAndIconTarget($this->progress);
-        
+
         if ($title_and_icon_target) {
             $tpl->setCurrentBlock("linked_icon");
             $tpl->setVariable("SRC_ICON", $this->getIconPath($programme->getId()));
             $tpl->setVariable("ALT_ICON", $this->getAltIcon());
             $tpl->setVariable("ICON_HREF", $title_and_icon_target);
             $tpl->parseCurrentBlock();
-            
+
             $tpl->setCurrentBlock("linked_title");
             $tpl->setVariable("TXT_TITLE", $this->getTitleForItem($programme));
             $tpl->setVariable("HREF_TITLE", $title_and_icon_target);
@@ -85,7 +87,7 @@ class ilStudyProgrammeProgressListGUI
             $tpl->setVariable("SRC_ICON", $this->getIconPath($programme->getId()));
             $tpl->setVariable("ALT_ICON", $this->getAltIcon());
             $tpl->parseCurrentBlock();
-            
+
             $tpl->setCurrentBlock("not_linked_title");
             $tpl->setVariable("TXT_TITLE", $this->getTitleForItem($programme));
             $tpl->parseCurrentBlock();
@@ -97,32 +99,32 @@ class ilStudyProgrammeProgressListGUI
         $tpl->setVariable("TXT_DESC", $programme->getDescription());
         $tpl->setVariable("PROGRESS_BAR", $this->buildProgressBar($this->progress));
     }
-    
-    protected function getTitleForItem(ilObjStudyProgramme $programme) : string
+
+    protected function getTitleForItem(ilObjStudyProgramme $programme): string
     {
         return $programme->getTitle();
     }
-    
+
     protected function getTemplate(
         string $component,
         string $file,
         bool $remove_unknown_vars,
         bool $remove_empty_blocks
-    ) : ilTemplate {
+    ): ilTemplate {
         return new ilTemplate($file, $remove_unknown_vars, $remove_empty_blocks, $component);
     }
 
-    protected function getIconPath(int $obj_id) : string
+    protected function getIconPath(int $obj_id): string
     {
         return ilObject::_getIcon($obj_id, "small", "prg");
     }
-    
-    protected function getAltIcon() : string
+
+    protected function getAltIcon(): string
     {
         return $this->lng->txt("icon") . " " . $this->lng->txt("obj_prg");
     }
-    
-    protected function getTitleAndIconTarget(ilStudyProgrammeProgress $progress) : ?string
+
+    protected function getTitleAndIconTarget(ilStudyProgrammeProgress $progress): ?string
     {
         $this->ctrl->setParameterByClass("ilDashboardGUI", "prg_progress_id", $progress->getId());
         $this->ctrl->setParameterByClass("ilDashboardGUI", "expand", 1);
@@ -131,15 +133,15 @@ class ilStudyProgrammeProgressListGUI
         $this->ctrl->setParameterByClass("ilDashboardGUI", "expand", null);
         return $link;
     }
-    
-    protected function buildProgressBar(ilStudyProgrammeProgress $progress) : string
+
+    protected function buildProgressBar(ilStudyProgrammeProgress $progress): string
     {
         $tooltip_id = "prg_" . $progress->getId();
         $required_amount_of_points = $progress->getAmountOfPoints();
 
         $programme = ilObjStudyProgramme::getInstanceByObjId($progress->getNodeId());
         $maximum_possible_amount_of_points = $programme->getPossiblePointsOfRelevantChildren($progress);
-        
+
         $current_amount_of_points = $progress->getCurrentAmountOfPoints();
         $current_percent = 0;
         $required_percent = 0;
@@ -151,15 +153,15 @@ class ilStudyProgrammeProgressListGUI
             $current_percent = 100;
             $required_percent = 100;
         }
-        
+
         //required to dodge bug in ilContainerObjectiveGUI::renderProgressBar
         if ($required_percent === 0) {
             $required_percent = 0.1;
         }
-        
+
         $tooltip_txt = $this->buildToolTip($progress);
         $progress_status = $this->buildProgressStatus($progress);
-        
+
         if ($progress->isSuccessful()) {
             $css_class = self::SUCCESSFUL_PROGRESS_CSS_CLASS;
         } else {
@@ -176,8 +178,8 @@ class ilStudyProgrammeProgressListGUI
             $tooltip_txt
         );
     }
-    
-    protected function buildToolTip(ilStudyProgrammeProgress $progress) : string
+
+    protected function buildToolTip(ilStudyProgrammeProgress $progress): string
     {
         return sprintf(
             $this->lng->txt("prg_progress_info"),
@@ -185,8 +187,8 @@ class ilStudyProgrammeProgressListGUI
             $progress->getAmountOfPoints()
         );
     }
-    
-    protected function buildProgressStatus(ilStudyProgrammeProgress $progress) : string
+
+    protected function buildProgressStatus(ilStudyProgrammeProgress $progress): string
     {
         $lang_val = "prg_progress_status";
         $max_points = $progress->getAmountOfPoints();
@@ -207,22 +209,22 @@ class ilStudyProgrammeProgressListGUI
         );
     }
 
-    public function setShowInfoMessage(bool $show_info_message) : void
+    public function setShowInfoMessage(bool $show_info_message): void
     {
         $this->show_info_message = $show_info_message;
     }
 
-    public function setVisibleOnPDMode(string $visible_on_pd_mode) : void
+    public function setVisibleOnPDMode(string $visible_on_pd_mode): void
     {
         $this->visible_on_pd_mode = $visible_on_pd_mode;
     }
 
-    public function setOnlyRelevant(bool $only_relevant) : void
+    public function setOnlyRelevant(bool $only_relevant): void
     {
         $this->only_relevant = $only_relevant;
     }
 
-    protected function showMoreObjectsInfo(ilObjStudyProgramme $programme) : bool
+    protected function showMoreObjectsInfo(ilObjStudyProgramme $programme): bool
     {
         $children = $programme->getChildren();
         foreach ($children as $child) {

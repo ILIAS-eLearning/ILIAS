@@ -30,7 +30,7 @@ class ilPDSelectedItemsBlockSelectedItemsProvider implements ilPDSelectedItemsBl
         $this->settings = $DIC->settings();
     }
 
-    public function getItems(array $object_type_white_list = array()) : array
+    public function getItems(array $object_type_white_list = array()): array
     {
         $short_desc = $this->settings->get("rep_shorten_description");
         $short_desc_max_length = (int) $this->settings->get("rep_shorten_description_length");

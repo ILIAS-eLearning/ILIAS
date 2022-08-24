@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -21,7 +23,7 @@
  */
 class ilPageFormatsTest extends ilCertificateBaseTestCase
 {
-    public function testFetchFormats() : void
+    public function testFetchFormats(): void
     {
         $languageMock = $this->getMockBuilder(ilLanguage::class)
             ->disableOriginalConstructor()

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /******************************************************************************
  *
@@ -35,7 +37,7 @@ class ilConditionFactory
     /**
      * Repository condition trigger object
      */
-    public function repositoryTrigger(int $ref_id) : ilConditionTrigger
+    public function repositoryTrigger(int $ref_id): ilConditionTrigger
     {
         $obj_id = $this->cond_obj_adapter->getObjIdForRefId($ref_id);
         $obj_type = $this->cond_obj_adapter->getTypeForObjId($obj_id);
@@ -46,17 +48,17 @@ class ilConditionFactory
      * Condition set
      * @param ilCondition[] $conditions
      */
-    public function set(array $conditions) : ilConditionSet
+    public function set(array $conditions): ilConditionSet
     {
         return new ilConditionSet($conditions);
     }
 
-    public function condition(ilConditionTrigger $trigger, string $operator, ?string $value = null) : ilCondition
+    public function condition(ilConditionTrigger $trigger, string $operator, ?string $value = null): ilCondition
     {
         return new ilCondition($trigger, $operator, $value);
     }
 
-    public function operator() : ilConditionOperatorFactory
+    public function operator(): ilConditionOperatorFactory
     {
         return new ilConditionOperatorFactory();
     }

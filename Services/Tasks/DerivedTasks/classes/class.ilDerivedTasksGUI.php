@@ -62,7 +62,7 @@ class ilDerivedTasksGUI implements ilCtrlBaseClassInterface
     /**
      * Execute command
      */
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         $ctrl = $this->ctrl;
         $main_tpl = $this->main_tpl;
@@ -80,7 +80,7 @@ class ilDerivedTasksGUI implements ilCtrlBaseClassInterface
     /**
      * Show list of tasks
      */
-    protected function show() : void
+    protected function show(): void
     {
         $ui = $this->ui;
         $lng = $this->lng;

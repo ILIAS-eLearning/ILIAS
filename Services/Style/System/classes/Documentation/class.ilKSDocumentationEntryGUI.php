@@ -50,7 +50,7 @@ class ilKSDocumentationEntryGUI
         $this->entries = $entries;
     }
 
-    public function createUIComponentOfEntry() : Report
+    public function createUIComponentOfEntry(): Report
     {
         $sub_panels = [];
 

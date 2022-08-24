@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -71,7 +73,7 @@ class ilForumTopicTableGUI extends ilTable2GUI
         $this->is_post_draft_allowed = ilForumPostDraft::isSavePostDraftAllowed();
     }
 
-    public function init() : void
+    public function init(): void
     {
         if ($this->parent_cmd === 'mergeThreads') {
             $this->initMergeThreadsTable();
@@ -80,7 +82,7 @@ class ilForumTopicTableGUI extends ilTable2GUI
         }
     }
 
-    public function initTopicsOverviewTable() : void
+    public function initTopicsOverviewTable(): void
     {
         if ($this->parent_cmd === "showThreads") {
             $this->setSelectAllCheckbox('thread_ids');
@@ -132,7 +134,7 @@ class ilForumTopicTableGUI extends ilTable2GUI
         $this->setRowSelectorLabel($this->lng->txt('number_of_threads'));
     }
 
-    public function initMergeThreadsTable() : void
+    public function initMergeThreadsTable(): void
     {
         $this->addColumn('', 'check', '1px', true);
         $this->addColumn($this->lng->txt('forums_thread'), 'th_title');
@@ -158,7 +160,7 @@ class ilForumTopicTableGUI extends ilTable2GUI
         $this->setRowSelectorLabel($this->lng->txt('number_of_threads'));
     }
 
-    protected function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set): void
     {
         /** @var ilForumTopic $thread */
         $thread = $a_set['thread'];
@@ -315,7 +317,7 @@ class ilForumTopicTableGUI extends ilTable2GUI
         $this->ctrl->setParameter($this->getParentObject(), 'backurl', '');
     }
 
-    public function fetchData() : ilForumTopicTableGUI
+    public function fetchData(): ilForumTopicTableGUI
     {
         $this->determineOffsetAndOrder();
 
@@ -349,7 +351,7 @@ class ilForumTopicTableGUI extends ilTable2GUI
         }
 
         $this->setMaxCount($data['cnt']);
-        $this->setData(array_map(static function (ilForumTopic $thread) : array {
+        $this->setData(array_map(static function (ilForumTopic $thread): array {
             return ['thread' => $thread];
         }, $data['items']));
 
@@ -373,68 +375,68 @@ class ilForumTopicTableGUI extends ilTable2GUI
         return $this;
     }
 
-    public function setMapper(ilForum $mapper) : self
+    public function setMapper(ilForum $mapper): self
     {
         $this->mapper = $mapper;
         return $this;
     }
 
-    public function getMapper() : ilForum
+    public function getMapper(): ilForum
     {
         return $this->mapper;
     }
 
-    public function setRefId(int $ref_id) : self
+    public function setRefId(int $ref_id): self
     {
         $this->ref_id = $ref_id;
         return $this;
     }
 
-    public function getRefId() : int
+    public function getRefId(): int
     {
         return $this->ref_id;
     }
 
-    public function setOverviewSetting(int $overview_setting) : self
+    public function setOverviewSetting(int $overview_setting): self
     {
         $this->overview_setting = $overview_setting;
         return $this;
     }
 
-    public function getOverviewSetting() : int
+    public function getOverviewSetting(): int
     {
         return $this->overview_setting;
     }
 
-    public function setIsModerator(bool $is_moderator) : self
+    public function setIsModerator(bool $is_moderator): self
     {
         $this->is_moderator = $is_moderator;
         return $this;
     }
 
-    public function getIsModerator() : bool
+    public function getIsModerator(): bool
     {
         return $this->is_moderator;
     }
 
-    public function setTopicData(ForumDto $topicData) : self
+    public function setTopicData(ForumDto $topicData): self
     {
         $this->topicData = $topicData;
         return $this;
     }
 
-    public function getTopicData() : ForumDto
+    public function getTopicData(): ForumDto
     {
         return $this->topicData;
     }
 
-    public function setSelectedThread(ilForumTopic $thread_obj) : self
+    public function setSelectedThread(ilForumTopic $thread_obj): self
     {
         $this->merge_thread_obj = $thread_obj;
         return $this;
     }
 
-    public function getSelectedThread() : ?ilForumTopic
+    public function getSelectedThread(): ?ilForumTopic
     {
         return $this->merge_thread_obj;
     }

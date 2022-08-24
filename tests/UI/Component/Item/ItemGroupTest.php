@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 require_once(__DIR__ . "/../../../../libs/composer/vendor/autoload.php");
 require_once(__DIR__ . "/../../Base.php");
 
@@ -27,12 +29,12 @@ use ILIAS\UI\Implementation as I;
  */
 class ItemGroupTest extends ILIAS_UI_TestBase
 {
-    public function getFactory() : C\Item\Factory
+    public function getFactory(): C\Item\Factory
     {
-        return new I\Component\Item\Factory;
+        return new I\Component\Item\Factory();
     }
 
-    public function test_implements_factory_interface() : void
+    public function test_implements_factory_interface(): void
     {
         $f = $this->getFactory();
 
@@ -44,7 +46,7 @@ class ItemGroupTest extends ILIAS_UI_TestBase
         $this->assertInstanceOf("ILIAS\\UI\\Component\\Item\\Group", $group);
     }
 
-    public function test_get_title() : void
+    public function test_get_title(): void
     {
         $f = $this->getFactory();
         $c = $f->group("group", array(
@@ -55,7 +57,7 @@ class ItemGroupTest extends ILIAS_UI_TestBase
         $this->assertEquals("group", $c->getTitle());
     }
 
-    public function test_get_items() : void
+    public function test_get_items(): void
     {
         $f = $this->getFactory();
 
@@ -69,7 +71,7 @@ class ItemGroupTest extends ILIAS_UI_TestBase
         $this->assertEquals($c->getItems(), $items);
     }
 
-    public function test_with_actions() : void
+    public function test_with_actions(): void
     {
         $f = $this->getFactory();
 
@@ -87,7 +89,7 @@ class ItemGroupTest extends ILIAS_UI_TestBase
         $this->assertEquals($c->getActions(), $actions);
     }
 
-    public function test_render_base() : void
+    public function test_render_base(): void
     {
         $f = $this->getFactory();
         $r = $this->getDefaultRenderer();
@@ -119,7 +121,7 @@ EOT;
         );
     }
 
-    public function test_render_with_actions() : void
+    public function test_render_with_actions(): void
     {
         $f = $this->getFactory();
         $r = $this->getDefaultRenderer();

@@ -9,23 +9,22 @@
 
 interface ilAssLacManufacturerInterface
 {
-
     /**
      * Get an singleton of the manufacturer
      *
      * @return ilAssLacManufacturerInterface
      */
-    public static function _getInstance() : ?ilAssLacManufacturerInterface;
+    public static function _getInstance(): ?ilAssLacManufacturerInterface;
 
     /**
      * Create a new specific Composite object which is representing the delivered Attribute
      */
-    public function manufacture(string $attribute) : ilAssLacAbstractComposite;
+    public function manufacture(string $attribute): ilAssLacAbstractComposite;
 
     /**
      * @return string
      */
-    public function getPattern() : string;
+    public function getPattern(): string;
 
     /**
      * Matches a delivered string with a the pattern returned by getPattern implemented in the explicit Manufacturer
@@ -33,5 +32,5 @@ interface ilAssLacManufacturerInterface
      * @return array
      *@see ManufacturerInterface::getPattern()
      */
-    public function match(string $subject) : array;
+    public function match(string $subject): array;
 }

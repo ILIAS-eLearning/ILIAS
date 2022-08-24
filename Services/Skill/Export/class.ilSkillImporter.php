@@ -27,7 +27,7 @@ class ilSkillImporter extends ilXmlImporter
     protected ilSkillDataSet $ds;
     protected ilImportConfig $config;
 
-    public function init() : void
+    public function init(): void
     {
         $this->ds = new ilSkillDataSet();
         $this->ds->setDSPrefix("ds");
@@ -39,7 +39,7 @@ class ilSkillImporter extends ilXmlImporter
     /**
      * @inheritdoc
      */
-    public function importXmlRepresentation(string $a_entity, string $a_id, string $a_xml, ilImportMapping $a_mapping) : void
+    public function importXmlRepresentation(string $a_entity, string $a_id, string $a_xml, ilImportMapping $a_mapping): void
     {
         $parser = new ilDataSetImportParser(
             $a_entity,

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -28,7 +30,7 @@ class ilLocationInputGUI extends ilFormPropertyGUI
     protected ?float $longitude = null;
     protected ?int $zoom = null;
     protected string $address = "";
-    
+
     public function __construct(
         string $a_title = "",
         string $a_postvar = ""
@@ -41,47 +43,47 @@ class ilLocationInputGUI extends ilFormPropertyGUI
         $this->setType("location");
     }
 
-    public function setLatitude(?float $a_latitude) : void
+    public function setLatitude(?float $a_latitude): void
     {
         $this->latitude = $a_latitude;
     }
 
-    public function getLatitude() : ?float
+    public function getLatitude(): ?float
     {
         return $this->latitude;
     }
 
-    public function setLongitude(?float $a_longitude) : void
+    public function setLongitude(?float $a_longitude): void
     {
         $this->longitude = $a_longitude;
     }
 
-    public function getLongitude() : ?float
+    public function getLongitude(): ?float
     {
         return $this->longitude;
     }
 
-    public function setZoom(?int $a_zoom) : void
+    public function setZoom(?int $a_zoom): void
     {
         $this->zoom = $a_zoom;
     }
 
-    public function getZoom() : ?int
+    public function getZoom(): ?int
     {
         return $this->zoom;
     }
 
-    public function setAddress(string $a_address) : void
+    public function setAddress(string $a_address): void
     {
         $this->address = $a_address;
     }
-    
-    public function getAddress() : string
+
+    public function getAddress(): string
     {
         return $this->address;
     }
 
-    public function setValueByArray(array $a_values) : void
+    public function setValueByArray(array $a_values): void
     {
         $lat = (isset($a_values[$this->getPostVar()]["latitude"]) && $a_values[$this->getPostVar()]["latitude"] != "")
             ? (float) $a_values[$this->getPostVar()]["latitude"]
@@ -94,7 +96,7 @@ class ilLocationInputGUI extends ilFormPropertyGUI
         $this->setZoom((int) $a_values[$this->getPostVar()]["zoom"]);
     }
 
-    public function checkInput() : bool
+    public function checkInput(): bool
     {
         $lng = $this->lng;
 
@@ -107,7 +109,7 @@ class ilLocationInputGUI extends ilFormPropertyGUI
         return true;
     }
 
-    public function getInput() : array
+    public function getInput(): array
     {
         $val = $this->strArray($this->getPostVar());
         return [
@@ -118,12 +120,12 @@ class ilLocationInputGUI extends ilFormPropertyGUI
         ];
     }
 
-    public function insert(ilTemplate $a_tpl) : void
+    public function insert(ilTemplate $a_tpl): void
     {
         $lng = $this->lng;
         $rbacsystem = $this->rbacsystem;
         $levels = [];
-        
+
         $lng->loadLanguageModule("maps");
         $tpl = new ilTemplate("tpl.prop_location.html", true, true, "Services/Form");
         $tpl->setVariable("POST_VAR", $this->getPostVar());
@@ -131,7 +133,7 @@ class ilLocationInputGUI extends ilFormPropertyGUI
         $tpl->setVariable("TXT_LATITUDE", $lng->txt("maps_latitude"));
         $tpl->setVariable("TXT_LONGITUDE", $lng->txt("maps_longitude"));
         $tpl->setVariable("LOC_DESCRIPTION", $lng->txt("maps_std_location_desc"));
-        
+
         $lat = is_numeric($this->getLatitude())
             ? $this->getLatitude()
             : 0;
@@ -143,9 +145,9 @@ class ilLocationInputGUI extends ilFormPropertyGUI
         for ($i = 0; $i <= 18; $i++) {
             $levels[$i] = $i;
         }
-        
+
         $map_id = "map_" . md5(uniqid());
-        
+
         $tpl->setVariable(
             "ZOOM_SELECT",
             ilLegacyFormElementsUtil::formSelect(
@@ -189,13 +191,13 @@ class ilLocationInputGUI extends ilFormPropertyGUI
                 ->setEnableCentralMarker(true);
 
         $tpl->setVariable("MAP", $map_gui->getHtml());
-        
+
         $a_tpl->setCurrentBlock("prop_generic");
         $a_tpl->setVariable("PROP_GENERIC", $tpl->get());
         $a_tpl->parseCurrentBlock();
     }
 
-    protected function geolocationAvailiable() : bool
+    protected function geolocationAvailiable(): bool
     {
         switch (ilMapUtil::getType()) {
             case 'openlayers':

@@ -28,7 +28,7 @@ class ilObjWikiListGUI extends ilObjectListGUI
     /**
     * initialisation
     */
-    public function init() : void
+    public function init(): void
     {
         $this->copy_enabled = true;
         $this->delete_enabled = true;
@@ -38,12 +38,12 @@ class ilObjWikiListGUI extends ilObjectListGUI
         $this->info_screen_enabled = true;
         $this->type = "wiki";
         $this->gui_class_name = "ilobjwikigui";
-        
+
         // general commands array
         $this->commands = ilObjWikiAccess::_getCommands();
     }
 
-    public function getCommandFrame(string $cmd) : string
+    public function getCommandFrame(string $cmd): string
     {
         switch ($cmd) {
             default:
@@ -54,7 +54,7 @@ class ilObjWikiListGUI extends ilObjectListGUI
         return $frame;
     }
 
-    public function getProperties() : array
+    public function getProperties(): array
     {
         $lng = $this->lng;
 
@@ -71,7 +71,7 @@ class ilObjWikiListGUI extends ilObjectListGUI
             $sub = ilExSubmission::getSubmissionsForFilename($this->ref_id, array(ilExAssignment::TYPE_WIKI_TEAM));
             foreach ($sub as $s) {
                 $team = new ilExAssignmentTeam($s["team_id"]);
-                $mem = array_map(static function ($id) : string {
+                $mem = array_map(static function ($id): string {
                     $name = ilObjUser::_lookupName($id);
                     return $name["firstname"] . " " . $name["lastname"];
                 }, $team->getMembers());
@@ -84,7 +84,7 @@ class ilObjWikiListGUI extends ilObjectListGUI
         return $props;
     }
 
-    public function getCommandLink(string $cmd) : string
+    public function getCommandLink(string $cmd): string
     {
         switch ($cmd) {
             case 'downloadFile':
@@ -92,7 +92,7 @@ class ilObjWikiListGUI extends ilObjectListGUI
                     "&amp;cmdClass=ilwikipagegui&amp;ref_id=" . $this->ref_id .
                     "&amp;cmd=downloadFile&amp;file_id=" . $this->getChildId();
                 break;
-            
+
             default:
                 // separate method for this line
                 $cmd_link = "ilias.php?baseClass=ilWikiHandlerGUI&ref_id=" . $this->ref_id . "&cmd=$cmd";
@@ -101,12 +101,12 @@ class ilObjWikiListGUI extends ilObjectListGUI
         return $cmd_link;
     }
 
-    public function setChildId(string $a_child_id) : void
+    public function setChildId(string $a_child_id): void
     {
         $this->child_id = $a_child_id;
     }
 
-    public function getChildId() : string
+    public function getChildId(): string
     {
         return $this->child_id;
     }

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /******************************************************************************
  *
@@ -23,21 +25,21 @@ use ILIAS\FileUpload\DTO\ProcessingStatus;
 class ilServicesFileServicesTest extends TestCase
 {
     private ?\ILIAS\DI\Container $dic_backup;
-    
-    public function testSanitizing() : void
+
+    public function testSanitizing(): void
     {
         $settings = $this->createMock(ilFileServicesSettings::class);
         $settings->expects($this->once())
                  ->method('getWhiteListedSuffixes')
                  ->willReturn(['pdf', 'jpg']);
-        
+
         $sanitizer = new ilFileServicesFilenameSanitizer($settings);
         $this->assertTrue($sanitizer->isClean('/lib/test.pdf'));
         $this->assertFalse($sanitizer->isClean('/lib/test.xml'));
         $this->assertEquals('/lib/testxml.sec', $sanitizer->sanitize('/lib/test.xml'));
     }
-    
-    public function testBlacklistedUpload() : void
+
+    public function testBlacklistedUpload(): void
     {
         $rbac = $this->createMock(ilRbacSystem::class);
         $settings = $this->createMock(ilFileServicesSettings::class);
@@ -46,7 +48,7 @@ class ilServicesFileServicesTest extends TestCase
                  ->willReturn(['pdf']);
         $stream = $this->createMock(FileStream::class);
         $meta = new Metadata('filename.pdf', 42, 'application/pdf');
-        
+
         $processor = new ilFileServicesPreProcessor(
             $rbac,
             $settings,
@@ -58,8 +60,8 @@ class ilServicesFileServicesTest extends TestCase
         $status = $processor->process($stream, $meta);
         $this->assertEquals(ProcessingStatus::REJECTED, $status->getCode());
     }
-    
-    public function testBlacklistedUploadWithPermission() : void
+
+    public function testBlacklistedUploadWithPermission(): void
     {
         $rbac = $this->createMock(ilRbacSystem::class);
         $settings = $this->createMock(ilFileServicesSettings::class);
@@ -68,7 +70,7 @@ class ilServicesFileServicesTest extends TestCase
                  ->willReturn(['pdf']);
         $stream = $this->createMock(FileStream::class);
         $meta = new Metadata('filename.pdf', 42, 'application/pdf');
-        
+
         $processor = new ilFileServicesPreProcessor(
             $rbac,
             $settings,

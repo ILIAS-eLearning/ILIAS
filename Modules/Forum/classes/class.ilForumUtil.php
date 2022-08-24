@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -22,7 +24,7 @@
  */
 class ilForumUtil
 {
-    public static function getPublicUserAlias(string $user_alias, bool $is_anonymized) : string
+    public static function getPublicUserAlias(string $user_alias, bool $is_anonymized): string
     {
         global $DIC;
 
@@ -47,7 +49,7 @@ class ilForumUtil
         string $target_type,
         int $target_id,
         int $direction = 0
-    ) : void {
+    ): void {
         $mediaObjects = ilRTE::_getMediaObjects($post_message, $direction);
         $myMediaObjects = ilObjMediaObject::_getMobsOfObject($source_type, $source_id);
         foreach ($mediaObjects as $mob) {
@@ -66,7 +68,7 @@ class ilForumUtil
         string $target_type,
         int $target_id,
         int $direction = 0
-    ) : void {
+    ): void {
         $mediaObjects = ilRTE::_getMediaObjects($post_message, $direction);
 
         foreach ($mediaObjects as $mob) {

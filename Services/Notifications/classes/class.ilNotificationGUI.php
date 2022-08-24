@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /******************************************************************************
  *
@@ -71,12 +73,12 @@ class ilNotificationGUI implements ilCtrlBaseClassInterface
         $this->language = $language;
     }
 
-    public static function _forwards() : array
+    public static function _forwards(): array
     {
         return [];
     }
 
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         if (!$this->controller->getCmd()) {
             return;
@@ -94,17 +96,17 @@ class ilNotificationGUI implements ilCtrlBaseClassInterface
         return $this->handler[$type];
     }
 
-    private function getAvailableTypes(array $types = []) : array
+    private function getAvailableTypes(array $types = []): array
     {
         return ilNotificationDatabaseHandler::getAvailableTypes($types);
     }
 
-    private function getAvailableChannels(array $types = []) : array
+    private function getAvailableChannels(array $types = []): array
     {
         return ilNotificationDatabaseHandler::getAvailableChannels($types);
     }
 
-    public function getOSDNotificationsObject() : void
+    public function getOSDNotificationsObject(): void
     {
         $settings = new ilSetting('notifications');
 
@@ -151,7 +153,7 @@ class ilNotificationGUI implements ilCtrlBaseClassInterface
         $this->dic->http()->close();
     }
 
-    public function removeOSDNotificationsObject() : void
+    public function removeOSDNotificationsObject(): void
     {
         ilSession::enableWebAccessWithoutSession(true);
         (new ilNotificationOSDHandler())->removeNotification(
@@ -160,7 +162,7 @@ class ilNotificationGUI implements ilCtrlBaseClassInterface
         exit;
     }
 
-    public function addHandler(string $channel, ilNotificationHandler $handler) : void
+    public function addHandler(string $channel, ilNotificationHandler $handler): void
     {
         if (!array_key_exists($channel, $this->handler) || !is_array($this->handler[$channel])) {
             $this->handler[$channel] = [];
@@ -169,7 +171,7 @@ class ilNotificationGUI implements ilCtrlBaseClassInterface
         $this->handler[$channel][] = $handler;
     }
 
-    private function saveCustomizingOptionObject() : void
+    private function saveCustomizingOptionObject(): void
     {
         if ($this->dic->http()->wrapper()->post()->has('enable_custom_notification_configuration')) {
             $this->user->writePref('use_custom_notification_setting', "1");
@@ -180,7 +182,7 @@ class ilNotificationGUI implements ilCtrlBaseClassInterface
         $this->showSettingsObject();
     }
 
-    public function showSettingsObject() : void
+    public function showSettingsObject(): void
     {
         $userTypes = ilNotificationDatabaseHandler::loadUserConfig($this->user->getId());
 

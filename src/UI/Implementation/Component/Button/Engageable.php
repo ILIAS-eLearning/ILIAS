@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\UI\Implementation\Component\Button;
 
 /**
@@ -31,7 +33,7 @@ trait Engageable
     /**
      * @inheritdoc
      */
-    public function isEngageable() : bool
+    public function isEngageable(): bool
     {
         return $this->is_engageable;
     }
@@ -51,7 +53,7 @@ trait Engageable
     /**
      * @inheritdoc
      */
-    public function isEngaged() : bool
+    public function isEngaged(): bool
     {
         return $this->engaged;
     }

@@ -37,7 +37,7 @@ class ilAssLacUnableToParseCondition extends ilAssLacException implements ilAssL
     /**
      * @return string
      */
-    public function getCondition() : string
+    public function getCondition(): string
     {
         return $this->condition;
     }
@@ -46,7 +46,7 @@ class ilAssLacUnableToParseCondition extends ilAssLacException implements ilAssL
      * @param ilLanguage $lng
      * @return string
      */
-    public function getFormAlert(ilLanguage $lng) : string
+    public function getFormAlert(ilLanguage $lng): string
     {
         return sprintf(
             $lng->txt("ass_lac_unable_to_parse_condition"),

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -36,9 +38,9 @@ class NotificationProvider extends AbstractNotificationProvider
 {
     public const MUTED_UNTIL_PREFERENCE_KEY = 'mail_nc_muted_until';
 
-    public function getNotifications() : array
+    public function getNotifications(): array
     {
-        $id = function (string $id) : IdentificationInterface {
+        $id = function (string $id): IdentificationInterface {
             return $this->if->identifier($id);
         };
 
@@ -117,7 +119,7 @@ class NotificationProvider extends AbstractNotificationProvider
                 $factory->standard($id('mail_bucket'))
                     ->withNotificationItem($notificationItem)
                     ->withClosedCallable(
-                        function () : void {
+                        function (): void {
                             $this->dic->user()->writePref(self::MUTED_UNTIL_PREFERENCE_KEY, (string) time());
                         }
                     )

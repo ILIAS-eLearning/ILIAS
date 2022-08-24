@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -95,7 +97,7 @@ class ilCalendarSettings
         $this->readCalendarSettingsId();
     }
 
-    public static function _getInstance() : ilCalendarSettings
+    public static function _getInstance(): ilCalendarSettings
     {
         if (self::$instance) {
             return self::$instance;
@@ -103,7 +105,7 @@ class ilCalendarSettings
         return self::$instance = new ilCalendarSettings();
     }
 
-    public static function lookupCalendarContentPresentationEnabled(int $obj_id) : bool
+    public static function lookupCalendarContentPresentationEnabled(int $obj_id): bool
     {
         if (!self::lookupCalendarActivated($obj_id)) {
             return false;
@@ -118,7 +120,7 @@ class ilCalendarSettings
         );
     }
 
-    public static function lookupCalendarActivated(int $a_obj_id) : bool
+    public static function lookupCalendarActivated(int $a_obj_id): bool
     {
         if (!ilCalendarSettings::_getInstance()->isEnabled()) {
             return false;
@@ -146,212 +148,212 @@ class ilCalendarSettings
         );
     }
 
-    public function useCache(bool $a_status) : void
+    public function useCache(bool $a_status): void
     {
         $this->cache_enabled = $a_status;
     }
 
-    public function isCacheUsed() : bool
+    public function isCacheUsed(): bool
     {
         return $this->cache_enabled;
     }
 
-    public function setCacheMinutes(int $a_min) : void
+    public function setCacheMinutes(int $a_min): void
     {
         $this->cache_minutes = $a_min;
     }
 
-    public function getCacheMinutes() : int
+    public function getCacheMinutes(): int
     {
         return $this->cache_minutes;
     }
 
-    public function setEnabled(bool $a_enabled) : void
+    public function setEnabled(bool $a_enabled): void
     {
         $this->enabled = $a_enabled;
     }
 
-    public function isEnabled() : bool
+    public function isEnabled(): bool
     {
         return $this->enabled;
     }
 
-    public function setDefaultWeekStart(int $a_start) : void
+    public function setDefaultWeekStart(int $a_start): void
     {
         $this->week_start = $a_start;
     }
 
-    public function getDefaultWeekStart() : int
+    public function getDefaultWeekStart(): int
     {
         return $this->week_start;
     }
 
-    public function getDefaultCal() : int
+    public function getDefaultCal(): int
     {
         return $this->default_cal;
     }
 
-    public function setDefaultCal(int $default_cal) : void
+    public function setDefaultCal(int $default_cal): void
     {
         $this->default_cal = $default_cal;
     }
 
-    public function getDefaultPeriod() : int
+    public function getDefaultPeriod(): int
     {
         return $this->default_period;
     }
 
-    public function setDefaultPeriod(int $default_period) : void
+    public function setDefaultPeriod(int $default_period): void
     {
         $this->default_period = $default_period;
     }
 
-    public function setDefaultTimeZone(string $a_zone) : void
+    public function setDefaultTimeZone(string $a_zone): void
     {
         $this->timezone = $a_zone;
     }
 
-    public function getDefaultTimeZone() : string
+    public function getDefaultTimeZone(): string
     {
         return $this->timezone;
     }
 
-    public function setDefaultDateFormat(int $a_format) : void
+    public function setDefaultDateFormat(int $a_format): void
     {
         $this->date_format = $a_format;
     }
 
-    public function getDefaultDateFormat() : int
+    public function getDefaultDateFormat(): int
     {
         return $this->date_format;
     }
 
-    public function setDefaultTimeFormat(int $a_format) : void
+    public function setDefaultTimeFormat(int $a_format): void
     {
         $this->time_format = $a_format;
     }
 
-    public function getDefaultTimeFormat() : int
+    public function getDefaultTimeFormat(): int
     {
         return $this->time_format;
     }
 
-    public function getDefaultDayStart() : int
+    public function getDefaultDayStart(): int
     {
         return $this->day_start;
     }
 
-    public function setDefaultDayStart(int $a_start) : void
+    public function setDefaultDayStart(int $a_start): void
     {
         $this->day_start = $a_start;
     }
 
-    public function getDefaultDayEnd() : int
+    public function getDefaultDayEnd(): int
     {
         return $this->day_end;
     }
 
-    public function setDefaultDayEnd(int $a_end) : void
+    public function setDefaultDayEnd(int $a_end): void
     {
         $this->day_end = $a_end;
     }
 
-    public function areConsultationHoursEnabled() : bool
+    public function areConsultationHoursEnabled(): bool
     {
         return $this->consultation_hours;
     }
 
-    public function enableConsultationHours(bool $a_status) : void
+    public function enableConsultationHours(bool $a_status): void
     {
         $this->consultation_hours = $a_status;
     }
 
-    public function getCalendarSettingsId() : int
+    public function getCalendarSettingsId(): int
     {
         return $this->cal_settings_id;
     }
 
-    public function setEnableGroupMilestones(bool $a_enablegroupmilestones) : void
+    public function setEnableGroupMilestones(bool $a_enablegroupmilestones): void
     {
         $this->enablegroupmilestones = $a_enablegroupmilestones;
     }
 
-    public function getEnableGroupMilestones() : bool
+    public function getEnableGroupMilestones(): bool
     {
         return $this->enablegroupmilestones;
     }
 
-    public function isSynchronisationCacheEnabled() : bool
+    public function isSynchronisationCacheEnabled(): bool
     {
         return $this->sync_cache_enabled;
     }
 
-    public function enableSynchronisationCache(bool $a_status) : void
+    public function enableSynchronisationCache(bool $a_status): void
     {
         $this->sync_cache_enabled = $a_status;
     }
 
-    public function setSynchronisationCacheMinutes(int $a_min) : void
+    public function setSynchronisationCacheMinutes(int $a_min): void
     {
         $this->sync_cache_minutes = $a_min;
     }
 
-    public function getSynchronisationCacheMinutes() : int
+    public function getSynchronisationCacheMinutes(): int
     {
         return $this->sync_cache_minutes;
     }
 
-    public function isNotificationEnabled() : bool
+    public function isNotificationEnabled(): bool
     {
         return $this->notification;
     }
 
-    public function enableNotification(bool $a_status) : void
+    public function enableNotification(bool $a_status): void
     {
         $this->notification = $a_status;
     }
 
-    public function isUserNotificationEnabled() : bool
+    public function isUserNotificationEnabled(): bool
     {
         return $this->notification_user;
     }
 
-    public function enableUserNotification(bool $a_not) : void
+    public function enableUserNotification(bool $a_not): void
     {
         $this->notification_user = $a_not;
     }
 
-    public function enableCGRegistration(bool $a_status) : void
+    public function enableCGRegistration(bool $a_status): void
     {
         $this->cg_registration = $a_status;
     }
 
-    public function isCGRegistrationEnabled() : bool
+    public function isCGRegistrationEnabled(): bool
     {
         return $this->cg_registration;
     }
 
-    public function enableCourseCalendar(bool $a_stat) : void
+    public function enableCourseCalendar(bool $a_stat): void
     {
         $this->course_cal_enabled = $a_stat;
     }
 
-    public function isCourseCalendarEnabled() : bool
+    public function isCourseCalendarEnabled(): bool
     {
         return $this->course_cal_enabled;
     }
 
-    public function isCourseCalendarVisible() : bool
+    public function isCourseCalendarVisible(): bool
     {
         return $this->course_cal_visible;
     }
 
-    public function setCourseCalendarVisible(bool $status) : void
+    public function setCourseCalendarVisible(bool $status): void
     {
         $this->course_cal_visible = $status;
     }
 
-    public function isObjectCalendarVisible(string $type) : bool
+    public function isObjectCalendarVisible(string $type): bool
     {
         switch ($type) {
             case 'crs':
@@ -362,62 +364,62 @@ class ilCalendarSettings
         return false;
     }
 
-    public function enableGroupCalendar(bool $a_stat) : void
+    public function enableGroupCalendar(bool $a_stat): void
     {
         $this->group_cal_enabled = $a_stat;
     }
 
-    public function isGroupCalendarEnabled() : bool
+    public function isGroupCalendarEnabled(): bool
     {
         return $this->group_cal_enabled;
     }
 
-    public function isGroupCalendarVisible() : bool
+    public function isGroupCalendarVisible(): bool
     {
         return $this->group_cal_visible;
     }
 
-    public function setGroupCalendarVisible(bool $status) : void
+    public function setGroupCalendarVisible(bool $status): void
     {
         $this->group_cal_visible = $status;
     }
 
-    public function enableWebCalSync(bool $a_stat) : void
+    public function enableWebCalSync(bool $a_stat): void
     {
         $this->webcal_sync = $a_stat;
     }
 
-    public function isWebCalSyncEnabled() : bool
+    public function isWebCalSyncEnabled(): bool
     {
         return $this->webcal_sync;
     }
 
-    public function setWebCalSyncHours(int $a_hours) : void
+    public function setWebCalSyncHours(int $a_hours): void
     {
         $this->webcal_sync_hours = $a_hours;
     }
 
-    public function getWebCalSyncHours() : int
+    public function getWebCalSyncHours(): int
     {
         return $this->webcal_sync_hours;
     }
 
-    public function setShowWeeks(bool $a_val) : void
+    public function setShowWeeks(bool $a_val): void
     {
         $this->show_weeks = $a_val;
     }
 
-    public function getShowWeeks() : bool
+    public function getShowWeeks(): bool
     {
         return $this->show_weeks;
     }
 
-    public function enableBatchFileDownloads(bool $a_stat) : void
+    public function enableBatchFileDownloads(bool $a_stat): void
     {
         $this->batch_file_downloads = $a_stat;
     }
 
-    public function isBatchFileDownloadsEnabled() : bool
+    public function isBatchFileDownloadsEnabled(): bool
     {
         return $this->batch_file_downloads;
     }
@@ -509,7 +511,7 @@ class ilCalendarSettings
         $this->setDefaultPeriod((int) $this->storage->get('default_period', (string) $this->getDefaultPeriod()));
     }
 
-    private function readCalendarSettingsId() : void
+    private function readCalendarSettingsId(): void
     {
         $query = "SELECT ref_id FROM object_reference obr " .
             "JOIN object_data obd ON obd.obj_id = obr.obj_id " .

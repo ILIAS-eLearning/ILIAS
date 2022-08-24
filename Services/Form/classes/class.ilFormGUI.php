@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -31,100 +33,100 @@ class ilFormGUI
     protected string $target = '';
     protected bool $prevent_double_submission = false;
 
-    public function setFormAction(string $a_formaction) : void
+    public function setFormAction(string $a_formaction): void
     {
         $this->formaction = $a_formaction;
     }
 
-    public function getFormAction() : string
+    public function getFormAction(): string
     {
         return $this->formaction;
     }
 
-    public function setTarget(string $a_target) : void
+    public function setTarget(string $a_target): void
     {
         $this->target = $a_target;
     }
 
-    public function getTarget() : string
+    public function getTarget(): string
     {
         return $this->target;
     }
 
-    public function setMultipart(bool $a_multipart) : void
+    public function setMultipart(bool $a_multipart): void
     {
         $this->multipart = $a_multipart;
     }
 
-    public function getMultipart() : bool
+    public function getMultipart(): bool
     {
         return $this->multipart;
     }
 
-    public function setId(string $a_id) : void
+    public function setId(string $a_id): void
     {
         $this->id = $a_id;
     }
 
-    public function getId() : string
+    public function getId(): string
     {
         return $this->id;
     }
-    
-    public function setName(string $a_name) : void
+
+    public function setName(string $a_name): void
     {
         $this->name = $a_name;
     }
 
-    public function getName() : string
+    public function getName(): string
     {
         return $this->name;
     }
 
-    public function setKeepOpen(bool $a_keepopen) : void
+    public function setKeepOpen(bool $a_keepopen): void
     {
         $this->keepopen = $a_keepopen;
     }
 
-    public function getKeepOpen() : bool
+    public function getKeepOpen(): bool
     {
         return $this->keepopen;
     }
 
-    public function setOpenTag(bool $a_open) : void
+    public function setOpenTag(bool $a_open): void
     {
         $this->opentag = $a_open;
     }
 
-    public function getOpenTag() : bool
+    public function getOpenTag(): bool
     {
         return $this->opentag;
     }
-    
-    public function setCloseTag(bool $a_val) : void
+
+    public function setCloseTag(bool $a_val): void
     {
         $this->setKeepOpen(!$a_val);
     }
-    
-    public function getCloseTag() : bool
+
+    public function getCloseTag(): bool
     {
         return !$this->getKeepOpen();
     }
-    
-    public function setPreventDoubleSubmission(bool $a_val) : void
+
+    public function setPreventDoubleSubmission(bool $a_val): void
     {
         $this->prevent_double_submission = $a_val;
     }
-    
-    public function getPreventDoubleSubmission() : bool
+
+    public function getPreventDoubleSubmission(): bool
     {
         return $this->prevent_double_submission;
     }
-    
-    public function getHTML() : string
+
+    public function getHTML(): string
     {
         $tpl = new ilTemplate("tpl.form.html", true, true, "Services/Form");
-        
+
         // this line also sets multipart, so it must be before the multipart check
         $content = $this->getContent();
         if ($this->getOpenTag()) {
@@ -181,7 +183,7 @@ class ilFormGUI
         return $tpl->get();
     }
 
-    public function getContent() : string
+    public function getContent(): string
     {
         return "";
     }

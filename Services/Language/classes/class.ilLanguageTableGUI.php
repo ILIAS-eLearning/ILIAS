@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -72,11 +74,11 @@ class ilLanguageTableGUI extends ilTable2GUI
 
         $this->getItems();
     }
-    
+
     /**
     * Get language data
     */
-    public function getItems() : void
+    public function getItems(): void
     {
         $languages = $this->folder->getLanguages();
         $data = array();
@@ -90,12 +92,12 @@ class ilLanguageTableGUI extends ilTable2GUI
 
         $this->setData($data);
     }
-    
-    
+
+
     /**
     * Fill table row
     */
-    protected function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set): void
     {
         global $DIC;
         $ilSetting = $DIC->settings();
@@ -118,7 +120,7 @@ class ilLanguageTableGUI extends ilTable2GUI
                 //$remark = "<span class=\"smallgreen\"> ".$lng->txt($a_set["info"])."</span>";
                 break;
         }
-        
+
         // show page translation
         if ($ilSetting->get("lang_translate_" . $a_set["key"])) {
             $remark .= $remark ? '<br />' : '';

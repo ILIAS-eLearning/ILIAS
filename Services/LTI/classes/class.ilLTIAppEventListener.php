@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -39,7 +41,7 @@ class ilLTIAppEventListener implements \ilAppEventListener
         $this->connector = new ilLTIDataConnector();
     }
 
-    protected static function getInstance() : \ilLTIAppEventListener
+    protected static function getInstance(): \ilLTIAppEventListener
     {
         if (!self::$instance instanceof \ilLTIAppEventListener) {
             self::$instance = new self();
@@ -51,7 +53,7 @@ class ilLTIAppEventListener implements \ilAppEventListener
     /**
      * Handle update status
      */
-    protected function handleUpdateStatus(int $a_obj_id, int $a_usr_id, int $a_status, int $a_percentage) : void
+    protected function handleUpdateStatus(int $a_obj_id, int $a_usr_id, int $a_status, int $a_percentage): void
     {
         $this->logger->debug('Handle update status');
         $auth_mode = ilObjUser::_lookupAuthMode($a_usr_id);
@@ -85,7 +87,7 @@ class ilLTIAppEventListener implements \ilAppEventListener
      * @param ilDateTime $since
      * @throws ilDateTimeException
      */
-    protected function doCronUpdate(ilDateTime $since) : void
+    protected function doCronUpdate(ilDateTime $since): void
     {
         $this->logger->debug('Starting cron update for lti outcome service');
 
@@ -117,7 +119,7 @@ class ilLTIAppEventListener implements \ilAppEventListener
         }
     }
 
-    protected function isLTIAuthMode(string $auth_mode) : bool
+    protected function isLTIAuthMode(string $auth_mode): bool
     {
         return strpos($auth_mode, 'lti_') === 0;
     }
@@ -126,7 +128,7 @@ class ilLTIAppEventListener implements \ilAppEventListener
     /**
      * try outcome service
      */
-    protected function tryOutcomeService($resource, string $ext_account, int $a_status, int $a_percentage) : void
+    protected function tryOutcomeService($resource, string $ext_account, int $a_status, int $a_percentage): void
     {
         $resource_link = \ILIAS\LTI\ToolProvider\ResourceLink::fromRecordId($resource, $this->connector);
         if (!$resource_link->hasOutcomesService()) {
@@ -164,7 +166,7 @@ class ilLTIAppEventListener implements \ilAppEventListener
     /**
      * @inheritdoc
      */
-    public static function handleEvent(string $a_component, string $a_event, array $a_parameter) : void
+    public static function handleEvent(string $a_component, string $a_event, array $a_parameter): void
     {
         $logger = ilLoggerFactory::getLogger('ltis');
         $logger->debug('Handling event: ' . $a_event . ' from ' . $a_component);
@@ -187,7 +189,7 @@ class ilLTIAppEventListener implements \ilAppEventListener
      * @return bool
      * @throws ilDateTimeException
      */
-    public static function handleCronUpdate(ilDateTime $since) : bool
+    public static function handleCronUpdate(ilDateTime $since): bool
     {
         $listener = self::getInstance();
         $listener->doCronUpdate($since);
@@ -195,7 +197,7 @@ class ilLTIAppEventListener implements \ilAppEventListener
     }
 
 
-    public static function handleOutcomeWithoutLP(int $a_obj_id, int $a_usr_id, ?float $a_percentage) : void
+    public static function handleOutcomeWithoutLP(int $a_obj_id, int $a_usr_id, ?float $a_percentage): void
     {
         global $DIC;
         $score = 0;

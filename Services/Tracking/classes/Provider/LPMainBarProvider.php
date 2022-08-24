@@ -1,4 +1,6 @@
-<?php declare(strict_types=0);
+<?php
+
+declare(strict_types=0);
 
 namespace ILIAS\LearningProgress;
 
@@ -12,11 +14,10 @@ use ilObjUserTracking;
  */
 class LPMainBarProvider extends AbstractStaticMainMenuProvider
 {
-
     /**
      * @inheritDoc
      */
-    public function getStaticTopItems() : array
+    public function getStaticTopItems(): array
     {
         return [];
     }
@@ -24,7 +25,7 @@ class LPMainBarProvider extends AbstractStaticMainMenuProvider
     /**
      * @inheritDoc
      */
-    public function getStaticSubItems() : array
+    public function getStaticSubItems(): array
     {
         global $DIC;
 

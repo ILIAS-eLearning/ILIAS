@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -24,7 +26,7 @@
  */
 class ilChatroomSettingsGUI extends ilChatroomGUIHandler
 {
-    public function saveGeneral() : void
+    public function saveGeneral(): void
     {
         $formFactory = new ilChatroomFormFactory();
         $settingsForm = $formFactory->getSettingsForm($this->obj_service, $this->gui->getObject());
@@ -70,7 +72,7 @@ class ilChatroomSettingsGUI extends ilChatroomGUIHandler
         }
     }
 
-    public function general(ilPropertyFormGUI $settingsForm = null) : void
+    public function general(ilPropertyFormGUI $settingsForm = null): void
     {
         if (!ilChatroom::checkUserPermissions(['visible', 'read'], $this->gui->getRefId())) {
             $this->ilCtrl->setParameterByClass(ilRepositoryGUI::class, 'ref_id', ROOT_FOLDER_ID);
@@ -124,7 +126,7 @@ class ilChatroomSettingsGUI extends ilChatroomGUIHandler
         $this->mainTpl->setVariable('ADM_CONTENT', $settingsForm->getHTML());
     }
 
-    public function executeDefault(string $requestedMethod) : void
+    public function executeDefault(string $requestedMethod): void
     {
         $this->general();
     }

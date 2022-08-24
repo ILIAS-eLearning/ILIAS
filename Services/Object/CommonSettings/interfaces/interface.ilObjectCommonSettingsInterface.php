@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * Common settings/properties for objects. Any repository object setting/property that is needed
  * by multiple objects should be managed by this sub service.
@@ -30,10 +32,10 @@ interface ilObjectCommonSettingsInterface
      * common settings to and from forms.
      * @todo In the future a method form() should also act on new ui form containers.
      */
-    public function legacyForm(ilPropertyFormGUI $form, ilObject $object) : ilObjectCommonSettingFormAdapter;
+    public function legacyForm(ilPropertyFormGUI $form, ilObject $object): ilObjectCommonSettingFormAdapter;
 
     /**
      * Tile image sub service. Tile images are used in deck of cards view of repository containers.
      */
-    public function tileImage() : ilObjectTileImageFactory;
+    public function tileImage(): ilObjectTileImageFactory;
 }

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\UI\Component\Panel;
 
 use ILIAS\UI\Component\Component;
@@ -53,7 +55,7 @@ interface Factory
      * @param Component[]|Component
      * @return \ILIAS\UI\Component\Panel\Standard
      */
-    public function standard(string $title, $content) : Standard;
+    public function standard(string $title, $content): Standard;
 
     /**
      * ---
@@ -80,7 +82,7 @@ interface Factory
      * @param Component[]|Component
      * @return \ILIAS\UI\Component\Panel\Sub
      */
-    public function sub(string $title, $content) : Sub;
+    public function sub(string $title, $content): Sub;
 
     /**
      * ---
@@ -116,7 +118,7 @@ interface Factory
      * @param \ILIAS\UI\Component\Panel\Sub[]|\ILIAS\UI\Component\Panel\Sub $sub_panels
      * @return \ILIAS\UI\Component\Panel\Report
      */
-    public function report(string $title, $sub_panels) : Report;
+    public function report(string $title, $sub_panels): Report;
 
     /**
      * ---
@@ -150,7 +152,7 @@ interface Factory
      * ---
      * @return \ILIAS\UI\Component\Panel\Listing\Factory
      */
-    public function listing() : Listing\Factory;
+    public function listing(): Listing\Factory;
 
     /**
      * ---
@@ -182,5 +184,5 @@ interface Factory
      * ---
      * @return \ILIAS\UI\Component\Panel\Secondary\Factory
      */
-    public function secondary() : Secondary\Factory;
+    public function secondary(): Secondary\Factory;
 }

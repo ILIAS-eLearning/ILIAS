@@ -22,7 +22,7 @@
  */
 class ilPCTabGUI extends ilPageContentGUI
 {
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         // get next class that processes or forwards current command
         $next_class = $this->ctrl->getNextClass($this);

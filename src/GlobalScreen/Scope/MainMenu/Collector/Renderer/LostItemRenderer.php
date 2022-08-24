@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -26,21 +28,20 @@ use ILIAS\UI\Component\Component;
  */
 class LostItemRenderer extends BaseTypeRenderer
 {
-    
     /**
      * @inheritDoc
      */
-    public function getComponentWithContent(isItem $item) : Component
+    public function getComponentWithContent(isItem $item): Component
     {
         /**
          * @var $item \ILIAS\GlobalScreen\Scope\MainMenu\Factory\Item\Lost
          */
         if ($item->hasChildren()) {
             $r = new TopParentItemRenderer();
-            
+
             return $r->getComponentForItem($item);
         }
-        
+
         return $this->ui_factory->button()->bulky($this->getStandardSymbol($item), "{$item->getTypeInformation()->getTypeNameForPresentation()}", "");
     }
 }

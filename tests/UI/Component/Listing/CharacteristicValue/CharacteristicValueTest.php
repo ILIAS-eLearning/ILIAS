@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,14 +17,14 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 require_once('tests/UI/Base.php');
 
 use ILIAS\UI\Implementation\Component\Listing\CharacteristicValue\Factory as CharacteristicValueFactory;
 
 class CharacteristicValueTest extends ILIAS_UI_TestBase
 {
-    public function test_interfaces() : void
+    public function test_interfaces(): void
     {
         $f = $this->getCharacteristicValueFactory();
 
@@ -37,12 +39,12 @@ class CharacteristicValueTest extends ILIAS_UI_TestBase
         );
     }
 
-    protected function getCharacteristicValueFactory() : CharacteristicValueFactory
+    protected function getCharacteristicValueFactory(): CharacteristicValueFactory
     {
         return new CharacteristicValueFactory();
     }
 
-    protected function getTextItemsMock() : array
+    protected function getTextItemsMock(): array
     {
         return [
             'label1' => 'item1',
@@ -51,7 +53,7 @@ class CharacteristicValueTest extends ILIAS_UI_TestBase
         ];
     }
 
-    protected function getInvalidTextItemsMocks() : array
+    protected function getInvalidTextItemsMocks(): array
     {
         return [
             ['' => 'item'],

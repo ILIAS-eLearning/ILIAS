@@ -15,7 +15,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\BackgroundTasks\Implementation\TaskManager;
 
 use ILIAS\BackgroundTasks\Bucket;
@@ -39,22 +39,22 @@ use ILIAS\BackgroundTasks\Task\UserInteraction;
 class SyncTaskManager extends BasicTaskManager
 {
     protected Persistence $persistence;
-    
+
     public function __construct(Persistence $persistence)
     {
         $this->persistence = $persistence;
     }
-    
+
     /**
      * This will add an Observer of the Task and start running the task.
      * @throws \Exception
      */
-    public function run(Bucket $bucket) : void
+    public function run(Bucket $bucket): void
     {
         $task = $bucket->getTask();
         $bucket->setCurrentTask($task);
         $observer = new NonPersistingObserver($bucket);
-        
+
         try {
             $task = $this->executeTask($task, $observer);
             if ($task instanceof UserInteraction && $task->canBeSkipped($task->getInput())) {

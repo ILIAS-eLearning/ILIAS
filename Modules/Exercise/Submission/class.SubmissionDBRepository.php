@@ -15,7 +15,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\Exercise\Submission;
 
 /**
@@ -39,17 +39,17 @@ class SubmissionDBRepository implements SubmissionRepositoryInterface
             : $db;
     }
 
-    public function getUserId(int $submission_id) : int
+    public function getUserId(int $submission_id): int
     {
         $q = "SELECT user_id FROM " . self::TABLE_NAME .
             " WHERE returned_id = " . $this->db->quote($submission_id, "integer");
         $usr_set = $this->db->query($q);
-    
+
         $rec = $this->db->fetchAssoc($usr_set);
         return (int) ($rec["user_id"] ?? 0);
     }
 
-    public function hasSubmissions(int $assignment_id) : int
+    public function hasSubmissions(int $assignment_id): int
     {
         $query = "SELECT * FROM " . self::TABLE_NAME .
             " WHERE ass_id = " . $this->db->quote($assignment_id, "integer") .
@@ -60,7 +60,7 @@ class SubmissionDBRepository implements SubmissionRepositoryInterface
     }
 
     // Update web_dir_access_time. It defines last HTML opening data.
-    public function updateWebDirAccessTime(int $assignment_id, int $member_id) : void
+    public function updateWebDirAccessTime(int $assignment_id, int $member_id): void
     {
         $this->db->manipulate("UPDATE " . self::TABLE_NAME .
             " SET web_dir_access_time = " . $this->db->quote(\ilUtil::now(), "timestamp") .

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 // +----------------------------------------------------------------------+
 // | Copyright (c) 1997-2005 Ulf Wendel, Pierre-Alain Joye                |
@@ -316,7 +318,7 @@ class HTML_Template_IT
      * @param mixed $value
      * @throws ilTemplateException
      */
-    public function setOption(string $option, $value) : int
+    public function setOption(string $option, $value): int
     {
         if (array_key_exists($option, $this->_options)) {
             $this->_options[$option] = $value;
@@ -331,7 +333,7 @@ class HTML_Template_IT
      * @param string[] $options
      * @throws ilTemplateException
      */
-    public function setOptions(array $options) : int
+    public function setOptions(array $options): int
     {
         foreach ($options as $option => $value) {
             $this->setOption($option, $value);
@@ -344,7 +346,7 @@ class HTML_Template_IT
      * Print a certain block with all replacements done.
      * @throws ilTemplateException
      */
-    public function show(string $block = self::IT_DEFAULT_BLOCK) : void
+    public function show(string $block = self::IT_DEFAULT_BLOCK): void
     {
         print $this->get($block);
     }
@@ -353,7 +355,7 @@ class HTML_Template_IT
      * Returns a block with all replacements done.
      * @throws ilTemplateException
      */
-    public function get(string $block = self::IT_DEFAULT_BLOCK) : string
+    public function get(string $block = self::IT_DEFAULT_BLOCK): string
     {
         if ($block === self::IT_DEFAULT_BLOCK && !$this->flagGlobalParsed) {
             $this->parse();
@@ -389,7 +391,7 @@ class HTML_Template_IT
      * @throws   ilTemplateException
      * @see      parseCurrentBlock()
      */
-    public function parse(string $block = self::IT_DEFAULT_BLOCK, bool $flag_recursion = false) : bool
+    public function parse(string $block = self::IT_DEFAULT_BLOCK, bool $flag_recursion = false): bool
     {
         static $regs, $values;
 
@@ -494,7 +496,7 @@ class HTML_Template_IT
      * Parses the current block
      * @throws ilTemplateException
      */
-    public function parseCurrentBlock() : bool
+    public function parseCurrentBlock(): bool
     {
         return $this->parse($this->currentBlock);
     }
@@ -509,7 +511,7 @@ class HTML_Template_IT
      * @param mixed        $value    value of the variable or empty if $variable
      *                               is an array.
      */
-    public function setVariable($variable, $value = '') : void
+    public function setVariable($variable, $value = ''): void
     {
         if (is_array($variable)) {
             $this->variableCache = array_merge(
@@ -526,7 +528,7 @@ class HTML_Template_IT
      * are added.
      * @throws ilTemplateException
      */
-    public function setCurrentBlock(string $block = self::IT_DEFAULT_BLOCK) : bool
+    public function setCurrentBlock(string $block = self::IT_DEFAULT_BLOCK): bool
     {
         if (!isset($this->blocklist[$block])) {
             throw new ilTemplateException($this->errorMessage(self::IT_BLOCK_NOT_FOUND) . '"' . $block . "'");
@@ -541,7 +543,7 @@ class HTML_Template_IT
      * Preserves an empty block even if removeEmptyBlocks is true.
      * @throws ilTemplateException
      */
-    public function touchBlock(string $block) : bool
+    public function touchBlock(string $block): bool
     {
         if (!isset($this->blocklist[$block])) {
             throw new ilTemplateException($this->errorMessage(self::IT_BLOCK_NOT_FOUND) . '"' . $block . "'");
@@ -559,7 +561,7 @@ class HTML_Template_IT
      * unless you know what you're doing.
      * @throws ilTemplateException
      */
-    protected function init() : void
+    protected function init(): void
     {
         $this->free();
         $blocks = ilGlobalCache::getInstance(ilGlobalCache::COMP_TPL_BLOCKS);
@@ -591,7 +593,7 @@ class HTML_Template_IT
      * Clears all datafields of the object.
      * Don't use this function unless you know what you're doing.
      */
-    public function free() : void
+    public function free(): void
     {
         $this->err = [];
 
@@ -615,7 +617,7 @@ class HTML_Template_IT
         string $template,
         bool $removeUnknownVariables = true,
         bool $removeEmptyBlocks = true
-    ) : bool {
+    ): bool {
         $this->removeUnknownVariables = $removeUnknownVariables;
         $this->removeEmptyBlocks = $removeEmptyBlocks;
 
@@ -647,7 +649,7 @@ class HTML_Template_IT
         string $filename,
         bool $removeUnknownVariables = true,
         bool $removeEmptyBlocks = true
-    ) : bool {
+    ): bool {
         $template = '';
         if (!$this->flagCacheTemplatefile ||
             $this->lastTemplatefile !== $filename
@@ -669,7 +671,7 @@ class HTML_Template_IT
      * Make sure that you override this function when using the class
      * on windows.
      */
-    public function setRoot(string $root) : void
+    public function setRoot(string $root): void
     {
         if ($root !== '' && substr($root, -1) !== '/') {
             $root .= '/';
@@ -681,7 +683,7 @@ class HTML_Template_IT
     /**
      * Build a list of all variables within of a block
      */
-    public function buildBlockvariablelist() : void
+    public function buildBlockvariablelist(): void
     {
         foreach ($this->blocklist as $name => $content) {
             preg_match_all($this->variablesRegExp, $content, $regs);
@@ -700,7 +702,7 @@ class HTML_Template_IT
      * Recusively builds a list of all blocks within the template.
      * @throws ilTemplateException
      */
-    public function findBlocks(string $string) : array
+    public function findBlocks(string $string): array
     {
         $blocklist = [];
         if (preg_match_all($this->blockRegExp, $string, $regs, PREG_SET_ORDER)) {
@@ -745,7 +747,7 @@ class HTML_Template_IT
      * Reads a file from disk and returns its content.
      * @throws ilTemplateException
      */
-    public function getFile(string $filename) : string
+    public function getFile(string $filename): string
     {
         if ($filename[0] === '/' && substr($this->fileRoot, -1) === '/') {
             $filename = substr($filename, 1);
@@ -778,7 +780,7 @@ class HTML_Template_IT
      * Adds delimiters to a string, so it can be used as a pattern
      * in preg_* functions
      */
-    public function _addPregDelimiters(string $str) : string
+    public function _addPregDelimiters(string $str): string
     {
         return '@' . $str . '@';
     }
@@ -786,7 +788,7 @@ class HTML_Template_IT
     /**
      * Replaces an opening delimiter by a special string.
      */
-    public function _preserveOpeningDelimiter(string $str) : string
+    public function _preserveOpeningDelimiter(string $str): string
     {
         return (false === strpos($str, $this->openingDelimiter)) ?
             $str :
@@ -801,7 +803,7 @@ class HTML_Template_IT
     /**
      * Return a textual error message for a IT error code
      */
-    public function errorMessage(int $value, string $blockname = '') : string
+    public function errorMessage(int $value, string $blockname = ''): string
     {
         static $errorMessages;
         if (!isset($errorMessages)) {

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -26,7 +28,7 @@ class ilBuddySystemBaseTest extends TestCase
 {
     private ?Container $dic = null;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         global $DIC;
 
@@ -36,8 +38,8 @@ class ilBuddySystemBaseTest extends TestCase
 
         $DIC = new Container();
     }
-    
-    protected function tearDown() : void
+
+    protected function tearDown(): void
     {
         global $DIC;
 
@@ -50,7 +52,7 @@ class ilBuddySystemBaseTest extends TestCase
      * @param string $name
      * @param mixed $value
      */
-    protected function setGlobalVariable(string $name, $value) : void
+    protected function setGlobalVariable(string $name, $value): void
     {
         global $DIC;
 

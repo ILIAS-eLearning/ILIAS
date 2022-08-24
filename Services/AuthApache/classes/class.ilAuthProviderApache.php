@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /******************************************************************************
  *
@@ -35,12 +37,12 @@ class ilAuthProviderApache extends ilAuthProvider implements ilAuthProviderAccou
         $this->settings = new ilSetting('apache_auth');
     }
 
-    protected function getSettings() : ilSetting
+    protected function getSettings(): ilSetting
     {
         return $this->settings;
     }
 
-    public function doAuthentication(ilAuthStatus $status) : bool
+    public function doAuthentication(ilAuthStatus $status): bool
     {
         if (!$this->getSettings()->get('apache_enable_auth', '0')) {
             $this->getLogger()->info('Apache auth disabled.');
@@ -101,7 +103,7 @@ class ilAuthProviderApache extends ilAuthProvider implements ilAuthProviderAccou
         return true;
     }
 
-    public function migrateAccount(ilAuthStatus $status) : void
+    public function migrateAccount(ilAuthStatus $status): void
     {
         $this->force_new_account = true;
         if ($this->getSettings()->get('apache_enable_ldap', '0')) {
@@ -109,7 +111,7 @@ class ilAuthProviderApache extends ilAuthProvider implements ilAuthProviderAccou
         }
     }
 
-    public function createNewAccount(ilAuthStatus $status) : void
+    public function createNewAccount(ilAuthStatus $status): void
     {
         $this->force_new_account = true;
         if ($this->getSettings()->get('apache_enable_ldap', '0')) {
@@ -117,22 +119,22 @@ class ilAuthProviderApache extends ilAuthProvider implements ilAuthProviderAccou
         }
     }
 
-    public function getExternalAccountName() : string
+    public function getExternalAccountName(): string
     {
         return $this->migration_account;
     }
 
-    public function setExternalAccountName(string $name) : void
+    public function setExternalAccountName(string $name): void
     {
         $this->migration_account = $name;
     }
 
-    public function getTriggerAuthMode() : string
+    public function getTriggerAuthMode(): string
     {
         return (string) ilAuthUtils::AUTH_APACHE;
     }
 
-    public function getUserAuthModeName() : string
+    public function getUserAuthModeName(): string
     {
         if ($this->getSettings()->get('apache_ldap_sid', '0')) {
             return 'ldap_' . $this->getSettings()->get('apache_ldap_sid', '');
@@ -141,7 +143,7 @@ class ilAuthProviderApache extends ilAuthProvider implements ilAuthProviderAccou
         return 'apache';
     }
 
-    protected function handleLDAPDataSource(ilAuthStatus $status) : bool
+    protected function handleLDAPDataSource(ilAuthStatus $status): bool
     {
         $server = ilLDAPServer::getInstanceByServerId(
             (int) $this->getSettings()->get('apache_ldap_sid', '0')

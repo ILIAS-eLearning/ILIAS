@@ -27,27 +27,26 @@ namespace ILIAS\LTI\ToolProvider\Jwt;
  */
 interface ClientInterface
 {
-
     /**
      * Return an array of supported signature algorithms.
      *
      * @return string[]  Array of algorithm names
      */
-    public static function getSupportedAlgorithms() : array;
+    public static function getSupportedAlgorithms(): array;
 
     /**
      * Check if a JWT is defined.
      *
      * @return bool True if a JWT is defined
      */
-    public function hasJwt() : bool;
+    public function hasJwt(): bool;
 
     /**
      * Check if a JWT's content is encrypted.
      *
      * @return bool True if a JWT is encrypted
      */
-    public function isEncrypted() : bool;
+    public function isEncrypted(): bool;
 
     /**
      * Load a JWT from a string.
@@ -55,21 +54,21 @@ interface ClientInterface
      * @param string|null $privateKey Private key in PEM format for decrypting encrypted tokens (optional)
      * @return bool True if the JWT was successfully loaded
      */
-    public function load(string $jwtString, string $privateKey = null) : bool;
+    public function load(string $jwtString, string $privateKey = null): bool;
 
     /**
      * Get the value of the JWE headers.
      *
      * @return array The value of the JWE headers
      */
-    public function getJweHeaders() : array;
+    public function getJweHeaders(): array;
 
     /**
      * Check whether a JWT has a header with the specified name.
      * @param string $name Header name
      * @return bool True if the JWT has a header of the specified name
      */
-    public function hasHeader(string $name) : bool;
+    public function hasHeader(string $name): bool;
 
     /**
      * Get the value of the header with the specified name.
@@ -77,28 +76,28 @@ interface ClientInterface
      * @param string|null $defaultValue Default value
      * @return string The value of the header with the specified name, or the default value if it does not exist
      */
-    public function getHeader(string $name, string $defaultValue = null) : string;
+    public function getHeader(string $name, string $defaultValue = null): string;
 
     /**
      * Get the value of the headers.
      *
      * @return array The value of the headers
      */
-    public function getHeaders() : array;
+    public function getHeaders(): array;
 
     /**
      * Get the value of the headers for the last signed JWT (before any encryption).
      *
      * @return array The value of the headers
      */
-    public static function getLastHeaders() : array;
+    public static function getLastHeaders(): array;
 
     /**
      * Check whether a JWT has a claim with the specified name.
      * @param string $name Claim name
      * @return bool True if the JWT has a claim of the specified name
      */
-    public function hasClaim(string $name) : bool;
+    public function hasClaim(string $name): bool;
 
     /**
      * Get the value of the claim with the specified name.
@@ -113,14 +112,14 @@ interface ClientInterface
      *
      * @return array The value of the payload
      */
-    public function getPayload() : array;
+    public function getPayload(): array;
 
     /**
      * Get the value of the payload for the last signed JWT (before any encryption).
      *
      * @return array The value of the payload
      */
-    public static function getLastPayload() : array;
+    public static function getLastPayload(): array;
 
     /**
      * Verify the signature of the JWT.
@@ -128,7 +127,7 @@ interface ClientInterface
      * @param string|null $jku       JSON Web Key URL of issuer (optional)
      * @return bool True if the JWT has a valid signature
      */
-    public function verify(string $publicKey, string $jku = null) : bool;
+    public function verify(string $publicKey, string $jku = null): bool;
 
     /**
      * Sign the JWT.
@@ -149,21 +148,21 @@ interface ClientInterface
         string $jku = null,
         string $encryptionMethod = null,
         string $publicKey = null
-    ) : string;
+    ): string;
 
     /**
      * Generate a new private key in PEM format.
      * @param string $signatureMethod Signature method
      * @return string|null  Key in PEM format
      */
-    public static function generateKey(string $signatureMethod = 'RS256') : ?string;
+    public static function generateKey(string $signatureMethod = 'RS256'): ?string;
 
     /**
      * Get the public key for a private key.
      * @param string $privateKey Private key in PEM format
      * @return string Public key in PEM format
      */
-    public static function getPublicKey(string $privateKey) : string;
+    public static function getPublicKey(string $privateKey): string;
 
     /**
      * Get the public JWKS from a key in PEM format.
@@ -172,5 +171,5 @@ interface ClientInterface
      * @param string $kid             Key ID (optional)
      * @return array  JWKS keys
      */
-    public static function getJWKS(string $pemKey, string $signatureMethod, string $kid) : array;
+    public static function getJWKS(string $pemKey, string $signatureMethod, string $kid): array;
 }

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -31,7 +33,7 @@ class TupleTransformationTest extends TestCase
     /**
      * @throws \ilException
      */
-    public function testTupleTransformationsAreCorrect() : void
+    public function testTupleTransformationsAreCorrect(): void
     {
         $transformation = new TupleTransformation(
             [new IntegerTransformation(), new IntegerTransformation()]
@@ -42,7 +44,7 @@ class TupleTransformationTest extends TestCase
         $this->assertEquals([1, 2], $result);
     }
 
-    public function testTupleIsIncorrectAndWillThrowException() : void
+    public function testTupleIsIncorrectAndWillThrowException(): void
     {
         $this->expectNotToPerformAssertions();
 
@@ -59,7 +61,7 @@ class TupleTransformationTest extends TestCase
         $this->fail();
     }
 
-    public function testTupleIsIncorrectAndWillThrowException2() : void
+    public function testTupleIsIncorrectAndWillThrowException2(): void
     {
         $this->expectNotToPerformAssertions();
 
@@ -77,7 +79,7 @@ class TupleTransformationTest extends TestCase
     }
 
 
-    public function testToManyValuesForTransformation() : void
+    public function testToManyValuesForTransformation(): void
     {
         $this->expectNotToPerformAssertions();
 
@@ -93,7 +95,7 @@ class TupleTransformationTest extends TestCase
         $this->fail();
     }
 
-    public function testTupleAppliesAreCorrect() : void
+    public function testTupleAppliesAreCorrect(): void
     {
         $transformation = new TupleTransformation(
             [new IntegerTransformation(), new IntegerTransformation()]
@@ -104,7 +106,7 @@ class TupleTransformationTest extends TestCase
         $this->assertEquals([1, 2], $result->value());
     }
 
-    public function testTupleAppliesAreIncorrectAndWillReturnErrorResult() : void
+    public function testTupleAppliesAreIncorrectAndWillReturnErrorResult(): void
     {
         $transformation = new TupleTransformation(
             [new IntegerTransformation(), new StringTransformation()]
@@ -115,7 +117,7 @@ class TupleTransformationTest extends TestCase
         $this->assertTrue($result->isError());
     }
 
-    public function testToManyValuesForApply() : void
+    public function testToManyValuesForApply(): void
     {
         $transformation = new TupleTransformation(
             [new IntegerTransformation(), new StringTransformation()]
@@ -126,7 +128,7 @@ class TupleTransformationTest extends TestCase
         $this->assertTrue($result->isError());
     }
 
-    public function testInvalidTransformationWillThrowException() : void
+    public function testInvalidTransformationWillThrowException(): void
     {
         $this->expectNotToPerformAssertions();
 

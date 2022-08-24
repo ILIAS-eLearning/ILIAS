@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -26,7 +28,7 @@ class IntegerTransformationTest extends TestCase
 {
     private IntegerTransformation $transformation;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         $this->transformation = new IntegerTransformation();
     }
@@ -36,7 +38,7 @@ class IntegerTransformationTest extends TestCase
      * @param mixed $originVal
      * @param int $expectedVal
      */
-    public function testIntegerTransformation($originVal, int $expectedVal) : void
+    public function testIntegerTransformation($originVal, int $expectedVal): void
     {
         $transformedValue = $this->transformation->transform($originVal);
         $this->assertIsInt($transformedValue);
@@ -47,13 +49,13 @@ class IntegerTransformationTest extends TestCase
      * @dataProvider TransformationFailureDataProvider
      * @param mixed $failingValue
      */
-    public function testTransformIsInvalid($failingValue) : void
+    public function testTransformIsInvalid($failingValue): void
     {
         $this->expectException(ConstraintViolationException::class);
         $this->transformation->transform($failingValue);
     }
 
-    public function IntegerTestDataProvider() : array
+    public function IntegerTestDataProvider(): array
     {
         return [
             'pos_bool' => [true, 1],
@@ -69,7 +71,7 @@ class IntegerTransformationTest extends TestCase
         ];
     }
 
-    public function TransformationFailureDataProvider() : array
+    public function TransformationFailureDataProvider(): array
     {
         return [
             'bigger_than_int_max' => ["9223372036854775808"],

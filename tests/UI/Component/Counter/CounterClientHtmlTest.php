@@ -14,29 +14,29 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 require_once("libs/composer/vendor/autoload.php");
 
 require_once(__DIR__ . "/../../Base.php");
 
-use \ILIAS\UI\Component as C;
+use ILIAS\UI\Component as C;
 
 /**
  * Checks if the HTML used for the Client tests is rendered as specified
  */
 class CounterClientHtmlTest extends ILIAS_UI_TestBase
 {
-    public function getGlyphFactory() : \ILIAS\UI\Implementation\Component\Symbol\Glyph\Factory
+    public function getGlyphFactory(): \ILIAS\UI\Implementation\Component\Symbol\Glyph\Factory
     {
         return new \ILIAS\UI\Implementation\Component\Symbol\Glyph\Factory();
     }
 
-    public function getCounterFactory() : \ILIAS\UI\Implementation\Component\Counter\Factory
+    public function getCounterFactory(): \ILIAS\UI\Implementation\Component\Counter\Factory
     {
         return new \ILIAS\UI\Implementation\Component\Counter\Factory();
     }
 
-    public function testRenderClientHtml() : void
+    public function testRenderClientHtml(): void
     {
         $counter_factory = $this->getCounterFactory();
         $expected_html = file_get_contents(__DIR__ . "/../../Client/Counter/CounterTest.html");

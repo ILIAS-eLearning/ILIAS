@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\UI\Implementation\Component\Toast;
 
 use ILIAS\UI\Implementation\Component\ComponentHelper;
@@ -30,19 +32,19 @@ class Container implements ComponentInterface\Container
      */
     protected array $toasts = [];
 
-    public function getToasts() : array
+    public function getToasts(): array
     {
         return $this->toasts;
     }
 
-    public function withAdditionalToast(ComponentInterface\Toast $toast) : Container
+    public function withAdditionalToast(ComponentInterface\Toast $toast): Container
     {
         $clone = clone $this;
         $clone->toasts[] = $toast;
         return $clone;
     }
 
-    public function withoutToasts() : Container
+    public function withoutToasts(): Container
     {
         $clone = clone $this;
         $clone->toasts = [];

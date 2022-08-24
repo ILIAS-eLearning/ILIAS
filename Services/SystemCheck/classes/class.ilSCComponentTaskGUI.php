@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -43,32 +45,32 @@ abstract class ilSCComponentTaskGUI
      *    'command' => 'repairTask'
      * );
      */
-    abstract public function getActions() : array;
+    abstract public function getActions(): array;
 
-    abstract public function getTitle() : string;
+    abstract public function getTitle(): string;
 
-    abstract public function getDescription() : string;
+    abstract public function getDescription(): string;
 
-    abstract public function getGroupTitle() : string;
+    abstract public function getGroupTitle(): string;
 
-    abstract public function getGroupDescription() : string;
+    abstract public function getGroupDescription(): string;
 
-    protected function getLang() : ilLanguage
+    protected function getLang(): ilLanguage
     {
         return $this->lng;
     }
 
-    protected function getCtrl() : ilCtrl
+    protected function getCtrl(): ilCtrl
     {
         return $this->ctrl;
     }
 
-    public function getTask() : ilSCTask
+    public function getTask(): ilSCTask
     {
         return $this->task;
     }
 
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         $next_class = $this->getCtrl()->getNextClass($this);
         $cmd = $this->getCtrl()->getCmd();
@@ -80,7 +82,7 @@ abstract class ilSCComponentTaskGUI
         }
     }
 
-    protected function showSimpleConfirmation(string $a_text, string $a_btn_text, string $a_cmd) : void
+    protected function showSimpleConfirmation(string $a_text, string $a_btn_text, string $a_cmd): void
     {
         $confirm = new ilConfirmationGUI();
         $confirm->setFormAction($this->getCtrl()->getFormAction($this));
@@ -91,7 +93,7 @@ abstract class ilSCComponentTaskGUI
         $this->tpl->setContent($confirm->getHTML());
     }
 
-    protected function cancel() : void
+    protected function cancel(): void
     {
         $this->getCtrl()->returnToParent($this);
     }

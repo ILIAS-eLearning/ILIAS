@@ -36,7 +36,7 @@ class ilUiLinkToSplitButtonMenuItemAdapter implements ilSplitButtonMenuItem
         $this->renderer = $renderer;
     }
 
-    public function getContent() : string
+    public function getContent(): string
     {
         return $this->renderer->render([$this->link]);
     }

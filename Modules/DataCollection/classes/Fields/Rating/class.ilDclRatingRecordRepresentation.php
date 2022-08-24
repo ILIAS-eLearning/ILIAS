@@ -23,14 +23,17 @@
  */
 class ilDclRatingRecordRepresentation extends ilDclBaseRecordRepresentation
 {
-
-    public function getHTML(bool $link = true) : string
+    public function getHTML(bool $link = true): string
     {
         global $DIC;
         $ilCtrl = $DIC['ilCtrl'];
         $rgui = new ilRatingGUI();
-        $rgui->setObject($this->getRecordField()->getRecord()->getId(), "dcl_record",
-            $this->getRecordField()->getField()->getId(), "dcl_field");
+        $rgui->setObject(
+            $this->getRecordField()->getRecord()->getId(),
+            "dcl_record",
+            $this->getRecordField()->getField()->getId(),
+            "dcl_field"
+        );
         $ilCtrl->setParameterByClass("ilratinggui", "field_id", $this->getRecordField()->getField()->getId());
         $ilCtrl->setParameterByClass("ilratinggui", "record_id", $this->getRecordField()->getRecord()->getId());
         $html = $rgui->getHTML();
@@ -41,7 +44,7 @@ class ilDclRatingRecordRepresentation extends ilDclBaseRecordRepresentation
     /**
      * @inheritDoc
      */
-    public function fillFormInput(ilPropertyFormGUI $form) : void
+    public function fillFormInput(ilPropertyFormGUI $form): void
     {
         // explicitly do nothing. the value is handled via the model and gui of ilRating.
     }

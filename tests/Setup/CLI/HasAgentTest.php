@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\Tests\Setup\CLI;
 
 use ILIAS\Setup\AgentFinder;
@@ -26,10 +28,10 @@ use Symfony\Component\Console\Input\InputInterface;
 
 class HasAgentTest extends TestCase
 {
-    public function setUp() : void
+    public function setUp(): void
     {
         $this->agent_finder = $this->createMock(AgentFinder::class);
-        $this->has_agent = new class($this->agent_finder) {
+        $this->has_agent = new class ($this->agent_finder) {
             use HasAgent;
             public function __construct($af)
             {
@@ -43,7 +45,7 @@ class HasAgentTest extends TestCase
         };
     }
 
-    public function testGetRelevantAgentWithoutOption() : void
+    public function testGetRelevantAgentWithoutOption(): void
     {
         $ii = $this->createMock(InputInterface::class);
         $ac = $this->createMock(AgentCollection::class);
@@ -63,7 +65,7 @@ class HasAgentTest extends TestCase
         $this->assertEquals($ac, $agent);
     }
 
-    public function testGetRelevantAgentWithNoPluginOption() : void
+    public function testGetRelevantAgentWithNoPluginOption(): void
     {
         $ii = $this->createMock(InputInterface::class);
         $ac = $this->createMock(AgentCollection::class);
@@ -90,7 +92,7 @@ class HasAgentTest extends TestCase
         $this->assertEquals($ac, $agent);
     }
 
-    public function testGetRelevantAgentWithPluginNameOptions() : void
+    public function testGetRelevantAgentWithPluginNameOptions(): void
     {
         $ii = $this->createMock(InputInterface::class);
         $ac = $this->createMock(AgentCollection::class);

@@ -22,7 +22,7 @@
  */
 class ilHTMLLearningModuleLP extends ilObjectLP
 {
-    public static function getDefaultModes(bool $lp_active) : array
+    public static function getDefaultModes(bool $lp_active): array
     {
         if (!$lp_active) {
             return array(
@@ -36,13 +36,13 @@ class ilHTMLLearningModuleLP extends ilObjectLP
             );
         }
     }
-    
-    public function getDefaultMode() : int
+
+    public function getDefaultMode(): int
     {
         return ilLPObjSettings::LP_MODE_MANUAL;
     }
-    
-    public function getValidModes() : array
+
+    public function getValidModes(): array
     {
         return array(
             ilLPObjSettings::LP_MODE_DEACTIVATED,

@@ -7,7 +7,7 @@ use PHPUnit\Framework\TestCase;
  */
 class ExcelTest extends TestCase
 {
-    protected function setGlobalVariable(string $name, $value) : void
+    protected function setGlobalVariable(string $name, $value): void
     {
         global $DIC;
 
@@ -19,7 +19,7 @@ class ExcelTest extends TestCase
         };
     }
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         parent::setUp();
         $dic = new ILIAS\DI\Container();
@@ -34,11 +34,11 @@ class ExcelTest extends TestCase
         );
     }
 
-    protected function tearDown() : void
+    protected function tearDown(): void
     {
     }
 
-    public function testCoordByColumnAndRow() : void
+    public function testCoordByColumnAndRow(): void
     {
         $excel = new ilExcel();
 

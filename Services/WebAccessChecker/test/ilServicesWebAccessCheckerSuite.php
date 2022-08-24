@@ -1,4 +1,5 @@
 <?php
+
 use PHPUnit\Framework\TestSuite;
 
 /******************************************************************************
@@ -22,7 +23,7 @@ use PHPUnit\Framework\TestSuite;
  */
 class ilServicesWebAccessCheckerSuite extends TestSuite
 {
-    public static function suite() : \ilServicesWebAccessCheckerSuite
+    public static function suite(): \ilServicesWebAccessCheckerSuite
     {
         //require_once('./Services/WebAccessChecker/test/Token/ilWACTokenTest.php');
         //$suite->addTestSuite('ilWACTokenTest');

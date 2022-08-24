@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -24,44 +26,44 @@
 class ilSubEnabledFormPropertyGUI extends ilFormPropertyGUI
 {
     protected array $sub_items = array();
-    
-    public function addSubItem(ilFormPropertyGUI $a_item) : void
+
+    public function addSubItem(ilFormPropertyGUI $a_item): void
     {
         $a_item->setParent($this);
         $this->sub_items[] = $a_item;
     }
 
-    public function getSubItems() : array
+    public function getSubItems(): array
     {
         return $this->sub_items;
     }
-    
+
     /**
      * returns a flat array of possibly existing subitems recursively
      */
-    public function getSubInputItemsRecursive() : array
+    public function getSubInputItemsRecursive(): array
     {
         $subInputItems = array();
-        
+
         foreach ($this->sub_items as $subItem) {
             if ($subItem->getType() == 'section_header') {
                 continue;
             }
-            
+
             $subInputItems[] = $subItem;
-            
+
             if ($subItem instanceof ilSubEnabledFormPropertyGUI) {
                 $subInputItems = array_merge($subInputItems, $subItem->getSubInputItemsRecursive());
             }
         }
-        
+
         return $subInputItems;
     }
 
     /**
      * Check SubItems
      */
-    final public function checkSubItemsInput() : bool
+    final public function checkSubItemsInput(): bool
     {
         $ok = true;
         foreach ($this->getSubItems() as $item) {
@@ -73,7 +75,7 @@ class ilSubEnabledFormPropertyGUI extends ilFormPropertyGUI
         return $ok;
     }
 
-    final public function getSubForm() : ?ilPropertyFormGUI
+    final public function getSubForm(): ?ilPropertyFormGUI
     {
         // subitems
         $pf = null;
@@ -86,7 +88,7 @@ class ilSubEnabledFormPropertyGUI extends ilFormPropertyGUI
         return $pf;
     }
 
-    public function getItemByPostVar(string $a_post_var) : ?ilFormPropertyGUI
+    public function getItemByPostVar(string $a_post_var): ?ilFormPropertyGUI
     {
         if ($this->getPostVar() == $a_post_var) {
             return $this;
@@ -100,7 +102,7 @@ class ilSubEnabledFormPropertyGUI extends ilFormPropertyGUI
                 }
             }
         }
-        
+
         return null;
     }
 }

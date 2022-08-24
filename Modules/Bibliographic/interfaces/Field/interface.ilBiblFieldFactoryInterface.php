@@ -15,7 +15,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * Interface ilBiblFieldFactoryInterface
  *
@@ -23,7 +23,6 @@
  */
 interface ilBiblFieldFactoryInterface
 {
-
     /**
      * @param int    $type     MUST be ilBiblTypeFactoryInterface::DATA_TYPE_RIS or
      *                         ilBiblTypeFactoryInterface::DATA_TYPE_BIBTEX
@@ -31,7 +30,7 @@ interface ilBiblFieldFactoryInterface
      * @throws \ilException if a wrong $type is passed or field is not found
      *
      */
-    public function getFieldByTypeAndIdentifier(int $type, string $identifier) : ilBiblFieldInterface;
+    public function getFieldByTypeAndIdentifier(int $type, string $identifier): ilBiblFieldInterface;
 
 
     /**
@@ -41,40 +40,40 @@ interface ilBiblFieldFactoryInterface
      * @throws \ilException if a wrong $type is passed
      *
      */
-    public function findOrCreateFieldByTypeAndIdentifier(int $type, string $identifier) : ilBiblFieldInterface;
+    public function findOrCreateFieldByTypeAndIdentifier(int $type, string $identifier): ilBiblFieldInterface;
 
 
     /**
      * @return ilBiblFieldInterface[] instances of all known standard-fields for the given type
      */
-    public function getAvailableFieldsForObjId(int $obj_id) : array;
+    public function getAvailableFieldsForObjId(int $obj_id): array;
 
 
     /**
      *
      * @return \ilBiblField[]
      */
-    public function filterAllFieldsForType(ilBiblTypeInterface $type, ilBiblTableQueryInfoInterface $queryInfo = null) : array;
+    public function filterAllFieldsForType(ilBiblTypeInterface $type, ilBiblTableQueryInfoInterface $queryInfo = null): array;
 
 
     /**
      * @param \ilBiblTableQueryInfoInterface|null $queryInfo
      *
      */
-    public function filterAllFieldsForTypeAsArray(ilBiblTypeInterface $type, ilBiblTableQueryInfoInterface $queryInfo = null) : array;
+    public function filterAllFieldsForTypeAsArray(ilBiblTypeInterface $type, ilBiblTableQueryInfoInterface $queryInfo = null): array;
 
 
-    public function getType() : ilBiblTypeInterface;
+    public function getType(): ilBiblTypeInterface;
 
 
-    public function findById(int $id) : ilBiblFieldInterface;
+    public function findById(int $id): ilBiblFieldInterface;
 
 
-    public function findOrCreateFieldOfAttribute(ilBiblAttributeInterface $attribute) : ilBiblFieldInterface;
+    public function findOrCreateFieldOfAttribute(ilBiblAttributeInterface $attribute): ilBiblFieldInterface;
 
 
     /**
      * @return int new position
      */
-    public function forcePosition(ilBiblFieldInterface $field) : int;
+    public function forcePosition(ilBiblFieldInterface $field): int;
 }

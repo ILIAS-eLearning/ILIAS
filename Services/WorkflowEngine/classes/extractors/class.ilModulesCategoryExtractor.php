@@ -28,7 +28,7 @@ class ilModulesCategoryExtractor extends ilBaseExtractor
      * @param array  $parameters
      * @return ilExtractedParams
      */
-    public function extract(string $event, array $parameters) : ilExtractedParams
+    public function extract(string $event, array $parameters): ilExtractedParams
     {
         $this->ilExtractedParams->setSubjectType('category');
 

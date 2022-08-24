@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -24,14 +26,14 @@ namespace ILIAS\TA\Questions;
  */
 abstract class assQuestionSuggestedSolution
 {
-    const TYPE_LM = 'lm';
-    const TYPE_LM_CHAPTER = 'st';
-    const TYPE_LM_PAGE = 'pg';
-    const TYPE_GLOSARY_TERM = 'git';
-    const TYPE_FILE = 'file';
-    const TYPE_TEXT = 'text';
-    
-    const TYPES = [
+    public const TYPE_LM = 'lm';
+    public const TYPE_LM_CHAPTER = 'st';
+    public const TYPE_LM_PAGE = 'pg';
+    public const TYPE_GLOSARY_TERM = 'git';
+    public const TYPE_FILE = 'file';
+    public const TYPE_TEXT = 'text';
+
+    public const TYPES = [
         self::TYPE_LM => 'obj_lm',
         self::TYPE_LM_CHAPTER => 'obj_st',
         self::TYPE_LM_PAGE => 'obj_pg',
@@ -60,69 +62,69 @@ abstract class assQuestionSuggestedSolution
         $this->last_update = $last_update;
     }
 
-    abstract public function getType() : string;
-    abstract public function getStorableValue() : string;
+    abstract public function getType(): string;
+    abstract public function getStorableValue(): string;
 
-    public function getId() : int
+    public function getId(): int
     {
         return $this->id;
     }
-    public function withId(int $id) : static
+    public function withId(int $id): static
     {
         $clone = clone $this;
         $clone->id = $id;
         return $clone;
     }
 
-    public function getQuestionId() : int
+    public function getQuestionId(): int
     {
         return $this->question_id;
     }
-    public function withQuestionId(int $question_id) : static
+    public function withQuestionId(int $question_id): static
     {
         $clone = clone $this;
         $clone->question_id = $question_id;
         return $clone;
     }
 
-    public function getImportId() : string
+    public function getImportId(): string
     {
         return $this->import_id;
     }
-    public function withImportId(string $import_id) : static
+    public function withImportId(string $import_id): static
     {
         $clone = clone $this;
         $clone->import_id = $import_id;
         return $clone;
     }
 
-    public function getSubquestionIndex() : int
+    public function getSubquestionIndex(): int
     {
         return $this->subquestion_index;
     }
-    public function withSubquestionIndex(int $subquestion_index) : static
+    public function withSubquestionIndex(int $subquestion_index): static
     {
         $clone = clone $this;
         $clone->subquestion_index = $subquestion_index;
         return $clone;
     }
-        
-    public function getLastUpdate() : \DateTimeImmutable
+
+    public function getLastUpdate(): \DateTimeImmutable
     {
         return $this->last_update;
     }
 
-    public function isOfTypeFile() : bool
+    public function isOfTypeFile(): bool
     {
         return $this->getType() === self::TYPE_FILE;
     }
-    
-    public function isOfTypeText() : bool
+
+    public function isOfTypeText(): bool
     {
         return $this->getType() === self::TYPE_TEXT;
     }
 
-    public function isOfTypeLink() : bool
+    public function isOfTypeLink(): bool
     {
         return in_array(
             $this->getType(),
@@ -134,5 +136,4 @@ abstract class assQuestionSuggestedSolution
             ]
         );
     }
-    
 }

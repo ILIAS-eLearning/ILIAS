@@ -52,7 +52,7 @@ class ilOrgUnitOperationContext extends ActiveRecord
     /**
      * @return string[]
      */
-    public function getPopulatedContextNames() : array
+    public function getPopulatedContextNames(): array
     {
         $contexts = array($this->getContext());
         $this->appendParentContextName($contexts);
@@ -63,7 +63,7 @@ class ilOrgUnitOperationContext extends ActiveRecord
     /**
      * @return string[]
      */
-    public function getPopulatedContextIds() : array
+    public function getPopulatedContextIds(): array
     {
         $contexts = array($this->getId());
         $this->appendParentContextName($contexts);
@@ -98,27 +98,27 @@ class ilOrgUnitOperationContext extends ActiveRecord
      */
     protected int $parent_context_id = 0;
 
-    public function getId() : ?int
+    public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function setId(?int $id) : void
+    public function setId(?int $id): void
     {
         $this->id = $id;
     }
 
-    public function getContext() : string
+    public function getContext(): string
     {
         return $this->context;
     }
 
-    public function setContext(string $context) : void
+    public function setContext(string $context): void
     {
         $this->context = $context;
     }
 
-    public function getParentContextId() : int
+    public function getParentContextId(): int
     {
         return $this->parent_context_id;
     }
@@ -128,12 +128,12 @@ class ilOrgUnitOperationContext extends ActiveRecord
         $this->parent_context_id = $parent_context_id;
     }
 
-     public static function returnDbTableName() : string
+    public static function returnDbTableName(): string
     {
         return 'il_orgu_op_contexts';
     }
 
-    public function create() : void
+    public function create(): void
     {
         if (self::where(array('context' => $this->getContext()))->hasSets()) {
             throw new ilException('Context already registered');
@@ -144,7 +144,7 @@ class ilOrgUnitOperationContext extends ActiveRecord
     /**
      * @param string[] $contexts
      */
-    private function appendParentContextName(array $contexts) : void
+    private function appendParentContextName(array $contexts): void
     {
         if ($this->getParentContextId()) {
             /**
@@ -161,7 +161,7 @@ class ilOrgUnitOperationContext extends ActiveRecord
     /**
      * @param string [] $contexts
      */
-    private function appendParentContextId(array $contexts) : void
+    private function appendParentContextId(array $contexts): void
     {
         if ($this->getParentContextId()) {
             /**

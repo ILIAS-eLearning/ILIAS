@@ -34,23 +34,23 @@ class ilLMMailNotification extends ilMailNotification
         $this->user = $DIC->user();
     }
 
-    public function setQuestionId(int $a_val) : void
+    public function setQuestionId(int $a_val): void
     {
         $this->question_id = $a_val;
     }
 
-    public function getQuestionId() : int
+    public function getQuestionId(): int
     {
         return $this->question_id;
     }
 
-    public function send() : bool
+    public function send(): bool
     {
         $ilUser = $this->user;
-    
+
         switch ($this->getType()) {
             case self::TYPE_USER_BLOCKED:
-                
+
                 foreach ($this->getRecipients() as $rcp) {
                     $this->initLanguage($rcp);
                     $this->initMail();
@@ -95,8 +95,8 @@ class ilLMMailNotification extends ilMailNotification
         }
         return true;
     }
-    
-    protected function initLanguage(int $a_usr_id) : void
+
+    protected function initLanguage(int $a_usr_id): void
     {
         parent::initLanguage($a_usr_id);
         $this->getLanguage()->loadLanguageModule('content');
