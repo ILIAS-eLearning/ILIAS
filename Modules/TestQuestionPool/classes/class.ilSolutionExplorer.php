@@ -16,11 +16,11 @@ include_once "./Modules/Test/classes/inc.AssessmentConstants.php";
 
 class ilSolutionExplorer extends ilExplorer
 {
-/**
- * id of root folder
- * @var int root folder id
- * @access private
- */
+    /**
+     * id of root folder
+     * @var int root folder id
+     * @access private
+     */
     public $root_id;
     public $ctrl;
 

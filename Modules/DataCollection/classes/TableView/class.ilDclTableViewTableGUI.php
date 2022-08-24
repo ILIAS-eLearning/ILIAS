@@ -214,9 +214,9 @@ class ilDclTableViewTableGUI extends ilTable2GUI
                 'icon_ok_monochrome.svg',
                 "/Modules/DataCollection"
             ) : ilUtil::getImagePath(
-                    'icon_not_ok_monochrome.svg',
-                    "/Modules/DataCollection"
-                )
+                'icon_not_ok_monochrome.svg',
+                "/Modules/DataCollection"
+            )
         );
         $this->tpl->setVariable('ACTIONS', $this->buildAction($a_set->getId()));
     }
