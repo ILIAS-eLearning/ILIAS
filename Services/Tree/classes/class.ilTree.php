@@ -1157,13 +1157,11 @@ class ilTree
                 // Object translation is not in cache, read it from database
                 $query = 'SELECT title,description FROM object_translation ' .
                     'WHERE obj_id = %s ' .
-                    'AND lang_code = %s ' .
-                    'AND NOT lang_default = %s';
+                    'AND lang_code = %s ';
 
-                $res = $this->db->queryF($query, array('integer', 'text', 'integer'), array(
+                $res = $this->db->queryF($query, array('integer', 'text'), array(
                     $data['obj_id'],
-                    $this->lang_code,
-                    1
+                    $this->lang_code
                 ));
                 $row = $this->db->fetchObject($res);
 

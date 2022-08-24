@@ -152,9 +152,13 @@ class ilObjectTranslation
 
     public function getDefaultTitle(): string
     {
-        foreach ($this->languages as $l) {
-            if ($l->isDefault()) {
-                return $l->getTitle();
+        if ($this->getFallbackLanguage() !== "") {
+            return $this->languages[$this->getFallbackLanguage()]->getTitle();
+        } else {
+            foreach ($this->languages as $l) {
+                if ($l->isDefault()) {
+                    return $l->getTitle();
+                }
             }
         }
         if (count($this->languages) == 0) {
@@ -165,15 +169,22 @@ class ilObjectTranslation
 
     public function setDefaultTitle(string $title): void
     {
-        foreach ($this->languages as $l) {
-            if ($l->isDefault()) {
-                $l->setTitle($title);
+        if ($this->getFallbackLanguage() !== "") {
+            $this->languages[$this->getFallbackLanguage()]->setTitle($title);
+        } else {
+            foreach ($this->languages as $l) {
+                if ($l->isDefault()) {
+                    $l->setTitle($title);
+                }
             }
         }
     }
 
     public function getDefaultDescription(): string
     {
+        if ($this->getFallbackLanguage() !== "") {
+            return $this->languages[$this->getFallbackLanguage()]->getDescription();
+        }
         foreach ($this->languages as $l) {
             if ($l->isDefault()) {
                 return $l->getDescription();
@@ -187,15 +198,23 @@ class ilObjectTranslation
 
     public function setDefaultDescription(string $description): void
     {
-        foreach ($this->languages as $l) {
-            if ($l->isDefault()) {
-                $l->setDescription($description);
+        if ($this->getFallbackLanguage() !== "") {
+            $this->languages[$this->getFallbackLanguage()]
+                ->setDescription($description);
+        } else {
+            foreach ($this->languages as $l) {
+                if ($l->isDefault()) {
+                    $l->setDescription($description);
+                }
             }
         }
     }
 
     public function getDefaultLanguage(): string
     {
+        if ($this->getFallbackLanguage() !== "") {
+            return $this->getFallbackLanguage();
+        }
         foreach ($this->languages as $l) {
             if ($l->isDefault()) {
                 return $l->getLanguageCode();

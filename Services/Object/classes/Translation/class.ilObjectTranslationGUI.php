@@ -289,6 +289,13 @@ class ilObjectTranslationGUI
             )
             : [];
 
+        if ($this->obj_trans->getFallbackLanguage() !== "") {
+            $obj_store_lang = $this->obj_trans->getFallbackLanguage();
+        } else {
+            $obj_store_lang = ($this->obj_trans->getMasterLanguage() != "")
+                ? $this->obj_trans->getMasterLanguage()
+                : $languages[$post_default];
+        }
 
         foreach ($titles as $k => $v) {
             if ($delete_checked && isset($check[$k])) {
@@ -301,7 +308,7 @@ class ilObjectTranslationGUI
             if ($this->obj_trans->getMasterLanguage() != "") {
                 $is_default = ($this->obj_trans->getMasterLanguage() === $languages[$k]);
             }
-            if ($is_default) {
+            if ($languages[$k] === $obj_store_lang) {
                 $this->obj->setTitle(ilUtil::stripSlashes($v));
                 $this->obj->setDescription(ilUtil::stripSlashes($descriptions[$k]));
             }

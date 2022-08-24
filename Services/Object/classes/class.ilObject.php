@@ -244,7 +244,6 @@ class ilObject
                 . "FROM object_translation" . PHP_EOL
                 . "WHERE obj_id = " . $this->db->quote($this->id, 'integer') . PHP_EOL
                 . "AND lang_code = " . $this->db->quote($ilUser->getCurrentLanguage(), 'text') . PHP_EOL
-                . "AND NOT lang_default = 1" . PHP_EOL
             ;
             $r = $this->db->query($sql);
             $row = $r->fetchRow(ilDBConstants::FETCHMODE_OBJECT);

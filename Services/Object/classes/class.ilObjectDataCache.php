@@ -198,7 +198,6 @@ class ilObjectDataCache
                     . "FROM object_translation" . PHP_EOL
                     . "WHERE obj_id = " . $this->db->quote($obj_id, 'integer') . PHP_EOL
                     . "AND lang_code = " . $this->db->quote($user->getLanguage(), 'text') . PHP_EOL
-                    . "AND NOT lang_default = 1" . PHP_EOL
                 ;
                 $trans_res = $this->db->query($sql);
 
@@ -296,7 +295,6 @@ class ilObjectDataCache
                 . "FROM object_translation" . PHP_EOL
                 . "WHERE " . $this->db->in('obj_id', $ids, false, 'integer') . PHP_EOL
                 . "AND lang_code = " . $this->db->quote($lang, 'text') . PHP_EOL
-                . "AND NOT lang_default = 1" . PHP_EOL
             ;
             $result = $this->db->query($sql);
             while ($row = $result->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
