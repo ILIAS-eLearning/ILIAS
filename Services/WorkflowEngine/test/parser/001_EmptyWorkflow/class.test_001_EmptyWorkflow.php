@@ -1,4 +1,5 @@
 <?php
+
 /* Copyright (c) 1998-2014 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 require_once 'Services/WorkflowEngine/test/ilWorkflowEngineBaseTest.php';
@@ -11,7 +12,7 @@ require_once 'Services/WorkflowEngine/test/ilWorkflowEngineBaseTest.php';
  */
 class test_001_EmptyWorkflow extends ilWorkflowEngineBaseTest
 {
-    protected function setUp() : void
+    protected function setUp(): void
     {
         chdir(__DIR__);
         chdir('../../../../../');
@@ -21,12 +22,12 @@ class test_001_EmptyWorkflow extends ilWorkflowEngineBaseTest
         require_once './Services/WorkflowEngine/classes/parser/class.ilBPMN2Parser.php';
     }
 
-    public function test_EmptyWorkflowShouldReturnEmptyPHPBrackets() : void
+    public function test_EmptyWorkflowShouldReturnEmptyPHPBrackets(): void
     {
         $xml = file_get_contents('./Services/WorkflowEngine/test/parser/001_EmptyWorkflow/EmptyWorkflow_1.bpmn2');
         $parser = new ilBPMN2Parser();
         $parse_result = $parser->parseBPMN2XML($xml);
-        
+
         $goldsample = file_get_contents('./Services/WorkflowEngine/test/parser/001_EmptyWorkflow/EmptyWorkflow_1_goldsample.php');
         $this->assertEquals($goldsample, $parse_result, 'Output does not match goldsample.');
 

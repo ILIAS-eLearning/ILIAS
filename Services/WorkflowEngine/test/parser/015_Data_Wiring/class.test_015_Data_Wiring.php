@@ -1,4 +1,5 @@
 <?php
+
 /* Copyright (c) 1998-2014 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 require_once 'Services/WorkflowEngine/test/ilWorkflowEngineBaseTest.php';
@@ -15,22 +16,22 @@ class test_015_Data_Wiring extends ilWorkflowEngineBaseTest
     public string $base_path = './Services/WorkflowEngine/test/parser/';
     public string $suite_path = '015_Data_Wiring/';
 
-    public function getTestInputFilename($test_name) : string
+    public function getTestInputFilename($test_name): string
     {
         return $this->base_path . $this->suite_path . $test_name . '.bpmn2';
     }
 
-    public function getTestOutputFilename($test_name) : string
+    public function getTestOutputFilename($test_name): string
     {
         return $this->base_path . $this->suite_path . $test_name . '_output.php';
     }
 
-    public function getTestGoldsampleFilename($test_name) : string
+    public function getTestGoldsampleFilename($test_name): string
     {
         return $this->base_path . $this->suite_path . $test_name . '_goldsample.php';
     }
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         chdir(__DIR__);
         chdir('../../../../../');
@@ -40,7 +41,7 @@ class test_015_Data_Wiring extends ilWorkflowEngineBaseTest
         require_once './Services/WorkflowEngine/classes/parser/class.ilBPMN2Parser.php';
     }
 
-    public function test_WorkflowWithInputTaskWiredDataIOShouldOutputAccordingly() : void
+    public function test_WorkflowWithInputTaskWiredDataIOShouldOutputAccordingly(): void
     {
         $test_name = 'Data_Wiring_Input_Task';
         $xml = file_get_contents($this->getTestInputFilename($test_name));
@@ -57,7 +58,7 @@ class test_015_Data_Wiring extends ilWorkflowEngineBaseTest
 
         require_once $this->getTestOutputFilename($test_name);
         /** @var ilBaseWorkflow $process */
-        $process = new $test_name;
+        $process = new $test_name();
         $process->setInstanceVarById('DataInput_1', 234);
         $process->startWorkflow();
         $runtime_vars = [];
@@ -72,7 +73,7 @@ class test_015_Data_Wiring extends ilWorkflowEngineBaseTest
     }
 
 
-    public function test_WorkflowWithInputObjectOutputWiredDataIOShouldOutputAccordingly() : void
+    public function test_WorkflowWithInputObjectOutputWiredDataIOShouldOutputAccordingly(): void
     {
         $test_name = 'DataObject_Wiring_Input_Object_Output';
         $xml = file_get_contents($this->getTestInputFilename($test_name));
@@ -89,7 +90,7 @@ class test_015_Data_Wiring extends ilWorkflowEngineBaseTest
 
         require_once $this->getTestOutputFilename($test_name);
         /** @var ilBaseWorkflow $process */
-        $process = new $test_name;
+        $process = new $test_name();
         $process->setInstanceVarById('DataInput_1', 'YaddaYadda');
         $process->startWorkflow();
 
