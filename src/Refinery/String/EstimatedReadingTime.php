@@ -31,8 +31,6 @@ use LibXMLError;
 
 class EstimatedReadingTime implements Transformation
 {
-    private const LIBXML_CODE_HTML_UNKNOWN_TAG = 801;
-
     use DeriveApplyToFromTransform;
     use DeriveInvokeFromTransform;
 
@@ -85,12 +83,6 @@ class EstimatedReadingTime implements Transformation
             restore_error_handler();
             $this->addErrors();
             $this->endXmlLogging();
-        }
-
-        if ($this->xmlErrorsOccured()) {
-            throw new InvalidArgumentException(
-                __METHOD__ . " the argument is not a parsable XHTML string: " . $this->xmlErrorsToString()
-            );
         }
 
         $numberOfWords = 0;
@@ -163,25 +155,15 @@ class EstimatedReadingTime implements Transformation
         libxml_use_internal_errors($this->xmlErrorState);
     }
 
-    /**
-     * @return LibXMLError[]
-     */
-    private function relevantXmlErrors() : array
+    private function xmlErrorsOccurred() : bool
     {
-        return array_filter($this->xmlErrors, static function (LibXMLError $error) : bool {
-            return $error->code !== self::LIBXML_CODE_HTML_UNKNOWN_TAG;
-        });
-    }
-
-    private function xmlErrorsOccured() : bool
-    {
-        return $this->relevantXmlErrors() !== [];
+        return $this->xmlErrors !== [];
     }
 
     private function xmlErrorsToString() : string
     {
         $text = '';
-        foreach ($this->relevantXmlErrors() as $error) {
+        foreach ($this->xmlErrors as $error) {
             $text .= implode(',', [
                 'level=' . $error->level,
                 'code=' . $error->code,
