@@ -414,13 +414,15 @@ class assTextSubset extends assQuestion implements ilObjQuestionScoringAdjustabl
         $points = array();
         foreach ($this->answers as $answer) {
             if ($answer->getPoints() > 0) {
-                array_push($points, $answer->getPoints());
+                $points[] = $answer->getPoints();
             }
         }
         rsort($points, SORT_NUMERIC);
         $maxpoints = 0;
         for ($counter = 0; $counter < $this->getCorrectAnswers(); $counter++) {
-            $maxpoints += $points[$counter];
+            if(isset($points[$counter])) {
+                $maxpoints += $points[$counter];
+            }
         }
         return $maxpoints;
     }
@@ -435,7 +437,7 @@ class assTextSubset extends assQuestion implements ilObjQuestionScoringAdjustabl
     {
         $available_answers = array();
         foreach ($this->answers as $answer) {
-            array_push($available_answers, $answer->getAnswertext());
+            $available_answers[] = $answer->getAnswertext();
         }
         return $available_answers;
     }
@@ -564,9 +566,7 @@ class assTextSubset extends assQuestion implements ilObjQuestionScoringAdjustabl
             $enteredTexts[] = $data["value1"];
         }
 
-        $points = $this->calculateReachedPointsForSolution($enteredTexts);
-
-        return $points;
+        return $this->calculateReachedPointsForSolution($enteredTexts);
     }
     
     /**
@@ -625,7 +625,6 @@ class assTextSubset extends assQuestion implements ilObjQuestionScoringAdjustabl
         });
 
         if ($entered_values) {
-            include_once("./Modules/Test/classes/class.ilObjAssessmentFolder.php");
             if (ilObjAssessmentFolder::_enabledAssessmentLogging()) {
                 assQuestion::logAction($this->lng->txtlng(
                     "assessment",
@@ -633,15 +632,12 @@ class assTextSubset extends assQuestion implements ilObjQuestionScoringAdjustabl
                     ilObjAssessmentFolder::_getLogLanguage()
                 ), $active_id, $this->getId());
             }
-        } else {
-            include_once("./Modules/Test/classes/class.ilObjAssessmentFolder.php");
-            if (ilObjAssessmentFolder::_enabledAssessmentLogging()) {
-                assQuestion::logAction($this->lng->txtlng(
-                    "assessment",
-                    "log_user_not_entered_values",
-                    ilObjAssessmentFolder::_getLogLanguage()
-                ), $active_id, $this->getId());
-            }
+        } elseif (ilObjAssessmentFolder::_enabledAssessmentLogging()) {
+            assQuestion::logAction($this->lng->txtlng(
+                "assessment",
+                "log_user_not_entered_values",
+                ilObjAssessmentFolder::_getLogLanguage()
+            ), $active_id, $this->getId());
         }
         
         return true;
@@ -824,19 +820,19 @@ class assTextSubset extends assQuestion implements ilObjQuestionScoringAdjustabl
 
         $answers = array();
         foreach ($this->getAnswers() as $key => $answer_obj) {
-            array_push($answers, array(
+            $answers[] = array(
                 "answertext" => (string) $answer_obj->getAnswertext(),
                 "points" => (float) $answer_obj->getPoints(),
                 "order" => (int) $answer_obj->getOrder()
-            ));
+            );
         }
         $result['correct_answers'] = $answers;
 
         $answers = array();
         for ($loop = 1; $loop <= $this->getCorrectAnswers(); $loop++) {
-            array_push($answers, array(
+            $answers[] = array(
                 "answernr" => $loop
-            ));
+            );
         }
         $result['answers'] = $answers;
 
