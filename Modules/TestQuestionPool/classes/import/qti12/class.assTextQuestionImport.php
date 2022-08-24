@@ -111,13 +111,13 @@ class assTextQuestionImport extends assQuestionImport
         }
         $this->addGeneralMetadata($item);
         $this->object->setTitle($item->getTitle());
-        $this->object->setNrOfTries($item->getMaxattempts());
+        $this->object->setNrOfTries((int) $item->getMaxattempts());
         $this->object->setComment($item->getComment());
         $this->object->setAuthor($item->getAuthor());
         $this->object->setOwner($ilUser->getId());
         $this->object->setQuestion($this->object->QTIMaterialToString($item->getQuestiontext()));
         $this->object->setObjId($questionpool_id);
-        $this->object->setEstimatedWorkingTime($duration["h"], $duration["m"], $duration["s"]);
+        $this->object->setEstimatedWorkingTime($duration["h"] ?? 0, $duration["m"] ?? 0, $duration["s"] ?? 0);
         $this->object->setPoints($maxpoints);
         $this->object->setMaxNumOfChars($maxchars);
         $this->object->setWordCounterEnabled((bool) $item->getMetadataEntry('wordcounter'));
@@ -131,7 +131,7 @@ class assTextQuestionImport extends assQuestionImport
         $no_keywords_found = true;
         
         $termscoring = $this->fetchTermScoring($item);
-        for ($i = 0; $i < count($termscoring); $i++) {
+        for ($i = 0, $iMax = count($termscoring); $i < $iMax; $i++) {
             $this->object->addAnswer($termscoring[$i]->getAnswertext(), $termscoring[$i]->getPoints());
             $no_keywords_found = false;
         }
@@ -234,14 +234,14 @@ class assTextQuestionImport extends assQuestionImport
             return array();
         }
 
-        $termScoring = unserialize($termScoringString);
+        $termScoring = unserialize($termScoringString, false);
 
         if (is_array($termScoring)) {
             return $termScoring;
         }
 
         $termScoringString = base64_decode($termScoringString);
-        $termScoring = unserialize($termScoringString);
+        $termScoring = unserialize($termScoringString, false);
 
         if (is_array($termScoring)) {
             return $termScoring;

@@ -280,10 +280,51 @@ class assQuestionImport
     {
         $additionalContentEditingMode = $qtiItem->getMetadataEntry('additional_cont_edit_mode');
         
-        if (!$this->object->isValidAdditionalContentEditingMode($additionalContentEditingMode)) {
+        if (!$this->object->isValidAdditionalContentEditingMode($additionalContentEditingMode ?? '')) {
             $additionalContentEditingMode = assQuestion::ADDITIONAL_CONTENT_EDITING_MODE_DEFAULT;
         }
         
         return $additionalContentEditingMode;
+    }
+
+    public function importSuggestedSolution(
+        int $question_id,
+        string $value = "",
+        int $subquestion_index = 0
+    ) : void {
+        $type = $this->findSolutionTypeByValue($value);
+        if (!$type) {
+            return;
+        }
+        
+        $repo = $this->getSuggestedSolutionsRepo();
+
+        $nu_value = $this->object->_resolveInternalLink($value);
+        $solution = $repo->create($question_id, $type)
+            ->withInternalLink($nu_value)
+            ->withImportId($value);
+        $repo->update($solution);
+    }
+ 
+    protected function findSolutionTypeByValue(strgin $value) : ?string
+    {
+        foreach (array_keys(assQuestionSuggestedSolution::TYPES) as $type) {
+            $search_type = '_' . $type . '_';
+            if (substr($value, $search_type)) {
+                return $type;
+            }
+        }
+        return null;
+    }
+
+
+    protected ?assQuestionSuggestedSolutionsDatabaseRepository $suggestedsolution_repo = null;
+    protected function getSuggestedSolutionsRepo() : assQuestionSuggestedSolutionsDatabaseRepository
+    {
+        if (is_null($this->suggestedsolution_repo)) {
+            $dic = ilQuestionPoolDIC::dic();
+            $this->suggestedsolution_repo = $dic['question.repo.suggestedsolutions'];
+        }
+        return $this->suggestedsolution_repo;
     }
 }
