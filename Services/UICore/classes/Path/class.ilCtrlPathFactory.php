@@ -1,4 +1,6 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types=1);
 
 /* Copyright (c) 2021 Thibeau Fuhrer <thf@studer-raimann.ch> Extended GPL, see docs/LICENSE */
 
@@ -27,7 +29,7 @@ class ilCtrlPathFactory implements ilCtrlPathFactoryInterface
     /**
      * @inheritDoc
      */
-    public function find(ilCtrlContextInterface $context, $target) : ilCtrlPathInterface
+    public function find(ilCtrlContextInterface $context, $target): ilCtrlPathInterface
     {
         if (is_array($target)) {
             return new ilCtrlArrayClassPath($this->structure, $context, $target);
@@ -43,7 +45,7 @@ class ilCtrlPathFactory implements ilCtrlPathFactoryInterface
     /**
      * @inheritDoc
      */
-    public function existing(string $cid_path) : ilCtrlPathInterface
+    public function existing(string $cid_path): ilCtrlPathInterface
     {
         return new ilCtrlExistingPath($this->structure, $cid_path);
     }
@@ -51,7 +53,7 @@ class ilCtrlPathFactory implements ilCtrlPathFactoryInterface
     /**
      * @inheritDoc
      */
-    public function null() : ilCtrlPathInterface
+    public function null(): ilCtrlPathInterface
     {
         return new ilCtrlNullPath();
     }

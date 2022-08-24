@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -25,7 +27,7 @@ class ilTestRandomQuestionSetSourcePoolDefinitionListTableGUITest extends ilTest
     private ilTestRandomQuestionSetSourcePoolDefinitionListTableGUI $tableGui;
     private ilObjTestGUI $parentObj_mock;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -56,12 +58,12 @@ class ilTestRandomQuestionSetSourcePoolDefinitionListTableGUITest extends ilTest
         );
     }
 
-    public function test_instantiateObject_shouldReturnInstance() : void
+    public function test_instantiateObject_shouldReturnInstance(): void
     {
         $this->assertInstanceOf(ilTestRandomQuestionSetSourcePoolDefinitionListTableGUI::class, $this->tableGui);
     }
 
-    public function testDefinitionEditModeEnabled() : void
+    public function testDefinitionEditModeEnabled(): void
     {
         $this->assertIsBool($this->tableGui->isDefinitionEditModeEnabled());
         $this->tableGui->setDefinitionEditModeEnabled(false);
@@ -70,7 +72,7 @@ class ilTestRandomQuestionSetSourcePoolDefinitionListTableGUITest extends ilTest
         $this->assertTrue($this->tableGui->isDefinitionEditModeEnabled());
     }
 
-    public function testQuestionAmountColumnEnabled() : void
+    public function testQuestionAmountColumnEnabled(): void
     {
         $this->assertIsBool($this->tableGui->isQuestionAmountColumnEnabled());
         $this->tableGui->setQuestionAmountColumnEnabled(false);

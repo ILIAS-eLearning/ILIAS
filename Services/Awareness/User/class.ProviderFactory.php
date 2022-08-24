@@ -70,14 +70,14 @@ class ProviderFactory
      * Get all awareness providers
      * @return Provider[] array of ilAwarenessProvider all providers
      */
-    public function getAllProviders() : array
+    public function getAllProviders(): array
     {
         $providers = array();
 
         foreach (self::$providers as $p) {
             $providers[] = new $p["class"]($this->dic);
         }
-    
+
         return $providers;
     }
 }

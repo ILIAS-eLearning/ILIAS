@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\UI\Implementation\Component\Input\Container\Filter;
 
 use ILIAS\UI\Component;
@@ -32,7 +34,7 @@ class Renderer extends AbstractComponentRenderer
     /**
      * @inheritdoc
      */
-    public function render(Component\Component $component, RendererInterface $default_renderer) : string
+    public function render(Component\Component $component, RendererInterface $default_renderer): string
     {
         $this->checkComponent($component);
 
@@ -46,7 +48,7 @@ class Renderer extends AbstractComponentRenderer
     /**
      * Render standard filter
      */
-    protected function renderStandard(Filter\Standard $component, RendererInterface $default_renderer) : string
+    protected function renderStandard(Filter\Standard $component, RendererInterface $default_renderer): string
     {
         $tpl = $this->getTemplate("tpl.standard_filter.html", true, true);
 
@@ -73,7 +75,7 @@ class Renderer extends AbstractComponentRenderer
         return $tpl->get();
     }
 
-    protected function registerSignals(Filter\Filter $filter) : Filter\Filter
+    protected function registerSignals(Filter\Filter $filter): Filter\Filter
     {
         $update = $filter->getUpdateSignal();
         return $filter->withAdditionalOnLoadCode(fn ($id) => "$(document).on('$update', function(event, signalData) {
@@ -92,7 +94,7 @@ class Renderer extends AbstractComponentRenderer
         Template $tpl,
         Filter\Standard $component,
         RendererInterface $default_renderer
-    ) : void {
+    ): void {
         $f = $this->getUIFactory();
 
         $tpl->setCurrentBlock("action");
@@ -137,7 +139,7 @@ class Renderer extends AbstractComponentRenderer
         Template $tpl,
         Filter\Standard $component,
         RendererInterface $default_renderer
-    ) : void {
+    ): void {
         $f = $this->getUIFactory();
 
         $tpl->setCurrentBlock("action");
@@ -171,7 +173,7 @@ class Renderer extends AbstractComponentRenderer
         Template $tpl,
         Filter\Standard $component,
         RendererInterface $default_renderer
-    ) : void {
+    ): void {
         $f = $this->getUIFactory();
 
         $tpl->setCurrentBlock("action");
@@ -210,7 +212,7 @@ class Renderer extends AbstractComponentRenderer
         Template $tpl,
         Filter\Standard $component,
         RendererInterface $default_renderer
-    ) : void {
+    ): void {
         // pass information on what inputs should be initially rendered
         $is_input_rendered = $component->isInputRendered();
         foreach ($component->getInputs() as $k => $input) {
@@ -248,7 +250,7 @@ class Renderer extends AbstractComponentRenderer
     /**
      * @inheritdoc
      */
-    protected function getComponentInterfaceName() : array
+    protected function getComponentInterfaceName(): array
     {
         return array(Filter\Standard::class);
     }

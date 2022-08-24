@@ -66,7 +66,7 @@ class ilOrgUnitStaffTableGUI extends ilTable2GUI
         $this->setRowTemplate("tpl.staff_row.html", "Modules/OrgUnit");
     }
 
-    private function setTableHeaders() : void
+    private function setTableHeaders(): void
     {
         $this->addColumn($this->lng->txt("firstname"), "first_name");
         $this->addColumn($this->lng->txt("lastname"), "last_name");
@@ -76,7 +76,7 @@ class ilOrgUnitStaffTableGUI extends ilTable2GUI
         $this->addColumn($this->lng->txt("action"));
     }
 
-    public function parseData() : void
+    public function parseData(): void
     {
         if ($this->staff === "employee") {
             $data = $this->parseRows(ilObjOrgUnitTree::_getInstance()->getEmployees($this->http->wrapper()->query()->retrieve('ref_id', $this->refinery->to()->int()), $this->recursive));
@@ -89,7 +89,7 @@ class ilOrgUnitStaffTableGUI extends ilTable2GUI
         $this->setData($data);
     }
 
-    private function parseRows(array $user_ids) : array
+    private function parseRows(array $user_ids): array
     {
         $data = array();
         foreach ($user_ids as $user_id) {
@@ -102,7 +102,7 @@ class ilOrgUnitStaffTableGUI extends ilTable2GUI
     /**
      * @param string $staff Set this variable either to "employee" or "superior". It's employee by default.
      */
-    public function setStaff(string $staff) : void
+    public function setStaff(string $staff): void
     {
         $this->staff = $staff;
     }
@@ -110,12 +110,12 @@ class ilOrgUnitStaffTableGUI extends ilTable2GUI
     /**
      * @return string
      */
-    public function getStaff() : string
+    public function getStaff(): string
     {
         return $this->staff;
     }
 
-    protected function getRowForUser(int $user_id) : array
+    protected function getRowForUser(int $user_id): array
     {
         $user = new ilObjUser($user_id);
         $set = [];
@@ -129,7 +129,7 @@ class ilOrgUnitStaffTableGUI extends ilTable2GUI
         return $set;
     }
 
-    public function fillRow(array $a_set) : void
+    public function fillRow(array $a_set): void
     {
         global $DIC;
         $ilUser = $DIC['ilUser'];
@@ -148,8 +148,11 @@ class ilOrgUnitStaffTableGUI extends ilTable2GUI
         $selection->setListTitle($lng->txt("Actions"));
         $selection->setId("selection_list_user_lp_" . $a_set["user_id"]);
 
-        if ($ilAccess->checkAccess("view_learning_progress", "",
-                $_GET["ref_id"]) and ilObjUserTracking::_enabledLearningProgress() and
+        if ($ilAccess->checkAccess(
+            "view_learning_progress",
+            "",
+            $_GET["ref_id"]
+        ) and ilObjUserTracking::_enabledLearningProgress() and
             ilObjUserTracking::_enabledUserRelatedData()
         ) {
             $selection->addItem(
@@ -163,18 +166,28 @@ class ilOrgUnitStaffTableGUI extends ilTable2GUI
         }
         if ($ilAccess->checkAccess("write", "", $_GET["ref_id"]) && !$this->recursive) {
             if ($this->staff === "employee") {
-                $selection->addItem($this->lng->txt("remove"), "delete_from_employees",
-                    $this->ctrl->getLinkTargetByClass("ilOrgUnitStaffGUI", "confirmRemoveFromEmployees"));
-                $selection->addItem($this->lng->txt("change_to_superior"), "change_to_superior",
-                    $this->ctrl->getLinkTargetByClass("ilOrgUnitStaffGUI", "fromEmployeeToSuperior"));
-
+                $selection->addItem(
+                    $this->lng->txt("remove"),
+                    "delete_from_employees",
+                    $this->ctrl->getLinkTargetByClass("ilOrgUnitStaffGUI", "confirmRemoveFromEmployees")
+                );
+                $selection->addItem(
+                    $this->lng->txt("change_to_superior"),
+                    "change_to_superior",
+                    $this->ctrl->getLinkTargetByClass("ilOrgUnitStaffGUI", "fromEmployeeToSuperior")
+                );
             }
             if ($this->staff === "superior") {
-                $selection->addItem($this->lng->txt("remove"), "delete_from_superiors",
-                    $this->ctrl->getLinkTargetByClass("ilOrgUnitStaffGUI", "confirmRemoveFromSuperiors"));
-                $selection->addItem($this->lng->txt("change_to_employee"), "change_to_employee",
-                    $this->ctrl->getLinkTargetByClass("ilOrgUnitStaffGUI", "fromSuperiorToEmployee"));
-
+                $selection->addItem(
+                    $this->lng->txt("remove"),
+                    "delete_from_superiors",
+                    $this->ctrl->getLinkTargetByClass("ilOrgUnitStaffGUI", "confirmRemoveFromSuperiors")
+                );
+                $selection->addItem(
+                    $this->lng->txt("change_to_employee"),
+                    "change_to_employee",
+                    $this->ctrl->getLinkTargetByClass("ilOrgUnitStaffGUI", "fromSuperiorToEmployee")
+                );
             }
         }
         $this->tpl->setVariable("ACTIONS", $selection->getHTML());
@@ -183,7 +196,7 @@ class ilOrgUnitStaffTableGUI extends ilTable2GUI
     /**
      * @param bool $recursive show direct members of this org unit or the sub-units as well?
      */
-    public function setRecursive(bool $recursive) : void
+    public function setRecursive(bool $recursive): void
     {
         $this->recursive = $recursive;
     }

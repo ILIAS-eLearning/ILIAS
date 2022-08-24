@@ -58,7 +58,7 @@ class ilWorkflowEngineDefinitionsTableGUI extends ilTable2GUI
         $this->setTitle($this->lng->txt("definitions"));
     }
 
-    public function initFilter() : void
+    public function initFilter(): void
     {
         $title_filter_input = new ilTextInputGUI($this->lng->txt("title"), "title");
         $title_filter_input->setMaxLength(64);
@@ -73,7 +73,7 @@ class ilWorkflowEngineDefinitionsTableGUI extends ilTable2GUI
         $this->filter['instances'] = $instances_filter_input->getChecked();
     }
 
-    public function initColumns() : void
+    public function initColumns(): void
     {
         $this->addColumn($this->lng->txt("title"), "title", "20%");
 
@@ -105,7 +105,7 @@ class ilWorkflowEngineDefinitionsTableGUI extends ilTable2GUI
     /**
      * @return array
      */
-    public function getSelectableColumns() : array
+    public function getSelectableColumns(): array
     {
         $cols["file"] = [
             "txt" => $this->lng->txt("file"),
@@ -126,7 +126,7 @@ class ilWorkflowEngineDefinitionsTableGUI extends ilTable2GUI
         return $cols;
     }
 
-    private function populateTable() : void
+    private function populateTable(): void
     {
         global $DIC;
 
@@ -140,7 +140,7 @@ class ilWorkflowEngineDefinitionsTableGUI extends ilTable2GUI
 
         $that = $this;
 
-        array_walk($baseList, static function (array &$definition) use ($that) : void {
+        array_walk($baseList, static function (array &$definition) use ($that): void {
             $status = $that->lng->txt('missing_parsed_class');
             if ($definition['status']) {
                 $status = 'OK';
@@ -149,7 +149,7 @@ class ilWorkflowEngineDefinitionsTableGUI extends ilTable2GUI
             $definition['status'] = $status;
         });
 
-        $filteredBaseList = array_filter($baseList, function ($item) : bool {
+        $filteredBaseList = array_filter($baseList, function ($item): bool {
             return !$this->isFiltered($item);
         });
 
@@ -160,7 +160,7 @@ class ilWorkflowEngineDefinitionsTableGUI extends ilTable2GUI
      * @param array $row
      * @return bool
      */
-    public function isFiltered(array $row) : bool
+    public function isFiltered(array $row): bool
     {
         $title_filter = $this->getFilterItemByPostVar('title');
         if ($title_filter->getValue() != null && stripos($row['title'], $title_filter->getValue()) === false) {
@@ -178,7 +178,7 @@ class ilWorkflowEngineDefinitionsTableGUI extends ilTable2GUI
     /**
      * @param array $a_set
      */
-    protected function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set): void
     {
         $this->tpl->setVariable('VAL_TITLE', $a_set['title']);
 

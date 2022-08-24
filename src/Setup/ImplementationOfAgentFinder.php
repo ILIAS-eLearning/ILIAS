@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\Setup;
 
 use ILIAS\Refinery\Factory as Refinery;
@@ -52,7 +54,7 @@ class ImplementationOfAgentFinder implements AgentFinder
      *
      * @param string[]  $ignore folders to be ignored.
      */
-    public function getAgents() : AgentCollection
+    public function getAgents(): AgentCollection
     {
         $agents = $this->getCoreAgents();
 
@@ -73,7 +75,7 @@ class ImplementationOfAgentFinder implements AgentFinder
     /**
      * Collect core agents from the system bundled in a collection.
      */
-    public function getCoreAgents() : AgentCollection
+    public function getCoreAgents(): AgentCollection
     {
         // Initialize the agents.
         $agents = new AgentCollection(
@@ -108,7 +110,7 @@ class ImplementationOfAgentFinder implements AgentFinder
      *
      * @param string $name of the plugin to get the agent from
      */
-    public function getPluginAgent(string $name) : Agent
+    public function getPluginAgent(string $name): Agent
     {
         // TODO: This seems to be something that rather belongs to Services/Component/
         // but we put it here anyway for the moment. This seems to be something that
@@ -121,7 +123,7 @@ class ImplementationOfAgentFinder implements AgentFinder
         ));
 
         if ($agent_classes === []) {
-            return new class($name) extends \ilPluginDefaultAgent {
+            return new class ($name) extends \ilPluginDefaultAgent {
             };
         }
 
@@ -144,7 +146,7 @@ class ImplementationOfAgentFinder implements AgentFinder
         );
     }
 
-    public function getAgentByClassName(string $class_name) : Agent
+    public function getAgentByClassName(string $class_name): Agent
     {
         if (!class_exists($class_name)) {
             throw new \InvalidArgumentException("Class '" . $class_name . "' not found.");
@@ -160,7 +162,7 @@ class ImplementationOfAgentFinder implements AgentFinder
     /**
      * Derive a name for the agent based on a class name.
      */
-    public function getAgentNameByClassName(string $class_name) : string
+    public function getAgentNameByClassName(string $class_name): string
     {
         // We assume that the name of an agent in the class ilXYZSetupAgent really
         // is XYZ. If that does not fit we just use the class name.
@@ -174,7 +176,7 @@ class ImplementationOfAgentFinder implements AgentFinder
     /**
      * @return \Generator <string>
      */
-    protected function getPluginNames() : \Generator
+    protected function getPluginNames(): \Generator
     {
         $directories =
             new \RecursiveIteratorIterator(

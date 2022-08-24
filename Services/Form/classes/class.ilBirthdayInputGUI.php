@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -23,19 +25,19 @@
  */
 class ilBirthdayInputGUI extends ilDateTimeInputGUI
 {
-    public function getStartYear() : int
+    public function getStartYear(): int
     {
         return date("Y") - 100;
     }
-    
-    protected function parseDatePickerConfig() : array
+
+    protected function parseDatePickerConfig(): array
     {
         $config = parent::parseDatePickerConfig();
-                
+
         $config["viewMode"] = "years";
         $config["calendarWeeks"] = false;
         $config["showTodayButton"] = false;
-        
+
         return $config;
     }
 }

@@ -6,7 +6,7 @@ use PHPUnit\Framework\TestSuite;
 
 class ilServicesWebServicesSuite extends TestSuite
 {
-    public static function suite() : self
+    public static function suite(): self
     {
         $suite = new ilServicesWebServicesSuite();
         include_once("./Services/WebServices/test/ilRPCServerSettingsTest.php");

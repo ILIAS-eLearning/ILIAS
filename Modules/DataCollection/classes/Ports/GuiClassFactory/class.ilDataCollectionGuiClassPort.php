@@ -21,7 +21,7 @@
  */
 interface ilDataCollectionGuiClassPort
 {
-    public function getLowerCaseGuiClassName() : string;
+    public function getLowerCaseGuiClassName(): string;
 
-    public function getGuiObject() : object;
+    public function getGuiObject(): object;
 }

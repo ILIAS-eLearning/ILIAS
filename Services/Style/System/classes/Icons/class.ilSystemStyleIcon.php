@@ -53,7 +53,7 @@ class ilSystemStyleIcon
     /**
      * Changes colors in the svg file of the icon and updates the icon abstraction by extracting the colors again.
      */
-    public function changeColors(array $color_changes) : void
+    public function changeColors(array $color_changes): void
     {
         if ($this->getType() == 'svg') {
             $icon = file_get_contents($this->getPath());
@@ -65,37 +65,37 @@ class ilSystemStyleIcon
         $this->extractColorSet();
     }
 
-    public function getType() : string
+    public function getType(): string
     {
         return $this->type;
     }
 
-    public function setType(string $type) : void
+    public function setType(string $type): void
     {
         $this->type = $type;
     }
 
-    public function getName() : string
+    public function getName(): string
     {
         return $this->name;
     }
 
-    public function setName(string $name) : void
+    public function setName(string $name): void
     {
         $this->name = $name;
     }
 
-    public function __toString() : string
+    public function __toString(): string
     {
         return $this->getName();
     }
 
-    public function getPath() : string
+    public function getPath(): string
     {
         return $this->path;
     }
 
-    public function setPath(string $path) : void
+    public function setPath(string $path): void
     {
         $this->path = $path;
     }
@@ -104,7 +104,7 @@ class ilSystemStyleIcon
      * Only get dir rel to the Customizing dir
      * without name and extension from
      */
-    public function getDirRelToCustomizing() : string
+    public function getDirRelToCustomizing(): string
     {
         $path = strstr($this->getPath(), 'global/skin');
         if (!$path) {
@@ -113,7 +113,7 @@ class ilSystemStyleIcon
         return dirname($path);
     }
 
-    public function getColorSet() : ilSystemStyleIconColorSet
+    public function getColorSet(): ilSystemStyleIconColorSet
     {
         if (!isset($this->color_set)) {
             $this->extractColorSet();
@@ -124,7 +124,7 @@ class ilSystemStyleIcon
     /**
      * Extracts all colors from the icon by parsing the svg file for a regular expresion.
      */
-    protected function extractColorSet() : void
+    protected function extractColorSet(): void
     {
         $regex_for_extracting_color = '/((?<=#)[\dabcdef]{6})|((?<=#)[\dabcdef]{3})/i';
 
@@ -143,12 +143,12 @@ class ilSystemStyleIcon
         }
     }
 
-    public function setColorSet(ilSystemStyleIconColorSet $color_set) : void
+    public function setColorSet(ilSystemStyleIconColorSet $color_set): void
     {
         $this->color_set = $color_set;
     }
 
-    public function usesColor(string $color_id) : bool
+    public function usesColor(string $color_id): bool
     {
         return $this->getColorSet()->doesColorExist($color_id);
     }

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
@@ -15,9 +17,9 @@ abstract class ilAdvancedMDClaimingPlugin extends ilPlugin
         int $a_context_id,
         int $a_action_id,
         int $a_action_sub_id
-    ) : bool;
+    ): bool;
 
-    public static function hasDBRecord(int $a_record_id) : bool
+    public static function hasDBRecord(int $a_record_id): bool
     {
         global $DIC;
         $ilDB = $DIC->database();
@@ -39,7 +41,7 @@ abstract class ilAdvancedMDClaimingPlugin extends ilPlugin
         string $a_description,
         bool $a_active,
         array $a_obj_types
-    ) : int {
+    ): int {
         global $DIC;
 
         $ilDB = $DIC->database();
@@ -62,7 +64,7 @@ abstract class ilAdvancedMDClaimingPlugin extends ilPlugin
      * Validate object type
      * @todo support ecs type
      */
-    protected static function isValidObjType(string $a_obj_type, bool $a_is_substitution = false) : bool
+    protected static function isValidObjType(string $a_obj_type, bool $a_is_substitution = false): bool
     {
         // ecs not supported yet
         $valid = ["crs", "cat", "book", "wiki", "glo", "orgu", "prg", 'grp', 'iass'];
@@ -80,7 +82,7 @@ abstract class ilAdvancedMDClaimingPlugin extends ilPlugin
      * @param int      $a_record_id
      * @param string[] $a_obj_types
      */
-    protected static function saveRecordObjTypes(int $a_record_id, array $a_obj_types) : void
+    protected static function saveRecordObjTypes(int $a_record_id, array $a_obj_types): void
     {
         global $DIC;
         $ilDB = $DIC->database();
@@ -120,7 +122,7 @@ abstract class ilAdvancedMDClaimingPlugin extends ilPlugin
         string $a_description,
         bool $a_active,
         array $a_obj_types
-    ) : bool {
+    ): bool {
         global $DIC;
 
         $ilDB = $DIC->database();
@@ -147,7 +149,7 @@ abstract class ilAdvancedMDClaimingPlugin extends ilPlugin
         return false;
     }
 
-    public static function deleteDBRecord(int $a_record_id) : bool
+    public static function deleteDBRecord(int $a_record_id): bool
     {
         global $DIC;
 
@@ -162,7 +164,7 @@ abstract class ilAdvancedMDClaimingPlugin extends ilPlugin
         return false;
     }
 
-    public static function hasDBField(int $a_field_id) : bool
+    public static function hasDBField(int $a_field_id): bool
     {
         global $DIC;
         $ilDB = $DIC->database();
@@ -175,7 +177,7 @@ abstract class ilAdvancedMDClaimingPlugin extends ilPlugin
     /**
      * @see ilAdvancedMDFieldDefinition::getLastPosition()
      */
-    protected static function getDBFieldLastPosition(int $a_record_id) : int
+    protected static function getDBFieldLastPosition(int $a_record_id): int
     {
         global $DIC;
 
@@ -199,7 +201,7 @@ abstract class ilAdvancedMDClaimingPlugin extends ilPlugin
         ?string $a_description = null,
         bool $a_searchable = false,
         array $a_definition = null
-    ) : ?int {
+    ): ?int {
         global $DIC;
 
         $ilDB = $DIC->database();
@@ -242,7 +244,7 @@ abstract class ilAdvancedMDClaimingPlugin extends ilPlugin
         ?string $a_description = null,
         bool $a_searchable = false,
         ?array $a_definition = null
-    ) : bool {
+    ): bool {
         global $DIC;
 
         $ilDB = $DIC->database();
@@ -268,7 +270,7 @@ abstract class ilAdvancedMDClaimingPlugin extends ilPlugin
         return false;
     }
 
-    public static function deleteDBField(int $a_field_id) : bool
+    public static function deleteDBField(int $a_field_id): bool
     {
         global $DIC;
 
@@ -283,7 +285,7 @@ abstract class ilAdvancedMDClaimingPlugin extends ilPlugin
         return false;
     }
 
-    protected static function getDBSubstitution(string $a_obj_type, bool $a_include_field_data = false) : array
+    protected static function getDBSubstitution(string $a_obj_type, bool $a_include_field_data = false): array
     {
         global $DIC;
 
@@ -312,7 +314,7 @@ abstract class ilAdvancedMDClaimingPlugin extends ilPlugin
         string $a_obj_type,
         bool $a_show_description,
         bool $a_show_field_names
-    ) : bool {
+    ): bool {
         global $DIC;
 
         $ilDB = $DIC->database();
@@ -344,7 +346,7 @@ abstract class ilAdvancedMDClaimingPlugin extends ilPlugin
         return false;
     }
 
-    public static function hasDBFieldSubstitution(string $a_obj_type, int $a_field_id) : bool
+    public static function hasDBFieldSubstitution(string $a_obj_type, int $a_field_id): bool
     {
         if (self::isValidObjType($a_obj_type, true)) {
             $fields = self::getDBSubstitution($a_obj_type, true);
@@ -363,7 +365,7 @@ abstract class ilAdvancedMDClaimingPlugin extends ilPlugin
         int $a_field_id,
         bool $a_bold = false,
         bool $a_newline = false
-    ) : bool {
+    ): bool {
         global $DIC;
 
         $ilDB = $DIC->database();
@@ -406,7 +408,7 @@ abstract class ilAdvancedMDClaimingPlugin extends ilPlugin
         return false;
     }
 
-    public static function removeDBFieldSubstitution(string $a_obj_type, int $a_field_id) : bool
+    public static function removeDBFieldSubstitution(string $a_obj_type, int $a_field_id): bool
     {
         global $DIC;
 

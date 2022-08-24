@@ -50,7 +50,7 @@ class ilPCBlogGUI extends ilPageContentGUI
     /**
     * execute command
     */
-    public function executeCommand() : string
+    public function executeCommand(): string
     {
         // get next class that processes or forwards current command
         $next_class = $this->ctrl->getNextClass($this);
@@ -67,7 +67,7 @@ class ilPCBlogGUI extends ilPageContentGUI
         return (string) $ret;
     }
 
-    public function insert(ilPropertyFormGUI $a_form = null) : void
+    public function insert(ilPropertyFormGUI $a_form = null): void
     {
         $tpl = $this->tpl;
 
@@ -79,7 +79,7 @@ class ilPCBlogGUI extends ilPageContentGUI
         $tpl->setContent($a_form->getHTML());
     }
 
-    public function edit(ilPropertyFormGUI $a_form = null) : void
+    public function edit(ilPropertyFormGUI $a_form = null): void
     {
         $tpl = $this->tpl;
 
@@ -91,7 +91,7 @@ class ilPCBlogGUI extends ilPageContentGUI
         $tpl->setContent($a_form->getHTML());
     }
 
-    protected function initForm(bool $a_insert = false) : ilPropertyFormGUI
+    protected function initForm(bool $a_insert = false): ilPropertyFormGUI
     {
         $ilCtrl = $this->ctrl;
         $ilUser = $this->user;
@@ -103,7 +103,7 @@ class ilPCBlogGUI extends ilPageContentGUI
         } else {
             $form->setTitle($this->lng->txt("cont_update_blog"));
         }
-                
+
         $options = array();
         $blogs_ids = ilBlogPosting::searchBlogsByAuthor($ilUser->getId());
         if ($blogs_ids) {
@@ -116,7 +116,7 @@ class ilPCBlogGUI extends ilPageContentGUI
         $obj->setRequired(true);
         $obj->setOptions($options);
         $form->addItem($obj);
-        
+
         if ($a_insert) {
             $form->addCommandButton("create_blog", $this->lng->txt("select"));
             $form->addCommandButton("cancelCreate", $this->lng->txt("cancel"));
@@ -132,7 +132,7 @@ class ilPCBlogGUI extends ilPageContentGUI
     /**
      * Create new blog
      */
-    public function create() : void
+    public function create(): void
     {
         if ($this->requested_blog_id == 0) {
             $form = $this->initForm(true);
@@ -140,7 +140,7 @@ class ilPCBlogGUI extends ilPageContentGUI
                 $this->insertPosting($this->requested_blog);
                 return;
             }
-            
+
             $form->setValuesByPost();
             $this->insert($form);
         } else {
@@ -154,7 +154,7 @@ class ilPCBlogGUI extends ilPageContentGUI
                     $this->ctrl->returnToParent($this, "jump" . $this->hier_id);
                 }
             }
-            
+
             $form->setValuesByPost();
             $this->insertPosting($this->requested_blog_id, $form);
         }
@@ -163,7 +163,7 @@ class ilPCBlogGUI extends ilPageContentGUI
     /**
      * Update blog
      */
-    public function update() : void
+    public function update(): void
     {
         if ($this->requested_blog_id == 0) {
             $form = $this->initForm();
@@ -171,7 +171,7 @@ class ilPCBlogGUI extends ilPageContentGUI
                 $this->editPosting($this->requested_blog);
                 return;
             }
-            
+
             $this->pg_obj->addHierIDs();
             $form->setValuesByPost();
             $this->edit($form);
@@ -184,21 +184,21 @@ class ilPCBlogGUI extends ilPageContentGUI
                     $this->ctrl->returnToParent($this, "jump" . $this->hier_id);
                 }
             }
-            
+
             $this->pg_obj->addHierIDs();
             $form->setValuesByPost();
             $this->editPosting($this->requested_blog_id, $form);
         }
     }
-    
-    
+
+
     /**
      * Insert new blog posting form.
      */
     public function insertPosting(
         int $a_blog_id,
         ilPropertyFormGUI $a_form = null
-    ) : void {
+    ): void {
         $tpl = $this->tpl;
 
         $this->displayValidationError();
@@ -208,14 +208,14 @@ class ilPCBlogGUI extends ilPageContentGUI
         }
         $tpl->setContent($a_form->getHTML());
     }
-    
+
     /**
      * Edit blog posting form
      */
     public function editPosting(
         int $a_blog_id,
         ilPropertyFormGUI $a_form = null
-    ) : void {
+    ): void {
         $tpl = $this->tpl;
 
         $this->displayValidationError();
@@ -225,14 +225,14 @@ class ilPCBlogGUI extends ilPageContentGUI
         }
         $tpl->setContent($a_form->getHTML());
     }
-    
+
     /**
      * Init blog posting form
      */
     protected function initPostingForm(
         int $a_blog_id,
         bool $a_insert = false
-    ) : ilPropertyFormGUI {
+    ): ilPropertyFormGUI {
         $ilCtrl = $this->ctrl;
         $ilUser = $this->user;
 
@@ -266,11 +266,11 @@ class ilPCBlogGUI extends ilPageContentGUI
         $obj->setRequired(true);
         $obj->setOptions($options);
         $form->addItem($obj);
-        
+
         $blog_id = new ilHiddenInputGUI("blog_id");
         $blog_id->setValue($a_blog_id);
         $form->addItem($blog_id);
-        
+
         if ($a_insert) {
             $form->addCommandButton("create_blog", $this->lng->txt("save"));
             $form->addCommandButton("cancelCreate", $this->lng->txt("cancel"));

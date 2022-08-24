@@ -23,7 +23,7 @@
  */
 class ilLearningModulePageCollector implements ilCOPageCollectorInterface
 {
-    public function getAllPageIds(int $obj_id) : array
+    public function getAllPageIds(int $obj_id): array
     {
         $pages = [];
         foreach (ilPageObject::getAllPages("lm", $obj_id) as $p) {

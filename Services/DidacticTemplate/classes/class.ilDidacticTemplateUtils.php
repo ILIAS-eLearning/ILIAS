@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
@@ -8,7 +10,7 @@
  */
 class ilDidacticTemplateUtils
 {
-    public static function switchTemplate(int $a_ref_id, int $a_new_tpl_id) : bool
+    public static function switchTemplate(int $a_ref_id, int $a_new_tpl_id): bool
     {
         global $DIC;
 

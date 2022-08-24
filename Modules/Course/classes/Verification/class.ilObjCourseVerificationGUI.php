@@ -1,4 +1,6 @@
-<?php declare(strict_types=0);
+<?php
+
+declare(strict_types=0);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 use ILIAS\DI\Container;
 
 /**
@@ -40,12 +42,12 @@ class ilObjCourseVerificationGUI extends ilObject2GUI
         parent::__construct($a_id, $a_id_type, $a_parent_node_id);
     }
 
-    public function getType() : string
+    public function getType(): string
     {
         return "crsv";
     }
 
-    public function create() : void
+    public function create(): void
     {
         $this->lng->loadLanguageModule("crsv");
 
@@ -58,7 +60,7 @@ class ilObjCourseVerificationGUI extends ilObject2GUI
         $this->tpl->setContent($table->getHTML());
     }
 
-    public function save() : void
+    public function save(): void
     {
         $ilUser = $this->dic->user();
 
@@ -103,7 +105,7 @@ class ilObjCourseVerificationGUI extends ilObject2GUI
         $this->create();
     }
 
-    public function deliver() : void
+    public function deliver(): void
     {
         $file = $this->object->getFilePath();
         if ($file) {
@@ -111,7 +113,7 @@ class ilObjCourseVerificationGUI extends ilObject2GUI
         }
     }
 
-    public function render(bool $a_return = false, string $a_url = '') : string
+    public function render(bool $a_return = false, string $a_url = ''): string
     {
         $ilUser = $this->dic->user();
         $lng = $this->dic->language();
@@ -150,7 +152,7 @@ class ilObjCourseVerificationGUI extends ilObject2GUI
         return "";
     }
 
-    public function downloadFromPortfolioPage(ilPortfolioPage $a_page) : void
+    public function downloadFromPortfolioPage(ilPortfolioPage $a_page): void
     {
         if (ilPCVerification::isInPortfolioPage($a_page, $this->object->getType(), $this->object->getId())) {
             $this->deliver();
@@ -158,7 +160,7 @@ class ilObjCourseVerificationGUI extends ilObject2GUI
         $this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
     }
 
-    public static function _goto(string $a_target) : void
+    public static function _goto(string $a_target): void
     {
         global $DIC;
 

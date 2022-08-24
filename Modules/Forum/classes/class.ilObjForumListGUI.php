@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -31,7 +33,7 @@ class ilObjForumListGUI extends ilObjectListGUI
         parent::__construct();
     }
 
-    public function init() : void
+    public function init(): void
     {
         $this->static_link_enabled = true;
         $this->delete_enabled = true;
@@ -46,17 +48,17 @@ class ilObjForumListGUI extends ilObjectListGUI
         $this->commands = ilObjForumAccess::_getCommands();
     }
 
-    public function setChildId(int $a_child_id) : void
+    public function setChildId(int $a_child_id): void
     {
         $this->child_id = $a_child_id;
     }
 
-    public function getChildId() : int
+    public function getChildId(): int
     {
         return $this->child_id;
     }
 
-    public function getProperties() : array
+    public function getProperties(): array
     {
         $props = [];
 
@@ -172,12 +174,12 @@ class ilObjForumListGUI extends ilObjectListGUI
         return $props;
     }
 
-    public function getCommandFrame(string $cmd) : string
+    public function getCommandFrame(string $cmd): string
     {
         return ilFrameTargetInfo::_getFrame('MainContent');
     }
 
-    public function getCommandLink(string $cmd) : string
+    public function getCommandLink(string $cmd): string
     {
         switch ($cmd) {
             case 'thread':

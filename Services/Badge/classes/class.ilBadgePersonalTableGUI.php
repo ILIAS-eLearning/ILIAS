@@ -41,17 +41,17 @@ class ilBadgePersonalTableGUI extends ilTable2GUI
         $ilUser = $DIC->user();
         $ilCtrl = $DIC->ctrl();
         $tpl = $DIC["tpl"];
-        
+
         if (!$a_user_id) {
             $a_user_id = $ilUser->getId();
         }
-        
+
         $this->setId("bdgprs");
-                
+
         parent::__construct($a_parent_obj, $a_parent_cmd);
-        
+
         $this->setTitle($lng->txt("badge_personal_badges"));
-                
+
         $this->addColumn("", "", 1);
         $this->addColumn($lng->txt("title"), "title");
         $this->addColumn($lng->txt("object"), "parent_title");
@@ -60,46 +60,46 @@ class ilBadgePersonalTableGUI extends ilTable2GUI
         $this->addColumn($lng->txt("actions"), "");
 
         $this->setDefaultOrderField("title");
-        
+
         $this->setFormAction($ilCtrl->getFormAction($this->getParentObject()));
         $this->setRowTemplate("tpl.personal_row.html", "Services/Badge");
-                
+
         $this->addMultiCommand("activate", $lng->txt("badge_add_to_profile"));
         $this->addMultiCommand("deactivate", $lng->txt("badge_remove_from_profile"));
         $this->setSelectAllCheckbox("badge_id");
-        
+
         $this->getItems($a_user_id);
     }
-    
-    public function initFilters(array $a_parents) : void
+
+    public function initFilters(array $a_parents): void
     {
         $lng = $this->lng;
-        
+
         $title = $this->addFilterItemByMetaType("title", self::FILTER_TEXT, false, $lng->txt("title"));
         $this->filter["title"] = $title->getValue();
-        
+
         $lng->loadLanguageModule("search");
-                        
+
         $options = array(
             "" => $lng->txt("search_any"),
             "-1" => $lng->txt("none")
         );
         asort($a_parents);
-        
+
         $obj = $this->addFilterItemByMetaType("obj", self::FILTER_SELECT, false, $lng->txt("object"));
         $obj->setOptions($options + $a_parents);
         $this->filter["obj"] = $obj->getValue();
     }
-    
-    public function getItems(int $a_user_id) : void
+
+    public function getItems(int $a_user_id): void
     {
         $lng = $this->lng;
-        
+
         $data = $filter_parent = array();
-        
+
         foreach (ilBadgeAssignment::getInstancesByUserId($a_user_id) as $ass) {
             $badge = new ilBadge($ass->getBadgeId());
-            
+
             $parent = null;
             if ($badge->getParentId()) {
                 $parent = $badge->getParentMeta();
@@ -110,7 +110,7 @@ class ilBadgePersonalTableGUI extends ilTable2GUI
                         "(" . $lng->txt($parent["type"]) . ") " . $parent["title"];
                 }
             }
-            
+
             $data[] = array(
                 "id" => $badge->getId(),
                 "title" => $badge->getTitle(),
@@ -122,9 +122,9 @@ class ilBadgePersonalTableGUI extends ilTable2GUI
                 "renderer" => new ilBadgeRenderer($ass)
             );
         }
-            
+
         $this->initFilters($filter_parent);
-        
+
         if ($this->filter["title"]) {
             foreach ($data as $idx => $row) {
                 if (stripos($row["title"], $this->filter["title"]) === false) {
@@ -132,7 +132,7 @@ class ilBadgePersonalTableGUI extends ilTable2GUI
                 }
             }
         }
-        
+
         if ($this->filter["obj"]) {
             foreach ($data as $idx => $row) {
                 if ($this->filter["obj"] > 0) {
@@ -144,15 +144,15 @@ class ilBadgePersonalTableGUI extends ilTable2GUI
                 }
             }
         }
-                
+
         $this->setData($data);
     }
-    
-    protected function fillRow(array $a_set) : void
+
+    protected function fillRow(array $a_set): void
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
-        
+
         $this->tpl->setVariable("VAL_ID", $a_set["id"]);
         $this->tpl->setVariable("PREVIEW", $a_set["renderer"]->getHTML());
         $this->tpl->setVariable("TXT_TITLE", $a_set["title"]);
@@ -160,7 +160,7 @@ class ilBadgePersonalTableGUI extends ilTable2GUI
         $this->tpl->setVariable("TXT_ACTIVE", $a_set["active"]
             ? $lng->txt("yes")
             : $lng->txt("no"));
-        
+
         if ($a_set["parent"]) {
             $this->tpl->setVariable("TXT_PARENT", $a_set["parent_title"]);
             $this->tpl->setVariable(
@@ -180,7 +180,7 @@ class ilBadgePersonalTableGUI extends ilTable2GUI
         $actions->addItem($lng->txt(!$a_set["active"]
             ? "badge_add_to_profile"
             : "badge_remove_from_profile"), "", $url);
-        
+
 
         $this->tpl->setVariable("ACTIONS", $actions->getHTML());
     }

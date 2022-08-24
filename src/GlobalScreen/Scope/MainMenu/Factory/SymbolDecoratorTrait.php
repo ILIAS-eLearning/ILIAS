@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -32,39 +34,39 @@ use Throwable;
 trait SymbolDecoratorTrait
 {
     private ?Closure $symbol_decorator = null;
-    
+
     /**
      * @param Closure $symbol_decorator
      * @return hasSymbol
      */
-    public function addSymbolDecorator(Closure $symbol_decorator) : hasSymbol
+    public function addSymbolDecorator(Closure $symbol_decorator): hasSymbol
     {
         if (!$this->checkClosure($symbol_decorator)) {
             throw new LogicException('first argument of closure must be type-hinted to \ILIAS\UI\Component\Symbol\Symbol');
         }
         if ($this->symbol_decorator instanceof Closure) {
             $existing = $this->symbol_decorator;
-            $this->symbol_decorator = static function (Symbol $c) use ($symbol_decorator, $existing) : Symbol {
+            $this->symbol_decorator = static function (Symbol $c) use ($symbol_decorator, $existing): Symbol {
                 $component = $existing($c);
-                
+
                 return $symbol_decorator($component);
             };
         } else {
             $this->symbol_decorator = $symbol_decorator;
         }
-        
+
         return $this;
     }
-    
+
     /**
      * @return Closure|null
      */
-    public function getSymbolDecorator() : ?Closure
+    public function getSymbolDecorator(): ?Closure
     {
         return $this->symbol_decorator;
     }
-    
-    private function checkClosure(Closure $c) : bool
+
+    private function checkClosure(Closure $c): bool
     {
         try {
             $r = new ReflectionFunction($c);
@@ -82,7 +84,7 @@ trait SymbolDecoratorTrait
             if ($return_type->getName() !== Symbol::class) {
                 return false;
             }
-            
+
             return true;
         } catch (Throwable $i) {
             return false;

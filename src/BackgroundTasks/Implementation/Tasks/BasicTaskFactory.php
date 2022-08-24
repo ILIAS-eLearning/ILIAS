@@ -15,7 +15,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\BackgroundTasks\Implementation\Tasks;
 
 use ILIAS\BackgroundTasks\Dependencies\Injector;
@@ -28,18 +28,18 @@ use ILIAS\BackgroundTasks\Value;
 class BasicTaskFactory implements TaskFactory
 {
     use BasicScalarValueFactory;
-    
+
     protected \ILIAS\BackgroundTasks\Dependencies\Injector $injector;
-    
+
     public function __construct(Injector $injector)
     {
         $this->injector = $injector;
     }
-    
+
     /**
      * @inheritdoc
      */
-    public function createTask(string $class_name, ?array $input = null) : Task
+    public function createTask(string $class_name, ?array $input = null): Task
     {
         if (!class_exists($class_name)) {
             return new NotFoundUserInteraction();
@@ -47,20 +47,20 @@ class BasicTaskFactory implements TaskFactory
         /** @var Task $task */
         $task = $this->injector->createInstance($class_name);
         if ($input) {
-            $wrappedInput = array_map(function ($i) : \ILIAS\BackgroundTasks\Value {
+            $wrappedInput = array_map(function ($i): \ILIAS\BackgroundTasks\Value {
                 if ($i instanceof Task) {
                     return $i->getOutput();
                 }
                 if ($i instanceof Value) {
                     return $i;
                 }
-                
+
                 return $this->wrapValue($i);
             }, $input);
-            
+
             $task->setInput($wrappedInput);
         }
-        
+
         return $task;
     }
 }

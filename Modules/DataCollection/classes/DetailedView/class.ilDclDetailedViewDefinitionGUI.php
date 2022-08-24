@@ -73,7 +73,7 @@ class ilDclDetailedViewDefinitionGUI extends ilPageObjectGUI
     /**
      * execute command
      */
-    public function executeCommand() : string
+    public function executeCommand(): string
     {
         global $DIC;
         $ilLocator = $DIC['ilLocator'];
@@ -100,7 +100,7 @@ class ilDclDetailedViewDefinitionGUI extends ilPageObjectGUI
         }
     }
 
-    public function showPage() : string
+    public function showPage(): string
     {
         global $DIC;
         $ilToolbar = $DIC['ilToolbar'];
@@ -136,7 +136,7 @@ class ilDclDetailedViewDefinitionGUI extends ilPageObjectGUI
         return parent::showPage();
     }
 
-    protected function activate() : void
+    protected function activate(): void
     {
         $page = $this->getPageObject();
         $page->setActive(true);
@@ -144,7 +144,7 @@ class ilDclDetailedViewDefinitionGUI extends ilPageObjectGUI
         $this->ctrl->redirect($this, 'edit');
     }
 
-    protected function deactivate() : void
+    protected function deactivate(): void
     {
         $page = $this->getPageObject();
         $page->setActive(false);
@@ -152,7 +152,7 @@ class ilDclDetailedViewDefinitionGUI extends ilPageObjectGUI
         $this->ctrl->redirect($this, 'edit');
     }
 
-    public function confirmDelete() : void
+    public function confirmDelete(): void
     {
         global $DIC;
         $ilCtrl = $DIC['ilCtrl'];
@@ -171,7 +171,7 @@ class ilDclDetailedViewDefinitionGUI extends ilPageObjectGUI
         $tpl->setContent($conf->getHTML());
     }
 
-    public function cancelDelete() : void
+    public function cancelDelete(): void
     {
         global $DIC;
         $ilCtrl = $DIC['ilCtrl'];
@@ -179,7 +179,7 @@ class ilDclDetailedViewDefinitionGUI extends ilPageObjectGUI
         $ilCtrl->redirect($this, "edit");
     }
 
-    public function deleteView() : void
+    public function deleteView(): void
     {
         global $DIC;
         $ilCtrl = $DIC['ilCtrl'];
@@ -200,7 +200,7 @@ class ilDclDetailedViewDefinitionGUI extends ilPageObjectGUI
      * Release page lock
      * overwrite to redirect properly
      */
-    public function releasePageLock() : void
+    public function releasePageLock(): void
     {
         global $DIC;
         $ilCtrl = $DIC['ilCtrl'];
@@ -214,7 +214,7 @@ class ilDclDetailedViewDefinitionGUI extends ilPageObjectGUI
     /**
      * Finalizing output processing
      */
-    public function postOutputProcessing(string $a_output) : string
+    public function postOutputProcessing(string $a_output): string
     {
         // You can use this to parse placeholders and the like before outputting
 

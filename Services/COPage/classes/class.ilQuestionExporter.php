@@ -37,7 +37,7 @@ class ilQuestionExporter
     public static $exported = array(); //json data for all exported questions (class variable)
     public static $mobs = array(); //json data for all mobs  (class variable)
     public static $media_files = array(); //json data for all files  (class variable)
-    
+
     public $db;			// database object
     public $ref_id;		// reference ID
     public $inst_id;		// installation id
@@ -46,7 +46,7 @@ class ilQuestionExporter
     public $json;			// json object for current question
     public $json_decoded;	// json object (decoded) for current question
     public $preview_mode;	// preview mode activated yes/no
-    
+
     /**
      * Constructor
      * @access	public
@@ -60,23 +60,23 @@ class ilQuestionExporter
 
         $this->db = $ilDB;
         $this->lng = $lng;
-        
+
         $this->lng->loadLanguageModule('assessment');
 
         $this->inst_id = IL_INST_ID;
-        
+
         $this->preview_mode = $a_preview_mode;
-        
+
         $this->tpl = new ilTemplate("tpl.question_export.html", true, true, "Services/COPage");
-        
+
         // fix for bug 5386, alex 29.10.2009
         if (!$a_preview_mode) {
             $this->tpl->setVariable("FORM_BEGIN", "<form onsubmit='return false;'>");
             $this->tpl->setVariable("FORM_END", "</form>");
         }
     }
-    
-    
+
+
     public function exportQuestion($a_ref_id, $a_image_path = null, $a_output_mode = "presentation")
     {
         if ($a_ref_id != "") {
@@ -85,7 +85,7 @@ class ilQuestionExporter
                 $q_id = ilInternalLink::_extractObjIdOfTarget($a_ref_id);
             }
         }
-        
+
         $this->q_gui = assQuestionGUI::_getQuestionGUI("", $q_id);
 
         if (!is_object($this->q_gui->object)) {
@@ -105,14 +105,14 @@ class ilQuestionExporter
             return "Error: Question Type not implemented/Question editing not finished";
         }
     }
-    
+
     public static function indicateNewSco()
     {
         self::$exported = array();
         self::$mobs = array();
         self::$media_files = array();
     }
-    
+
     public static function getMobs()
     {
         $allmobs = array();
@@ -123,12 +123,12 @@ class ilQuestionExporter
         }
         return $allmobs;
     }
-    
+
     public static function getFiles()
     {
         return self::$media_files;
     }
-    
+
     public static function questionsJS(array $a_qids = null)
     {
         $exportstring = '';
@@ -142,7 +142,7 @@ class ilQuestionExporter
         }
         return $exportstring;
     }
-    
+
     private function setHeaderFooter()
     {
         $this->tpl->setCurrentBlock("common");
@@ -150,7 +150,7 @@ class ilQuestionExporter
         $this->tpl->setVariable("VAL_TYPE", $this->json_decoded->type);
         $this->tpl->parseCurrentBlock();
     }
-    
+
     private function assSingleChoice()
     {
         $this->tpl->setCurrentBlock("singlechoice");
@@ -177,7 +177,7 @@ class ilQuestionExporter
         //		$this->setHeaderFooter();
         return $this->tpl->get();
     }
-    
+
     private function assMultipleChoice()
     {
         $this->tpl->setCurrentBlock("multiplechoice");
@@ -189,7 +189,7 @@ class ilQuestionExporter
                 $this->json_decoded->selection_limit,
                 count($this->json_decoded->answers)
             ));
-            
+
             $this->tpl->setVariable('SELECTION_LIMIT_VALUE', $this->json_decoded->selection_limit);
         } else {
             $this->tpl->setVariable('SELECTION_LIMIT_VALUE', 'null');
@@ -218,27 +218,27 @@ class ilQuestionExporter
     private function assKprimChoice()
     {
         $this->tpl->setCurrentBlock("kprimchoice");
-        
+
         $this->tpl->setVariable("TXT_SUBMIT_ANSWERS", $this->lng->txt("cont_submit_answers"));
         $this->tpl->setVariable("VAL_ID", $this->json_decoded->id);
-        
+
         if ($this->preview_mode) {
             $this->tpl->setVariable("VAL_NO_DISPLAY", "style=\"display:none\"");
         }
-        
+
         if ($this->json_decoded->path ?? false) {
             $this->tpl->setVariable(
                 "HANDLE_IMAGES",
                 "ilias.questions.handleKprimImages(" . $this->json_decoded->id . ");"
             );
         }
-        
+
         $this->tpl->setVariable('OPTION_LABEL_TRUE', $this->json_decoded->trueOptionLabel);
         $this->tpl->setVariable('OPTION_LABEL_FALSE', $this->json_decoded->falseOptionLabel);
-        
+
         $this->tpl->setVariable('VALUE_TRUE', 1);
         $this->tpl->setVariable('VALUE_FALSE', 0);
-        
+
         $this->tpl->parseCurrentBlock();
 
         foreach ($this->json_decoded->answers as $answer) {
@@ -252,12 +252,12 @@ class ilQuestionExporter
                 }
             }
         }
-        
+
         //		$this->setHeaderFooter();
-        
+
         return $this->tpl->get();
     }
-    
+
     private function assTextQuestion()
     {
         $maxlength = $this->json_decoded->maxlength == 0 ? 4096 : $this->json_decoded->maxlength;
@@ -272,7 +272,7 @@ class ilQuestionExporter
         //		$this->setHeaderFooter();
         return $this->tpl->get();
     }
-    
+
     private function assClozeTest()
     {
         $this->tpl->setCurrentBlock("clozequestion");
@@ -298,7 +298,7 @@ class ilQuestionExporter
         //		$this->setHeaderFooter();
         return $this->tpl->get();
     }
-    
+
     private function assOrderingQuestion()
     {
         $this->tpl->setCurrentBlock("orderingquestion");
@@ -327,7 +327,7 @@ class ilQuestionExporter
         //		$this->setHeaderFooter();
         return $this->tpl->get();
     }
-    
+
     private function assMatchingQuestion()
     {
         $this->tpl->setCurrentBlock("matchingquestion");
@@ -341,7 +341,7 @@ class ilQuestionExporter
         //		$this->setHeaderFooter();
         return $this->tpl->get();
     }
-    
+
     private function assImagemapQuestion()
     {
         $this->tpl->setVariable("TXT_SUBMIT_ANSWERS", $this->lng->txt("cont_submit_answers"));

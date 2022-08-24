@@ -28,7 +28,7 @@ class ilPCParagraphEditorGUI implements \ILIAS\COPage\Editor\Components\PageComp
         string $page_type,
         ilPageObjectGUI $page_gui,
         int $style_id
-    ) : array {
+    ): array {
         $cfg = $page_gui->getPageConfig();
         $menu = ilPageObjectGUI::getTinyMenu(
             $page_type,
@@ -55,7 +55,7 @@ class ilPCParagraphEditorGUI implements \ILIAS\COPage\Editor\Components\PageComp
         \ilPageObjectGUI $page_gui,
         int $style_id,
         string $pcid
-    ) : string {
+    ): string {
         return "";
     }
 }

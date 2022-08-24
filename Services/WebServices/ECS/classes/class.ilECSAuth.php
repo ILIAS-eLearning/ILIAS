@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /******************************************************************************
  *
@@ -29,36 +31,36 @@ class ilECSAuth
     public function __construct()
     {
         global $DIC;
-        
+
         $this->log = $DIC->logger()->wsrv();
     }
-    
-    public function setPid(int $a_pid) : void
+
+    public function setPid(int $a_pid): void
     {
         $this->pid = $a_pid;
     }
-    
-    public function getPid() : int
+
+    public function getPid(): int
     {
         return $this->pid;
     }
 
-    public function setUrl(string $a_url) : void
+    public function setUrl(string $a_url): void
     {
         $this->url = $a_url;
     }
-    
-    public function getUrl() : string
+
+    public function getUrl(): string
     {
         return $this->url;
     }
-    
-    public function setRealm(string $a_realm) : void
+
+    public function setRealm(string $a_realm): void
     {
         $this->realm = $a_realm;
     }
-    
-    public function getRealm() : string
+
+    public function getRealm(): string
     {
         return $this->realm;
     }

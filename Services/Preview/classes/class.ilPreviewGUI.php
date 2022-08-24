@@ -132,7 +132,7 @@ class ilPreviewGUI implements ilCtrlBaseClassInterface
      * @param $a_html_id string The id of the HTML element that contains the preview.
      * @return string The JavaScript code to show the preview.
      */
-    public function getJSCall(string $a_html_id) : string
+    public function getJSCall(string $a_html_id): string
     {
         $status = $this->preview->getRenderStatus();
         $command = $status === ilPreview::RENDER_STATUS_NONE ? "renderPreview" : "";
@@ -149,7 +149,7 @@ class ilPreviewGUI implements ilCtrlBaseClassInterface
      * Gets the HTML that displays the preview.
      * @return string The HTML that displays the preview.
      */
-    public function getPreviewHTML() : string
+    public function getPreviewHTML(): string
     {
         // load the template
         $tmpl = new ilTemplate("tpl.preview.html", true, true, "Services/Preview");
@@ -215,7 +215,7 @@ class ilPreviewGUI implements ilCtrlBaseClassInterface
      * Gets the HTML that is used for displaying the preview inline.
      * @return string The HTML that is used for displaying the preview inline.
      */
-    public function getInlineHTML() : string
+    public function getInlineHTML(): string
     {
         $tmpl = new ilTemplate("tpl.preview_inline.html", true, true, "Services/Preview");
         $tmpl->setVariable("PREVIEW", $this->getPreviewHTML());
@@ -253,7 +253,7 @@ class ilPreviewGUI implements ilCtrlBaseClassInterface
      * @param $loading_topic string The topic to get the loading text.
      * @param $a_display_status string[] An array containing the statuses when the command should be visible.
      */
-    private function renderCommand(ilTemplate $tmpl, string $a_cmd, string $btn_topic, string $loading_topic, array $a_display_status) : void
+    private function renderCommand(ilTemplate $tmpl, string $a_cmd, string $btn_topic, string $loading_topic, array $a_display_status): void
     {
         $preview_html_id = $this->getHtmlId();
         $preview_status = $this->preview->getRenderStatus();
@@ -279,7 +279,7 @@ class ilPreviewGUI implements ilCtrlBaseClassInterface
      * Renders the preview and returns the HTML code that displays the preview.
      * @return string The HTML code that displays the preview.
      */
-    public function renderPreview() : string
+    public function renderPreview(): string
     {
         // has read access?
         if ($this->access_handler->checkAccess("read", "", $this->node_id)) {
@@ -295,7 +295,7 @@ class ilPreviewGUI implements ilCtrlBaseClassInterface
      * Deletes the preview and returns the HTML code that displays the preview.
      * @return string The HTML code that displays the preview.
      */
-    public function deletePreview() : string
+    public function deletePreview(): string
     {
         // has read access?
         if ($this->access_handler->checkAccess("write", "", $this->node_id)) {
@@ -309,7 +309,7 @@ class ilPreviewGUI implements ilCtrlBaseClassInterface
      * Gets the HTML id for the preview.
      * @return string The HTML id to use for the preview.
      */
-    private function getHtmlId() : string
+    private function getHtmlId(): string
     {
         return "preview_" . $this->node_id;
     }
@@ -320,7 +320,7 @@ class ilPreviewGUI implements ilCtrlBaseClassInterface
      * @param $a_async bool true, to create a URL to call asynchronous; otherwise, false.
      * @return string The created URL.
      */
-    private function buildUrl(string $a_cmd = "", bool $a_async = true) : string
+    private function buildUrl(string $a_cmd = "", bool $a_async = true): string
     {
         $link = "ilias.php?baseClass=ilPreviewGUI&node_id={$this->node_id}&context={$this->context}&obj_id={$this->obj_id}";
 
@@ -339,7 +339,7 @@ class ilPreviewGUI implements ilCtrlBaseClassInterface
     /**
      * Initializes the preview and loads the needed javascripts and styles.
      */
-    public static function initPreview() : void
+    public static function initPreview(): void
     {
         if (self::$initialized) {
             return;
@@ -395,7 +395,7 @@ class ilPreviewGUI implements ilCtrlBaseClassInterface
      * @param string $text The text to make JSON safe.
      * @return string The JSON safe text.
      */
-    private static function jsonSafeString(string $text) : string
+    private static function jsonSafeString(string $text): string
     {
         if (!is_string($text)) {
             return $text;

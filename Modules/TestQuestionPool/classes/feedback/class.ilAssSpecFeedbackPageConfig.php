@@ -1,4 +1,5 @@
 <?php
+
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 include_once("./Services/COPage/classes/class.ilPageConfig.php");
@@ -15,7 +16,7 @@ class ilAssSpecFeedbackPageConfig extends ilPageConfig
     /**
      * Init
      */
-    public function init() : void
+    public function init(): void
     {
     }
 }

@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 /**
@@ -33,9 +34,9 @@ use ILIAS\EmployeeTalk\Service\EmployeeTalkEmailNotification;
  */
 final class ilEmployeeTalkAppointmentGUI implements ControlFlowCommandHandler
 {
-    const EDIT_MODE_APPOINTMENT = 'appointment';
-    const EDIT_MODE_SERIES = 'series';
-    const EDIT_MODE = 'edit-mode';
+    public const EDIT_MODE_APPOINTMENT = 'appointment';
+    public const EDIT_MODE_SERIES = 'series';
+    public const EDIT_MODE = 'edit-mode';
 
     private ilGlobalTemplateInterface $template;
     private ilLanguage $language;
@@ -261,7 +262,6 @@ final class ilEmployeeTalkAppointmentGUI implements ControlFlowCommandHandler
             $this->sendNotification([$this->talk]);
 
             $this->template->setOnScreenMessage('success', $this->language->txt('saved_successfully'), true);
-
         }
 
 
@@ -441,7 +441,7 @@ final class ilEmployeeTalkAppointmentGUI implements ControlFlowCommandHandler
      * @return bool true if successful otherwise false
      * @throws ilDateTimeException
      */
-    private function createRecurringTalks(ilPropertyFormGUI $form, ilCalendarRecurrence $recurrence, ilObjEmployeeTalkSeries $series) : bool
+    private function createRecurringTalks(ilPropertyFormGUI $form, ilCalendarRecurrence $recurrence, ilObjEmployeeTalkSeries $series): bool
     {
         $data = $this->loadEtalkData($form);
 

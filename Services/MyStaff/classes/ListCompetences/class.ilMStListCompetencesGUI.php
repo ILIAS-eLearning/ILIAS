@@ -45,7 +45,7 @@ class ilMStListCompetencesGUI
         $this->dic = $dic;
     }
 
-    protected function checkAccessOrFail() : void
+    protected function checkAccessOrFail(): void
     {
         if ($this->access->hasCurrentUserAccessToMyStaff()) {
             return;
@@ -55,7 +55,7 @@ class ilMStListCompetencesGUI
         }
     }
 
-    final public function executeCommand() : void
+    final public function executeCommand(): void
     {
         $cmd = $this->dic->ctrl()->getCmd();
         $next_class = $this->dic->ctrl()->getNextClass();
@@ -78,7 +78,7 @@ class ilMStListCompetencesGUI
         }
     }
 
-    protected function addSubTabs(string $subtab_active) : void
+    protected function addSubTabs(string $subtab_active): void
     {
         $this->dic->language()->loadLanguageModule('skmg');
         $this->dic->tabs()->addSubTab(
@@ -93,12 +93,12 @@ class ilMStListCompetencesGUI
         $this->dic->tabs()->activateSubTab($subtab_active);
     }
 
-    final public function index() : void
+    final public function index(): void
     {
         $this->dic->ctrl()->redirectByClass(ilMStListCompetencesSkillsGUI::class);
     }
 
-    final public function getActions() : void
+    final public function getActions(): void
     {
         $mst_co_usr_id = $this->dic->http()->request()->getQueryParams()['mst_lco_usr_id'];
         $mst_lco_crs_ref_id = $this->dic->http()->request()->getQueryParams()['mst_lco_crs_ref_id'];

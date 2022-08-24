@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -48,14 +50,14 @@ class ilStudyProgrammeValidityOfAchievedQualificationSettings
         $this->restart_period = $restart_period;
     }
 
-    public function getQualificationPeriod() : ?int
+    public function getQualificationPeriod(): ?int
     {
         return $this->qualification_period;
     }
 
     public function withQualificationPeriod(
         ?int $qualification_period
-    ) : ilStudyProgrammeValidityOfAchievedQualificationSettings {
+    ): ilStudyProgrammeValidityOfAchievedQualificationSettings {
         if (!is_null($qualification_period) && 0 > $qualification_period) {
             throw new InvalidArgumentException(
                 'Numbers less than 0 are not allowed'
@@ -67,28 +69,28 @@ class ilStudyProgrammeValidityOfAchievedQualificationSettings
         return $clone;
     }
 
-    public function getQualificationDate() : ?DateTime
+    public function getQualificationDate(): ?DateTime
     {
         return $this->qualification_date;
     }
 
     public function withQualificationDate(
         ?DateTime $qualification_date
-    ) : ilStudyProgrammeValidityOfAchievedQualificationSettings {
+    ): ilStudyProgrammeValidityOfAchievedQualificationSettings {
         $clone = clone $this;
         $clone->qualification_date = $qualification_date;
 
         return $clone;
     }
 
-    public function getRestartPeriod() : ?int
+    public function getRestartPeriod(): ?int
     {
         return $this->restart_period;
     }
 
     public function withRestartPeriod(
         ?int $restart_period
-    ) : ilStudyProgrammeValidityOfAchievedQualificationSettings {
+    ): ilStudyProgrammeValidityOfAchievedQualificationSettings {
         if (!is_null($restart_period) && 0 > $restart_period) {
             throw new InvalidArgumentException(
                 'Numbers less than 0 are not allowed'
@@ -105,7 +107,7 @@ class ilStudyProgrammeValidityOfAchievedQualificationSettings
         ilLanguage $lng,
         Refinery $refinery,
         Factory $data_factory
-    ) : Field\Input {
+    ): Field\Input {
         $format = $data_factory->dateFormat()->germanShort();
         $grp1 = $input->group([], $lng->txt('prg_no_validity_qualification'));
         $grp2 = $input->group(

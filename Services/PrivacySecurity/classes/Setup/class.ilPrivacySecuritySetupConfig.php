@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /* Copyright (c) 2020 Daniel Weise <daniel.weise@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
@@ -16,7 +18,7 @@ class ilPrivacySecuritySetupConfig implements Setup\Config
         $this->force_https_on_login = $force_https_on_login;
     }
 
-    public function getForceHttpsOnLogin() : bool
+    public function getForceHttpsOnLogin(): bool
     {
         return $this->force_https_on_login;
     }

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\UI\Implementation\Component\Dropzone\File;
 
 use ILIAS\UI\Component\Input\Container\Form\Form;
@@ -38,13 +40,12 @@ use ILIAS\UI\Implementation\Component\Input\UploadLimitResolver;
  */
 abstract class File implements FileInterface
 {
-    public const FILE_INPUT_KEY = 'files';
-    protected const JAVASCRIPT_EVENT = 'drop';
-
     use FileUploadHelper;
     use JavaScriptBindable;
     use ComponentHelper;
     use Triggerer;
+    public const FILE_INPUT_KEY = 'files';
+    protected const JAVASCRIPT_EVENT = 'drop';
 
     /**
      * @var Transformation[]
@@ -79,24 +80,24 @@ abstract class File implements FileInterface
     // BEGIN IMPLEMENTATION OF FileInterface
     // ==========================================
 
-    public function withTitle(string $title) : self
+    public function withTitle(string $title): self
     {
         $clone = clone $this;
         $clone->title = $title;
         return $clone;
     }
 
-    public function getTitle() : string
+    public function getTitle(): string
     {
         return $this->title;
     }
 
-    public function withOnDrop(Signal $signal) : self
+    public function withOnDrop(Signal $signal): self
     {
         return $this->withTriggeredSignal($signal, self::JAVASCRIPT_EVENT);
     }
 
-    public function withAdditionalDrop(Signal $signal) : self
+    public function withAdditionalDrop(Signal $signal): self
     {
         return $this->appendTriggeredSignal($signal, self::JAVASCRIPT_EVENT);
     }
@@ -109,7 +110,7 @@ abstract class File implements FileInterface
     // BEGIN IMPLEMENTATION OF Form
     // ==========================================
 
-    public function getForm() : Form
+    public function getForm(): Form
     {
         $form = $this->input_factory
             ->container()
@@ -129,7 +130,7 @@ abstract class File implements FileInterface
     /**
      * @inheritDoc
      */
-    public function getInputs() : array
+    public function getInputs(): array
     {
         return [
             self::FILE_INPUT_KEY => $this->input_factory
@@ -145,7 +146,7 @@ abstract class File implements FileInterface
         ];
     }
 
-    public function withRequest(ServerRequestInterface $request) : self
+    public function withRequest(ServerRequestInterface $request): self
     {
         $clone = clone $this;
         $clone->request = $request;
@@ -153,7 +154,7 @@ abstract class File implements FileInterface
         return $clone;
     }
 
-    public function withAdditionalTransformation(Transformation $trafo) : self
+    public function withAdditionalTransformation(Transformation $trafo): self
     {
         $clone = clone $this;
         $clone->operations[] = $trafo;
@@ -180,7 +181,7 @@ abstract class File implements FileInterface
         return null;
     }
 
-    public function getError() : ?string
+    public function getError(): ?string
     {
         if (null === $this->request) {
             return null;

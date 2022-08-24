@@ -1,4 +1,5 @@
 <?php
+
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -12,7 +13,7 @@ class assErrorTextGUITest extends assBaseTestCase
 {
     protected $backupGlobals = false;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -40,7 +41,7 @@ class assErrorTextGUITest extends assBaseTestCase
         $GLOBALS['ilUser'] = $user_mock;
     }
 
-    public function test_instantiateObject_shouldReturnInstance() : void
+    public function test_instantiateObject_shouldReturnInstance(): void
     {
         //$this->markTestIncomplete('Needs mock.');
         // Arrange

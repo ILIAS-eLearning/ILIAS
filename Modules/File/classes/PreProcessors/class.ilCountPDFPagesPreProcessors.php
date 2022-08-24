@@ -15,7 +15,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 use ILIAS\Filesystem\Stream\FileStream;
 use ILIAS\FileUpload\DTO\Metadata;
 use ILIAS\FileUpload\DTO\ProcessingStatus;
@@ -29,13 +29,13 @@ use ILIAS\FileUpload\MimeType;
  */
 class ilCountPDFPagesPreProcessors implements PreProcessor
 {
-    const PAGE_COUNT = 'page_count';
+    public const PAGE_COUNT = 'page_count';
 
 
     /**
      * @inheritdoc
      */
-    public function process(FileStream $stream, Metadata $metadata) : \ILIAS\FileUpload\DTO\ProcessingStatus
+    public function process(FileStream $stream, Metadata $metadata): \ILIAS\FileUpload\DTO\ProcessingStatus
     {
         if ($metadata->getMimeType() == MimeType::APPLICATION__PDF
             && PATH_TO_GHOSTSCRIPT != ""

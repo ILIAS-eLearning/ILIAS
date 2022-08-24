@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -40,7 +42,7 @@ class ilChatroomAdmin
      * from settingsTable.
      * @return self
      */
-    public static function getDefaultConfiguration() : self
+    public static function getDefaultConfiguration(): self
     {
         global $DIC;
 
@@ -60,7 +62,7 @@ class ilChatroomAdmin
      * $this->settings->server_settings and returns object.
      * @return ilChatroomServerSettings
      */
-    public function getServerSettings() : ilChatroomServerSettings
+    public function getServerSettings(): ilChatroomServerSettings
     {
         return ilChatroomServerSettings::loadDefault();
     }
@@ -69,7 +71,7 @@ class ilChatroomAdmin
      * Saves given $settings into settingsTable.
      * @param stdClass $settings
      */
-    public function saveGeneralSettings(stdClass $settings) : void
+    public function saveGeneralSettings(stdClass $settings): void
     {
         global $DIC;
 
@@ -113,7 +115,7 @@ class ilChatroomAdmin
      * Saves given client $settings into settingsTable.
      * @param stdClass $settings
      */
-    public function saveClientSettings(stdClass $settings) : void
+    public function saveClientSettings(stdClass $settings): void
     {
         global $DIC;
 
@@ -154,7 +156,7 @@ class ilChatroomAdmin
         );
     }
 
-    public function loadGeneralSettings() : array
+    public function loadGeneralSettings(): array
     {
         global $DIC;
 
@@ -178,7 +180,7 @@ class ilChatroomAdmin
         return [];
     }
 
-    public function loadClientSettings() : array
+    public function loadClientSettings(): array
     {
         global $DIC;
 

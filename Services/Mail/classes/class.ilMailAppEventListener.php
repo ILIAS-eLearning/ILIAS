@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -38,7 +40,7 @@ class ilMailAppEventListener implements ilAppEventListener
         $this->dic = $DIC;
     }
 
-    public function withComponent(string $component) : self
+    public function withComponent(string $component): self
     {
         $clone = clone $this;
 
@@ -47,7 +49,7 @@ class ilMailAppEventListener implements ilAppEventListener
         return $clone;
     }
 
-    public function withEvent(string $event) : self
+    public function withEvent(string $event): self
     {
         $clone = clone $this;
 
@@ -56,7 +58,7 @@ class ilMailAppEventListener implements ilAppEventListener
         return $clone;
     }
 
-    public function withParameters(array $parameters) : self
+    public function withParameters(array $parameters): self
     {
         $clone = clone $this;
 
@@ -65,13 +67,13 @@ class ilMailAppEventListener implements ilAppEventListener
         return $clone;
     }
 
-    private function isRelevantEvent() : bool
+    private function isRelevantEvent(): bool
     {
         return $this->component === 'Services/User'
             && $this->event === 'onUserFieldAttributesChanged';
     }
 
-    public function handle() : void
+    public function handle(): void
     {
         if (isset($this->parameters['visible_second_email'])
             && $this->isRelevantEvent()
@@ -92,7 +94,7 @@ class ilMailAppEventListener implements ilAppEventListener
     /**
      * @inheritDoc
      */
-    public static function handleEvent($a_component, $a_event, $a_parameter) : void
+    public static function handleEvent($a_component, $a_event, $a_parameter): void
     {
         $listener = new self();
         $listener

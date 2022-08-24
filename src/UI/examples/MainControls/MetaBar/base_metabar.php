@@ -1,9 +1,12 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
+
 namespace ILIAS\UI\examples\MainControls\MetaBar;
 
 use ILIAS\DI\Container;
 
-function base_metabar() : string
+function base_metabar(): string
 {
     global $DIC;
     $f = $DIC->ui()->factory();
@@ -24,7 +27,7 @@ function base_metabar() : string
     ]);
 }
 
-function buildMetabar(\ILIAS\UI\Factory $f) : \ILIAS\UI\Component\MainControls\MetaBar
+function buildMetabar(\ILIAS\UI\Factory $f): \ILIAS\UI\Component\MainControls\MetaBar
 {
     $help = $f->button()->bulky($f->symbol()->glyph()->help(), 'Help', '#');
     $search = $f->button()->bulky($f->symbol()->glyph()->search(), 'Search', '#');
@@ -59,7 +62,7 @@ if (isset($request_wrapper) && isset($refinery) && $request_wrapper->has('new_me
     echo renderMetaBarInFullscreenMode($DIC);
 }
 
-function renderMetaBarInFullscreenMode(Container $dic) : string
+function renderMetaBarInFullscreenMode(Container $dic): string
 {
     $f = $dic->ui()->factory();
     $renderer = $dic->ui()->renderer();
@@ -92,7 +95,7 @@ function renderMetaBarInFullscreenMode(Container $dic) : string
 }
 
 
-function pageMetabarDemoContent(\ILIAS\UI\Factory $f) : array
+function pageMetabarDemoContent(\ILIAS\UI\Factory $f): array
 {
     return [
         $f->panel()->standard(
@@ -104,17 +107,17 @@ function pageMetabarDemoContent(\ILIAS\UI\Factory $f) : array
     ];
 }
 
-function pageMetabarDemoCrumbs(\ILIAS\UI\Factory $f) : \ILIAS\UI\Component\Breadcrumbs\Breadcrumbs
+function pageMetabarDemoCrumbs(\ILIAS\UI\Factory $f): \ILIAS\UI\Component\Breadcrumbs\Breadcrumbs
 {
     return $f->breadcrumbs([]);
 }
 
-function pageMetabarDemoMainbar(\ILIAS\UI\Factory $f) : \ILIAS\UI\Component\MainControls\MainBar
+function pageMetabarDemoMainbar(\ILIAS\UI\Factory $f): \ILIAS\UI\Component\MainControls\MainBar
 {
     return $f->mainControls()->mainBar();
 }
 
-function pageMetabarDemoFooter(\ILIAS\UI\Factory $f) : \ILIAS\UI\Component\MainControls\Footer
+function pageMetabarDemoFooter(\ILIAS\UI\Factory $f): \ILIAS\UI\Component\MainControls\Footer
 {
     $text = 'Footer';
     $links = [];

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -45,7 +47,7 @@ class ilChatroomFormFactory
      * @param ilPropertyFormGUI $form
      * @param array $values
      */
-    public static function applyValues(ilPropertyFormGUI $form, array $values) : void
+    public static function applyValues(ilPropertyFormGUI $form, array $values): void
     {
         $form->setValuesByArray(array_map(
             static fn ($value) => is_int($value) ? (string) $value : $value,
@@ -59,7 +61,7 @@ class ilChatroomFormFactory
      * @return ilPropertyFormGUI
      * @deprecated replaced by default creation screens
      */
-    public function getCreationForm() : ilPropertyFormGUI
+    public function getCreationForm(): ilPropertyFormGUI
     {
         $form = new ilPropertyFormGUI();
         $title = new ilTextInputGUI($this->lng->txt('title'), 'title');
@@ -77,7 +79,7 @@ class ilChatroomFormFactory
      * @param ilPropertyFormGUI $form
      * @return ilPropertyFormGUI
      */
-    private function addDefaultBehaviour(ilPropertyFormGUI $form) : ilPropertyFormGUI
+    private function addDefaultBehaviour(ilPropertyFormGUI $form): ilPropertyFormGUI
     {
         $form->addCommandButton('create-save', $this->lng->txt('create'));
         $form->addCommandButton('cancel', $this->lng->txt('cancel'));
@@ -85,7 +87,7 @@ class ilChatroomFormFactory
         return $form;
     }
 
-    public function getSettingsForm(ilObjectService $objectService, ilObjChatroom $chatroom) : ilPropertyFormGUI
+    public function getSettingsForm(ilObjectService $objectService, ilObjChatroom $chatroom): ilPropertyFormGUI
     {
         $this->lng->loadLanguageModule('rep');
 
@@ -162,7 +164,7 @@ class ilChatroomFormFactory
      * Prepares Fileupload form and returns it.
      * @return ilPropertyFormGUI
      */
-    public function getFileUploadForm() : ilPropertyFormGUI
+    public function getFileUploadForm(): ilPropertyFormGUI
     {
         $form = new ilPropertyFormGUI();
         $file_input = new ilFileInputGUI();
@@ -181,7 +183,7 @@ class ilChatroomFormFactory
      * Returns period form.
      * @return ilPropertyFormGUI
      */
-    public function getPeriodForm() : ilPropertyFormGUI
+    public function getPeriodForm(): ilPropertyFormGUI
     {
         $form = new ilPropertyFormGUI();
         $form->setPreventDoubleSubmission(false);
@@ -202,7 +204,7 @@ class ilChatroomFormFactory
      * @param array<string, string> $name_options
      * @return ilPropertyFormGUI
      */
-    public function getUserChatNameSelectionForm(array $name_options) : ilPropertyFormGUI
+    public function getUserChatNameSelectionForm(array $name_options): ilPropertyFormGUI
     {
         $form = new ilPropertyFormGUI();
 
@@ -234,7 +236,7 @@ class ilChatroomFormFactory
      * @param array $sessions
      * @return ilPropertyFormGUI
      */
-    public function getSessionForm(array $sessions) : ilPropertyFormGUI
+    public function getSessionForm(array $sessions): ilPropertyFormGUI
     {
         $form = new ilPropertyFormGUI();
         $form->setPreventDoubleSubmission(false);
@@ -258,7 +260,7 @@ class ilChatroomFormFactory
         return $form;
     }
 
-    public function getClientSettingsForm() : ilPropertyFormGUI
+    public function getClientSettingsForm(): ilPropertyFormGUI
     {
         $form = new ilPropertyFormGUI();
 

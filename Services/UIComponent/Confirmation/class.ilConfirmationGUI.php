@@ -51,32 +51,32 @@ class ilConfirmationGUI
         $this->lng = $DIC->language();
     }
 
-    final public function setFormAction(string $a_form_action) : void
+    final public function setFormAction(string $a_form_action): void
     {
         $this->form_action = $a_form_action;
     }
-    
-    final public function getFormAction() : string
+
+    final public function getFormAction(): string
     {
         return $this->form_action;
     }
 
-    public function setHeaderText(string $a_headertext) : void
+    public function setHeaderText(string $a_headertext): void
     {
         $this->headertext = $a_headertext;
     }
 
-    public function getHeaderText() : string
+    public function getHeaderText(): string
     {
         return $this->headertext;
     }
 
-    public function setFormName(string $a_name) : void
+    public function setFormName(string $a_name): void
     {
         $this->form_name = $a_name;
     }
 
-    final public function addButton(string $a_txt, string $a_cmd) : void
+    final public function addButton(string $a_txt, string $a_cmd): void
     {
         $this->buttons[] = [
             'txt' => $a_txt,
@@ -88,7 +88,7 @@ class ilConfirmationGUI
         string $a_txt,
         string $a_cmd,
         string $a_id = ''
-    ) : void {
+    ): void {
         $this->cancel_txt = $a_txt;
         $this->cancel_cmd = $a_cmd;
         $this->cancel_id = $a_id;
@@ -98,7 +98,7 @@ class ilConfirmationGUI
         string $a_txt,
         string $a_cmd,
         string $a_id = ''
-    ) : void {
+    ): void {
         $this->confirm_txt = $a_txt;
         $this->confirm_cmd = $a_cmd;
         $this->confirm_id = $a_id;
@@ -110,7 +110,7 @@ class ilConfirmationGUI
         string $a_text,
         string $a_img = '',
         string $a_alt = ''
-    ) : void {
+    ): void {
         $this->item[] = [
             'var' => $a_post_var,
             'id' => $a_id,
@@ -123,18 +123,18 @@ class ilConfirmationGUI
             $this->use_images = true;
         }
     }
-    
+
     public function addHiddenItem(
         string $a_post_var,
         string $a_value
-    ) : void {
+    ): void {
         $this->hidden_item[] = [
             'var' => $a_post_var,
             'value' => $a_value
         ];
     }
 
-    final public function getHTML() : string
+    final public function getHTML(): string
     {
         if ($this->headertext === '') {
             throw new RuntimeException('Please provide a header text before rendering the confirmation dialogue');
@@ -151,9 +151,9 @@ class ilConfirmationGUI
         if ($this->cancel_txt === '' || $this->cancel_cmd === '') {
             throw new RuntimeException('Please provide a cancel button label and command before rendering the confirmation dialogue');
         }
-        
+
         $this->main_tpl->setOnScreenMessage('question', $this->getHeaderText());
-        
+
         // delete/handle items
         if (count($this->item) > 0) {
             $ctab = new ilConfirmationTableGUI($this->use_images);
@@ -168,11 +168,11 @@ class ilConfirmationGUI
             foreach ($this->hidden_item as $hidden_item) {
                 $ctab->addHiddenInput($hidden_item["var"], $hidden_item["value"]);
             }
-            
+
             if ($this->form_name !== '') {
                 $ctab->setFormName($this->form_name);
             }
-            
+
             return $ctab->getHTML();
         }
 

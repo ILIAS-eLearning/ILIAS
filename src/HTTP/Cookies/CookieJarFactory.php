@@ -29,13 +29,12 @@ use Psr\Http\Message\ResponseInterface;
  */
 interface CookieJarFactory
 {
-
     /**
      * Create CookieJar from a collection of Cookie header value strings.
      *
      * @param string[] $cookieStrings
      */
-    public function fromCookieStrings(array $cookieStrings) : CookieJar;
+    public function fromCookieStrings(array $cookieStrings): CookieJar;
 
 
     /**
@@ -43,5 +42,5 @@ interface CookieJarFactory
      *
      *
      */
-    public function fromResponse(ResponseInterface $response) : CookieJar;
+    public function fromResponse(ResponseInterface $response): CookieJar;
 }

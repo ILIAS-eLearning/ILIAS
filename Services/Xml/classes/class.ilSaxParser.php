@@ -66,18 +66,18 @@ abstract class ilSaxParser
             : null;
     }
 
-    public function setXMLContent(string $a_xml_content) : void
+    public function setXMLContent(string $a_xml_content): void
     {
         $this->xml_content = $a_xml_content;
         $this->input_type = self::TYPE_STRING;
     }
 
-    public function getXMLContent() : string
+    public function getXMLContent(): string
     {
         return $this->xml_content;
     }
 
-    public function getInputType() : string
+    public function getInputType(): string
     {
         return $this->input_type;
     }
@@ -86,7 +86,7 @@ abstract class ilSaxParser
      * stores xml data in array
      * @throws ilSaxParserException
      */
-    public function startParsing() : void
+    public function startParsing(): void
     {
         $xml_parser = $this->createParser();
         $this->setOptions($xml_parser);
@@ -125,7 +125,7 @@ abstract class ilSaxParser
     }
 
 
-    private function setOptions($a_xml_parser) : void
+    private function setOptions($a_xml_parser): void
     {
         xml_parser_set_option($a_xml_parser, XML_OPTION_CASE_FOLDING, false);
     }
@@ -134,7 +134,7 @@ abstract class ilSaxParser
      * @param XMLParser|resource $a_xml_parser
      * @return void
      */
-    abstract public function setHandlers($a_xml_parser) : void;
+    abstract public function setHandlers($a_xml_parser): void;
 
     /**
      * @return resource
@@ -153,7 +153,7 @@ abstract class ilSaxParser
      * @param resource|null $a_fp
      * @throws ilSaxParserException
      */
-    public function parse($a_xml_parser, $a_fp = null) : void
+    public function parse($a_xml_parser, $a_fp = null): void
     {
         $parse_status = true;
         switch ($this->getInputType()) {
@@ -184,7 +184,7 @@ abstract class ilSaxParser
     /**
      * @throws ilSaxParserException
      */
-    protected function handleError(string $message) : void
+    protected function handleError(string $message): void
     {
         if ($this->throw_exception) {
             throw new ilSaxParserException($message);
@@ -195,7 +195,7 @@ abstract class ilSaxParser
      * @param resource $a_xml_parser
      * @throws ilSaxParserException
      */
-    private function freeParser($a_xml_parser) : void
+    private function freeParser($a_xml_parser): void
     {
         if (!xml_parser_free($a_xml_parser)) {
             $this->handleError("Error freeing xml parser handle");
@@ -203,7 +203,7 @@ abstract class ilSaxParser
     }
 
 
-    protected function setThrowException(bool $throw_exception) : void
+    protected function setThrowException(bool $throw_exception): void
     {
         $this->throw_exception = $throw_exception;
     }

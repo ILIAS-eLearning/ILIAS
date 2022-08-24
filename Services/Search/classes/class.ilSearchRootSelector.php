@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -68,68 +70,68 @@ class ilSearchRootSelector extends ilExplorer
 
         $this->setFiltered(true);
         $this->setFilterMode(IL_FM_POSITIVE);
-        
+
         $this->setTitleLength(ilObject::TITLE_LENGTH);
     }
-    
-    public function setClickableTypes(array $a_types) : void
+
+    public function setClickableTypes(array $a_types): void
     {
         $this->clickable_types = $a_types;
     }
-    
-    public function isClickable(string $type, int $ref_id = 0) : bool
+
+    public function isClickable(string $type, int $ref_id = 0): bool
     {
         return (in_array($type, $this->clickable_types));
     }
 
-    public function setTargetClass(string $a_class) : void
+    public function setTargetClass(string $a_class): void
     {
         $this->target_class = $a_class;
     }
-    public function getTargetClass() : string
+    public function getTargetClass(): string
     {
         return $this->target_class ?: 'ilsearchgui';
     }
-    public function setCmd(string $a_cmd) : void
+    public function setCmd(string $a_cmd): void
     {
         $this->cmd = $a_cmd;
     }
-    public function getCmd() : string
+    public function getCmd(): string
     {
         return $this->cmd ?: 'selectRoot';
     }
 
-    public function setSelectableType(string $a_type) : void
+    public function setSelectableType(string $a_type): void
     {
         $this->selectable_type = $a_type;
     }
-    public function getSelectableType() : string
+    public function getSelectableType(): string
     {
         return $this->selectable_type;
     }
-    public function setRefId(int $a_ref_id) : void
+    public function setRefId(int $a_ref_id): void
     {
         $this->ref_id = $a_ref_id;
     }
-    public function getRefId() : int
+    public function getRefId(): int
     {
         return $this->ref_id;
     }
-    
 
-    public function buildLinkTarget($a_node_id, string $a_type) : string
+
+    public function buildLinkTarget($a_node_id, string $a_type): string
     {
         $this->ctrl->setParameterByClass($this->getTargetClass(), "root_id", $a_node_id);
-        
+
         return $this->ctrl->getLinkTargetByClass($this->getTargetClass(), $this->getCmd());
     }
 
-    public function buildFrameTarget(string $a_type, $a_child = 0, $a_obj_id = 0) : string
+    public function buildFrameTarget(string $a_type, $a_child = 0, $a_obj_id = 0): string
     {
         return '';
     }
 
-    public function showChilds($a_parent_id) : bool
+    public function showChilds($a_parent_id): bool
     {
         if ($a_parent_id == 0) {
             return true;
@@ -146,7 +148,7 @@ class ilSearchRootSelector extends ilExplorer
     /**
     * @inheritDoc
      */
-    public function formatHeader(ilTemplate $tpl, $a_obj_id, array $a_option) : void
+    public function formatHeader(ilTemplate $tpl, $a_obj_id, array $a_option): void
     {
 
         #$tpl = new ilTemplate("tpl.tree.html", true, true, "Services/UIComponent/Explorer");
@@ -154,11 +156,11 @@ class ilSearchRootSelector extends ilExplorer
         if (in_array("root", $this->clickable_types)) {
             $tpl->setCurrentBlock("link");
             //$tpl->setVariable("LINK_NAME",$lng->txt('repository'));
-            
+
             $this->ctrl->setParameterByClass($this->getTargetClass(), 'root_id', ROOT_FOLDER_ID);
             $tpl->setVariable("LINK_TARGET", $this->ctrl->getLinkTargetByClass($this->getTargetClass(), $this->getCmd()));
             $tpl->setVariable("TITLE", $this->lng->txt("repository"));
-            
+
             $tpl->parseCurrentBlock();
         }
     }

@@ -26,27 +26,27 @@ class arConcat extends arStatement
      */
     protected array $fields = [];
 
-    public function asSQLStatement(ActiveRecord $ar) : string
+    public function asSQLStatement(ActiveRecord $ar): string
     {
         return ' CONCAT(' . implode(', ', $this->getFields()) . ') AS ' . $this->getAs();
     }
 
-    public function getAs() : string
+    public function getAs(): string
     {
         return $this->as;
     }
 
-    public function setAs(string $as) : void
+    public function setAs(string $as): void
     {
         $this->as = $as;
     }
 
-    public function getFields() : array
+    public function getFields(): array
     {
         return $this->fields;
     }
 
-    public function setFields(array $fields) : void
+    public function setFields(array $fields): void
     {
         $this->fields = $fields;
     }

@@ -33,11 +33,11 @@ class ilObjGlossarySubItemListGUI extends ilSubItemListGUI
         $this->user = $DIC->user();
     }
 
-    public function getHTML() : string
+    public function getHTML(): string
     {
         $lng = $this->lng;
         $ilUser = $this->user;
-        
+
         $lng->loadLanguageModule('content');
         foreach ($this->getSubItemIds(true) as $sub_item) {
             if (is_object($this->getHighlighter()) && $this->getHighlighter()->getContent($this->getObjId(), $sub_item) !== '') {
@@ -48,9 +48,9 @@ class ilObjGlossarySubItemListGUI extends ilSubItemListGUI
             $this->tpl->setCurrentBlock('subitem');
             $this->tpl->setVariable('SUBITEM_TYPE', $lng->txt('cont_term'));
             $this->tpl->setVariable('SEPERATOR', ':');
-            
+
             $src_string = ilUserSearchCache::_getInstance($ilUser->getId())->getUrlEncodedQuery();
-            
+
             $this->tpl->setVariable('LINK', ilLink::_getLink(
                 $this->getRefId(),
                 'git',
@@ -59,7 +59,7 @@ class ilObjGlossarySubItemListGUI extends ilSubItemListGUI
                     'srcstring' => 1
                 )
             ));
-            
+
             $this->tpl->setVariable('TARGET', $this->getItemListGUI()->getCommandFrame(''));
             $this->tpl->setVariable('TITLE', ilGlossaryTerm::_lookGlossaryTerm($sub_item));
 
@@ -68,12 +68,12 @@ class ilObjGlossarySubItemListGUI extends ilSubItemListGUI
                 $this->parseRelevance($sub_item);
             }
             // end-patch mime_filter
-            
+
             $this->tpl->parseCurrentBlock();
         }
-        
+
         $this->showDetailsLink();
-        
+
         return $this->tpl->get();
     }
 }

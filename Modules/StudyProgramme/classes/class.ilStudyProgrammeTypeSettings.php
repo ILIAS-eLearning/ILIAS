@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -28,12 +30,12 @@ class ilStudyProgrammeTypeSettings
         $this->type_id = $type_id;
     }
 
-    public function getTypeId() : int
+    public function getTypeId(): int
     {
         return $this->type_id;
     }
 
-    public function withTypeId(int $type_id) : ilStudyProgrammeTypeSettings
+    public function withTypeId(int $type_id): ilStudyProgrammeTypeSettings
     {
         $clone = clone $this;
         $clone->type_id = $type_id;
@@ -45,7 +47,7 @@ class ilStudyProgrammeTypeSettings
         ilLanguage $lng,
         Refinery $refinery,
         array $sp_types
-    ) : Field\Input {
+    ): Field\Input {
         $select = $input
             ->select($lng->txt('type'), $sp_types, $lng->txt('prg_type_byline'))
             ->withValue($this->getTypeId() === 0 ? "" : $this->getTypeId())

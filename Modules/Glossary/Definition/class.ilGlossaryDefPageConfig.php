@@ -22,7 +22,7 @@
  */
 class ilGlossaryDefPageConfig extends ilPageConfig
 {
-    public function init() : void
+    public function init(): void
     {
         global $DIC;
 

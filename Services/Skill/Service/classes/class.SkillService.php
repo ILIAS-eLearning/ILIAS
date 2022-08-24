@@ -47,7 +47,7 @@ class SkillService implements SkillServiceInterface
     /**
      * External user service facade
      */
-    public function user(int $id) : SkillUserService
+    public function user(int $id): SkillUserService
     {
         return new SkillUserService($id);
     }
@@ -55,7 +55,7 @@ class SkillService implements SkillServiceInterface
     /**
      * External ui service facade
      */
-    public function ui() : SkillUIService
+    public function ui(): SkillUIService
     {
         return new SkillUIService();
     }
@@ -63,7 +63,7 @@ class SkillService implements SkillServiceInterface
     /**
      * External tree service facade
      */
-    public function tree() : SkillTreeService
+    public function tree(): SkillTreeService
     {
         return new SkillTreeService($this->internal());
     }
@@ -71,7 +71,7 @@ class SkillService implements SkillServiceInterface
     /**
      * External profile service facade
      */
-    public function profile() : SkillProfileService
+    public function profile(): SkillProfileService
     {
         return new SkillProfileService($this->internal());
     }
@@ -79,7 +79,7 @@ class SkillService implements SkillServiceInterface
     /**
      * @inheritDoc
      */
-    public function internal() : SkillInternalService
+    public function internal(): SkillInternalService
     {
         return new SkillInternalService(
             $this->skmg_ref_id,

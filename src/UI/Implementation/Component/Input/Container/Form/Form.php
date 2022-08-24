@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\UI\Implementation\Component\Input\Container\Form;
 
 use ILIAS\UI\Implementation\Component\ComponentHelper;
@@ -59,7 +61,7 @@ abstract class Form implements C\Input\Container\Form\Form
     /**
      * @inheritdoc
      */
-    public function getInputs() : array
+    public function getInputs(): array
     {
         return $this->getInputGroup()->getInputs();
     }
@@ -67,7 +69,7 @@ abstract class Form implements C\Input\Container\Form\Form
     /**
      * @inheritdoc
      */
-    public function getInputGroup() : C\Input\Field\Group
+    public function getInputGroup(): C\Input\Field\Group
     {
         return $this->input_group;
     }
@@ -102,12 +104,12 @@ abstract class Form implements C\Input\Container\Form\Form
     /**
      * @inheritdoc
      */
-    public function getError() : ?string
+    public function getError(): ?string
     {
         return $this->error;
     }
 
-    protected function setError(string $error) : void
+    protected function setError(string $error): void
     {
         $this->error = $error;
     }
@@ -130,7 +132,7 @@ abstract class Form implements C\Input\Container\Form\Form
      * Check the request for sanity.
      * TODO: implement me!
      */
-    protected function isSanePostRequest(ServerRequestInterface $request) : bool
+    protected function isSanePostRequest(ServerRequestInterface $request): bool
     {
         return true;
     }
@@ -138,7 +140,7 @@ abstract class Form implements C\Input\Container\Form\Form
     /**
      * Extract post data from request.
      */
-    protected function extractPostData(ServerRequestInterface $request) : Input\InputData
+    protected function extractPostData(ServerRequestInterface $request): Input\InputData
     {
         return new PostDataFromServerRequest($request);
     }

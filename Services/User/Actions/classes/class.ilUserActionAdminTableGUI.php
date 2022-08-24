@@ -40,7 +40,7 @@ class ilUserActionAdminTableGUI extends ilTable2GUI
 
         $this->addColumn($this->lng->txt("user_action"));
         $this->addColumn($this->lng->txt("active"), "", "1");
-        
+
         $this->setFormAction($this->ctrl->getFormAction($a_parent_obj));
         $this->setRowTemplate("tpl.user_action_admin_row.html", "Services/User/Actions");
 
@@ -53,7 +53,7 @@ class ilUserActionAdminTableGUI extends ilTable2GUI
     /**
      * @param array<string,string> $a_set
      */
-    protected function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set): void
     {
         if ($a_set["active"]) {
             $this->tpl->touchBlock("checked");

@@ -73,12 +73,17 @@ class ilDclMobRecordFieldModel extends ilDclBaseRecordFieldModel
             $title = $file_name;
             $location = $file_name;
             if ($has_save_confirmation) {
+                $ilfilehash = $this->http->wrapper()->post()->retrieve(
+                    'ilfilehash',
+                    $this->refinery->kindlyTo()->string()
+                );
 
-                $ilfilehash = $this->http->wrapper()->post()->retrieve('ilfilehash',
-                    $this->refinery->kindlyTo()->string());
-
-                $move_file = ilDclPropertyFormGUI::getTempFilename($ilfilehash,
-                    'field_' . $this->getField()->getId(), $media["name"], $media["type"]);
+                $move_file = ilDclPropertyFormGUI::getTempFilename(
+                    $ilfilehash,
+                    'field_' . $this->getField()->getId(),
+                    $media["name"],
+                    $media["type"]
+                );
                 ilFileUtils::rename($move_file, $file);
             } else {
                 ilFileUtils::moveUploadedFile($media['tmp_name'], $file_name, $file);
@@ -101,15 +106,15 @@ class ilDclMobRecordFieldModel extends ilDclBaseRecordFieldModel
                             $format = ilObjMediaObject::getMimeType($file);
                             $wh
                                 = ilObjMediaObject::_determineWidthHeight(
-                                $format,
-                                "File",
-                                $file,
-                                "",
-                                true,
-                                false,
-                                $field->getProperty(ilDclBaseFieldModel::PROP_WIDTH),
-                                (int) $field->getProperty(ilDclBaseFieldModel::PROP_HEIGHT)
-                            );
+                                    $format,
+                                    "File",
+                                    $file,
+                                    "",
+                                    true,
+                                    false,
+                                    $field->getProperty(ilDclBaseFieldModel::PROP_WIDTH),
+                                    (int) $field->getProperty(ilDclBaseFieldModel::PROP_HEIGHT)
+                                );
                         } else {
                             $wh['width'] = (int) $field->getProperty(ilDclBaseFieldModel::PROP_WIDTH);
                             $wh['height'] = (int) $field->getProperty(ilDclBaseFieldModel::PROP_HEIGHT);
@@ -120,8 +125,11 @@ class ilDclMobRecordFieldModel extends ilDclBaseRecordFieldModel
                 }
             }
 
-            ilObjMediaObject::_saveUsage($mob->getId(), "dcl:html",
-                $this->getRecord()->getTable()->getCollectionObject()->getId());
+            ilObjMediaObject::_saveUsage(
+                $mob->getId(),
+                "dcl:html",
+                $this->getRecord()->getTable()->getCollectionObject()->getId()
+            );
             $media_item->setFormat($format);
             $media_item->setLocation($location);
             $media_item->setLocationType("LocalFile");
@@ -140,7 +148,7 @@ class ilDclMobRecordFieldModel extends ilDclBaseRecordFieldModel
 
             $mob->update();
             $return = $mob->getId();
-            // handover for save-confirmation
+        // handover for save-confirmation
         } else {
             if (is_array($media) && isset($media['tmp_name']) && $media['tmp_name'] != '') {
                 $return = $media;
@@ -170,7 +178,7 @@ class ilDclMobRecordFieldModel extends ilDclBaseRecordFieldModel
         return $file;
     }
 
-    public function addHiddenItemsToConfirmation(ilConfirmationGUI $confirmation) : void
+    public function addHiddenItemsToConfirmation(ilConfirmationGUI $confirmation): void
     {
         if (is_array($this->getValue())) {
             foreach ($this->getValue() as $key => $value) {
@@ -183,14 +191,14 @@ class ilDclMobRecordFieldModel extends ilDclBaseRecordFieldModel
      * Returns sortable value for the specific field-types
      * @param int $value
      */
-    public function parseSortingValue($value, bool $link = true) : string
+    public function parseSortingValue($value, bool $link = true): string
     {
         $mob = new ilObjMediaObject($value);
 
         return $mob->getTitle();
     }
 
-    public function setValueFromForm(ilPropertyFormGUI $form) : void
+    public function setValueFromForm(ilPropertyFormGUI $form): void
     {
         $value = $form->getInput("field_" . $this->getField()->getId());
         if ($form->getItemByPostVar("field_" . $this->getField()->getId())->getDeletionFlag()) {
@@ -199,7 +207,7 @@ class ilDclMobRecordFieldModel extends ilDclBaseRecordFieldModel
         $this->setValue($value);
     }
 
-    public function afterClone() : void
+    public function afterClone(): void
     {
         $field = ilDclCache::getCloneOf($this->getField()->getId(), ilDclCache::TYPE_FIELD);
         $record = ilDclCache::getCloneOf($this->getRecord()->getId(), ilDclCache::TYPE_RECORD);

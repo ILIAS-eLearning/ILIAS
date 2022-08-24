@@ -32,11 +32,11 @@ class ilMediaObjectsImportConfig extends ilImportConfig
      */
     public function setUsePreviousImportIds(
         bool $a_val
-    ) : void {
+    ): void {
         $this->use_previous_import_ids = $a_val;
     }
 
-    public function getUsePreviousImportIds() : bool
+    public function getUsePreviousImportIds(): bool
     {
         return $this->use_previous_import_ids;
     }

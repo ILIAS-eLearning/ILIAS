@@ -25,16 +25,16 @@ use ILIAS\UI\Component\Image\Image;
  */
 class ilTestPlayerLayoutProvider extends AbstractModificationProvider implements ModificationProvider
 {
-    const TEST_PLAYER_KIOSK_MODE_ENABLED = 'test_player_kiosk_mode_enabled';
+    public const TEST_PLAYER_KIOSK_MODE_ENABLED = 'test_player_kiosk_mode_enabled';
 
 
-    public function isInterestedInContexts() : ContextCollection
+    public function isInterestedInContexts(): ContextCollection
     {
         return $this->context_collection->repository();
     }
 
 
-    public function getLogoModification(CalledContexts $calledContexts) : ?LogoModification
+    public function getLogoModification(CalledContexts $calledContexts): ?LogoModification
     {
         if ($this->isKioskModeEnabled($calledContexts)) {
             $logo = $this->globalScreen()->layout()->factory()->logo();
@@ -50,7 +50,7 @@ class ilTestPlayerLayoutProvider extends AbstractModificationProvider implements
     }
 
 
-    public function getMainBarModification(CalledContexts $calledContexts) : ?MainBarModification
+    public function getMainBarModification(CalledContexts $calledContexts): ?MainBarModification
     {
         if ($this->isKioskModeEnabled($calledContexts)) {
             $mainBar = $this->globalScreen()->layout()->factory()->mainbar();
@@ -66,7 +66,7 @@ class ilTestPlayerLayoutProvider extends AbstractModificationProvider implements
     }
 
 
-    public function getMetaBarModification(CalledContexts $calledContexts) : ?MetaBarModification
+    public function getMetaBarModification(CalledContexts $calledContexts): ?MetaBarModification
     {
         if ($this->isKioskModeEnabled($calledContexts)) {
             $metaBar = $this->globalScreen()->layout()->factory()->metabar();
@@ -82,7 +82,7 @@ class ilTestPlayerLayoutProvider extends AbstractModificationProvider implements
     }
 
 
-    public function getFooterModification(CalledContexts $calledContexts) : ?FooterModification
+    public function getFooterModification(CalledContexts $calledContexts): ?FooterModification
     {
         if ($this->isKioskModeEnabled($calledContexts)) {
             $footer = $this->globalScreen()->layout()->factory()->footer();
@@ -103,7 +103,7 @@ class ilTestPlayerLayoutProvider extends AbstractModificationProvider implements
      *
      * @return bool
      */
-    protected function isKioskModeEnabled(CalledContexts $calledContexts) : bool
+    protected function isKioskModeEnabled(CalledContexts $calledContexts): bool
     {
         $additionalData = $calledContexts->current()->getAdditionalData();
         $isKioskModeEnabled = $additionalData->is(self::TEST_PLAYER_KIOSK_MODE_ENABLED, true);

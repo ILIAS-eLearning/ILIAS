@@ -24,13 +24,13 @@ class ilNewsImporter extends ilXmlImporter
 {
     protected ilNewsDataSet $ds;
 
-    public function init() : void
+    public function init(): void
     {
         $this->ds = new ilNewsDataSet();
         $this->ds->setDSPrefix("ds");
     }
 
-    public function importXmlRepresentation(string $a_entity, string $a_id, string $a_xml, ilImportMapping $a_mapping) : void
+    public function importXmlRepresentation(string $a_entity, string $a_id, string $a_xml, ilImportMapping $a_mapping): void
     {
         $parser = new ilDataSetImportParser(
             $a_entity,

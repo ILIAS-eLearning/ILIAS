@@ -24,12 +24,12 @@
  */
 class ilOrgUnitAuthority extends \ActiveRecord
 {
-    const FIELD_OVER = 'over';
-    const OVER_EVERYONE = -1;
-    const POSITION_ID = "position_id";
-    const SCOPE_SAME_ORGU = 1;
-    const SCOPE_SUBSEQUENT_ORGUS = 2;
-    const SCOPE_ALL_ORGUS = 3;
+    public const FIELD_OVER = 'over';
+    public const OVER_EVERYONE = -1;
+    public const POSITION_ID = "position_id";
+    public const SCOPE_SAME_ORGU = 1;
+    public const SCOPE_SUBSEQUENT_ORGUS = 2;
+    public const SCOPE_ALL_ORGUS = 3;
     /**
      * @var array
      */
@@ -47,7 +47,7 @@ class ilOrgUnitAuthority extends \ActiveRecord
         return self::$scopes;
     }
 
-    public static function returnDbTableName() : string
+    public static function returnDbTableName(): string
     {
         return "il_orgu_authority";
     }
@@ -93,7 +93,7 @@ class ilOrgUnitAuthority extends \ActiveRecord
     {
         parent::__construct($primary_key);
         if (static::$name_render === null) {
-            self::$name_render = function($id) {
+            self::$name_render = function ($id) {
                 return $id;
             };
         }

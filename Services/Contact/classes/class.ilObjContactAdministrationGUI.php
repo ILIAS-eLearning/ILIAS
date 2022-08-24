@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -32,12 +34,12 @@ class ilObjContactAdministrationGUI extends ilObject2GUI
         $this->lng->loadLanguageModule('buddysystem');
     }
 
-    public function getType() : string
+    public function getType(): string
     {
         return 'cadm';
     }
 
-    public function getAdminTabs() : void
+    public function getAdminTabs(): void
     {
         if ($this->checkPermissionBool('read')) {
             $this->tabs_gui->addTarget(
@@ -58,7 +60,7 @@ class ilObjContactAdministrationGUI extends ilObject2GUI
         }
     }
 
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         $next_class = $this->ctrl->getNextClass($this);
         $cmd = $this->ctrl->getCmd();
@@ -79,8 +81,8 @@ class ilObjContactAdministrationGUI extends ilObject2GUI
         }
     }
 
-    
-    protected function getConfigurationForm() : ilPropertyFormGUI
+
+    protected function getConfigurationForm(): ilPropertyFormGUI
     {
         $form = new ilPropertyFormGUI();
         $form->setTitle($this->lng->txt('settings'));
@@ -106,8 +108,8 @@ class ilObjContactAdministrationGUI extends ilObject2GUI
         return $form;
     }
 
-    
-    protected function showConfigurationForm(ilPropertyFormGUI $form = null) : void
+
+    protected function showConfigurationForm(ilPropertyFormGUI $form = null): void
     {
         if (!$this->rbac_system->checkAccess('visible,read', $this->object->getRefId())) {
             $this->error->raiseError($this->lng->txt('no_permission'), $this->error->WARNING);
@@ -126,8 +128,8 @@ class ilObjContactAdministrationGUI extends ilObject2GUI
         $this->tpl->setContent($form->getHTML());
     }
 
-    
-    protected function saveConfigurationForm() : void
+
+    protected function saveConfigurationForm(): void
     {
         $this->checkPermission('write');
 

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -26,7 +28,7 @@ namespace ILIAS\ResourceStorage\Preloader;
  */
 trait SecureString
 {
-    protected function secure(string $string) : string
+    protected function secure(string $string): string
     {
         return htmlspecialchars(strip_tags($string), ENT_QUOTES, 'UTF-8');
         ;

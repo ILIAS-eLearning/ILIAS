@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -58,7 +60,7 @@ class ilStopWorkflowActivity implements ilActivity, ilWorkflowEngineElement
      *
      * @todo Use exceptions / internal logging.
      */
-    public function execute() : void
+    public function execute(): void
     {
         /**
          * @var ilBaseWorkflow $workflow
@@ -72,12 +74,12 @@ class ilStopWorkflowActivity implements ilActivity, ilWorkflowEngineElement
         unset($this->context);
     }
 
-    public function setName($name) : void
+    public function setName($name): void
     {
         $this->name = $name;
     }
 
-    public function getName() : string
+    public function getName(): string
     {
         return $this->name;
     }

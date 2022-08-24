@@ -1,4 +1,6 @@
-<?php declare(strict_types=0);
+<?php
+
+declare(strict_types=0);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -14,7 +16,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * @author  Stefan Meyer <meyer@leifos.com>
  * @version $Id$
@@ -46,7 +48,7 @@ class ilCourseFile
         $this->__read();
     }
 
-    public static function _cloneFiles(int $a_source_id, int $a_target_id) : void
+    public static function _cloneFiles(int $a_source_id, int $a_target_id): void
     {
         $source = new ilFSStorageCourse($a_source_id);
 
@@ -67,77 +69,77 @@ class ilCourseFile
         }
     }
 
-    public function setFileId(int $a_id) : void
+    public function setFileId(int $a_id): void
     {
         $this->file_id = $a_id;
     }
 
-    public function getFileId() : int
+    public function getFileId(): int
     {
         return $this->file_id;
     }
 
-    public function getCourseId() : int
+    public function getCourseId(): int
     {
         return $this->course_id;
     }
 
-    public function setCourseId(int $a_course_id) : void
+    public function setCourseId(int $a_course_id): void
     {
         $this->course_id = $a_course_id;
     }
 
-    public function setFileName(string $a_name) : void
+    public function setFileName(string $a_name): void
     {
         $this->file_name = $a_name;
     }
 
-    public function getFileName() : string
+    public function getFileName(): string
     {
         return $this->file_name;
     }
 
-    public function setFileType(string $a_type) : void
+    public function setFileType(string $a_type): void
     {
         $this->file_type = $a_type;
     }
 
-    public function getFileType() : string
+    public function getFileType(): string
     {
         return $this->file_type;
     }
 
-    public function setFileSize(int $a_size) : void
+    public function setFileSize(int $a_size): void
     {
         $this->file_size = $a_size;
     }
 
-    public function getFileSize() : int
+    public function getFileSize(): int
     {
         return $this->file_size;
     }
 
-    public function setTemporaryName(string $a_name) : void
+    public function setTemporaryName(string $a_name): void
     {
         $this->tmp_name = $a_name;
     }
 
-    public function getTemporaryName() : string
+    public function getTemporaryName(): string
     {
         return $this->tmp_name;
     }
 
-    public function setErrorCode(int $a_code) : void
+    public function setErrorCode(int $a_code): void
     {
         $this->error_code = $a_code;
     }
 
-    public function getErrorCode() : int
+    public function getErrorCode(): int
     {
         return $this->error_code;
     }
 
-    public function getAbsolutePath() : string
+    public function getAbsolutePath(): string
     {
         // workaround for "secured" files.
         if (!$this->fss_storage instanceof \ilFSStorageCourse) {
@@ -154,7 +156,7 @@ class ilCourseFile
         return '';
     }
 
-    public function getInfoDirectory() : string
+    public function getInfoDirectory(): string
     {
         if (is_object($this->fss_storage)) {
             return $this->fss_storage->getInfoDirectory();
@@ -162,7 +164,7 @@ class ilCourseFile
         return '';
     }
 
-    public function validate() : bool
+    public function validate(): bool
     {
         switch ($this->getErrorCode()) {
             case UPLOAD_ERR_INI_SIZE:
@@ -189,7 +191,7 @@ class ilCourseFile
         }
     }
 
-    public function create(bool $a_upload = true) : bool
+    public function create(bool $a_upload = true): bool
     {
         if ($this->getErrorCode() != 0) {
             return false;
@@ -220,7 +222,7 @@ class ilCourseFile
         return true;
     }
 
-    public function delete() : void
+    public function delete(): void
     {
         // Delete db entry
         $query = "DELETE FROM crs_file " .
@@ -233,7 +235,7 @@ class ilCourseFile
         }
     }
 
-    public static function _deleteByCourse(int $a_course_id) : void
+    public static function _deleteByCourse(int $a_course_id): void
     {
         global $DIC;
 
@@ -249,7 +251,7 @@ class ilCourseFile
      * @param int $a_course_id obj_id of course
      * @return ilCourseFile[]
      */
-    public static function _readFilesByCourse(int $a_course_id) : array
+    public static function _readFilesByCourse(int $a_course_id): array
     {
         global $DIC;
 
@@ -265,7 +267,7 @@ class ilCourseFile
         return $files;
     }
 
-    public function __read() : void
+    public function __read(): void
     {
         if (!$this->file_id) {
             return;

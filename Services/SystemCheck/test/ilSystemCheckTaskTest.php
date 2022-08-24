@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 use PHPUnit\Framework\TestCase;
 use ILIAS\DI\Container;
@@ -12,19 +14,19 @@ class ilSystemCheckTaskTest extends TestCase
 {
     protected Container $dic;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         parent::setUp();
         $this->initDependencies();
     }
 
-    public function testConstruct() : void
+    public function testConstruct(): void
     {
         $task = new ilSCTask(0);
         $this->assertInstanceOf(ilSCTask::class, $task);
     }
 
-    public function testLastUpdate() : void
+    public function testLastUpdate(): void
     {
         $this->getMockBuilder(ilDateTime::class)
              ->disableOriginalConstructor()
@@ -35,7 +37,7 @@ class ilSystemCheckTaskTest extends TestCase
         $this->assertInstanceOf(ilDateTime::class, $last_update);
     }
 
-    protected function setGlobalVariable(string $name, $value) : void
+    protected function setGlobalVariable(string $name, $value): void
     {
         global $DIC;
 
@@ -46,7 +48,7 @@ class ilSystemCheckTaskTest extends TestCase
         };
     }
 
-    protected function initDependencies() : void
+    protected function initDependencies(): void
     {
         $this->dic = new Container();
         $GLOBALS['DIC'] = $this->dic;

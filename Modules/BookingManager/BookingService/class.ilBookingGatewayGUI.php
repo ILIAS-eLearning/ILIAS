@@ -109,7 +109,7 @@ class ilBookingGatewayGUI
      * If no pool has been selected yet, the first one attached to the host object is choosen.
      * If no pools are attached to the host object at all we get a 0 ID.
      */
-    protected function initPool() : void
+    protected function initPool(): void
     {
         $ctrl = $this->ctrl;
 
@@ -138,7 +138,7 @@ class ilBookingGatewayGUI
      * @throws ilCtrlException
      * @throws ilException
      */
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         $ctrl = $this->ctrl;
 
@@ -183,7 +183,7 @@ class ilBookingGatewayGUI
 
     protected function showPoolSelector(
         string $return_to
-    ) : void {
+    ): void {
         //
         $options = [];
         foreach ($this->use_book_repo->getUsedBookingPools(ilObject::_lookupObjectId($this->main_host_ref_id)) as $ref_id) {
@@ -200,8 +200,8 @@ class ilBookingGatewayGUI
             $this->toolbar->addFormButton($this->lng->txt("book_select_pool"), "selectPool");
         }
     }
-    
-    protected function selectPool() : void
+
+    protected function selectPool(): void
     {
         if ($this->return_to !== "") {
             $this->ctrl->redirectByClass($this->return_to);
@@ -210,7 +210,7 @@ class ilBookingGatewayGUI
 
     protected function setSubTabs(
         string $active
-    ) : void {
+    ): void {
         $tabs = $this->tabs;
         $ctrl = $this->ctrl;
         $lng = $this->lng;
@@ -238,7 +238,7 @@ class ilBookingGatewayGUI
         $tabs->activateSubTab($active);
     }
 
-    protected function show() : void
+    protected function show(): void
     {
         $ctrl = $this->ctrl;
         if ($this->pools_selected) {
@@ -254,7 +254,7 @@ class ilBookingGatewayGUI
     // Settings
     //
 
-    protected function settings() : void
+    protected function settings(): void
     {
         $this->setSubTabs("settings");
         $main_tpl = $this->main_tpl;
@@ -262,7 +262,7 @@ class ilBookingGatewayGUI
         $main_tpl->setContent($form->getHTML());
     }
 
-    public function initSettingsForm() : ilPropertyFormGUI
+    public function initSettingsForm(): ilPropertyFormGUI
     {
         $ctrl = $this->ctrl;
         $lng = $this->lng;
@@ -286,7 +286,7 @@ class ilBookingGatewayGUI
         return $form;
     }
 
-    public function saveSettings() : void
+    public function saveSettings(): void
     {
         $ctrl = $this->ctrl;
         $lng = $this->lng;
@@ -329,7 +329,7 @@ class ilBookingGatewayGUI
      * Check if all pools have schedules
      * @param int[] $ids pool ref ids
      */
-    protected function checkBookingPoolsForSchedules(array $ids) : bool
+    protected function checkBookingPoolsForSchedules(array $ids): bool
     {
         foreach ($ids as $pool_ref_id) {
             if (!ilBookingSchedule::hasExistingSchedules(ilObject::_lookupObjectId($pool_ref_id))) {

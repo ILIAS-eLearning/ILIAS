@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 require_once("libs/composer/vendor/autoload.php");
 require_once(__DIR__ . "/../../../Base.php");
 
@@ -28,15 +30,15 @@ use ILIAS\UI\Component\Symbol\Icon\Custom;
  */
 class IconTest extends ILIAS_UI_TestBase
 {
-    const ICON_PATH = __DIR__ . '/../../../../../templates/default/images/';
-    const ICON_PATH_REL = './templates/default/images/';
+    public const ICON_PATH = __DIR__ . '/../../../../../templates/default/images/';
+    public const ICON_PATH_REL = './templates/default/images/';
 
-    private function getIconFactory() : I\Component\Symbol\Icon\Factory
+    private function getIconFactory(): I\Component\Symbol\Icon\Factory
     {
         return new I\Component\Symbol\Icon\Factory();
     }
 
-    public function testConstruction() : void
+    public function testConstruction(): void
     {
         $f = $this->getIconFactory();
         $this->assertInstanceOf("ILIAS\\UI\\Component\\Symbol\\Icon\\Factory", $f);
@@ -48,7 +50,7 @@ class IconTest extends ILIAS_UI_TestBase
         $this->assertInstanceOf("ILIAS\\UI\\Component\\Symbol\\Icon\\Custom", $ci);
     }
 
-    public function testAttributes() : void
+    public function testAttributes(): void
     {
         $f = $this->getIconFactory();
 
@@ -64,7 +66,7 @@ class IconTest extends ILIAS_UI_TestBase
         $this->assertEquals('K', $ico->getAbbreviation());
     }
 
-    public function testSizeModification() : void
+    public function testSizeModification(): void
     {
         $f = $this->getIconFactory();
         $ico = $f->standard('course', 'Kurs');
@@ -79,7 +81,7 @@ class IconTest extends ILIAS_UI_TestBase
         $this->assertEquals('small', $ico->getSize());
     }
 
-    public function testSizeModificationWrongParam() : void
+    public function testSizeModificationWrongParam(): void
     {
         try {
             $f = $this->getIconFactory();
@@ -91,7 +93,7 @@ class IconTest extends ILIAS_UI_TestBase
         }
     }
 
-    public function testDisabledModification() : void
+    public function testDisabledModification(): void
     {
         $f = $this->getIconFactory();
         $ico = $f->standard('course', 'Kurs');
@@ -103,7 +105,7 @@ class IconTest extends ILIAS_UI_TestBase
         $this->assertEquals(true, $ico->isDisabled());
     }
 
-    public function testDisabledModificationWrongParam() : void
+    public function testDisabledModificationWrongParam(): void
     {
         $f = $this->getIconFactory();
         $ico = $f->standard('course', 'Kurs');
@@ -111,7 +113,7 @@ class IconTest extends ILIAS_UI_TestBase
         $ico->withDisabled('true');
     }
 
-    public function testCustomPath() : void
+    public function testCustomPath(): void
     {
         $f = $this->getIconFactory();
 
@@ -119,7 +121,7 @@ class IconTest extends ILIAS_UI_TestBase
         $this->assertEquals('/some/path/', $ico->getIconPath());
     }
 
-    public function testRenderingStandard() : Standard
+    public function testRenderingStandard(): Standard
     {
         $ico = $this->getIconFactory()->standard('crs', 'Course', 'medium');
         $html = $this->normalizeHTML($this->getDefaultRenderer()->render($ico));
@@ -132,7 +134,7 @@ class IconTest extends ILIAS_UI_TestBase
     /**
      * @depends testRenderingStandard
      */
-    public function testRenderingStandardDisabled(Standard $ico) : void
+    public function testRenderingStandardDisabled(Standard $ico): void
     {
         $ico = $ico->withDisabled(true);
         $html = $this->normalizeHTML($this->getDefaultRenderer()->render($ico));
@@ -144,7 +146,7 @@ class IconTest extends ILIAS_UI_TestBase
     /**
      * @depends testRenderingStandard
      */
-    public function testRenderingStandardAbbreviation(Standard $ico) : void
+    public function testRenderingStandardAbbreviation(Standard $ico): void
     {
         $ico = $ico->withAbbreviation('CRS');
         $html = $this->normalizeHTML($this->getDefaultRenderer()->render($ico));
@@ -154,7 +156,7 @@ imgtag;
         $this->assertEquals(trim($expected), trim($html));
     }
 
-    public function testRenderingCustom() : Custom
+    public function testRenderingCustom(): Custom
     {
         $path = './templates/default/images/icon_fold.svg';
         $ico = $this->getIconFactory()->custom($path, 'Custom', 'medium');
@@ -164,7 +166,7 @@ imgtag;
         return $ico;
     }
 
-    public function testAllStandardIconsExist() : void
+    public function testAllStandardIconsExist(): void
     {
         $f = $this->getIconFactory();
         $default_icons_abr = $f->standard("nothing", "nothing")->getAllStandardHandles();
@@ -174,11 +176,11 @@ imgtag;
             $this->assertTrue(file_exists($path), "Missing Standard Icon: " . $path);
         }
     }
-    
+
     /**
      * @depends testRenderingStandard
      */
-    public function testRenderingStandardJSBindable($ico) : void
+    public function testRenderingStandardJSBindable($ico): void
     {
         $ico = $ico->withAdditionalOnLoadCode(function ($id) {
             return 'alert();';

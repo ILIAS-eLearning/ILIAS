@@ -1,4 +1,5 @@
 <?php
+
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -15,7 +16,7 @@ class ilTestSessionFactory
      * @var array[ilTestSession|ilTestSessionDynamicQuestionSet]
      */
     private $testSession = array();
-    
+
     /**
      * object instance of current test
      * @var ilObjTest
@@ -90,7 +91,7 @@ class ilTestSessionFactory
             $testSession->setTestId($this->testOBJ->getTestId());
 
             $testSession->loadTestSession($this->testOBJ->getTestId(), $userId);
-            
+
             $this->testSession[$this->buildCacheKey($userId)] = $testSession;
         }
 
@@ -112,7 +113,7 @@ class ilTestSessionFactory
      * @param $userId
      * @return string
      */
-    private function buildCacheKey($userId) : string
+    private function buildCacheKey($userId): string
     {
         return "{$this->testOBJ->getTestId()}::{$userId}";
     }

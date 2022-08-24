@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -28,7 +30,7 @@ class ilBuddySystemRelationStateFilterRuleFactory
     {
     }
 
-    public static function getInstance() : self
+    public static function getInstance(): self
     {
         if (null === self::$instance) {
             self::$instance = new self();
@@ -37,7 +39,7 @@ class ilBuddySystemRelationStateFilterRuleFactory
         return self::$instance;
     }
 
-    public function getFilterRuleByRelation(ilBuddySystemRelation $relation) : ilBuddySystemRelationStateFilterRule
+    public function getFilterRuleByRelation(ilBuddySystemRelation $relation): ilBuddySystemRelationStateFilterRule
     {
         $filters = [
             new ilBuddySystemRelationStateInitiatorShouldOnlyBeAbleToCancelRequestRule($relation),

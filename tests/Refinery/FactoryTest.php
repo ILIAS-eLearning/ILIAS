@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -39,7 +41,7 @@ class FactoryTest extends TestCase
 {
     private Refinery $basicFactory;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         $language = $this->getMockBuilder(ilLanguage::class)
             ->disableOriginalConstructor()
@@ -48,82 +50,82 @@ class FactoryTest extends TestCase
         $this->basicFactory = new Refinery(new DataFactory(), $language);
     }
 
-    public function testCreateToGroup() : void
+    public function testCreateToGroup(): void
     {
         $group = $this->basicFactory->to();
 
         $this->assertInstanceOf(ToGroup::class, $group);
     }
 
-    public function testCreateInGroup() : void
+    public function testCreateInGroup(): void
     {
         $group = $this->basicFactory->in();
 
         $this->assertInstanceOf(InGroup::class, $group);
     }
 
-    public function testCreateIntegerGroup() : void
+    public function testCreateIntegerGroup(): void
     {
         $group = $this->basicFactory->int();
 
         $this->assertInstanceOf(IntegerGroup::class, $group);
     }
 
-    public function testCreateStringGroup() : void
+    public function testCreateStringGroup(): void
     {
         $group = $this->basicFactory->string();
 
         $this->assertInstanceOf(StringGroup::class, $group);
     }
 
-    public function testCreateNumericGroup() : void
+    public function testCreateNumericGroup(): void
     {
         $group = $this->basicFactory->numeric();
 
         $this->assertInstanceOf(NumericGroup::class, $group);
     }
 
-    public function testCreateLogicalGroup() : void
+    public function testCreateLogicalGroup(): void
     {
         $group = $this->basicFactory->logical();
 
         $this->assertInstanceOf(LogicalGroup::class, $group);
     }
 
-    public function testCreatePasswordGroup() : void
+    public function testCreatePasswordGroup(): void
     {
         $group = $this->basicFactory->password();
 
         $this->assertInstanceOf(PasswordGroup::class, $group);
     }
 
-    public function testCreateCustomGroup() : void
+    public function testCreateCustomGroup(): void
     {
         $group = $this->basicFactory->custom();
 
         $this->assertInstanceOf(CustomGroup::class, $group);
     }
 
-    public function testCreateContainerGroup() : void
+    public function testCreateContainerGroup(): void
     {
         $group = $this->basicFactory->container();
 
         $this->assertInstanceOf(ContainerGroup::class, $group);
     }
 
-    public function testCreateDateTimeGroup() : void
+    public function testCreateDateTimeGroup(): void
     {
         $group = $this->basicFactory->dateTime();
         $this->assertInstanceOf(DateTimeGroup::class, $group);
     }
 
-    public function testCreateUriGrouo() : void
+    public function testCreateUriGrouo(): void
     {
         $group = $this->basicFactory->uri();
         $this->assertInstanceOf(URIGroup::class, $group);
     }
 
-    public function testByTryingInGroup() : void
+    public function testByTryingInGroup(): void
     {
         $instance = $this->basicFactory->byTrying([
             $this->basicFactory->numeric(),
@@ -132,7 +134,7 @@ class FactoryTest extends TestCase
         $this->assertInstanceOf(ByTrying::class, $instance);
     }
 
-    public function testIdentity() : void
+    public function testIdentity(): void
     {
         $instance = $this->basicFactory->identity();
         $this->assertInstanceOf(IdentityTransformation::class, $instance);

@@ -25,18 +25,18 @@ class ilMediaCastDataSet extends ilDataSet
 {
     protected ilObjMediaCast $current_obj;
     protected array $order = array();
-    
-    public function getSupportedVersions() : array
+
+    public function getSupportedVersions(): array
     {
         return array("5.0.0", "4.1.0");
     }
-    
-    public function getXmlNamespace(string $a_entity, string $a_schema_version) : string
+
+    public function getXmlNamespace(string $a_entity, string $a_schema_version): string
     {
         return "https://www.ilias.de/xml/Modules/MediaCast/" . $a_entity;
     }
-    
-    protected function getTypes(string $a_entity, string $a_version) : array
+
+    protected function getTypes(string $a_entity, string $a_version): array
     {
         if ($a_entity == "mcst") {
             switch ($a_version) {
@@ -72,7 +72,7 @@ class ilMediaCastDataSet extends ilDataSet
         string $a_entity,
         string $a_version,
         array $a_ids
-    ) : void {
+    ): void {
         $ilDB = $this->db;
 
 
@@ -92,7 +92,7 @@ class ilMediaCastDataSet extends ilDataSet
                         " FROM il_media_cast_data JOIN object_data ON (il_media_cast_data.id = object_data.obj_id) " .
                         "WHERE " .
                         $ilDB->in("id", $a_ids, false, "integer"));
-                    
+
                     // #17174 - manual order?
                     $order = array();
                     $set = $ilDB->query("SELECT * FROM il_media_cast_data_ord" .
@@ -105,7 +105,7 @@ class ilMediaCastDataSet extends ilDataSet
                     foreach ($this->data as $k => $v) {
                         $this->data[$k]["PublicFeed"] = ilBlockSetting::_lookup("news", "public_feed", 0, $v["Id"]);
                         $this->data[$k]["KeepRssMin"] = (int) ilBlockSetting::_lookup("news", "keep_rss_min", 0, $v["Id"]);
-                        
+
                         // manual order?
                         if ($this->data[$k]["Sortmode"] == 4 &&
                             array_key_exists($v["Id"], $order)) {
@@ -116,26 +116,26 @@ class ilMediaCastDataSet extends ilDataSet
             }
         }
     }
-    
+
     protected function getDependencies(
         string $a_entity,
         string $a_version,
         ?array $a_rec = null,
         ?array $a_ids = null
-    ) : array {
+    ): array {
         return [];
     }
-    
+
     public function importRecord(
         string $a_entity,
         array $a_types,
         array $a_rec,
         ilImportMapping $a_mapping,
         string $a_schema_version
-    ) : void {
+    ): void {
         switch ($a_entity) {
             case "mcst":
-                
+
                 if ($new_id = $a_mapping->getMapping('Services/Container', 'objs', $a_rec['Id'])) {
                     $newObj = ilObjectFactory::getInstanceByObjId($new_id, false);
                 } else {
@@ -143,7 +143,7 @@ class ilMediaCastDataSet extends ilDataSet
                     $newObj->setType("mcst");
                     $newObj->create();
                 }
-                
+
                 $newObj->setTitle($a_rec["Title"]);
                 $newObj->setDescription($a_rec["Description"]);
                 $newObj->setDefaultAccess($a_rec["DefaultAccess"]);
@@ -153,7 +153,7 @@ class ilMediaCastDataSet extends ilDataSet
                 if ($a_schema_version == "5.0.0") {
                     $newObj->setOrder($a_rec["Sortmode"]);
                     $newObj->setViewMode($a_rec["Viewmode"]);
-                    
+
                     if ($a_rec["Order"]) {
                         $this->order[$newObj->getId()] = explode(";", $a_rec["Order"]);
                     }
@@ -187,8 +187,8 @@ class ilMediaCastDataSet extends ilDataSet
                 break;
         }
     }
-    
-    public function getOrder() : array
+
+    public function getOrder(): array
     {
         return $this->order;
     }

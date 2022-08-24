@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -14,7 +16,7 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *********************************************************************/
- 
+
 namespace ILIAS\ResourceStorage\Stakeholder;
 
 use ILIAS\ResourceStorage\Identification\ResourceIdentification;
@@ -25,28 +27,27 @@ use ILIAS\ResourceStorage\Identification\ResourceIdentification;
  */
 interface ResourceStakeholder
 {
-
     /**
      * @return string not longer than 64 characters
      */
-    public function getId() : string;
+    public function getId(): string;
 
-    public function getConsumerNameForPresentation() : string;
+    public function getConsumerNameForPresentation(): string;
 
     /**
      * @return string not longer than 250 characters
      */
-    public function getFullyQualifiedClassName() : string;
+    public function getFullyQualifiedClassName(): string;
 
-    public function isResourceInUse(ResourceIdentification $identification) : bool;
+    public function isResourceInUse(ResourceIdentification $identification): bool;
 
     /**
      * @return bool true: if the Stakeholder could handle the deletion; false: if the Stakeholder could not handle
      * the deletion of the resource.
      */
-    public function resourceHasBeenDeleted(ResourceIdentification $identification) : bool;
+    public function resourceHasBeenDeleted(ResourceIdentification $identification): bool;
 
-    public function getOwnerOfResource(ResourceIdentification $identification) : int;
+    public function getOwnerOfResource(ResourceIdentification $identification): int;
 
-    public function getOwnerOfNewResources() : int;
+    public function getOwnerOfNewResources(): int;
 }

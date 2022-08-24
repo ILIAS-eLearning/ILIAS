@@ -24,7 +24,7 @@ class ilUserImporter extends ilXmlImporter
 {
     protected ilUserDataSet $ds;
 
-    public function init() : void
+    public function init(): void
     {
         $this->ds = new ilUserDataSet();
         $this->ds->setDSPrefix("ds");
@@ -36,7 +36,7 @@ class ilUserImporter extends ilXmlImporter
         string $a_id,
         string $a_xml,
         ilImportMapping $a_mapping
-    ) : void {
+    ): void {
         new ilDataSetImportParser(
             $a_entity,
             $this->getSchemaVersion(),
@@ -45,13 +45,13 @@ class ilUserImporter extends ilXmlImporter
             $a_mapping
         );
     }
-    
-    public function finalProcessing(ilImportMapping $a_mapping) : void
+
+    public function finalProcessing(ilImportMapping $a_mapping): void
     {
         if (is_array($this->ds->multi)) {
             foreach ($this->ds->multi as $usr_id => $values) {
                 $usr_obj = new ilObjUser($usr_id);
-                 
+
                 if (isset($values["interests_general"])) {
                     $usr_obj->setGeneralInterests($values["interests_general"]);
                 } else {

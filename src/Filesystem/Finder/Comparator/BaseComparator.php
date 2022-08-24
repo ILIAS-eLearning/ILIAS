@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace ILIAS\Filesystem\Finder\Comparator;
@@ -29,22 +30,22 @@ abstract class BaseComparator
     private string $target = '';
     private string $operator = '==';
 
-    public function getTarget() : string
+    public function getTarget(): string
     {
         return $this->target;
     }
 
-    public function setTarget(string $target) : void
+    public function setTarget(string $target): void
     {
         $this->target = $target;
     }
 
-    public function getOperator() : string
+    public function getOperator(): string
     {
         return $this->operator;
     }
 
-    public function setOperator(string $operator) : void
+    public function setOperator(string $operator): void
     {
         if ($operator === '') {
             $operator = '==';
@@ -57,7 +58,7 @@ abstract class BaseComparator
         $this->operator = $operator;
     }
 
-    public function test(string $test) : bool
+    public function test(string $test): bool
     {
         switch ($this->operator) {
             case '>':

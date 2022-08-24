@@ -68,17 +68,17 @@ class ilAssQuestionSkillAssignmentXmlParser extends ilSaxParser
         return parent::__construct($xmlFile);
     }
 
-    public function isParsingActive() : bool
+    public function isParsingActive(): bool
     {
         return $this->parsingActive;
     }
 
-    public function setParsingActive(bool $parsingActive) : void
+    public function setParsingActive(bool $parsingActive): void
     {
         $this->parsingActive = $parsingActive;
     }
 
-    protected function getCharacterDataBuffer() : string
+    protected function getCharacterDataBuffer(): string
     {
         return $this->characterDataBuffer;
     }
@@ -86,59 +86,59 @@ class ilAssQuestionSkillAssignmentXmlParser extends ilSaxParser
     /**
      * @param string $characterDataBuffer
      */
-    protected function resetCharacterDataBuffer() : void
+    protected function resetCharacterDataBuffer(): void
     {
         $this->characterDataBuffer = '';
     }
 
-    protected function appendToCharacterDataBuffer(string $characterData) : void
+    protected function appendToCharacterDataBuffer(string $characterData): void
     {
         $this->characterDataBuffer .= $characterData;
     }
 
-    public function getCurQuestionId() : int
+    public function getCurQuestionId(): int
     {
         return $this->curQuestionId;
     }
 
-    public function setCurQuestionId(?int $curQuestionId) : void
+    public function setCurQuestionId(?int $curQuestionId): void
     {
         $this->curQuestionId = (int) $curQuestionId;
     }
 
-    public function getCurAssignment() : \ilAssQuestionSkillAssignmentImport
+    public function getCurAssignment(): \ilAssQuestionSkillAssignmentImport
     {
         return $this->curAssignment;
     }
 
-    public function setCurAssignment(\ilAssQuestionSkillAssignmentImport $curAssignment) : void
+    public function setCurAssignment(\ilAssQuestionSkillAssignmentImport $curAssignment): void
     {
         $this->curAssignment = $curAssignment;
     }
 
-    public function getAssignmentList() : \ilAssQuestionSkillAssignmentImportList
+    public function getAssignmentList(): \ilAssQuestionSkillAssignmentImportList
     {
         return $this->assignmentList;
     }
 
-    public function getCurExpression() : \ilAssQuestionSolutionComparisonExpressionImport
+    public function getCurExpression(): \ilAssQuestionSolutionComparisonExpressionImport
     {
         return $this->curExpression;
     }
 
-    public function setCurExpression(\ilAssQuestionSolutionComparisonExpressionImport $curExpression) : void
+    public function setCurExpression(\ilAssQuestionSolutionComparisonExpressionImport $curExpression): void
     {
         $this->curExpression = $curExpression;
     }
 
-    public function setHandlers($a_xml_parser) : void
+    public function setHandlers($a_xml_parser): void
     {
         xml_set_object($a_xml_parser, $this);
         xml_set_element_handler($a_xml_parser, 'handlerBeginTag', 'handlerEndTag');
         xml_set_character_data_handler($a_xml_parser, 'handlerCharacterData');
     }
 
-    public function handlerBeginTag($xmlParser, $tagName, $tagAttributes) : void
+    public function handlerBeginTag($xmlParser, $tagName, $tagAttributes): void
     {
         if ($tagName != 'QuestionSkillAssignments' && !$this->isParsingActive()) {
             return;
@@ -186,7 +186,7 @@ class ilAssQuestionSkillAssignmentXmlParser extends ilSaxParser
         }
     }
 
-    public function handlerEndTag($xmlParser, $tagName) : void
+    public function handlerEndTag($xmlParser, $tagName): void
     {
         if (!$this->isParsingActive()) {
             return;
@@ -229,7 +229,7 @@ class ilAssQuestionSkillAssignmentXmlParser extends ilSaxParser
         }
     }
 
-    public function handlerCharacterData($xmlParser, $charData) : void
+    public function handlerCharacterData($xmlParser, $charData): void
     {
         if (!$this->isParsingActive()) {
             return;

@@ -1,4 +1,6 @@
-<?php declare(strict_types=0);
+<?php
+
+declare(strict_types=0);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * Course waiting list
  * @author  Stefan Meyer <smeyer.ilias@gmx.de>
@@ -33,7 +35,7 @@ class ilCourseWaitingList extends ilWaitingList
         parent::__construct($a_obj_id);
     }
 
-    public function addToList(int $a_usr_id) : bool
+    public function addToList(int $a_usr_id): bool
     {
         if (!parent::addToList($a_usr_id)) {
             return false;
@@ -50,7 +52,7 @@ class ilCourseWaitingList extends ilWaitingList
         return true;
     }
 
-    public function removeFromList(int $a_usr_id) : bool
+    public function removeFromList(int $a_usr_id): bool
     {
         if (!parent::removeFromList($a_usr_id)) {
             return false;

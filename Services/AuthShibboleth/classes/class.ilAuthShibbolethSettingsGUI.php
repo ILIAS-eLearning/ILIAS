@@ -59,7 +59,7 @@ class ilAuthShibbolethSettingsGUI
         $this->shib_settings = new ilShibbolethSettings();
     }
 
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         $cmd = $this->ctrl->getCmd();
         if (!$this->access->checkAccess('read', '', $this->ref_id)) {
@@ -76,7 +76,7 @@ class ilAuthShibbolethSettingsGUI
         $this->$cmd();
     }
 
-    public function settings() : void
+    public function settings(): void
     {
         $this->tabs_gui->setSubTabActive('shib_settings');
         $form = new ilShibbolethSettingsForm(
@@ -87,7 +87,7 @@ class ilAuthShibbolethSettingsGUI
         $this->tpl->setContent($form->getHTML());
     }
 
-    public function save() : void
+    public function save(): void
     {
         $form = new ilShibbolethSettingsForm(
             $this->shib_settings,
@@ -101,7 +101,7 @@ class ilAuthShibbolethSettingsGUI
         $this->tpl->setContent($form->getHTML());
     }
 
-    protected function roleAssignment() : bool
+    protected function roleAssignment(): bool
     {
         $this->tabs_gui->setSubTabActive('shib_role_assignment');
         $this->initFormRoleAssignment('default');
@@ -119,7 +119,7 @@ class ilAuthShibbolethSettingsGUI
         return true;
     }
 
-    protected function parseRulesTable() : string
+    protected function parseRulesTable(): string
     {
         if (ilShibbolethRoleAssignmentRules::getCountRules() === 0) {
             return '';
@@ -133,7 +133,7 @@ class ilAuthShibbolethSettingsGUI
         return $rules_table->getHTML();
     }
 
-    protected function confirmDeleteRules() : bool
+    protected function confirmDeleteRules(): bool
     {
         if (!$this->wrapper->post()->has('rule_ids')) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('select_one'));
@@ -148,7 +148,7 @@ class ilAuthShibbolethSettingsGUI
         $c_gui->setHeaderText($this->lng->txt("shib_confirm_del_role_ass"));
         $c_gui->setCancel($this->lng->txt("cancel"), "roleAssignment");
         $c_gui->setConfirm($this->lng->txt("confirm"), "deleteRules");
-    
+
         $rule_ids = $this->wrapper->post()->retrieve(
             'rule_ids',
             $this->refinery->to()->listOf($this->refinery->to()->int())
@@ -165,7 +165,7 @@ class ilAuthShibbolethSettingsGUI
         return true;
     }
 
-    protected function deleteRules() : bool
+    protected function deleteRules(): bool
     {
         if (!$this->wrapper->post()->has('rule_ids')) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('select_once'));
@@ -187,7 +187,7 @@ class ilAuthShibbolethSettingsGUI
         return true;
     }
 
-    protected function initFormRoleAssignment(string $a_mode = 'default') : void
+    protected function initFormRoleAssignment(string $a_mode = 'default'): void
     {
         $this->form = new ilPropertyFormGUI();
         $this->form->setFormAction($this->ctrl->getFormAction($this, 'cancel'));
@@ -256,12 +256,12 @@ class ilAuthShibbolethSettingsGUI
         $this->form->addItem($kind);
     }
 
-    public function addRoleAutoCompleteObject() : void
+    public function addRoleAutoCompleteObject(): void
     {
         ilRoleAutoCompleteInputGUI::echoAutoCompleteList();
     }
 
-    protected function addRoleAssignmentRule() : bool
+    protected function addRoleAssignmentRule(): bool
     {
         if (!$this->access->checkAccess('write', '', $this->ref_id)) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('permission_denied'), true);
@@ -296,7 +296,7 @@ class ilAuthShibbolethSettingsGUI
         return true;
     }
 
-    protected function editRoleAssignment() : bool
+    protected function editRoleAssignment(): bool
     {
         $this->ctrl->saveParameter($this, self::PARAM_RULE_ID);
         $this->tabs_gui->setSubTabActive('shib_role_assignment');
@@ -313,7 +313,7 @@ class ilAuthShibbolethSettingsGUI
         return true;
     }
 
-    protected function updateRoleAssignmentRule() : bool
+    protected function updateRoleAssignmentRule(): bool
     {
         global $DIC;
         $ilAccess = $DIC['ilAccess'];
@@ -326,7 +326,7 @@ class ilAuthShibbolethSettingsGUI
         $this->initFormRoleAssignment();
         $err = false;
         $role_id = $this->wrapper->query()->retrieve(self::PARAM_RULE_ID, $this->refinery->kindlyTo()->int());
-    
+
         if (!$this->form->checkInput() || $err = $this->checkInput($role_id)) {
             if ($err) {
                 $this->tpl->setOnScreenMessage('failure', $this->lng->txt($err));
@@ -350,7 +350,7 @@ class ilAuthShibbolethSettingsGUI
         return true;
     }
 
-    private function loadRule(int $a_rule_id = 0) : ilShibbolethRoleAssignmentRule
+    private function loadRule(int $a_rule_id = 0): ilShibbolethRoleAssignmentRule
     {
         $this->rule = new ilShibbolethRoleAssignmentRule($a_rule_id);
         if ((int) $this->form->getInput('role_name') === 0) {
@@ -382,7 +382,7 @@ class ilAuthShibbolethSettingsGUI
         return $this->rule;
     }
 
-    private function getRuleValues() : void
+    private function getRuleValues(): void
     {
         $rule_id = $this->wrapper->query()->has(self::PARAM_RULE_ID)
             ? $this->wrapper->query()->retrieve(self::PARAM_RULE_ID, $this->refinery->kindlyTo()->int())
@@ -410,7 +410,7 @@ class ilAuthShibbolethSettingsGUI
         $this->form->setValuesByArray($values);
     }
 
-    private function checkInput($a_rule_id = 0) : string
+    private function checkInput($a_rule_id = 0): string
     {
         $this->loadRule($a_rule_id);
 
@@ -420,7 +420,7 @@ class ilAuthShibbolethSettingsGUI
     /**
      * @return array<int|string, string>
      */
-    private function prepareRoleSelect() : array
+    private function prepareRoleSelect(): array
     {
         global $DIC;
 
@@ -435,7 +435,7 @@ class ilAuthShibbolethSettingsGUI
         return $select;
     }
 
-    protected function setSubTabs() : bool
+    protected function setSubTabs(): bool
     {
         global $DIC;
 

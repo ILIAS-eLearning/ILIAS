@@ -38,7 +38,7 @@ class ilCertificateVerificationFileService
     /**
      * @throws ilException
      */
-    public function createFile(ilUserCertificatePresentation $userCertificatePresentation) : ?ilCertificateVerificationObject
+    public function createFile(ilUserCertificatePresentation $userCertificatePresentation): ?ilCertificateVerificationObject
     {
         $userCertificate = $userCertificatePresentation->getUserCertificate();
         $objectType = $userCertificate->getObjType();
@@ -91,7 +91,7 @@ class ilCertificateVerificationFileService
         return null;
     }
 
-    public function initStorage(int $objectId, string $subDirectory = '') : string
+    public function initStorage(int $objectId, string $subDirectory = ''): string
     {
         $storage = new ilVerificationStorageFile($objectId);
         $storage->create();

@@ -28,14 +28,14 @@ class ilCertificateVerificationObject extends ilVerificationObject
     /**
      * @inheritDoc
      */
-    protected function initType() : void
+    protected function initType(): void
     {
     }
 
     /**
      * @inheritDoc
      */
-    protected function getPropertyMap() : array
+    protected function getPropertyMap(): array
     {
         return array(
             "issued_on" => self::TYPE_DATE,

@@ -1,4 +1,6 @@
-<?php declare(strict_types=0);
+<?php
+
+declare(strict_types=0);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -54,7 +56,7 @@ class ilLPObjectStatisticsLPTableGUI extends ilLPTableBaseGUI
         parent::__construct($a_parent_obj, $a_parent_cmd);
     }
 
-    public function init() : void
+    public function init(): void
     {
         if (!$this->is_details) {
             $this->setShowRowsSelector(true);
@@ -150,7 +152,7 @@ class ilLPObjectStatisticsLPTableGUI extends ilLPTableBaseGUI
         );
     }
 
-    public function loadItems() : void
+    public function loadItems(): void
     {
         if ($this->is_details) {
             $this->getDetailItems($this->preselected[0]);
@@ -159,7 +161,7 @@ class ilLPObjectStatisticsLPTableGUI extends ilLPTableBaseGUI
             $this->getItems();
         }
     }
-    public function getSelectableColumns() : array
+    public function getSelectableColumns(): array
     {
         if ($this->is_details) {
             return [];
@@ -193,7 +195,7 @@ class ilLPObjectStatisticsLPTableGUI extends ilLPTableBaseGUI
     }
 
 
-    public function numericOrdering(string $a_field) : bool
+    public function numericOrdering(string $a_field): bool
     {
         $alphabetic_ordering = [
             'title'
@@ -208,7 +210,7 @@ class ilLPObjectStatisticsLPTableGUI extends ilLPTableBaseGUI
     /**
      * Init filter
      */
-    public function initFilter() : void
+    public function initFilter(): void
     {
         $this->setDisableFilterHiding(true);
 
@@ -401,7 +403,7 @@ class ilLPObjectStatisticsLPTableGUI extends ilLPTableBaseGUI
         $this->setData($data);
     }
 
-    protected function getDetailItems(int $a_obj_id) : void
+    protected function getDetailItems(int $a_obj_id): void
     {
         $data = array();
         $all_status = array_merge(array("mem_cnt"), $this->status);
@@ -467,7 +469,7 @@ class ilLPObjectStatisticsLPTableGUI extends ilLPTableBaseGUI
         $this->setData($data);
     }
 
-    protected function initRow(array &$a_row) : void
+    protected function initRow(array &$a_row): void
     {
         foreach ($this->types as $type) {
             $a_row["mem_cnt_" . $type] = null;
@@ -482,7 +484,7 @@ class ilLPObjectStatisticsLPTableGUI extends ilLPTableBaseGUI
     /**
      * Fill table row
      */
-    protected function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set): void
     {
         global $DIC;
 
@@ -582,7 +584,7 @@ class ilLPObjectStatisticsLPTableGUI extends ilLPTableBaseGUI
         }
     }
 
-    public function getGraph(array $a_graph_items) : string
+    public function getGraph(array $a_graph_items): string
     {
         $a_graph_items = array(array_pop($a_graph_items));
 
@@ -696,7 +698,7 @@ class ilLPObjectStatisticsLPTableGUI extends ilLPTableBaseGUI
         return $chart->getHTML();
     }
 
-    protected function initLearningProgressDetailsLayer() : void
+    protected function initLearningProgressDetailsLayer(): void
     {
         global $DIC;
 

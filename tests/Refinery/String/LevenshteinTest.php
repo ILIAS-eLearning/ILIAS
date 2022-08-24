@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -46,7 +48,7 @@ class LevenshteinTest extends TestCase
      */
     private $test_emoji = "😮‍💨";
 
-    public function setUp() : void
+    public function setUp(): void
     {
         $this->factory = new Factory();
         $language = $this->getMockBuilder(ilLanguage::class)

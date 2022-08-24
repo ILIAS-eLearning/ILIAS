@@ -15,7 +15,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\Tests\Setup\CLI;
 
 use PHPUnit\Framework\TestCase;
@@ -29,17 +29,17 @@ class HasConfigReaderTest extends TestCase
 {
     protected $has_config_reader;
 
-    public function setUp() : void
+    public function setUp(): void
     {
         $this->config_reader = $this->createMock(ConfigReader::class);
-        $this->has_config_reader = new class($this->config_reader) {
+        $this->has_config_reader = new class ($this->config_reader) {
             use HasConfigReader;
             public function __construct($cr)
             {
                 $this->config_reader = $cr;
             }
 
-            public function _readAgentConfig(Agent $agent, InputInterface $input) : ?Config
+            public function _readAgentConfig(Agent $agent, InputInterface $input): ?Config
             {
                 return $this->readAgentConfig($agent, $input);
             }

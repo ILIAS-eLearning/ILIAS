@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\UI\Implementation\Component\Dropdown;
 
 use ILIAS\UI\Component\Dropdown as D;
@@ -25,7 +27,7 @@ class Factory implements D\Factory
     /**
      * @inheritdoc
      */
-    public function standard(array $items) : D\Standard
+    public function standard(array $items): D\Standard
     {
         return new Standard($items);
     }

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -40,7 +42,7 @@ class ColorDBRepo
         int $style_id,
         string $a_name,
         string $a_code
-    ) : void {
+    ): void {
         $db = $this->db;
 
         $db->insert("style_color", [
@@ -56,7 +58,7 @@ class ColorDBRepo
     public function colorExists(
         int $style_id,
         string $a_color_name
-    ) : bool {
+    ): bool {
         $db = $this->db;
 
         $set = $db->query("SELECT * FROM style_color WHERE " .
@@ -73,7 +75,7 @@ class ColorDBRepo
         string $name,
         string $new_name,
         string $code
-    ) : void {
+    ): void {
         $db = $this->db;
 
         $db->update(

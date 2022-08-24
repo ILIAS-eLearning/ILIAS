@@ -43,7 +43,7 @@ class ilTermQuickListTableGUI extends ilTable2GUI
             ->gui()
             ->editing()
             ->request();
-        
+
         $this->glossary = $a_parent_obj->glossary;
         $this->setId("gloqtl" . $this->glossary->getId());
 
@@ -56,14 +56,14 @@ class ilTermQuickListTableGUI extends ilTable2GUI
         $this->setEnableTitle(false);
         $this->setData($this->glossary->getTermList("", "", "", 0, false, false, null, true));
     }
-    
-    protected function fillRow(array $a_set) : void
+
+    protected function fillRow(array $a_set): void
     {
         $ilCtrl = $this->ctrl;
 
         $defs = ilGlossaryDefinition::getDefinitionList($a_set["id"]);
         $ilCtrl->setParameterByClass("ilglossarytermgui", "term_id", $a_set["id"]);
-        
+
         $sep = ": ";
         for ($j = 0, $jMax = count($defs); $j < $jMax; $j++) {
             $def = $defs[$j];
@@ -90,13 +90,13 @@ class ilTermQuickListTableGUI extends ilTable2GUI
         if ($a_set["id"] == $this->request->getTermId()) {
             $this->tpl->touchBlock("hl");
         }
-        
+
         $this->tpl->setVariable("TEXT_TERM", $a_set["term"]);
         $this->tpl->setVariable(
             "LINK_EDIT_TERM",
             $ilCtrl->getLinkTargetByClass("ilglossarytermgui", "editTerm")
         );
-        
+
         $ilCtrl->setParameterByClass(
             "ilglossarytermgui",
             "term_id",

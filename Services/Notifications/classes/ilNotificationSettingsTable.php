@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /******************************************************************************
  *
@@ -78,17 +80,17 @@ class ilNotificationSettingsTable extends ilTable2GUI
         $this->setSelectAllCheckbox('');
     }
 
-    public function setEditable(bool $editable) : void
+    public function setEditable(bool $editable): void
     {
         $this->editable = $editable;
     }
 
-    public function isEditable() : bool
+    public function isEditable(): bool
     {
         return $this->editable;
     }
 
-    protected function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set): void
     {
         $this->tpl->setVariable('NOTIFICATION_TARGET', $this->language->txt('nott_' . $a_set['title']));
 
@@ -118,7 +120,7 @@ class ilNotificationSettingsTable extends ilTable2GUI
 
             $this->tpl->setVariable('CHANNEL', $channeltype);
             $this->tpl->setVariable('TYPE', $a_set['name']);
-            
+
             $this->tpl->parseCurrentBlock();
         }
     }

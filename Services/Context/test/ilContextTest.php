@@ -10,7 +10,7 @@ use PHPUnit\Framework\TestCase;
  */
 class ilContextTest extends TestCase
 {
-    protected function setUp() : void
+    protected function setUp(): void
     {
         require_once("Services/Context/test/class.ilContextExtended.php");
     }
@@ -18,7 +18,7 @@ class ilContextTest extends TestCase
     /**
      * @dataProvider contextProvider
      */
-    public function testInit(string $context, string $className) : void
+    public function testInit(string $context, string $className): void
     {
         $context_obj = ilContextExtended::init($context);
         $this->assertTrue($context_obj);
@@ -26,7 +26,7 @@ class ilContextTest extends TestCase
         $this->assertEquals(ilContextExtended::getClassName(), $className);
     }
 
-    public function contextProvider() : array
+    public function contextProvider(): array
     {
         return [
             [ilContext::CONTEXT_WEB, ilContextWeb::class],

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -46,7 +48,7 @@ class ilNotificationOSDRepository implements ilNotificationOSDRepositoryInterfac
         $this->database = $database;
     }
 
-    public function createOSDNotification(int $user_id, ilNotificationObject $object) : ?ilOSDNotificationObject
+    public function createOSDNotification(int $user_id, ilNotificationObject $object): ?ilOSDNotificationObject
     {
         $id = $this->database->nextId(ilNotificationSetupHelper::$tbl_notification_osd_handler);
         $base = $object->baseNotification;
@@ -82,7 +84,7 @@ class ilNotificationOSDRepository implements ilNotificationOSDRepositoryInterfac
         return ($affected === 1) ? $notification : null;
     }
 
-    public function ifOSDNotificationExistsById(int $id) : bool
+    public function ifOSDNotificationExistsById(int $id): bool
     {
         $query = 'SELECT count(*) AS count FROM ' . ilNotificationSetupHelper::$tbl_notification_osd_handler . ' WHERE notification_osd_id = %s';
         $result = $this->database->queryF($query, ['integer'], [$id]);
@@ -93,7 +95,7 @@ class ilNotificationOSDRepository implements ilNotificationOSDRepositoryInterfac
     /**
      * @return ilOSDNotificationObject[]
      */
-    public function getOSDNotificationsByUser(int $user_id, int $max_age_seconds = 0, string $type = '') : array
+    public function getOSDNotificationsByUser(int $user_id, int $max_age_seconds = 0, string $type = ''): array
     {
         $now = time();
         if ($max_age_seconds === 0) {
@@ -136,7 +138,7 @@ class ilNotificationOSDRepository implements ilNotificationOSDRepositoryInterfac
         return $notifications;
     }
 
-    public function deleteOSDNotificationById(int $id) : bool
+    public function deleteOSDNotificationById(int $id): bool
     {
         if ($this->ifOSDNotificationExistsById($id)) {
             $query = 'DELETE FROM ' . ilNotificationSetupHelper::$tbl_notification_osd_handler . ' WHERE notification_osd_id = %s';
@@ -145,7 +147,7 @@ class ilNotificationOSDRepository implements ilNotificationOSDRepositoryInterfac
         return false;
     }
 
-    private function deleteOSDNotificationByUserAndType(int $user_id, string $type) : int
+    private function deleteOSDNotificationByUserAndType(int $user_id, string $type): int
     {
         $query = 'DELETE FROM ' . ilNotificationSetupHelper::$tbl_notification_osd_handler . ' WHERE usr_id = %s AND type = %s';
         return $this->database->manipulateF($query, ['integer', 'text'], [$user_id, $type]);

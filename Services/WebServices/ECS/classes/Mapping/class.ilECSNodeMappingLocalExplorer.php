@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /******************************************************************************
  *
@@ -31,21 +33,21 @@ class ilECSNodeMappingLocalExplorer extends ilExplorer
     private string $post_var = '';
     private array $form_items = [];
     private int $type;
-    
+
     private int $sid;
     private int $mid;
-    
+
     private array $mappings = [];
 
     public function __construct(string $a_target, int $a_sid, int $a_mid)
     {
         parent::__construct($a_target);
-        
+
         $this->sid = $a_sid;
         $this->mid = $a_mid;
 
         $this->type = self::SEL_TYPE_RADIO;
-        
+
         $this->setRoot($this->tree->readRootId());
         $this->setOrderColumn('title');
 
@@ -61,16 +63,16 @@ class ilECSNodeMappingLocalExplorer extends ilExplorer
 
         $this->setFiltered(true);
         $this->setFilterMode(IL_FM_POSITIVE);
-        
+
         $this->initMappings();
     }
-    
-    public function getSid() : int
+
+    public function getSid(): int
     {
         return $this->sid;
     }
-    
-    public function getMid() : int
+
+    public function getMid(): int
     {
         return $this->mid;
     }
@@ -78,7 +80,7 @@ class ilECSNodeMappingLocalExplorer extends ilExplorer
     /**
      * no item is clickable
      */
-    public function isClickable(string $type, int $ref_id = 0) : bool
+    public function isClickable(string $type, int $ref_id = 0): bool
     {
         return false;
     }
@@ -86,41 +88,41 @@ class ilECSNodeMappingLocalExplorer extends ilExplorer
     /**
      * Add form item
      */
-    public function addFormItemForType($type) : void
+    public function addFormItemForType($type): void
     {
         $this->form_items[$type] = true;
     }
 
-    public function removeFormItemForType($type) : void
+    public function removeFormItemForType($type): void
     {
         $this->form_items[$type] = false;
     }
 
-    public function setCheckedItems($a_checked_items = array()) : void
+    public function setCheckedItems($a_checked_items = array()): void
     {
         $this->checked_items = $a_checked_items;
     }
 
-    public function getCheckedItems() : array
+    public function getCheckedItems(): array
     {
         return $this->checked_items;
     }
 
-    public function isItemChecked(int $a_id) : bool
+    public function isItemChecked(int $a_id): bool
     {
         return in_array($a_id, $this->checked_items, true);
     }
 
-    public function setPostVar(string $a_post_var) : void
+    public function setPostVar(string $a_post_var): void
     {
         $this->post_var = $a_post_var;
     }
-    public function getPostVar() : string
+    public function getPostVar(): string
     {
         return $this->post_var;
     }
 
-    public function buildFormItem($a_node_id, int $a_type) : string
+    public function buildFormItem($a_node_id, int $a_type): string
     {
         if (!array_key_exists($a_type, $this->form_items) || !$this->form_items[$a_type]) {
             return '';
@@ -148,7 +150,7 @@ class ilECSNodeMappingLocalExplorer extends ilExplorer
      * @param int|string $a_node_id
      * @throws ilTemplateException
      */
-    public function formatObject(ilTemplate $tpl, $a_node_id, array $a_option, $a_obj_id = 0) : void
+    public function formatObject(ilTemplate $tpl, $a_node_id, array $a_option, $a_obj_id = 0): void
     {
         if (!isset($a_node_id) || !is_array($a_option)) {
             $this->error->raiseError(get_class($this) . "::formatObject(): Missing parameter or wrong datatype! " .
@@ -265,7 +267,7 @@ class ilECSNodeMappingLocalExplorer extends ilExplorer
     /**
      * overwritten method from base class
      */
-    public function formatHeader(ilTemplate $tpl, $a_obj_id, array $a_option) : void
+    public function formatHeader(ilTemplate $tpl, $a_obj_id, array $a_option): void
     {
         // custom icons
         $path = ilObject::_getIcon((int) $a_obj_id, "tiny", "root");
@@ -297,11 +299,11 @@ class ilECSNodeMappingLocalExplorer extends ilExplorer
             $tpl->setVariable('OBJ_TITLE', $title);
         }
     }
-    
+
     /**
      * Format title (bold for direct mappings, italic for child mappings)
      */
-    public function buildTitle(string $a_title, $a_id, string $a_type) : string
+    public function buildTitle(string $a_title, $a_id, string $a_type): string
     {
         if ($this->isMapped($a_id)) {
             return '<font style="font-weight: bold">' . $a_title . '</font>';
@@ -311,29 +313,29 @@ class ilECSNodeMappingLocalExplorer extends ilExplorer
         }
         return $a_title;
     }
-    
+
     /**
      * Init (read) current mappings
      */
-    protected function initMappings() : bool
+    protected function initMappings(): bool
     {
         $mappings = array();
         foreach (ilECSCourseMappingRule::getRuleRefIds($this->getSid(), $this->getMid()) as $ref_id) {
             $mappings[$ref_id] = [];
         }
-        
+
         foreach (array_keys($mappings) as $ref_id) {
             $this->mappings[$ref_id] = $this->tree->getPathId($ref_id, 1);
         }
         return true;
     }
-    
-    protected function isMapped($a_ref_id) : bool
+
+    protected function isMapped($a_ref_id): bool
     {
         return array_key_exists($a_ref_id, $this->mappings);
     }
-    
-    protected function hasParentMapping($a_ref_id) : bool
+
+    protected function hasParentMapping($a_ref_id): bool
     {
         foreach ($this->mappings as $parent_nodes) {
             if (in_array($a_ref_id, $parent_nodes, true)) {

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -42,7 +44,7 @@ class Js extends AbstractMediaWithPath
     /**
      * @return bool
      */
-    public function addVersionNumber() : bool
+    public function addVersionNumber(): bool
     {
         return $this->add_version_number;
     }
@@ -50,7 +52,7 @@ class Js extends AbstractMediaWithPath
     /**
      * @return int
      */
-    public function getBatch() : int
+    public function getBatch(): int
     {
         return $this->batch;
     }

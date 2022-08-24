@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -87,7 +89,7 @@ class ilCertificateLearningHistoryProvider extends ilAbstractLearningHistoryProv
         $this->utilHelper = $utilHelper;
     }
 
-    public function isActive() : bool
+    public function isActive(): bool
     {
         return (bool) $this->certificateSettings->get('active', '0');
     }
@@ -98,7 +100,7 @@ class ilCertificateLearningHistoryProvider extends ilAbstractLearningHistoryProv
      * @param int $ts_end
      * @return ilLearningHistoryEntry[]
      */
-    public function getEntries(int $ts_start, int $ts_end) : array
+    public function getEntries(int $ts_start, int $ts_end): array
     {
         $entries = [];
 
@@ -151,7 +153,7 @@ class ilCertificateLearningHistoryProvider extends ilAbstractLearningHistoryProv
         return $entries;
     }
 
-    public function getName() : string
+    public function getName(): string
     {
         return $this->lng->txt('certificates');
     }

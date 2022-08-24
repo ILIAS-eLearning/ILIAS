@@ -61,16 +61,16 @@ class ilNewsTimelineItemGUI implements ilTimelineItemInt
         ilNewsItem $a_news_item,
         int $a_news_ref_id,
         ilLikeGUI $a_like_gui
-    ) : self {
+    ): self {
         return new self($a_news_item, $a_news_ref_id, $a_like_gui);
     }
 
-    public function setNewsItem(ilNewsItem $a_val) : void
+    public function setNewsItem(ilNewsItem $a_val): void
     {
         $this->news_item = $a_val;
     }
 
-    public function getNewsItem() : ilNewsItem
+    public function getNewsItem(): ilNewsItem
     {
         return $this->news_item;
     }
@@ -78,7 +78,7 @@ class ilNewsTimelineItemGUI implements ilTimelineItemInt
     /**
      * Set user can edit other users postings
      */
-    public function setUserEditAll(bool $a_val) : void
+    public function setUserEditAll(bool $a_val): void
     {
         $this->user_edit_all = $a_val;
     }
@@ -86,18 +86,18 @@ class ilNewsTimelineItemGUI implements ilTimelineItemInt
     /**
      * Get user can edit other users postings
      */
-    public function getUserEditAll() : bool
+    public function getUserEditAll(): bool
     {
         return $this->user_edit_all;
     }
 
-    public function getDateTime() : ilDateTime
+    public function getDateTime(): ilDateTime
     {
         $i = $this->getNewsItem();
         return new ilDateTime($i->getCreationDate(), IL_CAL_DATETIME);
     }
 
-    public function render() : string
+    public function render(): string
     {
         $i = $this->getNewsItem();
         $tpl = new ilTemplate("tpl.timeline_item.html", true, true, "Services/News");
@@ -199,7 +199,7 @@ class ilNewsTimelineItemGUI implements ilTimelineItemInt
         return $tpl->get();
     }
 
-    protected function renderMedia(ilNewsItem $i) : string
+    protected function renderMedia(ilNewsItem $i): string
     {
         global $DIC;
 
@@ -232,7 +232,7 @@ class ilNewsTimelineItemGUI implements ilTimelineItemInt
         return $html;
     }
 
-    protected function renderMediaModal(ilNewsItem $i) : string
+    protected function renderMediaModal(ilNewsItem $i): string
     {
         global $DIC;
 
@@ -258,7 +258,7 @@ class ilNewsTimelineItemGUI implements ilTimelineItemInt
         return $modal_html;
     }
 
-    public function renderFooter() : string
+    public function renderFooter(): string
     {
         $i = $this->getNewsItem();
 
@@ -294,7 +294,7 @@ class ilNewsTimelineItemGUI implements ilTimelineItemInt
         return $html . $this->renderMediaModal($i);
     }
 
-    protected function getMediaPath(ilNewsItem $i) : string
+    protected function getMediaPath(ilNewsItem $i): string
     {
         $media_path = "";
         if ($i->getMobId() > 0) {

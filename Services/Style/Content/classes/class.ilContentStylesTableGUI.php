@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -58,7 +60,7 @@ class ilContentStylesTableGUI extends ilTable2GUI
         $this->addColumn($this->lng->txt("sty_scope"));
         $this->addColumn($this->lng->txt("active"));
         $this->addColumn($this->lng->txt("actions"));
-        
+
         $this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
         $this->setRowTemplate("tpl.content_style_row.html", "Services/Style/Content");
         if ($this->parent_obj->checkPermission("sty_write_content", false)) {
@@ -70,7 +72,7 @@ class ilContentStylesTableGUI extends ilTable2GUI
     /**
      * Fill table row
      */
-    protected function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set): void
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;

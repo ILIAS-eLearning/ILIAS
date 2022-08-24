@@ -1,7 +1,9 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 
-    
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -71,7 +73,7 @@ class ilMembershipCronNotificationsData
     /**
      * Load
      */
-    protected function load() : void
+    protected function load(): void
     {
         $ilAccess = $this->access;
 
@@ -213,7 +215,7 @@ class ilMembershipCronNotificationsData
     /**
      * Get missing news*
      */
-    protected function checkMissingNews(int $user_id, int $ref_id, int $news_id) : void
+    protected function checkMissingNews(int $user_id, int $ref_id, int $news_id): void
     {
         $this->log->debug("Check missing news: " . $user_id . "-" . $ref_id . "-" . $news_id);
         if (!is_array($this->news_per_user[$user_id][$ref_id]) ||
@@ -227,7 +229,7 @@ class ilMembershipCronNotificationsData
     /**
      * Load missing news (news for new likes and/or comments)
      */
-    protected function loadMissingNews() : void
+    protected function loadMissingNews(): void
     {
         foreach (ilNewsItem::queryNewsByIds($this->missing_news) as $news) {
             $this->log->debug("Got missing news: " . $news["id"]);
@@ -247,7 +249,7 @@ class ilMembershipCronNotificationsData
     /**
      * Get subtree object IDs for ref id
      */
-    protected function getObjectsForRefId(int $a_ref_id) : array
+    protected function getObjectsForRefId(int $a_ref_id): array
     {
         global $DIC;
 
@@ -279,7 +281,7 @@ class ilMembershipCronNotificationsData
     /**
      * Ping
      */
-    protected function ping() : void
+    protected function ping(): void
     {
         global $DIC;
 
@@ -289,7 +291,7 @@ class ilMembershipCronNotificationsData
     /**
      * Get aggregated news
      */
-    public function getAggregatedNews() : array
+    public function getAggregatedNews(): array
     {
         return $this->user_news_aggr;
     }
@@ -297,7 +299,7 @@ class ilMembershipCronNotificationsData
     /**
      * Get likes for a news and user
      */
-    public function getLikes(int $news_id, int $user_id) : array
+    public function getLikes(int $news_id, int $user_id): array
     {
         if (is_array($this->likes[$user_id][$news_id])) {
             return $this->likes[$user_id][$news_id];
@@ -308,7 +310,7 @@ class ilMembershipCronNotificationsData
     /**
      * Get comments for a news and user
      **/
-    public function getComments(int $news_id, int $user_id) : array
+    public function getComments(int $news_id, int $user_id): array
     {
         if (is_array($this->comments[$user_id][$news_id])) {
             return $this->comments[$user_id][$news_id];

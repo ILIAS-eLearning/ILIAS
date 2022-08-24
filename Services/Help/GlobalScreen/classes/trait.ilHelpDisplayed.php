@@ -22,7 +22,7 @@
  */
 trait ilHelpDisplayed
 {
-    protected function showHelpTool() : bool
+    protected function showHelpTool(): bool
     {
         static $show;
 

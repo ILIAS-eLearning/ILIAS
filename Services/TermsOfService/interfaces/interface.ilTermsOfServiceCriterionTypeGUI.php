@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -25,11 +27,11 @@ use ILIAS\UI\Factory;
  */
 interface ilTermsOfServiceCriterionTypeGUI
 {
-    public function appendOption(ilRadioGroupInputGUI $group, ilTermsOfServiceCriterionConfig $config) : void;
+    public function appendOption(ilRadioGroupInputGUI $group, ilTermsOfServiceCriterionConfig $config): void;
 
-    public function getConfigByForm(ilPropertyFormGUI $form) : ilTermsOfServiceCriterionConfig;
+    public function getConfigByForm(ilPropertyFormGUI $form): ilTermsOfServiceCriterionConfig;
 
-    public function getIdentPresentation() : string;
+    public function getIdentPresentation(): string;
 
-    public function getValuePresentation(ilTermsOfServiceCriterionConfig $config, Factory $uiFactory) : Component;
+    public function getValuePresentation(ilTermsOfServiceCriterionConfig $config, Factory $uiFactory): Component;
 }

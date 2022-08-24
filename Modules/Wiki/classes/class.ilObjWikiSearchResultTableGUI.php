@@ -23,36 +23,36 @@
  */
 class ilObjWikiSearchResultTableGUI extends ilRepositoryObjectSearchResultTableGUI
 {
-    public function parse() : void
+    public function parse(): void
     {
         $ilCtrl = $this->ctrl;
-        
+
         $rows = array();
         foreach ($this->getResults()->getResults() as $result_set) {
             $row = array();
             $row['title'] = ilWikiPage::lookupTitle($result_set['item_id']);
-            
+
             $ilCtrl->setParameterByClass(
                 'ilwikipagegui',
                 'page',
                 ilWikiUtil::makeUrlTitle($row['title'])
             );
             $row['link'] = $ilCtrl->getLinkTargetByClass('ilwikipagegui', 'preview');
-            
+
             $row['relevance'] = (float) ($result_set['relevance'] ?? 0);
             $row['content'] = $result_set['content'] ?? "";
-            
+
             $rows[] = $row;
         }
-        
+
         $this->setData($rows);
     }
-    
-    protected function fillRow(array $a_set) : void
+
+    protected function fillRow(array $a_set): void
     {
         $this->tpl->setVariable('HREF_ITEM', $a_set['link']);
         $this->tpl->setVariable('TXT_ITEM_TITLE', $a_set['title']);
-        
+
         if ($this->getSettings()->enabledLucene()) {
             $this->tpl->setVariable('RELEVANCE', $this->getRelevanceHTML($a_set['relevance']));
         }

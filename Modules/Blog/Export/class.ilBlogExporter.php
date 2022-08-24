@@ -25,7 +25,7 @@ class ilBlogExporter extends ilXmlExporter
     protected ilBlogDataSet $ds;
     protected \ILIAS\Style\Content\DomainService $content_style_domain;
 
-    public function init() : void
+    public function init(): void
     {
         global $DIC;
 
@@ -35,14 +35,14 @@ class ilBlogExporter extends ilXmlExporter
             ->contentStyle()
             ->domain();
     }
-    
+
     public function getXmlExportTailDependencies(
         string $a_entity,
         string $a_target_release,
         array $a_ids
-    ) : array {
+    ): array {
         $res = array();
-        
+
         // postings
         $pg_ids = array();
         foreach ($a_ids as $id) {
@@ -58,7 +58,7 @@ class ilBlogExporter extends ilXmlExporter
                 "ids" => $pg_ids
             );
         }
-        
+
         // style
         $style_ids = array();
         foreach ($a_ids as $id) {
@@ -83,19 +83,19 @@ class ilBlogExporter extends ilXmlExporter
 
         return $res;
     }
-    
+
     public function getXmlRepresentation(
         string $a_entity,
         string $a_schema_version,
         string $a_id
-    ) : string {
+    ): string {
         $this->ds->setExportDirectories($this->dir_relative, $this->dir_absolute);
         return $this->ds->getXmlRepresentation($a_entity, $a_schema_version, [$a_id], "", true, true);
     }
-    
+
     public function getValidSchemaVersions(
         string $a_entity
-    ) : array {
+    ): array {
         return array(
                 "4.3.0" => array(
                         "namespace" => "https://www.ilias.de/Modules/Blog/4_3",
@@ -109,7 +109,7 @@ class ilBlogExporter extends ilXmlExporter
                         "uses_dataset" => true,
                         "min" => "5.0.0",
                         "max" => "")
-            
+
         );
     }
 }

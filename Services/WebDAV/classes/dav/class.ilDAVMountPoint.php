@@ -1,4 +1,6 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 use Sabre\DAV\Exception\Forbidden;
 use Sabre\DAV\ICollection;
 
@@ -31,7 +33,7 @@ use Sabre\DAV\ICollection;
 class ilDAVMountPoint implements ICollection
 {
     use ilWebDAVReadOnlyNodeWriteFunctionsTrait;
-    
+
     protected string $client_id;
     protected int $user_id;
     protected ilWebDAVObjFactory $web_dav_object_factory;
@@ -49,7 +51,7 @@ class ilDAVMountPoint implements ICollection
         $this->user_id = $user->getId();
     }
 
-    public function getName() : string
+    public function getName(): string
     {
         return 'MountPoint';
     }
@@ -57,7 +59,7 @@ class ilDAVMountPoint implements ICollection
     /**
      * @return \Sabre\DAV\INode[]
      */
-    public function getChildren() : array
+    public function getChildren(): array
     {
         if ($this->user_id === ANONYMOUS_USER_ID) {
             throw new Forbidden('Only for logged in users');
@@ -65,12 +67,12 @@ class ilDAVMountPoint implements ICollection
         return array($this->web_dav_object_factory->getClientNode($this->client_id));
     }
 
-    public function getChild($name) : ilDAVClientNode
+    public function getChild($name): ilDAVClientNode
     {
         return $this->web_dav_object_factory->getClientNode($name);
     }
 
-    public function childExists($name) : bool
+    public function childExists($name): bool
     {
         if ($name === $this->client_id) {
             return true;
@@ -78,7 +80,7 @@ class ilDAVMountPoint implements ICollection
         return false;
     }
 
-    public function getLastModified() : int
+    public function getLastModified(): int
     {
         return strtotime('2000-01-01');
     }

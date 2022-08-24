@@ -1,4 +1,6 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types=1);
 
 /* Copyright (c) 2021 Thibeau Fuhrer <thf@studer-raimann.ch> Extended GPL, see docs/LICENSE */
 
@@ -19,12 +21,12 @@ class ilCtrlStructureReaderTest extends TestCase
     /**
      * @inheritDoc
      */
-    protected function setUp() : void
+    protected function setUp(): void
     {
         $this->expected_test_gui_structure = require __DIR__ . '/../Data/Structure/test_ctrl_structure.php';
     }
 
-    public function testStructureReaderWithValidArrayIterator() : void
+    public function testStructureReaderWithValidArrayIterator(): void
     {
         $class_map = require __DIR__ . '/../Data/ClassMaps/valid_class_map.php';
         $reader = new ilCtrlStructureReader(
@@ -41,7 +43,7 @@ class ilCtrlStructureReaderTest extends TestCase
         $this->assertTrue($reader->isExecuted());
     }
 
-    public function testStructureReaderWithInvalidArrayIterator() : void
+    public function testStructureReaderWithInvalidArrayIterator(): void
     {
         $class_map = require __DIR__ . '/../Data/ClassMaps/invalid_class_map.php';
         $reader = new ilCtrlStructureReader(
@@ -54,7 +56,7 @@ class ilCtrlStructureReaderTest extends TestCase
         $this->assertTrue($reader->isExecuted());
     }
 
-    public function testStructureReaderWithEmptyArrayIterator() : void
+    public function testStructureReaderWithEmptyArrayIterator(): void
     {
         $reader = new ilCtrlStructureReader(
             new ilCtrlArrayIterator([]),

@@ -58,7 +58,7 @@ class ilAchievements
     /**
      * Is sub-service active?
      */
-    public function isActive(int $service) : bool
+    public function isActive(int $service): bool
     {
         switch ($service) {
             case self::SERV_LEARNING_HISTORY:
@@ -85,7 +85,7 @@ class ilAchievements
     /**
      * Is any sub-service active?
      */
-    public function isAnyActive() : bool
+    public function isAnyActive(): bool
     {
         foreach ($this->services as $s) {
             if ($this->isActive($s)) {
@@ -99,7 +99,7 @@ class ilAchievements
      * Get active services
      * @return int[]
      */
-    public function getActiveServices() : array
+    public function getActiveServices(): array
     {
         return array_filter($this->services, function ($s) {
             return $this->isActive($s);

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -37,17 +39,17 @@ class ilQTISetvar
     public ?string $action = null;
     public ?string $content = null;
 
-    public function setVarname(string $a_varname) : void
+    public function setVarname(string $a_varname): void
     {
         $this->varname = $a_varname;
     }
 
-    public function getVarname() : ?string
+    public function getVarname(): ?string
     {
         return $this->varname;
     }
 
-    public function setAction(string $a_action) : void
+    public function setAction(string $a_action): void
     {
         switch (strtolower($a_action)) {
             case "set":
@@ -73,17 +75,17 @@ class ilQTISetvar
         }
     }
 
-    public function getAction() : ?string
+    public function getAction(): ?string
     {
         return $this->action;
     }
 
-    public function setContent(string $a_content) : void
+    public function setContent(string $a_content): void
     {
         $this->content = $a_content;
     }
 
-    public function getContent() : ?string
+    public function getContent(): ?string
     {
         return $this->content;
     }

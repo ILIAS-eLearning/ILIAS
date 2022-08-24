@@ -34,32 +34,32 @@ class AdministrationGUIRequest
         );
     }
 
-    public function getRefId() : int
+    public function getRefId(): int
     {
         return $this->int("ref_id");
     }
 
-    public function getObjId() : int
+    public function getObjId(): int
     {
         return $this->int("obj_id");
     }
 
-    public function getLayoutId() : int
+    public function getLayoutId(): int
     {
         return $this->int("layout_id");
     }
 
-    public function getLayoutIds() : array
+    public function getLayoutIds(): array
     {
         return $this->intArray("pglayout");
     }
 
-    public function getLayoutTypes() : array
+    public function getLayoutTypes(): array
     {
         return $this->strArray("type");
     }
 
-    public function getLayoutModules() : array
+    public function getLayoutModules(): array
     {
         return $this->arrayArray("module");
     }

@@ -34,7 +34,6 @@ use ILIAS\Filesystem\Exception\IOException;
  */
 interface FileReadAccess
 {
-
     /**
      * Reads a file content to a string.
      *
@@ -48,7 +47,7 @@ interface FileReadAccess
      * @since 5.3
      * @version 1.0
      */
-    public function read(string $path) : string;
+    public function read(string $path): string;
 
 
     /**
@@ -61,7 +60,7 @@ interface FileReadAccess
      * @since 5.3
      * @version 1.0
      */
-    public function has(string $path) : bool;
+    public function has(string $path): bool;
 
     /**
      * Get a files mime-type.
@@ -73,7 +72,7 @@ interface FileReadAccess
      * @throws FileNotFoundException    If the file is not found.
      * @throws IOException              If the mime-type could not be determined.
      */
-    public function getMimeType(string $path) : string;
+    public function getMimeType(string $path): string;
 
 
     /**
@@ -89,7 +88,7 @@ interface FileReadAccess
      * @since 5.3
      * @version 1.0
      */
-    public function getTimestamp(string $path) : \DateTimeImmutable;
+    public function getTimestamp(string $path): \DateTimeImmutable;
 
 
     /**
@@ -109,7 +108,7 @@ interface FileReadAccess
      *
      * @see     DataSize
      */
-    public function getSize(string $path, int $fileSizeUnit) : DataSize;
+    public function getSize(string $path, int $fileSizeUnit): DataSize;
 
     /**
      * Sets the visibility for a file.
@@ -128,7 +127,7 @@ interface FileReadAccess
      * @since 5.3
      * @version 1.0
      */
-    public function setVisibility(string $path, string $visibility) : bool;
+    public function setVisibility(string $path, string $visibility): bool;
 
 
     /**
@@ -147,5 +146,5 @@ interface FileReadAccess
      * @since 5.3
      * @version 1.0
      */
-    public function getVisibility(string $path) : string;
+    public function getVisibility(string $path): string;
 }

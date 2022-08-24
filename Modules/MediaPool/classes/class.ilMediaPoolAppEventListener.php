@@ -34,7 +34,7 @@ class ilMediaPoolAppEventListener
         string $a_component,
         string $a_event,
         array $a_parameter
-    ) : void {
+    ): void {
         switch ($a_component) {
             case "Services/Object":
                 switch ($a_event) {

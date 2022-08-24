@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -24,12 +26,12 @@ use PHPUnit\Framework\TestCase;
  */
 class ilPdfGeneratorConstantsTest extends TestCase
 {
-    public function testInstanceCanBeCreated() : void
+    public function testInstanceCanBeCreated(): void
     {
         $this->assertInstanceOf('ilPDFGenerationConstants', new ilPDFGenerationConstants());
     }
 
-    public function testGetOrientations() : void
+    public function testGetOrientations(): void
     {
         $this->assertCount(2, ilPDFGenerationConstants::getOrientations());
         $orientations = ilPDFGenerationConstants::getOrientations();
@@ -37,19 +39,19 @@ class ilPdfGeneratorConstantsTest extends TestCase
         $this->assertSame('Landscape', $orientations['Landscape']);
     }
 
-    public function testGetPageSizesNames() : void
+    public function testGetPageSizesNames(): void
     {
         $this->assertCount(15, ilPDFGenerationConstants::getPageSizesNames());
     }
 
-    public function testHeaderConstants() : void
+    public function testHeaderConstants(): void
     {
         $this->assertSame(0, ilPDFGenerationConstants::HEADER_NONE);
         $this->assertSame(1, ilPDFGenerationConstants::HEADER_TEXT);
         $this->assertSame(2, ilPDFGenerationConstants::HEADER_HTML);
     }
 
-    public function testFooterConstants() : void
+    public function testFooterConstants(): void
     {
         $this->assertSame(0, ilPDFGenerationConstants::FOOTER_NONE);
         $this->assertSame(1, ilPDFGenerationConstants::FOOTER_TEXT);

@@ -1,4 +1,5 @@
 <?php
+
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 include_once "./Modules/TestQuestionPool/classes/import/qti12/class.assQuestionImport.php";
@@ -27,7 +28,7 @@ class assFormulaQuestionImport extends assQuestionImport
     * @param array $import_mapping An array containing references to included ILIAS objects
     * @access public
     */
-    public function fromXML(&$item, $questionpool_id, &$tst_id, &$tst_object, &$question_counter, &$import_mapping) : void
+    public function fromXML(&$item, $questionpool_id, &$tst_id, &$tst_object, &$question_counter, &$import_mapping): void
     {
         global $DIC;
         $ilUser = $DIC['ilUser'];
@@ -48,10 +49,10 @@ class assFormulaQuestionImport extends assQuestionImport
         $this->object->setOwner($ilUser->getId());
         $this->object->setQuestion($this->object->QTIMaterialToString($item->getQuestiontext()));
         $this->object->setObjId($questionpool_id);
-        $this->object->setEstimatedWorkingTime($duration["h"], $duration["m"], $duration["s"]);
+        $this->object->setEstimatedWorkingTime($duration["h"] ?? 0, $duration["m"] ?? 0, $duration["s"] ?? 0);
         if (preg_match_all("/(\\\$v\\d+)/ims", $this->object->getQuestion(), $matches)) {
             foreach ($matches[1] as $variable) {
-                $data = unserialize($item->getMetadataEntry($variable));
+                $data = unserialize($item->getMetadataEntry($variable), false);
                 $unit = $this->object->getUnitRepository()->getUnit($data["unitvalue"]);
                 require_once 'Modules/TestQuestionPool/classes/class.assFormulaQuestionVariable.php';
                 $varObj = new assFormulaQuestionVariable($variable, $data["rangemin"], $data["rangemax"], $unit, $data["precision"], $data["intprecision"]);
@@ -60,7 +61,7 @@ class assFormulaQuestionImport extends assQuestionImport
         }
         if (preg_match_all("/(\\\$r\\d+)/ims", $this->object->getQuestion(), $rmatches)) {
             foreach ($rmatches[1] as $result) {
-                $data = unserialize($item->getMetadataEntry($result));
+                $data = unserialize($item->getMetadataEntry($result), false);
                 $unit = $this->object->getUnitRepository()->getUnit($data["unitvalue"]);
                 require_once 'Modules/TestQuestionPool/classes/class.assFormulaQuestionResult.php';
                 if (!is_array($data["rating"])) {
@@ -104,14 +105,14 @@ class assFormulaQuestionImport extends assQuestionImport
                 $media_object = ilObjMediaObject::_saveTempFileAsMediaObject(basename($importfile), $importfile, false);
                 ilObjMediaObject::_saveUsage($media_object->getId(), "qpl:html", $this->object->getId());
                 $questiontext = str_replace("src=\"" . $mob["mob"] . "\"", "src=\"" . "il_" . IL_INST_ID . "_mob_" . $media_object->getId() . "\"", $questiontext);
-                
+
                 foreach ($feedbacksgeneric as $correctness => $material) {
                     $feedbacksgeneric[$correctness] = str_replace("src=\"" . $mob["mob"] . "\"", "src=\"" . "il_" . IL_INST_ID . "_mob_" . $media_object->getId() . "\"", $material);
                 }
             }
         }
         $this->object->setQuestion(ilRTE::_replaceMediaObjectImageSrc($questiontext, 1));
-        
+
         foreach ($feedbacksgeneric as $correctness => $material) {
             $this->object->feedbackOBJ->importGenericFeedback(
                 $this->object->getId(),
@@ -124,7 +125,7 @@ class assFormulaQuestionImport extends assQuestionImport
         $this->object->setAdditionalContentEditingMode(
             $this->fetchAdditionalContentEditingModeInformation($item)
         );
-        
+
         $this->object->saveToDb();
         if (count($item->suggested_solutions)) {
             foreach ($item->suggested_solutions as $suggested_solution) {

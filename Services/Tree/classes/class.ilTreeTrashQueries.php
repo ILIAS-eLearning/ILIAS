@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -47,7 +49,7 @@ class ilTreeTrashQueries
      * @param int[] $ref_ids
      * @return bool
      */
-    public function isTrashedTrash(array $ref_ids) : bool
+    public function isTrashedTrash(array $ref_ids): bool
     {
         $query = 'select tree,child,parent from tree ' .
             'where ' . $this->db->in('child', $ref_ids, false, \ilDBConstants::T_INTEGER);
@@ -69,7 +71,7 @@ class ilTreeTrashQueries
      * @return int $rep_ref_id
      * @throws \ilRepositoryException
      */
-    public function findRepositoryLocationForDeletedNode(int $deleted_node) : int
+    public function findRepositoryLocationForDeletedNode(int $deleted_node): int
     {
         $query = 'select parent from tree ' .
             'where child = ' . $this->db->quote($deleted_node, \ilDBConstants::T_INTEGER) . ' ' .
@@ -87,7 +89,7 @@ class ilTreeTrashQueries
      * @param int $ref_id
      * @return string[]
      */
-    public function getTrashedNodeTypesForContainer(int $ref_id) : array
+    public function getTrashedNodeTypesForContainer(int $ref_id): array
     {
         $subtreequery = $this->tree->getTrashSubTreeQuery($ref_id, ['child']);
         $query = 'select distinct(type) obj_type from object_data obd ' .
@@ -108,7 +110,7 @@ class ilTreeTrashQueries
      * @param int $ref_id
      * @return int
      */
-    public function getNumberOfTrashedNodesForTrashedContainer(int $ref_id) : int
+    public function getNumberOfTrashedNodesForTrashedContainer(int $ref_id): int
     {
         $res = $this->db->query($this->tree->getTrashSubTreeQuery($ref_id, ['child']));
         return $res->numRows();
@@ -127,7 +129,7 @@ class ilTreeTrashQueries
         string $order_direction,
         int $limit = self::QUERY_LIMIT,
         int $offset = 0
-    ) : array {
+    ): array {
         $subtreequery = $this->tree->getTrashSubTreeQuery($ref_id, ['child']);
 
         $select = 'SELECT ref_id, obd.obj_id, type, title, description, deleted, deleted_by ';
@@ -180,7 +182,7 @@ class ilTreeTrashQueries
      * @throws ilDatabaseException
      * @deprecated
      */
-    public function getTrashedNodesForContainerUsingRecursion(int $ref_id) : void
+    public function getTrashedNodesForContainerUsingRecursion(int $ref_id): void
     {
         $query = 'WITH RECURSIVE trash (child,tree) AS ' .
             '( SELECT child, tree FROM tree WHERE child = ' . $this->db->quote(
@@ -206,7 +208,7 @@ class ilTreeTrashQueries
      * @param array{type?: string, title?: string, deleted?: array{from?: \ilDate, to?: \ilDate}} $filter
      * @return string
      */
-    protected function appendTrashNodeForContainerQueryFilter(array $filter) : string
+    protected function appendTrashNodeForContainerQueryFilter(array $filter): string
     {
         $query = '';
         if (isset($filter['type'])) {

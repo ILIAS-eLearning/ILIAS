@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -30,13 +32,13 @@ use ILIAS\UI\Component\Symbol\Icon\Icon;
  */
 class AdministrationMainBarProvider extends AbstractStaticMainMenuProvider
 {
-    public function getStaticTopItems() : array
+    public function getStaticTopItems(): array
     {
         return [];
     }
 
 
-    public function getStaticSubItems() : array
+    public function getStaticSubItems(): array
     {
         $access_helper = BasicAccessCheckClosuresSingleton::getInstance();
         $top = StandardTopItemsProvider::getInstance()->getAdministrationIdentification();
@@ -66,7 +68,7 @@ class AdministrationMainBarProvider extends AbstractStaticMainMenuProvider
                     }
 
                     $icon = $this->dic->ui()->factory()->symbol()->icon()->standard($titems[$group_item]["type"], $titems[$group_item]["title"]);
-                    
+
                     $ref_id = $titems[$group_item]["ref_id"];
                     if ($admin_request->getAdminMode() !== 'repository' && $ref_id == ROOT_FOLDER_ID) {
                         $identification = $this->if->identifier('mm_adm_rep');
@@ -112,7 +114,7 @@ class AdministrationMainBarProvider extends AbstractStaticMainMenuProvider
         return $entries;
     }
 
-    protected function getIconForGroup(string $group, string $title) : Icon
+    protected function getIconForGroup(string $group, string $title): Icon
     {
         $icon_map = array(
             "maintenance" => "icon_sysa",
@@ -125,11 +127,11 @@ class AdministrationMainBarProvider extends AbstractStaticMainMenuProvider
             "search_and_find" => "icon_safa",
             "extending_ilias" => "icon_exta"
         );
-        $icon_path = \ilUtil::getImagePath( $icon_map[$group] . ".svg");
+        $icon_path = \ilUtil::getImagePath($icon_map[$group] . ".svg");
         return $this->dic->ui()->factory()->symbol()->icon()->custom($icon_path, $title);
     }
 
-    private function getGroups() : array
+    private function getGroups(): array
     {
         if (!$this->dic->offsetExists('tree')) { // isDependencyAvailable does not work, Fatal error: Uncaught Error: Call to undefined method ILIAS\DI\Container::tree() in /var/www/html/src/DI/Container.php on line 294
             return [[], []];

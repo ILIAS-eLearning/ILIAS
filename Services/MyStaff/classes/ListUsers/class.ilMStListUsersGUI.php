@@ -54,7 +54,7 @@ class ilMStListUsersGUI
         $this->help->setScreenIdComponent('msta');
     }
 
-    protected function checkAccessOrFail() : void
+    protected function checkAccessOrFail(): void
     {
         if ($this->access->hasCurrentUserAccessToMyStaff()) {
             return;
@@ -64,7 +64,7 @@ class ilMStListUsersGUI
         }
     }
 
-    final public function executeCommand() : void
+    final public function executeCommand(): void
     {
         global $DIC;
 
@@ -86,12 +86,12 @@ class ilMStListUsersGUI
         }
     }
 
-    final public function index() : void
+    final public function index(): void
     {
         $this->listUsers();
     }
 
-    final public function listUsers() : void
+    final public function listUsers(): void
     {
         global $DIC;
 
@@ -101,7 +101,7 @@ class ilMStListUsersGUI
         $DIC->ui()->mainTemplate()->setContent($this->table->getHTML());
     }
 
-    final public function applyFilter() : void
+    final public function applyFilter(): void
     {
         $this->table = new ilMStListUsersTableGUI($this, self::CMD_APPLY_FILTER);
         $this->table->writeFilterToSession();
@@ -109,7 +109,7 @@ class ilMStListUsersGUI
         $this->index();
     }
 
-    final public function resetFilter() : void
+    final public function resetFilter(): void
     {
         $this->table = new ilMStListUsersTableGUI($this, self::CMD_RESET_FILTER);
         $this->table->resetOffset();
@@ -117,21 +117,21 @@ class ilMStListUsersGUI
         $this->index();
     }
 
-    final public function cancel() : void
+    final public function cancel(): void
     {
         global $DIC;
 
         $DIC->ctrl()->redirect($this);
     }
 
-    final public function getActions() : void
+    final public function getActions(): void
     {
         global $DIC;
-        
+
         if (!$this->http->wrapper()->query()->has('mst_lus_usr_id')) {
             exit;
         }
-        
+
         $mst_lus_usr_id = $this->http->wrapper()->query()->retrieve('mst_lus_usr_id', $this->refinery->kindlyTo()->int());
 
         if ($mst_lus_usr_id > 0) {

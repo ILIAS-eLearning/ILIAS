@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /* Copyright (c) 1998-2020 ILIAS open source, Extended GPL, see docs/LICENSE */
 
@@ -10,25 +12,25 @@ class ilTestParticipantAccessFilterTest extends ilTestBaseTestCase
 {
     private ilTestParticipantAccessFilter $testObj;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         parent::setUp();
 
         $this->testObj = new ilTestParticipantAccessFilter();
     }
 
-    public function test_instantiateObject_shouldReturnInstance() : void
+    public function test_instantiateObject_shouldReturnInstance(): void
     {
         $this->assertInstanceOf(ilTestParticipantAccessFilter::class, $this->testObj);
     }
 
-    public function testRefId() : void
+    public function testRefId(): void
     {
         $this->testObj->setRefId(125);
         $this->assertEquals(125, $this->testObj->getRefId());
     }
 
-    public function testFilter() : void
+    public function testFilter(): void
     {
         $this->testObj->setFilter("testFilter");
         $this->assertEquals("testFilter", $this->testObj->getFilter());

@@ -1,4 +1,6 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types=1);
 
 use PHPUnit\Framework\TestCase;
 use Sabre\DAV\Exception\BadRequest;
@@ -21,7 +23,7 @@ use Sabre\DAV\Exception\NotFound;
  *********************************************************************/
 
 require_once "./Services/WebDAV/test/ilWebDAVTestHelper.php";
- 
+
 /**
  * @runTestsInSeparateProcesses
  * @preserveGlobalState disabled
@@ -29,20 +31,20 @@ require_once "./Services/WebDAV/test/ilWebDAVTestHelper.php";
 class ilWebDAVLockUriPathResolverTest extends TestCase
 {
     protected ilWebDAVTestHelper $webdav_test_helper;
-    
+
     public function __construct(?string $name = null, array $data = [], $dataName = '')
     {
         $this->webdav_test_helper = new ilWebDAVTestHelper();
         parent::__construct($name, $data, $dataName);
     }
-    
-    public function setUp() : void
+
+    public function setUp(): void
     {
         define('CLIENT_ID', $this->webdav_test_helper->getClientId());
         define('ROOT_FOLDER_ID', 1);
     }
-   
-    public function testGetRefIdForWebDAVPathWhenPathHasNoValidStartElementThrowsBadRequestError() : void
+
+    public function testGetRefIdForWebDAVPathWhenPathHasNoValidStartElementThrowsBadRequestError(): void
     {
         $invalid_path = [
             "",
@@ -60,24 +62,24 @@ class ilWebDAVLockUriPathResolverTest extends TestCase
             }
         }
     }
-    
-    public function testGetRefIdForWebDAVWithValidClientIdReturnsRootFolderId() : void
+
+    public function testGetRefIdForWebDAVWithValidClientIdReturnsRootFolderId(): void
     {
         $path_only_clientid = $this->webdav_test_helper->getClientId();
         $path_resolver = $this->getPathResolverWithoutExpectationForFunctionsInHelper();
-        
+
         $this->assertEquals(1, $path_resolver->getRefIdForWebDAVPath($path_only_clientid));
     }
-    
-    public function testGetRefIdForValidRefMountReturnsRefId() : void
+
+    public function testGetRefIdForValidRefMountReturnsRefId(): void
     {
         $path_with_valid_ref_id = $this->webdav_test_helper->getClientId() . '/ref_50';
         $path_resolver = $this->getPathResolverWithoutExpectationForFunctionsInHelper();
-        
+
         $this->assertEquals(50, $path_resolver->getRefIdForWebDAVPath($path_with_valid_ref_id));
     }
-    
-    public function testGetRefIdForInvalidRefMountThrowsNotFoundError() : void
+
+    public function testGetRefIdForInvalidRefMountThrowsNotFoundError(): void
     {
         $invalid_refmount_path = [
             $this->webdav_test_helper->getClientId() . '/ref_0',
@@ -85,7 +87,7 @@ class ilWebDAVLockUriPathResolverTest extends TestCase
             $this->webdav_test_helper->getClientId() . '/ref_adfadf'
         ];
         $path_resolver = $this->getPathResolverWithoutExpectationForFunctionsInHelper();
-        
+
         foreach ($invalid_refmount_path as $current_path) {
             try {
                 $path_resolver->getRefIdForWebDAVPath($current_path);
@@ -96,27 +98,27 @@ class ilWebDAVLockUriPathResolverTest extends TestCase
         }
     }
 
-    public function testGetRefIdForWebDAVPathWithPathReturnsRefIdOfLastElement() : void
+    public function testGetRefIdForWebDAVPathWithPathReturnsRefIdOfLastElement(): void
     {
         // Arrange
         $path = $this->webdav_test_helper->getClientId() . '/Last Child/Last Third Child';
         $expected_ref_id = 2335634322;
         $path_resolver = $this->getPathResolverWithExpectationForFunctionsInHelper(2, 8);
-        
+
         $this->assertEquals($expected_ref_id, $path_resolver->getRefIdForWebDAVPath($path));
     }
-    
-    public function testGetRefIdForWebDAVPathWithPathPointingToElementWithIdenticalTitleReturnsRefIdOfLastIdenticalElement() : void
+
+    public function testGetRefIdForWebDAVPathWithPathPointingToElementWithIdenticalTitleReturnsRefIdOfLastIdenticalElement(): void
     {
         // Arrange
         $path = $this->webdav_test_helper->getClientId() . '/Second Child/Second First Child';
         $expected_ref_id = 72;
         $path_resolver = $this->getPathResolverWithExpectationForFunctionsInHelper(2, 11);
-        
+
         $this->assertEquals($expected_ref_id, $path_resolver->getRefIdForWebDAVPath($path));
     }
-    
-    public function testGetRefIdForWebDAVPathWithInvalidPathThrowsNotFoundError() : void
+
+    public function testGetRefIdForWebDAVPathWithInvalidPathThrowsNotFoundError(): void
     {
         // Arrange
         $pathes = [
@@ -129,7 +131,7 @@ class ilWebDAVLockUriPathResolverTest extends TestCase
                 'error_message' => 'Last node not found'
             ]
         ];
-        
+
         foreach ($pathes as $path => $additional_info) {
             $path_resolver = $this->getPathResolverWithExpectationForFunctionsInHelper(
                 ...$additional_info['parameters']
@@ -142,27 +144,27 @@ class ilWebDAVLockUriPathResolverTest extends TestCase
             }
         }
     }
-    
-    protected function getPathResolverWithoutExpectationForFunctionsInHelper() : ilWebDAVLockUriPathResolver
+
+    protected function getPathResolverWithoutExpectationForFunctionsInHelper(): ilWebDAVLockUriPathResolver
     {
         $mocked_repo_helper = $this->createMock(ilWebDAVRepositoryHelper::class);
         return new ilWebDAVLockUriPathResolver($mocked_repo_helper);
     }
-    
-    protected function getPathResolverWithExpectationForFunctionsInHelper(int $expects_children, int $expects_ref_id) : ilWebDAVLockUriPathResolver
+
+    protected function getPathResolverWithExpectationForFunctionsInHelper(int $expects_children, int $expects_ref_id): ilWebDAVLockUriPathResolver
     {
         $webdav_test_helper = new ilWebDAVTestHelper();
         $tree = $webdav_test_helper->getTree();
         $mocked_repo_helper = $this->createMock(ilWebDAVRepositoryHelper::class);
         $mocked_repo_helper->expects($this->exactly($expects_children))
             ->method('getChildrenOfRefId')->willReturnCallback(
-                function (int $parent_ref) use ($tree) : array {
+                function (int $parent_ref) use ($tree): array {
                     return $tree[$parent_ref]['children'];
                 }
             );
         $mocked_repo_helper->expects($this->exactly($expects_ref_id))
             ->method('getObjectTitleFromRefId')->willReturnCallback(
-                function (int $ref_id) use ($tree) : string {
+                function (int $ref_id) use ($tree): string {
                     return $tree[$ref_id]['title'];
                 }
             );

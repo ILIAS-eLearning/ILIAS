@@ -31,8 +31,8 @@ class assKprimChoiceImport extends assQuestionImport
      * @var assKprimChoice
      */
     public $object;
-    
-    public function fromXML(&$item, $questionpool_id, &$tst_id, &$tst_object, &$question_counter, &$import_mapping) : void
+
+    public function fromXML(&$item, $questionpool_id, &$tst_id, &$tst_object, &$question_counter, &$import_mapping): void
     {
         global $DIC;
         $ilUser = $DIC['ilUser'];
@@ -195,15 +195,14 @@ class assKprimChoiceImport extends assQuestionImport
         }
 
         $this->addGeneralMetadata($item);
-
         $this->object->setTitle($item->getTitle());
-        $this->object->setNrOfTries($item->getMaxattempts());
+        $this->object->setNrOfTries((int) $item->getMaxattempts());
         $this->object->setComment($item->getComment());
         $this->object->setAuthor($item->getAuthor());
         $this->object->setOwner($ilUser->getId());
         $this->object->setQuestion($this->object->QTIMaterialToString($item->getQuestiontext()));
         $this->object->setObjId($questionpool_id);
-        $this->object->setEstimatedWorkingTime($duration["h"], $duration["m"], $duration["s"]);
+        $this->object->setEstimatedWorkingTime($duration["h"] ?? 0, $duration["m"] ?? 0, $duration["s"] ?? 0);
         $this->object->setShuffleAnswersEnabled($shuffle);
         $this->object->setAnswerType($item->getMetadataEntry("answer_type"));
         $this->object->setOptionLabel($item->getMetadataEntry("option_label_setting"));

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -40,7 +42,7 @@ class Parallel extends Constraint
     public function __construct(array $constraints, Data\Factory $data_factory, ilLanguage $lng)
     {
         parent::__construct(
-            function ($value) use ($constraints) : bool {
+            function ($value) use ($constraints): bool {
                 $ret = true;
                 $this->failed_constraints = [];
                 foreach ($constraints as $constraint) {
@@ -52,7 +54,7 @@ class Parallel extends Constraint
 
                 return $ret;
             },
-            function ($txt, $value) : string {
+            function ($txt, $value): string {
                 $messages = [];
                 foreach ($this->failed_constraints as $constraint) {
                     $messages[] = $constraint->getErrorMessage($value);

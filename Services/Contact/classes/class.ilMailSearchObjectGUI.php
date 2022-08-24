@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -74,15 +76,15 @@ abstract class ilMailSearchObjectGUI
         $this->umail = new ilFormatMail($this->user->getId());
     }
 
-    private function isDefaultRequestContext() : bool
+    private function isDefaultRequestContext(): bool
     {
         return (
             !$this->http->wrapper()->query()->has('ref') ||
             $this->http->wrapper()->query()->retrieve('ref', $this->refinery->kindlyTo()->string()) !== 'wsp'
         );
     }
-    
-    private function getContext() : string
+
+    private function getContext(): string
     {
         $context = 'mail';
         if ($this->http->wrapper()->query()->has('ref')) {
@@ -92,7 +94,7 @@ abstract class ilMailSearchObjectGUI
         return $context;
     }
 
-    private function isLocalRoleTitle(string $title) : bool
+    private function isLocalRoleTitle(string $title): bool
     {
         foreach ($this->getLocalDefaultRolePrefixes() as $local_role_prefix) {
             if (strpos($title, $local_role_prefix) === 0) {
@@ -103,12 +105,12 @@ abstract class ilMailSearchObjectGUI
         return false;
     }
 
-    abstract protected function getObjectType() : string;
+    abstract protected function getObjectType(): string;
 
     /**
      * @return string[] Returns an array like ['il_crs_member_', 'il_crs_tutor', ...]
      */
-    abstract protected function getLocalDefaultRolePrefixes() : array;
+    abstract protected function getLocalDefaultRolePrefixes(): array;
 
     protected function getRequestValue(string $key, \ILIAS\Refinery\Transformation $trafo, $default = null)
     {
@@ -127,7 +129,7 @@ abstract class ilMailSearchObjectGUI
     /**
      * @param int[] $a_obj_ids
      */
-    protected function addPermission(array $a_obj_ids) : void
+    protected function addPermission(array $a_obj_ids): void
     {
         $existing = $this->wsp_access_handler->getPermissions($this->wsp_node_id);
         $added = false;
@@ -143,7 +145,7 @@ abstract class ilMailSearchObjectGUI
         $this->ctrl->redirectByClass(ilWorkspaceAccessGUI::class, 'share');
     }
 
-    protected function share() : void
+    protected function share(): void
     {
         $view = '';
         if ($this->http->wrapper()->query()->has('view')) {
@@ -199,7 +201,7 @@ abstract class ilMailSearchObjectGUI
         }
     }
 
-    protected function mail() : void
+    protected function mail(): void
     {
         $view = '';
         if ($this->http->wrapper()->query()->has('view')) {
@@ -255,7 +257,7 @@ abstract class ilMailSearchObjectGUI
         }
     }
 
-    protected function mailObjects() : void
+    protected function mailObjects(): void
     {
         $members = [];
 
@@ -332,7 +334,7 @@ abstract class ilMailSearchObjectGUI
         $this->ctrl->redirectToURL('ilias.php?baseClass=ilMailGUI&type=search_res');
     }
 
-    public function mailMembers() : void
+    public function mailMembers(): void
     {
         $members = [];
 
@@ -386,7 +388,7 @@ abstract class ilMailSearchObjectGUI
         $this->ctrl->redirectToURL('ilias.php?baseClass=ilMailGUI&type=search_res');
     }
 
-    public function cancel() : void
+    public function cancel(): void
     {
         $view = '';
         if ($this->http->wrapper()->query()->has('view')) {
@@ -400,7 +402,7 @@ abstract class ilMailSearchObjectGUI
         }
     }
 
-    public function showMembers() : void
+    public function showMembers(): void
     {
         $obj_ids = [];
         if ($this->http->wrapper()->query()->has('search_' . $this->getObjectType())) {
@@ -514,9 +516,9 @@ abstract class ilMailSearchObjectGUI
         }
     }
 
-    abstract protected function doesExposeMembers(ilObject $object) : bool;
+    abstract protected function doesExposeMembers(ilObject $object): bool;
 
-    public function showMyObjects() : void
+    public function showMyObjects(): void
     {
         $this->tpl->setTitle($this->lng->txt('mail_addressbook'));
 
@@ -634,7 +636,7 @@ abstract class ilMailSearchObjectGUI
         }
     }
 
-    public function executeCommand() : bool
+    public function executeCommand(): bool
     {
         $forward_class = $this->ctrl->getNextClass($this);
         switch (strtolower($forward_class)) {

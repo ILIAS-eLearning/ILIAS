@@ -29,7 +29,7 @@ class GlobalPageHandler
     {
     }
 
-    public static function initPage(\ilGlobalTemplateInterface $page) : void
+    public static function initPage(\ilGlobalTemplateInterface $page): void
     {
     }
 }

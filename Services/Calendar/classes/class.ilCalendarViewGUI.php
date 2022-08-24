@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /* Copyright (c) 1998-2017 ILIAS open source, Extended GPL, see docs/LICENSE */
 
@@ -48,17 +50,17 @@ class ilCalendarViewGUI
         $this->initialize($presentation_type);
     }
 
-    public function setConsulationHoursUserId(int $a_user_id) : void
+    public function setConsulationHoursUserId(int $a_user_id): void
     {
         $this->ch_user_id = $a_user_id;
     }
 
-    public function getConsultationHoursUserId() : int
+    public function getConsultationHoursUserId(): int
     {
         return $this->ch_user_id;
     }
 
-    public function initialize(int $a_calendar_presentation_type) : void
+    public function initialize(int $a_calendar_presentation_type): void
     {
         global $DIC;
 
@@ -84,7 +86,7 @@ class ilCalendarViewGUI
         $this->refinery = $DIC->refinery();
     }
 
-    protected function initAppointmentIdFromQuery() : int
+    protected function initAppointmentIdFromQuery(): int
     {
         if ($this->http->wrapper()->query()->has('app_id')) {
             return $this->http->wrapper()->query()->retrieve(
@@ -95,7 +97,7 @@ class ilCalendarViewGUI
         return 0;
     }
 
-    protected function initInitialDateFromQuery() : int
+    protected function initInitialDateFromQuery(): int
     {
         if ($this->http->wrapper()->query()->has('dt')) {
             return $this->http->wrapper()->query()->retrieve(
@@ -106,7 +108,7 @@ class ilCalendarViewGUI
         return 0;
     }
 
-    protected function initBookingUserFromQuery() : int
+    protected function initBookingUserFromQuery(): int
     {
         if ($this->http->wrapper()->query()->has('bkid')) {
             return $this->http->wrapper()->query()->retrieve(
@@ -120,7 +122,7 @@ class ilCalendarViewGUI
     /**
      * @todo refactor the GET usage
      */
-    public function getCurrentApp() : ?array
+    public function getCurrentApp(): ?array
     {
         // @todo: this needs optimization
         $events = $this->getEvents();
@@ -132,7 +134,7 @@ class ilCalendarViewGUI
         return null;
     }
 
-    public function getEvents() : array
+    public function getEvents(): array
     {
         $user = $this->user->getId();
 
@@ -209,7 +211,7 @@ class ilCalendarViewGUI
      * @return array<{start: ilDate|ilDateTime, end: ilDate|ilDateTime}>
      * @throws ilDateTimeException
      */
-    public function getDatesForItem($item) : array
+    public function getDatesForItem($item): array
     {
         $start = $item["dstart"];
         $end = $item["dend"];
@@ -227,7 +229,7 @@ class ilCalendarViewGUI
      * Get modal for appointment (see similar code in ilCalendarBlockGUI)
      * @todo fix envent initialisation
      */
-    public function getModalForApp() : void
+    public function getModalForApp(): void
     {
         // set return class
         $this->ctrl->setReturn($this, '');
@@ -266,7 +268,7 @@ class ilCalendarViewGUI
         ilCalendarEntry $a_calendar_entry,
         string $a_dstart,
         string $a_title_forced = ""
-    ) : string {
+    ): string {
         $this->ctrl->setParameter($this, "app_id", $a_calendar_entry->getEntryId());
 
         if ($this->getConsultationHoursUserId()) {
@@ -295,12 +297,12 @@ class ilCalendarViewGUI
      * @param string $a_slot_id
      * @return Iterator <ilPlugin>
      */
-    public function getActivePlugins(string $a_slot_id) : Iterator
+    public function getActivePlugins(string $a_slot_id): Iterator
     {
         return $this->component_factory->getActivePluginsInSlot($a_slot_id);
     }
 
-    public function getModalTitleByPlugins(string $a_current_title) : string
+    public function getModalTitleByPlugins(string $a_current_title): string
     {
         $modal_title = $a_current_title;
         //demo of plugin execution.
@@ -323,7 +325,7 @@ class ilCalendarViewGUI
         int $a_start_date,
         string $a_content,
         ilTemplate $a_tpl
-    ) : string {
+    ): string {
         $content = $a_content;
 
         //"capg" is the plugin slot id for AppointmentCustomGrid
@@ -361,7 +363,7 @@ class ilCalendarViewGUI
     /**
      * Add download link to toolbar
      */
-    public function addToolbarFileDownload() : void
+    public function addToolbarFileDownload(): void
     {
         $settings = ilCalendarSettings::_getInstance();
 
@@ -390,7 +392,7 @@ class ilCalendarViewGUI
     /**
      * Download files related to the appointments showed in the current calendar view (day,week,month,list). Not modals
      */
-    public function downloadFiles() : void
+    public function downloadFiles(): void
     {
         $download_job = new ilDownloadFilesBackgroundTask($this->user->getId());
         $download_job->setBucketTitle($this->getBucketTitle());
@@ -404,7 +406,7 @@ class ilCalendarViewGUI
     /**
      * get proper label to add in the background task popover
      */
-    public function getBucketTitle() : string
+    public function getBucketTitle(): string
     {
         //definition of bucket titles here: 21365
         $user_settings = ilCalendarUserSettings::_getInstanceByUserId($this->user->getId());
@@ -453,7 +455,7 @@ class ilCalendarViewGUI
      * get the events starting between 2 dates based in seed + view options.
      * @return int number of events in the calendar list view.
      */
-    public function countEventsInView() : int
+    public function countEventsInView(): int
     {
         $start = $this->seed;
         $end = clone $start;

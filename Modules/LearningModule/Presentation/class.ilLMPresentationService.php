@@ -120,47 +120,47 @@ class ilLMPresentationService
     /**
      * Get learning module settings
      */
-    public function getSettings() : ilSetting
+    public function getSettings(): ilSetting
     {
         return $this->lm_set;
     }
 
-    public function getLearningModuleGUI() : ilObjLearningModuleGUI
+    public function getLearningModuleGUI(): ilObjLearningModuleGUI
     {
         return $this->lm_gui;
     }
 
-    public function getLearningModule() : ilObjLearningModule
+    public function getLearningModule(): ilObjLearningModule
     {
         return $this->lm;
     }
 
-    public function getLMTree() : ilLMTree
+    public function getLMTree(): ilLMTree
     {
         return $this->lm_tree;
     }
 
-    public function getPresentationStatus() : ilLMPresentationStatus
+    public function getPresentationStatus(): ilLMPresentationStatus
     {
         return $this->presentation_status;
     }
 
-    public function getNavigationStatus() : ilLMNavigationStatus
+    public function getNavigationStatus(): ilLMNavigationStatus
     {
         return $this->navigation_status;
     }
 
-    public function getTracker() : ilLMTracker
+    public function getTracker(): ilLMTracker
     {
         return $this->tracker;
     }
 
-    public function getRequest() : PresentationGUIRequest
+    public function getRequest(): PresentationGUIRequest
     {
         return $this->request;
     }
 
-    public function getLinker() : ilLMPresentationLinker
+    public function getLinker(): ilLMPresentationLinker
     {
         return $this->linker;
     }

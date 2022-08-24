@@ -38,7 +38,7 @@ class StandardGUIRequest
         );
     }
 
-    public function getToTS() : int
+    public function getToTS(): int
     {
         return $this->int("to_ts");
     }

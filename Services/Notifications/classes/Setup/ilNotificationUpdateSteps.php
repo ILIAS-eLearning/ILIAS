@@ -1,4 +1,6 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types=1);
 
 use ILIAS\Notifications\ilNotificationSetupHelper;
 
@@ -22,17 +24,17 @@ class ilNotificationUpdateSteps implements ilDatabaseUpdateSteps
 {
     protected ilDBInterface $db;
 
-    public function prepare(ilDBInterface $db) : void
+    public function prepare(ilDBInterface $db): void
     {
         $this->db = $db;
     }
 
-    public function step_1() : void
+    public function step_1(): void
     {
         // Creation of administration node forced by \ilTreeAdminNodeAddedObjective
     }
 
-    public function step_2() : void
+    public function step_2(): void
     {
         $this->db->manipulateF(
             'DELETE FROM settings WHERE module = %s AND keyword = %s',
@@ -56,7 +58,7 @@ class ilNotificationUpdateSteps implements ilDatabaseUpdateSteps
         );
     }
 
-    public function step_3() : void
+    public function step_3(): void
     {
         $this->db->manipulateF('DELETE FROM notification_usercfg WHERE module = %s', ['text'], ['osd_main']);
         ilNotificationSetupHelper::registerType(
@@ -68,7 +70,7 @@ class ilNotificationUpdateSteps implements ilDatabaseUpdateSteps
         );
     }
 
-    public function step_4() : void
+    public function step_4(): void
     {
         ilNotificationSetupHelper::registerType(
             'who_is_online',
@@ -92,7 +94,7 @@ class ilNotificationUpdateSteps implements ilDatabaseUpdateSteps
         );
     }
 
-    public function step_5() : void
+    public function step_5(): void
     {
         ilNotificationSetupHelper::registerType(
             'badge_received',
@@ -116,7 +118,7 @@ class ilNotificationUpdateSteps implements ilDatabaseUpdateSteps
         );
     }
 
-    public function step_6() : void
+    public function step_6(): void
     {
         $this->db->insert('settings', [
             'module' => ['text', 'notifications'],

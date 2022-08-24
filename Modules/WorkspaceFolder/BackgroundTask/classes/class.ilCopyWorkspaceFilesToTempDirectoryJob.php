@@ -40,7 +40,7 @@ class ilCopyWorkspaceFilesToTempDirectoryJob extends AbstractJob
         $this->logger = ilLoggerFactory::getLogger("pwsp");
     }
 
-    public function getInputTypes() : array
+    public function getInputTypes(): array
     {
         return
             [
@@ -48,17 +48,17 @@ class ilCopyWorkspaceFilesToTempDirectoryJob extends AbstractJob
             ];
     }
 
-    public function getOutputType() : Type
+    public function getOutputType(): Type
     {
         return new SingleType(StringValue::class);
     }
 
-    public function isStateless() : bool
+    public function isStateless(): bool
     {
         return true;
     }
 
-    public function run(array $input, Observer $observer) : Value
+    public function run(array $input, Observer $observer): Value
     {
         $definition = $input[0];
 
@@ -88,7 +88,7 @@ class ilCopyWorkspaceFilesToTempDirectoryJob extends AbstractJob
      * Create unique temp directory
      * @return string absolute path to new temp directory
      */
-    protected function createUniqueTempDirectory() : string
+    protected function createUniqueTempDirectory(): string
     {
         $tmpdir = ilFileUtils::ilTempnam();
         ilFileUtils::makeDirParents($tmpdir);
@@ -96,7 +96,7 @@ class ilCopyWorkspaceFilesToTempDirectoryJob extends AbstractJob
         return $tmpdir;
     }
 
-    protected function createTargetDirectory(string $a_tmpdir) : string
+    protected function createTargetDirectory(string $a_tmpdir): string
     {
         $final_dir = $a_tmpdir . "/" . $this->target_directory;
         ilFileUtils::makeDirParents($final_dir);
@@ -107,7 +107,7 @@ class ilCopyWorkspaceFilesToTempDirectoryJob extends AbstractJob
     protected function copyFiles(
         string $tmpdir,
         ilWorkspaceCopyDefinition $definition
-    ) : void {
+    ): void {
         foreach ($definition->getCopyDefinitions() as $copy_task) {
             if (!file_exists($copy_task[ilWorkspaceCopyDefinition::COPY_SOURCE_DIR])) {
                 // if the "file" to be copied is an empty folder the directory has to be created so it will be contained in the download zip
@@ -139,7 +139,7 @@ class ilCopyWorkspaceFilesToTempDirectoryJob extends AbstractJob
         }
     }
 
-    public function getExpectedTimeOfTaskInSeconds() : int
+    public function getExpectedTimeOfTaskInSeconds(): int
     {
         return 30;
     }

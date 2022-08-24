@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 /**
@@ -33,7 +34,7 @@ final class ilObjTalkTemplateAccess extends ilObjectAccess
      *        array('permission' => 'write', 'cmd' => 'edit', 'lang_var' => 'edit'),
      *    );
      */
-    public static function _getCommands() : array
+    public static function _getCommands(): array
     {
         $commands = [
             [
@@ -53,7 +54,7 @@ final class ilObjTalkTemplateAccess extends ilObjectAccess
      * @param string $target check whether goto script will succeed
      * @return bool
      */
-    public static function _checkGoto(string $target) : bool
+    public static function _checkGoto(string $target): bool
     {
         $dic = $GLOBALS['DIC'];
 

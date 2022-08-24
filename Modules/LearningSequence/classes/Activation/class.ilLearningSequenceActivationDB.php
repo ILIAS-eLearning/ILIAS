@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,13 +17,13 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * Persistence for online/activation period
  */
 class ilLearningSequenceActivationDB
 {
-    const TABLE_NAME = 'lso_activation';
+    public const TABLE_NAME = 'lso_activation';
 
     protected ilDBInterface $database;
 
@@ -30,7 +32,7 @@ class ilLearningSequenceActivationDB
         $this->database = $database;
     }
 
-    public function getActivationForRefId(int $ref_id) : ilLearningSequenceActivation
+    public function getActivationForRefId(int $ref_id): ilLearningSequenceActivation
     {
         $data = $this->select($ref_id);
         if (count($data) == 0) {
@@ -63,7 +65,7 @@ class ilLearningSequenceActivationDB
         return $settings;
     }
 
-    public function deleteForRefId(int $ref_id) : void
+    public function deleteForRefId(int $ref_id): void
     {
         $query = "DELETE FROM " . static::TABLE_NAME . PHP_EOL
             . "WHERE ref_id = " . $this->database->quote($ref_id, "integer") . PHP_EOL
@@ -71,7 +73,7 @@ class ilLearningSequenceActivationDB
         $this->database->manipulate($query);
     }
 
-    public function store(ilLearningSequenceActivation $settings) : void
+    public function store(ilLearningSequenceActivation $settings): void
     {
         $where = [
             "ref_id" => ["integer", $settings->getRefId()]
@@ -97,7 +99,7 @@ class ilLearningSequenceActivationDB
         $this->database->update(static::TABLE_NAME, $values, $where);
     }
 
-    protected function insert(ilLearningSequenceActivation $settings) : void
+    protected function insert(ilLearningSequenceActivation $settings): void
     {
         $start = $settings->getActivationStart();
         $end = $settings->getActivationEnd();
@@ -124,7 +126,7 @@ class ilLearningSequenceActivationDB
     /**
      * @return string[]
      */
-    protected function select(int $ref_id) : array
+    protected function select(int $ref_id): array
     {
         $ret = [];
         $query =
@@ -148,7 +150,7 @@ class ilLearningSequenceActivationDB
         bool $effective_online = false,
         \DateTime $activation_start = null,
         \DateTime $activation_end = null
-    ) : ilLearningSequenceActivation {
+    ): ilLearningSequenceActivation {
         return new ilLearningSequenceActivation(
             $ref_id,
             $online,
@@ -158,7 +160,7 @@ class ilLearningSequenceActivationDB
         );
     }
 
-    public function setEffectiveOnlineStatus(int $ref_id, bool $status) : void
+    public function setEffectiveOnlineStatus(int $ref_id, bool $status): void
     {
         $where = ["ref_id" => ["integer", $ref_id]];
         $values = ["effective_online" => ["integer", $status]];

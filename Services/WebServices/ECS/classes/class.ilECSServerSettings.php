@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /******************************************************************************
  *
@@ -51,7 +53,7 @@ class ilECSServerSettings
      *
      * @return ilECSServerSettings
      */
-    public static function getInstance() : ilECSServerSettings
+    public static function getInstance(): ilECSServerSettings
     {
         return self::$instance ?? (self::$instance = new ilECSServerSettings());
     }
@@ -60,7 +62,7 @@ class ilECSServerSettings
      * Check if there is any active server
      * @return bool
      */
-    public function activeServerExists() : bool
+    public function activeServerExists(): bool
     {
         return count($this->getServers(static::ACTIVE_SERVER)) ? true : false;
     }
@@ -68,7 +70,7 @@ class ilECSServerSettings
     /**
      * Check if there is any server
      */
-    public function serverExists() : bool
+    public function serverExists(): bool
     {
         return count($this->getServers(static::ALL_SERVER)) ? true : false;
     }
@@ -78,7 +80,7 @@ class ilECSServerSettings
      * The function must be called with  ALL_SERVER, ACTIVE_SERVER or INACTIVE_SERVER
      * @return ilECSSetting[]
      */
-    public function getServers(int $server_type) : array
+    public function getServers(int $server_type): array
     {
         switch ($server_type) {
             case static::ALL_SERVER:
@@ -98,7 +100,7 @@ class ilECSServerSettings
     /**
      * Read all servers
      */
-    private function readServers() : void
+    private function readServers(): void
     {
         $query = 'SELECT server_id FROM ecs_server ' .
             'ORDER BY title ';

@@ -29,7 +29,6 @@ use ILIAS\LTI\ToolProvider\Util;
  */
 class Jwt
 {
-
     /**
      * Life (in seconds) of an issued JWT (default is 1 minute).
      *

@@ -44,25 +44,25 @@ class ilSkillCategoryGUI extends ilSkillTreeNodeGUI
         $this->lng = $DIC->language();
         $this->help = $DIC["ilHelp"];
         $ilCtrl = $DIC->ctrl();
-        
+
         $ilCtrl->saveParameter($this, "node_id");
-        
+
         parent::__construct($node_manager, $a_node_id);
     }
 
-    public function getType() : string
+    public function getType(): string
     {
         return "scat";
     }
 
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         $ilCtrl = $this->ctrl;
         $tpl = $this->tpl;
         $ilTabs = $this->tabs;
-        
+
         //$tpl->getStandardTemplate();
-        
+
         $next_class = $ilCtrl->getNextClass($this);
         $cmd = $ilCtrl->getCmd();
 
@@ -73,7 +73,7 @@ class ilSkillCategoryGUI extends ilSkillTreeNodeGUI
         }
     }
 
-    public function setTabs(string $a_tab) : void
+    public function setTabs(string $a_tab): void
     {
         $ilTabs = $this->tabs;
         $ilCtrl = $this->ctrl;
@@ -83,7 +83,7 @@ class ilSkillCategoryGUI extends ilSkillTreeNodeGUI
 
         $ilTabs->clearTargets();
         $ilHelp->setScreenIdComponent("skmg_scat");
-        
+
         // content
         $ilTabs->addTab(
             "content",
@@ -117,25 +117,25 @@ class ilSkillCategoryGUI extends ilSkillTreeNodeGUI
             $this->requested_node_id
         );
 
-             
+
         parent::setTitleIcon();
         $tpl->setTitle(
             $lng->txt("scat") . ": " . $this->node_object->getTitle()
         );
         $this->setSkillNodeDescription();
-        
+
         $ilTabs->activateTab($a_tab);
     }
 
-    public function editProperties() : void
+    public function editProperties(): void
     {
         $tpl = $this->tpl;
-        
+
         $this->setTabs("properties");
         parent::editProperties();
     }
 
-    public function edit() : void
+    public function edit(): void
     {
         $tpl = $this->tpl;
 
@@ -144,7 +144,7 @@ class ilSkillCategoryGUI extends ilSkillTreeNodeGUI
         $tpl->setContent($this->form->getHTML());
     }
 
-    public function initForm(string $a_mode = "edit") : void
+    public function initForm(string $a_mode = "edit"): void
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
@@ -186,12 +186,12 @@ class ilSkillCategoryGUI extends ilSkillTreeNodeGUI
                 $item->setDisabled(true);
             }
         }
-        
+
         $ilCtrl->setParameter($this, "node_id", $this->requested_node_id);
         $this->form->setFormAction($ilCtrl->getFormAction($this));
     }
 
-    public function saveItem() : void
+    public function saveItem(): void
     {
         if (!$this->tree_access_manager->hasManageCompetencesPermission()) {
             return;
@@ -209,7 +209,7 @@ class ilSkillCategoryGUI extends ilSkillTreeNodeGUI
     /**
      * Get current values for from
      */
-    public function getValues() : void
+    public function getValues(): void
     {
         $values = [];
         $values["title"] = $this->node_object->getTitle();
@@ -219,7 +219,7 @@ class ilSkillCategoryGUI extends ilSkillTreeNodeGUI
         $this->form->setValuesByArray($values);
     }
 
-    public function updateItem() : void
+    public function updateItem(): void
     {
         if (!$this->tree_access_manager->hasManageCompetencesPermission()) {
             return;
@@ -232,7 +232,7 @@ class ilSkillCategoryGUI extends ilSkillTreeNodeGUI
         $this->node_object->update();
     }
 
-    public function listItems() : void
+    public function listItems(): void
     {
         $tpl = $this->tpl;
         $lng = $this->lng;
@@ -252,11 +252,11 @@ class ilSkillCategoryGUI extends ilSkillTreeNodeGUI
             $this->requested_node_id,
             ilSkillCatTableGUI::MODE_SCAT
         );
-        
+
         $tpl->setContent($table->getHTML());
     }
 
-    public static function addCreationButtons() : void
+    public static function addCreationButtons(): void
     {
         global $DIC;
 
@@ -289,7 +289,7 @@ class ilSkillCategoryGUI extends ilSkillTreeNodeGUI
             $lng->txt("skmg_create_skill_category"),
             $ilCtrl->getLinkTargetByClass("ilskillcategorygui", "create")
         );
-        
+
         // skill template reference
         $ilCtrl->setParameterByClass(
             "ilskilltemplatereferencegui",
@@ -300,7 +300,7 @@ class ilSkillCategoryGUI extends ilSkillTreeNodeGUI
             $lng->txt("skmg_create_skill_template_reference"),
             $ilCtrl->getLinkTargetByClass("ilskilltemplatereferencegui", "create")
         );
-        
+
         // skills from clipboard
         $sep = false;
         if ($ilUser->clipboardHasObjectsOfType("skll")) {
@@ -342,14 +342,14 @@ class ilSkillCategoryGUI extends ilSkillTreeNodeGUI
             $ilCtrl->getLinkTargetByClass("ilskillrootgui", "showImportForm")
         );
     }
-    
+
     /**
      * Redirect to parent (identified by current node_id)
      */
-    public function redirectToParent(bool $a_tmp_mode = false) : void
+    public function redirectToParent(bool $a_tmp_mode = false): void
     {
         $ilCtrl = $this->ctrl;
-        
+
         $t = ilSkillTreeNode::_lookupType($this->requested_node_id);
 
         switch ($t) {
@@ -358,7 +358,7 @@ class ilSkillCategoryGUI extends ilSkillTreeNodeGUI
                 $ilCtrl->redirectByClass("ilskillrootgui", "listSkills");
                 break;
         }
-        
+
         parent::redirectToParent();
     }
 }

@@ -1,4 +1,6 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types=1);
 
 /* Copyright (c) 2021 Thibeau Fuhrer <thf@studer-raimann.ch> Extended GPL, see docs/LICENSE */
 
@@ -31,7 +33,7 @@ class ilCtrlStructureMapper
      *
      * @return array<string, mixed>
      */
-    public function getStructure() : array
+    public function getStructure(): array
     {
         return $this->ctrl_structure;
     }
@@ -45,7 +47,7 @@ class ilCtrlStructureMapper
      * @param string $key_ref_from
      * @param string $key_ref_to
      */
-    private function addViseVersaMappingByClass(string $class_name, string $key_ref_from, string $key_ref_to) : void
+    private function addViseVersaMappingByClass(string $class_name, string $key_ref_from, string $key_ref_to): void
     {
         if (!empty($this->ctrl_structure[$class_name][$key_ref_from])) {
             foreach ($this->ctrl_structure[$class_name][$key_ref_from] as $index => $reference) {
@@ -78,7 +80,7 @@ class ilCtrlStructureMapper
     /**
      * Maps the current structures references.
      */
-    private function mapStructure() : void
+    private function mapStructure(): void
     {
         if (!empty($this->ctrl_structure)) {
             foreach ($this->ctrl_structure as $class_name => $data) {
@@ -109,7 +111,7 @@ class ilCtrlStructureMapper
      * @param array      $reference_list
      * @param string|int $index
      */
-    private function removeReference(array &$reference_list, $index) : void
+    private function removeReference(array &$reference_list, $index): void
     {
         // remove the reference of the current index.
         unset($reference_list[$index]);
@@ -125,7 +127,7 @@ class ilCtrlStructureMapper
      * @param string|int $index
      * @return bool
      */
-    private function isStructureEntryValid($index) : bool
+    private function isStructureEntryValid($index): bool
     {
         // structure entry is not a classname.
         if (!is_string($index)) {

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -28,51 +30,51 @@ class ilStrictCliCronManager implements ilCronManager
     /**
      * @return string[]
      */
-    private function getValidPhpApis() : array
+    private function getValidPhpApis(): array
     {
         return [
             'cli'
         ];
     }
 
-    public function runActiveJobs(ilObjUser $actor) : void
+    public function runActiveJobs(ilObjUser $actor): void
     {
         if (in_array(PHP_SAPI, array_map('strtolower', $this->getValidPhpApis()), true)) {
             $this->cronManager->runActiveJobs($actor);
         }
     }
 
-    public function runJobManual(string $jobId, ilObjUser $actor) : bool
+    public function runJobManual(string $jobId, ilObjUser $actor): bool
     {
         return $this->cronManager->runJobManual($jobId, $actor);
     }
 
-    public function resetJob(ilCronJob $job, ilObjUser $actor) : void
+    public function resetJob(ilCronJob $job, ilObjUser $actor): void
     {
         $this->cronManager->resetJob($job, $actor);
     }
 
-    public function activateJob(ilCronJob $job, ilObjUser $actor, bool $wasManuallyExecuted = false) : void
+    public function activateJob(ilCronJob $job, ilObjUser $actor, bool $wasManuallyExecuted = false): void
     {
         $this->cronManager->activateJob($job, $actor, $wasManuallyExecuted);
     }
 
-    public function deactivateJob(ilCronJob $job, ilObjUser $actor, bool $wasManuallyExecuted = false) : void
+    public function deactivateJob(ilCronJob $job, ilObjUser $actor, bool $wasManuallyExecuted = false): void
     {
         $this->cronManager->deactivateJob($job, $actor, $wasManuallyExecuted);
     }
 
-    public function isJobActive(string $jobId) : bool
+    public function isJobActive(string $jobId): bool
     {
         return $this->cronManager->isJobActive($jobId);
     }
 
-    public function isJobInactive(string $jobId) : bool
+    public function isJobInactive(string $jobId): bool
     {
         return $this->cronManager->isJobInactive($jobId);
     }
 
-    public function ping(string $jobId) : void
+    public function ping(string $jobId): void
     {
         $this->cronManager->ping($jobId);
     }

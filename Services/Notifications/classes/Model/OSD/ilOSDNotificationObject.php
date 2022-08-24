@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /******************************************************************************
  *
@@ -52,57 +54,57 @@ class ilOSDNotificationObject
         $this->type = $type;
     }
 
-    public function getId() : int
+    public function getId(): int
     {
         return $this->id;
     }
 
-    public function getUser() : int
+    public function getUser(): int
     {
         return $this->user;
     }
 
-    public function getObject() : ilNotificationObject
+    public function getObject(): ilNotificationObject
     {
         return $this->object;
     }
 
-    public function getValidUntil() : int
+    public function getValidUntil(): int
     {
         return $this->valid_until;
     }
 
-    public function setValidUntil(int $valid_until) : void
+    public function setValidUntil(int $valid_until): void
     {
         $this->valid_until = $valid_until;
     }
 
-    public function getVisibleFor() : int
+    public function getVisibleFor(): int
     {
         return $this->visible_for;
     }
 
-    public function setVisibleFor(int $visible_for) : void
+    public function setVisibleFor(int $visible_for): void
     {
         $this->visible_for = $visible_for;
     }
 
-    public function getTimeAdded() : int
+    public function getTimeAdded(): int
     {
         return $this->time_added;
     }
 
-    public function setTimeAdded(int $time_added) : void
+    public function setTimeAdded(int $time_added): void
     {
         $this->time_added = $time_added;
     }
 
-    public function getType() : string
+    public function getType(): string
     {
         return $this->type;
     }
 
-    public function setType(string $type) : void
+    public function setType(string $type): void
     {
         $this->type = $type;
     }

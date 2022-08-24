@@ -1,4 +1,6 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -51,17 +53,17 @@ class UIFactory
         );
     }
 
-    public function form(string $target_class) : \ilPropertyFormGUI
+    public function form(string $target_class): \ilPropertyFormGUI
     {
         return $this->settings_form_gui->getForm($target_class);
     }
 
-    public function checkForm(\ilPropertyFormGUI $form) : bool
+    public function checkForm(\ilPropertyFormGUI $form): bool
     {
         return $this->settings_form_gui->checkForm($form);
     }
 
-    public function saveForm(\ilPropertyFormGUI $form) : void
+    public function saveForm(\ilPropertyFormGUI $form): void
     {
         $this->settings_form_gui->saveForm($form);
     }

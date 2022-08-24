@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,12 +17,12 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 require_once(__DIR__ . '/CharacteristicValueTest.php');
 
 class CharacteristicValueTextTest extends CharacteristicValueTest
 {
-    public function test_getItems() : void
+    public function test_getItems(): void
     {
         $f = $this->getCharacteristicValueFactory();
 
@@ -29,7 +31,7 @@ class CharacteristicValueTextTest extends CharacteristicValueTest
         $this->assertEquals($items, $textListing->getItems());
     }
 
-    public function test_validation() : void
+    public function test_validation(): void
     {
         $f = $this->getCharacteristicValueFactory();
 
@@ -46,7 +48,7 @@ class CharacteristicValueTextTest extends CharacteristicValueTest
         }
     }
 
-    public function test_rendered() : void
+    public function test_rendered(): void
     {
         $f = $this->getCharacteristicValueFactory();
         $r = $this->getDefaultRenderer();
@@ -60,7 +62,7 @@ class CharacteristicValueTextTest extends CharacteristicValueTest
         $this->assertHTMLEquals($expectedHtml, $actualHtml);
     }
 
-    private function getExpectedHtml() : string
+    private function getExpectedHtml(): string
     {
         $html = '<div class="il-listing-characteristic-value clearfix">';
         $html .= '	<div class="il-listing-characteristic-value-row clearfix">';

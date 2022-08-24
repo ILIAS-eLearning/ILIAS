@@ -15,7 +15,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * Class ilBiblLibrary
  *
@@ -23,16 +23,16 @@
  */
 class ilBiblLibrary extends ActiveRecord implements ilBiblLibraryInterface
 {
-    const TABLE_NAME = 'il_bibl_settings';
+    public const TABLE_NAME = 'il_bibl_settings';
 
 
-    public static function returnDbTableName() : string
+    public static function returnDbTableName(): string
     {
         return self::TABLE_NAME;
     }
 
 
-    public function getConnectorContainerName() : string
+    public function getConnectorContainerName(): string
     {
         return self::TABLE_NAME;
     }
@@ -81,61 +81,61 @@ class ilBiblLibrary extends ActiveRecord implements ilBiblLibraryInterface
     protected ?bool $show_in_list = null;
 
 
-    public function getId() : ?int
+    public function getId(): ?int
     {
         return $this->id;
     }
 
 
-    public function setId(int $id) : void
+    public function setId(int $id): void
     {
         $this->id = $id;
     }
 
 
-    public function getImg() : ?string
+    public function getImg(): ?string
     {
         return $this->img;
     }
 
 
-    public function setImg(string $img) : void
+    public function setImg(string $img): void
     {
         $this->img = $img;
     }
 
 
-    public function getName() : string
+    public function getName(): string
     {
         return $this->name;
     }
 
 
-    public function setName(string $name) : void
+    public function setName(string $name): void
     {
         $this->name = $name;
     }
 
 
-    public function isShownInList() : bool
+    public function isShownInList(): bool
     {
         return $this->show_in_list;
     }
 
 
-    public function setShowInList(bool $show_in_list) : void
+    public function setShowInList(bool $show_in_list): void
     {
         $this->show_in_list = $show_in_list;
     }
 
 
-    public function getUrl() : string
+    public function getUrl(): string
     {
         return $this->url;
     }
 
 
-    public function setUrl(string $url) : void
+    public function setUrl(string $url): void
     {
         $this->url = $url;
     }

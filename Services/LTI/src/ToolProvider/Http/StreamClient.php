@@ -16,7 +16,6 @@
  *
  *********************************************************************/
 
-
 namespace ILIAS\LTI\ToolProvider\Http;
 
 use ILIAS\LTI\ToolProvider\Http\HttpMessage;
@@ -30,7 +29,6 @@ use ILIAS\LTI\ToolProvider\Http\HttpMessage;
  */
 class StreamClient implements ClientInterface
 {
-
     /**
      * Send the request to the target URL.
      *
@@ -39,7 +37,7 @@ class StreamClient implements ClientInterface
      * @return bool True if the request was successful
      */
 //    public function send(HttpMessage $message)
-    public function send(\ILIAS\LTI\ToolProvider\Http\HttpMessage $message) : bool
+    public function send(\ILIAS\LTI\ToolProvider\Http\HttpMessage $message): bool
     {
         if (empty($message->requestHeaders)) {
             $message->requestHeaders = ["Accept: */*"];

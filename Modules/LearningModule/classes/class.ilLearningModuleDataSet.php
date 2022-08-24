@@ -46,12 +46,12 @@ class ilLearningModuleDataSet extends ilDataSet
         $this->notes = $DIC->notes();
     }
 
-    public function setMasterLanguageOnly(bool $a_val) : void
+    public function setMasterLanguageOnly(bool $a_val): void
     {
         $this->master_lang_only = $a_val;
     }
-    
-    public function getMasterLanguageOnly() : bool
+
+    public function getMasterLanguageOnly(): bool
     {
         return $this->master_lang_only;
     }
@@ -59,7 +59,7 @@ class ilLearningModuleDataSet extends ilDataSet
     public function setTranslationImportMode(
         ilObjLearningModule $a_lm,
         string $a_lang = ""
-    ) : void {
+    ): void {
         if ($a_lm != null) {
             $this->transl_into = true;
             $this->transl_into_lm = $a_lm;
@@ -69,32 +69,32 @@ class ilLearningModuleDataSet extends ilDataSet
         }
     }
 
-    public function getTranslationImportMode() : bool
+    public function getTranslationImportMode(): bool
     {
         return $this->transl_into;
     }
 
-    public function getTranslationLM() : ilObjLearningModule
+    public function getTranslationLM(): ilObjLearningModule
     {
         return $this->transl_into_lm;
     }
 
-    public function getTranslationLang() : string
+    public function getTranslationLang(): string
     {
         return $this->transl_lang;
     }
 
-    public function getSupportedVersions() : array
+    public function getSupportedVersions(): array
     {
         return array("5.1.0", "5.4.0");
     }
-    
-    protected function getXmlNamespace(string $a_entity, string $a_schema_version) : string
+
+    protected function getXmlNamespace(string $a_entity, string $a_schema_version): string
     {
         return "https://www.ilias.de/xml/Modules/LearningModule/" . $a_entity;
     }
-    
-    protected function getTypes(string $a_entity, string $a_version) : array
+
+    protected function getTypes(string $a_entity, string $a_version): array
     {
         if ($a_entity == "lm") {
             switch ($a_version) {
@@ -212,7 +212,7 @@ class ilLearningModuleDataSet extends ilDataSet
         return [];
     }
 
-    public function readData(string $a_entity, string $a_version, array $a_ids) : void
+    public function readData(string $a_entity, string $a_version, array $a_ids): void
     {
         $ilDB = $this->db;
 
@@ -345,13 +345,13 @@ class ilLearningModuleDataSet extends ilDataSet
             }
         }
     }
-    
+
     protected function getDependencies(
         string $a_entity,
         string $a_version,
         ?array $a_rec = null,
         ?array $a_ids = null
-    ) : array {
+    ): array {
         switch ($a_entity) {
             case "lm":
                 return array(
@@ -371,14 +371,14 @@ class ilLearningModuleDataSet extends ilDataSet
 
         return [];
     }
-    
+
     public function importRecord(
         string $a_entity,
         array $a_types,
         array $a_rec,
         ilImportMapping $a_mapping,
         string $a_schema_version
-    ) : void {
+    ): void {
         //var_dump($a_rec);
 
         switch ($a_entity) {
@@ -387,7 +387,7 @@ class ilLearningModuleDataSet extends ilDataSet
                 if ($this->getTranslationImportMode()) {
                     return;
                 }
-                
+
                 if ($new_id = $a_mapping->getMapping('Services/Container', 'objs', $a_rec['Id'])) {
                     $newObj = ilObjectFactory::getInstanceByObjId($new_id, false);
                 } else {
@@ -396,7 +396,7 @@ class ilLearningModuleDataSet extends ilDataSet
                     $newObj->create(true);
                     $newObj->createLMTree();
                 }
-                    
+
                 $newObj->setTitle($a_rec["Title"]);
                 $newObj->setDescription($a_rec["Description"]);
                 $newObj->setLayout($a_rec["DefaultLayout"]);

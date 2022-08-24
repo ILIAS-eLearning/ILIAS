@@ -1,4 +1,6 @@
-<?php declare(strict_types=0);
+<?php
+
+declare(strict_types=0);
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -25,7 +27,7 @@ class ilLPListOfProgressGUI extends ilLearningProgressBaseGUI
         $this->ctrl->saveParameter($this, 'details_id');
     }
 
-    protected function initDetailsIdFromQuery() : int
+    protected function initDetailsIdFromQuery(): int
     {
         if ($this->http->wrapper()->query()->has('details_id')) {
             return $this->http->wrapper()->query()->retrieve(
@@ -39,7 +41,7 @@ class ilLPListOfProgressGUI extends ilLearningProgressBaseGUI
     /**
      * execute command
      */
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         $this->ctrl->setReturn($this, "show");
         $this->ctrl->setParameter($this, 'user_id', $this->getUserId());
@@ -60,7 +62,7 @@ class ilLPListOfProgressGUI extends ilLearningProgressBaseGUI
         }
     }
 
-    public function show() : void
+    public function show(): void
     {
         switch ($this->getMode()) {
             // Show only detail of current repository item if called from repository
@@ -82,7 +84,7 @@ class ilLPListOfProgressGUI extends ilLearningProgressBaseGUI
     /**
      *
      */
-    protected function saveProgress() : void
+    protected function saveProgress(): void
     {
         $info = new ilInfoScreenGUI($this);
         $info->setContextRefId($this->ref_id);
@@ -92,7 +94,7 @@ class ilLPListOfProgressGUI extends ilLearningProgressBaseGUI
         $this->ctrl->redirect($this);
     }
 
-    public function details() : void
+    public function details(): void
     {
         // Show back button to crs if called from crs. Otherwise if called from personal desktop or administration
         // show back to list
@@ -186,7 +188,7 @@ class ilLPListOfProgressGUI extends ilLearningProgressBaseGUI
         $this->tpl->setVariable("LEGEND", $this->__getLegendHTML());
     }
 
-    public function __showProgressList() : void
+    public function __showProgressList(): void
     {
         $this->tpl->addBlockFile(
             'ADM_CONTENT',
@@ -218,7 +220,7 @@ class ilLPListOfProgressGUI extends ilLearningProgressBaseGUI
     /**
      * @todo check the access checks.
      */
-    public function __initUser(int $a_usr_id = 0) : bool
+    public function __initUser(int $a_usr_id = 0): bool
     {
         if ($this->http->wrapper()->post()->has('user_id')) {
             $a_usr_id = $this->http->wrapper()->post()->retrieve(
@@ -264,7 +266,7 @@ class ilLPListOfProgressGUI extends ilLearningProgressBaseGUI
         return true;
     }
 
-    public function __initDetails(int $a_details_id) : void
+    public function __initDetails(int $a_details_id): void
     {
         if (!$a_details_id) {
             $a_details_id = $this->getRefId();

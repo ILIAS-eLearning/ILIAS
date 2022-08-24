@@ -38,7 +38,7 @@ class ilItemGroupItemsTableGUI extends ilTable2GUI
         $ilCtrl = $DIC->ctrl();
         $tree = $DIC->repositoryTree();
         $objDefinition = $DIC["objDefinition"];
-        
+
         $this->lng = $lng;
         $this->ctrl = $ilCtrl;
         $this->tree = $tree;
@@ -46,39 +46,39 @@ class ilItemGroupItemsTableGUI extends ilTable2GUI
 
         $this->item_group_items = new ilItemGroupItems($a_parent_obj->getObject()->getRefId());
         $this->items = $this->item_group_items->getItems();
-        
+
         parent::__construct($a_parent_obj, $a_parent_cmd);
         $this->setLimit(9999);
-        
+
         $this->getMaterials();
         $this->setTitle($lng->txt("itgr_assigned_materials"));
-        
+
         $this->addColumn("", "", "1px", true);
         $this->addColumn($this->lng->txt("itgr_item"));
         $this->addColumn($this->lng->txt("itgr_assignment"));
         $this->setSelectAllCheckbox("items[]");
-        
+
         $this->setFormAction($this->ctrl->getFormAction($a_parent_obj));
         $this->setRowTemplate("tpl.item_group_items_row.html", "Modules/ItemGroup");
 
         $this->addCommandButton("saveItemAssignment", $lng->txt("save"));
     }
-    
-    public function getMaterials() : void
+
+    public function getMaterials(): void
     {
         $materials = array();
         $items = $this->item_group_items->getAssignableItems();
-        
+
         foreach ($items as $item) {
             $item["sorthash"] = (int) (!in_array($item['ref_id'], $this->items)) . $item["title"];
             $materials[] = $item;
         }
-        
+
         $materials = ilArrayUtil::sortArray($materials, "sorthash", "asc");
         $this->setData($materials);
     }
-    
-    protected function fillRow(array $a_set) : void
+
+    protected function fillRow(array $a_set): void
     {
         $lng = $this->lng;
 
@@ -93,7 +93,7 @@ class ilItemGroupItemsTableGUI extends ilTable2GUI
             "",
             "ilIcon"
         ));
-        
+
         if (in_array($a_set["child"], $this->items)) {
             $this->tpl->setVariable("IMG_ASSIGNED", ilUtil::img(
                 ilUtil::getImagePath("icon_ok.svg")

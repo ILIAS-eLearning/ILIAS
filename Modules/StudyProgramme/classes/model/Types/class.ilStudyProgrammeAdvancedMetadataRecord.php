@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -33,32 +35,32 @@ class ilStudyProgrammeAdvancedMetadataRecord
         $this->id = $id;
     }
 
-    public function getId() : int
+    public function getId(): int
     {
         return $this->id;
     }
 
-    public function setId(int $id) : void
+    public function setId(int $id): void
     {
         $this->id = $id;
     }
 
-    public function getTypeId() : int
+    public function getTypeId(): int
     {
         return $this->type_id;
     }
 
-    public function setTypeId(int $type_id) : void
+    public function setTypeId(int $type_id): void
     {
         $this->type_id = $type_id;
     }
 
-    public function getRecId() : int
+    public function getRecId(): int
     {
         return $this->rec_id;
     }
 
-    public function setRecId(int $rec_id) : void
+    public function setRecId(int $rec_id): void
     {
         $this->rec_id = $rec_id;
     }

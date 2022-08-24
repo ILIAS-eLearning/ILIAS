@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -32,7 +34,7 @@ abstract class ilChatroomAbstractTest extends TestCase
     protected $ilChatroomUserMock;
     private ?Container $dic = null;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         global $DIC;
 
@@ -44,11 +46,11 @@ abstract class ilChatroomAbstractTest extends TestCase
             'tpl',
             $this->getMockBuilder(ilGlobalTemplateInterface::class)->getMock()
         );
-        
+
         parent::setUp();
     }
 
-    protected function tearDown() : void
+    protected function tearDown(): void
     {
         global $DIC;
 
@@ -60,7 +62,7 @@ abstract class ilChatroomAbstractTest extends TestCase
     /**
      * @return ilChatroom&MockObject
      */
-    protected function createIlChatroomMock() : ilChatroom
+    protected function createIlChatroomMock(): ilChatroom
     {
         $this->ilChatroomMock = $this->getMockBuilder(ilChatroom::class)->disableOriginalConstructor()->onlyMethods(
             ['isOwnerOfPrivateRoom', 'clearMessages']
@@ -72,7 +74,7 @@ abstract class ilChatroomAbstractTest extends TestCase
     /**
      * @return ilChatroomUser&MockObject
      */
-    protected function createIlChatroomUserMock() : ilChatroomUser
+    protected function createIlChatroomUserMock(): ilChatroomUser
     {
         $this->ilChatroomUserMock = $this->getMockBuilder(ilChatroomUser::class)->disableOriginalConstructor()->onlyMethods(
             ['getUserId', 'getUsername']
@@ -84,10 +86,10 @@ abstract class ilChatroomAbstractTest extends TestCase
     /**
      * @return ilDBInterface&MockObject
      */
-    protected function createGlobalIlDBMock() : ilDBInterface
+    protected function createGlobalIlDBMock(): ilDBInterface
     {
         $db = $this->getMockBuilder(ilDBInterface::class)->getMock();
-        $db->method('quote')->willReturnCallback(static function ($arg) : string {
+        $db->method('quote')->willReturnCallback(static function ($arg): string {
             return "'" . $arg . "'";
         });
 
@@ -96,7 +98,7 @@ abstract class ilChatroomAbstractTest extends TestCase
         return $db;
     }
 
-    protected function setGlobalVariable(string $name, $value) : void
+    protected function setGlobalVariable(string $name, $value): void
     {
         global $DIC;
 

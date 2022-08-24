@@ -25,7 +25,7 @@ class ilSystemStyleIconTest extends ilSystemStyleBaseFSTest
     protected string $icon_name = 'test_image_1.svg';
     protected string $icon_type = 'svg';
 
-    public function testConstruct() : void
+    public function testConstruct(): void
     {
         $path = $this->container->getImagesSkinPath($this->style->getId()) . '/' . $this->icon_name;
         $icon = new ilSystemStyleIcon($this->icon_name, $path, $this->icon_type);
@@ -35,7 +35,7 @@ class ilSystemStyleIconTest extends ilSystemStyleBaseFSTest
         $this->assertEquals($icon->getType(), $this->icon_type);
     }
 
-    public function testGetDirRelToCustomizing() : void
+    public function testGetDirRelToCustomizing(): void
     {
         $path = $this->container->getImagesSkinPath($this->style->getId()) . '/' . $this->icon_name;
         $icon = new ilSystemStyleIcon($this->icon_name, $path, $this->icon_type);
@@ -50,7 +50,7 @@ class ilSystemStyleIconTest extends ilSystemStyleBaseFSTest
         $this->assertEquals($rel_path, $icon->getDirRelToCustomizing());
     }
 
-    public function testGetColorSet() : void
+    public function testGetColorSet(): void
     {
         $path = $this->container->getImagesSkinPath($this->style->getId()) . '/' . $this->icon_name;
         $icon = new ilSystemStyleIcon($this->icon_name, $path, $this->icon_type);
@@ -68,7 +68,7 @@ class ilSystemStyleIconTest extends ilSystemStyleBaseFSTest
         $this->assertEquals($expected_color_set, $icon->getColorSet());
     }
 
-    public function testChangeColor() : void
+    public function testChangeColor(): void
     {
         $path = $this->container->getImagesSkinPath($this->style->getId()) . '/' . $this->icon_name;
         $icon = new ilSystemStyleIcon($this->icon_name, $path, $this->icon_type);
@@ -88,7 +88,7 @@ class ilSystemStyleIconTest extends ilSystemStyleBaseFSTest
         $this->assertEquals($expected_color_set, $icon->getColorSet());
     }
 
-    public function testChangeColorInIconFile() : void
+    public function testChangeColorInIconFile(): void
     {
         $path = $this->container->getImagesSkinPath($this->style->getId()) . '/' . $this->icon_name;
         $icon = new ilSystemStyleIcon($this->icon_name, $path, $this->icon_type);

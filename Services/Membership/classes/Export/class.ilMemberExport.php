@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -79,7 +81,7 @@ class ilMemberExport
      * @param int[] $a_usr_ids
      * @return int[]
      */
-    public function filterUsers(array $a_usr_ids) : array
+    public function filterUsers(array $a_usr_ids): array
     {
         return $this->access->filterUserIdsByRbacOrPositionOfCurrentUser(
             'manage_members',
@@ -89,37 +91,37 @@ class ilMemberExport
         );
     }
 
-    public function setFilename(string $a_file) : void
+    public function setFilename(string $a_file): void
     {
         $this->filename = $a_file;
     }
 
-    public function getFilename() : ?string
+    public function getFilename(): ?string
     {
         return $this->filename;
     }
 
-    public function getRefId() : int
+    public function getRefId(): int
     {
         return $this->ref_id;
     }
 
-    public function getType() : string
+    public function getType(): string
     {
         return $this->type;
     }
 
-    public function getExportType() : int
+    public function getExportType(): int
     {
         return $this->export_type;
     }
 
-    public function getObjId() : int
+    public function getObjId(): int
     {
         return $this->obj_id;
     }
 
-    public function create() : void
+    public function create(): void
     {
         $this->fetchUsers();
         switch ($this->getExportType()) {
@@ -133,7 +135,7 @@ class ilMemberExport
         }
     }
 
-    public function getCSVString() : ?string
+    public function getCSVString(): ?string
     {
         if ($this->csv instanceof ilCSVWriter) {
             return $this->csv->getCSVString();
@@ -141,7 +143,7 @@ class ilMemberExport
         return null;
     }
 
-    public function createExcel() : void
+    public function createExcel(): void
     {
         $this->worksheet = new ilExcel();
         $this->worksheet->addSheet($this->lng->txt("members"));
@@ -150,7 +152,7 @@ class ilMemberExport
         $this->worksheet->writeToFile($this->getFilename());
     }
 
-    public function createCSV() : void
+    public function createCSV(): void
     {
         $this->csv = new ilCSVWriter();
         $this->write();
@@ -159,7 +161,7 @@ class ilMemberExport
     /**
      * Write one column
      */
-    protected function addCol(string $a_value, int $a_row, int $a_col) : void
+    protected function addCol(string $a_value, int $a_row, int $a_col): void
     {
         switch ($this->getExportType()) {
             case self::EXPORT_CSV:
@@ -172,7 +174,7 @@ class ilMemberExport
         }
     }
 
-    protected function addRow() : void
+    protected function addRow(): void
     {
         switch ($this->getExportType()) {
             case self::EXPORT_CSV:
@@ -184,7 +186,7 @@ class ilMemberExport
         }
     }
 
-    protected function getOrderedExportableFields() : array
+    protected function getOrderedExportableFields(): array
     {
         $field_info = ilExportFieldsInfo::_getInstanceByType(ilObject::_lookupType($this->obj_id));
         $field_info->sortExportFields();
@@ -220,7 +222,7 @@ class ilMemberExport
         return $fields;
     }
 
-    protected function write() : void
+    protected function write(): void
     {
         // Add header line
         $row = 0;
@@ -393,7 +395,7 @@ class ilMemberExport
         }
     }
 
-    private function fetchUsers() : void
+    private function fetchUsers(): void
     {
         $this->readCourseSpecificFieldsData();
 
@@ -431,7 +433,7 @@ class ilMemberExport
      * @param int[]
      * @param string
      */
-    private function readCourseData(array $a_user_ids) : void
+    private function readCourseData(array $a_user_ids): void
     {
         foreach ($a_user_ids as $user_id) {
             // Read course related data
@@ -447,7 +449,7 @@ class ilMemberExport
         }
     }
 
-    private function readCourseSpecificFieldsData() : void
+    private function readCourseSpecificFieldsData(): void
     {
         $this->user_course_fields = ilCourseUserData::_getValuesByObjId($this->obj_id);
     }
@@ -455,7 +457,7 @@ class ilMemberExport
     /**
      * Fill course specific fields
      */
-    private function addCourseField(int $a_usr_id, string $a_field, int $row, int $col) : bool
+    private function addCourseField(int $a_usr_id, string $a_field, int $row, int $col): bool
     {
         if (strpos($a_field, 'cdf_') !== 0) {
             return false;
@@ -478,7 +480,7 @@ class ilMemberExport
     /**
      * Add user defined fields
      */
-    private function addUserDefinedField(ilUserDefinedData $udf_data, string $a_field, int $row, int $col) : bool
+    private function addUserDefinedField(ilUserDefinedData $udf_data, string $a_field, int $row, int $col): bool
     {
         if (strpos($a_field, 'udf_') !== 0) {
             return false;
@@ -503,7 +505,7 @@ class ilMemberExport
     /**
      * Init member object
      */
-    protected function initMembers() : void
+    protected function initMembers(): void
     {
         if ($this->getType() === 'crs') {
             $this->members = ilCourseParticipants::_getInstanceByObjId($this->getObjId());
@@ -513,7 +515,7 @@ class ilMemberExport
         }
     }
 
-    protected function initGroups() : void
+    protected function initGroups(): void
     {
         $parent_node = $this->tree->getNodeData($this->ref_id);
         $groups = $this->tree->getSubTree($parent_node, true, ['grp']);

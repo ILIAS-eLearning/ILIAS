@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -24,7 +26,7 @@ class ilTestEvaluationGUITest extends ilTestBaseTestCase
 {
     private ilTestEvaluationGUI $testObj;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -41,12 +43,12 @@ class ilTestEvaluationGUITest extends ilTestBaseTestCase
         $this->testObj = new ilTestEvaluationGUI($this->createMock(ilObjTest::class));
     }
 
-    public function test_instantiateObject_shouldReturnInstance() : void
+    public function test_instantiateObject_shouldReturnInstance(): void
     {
         $this->assertInstanceOf(ilTestEvaluationGUI::class, $this->testObj);
     }
 
-    public function testTestAccess() : void
+    public function testTestAccess(): void
     {
         $testAccess_mock = $this->createMock(ilTestAccess::class);
 
@@ -55,7 +57,7 @@ class ilTestEvaluationGUITest extends ilTestBaseTestCase
         $this->assertEquals($testAccess_mock, $this->testObj->getTestAccess());
     }
 
-    public function testGetHeaderNames() : void
+    public function testGetHeaderNames(): void
     {
         $objTest_mock = $this->createMock(ilObjTest::class);
         $objTest_mock
@@ -95,7 +97,7 @@ class ilTestEvaluationGUITest extends ilTestBaseTestCase
         $this->assertEquals($expectedResult, $this->testObj->getHeaderNames());
     }
 
-    public function testGetHeaderVars() : void
+    public function testGetHeaderVars(): void
     {
         $expectedResult1 = [
             "name",
@@ -128,7 +130,7 @@ class ilTestEvaluationGUITest extends ilTestBaseTestCase
         $this->assertEquals($expectedResult2, $this->testObj->getHeaderVars());
     }
 
-    public function testGetEvaluationQuestionId() : void
+    public function testGetEvaluationQuestionId(): void
     {
         $this->assertEquals(20, $this->testObj->getEvaluationQuestionId(20, 0));
         $this->assertEquals(20, $this->testObj->getEvaluationQuestionId(20, -210));

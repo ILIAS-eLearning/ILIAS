@@ -28,7 +28,7 @@ class ilModulesTableGUI extends ilTable2GUI
     protected array $pos_group_options;
     protected int $old_grp_id;
     protected ilComponentRepository $component_repository;
-    
+
     public function __construct(
         ilObjRepositorySettingsGUI $a_parent_obj,
         string $a_parent_cmd = "",
@@ -43,11 +43,11 @@ class ilModulesTableGUI extends ilTable2GUI
         $this->component_repository = $DIC["component.repository"];
         $ilCtrl = $DIC->ctrl();
         $lng = $DIC->language();
-                
+
         parent::__construct($a_parent_obj, $a_parent_cmd);
-        
+
         $this->setId("repmodtbl");
-        
+
         $this->setTitle($lng->txt("cmps_repository_object_types"));
 
         $this->addColumn($lng->txt("cmps_add_new_rank"), "");
@@ -55,12 +55,12 @@ class ilModulesTableGUI extends ilTable2GUI
         $this->addColumn($lng->txt("cmps_module"), "");
         $this->addColumn($lng->txt("cmps_group"), "");
         $this->addColumn($lng->txt("cmps_enable_creation"), "");
-    
+
         if ($a_has_write) {
             // save options command
             $this->addCommandButton("saveModules", $lng->txt("cmps_save_options"));
         }
-    
+
         $this->setEnableHeader(true);
         $this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
         $this->setRowTemplate(
@@ -69,22 +69,22 @@ class ilModulesTableGUI extends ilTable2GUI
         );
         $this->setLimit(10000);
         $this->setExternalSorting(true);
-                
+
         $this->getComponents();
-        
+
         $this->old_grp_id = 0;
     }
-    
-    public function getComponents() : void
+
+    public function getComponents(): void
     {
         $objDefinition = $this->obj_definition;
         $ilSetting = $this->settings;
         $lng = $this->lng;
-        
+
         // unassigned objects should be last
         $this->pos_group_options = [0 => $lng->txt("rep_new_item_group_unassigned")];
         $pos_group_map[0] = "9999";
-        
+
         foreach (ilObjRepositorySettings::getNewItemGroups() as $item) {
             // #12807
             if ((int) $item["type"] === ilObjRepositorySettings::NEW_ITEM_GROUP_TYPE_GROUP) {
@@ -92,9 +92,9 @@ class ilModulesTableGUI extends ilTable2GUI
                 $pos_group_map[$item["id"]] = $item["pos"];
             }
         }
-                
+
         $obj_types = [];
-        
+
         // parse modules
         foreach ($this->component_repository->getComponents() as $mod) {
             if ($mod->getType() !== ilComponentInfo::TYPE_MODULES) {
@@ -127,7 +127,7 @@ class ilModulesTableGUI extends ilTable2GUI
                 }
             }
         }
-        
+
         // parse plugins
         $obj_types = $this->getPluginComponents($obj_types, ilComponentInfo::TYPE_SERVICES, "Repository", "robj");
         $obj_types = $this->getPluginComponents($obj_types, ilComponentInfo::TYPE_MODULES, "OrgUnit", "orguext");
@@ -144,7 +144,7 @@ class ilModulesTableGUI extends ilTable2GUI
                 // "old" setting without group part, add "unassigned" group
                 $org_pos = $pos_group_map[0] . str_pad($org_pos, 4, "0", STR_PAD_LEFT);
             }
-            
+
             $pos_grp_id = $ilSetting->get("obj_add_new_pos_grp_" . $obj_type, '0');
 
             $group = null;
@@ -166,30 +166,30 @@ class ilModulesTableGUI extends ilTable2GUI
                 "sort_key" => (int) $org_pos
             ];
         }
-        
+
         $data = ilArrayUtil::sortArray($data, "sort_key", "asc", true);
-        
+
         $this->setData($data);
     }
-    
-    protected function fillRow(array $a_set) : void
+
+    protected function fillRow(array $a_set): void
     {
         if ((int) $a_set["pos_group"] !== $this->old_grp_id) {
             $this->tpl->setCurrentBlock("pos_grp_bl");
             $this->tpl->setVariable("TXT_POS_GRP", $this->pos_group_options[$a_set["pos_group"]]);
             $this->tpl->parseCurrentBlock();
-                        
+
             $this->tpl->setCurrentBlock("tbl_content");
             $this->tpl->parseCurrentBlock();
-            
+
             $this->css_row = ($this->css_row !== "tblrow1")
                     ? "tblrow1"
                     : "tblrow2";
             $this->tpl->setVariable("CSS_ROW", $this->css_row);
-                        
+
             $this->old_grp_id = $a_set["pos_group"];
         }
-        
+
         // group
         if ($a_set["group_id"] != "") {
             $this->tpl->setCurrentBlock("group");
@@ -216,7 +216,7 @@ class ilModulesTableGUI extends ilTable2GUI
             true
         );
         $this->tpl->setVariable("GROUP_SEL", $sel);
-        
+
         // position
         $this->tpl->setVariable("VAR_POS", "obj_pos[" . $a_set["id"] . "]");
         $this->tpl->setVariable("VAL_POS", ilLegacyFormElementsUtil::prepareFormOutput($a_set["pos"]));
@@ -229,7 +229,7 @@ class ilModulesTableGUI extends ilTable2GUI
                 ' checked="checked" '
             );
         }
-        
+
         $this->tpl->setVariable("TXT_MODULE_NAME", $a_set["subdir"]);
     }
 
@@ -238,7 +238,7 @@ class ilModulesTableGUI extends ilTable2GUI
         string $component,
         string $slotName,
         string $slotId
-    ) : array {
+    ): array {
         $lng = $this->lng;
         $plugins = $this->component_repository->getPluginSlotById($slotId)->getActivePlugins();
         foreach ($plugins as $plugin) {

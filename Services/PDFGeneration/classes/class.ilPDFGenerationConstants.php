@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -29,7 +31,7 @@ class ilPDFGenerationConstants
     /**
      * @return array<string, string>
      */
-    public static function getPageSizesNames() : array
+    public static function getPageSizesNames(): array
     {
         return [
             'A4' => 'A4',
@@ -54,7 +56,7 @@ class ilPDFGenerationConstants
     /**
      * @return array<string, string>
      */
-    public static function getOrientations() : array
+    public static function getOrientations(): array
     {
         return [
             'Portrait' => 'Portrait' ,

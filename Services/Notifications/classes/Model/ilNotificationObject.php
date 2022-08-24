@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /******************************************************************************
  *
@@ -51,7 +53,7 @@ class ilNotificationObject
     /**
      * @return string[]
      */
-    public function __sleep() : array
+    public function __sleep(): array
     {
         return ['title', 'shortDescription', 'longDescription', 'iconPath', 'links', 'handlerParams'];
     }

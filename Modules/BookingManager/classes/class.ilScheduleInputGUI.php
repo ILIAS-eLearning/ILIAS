@@ -26,7 +26,7 @@ class ilScheduleInputGUI extends ilFormPropertyGUI
     protected ilGlobalTemplateInterface $tpl;
     protected array $value = [];
     protected string $validationFailureMessage;
-    
+
     public function __construct(
         string $a_title = "",
         string $a_postvar = ""
@@ -38,22 +38,22 @@ class ilScheduleInputGUI extends ilFormPropertyGUI
         parent::__construct($a_title, $a_postvar);
     }
 
-    public function setValue(array $a_value) : void
+    public function setValue(array $a_value): void
     {
         $this->value = $a_value;
     }
 
-    public function getValue() : array
+    public function getValue(): array
     {
         return $this->value;
     }
 
-    public function setValidationFailureMessage(string $a_msg) : void
+    public function setValidationFailureMessage(string $a_msg): void
     {
         $this->validationFailureMessage = $a_msg;
     }
-    
-    public function getValidationFailureMessage() : string
+
+    public function getValidationFailureMessage(): string
     {
         return $this->validationFailureMessage;
     }
@@ -63,15 +63,15 @@ class ilScheduleInputGUI extends ilFormPropertyGUI
      *
      * @param	array	$a_values	value array
      */
-    public function setValueByArray(array $a_values) : void
+    public function setValueByArray(array $a_values): void
     {
         $this->setValue($this->getPostData($this->getPostVar(), false));
     }
 
-    public function checkInput() : bool
+    public function checkInput(): bool
     {
         $lng = $this->lng;
-        
+
         $data = $this->getPostData($this->getPostVar(), false);
         if (count($data)) {
             // slots may not overlap
@@ -80,7 +80,7 @@ class ilScheduleInputGUI extends ilFormPropertyGUI
                     $this->setAlert($lng->txt("msg_input_does_not_match_regexp"));
                     return false;
                 }
-                
+
                 $parts = explode("-", $slot);
                 $from = str_replace(":", "", $parts[0]);
                 $to = str_replace(":", "", $parts[1]);
@@ -88,13 +88,13 @@ class ilScheduleInputGUI extends ilFormPropertyGUI
                     $this->setAlert($lng->txt("msg_input_does_not_match_regexp"));
                     return false;
                 }
-                
+
                 foreach ($data as $rslot => $rdays) {
                     if ($slot != $rslot && $rdays && array_intersect($days, $rdays)) {
                         $rparts = explode("-", $rslot);
                         $rfrom = str_replace(":", "", $rparts[0]);
                         $rto = str_replace(":", "", $rparts[1]);
-                        
+
                         if (($rfrom > $from && $rfrom < $to) ||
                             ($rto > $from && $rto < $to) ||
                             ($rfrom < $from && $rto > $to)) {
@@ -107,7 +107,7 @@ class ilScheduleInputGUI extends ilFormPropertyGUI
 
             return true;
         }
-        
+
         if ($this->getRequired()) {
             $this->setAlert($lng->txt("msg_input_is_required"));
             return false;
@@ -116,7 +116,7 @@ class ilScheduleInputGUI extends ilFormPropertyGUI
         return true;
     }
 
-    public function getInput() : array
+    public function getInput(): array
     {
         return $this->getPostData($this->getPostVar());
     }
@@ -124,7 +124,7 @@ class ilScheduleInputGUI extends ilFormPropertyGUI
     public function getPostData(
         string $a_post_var,
         $a_remove_invalid = true
-    ) : array {
+    ): array {
         $res = array();
         for ($loop = 0; $loop < 240; $loop++) {
             $days = $this->strArray($a_post_var . "_days~" . $loop);
@@ -136,7 +136,7 @@ class ilScheduleInputGUI extends ilFormPropertyGUI
                 $this->str($a_post_var . "_to_hh~" . $loop),
                 $this->str($a_post_var . "_to_mm~" . $loop)
             );
-            
+
             // only if any part was edited (js based gui)
             if ($days || $from !== "00:00" || $to !== "00:00") {
                 $slot = $from . "-" . $to;
@@ -149,7 +149,7 @@ class ilScheduleInputGUI extends ilFormPropertyGUI
                 } else {
                     $res[$slot] = array();
                 }
-                
+
                 if ($a_remove_invalid && !($days && $from && $to && $from !== $to)) {
                     unset($res[$slot]);
                 }
@@ -157,38 +157,38 @@ class ilScheduleInputGUI extends ilFormPropertyGUI
         }
         return $res;
     }
-    
+
     protected function render(
         string $a_mode = ""
-    ) : string {
+    ): string {
         $lng = $this->lng;
-        
+
         $tpl = new ilTemplate("tpl.schedule_input.html", true, true, "Modules/BookingManager");
-        
+
         $lng->loadLanguageModule("dateplaner");
-        
+
         $def = $this->getValue();
         if (!$def) {
             $def = array(null => null);
         }
-            
+
         $days = array("Mo", "Tu", "We", "Th", "Fr", "Sa", "Su");
         $row = 0;
         foreach ($def as $slot => $days_select) {
             $tpl->setCurrentBlock("days");
             foreach ($days as $day) {
                 $day_value = strtolower($day);
-                
+
                 $tpl->setVariable("ROW", $row);
                 $tpl->setVariable("ID", $this->getFieldId());
                 $tpl->setVariable("POST_VAR", $this->getPostVar());
                 $tpl->setVariable("DAY", $day_value);
                 $tpl->setVariable("TXT_DAY", $lng->txt($day . "_short"));
-                
+
                 if ($days_select && in_array($day_value, $days_select, true)) {
                     $tpl->setVariable("DAY_STATUS", " checked=\"checked\"");
                 }
-                
+
                 $tpl->parseCurrentBlock();
             }
 
@@ -202,18 +202,18 @@ class ilScheduleInputGUI extends ilFormPropertyGUI
             $tpl->setVariable("IMG_MULTI_REMOVE", ilGlyphGUI::get(ilGlyphGUI::REMOVE));
             $tpl->setVariable("TXT_MULTI_ADD", $lng->txt("add"));
             $tpl->setVariable("TXT_MULTI_REMOVE", $lng->txt("remove"));
-            
+
             if ($slot) {
                 $parts = explode("-", $slot);
                 $from = explode(":", $parts[0]);
                 $to = explode(":", $parts[1]);
-                
+
                 $tpl->setVariable("FROM_HH_VALUE", $from[0]);
                 $tpl->setVariable("FROM_MM_VALUE", $from[1]);
                 $tpl->setVariable("TO_HH_VALUE", $to[0]);
                 $tpl->setVariable("TO_MM_VALUE", $to[1]);
             }
-            
+
             // manage hidden buttons
             if ($row > 0) {
                 // inline needed because of JS
@@ -224,35 +224,35 @@ class ilScheduleInputGUI extends ilFormPropertyGUI
                 $tpl->setVariable("RMV_STYLE", " style=\"display:none\"");
                 // $tpl->setVariable("RMV_CLASS", "ilNoDisplay");
             }
-            
+
             $tpl->parseCurrentBlock();
-            
+
             $row++;
         }
-        
+
         return $tpl->get();
     }
-    
-    public function insert(ilTemplate $a_tpl) : void
+
+    public function insert(ilTemplate $a_tpl): void
     {
         $tpl = $this->tpl;
-        
+
         $tpl->addJavascript("Modules/BookingManager/js/ScheduleInput.js");
-        
+
         $html = $this->render();
 
         $a_tpl->setCurrentBlock("prop_generic");
         $a_tpl->setVariable("PROP_GENERIC", $html);
         $a_tpl->parseCurrentBlock();
     }
-    
+
     /**
      * Parse/normalize incoming time values
      */
     protected static function parseTime(
         string $a_hours,
         string $a_minutes
-    ) : string {
+    ): string {
         $hours = (int) $a_hours;
         $min = (int) $a_minutes;
         if ($hours > 23 || $min > 59) {

@@ -28,7 +28,7 @@ class ilUserProfilePromptService
     {
     }
 
-    public function data() : ilUserProfilePromptDataGateway
+    public function data(): ilUserProfilePromptDataGateway
     {
         return new ilUserProfilePromptDataGateway();
     }
@@ -38,7 +38,7 @@ class ilUserProfilePromptService
         int $days,
         array $info_texts,
         array $prompt_texts
-    ) : ilProfilePromptSettings {
+    ): ilProfilePromptSettings {
         return new ilProfilePromptSettings(
             $mode,
             $days,

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -32,14 +34,14 @@ class ilVirusScannerSetupAgent implements Setup\Agent
         $this->refinery = $refinery;
     }
 
-    public function hasConfig() : bool
+    public function hasConfig(): bool
     {
         return true;
     }
 
-    public function getArrayToConfigTransformation() : Refinery\Transformation
+    public function getArrayToConfigTransformation(): Refinery\Transformation
     {
-        return $this->refinery->custom()->transformation(fn ($data) : ilVirusScannerSetupConfig => new ilVirusScannerSetupConfig(
+        return $this->refinery->custom()->transformation(fn ($data): ilVirusScannerSetupConfig => new ilVirusScannerSetupConfig(
             $data["virusscanner"] ?? ilVirusScannerSetupConfig::VIRUS_SCANNER_NONE,
             $data["path_to_scan"] ?? null,
             $data["path_to_clean"] ?? null,
@@ -50,12 +52,12 @@ class ilVirusScannerSetupAgent implements Setup\Agent
         ));
     }
 
-    public function getInstallObjective(Setup\Config $config = null) : Setup\Objective
+    public function getInstallObjective(Setup\Config $config = null): Setup\Objective
     {
         return new ilVirusScannerConfigStoredObjective($config);
     }
 
-    public function getUpdateObjective(Setup\Config $config = null) : Setup\Objective
+    public function getUpdateObjective(Setup\Config $config = null): Setup\Objective
     {
         if ($config !== null) {
             return new ilVirusScannerConfigStoredObjective($config);
@@ -63,17 +65,17 @@ class ilVirusScannerSetupAgent implements Setup\Agent
         return new Setup\Objective\NullObjective();
     }
 
-    public function getBuildArtifactObjective() : Setup\Objective
+    public function getBuildArtifactObjective(): Setup\Objective
     {
         return new Setup\Objective\NullObjective();
     }
 
-    public function getStatusObjective(Setup\Metrics\Storage $storage) : Setup\Objective
+    public function getStatusObjective(Setup\Metrics\Storage $storage): Setup\Objective
     {
         return new ilVirusScannerMetricsCollectedObjective($storage);
     }
 
-    public function getMigrations() : array
+    public function getMigrations(): array
     {
         return [];
     }

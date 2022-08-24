@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /******************************************************************************
  *
@@ -21,7 +23,7 @@ require_once 'libs/composer/vendor/autoload.php';
 
 class ilServicesActiveRecordSuite extends TestSuite
 {
-    public static function suite() : self
+    public static function suite(): self
     {
         $suite = new self();
         /** @noRector */
@@ -30,7 +32,7 @@ class ilServicesActiveRecordSuite extends TestSuite
         /** @noRector */
         require_once("./Services/ActiveRecord/test/ilServicesActiveRecordFieldTest.php");
         $suite->addTestSuite("ilServicesActiveRecordFieldTest");
-        
+
         return $suite;
     }
 }

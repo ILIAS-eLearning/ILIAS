@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /******************************************************************************
  *
@@ -25,9 +27,9 @@ class ilECSResult
     private int $http_code = 0;
     private int $result_type;
     private $result;
-    
+
     private array $headers = array();
-    
+
     /**
      * Constructor
      *
@@ -43,7 +45,7 @@ class ilECSResult
 
         $this->init($a_res, $a_type);
     }
-    
+
     /**
      * set HTTP return code
      *
@@ -51,17 +53,17 @@ class ilECSResult
      * @param string http code
      *
      */
-    public function setHTTPCode(int $a_code) : void
+    public function setHTTPCode(int $a_code): void
     {
         $this->http_code = $a_code;
     }
-    
+
     /**
      * get HTTP code
      *
      * @access public
      */
-    public function getHTTPCode() : int
+    public function getHTTPCode(): int
     {
         return $this->http_code;
     }
@@ -76,7 +78,7 @@ class ilECSResult
         return $this->result;
     }
 
-    public function getResultType() : int
+    public function getResultType(): int
     {
         return $this->result_type;
     }
@@ -85,23 +87,23 @@ class ilECSResult
      * Set header
      * @param array $a_headers
      */
-    public function setHeaders(array $a_headers) : void
+    public function setHeaders(array $a_headers): void
     {
         $this->headers = $a_headers;
     }
-    
+
     /**
      * get headers
      */
-    public function getHeaders() : array
+    public function getHeaders(): array
     {
         return $this->headers ?: [];
     }
-    
+
     /**
      * init result (json_decode)
      */
-    private function init(string $result_string, int $result_type) : void
+    private function init(string $result_string, int $result_type): void
     {
         switch ($result_type) {
             case self::RESULT_TYPE_JSON:
@@ -123,7 +125,7 @@ class ilECSResult
      * @param string $a_content
      * @return ilECSUriList
      */
-    private function parseUriList(string $a_content) : \ilECSUriList
+    private function parseUriList(string $a_content): \ilECSUriList
     {
         $list = new ilECSUriList();
         $lines = explode("\n", $a_content);

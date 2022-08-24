@@ -25,12 +25,12 @@ class ilCOPageDBUpdateSteps implements \ilDatabaseUpdateSteps
 {
     protected \ilDBInterface $db;
 
-    public function prepare(\ilDBInterface $db) : void
+    public function prepare(\ilDBInterface $db): void
     {
         $this->db = $db;
     }
 
-    public function step_1() : void
+    public function step_1(): void
     {
         $field = array(
             'type' => 'integer',
@@ -42,7 +42,7 @@ class ilCOPageDBUpdateSteps implements \ilDatabaseUpdateSteps
         $this->db->modifyTableColumn("copg_pc_def", "order_nr", $field);
     }
 
-    public function step_2() : void
+    public function step_2(): void
     {
         $field = array(
             'type' => 'integer',
@@ -54,7 +54,7 @@ class ilCOPageDBUpdateSteps implements \ilDatabaseUpdateSteps
         $this->db->modifyTableColumn("copg_pc_def", "order_nr", $field);
     }
 
-    public function step_3() : void
+    public function step_3(): void
     {
         $this->db->update(
             "page_layout",
@@ -103,7 +103,7 @@ class ilCOPageDBUpdateSteps implements \ilDatabaseUpdateSteps
         );
     }
 
-    public function step_4() : void
+    public function step_4(): void
     {
         if (!$this->db->tableColumnExists('page_object', 'est_reading_time')) {
             $this->db->addTableColumn('page_object', 'est_reading_time', array(

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -25,9 +27,8 @@ use ILIAS\GlobalScreen\Identification\IdentificationInterface;
  */
 interface MainMenuProviderInterface
 {
-
     /**
      * @return IdentificationInterface[]
      */
-    public function getAllIdentifications() : array;
+    public function getAllIdentifications(): array;
 }

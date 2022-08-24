@@ -32,7 +32,6 @@ use ILIAS\Filesystem\Provider\Configuration\LocalConfig;
  */
 interface LocalFilesystemFactory
 {
-
     /**
      * Creates a local filesystem instance with the given configuration.
      *
@@ -40,5 +39,5 @@ interface LocalFilesystemFactory
      *
      * @return Filesystem
      */
-    public function getInstance(LocalConfig $config) : Filesystem;
+    public function getInstance(LocalConfig $config): Filesystem;
 }

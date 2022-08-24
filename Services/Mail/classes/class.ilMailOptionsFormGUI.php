@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -48,7 +50,7 @@ class ilMailOptionsFormGUI extends ilPropertyFormGUI
         $this->init();
     }
 
-    protected function init() : void
+    protected function init(): void
     {
         $this->setTitle($this->lng->txt('mail_settings'));
         $this->setFormAction($this->ctrl->getFormAction($this->parentGui, $this->positiveCmd));
@@ -88,7 +90,7 @@ class ilMailOptionsFormGUI extends ilPropertyFormGUI
         $this->addCommandButton($this->positiveCmd, $this->lng->txt('save'));
     }
 
-    public function save() : bool
+    public function save(): bool
     {
         if (!$this->checkInput()) {
             return false;
@@ -126,7 +128,7 @@ class ilMailOptionsFormGUI extends ilPropertyFormGUI
         return true;
     }
 
-    public function populate() : void
+    public function populate(): void
     {
         $data = [
             'linebreak' => $this->options->getLinebreak(),

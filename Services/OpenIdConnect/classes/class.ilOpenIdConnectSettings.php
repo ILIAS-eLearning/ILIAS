@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /******************************************************************************
  *
@@ -69,7 +71,7 @@ class ilOpenIdConnectSettings
         $this->load();
     }
 
-    public static function getInstance() : self
+    public static function getInstance(): self
     {
         if (self::$instance === null) {
             self::$instance = new self();
@@ -78,143 +80,143 @@ class ilOpenIdConnectSettings
         return self::$instance;
     }
 
-    public function setActive(bool $active) : void
+    public function setActive(bool $active): void
     {
         $this->active = $active;
     }
 
-    public function getActive() : bool
+    public function getActive(): bool
     {
         return $this->active;
     }
 
-    public function setProvider(string $url) : void
+    public function setProvider(string $url): void
     {
         $this->provider = $url;
     }
 
-    public function getProvider() : string
+    public function getProvider(): string
     {
         return $this->provider;
     }
 
-    public function setClientId(string $client_id) : void
+    public function setClientId(string $client_id): void
     {
         $this->client_id = $client_id;
     }
 
-    public function getClientId() : string
+    public function getClientId(): string
     {
         return $this->client_id;
     }
 
-    public function setSecret(string $secret) : void
+    public function setSecret(string $secret): void
     {
         $this->secret = $secret;
     }
 
-    public function getSecret() : string
+    public function getSecret(): string
     {
         return $this->secret;
     }
 
-    public function setLoginElementType(int $type) : void
+    public function setLoginElementType(int $type): void
     {
         $this->login_element_type = $type;
     }
 
-    public function getLoginElementType() : int
+    public function getLoginElementType(): int
     {
         return $this->login_element_type;
     }
 
-    public function setLoginElementImage(string $a_img_name) : void
+    public function setLoginElementImage(string $a_img_name): void
     {
         $this->login_element_img_name = $a_img_name;
     }
 
-    public function getLoginElementImage() : string
+    public function getLoginElementImage(): string
     {
         return $this->login_element_img_name;
     }
 
-    public function setLoginElementText(string $text) : void
+    public function setLoginElementText(string $text): void
     {
         $this->login_element_text = $text;
     }
 
 
-    public function getLoginElemenText() : string
+    public function getLoginElemenText(): string
     {
         return $this->login_element_text;
     }
 
-    public function setLoginPromptType(int $a_type) : void
+    public function setLoginPromptType(int $a_type): void
     {
         $this->login_prompt_type = $a_type;
     }
 
-    public function getLoginPromptType() : int
+    public function getLoginPromptType(): int
     {
         return $this->login_prompt_type;
     }
 
-    public function setLogoutScope(int $a_scope) : void
+    public function setLogoutScope(int $a_scope): void
     {
         $this->logout_scope = $a_scope;
     }
 
-    public function getLogoutScope() : int
+    public function getLogoutScope(): int
     {
         return $this->logout_scope;
     }
 
-    public function useCustomSession(bool $a_stat) : void
+    public function useCustomSession(bool $a_stat): void
     {
         $this->custom_session = $a_stat;
     }
 
-    public function isCustomSession() : bool
+    public function isCustomSession(): bool
     {
         return $this->custom_session;
     }
 
-    public function setSessionDuration(int $a_duration) : void
+    public function setSessionDuration(int $a_duration): void
     {
         $this->session_duration = $a_duration;
     }
 
-    public function getSessionDuration() : int
+    public function getSessionDuration(): int
     {
         return $this->session_duration;
     }
 
-    public function isSyncAllowed() : bool
+    public function isSyncAllowed(): bool
     {
         return $this->allow_sync;
     }
 
-    public function allowSync(bool $a_stat) : void
+    public function allowSync(bool $a_stat): void
     {
         $this->allow_sync = $a_stat;
     }
 
-    public function setRole(int $role) : void
+    public function setRole(int $role): void
     {
         $this->role = $role;
     }
 
-    public function getRole() : int
+    public function getRole(): int
     {
         return $this->role;
     }
 
-    public function setUidField(string $field) : void
+    public function setUidField(string $field): void
     {
         $this->uid = $field;
     }
 
-    public function getUidField() : string
+    public function getUidField(): string
     {
         return $this->uid;
     }
@@ -222,7 +224,7 @@ class ilOpenIdConnectSettings
     /**
      * @return string[]
      */
-    public function getAdditionalScopes() : array
+    public function getAdditionalScopes(): array
     {
         return $this->additional_scopes;
     }
@@ -231,7 +233,7 @@ class ilOpenIdConnectSettings
      * @param string[] $additional_scopes
      * @return void
      */
-    public function setAdditionalScopes(array $additional_scopes) : void
+    public function setAdditionalScopes(array $additional_scopes): void
     {
         $this->additional_scopes = $additional_scopes;
     }
@@ -239,7 +241,7 @@ class ilOpenIdConnectSettings
     /**
      * @return string[]
      */
-    public function getAllScopes() : array
+    public function getAllScopes(): array
     {
         $scopes = $this->additional_scopes;
         array_unshift($scopes, self::DEFAULT_SCOPE);
@@ -251,21 +253,21 @@ class ilOpenIdConnectSettings
      * @throws \ILIAS\Filesystem\Exception\FileNotFoundException
      * @throws \ILIAS\Filesystem\Exception\IOException
      */
-    public function deleteImageFile() : void
+    public function deleteImageFile(): void
     {
         if ($this->filesystem->has(self::FILE_STORAGE . '/' . $this->getLoginElementImage())) {
             $this->filesystem->delete(self::FILE_STORAGE . '/' . $this->getLoginElementImage());
         }
     }
 
-    public function hasImageFile() : bool
+    public function hasImageFile(): bool
     {
         return
             $this->getLoginElementImage() !== '' &&
             $this->filesystem->has(self::FILE_STORAGE . '/' . $this->getLoginElementImage());
     }
 
-    public function getImageFilePath() : string
+    public function getImageFilePath(): string
     {
         return implode(
             '/',
@@ -279,7 +281,7 @@ class ilOpenIdConnectSettings
     /**
      * @param array<int, array{value: string, update: bool}> $a_role_mappings
      */
-    public function setRoleMappings(array $a_role_mappings) : void
+    public function setRoleMappings(array $a_role_mappings): void
     {
         $this->role_mappings = $a_role_mappings;
     }
@@ -287,12 +289,12 @@ class ilOpenIdConnectSettings
     /**
      * @return array<int, array{value: string, update: bool}>
      */
-    public function getRoleMappings() : array
+    public function getRoleMappings(): array
     {
         return $this->role_mappings;
     }
 
-    public function getRoleMappingValueForId(int $a_role_id) : string
+    public function getRoleMappingValueForId(int $a_role_id): string
     {
         if (isset($this->role_mappings[$a_role_id]['value'])) {
             return (string) $this->role_mappings[$a_role_id]['value'];
@@ -301,7 +303,7 @@ class ilOpenIdConnectSettings
         return '';
     }
 
-    public function getRoleMappingUpdateForId(int $a_role_id) : bool
+    public function getRoleMappingUpdateForId(int $a_role_id): bool
     {
         if (isset($this->role_mappings[$a_role_id]['update'])) {
             return (bool) $this->role_mappings[$a_role_id]['update'];
@@ -310,7 +312,7 @@ class ilOpenIdConnectSettings
         return false;
     }
 
-    public function validateScopes(string $provider, array $custom_scopes) : array
+    public function validateScopes(string $provider, array $custom_scopes): array
     {
         $result = [];
         try {
@@ -337,7 +339,7 @@ class ilOpenIdConnectSettings
         return $result;
     }
 
-    public function save() : void
+    public function save(): void
     {
         $this->storage->set('active', (string) ((int) $this->getActive()));
         $this->storage->set('provider', $this->getProvider());
@@ -362,7 +364,7 @@ class ilOpenIdConnectSettings
         $this->storage->set('role_mappings', serialize($this->getRoleMappings()));
     }
 
-    protected function load() : void
+    protected function load(): void
     {
         foreach ($this->getProfileMappingFields() as $field => $lang_key) {
             $this->profile_map[$field] = (string) $this->storage->get('pmap_' . $field, '');
@@ -393,22 +395,22 @@ class ilOpenIdConnectSettings
         ));
     }
 
-    public function getProfileMappingFieldValue(string $field) : string
+    public function getProfileMappingFieldValue(string $field): string
     {
         return (string) ($this->profile_map[$field] ?? '');
     }
 
-    public function setProfileMappingFieldValue(string $field, string $value) : void
+    public function setProfileMappingFieldValue(string $field, string $value): void
     {
         $this->profile_map[$field] = $value;
     }
 
-    public function getProfileMappingFieldUpdate(string $field) : bool
+    public function getProfileMappingFieldUpdate(string $field): bool
     {
         return (bool) ($this->profile_update_map[$field] ?? false);
     }
 
-    public function setProfileMappingFieldUpdate(string $field, bool $value) : void
+    public function setProfileMappingFieldUpdate(string $field, bool $value): void
     {
         $this->profile_update_map[$field] = $value;
     }
@@ -416,7 +418,7 @@ class ilOpenIdConnectSettings
     /**
      * @return array<string, string>
      */
-    public function getProfileMappingFields() : array
+    public function getProfileMappingFields(): array
     {
         return [
             'firstname' => 'firstname',

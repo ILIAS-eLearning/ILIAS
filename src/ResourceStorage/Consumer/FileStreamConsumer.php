@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -14,7 +16,7 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *********************************************************************/
- 
+
 namespace ILIAS\ResourceStorage\Consumer;
 
 use ILIAS\Filesystem\Stream\FileStream;
@@ -42,7 +44,7 @@ class FileStreamConsumer implements StreamConsumer
         $this->storage_handler = $storage_handler;
     }
 
-    public function getStream() : FileStream
+    public function getStream(): FileStream
     {
         $revision = $this->getRevision();
 
@@ -52,7 +54,7 @@ class FileStreamConsumer implements StreamConsumer
     /**
      * @inheritDoc
      */
-    public function setRevisionNumber(int $revision_number) : self
+    public function setRevisionNumber(int $revision_number): self
     {
         $this->revision_number = $revision_number;
         return $this;

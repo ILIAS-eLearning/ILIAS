@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\Setup;
 
 /**
@@ -59,12 +61,12 @@ class ObjectiveIterator implements \Iterator
         $this->rewind();
     }
 
-    public function setEnvironment(Environment $environment) : void
+    public function setEnvironment(Environment $environment): void
     {
         $this->environment = $environment;
     }
 
-    public function markAsFailed(Objective $objective) : void
+    public function markAsFailed(Objective $objective): void
     {
         if (!isset($this->returned[$objective->getHash()])) {
             throw new \LogicException(
@@ -75,7 +77,7 @@ class ObjectiveIterator implements \Iterator
         $this->failed[$objective->getHash()] = true;
     }
 
-    public function rewind() : void
+    public function rewind(): void
     {
         $this->stack = [$this->objective];
         $this->current = null;
@@ -85,7 +87,7 @@ class ObjectiveIterator implements \Iterator
         $this->next();
     }
 
-    public function current() : \ILIAS\Setup\Objective
+    public function current(): \ILIAS\Setup\Objective
     {
         if ($this->current === null) {
             throw new \LogicException(
@@ -100,7 +102,7 @@ class ObjectiveIterator implements \Iterator
         return $this->current()->getHash();
     }
 
-    public function next() : void
+    public function next(): void
     {
         if ($this->stack === []) {
             $this->current = null;
@@ -160,12 +162,12 @@ class ObjectiveIterator implements \Iterator
         $this->next();
     }
 
-    public function valid() : bool
+    public function valid(): bool
     {
         return $this->current !== null;
     }
 
-    protected function detectDependencyCycles(string $cur, string $next) : void
+    protected function detectDependencyCycles(string $cur, string $next): void
     {
         if (!isset($this->reverse_dependencies[$next])) {
             return;
@@ -180,7 +182,7 @@ class ObjectiveIterator implements \Iterator
         }
     }
 
-    protected function setReverseDependency(string $other, string $cur) : void
+    protected function setReverseDependency(string $other, string $cur): void
     {
         if (!isset($this->reverse_dependencies[$other])) {
             $this->reverse_dependencies[$other] = [];

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -25,16 +27,15 @@ use ILIAS\Refinery\ConstraintViolationException;
 
 class FloatTransformation implements Transformation
 {
-    private const REG_STRING = '/^\s*(-?(0|([1-9]\d*)))([.,]\d*)?\s*$/';
-    private const REG_STRING_FLOATING = '/^\s*-?\d+[eE]-?\d+\s*$/';
-
     use DeriveApplyToFromTransform;
     use DeriveInvokeFromTransform;
+    private const REG_STRING = '/^\s*(-?(0|([1-9]\d*)))([.,]\d*)?\s*$/';
+    private const REG_STRING_FLOATING = '/^\s*-?\d+[eE]-?\d+\s*$/';
 
     /**
      * @inheritDoc
      */
-    public function transform($from) : float
+    public function transform($from): float
     {
         if ($from !== INF && $from !== -INF && is_float($from) && !is_nan($from)) {
             return $from;

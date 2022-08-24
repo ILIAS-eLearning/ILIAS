@@ -34,12 +34,12 @@ abstract class ilUserActionProvider
         $this->db = $DIC->database();
     }
 
-    public function setUserId(int $a_val) : void
+    public function setUserId(int $a_val): void
     {
         $this->user_id = $a_val;
     }
 
-    public function getUserId() : int
+    public function getUserId(): int
     {
         return $this->user_id;
     }
@@ -47,19 +47,19 @@ abstract class ilUserActionProvider
     /**
      * Collect actions for a target user
      */
-    abstract public function collectActionsForTargetUser(int $a_target_user) : ilUserActionCollection;
+    abstract public function collectActionsForTargetUser(int $a_target_user): ilUserActionCollection;
 
     /**
      * @return string component id as defined in services.xml/module.xml
      */
-    abstract public function getComponentId() : string;
+    abstract public function getComponentId(): string;
 
     /**
      * @return array[string] keys must be unique action ids (strings), values should be the names of the actions (from ilLanguage)
      */
-    abstract public function getActionTypes() : array;
+    abstract public function getActionTypes(): array;
 
-    public function getJsScripts(string $a_action_type) : array
+    public function getJsScripts(string $a_action_type): array
     {
         return array();
     }

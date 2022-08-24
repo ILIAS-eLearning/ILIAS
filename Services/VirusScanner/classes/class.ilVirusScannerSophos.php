@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -25,7 +27,7 @@ class ilVirusScannerSophos extends ilVirusScanner
         $this->scanZipFiles = true;
     }
 
-    public function scanFile(string $file_path, string $org_name = "") : string
+    public function scanFile(string $file_path, string $org_name = ""): string
     {
         $this->scanFilePath = $file_path;
         $this->scanFileOrigName = $org_name;
@@ -83,7 +85,7 @@ class ilVirusScannerSophos extends ilVirusScanner
         );
     }
 
-    public function cleanFile(string $file_path, string $org_name = "") : string
+    public function cleanFile(string $file_path, string $org_name = ""): string
     {
         $this->cleanFilePath = $file_path;
         $this->cleanFileOrigName = $org_name;

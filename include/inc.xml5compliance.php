@@ -51,7 +51,7 @@ function domxml_open_mem($str, $mode = 0, &$error = null)
     if (!$doc->success) {
         $error = $doc->error;
     }
-    
+
     return $doc;
 }
 
@@ -60,7 +60,7 @@ function xpath_eval(php4DOMXPath $xpath_context, string $eval_str, $contextnode 
     return $xpath_context->query($eval_str, $contextnode);
 }
 
-function xpath_new_context($dom_document) : php4DOMXPath
+function xpath_new_context($dom_document): php4DOMXPath
 {
     return new php4DOMXPath($dom_document);
 }
@@ -124,11 +124,11 @@ class php4DOMDocument
                 $this->success = $this->myDOMDocument->loadXML($source, $a_mode);
             }
         }
-                
+
         // Restore error handling
         ini_set('html_errors', $old);
         restore_error_handler();
-        
+
         if (!$this->success) {
             $this->error_arr = staticxmlerror(null, null, null, null, null, true);
             foreach ($this->error_arr as $error) {
@@ -171,7 +171,7 @@ class php4DOMDocument
 
             if (function_exists("libxml_get_last_error")) {
                 $err = libxml_get_last_error();
-                
+
                 if (is_object($err)) {
                     $error = array(array($err->code, $err->message));
                 }
@@ -198,7 +198,7 @@ class php4DOMDocument
         return new php4DOMElement($this->myDOMDocument->createComment($data));
     }
 
-    public function create_element(string $name) : php4DOMElement
+    public function create_element(string $name): php4DOMElement
     {
         return new php4DOMElement($this->myDOMDocument->createElement($name));
     }
@@ -252,7 +252,7 @@ class php4DOMElement extends php4DOMNode
     {
         return $this->myDOMNode->getAttribute($name);
     }
-    
+
     public function owner_document()
     {
         return new php4DOMDocument($this->myDOMNode->ownerDocument);
@@ -300,7 +300,7 @@ class php4DOMElement extends php4DOMNode
         $text = str_replace("&lt;", "<", $text);
         $text = str_replace("&gt;", ">", $text);
         $text = str_replace("&amp;", "&", $text);
-        
+
         $text_node = new DOMText();
         $text_node->appendData($text);
         if (is_object($this->myDOMNode->firstChild)) {
@@ -321,7 +321,7 @@ class php4DOMElement extends php4DOMNode
             return "";
         }
     }
-    
+
     // ## added
     public function unlink($aDomNode)
     {
@@ -361,7 +361,7 @@ class php4DOMNode
     {
         return $this->set_content($newnode->myDOMNode->textContent);
     }
-    
+
     public function append_sibling($newnode)
     {
         return new php4DOMElement($this->myDOMNode->parentNode->appendChild($newnode->myDOMNode));
@@ -448,7 +448,7 @@ class php4DOMNode
         //echo "BH";
         $doc = $this->myDOMNode->ownerDocument;
         $newnode->myDOMNode = $doc->importNode($newnode->myDOMNode, true);
-        
+
         $mydomnode = $this->myDOMNode;
         $mynewnode = $newnode->myDOMNode;
         $myrefnode = $refnode->myDOMNode;
@@ -579,7 +579,7 @@ class php4DOMXPath
         $this->myDOMXPath = new DOMXPath($dom_document->myDOMDocument);
     }
 
-    public function query(string $eval_str) : php4DOMNodelist
+    public function query(string $eval_str): php4DOMNodelist
     {
         return new php4DOMNodelist($this->myDOMXPath->query($eval_str));
     }

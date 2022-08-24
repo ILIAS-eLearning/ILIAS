@@ -1,4 +1,6 @@
-<?php declare(strict_types=0);
+<?php
+
+declare(strict_types=0);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -14,7 +16,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * class ilTimingPlaned
  * @author Stefan Meyer <meyer@leifos.com>
@@ -39,50 +41,50 @@ class ilTimingPlaned
         $this->__read();
     }
 
-    public function getUserId() : int
+    public function getUserId(): int
     {
         return $this->user_id;
     }
 
-    public function getItemId() : int
+    public function getItemId(): int
     {
         return $this->item_id;
     }
 
-    public function getPlanedStartingTime() : int
+    public function getPlanedStartingTime(): int
     {
         return $this->start;
     }
 
-    public function setPlanedStartingTime(int $a_time) : void
+    public function setPlanedStartingTime(int $a_time): void
     {
         $this->start = $a_time;
     }
 
-    public function getPlanedEndingTime() : int
+    public function getPlanedEndingTime(): int
     {
         return $this->end;
     }
 
-    public function setPlanedEndingTime(int $a_end) : void
+    public function setPlanedEndingTime(int $a_end): void
     {
         $this->end = $a_end;
     }
 
-    public function validate() : bool
+    public function validate(): bool
     {
         $item = ilObjectActivation::getItem($this->getItemId());
         return true;
     }
 
-    public function update() : bool
+    public function update(): bool
     {
         ilTimingPlaned::_delete($this->getItemId(), $this->getUserId());
         $this->create();
         return true;
     }
 
-    public function create() : void
+    public function create(): void
     {
         $query = "INSERT INTO crs_timings_planed (item_id,usr_id,planed_start,planed_end) " .
             "VALUES( " .
@@ -94,12 +96,12 @@ class ilTimingPlaned
         $res = $this->db->manipulate($query);
     }
 
-    public function delete() : void
+    public function delete(): void
     {
         ilTimingPlaned::_delete($this->getItemId(), $this->getUserId());
     }
 
-    public static function _delete(int $a_item_id, int $a_usr_id) : void
+    public static function _delete(int $a_item_id, int $a_usr_id): void
     {
         global $DIC;
 
@@ -110,7 +112,7 @@ class ilTimingPlaned
         $res = $ilDB->manipulate($query);
     }
 
-    public static function _getPlanedTimings(int $a_usr_id, int $a_item_id) : array
+    public static function _getPlanedTimings(int $a_usr_id, int $a_item_id): array
     {
         global $DIC;
 
@@ -128,7 +130,7 @@ class ilTimingPlaned
         return $data;
     }
 
-    public static function _getPlanedTimingsByItem($a_item_id) : array
+    public static function _getPlanedTimingsByItem($a_item_id): array
     {
         global $DIC;
 
@@ -144,7 +146,7 @@ class ilTimingPlaned
         return $data;
     }
 
-    public static function _deleteByItem(int $a_item_id) : void
+    public static function _deleteByItem(int $a_item_id): void
     {
         global $DIC;
 
@@ -154,7 +156,7 @@ class ilTimingPlaned
         $res = $ilDB->manipulate($query);
     }
 
-    public static function _deleteByUser(int $a_usr_id) : void
+    public static function _deleteByUser(int $a_usr_id): void
     {
         global $DIC;
 
@@ -164,7 +166,7 @@ class ilTimingPlaned
         $res = $ilDB->manipulate($query);
     }
 
-    public function __read() : void
+    public function __read(): void
     {
         $query = "SELECT * FROM crs_timings_planed " .
             "WHERE item_id = " . $this->db->quote($this->getItemId(), 'integer') . " " .

@@ -13,21 +13,20 @@ use Psr\Http\Message\UriInterface;
  */
 class StartUpMetaBarProvider extends AbstractStaticMetaBarProvider
 {
-
     /**
      * @inheritDoc
      */
-    public function getMetaBarItems() : array
+    public function getMetaBarItems(): array
     {
         $factory = $this->dic->ui()->factory();
         $request = $this->dic->http()->request();
         $languages = $this->dic->language()->getInstalledLanguages();
 
-        $if = function (string $id) : IdentificationInterface {
+        $if = function (string $id): IdentificationInterface {
             return $this->if->identifier($id);
         };
 
-        $txt = function (string $id) : string {
+        $txt = function (string $id): string {
             return $this->dic->language()->txt($id);
         };
 
@@ -91,19 +90,19 @@ class StartUpMetaBarProvider extends AbstractStaticMetaBarProvider
         ];
     }
 
-    private function isUserLoggedIn() : bool
+    private function isUserLoggedIn(): bool
     {
         return (!$this->dic->user()->isAnonymous() && $this->dic->user()->getId() != 0);
     }
 
-    private function isUserOnLoginPage(UriInterface $uri) : bool
+    private function isUserOnLoginPage(UriInterface $uri): bool
     {
         $b = preg_match("%^.*/login.php$%", $uri->getPath()) === 1;
 
         return $b;
     }
 
-    private function appendUrlParameterString(string $existing_url, string $addition) : string
+    private function appendUrlParameterString(string $existing_url, string $addition): string
     {
         $url = (is_int(strpos($existing_url, "?")))
             ? $existing_url . "&" . $addition
@@ -114,7 +113,7 @@ class StartUpMetaBarProvider extends AbstractStaticMetaBarProvider
         return $url;
     }
 
-    private function getBaseURL(UriInterface $uri) : string
+    private function getBaseURL(UriInterface $uri): string
     {
         $base = substr($uri->__toString(), strrpos($uri->__toString(), "/") + 1);
         return preg_replace("/&*lang=[a-z]{2}&*/", "", $base);

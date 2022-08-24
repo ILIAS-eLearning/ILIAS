@@ -24,7 +24,6 @@ use ILIAS\Skill\Tree;
  */
 interface ilSkillTreeRepository
 {
-
     /**
      * Get common skill ids for import IDs (newest first)
      * @param int         $a_source_inst_id  source installation id, must be <>0
@@ -36,7 +35,7 @@ interface ilSkillTreeRepository
         int $a_source_inst_id,
         int $a_skill_import_id,
         int $a_tref_import_id = 0
-    ) : array;
+    ): array;
 
     /**
      * Get level ids for import IDs (newest first)
@@ -44,13 +43,13 @@ interface ilSkillTreeRepository
      * @param int $a_level_import_id source level id
      * @return array array of common skill ids, keys are "level_id", "creation_date"
      */
-    public function getLevelIdForImportId(int $a_source_inst_id, int $a_level_import_id) : array;
+    public function getLevelIdForImportId(int $a_source_inst_id, int $a_level_import_id): array;
 
-    public function isInAnyTree(int $node_id) : bool;
+    public function isInAnyTree(int $node_id): bool;
 
-    public function getTreeIdForNodeId(int $node_id) : int;
+    public function getTreeIdForNodeId(int $node_id): int;
 
-    public function getTreeForNodeId(int $node_id) : ilSkillTree;
+    public function getTreeForNodeId(int $node_id): ilSkillTree;
 
-    public function getVirtualTreeForNodeId(int $node_id) : ilVirtualSkillTree;
+    public function getVirtualTreeForNodeId(int $node_id): ilVirtualSkillTree;
 }

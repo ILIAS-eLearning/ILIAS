@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /******************************************************************************
  *
@@ -29,50 +31,50 @@ class ilECSParticipant
     private bool $is_self;
 
     private ilECSOrganisation $org;
-    
+
     public function __construct(object $json_obj, int $a_cid)
     {
         $this->cid = $a_cid;
         $this->read($json_obj);
     }
-    
+
     /**
      * get community id
      */
-    public function getCommunityId() : int
+    public function getCommunityId(): int
     {
         return $this->cid;
     }
-    
+
     /**
      * get mid
      */
-    public function getMID() : int
+    public function getMID(): int
     {
         return $this->mid;
     }
-    
+
     /**
      * get email
      */
-    public function getEmail() : string
+    public function getEmail(): string
     {
         return $this->email;
     }
 
-    
+
     /**
      * get dns
      */
-    public function getDNS() : string
+    public function getDNS(): string
     {
         return $this->dns;
     }
-    
+
     /**
      * get description
      */
-    public function getDescription() : string
+    public function getDescription(): string
     {
         return $this->description;
     }
@@ -80,7 +82,7 @@ class ilECSParticipant
     /**
      * get participant name
      */
-    public function getParticipantName() : string
+    public function getParticipantName(): string
     {
         return $this->participantname;
     }
@@ -88,15 +90,15 @@ class ilECSParticipant
     /**
      * Get pid
      */
-    public function getPid() : int
+    public function getPid(): int
     {
         return $this->pid;
     }
-    
+
     /**
      * is self
      */
-    public function isSelf() : bool
+    public function isSelf(): bool
     {
         return $this->is_self;
     }
@@ -105,7 +107,7 @@ class ilECSParticipant
      * Get organisation
      * @return ilECSOrganisation $org
      */
-    public function getOrganisation() : ilECSOrganisation
+    public function getOrganisation(): ilECSOrganisation
     {
         return $this->org;
     }
@@ -113,7 +115,7 @@ class ilECSParticipant
     /**
      * Read
      */
-    private function read(object $json_obj) : void
+    private function read(object $json_obj): void
     {
         $this->pid = $json_obj->pid;
         $this->mid = $json_obj->mid;

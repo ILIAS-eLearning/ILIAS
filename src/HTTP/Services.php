@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace ILIAS\HTTP;
 
@@ -34,7 +36,7 @@ class Services implements GlobalHttpState
     protected GlobalHttpState $raw;
     protected WrapperFactory $wrapper;
     protected AgentDetermination $agent;
-    
+
     /**
      * Services constructor.
      */
@@ -50,7 +52,7 @@ class Services implements GlobalHttpState
         $this->agent = new AgentDetermination();
     }
 
-    public function wrapper() : WrapperFactory
+    public function wrapper(): WrapperFactory
     {
         return $this->wrapper;
     }
@@ -59,7 +61,7 @@ class Services implements GlobalHttpState
      * @deprecated Please use $this->wrapper()
      * @see        Services::wrapper();
      */
-    public function raw() : RawHTTPServices
+    public function raw(): RawHTTPServices
     {
         return $this->raw;
     }
@@ -69,7 +71,7 @@ class Services implements GlobalHttpState
      * @see        Services::wrapper();
      * @inheritDoc
      */
-    public function request() : RequestInterface
+    public function request(): RequestInterface
     {
         return $this->raw()->request();
     }
@@ -79,7 +81,7 @@ class Services implements GlobalHttpState
      * @see        Services::wrapper();
      * @inheritDoc
      */
-    public function response() : ResponseInterface
+    public function response(): ResponseInterface
     {
         return $this->raw()->response();
     }
@@ -89,7 +91,7 @@ class Services implements GlobalHttpState
      * @see        Services::wrapper();
      * @inheritDoc
      */
-    public function cookieJar() : CookieJar
+    public function cookieJar(): CookieJar
     {
         return $this->raw()->cookieJar();
     }
@@ -97,7 +99,7 @@ class Services implements GlobalHttpState
     /**
      * @inheritDoc
      */
-    public function saveRequest(ServerRequestInterface $request) : void
+    public function saveRequest(ServerRequestInterface $request): void
     {
         $this->raw()->saveRequest($request);
     }
@@ -105,7 +107,7 @@ class Services implements GlobalHttpState
     /**
      * @inheritDoc
      */
-    public function saveResponse(ResponseInterface $response) : void
+    public function saveResponse(ResponseInterface $response): void
     {
         $this->raw()->saveResponse($response);
     }
@@ -113,17 +115,17 @@ class Services implements GlobalHttpState
     /**
      * @inheritDoc
      */
-    public function sendResponse() : void
+    public function sendResponse(): void
     {
         $this->raw()->sendResponse();
     }
 
-    public function close() : void
+    public function close(): void
     {
         $this->raw()->close();
     }
-    
-    public function agent() : AgentDetermination
+
+    public function agent(): AgentDetermination
     {
         return $this->agent;
     }

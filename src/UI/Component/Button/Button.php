@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\UI\Component\Button;
 
 use ILIAS\UI\Component\Clickable;
@@ -31,12 +33,12 @@ interface Button extends Component, JavaScriptBindable, Clickable, Hoverable, En
     /**
      * Get the label on the button.
      */
-    public function getLabel() : string;
+    public function getLabel(): string;
 
     /**
      * Get a button like this, but with an additional/replaced label.
      */
-    public function withLabel(string $label) : Button;
+    public function withLabel(string $label): Button;
 
     /**
      * Get the action of the button, i.e. an URL that the button links to or
@@ -49,7 +51,7 @@ interface Button extends Component, JavaScriptBindable, Clickable, Hoverable, En
     /**
      * Get to know if the button is activated.
      */
-    public function isActive() : bool;
+    public function isActive(): bool;
 
     /**
      * Get a button like this, but action should be unavailable atm.
@@ -57,15 +59,15 @@ interface Button extends Component, JavaScriptBindable, Clickable, Hoverable, En
      * The button will still have an action afterwards, this might be usefull
      * at some point where we want to reactivate the button client side.
      */
-    public function withUnavailableAction() : Button;
+    public function withUnavailableAction(): Button;
 
     /**
      * Get a button like this, but with an additional/replaced aria-label.
      */
-    public function withAriaLabel(string $aria_label) : Button;
+    public function withAriaLabel(string $aria_label): Button;
 
     /**
      * Get the aria-label on the button.
      */
-    public function getAriaLabel() : string;
+    public function getAriaLabel(): string;
 }

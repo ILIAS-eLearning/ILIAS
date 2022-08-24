@@ -28,21 +28,21 @@
  */
 class ilDclDatatype
 {
-    const INPUTFORMAT_NONE = 0;
-    const INPUTFORMAT_NUMBER = 1;
-    const INPUTFORMAT_TEXT = 2;
-    const INPUTFORMAT_REFERENCE = 3;
-    const INPUTFORMAT_BOOLEAN = 4;
-    const INPUTFORMAT_DATETIME = 5;
-    const INPUTFORMAT_FILE = 6;
-    const INPUTFORMAT_RATING = 7;
-    const INPUTFORMAT_ILIAS_REF = 8;
-    const INPUTFORMAT_MOB = 9;
-    const INPUTFORMAT_REFERENCELIST = 10;
-    const INPUTFORMAT_FORMULA = 11;
-    const INPUTFORMAT_PLUGIN = 12;
-    const INPUTFORMAT_TEXT_SELECTION = 14;
-    const INPUTFORMAT_DATE_SELECTION = 15;
+    public const INPUTFORMAT_NONE = 0;
+    public const INPUTFORMAT_NUMBER = 1;
+    public const INPUTFORMAT_TEXT = 2;
+    public const INPUTFORMAT_REFERENCE = 3;
+    public const INPUTFORMAT_BOOLEAN = 4;
+    public const INPUTFORMAT_DATETIME = 5;
+    public const INPUTFORMAT_FILE = 6;
+    public const INPUTFORMAT_RATING = 7;
+    public const INPUTFORMAT_ILIAS_REF = 8;
+    public const INPUTFORMAT_MOB = 9;
+    public const INPUTFORMAT_REFERENCELIST = 10;
+    public const INPUTFORMAT_FORMULA = 11;
+    public const INPUTFORMAT_PLUGIN = 12;
+    public const INPUTFORMAT_TEXT_SELECTION = 14;
+    public const INPUTFORMAT_DATE_SELECTION = 15;
 
     protected int $id = 0;
     protected string $title = "";
@@ -65,17 +65,17 @@ class ilDclDatatype
         }
     }
 
-    public function getId() : int
+    public function getId(): int
     {
         return $this->id;
     }
 
-    public function setTitle(string $a_title) : void
+    public function setTitle(string $a_title): void
     {
         $this->title = $a_title;
     }
 
-    public function getTitle() : string
+    public function getTitle(): string
     {
         return $this->title;
     }
@@ -83,7 +83,7 @@ class ilDclDatatype
     /**
      * Set Storage Location
      */
-    public function setStorageLocation(int $a_id) : void
+    public function setStorageLocation(int $a_id): void
     {
         $this->storageLocation = $a_id;
     }
@@ -91,12 +91,12 @@ class ilDclDatatype
     /**
      * Get Storage Location
      */
-    public function getStorageLocation() : int
+    public function getStorageLocation(): int
     {
         return $this->storageLocation;
     }
 
-    public function getDbType() : string
+    public function getDbType(): string
     {
         return $this->dbType;
     }
@@ -104,13 +104,15 @@ class ilDclDatatype
     /**
      * Read Datatype
      */
-    public function doRead() : void
+    public function doRead(): void
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
 
-        $query = "SELECT * FROM il_dcl_datatype WHERE id = " . $ilDB->quote($this->getId(),
-                "integer") . " ORDER BY sort";
+        $query = "SELECT * FROM il_dcl_datatype WHERE id = " . $ilDB->quote(
+            $this->getId(),
+            "integer"
+        ) . " ORDER BY sort";
         $set = $ilDB->query($query);
         $rec = $ilDB->fetchAssoc($set);
 
@@ -120,7 +122,7 @@ class ilDclDatatype
     /**
      * Get all possible Datatypes
      */
-    public static function getAllDatatype() : array
+    public static function getAllDatatype(): array
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -142,7 +144,7 @@ class ilDclDatatype
         return self::$datatype_cache;
     }
 
-    protected function loadDatatype(array $rec) : void
+    protected function loadDatatype(array $rec): void
     {
         $this->id = $rec['id'];
         $this->dbType = $rec["ildb_type"];

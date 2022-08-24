@@ -1,4 +1,6 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -31,22 +33,22 @@ class ViewManager
         $this->view_repo = $view_repo;
     }
 
-    public function setAdminView() : void
+    public function setAdminView(): void
     {
         $this->view_repo->setAdminView();
     }
 
-    public function setContentView() : void
+    public function setContentView(): void
     {
         $this->view_repo->setContentView();
     }
 
-    public function isAdminView() : bool
+    public function isAdminView(): bool
     {
         return $this->view_repo->isAdminView();
     }
 
-    public function isContentView() : bool
+    public function isContentView(): bool
     {
         return $this->view_repo->isContentView();
     }

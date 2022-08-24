@@ -25,5 +25,5 @@ interface ilAccessibilityEquatable
      * @param mixed $other
      * @return bool
      */
-    public function equals($other) : bool;
+    public function equals($other): bool;
 }

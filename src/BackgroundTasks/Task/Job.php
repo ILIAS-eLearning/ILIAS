@@ -15,7 +15,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\BackgroundTasks\Task;
 
 use ILIAS\BackgroundTasks\Observer;
@@ -30,7 +30,6 @@ use ILIAS\BackgroundTasks\Value;
  */
 interface Job extends Task
 {
-    
     /**
      * @param \ILIAS\BackgroundTasks\Value[] $input    This will be a list of Values hinted by
      *                                                 getInputTypes.
@@ -38,24 +37,24 @@ interface Job extends Task
      * @return Value                            The returned Value must be of the type hinted by
      *                                                 getOutputType.
      */
-    public function run(array $input, Observer $observer) : Value;
-    
+    public function run(array $input, Observer $observer): Value;
+
     /**
      * @return bool returns true iff the job's output ONLY depends on the input. Stateless task
      *              results may be cached!
      */
-    public function isStateless() : bool;
-    
+    public function isStateless(): bool;
+
     /**
      * @return array returns the input array
      */
-    public function getInput() : array;
-    
+    public function getInput(): array;
+
     /**
      * @return int the amount of seconds this task usually taskes. If your task-duration scales
      *             with the the amount of data, try to set a possible high value of try to
      *             calculate it. If a task duration exceeds this value, it will be displayed as
      *             "possibly failed" to the user
      */
-    public function getExpectedTimeOfTaskInSeconds() : int;
+    public function getExpectedTimeOfTaskInSeconds(): int;
 }

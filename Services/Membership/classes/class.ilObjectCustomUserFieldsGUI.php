@@ -1,5 +1,7 @@
-<?php declare(strict_types=1);
-    
+<?php
+
+declare(strict_types=1);
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 use ILIAS\HTTP\GlobalHttpState;
 use ILIAS\Refinery\Factory;
 
@@ -69,7 +71,7 @@ class ilObjectCustomUserFieldsGUI
         $this->ref_id = end($refs);
     }
 
-    protected function initMemberIdFromQuery() : int
+    protected function initMemberIdFromQuery(): int
     {
         if ($this->http->wrapper()->query()->has('member_id')) {
             return $this->http->wrapper()->query()->retrieve(
@@ -80,7 +82,7 @@ class ilObjectCustomUserFieldsGUI
         return 0;
     }
 
-    protected function initFielIdFromQuery() : int
+    protected function initFielIdFromQuery(): int
     {
         if ($this->http->wrapper()->query()->has('field_id')) {
             return $this->http->wrapper()->query()->retrieve(
@@ -91,7 +93,7 @@ class ilObjectCustomUserFieldsGUI
         return 0;
     }
 
-    protected function initRequiredStatusFromPost() : array
+    protected function initRequiredStatusFromPost(): array
     {
         if ($this->http->wrapper()->post()->has('required')) {
             return $this->http->wrapper()->post()->retrieve(
@@ -104,7 +106,7 @@ class ilObjectCustomUserFieldsGUI
         return [];
     }
 
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         if (!$this->accessHandler->checkAccess('write', '', $this->ref_id)) {
             $this->errorHandling->raiseError($this->lng->txt('permission_denied'), $this->errorHandling->WARNING);
@@ -121,12 +123,12 @@ class ilObjectCustomUserFieldsGUI
         }
     }
 
-    public function getObjId() : int
+    public function getObjId(): int
     {
         return $this->obj_id;
     }
 
-    protected function show() : void
+    protected function show(): void
     {
         if (ilMemberAgreement::_hasAgreementsByObjId($this->getObjId())) {
             $this->tpl->setOnScreenMessage('info', $this->lng->txt('ps_cdf_warning_modify'));
@@ -134,7 +136,7 @@ class ilObjectCustomUserFieldsGUI
         $this->listFields();
     }
 
-    protected function listFields() : void
+    protected function listFields(): void
     {
         $this->toolbarGUI->addButton(
             $this->lng->txt('ps_cdf_add_field'),
@@ -145,7 +147,7 @@ class ilObjectCustomUserFieldsGUI
         $this->tpl->setContent($table->getHTML());
     }
 
-    protected function saveFields() : void
+    protected function saveFields(): void
     {
         $fields = ilCourseDefinedFieldDefinition::_getFields($this->getObjId());
         foreach ($fields as $field_obj) {
@@ -158,7 +160,7 @@ class ilObjectCustomUserFieldsGUI
         $this->listFields();
     }
 
-    protected function confirmDeleteFields() : void
+    protected function confirmDeleteFields(): void
     {
         $field_ids = [];
         if ($this->http->wrapper()->post()->has('field_ids')) {
@@ -190,7 +192,7 @@ class ilObjectCustomUserFieldsGUI
         $this->tpl->setContent($confirm->getHTML());
     }
 
-    protected function deleteFields() : void
+    protected function deleteFields(): void
     {
         $field_ids = [];
         if ($this->http->wrapper()->post()->has('field_ids')) {
@@ -213,14 +215,14 @@ class ilObjectCustomUserFieldsGUI
         $this->listFields();
     }
 
-    protected function addField() : void
+    protected function addField(): void
     {
         $this->initFieldForm(self::MODE_CREATE);
         $this->form->getItemByPostVar('va')->setValues(array(''));
         $this->tpl->setContent($this->form->getHTML());
     }
 
-    protected function saveField() : void
+    protected function saveField(): void
     {
         $this->initFieldForm(self::MODE_CREATE);
         if ($this->form->checkInput()) {
@@ -244,7 +246,7 @@ class ilObjectCustomUserFieldsGUI
         $this->tpl->setContent($this->form->getHTML());
     }
 
-    protected function editField() : void
+    protected function editField(): void
     {
         if (!$this->initFielIdFromQuery()) {
             $this->listFields();
@@ -261,7 +263,7 @@ class ilObjectCustomUserFieldsGUI
         $this->tpl->setContent($this->form->getHTML());
     }
 
-    protected function updateField() : void
+    protected function updateField(): void
     {
         $this->initFieldForm(self::MODE_UPDATE);
         if ($this->form->checkInput()) {
@@ -286,7 +288,7 @@ class ilObjectCustomUserFieldsGUI
         $this->tpl->setContent($this->form->getHTML());
     }
 
-    protected function initFieldForm(int $a_mode) : ilPropertyFormGUI
+    protected function initFieldForm(int $a_mode): ilPropertyFormGUI
     {
         if ($this->form instanceof ilPropertyFormGUI) {
             return $this->form;
@@ -349,7 +351,7 @@ class ilObjectCustomUserFieldsGUI
         return $this->form;
     }
 
-    protected function editMember(?ilPropertyFormGUI $form = null) : void
+    protected function editMember(?ilPropertyFormGUI $form = null): void
     {
         $member_id = $this->initMemberIdFromQuery();
         $this->ctrl->saveParameter($this, 'member_id');
@@ -373,12 +375,12 @@ class ilObjectCustomUserFieldsGUI
         $this->tpl->setContent($form->getHTML());
     }
 
-    protected function cancelEditMember() : void
+    protected function cancelEditMember(): void
     {
         $this->ctrl->returnToParent($this);
     }
 
-    protected function initMemberForm() : ilPropertyFormGUI
+    protected function initMemberForm(): ilPropertyFormGUI
     {
         $member_id = $this->initMemberIdFromQuery();
         $form = new ilPropertyFormGUI();
@@ -399,7 +401,7 @@ class ilObjectCustomUserFieldsGUI
         return $form;
     }
 
-    protected function saveMember() : void
+    protected function saveMember(): void
     {
         $member_id = $this->initMemberIdFromQuery();
         $this->ctrl->saveParameter($this, 'member_id');

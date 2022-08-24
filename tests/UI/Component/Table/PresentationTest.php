@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 require_once("libs/composer/vendor/autoload.php");
 require_once(__DIR__ . "/../../Base.php");
 
@@ -28,19 +30,19 @@ use ILIAS\UI\Implementation\Component\Table\PresentationRow;
  */
 class PresentationTest extends ILIAS_UI_TestBase
 {
-    private function getFactory() : I\Component\Table\Factory
+    private function getFactory(): I\Component\Table\Factory
     {
         return new I\Component\Table\Factory(
             new I\Component\SignalGenerator()
         );
     }
 
-    public function testTableConstruction() : void
+    public function testTableConstruction(): void
     {
         $f = $this->getFactory();
         $this->assertInstanceOf("ILIAS\\UI\\Component\\Table\\Factory", $f);
 
-        $pt = $f->presentation('title', [], function () : void {
+        $pt = $f->presentation('title', [], function (): void {
         });
         $this->assertInstanceOf("ILIAS\\UI\\Component\\Table\\Presentation", $pt);
 
@@ -55,11 +57,11 @@ class PresentationTest extends ILIAS_UI_TestBase
         $this->assertEquals(array('dk' => 'dv'), $pt->getData());
     }
 
-    public function testBareTableRendering() : void
+    public function testBareTableRendering(): void
     {
         $r = $this->getDefaultRenderer();
         $f = $this->getFactory();
-        $pt = $f->presentation('title', [], function () : void {
+        $pt = $f->presentation('title', [], function (): void {
         });
         $expected = '' .
             '<div class="il-table-presentation">' .
@@ -69,10 +71,10 @@ class PresentationTest extends ILIAS_UI_TestBase
         $this->assertHTMLEquals($expected, $r->render($pt->withData([])));
     }
 
-    public function testRowConstruction() : void
+    public function testRowConstruction(): void
     {
         $f = $this->getFactory();
-        $pt = $f->presentation('title', [], function () : void {
+        $pt = $f->presentation('title', [], function (): void {
         });
         $row = new PresentationRow($pt->getSignalGenerator());
 
@@ -103,16 +105,16 @@ class PresentationTest extends ILIAS_UI_TestBase
         );
     }
 
-    public function getUIFactory() : NoUIFactory
+    public function getUIFactory(): NoUIFactory
     {
-        $factory = new class extends NoUIFactory {
-            public function button() : C\Button\Factory
+        $factory = new class () extends NoUIFactory {
+            public function button(): C\Button\Factory
             {
                 return new I\Component\Button\Factory(
                     new I\Component\SignalGenerator()
                 );
             }
-            public function symbol() : ILIAS\UI\Component\Symbol\Factory
+            public function symbol(): ILIAS\UI\Component\Symbol\Factory
             {
                 return new I\Component\Symbol\Factory(
                     new I\Component\Symbol\Icon\Factory(),
@@ -125,7 +127,7 @@ class PresentationTest extends ILIAS_UI_TestBase
         return $factory;
     }
 
-    protected function getDummyData() : array
+    protected function getDummyData(): array
     {
         return [[
             'headline' => 'some title',
@@ -138,7 +140,7 @@ class PresentationTest extends ILIAS_UI_TestBase
         ]];
     }
 
-    public function testFullRendering() : void
+    public function testFullRendering(): void
     {
         $mapping = function ($row, $record, $ui_factory, $environment) {
             return $row
@@ -221,7 +223,7 @@ EXP;
     }
 
 
-    public function testMinimalRendering() : void
+    public function testMinimalRendering(): void
     {
         $mapping = function ($row, $record, $ui_factory, $environment) {
             return $row

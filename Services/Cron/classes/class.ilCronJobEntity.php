@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -56,7 +58,7 @@ class ilCronJobEntity
     /**
      * @param array<string, mixed> $record
      */
-    private function mapRecord(array $record) : void
+    private function mapRecord(array $record): void
     {
         $this->jobId = (string) $record['job_id'];
         $this->component = (string) $record['component'];
@@ -79,112 +81,112 @@ class ilCronJobEntity
         $this->aliveTimestamp = (int) $record['alive_ts'];
     }
 
-    public function getJob() : ilCronJob
+    public function getJob(): ilCronJob
     {
         return $this->job;
     }
 
-    public function getJobId() : string
+    public function getJobId(): string
     {
         return $this->jobId;
     }
 
-    public function getComponent() : string
+    public function getComponent(): string
     {
         return $this->component;
     }
 
-    public function getScheduleType() : int
+    public function getScheduleType(): int
     {
         return $this->scheduleType;
     }
 
-    public function getScheduleValue() : int
+    public function getScheduleValue(): int
     {
         return $this->scheduleValue;
     }
 
-    public function getJobStatus() : int
+    public function getJobStatus(): int
     {
         return $this->jobStatus;
     }
 
-    public function getJobStatusUsrId() : int
+    public function getJobStatusUsrId(): int
     {
         return $this->jobStatusUsrId;
     }
 
-    public function getJobStatusType() : int
+    public function getJobStatusType(): int
     {
         return $this->jobStatusType;
     }
 
-    public function getJobStatusTimestamp() : int
+    public function getJobStatusTimestamp(): int
     {
         return $this->jobStatusTimestamp;
     }
 
-    public function getJobResultStatus() : int
+    public function getJobResultStatus(): int
     {
         return $this->jobResultStatus;
     }
 
-    public function getJobResultUsrId() : int
+    public function getJobResultUsrId(): int
     {
         return $this->jobResultUsrId;
     }
 
-    public function getJobResultCode() : string
+    public function getJobResultCode(): string
     {
         return $this->jobResultCode;
     }
 
-    public function getJobResultMessage() : string
+    public function getJobResultMessage(): string
     {
         return $this->jobResultMessage;
     }
 
-    public function getJobResultType() : int
+    public function getJobResultType(): int
     {
         return $this->jobResultType;
     }
 
-    public function getJobResultTimestamp() : int
+    public function getJobResultTimestamp(): int
     {
         return $this->jobResultTimestamp;
     }
 
-    public function getClass() : string
+    public function getClass(): string
     {
         return $this->class;
     }
 
-    public function getPath() : string
+    public function getPath(): string
     {
         return $this->path;
     }
 
-    public function getRunningTimestamp() : int
+    public function getRunningTimestamp(): int
     {
         return $this->runningTimestamp;
     }
 
-    public function getJobResultDuration() : int
+    public function getJobResultDuration(): int
     {
         return $this->jobResultDuration;
     }
 
-    public function getAliveTimestamp() : int
+    public function getAliveTimestamp(): int
     {
         return $this->aliveTimestamp;
     }
 
-    public function isPlugin() : bool
+    public function isPlugin(): bool
     {
         return $this->isPlugin;
     }
 
-    public function getEffectiveScheduleType() : int
+    public function getEffectiveScheduleType(): int
     {
         $type = $this->getScheduleType();
         if (!$type || !$this->getJob()->hasFlexibleSchedule()) {
@@ -194,7 +196,7 @@ class ilCronJobEntity
         return $type;
     }
 
-    public function getEffectiveScheduleValue() : int
+    public function getEffectiveScheduleValue(): int
     {
         $type = $this->getScheduleType();
         $value = $this->getScheduleValue();
@@ -205,7 +207,7 @@ class ilCronJobEntity
         return $value;
     }
 
-    public function getEffectiveTitle() : string
+    public function getEffectiveTitle(): string
     {
         $id = $this->getJobId();
         if ($this->isPlugin()) {

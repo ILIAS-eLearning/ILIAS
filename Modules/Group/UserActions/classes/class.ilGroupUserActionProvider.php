@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /* Copyright (c) 1998-2017 ILIAS open source, Extended GPL, see docs/LICENSE */
 
@@ -15,7 +17,7 @@ class ilGroupUserActionProvider extends ilUserActionProvider
     /**
      * @inheritdoc
      */
-    public function getComponentId() : string
+    public function getComponentId(): string
     {
         return "grp";
     }
@@ -23,7 +25,7 @@ class ilGroupUserActionProvider extends ilUserActionProvider
     /**
      * @inheritdoc
      */
-    public function getActionTypes() : array
+    public function getActionTypes(): array
     {
         $this->lng->loadLanguageModule("grp");
 
@@ -32,7 +34,7 @@ class ilGroupUserActionProvider extends ilUserActionProvider
         );
     }
 
-    public static function getCommandAccess(int $a_user_id) : array
+    public static function getCommandAccess(int $a_user_id): array
     {
         if (!isset(self::$grp_ops[$a_user_id])) {
             $ops = array();
@@ -52,7 +54,7 @@ class ilGroupUserActionProvider extends ilUserActionProvider
     /**
      * @inheritDoc
      */
-    public function collectActionsForTargetUser(int $a_target_user) : ilUserActionCollection
+    public function collectActionsForTargetUser(int $a_target_user): ilUserActionCollection
     {
         global $DIC;
 
@@ -82,7 +84,7 @@ class ilGroupUserActionProvider extends ilUserActionProvider
     /**
      * @inheritDoc
      */
-    public function getJsScripts(string $a_action_type) : array
+    public function getJsScripts(string $a_action_type): array
     {
         switch ($a_action_type) {
             case "add_to":

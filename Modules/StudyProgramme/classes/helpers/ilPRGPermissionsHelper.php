@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -68,7 +70,7 @@ class ilPRGPermissionsHelper
         $this->programme = $programme;
     }
 
-    public function may(string $operation) : bool
+    public function may(string $operation): bool
     {
         $this->throwForInvalidOperation($operation);
         if (in_array($operation, self::ORGU_OPERATIONS)) {
@@ -87,7 +89,7 @@ class ilPRGPermissionsHelper
     /**
      * @param string[] $operations
      */
-    public function mayAnyOf(array $operations) : bool
+    public function mayAnyOf(array $operations): bool
     {
         foreach ($operations as $operation) {
             if ($this->may($operation)) {
@@ -100,7 +102,7 @@ class ilPRGPermissionsHelper
     /**
      * @return int[]
      */
-    public function getUserIdsSusceptibleTo(string $operation) : array
+    public function getUserIdsSusceptibleTo(string $operation): array
     {
         $this->throwForInvalidOperation($operation);
 
@@ -117,7 +119,7 @@ class ilPRGPermissionsHelper
     /**
      * @param int[] $user_ids
      */
-    public function filterUserIds(array $user_ids, string $operation) : array
+    public function filterUserIds(array $user_ids, string $operation): array
     {
         if ($this->may(self::ROLEPERM_MANAGE_MEMBERS)) { //RBAC overrides OrgUs
             return $user_ids;
@@ -130,7 +132,7 @@ class ilPRGPermissionsHelper
         );
     }
 
-    protected function throwForInvalidOperation(string $operation) : void
+    protected function throwForInvalidOperation(string $operation): void
     {
         $valid = array_merge(
             self::ORGU_OPERATIONS,
@@ -147,7 +149,7 @@ class ilPRGPermissionsHelper
         }
     }
 
-    protected function getUserIdsInPrgAccessibleForOperation(string $orgu_operation) : array
+    protected function getUserIdsInPrgAccessibleForOperation(string $orgu_operation): array
     {
         if (!isset($this->cache[$orgu_operation])) {
             $user_ids = array_map(
@@ -166,7 +168,7 @@ class ilPRGPermissionsHelper
     /**
      * @return int[]
      */
-    protected function getAllAssignedUserIds() : array
+    protected function getAllAssignedUserIds(): array
     {
         if (!isset($this->cache[self::ROLEPERM_MANAGE_MEMBERS])) {
             $this->cache[self::ROLEPERM_MANAGE_MEMBERS] = array_unique($this->programme->getMembers());
@@ -174,7 +176,7 @@ class ilPRGPermissionsHelper
         return $this->cache[self::ROLEPERM_MANAGE_MEMBERS];
     }
 
-    protected function getProgrammeRefId() : int
+    protected function getProgrammeRefId(): int
     {
         return $this->programme->getRefId();
     }

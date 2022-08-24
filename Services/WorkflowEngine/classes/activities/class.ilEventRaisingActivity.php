@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -34,27 +36,27 @@ class ilEventRaisingActivity implements ilActivity, ilWorkflowEngineElement
      * @param string $key
      * @param mixed $value
      */
-    public function addFixedParam(string $key, $value) : void
+    public function addFixedParam(string $key, $value): void
     {
         $this->fixed_params[] = ['key' => $key, 'value' => $value];
     }
 
-    public function getEventName() : string
+    public function getEventName(): string
     {
         return $this->event_name;
     }
 
-    public function setEventName(string $event_name) : void
+    public function setEventName(string $event_name): void
     {
         $this->event_name = $event_name;
     }
 
-    public function getEventType() : string
+    public function getEventType(): string
     {
         return $this->event_type;
     }
 
-    public function setEventType(string $event_type) : void
+    public function setEventType(string $event_type): void
     {
         $this->event_type = $event_type;
     }
@@ -64,7 +66,7 @@ class ilEventRaisingActivity implements ilActivity, ilWorkflowEngineElement
      * @return void
      * @todo Use exceptions / internal logging.
      */
-    public function execute() : void
+    public function execute(): void
     {
         global $DIC;
         /** @var ilAppEventHandler $ilAppEventHandler */
@@ -80,7 +82,7 @@ class ilEventRaisingActivity implements ilActivity, ilWorkflowEngineElement
     /**
      * @return array
      */
-    public function getParamsArray() : array
+    public function getParamsArray(): array
     {
         // TODO: Get logic for getting values from incoming data associations.
 
@@ -100,12 +102,12 @@ class ilEventRaisingActivity implements ilActivity, ilWorkflowEngineElement
         return $this->context;
     }
 
-    public function setName($name) : void
+    public function setName($name): void
     {
         $this->name = $name;
     }
 
-    public function getName() : string
+    public function getName(): string
     {
         return $this->name;
     }

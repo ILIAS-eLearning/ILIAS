@@ -1,10 +1,12 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
     //location of the RTE-script-files
     $location = "../scripts";
     $a_outjsmin = [];
     $out = "";
-    
+
     //list all scripts that are needed for the RTE
     $mandatory_scripts = array( "sequencer/ADLAuxiliaryResource.js",
                                 "sequencer/ADLDuration.js",
@@ -30,8 +32,8 @@
                                 "sequencer/SeqRuleset.js",
                                 "rtemain/main.js",
                                 "rtemain/rte.js");
-  
-    
+
+
     //minimize all scripts
     foreach ($mandatory_scripts as $file) {
         $inp = file_get_contents($location . "/" . $file);

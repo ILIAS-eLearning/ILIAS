@@ -1,4 +1,6 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -63,7 +65,7 @@ class EvaluationManager
      * This is true for tutors (can edit settings) or normal users, if the mode
      * supports to see the results of others.
      */
-    public function isMultiParticipantsView() : bool
+    public function isMultiParticipantsView(): bool
     {
         $survey = $this->survey;
         $access = $this->access;
@@ -77,7 +79,7 @@ class EvaluationManager
      * including itself
      * @return int[]
      */
-    public function getSelectableAppraisees() : array
+    public function getSelectableAppraisees(): array
     {
         $survey = $this->survey;
         $user_id = $this->user_id;
@@ -113,7 +115,7 @@ class EvaluationManager
      *    - Otherwise the first selectable appraisee will be returned.
      * In all other cases 0 will be returned.
      */
-    public function getCurrentAppraisee() : int
+    public function getCurrentAppraisee(): int
     {
         $req_appr_id = $this->requested_appr_id;
 
@@ -141,7 +143,7 @@ class EvaluationManager
      * Only the individual feedback mode allows to select raters
      * and only, if the user cannot select appraisees on top level
      */
-    public function getSelectableRaters() : array
+    public function getSelectableRaters(): array
     {
         $raters = [];
         $survey = $this->survey;
@@ -160,11 +162,11 @@ class EvaluationManager
         return $raters;
     }
 
-    public function getCurrentRater() : string
+    public function getCurrentRater(): string
     {
         $req_rater_id = $this->requested_rater_id;
 
-        $valid = array_map(static function ($i) : int {
+        $valid = array_map(static function ($i): int {
             return (int) $i["user_id"];
         }, $this->getSelectableRaters());
         if (in_array($req_rater_id, $valid, true)) {
@@ -173,17 +175,17 @@ class EvaluationManager
         return "";
     }
 
-    public function setAnonEvaluationAccess(int $ref_id) : void
+    public function setAnonEvaluationAccess(int $ref_id): void
     {
         $this->eval_repo->setAnonEvaluationAccess($ref_id);
     }
 
-    public function getAnonEvaluationAccess() : int
+    public function getAnonEvaluationAccess(): int
     {
         return $this->eval_repo->getAnonEvaluationAccess();
     }
 
-    public function clearAnonEvaluationAccess() : void
+    public function clearAnonEvaluationAccess(): void
     {
         $this->eval_repo->clearAnonEvaluationAccess();
     }
@@ -192,7 +194,7 @@ class EvaluationManager
      * @param int $appr_id
      * @return array|null : null means, nothing is filtered (=all), [] means "no finish id"
      */
-    public function getFilteredFinishedIds() : ?array
+    public function getFilteredFinishedIds(): ?array
     {
         $appr_id = $this->getCurrentAppraisee();
         $finished_ids = null;
@@ -216,7 +218,7 @@ class EvaluationManager
         return $finished_ids;
     }
 
-    public function getUserSpecificResults() : array
+    public function getUserSpecificResults(): array
     {
         $data = array();
 

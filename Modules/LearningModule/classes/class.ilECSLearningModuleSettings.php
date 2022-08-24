@@ -23,17 +23,17 @@
  */
 class ilECSLearningModuleSettings extends ilECSObjectSettings
 {
-    protected function getECSObjectType() : string
+    protected function getECSObjectType(): string
     {
         return '/campusconnect/learningmodules';
     }
-    
+
     protected function buildJson(ilECSSetting $a_server)
     {
         $json = $this->getJsonCore('application/ecs-learningmodule');
-        
+
         $json->availability = $this->content_obj->getOfflineStatus() ? 'offline' : 'online';
-        
+
         return $json;
     }
 }

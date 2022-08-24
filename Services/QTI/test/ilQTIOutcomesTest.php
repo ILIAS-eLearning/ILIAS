@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -21,12 +23,12 @@ use PHPUnit\Framework\TestCase;
 
 class ilQTIOutcomesTest extends TestCase
 {
-    public function testConstruct() : void
+    public function testConstruct(): void
     {
         $this->assertInstanceOf(ilQTIOutcomes::class, new ilQTIOutcomes());
     }
 
-    public function testSetGetComment() : void
+    public function testSetGetComment(): void
     {
         $instance = new ilQTIOutcomes();
         $instance->setComment('Some input.');

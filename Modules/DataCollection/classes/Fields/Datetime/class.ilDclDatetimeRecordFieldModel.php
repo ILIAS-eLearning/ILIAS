@@ -28,12 +28,12 @@ class ilDclDatetimeRecordFieldModel extends ilDclBaseRecordFieldModel
     /**
      * @param int|string $value
      */
-    public function parseValue($value) : string
+    public function parseValue($value): string
     {
         return $value;
     }
 
-    public function getValueFromExcel(ilExcel $excel, int $row, int $col) : ?string
+    public function getValueFromExcel(ilExcel $excel, int $row, int $col): ?string
     {
         $value = parent::getValueFromExcel($excel, $row, $col);
 
@@ -44,7 +44,7 @@ class ilDclDatetimeRecordFieldModel extends ilDclBaseRecordFieldModel
      * Function to parse incoming data from form input value $value. returns the string/number/etc. to store in the database.
      * @param string $value
      */
-    public function parseExportValue($value) : ?string
+    public function parseExportValue($value): ?string
     {
         return substr($value, 0, 10);
     }
@@ -53,7 +53,7 @@ class ilDclDatetimeRecordFieldModel extends ilDclBaseRecordFieldModel
      * Returns sortable value for the specific field-types
      * @param string $value
      */
-    public function parseSortingValue($value, bool $link = true) : ?int
+    public function parseSortingValue($value, bool $link = true): ?int
     {
         return strtotime($value);
     }

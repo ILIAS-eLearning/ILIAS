@@ -1,4 +1,5 @@
 <?php
+
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 require_once 'Services/Form/interfaces/interface.ilFormValuesManipulator.php';
@@ -11,7 +12,7 @@ require_once 'Services/Form/interfaces/interface.ilFormValuesManipulator.php';
  */
 class ilAssOrderingDefaultElementFallback implements ilFormValuesManipulator
 {
-    public function manipulateFormInputValues(array $inputValues) : array
+    public function manipulateFormInputValues(array $inputValues): array
     {
         if (!count($inputValues)) {
             require_once 'Modules/TestQuestionPool/classes/questions/class.ilAssOrderingElementList.php';
@@ -19,11 +20,11 @@ class ilAssOrderingDefaultElementFallback implements ilFormValuesManipulator
 
             $inputValues[$defaultElement->getRandomIdentifier()] = $defaultElement;
         }
-        
+
         return $inputValues;
     }
-    
-    public function manipulateFormSubmitValues(array $submitValues) : array
+
+    public function manipulateFormSubmitValues(array $submitValues): array
     {
         return $submitValues;
     }

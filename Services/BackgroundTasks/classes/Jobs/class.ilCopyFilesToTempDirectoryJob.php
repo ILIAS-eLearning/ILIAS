@@ -15,7 +15,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 use ILIAS\BackgroundTasks\Implementation\Tasks\AbstractJob;
 use ILIAS\BackgroundTasks\Implementation\Values\ScalarValues\StringValue;
 use ILIAS\BackgroundTasks\Observer;
@@ -48,7 +48,7 @@ class ilCopyFilesToTempDirectoryJob extends AbstractJob
     /**
      * @return \ILIAS\BackgroundTasks\Types\SingleType[]
      */
-    public function getInputTypes() : array
+    public function getInputTypes(): array
     {
         return
             [
@@ -60,13 +60,13 @@ class ilCopyFilesToTempDirectoryJob extends AbstractJob
     /**
      * @todo output should be file type
      */
-    public function getOutputType() : Type
+    public function getOutputType(): Type
     {
         return new SingleType(StringValue::class);
     }
 
 
-    public function isStateless() : bool
+    public function isStateless(): bool
     {
         return true;
     }
@@ -76,7 +76,7 @@ class ilCopyFilesToTempDirectoryJob extends AbstractJob
      * run the job
      * @param Value    $input
      */
-    public function run(array $input, Observer $observer) : Value
+    public function run(array $input, Observer $observer): Value
     {
         $definition = $input[0];
 
@@ -109,7 +109,7 @@ class ilCopyFilesToTempDirectoryJob extends AbstractJob
      * @todo refactor to new file system access
      *       Create unique temp directory
      */
-    protected function createUniqueTempDirectory() : string
+    protected function createUniqueTempDirectory(): string
     {
         $tmpdir = ilFileUtils::ilTempnam();
         ilFileUtils::makeDirParents($tmpdir);
@@ -119,7 +119,7 @@ class ilCopyFilesToTempDirectoryJob extends AbstractJob
     }
 
 
-    protected function createTargetDirectory($a_tmpdir) : string
+    protected function createTargetDirectory($a_tmpdir): string
     {
         $final_dir = $a_tmpdir . "/" . $this->target_directory;
         ilFileUtils::makeDirParents($final_dir);
@@ -132,7 +132,7 @@ class ilCopyFilesToTempDirectoryJob extends AbstractJob
     /**
      * Copy files
      */
-    protected function copyFiles(string $tmpdir, ilCopyDefinition $definition) : void
+    protected function copyFiles(string $tmpdir, ilCopyDefinition $definition): void
     {
         foreach ($definition->getCopyDefinitions() as $copy_task) {
             if ($copy_task[ilCopyDefinition::COPY_SOURCE_DIR] === '') { // see https://mantis.ilias.de/view.php?id=31328
@@ -173,7 +173,7 @@ class ilCopyFilesToTempDirectoryJob extends AbstractJob
     /**
      * @inheritdoc
      */
-    public function getExpectedTimeOfTaskInSeconds() : int
+    public function getExpectedTimeOfTaskInSeconds(): int
     {
         return 30;
     }

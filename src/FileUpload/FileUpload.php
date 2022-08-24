@@ -33,7 +33,6 @@ use ILIAS\FileUpload\Processor\PreProcessor;
  */
 interface FileUpload
 {
-
     /**
      * Moves all uploaded files to the given destination after the processors had processed the
      * files. Only files which got accepted by the processors are moved. Please make sure to
@@ -50,7 +49,7 @@ interface FileUpload
      * @since 5.3
      * @see   Location
      */
-    public function moveFilesTo(string $destination, int $location = Location::STORAGE) : void;
+    public function moveFilesTo(string $destination, int $location = Location::STORAGE): void;
 
 
     /**
@@ -69,7 +68,7 @@ interface FileUpload
         int $location = Location::STORAGE,
         string $file_name = '',
         bool $override_existing = false
-    ) : bool;
+    ): bool;
 
 
     /**
@@ -77,7 +76,7 @@ interface FileUpload
      *
      * @since 5.3
      */
-    public function uploadSizeLimit() : int;
+    public function uploadSizeLimit(): int;
 
 
     /**
@@ -91,7 +90,7 @@ interface FileUpload
      *                               processed.
      * @since 5.3
      */
-    public function register(PreProcessor $preProcessor) : void;
+    public function register(PreProcessor $preProcessor): void;
 
 
     /**
@@ -104,7 +103,7 @@ interface FileUpload
      * @throws IllegalStateException If the files already got processed.
      * @since 5.3
      */
-    public function process() : void;
+    public function process(): void;
 
 
     /**
@@ -115,7 +114,7 @@ interface FileUpload
      * @throws IllegalStateException If the method is called before the files are processed.
      * @since 5.3
      */
-    public function getResults() : array;
+    public function getResults(): array;
 
 
     /**
@@ -124,7 +123,7 @@ interface FileUpload
      *
      * @since 5.3
      */
-    public function hasUploads() : bool;
+    public function hasUploads(): bool;
 
     /**
      * Return (bool)true if the current upload has already been processed
@@ -132,5 +131,5 @@ interface FileUpload
      *
      * @since 5.3
      */
-    public function hasBeenProcessed() : bool;
+    public function hasBeenProcessed(): bool;
 }

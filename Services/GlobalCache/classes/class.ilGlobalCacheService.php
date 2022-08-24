@@ -15,7 +15,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * Class ilGlobalCacheService
  * Base class for all concrete cache implementations.
@@ -44,9 +44,9 @@ abstract class ilGlobalCacheService implements ilGlobalCacheServiceInterface
         self::$installable[static::class] = ($this->getInstallable() && $this->checkMemory());
     }
 
-    abstract protected function getActive() : bool;
+    abstract protected function getActive(): bool;
 
-    abstract protected function getInstallable() : bool;
+    abstract protected function getInstallable(): bool;
 
     /**
      * @param mixed $serialized_value
@@ -62,7 +62,7 @@ abstract class ilGlobalCacheService implements ilGlobalCacheServiceInterface
     /**
      * @param mixed $serialized_value
      */
-    abstract public function set(string $key, $serialized_value, int $ttl = null) : bool;
+    abstract public function set(string $key, $serialized_value, int $ttl = null): bool;
 
     /**
      * @param mixed $value
@@ -70,47 +70,47 @@ abstract class ilGlobalCacheService implements ilGlobalCacheServiceInterface
      */
     abstract public function serialize($value);
 
-    public function getServiceId() : string
+    public function getServiceId(): string
     {
         return $this->service_id;
     }
 
-    public function setServiceId(string $service_id) : void
+    public function setServiceId(string $service_id): void
     {
         $this->service_id = $service_id;
     }
 
-    public function getComponent() : string
+    public function getComponent(): string
     {
         return $this->component;
     }
 
-    public function setComponent(string $component) : void
+    public function setComponent(string $component): void
     {
         $this->component = $component;
     }
 
-    public function isActive() : bool
+    public function isActive(): bool
     {
         return self::$active[static::class];
     }
 
-    public function isInstallable() : bool
+    public function isInstallable(): bool
     {
         return self::$installable[static::class];
     }
 
-    public function returnKey(string $key) : string
+    public function returnKey(string $key): string
     {
         return $this->getServiceId() . '_' . $this->getComponent() . '_' . $key;
     }
 
-    public function getInfo() : array
+    public function getInfo(): array
     {
         return array();
     }
 
-    public function getInstallationFailureReason() : string
+    public function getInstallationFailureReason(): string
     {
         if (!$this->getInstallable()) {
             return 'Not installed';
@@ -122,17 +122,17 @@ abstract class ilGlobalCacheService implements ilGlobalCacheServiceInterface
         return 'Unknown reason';
     }
 
-    protected function getMemoryLimit() : string
+    protected function getMemoryLimit(): string
     {
         return '9999M';
     }
 
-    protected function getMinMemory() : int
+    protected function getMinMemory(): int
     {
         return 0;
     }
 
-    protected function checkMemory() : bool
+    protected function checkMemory(): bool
     {
         $matches = [];
         $memory_limit = $this->getMemoryLimit();
@@ -149,28 +149,28 @@ abstract class ilGlobalCacheService implements ilGlobalCacheServiceInterface
         return ($memory_limit >= $this->getMinMemory() * 1024 * 1024);
     }
 
-    abstract public function exists(string $key) : bool;
+    abstract public function exists(string $key): bool;
 
-    abstract public function delete(string $key) : bool;
+    abstract public function delete(string $key): bool;
 
-    abstract public function flush(bool $complete = false) : bool;
+    abstract public function flush(bool $complete = false): bool;
 
-    public function setServiceType(int $service_type) : void
+    public function setServiceType(int $service_type): void
     {
         $this->service_type = $service_type;
     }
 
-    public function getServiceType() : int
+    public function getServiceType(): int
     {
         return $this->service_type;
     }
 
-    public function setValid(string $key) : void
+    public function setValid(string $key): void
     {
         $this->valid_keys[$key] = true;
     }
 
-    public function isValid(string $key) : bool
+    public function isValid(string $key): bool
     {
         return isset($this->valid_keys[$key]);
     }

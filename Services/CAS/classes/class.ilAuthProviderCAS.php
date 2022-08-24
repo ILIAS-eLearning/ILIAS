@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /******************************************************************************
  *
@@ -28,12 +30,12 @@ class ilAuthProviderCAS extends ilAuthProvider
         $this->settings = ilCASSettings::getInstance();
     }
 
-    protected function getSettings() : ilCASSettings
+    protected function getSettings(): ilCASSettings
     {
         return $this->settings;
     }
 
-    public function doAuthentication(ilAuthStatus $status) : bool
+    public function doAuthentication(ilAuthStatus $status): bool
     {
         $this->getLogger()->debug('Starting cas authentication attempt... ');
 
@@ -94,7 +96,7 @@ class ilAuthProviderCAS extends ilAuthProvider
         return true;
     }
 
-    protected function handleLDAPDataSource(ilAuthStatus $status) : bool
+    protected function handleLDAPDataSource(ilAuthStatus $status): bool
     {
         $server = ilLDAPServer::getInstanceByServerId(
             ilLDAPServer::getDataSource(ilAuthUtils::AUTH_CAS)

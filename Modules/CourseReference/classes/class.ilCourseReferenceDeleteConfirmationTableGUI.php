@@ -92,7 +92,7 @@ class ilCourseReferenceDeleteConfirmationTableGUI extends ilTable2GUI
     /**
      * @inheritdoc
      */
-    public function fillRow(array $a_set) : void
+    public function fillRow(array $a_set): void
     {
         $this->tpl->setVariable('HIDDEN_NAME', $a_set['id']);
         $this->tpl->setVariable('TYPE_ICON', ilUtil::getImagePath('icon_usr.svg'));
@@ -124,7 +124,7 @@ class ilCourseReferenceDeleteConfirmationTableGUI extends ilTable2GUI
     /**
      * @param $part_id
      */
-    protected function readLinkedCourseAssignments($part_id) : array
+    protected function readLinkedCourseAssignments($part_id): array
     {
         $childs = $this->tree->getChildsByType($this->member_obj->getRefId(), 'crsr');
         $assigned_references = [];

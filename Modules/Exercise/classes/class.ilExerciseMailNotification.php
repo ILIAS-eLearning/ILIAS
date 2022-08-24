@@ -15,7 +15,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * @author Alexander Killing <killing@leifos.de>
  */
@@ -35,25 +35,25 @@ class ilExerciseMailNotification extends ilMailNotification
         $this->user = $DIC->user();
         parent::__construct();
     }
-    
-    public function setAssignmentId(int $a_val) : void
+
+    public function setAssignmentId(int $a_val): void
     {
         $this->ass_id = $a_val;
     }
-    
-    public function getAssignmentId() : int
+
+    public function getAssignmentId(): int
     {
         return $this->ass_id;
     }
-    
-    public function send() : bool
+
+    public function send(): bool
     {
         $ilUser = $this->user;
         // parent::send();
-        
+
         switch ($this->getType()) {
             case self::TYPE_FEEDBACK_FILE_ADDED:
-                
+
                 foreach ($this->getRecipients() as $rcp) {
                     $this->initLanguage($rcp);
                     $this->initMail();
@@ -83,7 +83,7 @@ class ilExerciseMailNotification extends ilMailNotification
                     $this->appendBody($this->createPermanentLink(array(), '_' . $this->getAssignmentId()) .
                         '#fb' . $this->getAssignmentId());
                     $this->getMail()->appendInstallationSignature(true);
-                                        
+
                     $this->sendMail(array($rcp));
                 }
                 break;
@@ -153,9 +153,9 @@ class ilExerciseMailNotification extends ilMailNotification
                     $this->sendMail(array($rcp));
                 }
                 break;
-                
+
             case self::TYPE_FEEDBACK_TEXT_ADDED:
-                
+
                 foreach ($this->getRecipients() as $rcp) {
                     $this->initLanguage($rcp);
                     $this->initMail();
@@ -185,18 +185,18 @@ class ilExerciseMailNotification extends ilMailNotification
                     $this->appendBody($this->createPermanentLink(array(), '_' . $this->getAssignmentId()) .
                         '#fb' . $this->getAssignmentId());
                     $this->getMail()->appendInstallationSignature(true);
-                                        
+
                     $this->sendMail(array($rcp));
                 }
                 break;
         }
         return true;
     }
-    
+
     /**
      * Add language module exc
      */
-    protected function initLanguage(int $a_usr_id) : void
+    protected function initLanguage(int $a_usr_id): void
     {
         parent::initLanguage($a_usr_id);
         $this->getLanguage()->loadLanguageModule('exc');

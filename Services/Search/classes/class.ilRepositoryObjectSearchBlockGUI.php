@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -42,9 +44,9 @@ class ilRepositoryObjectSearchBlockGUI extends ilBlockGUI
 
         $this->http = $DIC->http();
         $this->refinery = $DIC->refinery();
-        
+
         $this->setEnableNumInfo(false);
-        
+
         $this->setTitle($a_title);
         $this->allow_moving = false;
         $this->new_rendering = true;
@@ -53,7 +55,7 @@ class ilRepositoryObjectSearchBlockGUI extends ilBlockGUI
     /**
      * @inheritdoc
      */
-    public function getBlockType() : string
+    public function getBlockType(): string
     {
         return self::$block_type;
     }
@@ -61,7 +63,7 @@ class ilRepositoryObjectSearchBlockGUI extends ilBlockGUI
     /**
      * @inheritdoc
      */
-    protected function isRepositoryObject() : bool
+    protected function isRepositoryObject(): bool
     {
         return false;
     }
@@ -69,12 +71,12 @@ class ilRepositoryObjectSearchBlockGUI extends ilBlockGUI
     /**
      * Get Screen Mode for current command.
      */
-    public static function getScreenMode() : string
+    public static function getScreenMode(): string
     {
         return IL_SCREEN_SIDE;
     }
 
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         $ilCtrl = $this->ctrl;
 
@@ -87,12 +89,12 @@ class ilRepositoryObjectSearchBlockGUI extends ilBlockGUI
         }
     }
 
-    public function getHTML() : string
+    public function getHTML(): string
     {
         return parent::getHTML();
     }
 
-    public function fillDataSection() : void
+    public function fillDataSection(): void
     {
         $this->setDataSection($this->getLegacyContent());
     }
@@ -100,7 +102,7 @@ class ilRepositoryObjectSearchBlockGUI extends ilBlockGUI
     /**
      * @inheritdoc
      */
-    protected function getLegacyContent() : string
+    protected function getLegacyContent(): string
     {
         $tpl = new ilTemplate("tpl.search_search_block.html", true, true, 'Services/Search');
 

@@ -27,12 +27,12 @@ use ILIAS\MainMenu\Provider\StandardTopItemsProvider;
  */
 class PortfolioMainBarProvider extends AbstractStaticMainMenuProvider
 {
-    public function getStaticTopItems() : array
+    public function getStaticTopItems(): array
     {
         return [];
     }
 
-    public function getStaticSubItems() : array
+    public function getStaticSubItems(): array
     {
         $dic = $this->dic;
 

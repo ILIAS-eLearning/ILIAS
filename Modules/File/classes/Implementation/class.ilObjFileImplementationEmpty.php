@@ -15,63 +15,63 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * Class ilObjFileImplementationAbstract
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
 class ilObjFileImplementationEmpty implements ilObjFileImplementationInterface
 {
-    public function getDirectory(int $a_version = 0) : string
+    public function getDirectory(int $a_version = 0): string
     {
         return '';
     }
-    
-    public function deleteVersions(?array $a_hist_entry_ids = null) : void
+
+    public function deleteVersions(?array $a_hist_entry_ids = null): void
     {
         // TODO: Implement deleteVersions() method.
     }
-    
-    public function getFileType() : string
+
+    public function getFileType(): string
     {
         return '';
     }
-    
-    public function getStorageID() : ?string
+
+    public function getStorageID(): ?string
     {
         return null;
     }
-    
-    public function getFileSize() : int
+
+    public function getFileSize(): int
     {
         return 0;
     }
-    
-    public function getFile(?int $a_hist_entry_id = null) : string
+
+    public function getFile(?int $a_hist_entry_id = null): string
     {
         return '';
     }
-    
-    public function getVersion() : int
+
+    public function getVersion(): int
     {
         return 0;
     }
-    
-    public function getMaxVersion() : int
+
+    public function getMaxVersion(): int
     {
         return 0;
     }
-    
-    public function sendFile(?int $a_hist_entry_id = null) : void
+
+    public function sendFile(?int $a_hist_entry_id = null): void
     {
     }
-    
-    public function getFileExtension() : string
+
+    public function getFileExtension(): string
     {
         return '';
     }
-    
-    public function getVersions(?array $version_ids = null) : array
+
+    public function getVersions(?array $version_ids = null): array
     {
         return [];
     }

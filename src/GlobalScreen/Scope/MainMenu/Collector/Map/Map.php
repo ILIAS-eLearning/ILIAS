@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -51,9 +53,9 @@ class Map implements Filterable, Walkable
         $this->factory = $factory;
     }
 
-    private function getSorter() : Closure
+    private function getSorter(): Closure
     {
-        return function (isItem $item_one, isItem $item_two) : int {
+        return function (isItem $item_one, isItem $item_two): int {
             return $item_one->getPosition() - $item_two->getPosition();
         };
     }
@@ -61,7 +63,7 @@ class Map implements Filterable, Walkable
     /**
      * @param isItem $item
      */
-    public function add(isItem $item) : void
+    public function add(isItem $item): void
     {
         $serialize = $item->getProviderIdentification()->serialize();
         if (0 < strlen($serialize)) {
@@ -72,7 +74,7 @@ class Map implements Filterable, Walkable
     /**
      * @param isItem ...$items
      */
-    public function addMultiple(isItem ...$items) : void
+    public function addMultiple(isItem ...$items): void
     {
         foreach ($items as $item) {
             $this->add($item);
@@ -83,7 +85,7 @@ class Map implements Filterable, Walkable
      * @param IdentificationInterface $identification
      * @return isItem
      */
-    public function getSingleItemFromRaw(IdentificationInterface $identification) : isItem
+    public function getSingleItemFromRaw(IdentificationInterface $identification): isItem
     {
         if ($this->raw->offsetExists($identification->serialize())) {
             $item = $this->raw->offsetGet($identification->serialize());
@@ -97,7 +99,7 @@ class Map implements Filterable, Walkable
      * @param IdentificationInterface $identification
      * @return isItem
      */
-    public function getSingleItemFromFilter(IdentificationInterface $identification) : isItem
+    public function getSingleItemFromFilter(IdentificationInterface $identification): isItem
     {
         $this->applyFilters();
 
@@ -111,7 +113,7 @@ class Map implements Filterable, Walkable
     /**
      * @param IdentificationInterface $identification
      */
-    public function remove(IdentificationInterface $identification) : void
+    public function remove(IdentificationInterface $identification): void
     {
         $this->raw->offsetUnset($identification->serialize());
     }
@@ -120,20 +122,20 @@ class Map implements Filterable, Walkable
      * @param IdentificationInterface $identification
      * @return bool
      */
-    public function existsInFilter(IdentificationInterface $identification) : bool
+    public function existsInFilter(IdentificationInterface $identification): bool
     {
         $this->applyFilters();
 
         return $this->filtered->offsetExists($identification->serialize());
     }
 
-    public function has() : bool
+    public function has(): bool
     {
         return $this->raw->count() > 0;
     }
 
 
-    private function applyFilters() : void
+    private function applyFilters(): void
     {
         if (!isset($this->filtered)) {
             $this->filtered = new ArrayObject($this->raw->getArrayCopy());
@@ -155,7 +157,7 @@ class Map implements Filterable, Walkable
     /**
      * @return Iterator<\ArrayObject>
      */
-    public function getAllFromFilter() : Iterator
+    public function getAllFromFilter(): Iterator
     {
         $this->applyFilters();
 
@@ -165,7 +167,7 @@ class Map implements Filterable, Walkable
     /**
      * @inheritDoc
      */
-    public function walk(Closure $c) : void
+    public function walk(Closure $c): void
     {
         $this->applyFilters();
         $to_walk = (array) $this->filtered->getArrayCopy();
@@ -176,12 +178,12 @@ class Map implements Filterable, Walkable
     /**
      * @inheritDoc
      */
-    public function filter(Closure $c) : void
+    public function filter(Closure $c): void
     {
         $this->filters[] = $c;
     }
 
-    public function sort() : void
+    public function sort(): void
     {
         $this->applyFilters();
 
@@ -197,12 +199,12 @@ class Map implements Filterable, Walkable
         $this->walk($replace_children_sorted);
     }
 
-    private function getLostItem(IdentificationInterface $identification) : Lost
+    private function getLostItem(IdentificationInterface $identification): Lost
     {
         return $this->factory->custom(Lost::class, new NullIdentification($identification))
                              ->withAlwaysAvailable(true)
                              ->withVisibilityCallable(
-                                 function () : bool {
+                                 function (): bool {
                                      return false;
                                  }
                              )->withTitle('Lost');

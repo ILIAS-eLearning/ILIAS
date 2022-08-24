@@ -24,7 +24,7 @@
  */
 class ilObjSurveyQuestionPoolListGUI extends ilObjectListGUI
 {
-    public function init() : void
+    public function init(): void
     {
         $this->delete_enabled = true;
         $this->cut_enabled = true;
@@ -39,7 +39,7 @@ class ilObjSurveyQuestionPoolListGUI extends ilObjectListGUI
         $this->commands = ilObjSurveyQuestionPoolAccess::_getCommands();
     }
 
-    public function getCommandFrame(string $cmd) : string
+    public function getCommandFrame(string $cmd): string
     {
         $frame = "";
         switch ($cmd) {
@@ -54,7 +54,7 @@ class ilObjSurveyQuestionPoolListGUI extends ilObjectListGUI
         return $frame;
     }
 
-    public function getProperties() : array
+    public function getProperties(): array
     {
         $lng = $this->lng;
 
@@ -67,7 +67,7 @@ class ilObjSurveyQuestionPoolListGUI extends ilObjectListGUI
         return $props;
     }
 
-    public function getCommandLink(string $cmd) : string
+    public function getCommandLink(string $cmd): string
     {
         return "ilias.php?baseClass=ilObjSurveyQuestionPoolGUI&amp;ref_id=" . $this->ref_id . "&amp;cmd=$cmd";
     }

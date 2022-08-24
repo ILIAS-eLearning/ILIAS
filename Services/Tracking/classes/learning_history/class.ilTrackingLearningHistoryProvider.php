@@ -9,11 +9,10 @@
  */
 class ilTrackingLearningHistoryProvider extends ilAbstractLearningHistoryProvider implements ilLearningHistoryProviderInterface
 {
-
     /**
      * @inheritdoc
      */
-    public function isActive() : bool
+    public function isActive(): bool
     {
         if (ilObjUserTracking::_enabledLearningProgress() &&
             ilObjUserTracking::_hasLearningProgressLearner()) {
@@ -25,7 +24,7 @@ class ilTrackingLearningHistoryProvider extends ilAbstractLearningHistoryProvide
     /**
      * @inheritdoc
      */
-    public function getEntries(int $ts_start, int $ts_end) : array
+    public function getEntries(int $ts_start, int $ts_end): array
     {
         $lng = $this->getLanguage();
         $this->lng->loadLanguageModule("trac");
@@ -53,7 +52,7 @@ class ilTrackingLearningHistoryProvider extends ilAbstractLearningHistoryProvide
     /**
      * @inheritdoc
      */
-    public function getName() : string
+    public function getName(): string
     {
         $lng = $this->getLanguage();
         $this->lng->loadLanguageModule("lp");

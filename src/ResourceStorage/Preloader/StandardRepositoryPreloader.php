@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -14,7 +16,7 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *********************************************************************/
- 
+
 namespace ILIAS\ResourceStorage\Preloader;
 
 use ILIAS\ResourceStorage\Resource\Repository\ResourceRepository;
@@ -45,7 +47,7 @@ class StandardRepositoryPreloader implements RepositoryPreloader
         $this->stakeholder_repository = $stakeholder_repository;
     }
 
-    public function preload(array $identification_strings) : void
+    public function preload(array $identification_strings): void
     {
         $this->resource_repository->preload($identification_strings);
         $this->revision_repository->preload($identification_strings);

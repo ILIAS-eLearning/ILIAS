@@ -1,4 +1,6 @@
-<?php declare(strict_types=0);
+<?php
+
+declare(strict_types=0);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -29,7 +31,7 @@ class ilObjCourseListGUI extends ilObjectListGUI
     /**
      * @inheritDoc
      */
-    public function init() : void
+    public function init(): void
     {
         $this->static_link_enabled = true;
         $this->delete_enabled = true;
@@ -59,11 +61,11 @@ class ilObjCourseListGUI extends ilObjectListGUI
         string $type,
         string $title = "",
         string $description = ""
-    ) : void {
+    ): void {
         parent::initItem($ref_id, $obj_id, $type, $title, $description);
     }
 
-    protected function getCertificatePreloader() : ilCertificateObjectsForUserPreloader
+    protected function getCertificatePreloader(): ilCertificateObjectsForUserPreloader
     {
         if (null === $this->certificatePreloader) {
             $repository = new ilUserCertificateRepository();
@@ -75,7 +77,7 @@ class ilObjCourseListGUI extends ilObjectListGUI
     /**
      * @inheritDoc
      */
-    public function getProperties() : array
+    public function getProperties(): array
     {
         global $DIC;
 
@@ -182,7 +184,7 @@ class ilObjCourseListGUI extends ilObjectListGUI
         int $ref_id,
         string $type,
         ?int $obj_id = null
-    ) : bool {
+    ): bool {
         // Only check cmd access for cmd 'register' and 'unregister'
         if ($cmd != 'view' && $cmd != 'leave' && $cmd != 'join') {
             $cmd = '';

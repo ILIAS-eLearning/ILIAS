@@ -31,7 +31,7 @@ class ilLink
         string $a_type = '',
         array $a_params = array(),
         string $append = ""
-    ) : string {
+    ): string {
         global $DIC;
 
         $ilObjDataCache = $DIC["ilObjDataCache"];
@@ -55,7 +55,7 @@ class ilLink
             case 'git':
             //case 'pg':
                 return ILIAS_HTTP_PATH . '/' . self::LINK_SCRIPT . '?client_id=' . CLIENT_ID . $param_string . $append;
-            
+
             default:
                 return ILIAS_HTTP_PATH . '/' . self::LINK_SCRIPT . '?target=' . $a_type . '_' . $a_ref_id . $append . '&client_id=' . CLIENT_ID . $param_string;
         }
@@ -73,7 +73,7 @@ class ilLink
         string $a_type = '',
         bool $a_fallback_goto = true,
         string $append = ""
-    ) : string {
+    ): string {
         global $DIC;
 
         $ilObjDataCache = $DIC["ilObjDataCache"];
@@ -81,7 +81,7 @@ class ilLink
         if ($a_type === '' && $a_ref_id) {
             $a_type = $ilObjDataCache->lookupType($ilObjDataCache->lookupObjId($a_ref_id));
         }
-        
+
         $robot_settings = ilRobotSettings::getInstance();
         if (!$robot_settings->robotSupportEnabled()) {
             if ($a_fallback_goto) {
@@ -90,7 +90,7 @@ class ilLink
 
             return false;
         }
-        
+
         // urlencode for append is needed e.g. to process "/" in wiki page names correctly
         return ILIAS_HTTP_PATH . '/goto_' . urlencode(CLIENT_ID) . '_' . $a_type . '_' . $a_ref_id . urlencode($append) . '.html';
     }

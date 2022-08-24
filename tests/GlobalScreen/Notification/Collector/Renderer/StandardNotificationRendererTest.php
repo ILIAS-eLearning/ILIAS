@@ -13,7 +13,7 @@ class StandardNotificationRendererTest extends BaseNotificationSetUp
     use Hasher;
 
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         parent::setUp();
         if (!defined("ILIAS_HTTP_PATH")) {

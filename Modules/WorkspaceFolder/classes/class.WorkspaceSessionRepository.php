@@ -31,7 +31,7 @@ class WorkspaceSessionRepository
     {
     }
 
-    public function clearClipboard() : void
+    public function clearClipboard(): void
     {
         \ilSession::clear(self::BASE_SESSION_KEY . "_clip_wsp2repo");
         \ilSession::clear(self::BASE_SESSION_KEY . "_clip_source_ids");
@@ -39,47 +39,47 @@ class WorkspaceSessionRepository
         \ilSession::clear(self::BASE_SESSION_KEY . "_clip_shared");
     }
 
-    public function isClipboardEmpty() : bool
+    public function isClipboardEmpty(): bool
     {
         return !($this->getClipboardCmd() !== "" && count($this->getClipboardSourceIds()) > 0);
     }
 
-    public function setClipboardWsp2Repo(bool $wsp2repo) : void
+    public function setClipboardWsp2Repo(bool $wsp2repo): void
     {
         \ilSession::set(self::BASE_SESSION_KEY . "_clip_wsp2repo", $wsp2repo);
     }
 
-    public function getClipboardWsp2Repo() : bool
+    public function getClipboardWsp2Repo(): bool
     {
         return \ilSession::get(self::BASE_SESSION_KEY . "_clip_wsp2repo") ?? false;
     }
 
-    public function setClipboardSourceIds(array $ids) : void
+    public function setClipboardSourceIds(array $ids): void
     {
         \ilSession::set(self::BASE_SESSION_KEY . "_clip_source_ids", $ids);
     }
 
-    public function getClipboardSourceIds() : array
+    public function getClipboardSourceIds(): array
     {
         return \ilSession::get(self::BASE_SESSION_KEY . "_clip_source_ids") ?? [];
     }
 
-    public function setClipboardCmd(string $cmd) : void
+    public function setClipboardCmd(string $cmd): void
     {
         \ilSession::set(self::BASE_SESSION_KEY . "_clip_cmd", $cmd);
     }
 
-    public function getClipboardCmd() : string
+    public function getClipboardCmd(): string
     {
         return \ilSession::get(self::BASE_SESSION_KEY . "_clip_cmd") ?? "";
     }
 
-    public function setClipboardShared(bool $shared) : void
+    public function setClipboardShared(bool $shared): void
     {
         \ilSession::set(self::BASE_SESSION_KEY . "_clip_shared", $shared);
     }
 
-    public function getClipboardShared() : bool
+    public function getClipboardShared(): bool
     {
         return \ilSession::get(self::BASE_SESSION_KEY . "_clip_shared") ?? false;
     }

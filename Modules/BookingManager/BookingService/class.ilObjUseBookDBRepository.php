@@ -38,7 +38,7 @@ class ilObjUseBookDBRepository
     public function updateUsedBookingPools(
         int $obj_id,
         array $book_obj_ids
-    ) : void {
+    ): void {
         $db = $this->db;
 
         $db->manipulateF(
@@ -59,7 +59,7 @@ class ilObjUseBookDBRepository
     /**
      * @return int[] ref ids
      */
-    public function getUsedBookingPools(int $obj_id) : array
+    public function getUsedBookingPools(int $obj_id): array
     {
         $db = $this->db;
 

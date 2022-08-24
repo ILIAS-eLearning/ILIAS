@@ -38,37 +38,37 @@ class EditingGUIRequest
         );
     }
 
-    public function getRefId() : int
+    public function getRefId(): int
     {
         return $this->int("ref_id");
     }
 
-    public function getTermId() : int
+    public function getTermId(): int
     {
         return $this->int("term_id");
     }
 
-    public function getDefinitionId() : int
+    public function getDefinitionId(): int
     {
         return $this->int("def");
     }
 
-    public function getTaxNode() : int
+    public function getTaxNode(): int
     {
         return $this->int("tax_node");
     }
 
-    public function getNewType() : string
+    public function getNewType(): string
     {
         return $this->str("new_type");
     }
 
-    public function getBaseClass() : string
+    public function getBaseClass(): string
     {
         return $this->str("baseClass");
     }
 
-    public function getGlossaryRefId() : int
+    public function getGlossaryRefId(): int
     {
         $id = $this->int("glo_ref_id");
         if ($id == 0) {
@@ -77,32 +77,32 @@ class EditingGUIRequest
         return $id;
     }
 
-    public function getSearchRootExpand() : int
+    public function getSearchRootExpand(): int
     {
         return $this->int("search_root_expand");
     }
 
-    public function getGlossaryId() : int
+    public function getGlossaryId(): int
     {
         return $this->int("glo_id");
     }
 
-    public function getForeignGlossaryRefId() : int
+    public function getForeignGlossaryRefId(): int
     {
         return $this->int("fglo_ref_id");
     }
 
-    public function getStyleId() : int
+    public function getStyleId(): int
     {
         return $this->int("style_id");
     }
 
-    public function getNewTerm() : string
+    public function getNewTerm(): string
     {
         return trim($this->str("new_term"));
     }
 
-    public function getTermLanguage() : string
+    public function getTermLanguage(): string
     {
         return $this->str("term_language");
     }
@@ -110,7 +110,7 @@ class EditingGUIRequest
     /**
      * @return string[]
      */
-    public function getFiles() : array
+    public function getFiles(): array
     {
         return $this->strArray("file");
     }
@@ -118,7 +118,7 @@ class EditingGUIRequest
     /**
      * @return int[]
      */
-    public function getIds() : array
+    public function getIds(): array
     {
         return $this->intArray("id");
     }
@@ -126,7 +126,7 @@ class EditingGUIRequest
     /**
      * @return int[]
      */
-    public function getTermIds() : array
+    public function getTermIds(): array
     {
         return $this->intArray("term_id");
     }
@@ -134,7 +134,7 @@ class EditingGUIRequest
     /**
      * @return int[]
      */
-    public function getTaxNodes() : array
+    public function getTaxNodes(): array
     {
         return $this->intArray("tax_node");
     }

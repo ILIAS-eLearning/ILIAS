@@ -70,7 +70,7 @@ class ilAccessibilityDocumentTableGUI extends ilAccessibilityTableGUI
         }
     }
 
-    protected function getColumnDefinition() : array
+    protected function getColumnDefinition(): array
     {
         $i = 0;
 
@@ -144,7 +144,7 @@ class ilAccessibilityDocumentTableGUI extends ilAccessibilityTableGUI
         return $columns;
     }
 
-    protected function preProcessData(array &$data) : void
+    protected function preProcessData(array &$data): void
     {
         foreach ($data['items'] as $key => $document) {
             /** @var ilAccessibilityDocument $document */
@@ -165,7 +165,7 @@ class ilAccessibilityDocumentTableGUI extends ilAccessibilityTableGUI
      * @throws ilDateTimeException
      * @throws ilAccessibilityCriterionTypeNotFoundException
      */
-    protected function formatCellValue(string $column, array $row) : string
+    protected function formatCellValue(string $column, array $row): string
     {
         if (in_array($column, ['creation_ts', 'modification_ts'])) {
             return \ilDatePresentation::formatDate(new \ilDateTime($row[$column], IL_CAL_UNIX));
@@ -187,7 +187,7 @@ class ilAccessibilityDocumentTableGUI extends ilAccessibilityTableGUI
     /**
      * @throws ilCtrlException
      */
-    protected function formatActionsDropDown(string $column, array $row) : string
+    protected function formatActionsDropDown(string $column, array $row): string
     {
         if (!$this->isEditable) {
             return '';
@@ -238,7 +238,7 @@ class ilAccessibilityDocumentTableGUI extends ilAccessibilityTableGUI
      * @throws ilAccessibilityCriterionTypeNotFoundException
      * @throws ilCtrlException
      */
-    protected function formatCriterionAssignments(string $column, array $row) : string
+    protected function formatCriterionAssignments(string $column, array $row): string
     {
         $items = [];
 
@@ -309,7 +309,7 @@ class ilAccessibilityDocumentTableGUI extends ilAccessibilityTableGUI
         ]);
     }
 
-    protected function formatTitle(string $column, array $row) : string
+    protected function formatTitle(string $column, array $row): string
     {
         $modal = $this->uiFactory
             ->modal()
@@ -323,7 +323,7 @@ class ilAccessibilityDocumentTableGUI extends ilAccessibilityTableGUI
         return $this->uiRenderer->render([$titleLink, $modal]);
     }
 
-    protected function formatSorting(array $row) : string
+    protected function formatSorting(array $row): string
     {
         $value = ($this->i++) * $this->factor;
         if (!$this->isEditable) {
@@ -338,7 +338,7 @@ class ilAccessibilityDocumentTableGUI extends ilAccessibilityTableGUI
         return $sortingField->render();
     }
 
-    public function getHTML() : string
+    public function getHTML(): string
     {
         return parent::getHTML() . $this->uiRenderer->render($this->uiComponents);
     }

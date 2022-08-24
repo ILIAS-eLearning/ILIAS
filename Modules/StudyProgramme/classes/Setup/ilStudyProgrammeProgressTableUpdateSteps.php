@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -21,13 +23,13 @@ class ilStudyProgrammeProgressTableUpdateSteps implements ilDatabaseUpdateSteps
     private const TABLE_NAME = 'prg_usr_progress';
 
     protected ilDBInterface $db;
-    
-    public function prepare(ilDBInterface $db) : void
+
+    public function prepare(ilDBInterface $db): void
     {
         $this->db = $db;
     }
-    
-    public function step_1() : void
+
+    public function step_1(): void
     {
         $column_name = 'individual';
 
@@ -48,8 +50,8 @@ class ilStudyProgrammeProgressTableUpdateSteps implements ilDatabaseUpdateSteps
             $this->db->manipulate($query);
         }
     }
-    
-    public function step_2() : void
+
+    public function step_2(): void
     {
         $old = "risky_to_fail_mail_send";
         $new = "sent_mail_risky_to_fail";
@@ -58,8 +60,8 @@ class ilStudyProgrammeProgressTableUpdateSteps implements ilDatabaseUpdateSteps
             $this->db->renameTableColumn(self::TABLE_NAME, $old, $new);
         }
     }
-    
-    public function step_3() : void
+
+    public function step_3(): void
     {
         $column_name = 'sent_mail_expires';
 

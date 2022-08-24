@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -29,7 +31,7 @@ class NotTest extends TestCase
     private Constraint $not_true;
     private Constraint $not_false;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         $this->df = new DataFactory();
         $this->lng = $this->createMock(ilLanguage::class);
@@ -38,48 +40,48 @@ class NotTest extends TestCase
         $group = $this->refinery->custom();
 
         $this->not_true = $this->refinery->logical()->not($group->constraint(
-            static function ($v) : bool {
+            static function ($v): bool {
                 return true;
             },
             "not_true"
         ));
 
         $this->not_false = $this->refinery->logical()->not($group->constraint(
-            static function ($v) : bool {
+            static function ($v): bool {
                 return false;
             },
             "not_false"
         ));
     }
 
-    public function testAccepts() : void
+    public function testAccepts(): void
     {
         $this->assertTrue($this->not_false->accepts(null));
     }
 
-    public function testNotAccepts() : void
+    public function testNotAccepts(): void
     {
         $this->assertFalse($this->not_true->accepts(null));
     }
 
-    public function testCheckSucceed() : void
+    public function testCheckSucceed(): void
     {
         $this->not_false->check(null);
         $this->assertTrue(true); // does not throw
     }
 
-    public function testCheckFails() : void
+    public function testCheckFails(): void
     {
         $this->expectException(UnexpectedValueException::class);
         $this->not_true->check(null);
     }
 
-    public function testNoProblemWith() : void
+    public function testNoProblemWith(): void
     {
         $this->assertNull($this->not_false->problemWith(null));
     }
 
-    public function testProblemWith() : void
+    public function testProblemWith(): void
     {
         $this->lng
             ->expects($this->once())
@@ -90,7 +92,7 @@ class NotTest extends TestCase
         $this->assertEquals("-not_true-", $this->not_true->problemWith(null));
     }
 
-    public function testRestrictOk() : void
+    public function testRestrictOk(): void
     {
         $ok = $this->df->ok(null);
 
@@ -98,7 +100,7 @@ class NotTest extends TestCase
         $this->assertTrue($res->isOk());
     }
 
-    public function testRestrictNotOk() : void
+    public function testRestrictNotOk(): void
     {
         $not_ok = $this->df->ok(null);
 
@@ -106,7 +108,7 @@ class NotTest extends TestCase
         $this->assertFalse($res->isOk());
     }
 
-    public function testRestrictError() : void
+    public function testRestrictError(): void
     {
         $error = $this->df->error("error");
 
@@ -114,9 +116,9 @@ class NotTest extends TestCase
         $this->assertSame($error, $res);
     }
 
-    public function testWithProblemBuilder() : void
+    public function testWithProblemBuilder(): void
     {
-        $new_c = $this->not_true->withProblemBuilder(static function () : string {
+        $new_c = $this->not_true->withProblemBuilder(static function (): string {
             return "This was a fault";
         });
         $this->assertEquals("This was a fault", $new_c->problemWith(null));

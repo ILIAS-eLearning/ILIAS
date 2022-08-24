@@ -22,7 +22,7 @@
  */
 abstract class ilOrgUnitExtensionListGUI extends ilObjectPluginListGUI
 {
-    protected function initListActions() : void
+    protected function initListActions(): void
     {
         $this->delete_enabled = true;
         $this->cut_enabled = true;
@@ -50,16 +50,13 @@ abstract class ilOrgUnitExtensionListGUI extends ilObjectPluginListGUI
      */
     public function enableComments(bool $value, bool $enable_comments_settings = true): void
     {
-
     }
 
     public function enableNotes(bool $value): void
     {
-
     }
 
     public function enableTags(bool $value): void
     {
-
     }
 }

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace ILIAS\FileUpload\Handler;
 
@@ -24,14 +26,14 @@ use JsonSerializable;
  */
 interface FileInfoResult extends JsonSerializable
 {
-    public function getFileIdentifier() : string;
+    public function getFileIdentifier(): string;
 
 
-    public function getName() : string;
+    public function getName(): string;
 
 
-    public function getSize() : int;
+    public function getSize(): int;
 
 
-    public function getMimeType() : string;
+    public function getMimeType(): string;
 }

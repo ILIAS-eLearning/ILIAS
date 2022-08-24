@@ -44,17 +44,17 @@ class ilLMEditShortTitlesTableGUI extends ilTable2GUI
         parent::__construct($a_parent_obj, $a_parent_cmd);
         $this->setData(ilLMObject::getShortTitles($this->lm->getId(), $this->lang));
         $this->setTitle($this->lng->txt("cont_short_titles"));
-        
+
         $this->addColumn($this->lng->txt("title"));
         $this->addColumn($this->lng->txt("cont_short_title"));
-        
+
         $this->setFormAction($this->ctrl->getFormAction($a_parent_obj));
         $this->setRowTemplate("tpl.short_title_row.html", "Modules/LearningModule");
 
         $this->addCommandButton("save", $this->lng->txt("save"));
     }
-    
-    protected function fillRow(array $a_set) : void
+
+    protected function fillRow(array $a_set): void
     {
         $this->tpl->setVariable("TITLE", $a_set["title"]);
         $this->tpl->setVariable("DEFAULT_TITLE", $a_set["default_title"] ?? "");

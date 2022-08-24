@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -35,7 +37,7 @@ class RecordTransformationTest extends TestCase
      * @param array $originVal
      * @param array $expectedVal
      */
-    public function testRecordTransformationIsValid(array $originVal, array $expectedVal) : void
+    public function testRecordTransformationIsValid(array $originVal, array $expectedVal): void
     {
         $recTransform = new RecordTransformation(
             [
@@ -52,7 +54,7 @@ class RecordTransformationTest extends TestCase
      * @dataProvider RecordFailureDataProvider
      * @param array $origVal
      */
-    public function testRecordTransformationFailures(array $origVal) : void
+    public function testRecordTransformationFailures(array $origVal): void
     {
         $this->expectNotToPerformAssertions();
         $recTransformation = new RecordTransformation(
@@ -70,7 +72,7 @@ class RecordTransformationTest extends TestCase
         $this->fail();
     }
 
-    public function testInvalidArray() : void
+    public function testInvalidArray(): void
     {
         $this->expectNotToPerformAssertions();
         try {
@@ -90,7 +92,7 @@ class RecordTransformationTest extends TestCase
      * @dataProvider RecordValueInvalidDataProvider
      * @param array $originalValue
      */
-    public function testInvalidValueDoesNotMatch(array $originalValue) : void
+    public function testInvalidValueDoesNotMatch(array $originalValue): void
     {
         $this->expectNotToPerformAssertions();
         $recTransformation = new RecordTransformation(
@@ -108,7 +110,7 @@ class RecordTransformationTest extends TestCase
         $this->fail();
     }
 
-    public function RecordTransformationDataProvider() : array
+    public function RecordTransformationDataProvider(): array
     {
         return [
             "exact_form" => [['stringKey' => 'hello', 'integerKey' => 1], ['stringKey' => 'hello', 'integerKey' => 1]],
@@ -120,7 +122,7 @@ class RecordTransformationTest extends TestCase
         ];
     }
 
-    public function RecordFailureDataProvider() : array
+    public function RecordFailureDataProvider(): array
     {
         return [
             'too_little_values' => [['stringKey' => 'hello']],
@@ -129,7 +131,7 @@ class RecordTransformationTest extends TestCase
         ];
     }
 
-    public function RecordValueInvalidDataProvider() : array
+    public function RecordValueInvalidDataProvider(): array
     {
         return [
             'invalid_value' => [['stringKey' => 'hello', 'integerKey2' => 1]]

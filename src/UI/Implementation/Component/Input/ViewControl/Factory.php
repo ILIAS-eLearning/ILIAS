@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\UI\Implementation\Component\Input\ViewControl;
 
 use ILIAS\UI\Component\Input\ViewControl as VCInterface;
@@ -30,7 +32,7 @@ class Factory implements VCInterface\Factory
         array $options,
         string $label = VCInterface\FieldSelection::DEFAULT_DROPDOWN_LABEL,
         string $button_label = VCInterface\FieldSelection::DEFAULT_BUTTON_LABEL
-    ) : VCInterface\FieldSelection {
+    ): VCInterface\FieldSelection {
         throw new NotImplementedException('');
     }
 }

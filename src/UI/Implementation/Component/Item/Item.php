@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\UI\Implementation\Component\Item;
 
 use ILIAS\UI\Component as C;
@@ -69,7 +71,7 @@ abstract class Item implements C\Item\Item
     /**
      * @inheritdoc
      */
-    public function withDescription(string $description) : C\Item\Item
+    public function withDescription(string $description): C\Item\Item
     {
         $clone = clone $this;
         $clone->desc = $description;
@@ -79,7 +81,7 @@ abstract class Item implements C\Item\Item
     /**
      * @inheritdoc
      */
-    public function getDescription() : ?string
+    public function getDescription(): ?string
     {
         return $this->desc;
     }
@@ -87,7 +89,7 @@ abstract class Item implements C\Item\Item
     /**
      * @inheritdoc
      */
-    public function withProperties(array $properties) : C\Item\Item
+    public function withProperties(array $properties): C\Item\Item
     {
         $clone = clone $this;
         $clone->props = $properties;
@@ -97,7 +99,7 @@ abstract class Item implements C\Item\Item
     /**
      * @inheritdoc
      */
-    public function getProperties() : array
+    public function getProperties(): array
     {
         return $this->props;
     }
@@ -105,7 +107,7 @@ abstract class Item implements C\Item\Item
     /**
      * @inheritdoc
      */
-    public function withActions(C\Dropdown\Standard $actions) : C\Item\Item
+    public function withActions(C\Dropdown\Standard $actions): C\Item\Item
     {
         $clone = clone $this;
         $clone->actions = $actions;
@@ -115,7 +117,7 @@ abstract class Item implements C\Item\Item
     /**
      * @inheritdoc
      */
-    public function getActions() : ?C\Dropdown\Standard
+    public function getActions(): ?C\Dropdown\Standard
     {
         return $this->actions;
     }

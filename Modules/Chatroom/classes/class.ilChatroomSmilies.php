@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -27,7 +29,7 @@ class ilChatroomSmilies
     /**
      * Inserts default smiley set
      */
-    private static function _insertDefaultValues() : void
+    private static function _insertDefaultValues(): void
     {
         global $DIC;
 
@@ -71,7 +73,7 @@ class ilChatroomSmilies
      * actions for an initial smiley set
      * @return boolean
      */
-    public static function _checkSetup() : bool
+    public static function _checkSetup(): bool
     {
         global $DIC;
         $main_tpl = $DIC->ui()->mainTemplate();
@@ -121,7 +123,7 @@ class ilChatroomSmilies
         return true;
     }
 
-    public static function _getSmileyDir() : string
+    public static function _getSmileyDir(): string
     {
         return ilFileUtils::getWebspaceDir() . '/chatroom/smilies';
     }
@@ -129,7 +131,7 @@ class ilChatroomSmilies
     /**
      * @return array{smiley_id: int, smiley_keywords: string, smiley_path: string, smiley_fullpath: string}[]
      */
-    public static function _getSmilies() : array
+    public static function _getSmilies(): array
     {
         global $DIC;
 
@@ -154,7 +156,7 @@ class ilChatroomSmilies
     /**
      * @param int[] $ids
      */
-    public static function _deleteMultipleSmilies(array $ids = []) : void
+    public static function _deleteMultipleSmilies(array $ids = []): void
     {
         global $DIC;
 
@@ -181,7 +183,7 @@ class ilChatroomSmilies
      * @param int[] $ids
      * @return array{smiley_id: int, smiley_keywords: string, smiley_path: string, smiley_fullpath: string}[]
      */
-    public static function _getSmiliesById(array $ids = []) : array
+    public static function _getSmiliesById(array $ids = []): array
     {
         global $DIC;
 
@@ -220,7 +222,7 @@ class ilChatroomSmilies
      * ($data["smiley_keywords"], $data["smiley_id"])
      * @param array{smiley_id: int, smiley_keywords: string, smiley_path?: string, smiley_fullpath?: string} $data
      */
-    public static function _updateSmiley(array $data) : void
+    public static function _updateSmiley(array $data): void
     {
         global $DIC;
 
@@ -248,7 +250,7 @@ class ilChatroomSmilies
      * @param int $a_id
      * @return array{smiley_id: int, smiley_keywords: string, smiley_path: string, smiley_fullpath: string}
      */
-    public static function _getSmiley(int $a_id) : array
+    public static function _getSmiley(int $a_id): array
     {
         global $DIC;
 
@@ -273,12 +275,12 @@ class ilChatroomSmilies
         throw new OutOfBoundsException("Smiley with id $a_id not found");
     }
 
-    public static function getSmiliesBasePath() : string
+    public static function getSmiliesBasePath(): string
     {
         return 'chatroom/smilies';
     }
 
-    public static function _deleteSmiley(int $a_id) : void
+    public static function _deleteSmiley(int $a_id): void
     {
         global $DIC;
 
@@ -307,7 +309,7 @@ class ilChatroomSmilies
      * @param string $keywords
      * @param string $path
      */
-    public static function _storeSmiley(string $keywords, string $path) : void
+    public static function _storeSmiley(string $keywords, string $path): void
     {
         global $DIC;
 
@@ -330,7 +332,7 @@ class ilChatroomSmilies
      * @param string $words
      * @return string[]
      */
-    public static function _prepareKeywords(string $words) : array
+    public static function _prepareKeywords(string $words): array
     {
         return array_filter(array_map('trim', explode("\n", $words)));
     }

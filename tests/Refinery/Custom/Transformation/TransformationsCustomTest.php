@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -28,7 +30,7 @@ class TransformationsCustomTest extends TestCase
     private ?Transformation $custom;
     private ?Refinery $f;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         $language = $this->createMock(ilLanguage::class);
         $this->f = new Refinery(new DataFactory(), $language);
@@ -43,19 +45,19 @@ class TransformationsCustomTest extends TestCase
         );
     }
 
-    protected function tearDown() : void
+    protected function tearDown(): void
     {
         $this->f = null;
         $this->custom = null;
     }
 
-    public function testTransform() : void
+    public function testTransform(): void
     {
         $result = $this->custom->transform(self::TEST_STRING);
         $this->assertEquals(self::TEST_STRING, $result);
     }
 
-    public function testTransformFails() : void
+    public function testTransformFails(): void
     {
         $raised = false;
         try {
@@ -86,7 +88,7 @@ class TransformationsCustomTest extends TestCase
         $this->assertTrue($raised);
     }
 
-    public function testInvoke() : void
+    public function testInvoke(): void
     {
         $custom = $this->f->custom()->transformation(
             function ($value) {
@@ -101,7 +103,7 @@ class TransformationsCustomTest extends TestCase
         $this->assertEquals(self::TEST_STRING, $result);
     }
 
-    public function testInvokeFails() : void
+    public function testInvokeFails(): void
     {
         $custom = $this->f->custom()->transformation(
             function ($value) {
@@ -141,7 +143,7 @@ class TransformationsCustomTest extends TestCase
         $this->assertTrue($raised);
     }
 
-    public function testApplyToWithValidValueReturnsAnOkResult() : void
+    public function testApplyToWithValidValueReturnsAnOkResult(): void
     {
         $factory = new DataFactory();
         $valueObject = $factory->ok(self::TEST_STRING);

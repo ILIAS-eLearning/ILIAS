@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\UI\Component\Table\Column;
 
 interface Factory
@@ -29,7 +31,7 @@ interface Factory
      * ---
      * @return \ILIAS\UI\Component\Table\Column\Text
      */
-    public function text(string $title) : Text;
+    public function text(string $title): Text;
 
     /**
      * ---
@@ -39,5 +41,5 @@ interface Factory
      * ---
      * @return \ILIAS\UI\Component\Table\Column\Number
      */
-    public function number(string $title) : Number;
+    public function number(string $title): Number;
 }

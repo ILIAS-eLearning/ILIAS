@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -44,18 +46,18 @@ abstract class ilMailTemplateContext
         $this->languageHelper = $languageHelper ?? new ilMailLanguageHelper();
     }
 
-    public function getLanguage() : ilLanguage
+    public function getLanguage(): ilLanguage
     {
         return $this->language ?? $this->languageHelper->getCurrentLanguage();
     }
 
-    abstract public function getId() : string;
+    abstract public function getId(): string;
 
-    abstract public function getTitle() : string;
+    abstract public function getTitle(): string;
 
-    abstract public function getDescription() : string;
+    abstract public function getDescription(): string;
 
-    private function getGenericPlaceholders() : array
+    private function getGenericPlaceholders(): array
     {
         return [
             'mail_salutation' => [
@@ -94,7 +96,7 @@ abstract class ilMailTemplateContext
         ];
     }
 
-    final public function getPlaceholders() : array
+    final public function getPlaceholders(): array
     {
         $placeholders = $this->getGenericPlaceholders();
         $specific = $this->getSpecificPlaceholders();
@@ -102,21 +104,21 @@ abstract class ilMailTemplateContext
         return array_merge($placeholders, $specific);
     }
 
-    abstract public function getSpecificPlaceholders() : array;
+    abstract public function getSpecificPlaceholders(): array;
 
     abstract public function resolveSpecificPlaceholder(
         string $placeholder_id,
         array $context_parameters,
         ilObjUser $recipient = null,
         bool $html_markup = false
-    ) : string;
+    ): string;
 
     public function resolvePlaceholder(
         string $placeholder_id,
         array $context_parameters,
         ilObjUser $recipient = null,
         bool $html_markup = false
-    ) : string {
+    ): string {
         if ($recipient !== null) {
             $this->initLanguage($recipient);
         }
@@ -172,7 +174,7 @@ abstract class ilMailTemplateContext
                 foreach ($ouUsers as $ouUser) {
                     $superiors = $ouUser->getSuperiors();
 
-                    $superiorUsrIds = array_map(static function (ilOrgUnitUser $ouUser) : int {
+                    $superiorUsrIds = array_map(static function (ilOrgUnitUser $ouUser): int {
                         return $ouUser->getUserId();
                     }, $superiors);
 
@@ -200,13 +202,13 @@ abstract class ilMailTemplateContext
 
         return $resolved;
     }
-    
-    protected function initLanguage(ilObjUser $user) : void
+
+    protected function initLanguage(ilObjUser $user): void
     {
         $this->initLanguageByIso2Code($user->getLanguage());
     }
 
-    protected function initLanguageByIso2Code(string $isoCode) : void
+    protected function initLanguageByIso2Code(string $isoCode): void
     {
         $this->language = $this->languageHelper->getLanguageByIsoCode($isoCode);
         $this->language->loadLanguageModule('mail');

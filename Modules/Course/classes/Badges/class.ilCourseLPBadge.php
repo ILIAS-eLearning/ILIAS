@@ -14,7 +14,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * Class ilCourseLPBadge
  * @author  Jörg Lützenkirchen <luetzenkirchen@leifos.com>
@@ -23,12 +23,12 @@
  */
 class ilCourseLPBadge implements ilBadgeType, ilBadgeAuto
 {
-    public function getId() : string
+    public function getId(): string
     {
         return "course_lp";
     }
 
-    public function getCaption() : string
+    public function getCaption(): string
     {
         global $DIC;
 
@@ -36,7 +36,7 @@ class ilCourseLPBadge implements ilBadgeType, ilBadgeAuto
         return $lng->txt("badge_course_lp");
     }
 
-    public function isSingleton() : bool
+    public function isSingleton(): bool
     {
         return false;
     }
@@ -44,17 +44,17 @@ class ilCourseLPBadge implements ilBadgeType, ilBadgeAuto
     /**
      * @return string[]
      */
-    public function getValidObjectTypes() : array
+    public function getValidObjectTypes(): array
     {
         return ["crs"];
     }
 
-    public function getConfigGUIInstance() : ?ilBadgeTypeGUI
+    public function getConfigGUIInstance(): ?ilBadgeTypeGUI
     {
         return new ilCourseLPBadgeGUI();
     }
 
-    public function evaluate(int $a_user_id, array $a_params, array $a_config) : bool
+    public function evaluate(int $a_user_id, array $a_params, array $a_config): bool
     {
         $subitem_obj_ids = array();
         foreach ($a_config["subitems"] as $ref_id) {

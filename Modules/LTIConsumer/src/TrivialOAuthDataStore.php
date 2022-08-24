@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * A Trivial memory-based store - no support for tokens
@@ -7,12 +9,12 @@ class TrivialOAuthDataStore extends OAuthDataStore
 {
     private array $consumers = array();
 
-    public function add_consumer($consumer_key, $consumer_secret) : void
+    public function add_consumer($consumer_key, $consumer_secret): void
     {
         $this->consumers[$consumer_key] = $consumer_secret;
     }
 
-    public function lookup_consumer($consumer_key) : ?\OAuthConsumer
+    public function lookup_consumer($consumer_key): ?\OAuthConsumer
     {
         if (strpos($consumer_key, "http://") === 0) {
             return new OAuthConsumer($consumer_key, "secret", null);
@@ -23,7 +25,7 @@ class TrivialOAuthDataStore extends OAuthDataStore
         return null;
     }
 
-    public function lookup_token($consumer, $token_type, $token) : \OAuthToken
+    public function lookup_token($consumer, $token_type, $token): \OAuthToken
     {
         return new OAuthToken($consumer, "");
     }

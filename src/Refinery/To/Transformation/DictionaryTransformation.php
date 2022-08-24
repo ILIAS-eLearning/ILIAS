@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -42,7 +44,7 @@ class DictionaryTransformation implements Constraint
      * @inheritDoc
      * @return array<string, mixed>
      */
-    public function transform($from) : array
+    public function transform($from): array
     {
         $this->check($from);
 
@@ -58,7 +60,7 @@ class DictionaryTransformation implements Constraint
     /**
      * @inheritDoc
      */
-    public function getError() : string
+    public function getError(): string
     {
         return 'The value MUST be an array with only string keys.';
     }
@@ -78,13 +80,13 @@ class DictionaryTransformation implements Constraint
     /**
      * @inheritDoc
      */
-    public function accepts($value) : bool
+    public function accepts($value): bool
     {
         if (!is_array($value)) {
             return false;
         }
 
-        return count(array_filter($value, static function ($key) : bool {
+        return count(array_filter($value, static function ($key): bool {
             return !is_string($key);
         }, ARRAY_FILTER_USE_KEY)) === 0;
     }
@@ -92,7 +94,7 @@ class DictionaryTransformation implements Constraint
     /**
      * @inheritDoc
      */
-    public function problemWith($value) : ?string
+    public function problemWith($value): ?string
     {
         if (!$this->accepts($value)) {
             return $this->getErrorMessage($value);

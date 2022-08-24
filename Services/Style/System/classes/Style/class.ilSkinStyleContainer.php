@@ -72,7 +72,7 @@ class ilSkinStyleContainer
      * Creates a new skin. This includes the generation of the XML and the corresponding folders of all contained styles.
      * @throws ilSystemStyleException
      */
-    public function create(ilSystemStyleMessageStack $message_stack) : void
+    public function create(ilSystemStyleMessageStack $message_stack): void
     {
         if (file_exists($this->getSkinDirectory())) {
             throw new ilSystemStyleException(ilSystemStyleException::SKIN_ALREADY_EXISTS, $this->getSkinDirectory());
@@ -109,7 +109,7 @@ class ilSkinStyleContainer
      * Updates the skin. Style are not updated, use updateStyle for that.
      * @throws ilSystemStyleException
      */
-    public function updateSkin(ilSkin $old_skin = null) : void
+    public function updateSkin(ilSkin $old_skin = null): void
     {
         if (!$old_skin) {
             $old_skin = $this->getSkin();
@@ -129,7 +129,7 @@ class ilSkinStyleContainer
     /**
      * Updates one single style.
      */
-    public function updateStyle(string $style_id, ilSkinStyle $old_style) : void
+    public function updateStyle(string $style_id, ilSkinStyle $old_style): void
     {
         $style = $this->getSkin()->getStyle($style_id);
         if ($style->getImageDirectory() != $old_style->getImageDirectory()) {
@@ -229,7 +229,7 @@ class ilSkinStyleContainer
     /**
      * Checks if a given resource (folder) is still referenced by a style of the containers skin
      */
-    protected function resourcesStyleReferences(string $resource) : array
+    protected function resourcesStyleReferences(string $resource): array
     {
         $references_ids = [];
         foreach ($this->getSkin()->getStyles() as $style) {
@@ -244,7 +244,7 @@ class ilSkinStyleContainer
      * Creates the less/css structure of a style
      * @throws ilSystemStyleException
      */
-    protected function createLessStructure(ilSkinStyle $style) : void
+    protected function createLessStructure(ilSkinStyle $style): void
     {
         $this->createMainLessFile($style);
         $this->copyVariablesFromDefault($style);
@@ -255,7 +255,7 @@ class ilSkinStyleContainer
     /**
      * Creates the main less file
      */
-    public function createMainLessFile(ilSkinStyle $style) : void
+    public function createMainLessFile(ilSkinStyle $style): void
     {
         $path = $this->getLessFilePath($style->getId());
         file_put_contents($path, $this->getLessMainFileDefautContent($style));
@@ -270,7 +270,7 @@ class ilSkinStyleContainer
     /**
      * Copies (resets) the variables file from delos
      */
-    public function copyVariablesFromDefault(ilSkinStyle $style) : ilSystemStyleLessFile
+    public function copyVariablesFromDefault(ilSkinStyle $style): ilSystemStyleLessFile
     {
         $less_file = new ilSystemStyleLessFile($this->getSystemStylesConf()->getDefaultVariablesPath());
         $less_file->setLessVariablesFilePathName($this->getLessVariablesFilePath($style->getId()));
@@ -281,7 +281,7 @@ class ilSkinStyleContainer
     /**
      * Copies (resets) the images from delos
      */
-    public function resetImages(ilSkinStyle $style) : void
+    public function resetImages(ilSkinStyle $style): void
     {
         $this->file_system->recursiveRemoveDir($this->getSkinDirectory() . $style->getImageDirectory());
         $this->file_system->createResourceDirectory(
@@ -293,7 +293,7 @@ class ilSkinStyleContainer
     /**
      * Copies (resets) the images from delos
      */
-    public function copyCSSFromDefault(ilSkinStyle $style) : void
+    public function copyCSSFromDefault(ilSkinStyle $style): void
     {
         copy($this->getSystemStylesConf()->getDelosPath() . '.css', $this->getCSSFilePath($style->getId()));
     }
@@ -301,7 +301,7 @@ class ilSkinStyleContainer
     /**
      * Returns the main less default content if a new style is created
      */
-    protected function getLessMainFileDefautContent(ilSkinStyle $style) : string
+    protected function getLessMainFileDefautContent(ilSkinStyle $style): string
     {
         $content = "@import \"" . $this->getSystemStylesConf()->getRelDelosPath() . "\";\n";
         $content .= "// Import Custom Less Files here\n";
@@ -313,7 +313,7 @@ class ilSkinStyleContainer
     /**
      * Deletes the container of a skin completely
      */
-    public function delete() : void
+    public function delete(): void
     {
         $this->file_system->recursiveRemoveDir(self::getSkinDirectory());
         $this->getMessageStack()->addMessage(
@@ -327,7 +327,7 @@ class ilSkinStyleContainer
     /**
      * Deletes a style completely
      */
-    public function deleteStyle(ilSkinStyle $style) : void
+    public function deleteStyle(ilSkinStyle $style): void
     {
         if ($style->isSubstyle()) {
             ilSystemStyleSettings::deleteSubStyleCategoryAssignments(
@@ -377,7 +377,7 @@ class ilSkinStyleContainer
     /**
      * Exports the complete skin to an zip file.
      */
-    public function export() : void
+    public function export(): void
     {
         ilFileDelivery::deliverFileAttached(
             $this->createTempZip(),
@@ -390,7 +390,7 @@ class ilSkinStyleContainer
     /**
      * Creates a temp zip file
      */
-    public function createTempZip() : string
+    public function createTempZip(): string
     {
         $rel_tmp_zip = '../' . $this->getSkin()->getId() . '.zip';
         ilFileUtils::zip($this->getSkinDirectory(), $rel_tmp_zip, true);
@@ -401,7 +401,7 @@ class ilSkinStyleContainer
         string $main_path,
         string $old_style_import,
         string $new_style_import
-    ) : void {
+    ): void {
         $main_less_content = file_get_contents($main_path);
         $main_less_content = str_replace(
             "@import \"" . $old_style_import,
@@ -414,7 +414,7 @@ class ilSkinStyleContainer
     /**
      * @throws ilSystemStyleException
      */
-    public function compileLess(string $style_id) : void
+    public function compileLess(string $style_id): void
     {
         if (!PATH_TO_LESSC) {
             throw new ilSystemStyleException(ilSystemStyleException::LESSC_NOT_INSTALLED);
@@ -434,74 +434,74 @@ class ilSkinStyleContainer
         file_put_contents($this->getCSSFilePath($style_id), $output);
     }
 
-    public function getSkin() : ilSkin
+    public function getSkin(): ilSkin
     {
         return $this->skin;
     }
 
-    public function setSkin(ilSkin $skin) : void
+    public function setSkin(ilSkin $skin): void
     {
         $this->skin = $skin;
     }
 
-    public function getSkinDirectory() : string
+    public function getSkinDirectory(): string
     {
         return $this->getSystemStylesConf()->getCustomizingSkinPath() . $this->getSkin()->getId() . '/';
     }
 
-    public function getCSSFilePath(string $style_id) : string
+    public function getCSSFilePath(string $style_id): string
     {
         return $this->getSkinDirectory() . $this->getSkin()->getStyle($style_id)->getCssFile() . '.css';
     }
 
-    public function getLessFilePath(string $style_id) : string
+    public function getLessFilePath(string $style_id): string
     {
         return $this->getSkinDirectory() . $this->getSkin()->getStyle($style_id)->getCssFile() . '.less';
     }
 
-    public function getLessVariablesFilePath(string $style_id) : string
+    public function getLessVariablesFilePath(string $style_id): string
     {
         return $this->getSkinDirectory() . $this->getLessVariablesName($style_id);
     }
 
-    public function getLessVariablesName(string $style_id) : string
+    public function getLessVariablesName(string $style_id): string
     {
         return $this->getSkin()->getStyle($style_id)->getCssFile() . '-variables.less';
     }
 
-    public function getImagesSkinPath(string $style_id) : string
+    public function getImagesSkinPath(string $style_id): string
     {
         return $this->getSkinDirectory() . $this->getSkin()->getStyle($style_id)->getImageDirectory();
     }
 
-    public function getMessageStack() : ilSystemStyleMessageStack
+    public function getMessageStack(): ilSystemStyleMessageStack
     {
         return $this->message_stack;
     }
 
-    public function setMessageStack(ilSystemStyleMessageStack $message_stack) : void
+    public function setMessageStack(ilSystemStyleMessageStack $message_stack): void
     {
         $this->message_stack = $message_stack;
     }
 
-    public function addStyle(ilSkinStyle $style) : void
+    public function addStyle(ilSkinStyle $style): void
     {
         $this->getSkin()->addStyle($style);
         $old_style = new ilSkinStyle('', '');
         $this->updateStyle($style->getId(), $old_style);
     }
 
-    protected function writeSkinToXML() : void
+    protected function writeSkinToXML(): void
     {
         $this->getSkin()->writeToXMLFile($this->getSkinDirectory() . 'template.xml');
     }
 
-    public function getSystemStylesConf() : ilSystemStyleConfig
+    public function getSystemStylesConf(): ilSystemStyleConfig
     {
         return $this->system_styles_conf;
     }
 
-    public function setSystemStylesConf(ilSystemStyleConfig $system_styles_conf) : void
+    public function setSystemStylesConf(ilSystemStyleConfig $system_styles_conf): void
     {
         $this->system_styles_conf = $system_styles_conf;
     }

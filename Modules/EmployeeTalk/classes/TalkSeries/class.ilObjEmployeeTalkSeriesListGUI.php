@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 /**
@@ -52,7 +53,6 @@ final class ilObjEmployeeTalkSeriesListGUI extends ilObjectListGUI
      */
     public function insertTimingsCommand(): void
     {
-
     }
 
     /**
@@ -61,7 +61,6 @@ final class ilObjEmployeeTalkSeriesListGUI extends ilObjectListGUI
      */
     public function insertCommonSocialCommands(bool $a_header_actions = false): void
     {
-
     }
 
     /**

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -105,7 +107,7 @@ class ilCertificateTemplateImportAction
         string $rootDir = CLIENT_WEB_DIR,
         string $iliasVerision = ILIAS_VERSION_NUMERIC,
         string $installationID = IL_INST_ID
-    ) : bool {
+    ): bool {
         $importPath = $this->createArchiveDirectory($installationID);
 
         $result = $this->utilHelper->moveUploadedFile($zipFile, $filename, $rootDir . $importPath . $filename);
@@ -160,7 +162,7 @@ class ilCertificateTemplateImportAction
                     // to add the complete path to every url
                     $xsl = preg_replace_callback(
                         "/url\([']{0,1}(.*?)[']{0,1}\)/",
-                        function (array $matches) use ($rootDir) : string {
+                        function (array $matches) use ($rootDir): string {
                             $basePath = rtrim(dirname($this->fileService->getBackgroundImageDirectory($rootDir)), '/');
                             $fileName = basename($matches[1]);
 
@@ -246,7 +248,7 @@ class ilCertificateTemplateImportAction
      * @return string The created archive directory
      * @throws IOException
      */
-    private function createArchiveDirectory(string $installationID) : string
+    private function createArchiveDirectory(string $installationID): string
     {
         $type = $this->objectHelper->lookupType($this->objectId);
         $certificateId = $this->objectId;
@@ -257,7 +259,7 @@ class ilCertificateTemplateImportAction
         return $dir;
     }
 
-    private function getBackgroundImageThumbnailPath() : string
+    private function getBackgroundImageThumbnailPath(): string
     {
         return $this->certificatePath . 'background.jpg.thumb.jpg';
     }

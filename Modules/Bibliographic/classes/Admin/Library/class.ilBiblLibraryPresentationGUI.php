@@ -15,7 +15,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * Class ilBiblLibraryPresentationGUI
  * @author Fabian Schmid <fs@studer-raimann.ch>
@@ -24,7 +24,7 @@ class ilBiblLibraryPresentationGUI
 {
     protected \ilBiblLibraryInterface $library;
     protected \ilBiblFactoryFacade $facade;
-    
+
     /**
      * ilBiblLibraryPresentationGUI constructor.
      */
@@ -33,11 +33,11 @@ class ilBiblLibraryPresentationGUI
         $this->library = $library;
         $this->facade = $facade;
     }
-    
+
     /**
      * @deprecated REFACTOR Mit Attribute Objekten arbeiten statt mit Array. Evtl. URL Erstellung vereinfachen
      */
-    public function generateLibraryLink(ilBiblEntry $entry, string $type) : string
+    public function generateLibraryLink(ilBiblEntry $entry, string $type): string
     {
         $attributes = $this->facade->entryFactory()->loadParsedAttributesByEntryId($entry->getId());
         $type = $this->facade->typeFactory()->getInstanceForString($type);
@@ -69,7 +69,7 @@ class ilBiblLibraryPresentationGUI
                 }
                 break;
         }
-        
+
         $url_params = "?";
         if (count($attr) === 1) {
             if (($attr[0] === "doi") || ($attr[0] === "pmid")) {
@@ -93,10 +93,10 @@ class ilBiblLibraryPresentationGUI
                 }
             }
         }
-        
+
         return $this->library->getUrl() . $url_params;
     }
-    
+
     /**
      * @return string|void
      */
@@ -120,7 +120,7 @@ class ilBiblLibraryPresentationGUI
     /**
      * @deprecated REFACTOR type via type factory verwenden
      */
-    public function formatAttribute(string $a, ilBiblTypeInterface $type, array $attributes, string $prefix) : string
+    public function formatAttribute(string $a, ilBiblTypeInterface $type, array $attributes, string $prefix): string
     {
         if ($type->getStringRepresentation() === 'ris') {
             switch ($a) {
@@ -158,7 +158,7 @@ class ilBiblLibraryPresentationGUI
                     break;
             }
         }
-        
+
         return $a;
     }
 }

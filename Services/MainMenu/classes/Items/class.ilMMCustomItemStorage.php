@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * Class ilMMCustomItemStorage
@@ -7,7 +9,6 @@
  */
 class ilMMCustomItemStorage extends CachedActiveRecord
 {
-
     /**
      * @con_is_primary true
      * @con_is_unique  true
@@ -61,7 +62,7 @@ class ilMMCustomItemStorage extends CachedActiveRecord
     /**
      * @return string
      */
-    public function getIdentifier() : string
+    public function getIdentifier(): string
     {
         return $this->identifier;
     }
@@ -72,7 +73,7 @@ class ilMMCustomItemStorage extends CachedActiveRecord
      *
      * @return ilMMCustomItemStorage
      */
-    public function setIdentifier(string $identifier) : ilMMCustomItemStorage
+    public function setIdentifier(string $identifier): ilMMCustomItemStorage
     {
         $this->identifier = $identifier;
 
@@ -83,7 +84,7 @@ class ilMMCustomItemStorage extends CachedActiveRecord
     /**
      * @return string
      */
-    public function getType() : string
+    public function getType(): string
     {
         return $this->type;
     }
@@ -94,7 +95,7 @@ class ilMMCustomItemStorage extends CachedActiveRecord
      *
      * @return ilMMCustomItemStorage
      */
-    public function setType(string $type) : ilMMCustomItemStorage
+    public function setType(string $type): ilMMCustomItemStorage
     {
         $this->type = $type;
 
@@ -105,7 +106,7 @@ class ilMMCustomItemStorage extends CachedActiveRecord
     /**
      * @return bool
      */
-    public function isTopItem() : bool
+    public function isTopItem(): bool
     {
         return $this->top_item;
     }
@@ -116,7 +117,7 @@ class ilMMCustomItemStorage extends CachedActiveRecord
      *
      * @return ilMMCustomItemStorage
      */
-    public function setTopItem(bool $top_item) : ilMMCustomItemStorage
+    public function setTopItem(bool $top_item): ilMMCustomItemStorage
     {
         $this->top_item = $top_item;
 
@@ -127,7 +128,7 @@ class ilMMCustomItemStorage extends CachedActiveRecord
     /**
      * @return string
      */
-    public function getAction() : string
+    public function getAction(): string
     {
         return $this->action;
     }
@@ -138,7 +139,7 @@ class ilMMCustomItemStorage extends CachedActiveRecord
      *
      * @return ilMMCustomItemStorage
      */
-    public function setAction(string $action) : ilMMCustomItemStorage
+    public function setAction(string $action): ilMMCustomItemStorage
     {
         $this->action = $action;
 
@@ -149,7 +150,7 @@ class ilMMCustomItemStorage extends CachedActiveRecord
     /**
      * @return bool
      */
-    public function hasRoleBasedVisibility() : bool
+    public function hasRoleBasedVisibility(): bool
     {
         return $this->role_based_visibility;
     }
@@ -160,7 +161,7 @@ class ilMMCustomItemStorage extends CachedActiveRecord
      *
      * @return ilMMCustomItemStorage
      */
-    public function setRoleBasedVisibility(bool $role_based_visibility) : ilMMCustomItemStorage
+    public function setRoleBasedVisibility(bool $role_based_visibility): ilMMCustomItemStorage
     {
         $this->role_based_visibility = $role_based_visibility;
 
@@ -171,7 +172,7 @@ class ilMMCustomItemStorage extends CachedActiveRecord
     /**
      * @return array
      */
-    public function getGlobalRoleIDs() : array
+    public function getGlobalRoleIDs(): array
     {
         return explode(",", $this->global_role_ids);
     }
@@ -182,7 +183,7 @@ class ilMMCustomItemStorage extends CachedActiveRecord
      *
      * @return ilMMCustomItemStorage
      */
-    public function setGlobalRoleIDs(array $global_role_ids) : ilMMCustomItemStorage
+    public function setGlobalRoleIDs(array $global_role_ids): ilMMCustomItemStorage
     {
         $this->global_role_ids = implode(",", $global_role_ids);
 
@@ -193,7 +194,7 @@ class ilMMCustomItemStorage extends CachedActiveRecord
     /**
      * @return string
      */
-    public function getDefaultTitle() : string
+    public function getDefaultTitle(): string
     {
         return $this->default_title;
     }
@@ -204,7 +205,7 @@ class ilMMCustomItemStorage extends CachedActiveRecord
      *
      * @return ilMMCustomItemStorage
      */
-    public function setDefaultTitle(string $default_title) : ilMMCustomItemStorage
+    public function setDefaultTitle(string $default_title): ilMMCustomItemStorage
     {
         $this->default_title = $default_title;
 
@@ -215,7 +216,7 @@ class ilMMCustomItemStorage extends CachedActiveRecord
     /**
      * @inheritDoc
      */
-    public function getCache() : ilGlobalCache
+    public function getCache(): ilGlobalCache
     {
         return ilGlobalCache::getInstance(ilGlobalCache::COMP_GLOBAL_SCREEN);
     }

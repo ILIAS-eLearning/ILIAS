@@ -15,7 +15,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * Repository object assignment information
  *
@@ -52,7 +52,7 @@ class ilExcRepoObjAssignmentAccessInfo implements ilExcRepoObjAssignmentAccessIn
     /**
      * Is access granted due to exercise assignment conditions?
      */
-    public function isGranted() : bool
+    public function isGranted(): bool
     {
         return $this->is_granted;
     }
@@ -62,7 +62,7 @@ class ilExcRepoObjAssignmentAccessInfo implements ilExcRepoObjAssignmentAccessIn
      *
      * @return string[]
      */
-    public function getNotGrantedReasons() : array
+    public function getNotGrantedReasons(): array
     {
         return $this->not_granted_reasons;
     }
@@ -71,7 +71,7 @@ class ilExcRepoObjAssignmentAccessInfo implements ilExcRepoObjAssignmentAccessIn
      * @param int $a_ref_id ref id
      * @param int $a_user_id user id
      */
-    public static function getInfo(int $a_ref_id, int $a_user_id) : self
+    public static function getInfo(int $a_ref_id, int $a_user_id): self
     {
         global $DIC;
 

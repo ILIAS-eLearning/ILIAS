@@ -15,19 +15,19 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 use ILIAS\Setup;
 use ILIAS\Data\Password;
 
 class ilBackgroundTasksSetupConfig implements Setup\Config
 {
-    const TYPE_SYNCHRONOUS = "sync";
-    const TYPE_ASYNCHRONOUS = "async";
-    
+    public const TYPE_SYNCHRONOUS = "sync";
+    public const TYPE_ASYNCHRONOUS = "async";
+
     protected string $type;
-    
+
     protected int $max_concurrent_tasks;
-    
+
     public function __construct(
         string $type,
         int $max_concurrent_tasks
@@ -49,13 +49,13 @@ class ilBackgroundTasksSetupConfig implements Setup\Config
         $this->type = $type;
         $this->max_concurrent_tasks = $max_concurrent_tasks;
     }
-    
-    public function getType() : string
+
+    public function getType(): string
     {
         return $this->type;
     }
-    
-    public function getMaxCurrentTasks() : int
+
+    public function getMaxCurrentTasks(): int
     {
         return $this->max_concurrent_tasks;
     }

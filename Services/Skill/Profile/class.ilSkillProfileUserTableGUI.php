@@ -80,7 +80,7 @@ class ilSkillProfileUserTableGUI extends ilTable2GUI
         //$this->addCommandButton("", $lng->txt(""));
     }
 
-    protected function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set): void
     {
         $lng = $this->lng;
 

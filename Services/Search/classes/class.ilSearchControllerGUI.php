@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -34,7 +36,7 @@ use ILIAS\Refinery\Factory;
 class ilSearchControllerGUI implements ilCtrlBaseClassInterface
 {
     public const TYPE_USER_SEARCH = -1;
-    
+
     protected ilCtrl $ctrl;
     protected ILIAS $ilias;
     protected ilLanguage $lng;
@@ -61,7 +63,7 @@ class ilSearchControllerGUI implements ilCtrlBaseClassInterface
         $this->refinery = $DIC->refinery();
     }
 
-    public function getLastClass() : string
+    public function getLastClass(): string
     {
         if (ilSearchSettings::getInstance()->enabledLucene()) {
             $default = 'illucenesearchgui';
@@ -79,42 +81,42 @@ class ilSearchControllerGUI implements ilCtrlBaseClassInterface
         if ($root_id == self::TYPE_USER_SEARCH) {
             $default = 'illuceneusersearchgui';
         }
-        
+
         $this->setLastClass($default);
         return ilSession::get('search_last_class') ?? $default;
     }
-    public function setLastClass(string $a_class) : void
+    public function setLastClass(string $a_class): void
     {
         ilSession::set('search_last_class', $a_class);
     }
 
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         // Check hacks
         if (!$this->system->checkAccess('search', ilSearchSettings::_getSearchSettingRefId())) {
             $this->ilias->raiseError($this->lng->txt("permission_denied"), $this->ilias->error_obj->MESSAGE);
         }
         $forward_class = $this->ctrl->getNextClass($this) ? $this->ctrl->getNextClass($this) : $this->getLastClass();
-        
+
         switch ($forward_class) {
             case 'illucenesearchgui':
                 $this->setLastClass('illucenesearchgui');
                 $this->ctrl->setCmdClass(ilLuceneSearchGUI::class);
                 $this->ctrl->forwardCommand(new ilLuceneSearchGUI());
                 break;
-                
+
             case 'illuceneadvancedsearchgui':
                 $this->setLastClass('illuceneadvancedsearchgui');
                 $this->ctrl->setCmdClass(ilLuceneAdvancedSearchGUI::class);
                 $this->ctrl->forwardCommand(new ilLuceneAdvancedSearchGUI());
                 break;
-            
+
             case 'illuceneusersearchgui':
                 $this->setLastClass('illuceneusersearchgui');
                 $this->ctrl->setCmdClass(ilLuceneUserSearchGUI::class);
                 $this->ctrl->forwardCommand(new ilLuceneUserSearchGUI());
                 break;
-                
+
             case 'iladvancedsearchgui':
                 // Remember last class
                 $this->setLastClass('iladvancedsearchgui');

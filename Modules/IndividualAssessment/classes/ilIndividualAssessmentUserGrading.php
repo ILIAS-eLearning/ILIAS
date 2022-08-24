@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /* Copyright (c) 2020 Daniel Weise <daniel.weise@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
@@ -44,64 +46,64 @@ class ilIndividualAssessmentUserGrading
         $this->finalized = $finalized;
     }
 
-    public function getName() : string
+    public function getName(): string
     {
         return $this->name;
     }
 
-    public function getRecord() : string
+    public function getRecord(): string
     {
         return $this->record;
     }
 
-    public function getInternalNote() : string
+    public function getInternalNote(): string
     {
         return $this->internal_note;
     }
 
-    public function getFile() : ?string
+    public function getFile(): ?string
     {
         return $this->file;
     }
 
-    public function isFileVisible() : bool
+    public function isFileVisible(): bool
     {
         return $this->is_file_visible;
     }
 
-    public function getLearningProgress() : int
+    public function getLearningProgress(): int
     {
         return $this->learning_progress;
     }
 
-    public function getPlace() : string
+    public function getPlace(): string
     {
         return $this->place;
     }
 
-    public function getEventTime() : ?DateTimeImmutable
+    public function getEventTime(): ?DateTimeImmutable
     {
         return $this->event_time;
     }
 
-    public function isNotify() : bool
+    public function isNotify(): bool
     {
         return $this->notify;
     }
 
-    public function isFinalized() : bool
+    public function isFinalized(): bool
     {
         return $this->finalized;
     }
 
-    public function withFinalized(bool $finalize) : ilIndividualAssessmentUserGrading
+    public function withFinalized(bool $finalize): ilIndividualAssessmentUserGrading
     {
         $clone = clone $this;
         $clone->finalized = $finalize;
         return $clone;
     }
 
-    public function withFile(?string $file) : ilIndividualAssessmentUserGrading
+    public function withFile(?string $file): ilIndividualAssessmentUserGrading
     {
         $clone = clone $this;
         $clone->file = $file;
@@ -118,7 +120,7 @@ class ilIndividualAssessmentUserGrading
         bool $may_be_edited = true,
         bool $place_required = false,
         bool $amend = false
-    ) : Field\Input {
+    ): Field\Input {
         $name = $input
             ->text($lng->txt('name'), '')
             ->withDisabled(true)

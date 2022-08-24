@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 require_once(__DIR__ . "/../../../../libs/composer/vendor/autoload.php");
 require_once(__DIR__ . "/../../Base.php");
 
@@ -31,13 +33,13 @@ class ImageTest extends ILIAS_UI_TestBase
     /**
      * @return Factory
      */
-    public function getImageFactory() : Factory
+    public function getImageFactory(): Factory
     {
         return new Factory();
     }
 
 
-    public function test_implements_factory_interface() : void
+    public function test_implements_factory_interface(): void
     {
         $f = $this->getImageFactory();
 
@@ -46,7 +48,7 @@ class ImageTest extends ILIAS_UI_TestBase
         $this->assertInstanceOf("ILIAS\\UI\\Component\\Image\\Image", $f->responsive("source", "alt"));
     }
 
-    public function test_get_type() : void
+    public function test_get_type(): void
     {
         $f = $this->getImageFactory();
         $i = $f->standard("source", "alt");
@@ -54,7 +56,7 @@ class ImageTest extends ILIAS_UI_TestBase
         $this->assertEquals($i::STANDARD, $i->getType());
     }
 
-    public function test_get_source() : void
+    public function test_get_source(): void
     {
         $f = $this->getImageFactory();
         $i = $f->standard("source", "alt");
@@ -62,7 +64,7 @@ class ImageTest extends ILIAS_UI_TestBase
         $this->assertEquals("source", $i->getSource());
     }
 
-    public function test_get_alt() : void
+    public function test_get_alt(): void
     {
         $f = $this->getImageFactory();
         $i = $f->standard("source", "alt");
@@ -70,7 +72,7 @@ class ImageTest extends ILIAS_UI_TestBase
         $this->assertEquals("alt", $i->getAlt());
     }
 
-    public function test_set_source() : void
+    public function test_set_source(): void
     {
         $f = $this->getImageFactory();
         $i = $f->standard("source", "alt");
@@ -78,7 +80,7 @@ class ImageTest extends ILIAS_UI_TestBase
         $this->assertEquals("newSource", $i->getSource());
     }
 
-    public function test_set_alt() : void
+    public function test_set_alt(): void
     {
         $f = $this->getImageFactory();
         $i = $f->standard("source", "alt");
@@ -86,7 +88,7 @@ class ImageTest extends ILIAS_UI_TestBase
         $this->assertEquals("newAlt", $i->getAlt());
     }
 
-    public function test_set_string_action() : void
+    public function test_set_string_action(): void
     {
         $f = $this->getImageFactory();
         $i = $f->standard("source", "alt");
@@ -94,7 +96,7 @@ class ImageTest extends ILIAS_UI_TestBase
         $this->assertEquals("newAction", $i->getAction());
     }
 
-    public function test_set_signal_action() : void
+    public function test_set_signal_action(): void
     {
         $f = $this->getImageFactory();
         $signal = $this->createMock(C\Signal::class);
@@ -103,21 +105,21 @@ class ImageTest extends ILIAS_UI_TestBase
         $this->assertEquals([$signal], $i->getAction());
     }
 
-    public function test_invalid_source() : void
+    public function test_invalid_source(): void
     {
         $this->expectException(TypeError::class);
         $f = $this->getImageFactory();
         $f->standard(1, "alt");
     }
 
-    public function test_invalid_alt() : void
+    public function test_invalid_alt(): void
     {
         $this->expectException(TypeError::class);
         $f = $this->getImageFactory();
         $f->standard("source", 1);
     }
 
-    public function test_render_standard() : void
+    public function test_render_standard(): void
     {
         $f = $this->getImageFactory();
         $r = $this->getDefaultRenderer();
@@ -130,7 +132,7 @@ class ImageTest extends ILIAS_UI_TestBase
         $this->assertEquals($expected, $html);
     }
 
-    public function test_render_responsive() : void
+    public function test_render_responsive(): void
     {
         $f = $this->getImageFactory();
         $r = $this->getDefaultRenderer();
@@ -143,7 +145,7 @@ class ImageTest extends ILIAS_UI_TestBase
         $this->assertEquals($expected, $html);
     }
 
-    public function test_render_alt_escaping() : void
+    public function test_render_alt_escaping(): void
     {
         $f = $this->getImageFactory();
         $r = $this->getDefaultRenderer();
@@ -156,7 +158,7 @@ class ImageTest extends ILIAS_UI_TestBase
         $this->assertEquals($expected, $html);
     }
 
-    public function test_render_with_string_action() : void
+    public function test_render_with_string_action(): void
     {
         $f = $this->getImageFactory();
         $r = $this->getDefaultRenderer();
@@ -169,7 +171,7 @@ class ImageTest extends ILIAS_UI_TestBase
         $this->assertEquals($expected, $html);
     }
 
-    public function test_render_with_signal_action() : void
+    public function test_render_with_signal_action(): void
     {
         $f = $this->getImageFactory();
         $r = $this->getDefaultRenderer();
@@ -184,7 +186,7 @@ class ImageTest extends ILIAS_UI_TestBase
         $this->assertEquals($expected, $html);
     }
 
-    public function test_with_empty_action_and_no_additional_on_load_code() : void
+    public function test_with_empty_action_and_no_additional_on_load_code(): void
     {
         $f = $this->getImageFactory();
         $r = $this->getDefaultRenderer();
@@ -198,7 +200,7 @@ class ImageTest extends ILIAS_UI_TestBase
         $this->assertEquals($expected, $html);
     }
 
-    public function test_with_additional_on_load_code() : void
+    public function test_with_additional_on_load_code(): void
     {
         $f = $this->getImageFactory();
         $r = $this->getDefaultRenderer();

@@ -42,7 +42,7 @@ class ilCollectWorkspaceFilesJob extends AbstractJob
         $this->tree = new ilWorkspaceTree($user->getId());
     }
 
-    public function getInputTypes() : array
+    public function getInputTypes(): array
     {
         return
             [
@@ -51,17 +51,17 @@ class ilCollectWorkspaceFilesJob extends AbstractJob
             ];
     }
 
-    public function getOutputType() : Type
+    public function getOutputType(): Type
     {
         return new SingleType(ilWorkspaceCopyDefinition::class);
     }
 
-    public function isStateless() : bool
+    public function isStateless(): bool
     {
         return true;
     }
 
-    public function run(array $input, \ILIAS\BackgroundTasks\Observer $observer) : Value
+    public function run(array $input, \ILIAS\BackgroundTasks\Observer $observer): Value
     {
         $this->logger->debug('Start collecting files!');
         $this->logger->dump($input);
@@ -108,7 +108,7 @@ class ilCollectWorkspaceFilesJob extends AbstractJob
         int $a_wsp_id,
         string $a_file_name,
         string $a_temp_dir
-    ) : ?array {
+    ): ?array {
         global $DIC;
 
         $user = $DIC->user();
@@ -135,7 +135,7 @@ class ilCollectWorkspaceFilesJob extends AbstractJob
         string $a_temp_dir,
         int $a_num_recursions,
         bool $a_initiated_by_folder_action
-    ) : array {
+    ): array {
         $num_recursions = $a_num_recursions + 1;
         $tree = $this->tree;
         $ilAccess = new ilWorkspaceAccessHandler($this->tree);
@@ -173,7 +173,7 @@ class ilCollectWorkspaceFilesJob extends AbstractJob
         return $files;
     }
 
-    public function getExpectedTimeOfTaskInSeconds() : int
+    public function getExpectedTimeOfTaskInSeconds(): int
     {
         return 30;
     }

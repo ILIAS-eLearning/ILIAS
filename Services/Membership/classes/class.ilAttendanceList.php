@@ -1,6 +1,8 @@
-<?php declare(strict_types=1);
+<?php
 
-    
+declare(strict_types=1);
+
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -16,7 +18,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * Base class for attendance lists
  * @author  Jörg Lützenkirchen <luetzenkirchen@leifos.com>
@@ -111,7 +113,7 @@ class ilAttendanceList
     /**
      * read object export fields
      */
-    protected function readOrderedExportableFields() : bool
+    protected function readOrderedExportableFields(): bool
     {
         $field_info = ilExportFieldsInfo::_getInstanceByType($this->parent_obj->getType());
         $field_info->sortExportFields();
@@ -153,7 +155,7 @@ class ilAttendanceList
     /**
      * Add user field
      */
-    public function addPreset(string $a_id, string $a_caption, bool $a_selected = false) : void
+    public function addPreset(string $a_id, string $a_caption, bool $a_selected = false): void
     {
         $this->presets[$a_id] = array($a_caption, $a_selected);
     }
@@ -161,7 +163,7 @@ class ilAttendanceList
     /**
      * Add blank column preset
      */
-    public function addBlank(string $a_caption) : void
+    public function addBlank(string $a_caption): void
     {
         $this->pre_blanks[] = $a_caption;
     }
@@ -169,7 +171,7 @@ class ilAttendanceList
     /**
      * Set titles
      */
-    public function setTitle(string $a_title, ?string $a_description = null) : void
+    public function setTitle(string $a_title, ?string $a_description = null): void
     {
         $this->title = $a_title;
         $this->description = (string) $a_description;
@@ -178,12 +180,12 @@ class ilAttendanceList
     /**
      * Add role
      */
-    protected function addRole(int $a_id, string $a_caption, string $a_type) : void
+    protected function addRole(int $a_id, string $a_caption, string $a_type): void
     {
         $this->role_data[$a_id] = array($a_caption, $a_type);
     }
 
-    protected function setRoleSelection(array $a_role_ids) : void
+    protected function setRoleSelection(array $a_role_ids): void
     {
         $this->roles = $a_role_ids;
     }
@@ -191,7 +193,7 @@ class ilAttendanceList
     /**
      * Add user filter
      */
-    public function addUserFilter(string $a_id, string $a_caption, bool $a_checked = false) : void
+    public function addUserFilter(string $a_id, string $a_caption, bool $a_checked = false): void
     {
         $this->user_filters[$a_id] = array($a_caption, $a_checked);
     }
@@ -199,7 +201,7 @@ class ilAttendanceList
     /**
      * Get user data for subscribers and waiting list
      */
-    public function getNonMemberUserData(array &$a_res) : void
+    public function getNonMemberUserData(array &$a_res): void
     {
         $subscriber_ids = $this->participants->getSubscribers();
         $user_ids = $subscriber_ids;
@@ -249,7 +251,7 @@ class ilAttendanceList
     /**
      * Add blank columns
      */
-    public function setBlankColumns(array $a_values) : void
+    public function setBlankColumns(array $a_values): void
     {
         if (!implode("", $a_values)) {
             $a_values = array();
@@ -267,12 +269,12 @@ class ilAttendanceList
     /**
      * Set participant detail callback
      */
-    public function setCallback(callable $a_callback) : void
+    public function setCallback(callable $a_callback): void
     {
         $this->callback = $a_callback;
     }
 
-    public function setId(string $a_value) : void
+    public function setId(string $a_value): void
     {
         $this->id = $a_value;
     }
@@ -280,7 +282,7 @@ class ilAttendanceList
     /**
      * Init form
      */
-    public function initForm(string $a_cmd = "") : ilPropertyFormGUI
+    public function initForm(string $a_cmd = ""): ilPropertyFormGUI
     {
         $this->lng->loadLanguageModule('crs');
 
@@ -397,7 +399,7 @@ class ilAttendanceList
     /**
      * Set list attributes from post values
      */
-    public function initFromForm() : void
+    public function initFromForm(): void
     {
         $form = $this->initForm();
         if ($form->checkInput()) {
@@ -463,7 +465,7 @@ class ilAttendanceList
     /**
      * render list in fullscreen mode
      */
-    public function getFullscreenHTML() : void
+    public function getFullscreenHTML(): void
     {
         $this->tpl->setContent($this->getHTML());
     }
@@ -471,7 +473,7 @@ class ilAttendanceList
     /**
      * render attendance list
      */
-    public function getHTML() : string
+    public function getHTML(): string
     {
         $tpl = new ilTemplate('tpl.attendance_list_print.html', true, true, 'Services/Membership');
         ilDatePresentation::setUseRelativeDates(false);

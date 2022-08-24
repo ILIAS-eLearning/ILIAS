@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /* Copyright (c) 2021 Thibeau Fuhrer <thf@studer-raimann.ch> Extended GPL, see docs/LICENSE */
 
@@ -12,7 +14,7 @@ class ilCtrlTokenRepository implements ilCtrlTokenRepositoryInterface
     /**
      * @inheritDoc
      */
-    public function getToken() : ilCtrlTokenInterface
+    public function getToken(): ilCtrlTokenInterface
     {
         $token = $this->fetchToken() ?? $this->generateToken();
 
@@ -26,7 +28,7 @@ class ilCtrlTokenRepository implements ilCtrlTokenRepositoryInterface
      *
      * @return ilCtrlTokenInterface|null
      */
-    protected function fetchToken() : ?ilCtrlTokenInterface
+    protected function fetchToken(): ?ilCtrlTokenInterface
     {
         if (ilSession::has(ilCtrlInterface::PARAM_CSRF_TOKEN)) {
             return unserialize(ilSession::get(ilCtrlInterface::PARAM_CSRF_TOKEN), [ilCtrlTokenInterface::class]);
@@ -40,7 +42,7 @@ class ilCtrlTokenRepository implements ilCtrlTokenRepositoryInterface
      *
      * @param ilCtrlTokenInterface $token
      */
-    protected function storeToken(ilCtrlTokenInterface $token) : void
+    protected function storeToken(ilCtrlTokenInterface $token): void
     {
         ilSession::set(ilCtrlInterface::PARAM_CSRF_TOKEN, serialize($token));
     }
@@ -50,7 +52,7 @@ class ilCtrlTokenRepository implements ilCtrlTokenRepositoryInterface
      *
      * @return ilCtrlToken
      */
-    protected function generateToken() : ilCtrlTokenInterface
+    protected function generateToken(): ilCtrlTokenInterface
     {
         // random_bytes() is cryptographically secure but
         // depends on the system it's running on. If the

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /******************************************************************************
  *
@@ -44,7 +46,7 @@ class ilNotificationParameter
         $this->language_module = $language_module;
     }
 
-    public function getName() : string
+    public function getName(): string
     {
         return $this->name;
     }
@@ -52,12 +54,12 @@ class ilNotificationParameter
     /**
      * @return string[]
      */
-    public function getParameters() : array
+    public function getParameters(): array
     {
         return $this->parameters;
     }
 
-    public function getLanguageModule() : string
+    public function getLanguageModule(): string
     {
         return $this->language_module;
     }

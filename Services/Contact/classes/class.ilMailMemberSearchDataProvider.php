@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -40,7 +42,7 @@ class ilMailMemberSearchDataProvider
     ];
     protected ilLanguage $lng;
 
-    
+
     public function __construct(ilParticipants $objParticipants, int $a_ref_id)
     {
         global $DIC;
@@ -56,7 +58,7 @@ class ilMailMemberSearchDataProvider
         $this->collectTableData();
     }
 
-    private function collectTableData() : void
+    private function collectTableData(): void
     {
         $participants = $this->objParticipants->getParticipants();
         if ($this->type === 'crs' || $this->type === 'grp') {
@@ -103,7 +105,7 @@ class ilMailMemberSearchDataProvider
 
             $roleTitles = $this->sortRoles($roleTitles);
 
-            $roleTitles = array_map(function (string $roleTitle) : string {
+            $roleTitles = array_map(function (string $roleTitle): string {
                 return $this->buildRoleTitle($roleTitle);
             }, $roleTitles);
 
@@ -115,9 +117,9 @@ class ilMailMemberSearchDataProvider
      * @param string[] $roleTitles
      * @return string[]
      */
-    private function sortRoles(array $roleTitles) : array
+    private function sortRoles(array $roleTitles): array
     {
-        usort($roleTitles, function (string $a, string $b) : int {
+        usort($roleTitles, function (string $a, string $b): int {
             $leftPrefixTitle = substr($a, 0, 8);
             $rightPrefixTitle = substr($b, 0, 8);
 
@@ -138,12 +140,12 @@ class ilMailMemberSearchDataProvider
         return $roleTitles;
     }
 
-    private function buildRoleTitle(string $role) : string
+    private function buildRoleTitle(string $role): string
     {
         return ilObjRole::_getTranslation($role);
     }
 
-    public function getData() : array
+    public function getData(): array
     {
         return $this->data;
     }

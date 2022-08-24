@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\Tests\UI\Component\Input\Field;
 
 use ILIAS\UI\Implementation\Component\Input\Field\HasDynamicInputsBase;
@@ -39,31 +41,31 @@ class HasDynamicInputsBaseTest extends TestCase
     protected ilLanguage $language;
     protected Refinery $refinery;
 
-    public function setUp() : void
+    public function setUp(): void
     {
         $this->data_factory = $this->createMock(DataFactory::class);
         $this->language = $this->createMock(ilLanguage::class);
         $this->refinery = $this->createMock(Refinery::class);
-        $this->input = new class($this->language, $this->data_factory, $this->refinery, 'test_input_name', $this->getTestInputTemplate(), 'test_byline') extends HasDynamicInputsBase {
-            public function getUpdateOnLoadCode() : Closure
+        $this->input = new class ($this->language, $this->data_factory, $this->refinery, 'test_input_name', $this->getTestInputTemplate(), 'test_byline') extends HasDynamicInputsBase {
+            public function getUpdateOnLoadCode(): Closure
             {
                 return static function () {
                 };
             }
 
-            protected function getConstraintForRequirement() : ?Constraint
+            protected function getConstraintForRequirement(): ?Constraint
             {
                 return null;
             }
 
-            protected function isClientSideValueOk($value) : bool
+            protected function isClientSideValueOk($value): bool
             {
                 return true;
             }
         };
     }
 
-    public function testDynamicInputTemplateDuplication() : void
+    public function testDynamicInputTemplateDuplication(): void
     {
         $dynamic_input = $this->input->withValue([
             'val1',
@@ -76,7 +78,7 @@ class HasDynamicInputsBaseTest extends TestCase
         );
     }
 
-    public function testDynamicInputWithValue() : void
+    public function testDynamicInputWithValue(): void
     {
         $input_value_1 = 'val1';
         $input_value_2 = 'val2';
@@ -90,7 +92,7 @@ class HasDynamicInputsBaseTest extends TestCase
         $this->assertEquals($input_value_2, $generated_inputs[1]->getValue());
     }
 
-    public function testDynamicInputDisabilityBeforeDuplication() : void
+    public function testDynamicInputDisabilityBeforeDuplication(): void
     {
         $dynamic_input = $this->input;
         $this->assertFalse($dynamic_input->getTemplateForDynamicInputs()->isDisabled());
@@ -102,7 +104,7 @@ class HasDynamicInputsBaseTest extends TestCase
         $this->assertTrue($dynamic_input->isDisabled());
     }
 
-    public function testDynamicInputDisabilityAfterDuplication() : void
+    public function testDynamicInputDisabilityAfterDuplication(): void
     {
         $dynamic_input = $this->input->withValue(['', '']);
         $generated_inputs = $dynamic_input->getDynamicInputs();
@@ -125,7 +127,7 @@ class HasDynamicInputsBaseTest extends TestCase
      * the input names are always the same, because the names generated from
      * DynamicInputsNameSource are stackable.
      */
-    public function testDynamicInputNameGeneration() : void
+    public function testDynamicInputNameGeneration(): void
     {
         $input_name = 'test_name[form_input_0][]';
         $dynamic_input = $this->input->withValue(['', '']);
@@ -149,32 +151,32 @@ class HasDynamicInputsBaseTest extends TestCase
             $generated_inputs[1]->getName()
         );
     }
-    
-    protected function getTestNameSource() : NameSource
+
+    protected function getTestNameSource(): NameSource
     {
-        return new class() implements NameSource {
-            public function getNewName() : string
+        return new class () implements NameSource {
+            public function getNewName(): string
             {
                 return 'test_name';
             }
         };
     }
 
-    protected function getTestInputTemplate() : Input
+    protected function getTestInputTemplate(): Input
     {
-        return new class($this->data_factory, $this->refinery, 'input_template_name', 'input_template_byline') extends \ILIAS\UI\Implementation\Component\Input\Field\Input {
-            public function getUpdateOnLoadCode() : Closure
+        return new class ($this->data_factory, $this->refinery, 'input_template_name', 'input_template_byline') extends \ILIAS\UI\Implementation\Component\Input\Field\Input {
+            public function getUpdateOnLoadCode(): Closure
             {
                 return static function () {
                 };
             }
 
-            protected function getConstraintForRequirement() : ?Constraint
+            protected function getConstraintForRequirement(): ?Constraint
             {
                 return null;
             }
 
-            protected function isClientSideValueOk($value) : bool
+            protected function isClientSideValueOk($value): bool
             {
                 return true;
             }

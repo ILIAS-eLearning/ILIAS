@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -83,7 +85,7 @@ class ilTimeZone
         $this->log = $DIC->logger()->cal();
     }
 
-    public function getIdentifier() : string
+    public function getIdentifier(): string
     {
         return $this->timezone;
     }
@@ -92,7 +94,7 @@ class ilTimeZone
      * get instance by timezone
      * @throws ilTimeZoneException
      */
-    public static function _getInstance(string $a_tz = '') : ilTimeZone
+    public static function _getInstance(string $a_tz = ''): ilTimeZone
     {
         if (!$a_tz) {
             $a_tz = self::_getDefaultTimeZone();
@@ -115,7 +117,7 @@ class ilTimeZone
     /**
      * Switch timezone to given timezone
      */
-    public function switchTZ() : bool
+    public function switchTZ(): bool
     {
         try {
             self::_switchTimeZone($this->timezone);
@@ -130,7 +132,7 @@ class ilTimeZone
     /**
      * Restore default timezone
      */
-    public function restoreTZ() : bool
+    public function restoreTZ(): bool
     {
         try {
             self::_switchTimeZone(self::$default_timezone);
@@ -142,7 +144,7 @@ class ilTimeZone
         }
     }
 
-    public function validateTZ() : bool
+    public function validateTZ(): bool
     {
         // this is done by switching to the current tz
         if ($this->switchTZ() and $this->restoreTZ()) {
@@ -151,7 +153,7 @@ class ilTimeZone
         return false;
     }
 
-    protected static function _switchTimeZone(string $a_timezone) : bool
+    protected static function _switchTimeZone(string $a_timezone): bool
     {
         global $DIC;
 
@@ -178,7 +180,7 @@ class ilTimeZone
         return true;
     }
 
-    public static function _setDefaultTimeZone(string $a_tz) : void
+    public static function _setDefaultTimeZone(string $a_tz): void
     {
         // Save the server timezone, since there is no way to read later.
         if (!self::$server_timezone) {
@@ -187,7 +189,7 @@ class ilTimeZone
         self::$default_timezone = $a_tz;
     }
 
-    public static function _restoreDefaultTimeZone() : void
+    public static function _restoreDefaultTimeZone(): void
     {
         self::$default_timezone = self::$server_timezone;
         self::_switchTimeZone(self::$default_timezone);
@@ -196,7 +198,7 @@ class ilTimeZone
     /**
      * Calculate and set default time zone
      */
-    public static function _getDefaultTimeZone() : string
+    public static function _getDefaultTimeZone(): string
     {
         if (strlen(self::$default_timezone)) {
             return self::$default_timezone;
@@ -227,7 +229,7 @@ class ilTimeZone
     /**
      * Initialize default timezone from system settings
      */
-    public static function initDefaultTimeZone(ilIniFile $ini) : string
+    public static function initDefaultTimeZone(ilIniFile $ini): string
     {
         $tz = $ini->readVariable('server', 'timezone');
         if (!strlen($tz)) {

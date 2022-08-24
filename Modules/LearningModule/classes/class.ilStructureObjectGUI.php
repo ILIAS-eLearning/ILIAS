@@ -51,25 +51,25 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 
     public function setStructureObject(
         ilStructureObject $a_st_object
-    ) : void {
+    ): void {
         $this->obj = $a_st_object;
     }
-    
-    public function getType() : string
+
+    public function getType(): string
     {
         return "st";
     }
 
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         $next_class = $this->ctrl->getNextClass($this);
         $cmd = $this->ctrl->getCmd();
 
         switch ($next_class) {
             case 'ilobjectmetadatagui':
-                
+
                 $this->setTabs();
-            
+
                 $md_gui = new ilObjectMetaDataGUI($this->content_object, $this->obj->getType(), $this->obj->getId());
                 $md_gui->addMDObserver($this->obj, 'MDUpdateListener', 'General');
                 $md_gui->addMDObserver($this->obj, 'MDUpdateListener', 'Educational'); // #9510
@@ -101,7 +101,7 @@ class ilStructureObjectGUI extends ilLMObjectGUI
         }
     }
 
-    public function create() : void
+    public function create(): void
     {
         if ($this->requested_obj_id != 0) {
             $this->setTabs();
@@ -109,25 +109,25 @@ class ilStructureObjectGUI extends ilLMObjectGUI
         parent::create();
     }
 
-    public function edit() : void
+    public function edit(): void
     {
         $this->view();
     }
 
-    public function view() : void
+    public function view(): void
     {
         $this->showHierarchy();
     }
 
-    public function showHierarchy() : void
+    public function showHierarchy(): void
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
-        
+
         $this->setTabs();
-        
+
         $ilCtrl->setParameter($this, "backcmd", "showHierarchy");
-        
+
         $form_gui = new ilChapterHierarchyFormGUI($this->content_object->getType(), $this->requested_transl);
         $form_gui->setFormAction($ilCtrl->getFormAction($this));
         $form_gui->setTitle($this->obj->getTitle());
@@ -151,19 +151,19 @@ class ilStructureObjectGUI extends ilLMObjectGUI
         $ctpl = new ilTemplate("tpl.chap_and_pages.html", true, true, "Modules/LearningModule");
         $ctpl->setVariable("HIERARCHY_FORM", $form_gui->getHTML());
         $ilCtrl->setParameter($this, "obj_id", $this->requested_obj_id);
-        
+
         $ml_head = ilObjContentObjectGUI::getMultiLangHeader($this->content_object->getId(), $this);
-        
+
         $this->tpl->setContent($ml_head . $ctpl->get());
         $this->tpl->addOnloadCode("window.setTimeout(() => { $('body').trigger('il-lm-editor-tree'); }, 500);");
     }
-    
+
     /**
      * Copy items to clipboard, then cut them from the current tree
      */
     public function cutItems(
         string $a_return = "view"
-    ) : void {
+    ): void {
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
 
@@ -172,7 +172,7 @@ class ilStructureObjectGUI extends ilLMObjectGUI
             $this->tpl->setOnScreenMessage('failure', $lng->txt("no_checkbox"), true);
             $ilCtrl->redirect($this, "showHierarchy");
         }
-        
+
         $todel = array();			// delete IDs < 0 (needed for non-js editing)
         foreach ($items as $k => $item) {
             if ($item < 0) {
@@ -182,7 +182,7 @@ class ilStructureObjectGUI extends ilLMObjectGUI
         foreach ($todel as $k) {
             unset($items[$k]);
         }
-        
+
         if (!ilLMObject::uniqueTypesCheck($items)) {
             $this->tpl->setOnScreenMessage('failure', $lng->txt("cont_choose_pages_or_chapters_only"), true);
             $ilCtrl->redirect($this, "showHierarchy");
@@ -194,13 +194,13 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 
         $ilCtrl->redirect($this, $a_return);
     }
-    
+
     /**
      * Copy items to clipboard
      */
     public function copyItems(
         string $a_return = "view"
-    ) : void {
+    ): void {
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
 
@@ -209,7 +209,7 @@ class ilStructureObjectGUI extends ilLMObjectGUI
             $this->tpl->setOnScreenMessage('failure', $lng->txt("no_checkbox"), true);
             $ilCtrl->redirect($this, "showHierarchy");
         }
-        
+
         $todel = array();				// delete IDs < 0 (needed for non-js editing)
         foreach ($items as $k => $item) {
             if ($item < 0) {
@@ -219,7 +219,7 @@ class ilStructureObjectGUI extends ilLMObjectGUI
         foreach ($todel as $k) {
             unset($items[$k]);
         }
-        
+
         if (!ilLMObject::uniqueTypesCheck($items)) {
             $this->tpl->setOnScreenMessage('failure', $lng->txt("cont_choose_pages_or_chapters_only"), true);
             $ilCtrl->redirect($this, "showHierarchy");
@@ -227,15 +227,15 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 
         ilLMObject::clipboardCopy($this->content_object->getId(), $items);
         ilEditClipboard::setAction("copy");
-        
+
         $this->tpl->setOnScreenMessage('info', $lng->txt("cont_selected_items_have_been_copied"), true);
         $ilCtrl->redirect($this, $a_return);
     }
-    
+
     /**
      * Save all titles of chapters/pages
      */
-    public function saveAllTitles() : void
+    public function saveAllTitles(): void
     {
         $ilCtrl = $this->ctrl;
 
@@ -245,11 +245,11 @@ class ilStructureObjectGUI extends ilLMObjectGUI
         $this->tpl->setOnScreenMessage('success', $this->lng->txt("lm_save_titles"), true);
         $ilCtrl->redirect($this, "showHierarchy");
     }
-    
+
     /**
      * display subchapters of structure object
      */
-    public function subchap() : void
+    public function subchap(): void
     {
         $ilCtrl = $this->ctrl;
         $ilUser = $this->user;
@@ -330,7 +330,7 @@ class ilStructureObjectGUI extends ilLMObjectGUI
         $ilCtrl->setParameter($this, "obj_id", $this->requested_obj_id);
     }
 
-    public function save() : void
+    public function save(): void
     {
         $form = $this->getCreateForm();
 
@@ -358,7 +358,7 @@ class ilStructureObjectGUI extends ilLMObjectGUI
      */
     public function putInTree(
         ?int $target = null
-    ) : void {
+    ): void {
         $target = $this->requested_target;
         //echo "st:putInTree";
         // chapters should be behind pages in the tree
@@ -386,17 +386,17 @@ class ilStructureObjectGUI extends ilLMObjectGUI
         parent::putInTree($target);
     }
 
-    public function cutPage() : void
+    public function cutPage(): void
     {
         $this->cutItems();
     }
 
-    public function copyPage() : void
+    public function copyPage(): void
     {
         $this->copyItems();
     }
 
-    public function pastePage() : void
+    public function pastePage(): void
     {
         $ilUser = $this->user;
 
@@ -407,7 +407,7 @@ class ilStructureObjectGUI extends ilLMObjectGUI
         $this->insertPageClip();
     }
 
-    public function cutChapter() : void
+    public function cutChapter(): void
     {
         $this->cutItems("subchap");
     }
@@ -415,17 +415,17 @@ class ilStructureObjectGUI extends ilLMObjectGUI
     /**
      * copy a single chapter (selection)
      */
-    public function copyChapter() : void
+    public function copyChapter(): void
     {
         $this->copyItems("subchap");
     }
 
-    public function pasteChapter() : void
+    public function pasteChapter(): void
     {
         $this->insertChapterClip(false, "subchap");
     }
 
-    public function activatePages() : void
+    public function activatePages(): void
     {
         $lng = $this->lng;
 
@@ -477,11 +477,11 @@ class ilStructureObjectGUI extends ilLMObjectGUI
         } else {
             $this->tpl->setOnScreenMessage('failure', $lng->txt("no_checkbox"), true);
         }
-        
+
         $this->ctrl->redirect($this, "view");
     }
 
-    public function initConditionHandlerInterface() : void
+    public function initConditionHandlerInterface(): void
     {
         $this->condHI = new ilConditionHandlerGUI();
         $this->condHI->setBackButtons(array());
@@ -496,7 +496,7 @@ class ilStructureObjectGUI extends ilLMObjectGUI
     /**
      * cancel creation of new page or chapter
      */
-    public function cancel() : void
+    public function cancel(): void
     {
         if ($this->requested_obj_id != 0) {
             if ($this->requested_new_type == "pg") {
@@ -507,7 +507,7 @@ class ilStructureObjectGUI extends ilLMObjectGUI
         }
     }
 
-    public function setTabs() : void
+    public function setTabs(): void
     {
         $ilTabs = $this->tabs;
         $lng = $this->lng;
@@ -539,7 +539,7 @@ class ilStructureObjectGUI extends ilLMObjectGUI
                 "ilmdeditorgui"
             );
         }
-             
+
         $this->tpl->setTitleIcon(ilUtil::getImagePath("icon_st.svg"));
         $this->tpl->setTitle(
             $this->lng->txt($this->obj->getType()) . ": " . $this->obj->getTitle()
@@ -560,7 +560,7 @@ class ilStructureObjectGUI extends ilLMObjectGUI
     public static function _goto(
         string $a_target,
         int $a_target_ref_id = 0
-    ) : void {
+    ): void {
         global $DIC;
         $main_tpl = $DIC->ui()->mainTemplate();
 
@@ -573,7 +573,7 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 
         // get all references
         $ref_ids = ilObject::_getAllReferences($lm_id);
-        
+
         // always try passed ref id first
         if (in_array($a_target_ref_id, $ref_ids)) {
             $ref_ids = array_merge(array($a_target_ref_id), $ref_ids);
@@ -588,7 +588,7 @@ class ilStructureObjectGUI extends ilLMObjectGUI
                 $ctrl->redirectByClass("ilLMPresentationGUI", "");
             }
         }
-        
+
         if ($ilAccess->checkAccess("read", "", ROOT_FOLDER_ID)) {
             $main_tpl->setOnScreenMessage('failure', sprintf(
                 $lng->txt("msg_no_perm_read_item"),
@@ -605,13 +605,13 @@ class ilStructureObjectGUI extends ilLMObjectGUI
      */
     public function insertChapter(
         bool $a_as_sub = false
-    ) : void {
+    ): void {
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
 
         $num = ilChapterHierarchyFormGUI::getPostMulti();
         $node_id = ilChapterHierarchyFormGUI::getPostNodeId();
-        
+
         if ($a_as_sub) {		// as subchapter
             if (!ilChapterHierarchyFormGUI::getPostFirstChild()) {	// insert under parent
                 $parent_id = $node_id;
@@ -640,11 +640,11 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 
         $ilCtrl->redirect($this, "view");
     }
-    
+
     /**
      * Insert (multiple) subchapters at node
      */
-    public function insertSubchapter() : void
+    public function insertSubchapter(): void
     {
         $this->insertChapter(true);
     }
@@ -655,13 +655,13 @@ class ilStructureObjectGUI extends ilLMObjectGUI
     public function insertChapterClip(
         bool $a_as_sub = false,
         string $a_return = "view"
-    ) : void {
+    ): void {
         $ilUser = $this->user;
         $ilCtrl = $this->ctrl;
         $ilLog = $this->log;
-        
+
         $ilLog->write("Insert Chapter From Clipboard");
-        
+
 
         $node_id = ilChapterHierarchyFormGUI::getPostNodeId();
         $first_child = ilChapterHierarchyFormGUI::getPostFirstChild();
@@ -681,7 +681,7 @@ class ilStructureObjectGUI extends ilLMObjectGUI
             } else {													// insert as first child
                 $parent_id = $node_id;
                 $target = ilTree::POS_FIRST_NODE;
-                
+
                 // do not move a chapter in front of a page
                 $childs = $this->tree->getChildsByType($parent_id, "pg");
                 if (count($childs) != 0) {
@@ -689,11 +689,11 @@ class ilStructureObjectGUI extends ilLMObjectGUI
                 }
             }
         }
-        
+
         // copy and paste
         $chapters = $ilUser->getClipboardObjects("st", true);
         $copied_nodes = array();
-        
+
         foreach ($chapters as $chap) {
             $ilLog->write("Call pasteTree, Target LM: " . $this->content_object->getId() . ", Chapter ID: " . $chap["id"]
                 . ", Parent ID: " . $parent_id . ", Target: " . $target);
@@ -715,24 +715,24 @@ class ilStructureObjectGUI extends ilLMObjectGUI
             $ilUser->clipboardDeleteObjectsOfType("st");
             ilEditClipboard::clear();
         }
-        
+
         $this->content_object->checkTree();
         $ilCtrl->redirect($this, $a_return);
     }
 
-    public function insertSubchapterClip() : void
+    public function insertSubchapterClip(): void
     {
         $this->insertChapterClip(true);
     }
 
-    public function insertPage() : void
+    public function insertPage(): void
     {
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
 
         $num = ilChapterHierarchyFormGUI::getPostMulti();
         $node_id = ilChapterHierarchyFormGUI::getPostNodeId();
-        
+
         if (!ilChapterHierarchyFormGUI::getPostFirstChild()) {	// insert after node id
             $parent_id = $this->tree->getParentId($node_id);
             $target = $node_id;
@@ -753,14 +753,14 @@ class ilStructureObjectGUI extends ilLMObjectGUI
         $ilCtrl->redirect($this, "showHierarchy");
     }
 
-    public function insertPageClip() : void
+    public function insertPageClip(): void
     {
         $ilCtrl = $this->ctrl;
         $ilUser = $this->user;
-        
+
         $node_id = ilChapterHierarchyFormGUI::getPostNodeId();
         $first_child = ilChapterHierarchyFormGUI::getPostFirstChild();
-        
+
         if (!$first_child) {	// insert after node id
             $parent_id = $this->tree->getParentId($node_id);
             $target = $node_id;
@@ -791,11 +791,11 @@ class ilStructureObjectGUI extends ilLMObjectGUI
             $ilUser->clipboardDeleteObjectsOfType("st");
             ilEditClipboard::clear();
         }
-        
+
         $ilCtrl->redirect($this, "view");
     }
 
-    public function proceedDragDrop() : void
+    public function proceedDragDrop(): void
     {
         $ilCtrl = $this->ctrl;
 
@@ -808,15 +808,15 @@ class ilStructureObjectGUI extends ilLMObjectGUI
         );
         $ilCtrl->redirect($this, "showHierarchy");
     }
-    
+
     ////
     //// Pages layout
     ////
-    
+
     /**
      * Set layout for multipl pages
      */
-    public function setPageLayout() : void
+    public function setPageLayout(): void
     {
         $tpl = $this->tpl;
         $ilCtrl = $this->ctrl;
@@ -827,20 +827,20 @@ class ilStructureObjectGUI extends ilLMObjectGUI
             $this->tpl->setOnScreenMessage('failure', $lng->txt("no_checkbox"), true);
             $ilCtrl->redirect($this, "showHierarchy");
         }
-        
+
         $this->initSetPageLayoutForm();
-        
+
         $tpl->setContent($this->form->getHTML());
     }
-    
+
     /**
      * Init set page layout form.
      */
-    public function initSetPageLayoutForm() : void
+    public function initSetPageLayoutForm(): void
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
-    
+
         $this->form = new ilPropertyFormGUI();
 
         $ids = $this->request->getIds();
@@ -856,18 +856,18 @@ class ilStructureObjectGUI extends ilLMObjectGUI
         );
 
         $this->form->addItem($layout);
-    
+
         $this->form->addCommandButton("savePageLayout", $lng->txt("save"));
         $this->form->addCommandButton("showHierarchy", $lng->txt("cancel"));
-        
+
         $this->form->setTitle($lng->txt("cont_set_layout"));
         $this->form->setFormAction($ilCtrl->getFormAction($this));
     }
-    
+
     /**
      * Save page layout
      */
-    public function savePageLayout() : void
+    public function savePageLayout(): void
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
@@ -885,18 +885,18 @@ class ilStructureObjectGUI extends ilLMObjectGUI
         $ilCtrl->redirect($this, "showHierarchy");
     }
 
-    public function editMasterLanguage() : void
+    public function editMasterLanguage(): void
     {
         $ilCtrl = $this->ctrl;
-        
+
         $ilCtrl->setParameter($this, "transl", null);
         $ilCtrl->redirect($this, "showHierarchy");
     }
 
-    public function switchToLanguage() : void
+    public function switchToLanguage(): void
     {
         $ilCtrl = $this->ctrl;
-        
+
         $ilCtrl->setParameter($this, "transl", $this->requested_totransl);
         $ilCtrl->redirect($this, "showHierarchy");
     }
@@ -904,7 +904,7 @@ class ilStructureObjectGUI extends ilLMObjectGUI
     /**
      * Displays GUI to select template for page
      */
-    public function insertTemplate() : void
+    public function insertTemplate(): void
     {
         $ctrl = $this->ctrl;
         $ui = $this->ui;
@@ -923,7 +923,7 @@ class ilStructureObjectGUI extends ilLMObjectGUI
         $this->tpl->setContent($ui->renderer()->render($form) . ilLMPageObjectGUI::getLayoutCssFix());
     }
 
-    public function initInsertTemplateForm() : Form\Standard
+    public function initInsertTemplateForm(): Form\Standard
     {
         $ui = $this->ui;
         $f = $ui->factory();
@@ -946,7 +946,7 @@ class ilStructureObjectGUI extends ilLMObjectGUI
     /**
      * Insert (multiple) pages templates at node
      */
-    public function insertPageFromTemplate() : void
+    public function insertPageFromTemplate(): void
     {
         global $DIC;
 

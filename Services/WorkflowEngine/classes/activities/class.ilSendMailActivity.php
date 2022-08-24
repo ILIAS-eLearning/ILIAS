@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -53,7 +55,7 @@ class ilSendMailActivity implements ilActivity, ilWorkflowEngineElement
      * @return void
      * @todo Use exceptions / internal logging.
      */
-    public function execute() : void
+    public function execute(): void
     {
         /** @var ilBaseWorkflow $workflow */
         $workflow = $this->getContext()->getContext();
@@ -97,22 +99,22 @@ class ilSendMailActivity implements ilActivity, ilWorkflowEngineElement
         return $this->context;
     }
 
-    public function setName($name) : void
+    public function setName($name): void
     {
         $this->name = $name;
     }
 
-    public function getName() : string
+    public function getName(): string
     {
         return $this->name;
     }
 
-    public function getMessageName() : string
+    public function getMessageName(): string
     {
         return $this->message_name;
     }
 
-    public function setMessageName(string $message_name) : void
+    public function setMessageName(string $message_name): void
     {
         $this->message_name = $message_name;
     }
@@ -120,7 +122,7 @@ class ilSendMailActivity implements ilActivity, ilWorkflowEngineElement
     /**
      * @return array
      */
-    public function getParameters() : array
+    public function getParameters(): array
     {
         return $this->parameters;
     }
@@ -128,7 +130,7 @@ class ilSendMailActivity implements ilActivity, ilWorkflowEngineElement
     /**
      * @param array $parameters
      */
-    public function setParameters(array $parameters) : void
+    public function setParameters(array $parameters): void
     {
         $this->parameters = $parameters;
     }
@@ -136,7 +138,7 @@ class ilSendMailActivity implements ilActivity, ilWorkflowEngineElement
     /**
      * @return array
      */
-    public function getOutputs() : array
+    public function getOutputs(): array
     {
         return $this->outputs;
     }
@@ -144,17 +146,17 @@ class ilSendMailActivity implements ilActivity, ilWorkflowEngineElement
     /**
      * @param array $outputs
      */
-    public function setOutputs(array $outputs) : void
+    public function setOutputs(array $outputs): void
     {
         $this->outputs = $outputs;
     }
 
-    public function decodeMessageText(string $message_text) : string
+    public function decodeMessageText(string $message_text): string
     {
         return base64_decode($message_text);
     }
 
-    public function processPlaceholders(string $message_text) : string
+    public function processPlaceholders(string $message_text): string
     {
         $matches = [];
         preg_match_all('/\[(.*?)\]/', $message_text, $matches, PREG_PATTERN_ORDER);
@@ -180,7 +182,7 @@ class ilSendMailActivity implements ilActivity, ilWorkflowEngineElement
         return $message_text;
     }
 
-    public function getEventLink(string $eventlink_string) : string
+    public function getEventLink(string $eventlink_string): string
     {
         global $DIC;
 

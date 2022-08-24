@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\Tests\Setup\Metrics;
 
 use ILIAS\Setup\Metrics;
@@ -24,15 +26,15 @@ use PHPUnit\Framework\TestCase;
 
 class StorageOnPathWrapperTest extends TestCase
 {
-    const PATH = "path";
+    public const PATH = "path";
 
-    public function setUp() : void
+    public function setUp(): void
     {
         $this->storage = $this->createMock(Metrics\Storage::class);
         $this->wrapper = new Metrics\StorageOnPathWrapper(self::PATH, $this->storage);
     }
 
-    public function testStoresToPath() : void
+    public function testStoresToPath(): void
     {
         $key = "key";
         $m = new M(M::STABILITY_CONFIG, M::TYPE_BOOL, true, "desc");

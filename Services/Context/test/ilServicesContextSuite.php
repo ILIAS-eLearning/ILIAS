@@ -9,7 +9,7 @@ use PHPUnit\Framework\TestSuite;
  */
 class ilServicesContextSuite extends TestSuite
 {
-    public static function suite() : self
+    public static function suite(): self
     {
         $suite = new ilServicesContextSuite();
 

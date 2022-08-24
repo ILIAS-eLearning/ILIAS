@@ -39,7 +39,7 @@ class ilDerivedTaskCollector
      * @param int $user_id user id
      * @return ilDerivedTask[]
      */
-    public function getEntries(int $user_id) : array
+    public function getEntries(int $user_id): array
     {
         $sort_array = [];
         /** @var ilDerivedTaskProvider $provider */

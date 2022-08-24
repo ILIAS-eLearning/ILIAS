@@ -33,18 +33,18 @@ class SubtitlesGUIRequest
             $refinery
         );
     }
-    
-    public function getSrtFiles() : array
+
+    public function getSrtFiles(): array
     {
         return $this->strArray("srt");
     }
-    
-    public function getFiles() : array
+
+    public function getFiles(): array
     {
         return $this->strArray("file");
     }
 
-    public function getLanguage() : string
+    public function getLanguage(): string
     {
         return $this->str("language");
     }

@@ -1,4 +1,6 @@
-<?php  declare(strict_types=1);
+<?php
+
+ declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\Setup\CLI;
 
 use Symfony\Component\Console\Application;
@@ -28,7 +30,7 @@ use Symfony\Component\Console\Command\Command;
  */
 class App extends Application
 {
-    const NAME = "The ILIAS Setup";
+    public const NAME = "The ILIAS Setup";
 
     public function __construct(Command ...$commands)
     {

@@ -72,7 +72,7 @@ class ilWACException extends ilException
      *
      * @return bool true if the string is not empty, otherwise false.
      */
-    private function isNonEmptyString(string $text) : bool
+    private function isNonEmptyString(string $text): bool
     {
         assert(is_string($text));
 

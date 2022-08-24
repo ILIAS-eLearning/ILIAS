@@ -30,11 +30,10 @@ use Psr\Http\Message\ResponseInterface;
  */
 class CookieJarFactoryImpl implements CookieJarFactory
 {
-
     /**
      * @inheritdoc
      */
-    public function fromCookieStrings(array $cookieStrings) : CookieJar
+    public function fromCookieStrings(array $cookieStrings): CookieJar
     {
         return new CookieJarWrapper(SetCookies::fromSetCookieStrings($cookieStrings));
     }
@@ -43,7 +42,7 @@ class CookieJarFactoryImpl implements CookieJarFactory
     /**
      * @inheritdoc
      */
-    public function fromResponse(ResponseInterface $response) : CookieJar
+    public function fromResponse(ResponseInterface $response): CookieJar
     {
         return new CookieJarWrapper(SetCookies::fromResponse($response));
     }

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -21,7 +23,7 @@
  */
 class ilDefaultPlaceholderDescriptionTest extends ilCertificateBaseTestCase
 {
-    public function testCreateHtmlDescription() : void
+    public function testCreateHtmlDescription(): void
     {
         $languageMock = $this->getMockBuilder(ilLanguage::class)
             ->disableOriginalConstructor()
@@ -52,7 +54,7 @@ class ilDefaultPlaceholderDescriptionTest extends ilCertificateBaseTestCase
         $this->assertSame('', $html);
     }
 
-    public function testPlaceholderDescription() : void
+    public function testPlaceholderDescription(): void
     {
         $languageMock = $this->getMockBuilder(ilLanguage::class)
             ->disableOriginalConstructor()

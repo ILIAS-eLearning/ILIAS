@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -20,12 +22,12 @@ use PHPUnit\Framework\TestCase;
 
 class ilStudyProgrammeProgressTest extends TestCase
 {
-    protected function getUserIdAndNow() : array
+    protected function getUserIdAndNow(): array
     {
         return [6, new DateTimeImmutable()];
     }
 
-    public function test_init_and_id() : ilStudyProgrammeProgress
+    public function test_init_and_id(): ilStudyProgrammeProgress
     {
         $spp = new ilStudyProgrammeProgress(123);
         $this->assertEquals(123, $spp->getId());
@@ -35,7 +37,7 @@ class ilStudyProgrammeProgressTest extends TestCase
     /**
      * @depends test_init_and_id
      */
-    public function test_assignment_id() : void
+    public function test_assignment_id(): void
     {
         $spp = (new ilStudyProgrammeProgress(123))->withAssignmentId(321);
         $this->assertEquals(321, $spp->getAssignmentId());
@@ -44,7 +46,7 @@ class ilStudyProgrammeProgressTest extends TestCase
     /**
      * @depends test_init_and_id
      */
-    public function test_node_id() : void
+    public function test_node_id(): void
     {
         $spp = (new ilStudyProgrammeProgress(123))->withNodeId(321);
         $this->assertEquals(321, $spp->getNodeId());
@@ -53,7 +55,7 @@ class ilStudyProgrammeProgressTest extends TestCase
     /**
      * @depends test_init_and_id
      */
-    public function test_user_id() : void
+    public function test_user_id(): void
     {
         $spp = (new ilStudyProgrammeProgress(123))->withUserId(321);
         $this->assertEquals(321, $spp->getUserId());
@@ -62,7 +64,7 @@ class ilStudyProgrammeProgressTest extends TestCase
     /**
      * @depends test_init_and_id
      */
-    public function test_amount_of_points() : void
+    public function test_amount_of_points(): void
     {
         $spp = (new ilStudyProgrammeProgress(123))->withAmountOfPoints(321);
         $this->assertEquals(321, $spp->getAmountOfPoints());
@@ -71,7 +73,7 @@ class ilStudyProgrammeProgressTest extends TestCase
     /**
      * @depends test_init_and_id
      */
-    public function test_amount_of_points_invalid() : void
+    public function test_amount_of_points_invalid(): void
     {
         $this->expectException(ilException::class);
         (new ilStudyProgrammeProgress(123))->withAmountOfPoints(-321);
@@ -80,13 +82,13 @@ class ilStudyProgrammeProgressTest extends TestCase
     /**
      * @depends test_init_and_id
      */
-    public function test_current_amount_of_points() : void
+    public function test_current_amount_of_points(): void
     {
         $spp = (new ilStudyProgrammeProgress(123))->withCurrentAmountOfPoints(321);
         $this->assertEquals(321, $spp->getCurrentAmountOfPoints());
     }
 
-    public function status() : array
+    public function status(): array
     {
         return [
             //status, count as 'successful'
@@ -101,7 +103,7 @@ class ilStudyProgrammeProgressTest extends TestCase
     /**
      * @dataProvider status
      */
-    public function test_status(int $status) : void
+    public function test_status(int $status): void
     {
         $spp = (new ilStudyProgrammeProgress(123))->withStatus($status);
         $this->assertEquals($spp->getStatus(), $status);
@@ -110,7 +112,7 @@ class ilStudyProgrammeProgressTest extends TestCase
     /**
      * @depends test_init_and_id
      */
-    public function test_status_invalid() : void
+    public function test_status_invalid(): void
     {
         $this->expectException(ilException::class);
         (new ilStudyProgrammeProgress(123))->withStatus(321);
@@ -119,7 +121,7 @@ class ilStudyProgrammeProgressTest extends TestCase
     /**
      * @depends test_init_and_id
      */
-    public function testWithLastChange() : void
+    public function testWithLastChange(): void
     {
         [$acting_usr, $now] = $this->getUserIdAndNow();
         $spp = (new ilStudyProgrammeProgress(123))->withLastChange($acting_usr, $now);
@@ -130,7 +132,7 @@ class ilStudyProgrammeProgressTest extends TestCase
     /**
      * @depends test_init_and_id
      */
-    public function test_assignment_date() : void
+    public function test_assignment_date(): void
     {
         $ad = new DateTimeImmutable();
         $spp = (new ilStudyProgrammeProgress(123))->withAssignmentDate($ad);
@@ -140,7 +142,7 @@ class ilStudyProgrammeProgressTest extends TestCase
     /**
      * @depends test_init_and_id
      */
-    public function test_completion() : void
+    public function test_completion(): void
     {
         [$acting_usr, $now] = $this->getUserIdAndNow();
 
@@ -156,7 +158,7 @@ class ilStudyProgrammeProgressTest extends TestCase
     /**
      * @depends test_init_and_id
      */
-    public function test_deadline() : void
+    public function test_deadline(): void
     {
         $dl = new DateTimeImmutable();
         $spp = (new ilStudyProgrammeProgress(123))->withDeadline($dl);
@@ -166,7 +168,7 @@ class ilStudyProgrammeProgressTest extends TestCase
     /**
      * @depends test_init_and_id
      */
-    public function test_vq_date() : void
+    public function test_vq_date(): void
     {
         $dl = DateTimeImmutable::createFromFormat('Ymd', '20201011');
         $spp = (new ilStudyProgrammeProgress(123))->withValidityOfQualification($dl);
@@ -176,7 +178,7 @@ class ilStudyProgrammeProgressTest extends TestCase
     /**
      * @depends test_init_and_id
      */
-    public function testIndividualPlan(ilStudyProgrammeProgress $spp) : void
+    public function testIndividualPlan(ilStudyProgrammeProgress $spp): void
     {
         $this->assertFalse($spp->hasIndividualModifications());
         $this->assertTrue($spp->withIndividualModifications(true)->hasIndividualModifications());
@@ -186,7 +188,7 @@ class ilStudyProgrammeProgressTest extends TestCase
     /**
      * @depends test_vq_date
      */
-    public function test_invalidate() : void
+    public function test_invalidate(): void
     {
         $spp = new ilStudyProgrammeProgress(123);
         $this->assertFalse($spp->isInvalidated());
@@ -200,7 +202,7 @@ class ilStudyProgrammeProgressTest extends TestCase
     /**
      * @depends test_vq_date
      */
-    public function test_invalidate_non_expired_1() : void
+    public function test_invalidate_non_expired_1(): void
     {
         $this->expectException(ilException::class);
         $tomorrow = (new DateTimeImmutable())->add(new DateInterval('P1D'));
@@ -210,7 +212,7 @@ class ilStudyProgrammeProgressTest extends TestCase
     /**
      * @depends test_vq_date
      */
-    public function test_invalidate_non_expired_2() : void
+    public function test_invalidate_non_expired_2(): void
     {
         $this->expectException(ilException::class);
         (new ilStudyProgrammeProgress(123))->invalidate();
@@ -219,18 +221,18 @@ class ilStudyProgrammeProgressTest extends TestCase
     /**
      * @dataProvider status
      */
-    public function testIsSuccessful($status, $success) : void
+    public function testIsSuccessful($status, $success): void
     {
         $spp = (new ilStudyProgrammeProgress(123))->withStatus($status);
         $this->assertEquals($success, $spp->isSuccessful());
     }
 
-    public function testHasValidQualification() : void
+    public function testHasValidQualification(): void
     {
         $today = new DateTimeImmutable();
         $yesterday = $today->sub(new DateInterval('P1D'));
         $tomorrow = $today->add(new DateInterval('P1D'));
-       
+
         $spp = (new ilStudyProgrammeProgress(123))
             ->withStatus(ilStudyProgrammeProgress::STATUS_IN_PROGRESS)
             ->withValidityOfQualification($today);
@@ -243,7 +245,7 @@ class ilStudyProgrammeProgressTest extends TestCase
         $this->assertFalse($spp->hasValidQualification($tomorrow));
     }
 
-    public function testMarkRelevant() : void
+    public function testMarkRelevant(): void
     {
         $usr = 6;
         $now = new DateTimeImmutable();
@@ -262,8 +264,8 @@ class ilStudyProgrammeProgressTest extends TestCase
         );
         $this->assertTrue($spp->hasIndividualModifications());
     }
-    
-    public function testMarkNotRelevant() : void
+
+    public function testMarkNotRelevant(): void
     {
         $usr = 6;
         $now = new DateTimeImmutable();
@@ -283,7 +285,7 @@ class ilStudyProgrammeProgressTest extends TestCase
         $this->assertTrue($spp->hasIndividualModifications());
     }
 
-    public function testMarkFailed() : void
+    public function testMarkFailed(): void
     {
         $usr = 6;
         $now = new DateTimeImmutable();
@@ -303,7 +305,7 @@ class ilStudyProgrammeProgressTest extends TestCase
         );
     }
 
-    public function testMarkNotFailed() : void
+    public function testMarkNotFailed(): void
     {
         [$usr, $now] = $this->getUserIdAndNow();
         $spp = (new ilStudyProgrammeProgress(123))
@@ -322,7 +324,7 @@ class ilStudyProgrammeProgressTest extends TestCase
         );
     }
 
-    public function testMarkAccredited() : void
+    public function testMarkAccredited(): void
     {
         $usr = 6;
         $now = new DateTimeImmutable();
@@ -342,7 +344,7 @@ class ilStudyProgrammeProgressTest extends TestCase
         );
     }
 
-    public function testUnmarkAccredited() : void
+    public function testUnmarkAccredited(): void
     {
         $usr = 6;
         $now = new DateTimeImmutable();
@@ -363,7 +365,7 @@ class ilStudyProgrammeProgressTest extends TestCase
         );
     }
 
-    public function testSucceed() : void
+    public function testSucceed(): void
     {
         $triggering_obj = 777;
         $now = new DateTimeImmutable();
@@ -386,7 +388,7 @@ class ilStudyProgrammeProgressTest extends TestCase
     /**
      * @dataProvider status
      */
-    public function testAllowedTransitionsForInProgress($status) : void
+    public function testAllowedTransitionsForInProgress($status): void
     {
         $spp = (new ilStudyProgrammeProgress(123))->withStatus(ilStudyProgrammeProgress::STATUS_IN_PROGRESS);
         if (in_array($status, [
@@ -405,7 +407,7 @@ class ilStudyProgrammeProgressTest extends TestCase
     /**
      * @dataProvider status
      */
-    public function testAllowedTransitionsForAccredited($status) : void
+    public function testAllowedTransitionsForAccredited($status): void
     {
         $spp = (new ilStudyProgrammeProgress(123))->withStatus(ilStudyProgrammeProgress::STATUS_ACCREDITED);
         if (in_array($status, [
@@ -424,7 +426,7 @@ class ilStudyProgrammeProgressTest extends TestCase
     /**
      * @dataProvider status
      */
-    public function testAllowedTransitionsForCompleted($status) : void
+    public function testAllowedTransitionsForCompleted($status): void
     {
         $spp = (new ilStudyProgrammeProgress(123))->withStatus(ilStudyProgrammeProgress::STATUS_COMPLETED);
         if (in_array($status, [
@@ -440,7 +442,7 @@ class ilStudyProgrammeProgressTest extends TestCase
     /**
      * @dataProvider status
      */
-    public function testAllowedTransitionsForFailed($status) : void
+    public function testAllowedTransitionsForFailed($status): void
     {
         $spp = (new ilStudyProgrammeProgress(123))->withStatus(ilStudyProgrammeProgress::STATUS_FAILED);
         if (in_array($status, [
@@ -458,7 +460,7 @@ class ilStudyProgrammeProgressTest extends TestCase
     /**
      * @dataProvider status
      */
-    public function testAllowedTransitionsForIrrelevant($status) : void
+    public function testAllowedTransitionsForIrrelevant($status): void
     {
         $spp = (new ilStudyProgrammeProgress(123))->withStatus(ilStudyProgrammeProgress::STATUS_NOT_RELEVANT);
         if ($status === ilStudyProgrammeProgress::STATUS_IN_PROGRESS

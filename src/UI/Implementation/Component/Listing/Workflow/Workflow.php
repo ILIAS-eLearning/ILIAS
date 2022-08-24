@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\UI\Implementation\Component\Listing\Workflow;
 
 use ILIAS\UI\Component as C;
@@ -50,7 +52,7 @@ abstract class Workflow implements C\Listing\Workflow\Workflow
     /**
      * @inheritdoc
      */
-    public function getTitle() : string
+    public function getTitle(): string
     {
         return $this->title;
     }
@@ -58,7 +60,7 @@ abstract class Workflow implements C\Listing\Workflow\Workflow
     /**
      * @inheritdoc
      */
-    public function withActive(int $active) : C\Listing\Workflow\Workflow
+    public function withActive(int $active): C\Listing\Workflow\Workflow
     {
         if ($active < 0 || $active > $this->getAmountOfSteps() - 1) {
             throw new InvalidArgumentException("active must be be within the amount of steps", 1);
@@ -71,7 +73,7 @@ abstract class Workflow implements C\Listing\Workflow\Workflow
     /**
      * @inheritdoc
      */
-    public function getActive() : int
+    public function getActive(): int
     {
         return $this->active;
     }
@@ -79,7 +81,7 @@ abstract class Workflow implements C\Listing\Workflow\Workflow
     /**
      * Return the amount of steps of this workflow.
      */
-    public function getAmountOfSteps() : int
+    public function getAmountOfSteps(): int
     {
         return count($this->steps);
     }
@@ -87,7 +89,7 @@ abstract class Workflow implements C\Listing\Workflow\Workflow
     /**
      * @inheritdoc
      */
-    public function getSteps() : array
+    public function getSteps(): array
     {
         return $this->steps;
     }

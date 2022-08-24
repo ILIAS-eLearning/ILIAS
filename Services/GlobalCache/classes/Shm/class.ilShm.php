@@ -15,7 +15,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * Class ilShm
  * @beta http://php.net/manual/en/shmop.examples-basic.php
@@ -30,7 +30,7 @@ class ilShm extends ilGlobalCacheService
     /**
      * @description set self::$active
      */
-    protected function getActive() : bool
+    protected function getActive(): bool
     {
         return function_exists('shmop_open');
     }
@@ -38,7 +38,7 @@ class ilShm extends ilGlobalCacheService
     /**
      * @description set self::$installable
      */
-    protected function getInstallable() : bool
+    protected function getInstallable(): bool
     {
         return false;
     }
@@ -53,13 +53,13 @@ class ilShm extends ilGlobalCacheService
         self::$block_size = shmop_size(self::$shm_id);
     }
 
-    public function exists(string $key) : bool
+    public function exists(string $key): bool
     {
         return shm_has_var(self::$shm_id, $key);
     }
 
 
-    public function set(string $key, $serialized_value, int $ttl = null) : bool
+    public function set(string $key, $serialized_value, int $ttl = null): bool
     {
         return (bool) shmop_write(self::$shm_id, $key, $serialized_value);
     }
@@ -70,12 +70,12 @@ class ilShm extends ilGlobalCacheService
         return shmop_read(self::$shm_id, 0, self::$block_size);
     }
 
-    public function delete(string $key) : bool
+    public function delete(string $key): bool
     {
         return shm_remove_var(self::$shm_id, $key);
     }
 
-    public function flush(bool $complete = false) : bool
+    public function flush(bool $complete = false): bool
     {
         // currently a partial flushing is missing
         shmop_delete(self::$shm_id);
@@ -86,7 +86,7 @@ class ilShm extends ilGlobalCacheService
     /**
      * @param mixed $value
      */
-    public function serialize($value) : string
+    public function serialize($value): string
     {
         return serialize($value);
     }

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -26,7 +28,7 @@ class ilObjChatroomAccess extends ilObjectAccess implements ilWACCheckingClass
 {
     private static ?bool $chat_enabled = null;
 
-    public static function _getCommands() : array
+    public static function _getCommands(): array
     {
         $commands = [];
         $commands[] = ['permission' => 'read', 'cmd' => 'view', 'lang_var' => 'enter', 'default' => true];
@@ -35,7 +37,7 @@ class ilObjChatroomAccess extends ilObjectAccess implements ilWACCheckingClass
         return $commands;
     }
 
-    public static function _checkGoto(string $target) : bool
+    public static function _checkGoto(string $target): bool
     {
         $t_arr = explode('_', $target);
 
@@ -53,7 +55,7 @@ class ilObjChatroomAccess extends ilObjectAccess implements ilWACCheckingClass
         return false;
     }
 
-    public function _checkAccess(string $cmd, string $permission, int $ref_id, int $obj_id, ?int $user_id = null) : bool
+    public function _checkAccess(string $cmd, string $permission, int $ref_id, int $obj_id, ?int $user_id = null): bool
     {
         if (!$user_id) {
             $user_id = $GLOBALS['DIC']->user()->getId();
@@ -62,7 +64,7 @@ class ilObjChatroomAccess extends ilObjectAccess implements ilWACCheckingClass
         return self::checkRoomAccess($permission, $ref_id, $obj_id, (int) $user_id);
     }
 
-    private static function checkRoomAccess(string $a_permission, int $a_ref_id, int $a_obj_id, int $a_user_id) : bool
+    private static function checkRoomAccess(string $a_permission, int $a_ref_id, int $a_obj_id, int $a_user_id): bool
     {
         global $DIC;
 
@@ -109,7 +111,7 @@ class ilObjChatroomAccess extends ilObjectAccess implements ilWACCheckingClass
         return self::$chat_enabled;
     }
 
-    public static function isActivated(int $refId, int $objId, bool &$a_visible_flag = null) : bool
+    public static function isActivated(int $refId, int $objId, bool &$a_visible_flag = null): bool
     {
         if (!self::lookupOnline($objId)) {
             $a_visible_flag = false;
@@ -130,7 +132,7 @@ class ilObjChatroomAccess extends ilObjectAccess implements ilWACCheckingClass
         return true;
     }
 
-    public static function lookupOnline(int $a_obj_id) : bool
+    public static function lookupOnline(int $a_obj_id): bool
     {
         global $DIC;
 
@@ -143,7 +145,7 @@ class ilObjChatroomAccess extends ilObjectAccess implements ilWACCheckingClass
         return (bool) ($row['online_status'] ?? false);
     }
 
-    public function canBeDelivered(ilWACPath $ilWACPath) : bool
+    public function canBeDelivered(ilWACPath $ilWACPath): bool
     {
         if (preg_match("/chatroom\\/smilies\\//ui", $ilWACPath->getPath())) {
             return true;

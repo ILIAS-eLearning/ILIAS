@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -34,7 +36,7 @@ class ilContentPagePageGUI extends ilPageObjectGUI implements ilContentPageObjec
         $this->isEmbeddedMode = $isEmbeddedMode;
     }
 
-    public function getProfileBackUrl() : string
+    public function getProfileBackUrl(): string
     {
         if ($this->isEmbeddedMode) {
             return '';
@@ -43,7 +45,7 @@ class ilContentPagePageGUI extends ilPageObjectGUI implements ilContentPageObjec
         return parent::getProfileBackUrl();
     }
 
-    public function setDefaultLinkXml() : void
+    public function setDefaultLinkXml(): void
     {
         parent::setDefaultLinkXml();
 
@@ -52,7 +54,7 @@ class ilContentPagePageGUI extends ilPageObjectGUI implements ilContentPageObjec
 
             try {
                 $linkXml = str_replace('<LinkTargets></LinkTargets>', '', $linkXml);
-                
+
                 $domDoc = new DOMDocument();
                 $domDoc->loadXML('<?xml version="1.0" encoding="UTF-8"?>' . $linkXml);
 
@@ -79,7 +81,7 @@ class ilContentPagePageGUI extends ilPageObjectGUI implements ilContentPageObjec
         }
     }
 
-    public function finishEditing() : void
+    public function finishEditing(): void
     {
         $this->ctrl->redirectByClass(ilObjContentPageGUI::class, 'view');
     }

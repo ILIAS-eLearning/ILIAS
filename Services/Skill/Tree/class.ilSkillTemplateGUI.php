@@ -41,25 +41,25 @@ class ilSkillTemplateGUI extends ilSkillTreeNodeGUI
         $this->tabs = $DIC->tabs();
         $this->lng = $DIC->language();
         $ilCtrl = $DIC->ctrl();
-        
+
         $ilCtrl->saveParameter($this, "node_id");
-        
+
         parent::__construct($node_manager, $a_node_id);
     }
 
-    public function getType() : string
+    public function getType(): string
     {
         return "stmp";
     }
 
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         $ilCtrl = $this->ctrl;
         $tpl = $this->tpl;
         $ilTabs = $this->tabs;
-        
+
         //$tpl->getStandardTemplate();
-        
+
         $next_class = $ilCtrl->getNextClass($this);
         $cmd = $ilCtrl->getCmd();
 
@@ -70,7 +70,7 @@ class ilSkillTemplateGUI extends ilSkillTreeNodeGUI
         }
     }
 
-    public function setTabs() : void
+    public function setTabs(): void
     {
         $ilTabs = $this->tabs;
         $ilCtrl = $this->ctrl;

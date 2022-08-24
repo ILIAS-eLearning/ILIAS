@@ -21,13 +21,13 @@
  */
 class ilMemberViewGUI
 {
-    public static function showMemberViewSwitch(int $a_ref_id) : bool
+    public static function showMemberViewSwitch(int $a_ref_id): bool
     {
         global $DIC;
 
         $ilAccess = $DIC->access();
         $ilCtrl = $DIC->ctrl();
-        
+
         $settings = ilMemberViewSettings::getInstance();
         if (!$settings->isEnabled()) {
             return false;
@@ -35,15 +35,15 @@ class ilMemberViewGUI
         $tree = $DIC->repositoryTree();
         $lng = $DIC->language();
         $ilTabs = $DIC->tabs();
-        
+
         // No course or group in path => aborting
         if (!$tree->checkForParentType($a_ref_id, 'crs') &&
             !$tree->checkForParentType($a_ref_id, 'grp')) {
             return false;
         }
-        
+
         // TODO: check edit_permission
-        
+
         $type = ilObject::_lookupType(ilObject::_lookupObjId($a_ref_id));
         if (($type === 'crs' || $type === 'grp') && $ilAccess->checkAccess('write', '', $a_ref_id)) {
             $ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $a_ref_id);

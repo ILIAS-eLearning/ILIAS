@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -38,31 +40,31 @@ abstract class ilBaseMailAddressType implements ilMailAddressType
         $this->logger = $logger;
     }
 
-    abstract protected function isValid(int $senderId) : bool;
+    abstract protected function isValid(int $senderId): bool;
 
-    public function validate(int $senderId) : bool
+    public function validate(int $senderId): bool
     {
         $this->resetErrors();
 
         return $this->isValid($senderId);
     }
 
-    protected function pushError(string $languageVariable, array $placeHolderValues = []) : void
+    protected function pushError(string $languageVariable, array $placeHolderValues = []): void
     {
         $this->errors[] = new ilMailError($languageVariable, $placeHolderValues);
     }
 
-    private function resetErrors() : void
+    private function resetErrors(): void
     {
         $this->errors = [];
     }
 
-    public function getErrors() : array
+    public function getErrors(): array
     {
         return $this->errors;
     }
 
-    public function getAddress() : ilMailAddress
+    public function getAddress(): ilMailAddress
     {
         return $this->address;
     }

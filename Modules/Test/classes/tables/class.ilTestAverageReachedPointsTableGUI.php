@@ -1,4 +1,5 @@
 <?php
+
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 
@@ -15,7 +16,7 @@ class ilTestAverageReachedPointsTableGUI extends ilTable2GUI
     {
         $this->setId('tstAvgReachedPointsTbl');
         $this->setPrefix('tstAvgReachedPointsTbl');
-        
+
         parent::__construct($a_parent_obj, $a_parent_cmd);
 
         global $DIC;
@@ -49,7 +50,7 @@ class ilTestAverageReachedPointsTableGUI extends ilTable2GUI
      * Should this field be sorted numeric?
      * @return bool  numeric ordering; default is false
      */
-    public function numericOrdering(string $a_field) : bool
+    public function numericOrdering(string $a_field): bool
     {
         switch ($a_field) {
             case 'percentage':
@@ -62,7 +63,7 @@ class ilTestAverageReachedPointsTableGUI extends ilTable2GUI
         }
     }
 
-    public function fillRow(array $a_set) : void
+    public function fillRow(array $a_set): void
     {
         $this->tpl->setVariable("ID", $a_set["qid"]);
         $this->tpl->setVariable("TITLE", $a_set["title"]);
@@ -71,7 +72,7 @@ class ilTestAverageReachedPointsTableGUI extends ilTable2GUI
         $this->tpl->setVariable("ANSWERS", $a_set["answers"]);
     }
 
-    protected function formatPoints(array $data) : string
+    protected function formatPoints(array $data): string
     {
         return sprintf("%.2f", $data['points_reached']) . " " . strtolower($this->lng->txt("of")) . " " . sprintf("%.2f", $data['points_max']);
     }

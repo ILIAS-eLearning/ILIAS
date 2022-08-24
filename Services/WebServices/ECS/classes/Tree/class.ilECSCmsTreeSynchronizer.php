@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /******************************************************************************
  *
@@ -24,65 +26,65 @@ class ilECSCmsTreeSynchronizer
     private ilLogger $logger;
     private ilLanguage $lng;
     private ilTree $tree;
-    
+
     private ?\ilECSSetting $server = null;
     private int $mid;
     private int $tree_id;
     private ?\ilECSCmsTree $ecs_tree = null;
-    
+
     private array $default_settings = array();
     private ?\ilECSNodeMappingSettings $global_settings = null;
 
     public function __construct(ilECSSetting $server, int $mid, int $tree_id)
     {
         global $DIC;
-        
+
         $this->logger = $DIC->logger()->wsrv();
         $this->lng = $DIC->language();
         $this->tree = $DIC->repositoryTree();
-        
-        
+
+
         $this->server = $server;
         $this->mid = $mid;
         $this->ecs_tree = new ilECSCmsTree($tree_id);
         $this->tree_id = $tree_id;
-        
+
         $this->global_settings = ilECSNodeMappingSettings::getInstanceByServerMid($this->server->getServerId(), $this->mid);
     }
-    
+
     /**
      * Get server
      */
-    public function getServer() : ?\ilECSSetting
+    public function getServer(): ?\ilECSSetting
     {
         return $this->server;
     }
 
-    public function getECSTree() : ?\ilECSCmsTree
+    public function getECSTree(): ?\ilECSCmsTree
     {
         return $this->ecs_tree;
     }
-    
+
     /**
      * Get default settings
      */
-    public function getDefaultSettings() : array
+    public function getDefaultSettings(): array
     {
         return $this->default_settings;
     }
-    
+
     /**
      * get global settings
      */
-    public function getGlobalSettings() : ?\ilECSNodeMappingSettings
+    public function getGlobalSettings(): ?\ilECSNodeMappingSettings
     {
         return $this->global_settings;
     }
-    
+
     /**
      * Synchronize tree
      */
-    public function sync() : bool
+    public function sync(): bool
     {
         $this->default_settings = ilECSNodeMappingAssignments::lookupSettings(
             $this->server->getServerId(),
@@ -90,33 +92,33 @@ class ilECSCmsTreeSynchronizer
             $this->tree_id,
             0
         );
-        
+
         // return if setting is false => no configuration done
         if (!$this->getDefaultSettings()) {
             $this->logger->info('No directory allocation settings. Aborting');
             return true;
         }
-            
+
         // lookup obj id of root node
-        
+
         $root_obj_id = ilECSCmsTree::lookupRootId($this->tree_id);
         $this->syncNode($root_obj_id, 0);
-        
+
         // Tree structure is up to date, now check node movements
         $this->checkTreeUpdates($root_obj_id);
         return true;
     }
-    
+
     /**
      * Start tree update check
      */
-    protected function checkTreeUpdates(int $a_root_obj_id) : void
+    protected function checkTreeUpdates(int $a_root_obj_id): void
     {
         if ($this->default_settings['tree_update'] === false) {
             $this->logger->info('Tree update disabled for tree with id ' . $this->ecs_tree->getTreeId());
             return;
         }
-        
+
         // Start recursion
         $mapping = new ilECSNodeMappingAssignment(
             $this->server->getServerId(),
@@ -129,16 +131,16 @@ class ilECSCmsTreeSynchronizer
             $this->handleTreeUpdate($a_root_ref_id, $a_root_obj_id);
         }
     }
-    
+
     /**
      * Handle tree update (recursively)
      */
-    protected function handleTreeUpdate(int $a_parent_ref_id, int $a_tnode_id) : bool
+    protected function handleTreeUpdate(int $a_parent_ref_id, int $a_tnode_id): bool
     {
         // Check if node is already imported at location "parent_ref_id"
         // If not => move it
         $cms_data = new ilECSCmsData($a_tnode_id);
-        
+
         $import_obj_id = ilECSImportManager::getInstance()->lookupObjIdByContentId(
             $this->server->getServerId(),
             $this->mid,
@@ -149,18 +151,18 @@ class ilECSCmsTreeSynchronizer
             $this->logger->error('cms tree node not imported. tnode_id: ' . $a_tnode_id);
             return false;
         }
-        
+
         $this->logger->info(' parent ref:' . $a_parent_ref_id . ' tnode:' . $a_tnode_id);
         $ref_ids = ilObject::_getAllReferences($import_obj_id);
         $import_ref_id = end($ref_ids);
         $import_ref_id_parent = $this->tree->getParentId($import_ref_id);
-        
+
         if ($a_parent_ref_id !== $import_ref_id_parent) {
             // move node
             $this->logger->info('Moving node ' . $a_parent_ref_id . ' to ' . $import_ref_id);
             $this->tree->moveTree($import_ref_id, $a_parent_ref_id);
         }
-        
+
         // iterate through childs
         $childs = $this->ecs_tree->getChilds($a_tnode_id);
         foreach ($childs as $node) {
@@ -168,34 +170,34 @@ class ilECSCmsTreeSynchronizer
         }
         return true;
     }
-    
+
     /**
      * Sync node
      */
-    protected function syncNode($tree_obj_id, $parent_id, $a_mapped = false) : bool
+    protected function syncNode($tree_obj_id, $parent_id, $a_mapped = false): bool
     {
         $childs = $this->ecs_tree->getChilds($tree_obj_id);
-        
+
         $assignment = new ilECSNodeMappingAssignment(
             $this->server->getServerId(),
             $this->mid,
             $this->tree_id,
             $tree_obj_id
         );
-        
+
         if ($assignment->getRefId()) {
             $parent_id = $assignment->getRefId();
         }
-        
+
         // information for deeper levels
         if ($assignment->isMapped()) {
             $a_mapped = true;
         }
-        
+
         if ($a_mapped) {
             $parent_id = $this->syncCategory($assignment, $parent_id);
         }
-        
+
         // this is not necessary
         #if($parent_id)
         {
@@ -206,7 +208,7 @@ class ilECSCmsTreeSynchronizer
         }
         return true;
     }
-    
+
     /**
      * Sync category
      */

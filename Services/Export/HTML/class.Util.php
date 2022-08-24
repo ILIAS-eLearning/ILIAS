@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -54,7 +56,7 @@ class Util
     /**
      * Export system style
      */
-    public function exportSystemStyle() : void
+    public function exportSystemStyle(): void
     {
         // system style html exporter
         $sys_style_html_export = new \ilSystemStyleHTMLExport($this->target_dir);
@@ -64,7 +66,7 @@ class Util
     /**
      * Export content style
      */
-    public function exportCOPageFiles(int $style_sheet_id = 0, string $obj_type = "") : void
+    public function exportCOPageFiles(int $style_sheet_id = 0, string $obj_type = ""): void
     {
         \ilMathJax::getInstance()->init(\ilMathJax::PURPOSE_EXPORT);
 
@@ -78,7 +80,7 @@ class Util
     /**
      * Init global screen
      */
-    protected function initGlobalScreen() : void
+    protected function initGlobalScreen(): void
     {
         // set global
         $this->global_screen->tool()->context()->current()->addAdditionalData(
@@ -90,7 +92,7 @@ class Util
     /**
      * Export resource files collected by global screen service
      */
-    public function exportResourceFiles() : void
+    public function exportResourceFiles(): void
     {
         $global_screen = $this->global_screen;
         $target_dir = $this->target_dir;
@@ -107,7 +109,7 @@ class Util
     /**
      * Export resource file
      */
-    protected function exportResourceFile(string $target_dir, string $file) : void
+    protected function exportResourceFile(string $target_dir, string $file): void
     {
         if (is_int(strpos($file, "?"))) {
             $file = substr($file, 0, strpos($file, "?"));

@@ -1,4 +1,6 @@
-<?php declare(strict_types=0);
+<?php
+
+declare(strict_types=0);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -14,7 +16,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * Handles course mail placeholders
  * @author  Stefan Meyer <smeyer.ilias@gmx.de>
@@ -23,15 +25,15 @@
 class ilCourseMailTemplateTutorContext extends ilMailTemplateContext
 {
     public const ID = 'crs_context_tutor_manual';
-    
+
     protected static array $periodInfoByObjIdCache = [];
 
-    public function getId() : string
+    public function getId(): string
     {
         return self::ID;
     }
 
-    public function getTitle() : string
+    public function getTitle(): string
     {
         global $DIC;
 
@@ -42,7 +44,7 @@ class ilCourseMailTemplateTutorContext extends ilMailTemplateContext
         return $lng->txt('crs_mail_context_tutor_title');
     }
 
-    public function getDescription() : string
+    public function getDescription(): string
     {
         global $DIC;
 
@@ -56,7 +58,7 @@ class ilCourseMailTemplateTutorContext extends ilMailTemplateContext
     /**
      * Return an array of placeholders
      */
-    public function getSpecificPlaceholders() : array
+    public function getSpecificPlaceholders(): array
     {
         /**
          * @var $lng ilLanguage
@@ -125,7 +127,7 @@ class ilCourseMailTemplateTutorContext extends ilMailTemplateContext
         return $placeholders;
     }
 
-    private function getCachedPeriodByObjId(int $objId) : ?array
+    private function getCachedPeriodByObjId(int $objId): ?array
     {
         if (!array_key_exists($objId, self::$periodInfoByObjIdCache)) {
             self::$periodInfoByObjIdCache[$objId] = ilObjCourseAccess::lookupPeriodInfo($objId);
@@ -142,7 +144,7 @@ class ilCourseMailTemplateTutorContext extends ilMailTemplateContext
         array $context_parameters,
         ilObjUser $recipient = null,
         bool $html_markup = false
-    ) : string {
+    ): string {
         /**
          * @var $ilObjDataCache ilObjectDataCache
          */

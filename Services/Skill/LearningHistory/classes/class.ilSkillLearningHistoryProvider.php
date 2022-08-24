@@ -55,7 +55,7 @@ class ilSkillLearningHistoryProvider extends ilAbstractLearningHistoryProvider i
     /**
      * @inheritdoc
      */
-    public function isActive() : bool
+    public function isActive(): bool
     {
         $skmg_set = new ilSetting("skmg");
         if ($skmg_set->get("enable_skmg")) {
@@ -67,7 +67,7 @@ class ilSkillLearningHistoryProvider extends ilAbstractLearningHistoryProvider i
     /**
      * @inheritdoc
      */
-    public function getEntries(int $ts_start, int $ts_end) : array
+    public function getEntries(int $ts_start, int $ts_end): array
     {
         $lng = $this->getLanguage();
         $lng->loadLanguageModule("skll");
@@ -137,7 +137,7 @@ class ilSkillLearningHistoryProvider extends ilAbstractLearningHistoryProvider i
     /**
      * @inheritdoc
      */
-    public function getName() : string
+    public function getName(): string
     {
         $lng = $this->getLanguage();
         $lng->loadLanguageModule("skmg");

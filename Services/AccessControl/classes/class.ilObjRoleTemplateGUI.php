@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -53,7 +55,7 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
         $this->refinery = $DIC->refinery();
     }
 
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         $this->prepareOutput();
 
@@ -72,7 +74,7 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
         }
     }
 
-    protected function initFormRoleTemplate(int $a_mode = self::FORM_MODE_CREATE) : ilPropertyFormGUI
+    protected function initFormRoleTemplate(int $a_mode = self::FORM_MODE_CREATE): ilPropertyFormGUI
     {
         $form = new ilPropertyFormGUI();
 
@@ -129,7 +131,7 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
         return $form;
     }
 
-    public function createObject(ilPropertyFormGUI $form = null) : void
+    public function createObject(ilPropertyFormGUI $form = null): void
     {
         if (!$this->rbac_system->checkAccess("create_rolt", $this->rolf_ref_id)) {
             $this->error->raiseError($this->lng->txt("permission_denied"), $this->error->MESSAGE);
@@ -143,7 +145,7 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
     /**
      * Create new object
      */
-    public function editObject(ilPropertyFormGUI $form = null) : void
+    public function editObject(ilPropertyFormGUI $form = null): void
     {
         $this->tabs_gui->activateTab('settings');
 
@@ -157,7 +159,7 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
         $this->tpl->setContent($form->getHTML());
     }
 
-    public function updateObject() : void
+    public function updateObject(): void
     {
         // check write access
         if (!$this->rbac_system->checkAccess("write", $this->rolf_ref_id)) {
@@ -184,7 +186,7 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
         $this->editObject($form);
     }
 
-    public function saveObject() : void
+    public function saveObject(): void
     {
         if (!$this->rbac_system->checkAccess("create_rolt", $this->rolf_ref_id)) {
             $this->ilias->raiseError($this->lng->txt("msg_no_perm_create_rolt"), $this->ilias->error_obj->WARNING);
@@ -211,7 +213,7 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
         $this->createObject($form);
     }
 
-    protected function permObject() : void
+    protected function permObject(): void
     {
         if (!$this->rbac_system->checkAccess('edit_permission', $this->ref_id)) {
             $this->error->raiseError($this->lng->txt('msg_no_perm_perm'), $this->error->MESSAGE);
@@ -272,7 +274,7 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
     /**
      * @todo fix custom transformation
      */
-    protected function permSaveObject() : void
+    protected function permSaveObject(): void
     {
         if (!$this->rbac_system->checkAccess('write', $this->rolf_ref_id)) {
             $this->error->raiseError($this->lng->txt('msg_no_perm_perm'), $this->error->MESSAGE);
@@ -311,7 +313,7 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
         $this->ctrl->redirect($this, "perm");
     }
 
-    public function adoptPermSaveObject() : void
+    public function adoptPermSaveObject(): void
     {
         $source = 0;
         if ($this->http->wrapper()->post()->has('adopt')) {
@@ -344,7 +346,7 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
         $this->ctrl->redirect($this, "perm");
     }
 
-    public function getAdminTabs() : void
+    public function getAdminTabs(): void
     {
         $this->getTabs();
     }
@@ -352,7 +354,7 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
     /**
      * @inheritdoc
      */
-    protected function getTabs() : void
+    protected function getTabs(): void
     {
         $this->tabs_gui->setBackTarget($this->lng->txt('btn_back'), (string) $this->ctrl->getParentReturn($this));
 
@@ -372,7 +374,7 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
         }
     }
 
-    public function cancelObject() : void
+    public function cancelObject(): void
     {
         $this->ctrl->redirectByClass("ilobjrolefoldergui", "view");
     }
@@ -380,7 +382,7 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
     /**
      * @inheritdoc
      */
-    protected function addAdminLocatorItems(bool $do_not_add_object = false) : void
+    protected function addAdminLocatorItems(bool $do_not_add_object = false): void
     {
         parent::addAdminLocatorItems(true);
 

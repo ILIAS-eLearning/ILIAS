@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * Selection of sub items
  *
@@ -29,7 +31,7 @@ class ilObjectCopySelectionTableGUI extends ilTable2GUI
     protected ilAccessHandler $access;
 
     protected string $type;
-    
+
     public function __construct(?object $parent_class, string $parent_cmd, string $type, string $back_cmd)
     {
         global $DIC;
@@ -38,10 +40,10 @@ class ilObjectCopySelectionTableGUI extends ilTable2GUI
         $this->obj_definition = $DIC["objDefinition"];
         $this->tree = $DIC->repositoryTree();
         $this->access = $DIC->access();
-        
+
         parent::__construct($parent_class, $parent_cmd);
         $this->type = $type;
-        
+
         $this->setTitle($this->lng->txt($this->type . '_wizard_page'));
         $this->addColumn($this->lng->txt('title'), '', '55%');
         $this->addColumn($this->lng->txt('copy'), '', '15%');
@@ -53,7 +55,7 @@ class ilObjectCopySelectionTableGUI extends ilTable2GUI
         $this->setEnableTitle(true);
         $this->setEnableNumInfo(true);
         $this->setLimit(999999);
-        
+
         $this->setFormName('cmd');
 
         $this->addCommandButton('copyContainerToTargets', $this->lng->txt('obj_' . $this->type . '_duplicate'));
@@ -63,13 +65,13 @@ class ilObjectCopySelectionTableGUI extends ilTable2GUI
             $this->addCommandButton($back_cmd, $this->lng->txt('btn_back'));
         }
     }
-    
-    public function getType() : string
+
+    public function getType(): string
     {
         return $this->type;
     }
-    
-    public function parseSource(int $source) : void
+
+    public function parseSource(int $source): void
     {
         $first = true;
         foreach ($this->tree->getSubTree($root = $this->tree->getNodeData($source)) as $node) {
@@ -79,7 +81,7 @@ class ilObjectCopySelectionTableGUI extends ilTable2GUI
             if (!$this->access->checkAccess('visible', '', (int) $node['child'])) {
                 continue;
             }
-            
+
             $r = [];
             $r['last'] = false;
             $r['source'] = $first;
@@ -97,7 +99,7 @@ class ilObjectCopySelectionTableGUI extends ilTable2GUI
                 $app_info = ilSessionAppointment::_lookupAppointment($node["obj_id"]);
                 $r['title'] = ilSessionAppointment::_appointmentToString($app_info['start'], $app_info['end'], (bool) $app_info['fullday']);
             }
-            
+
             $rows[] = $r;
             $first = false;
         }
@@ -106,7 +108,7 @@ class ilObjectCopySelectionTableGUI extends ilTable2GUI
         $this->setData($rows);
     }
 
-    protected function fillRow(array $set) : void
+    protected function fillRow(array $set): void
     {
         if ($set['last']) {
             $this->tpl->setCurrentBlock('footer_copy');
@@ -128,7 +130,7 @@ class ilObjectCopySelectionTableGUI extends ilTable2GUI
         $this->tpl->setVariable('TREE_IMG', ilObject::_getIcon(ilObject::_lookupObjId((int) $set['ref_id']), "tiny", $set['type']));
         $this->tpl->setVariable('TREE_ALT_IMG', $this->lng->txt('obj_' . $set['type']));
         $this->tpl->setVariable('TREE_TITLE', $set['title']);
-        
+
         if ($set['source']) {
             return;
         }
@@ -164,7 +166,7 @@ class ilObjectCopySelectionTableGUI extends ilTable2GUI
             $this->tpl->setVariable('TXT_MISSING_LINK_PERM', $this->lng->txt('missing_perm'));
             $this->tpl->parseCurrentBlock();
         }
-        
+
         // Omit
         $this->tpl->setCurrentBlock('omit_radio');
         $this->tpl->setVariable('TXT_OMIT', $this->lng->txt('omit'));

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\UI\Component\Dropzone\File;
 
 use ILIAS\UI\Component\Input\Field\UploadHandler;
@@ -71,7 +73,7 @@ interface Factory
         UploadHandler $upload_handler,
         string $post_url,
         ?Input $metadata_input = null
-    ) : Standard;
+    ): Standard;
 
     /**
      * ---
@@ -119,5 +121,5 @@ interface Factory
         string $post_url,
         $content,
         ?Input $metadata_input = null
-    ) : Wrapper;
+    ): Wrapper;
 }

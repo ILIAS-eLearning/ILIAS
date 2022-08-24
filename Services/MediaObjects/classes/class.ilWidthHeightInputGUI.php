@@ -43,37 +43,37 @@ class ilWidthHeightInputGUI extends ilFormPropertyGUI
         $this->main_tpl = $DIC->ui()->mainTemplate();
     }
 
-    public function setWidth(?int $a_width) : void
+    public function setWidth(?int $a_width): void
     {
         $this->width = $a_width;
     }
 
-    public function getWidth() : ?int
+    public function getWidth(): ?int
     {
         return $this->width;
     }
 
-    public function setHeight(?int $a_height) : void
+    public function setHeight(?int $a_height): void
     {
         $this->height = $a_height;
     }
 
-    public function getHeight() : ?int
+    public function getHeight(): ?int
     {
         return $this->height;
     }
 
-    public function setConstrainProportions(bool $a_constrainproportions) : void
+    public function setConstrainProportions(bool $a_constrainproportions): void
     {
         $this->constrainproportions = $a_constrainproportions;
     }
 
-    public function getConstrainProportions() : bool
+    public function getConstrainProportions(): bool
     {
         return $this->constrainproportions;
     }
 
-    public function checkInput() : bool
+    public function checkInput(): bool
     {
         $i = $this->getInput();
         $this->setWidth($i["width"] ? (int) $i["width"] : null);
@@ -83,7 +83,7 @@ class ilWidthHeightInputGUI extends ilFormPropertyGUI
         return true;
     }
 
-    public function getInput() : array
+    public function getInput(): array
     {
         $val = $this->strArray($this->getPostVar());
         return [
@@ -93,10 +93,10 @@ class ilWidthHeightInputGUI extends ilFormPropertyGUI
         ];
     }
 
-    public function insert(ilTemplate $a_tpl) : void
+    public function insert(ilTemplate $a_tpl): void
     {
         $lng = $this->lng;
-        
+
         $tpl = new ilTemplate("tpl.prop_width_height.html", true, true, "Services/MediaObjects");
 
         $tpl->setVariable("VAL_WIDTH", strtolower(trim($this->getWidth())));
@@ -112,7 +112,7 @@ class ilWidthHeightInputGUI extends ilFormPropertyGUI
             $wh_ratio = (int) $this->getWidth() / (int) $this->getHeight();
         }
         $tpl->setVariable("WH_RATIO", str_replace(",", ".", round($wh_ratio, 6)));
-        
+
         $a_tpl->setCurrentBlock("prop_generic");
         $a_tpl->setVariable("PROP_GENERIC", $tpl->get());
         $a_tpl->parseCurrentBlock();
@@ -121,7 +121,7 @@ class ilWidthHeightInputGUI extends ilFormPropertyGUI
             ->addJavaScript("./Services/MediaObjects/js/ServiceMediaObjectPropWidthHeight.js");
     }
 
-    public function setValueByArray(array $a_values) : void
+    public function setValueByArray(array $a_values): void
     {
         $w = $a_values[$this->getPostVar()]["width"] ?? false;
         $h = $a_values[$this->getPostVar()]["height"] ?? false;

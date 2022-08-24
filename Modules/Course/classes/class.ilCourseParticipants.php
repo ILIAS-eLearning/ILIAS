@@ -1,4 +1,6 @@
-<?php declare(strict_types=0);
+<?php
+
+declare(strict_types=0);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -14,7 +16,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * @author  Stefan Meyer <meyer@leifos.com>
  * @ingroup ModulesCourse
@@ -35,7 +37,7 @@ class ilCourseParticipants extends ilParticipants
         parent::__construct(self::COMPONENT_NAME, array_pop($refs));
     }
 
-    public static function _getInstanceByObjId(int $a_obj_id) : ilCourseParticipants
+    public static function _getInstanceByObjId(int $a_obj_id): ilCourseParticipants
     {
         if (isset(self::$instances[$a_obj_id]) && self::$instances[$a_obj_id]) {
             return self::$instances[$a_obj_id];
@@ -43,7 +45,7 @@ class ilCourseParticipants extends ilParticipants
         return self::$instances[$a_obj_id] = new ilCourseParticipants($a_obj_id);
     }
 
-    public function add(int $a_usr_id, int $a_role) : bool
+    public function add(int $a_usr_id, int $a_role): bool
     {
         if (parent::add($a_usr_id, $a_role)) {
             $this->addRecommendation($a_usr_id);
@@ -52,7 +54,7 @@ class ilCourseParticipants extends ilParticipants
         return false;
     }
 
-    public static function getMemberRoles(int $a_ref_id) : array
+    public static function getMemberRoles(int $a_ref_id): array
     {
         global $DIC;
 
@@ -74,7 +76,7 @@ class ilCourseParticipants extends ilParticipants
         return $roles;
     }
 
-    public function addSubscriber(int $a_usr_id) : void
+    public function addSubscriber(int $a_usr_id): void
     {
         parent::addSubscriber($a_usr_id);
         $this->eventHandler->raise(
@@ -92,7 +94,7 @@ class ilCourseParticipants extends ilParticipants
         bool $a_passed,
         bool $a_manual = false,
         bool $a_no_origin = false
-    ) : void {
+    ): void {
         $this->participants_status[$a_usr_id]['passed'] = $a_passed;
         self::_updatePassed($this->obj_id, $a_usr_id, $a_passed, $a_manual, $a_no_origin);
     }
@@ -103,7 +105,7 @@ class ilCourseParticipants extends ilParticipants
         bool $a_passed,
         bool $a_manual = false,
         bool $a_no_origin = false
-    ) : void {
+    ): void {
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
@@ -163,7 +165,7 @@ class ilCourseParticipants extends ilParticipants
         }
     }
 
-    public function getPassedInfo(int $a_usr_id) : ?array
+    public function getPassedInfo(int $a_usr_id): ?array
     {
         $sql = "SELECT origin, origin_ts" .
             " FROM obj_members" .
@@ -180,7 +182,7 @@ class ilCourseParticipants extends ilParticipants
         return null;
     }
 
-    public function sendNotification(int $a_type, int $a_usr_id, bool $a_force_sending_mail = false) : void
+    public function sendNotification(int $a_type, int $a_usr_id, bool $a_force_sending_mail = false): void
     {
         $mail = new ilCourseMembershipMailNotification();
         $mail->forceSendingMail($a_force_sending_mail);
@@ -270,7 +272,7 @@ class ilCourseParticipants extends ilParticipants
         }
     }
 
-    public function sendUnsubscribeNotificationToAdmins(int $a_usr_id) : void
+    public function sendUnsubscribeNotificationToAdmins(int $a_usr_id): void
     {
         $mail = new ilCourseMembershipMailNotification();
         $mail->setType(ilCourseMembershipMailNotification::TYPE_NOTIFICATION_UNSUBSCRIBE);
@@ -280,7 +282,7 @@ class ilCourseParticipants extends ilParticipants
         $mail->send();
     }
 
-    public function sendSubscriptionRequestToAdmins(int $a_usr_id) : void
+    public function sendSubscriptionRequestToAdmins(int $a_usr_id): void
     {
         $mail = new ilCourseMembershipMailNotification();
         $mail->setType(ilCourseMembershipMailNotification::TYPE_NOTIFICATION_REGISTRATION_REQUEST);
@@ -290,7 +292,7 @@ class ilCourseParticipants extends ilParticipants
         $mail->send();
     }
 
-    public function sendNotificationToAdmins(int $a_usr_id) : void
+    public function sendNotificationToAdmins(int $a_usr_id): void
     {
         $mail = new ilCourseMembershipMailNotification();
         $mail->setType(ilCourseMembershipMailNotification::TYPE_NOTIFICATION_REGISTRATION);
@@ -300,7 +302,7 @@ class ilCourseParticipants extends ilParticipants
         $mail->send();
     }
 
-    public static function getDateTimeOfPassed(int $a_obj_id, int $a_usr_id) : string
+    public static function getDateTimeOfPassed(int $a_obj_id, int $a_usr_id): string
     {
         global $DIC;
 
@@ -317,7 +319,7 @@ class ilCourseParticipants extends ilParticipants
         return '';
     }
 
-    public static function getPassedUsersForObjects(array $a_obj_ids, array $a_usr_ids) : array
+    public static function getPassedUsersForObjects(array $a_obj_ids, array $a_usr_ids): array
     {
         global $DIC;
 

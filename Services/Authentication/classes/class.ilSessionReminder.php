@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -32,7 +34,7 @@ class ilSessionReminder
     private int $seconds_until_expiration = 0;
     private int $seconds_until_reminder = 0;
 
-    public static function byLoggedInUser() : self
+    public static function byLoggedInUser(): self
     {
         global $DIC;
 
@@ -51,7 +53,7 @@ class ilSessionReminder
         return $reminder;
     }
 
-    public static function isGloballyActivated() : bool
+    public static function isGloballyActivated(): bool
     {
         /** @var ilSetting $ilSetting */
         global $DIC;
@@ -78,7 +80,7 @@ class ilSessionReminder
         $this->init();
     }
 
-    private function init() : void
+    private function init(): void
     {
         $this->setLeadTime(
             ((int) max(
@@ -94,22 +96,22 @@ class ilSessionReminder
         $this->calculateSecondsUntilReminder();
     }
 
-    private function calculateSecondsUntilExpiration() : void
+    private function calculateSecondsUntilExpiration(): void
     {
         $this->setSecondsUntilExpiration($this->getExpirationTime() - $this->getCurrentTime());
     }
 
-    private function calculateSecondsUntilReminder() : void
+    private function calculateSecondsUntilReminder(): void
     {
         $this->setSecondsUntilReminder($this->getSecondsUntilExpiration() - $this->getLeadTime());
     }
 
-    private function isEnoughTimeLeftForReminder() : bool
+    private function isEnoughTimeLeftForReminder(): bool
     {
         return $this->getLeadTime() < $this->getSecondsUntilExpiration();
     }
 
-    public function isActive() : bool
+    public function isActive(): bool
     {
         return (
             self::isGloballyActivated() &&
@@ -120,74 +122,74 @@ class ilSessionReminder
         );
     }
 
-    public function setUser(ilObjUser $user) : self
+    public function setUser(ilObjUser $user): self
     {
         $this->user = $user;
 
         return $this;
     }
 
-    public function getUser() : ilObjUser
+    public function getUser(): ilObjUser
     {
         return $this->user;
     }
 
-    public function setCurrentTime(int $current_time) : self
+    public function setCurrentTime(int $current_time): self
     {
         $this->current_time = $current_time;
 
         return $this;
     }
 
-    public function getCurrentTime() : int
+    public function getCurrentTime(): int
     {
         return $this->current_time;
     }
 
-    public function setExpirationTime(int $expiration_time) : self
+    public function setExpirationTime(int $expiration_time): self
     {
         $this->expiration_time = $expiration_time;
 
         return $this;
     }
 
-    public function getExpirationTime() : int
+    public function getExpirationTime(): int
     {
         return $this->expiration_time;
     }
 
-    public function setLeadTime(int $lead_time) : self
+    public function setLeadTime(int $lead_time): self
     {
         $this->lead_time = $lead_time;
 
         return $this;
     }
 
-    public function getLeadTime() : int
+    public function getLeadTime(): int
     {
         return $this->lead_time;
     }
 
-    public function setSecondsUntilExpiration(int $seconds_until_expiration) : self
+    public function setSecondsUntilExpiration(int $seconds_until_expiration): self
     {
         $this->seconds_until_expiration = $seconds_until_expiration;
 
         return $this;
     }
 
-    public function getSecondsUntilExpiration() : int
+    public function getSecondsUntilExpiration(): int
     {
         return $this->seconds_until_expiration;
     }
 
-    public function setSecondsUntilReminder(int $seconds_until_reminder) : self
+    public function setSecondsUntilReminder(int $seconds_until_reminder): self
     {
         $this->seconds_until_reminder = $seconds_until_reminder;
 
         return $this;
     }
 
-    public function getSecondsUntilReminder() : int
+    public function getSecondsUntilReminder(): int
     {
         return $this->seconds_until_reminder;
     }

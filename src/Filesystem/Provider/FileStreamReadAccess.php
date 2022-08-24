@@ -34,7 +34,6 @@ use ILIAS\Filesystem\Stream\FileStream;
  */
 interface FileStreamReadAccess
 {
-
     /**
      * Opens a readable stream of the file.
      * Please make sure to close the stream after the work is done with Stream::close()
@@ -51,5 +50,5 @@ interface FileStreamReadAccess
      *
      * @see FileStream::close()
      */
-    public function readStream(string $path) : FileStream;
+    public function readStream(string $path): FileStream;
 }

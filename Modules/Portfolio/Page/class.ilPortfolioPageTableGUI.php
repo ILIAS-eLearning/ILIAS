@@ -28,7 +28,7 @@ class ilPortfolioPageTableGUI extends ilTable2GUI
     protected ilObjPortfolioBase $portfolio;
     protected bool $is_template;
     protected string $page_gui;
-    
+
     public function __construct(
         ilObjPortfolioBaseGUI $a_parent_obj,
         string $a_parent_cmd
@@ -50,7 +50,7 @@ class ilPortfolioPageTableGUI extends ilTable2GUI
         $this->portfolio = $portfolio;
         $this->page_gui = $this->parent_obj->getPageGUIClassName();
         $this->is_template = ($this->portfolio->getType() === "prtt");
-        
+
         $this->setTitle($lng->txt("content"));
 
         //$this->addColumn($this->lng->txt(""), "", "1");
@@ -64,24 +64,24 @@ class ilPortfolioPageTableGUI extends ilTable2GUI
 
         //$this->addMultiCommand("confirmPortfolioPageDeletion", $lng->txt("delete"));
         //$this->addMultiCommand("copyPageForm", $lng->txt("prtf_copy_page"));
-        
+
         $this->addCommandButton(
             "savePortfolioPagesOrdering",
             $lng->txt("user_save_ordering_and_titles")
         );
 
         $this->getItems();
-                
+
         $lng->loadLanguageModule("blog");
     }
 
-    public function getItems() : void
+    public function getItems(): void
     {
         $ilUser = $this->user;
-            
+
         $data = ilPortfolioPage::getAllPortfolioPages($this->portfolio->getId());
         $this->setData($data);
-                
+
         if (!$this->is_template) {
             $this->blogs = array();
             $tree = new ilWorkspaceTree($ilUser->getId());
@@ -97,7 +97,7 @@ class ilPortfolioPageTableGUI extends ilTable2GUI
         }
     }
 
-    protected function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set): void
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
@@ -123,7 +123,7 @@ class ilPortfolioPageTableGUI extends ilTable2GUI
 
                 $this->tpl->setVariable("TYPE", $lng->txt("page"));
                 break;
-            
+
             case ilPortfolioPage::TYPE_BLOG:
                 if (!$this->is_template) {
                     $this->tpl->setCurrentBlock("title_static");
@@ -151,14 +151,14 @@ class ilPortfolioPageTableGUI extends ilTable2GUI
                     $this->tpl->setVariable("TYPE", $lng->txt("obj_blog"));
                 }
                 break;
-                
+
             case ilPortfolioTemplatePage::TYPE_BLOG_TEMPLATE:
                 if ($this->is_template) {
                     $this->tpl->setCurrentBlock("title_field");
                     $this->tpl->setVariable("ID", $a_set["id"]);
                     $this->tpl->setVariable("VAL_TITLE", ilLegacyFormElementsUtil::prepareFormOutput($a_set["title"]));
                     $this->tpl->parseCurrentBlock();
-                    
+
                     $this->tpl->setCurrentBlock("title_static");
                     //$this->tpl->setVariable("VAL_TITLE_STATIC", $lng->txt("obj_blog"));
                     $this->tpl->parseCurrentBlock();

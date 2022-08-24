@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -16,6 +18,7 @@
  *********************************************************************/
 
 /** @noinspection PhpPropertyOnlyWrittenInspection */
+
 namespace ILIAS\GlobalScreen\Scope\Tool\Collector;
 
 use ILIAS\GlobalScreen\Collector\AbstractBaseCollector;
@@ -73,7 +76,7 @@ class MainToolCollector extends AbstractBaseCollector implements ItemCollector
         $this->tools = [];
     }
 
-    public function collectStructure() : void
+    public function collectStructure(): void
     {
         global $DIC;
         $called_contexts = $DIC->globalScreen()->tool()->context()->stack();
@@ -89,12 +92,12 @@ class MainToolCollector extends AbstractBaseCollector implements ItemCollector
         $this->tools = array_merge([], ...$tools_to_merge);
     }
 
-    public function filterItemsByVisibilty(bool $async_only = false) : void
+    public function filterItemsByVisibilty(bool $async_only = false): void
     {
         $this->tools = array_filter($this->tools, $this->getVisibleFilter());
     }
 
-    public function getSingleItem(IdentificationInterface $identification) : isToolItem
+    public function getSingleItem(IdentificationInterface $identification): isToolItem
     {
         foreach ($this->tools as $tool) {
             if ($tool->getProviderIdentification()->serialize() === $identification->serialize()) {
@@ -104,35 +107,35 @@ class MainToolCollector extends AbstractBaseCollector implements ItemCollector
         return new Tool($identification);
     }
 
-    public function prepareItemsForUIRepresentation() : void
+    public function prepareItemsForUIRepresentation(): void
     {
-        array_walk($this->tools, function (isToolItem $tool) : void {
+        array_walk($this->tools, function (isToolItem $tool): void {
             $this->applyTypeInformation($tool);
         });
     }
 
-    public function cleanupItemsForUIRepresentation() : void
+    public function cleanupItemsForUIRepresentation(): void
     {
         // TODO: Implement cleanupItemsForUIRepresentation() method.
     }
 
-    public function sortItemsForUIRepresentation() : void
+    public function sortItemsForUIRepresentation(): void
     {
         usort($this->tools, $this->getItemSorter());
     }
 
-    public function getItemsForUIRepresentation() : Generator
+    public function getItemsForUIRepresentation(): Generator
     {
         yield from $this->tools;
     }
 
-    public function hasItems() : bool
+    public function hasItems(): bool
     {
         return count($this->tools) > 0;
     }
 
 
-    public function hasVisibleItems() : bool
+    public function hasVisibleItems(): bool
     {
         return $this->hasItems();
     }
@@ -141,7 +144,7 @@ class MainToolCollector extends AbstractBaseCollector implements ItemCollector
      * @param isToolItem $item
      * @return isToolItem
      */
-    private function applyTypeInformation(isToolItem $item) : isToolItem
+    private function applyTypeInformation(isToolItem $item): isToolItem
     {
         $item->setTypeInformation($this->getTypeInfoermationForItem($item));
 
@@ -152,7 +155,7 @@ class MainToolCollector extends AbstractBaseCollector implements ItemCollector
      * @param isToolItem $item
      * @return TypeInformation
      */
-    private function getTypeInfoermationForItem(isToolItem $item) : TypeInformation
+    private function getTypeInfoermationForItem(isToolItem $item): TypeInformation
     {
         /**
          * @var $handler TypeHandler
@@ -162,16 +165,16 @@ class MainToolCollector extends AbstractBaseCollector implements ItemCollector
         return $this->type_information_collection->get($type);
     }
 
-    private function getVisibleFilter() : callable
+    private function getVisibleFilter(): callable
     {
-        return static function (isToolItem $tool) : bool {
+        return static function (isToolItem $tool): bool {
             return ($tool->isAvailable() && $tool->isVisible());
         };
     }
 
-    private function getItemSorter() : callable
+    private function getItemSorter(): callable
     {
-        return static function (isToolItem $a, isToolItem $b) : int {
+        return static function (isToolItem $a, isToolItem $b): int {
             return $a->getPosition() - $b->getPosition();
         };
     }

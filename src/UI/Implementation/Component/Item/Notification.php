@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\UI\Implementation\Component\Item;
 
 use ILIAS\UI\Component\Item\Notification as INotification;
@@ -53,7 +55,7 @@ class Notification extends Item implements INotification, IJavaScriptBindable
     /**
      * @inheritdoc
      */
-    public function withAdditionalContent(Legacy $additional_content) : INotification
+    public function withAdditionalContent(Legacy $additional_content): INotification
     {
         $clone = clone $this;
         $clone->additional_content = $additional_content;
@@ -63,7 +65,7 @@ class Notification extends Item implements INotification, IJavaScriptBindable
     /**
      * @inheritdoc
      */
-    public function getAdditionalContent() : ?Legacy
+    public function getAdditionalContent(): ?Legacy
     {
         return $this->additional_content;
     }
@@ -71,7 +73,7 @@ class Notification extends Item implements INotification, IJavaScriptBindable
     /**
      * @inheritdoc
      */
-    public function withCloseAction(string $url) : INotification
+    public function withCloseAction(string $url): INotification
     {
         $clone = clone $this;
         $clone->close_action = $url;
@@ -81,7 +83,7 @@ class Notification extends Item implements INotification, IJavaScriptBindable
     /**
      * @inheritdoc
      */
-    public function getCloseAction() : ?string
+    public function getCloseAction(): ?string
     {
         return $this->close_action;
     }
@@ -89,7 +91,7 @@ class Notification extends Item implements INotification, IJavaScriptBindable
     /**
      * @inheritdoc
      */
-    public function withAggregateNotifications(array $aggregate_notifications) : INotification
+    public function withAggregateNotifications(array $aggregate_notifications): INotification
     {
         $classes = [
             INotification::class
@@ -103,7 +105,7 @@ class Notification extends Item implements INotification, IJavaScriptBindable
     /**
      * @inheritdoc
      */
-    public function getAggregateNotifications() : array
+    public function getAggregateNotifications(): array
     {
         return $this->aggregate_notifications;
     }
@@ -111,7 +113,7 @@ class Notification extends Item implements INotification, IJavaScriptBindable
     /**
      * @inheritdoc
      */
-    public function withLeadIcon(Icon $icon) : INotification
+    public function withLeadIcon(Icon $icon): INotification
     {
         $clone = clone $this;
         $clone->lead_icon = $icon;
@@ -121,7 +123,7 @@ class Notification extends Item implements INotification, IJavaScriptBindable
     /**
      * @inheritdoc
      */
-    public function getLeadIcon() : Icon
+    public function getLeadIcon(): Icon
     {
         return $this->lead_icon;
     }
@@ -129,7 +131,7 @@ class Notification extends Item implements INotification, IJavaScriptBindable
     /**
      * @inheritdoc
      */
-    public function withActions(C\Dropdown\Standard $actions) : C\Item\Notification
+    public function withActions(C\Dropdown\Standard $actions): C\Item\Notification
     {
         $clone = clone $this;
         $clone->actions = $actions;
@@ -139,7 +141,7 @@ class Notification extends Item implements INotification, IJavaScriptBindable
     /**
      * @inheritdoc
      */
-    public function getActions() : ?C\Dropdown\Standard
+    public function getActions(): ?C\Dropdown\Standard
     {
         return $this->actions;
     }

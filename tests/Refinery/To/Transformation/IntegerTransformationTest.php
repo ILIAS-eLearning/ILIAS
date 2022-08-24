@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -27,33 +29,33 @@ class IntegerTransformationTest extends TestCase
 {
     private IntegerTransformation $transformation;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         $this->transformation = new IntegerTransformation();
     }
 
-    public function testIntegerToIntegerTransformation() : void
+    public function testIntegerToIntegerTransformation(): void
     {
         $transformedValue = $this->transformation->transform(200);
 
         $this->assertEquals(200, $transformedValue);
     }
 
-    public function testNegativeIntegerToIntegerTransformation() : void
+    public function testNegativeIntegerToIntegerTransformation(): void
     {
         $transformedValue = $this->transformation->transform(-200);
 
         $this->assertEquals(-200, $transformedValue);
     }
 
-    public function testZeroIntegerToIntegerTransformation() : void
+    public function testZeroIntegerToIntegerTransformation(): void
     {
         $transformedValue = $this->transformation->transform(0);
 
         $this->assertEquals(0, $transformedValue);
     }
 
-    public function testStringToIntegerTransformation() : void
+    public function testStringToIntegerTransformation(): void
     {
         $this->expectNotToPerformAssertions();
 
@@ -66,7 +68,7 @@ class IntegerTransformationTest extends TestCase
         $this->fail();
     }
 
-    public function testFloatToIntegerTransformation() : void
+    public function testFloatToIntegerTransformation(): void
     {
         $this->expectNotToPerformAssertions();
 
@@ -79,7 +81,7 @@ class IntegerTransformationTest extends TestCase
         $this->fail();
     }
 
-    public function testPositiveBooleanToIntegerTransformation() : void
+    public function testPositiveBooleanToIntegerTransformation(): void
     {
         $this->expectNotToPerformAssertions();
 
@@ -92,7 +94,7 @@ class IntegerTransformationTest extends TestCase
         $this->fail();
     }
 
-    public function testNegativeBooleanToIntegerTransformation() : void
+    public function testNegativeBooleanToIntegerTransformation(): void
     {
         $this->expectNotToPerformAssertions();
 
@@ -105,7 +107,7 @@ class IntegerTransformationTest extends TestCase
         $this->fail();
     }
 
-    public function testStringToIntegerApply() : void
+    public function testStringToIntegerApply(): void
     {
         $resultObject = new Result\Ok('hello');
 
@@ -114,7 +116,7 @@ class IntegerTransformationTest extends TestCase
         $this->assertTrue($transformedObject->isError());
     }
 
-    public function testPositiveIntegerToIntegerApply() : void
+    public function testPositiveIntegerToIntegerApply(): void
     {
         $resultObject = new Result\Ok(200);
 
@@ -123,7 +125,7 @@ class IntegerTransformationTest extends TestCase
         $this->assertEquals(200, $transformedObject->value());
     }
 
-    public function testNegativeIntegerToIntegerApply() : void
+    public function testNegativeIntegerToIntegerApply(): void
     {
         $resultObject = new Result\Ok(-200);
 
@@ -132,7 +134,7 @@ class IntegerTransformationTest extends TestCase
         $this->assertEquals(-200, $transformedObject->value());
     }
 
-    public function testZeroIntegerToIntegerApply() : void
+    public function testZeroIntegerToIntegerApply(): void
     {
         $resultObject = new Result\Ok(0);
 
@@ -141,7 +143,7 @@ class IntegerTransformationTest extends TestCase
         $this->assertEquals(0, $transformedObject->value());
     }
 
-    public function testFloatToIntegerApply() : void
+    public function testFloatToIntegerApply(): void
     {
         $resultObject = new Result\Ok(10.5);
 
@@ -150,7 +152,7 @@ class IntegerTransformationTest extends TestCase
         $this->assertTrue($transformedObject->isError());
     }
 
-    public function testBooleanToIntegerApply() : void
+    public function testBooleanToIntegerApply(): void
     {
         $resultObject = new Result\Ok(true);
 

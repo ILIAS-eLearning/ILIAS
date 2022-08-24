@@ -1,4 +1,5 @@
 <?php
+
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 
@@ -160,7 +161,7 @@ class ilTestTaxonomyFilterLabelTranslater
      * @param string	delimiter between taxonomy name and node list
      * @param string	delimiter between nodes in the node list
      */
-    public function getTaxonomyFilterLabel($filter = array(), $filterDelimiter = ' + ', $taxNodeDelimiter = ': ', $nodesDelimiter = ', ') : string
+    public function getTaxonomyFilterLabel($filter = array(), $filterDelimiter = ' + ', $taxNodeDelimiter = ': ', $nodesDelimiter = ', '): string
     {
         $labels = array();
         foreach ($filter as $taxId => $nodeIds) {
@@ -177,7 +178,7 @@ class ilTestTaxonomyFilterLabelTranslater
      * Get the label for a lifecycle filter
      * @param array $filter	list of lifecycle identifiers
      */
-    public function getLifecycleFilterLabel($filter = array()) : string
+    public function getLifecycleFilterLabel($filter = array()): string
     {
         global $DIC; /* @var ILIAS\DI\Container $DIC */
 
@@ -196,7 +197,7 @@ class ilTestTaxonomyFilterLabelTranslater
      * Get the label for a type filter
      * @param array $filter	list of type ids
      */
-    public function getTypeFilterLabel($filter = array()) : string
+    public function getTypeFilterLabel($filter = array()): string
     {
         $types = array();
 

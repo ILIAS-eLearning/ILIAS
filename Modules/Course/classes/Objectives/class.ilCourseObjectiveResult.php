@@ -1,4 +1,6 @@
-<?php declare(strict_types=0);
+<?php
+
+declare(strict_types=0);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * class ilcourseobjective
  * @author Stefan Meyer <meyer@leifos.com>
@@ -42,17 +44,17 @@ class ilCourseObjectiveResult
         $this->user_id = $a_usr_id;
     }
 
-    public function getUserId() : int
+    public function getUserId(): int
     {
         return $this->user_id;
     }
 
-    public function getAccomplished(int $a_crs_id) : array
+    public function getAccomplished(int $a_crs_id): array
     {
         return ilCourseObjectiveResult::_getAccomplished($this->getUserId(), $a_crs_id);
     }
 
-    public static function _getAccomplished(int $a_user_id, int $a_crs_id) : array
+    public static function _getAccomplished(int $a_user_id, int $a_crs_id): array
     {
         global $DIC;
 
@@ -73,7 +75,7 @@ class ilCourseObjectiveResult
         return $accomplished;
     }
 
-    public function getSuggested(int $a_crs_id, string $a_status = self::IL_OBJECTIVE_STATUS_FINAL) : array
+    public function getSuggested(int $a_crs_id, string $a_status = self::IL_OBJECTIVE_STATUS_FINAL): array
     {
         return ilCourseObjectiveResult::_getSuggested($this->getUserId(), $a_crs_id, $a_status);
     }
@@ -82,7 +84,7 @@ class ilCourseObjectiveResult
         int $a_user_id,
         int $a_crs_id,
         string $a_status = self::IL_OBJECTIVE_STATUS_FINAL
-    ) : array {
+    ): array {
         global $DIC;
 
         $ilDB = $DIC->database();
@@ -119,7 +121,7 @@ class ilCourseObjectiveResult
         return $suggested;
     }
 
-    public static function getSuggestedQuestions(int $a_usr_id, int $a_crs_id) : array
+    public static function getSuggestedQuestions(int $a_usr_id, int $a_crs_id): array
     {
         $qsts = [];
         foreach (self::_getSuggested($a_usr_id, $a_crs_id) as $objective_id) {
@@ -131,7 +133,7 @@ class ilCourseObjectiveResult
         return $qsts;
     }
 
-    protected function resetTestForUser(ilObjTest $a_test, int $a_user_id) : void
+    protected function resetTestForUser(ilObjTest $a_test, int $a_user_id): void
     {
         // #15038
         $test_lp = ilTestLP::getInstance($a_test->getId());
@@ -144,7 +146,7 @@ class ilCourseObjectiveResult
         }
     }
 
-    public function reset(int $a_course_id) : void
+    public function reset(int $a_course_id): void
     {
         $assignments = ilLOTestAssignments::getInstance($a_course_id);
         foreach (array_merge(
@@ -198,7 +200,7 @@ class ilCourseObjectiveResult
         ilLPStatusWrapper::_updateStatus($a_course_id, $this->getUserId());
     }
 
-    public function getStatus(int $a_course_id) : string
+    public function getStatus(int $a_course_id): string
     {
         $objective_ids = ilCourseObjective::_getObjectiveIds($a_course_id, true);
         $objectives = ilCourseObjectiveResult::_readAssignedObjectives($objective_ids);
@@ -235,7 +237,7 @@ class ilCourseObjectiveResult
         return self::IL_OBJECTIVE_STATUS_NONE;
     }
 
-    public function hasAccomplishedObjective(int $a_objective_id) : bool
+    public function hasAccomplishedObjective(int $a_objective_id): bool
     {
         $query = "SELECT status FROM crs_objective_status " .
             "WHERE objective_id = " . $this->db->quote($a_objective_id, 'integer') . " " .
@@ -248,14 +250,14 @@ class ilCourseObjectiveResult
         return false;
     }
 
-    public function readStatus(int $a_crs_id) : void
+    public function readStatus(int $a_crs_id): void
     {
         $objective_ids = ilCourseObjective::_getObjectiveIds($a_crs_id, true);
         $objectives = ilCourseObjectiveResult::_readAssignedObjectives($objective_ids);
         ilCourseObjectiveResult::_updateObjectiveStatus($this->getUserId(), $objectives);
     }
 
-    public static function _updateObjectiveResult(int $a_user_id, int $a_active_id, int $a_question_id) : void
+    public static function _updateObjectiveResult(int $a_user_id, int $a_active_id, int $a_question_id): void
     {
         // find all objectives this question is assigned to
         if (!$objectives = self::_readAssignedObjectivesOfQuestion($a_question_id)) {
@@ -266,7 +268,7 @@ class ilCourseObjectiveResult
         self::_updateObjectiveStatus($a_user_id, $objectives);
     }
 
-    public static function _readAssignedObjectivesOfQuestion(int $a_question_id) : array
+    public static function _readAssignedObjectivesOfQuestion(int $a_question_id): array
     {
         global $DIC;
 
@@ -291,7 +293,7 @@ class ilCourseObjectiveResult
         return $objectives;
     }
 
-    public static function _readAssignedObjectives(array $a_all_objectives) : array
+    public static function _readAssignedObjectives(array $a_all_objectives): array
     {
         global $DIC;
 
@@ -314,7 +316,7 @@ class ilCourseObjectiveResult
         return $objectives;
     }
 
-    public static function _updateObjectiveStatus(int $a_user_id, array $objectives) : bool
+    public static function _updateObjectiveStatus(int $a_user_id, array $objectives): bool
     {
         global $DIC;
 
@@ -388,7 +390,7 @@ class ilCourseObjectiveResult
         return true;
     }
 
-    public static function __isFullfilled(array $question_points, array $objective_data) : bool
+    public static function __isFullfilled(array $question_points, array $objective_data): bool
     {
         if (!is_array($objective_data['questions'])) {
             return false;
@@ -405,7 +407,7 @@ class ilCourseObjectiveResult
         return $reached_points >= $objective_data['tst_limit'];
     }
 
-    protected static function __updatePassed(int $a_user_id, array $objective_ids) : void
+    protected static function __updatePassed(int $a_user_id, array $objective_ids): void
     {
         global $DIC;
 

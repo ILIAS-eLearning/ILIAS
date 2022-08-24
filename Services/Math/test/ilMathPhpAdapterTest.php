@@ -23,7 +23,7 @@ class ilMathPhpAdapterTest extends ilMathBaseAdapterTest
     /**
      * @inheritDoc
      */
-    protected function setUp() : void
+    protected function setUp(): void
     {
         $this->mathAdapter = new ilMathPhpAdapter();
         parent::setUp();

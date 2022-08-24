@@ -39,7 +39,7 @@ class ilPersonalProfileMode
         $this->settings = $settings;
     }
 
-    public function getMode() : string
+    public function getMode(): string
     {
         $user = $this->user;
         $settings = $this->settings;
@@ -60,17 +60,17 @@ class ilPersonalProfileMode
     /**
      * Is profile enabled
      */
-    public function isEnabled() : bool
+    public function isEnabled(): bool
     {
         return in_array($this->getMode(), [self::PROFILE_ENABLED_LOGGED_IN_USERS,
             self::PROFILE_ENABLED_GLOBAL
         ]);
     }
-    
+
     /**
      * Get mode info
      */
-    public function getModeInfo(string $mode = null) : string
+    public function getModeInfo(string $mode = null): string
     {
         $lng = $this->lng;
 

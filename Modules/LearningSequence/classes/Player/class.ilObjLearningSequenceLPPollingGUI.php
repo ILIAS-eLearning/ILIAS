@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,12 +17,12 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 use ILIAS\HTTP\Wrapper\RequestWrapper;
 
 class ilObjLearningSequenceLPPollingGUI
 {
-    const PARAM_LSO_LP_OBJID = LSUrlBuilder::PARAM_LSO_PARAMETER;
+    public const PARAM_LSO_LP_OBJID = LSUrlBuilder::PARAM_LSO_PARAMETER;
 
     protected ilCtrl $ctrl;
     protected int $current_user_id;
@@ -42,7 +44,7 @@ class ilObjLearningSequenceLPPollingGUI
         $this->request_wrapper = $request_wrapper;
     }
 
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         $cmd = $this->ctrl->getCmd();
         switch ($cmd) {
@@ -53,8 +55,8 @@ class ilObjLearningSequenceLPPollingGUI
                 throw new ilException("Command not supported: $cmd");
         }
     }
-    
-    protected function getCurrentItemLearningProgress() : void
+
+    protected function getCurrentItemLearningProgress(): void
     {
         $obj_id = $this->request_wrapper->retrieve(self::PARAM_LSO_LP_OBJID, $this->refinery->kindlyTo()->int());
         $il_lp_status = ilLPStatus::LP_STATUS_NOT_ATTEMPTED_NUM;

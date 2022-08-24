@@ -49,7 +49,7 @@ class ilSelfEvaluationSimpleTableGUI extends ilTable2GUI
         $ilCtrl = $DIC->ctrl();
         $lng = $DIC->language();
         $ilUser = $DIC->user();
-        
+
         $this->top_skill_id = $a_top_skill_id;
         $this->tref_id = $a_tref_id;
         $this->basic_skill_id = $a_basic_skill_id;
@@ -71,16 +71,16 @@ class ilSelfEvaluationSimpleTableGUI extends ilTable2GUI
         $this->setData($this->getLevels());
         $this->setTitle($title);
         $this->setLimit(9999);
-        
+
         $this->addColumn("", "", "", true);
         $this->addColumn($this->lng->txt("skmg_skill_level"));
         $this->addColumn($this->lng->txt("description"));
-        
+
         $this->setEnableHeader(true);
         $this->setRowTemplate("tpl.simple_self_eval.html", "Services/Skill");
         $this->disable("footer");
         $this->setEnableTitle(true);
-        
+
         $this->addCommandButton(
             "saveSelfEvaluation",
             $lng->txt("save")
@@ -88,7 +88,7 @@ class ilSelfEvaluationSimpleTableGUI extends ilTable2GUI
         $this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
     }
 
-    public function getLevels() : array
+    public function getLevels(): array
     {
         $lng = $this->lng;
 
@@ -101,12 +101,12 @@ class ilSelfEvaluationSimpleTableGUI extends ilTable2GUI
         return $levels;
     }
 
-    protected function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set): void
     {
         if ($this->cur_level_id == $a_set["id"]) {
             $this->tpl->setVariable("CHECKED", "checked='checked'");
         }
-        
+
         $this->tpl->setVariable("LEVEL_ID", $a_set["id"]);
         $this->tpl->setVariable("SKILL_ID", $this->basic_skill_id);
         $this->tpl->setVariable("TXT_SKILL", $a_set["title"]);

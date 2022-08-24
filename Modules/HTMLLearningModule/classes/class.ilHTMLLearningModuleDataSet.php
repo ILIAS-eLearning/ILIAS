@@ -24,17 +24,17 @@ class ilHTMLLearningModuleDataSet extends ilDataSet
 {
     protected ilObjFileBasedLM $current_obj;
 
-    public function getSupportedVersions() : array
+    public function getSupportedVersions(): array
     {
         return array("4.1.0");
     }
-    
-    protected function getXmlNamespace(string $a_entity, string $a_schema_version) : string
+
+    protected function getXmlNamespace(string $a_entity, string $a_schema_version): string
     {
         return "https://www.ilias.de/xml/Modules/HTMLLearningModule/" . $a_entity;
     }
-    
-    protected function getTypes(string $a_entity, string $a_version) : array
+
+    protected function getTypes(string $a_entity, string $a_version): array
     {
         if ($a_entity === "htlm") {
             switch ($a_version) {
@@ -50,7 +50,7 @@ class ilHTMLLearningModuleDataSet extends ilDataSet
         return [];
     }
 
-    public function readData(string $a_entity, string $a_version, array $a_ids) : void
+    public function readData(string $a_entity, string $a_version, array $a_ids): void
     {
         $ilDB = $this->db;
 
@@ -67,7 +67,7 @@ class ilHTMLLearningModuleDataSet extends ilDataSet
         }
     }
 
-    public function getXmlRecord(string $a_entity, string $a_version, array $a_set) : array
+    public function getXmlRecord(string $a_entity, string $a_version, array $a_set): array
     {
         $lm = new ilObjFileBasedLM($a_set["Id"], false);
         $dir = $lm->getDataDirectory();
@@ -76,11 +76,11 @@ class ilHTMLLearningModuleDataSet extends ilDataSet
         return $a_set;
     }
 
-    public function importRecord(string $a_entity, array $a_types, array $a_rec, ilImportMapping $a_mapping, string $a_schema_version) : void
+    public function importRecord(string $a_entity, array $a_types, array $a_rec, ilImportMapping $a_mapping, string $a_schema_version): void
     {
         switch ($a_entity) {
             case "htlm":
-                
+
                 if ($new_id = $a_mapping->getMapping('Services/Container', 'objs', $a_rec['Id'])) {
                     /** @var ilObjFileBasedLM $newObj */
                     $newObj = ilObjectFactory::getInstanceByObjId($new_id, false);

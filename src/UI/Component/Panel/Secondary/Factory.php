@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\UI\Component\Panel\Secondary;
 
 use ILIAS\UI\Component;
@@ -41,7 +43,7 @@ interface Factory
      * @param \ILIAS\UI\Component\Item\Group[] $item_groups Item groups
      * @return \ILIAS\UI\Component\Panel\Secondary\Listing
      */
-    public function listing(string $title, array $item_groups) : Component\Panel\Secondary\Listing;
+    public function listing(string $title, array $item_groups): Component\Panel\Secondary\Listing;
 
     /**
      * ---
@@ -62,5 +64,5 @@ interface Factory
      * @param \ILIAS\UI\Component\Legacy\Legacy $legacy
      * @return \ILIAS\UI\Component\Panel\Secondary\Legacy
      */
-    public function legacy(string $title, Component\Legacy\Legacy $legacy) : Component\Panel\Secondary\Legacy;
+    public function legacy(string $title, Component\Legacy\Legacy $legacy): Component\Panel\Secondary\Legacy;
 }

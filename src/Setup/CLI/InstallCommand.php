@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\Setup\CLI;
 
 use ILIAS\Setup\AgentFinder;
@@ -58,7 +60,7 @@ class InstallCommand extends Command
         $this->preconditions = $preconditions;
     }
 
-    protected function configure() : void
+    protected function configure(): void
     {
         $this->setDescription("Creates a fresh ILIAS installation based on the config");
         $this->addArgument("config", InputArgument::OPTIONAL, "Configuration file for the installation");
@@ -67,7 +69,7 @@ class InstallCommand extends Command
         $this->configureCommandForPlugins();
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output) : int
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         // ATTENTION: This is a hack to get around the usage of the echo/exit pattern in
         // the setup for the command line version of the setup. Do not use this.
@@ -91,7 +93,7 @@ class InstallCommand extends Command
         return 0;
     }
 
-    protected function prepareILIASInstallation(InputInterface $input, OutputInterface $output) : array
+    protected function prepareILIASInstallation(InputInterface $input, OutputInterface $output): array
     {
         $io = new IOWrapper($input, $output);
         $io->printLicenseMessage();
@@ -131,7 +133,7 @@ class InstallCommand extends Command
         return [$objective, $environment, $io];
     }
 
-    protected function preparePluginInstallation(InputInterface $input, OutputInterface $output) : array
+    protected function preparePluginInstallation(InputInterface $input, OutputInterface $output): array
     {
         $io = new IOWrapper($input, $output);
         $io->printLicenseMessage();

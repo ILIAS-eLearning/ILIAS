@@ -53,10 +53,10 @@ class ilPCAMDPageListGUI extends ilPageContentGUI
         return $ret;
     }
 
-    public function insert(ilPropertyFormGUI $a_form = null) : void
+    public function insert(ilPropertyFormGUI $a_form = null): void
     {
         $tpl = $this->tpl;
-        
+
         $this->displayValidationError();
 
         if (!$a_form) {
@@ -65,7 +65,7 @@ class ilPCAMDPageListGUI extends ilPageContentGUI
         $tpl->setContent($a_form->getHTML());
     }
 
-    public function edit(ilPropertyFormGUI $a_form = null) : void
+    public function edit(ilPropertyFormGUI $a_form = null): void
     {
         $tpl = $this->tpl;
 
@@ -77,7 +77,7 @@ class ilPCAMDPageListGUI extends ilPageContentGUI
         $tpl->setContent($a_form->getHTML());
     }
 
-    protected function initForm(bool $a_insert = false) : ilPropertyFormGUI
+    protected function initForm(bool $a_insert = false): ilPropertyFormGUI
     {
         $ilCtrl = $this->ctrl;
 
@@ -89,7 +89,7 @@ class ilPCAMDPageListGUI extends ilPageContentGUI
             $form->setTitle($this->lng->txt("cont_update_amd_page_list"));
         }
         $form->setDescription($this->lng->txt("wiki_page_list_form_info"));
-                
+
         $mode = new ilSelectInputGUI($this->lng->txt("wiki_page_list_mode"), "mode");
         $mode->setOptions(array(
             0 => $this->lng->txt("wiki_page_list_mode_unordered"),
@@ -106,12 +106,12 @@ class ilPCAMDPageListGUI extends ilPageContentGUI
             $this->getPage()->getId()
         );
         $this->record_gui->setPropertyForm($form);
-        
+
         if (!$a_insert) {
             $mode->setValue($this->content_obj->getMode());
             $this->record_gui->setSearchFormValues($this->content_obj->getFieldValues());
         }
-        
+
         $this->record_gui->parse();
 
         $no_fields = (count($form->getItems()) === 1);
@@ -134,7 +134,7 @@ class ilPCAMDPageListGUI extends ilPageContentGUI
         return $form;
     }
 
-    public function create() : void
+    public function create(): void
     {
         $form = $this->initForm(true);
         if ($form->checkInput()) {
@@ -153,7 +153,7 @@ class ilPCAMDPageListGUI extends ilPageContentGUI
         $this->insert($form);
     }
 
-    public function update() : void
+    public function update(): void
     {
         $form = $this->initForm();
         if ($form->checkInput()) {

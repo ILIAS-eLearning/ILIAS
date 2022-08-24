@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -21,5 +23,5 @@ interface ilUsersGalleryUserCollectionSorter
      * @param ilUsersGalleryUser[] $users
      * @return ilUsersGalleryUser[]
      */
-    public function sort(array $users) : array;
+    public function sort(array $users): array;
 }

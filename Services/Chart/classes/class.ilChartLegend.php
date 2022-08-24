@@ -38,7 +38,7 @@ class ilChartLegend
         $this->setLabelBorder("#bbb");
     }
 
-    public function setPosition(string $a_position) : void
+    public function setPosition(string $a_position): void
     {
         $all = array("ne", "nw", "se", "sw");
         if (in_array($a_position, $all)) {
@@ -46,7 +46,7 @@ class ilChartLegend
         }
     }
 
-    public function getPosition() : string
+    public function getPosition(): string
     {
         return $this->position;
     }
@@ -54,7 +54,7 @@ class ilChartLegend
     /**
      * Set number of columns
      */
-    public function setColumns(int $a_value) : void
+    public function setColumns(int $a_value): void
     {
         $this->columns = $a_value;
     }
@@ -62,18 +62,18 @@ class ilChartLegend
     /**
      * Get number of columns
      */
-    public function getColumns() : int
+    public function getColumns(): int
     {
         return $this->columns;
     }
 
-    public function setMargin(int $a_x, int $a_y) : void
+    public function setMargin(int $a_x, int $a_y): void
     {
         $this->margin_x = $a_x;
         $this->margin_y = $a_y;
     }
 
-    public function getMargin() : array
+    public function getMargin(): array
     {
         return array("x" => $this->margin_x, "y" => $this->margin_y);
     }
@@ -81,7 +81,7 @@ class ilChartLegend
     /**
      * Set background color
      */
-    public function setBackground(string $a_color) : void
+    public function setBackground(string $a_color): void
     {
         if (ilChart::isValidColor($a_color)) {
             $this->background = $a_color;
@@ -91,68 +91,68 @@ class ilChartLegend
     /**
      * Get background color
      */
-    public function getBackground() : string
+    public function getBackground(): string
     {
         return $this->background;
     }
 
-    public function setOpacity(float $a_value) : void
+    public function setOpacity(float $a_value): void
     {
         if ($a_value >= 0 && $a_value <= 1) {
             $this->opacity = $a_value;
         }
     }
 
-    public function getOpacity() : float
+    public function getOpacity(): float
     {
         return $this->opacity;
     }
 
-    public function setLabelBorder(string $a_color) : void
+    public function setLabelBorder(string $a_color): void
     {
         if (ilChart::isValidColor($a_color)) {
             $this->border = $a_color;
         }
     }
 
-    public function getLabelBorder() : string
+    public function getLabelBorder(): string
     {
         return $this->border;
     }
-    
+
     /**
      * Set container id
      */
-    public function setContainer(string $a_value) : void
+    public function setContainer(string $a_value): void
     {
         $this->container = trim($a_value);
     }
-    
+
     /**
      * Get container id
      */
-    public function getContainer() : string
+    public function getContainer(): string
     {
         return $this->container;
     }
-    
+
     /**
      * Convert (global) properties to flot config
      */
-    public function parseOptions(stdClass $a_options) : void
+    public function parseOptions(stdClass $a_options): void
     {
         $a_options->show = true;
-        
+
         $a_options->noColumns = $this->getColumns();
         $a_options->position = $this->getPosition();
-        
+
         $margin = $this->getMargin();
         $a_options->margin = array($margin["x"], $margin["y"]);
-        
+
         $a_options->backgroundColor = ilChart::renderColor($this->getBackground());
         $a_options->backgroundOpacity = str_replace(",", ".", (string) $this->getOpacity());
         $a_options->labelBoxBorderColor = ilChart::renderColor($this->getLabelBorder());
-        
+
         $container = $this->getContainer();
         if ($container) {
             $a_options->container = '#' . $container;

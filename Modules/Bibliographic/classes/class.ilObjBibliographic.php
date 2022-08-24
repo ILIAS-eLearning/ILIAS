@@ -48,7 +48,7 @@ class ilObjBibliographic extends ilObject2
     protected ?\ILIAS\ResourceStorage\Identification\ResourceIdentification $resource_id = null;
     protected bool $is_migrated = false;
 
-    protected function initType() : void
+    protected function initType(): void
     {
         $this->type = "bibl";
     }
@@ -88,7 +88,7 @@ class ilObjBibliographic extends ilObject2
      * handles a FileUpload and returns an IRSS identification string.
      * @throws \ILIAS\FileUpload\Exception\IllegalStateException
      */
-    private function handleUpload() : ?\ILIAS\ResourceStorage\Identification\ResourceIdentification
+    private function handleUpload(): ?\ILIAS\ResourceStorage\Identification\ResourceIdentification
     {
         $this->upload_service->process();
         $array_result = $this->upload_service->getResults();
@@ -113,7 +113,7 @@ class ilObjBibliographic extends ilObject2
      * Create object
      *
      * @param bool $clone_mode*/
-    protected function doCreate(bool $clone_mode = false) : void
+    protected function doCreate(bool $clone_mode = false): void
     {
         if ($this->upload_service->hasUploads() && !$this->upload_service->hasBeenProcessed()) {
             $this->setResourceId($this->handleUpload());
@@ -134,7 +134,7 @@ class ilObjBibliographic extends ilObject2
         $this->parseFileToDatabase();
     }
 
-    protected function doRead() : void
+    protected function doRead(): void
     {
         /** @var ilBiblData $bibl_data */
         $bibl_data = ilBiblData::where(array('id' => $this->getId()))->first();
@@ -149,7 +149,7 @@ class ilObjBibliographic extends ilObject2
         }
     }
 
-    protected function doUpdate() : void
+    protected function doUpdate(): void
     {
         $has_valid_upload = $this->upload_service->hasUploads() && !$this->upload_service->hasBeenProcessed();
 
@@ -181,7 +181,7 @@ class ilObjBibliographic extends ilObject2
         );
     }
 
-    protected function doDelete(bool $leave_out_il_bibl_data = false, bool $leave_out_delete_file = false) : void
+    protected function doDelete(bool $leave_out_il_bibl_data = false, bool $leave_out_delete_file = false): void
     {
         if (!$leave_out_delete_file) {
             $this->deleteFile();
@@ -210,7 +210,7 @@ class ilObjBibliographic extends ilObject2
     /**
      * @deprecated
      */
-    public function getFileDirectory() : string
+    public function getFileDirectory(): string
     {
         return "{$this->getType()}/{$this->getId()}";
     }
@@ -218,13 +218,13 @@ class ilObjBibliographic extends ilObject2
     /**
      * @deprecated
      */
-    private function copyFile(string $file_to_copy) : void
+    private function copyFile(string $file_to_copy): void
     {
         $target = $this->getFileDirectory() . '/' . basename($file_to_copy);
         $this->filesystem->copy($file_to_copy, $target);
     }
 
-    protected function deleteFile() : bool
+    protected function deleteFile(): bool
     {
         $path = $this->getFileDirectory();
         try {
@@ -250,12 +250,12 @@ class ilObjBibliographic extends ilObject2
         }
     }
 
-    public function setFilename(string $filename) : void
+    public function setFilename(string $filename): void
     {
         $this->filename = $filename;
     }
 
-    public function getFilename() : ?string
+    public function getFilename(): ?string
     {
         if ($this->getResourceId()) {
             return $this->filename = $this->storage->manage()
@@ -270,7 +270,7 @@ class ilObjBibliographic extends ilObject2
      * @return string returns the absolute filepath of the bib/ris file. it's build as follows:
      *                /bibl/$id/$filename
      */
-    public function getFileAbsolutePath() : string
+    public function getFileAbsolutePath(): string
     {
         return $this->getFileDirectory() . DIRECTORY_SEPARATOR . $this->getFilename();
     }
@@ -287,14 +287,14 @@ class ilObjBibliographic extends ilObject2
     /**
      * @deprecated use type factory instead of string representation
      */
-    public function getFileTypeAsString() : string
+    public function getFileTypeAsString(): string
     {
         $type = $this->getFileType();
 
         return $this->bib_type_factory->getInstanceForType($type)->getStringRepresentation();
     }
 
-    public function getFileType() : int
+    public function getFileType(): int
     {
         $filename = $this->getFilename();
         if ($filename === null) {
@@ -305,7 +305,7 @@ class ilObjBibliographic extends ilObject2
         return $instance->getId();
     }
 
-    protected function doCloneObject(ilObject2 $new_obj, int $a_target_id, ?int $a_copy_id = null) : void
+    protected function doCloneObject(ilObject2 $new_obj, int $a_target_id, ?int $a_copy_id = null): void
     {
         assert($new_obj instanceof ilObjBibliographic);
         //copy online status if object is not the root copy object
@@ -325,7 +325,7 @@ class ilObjBibliographic extends ilObject2
      *              $x->cloneStructure($id))
      * @param int $original_id The original ID of the dataselection you want to clone it's structure
      */
-    public function cloneStructure(int $original_id) : void
+    public function cloneStructure(int $original_id): void
     {
         $original = new ilObjBibliographic($original_id);
         $this->setFilename($original->getFilename());
@@ -347,7 +347,7 @@ class ilObjBibliographic extends ilObject2
     /**
      * Reads out the source file and writes all entries to the database
      */
-    public function parseFileToDatabase() : void
+    public function parseFileToDatabase(): void
     {
         //Read File
         if ($this->getResourceId() === null) {
@@ -364,22 +364,22 @@ class ilObjBibliographic extends ilObject2
         $this->entries = $reader->parseContentToEntries($this);
     }
 
-    public function setFileType(int $file_type) : void
+    public function setFileType(int $file_type): void
     {
         $this->file_type = $file_type;
     }
 
-    public function setOnline(bool $a_online) : void
+    public function setOnline(bool $a_online): void
     {
         $this->is_online = $a_online;
     }
 
-    public function getOnline() : bool
+    public function getOnline(): bool
     {
         return $this->is_online;
     }
 
-    public function setResourceId(ResourceIdentification $identification) : void
+    public function setResourceId(ResourceIdentification $identification): void
     {
         $this->resource_id = $identification;
     }
@@ -387,12 +387,12 @@ class ilObjBibliographic extends ilObject2
     /**
      * @return ResourceIdentification
      */
-    public function getResourceId() : ?ResourceIdentification
+    public function getResourceId(): ?ResourceIdentification
     {
         return $this->resource_id;
     }
 
-    public function getStorageId() : string
+    public function getStorageId(): string
     {
         if (!$this->getResourceId() instanceof ResourceIdentification) {
             return '-';
@@ -400,17 +400,17 @@ class ilObjBibliographic extends ilObject2
         return $this->storage->manage()->getResource($this->getResourceId())->getStorageID();
     }
 
-    public function isMigrated() : bool
+    public function isMigrated(): bool
     {
         return $this->is_migrated;
     }
 
-    public function setMigrated(bool $migrated) : void
+    public function setMigrated(bool $migrated): void
     {
         $this->is_migrated = $migrated;
     }
 
-    public function determineFileTypeByFileName(string $filename) : int
+    public function determineFileTypeByFileName(string $filename): int
     {
         return $this->bib_type_factory->getInstanceForFileName($filename)->getId();
     }

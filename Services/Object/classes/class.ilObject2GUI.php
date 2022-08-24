@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 use ILIAS\HTTP\Wrapper\ArrayBasedRequestWrapper;
 use ILIAS\HTTP\Wrapper\RequestWrapper;
 use ILIAS\Refinery\Factory;
@@ -40,12 +42,12 @@ use ILIAS\Refinery\Factory;
  */
 abstract class ilObject2GUI extends ilObjectGUI
 {
-    const OBJECT_ID = 0;
-    const REPOSITORY_NODE_ID = 1;
-    const WORKSPACE_NODE_ID = 2;
-    const REPOSITORY_OBJECT_ID = 3;
-    const WORKSPACE_OBJECT_ID = 4;
-    const PORTFOLIO_OBJECT_ID = 5;
+    public const OBJECT_ID = 0;
+    public const REPOSITORY_NODE_ID = 1;
+    public const WORKSPACE_NODE_ID = 2;
+    public const REPOSITORY_OBJECT_ID = 3;
+    public const WORKSPACE_OBJECT_ID = 4;
+    public const PORTFOLIO_OBJECT_ID = 5;
 
     protected ilObjectDefinition $obj_definition;
     protected ilGlobalTemplateInterface $tpl;
@@ -80,7 +82,7 @@ abstract class ilObject2GUI extends ilObjectGUI
      */
     protected $access_handler;
     private ilObjectRequestRetriever $retriever;
-    
+
     public function __construct(int $id = 0, int $id_type = self::REPOSITORY_NODE_ID, int $parent_node_id = 0)
     {
         global $DIC;
@@ -164,7 +166,7 @@ abstract class ilObject2GUI extends ilObjectGUI
                 $this->access_handler = new ilWorkspaceAccessHandler($this->tree);
                 $params[] = "obj_id"; // ???
                 break;
-            
+
             case self::PORTFOLIO_OBJECT_ID:
                 $this->object_id = $id;
                 $this->access_handler = new ilPortfolioAccessHandler();
@@ -180,7 +182,7 @@ abstract class ilObject2GUI extends ilObjectGUI
         $this->ctrl->saveParameter($this, $params);
 
 
-        
+
         // old stuff for legacy code (obsolete?)
         if (!$this->object_id) {
             $this->creation_mode = true;
@@ -195,30 +197,30 @@ abstract class ilObject2GUI extends ilObjectGUI
         $this->obj_id = $this->object_id;
 
         $this->assignObject();
-        
+
         // set context
         if (is_object($this->object)) {
             $this->ctrl->setContextObject($this->object->getId(), $this->object->getType());
         }
-        
+
         $this->afterConstructor();
     }
-    
+
     /**
      * Do anything that should be done after constructor in here.
      */
-    protected function afterConstructor() : void
+    protected function afterConstructor(): void
     {
     }
-    
+
     /**
      * execute command
      */
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         $next_class = $this->ctrl->getNextClass($this);
         $cmd = $this->ctrl->getCmd();
-        
+
         $this->prepareOutput();
 
         switch ($next_class) {
@@ -243,7 +245,7 @@ abstract class ilObject2GUI extends ilObjectGUI
         }
     }
 
-    public function getIdType() : int
+    public function getIdType(): int
     {
         return $this->id_type;
     }
@@ -251,7 +253,7 @@ abstract class ilObject2GUI extends ilObjectGUI
     /**
      * create object instance as internal property (repository/workspace switch)
      */
-    final protected function assignObject() : void
+    final protected function assignObject(): void
     {
         if ($this->object_id != 0) {
             switch ($this->id_type) {
@@ -273,7 +275,7 @@ abstract class ilObject2GUI extends ilObjectGUI
             }
         }
     }
-    
+
     /**
      * @return mixed
      */
@@ -285,7 +287,7 @@ abstract class ilObject2GUI extends ilObjectGUI
     /**
      * set Locator
      */
-    protected function setLocator() : void
+    protected function setLocator(): void
     {
         if ($this->omit_locator) {
             return;
@@ -295,7 +297,7 @@ abstract class ilObject2GUI extends ilObjectGUI
             case self::REPOSITORY_NODE_ID:
                 $ref_id = $this->node_id ?: $this->parent_id;
                 $this->locator->addRepositoryItems($ref_id);
-                
+
                 // not so nice workaround: todo: handle locator as tabs in ilTemplate
                 if ($this->admin_mode == self::ADMIN_MODE_NONE &&
                     strtolower($this->ctrl->getCmdClass()) == "ilobjrolegui") {
@@ -317,13 +319,13 @@ abstract class ilObject2GUI extends ilObjectGUI
                             "ilobjrolegui"), "perm")
                     );
                 }
-                
+
                 // in workspace this is done in ilPersonalWorkspaceGUI
                 if ($this->object_id) {
                     $this->addLocatorItems();
                 }
                 $this->tpl->setLocator();
-                
+
                 break;
 
             case self::WORKSPACE_NODE_ID:
@@ -335,7 +337,7 @@ abstract class ilObject2GUI extends ilObjectGUI
     /**
      * Display delete confirmation form (repository/workspace switch)
      */
-    public function delete() : void
+    public function delete(): void
     {
         switch ($this->id_type) {
             case self::REPOSITORY_NODE_ID:
@@ -358,7 +360,7 @@ abstract class ilObject2GUI extends ilObjectGUI
     /**
      * Delete objects (repository/workspace switch)
      */
-    public function confirmedDelete() : void
+    public function confirmedDelete(): void
     {
         switch ($this->id_type) {
             case self::REPOSITORY_NODE_ID:
@@ -382,7 +384,7 @@ abstract class ilObject2GUI extends ilObjectGUI
      * Delete objects (workspace specific)
      * This should probably be moved elsewhere as done with RepUtil
      */
-    protected function deleteConfirmedObjects() : void
+    protected function deleteConfirmedObjects(): void
     {
         if (!$this->post_wrapper->has("id")) {
             $this->tpl->setOnScreenMessage("failure", $this->lng->txt("no_checkbox"), true);
@@ -424,8 +426,8 @@ abstract class ilObject2GUI extends ilObjectGUI
         $this->tpl->setOnScreenMessage("success", $this->lng->txt("msg_removed"), true);
         $this->ctrl->redirect($this, "");
     }
-    
-    public function getHTML() : string
+
+    public function getHTML(): string
     {
         return parent::getHTML();
     }
@@ -433,51 +435,51 @@ abstract class ilObject2GUI extends ilObjectGUI
     /**
      * Final/Private declaration of unchanged parent methods
      */
-    final public function withReferences() : bool
+    final public function withReferences(): bool
     {
         return parent::withReferences();
     }
-    final public function setCreationMode(bool $mode = true) : void
+    final public function setCreationMode(bool $mode = true): void
     {
         parent::setCreationMode($mode);
     }
-    final public function getCreationMode() : bool
+    final public function getCreationMode(): bool
     {
         return parent::getCreationMode();
     }
-    final public function prepareOutput(bool $show_sub_objects = true) : bool
+    final public function prepareOutput(bool $show_sub_objects = true): bool
     {
         return parent::prepareOutput($show_sub_objects);
     }
-    protected function setTitleAndDescription() : void
+    protected function setTitleAndDescription(): void
     {
         parent::setTitleAndDescription();
     }
-    final protected function omitLocator(bool $omit = true) : void
+    final protected function omitLocator(bool $omit = true): void
     {
         parent::omitLocator($omit);
     }
-    final protected function getTargetFrame(string $cmd, string $target_frame = "") : string
+    final protected function getTargetFrame(string $cmd, string $target_frame = ""): string
     {
         return parent::getTargetFrame($cmd, $target_frame);
     }
-    final protected function setTargetFrame(string $cmd, string $target_frame) : void
+    final protected function setTargetFrame(string $cmd, string $target_frame): void
     {
         parent::setTargetFrame($cmd, $target_frame);
     }
-    final public function isVisible(int $ref_id, string $type) : bool
+    final public function isVisible(int $ref_id, string $type): bool
     {
         return parent::isVisible($ref_id, $type);
     }
-    final protected function getCenterColumnHTML() : string
+    final protected function getCenterColumnHTML(): string
     {
         return parent::getCenterColumnHTML();
     }
-    final protected function getRightColumnHTML() : string
+    final protected function getRightColumnHTML(): string
     {
         return parent::getRightColumnHTML();
     }
-    final public function setColumnSettings(ilColumnGUI $column_gui) : void
+    final public function setColumnSettings(ilColumnGUI $column_gui): void
     {
         parent::setColumnSettings($column_gui);
     }
@@ -486,29 +488,29 @@ abstract class ilObject2GUI extends ilObjectGUI
         string $cmd = "",
         string $type = "",
         int $ref_id = null
-    ) : void {
+    ): void {
         parent::checkPermission($perm, $cmd, $type, $ref_id);
     }
-    final protected function showPossibleSubObjects() : void
+    final protected function showPossibleSubObjects(): void
     {
         parent::showPossibleSubObjects();
     }
-    final public function cancelDelete() : void
+    final public function cancelDelete(): void
     {
         parent::cancelDeleteObject();
     }
-    final protected function redirectToRefId(int $ref_id, string $cmd = "") : void
+    final protected function redirectToRefId(int $ref_id, string $cmd = ""): void
     {
         parent::redirectToRefId($ref_id, $cmd);
     }
-    final protected function fillCloneTemplate(?string $tpl_varname, string $type) : ?ilPropertyFormGUI
+    final protected function fillCloneTemplate(?string $tpl_varname, string $type): ?ilPropertyFormGUI
     {
         return parent::fillCloneTemplate($tpl_varname, $type);
     }
 
     //	private function setAdminTabs() { return parent::setAdminTabs(); }
     //	final public function getAdminTabs() { return parent::getAdminTabs(); }
-    final protected function addAdminLocatorItems(bool $do_not_add_object = false) : void
+    final protected function addAdminLocatorItems(bool $do_not_add_object = false): void
     {
         parent::addAdminLocatorItems($do_not_add_object);
     }
@@ -516,7 +518,7 @@ abstract class ilObject2GUI extends ilObjectGUI
     /**
      * view object content (repository/workspace switch)
      */
-    public function view() : void
+    public function view(): void
     {
         switch ($this->id_type) {
             case self::REPOSITORY_NODE_ID:
@@ -541,7 +543,7 @@ abstract class ilObject2GUI extends ilObjectGUI
      *
      * this had to be moved here because of the context-specific permission tab
      */
-    protected function setTabs() : void
+    protected function setTabs(): void
     {
         switch ($this->id_type) {
             case self::REPOSITORY_NODE_ID:
@@ -572,26 +574,26 @@ abstract class ilObject2GUI extends ilObjectGUI
                 break;
         }
     }
-    
+
     /**
      * Deprecated functions
      */
     //	private function setSubObjects($a_sub_objects = "") { die("ilObject2GUI::setSubObjects() is deprecated."); }
     //	final public function getFormAction($a_cmd, $a_formaction = "") { die("ilObject2GUI::getFormAction() is deprecated."); }
     //	final protected  function setFormAction($a_cmd, $a_formaction) { die("ilObject2GUI::setFormAction() is deprecated."); }
-    final protected function getReturnLocation(string $cmd, string $location = "") : string
+    final protected function getReturnLocation(string $cmd, string $location = ""): string
     {
         die("ilObject2GUI::getReturnLocation() is deprecated.");
     }
-    final protected function setReturnLocation(string $cmd, string $location) : void
+    final protected function setReturnLocation(string $cmd, string $location): void
     {
         die("ilObject2GUI::setReturnLocation() is deprecated.");
     }
-    final protected function showActions() : void
+    final protected function showActions(): void
     {
         die("ilObject2GUI::showActions() is deprecated.");
     }
-    final protected function getTabs() : void
+    final protected function getTabs(): void
     {
         die("ilObject2GUI::getTabs() is deprecated.");
     }
@@ -599,35 +601,35 @@ abstract class ilObject2GUI extends ilObjectGUI
     /**
      * Functions to be overwritten
      */
-    protected function addLocatorItems() : void
+    protected function addLocatorItems(): void
     {
     }
-    
+
     /**
      * Functions that must be overwritten
      */
-    abstract public function getType() : string;
+    abstract public function getType(): string;
 
     /**
      * CRUD
      */
-    public function create() : void
+    public function create(): void
     {
         parent::createObject();
     }
-    public function save() : void
+    public function save(): void
     {
         parent::saveObject();
     }
-    public function edit() : void
+    public function edit(): void
     {
         parent::editObject();
     }
-    public function update() : void
+    public function update(): void
     {
         parent::updateObject();
     }
-    public function cancel() : void
+    public function cancel(): void
     {
         parent::cancelObject();
     }
@@ -637,10 +639,10 @@ abstract class ilObject2GUI extends ilObjectGUI
      * This will create the default creation forms: new, import, clone
      * @return \ilPropertyFormGUI[]
      */
-    protected function initCreationForms(string $new_type) : array
+    protected function initCreationForms(string $new_type): array
     {
         $forms = parent::initCreationForms($new_type);
-        
+
         // cloning doesn't work in workspace yet
         if ($this->id_type == self::WORKSPACE_NODE_ID) {
             unset($forms[self::CFORM_CLONE]);
@@ -648,8 +650,8 @@ abstract class ilObject2GUI extends ilObjectGUI
 
         return $forms;
     }
-    
-    public function importFile() : void
+
+    public function importFile(): void
     {
         parent::importFileObject($this->parent_id);
     }
@@ -657,14 +659,14 @@ abstract class ilObject2GUI extends ilObjectGUI
     /**
      * Add object to tree at given position
      */
-    public function putObjectInTree(ilObject $obj, int $parent_node_id = null) : void
+    public function putObjectInTree(ilObject $obj, int $parent_node_id = null): void
     {
         $this->object_id = $obj->getId();
 
         if (!$parent_node_id) {
             $parent_node_id = $this->parent_id;
         }
-    
+
         // add new object to custom parent container
         if ($this->retriever->has('crtptrefid')) {
             $parent_node_id = $this->retriever->getMaybeInt('crtptrefid') ?? 0;
@@ -703,15 +705,15 @@ abstract class ilObject2GUI extends ilObjectGUI
                 // do nothing
                 break;
         }
-        
+
         // BEGIN ChangeEvent: Record save object.
         ilChangeEvent::_recordWriteEvent($this->object_id, $this->user->getId(), 'create');
         // END ChangeEvent: Record save object.
-        
+
         // use forced callback after object creation
         self::handleAfterSaveCallback($obj, $this->retriever->getMaybeInt('crtcb'));
     }
-    
+
     /**
      * After creation callback
      */
@@ -738,7 +740,7 @@ abstract class ilObject2GUI extends ilObjectGUI
         string $cmd = "",
         string $type = "",
         ?int $node_id = null
-    ) : bool {
+    ): bool {
         if ($perm == "create") {
             if (!$node_id) {
                 $node_id = $this->parent_id;
@@ -754,18 +756,18 @@ abstract class ilObject2GUI extends ilObjectGUI
                 return $this->getAccessHandler()->checkAccess($perm, $cmd, $node_id);
             }
         }
-        
+
         // if we do not have a node id, check if current user is owner
         if ($this->obj_id && $this->object->getOwner() == $this->user->getId()) {
             return true;
         }
         return false;
     }
-    
+
     /**
      * Add header action menu
      */
-    protected function initHeaderAction(?string $sub_type = null, ?int $sub_id = null) : ?ilObjectListGUI
+    protected function initHeaderAction(?string $sub_type = null, ?int $sub_id = null): ?ilObjectListGUI
     {
         if ($this->id_type == self::WORKSPACE_NODE_ID) {
             if (!$this->creation_mode && $this->object_id) {
@@ -776,17 +778,17 @@ abstract class ilObject2GUI extends ilObjectGUI
                     $this->node_id,
                     $this->object_id
                 );
-                
+
                 $dispatcher->setSubObject($sub_type, $sub_id);
-                
+
                 ilObjectListGUI::prepareJsLinks(
                     $this->ctrl->getLinkTarget($this, "redrawHeaderAction", "", true),
                     "",
                     $this->ctrl->getLinkTargetByClass(["ilcommonactiondispatchergui", "iltagginggui"], "")
                 );
-                
+
                 $lg = $dispatcher->initHeaderAction();
-                
+
                 if (is_object($lg)) {
                     // to enable add to desktop / remove from desktop
                     if ($this instanceof ilDesktopItemHandling) {
@@ -805,27 +807,27 @@ abstract class ilObject2GUI extends ilObjectGUI
 
         return parent::initHeaderAction($sub_type, $sub_id);
     }
-    
+
     /**
      * Updating icons after ajax call
      */
-    protected function redrawHeaderAction() : void
+    protected function redrawHeaderAction(): void
     {
         parent::redrawHeaderActionObject();
     }
-    
-    protected function getPermanentLinkWidget(string $append = null, bool $center = false) : string
+
+    protected function getPermanentLinkWidget(string $append = null, bool $center = false): string
     {
         if ($this->id_type == self::WORKSPACE_NODE_ID) {
             $append .= "_wsp";
         }
-        
+
         $plink = new ilPermanentLinkGUI($this->getType(), $this->node_id, $append);
         $plink->setIncludePermanentLinkText(false);
         return $plink->getHTML();
     }
 
-    protected function handleAutoRating(ilObject $new_obj) : void
+    protected function handleAutoRating(ilObject $new_obj): void
     {
         // only needed in repository
         if ($this->id_type == self::REPOSITORY_NODE_ID) {

@@ -50,40 +50,40 @@ abstract class ilAccessibilityTableGUI extends ilTable2GUI
         }
     }
 
-    public function setProvider(ilAccessibilityTableDataProvider $provider) : void
+    public function setProvider(ilAccessibilityTableDataProvider $provider): void
     {
         $this->provider = $provider;
     }
 
-    public function getProvider() : ? ilAccessibilityTableDataProvider
+    public function getProvider(): ?ilAccessibilityTableDataProvider
     {
         return $this->provider;
     }
 
-    protected function onBeforeDataFetched(array &$params, array &$filter) : void
+    protected function onBeforeDataFetched(array &$params, array &$filter): void
     {
     }
 
     /**
      * This method can be used to add some field values dynamically or manipulate existing values of the table row array
      */
-    protected function prepareRow(array &$row) : void
+    protected function prepareRow(array &$row): void
     {
     }
 
-    protected function preProcessData(array &$data) : void
+    protected function preProcessData(array &$data): void
     {
     }
 
     /**
      * Define a final formatting for a cell value
      */
-    protected function formatCellValue(string $column, array $row) : string
+    protected function formatCellValue(string $column, array $row): string
     {
         return trim($row[$column]);
     }
 
-    public function getSelectableColumns() : array
+    public function getSelectableColumns(): array
     {
         $optionalColumns = array_filter($this->getColumnDefinition(), function ($column) {
             return isset($column['optional']) && $column['optional'];
@@ -97,7 +97,7 @@ abstract class ilAccessibilityTableGUI extends ilTable2GUI
         return $columns;
     }
 
-    protected function isColumnVisible(int $index) : bool
+    protected function isColumnVisible(int $index): bool
     {
         $columnDefinition = $this->getColumnDefinition();
         if (array_key_exists($index, $columnDefinition)) {
@@ -117,7 +117,7 @@ abstract class ilAccessibilityTableGUI extends ilTable2GUI
         return false;
     }
 
-    final protected function fillRow(array $row) : void
+    final protected function fillRow(array $row): void
     {
         $this->prepareRow($row);
 
@@ -138,9 +138,9 @@ abstract class ilAccessibilityTableGUI extends ilTable2GUI
         }
     }
 
-    abstract protected function getColumnDefinition() : array;
+    abstract protected function getColumnDefinition(): array;
 
-    public function populate() : void
+    public function populate(): void
     {
         if ($this->getExternalSegmentation() && $this->getExternalSorting()) {
             $this->determineOffsetAndOrder();

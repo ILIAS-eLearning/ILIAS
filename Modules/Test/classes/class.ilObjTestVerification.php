@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -8,12 +10,12 @@
  */
 class ilObjTestVerification extends ilVerificationObject
 {
-    protected function initType() : void
+    protected function initType(): void
     {
         $this->type = 'tstv';
     }
 
-    protected function getPropertyMap() : array
+    protected function getPropertyMap(): array
     {
         return [
             'issued_on' => self::TYPE_DATE,

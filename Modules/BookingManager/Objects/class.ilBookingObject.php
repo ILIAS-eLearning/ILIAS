@@ -42,73 +42,73 @@ class ilBookingObject
         $this->id = (int) $a_id;
         $this->read();
     }
-    
-    public function getId() : int
+
+    public function getId(): int
     {
         return $this->id;
     }
 
-    public function setTitle(string $a_title) : void
+    public function setTitle(string $a_title): void
     {
         $this->title = $a_title;
     }
 
-    public function getTitle() : string
+    public function getTitle(): string
     {
         return $this->title;
     }
-    
-    public function setDescription(string $a_value) : void
+
+    public function setDescription(string $a_value): void
     {
         $this->description = $a_value;
     }
 
-    public function getDescription() : string
+    public function getDescription(): string
     {
         return $this->description;
     }
 
-    public function setPoolId(int $a_pool_id) : void
+    public function setPoolId(int $a_pool_id): void
     {
         $this->pool_id = $a_pool_id;
     }
 
-    public function getPoolId() : int
+    public function getPoolId(): int
     {
         return $this->pool_id;
     }
 
-    public function setScheduleId(?int $a_schedule_id) : void
+    public function setScheduleId(?int $a_schedule_id): void
     {
         $this->schedule_id = $a_schedule_id;
     }
 
-    public function getScheduleId() : ?int
+    public function getScheduleId(): ?int
     {
         return $this->schedule_id;
     }
-    
-    public function setNrOfItems(int $a_value) : void
+
+    public function setNrOfItems(int $a_value): void
     {
         $this->nr_of_items = $a_value;
     }
 
-    public function getNrOfItems() : int
+    public function getNrOfItems(): int
     {
         return $this->nr_of_items;
     }
-    
-    public function setFile(string $a_value) : void
+
+    public function setFile(string $a_value): void
     {
         $this->info_file = $a_value;
     }
 
-    public function getFile() : string
+    public function getFile(): string
     {
         return $this->info_file;
     }
-    
-    public function getFileFullPath() : string
+
+    public function getFileFullPath(): string
     {
         if ($this->id && $this->info_file) {
             $path = self::initStorage($this->id, "file");
@@ -116,18 +116,18 @@ class ilBookingObject
         }
         return "";
     }
-    
+
     /**
      * Upload new info file
      */
-    public function uploadFile(array $a_upload) : bool
+    public function uploadFile(array $a_upload): bool
     {
         if (!$this->id) {
             return false;
         }
-        
+
         $this->deleteFile();
-    
+
         $path = self::initStorage($this->id, "file");
         $original = $a_upload["name"];
         if (ilFileUtils::moveUploadedFile($a_upload["tmp_name"], $original, $path . $original)) {
@@ -138,9 +138,9 @@ class ilBookingObject
         }
         return false;
     }
-    
+
     // remove existing info file
-    public function deleteFile() : void
+    public function deleteFile(): void
     {
         if ($this->id) {
             $path = $this->getFileFullPath();
@@ -150,28 +150,28 @@ class ilBookingObject
             }
         }
     }
-    
-    public function setPostText(string $a_value) : void
+
+    public function setPostText(string $a_value): void
     {
         $this->post_text = $a_value;
     }
 
-    public function getPostText() : string
+    public function getPostText(): string
     {
         return $this->post_text;
     }
-    
-    public function setPostFile(string $a_value) : void
+
+    public function setPostFile(string $a_value): void
     {
         $this->post_file = $a_value;
     }
 
-    public function getPostFile() : string
+    public function getPostFile(): string
     {
         return $this->post_file;
     }
 
-    public function getPostFileFullPath() : string
+    public function getPostFileFullPath(): string
     {
         if ($this->id && $this->post_file) {
             $path = self::initStorage($this->id, "post");
@@ -179,18 +179,18 @@ class ilBookingObject
         }
         return "";
     }
-    
+
     /**
      * Upload new post file
      */
-    public function uploadPostFile(array $a_upload) : bool
+    public function uploadPostFile(array $a_upload): bool
     {
         if (!$this->id) {
             return false;
         }
-        
+
         $this->deletePostFile();
-    
+
         $path = self::initStorage($this->id, "post");
         $original = $a_upload["name"];
 
@@ -202,9 +202,9 @@ class ilBookingObject
         }
         return false;
     }
-    
+
     // remove existing post file
-    public function deletePostFile() : void
+    public function deletePostFile(): void
     {
         if ($this->id) {
             $path = $this->getPostFileFullPath();
@@ -214,13 +214,13 @@ class ilBookingObject
             }
         }
     }
-    
-    public function deleteFiles() : void
+
+    public function deleteFiles(): void
     {
         if ($this->id) {
             $storage = new ilFSStorageBooking($this->id);
             $storage->delete();
-            
+
             $this->setFile(null);
             $this->setPostFile(null);
         }
@@ -232,27 +232,27 @@ class ilBookingObject
     public static function initStorage(
         int $a_id,
         string $a_subdir = ""
-    ) : string {
+    ): string {
         $storage = new ilFSStorageBooking($a_id);
         $storage->create();
-        
+
         $path = $storage->getAbsolutePath() . "/";
-        
+
         if ($a_subdir) {
             $path .= $a_subdir . "/";
-            
+
             if (!is_dir($path) && !mkdir($path)) {
                 throw new \RuntimeException(sprintf('Directory "%s" was not created', $path));
             }
         }
-                
+
         return $path;
     }
 
-    protected function read() : void
+    protected function read(): void
     {
         $ilDB = $this->db;
-        
+
         if ($this->id) {
             $set = $ilDB->query('SELECT *' .
                 ' FROM booking_object' .
@@ -272,7 +272,7 @@ class ilBookingObject
     /**
      * @return string[][]
      */
-    protected function getDBFields() : array
+    protected function getDBFields(): array
     {
         return array(
             'title' => array('text', $this->getTitle()),
@@ -285,16 +285,16 @@ class ilBookingObject
         );
     }
 
-    public function save() : ?int
+    public function save(): ?int
     {
         $ilDB = $this->db;
 
         if ($this->id) {
             return null;
         }
-        
+
         $this->id = $ilDB->nextId('booking_object');
-        
+
         $fields = $this->getDBFields();
         $fields['booking_object_id'] = array('integer', $this->id);
         $fields['pool_id'] = array('integer', $this->getPoolId());
@@ -302,16 +302,16 @@ class ilBookingObject
         return $ilDB->insert('booking_object', $fields);
     }
 
-    public function update() : ?int
+    public function update(): ?int
     {
         $ilDB = $this->db;
 
         if (!$this->id) {
             return null;
         }
-        
+
         $fields = $this->getDBFields();
-                        
+
         return $ilDB->update(
             'booking_object',
             $fields,
@@ -325,20 +325,20 @@ class ilBookingObject
     public static function getList(
         int $a_pool_id,
         string $a_title = null
-    ) : array {
+    ): array {
         global $DIC;
 
         $ilDB = $DIC->database();
-        
+
         $sql = 'SELECT *' .
             ' FROM booking_object' .
             ' WHERE pool_id = ' . $ilDB->quote($a_pool_id, 'integer');
-        
+
         if ($a_title) {
             $sql .= ' AND (' . $ilDB->like('title', 'text', '%' . $a_title . '%') .
                 ' OR ' . $ilDB->like('description', 'text', '%' . $a_title . '%') . ')';
         }
-        
+
         $sql .= ' ORDER BY title';
 
         $set = $ilDB->query($sql);
@@ -354,7 +354,7 @@ class ilBookingObject
      */
     public static function getNumberOfObjectsForPool(
         int $a_pool_id
-    ) : int {
+    ): int {
         global $DIC;
 
         $ilDB = $DIC->database();
@@ -373,7 +373,7 @@ class ilBookingObject
      */
     public static function getObjectsForPool(
         int $a_pool_id
-    ) : array {
+    ): array {
         global $DIC;
         $ilDB = $DIC->database();
 
@@ -389,23 +389,23 @@ class ilBookingObject
         return $objects;
     }
 
-    
+
     /**
      * Delete single entry
      */
-    public function delete() : int
+    public function delete(): int
     {
         $ilDB = $this->db;
 
         if ($this->id) {
             $this->deleteFiles();
-            
+
             return $ilDB->manipulate('DELETE FROM booking_object' .
                 ' WHERE booking_object_id = ' . $ilDB->quote($this->id, 'integer'));
         }
         return 0;
     }
-    
+
     /**
      * Get nr of available items for a set of object ids
      * @param int[] $a_obj_ids
@@ -413,27 +413,27 @@ class ilBookingObject
      */
     public static function getNrOfItemsForObjects(
         array $a_obj_ids
-    ) : array {
+    ): array {
         global $DIC;
 
         $ilDB = $DIC->database();
-        
+
         $map = array();
-        
+
         $set = $ilDB->query("SELECT booking_object_id,nr_items" .
             " FROM booking_object" .
             " WHERE " . $ilDB->in("booking_object_id", $a_obj_ids, "", "integer"));
         while ($row = $ilDB->fetchAssoc($set)) {
             $map[(int) $row["booking_object_id"]] = (int) $row["nr_items"];
         }
-        
+
         return $map;
     }
-    
+
     public function doClone(
         int $a_pool_id,
         array $a_schedule_map = null
-    ) : void {
+    ): void {
         $new_obj = new self();
         $new_obj->setPoolId($a_pool_id);
         $new_obj->setTitle($this->getTitle());
@@ -442,23 +442,23 @@ class ilBookingObject
         $new_obj->setFile($this->getFile());
         $new_obj->setPostText($this->getPostText());
         $new_obj->setPostFile($this->getPostFile());
-        
+
         if ($a_schedule_map) {
             $schedule_id = $this->getScheduleId();
             if ($schedule_id) {
                 $new_obj->setScheduleId($a_schedule_map[$schedule_id]);
             }
         }
-        
+
         $new_obj->save();
-                
+
         // files
         $source = self::initStorage($this->getId());
         $target = $new_obj::initStorage($new_obj->getId());
         ilFileUtils::rCopy($source, $target);
     }
 
-    public static function lookupPoolId(int $object_id) : int
+    public static function lookupPoolId(int $object_id): int
     {
         global $DIC;
 
@@ -473,7 +473,7 @@ class ilBookingObject
         return (int) $rec["pool_id"];
     }
 
-    public static function lookupTitle(int $object_id) : string
+    public static function lookupTitle(int $object_id): string
     {
         global $DIC;
 

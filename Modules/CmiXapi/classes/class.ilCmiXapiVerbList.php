@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -27,13 +29,13 @@
  */
 class ilCmiXapiVerbList
 {
-    const COMPLETED = 'http://adlnet.gov/expapi/verbs/completed';
-    const PASSED = 'http://adlnet.gov/expapi/verbs/passed';
-    const FAILED = 'http://adlnet.gov/expapi/verbs/failed';
-    const SATISFIED = 'http://adlnet.gov/expapi/verbs/satisfied';
-    const PROGRESSED = 'http://adlnet.gov/expapi/verbs/progressed';
-    const EXPERIENCED = 'http://adlnet.gov/expapi/verbs/experienced';
-    
+    public const COMPLETED = 'http://adlnet.gov/expapi/verbs/completed';
+    public const PASSED = 'http://adlnet.gov/expapi/verbs/passed';
+    public const FAILED = 'http://adlnet.gov/expapi/verbs/failed';
+    public const SATISFIED = 'http://adlnet.gov/expapi/verbs/satisfied';
+    public const PROGRESSED = 'http://adlnet.gov/expapi/verbs/progressed';
+    public const EXPERIENCED = 'http://adlnet.gov/expapi/verbs/experienced';
+
     protected array $verbs = [
         'http://adlnet.gov/expapi/verbs/abandoned',
         'http://adlnet.gov/expapi/verbs/answered',
@@ -64,38 +66,38 @@ class ilCmiXapiVerbList
         'http://adlnet.gov/expapi/verbs/voided'
     ];
 
-    public function isValidVerb(string $verb) : bool
+    public function isValidVerb(string $verb): bool
     {
         return in_array($verb, $this->verbs);
     }
 
-    public function getVerbUri(string $verb) : string
+    public function getVerbUri(string $verb): string
     {
         return 'http://adlnet.gov/expapi/verbs/' . $verb;
     }
-    
+
     /**
      * @return array<string, mixed>
      */
-    public function getSelectOptions() : array
+    public function getSelectOptions(): array
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
-        
+
         $options = array(
             '' => $DIC->language()->txt('cmix_all_verbs')
         );
-        
+
         foreach ($this->verbs as $verb) {
             $options[urlencode($verb)] = self::getVerbTranslation(
                 $DIC->language(),
                 $verb
             );
         }
-        
+
         return $options;
     }
 
-    public static function getVerbTranslation(ilLanguage $lng, string $verb) : string
+    public static function getVerbTranslation(ilLanguage $lng, string $verb): string
     {
         $verbMatch = preg_match('/\/([^\/]+)$/', $verb, $matches);
         $shortVerb = $matches[1];
@@ -111,8 +113,8 @@ class ilCmiXapiVerbList
             return $translatedVerb;
         }
     }
-    
-    public static function getInstance() : \ilCmiXapiVerbList
+
+    public static function getInstance(): \ilCmiXapiVerbList
     {
         return new self();
     }

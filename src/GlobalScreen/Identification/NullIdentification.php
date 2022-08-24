@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -24,7 +26,7 @@ namespace ILIAS\GlobalScreen\Identification;
 class NullIdentification implements IdentificationInterface
 {
     protected ?IdentificationInterface $wrapped_identification = null;
-    
+
     /**
      * NullIdentification constructor.
      * @param IdentificationInterface $wrapped_identification
@@ -33,7 +35,7 @@ class NullIdentification implements IdentificationInterface
     {
         $this->wrapped_identification = $wrapped_identification;
     }
-    
+
     /**
      * @inheritDoc
      */
@@ -42,10 +44,10 @@ class NullIdentification implements IdentificationInterface
         if ($this->wrapped_identification !== null) {
             return $this->wrapped_identification->serialize();
         }
-        
+
         return "";
     }
-    
+
     /**
      * @inheritDoc
      */
@@ -53,40 +55,40 @@ class NullIdentification implements IdentificationInterface
     {
         // noting to do
     }
-    
+
     /**
      * @inheritDoc
      */
-    public function getClassName() : string
+    public function getClassName(): string
     {
         if ($this->wrapped_identification !== null) {
             return $this->wrapped_identification->getClassName();
         }
-        
+
         return "Null";
     }
-    
+
     /**
      * @inheritDoc
      */
-    public function getInternalIdentifier() : string
+    public function getInternalIdentifier(): string
     {
         if ($this->wrapped_identification !== null) {
             return $this->wrapped_identification->getInternalIdentifier();
         }
-        
+
         return "Null";
     }
-    
+
     /**
      * @inheritDoc
      */
-    public function getProviderNameForPresentation() : string
+    public function getProviderNameForPresentation(): string
     {
         if ($this->wrapped_identification !== null) {
             return $this->wrapped_identification->getProviderNameForPresentation();
         }
-        
+
         return "Null";
     }
 }

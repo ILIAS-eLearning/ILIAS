@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -60,7 +62,7 @@ class ilStaticMethodCallActivity implements ilActivity, ilWorkflowEngineElement
      * @return void
      * @see $include_file
      */
-    public function setIncludeFilename(string $filename) : void
+    public function setIncludeFilename(string $filename): void
     {
         $this->include_file = $filename;
     }
@@ -70,7 +72,7 @@ class ilStaticMethodCallActivity implements ilActivity, ilWorkflowEngineElement
      *
      * @return string
      */
-    public function getIncludeFilename() : string
+    public function getIncludeFilename(): string
     {
         return $this->include_file;
     }
@@ -82,7 +84,7 @@ class ilStaticMethodCallActivity implements ilActivity, ilWorkflowEngineElement
      * @return void
      * @see $method_name
      */
-    public function setClassAndMethodName(string $name) : void
+    public function setClassAndMethodName(string $name): void
     {
         $this->class_and_method_name = $name;
     }
@@ -92,7 +94,7 @@ class ilStaticMethodCallActivity implements ilActivity, ilWorkflowEngineElement
      *
      * @return string
      */
-    public function getClassAndMethodName() : string
+    public function getClassAndMethodName(): string
     {
         return $this->class_and_method_name;
     }
@@ -103,7 +105,7 @@ class ilStaticMethodCallActivity implements ilActivity, ilWorkflowEngineElement
      * @param array $params Array with parameters.
      * @return void
      */
-    public function setParameters(array $params) : void
+    public function setParameters(array $params): void
     {
         $this->parameters = $params;
     }
@@ -113,7 +115,7 @@ class ilStaticMethodCallActivity implements ilActivity, ilWorkflowEngineElement
      *
      * @return array
      */
-    public function getParameters() : array
+    public function getParameters(): array
     {
         return $this->parameters;
     }
@@ -121,7 +123,7 @@ class ilStaticMethodCallActivity implements ilActivity, ilWorkflowEngineElement
     /**
      * @return array
      */
-    public function getOutputs() : array
+    public function getOutputs(): array
     {
         return $this->outputs;
     }
@@ -129,7 +131,7 @@ class ilStaticMethodCallActivity implements ilActivity, ilWorkflowEngineElement
     /**
      * @param array $outputs
      */
-    public function setOutputs(array $outputs) : void
+    public function setOutputs(array $outputs): void
     {
         $this->outputs = $outputs;
     }
@@ -139,7 +141,7 @@ class ilStaticMethodCallActivity implements ilActivity, ilWorkflowEngineElement
      * @return void
      * @todo Use exceptions / internal logging.
      */
-    public function execute() : void
+    public function execute(): void
     {
         /** @noinspection PhpIncludeInspection */
         require_once './' . $this->include_file;
@@ -186,12 +188,12 @@ class ilStaticMethodCallActivity implements ilActivity, ilWorkflowEngineElement
         return $this->context;
     }
 
-    public function setName($name) : void
+    public function setName($name): void
     {
         $this->name = $name;
     }
 
-    public function getName() : string
+    public function getName(): string
     {
         return $this->name;
     }

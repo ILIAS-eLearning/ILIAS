@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -30,18 +32,18 @@ class ilPollAnswerTableGUI extends ilTable2GUI
 
         $this->ctrl = $DIC->ctrl();
         $this->lng = $DIC->language();
-        
+
         $this->setId("ilobjpollaw");
-        
+
         parent::__construct($a_parent_obj, $a_parent_cmd);
 
         $this->addColumn($this->lng->txt("poll_sortorder"), "pos");
         $this->addColumn($this->lng->txt("poll_answer"), "answer");
         $this->addColumn($this->lng->txt("poll_absolute"), "votes");
         $this->addColumn($this->lng->txt("poll_percentage"), "percentage");
-        
+
         $total = $this->getItems();
-        
+
         $this->setTitle(
             $this->lng->txt("poll_question") . ": \"" .
                 $a_parent_obj->getObject()->getQuestion() . "\""
@@ -51,27 +53,27 @@ class ilPollAnswerTableGUI extends ilTable2GUI
         if ($total) {
             $this->addCommandButton("confirmDeleteAllVotes", $this->lng->txt("poll_delete_votes"));
         }
-        
+
         $this->setFormAction($this->ctrl->getFormAction($a_parent_obj, $a_parent_cmd));
         $this->setRowTemplate("tpl.answer_row.html", "Modules/Poll");
         $this->setDefaultOrderField("pos");
         $this->setDefaultOrderDirection("asc");
-                
+
         $this->setExportFormats(array(self::EXPORT_CSV, self::EXPORT_EXCEL));
     }
-    
-    public function numericOrdering(string $a_field) : bool
+
+    public function numericOrdering(string $a_field): bool
     {
         return $a_field !== "answer";
     }
 
-    public function getItems() : int
+    public function getItems(): int
     {
         $data = $this->parent_obj->getObject()->getAnswers();
         $perc = $this->parent_obj->getObject()->getVotePercentages();
         $total = (int) ($perc["total"] ?? 0);
         $perc = (array) ($perc["perc"] ?? []);
-        
+
         // add current percentages
         foreach ($data as $idx => $item) {
             $item_id = (int) ($item['id'] ?? 0);
@@ -85,19 +87,19 @@ class ilPollAnswerTableGUI extends ilTable2GUI
         }
 
         $this->setData($data);
-        
+
         return $total;
     }
-    
-    protected function fillRow(array $a_set) : void
+
+    protected function fillRow(array $a_set): void
     {
         $this->tpl->setVariable("VALUE_POS", (int) ($a_set["pos"] ?? 10) / 10);
         $this->tpl->setVariable("TXT_ANSWER", nl2br((string) ($a_set["answer"] ?? '')));
         $this->tpl->setVariable("VALUE_VOTES", (int) ($a_set["votes"] ?? 0));
         $this->tpl->setVariable("VALUE_PERCENTAGE", (int) ($a_set["percentage"] ?? 0));
     }
-    
-    protected function fillRowCSV(ilCSVWriter $a_csv, array $a_set) : void
+
+    protected function fillRowCSV(ilCSVWriter $a_csv, array $a_set): void
     {
         $a_csv->addColumn((string) ((int) ($a_set["pos"] ?? 10) / 10));
         $a_csv->addColumn((string) ($a_set["answer"] ?? ''));
@@ -105,8 +107,8 @@ class ilPollAnswerTableGUI extends ilTable2GUI
         $a_csv->addColumn((string) ((int) ($a_set["percentage"] ?? 0)));
         $a_csv->addRow();
     }
-    
-    protected function fillRowExcel(ilExcel $a_excel, int &$a_row, array $a_set) : void
+
+    protected function fillRowExcel(ilExcel $a_excel, int &$a_row, array $a_set): void
     {
         $a_excel->setCell($a_row, 0, (int) ($a_set["pos"] ?? 10) / 10);
         $a_excel->setCell($a_row, 1, (string) ($a_set["answer"] ?? ''));

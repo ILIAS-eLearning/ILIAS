@@ -24,18 +24,18 @@ class ilLMPage extends ilPageObject
 {
     protected \ILIAS\LearningModule\ReadingTime\ReadingTimeManager $lm_reading_time_manager;
 
-    public function getParentType() : string
+    public function getParentType(): string
     {
         return "lm";
     }
-    
-    public function afterConstructor() : void
+
+    public function afterConstructor(): void
     {
         $this->getPageConfig()->configureByObjectId($this->getParentId());
         $this->lm_reading_time_manager = new \ILIAS\LearningModule\ReadingTime\ReadingTimeManager();
     }
 
-    public function beforePageContentUpdate(ilPageContent $a_page_content) : void
+    public function beforePageContentUpdate(ilPageContent $a_page_content): void
     {
         if ($a_page_content->getType() == "par") {
             $glos = ilObjContentObject::lookupAutoGlossaries($this->getParentId());
@@ -43,7 +43,7 @@ class ilLMPage extends ilPageObject
         }
     }
 
-    public function afterUpdate(DOMDocument $domdoc, string $xml) : void
+    public function afterUpdate(DOMDocument $domdoc, string $xml): void
     {
         // send notifications
         $references = ilObject::_getAllReferences($this->getParentId());
@@ -61,14 +61,14 @@ class ilLMPage extends ilPageObject
         }
     }
 
-    protected function afterDelete() : void
+    protected function afterDelete(): void
     {
         if ((int) $this->getParentId() > 0) {
             $this->lm_reading_time_manager->updateReadingTime($this->getParentId());
         }
     }
 
-    public function createWithLayoutId(int $a_layout_id) : void
+    public function createWithLayoutId(int $a_layout_id): void
     {
         //get XML Data for Layout
         $layout_obj = new ilPageLayout($a_layout_id);

@@ -50,7 +50,7 @@ class ilContainerNewsSettingsGUI
         $this->initDefaultOptions();
     }
 
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         $next_class = $this->ctrl->getNextClass($this);
         $cmd = $this->ctrl->getCmd("show");
@@ -63,13 +63,13 @@ class ilContainerNewsSettingsGUI
         }
     }
 
-    public function show() : void
+    public function show(): void
     {
         $form = $this->initForm();
         $this->tpl->setContent($form->getHTML());
     }
 
-    public function initForm() : ilPropertyFormGUI
+    public function initForm(): ilPropertyFormGUI
     {
         $form = new ilPropertyFormGUI();
         //from crs/grp/cat settings - additional feature - news
@@ -180,7 +180,7 @@ class ilContainerNewsSettingsGUI
         return $form;
     }
 
-    public function save() : void
+    public function save(): void
     {
         $form = $this->initForm();
         if ($form->checkInput()) {
@@ -226,7 +226,7 @@ class ilContainerNewsSettingsGUI
     }
 
     // Set all possible news options as false;
-    public function initDefaultOptions() : void
+    public function initDefaultOptions(): void
     {
         $this->has_timeline = false;
         $this->has_cron_notifications = false;
@@ -234,53 +234,53 @@ class ilContainerNewsSettingsGUI
         $this->has_block_forced = false;
     }
 
-    public function setTimeline(bool $a_value) : void
+    public function setTimeline(bool $a_value): void
     {
         $this->has_timeline = $a_value;
     }
 
-    public function getTimeline() : bool
+    public function getTimeline(): bool
     {
         return $this->has_timeline;
     }
 
-    public function setCronNotifications(bool $a_value) : void
+    public function setCronNotifications(bool $a_value): void
     {
         $this->has_cron_notifications = $a_value;
     }
 
-    public function getCronNotifications() : bool
+    public function getCronNotifications(): bool
     {
         return $this->has_cron_notifications;
     }
 
-    public function setHideByDate(bool $a_value) : void
+    public function setHideByDate(bool $a_value): void
     {
         $this->has_hide_by_date = $a_value;
     }
 
-    public function getHideByDate() : bool
+    public function getHideByDate(): bool
     {
         return $this->has_hide_by_date;
     }
 
-    public function setPublicNotification(bool $a_value) : void
+    public function setPublicNotification(bool $a_value): void
     {
         $this->has_public_notification = $a_value;
     }
 
-    public function getPublicNotification() : bool
+    public function getPublicNotification(): bool
     {
         return $this->has_public_notification;
     }
 
     // Set if the repository object has the news block forced
-    public function setNewsBlockForced(bool $a_value) : void
+    public function setNewsBlockForced(bool $a_value): void
     {
         $this->has_block_forced = $a_value;
     }
 
-    public function getNewsBlockForced() : bool
+    public function getNewsBlockForced(): bool
     {
         return $this->has_block_forced;
     }

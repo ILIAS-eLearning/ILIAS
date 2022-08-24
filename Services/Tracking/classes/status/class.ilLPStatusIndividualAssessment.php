@@ -1,8 +1,10 @@
-<?php declare(strict_types=0);
+<?php
+
+declare(strict_types=0);
 
 class ilLPStatusIndividualAssessment extends ilLPStatus
 {
-    public static function _getNotAttempted(int $a_obj_id) : array
+    public static function _getNotAttempted(int $a_obj_id): array
     {
         return ilIndividualAssessmentLPInterface::getMembersHavingStatusIn(
             $a_obj_id,
@@ -10,17 +12,17 @@ class ilLPStatusIndividualAssessment extends ilLPStatus
         );
     }
 
-    public static function _getCountNotAttempted(int $a_obj_id) : int
+    public static function _getCountNotAttempted(int $a_obj_id): int
     {
         return count(self::_getNotAttempted($a_obj_id));
     }
 
-    public static function _getCountInProgress(int $a_obj_id) : int
+    public static function _getCountInProgress(int $a_obj_id): int
     {
         return count(self::_getInProgress($a_obj_id));
     }
 
-    public static function _getInProgress(int $a_obj_id) : array
+    public static function _getInProgress(int $a_obj_id): array
     {
         return ilIndividualAssessmentLPInterface::getMembersHavingStatusIn(
             $a_obj_id,
@@ -28,12 +30,12 @@ class ilLPStatusIndividualAssessment extends ilLPStatus
         );
     }
 
-    public static function _getCountCompleted(int $a_obj_id) : int
+    public static function _getCountCompleted(int $a_obj_id): int
     {
         return count(self::_getCompleted($a_obj_id));
     }
 
-    public static function _getCompleted(int $a_obj_id) : array
+    public static function _getCompleted(int $a_obj_id): array
     {
         return ilIndividualAssessmentLPInterface::getMembersHavingStatusIn(
             $a_obj_id,
@@ -41,12 +43,12 @@ class ilLPStatusIndividualAssessment extends ilLPStatus
         );
     }
 
-    public static function _getCountFailed(int $a_obj_id) : int
+    public static function _getCountFailed(int $a_obj_id): int
     {
         return count(self::_getFailed($a_obj_id));
     }
 
-    public static function _getFailed(int $a_obj_id) : array
+    public static function _getFailed(int $a_obj_id): array
     {
         return ilIndividualAssessmentLPInterface::getMembersHavingStatusIn(
             $a_obj_id,
@@ -58,7 +60,7 @@ class ilLPStatusIndividualAssessment extends ilLPStatus
         int $a_obj_id,
         int $a_usr_id,
         object $a_obj = null
-    ) : int {
+    ): int {
         switch ((string) ilIndividualAssessmentLPInterface::determineStatusOfMember(
             $a_obj_id,
             $a_usr_id

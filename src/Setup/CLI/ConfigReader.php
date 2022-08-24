@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\Setup\CLI;
 
 use ILIAS\Setup\Agent;
@@ -50,7 +52,7 @@ class ConfigReader
      *                          field (e.g. "a.b.c") should be overwritten with which
      *                          value.
      */
-    public function readConfigFile(string $name, array $overwrites = []) : array
+    public function readConfigFile(string $name, array $overwrites = []): array
     {
         $name = $this->getRealFilename($name);
         if (!is_readable($name)) {
@@ -71,7 +73,7 @@ class ConfigReader
         return $this->applyOverwrites($json, $overwrites);
     }
 
-    protected function applyOverwrites(array $json, array $overwrites) : array
+    protected function applyOverwrites(array $json, array $overwrites): array
     {
         $replacer = null;
         $replacer = function ($subject, $path, $value) use (&$replacer) {
@@ -91,7 +93,7 @@ class ConfigReader
         return $json;
     }
 
-    protected function getRealFilename(string $name) : string
+    protected function getRealFilename(string $name): string
     {
         if (in_array($name[0], ["/", "\\"])) {
             return $name;

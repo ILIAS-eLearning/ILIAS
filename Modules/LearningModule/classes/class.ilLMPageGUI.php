@@ -35,17 +35,17 @@ class ilLMPageGUI extends ilPageObjectGUI
         int $a_id = 0,
         int $a_old_nr = 0,
         bool $a_prevent_get_id = false,
-        string $a_lang = ""
+        string $a_lang = "",
+        string $concrete_lang = ""
     ) {
         global $DIC;
-
         $this->lng = $DIC->language();
         $this->user = $DIC->user();
         $this->db = $DIC->database();
         $this->component_repository = $DIC['component.repository'];
 
         $this->log = $DIC["ilLog"];
-        parent::__construct("lm", $a_id, $a_old_nr, $a_prevent_get_id, $a_lang);
+        parent::__construct("lm", $a_id, $a_old_nr, $a_prevent_get_id, $a_lang, $concrete_lang);
         $this->pres_request = $DIC
             ->learningModule()
             ->internal()
@@ -59,7 +59,7 @@ class ilLMPageGUI extends ilPageObjectGUI
     /**
      * On feedback editing forwarding
      */
-    public function onFeedbackEditingForwarding() : void
+    public function onFeedbackEditingForwarding(): void
     {
         $lng = $this->lng;
 
@@ -75,7 +75,7 @@ class ilLMPageGUI extends ilPageObjectGUI
     /**
      * Process answer
      */
-    public function processAnswer() : void
+    public function processAnswer(): void
     {
         $ilUser = $this->user;
         $ilDB = $this->db;
@@ -122,7 +122,7 @@ class ilLMPageGUI extends ilPageObjectGUI
         }
     }
 
-    public function finishEditing() : void
+    public function finishEditing(): void
     {
         $lm_tree = new ilLMTree($this->getPageObject()->getParentId());
         if ($lm_tree->isInTree($this->getPageObject()->getId())) {

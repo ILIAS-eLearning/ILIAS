@@ -36,7 +36,7 @@ class SkillManagementAccess
         $this->usr_id = $usr_id;
     }
 
-    public function hasReadManagementPermission(int $a_usr_id = 0) : bool
+    public function hasReadManagementPermission(int $a_usr_id = 0): bool
     {
         if ($a_usr_id == 0) {
             $a_usr_id = $this->usr_id;
@@ -44,7 +44,7 @@ class SkillManagementAccess
         return $this->access->checkAccessOfUser($a_usr_id, "visible,read", $this->skmg_ref_id);
     }
 
-    public function hasEditManagementSettingsPermission(int $a_usr_id = 0) : bool
+    public function hasEditManagementSettingsPermission(int $a_usr_id = 0): bool
     {
         if ($a_usr_id == 0) {
             $a_usr_id = $this->usr_id;
@@ -52,7 +52,7 @@ class SkillManagementAccess
         return $this->access->checkAccessOfUser($a_usr_id, "write", $this->skmg_ref_id);
     }
 
-    public function hasEditManagementPermissionsPermission(int $a_usr_id = 0) : bool
+    public function hasEditManagementPermissionsPermission(int $a_usr_id = 0): bool
     {
         if ($a_usr_id == 0) {
             $a_usr_id = $this->usr_id;
@@ -60,7 +60,7 @@ class SkillManagementAccess
         return $this->access->checkAccessOfUser($a_usr_id, "edit_permission", $this->skmg_ref_id);
     }
 
-    public function hasCreateTreePermission(int $a_usr_id = 0) : bool
+    public function hasCreateTreePermission(int $a_usr_id = 0): bool
     {
         if ($a_usr_id == 0) {
             $a_usr_id = $this->usr_id;

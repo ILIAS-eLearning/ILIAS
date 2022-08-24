@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -20,18 +22,18 @@ use PHPUnit\Framework\TestCase;
 
 class ilMapGUITest extends TestCase
 {
-    protected function setUp() : void
+    protected function setUp(): void
     {
-        $this->gui = new class() extends ilMapGUI {
+        $this->gui = new class () extends ilMapGUI {
             public function __construct()
             {
             }
 
-            public function getHtml() : string
+            public function getHtml(): string
             {
             }
-    
-            public function getUserListHtml() : string
+
+            public function getUserListHtml(): string
             {
             }
         };
@@ -40,7 +42,7 @@ class ilMapGUITest extends TestCase
     /**
      * @dataProvider properties
      */
-    public function testSettersAndGetters($name, $value) : void
+    public function testSettersAndGetters($name, $value): void
     {
         $set = "set$name";
         $get = "get$name";
@@ -48,7 +50,7 @@ class ilMapGUITest extends TestCase
         $this->assertEquals($value, $this->gui->$get());
     }
 
-    public function properties() : array
+    public function properties(): array
     {
         return [
             ["MapId", "a_map_id"],

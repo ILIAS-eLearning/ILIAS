@@ -1,4 +1,6 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -26,11 +28,11 @@ use ILIAS\Survey\InternalService;
  */
 interface ModeProvider
 {
-    public function setInternalService(InternalService $service) : void;
+    public function setInternalService(InternalService $service): void;
 
-    public function getId() : int;
+    public function getId(): int;
 
-    public function getFeatureConfig() : FeatureConfig;
+    public function getFeatureConfig(): FeatureConfig;
 
-    public function getUIModifier() : UIModifier;
+    public function getUIModifier(): UIModifier;
 }

@@ -125,19 +125,19 @@ class ilContObjParser extends ilMDSaxParser
     /**
      * @param resource $a_xml_parser
      */
-    public function setHandlers($a_xml_parser) : void
+    public function setHandlers($a_xml_parser): void
     {
         xml_set_object($a_xml_parser, $this);
         xml_set_element_handler($a_xml_parser, 'handlerBeginTag', 'handlerEndTag');
         xml_set_character_data_handler($a_xml_parser, 'handlerCharacterData');
     }
 
-    public function setImportMapping(ilImportMapping $mapping = null) : void
+    public function setImportMapping(ilImportMapping $mapping = null): void
     {
         $this->mapping = $mapping;
     }
 
-    public function startParsing() : void
+    public function startParsing(): void
     {
         $this->log->debug("start");
 
@@ -157,7 +157,7 @@ class ilContObjParser extends ilMDSaxParser
     /**
      * insert StructureObjects and PageObjects into tree
      */
-    public function storeTree() : void
+    public function storeTree(): void
     {
         $ilLog = $this->log;
 
@@ -193,7 +193,7 @@ class ilContObjParser extends ilMDSaxParser
     /**
      * parse pages that contain files, mobs and/or internal links
      */
-    public function processPagesToParse() : void
+    public function processPagesToParse(): void
     {
         // outgoin internal links
         foreach ($this->pages_to_parse as $page_id) {
@@ -289,7 +289,7 @@ class ilContObjParser extends ilMDSaxParser
     /**
      * copy multimedia object files from import zip file to mob directory
      */
-    public function copyMobFiles() : void
+    public function copyMobFiles(): void
     {
         $imp_dir = $this->import_dir;
         foreach ($this->mob_mapping as $origin_id => $mob_id) {
@@ -315,7 +315,7 @@ class ilContObjParser extends ilMDSaxParser
     /**
      * copy files of file items
      */
-    public function copyFileItems() : void
+    public function copyFileItems(): void
     {
         $imp_dir = $this->import_dir;
         foreach ($this->file_item_mapping as $origin_id => $file_id) {
@@ -342,12 +342,12 @@ class ilContObjParser extends ilMDSaxParser
                  * set question import ident to pool/test question id mapping
                  * @param mixed[] $a_map
                  */
-    public function setQuestionMapping(array $a_map) : void
+    public function setQuestionMapping(array $a_map): void
     {
         $this->qst_mapping = $a_map;
     }
 
-    public function beginElement(string $a_name) : void
+    public function beginElement(string $a_name): void
     {
         if (!isset($this->status["$a_name"])) {
             $this->cnt[$a_name] = 1;
@@ -357,18 +357,18 @@ class ilContObjParser extends ilMDSaxParser
         $this->current_element[count($this->current_element)] = $a_name;
     }
 
-    public function endElement(string $a_name) : void
+    public function endElement(string $a_name): void
     {
         $this->cnt[$a_name]--;
         unset($this->current_element[count($this->current_element) - 1]);
     }
 
-    public function getCurrentElement() : string
+    public function getCurrentElement(): string
     {
         return ($this->current_element[count($this->current_element) - 1] ?? "");
     }
 
-    public function getOpenCount(string $a_name) : int
+    public function getOpenCount(string $a_name): int
     {
         if (isset($this->cnt[$a_name])) {
             return $this->cnt[$a_name];
@@ -380,7 +380,7 @@ class ilContObjParser extends ilMDSaxParser
         string $type,
         string $name,
         array $attr = []
-    ) : string {
+    ): string {
         $tag = "<";
 
         if ($type == "end") {
@@ -400,7 +400,7 @@ class ilContObjParser extends ilMDSaxParser
         return $tag;
     }
 
-    public function handlerBeginTag($a_xml_parser, string $a_name, array $a_attribs) : void
+    public function handlerBeginTag($a_xml_parser, string $a_name, array $a_attribs): void
     {
         switch ($a_name) {
             case "ContentObject":
@@ -875,7 +875,7 @@ class ilContObjParser extends ilMDSaxParser
         }
     }
 
-    public function processMeta() : bool
+    public function processMeta(): bool
     {
         // do not process second meta block in (ilias3) glossaries
         // which comes right after the "Glossary" tag
@@ -889,7 +889,7 @@ class ilContObjParser extends ilMDSaxParser
     }
 
 
-    public function handlerEndTag($a_xml_parser, string $a_name) : void
+    public function handlerEndTag($a_xml_parser, string $a_name): void
     {
         // call meta data handler
         if ($this->in_meta_data && $this->processMeta()) {
@@ -1307,7 +1307,7 @@ class ilContObjParser extends ilMDSaxParser
         $this->chr_data = "";
     }
 
-    public function handlerCharacterData($a_xml_parser, string $a_data) : void
+    public function handlerCharacterData($a_xml_parser, string $a_data): void
     {
         // call meta data handler
         if ($this->in_meta_data && $this->processMeta()) {
@@ -1362,7 +1362,7 @@ class ilContObjParser extends ilMDSaxParser
     /**
      * @param resource $a_xml_parser
      */
-    public function emptyMediaMetaCache($a_xml_parser) : void
+    public function emptyMediaMetaCache($a_xml_parser): void
     {
         foreach ($this->media_meta_cache as $cache_entry) {
             switch ($cache_entry["type"]) {
@@ -1397,7 +1397,7 @@ class ilContObjParser extends ilMDSaxParser
     /**
                  * @return mixed[]
                  */
-    public function getGlossaryTermMap() : array
+    public function getGlossaryTermMap(): array
     {
         return $this->glossary_term_map;
     }

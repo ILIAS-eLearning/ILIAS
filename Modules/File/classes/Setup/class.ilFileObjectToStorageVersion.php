@@ -15,7 +15,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * Class ilFileObjectToStorageVersion
  * @author Fabian Schmid <fs@studer-raimann.ch>
@@ -61,7 +61,7 @@ class ilFileObjectToStorageVersion
     /**
      * @return int
      */
-    public function getVersion() : int
+    public function getVersion(): int
     {
         return $this->version;
     }
@@ -69,7 +69,7 @@ class ilFileObjectToStorageVersion
     /**
      * @return string
      */
-    public function getPath() : string
+    public function getPath(): string
     {
         return $this->path;
     }
@@ -77,7 +77,7 @@ class ilFileObjectToStorageVersion
     /**
      * @return string
      */
-    public function getFileName() : string
+    public function getFileName(): string
     {
         return $this->file_name;
     }
@@ -85,7 +85,7 @@ class ilFileObjectToStorageVersion
     /**
      * @return string
      */
-    public function getTitle() : string
+    public function getTitle(): string
     {
         return $this->title;
     }
@@ -93,7 +93,7 @@ class ilFileObjectToStorageVersion
     /**
      * @return string
      */
-    public function getAction() : string
+    public function getAction(): string
     {
         return $this->action;
     }
@@ -101,7 +101,7 @@ class ilFileObjectToStorageVersion
     /**
      * @return int
      */
-    public function getOwner() : int
+    public function getOwner(): int
     {
         return $this->owner;
     }
@@ -109,7 +109,7 @@ class ilFileObjectToStorageVersion
     /**
      * @return int
      */
-    public function getCreationDateTimestamp() : int
+    public function getCreationDateTimestamp(): int
     {
         return $this->creation_date_timestamp;
     }

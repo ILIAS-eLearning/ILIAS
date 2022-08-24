@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -26,7 +28,7 @@ class ilObjForumAccess extends ilObjectAccess
     /** @var array<int, ilObjUser|null> */
     protected static array $userInstanceCache = [];
 
-    public static function _getCommands() : array
+    public static function _getCommands(): array
     {
         return [
             [
@@ -43,7 +45,7 @@ class ilObjForumAccess extends ilObjectAccess
         ];
     }
 
-    public static function _checkGoto(string $target) : bool
+    public static function _checkGoto(string $target): bool
     {
         global $DIC;
 
@@ -63,7 +65,7 @@ class ilObjForumAccess extends ilObjectAccess
         return false;
     }
 
-    public static function _getThreadForPosting(int $a_pos_id) : int
+    public static function _getThreadForPosting(int $a_pos_id): int
     {
         global $DIC;
         $ilDB = $DIC->database();
@@ -79,7 +81,7 @@ class ilObjForumAccess extends ilObjectAccess
         return (int) $row['pos_thr_fk'];
     }
 
-    public static function prepareMessageForLists(string $text) : string
+    public static function prepareMessageForLists(string $text): string
     {
         $text = str_replace('<br />', ' ', $text);
         $text = strip_tags($text);
@@ -91,7 +93,7 @@ class ilObjForumAccess extends ilObjectAccess
         return $text;
     }
 
-    public static function _preloadData(array $obj_ids, array $ref_ids) : void
+    public static function _preloadData(array $obj_ids, array $ref_ids): void
     {
         /*
         We are only able to preload the top_pk values for the forum ref_ids.
@@ -100,7 +102,7 @@ class ilObjForumAccess extends ilObjectAccess
         ilObjForum::preloadForumIdsByRefIds($ref_ids);
     }
 
-    public static function getLastPostByRefId(int $ref_id) : ?array
+    public static function getLastPostByRefId(int $ref_id): ?array
     {
         return ilObjForum::lookupLastPostByRefId($ref_id);
     }
@@ -109,12 +111,12 @@ class ilObjForumAccess extends ilObjectAccess
      * @param int $ref_id
      * @return array{num_posts: int, num_unread_posts: int, num_new_posts: int}
      */
-    public static function getStatisticsByRefId(int $ref_id) : array
+    public static function getStatisticsByRefId(int $ref_id): array
     {
         return ilObjForum::lookupStatisticsByRefId($ref_id);
     }
 
-    public static function getCachedUserInstance(int $usr_id) : ?ilObjUser
+    public static function getCachedUserInstance(int $usr_id): ?ilObjUser
     {
         if (!isset(self::$userInstanceCache[$usr_id]) && ilObjUser::userExists([$usr_id])) {
             $user = ilObjectFactory::getInstanceByObjId($usr_id, false);

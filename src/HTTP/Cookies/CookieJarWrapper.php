@@ -45,7 +45,7 @@ class CookieJarWrapper implements CookieJar
     /**
      * @inheritDoc
      */
-    public function has(string $name) : bool
+    public function has(string $name): bool
     {
         return $this->cookies->has($name);
     }
@@ -54,7 +54,7 @@ class CookieJarWrapper implements CookieJar
     /**
      * @inheritDoc
      */
-    public function get(string $name) : ?\ILIAS\HTTP\Cookies\Cookie
+    public function get(string $name): ?\ILIAS\HTTP\Cookies\Cookie
     {
         $cookie = $this->cookies->get($name);
 
@@ -65,7 +65,7 @@ class CookieJarWrapper implements CookieJar
     /**
      * @inheritDoc
      */
-    public function getAll() : array
+    public function getAll(): array
     {
         $wrappedCookies = [];
         foreach ($this->cookies->getAll() as $cookie) {
@@ -79,7 +79,7 @@ class CookieJarWrapper implements CookieJar
     /**
      * @inheritDoc
      */
-    public function with(Cookie $setCookie) : CookieJar
+    public function with(Cookie $setCookie): CookieJar
     {
         /**
          * @var CookieWrapper $wrapper
@@ -97,7 +97,7 @@ class CookieJarWrapper implements CookieJar
     /**
      * @inheritDoc
      */
-    public function without(string $name) : CookieJar
+    public function without(string $name): CookieJar
     {
         $clone = clone $this;
         $clone->cookies = $this->cookies->without($name);
@@ -109,7 +109,7 @@ class CookieJarWrapper implements CookieJar
     /**
      * @inheritDoc
      */
-    public function renderIntoResponseHeader(ResponseInterface $response) : ResponseInterface
+    public function renderIntoResponseHeader(ResponseInterface $response): ResponseInterface
     {
         return $this->cookies->renderIntoSetCookieHeader($response);
     }

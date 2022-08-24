@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /* Copyright (c) 1998-2020 ILIAS open source, Extended GPL, see docs/LICENSE */
 
@@ -10,14 +12,14 @@ class ilTestRandomQuestionCollectionSubsetApplicationListTest extends ilTestBase
 {
     private ilTestRandomQuestionCollectionSubsetApplicationList $testObj;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         parent::setUp();
 
         $this->testObj = new ilTestRandomQuestionCollectionSubsetApplicationList();
     }
 
-    public function test_instantiateObject_shouldReturnInstance() : void
+    public function test_instantiateObject_shouldReturnInstance(): void
     {
         $this->assertInstanceOf(ilTestRandomQuestionCollectionSubsetApplicationList::class, $this->testObj);
     }

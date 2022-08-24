@@ -34,7 +34,7 @@ class WrapperTest extends AbstractBaseTest
     /**
      * @inheritDoc
      */
-    protected function setUp() : void
+    protected function setUp(): void
     {
         parent::setUp();
         $language = $this->getMockBuilder('\ilLanguage')
@@ -45,7 +45,7 @@ class WrapperTest extends AbstractBaseTest
     }
 
 
-    public function testWrapperfactory() : void
+    public function testWrapperfactory(): void
     {
         $wrapper_factory = new WrapperFactory($this->request_interface);
 
@@ -71,7 +71,7 @@ class WrapperTest extends AbstractBaseTest
         $wrapper_factory->cookie();
     }
 
-    public function testQuery() : void
+    public function testQuery(): void
     {
         $wrapper_factory = new WrapperFactory($this->request_interface);
 
@@ -95,7 +95,7 @@ class WrapperTest extends AbstractBaseTest
         $this->assertIsInt($query->retrieve('key_one', $int_trafo));
     }
 
-    public function testPost() : void
+    public function testPost(): void
     {
         $wrapper_factory = new WrapperFactory($this->request_interface);
 
@@ -119,7 +119,7 @@ class WrapperTest extends AbstractBaseTest
         $this->assertIsInt($post->retrieve('key_one', $int_trafo));
     }
 
-    public function testCookie() : void
+    public function testCookie(): void
     {
         $wrapper_factory = new WrapperFactory($this->request_interface);
 

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -21,7 +23,7 @@
  */
 class ilExercisePlaceholderValuesTest extends ilCertificateBaseTestCase
 {
-    public function testGetPlaceholderValues() : void
+    public function testGetPlaceholderValues(): void
     {
         $defaultPlaceholders = $this->getMockBuilder(ilDefaultPlaceholderValues::class)
             ->disableOriginalConstructor()
@@ -109,7 +111,7 @@ class ilExercisePlaceholderValuesTest extends ilCertificateBaseTestCase
         );
     }
 
-    public function testGetPlaceholderValuesForPreview() : void
+    public function testGetPlaceholderValuesForPreview(): void
     {
         $defaultPlaceholders = $this->getMockBuilder(ilDefaultPlaceholderValues::class)
             ->disableOriginalConstructor()

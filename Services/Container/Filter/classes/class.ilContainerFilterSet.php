@@ -40,15 +40,15 @@ class ilContainerFilterSet
     {
         $this->filters = $filters;
 
-        $this->ids = array_map(static function (ilContainerFilterField $f) : string {
+        $this->ids = array_map(static function (ilContainerFilterField $f): string {
             return $f->getRecordSetId() . "_" . $f->getFieldId();
         }, $filters);
     }
-    
+
     /**
      * @return ilContainerFilterField[]
      */
-    public function getFields() : array
+    public function getFields(): array
     {
         return $this->filters;
     }
@@ -59,7 +59,7 @@ class ilContainerFilterSet
      * @param int $field_id
      * @return bool
      */
-    public function has(int $record_set_id, int $field_id) : bool
+    public function has(int $record_set_id, int $field_id): bool
     {
         return in_array($record_set_id . "_" . $field_id, $this->ids, true);
     }

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -17,7 +19,7 @@
  *********************************************************************/
 class ilUsersGalleryUserCollectionPublicNameSorter extends ilAbstractUsersGalleryUserCollectionSorter
 {
-    protected function compare(ilUsersGalleryUser $left, ilUsersGalleryUser $right) : int
+    protected function compare(ilUsersGalleryUser $left, ilUsersGalleryUser $right): int
     {
         return strcmp($left->getSortablePublicName(), $right->getSortablePublicName());
     }

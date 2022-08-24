@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -14,7 +16,7 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *********************************************************************/
- 
+
 namespace ILIAS\ResourceStorage\StorageHandler\FileSystemBased;
 
 use ILIAS\Filesystem\Filesystem;
@@ -42,17 +44,17 @@ class MaxNestingFileSystemStorageHandler extends AbstractFileSystemStorageHandle
     /**
      * @inheritDoc
      */
-    public function getID() : string
+    public function getID(): string
     {
         return 'fsv2';
     }
 
-    public function getStorageLocationBasePath() : string
+    public function getStorageLocationBasePath(): string
     {
         return StorageHandlerFactory::BASE_DIRECTORY . '/' . $this->getID();
     }
 
-    public function isPrimary() : bool
+    public function isPrimary(): bool
     {
         return true;
     }

@@ -38,7 +38,7 @@ class ilLMHtmlExportViewLayoutProvider extends AbstractModificationProvider impl
     /**
      * @inheritDoc
      */
-    public function isInterestedInContexts() : ContextCollection
+    public function isInterestedInContexts(): ContextCollection
     {
         return $this->context_collection->repository();
     }
@@ -46,7 +46,7 @@ class ilLMHtmlExportViewLayoutProvider extends AbstractModificationProvider impl
     /**
      * No meta bar in HTML exports
      */
-    public function getMetaBarModification(CalledContexts $screen_context_stack) : ?MetaBarModification
+    public function getMetaBarModification(CalledContexts $screen_context_stack): ?MetaBarModification
     {
         $additional_data = $screen_context_stack->current()->getAdditionalData();
         if ($additional_data->is(self::LM_HTML_EXPORT_RENDERING, true)) {
@@ -54,7 +54,7 @@ class ilLMHtmlExportViewLayoutProvider extends AbstractModificationProvider impl
                 ->layout()
                 ->factory()
                 ->metabar()
-                ->withModification(function (MetaBar $current = null) : ?MetaBar {
+                ->withModification(function (MetaBar $current = null): ?MetaBar {
                     return null;
                 })->withHighPriority();
         }
@@ -64,7 +64,7 @@ class ilLMHtmlExportViewLayoutProvider extends AbstractModificationProvider impl
     /**
      * No main bar in HTML exports
      */
-    public function getMainBarModification(CalledContexts $screen_context_stack) : ?MainBarModification
+    public function getMainBarModification(CalledContexts $screen_context_stack): ?MainBarModification
     {
         $additional_data = $screen_context_stack->current()->getAdditionalData();
         if ($additional_data->is(self::LM_HTML_EXPORT_RENDERING, true)) {
@@ -72,7 +72,7 @@ class ilLMHtmlExportViewLayoutProvider extends AbstractModificationProvider impl
                 ->layout()
                 ->factory()
                 ->mainbar()
-                ->withModification(function (MainBar $current = null) : ?MainBar {
+                ->withModification(function (MainBar $current = null): ?MainBar {
                     global $DIC;
 
                     $lng = $DIC->language();
@@ -110,7 +110,7 @@ class ilLMHtmlExportViewLayoutProvider extends AbstractModificationProvider impl
     /**
      * No breadcrumbs in HTML exports
      */
-    public function getBreadCrumbsModification(CalledContexts $screen_context_stack) : ?BreadCrumbsModification
+    public function getBreadCrumbsModification(CalledContexts $screen_context_stack): ?BreadCrumbsModification
     {
         $additional_data = $screen_context_stack->current()->getAdditionalData();
         if ($additional_data->is(self::LM_HTML_EXPORT_RENDERING, true)) {
@@ -118,7 +118,7 @@ class ilLMHtmlExportViewLayoutProvider extends AbstractModificationProvider impl
                 ->layout()
                 ->factory()
                 ->breadcrumbs()
-                ->withModification(function (Breadcrumbs $current = null) : ?Breadcrumbs {
+                ->withModification(function (Breadcrumbs $current = null): ?Breadcrumbs {
                     return null;
                 })->withHighPriority();
         } else {

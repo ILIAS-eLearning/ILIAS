@@ -29,7 +29,7 @@ class ilButtonToSplitButtonMenuItemAdapter implements ilSplitButtonMenuItem
         $this->button = $button;
     }
 
-    public function getContent() : string
+    public function getContent(): string
     {
         $this->button->applyDefaultCss(false);
         return $this->button->render();

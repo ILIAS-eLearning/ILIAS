@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -36,7 +38,7 @@ class ilSimpleSAMLphpConfigTemplateHandler
      * @param string $destinationPath
      * @param array $placeholders A key/value map where the key is the name of a placeholder, and the value is a primitive type or a callable
      */
-    public function copy(string $sourcePath, string $destinationPath, array $placeholders = []) : void
+    public function copy(string $sourcePath, string $destinationPath, array $placeholders = []): void
     {
         if (!$this->fs->has($destinationPath)) {
             $templateContents = file_get_contents($sourcePath);

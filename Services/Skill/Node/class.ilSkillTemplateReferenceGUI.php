@@ -38,31 +38,31 @@ class ilSkillTemplateReferenceGUI extends ilBasicSkillTemplateGUI
         $this->lng = $DIC->language();
         $this->help = $DIC["ilHelp"];
         $ilCtrl = $DIC->ctrl();
-        
+
         $ilCtrl->saveParameter($this, "node_id");
         $ilCtrl->saveParameter($this, "tref_id");
-        
+
         parent::__construct($node_manager, $a_tref_id);
-        
+
         $this->tref_id = $a_tref_id;
         if (is_object($this->node_object)) {
             $this->base_skill_id = $this->node_object->getSkillTemplateId();
         }
     }
 
-    public function getType() : string
+    public function getType(): string
     {
         return "sktr";
     }
 
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         $ilCtrl = $this->ctrl;
         $tpl = $this->tpl;
         $ilTabs = $this->tabs;
-        
+
         //$tpl->getStandardTemplate();
-        
+
         $next_class = $ilCtrl->getNextClass($this);
         $cmd = $ilCtrl->getCmd();
 
@@ -73,7 +73,7 @@ class ilSkillTemplateReferenceGUI extends ilBasicSkillTemplateGUI
         }
     }
 
-    public function setTabs($a_tab = "levels") : void
+    public function setTabs($a_tab = "levels"): void
     {
         $ilTabs = $this->tabs;
         $ilCtrl = $this->ctrl;
@@ -103,7 +103,7 @@ class ilSkillTemplateReferenceGUI extends ilBasicSkillTemplateGUI
                     $ilCtrl->getLinkTarget($this, 'listItems')
                 );
             }
-    
+
             // properties
             $ilTabs->addTab(
                 "properties",
@@ -136,40 +136,40 @@ class ilSkillTemplateReferenceGUI extends ilBasicSkillTemplateGUI
 
             $tid = ilSkillTemplateReference::_lookupTemplateId($this->node_object->getId());
             $add = " (" . ilSkillTreeNode::_lookupTitle($tid) . ")";
-    
+
             parent::setTitleIcon();
             $tpl->setTitle(
                 $lng->txt("skmg_sktr") . ": " . $this->node_object->getTitle() . $add
             );
             $this->setSkillNodeDescription();
-            
+
             $ilTabs->activateTab($a_tab);
         }
     }
 
-    public function insert() : void
+    public function insert(): void
     {
         $ilCtrl = $this->ctrl;
         $tpl = $this->tpl;
-        
+
         $ilCtrl->saveParameter($this, "parent_id");
         $ilCtrl->saveParameter($this, "target");
         $this->initForm("create");
         $tpl->setContent($this->form->getHTML());
     }
 
-    public function editProperties() : void
+    public function editProperties(): void
     {
         $tpl = $this->tpl;
 
         $this->setTabs("properties");
-        
+
         $this->initForm();
         $this->getValues();
         $tpl->setContent($this->form->getHTML());
     }
 
-    public function initForm(string $a_mode = "edit") : void
+    public function initForm(string $a_mode = "edit"): void
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
@@ -180,7 +180,7 @@ class ilSkillTemplateReferenceGUI extends ilBasicSkillTemplateGUI
 
         // select skill template
         $tmplts = $this->skill_tree_node_manager->getTopTemplates();
-        
+
         // title
         $ti = new ilTextInputGUI($lng->txt("title"), "title");
         $ti->setRequired(true);
@@ -237,11 +237,11 @@ class ilSkillTemplateReferenceGUI extends ilBasicSkillTemplateGUI
                 $item->setDisabled(true);
             }
         }
-        
+
         $this->form->setFormAction($ilCtrl->getFormAction($this));
     }
 
-    public function getValues() : void
+    public function getValues(): void
     {
         $values = [];
         $values["skill_template_id"] = $this->node_object->getSkillTemplateId();
@@ -252,7 +252,7 @@ class ilSkillTemplateReferenceGUI extends ilBasicSkillTemplateGUI
         $this->form->setValuesByArray($values);
     }
 
-    public function saveItem() : void
+    public function saveItem(): void
     {
         if (!$this->tree_access_manager->hasManageCompetencesPermission()) {
             return;
@@ -269,7 +269,7 @@ class ilSkillTemplateReferenceGUI extends ilBasicSkillTemplateGUI
         $this->node_object = $sktr;
     }
 
-    public function afterSave() : void
+    public function afterSave(): void
     {
         $ilCtrl = $this->ctrl;
 
@@ -290,7 +290,7 @@ class ilSkillTemplateReferenceGUI extends ilBasicSkillTemplateGUI
         $ilCtrl->redirectByClass("ilskilltemplatereferencegui", "listItems");
     }
 
-    public function updateSkillTemplateReference() : void
+    public function updateSkillTemplateReference(): void
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
@@ -317,7 +317,7 @@ class ilSkillTemplateReferenceGUI extends ilBasicSkillTemplateGUI
         $tpl->setContent($this->form->getHTML());
     }
 
-    public function listItems() : void
+    public function listItems(): void
     {
         $tpl = $this->tpl;
         $lng = $this->lng;
@@ -327,7 +327,7 @@ class ilSkillTemplateReferenceGUI extends ilBasicSkillTemplateGUI
         }
 
         $this->setTabs("content");
-        
+
         $sk_id = $this->node_object->getSkillTemplateId();
         $obj_type = ilSkillTreeNode::_lookupType($sk_id);
 
@@ -353,7 +353,7 @@ class ilSkillTemplateReferenceGUI extends ilBasicSkillTemplateGUI
         }
     }
 
-    public function showObjects() : void
+    public function showObjects(): void
     {
         $tpl = $this->tpl;
 
@@ -367,7 +367,7 @@ class ilSkillTemplateReferenceGUI extends ilBasicSkillTemplateGUI
         $tpl->setContent($tab->getHTML());
     }
 
-    public function redirectToParent(bool $a_tmp_mode = false) : void
+    public function redirectToParent(bool $a_tmp_mode = false): void
     {
         $ilCtrl = $this->ctrl;
 

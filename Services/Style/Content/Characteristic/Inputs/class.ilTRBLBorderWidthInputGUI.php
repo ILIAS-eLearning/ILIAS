@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -34,7 +36,7 @@ class ilTRBLBorderWidthInputGUI extends ilFormPropertyGUI
     protected string $allvalue = "";
     protected ilObjUser $user;
     protected string $value = "";
-    
+
     public function __construct(string $a_title = "", string $a_postvar = "")
     {
         global $DIC;
@@ -46,68 +48,68 @@ class ilTRBLBorderWidthInputGUI extends ilFormPropertyGUI
         $this->dirs = array("all", "top", "bottom", "left", "right");
     }
 
-    public function setAllValue(string $a_allvalue) : void
+    public function setAllValue(string $a_allvalue): void
     {
         $this->allvalue = $a_allvalue;
     }
 
-    public function getAllValue() : string
+    public function getAllValue(): string
     {
         return $this->allvalue;
     }
 
-    public function setTopValue(string $a_topvalue) : void
+    public function setTopValue(string $a_topvalue): void
     {
         $this->topvalue = $a_topvalue;
     }
 
-    public function getTopValue() : string
+    public function getTopValue(): string
     {
         return $this->topvalue;
     }
 
-    public function setBottomValue(string $a_bottomvalue) : void
+    public function setBottomValue(string $a_bottomvalue): void
     {
         $this->bottomvalue = $a_bottomvalue;
     }
 
-    public function getBottomValue() : string
+    public function getBottomValue(): string
     {
         return $this->bottomvalue;
     }
 
-    public function setLeftValue(string $a_leftvalue) : void
+    public function setLeftValue(string $a_leftvalue): void
     {
         $this->leftvalue = $a_leftvalue;
     }
 
-    public function getLeftValue() : string
+    public function getLeftValue(): string
     {
         return $this->leftvalue;
     }
 
-    public function setRightValue(string $a_rightvalue) : void
+    public function setRightValue(string $a_rightvalue): void
     {
         $this->rightvalue = $a_rightvalue;
     }
 
-    public function getRightValue() : string
+    public function getRightValue(): string
     {
         return $this->rightvalue;
     }
 
-    public function checkInput() : bool
+    public function checkInput(): bool
     {
         $lng = $this->lng;
 
         $input = $this->getInput();
-        
+
         foreach ($this->dirs as $dir) {
             $type = $input[$dir]["type"];
             $num_value = $input[$dir]["num_value"];
             $num_unit = $input[$dir]["num_unit"];
             $pre_value = $input[$dir]["pre_value"];
-                
+
             /*
             if ($this->getRequired() && trim($num_value) == "")
             {
@@ -115,12 +117,12 @@ class ilTRBLBorderWidthInputGUI extends ilFormPropertyGUI
 
                 return false;
             }*/
-            
+
             if (!is_numeric($num_value) && $num_value != "") {
                 $this->setAlert($lng->txt("sty_msg_input_must_be_numeric"));
                 return false;
             }
-            
+
             $value = "";
             if ($type == "numeric") {
                 if ($num_value != "") {
@@ -129,7 +131,7 @@ class ilTRBLBorderWidthInputGUI extends ilFormPropertyGUI
             } else {
                 $value = $pre_value;
             }
-            
+
             if (trim($value) != "") {
                 switch ($dir) {
                     case "all": $this->setAllValue($value); break;
@@ -140,27 +142,27 @@ class ilTRBLBorderWidthInputGUI extends ilFormPropertyGUI
                 }
             }
         }
-        
+
         return true;
     }
 
-    public function getInput() : array
+    public function getInput(): array
     {
         return $this->arrayArray($this->getPostVar());
     }
 
-    public function insert(ilTemplate $a_tpl) : void
+    public function insert(ilTemplate $a_tpl): void
     {
         $lng = $this->lng;
         $value = "";
         $current_unit = "";
         $layout_tpl = new ilTemplate("tpl.prop_trbl_layout.html", true, true, "Services/Style/Content");
-        
+
         foreach ($this->dirs as $dir) {
             $tpl = new ilTemplate("tpl.prop_trbl_border_width.html", true, true, "Services/Style/Content");
             $unit_options = ilObjStyleSheet::_getStyleParameterNumericUnits();
             $pre_options = ilObjStyleSheet::_getStyleParameterValues("border-width");
-            
+
             switch ($dir) {
                 case "all": $value = strtolower(trim($this->getAllValue())); break;
                 case "top": $value = strtolower(trim($this->getTopValue())); break;
@@ -168,7 +170,7 @@ class ilTRBLBorderWidthInputGUI extends ilFormPropertyGUI
                 case "left": $value = strtolower(trim($this->getLeftValue())); break;
                 case "right": $value = strtolower(trim($this->getRightValue())); break;
             }
-    
+
             if (in_array($value, $pre_options)) {
                 $current_type = "pre";
                 $tpl->setVariable("PREDEFINED_SELECTED", 'checked="checked"');
@@ -188,7 +190,7 @@ class ilTRBLBorderWidthInputGUI extends ilFormPropertyGUI
                 }
                 $tpl->setVariable("VAL_NUM", $disp_val);
             }
-            
+
             foreach ($unit_options as $option) {
                 $tpl->setCurrentBlock("unit_option");
                 $tpl->setVariable("VAL_UNIT", $option);
@@ -198,7 +200,7 @@ class ilTRBLBorderWidthInputGUI extends ilFormPropertyGUI
                 }
                 $tpl->parseCurrentBlock();
             }
-            
+
             foreach ($pre_options as $option) {
                 $tpl->setCurrentBlock("pre_option");
                 $tpl->setVariable("VAL_PRE", $option);
@@ -212,17 +214,17 @@ class ilTRBLBorderWidthInputGUI extends ilFormPropertyGUI
             $tpl->setVariable("POSTVAR", $this->getPostVar());
             $tpl->setVariable("TXT_DIR", $lng->txt("sty_$dir"));
             $tpl->setVariable("DIR", $dir);
-            
+
             $layout_tpl->setVariable(strtoupper($dir), $tpl->get());
         }
         $layout_tpl->setVariable("COLSPAN", "2");
-        
+
         $a_tpl->setCurrentBlock("prop_generic");
         $a_tpl->setVariable("PROP_GENERIC", $layout_tpl->get());
         $a_tpl->parseCurrentBlock();
     }
 
-    public function setValueByArray(array $a_values) : void
+    public function setValueByArray(array $a_values): void
     {
         if ($a_values[$this->getPostVar()]["all"]["type"] == "predefined") {
             $this->setAllValue($a_values[$this->getPostVar()]["all"]["pre_value"]);

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /* Copyright (c) 2019 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
@@ -27,7 +29,7 @@ class ilLoggingSetupConfig implements Config
         $this->errorlog_dir = $this->normalizePath($errorlog_dir);
     }
 
-    protected function normalizePath(?string $p) : ?string
+    protected function normalizePath(?string $p): ?string
     {
         if (!$p) {
             return null;
@@ -36,17 +38,17 @@ class ilLoggingSetupConfig implements Config
         return preg_replace("%/+$%", "", $p);
     }
 
-    public function isEnabled() : bool
+    public function isEnabled(): bool
     {
         return $this->enabled;
     }
 
-    public function getPathToLogfile() : ?string
+    public function getPathToLogfile(): ?string
     {
         return $this->path_to_logfile;
     }
 
-    public function getErrorlogDir() : ?string
+    public function getErrorlogDir(): ?string
     {
         return $this->errorlog_dir;
     }

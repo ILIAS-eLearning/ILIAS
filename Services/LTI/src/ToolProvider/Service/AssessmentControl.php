@@ -29,7 +29,6 @@ use ILIAS\LTI\ToolProvider;
  */
 class AssessmentControl extends Service
 {
-
     /**
      * Access scope.
      */

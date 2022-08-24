@@ -49,13 +49,13 @@ class ilMediaCastHandlerGUI implements ilCtrlBaseClassInterface
         // initialisation stuff
         $this->ctrl = $ilCtrl;
     }
-    
-    public function executeCommand() : void
+
+    public function executeCommand(): void
     {
         $ilAccess = $this->access;
         $tpl = $this->tpl;
         $ilNavigationHistory = $this->nav_history;
-        
+
         $next_class = $this->ctrl->getNextClass($this);
         if ($next_class == "") {
             $this->ctrl->setCmdClass("ilobjmediacastgui");

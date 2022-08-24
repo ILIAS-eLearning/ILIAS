@@ -15,7 +15,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * Interface ilBiblAdminFactoryFacade
  *
@@ -48,7 +48,7 @@ class ilBiblAdminFactoryFacade implements ilBiblAdminFactoryFacadeInterface
     /**
      * @inheritDoc
      */
-    public function typeFactory() : \ilBiblTypeFactoryInterface
+    public function typeFactory(): \ilBiblTypeFactoryInterface
     {
         return $this->type_factory;
     }
@@ -57,7 +57,7 @@ class ilBiblAdminFactoryFacade implements ilBiblAdminFactoryFacadeInterface
     /**
      * @inheritDoc
      */
-    public function type() : \ilBiblTypeInterface
+    public function type(): \ilBiblTypeInterface
     {
         return $this->type;
     }
@@ -66,7 +66,7 @@ class ilBiblAdminFactoryFacade implements ilBiblAdminFactoryFacadeInterface
     /**
      * @inheritDoc
      */
-    public function translationFactory() : \ilBiblTranslationFactoryInterface
+    public function translationFactory(): \ilBiblTranslationFactoryInterface
     {
         return $this->translation_factory;
     }
@@ -75,7 +75,7 @@ class ilBiblAdminFactoryFacade implements ilBiblAdminFactoryFacadeInterface
     /**
      * @inheritDoc
      */
-    public function fieldFactory() : \ilBiblFieldFactoryInterface
+    public function fieldFactory(): \ilBiblFieldFactoryInterface
     {
         return $this->field_factory;
     }
@@ -84,7 +84,7 @@ class ilBiblAdminFactoryFacade implements ilBiblAdminFactoryFacadeInterface
     /**
      * @inheritDoc
      */
-    public function iliasObjId() : int
+    public function iliasObjId(): int
     {
         return $this->object_id;
     }
@@ -93,7 +93,7 @@ class ilBiblAdminFactoryFacade implements ilBiblAdminFactoryFacadeInterface
     /**
      * @inheritDoc
      */
-    public function iliasRefId() : int
+    public function iliasRefId(): int
     {
         return $this->ref_id;
     }

@@ -24,27 +24,27 @@ class ilChartDataBars extends ilChartData
     protected float $bar_width = 0;
     protected string $bar_align = "";
     protected bool $bar_horizontal = false;
-    
-    protected function getTypeString() : string
+
+    protected function getTypeString(): string
     {
         return "bars";
     }
-    
-    public function setLineWidth(int $a_value) : void
+
+    public function setLineWidth(int $a_value): void
     {
         $this->line_width = $a_value;
     }
 
-    public function getLineWidth() : ?int
+    public function getLineWidth(): ?int
     {
         return $this->line_width;
     }
-    
+
     public function setBarOptions(
         float $a_width,
         string $a_align = "center",
         bool $a_horizontal = false
-    ) : void {
+    ): void {
         $this->bar_width = (float) str_replace(",", ".", (string) $a_width);
         if (in_array($a_align, array("center", "left"))) {
             $this->bar_align = $a_align;
@@ -52,13 +52,13 @@ class ilChartDataBars extends ilChartData
         $this->bar_horizontal = $a_horizontal;
     }
 
-    protected function parseDataOptions(array &$a_options) : void
+    protected function parseDataOptions(array &$a_options): void
     {
         $width = $this->getLineWidth();
         if ($width !== null) {
             $a_options["lineWidth"] = $width;
         }
-        
+
         if ($this->bar_width) {
             $a_options["barWidth"] = $this->bar_width;
             $a_options["align"] = $this->bar_align;

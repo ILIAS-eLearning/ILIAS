@@ -26,12 +26,12 @@ class ilFSStoragePortfolio extends ilFileSystemAbstractionStorage
         parent::__construct(self::STORAGE_SECURED, true, $a_container_id);
     }
 
-    protected function getPathPostfix() : string
+    protected function getPathPostfix(): string
     {
         return 'prtf';
     }
 
-    protected function getPathPrefix() : string
+    protected function getPathPrefix(): string
     {
         return 'ilPortfolio';
     }

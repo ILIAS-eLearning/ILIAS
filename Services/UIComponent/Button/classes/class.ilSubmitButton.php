@@ -25,44 +25,44 @@
 class ilSubmitButton extends ilButtonBase
 {
     protected string $cmd = "";
-    
-    public static function getInstance() : self
+
+    public static function getInstance(): self
     {
         return new self(self::TYPE_SUBMIT);
     }
-    
-    
+
+
     //
     // properties
     //
-    
+
     /**
      * Set submit command
      */
-    public function setCommand(string $a_value) : void
+    public function setCommand(string $a_value): void
     {
         $this->cmd = trim($a_value);
     }
-    
-    public function getCommand() : string
+
+    public function getCommand(): string
     {
         return $this->cmd;
     }
-    
-    
+
+
     //
     // render
     //
-        
-    public function render() : string
+
+    public function render(): string
     {
         $this->prepareRender();
-        
+
         $attr = array();
         $attr["type"] = "submit";
         $attr["name"] = "cmd[" . $this->getCommand() . "]";
         $attr["value"] = $this->getCaption();
-        
+
         return '<input' . $this->renderAttributes($attr) . ' />';
     }
 }

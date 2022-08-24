@@ -32,12 +32,12 @@ class ilUIHookPluginGUI
     public const PREPEND = 'p';
 
 
-    final public function setPluginObject(ilUserInterfaceHookPlugin $a_val) : void
+    final public function setPluginObject(ilUserInterfaceHookPlugin $a_val): void
     {
         $this->plugin_object = $a_val;
     }
 
-    final public function getPluginObject() : ?ilUserInterfaceHookPlugin
+    final public function getPluginObject(): ?ilUserInterfaceHookPlugin
     {
         return $this->plugin_object;
     }
@@ -63,7 +63,7 @@ class ilUIHookPluginGUI
         string $a_comp,
         string $a_part,
         array $a_par = array()
-    ) : array {
+    ): array {
         return array('mode' => self::KEEP, 'html' => '');
     }
 
@@ -85,7 +85,7 @@ class ilUIHookPluginGUI
         string $a_comp,
         string $a_part,
         array $a_par = array()
-    ) : void {
+    ): void {
     }
 
 
@@ -97,7 +97,7 @@ class ilUIHookPluginGUI
     final public function modifyHTML(
         string $a_def_html,
         array $a_resp
-    ) : string {
+    ): string {
         switch ($a_resp['mode']) {
             case self::REPLACE:
                 $a_def_html = $a_resp['html'];
@@ -119,7 +119,7 @@ class ilUIHookPluginGUI
      *
      * Can be used to interfere with the goto script behaviour
      */
-    public function gotoHook() : void
+    public function gotoHook(): void
     {
     }
 
@@ -129,7 +129,7 @@ class ilUIHookPluginGUI
      *
      * Can be used to interfere with the goto script behaviour
      */
-    public function checkGotoHook(string $a_target) : array
+    public function checkGotoHook(string $a_target): array
     {
         return array('target' => false);
     }

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -20,27 +22,27 @@ class ilGlobalUnitConfigurationGUI extends ilUnitConfigurationGUI
 {
     public const REQUEST_PARAM_SUB_CONTEXT = 'context';
 
-    protected function getDefaultCommand() : string
+    protected function getDefaultCommand(): string
     {
         return 'showGlobalUnitCategories';
     }
 
-    public function getUnitCategoryOverviewCommand() : string
+    public function getUnitCategoryOverviewCommand(): string
     {
         return 'showGlobalUnitCategories';
     }
 
-    public function isCRUDContext() : bool
+    public function isCRUDContext(): bool
     {
         return true;
     }
 
-    public function getUniqueId() : string
+    public function getUniqueId(): string
     {
         return $this->repository->getConsumerId() . '_global';
     }
 
-    protected function showGlobalUnitCategories() : void
+    protected function showGlobalUnitCategories(): void
     {
         global $DIC;
 
@@ -54,7 +56,7 @@ class ilGlobalUnitConfigurationGUI extends ilUnitConfigurationGUI
         parent::showGlobalUnitCategories();
     }
 
-    protected function showUnitCategories(array $categories) : void
+    protected function showUnitCategories(array $categories): void
     {
         $table = new ilGlobalUnitCategoryTableGUI($this, $this->getUnitCategoryOverviewCommand());
         $table->setData($categories);

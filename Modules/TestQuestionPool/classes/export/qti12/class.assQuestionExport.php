@@ -43,11 +43,11 @@ class assQuestionExport
     {
         $this->object = $a_object;
     }
-    
+
     /**
      * @param ilXmlWriter $a_xml_writer
      */
-    protected function addAnswerSpecificFeedback(ilXmlWriter $a_xml_writer, $answers) : void
+    protected function addAnswerSpecificFeedback(ilXmlWriter $a_xml_writer, $answers): void
     {
         foreach ($answers as $index => $answer) {
             $linkrefid = "response_$index";
@@ -68,16 +68,16 @@ class assQuestionExport
             $a_xml_writer->xmlEndTag("itemfeedback");
         }
     }
-    
+
     /**
      * @param ilXmlWriter $a_xml_writer
      */
-    protected function addGenericFeedback(ilXmlWriter $a_xml_writer) : void
+    protected function addGenericFeedback(ilXmlWriter $a_xml_writer): void
     {
         $this->exportFeedbackOnly($a_xml_writer);
     }
-    
-    public function exportFeedbackOnly($a_xml_writer) : void
+
+    public function exportFeedbackOnly($a_xml_writer): void
     {
         $feedback_allcorrect = $this->object->feedbackOBJ->getGenericFeedbackExportPresentation(
             $this->object->getId(),
@@ -171,7 +171,7 @@ class assQuestionExport
     * Returns a QTI xml representation of the question and sets the internal
     * domxml variable with the DOM XML representation of the QTI xml representation
     */
-    public function toXML($a_include_header = true, $a_include_binary = true, $a_shuffle = false, $test_output = false, $force_image_references = false) : string
+    public function toXML($a_include_header = true, $a_include_binary = true, $a_shuffle = false, $test_output = false, $force_image_references = false): string
     {
         return '';
     }
@@ -186,14 +186,14 @@ class assQuestionExport
      * @param string $fieldLabel
      * @param string $fieldValue
      */
-    final protected function addQtiMetaDataField(ilXmlWriter $a_xml_writer, $fieldLabel, $fieldValue) : void
+    final protected function addQtiMetaDataField(ilXmlWriter $a_xml_writer, $fieldLabel, $fieldValue): void
     {
         $a_xml_writer->xmlStartTag("qtimetadatafield");
         $a_xml_writer->xmlElement("fieldlabel", null, $fieldLabel);
         $a_xml_writer->xmlElement("fieldentry", null, $fieldValue);
         $a_xml_writer->xmlEndTag("qtimetadatafield");
     }
-    
+
     /**
      * adds a qti meta data field for ilias specific information of "additional content editing mode"
      * (xml writer must be in context of opened "qtimetadata" tag)
@@ -202,7 +202,7 @@ class assQuestionExport
      * @access protected
      * @param ilXmlWriter $a_xml_writer
      */
-    final protected function addAdditionalContentEditingModeInformation(ilXmlWriter $a_xml_writer) : void
+    final protected function addAdditionalContentEditingModeInformation(ilXmlWriter $a_xml_writer): void
     {
         $this->addQtiMetaDataField(
             $a_xml_writer,
@@ -214,16 +214,16 @@ class assQuestionExport
     /**
      * @param ilXmlWriter $xmlwriter
      */
-    protected function addGeneralMetadata(ilXmlWriter $xmlwriter) : void
+    protected function addGeneralMetadata(ilXmlWriter $xmlwriter): void
     {
         $this->addQtiMetaDataField($xmlwriter, 'externalId', $this->object->getExternalId());
-        
+
         $this->addQtiMetaDataField(
             $xmlwriter,
             'ilias_lifecycle',
             $this->object->getLifecycle()->getIdentifier()
         );
-        
+
         $this->addQtiMetaDataField(
             $xmlwriter,
             'lifecycle',
@@ -231,9 +231,9 @@ class assQuestionExport
         );
     }
 
-    const ITEM_SOLUTIONHINT = 'solutionhint';
+    public const ITEM_SOLUTIONHINT = 'solutionhint';
 
-    protected function addSolutionHints(ilXmlWriter $writer) : ilXmlWriter
+    protected function addSolutionHints(ilXmlWriter $writer): ilXmlWriter
     {
         $question_id = (int) $this->object->getId();
         $list = ilAssQuestionHintList::getListByQuestionId($question_id);

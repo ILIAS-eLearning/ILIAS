@@ -1,13 +1,15 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace ILIAS\Filesystem\Definitions;
 
 final class SuffixDefinitions
 {
-    const SEC = ".sec";
+    public const SEC = ".sec";
     protected array $white_list = [];
     protected array $black_list = [];
-    
+
     /**
      * @param array $white_list
      * @param array $black_list
@@ -18,21 +20,21 @@ final class SuffixDefinitions
         $this->white_list = array_unique($white_list);
         $this->black_list = $black_list;
     }
-    
-    public function getWhiteList() : array
+
+    public function getWhiteList(): array
     {
         return $this->white_list;
     }
-    
-    public function getBlackList() : array
+
+    public function getBlackList(): array
     {
         return $this->black_list;
     }
-    
+
     /**
      * @deprecated Use ILIAS ResourceStorage to store files, there is no need to check valid filenames
      */
-    public function getValidFileName(string $filename) : string
+    public function getValidFileName(string $filename): string
     {
         if ($this->hasValidFileName($filename)) {
             return $filename;
@@ -51,14 +53,14 @@ final class SuffixDefinitions
         }
         return $filename;
     }
-    
+
     /**
      * @deprecated Use ILIAS ResourceStorage to store files, there is no need to check valid filenames
      */
-    public function hasValidFileName(string $filename) : bool
+    public function hasValidFileName(string $filename): bool
     {
         $pi = pathinfo($filename);
-        
+
         return in_array(strtolower($pi["extension"]), $this->white_list)
             && !in_array(strtolower($pi["extension"]), $this->black_list);
     }

@@ -22,12 +22,12 @@
  */
 class ilGlossaryDefPage extends ilPageObject
 {
-    public function getParentType() : string
+    public function getParentType(): string
     {
         return "gdf";
     }
 
-    public function beforePageContentUpdate(ilPageContent $a_page_content) : void
+    public function beforePageContentUpdate(ilPageContent $a_page_content): void
     {
         if ($a_page_content->getType() == "par") {
             $glos = ilObjGlossary::lookupAutoGlossaries($this->getParentId());

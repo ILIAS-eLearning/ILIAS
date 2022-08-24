@@ -29,7 +29,6 @@
  */
 class ilDclFieldListTableGUI extends ilTable2GUI
 {
-
     private $order = null;
 
     protected ilDclTable $table;
@@ -91,7 +90,7 @@ class ilDclFieldListTableGUI extends ilTable2GUI
     /**
      * Get HTML
      */
-    public function getHTML() : string
+    public function getHTML(): string
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
@@ -214,7 +213,7 @@ class ilDclFieldListTableGUI extends ilTable2GUI
         return $this->render();
     }
 
-    public function fillRowFromObject(ilDclBaseFieldModel $a_set) : void
+    public function fillRowFromObject(ilDclBaseFieldModel $a_set): void
     {
         global $DIC;
         $lng = $DIC['lng'];
@@ -272,11 +271,16 @@ class ilDclFieldListTableGUI extends ilTable2GUI
             $alist->setId($a_set->getId());
             $alist->setListTitle($lng->txt('actions'));
 
-            if (ilObjDataCollectionAccess::hasAccessToFields($this->parent_obj->getDataCollectionObject()->getRefId(),
-                $this->table->getId())) {
+            if (ilObjDataCollectionAccess::hasAccessToFields(
+                $this->parent_obj->getDataCollectionObject()->getRefId(),
+                $this->table->getId()
+            )) {
                 $alist->addItem($lng->txt('edit'), 'edit', $ilCtrl->getLinkTargetByClass('ildclfieldeditgui', 'edit'));
-                $alist->addItem($lng->txt('delete'), 'delete',
-                    $ilCtrl->getLinkTargetByClass('ildclfieldeditgui', 'confirmDelete'));
+                $alist->addItem(
+                    $lng->txt('delete'),
+                    'delete',
+                    $ilCtrl->getLinkTargetByClass('ildclfieldeditgui', 'confirmDelete')
+                );
             }
 
             $this->tpl->setVariable('ACTIONS', $alist->getHTML());

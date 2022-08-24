@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -52,7 +54,7 @@ abstract class AbstractIdentificationProvider implements IdentificationProviderI
      * @param string $serialized_string
      * @return IdentificationInterface
      */
-    public function fromSerializedString(string $serialized_string) : IdentificationInterface
+    public function fromSerializedString(string $serialized_string): IdentificationInterface
     {
         if ($this->map->isInMap($serialized_string)) {
             return $this->map->getFromMap($serialized_string);

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /******************************************************************************
  *
@@ -26,7 +28,7 @@ use ILIAS\Notifications\Model\ilNotificationObject;
  */
 class ilNotificationEchoHandler extends ilNotificationHandler
 {
-    public function notify(ilNotificationObject $notification) : void
+    public function notify(ilNotificationObject $notification): void
     {
         echo "Notification for Recipient {$notification->user->getId()}: $notification->title <br />";
     }

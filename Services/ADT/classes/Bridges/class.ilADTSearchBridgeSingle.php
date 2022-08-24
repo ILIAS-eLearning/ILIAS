@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * Class ilADTSearchBridgeSingle
@@ -7,7 +9,7 @@ abstract class ilADTSearchBridgeSingle extends ilADTSearchBridge
 {
     protected ilADT $adt;
 
-    protected function setDefinition(ilADTDefinition $a_adt_def) : void
+    protected function setDefinition(ilADTDefinition $a_adt_def): void
     {
         if ($this->isValidADTDefinition($a_adt_def)) {
             $this->adt = ilADTFactory::getInstance()->getInstanceByDefinition($a_adt_def);
@@ -21,22 +23,22 @@ abstract class ilADTSearchBridgeSingle extends ilADTSearchBridge
      * Get ADT
      * @return ilADT|null
      */
-    public function getADT() : ?ilADT
+    public function getADT(): ?ilADT
     {
         return $this->adt;
     }
 
-    public function isNull() : bool
+    public function isNull(): bool
     {
         return !$this->getADT() instanceof ilADT || $this->getADT()->isNull();
     }
 
-    public function isValid() : bool
+    public function isValid(): bool
     {
         return $this->getADT() instanceof ilADT && $this->getADT()->isValid();
     }
 
-    public function validate() : bool
+    public function validate(): bool
     {
         if (!$this->getADT() instanceof ilADT) {
             return false;

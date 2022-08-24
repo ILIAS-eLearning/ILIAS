@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -30,7 +32,7 @@ class NewObjectTransformationTest extends TestCase
     /**
      * @throws \ReflectionException
      */
-    public function testNewObjectTransformation() : void
+    public function testNewObjectTransformation(): void
     {
         $transformation = new NewObjectTransformation(MyClass::class);
 
@@ -41,7 +43,7 @@ class NewObjectTransformationTest extends TestCase
         $this->assertEquals(['hello', 42], $result);
     }
 
-    public function testNewObjectTransformationThrowsTypeErrorOnInvalidConstructorArguments() : void
+    public function testNewObjectTransformationThrowsTypeErrorOnInvalidConstructorArguments(): void
     {
         $this->expectNotToPerformAssertions();
 
@@ -59,7 +61,7 @@ class NewObjectTransformationTest extends TestCase
     /**
      * @throws \ReflectionException
      */
-    public function testNewObjectApply() : void
+    public function testNewObjectApply(): void
     {
         $transformation = new NewObjectTransformation(MyClass::class);
 
@@ -72,7 +74,7 @@ class NewObjectTransformationTest extends TestCase
         $this->assertEquals(['hello', 42], $result);
     }
 
-    public function testNewObjectApplyResultsErrorObjectOnInvalidConstructorArguments() : void
+    public function testNewObjectApplyResultsErrorObjectOnInvalidConstructorArguments(): void
     {
         $this->expectNotToPerformAssertions();
 
@@ -87,7 +89,7 @@ class NewObjectTransformationTest extends TestCase
         $this->fail();
     }
 
-    public function testExceptionInConstructorWillResultInErrorObject() : void
+    public function testExceptionInConstructorWillResultInErrorObject(): void
     {
         $transformation = new NewObjectTransformation(MyClassThrowsException::class);
 
@@ -96,7 +98,7 @@ class NewObjectTransformationTest extends TestCase
         $this->assertTrue($resultObject->isError());
     }
 
-    public function testExceptionInConstructorWillThrowException() : void
+    public function testExceptionInConstructorWillThrowException(): void
     {
         $this->expectNotToPerformAssertions();
 
@@ -123,7 +125,7 @@ class MyClass
         $this->integer = $integer;
     }
 
-    public function myMethod() : array
+    public function myMethod(): array
     {
         return [$this->string, $this->integer];
     }

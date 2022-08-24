@@ -21,18 +21,18 @@ class ilChartDataPie extends ilChartData
 {
     protected int $line_width = 0;
     protected float $label_radius = 0;
-    
-    protected function getTypeString() : string
+
+    protected function getTypeString(): string
     {
         return "pie";
     }
-    
-    public function setLineWidth(int $a_value) : void
+
+    public function setLineWidth(int $a_value): void
     {
         $this->line_width = $a_value;
     }
 
-    public function getLineWidth() : int
+    public function getLineWidth(): int
     {
         return $this->line_width;
     }
@@ -42,49 +42,49 @@ class ilChartDataPie extends ilChartData
      * it will use that as a percentage of the available space (size of the container), otherwise
      * it will use the value as a direct pixel length.
      */
-    public function setLabelRadius(float $a_value) : void
+    public function setLabelRadius(float $a_value): void
     {
         $this->label_radius = $a_value;
     }
 
-    public function getLabelRadius() : float
+    public function getLabelRadius(): float
     {
         return $this->label_radius;
     }
-    
-    public function addPiePoint(int $a_value, string $a_caption = null) : void
+
+    public function addPiePoint(int $a_value, string $a_caption = null): void
     {
         $this->data[] = array($a_value, $a_caption);
     }
-        
-    public function parseData(array &$a_data) : void
+
+    public function parseData(array &$a_data): void
     {
         foreach ($this->data as $slice) {
             $series = new stdClass();
             $series->label = str_replace("\"", "\\\"", $slice[1]);
-            
+
             // add percentage to legend
             if (!$this->getLabelRadius()) {
                 $series->label .= " (" . $slice[0] . "%)";
             }
-            
+
             $series->data = $slice[0];
 
             $options = array("show" => !$this->isHidden());
-            
+
             $series->{$this->getTypeString()} = $options;
 
             $a_data[] = $series;
         }
     }
-    
-    public function parseGlobalOptions(stdClass $a_options, ilChart $a_chart) : void
+
+    public function parseGlobalOptions(stdClass $a_options, ilChart $a_chart): void
     {
         $a_options->series->pie = new stdClass();
         $a_options->series->pie->show = true;
-                
+
         // fill vs. stroke - trying to normalize data attributes
-        
+
         $fill = $this->getFill();
         $width = $this->getLineWidth();
         if ($fill["fill"] || $width) {

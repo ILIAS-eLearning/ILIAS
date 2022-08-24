@@ -63,7 +63,7 @@ class ilCalendarChangedAppointmentsTableGUI extends ilTable2GUI
         $this->setDefaultOrderDirection('asc');
     }
 
-    protected function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set): void
     {
         global $DIC;
 
@@ -120,7 +120,7 @@ class ilCalendarChangedAppointmentsTableGUI extends ilTable2GUI
         $this->tpl->setVariable('VAL_LAST_UPDATE', ilDatePresentation::formatDate($update));
     }
 
-    public function setAppointments(array $a_apps) : void
+    public function setAppointments(array $a_apps): void
     {
         $appointments = [];
         foreach ($a_apps as $event) {

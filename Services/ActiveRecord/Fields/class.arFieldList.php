@@ -64,7 +64,7 @@ class arFieldList
         $this->ar = $ar;
     }
 
-    public static function mapKey(string $key) : string
+    public static function mapKey(string $key): string
     {
         if (isset(self::$key_maps[$key])) {
             return self::$key_maps[$key];
@@ -74,17 +74,17 @@ class arFieldList
     }
 
 
-    public static function getAllowedConnectorFields() : array
+    public static function getAllowedConnectorFields(): array
     {
         return self::$allowed_connector_fields;
     }
 
-    public static function getAllowedDescriptionFields() : array
+    public static function getAllowedDescriptionFields(): array
     {
         return self::$allowed_description_fields;
     }
 
-    public static function getInstance(ActiveRecord $ar) : \arFieldList
+    public static function getInstance(ActiveRecord $ar): \arFieldList
     {
         $arFieldList = new self($ar);
         $arFieldList->initRawFields($ar);
@@ -96,7 +96,7 @@ class arFieldList
     /**
      * @deprecated
      */
-    public static function getInstanceFromStorage(\ActiveRecord $ar) : \arFieldList
+    public static function getInstanceFromStorage(\ActiveRecord $ar): \arFieldList
     {
         $arFieldList = new self($ar);
         $arFieldList->initRawFields($ar);
@@ -106,7 +106,7 @@ class arFieldList
     }
 
 
-    public function getArrayForConnector() : array
+    public function getArrayForConnector(): array
     {
         $return = array();
         foreach ($this->getFields() as $field) {
@@ -116,7 +116,7 @@ class arFieldList
         return $return;
     }
 
-    protected function initFields() : void
+    protected function initFields(): void
     {
         foreach ($this->getRawFields() as $fieldname => $attributes) {
             if (self::checkAttributes($attributes)) {
@@ -130,7 +130,7 @@ class arFieldList
         }
     }
 
-    public function getFieldByName(string $field_name) : ?arField
+    public function getFieldByName(string $field_name): ?arField
     {
         $field = null;
         static $field_map;
@@ -149,7 +149,7 @@ class arFieldList
     }
 
 
-    public function isField(string $field_name) : bool
+    public function isField(string $field_name): bool
     {
         $is_field = false;
         foreach ($this->getFields() as $field) {
@@ -161,17 +161,17 @@ class arFieldList
         return $is_field;
     }
 
-    public function getPrimaryFieldName() : string
+    public function getPrimaryFieldName(): string
     {
         return $this->getPrimaryField()->getName();
     }
 
-    public function getPrimaryFieldType() : string
+    public function getPrimaryFieldType(): string
     {
         return $this->getPrimaryField()->getFieldType();
     }
 
-    protected function initRawFields(ActiveRecord $ar) : void
+    protected function initRawFields(ActiveRecord $ar): void
     {
         $regex = "/[ ]*\\* @(" . implode('|', self::$prefixes) . ")_([a-zA-Z0-9_]*)[ ]*([a-zA-Z0-9_]*)/u";
         $reflectionClass = new ReflectionClass($ar);
@@ -196,12 +196,12 @@ class arFieldList
         $this->setRawFields($raw_fields);
     }
 
-    protected static function isAllowedAttribute(string $attribute_name) : bool
+    protected static function isAllowedAttribute(string $attribute_name): bool
     {
         return in_array($attribute_name, array_merge(self::$allowed_description_fields, array(self::HAS_FIELD)), true);
     }
 
-    protected static function checkAttributes(array $attributes) : bool
+    protected static function checkAttributes(array $attributes): bool
     {
         if (isset($attributes[self::HAS_FIELD]) && $attributes[self::HAS_FIELD] === 'true') {
             foreach (array_keys($attributes) as $atr) {
@@ -219,7 +219,7 @@ class arFieldList
     /**
      * @param \arField[] $fields
      */
-    public function setFields(array $fields) : void
+    public function setFields(array $fields): void
     {
         $this->fields = $fields;
     }
@@ -227,12 +227,12 @@ class arFieldList
     /**
      * @return arField[]
      */
-    public function getFields() : array
+    public function getFields(): array
     {
         return $this->fields;
     }
 
-    public function setPrimaryField(\arField $primary_field) : void
+    public function setPrimaryField(\arField $primary_field): void
     {
         $this->primary_field = $primary_field;
     }
@@ -248,22 +248,22 @@ class arFieldList
     /**
      * @param mixed[] $raw_fields
      */
-    public function setRawFields(array $raw_fields) : void
+    public function setRawFields(array $raw_fields): void
     {
         $this->raw_fields = $raw_fields;
     }
 
-    public function getRawFields() : array
+    public function getRawFields(): array
     {
         return $this->raw_fields;
     }
 
-    public function setPrimaryFields(array $primary_fields) : void
+    public function setPrimaryFields(array $primary_fields): void
     {
         $this->primary_fields = $primary_fields;
     }
 
-    public function getPrimaryFields() : array
+    public function getPrimaryFields(): array
     {
         return $this->primary_fields;
     }

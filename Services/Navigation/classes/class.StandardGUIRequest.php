@@ -38,17 +38,17 @@ class StandardGUIRequest
         );
     }
 
-    public function getRefId() : int
+    public function getRefId(): int
     {
         return $this->int("ref_id");
     }
 
-    public function getUrlRefId() : int
+    public function getUrlRefId(): int
     {
         return $this->int("url_ref_id");
     }
 
-    public function getTarget() : string
+    public function getTarget(): string
     {
         return $this->str("target");
     }

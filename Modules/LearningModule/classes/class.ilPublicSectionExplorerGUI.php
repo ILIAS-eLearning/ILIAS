@@ -43,7 +43,7 @@ class ilPublicSectionExplorerGUI extends ilTreeExplorerGUI
     /**
      * @param object|array $a_node
      */
-    public function getNodeContent($a_node) : string
+    public function getNodeContent($a_node): string
     {
         $lang = ($this->requested_transl != "")
             ? $this->requested_transl
@@ -62,7 +62,7 @@ class ilPublicSectionExplorerGUI extends ilTreeExplorerGUI
     /**
      * @param object|array $a_node
      */
-    public function getNodeIcon($a_node) : string
+    public function getNodeIcon($a_node): string
     {
         if ($a_node["child"] == $this->getNodeId($this->getRootNode())) {
             $icon = ilUtil::getImagePath("icon_lm.svg");
@@ -102,7 +102,7 @@ class ilPublicSectionExplorerGUI extends ilTreeExplorerGUI
         return $icon;
     }
 
-    public function beforeRendering() : void
+    public function beforeRendering(): void
     {
         //select public pages and open public chapters
         foreach ($this->getAllNodes() as $node) {
@@ -115,7 +115,7 @@ class ilPublicSectionExplorerGUI extends ilTreeExplorerGUI
         }
     }
 
-    protected function getAllNodes(?int $from_id = null) : array
+    protected function getAllNodes(?int $from_id = null): array
     {
         $nodes = array();
 
@@ -137,7 +137,7 @@ class ilPublicSectionExplorerGUI extends ilTreeExplorerGUI
      * @param object|array $a_node
      * @return bool
      */
-    public function isNodeClickable($a_node) : bool
+    public function isNodeClickable($a_node): bool
     {
         if ($a_node["type"] == "pg") {
             return true;

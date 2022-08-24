@@ -24,7 +24,7 @@
 class ilRating
 {
     protected static array $list_data = [];
-    
+
     /**
     * Write rating for a user and an object.
     *
@@ -44,7 +44,7 @@ class ilRating
         int $a_user_id,
         int $a_rating,
         int $a_category_id = 0
-    ) : void {
+    ): void {
         global $DIC;
 
         $ilDB = $DIC->database();
@@ -60,7 +60,7 @@ class ilRating
         if ($a_user_id == ANONYMOUS_USER_ID) {
             return;
         }
-    
+
         if ($a_category_id) {
             $ilDB->manipulate("DELETE FROM il_rating WHERE " .
                 "user_id = " . $ilDB->quote($a_user_id, "integer") . " AND " .
@@ -70,7 +70,7 @@ class ilRating
                 $ilDB->equals("sub_obj_type", $a_sub_obj_type, "text", true) . " AND " .
                 "category_id = " . $ilDB->quote(0, "integer"));
         }
-        
+
         $ilDB->manipulate("DELETE FROM il_rating WHERE " .
             "user_id = " . $ilDB->quote($a_user_id, "integer") . " AND " .
             "obj_id = " . $ilDB->quote($a_obj_id, "integer") . " AND " .
@@ -92,7 +92,7 @@ class ilRating
                 $ilDB->quote(time(), "integer") . ")");
         }
     }
-            
+
     /**
     * Reset rating for a user and an object.
     *
@@ -108,11 +108,11 @@ class ilRating
         int $a_sub_obj_id,
         string $a_sub_obj_type,
         int $a_user_id
-    ) : void {
+    ): void {
         global $DIC;
 
         $ilDB = $DIC->database();
-        
+
         $ilDB->manipulate("DELETE FROM il_rating WHERE " .
             "user_id = " . $ilDB->quote($a_user_id, "integer") . " AND " .
             "obj_id = " . $ilDB->quote($a_obj_id, "integer") . " AND " .
@@ -120,8 +120,8 @@ class ilRating
             "sub_obj_id = " . $ilDB->quote($a_sub_obj_id, "integer") . " AND " .
             $ilDB->equals("sub_obj_type", $a_sub_obj_type, "text", true));
     }
-    
-    
+
+
     /**
     * Get rating for a user and an object.
     *
@@ -139,15 +139,15 @@ class ilRating
         string $a_sub_obj_type,
         int $a_user_id,
         int $a_category_id = null
-    ) : float {
+    ): float {
         global $DIC;
 
         $ilDB = $DIC->database();
-        
+
         if (isset(self::$list_data["user"][$a_obj_type . "/" . $a_obj_id])) {
             return self::$list_data["user"][$a_obj_type . "/" . $a_obj_id] ?? 0;
         }
-        
+
         $q = "SELECT AVG(rating) av FROM il_rating WHERE " .
             "user_id = " . $ilDB->quote($a_user_id, "integer") . " AND " .
             "obj_id = " . $ilDB->quote($a_obj_id, "integer") . " AND " .
@@ -161,7 +161,7 @@ class ilRating
         $rec = $ilDB->fetchAssoc($set);
         return (float) $rec["av"];
     }
-    
+
     /**
     * Get overall rating for an object.
     *
@@ -177,15 +177,15 @@ class ilRating
         int $a_sub_obj_id = null,
         string $a_sub_obj_type = null,
         int $a_category_id = null
-    ) : array {
+    ): array {
         global $DIC;
 
         $ilDB = $DIC->database();
-    
+
         if (isset(self::$list_data["all"][$a_obj_type . "/" . $a_obj_id])) {
             return self::$list_data["all"][$a_obj_type . "/" . $a_obj_id];
         }
-        
+
         $q = "SELECT AVG(rating) av FROM il_rating" .
             " WHERE obj_id = " . $ilDB->quote($a_obj_id, "integer") .
             " AND obj_type = " . $ilDB->quote($a_obj_type, "text");
@@ -195,7 +195,7 @@ class ilRating
         } else {
             $q .= " AND sub_obj_type = " . $ilDB->quote("-", "text"); // #13913
         }
-        
+
         if ($a_category_id !== null) {
             $q .= " AND category_id = " . $ilDB->quote($a_category_id, "integer");
         }
@@ -226,11 +226,11 @@ class ilRating
         int $a_obj_id,
         string $a_obj_type,
         array $a_category_ids = null
-    ) : array {
+    ): array {
         global $DIC;
 
         $ilDB = $DIC->database();
-        
+
         $res = array();
         $q = "SELECT sub_obj_id, sub_obj_type, rating, category_id, user_id, tstamp " .
             "FROM il_rating WHERE " .
@@ -246,7 +246,7 @@ class ilRating
         }
         return $res;
     }
-    
+
     /**
      * Preload rating data for list guis
      *
@@ -254,14 +254,14 @@ class ilRating
      */
     public static function preloadListGUIData(
         array $a_obj_ids
-    ) : void {
+    ): void {
         global $DIC;
 
         $ilDB = $DIC->database();
         $ilUser = $DIC->user();
-    
+
         $tmp = $res = $res_user = array();
-        
+
         // collapse by categories
         $q = "SELECT obj_id, obj_type, user_id, AVG(rating) av" .
             " FROM il_rating" .
@@ -276,15 +276,15 @@ class ilRating
                 $res_user[$rec["obj_type"] . "/" . $rec["obj_id"]] = (float) $rec["av"];
             }
         }
-        
+
         // average for main objects without sub-objects
         foreach ($tmp as $obj_id => $votes) {
             $res[$obj_id] = array("avg" => array_sum($votes) / sizeof($votes),
                 "cnt" => sizeof($votes));
         }
-        
+
         // file/wiki/lm rating toggles
-        
+
         $set = $ilDB->query("SELECT file_id, rating" .
             " FROM file_data" .
             " WHERE " . $ilDB->in("file_id", $a_obj_ids, "", 'integer'));
@@ -296,7 +296,7 @@ class ilRating
                 unset($res[$id]);
             }
         }
-        
+
         $set = $ilDB->query("SELECT id, rating_overall" .
             " FROM il_wiki_data" .
             " WHERE " . $ilDB->in("id", $a_obj_ids, "", 'integer'));
@@ -308,7 +308,7 @@ class ilRating
                 unset($res[$id]);
             }
         }
-        
+
         $set = $ilDB->query("SELECT id, rating" .
             " FROM content_object" .
             " WHERE " . $ilDB->in("id", $a_obj_ids, "", 'integer'));
@@ -320,14 +320,14 @@ class ilRating
                 unset($res[$id]);
             }
         }
-        
+
         self::$list_data = array("all" => $res, "user" => $res_user);
     }
-    
+
     public static function hasRatingInListGUI(
         int $a_obj_id,
         string $a_obj_type
-    ) : bool {
+    ): bool {
         return isset(self::$list_data["all"][$a_obj_type . "/" . $a_obj_id]);
     }
 }

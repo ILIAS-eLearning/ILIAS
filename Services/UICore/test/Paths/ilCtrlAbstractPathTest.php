@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /* Copyright (c) 2021 Thibeau Fuhrer <thf@studer-raimann.ch> Extended GPL, see docs/LICENSE */
 
@@ -11,7 +13,7 @@ require_once __DIR__ . '/ilCtrlPathTestBase.php';
  */
 class ilCtrlAbstractPathTest extends ilCtrlPathTestBase
 {
-    public function testAbstractPathGetCidPath() : void
+    public function testAbstractPathGetCidPath(): void
     {
         $path = $this->getPath('a:b:c');
         $this->assertEquals('a:b:c', $path->getCidPath());
@@ -26,7 +28,7 @@ class ilCtrlAbstractPathTest extends ilCtrlPathTestBase
         $this->assertNull($path->getCidPath());
     }
 
-    public function testAbstractPathGetCurrentCid() : void
+    public function testAbstractPathGetCurrentCid(): void
     {
         $path = $this->getPath('a:b:c');
         $this->assertEquals('c', $path->getCurrentCid());
@@ -38,7 +40,7 @@ class ilCtrlAbstractPathTest extends ilCtrlPathTestBase
         $this->assertNull($path->getCurrentCid());
     }
 
-    public function testAbstractPathGetNextCid() : void
+    public function testAbstractPathGetNextCid(): void
     {
         $path = $this->getPath('1:2:3');
         $this->assertEquals('2', $path->getNextCid(ilCtrlBaseClass2TestGUI::class));
@@ -52,7 +54,7 @@ class ilCtrlAbstractPathTest extends ilCtrlPathTestBase
         $this->assertNull($path->getNextCid(ilCtrlBaseClass1TestGUI::class));
     }
 
-    public function testAbstractPathGetCidPaths() : void
+    public function testAbstractPathGetCidPaths(): void
     {
         $path = $this->getPath('0:1:2');
         $this->assertEquals(
@@ -77,7 +79,7 @@ class ilCtrlAbstractPathTest extends ilCtrlPathTestBase
         $this->assertEmpty($path->getCidPaths());
     }
 
-    public function testAbstractPathGetCidArray() : void
+    public function testAbstractPathGetCidArray(): void
     {
         $path = $this->getPath('a:b:c');
         $this->assertEquals(['c', 'b', 'a'], $path->getCidArray());

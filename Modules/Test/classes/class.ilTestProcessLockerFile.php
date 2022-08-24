@@ -1,4 +1,5 @@
 <?php
+
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionProcessLocker.php';
@@ -11,10 +12,10 @@ require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionProcessLocker.
  */
 class ilTestProcessLockerFile extends ilTestProcessLocker
 {
-    const PROCESS_NAME_TEST_START_LOCK_CHECK = 'testStartLockCheck';
-    const PROCESS_NAME_RANDOM_PASS_BUILD = 'randomPassBuild';
-    const PROCESS_NAME_TEST_FINISH = 'testFinish';
-    
+    public const PROCESS_NAME_TEST_START_LOCK_CHECK = 'testStartLockCheck';
+    public const PROCESS_NAME_RANDOM_PASS_BUILD = 'randomPassBuild';
+    public const PROCESS_NAME_TEST_FINISH = 'testFinish';
+
     /**
      * @var ilTestProcessLockFileStorage
      */
@@ -70,7 +71,7 @@ class ilTestProcessLockerFile extends ilTestProcessLocker
         $this->releaseLock(self::PROCESS_NAME_RANDOM_PASS_BUILD);
         parent::onAfterExecutingRandomPassBuildOperation($withTaxonomyTables);
     }
-    
+
     /**
      * {@inheritdoc}
      */
@@ -79,7 +80,7 @@ class ilTestProcessLockerFile extends ilTestProcessLocker
         parent::onBeforeExecutingTestStartOperation();
         $this->requestLock(self::PROCESS_NAME_TEST_FINISH);
     }
-    
+
     /**
      * {@inheritdoc}
      */
@@ -89,13 +90,13 @@ class ilTestProcessLockerFile extends ilTestProcessLocker
         parent::onAfterExecutingTestStartOperation();
     }
 
-    protected function onBeforeExecutingNamedOperation(string $operationDescriptor) : void
+    protected function onBeforeExecutingNamedOperation(string $operationDescriptor): void
     {
         $this->requestLock($operationDescriptor);
         parent::onBeforeExecutingNamedOperation($operationDescriptor);
     }
 
-    protected function onAfterExecutingNamedOperation(string $operationDescriptor) : void
+    protected function onAfterExecutingNamedOperation(string $operationDescriptor): void
     {
         $this->releaseLock($operationDescriptor);
         parent::onAfterExecutingNamedOperation($operationDescriptor);
@@ -107,13 +108,13 @@ class ilTestProcessLockerFile extends ilTestProcessLocker
         $this->lockFileHandles[$processName] = fopen($lockFilePath, 'w');
         flock($this->lockFileHandles[$processName], LOCK_EX);
     }
-    
-    private function getLockFilePath($processName) : string
+
+    private function getLockFilePath($processName): string
     {
         $path = $this->lockFileStorage->getPath();
         return $path . '/' . $processName . '.lock';
     }
-    
+
     private function releaseLock($processName)
     {
         flock($this->lockFileHandles[$processName], LOCK_UN);

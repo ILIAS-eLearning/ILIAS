@@ -62,7 +62,7 @@ class ilWorkspaceContentGUI
         $this->folder_sorting = new ilWorkspaceFolderSorting();
     }
 
-    public function render() : string
+    public function render(): string
     {
         $html = "";
         $first = true;
@@ -113,7 +113,7 @@ class ilWorkspaceContentGUI
         return $this->ui->renderer()->render($panel);
     }
 
-    protected function getItems() : array
+    protected function getItems(): array
     {
         $user = $this->user;
 
@@ -136,7 +136,7 @@ class ilWorkspaceContentGUI
         return $nodes;
     }
 
-    protected function getItemHTML(array $node) : string
+    protected function getItemHTML(array $node): string
     {
         $objDefinition = $this->obj_definition;
         $ilCtrl = $this->ctrl;

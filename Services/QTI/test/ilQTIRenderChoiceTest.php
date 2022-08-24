@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -21,19 +23,19 @@ use PHPUnit\Framework\TestCase;
 
 class ilQTIRenderChoiceTest extends TestCase
 {
-    public function testConstruct() : void
+    public function testConstruct(): void
     {
         $this->assertInstanceOf(ilQTIRenderChoice::class, new ilQTIRenderChoice());
     }
 
-    public function testSetGetMinnumber() : void
+    public function testSetGetMinnumber(): void
     {
         $instance = new ilQTIRenderChoice();
         $instance->setMinnumber('Some input.');
         $this->assertEquals('Some input.', $instance->getMinnumber());
     }
 
-    public function testSetGetMaxnumber() : void
+    public function testSetGetMaxnumber(): void
     {
         $instance = new ilQTIRenderChoice();
         $instance->setMaxnumber('Some input.');

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
@@ -83,7 +85,7 @@ class ilDateTime
      * Check if a date is null (Datetime == '0000-00-00 00:00:00', unixtime == 0,...)
      * @return bool
      */
-    public function isNull() : bool
+    public function isNull(): bool
     {
         return !($this->dt_obj instanceof DateTime);
     }
@@ -93,7 +95,7 @@ class ilDateTime
      * @param string PHP timezone identifier
      * @throws ilDateTimeException
      */
-    public function switchTimeZone(string $a_timezone_identifier = '') : void
+    public function switchTimeZone(string $a_timezone_identifier = ''): void
     {
         try {
             $this->timezone = ilTimeZone::_getInstance($a_timezone_identifier);
@@ -104,7 +106,7 @@ class ilDateTime
         }
     }
 
-    public function getTimeZoneIdentifier() : string
+    public function getTimeZoneIdentifier(): string
     {
         return $this->timezone->getIdentifier();
     }
@@ -124,7 +126,7 @@ class ilDateTime
         ilDateTime $end,
         string $a_compare_field = '',
         string $a_tz = ''
-    ) : bool {
+    ): bool {
         if ($start->isNull() || $end->isNull()) {
             return false;
         }
@@ -159,7 +161,7 @@ class ilDateTime
         ilDateTime $end,
         string $a_compare_field = '',
         string $a_tz = ''
-    ) : bool {
+    ): bool {
         if ($start->isNull() || $end->isNull()) {
             return false;
         }
@@ -197,7 +199,7 @@ class ilDateTime
         ilDateTime $end,
         string $a_compare_field = '',
         string $a_tz = ''
-    ) : bool {
+    ): bool {
         if ($start->isNull() || $end->isNull()) {
             return false;
         }
@@ -228,7 +230,7 @@ class ilDateTime
         ilDateTime $end,
         string $a_compare_field = '',
         string $a_tz = ''
-    ) : bool {
+    ): bool {
         return
             (ilDateTime::_after($dt, $start, $a_compare_field, $a_tz) or ilDateTime::_equals(
                 $dt,
@@ -250,7 +252,7 @@ class ilDateTime
      * @return int|null
      * @todo refactor return type
      */
-    public function increment(string $a_type, int $a_count = 1) : ?int
+    public function increment(string $a_type, int $a_count = 1): ?int
     {
         if ($this->isNull()) {
             return null;
@@ -298,7 +300,7 @@ class ilDateTime
         return $this->getUnixTime();
     }
 
-    public function getUnixTime() : ?int
+    public function getUnixTime(): ?int
     {
         if (!$this->isNull()) {
             return $this->dt_obj->getTimestamp();
@@ -314,7 +316,7 @@ class ilDateTime
         ?int $a_min = null,
         ?int $a_sec = null,
         ?string $a_timezone = null
-    ) : ?DateTime {
+    ): ?DateTime {
         $a_year = $a_year;
         $a_month = $a_month;
         $a_day = $a_day;
@@ -355,7 +357,7 @@ class ilDateTime
      * @throws ilDateTimeException
      * @todo fix ISO_8601 support
      */
-    public function setDate($a_date, int $a_format) : void
+    public function setDate($a_date, int $a_format): void
     {
         $this->dt_obj = null;
 
@@ -541,7 +543,7 @@ class ilDateTime
      * @param
      * @return
      */
-    public function __toString() : string
+    public function __toString(): string
     {
         return $this->get(IL_CAL_DATETIME) . '<br>';
     }

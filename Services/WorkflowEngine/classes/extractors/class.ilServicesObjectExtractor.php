@@ -28,7 +28,7 @@ class ilServicesObjectExtractor extends ilBaseExtractor
      * @param array  $parameters
      * @return ilExtractedParams
      */
-    public function extract(string $event, array $parameters) : ilExtractedParams
+    public function extract(string $event, array $parameters): ilExtractedParams
     {
         $this->ilExtractedParams->setSubjectType('object');
 
@@ -45,7 +45,7 @@ class ilServicesObjectExtractor extends ilBaseExtractor
     /**
      * @param array $parameters
      */
-    protected function extractObject(array $parameters) : void
+    protected function extractObject(array $parameters): void
     {
         $this->ilExtractedParams->setSubjectId($parameters['obj_id']);
         $this->ilExtractedParams->setContextType($parameters['obj_type']);

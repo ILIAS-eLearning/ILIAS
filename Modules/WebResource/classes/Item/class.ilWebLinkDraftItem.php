@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -44,12 +46,12 @@ class ilWebLinkDraftItem extends ilWebLinkBaseItem
         parent::__construct($title, $description, $target, $active, $parameters);
     }
 
-    public function isInternal() : bool
+    public function isInternal(): bool
     {
         return $this->internal;
     }
 
-    public function addParameter(ilWebLinkBaseParameter $parameter) : void
+    public function addParameter(ilWebLinkBaseParameter $parameter): void
     {
         $this->parameters[] = $parameter;
     }

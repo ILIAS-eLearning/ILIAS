@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -25,12 +27,12 @@ class BlogDBUpdateSteps implements \ilDatabaseUpdateSteps
 {
     protected \ilDBInterface $db;
 
-    public function prepare(\ilDBInterface $db) : void
+    public function prepare(\ilDBInterface $db): void
     {
         $this->db = $db;
     }
 
-    public function step_1() : void
+    public function step_1(): void
     {
         if (!$this->db->tableColumnExists('il_blog', 'act_est_reading_time')) {
             $this->db->addTableColumn('il_blog', 'act_est_reading_time', array(
@@ -42,7 +44,7 @@ class BlogDBUpdateSteps implements \ilDatabaseUpdateSteps
         }
     }
 
-    public function step_2() : void
+    public function step_2(): void
     {
         if (!$this->db->tableColumnExists('page_object', 'est_reading_time')) {
             $this->db->addTableColumn('page_object', 'est_reading_time', array(

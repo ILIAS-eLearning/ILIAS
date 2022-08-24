@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /* Copyright (c) 1998-2011 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 use ILIAS\HTTP\GlobalHttpState;
@@ -26,7 +28,7 @@ class ilMainMenuSearchGUI
 
     private int $ref_id;
     private bool $isContainer = true;
-    
+
     public function __construct()
     {
         global $DIC;
@@ -44,7 +46,7 @@ class ilMainMenuSearchGUI
         $this->initRefIdFromQuery();
     }
 
-    protected function initRefIdFromQuery() : void
+    protected function initRefIdFromQuery(): void
     {
         $this->ref_id = ROOT_FOLDER_ID;
         if ($this->http->wrapper()->query()->has('ref_id')) {
@@ -55,11 +57,11 @@ class ilMainMenuSearchGUI
         }
     }
 
-    public function getHTML() : string
+    public function getHTML(): string
     {
         iljQueryUtil::initjQuery();
         iljQueryUtil::initjQueryUI();
-        
+
         $this->tpl = new ilTemplate('tpl.main_menu_search.html', true, true, 'Services/Search');
         if ($this->user->getId() != ANONYMOUS_USER_ID) {
             $this->tpl->setVariable('LABEL_SEARCH_OPTIONS', $this->lng->txt("label_search_options"));
@@ -125,7 +127,7 @@ class ilMainMenuSearchGUI
         //$ov->setAnchor("main_menu_search", "tr", "br");
         $ov->setAutoHide(false);
         $ov->add();
-        
+
         return $this->tpl->get();
     }
 }

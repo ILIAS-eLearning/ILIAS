@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\UI\Implementation\Component\Popover;
 
 use ILIAS\UI\Implementation\Render\AbstractComponentRenderer;
@@ -34,7 +36,7 @@ class Renderer extends AbstractComponentRenderer
     /**
      * @inheritdoc
      */
-    public function render(Component\Component $popover, RendererInterface $default_renderer) : string
+    public function render(Component\Component $popover, RendererInterface $default_renderer): string
     {
         $this->checkComponent($popover);
         $tpl = $this->getTemplate('tpl.popover.html', true, true);
@@ -101,7 +103,7 @@ class Renderer extends AbstractComponentRenderer
     /**
      * @inheritdoc
      */
-    public function registerResources(ResourceRegistry $registry) : void
+    public function registerResources(ResourceRegistry $registry): void
     {
         parent::registerResources($registry);
         $registry->register('./libs/bower/bower_components/webui-popover/dist/jquery.webui-popover.js');
@@ -112,7 +114,7 @@ class Renderer extends AbstractComponentRenderer
         Component\Popover\Standard $popover,
         RendererInterface $default_renderer,
         string $id
-    ) : string {
+    ): string {
         $tpl = $this->getTemplate('tpl.standard-popover-content.html', true, true);
         $tpl->setVariable('ID', $id);
         $tpl->setVariable('CONTENT', $default_renderer->render($popover->getContent()));
@@ -124,7 +126,7 @@ class Renderer extends AbstractComponentRenderer
         Component\Popover\Listing $popover,
         RendererInterface $default_renderer,
         string $id
-    ) : string {
+    ): string {
         $tpl = $this->getTemplate('tpl.listing-popover-content.html', true, true);
         $tpl->setVariable('ID', $id);
         foreach ($popover->getItems() as $item) {
@@ -136,7 +138,7 @@ class Renderer extends AbstractComponentRenderer
         return $tpl->get();
     }
 
-    protected function escape(string $str) : string
+    protected function escape(string $str): string
     {
         return strip_tags(htmlentities($str, ENT_QUOTES, 'UTF-8'));
     }
@@ -144,7 +146,7 @@ class Renderer extends AbstractComponentRenderer
     /**
      * @inheritdoc
      */
-    protected function getComponentInterfaceName() : array
+    protected function getComponentInterfaceName(): array
     {
         return array( Component\Popover\Standard::class, Component\Popover\Listing::class );
     }

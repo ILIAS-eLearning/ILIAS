@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -25,7 +27,7 @@
  */
 class ilAppointmentPresentationCourseGUI extends ilAppointmentPresentationGUI implements ilCalendarAppointmentPresentation
 {
-    public function collectPropertiesAndActions() : void
+    public function collectPropertiesAndActions(): void
     {
         $settings = ilCalendarSettings::_getInstance();
         $this->lng->loadLanguageModule("crs");

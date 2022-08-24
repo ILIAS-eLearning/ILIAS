@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -34,10 +36,10 @@ class ilLDAPRoleMappingTableGUI extends ilTable2GUI
         parent::__construct($a_parent_obj, $a_parent_cmd);
 
         global $DIC;
-        
+
         $this->ilObjDataCache = $DIC['ilObjDataCache'];
         $this->rbacreview = $DIC->rbac()->review();
-        
+
         $this->addColumn("");
         $this->addColumn($this->lng->txt('title'), "role");
         $this->addColumn($this->lng->txt('obj_role'), "role");
@@ -51,14 +53,14 @@ class ilLDAPRoleMappingTableGUI extends ilTable2GUI
         $this->setDefaultOrderField('title');
         $this->setDefaultOrderDirection("desc");
         $this->addMultiCommand('confirmDeleteRoleMapping', $this->lng->txt("delete"));
-        
+
         $this->getItems();
     }
 
     /**
      * @throws ilCtrlException
      */
-    protected function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set): void
     {
         $title = $this->ilObjDataCache->lookupTitle($this->rbacreview->getObjectOfRole((int) $a_set["role"]));
         $this->tpl->setVariable("VAL_ID", $a_set['mapping_id']);
@@ -75,11 +77,11 @@ class ilLDAPRoleMappingTableGUI extends ilTable2GUI
         $this->tpl->setVariable("COPY_URL", $this->ctrl->getLinkTarget($this->getParentObject(), 'editRoleMapping'));
         $this->tpl->setVariable("COPY_TXT", $this->lng->txt('edit'));
     }
-    
+
     /**
      * get items from db
      */
-    public function getItems() : void
+    public function getItems(): void
     {
         $mapping_instance = ilLDAPRoleGroupMappingSettings::_getInstanceByServerId($this->server_id);
         $this->setData($mapping_instance->getMappings());

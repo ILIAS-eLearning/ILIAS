@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -27,7 +29,7 @@ class ilObjectConsumerTableGUI extends ilTable2GUI
 {
     protected bool $editable = true;
     protected \ILIAS\DI\Container $dic;
-    
+
     public function __construct(?object $a_parent_obj, string $a_parent_cmd)
     {
         global $DIC;
@@ -56,20 +58,20 @@ class ilObjectConsumerTableGUI extends ilTable2GUI
 
         $this->getItems();
     }
-    
+
     /**
      * Set editable. Depends on write access
      * => show/hide actions for consumers.
      */
-    public function setEditable(bool $a_status) : void
+    public function setEditable(bool $a_status): void
     {
         $this->editable = $a_status;
     }
-    
+
     /**
      * Check if write permission given
      */
-    public function isEditable() : bool
+    public function isEditable(): bool
     {
         return $this->editable;
     }
@@ -77,10 +79,10 @@ class ilObjectConsumerTableGUI extends ilTable2GUI
     /**
      * Get consumer data
      */
-    public function getItems() : void
+    public function getItems(): void
     {
         $dataConnector = new ilLTIDataConnector();
-        
+
         $consumer_data = $dataConnector->getGlobalToolConsumerSettings();
         $result = array();
         foreach ($consumer_data as $cons) {
@@ -101,7 +103,7 @@ class ilObjectConsumerTableGUI extends ilTable2GUI
     /**
      * Fill a single data row.
      */
-    protected function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set): void
     {
         $this->dic->ctrl()->setParameter($this->getParentObject(), "cid", $a_set["id"]);
 
@@ -136,7 +138,7 @@ class ilObjectConsumerTableGUI extends ilTable2GUI
             $this->tpl->setVariable("TXT_ACTIVE", $this->dic->language()->txt('inactive'));
             $label_status = $this->dic->language()->txt("activate");
         }
-        
+
         if ($this->isEditable()) {
             $list = new ilAdvancedSelectionListGUI();
             $list->setId((string) $a_set["id"]);

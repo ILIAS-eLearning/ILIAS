@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -37,7 +39,7 @@ class ilObjStudyProgrammeAdminGUI extends ilObjectGUI
         $this->type_gui = ilStudyProgrammeDIC::dic()['ilStudyProgrammeTypeGUI'];
     }
 
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         //Check Permissions globally for all SubGUIs. We only check write permissions
         if (!$this->rbac_system->checkAccess("visible,read", $this->object->getRefId())) {
@@ -66,7 +68,7 @@ class ilObjStudyProgrammeAdminGUI extends ilObjectGUI
         }
     }
 
-    public function editSettings(ilPropertyFormGUI $form = null) : bool
+    public function editSettings(ilPropertyFormGUI $form = null): bool
     {
         $this->tabs_gui->activateTab('settings');
         if (is_null($form)) {
@@ -76,7 +78,7 @@ class ilObjStudyProgrammeAdminGUI extends ilObjectGUI
         return true;
     }
 
-    public function initFormSettings() : ilPropertyFormGUI
+    public function initFormSettings(): ilPropertyFormGUI
     {
         $form = new ilPropertyFormGUI();
         $form->setFormAction($this->ctrl->getFormAction($this, "saveSettings"));
@@ -104,7 +106,7 @@ class ilObjStudyProgrammeAdminGUI extends ilObjectGUI
         return $form;
     }
 
-    public function saveSettings() : void
+    public function saveSettings(): void
     {
         $this->checkPermission("write");
 
@@ -125,7 +127,7 @@ class ilObjStudyProgrammeAdminGUI extends ilObjectGUI
         $this->editSettings($form);
     }
 
-    public function getAdminTabs() : void
+    public function getAdminTabs(): void
     {
         if ($this->rbac_system->checkAccess('visible,read', $this->object->getRefId())) {
             $this->tabs_gui->addTarget(
@@ -151,7 +153,7 @@ class ilObjStudyProgrammeAdminGUI extends ilObjectGUI
         }
     }
 
-    public function _goto($ref_id) : void
+    public function _goto($ref_id): void
     {
         $this->ctrl->setTargetScript('ilias.php');
         $this->ctrl->setParameterByClass("ilObjStudyProgrammeAdminGUI", "ref_id", $ref_id);
@@ -159,7 +161,7 @@ class ilObjStudyProgrammeAdminGUI extends ilObjectGUI
         $this->ctrl->redirectByClass(array("ilAdministrationGUI", "ilObjStudyProgrammeAdminGUI"), "view");
     }
 
-    protected function save(ilPropertyFormGUI $form) : bool
+    protected function save(ilPropertyFormGUI $form): bool
     {
         return true;
     }

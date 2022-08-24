@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /******************************************************************************
  *
@@ -20,7 +22,6 @@
  */
 class ilMMTypeActionStorage extends CachedActiveRecord
 {
-
     /**
      * @con_is_primary true
      * @con_is_unique  true
@@ -50,7 +51,7 @@ class ilMMTypeActionStorage extends CachedActiveRecord
     /**
      * @return string
      */
-    public function getIdentification() : string
+    public function getIdentification(): string
     {
         return $this->identification;
     }
@@ -61,7 +62,7 @@ class ilMMTypeActionStorage extends CachedActiveRecord
      *
      * @return ilMMTypeActionStorage
      */
-    public function setIdentification(string $identification) : ilMMTypeActionStorage
+    public function setIdentification(string $identification): ilMMTypeActionStorage
     {
         $this->identification = $identification;
 
@@ -72,7 +73,7 @@ class ilMMTypeActionStorage extends CachedActiveRecord
     /**
      * @return string
      */
-    public function getAction() : string
+    public function getAction(): string
     {
         return $this->action;
     }
@@ -83,7 +84,7 @@ class ilMMTypeActionStorage extends CachedActiveRecord
      *
      * @return ilMMTypeActionStorage
      */
-    public function setAction(string $action) : ilMMTypeActionStorage
+    public function setAction(string $action): ilMMTypeActionStorage
     {
         $this->action = $action;
 
@@ -94,7 +95,7 @@ class ilMMTypeActionStorage extends CachedActiveRecord
     /**
      * @return bool
      */
-    public function isExternal() : bool
+    public function isExternal(): bool
     {
         return $this->external;
     }
@@ -105,7 +106,7 @@ class ilMMTypeActionStorage extends CachedActiveRecord
      *
      * @return ilMMTypeActionStorage
      */
-    public function setExternal(bool $external) : ilMMTypeActionStorage
+    public function setExternal(bool $external): ilMMTypeActionStorage
     {
         $this->external = $external;
 
@@ -116,7 +117,7 @@ class ilMMTypeActionStorage extends CachedActiveRecord
     /**
      * @inheritDoc
      */
-    public function getCache() : ilGlobalCache
+    public function getCache(): ilGlobalCache
     {
         return ilGlobalCache::getInstance(ilGlobalCache::COMP_GLOBAL_SCREEN);
     }
@@ -125,7 +126,7 @@ class ilMMTypeActionStorage extends CachedActiveRecord
     /**
      * @return ilMMTypeActionStorage
      */
-    public static function find($primary_key, array $add_constructor_args = array()) : ilMMTypeActionStorage
+    public static function find($primary_key, array $add_constructor_args = array()): ilMMTypeActionStorage
     {
         $parent = parent::find($primary_key, $add_constructor_args);
         if ($parent === null) {

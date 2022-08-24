@@ -15,7 +15,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * Portfolio type
  *
@@ -46,7 +46,7 @@ class ilExAssTypePortfolio implements ilExAssignmentTypeInterface
             ?: $DIC->language();
     }
 
-    public function isActive() : bool
+    public function isActive(): bool
     {
         if ($this->setting->get('user_portfolios')) {
             return true;
@@ -54,48 +54,48 @@ class ilExAssTypePortfolio implements ilExAssignmentTypeInterface
         return false;
     }
 
-    public function usesTeams() : bool
+    public function usesTeams(): bool
     {
         return false;
     }
 
-    public function usesFileUpload() : bool
+    public function usesFileUpload(): bool
     {
         return false;
     }
 
-    public function getTitle() : string
+    public function getTitle(): string
     {
         $lng = $this->lng;
 
         return $lng->txt("exc_type_portfolio");
     }
 
-    public function getSubmissionType() : string
+    public function getSubmissionType(): string
     {
         return ilExSubmission::TYPE_OBJECT;
     }
 
-    public function isSubmissionAssignedToTeam() : bool
+    public function isSubmissionAssignedToTeam(): bool
     {
         return false;
     }
 
-    public function cloneSpecificProperties(ilExAssignment $source, ilExAssignment $target) : void
+    public function cloneSpecificProperties(ilExAssignment $source, ilExAssignment $target): void
     {
     }
 
-    public function supportsWebDirAccess() : bool
+    public function supportsWebDirAccess(): bool
     {
         return true;
     }
 
-    public function getStringIdentifier() : string
+    public function getStringIdentifier(): string
     {
         return self::STR_IDENTIFIER;
     }
 
-    public function getExportObjIdForResourceId(int $resource_id) : int
+    public function getExportObjIdForResourceId(int $resource_id): int
     {
         return $resource_id;
     }

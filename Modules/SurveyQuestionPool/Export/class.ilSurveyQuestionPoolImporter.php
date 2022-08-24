@@ -27,7 +27,7 @@ class ilSurveyQuestionPoolImporter extends ilXmlImporter
         string $a_id,
         string $a_xml,
         ilImportMapping $a_mapping
-    ) : void {
+    ): void {
         // Container import => test object already created
         if ($new_id = $a_mapping->getMapping('Services/Container', 'objs', $a_id)) {
             $newObj = ilObjectFactory::getInstanceByObjId($new_id, false);
@@ -53,8 +53,8 @@ class ilSurveyQuestionPoolImporter extends ilXmlImporter
             $newObj->getId()
         );
     }
-    
-    protected function getXmlFileName() : string
+
+    protected function getXmlFileName(): string
     {
         $basename = basename($this->getImportDirectory());
         return $this->getImportDirectory() . '/' . $basename . '.xml';

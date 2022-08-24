@@ -1,4 +1,5 @@
 <?php
+
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 require_once 'Modules/Test/classes/class.ilTestRandomQuestionSetBuilder.php';
@@ -14,7 +15,7 @@ class ilTestRandomQuestionSetBuilderWithAmountPerTest extends ilTestRandomQuesti
     /**
      * @return bool
      */
-    public function checkBuildable() : bool
+    public function checkBuildable(): bool
     {
         $questionStage = $this->getSrcPoolDefListRelatedQuestUniqueCollection($this->sourcePoolDefinitionList);
 
@@ -24,7 +25,7 @@ class ilTestRandomQuestionSetBuilderWithAmountPerTest extends ilTestRandomQuesti
 
         return true;
     }
-    
+
     /**
      * @param ilTestSession $testSession
      */
@@ -36,7 +37,7 @@ class ilTestRandomQuestionSetBuilderWithAmountPerTest extends ilTestRandomQuesti
             $questionStage,
             $this->questionSetConfig->getQuestionAmountPerTest()
         );
-        
+
         $this->handleQuestionOrdering($questionSet);
 
         $this->storeQuestionSet($testSession, $questionSet);

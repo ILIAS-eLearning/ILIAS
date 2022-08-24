@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 require_once(__DIR__ . "/../../../../Base.php");
 
 use ILIAS\UI\Implementation\Component as I;
@@ -36,7 +38,7 @@ class FixedNameSource implements NameSource
 {
     public string $name = "name";
 
-    public function getNewName() : string
+    public function getNewName(): string
     {
         return $this->name;
     }
@@ -55,12 +57,12 @@ class ConcreteForm extends Form
         parent::__construct($field_factory, $name_source, $inputs);
     }
 
-    public function _extractPostData(ServerRequestInterface $request) : Input\InputData
+    public function _extractPostData(ServerRequestInterface $request): Input\InputData
     {
         return $this->extractPostData($request);
     }
 
-    public function extractPostData(ServerRequestInterface $request) : Input\InputData
+    public function extractPostData(ServerRequestInterface $request): Input\InputData
     {
         if ($this->input_data !== null) {
             return $this->input_data;
@@ -70,7 +72,7 @@ class ConcreteForm extends Form
     }
 
 
-    public function setInputs(array $inputs) : void
+    public function setInputs(array $inputs): void
     {
         $this->input_group = $this->input_factory->group($inputs);
         $this->inputs = $inputs;
@@ -88,12 +90,12 @@ class FormTest extends ILIAS_UI_TestBase
     protected $language;
     protected array $inputs;
 
-    protected function buildFactory() : Input\Container\Form\Factory
+    protected function buildFactory(): Input\Container\Form\Factory
     {
         return new Input\Container\Form\Factory($this->buildInputFactory(), new DefNamesource());
     }
 
-    protected function buildInputFactory() : Input\Field\Factory
+    protected function buildInputFactory(): Input\Field\Factory
     {
         $df = new Data\Factory();
         $this->language = $this->createMock(ilLanguage::class);
@@ -106,12 +108,12 @@ class FormTest extends ILIAS_UI_TestBase
         );
     }
 
-    protected function buildButtonFactory() : I\Button\Factory
+    protected function buildButtonFactory(): I\Button\Factory
     {
         return new I\Button\Factory();
     }
 
-    protected function buildTransformation(Closure $trafo) : Transformation
+    protected function buildTransformation(Closure $trafo): Transformation
     {
         $dataFactory = new Data\Factory();
         $language = $this->createMock(ilLanguage::class);
@@ -120,17 +122,17 @@ class FormTest extends ILIAS_UI_TestBase
         return $refinery->custom()->transformation($trafo);
     }
 
-    public function getUIFactory() : NoUIFactory
+    public function getUIFactory(): NoUIFactory
     {
         return new WithButtonNoUIFactory($this->buildButtonFactory());
     }
 
-    public function buildDataFactory() : Data\Factory
+    public function buildDataFactory(): Data\Factory
     {
-        return new Data\Factory;
+        return new Data\Factory();
     }
 
-    public function test_getInputs() : void
+    public function test_getInputs(): void
     {
         $this->buildFactory();
         $if = $this->buildInputFactory();
@@ -160,7 +162,7 @@ class FormTest extends ILIAS_UI_TestBase
         }
     }
 
-    public function test_extractPostData() : void
+    public function test_extractPostData(): void
     {
         $form = new ConcreteForm($this->buildInputFactory(), new DefNamesource(), []);
         $request = $this->createMock(ServerRequestInterface::class);
@@ -172,7 +174,7 @@ class FormTest extends ILIAS_UI_TestBase
         $this->assertInstanceOf(InputData::class, $input_data);
     }
 
-    public function test_withRequest() : void
+    public function test_withRequest(): void
     {
         $df = $this->buildDataFactory();
         $request = $this->createMock(ServerRequestInterface::class);
@@ -211,7 +213,7 @@ class FormTest extends ILIAS_UI_TestBase
         $this->assertEquals([$input_1, $input_2], $form2->getInputs());
     }
 
-    public function test_withRequest_respects_keys() : void
+    public function test_withRequest_respects_keys(): void
     {
         $df = $this->buildDataFactory();
         $request = $this->createMock(ServerRequestInterface::class);
@@ -250,7 +252,7 @@ class FormTest extends ILIAS_UI_TestBase
         $this->assertEquals(["foo" => $input_1, "bar" => $input_2], $form2->getInputs());
     }
 
-    public function test_getData() : void
+    public function test_getData(): void
     {
         $df = $this->buildDataFactory();
         $request = $this->createMock(ServerRequestInterface::class);
@@ -285,7 +287,7 @@ class FormTest extends ILIAS_UI_TestBase
         $this->assertEquals([1, 2], $form->getData());
     }
 
-    public function test_getData_respects_keys() : void
+    public function test_getData_respects_keys(): void
     {
         $df = $this->buildDataFactory();
         $request = $this->createMock(ServerRequestInterface::class);
@@ -320,7 +322,7 @@ class FormTest extends ILIAS_UI_TestBase
         $this->assertEquals(["foo" => 1, "bar" => 2], $form->getData());
     }
 
-    public function test_getData_faulty() : void
+    public function test_getData_faulty(): void
     {
         $df = $this->buildDataFactory();
         $request = $this->createMock(ServerRequestInterface::class);
@@ -364,7 +366,7 @@ class FormTest extends ILIAS_UI_TestBase
         $this->assertEquals(null, null);
     }
 
-    public function test_withAdditionalTransformation() : void
+    public function test_withAdditionalTransformation(): void
     {
         $df = $this->buildDataFactory();
         $request = $this->createMock(ServerRequestInterface::class);
@@ -406,7 +408,7 @@ class FormTest extends ILIAS_UI_TestBase
         $this->assertEquals("transformed", $form2->getData());
     }
 
-    public function test_nameInputs_respects_keys() : void
+    public function test_nameInputs_respects_keys(): void
     {
         $if = $this->buildInputFactory();
         $inputs = [

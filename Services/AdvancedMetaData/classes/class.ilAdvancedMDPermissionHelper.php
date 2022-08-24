@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -84,7 +86,7 @@ class ilAdvancedMDPermissionHelper extends ilClaimingPermissionHelper
     public const SUBACTION_SUBSTITUTION_BOLD = 8;
     public const SUBACTION_SUBSTITUTION_NEWLINE = 9;
 
-    protected function readContextIds(int $a_context_type) : array
+    protected function readContextIds(int $a_context_type): array
     {
         global $DIC;
 
@@ -126,7 +128,7 @@ class ilAdvancedMDPermissionHelper extends ilClaimingPermissionHelper
 
     // permissions
 
-    protected function buildPermissionMap() : array
+    protected function buildPermissionMap(): array
     {
         return array(
             self::CONTEXT_MD => array(
@@ -273,7 +275,7 @@ class ilAdvancedMDPermissionHelper extends ilClaimingPermissionHelper
 
     // plugins
 
-    protected function getActivePlugins() : array
+    protected function getActivePlugins(): array
     {
         global $DIC;
 
@@ -286,7 +288,7 @@ class ilAdvancedMDPermissionHelper extends ilClaimingPermissionHelper
         string $a_context_id,
         int $a_action_id,
         ?int $a_action_sub_id = null
-    ) : bool {
+    ): bool {
         global $DIC;
 
         $ilAccess = $DIC['ilAccess'];

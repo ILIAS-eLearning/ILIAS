@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -25,7 +27,7 @@ class ilTestParticipantsTableGUITest extends ilTestBaseTestCase
     private ilTestParticipantsTableGUI $tableGui;
     private ilTestParticipantsGUI $parentObj_mock;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -58,12 +60,12 @@ class ilTestParticipantsTableGUITest extends ilTestBaseTestCase
         $this->tableGui = new ilTestParticipantsTableGUI($this->parentObj_mock, "");
     }
 
-    public function test_instantiateObject_shouldReturnInstance() : void
+    public function test_instantiateObject_shouldReturnInstance(): void
     {
         $this->assertInstanceOf(ilTestParticipantsTableGUI::class, $this->tableGui);
     }
 
-    public function testManageResultsCommandsEnabled() : void
+    public function testManageResultsCommandsEnabled(): void
     {
         $this->assertIsBool($this->tableGui->isManageResultsCommandsEnabled());
         $this->tableGui->setManageResultsCommandsEnabled(false);
@@ -72,7 +74,7 @@ class ilTestParticipantsTableGUITest extends ilTestBaseTestCase
         $this->assertTrue($this->tableGui->isManageResultsCommandsEnabled());
     }
 
-    public function testManageInviteesCommandsEnabled() : void
+    public function testManageInviteesCommandsEnabled(): void
     {
         $this->assertIsBool($this->tableGui->isManageInviteesCommandsEnabled());
         $this->tableGui->setManageInviteesCommandsEnabled(false);
@@ -81,19 +83,19 @@ class ilTestParticipantsTableGUITest extends ilTestBaseTestCase
         $this->assertTrue($this->tableGui->isManageInviteesCommandsEnabled());
     }
 
-    public function testRowKeyDataField() : void
+    public function testRowKeyDataField(): void
     {
         $this->tableGui->setRowKeyDataField("test");
         $this->assertEquals("test", $this->tableGui->getRowKeyDataField());
     }
 
-    public function testAnonymity() : void
+    public function testAnonymity(): void
     {
         $this->tableGui->setAnonymity("test");
         $this->assertEquals("test", $this->tableGui->getAnonymity());
     }
 
-    public function testParticipantHasSolutionsFilterEnabled() : void
+    public function testParticipantHasSolutionsFilterEnabled(): void
     {
         $this->assertIsBool($this->tableGui->isParticipantHasSolutionsFilterEnabled());
         $this->tableGui->setParticipantHasSolutionsFilterEnabled(false);
@@ -102,7 +104,7 @@ class ilTestParticipantsTableGUITest extends ilTestBaseTestCase
         $this->assertTrue($this->tableGui->isParticipantHasSolutionsFilterEnabled());
     }
 
-    public function testNumericOrdering() : void
+    public function testNumericOrdering(): void
     {
         $this->assertTrue($this->tableGui->numericOrdering("access"));
         $this->assertTrue($this->tableGui->numericOrdering("tries"));

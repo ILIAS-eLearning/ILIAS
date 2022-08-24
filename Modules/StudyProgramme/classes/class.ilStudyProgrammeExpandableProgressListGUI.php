@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -41,25 +43,25 @@ class ilStudyProgrammeExpandableProgressListGUI extends ilStudyProgrammeProgress
         $this->refinery = $DIC->refinery();
     }
 
-    protected function getIndent() : int
+    protected function getIndent(): int
     {
         return $this->indent;
     }
 
-    public function setIndent(int $indent) : void
+    public function setIndent(int $indent): void
     {
         assert($indent >= 0);
         $this->indent = $indent;
     }
 
-    public function getHTML() : string
+    public function getHTML(): string
     {
         $this->addJavaScript();
         $this->addCSS();
         return parent::getHTML();
     }
 
-    protected function fillTemplate(ilTemplate $tpl) : void
+    protected function fillTemplate(ilTemplate $tpl): void
     {
         parent::fillTemplate($tpl);
 
@@ -98,7 +100,7 @@ class ilStudyProgrammeExpandableProgressListGUI extends ilStudyProgrammeProgress
         $tpl->parseCurrentBlock();
     }
 
-    protected function getAccordionContentHTML() : string
+    protected function getAccordionContentHTML(): string
     {
         $programme = ilObjStudyProgramme::getInstanceByObjId($this->progress->getNodeId());
 
@@ -109,7 +111,7 @@ class ilStudyProgrammeExpandableProgressListGUI extends ilStudyProgrammeProgress
         return $this->getAccordionContentCoursesHTML();
     }
 
-    protected function getAccordionContentProgressesHTML() : string
+    protected function getAccordionContentProgressesHTML(): string
     {
         // Make shouldShowSubProgress and newSubItem protected again afterwards, do
         // the same in the derived class ilStudyProgrammeIndividualPlanProgressListGUI.
@@ -126,7 +128,7 @@ class ilStudyProgrammeExpandableProgressListGUI extends ilStudyProgrammeProgress
         }, $child_progresses));
     }
 
-    protected function shouldShowSubProgress(ilStudyProgrammeProgress $progress) : bool
+    protected function shouldShowSubProgress(ilStudyProgrammeProgress $progress): bool
     {
         if ($progress->isRelevant()) {
             $prg = ilObjStudyProgramme::getInstanceByObjId($progress->getNodeId());
@@ -142,12 +144,12 @@ class ilStudyProgrammeExpandableProgressListGUI extends ilStudyProgrammeProgress
         return false;
     }
 
-    protected function newSubItem(ilStudyProgrammeProgress $progress) : ilStudyProgrammeExpandableProgressListGUI
+    protected function newSubItem(ilStudyProgrammeProgress $progress): ilStudyProgrammeExpandableProgressListGUI
     {
         return new ilStudyProgrammeExpandableProgressListGUI($progress);
     }
 
-    protected function getAccordionContentCoursesHTML() : string
+    protected function getAccordionContentCoursesHTML(): string
     {
         $preloader = new ilObjectListGUIPreloader(ilObjectListGUI::CONTEXT_PERSONAL_DESKTOP);
 
@@ -178,8 +180,8 @@ class ilStudyProgrammeExpandableProgressListGUI extends ilStudyProgrammeProgress
             );
         }, $crs));
     }
-    
-    protected function configureItemGUI(ilStudyProgrammeCourseListGUI $item_gui) : void
+
+    protected function configureItemGUI(ilStudyProgrammeCourseListGUI $item_gui): void
     {
         $item_gui->enableComments(false);
         $item_gui->enableTags(false);
@@ -200,7 +202,7 @@ class ilStudyProgrammeExpandableProgressListGUI extends ilStudyProgrammeProgress
         $item_gui->setIndent($this->getIndent() + 2);
     }
 
-    protected function getAccordionOptions() : array
+    protected function getAccordionOptions(): array
     {
         return [
             "orientation" => "horizontal",
@@ -222,27 +224,27 @@ class ilStudyProgrammeExpandableProgressListGUI extends ilStudyProgrammeProgress
         ];
     }
 
-    protected function getAccordionId() : string
+    protected function getAccordionId(): string
     {
         return "prg_progress_" . $this->progress->getId() . "_" . $this->getIndent();
     }
 
-    protected function getExpandedImageURL() : string
+    protected function getExpandedImageURL(): string
     {
         return ilUtil::getImagePath("tree_exp.svg");
     }
 
-    protected function getNotExpandedImageURL() : string
+    protected function getNotExpandedImageURL(): string
     {
         return ilUtil::getImagePath("tree_col.svg");
     }
 
-    protected function getTitleAndIconTarget(ilStudyProgrammeProgress $progress) : ?string
+    protected function getTitleAndIconTarget(ilStudyProgrammeProgress $progress): ?string
     {
         return null;
     }
 
-    protected function showMyProgress() : bool
+    protected function showMyProgress(): bool
     {
         $prg_progress_id = $this->request_wrapper->retrieve("prg_progress_id", $this->refinery->kindlyTo()->int());
         return  $prg_progress_id === $this->progress->getId();

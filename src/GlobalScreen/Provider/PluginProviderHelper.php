@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -39,17 +41,17 @@ trait PluginProviderHelper
         $this->if = $this->globalScreen()->identification()->plugin($plugin->getId(), $this);
     }
 
-    final public function getProviderNameForPresentation() : string
+    final public function getProviderNameForPresentation(): string
     {
         return $this->plugin->getPluginName();
     }
 
-    final public function getPluginID() : string
+    final public function getPluginID(): string
     {
         return $this->plugin->getId();
     }
 
-    final public function id() : PluginIdentificationProvider
+    final public function id(): PluginIdentificationProvider
     {
         return $this->if;
     }

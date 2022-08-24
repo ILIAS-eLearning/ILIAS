@@ -15,14 +15,13 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * Handles exercise repository object assignments. Main entry point for consumers.
  * @author Alexander Killing <killing@leifos.de>
  */
 class ilExcRepoObjAssignment implements ilExcRepoObjAssignmentInterface
 {
-
     /**
      * Constructor
      *
@@ -31,7 +30,7 @@ class ilExcRepoObjAssignment implements ilExcRepoObjAssignmentInterface
     {
     }
 
-    public static function getInstance() : self
+    public static function getInstance(): self
     {
         return new self();
     }
@@ -39,7 +38,7 @@ class ilExcRepoObjAssignment implements ilExcRepoObjAssignmentInterface
     /**
      * @return \ilExcRepoObjAssignmentInfo[]
      */
-    public function getAssignmentInfoOfObj(int $a_ref_id, int $a_user_id) : array
+    public function getAssignmentInfoOfObj(int $a_ref_id, int $a_user_id): array
     {
         return ilExcRepoObjAssignmentInfo::getInfo($a_ref_id, $a_user_id);
     }
@@ -47,7 +46,7 @@ class ilExcRepoObjAssignment implements ilExcRepoObjAssignmentInterface
     public function getAccessInfo(
         int $a_ref_id,
         int $a_user_id
-    ) : ilExcRepoObjAssignmentAccessInfoInterface {
+    ): ilExcRepoObjAssignmentAccessInfoInterface {
         return ilExcRepoObjAssignmentAccessInfo::getInfo($a_ref_id, $a_user_id);
     }
 }

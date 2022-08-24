@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /******************************************************************************
  *
@@ -42,14 +44,14 @@ class ilECSEnrolmentStatusConnector extends ilECSConnector
             }
             $this->curl->setOpt(CURLOPT_HTTPHEADER, $this->getHeader());
             $res = $this->call();
-            
+
             if (strpos($res, 'http') === 0) {
                 $json = file_get_contents($res);
                 $ecs_result = new ilECSResult($json);
             } else {
                 $ecs_result = new ilECSResult($res);
             }
-            
+
             // Return ECSEContentDetails for details switch
             if ($a_details) {
                 $details = new ilECSEContentDetails();
@@ -64,8 +66,8 @@ class ilECSEnrolmentStatusConnector extends ilECSConnector
             throw new ilECSConnectorException('Error calling ECS service: ' . $e->getMessage());
         }
     }
-    
-    
+
+
     /**
      * Add new enrolment status
      */
@@ -74,7 +76,7 @@ class ilECSEnrolmentStatusConnector extends ilECSConnector
         $this->logger->info('Add new enrolment status');
 
         $this->path_postfix = '/campusconnect/member_status';
-        
+
         try {
             $this->prepareConnection();
 
@@ -89,7 +91,7 @@ class ilECSEnrolmentStatusConnector extends ilECSConnector
             $ret = $this->call();
 
             $info = $this->curl->getInfo(CURLINFO_HTTP_CODE);
-    
+
             $this->logger->debug(': Checking HTTP status...');
             if ($info !== self::HTTP_CODE_CREATED) {
                 $this->logger->debug(': Cannot create auth resource, did not receive HTTP 201. ');

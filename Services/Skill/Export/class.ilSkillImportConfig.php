@@ -26,12 +26,12 @@ class ilSkillImportConfig extends ilImportConfig
 {
     protected int $skill_tree_id = 0;
 
-    public function setSkillTreeId(int $skill_tree_id) : void
+    public function setSkillTreeId(int $skill_tree_id): void
     {
         $this->skill_tree_id = $skill_tree_id;
     }
 
-    public function getSkillTreeId() : int
+    public function getSkillTreeId(): int
     {
         return $this->skill_tree_id;
     }

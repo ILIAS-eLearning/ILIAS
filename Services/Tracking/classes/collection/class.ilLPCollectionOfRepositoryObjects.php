@@ -1,4 +1,6 @@
-<?php declare(strict_types=0);
+<?php
+
+declare(strict_types=0);
 
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
@@ -27,7 +29,7 @@ class ilLPCollectionOfRepositoryObjects extends ilLPCollection
     public function getPossibleItems(
         int $a_ref_id,
         bool $a_full_data = false
-    ) : array {
+    ): array {
         global $DIC;
 
         $cache_idx = $a_ref_id . "__" . $a_full_data;
@@ -123,7 +125,7 @@ class ilLPCollectionOfRepositoryObjects extends ilLPCollection
         return self::$possible_items[$cache_idx];
     }
 
-    protected function validateEntry(int $a_item_id) : bool
+    protected function validateEntry(int $a_item_id): bool
     {
         $a_item_type = ilObject::_lookupType($a_item_id, true);
         // this is hardcoded so we do not need to call all ObjectLP types
@@ -138,7 +140,7 @@ class ilLPCollectionOfRepositoryObjects extends ilLPCollection
         return true;
     }
 
-    public function cloneCollection(int $a_target_id, int $a_copy_id) : void
+    public function cloneCollection(int $a_target_id, int $a_copy_id): void
     {
         parent::cloneCollection($a_target_id, $a_copy_id);
 
@@ -181,7 +183,7 @@ class ilLPCollectionOfRepositoryObjects extends ilLPCollection
         }
     }
 
-    protected function read(int $a_obj_id) : void
+    protected function read(int $a_obj_id): void
     {
         $items = array();
 
@@ -210,7 +212,7 @@ class ilLPCollectionOfRepositoryObjects extends ilLPCollection
         $this->items = $items;
     }
 
-    protected function addEntry(int $a_item_id) : bool
+    protected function addEntry(int $a_item_id): bool
     {
         // only active entries are assigned!
         if (!$this->isAssignedEntry($a_item_id)) {
@@ -232,7 +234,7 @@ class ilLPCollectionOfRepositoryObjects extends ilLPCollection
         return true;
     }
 
-    protected function deleteEntry(int $a_item_id) : bool
+    protected function deleteEntry(int $a_item_id): bool
     {
         $query = "DELETE FROM ut_lp_collections " .
             " WHERE obj_id = " . $this->db->quote($this->obj_id, "integer") .
@@ -242,7 +244,7 @@ class ilLPCollectionOfRepositoryObjects extends ilLPCollection
         return true;
     }
 
-    public static function hasGroupedItems(int $a_obj_id) : bool
+    public static function hasGroupedItems(int $a_obj_id): bool
     {
         global $DIC;
 
@@ -254,7 +256,7 @@ class ilLPCollectionOfRepositoryObjects extends ilLPCollection
         return $res->numRows() ? true : false;
     }
 
-    protected function getGroupingIds(array $a_item_ids) : array
+    protected function getGroupingIds(array $a_item_ids): array
     {
         global $DIC;
 
@@ -274,7 +276,7 @@ class ilLPCollectionOfRepositoryObjects extends ilLPCollection
         return $grouping_ids;
     }
 
-    public function deactivateEntries(array $a_item_ids) : void
+    public function deactivateEntries(array $a_item_ids): void
     {
         parent::deactivateEntries($a_item_ids);
 
@@ -293,7 +295,7 @@ class ilLPCollectionOfRepositoryObjects extends ilLPCollection
         }
     }
 
-    public function activateEntries(array $a_item_ids) : void
+    public function activateEntries(array $a_item_ids): void
     {
         parent::activateEntries($a_item_ids);
 
@@ -315,7 +317,7 @@ class ilLPCollectionOfRepositoryObjects extends ilLPCollection
     public function createNewGrouping(
         array $a_item_ids,
         int $a_num_obligatory = 1
-    ) : void {
+    ): void {
         $this->activateEntries($a_item_ids);
 
         $all_item_ids = array();
@@ -358,7 +360,7 @@ class ilLPCollectionOfRepositoryObjects extends ilLPCollection
         $this->db->manipulate($query);
     }
 
-    public function releaseGrouping(array $a_item_ids) : void
+    public function releaseGrouping(array $a_item_ids): void
     {
         $grouping_ids = $this->getGroupingIds($a_item_ids);
 
@@ -375,7 +377,7 @@ class ilLPCollectionOfRepositoryObjects extends ilLPCollection
         $this->db->manipulate($query);
     }
 
-    public function saveObligatoryMaterials(array $a_obl) : void
+    public function saveObligatoryMaterials(array $a_obl): void
     {
         foreach ($a_obl as $grouping_id => $num) {
             $query = "SELECT count(obj_id) num FROM ut_lp_collections" .
@@ -410,7 +412,7 @@ class ilLPCollectionOfRepositoryObjects extends ilLPCollection
         }
     }
 
-    public function getTableGUIData(int $a_parent_ref_id) : array
+    public function getTableGUIData(int $a_parent_ref_id): array
     {
         $items = $this->getPossibleItems($a_parent_ref_id, true);
 
@@ -448,7 +450,7 @@ class ilLPCollectionOfRepositoryObjects extends ilLPCollection
         return $data;
     }
 
-    protected function parseTableGUIItem(int $a_id, array $a_item) : array
+    protected function parseTableGUIItem(int $a_id, array $a_item): array
     {
         $table_item = $a_item;
         $table_item['id'] = $a_id;
@@ -462,7 +464,7 @@ class ilLPCollectionOfRepositoryObjects extends ilLPCollection
         return $table_item;
     }
 
-    protected function getTableGUItemGroup(int $item_id) : array
+    protected function getTableGUItemGroup(int $item_id): array
     {
         $items = array();
         $query = "SELECT grouping_id FROM ut_lp_collections" .
@@ -493,7 +495,7 @@ class ilLPCollectionOfRepositoryObjects extends ilLPCollection
         return $items;
     }
 
-    public function getGroupedItemsForLPStatus() : array
+    public function getGroupedItemsForLPStatus(): array
     {
         $items = $this->getItems();
         $query = " SELECT * FROM ut_lp_collections" .

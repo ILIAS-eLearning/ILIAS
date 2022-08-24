@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 require_once(__DIR__ . "/../../../../../libs/composer/vendor/autoload.php");
 require_once(__DIR__ . "/../../../Base.php");
 
@@ -33,14 +35,14 @@ class DurationInputTest extends ILIAS_UI_TestBase
     protected I\Input\Field\Factory $factory;
     protected ilLanguage $lng;
 
-    public function setUp() : void
+    public function setUp(): void
     {
         $this->name_source = new DefNamesource();
         $this->data_factory = new Data\Factory();
         $this->factory = $this->buildFactory();
     }
 
-    protected function buildLanguage() : ilLanguage
+    protected function buildLanguage(): ilLanguage
     {
         $this->lng = $this->createMock(ilLanguage::class);
         $this->lng->method("txt")
@@ -49,12 +51,12 @@ class DurationInputTest extends ILIAS_UI_TestBase
         return $this->lng;
     }
 
-    protected function buildRefinery() : Refinery
+    protected function buildRefinery(): Refinery
     {
         return new Refinery($this->data_factory, $this->buildLanguage());
     }
 
-    protected function buildFactory() : I\Input\Field\Factory
+    protected function buildFactory(): I\Input\Field\Factory
     {
         return new I\Input\Field\Factory(
             $this->createMock(\ILIAS\UI\Implementation\Component\Input\UploadLimitResolver::class),
@@ -65,10 +67,10 @@ class DurationInputTest extends ILIAS_UI_TestBase
         );
     }
 
-    public function getUIFactory() : NoUIFactory
+    public function getUIFactory(): NoUIFactory
     {
-        return new class extends NoUIFactory {
-            public function symbol() : C\Symbol\Factory
+        return new class () extends NoUIFactory {
+            public function symbol(): C\Symbol\Factory
             {
                 return new S\Factory(
                     new S\Icon\Factory(),
@@ -79,7 +81,7 @@ class DurationInputTest extends ILIAS_UI_TestBase
         };
     }
 
-    public function test_withFormat() : void
+    public function test_withFormat(): void
     {
         $format = $this->data_factory->dateFormat()->germanShort();
         $duration = $this->factory->duration('label', 'byline')
@@ -91,7 +93,7 @@ class DurationInputTest extends ILIAS_UI_TestBase
         );
     }
 
-    public function test_withMinValue() : void
+    public function test_withMinValue(): void
     {
         $dat = new DateTimeImmutable('2019-01-09');
         $duration = $this->factory->duration('label', 'byline')
@@ -103,7 +105,7 @@ class DurationInputTest extends ILIAS_UI_TestBase
         );
     }
 
-    public function test_withMaxValue() : void
+    public function test_withMaxValue(): void
     {
         $dat = new DateTimeImmutable('2019-01-09');
         $duration = $this->factory->duration('label', 'byline')
@@ -115,21 +117,21 @@ class DurationInputTest extends ILIAS_UI_TestBase
         );
     }
 
-    public function test_withUseTime() : void
+    public function test_withUseTime(): void
     {
         $datetime = $this->factory->duration('label', 'byline');
         $this->assertFalse($datetime->getUseTime());
         $this->assertTrue($datetime->withUseTime(true)->getUseTime());
     }
 
-    public function test_withTimeOnly() : void
+    public function test_withTimeOnly(): void
     {
         $datetime = $this->factory->duration('label', 'byline');
         $this->assertFalse($datetime->getTimeOnly());
         $this->assertTrue($datetime->withTimeOnly(true)->getTimeOnly());
     }
 
-    public function test_withTimeZone() : void
+    public function test_withTimeZone(): void
     {
         $datetime = $this->factory->duration('label', 'byline');
         $this->assertNull($datetime->getTimeZone());
@@ -140,7 +142,7 @@ class DurationInputTest extends ILIAS_UI_TestBase
         );
     }
 
-    public function test_withInvalidTimeZone() : void
+    public function test_withInvalidTimeZone(): void
     {
         $this->expectException(InvalidArgumentException::class);
         $datetime = $this->factory->duration('label', 'byline');
@@ -148,13 +150,13 @@ class DurationInputTest extends ILIAS_UI_TestBase
         $datetime->withTimeZone($tz);
     }
 
-    public function testWithoutByline() : void
+    public function testWithoutByline(): void
     {
         $datetime = $this->factory->duration('label');
         $this->assertInstanceOf(C\Input\Field\Duration::class, $datetime);
     }
 
-    public function test_render() : \ILIAS\UI\Component\Input\Field\Duration
+    public function test_render(): \ILIAS\UI\Component\Input\Field\Duration
     {
         $datetime = $this->factory->duration('label', 'byline');
         $r = $this->getDefaultRenderer();
@@ -193,7 +195,7 @@ class DurationInputTest extends ILIAS_UI_TestBase
     /**
      * @depends test_render
      */
-    public function testRenderwithDifferentLabels($datetime) : void
+    public function testRenderwithDifferentLabels($datetime): void
     {
         $other_start_label = 'other startlabel';
         $other_end_label = 'other endlabel';

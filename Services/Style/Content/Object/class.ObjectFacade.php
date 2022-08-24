@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -52,7 +54,7 @@ class ObjectFacade
      * This must be called on cloning the parent object, with passing
      * the object id of the clone.
      */
-    public function cloneTo(int $obj_id) : void
+    public function cloneTo(int $obj_id): void
     {
         $this->object_manager->cloneTo($obj_id);
     }
@@ -61,7 +63,7 @@ class ObjectFacade
      * This ID must be used when rendering the object (pages). It respects global
      * settings like fixed style IDs.
      */
-    public function getEffectiveStyleId() : int
+    public function getEffectiveStyleId(): int
     {
         return $this->object_manager->getEffectiveStyleId();
     }
@@ -72,7 +74,7 @@ class ObjectFacade
      * global style overwrites the ID of the current object, or the ID of the
      * current object is invalid, e.g. by referencing a non-shared parent style ID.
      */
-    public function getStyleId() : int
+    public function getStyleId(): int
     {
         return $this->object_manager->getStyleId();
     }
@@ -82,7 +84,7 @@ class ObjectFacade
      * necessary on import routines, but otherwise updates should be
      * called internally automatically.
      */
-    public function updateStyleId(int $style_id) : void
+    public function updateStyleId(int $style_id): void
     {
         $this->object_manager->updateStyleId($style_id);
     }
@@ -90,7 +92,7 @@ class ObjectFacade
     /**
      * Inherits a non local style from the parent container
      */
-    public function inheritFromParent() : void
+    public function inheritFromParent(): void
     {
         $this->object_manager->inheritFromParent();
     }

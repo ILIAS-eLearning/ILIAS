@@ -51,12 +51,12 @@ class ilStorageHandlerV1Migration implements Migration
     protected string $from = 'fsv1';
     protected string $to = 'fsv2';
 
-    public function getLabel() : string
+    public function getLabel(): string
     {
         return 'ilStorageHandlerV1Migration';
     }
 
-    public function getDefaultAmountOfStepsPerRun() : int
+    public function getDefaultAmountOfStepsPerRun(): int
     {
         return 10000;
     }
@@ -64,7 +64,7 @@ class ilStorageHandlerV1Migration implements Migration
     /**
      * @return \ilDatabaseUpdatedObjective[]|\ilIniFilesLoadedObjective[]|\ilStorageContainersExistingObjective[]
      */
-    public function getPreconditions(Environment $environment) : array
+    public function getPreconditions(Environment $environment): array
     {
         return [
             new \ilIniFilesLoadedObjective(),
@@ -73,7 +73,7 @@ class ilStorageHandlerV1Migration implements Migration
         ];
     }
 
-    public function prepare(Environment $environment) : void
+    public function prepare(Environment $environment): void
     {
         $ilias_ini = $environment->getResource(Environment::RESOURCE_ILIAS_INI);
         $client_id = $environment->getResource(Environment::RESOURCE_CLIENT_ID);
@@ -120,7 +120,7 @@ class ilStorageHandlerV1Migration implements Migration
         );
     }
 
-    public function step(Environment $environment) : void
+    public function step(Environment $environment): void
     {
         /** @var $io IOWrapper */
         $io = $environment->getResource(Environment::RESOURCE_ADMIN_INTERACTION);
@@ -140,7 +140,7 @@ class ilStorageHandlerV1Migration implements Migration
         }
     }
 
-    public function getRemainingAmountOfSteps() : int
+    public function getRemainingAmountOfSteps(): int
     {
         $r = $this->database->queryF(
             "SELECT COUNT(rid) as old_storage FROM il_resource WHERE storage_id != %s",

@@ -1,4 +1,5 @@
 <?php
+
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -13,12 +14,12 @@ class ilAssQuestionSkillAssignmentImportFails
      * @var ilAssQuestionSkillAssignmentRegistry
      */
     protected $settings;
-    
+
     /**
      * @var integer
      */
     protected $parentObjId;
-    
+
     /**
      * ilAssQuestionSkillAssignmentImportFails constructor.
      * @param $parentObjId
@@ -27,11 +28,11 @@ class ilAssQuestionSkillAssignmentImportFails
     {
         $this->parentObjId = $parentObjId;
     }
-    
+
     /**
      * @return ilAssQuestionSkillAssignmentRegistry
      */
-    protected function getSettings() : ilAssQuestionSkillAssignmentRegistry
+    protected function getSettings(): ilAssQuestionSkillAssignmentRegistry
     {
         if ($this->settings === null) {
             require_once 'Modules/TestQuestionPool/classes/questions/class.ilAssQuestionSkillAssignmentImportList.php';
@@ -41,27 +42,27 @@ class ilAssQuestionSkillAssignmentImportFails
 
         return $this->settings;
     }
-    
+
     /**
      * @return int
      */
-    protected function getParentObjId() : int
+    protected function getParentObjId(): int
     {
         return $this->parentObjId;
     }
-    
+
     /**
      * @return string
      */
-    protected function buildSettingsKey() : string
+    protected function buildSettingsKey(): string
     {
         return 'failed_imp_qsa_parentobj_' . $this->getParentObjId();
     }
-    
+
     /**
      * @return ilAssQuestionSkillAssignmentImportList|null
      */
-    public function getFailedImports() : ?ilAssQuestionSkillAssignmentImportList
+    public function getFailedImports(): ?ilAssQuestionSkillAssignmentImportList
     {
         $value = $this->getSettings()->getStringifiedImports($this->buildSettingsKey(), null);
 
@@ -71,54 +72,54 @@ class ilAssQuestionSkillAssignmentImportFails
 
         return null;
     }
-    
+
     /**
      * @param ilAssQuestionSkillAssignmentImportList $assignmentList
      */
-    public function registerFailedImports(ilAssQuestionSkillAssignmentImportList $assignmentList) : void
+    public function registerFailedImports(ilAssQuestionSkillAssignmentImportList $assignmentList): void
     {
         $this->getSettings()->setStringifiedImports($this->buildSettingsKey(), serialize($assignmentList));
     }
-    
+
     /**
      */
-    public function deleteRegisteredImportFails() : void
+    public function deleteRegisteredImportFails(): void
     {
         $this->getSettings()->deleteStringifiedImports($this->buildSettingsKey());
     }
-    
+
     /**
      * @return bool
      */
-    public function failedImportsRegistered() : bool
+    public function failedImportsRegistered(): bool
     {
         return $this->getFailedImports() !== null;
     }
-    
+
     /**
      * @param ilLanguage $lng
      * @return string
      */
-    public function getFailedImportsMessage(ilLanguage $lng) : string
+    public function getFailedImportsMessage(ilLanguage $lng): string
     {
         $handledSkills = array();
         $msg = $lng->txt('tst_failed_imp_qst_skl_assign');
-        
+
         $msg .= '<ul>';
         foreach ($this->getFailedImports() as $assignmentImport) {
             $sklBaseId = $assignmentImport->getImportSkillBaseId();
             $sklTrefId = $assignmentImport->getImportSkillTrefId();
-            
+
             if (isset($handledSkills["$sklBaseId:$sklTrefId"])) {
                 continue;
             }
-            
+
             $handledSkills["$sklBaseId:$sklTrefId"] = true;
-            
+
             $msg .= '<li>' . $assignmentImport->getImportSkillTitle() . '</li>';
         }
         $msg .= '</ul>';
-        
+
         return $msg;
     }
 }

@@ -1,4 +1,5 @@
 <?php
+
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 require_once 'Modules/Test/classes/class.ilObjAssessmentFolder.php';
@@ -40,12 +41,12 @@ class ilTestProcessLockerFactory
         $this->db = $db;
     }
 
-    public function getContextId() : ?int
+    public function getContextId(): ?int
     {
         return $this->contextId;
     }
 
-    public function withContextId(int $contextId) : self
+    public function withContextId(int $contextId): self
     {
         $clone = clone $this;
         $clone->contextId = $contextId;
@@ -53,7 +54,7 @@ class ilTestProcessLockerFactory
         return $clone;
     }
 
-    private function getLockModeSettingValue() : ?string
+    private function getLockModeSettingValue(): ?string
     {
         return $this->settings->get('ass_process_lock_mode', ilObjAssessmentFolder::ASS_PROC_LOCK_MODE_NONE);
     }
@@ -61,14 +62,14 @@ class ilTestProcessLockerFactory
     /**
      * @return ilTestProcessLockerDb|ilTestProcessLockerFile|ilTestProcessLockerNone
      */
-    public function getLocker() : ilTestProcessLocker
+    public function getLocker(): ilTestProcessLocker
     {
         switch ($this->getLockModeSettingValue()) {
             case ilObjAssessmentFolder::ASS_PROC_LOCK_MODE_NONE:
-                
+
                 $locker = new ilTestProcessLockerNone();
                 break;
-                
+
             case ilObjAssessmentFolder::ASS_PROC_LOCK_MODE_FILE:
 
                 $storage = new ilTestProcessLockFileStorage((int) $this->getContextId());
@@ -76,17 +77,17 @@ class ilTestProcessLockerFactory
 
                 $locker = new ilTestProcessLockerFile($storage);
                 break;
-            
+
             case ilObjAssessmentFolder::ASS_PROC_LOCK_MODE_DB:
 
                 $locker = new ilTestProcessLockerDb($this->db);
                 break;
         }
-        
+
         return $locker;
     }
 
-    public function retrieveLockerForNamedOperation() : ilTestProcessLocker
+    public function retrieveLockerForNamedOperation(): ilTestProcessLocker
     {
         if ($this->getLocker() instanceof ilTestProcessLockerFile) {
             return $this->getLocker();

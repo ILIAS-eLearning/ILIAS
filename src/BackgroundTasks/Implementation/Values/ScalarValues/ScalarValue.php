@@ -15,7 +15,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\BackgroundTasks\Implementation\Values\ScalarValues;
 
 use ILIAS\BackgroundTasks\Exceptions\InvalidArgumentException;
@@ -24,12 +24,11 @@ use ILIAS\BackgroundTasks\Value;
 
 class ScalarValue extends AbstractValue
 {
-    
     /**
      * @var mixed|bool|float|int|string|null is_scalar() == true;
      */
     protected $value;
-    
+
     /**
      * String representation of object
      * @link  http://php.net/manual/en/serializable.serialize.php
@@ -40,7 +39,7 @@ class ScalarValue extends AbstractValue
     {
         return serialize($this->value);
     }
-    
+
     /**
      * Constructs the object
      * @link  http://php.net/manual/en/serializable.unserialize.php
@@ -54,26 +53,26 @@ class ScalarValue extends AbstractValue
     {
         $this->value = unserialize($serialized);
     }
-    
+
     /**
      * @return string Gets a hash for this IO. If two objects are the same the hash must be the
      *                same! if two objects are different you need to have as view collitions as
      *                possible.
      */
-    public function getHash() : string
+    public function getHash(): string
     {
         return md5($this->serialize());
     }
-    
-    public function equals(Value $other) : bool
+
+    public function equals(Value $other): bool
     {
         if (!$other instanceof ScalarValue) {
             return false;
         }
-        
+
         return $this->value == $other->getValue();
     }
-    
+
     /**
      * @return mixed
      */
@@ -81,17 +80,17 @@ class ScalarValue extends AbstractValue
     {
         return $this->value;
     }
-    
+
     /**
      * @param $value
      * @throws InvalidArgumentException
      */
-    public function setValue($value) : void
+    public function setValue($value): void
     {
         if (!is_scalar($value)) {
             throw new InvalidArgumentException("The value given must be a scalar! See php-documentation is_scalar().");
         }
-        
+
         $this->value = $value;
     }
 }

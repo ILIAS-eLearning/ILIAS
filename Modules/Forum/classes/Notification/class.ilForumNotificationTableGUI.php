@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -59,7 +61,7 @@ class ilForumNotificationTableGUI extends ilTable2GUI
         $this->addMultiCommand('disableHideUserToggleNoti', $this->lng->txt('disable_hide_user_toggle'));
     }
 
-    private function getIcon(int $user_toggle_noti) : string
+    private function getIcon(int $user_toggle_noti): string
     {
         $icon_ok = $this->ui_factory->symbol()->icon()->custom(
             ilUtil::getImagePath('icon_ok.svg'),
@@ -74,7 +76,7 @@ class ilForumNotificationTableGUI extends ilTable2GUI
         return $this->ui_renderer->render($icon);
     }
 
-    protected function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set): void
     {
         $this->tpl->setVariable('VAL_USER_ID', $a_set['user_id']);
         $this->tpl->setVariable('VAL_LOGIN', $a_set['login']);
@@ -87,7 +89,7 @@ class ilForumNotificationTableGUI extends ilTable2GUI
         $this->populateWithModal($a_set);
     }
 
-    private function eventsFormBuilder(array $row) : ilForumNotificationEventsFormGUI
+    private function eventsFormBuilder(array $row): ilForumNotificationEventsFormGUI
     {
         $interested_events = $row['interested_events'];
 
@@ -108,7 +110,7 @@ class ilForumNotificationTableGUI extends ilTable2GUI
         );
     }
 
-    private function populateWithModal(array $row) : void
+    private function populateWithModal(array $row): void
     {
         $notificationsModal = $this->ui_factory->modal()->roundtrip(
             $this->lng->txt('notification_settings'),
@@ -116,7 +118,7 @@ class ilForumNotificationTableGUI extends ilTable2GUI
         )->withActionButtons([
             $this->ui_factory->button()
                 ->primary($this->lng->txt('save'), '#')
-                ->withOnLoadCode(function (string $id) use ($row) : string {
+                ->withOnLoadCode(function (string $id) use ($row): string {
                     return "
                         $('#$id').closest('.modal').find('form').addClass('ilForumNotificationSettingsForm');
                         $('#$id').closest('.modal').find('form .il-standard-form-header, .il-standard-form-footer').remove();
@@ -136,7 +138,7 @@ class ilForumNotificationTableGUI extends ilTable2GUI
         $this->tpl->setVariable('VAL_NOTIFICATION', $this->ui_renderer->render($showNotificationSettingsBtn));
     }
 
-    public function render() : string
+    public function render(): string
     {
         return parent::render() . $this->ui_renderer->render($this->notification_modals);
     }

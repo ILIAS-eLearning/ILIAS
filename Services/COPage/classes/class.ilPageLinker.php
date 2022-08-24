@@ -44,19 +44,19 @@ class ilPageLinker implements \ILIAS\COPage\PageLinker
             : $ctrl;
     }
 
-    public function setOffline(bool $offline = true) : void
+    public function setOffline(bool $offline = true): void
     {
         $this->offline = $offline;
     }
 
 
-    public function getLayoutLinkTargets() : array
+    public function getLayoutLinkTargets(): array
     {
         $targets = [];
         return $targets;
     }
 
-    public function getLinkTargetsXML() : string
+    public function getLinkTargetsXML(): string
     {
         $layoutLinkTargets = $this->getLayoutLinkTargets();
 
@@ -72,7 +72,7 @@ class ilPageLinker implements \ILIAS\COPage\PageLinker
         return $link_info;
     }
 
-    public function getLinkXML(array $int_links) : string
+    public function getLinkXML(array $int_links): string
     {
         $link_info = "<IntLinkInfos>";
         foreach ($int_links as $int_link) {
@@ -194,7 +194,7 @@ class ilPageLinker implements \ILIAS\COPage\PageLinker
         return $link_info;
     }
 
-    public function getFullscreenLink() : string
+    public function getFullscreenLink(): string
     {
         if ($this->offline) {
             return "fullscreen.html";

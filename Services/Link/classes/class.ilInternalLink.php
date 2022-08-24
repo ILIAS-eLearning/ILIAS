@@ -30,7 +30,7 @@ class ilInternalLink
         string $a_source_type,
         int $a_source_id,
         string $a_lang = "-"
-    ) : void {
+    ): void {
         global $DIC;
 
         $ilDB = $DIC->database();
@@ -39,7 +39,7 @@ class ilInternalLink
         if ($a_lang !== "") {
             $lang_where = " AND source_lang = " . $ilDB->quote($a_lang, "text");
         }
-        
+
         $q = "DELETE FROM int_link WHERE source_type = " .
             $ilDB->quote($a_source_type, "text") . " AND source_id=" .
             $ilDB->quote($a_source_id, "integer") .
@@ -54,7 +54,7 @@ class ilInternalLink
         string $a_target_type,
         int $a_target_id,
         int $a_target_inst = 0
-    ) : void {
+    ): void {
         global $DIC;
 
         $ilDB = $DIC->database();
@@ -77,7 +77,7 @@ class ilInternalLink
         int $a_target_id,
         int $a_target_inst = 0,
         string $a_source_lang = "-"
-    ) : void {
+    ): void {
         global $DIC;
 
         $ilDB = $DIC->database();
@@ -107,7 +107,7 @@ class ilInternalLink
         string $a_target_type,
         int $a_target_id,
         int $a_target_inst
-    ) : array {
+    ): array {
         global $DIC;
 
         $ilDB = $DIC->database();
@@ -138,7 +138,7 @@ class ilInternalLink
         string $a_source_type,
         int $a_source_id,
         string $a_source_lang = "-"
-    ) : array {
+    ): array {
         global $DIC;
 
         $ilDB = $DIC->database();
@@ -174,7 +174,7 @@ class ilInternalLink
     public static function _getIdForImportId(
         string $a_type,
         string $a_target
-    ) : ?string {
+    ): ?string {
         switch ($a_type) {
             case "PageObject":
                 $id = ilLMObject::_getIdForImportId($a_target);
@@ -214,12 +214,12 @@ class ilInternalLink
                     return "il__mob_" . $id;
                 }
                 break;
-                
+
             case "RepositoryItem":
-                
+
                 $tarr = explode("_", $a_target);
                 $import_id = $a_target;
-                
+
                 // if a ref id part is given, strip this
                 // since this will not be part of an import id
                 // see also bug #6685
@@ -265,11 +265,11 @@ class ilInternalLink
     public static function _exists(
         string $a_type,
         string $a_target
-    ) : bool {
+    ): bool {
         global $DIC;
 
         $tree = $DIC->repositoryTree();
-        
+
         switch ($a_type) {
             case "PageObject":
             case "StructureObject":
@@ -294,12 +294,12 @@ class ilInternalLink
         return false;
     }
 
-    
+
     /**
      * Extract installation id out of target
      * @param	string		$a_target		import target id (e.g. "il_2_pg_22")
      */
-    public static function _extractInstOfTarget(string $a_target) : ?int
+    public static function _extractInstOfTarget(string $a_target): ?int
     {
         if (!is_int(strpos($a_target, "__"))) {
             $target = explode("_", $a_target);
@@ -309,12 +309,12 @@ class ilInternalLink
         }
         return null;
     }
-    
+
     /**
      * Removes installation id from target string
      * @param	string		$a_target		import target id (e.g. "il_2_pg_22")
      */
-    public static function _removeInstFromTarget(string $a_target) : ?string
+    public static function _removeInstFromTarget(string $a_target): ?string
     {
         if (!is_int(strpos($a_target, "__"))) {
             $target = explode("_", $a_target);
@@ -324,12 +324,12 @@ class ilInternalLink
         }
         return null;
     }
-    
+
     /**
      * Extract object id out of target
      * @param	string		$a_target		import target id (e.g. "il_2_pg_22")
      */
-    public static function _extractObjIdOfTarget(string $a_target) : int
+    public static function _extractObjIdOfTarget(string $a_target): int
     {
         $target = explode("_", $a_target);
         return (int) $target[count($target) - 1];
@@ -339,7 +339,7 @@ class ilInternalLink
      * Extract type out of target
      * @param	string		$a_target		import target id (e.g. "il_2_pg_22")
      */
-    public static function _extractTypeOfTarget(string $a_target) : string
+    public static function _extractTypeOfTarget(string $a_target): string
     {
         $target = explode("_", $a_target);
         return (string) $target[count($target) - 2];
@@ -348,7 +348,7 @@ class ilInternalLink
     /**
      * Search users
      */
-    public static function searchUsers(string $a_search_str) : array
+    public static function searchUsers(string $a_search_str): array
     {
         $result = new ilSearchResult();
 

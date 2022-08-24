@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
@@ -82,80 +84,80 @@ class PageContentGUI
         $this->ui_service = $DIC->ui();
     }
 
-    public function addBlockFile(string $var, string $block, string $template_name, string $in_module = null) : bool
+    public function addBlockFile(string $var, string $block, string $template_name, string $in_module = null): bool
     {
         return $this->template->addBlockFile($var, $block, $template_name, $in_module);
     }
 
-    public function blockExists(string $block_name) : bool
+    public function blockExists(string $block_name): bool
     {
         return $this->template->blockExists($block_name);
     }
 
-    public function removeBlockData(string $block_name) : void
+    public function removeBlockData(string $block_name): void
     {
         $this->template->removeBlockData($block_name);
     }
 
-    public function setVariable(string $variable, string $value = '') : void
+    public function setVariable(string $variable, string $value = ''): void
     {
         $this->template->setVariable($variable, $value);
     }
 
-    public function setCurrentBlock(string $block_name = ilGlobalTemplateInterface::DEFAULT_BLOCK) : bool
+    public function setCurrentBlock(string $block_name = ilGlobalTemplateInterface::DEFAULT_BLOCK): bool
     {
         return $this->template->setCurrentBlock($block_name);
     }
 
-    public function touchBlock(string $block_name) : void
+    public function touchBlock(string $block_name): void
     {
         $this->template->touchBlock($block_name);
     }
 
-    public function parseCurrentBlock(string $block_name = ilGlobalTemplateInterface::DEFAULT_BLOCK) : bool
+    public function parseCurrentBlock(string $block_name = ilGlobalTemplateInterface::DEFAULT_BLOCK): bool
     {
         return $this->template->parseCurrentBlock($block_name);
     }
 
-    public function setPageFormAction(string $page_form_action) : void
+    public function setPageFormAction(string $page_form_action): void
     {
         if (!empty($page_form_action)) {
             $this->page_form_action = $page_form_action;
         }
     }
 
-    public function setMainContent(string $main_content) : void
+    public function setMainContent(string $main_content): void
     {
         if (!empty($main_content)) {
             $this->main_content = $main_content;
         }
     }
 
-    public function addLightbox(string $lightbox_html, string $id) : void
+    public function addLightbox(string $lightbox_html, string $id): void
     {
         if (!empty($lightbox_html)) {
             $this->lightbox[$id] = $lightbox_html;
         }
     }
 
-    public function setHeaderPageTitle(string $header_page_title) : void
+    public function setHeaderPageTitle(string $header_page_title): void
     {
         // property is never used.
     }
 
-    public function setBanner(string $image_src) : void
+    public function setBanner(string $image_src): void
     {
         if (!empty($image_src)) {
             $this->banner_image_src = $image_src;
         }
     }
 
-    public function getBanner() : ?string
+    public function getBanner(): ?string
     {
         return $this->banner_image_src;
     }
 
-    public function setTitle(string $title, bool $is_hidden = false) : void
+    public function setTitle(string $title, bool $is_hidden = false): void
     {
         if (!empty($title)) {
             $this->title = $title;
@@ -163,62 +165,62 @@ class PageContentGUI
         }
     }
 
-    public function setTitleDesc(string $title_desc) : void
+    public function setTitleDesc(string $title_desc): void
     {
         if (!empty($title_desc)) {
             $this->title_desc = $title_desc;
         }
     }
 
-    public function setTitleAlerts(array $title_alerts) : void
+    public function setTitleAlerts(array $title_alerts): void
     {
         $this->title_alerts = $title_alerts;
     }
 
-    public function setHeaderAction(string $header_action) : void
+    public function setHeaderAction(string $header_action): void
     {
         if (!empty($header_action)) {
             $this->header_action = $header_action;
         }
     }
 
-    public function setAdminPanelCommandsToolbar(ilToolbarGUI $admin_panel_commands_toolbar) : void
+    public function setAdminPanelCommandsToolbar(ilToolbarGUI $admin_panel_commands_toolbar): void
     {
         $this->admin_panel_commands_toolbar = $admin_panel_commands_toolbar;
     }
 
-    public function setAdminPanelArrow(bool $should_display_admin_panel_arrow) : void
+    public function setAdminPanelArrow(bool $should_display_admin_panel_arrow): void
     {
         $this->should_display_admin_panel_arrow = $should_display_admin_panel_arrow;
     }
 
-    public function setAdminPanelBottom(bool $is_admin_panel_for_bottom) : void
+    public function setAdminPanelBottom(bool $is_admin_panel_for_bottom): void
     {
         $this->is_admin_panel_for_bottom = $is_admin_panel_for_bottom;
     }
 
-    public function setRightContent(string $content) : void
+    public function setRightContent(string $content): void
     {
         if (!empty($content)) {
             $this->right_content = $content;
         }
     }
 
-    public function setLeftContent(string $content) : void
+    public function setLeftContent(string $content): void
     {
         if (!empty($content)) {
             $this->left_content = $content;
         }
     }
 
-    public function setFilter(string $filter) : void
+    public function setFilter(string $filter): void
     {
         if (!empty($filter)) {
             $this->filter = $filter;
         }
     }
 
-    protected function fillFilter() : void
+    protected function fillFilter(): void
     {
         if (null !== $this->filter) {
             $this->template->setCurrentBlock("filter");
@@ -227,26 +229,26 @@ class PageContentGUI
         }
     }
 
-    public function setIconPath(string $icon_path) : void
+    public function setIconPath(string $icon_path): void
     {
         if (!empty($icon_path)) {
             $this->icon_path = $icon_path;
         }
     }
 
-    public function setIconDesc(string $icon_desc) : void
+    public function setIconDesc(string $icon_desc): void
     {
         if (!empty($icon_desc)) {
             $this->icon_desc = $icon_desc;
         }
     }
 
-    public function setFileUploadRefId(int $upload_ref_id) : void
+    public function setFileUploadRefId(int $upload_ref_id): void
     {
         $this->file_upload_ref_id = $upload_ref_id;
     }
 
-    public function setOnScreenMessage(string $type, string $message, bool $should_keep = false) : void
+    public function setOnScreenMessage(string $type, string $message, bool $should_keep = false): void
     {
         if (!in_array($type, ilGlobalTemplateInterface::MESSAGE_TYPES, true)) {
             throw new InvalidArgumentException("Type '$type' is not declared in " . self::class . "::MESSAGE_TYPES and is therefore invalid.");
@@ -259,12 +261,12 @@ class PageContentGUI
         }
     }
 
-    public function get(string $part = ilGlobalTemplateInterface::DEFAULT_BLOCK) : string
+    public function get(string $part = ilGlobalTemplateInterface::DEFAULT_BLOCK): string
     {
         return $this->template->get($part);
     }
 
-    public function renderPage(string $part, bool $a_fill_tabs) : string
+    public function renderPage(string $part, bool $a_fill_tabs): string
     {
         global $DIC;
 
@@ -329,7 +331,7 @@ class PageContentGUI
         return $html;
     }
 
-    protected function fillMessage() : void
+    protected function fillMessage(): void
     {
         $messages = [];
         foreach (ilGlobalTemplateInterface::MESSAGE_TYPES as $type) {
@@ -345,7 +347,7 @@ class PageContentGUI
         }
     }
 
-    private function getMessageBox(string $type, string $message) : MessageBox
+    private function getMessageBox(string $type, string $message): MessageBox
     {
         $box_factory = $this->ui_service->factory()->messageBox();
         switch ($type) {
@@ -368,7 +370,7 @@ class PageContentGUI
         return $box;
     }
 
-    protected function getMessageTextForType(string $type) : ?string
+    protected function getMessageTextForType(string $type): ?string
     {
         if (ilSession::has($type)) {
             return (string) ilSession::get($type);
@@ -377,7 +379,7 @@ class PageContentGUI
         return $this->messages[$type] ?? null;
     }
 
-    protected function getTabsHTML() : void
+    protected function getTabsHTML(): void
     {
         global $DIC;
 
@@ -389,12 +391,12 @@ class PageContentGUI
         }
     }
 
-    protected function initHelp() : void
+    protected function initHelp(): void
     {
         //\ilHelpGUI::initHelp($this);
     }
 
-    protected function fillHeader() : void
+    protected function fillHeader(): void
     {
         global $DIC;
 
@@ -475,7 +477,7 @@ class PageContentGUI
     }
 
 
-    protected function setCenterColumnClass() : void
+    protected function setCenterColumnClass(): void
     {
         if (!$this->template->blockExists("center_col_width")) {
             return;
@@ -504,14 +506,14 @@ class PageContentGUI
         $this->template->parseCurrentBlock();
     }
 
-    protected function fillMainContent() : void
+    protected function fillMainContent(): void
     {
         if (null !== $this->main_content) {
             $this->template->setVariable("ADM_CONTENT", trim($this->main_content));
         }
     }
 
-    protected function fillLeftContent() : void
+    protected function fillLeftContent(): void
     {
         if (null !== $this->left_content) {
             $this->template->setCurrentBlock("left_column");
@@ -526,7 +528,7 @@ class PageContentGUI
         }
     }
 
-    protected function fillRightContent() : void
+    protected function fillRightContent(): void
     {
         if (null !== $this->right_content) {
             $this->template->setCurrentBlock("right_column");
@@ -535,7 +537,7 @@ class PageContentGUI
         }
     }
 
-    protected function fillAdminPanel() : void
+    protected function fillAdminPanel(): void
     {
         global $DIC;
         $lng = $DIC->language();
@@ -572,7 +574,7 @@ class PageContentGUI
         }
     }
 
-    protected function fillPageFormAction() : void
+    protected function fillPageFormAction(): void
     {
         if (null !== $this->page_form_action) {
             $this->template->setCurrentBlock("page_form_start");
@@ -582,7 +584,7 @@ class PageContentGUI
         }
     }
 
-    protected function fillToolbar() : void
+    protected function fillToolbar(): void
     {
         global $DIC;
         $ilToolbar = $DIC["ilToolbar"];
@@ -595,7 +597,7 @@ class PageContentGUI
         }
     }
 
-    protected function fillTabs() : void
+    protected function fillTabs(): void
     {
         if ($this->template->blockExists("tabs_outer_start")) {
             $this->template->touchBlock("tabs_outer_start");
@@ -613,7 +615,7 @@ class PageContentGUI
         }
     }
 
-    protected function fillLightbox() : void
+    protected function fillLightbox(): void
     {
         $this->template->setVariable('LIGHTBOX', implode('', $this->lightbox));
     }

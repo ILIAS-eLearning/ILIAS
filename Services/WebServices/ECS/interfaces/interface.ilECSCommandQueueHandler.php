@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /******************************************************************************
  *
@@ -24,15 +26,15 @@ interface ilECSCommandQueueHandler
     /**
      * Handle create event
      */
-    public function handleCreate(ilECSSetting $server, int $a_content_id) : bool;
-    
+    public function handleCreate(ilECSSetting $server, int $a_content_id): bool;
+
     /**
      * Handle update
      */
-    public function handleUpdate(ilECSSetting $server, int $a_content_id) : bool;
-    
+    public function handleUpdate(ilECSSetting $server, int $a_content_id): bool;
+
     /**
      * Handle delete action
      */
-    public function handleDelete(ilECSSetting $server, int $a_content_id) : bool;
+    public function handleDelete(ilECSSetting $server, int $a_content_id): bool;
 }

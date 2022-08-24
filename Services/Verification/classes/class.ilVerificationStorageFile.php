@@ -25,12 +25,12 @@ class ilVerificationStorageFile extends ilFileSystemAbstractionStorage
         parent::__construct(self::STORAGE_DATA, true, $a_container_id);
     }
 
-    protected function getPathPostfix() : string
+    protected function getPathPostfix(): string
     {
         return 'vrfc';
     }
 
-    protected function getPathPrefix() : string
+    protected function getPathPrefix(): string
     {
         return 'ilVerification';
     }

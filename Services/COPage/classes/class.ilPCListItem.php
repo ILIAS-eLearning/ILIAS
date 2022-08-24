@@ -23,7 +23,7 @@
  */
 class ilPCListItem extends ilPageContent
 {
-    public function init() : void
+    public function init(): void
     {
         $this->setType("li");
     }
@@ -31,7 +31,7 @@ class ilPCListItem extends ilPageContent
     /**
      * insert new list item after current one
      */
-    public function newItemAfter() : void
+    public function newItemAfter(): void
     {
         $li = $this->getNode();
         $new_li = $this->dom->create_element("ListItem");
@@ -47,7 +47,7 @@ class ilPCListItem extends ilPageContent
     /**
      * insert new list item before current one
      */
-    public function newItemBefore() : void
+    public function newItemBefore(): void
     {
         $li = $this->getNode();
         $new_li = $this->dom->create_element("ListItem");
@@ -58,7 +58,7 @@ class ilPCListItem extends ilPageContent
     /**
      * delete row of cell
      */
-    public function deleteItem() : void
+    public function deleteItem(): void
     {
         $parent_node = $this->getNode()->parent_node();
         $cnt = count($parent_node->child_nodes());
@@ -75,7 +75,7 @@ class ilPCListItem extends ilPageContent
     /**
      * move list item down
      */
-    public function moveItemDown() : void
+    public function moveItemDown(): void
     {
         $li = $this->getNode();
         $next = $li->next_sibling();
@@ -87,7 +87,7 @@ class ilPCListItem extends ilPageContent
     /**
      * move list item up
      */
-    public function moveItemUp() : void
+    public function moveItemUp(): void
     {
         $li = $this->getNode();
         $prev = $li->previous_sibling();

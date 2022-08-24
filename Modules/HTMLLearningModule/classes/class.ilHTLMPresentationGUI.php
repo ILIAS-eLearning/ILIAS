@@ -67,7 +67,7 @@ class ilHTLMPresentationGUI implements ilCtrlBaseClassInterface
         $this->objDefinition = $objDefinition;
     }
 
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         $tpl = $this->tpl;
         $ilCtrl = $this->ctrl;

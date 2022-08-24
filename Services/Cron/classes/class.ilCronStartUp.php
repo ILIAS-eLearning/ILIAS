@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -32,7 +34,7 @@ class ilCronStartUp
         $this->client = $a_client_id;
         $this->username = $a_login;
         $this->password = $a_password;
-    
+
         /** @noRector  */
         require_once './Services/Context/classes/class.ilContext.php';
         ilContext::init(ilContext::CONTEXT_CRON);
@@ -54,7 +56,7 @@ class ilCronStartUp
      * Start authentication
      * @throws ilCronException if authentication failed.
      */
-    public function authenticate() : bool
+    public function authenticate(): bool
     {
         $credentials = new ilAuthFrontendCredentials();
         $credentials->setUsername($this->username);
@@ -91,7 +93,7 @@ class ilCronStartUp
         return true;
     }
 
-    public function logout() : void
+    public function logout(): void
     {
         ilSession::setClosingContext(ilSession::SESSION_CLOSE_USER);
         $this->authSession->logout();

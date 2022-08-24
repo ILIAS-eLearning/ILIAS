@@ -68,7 +68,7 @@ class ilQuestionPoolSkillAdministrationGUI
      * @var ilObjQuestionPool
      */
     private $poolOBJ;
-    
+
     /** @var string|int|null  */
     private $refId;
 
@@ -96,7 +96,7 @@ class ilQuestionPoolSkillAdministrationGUI
         $this->refId = $refId;
     }
 
-    private function isAccessDenied() : bool
+    private function isAccessDenied(): bool
     {
         if (!$this->poolOBJ->isSkillServiceEnabled()) {
             return true;
@@ -113,7 +113,7 @@ class ilQuestionPoolSkillAdministrationGUI
         return false;
     }
 
-    public function manageTabs($activeSubTabId) : void
+    public function manageTabs($activeSubTabId): void
     {
         $link = $this->ctrl->getLinkTargetByClass(
             'ilAssQuestionSkillAssignmentsGUI',
@@ -124,7 +124,7 @@ class ilQuestionPoolSkillAdministrationGUI
             $this->lng->txt('qpl_skl_sub_tab_quest_assign'),
             $link
         );
-        
+
         $link = $this->ctrl->getLinkTargetByClass(
             'ilAssQuestionSkillUsagesTableGUI',
             ilAssQuestionSkillUsagesTableGUI::CMD_SHOW
@@ -139,7 +139,7 @@ class ilQuestionPoolSkillAdministrationGUI
         $this->tabs->activateSubTab($activeSubTabId);
     }
 
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         if ($this->isAccessDenied()) {
             $this->ilias->raiseError($this->lng->txt("permission_denied"), $this->ilias->error_obj->MESSAGE);

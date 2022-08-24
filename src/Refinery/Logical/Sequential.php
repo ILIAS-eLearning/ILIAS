@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -41,7 +43,7 @@ class Sequential extends CustomConstraint
     public function __construct(array $constraints, Data\Factory $data_factory, ilLanguage $lng)
     {
         parent::__construct(
-            function ($value) use ($constraints) : bool {
+            function ($value) use ($constraints): bool {
                 foreach ($constraints as $constraint) {
                     if (!$constraint->accepts($value)) {
                         $this->failed_constraint = $constraint;
@@ -51,7 +53,7 @@ class Sequential extends CustomConstraint
 
                 return true;
             },
-            function ($txt, $value) : string {
+            function ($txt, $value): string {
                 return $this->failed_constraint->getErrorMessage($value);
             },
             $data_factory,

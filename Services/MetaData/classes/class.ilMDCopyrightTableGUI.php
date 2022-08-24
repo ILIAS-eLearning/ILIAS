@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -56,7 +58,7 @@ class ilMDCopyrightTableGUI extends ilTable2GUI
         $this->setDefaultOrderDirection("asc");
     }
 
-    protected function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set): void
     {
         if ($this->has_write) {
             if ($a_set['default']) {
@@ -114,7 +116,7 @@ class ilMDCopyrightTableGUI extends ilTable2GUI
         }
     }
 
-    public function parseSelections() : void
+    public function parseSelections(): void
     {
         // These entries are ordered by 1. is_default, 2. position
         $entries = ilMDCopyrightSelectionEntry::_getEntries();

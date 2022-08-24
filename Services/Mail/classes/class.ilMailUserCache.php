@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -32,7 +34,7 @@ class ilMailUserCache
     /**
      * @param int[] $usr_ids
      */
-    public static function preloadUserObjects(array $usr_ids) : void
+    public static function preloadUserObjects(array $usr_ids): void
     {
         global $DIC;
 
@@ -75,7 +77,7 @@ class ilMailUserCache
         }
     }
 
-    public static function getUserObjectById(int $usr_id) : ?ilObjUser
+    public static function getUserObjectById(int $usr_id): ?ilObjUser
     {
         if ($usr_id < 1) {
             return null;

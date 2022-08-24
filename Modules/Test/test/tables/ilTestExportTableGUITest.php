@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -25,7 +27,7 @@ class ilTestExportTableGUITest extends ilTestBaseTestCase
     private ilTestExportTableGUI $tableGui;
     private ilObjTestGUI $parentObj_mock;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -56,12 +58,12 @@ class ilTestExportTableGUITest extends ilTestBaseTestCase
         );
     }
 
-    public function test_instantiateObject_shouldReturnInstance() : void
+    public function test_instantiateObject_shouldReturnInstance(): void
     {
         $this->assertInstanceOf(ilTestExportTableGUI::class, $this->tableGui);
     }
 
-    public function testNumericOrdering() : void
+    public function testNumericOrdering(): void
     {
         $this->assertTrue($this->tableGui->numericOrdering("size"));
         $this->assertTrue($this->tableGui->numericOrdering("date"));

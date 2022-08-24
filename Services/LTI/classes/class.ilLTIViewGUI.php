@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -32,7 +34,7 @@ class ilLTIViewGUI
     /**
      * contstants
      */
-    const CHECK_HTTP_REFERER = true;
+    public const CHECK_HTTP_REFERER = true;
 
     /**
      * private variables
@@ -70,7 +72,7 @@ class ilLTIViewGUI
     /**
      * Init LTI mode for lti authenticated users
      */
-    public function init() : void
+    public function init(): void
     {
         $this->link_dir = (defined("ILIAS_MODULE")) ? "../" : "";
         if ($this->isLTIUser()) {
@@ -94,7 +96,7 @@ class ilLTIViewGUI
      * get LTI Mode from Users->getAuthMode
      * @return bool
      */
-    private function isLTIUser() : bool
+    private function isLTIUser(): bool
     {
         if (!$this->dic->user() instanceof ilObjUser) {
             return false;
@@ -108,7 +110,7 @@ class ilLTIViewGUI
     /**
      * @return void
      */
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         global $ilCtrl;
         $cmd = $ilCtrl->getCmd();
@@ -122,7 +124,7 @@ class ilLTIViewGUI
     /**
      * @return bool
      */
-    public function isActive() : bool
+    public function isActive(): bool
     {
         return $this->isLTIUser();
     }
@@ -130,7 +132,7 @@ class ilLTIViewGUI
     /**
      * @return void
      */
-    public function initGUI() : void
+    public function initGUI(): void
     {
         $this->log->debug("initGUI");
         $baseclass = '';
@@ -148,10 +150,10 @@ class ilLTIViewGUI
     /**
     * @return int|null
     */
-    protected function getContextId() : ?int
+    protected function getContextId(): ?int
     {
         global $DIC;
-        
+
         // forced lti_context_id for example request command in exitLTI
         if ($this->wrapper->query()->has('lti_context_id') &&
             $this->wrapper->query()->retrieve('lti_context_id', $this->kindlyTo->string()) !== '') {
@@ -159,7 +161,7 @@ class ilLTIViewGUI
             $this->log->debug("find context_id by GET param: " . (string) $contextId);
             return $contextId;
         }
-        
+
         $this->findEffectiveRefId();
         $ref_id = $this->effectiveRefId;
         // ???
@@ -260,7 +262,7 @@ class ilLTIViewGUI
     /**
      * @return array|null
      */
-    public function getPostData() : ?array
+    public function getPostData(): ?array
     {
         $context_id = $this->getContextId();
         if ($context_id == 0) {
@@ -278,7 +280,7 @@ class ilLTIViewGUI
     /**
      * @return string
      */
-    public function getExternalCss() : string
+    public function getExternalCss(): string
     {
         $post_data = $this->getPostData();
         if ($post_data !== null) {
@@ -290,7 +292,7 @@ class ilLTIViewGUI
     /**
      * @return string
      */
-    public function getTitle() : string
+    public function getTitle(): string
     {
         $post_data = $this->getPostData();
         if ($post_data !== null) {
@@ -302,7 +304,7 @@ class ilLTIViewGUI
     /**
      * @return string
      */
-    public function getTitleForExitPage() : string
+    public function getTitleForExitPage(): string
     {
         return $this->lng->txt('lti_exited');
     }
@@ -310,16 +312,16 @@ class ilLTIViewGUI
     /**
      * @return string
      */
-    public function getShortTitle() : string
+    public function getShortTitle(): string
     {
         return $this->lng->txt('lti_mode');
     }
-    
+
     /**
      * exit LTI session and if defined redirecting to returnUrl
      * ToDo: Standard Template with delos ...
      */
-    public function exitLti() : void
+    public function exitLti(): void
     {
         $logger = ilLoggerFactory::getLogger('ltis');
         $logger->info("exitLTI");
@@ -363,7 +365,7 @@ class ilLTIViewGUI
     /**
      * logout ILIAS and destroys Session and ilClientId cookie if no consumer is still open in the LTI User Session
      */
-    public function logout(bool $force_ilias_logout = false) : void
+    public function logout(bool $force_ilias_logout = false): void
     {
         if ($force_ilias_logout) {
             $this->log->warning("forcing logout ilias session, maybe a broken LTI context");
@@ -390,7 +392,7 @@ class ilLTIViewGUI
      * @return String
      * @throws ilCtrlException
      */
-    public function getCmdLink(String $cmd) : String
+    public function getCmdLink(String $cmd): String
     {
         global $ilCtrl;
         $lti_context_id = $this->getContextId();
@@ -399,7 +401,7 @@ class ilLTIViewGUI
         return $this->link_dir . $targetScript . $this->dic->ctrl()->getLinkTargetByClass(array('illtiroutergui',strtolower(get_class($this))), $cmd) . "&baseClass=illtiroutergui" . $lti_context_id_param;
     }
 
-    private function getSessionValue(string $sess_key) : string
+    private function getSessionValue(string $sess_key): string
     {
         if (ilSession::has($sess_key) && ilSession::get($sess_key) != '') {
             return ilSession::get($sess_key);
@@ -408,7 +410,7 @@ class ilLTIViewGUI
         }
     }
 
-    private function getCookieValue(string $cookie_key) : string
+    private function getCookieValue(string $cookie_key): string
     {
         if ($this->dic->wrapper->cookie()->has($cookie_key) && $this->dic->wrapper->cookie()->retrieve($cookie_key, $this->dic->refinery()->kindlyTo()->string() != '')) {
             return $this->dic->wrapper->cookie()->retrieve($cookie_key, $this->dic->refinery()->kindlyTo()->string());
@@ -417,7 +419,7 @@ class ilLTIViewGUI
         }
     }
 
-    private function removeContextFromSession(string $context_id) : void
+    private function removeContextFromSession(string $context_id): void
     {
         $lti_context_ids = ilSession::get('lti_context_ids');
         if (is_array($lti_context_ids) && in_array($context_id, $lti_context_ids)) {
@@ -430,7 +432,7 @@ class ilLTIViewGUI
      * Find effective ref_id for request
      * @param string|null $url
      */
-    private function findEffectiveRefId(?string $url = null) : void
+    private function findEffectiveRefId(?string $url = null): void
     {
         $query = [];
         if ($url === null) {

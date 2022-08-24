@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -21,7 +23,7 @@
  */
 class ilCertificateTemplateDeleteActionTest extends ilCertificateBaseTestCase
 {
-    public function testDeleteTemplateAndUseOldThumbnail() : void
+    public function testDeleteTemplateAndUseOldThumbnail(): void
     {
         $templateRepositoryMock = $this->getMockBuilder(ilCertificateTemplateRepository::class)->getMock();
 
@@ -68,7 +70,7 @@ class ilCertificateTemplateDeleteActionTest extends ilCertificateBaseTestCase
         $action->delete(100, 2000);
     }
 
-    public function testDeleteTemplateButNoThumbnailWillBeCopiedFromOldCertificate() : void
+    public function testDeleteTemplateButNoThumbnailWillBeCopiedFromOldCertificate(): void
     {
         $templateRepositoryMock = $this->getMockBuilder(ilCertificateTemplateRepository::class)->getMock();
 

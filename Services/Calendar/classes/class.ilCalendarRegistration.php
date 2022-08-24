@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -23,7 +25,7 @@ class ilCalendarRegistration
         $this->read();
     }
 
-    public static function deleteByUser(int $a_usr_id) : void
+    public static function deleteByUser(int $a_usr_id): void
     {
         global $DIC;
 
@@ -33,7 +35,7 @@ class ilCalendarRegistration
         $ilDB->manipulate($query);
     }
 
-    public static function deleteByAppointment(int $a_cal_id) : void
+    public static function deleteByAppointment(int $a_cal_id): void
     {
         global $DIC;
 
@@ -43,12 +45,12 @@ class ilCalendarRegistration
         $ilDB->manipulate($query);
     }
 
-    public function getAppointmentId() : int
+    public function getAppointmentId(): int
     {
         return $this->appointment_id;
     }
 
-    public function getRegisteredUsers(\ilDateTime $start, \ilDateTime $end) : array
+    public function getRegisteredUsers(\ilDateTime $start, \ilDateTime $end): array
     {
         $users = [];
         foreach ($this->registered as $reg_data) {
@@ -62,7 +64,7 @@ class ilCalendarRegistration
         return $users;
     }
 
-    public function isRegistered($a_usr_id, ilDateTime $start, ilDateTime $end) : bool
+    public function isRegistered($a_usr_id, ilDateTime $start, ilDateTime $end): bool
     {
         foreach ($this->registered as $reg_data) {
             if ($reg_data['usr_id'] == $a_usr_id) {
@@ -74,7 +76,7 @@ class ilCalendarRegistration
         return false;
     }
 
-    public function register(int $a_usr_id, ilDateTime $start, ilDateTime $end) : void
+    public function register(int $a_usr_id, ilDateTime $start, ilDateTime $end): void
     {
         $this->unregister($a_usr_id, $start, $end);
 
@@ -96,7 +98,7 @@ class ilCalendarRegistration
     /**
      * unregister one user
      */
-    public function unregister(int $a_usr_id, ilDateTime $start, ilDateTime $end) : void
+    public function unregister(int $a_usr_id, ilDateTime $start, ilDateTime $end): void
     {
         $query = "DELETE FROM cal_registrations " .
             "WHERE cal_id = " . $this->db->quote($this->getAppointmentId(), 'integer') . ' ' .
@@ -109,7 +111,7 @@ class ilCalendarRegistration
     /**
      * Read registration
      */
-    protected function read() : void
+    protected function read(): void
     {
         if (!$this->getAppointmentId()) {
             return;

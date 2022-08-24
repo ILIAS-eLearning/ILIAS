@@ -1,4 +1,6 @@
-<?php declare(strict_types=0);
+<?php
+
+declare(strict_types=0);
 
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
@@ -23,7 +25,7 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
         );
     }
 
-    protected function initUserDetailsIdFromQuery() : int
+    protected function initUserDetailsIdFromQuery(): int
     {
         if ($this->http->wrapper()->query()->has('userdetails_id')) {
             return $this->http->wrapper()->query()->retrieve(
@@ -34,7 +36,7 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
         return 0;
     }
 
-    protected function initUserIdFromRequest() : int
+    protected function initUserIdFromRequest(): int
     {
         if ($this->initUserIdFromQuery()) {
             return $this->initUserIdFromQuery();
@@ -48,7 +50,7 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
         return 0;
     }
 
-    protected function initDetailsIdFromRequest(int $default_id) : int
+    protected function initDetailsIdFromRequest(int $default_id): int
     {
         if ($this->http->wrapper()->query()->has('details_id')) {
             return $this->http->wrapper()->query()->retrieve(
@@ -65,7 +67,7 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
         return $default_id;
     }
 
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         $this->ctrl->setReturn($this, "");
 
@@ -180,7 +182,7 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
         }
     }
 
-    public function editUser() : void
+    public function editUser(): void
     {
         $cancel = '';
         $parent_id = $this->details_id;
@@ -222,7 +224,7 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
         );
     }
 
-    public function details() : void
+    public function details(): void
     {
         $this->tpl->addBlockFile(
             'ADM_CONTENT',
@@ -250,7 +252,7 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
         $this->__showUsersList();
     }
 
-    public function __showUsersList($a_print_view = false) : void
+    public function __showUsersList($a_print_view = false): void
     {
         if ($this->isAnonymized()) {
             $this->tpl->setOnScreenMessage(
@@ -272,7 +274,7 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
         $this->tpl->setVariable("LEGEND", $this->__getLegendHTML());
     }
 
-    public function userDetails() : void
+    public function userDetails(): void
     {
         if ($this->isAnonymized()) {
             $this->tpl->setOnScreenMessage(
@@ -329,7 +331,7 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
         $this->tpl->setVariable('LEGEND', $this->__getLegendHTML());
     }
 
-    public function show() : void
+    public function show(): void
     {
         $this->ctrl->setParameter($this, 'offset', 0);
 
@@ -343,7 +345,7 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
         $this->__listObjects();
     }
 
-    public function __listObjects() : void
+    public function __listObjects(): void
     {
         $this->tpl->addBlockFile(
             'ADM_CONTENT',
@@ -358,7 +360,7 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
         $this->tpl->setVariable('LEGEND', $this->__getLegendHTML(ilLPStatusIcons::ICON_VARIANT_SHORT));
     }
 
-    public function __initDetails(int $a_details_id) : void
+    public function __initDetails(int $a_details_id): void
     {
         if (!$a_details_id) {
             $a_details_id = $this->getRefId();
@@ -380,7 +382,7 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
     /**
      * Show object-based summarized tracking data
      */
-    public function showObjectSummary() : void
+    public function showObjectSummary(): void
     {
         $table = new ilTrSummaryTableGUI(
             $this,
@@ -394,7 +396,7 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
     /**
      * Show object user matrix
      */
-    public function showUserObjectMatrix() : void
+    public function showUserObjectMatrix(): void
     {
         if ($this->isAnonymized()) {
             $this->tpl->setOnScreenMessage(

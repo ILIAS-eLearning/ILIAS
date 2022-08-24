@@ -16,7 +16,6 @@
  *
  *********************************************************************/
 
-
 namespace ILIAS\LTI\ToolProvider\MediaType;
 
 /**
@@ -28,7 +27,6 @@ namespace ILIAS\LTI\ToolProvider\MediaType;
  */
 class Message
 {
-
     /**
      * Class constructor.
      * @param \ILIAS\LTI\ToolProvider\Profile\Message $message             Message object  //UK: changed from Message to \ILIAS\LTI\ToolProvider\Profile\Message
@@ -46,14 +44,14 @@ class Message
         }
         $this->parameter = array();
         foreach ($message->constants as $name => $value) {
-            $parameter = new \stdClass;
+            $parameter = new \stdClass();
             $parameter->name = $name;
             $parameter->fixed = $value;
             $this->parameter[] = $parameter;
         }
         foreach ($message->variables as $name => $value) {
             if (in_array($value, $capabilitiesOffered)) {
-                $parameter = new \stdClass;
+                $parameter = new \stdClass();
                 $parameter->name = $name;
                 $parameter->variable = $value;
                 $this->parameter[] = $parameter;

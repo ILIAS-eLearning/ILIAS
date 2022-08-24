@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace ILIAS\Filesystem\Stream;
@@ -30,9 +31,9 @@ use ILIAS\Filesystem\Util\PHPStreamFunctions;
  */
 class Stream implements FileStream
 {
-    const MASK_ACCESS_READ = 01;
-    const MASK_ACCESS_WRITE = 02;
-    const MASK_ACCESS_READ_WRITE = 03;
+    public const MASK_ACCESS_READ = 01;
+    public const MASK_ACCESS_WRITE = 02;
+    public const MASK_ACCESS_READ_WRITE = 03;
 
     private static array $accessMap = [
         'r' => self::MASK_ACCESS_READ,
@@ -106,7 +107,7 @@ class Stream implements FileStream
     /**
      * @inheritDoc
      */
-    public function close() : void
+    public function close(): void
     {
         if (is_resource($this->stream)) {
             PHPStreamFunctions::fclose($this->stream);
@@ -131,7 +132,7 @@ class Stream implements FileStream
     /**
      * @inheritDoc
      */
-    public function getSize() : ?int
+    public function getSize(): ?int
     {
         //check if we know the size
         if ($this->size !== null) {
@@ -179,7 +180,7 @@ class Stream implements FileStream
     /**
      * @inheritDoc
      */
-    public function eof() : bool
+    public function eof(): bool
     {
         $this->assertStreamAttached();
 
@@ -190,7 +191,7 @@ class Stream implements FileStream
     /**
      * @inheritDoc
      */
-    public function isSeekable() : bool
+    public function isSeekable(): bool
     {
         return $this->seekable;
     }
@@ -199,7 +200,7 @@ class Stream implements FileStream
     /**
      * @inheritDoc
      */
-    public function seek($offset, $whence = SEEK_SET) : void
+    public function seek($offset, $whence = SEEK_SET): void
     {
         $this->assertStreamAttached();
 
@@ -216,7 +217,7 @@ class Stream implements FileStream
     /**
      * @inheritDoc
      */
-    public function rewind() : void
+    public function rewind(): void
     {
         $this->seek(0);
     }
@@ -225,7 +226,7 @@ class Stream implements FileStream
     /**
      * @inheritDoc
      */
-    public function isWritable() : bool
+    public function isWritable(): bool
     {
         return $this->writeable;
     }
@@ -257,7 +258,7 @@ class Stream implements FileStream
     /**
      * @inheritDoc
      */
-    public function isReadable() : bool
+    public function isReadable(): bool
     {
         return $this->readable;
     }
@@ -375,7 +376,7 @@ class Stream implements FileStream
      *
      * @throws \RuntimeException Thrown if the stream is already detached.
      */
-    private function assertStreamAttached() : void
+    private function assertStreamAttached(): void
     {
         if ($this->stream === null) {
             throw new \RuntimeException('Stream is detached');

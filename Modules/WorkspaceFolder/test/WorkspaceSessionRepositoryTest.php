@@ -9,16 +9,16 @@ use PHPUnit\Framework\TestCase;
  */
 class WorkspaceSessionRepositoryTest extends TestCase
 {
-    protected function setUp() : void
+    protected function setUp(): void
     {
         parent::setUp();
     }
 
-    protected function tearDown() : void
+    protected function tearDown(): void
     {
     }
 
-    protected function getSessionRepo() : \ILIAS\PersonalWorkspace\WorkspaceSessionRepository
+    protected function getSessionRepo(): \ILIAS\PersonalWorkspace\WorkspaceSessionRepository
     {
         $repo = new \ILIAS\PersonalWorkspace\WorkspaceSessionRepository();
         $repo->clearClipboard();
@@ -28,7 +28,7 @@ class WorkspaceSessionRepositoryTest extends TestCase
     /**
      * Test clipboard cmd
      */
-    public function testClipboardCmd() : void
+    public function testClipboardCmd(): void
     {
         $repo = $this->getSessionRepo();
         $repo->setClipboardCmd("cut");
@@ -42,7 +42,7 @@ class WorkspaceSessionRepositoryTest extends TestCase
     /**
      * Test source ids
      */
-    public function testSourceIds() : void
+    public function testSourceIds(): void
     {
         $repo = $this->getSessionRepo();
         $repo->setClipboardSourceIds([4,6,7]);
@@ -56,7 +56,7 @@ class WorkspaceSessionRepositoryTest extends TestCase
     /**
      * Test source ids
      */
-    public function testShared() : void
+    public function testShared(): void
     {
         $repo = $this->getSessionRepo();
         $repo->setClipboardShared(true);
@@ -67,7 +67,7 @@ class WorkspaceSessionRepositoryTest extends TestCase
         );
     }
 
-    public function testClear() : void
+    public function testClear(): void
     {
         $repo = $this->getSessionRepo();
         $repo->clearClipboard();
@@ -78,7 +78,7 @@ class WorkspaceSessionRepositoryTest extends TestCase
         );
     }
 
-    public function testNotEmpty() : void
+    public function testNotEmpty(): void
     {
         $repo = $this->getSessionRepo();
         $repo->clearClipboard();

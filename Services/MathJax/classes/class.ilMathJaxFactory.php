@@ -34,7 +34,7 @@ class ilMathJaxFactory
     /**
      * Create an ilMathJaxServer object
      */
-    public function server(ilMathJaxConfig $config) : ilMathJaxServer
+    public function server(ilMathJaxConfig $config): ilMathJaxServer
     {
         return new ilMathJaxServer($config);
     }
@@ -42,7 +42,7 @@ class ilMathJaxFactory
     /**
      * Create an ilMathJaxImage object
      */
-    public function image(string $a_tex, string $a_type, int $a_dpi) : ilMathJaxImage
+    public function image(string $a_tex, string $a_type, int $a_dpi): ilMathJaxImage
     {
         return new ilMathJaxImage($a_tex, $a_type, $a_dpi);
     }
@@ -50,7 +50,7 @@ class ilMathJaxFactory
     /**
      * Get the global template
      */
-    public function template() : ilGlobalTemplateInterface
+    public function template(): ilGlobalTemplateInterface
     {
         return $this->template;
     }

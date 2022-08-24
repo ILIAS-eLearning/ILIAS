@@ -1,4 +1,5 @@
 <?php
+
 /* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -15,7 +16,7 @@ class ilModulesCourseTasks
      * @param array  $params
      * @return array
      */
-    public static function readLearnersFromCourse(ilNode $context, array $params) : array
+    public static function readLearnersFromCourse(ilNode $context, array $params): array
     {
         /*
          * Modelling:
@@ -42,7 +43,7 @@ class ilModulesCourseTasks
      * @param array  $params
      * @return array
      */
-    public static function readTutorsFromCourse(ilNode $context, array $params) : array
+    public static function readTutorsFromCourse(ilNode $context, array $params): array
     {
         /*
          * Modelling:
@@ -70,7 +71,7 @@ class ilModulesCourseTasks
      * @param array  $params
      * @return array
      */
-    public static function readAdminsFromCourse(ilNode $context, array $params) : array
+    public static function readAdminsFromCourse(ilNode $context, array $params): array
     {
         /*
          * Modelling:
@@ -98,7 +99,7 @@ class ilModulesCourseTasks
      * @param array  $params
      * @return array
      */
-    public static function createCourse(ilNode $context, array $params) : array
+    public static function createCourse(ilNode $context, array $params): array
     {
         /*
          * Modelling:
@@ -133,7 +134,7 @@ class ilModulesCourseTasks
      * @param ilNode $context
      * @param array  $params
      */
-    public static function assignLearnersToCourse(ilNode $context, array $params) : void
+    public static function assignLearnersToCourse(ilNode $context, array $params): void
     {
         /*
          * Modelling:
@@ -159,7 +160,7 @@ class ilModulesCourseTasks
      * @param ilNode $context
      * @param array  $params
      */
-    public static function assignTutorsToCourse(ilNode $context, array $params) : void
+    public static function assignTutorsToCourse(ilNode $context, array $params): void
     {
         /*
          * Modelling:
@@ -185,7 +186,7 @@ class ilModulesCourseTasks
      * @param ilNode $context
      * @param array  $params
      */
-    public static function assignAdminsToCourse(ilNode $context, array $params) : void
+    public static function assignAdminsToCourse(ilNode $context, array $params): void
     {
         /*
          * Modelling:

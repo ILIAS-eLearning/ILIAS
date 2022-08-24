@@ -93,7 +93,7 @@ class ilFileSystemTableGUI extends ilTable2GUI
         $this->setEnableTitle(true);
     }
 
-    public function numericOrdering(string $a_field) : bool
+    public function numericOrdering(string $a_field): bool
     {
         if ($a_field == "size") {
             return true;
@@ -101,7 +101,7 @@ class ilFileSystemTableGUI extends ilTable2GUI
         return false;
     }
 
-    protected function prepareOutput() : void
+    protected function prepareOutput(): void
     {
         $this->determineOffsetAndOrder(true);
         $this->setData($this->getEntries());
@@ -110,7 +110,7 @@ class ilFileSystemTableGUI extends ilTable2GUI
     /**
      * @return array<int, array<string, mixed>>
      */
-    public function getEntries() : array
+    public function getEntries(): array
     {
         global $DIC;
 
@@ -162,7 +162,7 @@ class ilFileSystemTableGUI extends ilTable2GUI
         return $items;
     }
 
-    public function addColumns() : void
+    public function addColumns(): void
     {
         if ($this->has_multi) {
             $this->setSelectAllCheckbox("file[]");
@@ -182,7 +182,7 @@ class ilFileSystemTableGUI extends ilTable2GUI
         }
     }
 
-    private function isDoubleDotDirectory(array $entry) : bool
+    private function isDoubleDotDirectory(array $entry): bool
     {
         return $entry['entry'] === '..';
     }
@@ -190,7 +190,7 @@ class ilFileSystemTableGUI extends ilTable2GUI
     /**
      * Fill table row
      */
-    protected function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set): void
     {
         $hash = $this->post_dir_path
             ? md5($a_set["file"])

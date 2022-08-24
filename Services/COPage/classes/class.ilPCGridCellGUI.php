@@ -32,7 +32,7 @@ class ilPCGridCellGUI extends ilPageContentGUI
         parent::__construct($a_pg_obj, $a_content_obj, $a_hier_id, $a_pc_id);
     }
 
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         // get next class that processes or forwards current command
         $next_class = $this->ctrl->getNextClass($this);
@@ -47,19 +47,19 @@ class ilPCGridCellGUI extends ilPageContentGUI
         }
     }
 
-    public function deleteCell() : void
+    public function deleteCell(): void
     {
         $this->content_obj->deleteCell();
         $this->updateAndReturn();
     }
 
-    public function moveCellRight() : void
+    public function moveCellRight(): void
     {
         $this->content_obj->moveCellRight();
         $this->updateAndReturn();
     }
 
-    public function moveCellLeft() : void
+    public function moveCellLeft(): void
     {
         $this->content_obj->moveCellLeft();
         $this->updateAndReturn();

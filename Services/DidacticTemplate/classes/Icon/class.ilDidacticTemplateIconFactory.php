@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
@@ -34,7 +36,7 @@ class ilDidacticTemplateIconFactory
         $this->initTemplates();
     }
 
-    public static function getInstance() : ilDidacticTemplateIconFactory
+    public static function getInstance(): ilDidacticTemplateIconFactory
     {
         if (!isset(self::$instance)) {
             self::$instance = new self();
@@ -43,7 +45,7 @@ class ilDidacticTemplateIconFactory
         return self::$instance;
     }
 
-    public function getIconPathForReference(int $ref_id) : string
+    public function getIconPathForReference(int $ref_id): string
     {
         $obj_id = ilObject::_lookupObjId($ref_id);
         $type = ilObject::_lookupType($obj_id);
@@ -60,7 +62,7 @@ class ilDidacticTemplateIconFactory
         return $path;
     }
 
-    protected function getIconPathForTemplate(int $template_id) : ?string
+    protected function getIconPathForTemplate(int $template_id): ?string
     {
         foreach ($this->settings->getTemplates() as $template) {
             if ($template->getId() === $template_id) {
@@ -71,7 +73,7 @@ class ilDidacticTemplateIconFactory
         return null;
     }
 
-    protected function findAssignedTemplate(int $ref_id) : int
+    protected function findAssignedTemplate(int $ref_id): int
     {
         foreach ($this->assignments as $tpl_id => $assignments) {
             if (in_array($ref_id, $assignments, true)) {
@@ -88,7 +90,7 @@ class ilDidacticTemplateIconFactory
      * @param int $obj_id
      * @return string
      */
-    public function getIconPathForObject(int $obj_id) : string
+    public function getIconPathForObject(int $obj_id): string
     {
         // no support for referenced objects
         if (!$this->definition->isContainer(ilObject::_lookupType($obj_id))) {
@@ -100,12 +102,12 @@ class ilDidacticTemplateIconFactory
         return $this->getIconPathForReference((int) $ref_id);
     }
 
-    protected function supportsCustomIcon(string $type) : bool
+    protected function supportsCustomIcon(string $type): bool
     {
         return in_array($type, $this->icon_types, true);
     }
 
-    private function initTemplates() : void
+    private function initTemplates(): void
     {
         $this->settings = ilDidacticTemplateSettings::getInstance();
         $this->icon_types = [];

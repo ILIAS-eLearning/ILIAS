@@ -14,7 +14,7 @@ class ilObjFileUnzipRecursiveProcessor extends ilObjFileAbstractZipProcessor
      */
     private array $path_map = [];
 
-    public function process(ResourceIdentification $rid, array $options = []) : void
+    public function process(ResourceIdentification $rid, array $options = []): void
     {
         $this->openZip($rid);
 

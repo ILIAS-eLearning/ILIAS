@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -29,42 +31,42 @@ class ilMailAddressTypeHelperImpl implements ilMailAddressTypeHelper
         $this->installationHost = $installationHost;
     }
 
-    public function doesGroupNameExists(string $name) : bool
+    public function doesGroupNameExists(string $name): bool
     {
         return ilUtil::groupNameExists($name);
     }
 
-    public function getGroupObjIdByTitle(string $title) : int
+    public function getGroupObjIdByTitle(string $title): int
     {
         return ilObjGroup::_lookupIdByTitle($title);
     }
 
-    public function getInstanceByRefId(int $refId) : ilObject
+    public function getInstanceByRefId(int $refId): ilObject
     {
         return ilObjectFactory::getInstanceByRefId($refId);
     }
 
-    public function getAllRefIdsForObjId(int $objId) : array
+    public function getAllRefIdsForObjId(int $objId): array
     {
         return array_map('intval', ilObject::_getAllReferences($objId));
     }
 
-    public function getUserIdByLogin(string $login) : int
+    public function getUserIdByLogin(string $login): int
     {
         return ilObjUser::getUserIdByLogin($login);
     }
 
-    public function getInstallationHost() : string
+    public function getInstallationHost(): string
     {
         return $this->installationHost;
     }
 
-    public function getGlobalMailSystemId() : int
+    public function getGlobalMailSystemId(): int
     {
         return ilMailGlobalServices::getMailObjectRefId();
     }
 
-    public function receivesInternalMailsOnly(int $usrId) : bool
+    public function receivesInternalMailsOnly(int $usrId): bool
     {
         $options = new ilMailOptions($usrId);
 

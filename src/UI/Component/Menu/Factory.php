@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\UI\Component\Menu;
 
 use ILIAS\UI\Component;
@@ -64,7 +66,7 @@ interface Factory
      * @param 	array<Component\Menu\Sub | Component\Clickable| Divider\Horizontal> $items
      * @return \ILIAS\UI\Component\Menu\Drilldown
      */
-    public function drilldown(string $label, array $items) : Drilldown;
+    public function drilldown(string $label, array $items): Drilldown;
 
     /**
      * ---
@@ -99,5 +101,5 @@ interface Factory
      * @param 	array<Component\Menu\Sub | Component\Clickable| Divider\Horizontal> $items
      * @return 	\ILIAS\UI\Component\Menu\Sub
      */
-    public function sub(string $label, array $items) : Sub;
+    public function sub(string $label, array $items): Sub;
 }

@@ -36,7 +36,7 @@ class ilSkillProfileStorageStakeHolder extends AbstractResourceStakeholder
     /**
      * @inheritDoc
      */
-    public function getId() : string
+    public function getId(): string
     {
         return 'skl_prof';
     }
@@ -44,7 +44,7 @@ class ilSkillProfileStorageStakeHolder extends AbstractResourceStakeholder
     /**
      * @inheritDoc
      */
-    public function getOwnerOfNewResources() : int
+    public function getOwnerOfNewResources(): int
     {
         return $this->owner;
     }

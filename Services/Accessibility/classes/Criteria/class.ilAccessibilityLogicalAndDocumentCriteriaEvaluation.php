@@ -35,7 +35,7 @@ class ilAccessibilityLogicalAndDocumentCriteriaEvaluation implements ilAccessibi
         $this->log = $log;
     }
 
-    public function evaluate(ilAccessibilitySignableDocument $document) : bool
+    public function evaluate(ilAccessibilitySignableDocument $document): bool
     {
         $this->log->debug(sprintf(
             'Evaluating criteria for document "%s" (id: %s) and user "%s" (id: %s)',

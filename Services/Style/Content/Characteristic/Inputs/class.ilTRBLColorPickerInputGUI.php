@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -46,8 +48,8 @@ class ilTRBLColorPickerInputGUI extends ilTextInputGUI
         $this->setType("trbl_color");
         $this->dirs = array("all", "top", "bottom", "left", "right");
     }
-    
-    public function setAllValue(string $a_allvalue) : void
+
+    public function setAllValue(string $a_allvalue): void
     {
         $a_allvalue = trim($a_allvalue);
         if ($this->getAcceptNamedColors() && substr($a_allvalue, 0, 1) == "!") {
@@ -57,12 +59,12 @@ class ilTRBLColorPickerInputGUI extends ilTextInputGUI
         }
     }
 
-    public function getAllValue() : string
+    public function getAllValue(): string
     {
         return $this->allvalue;
     }
 
-    public function setTopValue(string $a_topvalue) : void
+    public function setTopValue(string $a_topvalue): void
     {
         $a_topvalue = trim($a_topvalue);
         if ($this->getAcceptNamedColors() && substr($a_topvalue, 0, 1) == "!") {
@@ -72,12 +74,12 @@ class ilTRBLColorPickerInputGUI extends ilTextInputGUI
         }
     }
 
-    public function getTopValue() : string
+    public function getTopValue(): string
     {
         return $this->topvalue;
     }
 
-    public function setBottomValue(string $a_bottomvalue) : void
+    public function setBottomValue(string $a_bottomvalue): void
     {
         $a_bottomvalue = trim($a_bottomvalue);
         if ($this->getAcceptNamedColors() && substr($a_bottomvalue, 0, 1) == "!") {
@@ -87,12 +89,12 @@ class ilTRBLColorPickerInputGUI extends ilTextInputGUI
         }
     }
 
-    public function getBottomValue() : string
+    public function getBottomValue(): string
     {
         return $this->bottomvalue;
     }
 
-    public function setLeftValue(string $a_leftvalue) : void
+    public function setLeftValue(string $a_leftvalue): void
     {
         $a_leftvalue = trim($a_leftvalue);
         if ($this->getAcceptNamedColors() && substr($a_leftvalue, 0, 1) == "!") {
@@ -102,12 +104,12 @@ class ilTRBLColorPickerInputGUI extends ilTextInputGUI
         }
     }
 
-    public function getLeftValue() : string
+    public function getLeftValue(): string
     {
         return $this->leftvalue;
     }
 
-    public function setRightValue(string $a_rightvalue) : void
+    public function setRightValue(string $a_rightvalue): void
     {
         $a_rightvalue = trim($a_rightvalue);
         if ($this->getAcceptNamedColors() && substr($a_rightvalue, 0, 1) == "!") {
@@ -117,32 +119,32 @@ class ilTRBLColorPickerInputGUI extends ilTextInputGUI
         }
     }
 
-    public function getRightValue() : string
+    public function getRightValue(): string
     {
         return $this->rightvalue;
     }
 
-    public function setDefaultColor(string $a_defaultcolor) : void
+    public function setDefaultColor(string $a_defaultcolor): void
     {
         $this->defaultcolor = $a_defaultcolor;
     }
 
-    public function getDefaultColor() : string
+    public function getDefaultColor(): string
     {
         return $this->defaultcolor;
     }
 
-    public function setAcceptNamedColors(bool $a_acceptnamedcolors) : void
+    public function setAcceptNamedColors(bool $a_acceptnamedcolors): void
     {
         $this->acceptnamedcolors = $a_acceptnamedcolors;
     }
 
-    public function getAcceptNamedColors() : bool
+    public function getAcceptNamedColors(): bool
     {
         return $this->acceptnamedcolors;
     }
 
-    public function checkInput() : bool
+    public function checkInput(): bool
     {
         $input = $this->getInput();
         foreach ($this->dirs as $dir) {
@@ -161,22 +163,22 @@ class ilTRBLColorPickerInputGUI extends ilTextInputGUI
         return true;
     }
 
-    public function getInput() : array
+    public function getInput(): array
     {
         return $this->arrayArray($this->getPostVar());
     }
-    
-    public function insert(ilTemplate $a_tpl) : void
+
+    public function insert(ilTemplate $a_tpl): void
     {
         $lng = $this->lng;
-        
+
         $layout_tpl = new ilTemplate("tpl.prop_trbl_layout.html", true, true, "Services/Style/Content");
-        
+
         $funcs = array(
             "all" => "getAllValue", "top" => "getTopValue",
             "bottom" => "getBottomValue", "left" => "getLeftValue",
             "right" => "getRightValue");
-        
+
         foreach ($this->dirs as $dir) {
             $f = $funcs[$dir];
             $value = trim($this->$f());

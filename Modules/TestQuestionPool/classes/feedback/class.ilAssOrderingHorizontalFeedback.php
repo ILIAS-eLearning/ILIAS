@@ -1,4 +1,5 @@
 <?php
+
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 require_once 'Modules/TestQuestionPool/classes/feedback/class.ilAssMultiOptionQuestionFeedback.php';
@@ -13,7 +14,7 @@ require_once 'Modules/TestQuestionPool/classes/feedback/class.ilAssMultiOptionQu
  */
 class ilAssOrderingHorizontalFeedback extends ilAssMultiOptionQuestionFeedback
 {
-    public function getAnswerOptionsByAnswerIndex() : array
+    public function getAnswerOptionsByAnswerIndex(): array
     {
         if (strpos($this->questionOBJ->ordertext, '::')) {
             return explode('::', $this->questionOBJ->ordertext);
@@ -21,7 +22,7 @@ class ilAssOrderingHorizontalFeedback extends ilAssMultiOptionQuestionFeedback
         return explode(' ', $this->questionOBJ->ordertext);
     }
 
-    protected function buildAnswerOptionLabel($index, $answer) : string
+    protected function buildAnswerOptionLabel($index, $answer): string
     {
         return trim($answer);
     }

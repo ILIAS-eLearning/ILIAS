@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -40,12 +42,12 @@ class ilCleanCOPageHistoryCronjob extends ilCronJob
             ->history();
     }
 
-    public function getId() : string
+    public function getId(): string
     {
         return "copg_history_cleanup";
     }
 
-    public function getTitle() : string
+    public function getTitle(): string
     {
         $lng = $this->lng;
 
@@ -53,7 +55,7 @@ class ilCleanCOPageHistoryCronjob extends ilCronJob
         return $lng->txt("copg_history_cleanup_cron");
     }
 
-    public function getDescription() : string
+    public function getDescription(): string
     {
         $lng = $this->lng;
 
@@ -61,32 +63,32 @@ class ilCleanCOPageHistoryCronjob extends ilCronJob
         return $lng->txt("copg_history_cleanup_cron_info");
     }
 
-    public function getDefaultScheduleType() : int
+    public function getDefaultScheduleType(): int
     {
         return self::SCHEDULE_TYPE_DAILY;
     }
 
-    public function getDefaultScheduleValue() : ?int
+    public function getDefaultScheduleValue(): ?int
     {
         return null;
     }
 
-    public function hasAutoActivation() : bool
+    public function hasAutoActivation(): bool
     {
         return false;
     }
 
-    public function hasFlexibleSchedule() : bool
+    public function hasFlexibleSchedule(): bool
     {
         return false;
     }
 
-    public function hasCustomSettings() : bool
+    public function hasCustomSettings(): bool
     {
         return true;
     }
 
-    public function run() : ilCronJobResult
+    public function run(): ilCronJobResult
     {
         global $DIC;
 
@@ -110,7 +112,7 @@ class ilCleanCOPageHistoryCronjob extends ilCronJob
         return $result;
     }
 
-    public function addCustomSettingsToForm(ilPropertyFormGUI $a_form) : void
+    public function addCustomSettingsToForm(ilPropertyFormGUI $a_form): void
     {
         $lng = $this->lng;
         $lng->loadLanguageModule("copg");
@@ -133,7 +135,7 @@ class ilCleanCOPageHistoryCronjob extends ilCronJob
         $a_form->addItem($ti);
     }
 
-    public function saveCustomSettings(ilPropertyFormGUI $a_form) : bool
+    public function saveCustomSettings(ilPropertyFormGUI $a_form): bool
     {
         $this->setCronDays((int) $a_form->getInput("copg_cron_days"));
         $this->setKeepEntries((int) $a_form->getInput("copg_cron_keep_entries"));
@@ -141,25 +143,25 @@ class ilCleanCOPageHistoryCronjob extends ilCronJob
         return true;
     }
 
-    protected function getCronDays() : int
+    protected function getCronDays(): int
     {
         $settings = $this->settings;
         return (int) $settings->get("copg_cron_days", "3600");
     }
 
-    protected function setCronDays(int $days) : void
+    protected function setCronDays(int $days): void
     {
         $settings = $this->settings;
         $settings->set("copg_cron_days", (string) $days);
     }
 
-    protected function getKeepEntries() : int
+    protected function getKeepEntries(): int
     {
         $settings = $this->settings;
         return (int) $settings->get("copg_cron_keep_entries", "1000");
     }
 
-    protected function setKeepEntries(int $entries) : void
+    protected function setKeepEntries(int $entries): void
     {
         $settings = $this->settings;
         $settings->set("copg_cron_keep_entries", (string) $entries);

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -34,7 +36,7 @@ class ilChatroomConfigFileHandler
      * @param array $settings
      * @throws Exception
      */
-    public function createClientConfigFile(array $settings) : void
+    public function createClientConfigFile(array $settings): void
     {
         $content = $this->getClientFileContent($settings);
         $this->writeDataToFile($content, self::CHATROOM_CLIENT_CONFIG_FILENAME);
@@ -45,7 +47,7 @@ class ilChatroomConfigFileHandler
      * @param array $settings
      * @return string
      */
-    protected function getClientFileContent(array $settings) : string
+    protected function getClientFileContent(array $settings): string
     {
         global $DIC;
 
@@ -79,7 +81,7 @@ class ilChatroomConfigFileHandler
      * @param string $filename
      * @throws RuntimeException
      */
-    protected function writeDataToFile(string $content, string $filename) : void
+    protected function writeDataToFile(string $content, string $filename): void
     {
         $path = $this->createDataDirIfNotExists();
         $handle = fopen($path . $filename, 'wb');
@@ -96,7 +98,7 @@ class ilChatroomConfigFileHandler
      * @return string
      * @throws RuntimeException Throws Exception if data dir creation failed
      */
-    protected function createDataDirIfNotExists() : string
+    protected function createDataDirIfNotExists(): string
     {
         $path = ilFileUtils::getDataDir() . self::CHATROOM_DATA_DIR;
 
@@ -112,7 +114,7 @@ class ilChatroomConfigFileHandler
      * @param array $settings
      * @throws Exception
      */
-    public function createServerConfigFile(array $settings) : void
+    public function createServerConfigFile(array $settings): void
     {
         $content = $this->getServerFileContent($settings);
         $this->writeDataToFile($content, self::CHATROOM_SERVER_CONFIG_FILENAME);
@@ -123,7 +125,7 @@ class ilChatroomConfigFileHandler
      * @param array $settings
      * @return string
      */
-    protected function getServerFileContent(array $settings) : string
+    protected function getServerFileContent(array $settings): string
     {
         unset($settings['ilias_proxy'], $settings['client_proxy'], $settings['ilias_url'], $settings['client_url']);
 

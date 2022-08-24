@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -18,7 +20,7 @@
 
 class ilObjForumSearchResultTableGUI extends ilRepositoryObjectSearchResultTableGUI
 {
-    public function parse() : void
+    public function parse(): void
     {
         global $DIC;
 
@@ -46,7 +48,7 @@ class ilObjForumSearchResultTableGUI extends ilRepositoryObjectSearchResultTable
         $this->setData($rows);
     }
 
-    protected function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set): void
     {
         $this->tpl->setVariable('HREF_ITEM', $a_set['link']);
         $this->tpl->setVariable('TXT_ITEM_TITLE', $a_set['title']);

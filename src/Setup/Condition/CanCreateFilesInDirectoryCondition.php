@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,20 +17,20 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\Setup\Condition;
 
 use ILIAS\Setup;
 
 class CanCreateFilesInDirectoryCondition extends ExternalConditionObjective
 {
-    const PROBE_NAME = "probe_for_file_creation";
+    public const PROBE_NAME = "probe_for_file_creation";
 
     public function __construct(string $which)
     {
         return parent::__construct(
             "Can create files in '$which'",
-            function (Setup\Environment $env) use ($which) : bool {
+            function (Setup\Environment $env) use ($which): bool {
                 $probe = $which . "/" . self::PROBE_NAME;
                 if (!@file_put_contents($probe, self::PROBE_NAME)) {
                     return false;

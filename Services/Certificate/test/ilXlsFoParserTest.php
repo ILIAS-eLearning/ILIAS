@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -21,7 +23,7 @@
  */
 class ilXlsFoParserTest extends ilCertificateBaseTestCase
 {
-    public function testParseWithNonCustomPageFormatting() : void
+    public function testParseWithNonCustomPageFormatting(): void
     {
         $formData = [
             'certificate_text' => '<xml> Some Context </xml>',
@@ -113,7 +115,7 @@ class ilXlsFoParserTest extends ilCertificateBaseTestCase
         $this->assertSame('Something Processed', $output);
     }
 
-    public function testParseButXmlCheckerFindsAnError() : void
+    public function testParseButXmlCheckerFindsAnError(): void
     {
         $this->expectException(Exception::class);
 
@@ -184,7 +186,7 @@ class ilXlsFoParserTest extends ilCertificateBaseTestCase
         $this->fail();
     }
 
-    public function testParseWithCustomPageFormatting() : void
+    public function testParseWithCustomPageFormatting(): void
     {
         $formData = [
             'certificate_text' => '<xml> Some Context </xml>',
@@ -278,7 +280,7 @@ class ilXlsFoParserTest extends ilCertificateBaseTestCase
         $this->assertSame('Something Processed', $output);
     }
 
-    public function testCommasWillBeConvertedToPointInDecimalSepartor() : void
+    public function testCommasWillBeConvertedToPointInDecimalSepartor(): void
     {
         $formData = [
             'certificate_text' => '<xml> Some Context </xml>',

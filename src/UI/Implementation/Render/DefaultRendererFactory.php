@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\UI\Implementation\Render;
 
 use ILIAS\Refinery\Factory as Refinery;
@@ -51,7 +53,7 @@ class DefaultRendererFactory implements RendererFactory
     /**
      * @inheritdocs
      */
-    public function getRendererInContext(Component $component, array $contexts) : ComponentRenderer
+    public function getRendererInContext(Component $component, array $contexts): ComponentRenderer
     {
         $name = $this->getRendererNameFor($component);
         return new $name(
@@ -67,7 +69,7 @@ class DefaultRendererFactory implements RendererFactory
     /**
      * Get the name for the renderer of Component class.
      */
-    protected function getRendererNameFor(Component $component) : string
+    protected function getRendererNameFor(Component $component): string
     {
         $class = get_class($component);
         $parts = explode("\\", $class);
@@ -78,7 +80,7 @@ class DefaultRendererFactory implements RendererFactory
     /**
      * @inheritdocs
      */
-    public function getJSBinding() : JavaScriptBinding
+    public function getJSBinding(): JavaScriptBinding
     {
         return $this->js_binding;
     }

@@ -29,7 +29,7 @@ class ilPCMediaObjectEditorGUI implements PageComponentEditor
         string $page_type,
         ilPageObjectGUI $page_gui,
         int $style_id
-    ) : array {
+    ): array {
         global $DIC;
         $lng = $DIC->language();
         $lng->loadLanguageModule("content");
@@ -53,7 +53,7 @@ class ilPCMediaObjectEditorGUI implements PageComponentEditor
         \ilPageObjectGUI $page_gui,
         int $style_id,
         string $pcid
-    ) : string {
+    ): string {
         global $DIC;
         $lng = $DIC->language();
         $lng->loadLanguageModule("content");
@@ -144,7 +144,7 @@ class ilPCMediaObjectEditorGUI implements PageComponentEditor
     protected function getRenderedUploadForm(
         UIWrapper $ui_wrapper,
         $lng
-    ) : string {
+    ): string {
         $form = new ilPropertyFormGUI();
         $form->setShowTopButtons(false);
 
@@ -181,7 +181,7 @@ class ilPCMediaObjectEditorGUI implements PageComponentEditor
     protected function getRenderedUrlForm(
         UIWrapper $ui_wrapper,
         ilLanguage $lng
-    ) : string {
+    ): string {
         $form = new ilPropertyFormGUI();
         $form->setShowTopButtons(false);
 
@@ -218,7 +218,7 @@ class ilPCMediaObjectEditorGUI implements PageComponentEditor
     protected function getRenderedPoolBar(
         UIWrapper $ui_wrapper,
         ilLanguage $lng
-    ) : string {
+    ): string {
         global $DIC;
 
         $ui = $DIC->ui();
@@ -254,7 +254,7 @@ class ilPCMediaObjectEditorGUI implements PageComponentEditor
         UIWrapper $ui_wrapper,
         ilLanguage $lng,
         ilPageObjectGUI $page_gui
-    ) : string {
+    ): string {
         global $DIC;
 
         $ctrl = $DIC->ctrl();

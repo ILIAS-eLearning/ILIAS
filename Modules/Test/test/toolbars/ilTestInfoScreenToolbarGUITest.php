@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -28,11 +30,11 @@ class ilTestInfoScreenToolbarGUITest extends ilTestBaseTestCase
      */
     private $backup_dic;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         parent::setUp();
         global $DIC;
-        
+
         $this->backup_dic = $DIC;
         $DIC = new ILIAS\DI\Container([
             'tpl' => $this->getMockBuilder(ilGlobalTemplateInterface::class)
@@ -42,7 +44,7 @@ class ilTestInfoScreenToolbarGUITest extends ilTestBaseTestCase
         $access_mock = $this->createMock(ilAccessHandler::class);
         $ctrl_mock = $this->createMock(ilCtrl::class);
         $lng_mock = $this->createMock(ilLanguage::class);
-    
+
         $this->testInfoScreenToolbarGUI = new ilTestInfoScreenToolbarGUI(
             $db_mock,
             $access_mock,
@@ -51,19 +53,19 @@ class ilTestInfoScreenToolbarGUITest extends ilTestBaseTestCase
             $this->createMock(ilComponentRepository::class)
         );
     }
-    
-    protected function tearDown() : void
+
+    protected function tearDown(): void
     {
         global $DIC;
         $DIC = $this->backup_dic;
     }
-    
-    public function test_instantiateObject_shouldReturnInstance() : void
+
+    public function test_instantiateObject_shouldReturnInstance(): void
     {
         $this->assertInstanceOf(ilTestInfoScreenToolbarGUI::class, $this->testInfoScreenToolbarGUI);
     }
 
-    public function testGlobalToolbar() : void
+    public function testGlobalToolbar(): void
     {
         $this->assertNull($this->testInfoScreenToolbarGUI->getGlobalToolbar());
 
@@ -73,7 +75,7 @@ class ilTestInfoScreenToolbarGUITest extends ilTestBaseTestCase
         $this->assertEquals($expected_mock, $this->testInfoScreenToolbarGUI->getGlobalToolbar());
     }
 
-    public function testTestOBJ() : void
+    public function testTestOBJ(): void
     {
         $this->assertNull($this->testInfoScreenToolbarGUI->getTestOBJ());
 
@@ -83,7 +85,7 @@ class ilTestInfoScreenToolbarGUITest extends ilTestBaseTestCase
         $this->assertEquals($expected_mock, $this->testInfoScreenToolbarGUI->getTestOBJ());
     }
 
-    public function testTestQuestionSetConfig() : void
+    public function testTestQuestionSetConfig(): void
     {
         $this->assertNull($this->testInfoScreenToolbarGUI->getTestQuestionSetConfig());
 
@@ -93,7 +95,7 @@ class ilTestInfoScreenToolbarGUITest extends ilTestBaseTestCase
         $this->assertEquals($expected_mock, $this->testInfoScreenToolbarGUI->getTestQuestionSetConfig());
     }
 
-    public function testTestPlayerGUI() : void
+    public function testTestPlayerGUI(): void
     {
         $this->assertNull($this->testInfoScreenToolbarGUI->getTestPlayerGUI());
 
@@ -103,7 +105,7 @@ class ilTestInfoScreenToolbarGUITest extends ilTestBaseTestCase
         $this->assertEquals($expected_mock, $this->testInfoScreenToolbarGUI->getTestPlayerGUI());
     }
 
-    public function testTestSession() : void
+    public function testTestSession(): void
     {
         $this->assertNull($this->testInfoScreenToolbarGUI->getTestSession());
 
@@ -113,7 +115,7 @@ class ilTestInfoScreenToolbarGUITest extends ilTestBaseTestCase
         $this->assertEquals($expected_mock, $this->testInfoScreenToolbarGUI->getTestSession());
     }
 
-    public function testTestSequence() : void
+    public function testTestSequence(): void
     {
         $this->assertNull($this->testInfoScreenToolbarGUI->getTestSequence());
 
@@ -128,7 +130,7 @@ class ilTestInfoScreenToolbarGUITest extends ilTestBaseTestCase
         $this->assertEquals($expected_mock, $this->testInfoScreenToolbarGUI->getTestSequence());
     }
 
-    public function testSessionLockString() : void
+    public function testSessionLockString(): void
     {
         $this->assertNull($this->testInfoScreenToolbarGUI->getSessionLockString());
 
@@ -137,7 +139,7 @@ class ilTestInfoScreenToolbarGUITest extends ilTestBaseTestCase
         $this->assertEquals("testString", $this->testInfoScreenToolbarGUI->getSessionLockString());
     }
 
-    public function testInfoMessages() : void
+    public function testInfoMessages(): void
     {
         $this->assertIsArray($this->testInfoScreenToolbarGUI->getInfoMessages());
 
@@ -150,7 +152,7 @@ class ilTestInfoScreenToolbarGUITest extends ilTestBaseTestCase
         $this->assertEquals($expected, $this->testInfoScreenToolbarGUI->getInfoMessages());
     }
 
-    public function testFailureMessages() : void
+    public function testFailureMessages(): void
     {
         $this->assertIsArray($this->testInfoScreenToolbarGUI->getFailureMessages());
 

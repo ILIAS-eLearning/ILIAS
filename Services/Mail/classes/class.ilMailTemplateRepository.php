@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -32,7 +34,7 @@ class ilMailTemplateRepository
     /**
      * @return ilMailTemplate[]
      */
-    public function getAll() : array
+    public function getAll(): array
     {
         $templates = [];
 
@@ -49,7 +51,7 @@ class ilMailTemplateRepository
      * @param int $templateId
      * @return ilMailTemplate
      */
-    public function findById(int $templateId) : ilMailTemplate
+    public function findById(int $templateId): ilMailTemplate
     {
         $res = $this->db->queryF(
             'SELECT * FROM mail_man_tpl WHERE tpl_id  = %s',
@@ -69,9 +71,9 @@ class ilMailTemplateRepository
      * @param string $contextId
      * @return ilMailTemplate[]
      */
-    public function findByContextId(string $contextId) : array
+    public function findByContextId(string $contextId): array
     {
-        return array_filter($this->getAll(), static function (ilMailTemplate $template) use ($contextId) : bool {
+        return array_filter($this->getAll(), static function (ilMailTemplate $template) use ($contextId): bool {
             return $contextId === $template->getContext();
         });
     }
@@ -79,7 +81,7 @@ class ilMailTemplateRepository
     /**
      * @param int[] $templateIds
      */
-    public function deleteByIds(array $templateIds) : void
+    public function deleteByIds(array $templateIds): void
     {
         if (count($templateIds) > 0) {
             $this->db->manipulate(
@@ -88,7 +90,7 @@ class ilMailTemplateRepository
         }
     }
 
-    public function store(ilMailTemplate $template) : void
+    public function store(ilMailTemplate $template): void
     {
         if ($template->getTplId() > 0) {
             $this->db->update(

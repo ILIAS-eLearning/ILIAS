@@ -62,12 +62,12 @@ class ilBiblEntryTableGUI extends ilTable2GUI
     }
 
 
-    public function initFilter() : void
+    public function initFilter(): void
     {
         $available_field_ids_for_object = array_map(function (ilBiblField $field) {
             return $field->getId();
         }, $this->facade->fieldFactory()->getAvailableFieldsForObjId($this->facade->iliasObjId()));
-    
+
         foreach ($this->facade->filterFactory()->getAllForObjectId($this->facade->iliasObjId()) as $item) {
             if (in_array($item->getFieldId(), $available_field_ids_for_object)) {
                 $filter_presentation = new ilBiblFieldFilterPresentationGUI($item, $this->facade);
@@ -76,14 +76,13 @@ class ilBiblEntryTableGUI extends ilTable2GUI
                 $this->filter_objects[$field->getPostVar()] = $item;
             }
         }
-    
     }
 
 
     /**
      * @param $field
      */
-    protected function addAndReadFilterItem(ilTableFilterItem $field) : void
+    protected function addAndReadFilterItem(ilTableFilterItem $field): void
     {
         $this->addFilterItem($field);
         $field->readFromSession();
@@ -96,7 +95,7 @@ class ilBiblEntryTableGUI extends ilTable2GUI
     }
 
 
-    public function fillRow(array $a_set) : void
+    public function fillRow(array $a_set): void
     {
         $ilBiblOverviewGUI = $a_set['overview_gui'];
         $this->tpl->setVariable(
@@ -121,7 +120,7 @@ class ilBiblEntryTableGUI extends ilTable2GUI
     }
 
 
-    protected function initData() : void
+    protected function initData(): void
     {
         $query = new ilBiblTableQueryInfo();
         /**

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -27,9 +29,9 @@ use ILIAS\ContentPage\PageMetrics\Entity\PageMetrics;
  */
 interface PageMetricsRepository
 {
-    public function store(PageMetrics $pageMetrics) : void;
+    public function store(PageMetrics $pageMetrics): void;
 
-    public function delete(PageMetrics $pageMetrics) : void;
+    public function delete(PageMetrics $pageMetrics): void;
 
     /**
      * @param int    $contentPageId
@@ -38,5 +40,5 @@ interface PageMetricsRepository
      * @return PageMetrics
      * @throws CouldNotFindPageMetrics
      */
-    public function findBy(int $contentPageId, int $pageId, string $language) : PageMetrics;
+    public function findBy(int $contentPageId, int $pageId, string $language): PageMetrics;
 }

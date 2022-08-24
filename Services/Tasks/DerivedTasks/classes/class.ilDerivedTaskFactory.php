@@ -39,7 +39,7 @@ class ilDerivedTaskFactory
     /**
      * Subservice for derived tasks
      */
-    public function task(string $title, int $ref_id, int $deadline, int $starting_time, int $wsp_id = 0) : ilDerivedTask
+    public function task(string $title, int $ref_id, int $deadline, int $starting_time, int $wsp_id = 0): ilDerivedTask
     {
         return new ilDerivedTask($title, $ref_id, $deadline, $starting_time, $wsp_id);
     }
@@ -47,7 +47,7 @@ class ilDerivedTaskFactory
     /**
      * Entry collector
      */
-    public function collector() : ilDerivedTaskCollector
+    public function collector(): ilDerivedTaskCollector
     {
         return new ilDerivedTaskCollector($this->service);
     }
@@ -59,7 +59,7 @@ class ilDerivedTaskFactory
      * @param int|null $user_id get instances for user with user id
      * @return ilLearningHistoryProviderInterface[]
      */
-    public function getAllProviders(bool $active_only = false, int $user_id = null) : array
+    public function getAllProviders(bool $active_only = false, int $user_id = null): array
     {
         $master_factory = $this->service->getDependencies()->getDerivedTaskProviderMasterFactory();
         return $master_factory->getAllProviders($active_only, $user_id);

@@ -133,13 +133,13 @@ class ilPresentationListTableGUI extends ilTable2GUI
         }
         //		$this->setData(array());
     }
-    
-    protected function getAdvMDRecordGUI() : ilAdvancedMDRecordGUI
+
+    protected function getAdvMDRecordGUI(): ilAdvancedMDRecordGUI
     {
         return $this->record_gui;
     }
-    
-    public function initFilter() : void
+
+    public function initFilter(): void
     {
         // term
         $ti = new ilTextInputGUI($this->lng->txt("cont_term"), "term");
@@ -149,7 +149,7 @@ class ilPresentationListTableGUI extends ilTable2GUI
         $this->addFilterItem($ti);
         $ti->readFromSession();
         $this->filter["term"] = $ti->getValue();
-        
+
         // definition
         if ($this->glossary->supportsLongTextQuery()) {
             $ti = new ilTextInputGUI($this->lng->txt("cont_definition"), "defintion");
@@ -161,8 +161,8 @@ class ilPresentationListTableGUI extends ilTable2GUI
             $this->filter["definition"] = $ti->getValue();
         }
     }
-    
-    public function numericOrdering(string $a_field) : bool
+
+    public function numericOrdering(string $a_field): bool
     {
         if (strpos($a_field, "md_") === 0) {
             $md_id = (int) substr($a_field, 3);
@@ -173,7 +173,7 @@ class ilPresentationListTableGUI extends ilTable2GUI
         return false;
     }
 
-    protected function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set): void
     {
         $defs = ilGlossaryDefinition::getDefinitionList($a_set["id"]);
         $this->ctrl->setParameter($this->parent_obj, "term_id", $a_set["id"]);
@@ -286,16 +286,16 @@ class ilPresentationListTableGUI extends ilTable2GUI
                     $this->tpl->setVariable("LINK_VIEW_TERM", "term_" . $a_set["id"] . ".html");
                 }
                 $this->tpl->parseCurrentBlock();
-                
+
                 $this->tpl->setCurrentBlock("link_end");
                 $this->tpl->setVariable("ANCHOR_TERM", "term_" . $a_set["id"]);
                 $this->tpl->parseCurrentBlock();
-                
+
                 $this->tpl->setCurrentBlock("td");
                 $this->tpl->setVariable("TEXT", $a_set["term"]);
             } else {
                 $id = $c["id"];
-                                
+
                 $val = " ";
                 if (isset($a_set["md_" . $id . "_presentation"])) {
                     $pb = $a_set["md_" . $id . "_presentation"]->getList();
@@ -303,7 +303,7 @@ class ilPresentationListTableGUI extends ilTable2GUI
                         $val = $pb;
                     }
                 }
-                
+
                 $this->tpl->setCurrentBlock("td");
                 $this->tpl->setVariable("TEXT", $val);
             }

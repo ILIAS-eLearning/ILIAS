@@ -1,15 +1,17 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 class ilADTMultiText extends ilADT
 {
     protected ?array $values;
 
-    protected function isValidDefinition(ilADTDefinition $a_def) : bool
+    protected function isValidDefinition(ilADTDefinition $a_def): bool
     {
         return $a_def instanceof ilADTMultiTextDefinition;
     }
 
-    public function reset() : void
+    public function reset(): void
     {
         parent::reset();
         $this->values = null;
@@ -17,7 +19,7 @@ class ilADTMultiText extends ilADT
 
     // properties
 
-    public function setTextElements(?array $a_values = null) : void
+    public function setTextElements(?array $a_values = null): void
     {
         if (is_array($a_values)) {
             if (count($a_values)) {
@@ -36,14 +38,14 @@ class ilADTMultiText extends ilADT
         $this->values = $a_values;
     }
 
-    public function getTextElements() : ?array
+    public function getTextElements(): ?array
     {
         return $this->values;
     }
 
     // comparison
 
-    public function equals(ilADT $a_adt) : ?bool
+    public function equals(ilADT $a_adt): ?bool
     {
         if ($this->getDefinition()->isComparableTo($a_adt)) {
             return ($this->getCheckSum() == $a_adt->getCheckSum());
@@ -51,12 +53,12 @@ class ilADTMultiText extends ilADT
         return null;
     }
 
-    public function isLarger(ilADT $a_adt) : ?bool
+    public function isLarger(ilADT $a_adt): ?bool
     {
         return null;
     }
 
-    public function isSmaller(ilADT $a_adt) : ?bool
+    public function isSmaller(ilADT $a_adt): ?bool
     {
         return null;
     }
@@ -67,7 +69,7 @@ class ilADTMultiText extends ilADT
     /**
      * @return bool
      */
-    public function isNull() : bool
+    public function isNull(): bool
     {
         $all = $this->getTextElements();
         return (!is_array($all) || !count($all));
@@ -75,7 +77,7 @@ class ilADTMultiText extends ilADT
 
     // validation
 
-    public function isValid() : bool
+    public function isValid(): bool
     {
         $valid = parent::isValid();
         if (!$this->isNull()) {
@@ -98,7 +100,7 @@ class ilADTMultiText extends ilADT
         return $valid;
     }
 
-    public function getCheckSum() : ?string
+    public function getCheckSum(): ?string
     {
         if (!$this->isNull()) {
             $elements = $this->getTextElements();
@@ -110,7 +112,7 @@ class ilADTMultiText extends ilADT
 
     // stdClass
 
-    public function exportStdClass() : ?stdClass
+    public function exportStdClass(): ?stdClass
     {
         if (!$this->isNull()) {
             $obj = new stdClass();
@@ -120,7 +122,7 @@ class ilADTMultiText extends ilADT
         return null;
     }
 
-    public function importStdClass(?stdClass $a_std) : void
+    public function importStdClass(?stdClass $a_std): void
     {
         if (is_object($a_std)) {
             $this->setTextElements($a_std->value);

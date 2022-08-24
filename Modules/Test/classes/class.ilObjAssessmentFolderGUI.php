@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -39,14 +41,14 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
 
         $this->lng->loadLanguageModule('assessment');
     }
-    
-    private function getAssessmentFolder() : ilObjAssessmentFolder
+
+    private function getAssessmentFolder(): ilObjAssessmentFolder
     {
         /** @noinspection PhpIncompatibleReturnTypeInspection */
         return $this->object;
     }
 
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         /**
          * @var $rbacsystem ilRbacSystem
@@ -95,7 +97,7 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
         }
     }
 
-    public function settingsObject(ilPropertyFormGUI $form = null) : void
+    public function settingsObject(ilPropertyFormGUI $form = null): void
     {
         global $DIC;
         $ilTabs = $DIC['ilTabs'];
@@ -109,7 +111,7 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
         $this->tpl->setVariable("ADM_CONTENT", $form->getHTML());
     }
 
-    private function buildSettingsForm() : ilPropertyFormGUI
+    private function buildSettingsForm(): ilPropertyFormGUI
     {
         /**
          * @var $ilAccess ilAccessHandler
@@ -270,7 +272,7 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
     /**
      * Save Assessment settings
      */
-    public function saveSettingsObject() : void
+    public function saveSettingsObject(): void
     {
         global $DIC;
         $ilAccess = $DIC['ilAccess'];
@@ -331,7 +333,7 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
     /**
      * Called when the a log should be shown
      */
-    public function showLogObject() : void
+    public function showLogObject(): void
     {
         $form = $this->getLogDataOutputForm();
         $form->checkInput();
@@ -343,7 +345,7 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
     /**
      * Called when the a log should be exported
      */
-    public function exportLogObject() : void
+    public function exportLogObject(): void
     {
         $form = $this->getLogDataOutputForm();
         if (!$form->checkInput()) {
@@ -402,7 +404,7 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
     /**
      * @return ilPropertyFormGUI
      */
-    protected function getLogDataOutputForm() : ilPropertyFormGUI
+    protected function getLogDataOutputForm(): ilPropertyFormGUI
     {
         $form = new ilPropertyFormGUI();
         $form->setPreventDoubleSubmission(false);
@@ -455,7 +457,7 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
     /**
      * @param ilPropertyFormGUI|null $form
      */
-    public function logsObject(ilPropertyFormGUI $form = null) : void
+    public function logsObject(ilPropertyFormGUI $form = null): void
     {
         /**
          * @var $ilTabs ilTabsGUI
@@ -535,7 +537,7 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
     /**
      * Deletes the log entries for one or more tests
      */
-    public function deleteLogObject() : void
+    public function deleteLogObject(): void
     {
         if (is_array($_POST["chb_test"]) && (count($_POST["chb_test"]))) {
             $this->getAssessmentFolder()->deleteLogEntries($_POST["chb_test"]);
@@ -549,7 +551,7 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
     /**
      * Administration output for assessment log files
      */
-    public function logAdminObject() : void
+    public function logAdminObject(): void
     {
         global $DIC;
         $ilAccess = $DIC['ilAccess'];
@@ -577,12 +579,12 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
         $this->tpl->setVariable('ADM_CONTENT', $table_gui->getHTML());
     }
 
-    public function getAdminTabs() : void
+    public function getAdminTabs(): void
     {
         $this->getTabs();
     }
 
-    public function getLogdataSubtabs() : void
+    public function getLogdataSubtabs(): void
     {
         global $DIC;
         $ilTabs = $DIC['ilTabs'];
@@ -613,7 +615,7 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
         );
     }
 
-    protected function getTabs() : void
+    protected function getTabs(): void
     {
         global $DIC;
         $rbacsystem = $DIC['rbacsystem'];
@@ -675,7 +677,7 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
     /**
      * @param ilPropertyFormGUI $form
      */
-    protected function showLogSettingsObject(ilPropertyFormGUI $form = null) : void
+    protected function showLogSettingsObject(ilPropertyFormGUI $form = null): void
     {
         $this->tabs_gui->activateTab('logs');
 
@@ -693,7 +695,7 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
     /**
      *
      */
-    protected function saveLogSettingsObject() : void
+    protected function saveLogSettingsObject(): void
     {
         /**
          * @var $ilAccess ilAccessHandler
@@ -720,7 +722,7 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
     /**
      * @return ilPropertyFormGUI
      */
-    protected function getLogSettingsForm() : ilPropertyFormGUI
+    protected function getLogSettingsForm(): ilPropertyFormGUI
     {
         /**
          * @var $ilAccess ilAccessHandler
@@ -757,7 +759,7 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
         return $form;
     }
 
-    private function forwardToSettingsTemplateGUI() : void
+    private function forwardToSettingsTemplateGUI(): void
     {
         global $DIC;
         $ilTabs = $DIC['ilTabs'];
@@ -772,7 +774,7 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
     /**
      * @return ilTestSettingsTemplateConfig
      */
-    public static function getSettingsTemplateConfig() : ilTestSettingsTemplateConfig
+    public static function getSettingsTemplateConfig(): ilTestSettingsTemplateConfig
     {
         global $DIC;
         $lng = $DIC['lng'];

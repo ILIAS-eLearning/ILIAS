@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -51,7 +53,7 @@ class ilQTIRenderFib
     public ?string $columns = null;
     public ?string $charset = null;
 
-    public function setPrompt(string $a_prompt) : void
+    public function setPrompt(string $a_prompt): void
     {
         switch (strtolower($a_prompt)) {
             case "1":
@@ -73,12 +75,12 @@ class ilQTIRenderFib
         }
     }
 
-    public function getPrompt() : ?string
+    public function getPrompt(): ?string
     {
         return $this->prompt;
     }
 
-    public function setFibtype(string $a_fibtype) : void
+    public function setFibtype(string $a_fibtype): void
     {
         switch (strtolower($a_fibtype)) {
             case "1":
@@ -100,87 +102,87 @@ class ilQTIRenderFib
         }
     }
 
-    public function getFibtype() : ?string
+    public function getFibtype(): ?string
     {
         return $this->fibtype;
     }
 
-    public function setMinnumber(string $a_minnumber) : void
+    public function setMinnumber(string $a_minnumber): void
     {
         $this->minnumber = $a_minnumber;
     }
 
-    public function getMinnumber() : ?string
+    public function getMinnumber(): ?string
     {
         return $this->minnumber;
     }
 
-    public function setMaxnumber(string $a_maxnumber) : void
+    public function setMaxnumber(string $a_maxnumber): void
     {
         $this->maxnumber = $a_maxnumber;
     }
 
-    public function getMaxnumber() : ?string
+    public function getMaxnumber(): ?string
     {
         return $this->maxnumber;
     }
-    
-    public function addResponseLabel(ilQTIResponseLabel $a_response_label) : void
+
+    public function addResponseLabel(ilQTIResponseLabel $a_response_label): void
     {
         $this->response_labels[] = $a_response_label;
     }
 
-    public function addMaterial(ilQTIMaterial $a_material) : void
+    public function addMaterial(ilQTIMaterial $a_material): void
     {
         $this->material[] = $a_material;
     }
 
-    public function setEncoding(string $a_encoding) : void
+    public function setEncoding(string $a_encoding): void
     {
         $this->encoding = $a_encoding;
     }
 
-    public function getEncoding() : string
+    public function getEncoding(): string
     {
         return $this->encoding;
     }
 
-    public function setRows(string $a_rows) : void
+    public function setRows(string $a_rows): void
     {
         $this->rows = $a_rows;
     }
 
-    public function getRows() : ?string
+    public function getRows(): ?string
     {
         return $this->rows;
     }
 
-    public function setMaxchars(string $a_maxchars) : void
+    public function setMaxchars(string $a_maxchars): void
     {
         $this->maxchars = $a_maxchars;
     }
 
-    public function getMaxchars() : ?string
+    public function getMaxchars(): ?string
     {
         return $this->maxchars;
     }
 
-    public function setColumns(string $a_columns) : void
+    public function setColumns(string $a_columns): void
     {
         $this->columns = $a_columns;
     }
 
-    public function getColumns() : ?string
+    public function getColumns(): ?string
     {
         return $this->columns;
     }
 
-    public function setCharset(string $a_charset) : void
+    public function setCharset(string $a_charset): void
     {
         $this->charset = $a_charset;
     }
 
-    public function getCharset() : ?string
+    public function getCharset(): ?string
     {
         return $this->charset;
     }

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\UI\Implementation\Component\Modal;
 
 use ILIAS\UI\Component\Modal as M;
@@ -39,7 +41,7 @@ class Factory implements M\Factory
     /**
      * @inheritdoc
      */
-    public function interruptive(string $title, string $message, string $form_action) : M\Interruptive
+    public function interruptive(string $title, string $message, string $form_action): M\Interruptive
     {
         return new Interruptive($title, $message, $form_action, $this->signal_generator);
     }
@@ -52,14 +54,14 @@ class Factory implements M\Factory
         string $title,
         Image $icon = null,
         string $description = ''
-    ) : M\InterruptiveItem {
+    ): M\InterruptiveItem {
         return new InterruptiveItem($id, $title, $icon, $description);
     }
 
     /**
      * @inheritdoc
      */
-    public function roundtrip(string $title, $content) : M\RoundTrip
+    public function roundtrip(string $title, $content): M\RoundTrip
     {
         return new RoundTrip($title, $content, $this->signal_generator);
     }
@@ -67,7 +69,7 @@ class Factory implements M\Factory
     /**
      * @inheritdoc
      */
-    public function lightbox($pages) : M\Lightbox
+    public function lightbox($pages): M\Lightbox
     {
         return new Lightbox($pages, $this->signal_generator);
     }
@@ -75,7 +77,7 @@ class Factory implements M\Factory
     /**
      * @inheritdoc
      */
-    public function lightboxImagePage(Image $image, string $title, string $description = '') : M\LightboxImagePage
+    public function lightboxImagePage(Image $image, string $title, string $description = ''): M\LightboxImagePage
     {
         return new LightboxImagePage($image, $title, $description);
     }
@@ -83,7 +85,7 @@ class Factory implements M\Factory
     /**
      * @inheritdoc
      */
-    public function lightboxTextPage(string $text, string $title) : M\LightboxTextPage
+    public function lightboxTextPage(string $text, string $title): M\LightboxTextPage
     {
         return new LightboxTextPage($text, $title);
     }

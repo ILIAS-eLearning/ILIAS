@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -35,28 +37,28 @@ class ilSCORMResources extends ilSCORMObject
     {
         global $DIC;
         $lng = $DIC->language();
-        
+
         parent::__construct($a_id);
         $this->setType('srs');
 
         $this->setTitle($lng->txt('cont_resources'));
     }
 
-    public function getXmlBase() : ?string
+    public function getXmlBase(): ?string
     {
         return $this->xml_base;
     }
 
-    public function setXmlBase(?string $a_xml_base) : void
+    public function setXmlBase(?string $a_xml_base): void
     {
         $this->xml_base = $a_xml_base;
     }
 
-    public function read() : void
+    public function read(): void
     {
         global $DIC;
         $ilDB = $DIC->database();
-        
+
         parent::read();
 
         $obj_set = $ilDB->queryF(
@@ -68,13 +70,13 @@ class ilSCORMResources extends ilSCORMObject
         $this->setXmlBase($obj_rec['xml_base']);
     }
 
-    public function create() : void
+    public function create(): void
     {
         global $DIC;
         $ilDB = $DIC->database();
-        
+
         parent::create();
-        
+
         $ilDB->manipulateF(
             'INSERT INTO sc_resources (obj_id, xml_base) VALUES (%s, %s)',
             array('integer', 'text'),
@@ -82,11 +84,11 @@ class ilSCORMResources extends ilSCORMObject
         );
     }
 
-    public function update() : void
+    public function update(): void
     {
         global $DIC;
         $ilDB = $DIC->database();
-        
+
         parent::update();
 
         $ilDB->manipulateF(
@@ -97,7 +99,7 @@ class ilSCORMResources extends ilSCORMObject
         );
     }
 
-    public function delete() : void
+    public function delete(): void
     {
         global $DIC;
         $ilDB = $DIC->database();

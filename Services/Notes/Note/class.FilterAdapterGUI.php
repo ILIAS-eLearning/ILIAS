@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -59,7 +61,7 @@ class FilterAdapterGUI
         $this->expanded = $expanded;
     }
 
-    public function text(string $key, string $title, bool $activated = true) : self
+    public function text(string $key, string $title, bool $activated = true): self
     {
         $this->addField(
             $key,
@@ -69,7 +71,7 @@ class FilterAdapterGUI
         return $this;
     }
 
-    public function select(string $key, string $title, array $options, bool $activated = true) : self
+    public function select(string $key, string $title, array $options, bool $activated = true): self
     {
         $this->addField(
             $key,
@@ -79,14 +81,14 @@ class FilterAdapterGUI
         return $this;
     }
 
-    protected function addField(string $key, FilterInput $field, bool $activated = true) : void
+    protected function addField(string $key, FilterInput $field, bool $activated = true): void
     {
         $this->fields[$key] = $field;
         $this->field_activations[] = $activated;
         $this->filter = null;
     }
 
-    protected function getFilter() : Filter\Standard
+    protected function getFilter(): Filter\Standard
     {
         $ctrl = $this->ctrl;
 
@@ -104,12 +106,12 @@ class FilterAdapterGUI
         return $this->filter;
     }
 
-    public function getData() : ?array
+    public function getData(): ?array
     {
         return $this->ui_service->filter()->getData($this->getFilter());
     }
 
-    public function render() : string
+    public function render(): string
     {
         return $this->ui->renderer()->render($this->getFilter());
     }

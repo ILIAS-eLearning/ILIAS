@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\Tests\Setup\Objective;
 
 use ILIAS\Setup;
@@ -26,27 +28,27 @@ class NullObjectiveTest extends TestCase
 {
     protected Objective\NullObjective $o;
 
-    public function setUp() : void
+    public function setUp(): void
     {
         $this->o = new Objective\NullObjective();
     }
 
-    public function testGetHash() : void
+    public function testGetHash(): void
     {
         $this->assertIsString($this->o->getHash());
     }
 
-    public function testGetLabel() : void
+    public function testGetLabel(): void
     {
         $this->assertEquals("Nothing to do.", $this->o->getLabel());
     }
 
-    public function testIsNotable() : void
+    public function testIsNotable(): void
     {
         $this->assertFalse($this->o->isNotable());
     }
 
-    public function testGetPreconditions() : void
+    public function testGetPreconditions(): void
     {
         $env = $this->createMock(Setup\Environment::class);
 
@@ -54,7 +56,7 @@ class NullObjectiveTest extends TestCase
         $this->assertEquals([], $pre);
     }
 
-    public function testAchieve() : void
+    public function testAchieve(): void
     {
         $env = $this->createMock(Setup\Environment::class);
 

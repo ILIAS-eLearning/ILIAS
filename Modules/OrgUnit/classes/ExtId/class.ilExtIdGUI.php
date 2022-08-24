@@ -54,7 +54,7 @@ class ilExtIdGUI
         }
     }
 
-    public function executeCommand() : bool
+    public function executeCommand(): bool
     {
         $cmd = $this->ctrl->getCmd();
 
@@ -70,13 +70,13 @@ class ilExtIdGUI
         return true;
     }
 
-    public function edit() : void
+    public function edit(): void
     {
         $form = $this->initForm();
         $this->tpl->setContent($form->getHTML());
     }
 
-    public function initForm() : ilPropertyFormGUI
+    public function initForm(): ilPropertyFormGUI
     {
         $form = new ilPropertyFormGUI();
         $input = new ilTextInputGUI($this->lng->txt("ext_id"), "ext_id");
@@ -88,7 +88,7 @@ class ilExtIdGUI
         return $form;
     }
 
-    public function update() : void
+    public function update(): void
     {
         $form = $this->initForm();
         $form->setValuesByPost();

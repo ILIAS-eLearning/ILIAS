@@ -1,4 +1,6 @@
-<?php declare(strict_types=0);
+<?php
+
+declare(strict_types=0);
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -19,7 +21,7 @@ class ilTrackingAppEventListener implements ilAppEventListener
         string $a_component,
         string $a_event,
         array $a_parameter
-    ) : void {
+    ): void {
         $obj_id = $a_parameter['obj_id'] ?? null;
 
         switch ($a_component) {

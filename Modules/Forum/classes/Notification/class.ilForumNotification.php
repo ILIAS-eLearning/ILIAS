@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -51,99 +53,99 @@ class ilForumNotification
         $this->forum_id = $DIC['ilObjDataCache']->lookupObjId($ref_id);
     }
 
-    public function setNotificationId(int $a_notification_id) : void
+    public function setNotificationId(int $a_notification_id): void
     {
         $this->notification_id = $a_notification_id;
     }
 
-    public function getNotificationId() : int
+    public function getNotificationId(): int
     {
         return $this->notification_id;
     }
 
-    public function setUserId(?int $a_user_id) : void
+    public function setUserId(?int $a_user_id): void
     {
         $this->user_id = $a_user_id;
     }
 
-    public function getUserId() : ?int
+    public function getUserId(): ?int
     {
         return $this->user_id;
     }
 
-    public function setForumId(int $a_forum_id) : void
+    public function setForumId(int $a_forum_id): void
     {
         $this->forum_id = $a_forum_id;
     }
 
-    public function getForumId() : int
+    public function getForumId(): int
     {
         return $this->forum_id;
     }
 
-    public function setThreadId(int $a_thread_id) : void
+    public function setThreadId(int $a_thread_id): void
     {
         $this->thread_id = $a_thread_id;
     }
 
-    public function getThreadId() : int
+    public function getThreadId(): int
     {
         return $this->thread_id;
     }
 
-    public function setInterestedEvents($interested_events) : void
+    public function setInterestedEvents($interested_events): void
     {
         $this->interested_events = $interested_events;
     }
 
-    public function getInterestedEvents() : int
+    public function getInterestedEvents(): int
     {
         return $this->interested_events;
     }
 
-    public function setAdminForce(bool $a_admin_force) : void
+    public function setAdminForce(bool $a_admin_force): void
     {
         $this->admin_force = $a_admin_force;
     }
 
-    public function getAdminForce() : bool
+    public function getAdminForce(): bool
     {
         return $this->admin_force;
     }
 
-    public function setUserToggle(bool $a_user_toggle) : void
+    public function setUserToggle(bool $a_user_toggle): void
     {
         $this->user_toggle = $a_user_toggle;
     }
 
-    public function getUserToggle() : bool
+    public function getUserToggle(): bool
     {
         return $this->user_toggle;
     }
 
-    public function setForumRefId(int $a_ref_id) : void
+    public function setForumRefId(int $a_ref_id): void
     {
         $this->ref_id = $a_ref_id;
     }
 
-    public function getForumRefId() : int
+    public function getForumRefId(): int
     {
         return $this->ref_id;
     }
 
     //user_id of who sets the setting to notify members
-    public function setUserIdNoti(int $a_user_id_noti) : void
+    public function setUserIdNoti(int $a_user_id_noti): void
     {
         $this->user_id_noti = $a_user_id_noti;
     }
 
     //user_id of who sets the setting to notify members
-    public function getUserIdNoti() : int
+    public function getUserIdNoti(): int
     {
         return $this->user_id_noti;
     }
 
-    public function isAdminForceNotification() : bool
+    public function isAdminForceNotification(): bool
     {
         $res = $this->db->queryF(
             '
@@ -162,7 +164,7 @@ class ilForumNotification
         return false;
     }
 
-    public function isUserToggleNotification() : bool
+    public function isUserToggleNotification(): bool
     {
         $res = $this->db->queryF(
             '
@@ -180,7 +182,7 @@ class ilForumNotification
         return false;
     }
 
-    public function insertAdminForce() : void
+    public function insertAdminForce(): void
     {
         $next_id = $this->db->nextId('frm_notification');
         $this->db->manipulateF(
@@ -200,7 +202,7 @@ class ilForumNotification
         );
     }
 
-    public function deleteAdminForce() : void
+    public function deleteAdminForce(): void
     {
         $this->db->manipulateF(
             '
@@ -214,7 +216,7 @@ class ilForumNotification
         );
     }
 
-    public function deleteUserToggle() : void
+    public function deleteUserToggle(): void
     {
         $this->db->manipulateF(
             '
@@ -229,7 +231,7 @@ class ilForumNotification
         );
     }
 
-    public function updateUserToggle() : void
+    public function updateUserToggle(): void
     {
         $this->db->manipulateF(
             'UPDATE frm_notification SET user_toggle_noti = %s WHERE user_id = %s AND frm_id = %s AND admin_force_noti = %s',
@@ -242,7 +244,7 @@ class ilForumNotification
      * if this CRS/GRP contains a forum and a notification setting set by admin or moderator
      * and inserts the new member into frm_notification
      * */
-    public static function checkForumsExistsInsert(int $ref_id, int $user_id) : void
+    public static function checkForumsExistsInsert(int $ref_id, int $user_id): void
     {
         global $DIC;
 
@@ -277,7 +279,7 @@ class ilForumNotification
         }
     }
 
-    public static function checkForumsExistsDelete(int $ref_id, int $user_id) : void
+    public static function checkForumsExistsDelete(int $ref_id, int $user_id): void
     {
         global $DIC;
 
@@ -303,7 +305,7 @@ class ilForumNotification
         }
     }
 
-    public static function getCachedNodeData(int $ref_id) : array
+    public static function getCachedNodeData(int $ref_id): array
     {
         global $DIC;
 
@@ -313,7 +315,7 @@ class ilForumNotification
                 true,
                 ['frm']
             );
-            $node_data = array_filter($node_data, static function (array $forum_node) use ($DIC, $ref_id) : bool {
+            $node_data = array_filter($node_data, static function (array $forum_node) use ($DIC, $ref_id): bool {
                 // filter out forum if a grp lies in the path (#0027702)
                 foreach ($DIC->repositoryTree()->getNodePath((int) $forum_node['child'], $ref_id) as $path_node) {
                     $notRootNode = (int) $path_node['child'] !== (int) $ref_id;
@@ -331,7 +333,7 @@ class ilForumNotification
         return self::$node_data_cache[$ref_id];
     }
 
-    public static function _isParentNodeGrpCrs(int $a_ref_id) : bool
+    public static function _isParentNodeGrpCrs(int $a_ref_id): bool
     {
         global $DIC;
 
@@ -341,7 +343,7 @@ class ilForumNotification
         return $parent_obj->getType() === 'crs' || $parent_obj->getType() === 'grp';
     }
 
-    public static function _clearForcedForumNotifications(array $move_tree_event) : void
+    public static function _clearForcedForumNotifications(array $move_tree_event): void
     {
         global $DIC;
         $ilDB = $DIC->database();
@@ -365,7 +367,7 @@ class ilForumNotification
         }
     }
 
-    public function update() : void
+    public function update(): void
     {
         $this->db->manipulateF(
             'UPDATE frm_notification SET admin_force_noti = %s, user_toggle_noti = %s, ' .
@@ -381,7 +383,7 @@ class ilForumNotification
         );
     }
 
-    public function deleteNotificationAllUsers() : void
+    public function deleteNotificationAllUsers(): void
     {
         $this->db->manipulateF(
             'DELETE FROM frm_notification WHERE frm_id = %s AND user_id_noti > %s',
@@ -393,7 +395,7 @@ class ilForumNotification
     /**
      * @return array<int, array<string, mixed>>
      */
-    public function read() : array
+    public function read(): array
     {
         $result = [];
 
@@ -411,7 +413,7 @@ class ilForumNotification
         return $result;
     }
 
-    public static function mergeThreadNotifications($merge_source_thread_id, $merge_target_thread_id) : void
+    public static function mergeThreadNotifications($merge_source_thread_id, $merge_target_thread_id): void
     {
         global $DIC;
 
@@ -451,7 +453,7 @@ class ilForumNotification
         }
     }
 
-    public function existsNotification() : bool
+    public function existsNotification(): bool
     {
         $res = $this->db->queryF(
             'SELECT user_id FROM frm_notification WHERE user_id = %s AND frm_id = %s AND admin_force_noti = %s',
@@ -462,7 +464,7 @@ class ilForumNotification
         return $this->db->numRows($res) > 0;
     }
 
-    public function cloneFromSource(int $sourceRefId) : void
+    public function cloneFromSource(int $sourceRefId): void
     {
         $sourceNotificationSettings = new self($sourceRefId);
         $records = $sourceNotificationSettings->read();
@@ -478,7 +480,7 @@ class ilForumNotification
         }
     }
 
-    public function updateInterestedEvents() : void
+    public function updateInterestedEvents(): void
     {
         $this->db->manipulateF(
             'UPDATE frm_notification SET interested_events = %s WHERE user_id = %s AND frm_id = %s',
@@ -487,7 +489,7 @@ class ilForumNotification
         );
     }
 
-    public function readInterestedEvents() : int
+    public function readInterestedEvents(): int
     {
         $interested_events = ilForumNotificationEvents::DEACTIVATED;
 
@@ -508,7 +510,7 @@ class ilForumNotification
     /**
      * @return array<int, ilForumNotification>
      */
-    public function readAllForcedEvents() : array
+    public function readAllForcedEvents(): array
     {
         $res = $this->db->queryF(
             'SELECT * FROM frm_notification WHERE admin_force_noti = %s AND frm_id = %s',
@@ -531,7 +533,7 @@ class ilForumNotification
         return self::$forced_events_cache;
     }
 
-    public function getForcedEventsObjectByUserId(int $user_id) : self
+    public function getForcedEventsObjectByUserId(int $user_id): self
     {
         if (!isset(self::$forced_events_cache[$user_id])) {
             $this->readAllForcedEvents();

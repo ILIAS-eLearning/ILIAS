@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -39,14 +41,14 @@ class ilObjContentPage extends ilObject2 implements ilContentPageObjectConstants
             ->domain();
     }
 
-    private function initTranslationService() : void
+    private function initTranslationService(): void
     {
         if (null === $this->objTrans && $this->getId() > 0) {
             $this->objTrans = ilObjectTranslation::getInstance($this->getId());
         }
     }
 
-    private function initPageMetricsService(ILIAS\Refinery\Factory $refinery) : void
+    private function initPageMetricsService(ILIAS\Refinery\Factory $refinery): void
     {
         $this->pageMetricsService = new PageMetricsService(
             new PageMetricsRepositoryImp($this->db),
@@ -54,17 +56,17 @@ class ilObjContentPage extends ilObject2 implements ilContentPageObjectConstants
         );
     }
 
-    public function getObjectTranslation() : ilObjectTranslation
+    public function getObjectTranslation(): ilObjectTranslation
     {
         return $this->objTrans;
     }
 
-    protected function initType() : void
+    protected function initType(): void
     {
         $this->type = self::OBJ_TYPE;
     }
 
-    protected function doCloneObject(ilObject2 $new_obj, int $a_target_id, ?int $a_copy_id = null) : void
+    protected function doCloneObject(ilObject2 $new_obj, int $a_target_id, ?int $a_copy_id = null): void
     {
         assert($new_obj instanceof ilObjContentPage);
         parent::doCloneObject($new_obj, $a_target_id, $a_copy_id);
@@ -120,14 +122,14 @@ class ilObjContentPage extends ilObject2 implements ilContentPageObjectConstants
         $new_obj->update();
     }
 
-    protected function doRead() : void
+    protected function doRead(): void
     {
         parent::doRead();
 
         $this->initTranslationService();
     }
 
-    protected function doCreate(bool $clone_mode = false) : void
+    protected function doCreate(bool $clone_mode = false): void
     {
         parent::doCreate($clone_mode);
 
@@ -143,7 +145,7 @@ class ilObjContentPage extends ilObject2 implements ilContentPageObjectConstants
         $this->update();
     }
 
-    protected function doUpdate() : void
+    protected function doUpdate(): void
     {
         parent::doUpdate();
 
@@ -155,7 +157,7 @@ class ilObjContentPage extends ilObject2 implements ilContentPageObjectConstants
         $trans->save();
     }
 
-    protected function doDelete() : void
+    protected function doDelete(): void
     {
         parent::doDelete();
 
@@ -183,7 +185,7 @@ class ilObjContentPage extends ilObject2 implements ilContentPageObjectConstants
     /**
      * @return int[]
      */
-    public function getPageObjIds() : array
+    public function getPageObjIds(): array
     {
         $pageObjIds = [];
 
@@ -201,7 +203,7 @@ class ilObjContentPage extends ilObject2 implements ilContentPageObjectConstants
         return $pageObjIds;
     }
 
-    public function trackProgress(int $usrId) : void
+    public function trackProgress(int $usrId): void
     {
         ilChangeEvent::_recordReadEvent(
             $this->getType(),

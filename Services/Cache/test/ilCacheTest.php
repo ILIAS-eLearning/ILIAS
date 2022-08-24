@@ -10,12 +10,12 @@ use PHPUnit\Framework\TestCase;
 class ilCacheTest extends TestCase
 {
     // PHP8-Review: Redundant method override
-    protected function setUp() : void
+    protected function setUp(): void
     {
         parent::setUp();
     }
 
-    protected function tearDown() : void
+    protected function tearDown(): void
     {
     }
 

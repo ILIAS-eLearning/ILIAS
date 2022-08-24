@@ -1,4 +1,5 @@
 <?php
+
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 
@@ -14,7 +15,7 @@ class ilTestObjectiveOrientedContainer
      * @var integer
      */
     private $objId;
-    
+
     /**
      * @var integer
      */
@@ -25,11 +26,11 @@ class ilTestObjectiveOrientedContainer
         $this->objId = null;
         $this->refId = null;
     }
-    
+
     /**
      * @return int
      */
-    public function getObjId() : ?int
+    public function getObjId(): ?int
     {
         return $this->objId;
     }
@@ -45,7 +46,7 @@ class ilTestObjectiveOrientedContainer
     /**
      * @return int
      */
-    public function getRefId() : ?int
+    public function getRefId(): ?int
     {
         return $this->refId;
     }
@@ -61,7 +62,7 @@ class ilTestObjectiveOrientedContainer
     /**
      * @return bool
      */
-    public function isObjectiveOrientedPresentationRequired() : bool
+    public function isObjectiveOrientedPresentationRequired(): bool
     {
         return (bool) $this->getObjId();
     }

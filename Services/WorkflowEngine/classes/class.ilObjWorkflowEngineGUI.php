@@ -67,7 +67,7 @@ class ilObjWorkflowEngineGUI extends ilObjectGUI
      * Used to trigger an event for the engine.
      * @param string $params Params from $_GET after wfe_
      */
-    public static function _goto(string $params) : void
+    public static function _goto(string $params): void
     {
         global $DIC;
         $main_tpl = $DIC->ui()->mainTemplate();
@@ -98,7 +98,7 @@ class ilObjWorkflowEngineGUI extends ilObjectGUI
         ilUtil::redirect('ilias.php?baseClass=ilDashboardGUI');
     }
 
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         $next_class = $this->ilCtrl->getNextClass();
 
@@ -119,7 +119,7 @@ class ilObjWorkflowEngineGUI extends ilObjectGUI
         }
     }
 
-    public function dispatchCommand(string $cmd) : string
+    public function dispatchCommand(string $cmd): string
     {
         $cmd_parts = explode('.', $cmd);
 
@@ -141,7 +141,7 @@ class ilObjWorkflowEngineGUI extends ilObjectGUI
         }
     }
 
-    public function prepareAdminOutput() : void
+    public function prepareAdminOutput(): void
     {
         $this->tpl->loadStandardTemplate();
 
@@ -152,7 +152,7 @@ class ilObjWorkflowEngineGUI extends ilObjectGUI
         $this->initLocator();
     }
 
-    public function initTabs(string $section) : void
+    public function initTabs(string $section): void
     {
         global $DIC;
         $rbacsystem = $DIC->rbac()->system();
@@ -180,7 +180,7 @@ class ilObjWorkflowEngineGUI extends ilObjectGUI
         $this->ilTabs->setTabActive($section);
     }
 
-    public function initLocator() : void
+    public function initLocator(): void
     {
         $path = $this->tree->getPathFull($this->service->internal()->request()->getRefId());
         array_shift($path);
@@ -203,28 +203,28 @@ class ilObjWorkflowEngineGUI extends ilObjectGUI
         $this->tpl->setLocator();
     }
 
-    public function dispatchToDashboard(string $command) : string
+    public function dispatchToDashboard(string $command): string
     {
         $this->initTabs('dashboard');
         $target_handler = new ilWorkflowEngineDashboardGUI($this);
         return $target_handler->handle($command);
     }
 
-    public function dispatchToDefinitions(string $command) : string
+    public function dispatchToDefinitions(string $command): string
     {
         $this->initTabs('definitions');
         $target_handler = new ilWorkflowEngineDefinitionsGUI($this, $this->dic);
         return $target_handler->handle($command);
     }
 
-    public function dispatchToInstances(string $command) : string
+    public function dispatchToInstances(string $command): string
     {
         $this->initTabs('instances');
         $target_handler = new ilWorkflowEngineInstancesGUI($this);
         return $target_handler->handle($command);
     }
 
-    public function dispatchToSettings(string $command) : string
+    public function dispatchToSettings(string $command): string
     {
         $this->initTabs('settings');
         $target_handler = new ilWorkflowEngineSettingsGUI($this);

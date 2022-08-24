@@ -22,7 +22,7 @@
  */
 class ilBlogNewsRendererGUI extends ilNewsDefaultRendererGUI
 {
-    public function getObjectLink() : string
+    public function getObjectLink(): string
     {
         $n = $this->getNewsItem();
         $add = "";

@@ -38,10 +38,10 @@ class ilWikiSearchResultsTableGUI extends ilTable2GUI
         $this->lng = $DIC->language();
         $ilCtrl = $DIC->ctrl();
         $lng = $DIC->language();
-        
+
         parent::__construct($a_parent_obj, $a_parent_cmd);
         $this->wiki_id = $a_wiki_id;
-        
+
         $this->addColumn($lng->txt("wiki_page"), "", "100%");
         $this->setEnableHeader(true);
         $this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
@@ -49,14 +49,14 @@ class ilWikiSearchResultsTableGUI extends ilTable2GUI
             "tpl.search_result.html",
             "Modules/Wiki"
         );
-            
+
         $this->setData($a_results);
         $this->setLimit(0);
-        
+
         $this->setTitle($lng->txt("wiki_search_results") . ' "' . str_replace(array('"'), "", $a_term) . '"');
     }
-    
-    protected function fillRow(array $a_set) : void
+
+    protected function fillRow(array $a_set): void
     {
         $ilCtrl = $this->ctrl;
 

@@ -90,7 +90,7 @@ class LMHtmlExport
         $this->setAdditionalContextData(\ilLMEditGSToolProvider::SHOW_TREE, false);
     }
 
-    protected function getLinker() : PageLinker
+    protected function getLinker(): PageLinker
     {
         return new \ilLMPresentationLinker(
             $this->lm,
@@ -109,7 +109,7 @@ class LMHtmlExport
     /**
      * @param mixed $data
      */
-    protected function setAdditionalContextData(string $key, $data) : void
+    protected function setAdditionalContextData(string $key, $data): void
     {
         $additional_data = $this->global_screen->tool()->context()->current()->getAdditionalData();
         if ($additional_data->exists($key)) {
@@ -119,17 +119,17 @@ class LMHtmlExport
         }
     }
 
-    protected function resetUserLanguage() : void
+    protected function resetUserLanguage(): void
     {
         $this->user->setLanguage($this->initial_user_language);
         $this->user->setCurrentLanguage($this->initial_current_user_language);
     }
 
-    
+
     /**
      * Initialize directories
      */
-    protected function initDirectories() : void
+    protected function initDirectories(): void
     {
         // initialize temporary target directory
         ilFileUtils::delDir($this->target_dir);
@@ -140,9 +140,9 @@ class LMHtmlExport
         }
     }
 
-    protected function getLanguageIterator() : \Iterator
+    protected function getLanguageIterator(): \Iterator
     {
-        return new class($this->lang, $this->obj_transl) implements \Iterator {
+        return new class ($this->lang, $this->obj_transl) implements \Iterator {
             private int $position = 0;
             /** @var string[] */
             private array $langs = [];
@@ -161,27 +161,27 @@ class LMHtmlExport
                 }
             }
 
-            public function rewind() : void
+            public function rewind(): void
             {
                 $this->position = 0;
             }
 
-            public function current() : string
+            public function current(): string
             {
                 return $this->langs[$this->position];
             }
 
-            public function key() : int
+            public function key(): int
             {
                 return $this->position;
             }
 
-            public function next() : void
+            public function next(): void
             {
                 ++$this->position;
             }
 
-            public function valid() : bool
+            public function valid(): bool
             {
                 return isset($this->langs[$this->position]);
             }
@@ -192,7 +192,7 @@ class LMHtmlExport
         \ilObjUser $user,
         \ilLMPresentationGUI $lm_gui,
         string $lang
-    ) : void {
+    ): void {
         $user_lang = $user->getLanguage();
 
         if ($lang != "") {
@@ -212,7 +212,7 @@ class LMHtmlExport
         }
     }
 
-    protected function initGlobalScreen() : void
+    protected function initGlobalScreen(): void
     {
         // set global
         $this->global_screen->tool()->context()->current()->addAdditionalData(
@@ -225,7 +225,7 @@ class LMHtmlExport
     /**
      * @param bool $zip perform a zip at the end
      */
-    public function exportHTML(bool $zip = true) : void
+    public function exportHTML(bool $zip = true): void
     {
         $this->initGlobalScreen();
         $this->initDirectories();
@@ -288,12 +288,12 @@ class LMHtmlExport
             $this->zipPackage();
         }
     }
-    
+
     /**
      * Zip everything, zip file will be in
      * $this->export_dir, $this->target_dir (sub-dir in export dir) will be deleted
      */
-    protected function zipPackage() : void
+    protected function zipPackage(): void
     {
         if ($this->lang == "") {
             $zip_target_dir = $this->lm->getExportDirectory("html");
@@ -314,7 +314,7 @@ class LMHtmlExport
     /**
      * Add supplying export files
      */
-    protected function addSupplyingExportFiles() : void
+    protected function addSupplyingExportFiles(): void
     {
         foreach ($this->getSupplyingExportFiles() as $f) {
             if ($f["source"] != "") {
@@ -331,7 +331,7 @@ class LMHtmlExport
     /**
      * @todo modularize!
      */
-    protected function getSupplyingExportFiles(string $a_target_dir = ".") : array
+    protected function getSupplyingExportFiles(string $a_target_dir = "."): array
     {
         $scripts = array(
             array("source" => \ilYuiUtil::getLocalPath('yahoo/yahoo-min.js'),
@@ -427,7 +427,7 @@ class LMHtmlExport
     /**
      * export all pages of learning module to html file
      */
-    public function exportHTMLPages() : void
+    public function exportHTMLPages(): void
     {
         $lm = $this->lm;
         $lm_gui = $this->lm_gui;
@@ -475,7 +475,7 @@ class LMHtmlExport
         }
     }
 
-    protected function getInitialisedTemplate() : \ilGlobalPageTemplate
+    protected function getInitialisedTemplate(): \ilGlobalPageTemplate
     {
         global $DIC;
 
@@ -497,7 +497,7 @@ class LMHtmlExport
     protected function initScreen(
         int $lm_page_id,
         string $frame
-    ) : void {
+    ): void {
         $this->global_screen->layout()->meta()->reset();
 
         // load style sheet depending on user's settings
@@ -534,7 +534,7 @@ class LMHtmlExport
         string $lang = "-",
         string $frame = "",
         array $exp_id_map = []
-    ) : void {
+    ): void {
         $target_dir = $this->target_dir;
 
         $lang_suffix = "";

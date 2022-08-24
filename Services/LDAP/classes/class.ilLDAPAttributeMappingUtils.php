@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -28,7 +30,7 @@ class ilLDAPAttributeMappingUtils
      * @param string $a_class
      * @return array<string, string>
      */
-    public static function _getMappingRulesByClass(string $a_class) : array
+    public static function _getMappingRulesByClass(string $a_class): array
     {
         $mapping_rule = [];
 

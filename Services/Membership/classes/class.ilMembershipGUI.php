@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 use ILIAS\HTTP\GlobalHttpState;
 use ILIAS\Refinery\Factory;
 
@@ -72,7 +74,7 @@ class ilMembershipGUI
     /**
      * @return int[]
      */
-    protected function initParticipantsFromPost() : array
+    protected function initParticipantsFromPost(): array
     {
         if ($this->http->wrapper()->post()->has('participants')) {
             return $this->http->wrapper()->post()->retrieve(
@@ -85,7 +87,7 @@ class ilMembershipGUI
         return [];
     }
 
-    protected function initMemberIdFromGet() : int
+    protected function initMemberIdFromGet(): int
     {
         if ($this->http->wrapper()->query()->has('member_id')) {
             return $this->http->wrapper()->query()->retrieve(
@@ -96,7 +98,7 @@ class ilMembershipGUI
         return 0;
     }
 
-    protected function initSubscribersFromPost() : array
+    protected function initSubscribersFromPost(): array
     {
         if ($this->http->wrapper()->post()->has('subscribers')) {
             return $this->http->wrapper()->post()->retrieve(
@@ -109,7 +111,7 @@ class ilMembershipGUI
         return [];
     }
 
-    protected function initWaitingListIdsFromPost() : array
+    protected function initWaitingListIdsFromPost(): array
     {
         if ($this->http->wrapper()->post()->has('waiting')) {
             return $this->http->wrapper()->post()->retrieve(
@@ -122,32 +124,32 @@ class ilMembershipGUI
         return [];
     }
 
-    protected function getLanguage() : ilLanguage
+    protected function getLanguage(): ilLanguage
     {
         return $this->lng;
     }
 
-    protected function getCtrl() : ilCtrlInterface
+    protected function getCtrl(): ilCtrlInterface
     {
         return $this->ctrl;
     }
 
-    protected function getLogger() : ilLogger
+    protected function getLogger(): ilLogger
     {
         return $this->logger;
     }
 
-    public function getParentGUI() : ilObjectGUI
+    public function getParentGUI(): ilObjectGUI
     {
         return $this->repository_gui;
     }
 
-    public function getParentObject() : ilObject
+    public function getParentObject(): ilObject
     {
         return $this->repository_object;
     }
 
-    public function getMembersObject() : ilParticipants
+    public function getMembersObject(): ilParticipants
     {
         if ($this->participants instanceof ilParticipants) {
             return $this->participants;
@@ -155,7 +157,7 @@ class ilMembershipGUI
         return $this->participants = ilParticipants::getInstance($this->getParentObject()->getRefId());
     }
 
-    protected function getMailMemberRoles() : ?ilAbstractMailMemberRoles
+    protected function getMailMemberRoles(): ?ilAbstractMailMemberRoles
     {
         return null;
     }
@@ -165,7 +167,7 @@ class ilMembershipGUI
         string $a_cmd = '',
         string $a_type = '',
         int $a_ref_id = 0
-    ) : bool {
+    ): bool {
         if ($a_ref_id === 0) {
             $a_ref_id = $this->getParentObject()->getRefId();
         }
@@ -176,7 +178,7 @@ class ilMembershipGUI
         string $a_rbac_perm,
         string $a_pos_perm,
         int $a_ref_id = 0
-    ) : bool {
+    ): bool {
         if ($a_ref_id === 0) {
             $a_ref_id = $this->getParentObject()->getRefId();
         }
@@ -187,7 +189,7 @@ class ilMembershipGUI
      * Check permission
      * If not granted redirect to parent gui
      */
-    protected function checkPermission(string $a_permission, string $a_cmd = "") : void
+    protected function checkPermission(string $a_permission, string $a_cmd = ""): void
     {
         if (!$this->checkPermissionBool($a_permission, $a_cmd)) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('no_permission'), true);
@@ -198,7 +200,7 @@ class ilMembershipGUI
     /**
      * check rbac or position access
      */
-    protected function checkRbacOrPermissionAccess(string $a_rbac_perm, string $a_pos_perm) : void
+    protected function checkRbacOrPermissionAccess(string $a_rbac_perm, string $a_pos_perm): void
     {
         if (!$this->checkRbacOrPositionAccessBool($a_rbac_perm, $a_pos_perm)) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('no_permission'), true);
@@ -209,7 +211,7 @@ class ilMembershipGUI
     /**
      * Check if current user is allowed to add / search users
      */
-    protected function canAddOrSearchUsers() : bool
+    protected function canAddOrSearchUsers(): bool
     {
         return $this->checkPermissionBool('manage_members');
     }
@@ -219,12 +221,12 @@ class ilMembershipGUI
      * @param int[] $a_usr_ids
      * @return int[]
      */
-    public function filterUserIdsByRbacOrPositionOfCurrentUser(array $a_user_ids) : array
+    public function filterUserIdsByRbacOrPositionOfCurrentUser(array $a_user_ids): array
     {
         return $a_user_ids;
     }
 
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         $cmd = $this->ctrl->getCmd('participants');
         $next_class = $this->ctrl->getNextClass();
@@ -383,7 +385,7 @@ class ilMembershipGUI
     /**
      * Show participant table, subscriber table, wating list table;
      */
-    protected function participants() : void
+    protected function participants(): void
     {
         $this->initParticipantTemplate();
         $this->showParticipantsToolbar();
@@ -413,16 +415,16 @@ class ilMembershipGUI
 
         $this->tpl->setVariable('MEMBERS', $table->getHTML());
     }
-    
-    public function getAttendanceListUserData(int $user_id, array $filters = []) : array
+
+    public function getAttendanceListUserData(int $user_id, array $filters = []): array
     {
         return [];
     }
-    
+
     /**
      * Apply filter for participant table
      */
-    protected function participantsApplyFilter() : void
+    protected function participantsApplyFilter(): void
     {
         $table = $this->initParticipantTableGUI();
         $table->resetOffset();
@@ -434,7 +436,7 @@ class ilMembershipGUI
     /**
      * reset participants filter
      */
-    protected function participantsResetFilter() : void
+    protected function participantsResetFilter(): void
     {
         $table = $this->initParticipantTableGUI();
         $table->resetOffset();
@@ -446,7 +448,7 @@ class ilMembershipGUI
     /**
      * Edit one participant
      */
-    protected function editMember() : void
+    protected function editMember(): void
     {
         $this->activateSubTab($this->getParentObject()->getType() . "_member_administration");
         $this->editParticipants(array($this->initMemberIdFromGet()));
@@ -456,7 +458,7 @@ class ilMembershipGUI
      * Edit participants
      * @param int[] $post_participants
      */
-    protected function editParticipants(array $post_participants = array()) : void
+    protected function editParticipants(array $post_participants = array()): void
     {
         if (!$post_participants) {
             $post_participants = $this->initParticipantsFromPost();
@@ -476,7 +478,7 @@ class ilMembershipGUI
     /**
      * update members
      */
-    public function updateParticipants() : void
+    public function updateParticipants(): void
     {
         $participants = $this->initParticipantsFromPost();
         if (!count($participants)) {
@@ -647,14 +649,14 @@ class ilMembershipGUI
         $this->ctrl->redirect($this, "participants");
     }
 
-    protected function updateLPFromStatus(int $usr_id, bool $has_passed) : void
+    protected function updateLPFromStatus(int $usr_id, bool $has_passed): void
     {
     }
 
     /**
      * Show confirmation screen for participants deletion
      */
-    protected function confirmDeleteParticipants() : void
+    protected function confirmDeleteParticipants(): void
     {
         $participants = $this->initParticipantsFromPost();
 
@@ -719,7 +721,7 @@ class ilMembershipGUI
         $this->tpl->setContent($confirm->getHTML());
     }
 
-    protected function deleteParticipants() : void
+    protected function deleteParticipants(): void
     {
         $participants = $this->initParticipantsFromPost();
         if (!count($participants)) {
@@ -766,7 +768,7 @@ class ilMembershipGUI
         $this->ctrl->redirect($this, "participants");
     }
 
-    protected function sendMailToSelectedUsers() : void
+    protected function sendMailToSelectedUsers(): void
     {
         $participants = [];
         if ($this->http->wrapper()->post()->has('participants')) {
@@ -804,7 +806,7 @@ class ilMembershipGUI
         );
     }
 
-    protected function getMailContextOptions() : array
+    protected function getMailContextOptions(): array
     {
         return [];
     }
@@ -812,7 +814,7 @@ class ilMembershipGUI
     /**
      * Members map
      */
-    protected function membersMap() : void
+    protected function membersMap(): void
     {
         $this->activateSubTab($this->getParentObject()->getType() . "_members_map");
         if (!ilMapUtil::isActivated() || !$this->getParentObject()->getEnableMap()) {
@@ -839,7 +841,7 @@ class ilMembershipGUI
         $this->tpl->setLeftContent($map->getUserListHtml());
     }
 
-    protected function mailMembersBtn() : void
+    protected function mailMembersBtn(): void
     {
         $this->showMailToMemberToolbarButton($this->toolbar, 'mailMembersBtn');
     }
@@ -847,7 +849,7 @@ class ilMembershipGUI
     /**
      * Show participants toolbar
      */
-    protected function showParticipantsToolbar() : void
+    protected function showParticipantsToolbar(): void
     {
         if ($this->canAddOrSearchUsers()) {
             ilRepositorySearchGUI::fillAutoCompleteToolbar(
@@ -889,7 +891,7 @@ class ilMembershipGUI
         ilToolbarGUI $toolbar,
         ?string $a_back_cmd = null,
         bool $a_separator = false
-    ) : void {
+    ): void {
         if (
             $this->getParentObject()->getType() === 'crs' &&
             $this->getParentObject()->getShowMembersExport()) {
@@ -914,7 +916,7 @@ class ilMembershipGUI
         ilToolbarGUI $toolbar,
         ?string $a_back_cmd = null,
         bool $a_separator = false
-    ) : void {
+    ): void {
         $mail = new ilMail($this->user->getId());
 
         if (
@@ -943,12 +945,12 @@ class ilMembershipGUI
      * Create Mail signature
      * @todo better implementation
      */
-    public function createMailSignature() : string
+    public function createMailSignature(): string
     {
         return $this->getParentGUI()->createMailSignature();
     }
 
-    protected function getDefaultCommand() : string
+    protected function getDefaultCommand(): string
     {
         $has_manage_members_permission = $this->checkRbacOrPositionAccessBool(
             'manage_members',
@@ -965,7 +967,7 @@ class ilMembershipGUI
         return 'mailMembersBtn';
     }
 
-    public function addMemberTab(ilTabsGUI $tabs, bool $a_is_participant = false) : void
+    public function addMemberTab(ilTabsGUI $tabs, bool $a_is_participant = false): void
     {
         $mail = new ilMail($this->user->getId());
 
@@ -1005,7 +1007,7 @@ class ilMembershipGUI
         }
     }
 
-    protected function getMemberTabName() : string
+    protected function getMemberTabName(): string
     {
         return $this->lng->txt('members');
     }
@@ -1013,7 +1015,7 @@ class ilMembershipGUI
     /**
      * Set sub tabs
      */
-    protected function setSubTabs(ilTabsGUI $tabs) : void
+    protected function setSubTabs(ilTabsGUI $tabs): void
     {
         if ($this->checkRbacOrPositionAccessBool(
             'manage_members',
@@ -1089,7 +1091,7 @@ class ilMembershipGUI
      * Required for member table guis.
      * @todo needs refactoring and should not be located in GUI classes
      */
-    public function readMemberData(array $usr_ids, array $columns) : array
+    public function readMemberData(array $usr_ids, array $columns): array
     {
         return $this->getParentGUI()->readMemberData($usr_ids, $columns);
     }
@@ -1097,7 +1099,7 @@ class ilMembershipGUI
     /**
      * @return array<int, string>
      */
-    public function getLocalRoles() : array
+    public function getLocalRoles(): array
     {
         return $this->getParentGUI()->getLocalRoles();
     }
@@ -1105,7 +1107,7 @@ class ilMembershipGUI
     /**
      * Parse table of subscription request
      */
-    protected function parseSubscriberTable() : ?ilSubscriberTableGUI
+    protected function parseSubscriberTable(): ?ilSubscriberTableGUI
     {
         $subscribers = $this->getMembersObject()->getSubscribers();
         $filtered_subscribers = $this->filterUserIdsByRbacOrPositionOfCurrentUser($subscribers);
@@ -1119,7 +1121,7 @@ class ilMembershipGUI
         return $subscriber;
     }
 
-    protected function initSubscriberTable() : ilSubscriberTableGUI
+    protected function initSubscriberTable(): ilSubscriberTableGUI
     {
         $subscriber = new ilSubscriberTableGUI($this, $this->getParentObject(), true, true);
         $subscriber->setTitle($this->lng->txt('group_new_registrations'));
@@ -1129,7 +1131,7 @@ class ilMembershipGUI
     /**
      * Show subscription confirmation
      */
-    public function confirmAssignSubscribers() : void
+    public function confirmAssignSubscribers(): void
     {
         $subscribers = $this->initSubscribersFromPost();
         if (!count($subscribers)) {
@@ -1161,7 +1163,7 @@ class ilMembershipGUI
     /**
      * Refuse subscriber confirmation
      */
-    public function confirmRefuseSubscribers() : void
+    public function confirmRefuseSubscribers(): void
     {
         $subscribers = $this->initSubscribersFromPost();
         if (!count($subscribers)) {
@@ -1190,7 +1192,7 @@ class ilMembershipGUI
         $this->tpl->setContent($c_gui->getHTML());
     }
 
-    protected function refuseSubscribers() : void
+    protected function refuseSubscribers(): void
     {
         $subscribers = $this->initSubscribersFromPost();
         if (!count($subscribers)) {
@@ -1238,7 +1240,7 @@ class ilMembershipGUI
     /**
      * Do assignment of subscription request
      */
-    public function assignSubscribers() : void
+    public function assignSubscribers(): void
     {
         $subscribers = $this->initSubscribersFromPost();
         if (!count($subscribers)) {
@@ -1281,7 +1283,7 @@ class ilMembershipGUI
     /**
      * Parse table of subscription request
      */
-    protected function parseWaitingListTable() : ?ilWaitingListTableGUI
+    protected function parseWaitingListTable(): ?ilWaitingListTableGUI
     {
         $wait = $this->initWaitingList();
 
@@ -1303,7 +1305,7 @@ class ilMembershipGUI
     /**
      * Assign from waiting list (confirmatoin)
      */
-    public function confirmAssignFromWaitingList() : void
+    public function confirmAssignFromWaitingList(): void
     {
         $waiting_list_ids = $this->initWaitingListIdsFromPost();
         if (!count($waiting_list_ids)) {
@@ -1334,7 +1336,7 @@ class ilMembershipGUI
     /**
      * Assign from waiting list
      */
-    public function assignFromWaitingList() : void
+    public function assignFromWaitingList(): void
     {
         $waiting_list_ids = $this->initWaitingListIdsFromPost();
         if (!count($waiting_list_ids)) {
@@ -1394,7 +1396,7 @@ class ilMembershipGUI
     /**
      * Refuse from waiting list (confirmation)
      */
-    public function confirmRefuseFromList() : void
+    public function confirmRefuseFromList(): void
     {
         $waiting_list_ids = $this->initWaitingListIdsFromPost();
         if (!count($waiting_list_ids)) {
@@ -1426,7 +1428,7 @@ class ilMembershipGUI
     /**
      * refuse from waiting list
      */
-    protected function refuseFromList() : void
+    protected function refuseFromList(): void
     {
         $waiting_list_ids = $this->initWaitingListIdsFromPost();
         if (!count($waiting_list_ids)) {
@@ -1468,7 +1470,7 @@ class ilMembershipGUI
     /**
      * Add selected users to user clipboard
      */
-    protected function addToClipboard() : void
+    protected function addToClipboard(): void
     {
         // begin-patch clipboard
         $users = [];
@@ -1493,12 +1495,12 @@ class ilMembershipGUI
         $this->ctrl->redirect($this, 'participants');
     }
 
-    protected function getDefaultRole() : ?int
+    protected function getDefaultRole(): ?int
     {
         return null;
     }
 
-    protected function activateSubTab(string $a_sub_tab) : void
+    protected function activateSubTab(string $a_sub_tab): void
     {
         $this->tabs->activateSubTab($a_sub_tab);
     }
@@ -1506,7 +1508,7 @@ class ilMembershipGUI
     /**
      * @todo: refactor to own class
      */
-    protected function printMembers() : void
+    protected function printMembers(): void
     {
         $this->checkPermission('read');
 
@@ -1525,7 +1527,7 @@ class ilMembershipGUI
     /**
      * print members output
      */
-    protected function printMembersOutput() : void
+    protected function printMembersOutput(): void
     {
         $this->tabs->clearTargets();
         $this->tabs->setBackTarget(
@@ -1549,7 +1551,7 @@ class ilMembershipGUI
     /**
      * print members output
      */
-    protected function printForMembersOutput() : void
+    protected function printForMembersOutput(): void
     {
         $this->tabs->clearTargets();
         $this->tabs->setBackTarget(
@@ -1568,12 +1570,12 @@ class ilMembershipGUI
         $list->getFullscreenHTML();
     }
 
-    protected function jump2UsersGallery() : void
+    protected function jump2UsersGallery(): void
     {
         $this->ctrl->redirectByClass('ilUsersGalleryGUI');
     }
 
-    protected function initAttendanceList(bool $a_for_members = false) : ?ilAttendanceList
+    protected function initAttendanceList(bool $a_for_members = false): ?ilAttendanceList
     {
         global $DIC;
 

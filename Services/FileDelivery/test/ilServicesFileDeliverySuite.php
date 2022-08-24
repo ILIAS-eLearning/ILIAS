@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 use PHPUnit\Framework\TestSuite;
@@ -23,7 +24,7 @@ use PHPUnit\Framework\TestSuite;
  */
 class ilServicesFileDeliverySuite extends TestSuite
 {
-    public static function suite() : \ilServicesFileDeliverySuite
+    public static function suite(): \ilServicesFileDeliverySuite
     {
         $suite = new self();
 

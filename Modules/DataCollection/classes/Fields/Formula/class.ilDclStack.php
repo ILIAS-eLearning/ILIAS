@@ -62,22 +62,22 @@ class ilDclStack
         return null;
     }
 
-    public function isEmpty() : bool
+    public function isEmpty(): bool
     {
         return !(bool) count($this->stack);
     }
 
-    public function reset() : void
+    public function reset(): void
     {
         $this->stack = array();
     }
 
-    public function count() : int
+    public function count(): int
     {
         return count($this->stack);
     }
 
-    public function debug() : void
+    public function debug(): void
     {
         echo "<pre>" . print_r($this->stack, 1) . "</pre>";
     }

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -35,36 +37,36 @@ class ilStudyProgrammeTypeInfo
         $this->lng_code = $lng_code;
     }
 
-    public function getTitle() : ?string
+    public function getTitle(): ?string
     {
         return $this->title;
     }
 
-    public function withTitle(string $title) : ilStudyProgrammeTypeInfo
+    public function withTitle(string $title): ilStudyProgrammeTypeInfo
     {
         $clone = clone $this;
         $clone->title = $title;
         return $clone;
     }
 
-    public function getDescription() : ?string
+    public function getDescription(): ?string
     {
         return $this->description;
     }
 
-    public function withDescription(string $description) : ilStudyProgrammeTypeInfo
+    public function withDescription(string $description): ilStudyProgrammeTypeInfo
     {
         $clone = clone $this;
         $clone->description = $description;
         return $clone;
     }
 
-    public function getLanguageCode() : ?string
+    public function getLanguageCode(): ?string
     {
         return $this->lng_code;
     }
 
-    public function withLanguageCode(string $lng_code) : ilStudyProgrammeTypeInfo
+    public function withLanguageCode(string $lng_code): ilStudyProgrammeTypeInfo
     {
         $clone = clone $this;
         $clone->lng_code = $lng_code;
@@ -75,7 +77,7 @@ class ilStudyProgrammeTypeInfo
         Field\Factory $input,
         ilLanguage $lng,
         Refinery $refinery
-    ) : Field\Input {
+    ): Field\Input {
         $title = $input
             ->text($lng->txt('title'), '')
             ->withValue($this->getTitle() ?? "")

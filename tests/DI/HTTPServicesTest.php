@@ -44,7 +44,6 @@ use ILIAS\HTTP\GlobalHttpState;
  */
 class HTTPServicesTest extends PHPUnitTestCase
 {
-
     /**
      * @var RequestFactory|MockObject $mockRequestFactory
      */
@@ -64,7 +63,7 @@ class HTTPServicesTest extends PHPUnitTestCase
     private GlobalHttpState $httpState;
 
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         parent::setUp();
         $this->mockRequestFactory = $this->getMockBuilder(RequestFactory::class)->getMock();
@@ -82,7 +81,7 @@ class HTTPServicesTest extends PHPUnitTestCase
     /**
      * @Test
      */
-    public function testRequestWhichShouldGenerateANewRequestOnce() : void
+    public function testRequestWhichShouldGenerateANewRequestOnce(): void
     {
         $expectedRequest = $this->getMockBuilder(ServerRequestInterface::class)->getMock();
         $wrongRequest = $this->getMockBuilder(ServerRequestInterface::class)->getMock();
@@ -108,7 +107,7 @@ class HTTPServicesTest extends PHPUnitTestCase
     /**
      * @Test
      */
-    public function testResponseWhichShouldGenerateANewResponseOnce() : void
+    public function testResponseWhichShouldGenerateANewResponseOnce(): void
     {
         $expectedResponse = $this->getMockBuilder(ResponseInterface::class)->getMock();
         $wrongResponse = $this->getMockBuilder(ResponseInterface::class)->getMock();

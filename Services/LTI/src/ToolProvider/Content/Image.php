@@ -27,7 +27,6 @@ namespace ILIAS\LTI\ToolProvider\Content;
  */
 class Image
 {
-
     /**
      * URL of image.
      *
@@ -67,7 +66,7 @@ class Image
      *
      * @return object
      */
-    public function toJsonldObject() : object
+    public function toJsonldObject(): object
     {
         $image = new \stdClass();
         $image->{'@id'} = $this->url;
@@ -86,7 +85,7 @@ class Image
      *
      * @return string
      */
-    public function toJsonObject() : string
+    public function toJsonObject(): string
     {
         $image = new \stdClass();
         $image->url = $this->url;
@@ -105,7 +104,7 @@ class Image
      * @param object $item A JSON or JSON-LD object representing a content-item
      * @return Image|null  The Image object
      */
-    public static function fromJsonObject(object $item) : ?Image
+    public static function fromJsonObject(object $item): ?Image
     {
         $obj = null;
         $width = null;

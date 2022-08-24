@@ -59,7 +59,7 @@ class ilDataEmitter implements ilEmitter, ilWorkflowEngineElement
      *
      * @param ilDetector $target_detector
      */
-    public function setTargetDetector(ilDetector $target_detector) : void
+    public function setTargetDetector(ilDetector $target_detector): void
     {
         $this->target_detector = $target_detector;
     }
@@ -67,7 +67,7 @@ class ilDataEmitter implements ilEmitter, ilWorkflowEngineElement
     /**
      * Gets the currently set target detector of this emitter.
      */
-    public function getTargetDetector() : ?ilDetector
+    public function getTargetDetector(): ?ilDetector
     {
         return $this->target_detector;
     }
@@ -77,7 +77,7 @@ class ilDataEmitter implements ilEmitter, ilWorkflowEngineElement
      *
      * @return ilNode Reference to the parent node.
      */
-    public function getContext() : ?ilNode
+    public function getContext(): ?ilNode
     {
         return $this->context;
     }
@@ -85,7 +85,7 @@ class ilDataEmitter implements ilEmitter, ilWorkflowEngineElement
     /**
      * Executes this emitter after activating the target node.
      */
-    public function emit() : void
+    public function emit(): void
     {
         $instance_vars = $this->context->getContext()->getInstanceVars();
 
@@ -110,27 +110,27 @@ class ilDataEmitter implements ilEmitter, ilWorkflowEngineElement
         $this->emitted = true;
     }
 
-    public function getActivated() : bool
+    public function getActivated(): bool
     {
         return $this->emitted;
     }
 
-    public function setName($name) : void
+    public function setName($name): void
     {
         $this->name = $name;
     }
 
-    public function getName() : string
+    public function getName(): string
     {
         return $this->name;
     }
 
-    public function getVarName() : string
+    public function getVarName(): string
     {
         return $this->var_name;
     }
 
-    public function setVarName(string $var_name) : void
+    public function setVarName(string $var_name): void
     {
         $this->var_name = $var_name;
     }

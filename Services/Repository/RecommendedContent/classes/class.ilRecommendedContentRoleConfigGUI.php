@@ -55,7 +55,7 @@ class ilRecommendedContentRoleConfigGUI
         $this->requested_item_ref_ids = $request->getItemRefIds();
     }
 
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         $ctrl = $this->ctrl;
 
@@ -71,7 +71,7 @@ class ilRecommendedContentRoleConfigGUI
         }
     }
 
-    public function listItems() : void
+    public function listItems(): void
     {
         $rbacreview = $this->rbacreview;
         $rbacsystem = $this->rbacsystem;
@@ -99,7 +99,7 @@ class ilRecommendedContentRoleConfigGUI
         }
     }
 
-    public function confirmRemoveItems() : void
+    public function confirmRemoveItems(): void
     {
         $this->checkPushPermission();
 
@@ -128,7 +128,7 @@ class ilRecommendedContentRoleConfigGUI
         $main_tpl->setContent($confirmation_gui->getHTML());
     }
 
-    public function removeItems() : void
+    public function removeItems(): void
     {
         $this->checkPushPermission();
         if (count($this->requested_item_ref_ids) > 0) {
@@ -140,7 +140,7 @@ class ilRecommendedContentRoleConfigGUI
         $this->listItems();
     }
 
-    protected function checkPushPermission() : void
+    protected function checkPushPermission(): void
     {
         $ctrl = $this->ctrl;
         $rbacsystem = $this->rbacsystem;
@@ -152,7 +152,7 @@ class ilRecommendedContentRoleConfigGUI
         }
     }
 
-    protected function selectItem() : void
+    protected function selectItem(): void
     {
         $this->checkPushPermission();
 
@@ -170,7 +170,7 @@ class ilRecommendedContentRoleConfigGUI
         }
     }
 
-    protected function assignItem() : void
+    protected function assignItem(): void
     {
         $ctrl = $this->ctrl;
         $this->checkPushPermission();

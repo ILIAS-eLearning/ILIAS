@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /*
         +-----------------------------------------------------------------------------+
         | ILIAS open source                                                           |
@@ -45,7 +47,7 @@ class ilCalendarInboxGUI extends ilCalendarViewGUI
     /**
      * @inheritDoc
      */
-    public function initialize(int $a_calendar_presentation_type) : void
+    public function initialize(int $a_calendar_presentation_type): void
     {
         parent::initialize($a_calendar_presentation_type);
         $this->user_settings = ilCalendarUserSettings::_getInstanceByUserId($this->user->getId());
@@ -55,7 +57,7 @@ class ilCalendarInboxGUI extends ilCalendarViewGUI
         }
     }
 
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         $next_class = $this->ctrl->getNextClass();
         switch ($next_class) {
@@ -84,7 +86,7 @@ class ilCalendarInboxGUI extends ilCalendarViewGUI
         }
     }
 
-    protected function inbox() : void
+    protected function inbox(): void
     {
         $this->tpl = new ilTemplate('tpl.inbox.html', true, true, 'Services/Calendar');
 

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /* Copyright (c) 1998-2022 ILIAS open source, Extended GPL, see docs/LICENSE */
 
@@ -78,7 +80,7 @@ class ilTemplate extends HTML_Template_ITX
         $this->setOption('use_preg', false);
     }
 
-    protected function init() : void
+    protected function init(): void
     {
         $this->free();
         $this->buildFunctionlist();
@@ -116,7 +118,7 @@ class ilTemplate extends HTML_Template_ITX
         $this->template = '';
     }
 
-    public function blockExists(string $a_blockname) : bool
+    public function blockExists(string $a_blockname): bool
     {
         // added second evaluation to the return statement because the first one
         // only works for the content block (Helmut Schottmüller, 2007-09-14).
@@ -125,7 +127,7 @@ class ilTemplate extends HTML_Template_ITX
             isset($this->blockvariables[$a_blockname]);
     }
 
-    public function get(string $part = ilGlobalTemplateInterface::DEFAULT_BLOCK) : string
+    public function get(string $part = ilGlobalTemplateInterface::DEFAULT_BLOCK): string
     {
         global $DIC;
 
@@ -154,7 +156,7 @@ class ilTemplate extends HTML_Template_ITX
     /**
      * @throws ilTemplateException
      */
-    public function getUnmodified(string $part = ilGlobalTemplateInterface::DEFAULT_BLOCK) : string
+    public function getUnmodified(string $part = ilGlobalTemplateInterface::DEFAULT_BLOCK): string
     {
         // I can't believe how garbage this is.
         if (ilGlobalTemplateInterface::DEFAULT_BLOCK === $part) {
@@ -167,7 +169,7 @@ class ilTemplate extends HTML_Template_ITX
     /**
      * @throws ilTemplateException
      */
-    public function setCurrentBlock(string $part = ilGlobalTemplateInterface::DEFAULT_BLOCK) : bool
+    public function setCurrentBlock(string $part = ilGlobalTemplateInterface::DEFAULT_BLOCK): bool
     {
         // I can't believe how garbage this is.
         if (ilGlobalTemplateInterface::DEFAULT_BLOCK === $part) {
@@ -181,7 +183,7 @@ class ilTemplate extends HTML_Template_ITX
     /**
      * @throws ilTemplateException
      */
-    public function touchBlock(string $block) : bool
+    public function touchBlock(string $block): bool
     {
         $this->setCurrentBlock($block);
         $count = $this->fillVars();
@@ -197,7 +199,7 @@ class ilTemplate extends HTML_Template_ITX
     /**
      * @throws ilTemplateException
      */
-    public function parseCurrentBlock(string $part = ilGlobalTemplateInterface::DEFAULT_BLOCK) : bool
+    public function parseCurrentBlock(string $part = ilGlobalTemplateInterface::DEFAULT_BLOCK): bool
     {
         $this->fillVars();
         $this->activeBlock = self::IT_DEFAULT_BLOCK;
@@ -205,7 +207,7 @@ class ilTemplate extends HTML_Template_ITX
         return parent::parseCurrentBlock();
     }
 
-    public function addBlockFile(string $var, string $block, string $tplname, string $in_module = null) : bool
+    public function addBlockFile(string $var, string $block, string $tplname, string $in_module = null): bool
     {
         global $DIC;
 
@@ -246,7 +248,7 @@ class ilTemplate extends HTML_Template_ITX
      * all template vars defined in $vars will be replaced automatically
      * without setting and parsing them with setVariable & parseCurrentBlock
      */
-    private function fillVars() : int
+    private function fillVars(): int
     {
         $count = 0;
         foreach ($this->vars as $key => $val) {
@@ -265,7 +267,7 @@ class ilTemplate extends HTML_Template_ITX
         string $filename,
         bool $removeUnknownVariables = true,
         bool $removeEmptyBlocks = true
-    ) : bool {
+    ): bool {
         global $DIC;
 
         $template = '';
@@ -306,7 +308,7 @@ class ilTemplate extends HTML_Template_ITX
     /**
      * @throws ilSystemStyleException
      */
-    protected function getTemplatePath(string $a_tplname, string $a_in_module = null) : string
+    protected function getTemplatePath(string $a_tplname, string $a_in_module = null): string
     {
         $fname = "";
         if (strpos($a_tplname, "/") === false) {
@@ -362,7 +364,7 @@ class ilTemplate extends HTML_Template_ITX
      * but distincts templates of different services with the same name.
      * This is used by the UI plugin hook for template input/output
      */
-    public function getTemplateIdentifier(string $a_tplname, string $a_in_module = null) : string
+    public function getTemplateIdentifier(string $a_tplname, string $a_in_module = null): string
     {
         if (strpos($a_tplname, "/") === false) {
             if (null !== $a_in_module) {
@@ -377,7 +379,7 @@ class ilTemplate extends HTML_Template_ITX
         return $a_tplname;
     }
 
-    public function variableExists(string $a_variablename) : bool
+    public function variableExists(string $a_variablename): bool
     {
         return isset($this->blockvariables["content"][$a_variablename]);
     }

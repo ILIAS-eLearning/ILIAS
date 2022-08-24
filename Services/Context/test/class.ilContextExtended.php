@@ -25,7 +25,7 @@
  */
 class ilContextExtended extends ilContext
 {
-    public static function getClassName() : string
+    public static function getClassName(): string
     {
         return self::$class_name;
     }

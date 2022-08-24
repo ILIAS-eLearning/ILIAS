@@ -59,8 +59,10 @@ class ilOrgUnitSimpleUserImportGUI
         $cmd = $this->ctrl->getCmd();
 
         $this->tabs_gui->clearTargets();
-        $this->tabs_gui->setBackTarget($this->lng->txt("back"),
-            $this->ctrl->getLinkTargetByClass('ilOrgUnitSimpleImportGUI', 'chooseImport'));
+        $this->tabs_gui->setBackTarget(
+            $this->lng->txt("back"),
+            $this->ctrl->getLinkTargetByClass('ilOrgUnitSimpleImportGUI', 'chooseImport')
+        );
 
         switch ($cmd) {
             case 'userImportScreen':
@@ -115,8 +117,11 @@ class ilOrgUnitSimpleUserImportGUI
     {
         if (!$importer->hasErrors() and !$importer->hasWarnings()) {
             $stats = $importer->getStats();
-            $this->tpl->setOnScreenMessage('success',
-                sprintf($this->lng->txt('user_import_successful'), $stats['created'], $stats['removed']), true);
+            $this->tpl->setOnScreenMessage(
+                'success',
+                sprintf($this->lng->txt('user_import_successful'), $stats['created'], $stats['removed']),
+                true
+            );
         }
         if ($importer->hasWarnings()) {
             $msg = $this->lng->txt('import_terminated_with_warnings') . '<br>';

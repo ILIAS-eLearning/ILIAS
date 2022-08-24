@@ -22,20 +22,21 @@
  */
 abstract class ilDclSelectionFieldRepresentation extends ilDclBaseFieldRepresentation
 {
-
     // those should be overwritten by subclasses
-    const PROP_SELECTION_TYPE = '';
-    const PROP_SELECTION_OPTIONS = '';
+    public const PROP_SELECTION_TYPE = '';
+    public const PROP_SELECTION_OPTIONS = '';
 
-    protected function buildFieldCreationInput(ilObjDataCollection $dcl, string $mode = 'create') : ilRadioOption
+    protected function buildFieldCreationInput(ilObjDataCollection $dcl, string $mode = 'create'): ilRadioOption
     {
         $opt = parent::buildFieldCreationInput($dcl, $mode);
 
         $selection_options = $this->buildOptionsInput();
         $opt->addSubItem($selection_options);
 
-        $selection_type = new ilRadioGroupInputGUI($this->lng->txt('dcl_selection_type'),
-            'prop_' . static::PROP_SELECTION_TYPE);
+        $selection_type = new ilRadioGroupInputGUI(
+            $this->lng->txt('dcl_selection_type'),
+            'prop_' . static::PROP_SELECTION_TYPE
+        );
         $selection_type->setRequired(true);
 
         $option_1 = new ilRadioOption(
@@ -64,7 +65,7 @@ abstract class ilDclSelectionFieldRepresentation extends ilDclBaseFieldRepresent
     /**
      * @return ilMultiSelectInputGUI|ilRadioGroupInputGUI|ilSelectInputGUI
      */
-    public function getInputField(ilPropertyFormGUI $form, int $record_id = 0) : ilFormPropertyGUI
+    public function getInputField(ilPropertyFormGUI $form, int $record_id = 0): ilFormPropertyGUI
     {
         /** @var ilDclSelectionOption[] $options */
         $options = ilDclSelectionOption::getAllForField($this->getField()->getId());
@@ -77,8 +78,10 @@ abstract class ilDclSelectionFieldRepresentation extends ilDclBaseFieldRepresent
                 $input->setValue(array_keys($options)[0]);
                 break;
             case ilDclSelectionFieldModel::SELECTION_TYPE_MULTI:
-                $input = new ilMultiSelectInputGUI($this->getField()->getTitle(),
-                    'field_' . $this->getField()->getId());
+                $input = new ilMultiSelectInputGUI(
+                    $this->getField()->getTitle(),
+                    'field_' . $this->getField()->getId()
+                );
 
                 $input->setHeight(100);
                 $input->setHeightUnit('%; max-height: 150px');
@@ -111,8 +114,12 @@ abstract class ilDclSelectionFieldRepresentation extends ilDclBaseFieldRepresent
      */
     public function addFilterInputFieldToTable(ilTable2GUI $table)
     {
-        $input = $table->addFilterItemByMetaType("filter_" . $this->getField()->getId(), ilTable2GUI::FILTER_SELECT,
-            false, $this->getField()->getId());
+        $input = $table->addFilterItemByMetaType(
+            "filter_" . $this->getField()->getId(),
+            ilTable2GUI::FILTER_SELECT,
+            false,
+            $this->getField()->getId()
+        );
 
         $options = ilDclSelectionOption::getAllForField($this->getField()->getId());
         $array = array('' => $this->lng->txt('dcl_all_entries'));
@@ -129,5 +136,5 @@ abstract class ilDclSelectionFieldRepresentation extends ilDclBaseFieldRepresent
         return $this->getFilterInputFieldValue($input);
     }
 
-    abstract protected function buildOptionsInput() : ilDclGenericMultiInputGUI;
+    abstract protected function buildOptionsInput(): ilDclGenericMultiInputGUI;
 }

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -50,7 +52,7 @@ class ilCalendarAuthenticationToken
         $this->read();
     }
 
-    public static function lookupAuthToken(int $a_user_id, int $a_selection, int $a_calendar = 0) : string
+    public static function lookupAuthToken(int $a_user_id, int $a_selection, int $a_calendar = 0): string
     {
         global $DIC;
 
@@ -66,7 +68,7 @@ class ilCalendarAuthenticationToken
         return '';
     }
 
-    public static function lookupUser(string $a_token) : int
+    public static function lookupUser(string $a_token): int
     {
         global $DIC;
 
@@ -80,47 +82,47 @@ class ilCalendarAuthenticationToken
         return 0;
     }
 
-    public function getSelectionType() : int
+    public function getSelectionType(): int
     {
         return $this->selection_type;
     }
 
-    public function getUserId() : int
+    public function getUserId(): int
     {
         return $this->user;
     }
 
-    public function setSelectionType(int $a_type) : void
+    public function setSelectionType(int $a_type): void
     {
         $this->selection_type = $a_type;
     }
 
-    public function setCalendar(int $a_cal) : void
+    public function setCalendar(int $a_cal): void
     {
         $this->calendar = $a_cal;
     }
 
-    public function getCalendar() : int
+    public function getCalendar(): int
     {
         return $this->calendar;
     }
 
-    public function setIcal(string $ical) : void
+    public function setIcal(string $ical): void
     {
         $this->ical = $ical;
     }
 
-    public function getIcal() : string
+    public function getIcal(): string
     {
         return $this->ical;
     }
 
-    public function getToken() : string
+    public function getToken(): string
     {
         return $this->token;
     }
 
-    public function storeIcal() : void
+    public function storeIcal(): void
     {
         $this->db->update(
             'cal_auth_token',
@@ -139,12 +141,12 @@ class ilCalendarAuthenticationToken
      * Check if cache is disabled or expired
      * @todo enable the cache
      */
-    public function isIcalExpired() : bool
+    public function isIcalExpired(): bool
     {
         return true;
     }
 
-    public function add() : string
+    public function add(): string
     {
         $this->createToken();
         $query = "INSERT INTO cal_auth_token (user_id,hash,selection,calendar) " .
@@ -158,13 +160,13 @@ class ilCalendarAuthenticationToken
         return $this->getToken();
     }
 
-    protected function createToken() : void
+    protected function createToken(): void
     {
         $random = new \ilRandom();
         $this->token = md5($this->getUserId() . $this->getSelectionType() . $random->int());
     }
 
-    protected function read() : bool
+    protected function read(): bool
     {
         if (!$this->getToken()) {
             $query = "SELECT * FROM cal_auth_token " .

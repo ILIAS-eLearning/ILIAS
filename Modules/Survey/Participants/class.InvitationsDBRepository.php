@@ -1,4 +1,6 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -45,7 +47,7 @@ class InvitationsDBRepository
      * @param int $survey_id Survey ID not object ID!
      * @param int $user_id
      */
-    public function remove(int $survey_id, int $user_id) : void
+    public function remove(int $survey_id, int $user_id): void
     {
         $db = $this->db;
 
@@ -56,15 +58,15 @@ class InvitationsDBRepository
             [$survey_id, $user_id]
         );
     }
-    
-    
+
+
     /**
      * Add invitation
      *
      * @param int $survey_id Survey ID not object ID!
      * @param int $user_id
      */
-    public function add(int $survey_id, int $user_id) : void
+    public function add(int $survey_id, int $user_id): void
     {
         $db = $this->db;
 
@@ -84,7 +86,7 @@ class InvitationsDBRepository
      * @param int $survey_id Survey ID not object ID!
      * @return int[]
      */
-    public function getAllForSurvey(int $survey_id) : array
+    public function getAllForSurvey(int $survey_id): array
     {
         $db = $this->db;
 
@@ -107,7 +109,7 @@ class InvitationsDBRepository
      * @param int $user_id user id
      * @return int[] survey IDs
      */
-    public function getAllForUser(int $user_id) : array
+    public function getAllForUser(int $user_id): array
     {
         $db = $this->db;
 

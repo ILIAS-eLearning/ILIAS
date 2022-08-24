@@ -1,4 +1,5 @@
 <?php
+
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 
@@ -25,7 +26,7 @@ class ilTestInviteUsersTableGUI extends ilTable2GUI
         $this->lng = $lng;
         $this->ctrl = $ilCtrl;
         $this->counter = 1;
-        
+
         $this->setFormName('inviteusers');
         $this->setStyle('table', 'fullwidth');
 
@@ -34,9 +35,9 @@ class ilTestInviteUsersTableGUI extends ilTable2GUI
         $this->addColumn($this->lng->txt("firstname"), 'firstname', '');
         $this->addColumn($this->lng->txt("lastname"), 'lastname', '');
         $this->addColumn($this->lng->txt("clientip"), 'clientip', '');
-    
+
         $this->setTitle($this->lng->txt('search_users'), 'icon_usr.svg', $this->lng->txt('usr'));
-    
+
         $this->setRowTemplate("tpl.il_as_tst_invite_users_row.html", "Modules/Test");
 
         $this->addMultiCommand('addParticipants', $this->lng->txt('add'));
@@ -47,13 +48,13 @@ class ilTestInviteUsersTableGUI extends ilTable2GUI
         $this->setDefaultOrderDirection("asc");
         $this->setPrefix('user_select');
         $this->setSelectAllCheckbox('user_select');
-        
+
         $this->enable('header');
         $this->enable('sort');
         $this->enable('select_all');
     }
 
-    public function fillRow(array $a_set) : void
+    public function fillRow(array $a_set): void
     {
         $this->tpl->setVariable("USER_ID", $a_set['usr_id']);
         $this->tpl->setVariable("LOGIN", $a_set['login']);

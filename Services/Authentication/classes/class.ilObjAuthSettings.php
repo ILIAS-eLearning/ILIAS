@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -31,7 +33,7 @@ class ilObjAuthSettings extends ilObject
         parent::__construct($a_id, $a_call_by_reference);
     }
 
-    public function checkAuthLDAP() : bool
+    public function checkAuthLDAP(): bool
     {
         $settings = $this->ilias->getAllSettings();
 
@@ -44,7 +46,7 @@ class ilObjAuthSettings extends ilObject
         return true;
     }
 
-    public function checkAuthSHIB() : bool
+    public function checkAuthSHIB(): bool
     {
         $settings = $this->ilias->getAllSettings();
 
@@ -58,7 +60,7 @@ class ilObjAuthSettings extends ilObject
         return true;
     }
 
-    public function checkAuthScript() : bool
+    public function checkAuthScript(): bool
     {
         $settings = $this->ilias->getAllSettings();
 

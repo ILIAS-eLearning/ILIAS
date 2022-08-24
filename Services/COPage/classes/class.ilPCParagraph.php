@@ -44,7 +44,7 @@ class ilPCParagraph extends ilPageContent
             "sup" => "Sup",
             "quot" => "Quotation",
             );
-    
+
     /**
     * converts a string of format var1 = "val1" var2 = "val2" ... into an array
     *
@@ -54,7 +54,7 @@ class ilPCParagraph extends ilPageContent
     * @static
     *
     */
-    public static function attribsToArray(string $a_str) : array
+    public static function attribsToArray(string $a_str): array
     {
         $attribs = [];
         while (is_int(strpos($a_str, "="))) {
@@ -72,8 +72,8 @@ class ilPCParagraph extends ilPageContent
         }
         return $attribs;
     }
-    
-    public function init() : void
+
+    public function init(): void
     {
         global $DIC;
 
@@ -85,7 +85,7 @@ class ilPCParagraph extends ilPageContent
     /**
      * Get bb to xml tag map
      */
-    protected static function getBBMap() : array
+    protected static function getBBMap(): array
     {
         return self::$bb_tags;
     }
@@ -93,12 +93,12 @@ class ilPCParagraph extends ilPageContent
     /**
      * Get tag to bb map
      */
-    protected static function getXMLTagMap() : array
+    protected static function getXMLTagMap(): array
     {
         return array_flip(self::$bb_tags);
     }
 
-    public function setNode(php4DOMElement $a_node) : void
+    public function setNode(php4DOMElement $a_node): void
     {
         parent::setNode($a_node);		// this is the PageContent node
 
@@ -113,7 +113,7 @@ class ilPCParagraph extends ilPageContent
     /**
      * Create new page content (incl. paragraph) node at node
      */
-    public function createAtNode(php4DOMElement $node) : void
+    public function createAtNode(php4DOMElement $node): void
     {
         $this->node = $this->createPageContentNode();
         $this->par_node = $this->dom->create_element("Paragraph");
@@ -125,7 +125,7 @@ class ilPCParagraph extends ilPageContent
     /**
      * Create new page content (incl. paragraph) node at node
      */
-    public function createBeforeNode(php4DOMElement $node) : void
+    public function createBeforeNode(php4DOMElement $node): void
     {
         $this->node = $this->createPageContentNode();
         $this->par_node = $this->dom->create_element("Paragraph");
@@ -138,7 +138,7 @@ class ilPCParagraph extends ilPageContent
      * Create paragraph node (incl. page content node)
      * after given node.
      */
-    public function createAfter(php4DOMElement $node) : void
+    public function createAfter(php4DOMElement $node): void
     {
         $this->node = $this->createPageContentNode(false);
         if ($succ_node = $node->next_sibling()) {
@@ -161,7 +161,7 @@ class ilPCParagraph extends ilPageContent
         string $a_hier_id,
         string $a_pc_id = "",
         bool $from_placeholder = false
-    ) : void {
+    ): void {
         //echo "-$a_pc_id-";
         //echo "<br>-".htmlentities($a_pg_obj->getXMLFromDom())."-<br><br>"; mk();
         $this->node = $this->dom->create_element("PageContent");
@@ -293,7 +293,7 @@ class ilPCParagraph extends ilPageContent
     /**
      * Check text array
      */
-    protected function checkTextArray(array $text) : ?array
+    protected function checkTextArray(array $text): ?array
     {
         $check = "";
         foreach ($text as $t) {
@@ -312,7 +312,7 @@ class ilPCParagraph extends ilPageContent
         return $error;
     }
 
-    protected function fixTextArray(array $text) : array
+    protected function fixTextArray(array $text): array
     {
         $dom = new DOMDocument();
         $dom->recover = true;
@@ -338,7 +338,7 @@ class ilPCParagraph extends ilPageContent
     /**
      * Get (xml) content of paragraph.
      */
-    public function getText(bool $a_short_mode = false) : string
+    public function getText(bool $a_short_mode = false): string
     {
         if (is_object($this->par_node)) {
             $content = "";
@@ -357,7 +357,7 @@ class ilPCParagraph extends ilPageContent
      */
     public function getParagraphSequenceContent(
         ilPageObject $a_pg_obj
-    ) : string {
+    ): string {
         $childs = $this->par_node->parent_node()->parent_node()->child_nodes();
         $seq = array();
         $cur_seq = array();
@@ -414,7 +414,7 @@ class ilPCParagraph extends ilPageContent
     /**
      * Set Characteristic of paragraph
      */
-    public function setCharacteristic(string $a_char) : void
+    public function setCharacteristic(string $a_char): void
     {
         if (!empty($a_char)) {
             $this->par_node->set_attribute("Characteristic", $a_char);
@@ -425,7 +425,7 @@ class ilPCParagraph extends ilPageContent
         }
     }
 
-    public function getCharacteristic() : string
+    public function getCharacteristic(): string
     {
         if (is_object($this->par_node)) {
             return $this->par_node->get_attribute("Characteristic");
@@ -433,7 +433,7 @@ class ilPCParagraph extends ilPageContent
         return "";
     }
 
-    public function setSubCharacteristic(string $a_char) : void
+    public function setSubCharacteristic(string $a_char): void
     {
         if (!empty($a_char)) {
             $this->par_node->set_attribute("SubCharacteristic", $a_char);
@@ -444,12 +444,12 @@ class ilPCParagraph extends ilPageContent
         }
     }
 
-    public function getAutoIndent() : string
+    public function getAutoIndent(): string
     {
         return (string) $this->par_node->get_attribute("AutoIndent");
     }
 
-    public function setAutoIndent(string $a_char) : void
+    public function setAutoIndent(string $a_char): void
     {
         if (!empty($a_char)) {
             $this->par_node->set_attribute("AutoIndent", $a_char);
@@ -460,12 +460,12 @@ class ilPCParagraph extends ilPageContent
         }
     }
 
-    public function getSubCharacteristic() : string
+    public function getSubCharacteristic(): string
     {
         return $this->par_node->get_attribute("SubCharacteristic");
     }
 
-    public function setDownloadTitle(string $a_char) : void
+    public function setDownloadTitle(string $a_char): void
     {
         if (!empty($a_char)) {
             $this->par_node->set_attribute("DownloadTitle", $a_char);
@@ -476,12 +476,12 @@ class ilPCParagraph extends ilPageContent
         }
     }
 
-    public function getDownloadTitle() : string
+    public function getDownloadTitle(): string
     {
         return $this->par_node->get_attribute("DownloadTitle");
     }
 
-    public function setShowLineNumbers(string $a_char) : void
+    public function setShowLineNumbers(string $a_char): void
     {
         $a_char = empty($a_char)
             ? "n"
@@ -490,17 +490,17 @@ class ilPCParagraph extends ilPageContent
         $this->par_node->set_attribute("ShowLineNumbers", $a_char);
     }
 
-    public function getShowLineNumbers() : string
+    public function getShowLineNumbers(): string
     {
         return $this->par_node->get_attribute("ShowLineNumbers");
     }
 
-    public function setLanguage(string $a_lang) : void
+    public function setLanguage(string $a_lang): void
     {
         $this->par_node->set_attribute("Language", $a_lang);
     }
 
-    public function getLanguage() : string
+    public function getLanguage(): string
     {
         return $this->par_node->get_attribute("Language");
     }
@@ -509,7 +509,7 @@ class ilPCParagraph extends ilPageContent
         string $a_text,
         bool $a_wysiwyg = false,
         bool $a_handle_lists = true
-    ) : string {
+    ): string {
         return $this->_input2xml($a_text, $this->getLanguage(), $a_wysiwyg, $a_handle_lists);
     }
 
@@ -517,7 +517,7 @@ class ilPCParagraph extends ilPageContent
         string $a_text,
         string $a_bb,
         string $a_tag
-    ) : string {
+    ): string {
         $a_text = preg_replace('/\[' . $a_bb . '\]/i', "<" . $a_tag . ">", $a_text);
         $a_text = preg_replace('/\[\/' . $a_bb . '\]/i', "</" . $a_tag . ">", $a_text);
         return $a_text;
@@ -533,7 +533,7 @@ class ilPCParagraph extends ilPageContent
         string $a_lang,
         bool $a_wysiwyg = false,
         bool $a_handle_lists = true
-    ) : string {
+    ): string {
         $log = null;
         if (!defined('COPAGE_TEST')) {
             $log = ilLoggerFactory::getLogger('copg');
@@ -670,7 +670,7 @@ class ilPCParagraph extends ilPageContent
         return $a_text;
     }
 
-    protected static function isValidTagContent(string $content) : bool
+    protected static function isValidTagContent(string $content): bool
     {
         $use_internal_errors = libxml_use_internal_errors(true);
         $sxe = simplexml_load_string("<?xml version='1.0'?><dummy>" . $content . "</dummy>");
@@ -689,7 +689,7 @@ class ilPCParagraph extends ilPageContent
         string $xml_tag_name,
         string $text,
         array $attribs
-    ) : string {
+    ): string {
         $attrib_str = "";
         foreach ($attribs as $key => $value) {
             if ($value != "") {
@@ -760,7 +760,7 @@ class ilPCParagraph extends ilPageContent
      */
     public static function intLinks2xml(
         string $a_text
-    ) : string {
+    ): string {
         global $DIC;
 
         $objDefinition = $DIC["objDefinition"];
@@ -965,7 +965,7 @@ class ilPCParagraph extends ilPageContent
      */
     public static function input2xmlReplaceLists(
         string $a_text
-    ) : string {
+    ): string {
         $rows = explode("<br />", $a_text . "<br />");
         //var_dump($a_text);
 
@@ -1031,7 +1031,7 @@ class ilPCParagraph extends ilPageContent
      */
     public static function xml2outputReplaceLists(
         string $a_text
-    ) : string {
+    ): string {
         $list_start = false;
         $li = false;
 
@@ -1107,7 +1107,7 @@ class ilPCParagraph extends ilPageContent
     public static function segmentString(
         string $a_haystack,
         array $a_needles
-    ) : array {
+    ): array {
         $segments = array();
         $found_needle = "";
 
@@ -1149,7 +1149,7 @@ class ilPCParagraph extends ilPageContent
         bool $a_wysiwyg = false,
         bool $a_replace_lists = true,
         bool $unmask = true
-    ) : string {
+    ): string {
         // note: the order of the processing steps is crucial
         // and should be the same as in input2xml() in REVERSE order!
 
@@ -1319,7 +1319,7 @@ class ilPCParagraph extends ilPageContent
      * ==header2== or ===header3=== and returns an array that contains
      * the single chunks.
      */
-    public function autoSplit(string $a_text) : array
+    public function autoSplit(string $a_text): array
     {
         $a_text = str_replace("=<SimpleBulletList>", "=<br /><SimpleBulletList>", $a_text);
         $a_text = str_replace("=<SimpleNumberedList>", "=<br /><SimpleNumberedList>", $a_text);
@@ -1433,7 +1433,7 @@ class ilPCParagraph extends ilPageContent
     /**
      * Remove preceding <br />
      */
-    public function handleNextBr(string $a_str) : string
+    public function handleNextBr(string $a_str): string
     {
         // do not remove, if next line starts with a "=", otherwise two
         // headlines in a row will not be recognized
@@ -1452,7 +1452,7 @@ class ilPCParagraph extends ilPageContent
     /**
      * Remove trailing <br />
      */
-    public function removeTrailingBr(string $a_str) : string
+    public function removeTrailingBr(string $a_str): string
     {
         if (substr($a_str, strlen($a_str) - 6) == "<br />") {
             $a_str = substr($a_str, 0, strlen($a_str) - 6);
@@ -1463,7 +1463,7 @@ class ilPCParagraph extends ilPageContent
     /**
      * Need to override getType from ilPageContent to distinguish between Pararagraph and Source
      */
-    public function getType() : string
+    public function getType(): string
     {
         return ($this->getCharacteristic() == "Code")
             ? "src"
@@ -1552,7 +1552,7 @@ class ilPCParagraph extends ilPageContent
     public function getLastSavedPCId(
         ilPageObject $a_pg_obj,
         bool $a_as_ajax_str = false
-    ) : string {
+    ): string {
         $sep = "";
 
         if ($a_as_ajax_str) {
@@ -1580,7 +1580,7 @@ class ilPCParagraph extends ilPageContent
      */
     public static function handleAjaxContent(
         string $a_content
-    ) : ?array {
+    ): ?array {
         $a_content = "<dummy>" . $a_content . "</dummy>";
 
         $doc = new DOMDocument();
@@ -1712,7 +1712,7 @@ class ilPCParagraph extends ilPageContent
     /**
      * Post input2xml handling of ajax content
      */
-    public static function handleAjaxContentPost(string $text) : string
+    public static function handleAjaxContentPost(string $text): string
     {
         $text = str_replace(
             array("&lt;ul&gt;", "&lt;/ul&gt;"),
@@ -1792,7 +1792,7 @@ class ilPCParagraph extends ilPageContent
 
     public function autoLinkGlossaries(
         array $a_glos
-    ) : void {
+    ): void {
         if (is_array($a_glos) && count($a_glos) > 0) {
             // check which terms occur in the text (we may
             // get some false positives due to the strip_tags, but
@@ -1828,7 +1828,7 @@ class ilPCParagraph extends ilPageContent
         php4DOMDocument $a_dom,
         array $a_terms,
         php4DOMElement $a_par_node = null
-    ) : void {
+    ): void {
         $par_node = null;
         // sort terms by their length (shortes first)
         // to prevent that nested tags are builded
@@ -1853,7 +1853,7 @@ class ilPCParagraph extends ilPageContent
             $parnodes = $xpath->query(".//Paragraph[@Characteristic != 'Code']", $par_node->parentNode);
         }
 
-        $strrPos = function (string $a_haystack, string $a_needle, ?int $a_offset = null) : int {
+        $strrPos = function (string $a_haystack, string $a_needle, ?int $a_offset = null): int {
             if (function_exists("mb_strpos")) {
                 return mb_strrpos($a_haystack, $a_needle, $a_offset, "UTF-8");
             } else {
@@ -1968,7 +1968,7 @@ class ilPCParagraph extends ilPageContent
     public static function autoLinkGlossariesPage(
         ilPageObject $a_page,
         array $a_terms
-    ) : void {
+    ): void {
         $a_page->buildDom();
         $a_dom = $a_page->getDom();
 
@@ -1985,7 +1985,7 @@ class ilPCParagraph extends ilPageContent
         DOMDocument $a_domdoc,
         string $a_xml,
         bool $a_creation
-    ) : void {
+    ): void {
         // pc paragraph
         self::saveMetaKeywords($a_page, $a_domdoc);
         self::saveAnchors($a_page, $a_domdoc);
@@ -1996,7 +1996,7 @@ class ilPCParagraph extends ilPageContent
      */
     public static function beforePageDelete(
         ilPageObject $a_page
-    ) : void {
+    ): void {
         // delete anchors
         self::_deleteAnchors($a_page->getParentType(), $a_page->getId(), $a_page->getLanguage());
     }
@@ -2009,7 +2009,7 @@ class ilPCParagraph extends ilPageContent
         DOMDocument $a_old_domdoc,
         string $a_old_xml,
         int $a_old_nr
-    ) : void {
+    ): void {
     }
 
     /**
@@ -2018,7 +2018,7 @@ class ilPCParagraph extends ilPageContent
     public static function saveAnchors(
         ilPageObject $a_page,
         DOMDocument $a_domdoc
-    ) : void {
+    ): void {
         self::_deleteAnchors($a_page->getParentType(), $a_page->getId(), $a_page->getLanguage());
 
         // get all anchors
@@ -2041,7 +2041,7 @@ class ilPCParagraph extends ilPageContent
         string $a_parent_type,
         int $a_page_id,
         string $a_page_lang
-    ) : void {
+    ): void {
         global $DIC;
 
         $ilDB = $DIC->database();
@@ -2062,7 +2062,7 @@ class ilPCParagraph extends ilPageContent
         int $a_page_id,
         string $a_page_lang,
         string $a_anchor_name
-    ) : void {
+    ): void {
         global $DIC;
 
         $ilDB = $DIC->database();
@@ -2083,7 +2083,7 @@ class ilPCParagraph extends ilPageContent
         string $a_parent_type,
         int $a_page_id,
         string $a_page_lang = "-"
-    ) : array {
+    ): array {
         global $DIC;
 
         $ilDB = $DIC->database();
@@ -2111,7 +2111,7 @@ class ilPCParagraph extends ilPageContent
     public static function saveMetaKeywords(
         ilPageObject $a_page,
         DOMDocument $a_domdoc
-    ) : void {
+    ): void {
         // not nice, should be set by context per method
         if ($a_page->getParentType() == "gdf" ||
             $a_page->getParentType() == "lm") {
@@ -2168,7 +2168,7 @@ class ilPCParagraph extends ilPageContent
         }
     }
 
-    public function getJavascriptFiles(string $a_mode) : array
+    public function getJavascriptFiles(string $a_mode): array
     {
         $adve_settings = new ilSetting("adve");
 
@@ -2179,7 +2179,7 @@ class ilPCParagraph extends ilPageContent
         return array();
     }
 
-    public function getOnloadCode(string $a_mode) : array
+    public function getOnloadCode(string $a_mode): array
     {
         $adve_settings = new ilSetting("adve");
 
@@ -2190,7 +2190,7 @@ class ilPCParagraph extends ilPageContent
         return array();
     }
 
-    public function getModel() : ?stdClass
+    public function getModel(): ?stdClass
     {
         $model = new \stdClass();
         $s_text = $this->getText();

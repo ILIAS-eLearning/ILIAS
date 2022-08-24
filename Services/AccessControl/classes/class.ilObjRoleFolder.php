@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -14,7 +16,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * Class ilObjRoleFolder
  * @author     Stefan Meyer <meyer@leifos.com>
@@ -28,7 +30,7 @@ class ilObjRoleFolder extends ilObject
         parent::__construct($a_id, $a_call_by_reference);
     }
 
-    public function read() : void
+    public function read(): void
     {
         parent::read();
 
@@ -38,7 +40,7 @@ class ilObjRoleFolder extends ilObject
         }
     }
 
-    public function delete() : bool
+    public function delete(): bool
     {
         // always call parent delete function first!!
         if (!parent::delete()) {
@@ -58,7 +60,7 @@ class ilObjRoleFolder extends ilObject
     /**
      * creates a local role in current rolefolder (this object)
      */
-    public function createRole(string $a_title, string $a_desc, int $a_import_id = 0) : ilObjRole
+    public function createRole(string $a_title, string $a_desc, int $a_import_id = 0): ilObjRole
     {
         global $DIC;
 

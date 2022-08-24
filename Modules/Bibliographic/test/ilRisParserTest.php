@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 use PHPUnit\Framework\TestCase;
 use ILIAS\DI\Container;
 use ILIAS\ResourceStorage\Services;
@@ -23,24 +25,24 @@ use ILIAS\ResourceStorage\Services;
 class ilRisParserTest extends TestCase
 {
     private ?\ILIAS\DI\Container $dic_backup = null;
-    
-    protected function setUp() : void
+
+    protected function setUp(): void
     {
         global $DIC;
         $this->dic_backup = is_object($DIC) ? clone $DIC : $DIC;
-        
+
         $DIC = new Container();
         $DIC['resource_storage'] = $this->createMock(Services::class);
         $DIC['ilDB'] = $this->createMock(ilDBInterface::class);
     }
-    
-    protected function tearDown() : void
+
+    protected function tearDown(): void
     {
         global $DIC;
         $DIC = $this->dic_backup;
     }
-    
-    public function testParseRisAsArray() : void
+
+    public function testParseRisAsArray(): void
     {
         $ilBiblEntryFactory = $this->createMock(ilBiblEntryFactoryInterface::class);
         $ilBiblFieldFactory = $this->createMock(ilBiblFieldFactoryInterface::class);
@@ -52,13 +54,13 @@ class ilRisParserTest extends TestCase
         );
         $reader->setFileContent($this->getRisContent());
         $content = $reader->parseContent();
-        
+
         $this->assertIsArray($content);
         $this->assertEquals(2, count($content));
-        
+
         // First item
         $first_item = $content[0];
-        
+
         $this->assertEquals('BOOK', $first_item['TY']);
         $this->assertEquals('Schrode, Paula, Simon, Udo Gerald', $first_item['A2']);
         $this->assertEquals('Die Sunna leben', $first_item['T1']);
@@ -69,10 +71,10 @@ class ilRisParserTest extends TestCase
         $this->assertEquals('Deutschland, Islam, Religionsausübung, Kongress', $first_item['KW']);
         $this->assertEquals('250 S.', $first_item['EP']);
         $this->assertEquals('978-3-89913-722-4', $first_item['SN']);
-        
+
         // Second item
         $second_item = $content[1];
-    
+
         $this->assertEquals('JOURNAL', $second_item['TY']);
         $this->assertEquals('Gienow-Hecht, Jessica C. E.', $second_item['A2']);
         $this->assertEquals('Searching for a cultural diplomacy', $second_item['T1']);
@@ -83,32 +85,32 @@ class ilRisParserTest extends TestCase
         $this->assertEquals('XII, 265 S.', $second_item['EP']);
         $this->assertEquals('978-1-84545-746-4', $second_item['SN']);
     }
-    
-    public function testParseRisAsItems() : void
+
+    public function testParseRisAsItems(): void
     {
         $ilBiblEntryFactory = $this->createMock(ilBiblEntryFactoryInterface::class);
         $ilBiblFieldFactory = $this->createMock(ilBiblFieldFactoryInterface::class);
         $ilBiblAttributeFactory = $this->createMock(ilBiblAttributeFactoryInterface::class);
         $ilObjBibliographic = $this->createMock(ilObjBibliographic::class);
-        
+
         $reader = new ilBiblRisFileReader(
             $ilBiblEntryFactory,
             $ilBiblFieldFactory,
             $ilBiblAttributeFactory
         );
         $reader->setFileContent($this->getRisContent());
-        
+
         $ilBiblEntryFactory->expects($this->atLeast(2))
                            ->method('getEmptyInstance')
                            ->willReturnOnConsecutiveCalls(new ilBiblEntry(), new ilBiblEntry());
-        
-        
+
+
         $content = $reader->parseContentToEntries($ilObjBibliographic);
-    
+
         $this->assertIsArray($content);
         $this->assertEquals(2, count($content));
         $this->assertContainsOnlyInstancesOf(ilBiblEntry::class, $content);
-        
+
         // First item
         /** @var ilBiblEntry $first_item */
         $first_item = $content[0];
@@ -118,8 +120,8 @@ class ilRisParserTest extends TestCase
         $second_item = $content[1];
         $this->assertEquals('JOURNAL', $second_item->getType());
     }
-    
-    protected function getRisContent() : string
+
+    protected function getRisContent(): string
     {
         return 'TY  - BOOK
 A2  - Schrode, Paula

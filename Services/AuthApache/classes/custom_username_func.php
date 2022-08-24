@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /******************************************************************************
  *
@@ -16,7 +18,7 @@
 
 class ApacheCustom
 {
-    public static function getUsername() : string
+    public static function getUsername(): string
     {
         /*
          * enter your custom login-name resolve function here

@@ -1,4 +1,6 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -14,14 +16,14 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * Activation Checker. Keep this class small, since it is included, even if WebDav
  * is deactivated.
  */
 class ilDAVActivationChecker
 {
-    public static function _isActive() : bool
+    public static function _isActive(): bool
     {
         $settings = new ilSetting('webdav');
         return $settings->get('webdav_enabled', '0') === '1';

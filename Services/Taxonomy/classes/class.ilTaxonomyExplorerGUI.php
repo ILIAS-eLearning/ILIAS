@@ -65,7 +65,7 @@ class ilTaxonomyExplorerGUI extends ilTreeExplorerGUI
     /**
      * @inheritDoc
      */
-    public function getNodeContent($a_node) : string
+    public function getNodeContent($a_node): string
     {
         $rn = $this->getRootNode();
         if ($rn["child"] == $a_node["child"]) {
@@ -80,7 +80,7 @@ class ilTaxonomyExplorerGUI extends ilTreeExplorerGUI
      * @return string
      * @throws ilCtrlException
      */
-    public function getNodeHref($a_node) : string
+    public function getNodeHref($a_node): string
     {
         $ilCtrl = $this->ctrl;
 
@@ -106,7 +106,7 @@ class ilTaxonomyExplorerGUI extends ilTreeExplorerGUI
      * @param array|object $a_node
      * @return string
      */
-    public function getNodeIcon($a_node) : string
+    public function getNodeIcon($a_node): string
     {
         return ilUtil::getImagePath("icon_taxn.svg");
     }
@@ -115,13 +115,13 @@ class ilTaxonomyExplorerGUI extends ilTreeExplorerGUI
      * @param array|object $a_node
      * @return bool
      */
-    public function isNodeHighlighted($a_node) : bool
+    public function isNodeHighlighted($a_node): bool
     {
         return (!$this->onclick && $a_node["child"] == $this->requested_tax_node) ||
             ($this->onclick && is_array($this->selected_nodes) && in_array($a_node["child"], $this->selected_nodes));
     }
 
-    public function setOnClick(string $a_value) : void
+    public function setOnClick(string $a_value): void
     {
         $this->onclick = $a_value;
     }
@@ -130,7 +130,7 @@ class ilTaxonomyExplorerGUI extends ilTreeExplorerGUI
      * @param array|object $a_node
      * @return string
      */
-    public function getNodeOnClick($a_node) : string
+    public function getNodeOnClick($a_node): string
     {
         if ($this->onclick !== '') {
             return str_replace("{NODE_CHILD}", $a_node["child"], $this->onclick);

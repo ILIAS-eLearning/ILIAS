@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -26,7 +28,7 @@ class ilBuddySystemRelationCollectionTest extends ilBuddySystemBaseTest
      * @dataProvider provideElements
      * @param array $elements
      */
-    public function testElementsCanBeInitiallyAdded(array $elements) : void
+    public function testElementsCanBeInitiallyAdded(array $elements): void
     {
         $collection = new ilBuddySystemRelationCollection($elements);
 
@@ -46,7 +48,7 @@ class ilBuddySystemRelationCollectionTest extends ilBuddySystemBaseTest
      * @dataProvider provideElements
      * @param array $elements
      */
-    public function testElementsCanBeAddedAndRemoved(array $elements) : void
+    public function testElementsCanBeAddedAndRemoved(array $elements): void
     {
         $collection = new ilBuddySystemRelationCollection();
         $this->assertTrue($collection->isEmpty());
@@ -98,7 +100,7 @@ class ilBuddySystemRelationCollectionTest extends ilBuddySystemBaseTest
      * @dataProvider provideElements
      * @param array $elements
      */
-    public function testIterator(array $elements) : void
+    public function testIterator(array $elements): void
     {
         $collection = new ilBuddySystemRelationCollection($elements);
         $iterations = 0;
@@ -109,21 +111,21 @@ class ilBuddySystemRelationCollectionTest extends ilBuddySystemBaseTest
         $this->assertCount($iterations, $elements, 'Number of iterations not match');
     }
 
-    public function testRemovingAnNonExistingElementRaisesAnException() : void
+    public function testRemovingAnNonExistingElementRaisesAnException(): void
     {
         $this->expectException(InvalidArgumentException::class);
         $collection = new ilBuddySystemRelationCollection();
         $collection->removeElement(5);
     }
 
-    public function testRemovingAnNonExistingElementByKeyRaisesAnException() : void
+    public function testRemovingAnNonExistingElementByKeyRaisesAnException(): void
     {
         $this->expectException(InvalidArgumentException::class);
         $collection = new ilBuddySystemRelationCollection();
         $collection->remove('phpunit');
     }
 
-    public function testElementsCanBeSliced() : void
+    public function testElementsCanBeSliced(): void
     {
         $collection = new ilBuddySystemRelationCollection();
         $collection->add(1);
@@ -136,7 +138,7 @@ class ilBuddySystemRelationCollectionTest extends ilBuddySystemBaseTest
         })->toArray());
     }
 
-    public function testElementsCanBeFiltered() : void
+    public function testElementsCanBeFiltered(): void
     {
         $collection = new ilBuddySystemRelationCollection();
         $collection->add(1);
@@ -147,7 +149,7 @@ class ilBuddySystemRelationCollectionTest extends ilBuddySystemBaseTest
         $this->assertSame([3], $collection->slice(2, 1)->getValues());
     }
 
-    public function provideElements() : array
+    public function provideElements(): array
     {
         $relation1 = $this->getMockBuilder(ilBuddySystemRelation::class)->disableOriginalConstructor()->getMock();
         $relation2 = $this->getMockBuilder(ilBuddySystemRelation::class)->disableOriginalConstructor()->getMock();

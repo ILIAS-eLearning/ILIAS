@@ -25,7 +25,6 @@
  */
 class ilOrgUnitImporter extends ilXmlImporter
 {
-
     /* @var array $lang_var => language variable, import_id => the reference or import id, depending on the ou_id_type */
     public array $errors = [];
     /* @var array lang_var => language variable, import_id => the reference or import id, depending on the ou_id_type */
@@ -78,7 +77,7 @@ class ilOrgUnitImporter extends ilXmlImporter
         }
     }
 
-    public function hasMoreThanOneMatch(string $external_id) : bool
+    public function hasMoreThanOneMatch(string $external_id): bool
     {
         $query = "SELECT * FROM object_data " .
             "INNER JOIN object_reference as ref on ref.obj_id = object_data.obj_id and ref.deleted is null " .
@@ -94,37 +93,37 @@ class ilOrgUnitImporter extends ilXmlImporter
         }
     }
 
-    public function hasErrors() : bool
+    public function hasErrors(): bool
     {
         return count($this->errors) != 0;
     }
 
-    public function hasWarnings() : bool
+    public function hasWarnings(): bool
     {
         return count($this->warnings) != 0;
     }
 
-    public function addWarning(string $lang_var, string $import_id, ?string $action = null) : void
+    public function addWarning(string $lang_var, string $import_id, ?string $action = null): void
     {
         $this->warnings[] = array('lang_var' => $lang_var, 'import_id' => $import_id, 'action' => $action);
     }
 
-    public function addError(string $lang_var, string $import_id, ?string $action = null) : void
+    public function addError(string $lang_var, string $import_id, ?string $action = null): void
     {
         $this->errors[] = array('lang_var' => $lang_var, 'import_id' => $import_id, 'action' => $action);
     }
 
-    public function getErrors() : array
+    public function getErrors(): array
     {
         return $this->errors;
     }
 
-    public function getWarnings() : array
+    public function getWarnings(): array
     {
         return $this->warnings;
     }
 
-    public function getStats() : array
+    public function getStats(): array
     {
         return $this->stats;
     }
@@ -135,7 +134,7 @@ class ilOrgUnitImporter extends ilXmlImporter
         string $a_id,
         string $a_xml,
         ilImportMapping $a_mapping
-    ) : void {
+    ): void {
         $container_mappings = $a_mapping->getMappingsOfEntity("Services/Container", "objs");
         foreach ($container_mappings as $old => $new) {
             if (ilObject2::_lookupType($new) === 'orgu') {

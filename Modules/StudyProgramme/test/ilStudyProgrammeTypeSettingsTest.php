@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -23,14 +25,14 @@ class ilStudyProgrammeTypeSettingsTest extends TestCase
     private const VALID_TYPE_1 = 11;
     private const VALID_TYPE_2 = 22;
 
-    public function testSuccessCreate() : void
+    public function testSuccessCreate(): void
     {
         $obj = new ilStudyProgrammeTypeSettings(self::VALID_TYPE_1);
 
         $this->assertEquals(self::VALID_TYPE_1, $obj->getTypeId());
     }
 
-    public function testSuccessfulWithTypeId() : void
+    public function testSuccessfulWithTypeId(): void
     {
         $obj = new ilStudyProgrammeTypeSettings(self::VALID_TYPE_1);
 
@@ -40,7 +42,7 @@ class ilStudyProgrammeTypeSettingsTest extends TestCase
         $this->assertEquals(self::VALID_TYPE_2, $new->getTypeId());
     }
 
-    public function testToFormInput() : void
+    public function testToFormInput(): void
     {
         $lng = $this->createMock(ilLanguage::class);
         $df = new ILIAS\Data\Factory();

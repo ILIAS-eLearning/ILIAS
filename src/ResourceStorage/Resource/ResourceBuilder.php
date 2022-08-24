@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -96,7 +98,7 @@ class ResourceBuilder
     public function new(
         UploadResult $result,
         InfoResolver $info_resolver
-    ) : StorableResource {
+    ): StorableResource {
         $resource = $this->resource_repository->blank($this->primary_storage_handler->getIdentificationGenerator()->getUniqueResourceIdentification());
 
         return $this->append($resource, $result, $info_resolver);
@@ -106,13 +108,13 @@ class ResourceBuilder
         FileStream $stream,
         InfoResolver $info_resolver,
         bool $keep_original = false
-    ) : StorableResource {
+    ): StorableResource {
         $resource = $this->resource_repository->blank($this->primary_storage_handler->getIdentificationGenerator()->getUniqueResourceIdentification());
 
         return $this->appendFromStream($resource, $stream, $info_resolver, $keep_original);
     }
 
-    public function newBlank() : StorableResource
+    public function newBlank(): StorableResource
     {
         $resource = $this->resource_repository->blank($this->primary_storage_handler->getIdentificationGenerator()->getUniqueResourceIdentification());
         $resource->setStorageID($this->primary_storage_handler->getID());
@@ -128,7 +130,7 @@ class ResourceBuilder
         StorableResource $resource,
         UploadResult $result,
         InfoResolver $info_resolver
-    ) : StorableResource {
+    ): StorableResource {
         $revision = $this->revision_repository->blankFromUpload($info_resolver, $resource, $result);
         $revision = $this->populateRevisionInfo($revision, $info_resolver);
 
@@ -145,7 +147,7 @@ class ResourceBuilder
         StorableResource $resource,
         UploadResult $result,
         InfoResolver $info_resolver
-    ) : StorableResource {
+    ): StorableResource {
         $revision = $this->revision_repository->blankFromUpload($info_resolver, $resource, $result);
         $revision = $this->populateRevisionInfo($revision, $info_resolver);
 
@@ -164,7 +166,7 @@ class ResourceBuilder
         FileStream $stream,
         InfoResolver $info_resolver,
         bool $keep_original = false
-    ) : StorableResource {
+    ): StorableResource {
         $revision = $this->revision_repository->blankFromStream($info_resolver, $resource, $stream, $keep_original);
         $revision = $this->populateRevisionInfo($revision, $info_resolver);
 
@@ -179,7 +181,7 @@ class ResourceBuilder
         FileStream $stream,
         InfoResolver $info_resolver,
         bool $keep_original = false
-    ) : StorableResource {
+    ): StorableResource {
         $revision = $this->revision_repository->blankFromStream($info_resolver, $resource, $stream, $keep_original);
         $revision = $this->populateRevisionInfo($revision, $info_resolver);
 
@@ -196,7 +198,7 @@ class ResourceBuilder
     public function appendFromRevision(
         StorableResource $resource,
         int $revision_number
-    ) : StorableResource {
+    ): StorableResource {
         $existing_revision = $resource->getSpecificRevision($revision_number);
         if ($existing_revision instanceof FileRevision) {
             $info_resolver = new ClonedRevisionInfoResolver(
@@ -222,7 +224,7 @@ class ResourceBuilder
     /**
      * @description check if a resource exists
      */
-    public function has(ResourceIdentification $identification) : bool
+    public function has(ResourceIdentification $identification): bool
     {
         return $this->resource_repository->has($identification);
     }
@@ -231,7 +233,7 @@ class ResourceBuilder
      * @description after you have modified a resource, you can store it here
      * @throws \ILIAS\ResourceStorage\Policy\FileNamePolicyException
      */
-    public function store(StorableResource $resource) : void
+    public function store(StorableResource $resource): void
     {
         foreach ($resource->getAllRevisions() as $revision) {
             $this->file_name_policy->check($revision->getInformation()->getSuffix());
@@ -242,7 +244,7 @@ class ResourceBuilder
             $this->revision_repository->getNamesForLocking(),
             $this->information_repository->getNamesForLocking(),
             $this->stakeholder_repository->getNamesForLocking(),
-        ), function () use ($resource) : void {
+        ), function () use ($resource): void {
             $this->resource_repository->store($resource);
 
             foreach ($resource->getAllRevisions() as $revision) {
@@ -260,7 +262,7 @@ class ResourceBuilder
     /**
      * @description Clone anexisting resource with all it's revisions, stakeholders and information
      */
-    public function clone(StorableResource $resource) : StorableResource
+    public function clone(StorableResource $resource): StorableResource
     {
         $new_resource = $this->newBlank();
         foreach ($resource->getStakeholders() as $stakeholder) {
@@ -294,7 +296,7 @@ class ResourceBuilder
      * @description  Store one Revision
      * @throws \ILIAS\ResourceStorage\Policy\FileNamePolicyException
      */
-    public function storeRevision(Revision $revision) : void
+    public function storeRevision(Revision $revision): void
     {
         if ($revision instanceof UploadedFileRevision) {
             // check policies
@@ -315,7 +317,7 @@ class ResourceBuilder
      * @throws ResourceNotFoundException
      * @description Get a Resource out of a Identification
      */
-    public function get(ResourceIdentification $identification) : StorableResource
+    public function get(ResourceIdentification $identification): StorableResource
     {
         if (isset($this->resource_cache[$identification->serialize()])) {
             return $this->resource_cache[$identification->serialize()];
@@ -332,7 +334,7 @@ class ResourceBuilder
      * @param ResourceStakeholder|null $stakeholder
      * @return bool whether ResourceStakeholders handled this successful
      */
-    public function remove(StorableResource $resource, ResourceStakeholder $stakeholder = null) : bool
+    public function remove(StorableResource $resource, ResourceStakeholder $stakeholder = null): bool
     {
         $sucessful = true;
         if ($stakeholder instanceof ResourceStakeholder) {
@@ -357,7 +359,7 @@ class ResourceBuilder
         return $sucessful;
     }
 
-    public function removeRevision(StorableResource $resource, int $revision_number) : void
+    public function removeRevision(StorableResource $resource, int $revision_number): void
     {
         $reveision_to_delete = $resource->getSpecificRevision($revision_number);
         if ($reveision_to_delete !== null) {
@@ -366,7 +368,7 @@ class ResourceBuilder
         $this->store($resource);
     }
 
-    private function deleteRevision(StorableResource $resource, Revision $revision) : void
+    private function deleteRevision(StorableResource $resource, Revision $revision): void
     {
         try {
             $this->storage_handler_factory->getHandlerForResource($resource)->deleteRevision($revision);
@@ -381,7 +383,7 @@ class ResourceBuilder
     /**
      * @return \Iterator<\ILIAS\ResourceStorage\Resource\StorableResource>
      */
-    public function getAll() : \Iterator
+    public function getAll(): \Iterator
     {
         /**
          * @var $resource StorableResource
@@ -391,7 +393,7 @@ class ResourceBuilder
         }
     }
 
-    private function populateNakedResourceWithRevisionsAndStakeholders(StorableResource $resource) : StorableResource
+    private function populateNakedResourceWithRevisionsAndStakeholders(StorableResource $resource): StorableResource
     {
         $revisions = $this->revision_repository->get($resource);
         $resource->setRevisions($revisions);
@@ -408,7 +410,7 @@ class ResourceBuilder
         return $resource;
     }
 
-    private function populateRevisionInfo(Revision $revision, InfoResolver $info_resolver) : Revision
+    private function populateRevisionInfo(Revision $revision, InfoResolver $info_resolver): Revision
     {
         $info = $revision->getInformation();
 

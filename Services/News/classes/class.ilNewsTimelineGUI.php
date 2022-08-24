@@ -71,7 +71,7 @@ class ilNewsTimelineGUI
     /**
      * Set user can edit other users postings
      */
-    public function setUserEditAll(bool $a_val) : void
+    public function setUserEditAll(bool $a_val): void
     {
         $this->user_edit_all = $a_val;
     }
@@ -79,7 +79,7 @@ class ilNewsTimelineGUI
     /**
      * Get user can edit other users postings
      */
-    public function getUserEditAll() : bool
+    public function getUserEditAll(): bool
     {
         return $this->user_edit_all;
     }
@@ -87,14 +87,14 @@ class ilNewsTimelineGUI
     public static function getInstance(
         int $a_ref_id,
         bool $a_include_auto_entries
-    ) : ilNewsTimelineGUI {
+    ): ilNewsTimelineGUI {
         return new self($a_ref_id, $a_include_auto_entries);
     }
 
     /**
      * @throws ilCtrlException
      */
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         $ctrl = $this->ctrl;
 
@@ -141,7 +141,7 @@ class ilNewsTimelineGUI
         }
     }
 
-    public function show(ilPropertyFormGUI $form = null) : void
+    public function show(ilPropertyFormGUI $form = null): void
     {
         // toolbar
         if ($this->access->checkAccess("news_add_news", "", $this->ref_id)) {
@@ -172,7 +172,7 @@ class ilNewsTimelineGUI
         $timeline = ilTimelineGUI::getInstance();
 
         // get like widget
-        $obj_ids = array_unique(array_map(static function (array $a) : int {
+        $obj_ids = array_unique(array_map(static function (array $a): int {
             return (int) $a["context_obj_id"];
         }, $news_data));
         $likef = new ilLikeFactoryGUI();
@@ -221,7 +221,7 @@ class ilNewsTimelineGUI
         ilMediaPlayerGUI::initJavascript($this->tpl);
     }
 
-    public function loadMore() : void
+    public function loadMore(): void
     {
         $news_item = new ilNewsItem();
         $news_item->setContextObjId($this->ctrl->getContextObjId());
@@ -246,7 +246,7 @@ class ilNewsTimelineGUI
         $timeline = ilTimelineGUI::getInstance();
 
         // get like widget
-        $obj_ids = array_unique(array_map(static function ($a) : int {
+        $obj_ids = array_unique(array_map(static function ($a): int {
             return (int) $a["context_obj_id"];
         }, $news_data));
         $likef = new ilLikeFactoryGUI();
@@ -281,7 +281,7 @@ class ilNewsTimelineGUI
     /**
      * @throws ResponseSendingException
      */
-    protected function send(string $output) : void
+    protected function send(string $output): void
     {
         $this->http->saveResponse($this->http->response()->withBody(
             Streams::ofString($output)
@@ -290,7 +290,7 @@ class ilNewsTimelineGUI
         $this->http->close();
     }
 
-    protected function updateNewsItem() : void
+    protected function updateNewsItem(): void
     {
         if ($this->std_request->getNewsAction() === "save") {
             $this->save();
@@ -299,10 +299,10 @@ class ilNewsTimelineGUI
             $this->update();
         }
     }
-    
+
 
     // Save (ajax)
-    public function save() : void
+    public function save(): void
     {
         $form = ilNewsItemGUI::getEditForm(ilNewsItemGUI::FORM_EDIT, $this->ref_id);
         if ($form->checkInput()) {
@@ -344,7 +344,7 @@ class ilNewsTimelineGUI
 
 
     // Update (ajax)
-    public function update() : void
+    public function update(): void
     {
         $form = ilNewsItemGUI::getEditForm(ilNewsItemGUI::FORM_EDIT, $this->ref_id);
         if ($form->checkInput()) {
@@ -394,7 +394,7 @@ class ilNewsTimelineGUI
     }
 
     // Remove (ajax)
-    public function remove() : void
+    public function remove(): void
     {
         $news_item = new ilNewsItem($this->std_request->getNewsId());
         if ($this->getUserEditAll() || $this->user->getId() === $news_item->getUserId()) {
@@ -403,7 +403,7 @@ class ilNewsTimelineGUI
         $this->send("");
     }
 
-    protected function getEditModal($form = null) : string
+    protected function getEditModal($form = null): string
     {
         $modal = ilModalGUI::getInstance();
         $modal->setHeading($this->lng->txt("edit"));
@@ -429,7 +429,7 @@ class ilNewsTimelineGUI
         return $modal->getHTML();
     }
 
-    protected function getDeleteModal() : string
+    protected function getDeleteModal(): string
     {
         $modal = ilModalGUI::getInstance();
         $modal->setHeading($this->lng->txt("delete"));
@@ -445,7 +445,7 @@ class ilNewsTimelineGUI
         $cancel->setCaption("cancel");
         $cancel->setId("news_btn_cancel_delete");
         $modal->addButton($cancel);
-        
+
         $modal->setBody("<p id='news_delete_news_title'></p>" .
             ilUtil::getSystemMessageHTML($this->lng->txt("news_really_delete_news"), "question"));
 

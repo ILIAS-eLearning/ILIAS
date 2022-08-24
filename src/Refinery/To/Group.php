@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -46,7 +48,7 @@ class Group
      * Returns an object that allows to transform a value
      * to a string value
      */
-    public function string() : Transformation
+    public function string(): Transformation
     {
         return new StringTransformation();
     }
@@ -55,7 +57,7 @@ class Group
      * Returns an object that allows to transform a value
      * to an integer value
      */
-    public function int() : Transformation
+    public function int(): Transformation
     {
         return new IntegerTransformation();
     }
@@ -64,7 +66,7 @@ class Group
      * Returns an object that allows to transform a value
      * to a float value
      */
-    public function float() : Transformation
+    public function float(): Transformation
     {
         return new FloatTransformation();
     }
@@ -73,7 +75,7 @@ class Group
      * Returns an object that allows to transform a value
      * to a boolean value
      */
-    public function bool() : Transformation
+    public function bool(): Transformation
     {
         return new BooleanTransformation();
     }
@@ -86,7 +88,7 @@ class Group
      * Using `ILIAS\Refinery\Factory::to()` will check if the value is identical
      * to the value after the transformation.
      */
-    public function listOf(Transformation $transformation) : Transformation
+    public function listOf(Transformation $transformation): Transformation
     {
         return new ListTransformation($transformation);
     }
@@ -99,7 +101,7 @@ class Group
      * Using `ILIAS\Refinery\Factory::to()` will check if the value is identical
      * to the value after the transformation.
      */
-    public function dictOf(Transformation $transformation) : Transformation
+    public function dictOf(Transformation $transformation): Transformation
     {
         return new DictionaryTransformation($transformation);
     }
@@ -118,7 +120,7 @@ class Group
      * @param Transformation[] $transformation
      * @return Transformation
      */
-    public function tupleOf(array $transformation) : Transformation
+    public function tupleOf(array $transformation): Transformation
     {
         return new TupleTransformation($transformation);
     }
@@ -139,7 +141,7 @@ class Group
      * @param array<string, Transformation> $transformations
      * @return Transformation
      */
-    public function recordOf(array $transformations) : Transformation
+    public function recordOf(array $transformations): Transformation
     {
         return new RecordTransformation($transformations);
     }
@@ -152,7 +154,7 @@ class Group
      * @param string|array{0: object, 1: string} $classNameOrArray
      * @return Transformation
      */
-    public function toNew($classNameOrArray) : Transformation
+    public function toNew($classNameOrArray): Transformation
     {
         if (is_array($classNameOrArray)) {
             if (2 !== count($classNameOrArray)) {
@@ -168,12 +170,12 @@ class Group
      *                           with the methods provided by the `\ILIAS\Data\Factory`
      * @return Transformation
      */
-    public function data(string $dataType) : Transformation
+    public function data(string $dataType): Transformation
     {
         return $this->toNew([$this->dataFactory, $dataType]);
     }
 
-    public function dateTime() : Transformation
+    public function dateTime(): Transformation
     {
         return new DateTimeTransformation();
     }

@@ -15,7 +15,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * Class ilStaticCache
  * @beta
@@ -24,19 +24,19 @@
  */
 class ilStaticCache extends ilGlobalCacheService
 {
-    protected function getActive() : bool
+    protected function getActive(): bool
     {
         return true;
     }
 
-    protected function getInstallable() : bool
+    protected function getInstallable(): bool
     {
         return true;
     }
 
     protected static array $cache = array();
 
-    public function exists(string $key) : bool
+    public function exists(string $key): bool
     {
         return isset(self::$cache[$this->getComponent()][$key]);
     }
@@ -44,7 +44,7 @@ class ilStaticCache extends ilGlobalCacheService
     /**
      * @param mixed $serialized_value
      */
-    public function set(string $key, $serialized_value, int $ttl = null) : bool
+    public function set(string $key, $serialized_value, int $ttl = null): bool
     {
         self::$cache[$this->getComponent()][$key] = $serialized_value;
         return true;
@@ -58,14 +58,14 @@ class ilStaticCache extends ilGlobalCacheService
         return self::$cache[$this->getComponent()][$key];
     }
 
-    public function delete(string $key) : bool
+    public function delete(string $key): bool
     {
         unset(self::$cache[$this->getComponent()][$key]);
 
         return true;
     }
 
-    public function flush(bool $complete = false) : bool
+    public function flush(bool $complete = false): bool
     {
         if ($complete) {
             self::$cache = array();

@@ -24,7 +24,6 @@ use ILIAS\Modules\OrgUnit\ARHelper\BaseCommands;
  */
 class ilOrgUnitDefaultPermissionTableGUI extends ilTable2GUI
 {
-
     protected string $context_string;
     private ?ilOrgUnitPermission $ilOrgUnitPermission = null;
 
@@ -63,7 +62,7 @@ class ilOrgUnitDefaultPermissionTableGUI extends ilTable2GUI
         $this->setCloseFormTag(false);
     }
 
-    public function start() : void
+    public function start(): void
     {
         $this->setEnableHeader(false);
         $this->setOpenFormTag(true);
@@ -72,13 +71,13 @@ class ilOrgUnitDefaultPermissionTableGUI extends ilTable2GUI
         $this->addMultiCommand(BaseCommands::CMD_UPDATE, $this->lng->txt('save'));
     }
 
-    public function end() : void
+    public function end(): void
     {
         $this->setCloseFormTag(true);
         $this->addCommandButton(BaseCommands::CMD_UPDATE, $this->lng->txt('save'));
     }
 
-    public function fillRow(array $a_set) : void
+    public function fillRow(array $a_set): void
     {
         $this->tpl->setVariable('OBJ_TYPE', $this->context_string);
         $this->tpl->setVariable('PERM_PERM_ID', $a_set['operation_id']);

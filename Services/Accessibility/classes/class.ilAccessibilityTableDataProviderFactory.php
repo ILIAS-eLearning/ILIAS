@@ -25,7 +25,7 @@ class ilAccessibilityTableDataProviderFactory
 
     protected ?ilDBInterface $db = null;
 
-    public function getByContext(string $context) : ilAccessibilityTableDataProvider
+    public function getByContext(string $context): ilAccessibilityTableDataProvider
     {
         switch ($context) {
             case self::CONTEXT_DOCUMENTS:
@@ -39,7 +39,7 @@ class ilAccessibilityTableDataProviderFactory
     /**
      * @throws ilAccessibilityMissingDatabaseAdapterException
      */
-    protected function validateConfiguration(array $mandatoryMemberVariables) : void
+    protected function validateConfiguration(array $mandatoryMemberVariables): void
     {
         foreach ($mandatoryMemberVariables as $member) {
             if (null === $this->{$member}) {
@@ -52,7 +52,7 @@ class ilAccessibilityTableDataProviderFactory
     /**
      * @throws InvalidArgumentException
      */
-    protected function getExceptionByMember(string $member) : ilAccessibilityMissingDatabaseAdapterException
+    protected function getExceptionByMember(string $member): ilAccessibilityMissingDatabaseAdapterException
     {
         switch ($member) {
             case 'db':
@@ -65,12 +65,12 @@ class ilAccessibilityTableDataProviderFactory
         }
     }
 
-    public function setDatabaseAdapter(?ilDBInterface $db) : void
+    public function setDatabaseAdapter(?ilDBInterface $db): void
     {
         $this->db = $db;
     }
 
-    public function getDatabaseAdapter() : ?ilDBInterface
+    public function getDatabaseAdapter(): ?ilDBInterface
     {
         return $this->db;
     }

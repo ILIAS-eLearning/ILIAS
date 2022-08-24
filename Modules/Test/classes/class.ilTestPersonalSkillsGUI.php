@@ -1,4 +1,5 @@
 <?php
+
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 
@@ -38,7 +39,7 @@ class ilTestPersonalSkillsGUI
         $this->testId = $testId;
     }
 
-    public function getHTML() : string
+    public function getHTML(): string
     {
         $gui = new ilPersonalSkillsGUI();
 
@@ -101,7 +102,7 @@ class ilTestPersonalSkillsGUI
     /**
      * @return int
      */
-    public function getTestId() : int
+    public function getTestId(): int
     {
         return $this->testId;
     }

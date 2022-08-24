@@ -34,9 +34,9 @@ class ilSurveyCodesTableGUI extends ilTable2GUI
 
         $this->lng = $lng;
         $this->ctrl = $ilCtrl;
-        
+
         $this->setFormName('codesform');
-        
+
         $this->addColumn('', '', '1%');
         $this->addColumn($this->lng->txt("survey_code"), 'code', '');
         $this->addColumn($this->lng->txt("email"), 'email', '');
@@ -46,13 +46,13 @@ class ilSurveyCodesTableGUI extends ilTable2GUI
         $this->addColumn($this->lng->txt("survey_code_used"), 'used', '');
         $this->addColumn($this->lng->txt("mail_sent_short"), 'sent', '');
         $this->addColumn($this->lng->txt("survey_code_url"));
-    
+
         $this->setRowTemplate("tpl.il_svy_svy_codes_row.html", "Modules/Survey");
 
         $this->addMultiCommand('editCodes', $this->lng->txt('edit'));
         $this->addMultiCommand('exportCodes', $this->lng->txt('export'));
         $this->addMultiCommand('deleteCodesConfirm', $this->lng->txt('delete'));
-        
+
         $this->setFormAction($this->ctrl->getFormAction($a_parent_obj, $a_parent_cmd));
 
         $button = ilSubmitButton::getInstance();
@@ -60,7 +60,7 @@ class ilSurveyCodesTableGUI extends ilTable2GUI
         $button->setCommand("exportAllCodes");
         $button->setOmitPreventDoubleSubmission(true);
         $this->addCommandButtonInstance($button);
-    
+
         $this->setDefaultOrderField("code");
         $this->setDefaultOrderDirection("asc");
 
@@ -68,12 +68,12 @@ class ilSurveyCodesTableGUI extends ilTable2GUI
         $this->setSelectAllCheckbox('chb_code');
     }
 
-    protected function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set): void
     {
         $lng = $this->lng;
-                
+
         $this->tpl->setVariable('CB_CODE', $a_set['id']);
-    
+
         // :TODO: see permalink gui
         if (($a_set['href'] ?? '') !== '') {
             $this->tpl->setCurrentBlock('url');
@@ -81,9 +81,9 @@ class ilSurveyCodesTableGUI extends ilTable2GUI
             $this->tpl->setVariable("HREF", $a_set['href']);
             $this->tpl->parseCurrentBlock();
         }
-        
+
         $this->tpl->setVariable("USED", ($a_set['used']) ? $lng->txt("used") : $lng->txt("not_used"));
-        $this->tpl->setVariable("SENT", ($a_set['sent']) ?  '&#10003;' : '');
+        $this->tpl->setVariable("SENT", ($a_set['sent']) ? '&#10003;' : '');
         $this->tpl->setVariable("USED_CLASS", ($a_set['used']) ? ' smallgreen' : ' smallred');
         $this->tpl->setVariable("DATE", ilDatePresentation::formatDate(new ilDateTime($a_set['date'], IL_CAL_UNIX)));
         $this->tpl->setVariable("CODE", $a_set['code']);

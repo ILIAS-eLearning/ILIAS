@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -23,9 +25,9 @@
  */
 class ilPDStudyProgrammeExpandableListGUI extends ilPDStudyProgrammeSimpleListGUI
 {
-    const BLOCK_TYPE = "prgexpandablelist";
+    public const BLOCK_TYPE = "prgexpandablelist";
 
-    protected function shouldShowThisList() : bool
+    protected function shouldShowThisList(): bool
     {
         $cmd = $this->request_wrapper->retrieve("cmd", $this->refinery->kindlyTo()->string());
         $expand = $this->request_wrapper->retrieve("expand", $this->refinery->kindlyTo()->bool());
@@ -34,7 +36,7 @@ class ilPDStudyProgrammeExpandableListGUI extends ilPDStudyProgrammeSimpleListGU
 
     protected function new_ilStudyProgrammeAssignmentListGUI(
         ilStudyProgrammeAssignment $assignment
-    ) : ilStudyProgrammeExpandableProgressListGUI {
+    ): ilStudyProgrammeExpandableProgressListGUI {
         $prg = ilObjStudyProgramme::getInstanceByObjId($assignment->getRootId());
         $progress = $prg->getProgressForAssignment($assignment->getId());
         $progress_gui = new ilStudyProgrammeExpandableProgressListGUI($progress);

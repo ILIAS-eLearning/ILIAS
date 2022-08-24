@@ -21,9 +21,9 @@ abstract class CachedActiveRecord extends ActiveRecord
 {
     private string $_hash = '';
 
-    abstract public function getCache() : ilGlobalCache;
+    abstract public function getCache(): ilGlobalCache;
 
-    final public function getCacheIdentifier() : string
+    final public function getCacheIdentifier(): string
     {
         if ($this->getArFieldList()->getPrimaryField()) {
             return ($this->getConnectorContainerName() . "_" . $this->getPrimaryFieldValue());
@@ -32,7 +32,7 @@ abstract class CachedActiveRecord extends ActiveRecord
         return "";
     }
 
-    public function getTTL() : int
+    public function getTTL(): int
     {
         return 60;
     }
@@ -51,13 +51,13 @@ abstract class CachedActiveRecord extends ActiveRecord
         parent::__construct($primary_key);
     }
 
-    public function afterObjectLoad() : void
+    public function afterObjectLoad(): void
     {
         parent::afterObjectLoad();
         $this->_hash = $this->buildHash();
     }
 
-    private function buildHash() : string
+    private function buildHash(): string
     {
         $hashing = [];
         foreach ($this->getArFieldList()->getFields() as $field) {
@@ -67,7 +67,7 @@ abstract class CachedActiveRecord extends ActiveRecord
         return md5(serialize($hashing));
     }
 
-    public function create() : void
+    public function create(): void
     {
         $this->getCache()->flush();
         parent::create();
@@ -76,13 +76,13 @@ abstract class CachedActiveRecord extends ActiveRecord
     /**
      * @inheritDoc
      */
-    public function copy(int $new_id = 0) : \ActiveRecord
+    public function copy(int $new_id = 0): \ActiveRecord
     {
         $this->getCache()->flush();
         return parent::copy($new_id);
     }
 
-    public function read() : void
+    public function read(): void
     {
         parent::read();
         $this->_hash = $this->buildHash();

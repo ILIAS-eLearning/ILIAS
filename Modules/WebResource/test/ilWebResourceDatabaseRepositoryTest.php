@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 use PHPUnit\Framework\TestCase;
 use PHPUnit\Framework\MockObject\MockObject;
 use ILIAS\DI\Container;
@@ -30,13 +32,13 @@ class ilWebResourceDatabaseRepositoryTest extends TestCase
     protected ilObjUser $user;
     protected ilWebLinkRepository $web_link_repo;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         parent::setUp();
         $this->initDependencies();
     }
 
-    protected function initDependencies() : void
+    protected function initDependencies(): void
     {
         global $DIC;
         $this->dic = is_object($DIC) ? clone $DIC : $DIC;
@@ -66,7 +68,7 @@ class ilWebResourceDatabaseRepositoryTest extends TestCase
         bool $update_history,
         int $current_time,
         array $datetimes
-    ) : void {
+    ): void {
         $mock_db->method('quote')
                 ->willReturnCallback(function ($arg1, string $arg2) {
                     return (string) $arg1;
@@ -89,7 +91,7 @@ class ilWebResourceDatabaseRepositoryTest extends TestCase
                             ->willReturnOnConsecutiveCalls(...$datetimes);
     }
 
-    protected function setGlobal(string $name, MockObject $obj) : void
+    protected function setGlobal(string $name, MockObject $obj): void
     {
         global $DIC;
 
@@ -100,7 +102,7 @@ class ilWebResourceDatabaseRepositoryTest extends TestCase
         };
     }
 
-    protected function tearDown() : void
+    protected function tearDown(): void
     {
         global $DIC;
         $DIC = $this->dic;
@@ -110,7 +112,7 @@ class ilWebResourceDatabaseRepositoryTest extends TestCase
     /**
      * @return DateTimeImmutable&MockObject
      */
-    protected function getNewDateTimeMock(int $timestamp) : MockObject
+    protected function getNewDateTimeMock(int $timestamp): MockObject
     {
         $datetime = $this->getMockBuilder(DateTimeImmutable::class)
                          ->disableOriginalConstructor()
@@ -128,7 +130,7 @@ class ilWebResourceDatabaseRepositoryTest extends TestCase
      * @runInSeparateProcess
      * @preserveGlobalState disabled
      */
-    public function testCreateExternalItem() : void
+    public function testCreateExternalItem(): void
     {
         $mock_db = $this->getMockBuilder(ilDBInterface::class)
                         ->disableOriginalConstructor()
@@ -259,7 +261,7 @@ class ilWebResourceDatabaseRepositoryTest extends TestCase
      * @runInSeparateProcess
      * @preserveGlobalState disabled
      */
-    public function testCreateInternalItemWithBrokenParameter() : void
+    public function testCreateInternalItemWithBrokenParameter(): void
     {
         $mock_db = $this->getMockBuilder(ilDBInterface::class)
                         ->disableOriginalConstructor()
@@ -371,7 +373,7 @@ class ilWebResourceDatabaseRepositoryTest extends TestCase
      * @runInSeparateProcess
      * @preserveGlobalState disabled
      */
-    public function testCreateItemBrokenInternalLinkException() : void
+    public function testCreateItemBrokenInternalLinkException(): void
     {
         $mock_db = $this->getMockBuilder(ilDBInterface::class)
                         ->disableOriginalConstructor()
@@ -431,7 +433,7 @@ class ilWebResourceDatabaseRepositoryTest extends TestCase
      * @runInSeparateProcess
      * @preserveGlobalState disabled
      */
-    public function testCreateList() : void
+    public function testCreateList(): void
     {
         $mock_db = $this->getMockBuilder(ilDBInterface::class)
                         ->disableOriginalConstructor()
@@ -490,7 +492,7 @@ class ilWebResourceDatabaseRepositoryTest extends TestCase
      * @runInSeparateProcess
      * @preserveGlobalState disabled
      */
-    public function testCreateAllItemsInDraftContainer() : void
+    public function testCreateAllItemsInDraftContainer(): void
     {
         $mock_db = $this->getMockBuilder(ilDBInterface::class)
                         ->disableOriginalConstructor()

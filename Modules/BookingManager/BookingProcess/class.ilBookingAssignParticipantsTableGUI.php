@@ -90,7 +90,7 @@ class ilBookingAssignParticipantsTableGUI extends ilTable2GUI
         }
     }
 
-    public function getItems() : void
+    public function getItems(): void
     {
         if ($this->pool->getScheduleType() === ilObjBookingPool::TYPE_FIX_SCHEDULE) {
             $data = ilBookingParticipant::getList($this->pool_id, []);
@@ -101,7 +101,7 @@ class ilBookingAssignParticipantsTableGUI extends ilTable2GUI
         $this->setData($data);
     }
 
-    protected function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set): void
     {
         if ($this->pool->getScheduleType() !== ilObjBookingPool::TYPE_FIX_SCHEDULE) {
             $this->tpl->setCurrentBlock("multi");

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -25,7 +27,7 @@ class ilTestPassDetailsOverviewTableGUITest extends ilTestBaseTestCase
     private ilTestPassDetailsOverviewTableGUI $tableGui;
     private ilObjTestGUI $parentObj_mock;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -55,12 +57,12 @@ class ilTestPassDetailsOverviewTableGUITest extends ilTestBaseTestCase
         );
     }
 
-    public function test_instantiateObject_shouldReturnInstance() : void
+    public function test_instantiateObject_shouldReturnInstance(): void
     {
         $this->assertInstanceOf(ilTestPassDetailsOverviewTableGUI::class, $this->tableGui);
     }
 
-    public function testPdfGenerationRequest() : void
+    public function testPdfGenerationRequest(): void
     {
         $this->assertIsBool($this->tableGui->isPdfGenerationRequest());
         $this->tableGui->setIsPdfGenerationRequest(false);
@@ -69,13 +71,13 @@ class ilTestPassDetailsOverviewTableGUITest extends ilTestBaseTestCase
         $this->assertTrue($this->tableGui->isPdfGenerationRequest());
     }
 
-    public function testSingleAnswerScreenCmd() : void
+    public function testSingleAnswerScreenCmd(): void
     {
         $this->tableGui->setSingleAnswerScreenCmd("testString");
         $this->assertEquals("testString", $this->tableGui->getSingleAnswerScreenCmd());
     }
 
-    public function testAnswerListAnchorEnabled() : void
+    public function testAnswerListAnchorEnabled(): void
     {
         $this->assertIsBool($this->tableGui->getAnswerListAnchorEnabled());
         $this->tableGui->setAnswerListAnchorEnabled(false);
@@ -84,7 +86,7 @@ class ilTestPassDetailsOverviewTableGUITest extends ilTestBaseTestCase
         $this->assertTrue($this->tableGui->getAnswerListAnchorEnabled());
     }
 
-    public function testShowHintCount() : void
+    public function testShowHintCount(): void
     {
         $this->assertIsBool($this->tableGui->getShowHintCount());
         $this->tableGui->setShowHintCount(false);
@@ -93,7 +95,7 @@ class ilTestPassDetailsOverviewTableGUITest extends ilTestBaseTestCase
         $this->assertTrue($this->tableGui->getShowHintCount());
     }
 
-    public function testShowSuggestedSolution() : void
+    public function testShowSuggestedSolution(): void
     {
         $this->assertIsBool($this->tableGui->getShowSuggestedSolution());
         $this->tableGui->setShowSuggestedSolution(false);
@@ -102,13 +104,13 @@ class ilTestPassDetailsOverviewTableGUITest extends ilTestBaseTestCase
         $this->assertTrue($this->tableGui->getShowSuggestedSolution());
     }
 
-    public function testActiveId() : void
+    public function testActiveId(): void
     {
         $this->tableGui->setActiveId(200);
         $this->assertEquals(200, $this->tableGui->getActiveId());
     }
 
-    public function testObjectiveOrientedPresentationEnabled() : void
+    public function testObjectiveOrientedPresentationEnabled(): void
     {
         $this->assertIsBool($this->tableGui->isObjectiveOrientedPresentationEnabled());
         $this->tableGui->setObjectiveOrientedPresentationEnabled(false);
@@ -117,7 +119,7 @@ class ilTestPassDetailsOverviewTableGUITest extends ilTestBaseTestCase
         $this->assertTrue($this->tableGui->isObjectiveOrientedPresentationEnabled());
     }
 
-    public function testMultipleObjectivesInvolved() : void
+    public function testMultipleObjectivesInvolved(): void
     {
         $this->assertIsBool($this->tableGui->areMultipleObjectivesInvolved());
         $this->tableGui->setMultipleObjectivesInvolved(false);
@@ -126,7 +128,7 @@ class ilTestPassDetailsOverviewTableGUITest extends ilTestBaseTestCase
         $this->assertTrue($this->tableGui->areMultipleObjectivesInvolved());
     }
 
-    public function testPassColumnEnabled() : void
+    public function testPassColumnEnabled(): void
     {
         $this->assertIsBool($this->tableGui->isPassColumnEnabled());
         $this->tableGui->setPassColumnEnabled(false);

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -20,12 +22,12 @@ class ilCertificateDatabaseUpdateSteps implements ilDatabaseUpdateSteps
 {
     protected ilDBInterface $db;
 
-    public function prepare(ilDBInterface $db) : void
+    public function prepare(ilDBInterface $db): void
     {
         $this->db = $db;
     }
 
-    public function step_1() : void
+    public function step_1(): void
     {
         if ($this->db->tableExists('il_cert_template') && $this->db->tableColumnExists('il_cert_template', 'certificate_content_bu')) {
             $this->db->dropTableColumn('il_cert_template', 'certificate_content_bu');
@@ -35,7 +37,7 @@ class ilCertificateDatabaseUpdateSteps implements ilDatabaseUpdateSteps
         }
     }
 
-    public function step_2() : void
+    public function step_2(): void
     {
         if ($this->db->tableExists('il_cert_template') && $this->db->tableColumnExists('il_cert_template', 'certificate_content_backup')) {
             $this->db->dropTableColumn('il_cert_template', 'certificate_content_backup');
@@ -45,14 +47,14 @@ class ilCertificateDatabaseUpdateSteps implements ilDatabaseUpdateSteps
         }
     }
 
-    public function step_3() : void
+    public function step_3(): void
     {
         if ($this->db->tableExists('il_cert_bgtask_migr')) {
             $this->db->dropTable('il_cert_bgtask_migr');
         }
     }
 
-    public function step_4() : void
+    public function step_4(): void
     {
         if ($this->db->tableExists('il_cert_user_cert') && $this->db->tableColumnExists('il_cert_user_cert', 'user_id')) {
             $this->db->renameTableColumn('il_cert_user_cert', 'user_id', 'usr_id');

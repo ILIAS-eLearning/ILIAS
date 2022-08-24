@@ -42,7 +42,7 @@ class ilObjBlogAdministrationGUI extends ilObjectGUI
         $this->lng->loadLanguageModule("blog");
     }
 
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         $next_class = $this->ctrl->getNextClass($this);
         $cmd = $this->ctrl->getCmd();
@@ -66,7 +66,7 @@ class ilObjBlogAdministrationGUI extends ilObjectGUI
         }
     }
 
-    public function getAdminTabs() : void
+    public function getAdminTabs(): void
     {
         if ($this->checkPermissionBool("visible,read")) {
             $this->tabs_gui->addTarget(
@@ -86,65 +86,65 @@ class ilObjBlogAdministrationGUI extends ilObjectGUI
         }
     }
 
-    public function editSettings(?ilPropertyFormGUI $a_form = null) : void
+    public function editSettings(?ilPropertyFormGUI $a_form = null): void
     {
         $lng = $this->lng;
         $ilSetting = $this->settings;
-        
+
         $this->tabs_gui->setTabActive('settings');
-        
+
         if (!$ilSetting->get("disable_wsp_blogs")) {
             $this->tpl->setOnScreenMessage('info', $lng->txt("blog_admin_toggle_info"));
         } else {
             $this->tpl->setOnScreenMessage('info', $lng->txt("blog_admin_inactive_info"));
         }
-        
+
         if (!$a_form) {
             $a_form = $this->initFormSettings();
         }
         $this->tpl->setContent($a_form->getHTML());
     }
 
-    public function saveSettings() : void
+    public function saveSettings(): void
     {
         $ilCtrl = $this->ctrl;
-        
+
         $this->checkPermission("write");
-        
+
         $form = $this->initFormSettings();
         if ($form->checkInput()) {
             $banner = (bool) $form->getInput("banner");
-            
+
             $blga_set = new ilSetting("blga");
             $blga_set->set("banner", $banner);
             $blga_set->set("banner_width", (int) $form->getInput("width"));
             $blga_set->set("banner_height", (int) $form->getInput("height"));
             $blga_set->set("mask", (bool) $form->getInput("mask"));
             $blga_set->set("est_reading_time", (bool) $form->getInput("est_reading_time"));
-            
+
             $this->tpl->setOnScreenMessage('success', $this->lng->txt("settings_saved"), true);
             $ilCtrl->redirect($this, "editSettings");
         }
-        
+
         $form->setValuesByPost();
         $this->editSettings($form);
     }
 
-    public function cancel() : void
+    public function cancel(): void
     {
         $ilCtrl = $this->ctrl;
-        
+
         $ilCtrl->redirect($this, "view");
     }
-        
-    protected function initFormSettings() : ilPropertyFormGUI
+
+    protected function initFormSettings(): ilPropertyFormGUI
     {
         $lng = $this->lng;
-        
+
         $form = new ilPropertyFormGUI();
         $form->setFormAction($this->ctrl->getFormAction($this));
         $form->setTitle($this->lng->txt('blog_settings'));
-        
+
         if ($this->checkPermissionBool("write")) {
             $form->addCommandButton('saveSettings', $this->lng->txt('save'));
             $form->addCommandButton('cancel', $this->lng->txt('cancel'));
@@ -153,17 +153,17 @@ class ilObjBlogAdministrationGUI extends ilObjectGUI
         $banner = new ilCheckboxInputGUI($lng->txt("blog_preview_banner"), "banner");
         $banner->setInfo($lng->txt("blog_preview_banner_info"));
         $form->addItem($banner);
-        
+
         $width = new ilNumberInputGUI($lng->txt("blog_preview_banner_width"), "width");
         $width->setRequired(true);
         $width->setSize(4);
         $banner->addSubItem($width);
-        
+
         $height = new ilNumberInputGUI($lng->txt("blog_preview_banner_height"), "height");
         $height->setRequired(true);
         $height->setSize(4);
         $banner->addSubItem($height);
-        
+
         $blga_set = new ilSetting("blga");
         $banner->setChecked((bool) $blga_set->get("banner", '0'));
         if ($blga_set->get("banner")) {

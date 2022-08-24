@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace ILIAS\Notifications;
 
@@ -31,8 +33,8 @@ class ilNotificationSetupHelper
     public static string $tbl_notification_osd_handler = 'notification_osd';
     public static string $tbl_notification_channels = 'notification_channels';
     public static string $tbl_notification_types = 'notification_types';
-    
-    public static function setupTables() : void
+
+    public static function setupTables(): void
     {
         global $DIC;
 
@@ -79,7 +81,7 @@ class ilNotificationSetupHelper
             $ilDB->createTable(self::$tbl_notification_queue, $fields);
             $ilDB->addPrimaryKey(self::$tbl_notification_queue, array('notification_id', 'usr_id'));
         }
-            
+
         if (!$ilDB->tableExists(self::$tbl_notification_osd_handler)) {
             $fields = array(
                 'notification_osd_id' => array('type' => 'integer'  , 'notnull' => true, 'length' => 4),
@@ -129,12 +131,12 @@ class ilNotificationSetupHelper
         }
     }
 
-    public static function registerChannel(string $name, string $title, string $description, string $class, string $classfile, string $config_type = 'set_by_user') : void
+    public static function registerChannel(string $name, string $title, string $description, string $class, string $classfile, string $config_type = 'set_by_user'): void
     {
         ilNotificationDatabaseHandler::registerChannel($name, $title, $description, $class, $classfile, $config_type);
     }
 
-    public static function registerType(string $name, string $title, string $description, string $notification_group, string $config_type = 'set_by_user') : void
+    public static function registerType(string $name, string $title, string $description, string $notification_group, string $config_type = 'set_by_user'): void
     {
         ilNotificationDatabaseHandler::registerType($name, $title, $description, $notification_group, $config_type);
     }

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\UI\Component\Modal;
 
 use ILIAS\UI\Component\Component;
@@ -30,11 +32,11 @@ interface LightboxPage
     /**
      * Get the title of this page, displayed as title in the lightbox modal.
      */
-    public function getTitle() : string;
+    public function getTitle(): string;
 
     /**
      * Get the component representing the media item to be displayed in the modals
      * content section, e.g. an image.
      */
-    public function getComponent() : Component;
+    public function getComponent(): Component;
 }

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -34,7 +36,7 @@ class ilMailLuceneSearcher
         $this->result = $result;
     }
 
-    public function search(int $user_id, int $mail_folder_id) : void
+    public function search(int $user_id, int $mail_folder_id): void
     {
         if (!$this->query_parser->getQuery()) {
             throw new ilException('mail_search_query_missing');

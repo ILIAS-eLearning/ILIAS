@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\Setup\Condition;
 
 use ILIAS\Setup;
@@ -26,7 +28,7 @@ class PHPVersionCondition extends ExternalConditionObjective
     {
         return parent::__construct(
             "PHP version >= $which",
-            fn (Setup\Environment $env) : bool => false, //version_compare(phpversion(), $which, ">="),
+            fn (Setup\Environment $env): bool => version_compare(phpversion(), $which, ">="),
             "ILIAS " . ILIAS_VERSION_NUMERIC . " requires PHP $which or later."
         );
     }

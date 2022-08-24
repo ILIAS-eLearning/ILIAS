@@ -7,11 +7,11 @@ use PHPUnit\Framework\TestCase;
  */
 class LinkStandardGUIRequestTest extends TestCase
 {
-    protected function tearDown() : void
+    protected function tearDown(): void
     {
     }
 
-    protected function getRequest(array $get, array $post) : \ILIAS\Link\StandardGUIRequest
+    protected function getRequest(array $get, array $post): \ILIAS\Link\StandardGUIRequest
     {
         $http_mock = $this->createMock(ILIAS\HTTP\Services::class);
         $lng_mock = $this->createMock(ilLanguage::class);
@@ -25,7 +25,7 @@ class LinkStandardGUIRequestTest extends TestCase
         );
     }
 
-    public function testSelectedId() : void
+    public function testSelectedId(): void
     {
         $request = $this->getRequest(
             [
@@ -41,7 +41,7 @@ class LinkStandardGUIRequestTest extends TestCase
         );
     }
 
-    public function testDo() : void
+    public function testDo(): void
     {
         $request = $this->getRequest(
             [
@@ -57,7 +57,7 @@ class LinkStandardGUIRequestTest extends TestCase
         );
     }
 
-    public function testMediaPoolFolder() : void
+    public function testMediaPoolFolder(): void
     {
         $request = $this->getRequest(
             [
@@ -73,7 +73,7 @@ class LinkStandardGUIRequestTest extends TestCase
         );
     }
 
-    public function testLinkType() : void
+    public function testLinkType(): void
     {
         $request = $this->getRequest(
             [
@@ -89,7 +89,7 @@ class LinkStandardGUIRequestTest extends TestCase
         );
     }
 
-    public function testLinkParentObjId() : void
+    public function testLinkParentObjId(): void
     {
         $request = $this->getRequest(
             [
@@ -105,7 +105,7 @@ class LinkStandardGUIRequestTest extends TestCase
         );
     }
 
-    public function testLinkParentFolderId() : void
+    public function testLinkParentFolderId(): void
     {
         $request = $this->getRequest(
             [
@@ -121,7 +121,7 @@ class LinkStandardGUIRequestTest extends TestCase
         );
     }
 
-    public function testLinkParentRefId() : void
+    public function testLinkParentRefId(): void
     {
         $request = $this->getRequest(
             [
@@ -137,7 +137,7 @@ class LinkStandardGUIRequestTest extends TestCase
         );
     }
 
-    public function testUserSearchString() : void
+    public function testUserSearchString(): void
     {
         $request = $this->getRequest(
             [

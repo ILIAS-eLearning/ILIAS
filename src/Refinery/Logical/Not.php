@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -30,7 +32,7 @@ class Not extends Constraint
             static function ($value) use ($constraint) {
                 return !$constraint->accepts($value);
             },
-            static function ($txt, $value) use ($constraint) : string {
+            static function ($txt, $value) use ($constraint): string {
                 return (string) $txt("not_generic", $constraint->getErrorMessage($value));
             },
             $data_factory,

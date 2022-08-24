@@ -24,7 +24,6 @@
  */
 class ilAssLacCompositeEvaluator
 {
-
     /**
      * @var ilAssLacQuestionProvider
      */
@@ -72,7 +71,7 @@ class ilAssLacCompositeEvaluator
      *
      * @return bool
      */
-    private function evaluateSubTree(ilAssLacAbstractComposite $composite) : bool
+    private function evaluateSubTree(ilAssLacAbstractComposite $composite): bool
     {
         $result = false;
         if ($composite->nodes[0] instanceof ilAssLacExpressionInterface &&
@@ -81,7 +80,7 @@ class ilAssLacCompositeEvaluator
             $question = $this->object_loader->getQuestion($composite->nodes[0]->getQuestionIndex());
             $rightNode = $composite->nodes[1];
 
-            $index = $this->isInstanceOfAnswerIndexProvidingExpression($composite) ? $composite->nodes[0]->getAnswerIndex(): null;
+            $index = $this->isInstanceOfAnswerIndexProvidingExpression($composite) ? $composite->nodes[0]->getAnswerIndex() : null;
 
             $solutions = $question->getUserQuestionResult($this->activeId, $this->pass);
 
@@ -211,7 +210,7 @@ class ilAssLacCompositeEvaluator
      * @param ilAssLacAbstractComposite $composite
      * @return bool
      */
-    private function isInstanceOfAnswerIndexProvidingExpression(ilAssLacAbstractComposite $composite) : bool
+    private function isInstanceOfAnswerIndexProvidingExpression(ilAssLacAbstractComposite $composite): bool
     {
         if ($composite->nodes[0] instanceof ilAssLacResultOfAnswerOfQuestionExpression) {
             return true;
@@ -220,7 +219,7 @@ class ilAssLacCompositeEvaluator
         if ($composite->nodes[0] instanceof ilAssLacResultOfAnswerOfCurrentQuestionExpression) {
             return true;
         }
-        
+
         return false;
     }
 }

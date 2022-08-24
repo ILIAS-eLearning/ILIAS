@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -36,18 +38,18 @@ class InternalRequestService
         );
     }
 
-    public function getRefId() : int
+    public function getRefId(): int
     {
         return $this->int("ref_id");
     }
 
     /** @return string[] */
-    public function getProcessId() : array
+    public function getProcessId(): array
     {
         return $this->strArray("process_id");
     }
 
-    public function is_set(string $key) : bool
+    public function is_set(string $key): bool
     {
         return $this->str($key) !== "";
     }

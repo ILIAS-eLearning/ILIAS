@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * Metadata block
  *
@@ -43,7 +45,7 @@ class ilObjectMetaDataBlockGUI extends ilBlockGUI
 
 
         parent::__construct();
-                        
+
         $this->record = $record;
         $this->callback = $decorator_callback;
 
@@ -57,7 +59,7 @@ class ilObjectMetaDataBlockGUI extends ilBlockGUI
     /**
      * @inheritdoc
      */
-    public function getBlockType() : string
+    public function getBlockType(): string
     {
         return self::$block_type;
     }
@@ -65,20 +67,20 @@ class ilObjectMetaDataBlockGUI extends ilBlockGUI
     /**
      * @inheritdoc
      */
-    protected function isRepositoryObject() : bool
+    protected function isRepositoryObject(): bool
     {
         return false;
     }
-    
+
     /**
     * Get Screen Mode for current command.
     */
-    public static function getScreenMode() : string
+    public static function getScreenMode(): string
     {
         return IL_SCREEN_SIDE;
     }
-    
-    public function setValues(ilAdvancedMDValues $a_values) : void
+
+    public function setValues(ilAdvancedMDValues $a_values): void
     {
         $this->values = $a_values;
     }
@@ -86,7 +88,7 @@ class ilObjectMetaDataBlockGUI extends ilBlockGUI
     /**
     * execute command
     */
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         $this->ctrl->getNextClass();
         $cmd = $this->ctrl->getCmd("getHTML");
@@ -96,7 +98,7 @@ class ilObjectMetaDataBlockGUI extends ilBlockGUI
     /**
      * Fill data section
      */
-    public function fillDataSection() : void
+    public function fillDataSection(): void
     {
         $this->setDataSection($this->getLegacyContent());
     }
@@ -111,15 +113,15 @@ class ilObjectMetaDataBlockGUI extends ilBlockGUI
     /**
      * @inheritdoc
      */
-    protected function getLegacyContent() : string
+    protected function getLegacyContent(): string
     {
         $btpl = new ilTemplate("tpl.advmd_block.html", true, true, "Services/Object");
-        
+
         // see ilAdvancedMDRecordGUI::parseInfoPage()
-        
+
         $old_dt = ilDatePresentation::useRelativeDates();
         ilDatePresentation::setUseRelativeDates(false);
-        
+
         // this correctly binds group and definitions
         $this->values->read();
 
@@ -137,7 +139,7 @@ class ilObjectMetaDataBlockGUI extends ilBlockGUI
                 if ($element instanceof ilADTLocation) {
                     $value->setSize(100, 200);
                 }
-                
+
                 if (in_array($element->getType(), array("MultiEnum", "Enum", "Text"))) {
                     $value->setDecoratorCallBack($this->callback);
                 }
@@ -147,11 +149,11 @@ class ilObjectMetaDataBlockGUI extends ilBlockGUI
             $btpl->setVariable("VALUE", $value);
             $btpl->parseCurrentBlock();
         }
-                    
+
         $html = $btpl->get();
-        
+
         ilDatePresentation::setUseRelativeDates($old_dt);
-        
+
         return $html;
     }
 }

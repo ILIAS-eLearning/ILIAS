@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * Simple value class for basic information about a component.
@@ -36,22 +38,22 @@ class ilComponentInfo
         $this->pluginslots = &$pluginslots;
     }
 
-    public function getId() : string
+    public function getId(): string
     {
         return $this->id;
     }
 
-    public function getType() : string
+    public function getType(): string
     {
         return $this->type;
     }
 
-    public function getName() : string
+    public function getName(): string
     {
         return $this->name;
     }
 
-    public function getQualifiedName() : string
+    public function getQualifiedName(): string
     {
         return $this->type . "/" . $this->name;
     }
@@ -59,14 +61,14 @@ class ilComponentInfo
     /**
      * @return Iterator <ilPluginSlotInfo>
      */
-    public function getPluginSlots() : Iterator
+    public function getPluginSlots(): Iterator
     {
         foreach ($this->pluginslots as $id => $slot) {
             yield $slot->getId() => $slot;
         }
     }
 
-    public function hasPluginSlotId(string $id) : bool
+    public function hasPluginSlotId(string $id): bool
     {
         foreach ($this->pluginslots as $slot) {
             if ($slot->getId() === $id) {
@@ -79,7 +81,7 @@ class ilComponentInfo
     /**
      * @throw \InvalidArgumentException if there is no such slot
      */
-    public function getPluginSlotById(string $id) : \ilPluginSlotInfo
+    public function getPluginSlotById(string $id): \ilPluginSlotInfo
     {
         foreach ($this->pluginslots as $slot) {
             if ($slot->getId() === $id) {
@@ -91,7 +93,7 @@ class ilComponentInfo
         );
     }
 
-    public function hasPluginSlotName(string $name) : bool
+    public function hasPluginSlotName(string $name): bool
     {
         foreach ($this->pluginslots as $slot) {
             if ($slot->getName() === $name) {
@@ -104,7 +106,7 @@ class ilComponentInfo
     /**
      * @throw \InvalidArgumentException if there is no such slot
      */
-    public function getPluginSlotByName(string $name) : \ilPluginSlotInfo
+    public function getPluginSlotByName(string $name): \ilPluginSlotInfo
     {
         foreach ($this->pluginslots as $slot) {
             if ($slot->getName() === $name) {

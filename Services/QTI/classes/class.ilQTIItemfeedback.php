@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -46,7 +48,7 @@ class ilQTIItemfeedback
     /** @var ilQTIMaterial[] */
     public array $material = [];
 
-    public function setView(string $a_view) : void
+    public function setView(string $a_view): void
     {
         switch (strtolower($a_view)) {
             case "1":
@@ -92,37 +94,37 @@ class ilQTIItemfeedback
         }
     }
 
-    public function getView() : ?string
+    public function getView(): ?string
     {
         return $this->view;
     }
 
-    public function setIdent(string $a_ident) : void
+    public function setIdent(string $a_ident): void
     {
         $this->ident = $a_ident;
     }
 
-    public function getIdent() : ?string
+    public function getIdent(): ?string
     {
         return $this->ident;
     }
 
-    public function setTitle(string $a_title) : void
+    public function setTitle(string $a_title): void
     {
         $this->title = $a_title;
     }
 
-    public function getTitle() : ?string
+    public function getTitle(): ?string
     {
         return $this->title;
     }
 
-    public function addFlowMat(ilQTIFlowmat $a_flow_mat) : void
+    public function addFlowMat(ilQTIFlowmat $a_flow_mat): void
     {
         $this->flow_mat[] = $a_flow_mat;
     }
 
-    public function addMaterial(ilQTIMaterial $a_material) : void
+    public function addMaterial(ilQTIMaterial $a_material): void
     {
         $this->material[] = $a_material;
     }

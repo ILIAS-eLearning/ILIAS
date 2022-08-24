@@ -1,6 +1,8 @@
-<?php declare(strict_types=1);
+<?php
 
-    
+declare(strict_types=1);
+
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -16,7 +18,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * Table presentation of membership export files
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
@@ -45,12 +47,12 @@ class ilMemberExportFileTableGUI extends ilTable2GUI
         $this->getFiles($a_fss_export);
     }
 
-    public function numericOrdering(string $a_field) : bool
+    public function numericOrdering(string $a_field): bool
     {
         return in_array($a_field, array('size', 'date'));
     }
 
-    protected function getFiles(ilFileSystemAbstractionStorage $a_fss_export) : void
+    protected function getFiles(ilFileSystemAbstractionStorage $a_fss_export): void
     {
         $data = [];
         foreach ($a_fss_export->getMemberExportFiles() as $exp_file) {
@@ -65,7 +67,7 @@ class ilMemberExportFileTableGUI extends ilTable2GUI
         $this->setData($data);
     }
 
-    protected function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set): void
     {
         global $DIC;
 

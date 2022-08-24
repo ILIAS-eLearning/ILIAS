@@ -69,12 +69,12 @@ class ilTermDefinitionEditorGUI
     }
 
 
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         $tpl = $this->tpl;
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
-        
+
         $next_class = $this->ctrl->getNextClass($this);
         $cmd = $this->ctrl->getCmd();
 
@@ -183,12 +183,12 @@ class ilTermDefinitionEditorGUI
         }
     }
 
-    public function setTabs() : void
+    public function setTabs(): void
     {
         $this->getTabs();
     }
 
-    public function getTabs() : void
+    public function getTabs(): void
     {
         // back to glossary
         $this->tabs_gui->setBack2Target(
@@ -203,7 +203,7 @@ class ilTermDefinitionEditorGUI
         );
     }
 
-    public function saveShortText() : void
+    public function saveShortText(): void
     {
         $this->definition->updateShortText();
     }

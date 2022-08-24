@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /******************************************************************************
  *
@@ -23,12 +25,11 @@
  */
 interface ilConditionHandling
 {
-
     /**
      * Returns an array with valid operators for the specific object type
      * @return string[]
      */
-    public static function getConditionOperators() : array;
+    public static function getConditionOperators(): array;
 
     /**
      * check condition for a specific user and object
@@ -38,5 +39,5 @@ interface ilConditionHandling
         string $a_operator,
         string $a_value,
         int $a_usr_id
-    ) : bool;
+    ): bool;
 }

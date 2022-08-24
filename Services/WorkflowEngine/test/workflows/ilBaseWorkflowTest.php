@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -29,11 +31,11 @@ use PHPUnit\Framework\TestCase;
  */
 class ilBaseWorkflowTest extends TestCase
 {
-    protected function setUp() : void
+    protected function setUp(): void
     {
     }
-    
-    protected function tearDown() : void
+
+    protected function tearDown(): void
     {
         global $ilSetting;
 

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * Class ilObjExerciseVerificationListGUI
  *
@@ -23,7 +25,7 @@
  */
 class ilObjExerciseVerificationListGUI extends ilObjectListGUI
 {
-    public function init() : void
+    public function init(): void
     {
         $this->delete_enabled = true;
         $this->cut_enabled = true;
@@ -36,11 +38,11 @@ class ilObjExerciseVerificationListGUI extends ilObjectListGUI
 
         $this->commands = ilObjExerciseVerificationAccess::_getCommands();
     }
-    
-    public function getProperties() : array
+
+    public function getProperties(): array
     {
         $lng = $this->lng;
-        
+
         return [
             [
                 'alert' => false,

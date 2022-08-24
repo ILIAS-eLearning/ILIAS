@@ -25,7 +25,7 @@ class ilUserBadgeProvider implements ilBadgeProvider
     /**
      * @inheritcoc
      */
-    public function getBadgeTypes() : array
+    public function getBadgeTypes(): array
     {
         return [
             new ilUserProfileBadge()

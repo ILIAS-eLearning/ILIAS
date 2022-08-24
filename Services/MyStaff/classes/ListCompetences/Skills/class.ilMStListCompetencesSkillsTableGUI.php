@@ -75,7 +75,7 @@ class ilMStListCompetencesSkillsTableGUI extends ilTable2GUI
         $this->parseData();
     }
 
-    protected function parseData() : void
+    protected function parseData(): void
     {
         $this->setExternalSorting(true);
         $this->setExternalSegmentation(true);
@@ -104,13 +104,13 @@ class ilMStListCompetencesSkillsTableGUI extends ilTable2GUI
         $data = $result->getDataset();
 
         // Workaround because the fillRow Method only accepts arrays
-        $data = array_map(function (ilMStListCompetencesSkill $it) : array {
+        $data = array_map(function (ilMStListCompetencesSkill $it): array {
             return [$it];
         }, $data);
         $this->setData($data);
     }
 
-    final public function initFilter() : void
+    final public function initFilter(): void
     {
         // skill
         $item = new ilTextInputGUI($this->dic->language()->txt("skmg_skill"), 'skill');
@@ -150,7 +150,7 @@ class ilMStListCompetencesSkillsTableGUI extends ilTable2GUI
         }
     }
 
-    final public function getSelectableColumns() : array
+    final public function getSelectableColumns(): array
     {
         $cols = array();
 
@@ -197,7 +197,7 @@ class ilMStListCompetencesSkillsTableGUI extends ilTable2GUI
         return $cols;
     }
 
-    private function addColumns() : void
+    private function addColumns(): void
     {
         foreach ($this->getSelectableColumns() as $k => $v) {
             if ($this->isColumnSelected($k)) {
@@ -216,10 +216,10 @@ class ilMStListCompetencesSkillsTableGUI extends ilTable2GUI
         }
     }
 
-    final public function fillRow(array $a_set) : void
+    final public function fillRow(array $a_set): void
     {
         $set = array_pop($a_set);
-        
+
         $propGetter = Closure::bind(function ($prop) {
             return $this->$prop;
         }, $set, $set);
@@ -258,7 +258,7 @@ class ilMStListCompetencesSkillsTableGUI extends ilTable2GUI
         $this->tpl->parseCurrentBlock();
     }
 
-    protected function fillRowExcel(ilExcel $a_excel, int &$a_row, array $a_set) : void
+    protected function fillRowExcel(ilExcel $a_excel, int &$a_row, array $a_set): void
     {
         $set = array_pop($a_set);
 
@@ -269,17 +269,17 @@ class ilMStListCompetencesSkillsTableGUI extends ilTable2GUI
         }
     }
 
-    protected function fillRowCSV(ilCSVWriter $a_csv, array $a_set) : void
+    protected function fillRowCSV(ilCSVWriter $a_csv, array $a_set): void
     {
         $set = array_pop($a_set);
-        
+
         foreach ($this->getFieldValuesForExport($set) as $k => $v) {
             $a_csv->addColumn($v);
         }
         $a_csv->addRow();
     }
 
-    protected function getFieldValuesForExport(ilMStListCompetencesSkill $selected_skill) : array
+    protected function getFieldValuesForExport(ilMStListCompetencesSkill $selected_skill): array
     {
         $propGetter = Closure::bind(function ($prop) {
             return $this->$prop;

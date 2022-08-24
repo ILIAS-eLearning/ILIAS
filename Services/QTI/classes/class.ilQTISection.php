@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -35,37 +37,37 @@ class ilQTISection
     public ?array $duration = null;
     public ?ilQTIPresentationMaterial $presentation_material = null;
 
-    public function setIdent(string $a_ident) : void
+    public function setIdent(string $a_ident): void
     {
         $this->ident = $a_ident;
     }
 
-    public function getIdent() : ?string
+    public function getIdent(): ?string
     {
         return $this->ident;
     }
 
-    public function setTitle(string $a_title) : void
+    public function setTitle(string $a_title): void
     {
         $this->title = $a_title;
     }
 
-    public function getTitle() : ?string
+    public function getTitle(): ?string
     {
         return $this->title;
     }
 
-    public function setComment(string $a_comment) : void
+    public function setComment(string $a_comment): void
     {
         $this->comment = $a_comment;
     }
 
-    public function getComment() : ?string
+    public function getComment(): ?string
     {
         return $this->comment;
     }
 
-    public function setDuration(string $a_duration) : void
+    public function setDuration(string $a_duration): void
     {
         if (preg_match("/P(\d+)Y(\d+)M(\d+)DT(\d+)H(\d+)M(\d+)S/", $a_duration, $matches)) {
             $this->duration = array(
@@ -79,27 +81,27 @@ class ilQTISection
     /**
      * @return null|array{h: string, m: string, s: string}
      */
-    public function getDuration() : ?array
+    public function getDuration(): ?array
     {
         return $this->duration;
     }
 
-    public function setXmllang(string $a_xmllang) : void
+    public function setXmllang(string $a_xmllang): void
     {
         $this->xmllang = $a_xmllang;
     }
 
-    public function getXmllang() : ?string
+    public function getXmllang(): ?string
     {
         return $this->xmllang;
     }
 
-    public function setPresentationMaterial(ilQTIPresentationMaterial $a_material) : void
+    public function setPresentationMaterial(ilQTIPresentationMaterial $a_material): void
     {
         $this->presentation_material = $a_material;
     }
-    
-    public function getPresentationMaterial() : ?ilQTIPresentationMaterial
+
+    public function getPresentationMaterial(): ?ilQTIPresentationMaterial
     {
         return $this->presentation_material;
     }

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /******************************************************************************
  *
@@ -25,7 +27,7 @@ class ilECSCourseAttribute
     private int $server_id = 0;
     private int $mid = 0;
     private string $name = '';
-    
+
     private ilDBInterface $db;
 
     /**
@@ -34,60 +36,60 @@ class ilECSCourseAttribute
     public function __construct(int $a_id = 0)
     {
         global $DIC;
-        
+
         $this->db = $DIC->database();
-        
+
         $this->id = $a_id;
-        
+
         $this->read();
     }
-    
+
     /**
      * Get id
      */
-    public function getId() : int
+    public function getId(): int
     {
         return $this->id;
     }
-    
-    public function setServerId(int $a_server_id) : void
+
+    public function setServerId(int $a_server_id): void
     {
         $this->server_id = $a_server_id;
     }
-    
-    public function getServerId() : int
+
+    public function getServerId(): int
     {
         return $this->server_id;
     }
-    
-    public function setMid(int $a_mid) : void
+
+    public function setMid(int $a_mid): void
     {
         $this->mid = $a_mid;
     }
-    
-    public function getMid() : int
+
+    public function getMid(): int
     {
         return $this->mid;
     }
 
 
-    public function setName(string $a_name) : void
+    public function setName(string $a_name): void
     {
         $this->name = $a_name;
     }
-    
+
     /**
      * Get name
      */
-    public function getName() : string
+    public function getName(): string
     {
         return $this->name;
     }
-    
+
     /**
      * Delete attribute
      */
-    public function delete() : bool
+    public function delete(): bool
     {
         $query = "DELETE FROM ecs_crs_mapping_atts " .
                 'WHERE id = ' . $this->db->quote($this->getId(), 'integer');
@@ -98,10 +100,10 @@ class ilECSCourseAttribute
     /**
      * Save a new entry
      */
-    public function save() : bool
+    public function save(): bool
     {
         $this->id = $this->db->nextId('ecs_crs_mapping_atts');
-        
+
         $query = 'INSERT INTO ecs_crs_mapping_atts (id,sid,mid,name) ' .
                 'VALUES ( ' .
                 $this->db->quote($this->getId(), 'integer') . ', ' .
@@ -114,11 +116,11 @@ class ilECSCourseAttribute
     }
 
 
-    
+
     /**
      * read active attributes
      */
-    protected function read() : bool
+    protected function read(): bool
     {
         if (!$this->getId()) {
             return true;

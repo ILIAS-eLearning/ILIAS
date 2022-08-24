@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\UI\Implementation\Component;
 
 /**
@@ -32,7 +34,7 @@ class ReplaceContentSignal extends Signal implements \ILIAS\UI\Component\Replace
     /**
      * @inheritdoc
      */
-    public function withAsyncRenderUrl(string $url) : \ILIAS\UI\Component\ReplaceContentSignal
+    public function withAsyncRenderUrl(string $url): \ILIAS\UI\Component\ReplaceContentSignal
     {
         $clone = clone $this;
         $clone->addOption('url', $url);
@@ -42,7 +44,7 @@ class ReplaceContentSignal extends Signal implements \ILIAS\UI\Component\Replace
     /**
      * @inheritdoc
      */
-    public function getAsyncRenderUrl() : string
+    public function getAsyncRenderUrl(): string
     {
         return (string) $this->getOption('url');
     }

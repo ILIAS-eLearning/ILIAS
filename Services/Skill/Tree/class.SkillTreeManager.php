@@ -62,7 +62,7 @@ class SkillTreeManager
         $this->management_access_manager = $DIC->skills()->internal()->manager()->getManagementAccessManager($this->requested_ref_id);
     }
 
-    public function createTree(string $title, string $description) : void
+    public function createTree(string $title, string $description): void
     {
         if (!$this->management_access_manager->hasCreateTreePermission()) {
             $this->error->raiseError($this->lng->txt('no_permission'), $this->error->WARNING);
@@ -84,7 +84,7 @@ class SkillTreeManager
         $this->ctrl->setParameterByClass("ilobjskilltreegui", "obj_id", $tree->readRootId());
     }
 
-    public function updateTree(\ilObjSkillTree $tree_obj, string $title, string $description) : void
+    public function updateTree(\ilObjSkillTree $tree_obj, string $title, string $description): void
     {
         if (!$this->tree_access_manager->hasEditTreeSettingsPermission()) {
             $this->error->raiseError($this->lng->txt('no_permission'), $this->error->WARNING);
@@ -94,7 +94,7 @@ class SkillTreeManager
         $tree_obj->update();
     }
 
-    public function deleteTree(\ilObjSkillTree $tree_obj) : void
+    public function deleteTree(\ilObjSkillTree $tree_obj): void
     {
         if (!$this->management_access_manager->hasCreateTreePermission()) {
             $this->error->raiseError($this->lng->txt('no_permission'), $this->error->WARNING);
@@ -102,7 +102,7 @@ class SkillTreeManager
         $tree_obj->delete();
     }
 
-    public function getTrees() : \Generator
+    public function getTrees(): \Generator
     {
         foreach ($this->repository_tree->getChilds($this->skmg_ref_id) as $c) {
             if ($c["type"] == "skee") {
@@ -111,7 +111,7 @@ class SkillTreeManager
         }
     }
 
-    public function getTree(int $tree_id) : \ilObjSkillTree
+    public function getTree(int $tree_id): \ilObjSkillTree
     {
         $ref_id = (int) current(\ilObject::_getAllReferences($tree_id));
         return new \ilObjSkillTree($ref_id);
@@ -120,7 +120,7 @@ class SkillTreeManager
     /**
      * Get ref id of skill management administration node
      */
-    public function getSkillManagementRefId() : int
+    public function getSkillManagementRefId(): int
     {
         return $this->skmg_ref_id;
     }

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /*
         +-----------------------------------------------------------------------------+
         | ILIAS open source                                                           |
@@ -66,14 +68,14 @@ class ilCalendarManageTableGUI extends ilTable2GUI
     /**
      * reset table to defaults
      */
-    public function resetToDefaults() : void
+    public function resetToDefaults(): void
     {
         $this->resetOffset();
         $this->setOrderField('type_sortable');
         $this->setOrderDirection('asc');
     }
 
-    protected function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set): void
     {
         $current_selection_list = new ilAdvancedSelectionListGUI();
         $current_selection_list->setListTitle($this->lng->txt("actions"));
@@ -171,7 +173,7 @@ class ilCalendarManageTableGUI extends ilTable2GUI
         $this->tpl->setVariable("ACTIONS", $current_selection_list->getHTML());
     }
 
-    public function parse() : void
+    public function parse(): void
     {
         $cats = ilCalendarCategories::_getInstance($this->user->getId());
 

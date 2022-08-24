@@ -29,7 +29,7 @@ class ilGroupedListGUI
     protected bool $as_dropdown = false;
     protected bool $dd_pullright = false;
     protected string $id;
-    
+
     public function __construct(string $id = "")
     {
         /** @var \ILIAS\DI\Container $DIC */
@@ -38,34 +38,34 @@ class ilGroupedListGUI
         $this->id = $id;
         $this->ctrl = $DIC->ctrl();
     }
-    
+
     public function setAsDropDown(
         bool $a_val,
         bool $a_pullright = false
-    ) : void {
+    ): void {
         $this->as_dropdown = $a_val;
         $this->dd_pullright = $a_pullright;
     }
-    
-    public function getAsDropDown() : bool
+
+    public function getAsDropDown(): bool
     {
         return $this->as_dropdown;
     }
-    
+
     public function addGroupHeader(
         string $a_content,
         string $a_add_class = ""
-    ) : void {
+    ): void {
         $this->items[] = array("type" => "group_head", "content" => $a_content,
             "add_class" => $a_add_class);
     }
-    
-    public function addSeparator() : void
+
+    public function addSeparator(): void
     {
         $this->items[] = array("type" => "sep");
     }
-    
-    public function nextColumn() : void
+
+    public function nextColumn(): void
     {
         $this->items[] = array("type" => "next_col");
         $this->multi_column = true;
@@ -82,18 +82,18 @@ class ilGroupedListGUI
         string $a_tt_my = "right center",
         string $a_tt_at = "left center",
         bool $a_tt_use_htmlspecialchars = true
-    ) : void {
+    ): void {
         $this->items[] = array("type" => "entry", "content" => $a_content,
             "href" => $a_href, "target" => $a_target, "onclick" => $a_onclick,
             "add_class" => $a_add_class, "id" => $a_id, "ttip" => $a_ttip,
             "tt_my" => $a_tt_my, "tt_at" => $a_tt_at,
             "tt_use_htmlspecialchars" => $a_tt_use_htmlspecialchars);
     }
-    
-    public function getHTML() : string
+
+    public function getHTML(): string
     {
         $ilCtrl = $this->ctrl;
-        
+
         $tpl = new ilTemplate("tpl.grouped_list.html", true, true, "Services/UIComponent/GroupedList");
         $tt_calls = "";
         foreach ($this->items as $i) {
@@ -102,12 +102,12 @@ class ilGroupedListGUI
                     $tpl->touchBlock("sep");
                     $tpl->touchBlock("item");
                     break;
-                    
+
                 case "next_col":
                     $tpl->touchBlock("next_col");
                     $tpl->touchBlock("item");
                     break;
-                    
+
                 case "group_head":
                     $tpl->setCurrentBlock("group_head");
                     if ($i["add_class"] != "") {
@@ -117,7 +117,7 @@ class ilGroupedListGUI
                     $tpl->parseCurrentBlock();
                     $tpl->touchBlock("item");
                     break;
-                    
+
                 case "entry":
                     if ($i["href"] != "") {
                         $tpl->setCurrentBlock("linked_entry");
@@ -171,12 +171,12 @@ class ilGroupedListGUI
                     break;
             }
         }
-        
+
         if ($this->multi_column) {
             $tpl->touchBlock("multi_start");
             $tpl->touchBlock("multi_end");
         }
-        
+
         if ($tt_calls !== "") {
             $tpl->setCurrentBlock("script");
             $tpl->setVariable("TT_CALLS", $tt_calls);
@@ -200,7 +200,7 @@ class ilGroupedListGUI
             $tpl->setVariable("LIST_CLASS", "");
             $tpl->setVariable("LIST_ROLE", "");
         }
-        
+
         return $tpl->get();
     }
 }

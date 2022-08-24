@@ -52,7 +52,7 @@ class ilContainerSkillGUI
         $this->skmg_settings = new ilSkillManagementSettings();
     }
 
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         $ctrl = $this->ctrl;
 
@@ -84,7 +84,7 @@ class ilContainerSkillGUI
         }
     }
 
-    public function addTabs() : void
+    public function addTabs(): void
     {
         $tabs = $this->tabs;
         $lng = $this->lng;

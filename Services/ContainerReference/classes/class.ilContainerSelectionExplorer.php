@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -24,7 +26,7 @@ class ilContainerSelectionExplorer extends ilExplorer
 {
     protected ilAccessHandler $access;
     protected string $target_type;
-    
+
     public function __construct(
         string $a_target
     ) {
@@ -33,15 +35,15 @@ class ilContainerSelectionExplorer extends ilExplorer
         $this->access = $DIC->access();
         $this->lng = $DIC->language();
         $tree = $DIC->repositoryTree();
-        
+
         parent::__construct($a_target);
-         
+
         $this->tree = $tree;
         $this->root_id = $this->tree->readRootId();
         $this->order_column = "title";
 
         $this->setSessionExpandVariable("ref_repexpand");
-         
+
         $this->addFilter("root");
         $this->addFilter("cat");
         $this->addFilter("grp");
@@ -50,33 +52,33 @@ class ilContainerSelectionExplorer extends ilExplorer
         $this->setFilterMode(IL_FM_POSITIVE);
         $this->setFiltered(true);
         $this->setTitleLength(ilObject::TITLE_LENGTH);
-        
+
         $this->checkPermissions(true);
     }
-    
-    public function setTargetType(string $a_type) : void
+
+    public function setTargetType(string $a_type): void
     {
         $this->target_type = $a_type;
     }
-    
-    public function getTargetType() : string
+
+    public function getTargetType(): string
     {
         return $this->target_type;
     }
-    
-    public function isClickable(string $type, int $ref_id = 0) : bool
+
+    public function isClickable(string $type, int $ref_id = 0): bool
     {
         return ($this->getTargetType() === $type && $this->access->checkAccess('visible', '', $ref_id));
     }
 
-    public function isVisible($a_ref_id, string $a_type) : bool
+    public function isVisible($a_ref_id, string $a_type): bool
     {
         $ilAccess = $this->access;
-        
+
         return $ilAccess->checkAccess('visible', '', $a_ref_id);
     }
-    
-    public function formatHeader(ilTemplate $tpl, $a_obj_id, array $a_option) : void
+
+    public function formatHeader(ilTemplate $tpl, $a_obj_id, array $a_option): void
     {
         $lng = $this->lng;
 

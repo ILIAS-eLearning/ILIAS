@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -29,7 +31,7 @@ interface ilPasswordEncoder
      * @param string $salt The salt
      * @return string The encoded password
      */
-    public function encodePassword(string $raw, string $salt) : string;
+    public function encodePassword(string $raw, string $salt): string;
 
     /**
      * Checks a raw password against an encoded password. The raw password has to be injected into the encoder instance before.
@@ -38,25 +40,25 @@ interface ilPasswordEncoder
      * @param string $salt    The salt, may be empty
      * @return Boolean true if the password is valid, false otherwise
      */
-    public function isPasswordValid(string $encoded, string $raw, string $salt) : bool;
+    public function isPasswordValid(string $encoded, string $raw, string $salt): bool;
 
     /**
      * Returns a unique name/id of the concrete password encoder
      */
-    public function getName() : string;
+    public function getName(): string;
 
     /**
      * Returns whether the encoder requires a salt
      */
-    public function requiresSalt() : bool;
+    public function requiresSalt(): bool;
 
     /**
      * Returns whether the encoded password needs to be re-encoded
      */
-    public function requiresReencoding(string $encoded) : bool;
+    public function requiresReencoding(string $encoded): bool;
 
     /**
      * Returns whether the encoder is supported by the runtime (PHP, HHVM, ...)
      */
-    public function isSupportedByRuntime() : bool;
+    public function isSupportedByRuntime(): bool;
 }

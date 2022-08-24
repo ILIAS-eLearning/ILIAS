@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -24,7 +26,7 @@ use ILIAS\GlobalScreen\Scope\Notification\Provider\NotificationProvider;
 
 class BadgeNotificationProvider extends AbstractNotificationProvider
 {
-    public function getNotifications() : array
+    public function getNotifications(): array
     {
         $lng = $this->dic->language();
         $ui = $this->dic->ui();
@@ -34,7 +36,7 @@ class BadgeNotificationProvider extends AbstractNotificationProvider
         $lng->loadLanguageModule("badge");
 
         $factory = $this->globalScreen()->notifications()->factory();
-        $id = function (string $id) : IdentificationInterface {
+        $id = function (string $id): IdentificationInterface {
             return $this->if->identifier($id);
         };
 

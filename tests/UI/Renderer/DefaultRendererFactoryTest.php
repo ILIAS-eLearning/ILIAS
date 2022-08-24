@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 use PHPUnit\Framework\TestCase;
 use ILIAS\UI\Implementation\Component\Symbol\Glyph\Glyph;
 use ILIAS\UI\Implementation\Component\Symbol\Glyph\Renderer;
@@ -27,7 +29,7 @@ class DefaultRendererFactoryForTest extends DefaultRendererFactory
     {
     }
 
-    public function _getRendererNameFor(\ILIAS\UI\Component\Component $component) : string
+    public function _getRendererNameFor(\ILIAS\UI\Component\Component $component): string
     {
         return $this->getRendererNameFor($component);
     }
@@ -35,9 +37,9 @@ class DefaultRendererFactoryForTest extends DefaultRendererFactory
 
 class DefaultRendererFactoryTest extends TestCase
 {
-    public function test_getRendererNameFor() : void
+    public function test_getRendererNameFor(): void
     {
-        $f = new DefaultRendererFactoryForTest;
+        $f = new DefaultRendererFactoryForTest();
 
         $renderer_class = $f->_getRendererNameFor(new Glyph("up", "up"));
         $expected = Renderer::class;

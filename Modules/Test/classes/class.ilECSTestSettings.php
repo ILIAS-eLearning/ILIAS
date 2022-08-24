@@ -1,4 +1,5 @@
 <?php
+
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 include_once 'Services/WebServices/ECS/classes/class.ilECSObjectSettings.php';
@@ -13,7 +14,7 @@ include_once 'Services/WebServices/ECS/classes/class.ilECSObjectSettings.php';
 */
 class ilECSTestSettings extends ilECSObjectSettings
 {
-    protected function getECSObjectType() : string
+    protected function getECSObjectType(): string
     {
         return '/campusconnect/tests';
     }

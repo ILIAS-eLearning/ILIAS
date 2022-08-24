@@ -24,10 +24,9 @@
  */
 class ilDclContentImporter
 {
-
     //const SOAP_FUNCTION_NAME = 'exportDataCollectionContent';
 
-    const EXPORT_EXCEL = 'xlsx';
+    public const EXPORT_EXCEL = 'xlsx';
     protected int $max_imports = 100;
     protected array $supported_import_datatypes
         = array(
@@ -77,7 +76,7 @@ class ilDclContentImporter
      * @throws \PhpOffice\PhpSpreadsheet\Exception
      * @throws ilDateTimeException
      */
-    public function import(string $file, bool $simulate = false) : array
+    public function import(string $file, bool $simulate = false): array
     {
         global $DIC;
         $ilUser = $DIC['ilUser'];
@@ -178,7 +177,7 @@ class ilDclContentImporter
         return array('line' => ($i - 2 < 0 ? 0 : $i - 2), 'warnings' => $this->warnings);
     }
 
-    protected function checkImportType(ilDclBaseFieldModel $field) : bool
+    protected function checkImportType(ilDclBaseFieldModel $field): bool
     {
         if (in_array($field->getDatatypeId(), $this->supported_import_datatypes)) {
             return true;
@@ -193,7 +192,7 @@ class ilDclContentImporter
      * @param string[] $titles
      * @return ilDclBaseFieldModel[]
      */
-    protected function getImportFieldsFromTitles(ilDclTable $table, array $titles) : array
+    protected function getImportFieldsFromTitles(ilDclTable $table, array $titles): array
     {
         $fields = $table->getRecordFields();
         $import_fields = array();

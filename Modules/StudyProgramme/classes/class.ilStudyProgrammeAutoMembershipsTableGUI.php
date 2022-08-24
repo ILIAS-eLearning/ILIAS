@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -53,12 +55,12 @@ class ilStudyProgrammeAutoMembershipsTableGUI extends ilTable2GUI
         $this->addMultiCommand('deleteConfirmation', $this->lng->txt('delete'));
     }
 
-    protected function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set): void
     {
         [$ams, $title, $usr, $actions] = $a_set;
 
         $id = $ams->getSourceType() . '-' . $ams->getSourceId();
-        $status = $ams->isEnabled()  ? $this->lng->txt('active') : $this->lng->txt('inactive');
+        $status = $ams->isEnabled() ? $this->lng->txt('active') : $this->lng->txt('inactive');
         $date = $this->getDatePresentation($ams->getLastEdited()->getTimestamp());
 
         $this->tpl->setVariable("ID", $id);
@@ -70,7 +72,7 @@ class ilStudyProgrammeAutoMembershipsTableGUI extends ilTable2GUI
         $this->tpl->setVariable("ACTIONS", $actions);
     }
 
-    protected function getDatePresentation(int $timestamp) : string
+    protected function getDatePresentation(int $timestamp): string
     {
         $date = new ilDateTime($timestamp, IL_CAL_UNIX);
         return ilDatePresentation::formatDate($date) ?? "";

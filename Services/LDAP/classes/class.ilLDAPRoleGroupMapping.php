@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -35,7 +37,7 @@ class ilLDAPRoleGroupMapping
     private array $users;
     private ?array $user_dns;
     private bool $active_servers = false;
-    
+
     /**
      * Singleton contructor
      */
@@ -49,18 +51,18 @@ class ilLDAPRoleGroupMapping
 
         $this->initServers();
     }
-    
+
     /**
      * Get singleton instance of this class
      */
-    public static function _getInstance() : ?ilLDAPRoleGroupMapping
+    public static function _getInstance(): ?ilLDAPRoleGroupMapping
     {
         if (is_object(self::$instance)) {
             return self::$instance;
         }
         return self::$instance = new ilLDAPRoleGroupMapping();
     }
-    
+
     /**
      * Get info string for object
      * If check info type is enabled this function will check if the info string is visible in the repository.
@@ -69,7 +71,7 @@ class ilLDAPRoleGroupMapping
      * @param bool check info type
      * @return string[]
      */
-    public function getInfoStrings(int $a_obj_id, bool $a_check_type = false) : array
+    public function getInfoStrings(int $a_obj_id, bool $a_check_type = false): array
     {
         if (!$this->active_servers) {
             return [];
@@ -85,20 +87,20 @@ class ilLDAPRoleGroupMapping
 
         return [];
     }
-    
-    
+
+
     /**
      * This method is typically called from class RbacAdmin::assignUser()
      * It checks if there is a role mapping and if the user has auth mode LDAP
      * After these checks the user is assigned to the LDAP group
      */
-    public function assign($a_role_id, $a_usr_id) : bool
+    public function assign($a_role_id, $a_usr_id): bool
     {
         // return if there nothing to do
         if (!$this->active_servers) {
             return false;
         }
-        
+
         if (!$this->isHandledRole($a_role_id)) {
             return false;
         }
@@ -111,7 +113,7 @@ class ilLDAPRoleGroupMapping
 
         return true;
     }
-    
+
     /**
      * Delete role.
      * This function triggered from ilRbacAdmin::deleteRole
@@ -120,30 +122,30 @@ class ilLDAPRoleGroupMapping
      * @param int role id
      *
      */
-    public function deleteRole(int $a_role_id) : bool
+    public function deleteRole(int $a_role_id): bool
     {
         // return if there nothing to do
         if (!$this->active_servers) {
             return false;
         }
-        
+
         if (!$this->isHandledRole($a_role_id)) {
             return false;
         }
-        
+
         foreach ($this->rbacreview->assignedUsers($a_role_id) as $usr_id) {
             $this->deassign($a_role_id, $usr_id);
         }
         return true;
     }
-    
-    
+
+
     /**
      * This method is typically called from class RbacAdmin::deassignUser()
      * It checks if there is a role mapping and if the user has auth mode LDAP
      * After these checks the user is deassigned from the LDAP group
      */
-    public function deassign($a_role_id, $a_usr_id) : bool
+    public function deassign($a_role_id, $a_usr_id): bool
     {
         // return if there notzing to do
         if (!$this->active_servers) {
@@ -157,35 +159,35 @@ class ilLDAPRoleGroupMapping
         }
         $this->log->write('LDAP deassign: User ID: ' . $a_usr_id . ' Role Id: ' . $a_role_id);
         $this->deassignFromGroup($a_role_id, $a_usr_id);
-        
+
         return true;
     }
-    
+
     /**
      * Delete user => deassign from all ldap groups
      *
      * @param int user id
      */
-    public function deleteUser($a_usr_id) : bool
+    public function deleteUser($a_usr_id): bool
     {
         if (!$this->active_servers) {
             return false;
         }
-        
+
         foreach ($this->mappings as $role_id) {
             $this->deassign($role_id, $a_usr_id);
         }
         return true;
     }
-    
-    
+
+
     /**
      * Check if there is any active server with
      */
-    private function initServers() : void
+    private function initServers(): void
     {
         $server_ids = ilLDAPServer::_getRoleSyncServerIds();
-        
+
         if (!count($server_ids)) {
             return;
         }
@@ -212,7 +214,7 @@ class ilLDAPRoleGroupMapping
         }
         $this->users = ilObjUser::_getExternalAccountsByAuthMode('ldap', true);
     }
-    
+
     /**
      * Check if a role is handled or not
      *
@@ -220,27 +222,27 @@ class ilLDAPRoleGroupMapping
      * @return bool server id or 0 if mapping exists
      *
      */
-    private function isHandledRole($a_role_id) : bool
+    private function isHandledRole($a_role_id): bool
     {
         return array_key_exists($a_role_id, $this->mappings);
     }
-    
+
     /**
      * Check if user is ldap user
      */
-    private function isHandledUser($a_usr_id) : bool
+    private function isHandledUser($a_usr_id): bool
     {
         return array_key_exists($a_usr_id, $this->users);
     }
-    
-    
+
+
     /**
      * Assign user to group
      *
      * @param int role_id
      * @param int user_id
      */
-    private function assignToGroup($a_role_id, $a_usr_id) : void
+    private function assignToGroup($a_role_id, $a_usr_id): void
     {
         foreach ($this->mappings[$a_role_id] as $data) {
             try {
@@ -249,7 +251,7 @@ class ilLDAPRoleGroupMapping
                 } else {
                     $external_account = $this->users[$a_usr_id];
                 }
-                
+
                 // Forcing modAdd since Active directory is too slow and i cannot check if a user is member or not.
                 #if($this->isMember($external_account,$data))
                 #{
@@ -269,7 +271,7 @@ class ilLDAPRoleGroupMapping
             }
         }
     }
-    
+
     /**
      * Deassign user from group
      *
@@ -277,7 +279,7 @@ class ilLDAPRoleGroupMapping
      * @param int user_id
      *
      */
-    private function deassignFromGroup($a_role_id, $a_usr_id) : void
+    private function deassignFromGroup($a_role_id, $a_usr_id): void
     {
         foreach ($this->mappings[$a_role_id] as $data) {
             try {
@@ -286,7 +288,7 @@ class ilLDAPRoleGroupMapping
                 } else {
                     $external_account = $this->users[$a_usr_id];
                 }
-                
+
                 // Check for other role membership
                 if ($role_id = $this->checkOtherMembership($a_usr_id, $a_role_id, $data)) {
                     $this->log->write('LDAP deassign: User is still assigned to role "' . $role_id . '".');
@@ -303,7 +305,7 @@ class ilLDAPRoleGroupMapping
                 $query_obj = $this->getLDAPQueryInstance($data['server_id'], $data['url']);
                 $query_obj->modDelete($data['dn'], array($data['member'] => $external_account));
                 $this->log->write('LDAP deassign: Deassigned ' . $external_account . ' from group ' . $data['dn']);
-                
+
                 // Delete from cache
                 if (is_array($this->mapping_members[$data['mapping_id']])) {
                     $key = array_search($external_account, $this->mapping_members[$data['mapping_id']], true);
@@ -318,7 +320,7 @@ class ilLDAPRoleGroupMapping
             }
         }
     }
-    
+
     /**
      * Check other membership
      *
@@ -345,7 +347,7 @@ class ilLDAPRoleGroupMapping
         }
         return false;
     }
-    
+
     /**
      * Read DN of user
      *
@@ -361,9 +363,9 @@ class ilLDAPRoleGroupMapping
         if (isset($this->user_dns[$a_usr_id])) {
             return $this->user_dns[$a_usr_id];
         }
-        
+
         $external_account = $this->users[$a_usr_id];
-        
+
         $server = $this->servers[$a_server_id];
         $query_obj = $this->getLDAPQueryInstance($a_server_id, $server->getUrl());
 
@@ -399,7 +401,7 @@ class ilLDAPRoleGroupMapping
         $this->user_dns[$a_usr_id] = $data['dn'];
         return $this->user_dns[$a_usr_id];
     }
-    
+
     /**
      * Get LDAPQueryInstance
      *

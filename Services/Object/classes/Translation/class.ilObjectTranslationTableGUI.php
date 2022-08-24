@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * TableGUI class for title/description translations
  *
@@ -41,9 +43,9 @@ class ilObjectTranslationTableGUI extends ilTable2GUI
         parent::__construct($parent_obj, $parent_cmd);
         $this->incl_desc = $incl_desc;
         $this->base_cmd = $base_cmd;
-        
+
         $this->setLimit(9999);
-        
+
         $this->addColumn("", "", "1");
         $this->addColumn($this->lng->txt("language"));
         $this->addColumn($this->lng->txt("default"));
@@ -60,8 +62,8 @@ class ilObjectTranslationTableGUI extends ilTable2GUI
 
         $this->nr = 0;
     }
-    
-    protected function prepareOutput() : void
+
+    protected function prepareOutput(): void
     {
         $this->addMultiCommand("delete" . $this->base_cmd . "s", $this->lng->txt("remove"));
         if ($this->dataExists()) {
@@ -69,20 +71,20 @@ class ilObjectTranslationTableGUI extends ilTable2GUI
         }
         $this->addCommandButton("add" . $this->base_cmd, $this->lng->txt("add"));
     }
-    
-    protected function fillRow(array $set) : void
+
+    protected function fillRow(array $set): void
     {
         $this->nr++;
-        
+
         if ($this->incl_desc) {
             $this->tpl->setCurrentBlock("desc_row");
             $this->tpl->setVariable("VAL_DESC", ilLegacyFormElementsUtil::prepareFormOutput($set["desc"]));
             $this->tpl->setVariable("DNR", $this->nr);
             $this->tpl->parseCurrentBlock();
         }
-        
+
         $this->tpl->setVariable("NR", $this->nr);
-        
+
         // lang selection
         $languages = ilMDLanguageItem::_getLanguages();
         $this->tpl->setVariable(

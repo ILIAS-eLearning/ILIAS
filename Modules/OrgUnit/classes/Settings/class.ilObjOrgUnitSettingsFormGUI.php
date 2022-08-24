@@ -62,7 +62,7 @@ class ilObjOrgUnitSettingsFormGUI extends ilPropertyFormGUI
     /**
      * Add all fields to the form
      */
-    private function initForm() : void
+    private function initForm(): void
     {
         $this->setFormAction($this->ctrl->getFormAction($this->parent_gui));
         $this->setTitle($this->lng->txt('orgu_settings'));
@@ -106,7 +106,7 @@ class ilObjOrgUnitSettingsFormGUI extends ilPropertyFormGUI
      * Check validity of form and pass values from form to object
      * @return bool
      */
-    private function fillObject() : bool
+    private function fillObject(): bool
     {
         $this->setValuesByPost();
         if (!$this->checkInput()) {
@@ -123,7 +123,7 @@ class ilObjOrgUnitSettingsFormGUI extends ilPropertyFormGUI
     /**
      * Update title and description for the default language of translation
      */
-    private function updateTranslation() : void
+    private function updateTranslation(): void
     {
         $translations = $this->obj_orgu->getTranslations();
         $lang_code_default = '';

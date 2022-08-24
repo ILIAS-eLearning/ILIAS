@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\UI\Implementation\Component\Symbol\Icon;
 
 use ILIAS\UI\Component\Symbol\Icon as I;
@@ -30,7 +32,7 @@ class Factory implements I\Factory
         string $label,
         string $size = 'small',
         bool $is_disabled = false
-    ) : I\Standard {
+    ): I\Standard {
         return new Standard($name, $label, $size, $is_disabled);
     }
 
@@ -42,7 +44,7 @@ class Factory implements I\Factory
         string $label,
         string $size = 'small',
         bool $is_disabled = false
-    ) : I\Custom {
+    ): I\Custom {
         return new Custom($icon_path, $label, $size, $is_disabled);
     }
 }

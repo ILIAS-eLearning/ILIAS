@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -30,7 +32,7 @@ class ilCertificateBackgroundImageDelete
         $this->fileService = $fileService;
     }
 
-    public function deleteBackgroundImage(?int $version) : void
+    public function deleteBackgroundImage(?int $version): void
     {
         if (is_file($this->fileService->getBackgroundImageThumbPath())) {
             unlink($this->fileService->getBackgroundImageThumbPath());

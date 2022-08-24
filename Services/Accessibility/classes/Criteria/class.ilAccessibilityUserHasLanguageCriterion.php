@@ -21,17 +21,17 @@
  */
 class ilAccessibilityUserHasLanguageCriterion implements ilAccessibilityCriterionType
 {
-    public function getTypeIdent() : string
+    public function getTypeIdent(): string
     {
         return 'usr_language';
     }
 
-    public function hasUniqueNature() : bool
+    public function hasUniqueNature(): bool
     {
         return true;
     }
 
-    public function evaluate(ilObjUser $user, ilAccessibilityCriterionConfig $config) : bool
+    public function evaluate(ilObjUser $user, ilAccessibilityCriterionConfig $config): bool
     {
         $lng = $config['lng'] ?? '';
 
@@ -44,7 +44,7 @@ class ilAccessibilityUserHasLanguageCriterion implements ilAccessibilityCriterio
         return $result;
     }
 
-    public function ui(ilLanguage $lng) : ilAccessibilityCriterionTypeGUI
+    public function ui(ilLanguage $lng): ilAccessibilityCriterionTypeGUI
     {
         return new ilAccessibilityUserHasLanguageCriterionGUI($this, $lng);
     }

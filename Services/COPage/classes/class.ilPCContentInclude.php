@@ -33,7 +33,7 @@ class ilPCContentInclude extends ilPageContent
     /**
     * Init page content component.
     */
-    public function init() : void
+    public function init(): void
     {
         global $DIC;
 
@@ -42,7 +42,7 @@ class ilPCContentInclude extends ilPageContent
         $this->access = $DIC->access();
     }
 
-    public function setNode(php4DOMElement $a_node) : void
+    public function setNode(php4DOMElement $a_node): void
     {
         parent::setNode($a_node);		// this is the PageContent node
         $this->incl_node = $a_node->first_child();		// this is the snippet node
@@ -52,7 +52,7 @@ class ilPCContentInclude extends ilPageContent
         ilPageObject $a_pg_obj,
         string $a_hier_id,
         string $a_pc_id = ""
-    ) : void {
+    ): void {
         $this->node = $this->createPageContentNode();
         $a_pg_obj->insertContent($this, $a_hier_id, IL_INSERT_AFTER, $a_pc_id);
         $this->incl_node = $this->dom->create_element("ContentInclude");
@@ -62,15 +62,15 @@ class ilPCContentInclude extends ilPageContent
     /**
      * Set content id
      */
-    public function setContentId(int $a_id) : void
+    public function setContentId(int $a_id): void
     {
         $this->setContentIncludeAttribute("ContentId", (string) $a_id);
     }
-    
+
     /**
      * Get content id
      */
-    public function getContentId() : int
+    public function getContentId(): int
     {
         return (int) $this->getContentIncludeAttribute("ContentId");
     }
@@ -78,15 +78,15 @@ class ilPCContentInclude extends ilPageContent
     /**
      * Set content type
      */
-    public function setContentType(string $a_type) : void
+    public function setContentType(string $a_type): void
     {
         $this->setContentIncludeAttribute("ContentType", $a_type);
     }
-    
+
     /**
      * Get content type
      */
-    public function getContentType() : string
+    public function getContentType(): string
     {
         return $this->getContentIncludeAttribute("ContentType");
     }
@@ -94,7 +94,7 @@ class ilPCContentInclude extends ilPageContent
     /**
      * Set installation id
      */
-    public function setInstId(string $a_id) : void
+    public function setInstId(string $a_id): void
     {
         $this->setContentIncludeAttribute("InstId", $a_id);
     }
@@ -102,18 +102,18 @@ class ilPCContentInclude extends ilPageContent
     /**
      * Get installation id
      */
-    public function getInstId() : string
+    public function getInstId(): string
     {
         return $this->getContentIncludeAttribute("InstId");
     }
-    
+
     /**
      * Set attribute of content include tag
      */
     protected function setContentIncludeAttribute(
         string $a_attr,
         string $a_value
-    ) : void {
+    ): void {
         if (!empty($a_value)) {
             $this->incl_node->set_attribute($a_attr, $a_value);
         } else {
@@ -126,7 +126,7 @@ class ilPCContentInclude extends ilPageContent
     /**
      * Get content include tag attribute
      */
-    public function getContentIncludeAttribute(string $a_attr) : string
+    public function getContentIncludeAttribute(string $a_attr): string
     {
         if (is_object($this->incl_node)) {
             return  $this->incl_node->get_attribute($a_attr);
@@ -142,15 +142,15 @@ class ilPCContentInclude extends ilPageContent
         DOMDocument $a_domdoc,
         string $a_xml,
         bool $a_creation
-    ) : void {
+    ): void {
         // pc content include
         self::saveContentIncludeUsage($a_page, $a_domdoc);
     }
-    
+
     /**
      * Before page is being deleted
      */
-    public static function beforePageDelete(ilPageObject $a_page) : void
+    public static function beforePageDelete(ilPageObject $a_page): void
     {
         ilPageContentUsage::deleteAllUsages("incl", $a_page->getParentType() . ":pg", $a_page->getId(), false, $a_page->getLanguage());
     }
@@ -163,7 +163,7 @@ class ilPCContentInclude extends ilPageContent
         DOMDocument $a_old_domdoc,
         string $a_old_xml,
         int $a_old_nr
-    ) : void {
+    ): void {
         self::saveContentIncludeUsage($a_page, $a_old_domdoc, $a_old_nr);
     }
 
@@ -174,7 +174,7 @@ class ilPCContentInclude extends ilPageContent
         ilPageObject $a_page,
         DOMDocument $a_domdoc,
         int $a_old_nr = 0
-    ) : void {
+    ): void {
         $ci_ids = self::collectContentIncludes($a_page, $a_domdoc);
         ilPageContentUsage::deleteAllUsages("incl", $a_page->getParentType() . ":pg", $a_page->getId(), $a_old_nr, $a_page->getLanguage());
         foreach ($ci_ids as $ci_id) {
@@ -197,7 +197,7 @@ class ilPCContentInclude extends ilPageContent
     public static function collectContentIncludes(
         ilPageObject $a_page,
         DOMDocument $a_domdoc
-    ) : array {
+    ): array {
         $xpath = new DOMXPath($a_domdoc);
         $nodes = $xpath->query('//ContentInclude');
 
@@ -217,7 +217,7 @@ class ilPCContentInclude extends ilPageContent
         string $a_output,
         string $a_mode,
         bool $a_abstract_only = false
-    ) : string {
+    ): string {
         $lng = $this->lng;
 
         $end = 0;
@@ -226,13 +226,17 @@ class ilPCContentInclude extends ilPageContent
             $end = strpos($a_output, "}}}}}", $start);
         }
         $i = 1;
+        $parent_lang = $this->getPage()->getLanguage();
+        if ($parent_lang == "-" && $this->getPage()->getConcreteLang() != "") {
+            $parent_lang = $this->getPage()->getConcreteLang();
+        }
         while ($end > 0) {
             $param = substr($a_output, $start + 20, $end - $start - 20);
             $param = explode(";", $param);
 
             if ($param[0] == "mep" && is_numeric($param[1])) {
                 $html = "";
-                $snippet_lang = $this->getPage()->getLanguage();
+                $snippet_lang = $parent_lang;
                 if (!ilPageObject::_exists("mep", $param[1], $snippet_lang)) {
                     $snippet_lang = "-";
                 }
@@ -288,7 +292,7 @@ class ilPCContentInclude extends ilPageContent
         int $page_id,
         string $lang,
         int $delete_lower_than_nr
-    ) : void {
+    ): void {
         global $DIC;
 
         $usage_repo = $DIC->copage()

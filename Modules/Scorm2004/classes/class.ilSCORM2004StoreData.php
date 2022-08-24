@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -23,7 +25,7 @@
  */
 class ilSCORM2004StoreData
 {
-    public static function scormPlayerUnload(int $packageId, int $refId, bool $time_from_lms, ?int $userId = null) : void
+    public static function scormPlayerUnload(int $packageId, int $refId, bool $time_from_lms, ?int $userId = null): void
     {
         global $DIC;
 
@@ -86,7 +88,7 @@ class ilSCORM2004StoreData
         print("");
     }
 
-    public static function checkIfAllowed(int $packageId, int $userId, string $hash) : void
+    public static function checkIfAllowed(int $packageId, int $userId, string $hash): void
     {
         global $DIC;
 
@@ -104,7 +106,7 @@ class ilSCORM2004StoreData
         die("not allowed");
     }
 
-    protected static function ensureObjectDataCacheExistence() : void
+    protected static function ensureObjectDataCacheExistence(): void
     {
         /**
          * @var $ilObjDataCache ilObjectDataCache
@@ -130,7 +132,7 @@ class ilSCORM2004StoreData
         bool $time_from_lms,
         ?string $data = null,
         ?int $userId = null
-    ) : void {
+    ): void {
         global $DIC;
 
         $ilLog = ilLoggerFactory::getLogger('sc13');
@@ -195,7 +197,7 @@ class ilSCORM2004StoreData
         bool $getComments,
         bool $getInteractions,
         bool $getObjectives
-    ) : array {
+    ): array {
         global $DIC;
 
         $ilDB = $DIC->database();
@@ -415,7 +417,7 @@ class ilSCORM2004StoreData
         return $result;
     }
 
-    protected static function setGlobalObjectives(int $userId, int $packageId, object $data) : void
+    protected static function setGlobalObjectives(int $userId, int $packageId, object $data): void
     {
         $ilLog = ilLoggerFactory::getLogger('sc13');
         $changed_seq_utilities = $data->changed_seq_utilities;
@@ -431,7 +433,7 @@ class ilSCORM2004StoreData
     /**
      * @return mixed[]|null[]
      */
-    public static function writeGObjective(int $user, int $package, ?array $g_data) : array
+    public static function writeGObjective(int $user, int $package, ?array $g_data): array
     {
         global $DIC;
         $ilDB = $DIC->database();
@@ -640,7 +642,7 @@ class ilSCORM2004StoreData
         return $returnAr;
     }
 
-    public static function syncGlobalStatus(int $userId, int $packageId, int $refId, object $data, int $new_global_status, bool $time_from_lms) : void
+    public static function syncGlobalStatus(int $userId, int $packageId, int $refId, object $data, int $new_global_status, bool $time_from_lms): void
     {
         global $DIC;
         $ilDB = $DIC->database();

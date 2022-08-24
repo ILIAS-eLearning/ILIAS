@@ -24,12 +24,12 @@ class ilSurveyImportConfig extends ilImportConfig
 {
     protected int $svy_qpl_id = -1;
 
-    public function setQuestionPoolID(int $a_svy_qpl_id) : void
+    public function setQuestionPoolID(int $a_svy_qpl_id): void
     {
         $this->svy_qpl_id = $a_svy_qpl_id;
     }
 
-    public function getQuestionPoolID() : int
+    public function getQuestionPoolID(): int
     {
         return $this->svy_qpl_id;
     }

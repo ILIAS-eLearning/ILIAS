@@ -16,20 +16,20 @@ require_once('./libs/composer/vendor/autoload.php');
 class MetaDataTest extends TestCase
 {
     public MetaContent $meta_content;
-    
-    protected function setUp() : void
+
+    protected function setUp(): void
     {
         parent::setUp();
         $this->meta_content = new MetaContent('1.0');
     }
-    
-    public function testAddMetaDatum() : void
+
+    public function testAddMetaDatum(): void
     {
         $key = 'key';
         $value = 'value';
         $this->meta_content->addMetaDatum($key, $value);
         $collection = $this->meta_content->getMetaData();
-        
+
         $first_item = iterator_to_array($collection->getItems())[0];
         $this->assertInstanceOf(MetaDatum::class, $first_item);
         $this->assertEquals($key, $first_item->getKey());

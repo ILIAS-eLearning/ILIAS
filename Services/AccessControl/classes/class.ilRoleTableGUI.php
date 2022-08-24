@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -14,7 +16,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * TableGUI for the presentation og roles and role templates
  * @author  Stefan Meyer <smeyer.ilias@gmx.de>
@@ -60,7 +62,7 @@ class ilRoleTableGUI extends ilTable2GUI
         $this->lng->loadLanguageModule('search');
     }
 
-    protected function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set): void
     {
         if ($a_set['type'] == 'role') {
             if ($a_set['parent'] != ROLE_FOLDER_ID) {
@@ -137,7 +139,7 @@ class ilRoleTableGUI extends ilTable2GUI
     /**
      * Init table
      */
-    public function init() : void
+    public function init(): void
     {
         $this->addColumn('', 'f', '1px');
 
@@ -184,17 +186,17 @@ class ilRoleTableGUI extends ilTable2GUI
         $this->initFilter();
     }
 
-    public function getType() : int
+    public function getType(): int
     {
         return $this->type;
     }
 
-    public function setType(int $a_type) : void
+    public function setType(int $a_type): void
     {
         $this->type = $a_type;
     }
 
-    protected function getPathGUI() : ilPathGUI
+    protected function getPathGUI(): ilPathGUI
     {
         return $this->path_gui;
     }
@@ -202,7 +204,7 @@ class ilRoleTableGUI extends ilTable2GUI
     /**
      * Init filter
      */
-    public function initFilter() : void
+    public function initFilter(): void
     {
         $this->setDisableFilterHiding(true);
 
@@ -250,7 +252,7 @@ class ilRoleTableGUI extends ilTable2GUI
      * Parse role list
      * @param array $role_list
      */
-    public function parse(int $role_folder_id) : void
+    public function parse(int $role_folder_id): void
     {
         $this->role_folder_id = $role_folder_id;
 
@@ -323,12 +325,12 @@ class ilRoleTableGUI extends ilTable2GUI
         $this->setData($rows);
     }
 
-    public function getRoleTitleFilter() : string
+    public function getRoleTitleFilter(): string
     {
         return $this->role_title_filter;
     }
 
-    public function setRoleTitleFilter(string $a_filter) : void
+    public function setRoleTitleFilter(string $a_filter): void
     {
         $this->role_title_filter = $a_filter;
     }

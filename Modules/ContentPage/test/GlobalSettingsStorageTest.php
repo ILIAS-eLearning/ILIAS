@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -25,7 +27,7 @@ use ilSetting;
 
 class GlobalSettingsStorageTest extends TestCase
 {
-    public function testGlobalSettings() : void
+    public function testGlobalSettings(): void
     {
         $settings = new Settings();
 
@@ -40,9 +42,9 @@ class GlobalSettingsStorageTest extends TestCase
         $this->assertFalse($settingsWithDisabledReadingTime->isReadingTimeEnabled());
     }
 
-    public function testGlobalSettingsStorage() : void
+    public function testGlobalSettingsStorage(): void
     {
-        $iliasSettings = new class() extends ilSetting {
+        $iliasSettings = new class () extends ilSetting {
             /** @var array<string, string> */
             private array $map = [];
 
@@ -50,12 +52,12 @@ class GlobalSettingsStorageTest extends TestCase
             {
             }
 
-            public function get(string $a_keyword, ?string $a_default_value = null) : ?string
+            public function get(string $a_keyword, ?string $a_default_value = null): ?string
             {
                 return $this->map[$a_keyword] ?? null;
             }
 
-            public function set(string $a_key, string $a_val) : void
+            public function set(string $a_key, string $a_val): void
             {
                 $this->map[$a_key] = $a_val;
             }

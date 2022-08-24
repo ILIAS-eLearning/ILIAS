@@ -34,22 +34,22 @@ class ilNewsContext
         $this->sub_type = $sub_type;
     }
 
-    public function getObjId() : int
+    public function getObjId(): int
     {
         return $this->obj_id;
     }
 
-    public function getObjType() : string
+    public function getObjType(): string
     {
         return $this->obj_type;
     }
 
-    public function getSubId() : int
+    public function getSubId(): int
     {
         return $this->sub_id;
     }
 
-    public function getSubType() : string
+    public function getSubType(): string
     {
         return $this->sub_type;
     }

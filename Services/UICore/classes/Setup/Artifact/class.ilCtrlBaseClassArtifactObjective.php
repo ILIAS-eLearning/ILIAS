@@ -1,4 +1,6 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types=1);
 
 /* Copyright (c) 2021 Thibeau Fuhrer <thf@studer-raimann.ch> Extended GPL, see docs/LICENSE */
 
@@ -22,7 +24,7 @@ class ilCtrlBaseClassArtifactObjective extends BuildArtifactObjective
     /**
      * @inheritDoc
      */
-    public function getArtifactPath() : string
+    public function getArtifactPath(): string
     {
         return self::ARTIFACT_PATH;
     }
@@ -30,7 +32,7 @@ class ilCtrlBaseClassArtifactObjective extends BuildArtifactObjective
     /**
      * @inheritDoc
      */
-    public function build() : Artifact
+    public function build(): Artifact
     {
         $finder = new ImplementationOfInterfaceFinder();
 

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -44,22 +46,22 @@ class ilSearchCommandQueue
 
         $this->db = $DIC->database();
     }
-    
+
     /**
      * get singleton instance
      */
-    public static function factory() : ilSearchCommandQueue
+    public static function factory(): ilSearchCommandQueue
     {
         if (self::$instance instanceof ilSearchCommandQueue) {
             return self::$instance;
         }
         return self::$instance = new ilSearchCommandQueue();
     }
-    
+
     /**
      * update / save new entry
      */
-    public function store(ilSearchCommandQueueElement $element) : void
+    public function store(ilSearchCommandQueueElement $element): void
     {
         $query = "SELECT obj_id, obj_type FROM search_command_queue " .
             "WHERE obj_id = " . $this->db->quote($element->getObjId(), 'integer') . " " .
@@ -71,11 +73,11 @@ class ilSearchCommandQueue
             $this->insert($element);
         }
     }
-    
+
     /**
      * Insert new entry
      */
-    protected function insert(ilSearchCommandQueueElement $element) : void
+    protected function insert(ilSearchCommandQueueElement $element): void
     {
         $query = "INSERT INTO search_command_queue (obj_id,obj_type,sub_id,sub_type,command,last_update,finished) " .
             "VALUES( " .
@@ -89,11 +91,11 @@ class ilSearchCommandQueue
             ")";
         $res = $this->db->manipulate($query);
     }
-    
+
     /**
      * Update existing entry
      */
-    protected function update(ilSearchCommandQueueElement $element) : void
+    protected function update(ilSearchCommandQueueElement $element): void
     {
         $query = "UPDATE search_command_queue " .
             "SET command = " . $this->db->quote($element->getCommand(), 'text') . ", " .

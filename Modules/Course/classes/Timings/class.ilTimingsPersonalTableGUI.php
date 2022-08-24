@@ -1,4 +1,6 @@
-<?php declare(strict_types=0);
+<?php
+
+declare(strict_types=0);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\HTTP\Services as HTTPServices;
 
@@ -51,27 +53,27 @@ class ilTimingsPersonalTableGUI extends ilTable2GUI
         parent::__construct($a_parent_class, $a_parent_cmd);
     }
 
-    public function getContainerObject() : ilObject
+    public function getContainerObject(): ilObject
     {
         return $this->container;
     }
 
-    public function getMainContainer() : ilObjCourse
+    public function getMainContainer(): ilObjCourse
     {
         return $this->main_container;
     }
 
-    public function setUserId(int $a_usr_id) : void
+    public function setUserId(int $a_usr_id): void
     {
         $this->user_id = $a_usr_id;
     }
 
-    public function getUserId() : int
+    public function getUserId(): int
     {
         return $this->user_id;
     }
 
-    public function init() : void
+    public function init(): void
     {
         $this->setFormAction($this->ctrl->getFormAction($this->getParentObject()));
         $this->setRowTemplate('tpl.crs_personal_timings_row.html', 'Modules/Course');
@@ -84,17 +86,17 @@ class ilTimingsPersonalTableGUI extends ilTable2GUI
         $this->setShowRowsSelector(false);
     }
 
-    public function setFailureStatus(bool $a_status) : void
+    public function setFailureStatus(bool $a_status): void
     {
         $this->failure = $a_status;
     }
 
-    public function getFailureStatus() : bool
+    public function getFailureStatus(): bool
     {
         return $this->failure;
     }
 
-    protected function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set): void
     {
         if ($a_set['error'] == true) {
             $this->tpl->setVariable('TD_CLASS', 'warning');
@@ -171,7 +173,7 @@ class ilTimingsPersonalTableGUI extends ilTable2GUI
         );
     }
 
-    public function parse(array $a_item_data, array $failed = array()) : void
+    public function parse(array $a_item_data, array $failed = array()): void
     {
         $rows = array();
         foreach ($a_item_data as $item) {
@@ -206,7 +208,7 @@ class ilTimingsPersonalTableGUI extends ilTable2GUI
         $this->setData($rows);
     }
 
-    protected function parseUserTimings(array $a_item) : array
+    protected function parseUserTimings(array $a_item): array
     {
         $tu = new ilTimingUser($a_item['child'], $this->getUserId());
 
@@ -221,7 +223,7 @@ class ilTimingsPersonalTableGUI extends ilTable2GUI
         return $a_item;
     }
 
-    protected function parseTitle(array $current_row, array $item) : array
+    protected function parseTitle(array $current_row, array $item): array
     {
         switch ($item['type']) {
             case 'fold':

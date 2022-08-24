@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -38,12 +40,12 @@ class ilForcedUserPasswordChangeStartUpStep extends StartUpSequenceStep
         $this->request = $request;
     }
 
-    public function shouldStoreRequestTarget() : bool
+    public function shouldStoreRequestTarget(): bool
     {
         return true;
     }
 
-    public function isInFulfillment() : bool
+    public function isInFulfillment(): bool
     {
         if (
             !isset($this->request->getQueryParams()['baseClass']) ||
@@ -58,7 +60,7 @@ class ilForcedUserPasswordChangeStartUpStep extends StartUpSequenceStep
         );
     }
 
-    public function shouldInterceptRequest() : bool
+    public function shouldInterceptRequest(): bool
     {
         if (ilSession::get('used_external_auth')) {
             return false;
@@ -71,7 +73,7 @@ class ilForcedUserPasswordChangeStartUpStep extends StartUpSequenceStep
         return false;
     }
 
-    public function execute() : void
+    public function execute(): void
     {
         $this->ctrl->redirectByClass(
             ['ildashboardgui', 'ilpersonalsettingsgui'],

@@ -43,9 +43,9 @@ abstract class ilSystemStyleExceptionBase extends ilException
         parent::__construct($this->message, $this->code);
     }
 
-    abstract protected function assignMessageToCode() : void;
+    abstract protected function assignMessageToCode(): void;
 
-    public function __toString() : string
+    public function __toString(): string
     {
         return get_class($this) . " '$this->message' in $this->file($this->line)\n"
             . "{$this->getTraceAsString()}";

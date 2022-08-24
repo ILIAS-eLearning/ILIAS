@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /******************************************************************************
  *
@@ -44,20 +46,20 @@ class ilECSTimePlace
      * @param object json representation
      * @throws ilException
      */
-    public function loadFromJson($a_json) : void
+    public function loadFromJson($a_json): void
     {
         if (!is_object($a_json)) {
             $this->logger->error(__METHOD__ . ': Cannot load from JSON. No object given.');
             throw new ilException('Cannot parse ECSContent.');
         }
-        
+
         $this->logger->debug(__METHOD__ . ': ' . print_r($a_json, true));
 
         $this->room = $a_json->room;
         $this->begin = $a_json->begin;
         $this->end = $a_json->end;
         $this->cycle = $a_json->cycle;
-        
+
         $two = new ilDate('2000-01-02', IL_CAL_DATE);
         if (ilDate::_before(new ilDateTime($this->getUTBegin(), IL_CAL_UNIX), $two)) {
             $this->begin = '';
@@ -70,7 +72,7 @@ class ilECSTimePlace
     /**
      * set begin
      */
-    public function setBegin($a_begin) : void
+    public function setBegin($a_begin): void
     {
         // is it unix time ?
         if (is_numeric($a_begin) && $a_begin) {
@@ -84,7 +86,7 @@ class ilECSTimePlace
     /**
      * get begin
      */
-    public function getBegin() : string
+    public function getBegin(): string
     {
         return $this->begin;
     }
@@ -100,7 +102,7 @@ class ilECSTimePlace
     /**
      * set end
      */
-    public function setEnd(string $a_end) : void
+    public function setEnd(string $a_end): void
     {
         // is it unix time ?
         if (is_numeric($a_end) && $a_end) {
@@ -114,7 +116,7 @@ class ilECSTimePlace
     /**
      * get end
      */
-    public function getEnd() : string
+    public function getEnd(): string
     {
         return $this->end;
     }
@@ -130,7 +132,7 @@ class ilECSTimePlace
     /**
      * set room
      */
-    public function setRoom(string $a_room) : void
+    public function setRoom(string $a_room): void
     {
         $this->room = $a_room;
     }
@@ -138,7 +140,7 @@ class ilECSTimePlace
     /**
      * get room
      */
-    public function getRoom() : string
+    public function getRoom(): string
     {
         return $this->room;
     }
@@ -146,7 +148,7 @@ class ilECSTimePlace
     /**
      * set cycle
      */
-    public function setCycle($a_cycle) : void
+    public function setCycle($a_cycle): void
     {
         $this->cycle = $a_cycle;
     }
@@ -154,7 +156,7 @@ class ilECSTimePlace
     /**
      * get cycle
      */
-    public function getCycle() : string
+    public function getCycle(): string
     {
         return $this->cycle;
     }

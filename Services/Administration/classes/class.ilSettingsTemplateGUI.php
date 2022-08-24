@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -60,7 +62,7 @@ class ilSettingsTemplateGUI
         $this->readSettingsTemplate();
     }
 
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         $ilCtrl = $this->ctrl;
 
@@ -68,17 +70,17 @@ class ilSettingsTemplateGUI
         $this->$cmd();
     }
 
-    public function setConfig(ilSettingsTemplateConfig $a_val) : void
+    public function setConfig(ilSettingsTemplateConfig $a_val): void
     {
         $this->config = $a_val;
     }
 
-    public function getConfig() : ilSettingsTemplateConfig
+    public function getConfig(): ilSettingsTemplateConfig
     {
         return $this->config;
     }
 
-    public function readSettingsTemplate() : void
+    public function readSettingsTemplate(): void
     {
         if ($this->getConfig()) {
             $this->settings_template = new ilSettingsTemplate(
@@ -92,7 +94,7 @@ class ilSettingsTemplateGUI
         }
     }
 
-    public function listSettingsTemplates() : void
+    public function listSettingsTemplates(): void
     {
         $tpl = $this->tpl;
         $ilToolbar = $this->toolbar;
@@ -115,7 +117,7 @@ class ilSettingsTemplateGUI
         $tpl->setContent($table->getHTML());
     }
 
-    public function addSettingsTemplate() : void
+    public function addSettingsTemplate(): void
     {
         $tpl = $this->tpl;
 
@@ -123,7 +125,7 @@ class ilSettingsTemplateGUI
         $tpl->setContent($this->form->getHTML());
     }
 
-    public function editSettingsTemplate() : void
+    public function editSettingsTemplate(): void
     {
         $tpl = $this->tpl;
 
@@ -132,7 +134,7 @@ class ilSettingsTemplateGUI
         $tpl->setContent($this->form->getHTML());
     }
 
-    public function initSettingsTemplateForm(string $a_mode = "edit") : void
+    public function initSettingsTemplateForm(string $a_mode = "edit"): void
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
@@ -238,7 +240,7 @@ class ilSettingsTemplateGUI
         $this->form->setFormAction($ilCtrl->getFormAction($this));
     }
 
-    public function getSettingsTemplateValues() : void
+    public function getSettingsTemplateValues(): void
     {
         $values = array();
 
@@ -267,14 +269,14 @@ class ilSettingsTemplateGUI
                 } else {
                     $values["value_" . $s["id"]] = $set[$s["id"]]["value"];
                 }
-                                
+
                 $values["hide_" . $s["id"]] = $set[$s["id"]]["hide"];
             }
         }
         $this->form->setValuesByArray($values);
     }
 
-    public function saveSettingsTemplate() : void
+    public function saveSettingsTemplate(): void
     {
         $tpl = $this->tpl;
         $lng = $this->lng;
@@ -296,7 +298,7 @@ class ilSettingsTemplateGUI
         $tpl->setContent($this->form->getHTML());
     }
 
-    public function updateSettingsTemplate() : void
+    public function updateSettingsTemplate(): void
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
@@ -315,7 +317,7 @@ class ilSettingsTemplateGUI
         $tpl->setContent($this->form->getHTML());
     }
 
-    public function setValuesFromForm(ilSettingsTemplate $a_set_templ) : void
+    public function setValuesFromForm(ilSettingsTemplate $a_set_templ): void
     {
         // perform update
         $a_set_templ->setTitle($this->form->getInput("title"));
@@ -342,7 +344,7 @@ class ilSettingsTemplateGUI
         }
     }
 
-    public function confirmSettingsTemplateDeletion() : void
+    public function confirmSettingsTemplateDeletion(): void
     {
         $ilCtrl = $this->ctrl;
         $tpl = $this->tpl;
@@ -366,7 +368,7 @@ class ilSettingsTemplateGUI
         }
     }
 
-    public function deleteSettingsTemplate() : void
+    public function deleteSettingsTemplate(): void
     {
         $ilCtrl = $this->ctrl;
 

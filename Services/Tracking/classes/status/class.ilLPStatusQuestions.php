@@ -1,4 +1,6 @@
-<?php declare(strict_types=0);
+<?php
+
+declare(strict_types=0);
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -8,7 +10,7 @@
  */
 class ilLPStatusQuestions extends ilLPStatus
 {
-    public static function _getInProgress(int $a_obj_id) : array
+    public static function _getInProgress(int $a_obj_id): array
     {
         $users = ilChangeEvent::lookupUsersInProgress($a_obj_id);
 
@@ -21,7 +23,7 @@ class ilLPStatusQuestions extends ilLPStatus
         return $users;
     }
 
-    public static function _getCompleted(int $a_obj_id) : array
+    public static function _getCompleted(int $a_obj_id): array
     {
         $usr_ids = array();
 
@@ -42,7 +44,7 @@ class ilLPStatusQuestions extends ilLPStatus
         int $a_obj_id,
         int $a_usr_id,
         object $a_obj = null
-    ) : int {
+    ): int {
         $status = self::LP_STATUS_NOT_ATTEMPTED_NUM;
 
         if (ilChangeEvent::hasAccessed($a_obj_id, $a_usr_id)) {

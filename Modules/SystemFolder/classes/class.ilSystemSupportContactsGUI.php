@@ -88,7 +88,7 @@ class ilSystemSupportContactsGUI implements ilCtrlBaseClassInterface
         $this->tpl->printToStdout();
     }
 
-    
+
     /**
      * Get footer link
      *
@@ -100,7 +100,7 @@ class ilSystemSupportContactsGUI implements ilCtrlBaseClassInterface
 
         $ilCtrl = $DIC->ctrl();
         $ilUser = $DIC->user();
-        
+
         $users = ilSystemSupportContacts::getValidSupportContactIds();
         if (count($users) > 0) {
             // #17847 - we cannot use a proper GUI on the login screen

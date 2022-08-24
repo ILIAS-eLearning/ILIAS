@@ -1,4 +1,5 @@
 <?php
+
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 include_once "./Modules/TestQuestionPool/classes/class.assAnswerBinaryState.php";
@@ -28,7 +29,7 @@ class ASS_AnswerImagemap extends ASS_AnswerBinaryState
      * @var double
      */
     protected $points_unchecked = 0.0;
-  
+
     /**
     * ASS_AnswerImagemap constructor
     *
@@ -54,8 +55,8 @@ class ASS_AnswerImagemap extends ASS_AnswerBinaryState
         $this->area = $area;
         $this->points_unchecked = $points_unchecked;
     }
-  
-  
+
+
     /**
     * Gets the coordinates of an image map
     *
@@ -63,7 +64,7 @@ class ASS_AnswerImagemap extends ASS_AnswerBinaryState
     * @access public
     * @see $coords
     */
-    public function getCoords() : string
+    public function getCoords(): string
     {
         $this->coords = preg_replace("/\s/", "", $this->coords);
         return $this->coords;
@@ -76,7 +77,7 @@ class ASS_AnswerImagemap extends ASS_AnswerBinaryState
     * @access public
     * @see $coords
     */
-    public function setCoords(string $coords = "") : void
+    public function setCoords(string $coords = ""): void
     {
         $coords = preg_replace("/\s/", "", $coords);
         $this->coords = $coords;
@@ -89,13 +90,13 @@ class ASS_AnswerImagemap extends ASS_AnswerBinaryState
     * @access public
     * @see $area
     */
-    public function getArea() : string
+    public function getArea(): string
     {
         return $this->area;
     }
 
 
-    public function setArea(string $area = "") : void
+    public function setArea(string $area = ""): void
     {
         $this->area = $area;
     }
@@ -120,7 +121,7 @@ class ASS_AnswerImagemap extends ASS_AnswerBinaryState
      *
      * @TODO Analyze usage and see if we can get rid of "magic nullification" here.
      */
-    public function setPointsUnchecked($points_unchecked) : void
+    public function setPointsUnchecked($points_unchecked): void
     {
         $new_points = str_replace(",", ".", $points_unchecked);
 

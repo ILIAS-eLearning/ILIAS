@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /* Copyright (c) 2021 Thibeau Fuhrer <thf@studer-raimann.ch> Extended GPL, see docs/LICENSE */
 
@@ -12,7 +14,7 @@ class ilServicesUICoreSuite extends TestSuite
     /**
      * @return self
      */
-    public static function suite() : self
+    public static function suite(): self
     {
         $suite = new self();
 

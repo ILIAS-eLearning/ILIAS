@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -21,7 +23,7 @@ use PHPUnit\Framework\TestCase;
 
 class ilQTIItemfeedbackTest extends TestCase
 {
-    public function testConstruct() : void
+    public function testConstruct(): void
     {
         $this->assertInstanceOf(ilQTIItemfeedback::class, new ilQTIItemfeedback());
     }
@@ -30,28 +32,28 @@ class ilQTIItemfeedbackTest extends TestCase
      * @depends testConstruct
      * @dataProvider views
      */
-    public function testSetGetView(string $input, ?string $expected) : void
+    public function testSetGetView(string $input, ?string $expected): void
     {
         $instance = new ilQTIItemfeedback();
         $instance->setView($input);
         $this->assertEquals($expected, $instance->getView());
     }
 
-    public function testSetGetIdent() : void
+    public function testSetGetIdent(): void
     {
         $instance = new ilQTIItemfeedback();
         $instance->setIdent('Some input.');
         $this->assertEquals('Some input.', $instance->getIdent());
     }
 
-    public function testSetGetTitle() : void
+    public function testSetGetTitle(): void
     {
         $instance = new ilQTIItemfeedback();
         $instance->setTitle('Some input.');
         $this->assertEquals('Some input.', $instance->getTitle());
     }
 
-    public function views() : array
+    public function views(): array
     {
         class_exists(ilQTIItemfeedback::class); // Force autoload to define the constants.
         return [

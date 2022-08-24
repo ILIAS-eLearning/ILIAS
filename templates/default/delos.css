@@ -7122,8 +7122,7 @@ fieldset[disabled] .navbar-inverse .btn-link:focus {
 .il-card a {
   overflow: hidden;
 }
-.il-card .card-title .btn,
-.il-card .card-title a {
+.il-card .card-title {
   font-size: 0.875rem;
 }
 .il-card.thumbnail {
@@ -8519,6 +8518,9 @@ input[type="checkbox"]:focus:focus-visible {
 .il-filter-controls .btn-bulky {
   width: auto;
   background-color: initial;
+  font-size: 0.875rem;
+}
+.il-filter .glyphicon {
   font-size: 0.875rem;
 }
 .il-filter-inputs-active {
@@ -15433,13 +15435,11 @@ div.ilNoteInput {
   right: 0;
   left: inherit;
 }
+.il-notes-section .il-standard-form-header {
+  border-top: 1px solid #dddddd;
+}
 .il-notes-section .il-standard-form-header .il-standard-form-cmd {
   visibility: hidden;
-}
-.il-notes-section .il-section-input-header,
-.il-notes-section .il-standard-form-footer,
-.il-notes-section .il-standard-form-header {
-  background-color: #f9f9f9;
 }
 .il-notes-section textarea {
   height: 6em;
@@ -16935,6 +16935,10 @@ body.ilBodyPrint {
   margin: 15px 0 0 0;
   border-top: 1px solid #dddddd;
 }
+.il_InfoScreenPropertyValue {
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
 .il_InfoScreenPropertyValue .ilProfile {
   margin: 0;
 }
@@ -17331,6 +17335,7 @@ span.ilNewsRssIcon:hover {
   padding: 20px;
   position: relative;
   background: #f9f9f9;
+  border: 1px solid #dddddd;
 }
 @media only screen and (max-width: 768px) {
   .ilTimeline > li > .ilTimelinePanel {
@@ -17343,8 +17348,8 @@ span.ilNewsRssIcon:hover {
   right: -14px;
   display: inline-block;
   border-top: 14px solid transparent;
-  border-left: 14px solid #f9f9f9;
-  border-right: 0 solid #f9f9f9;
+  border-left: 14px solid #dddddd;
+  border-right: 0 solid #dddddd;
   border-bottom: 14px solid transparent;
   content: " ";
 }
@@ -18987,8 +18992,7 @@ span.ilProfileBadge .modal .img-responsive {
 }
 .ilPreviewTooltipContent {
   position: relative;
-  background: #F8F8F8;
-  border: 1px solid #E9E9E9;
+  background: white;
   padding: 0;
 }
 .ilPreviewTooltipContent .ilPreviewList {

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -31,17 +33,17 @@ class ilTermsOfServiceUserHasGlobalRoleCriterion implements ilTermsOfServiceCrit
         $this->objectCache = $objectCache;
     }
 
-    public function getTypeIdent() : string
+    public function getTypeIdent(): string
     {
         return 'usr_global_role';
     }
 
-    public function hasUniqueNature() : bool
+    public function hasUniqueNature(): bool
     {
         return false;
     }
 
-    public function evaluate(ilObjUser $user, ilTermsOfServiceCriterionConfig $config) : bool
+    public function evaluate(ilObjUser $user, ilTermsOfServiceCriterionConfig $config): bool
     {
         $roleId = $config['role_id'] ?? 0;
 
@@ -56,7 +58,7 @@ class ilTermsOfServiceUserHasGlobalRoleCriterion implements ilTermsOfServiceCrit
         return $this->rbacReview->isAssigned($user->getId(), (int) $roleId);
     }
 
-    public function ui(ilLanguage $lng) : ilTermsOfServiceCriterionTypeGUI
+    public function ui(ilLanguage $lng): ilTermsOfServiceCriterionTypeGUI
     {
         return new ilTermsOfServiceUserHasGlobalRoleCriterionGUI($this, $lng, $this->rbacReview, $this->objectCache);
     }

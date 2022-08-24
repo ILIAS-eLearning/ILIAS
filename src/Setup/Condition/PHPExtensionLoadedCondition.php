@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\Setup\Condition;
 
 use ILIAS\Setup;
@@ -28,7 +30,7 @@ class PHPExtensionLoadedCondition extends ExternalConditionObjective
 
         return parent::__construct(
             "PHP extension \"$which\" loaded",
-            fn (Setup\Environment $env) : bool => in_array($which, get_loaded_extensions()),
+            fn (Setup\Environment $env): bool => in_array($which, get_loaded_extensions()),
             "ILIAS $ilias_version requires the PHP extension $which."
         );
     }

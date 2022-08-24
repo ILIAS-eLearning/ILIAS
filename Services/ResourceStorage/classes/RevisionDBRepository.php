@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace ILIAS\ResourceStorage\Revision\Repository;
 
@@ -34,8 +36,8 @@ use ILIAS\ResourceStorage\Resource\InfoResolver\InfoResolver;
  */
 class RevisionDBRepository implements RevisionRepository
 {
-    const TABLE_NAME = 'il_resource_revision';
-    const IDENTIFICATION = 'rid';
+    public const TABLE_NAME = 'il_resource_revision';
+    public const IDENTIFICATION = 'rid';
     protected \ilDBInterface $db;
     /**
      * @var Revision[]
@@ -50,7 +52,7 @@ class RevisionDBRepository implements RevisionRepository
     /**
      * @return string[]
      */
-    public function getNamesForLocking() : array
+    public function getNamesForLocking(): array
     {
         return [self::TABLE_NAME];
     }
@@ -59,7 +61,7 @@ class RevisionDBRepository implements RevisionRepository
         InfoResolver $info_resolver,
         StorableResource $resource,
         UploadResult $result
-    ) : UploadedFileRevision {
+    ): UploadedFileRevision {
         $new_version_number = $info_resolver->getNextVersionNumber();
         $revision = new UploadedFileRevision($resource->getIdentification(), $result);
         $revision->setVersionNumber($new_version_number);
@@ -72,7 +74,7 @@ class RevisionDBRepository implements RevisionRepository
         StorableResource $resource,
         FileStream $stream,
         bool $keep_original = false
-    ) : FileStreamRevision {
+    ): FileStreamRevision {
         $new_version_number = $info_resolver->getNextVersionNumber();
         $revision = new FileStreamRevision($resource->getIdentification(), $stream, $keep_original);
         $revision->setVersionNumber($new_version_number);
@@ -84,7 +86,7 @@ class RevisionDBRepository implements RevisionRepository
         InfoResolver $info_resolver,
         StorableResource $resource,
         FileRevision $revision_to_clone
-    ) : CloneRevision {
+    ): CloneRevision {
         $new_version_number = $info_resolver->getNextVersionNumber();
         $revision = new CloneRevision($resource->getIdentification(), $revision_to_clone);
         $revision->setVersionNumber($new_version_number);
@@ -92,7 +94,7 @@ class RevisionDBRepository implements RevisionRepository
         return $revision;
     }
 
-    public function store(Revision $revision) : void
+    public function store(Revision $revision): void
     {
         $rid = $revision->getIdentification()->serialize();
         $r = $this->db->queryF(
@@ -134,7 +136,7 @@ class RevisionDBRepository implements RevisionRepository
     /**
      * @inheritDoc
      */
-    public function get(StorableResource $resource) : RevisionCollection
+    public function get(StorableResource $resource): RevisionCollection
     {
         $collection = new RevisionCollection($resource->getIdentification());
 
@@ -165,7 +167,7 @@ class RevisionDBRepository implements RevisionRepository
     /**
      * @inheritDoc
      */
-    public function delete(Revision $revision) : void
+    public function delete(Revision $revision): void
     {
         $rid = $revision->getIdentification()->serialize();
         $this->db->manipulateF(
@@ -176,7 +178,7 @@ class RevisionDBRepository implements RevisionRepository
         unset($this->cache[$rid][$revision->getVersionNumber()]);
     }
 
-    public function preload(array $identification_strings) : void
+    public function preload(array $identification_strings): void
     {
         $r = $this->db->query(
             "SELECT * FROM " . self::TABLE_NAME . " WHERE " . $this->db->in(
@@ -191,7 +193,7 @@ class RevisionDBRepository implements RevisionRepository
         }
     }
 
-    public function populateFromArray(array $data) : void
+    public function populateFromArray(array $data): void
     {
         $revision = new FileRevision(new ResourceIdentification($data['rid']));
         $revision->setVersionNumber((int) $data['version_number']);

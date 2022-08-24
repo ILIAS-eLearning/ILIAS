@@ -1,4 +1,5 @@
 <?php
+
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 require_once 'Services/Component/classes/class.ilPlugin.php';
@@ -21,7 +22,7 @@ abstract class ilTestExportPlugin extends ilPlugin
      * @var int
      */
     protected $timestmap = -1;
-    
+
     /**
      * @var array
      */
@@ -51,7 +52,7 @@ abstract class ilTestExportPlugin extends ilPlugin
     /**
      * @return ilObjTest
      */
-    final protected function getTest() : ilObjTest
+    final protected function getTest(): ilObjTest
     {
         return $this->test;
     }
@@ -67,16 +68,16 @@ abstract class ilTestExportPlugin extends ilPlugin
     /**
      * @return int
      */
-    public function getTimestmap() : int
+    public function getTimestmap(): int
     {
         return $this->timestmap;
     }
-    
+
     /**
      * @return string
      * @throws ilException
      */
-    final public function getFormat() : string
+    final public function getFormat(): string
     {
         $format_id = $this->getFormatIdentifier();
 
@@ -146,11 +147,11 @@ abstract class ilTestExportPlugin extends ilPlugin
      *
      * @return string
      */
-    abstract protected function getFormatIdentifier() : string;
+    abstract protected function getFormatIdentifier(): string;
 
     /**
      * This method should return a human readable label for your export
      * @return string
      */
-    abstract public function getFormatLabel() : string;
+    abstract public function getFormatLabel(): string;
 }
