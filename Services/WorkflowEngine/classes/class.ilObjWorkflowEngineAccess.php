@@ -44,8 +44,8 @@ class ilObjWorkflowEngineAccess extends ilObjectAccess
         // Deal with commands
         switch ($cmd) {
             case "view":
-                    $ilAccess->addInfoItem(ilAccessInfo::IL_NO_OBJECT_ACCESS, $lng->txt("crs_status_blocked"));
-                    return false;
+                $ilAccess->addInfoItem(ilAccessInfo::IL_NO_OBJECT_ACCESS, $lng->txt("crs_status_blocked"));
+                return false;
 
             case 'leave':
         }
@@ -53,10 +53,10 @@ class ilObjWorkflowEngineAccess extends ilObjectAccess
         // Deal with permissions
         switch ($permission) {
             case 'visible':
-                    return $rbacsystem->checkAccessOfUser($user_id, 'visible', $ref_id);
+                return $rbacsystem->checkAccessOfUser($user_id, 'visible', $ref_id);
 
             case 'read':
-                    return $rbacsystem->checkAccessOfUser($user_id, 'write', $ref_id);
+                return $rbacsystem->checkAccessOfUser($user_id, 'write', $ref_id);
         }
 
         return true; // ORLY?
