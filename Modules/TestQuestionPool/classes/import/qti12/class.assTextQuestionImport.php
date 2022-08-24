@@ -125,7 +125,7 @@ class assTextQuestionImport extends assQuestionImport
         if (strlen($textrating)) {
             $this->object->setTextRating($textrating);
         }
-        $this->object->matchcondition = (strlen($item->getMetadataEntry('matchcondition'))) ? $item->getMetadataEntry('matchcondition') : 0;
+        $this->object->setMatchcondition((strlen($item->getMetadataEntry('matchcondition'))) ? (int) $item->getMetadataEntry('matchcondition') : 0);
         
         require_once './Modules/TestQuestionPool/classes/class.assAnswerMultipleResponseImage.php';
         $no_keywords_found = true;
