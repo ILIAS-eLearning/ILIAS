@@ -6,14 +6,14 @@ use ILIAS\Setup;
 
 class ilStyleMetricsCollectedObjective extends Setup\Metrics\CollectedObjective
 {
-    public function getTentativePreconditions(Setup\Environment $environment) : array
+    public function getTentativePreconditions(Setup\Environment $environment): array
     {
         return [
             new ilIniFilesLoadedObjective()
         ];
     }
 
-    public function collectFrom(Setup\Environment $environment, Setup\Metrics\Storage $storage) : void
+    public function collectFrom(Setup\Environment $environment, Setup\Metrics\Storage $storage): void
     {
         $ini = $environment->getResource(Setup\Environment::RESOURCE_ILIAS_INI);
         if (!$ini) {

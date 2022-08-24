@@ -28,7 +28,7 @@ class ilServicesAuthenticationExtractor extends ilBaseExtractor
      * @param array  $parameters
      * @return ilExtractedParams
      */
-    public function extract(string $event, array $parameters) : ilExtractedParams
+    public function extract(string $event, array $parameters): ilExtractedParams
     {
         $this->ilExtractedParams->setSubjectType('authentication');
 
@@ -47,7 +47,7 @@ class ilServicesAuthenticationExtractor extends ilBaseExtractor
     /**
      * @param array $parameters
      */
-    protected function extractAfterLogin(array $parameters) : void
+    protected function extractAfterLogin(array $parameters): void
     {
         $this->ilExtractedParams->setSubjectId(0);
         $this->ilExtractedParams->setContextType('user');

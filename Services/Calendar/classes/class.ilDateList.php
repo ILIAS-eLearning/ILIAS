@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -77,14 +79,14 @@ class ilDateList implements Iterator
     /**
      * @inheritDoc
      */
-    public function valid() : bool
+    public function valid(): bool
     {
         return $this->current() !== false;
     }
 
     /**
      */
-    public function get() : array
+    public function get(): array
     {
         return $this->list_item ?: array();
     }
@@ -92,7 +94,7 @@ class ilDateList implements Iterator
     /**
      * get item at specific position
      */
-    public function getAtPosition(int $a_pos) : ?ilDateTime
+    public function getAtPosition(int $a_pos): ?ilDateTime
     {
         $counter = 1;
         foreach ($this->get() as $item) {
@@ -106,7 +108,7 @@ class ilDateList implements Iterator
     /**
      * add a date to the date list
      */
-    public function add(ilDateTime $date) : void
+    public function add(ilDateTime $date): void
     {
         $this->list_item[(string) $date->get(IL_CAL_UNIX)] = clone $date;
     }
@@ -114,7 +116,7 @@ class ilDateList implements Iterator
     /**
      * Merge two lists
      */
-    public function merge(ilDateList $other_list) : void
+    public function merge(ilDateList $other_list): void
     {
         foreach ($other_list->get() as $new_date) {
             $this->add($new_date);
@@ -124,7 +126,7 @@ class ilDateList implements Iterator
     /**
      * remove from list
      */
-    public function remove(ilDateTime $remove) : void
+    public function remove(ilDateTime $remove): void
     {
         $unix_remove = $remove->get(IL_CAL_UNIX);
         if (isset($this->list_item[$unix_remove])) {
@@ -132,7 +134,7 @@ class ilDateList implements Iterator
         }
     }
 
-    public function removeByDAY(ilDateTime $remove) : void
+    public function removeByDAY(ilDateTime $remove): void
     {
         foreach ($this->list_item as $key => $dt) {
             if (ilDateTime::_equals($remove, $dt, IL_CAL_DAY, ilTimeZone::UTC)) {
@@ -144,12 +146,12 @@ class ilDateList implements Iterator
     /**
      * Sort list
      */
-    public function sort() : void
+    public function sort(): void
     {
         ksort($this->list_item, SORT_NUMERIC);
     }
 
-    public function __toString() : string
+    public function __toString(): string
     {
         $out = '<br />';
         foreach ($this->get() as $date) {

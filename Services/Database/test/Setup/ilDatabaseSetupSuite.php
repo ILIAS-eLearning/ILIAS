@@ -15,12 +15,12 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 use PHPUnit\Framework\TestSuite;
 
 class ilDatabaseSetupSuite extends TestSuite
 {
-    public static function suite() : ilDatabaseSetupSuite
+    public static function suite(): ilDatabaseSetupSuite
     {
         $suite = new self();
 

@@ -47,34 +47,34 @@ class ilSurveyParticipantsTableGUI extends ilTable2GUI
 
 
         parent::__construct($a_parent_obj, $a_parent_cmd);
-        
+
         $this->setTitle($lng->txt("svy_anonymous_participants_svy"));
-        
+
         $this->addColumn($this->lng->txt("name"), "name");
         $this->addColumn($this->lng->txt("login"), "login");
         // $this->addColumn($this->lng->txt("gender"), "gender");
         $this->addColumn($this->lng->txt("status"), "status");
-        
+
         $this->setRowTemplate("tpl.il_svy_svy_participants_row.html", "Modules/Survey/Participants");
         $this->setFormAction($ilCtrl->getFormAction($a_parent_obj, $a_parent_cmd));
         $this->setDefaultOrderField("name");
-        
+
         $this->getItems($a_svy);
     }
-    
-    protected function getItems(ilObjSurvey $a_svy) : void
+
+    protected function getItems(ilObjSurvey $a_svy): void
     {
         $lng = $this->lng;
-        
+
         $data = array();
-                        
+
         foreach ($a_svy->getSurveyParticipants(null, true) as $user) {
             if ($user["finished"]) {
                 $status = $lng->txt("survey_results_finished");
             } else {
                 $status = $lng->txt("survey_results_started");
             }
-            
+
             $data[$user["login"]] = array(
                 "name" => $user["sortname"],
                 "login" => $user["login"],
@@ -93,11 +93,11 @@ class ilSurveyParticipantsTableGUI extends ilTable2GUI
                 );
             }
         }
-        
+
         $this->setData($data);
     }
 
-    protected function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set): void
     {
         $this->tpl->setVariable("NAME", $a_set["name"]);
         $this->tpl->setVariable("LOGIN", $a_set["login"]);

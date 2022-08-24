@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -22,17 +24,17 @@
  */
 class ilBuddySystemIgnoredRequestRelationState extends ilAbstractBuddySystemRelationState
 {
-    public function getName() : string
+    public function getName(): string
     {
         return 'IgnoredRequest';
     }
 
-    public function getAction() : string
+    public function getAction(): string
     {
         return 'ignore';
     }
 
-    public function getPossibleTargetStates() : ilBuddySystemRelationStateCollection
+    public function getPossibleTargetStates(): ilBuddySystemRelationStateCollection
     {
         return new ilBuddySystemRelationStateCollection([
             new ilBuddySystemUnlinkedRelationState(),
@@ -40,12 +42,12 @@ class ilBuddySystemIgnoredRequestRelationState extends ilAbstractBuddySystemRela
         ]);
     }
 
-    public function unlink(ilBuddySystemRelation $relation) : void
+    public function unlink(ilBuddySystemRelation $relation): void
     {
         $relation->setState(new ilBuddySystemUnlinkedRelationState());
     }
 
-    public function link(ilBuddySystemRelation $relation) : void
+    public function link(ilBuddySystemRelation $relation): void
     {
         $relation->setState(new ilBuddySystemLinkedRelationState());
     }

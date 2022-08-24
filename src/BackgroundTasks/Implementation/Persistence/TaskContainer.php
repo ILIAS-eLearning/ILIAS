@@ -15,16 +15,16 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\BackgroundTasks\Implementation\Persistence;
 
 class TaskContainer extends \ActiveRecord
 {
-    public static function returnDbTableName() : string
+    public static function returnDbTableName(): string
     {
         return "il_bt_task";
     }
-    
+
     /**
      * @con_is_primary true
      * @con_is_unique  true
@@ -58,53 +58,53 @@ class TaskContainer extends \ActiveRecord
      * @con_length     8
      */
     protected ?int $bucket_id = null;
-    
-    public function getId() : int
+
+    public function getId(): int
     {
         return $this->id;
     }
-    
-    public function setId(int $id) : void
+
+    public function setId(int $id): void
     {
         $this->id = $id;
     }
-    
-    public function getType() : string
+
+    public function getType(): string
     {
         return $this->type;
     }
-    
-    public function setType(string $type) : void
+
+    public function setType(string $type): void
     {
         $this->type = $type;
     }
-    
-    public function getClassPath() : string
+
+    public function getClassPath(): string
     {
         return $this->class_path;
     }
-    
-    public function setClassPath(string $class_path) : void
+
+    public function setClassPath(string $class_path): void
     {
         $this->class_path = $class_path;
     }
-    
-    public function getClassName() : string
+
+    public function getClassName(): string
     {
         return $this->class_name;
     }
-    
-    public function setClassName(string $class_name) : void
+
+    public function setClassName(string $class_name): void
     {
         $this->class_name = $class_name;
     }
-    
-    public function getBucketId() : int
+
+    public function getBucketId(): int
     {
         return $this->bucket_id;
     }
-    
-    public function setBucketId(int $bucket_id) : void
+
+    public function setBucketId(int $bucket_id): void
     {
         $this->bucket_id = $bucket_id;
     }

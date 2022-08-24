@@ -1,4 +1,5 @@
 <?php
+
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 require_once 'Modules/TestQuestionPool/classes/feedback/class.ilAssMultiOptionQuestionFeedback.php';
@@ -22,7 +23,7 @@ class ilAssImagemapQuestionFeedback extends ilAssMultiOptionQuestionFeedback
      * @param mixed $answer
      * @return string $answerOptionLabel
      */
-    protected function buildAnswerOptionLabel(int $index, $answer) : string
+    protected function buildAnswerOptionLabel(int $index, $answer): string
     {
         $text = $this->lng->txt('region') . " " . ($index + 1);
         if (strlen($answer->getAnswertext())) {

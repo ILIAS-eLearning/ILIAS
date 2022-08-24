@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -33,7 +35,7 @@ class ilSCORMTrackingItemsPerScoTableGUI extends ilTable2GUI
         parent::__construct($a_parent_obj, $a_parent_cmd);
     }
 
-    public function getObjId() : int
+    public function getObjId(): int
     {
         return $this->obj_id;
     }
@@ -41,7 +43,7 @@ class ilSCORMTrackingItemsPerScoTableGUI extends ilTable2GUI
     /**
      * Parse table content
      */
-    public function parse() : void
+    public function parse(): void
     {
         $this->initTable();
 
@@ -62,7 +64,7 @@ class ilSCORMTrackingItemsPerScoTableGUI extends ilTable2GUI
     /**
      * Fill row template
      */
-    protected function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set): void
     {
         global $DIC;
         $ilCtrl = $DIC->ctrl();
@@ -72,7 +74,7 @@ class ilSCORMTrackingItemsPerScoTableGUI extends ilTable2GUI
         $this->tpl->setVariable('LINK_ITEM', $ilCtrl->getLinkTarget($this->getParentObject(), 'showTrackingItemSco'));
     }
 
-    protected function initTable() : void
+    protected function initTable(): void
     {
         global $DIC;
         $ilCtrl = $DIC->ctrl();

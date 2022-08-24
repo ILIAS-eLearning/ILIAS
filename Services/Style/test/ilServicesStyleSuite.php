@@ -1,4 +1,5 @@
 <?php
+
 /* Copyright (c) 2016 Timon Amstutz <timon.amstutz@ilub.unibe.ch> Extended GPL, see docs/LICENSE */
 
 use PHPUnit\Framework\TestSuite;

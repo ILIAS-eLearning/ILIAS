@@ -17,7 +17,7 @@
  */
 class ilUploadFiles
 {
-    public static function _getUploadDirectory() : string
+    public static function _getUploadDirectory(): string
     {
         global $DIC;
         $rbacsystem = $DIC['rbacsystem'];
@@ -41,7 +41,7 @@ class ilUploadFiles
     /**
      * @return string[]
      */
-    public static function _getUploadFiles() : array
+    public static function _getUploadFiles(): array
     {
         if (!$upload_dir = self::_getUploadDirectory()) {
             return array();
@@ -62,14 +62,14 @@ class ilUploadFiles
         return $files;
     }
 
-    public static function _checkUploadFile(string $a_file) : bool
+    public static function _checkUploadFile(string $a_file): bool
     {
         $files = self::_getUploadFiles();
 
         return in_array($a_file, $files);
     }
 
-    public static function _copyUploadFile(string $a_file, string $a_target, bool $a_raise_errors = true) : bool
+    public static function _copyUploadFile(string $a_file, string $a_target, bool $a_raise_errors = true): bool
     {
         global $DIC;
         $main_tpl = $DIC->ui()->mainTemplate();

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -44,27 +46,27 @@ class ilSCORM13MDImporter extends ilMDXMLCopier
         }
     }
 
-    public function setTitle(string $a_val) : void
+    public function setTitle(string $a_val): void
     {
         $this->title = $a_val;
     }
 
-    public function getTitle() : string
+    public function getTitle(): string
     {
         return $this->title;
     }
 
-    public function setDescription(string $a_val) : void
+    public function setDescription(string $a_val): void
     {
         $this->description = $a_val;
     }
 
-    public function getDescription() : string
+    public function getDescription(): string
     {
         return $this->description;
     }
 
-    public function import() : void
+    public function import(): void
     {
         if ($this->metadata_found) {
             $this->startParsing();
@@ -78,7 +80,7 @@ class ilSCORM13MDImporter extends ilMDXMLCopier
      * handler for begin of element
      * @param XMLParser|resource $a_xml_parser reference to the xml parser
      */
-    public function handlerBeginTag($a_xml_parser, string $a_name, array $a_attribs) : void
+    public function handlerBeginTag($a_xml_parser, string $a_name, array $a_attribs): void
     {
         $this->path[] = $a_name;
 
@@ -388,7 +390,7 @@ class ilSCORM13MDImporter extends ilMDXMLCopier
      * handler for end of element
      * @param XMLParser|resource $a_xml_parser reference to the xml parser
      */
-    public function handlerEndTag($a_xml_parser, string $a_name) : void
+    public function handlerEndTag($a_xml_parser, string $a_name): void
     {
         //echo "<br>End TAG: ".$a_name;
         unset($this->path[count($this->path) - 1]);
@@ -714,7 +716,7 @@ class ilSCORM13MDImporter extends ilMDXMLCopier
         $this->md_chr_data = '';
     }
 
-    public function in(string $a_name) : bool
+    public function in(string $a_name): bool
     {
         //		echo "<br>"; var_dump($this->path);
         if (in_array($a_name, $this->path)) {

@@ -92,7 +92,7 @@ class ilSystemStyleMainGUI
      * Main routing of the system styles. Resets ilCtrl Parameter for all subsequent generation of links.
      * @throws ilCtrlException
      */
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         $next_class = $this->ctrl->getNextClass($this);
 
@@ -231,7 +231,7 @@ class ilSystemStyleMainGUI
         }
     }
 
-    protected function executeDefaultCommand(ilSkinFactory $skin_factory, string $skin_id, string $style_id) : void
+    protected function executeDefaultCommand(ilSkinFactory $skin_factory, string $skin_id, string $style_id): void
     {
         $this->help->setSubScreenId('overview');
         $this->checkPermission('visible,read');
@@ -265,7 +265,7 @@ class ilSystemStyleMainGUI
      * 'enable_system_styles_management' setting in the tools section of the ilias.ini.php
      * @throws ilObjectException
      */
-    public function checkPermission(string $a_perm, bool $a_throw_exc = true) : bool
+    public function checkPermission(string $a_perm, bool $a_throw_exc = true): bool
     {
         $has_perm = true;
 
@@ -300,7 +300,7 @@ class ilSystemStyleMainGUI
      * Sets the tab correctly if one system style is open (navigational underworld opened)
      * @throws ilCtrlException
      */
-    protected function setUnderworldTabs(string $sking_id, string $active = '', bool $read_only = false) : void
+    protected function setUnderworldTabs(string $sking_id, string $active = '', bool $read_only = false): void
     {
         $this->tabs->clearTargets();
 
@@ -348,7 +348,7 @@ class ilSystemStyleMainGUI
      * Sets title correctly if one system style is opened
      * @throws ilSystemStyleException
      */
-    protected function setUnderworldTitle(string $skin_id, string $style_id, bool $read_only = false) : void
+    protected function setUnderworldTitle(string $skin_id, string $style_id, bool $read_only = false): void
     {
         $skin = $this->skin_factory->skinStyleContainerFromId($skin_id, $this->message_stack)->getSkin();
         $style = $skin->getStyle($style_id);

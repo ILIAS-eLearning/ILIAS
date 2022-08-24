@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -36,12 +38,12 @@ class ilMDTaxonPath extends ilMDBase
     /**
      * @return int[]
      */
-    public function getTaxonIds() : array
+    public function getTaxonIds(): array
     {
         return ilMDTaxon::_getIds($this->getRBACId(), $this->getObjId(), $this->getMetaId(), 'meta_taxon_path');
     }
 
-    public function getTaxon(int $a_taxon_id) : ?ilMDTaxon
+    public function getTaxon(int $a_taxon_id): ?ilMDTaxon
     {
         if (!$a_taxon_id) {
             return null;
@@ -52,7 +54,7 @@ class ilMDTaxonPath extends ilMDBase
         return $tax;
     }
 
-    public function addTaxon() : ilMDTaxon
+    public function addTaxon(): ilMDTaxon
     {
         $tax = new ilMDTaxon($this->getRBACId(), $this->getObjId(), $this->getObjType());
         $tax->setParentId($this->getMetaId());
@@ -62,32 +64,32 @@ class ilMDTaxonPath extends ilMDBase
     }
 
     // SET/GET
-    public function setSource(string $a_source) : void
+    public function setSource(string $a_source): void
     {
         $this->source = $a_source;
     }
 
-    public function getSource() : string
+    public function getSource(): string
     {
         return $this->source;
     }
 
-    public function setSourceLanguage(ilMDLanguageItem $lng_obj) : void
+    public function setSourceLanguage(ilMDLanguageItem $lng_obj): void
     {
         $this->source_language = $lng_obj;
     }
 
-    public function getSourceLanguage() : ?ilMDLanguageItem
+    public function getSourceLanguage(): ?ilMDLanguageItem
     {
         return is_object($this->source_language) ? $this->source_language : null;
     }
 
-    public function getSourceLanguageCode() : string
+    public function getSourceLanguageCode(): string
     {
         return is_object($this->source_language) ? $this->source_language->getLanguageCode() : '';
     }
 
-    public function save() : int
+    public function save(): int
     {
         $fields = $this->__getFields();
         $fields['meta_taxon_path_id'] = array('integer', $next_id = $this->db->nextId('il_meta_taxon_path'));
@@ -99,7 +101,7 @@ class ilMDTaxonPath extends ilMDBase
         return 0;
     }
 
-    public function update() : bool
+    public function update(): bool
     {
         return $this->getMetaId() && $this->db->update(
             'il_meta_taxon_path',
@@ -108,7 +110,7 @@ class ilMDTaxonPath extends ilMDBase
         );
     }
 
-    public function delete() : bool
+    public function delete(): bool
     {
         if ($this->getMetaId()) {
             $query = "DELETE FROM il_meta_taxon_path " .
@@ -128,7 +130,7 @@ class ilMDTaxonPath extends ilMDBase
     /**
      * @return array<string, array<string, mixed>>
      */
-    public function __getFields() : array
+    public function __getFields(): array
     {
         return array(
             'rbac_id' => array('integer', $this->getRBACId()),
@@ -141,7 +143,7 @@ class ilMDTaxonPath extends ilMDBase
         );
     }
 
-    public function read() : bool
+    public function read(): bool
     {
         if ($this->getMetaId()) {
             $query = "SELECT * FROM il_meta_taxon_path " .
@@ -161,7 +163,7 @@ class ilMDTaxonPath extends ilMDBase
         return true;
     }
 
-    public function toXML(ilXmlWriter $writer) : void
+    public function toXML(ilXmlWriter $writer): void
     {
         $writer->xmlStartTag('TaxonPath');
 
@@ -190,7 +192,7 @@ class ilMDTaxonPath extends ilMDBase
     /**
      * @return int[]
      */
-    public static function _getIds(int $a_rbac_id, int $a_obj_id, int $a_parent_id, string $a_parent_type) : array
+    public static function _getIds(int $a_rbac_id, int $a_obj_id, int $a_parent_id, string $a_parent_type): array
     {
         global $DIC;
 

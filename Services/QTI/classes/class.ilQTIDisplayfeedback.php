@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -31,32 +33,32 @@ class ilQTIDisplayfeedback
     public string $linkrefid = '';
     public ?string $content = null;
 
-    public function setFeedbacktype(string $a_feedbacktype) : void
+    public function setFeedbacktype(string $a_feedbacktype): void
     {
         $this->feedbacktype = $a_feedbacktype;
     }
 
-    public function getFeedbacktype() : ?string
+    public function getFeedbacktype(): ?string
     {
         return $this->feedbacktype;
     }
 
-    public function setLinkrefid(string $a_linkrefid) : void
+    public function setLinkrefid(string $a_linkrefid): void
     {
         $this->linkrefid = $a_linkrefid;
     }
 
-    public function getLinkrefid() : string
+    public function getLinkrefid(): string
     {
         return $this->linkrefid;
     }
 
-    public function setContent(string $a_content) : void
+    public function setContent(string $a_content): void
     {
         $this->content = $a_content;
     }
 
-    public function getContent() : ?string
+    public function getContent(): ?string
     {
         return $this->content;
     }

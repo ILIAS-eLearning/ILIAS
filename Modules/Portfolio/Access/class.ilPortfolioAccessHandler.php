@@ -58,7 +58,7 @@ class ilPortfolioAccessHandler implements ilWACCheckingClass
         string $a_cmd,
         int $a_node_id,
         string $a_type = ""
-    ) : bool {
+    ): bool {
         $ilUser = $this->user;
 
         return $this->checkAccessOfUser($ilUser->getId(), $a_permission, $a_cmd, $a_node_id, $a_type);
@@ -73,7 +73,7 @@ class ilPortfolioAccessHandler implements ilWACCheckingClass
         string $a_cmd,
         int $a_node_id,
         string $a_type = ""
-    ) : bool {
+    ): bool {
         $rbacreview = $this->rbacreview;
         $ilUser = $this->user;
         $ilSetting = $this->settings;
@@ -89,17 +89,17 @@ class ilPortfolioAccessHandler implements ilWACCheckingClass
         }
 
         // :TODO: create permission for parent node with type ?!
-        
+
         $pf = new ilObjPortfolio($a_node_id, false);
         if (!$pf->getId()) {
             return false;
         }
-        
+
         // portfolio owner has all rights
         if ($pf->getOwner() === $a_user_id) {
             return true;
         }
-        
+
         // #11921
         if (!$pf->isOnline()) {
             return false;
@@ -115,7 +115,7 @@ class ilPortfolioAccessHandler implements ilWACCheckingClass
                     switch ($obj_id) {
                         case ilWorkspaceAccessGUI::PERMISSION_ALL:
                             return true;
-                                
+
                         case ilWorkspaceAccessGUI::PERMISSION_ALL_PASSWORD:
                             // check against input kept in session
                             if (self::getSharedNodePassword($a_node_id) === self::getSharedSessionPassword($a_node_id) ||
@@ -123,13 +123,13 @@ class ilPortfolioAccessHandler implements ilWACCheckingClass
                                 return true;
                             }
                             break;
-                    
+
                         case ilWorkspaceAccessGUI::PERMISSION_REGISTERED:
                             if ($ilUser->getId() !== ANONYMOUS_USER_ID) {
                                 return true;
                             }
                             break;
-                                
+
                         default:
                             switch (ilObject::_lookupType($obj_id)) {
                                 case "grp":
@@ -165,7 +165,7 @@ class ilPortfolioAccessHandler implements ilWACCheckingClass
                 }
             }
         }
-        
+
         return false;
     }
 
@@ -178,7 +178,7 @@ class ilPortfolioAccessHandler implements ilWACCheckingClass
     public function setPermissions(
         int $a_parent_node_id,
         int $a_node_id
-    ) : void {
+    ): void {
         // nothing to do as owner has irrefutable rights to any portfolio object
     }
 
@@ -189,7 +189,7 @@ class ilPortfolioAccessHandler implements ilWACCheckingClass
         int $a_node_id,
         int $a_object_id,
         string $a_extended_data = null
-    ) : void {
+    ): void {
         $ilDB = $this->db;
         $ilUser = $this->user;
 
@@ -203,7 +203,7 @@ class ilPortfolioAccessHandler implements ilWACCheckingClass
             $ilDB->quote($a_object_id, "integer") . "," .
             $ilDB->quote($a_extended_data, "text") . "," .
             $ilDB->quote(time(), "integer") . ")");
-        
+
         // portfolio as profile
         $this->syncProfile($a_node_id);
     }
@@ -214,9 +214,9 @@ class ilPortfolioAccessHandler implements ilWACCheckingClass
     public function removePermission(
         int $a_node_id,
         int $a_object_id = null
-    ) : void {
+    ): void {
         $ilDB = $this->db;
-        
+
         $query = "DELETE FROM usr_portf_acl" .
             " WHERE node_id = " . $ilDB->quote($a_node_id, "integer");
 
@@ -225,7 +225,7 @@ class ilPortfolioAccessHandler implements ilWACCheckingClass
         }
 
         $ilDB->manipulate($query);
-        
+
         // portfolio as profile
         $this->syncProfile($a_node_id);
     }
@@ -233,7 +233,7 @@ class ilPortfolioAccessHandler implements ilWACCheckingClass
     /**
      * Get all permissions to node
      */
-    public function getPermissions(int $a_node_id) : array
+    public function getPermissions(int $a_node_id): array
     {
         return self::_getPermissions($a_node_id);
     }
@@ -243,7 +243,7 @@ class ilPortfolioAccessHandler implements ilWACCheckingClass
      */
     public static function _getPermissions(
         int $a_node_id
-    ) : array {
+    ): array {
         global $DIC;
 
         $ilDB = $DIC->database();
@@ -256,10 +256,10 @@ class ilPortfolioAccessHandler implements ilWACCheckingClass
         }
         return $res;
     }
-    
+
     public function hasRegisteredPermission(
         int $a_node_id
-    ) : bool {
+    ): bool {
         $ilDB = $this->db;
 
         $set = $ilDB->query("SELECT object_id FROM usr_portf_acl" .
@@ -267,10 +267,10 @@ class ilPortfolioAccessHandler implements ilWACCheckingClass
             " AND object_id = " . $ilDB->quote(ilWorkspaceAccessGUI::PERMISSION_REGISTERED, "integer"));
         return (bool) $ilDB->numRows($set);
     }
-    
+
     public function hasGlobalPermission(
         int $a_node_id
-    ) : bool {
+    ): bool {
         $ilDB = $this->db;
 
         $set = $ilDB->query("SELECT object_id FROM usr_portf_acl" .
@@ -278,10 +278,10 @@ class ilPortfolioAccessHandler implements ilWACCheckingClass
             " AND object_id = " . $ilDB->quote(ilWorkspaceAccessGUI::PERMISSION_ALL, "integer"));
         return (bool) $ilDB->numRows($set);
     }
-    
+
     public function hasGlobalPasswordPermission(
         int $a_node_id
-    ) : bool {
+    ): bool {
         $ilDB = $this->db;
 
         $set = $ilDB->query("SELECT object_id FROM usr_portf_acl" .
@@ -289,42 +289,42 @@ class ilPortfolioAccessHandler implements ilWACCheckingClass
             " AND object_id = " . $ilDB->quote(ilWorkspaceAccessGUI::PERMISSION_ALL_PASSWORD, "integer"));
         return (bool) $ilDB->numRows($set);
     }
-    
+
     public function getObjectsIShare(
         bool $a_online_only = true
-    ) : array {
+    ): array {
         $ilDB = $this->db;
         $ilUser = $this->user;
-        
+
         $res = array();
-        
+
         $sql = "SELECT obj.obj_id" .
             " FROM object_data obj" .
             " JOIN usr_portfolio prtf ON (prtf.id = obj.obj_id)" .
             " JOIN usr_portf_acl acl ON (acl.node_id = obj.obj_id)" .
             " WHERE obj.owner = " . $ilDB->quote($ilUser->getId(), "integer");
-        
+
         if ($a_online_only) {
             $sql .= " AND prtf.is_online = " . $ilDB->quote(1, "integer");
         }
-        
+
         $set = $ilDB->query($sql);
         while ($row = $ilDB->fetchAssoc($set)) {
             $res[] = $row["obj_id"];
         }
-        
+
         return $res;
     }
-    
-    public static function getPossibleSharedTargets() : array
+
+    public static function getPossibleSharedTargets(): array
     {
         global $DIC;
 
         $ilUser = $DIC->user();
-        
+
         $grp_ids = ilParticipants::_getMembershipByType($ilUser->getId(), ["grp"]);
         $crs_ids = ilParticipants::_getMembershipByType($ilUser->getId(), ["crs"]);
-        
+
         $obj_ids = array_merge($grp_ids, $crs_ids);
         $obj_ids[] = $ilUser->getId();
         $obj_ids[] = ilWorkspaceAccessGUI::PERMISSION_REGISTERED;
@@ -333,14 +333,14 @@ class ilPortfolioAccessHandler implements ilWACCheckingClass
 
         return $obj_ids;
     }
-    
-    public function getSharedOwners() : array
+
+    public function getSharedOwners(): array
     {
         $ilUser = $this->user;
         $ilDB = $this->db;
-        
+
         $obj_ids = self::getPossibleSharedTargets();
-        
+
         $user_ids = array();
         $set = $ilDB->query("SELECT DISTINCT(obj.owner), u.lastname, u.firstname, u.title" .
             " FROM object_data obj" .
@@ -357,17 +357,17 @@ class ilPortfolioAccessHandler implements ilWACCheckingClass
                 $user_ids[$row["owner"]] .= ", " . $row["title"];
             }
         }
-        
+
         return $user_ids;
     }
-    
+
     public function getSharedObjects(
         int $a_owner_id
-    ) : array {
+    ): array {
         $ilDB = $this->db;
-        
+
         $obj_ids = self::getPossibleSharedTargets();
-        
+
         $res = array();
         $set = $ilDB->query("SELECT obj.obj_id, obj.owner" .
             " FROM object_data obj" .
@@ -379,19 +379,19 @@ class ilPortfolioAccessHandler implements ilWACCheckingClass
         while ($row = $ilDB->fetchAssoc($set)) {
             $res[$row["obj_id"]] = $row["obj_id"];
         }
-    
+
         return $res;
     }
-    
+
     public function getShardObjectsDataForUserIds(
         array $a_owner_ids
-    ) : array {
+    ): array {
         $ilDB = $this->db;
-        
+
         $obj_ids = self::getPossibleSharedTargets();
-        
+
         $res = array();
-        
+
         $set = $ilDB->query("SELECT obj.obj_id, obj.owner, obj.title" .
             " FROM object_data obj" .
             " JOIN usr_portfolio prtf ON (prtf.id = obj.obj_id)" .
@@ -402,15 +402,15 @@ class ilPortfolioAccessHandler implements ilWACCheckingClass
         while ($row = $ilDB->fetchAssoc($set)) {
             $res[$row["owner"]][$row["obj_id"]] = $row["title"];
         }
-    
+
         return $res;
     }
-    
+
     public function findSharedObjects(
         array $a_filter = null,
         array $a_crs_ids = null,
         array $a_grp_ids = null
-    ) : array {
+    ): array {
         $ilDB = $this->db;
         $ilUser = $this->user;
         $obj_ids = [];
@@ -422,31 +422,31 @@ class ilPortfolioAccessHandler implements ilWACCheckingClass
                 case "all":
                     $obj_ids = array(ilWorkspaceAccessGUI::PERMISSION_ALL);
                     break;
-                
+
                 case "password":
                     $obj_ids = array(ilWorkspaceAccessGUI::PERMISSION_ALL_PASSWORD);
                     break;
-                
+
                 case "registered":
                     $obj_ids = array(ilWorkspaceAccessGUI::PERMISSION_REGISTERED);
                     break;
-                
+
                 case "course":
                     $obj_ids = $a_crs_ids;
                     break;
-                                
+
                 case "group":
                     $obj_ids = $a_grp_ids;
                     break;
-                
+
                 case "user":
                     $obj_ids = array($ilUser->getId());
                     break;
             }
         }
-        
+
         $res = array();
-        
+
         $sql = "SELECT obj.obj_id,obj.title,obj.owner" .
             ",acl.object_id acl_type, acl.tstamp acl_date" .
             " FROM object_data obj" .
@@ -456,7 +456,7 @@ class ilPortfolioAccessHandler implements ilWACCheckingClass
             " AND obj.owner <> " . $ilDB->quote($ilUser->getId(), "integer") .
             " AND obj.type = " . $ilDB->quote("prtf", "text") .
             " AND prtf.is_online = " . $ilDB->quote(1, "integer");
-        
+
         if ($a_filter["title"] && strlen($a_filter["title"]) >= 3) {
             $sql .= " AND " . $ilDB->like("obj.title", "text", "%" . $a_filter["title"] . "%");
         }
@@ -475,13 +475,13 @@ class ilPortfolioAccessHandler implements ilWACCheckingClass
             }
             $sql .= " AND " . $ilDB->in("obj.owner", $usr_ids, "", "integer");
         }
-        
+
         if ($a_filter["acl_date"]) {
             $dt = $a_filter["acl_date"]->get(IL_CAL_DATE);
             $dt = new ilDateTime($dt . " 00:00:00", IL_CAL_DATETIME);
             $sql .= " AND acl.tstamp > " . $ilDB->quote($dt->get(IL_CAL_UNIX), "integer");
         }
-        
+
         if ($a_filter["crsgrp"]) {
             $part = ilParticipants::getInstanceByObjId($a_filter['crsgrp']);
             $part = $part->getParticipants();
@@ -490,10 +490,10 @@ class ilPortfolioAccessHandler implements ilWACCheckingClass
             }
             $sql .= " AND " . $ilDB->in("obj.owner", $part, "", "integer");
         }
-    
+
         // we use the oldest share date
         $sql .= " ORDER BY acl.tstamp";
-            
+
         $set = $ilDB->query($sql);
         while ($row = $ilDB->fetchAssoc($set)) {
             if (!isset($res[$row["obj_id"]])) {
@@ -503,17 +503,17 @@ class ilPortfolioAccessHandler implements ilWACCheckingClass
                 $res[$row["obj_id"]]["acl_type"][] = $row["acl_type"];
             }
         }
-    
+
         return $res;
     }
-    
+
     public static function getSharedNodePassword(
         int $a_node_id
-    ) : string {
+    ): string {
         global $DIC;
 
         $ilDB = $DIC->database();
-        
+
         $set = $ilDB->query("SELECT extended_data FROM usr_portf_acl" .
             " WHERE node_id = " . $ilDB->quote($a_node_id, "integer") .
             " AND object_id = " . $ilDB->quote(ilWorkspaceAccessGUI::PERMISSION_ALL_PASSWORD, "integer"));
@@ -523,11 +523,11 @@ class ilPortfolioAccessHandler implements ilWACCheckingClass
         }
         return "";
     }
-    
+
     public static function keepSharedSessionPassword(
         int $a_node_id,
         string $a_password
-    ) : void {
+    ): void {
         global $DIC;
         $session_repo = $DIC->portfolio()
                                   ->internal()
@@ -535,10 +535,10 @@ class ilPortfolioAccessHandler implements ilWACCheckingClass
                                   ->accessSession();
         $session_repo->setSharedSessionPassword($a_node_id, $a_password);
     }
-    
+
     public static function getSharedSessionPassword(
         int $a_node_id
-    ) : string {
+    ): string {
         global $DIC;
         $session_repo = $DIC->portfolio()
                             ->internal()
@@ -546,17 +546,17 @@ class ilPortfolioAccessHandler implements ilWACCheckingClass
                             ->accessSession();
         return $session_repo->getSharedSessionPassword($a_node_id);
     }
-    
+
     protected function syncProfile(
         int $a_node_id
-    ) : void {
+    ): void {
         $ilUser = $this->user;
-        
+
         // #12845
         if (ilObjPortfolio::getDefaultPortfolio($ilUser->getId()) === $a_node_id) {
             $has_registered = $this->hasRegisteredPermission($a_node_id);
             $has_global = $this->hasGlobalPermission($a_node_id);
-            
+
             // not published anymore - remove portfolio as profile
             if (!$has_registered && !$has_global) {
                 $ilUser->setPref("public_profile", "n");
@@ -583,7 +583,7 @@ class ilPortfolioAccessHandler implements ilWACCheckingClass
      */
     public function canBeDelivered(
         ilWACPath $ilWACPath
-    ) : bool {
+    ): bool {
         $ilUser = $this->user;
         $ilAccess = $this->access;
         if (preg_match("/\\/prtf_([\\d]+)\\//uim", $ilWACPath->getPath(), $results)) {
@@ -611,7 +611,7 @@ class ilPortfolioAccessHandler implements ilWACCheckingClass
     /**
      * Is portfolio editing (general feature) enabled
      */
-    public function editPortfolios() : bool
+    public function editPortfolios(): bool
     {
         return (bool) $this->settings->get('user_portfolios');
     }

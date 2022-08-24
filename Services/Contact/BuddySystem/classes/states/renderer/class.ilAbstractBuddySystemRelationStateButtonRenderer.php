@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -44,7 +46,7 @@ abstract class ilAbstractBuddySystemRelationStateButtonRenderer implements ilBud
         $this->lng = $DIC['lng'];
     }
 
-    protected function getLanguageVariableSuffix() : string
+    protected function getLanguageVariableSuffix(): string
     {
         $suffix = '_p';
         if ($this->relation->isOwnedByActor()) {
@@ -54,7 +56,7 @@ abstract class ilAbstractBuddySystemRelationStateButtonRenderer implements ilBud
         return $suffix;
     }
 
-    protected function render() : void
+    protected function render(): void
     {
         $this->renderStateButton();
         $states = $this->relation->getCurrentPossibleTargetStates();
@@ -63,12 +65,12 @@ abstract class ilAbstractBuddySystemRelationStateButtonRenderer implements ilBud
         }
     }
 
-    protected function getTemplateVariablePrefix() : string
+    protected function getTemplateVariablePrefix(): string
     {
         return '';
     }
 
-    protected function renderStateButton() : void
+    protected function renderStateButton(): void
     {
         $state_id = ilStr::convertUpperCamelCaseToUnderscoreCase($this->relation->getState()->getName());
 
@@ -80,7 +82,7 @@ abstract class ilAbstractBuddySystemRelationStateButtonRenderer implements ilBud
         );
     }
 
-    protected function renderTargetState(ilBuddySystemRelationState $target_state) : void
+    protected function renderTargetState(ilBuddySystemRelationState $target_state): void
     {
         $state_id = ilStr::convertUpperCamelCaseToUnderscoreCase($this->relation->getState()->getName());
         $target_state_id = ilStr::convertUpperCamelCaseToUnderscoreCase($target_state->getName());
@@ -101,7 +103,7 @@ abstract class ilAbstractBuddySystemRelationStateButtonRenderer implements ilBud
         );
     }
 
-    public function getHtml() : string
+    public function getHtml(): string
     {
         $this->render();
 

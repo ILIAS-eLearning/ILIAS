@@ -1,4 +1,5 @@
 <?php
+
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 
@@ -12,8 +13,8 @@
  */
 class ilTestSkillLevelThresholdsGUI
 {
-    const CMD_SHOW_SKILL_THRESHOLDS = 'showSkillThresholds';
-    const CMD_SAVE_SKILL_THRESHOLDS = 'saveSkillThresholds';
+    public const CMD_SHOW_SKILL_THRESHOLDS = 'showSkillThresholds';
+    public const CMD_SAVE_SKILL_THRESHOLDS = 'saveSkillThresholds';
     /**
      * @var ilCtrl
      */
@@ -59,7 +60,7 @@ class ilTestSkillLevelThresholdsGUI
     /**
      * @return int
      */
-    public function getQuestionContainerId() : int
+    public function getQuestionContainerId(): int
     {
         return $this->questionContainerId;
     }
@@ -90,7 +91,7 @@ class ilTestSkillLevelThresholdsGUI
     /**
      * @return bool
      */
-    public function areQuestionAssignmentColumnsEnabled() : bool
+    public function areQuestionAssignmentColumnsEnabled(): bool
     {
         return $this->questionAssignmentColumnsEnabled;
     }
@@ -98,7 +99,7 @@ class ilTestSkillLevelThresholdsGUI
     /**
      * @return int
      */
-    public function getTestId() : int
+    public function getTestId(): int
     {
         return $this->testId;
     }
@@ -199,7 +200,7 @@ class ilTestSkillLevelThresholdsGUI
     /**
      * @return ilTestSkillLevelThresholdsTableGUI
      */
-    protected function getPopulatedTable() : ilTestSkillLevelThresholdsTableGUI
+    protected function getPopulatedTable(): ilTestSkillLevelThresholdsTableGUI
     {
         $table = $this->buildTableGUI();
 
@@ -216,7 +217,7 @@ class ilTestSkillLevelThresholdsGUI
         return $table;
     }
 
-    private function buildTableGUI() : ilTestSkillLevelThresholdsTableGUI
+    private function buildTableGUI(): ilTestSkillLevelThresholdsTableGUI
     {
         require_once 'Modules/Test/classes/tables/class.ilTestSkillLevelThresholdsTableGUI.php';
         $table = new ilTestSkillLevelThresholdsTableGUI(
@@ -232,7 +233,7 @@ class ilTestSkillLevelThresholdsGUI
         return $table;
     }
 
-    private function buildSkillQuestionAssignmentList() : ilAssQuestionSkillAssignmentList
+    private function buildSkillQuestionAssignmentList(): ilAssQuestionSkillAssignmentList
     {
         require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionSkillAssignmentList.php';
         $assignmentList = new ilAssQuestionSkillAssignmentList($this->db);
@@ -241,7 +242,7 @@ class ilTestSkillLevelThresholdsGUI
         return $assignmentList;
     }
 
-    private function buildSkillLevelThresholdList() : ilTestSkillLevelThresholdList
+    private function buildSkillLevelThresholdList(): ilTestSkillLevelThresholdList
     {
         require_once 'Modules/Test/classes/class.ilTestSkillLevelThresholdList.php';
         $thresholdList = new ilTestSkillLevelThresholdList($this->db);

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /* Copyright (c) 2021 - Daniel Weise <daniel.weise@concepts-and-training.de> - Extended GPL, see LICENSE */
 
@@ -6,7 +8,7 @@ use PHPUnit\Framework\TestCase;
 
 class ilIndividualAssessmentSettingsStorageDBTest extends TestCase
 {
-    public function test_createObject() : void
+    public function test_createObject(): void
     {
         $db = $this->createMock(ilDBInterface::class);
         $obj = new ilIndividualAssessmentSettingsStorageDB($db);
@@ -14,7 +16,7 @@ class ilIndividualAssessmentSettingsStorageDBTest extends TestCase
         $this->assertInstanceOf(ilIndividualAssessmentSettingsStorageDB::class, $obj);
     }
 
-    public function test_createSettings() : void
+    public function test_createSettings(): void
     {
         $obj_id = 10;
         $title = 'My iass';
@@ -60,7 +62,7 @@ class ilIndividualAssessmentSettingsStorageDBTest extends TestCase
         $obj->createSettings($settings);
     }
 
-    public function test_updateSettings() : void
+    public function test_updateSettings(): void
     {
         $obj_id = 10;
         $title = 'My iass';
@@ -102,7 +104,7 @@ class ilIndividualAssessmentSettingsStorageDBTest extends TestCase
         $obj->updateSettings($settings);
     }
 
-    public function test_updateInfoSettings() : void
+    public function test_updateInfoSettings(): void
     {
         $obj_id = 22;
         $contact = 'contact';
@@ -143,7 +145,7 @@ class ilIndividualAssessmentSettingsStorageDBTest extends TestCase
         $obj->updateInfoSettings($settings);
     }
 
-    public function test_deleteSettings() : void
+    public function test_deleteSettings(): void
     {
         $sql1 = "DELETE FROM iass_settings WHERE obj_id = %s";
         $sql2 = "DELETE FROM iass_info_settings WHERE obj_id = %s";

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,12 +17,12 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 use PHPUnit\Framework\TestCase;
 
 class GlobalSettingsTest extends TestCase
 {
-    public function testConstruction() : LSGlobalSettings
+    public function testConstruction(): LSGlobalSettings
     {
         $interval = 12.3;
         $settings = new LSGlobalSettings($interval);
@@ -34,7 +36,7 @@ class GlobalSettingsTest extends TestCase
     /**
      * @depends testConstruction
      */
-    public function testIntervalAttribute(LSGlobalSettings $settings) : void
+    public function testIntervalAttribute(LSGlobalSettings $settings): void
     {
         $interval = 2.0;
         $settings = $settings->withPollingIntervalSeconds($interval);

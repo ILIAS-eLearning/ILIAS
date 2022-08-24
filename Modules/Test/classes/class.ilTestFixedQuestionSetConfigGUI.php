@@ -35,49 +35,49 @@ class ilTestFixedQuestionSetConfigGUI
      * @var ilCtrl
      */
     public $ctrl = null;
-    
+
     /**
      * @var ilAccess
      */
     public $access = null;
-    
+
     /**
      * @var ilTabsGUI
      */
     public $tabs = null;
-    
+
     /**
      * @var ilLanguage
      */
     public $lng = null;
-    
+
     /**
      * @var ilTemplate
      */
     public $tpl = null;
-    
+
     /**
      * @var ilDBInterface
      */
     public $db = null;
-    
+
     /**
      * @var ilTree
      */
     public $tree = null;
-    
+
     public ?ilComponentRepository $component_repository;
-    
+
     /**
      * @var ilObjectDefinition
      */
     public $objDefinition = null;
-    
+
     /**
      * @var ilObjTest
      */
     public $testOBJ = null;
-    
+
     /**
      * ilTestFixedQuestionSetConfigGUI constructor.
      */

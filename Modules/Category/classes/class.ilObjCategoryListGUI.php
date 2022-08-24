@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -48,7 +50,7 @@ class ilObjCategoryListGUI extends ilObjectListGUI
     /**
     * initialisation
     */
-    public function init() : void
+    public function init(): void
     {
         $this->static_link_enabled = true;
         $this->delete_enabled = true;
@@ -70,7 +72,7 @@ class ilObjCategoryListGUI extends ilObjectListGUI
         $this->commands = ilObjCategoryAccess::_getCommands();
     }
 
-    public function getInfoScreenStatus() : bool
+    public function getInfoScreenStatus(): bool
     {
         if (ilContainer::_lookupContainerSetting(
             $this->obj_id,
@@ -83,7 +85,7 @@ class ilObjCategoryListGUI extends ilObjectListGUI
         return false;
     }
 
-    public function getCommandLink(string $cmd) : string
+    public function getCommandLink(string $cmd): string
     {
         $ilCtrl = $this->ctrl;
 
@@ -114,7 +116,7 @@ class ilObjCategoryListGUI extends ilObjectListGUI
         return $cmd_link;
     }
 
-    public function checkInfoPageOnAsynchronousRendering() : bool
+    public function checkInfoPageOnAsynchronousRendering(): bool
     {
         return true;
     }

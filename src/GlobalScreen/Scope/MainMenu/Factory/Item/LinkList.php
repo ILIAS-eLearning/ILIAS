@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -57,7 +59,7 @@ class LinkList extends AbstractChildItem implements
      * @param string $title
      * @return Link
      */
-    public function withTitle(string $title) : hasTitle
+    public function withTitle(string $title): hasTitle
     {
         $clone = clone($this);
         $clone->title = $title;
@@ -68,7 +70,7 @@ class LinkList extends AbstractChildItem implements
     /**
      * @return string
      */
-    public function getTitle() : string
+    public function getTitle(): string
     {
         return $this->title;
     }
@@ -76,7 +78,7 @@ class LinkList extends AbstractChildItem implements
     /**
      * @param array|callable|Generator $links
      */
-    public function withLinks($links) : self
+    public function withLinks($links): self
     {
         if (is_callable($links)) {
             try {
@@ -108,7 +110,7 @@ class LinkList extends AbstractChildItem implements
     /**
      * @return Link[]
      */
-    public function getLinks() : array
+    public function getLinks(): array
     {
         return $this->links;
     }
@@ -116,7 +118,7 @@ class LinkList extends AbstractChildItem implements
     /**
      * @inheritDoc
      */
-    public function withSupportsAsynchronousLoading(bool $supported) : supportsAsynchronousLoading
+    public function withSupportsAsynchronousLoading(bool $supported): supportsAsynchronousLoading
     {
         $clone = clone($this);
         $clone->supports_async_loading = $supported;
@@ -127,12 +129,12 @@ class LinkList extends AbstractChildItem implements
     /**
      * @inheritDoc
      */
-    public function supportsAsynchronousLoading() : bool
+    public function supportsAsynchronousLoading(): bool
     {
         return $this->supports_async_loading;
     }
 
-    public function isVisible() : bool
+    public function isVisible(): bool
     {
         $visible_links = 0;
         foreach ($this->getLinks() as $link) {

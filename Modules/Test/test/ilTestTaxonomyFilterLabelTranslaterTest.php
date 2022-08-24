@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /* Copyright (c) 1998-2020 ILIAS open source, Extended GPL, see docs/LICENSE */
 
@@ -10,7 +12,7 @@ class ilTestTaxonomyFilterLabelTranslaterTest extends ilTestBaseTestCase
 {
     private ilTestTaxonomyFilterLabelTranslater $testObj;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -22,7 +24,7 @@ class ilTestTaxonomyFilterLabelTranslaterTest extends ilTestBaseTestCase
         );
     }
 
-    public function test_instantiateObject_shouldReturnInstance() : void
+    public function test_instantiateObject_shouldReturnInstance(): void
     {
         $this->assertInstanceOf(ilTestTaxonomyFilterLabelTranslater::class, $this->testObj);
     }

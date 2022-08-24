@@ -9,11 +9,11 @@ use PHPUnit\Framework\TestCase;
  */
 class LMEditingGUIRequestTest extends TestCase
 {
-    protected function tearDown() : void
+    protected function tearDown(): void
     {
     }
 
-    protected function getRequest(array $get, array $post) : \ILIAS\LearningModule\Editing\EditingGUIRequest
+    protected function getRequest(array $get, array $post): \ILIAS\LearningModule\Editing\EditingGUIRequest
     {
         $http_mock = $this->createMock(ILIAS\HTTP\Services::class);
         $lng_mock = $this->createMock(ilLanguage::class);
@@ -27,7 +27,7 @@ class LMEditingGUIRequestTest extends TestCase
         );
     }
 
-    public function testRefId() : void
+    public function testRefId(): void
     {
         $request = $this->getRequest(
             [
@@ -42,7 +42,7 @@ class LMEditingGUIRequestTest extends TestCase
         );
     }
 
-    public function testFirstChild() : void
+    public function testFirstChild(): void
     {
         $request = $this->getRequest(
             [
@@ -57,7 +57,7 @@ class LMEditingGUIRequestTest extends TestCase
         );
     }
 
-    public function testMulti() : void
+    public function testMulti(): void
     {
         $request = $this->getRequest(
             [
@@ -72,7 +72,7 @@ class LMEditingGUIRequestTest extends TestCase
         );
     }
 
-    public function testNodeId() : void
+    public function testNodeId(): void
     {
         $request = $this->getRequest(
             [
@@ -87,7 +87,7 @@ class LMEditingGUIRequestTest extends TestCase
         );
     }
 
-    public function testTitles() : void
+    public function testTitles(): void
     {
         $request = $this->getRequest(
             [
@@ -102,7 +102,7 @@ class LMEditingGUIRequestTest extends TestCase
         );
     }
 
-    public function testIds() : void
+    public function testIds(): void
     {
         $request = $this->getRequest(
             [

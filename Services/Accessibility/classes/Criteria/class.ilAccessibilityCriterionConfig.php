@@ -41,7 +41,7 @@ class ilAccessibilityCriterionConfig extends ArrayObject implements ilAccessibil
     /**
      * @inheritdoc
      */
-    public function toJson() : string
+    public function toJson(): string
     {
         $json = json_encode($this);
 
@@ -51,14 +51,14 @@ class ilAccessibilityCriterionConfig extends ArrayObject implements ilAccessibil
     /**
      * @inheritdoc
      */
-    public function fromJson(string $json) : void
+    public function fromJson(string $json): void
     {
         $data = json_decode($json, true);
 
         $this->exchangeArray($data);
     }
 
-    public function jsonSerialize() : array
+    public function jsonSerialize(): array
     {
         return $this->getArrayCopy();
     }

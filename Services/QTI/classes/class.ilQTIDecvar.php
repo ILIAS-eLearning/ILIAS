@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -44,17 +46,17 @@ class ilQTIDecvar
     public ?string $cutvalue = null;
     public ?string $content = null;
 
-    public function setVarname(string $a_varname) : void
+    public function setVarname(string $a_varname): void
     {
         $this->varname = $a_varname;
     }
 
-    public function getVarname() : ?string
+    public function getVarname(): ?string
     {
         return $this->varname;
     }
 
-    public function setVartype(string $a_vartype) : void
+    public function setVartype(string $a_vartype): void
     {
         switch (strtolower($a_vartype)) {
             case "integer":
@@ -88,67 +90,67 @@ class ilQTIDecvar
         }
     }
 
-    public function getVartype() : ?string
+    public function getVartype(): ?string
     {
         return $this->vartype;
     }
 
-    public function setDefaultval(string $a_defaultval) : void
+    public function setDefaultval(string $a_defaultval): void
     {
         $this->defaultval = $a_defaultval;
     }
 
-    public function getDefaultval() : ?string
+    public function getDefaultval(): ?string
     {
         return $this->defaultval;
     }
 
-    public function setMinvalue(string $a_minvalue) : void
+    public function setMinvalue(string $a_minvalue): void
     {
         $this->minvalue = $a_minvalue;
     }
 
-    public function getMinvalue() : ?string
+    public function getMinvalue(): ?string
     {
         return $this->minvalue;
     }
 
-    public function setMaxvalue(string $a_maxvalue) : void
+    public function setMaxvalue(string $a_maxvalue): void
     {
         $this->maxvalue = $a_maxvalue;
     }
 
-    public function getMaxvalue() : ?string
+    public function getMaxvalue(): ?string
     {
         return $this->maxvalue;
     }
 
-    public function setMembers(string $a_members) : void
+    public function setMembers(string $a_members): void
     {
         $this->members = $a_members;
     }
 
-    public function getMembers() : ?string
+    public function getMembers(): ?string
     {
         return $this->members;
     }
 
-    public function setCutvalue(string $a_cutvalue) : void
+    public function setCutvalue(string $a_cutvalue): void
     {
         $this->cutvalue = $a_cutvalue;
     }
 
-    public function getCutvalue() : ?string
+    public function getCutvalue(): ?string
     {
         return $this->cutvalue;
     }
 
-    public function setContent(string $a_content) : void
+    public function setContent(string $a_content): void
     {
         $this->content = $a_content;
     }
 
-    public function getContent() : ?string
+    public function getContent(): ?string
     {
         return $this->content;
     }

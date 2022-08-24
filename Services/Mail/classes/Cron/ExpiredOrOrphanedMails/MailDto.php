@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -29,12 +31,12 @@ class MailDto
         $this->mail_subject = $mail_subject;
     }
 
-    public function getMailId() : int
+    public function getMailId(): int
     {
         return $this->mail_id;
     }
 
-    public function getMailSubject() : ?string
+    public function getMailSubject(): ?string
     {
         return $this->mail_subject;
     }

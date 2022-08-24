@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -31,7 +33,7 @@ final class CalledContexts extends ContextCollection
     /**
      * @return ScreenContext
      */
-    public function current() : ScreenContext
+    public function current(): ScreenContext
     {
         return $this->getLast();
     }
@@ -39,12 +41,12 @@ final class CalledContexts extends ContextCollection
     /**
      * @param ScreenContext $context
      */
-    public function push(ScreenContext $context) : void
+    public function push(ScreenContext $context): void
     {
         $this->claim($context);
     }
 
-    public function clear() : void
+    public function clear(): void
     {
         $this->call_locations = [];
         $this->stack = [];
@@ -53,7 +55,7 @@ final class CalledContexts extends ContextCollection
     /**
      * @param ScreenContext $context
      */
-    public function claim(ScreenContext $context) : void
+    public function claim(ScreenContext $context): void
     {
         $this->checkCallLocation($context);
 
@@ -70,11 +72,11 @@ final class CalledContexts extends ContextCollection
     /**
      * @param ScreenContext $context
      */
-    private function checkCallLocation(ScreenContext $context) : void
+    private function checkCallLocation(ScreenContext $context): void
     {
         $called_classes = array_filter(
             debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS),
-            function ($item) : bool {
+            function ($item): bool {
                 if (!isset($item['class'])) {
                     return false;
                 }
@@ -84,7 +86,7 @@ final class CalledContexts extends ContextCollection
         );
         array_walk(
             $called_classes,
-            function (&$item) : void {
+            function (&$item): void {
                 $item = $item['class'] . ":" . ($item['line'] ?? '');
             }
         );

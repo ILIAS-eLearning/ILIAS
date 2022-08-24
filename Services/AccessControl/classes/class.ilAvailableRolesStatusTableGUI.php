@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * Table for Available Roles in Permission > Permission of User
  * @author  Fabian Wolf <wolf@leifos.com>
@@ -48,7 +50,7 @@ class ilAvailableRolesStatusTableGUI extends ilTable2GUI
     /**
      * Fill a single data row.
      */
-    protected function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set): void
     {
         if ($a_set["img"] == ilObjectPermissionStatusGUI::IMG_OK) {
             $img_path = ilUtil::getImagePath("icon_ok.svg");

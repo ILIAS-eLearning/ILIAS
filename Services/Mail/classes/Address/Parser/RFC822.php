@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /**
  * RFC 822 Email address list validation Utility
  *
@@ -71,7 +73,6 @@
  */
 class Mail_RFC822
 {
-
     /**
      * The address being parsed by the RFC822 object.
      * @var string $address
@@ -191,7 +192,7 @@ class Mail_RFC822
         bool $nest_groups = null,
         bool $validate = null,
         int $limit = null
-    ) : array {
+    ): array {
         if (!isset($this, $this->mailRFC822)) {
             $obj = new Mail_RFC822($address, $default_domain, $nest_groups, $validate, $limit);
             return $obj->parseAddressList();
@@ -328,7 +329,7 @@ class Mail_RFC822
      * @param string $address The address to check.
      * @return bool Whether or not there is a group at the start of the string.
      */
-    protected function _isGroup(string $address) : bool
+    protected function _isGroup(string $address): bool
     {
         // First comma not in quotes, angles or escaped:
         $parts = explode(',', $address);
@@ -352,7 +353,7 @@ class Mail_RFC822
      * @param string $char  The char that was exploded on.
      * @return string An empty string if the string contains unclosed quotes/brackets, or the string on success.
      */
-    protected function _splitCheck(array $parts, string $char) : string
+    protected function _splitCheck(array $parts, string $char): string
     {
         $string = $parts[0];
 
@@ -383,7 +384,7 @@ class Mail_RFC822
      * @param string $string  The string to check.
      * @return bool True if there are unclosed quotes inside the string, false otherwise.
      */
-    protected function _hasUnclosedQuotes(string $string) : bool
+    protected function _hasUnclosedQuotes(string $string): bool
     {
         $string = trim($string);
         $iMax = strlen($string);
@@ -420,7 +421,7 @@ class Mail_RFC822
      * @param string $chars  The characters to check for.
      * @return bool True if there are unclosed brackets inside the string, false otherwise.
      */
-    protected function _hasUnclosedBrackets(string $string, string $chars) : bool
+    protected function _hasUnclosedBrackets(string $string, string $chars): bool
     {
         $num_angle_start = substr_count($string, $chars[0]);
         $num_angle_end = substr_count($string, $chars[1]);
@@ -444,7 +445,7 @@ class Mail_RFC822
      * @param string $char   The character to count.
      * @return int The number of occurences of $char in $string, adjusted for backslashes.
      */
-    protected function _hasUnclosedBracketsSub(string $string, int &$num, string $char) : int
+    protected function _hasUnclosedBracketsSub(string $string, int &$num, string $char): int
     {
         $parts = explode($char, $string);
         for ($i = 0, $iMax = count($parts); $i < $iMax; $i++) {
@@ -547,7 +548,7 @@ class Mail_RFC822
      * @param string $phrase The phrase to check.
      * @return bool Success or failure.
      */
-    protected function _validatePhrase(string $phrase) : bool
+    protected function _validatePhrase(string $phrase): bool
     {
         // Splits on one or more Tab or space.
         $parts = preg_split('/[ \\x09]+/', $phrase, -1, PREG_SPLIT_NO_EMPTY);
@@ -590,7 +591,7 @@ class Mail_RFC822
      * @param string $atom The string to check.
      * @return bool Success or failure.
      */
-    protected function _validateAtom(string $atom) : bool
+    protected function _validateAtom(string $atom): bool
     {
         if (!$this->validate) {
             // Validation has been turned off; assume the atom is okay.
@@ -625,7 +626,7 @@ class Mail_RFC822
      * @param string $qstring The string to check
      * @return bool Success or failure.
      */
-    protected function _validateQuotedString(string $qstring) : bool
+    protected function _validateQuotedString(string $qstring): bool
     {
         // Leading and trailing "
         $qstring = substr($qstring, 1, -1);
@@ -642,7 +643,7 @@ class Mail_RFC822
      * @param string &$mailbox The string to check.
      * @return bool Success or failure.
      */
-    public function validateMailbox(string &$mailbox) : bool
+    public function validateMailbox(string &$mailbox): bool
     {
         // A couple of defaults.
         $phrase = '';
@@ -836,7 +837,7 @@ class Mail_RFC822
      * @param string $subdomain The string to check.
      * @return bool Success or failure.
      */
-    protected function _validateSubdomain(string $subdomain) : bool
+    protected function _validateSubdomain(string $subdomain): bool
     {
         if (preg_match('|^\[(.*)]$|', $subdomain, $arr)) {
             if (!$this->_validateDliteral($arr[1])) {
@@ -857,7 +858,7 @@ class Mail_RFC822
      * @param string $dliteral The string to check.
      * @return bool Success or failure.
      */
-    protected function _validateDliteral(string $dliteral) : bool
+    protected function _validateDliteral(string $dliteral): bool
     {
         return !preg_match('/(.)[][\x0D\\\\]/', $dliteral, $matches) &&
             ((!isset($matches[1])) || $matches[1] != '\\');
@@ -969,7 +970,7 @@ class Mail_RFC822
      * @param  string $data Addresses to count
      * @return int          Approximate count
      */
-    public function approximateCount(string $data) : int
+    public function approximateCount(string $data): int
     {
         return count(preg_split('/(?<!\\\\),/', $data));
     }

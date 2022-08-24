@@ -24,7 +24,7 @@
  */
 class ilSkillTreeNodeFactory
 {
-    public static function getInstance(int $a_id = 0) : ilSkillTreeNode
+    public static function getInstance(int $a_id = 0): ilSkillTreeNode
     {
         global $DIC;
 

@@ -83,7 +83,7 @@ class ilPreviewSettings
      *
      * @param bool $a_value The new value
      */
-    public static function setPreviewEnabled(bool $a_value) : void
+    public static function setPreviewEnabled(bool $a_value): void
     {
         $instance = self::getInstance();
         $instance->preview_enabled = $a_value === true;
@@ -95,7 +95,7 @@ class ilPreviewSettings
      *
      * @return bool The current value
      */
-    public static function isPreviewEnabled() : bool
+    public static function isPreviewEnabled(): bool
     {
         return self::getInstance()->preview_enabled;
     }
@@ -105,7 +105,7 @@ class ilPreviewSettings
      *
      * @param int $a_value The new value
      */
-    public static function setMaximumPreviews(int $a_value) : void
+    public static function setMaximumPreviews(int $a_value): void
     {
         $instance = self::getInstance();
         $instance->max_previews = self::adjustNumeric($a_value, self::MAX_PREVIEWS_MIN, self::MAX_PREVIEWS_MAX, self::MAX_PREVIEWS_DEFAULT);
@@ -117,7 +117,7 @@ class ilPreviewSettings
      *
      * @return int The current value
      */
-    public static function getMaximumPreviews() : int
+    public static function getMaximumPreviews(): int
     {
         return self::getInstance()->max_previews;
     }
@@ -127,7 +127,7 @@ class ilPreviewSettings
      *
      * @param int $a_value The new value
      */
-    public static function setImageSize(int $a_value) : void
+    public static function setImageSize(int $a_value): void
     {
         $instance = self::getInstance();
         $instance->image_size = self::adjustNumeric($a_value, self::IMAGE_SIZE_MIN, self::IMAGE_SIZE_MAX, self::IMAGE_SIZE_DEFAULT);
@@ -139,7 +139,7 @@ class ilPreviewSettings
      *
      * @return int The current value
      */
-    public static function getImageSize() : int
+    public static function getImageSize(): int
     {
         return self::getInstance()->image_size;
     }
@@ -149,7 +149,7 @@ class ilPreviewSettings
      *
      * @param int $a_value The new value
      */
-    public static function setImageQuality(int $a_value) : void
+    public static function setImageQuality(int $a_value): void
     {
         $instance = self::getInstance();
         $instance->image_quality = self::adjustNumeric($a_value, self::IMAGE_QUALITY_MIN, self::IMAGE_QUALITY_MAX, self::IMAGE_QUALITY_DEFAULT);
@@ -161,7 +161,7 @@ class ilPreviewSettings
      *
      * @return int The current value
      */
-    public static function getImageQuality() : int
+    public static function getImageQuality(): int
     {
         return self::getInstance()->image_quality;
     }
@@ -169,7 +169,7 @@ class ilPreviewSettings
     /**
      * Gets the instance of the ilPreviewSettings.
      */
-    private static function getInstance() : \ilPreviewSettings
+    private static function getInstance(): \ilPreviewSettings
     {
         if (self::$instance === null) {
             self::$instance = new ilPreviewSettings();
@@ -178,7 +178,7 @@ class ilPreviewSettings
         return self::$instance;
     }
 
-    private static function adjustNumeric($value, int $min, int $max, int $default) : int
+    private static function adjustNumeric($value, int $min, int $max, int $default): int
     {
         // is number?
         if (is_numeric($value)) {

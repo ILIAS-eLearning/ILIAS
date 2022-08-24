@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -34,9 +36,9 @@
 
 class ilLikeForumSearch extends ilForumSearch
 {
-    public function __createPostAndCondition() : string
+    public function __createPostAndCondition(): string
     {
-        
+
         /*
         $concat  = " CONCAT(";
         $concat .= 'pos_message,pos_subject';
@@ -61,7 +63,7 @@ class ilLikeForumSearch extends ilForumSearch
         return $and . ") ";
     }
 
-    public function __createTopicAndCondition() : string
+    public function __createTopicAndCondition(): string
     {
         $field = 'thr_subject ';
         $and = " AND( ";

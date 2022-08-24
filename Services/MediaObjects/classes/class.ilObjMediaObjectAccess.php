@@ -35,7 +35,7 @@ class ilObjMediaObjectAccess implements ilWACCheckingClass
         $this->access = $DIC->access();
     }
 
-    public function canBeDelivered(ilWACPath $ilWACPath) : bool
+    public function canBeDelivered(ilWACPath $ilWACPath): bool
     {
         preg_match("/.\\/data\\/.*\\/mm_([0-9]*)\\/.*/ui", $ilWACPath->getPath(), $matches);
         $obj_id = $matches[1];
@@ -45,7 +45,7 @@ class ilObjMediaObjectAccess implements ilWACCheckingClass
 
     protected function checkAccessMob(
         int $obj_id
-    ) : bool {
+    ): bool {
         foreach (ilObjMediaObject::lookupUsages($obj_id) as $usage) {
             $oid = ilObjMediaObject::getParentObjectIdForUsage($usage, true);
 
@@ -85,7 +85,7 @@ class ilObjMediaObjectAccess implements ilWACCheckingClass
     protected function checkAccessMobUsage(
         array $usage,
         int $oid
-    ) : bool {
+    ): bool {
         /**
          * @var $ilObjDataCache ilObjectDataCache
          */
@@ -121,7 +121,7 @@ class ilObjMediaObjectAccess implements ilWACCheckingClass
 
             case 'frm~d:html':
                 $draft_id = $usage['id'];
-                
+
                 $oDraft = ilForumPostDraft::newInstanceByDraftId($draft_id);
                 if ($user_id == $oDraft->getPostAuthorId()) {
                     return true;
@@ -200,7 +200,7 @@ class ilObjMediaObjectAccess implements ilWACCheckingClass
     protected function checkAccessObject(
         int $obj_id,
         string $obj_type = ''
-    ) : bool {
+    ): bool {
         $ilAccess = $this->access;
         $ilUser = $this->user;
         $user_id = $ilUser->getId();
@@ -230,7 +230,7 @@ class ilObjMediaObjectAccess implements ilWACCheckingClass
     protected function checkAccessTestQuestion(
         int $obj_id,
         int $usage_id = 0
-    ) : bool {
+    ): bool {
         // give access if direct usage is readable
         if ($this->checkAccessObject($obj_id)) {
             return true;
@@ -262,7 +262,7 @@ class ilObjMediaObjectAccess implements ilWACCheckingClass
     protected function checkAccessGlossaryTerm(
         int $obj_id,
         int $page_id
-    ) : bool {
+    ): bool {
         // give access if glossary is readable
         if ($this->checkAccessObject($obj_id)) {
             return true;
@@ -311,7 +311,7 @@ class ilObjMediaObjectAccess implements ilWACCheckingClass
     protected function checkAccessPortfolioPage(
         int $obj_id,
         int $page_id
-    ) : bool {
+    ): bool {
         $ilUser = $this->user;
         $access_handler = new ilPortfolioAccessHandler();
         if ($access_handler->checkAccessOfUser($ilUser->getId(), "read", "view", $obj_id, "prtf")) {
@@ -328,7 +328,7 @@ class ilObjMediaObjectAccess implements ilWACCheckingClass
      */
     protected function checkAccessBlogPage(
         int $obj_id
-    ) : bool {
+    ): bool {
         $ilUser = $this->user;
         $tree = new ilWorkspaceTree(0);
         $node_id = $tree->lookupNodeId($obj_id);
@@ -348,7 +348,7 @@ class ilObjMediaObjectAccess implements ilWACCheckingClass
     protected function checkAccessLearningObjectivePage(
         int $obj_id,
         int $page_id
-    ) : bool {
+    ): bool {
         $crs_obj_id = ilCourseObjective::_lookupContainerIdByObjectiveId($page_id);
 
         return $this->checkAccessObject($crs_obj_id, 'crs');

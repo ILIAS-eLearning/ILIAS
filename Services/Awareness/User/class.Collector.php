@@ -60,8 +60,8 @@ class Collector
         $this->rbacreview = $domain_service->rbac()->review();
         $this->repo_service = $repo_service;
     }
-    
-    public static function getOnlineUsers() : array
+
+    public static function getOnlineUsers(): array
     {
         if (self::$online_users === null) {
             self::$online_user_ids = array();
@@ -82,7 +82,7 @@ class Collector
     /**
      * Collect users
      */
-    public function collectUsers(bool $a_online_only = false) : array
+    public function collectUsers(bool $a_online_only = false): array
     {
         $rbacreview = $this->rbacreview;
 
@@ -172,8 +172,8 @@ class Collector
 
         return $this->collections;
     }
-    
-    public function collectUsersFromProvider(Provider $prov, ?array $online_users) : Collection
+
+    public function collectUsersFromProvider(Provider $prov, ?array $online_users): Collection
     {
         $coll = $this->data_service->userCollection();
         foreach ($prov->getInitialUserSet($online_users) as $user_id) {
@@ -188,7 +188,7 @@ class Collector
      * Remove users from collection
      * @param int[] $a_remove_users array of user IDs
      */
-    protected function removeUsersFromCollections(array $a_remove_users) : void
+    protected function removeUsersFromCollections(array $a_remove_users): void
     {
         foreach ($this->collections as $c) {
             reset($a_remove_users);

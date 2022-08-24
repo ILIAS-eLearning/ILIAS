@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\UI\Implementation\Component\Chart\Bar;
 
 use ILIAS\UI\Component as C;
@@ -65,67 +67,67 @@ class Bar implements C\Chart\Bar\Bar
         $this->bar_configs = $bar_configs;
     }
 
-    public function withTitle(string $title) : self
+    public function withTitle(string $title): self
     {
         $clone = clone $this;
         $clone->title = $title;
         return $clone;
     }
 
-    public function getTitle() : string
+    public function getTitle(): string
     {
         return $this->title;
     }
 
-    public function withDataset(Dataset $dataset) : self
+    public function withDataset(Dataset $dataset): self
     {
         $clone = clone $this;
         $clone->dataset = $dataset;
         return $clone;
     }
 
-    public function getDataset() : Dataset
+    public function getDataset(): Dataset
     {
         return $this->dataset;
     }
 
-    public function withBarConfigs(array $bar_configs) : self
+    public function withBarConfigs(array $bar_configs): self
     {
         $clone = clone $this;
         $clone->bar_configs = $bar_configs;
         return $clone;
     }
 
-    public function getBarConfigs() : array
+    public function getBarConfigs(): array
     {
         return $this->bar_configs;
     }
 
-    public function withTitleVisible(bool $title_visible) : self
+    public function withTitleVisible(bool $title_visible): self
     {
         $clone = clone $this;
         $clone->title_visible = $title_visible;
         return $clone;
     }
 
-    public function isTitleVisible() : bool
+    public function isTitleVisible(): bool
     {
         return $this->title_visible;
     }
 
-    public function withLegendVisible(bool $legend_visible) : self
+    public function withLegendVisible(bool $legend_visible): self
     {
         $clone = clone $this;
         $clone->legend_visible = $legend_visible;
         return $clone;
     }
 
-    public function isLegendVisible() : bool
+    public function isLegendVisible(): bool
     {
         return $this->legend_visible;
     }
 
-    public function withLegendPosition(string $legend_position) : self
+    public function withLegendPosition(string $legend_position): self
     {
         if (!in_array($legend_position, self::ALLOWED_POSITIONS)) {
             throw new \InvalidArgumentException(
@@ -137,19 +139,19 @@ class Bar implements C\Chart\Bar\Bar
         return $clone;
     }
 
-    public function getLegendPosition() : string
+    public function getLegendPosition(): string
     {
         return $this->legend_position;
     }
 
-    public function withTooltipsVisible(bool $tooltips_visible) : self
+    public function withTooltipsVisible(bool $tooltips_visible): self
     {
         $clone = clone $this;
         $clone->tooltips_visible = $tooltips_visible;
         return $clone;
     }
 
-    public function isTooltipsVisible() : bool
+    public function isTooltipsVisible(): bool
     {
         return $this->tooltips_visible;
     }

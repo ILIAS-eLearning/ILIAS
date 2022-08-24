@@ -31,38 +31,38 @@ class ilContainerExporter extends ilXmlExporter
         $this->content_style_domain = $DIC->contentStyle()
             ->domain();
     }
-    
-    public function init() : void
+
+    public function init(): void
     {
     }
-    
-    public function getXmlExportTailDependencies(string $a_entity, string $a_target_release, array $a_ids) : array
+
+    public function getXmlExportTailDependencies(string $a_entity, string $a_target_release, array $a_ids): array
     {
         if ($a_entity !== 'struct') {
             return [];
         }
-        
-        
+
+
         $res = [];
-        
+
         // pages
-        
+
         $pg_ids = [];
-        
+
         // container pages
         foreach ($a_ids as $id) {
             if (ilContainerPage::_exists("cont", (int) $id)) {
                 $pg_ids[] = "cont:" . $id;
             }
         }
-        
+
         // container start objects pages
         foreach ($a_ids as $id) {
             if (ilContainerStartObjectsPage::_exists("cstr", (int) $id)) {
                 $pg_ids[] = "cstr:" . $id;
             }
         }
-        
+
         if (count($pg_ids)) {
             $res[] = [
                 "component" => "Services/COPage",
@@ -70,7 +70,7 @@ class ilContainerExporter extends ilXmlExporter
                 "ids" => $pg_ids
             ];
         }
-        
+
         // style
         $style_ids = [];
         foreach ($a_ids as $id) {
@@ -112,8 +112,8 @@ class ilContainerExporter extends ilXmlExporter
 
         return $res;
     }
-    
-    public function getXmlRepresentation(string $a_entity, string $a_schema_version, string $a_id) : string
+
+    public function getXmlRepresentation(string $a_entity, string $a_schema_version, string $a_id): string
     {
         global $DIC;
 
@@ -127,14 +127,14 @@ class ilContainerExporter extends ilXmlExporter
         }
         return "";
     }
-    
+
     /**
      * Returns schema versions that the component can export to.
      * ILIAS chooses the first one, that has min/max constraints which
      * fit to the target release. Please put the newest on top.
      * @return array[]
      */
-    public function getValidSchemaVersions(string $a_entity) : array
+    public function getValidSchemaVersions(string $a_entity): array
     {
         return [
             "4.1.0" => [

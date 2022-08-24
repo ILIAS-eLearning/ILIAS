@@ -38,7 +38,7 @@ class ilSystemStyleMessageStack
     /**
      * Add a message to be displayed before all others
      */
-    public function prependMessage(ilSystemStyleMessage $message) : void
+    public function prependMessage(ilSystemStyleMessage $message): void
     {
         array_unshift($this->messages, $message);
     }
@@ -46,7 +46,7 @@ class ilSystemStyleMessageStack
     /**
      * Add a message to be displayed by the stack
      */
-    public function addMessage(ilSystemStyleMessage $message) : void
+    public function addMessage(ilSystemStyleMessage $message): void
     {
         $this->messages[] = $message;
     }
@@ -55,7 +55,7 @@ class ilSystemStyleMessageStack
      * Return Messages as UI Component
      * @return MessageBox[]
      */
-    public function getUIComponentsMessages(\ILIAS\UI\Factory $f) : array
+    public function getUIComponentsMessages(\ILIAS\UI\Factory $f): array
     {
         $messages = [];
         foreach ($this->getJoinedMessages() as $type => $joined_message) {
@@ -79,7 +79,7 @@ class ilSystemStyleMessageStack
      *
      * @return string[]
      */
-    public function getJoinedMessages() : array
+    public function getJoinedMessages(): array
     {
         $joined_messages = [];
         foreach ($this->getMessages() as $message) {
@@ -94,7 +94,7 @@ class ilSystemStyleMessageStack
     /**
      * @return ilSystemStyleMessage[]
      */
-    public function getMessages() : array
+    public function getMessages(): array
     {
         return $this->messages;
     }
@@ -102,7 +102,7 @@ class ilSystemStyleMessageStack
     /**
      * @param ilSystemStyleMessage[] $messages
      */
-    public function setMessages(array $messages) : void
+    public function setMessages(array $messages): void
     {
         $this->messages = $messages;
     }
@@ -110,7 +110,7 @@ class ilSystemStyleMessageStack
     /**
      * Return wheter there are any message at all stored in the stack
      */
-    public function hasMessages() : bool
+    public function hasMessages(): bool
     {
         return count($this->getMessages()) > 0;
     }
@@ -118,7 +118,7 @@ class ilSystemStyleMessageStack
     /**
      * Send messages via ilUtil to be displayed, still needed for messagees, that need to survive a redirect
      */
-    public function sendMessages(bool $keep = true) : void
+    public function sendMessages(bool $keep = true): void
     {
         foreach ($this->getJoinedMessages() as $type => $joined_message) {
             switch ($type) {

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,30 +17,30 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 use PHPUnit\Framework\TestCase;
 
 class LSLearnerItemTest extends TestCase
 {
-    const TYPE = "type";
-    const TITLE = "tile";
-    const DESC = "description";
-    const ICON_PATH = "icon_path";
-    const IS_ONLINE = true;
-    const ORDER_NUMBER = 10;
-    const REF_ID = 30;
-    const USER_ID = 6;
-    const LP_STATUS = 2;
-    const AVAILABILITY_STATUS = 3;
+    public const TYPE = "type";
+    public const TITLE = "tile";
+    public const DESC = "description";
+    public const ICON_PATH = "icon_path";
+    public const IS_ONLINE = true;
+    public const ORDER_NUMBER = 10;
+    public const REF_ID = 30;
+    public const USER_ID = 6;
+    public const LP_STATUS = 2;
+    public const AVAILABILITY_STATUS = 3;
 
     protected ilLSPostCondition $post_condition;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         $this->post_condition = new ilLSPostCondition(666, 'always');
     }
 
-    public function testCreate() : LSLearnerItem
+    public function testCreate(): LSLearnerItem
     {
         $ls_item = new LSItem(
             self::TYPE,
@@ -68,7 +70,7 @@ class LSLearnerItemTest extends TestCase
     /**
      * @depends testCreate
      */
-    public function testTurnedOffWithPostCondition(LSItem $object) : void
+    public function testTurnedOffWithPostCondition(LSItem $object): void
     {
         $this->expectException(LogicException::class);
         $object->withPostCondition($this->post_condition);
@@ -77,7 +79,7 @@ class LSLearnerItemTest extends TestCase
     /**
      * @depends testCreate
      */
-    public function testTurnedOffWithOrderNumber(LSItem $object) : void
+    public function testTurnedOffWithOrderNumber(LSItem $object): void
     {
         $this->expectException(LogicException::class);
         $object->withOrderNumber(self::ORDER_NUMBER);
@@ -86,7 +88,7 @@ class LSLearnerItemTest extends TestCase
     /**
      * @depends testCreate
      */
-    public function testTurnedOffWithOnline(LSItem $object) : void
+    public function testTurnedOffWithOnline(LSItem $object): void
     {
         $this->expectException(LogicException::class);
         $object->withOnline(self::IS_ONLINE);

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 class ilObjectCommonSettings implements ilObjectCommonSettingsInterface
 {
     protected ilObjectService $service;
@@ -25,12 +27,12 @@ class ilObjectCommonSettings implements ilObjectCommonSettingsInterface
         $this->service = $service;
     }
 
-    public function tileImage() : ilObjectTileImageFactory
+    public function tileImage(): ilObjectTileImageFactory
     {
         return new ilObjectTileImageFactory($this->service);
     }
 
-    public function legacyForm(ilPropertyFormGUI $form, ilObject $object) : ilObjectCommonSettingFormAdapter
+    public function legacyForm(ilPropertyFormGUI $form, ilObject $object): ilObjectCommonSettingFormAdapter
     {
         return new ilObjectCommonSettingFormAdapter($this->service, $object, $form);
     }

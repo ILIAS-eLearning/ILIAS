@@ -1,4 +1,6 @@
-<?php declare(strict_types=0);
+<?php
+
+declare(strict_types=0);
 
 /**
  * Class ilLPStatusContributionToDiscussion
@@ -6,7 +8,7 @@
  */
 class ilLPStatusContributionToDiscussion extends ilLPStatus
 {
-    public static function _getCompleted(int $a_obj_id) : array
+    public static function _getCompleted(int $a_obj_id): array
     {
         $userIds = [];
 
@@ -24,21 +26,21 @@ class ilLPStatusContributionToDiscussion extends ilLPStatus
         );
 
         return array_map(
-            static function (array $statisic) : int {
+            static function (array $statisic): int {
                 return (int) $statisic['pos_author_id'];
             },
             array_filter(
                 $statistics,
                 static function (array $statistic) use (
                     $num_required_postings
-                ) : bool {
+                ): bool {
                     return (int) $statistic['num_postings'] >= $num_required_postings;
                 }
             )
         );
     }
 
-    public static function _getInProgress(int $a_obj_id) : array
+    public static function _getInProgress(int $a_obj_id): array
     {
         $userIds = [];
 
@@ -56,14 +58,14 @@ class ilLPStatusContributionToDiscussion extends ilLPStatus
         );
 
         return array_map(
-            static function (array $statisic) : int {
+            static function (array $statisic): int {
                 return (int) $statisic['pos_author_id'];
             },
             array_filter(
                 $statistics,
                 static function (array $statistic) use (
                     $num_required_postings
-                ) : bool {
+                ): bool {
                     $num_user_postings = (int) $statistic['num_postings'];
                     return $num_user_postings > 0 && $num_user_postings < $num_required_postings;
                 }
@@ -75,7 +77,7 @@ class ilLPStatusContributionToDiscussion extends ilLPStatus
         int $a_obj_id,
         int $a_usr_id,
         object $a_obj = null
-    ) : int {
+    ): int {
         $status = self::LP_STATUS_NOT_ATTEMPTED_NUM;
 
         $frm_properties = ilForumProperties::getInstance($a_obj_id);

@@ -29,7 +29,7 @@ class ilPageMultiLang
     protected string $master_lang;
     protected array $languages = array();
     protected bool $activated = false;
-    
+
     /**
      * Constructor
      *
@@ -44,81 +44,81 @@ class ilPageMultiLang
         global $DIC;
 
         $ilDB = $DIC->database();
-        
+
         $this->db = $ilDB;
-        
+
         $this->setParentType($a_parent_type);
         $this->setParentId($a_parent_id);
 
         if ($this->getParentType() == "") {
             throw new ilCOPageException("ilPageMultiLang: No parent type passed.");
         }
-        
+
         if ($this->getParentId() <= 0) {
             throw new ilCOPageException("ilPageMultiLang: No parent ID passed.");
         }
-        
+
         $this->read();
     }
-    
-    public function setParentType(string $a_val) : void
+
+    public function setParentType(string $a_val): void
     {
         $this->parent_type = $a_val;
     }
-    
-    public function getParentType() : string
+
+    public function getParentType(): string
     {
         return $this->parent_type;
     }
-    
-    public function setParentId(int $a_val) : void
+
+    public function setParentId(int $a_val): void
     {
         $this->parent_id = $a_val;
     }
-    
-    public function getParentId() : int
+
+    public function getParentId(): int
     {
         return $this->parent_id;
     }
-    
-    public function setMasterLanguage(string $a_val) : void
+
+    public function setMasterLanguage(string $a_val): void
     {
         $this->master_lang = $a_val;
     }
-    
-    public function getMasterLanguage() : string
+
+    public function getMasterLanguage(): string
     {
         return $this->master_lang;
     }
 
-    public function setLanguages(array $a_val) : void
+    public function setLanguages(array $a_val): void
     {
         $this->languages = $a_val;
     }
-    
-    public function getLanguages() : array
+
+    public function getLanguages(): array
     {
         return $this->languages;
     }
-    
-    public function addLanguage(string $a_lang) : void
+
+    public function addLanguage(string $a_lang): void
     {
         if ($a_lang != "" && !in_array($a_lang, $this->languages)) {
             $this->languages[] = $a_lang;
         }
     }
-    
-    protected function setActivated(bool $a_val) : void
+
+    protected function setActivated(bool $a_val): void
     {
         $this->activated = $a_val;
     }
-    
-    public function getActivated() : bool
+
+    public function getActivated(): bool
     {
         return $this->activated;
     }
-    
-    public function read() : void
+
+    public function read(): void
     {
         $set = $this->db->query(
             "SELECT * FROM copg_multilang " .
@@ -143,7 +143,7 @@ class ilPageMultiLang
         }
     }
 
-    public function delete() : void
+    public function delete(): void
     {
         $this->db->manipulate(
             "DELETE FROM copg_multilang " .
@@ -157,7 +157,7 @@ class ilPageMultiLang
         );
     }
 
-    public function save() : void
+    public function save(): void
     {
         $this->delete();
 
@@ -167,7 +167,7 @@ class ilPageMultiLang
             $this->db->quote($this->getParentId(), "integer") . "," .
             $this->db->quote($this->getMasterLanguage(), "text") .
             ")");
-        
+
         foreach ($this->getLanguages() as $lang) {
             $this->db->manipulate("INSERT INTO copg_multilang_lang " .
                 "(parent_type, parent_id, lang) VALUES (" .
@@ -189,7 +189,7 @@ class ilPageMultiLang
     public function copy(
         string $a_target_parent_type,
         int $a_target_parent_id
-    ) : ?ilPageMultiLang {
+    ): ?ilPageMultiLang {
         if ($this->getActivated()) {
             $target_ml = new ilPageMultiLang($a_target_parent_type, $a_target_parent_id);
             $target_ml->setMasterLanguage($this->getMasterLanguage());
@@ -211,7 +211,7 @@ class ilPageMultiLang
      * @param string $a_lang language
      * @return string effective language ("-" for master)
      */
-    public function getEffectiveLang(string $a_lang) : string
+    public function getEffectiveLang(string $a_lang): string
     {
         if ($this->getActivated() &&
             in_array($a_lang, $this->getLanguages()) &&

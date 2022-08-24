@@ -89,7 +89,7 @@ class ilLMContentRendererGUI
         $this->ot = ilObjectTranslation::getInstance($this->lm->getId());
     }
 
-    protected function initHelp() : void
+    protected function initHelp(): void
     {
         $ilHelp = $this->help;
         $ilHelp->setScreenIdComponent("lm");
@@ -97,7 +97,7 @@ class ilLMContentRendererGUI
         $ilHelp->setSubScreenId("content");
     }
 
-    protected function determineStatus() : int
+    protected function determineStatus(): int
     {
         $user = $this->user;
 
@@ -148,8 +148,8 @@ class ilLMContentRendererGUI
 
         return $status;
     }
-    
-    protected function initSearchHighlighting() : void
+
+    protected function initSearchHighlighting(): void
     {
         $user = $this->user;
 
@@ -177,7 +177,7 @@ class ilLMContentRendererGUI
 
     public function render(
         int $a_head_foot_page_id = 0
-    ) : string {
+    ): string {
         $ilUser = $this->user;
 
         $head = $foot = "";
@@ -295,7 +295,7 @@ class ilLMContentRendererGUI
         return $head . $focus_mess . $ret . $foot;
     }
 
-    public function getLMPageGUI(int $a_id) : ilLMPageGUI
+    public function getLMPageGUI(int $a_id): ilLMPageGUI
     {
         if ($this->lang != "-" && ilPageObject::_exists("lm", $a_id, $this->lang)) {
             $page_gui = new ilLMPageGUI($a_id, 0, false, $this->lang, $this->concrete_lang);
@@ -312,7 +312,7 @@ class ilLMContentRendererGUI
         return $page_gui;
     }
 
-    protected function renderFocusMessage() : string
+    protected function renderFocusMessage(): string
     {
         $focus_mess = "";
         if ($this->focus_id > 0) {
@@ -385,7 +385,7 @@ class ilLMContentRendererGUI
     /**
      * Render info message, if page is not accessible in public area
      */
-    protected function renderNoPageAccess() : string
+    protected function renderNoPageAccess(): string
     {
         return $this->renderMessageScreen($this->lng->txt("msg_no_page_access"));
     }
@@ -393,7 +393,7 @@ class ilLMContentRendererGUI
     /**
      * Render message screen
      */
-    protected function renderMessageScreen(string $a_content) : string
+    protected function renderMessageScreen(string $a_content): string
     {
         // content style
         $tpl = new ilTemplate("tpl.page_message_screen.html", true, true, "Modules/LearningModule");
@@ -405,7 +405,7 @@ class ilLMContentRendererGUI
     /**
      * Render info message, if page is not accessible in public area
      */
-    protected function renderNoPublicAccess() : string
+    protected function renderNoPublicAccess(): string
     {
         return $this->renderMessageScreen($this->lng->txt("msg_page_no_public_access"));
     }
@@ -414,7 +414,7 @@ class ilLMContentRendererGUI
      * Render message if navigation to page is not allowed due to unanswered
      * questions.
      */
-    protected function renderNavRestrictionDueToQuestions() : string
+    protected function renderNavRestrictionDueToQuestions(): string
     {
         return $this->renderMessageScreen($this->lng->txt("cont_no_page_access_unansw_q"));
     }
@@ -422,7 +422,7 @@ class ilLMContentRendererGUI
     /**
      * Render no page in chapter message
      */
-    protected function renderNoPageInChapterMessage() : string
+    protected function renderNoPageInChapterMessage(): string
     {
         $mtpl = new ilTemplate(
             "tpl.no_content_message.html",
@@ -441,12 +441,12 @@ class ilLMContentRendererGUI
     /**
      * Render no page found message
      */
-    protected function renderNoPageFoundMessage() : string
+    protected function renderNoPageFoundMessage(): string
     {
         return $this->renderMessageScreen($this->lng->txt("cont_no_page"));
     }
 
-    protected function renderDeactivatedPageMessage() : string
+    protected function renderDeactivatedPageMessage(): string
     {
         $mtpl = new ilTemplate(
             "tpl.no_content_message.html",
@@ -478,7 +478,7 @@ class ilLMContentRendererGUI
     /**
      * Render preconditions of the page
      */
-    public function renderPreconditionsOfPage() : string
+    public function renderPreconditionsOfPage(): string
     {
         $succ_node = "";
         $conds = ilObjContentObject::_getMissingPreconditionsOfPage($this->lm->getRefId(), $this->lm->getId(), $this->current_page);
@@ -534,7 +534,7 @@ class ilLMContentRendererGUI
         return $ptpl->get();
     }
 
-    public function getSuccessorPage() : int
+    public function getSuccessorPage(): int
     {
         $ilUser = $this->user;
 

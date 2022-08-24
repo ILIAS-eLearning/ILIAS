@@ -14,7 +14,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 class ProperEntryFixture
 {
     public array $properEntryYamlArray = array(

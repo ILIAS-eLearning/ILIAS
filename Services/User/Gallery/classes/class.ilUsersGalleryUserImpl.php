@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -29,7 +31,7 @@ class ilUsersGalleryUserImpl implements ilUsersGalleryUser
         $this->sortable_public_name = $sortable_public_name;
     }
 
-    public function hasPublicProfile() : bool
+    public function hasPublicProfile(): bool
     {
         global $DIC;
 
@@ -39,17 +41,17 @@ class ilUsersGalleryUserImpl implements ilUsersGalleryUser
         );
     }
 
-    public function getPublicName() : string
+    public function getPublicName(): string
     {
         return $this->public_name;
     }
 
-    public function getSortablePublicName() : string
+    public function getSortablePublicName(): string
     {
         return $this->sortable_public_name;
     }
 
-    public function getAggregatedUser() : ilObjUser
+    public function getAggregatedUser(): ilObjUser
     {
         return $this->aggregated_user;
     }

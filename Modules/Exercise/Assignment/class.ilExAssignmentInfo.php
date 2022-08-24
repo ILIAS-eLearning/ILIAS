@@ -15,7 +15,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * @author Alexander Killing <killing@leifos.de>
  */
@@ -41,7 +41,7 @@ class ilExAssignmentInfo
         $this->user_id = $user_id;
     }
 
-    public function getInstructionInfo() : array
+    public function getInstructionInfo(): array
     {
         if ($this->state->areInstructionsVisible()) {
             $inst = $this->ass->getInstructionPresentation();
@@ -57,7 +57,7 @@ class ilExAssignmentInfo
         return [];
     }
 
-    public function getInstructionFileInfo(int $readable_ref_id = 0) : array
+    public function getInstructionFileInfo(int $readable_ref_id = 0): array
     {
         $ctrl = $this->ctrl;
         $ass_files = $this->ass->getFiles();
@@ -88,7 +88,7 @@ class ilExAssignmentInfo
     /**
      * @throws ilDateTimeException
      */
-    public function getScheduleInfo() : array
+    public function getScheduleInfo(): array
     {
         $lng = $this->lng;
         $ret = [];
@@ -154,7 +154,7 @@ class ilExAssignmentInfo
     /**
      * @throws ilDateTimeException
      */
-    public function getSubmissionInfo() : array
+    public function getSubmissionInfo(): array
     {
         // submitted files
         $submission = new ilExSubmission($this->ass, $this->user_id);

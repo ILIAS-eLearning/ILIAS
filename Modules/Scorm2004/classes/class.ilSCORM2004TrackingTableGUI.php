@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -35,7 +37,7 @@ class ilSCORM2004TrackingTableGUI extends ilTable2GUI
         $this->access = $DIC->access();
 
         parent::__construct($a_parent_obj, $a_parent_cmd);
-        
+
         $this->addColumn("", "f", "1");
         $this->addColumn($this->lng->txt("user"), "user_full_name", "100%");
         $this->setFormAction($this->ctrl->getFormAction($a_parent_obj));
@@ -52,12 +54,12 @@ class ilSCORM2004TrackingTableGUI extends ilTable2GUI
     * Standard Version of Fill Row. Most likely to
     * be overwritten by derived class.
     */
-    protected function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set): void
     {
 //        $lng = $this->lng;
 //        $ilCtrl = $this->ctrl;
 //        $ilAccess = $this->access;
-        
+
         $this->tpl->setVariable("USER_NAME", $a_set["user_full_name"]);
         $this->tpl->setVariable("USER_ID", $a_set["user_id"]);
     }

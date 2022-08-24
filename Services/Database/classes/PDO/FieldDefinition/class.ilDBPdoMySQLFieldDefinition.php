@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * Class ilDBPdoMySQLFieldDefinition
  *
@@ -23,7 +25,7 @@
  */
 class ilDBPdoMySQLFieldDefinition extends ilDBPdoFieldDefinition
 {
-    public function getTypeDeclaration(array $field) : string
+    public function getTypeDeclaration(array $field): string
     {
         $db = $this->getDBInstance();
 
@@ -122,7 +124,7 @@ class ilDBPdoMySQLFieldDefinition extends ilDBPdoFieldDefinition
     /**
      * @throws \ilDatabaseException
      */
-    protected function getIntegerDeclaration(string $name, array $field) : string
+    protected function getIntegerDeclaration(string $name, array $field): string
     {
         $db = $this->getDBInstance();
 
@@ -149,7 +151,7 @@ class ilDBPdoMySQLFieldDefinition extends ilDBPdoFieldDefinition
     /**
      * @throws \ilDatabaseException
      */
-    protected function mapNativeDatatypeInternal(array $field) : array
+    protected function mapNativeDatatypeInternal(array $field): array
     {
         $db_type = strtolower($field['type']);
         $db_type = strtok($db_type, '(), ');

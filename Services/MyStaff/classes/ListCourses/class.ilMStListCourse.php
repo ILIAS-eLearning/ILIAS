@@ -42,57 +42,57 @@ class ilMStListCourse
     protected string $usr_lastname;
     protected string $usr_email;
 
-    final public function getCrsRefId() : int
+    final public function getCrsRefId(): int
     {
         return $this->crs_ref_id;
     }
 
-    final public function setCrsRefId(int $crs_ref_id) : void
+    final public function setCrsRefId(int $crs_ref_id): void
     {
         $this->crs_ref_id = $crs_ref_id;
     }
 
-    final public function getCrsTitle() : string
+    final public function getCrsTitle(): string
     {
         return $this->crs_title;
     }
 
-    final public function setCrsTitle(string $crs_title) : void
+    final public function setCrsTitle(string $crs_title): void
     {
         $this->crs_title = $crs_title;
     }
 
-    final public function getUsrId() : int
+    final public function getUsrId(): int
     {
         return $this->usr_id;
     }
 
-    final public function setUsrId(int $usr_id) : void
+    final public function setUsrId(int $usr_id): void
     {
         $this->usr_id = $usr_id;
     }
 
-    final public function getUsrRegStatus() : int
+    final public function getUsrRegStatus(): int
     {
         return $this->usr_reg_status;
     }
 
-    final public function setUsrRegStatus(int $usr_reg_status) : void
+    final public function setUsrRegStatus(int $usr_reg_status): void
     {
         $this->usr_reg_status = $usr_reg_status;
     }
 
-    final public function getUsrLpStatus() : int
+    final public function getUsrLpStatus(): int
     {
         return $this->usr_lp_status;
     }
 
-    final public function setUsrLpStatus(int $usr_lp_status) : void
+    final public function setUsrLpStatus(int $usr_lp_status): void
     {
         $this->usr_lp_status = $usr_lp_status;
     }
 
-    final public function getUsrLogin() : string
+    final public function getUsrLogin(): string
     {
         return $this->usr_login;
     }
@@ -102,17 +102,17 @@ class ilMStListCourse
         $this->usr_login = $usr_login;
     }
 
-    final public function getUsrFirstname() : string
+    final public function getUsrFirstname(): string
     {
         return $this->usr_firstname;
     }
 
-    final public function setUsrFirstname(string $usr_firstname) : void
+    final public function setUsrFirstname(string $usr_firstname): void
     {
         $this->usr_firstname = $usr_firstname;
     }
 
-    final public function getUsrLastname() : string
+    final public function getUsrLastname(): string
     {
         return $this->usr_lastname;
     }
@@ -122,7 +122,7 @@ class ilMStListCourse
         $this->usr_lastname = $usr_lastname;
     }
 
-    final public function getUsrEmail() : string
+    final public function getUsrEmail(): string
     {
         return $this->usr_email;
     }
@@ -133,17 +133,17 @@ class ilMStListCourse
     }
 
     //Other
-    final public function returnIlUserObj() : ilObjUser
+    final public function returnIlUserObj(): ilObjUser
     {
         return new ilObjUser($this->usr_id);
     }
 
-    final public function returnIlCourseObj() : ilObjCourse
+    final public function returnIlCourseObj(): ilObjCourse
     {
         return new ilObjCourse($this->crs_ref_id);
     }
 
-    final public static function getMembershipStatusText(int $status) : string
+    final public static function getMembershipStatusText(int $status): string
     {
         global $DIC;
 

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -21,7 +23,7 @@
  */
 class ilCertificateXlstProcess
 {
-    public function process(array $args, array $params) : string
+    public function process(array $args, array $params): string
     {
         $xh = xslt_create();
 

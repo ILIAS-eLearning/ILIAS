@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
@@ -33,7 +35,7 @@ class ilRestFileStorage extends ilFileSystemAbstractionStorage
         );
     }
 
-    protected function checkWebserviceActivation(Request $request, Response $response) : ?Response
+    protected function checkWebserviceActivation(Request $request, Response $response): ?Response
     {
         if (!$this->settings->get('soap_user_administration', '0')) {
             $this->logger->warning('Webservices disabled in administration.');
@@ -46,12 +48,12 @@ class ilRestFileStorage extends ilFileSystemAbstractionStorage
         return null;
     }
 
-    protected function getPathPrefix() : string
+    protected function getPathPrefix(): string
     {
         return 'ilRestFileStorage';
     }
 
-    protected function getPathPostfix() : string
+    protected function getPathPostfix(): string
     {
         return 'files';
     }
@@ -59,14 +61,14 @@ class ilRestFileStorage extends ilFileSystemAbstractionStorage
     /**
      * init and create directory
      */
-    protected function init() : bool
+    protected function init(): bool
     {
         parent::init();
         $this->create();
         return true;
     }
 
-    public function getFile(Request $request, Response $response) : Response
+    public function getFile(Request $request, Response $response): Response
     {
         $failure = $this->checkWebserviceActivation($request, $response);
         if ($failure instanceof \Slim\Http\Response) {
@@ -108,7 +110,7 @@ class ilRestFileStorage extends ilFileSystemAbstractionStorage
      * @param \Slim\Http\Response $response
      * @return \Slim\Http\Response $response
      */
-    protected function responeNotFound(Response $response) : Response
+    protected function responeNotFound(Response $response): Response
     {
         return $response
             ->withHeader('Content-Type', 'text/html')
@@ -120,7 +122,7 @@ class ilRestFileStorage extends ilFileSystemAbstractionStorage
     /**
      * Create new file from post
      */
-    public function createFile(Request $request, Response $response) : Response
+    public function createFile(Request $request, Response $response): Response
     {
         $failure = $this->checkWebserviceActivation($request, $response);
         if ($failure instanceof \Slim\Http\Response) {
@@ -140,7 +142,7 @@ class ilRestFileStorage extends ilFileSystemAbstractionStorage
             ->write($return);
     }
 
-    public function storeFileForRest(string $content) : string
+    public function storeFileForRest(string $content): string
     {
         $tmpname = ilFileUtils::ilTempnam();
         $path = $this->getPath() . '/' . basename($tmpname);
@@ -149,7 +151,7 @@ class ilRestFileStorage extends ilFileSystemAbstractionStorage
         return basename($tmpname);
     }
 
-    public function getStoredFilePath(string $tmpname) : string
+    public function getStoredFilePath(string $tmpname): string
     {
         return $this->getPath() . '/' . $tmpname;
     }
@@ -157,7 +159,7 @@ class ilRestFileStorage extends ilFileSystemAbstractionStorage
     /**
      * Delete deprecated files
      */
-    public function deleteDeprecated() : void
+    public function deleteDeprecated(): void
     {
         $max_age = time() - self::AVAILABILITY_IN_DAYS * 24 * 60 * 60;
         $ite = new DirectoryIterator($this->getPath());
@@ -172,7 +174,7 @@ class ilRestFileStorage extends ilFileSystemAbstractionStorage
         }
     }
 
-    public function writeToFile($a_data, $a_absolute_path) : bool
+    public function writeToFile($a_data, $a_absolute_path): bool
     {
         if (!$fp = fopen($a_absolute_path, 'wb+')) {
             return false;

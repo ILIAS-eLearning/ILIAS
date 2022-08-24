@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /*
         +-----------------------------------------------------------------------------+
         | ILIAS open source                                                           |
@@ -53,12 +55,12 @@ class ilMiniCalendarGUI
         $this->setParentObject($a_par_obj);
     }
 
-    public function setParentObject(object $a_parentobject) : void
+    public function setParentObject(object $a_parentobject): void
     {
         $this->parentobject = $a_parentobject;
     }
 
-    public function getParentObject() : object
+    public function getParentObject(): object
     {
         return $this->parentobject;
     }
@@ -66,7 +68,7 @@ class ilMiniCalendarGUI
     /**
      * Get HTML for calendar
      */
-    public function getHTML() : string
+    public function getHTML(): string
     {
         $ftpl = new ilTemplate(
             "tpl.calendar_block_frame.html",
@@ -92,7 +94,7 @@ class ilMiniCalendarGUI
      * Add mini version of monthly overview
      * (Maybe extracted to another class, if used in pd calendar tab
      */
-    public function addMiniMonth(ilTemplate $a_tpl) : void
+    public function addMiniMonth(ilTemplate $a_tpl): void
     {
         // weekdays
         $a_tpl->setCurrentBlock('month_header_col');

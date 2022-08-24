@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -131,13 +133,13 @@ class ilDBUpdateNewObjectType
             ],
         ]
     ];
-    
+
     /**
      * Add new type to object data
      *
      * @deprecated use Services/Object/classes/Setup/class.ilObjectNewTypeAddedObjective.php instead
      */
-    public static function addNewType(string $type_id, string $type_title) : int
+    public static function addNewType(string $type_id, string $type_title): int
     {
         global $ilDB;
         $db = $ilDB;
@@ -161,34 +163,34 @@ class ilDBUpdateNewObjectType
         ];
 
         $db->insert("object_data", $values);
-        
+
         return $id;
     }
-    
+
     /**
      * Add RBAC operations for type
      *
      * @deprecated use Services/AccessControl/classes/Setup/class.ilAccessRBACOperationsAddedObjective.php instead
      */
-    public static function addRBACOperations(int $type_id, array $operations) : void
+    public static function addRBACOperations(int $type_id, array $operations): void
     {
         foreach ($operations as $ops_id) {
             if (self::isValidRBACOperation($ops_id)) {
                 if ($ops_id == self::RBAC_OP_COPY) {
                     $ops_id = ilRbacReview::_getCustomRBACOperationId('copy');
                 }
-                
+
                 self::addRBACOperation($type_id, $ops_id);
             }
         }
     }
-    
+
     /**
      * Add RBAC operation
      *
      * @deprecated use Services/AccessControl/classes/Setup/class.ilAccessRBACOperationsAddedObjective.php instead
      */
-    public static function addRBACOperation(int $type_id, int $ops_id) : bool
+    public static function addRBACOperation(int $type_id, int $ops_id): bool
     {
         global $ilDB;
 
@@ -203,7 +205,7 @@ class ilDBUpdateNewObjectType
         if ($ilDB->numRows($res)) {
             return false;
         }
-        
+
         $fields = [
             'typ_id' => ['integer', $type_id],
             'ops_id' => ['integer', $ops_id]
@@ -218,7 +220,7 @@ class ilDBUpdateNewObjectType
      *
      * @deprecated use ilRbacReview::_isRBACOperation instead
      */
-    public static function isRBACOperation(int $type_id, int $ops_id) : bool
+    public static function isRBACOperation(int $type_id, int $ops_id): bool
     {
         global $ilDB;
 
@@ -237,14 +239,14 @@ class ilDBUpdateNewObjectType
      *
      * @deprecated use Services/AccessControl/classes/Setup/class.ilAccessRBACOperationDeletedObjective.php instead
      */
-    public static function deleteRBACOperation(string $type, int $ops_id) : void
+    public static function deleteRBACOperation(string $type, int $ops_id): void
     {
         global $ilDB;
-        
+
         if (!$type || !$ops_id) {
             return;
         }
-        
+
         $type_id = ilObject::_getObjectTypeIdByTitle($type);
         if (!$type_id) {
             return;
@@ -257,19 +259,19 @@ class ilDBUpdateNewObjectType
         ;
         $GLOBALS['ilLog']->write(__METHOD__ . ': ' . $sql);
         $ilDB->manipulate($sql);
-        
+
         self::deleteRBACTemplateOperation($type, $ops_id);
     }
-    
+
     /**
      * Delete operation for type in templates
      *
      * @deprecated use Services/AccessControl/classes/Setup/class.ilAccessRBACOperationDeletedObjective.php instead
      */
-    public static function deleteRBACTemplateOperation(string $type, int $ops_id) : void
+    public static function deleteRBACTemplateOperation(string $type, int $ops_id): void
     {
         global $ilDB;
-        
+
         if (!$type || !$ops_id) {
             return;
         }
@@ -288,7 +290,7 @@ class ilDBUpdateNewObjectType
      *
      * @deprecated
      */
-    protected static function isValidRBACOperation(int $ops_id) : bool
+    protected static function isValidRBACOperation(int $ops_id): bool
     {
         $valid = [
             self::RBAC_OP_EDIT_PERMISSIONS,
@@ -301,13 +303,13 @@ class ilDBUpdateNewObjectType
 
         return in_array($ops_id, $valid);
     }
-    
+
     /**
      * Get id of RBAC operation
      *
      * @deprecated use ilRbacReview::_getCustomRBACOperationId instead
      */
-    public static function getCustomRBACOperationId(string $operation) : ?int
+    public static function getCustomRBACOperationId(string $operation): ?int
     {
         global $ilDB;
 
@@ -325,31 +327,31 @@ class ilDBUpdateNewObjectType
         $row = $ilDB->fetchAssoc($res);
         return (int) $row["ops_id"] ?? null;
     }
-    
+
     /**
      * Add custom RBAC operation
      *
      * @deprecated use Services/AccessControl/classes/Setup/class.ilAccessCustomRBACOperationAddedObjective.php instead
      */
-    public static function addCustomRBACOperation(string $id, string $title, string $class, int $pos) : int
+    public static function addCustomRBACOperation(string $id, string $title, string $class, int $pos): int
     {
         global $ilDB;
-        
+
         // check if it already exists
         $ops_id = ilRbacReview::_getCustomRBACOperationId($id);
         if ($ops_id) {
             return $ops_id;
         }
-        
+
         if (!in_array($class, array('create', 'object', 'general'))) {
             throw new InvalidArgumentException("Class type '$class' is not supportet by RBAC system.");
         }
         if ($class == 'create') {
             $pos = 9999;
         }
-        
+
         $ops_id = $ilDB->nextId('rbac_operations');
-        
+
         $fields = [
             'ops_id' => ['integer', $ops_id],
             'operation' => ['text', $id],
@@ -358,7 +360,7 @@ class ilDBUpdateNewObjectType
             'op_order' => ['integer', $pos]
         ];
         $ilDB->insert('rbac_operations', $fields);
-        
+
         return $ops_id;
     }
 
@@ -367,7 +369,7 @@ class ilDBUpdateNewObjectType
      *
      * @deprecated use ilObject::_getObjectTypeIdByTitle() instead
      */
-    public static function getObjectTypeId(string $type) : ?int
+    public static function getObjectTypeId(string $type): ?int
     {
         global $ilDB;
 
@@ -385,17 +387,17 @@ class ilDBUpdateNewObjectType
         $row = $ilDB->fetchAssoc($res);
         return (int) $row['obj_id'] ?? null;
     }
-    
+
     /**
      * Add create RBAC operations for parent object types
      *
      * @deprecated use Services/AccessControl/classes/Setup/class.ilAccessCustomRBACOperationAddedObjective.php instead
      *             use 'create' for class param
      */
-    public static function addRBACCreate(string $id, string $title, array $parent_types) : void
+    public static function addRBACCreate(string $id, string $title, array $parent_types): void
     {
         $ops_id = self::addCustomRBACOperation($id, $title, 'create', 9999);
-        
+
         foreach ($parent_types as $type) {
             $type_id = ilObject::_getObjectTypeIdByTitle($type);
             if ($type_id) {
@@ -403,36 +405,36 @@ class ilDBUpdateNewObjectType
             }
         }
     }
-    
+
     /**
      * Change order of operations
      *
      * @deprecated use Services/AccessControl/classes/Setup/class.ilAccessRBACOperationOrderUpdatedObjective.php instead
      */
-    public static function updateOperationOrder(string $operation, int $pos) : void
+    public static function updateOperationOrder(string $operation, int $pos): void
     {
         global $ilDB;
-        
+
         $ilDB->update(
             'rbac_operations',
             ['op_order' => ['integer', $pos]],
             ['operation' => ['text', $operation]]
         );
     }
-    
+
     /**
      * Create new admin object node
      *
      * @deprecated use Services/Tree/classes/Setup/class.ilTreeAdminNodeAddedObjective.php instead
      */
-    public static function addAdminNode(string $obj_type, string $title) : void
+    public static function addAdminNode(string $obj_type, string $title): void
     {
         global $ilDB, $tree;
-        
+
         if (ilObject::_getObjectTypeIdByTitle($obj_type)) {
             return;
         }
-        
+
         $obj_type_id = self::addNewType($obj_type, $title);
         $obj_id = $ilDB->nextId('object_data');
         $values = [
@@ -468,13 +470,13 @@ class ilDBUpdateNewObjectType
 
         self::addRBACOperations($obj_type_id, $rbac_ops);
     }
-    
+
     /**
      * Clone RBAC-settings between operations
      *
      * @deprecated use Services/AccessControl/classes/Setup/class.ilAccessRBACOperationClonedObjective.php instead
      */
-    public static function cloneOperation(string $obj_type, int $source_op_id, int $target_op_id) : void
+    public static function cloneOperation(string $obj_type, int $source_op_id, int $target_op_id): void
     {
         global $ilDB;
         $db = $ilDB;
@@ -541,7 +543,7 @@ class ilDBUpdateNewObjectType
     /**
      * @deprecated use Services/AccessControl/classes/Setup/class.ilAccessRolePermissionSetObjective.php instead
      */
-    public static function setRolePermission(int $a_rol_id, string $a_type, array $a_ops, int $a_ref_id) : void
+    public static function setRolePermission(int $a_rol_id, string $a_type, array $a_ops, int $a_ref_id): void
     {
         global $DIC;
 
@@ -578,7 +580,7 @@ class ilDBUpdateNewObjectType
         string $objectType,
         bool $hasLearningProgress = false,
         bool $usedForAuthoring = false
-    ) : void {
+    ): void {
         global $DIC;
 
         $ilDB = $DIC['ilDB'];

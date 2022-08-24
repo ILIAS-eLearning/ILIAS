@@ -31,19 +31,19 @@ interface PrintViewProvider
      * the print/pdf message is added automatically
      * @return ilPropertyFormGUI|null
      */
-    public function getSelectionForm() : ?ilPropertyFormGUI;
+    public function getSelectionForm(): ?ilPropertyFormGUI;
 
-    public function getOnSubmitCode() : string;
+    public function getOnSubmitCode(): string;
 
-    public function autoPageBreak() : bool;
+    public function autoPageBreak(): bool;
 
     /**
      * @return string[]
      */
-    public function getPages() : array;
+    public function getPages(): array;
 
     /**
      * @return callable[]   each callable gets the $tpl passed to inject css/js/...
      */
-    public function getTemplateInjectors() : array;
+    public function getTemplateInjectors(): array;
 }

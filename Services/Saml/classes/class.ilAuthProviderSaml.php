@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -45,7 +47,7 @@ class ilAuthProviderSaml extends ilAuthProvider implements ilAuthProviderAccount
         }
     }
 
-    private function determineUidFromAttributes() : void
+    private function determineUidFromAttributes(): void
     {
         if (
             !array_key_exists($this->idp->getUidClaim(), $this->attributes) ||
@@ -62,7 +64,7 @@ class ilAuthProviderSaml extends ilAuthProvider implements ilAuthProviderAccount
         $this->uid = $this->attributes[$this->idp->getUidClaim()][0];
     }
 
-    public function doAuthentication(ilAuthStatus $status) : bool
+    public function doAuthentication(ilAuthStatus $status): bool
     {
         if (0 === count($this->attributes)) {
             $this->getLogger()->warning('Could not parse any attributes from SAML response.');
@@ -83,7 +85,7 @@ class ilAuthProviderSaml extends ilAuthProvider implements ilAuthProviderAccount
         }
     }
 
-    private function handleSamlAuth(ilAuthStatus $status) : bool
+    private function handleSamlAuth(ilAuthStatus $status): bool
     {
         $update_auth_mode = false;
 
@@ -245,11 +247,11 @@ class ilAuthProviderSaml extends ilAuthProvider implements ilAuthProviderAccount
         return false;
     }
 
-    public function migrateAccount(ilAuthStatus $status) : void
+    public function migrateAccount(ilAuthStatus $status): void
     {
     }
 
-    public function createNewAccount(ilAuthStatus $status) : void
+    public function createNewAccount(ilAuthStatus $status): void
     {
         if (
             !is_array(ilSession::get('tmp_attributes')) ||
@@ -270,27 +272,27 @@ class ilAuthProviderSaml extends ilAuthProvider implements ilAuthProviderAccount
         $this->handleSamlAuth($status);
     }
 
-    public function setExternalAccountName(string $a_name) : void
+    public function setExternalAccountName(string $a_name): void
     {
         $this->migration_account = $a_name;
     }
 
-    public function getExternalAccountName() : string
+    public function getExternalAccountName(): string
     {
         return $this->migration_account;
     }
 
-    public function getTriggerAuthMode() : string
+    public function getTriggerAuthMode(): string
     {
         return ilAuthUtils::AUTH_SAML . '_' . $this->idp->getIdpId();
     }
 
-    public function getUserAuthModeName() : string
+    public function getUserAuthModeName(): string
     {
         return 'saml_' . $this->idp->getIdpId();
     }
 
-    private function importUser(?string $a_internal_login, string $a_external_account, array $a_user_data = []) : string
+    private function importUser(?string $a_internal_login, string $a_external_account, array $a_user_data = []): string
     {
         $mapping = new ilExternalAuthUserAttributeMapping('saml', $this->idp->getIdpId());
 
@@ -373,7 +375,7 @@ class ilAuthProviderSaml extends ilAuthProvider implements ilAuthProviderAccount
         ilXmlWriter $xml_writer,
         ilExternalAuthUserAttributeMappingRule $rule,
         string $value
-    ) : void {
+    ): void {
         switch (strtolower($rule->getAttribute())) {
             case 'gender':
                 switch (strtolower($value)) {

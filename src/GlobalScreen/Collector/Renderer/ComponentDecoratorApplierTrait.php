@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -26,7 +28,7 @@ use ILIAS\UI\Component\Component;
  */
 trait ComponentDecoratorApplierTrait
 {
-    public function applyDecorator(Component $component, isGlobalScreenItem $item) : Component
+    public function applyDecorator(Component $component, isGlobalScreenItem $item): Component
     {
         $c = $item->getComponentDecorator();
         if ($c !== null) {

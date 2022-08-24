@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\UI\Component\Panel;
 
 use ILIAS\UI\Component\Card\Card;
@@ -30,7 +32,7 @@ interface Sub extends Panel
      * Sets the component to be displayed on the right of the Sub Panel
      * @param Card|Secondary $component
      */
-    public function withFurtherInformation($component) : Sub;
+    public function withFurtherInformation($component): Sub;
 
     /**
      * Gets the component to be displayed on the right of the Sub Panel

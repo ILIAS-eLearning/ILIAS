@@ -32,7 +32,7 @@ require_once('./Modules/TestQuestionPool/classes/class.ilAssQuestionPage.php');
  */
 class ilAssQuestionPageGUI extends ilPageObjectGUI
 {
-    const TEMP_PRESENTATION_TITLE_PLACEHOLDER = '___TEMP_PRESENTATION_TITLE_PLACEHOLDER___';
+    public const TEMP_PRESENTATION_TITLE_PLACEHOLDER = '___TEMP_PRESENTATION_TITLE_PLACEHOLDER___';
 
     private $originalPresentationTitle = '';
 
@@ -56,28 +56,28 @@ class ilAssQuestionPageGUI extends ilPageObjectGUI
         $this->setEnabledPageFocus(false);
     }
 
-    public function getOriginalPresentationTitle() : string
+    public function getOriginalPresentationTitle(): string
     {
         return $this->originalPresentationTitle;
     }
 
-    public function setOriginalPresentationTitle($originalPresentationTitle) : void
+    public function setOriginalPresentationTitle($originalPresentationTitle): void
     {
         $this->originalPresentationTitle = $originalPresentationTitle;
     }
 
-    protected function isPageContainerToBeRendered() : bool
+    protected function isPageContainerToBeRendered(): bool
     {
         return $this->getRenderPageContainer();
     }
 
-    public function showPage() : string
+    public function showPage(): string
     {
         if ($this->getPresentationTitle() !== null) {
             $this->setOriginalPresentationTitle($this->getPresentationTitle());
             $this->setPresentationTitle(self::TEMP_PRESENTATION_TITLE_PLACEHOLDER);
         }
-        
+
         // fau: testNav - enable page toc as placeholder for info and actions block (see self::insertPageToc)
         $config = $this->getPageConfig();
         $config->setEnablePageToc('y');
@@ -85,13 +85,13 @@ class ilAssQuestionPageGUI extends ilPageObjectGUI
         // fau.
         return parent::showPage();
     }
-    
-    public function finishEditing() : void
+
+    public function finishEditing(): void
     {
         $this->ctrl->redirectByClass('ilAssQuestionPreviewGUI', ilAssQuestionPreviewGUI::CMD_SHOW);
     }
 
-    public function postOutputProcessing(string $a_output) : string
+    public function postOutputProcessing(string $a_output): string
     {
         $a_output = str_replace(
             self::TEMP_PRESENTATION_TITLE_PLACEHOLDER,
@@ -110,7 +110,7 @@ class ilAssQuestionPageGUI extends ilPageObjectGUI
      * Set the HTML of a question info block below the title (number, status, ...)
      * @param string	$a_html
      */
-    public function setQuestionInfoHTML($a_html) : void
+    public function setQuestionInfoHTML($a_html): void
     {
         $this->questionInfoHTML = $a_html;
     }
@@ -119,7 +119,7 @@ class ilAssQuestionPageGUI extends ilPageObjectGUI
      * Set the HTML of a question actions block below the title
      * @param string 	$a_html
      */
-    public function setQuestionActionsHTML($a_html) : void
+    public function setQuestionActionsHTML($a_html): void
     {
         $this->questionActionsHTML = $a_html;
     }
@@ -129,7 +129,7 @@ class ilAssQuestionPageGUI extends ilPageObjectGUI
      * @todo: 	support question info and actions in the page XSL directly
      * 			the current workaround avoids changing the COPage service
      */
-    public function insertPageToc(string $a_output) : string
+    public function insertPageToc(string $a_output): string
     {
         if (!empty($this->questionInfoHTML) || !empty($this->questionActionsHTML)) {
             $tpl = new ilTemplate('tpl.tst_question_subtitle_blocks.html', true, true, 'Modules/TestQuestionPool');

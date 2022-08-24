@@ -42,32 +42,32 @@ class ilNewsDefaultRendererGUI implements ilNewsRendererGUI
     public function setNewsItem(
         ilNewsItem $a_news_item,
         int $a_news_ref_id
-    ) : void {
+    ): void {
         $this->news_item = $a_news_item;
         $this->news_ref_id = $a_news_ref_id;
     }
 
-    public function getNewsItem() : ilNewsItem
+    public function getNewsItem(): ilNewsItem
     {
         return $this->news_item;
     }
 
-    public function getNewsRefId() : int
+    public function getNewsRefId(): int
     {
         return $this->news_ref_id;
     }
 
-    public function setLanguage(string $lang_key) : void
+    public function setLanguage(string $lang_key): void
     {
         $this->lng_key = $lang_key;
     }
 
-    public function getTimelineContent() : string
+    public function getTimelineContent(): string
     {
         return $this->getDetailContent();
     }
 
-    public function getDetailContent() : string
+    public function getDetailContent(): string
     {
         if ($this->news_item->getContentTextIsLangVar()) {
             $this->lng->loadLanguageModule($this->news_item->getContextObjType());
@@ -87,7 +87,7 @@ class ilNewsDefaultRendererGUI implements ilNewsRendererGUI
         return $content;
     }
 
-    public function makeClickable(string $a_str) : string
+    public function makeClickable(string $a_str): string
     {
         // this fixes bug 8744.
         // If the string already contains a tags our makeClickable does not work
@@ -98,11 +98,11 @@ class ilNewsDefaultRendererGUI implements ilNewsRendererGUI
         return $this->refinery->string()->makeClickable()->transform($a_str);
     }
 
-    public function addTimelineActions(ilAdvancedSelectionListGUI $list) : void
+    public function addTimelineActions(ilAdvancedSelectionListGUI $list): void
     {
     }
 
-    public function getObjectLink() : string
+    public function getObjectLink(): string
     {
         return ilLink::_getLink($this->getNewsRefId());
     }

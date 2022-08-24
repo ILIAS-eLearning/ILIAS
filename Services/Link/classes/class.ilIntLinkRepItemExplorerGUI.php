@@ -33,7 +33,7 @@ class ilIntLinkRepItemExplorerGUI extends ilRepositorySelectorExplorerGUI
         string $a_parent_cmd
     ) {
         parent::__construct($a_parent_obj, $a_parent_cmd, null, "", "");
-        
+
         // #14587 - ilRepositorySelectorExplorerGUI::__construct() does NOT include side blocks!
         $list = $this->getTypeWhiteList();
         $list[] = "poll";
@@ -43,7 +43,7 @@ class ilIntLinkRepItemExplorerGUI extends ilRepositorySelectorExplorerGUI
     /**
      * Set "set link target" script
      */
-    public function setSetLinkTargetScript(string $a_script) : void
+    public function setSetLinkTargetScript(string $a_script): void
     {
         $this->link_target_script = $a_script;
     }
@@ -51,7 +51,7 @@ class ilIntLinkRepItemExplorerGUI extends ilRepositorySelectorExplorerGUI
     /**
      * Get "set link target" script
      */
-    public function getSetLinkTargetScript() : string
+    public function getSetLinkTargetScript(): string
     {
         return $this->link_target_script;
     }
@@ -59,7 +59,7 @@ class ilIntLinkRepItemExplorerGUI extends ilRepositorySelectorExplorerGUI
     /**
      * @param array|object $a_node
      */
-    public function getNodeHref($a_node) : string
+    public function getNodeHref($a_node): string
     {
         if ($this->getSetLinkTargetScript() === "") {
             return "#";
@@ -77,7 +77,7 @@ class ilIntLinkRepItemExplorerGUI extends ilRepositorySelectorExplorerGUI
      * get onclick event handling
      * @param array|object $a_node
      */
-    public function getNodeOnClick($a_node) : string
+    public function getNodeOnClick($a_node): string
     {
         if ($this->getSetLinkTargetScript() === "") {
             return "return il.IntLink.addInternalLink('[iln " . $a_node['type'] . "=&quot;" . $a_node['child'] . "&quot;]','[/iln]', event);";

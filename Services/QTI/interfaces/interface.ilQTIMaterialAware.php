@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -23,7 +25,7 @@
  */
 interface ilQTIMaterialAware
 {
-    public function addMaterial(ilQTIMaterial $material) : void;
+    public function addMaterial(ilQTIMaterial $material): void;
 
-    public function getMaterial(int $index) : ?ilQTIMaterial;
+    public function getMaterial(int $index): ?ilQTIMaterial;
 }

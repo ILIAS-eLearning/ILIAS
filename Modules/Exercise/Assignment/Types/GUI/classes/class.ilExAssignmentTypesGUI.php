@@ -15,7 +15,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * Assignment types gui.
  *
@@ -43,7 +43,7 @@ class ilExAssignmentTypesGUI
     /**
      * Get instance
      */
-    public static function getInstance() : \ilExAssignmentTypesGUI
+    public static function getInstance(): \ilExAssignmentTypesGUI
     {
         return new self();
     }
@@ -56,7 +56,7 @@ class ilExAssignmentTypesGUI
      *
      * @param int $a_id type id
      */
-    public function getById(int $a_id) : ilExAssignmentTypeGUIInterface
+    public function getById(int $a_id): ilExAssignmentTypeGUIInterface
     {
         switch ($a_id) {
             case ilExAssignment::TYPE_UPLOAD:
@@ -88,7 +88,7 @@ class ilExAssignmentTypesGUI
      * @param
      * @return
      */
-    public function getByClassName($a_class_name) : \ilExAssignmentTypeGUIInterface
+    public function getByClassName($a_class_name): \ilExAssignmentTypeGUIInterface
     {
         $id = $this->getIdForClassName($a_class_name);
         return $this->getById($id);
@@ -101,7 +101,7 @@ class ilExAssignmentTypesGUI
      *
      * @param string
      */
-    public function isExAssTypeGUIClass($a_string) : bool
+    public function isExAssTypeGUIClass($a_string): bool
     {
         foreach ($this->class_names as $cn) {
             if (strtolower($cn) === strtolower($a_string)) {

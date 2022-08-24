@@ -11,7 +11,7 @@ class DashboardViewSettingsTest extends TestCase
 {
     protected ilPDSelectedItemsBlockViewSettings $view_settings;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -37,7 +37,7 @@ class DashboardViewSettingsTest extends TestCase
         );
     }
 
-    protected function tearDown() : void
+    protected function tearDown(): void
     {
     }
 

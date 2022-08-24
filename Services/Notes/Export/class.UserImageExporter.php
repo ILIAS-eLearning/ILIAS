@@ -36,7 +36,7 @@ class UserImageExporter
     public function exportUserImagesForRepObjId(
         string $export_dir,
         int $rep_obj_id
-    ) : void {
+    ): void {
         $db = $this->db;
         $set = $db->queryF(
             "SELECT DISTINCT author FROM note " .
@@ -52,7 +52,7 @@ class UserImageExporter
         $this->exportUserImages($export_dir, $user_ids);
     }
 
-    public function exportUserImages(string $export_dir, array $user_ids) : void
+    public function exportUserImages(string $export_dir, array $user_ids): void
     {
         $user_export = new \ILIAS\User\Export\UserHtmlExport();
         $user_export->exportUserImages($export_dir, $user_ids);

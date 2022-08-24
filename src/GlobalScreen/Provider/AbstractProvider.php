@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -40,7 +42,7 @@ abstract class AbstractProvider implements Provider
     /**
      * @return Services
      */
-    protected function globalScreen() : Services
+    protected function globalScreen(): Services
     {
         return $this->dic->globalScreen();
     }
@@ -48,7 +50,7 @@ abstract class AbstractProvider implements Provider
     /**
      * @inheritDoc
      */
-    final public function getFullyQualifiedClassName() : string
+    final public function getFullyQualifiedClassName(): string
     {
         return self::class;
     }
@@ -57,7 +59,7 @@ abstract class AbstractProvider implements Provider
      * @return string
      * @throws \ReflectionException
      */
-    public function getProviderNameForPresentation() : string
+    public function getProviderNameForPresentation(): string
     {
         if ($this->provider_name_cache !== "" && is_string($this->provider_name_cache)) {
             return $this->provider_name_cache;

@@ -15,7 +15,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\Exercise\Assignment\Mandatory;
 
 /**
@@ -69,7 +69,7 @@ class MandatoryAssignmentsManager
      */
     public function getMandatoryAssignmentsOfUser(
         int $user_id
-    ) : array {
+    ): array {
         if ($this->rand_ass_manager->isActivated()) {
             return $this->rand_ass_manager->getMandatoryAssignmentsOfUser($user_id);
         }
@@ -80,7 +80,7 @@ class MandatoryAssignmentsManager
     }
 
     // Is assignment mandatory for a user?
-    public function isMandatoryForUser(int $ass_id, int $user_id) : bool
+    public function isMandatoryForUser(int $ass_id, int $user_id): bool
     {
         return (in_array($ass_id, $this->getMandatoryAssignmentsOfUser($user_id)));
     }

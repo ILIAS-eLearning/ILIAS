@@ -22,12 +22,12 @@
  */
 abstract class ilOrgUnitExtensionPlugin extends ilRepositoryObjectPlugin
 {
-    public function getParentTypes() : array
+    public function getParentTypes(): array
     {
         return ['orgu'];
     }
 
-    public static function _getIcon(string $a_type) : string
+    public static function _getIcon(string $a_type): string
     {
         global $DIC;
         $componentRepositoryObject = $DIC["component.repository"];
@@ -41,7 +41,7 @@ abstract class ilOrgUnitExtensionPlugin extends ilRepositoryObjectPlugin
         );
     }
 
-    public static function _getName(string $a_id) : string
+    public static function _getName(string $a_id): string
     {
         global $DIC;
         $component_repository = $DIC["component.repository"];

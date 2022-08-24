@@ -23,7 +23,7 @@ use ILIAS\Setup\Objective;
 
 class ilFileObjectMigrationDoneObjective implements Setup\Objective
 {
-    public function getHash() : string
+    public function getHash(): string
     {
         return hash(
             "sha256",
@@ -31,24 +31,24 @@ class ilFileObjectMigrationDoneObjective implements Setup\Objective
         );
     }
 
-    public function getLabel() : string
+    public function getLabel(): string
     {
         return "File Migration has been performed in ILIAS 7.";
     }
 
-    public function isNotable() : bool
+    public function isNotable(): bool
     {
         return true;
     }
 
-    public function getPreconditions(Environment $environment) : array
+    public function getPreconditions(Environment $environment): array
     {
         return [
             new ilDatabaseInitializedObjective(),
         ];
     }
 
-    public function achieve(Environment $environment) : Environment
+    public function achieve(Environment $environment): Environment
     {
         /**
          * @var $db ilDBInterface
@@ -70,7 +70,7 @@ class ilFileObjectMigrationDoneObjective implements Setup\Objective
         return $environment;
     }
 
-    public function isApplicable(Environment $environment) : bool
+    public function isApplicable(Environment $environment): bool
     {
         /**
          * @var $db ilDBInterface

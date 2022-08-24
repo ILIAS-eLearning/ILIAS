@@ -24,7 +24,6 @@
  */
 class ilObjOrgUnitAccess extends ilObjectAccess
 {
-
     /**
      * get commands
      * this method returns an array of all possible commands/permission combinations
@@ -35,7 +34,7 @@ class ilObjOrgUnitAccess extends ilObjectAccess
      *        array('permission' => 'write', 'cmd' => 'edit', 'lang_var' => 'edit'),
      *    );
      */
-    public static function _getCommands() : array
+    public static function _getCommands(): array
     {
         $commands = [
             [
@@ -49,7 +48,7 @@ class ilObjOrgUnitAccess extends ilObjectAccess
         return $commands;
     }
 
-    public static function _checkAccessStaff(int $ref_id) : bool
+    public static function _checkAccessStaff(int $ref_id): bool
     {
         global $DIC;
 
@@ -58,35 +57,35 @@ class ilObjOrgUnitAccess extends ilObjectAccess
             && $DIC->access()->checkAccess('read', '', $ref_id);
     }
 
-    public static function _checkAccessSettings(int $ref_id) : bool
+    public static function _checkAccessSettings(int $ref_id): bool
     {
         global $DIC;
 
         return $DIC->access()->checkAccess('write', '', $ref_id);
     }
 
-    public static function _checkAccessExport(int $ref_id) : bool
+    public static function _checkAccessExport(int $ref_id): bool
     {
         global $DIC;
 
         return $DIC->access()->checkAccess('write', '', $ref_id);
     }
 
-    public static function _checkAccessTypes(int $ref_id) : bool
+    public static function _checkAccessTypes(int $ref_id): bool
     {
         global $DIC;
 
         return $DIC->access()->checkAccess('write', '', $ref_id);
     }
 
-    public static function _checkAccessPositions(int $ref_id) : bool
+    public static function _checkAccessPositions(int $ref_id): bool
     {
         global $DIC;
 
         return $DIC->access()->checkAccess('write', '', $ref_id);
     }
 
-    public static function _checkAccessStaffRec(int $ref_id) : bool
+    public static function _checkAccessStaffRec(int $ref_id): bool
     {
         global $DIC;
 
@@ -95,7 +94,7 @@ class ilObjOrgUnitAccess extends ilObjectAccess
             && $DIC->access()->checkAccess('read', '', $ref_id);
     }
 
-    public static function _checkAccessAdministrateUsers(int $ref_id) : bool
+    public static function _checkAccessAdministrateUsers(int $ref_id): bool
     {
         global $DIC;
 
@@ -103,7 +102,7 @@ class ilObjOrgUnitAccess extends ilObjectAccess
             && $DIC->access()->checkAccess('cat_administrate_users', '', $ref_id);
     }
 
-    public static function _checkAccessToUserLearningProgress(int $ref_id, int $usr_id) : bool
+    public static function _checkAccessToUserLearningProgress(int $ref_id, int $usr_id): bool
     {
         global $DIC;
 
@@ -138,7 +137,7 @@ class ilObjOrgUnitAccess extends ilObjectAccess
     }
 
 
-    public static function _checkGoto(string $a_target) : bool
+    public static function _checkGoto(string $a_target): bool
     {
         global $DIC;
 

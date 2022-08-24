@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -25,17 +27,17 @@
  */
 class ilSessionWaitingList extends ilWaitingList
 {
-    public function addToList(int $a_usr_id) : bool
+    public function addToList(int $a_usr_id): bool
     {
         global $DIC;
 
         $ilAppEventHandler = $DIC->event();
         $ilLog = $DIC->logger()->root();
-        
+
         if (!parent::addToList($a_usr_id)) {
             return false;
         }
-        
+
         $ilLog->info('Raise new event: Modules/Session addToWaitingList');
         $ilAppEventHandler->raise(
             "Modules/Session",

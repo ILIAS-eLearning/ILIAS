@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * Interface ilAtomQuery
  * Use ilAtomQuery to fire Database-Actions which have to be done without beeing influenced by other queries or which can influence other queries as
@@ -24,7 +26,6 @@
  */
 interface ilAtomQuery
 {
-
     // Lock levels
     public const LOCK_WRITE = 1;
     public const LOCK_READ = 2;
@@ -45,7 +46,7 @@ interface ilAtomQuery
      * $ilAtomQuery->addTableLock('my_table')->lockSequence(true)->aliasName('my_alias');
      * the lock-level is determined by ilAtomQuery
      */
-    public function addTableLock(string $table_name) : ilTableLockInterface;
+    public function addTableLock(string $table_name): ilTableLockInterface;
 
     /**
      * Every action on the database during this isolation has to be passed as Callable to ilAtomQuery.
@@ -62,7 +63,7 @@ interface ilAtomQuery
      * $ilAtomQuery->addQueryClosure(new ilMyAtomQueryClass());
      * @throws ilAtomQueryException
      */
-    public function addQueryCallable(callable $query) : void;
+    public function addQueryCallable(callable $query): void;
 
     /**
      * Every action on the database during this isolation has to be passed as Callable to ilAtomQuery.
@@ -79,26 +80,26 @@ interface ilAtomQuery
      * $ilAtomQuery->addQueryClosure(new ilMyAtomQueryClass());
      * @throws ilAtomQueryException
      */
-    public function replaceQueryCallable(callable $query) : void;
+    public function replaceQueryCallable(callable $query): void;
 
     /**
      * Fire your Queries
      * @throws \ilAtomQueryException
      */
-    public function run() : void;
+    public function run(): void;
 
     /**
      * @throws \ilAtomQueryException
      */
-    public static function checkIsolationLevel(int $isolation_level) : void;
+    public static function checkIsolationLevel(int $isolation_level): void;
 
     /**
      * Returns the current Isolation-Level
      */
-    public function getIsolationLevel() : int;
+    public function getIsolationLevel(): int;
 
     /**
      * Provides a check if your callable is ready to be used in ilAtomQuery
      */
-    public function checkCallable(callable $query) : bool;
+    public function checkCallable(callable $query): bool;
 }

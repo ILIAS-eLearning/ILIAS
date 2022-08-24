@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -49,7 +51,7 @@
     define("EVALUATE_FALSE", -1);
     define("COMBINATION_ALL", "all");
     define("COMBINATION_ANY", "any");
-    
+
     /******************************************************************************
      *
      * This file is part of ILIAS, a powerful learning management system.
@@ -66,12 +68,12 @@
     class SeqConditionSet
     {
         public ?string $mCombination = null;
-        
+
         //convert vector to array
         public ?array $mConditions = null;
         public bool $mRetry = false;
         public bool $mRollup = false;
-        
+
         public function __construct(bool $iRollup)
         {
             $this->mRollup = $iRollup;

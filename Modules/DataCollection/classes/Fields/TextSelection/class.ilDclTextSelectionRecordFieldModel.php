@@ -24,13 +24,13 @@ use PhpOffice\PhpSpreadsheet\Cell\DataType;
  */
 class ilDclTextSelectionRecordFieldModel extends ilDclSelectionRecordFieldModel
 {
-    const PROP_SELECTION_TYPE = 'text_selection_type';
-    const PROP_SELECTION_OPTIONS = 'text_selection_options';
+    public const PROP_SELECTION_TYPE = 'text_selection_type';
+    public const PROP_SELECTION_OPTIONS = 'text_selection_options';
 
     /**
      * @throws \PhpOffice\PhpSpreadsheet\Exception
      */
-    public function fillExcelExport(ilExcel $worksheet, int &$row, int &$col) : void
+    public function fillExcelExport(ilExcel $worksheet, int &$row, int &$col): void
     {
         $worksheet->setCell($row, $col, $this->getExportValue(), DataType::TYPE_STRING);
         $col++;

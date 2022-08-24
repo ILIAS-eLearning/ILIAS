@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -30,7 +32,7 @@ class ilMDLifecycle extends ilMDBase
     /**
      * @return array<string, string>
      */
-    public function getPossibleSubelements() : array
+    public function getPossibleSubelements(): array
     {
         $subs['Contribute'] = 'meta_contribute';
 
@@ -40,12 +42,12 @@ class ilMDLifecycle extends ilMDBase
     /**
      * @return int[]
      */
-    public function getContributeIds() : array
+    public function getContributeIds(): array
     {
         return ilMDContribute::_getIds($this->getRBACId(), $this->getObjId(), $this->getMetaId(), 'meta_lifecycle');
     }
 
-    public function getContribute(int $a_contribute_id) : ?ilMDContribute
+    public function getContribute(int $a_contribute_id): ?ilMDContribute
     {
         if (!$a_contribute_id) {
             return null;
@@ -56,7 +58,7 @@ class ilMDLifecycle extends ilMDBase
         return $con;
     }
 
-    public function addContribute() : ilMDContribute
+    public function addContribute(): ilMDContribute
     {
         $con = new ilMDContribute($this->getRBACId(), $this->getObjId(), $this->getObjType());
         $con->setParentId($this->getMetaId());
@@ -66,7 +68,7 @@ class ilMDLifecycle extends ilMDBase
     }
 
     // SET/GET
-    public function setStatus(string $a_status) : void
+    public function setStatus(string $a_status): void
     {
         switch ($a_status) {
             case 'Draft':
@@ -78,37 +80,37 @@ class ilMDLifecycle extends ilMDBase
         }
     }
 
-    public function getStatus() : string
+    public function getStatus(): string
     {
         return $this->status;
     }
 
-    public function setVersion(string $a_version) : void
+    public function setVersion(string $a_version): void
     {
         $this->version = $a_version;
     }
 
-    public function getVersion() : string
+    public function getVersion(): string
     {
         return $this->version;
     }
 
-    public function setVersionLanguage(ilMDLanguageItem $lng_obj) : void
+    public function setVersionLanguage(ilMDLanguageItem $lng_obj): void
     {
         $this->version_language = $lng_obj;
     }
 
-    public function getVersionLanguage() : ilMDLanguageItem
+    public function getVersionLanguage(): ilMDLanguageItem
     {
         return $this->version_language;
     }
 
-    public function getVersionLanguageCode() : string
+    public function getVersionLanguageCode(): string
     {
         return is_object($this->version_language) ? $this->version_language->getLanguageCode() : '';
     }
 
-    public function save() : int
+    public function save(): int
     {
         $fields = $this->__getFields();
         $fields['meta_lifecycle_id'] = array('integer', $next_id = $this->db->nextId('il_meta_lifecycle'));
@@ -120,7 +122,7 @@ class ilMDLifecycle extends ilMDBase
         return 0;
     }
 
-    public function update() : bool
+    public function update(): bool
     {
         return $this->getMetaId() && $this->db->update(
             'il_meta_lifecycle',
@@ -129,7 +131,7 @@ class ilMDLifecycle extends ilMDBase
         );
     }
 
-    public function delete() : bool
+    public function delete(): bool
     {
         // Delete 'contribute'
         foreach ($this->getContributeIds() as $id) {
@@ -149,7 +151,7 @@ class ilMDLifecycle extends ilMDBase
     /**
      * @return array<string, array<string, mixed>>
      */
-    public function __getFields() : array
+    public function __getFields(): array
     {
         return array(
             'rbac_id' => array('integer', $this->getRBACId()),
@@ -161,7 +163,7 @@ class ilMDLifecycle extends ilMDBase
         );
     }
 
-    public function read() : bool
+    public function read(): bool
     {
         if ($this->getMetaId()) {
             $query = "SELECT * FROM il_meta_lifecycle " .
@@ -180,7 +182,7 @@ class ilMDLifecycle extends ilMDBase
         return true;
     }
 
-    public function toXML(ilXmlWriter $writer) : void
+    public function toXML(ilXmlWriter $writer): void
     {
         $writer->xmlStartTag('Lifecycle', array(
             'Status' => $this->getStatus() ?: 'Draft'
@@ -207,7 +209,7 @@ class ilMDLifecycle extends ilMDBase
     }
 
     // STATIC
-    public static function _getId(int $a_rbac_id, int $a_obj_id) : int
+    public static function _getId(int $a_rbac_id, int $a_obj_id): int
     {
         global $DIC;
 

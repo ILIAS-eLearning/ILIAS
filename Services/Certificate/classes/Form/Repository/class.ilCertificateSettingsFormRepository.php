@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -126,7 +128,7 @@ class ilCertificateSettingsFormRepository implements ilCertificateFormRepository
      * @throws ilException
      * @throws ilWACException
      */
-    public function createForm(ilCertificateGUI $certificateGUI) : ilPropertyFormGUI
+    public function createForm(ilCertificateGUI $certificateGUI): ilPropertyFormGUI
     {
         $certificateTemplate = $this->templateRepository->fetchCurrentlyUsedCertificate($this->objectId);
 
@@ -327,7 +329,7 @@ class ilCertificateSettingsFormRepository implements ilCertificateFormRepository
         return $form;
     }
 
-    public function save(array $formFields) : void
+    public function save(array $formFields): void
     {
     }
 
@@ -335,7 +337,7 @@ class ilCertificateSettingsFormRepository implements ilCertificateFormRepository
      * @param string $content
      * @return array
      */
-    public function fetchFormFieldData(string $content) : array
+    public function fetchFormFieldData(string $content): array
     {
         return $this->formFieldParser->fetchDefaultFormFields($content);
     }

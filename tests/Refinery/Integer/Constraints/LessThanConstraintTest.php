@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -32,7 +34,7 @@ class LessThanConstraintTest extends TestCase
     private DataFactory $df;
     private int $less_than;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         $this->df = new DataFactory();
         $this->lng = $this->getMockBuilder(ilLanguage::class)
@@ -48,34 +50,34 @@ class LessThanConstraintTest extends TestCase
         );
     }
 
-    public function testAccepts() : void
+    public function testAccepts(): void
     {
         $this->assertTrue($this->c->accepts(2));
     }
 
-    public function testNotAccepts() : void
+    public function testNotAccepts(): void
     {
         $this->assertFalse($this->c->accepts(10));
     }
 
-    public function testCheckSucceed() : void
+    public function testCheckSucceed(): void
     {
         $this->c->check(2);
         $this->assertTrue(true); // does not throw
     }
 
-    public function testCheckFails() : void
+    public function testCheckFails(): void
     {
         $this->expectException(UnexpectedValueException::class);
         $this->c->check(11);
     }
 
-    public function testNoProblemWith() : void
+    public function testNoProblemWith(): void
     {
         $this->assertNull($this->c->problemWith(1));
     }
 
-    public function testProblemWith() : void
+    public function testProblemWith(): void
     {
         $this->lng
             ->expects($this->once())
@@ -86,7 +88,7 @@ class LessThanConstraintTest extends TestCase
         $this->assertEquals("-12-{$this->less_than}-", $this->c->problemWith("12"));
     }
 
-    public function testRestrictOk() : void
+    public function testRestrictOk(): void
     {
         $ok = $this->df->ok(1);
 
@@ -94,7 +96,7 @@ class LessThanConstraintTest extends TestCase
         $this->assertTrue($res->isOk());
     }
 
-    public function testRestrictNotOk() : void
+    public function testRestrictNotOk(): void
     {
         $not_ok = $this->df->ok(1234);
 
@@ -102,7 +104,7 @@ class LessThanConstraintTest extends TestCase
         $this->assertFalse($res->isOk());
     }
 
-    public function testRestrictError() : void
+    public function testRestrictError(): void
     {
         $error = $this->df->error("error");
 
@@ -110,9 +112,9 @@ class LessThanConstraintTest extends TestCase
         $this->assertSame($error, $res);
     }
 
-    public function testWithProblemBuilder() : void
+    public function testWithProblemBuilder(): void
     {
-        $new_c = $this->c->withProblemBuilder(static function () : string {
+        $new_c = $this->c->withProblemBuilder(static function (): string {
             return "This was a fault";
         });
         $this->assertEquals("This was a fault", $new_c->problemWith(13));

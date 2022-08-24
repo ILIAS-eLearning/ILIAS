@@ -34,7 +34,7 @@ class ilBookingReservationDBRepositoryFactory
     /**
      * Get repo without any preloaded data
      */
-    public function getRepo() : ilBookingReservationDBRepository
+    public function getRepo(): ilBookingReservationDBRepository
     {
         return new ilBookingReservationDBRepository($this->db);
     }
@@ -45,7 +45,7 @@ class ilBookingReservationDBRepositoryFactory
      */
     public function getRepoWithContextObjCache(
         array $context_obj_ids
-    ) : ilBookingReservationDBRepository {
+    ): ilBookingReservationDBRepository {
         return new ilBookingReservationDBRepository($this->db, $context_obj_ids);
     }
 }

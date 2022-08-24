@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -26,7 +28,7 @@
  */
 class ilObjLTIConsumerListGUI extends ilObjectListGUI
 {
-    public function init() : void
+    public function init(): void
     {
         $this->static_link_enabled = true; // Create static links for default command (linked title) or not
         $this->delete_enabled = true;
@@ -45,7 +47,7 @@ class ilObjLTIConsumerListGUI extends ilObjectListGUI
     /**
      * Insert icons and checkboxes
      */
-    public function insertIconsAndCheckboxes() : void
+    public function insertIconsAndCheckboxes(): void
     {
         $lng = $this->lng;
         $objDefinition = $this->obj_definition;
@@ -125,16 +127,16 @@ class ilObjLTIConsumerListGUI extends ilObjectListGUI
 
         $this->tpl->touchBlock("d_" . $cnt);	// indent main div
     }
-    
-    protected function getIconHref() : string
+
+    protected function getIconHref(): string
     {
         /* @var ilObjLTIConsumer $object */
         $object = ilObjectFactory::getInstanceByObjId($this->obj_id);
-        
+
         if ($object->getProvider()->hasProviderIcon()) {
             return $object->getProvider()->getProviderIcon()->getAbsoluteFilePath();
         }
-        
+
         return ilObject::_getIcon($this->obj_id, "small", $this->getIconImageType());
     }
 
@@ -142,17 +144,17 @@ class ilObjLTIConsumerListGUI extends ilObjectListGUI
                  * @throws ilCtrlException
                  * @return array<int, array<string, mixed>>
                  */
-    public function getProperties() : array
+    public function getProperties(): array
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
-        
+
         $props = array();
-        
+
         if (ilObjLTIConsumerAccess::_isOffline($this->obj_id)) {
             $props[] = array("alert" => true, "property" => $DIC->language()->txt("status"),
                 "value" => $DIC->language()->txt("offline"));
         }
-        
+
         $props[] = array(
             'alert' => false, 'property' => $DIC->language()->txt('type'),
             'value' => $DIC->language()->txt('obj_lti')
@@ -161,7 +163,7 @@ class ilObjLTIConsumerListGUI extends ilObjectListGUI
         $validator = new ilCertificateDownloadValidator();
         if ($validator->isCertificateDownloadable($DIC->user()->getId(), $this->obj_id)) {
             $DIC->ctrl()->setParameterByClass(ilLTIConsumerSettingsGUI::class, 'ref_id', $this->ref_id);
-            
+
             $certLink = $DIC->ui()->factory()->link()->standard(
                 $DIC->language()->txt('download_certificate'),
                 $DIC->ctrl()->getLinkTargetByClass(
@@ -169,7 +171,7 @@ class ilObjLTIConsumerListGUI extends ilObjectListGUI
                     ilLTIConsumerSettingsGUI::CMD_DELIVER_CERTIFICATE
                 )
             );
-            
+
             $props[] = array(
                 'alert' => false, 'property' => $DIC->language()->txt('certificate'),
                 'value' => $DIC->ui()->renderer()->render($certLink)
@@ -182,12 +184,12 @@ class ilObjLTIConsumerListGUI extends ilObjectListGUI
     /**
      * @throws ilCtrlException
      */
-    public function getCommandLink(string $cmd) : string
+    public function getCommandLink(string $cmd): string
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
-        
+
         $commands = explode('::', $cmd);
-        
+
         if (count($commands) == 2) {
             $cmd_link = $DIC->ctrl()->getLinkTargetByClass(
                 [
@@ -200,7 +202,7 @@ class ilObjLTIConsumerListGUI extends ilObjectListGUI
         } else {
             $cmd_link = $DIC->ctrl()->getLinkTargetByClass(['ilRepositoryGUI', 'ilObjLTIConsumerGUI'], $commands[0]);
         }
-        
+
         return $cmd_link;
     }
 }

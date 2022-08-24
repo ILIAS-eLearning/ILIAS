@@ -71,7 +71,7 @@ class ilSimpleDetector implements ilDetector, ilWorkflowEngineElement
      *
      * @return bool False, if detector was already satisfied before.
      */
-    public function trigger($params) : ?bool
+    public function trigger($params): ?bool
     {
         if ($this->detection_state === false) {
             $this->setDetectorState(true);
@@ -86,7 +86,7 @@ class ilSimpleDetector implements ilDetector, ilWorkflowEngineElement
      *
      * @return bool
      */
-    public function getDetectorState() : bool
+    public function getDetectorState(): bool
     {
         return $this->detection_state;
     }
@@ -100,7 +100,7 @@ class ilSimpleDetector implements ilDetector, ilWorkflowEngineElement
      * has to be set into a state in the middle of running. Use with care.
      * @param bool $new_state
      */
-    public function setDetectorState(bool $new_state) : void
+    public function setDetectorState(bool $new_state): void
     {
         $this->detection_state = $new_state;
 
@@ -113,7 +113,7 @@ class ilSimpleDetector implements ilDetector, ilWorkflowEngineElement
      * Method is called, when the parent node is activated.
      * @return void
      */
-    public function onActivate() : void
+    public function onActivate(): void
     {
     }
 
@@ -121,31 +121,31 @@ class ilSimpleDetector implements ilDetector, ilWorkflowEngineElement
      * Method is called, when the parent node is deactivated.
      * @return void
      */
-    public function onDeactivate() : void
+    public function onDeactivate(): void
     {
     }
 
-    public function getActivated() : bool
+    public function getActivated(): bool
     {
         return $this->detection_state;
     }
 
-    public function setName($name) : void
+    public function setName($name): void
     {
         $this->name = $name;
     }
 
-    public function getName() : string
+    public function getName(): string
     {
         return $this->name;
     }
 
-    public function getSourceNode() : ?ilNode
+    public function getSourceNode(): ?ilNode
     {
         return $this->source_node;
     }
 
-    public function setSourceNode(ilNode $source_node) : void
+    public function setSourceNode(ilNode $source_node): void
     {
         $this->source_node = $source_node;
     }

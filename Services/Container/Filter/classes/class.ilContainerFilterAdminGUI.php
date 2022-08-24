@@ -52,7 +52,7 @@ class ilContainerFilterAdminGUI
         $this->container_filter_service = new ilContainerFilterService();
     }
 
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         $ctrl = $this->ctrl;
 
@@ -70,7 +70,7 @@ class ilContainerFilterAdminGUI
     /**
      * Show table
      */
-    protected function show() : void
+    protected function show(): void
     {
         $main_tpl = $this->main_tpl;
         $ui = $this->ui;
@@ -97,7 +97,7 @@ class ilContainerFilterAdminGUI
         $main_tpl->setContent($table->getHTML());
     }
 
-    protected function selectFields() : void
+    protected function selectFields(): void
     {
         $main_tpl = $this->main_tpl;
         $ui = $this->ui;
@@ -106,7 +106,7 @@ class ilContainerFilterAdminGUI
         $main_tpl->setContent($r->render($form));
     }
 
-    protected function getFieldSelectionForm() : Standard
+    protected function getFieldSelectionForm(): Standard
     {
         $ui = $this->ui;
         $f = $ui->factory();
@@ -159,7 +159,7 @@ class ilContainerFilterAdminGUI
         return $f->input()->container()->form()->standard($form_action, ["sec" => $section1]);
     }
 
-    protected function saveFields() : void
+    protected function saveFields(): void
     {
         $request = $this->request;
         $service = $this->container_filter_service;

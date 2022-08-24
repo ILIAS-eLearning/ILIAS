@@ -1,4 +1,6 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -24,22 +26,22 @@ namespace ILIAS\Survey\Mode;
  */
 interface FeatureConfig
 {
-    public function supportsCompetences() : bool;
+    public function supportsCompetences(): bool;
 
-    public function supportsConstraints() : bool;
+    public function supportsConstraints(): bool;
 
-    public function supportsAccessCodes() : bool;
+    public function supportsAccessCodes(): bool;
 
-    public function supportsTutorNotification() : bool;
+    public function supportsTutorNotification(): bool;
 
-    public function supportsMemberReminder() : bool;
+    public function supportsMemberReminder(): bool;
 
-    public function supportsSumScore() : bool;
+    public function supportsSumScore(): bool;
 
     /**
      * If raters rate single persons (appraisees) this mode is activated.
      * Otherwise the participants screen will be shown
      * @return bool
      */
-    public function usesAppraisees() : bool;
+    public function usesAppraisees(): bool;
 }

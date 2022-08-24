@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 require_once(__DIR__ . "/../../../../../libs/composer/vendor/autoload.php");
 require_once(__DIR__ . "/../../../Base.php");
 
@@ -61,7 +63,7 @@ class SwitchableGroupInputTest extends ILIAS_UI_TestBase
     protected \ILIAS\UI\Component\Input\Field\Input $switchable_group;
     protected SwitchableGroup $group;
 
-    public function setUp() : void
+    public function setUp(): void
     {
         $this->child1 = $this->createMock(Group1::class);
         $this->child2 = $this->createMock(Group2::class);
@@ -91,15 +93,15 @@ class SwitchableGroupInputTest extends ILIAS_UI_TestBase
             ["child1" => $this->child1, "child2" => $this->child2],
             "LABEL",
             "BYLINE"
-        ))->withNameFrom(new class implements NameSource {
-            public function getNewName() : string
+        ))->withNameFrom(new class () implements NameSource {
+            public function getNewName(): string
             {
                 return "name0";
             }
         });
     }
 
-    protected function buildFactory() : I\Input\Field\Factory
+    protected function buildFactory(): I\Input\Field\Factory
     {
         return new I\Input\Field\Factory(
             $this->createMock(\ILIAS\UI\Implementation\Component\Input\UploadLimitResolver::class),
@@ -110,7 +112,7 @@ class SwitchableGroupInputTest extends ILIAS_UI_TestBase
         );
     }
 
-    public function testWithDisabledDisablesChildren() : void
+    public function testWithDisabledDisablesChildren(): void
     {
         $this->assertNotSame($this->child1, $this->child2);
 
@@ -132,7 +134,7 @@ class SwitchableGroupInputTest extends ILIAS_UI_TestBase
         $this->assertNotSame($this->switchable_group, $new_group);
     }
 
-    public function testWithRequiredDoesNotRequire() : void
+    public function testWithRequiredDoesNotRequire(): void
     {
         $this->assertNotSame($this->child1, $this->child2);
 
@@ -150,7 +152,7 @@ class SwitchableGroupInputTest extends ILIAS_UI_TestBase
         $this->assertNotSame($this->switchable_group, $new_group);
     }
 
-    public function testSwitchableGroupMayOnlyHaveGroupChildren() : void
+    public function testSwitchableGroupMayOnlyHaveGroupChildren(): void
     {
         $this->expectException(InvalidArgumentException::class);
 
@@ -164,7 +166,7 @@ class SwitchableGroupInputTest extends ILIAS_UI_TestBase
         );
     }
 
-    public function testSwitchableGroupForwardsValuesOnWithValue() : void
+    public function testSwitchableGroupForwardsValuesOnWithValue(): void
     {
         $this->assertNotSame($this->child1, $this->child2);
 
@@ -184,19 +186,19 @@ class SwitchableGroupInputTest extends ILIAS_UI_TestBase
         $this->assertNotSame($this->switchable_group, $new_group);
     }
 
-    public function testGroupOnlyDoesNotAcceptNonArrayValue() : void
+    public function testGroupOnlyDoesNotAcceptNonArrayValue(): void
     {
         $this->expectException(InvalidArgumentException::class);
         $this->switchable_group->withValue(null);
     }
 
-    public function testGroupOnlyDoesNoAcceptArrayValuesWithWrongLength() : void
+    public function testGroupOnlyDoesNoAcceptArrayValuesWithWrongLength(): void
     {
         $this->expectException(InvalidArgumentException::class);
         $this->switchable_group->withValue([1, 2, 3]);
     }
 
-    public function testGroupOnlyDoesAcceptKeyOnly() : void
+    public function testGroupOnlyDoesAcceptKeyOnly(): void
     {
         $new_group = $this->switchable_group->withValue("child1");
         $this->assertEquals(["child1" => $this->child1, "child2" => $this->child2], $new_group->getInputs());
@@ -204,13 +206,13 @@ class SwitchableGroupInputTest extends ILIAS_UI_TestBase
         $this->assertNotSame($this->switchable_group, $new_group);
     }
 
-    public function testGroupOnlyDoesNotAcceptInvalidKey() : void
+    public function testGroupOnlyDoesNotAcceptInvalidKey(): void
     {
         $this->expectException(InvalidArgumentException::class);
         $this->switchable_group->withValue("child3");
     }
 
-    public function testGroupForwardsValuesOnGetValue() : void
+    public function testGroupForwardsValuesOnGetValue(): void
     {
         $this->assertNotSame($this->child1, $this->child2);
 
@@ -228,7 +230,7 @@ class SwitchableGroupInputTest extends ILIAS_UI_TestBase
         $this->assertEquals(["child1", "one"], $vals);
     }
 
-    public function testWithInputCallsChildrenAndAppliesOperations() : void
+    public function testWithInputCallsChildrenAndAppliesOperations(): void
     {
         $this->assertNotSame($this->child1, $this->child2);
 
@@ -259,7 +261,7 @@ class SwitchableGroupInputTest extends ILIAS_UI_TestBase
 
         $called = false;
         $new_group = $this->switchable_group
-            ->withAdditionalTransformation($this->refinery->custom()->transformation(function ($v) use (&$called) : string {
+            ->withAdditionalTransformation($this->refinery->custom()->transformation(function ($v) use (&$called): string {
                 $called = true;
                 $this->assertEquals(["child1", ["one"]], $v);
                 return "result";
@@ -273,7 +275,7 @@ class SwitchableGroupInputTest extends ILIAS_UI_TestBase
         $this->assertEquals($this->data_factory->ok("result"), $new_group->getContent());
     }
 
-    public function testWithInputDoesNotApplyOperationsOnError() : void
+    public function testWithInputDoesNotApplyOperationsOnError(): void
     {
         $this->assertNotSame($this->child1, $this->child2);
 
@@ -309,7 +311,7 @@ class SwitchableGroupInputTest extends ILIAS_UI_TestBase
             ->willReturn($i18n);
 
         $new_group = $this->switchable_group
-            ->withAdditionalTransformation($this->refinery->custom()->transformation(function () : void {
+            ->withAdditionalTransformation($this->refinery->custom()->transformation(function (): void {
                 $this->fail("This should not happen.");
             }))
             ->withInput($input_data);
@@ -320,7 +322,7 @@ class SwitchableGroupInputTest extends ILIAS_UI_TestBase
         $this->assertTrue($new_group->getContent()->isError());
     }
 
-    public function testErrorIsI18NOnError() : void
+    public function testErrorIsI18NOnError(): void
     {
         $this->assertNotSame($this->child1, $this->child2);
 
@@ -353,7 +355,7 @@ class SwitchableGroupInputTest extends ILIAS_UI_TestBase
         $this->assertEquals($i18n, $switchable_group->getContent()->error());
     }
 
-    public function testWithInputDoesNotAcceptUnknownKeys() : void
+    public function testWithInputDoesNotAcceptUnknownKeys(): void
     {
         $this->expectException(InvalidArgumentException::class);
 
@@ -379,13 +381,13 @@ class SwitchableGroupInputTest extends ILIAS_UI_TestBase
             ->method("getContent");
 
         $this->switchable_group
-            ->withAdditionalTransformation($this->refinery->custom()->transformation(function () use (&$called) : void {
+            ->withAdditionalTransformation($this->refinery->custom()->transformation(function () use (&$called): void {
                 $this->fail("This should not happen.");
             }))
             ->withInput($input_data);
     }
 
-    public function testRender() : SG
+    public function testRender(): SG
     {
         $f = $this->buildFactory();
         $label = "label";
@@ -452,7 +454,7 @@ EOT;
     /**
      * @depends testRender
      */
-    public function testRenderWithValue(SG $sg) : void
+    public function testRenderWithValue(SG $sg): void
     {
         $r = $this->getDefaultRenderer();
         $html = $r->render($sg->withValue('g2'));
@@ -495,7 +497,7 @@ EOT;
         );
     }
 
-    public function testRenderWithValueByIndex() : void
+    public function testRenderWithValueByIndex(): void
     {
         $f = $this->buildFactory();
         $label = "label";

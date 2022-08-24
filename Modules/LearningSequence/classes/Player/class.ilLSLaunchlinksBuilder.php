@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -24,14 +26,14 @@
  */
 class ilLSLaunchlinksBuilder
 {
-    const PERM_PARTICIPATE = 'participate';
-    const PERM_UNPARTICIPATE = 'unparticipate';
-    
-    const CMD_STANDARD = ilObjLearningSequenceLearnerGUI::CMD_STANDARD;
-    const CMD_EXTRO = ilObjLearningSequenceLearnerGUI::CMD_EXTRO;
-    const CMD_START = ilObjLearningSequenceLearnerGUI::CMD_START;
-    const CMD_VIEW = ilObjLearningSequenceLearnerGUI::CMD_VIEW;
-    const CMD_UNSUBSCRIBE = ilObjLearningSequenceLearnerGUI::CMD_UNSUBSCRIBE;
+    public const PERM_PARTICIPATE = 'participate';
+    public const PERM_UNPARTICIPATE = 'unparticipate';
+
+    public const CMD_STANDARD = ilObjLearningSequenceLearnerGUI::CMD_STANDARD;
+    public const CMD_EXTRO = ilObjLearningSequenceLearnerGUI::CMD_EXTRO;
+    public const CMD_START = ilObjLearningSequenceLearnerGUI::CMD_START;
+    public const CMD_VIEW = ilObjLearningSequenceLearnerGUI::CMD_VIEW;
+    public const CMD_UNSUBSCRIBE = ilObjLearningSequenceLearnerGUI::CMD_UNSUBSCRIBE;
 
     protected ilLanguage $lng;
     protected ilAccess $access;
@@ -63,38 +65,38 @@ class ilLSLaunchlinksBuilder
         $this->roles = $roles;
     }
 
-    protected function mayJoin() : bool
+    protected function mayJoin(): bool
     {
         return $this->access->checkAccess(self::PERM_PARTICIPATE, '', $this->lso_ref_id);
     }
 
 
-    public function currentUserMayUnparticipate() : bool
+    public function currentUserMayUnparticipate(): bool
     {
         return $this->mayUnparticipate();
     }
 
-    protected function mayUnparticipate() : bool
+    protected function mayUnparticipate(): bool
     {
         return $this->access->checkAccess(self::PERM_UNPARTICIPATE, '', $this->lso_ref_id);
     }
 
-    protected function isMember() : bool
+    protected function isMember(): bool
     {
         return $this->roles->isMember($this->usr_id);
     }
 
-    protected function hasCompleted() : bool
+    protected function hasCompleted(): bool
     {
         return $this->roles->isCompletedByUser($this->usr_id);
     }
 
-    protected function getLink(string $cmd) : string
+    protected function getLink(string $cmd): string
     {
         return $this->ctrl->getLinkTargetByClass('ilObjLearningSequenceLearnerGUI', $cmd);
     }
 
-    public function getLinks() : array
+    public function getLinks(): array
     {
         $cmd = $this->ctrl->getCmd();
         $links = [];
@@ -142,11 +144,11 @@ class ilLSLaunchlinksBuilder
                 $this->getLink(self::CMD_UNSUBSCRIBE)
             ];
         }
-        
+
         return $links;
     }
 
-    public function getLaunchbuttonsComponent() : array
+    public function getLaunchbuttonsComponent(): array
     {
         $buttons = [];
         foreach ($this->getLinks() as $idx => $entry) {

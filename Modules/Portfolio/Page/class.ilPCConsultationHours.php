@@ -26,19 +26,19 @@ class ilPCConsultationHours extends ilPageContent
     protected php4DOMElement $cach_node;
     protected ilObjUser $user;
 
-    public function init() : void
+    public function init(): void
     {
         global $DIC;
         $this->user = $DIC->user();
         $this->setType("cach");
     }
-    
-    public static function getLangVars() : array
+
+    public static function getLangVars(): array
     {
         return array("ed_insert_consultation_hours", "pc_cach");
     }
 
-    public function setNode(php4DOMElement $a_node) : void
+    public function setNode(php4DOMElement $a_node): void
     {
         parent::setNode($a_node);		// this is the PageContent node
         $this->cach_node = $a_node->first_child();		// this is the consultation hours node
@@ -48,7 +48,7 @@ class ilPCConsultationHours extends ilPageContent
         ilPageObject $a_pg_obj,
         string $a_hier_id,
         string $a_pc_id = ""
-    ) : void {
+    ): void {
         $this->node = $this->createPageContentNode();
         $a_pg_obj->insertContent($this, $a_hier_id, IL_INSERT_AFTER, $a_pc_id);
         $this->cach_node = $this->dom->create_element("ConsultationHours");
@@ -61,12 +61,12 @@ class ilPCConsultationHours extends ilPageContent
     public function setData(
         string $a_mode,
         array $a_grp_ids
-    ) : void {
+    ): void {
         $ilUser = $this->user;
-        
+
         $this->cach_node->set_attribute("Mode", $a_mode);
         $this->cach_node->set_attribute("User", $ilUser->getId());
-        
+
         // remove all children first
         $children = $this->cach_node->child_nodes();
         if ($children) {
@@ -87,7 +87,7 @@ class ilPCConsultationHours extends ilPageContent
     /**
      * Get consultation hours group ids
      */
-    public function getGroupIds() : array
+    public function getGroupIds(): array
     {
         $res = array();
         if (is_object($this->cach_node)) {

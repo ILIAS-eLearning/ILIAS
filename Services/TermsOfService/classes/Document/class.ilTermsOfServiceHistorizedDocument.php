@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -33,24 +35,24 @@ class ilTermsOfServiceHistorizedDocument implements ilTermsOfServiceSignableDocu
         $this->criteria = $criteria;
     }
 
-    public function content() : string
+    public function content(): string
     {
         return $this->entity->getTitle();
     }
 
-    public function title() : string
+    public function title(): string
     {
         return $this->entity->getTitle();
     }
 
-    public function id() : int
+    public function id(): int
     {
         return $this->entity->getDocumentId();
     }
 
-    public function criteria() : array
+    public function criteria(): array
     {
-        return array_map(static function (array $criterion) : ilTermsOfServiceHistorizedCriterion {
+        return array_map(static function (array $criterion): ilTermsOfServiceHistorizedCriterion {
             return new ilTermsOfServiceHistorizedCriterion(
                 $criterion['id'],
                 $criterion['value']

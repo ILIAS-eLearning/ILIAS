@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -29,7 +31,7 @@ use ILIAS\Setup\Config;
  */
 class ilSetupAgent implements Setup\Agent
 {
-    const PHP_MEMORY_LIMIT = "128M";
+    public const PHP_MEMORY_LIMIT = "128M";
 
     protected Refinery\Factory $refinery;
     protected Data\Factory $data;
@@ -45,7 +47,7 @@ class ilSetupAgent implements Setup\Agent
     /**
      * @inheritdoc
      */
-    public function hasConfig() : bool
+    public function hasConfig(): bool
     {
         return true;
     }
@@ -53,7 +55,7 @@ class ilSetupAgent implements Setup\Agent
     /**
      * @inheritdoc
      */
-    public function getArrayToConfigTransformation() : Refinery\Transformation
+    public function getArrayToConfigTransformation(): Refinery\Transformation
     {
         return $this->refinery->custom()->transformation(function ($data) {
             $datetimezone = $this->refinery->to()->toNew(\DateTimeZone::class);
@@ -68,7 +70,7 @@ class ilSetupAgent implements Setup\Agent
     /**
      * @inheritdoc
      */
-    public function getInstallObjective(Setup\Config $config = null) : Setup\Objective
+    public function getInstallObjective(Setup\Config $config = null): Setup\Objective
     {
         return new Setup\Objective\ObjectiveWithPreconditions(
             new \ilMakeInstallationAccessibleObjective($config),
@@ -94,11 +96,11 @@ class ilSetupAgent implements Setup\Agent
         );
     }
 
-    protected function getPHPMemoryLimitCondition() : Setup\Objective
+    protected function getPHPMemoryLimitCondition(): Setup\Objective
     {
         return new Setup\Condition\ExternalConditionObjective(
             "PHP memory limit >= " . self::PHP_MEMORY_LIMIT,
-            function (Setup\Environment $env) : bool {
+            function (Setup\Environment $env): bool {
                 $limit = ini_get("memory_limit");
                 if ($limit == -1) {
                     return true;
@@ -114,7 +116,7 @@ class ilSetupAgent implements Setup\Agent
     /**
      * @inheritdoc
      */
-    public function getUpdateObjective(Setup\Config $config = null) : Setup\Objective
+    public function getUpdateObjective(Setup\Config $config = null): Setup\Objective
     {
         $objectives = [
             new Setup\Objective\ObjectiveWithPreconditions(
@@ -137,7 +139,7 @@ class ilSetupAgent implements Setup\Agent
     /**
      * @inheritdoc
      */
-    public function getBuildArtifactObjective() : Setup\Objective
+    public function getBuildArtifactObjective(): Setup\Objective
     {
         return new Setup\Objective\NullObjective();
     }
@@ -145,7 +147,7 @@ class ilSetupAgent implements Setup\Agent
     /**
      * @inheritdoc
      */
-    public function getStatusObjective(Setup\Metrics\Storage $storage) : Setup\Objective
+    public function getStatusObjective(Setup\Metrics\Storage $storage): Setup\Objective
     {
         return new ilSetupMetricsCollectedObjective($storage);
     }
@@ -153,17 +155,17 @@ class ilSetupAgent implements Setup\Agent
     /**
      * @inheritDoc
      */
-    public function getMigrations() : array
+    public function getMigrations(): array
     {
         return [];
     }
 
-    public function getNamedObjectives(?Config $config = null) : array
+    public function getNamedObjectives(?Config $config = null): array
     {
         return [
             "registerNICKey" => new Setup\ObjectiveConstructor(
                 "Register NIC key",
-                static function () use ($config) : Setup\Objective {
+                static function () use ($config): Setup\Objective {
                     if (is_null($config)) {
                         throw new \RuntimeException(
                             "Missing Config for objective 'registerNICKey'."

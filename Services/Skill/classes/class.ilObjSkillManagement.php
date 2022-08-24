@@ -33,21 +33,21 @@ class ilObjSkillManagement extends ilObject
         parent::__construct($a_id, $a_call_by_reference);
     }
 
-    public function update() : bool
+    public function update(): bool
     {
         $ilDB = $this->db;
-        
+
         if (!parent::update()) {
             return false;
         }
 
         return true;
     }
-    
+
     /**
     * read style folder data
     */
-    public function read() : void
+    public function read(): void
     {
         $ilDB = $this->db;
 
@@ -59,15 +59,15 @@ class ilObjSkillManagement extends ilObject
     *
     * @return	bool	true if all object data were removed; false if only a references were removed
     */
-    public function delete() : bool
+    public function delete(): bool
     {
         // always call parent delete function first!!
         if (!parent::delete()) {
             return false;
         }
-        
+
         //put here your module specific stuff
-        
+
         return true;
     }
 }

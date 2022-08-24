@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -66,7 +68,7 @@ class UserDataRepository
      * @param string[] $ilCtrlStack
      * @return array<int, UserCertificateDto>
      */
-    public function getUserData(UserDataFilter $filter, array $ilCtrlStack) : array
+    public function getUserData(UserDataFilter $filter, array $ilCtrlStack): array
     {
         $sql = 'SELECT
     cert.pattern_certificate_id,
@@ -130,7 +132,7 @@ FROM
         return $result;
     }
 
-    public function getUserCertificateDataMaxCount(UserDataFilter $filter) : int
+    public function getUserCertificateDataMaxCount(UserDataFilter $filter): int
     {
         $sql = 'SELECT
     COUNT(id) AS count
@@ -147,7 +149,7 @@ FROM
      * @param bool           $max_count_only
      * @return string
      */
-    private function getQuery(UserDataFilter $filter, bool $max_count_only = false) : string
+    private function getQuery(UserDataFilter $filter, bool $max_count_only = false): string
     {
         $sql = '(
 SELECT 
@@ -196,7 +198,7 @@ INNER JOIN usr_data ON usr_data.usr_id = cert.usr_id
         return $sql;
     }
 
-    private function createOrderByClause(UserDataFilter $filter) : string
+    private function createOrderByClause(UserDataFilter $filter): string
     {
         $sorts = $filter->getSorts();
 
@@ -243,7 +245,7 @@ INNER JOIN usr_data ON usr_data.usr_id = cert.usr_id
      * @param UserDataFilter $filter
      * @return string
      */
-    private function createWhereCondition(UserDataFilter $filter) : string
+    private function createWhereCondition(UserDataFilter $filter): string
     {
         $wheres = [];
 

@@ -25,11 +25,11 @@ namespace ILIAS\COPage;
  */
 interface PageLinker
 {
-    public function setOffline(bool $offline = true) : void;
+    public function setOffline(bool $offline = true): void;
 
-    public function getLayoutLinkTargets() : array;
+    public function getLayoutLinkTargets(): array;
 
-    public function getLinkXML(array $int_links) : string;
+    public function getLinkXML(array $int_links): string;
 
-    public function getFullscreenLink() : string;
+    public function getFullscreenLink(): string;
 }

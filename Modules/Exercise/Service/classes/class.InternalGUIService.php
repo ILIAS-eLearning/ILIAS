@@ -15,7 +15,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\Exercise;
 
 use ILIAS\DI\UIServices;
@@ -73,7 +73,7 @@ class InternalGUIService
      * not be used.
      * @return GUIRequest
      */
-    public function request() : GUIRequest
+    public function request(): GUIRequest
     {
         return $this->request;
     }
@@ -81,7 +81,7 @@ class InternalGUIService
     /**
      * @throws \ilExerciseException
      */
-    public function getExerciseGUI(?int $ref_id = null) : \ilObjExerciseGUI
+    public function getExerciseGUI(?int $ref_id = null): \ilObjExerciseGUI
     {
         if ($ref_id === null) {
             $ref_id = $this->request->getRefId();
@@ -89,7 +89,7 @@ class InternalGUIService
         return new \ilObjExerciseGUI([], $ref_id, true);
     }
 
-    public function getRandomAssignmentGUI(\ilObjExercise $exc = null) : \ilExcRandomAssignmentGUI
+    public function getRandomAssignmentGUI(\ilObjExercise $exc = null): \ilExcRandomAssignmentGUI
     {
         if ($exc === null) {
             $exc = $this->request->getExercise();
@@ -107,7 +107,7 @@ class InternalGUIService
         \ilObjExercise $exc = null,
         \ilExAssignment $ass = null,
         $member_id = null
-    ) : \ilExSubmissionGUI {
+    ): \ilExSubmissionGUI {
         if ($exc === null) {
             $exc = $this->request->getExercise();
         }

@@ -27,17 +27,17 @@ class ilUserSetupAgent implements Setup\Agent
 {
     use Setup\Agent\HasNoNamedObjective;
 
-    public function hasConfig() : bool
+    public function hasConfig(): bool
     {
         return false;
     }
 
-    public function getArrayToConfigTransformation() : Refinery\Transformation
+    public function getArrayToConfigTransformation(): Refinery\Transformation
     {
         throw new \LogicException("Agent has no config.");
     }
 
-    public function getInstallObjective(Setup\Config $config = null) : Setup\Objective
+    public function getInstallObjective(Setup\Config $config = null): Setup\Objective
     {
         $dir_objective = new ilFileSystemComponentDataDirectoryCreatedObjective(
             'usr_images',
@@ -51,22 +51,22 @@ class ilUserSetupAgent implements Setup\Agent
         );
     }
 
-    public function getUpdateObjective(Setup\Config $config = null) : Setup\Objective
+    public function getUpdateObjective(Setup\Config $config = null): Setup\Objective
     {
         return new Setup\Objective\NullObjective();
     }
 
-    public function getBuildArtifactObjective() : Setup\Objective
+    public function getBuildArtifactObjective(): Setup\Objective
     {
         return new Setup\Objective\NullObjective();
     }
 
-    public function getStatusObjective(Setup\Metrics\Storage $storage) : Setup\Objective
+    public function getStatusObjective(Setup\Metrics\Storage $storage): Setup\Objective
     {
         return new Setup\Objective\NullObjective();
     }
 
-    public function getMigrations() : array
+    public function getMigrations(): array
     {
         return [];
     }

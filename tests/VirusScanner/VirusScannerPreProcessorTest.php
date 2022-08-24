@@ -40,7 +40,7 @@ class VirusScannerPreProcessorTest extends TestCase
     public function testNoVirusDetected()
     {
         $stream = Streams::ofString('Awesome stuff');
-    
+
         $mock = $this->getMockBuilder(\ilVirusScanner::class)
                      ->disableOriginalConstructor()
                      ->getMock();

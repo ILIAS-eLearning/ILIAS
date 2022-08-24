@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -72,12 +74,12 @@ class ilTinyMCE extends ilRTE
     /**
      * @return string[]
      */
-    public function getPlugins() : array
+    public function getPlugins(): array
     {
         return $this->plugins;
     }
 
-    protected function addInternalTinyMCEImageManager() : void
+    protected function addInternalTinyMCEImageManager(): void
     {
         if (!$this->client_init->readVariable('tinymce', 'use_advanced_img_mng')) {
             parent::addPlugin('ilimgupload');
@@ -103,7 +105,7 @@ class ilTinyMCE extends ilRTE
     /**
      * @param string[] $tags
      */
-    protected function handleImagePluginsBeforeRendering(array $tags) : void
+    protected function handleImagePluginsBeforeRendering(array $tags): void
     {
         if (!in_array('img', $tags)) {
             $this->setRemoveImgContextMenuItem(true);
@@ -118,12 +120,12 @@ class ilTinyMCE extends ilRTE
         }
     }
 
-    protected function handleIliasImageManagerAdded() : void
+    protected function handleIliasImageManagerAdded(): void
     {
         $this->addInternalTinyMCEImageManager();
     }
 
-    protected function handleIliasImageManagerRemoved() : void
+    protected function handleIliasImageManagerRemoved(): void
     {
         if (!$this->client_init->readVariable('tinymce', 'use_advanced_img_mng')) {
             parent::removePlugin('ilimgupload');
@@ -134,7 +136,7 @@ class ilTinyMCE extends ilRTE
         }
     }
 
-    public function addPlugin(string $a_plugin_name) : void
+    public function addPlugin(string $a_plugin_name): void
     {
         if (self::ILIAS_IMG_MANAGER_PLUGIN === $a_plugin_name) {
             $this->handleIliasImageManagerAdded();
@@ -143,7 +145,7 @@ class ilTinyMCE extends ilRTE
         }
     }
 
-    public function removePlugin(string $a_plugin_name) : void
+    public function removePlugin(string $a_plugin_name): void
     {
         if (self::ILIAS_IMG_MANAGER_PLUGIN === $a_plugin_name) {
             $this->handleIliasImageManagerRemoved();
@@ -159,7 +161,7 @@ class ilTinyMCE extends ilRTE
         bool $allowFormElements = false,
         ?string $cfg_template = null,
         bool $hide_switch = false
-    ) : void {
+    ): void {
         global $DIC;
 
         $lng = $DIC['lng'];
@@ -205,7 +207,7 @@ class ilTinyMCE extends ilRTE
             $tpl->setVariable(
                 'TXT_ALLOWED_FILE_EXTENSIONS',
                 $lng->txt('file_allowed_suffixes') . ' ' .
-                implode(', ', array_map(static function (string $value) : string {
+                implode(', ', array_map(static function (string $value): string {
                     return '.' . $value;
                 }, $tinyMCE_valid_imgs))
             );
@@ -243,7 +245,7 @@ class ilTinyMCE extends ilRTE
         }
     }
 
-    protected function handleImgContextMenuItem(ilTemplate $tpl) : void
+    protected function handleImgContextMenuItem(ilTemplate $tpl): void
     {
         if ($this->getRemoveImgContextMenuItem() && $tpl->blockExists('remove_img_context_menu_item')) {
             $tpl->touchBlock('remove_img_context_menu_item');
@@ -252,19 +254,19 @@ class ilTinyMCE extends ilRTE
 
     //https://github.com/ILIAS-eLearning/ILIAS/pull/3088#issuecomment-805830050
 
-    public function addContextmenuItem(string $item = '') : void
+    public function addContextmenuItem(string $item = ''): void
     {
         if ($item !== '') {
             $this->contextMenuItems[] = $item;
         }
     }
 
-    public function removeAllContextMenuItems() : void
+    public function removeAllContextMenuItems(): void
     {
         $this->contextMenuItems = [];
     }
 
-    public function addCustomRTESupport(int $obj_id, string $obj_type, array $tags) : void
+    public function addCustomRTESupport(int $obj_id, string $obj_type, array $tags): void
     {
         $this->handleImagePluginsBeforeRendering($tags);
 
@@ -310,7 +312,7 @@ class ilTinyMCE extends ilRTE
         }
     }
 
-    public function addUserTextEditor(string $editor_selector) : void
+    public function addUserTextEditor(string $editor_selector): void
     {
         $validtags = ["strong", "em", "p", "br", "div", "span"];
         $buttontags = ['strong', 'em'];
@@ -342,7 +344,7 @@ class ilTinyMCE extends ilRTE
      * @param string[] $buttontags
      * @return string
      */
-    protected function getButtonsForUserTextEditor(array $buttontags) : string
+    protected function getButtonsForUserTextEditor(array $buttontags): string
     {
         $btns = $this->_buildButtonsFromHTMLTags($buttontags);
 
@@ -354,12 +356,12 @@ class ilTinyMCE extends ilRTE
         return implode(' ', $btns);
     }
 
-    protected function setStyleSelect(bool $a_styleselect) : void
+    protected function setStyleSelect(bool $a_styleselect): void
     {
         $this->styleselect = $a_styleselect;
     }
 
-    public function getStyleSelect() : bool
+    public function getStyleSelect(): bool
     {
         return $this->styleselect;
     }
@@ -368,7 +370,7 @@ class ilTinyMCE extends ilRTE
      * @param string[] $a_html_tags
      * @return string
      */
-    public function _buildAdvancedBlockformatsFromHTMLTags(array $a_html_tags) : string
+    public function _buildAdvancedBlockformatsFromHTMLTags(array $a_html_tags): string
     {
         $blockformats = [];
 
@@ -414,7 +416,7 @@ class ilTinyMCE extends ilRTE
      * @param string[] $a_html_tags
      * @return string
      */
-    public function _buildAdvancedButtonsFromHTMLTags(int $a_buttons_section, array $a_html_tags) : string
+    public function _buildAdvancedButtonsFromHTMLTags(int $a_buttons_section, array $a_html_tags): string
     {
         $theme_advanced_buttons = [];
 
@@ -538,7 +540,7 @@ class ilTinyMCE extends ilRTE
      * @param string[] $a_html_tags
      * @return string
      */
-    protected function _buildButtonsFromHTMLTags(array $a_html_tags) : string
+    protected function _buildButtonsFromHTMLTags(array $a_html_tags): string
     {
         $theme_advanced_buttons = [];
         if (in_array('strong', $a_html_tags)) {
@@ -628,7 +630,7 @@ class ilTinyMCE extends ilRTE
      * @param string[] $a_html_tags
      * @return string
      */
-    public function _buildAdvancedTableButtonsFromHTMLTags(array $a_html_tags) : string
+    public function _buildAdvancedTableButtonsFromHTMLTags(array $a_html_tags): string
     {
         $theme_advanced_buttons = [];
         if (
@@ -651,7 +653,7 @@ class ilTinyMCE extends ilRTE
         return implode(',', $theme_advanced_buttons);
     }
 
-    protected function _getEditorLanguage() : string
+    protected function _getEditorLanguage(): string
     {
         $lang = $this->user->getLanguage();
         $langtiny = $lang;
@@ -684,7 +686,7 @@ class ilTinyMCE extends ilRTE
      * @param string[] $a_html_tags
      * @return string
      */
-    public function _getValidElementsFromHTMLTags(array $a_html_tags) : string
+    public function _getValidElementsFromHTMLTags(array $a_html_tags): string
     {
         $valid_elements = [];
 
@@ -1144,7 +1146,7 @@ class ilTinyMCE extends ilRTE
      * @param string $a_string A string
      * @return  string
      */
-    public static function removeRedundantSeparators(string $a_string) : string
+    public static function removeRedundantSeparators(string $a_string): string
     {
         while (strpos($a_string, '| |') !== false) {
             $a_string = str_replace('| |', '|', $a_string);
@@ -1180,12 +1182,12 @@ class ilTinyMCE extends ilRTE
         return $a_string;
     }
 
-    public function setRemoveImgContextMenuItem(bool $remove_img_context_menu_item) : void
+    public function setRemoveImgContextMenuItem(bool $remove_img_context_menu_item): void
     {
         $this->remove_img_context_menu_item = $remove_img_context_menu_item;
     }
 
-    public function getRemoveImgContextMenuItem() : bool
+    public function getRemoveImgContextMenuItem(): bool
     {
         return $this->remove_img_context_menu_item;
     }

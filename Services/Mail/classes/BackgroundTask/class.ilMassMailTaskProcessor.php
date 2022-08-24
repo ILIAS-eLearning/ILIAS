@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -89,7 +91,7 @@ class ilMassMailTaskProcessor
         string $contextId,
         array $contextParameters,
         int $mailsPerTask = 100
-    ) : void {
+    ): void {
         $objectsServiceSize = count($mailValueObjects);
 
         if ($objectsServiceSize <= 0) {
@@ -136,7 +138,7 @@ class ilMassMailTaskProcessor
         }
     }
 
-    private function runTask(\ILIAS\BackgroundTasks\Task $task, int $userId) : void
+    private function runTask(\ILIAS\BackgroundTasks\Task $task, int $userId): void
     {
         $bucket = new BasicBucket();
         $bucket->setUserId($userId);
@@ -153,7 +155,7 @@ class ilMassMailTaskProcessor
         string $contextId,
         array $contextParameters,
         $remainingObjects
-    ) : ILIAS\BackgroundTasks\Task {
+    ): ILIAS\BackgroundTasks\Task {
         $jsonString = $this->objectJsonService->convertToJson($remainingObjects);
 
         $task = $this->taskFactory->createTask(ilMassMailDeliveryJob::class, [

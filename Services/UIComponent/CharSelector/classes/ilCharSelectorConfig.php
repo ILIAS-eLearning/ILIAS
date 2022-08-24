@@ -26,7 +26,7 @@ class ilCharSelectorConfig
     public const INHERIT = 0;				// default for user and test: take the plattform default
     public const ENABLED = 1;				// enable the selector
     public const DISABLED = 2;				// disable the selector
-    
+
     /**
      * Configuration contexts
      */
@@ -34,7 +34,7 @@ class ilCharSelectorConfig
     public const CONTEXT_ADMIN = 'admin';	// administrative settings
     public const CONTEXT_USER = 'user';	// user specific settings
     public const CONTEXT_TEST = 'test';	// test specific settings
-    
+
     /**
      * Code ranges for the unicode blocks
      * @var array
@@ -197,7 +197,7 @@ class ilCharSelectorConfig
         'halfwidth_and_fullwidth_forms' => array('Halfwidth and Fullwidth Forms', 'FF00', 'FFEF'),
         'specials' => array('Specials', 'FFF0', 'FFFF'),
         /* here ends the Basic Multilinguage Plane (BMP) */
-        
+
         /*
          * The following blocks are not yet supported well.
          * It seems that the chars are taken from the BMP instead
@@ -268,16 +268,16 @@ class ilCharSelectorConfig
         'supplementary_private_use_area_b' => array('Supplementary Private Use Area-B', '100000', '10FFFF')
          */
     );
-    
+
     // settings context
     private string $context = self::CONTEXT_NONE;
-    
+
     // availability of the character selector
     private int $availability = self::INHERIT;
-        
+
     // list of added unicode block names
     private array $added_blocks = array();
-    
+
     // list of custom selector items (splitted custom block)
     private array $custom_items = array();
 
@@ -293,14 +293,14 @@ class ilCharSelectorConfig
                 $this->context = self::CONTEXT_NONE;
         }
     }
-    
+
     /**
      * Get the configuration that should be used for the current selector
      */
-    public static function _getCurrentConfig(ilObjTest $a_test_obj = null) : self
+    public static function _getCurrentConfig(ilObjTest $a_test_obj = null): self
     {
         global $ilSetting, $ilUser;
-        
+
         // check configuration from administration settings
         $admin_config = new self(self::CONTEXT_ADMIN);
         $admin_config->setAvailability($ilSetting->get('char_selector_availability'));
@@ -309,7 +309,7 @@ class ilCharSelectorConfig
             // a globally inactive selector can't be overwritten by users or tests
             return $admin_config;
         }
-        
+
         // a test configuration is relevant for test runs
         if (isset($a_test_obj)) {
             $test_config = new self(self::CONTEXT_TEST);
@@ -320,7 +320,7 @@ class ilCharSelectorConfig
                 return $test_config;
             }
         }
-        
+
         // check configuration from user settings
         $user_config = new self(self::CONTEXT_USER);
         $user_config->setAvailability($ilUser->getPref('char_selector_availability'));
@@ -334,17 +334,17 @@ class ilCharSelectorConfig
         }
     }
 
-    
+
     /**
      * get the context of the configuration
      * (the context is set at initialisation and can't be changed)
      */
-    public function getContext() : string
+    public function getContext(): string
     {
         return $this->context;
     }
 
-    public function setAvailability(int $a_availability) : void
+    public function setAvailability(int $a_availability): void
     {
         switch ($a_availability) {
             case self::INACTIVE:
@@ -357,16 +357,16 @@ class ilCharSelectorConfig
                 $this->availability = self::INHERIT;
         }
     }
-    
-    public function getAvailability() : int
+
+    public function getAvailability(): int
     {
         return $this->availability;
     }
-    
+
     /**
      * @param array $a_blocks list of block names
      */
-    public function setAddedBlocks(array $a_blocks = array()) : void
+    public function setAddedBlocks(array $a_blocks = array()): void
     {
         $this->added_blocks = array();
         foreach ($a_blocks as $block_name) {
@@ -376,29 +376,29 @@ class ilCharSelectorConfig
         }
     }
 
-    public function getAddedBlocks() : array
+    public function getAddedBlocks(): array
     {
         return $this->added_blocks;
     }
-    
+
     /**
      * set the custom items
      * @see self::setDefinition() for item syntax
      */
-    public function setCustomItems(string $a_items = '') : void
+    public function setCustomItems(string $a_items = ''): void
     {
         $this->custom_items = explode(' ', $a_items);
     }
-    
+
     /**
      * set the custom items
      * @see self::setDefinition() for item syntax
      */
-    public function getCustomItems() : string
+    public function getCustomItems(): string
     {
         return implode(' ', $this->custom_items);
     }
-    
+
     /**
      * Set the definition of the available characters
      * It combines user defined custom items with selected unicode blocks
@@ -415,7 +415,7 @@ class ilCharSelectorConfig
      *
      * @var	string	definition string
      */
-    public function setDefinition(string $a_definition = '') : void
+    public function setDefinition(string $a_definition = ''): void
     {
         // first reset all previous settings
         $this->added_blocks = array();
@@ -425,7 +425,7 @@ class ilCharSelectorConfig
         if (trim($a_definition) === '') {
             $a_definition = "[all]";
         }
-        
+
         // analyze definition items
         $items = explode(' ', $a_definition);
         foreach ($items as $item) {
@@ -436,12 +436,12 @@ class ilCharSelectorConfig
             }
         }
     }
-    
+
     /**
      * Set the definition of the available characters
      * @see self::setDefinition()
      */
-    public function getDefinition() : string
+    public function getDefinition(): string
     {
         $definition = implode(' ', $this->custom_items);
         foreach ($this->added_blocks as $block_name) {
@@ -450,14 +450,14 @@ class ilCharSelectorConfig
         return trim($definition);
     }
 
-    
+
     /**
      * get the options for a block selection
      */
-    public function getBlockOptions() : array
+    public function getBlockOptions(): array
     {
         global $lng;
-        
+
         $options = array(
             '' => $lng->txt('please_select'),
             'all' => $lng->txt('char_selector_unicode_all')
@@ -467,16 +467,16 @@ class ilCharSelectorConfig
         }
         return $options;
     }
-    
-    
+
+
     /**
      * Get the title of a unicode block for display or selection
      * A translation is used if it exists
      */
-    public function getBlockTitle(string $a_block_name) : string
+    public function getBlockTitle(string $a_block_name): string
     {
         global $lng;
-        
+
         $langvar = 'char_selector_unicode_' . $a_block_name;
         if ($lng->txt($langvar) !== '-' . $langvar . '-') {
             return $lng->txt($langvar);
@@ -484,13 +484,13 @@ class ilCharSelectorConfig
             return self::$unicode_blocks[$a_block_name][0];
         }
     }
-    
+
     /**
      * Extract the unicode block name from a definition item
      * @param string $a_item definition item
      * @return string unicode block name
      */
-    private function extractUnicodeBlock(string $a_item = '') : string
+    private function extractUnicodeBlock(string $a_item = ''): string
     {
         $a_item = trim($a_item);
         $matches = array();
@@ -502,19 +502,19 @@ class ilCharSelectorConfig
         }
         return '';
     }
-    
-    
+
+
     /**
      * Get the character pages
      *
      * @return array	[["page1", "A", "BC", [123,456], ...], ["page2], "X", ...], ...]
      */
-    public function getCharPages() : array
+    public function getCharPages(): array
     {
         global $lng;
-        
+
         $pages = array();
-        
+
         // add custom block
         //
         $page = array($lng->txt('char_selector_custom_items'));
@@ -533,28 +533,28 @@ class ilCharSelectorConfig
         if (count($page) > 1) {
             $pages[] = $page;
         }
-    
+
         // add unicode blocks
         //
         $blocks = in_array('all', $this->added_blocks) ?
             array_keys(self::$unicode_blocks) :
             $this->added_blocks;
-        
+
         foreach ($blocks as $block_name) {
             $start = hexdec(self::$unicode_blocks[$block_name][1]);
             $end = hexdec(self::$unicode_blocks[$block_name][2]);
             $page = array($this->getBlockTitle($block_name), array($start, $end));
             $pages[] = $page;
         }
-        
+
         return $pages;
     }
 
-    
+
     /**
      * get the unicode index of an item
      */
-    private function getItemCodepoint(string $a_item) : string
+    private function getItemCodepoint(string $a_item): string
     {
         if (preg_match('/^[uU]\+[0-9a-fA-F]+$/', $a_item)) {
             return (int) hexdec(substr($a_item, 2));
@@ -563,11 +563,11 @@ class ilCharSelectorConfig
             return (int) utf8ToCodepoint($a_item);
         }
     }
-    
+
     /**
      * replace unicode notations with their utf8 chars in a string
      */
-    private function getItemParsed(string $a_item) : string
+    private function getItemParsed(string $a_item): string
     {
         return preg_replace_callback(
             '/[uU]\+[0-9a-fA-F]+/',
@@ -575,13 +575,13 @@ class ilCharSelectorConfig
             $a_item
         );
     }
-    
+
     /**
      * callback for replacement of unicode notations
      * @param array $matches preg matches
      * @return string replacement string
      */
-    private function getItemParsedCallback(array $matches) : string
+    private function getItemParsedCallback(array $matches): string
     {
         return codepointToUtf8(hexdec(substr($matches[0], 2)));
     }

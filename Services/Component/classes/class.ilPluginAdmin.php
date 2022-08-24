@@ -23,7 +23,7 @@ class ilPluginAdmin
         $this->component_repository = $component_repository;
     }
 
-    protected function getPluginInfo($a_ctype, $a_cname, $a_slot_id, $a_pname) : \ilPluginInfo
+    protected function getPluginInfo($a_ctype, $a_cname, $a_slot_id, $a_pname): \ilPluginInfo
     {
         return $this->component_repository
             ->getComponentByTypeAndName(
@@ -59,7 +59,7 @@ class ilPluginAdmin
      *
      * @return bool
      */
-    public function isActive($a_ctype, $a_cname, $a_slot_id, $a_pname) : bool
+    public function isActive($a_ctype, $a_cname, $a_slot_id, $a_pname): bool
     {
         trigger_error("DEPRECATED: ilPluginAdmin::isActive is deprecated. Remove your usages of the method.");
         try {

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
@@ -32,7 +34,7 @@ class ilDidacticTemplateIconHandler
         $this->logger = $DIC->logger()->otpl();
     }
 
-    public function handleUpload(FileUpload $upload, string $tmpname) : void
+    public function handleUpload(FileUpload $upload, string $tmpname): void
     {
         if ($upload->hasUploads() && !$upload->hasBeenProcessed()) {
             try {
@@ -57,7 +59,7 @@ class ilDidacticTemplateIconHandler
         }
     }
 
-    public function writeSvg(string $svg) : void
+    public function writeSvg(string $svg): void
     {
         try {
             $this->webDirectory->write(
@@ -71,7 +73,7 @@ class ilDidacticTemplateIconHandler
         }
     }
 
-    public function getAbsolutePath() : string
+    public function getAbsolutePath(): string
     {
         if ($this->webDirectory->has(self::WEBDIR_PREFIX . '/' . $this->settings->getIconIdentifier() . '.svg')) {
             return ilFileUtils::getWebspaceDir() . '/' . self::WEBDIR_PREFIX . '/' . $this->settings->getIconIdentifier() . '.svg';
@@ -80,7 +82,7 @@ class ilDidacticTemplateIconHandler
         return '';
     }
 
-    public function copy(ilDidacticTemplateSetting $original) : void
+    public function copy(ilDidacticTemplateSetting $original): void
     {
         if ($original->getIconHandler()->getAbsolutePath()) {
             try {
@@ -98,7 +100,7 @@ class ilDidacticTemplateIconHandler
         $this->settings->update();
     }
 
-    public function delete() : void
+    public function delete(): void
     {
         if ($this->webDirectory->has(self::WEBDIR_PREFIX . '/' . $this->settings->getIconIdentifier() . '.svg')) {
             try {
@@ -111,7 +113,7 @@ class ilDidacticTemplateIconHandler
         }
     }
 
-    private function initWebDir() : void
+    private function initWebDir(): void
     {
         if (!$this->webDirectory->has(self::WEBDIR_PREFIX)) {
             try {
@@ -124,7 +126,7 @@ class ilDidacticTemplateIconHandler
         }
     }
 
-    public function toXml(ilXmlWriter $writer) : ilXmlWriter
+    public function toXml(ilXmlWriter $writer): ilXmlWriter
     {
         if ($this->settings->getIconIdentifier()) {
             try {

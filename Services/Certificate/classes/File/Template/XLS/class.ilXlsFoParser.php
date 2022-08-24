@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -73,7 +75,7 @@ class ilXlsFoParser
      * @return string
      * @throws Exception
      */
-    public function parse(array $formData) : string
+    public function parse(array $formData): string
     {
         $content = "<html><body>" . $formData['certificate_text'] . "</body></html>";
         $content = preg_replace("/<p>(&nbsp;){1,}<\\/p>/", "<p></p>", $content);
@@ -127,7 +129,7 @@ class ilXlsFoParser
         return $this->xlstProcess->process($args, $params);
     }
 
-    private function formatNumberString(string $a_number) : string
+    private function formatNumberString(string $a_number): string
     {
         return str_replace(',', '.', $a_number);
     }

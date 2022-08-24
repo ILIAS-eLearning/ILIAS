@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /* Copyright (c) 1998-2020 ILIAS open source, Extended GPL, see docs/LICENSE */
 
@@ -14,11 +16,11 @@ class ilTestParticipantsGUITest extends ilTestBaseTestCase
      */
     private $backup_dic;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         parent::setUp();
         global $DIC;
-        
+
         $this->backup_dic = $DIC;
         $DIC = new ILIAS\DI\Container([
             'tpl' => $this->getMockBuilder(ilGlobalTemplateInterface::class)
@@ -29,40 +31,40 @@ class ilTestParticipantsGUITest extends ilTestBaseTestCase
             $this->createMock(ilTestQuestionSetConfig::class)
         );
     }
-    
-    protected function tearDown() : void
+
+    protected function tearDown(): void
     {
         global $DIC;
         $DIC = $this->backup_dic;
     }
 
-    public function test_instantiateObject_shouldReturnInstance() : void
+    public function test_instantiateObject_shouldReturnInstance(): void
     {
         $this->assertInstanceOf(ilTestParticipantsGUI::class, $this->testObj);
     }
 
-    public function testTestObj() : void
+    public function testTestObj(): void
     {
         $mock = $this->createMock(ilObjTest::class);
         $this->testObj->setTestObj($mock);
         $this->assertEquals($mock, $this->testObj->getTestObj());
     }
 
-    public function testQuestionSetConfig() : void
+    public function testQuestionSetConfig(): void
     {
         $mock = $this->createMock(ilTestQuestionSetConfig::class);
         $this->testObj->setQuestionSetConfig($mock);
         $this->assertEquals($mock, $this->testObj->getQuestionSetConfig());
     }
 
-    public function testObjectiveParent() : void
+    public function testObjectiveParent(): void
     {
         $mock = $this->createMock(ilTestObjectiveOrientedContainer::class);
         $this->testObj->setObjectiveParent($mock);
         $this->assertEquals($mock, $this->testObj->getObjectiveParent());
     }
 
-    public function testTestAccess() : void
+    public function testTestAccess(): void
     {
         $mock = $this->createMock(ilTestAccess::class);
         $this->testObj->setTestAccess($mock);

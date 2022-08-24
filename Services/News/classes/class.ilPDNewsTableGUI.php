@@ -50,7 +50,7 @@ class ilPDNewsTableGUI extends ilTable2GUI
         );
 
         parent::__construct($a_parent_obj, $a_parent_cmd);
-        
+
         $this->contexts = $a_contexts;
         $this->selected_context = $a_selected_context;
         $this->addColumn("");
@@ -66,12 +66,12 @@ class ilPDNewsTableGUI extends ilTable2GUI
         $this->setIsDataTable(false);
         $this->initFilter();
     }
-    
-    public function initFilter() : void
+
+    public function initFilter(): void
     {
         $lng = $this->lng;
         $ilUser = $this->user;
-        
+
         // period
         $per = (ilSession::get("news_pd_news_per") != "")
             ? ilSession::get("news_pd_news_per")
@@ -93,7 +93,7 @@ class ilPDNewsTableGUI extends ilTable2GUI
             180 => sprintf($lng->txt("news_period_x_months"), 6),
             366 => $lng->txt("news_period_1_year")
         ];
-            
+
         $unset = [];
         foreach ($options as $k => $opt) {
             if (!$allow_shorter_periods && ($k < $default_per)) {
@@ -111,19 +111,19 @@ class ilPDNewsTableGUI extends ilTable2GUI
         $si->setOptions($options);
         $si->setValue((string) $per);
         $this->addFilterItem($si);
-        
+
         // related to...
         $si = new ilSelectInputGUI($this->lng->txt("context"), "news_ref_id");
         $si->setOptions($this->contexts);
         $si->setValue($this->selected_context);
         $this->addFilterItem($si);
     }
-    
-    protected function fillRow(array $a_set) : void
+
+    protected function fillRow(array $a_set): void
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
-        
+
         $news_set = new ilSetting("news");
         $enable_internal_rss = $news_set->get("enable_rss_for_internal");
 
@@ -131,7 +131,7 @@ class ilPDNewsTableGUI extends ilTable2GUI
         $obj_id = ilObject::_lookupObjId((int) $a_set["ref_id"]);
         $obj_type = ilObject::_lookupType($obj_id);
         $obj_title = ilObject::_lookupTitle($obj_id);
-            
+
         // user
         if ($a_set["user_id"] > 0) {
             $this->tpl->setCurrentBlock("user_info");
@@ -158,7 +158,7 @@ class ilPDNewsTableGUI extends ilTable2GUI
             $this->tpl->setVariable("TXT_AUTHOR", $lng->txt("author"));
             $this->tpl->parseCurrentBlock();
         }
-        
+
         // media player
         if ($a_set["content_type"] === NEWS_AUDIO &&
             $a_set["mob_id"] > 0 && ilObject::_exists((int) $a_set["mob_id"])) {
@@ -174,7 +174,7 @@ class ilPDNewsTableGUI extends ilTable2GUI
             );
             $this->tpl->parseCurrentBlock();
         }
-        
+
         // access
         if ($enable_internal_rss) {
             $this->tpl->setCurrentBlock("access");
@@ -292,7 +292,7 @@ class ilPDNewsTableGUI extends ilTable2GUI
         $this->tpl->parseCurrentBlock();
 
         $this->tpl->setVariable("HREF_TITLE", $url_target);
-        
+
         // title
         $this->tpl->setVariable(
             "VAL_TITLE",
@@ -309,7 +309,7 @@ class ilPDNewsTableGUI extends ilTable2GUI
         $this->tpl->parseCurrentBlock();
     }
 
-    public function makeClickable(string $a_str) : string
+    public function makeClickable(string $a_str): string
     {
         // this fixes bug 8744. We assume that strings that contain < and >
         // already contain html, we do not handle these

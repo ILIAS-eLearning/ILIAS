@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -64,7 +66,7 @@ class ilObjGroupGUI extends ilContainerGUI
         $this->rbacsystem = $DIC->rbac()->system();
     }
 
-    protected function initRefIdFromQuery() : int
+    protected function initRefIdFromQuery(): int
     {
         if ($this->http->wrapper()->query()->has('ref_id')) {
             return $this->http->wrapper()->query()->retrieve(
@@ -78,7 +80,7 @@ class ilObjGroupGUI extends ilContainerGUI
     /**
      * @inheritDoc
      */
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         global $DIC;
 
@@ -418,7 +420,7 @@ class ilObjGroupGUI extends ilContainerGUI
     /**
      * @inheritDoc
      */
-    public function viewObject() : void
+    public function viewObject(): void
     {
         ilLearningProgress::_tracProgress(
             $this->user->getId(),
@@ -451,7 +453,7 @@ class ilObjGroupGUI extends ilContainerGUI
         $this->renderObject();
     }
 
-    public function renderObject() : void
+    public function renderObject(): void
     {
         $this->tabs->activateTab("view_content");
         parent::renderObject();
@@ -460,7 +462,7 @@ class ilObjGroupGUI extends ilContainerGUI
     /**
      * @inheritDoc
      */
-    public function modifyItemGUI(ilObjectListGUI $a_item_list_gui, array $a_item_data) : void
+    public function modifyItemGUI(ilObjectListGUI $a_item_list_gui, array $a_item_data): void
     {
         // if folder is in a course, modify item list gui according to course requirements
         if ($course_ref_id = $this->tree->checkForParentType($this->object->getRefId(), 'crs')) {
@@ -482,7 +484,7 @@ class ilObjGroupGUI extends ilContainerGUI
      * @access public
      * @see ilGroupAddToGroupActionGUI
      */
-    public function afterSave(ilObject $new_object) : void
+    public function afterSave(ilObject $new_object): void
     {
         $new_object->setRegistrationType(
             ilGroupConstants::GRP_REGISTRATION_DIRECT
@@ -518,7 +520,7 @@ class ilObjGroupGUI extends ilContainerGUI
     /**
      * @inheritDoc
      */
-    public function editObject(?ilPropertyFormGUI $a_form = null) : void
+    public function editObject(?ilPropertyFormGUI $a_form = null): void
     {
         $this->checkPermission("write");
 
@@ -532,7 +534,7 @@ class ilObjGroupGUI extends ilContainerGUI
         $this->tpl->setVariable('ADM_CONTENT', $a_form->getHTML());
     }
 
-    public function updateGroupTypeObject() : void
+    public function updateGroupTypeObject(): void
     {
         ilDidacticTemplateUtils::switchTemplate(
             $this->object->getRefId(),
@@ -544,7 +546,7 @@ class ilObjGroupGUI extends ilContainerGUI
     }
 
 
-    public function updateObject() : void
+    public function updateObject(): void
     {
         $obj_service = $this->getObjectService();
         $this->checkPermission('write');
@@ -738,7 +740,7 @@ class ilObjGroupGUI extends ilContainerGUI
     /**
     * Edit Map Settings
     */
-    public function editMapSettingsObject() : void
+    public function editMapSettingsObject(): void
     {
         $this->setSubTabs("settings");
         $this->tabs_gui->setTabActive('settings');
@@ -794,7 +796,7 @@ class ilObjGroupGUI extends ilContainerGUI
     /**
      * @todo use $form->getInput()
      */
-    public function saveMapSettingsObject() : void
+    public function saveMapSettingsObject(): void
     {
         $location = [];
         if ($this->http->wrapper()->post()->has('location')) {
@@ -826,7 +828,7 @@ class ilObjGroupGUI extends ilContainerGUI
 
 
 
-    public function editInfoObject() : void
+    public function editInfoObject(): void
     {
         $this->checkPermission('write');
 
@@ -838,7 +840,7 @@ class ilObjGroupGUI extends ilContainerGUI
         $this->tpl->setContent($form->getHTML());
     }
 
-    protected function initInfoEditor() : ilPropertyFormGUI
+    protected function initInfoEditor(): ilPropertyFormGUI
     {
         $form = new ilPropertyFormGUI();
         $form->setFormAction($this->ctrl->getFormAction($this, 'updateInfo'));
@@ -856,7 +858,7 @@ class ilObjGroupGUI extends ilContainerGUI
         return $form;
     }
 
-    public function updateInfoObject() : void
+    public function updateInfoObject(): void
     {
         $this->checkPermission('manage_members');
 
@@ -873,7 +875,7 @@ class ilObjGroupGUI extends ilContainerGUI
         $this->editInfoObject();
     }
 
-    public function readMemberData(array $ids, array $selected_columns = null) : array
+    public function readMemberData(array $ids, array $selected_columns = null): array
     {
         $privacy = ilPrivacySettings::getInstance();
 
@@ -957,7 +959,7 @@ class ilObjGroupGUI extends ilContainerGUI
         return $members;
     }
 
-    public function leaveObject() : void
+    public function leaveObject(): void
     {
         $this->checkPermission('leave');
 
@@ -978,7 +980,7 @@ class ilObjGroupGUI extends ilContainerGUI
         $this->tpl->setContent($cgui->getHTML());
     }
 
-    public function unsubscribeObject() : void
+    public function unsubscribeObject(): void
     {
         $this->checkPermission('leave');
 
@@ -1002,7 +1004,7 @@ class ilObjGroupGUI extends ilContainerGUI
         $this->ctrl->redirectByClass("ilrepositorygui", "");
     }
 
-    public function addContentTab() : void
+    public function addContentTab(): void
     {
         $this->tabs_gui->addTab(
             "view_content",
@@ -1014,7 +1016,7 @@ class ilObjGroupGUI extends ilContainerGUI
     /**
      * @inheritDoc
      */
-    protected function getTabs() : void
+    protected function getTabs(): void
     {
         global $DIC;
 
@@ -1165,14 +1167,14 @@ class ilObjGroupGUI extends ilContainerGUI
         }
     }
 
-    public function infoScreenObject() : void
+    public function infoScreenObject(): void
     {
         $this->ctrl->setCmd("showSummary");
         $this->ctrl->setCmdClass("ilinfoscreengui");
         $this->infoScreen();
     }
 
-    public function infoScreen() : void
+    public function infoScreen(): void
     {
         $this->tabs_gui->setTabActive('info_short');
 
@@ -1333,7 +1335,7 @@ class ilObjGroupGUI extends ilContainerGUI
         $this->ctrl->forwardCommand($info);
     }
 
-    public function saveNotificationObject() : void
+    public function saveNotificationObject(): void
     {
         $noti = new ilMembershipNotifications($this->ref_id);
 
@@ -1356,13 +1358,13 @@ class ilObjGroupGUI extends ilContainerGUI
         $this->ctrl->redirect($this, "");
     }
 
-    protected function membersObject() : void
+    protected function membersObject(): void
     {
         $this->ctrl->redirectByClass('ilgroupmembershipgui');
     }
 
 
-    public static function _goto(int $a_target, string $a_add = "") : void
+    public static function _goto(int $a_target, string $a_add = ""): void
     {
         global $DIC;
         $main_tpl = $DIC->ui()->mainTemplate();
@@ -1426,7 +1428,7 @@ class ilObjGroupGUI extends ilContainerGUI
     }
 
 
-    public function initForm(string $a_mode = 'edit', bool $a_omit_form_action = false) : ilPropertyFormGUI
+    public function initForm(string $a_mode = 'edit', bool $a_omit_form_action = false): ilPropertyFormGUI
     {
         $obj_service = $this->getObjectService();
         $form = new ilPropertyFormGUI();
@@ -1777,7 +1779,7 @@ class ilObjGroupGUI extends ilContainerGUI
         return $form;
     }
 
-    protected function setSubTabs(string $a_tab) : void
+    protected function setSubTabs(string $a_tab): void
     {
         switch ($a_tab) {
 
@@ -1851,7 +1853,7 @@ class ilObjGroupGUI extends ilContainerGUI
         }
     }
 
-    private function checkAgreement() : bool
+    private function checkAgreement(): bool
     {
         if ($this->access->checkAccess('write', '', $this->object->getRefId())) {
             return true;
@@ -1883,12 +1885,12 @@ class ilObjGroupGUI extends ilContainerGUI
     /**
      * @inheritDoc
      */
-    public function prepareOutput(bool $show_subobjects = true) : bool
+    public function prepareOutput(bool $show_subobjects = true): bool
     {
         return parent::prepareOutput($show_subobjects);
     }
 
-    public function createMailSignature() : string
+    public function createMailSignature(): string
     {
         $link = chr(13) . chr(10) . chr(13) . chr(10);
         $link .= $this->lng->txt('grp_mail_permanent_link');
@@ -1900,13 +1902,13 @@ class ilObjGroupGUI extends ilContainerGUI
     /**
      * @inheritDoc
      */
-    protected function initHeaderAction(?string $sub_type = null, ?int $sub_id = null) : ?ilObjectListGUI
+    protected function initHeaderAction(?string $sub_type = null, ?int $sub_id = null): ?ilObjectListGUI
     {
         global $DIC;
 
         $ilSetting = $DIC['ilSetting'];
         $ilUser = $DIC['ilUser'];
-        
+
         $lg = parent::initHeaderAction($sub_type, $sub_id);
 
         if (ilGroupParticipants::_isParticipant($this->ref_id, $ilUser->getId())) {
@@ -1947,7 +1949,7 @@ class ilObjGroupGUI extends ilContainerGUI
     }
 
 
-    public function addCustomData(array $a_data) : array
+    public function addCustomData(array $a_data): array
     {
         // object defined fields
         $odfs = ilCourseUserData::_getValuesByObjId($this->object->getId());
@@ -1971,7 +1973,7 @@ class ilObjGroupGUI extends ilContainerGUI
         return $res_data;
     }
 
-    public function getLocalRoles() : array
+    public function getLocalRoles(): array
     {
         $local_roles = $this->object->getLocalGroupRoles();
         $grp_member = $this->object->getDefaultMemberRole();
@@ -1989,7 +1991,7 @@ class ilObjGroupGUI extends ilContainerGUI
         return $grp_roles;
     }
 
-    protected function jump2UsersGalleryObject() : void
+    protected function jump2UsersGalleryObject(): void
     {
         $this->ctrl->redirectByClass('ilUsersGalleryGUI');
     }
@@ -1997,7 +1999,7 @@ class ilObjGroupGUI extends ilContainerGUI
     /**
      * @inheritDoc
      */
-    public function setSideColumnReturn() : void
+    public function setSideColumnReturn(): void
     {
         $this->ctrl->setReturn($this, "view");
     }

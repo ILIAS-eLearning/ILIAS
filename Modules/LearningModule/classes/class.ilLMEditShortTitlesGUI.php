@@ -54,11 +54,11 @@ class ilLMEditShortTitlesGUI
             : $requested_transl;
     }
 
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         $next_class = $this->ctrl->getNextClass($this);
         $cmd = $this->ctrl->getCmd("listShortTitles");
-    
+
         switch ($next_class) {
             default:
                 if (in_array($cmd, array("listShortTitles", "save"))) {
@@ -67,7 +67,7 @@ class ilLMEditShortTitlesGUI
         }
     }
 
-    public function listShortTitles() : void
+    public function listShortTitles(): void
     {
         $this->tpl->setOnScreenMessage('info', $this->lng->txt("cont_short_title_info"));
         $ml_head = ilObjContentObjectGUI::getMultiLangHeader($this->lm->getId(), $this->lm_gui, "short_titles");
@@ -75,7 +75,7 @@ class ilLMEditShortTitlesGUI
         $this->tpl->setContent($ml_head . $tab->getHTML());
     }
 
-    public function save() : void
+    public function save(): void
     {
         $short_titles = $this->request->getShortTitles();
 

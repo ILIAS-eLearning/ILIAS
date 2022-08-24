@@ -1,4 +1,6 @@
-<?php declare(strict_types=0);
+<?php
+
+declare(strict_types=0);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -62,7 +64,7 @@ class ilObjCourseGroupingGUI
         $this->__initGroupingObject();
     }
 
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         $this->tabs->setTabActive('crs_groupings');
         $cmd = $this->ctrl->getCmd();
@@ -72,17 +74,17 @@ class ilObjCourseGroupingGUI
         $this->$cmd();
     }
 
-    public function __initGroupingObject() : void
+    public function __initGroupingObject(): void
     {
         $this->grp_obj = new ilObjCourseGrouping($this->id);
     }
 
-    public function getContentType() : string
+    public function getContentType(): string
     {
         return $this->content_type;
     }
 
-    public function listGroupings() : void
+    public function listGroupings(): void
     {
         if (!$this->access->checkAccess('write', '', $this->content_obj->getRefId())) {
             $this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
@@ -97,7 +99,7 @@ class ilObjCourseGroupingGUI
         $this->tpl->setContent($table->getHTML());
     }
 
-    public function askDeleteGrouping() : void
+    public function askDeleteGrouping(): void
     {
         if (!$this->access->checkAccess('write', '', $this->content_obj->getRefId())) {
             $this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
@@ -134,7 +136,7 @@ class ilObjCourseGroupingGUI
         $this->tpl->setContent($cgui->getHTML());
     }
 
-    public function deleteGrouping() : void
+    public function deleteGrouping(): void
     {
         if (!$this->access->checkAccess('write', '', $this->content_obj->getRefId())) {
             $this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
@@ -158,7 +160,7 @@ class ilObjCourseGroupingGUI
         $this->ctrl->redirect($this, 'listGroupings');
     }
 
-    public function create(?ilPropertyFormGUI $a_form = null) : void
+    public function create(?ilPropertyFormGUI $a_form = null): void
     {
         if (!$this->access->checkAccess('write', '', $this->content_obj->getRefId())) {
             $this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
@@ -171,7 +173,7 @@ class ilObjCourseGroupingGUI
         $this->tpl->setContent($a_form->getHTML());
     }
 
-    public function initForm(bool $a_create) : ilPropertyFormGUI
+    public function initForm(bool $a_create): ilPropertyFormGUI
     {
         $form = new ilPropertyFormGUI();
         $form->setFormAction($this->ctrl->getFormAction($this));
@@ -227,7 +229,7 @@ class ilObjCourseGroupingGUI
         return $form;
     }
 
-    public function add() : void
+    public function add(): void
     {
         $form = $this->initForm(true);
         if ($form->checkInput()) {
@@ -243,7 +245,7 @@ class ilObjCourseGroupingGUI
         $this->create($form);
     }
 
-    public function edit(?ilPropertyFormGUI $a_form = null) : void
+    public function edit(?ilPropertyFormGUI $a_form = null): void
     {
         if (!$this->access->checkAccess('write', '', $this->content_obj->getRefId())) {
             $this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
@@ -254,7 +256,7 @@ class ilObjCourseGroupingGUI
         $this->tpl->setContent($a_form->getHTML());
     }
 
-    public function update() : void
+    public function update(): void
     {
         if (!$this->access->checkAccess('write', '', $this->content_obj->getRefId())) {
             $this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
@@ -283,7 +285,7 @@ class ilObjCourseGroupingGUI
         $this->edit($form);
     }
 
-    public function selectCourse() : void
+    public function selectCourse(): void
     {
         if (!$this->access->checkAccess('write', '', $this->content_obj->getRefId())) {
             $this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
@@ -305,7 +307,7 @@ class ilObjCourseGroupingGUI
         $this->tpl->setContent($table->getHTML());
     }
 
-    public function assignCourse() : void
+    public function assignCourse(): void
     {
         if (!$this->access->checkAccess('write', '', $this->content_obj->getRefId())) {
             $this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);

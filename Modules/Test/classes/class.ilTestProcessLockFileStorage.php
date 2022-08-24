@@ -33,7 +33,7 @@ class ilTestProcessLockFileStorage extends ilFileSystemAbstractionStorage
      *
      * @return string path prefix e.g files
      */
-    protected function getPathPrefix() : string
+    protected function getPathPrefix(): string
     {
         return 'ilTestProcessLocks';
     }
@@ -47,14 +47,14 @@ class ilTestProcessLockFileStorage extends ilFileSystemAbstractionStorage
      *
      * @return string directory name
      */
-    protected function getPathPostfix() : string
+    protected function getPathPostfix(): string
     {
         return 'context';
     }
 
-    public function create() : void
+    public function create(): void
     {
-        set_error_handler(function ($severity, $message, $file, $line) : void {
+        set_error_handler(function ($severity, $message, $file, $line): void {
             throw new ErrorException($message, $severity, 0, $file, $line);
         });
 

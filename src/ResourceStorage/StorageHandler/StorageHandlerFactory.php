@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -14,7 +16,7 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *********************************************************************/
- 
+
 namespace ILIAS\ResourceStorage\StorageHandler;
 
 use ILIAS\ResourceStorage\Resource\StorableResource;
@@ -52,12 +54,12 @@ class StorageHandlerFactory
         }
     }
 
-    public function getHandlerForResource(StorableResource $resource) : StorageHandler
+    public function getHandlerForResource(StorableResource $resource): StorageHandler
     {
         return $this->getHandlerForStorageId($resource->getStorageID());
     }
 
-    public function getHandlerForStorageId(string $storage_id) : StorageHandler
+    public function getHandlerForStorageId(string $storage_id): StorageHandler
     {
         if (isset($this->handlers[$storage_id])) {
             return $this->handlers[$storage_id];
@@ -66,7 +68,7 @@ class StorageHandlerFactory
         throw new \LogicException("no other StorageHandler possible at the moment");
     }
 
-    public function getPrimary() : ?\ILIAS\ResourceStorage\StorageHandler\StorageHandler
+    public function getPrimary(): ?\ILIAS\ResourceStorage\StorageHandler\StorageHandler
     {
         return $this->primary;
     }

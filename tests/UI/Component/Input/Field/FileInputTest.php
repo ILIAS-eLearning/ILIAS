@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 require_once(__DIR__ . "/../../../../../libs/composer/vendor/autoload.php");
 require_once(__DIR__ . "/../../../Base.php");
 require_once(__DIR__ . "/InputTest.php");
@@ -47,12 +49,12 @@ class WithButtonAndSymbolButNoUIFactory extends NoUIFactory
         $this->symbol_factory = $symbol_factory;
     }
 
-    public function button() : ButtonFactory
+    public function button(): ButtonFactory
     {
         return $this->button_factory;
     }
 
-    public function symbol() : SymbolFactory
+    public function symbol(): SymbolFactory
     {
         return $this->symbol_factory;
     }
@@ -62,13 +64,13 @@ class FileInputTest extends ILIAS_UI_TestBase
 {
     protected DefNamesource $name_source;
 
-    public function setUp() : void
+    public function setUp(): void
     {
         $this->name_source = new DefNamesource();
     }
 
 
-    protected function buildFactory() : I\Input\Field\Factory
+    protected function buildFactory(): I\Input\Field\Factory
     {
         $df = new Data\Factory();
         $language = $this->createMock(ilLanguage::class);
@@ -83,9 +85,9 @@ class FileInputTest extends ILIAS_UI_TestBase
     }
 
 
-    private function getUploadHandler(?FileInfoResult $file = null) : Field\UploadHandler
+    private function getUploadHandler(?FileInfoResult $file = null): Field\UploadHandler
     {
-        return new class($file) implements Field\UploadHandler {
+        return new class ($file) implements Field\UploadHandler {
             protected ?FileInfoResult $file;
 
             public function __construct(?FileInfoResult $file)
@@ -93,17 +95,17 @@ class FileInputTest extends ILIAS_UI_TestBase
                 $this->file = $file;
             }
 
-            public function getFileIdentifierParameterName() : string
+            public function getFileIdentifierParameterName(): string
             {
                 return 'file_id';
             }
 
-            public function getUploadURL() : string
+            public function getUploadURL(): string
             {
                 return 'uploadurl';
             }
 
-            public function getFileRemovalURL() : string
+            public function getFileRemovalURL(): string
             {
                 return 'removalurl';
             }
@@ -111,7 +113,7 @@ class FileInputTest extends ILIAS_UI_TestBase
             /**
              * @inheritDoc
              */
-            public function getExistingFileInfoURL() : string
+            public function getExistingFileInfoURL(): string
             {
                 return 'infourl';
             }
@@ -119,12 +121,12 @@ class FileInputTest extends ILIAS_UI_TestBase
             /**
              * @inheritDoc
              */
-            public function getInfoForExistingFiles(array $file_ids) : array
+            public function getInfoForExistingFiles(array $file_ids): array
             {
                 return [];
             }
 
-            public function getInfoResult(string $identifier) : ?FileInfoResult
+            public function getInfoResult(string $identifier): ?FileInfoResult
             {
                 if (null !== $this->file && $identifier === $this->file->getFileIdentifier()) {
                     return $this->file;
@@ -136,7 +138,7 @@ class FileInputTest extends ILIAS_UI_TestBase
     }
 
 
-    public function test_implements_factory_interface() : void
+    public function test_implements_factory_interface(): void
     {
         $f = $this->buildFactory();
 
@@ -147,7 +149,7 @@ class FileInputTest extends ILIAS_UI_TestBase
     }
 
 
-    public function test_render() : void
+    public function test_render(): void
     {
         $f = $this->buildFactory();
         $label = "label";
@@ -176,7 +178,7 @@ class FileInputTest extends ILIAS_UI_TestBase
     }
 
 
-    public function test_render_error() : void
+    public function test_render_error(): void
     {
         $f = $this->buildFactory();
         $label = "label";
@@ -207,7 +209,7 @@ class FileInputTest extends ILIAS_UI_TestBase
     }
 
 
-    public function test_render_no_byline() : void
+    public function test_render_no_byline(): void
     {
         $f = $this->buildFactory();
         $label = "label";
@@ -234,7 +236,7 @@ class FileInputTest extends ILIAS_UI_TestBase
     }
 
 
-    public function test_render_value() : void
+    public function test_render_value(): void
     {
         $test_file_id = "test_file_id_1";
         $test_file_name = "test file name 1";
@@ -283,7 +285,7 @@ class FileInputTest extends ILIAS_UI_TestBase
     }
 
 
-    public function test_render_with_metadata() : void
+    public function test_render_with_metadata(): void
     {
         $factory = $this->buildFactory();
 
@@ -344,7 +346,7 @@ class FileInputTest extends ILIAS_UI_TestBase
     }
 
 
-    public function test_render_with_metadata_value() : void
+    public function test_render_with_metadata_value(): void
     {
         $test_file_id = "test_file_id_1";
         $test_file_name = "test file name 1";
@@ -413,7 +415,7 @@ class FileInputTest extends ILIAS_UI_TestBase
     }
 
 
-    public function test_render_required() : void
+    public function test_render_required(): void
     {
         $f = $this->buildFactory();
         $label = "label";
@@ -440,7 +442,7 @@ class FileInputTest extends ILIAS_UI_TestBase
     }
 
 
-    public function test_render_disabled() : void
+    public function test_render_disabled(): void
     {
         $f = $this->buildFactory();
         $label = "label";
@@ -466,12 +468,12 @@ class FileInputTest extends ILIAS_UI_TestBase
         $this->assertEquals($expected, $html);
     }
 
-    protected function buildButtonFactory() : I\Button\Factory
+    protected function buildButtonFactory(): I\Button\Factory
     {
-        return new I\Button\Factory;
+        return new I\Button\Factory();
     }
 
-    protected function buildSymbolFactory() : I\Symbol\Factory
+    protected function buildSymbolFactory(): I\Symbol\Factory
     {
         return new I\Symbol\Factory(
             new I\Symbol\Icon\Factory(),
@@ -480,7 +482,7 @@ class FileInputTest extends ILIAS_UI_TestBase
         );
     }
 
-    public function getUIFactory() : WithButtonAndSymbolButNoUIFactory
+    public function getUIFactory(): WithButtonAndSymbolButNoUIFactory
     {
         return new WithButtonAndSymbolButNoUIFactory(
             $this->buildButtonFactory(),
@@ -491,7 +493,7 @@ class FileInputTest extends ILIAS_UI_TestBase
     public function getDefaultRenderer(
         JavaScriptBinding $js_binding = null,
         array $with_stub_renderings = []
-    ) : TestDefaultRenderer {
+    ): TestDefaultRenderer {
         $ui_factory = $this->getUIFactory();
         $tpl_factory = $this->getTemplateFactory();
         $resource_registry = $this->getResourceRegistry();

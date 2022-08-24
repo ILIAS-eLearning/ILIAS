@@ -45,7 +45,7 @@ class ilWorkspaceTree extends ilTree
         }
     }
 
-    protected function exists() : bool
+    protected function exists(): bool
     {
         $db = $this->db;
         $set = $db->queryF(
@@ -65,17 +65,17 @@ class ilWorkspaceTree extends ilTree
      * @param int $a_object_id
      * @return int node id
      */
-    public function createReference(int $a_object_id) : int
+    public function createReference(int $a_object_id): int
     {
         $ilDB = $this->db;
-        
+
         $next_id = $ilDB->nextId($this->table_obj_reference);
 
         $fields = array($this->ref_pk => array("integer", $next_id),
             $this->obj_pk => array("integer", $a_object_id));
 
         $ilDB->insert($this->table_obj_reference, $fields);
-        
+
         return $next_id;
     }
 
@@ -84,7 +84,7 @@ class ilWorkspaceTree extends ilTree
      * @param int $a_node_id
      * @return int object id
      */
-    public function lookupObjectId(int $a_node_id) : int
+    public function lookupObjectId(int $a_node_id): int
     {
         $ilDB = $this->db;
 
@@ -95,18 +95,18 @@ class ilWorkspaceTree extends ilTree
 
         return (int) ($res[$this->obj_pk] ?? 0);
     }
-    
-    
+
+
     /**
      * Get node id for object id
      * As we do not allow references in workspace this should not be ambigious
      * @param int $a_obj_id
      * @return int node id
      */
-    public function lookupNodeId(int $a_obj_id) : int
+    public function lookupNodeId(int $a_obj_id): int
     {
         $ilDB = $this->db;
-        
+
         $set = $ilDB->query("SELECT " . $this->ref_pk .
             " FROM " . $this->table_obj_reference .
             " WHERE " . $this->obj_pk . " = " . $ilDB->quote($a_obj_id, "integer"));
@@ -114,13 +114,13 @@ class ilWorkspaceTree extends ilTree
 
         return (int) ($res[$this->ref_pk] ?? 0);
     }
-    
+
     /**
      * Get owner for node id
      * @param int $a_node_id
      * @return int object id
      */
-    public function lookupOwner(int $a_node_id) : int
+    public function lookupOwner(int $a_node_id): int
     {
         $ilDB = $this->db;
 
@@ -143,7 +143,7 @@ class ilWorkspaceTree extends ilTree
     public function insertObject(
         int $a_parent_node_id,
         int $a_object_id
-    ) : int {
+    ): int {
         $node_id = $this->createReference($a_object_id);
         $this->insertNode($node_id, $a_parent_node_id);
         return $node_id;
@@ -152,7 +152,7 @@ class ilWorkspaceTree extends ilTree
     /**
      * Delete object from reference table
      */
-    public function deleteReference(int $a_node_id) : int
+    public function deleteReference(int $a_node_id): int
     {
         $ilDB = $this->db;
 
@@ -160,21 +160,21 @@ class ilWorkspaceTree extends ilTree
             " WHERE " . $this->ref_pk . " = " . $ilDB->quote($a_node_id, "integer");
         return $ilDB->manipulate($query);
     }
-        
+
     /**
      * Remove all tree and node data
      */
-    public function cascadingDelete() : void
+    public function cascadingDelete(): void
     {
         $root_id = $this->readRootId();
         if (!$root_id) {
             return;
         }
-        
+
         $root = $this->getNodeData($root_id);
-        
+
         $access_handler = new ilWorkspaceAccessHandler($this);
-        
+
         // delete node data
         $nodes = $this->getSubTree($root);
         foreach ($nodes as $node) {
@@ -184,13 +184,13 @@ class ilWorkspaceTree extends ilTree
             if ($object) {
                 $object->delete();
             }
-        
+
             $this->deleteReference($node["wsp_id"]);
         }
-        
+
         $this->deleteTree($root);
     }
-    
+
     /**
      * Get all workspace objects of specific type
      * @return array[]
@@ -198,19 +198,19 @@ class ilWorkspaceTree extends ilTree
     public function getObjectsFromType(
         string $a_type,
         bool $a_with_data = false
-    ) : array {
+    ): array {
         return $this->getSubTree(
             $this->getNodeData($this->getRootId()),
             $a_with_data,
             [$a_type]
         );
     }
-    
+
     /**
      * Create personal workspace tree for user
      * @param int $a_user_id
      */
-    public function createTreeForUser(int $a_user_id) : void
+    public function createTreeForUser(int $a_user_id): void
     {
         $root = ilObjectFactory::getClassByType("wsrt");
         $root = new $root(0);

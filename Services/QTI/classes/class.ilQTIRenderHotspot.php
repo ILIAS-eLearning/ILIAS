@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -38,7 +40,7 @@ class ilQTIRenderHotspot
     /** @var ilQTIMaterial[] */
     public array $material = [];
 
-    public function setShowdraw(string $a_showdraw) : void
+    public function setShowdraw(string $a_showdraw): void
     {
         switch (strtolower($a_showdraw)) {
             case "1":
@@ -52,37 +54,37 @@ class ilQTIRenderHotspot
         }
     }
 
-    public function getShowdraw() : string
+    public function getShowdraw(): string
     {
         return $this->showdraw;
     }
 
-    public function setMinnumber(string $a_minnumber) : void
+    public function setMinnumber(string $a_minnumber): void
     {
         $this->minnumber = $a_minnumber;
     }
 
-    public function getMinnumber() : ?string
+    public function getMinnumber(): ?string
     {
         return $this->minnumber;
     }
 
-    public function setMaxnumber(string $a_maxnumber) : void
+    public function setMaxnumber(string $a_maxnumber): void
     {
         $this->maxnumber = $a_maxnumber;
     }
 
-    public function getMaxnumber() : ?string
+    public function getMaxnumber(): ?string
     {
         return $this->maxnumber;
     }
-    
-    public function addResponseLabel(ilQTIResponseLabel $a_response_label) : void
+
+    public function addResponseLabel(ilQTIResponseLabel $a_response_label): void
     {
         $this->response_labels[] = $a_response_label;
     }
 
-    public function addMaterial(ilQTIMaterial $a_material) : void
+    public function addMaterial(ilQTIMaterial $a_material): void
     {
         $this->material[] = $a_material;
     }

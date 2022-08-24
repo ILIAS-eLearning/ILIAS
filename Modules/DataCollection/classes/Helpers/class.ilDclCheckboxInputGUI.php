@@ -22,7 +22,7 @@
  */
 class ilDclCheckboxInputGUI extends ilCheckboxInputGUI
 {
-    public function checkInput() : bool
+    public function checkInput(): bool
     {
         $has_postvar = $this->http->wrapper()->post()->has($this->getPostVar());
         if ($this->getRequired() && !$has_postvar) {

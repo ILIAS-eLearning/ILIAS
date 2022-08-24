@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -25,7 +27,7 @@ class ilSessionDBHandler implements SessionHandlerInterface
      * Registers the session save handler
      * session.save_handler must be 'user'
      */
-    public function setSaveHandler() : bool
+    public function setSaveHandler(): bool
     {
         if (session_status() === PHP_SESSION_ACTIVE) {
             return true;
@@ -43,7 +45,7 @@ class ilSessionDBHandler implements SessionHandlerInterface
      * @param string $path
      * @param string $name session name [PHPSESSID]
      */
-    public function open($path, $name) : bool
+    public function open($path, $name): bool
     {
         return true;
     }
@@ -53,7 +55,7 @@ class ilSessionDBHandler implements SessionHandlerInterface
      *
      * for a db nothing has to be done here
      */
-    public function close() : bool
+    public function close(): bool
     {
         return true;
     }
@@ -64,7 +66,7 @@ class ilSessionDBHandler implements SessionHandlerInterface
      * returned
      * @param string $id
      */
-    public function read($id) : string
+    public function read($id): string
     {
         return ilSession::_getData($id);
     }
@@ -74,7 +76,7 @@ class ilSessionDBHandler implements SessionHandlerInterface
      * @param string $id session id
      * @param string $data session data
      */
-    public function write($id, $data) : bool
+    public function write($id, $data): bool
     {
         chdir(IL_INITIAL_WD);
 
@@ -85,7 +87,7 @@ class ilSessionDBHandler implements SessionHandlerInterface
      * Destroys session
      * @param string $id session id
      */
-    public function destroy($id) : bool
+    public function destroy($id): bool
     {
         return ilSession::_destroy($id);
     }

@@ -95,7 +95,7 @@ class ilObjUserGUI extends ilObjectGUI
         $this->requested_search = $this->user_request->getSearch();
     }
 
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         $next_class = $this->ctrl->getNextClass($this);
         $cmd = $this->ctrl->getCmd();
@@ -127,7 +127,7 @@ class ilObjUserGUI extends ilObjectGUI
         }
     }
 
-    protected function setTitleAndDescription() : void
+    protected function setTitleAndDescription(): void
     {
         if (strtolower(get_class($this->object)) == 'ilobjuser') {
             $this->tpl->setTitle('[' . $this->object->getLogin() . '] ' . $this->object->getTitle());
@@ -141,7 +141,7 @@ class ilObjUserGUI extends ilObjectGUI
         }
     }
 
-    public function cancelObject() : void
+    public function cancelObject(): void
     {
         ilSession::clear("saved_post");
 
@@ -152,12 +152,12 @@ class ilObjUserGUI extends ilObjectGUI
         }
     }
 
-    public function getAdminTabs() : void
+    public function getAdminTabs(): void
     {
         $this->getTabs();
     }
 
-    protected function getTabs() : void
+    protected function getTabs(): void
     {
         global $DIC;
 
@@ -224,13 +224,13 @@ class ilObjUserGUI extends ilObjectGUI
     public function setBackTarget(
         string $a_text,
         string $a_link
-    ) : void {
+    ): void {
         $this->back_target = array("text" => $a_text,
                                    "link" => $a_link
         );
     }
 
-    public function __checkUserDefinedRequiredFields() : bool
+    public function __checkUserDefinedRequiredFields(): bool
     {
         $this->user_defined_fields = ilUserDefinedFields::_getInstance();
 
@@ -243,7 +243,7 @@ class ilObjUserGUI extends ilObjectGUI
         return true;
     }
 
-    public function __showUserDefinedFields() : void
+    public function __showUserDefinedFields(): void
     {
         $user_defined_data = null;
         $this->user_defined_fields = ilUserDefinedFields::_getInstance();
@@ -287,7 +287,7 @@ class ilObjUserGUI extends ilObjectGUI
         }
     }
 
-    public function initCreate() : void
+    public function initCreate(): void
     {
         global $DIC;
 
@@ -355,7 +355,7 @@ class ilObjUserGUI extends ilObjectGUI
     /**
      * Display user create form
      */
-    public function createObject() : void
+    public function createObject(): void
     {
         global $DIC;
 
@@ -375,7 +375,7 @@ class ilObjUserGUI extends ilObjectGUI
     /**
      * save user data
      */
-    public function saveObject() : void
+    public function saveObject(): void
     {
         global $DIC;
 
@@ -542,7 +542,7 @@ class ilObjUserGUI extends ilObjectGUI
     /**
      * Display user edit form
      */
-    public function editObject() : void
+    public function editObject(): void
     {
         global $DIC;
 
@@ -596,7 +596,7 @@ class ilObjUserGUI extends ilObjectGUI
         $this->tpl->setContent($this->form_gui->getHTML());
     }
 
-    protected function loadValuesFromForm(string $a_mode = 'create') : ilObjUser
+    protected function loadValuesFromForm(string $a_mode = 'create'): ilObjUser
     {
         global $DIC;
 
@@ -755,7 +755,7 @@ class ilObjUserGUI extends ilObjectGUI
         return $user;
     }
 
-    public function updateObject() : void
+    public function updateObject(): void
     {
         global $DIC;
 
@@ -948,7 +948,7 @@ class ilObjUserGUI extends ilObjectGUI
     /**
      * Get values from user object and put them into form
      */
-    public function getValues() : void
+    public function getValues(): void
     {
         global $DIC;
 
@@ -1047,7 +1047,7 @@ class ilObjUserGUI extends ilObjectGUI
     /**
      * Init user form
      */
-    public function initForm(string $a_mode) : void
+    public function initForm(string $a_mode): void
     {
         global $DIC;
 
@@ -1579,7 +1579,7 @@ class ilObjUserGUI extends ilObjectGUI
         $this->form_gui->addCommandButton("cancel", $lng->txt("cancel"));
     }
 
-    protected function isSettingChangeable(string $a_field) : bool
+    protected function isSettingChangeable(string $a_field): bool
     {
         global $DIC;
 
@@ -1600,7 +1600,7 @@ class ilObjUserGUI extends ilObjectGUI
      * upload user image
      * (original method by ratana ty)
      */
-    public function uploadUserPictureObject() : void
+    public function uploadUserPictureObject(): void
     {
         global $DIC;
 
@@ -1690,7 +1690,7 @@ class ilObjUserGUI extends ilObjectGUI
     /**
      * remove user image
      */
-    public function removeUserPictureObject() : void
+    public function removeUserPictureObject(): void
     {
         $webspace_dir = ilFileUtils::getWebspaceDir();
         $image_dir = $webspace_dir . "/usr_images";
@@ -1727,7 +1727,7 @@ class ilObjUserGUI extends ilObjectGUI
     /**
      * assign users to role
      */
-    public function assignSaveObject() : void
+    public function assignSaveObject(): void
     {
         global $DIC;
 
@@ -1788,7 +1788,7 @@ class ilObjUserGUI extends ilObjectGUI
     /**
      * display role assignment panel
      */
-    public function roleassignmentObject() : void
+    public function roleassignmentObject(): void
     {
         global $DIC;
 
@@ -1833,7 +1833,7 @@ class ilObjUserGUI extends ilObjectGUI
     /**
      * Apply filter
      */
-    public function applyFilterObject() : void
+    public function applyFilterObject(): void
     {
         $table_gui = new ilRoleAssignmentTableGUI($this, "roleassignment");
         $table_gui->writeFilterToSession();        // writes filter to session
@@ -1844,7 +1844,7 @@ class ilObjUserGUI extends ilObjectGUI
     /**
      * Reset filter
      */
-    public function resetFilterObject() : void
+    public function resetFilterObject(): void
     {
         $table_gui = new ilRoleAssignmentTableGUI($this, "roleassignment");
         $table_gui->resetOffset();                // sets record offest to 0 (first page)
@@ -1856,7 +1856,7 @@ class ilObjUserGUI extends ilObjectGUI
         string $a_type,
         string $a_varname,
         string $a_selected
-    ) : string {
+    ): string {
         $year = null;
         switch ($a_type) {
             case "minute":
@@ -1898,7 +1898,7 @@ class ilObjUserGUI extends ilObjectGUI
         return "";
     }
 
-    public function __toUnix(array $a_time_arr) : int // Missing array type.
+    public function __toUnix(array $a_time_arr): int // Missing array type.
     {
         return mktime(
             $a_time_arr["hour"],
@@ -1910,12 +1910,12 @@ class ilObjUserGUI extends ilObjectGUI
         );
     }
 
-    public function __unsetSessionVariables() : void
+    public function __unsetSessionVariables(): void
     {
         ilSession::clear("filtered_roles");
     }
 
-    public function __buildFilterSelect() : string
+    public function __buildFilterSelect(): string
     {
         $action[0] = $this->lng->txt('assigned_roles');
         $action[1] = $this->lng->txt('all_roles');
@@ -1937,7 +1937,7 @@ class ilObjUserGUI extends ilObjectGUI
      * should be overwritten to add object specific items
      * (repository items are preloaded)
      */
-    protected function addAdminLocatorItems(bool $do_not_add_object = false) : void
+    protected function addAdminLocatorItems(bool $do_not_add_object = false): void
     {
         global $DIC;
 
@@ -1982,7 +1982,7 @@ class ilObjUserGUI extends ilObjectGUI
         }
     }
 
-    public function __sendProfileMail() : string
+    public function __sendProfileMail(): string
     {
         global $DIC;
 
@@ -2043,7 +2043,7 @@ class ilObjUserGUI extends ilObjectGUI
     /**
      * Goto user profile screen
      */
-    public static function _goto(string $a_target) : void
+    public static function _goto(string $a_target): void
     {
         global $DIC;
 
@@ -2099,7 +2099,7 @@ class ilObjUserGUI extends ilObjectGUI
      * Handles ignored required fields by changing the required flag of form elements
      * @return    bool    A flag whether the user profile is maybe incomplete after saving the form data
      */
-    protected function handleIgnoredRequiredFields() : bool
+    protected function handleIgnoredRequiredFields(): bool
     {
         $profileMaybeIncomplete = false;
 
@@ -2137,7 +2137,7 @@ class ilObjUserGUI extends ilObjectGUI
         return $profileMaybeIncomplete;
     }
 
-    protected function showAcceptedTermsOfService() : void
+    protected function showAcceptedTermsOfService(): void
     {
         /** @var $agreeDate ilNonEditableValueGUI */
         $agreeDate = $this->form_gui->getItemByPostVar('agree_date');

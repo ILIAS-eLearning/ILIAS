@@ -31,25 +31,25 @@ class ilTestFixedQuestionSetConfig extends ilTestQuestionSetConfig
      *
      * @return boolean
      */
-    public function isQuestionSetConfigured() : bool
+    public function isQuestionSetConfigured(): bool
     {
         if ($this->testOBJ->getQuestionCount() > 0) {
             return true;
         }
         return false;
     }
-    
+
     /**
      * returns the fact wether a useable question set config exists or not
      *
      * @return boolean
      */
-    public function doesQuestionSetRelatedDataExist() : bool
+    public function doesQuestionSetRelatedDataExist(): bool
     {
         return $this->isQuestionSetConfigured();
     }
-    
-    public function removeQuestionSetRelatedData() : void
+
+    public function removeQuestionSetRelatedData(): void
     {
         $res = $this->db->queryF(
             'SELECT question_fi FROM tst_test_question WHERE test_fi = %s',
@@ -125,30 +125,30 @@ class ilTestFixedQuestionSetConfig extends ilTestQuestionSetConfig
     {
         // TODO: Implement saveToDb() method.
     }
-    
-    public function reindexQuestionOrdering() : ilTestReindexedSequencePositionMap
+
+    public function reindexQuestionOrdering(): ilTestReindexedSequencePositionMap
     {
         $query = "
 			SELECT question_fi, sequence FROM tst_test_question
 			WHERE test_fi = %s
 			ORDER BY sequence ASC
 		";
-        
+
         $res = $this->db->queryF(
             $query,
             ['integer'],
             [$this->testOBJ->getTestId()]
         );
-        
+
         $sequenceIndex = 0;
 
         $reindexedSequencePositionMap = new ilTestReindexedSequencePositionMap();
-        
+
         while ($row = $this->db->fetchAssoc($res)) {
             $sequenceIndex++; // start with 1
-            
+
             $reindexedSequencePositionMap->addPositionMapping((int) $row['sequence'], $sequenceIndex);
-            
+
             $this->db->update(
                 'tst_test_question',
                 ['sequence' => ['integer', $sequenceIndex]],
@@ -177,7 +177,7 @@ class ilTestFixedQuestionSetConfig extends ilTestQuestionSetConfig
         // TODO: Implement deleteFromDb() method.
     }
 
-    public function isResultTaxonomyFilterSupported() : bool
+    public function isResultTaxonomyFilterSupported(): bool
     {
         return false;
     }

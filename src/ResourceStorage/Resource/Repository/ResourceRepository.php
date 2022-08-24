@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -14,7 +16,7 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *********************************************************************/
- 
+
 namespace ILIAS\ResourceStorage\Resource\Repository;
 
 use Generator;
@@ -31,26 +33,26 @@ use ILIAS\ResourceStorage\Preloader\PreloadableRepository;
  */
 interface ResourceRepository extends LockingRepository, PreloadableRepository
 {
-    public function blank(ResourceIdentification $identification) : StorableResource;
+    public function blank(ResourceIdentification $identification): StorableResource;
 
 
     /**
      * @throws ResourceNotFoundException
      */
-    public function get(ResourceIdentification $identification) : StorableResource;
+    public function get(ResourceIdentification $identification): StorableResource;
 
 
-    public function has(ResourceIdentification $identification) : bool;
+    public function has(ResourceIdentification $identification): bool;
 
 
-    public function store(StorableResource $resource) : void;
+    public function store(StorableResource $resource): void;
 
 
     /**
      * @return Generator returning StorableResource instances
      */
-    public function getAll() : Generator;
+    public function getAll(): Generator;
 
 
-    public function delete(StorableResource $resource) : void;
+    public function delete(StorableResource $resource): void;
 }

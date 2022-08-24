@@ -43,7 +43,7 @@ class ilContainerFilterAdvMDAdapter
      *
      * @return ilAdvancedMDRecord[]
      */
-    public function getAvailableRecordSets() : array
+    public function getAvailableRecordSets(): array
     {
         $records = [];
         foreach ($this->types as $type) {
@@ -60,7 +60,7 @@ class ilContainerFilterAdvMDAdapter
      * Get fields
      * @return ilAdvancedMDFieldDefinition[]
      */
-    public function getFields(int $a_record_id) : array
+    public function getFields(int $a_record_id): array
     {
         $fields = array_filter(ilAdvancedMDFieldDefinition::getInstancesByRecordId($a_record_id), function ($f) {
             /** @var ilAdvancedMDFieldDefinition $f */
@@ -73,7 +73,7 @@ class ilContainerFilterAdvMDAdapter
      * Get name for filter
      * @throws ilException
      */
-    public function getTitle(int $record_id, int $filter_id) : string
+    public function getTitle(int $record_id, int $filter_id): string
     {
         $lng = $this->lng;
 
@@ -88,13 +88,13 @@ class ilContainerFilterAdvMDAdapter
     /**
      * @throws ilException
      */
-    public function getAdvType(int $filter_id) : string
+    public function getAdvType(int $filter_id): string
     {
         $field = ilAdvancedMDFieldDefinition::getInstance($filter_id);
         return (string) $field->getType();
     }
 
-    public function getOptions(int $filter_id) : array
+    public function getOptions(int $filter_id): array
     {
         $field = ilAdvancedMDFieldDefinition::getInstance($filter_id);
         return $field->getOptions();

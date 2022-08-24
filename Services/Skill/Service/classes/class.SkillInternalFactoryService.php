@@ -29,7 +29,7 @@ use ILIAS\Skill\Profile;
  */
 class SkillInternalFactoryService
 {
-    public function tree() : Tree\SkillTreeFactory
+    public function tree(): Tree\SkillTreeFactory
     {
         return new Tree\SkillTreeFactory();
     }
@@ -41,7 +41,7 @@ class SkillInternalFactoryService
         int $skill_tree_id,
         string $image_id = "",
         int $ref_id = 0
-    ) : Profile\SkillProfile {
+    ): Profile\SkillProfile {
         return new Profile\SkillProfile(
             $id,
             $title,

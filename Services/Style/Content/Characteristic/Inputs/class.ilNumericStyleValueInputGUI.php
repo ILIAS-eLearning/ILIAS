@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -26,7 +28,7 @@ class ilNumericStyleValueInputGUI extends ilFormPropertyGUI
     protected ilObjUser $user;
     protected string $value = "";
     protected bool $allowpercentage = true;
-    
+
     public function __construct(string $a_title = "", string $a_postvar = "")
     {
         global $DIC;
@@ -37,66 +39,66 @@ class ilNumericStyleValueInputGUI extends ilFormPropertyGUI
         $this->setType("style_numeric");
     }
 
-    public function setValue(string $a_value) : void
+    public function setValue(string $a_value): void
     {
         $this->value = $a_value;
     }
 
-    public function getValue() : string
+    public function getValue(): string
     {
         return $this->value;
     }
-    
-    public function setAllowPercentage(bool $a_allowpercentage) : void
+
+    public function setAllowPercentage(bool $a_allowpercentage): void
     {
         $this->allowpercentage = $a_allowpercentage;
     }
 
-    public function getAllowPercentage() : bool
+    public function getAllowPercentage(): bool
     {
         return $this->allowpercentage;
     }
 
-    public function checkInput() : bool
+    public function checkInput(): bool
     {
         $lng = $this->lng;
 
         $input = $this->getInput();
         $num_value = $input["num_value"];
         $num_unit = $input["num_unit"];
-            
+
         if ($this->getRequired() && trim($num_value) == "") {
             $this->setAlert($lng->txt("msg_input_is_required"));
 
             return false;
         }
-        
+
         if (!is_numeric($num_value) && $num_value != "") {
             $this->setAlert($lng->txt("sty_msg_input_must_be_numeric"));
 
             return false;
         }
-        
+
         if (trim($num_value) != "") {
             $this->setValue($num_value . $num_unit);
         }
-        
+
         return true;
     }
 
-    public function getInput() : array
+    public function getInput(): array
     {
         return $this->strArray($this->getPostVar());
     }
 
-    public function insert(ilTemplate $a_tpl) : void
+    public function insert(ilTemplate $a_tpl): void
     {
         $tpl = new ilTemplate("tpl.prop_style_numeric.html", true, true, "Services/Style/Content");
-        
+
         $tpl->setVariable("POSTVAR", $this->getPostVar());
-        
+
         $unit_options = ilObjStyleSheet::_getStyleParameterNumericUnits(!$this->getAllowPercentage());
-        
+
         $value = strtolower(trim($this->getValue()));
 
         $current_unit = "";
@@ -112,7 +114,7 @@ class ilNumericStyleValueInputGUI extends ilFormPropertyGUI
         if ($current_unit == "") {
             $current_unit = "px";
         }
-        
+
         foreach ($unit_options as $option) {
             $tpl->setCurrentBlock("unit_option");
             $tpl->setVariable("VAL_UNIT", $option);
@@ -128,7 +130,7 @@ class ilNumericStyleValueInputGUI extends ilFormPropertyGUI
         $a_tpl->parseCurrentBlock();
     }
 
-    public function setValueByArray(array $a_values) : void
+    public function setValueByArray(array $a_values): void
     {
         $this->setValue($a_values[$this->getPostVar()]["num_value"] .
             $a_values[$this->getPostVar()]["num_unit"]);

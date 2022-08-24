@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\UI\Component\Symbol\Glyph;
 
 use ILIAS\UI\Component\Counter\Counter;
@@ -78,19 +80,19 @@ interface Glyph extends Symbol, Clickable
     /**
      * Get the type of the glyph.
      */
-    public function getType() : string;
+    public function getType(): string;
 
     /**
      * Get the action on the glyph.
      */
-    public function getAction() : ?string;
+    public function getAction(): ?string;
 
     /**
      * Get all counters attached to this glyph.
      *
      * @return	Counter[]
      */
-    public function getCounters() : array;
+    public function getCounters(): array;
 
     /**
      * Get a glyph like this, but with a counter on it.
@@ -98,22 +100,22 @@ interface Glyph extends Symbol, Clickable
      * If there already is a counter of the given counter type, replace that
      * counter by the new one.
      */
-    public function withCounter(Counter $counter) : Glyph;
+    public function withCounter(Counter $counter): Glyph;
 
     /**
      * Returns whether the Glyph is highlighted.
      */
-    public function isHighlighted() : bool;
+    public function isHighlighted(): bool;
 
     /**
      * Get a Glyph like this with a highlight.
      */
-    public function withHighlight() : Glyph;
+    public function withHighlight(): Glyph;
 
     /**
      * Get to know if the glyph is activated.
      */
-    public function isActive() : bool;
+    public function isActive(): bool;
 
     /**
      * Get a glyph like this, but action should be unavailable atm.
@@ -121,10 +123,10 @@ interface Glyph extends Symbol, Clickable
      * The glyph will still have an action afterwards, this might be useful
      * at some point where we want to reactivate the glyph client side.
      */
-    public function withUnavailableAction() : Glyph;
+    public function withUnavailableAction(): Glyph;
 
     /**
     * Get a Glyph like this with an action.
     */
-    public function withAction(string $action) : Glyph;
+    public function withAction(string $action): Glyph;
 }

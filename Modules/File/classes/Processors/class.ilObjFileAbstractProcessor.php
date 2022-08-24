@@ -29,7 +29,7 @@ abstract class ilObjFileAbstractProcessor implements ilObjFileProcessorInterface
      * Creates an ilObjFile instance for the provided information.
      * @see ilObjFileAbstractProcessorInterface::OPTIONS
      */
-    protected function createFileObj(ResourceIdentification $rid, int $parent_id, array $options = []) : ilObjFile
+    protected function createFileObj(ResourceIdentification $rid, int $parent_id, array $options = []): ilObjFile
     {
         $revision = $this->storage->manage()->getCurrentRevision($rid);
         $file_obj = new ilObjFile();
@@ -55,7 +55,7 @@ abstract class ilObjFileAbstractProcessor implements ilObjFileProcessorInterface
     /**
      * Apply provided options to the given object.
      */
-    protected function applyOptions(ilObject $obj, array $options) : void
+    protected function applyOptions(ilObject $obj, array $options): void
     {
         foreach ($options as $key => $option) {
             if (in_array($key, self::OPTIONS, true)) {

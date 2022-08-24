@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /******************************************************************************
  *
@@ -36,7 +38,7 @@ class ilECSImportManager
      * Get the singleton instance of this ilECSImportManager
      * @return ilECSImportManager
      */
-    public static function getInstance() : ilECSImportManager
+    public static function getInstance(): ilECSImportManager
     {
         if (!isset(self::$instance)) {
             self::$instance = new ilECSImportManager();
@@ -50,7 +52,7 @@ class ilECSImportManager
      * The econtent id is the unique id from ecs
      * @return string content id
      */
-    public function lookupContentId($a_server_id, $a_mid, $a_econtent_id) : string
+    public function lookupContentId($a_server_id, $a_mid, $a_econtent_id): string
     {
         $query = 'SELECT * from ecs_import ' .
                 'WHERE server_id = ' . $this->db->quote($a_server_id, 'integer') . ' ' .
@@ -66,7 +68,7 @@ class ilECSImportManager
     /**
      * Lookup obj_id by content id
      */
-    public function lookupObjIdByContentId(int $a_server_id, int $a_mid, int $a_content_id, string $a_sub_id = null) : int
+    public function lookupObjIdByContentId(int $a_server_id, int $a_mid, int $a_content_id, string $a_sub_id = null): int
     {
         $query = "SELECT obj_id FROM ecs_import " .
             "WHERE content_id = " . $this->db->quote($a_content_id, 'integer') . " " .
@@ -86,7 +88,7 @@ class ilECSImportManager
         return 0;
     }
 
-    public function lookupObjIdsByContentId($a_content_id) : array
+    public function lookupObjIdsByContentId($a_content_id): array
     {
         $query = "SELECT obj_id FROM ecs_import " .
             "WHERE content_id = " . $this->db->quote($a_content_id, 'integer');
@@ -105,7 +107,7 @@ class ilECSImportManager
      * The econtent id is the unique id from ecs
      * @return int content id
      */
-    public function lookupEContentIdByContentId($a_server_id, $a_mid, $a_content_id) : int
+    public function lookupEContentIdByContentId($a_server_id, $a_mid, $a_content_id): int
     {
         $query = 'SELECT * from ecs_import ' .
                 'WHERE server_id = ' . $this->db->quote($a_server_id, 'integer') . ' ' .
@@ -122,7 +124,7 @@ class ilECSImportManager
      * get all imported links
      *
      */
-    public function getAllImportedRemoteObjects($a_server_id) : array
+    public function getAllImportedRemoteObjects($a_server_id): array
     {
         $all = array();
         $query = "SELECT * FROM ecs_import ei JOIN object_data obd ON ei.obj_id = obd.obj_id " .
@@ -142,7 +144,7 @@ class ilECSImportManager
      * @param int mid
      * @return array int
      */
-    public function _lookupObjIdsByMID($a_server_id, $a_mid) : array
+    public function _lookupObjIdsByMID($a_server_id, $a_mid): array
     {
         $query = "SELECT * FROM ecs_import " .
             "WHERE mid = " . $this->db->quote($a_mid, 'integer') . " " .
@@ -159,7 +161,7 @@ class ilECSImportManager
     /**
      * get econent_id
      */
-    public function _lookupEContentId(int $a_obj_id) : string
+    public function _lookupEContentId(int $a_obj_id): string
     {
         $query = "SELECT * FROM ecs_import WHERE obj_id = " . $this->db->quote($a_obj_id, 'integer') . " ";
         $res = $this->db->query($query);
@@ -172,7 +174,7 @@ class ilECSImportManager
     /**
      * Lookup server id of imported content
      */
-    public function lookupServerId(int $a_obj_id) : int
+    public function lookupServerId(int $a_obj_id): int
     {
         $query = 'SELECT * FROM ecs_import WHERE obj_id = ' . $this->db->quote($a_obj_id, 'integer');
         $res = $this->db->query($query);
@@ -186,7 +188,7 @@ class ilECSImportManager
      * Lookup obj_id
      *
      */
-    public function _lookupObjIds($a_server_id, $a_econtent_id) : array
+    public function _lookupObjIds($a_server_id, $a_econtent_id): array
     {
         $query = "SELECT obj_id FROM ecs_import WHERE econtent_id  = " . $this->db->quote($a_econtent_id, 'text') . " " .
             'AND server_id = ' . $this->db->quote($a_server_id, 'integer');
@@ -201,7 +203,7 @@ class ilECSImportManager
     /**
      * loogup obj_id by econtent and mid and server_id
      */
-    public function _lookupObjId(int $a_server_id, string $a_econtent_id, int $a_mid, ?string $a_sub_id = null) : int
+    public function _lookupObjId(int $a_server_id, string $a_econtent_id, int $a_mid, ?string $a_sub_id = null): int
     {
         $query = "SELECT obj_id FROM ecs_import " .
             "WHERE econtent_id = " . $this->db->quote($a_econtent_id, 'text') . " " .
@@ -225,7 +227,7 @@ class ilECSImportManager
      * Lookup mid
      *
      */
-    public function _lookupMID(int $a_server_id, int $a_obj_id) : int
+    public function _lookupMID(int $a_server_id, int $a_obj_id): int
     {
         $query = "SELECT * FROM ecs_import WHERE obj_id = " . $this->db->quote($a_obj_id) . " " .
             'AND server_id = ' . $this->db->quote($a_server_id, 'integer');
@@ -241,7 +243,7 @@ class ilECSImportManager
      *
      * @param int econtent_id
      */
-    public function _lookupMIDs($a_server_id, $a_econtent_id) : array
+    public function _lookupMIDs($a_server_id, $a_econtent_id): array
     {
         $query = "SELECT mid FROM ecs_import WHERE econtent_id = " . $this->db->quote($a_econtent_id, 'text') . " " .
             'AND server_id = ' . $this->db->quote($a_server_id, 'integer');
@@ -258,7 +260,7 @@ class ilECSImportManager
      *
      * @param int obj_id
      */
-    public function _deleteByObjId($a_obj_id) : bool
+    public function _deleteByObjId($a_obj_id): bool
     {
         $query = "DELETE FROM ecs_import " .
             "WHERE obj_id = " . $this->db->quote($a_obj_id, 'integer') . " ";
@@ -269,7 +271,7 @@ class ilECSImportManager
     /**
      * Delete by server id
      */
-    public function deleteByServer(int $a_server_id) : void
+    public function deleteByServer(int $a_server_id): void
     {
         $query = 'DELETE FROM ecs_import ' .
             'WHERE server_id = ' . $this->db->quote($a_server_id, 'integer');
@@ -281,7 +283,7 @@ class ilECSImportManager
      *
      * @param string[] $a_econtent_ids
      */
-    public function deleteRessources(int $a_server_id, int $a_mid, array $a_econtent_ids) : bool
+    public function deleteRessources(int $a_server_id, int $a_mid, array $a_econtent_ids): bool
     {
         $query = 'DELETE FROM ecs_import ' .
                 'WHERE server_id = ' . $this->db->quote($a_server_id, 'integer') . ' ' .
@@ -294,12 +296,12 @@ class ilECSImportManager
     /**
      * check if econtent is imported for a specific mid
      */
-    public function _isImported(int $a_server_id, string $a_econtent_id, int $a_mid, ?string $a_sub_id = null) : int
+    public function _isImported(int $a_server_id, string $a_econtent_id, int $a_mid, ?string $a_sub_id = null): int
     {
         return $this->_lookupObjId($a_server_id, $a_econtent_id, $a_mid, $a_sub_id);
     }
 
-    public function resetServerId($a_server_id) : bool
+    public function resetServerId($a_server_id): bool
     {
         $query = 'UPDATE ecs_import SET server_id = ' . $this->db->quote(0, 'integer') .
             ' WHERE server_id = ' . $this->db->quote($a_server_id, 'integer');

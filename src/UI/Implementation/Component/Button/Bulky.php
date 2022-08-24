@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\UI\Implementation\Component\Button;
 
 use ILIAS\UI\Component as C;
@@ -47,7 +49,7 @@ class Bulky extends Button implements C\Button\Bulky
     /**
      * @inheritdoc
      */
-    public function getIconOrGlyph() : Symbol
+    public function getIconOrGlyph(): Symbol
     {
         return $this->icon_or_glyph;
     }
@@ -60,7 +62,7 @@ class Bulky extends Button implements C\Button\Bulky
      * a11y problems with the Main Bar. Aria-roles is a detail that can be decided
      * on internally, so no need for consumers to bother with this...
      */
-    public function withAriaRole(string $aria_role) : C\Button\Bulky
+    public function withAriaRole(string $aria_role): C\Button\Bulky
     {
         $this->checkArgIsElement(
             "role",
@@ -76,7 +78,7 @@ class Bulky extends Button implements C\Button\Bulky
     /**
      * Get the ARIA role on the button.
      */
-    public function getAriaRole() : ?string
+    public function getAriaRole(): ?string
     {
         return $this->aria_role;
     }

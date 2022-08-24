@@ -1,4 +1,6 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -60,7 +62,7 @@ class InternalGUIService
         $this->http = $DIC->http();
     }
 
-    public function surveySettings(\ilObjSurvey $survey) : Settings\UIFactory
+    public function surveySettings(\ilObjSurvey $survey): Settings\UIFactory
     {
         return new Settings\UIFactory(
             $this,
@@ -70,7 +72,7 @@ class InternalGUIService
         );
     }
 
-    public function evaluation(\ilObjSurvey $survey) : Evaluation\GUIService
+    public function evaluation(\ilObjSurvey $survey): Evaluation\GUIService
     {
         return new Evaluation\GUIService(
             $this,
@@ -80,7 +82,7 @@ class InternalGUIService
         );
     }
 
-    public function editing() : Editing\GUIService
+    public function editing(): Editing\GUIService
     {
         return new Editing\GUIService(
             $this,
@@ -88,7 +90,7 @@ class InternalGUIService
         );
     }
 
-    public function execution() : Execution\GUIService
+    public function execution(): Execution\GUIService
     {
         return new Execution\GUIService(
             $this,
@@ -99,7 +101,7 @@ class InternalGUIService
     public function infoScreen(
         \ilObjSurveyGUI $survey_gui,
         \ilToolbarGUI $toolbar
-    ) : \ilInfoScreenGUI {
+    ): \ilInfoScreenGUI {
         $info_screen = new InfoScreen\InfoScreenGUI(
             $survey_gui,
             $toolbar,
@@ -113,18 +115,18 @@ class InternalGUIService
         return $info_screen->getInfoScreenGUI();
     }
 
-    public function modeUIModifier(int $mode) : UIModifier
+    public function modeUIModifier(int $mode): UIModifier
     {
         $mode_provider = $this->mode_factory->getModeById($mode);
         return $mode_provider->getUIModifier();
     }
 
-    public function lng() : \ilLanguage
+    public function lng(): \ilLanguage
     {
         return $this->lng;
     }
 
-    public function print() : PrintView\GUIService
+    public function print(): PrintView\GUIService
     {
         return new PrintView\GUIService(
             $this,

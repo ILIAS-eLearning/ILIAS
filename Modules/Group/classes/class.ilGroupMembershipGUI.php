@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -46,7 +48,7 @@ class ilGroupMembershipGUI extends ilMembershipGUI
     /**
      * @return ilAbstractMailMemberRoles | null
      */
-    protected function getMailMemberRoles() : ?ilAbstractMailMemberRoles
+    protected function getMailMemberRoles(): ?ilAbstractMailMemberRoles
     {
         return new ilMailMemberGroupRoles();
     }
@@ -57,7 +59,7 @@ class ilGroupMembershipGUI extends ilMembershipGUI
      * @param int[] $a_user_ids
      * @return int[]
      */
-    public function filterUserIdsByRbacOrPositionOfCurrentUser(array $a_user_ids) : array
+    public function filterUserIdsByRbacOrPositionOfCurrentUser(array $a_user_ids): array
     {
         return $this->access->filterUserIdsByRbacOrPositionOfCurrentUser(
             'manage_members',
@@ -73,7 +75,7 @@ class ilGroupMembershipGUI extends ilMembershipGUI
      * @return bool
      * @throws ilCtrlException
      */
-    public function assignMembers(array $user_ids, int $a_type) : bool
+    public function assignMembers(array $user_ids, int $a_type): bool
     {
         if (!count($user_ids)) {
             $this->lng->loadLanguageModule('search');
@@ -95,7 +97,7 @@ class ilGroupMembershipGUI extends ilMembershipGUI
                     );
                     $assigned = true;
                     break;
-                
+
                 case $this->getParentObject()->getDefaultMemberRole():
                     $this->getMembersObject()->add($new_member, ilParticipants::IL_GRP_MEMBER);
                     $this->getMembersObject()->sendNotification(
@@ -104,7 +106,7 @@ class ilGroupMembershipGUI extends ilMembershipGUI
                     );
                     $assigned = true;
                     break;
-                    
+
                 default:
                     if (in_array($a_type, $this->getParentObject()->getLocalGroupRoles(true))) {
                         $this->getMembersObject()->add($new_member, ilParticipants::IL_GRP_MEMBER);
@@ -122,7 +124,7 @@ class ilGroupMembershipGUI extends ilMembershipGUI
                     break;
             }
         }
-        
+
         if ($assigned) {
             $this->tpl->setOnScreenMessage('success', $this->lng->txt("grp_msg_member_assigned"), true);
         } else {
@@ -135,7 +137,7 @@ class ilGroupMembershipGUI extends ilMembershipGUI
     /**
      * save in participants table
      */
-    protected function updateParticipantsStatus() : void
+    protected function updateParticipantsStatus(): void
     {
         $participants = [];
         if ($this->http->wrapper()->post()->has('visible_member_ids')) {
@@ -176,9 +178,9 @@ class ilGroupMembershipGUI extends ilMembershipGUI
         $this->tpl->setOnScreenMessage('success', $this->lng->txt('settings_saved'), true);
         $this->ctrl->redirect($this, 'participants');
     }
-    
-    
-    protected function initParticipantTableGUI() : ilGroupParticipantsTableGUI
+
+
+    protected function initParticipantTableGUI(): ilGroupParticipantsTableGUI
     {
         $show_tracking =
             (ilObjUserTracking::_enabledLearningProgress() && ilObjUserTracking::_enabledUserRelatedData())
@@ -194,33 +196,33 @@ class ilGroupMembershipGUI extends ilMembershipGUI
             $show_tracking
         );
     }
-    
-    protected function initEditParticipantTableGUI(array $participants) : ilGroupEditParticipantsTableGUI
+
+    protected function initEditParticipantTableGUI(array $participants): ilGroupEditParticipantsTableGUI
     {
         $table = new ilGroupEditParticipantsTableGUI($this, $this->getParentObject());
         $table->setTitle($this->lng->txt($this->getParentObject()->getType() . '_header_edit_members'));
         $table->setData($this->getParentGUI()->readMemberData($participants));
-        
+
         return $table;
     }
-    
-    
-    
+
+
+
     /**
      * Init participant view template
      */
-    protected function initParticipantTemplate() : void
+    protected function initParticipantTemplate(): void
     {
         $this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.grp_edit_members.html', 'Modules/Group');
     }
-    
-    public function getLocalTypeRole(bool $a_translation = false) : array
+
+    public function getLocalTypeRole(bool $a_translation = false): array
     {
         return $this->getParentObject()->getLocalGroupRoles($a_translation);
     }
-    
 
-    protected function initWaitingList() : ilGroupWaitingList
+
+    protected function initWaitingList(): ilGroupWaitingList
     {
         return new ilGroupWaitingList($this->getParentObject()->getId());
     }
@@ -228,22 +230,22 @@ class ilGroupMembershipGUI extends ilMembershipGUI
     /**
      * @inheritDoc
      */
-    protected function getDefaultRole() : ?int
+    protected function getDefaultRole(): ?int
     {
         return $this->getParentGUI()->getObject()->getDefaultMemberRole();
     }
-    
-    public function getPrintMemberData(array $a_members) : array
+
+    public function getPrintMemberData(array $a_members): array
     {
         $member_data = $this->readMemberData($a_members, array());
         $member_data = $this->getParentGUI()->addCustomData($member_data);
         return $member_data;
     }
-    
+
     /**
      * Callback from attendance list
      */
-    public function getAttendanceListUserData(int $user_id, array $filters = []) : array
+    public function getAttendanceListUserData(int $user_id, array $filters = []): array
     {
         if (is_array($this->member_data) && array_key_exists($user_id, $this->member_data)) {
             $user_data = $this->member_data[$user_id];
@@ -261,7 +263,7 @@ class ilGroupMembershipGUI extends ilMembershipGUI
     /**
      * @inheritDoc
      */
-    protected function getMailContextOptions() : array
+    protected function getMailContextOptions(): array
     {
         $context_options = [
             ilMail::PROP_CONTEXT_SUBJECT_PREFIX => ilContainer::_lookupContainerSetting(

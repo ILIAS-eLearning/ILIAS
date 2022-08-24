@@ -59,7 +59,7 @@ class ilDclCreateViewDefinitionGUI extends ilPageObjectGUI
         $this->tpl->setContent($table->getHTML());
     }
 
-    public function executeCommand() : string
+    public function executeCommand(): string
     {
         global $DIC;
         $ilLocator = $DIC['ilLocator'];
@@ -86,7 +86,7 @@ class ilDclCreateViewDefinitionGUI extends ilPageObjectGUI
         }
     }
 
-    protected function activate() : void
+    protected function activate(): void
     {
         $page = $this->getPageObject();
         $page->setActive(true);
@@ -94,7 +94,7 @@ class ilDclCreateViewDefinitionGUI extends ilPageObjectGUI
         $this->ctrl->redirect($this, 'edit');
     }
 
-    protected function deactivate() : void
+    protected function deactivate(): void
     {
         $page = $this->getPageObject();
         $page->setActive(false);
@@ -102,7 +102,7 @@ class ilDclCreateViewDefinitionGUI extends ilPageObjectGUI
         $this->ctrl->redirect($this, 'edit');
     }
 
-    public function confirmDelete() : void
+    public function confirmDelete(): void
     {
         global $DIC;
         $ilCtrl = $DIC['ilCtrl'];
@@ -121,7 +121,7 @@ class ilDclCreateViewDefinitionGUI extends ilPageObjectGUI
         $tpl->setContent($conf->getHTML());
     }
 
-    public function cancelDelete() : void
+    public function cancelDelete(): void
     {
         global $DIC;
         $ilCtrl = $DIC['ilCtrl'];
@@ -129,7 +129,7 @@ class ilDclCreateViewDefinitionGUI extends ilPageObjectGUI
         $ilCtrl->redirect($this, "edit");
     }
 
-    public function deleteView() : void
+    public function deleteView(): void
     {
         global $DIC;
         $ilCtrl = $DIC['ilCtrl'];
@@ -150,7 +150,7 @@ class ilDclCreateViewDefinitionGUI extends ilPageObjectGUI
      * Release page lock
      * overwrite to redirect properly
      */
-    public function releasePageLock() : void
+    public function releasePageLock(): void
     {
         global $DIC;
         $ilCtrl = $DIC['ilCtrl'];
@@ -166,7 +166,7 @@ class ilDclCreateViewDefinitionGUI extends ilPageObjectGUI
      * @param string $a_output
      * @return string
      */
-    public function postOutputProcessing(string $a_output) : string
+    public function postOutputProcessing(string $a_output): string
     {
         // You can use this to parse placeholders and the like before outputting
 
@@ -200,7 +200,7 @@ class ilDclCreateViewDefinitionGUI extends ilPageObjectGUI
     /**
      * Save table entries
      */
-    public function saveTable() : void
+    public function saveTable(): void
     {
         $f = new ilDclDefaultValueFactory();
 
@@ -225,8 +225,11 @@ class ilDclCreateViewDefinitionGUI extends ilPageObjectGUI
                     // Check number field
                     if ($data_type_id === ilDclDatatype::INPUTFORMAT_NUMBER) {
                         if (!ctype_digit($value)) {
-                            $this->tpl->setOnScreenMessage('failure',
-                                $this->lng->txt('dcl_tableview_default_value_fail'), true);
+                            $this->tpl->setOnScreenMessage(
+                                'failure',
+                                $this->lng->txt('dcl_tableview_default_value_fail'),
+                                true
+                            );
                             $this->ctrl->saveParameter($this, 'tableview_id');
                             $this->ctrl->redirect($this, 'presentation');
                         }
@@ -248,8 +251,10 @@ class ilDclCreateViewDefinitionGUI extends ilPageObjectGUI
                 // Radio Inputs
                 foreach (array("RadioGroup") as $attribute) {
                     $selection_key = $attribute . '_' . $setting->getField();
-                    $selection = $this->http->wrapper()->post()->retrieve($selection_key,
-                        $this->refinery->kindlyTo()->string());
+                    $selection = $this->http->wrapper()->post()->retrieve(
+                        $selection_key,
+                        $this->refinery->kindlyTo()->string()
+                    );
                     $selected_radio_attribute = explode("_", $selection)[0];
 
                     foreach (array("LockedCreate",
@@ -271,8 +276,10 @@ class ilDclCreateViewDefinitionGUI extends ilPageObjectGUI
                 foreach (array("DefaultValue") as $attribute) {
                     $key = $attribute . '_' . $setting->getField();
                     if ($this->http->wrapper()->post()->has($key)) {
-                        $attribute_value = $this->http->wrapper()->post()->retrieve($key,
-                            $this->refinery->kindlyTo()->string());
+                        $attribute_value = $this->http->wrapper()->post()->retrieve(
+                            $key,
+                            $this->refinery->kindlyTo()->string()
+                        );
                     } else {
                         $attribute_value = "";
                     }

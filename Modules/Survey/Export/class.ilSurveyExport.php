@@ -39,7 +39,7 @@ class ilSurveyExport
         $ilDB = $DIC->database();
 
         $this->survey_obj = $a_survey_obj;
-    
+
         $this->db = $ilDB;
         $this->mode = $a_mode;
         $this->inst_id = (int) IL_INST_ID;
@@ -55,7 +55,7 @@ class ilSurveyExport
         }
     }
 
-    public function getInstId() : int
+    public function getInstId(): int
     {
         return $this->inst_id;
     }
@@ -64,7 +64,7 @@ class ilSurveyExport
     /**
      * @return string export file name
      */
-    public function buildExportFile() : string
+    public function buildExportFile(): string
     {
         switch ($this->mode) {
             default:
@@ -78,7 +78,7 @@ class ilSurveyExport
      * @throws ilLogException
      * @throws ilSurveyException
      */
-    public function buildExportFileXML() : string
+    public function buildExportFileXML(): string
     {
 
         // create directories
@@ -117,7 +117,7 @@ class ilSurveyExport
 
     public function exportXHTMLMediaObjects(
         string $a_export_dir
-    ) : void {
+    ): void {
         $mobs = ilObjMediaObject::_getMobsOfObject("svy:html", $this->survey_obj->getId());
         foreach ($mobs as $mob) {
             $mob_obj = new ilObjMediaObject($mob);

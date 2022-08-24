@@ -45,7 +45,7 @@ class ilDclTableHelper
         $this->database = $database;
     }
 
-    public function getRoleTitlesWithoutReadRightOnAnyStandardView() : array
+    public function getRoleTitlesWithoutReadRightOnAnyStandardView(): array
     {
         $visible_tables_for_data_collection = $this->getAllVisibleTablesForDataColleciton();
         $standard_views_for_data_collection = $this->getStandardViewsByVisibleTables($visible_tables_for_data_collection);
@@ -68,7 +68,7 @@ class ilDclTableHelper
         return $role_titles;
     }
 
-    protected function getRolesIdsWithReadAccessOnDataCollection() : array
+    protected function getRolesIdsWithReadAccessOnDataCollection(): array
     {
         $rbac_roles = $this->rbac_review->getParentRoleIds($this->ref_id);
         $roles_with_read_acces_ids = [];
@@ -84,7 +84,7 @@ class ilDclTableHelper
         return $roles_with_read_acces_ids;
     }
 
-    protected function getRolesIdsByViews(array $views_for_data_collection) : array
+    protected function getRolesIdsByViews(array $views_for_data_collection): array
     {
         $roles_ids = [];
         /**
@@ -102,7 +102,7 @@ class ilDclTableHelper
         return $roles_ids;
     }
 
-    protected function getStandardViewsByVisibleTables(array $visible_tables_for_data_collection) : array
+    protected function getStandardViewsByVisibleTables(array $visible_tables_for_data_collection): array
     {
         $standard_views_for_data_collection = [];
         foreach ($visible_tables_for_data_collection as $visible_table) {
@@ -116,7 +116,7 @@ class ilDclTableHelper
         return $standard_views_for_data_collection;
     }
 
-    protected function getAllVisibleTablesForDataColleciton() : array
+    protected function getAllVisibleTablesForDataColleciton(): array
     {
         $visible_tables_for_data_collection = [];
         $res = $this->database->queryF(
@@ -131,7 +131,7 @@ class ilDclTableHelper
         return $visible_tables_for_data_collection;
     }
 
-    protected function hasUserReadAccessOnAnyVisibleTableView() : bool
+    protected function hasUserReadAccessOnAnyVisibleTableView(): bool
     {
         // admin user has always access to the views of a data collection
         if ($this->user->getId() == 6) {
@@ -147,8 +147,10 @@ class ilDclTableHelper
         foreach ($roles_ids as $role_id) {
             $assigned_users = $this->rbac_review->assignedUsers($role_id);
             if (!empty($assigned_users)) {
-                $user_ids_with_read_right_on_any_standard_view[] = array_merge($user_ids_with_read_right_on_any_standard_view,
-                    $assigned_users);
+                $user_ids_with_read_right_on_any_standard_view[] = array_merge(
+                    $user_ids_with_read_right_on_any_standard_view,
+                    $assigned_users
+                );
             }
         }
 
@@ -160,11 +162,14 @@ class ilDclTableHelper
         }
     }
 
-    protected function in_array_r(string $needle, array $haystack, bool $strict = false) : bool
+    protected function in_array_r(string $needle, array $haystack, bool $strict = false): bool
     {
         foreach ($haystack as $item) {
-            if (($strict ? $item === $needle : $item == $needle) || (is_array($item) && $this->in_array_r($needle,
-                        $item, $strict))) {
+            if (($strict ? $item === $needle : $item == $needle) || (is_array($item) && $this->in_array_r(
+                $needle,
+                $item,
+                $strict
+            ))) {
                 return true;
             }
         }

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /******************************************************************************
  *
@@ -43,21 +45,21 @@ class ilECSParticipantSettings
     /**
      * Get instance by server id
      */
-    public static function getInstanceByServerId(int $a_server_id) : ilECSParticipantSettings
+    public static function getInstanceByServerId(int $a_server_id): ilECSParticipantSettings
     {
         return self::$instances[$a_server_id] ?? (self::$instances[$a_server_id] = new ilECSParticipantSettings($a_server_id));
     }
-    
+
     /**
      * Get all available mids
      * @return int[] membership id
      */
-    public function getAvailabeMids() : array
+    public function getAvailabeMids(): array
     {
         $query = 'SELECT mid FROM ecs_part_settings ' .
             'WHERE sid = ' . $this->db->quote($this->server_id, 'integer');
         $res = $this->db->query($query);
-        
+
         $mids = array();
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             $mids[] = (int) $row->mid;
@@ -66,11 +68,11 @@ class ilECSParticipantSettings
     }
 
 
-    
+
     /**
      * Lookup mid of current cms participant
      */
-    public function lookupCmsMid() : int
+    public function lookupCmsMid(): int
     {
         $query = 'SELECT mid FROM ecs_part_settings ' .
                 'WHERE sid = ' . $this->db->quote($this->server_id, 'integer') . ' ' .
@@ -85,7 +87,7 @@ class ilECSParticipantSettings
     /**
      * Get server id
      */
-    public function getServerId() : int
+    public function getServerId(): int
     {
         return $this->server_id;
     }
@@ -93,7 +95,7 @@ class ilECSParticipantSettings
     /**
      * Read stored entry
      */
-    private function read() : void
+    private function read(): void
     {
         $query = 'SELECT * FROM ecs_part_settings ' .
             'WHERE sid = ' . $this->db->quote($this->getServerId(), 'integer') . ' ';
@@ -107,7 +109,7 @@ class ilECSParticipantSettings
     /**
      * Check if import is allowed for specific mid
      */
-    public function isImportAllowed(array $a_mids) : bool
+    public function isImportAllowed(array $a_mids): bool
     {
         foreach ($a_mids as $mid) {
             if ($this->import[$mid]) {
@@ -122,7 +124,7 @@ class ilECSParticipantSettings
      *
      * @deprecated
      */
-    public function getEnabledParticipants() : array
+    public function getEnabledParticipants(): array
     {
         $ret = array();
         foreach ($this->export as $mid => $enabled) {
@@ -132,7 +134,7 @@ class ilECSParticipantSettings
         }
         return $ret;
     }
-    
+
     /**
      * is participant enabled
      *
@@ -140,7 +142,7 @@ class ilECSParticipantSettings
      * @deprecated
      *
      */
-    public function isEnabled($a_mid) : bool
+    public function isEnabled($a_mid): bool
     {
         return $this->export[$a_mid] ? true : false;
     }

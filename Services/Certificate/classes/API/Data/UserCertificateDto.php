@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -65,32 +67,32 @@ class UserCertificateDto
         $this->userSecondEmail = $userSecondEmail;
     }
 
-    public function getObjectTitle() : string
+    public function getObjectTitle(): string
     {
         return $this->objectTitle;
     }
 
-    public function getObjectId() : int
+    public function getObjectId(): int
     {
         return $this->objectId;
     }
 
-    public function getIssuedOnTimestamp() : int
+    public function getIssuedOnTimestamp(): int
     {
         return $this->issuedOnTimestamp;
     }
 
-    public function getUserId() : int
+    public function getUserId(): int
     {
         return $this->userId;
     }
 
-    public function getDownloadLink() : string
+    public function getDownloadLink(): string
     {
         return $this->downloadLink;
     }
 
-    public function getCertificateId() : int
+    public function getCertificateId(): int
     {
         return $this->certificateId;
     }
@@ -98,37 +100,37 @@ class UserCertificateDto
     /**
      * @return int[]
      */
-    public function getObjectRefIds() : array
+    public function getObjectRefIds(): array
     {
         return $this->objectRefIds;
     }
 
-    public function getUserFirstName() : string
+    public function getUserFirstName(): string
     {
         return $this->userFirstName;
     }
 
-    public function getUserLastName() : string
+    public function getUserLastName(): string
     {
         return $this->userLastName;
     }
 
-    public function getUserLogin() : string
+    public function getUserLogin(): string
     {
         return $this->userLogin;
     }
 
-    public function getUserEmail() : string
+    public function getUserEmail(): string
     {
         return $this->userEmail;
     }
 
-    public function addRefId(int $refId) : void
+    public function addRefId(int $refId): void
     {
         $this->objectRefIds[] = $refId;
     }
 
-    public function getUserSecondEmail() : string
+    public function getUserSecondEmail(): string
     {
         return $this->userSecondEmail;
     }

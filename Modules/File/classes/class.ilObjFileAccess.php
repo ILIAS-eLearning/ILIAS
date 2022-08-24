@@ -15,7 +15,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 use ILIAS\DI\Container;
 
 /**
@@ -33,11 +33,11 @@ class ilObjFileAccess extends ilObjectAccess implements ilWACCheckingClass
      * repository page, we only create it once, and cache it here.
      */
     protected static array $inline_file_extensions = [];
-    
+
     protected static array $preload_list_gui_data = [];
-    
-    
-    protected function checkAccessToObjectId(int $obj_id) : bool
+
+
+    protected function checkAccessToObjectId(int $obj_id): bool
     {
         global $DIC;
         $ilAccess = $DIC['ilAccess'];
@@ -49,11 +49,11 @@ class ilObjFileAccess extends ilObjectAccess implements ilWACCheckingClass
                 return true;
             }
         }
-        
+
         return false;
     }
-    
-    public function canBeDelivered(ilWACPath $ilWACPath) : bool
+
+    public function canBeDelivered(ilWACPath $ilWACPath): bool
     {
         switch ($ilWACPath->getSecurePathId()) {
             case 'previews':
@@ -64,12 +64,12 @@ class ilObjFileAccess extends ilObjectAccess implements ilWACCheckingClass
                 $obj_id = -1;
                 break;
         }
-        
+
         return $this->checkAccessToObjectId($obj_id);
     }
-    
 
-    
+
+
     /**
      * get commands
      * this method returns an array of all possible commands/permission combinations
@@ -81,7 +81,7 @@ class ilObjFileAccess extends ilObjectAccess implements ilWACCheckingClass
      *    );
      * @return array<int, mixed[]>
      */
-    public static function _getCommands() : array
+    public static function _getCommands(): array
     {
         $commands = array();
         $commands[] = array(
@@ -105,25 +105,25 @@ class ilObjFileAccess extends ilObjectAccess implements ilWACCheckingClass
             "cmd" => "edit",
             "lang_var" => "settings",
         );
-        
+
         return $commands;
     }
-    
+
     /**
      * check whether goto script will succeed
      */
-    public static function _checkGoto(string $a_target) : bool
+    public static function _checkGoto(string $a_target): bool
     {
         global $DIC;
         $ilAccess = $DIC['ilAccess'];
-        
+
         $t_arr = explode("_", $a_target);
-        
+
         // personal workspace context: do not force normal login
         if (isset($t_arr[2]) && $t_arr[2] == "wsp") {
             return ilSharedResourceGUI::hasAccess($t_arr[1]);
         }
-        
+
         if ($t_arr[0] != "file" || ((int) $t_arr[1]) <= 0) {
             return false;
         }
@@ -135,7 +135,7 @@ class ilObjFileAccess extends ilObjectAccess implements ilWACCheckingClass
      * @param int $a_id
      * @deprecated
      */
-    public static function _lookupFileSize(int $a_id, bool $by_reference = true) : int
+    public static function _lookupFileSize(int $a_id, bool $by_reference = true): int
     {
         try {
             $obj = new ilObjFile($a_id, $by_reference);
@@ -144,21 +144,21 @@ class ilObjFileAccess extends ilObjectAccess implements ilWACCheckingClass
             return 0;
         }
     }
-    
+
     /**
      * Returns true, if the specified file shall be displayed inline in the browser.
      */
-    public static function _isFileInline(string $a_file_name) : bool
+    public static function _isFileInline(string $a_file_name): bool
     {
         if (self::$inline_file_extensions === []) {
             $settings = new ilSetting('file_access');
             self::$inline_file_extensions = explode(" ", $settings->get('inline_file_extensions'));
         }
         $extension = self::_getFileExtension($a_file_name);
-        
+
         return in_array($extension, self::$inline_file_extensions);
     }
-    
+
     /**
      * Gets the file extension of the specified file name.
      * The file name extension is converted to lower case before it is returned.
@@ -166,7 +166,7 @@ class ilObjFileAccess extends ilObjectAccess implements ilWACCheckingClass
      * A file name extension can have multiple parts. For the file name
      * "hello.tar.gz", this function returns "gz".
      */
-    public static function _getFileExtension(string $a_file_name) : string
+    public static function _getFileExtension(string $a_file_name): string
     {
         if (preg_match('/\.([a-z0-9]+)\z/i', $a_file_name, $matches) == 1) {
             return strtolower($matches[1]);
@@ -174,7 +174,7 @@ class ilObjFileAccess extends ilObjectAccess implements ilWACCheckingClass
             return '';
         }
     }
-    
+
     /**
      * Returns true, if a file with the specified name, is usually hidden from
      * the user.
@@ -183,13 +183,13 @@ class ilObjFileAccess extends ilObjectAccess implements ilWACCheckingClass
      * - Filenames starting with '~$' are temporary Windows files
      * - The file "Thumbs.db" is a hidden Windows file
      */
-    public static function _isFileHidden(string $a_file_name) : bool
+    public static function _isFileHidden(string $a_file_name): bool
     {
         return substr($a_file_name, 0, 1) == '.' || substr($a_file_name, -1, 1) == '~'
             || substr($a_file_name, 0, 2) == '~$'
             || $a_file_name == 'Thumbs.db';
     }
-    
+
     /**
      * Appends the text " - Copy" to a filename in the language of
      * the current user.
@@ -210,13 +210,13 @@ class ilObjFileAccess extends ilObjectAccess implements ilWACCheckingClass
      * - Calling ilObjFileAccess::_appendCopyToTitle('Hello - Copy (3).txt', null)
      *   returns: "Hello - Copy (4).txt".
      */
-    public static function _appendNumberOfCopyToFilename($a_file_name, $nth_copy = null, $a_handle_extension = false) : string
+    public static function _appendNumberOfCopyToFilename($a_file_name, $nth_copy = null, $a_handle_extension = false): string
     {
         global $DIC;
         $lng = $DIC['lng'];
-        
+
         $filenameWithoutExtension = $a_file_name;
-        
+
         $extension = null;
         if ($a_handle_extension) {
             // Get the extension and the filename without the extension
@@ -226,7 +226,7 @@ class ilObjFileAccess extends ilObjectAccess implements ilWACCheckingClass
                 $filenameWithoutExtension = substr($a_file_name, 0, -strlen($extension));
             }
         }
-        
+
         // create a regular expression from the language text copy_n_of_suffix, so that
         // we can match it against $filenameWithoutExtension, and retrieve the number of the copy.
         // for example, if copy_n_of_suffix is 'Copy (%1s)', this creates the regular
@@ -234,7 +234,7 @@ class ilObjFileAccess extends ilObjectAccess implements ilWACCheckingClass
         $nthCopyRegex = preg_replace('/([\^$.\[\]|()?*+{}])/', '\\\\${1}', ' '
             . $lng->txt('copy_n_of_suffix'));
         $nthCopyRegex = '/' . preg_replace('/%1\\\\\$s/', '([0-9]+)', $nthCopyRegex) . '$/';
-        
+
         // Get the filename without any previously added number of copy.
         // Determine the number of copy, if it has not been specified.
         if (preg_match($nthCopyRegex, $filenameWithoutExtension, $matches)) {
@@ -261,7 +261,7 @@ class ilObjFileAccess extends ilObjectAccess implements ilWACCheckingClass
                 }
             }
         }
-        
+
         // Construct the new filename
         if ($nth_copy > 1) {
             // this is at least the second copy of the filename, append " - Copy ($nth_copy)"
@@ -272,37 +272,37 @@ class ilObjFileAccess extends ilObjectAccess implements ilWACCheckingClass
             // this is the first copy of the filename, append " - Copy"
             $newFilename = $filenameWithoutCopy . ' ' . $lng->txt('copy_of_suffix') . $extension;
         }
-        
+
         return $newFilename;
     }
-    
+
     /**
      * Gets the permanent download link for the file.
      */
-    public static function _getPermanentDownloadLink(int $ref_id) : string
+    public static function _getPermanentDownloadLink(int $ref_id): string
     {
         return ilLink::_getStaticLink($ref_id, "file", true, "_download");
     }
-    
+
     /**
      * @param int[] $obj_ids
      * @param int[] $ref_ids
      */
-    public static function _preloadData(array $obj_ids, array $ref_ids) : void
+    public static function _preloadData(array $obj_ids, array $ref_ids): void
     {
         global $DIC;
-        
+
         $DIC->language()->loadLanguageModule('file');
-  
+
         self::$preload_list_gui_data = [];
-        
+
         $set = $DIC->database()->query("SELECT obj_id,max(hdate) latest" . " FROM history"
             . " WHERE obj_type = " . $DIC->database()->quote("file", "text") . " AND "
             . $DIC->database()->in("obj_id", $obj_ids, "", "integer") . " GROUP BY obj_id");
         while ($row = $DIC->database()->fetchAssoc($set)) {
             self::$preload_list_gui_data[(int) $row["obj_id"]]["date"] = $row["latest"];
         }
-        
+
         $set = $DIC->database()->query("SELECT file_size, version, file_id, page_count, rid" . " FROM file_data" . " WHERE "
             . $DIC->database()->in("file_id", $obj_ids, "", "integer"));
         while ($row = $DIC->database()->fetchAssoc($set)) {
@@ -311,7 +311,7 @@ class ilObjFileAccess extends ilObjectAccess implements ilWACCheckingClass
             self::$preload_list_gui_data[(int) $row["file_id"]]["page_count"] = $row["page_count"];
             self::$preload_list_gui_data[(int) $row["file_id"]]["rid"] = $row["rid"];
         }
-        
+
         $res = $DIC->database()->query("SELECT rid, file_id  FROM file_data WHERE rid IS NOT NULL AND " . $DIC->database()->in(
             'file_id',
             $obj_ids,
@@ -319,12 +319,12 @@ class ilObjFileAccess extends ilObjectAccess implements ilWACCheckingClass
             'integer'
         ));
         $rids = [];
-        
+
         while ($row = $DIC->database()->fetchObject($res)) {
             $rids[(int) $row->file_id] = $row->rid;
         }
         $DIC->resourceStorage()->preload($rids);
-        
+
         foreach ($rids as $file_id => $rid) {
             if ($id = $DIC->resourceStorage()->manage()->find($rid)) {
                 $max = $DIC->resourceStorage()->manage()->getResource($id)->getCurrentRevision();
@@ -336,8 +336,8 @@ class ilObjFileAccess extends ilObjectAccess implements ilWACCheckingClass
             }
         }
     }
-    
-    public static function getListGUIData(int $a_obj_id) : array
+
+    public static function getListGUIData(int $a_obj_id): array
     {
         if (isset(self::$preload_list_gui_data[$a_obj_id])) {
             return self::$preload_list_gui_data[$a_obj_id];

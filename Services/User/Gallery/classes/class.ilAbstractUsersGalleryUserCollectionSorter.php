@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -18,11 +20,11 @@
 
 abstract class ilAbstractUsersGalleryUserCollectionSorter implements ilUsersGalleryUserCollectionSorter
 {
-    abstract protected function compare(ilUsersGalleryUser $left, ilUsersGalleryUser $right) : int;
+    abstract protected function compare(ilUsersGalleryUser $left, ilUsersGalleryUser $right): int;
 
-    final public function sort(array $users) : array // Missing array type.
+    final public function sort(array $users): array // Missing array type.
     {
-        uasort($users, function (ilUsersGalleryUser $left, ilUsersGalleryUser $right) : int {
+        uasort($users, function (ilUsersGalleryUser $left, ilUsersGalleryUser $right): int {
             return $this->compare($left, $right);
         });
 

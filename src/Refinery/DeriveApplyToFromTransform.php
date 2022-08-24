@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -33,9 +35,9 @@ trait DeriveApplyToFromTransform
     /**
      * @inheritDoc
      */
-    public function applyTo(Result $result) : Result
+    public function applyTo(Result $result): Result
     {
-        return $result->then(function ($value) : Result {
+        return $result->then(function ($value): Result {
             try {
                 return new Ok($this->transform($value));
             } catch (Exception $exception) {

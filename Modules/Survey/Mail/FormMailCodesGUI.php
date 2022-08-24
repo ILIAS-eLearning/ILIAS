@@ -31,7 +31,7 @@ class FormMailCodesGUI extends ilPropertyFormGUI
     protected ilTextAreaInputGUI $mailmessage;
     protected ilCheckboxInputGUI $savemessage;
     protected ilTextInputGUI $savemessagetitle;
-    
+
     public function __construct(
         ilSurveyParticipantsGUI $guiclass
     ) {
@@ -52,7 +52,7 @@ class FormMailCodesGUI extends ilPropertyFormGUI
         $lng = $this->lng;
 
         $this->guiclass = $guiclass;
-        
+
         $this->setFormAction($this->ctrl->getFormAction($this->guiclass));
         $this->setTitle($this->lng->txt('compose'));
 
@@ -124,13 +124,13 @@ class FormMailCodesGUI extends ilPropertyFormGUI
             $main_tpl->setOnScreenMessage('info', $lng->txt("cant_send_email_smtp_disabled"));
         }
     }
-    
-    public function getSavedMessages() : ilSelectInputGUI
+
+    public function getSavedMessages(): ilSelectInputGUI
     {
         return $this->savedmessages;
     }
-    
-    public function getMailMessage() : ilTextAreaInputGUI
+
+    public function getMailMessage(): ilTextAreaInputGUI
     {
         return $this->mailmessage;
     }

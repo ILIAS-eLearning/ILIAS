@@ -15,7 +15,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * Class ilBiblFieldFilterGUI
  *
@@ -25,18 +25,18 @@
 class ilBiblFieldFilterGUI
 {
     use \ILIAS\Modules\OrgUnit\ARHelper\DIC;
-    const FILTER_ID = 'filter_id';
-    const CMD_STANDARD = 'index';
-    const CMD_ADD = 'add';
-    const CMD_CREATE = 'create';
-    const CMD_CANCEL = 'cancel';
-    const CMD_EDIT = 'edit';
-    const CMD_UPDATE = 'update';
-    const CMD_DELETE = 'delete';
-    const CMD_RENDER_INTERRUPTIVE = 'renderInterruptiveModal';
-    const CMD_APPLY_FILTER = 'applyFilter';
-    const CMD_RESET_FILTER = 'resetFilter';
-    const CMD_TRANSLATE = 'translate';
+    public const FILTER_ID = 'filter_id';
+    public const CMD_STANDARD = 'index';
+    public const CMD_ADD = 'add';
+    public const CMD_CREATE = 'create';
+    public const CMD_CANCEL = 'cancel';
+    public const CMD_EDIT = 'edit';
+    public const CMD_UPDATE = 'update';
+    public const CMD_DELETE = 'delete';
+    public const CMD_RENDER_INTERRUPTIVE = 'renderInterruptiveModal';
+    public const CMD_APPLY_FILTER = 'applyFilter';
+    public const CMD_RESET_FILTER = 'resetFilter';
+    public const CMD_TRANSLATE = 'translate';
     protected \ilBiblFactoryFacade $facade;
     private \ilGlobalTemplateInterface $main_tpl;
 
@@ -52,7 +52,7 @@ class ilBiblFieldFilterGUI
     }
 
 
-    public function renderInterruptiveModal() : void
+    public function renderInterruptiveModal(): void
     {
         $f = $this->dic()->ui()->factory();
         $r = $this->dic()->ui()->renderer();
@@ -71,7 +71,7 @@ class ilBiblFieldFilterGUI
     }
 
 
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         $nextClass = $this->ctrl()->getNextClass();
         switch ($nextClass) {
@@ -82,7 +82,7 @@ class ilBiblFieldFilterGUI
     }
 
 
-    protected function performCommand() : void
+    protected function performCommand(): void
     {
         $cmd = $this->ctrl()->getCmd(self::CMD_STANDARD);
         switch ($cmd) {
@@ -107,7 +107,7 @@ class ilBiblFieldFilterGUI
     }
 
 
-    public function index() : void
+    public function index(): void
     {
         if ($this->access()->checkAccess('write', "", $this->facade->iliasRefId())) {
             $button = $this->dic()->ui()->factory()->button()->primary($this->lng()->txt("add_filter"), $this->ctrl()->getLinkTarget($this, self::CMD_ADD));
@@ -119,14 +119,14 @@ class ilBiblFieldFilterGUI
     }
 
 
-    protected function add() : void
+    protected function add(): void
     {
         $ilBiblSettingsFilterFormGUI = new ilBiblFieldFilterFormGUI($this, new ilBiblFieldFilter(), $this->facade);
         $this->tpl()->setContent($ilBiblSettingsFilterFormGUI->getHTML());
     }
 
 
-    protected function create() : void
+    protected function create(): void
     {
         $this->tabs()->activateTab(self::CMD_STANDARD);
         $il_bibl_field = new ilBiblFieldFilter();
@@ -141,14 +141,14 @@ class ilBiblFieldFilterGUI
     }
 
 
-    public function edit() : void
+    public function edit(): void
     {
         $ilBiblSettingsFilterFormGUI = $this->initEditForm();
         $this->tpl()->setContent($ilBiblSettingsFilterFormGUI->getHTML());
     }
 
 
-    public function update() : void
+    public function update(): void
     {
         $il_bibl_field = $this->getFieldFilterFromRequest();
         $this->tabs()->activateTab(self::CMD_STANDARD);
@@ -163,7 +163,7 @@ class ilBiblFieldFilterGUI
     }
 
 
-    public function delete() : void
+    public function delete(): void
     {
         global $DIC;
         $items = $this->http()->request()->getParsedBody()['interruptive_items'];
@@ -181,13 +181,13 @@ class ilBiblFieldFilterGUI
     /**
      * cancel
      */
-    public function cancel() : void
+    public function cancel(): void
     {
         $this->ctrl()->redirect($this, self::CMD_STANDARD);
     }
 
 
-    private function getFieldFilterFromRequest() : \ilBiblFieldFilterInterface
+    private function getFieldFilterFromRequest(): \ilBiblFieldFilterInterface
     {
         $field = $this->http()->request()->getQueryParams()[self::FILTER_ID];
 
@@ -195,7 +195,7 @@ class ilBiblFieldFilterGUI
     }
 
 
-    protected function initEditForm() : ilBiblFieldFilterFormGUI
+    protected function initEditForm(): ilBiblFieldFilterFormGUI
     {
         $this->tabs()->clearTargets();
         $this->tabs()->setBackTarget(
@@ -210,7 +210,7 @@ class ilBiblFieldFilterGUI
     }
 
 
-    protected function applyFilter() : void
+    protected function applyFilter(): void
     {
         $table = new ilBiblFieldFilterTableGUI($this, $this->facade);
         $table->writeFilterToSession();
@@ -219,7 +219,7 @@ class ilBiblFieldFilterGUI
     }
 
 
-    protected function resetFilter() : void
+    protected function resetFilter(): void
     {
         $table = new ilBiblFieldFilterTableGUI($this, $this->facade);
         $table->resetFilter();

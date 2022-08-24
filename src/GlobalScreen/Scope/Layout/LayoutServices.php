@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -16,6 +18,7 @@
  *********************************************************************/
 
 /** @noinspection PhpIncompatibleReturnTypeInspection */
+
 namespace ILIAS\GlobalScreen\Scope\Layout;
 
 use ILIAS\GlobalScreen\Scope\Layout\Factory\ModificationFactory;
@@ -43,7 +46,7 @@ class LayoutServices
     /**
      * @return ModificationFactory
      */
-    public function factory() : ModificationFactory
+    public function factory(): ModificationFactory
     {
         return $this->get(ModificationFactory::class);
     }
@@ -51,7 +54,7 @@ class LayoutServices
     /**
      * @return MetaContent
      */
-    public function meta() : MetaContent
+    public function meta(): MetaContent
     {
         return $this->meta_content;
     }

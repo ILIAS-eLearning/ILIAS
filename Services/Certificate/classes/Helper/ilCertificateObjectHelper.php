@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -28,22 +30,22 @@ class ilCertificateObjectHelper
      * @throws ilDatabaseException
      * @throws ilObjectNotFoundException
      */
-    public function getInstanceByObjId(int $objectId, bool $stop_on_error = true) : ?ilObject
+    public function getInstanceByObjId(int $objectId, bool $stop_on_error = true): ?ilObject
     {
         return ilObjectFactory::getInstanceByObjId($objectId, $stop_on_error);
     }
 
-    public function lookupObjId(int $refId) : int
+    public function lookupObjId(int $refId): int
     {
         return ilObject::_lookupObjId($refId);
     }
 
-    public function lookupType(int $objectId) : string
+    public function lookupType(int $objectId): string
     {
         return ilObject::_lookupType($objectId);
     }
 
-    public function lookupTitle(int $objectId) : string
+    public function lookupTitle(int $objectId): string
     {
         return ilObject::_lookupTitle($objectId);
     }

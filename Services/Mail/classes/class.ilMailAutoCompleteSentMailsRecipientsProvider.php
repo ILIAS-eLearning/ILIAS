@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -23,11 +25,11 @@ class ilMailAutoCompleteSentMailsRecipientsProvider extends ilMailAutoCompleteRe
 {
     /** @var string[] */
     protected array $users_stack = [];
-    
+
     /**
      * @return array{login?: string, firstname?: string, lastname?: string}
      */
-    public function current() : array
+    public function current(): array
     {
         if (is_array($this->data)) {
             return [
@@ -52,7 +54,7 @@ class ilMailAutoCompleteSentMailsRecipientsProvider extends ilMailAutoCompleteRe
         ];
     }
 
-    public function key() : string
+    public function key(): string
     {
         if (is_array($this->data) && !empty($this->data)) {
             return $this->data['login'];
@@ -65,7 +67,7 @@ class ilMailAutoCompleteSentMailsRecipientsProvider extends ilMailAutoCompleteRe
         return '';
     }
 
-    public function valid() : bool
+    public function valid(): bool
     {
         $this->data = $this->db->fetchAssoc($this->res);
         if (
@@ -94,7 +96,7 @@ class ilMailAutoCompleteSentMailsRecipientsProvider extends ilMailAutoCompleteRe
         return is_array($this->data) || count($this->users_stack) > 0;
     }
 
-    public function rewind() : void
+    public function rewind(): void
     {
         if ($this->res) {
             $this->db->free($this->res);

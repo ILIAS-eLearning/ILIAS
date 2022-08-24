@@ -1,4 +1,5 @@
 <?php
+
 require_once 'Modules/TestQuestionPool/classes/import/qti12/class.assQuestionImport.php';
 require_once 'Modules/TestQuestionPool/classes/class.assLongMenu.php';
 
@@ -6,7 +7,7 @@ class assLongMenuImport extends assQuestionImport
 {
     public $object;
 
-    public function fromXML(&$item, $questionpool_id, &$tst_id, &$tst_object, &$question_counter, &$import_mapping) : void
+    public function fromXML(&$item, $questionpool_id, &$tst_id, &$tst_object, &$question_counter, &$import_mapping): void
     {
         global $DIC;
         $ilUser = $DIC['ilUser'];
@@ -35,7 +36,7 @@ class assLongMenuImport extends assQuestionImport
                         $this->object->setQuestion($this->object->QTIMaterialToString($material));
                     }
 
-                    
+
                     break;
             }
         }

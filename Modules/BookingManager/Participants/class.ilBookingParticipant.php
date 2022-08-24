@@ -57,7 +57,7 @@ class ilBookingParticipant
         }
     }
 
-    protected function read() : ?int
+    protected function read(): ?int
     {
         $query = 'SELECT participant_id FROM booking_member' .
             ' WHERE user_id = ' . $this->db->quote($this->participant_id, 'integer') .
@@ -71,7 +71,7 @@ class ilBookingParticipant
         return (int) $row['participant_id'];
     }
 
-    protected function save() : void
+    protected function save(): void
     {
         $assigner_id = $this->user->getId();
         $next_id = $this->db->nextId('booking_member');
@@ -86,7 +86,7 @@ class ilBookingParticipant
         $this->db->manipulate($query);
     }
 
-    public function getIsNew() : bool
+    public function getIsNew(): bool
     {
         return $this->is_new;
     }
@@ -98,7 +98,7 @@ class ilBookingParticipant
      */
     public static function getAssignableParticipants(
         int $a_bp_object_id
-    ) : array {
+    ): array {
         $booking_object = new ilBookingObject($a_bp_object_id);
         $pool_id = $booking_object->getPoolId();
         $pool = new ilObjBookingPool($pool_id, false);
@@ -136,7 +136,7 @@ class ilBookingParticipant
         int $a_booking_pool,
         array $a_filter = null,
         int $a_object_id = null
-    ) : array {
+    ): array {
         global $DIC;
 
         $ilDB = $DIC->database();
@@ -212,7 +212,7 @@ class ilBookingParticipant
      */
     public static function getBookingPoolParticipants(
         int $a_booking_pool_id
-    ) : array {
+    ): array {
         global $DIC;
         $ilDB = $DIC->database();
         $sql = 'SELECT * FROM booking_member WHERE booking_pool_id = ' . $ilDB->quote($a_booking_pool_id, 'integer');
@@ -233,7 +233,7 @@ class ilBookingParticipant
      */
     public static function getUserFilter(
         int $a_pool_id
-    ) : array {
+    ): array {
         global $DIC;
 
         $ilDB = $DIC->database();
@@ -262,7 +262,7 @@ class ilBookingParticipant
     protected function isParticipantAssigned(
         int $a_booking_object_id,
         int $a_participant_id
-    ) : bool {
+    ): bool {
         return count(ilBookingReservation::getObjectReservationForUser($a_booking_object_id, $a_participant_id)) > 0;
     }
 }

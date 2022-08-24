@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /* Copyright (c) 1998-2020 ILIAS open source, Extended GPL, see docs/LICENSE */
 
@@ -10,7 +12,7 @@ class ilTestRandomQuestionsQuantitiesDistributionTest extends ilTestBaseTestCase
 {
     private ilTestRandomQuestionsQuantitiesDistribution $testObj;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -21,12 +23,12 @@ class ilTestRandomQuestionsQuantitiesDistributionTest extends ilTestBaseTestCase
         );
     }
 
-    public function test_instantiateObject_shouldReturnInstance() : void
+    public function test_instantiateObject_shouldReturnInstance(): void
     {
         $this->assertInstanceOf(ilTestRandomQuestionsQuantitiesDistribution::class, $this->testObj);
     }
 
-    public function testQuestionCollectionProvider() : void
+    public function testQuestionCollectionProvider(): void
     {
         $mock = $this->createMock(ilTestRandomSourcePoolDefinitionQuestionCollectionProvider::class);
 
@@ -34,7 +36,7 @@ class ilTestRandomQuestionsQuantitiesDistributionTest extends ilTestBaseTestCase
         $this->assertEquals($mock, $this->testObj->getQuestionCollectionProvider());
     }
 
-    public function testSourcePoolDefinitionList() : void
+    public function testSourcePoolDefinitionList(): void
     {
         $mock = $this->createMock(ilTestRandomQuestionSetSourcePoolDefinitionList::class);
 

@@ -39,12 +39,12 @@ class ilFileSystemHelper
     /**
      * Used to move a complete directory of a skin
      */
-    public function move(string $from, string $to) : void
+    public function move(string $from, string $to): void
     {
         rename($from, $to);
     }
 
-    public function delete(string $file_path) : void
+    public function delete(string $file_path): void
     {
         unlink($file_path);
     }
@@ -52,7 +52,7 @@ class ilFileSystemHelper
     /**
      * Deletes a given file in the container
      */
-    public function saveDeleteFile(string $file_path) : void
+    public function saveDeleteFile(string $file_path): void
     {
         if (file_exists($file_path)) {
             unlink($file_path);
@@ -68,7 +68,7 @@ class ilFileSystemHelper
     /**
      * Recursive delete of a folder
      */
-    public function recursiveRemoveDir(string $dir) : void
+    public function recursiveRemoveDir(string $dir): void
     {
         if (is_dir($dir)) {
             $objects = scandir($dir);
@@ -116,7 +116,7 @@ class ilFileSystemHelper
      * Creates a resource directory (sound, images or fonts) by copying from the source (mostly delos)
      * @throws ilSystemStyleException
      */
-    public function createResourceDirectory(string $source, string $target) : void
+    public function createResourceDirectory(string $source, string $target): void
     {
         mkdir($target, 0775, true);
 
@@ -135,7 +135,7 @@ class ilFileSystemHelper
      * Alters the name/path of a resource directory
      * @throws ilSystemStyleException
      */
-    public function changeResourceDirectory(string $skin_dir, string $new_dir, string $old_dir, bool $has_references) : void
+    public function changeResourceDirectory(string $skin_dir, string $new_dir, string $old_dir, bool $has_references): void
     {
         $absolut_new_dir = $skin_dir . $new_dir;
         $absolut_old_dir = $skin_dir . $old_dir;
@@ -185,7 +185,7 @@ class ilFileSystemHelper
      * Recursive copy of a folder
      * @throws ilSystemStyleException
      */
-    public function recursiveCopy(string $src, string $dest) : void
+    public function recursiveCopy(string $src, string $dest): void
     {
         foreach (scandir($src) as $file) {
             $src_file = rtrim($src, '/') . '/' . $file;
@@ -222,12 +222,12 @@ class ilFileSystemHelper
 
 
 
-    public function getMessageStack() : ilSystemStyleMessageStack
+    public function getMessageStack(): ilSystemStyleMessageStack
     {
         return $this->message_stack;
     }
 
-    public function setMessageStack(ilSystemStyleMessageStack $message_stack) : void
+    public function setMessageStack(ilSystemStyleMessageStack $message_stack): void
     {
         $this->message_stack = $message_stack;
     }

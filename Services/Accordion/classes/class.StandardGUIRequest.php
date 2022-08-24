@@ -38,47 +38,47 @@ class StandardGUIRequest
         );
     }
 
-    public function getAction() : string
+    public function getAction(): string
     {
         return $this->str("act");
     }
 
-    public function getId() : string
+    public function getId(): string
     {
         return $this->str("accordion_id");
     }
 
-    public function getTabNr() : int
+    public function getTabNr(): int
     {
         return $this->int("tab_nr");
     }
 
-    public function getUserId() : int
+    public function getUserId(): int
     {
         return $this->int("user_id");
     }
 
-    public function getNavPar(string $par) : string
+    public function getNavPar(string $par): string
     {
         return $this->str($par);
     }
 
-    public function getNavPage(string $par) : string
+    public function getNavPage(string $par): string
     {
         return $this->str($par . "page");
     }
 
-    public function getColSide() : string
+    public function getColSide(): string
     {
         return $this->str("col_side");
     }
 
-    public function getBlockId() : string
+    public function getBlockId(): string
     {
         return $this->str("block_id");
     }
 
-    public function getBlock() : string
+    public function getBlock(): string
     {
         return $this->str("block");
     }

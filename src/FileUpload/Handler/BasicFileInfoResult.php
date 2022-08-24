@@ -44,25 +44,25 @@ class BasicFileInfoResult implements FileInfoResult
     }
 
 
-    public function getFileIdentifier() : string
+    public function getFileIdentifier(): string
     {
         return $this->file_identifier;
     }
 
 
-    public function getName() : string
+    public function getName(): string
     {
         return $this->name;
     }
 
 
-    public function getSize() : int
+    public function getSize(): int
     {
         return $this->size;
     }
 
 
-    public function getMimeType() : string
+    public function getMimeType(): string
     {
         return $this->mime_type;
     }
@@ -71,7 +71,7 @@ class BasicFileInfoResult implements FileInfoResult
     /**
      * @inheritDoc
      */
-    final public function jsonSerialize() : array
+    final public function jsonSerialize(): array
     {
         $str = $this->file_identification_key ?? UploadHandler::DEFAULT_FILE_ID_PARAMETER;
 

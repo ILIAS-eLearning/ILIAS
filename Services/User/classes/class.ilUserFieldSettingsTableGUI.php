@@ -74,7 +74,7 @@ class ilUserFieldSettingsTableGUI extends ilTable2GUI
      * @param array<string,mixed> $a_set
      * @throws ilTemplateException
      */
-    protected function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set): void
     {
         global $DIC;
 
@@ -208,7 +208,7 @@ class ilUserFieldSettingsTableGUI extends ilTable2GUI
         $this->tpl->setVariable("TXT_FIELD", $lng->txt($lv));
     }
 
-    public function setConfirmChange() : void
+    public function setConfirmChange(): void
     {
         $this->confirm_change = true;
     }

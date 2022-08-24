@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace ILIAS\Filesystem\Finder\Iterator;
@@ -46,7 +47,7 @@ class FileTypeFilterIterator extends \FilterIterator
     /**
      * @inheritdoc
      */
-    public function accept() : bool
+    public function accept(): bool
     {
         /** @var Metadata $metadata */
         $metadata = $this->current();

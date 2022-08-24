@@ -26,21 +26,21 @@
  */
 class SurveySingleChoiceQuestionGUI extends SurveyQuestionGUI
 {
-    protected function initObject() : void
+    protected function initObject(): void
     {
         $this->object = new SurveySingleChoiceQuestion();
     }
-    
+
     //
     // EDITOR
     //
-    
-    public function setQuestionTabs() : void
+
+    public function setQuestionTabs(): void
     {
         $this->setQuestionTabsForClass("surveysinglechoicequestiongui");
     }
-    
-    protected function addFieldsToEditForm(ilPropertyFormGUI $a_form) : void
+
+    protected function addFieldsToEditForm(ilPropertyFormGUI $a_form): void
     {
         // orientation
         $orientation = new ilRadioGroupInputGUI($this->lng->txt("orientation"), "orientation");
@@ -61,7 +61,7 @@ class SurveySingleChoiceQuestionGUI extends SurveyQuestionGUI
         $answers->setNeutralCategoryTitle($this->lng->txt('svy_neutral_answer'));
         $answers->setDisabledScale(false);
         $a_form->addItem($answers);
-        
+
         // values
         $orientation->setValue($this->object->getOrientation());
         if (!$this->object->getCategories()->getCategoryCount()) {
@@ -69,13 +69,13 @@ class SurveySingleChoiceQuestionGUI extends SurveyQuestionGUI
         }
         $answers->setValues($this->object->getCategories());
     }
-    
-    protected function importEditFormValues(ilPropertyFormGUI $a_form) : void
+
+    protected function importEditFormValues(ilPropertyFormGUI $a_form): void
     {
         $this->log->debug("importing edit values");
 
         $this->object->setOrientation($a_form->getInput("orientation"));
-        
+
         $this->object->categories->flushCategories();
         $answers = $this->request->getAnswers();
         foreach ($answers['answer'] as $key => $value) {
@@ -93,20 +93,20 @@ class SurveySingleChoiceQuestionGUI extends SurveyQuestionGUI
             $this->object->getCategories()->addCategory($this->request->getNeutral(), 0, 1, null, $this->request->getNeutralScale());
         }
     }
-    
+
     public function getParsedAnswers(
         array $a_working_data = null,
         $a_only_user_anwers = false
-    ) : array {
+    ): array {
         if (is_array($a_working_data)) {
             $user_answer = $a_working_data[0];
         }
-        
+
         $options = array();
         for ($i = 0; $i < $this->object->categories->getCategoryCount(); $i++) {
             $cat = $this->object->categories->getCategory($i);
             $value = ($cat->scale) ? ($cat->scale - 1) : $i;
-        
+
             $checked = "unchecked";
             $text = null;
             if (is_array($a_working_data) &&
@@ -118,10 +118,10 @@ class SurveySingleChoiceQuestionGUI extends SurveyQuestionGUI
                     }
                 }
             }
-            
+
             // "other" options have to be last or horizontal will be screwed
             $idx = $cat->other . "_" . $value;
-            
+
             if (!$a_only_user_anwers || $checked === "checked") {
                 $options[$idx] = array(
                     "value" => $value
@@ -131,23 +131,23 @@ class SurveySingleChoiceQuestionGUI extends SurveyQuestionGUI
                     ,"textanswer" => $text
                 );
             }
-            
+
             ksort($options);
         }
-        
+
         return array_values($options);
     }
-    
+
     public function getPrintView(
         int $question_title = 1,
         bool $show_questiontext = true,
         ?int $survey_id = null,
         ?array $working_data = null
-    ) : string {
+    ): string {
         $options = $this->getParsedAnswers($working_data);
-        
+
         // rendering
-        
+
         $template = new ilTemplate("tpl.il_svy_qpl_sc_printview.html", true, true, "Modules/SurveyQuestionPool");
         switch ($this->object->orientation) {
             case 0:
@@ -227,8 +227,8 @@ class SurveySingleChoiceQuestionGUI extends SurveyQuestionGUI
         $template->parseCurrentBlock();
         return $template->get();
     }
-        
-    
+
+
     //
     // EXECUTION
     //
@@ -240,7 +240,7 @@ class SurveySingleChoiceQuestionGUI extends SurveyQuestionGUI
         string $error_message = "",
         int $survey_id = null,
         bool $compress_view = false
-    ) : string {
+    ): string {
         $orientation = $this->object->orientation;
         $template_file = "tpl.il_svy_out_sc.html";
         if ($compress_view && $orientation === 1) {

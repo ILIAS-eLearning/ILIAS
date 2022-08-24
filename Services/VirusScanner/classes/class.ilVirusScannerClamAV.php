@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -27,7 +29,7 @@ class ilVirusScannerClamAV extends ilVirusScanner
         $this->scanZipFiles = true;
     }
 
-    public function scanBuffer(string $buffer) : bool
+    public function scanBuffer(string $buffer): bool
     {
         if (!$this->isBufferScanPossible()) {
             return $this->scanFileFromBuffer($buffer);
@@ -36,7 +38,7 @@ class ilVirusScannerClamAV extends ilVirusScanner
         return $this->processBufferScan($buffer);
     }
 
-    protected function isBufferScanPossible() : bool
+    protected function isBufferScanPossible(): bool
     {
         $functions = ['proc_open', 'proc_close'];
 
@@ -51,7 +53,7 @@ class ilVirusScannerClamAV extends ilVirusScanner
         return true;
     }
 
-    protected function processBufferScan(string $buffer) : bool
+    protected function processBufferScan(string $buffer): bool
     {
         $descriptor_spec = [
             0 => ["pipe", "r"],  // stdin is a pipe that the child will read from
@@ -83,17 +85,17 @@ class ilVirusScannerClamAV extends ilVirusScanner
         return (bool) $this->hasDetections($detectionReport);
     }
 
-    protected function buildScanCommand(string $file = '-') : string
+    protected function buildScanCommand(string $file = '-'): string
     {
         return $this->scanCommand . ' ' . self::ADD_SCAN_PARAMS . ' ' . $file;
     }
 
-    protected function hasDetections(string $detectionReport) : int
+    protected function hasDetections(string $detectionReport): int
     {
         return preg_match("/FOUND/", $detectionReport);
     }
 
-    public function scanFile(string $file_path, string $org_name = "") : string
+    public function scanFile(string $file_path, string $org_name = ""): string
     {
         $this->scanFilePath = $file_path;
         $this->scanFileOrigName = $org_name;

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -25,7 +27,7 @@ class ilMailTemplateRepositoryTest extends ilMailBaseTest
     /**
      * @throws ReflectionException
      */
-    public function testEntityCanBeSaved() : ilMailTemplate
+    public function testEntityCanBeSaved(): ilMailTemplate
     {
         $db = $this->getMockBuilder(ilDBInterface::class)->getMock();
 
@@ -55,7 +57,7 @@ class ilMailTemplateRepositoryTest extends ilMailBaseTest
      * @depends testEntityCanBeSaved
      * @throws ReflectionException
      */
-    public function testEntityCanBeModified(ilMailTemplate $template) : ilMailTemplate
+    public function testEntityCanBeModified(ilMailTemplate $template): ilMailTemplate
     {
         $db = $this->getMockBuilder(ilDBInterface::class)->getMock();
 
@@ -72,7 +74,7 @@ class ilMailTemplateRepositoryTest extends ilMailBaseTest
      * @depends testEntityCanBeModified
      * @throws ReflectionException
      */
-    public function testEntityCanBeDeleted(ilMailTemplate $template) : void
+    public function testEntityCanBeDeleted(ilMailTemplate $template): void
     {
         $db = $this->getMockBuilder(ilDBInterface::class)->getMock();
 
@@ -86,7 +88,7 @@ class ilMailTemplateRepositoryTest extends ilMailBaseTest
     /**
      * @throws ReflectionException
      */
-    public function testTemplateCanBeFoundById() : void
+    public function testTemplateCanBeFoundById(): void
     {
         $db = $this->getMockBuilder(ilDBInterface::class)->getMock();
         $statement = $this->getMockBuilder(ilDBStatement::class)->getMock();
@@ -109,7 +111,7 @@ class ilMailTemplateRepositoryTest extends ilMailBaseTest
     /**
      * @throws ReflectionException
      */
-    public function testExceptionIsRaisedIfNoTemplateCanBeFoundById() : void
+    public function testExceptionIsRaisedIfNoTemplateCanBeFoundById(): void
     {
         $this->expectException(OutOfBoundsException::class);
 

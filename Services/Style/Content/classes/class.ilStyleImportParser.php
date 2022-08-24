@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -67,7 +69,7 @@ class ilStyleImportParser extends ilSaxParser
     * should be overwritten by inherited class
     * @access	private
     */
-    public function setHandlers($a_xml_parser) : void
+    public function setHandlers($a_xml_parser): void
     {
         xml_set_object($a_xml_parser, $this);
         xml_set_element_handler($a_xml_parser, 'handlerBeginTag', 'handlerEndTag');
@@ -77,7 +79,7 @@ class ilStyleImportParser extends ilSaxParser
     /**
     * start the parser
     */
-    public function startParsing() : void
+    public function startParsing(): void
     {
         $this->styles = array();
         parent::startParsing();
@@ -89,7 +91,7 @@ class ilStyleImportParser extends ilSaxParser
         $a_xml_parser,
         string $a_name,
         array $a_attribs
-    ) : void {
+    ): void {
         switch ($a_name) {
             case "Style":
                 $this->current_tag = $a_attribs["Tag"];
@@ -147,7 +149,7 @@ class ilStyleImportParser extends ilSaxParser
     public function handlerEndTag(
         $a_xml_parser,
         string $a_name
-    ) : void {
+    ): void {
         switch ($a_name) {
             case "Title":
                 $this->style_obj->setTitle($this->cdata);
@@ -175,7 +177,7 @@ class ilStyleImportParser extends ilSaxParser
     public function handlerCharacterData(
         $a_xml_parser,
         string $a_data
-    ) : void {
+    ): void {
         // i don't know why this is necessary, but
         // the parser seems to convert "&gt;" to ">" and "&lt;" to "<"
         // in character data, but we don't want that, because it's the

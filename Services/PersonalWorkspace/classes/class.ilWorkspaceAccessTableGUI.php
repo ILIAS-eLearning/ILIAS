@@ -58,11 +58,11 @@ class ilWorkspaceAccessTableGUI extends ilTable2GUI
         $this->setId("il_tbl_wsacl");
 
         $this->setTitle($lng->txt("wsp_shared_table_title"));
-                
+
         $this->addColumn($this->lng->txt("wsp_shared_with"), "title");
         $this->addColumn($this->lng->txt("details"), "type");
         $this->addColumn($this->lng->txt("actions"));
-        
+
         $this->setDefaultOrderField("title");
         $this->setDefaultOrderDirection("asc");
 
@@ -75,7 +75,7 @@ class ilWorkspaceAccessTableGUI extends ilTable2GUI
     /**
      * Import data from DB
      */
-    protected function importData() : void
+    protected function importData(): void
     {
         $data = array();
         $caption = "";
@@ -84,27 +84,27 @@ class ilWorkspaceAccessTableGUI extends ilTable2GUI
             // title is needed for proper sorting
             // special modes should always be on top!
             $title = null;
-            
+
             switch ($obj_id) {
                 case ilWorkspaceAccessGUI::PERMISSION_REGISTERED:
                     $caption = $this->lng->txt("wsp_set_permission_registered");
                     $title = "0" . $caption;
                     break;
-                
+
                 case ilWorkspaceAccessGUI::PERMISSION_ALL_PASSWORD:
                     $caption = $this->lng->txt("wsp_set_permission_all_password");
                     $title = "0" . $caption;
                     break;
-                
+
                 case ilWorkspaceAccessGUI::PERMISSION_ALL:
                     $caption = $this->lng->txt("wsp_set_permission_all");
                     $title = "0" . $caption;
                     break;
-                                                
+
                 default:
                     $type = ilObject::_lookupType($obj_id);
                     $type_txt = $this->lng->txt("obj_" . $type);
-                    
+
                     if ($type == "") {
                         // invalid object/user
                     } elseif ($type !== "usr") {
@@ -115,7 +115,7 @@ class ilWorkspaceAccessTableGUI extends ilTable2GUI
                     }
                     break;
             }
-            
+
             if ($title) {
                 $data[] = array("id" => $obj_id,
                     "title" => $title,
@@ -123,18 +123,18 @@ class ilWorkspaceAccessTableGUI extends ilTable2GUI
                     "type" => $type_txt);
             }
         }
-    
+
         $this->setData($data);
     }
-    
+
     /**
      * Fill table row
      * @param array $a_set data array
      */
-    protected function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set): void
     {
         $ilCtrl = $this->ctrl;
-        
+
         // properties
         $this->tpl->setVariable("TITLE", $a_set["caption"]);
         $this->tpl->setVariable("TYPE", $a_set["type"]);

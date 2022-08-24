@@ -1,4 +1,6 @@
-<?php declare(strict_types=0);
+<?php
+
+declare(strict_types=0);
 
 /* Copyright (c) 1998-2011 ILIAS open source, Extended GPL, see docs/LICENSE */
 
@@ -9,7 +11,7 @@
  */
 class ilLPStatusObjectives extends ilLPStatus
 {
-    public static function _getNotAttempted(int $a_obj_id) : array
+    public static function _getNotAttempted(int $a_obj_id): array
     {
         $users = array();
 
@@ -32,7 +34,7 @@ class ilLPStatusObjectives extends ilLPStatus
         return $users;
     }
 
-    public static function _getInProgress(int $a_obj_id) : array
+    public static function _getInProgress(int $a_obj_id): array
     {
         $objective_results = ilLPStatusWrapper::_getStatusInfo($a_obj_id);
         $usr_ids = (array) ($objective_results['user_status'][self::LP_STATUS_IN_PROGRESS_NUM] ?? []);
@@ -49,7 +51,7 @@ class ilLPStatusObjectives extends ilLPStatus
         }
     }
 
-    public static function _getCompleted(int $a_obj_id) : array
+    public static function _getCompleted(int $a_obj_id): array
     {
         $objective_results = ilLPStatusWrapper::_getStatusInfo($a_obj_id);
         $usr_ids = (array) ($objective_results['user_status'][self::LP_STATUS_COMPLETED_NUM] ?? []);
@@ -62,7 +64,7 @@ class ilLPStatusObjectives extends ilLPStatus
         return $usr_ids ?: array();
     }
 
-    public static function _getFailed(int $a_obj_id) : array
+    public static function _getFailed(int $a_obj_id): array
     {
         $objective_results = ilLPStatusWrapper::_getStatusInfo($a_obj_id);
         $usr_ids = (array) ($objective_results['user_status'][self::LP_STATUS_FAILED_NUM] ?? []);
@@ -75,7 +77,7 @@ class ilLPStatusObjectives extends ilLPStatus
         return $usr_ids;
     }
 
-    public static function _getStatusInfo(int $a_obj_id) : array
+    public static function _getStatusInfo(int $a_obj_id): array
     {
         global $DIC;
 
@@ -134,7 +136,7 @@ class ilLPStatusObjectives extends ilLPStatus
         int $a_obj_id,
         int $a_usr_id,
         object $a_obj = null
-    ) : int {
+    ): int {
         // the status completed depends on:
         // $status_info['num_objectives'] (ilLPStatusWrapper::_getStatusInfo($a_obj_id);)
         // - ilCourseObjective::_getObjectiveIds($a_obj_id);
@@ -177,7 +179,7 @@ class ilLPStatusObjectives extends ilLPStatus
      * @param int $a_obj_id
      * @return int[]
      */
-    protected static function getMembers(int $a_obj_id) : array
+    protected static function getMembers(int $a_obj_id): array
     {
         $member_obj = ilCourseParticipants::_getInstanceByObjId($a_obj_id);
         return $member_obj->getMembers();
@@ -189,7 +191,7 @@ class ilLPStatusObjectives extends ilLPStatus
     public static function _lookupCompletedForObject(
         int $a_obj_id,
         ?array $a_user_ids = null
-    ) : array {
+    ): array {
         if (!$a_user_ids) {
             $a_user_ids = self::getMembers($a_obj_id);
             if (!$a_user_ids) {
@@ -209,7 +211,7 @@ class ilLPStatusObjectives extends ilLPStatus
     public static function _lookupFailedForObject(
         int $a_obj_id,
         ?array $a_user_ids = null
-    ) : array {
+    ): array {
         return array();
     }
 
@@ -219,7 +221,7 @@ class ilLPStatusObjectives extends ilLPStatus
     public static function _lookupInProgressForObject(
         int $a_obj_id,
         ?array $a_user_ids = null
-    ) : array {
+    ): array {
         if (!$a_user_ids) {
             $a_user_ids = self::getMembers($a_obj_id);
             if (!$a_user_ids) {

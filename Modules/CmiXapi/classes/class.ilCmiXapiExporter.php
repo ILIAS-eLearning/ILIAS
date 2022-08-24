@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -27,8 +29,8 @@
  */
 class ilCmiXapiExporter extends ilXmlExporter
 {
-    const ENTITY = 'cmix';
-    const SCHEMA_VERSION = '5.1.0';
+    public const ENTITY = 'cmix';
+    public const SCHEMA_VERSION = '5.1.0';
 
 //    private $main_object = null;
     private ?ilCmiXapiDataSet $_dataset = null;
@@ -48,14 +50,14 @@ class ilCmiXapiExporter extends ilXmlExporter
         */
     }
 
-    public function init() : void
+    public function init(): void
     {
     }
 
     /**
      * Get xml representation
      */
-    public function getXmlRepresentation(string $a_entity, string $a_schema_version, string $a_id) : string
+    public function getXmlRepresentation(string $a_entity, string $a_schema_version, string $a_id): string
     {
         return $this->_dataset->getCmiXapiXmlRepresentation($a_entity, $a_schema_version, [$a_id], "", true, true);
     }
@@ -63,7 +65,7 @@ class ilCmiXapiExporter extends ilXmlExporter
     /**
      * @return array<string, array<string, string|bool>>
      */
-    public function getValidSchemaVersions(string $a_entity) : array
+    public function getValidSchemaVersions(string $a_entity): array
     {
         return array(
             "5.1.0" => array(

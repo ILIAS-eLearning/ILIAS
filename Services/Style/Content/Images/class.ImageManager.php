@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -48,12 +50,12 @@ class ImageManager
      * @return Generator
      * @throws Filesystem\Exception\DirectoryNotFoundException
      */
-    public function getImages() : Generator
+    public function getImages(): Generator
     {
         return $this->repo->getImages($this->style_id);
     }
 
-    public function filenameExists(string $filename) : bool
+    public function filenameExists(string $filename): bool
     {
         /** @var Image $i */
         foreach ($this->getImages() as $i) {
@@ -65,13 +67,13 @@ class ImageManager
     }
 
     // get web data dir path for output
-    public function getWebPath(Image $image) : string
+    public function getWebPath(Image $image): string
     {
         return $this->repo->getWebPath($image->getPath());
     }
 
     // get image data object by filename
-    public function getByFilename(string $filename) : Image
+    public function getByFilename(string $filename): Image
     {
         return $this->repo->getByFilename($this->style_id, $filename);
     }
@@ -82,7 +84,7 @@ class ImageManager
         int $width,
         int $height,
         bool $constrain_proportions
-    ) : void {
+    ): void {
         if ($this->filenameExists($filename)) {
             $file = $this->getWebPath($this->getByFilename($filename));
             ilShellUtil::resizeImage(
@@ -98,7 +100,7 @@ class ImageManager
     // resize image
     public function supportsResize(
         Image $image
-    ) : bool {
+    ): bool {
         // for svg, see
         // https://stackoverflow.com/questions/6532261/how-do-you-get-the-width-and-height-of-an-svg-picture-in-php
         if (in_array(
@@ -111,12 +113,12 @@ class ImageManager
     }
 
     // upload image
-    public function uploadImage() : void
+    public function uploadImage(): void
     {
         $this->repo->uploadImage($this->style_id);
     }
 
-    public function deleteByFilename(string $filename) : void
+    public function deleteByFilename(string $filename): void
     {
         $this->repo->deleteImageByFilename($this->style_id, $filename);
     }

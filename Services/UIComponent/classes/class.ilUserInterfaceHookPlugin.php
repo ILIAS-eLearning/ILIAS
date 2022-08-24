@@ -24,7 +24,7 @@
  */
 abstract class ilUserInterfaceHookPlugin extends ilPlugin
 {
-    public function getUIClassInstance() : ilUIHookPluginGUI
+    public function getUIClassInstance(): ilUIHookPluginGUI
     {
         /**
          * @var $obj ilUIHookPluginGUI

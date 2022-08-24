@@ -1,4 +1,5 @@
 <?php
+
 use ILIAS\GlobalScreen\Scope\Notification\Factory\StandardNotification;
 use ILIAS\GlobalScreen\Scope\Notification\Factory\StandardNotificationGroup;
 
@@ -9,7 +10,7 @@ require_once(__DIR__ . "/../BaseNotificationSetUp.php");
  */
 class NotificationFactoryTest extends BaseNotificationSetUp
 {
-    public function testAvailableMethods() : void
+    public function testAvailableMethods(): void
     {
         $r = new ReflectionClass($this->factory);
 

@@ -58,7 +58,7 @@ class ilUserActionProviderFactory
      *
      * @return ilUserActionProvider[] all providers
      */
-    public static function getAllProviders() : array
+    public static function getAllProviders(): array
     {
         $providers = array();
 

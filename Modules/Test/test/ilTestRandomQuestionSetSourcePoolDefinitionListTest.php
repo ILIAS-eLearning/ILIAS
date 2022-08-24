@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /* Copyright (c) 1998-2020 ILIAS open source, Extended GPL, see docs/LICENSE */
 
@@ -10,7 +12,7 @@ class ilTestRandomQuestionSetSourcePoolDefinitionListTest extends ilTestBaseTest
 {
     private ilTestRandomQuestionSetSourcePoolDefinitionList $testObj;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -21,12 +23,12 @@ class ilTestRandomQuestionSetSourcePoolDefinitionListTest extends ilTestBaseTest
         );
     }
 
-    public function test_instantiateObject_shouldReturnInstance() : void
+    public function test_instantiateObject_shouldReturnInstance(): void
     {
         $this->assertInstanceOf(ilTestRandomQuestionSetSourcePoolDefinitionList::class, $this->testObj);
     }
 
-    public function testAddDefinition() : void
+    public function testAddDefinition(): void
     {
         $expected = new ilTestRandomQuestionSetSourcePoolDefinition(
             $this->createMock(ilDBInterface::class),
@@ -38,7 +40,7 @@ class ilTestRandomQuestionSetSourcePoolDefinitionListTest extends ilTestBaseTest
         $this->assertEquals($expected, $this->testObj->getDefinition(20));
     }
 
-    public function testSetTrashedPools() : void
+    public function testSetTrashedPools(): void
     {
         $poolIds = [12, 22, 16];
 
@@ -47,7 +49,7 @@ class ilTestRandomQuestionSetSourcePoolDefinitionListTest extends ilTestBaseTest
         $this->assertEquals($poolIds, $this->testObj->getTrashedPools());
     }
 
-    public function testIsTrashedPool() : void
+    public function testIsTrashedPool(): void
     {
         $poolIds = [12, 22, 16];
 
@@ -57,7 +59,7 @@ class ilTestRandomQuestionSetSourcePoolDefinitionListTest extends ilTestBaseTest
         $this->assertFalse($this->testObj->isTrashedPool(4));
     }
 
-    public function testHasTrashedPool() : void
+    public function testHasTrashedPool(): void
     {
         $poolIds = [12, 22, 16];
 
@@ -66,7 +68,7 @@ class ilTestRandomQuestionSetSourcePoolDefinitionListTest extends ilTestBaseTest
         $this->assertTrue($this->testObj->hasTrashedPool());
     }
 
-    public function testHasDefinition() : void
+    public function testHasDefinition(): void
     {
         $expected = new ilTestRandomQuestionSetSourcePoolDefinition(
             $this->createMock(ilDBInterface::class),
@@ -78,7 +80,7 @@ class ilTestRandomQuestionSetSourcePoolDefinitionListTest extends ilTestBaseTest
         $this->assertTrue($this->testObj->hasDefinition(20));
     }
 
-    public function testGetDefinition() : void
+    public function testGetDefinition(): void
     {
         $expected = new ilTestRandomQuestionSetSourcePoolDefinition(
             $this->createMock(ilDBInterface::class),
@@ -90,7 +92,7 @@ class ilTestRandomQuestionSetSourcePoolDefinitionListTest extends ilTestBaseTest
         $this->assertEquals($expected, $this->testObj->getDefinition(20));
     }
 
-    public function testGetDefinitionBySourcePoolId() : void
+    public function testGetDefinitionBySourcePoolId(): void
     {
         $expected = new ilTestRandomQuestionSetSourcePoolDefinition(
             $this->createMock(ilDBInterface::class),
@@ -103,7 +105,7 @@ class ilTestRandomQuestionSetSourcePoolDefinitionListTest extends ilTestBaseTest
         $this->assertEquals($expected, $this->testObj->getDefinitionBySourcePoolId(11));
     }
 
-    public function testGetDefinitionIds() : void
+    public function testGetDefinitionIds(): void
     {
         $expected = new ilTestRandomQuestionSetSourcePoolDefinition(
             $this->createMock(ilDBInterface::class),
@@ -116,7 +118,7 @@ class ilTestRandomQuestionSetSourcePoolDefinitionListTest extends ilTestBaseTest
         $this->assertEquals([20], $this->testObj->getDefinitionIds());
     }
 
-    public function testGetDefinitionCount() : void
+    public function testGetDefinitionCount(): void
     {
         $expected = new ilTestRandomQuestionSetSourcePoolDefinition(
             $this->createMock(ilDBInterface::class),

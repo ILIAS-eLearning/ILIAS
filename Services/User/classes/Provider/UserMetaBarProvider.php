@@ -31,15 +31,15 @@ class UserMetaBarProvider extends AbstractStaticMetaBarProvider
     /**
      * @inheritcoc
      */
-    public function getMetaBarItems() : array
+    public function getMetaBarItems(): array
     {
         $access_checks = BasicAccessCheckClosuresSingleton::getInstance();
         $f = $this->dic->ui()->factory();
-        $txt = function (string $id) : string {
+        $txt = function (string $id): string {
             return $this->dic->language()->txt($id);
         };
         $mb = $this->globalScreen()->metaBar();
-        $id = function (string $id) : IdentificationInterface {
+        $id = function (string $id): IdentificationInterface {
             return $this->if->identifier($id);
         };
 

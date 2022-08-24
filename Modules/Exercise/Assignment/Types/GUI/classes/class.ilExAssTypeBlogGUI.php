@@ -15,7 +15,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * Blog type gui implementations
  *
@@ -28,26 +28,26 @@ class ilExAssTypeBlogGUI implements ilExAssignmentTypeGUIInterface
     /**
      * @inheritdoc
      */
-    public function addEditFormCustomProperties(ilPropertyFormGUI $form) : void
+    public function addEditFormCustomProperties(ilPropertyFormGUI $form): void
     {
     }
 
     /**
      * @inheritdoc
      */
-    public function importFormToAssignment(ilExAssignment $ass, ilPropertyFormGUI $form) : void
+    public function importFormToAssignment(ilExAssignment $ass, ilPropertyFormGUI $form): void
     {
     }
 
     /**
      * @inheritdoc
      */
-    public function getFormValuesArray(ilExAssignment $ass) : array
+    public function getFormValuesArray(ilExAssignment $ass): array
     {
         return [];
     }
 
-    public function getOverviewContent(ilInfoScreenGUI $a_info, ilExSubmission $a_submission) : void
+    public function getOverviewContent(ilInfoScreenGUI $a_info, ilExSubmission $a_submission): void
     {
     }
 }

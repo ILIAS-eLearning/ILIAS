@@ -42,7 +42,7 @@ class ilMStListCourses
         $this->dic = $dic;
     }
 
-    final public function getData(array $arr_usr_ids = array(), array $options = array()) : ListFetcherResult
+    final public function getData(array $arr_usr_ids = array(), array $options = array()): ListFetcherResult
     {
         //Permission Filter
         $operation_access = ilOrgUnitOperation::OP_ACCESS_ENROLMENTS;
@@ -141,7 +141,7 @@ class ilMStListCourses
     /**
      * Returns the WHERE Part for the Queries using parameter $user_ids AND local variable $filters
      */
-    protected function createWhereStatement(array $arr_filter) : string
+    protected function createWhereStatement(array $arr_filter): string
     {
         $where = array();
 

@@ -141,7 +141,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
         $this->reading_time_gui = new \ILIAS\LearningModule\ReadingTime\SettingsGUI($id);
     }
 
-    protected function checkCtrlPath() : void
+    protected function checkCtrlPath(): void
     {
         if (!$this->getCreationMode()) {
             $baseclass = strtolower($this->requested_baseClass);
@@ -163,7 +163,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
      * execute command
      * @throws ilCtrlException
      */
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         $ilAccess = $this->access;
         $lng = $this->lng;
@@ -192,22 +192,22 @@ class ilObjContentObjectGUI extends ilObjectGUI
             $cmd = $this->ctrl->getCmd("chapters");
         }
 
-        
+
         switch ($next_class) {
             case 'illtiproviderobjectsettinggui':
-                
+
                 $this->setTabs();
                 $ilTabs->setTabActive("settings");
                 $this->setSubTabs("lti_provider");
-                
+
                 $lti_gui = new ilLTIProviderObjectSettingGUI($this->lm->getRefId());
                 $lti_gui->setCustomRolesForSelection($GLOBALS['DIC']->rbac()->review()->getLocalRoles($this->lm->getRefId()));
                 $lti_gui->offerLTIRolesForSelection(true);
                 $this->ctrl->forwardCommand($lti_gui);
                 break;
-            
-            
-            
+
+
+
             case "illearningprogressgui":
                 $this->addHeaderAction();
                 $this->addLocations();
@@ -222,11 +222,11 @@ class ilObjContentObjectGUI extends ilObjectGUI
                 if (!$ilAccess->checkAccess('write', '', $this->lm->getRefId())) {
                     throw new ilPermissionException($this->lng->txt('permission_denied'));
                 }
-                
+
                 $this->addHeaderAction();
                 $this->addLocations();
                 $this->setTabs("meta");
-                
+
                 $md_gui = new ilObjectMetaDataGUI($this->lm);
                 $md_gui->addMDObserver($this->lm, 'MDUpdateListener', 'Educational'); // #9510
                 $md_gui->addMDObserver($this->lm, 'MDUpdateListener', 'General');
@@ -321,17 +321,17 @@ class ilObjContentObjectGUI extends ilObjectGUI
                     $info->enableNewsEditing();
                     $info->setBlockProperty("news", "settings", true);
                 }
-                
+
                 // show standard meta data section
                 $info->addMetaDataSections(
                     $this->lm->getId(),
                     0,
                     $this->lm->getType()
                 );
-        
+
                 $this->ctrl->forwardCommand($info);
                 break;
-            
+
             case "ilexportgui":
                 $exp_gui = new ilExportGUI($this);
                 $exp_gui->addFormat("xml");
@@ -462,7 +462,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
     /**
      * edit properties form
      */
-    public function properties() : void
+    public function properties(): void
     {
         $lng = $this->lng;
 
@@ -473,32 +473,32 @@ class ilObjContentObjectGUI extends ilObjectGUI
         // lm properties
         $this->initPropertiesForm();
         $this->getPropertiesFormValues();
-        
+
         // Edit ecs export settings
         $ecs = new ilECSLearningModuleSettings($this->lm);
         $ecs->addSettingsToForm($this->form, 'lm');
 
         $this->tpl->setContent($this->form->getHTML());
     }
-    
+
     /**
      * Init properties form
      */
-    public function initPropertiesForm() : void
+    public function initPropertiesForm(): void
     {
         $obj_service = $this->object_service;
 
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
         $ilSetting = $this->settings;
-        
+
         $this->form = new ilPropertyFormGUI();
-        
+
         // title
         $ti = new ilTextInputGUI($lng->txt("title"), "title");
         $ti->setRequired(true);
         $this->form->addItem($ti);
-        
+
         // description
         $ta = new ilTextAreaInputGUI($lng->txt("desc"), "description");
         $this->form->addItem($ta);
@@ -527,7 +527,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
             "none" => $this->lng->txt("cont_none"));
         $page_header->setOptions($option);
         $this->form->addItem($page_header);
-        
+
         // chapter numeration
         $chap_num = new ilCheckboxInputGUI($lng->txt("cont_act_number"), "cobj_act_number");
         $this->form->addItem($chap_num);
@@ -617,7 +617,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
     /**
      * Get values for properties form
      */
-    public function getPropertiesFormValues() : void
+    public function getPropertiesFormValues(): void
     {
         $ilUser = $this->user;
 
@@ -669,11 +669,11 @@ class ilObjContentObjectGUI extends ilObjectGUI
 
         $this->form->setValuesByArray($values, true);
     }
-    
+
     /**
      * save properties
      */
-    public function saveProperties() : void
+    public function saveProperties(): void
     {
         $lng = $this->lng;
         $ilUser = $this->user;
@@ -750,7 +750,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
                 $valid = true;
             }
         }
-        
+
         if ($valid) {
             $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_obj_modified") . $add_info, true);
             $this->ctrl->redirect($this, "properties");
@@ -764,38 +764,38 @@ class ilObjContentObjectGUI extends ilObjectGUI
         }
     }
 
-    public function initMenuForm() : ilPropertyFormGUI
+    public function initMenuForm(): ilPropertyFormGUI
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
-    
+
         $form = new ilPropertyFormGUI();
-    
+
         // enable menu
         $menu = new ilCheckboxInputGUI($this->lng->txt("cont_active"), "cobj_act_lm_menu");
         $menu->setChecked($this->lm->isActiveLMMenu());
         $form->addItem($menu);
-        
+
         // toc
         $toc = new ilCheckboxInputGUI($this->lng->txt("cont_toc"), "cobj_act_toc");
         $toc->setChecked($this->lm->isActiveTOC());
         $form->addItem($toc);
-        
+
         // print view
         $print = new ilCheckboxInputGUI($this->lng->txt("cont_print_view"), "cobj_act_print");
         $print->setChecked($this->lm->isActivePrintView());
         $form->addItem($print);
-        
+
         // prevent glossary appendix
         $glo = new ilCheckboxInputGUI($this->lng->txt("cont_print_view_pre_glo"), "cobj_act_print_prev_glo");
         $glo->setChecked($this->lm->isActivePreventGlossaryAppendix());
         $print->addSubItem($glo);
-    
+
         // hide header and footer in print view
         $hhfp = new ilCheckboxInputGUI($this->lng->txt("cont_hide_head_foot_print"), "hide_head_foot_print");
         $hhfp->setChecked($this->lm->getHideHeaderFooterPrint());
         $print->addSubItem($hhfp);
-    
+
         // downloads
         $no_download_file_available =
             " " . $lng->txt("cont_no_download_file_available") .
@@ -813,21 +813,21 @@ class ilObjContentObjectGUI extends ilObjectGUI
         $dl->setInfo($this->lng->txt("cont_downloads_desc") . $no_download_file_available);
         $dl->setChecked($this->lm->isActiveDownloads());
         $form->addItem($dl);
-        
+
         // downloads in public area
         $pdl = new ilCheckboxInputGUI($this->lng->txt("cont_downloads_public_desc"), "cobj_act_downloads_public");
         $pdl->setChecked($this->lm->isActiveDownloadsPublic());
         $dl->addSubItem($pdl);
-            
+
         $form->addCommandButton("saveMenuProperties", $lng->txt("save"));
-                    
+
         $form->setTitle($lng->txt("cont_lm_menu"));
         $form->setFormAction($ilCtrl->getFormAction($this));
-        
+
         return $form;
     }
-    
-    public function editMenuProperties() : void
+
+    public function editMenuProperties(): void
     {
         $lng = $this->lng;
         $ilTabs = $this->tabs;
@@ -839,24 +839,24 @@ class ilObjContentObjectGUI extends ilObjectGUI
         $this->setTabs();
         $ilTabs->setTabActive("settings");
         $this->setSubTabs("cont_lm_menu");
-        
+
         $ilToolbar->setFormAction($ilCtrl->getFormAction($this));
         $ilToolbar->addFormButton($this->lng->txt("add_menu_entry"), "addMenuEntry");
         $ilToolbar->setCloseFormTag(false);
-    
+
         $form = $this->initMenuForm();
         $form->setOpenTag(false);
         $form->setCloseTag(false);
-        
+
         $this->__initLMMenuEditor();
         $entries = $this->lmme_obj->getMenuEntries();
         $table = new ilLMMenuItemsTableGUI($this, "editMenuProperties", $this->lmme_obj);
         $table->setOpenFormTag(false);
-        
+
         $tpl->setContent($form->getHTML() . "<br />" . $table->getHTML());
     }
 
-    public function saveMenuProperties() : void
+    public function saveMenuProperties(): void
     {
         $form = $this->initMenuForm();
         if ($form->checkInput()) {
@@ -877,7 +877,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
         $this->ctrl->redirect($this, "editMenuProperties");
     }
 
-    public function proceedDragDrop() : void
+    public function proceedDragDrop(): void
     {
         $ilCtrl = $this->ctrl;
 
@@ -890,15 +890,15 @@ class ilObjContentObjectGUI extends ilObjectGUI
         );
         $ilCtrl->redirect($this, "chapters");
     }
-    
-    protected function afterSave(ilObject $new_object) : void
+
+    protected function afterSave(ilObject $new_object): void
     {
         $new_object->setCleanFrames(true);
         $new_object->update();
 
         // create content object tree
         $new_object->createLMTree();
-        
+
         // create a first chapter
         $new_object->addFirstChapterAndPage();
 
@@ -907,8 +907,8 @@ class ilObjContentObjectGUI extends ilObjectGUI
         $this->ctrl->setParameterByClass(ilObjLearningModuleGUI::class, "ref_id", $new_object->getRefId());
         $this->ctrl->redirectByClass([ilLMEditorGUI::class, ilObjLearningModuleGUI::class], "");
     }
-    
-    protected function initImportForm(string $new_type) : ilPropertyFormGUI
+
+    protected function initImportForm(string $new_type): ilPropertyFormGUI
     {
         $form = parent::initImportForm($new_type);
 
@@ -918,8 +918,8 @@ class ilObjContentObjectGUI extends ilObjectGUI
         $form->addItem($cb);
         return $form;
     }
-    
-    protected function importFileObject(int $parent_id = null, bool $catch_errors = true) : void
+
+    protected function importFileObject(int $parent_id = null, bool $catch_errors = true): void
     {
         $tpl = $this->tpl;
 
@@ -950,16 +950,16 @@ class ilObjContentObjectGUI extends ilObjectGUI
     /**
      * show chapters
      */
-    public function chapters() : void
+    public function chapters(): void
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
 
         $this->setTabs();
         $this->setContentSubTabs("chapters");
-        
+
         $ilCtrl->setParameter($this, "backcmd", "chapters");
-        
+
         $form_gui = new ilChapterHierarchyFormGUI($this->lm->getType(), $this->requested_transl);
         $form_gui->setFormAction($ilCtrl->getFormAction($this));
         $form_gui->setTitle($this->lm->getTitle());
@@ -983,7 +983,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
         $ilCtrl->setParameter($this, "obj_id", null);
 
         $ml_head = self::getMultiLangHeader($this->lm->getId(), $this);
-        
+
         $this->tpl->setContent($ml_head . $ctpl->get());
     }
 
@@ -991,7 +991,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
         int $a_lm_id,
         object $a_gui_class,
         string $a_mode = ""
-    ) : string {
+    ): string {
         global $DIC;
 
         $lng = $DIC->language();
@@ -1008,17 +1008,17 @@ class ilObjContentObjectGUI extends ilObjectGUI
         $requested_totransl = $edit_request->getToTranslation();
 
         $ml_head = "";
-        
+
         // multi language
         $ot = ilObjectTranslation::getInstance($a_lm_id);
         if ($ot->getContentActivated()) {
             $ilCtrl->setParameter($a_gui_class, "lang_switch_mode", $a_mode);
             $lng->loadLanguageModule("meta");
-            
+
             // info
             $ml_gui = new ilPageMultiLangGUI("lm", $a_lm_id);
             $ml_head = $ml_gui->getMultiLangInfo($requested_transl);
-            
+
             // language switch
             $list = new ilAdvancedSelectionListGUI();
             $list->setListTitle($lng->txt("actions"));
@@ -1049,7 +1049,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
                 }
                 $entries = true;
             }
-            
+
             if ($entries) {
                 $ml_head = '<div class="ilFloatLeft">' . $ml_head . '</div><div style="margin: 5px 0;" class="small ilRight">' . $list->getHTML() . "</div>";
             }
@@ -1058,8 +1058,8 @@ class ilObjContentObjectGUI extends ilObjectGUI
 
         return $ml_head;
     }
-    
-    public function pages() : void
+
+    public function pages(): void
     {
         $tpl = $this->tpl;
         $ilToolbar = $this->toolbar;
@@ -1084,33 +1084,33 @@ class ilObjContentObjectGUI extends ilObjectGUI
     /**
      * List all broken links
      */
-    public function listLinks() : void
+    public function listLinks(): void
     {
         $tpl = $this->tpl;
-        
+
         $this->setTabs();
         $this->setContentSubTabs("internal_links");
-        
+
         $table_gui = new ilLinksTableGUI(
             $this,
             "listLinks",
             $this->lm->getId(),
             $this->lm->getType()
         );
-        
+
         $tpl->setContent($table_gui->getHTML());
     }
-    
+
     /**
      * Show maintenance
      */
-    public function showMaintenance() : void
+    public function showMaintenance(): void
     {
         $ilToolbar = $this->toolbar;
-        
+
         $this->setTabs();
         $this->setContentSubTabs("maintenance");
-        
+
         $ilToolbar->addButton(
             $this->lng->txt("cont_fix_tree"),
             $this->ctrl->getLinkTarget($this, "fixTreeConfirm")
@@ -1120,7 +1120,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
     /**
      * activates or deactivates pages
      */
-    public function activatePages() : void
+    public function activatePages(): void
     {
         $ids = $this->edit_request->getIds();
         foreach ($ids as $id) {
@@ -1134,7 +1134,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
     /**
      * paste page
      */
-    public function pastePage() : void
+    public function pastePage(): void
     {
         if (ilEditClipboard::getContentObjectType() != "pg") {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt("no_page_in_clipboard"), true);
@@ -1188,7 +1188,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
         $this->ctrl->redirect($this, "pages");
     }
 
-    public function copyPage() : void
+    public function copyPage(): void
     {
         $ids = $this->edit_request->getIds();
         if (count($ids) == 0) {
@@ -1210,7 +1210,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
      *								  of the objects, that should be deleted
      *								  (or no parent object id for top level)
      */
-    public function delete(int $a_parent_subobj_id = 0) : void
+    public function delete(int $a_parent_subobj_id = 0): void
     {
         $ids = $this->edit_request->getIds();
 
@@ -1227,7 +1227,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
         if ($a_parent_subobj_id == 0) {
             $this->setTabs();
         }
-        
+
         if ($a_parent_subobj_id != 0) {
             $this->ctrl->setParameterByClass("ilStructureObjectGUI", "backcmd", $this->requested_backcmd);
             $this->ctrl->setParameterByClass("ilStructureObjectGUI", "obj_id", $a_parent_subobj_id);
@@ -1236,19 +1236,19 @@ class ilObjContentObjectGUI extends ilObjectGUI
             $this->ctrl->setParameter($this, "backcmd", $this->requested_backcmd);
             $form_action = $this->ctrl->getFormAction($this);
         }
-        
+
         // display confirmation message
         $cgui = new ilConfirmationGUI();
         $cgui->setFormAction($form_action);
         $cgui->setHeaderText($this->lng->txt("info_delete_sure"));
         $cgui->setCancel($this->lng->txt("cancel"), "cancelDelete");
         $cgui->setConfirm($this->lng->txt("confirm"), "confirmedDelete");
-        
+
         foreach ($ids as $id) {
             if ($id != ilTree::POS_FIRST_NODE) {
                 $obj = new ilLMObject($this->lm, $id);
                 $caption = $obj->getTitle();
-                
+
                 $cgui->addItem("id[]", $id, $caption);
             }
         }
@@ -1256,7 +1256,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
         $this->tpl->setContent($cgui->getHTML());
     }
 
-    public function cancelDelete() : void
+    public function cancelDelete(): void
     {
         $this->ctrl->redirect($this, $this->requested_backcmd);
     }
@@ -1268,7 +1268,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
      *											of the objects, that should be deleted
      *											(or no parent object id for top level)
      */
-    public function confirmedDelete(int $a_parent_subobj_id = 0) : void
+    public function confirmedDelete(int $a_parent_subobj_id = 0): void
     {
         $tree = new ilLMTree($this->lm->getId());
 
@@ -1317,7 +1317,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
     public function getContextPath(
         int $a_endnode_id,
         int $a_startnode_id = 1
-    ) : string {
+    ): string {
         $path = "";
 
         $tmpPath = $this->lm_tree->getPathFull($a_endnode_id, $a_startnode_id);
@@ -1334,7 +1334,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
         return $path;
     }
 
-    public function showActions(array $a_actions) : void
+    public function showActions(array $a_actions): void
     {
         $d = null;
         foreach ($a_actions as $name => $lng) {
@@ -1367,7 +1367,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
         }
     }
 
-    public function view() : void
+    public function view(): void
     {
         if (strtolower($this->requested_baseClass) == "iladministrationgui") {
             $this->prepareOutput();
@@ -1381,7 +1381,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
     /**
      * move a single chapter  (selection)
      */
-    public function moveChapter(int $a_parent_subobj_id = 0) : void
+    public function moveChapter(int $a_parent_subobj_id = 0): void
     {
         $ids = $this->edit_request->getIds();
         if (count($ids) == 0) {
@@ -1416,17 +1416,17 @@ class ilObjContentObjectGUI extends ilObjectGUI
         }
     }
 
-    public function copyChapter() : void
+    public function copyChapter(): void
     {
         $this->copyItems();
     }
 
-    public function pasteChapter() : void
+    public function pasteChapter(): void
     {
         $this->insertChapterClip();
     }
 
-    public function movePage() : void
+    public function movePage(): void
     {
         $ids = $this->edit_request->getIds();
         if (count($ids) == 0) {
@@ -1438,11 +1438,11 @@ class ilObjContentObjectGUI extends ilObjectGUI
 
         ilLMObject::clipboardCut($this->lm->getId(), $ids);
         ilEditClipboard::setAction("cut");
-        
+
         $this->ctrl->redirect($this, "pages");
     }
 
-    public function cancel() : void
+    public function cancel(): void
     {
         if ($this->requested_new_type == "pg") {
             $this->ctrl->redirect($this, "pages");
@@ -1451,7 +1451,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
         }
     }
 
-    public function export() : void
+    public function export(): void
     {
         $ot = ilObjectTranslation::getInstance($this->lm->getId());
         $opt = "";
@@ -1471,7 +1471,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
     public function getPublicAccessColValue(
         string $a_type,
         string $a_file
-    ) : string {
+    ): string {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
         $add = "";
@@ -1489,15 +1489,15 @@ class ilObjContentObjectGUI extends ilObjectGUI
         if ($this->lm->getPublicExportFile($basetype) == $a_file) {
             return $lng->txt("yes") . $add;
         }
-    
+
         return " ";
     }
 
     public function publishExportFile(
         ?array $a_files
-    ) : void {
+    ): void {
         $ilCtrl = $this->ctrl;
-        
+
         if (!isset($a_files)) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt("no_checkbox"), true);
         } else {
@@ -1507,7 +1507,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
                     $file[0] = explode("_", $file[0])[0];
                 }
                 $export_dir = $this->lm->getExportDirectory($file[0]);
-        
+
                 if ($this->lm->getPublicExportFile($file[0]) ==
                     $file[1]) {
                     $this->lm->setPublicExportFile($file[0], "");
@@ -1520,11 +1520,11 @@ class ilObjContentObjectGUI extends ilObjectGUI
         $ilCtrl->redirectByClass("ilexportgui");
     }
 
-    public function fixTreeConfirm() : void
+    public function fixTreeConfirm(): void
     {
         $this->setTabs();
         $this->setContentSubTabs("maintenance");
-        
+
         // display confirmation message
         $cgui = new ilConfirmationGUI();
         $cgui->setFormAction($this->ctrl->getFormAction($this));
@@ -1539,14 +1539,14 @@ class ilObjContentObjectGUI extends ilObjectGUI
         $this->tpl->setContent($cgui->getHTML() . $mess);
     }
 
-    public function fixTree() : void
+    public function fixTree(): void
     {
         $this->lm->fixTree();
         $this->tpl->setOnScreenMessage('success', $this->lng->txt("cont_tree_fixed"), true);
         $this->ctrl->redirect($this, "showMaintenance");
     }
 
-    public function exportHTML() : void
+    public function exportHTML(): void
     {
         $ot = ilObjectTranslation::getInstance($this->lm->getId());
         $lang = "";
@@ -1564,7 +1564,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
      */
     public function addLocations(
         bool $a_omit_obj_id = false
-    ) : void {
+    ): void {
         $locator = $this->locator;
 
         $obj_id = 0;
@@ -1611,7 +1611,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
     ////
 
 
-    public function listQuestions() : void
+    public function listQuestions(): void
     {
         $tpl = $this->tpl;
 
@@ -1622,7 +1622,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
         $tpl->setContent($table->getHTML());
     }
 
-    public function listBlockedUsers() : void
+    public function listBlockedUsers(): void
     {
         $tpl = $this->tpl;
 
@@ -1633,7 +1633,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
         $tpl->setContent($table->getHTML());
     }
 
-    public function resetNumberOfTries() : void
+    public function resetNumberOfTries(): void
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
@@ -1649,7 +1649,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
         $ilCtrl->redirect($this, "listBlockedUsers");
     }
 
-    public function unlockQuestion() : void
+    public function unlockQuestion(): void
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
@@ -1665,7 +1665,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
         $ilCtrl->redirect($this, "listBlockedUsers");
     }
 
-    public function sendMailToBlockedUsers() : void
+    public function sendMailToBlockedUsers(): void
     {
         $ilCtrl = $this->ctrl;
 
@@ -1695,7 +1695,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
         ));
     }
 
-    protected function getBlockedUsersMailSignature() : string
+    protected function getBlockedUsersMailSignature(): string
     {
         $link = chr(13) . chr(10) . chr(13) . chr(10);
         $link .= $this->lng->txt('cont_blocked_users_mail_link');
@@ -1704,12 +1704,12 @@ class ilObjContentObjectGUI extends ilObjectGUI
         return rawurlencode(base64_encode($link));
     }
 
-    
+
     ////
     //// Tabs
     ////
 
-    protected function setTabs(string $a_act = "") : void
+    protected function setTabs(string $a_act = ""): void
     {
         parent::setTitleAndDescription();
         $ilHelp = $this->help;
@@ -1717,7 +1717,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
         $this->addTabs($a_act);
     }
 
-    public function setContentSubTabs(string $a_active) : void
+    public function setContentSubTabs(string $a_active): void
     {
         $ilTabs = $this->tabs;
         $lng = $this->lng;
@@ -1763,14 +1763,14 @@ class ilObjContentObjectGUI extends ilObjectGUI
                 $lng->txt("cont_online_help_ids"),
                 $ilCtrl->getLinkTarget($this, "showExportIDsOverview")
             );
-            
+
             $ilTabs->addSubTab(
                 "help_tooltips",
                 $lng->txt("help_tooltips"),
                 $ilCtrl->getLinkTarget($this, "showTooltipList")
             );
         }
-        
+
         // list links
         $ilTabs->addSubTab(
             "internal_links",
@@ -1809,7 +1809,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
         $ilTabs->activateTab("content");
     }
 
-    public function setQuestionsSubTabs(string $a_active) : void
+    public function setQuestionsSubTabs(string $a_active): void
     {
         $ilTabs = $this->tabs;
         $lng = $this->lng;
@@ -1832,12 +1832,12 @@ class ilObjContentObjectGUI extends ilObjectGUI
         $ilTabs->activateSubTab($a_active);
     }
 
-    public function addTabs(string $a_act = "") : void
+    public function addTabs(string $a_act = ""): void
     {
         $rbacsystem = $this->rbacsystem;
         $ilTabs = $this->tabs;
         $lng = $this->lng;
-        
+
         // content
         $ilTabs->addTab(
             "content",
@@ -1903,11 +1903,11 @@ class ilObjContentObjectGUI extends ilObjectGUI
                 $this->ctrl->getLinkTargetByClass(array(get_class($this),'ilpermissiongui'), "perm")
             );
         }
-        
+
         if ($a_act != "") {
             $ilTabs->activateTab($a_act);
         }
-        
+
         // presentation view
         $ilTabs->addNonTabbedLink(
             "pres_mode",
@@ -1917,7 +1917,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
         );
     }
 
-    public function setSubTabs(string $a_active) : void
+    public function setSubTabs(string $a_active): void
     {
         $ilTabs = $this->tabs;
         $ilSetting = $this->settings;
@@ -1935,7 +1935,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
                 "",
                 ""
             );
-                
+
             // style properties
             $ilTabs->addSubTabTarget(
                 "cont_style",
@@ -1974,7 +1974,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
                 "obj_multilinguality",
                 $this->ctrl->getLinkTargetByClass("ilobjecttranslationgui", "")
             );
-            
+
             $lti_settings = new ilLTIProviderObjectSettingGUI($this->lm->getRefId());
             if ($lti_settings->hasSettingsAccess()) {
                 $ilTabs->addSubTabTarget(
@@ -1982,22 +1982,22 @@ class ilObjContentObjectGUI extends ilObjectGUI
                     $this->ctrl->getLinkTargetByClass(ilLTIProviderObjectSettingGUI::class)
                 );
             }
-            
+
             $ilTabs->setSubTabActive($a_active);
         }
     }
 
-    public function editPublicSection() : void
+    public function editPublicSection(): void
     {
         $ilTabs = $this->tabs;
         $ilToolbar = $this->toolbar;
         $ilAccess = $this->access;
 
-        
+
         if (!$ilAccess->checkAccessOfUser(ANONYMOUS_USER_ID, "read", "", $this->lm->getRefId())) {
             $this->tpl->setOnScreenMessage('info', $this->lng->txt("cont_anonymous_user_missing_perm"));
         }
-        
+
         $this->setTabs();
         $this->setSubTabs("public_section");
         $ilTabs->setTabActive("settings");
@@ -2037,12 +2037,12 @@ class ilObjContentObjectGUI extends ilObjectGUI
 
             $this->tpl->setVariable("EXPLORER", $tree->getHTML());
             $this->tpl->setVariable("TXT_SAVE", $this->lng->txt("save"));
-            
+
             $this->tpl->parseCurrentBlock();
         }
     }
 
-    public function savePublicSection() : void
+    public function savePublicSection(): void
     {
         $this->lm->setPublicAccessMode(
             $this->edit_request->getLMPublicMode()
@@ -2059,7 +2059,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
     /**
      * Saves lm access mode
      */
-    public function savePublicSectionAccess() : void
+    public function savePublicSectionAccess(): void
     {
         $this->lm->setPublicAccessMode(
             $this->edit_request->getLMPublicMode()
@@ -2072,7 +2072,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
     /**
      * Saves public lm pages
      */
-    public function savePublicSectionPages() : void
+    public function savePublicSectionPages(): void
     {
         ilLMObject::_writePublicAccessStatus(
             $this->edit_request->getPublicPages(),
@@ -2082,7 +2082,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
         $this->ctrl->redirect($this, "editPublicSection");
     }
 
-    public function history() : void
+    public function history(): void
     {
         $this->setTabs("content");
         $this->setContentSubTabs("history");
@@ -2099,7 +2099,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
         $this->tpl->setContent($hist_gui->getHTML());
     }
 
-    public function __initLMMenuEditor() : void
+    public function __initLMMenuEditor(): void
     {
         $this->lmme_obj = new ilLMMenuEditor();
         $this->lmme_obj->setObjId($this->lm->getId());
@@ -2108,12 +2108,12 @@ class ilObjContentObjectGUI extends ilObjectGUI
     /**
      * display add menu entry form
      */
-    public function addMenuEntry(?ilPropertyFormGUI $form = null) : void
+    public function addMenuEntry(?ilPropertyFormGUI $form = null): void
     {
         $ilTabs = $this->tabs;
         $ilToolbar = $this->toolbar;
         $ilCtrl = $this->ctrl;
-        
+
         $this->setTabs();
 
         $ilTabs->setTabActive("settings");
@@ -2130,11 +2130,11 @@ class ilObjContentObjectGUI extends ilObjectGUI
         $this->tpl->setContent($form->getHTML());
     }
 
-    public function initMenuEntryForm(string $a_mode = "edit") : ilPropertyFormGUI
+    public function initMenuEntryForm(string $a_mode = "edit"): ilPropertyFormGUI
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
-    
+
         $form = new ilPropertyFormGUI();
 
         // title
@@ -2143,14 +2143,14 @@ class ilObjContentObjectGUI extends ilObjectGUI
         $ti->setSize(40);
         $ti->setRequired(true);
         $form->addItem($ti);
-        
+
         // target
         $ta = new ilTextInputGUI($this->lng->txt("lm_menu_entry_target"), "target");
         $ta->setMaxLength(255);
         $ta->setSize(40);
         $ta->setRequired(true);
         $form->addItem($ta);
-        
+
         if ($a_mode == "edit") {
             $this->__initLMMenuEditor();
             $this->lmme_obj->readEntry($this->edit_request->getMenuEntry());
@@ -2167,14 +2167,14 @@ class ilObjContentObjectGUI extends ilObjectGUI
             $target_link = $obj_type . "_" . $link_ref_id;
             $ti->setValue($title);
             $ta->setValue($target_link);
-            
+
             // link ref id
             $hi = new ilHiddenInputGUI("link_ref_id");
             $hi->setValue($link_ref_id);
             $form->addItem($hi);
         }
-        
-        
+
+
         // save and cancel commands
         if ($a_mode == "create") {
             $form->addCommandButton("saveMenuEntry", $lng->txt("save"));
@@ -2185,13 +2185,13 @@ class ilObjContentObjectGUI extends ilObjectGUI
             $form->addCommandButton("editMenuProperties", $lng->txt("cancel"));
             $form->setTitle($lng->txt("lm_menu_edit_entry"));
         }
-        
+
         $form->setFormAction($ilCtrl->getFormAction($this));
-     
+
         return $form;
     }
-    
-    public function saveMenuEntry() : void
+
+    public function saveMenuEntry(): void
     {
         $form = $this->initMenuEntryForm("create");
         if ($form->checkInput()) {
@@ -2214,7 +2214,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
         }
     }
 
-    public function deleteMenuEntry() : void
+    public function deleteMenuEntry(): void
     {
         if (empty($this->requested_menu_entry)) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt("no_menu_entry_id"), true);
@@ -2228,7 +2228,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
         $this->ctrl->redirect($this, "editMenuProperties");
     }
 
-    public function editMenuEntry(?ilPropertyFormGUI $form = null) : void
+    public function editMenuEntry(?ilPropertyFormGUI $form = null): void
     {
         $ilToolbar = $this->toolbar;
         $ilCtrl = $this->ctrl;
@@ -2257,7 +2257,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
         $this->tpl->setContent($form->getHTML());
     }
 
-    public function updateMenuEntry() : void
+    public function updateMenuEntry(): void
     {
         $form = $this->initMenuEntryForm("edit");
         if ($form->checkInput()) {
@@ -2285,18 +2285,18 @@ class ilObjContentObjectGUI extends ilObjectGUI
         }
     }
 
-    public function showEntrySelector() : void
+    public function showEntrySelector(): void
     {
         $ilTabs = $this->tabs;
         $ilCtrl = $this->ctrl;
-        
+
         $this->setTabs();
 
         $ilTabs->setTabActive("settings");
         $this->setSubTabs("cont_lm_menu");
 
         $ilCtrl->saveParameter($this, array("menu_entry"));
-        
+
         $this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.lm_menu_object_selector.html", "Modules/LearningModule");
 
         $this->tpl->setOnScreenMessage('info', $this->lng->txt("lm_menu_select_object_to_add"));
@@ -2353,7 +2353,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
     /**
      * select page as header
      */
-    public function selectHeader() : void
+    public function selectHeader(): void
     {
         $ids = $this->edit_request->getIds();
         if (count($ids)) {
@@ -2376,7 +2376,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
     /**
      * select page as footer
      */
-    public function selectFooter() : void
+    public function selectFooter(): void
     {
         $ids = $this->edit_request->getIds();
         if (count($ids) == 0) {
@@ -2399,10 +2399,10 @@ class ilObjContentObjectGUI extends ilObjectGUI
     /**
      * Save all titles of chapters/pages
      */
-    public function saveAllTitles() : void
+    public function saveAllTitles(): void
     {
         $ilCtrl = $this->ctrl;
-        
+
         ilLMObject::saveTitles(
             $this->lm,
             $this->edit_request->getTitles(),
@@ -2416,14 +2416,14 @@ class ilObjContentObjectGUI extends ilObjectGUI
     /**
      * Insert (multiple) chapters at node
      */
-    public function insertChapter() : void
+    public function insertChapter(): void
     {
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
-        
+
         $num = ilChapterHierarchyFormGUI::getPostMulti();
         $node_id = ilChapterHierarchyFormGUI::getPostNodeId();
-        
+
         if (!ilChapterHierarchyFormGUI::getPostFirstChild()) {	// insert after node id
             $parent_id = $this->lm_tree->getParentId($node_id);
             $target = $node_id;
@@ -2443,16 +2443,16 @@ class ilObjContentObjectGUI extends ilObjectGUI
 
         $ilCtrl->redirect($this, "chapters");
     }
-    
+
     /**
      * Insert Chapter from clipboard
      */
-    public function insertChapterClip() : void
+    public function insertChapterClip(): void
     {
         $ilUser = $this->user;
         $ilCtrl = $this->ctrl;
         $ilLog = $this->log;
-        
+
         $node_id = ilChapterHierarchyFormGUI::getPostNodeId();
         $first_child = ilChapterHierarchyFormGUI::getPostFirstChild();
 
@@ -2463,7 +2463,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
             $parent_id = $node_id;
             $target = ilTree::POS_FIRST_NODE;
         }
-        
+
         // copy and paste
         $chapters = $ilUser->getClipboardObjects("st", true);
         $copied_nodes = array();
@@ -2493,7 +2493,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
         $ilCtrl->redirect($this, "chapters");
     }
 
-    public static function _goto(string $a_target) : void
+    public static function _goto(string $a_target): void
     {
         global $DIC;
         $main_tpl = $DIC->ui()->mainTemplate();
@@ -2521,7 +2521,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
         $ilErr->raiseError($lng->txt("msg_no_perm_read_lm"), $ilErr->FATAL);
     }
 
-    public function cutItems(string $a_return = "chapters") : void
+    public function cutItems(string $a_return = "chapters"): void
     {
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
@@ -2544,14 +2544,14 @@ class ilObjContentObjectGUI extends ilObjectGUI
         ilLMObject::clipboardCut($this->lm->getId(), $ids);
         ilEditClipboard::setAction("cut");
         $this->tpl->setOnScreenMessage('info', $lng->txt("cont_selected_items_have_been_cut"), true);
-        
+
         $ilCtrl->redirect($this, $a_return);
     }
 
     /**
      * Copy items to clipboard
      */
-    public function copyItems() : void
+    public function copyItems(): void
     {
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
@@ -2580,7 +2580,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
     /**
      * Cut chapter(s)
      */
-    public function cutChapter() : void
+    public function cutChapter(): void
     {
         $this->cutItems("chapters");
     }
@@ -2589,7 +2589,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
     //// HTML export IDs
     ////
 
-    public function showExportIDsOverview(bool $a_validation = false) : void
+    public function showExportIDsOverview(bool $a_validation = false): void
     {
         $tpl = $this->tpl;
         $ilToolbar = $this->toolbar;
@@ -2598,7 +2598,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 
         $this->setTabs();
         $this->setContentSubTabs("export_ids");
-        
+
         if (ilObjContentObject::isOnlineHelpModule($this->lm->getRefId())) {
             // toolbar
             $ilToolbar->setFormAction($ilCtrl->getFormAction($this));
@@ -2613,7 +2613,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
             $si->setValue(ilSession::get("help_chap"));
             $ilToolbar->addInputItem($si, true);
             $ilToolbar->addFormButton($lng->txt("help_filter"), "filterHelpChapters");
-            
+
             $tbl = new ilHelpMappingTableGUI($this, "showExportIDsOverview", $a_validation);
         } else {
             $tbl = new ilExportIDTableGUI($this, "showExportIDsOverview", $a_validation, false);
@@ -2621,15 +2621,15 @@ class ilObjContentObjectGUI extends ilObjectGUI
 
         $tpl->setContent($tbl->getHTML());
     }
-    
-    public function filterHelpChapters() : void
+
+    public function filterHelpChapters(): void
     {
         $ilCtrl = $this->ctrl;
         ilSession::set("help_chap", $this->edit_request->getHelpChap());
         $ilCtrl->redirect($this, "showExportIDsOverview");
     }
 
-    public function saveExportIds() : void
+    public function saveExportIds(): void
     {
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
@@ -2666,7 +2666,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
         $ilCtrl->redirect($this, "showExportIdsOverview");
     }
 
-    public function saveHelpMapping() : void
+    public function saveHelpMapping(): void
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
@@ -2678,12 +2678,12 @@ class ilObjContentObjectGUI extends ilObjectGUI
         $this->tpl->setOnScreenMessage('success', $lng->txt("msg_obj_modified"), true);
         $ilCtrl->redirect($this, "showExportIdsOverview");
     }
-    
+
     ////
     //// Help tooltips
     ////
 
-    public function showTooltipList() : void
+    public function showTooltipList(): void
     {
         $tpl = $this->tpl;
         $ilToolbar = $this->toolbar;
@@ -2692,7 +2692,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 
         $this->setTabs();
         $this->setContentSubTabs("help_tooltips");
-        
+
         $ilToolbar->setFormAction($ilCtrl->getFormAction($this));
         $ti = new ilTextInputGUI($this->lng->txt("help_tooltip_id"), "tooltip_id");
         $ti->setMaxLength(200);
@@ -2700,7 +2700,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
         $ilToolbar->addInputItem($ti, true);
         $ilToolbar->addFormButton($lng->txt("add"), "addTooltip");
         $ilToolbar->addSeparator();
-        
+
         $options = ilHelp::getTooltipComponents();
         if (ilSession::get("help_tt_comp") != "") {
             $options[ilSession::get("help_tt_comp")] = ilSession::get("help_tt_comp");
@@ -2710,17 +2710,17 @@ class ilObjContentObjectGUI extends ilObjectGUI
         $si->setValue(ilSession::get("help_tt_comp"));
         $ilToolbar->addInputItem($si, true);
         $ilToolbar->addFormButton($lng->txt("help_filter"), "filterTooltips");
-        
+
         $tbl = new ilHelpTooltipTableGUI($this, "showTooltipList", ilSession::get("help_tt_comp"));
 
         $tpl->setContent($tbl->getHTML());
     }
 
-    public function addTooltip() : void
+    public function addTooltip(): void
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
-        
+
         $tt_id = $this->edit_request->getTooltipId();
         if (trim($tt_id) != "") {
             if (is_int(strpos($tt_id, "_"))) {
@@ -2736,19 +2736,19 @@ class ilObjContentObjectGUI extends ilObjectGUI
         }
         $ilCtrl->redirect($this, "showTooltipList");
     }
-    
-    public function filterTooltips() : void
+
+    public function filterTooltips(): void
     {
         $ilCtrl = $this->ctrl;
-        
+
         ilSession::set(
             "help_tt_comp",
             $this->edit_request->getTooltipComponent()
         );
         $ilCtrl->redirect($this, "showTooltipList");
     }
-    
-    public function saveTooltips() : void
+
+    public function saveTooltips(): void
     {
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
@@ -2764,8 +2764,8 @@ class ilObjContentObjectGUI extends ilObjectGUI
         $this->tpl->setOnScreenMessage('success', $lng->txt("msg_obj_modified"), true);
         $ilCtrl->redirect($this, "showTooltipList");
     }
-    
-    public function deleteTooltips() : void
+
+    public function deleteTooltips(): void
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
@@ -2783,18 +2783,18 @@ class ilObjContentObjectGUI extends ilObjectGUI
     ////
     //// Set layout
     ////
-    
+
     public static function getLayoutOption(
         string $a_txt,
         string $a_var,
         string $a_def_option = ""
-    ) : ilRadioGroupInputGUI {
+    ): ilRadioGroupInputGUI {
         global $DIC;
 
         $im_tag = "";
 
         $lng = $DIC->language();
-        
+
         // default layout
         $layout = new ilRadioGroupInputGUI($a_txt, $a_var);
         if ($a_def_option != "") {
@@ -2815,27 +2815,27 @@ class ilObjContentObjectGUI extends ilObjectGUI
                 $im_tag . "</td><td style='padding:5px;'><b>" . $lng->txt("cont_layout_" . $l) . "</b>: " .
                 $lng->txt("cont_layout_" . $l . "_desc") . "</td></tr></table>", $l));
         }
-        
+
         return $layout;
     }
-    
+
     /**
      * Set layout for multiple pages
      */
-    public function setPageLayoutInHierarchy() : void
+    public function setPageLayoutInHierarchy(): void
     {
         $ilCtrl = $this->ctrl;
         $ilCtrl->setParameter($this, "hierarchy", "1");
         $this->setPageLayout(true);
     }
-    
-    
+
+
     /**
      * Set layout for multiple pages
      */
     public function setPageLayout(
         bool $a_in_hierarchy = false
-    ) : void {
+    ): void {
         $tpl = $this->tpl;
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
@@ -2843,24 +2843,24 @@ class ilObjContentObjectGUI extends ilObjectGUI
         $ids = $this->edit_request->getIds();
         if (count($ids) == 0) {
             $this->tpl->setOnScreenMessage('failure', $lng->txt("no_checkbox"), true);
-            
+
             if ($a_in_hierarchy) {
                 $ilCtrl->redirect($this, "chapters");
             } else {
                 $ilCtrl->redirect($this, "pages");
             }
         }
-        
+
         $this->initSetPageLayoutForm();
-        
+
         $tpl->setContent($this->form->getHTML());
     }
-    
-    public function initSetPageLayoutForm() : void
+
+    public function initSetPageLayoutForm(): void
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
-    
+
         $this->form = new ilPropertyFormGUI();
 
         $ids = $this->edit_request->getIds();
@@ -2875,19 +2875,19 @@ class ilObjContentObjectGUI extends ilObjectGUI
             $this->lm->getLayout()
         );
         $this->form->addItem($layout);
-    
+
         $this->form->addCommandButton("savePageLayout", $lng->txt("save"));
         $this->form->addCommandButton("pages", $lng->txt("cancel"));
-        
+
         $this->form->setTitle($lng->txt("cont_set_layout"));
         $this->form->setFormAction($ilCtrl->getFormAction($this));
     }
-    
-    public function savePageLayout() : void
+
+    public function savePageLayout(): void
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
-        
+
         $ilCtrl->setParameter($this, "hierarchy", $this->requested_hierarchy);
 
         $ids = $this->edit_request->getIds();
@@ -2899,50 +2899,50 @@ class ilObjContentObjectGUI extends ilObjectGUI
             );
         }
         $this->tpl->setOnScreenMessage('success', $lng->txt("msg_obj_modified"), true);
-        
+
         if ($this->requested_hierarchy) {
             $ilCtrl->redirect($this, "chapters");
         } else {
             $ilCtrl->redirect($this, "pages");
         }
     }
-    
+
     //
     // Auto glossaries
     //
-    
+
     /**
      * Edit automatically linked glossaries
      */
-    public function editGlossaries() : void
+    public function editGlossaries(): void
     {
         $tpl = $this->tpl;
         $ilToolbar = $this->toolbar;
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
         $ilTabs = $this->tabs;
-        
+
         $this->setTabs();
         $ilTabs->setTabActive("settings");
         $this->setSubTabs("cont_glossaries");
-        
+
         $ilToolbar->addButton(
             $lng->txt("add"),
             $ilCtrl->getLinkTarget($this, "showLMGlossarySelector")
         );
-        
+
         $tab = new ilLMGlossaryTableGUI($this->lm, $this, "editGlossaries");
-        
+
         $tpl->setContent($tab->getHTML());
     }
-    
-    public function showLMGlossarySelector() : void
+
+    public function showLMGlossarySelector(): void
     {
         $tpl = $this->tpl;
         $ilCtrl = $this->ctrl;
         $tree = $this->tree;
         $ilTabs = $this->tabs;
-        
+
         $this->setTabs();
         $ilTabs->setTabActive("settings");
         $this->setSubTabs("cont_glossaries");
@@ -2959,13 +2959,13 @@ class ilObjContentObjectGUI extends ilObjectGUI
         $exp->setOutput(0);
         $tpl->setContent($exp->getOutput());
     }
-    
-    public function confirmGlossarySelection() : void
+
+    public function confirmGlossarySelection(): void
     {
         $ilCtrl = $this->ctrl;
         $tpl = $this->tpl;
         $lng = $this->lng;
-        
+
         $cgui = new ilConfirmationGUI();
         $ilCtrl->setParameter($this, "glo_ref_id", $this->requested_root_id);
         $cgui->setFormAction($ilCtrl->getFormAction($this));
@@ -2974,19 +2974,19 @@ class ilObjContentObjectGUI extends ilObjectGUI
         $cgui->setConfirm($lng->txt("yes"), "selectLMGlossaryLink");
         $tpl->setContent($cgui->getHTML());
     }
-    
-    public function selectLMGlossaryLink() : void
+
+    public function selectLMGlossaryLink(): void
     {
         $glo_ref_id = $this->requested_glo_ref_id;
         $this->lm->autoLinkGlossaryTerms($glo_ref_id);
         $this->selectLMGlossary();
     }
-    
-    public function selectLMGlossary() : void
+
+    public function selectLMGlossary(): void
     {
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
-        
+
         $glos = $this->lm->getAutoGlossaries();
         $glo_ref_id = $this->requested_glo_ref_id;
         $glo_id = ilObject::_lookupObjId($glo_ref_id);
@@ -2995,27 +2995,27 @@ class ilObjContentObjectGUI extends ilObjectGUI
         }
         $this->lm->setAutoGlossaries($glos);
         $this->lm->update();
-        
+
         $this->tpl->setOnScreenMessage('success', $lng->txt("msg_obj_modified"), true);
         $ilCtrl->redirect($this, "editGlossaries");
     }
-    
-    public function removeLMGlossary() : void
+
+    public function removeLMGlossary(): void
     {
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
 
         $this->lm->removeAutoGlossary($this->requested_glo_id);
         $this->lm->update();
-        
+
         $this->tpl->setOnScreenMessage('success', $lng->txt("msg_obj_modified"), true);
         $ilCtrl->redirect($this, "editGlossaries");
     }
-    
-    public function editMasterLanguage() : void
+
+    public function editMasterLanguage(): void
     {
         $ilCtrl = $this->ctrl;
-        
+
         $ilCtrl->setParameter($this, "transl", "");
         if ($this->lang_switch_mode == "short_titles") {
             $ilCtrl->redirectByClass("illmeditshorttitlesgui", "");
@@ -3023,18 +3023,18 @@ class ilObjContentObjectGUI extends ilObjectGUI
         $ilCtrl->redirect($this, "chapters");
     }
 
-    public function switchToLanguage() : void
+    public function switchToLanguage(): void
     {
         $ilCtrl = $this->ctrl;
-        
+
         $ilCtrl->setParameter($this, "transl", $this->requested_totransl);
         if ($this->lang_switch_mode == "short_titles") {
             $ilCtrl->redirectByClass("illmeditshorttitlesgui", "");
         }
         $ilCtrl->redirect($this, "chapters");
     }
-    
-    public function redrawHeaderAction() : void
+
+    public function redrawHeaderAction(): void
     {
         // #12281
         parent::redrawHeaderActionObject();
@@ -3043,7 +3043,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
     /**
      * Learning progress
      */
-    protected function learningProgress() : void
+    protected function learningProgress(): void
     {
         $this->ctrl->redirectByClass(array('illearningprogressgui'), '');
     }

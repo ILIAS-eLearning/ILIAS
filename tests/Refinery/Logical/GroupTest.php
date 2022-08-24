@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -38,7 +40,7 @@ class GroupTest extends TestCase
     private Constraint $greaterThanConstraint;
     private Constraint $lessThanConstaint;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         $this->dataFactory = new DataFactory();
         $this->language = $this->getMockBuilder(ilLanguage::class)
@@ -51,25 +53,25 @@ class GroupTest extends TestCase
         $this->lessThanConstaint = new LessThan(5, $this->dataFactory, $this->language);
     }
 
-    public function testLogicalOrGroup() : void
+    public function testLogicalOrGroup(): void
     {
         $instance = $this->group->logicalOr([$this->greaterThanConstraint, $this->lessThanConstaint]);
         $this->assertInstanceOf(LogicalOr::class, $instance);
     }
 
-    public function testNotGroup() : void
+    public function testNotGroup(): void
     {
         $instance = $this->group->not($this->greaterThanConstraint);
         $this->assertInstanceOf(Not::class, $instance);
     }
 
-    public function testParallelGroup() : void
+    public function testParallelGroup(): void
     {
         $instance = $this->group->parallel([$this->greaterThanConstraint, $this->lessThanConstaint]);
         $this->assertInstanceOf(Parallel::class, $instance);
     }
 
-    public function testSequentialGroup() : void
+    public function testSequentialGroup(): void
     {
         $instance = $this->group->sequential([$this->greaterThanConstraint, $this->lessThanConstaint]);
         $this->assertInstanceOf(Sequential::class, $instance);

@@ -28,7 +28,7 @@ class ilStyleImporter extends ilXmlImporter
      */
     protected $log;
 
-    public function init() : void
+    public function init(): void
     {
         $this->log = ilLoggerFactory::getLogger('styl');
 
@@ -39,7 +39,7 @@ class ilStyleImporter extends ilXmlImporter
         $this->log->debug("initialized");
     }
 
-    public function importXmlRepresentation(string $a_entity, string $a_id, string $a_xml, ilImportMapping $a_mapping) : void
+    public function importXmlRepresentation(string $a_entity, string $a_id, string $a_xml, ilImportMapping $a_mapping): void
     {
         $this->log->debug("import xml " . $a_entity);
 
@@ -60,17 +60,17 @@ class ilStyleImporter extends ilXmlImporter
             $a_xml = str_replace($hits[0], "", $a_xml);
             $a_xml = str_replace("</StyleSheetExport>", "", $a_xml);
         }
-        
+
         // temp xml-file
         $tmp_file = $this->getImportDirectory() . "/sty_" . $a_id . ".xml";
         file_put_contents($tmp_file, $a_xml);
-                
+
         $style = new ilObjStyleSheet();
         $style->createFromXMLFile($tmp_file);
         $new_id = $style->getId();
-        
+
         unlink($tmp_file);
-        
+
         // images
         if ($path) {
             $source = $this->getImportDirectory() . "/" . $path;
@@ -82,7 +82,7 @@ class ilStyleImporter extends ilXmlImporter
                 ilFileUtils::rCopy($source, $target);
             }
         }
-        
+
         $a_mapping->addMapping("Services/Style", "sty", $a_id, $new_id);
     }
 }

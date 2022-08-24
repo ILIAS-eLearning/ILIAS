@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -28,7 +30,7 @@
 class ilSessionParticipants extends ilParticipants
 {
     public const COMPONENT_NAME = 'Modules/Session';
-    
+
     protected static array $instances = [];
 
     protected ilEventParticipants $event_part;
@@ -39,13 +41,13 @@ class ilSessionParticipants extends ilParticipants
         parent::__construct(self::COMPONENT_NAME, $a_ref_id);
     }
 
-    public static function _getInstanceByObjId(int $a_obj_id) : ilSessionParticipants
+    public static function _getInstanceByObjId(int $a_obj_id): ilSessionParticipants
     {
         $refs = ilObject::_getAllReferences($a_obj_id);
         return self::getInstance(array_pop($refs));
     }
 
-    public static function getInstance(int $a_ref_id) : ilSessionParticipants
+    public static function getInstance(int $a_ref_id): ilSessionParticipants
     {
         if (isset(self::$instances[$a_ref_id]) && self::$instances[$a_ref_id] instanceof self) {
             return self::$instances[$a_ref_id];
@@ -53,27 +55,27 @@ class ilSessionParticipants extends ilParticipants
         return self::$instances[$a_ref_id] = new self($a_ref_id);
     }
 
-    public function getEventParticipants() : ilEventParticipants
+    public function getEventParticipants(): ilEventParticipants
     {
         return $this->event_part;
     }
-    
+
     /**
      * no last admin restrictions for sessions
      * @param int[] $a_usr_ids
      */
-    public function checkLastAdmin(array $a_usr_ids) : bool
+    public function checkLastAdmin(array $a_usr_ids): bool
     {
         return false;
     }
 
-    public static function _isParticipant(int $a_ref_id, int $a_usr_id) : bool
+    public static function _isParticipant(int $a_ref_id, int $a_usr_id): bool
     {
         $obj_id = ilObject::_lookupObjId($a_ref_id);
         return ilEventParticipants::_isRegistered($a_usr_id, $obj_id);
     }
 
-    protected function readParticipantsStatus() : void
+    protected function readParticipantsStatus(): void
     {
         $this->participants_status = [];
         foreach ($this->getMembers() as $mem_uid) {
@@ -83,11 +85,11 @@ class ilSessionParticipants extends ilParticipants
             $this->participants_status[$mem_uid]['contact'] = $this->getEventParticipants()->isContact($mem_uid);
         }
     }
-    
+
     /**
      * Add user to session member role. Additionally the status registered or participated must be set manually
      */
-    public function add(int $a_usr_id, int $a_role = 0) : bool
+    public function add(int $a_usr_id, int $a_role = 0): bool
     {
         if (parent::add($a_usr_id, $a_role)) {
             return true;
@@ -95,7 +97,7 @@ class ilSessionParticipants extends ilParticipants
         return false;
     }
 
-    public function register(int $a_usr_id) : bool
+    public function register(int $a_usr_id): bool
     {
         $this->logger->debug('Registering user: ' . $a_usr_id . ' for session: ' . $this->getObjId());
         $this->add($a_usr_id, ilParticipants::IL_SESS_MEMBER);
@@ -104,7 +106,7 @@ class ilSessionParticipants extends ilParticipants
         return true;
     }
 
-    public function unregister(int $a_usr_id) : bool
+    public function unregister(int $a_usr_id): bool
     {
         // participated users are not dropped from role
         if (!$this->getEventParticipants()->hasParticipated($a_usr_id)) {
@@ -114,7 +116,7 @@ class ilSessionParticipants extends ilParticipants
         return true;
     }
 
-    public function sendNotification(int $a_type, int $a_usr_id, bool $a_force_email = false) : void
+    public function sendNotification(int $a_type, int $a_usr_id, bool $a_force_email = false): void
     {
         $mail = new ilSessionMembershipMailNotification();
 

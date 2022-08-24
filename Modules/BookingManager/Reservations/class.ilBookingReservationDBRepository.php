@@ -44,7 +44,7 @@ class ilBookingReservationDBRepository
      * Get reservation data for id
      * @return string[]
      */
-    public function getForId(int $id) : array
+    public function getForId(int $id): array
     {
         $ilDB = $this->db;
         $set = $ilDB->query('SELECT *' .
@@ -65,7 +65,7 @@ class ilBookingReservationDBRepository
         int $to,
         int $status,
         int $group_id
-    ) : int {
+    ): int {
         $ilDB = $this->db;
 
         $id = $ilDB->nextId('booking_reservation');
@@ -96,7 +96,7 @@ class ilBookingReservationDBRepository
         int $to,
         int $status,
         int $group_id
-    ) : int {
+    ): int {
         $ilDB = $this->db;
         return $ilDB->manipulate('UPDATE booking_reservation' .
             ' SET object_id = ' . $ilDB->quote($object_id, 'text') .
@@ -110,7 +110,7 @@ class ilBookingReservationDBRepository
             ' WHERE booking_reservation_id = ' . $ilDB->quote($id, 'integer'));
     }
 
-    public function delete(int $id) : void
+    public function delete(int $id): void
     {
         $ilDB = $this->db;
 
@@ -123,7 +123,7 @@ class ilBookingReservationDBRepository
     /**
      * @return int group id
      */
-    public function getNewGroupId() : int
+    public function getNewGroupId(): int
     {
         return $this->db->nextId('booking_reservation_group');
     }
@@ -138,7 +138,7 @@ class ilBookingReservationDBRepository
         int $from,
         int $to,
         bool $only_not_over_yet = false
-    ) : array {
+    ): array {
         $ilDB = $this->db;
 
         $from = $ilDB->quote($from, 'integer');
@@ -172,7 +172,7 @@ class ilBookingReservationDBRepository
         array $a_object_ids = null,
         array $filter = null,
         array $a_pool_ids = null
-    ) : array {
+    ): array {
         $ilDB = $this->db;
 
         $res = array();
@@ -301,7 +301,7 @@ class ilBookingReservationDBRepository
      */
     protected function preloadByContextIds(
         array $context_obj_ids
-    ) : void {
+    ): void {
         $filter = ["context_obj_ids" => ($context_obj_ids)];
         $filter['past'] = true;
         $filter['status'] = -ilBookingReservation::STATUS_CANCELLED;
@@ -320,7 +320,7 @@ class ilBookingReservationDBRepository
      */
     public function getCachedContextObjBookingInfo(
         int $context_obj_id
-    ) : array {
+    ): array {
         if (!is_array($this->preloaded_by_context_list)) {
             throw new ilBookingReservationException("Repo not initilialized.");
         }

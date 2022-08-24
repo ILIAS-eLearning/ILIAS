@@ -1,4 +1,6 @@
-<?php declare(strict_types=0);
+<?php
+
+declare(strict_types=0);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -14,7 +16,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * @defgroup
  * @author Stefan Meyer <meyer@leifos.com>
@@ -36,7 +38,7 @@ class ilCourseInfoFileTableGUI extends ilTable2GUI
         $this->setDefaultOrderDirection("desc");
     }
 
-    public function numericOrdering(string $a_field) : bool
+    public function numericOrdering(string $a_field): bool
     {
         switch ($a_field) {
             case 'filesize':
@@ -45,7 +47,7 @@ class ilCourseInfoFileTableGUI extends ilTable2GUI
         return parent::numericOrdering($a_field);
     }
 
-    protected function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set): void
     {
         $this->tpl->setVariable('VAL_ID', $a_set['id']);
         $this->tpl->setVariable('VAL_FILENAME', $a_set['filename']);

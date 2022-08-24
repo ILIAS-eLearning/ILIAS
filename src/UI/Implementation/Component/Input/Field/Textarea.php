@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\UI\Implementation\Component\Input\Field;
 
 use ILIAS\UI\Component as C;
@@ -30,9 +32,9 @@ use Closure;
 class Textarea extends Input implements C\Input\Field\Textarea
 {
     use JavaScriptBindable;
-    
+
     protected ?int $max_limit = null;
-    
+
     protected ?int $min_limit = null;
 
     /**
@@ -53,7 +55,7 @@ class Textarea extends Input implements C\Input\Field\Textarea
     /**
      * set maximum number of characters
      */
-    public function withMaxLimit(int $max_limit) : C\Input\Field\Textarea
+    public function withMaxLimit(int $max_limit): C\Input\Field\Textarea
     {
         /**
          * @var $clone Textarea
@@ -69,7 +71,7 @@ class Textarea extends Input implements C\Input\Field\Textarea
      * get maximum limit of characters
      * @return mixed
      */
-    public function getMaxLimit() : ?int
+    public function getMaxLimit(): ?int
     {
         return $this->max_limit;
     }
@@ -77,7 +79,7 @@ class Textarea extends Input implements C\Input\Field\Textarea
     /**
      * set minimum number of characters
      */
-    public function withMinLimit(int $min_limit) : C\Input\Field\Textarea
+    public function withMinLimit(int $min_limit): C\Input\Field\Textarea
     {
         /**
          * @var $clone Textarea
@@ -93,7 +95,7 @@ class Textarea extends Input implements C\Input\Field\Textarea
      * get minimum limit of characters
      * @return mixed
      */
-    public function getMinLimit() : ?int
+    public function getMinLimit(): ?int
     {
         return $this->min_limit;
     }
@@ -101,7 +103,7 @@ class Textarea extends Input implements C\Input\Field\Textarea
     /**
      * @inheritdoc
      */
-    protected function isClientSideValueOk($value) : bool
+    protected function isClientSideValueOk($value): bool
     {
         return is_string($value);
     }
@@ -109,7 +111,7 @@ class Textarea extends Input implements C\Input\Field\Textarea
     /**
      * @inheritdoc
      */
-    protected function getConstraintForRequirement() : ?Constraint
+    protected function getConstraintForRequirement(): ?Constraint
     {
         if ($this->min_limit) {
             return $this->refinery->string()->hasMinLength($this->min_limit);
@@ -120,7 +122,7 @@ class Textarea extends Input implements C\Input\Field\Textarea
     /**
      * @inheritdoc
      */
-    public function isLimited() : bool
+    public function isLimited(): bool
     {
         return $this->min_limit > 0 || $this->max_limit > 0;
     }
@@ -128,7 +130,7 @@ class Textarea extends Input implements C\Input\Field\Textarea
     /**
      * @inheritdoc
      */
-    public function getUpdateOnLoadCode() : Closure
+    public function getUpdateOnLoadCode(): Closure
     {
         return fn ($id) => "$('#$id').on('input', function(event) {
 				il.UI.input.onFieldUpdate(event, '$id', $('#$id').val());

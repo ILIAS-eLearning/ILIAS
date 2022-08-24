@@ -36,17 +36,17 @@ class ilProfileUserPrompt
         $this->first_login = $first_login;
     }
 
-    public function getUserId() : int
+    public function getUserId(): int
     {
         return $this->user_id;
     }
 
-    public function getLastPrompt() : ?string
+    public function getLastPrompt(): ?string
     {
         return $this->last_prompt;
     }
 
-    public function getFirstLogin() : ?string
+    public function getFirstLogin(): ?string
     {
         return $this->first_login;
     }

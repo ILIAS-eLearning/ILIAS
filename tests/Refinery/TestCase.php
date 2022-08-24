@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -32,24 +34,24 @@ class ilLanguageMock extends ilLanguage
     {
     }
 
-    public function txt(string $a_topic, string $a_default_lang_fallback_mod = '') : string
+    public function txt(string $a_topic, string $a_default_lang_fallback_mod = ''): string
     {
         $this->requested[] = $a_topic;
         return $a_topic;
     }
 
-    public function toJS($a_lang_key, ilGlobalTemplateInterface $a_tpl = null) : void
+    public function toJS($a_lang_key, ilGlobalTemplateInterface $a_tpl = null): void
     {
     }
 
-    public function loadLanguageModule(string $a_module) : void
+    public function loadLanguageModule(string $a_module): void
     {
     }
 }
 
 abstract class TestCase extends PHPUnitTestCase
 {
-    public function getLanguage() : ilLanguageMock
+    public function getLanguage(): ilLanguageMock
     {
         return new ilLanguageMock();
     }

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 require_once(__DIR__ . "/../../../../libs/composer/vendor/autoload.php");
 require_once(__DIR__ . "/../../Base.php");
 
@@ -27,19 +29,19 @@ use ILIAS\UI\Implementation as I;
  */
 class DropdownTest extends ILIAS_UI_TestBase
 {
-    protected function getFactory() : C\Dropdown\Factory
+    protected function getFactory(): C\Dropdown\Factory
     {
         return new I\Component\Dropdown\Factory();
     }
 
-    public function test_implements_factory_interface() : void
+    public function test_implements_factory_interface(): void
     {
         $f = $this->getFactory();
 
         $this->assertInstanceOf("ILIAS\\UI\\Component\\Dropdown\\Standard", $f->standard(array()));
     }
 
-    public function test_with_label() : void
+    public function test_with_label(): void
     {
         $f = $this->getFactory();
 
@@ -48,7 +50,7 @@ class DropdownTest extends ILIAS_UI_TestBase
         $this->assertEquals("label", $c->getLabel());
     }
 
-    public function test_with_items() : void
+    public function test_with_items(): void
     {
         $f = $this->getFactory();
         $link = new I\Component\Link\Standard("Link to Github", "http://www.github.com");
@@ -66,7 +68,7 @@ class DropdownTest extends ILIAS_UI_TestBase
         $this->assertInstanceOf("ILIAS\\UI\\Component\\Link\\Standard", $items[3]);
     }
 
-    public function test_render_empty() : void
+    public function test_render_empty(): void
     {
         $f = $this->getFactory();
         $r = $this->getDefaultRenderer();
@@ -79,7 +81,7 @@ class DropdownTest extends ILIAS_UI_TestBase
         $this->assertEquals($expected, $html);
     }
 
-    public function test_render_items() : void
+    public function test_render_items(): void
     {
         $f = $this->getFactory();
         $r = $this->getDefaultRenderer();
@@ -108,7 +110,7 @@ EOT;
         $this->assertHTMLEquals($expected, $html);
     }
 
-    public function test_render_items_with_label() : void
+    public function test_render_items_with_label(): void
     {
         $f = $this->getFactory();
         $r = $this->getDefaultRenderer();
@@ -134,7 +136,7 @@ EOT;
         $this->assertHTMLEquals($expected, $html);
     }
 
-    public function test_render_with_link_new_viewport() : void
+    public function test_render_with_link_new_viewport(): void
     {
         $f = $this->getFactory();
         $r = $this->getDefaultRenderer();
@@ -158,7 +160,7 @@ EOT;
         $this->assertHTMLEquals($expected, $html);
     }
 
-    public function test_render_items_with_aria_label() : void
+    public function test_render_items_with_aria_label(): void
     {
         $f = $this->getFactory();
         $r = $this->getDefaultRenderer();

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -27,12 +29,12 @@ use ILIAS\UI\Component\MainControls\Slate\Slate;
 trait SlateSessionStateCode
 {
     use Hasher;
-    
+
     /**
      * @param Slate $slate
      * @return Slate
      */
-    public function addOnloadCode(Slate $slate, isItem $item) : Slate
+    public function addOnloadCode(Slate $slate, isItem $item): Slate
     {
         return $slate;
     }

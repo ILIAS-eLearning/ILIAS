@@ -28,7 +28,7 @@ class ilPreviewSetupConfig implements Setup\Config
         $this->path_to_ghostscript = $this->toLinuxConvention($path_to_ghostscript);
     }
 
-    protected function toLinuxConvention(?string $p) : ?string
+    protected function toLinuxConvention(?string $p): ?string
     {
         if (!$p) {
             return null;
@@ -36,7 +36,7 @@ class ilPreviewSetupConfig implements Setup\Config
         return preg_replace("/\\\\/", "/", $p);
     }
 
-    public function getPathToGhostscript() : ?string
+    public function getPathToGhostscript(): ?string
     {
         return $this->path_to_ghostscript;
     }

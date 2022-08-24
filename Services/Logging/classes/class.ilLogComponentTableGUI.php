@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 
@@ -19,58 +21,58 @@ class ilLogComponentTableGUI extends ilTable2GUI
         $this->setId('il_log_component');
         parent::__construct($a_parent_obj, $a_parent_cmd);
     }
-    
+
     /**
      * Set ediatable (write permission granted)
      */
-    public function setEditable(bool $a_status) : void
+    public function setEditable(bool $a_status): void
     {
         $this->editable = $a_status;
     }
-    
+
     /**
      * Check if ediatable (write permission granted)
      */
-    public function isEditable() : bool
+    public function isEditable(): bool
     {
         return $this->editable;
     }
-    
+
     /**
      * init table
      */
-    public function init() : void
+    public function init(): void
     {
         $this->setFormAction($this->ctrl->getFormAction($this->getParentObject()));
         $this->settings = ilLoggingDBSettings::getInstance();
-        
+
         $this->setRowTemplate('tpl.log_component_row.html', 'Services/Logging');
         $this->addColumn($this->lng->txt('log_component_col_component'), 'component_sortable');
         $this->addColumn($this->lng->txt('log_component_col_level'), 'level');
-        
+
         $this->setDefaultOrderField('component_sortable');
-        
+
         if ($this->isEditable()) {
             $this->addCommandButton('saveComponentLevels', $this->lng->txt('save'));
             $this->addCommandButton('resetComponentLevels', $this->lng->txt('log_component_btn_reset'));
         }
-        
+
         $this->setShowRowsSelector(false);
         $this->setLimit(500);
     }
-    
+
     /**
      * Get settings
      */
-    public function getSettings() : ilLoggingDBSettings
+    public function getSettings(): ilLoggingDBSettings
     {
         return $this->settings;
     }
-    
+
     /**
      * Parse table
      */
-    public function parse() : void
+    public function parse(): void
     {
         $components = ilLogComponentLevels::getInstance()->getLogComponents();
         $rows = array();
@@ -101,7 +103,7 @@ class ilLogComponentTableGUI extends ilTable2GUI
     /**
      * @inheritDoc
      */
-    protected function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set): void
     {
         $this->tpl->setVariable('CNAME', $a_set['component']);
         if ($a_set['id'] == 'log_root') {

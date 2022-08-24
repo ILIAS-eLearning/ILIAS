@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -27,13 +29,13 @@ class ilGroupNameAsMailValidator
     /** @var callable */
     protected $groupNameCheckCallable;
 
-    
+
     public function __construct(string $host, callable $groupNameCheckCallable = null)
     {
         $this->host = $host;
 
         if (null === $groupNameCheckCallable) {
-            $groupNameCheckCallable = static function (string $groupName) : bool {
+            $groupNameCheckCallable = static function (string $groupName): bool {
                 return ilUtil::groupNameExists($groupName);
             };
         }
@@ -44,7 +46,7 @@ class ilGroupNameAsMailValidator
     /**
      * Validates if the given address contains a valid group name to send an email
      */
-    public function validate(ilMailAddress $address) : bool
+    public function validate(ilMailAddress $address): bool
     {
         $groupName = substr($address->getMailbox(), 1);
 
@@ -52,7 +54,7 @@ class ilGroupNameAsMailValidator
         return $func($groupName) && $this->isHostValid($address->getHost());
     }
 
-    private function isHostValid(string $host) : bool
+    private function isHostValid(string $host): bool
     {
         return ($host === $this->host || $host === '');
     }

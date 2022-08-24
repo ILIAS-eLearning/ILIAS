@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -29,7 +31,7 @@ class DictionaryTransformationTest extends TestCase
     /**
      * @throws \ilException
      */
-    public function testDictionaryTransformationValid() : void
+    public function testDictionaryTransformationValid(): void
     {
         $transformation = new DictionaryTransformation(new StringTransformation());
 
@@ -38,7 +40,7 @@ class DictionaryTransformationTest extends TestCase
         $this->assertEquals(['hello' => 'world'], $result);
     }
 
-    public function testDictionaryTransformationInvalidBecauseKeyIsNotAString() : void
+    public function testDictionaryTransformationInvalidBecauseKeyIsNotAString(): void
     {
         $this->expectNotToPerformAssertions();
 
@@ -53,7 +55,7 @@ class DictionaryTransformationTest extends TestCase
         $this->fail();
     }
 
-    public function testDictionaryTransformationInvalidBecauseValueIsNotAString() : void
+    public function testDictionaryTransformationInvalidBecauseValueIsNotAString(): void
     {
         $this->expectNotToPerformAssertions();
 
@@ -68,7 +70,7 @@ class DictionaryTransformationTest extends TestCase
         $this->fail();
     }
 
-    public function testDictionaryTransformationNonArrayCanNotBeTransformedAndThrowsException() : void
+    public function testDictionaryTransformationNonArrayCanNotBeTransformedAndThrowsException(): void
     {
         $this->expectNotToPerformAssertions();
 
@@ -83,7 +85,7 @@ class DictionaryTransformationTest extends TestCase
         $this->fail();
     }
 
-    public function testDictionaryApplyValid() : void
+    public function testDictionaryApplyValid(): void
     {
         $transformation = new DictionaryTransformation(new StringTransformation());
 
@@ -92,7 +94,7 @@ class DictionaryTransformationTest extends TestCase
         $this->assertEquals(['hello' => 'world'], $result->value());
     }
 
-    public function testDictionaryApplyInvalidBecauseKeyIsNotAString() : void
+    public function testDictionaryApplyInvalidBecauseKeyIsNotAString(): void
     {
         $transformation = new DictionaryTransformation(new StringTransformation());
 
@@ -101,7 +103,7 @@ class DictionaryTransformationTest extends TestCase
         $this->assertTrue($result->isError());
     }
 
-    public function testDictionaryApplyInvalidBecauseValueIsNotAString() : void
+    public function testDictionaryApplyInvalidBecauseValueIsNotAString(): void
     {
         $transformation = new DictionaryTransformation(new StringTransformation());
 
@@ -110,7 +112,7 @@ class DictionaryTransformationTest extends TestCase
         $this->assertTrue($result->isError());
     }
 
-    public function testDictonaryNonArrayToTransformThrowsException() : void
+    public function testDictonaryNonArrayToTransformThrowsException(): void
     {
         $transformation = new DictionaryTransformation(new StringTransformation());
 

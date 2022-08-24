@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -47,7 +49,7 @@ class ilRpcIniFileWriter
         $this->inifile = $DIC['ilIliasIniFile'];
     }
 
-    public function write() : bool
+    public function write(): bool
     {
         // Main section
         $this->ini = "[Server]\n";
@@ -73,77 +75,77 @@ class ilRpcIniFileWriter
         return true;
     }
 
-    public function getIniString() : string
+    public function getIniString(): string
     {
         return $this->ini;
     }
 
-    public function getHost() : string
+    public function getHost(): string
     {
         return $this->host;
     }
 
-    public function setHost(string $host) : void
+    public function setHost(string $host): void
     {
         $this->host = $host;
     }
 
-    public function getIndexPath() : string
+    public function getIndexPath(): string
     {
         return $this->indexPath;
     }
 
-    public function setIndexPath(string $indexPath) : void
+    public function setIndexPath(string $indexPath): void
     {
         $this->indexPath = $indexPath;
     }
 
-    public function getLogLevel() : string
+    public function getLogLevel(): string
     {
         return $this->logLevel;
     }
 
-    public function setLogLevel(string $logLevel) : void
+    public function setLogLevel(string $logLevel): void
     {
         $this->logLevel = $logLevel;
     }
 
-    public function getLogPath() : string
+    public function getLogPath(): string
     {
         return $this->logPath;
     }
 
-    public function setLogPath(string $logPath) : void
+    public function setLogPath(string $logPath): void
     {
         $this->logPath = $logPath;
     }
 
-    public function getNumThreads() : int
+    public function getNumThreads(): int
     {
         return $this->numThreads;
     }
 
-    public function setNumThreads(int $numThreads) : void
+    public function setNumThreads(int $numThreads): void
     {
         $this->numThreads = $numThreads;
     }
 
-    public function getPort() : int
+    public function getPort(): int
     {
         return $this->port;
     }
 
-    public function setPort(int $port) : void
+    public function setPort(int $port): void
     {
         $this->port = $port;
     }
 
-    public function setMaxFileSize(string $a_fs) : void
+    public function setMaxFileSize(string $a_fs): void
     {
         $this->max_file_size = $a_fs;
     }
 
-    public function getMaxFileSize() : string
+    public function getMaxFileSize(): string
     {
         return $this->max_file_size;
     }

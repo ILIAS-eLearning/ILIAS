@@ -15,7 +15,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\Exercise\Assignment\Mandatory;
 
 use ILIAS\Exercise\InternalDataService;
@@ -47,7 +47,7 @@ class RandomAssignmentsDBRepository
     public function getAssignmentsOfUser(
         int $user_id,
         int $exc_id
-    ) : array {
+    ): array {
         $db = $this->db;
 
         $set = $db->queryF(
@@ -77,7 +77,7 @@ class RandomAssignmentsDBRepository
         int $user_id,
         int $exc_id,
         array $ass_ids
-    ) : void {
+    ): void {
         $db = $this->db;
 
         $db->manipulateF(

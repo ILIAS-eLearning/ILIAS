@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 require_once(__DIR__ . "/TestComponent.php");
 
 use ILIAS\UI\Implementation as I;
@@ -37,7 +39,7 @@ class ComponentRendererFSLoaderTest extends TestCase
      */
     private $icon_renderer;
 
-    protected function getComponentRendererFSLoader() : FSLoader
+    protected function getComponentRendererFSLoader(): FSLoader
     {
         $ui_factory = $this->getMockBuilder(ILIAS\UI\Factory::class)->getMock();
         $tpl_factory = $this->getMockBuilder(I\Render\TemplateFactory::class)->getMock();
@@ -64,7 +66,7 @@ class ComponentRendererFSLoaderTest extends TestCase
         return new FSLoader($default_renderer_factory, $this->glyph_renderer, $this->icon_renderer, $field_renderer);
     }
 
-    public function test_getRenderer_successfully() : void
+    public function test_getRenderer_successfully(): void
     {
         // There should be a renderer for Glyph...
         $f = $this->getComponentRendererFSLoader();
@@ -73,7 +75,7 @@ class ComponentRendererFSLoaderTest extends TestCase
         $this->assertInstanceOf(I\Render\ComponentRenderer::class, $r);
     }
 
-    public function test_getRenderer_successfully_extra() : void
+    public function test_getRenderer_successfully_extra(): void
     {
         // There should be a renderer for Glyph...
         $f = $this->getComponentRendererFSLoader();
@@ -98,7 +100,7 @@ class ComponentRendererFSLoaderTest extends TestCase
         $this->assertEquals($renderer, $r);
     }
 
-    public function test_getRenderer_uses_RendererFactory() : void
+    public function test_getRenderer_uses_RendererFactory(): void
     {
         $loader = $this->getMockBuilder(ILIAS\UI\Implementation\Render\FSLoader::class)
             ->onlyMethods(["getRendererFactoryFor", "getContextNames"])

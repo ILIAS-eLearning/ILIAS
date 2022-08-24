@@ -1,4 +1,6 @@
-<?php declare(strict_types=0);
+<?php
+
+declare(strict_types=0);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -14,7 +16,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * Settings for LO courses
  * @author  Stefan Meyer <smeyer.ilias@gmx.de>
@@ -39,57 +41,57 @@ class ilLOTestAssignment
         $this->read();
     }
 
-    public function setAssignmentId(int $a_id) : void
+    public function setAssignmentId(int $a_id): void
     {
         $this->assignment_id = $a_id;
     }
 
-    public function getAssignmentId() : int
+    public function getAssignmentId(): int
     {
         return $this->assignment_id;
     }
 
-    public function setContainerId(int $a_id) : void
+    public function setContainerId(int $a_id): void
     {
         $this->container_id = $a_id;
     }
 
-    public function getContainerId() : int
+    public function getContainerId(): int
     {
         return $this->container_id;
     }
 
-    public function setAssignmentType(int $a_type) : void
+    public function setAssignmentType(int $a_type): void
     {
         $this->assignment_type = $a_type;
     }
 
-    public function getAssignmentType() : int
+    public function getAssignmentType(): int
     {
         return $this->assignment_type;
     }
 
-    public function setObjectiveId(int $a_id) : void
+    public function setObjectiveId(int $a_id): void
     {
         $this->objective_id = $a_id;
     }
 
-    public function getObjectiveId() : int
+    public function getObjectiveId(): int
     {
         return $this->objective_id;
     }
 
-    public function setTestRefId(int $a_id) : void
+    public function setTestRefId(int $a_id): void
     {
         $this->test_ref_id = $a_id;
     }
 
-    public function getTestRefId() : int
+    public function getTestRefId(): int
     {
         return $this->test_ref_id;
     }
 
-    public function save() : void
+    public function save(): void
     {
         if ($this->getAssignmentId()) {
             $this->update();
@@ -98,7 +100,7 @@ class ilLOTestAssignment
         }
     }
 
-    public function create() : void
+    public function create(): void
     {
         $this->setAssignmentId($this->db->nextId('loc_tst_assignments'));
         $query = 'INSERT INTO loc_tst_assignments (assignment_id, container_id, assignment_type, objective_id, tst_ref_id) ' .
@@ -112,7 +114,7 @@ class ilLOTestAssignment
         $this->db->manipulate($query);
     }
 
-    public function update() : void
+    public function update(): void
     {
         $query = 'UPDATE loc_tst_assignments ' .
             'SET container_id = ' . $this->db->quote($this->getContainerId(), 'integer') . ', ' .
@@ -123,14 +125,14 @@ class ilLOTestAssignment
         $this->db->manipulate($query);
     }
 
-    public function delete() : void
+    public function delete(): void
     {
         $query = 'DELETE FROM loc_tst_assignments ' .
             'WHERE assignment_id = ' . $this->db->quote($this->getAssignmentId(), 'integer') . ' ';
         $this->db->manipulate($query);
     }
 
-    public function read() : void
+    public function read(): void
     {
         if (!$this->getAssignmentId()) {
             return;
@@ -147,7 +149,7 @@ class ilLOTestAssignment
         }
     }
 
-    public function cloneSettings(int $a_copy_id, int $a_target_id, int $a_objective_id) : void
+    public function cloneSettings(int $a_copy_id, int $a_target_id, int $a_objective_id): void
     {
         $options = ilCopyWizardOptions::_getInstance($a_copy_id);
         $mappings = $options->getMappings();

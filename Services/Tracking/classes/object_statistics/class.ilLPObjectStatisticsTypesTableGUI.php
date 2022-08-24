@@ -86,7 +86,7 @@ class ilLPObjectStatisticsTypesTableGUI extends ilLPTableBaseGUI
         }
     }
 
-    public function numericOrdering(string $a_field) : bool
+    public function numericOrdering(string $a_field): bool
     {
         if ($a_field != "title") {
             return true;
@@ -97,7 +97,7 @@ class ilLPObjectStatisticsTypesTableGUI extends ilLPTableBaseGUI
     /**
      * Init filter
      */
-    public function initFilter() : void
+    public function initFilter(): void
     {
         $this->setDisableFilterHiding(true);
 
@@ -152,7 +152,7 @@ class ilLPObjectStatisticsTypesTableGUI extends ilLPTableBaseGUI
         $this->filter["year"] = $si->getValue();
     }
 
-    public function getItems() : void
+    public function getItems(): void
     {
         $res = ilTrQuery::getObjectTypeStatisticsPerMonth(
             $this->filter["aggregation"],
@@ -229,7 +229,7 @@ class ilLPObjectStatisticsTypesTableGUI extends ilLPTableBaseGUI
     /**
      * Fill table row
      */
-    protected function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set): void
     {
         $this->tpl->setVariable("ICON_SRC", $a_set["icon"]);
         $this->tpl->setVariable(
@@ -270,7 +270,7 @@ class ilLPObjectStatisticsTypesTableGUI extends ilLPTableBaseGUI
         }
     }
 
-    public function getGraph(array $a_graph_items) : string
+    public function getGraph(array $a_graph_items): string
     {
         $chart = ilChart::getInstanceByType(ilChart::TYPE_GRID, "objsttp");
         $chart->setSize("700", "500");
@@ -312,7 +312,7 @@ class ilLPObjectStatisticsTypesTableGUI extends ilLPTableBaseGUI
         return $chart->getHTML();
     }
 
-    protected function fillMetaExcel(ilExcel $a_excel, int &$a_row) : void
+    protected function fillMetaExcel(ilExcel $a_excel, int &$a_row): void
     {
     }
 
@@ -320,7 +320,7 @@ class ilLPObjectStatisticsTypesTableGUI extends ilLPTableBaseGUI
         ilExcel $a_excel,
         int &$a_row,
         array $a_set
-    ) : void {
+    ): void {
         $a_excel->setCell($a_row, 0, $a_set["title"]);
 
         $cnt = 1;
@@ -335,11 +335,11 @@ class ilLPObjectStatisticsTypesTableGUI extends ilLPTableBaseGUI
         $a_excel->setCell($a_row, $cnt, $value);
     }
 
-    protected function fillMetaCSV(ilCSVWriter $a_csv) : void
+    protected function fillMetaCSV(ilCSVWriter $a_csv): void
     {
     }
 
-    protected function fillRowCSV(ilCSVWriter $a_csv, array $a_set) : void
+    protected function fillRowCSV(ilCSVWriter $a_csv, array $a_set): void
     {
         $a_csv->addColumn($a_set["title"]);
 

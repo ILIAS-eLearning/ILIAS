@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 
 /**
@@ -16,7 +18,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\UI\Component\Legacy;
 
 interface Factory
@@ -25,5 +27,5 @@ interface Factory
      * @param string $content the content of the legacy component
      * @return \ILIAS\UI\Component\Legacy\Legacy
      */
-    public function legacy(string $content) : Legacy;
+    public function legacy(string $content): Legacy;
 }

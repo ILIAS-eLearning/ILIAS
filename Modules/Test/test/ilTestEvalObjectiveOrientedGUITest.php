@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -24,7 +26,7 @@ class ilTestEvalObjectiveOrientedGUITest extends ilTestBaseTestCase
 {
     private ilTestEvalObjectiveOrientedGUI $testObj;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -42,7 +44,7 @@ class ilTestEvalObjectiveOrientedGUITest extends ilTestBaseTestCase
         $this->testObj = new ilTestEvalObjectiveOrientedGUI($objTest_mock);
     }
 
-    public function test_instantiateObject_shouldReturnInstance() : void
+    public function test_instantiateObject_shouldReturnInstance(): void
     {
         $this->assertInstanceOf(ilTestEvalObjectiveOrientedGUI::class, $this->testObj);
     }

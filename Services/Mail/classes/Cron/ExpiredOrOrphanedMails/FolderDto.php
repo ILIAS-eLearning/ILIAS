@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -31,17 +33,17 @@ class FolderDto
         $this->folder_title = $folder_title;
     }
 
-    public function getFolderId() : int
+    public function getFolderId(): int
     {
         return $this->folder_id;
     }
 
-    public function getFolderTitle() : ?string
+    public function getFolderTitle(): ?string
     {
         return $this->folder_title;
     }
 
-    public function addMailObject(MailDto $mail_obj) : void
+    public function addMailObject(MailDto $mail_obj): void
     {
         $this->orphaned_mail_objects[$mail_obj->getMailId()] = $mail_obj;
     }
@@ -49,7 +51,7 @@ class FolderDto
     /**
      * @return MailDto[]
      */
-    public function getOrphanedMailObjects() : array
+    public function getOrphanedMailObjects(): array
     {
         return $this->orphaned_mail_objects;
     }

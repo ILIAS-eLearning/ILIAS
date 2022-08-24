@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * Class ilECSUserConsents
@@ -30,7 +32,7 @@ class ilECSUserConsents
         }
     }
 
-    public static function getInstanceByUserId(int $a_usr_id) : self
+    public static function getInstanceByUserId(int $a_usr_id): self
     {
         if (!isset(self::$instances[$a_usr_id])) {
             self::$instances[$a_usr_id] = new self($a_usr_id);
@@ -38,12 +40,12 @@ class ilECSUserConsents
         return self::$instances[$a_usr_id];
     }
 
-    public function getUserId() : int
+    public function getUserId(): int
     {
         return $this->usr_id;
     }
 
-    public function hasConsented(int $a_mid) : bool
+    public function hasConsented(int $a_mid): bool
     {
         return array_key_exists($a_mid, $this->consents);
     }
@@ -65,7 +67,7 @@ class ilECSUserConsents
         }
     }
 
-    protected function read() : void
+    protected function read(): void
     {
         $query = 'SELECT * FROM ecs_user_consent ' .
             'WHERE usr_id = ' . $this->db->quote(

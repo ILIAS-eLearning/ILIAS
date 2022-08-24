@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /******************************************************************************
  *
@@ -25,28 +27,28 @@
 
 class ilObjRemoteGlossary extends ilRemoteObjectBase
 {
-    const DB_TABLE_NAME = "rglo_settings";
-    
-    const ACTIVATION_OFFLINE = 0;
-    const ACTIVATION_ONLINE = 1;
-    
+    public const DB_TABLE_NAME = "rglo_settings";
+
+    public const ACTIVATION_OFFLINE = 0;
+    public const ACTIVATION_ONLINE = 1;
+
     protected $availability_type;
 
-    public function initType() : void
+    public function initType(): void
     {
         $this->type = "rglo";
     }
-    
-    protected function getTableName() : string
+
+    protected function getTableName(): string
     {
         return self::DB_TABLE_NAME;
     }
-    
-    protected function getECSObjectType() : string
+
+    protected function getECSObjectType(): string
     {
         return "/campusconnect/glossaries";
     }
-    
+
     /**
      * Set Availability type
      *
@@ -56,7 +58,7 @@ class ilObjRemoteGlossary extends ilRemoteObjectBase
     {
         $this->availability_type = $a_type;
     }
-    
+
     /**
      * get availability type
      *
@@ -66,7 +68,7 @@ class ilObjRemoteGlossary extends ilRemoteObjectBase
     {
         return $this->availability_type;
     }
-    
+
     /**
      * Lookup online
      *
@@ -76,7 +78,7 @@ class ilObjRemoteGlossary extends ilRemoteObjectBase
     public static function _lookupOnline($a_obj_id)
     {
         global $ilDB;
-        
+
         $query = "SELECT * FROM " . self::DB_TABLE_NAME .
             " WHERE obj_id = " . $ilDB->quote($a_obj_id, 'integer') . " ";
         $res = $ilDB->query($query);
@@ -84,33 +86,33 @@ class ilObjRemoteGlossary extends ilRemoteObjectBase
         switch ($row->availability_type) {
             case self::ACTIVATION_ONLINE:
                 return true;
-                
+
             case self::ACTIVATION_OFFLINE:
                 return false;
-        
+
             default:
                 return false;
         }
-        
+
         return false;
     }
-    
-    protected function doCreateCustomFields(array &$a_fields) : void
+
+    protected function doCreateCustomFields(array &$a_fields): void
     {
         $a_fields["availability_type"] = array("integer", 0);
     }
 
-    protected function doUpdateCustomFields(array &$a_fields) : void
+    protected function doUpdateCustomFields(array &$a_fields): void
     {
         $a_fields["availability_type"] = array("integer", $this->getAvailabilityType());
     }
 
-    protected function doReadCustomFields($a_row) : void
+    protected function doReadCustomFields($a_row): void
     {
         $this->setAvailabilityType($a_row->availability_type);
     }
-    
-    protected function updateCustomFromECSContent(ilECSSetting $a_server, $ecs_content) : void
+
+    protected function updateCustomFromECSContent(ilECSSetting $a_server, $ecs_content): void
     {
         $this->setAvailabilityType($ecs_content->availability == 'online' ? self::ACTIVATION_ONLINE : self::ACTIVATION_OFFLINE);
     }

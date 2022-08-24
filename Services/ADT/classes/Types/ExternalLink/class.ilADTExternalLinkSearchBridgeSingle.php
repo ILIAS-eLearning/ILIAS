@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
@@ -9,13 +11,12 @@
  */
 class ilADTExternalLinkSearchBridgeSingle extends ilADTSearchBridgeSingle
 {
-
     /**
      * Is valid type
      * @param ilADT $a_adt
      * @return bool
      */
-    protected function isValidADTDefinition(\ilADTDefinition $a_adt_def) : bool
+    protected function isValidADTDefinition(\ilADTDefinition $a_adt_def): bool
     {
         return $a_adt_def instanceof ilADTExternalLinkDefinition;
     }
@@ -23,7 +24,7 @@ class ilADTExternalLinkSearchBridgeSingle extends ilADTSearchBridgeSingle
     /**
      * Load from filter
      */
-    public function loadFilter() : void
+    public function loadFilter(): void
     {
         $value = $this->readFilter();
         if ($value !== null) {
@@ -34,7 +35,7 @@ class ilADTExternalLinkSearchBridgeSingle extends ilADTSearchBridgeSingle
     /**
      * add external link property to form
      */
-    public function addToForm() : void
+    public function addToForm(): void
     {
         $def = $this->getADT()->getCopyOfDefinition();
 
@@ -44,7 +45,7 @@ class ilADTExternalLinkSearchBridgeSingle extends ilADTSearchBridgeSingle
         $this->addToParentElement($url);
     }
 
-    public function importFromPost(array $a_post = null) : bool
+    public function importFromPost(array $a_post = null): bool
     {
         $post = $this->extractPostValues($a_post);
 
@@ -65,7 +66,7 @@ class ilADTExternalLinkSearchBridgeSingle extends ilADTSearchBridgeSingle
      * @param array  $quotedWords
      * @return string
      */
-    public function getSQLCondition(string $a_element_id, int $mode = self::SQL_LIKE, array $quotedWords = []) : string
+    public function getSQLCondition(string $a_element_id, int $mode = self::SQL_LIKE, array $quotedWords = []): string
     {
         if (!$quotedWords) {
             if ($this->isNull() || !$this->isValid()) {
@@ -119,7 +120,7 @@ class ilADTExternalLinkSearchBridgeSingle extends ilADTSearchBridgeSingle
      * @param ilADT $a_adt
      * @return bool
      */
-    public function isInCondition(ilADT $a_adt) : bool
+    public function isInCondition(ilADT $a_adt): bool
     {
         if ($this->getADT()->getCopyOfDefinition()->isComparableTo($a_adt)) {
             return $this->getADT()->equals($a_adt);
@@ -131,7 +132,7 @@ class ilADTExternalLinkSearchBridgeSingle extends ilADTSearchBridgeSingle
      * get serialized value
      * @return string
      */
-    public function getSerializedValue() : string
+    public function getSerializedValue(): string
     {
         if (!$this->isNull() && $this->isValid()) {
             return serialize(array($this->getADT()->getUrl()));
@@ -143,7 +144,7 @@ class ilADTExternalLinkSearchBridgeSingle extends ilADTSearchBridgeSingle
      * Set serialized value
      * @param string $a_value
      */
-    public function setSerializedValue(string $a_value) : void
+    public function setSerializedValue(string $a_value): void
     {
         $a_value = unserialize($a_value);
         if (is_array($a_value)) {

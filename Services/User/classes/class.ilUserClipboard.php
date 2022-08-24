@@ -25,40 +25,40 @@ class ilUserClipboard
     public const SESSION_KEYWORD = 'usr_clipboard';
     private static ?ilUserClipboard $instance = null;
     private array $clipboard = array(); // Missing array type.
-    
+
     protected function __construct(int $a_user_id)
     {
         $this->read();
     }
-    
-    public static function getInstance(int $a_usr_id) : self
+
+    public static function getInstance(int $a_usr_id): self
     {
         if (!self::$instance) {
             self::$instance = new self($a_usr_id);
         }
         return self::$instance;
     }
-    
+
     /**
      * Check if clipboard has content
      */
-    public function hasContent() : bool
+    public function hasContent(): bool
     {
         return (bool) count($this->clipboard);
     }
-    
+
     /**
      * Get clipboard content
      */
-    public function get() : array // Missing array type.
+    public function get(): array // Missing array type.
     {
         return $this->clipboard;
     }
-    
+
     /**
      * Get validated content of clipboard
      */
-    public function getValidatedContent() : array // Missing array type.
+    public function getValidatedContent(): array // Missing array type.
     {
         $valid = array();
         foreach ($this->clipboard as $usr_id) {
@@ -68,19 +68,19 @@ class ilUserClipboard
         }
         return $valid;
     }
-    
+
     /**
      * Add entries to clipboard
      */
-    public function add(array $a_usr_ids) : void // Missing array type.
+    public function add(array $a_usr_ids): void // Missing array type.
     {
         $this->clipboard = array_unique(array_merge($this->clipboard, $a_usr_ids));
     }
-    
+
     /**
      * User ids to delete
      */
-    public function delete(array $a_usr_ids) : void // Missing array type.
+    public function delete(array $a_usr_ids): void // Missing array type.
     {
         $remaining = array();
         foreach ($this->get() as $usr_id) {
@@ -90,32 +90,32 @@ class ilUserClipboard
         }
         $this->replace($remaining);
     }
-    
+
     /**
      * Replace clipboard content
      */
-    public function replace(array $a_usr_ids) : void // Missing array type.
+    public function replace(array $a_usr_ids): void // Missing array type.
     {
         $this->clipboard = $a_usr_ids;
     }
-    
-    public function clear() : void
+
+    public function clear(): void
     {
         $this->clipboard = array();
     }
-    
+
     /**
      * Save clipboard content in session
      */
-    public function save() : void
+    public function save(): void
     {
         ilSession::set(self::SESSION_KEYWORD, $this->clipboard);
     }
-    
+
     /**
      * Read from session
      */
-    protected function read() : void
+    protected function read(): void
     {
         $this->clipboard = (array) ilSession::get(self::SESSION_KEYWORD);
     }

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -30,7 +32,7 @@ class ilStudyProgrammeTypeInfoTest extends TestCase
     private const VALID_LNG_CODE_2 = 'en';
     private const VALID_LNG_CODE_N = null;
 
-    public function testSuccessCreate() : void
+    public function testSuccessCreate(): void
     {
         $obj = new ilStudyProgrammeTypeInfo();
 
@@ -59,7 +61,7 @@ class ilStudyProgrammeTypeInfoTest extends TestCase
         $this->assertEquals(self::VALID_LNG_CODE_1, $obj->getLanguageCode());
     }
 
-    public function testSuccessfulWithTitle() : void
+    public function testSuccessfulWithTitle(): void
     {
         $obj = new ilStudyProgrammeTypeInfo(
             self::VALID_TITLE_1,
@@ -78,7 +80,7 @@ class ilStudyProgrammeTypeInfoTest extends TestCase
         $this->assertEquals(self::VALID_LNG_CODE_1, $new->getLanguageCode());
     }
 
-    public function testSuccessfulWithDescription() : void
+    public function testSuccessfulWithDescription(): void
     {
         $obj = new ilStudyProgrammeTypeInfo(
             self::VALID_TITLE_1,
@@ -97,7 +99,7 @@ class ilStudyProgrammeTypeInfoTest extends TestCase
         $this->assertEquals(self::VALID_LNG_CODE_1, $new->getLanguageCode());
     }
 
-    public function testSuccessfulWithLanguageCode() : void
+    public function testSuccessfulWithLanguageCode(): void
     {
         $obj = new ilStudyProgrammeTypeInfo(
             self::VALID_TITLE_1,
@@ -117,7 +119,7 @@ class ilStudyProgrammeTypeInfoTest extends TestCase
     }
 
 
-    public function testToFormInput() : void
+    public function testToFormInput(): void
     {
         $lng = $this->createMock(ilLanguage::class);
         $df = new ILIAS\Data\Factory();

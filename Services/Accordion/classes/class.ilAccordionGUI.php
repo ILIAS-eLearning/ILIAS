@@ -60,18 +60,18 @@ class ilAccordionGUI
         $this->user = $DIC->user();
         $this->setOrientation(ilAccordionGUI::VERTICAL);
     }
-    
-    public function setId(string $a_val) : void
+
+    public function setId(string $a_val): void
     {
         $this->id = $a_val;
     }
-    
-    public function getId() : string
+
+    public function getId(): string
     {
         return $this->id;
     }
-    
-    public function setOrientation(string $a_orientation) : void
+
+    public function setOrientation(string $a_orientation): void
     {
         if (in_array(
             $a_orientation,
@@ -81,77 +81,77 @@ class ilAccordionGUI
         }
     }
 
-    public function getOrientation() : string
+    public function getOrientation(): string
     {
         return $this->orientation;
     }
 
-    public function setContainerClass(string $a_containerclass) : void
+    public function setContainerClass(string $a_containerclass): void
     {
         $this->containerclass = $a_containerclass;
     }
 
-    public function getContainerClass() : string
+    public function getContainerClass(): string
     {
         return $this->containerclass;
     }
 
-    public function setInnerContainerClass(string $a_containerclass) : void
+    public function setInnerContainerClass(string $a_containerclass): void
     {
         $this->icontainerclass = $a_containerclass;
     }
 
-    public function getInnerContainerClass() : string
+    public function getInnerContainerClass(): string
     {
         return $this->icontainerclass;
     }
 
-    public function setHeaderClass(string $a_headerclass) : void
+    public function setHeaderClass(string $a_headerclass): void
     {
         $this->headerclass = $a_headerclass;
     }
 
-    public function getHeaderClass() : string
+    public function getHeaderClass(): string
     {
         return $this->headerclass;
     }
 
-    public function setActiveHeaderClass(string $a_h_class) : void
+    public function setActiveHeaderClass(string $a_h_class): void
     {
         $this->active_headerclass = $a_h_class;
     }
 
-    public function getActiveHeaderClass() : string
+    public function getActiveHeaderClass(): string
     {
         return $this->active_headerclass;
     }
 
-    public function setContentClass(string $a_contentclass) : void
+    public function setContentClass(string $a_contentclass): void
     {
         $this->contentclass = $a_contentclass;
     }
 
-    public function getContentClass() : string
+    public function getContentClass(): string
     {
         return $this->contentclass;
     }
 
-    public function setContentWidth(?int $a_contentwidth) : void
+    public function setContentWidth(?int $a_contentwidth): void
     {
         $this->contentwidth = $a_contentwidth;
     }
 
-    public function getContentWidth() : ?int
+    public function getContentWidth(): ?int
     {
         return $this->contentwidth;
     }
 
-    public function setContentHeight(?int $a_contentheight) : void
+    public function setContentHeight(?int $a_contentheight): void
     {
         $this->contentheight = $a_contentheight;
     }
 
-    public function getContentHeight() : ?int
+    public function getContentHeight(): ?int
     {
         return $this->contentheight;
     }
@@ -159,32 +159,32 @@ class ilAccordionGUI
     /**
      * Set behaviour "ForceAllOpen" | "FirstOpen" | "AllClosed"
      */
-    public function setBehaviour(string $a_val) : void
+    public function setBehaviour(string $a_val): void
     {
         $this->behaviour = $a_val;
     }
-    
-    public function getBehaviour() : string
+
+    public function getBehaviour(): string
     {
         return $this->behaviour;
     }
 
-    public function setUseSessionStorage(bool $a_val) : void
+    public function setUseSessionStorage(bool $a_val): void
     {
         $this->use_session_storage = $a_val;
     }
 
-    public function getUseSessionStorage() : bool
+    public function getUseSessionStorage(): bool
     {
         return $this->use_session_storage;
     }
 
-    public function setAllowMultiOpened(bool $a_val) : void
+    public function setAllowMultiOpened(bool $a_val): void
     {
         $this->allow_multi_opened = $a_val;
     }
 
-    public function getAllowMultiOpened() : bool
+    public function getAllowMultiOpened(): bool
     {
         return $this->allow_multi_opened;
     }
@@ -192,12 +192,12 @@ class ilAccordionGUI
     /**
      * @param string $a_val ID of show all html element
      */
-    public function setShowAllElement(string $a_val) : void
+    public function setShowAllElement(string $a_val): void
     {
         $this->show_all_element = $a_val;
     }
 
-    public function getShowAllElement() : string
+    public function getShowAllElement(): string
     {
         return $this->show_all_element;
     }
@@ -205,12 +205,12 @@ class ilAccordionGUI
     /**
      * @param string $a_val ID of hide all html element
      */
-    public function setHideAllElement(string $a_val) : void
+    public function setHideAllElement(string $a_val): void
     {
         $this->hide_all_element = $a_val;
     }
 
-    public function getHideAllElement() : string
+    public function getHideAllElement(): string
     {
         return $this->hide_all_element;
     }
@@ -218,7 +218,7 @@ class ilAccordionGUI
     /**
     * Add javascript files that are necessary to run accordion
     */
-    public static function addJavaScript(ilGlobalTemplate $main_tpl = null) : void
+    public static function addJavaScript(ilGlobalTemplate $main_tpl = null): void
     {
         global $DIC;
 
@@ -236,11 +236,11 @@ class ilAccordionGUI
             $tpl->addJavaScript($f, true, 3);
         }
     }
-    
+
     /**
     * Add required css
     */
-    public static function addCss() : void
+    public static function addCss(): void
     {
         global $DIC;
 
@@ -251,7 +251,7 @@ class ilAccordionGUI
         }
     }
 
-    public static function getLocalJavascriptFiles() : array
+    public static function getLocalJavascriptFiles(): array
     {
         return array(
             "./Services/Accordion/js/accordion.js",
@@ -259,7 +259,7 @@ class ilAccordionGUI
         );
     }
 
-    public static function getLocalCssFiles() : array
+    public static function getLocalCssFiles(): array
     {
         return array(
             "./Services/Accordion/css/accordion.css",
@@ -271,30 +271,30 @@ class ilAccordionGUI
         string $a_header,
         string $a_content,
         bool $a_force_open = false
-    ) : void {
+    ): void {
         $this->items[] = array("header" => $a_header,
             "content" => $a_content, "force_open" => $a_force_open);
-        
+
         if ($a_force_open) {
             $this->force_open[] = sizeof($this->items);
         }
     }
-    
-    public function getItems() : array
+
+    public function getItems(): array
     {
         return $this->items;
     }
-    
-    public function getHTML(bool $async = false) : string
+
+    public function getHTML(bool $async = false): string
     {
         $ilUser = $this->user;
-        
+
         self::$accordion_cnt++;
-        
+
         $or_short = ($this->getOrientation() == ilAccordionGUI::HORIZONTAL)
             ? "H"
             : "V";
-            
+
         $width = (int) $this->getContentWidth();
         $height = (int) $this->getContentHeight();
         if ($this->getOrientation() == ilAccordionGUI::HORIZONTAL) {
@@ -305,10 +305,10 @@ class ilAccordionGUI
                 $height = 100;
             }
         }
-        
+
         $this->addJavascript();
         $this->addCss();
-        
+
         $tpl = new ilTemplate("tpl.accordion.html", true, true, "Services/Accordion");
         foreach ($this->getItems() as $item) {
             $tpl->setCurrentBlock("item");
@@ -324,7 +324,7 @@ class ilAccordionGUI
             }
 
             $tpl->setVariable("OR_SHORT", $or_short);
-            
+
             $tpl->setVariable("INNER_CONTAINER_CLASS", $this->getInnerContainerClass()
                 ? $this->getInnerContainerClass() : "il_" . $or_short . "AccordionInnerContainer");
 
@@ -346,7 +346,7 @@ class ilAccordionGUI
 
         if ($this->getUseSessionStorage() && $this->getId() != "") {
             $stor = new ilAccordionPropertiesStorageGUI();
-            
+
             $ctab = $stor->getProperty(
                 $this->getId(),
                 $ilUser->getId(),
@@ -419,7 +419,7 @@ class ilAccordionGUI
         return $html;
     }
 
-    protected function getOnloadCode(array $options) : string
+    protected function getOnloadCode(array $options): string
     {
         return 'il.Accordion.add(' . json_encode($options, JSON_THROW_ON_ERROR) . ');';
     }

@@ -1,4 +1,5 @@
 <?php
+
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 require_once 'Modules/TestQuestionPool/classes/questions/class.ilAssFileUploadFileTableCommandButton.php';
@@ -11,16 +12,16 @@ require_once 'Modules/TestQuestionPool/classes/questions/class.ilAssFileUploadFi
  */
 class ilAssFileUploadFileTableReuseButton extends ilAssFileUploadFileTableCommandButton
 {
-    const ACTION = 'reuse';
-    
+    public const ACTION = 'reuse';
+
     public function __construct($type)
     {
         parent::__construct($type);
         $this->setAction(self::ACTION);
         $this->setCaption($this->lng()->txt('ass_file_upload_reuse_btn'), false);
     }
-    
-    public static function getInstance() : self
+
+    public static function getInstance(): self
     {
         return new self(self::TYPE_SUBMIT);
     }

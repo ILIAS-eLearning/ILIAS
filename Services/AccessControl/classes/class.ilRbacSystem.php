@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -68,7 +70,7 @@ class ilRbacSystem
         $this->refinery = $DIC->refinery();
     }
 
-    public static function getInstance() : ilRbacSystem
+    public static function getInstance(): ilRbacSystem
     {
         if (self::$instance === null) {
             self::$instance = new self();
@@ -79,7 +81,7 @@ class ilRbacSystem
     /**
      * Reset internal caches
      */
-    public static function resetCaches() : void
+    public static function resetCaches(): void
     {
         self::$user_role_cache = [];
         self::$_paCache = [];
@@ -103,12 +105,12 @@ class ilRbacSystem
      * @param string        the type definition abbreviation (i.e.: frm,grp,crs)
      * @return    bool        returns true if ALL passed operations are given, otherwise false
      */
-    public function checkAccess(string $a_operations, int $a_ref_id, string $a_type = "") : bool
+    public function checkAccess(string $a_operations, int $a_ref_id, string $a_type = ""): bool
     {
         return $this->checkAccessOfUser($this->user->getId(), $a_operations, $a_ref_id, $a_type);
     }
 
-    public function checkAccessOfUser(int $a_user_id, string $a_operations, int $a_ref_id, string $a_type = "") : bool
+    public function checkAccessOfUser(int $a_user_id, string $a_operations, int $a_ref_id, string $a_type = ""): bool
     {
         // Create the user cache key
         $cacheKey = $a_user_id . ':' . $a_operations . ':' . $a_ref_id . ':' . $a_type;
@@ -205,7 +207,7 @@ class ilRbacSystem
         return true;
     }
 
-    public function preloadRbacPaCache(array $a_ref_ids, int $a_user_id) : void
+    public function preloadRbacPaCache(array $a_ref_ids, int $a_user_id): void
     {
         $ref_ids = [];
         $roles = $ops = [];
@@ -244,7 +246,7 @@ class ilRbacSystem
     /**
      * check if a specific role has the permission '$a_operation' of an object
      */
-    public function checkPermission(int $a_ref_id, int $a_rol_id, string $a_operation) : bool
+    public function checkPermission(int $a_ref_id, int $a_rol_id, string $a_operation): bool
     {
         $ops = [];
         $query = 'SELECT ops_id FROM rbac_operations ' .
@@ -266,7 +268,7 @@ class ilRbacSystem
         return in_array($ops_id, $ops);
     }
 
-    protected function filterOwnerPermissions(int $a_user_id, string $a_operations, int $a_ref_id) : string
+    protected function filterOwnerPermissions(int $a_user_id, string $a_operations, int $a_ref_id): string
     {
         // member view constraints
         if (($this->mem_view['active'] ?? null) and $a_user_id == $this->user->getId()) {
@@ -303,7 +305,7 @@ class ilRbacSystem
      * Fetch assigned roles
      * This method caches the assigned roles per user
      */
-    private function fetchAssignedRoles(int $a_usr_id, int $a_ref_id) : array
+    private function fetchAssignedRoles(int $a_usr_id, int $a_ref_id): array
     {
         // Member view constraints
         if ($this->mem_view['active'] && $a_usr_id == $this->user->getId()) {
@@ -320,7 +322,7 @@ class ilRbacSystem
         return self::$user_role_cache[$a_usr_id] = $this->review->assignedRoles($a_usr_id);
     }
 
-    public function initMemberView() : void
+    public function initMemberView(): void
     {
         $settings = ilMemberViewSettings::getInstance();
         $member_view_activation = null;
@@ -358,14 +360,14 @@ class ilRbacSystem
         }
     }
 
-    public function addTemporaryRole(int $a_usr_id, int $a_role_id) : void
+    public function addTemporaryRole(int $a_usr_id, int $a_role_id): void
     {
         if (!in_array($a_role_id, self::$user_role_cache[$a_usr_id])) {
             self::$user_role_cache[$a_usr_id][] = $a_role_id;
         }
     }
 
-    public function resetPACache(int $a_usr_id, int $a_ref_id) : void
+    public function resetPACache(int $a_usr_id, int $a_ref_id): void
     {
         $paCacheKey = $a_usr_id . ':' . $a_ref_id;
         unset(self::$_paCache[$paCacheKey]);

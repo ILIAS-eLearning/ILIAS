@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /******************************************************************************
  *
@@ -34,16 +36,16 @@ require_once 'libs/composer/vendor/autoload.php';
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 class ilModulesFileSuite extends TestSuite
 {
-    public static function suite() : self
+    public static function suite(): self
     {
         $suite = new self();
         /** @noRector */
         require_once("./Modules/File/test/ilModulesFileTest.php");
         $suite->addTestSuite("ilModulesFileTest");
-        
+
         return $suite;
     }
 }

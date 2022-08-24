@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 /**
@@ -26,10 +27,9 @@ use ActiveRecord;
  */
 final class EmployeeTalkSerieSettings extends ActiveRecord
 {
-
     /** @var string  */
     protected string $connector_container_name = 'etal_serie';
-     
+
     /**
      * @var ?int $id
      * @con_has_field  true
@@ -53,7 +53,7 @@ final class EmployeeTalkSerieSettings extends ActiveRecord
     /**
      * @return int
      */
-    public function getId() : int
+    public function getId(): int
     {
         return intval($this->id);
     }
@@ -62,7 +62,7 @@ final class EmployeeTalkSerieSettings extends ActiveRecord
      * @param int $id
      * @return EmployeeTalkSerieSettings
      */
-    public function setId(int $id) : EmployeeTalkSerieSettings
+    public function setId(int $id): EmployeeTalkSerieSettings
     {
         $this->id = $id;
         return $this;
@@ -71,7 +71,7 @@ final class EmployeeTalkSerieSettings extends ActiveRecord
     /**
      * @return int
      */
-    public function getEditingLocked() : int
+    public function getEditingLocked(): int
     {
         return $this->editing_locked;
     }
@@ -80,7 +80,7 @@ final class EmployeeTalkSerieSettings extends ActiveRecord
      * @param int $editing_locked
      * @return EmployeeTalkSerieSettings
      */
-    public function setEditingLocked(int $editing_locked) : EmployeeTalkSerieSettings
+    public function setEditingLocked(int $editing_locked): EmployeeTalkSerieSettings
     {
         $this->editing_locked =  $editing_locked;
         return $this;

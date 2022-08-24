@@ -23,12 +23,12 @@
  */
 class ilPCTab extends ilPageContent
 {
-    public function init() : void
+    public function init(): void
     {
         $this->setType("tabstab");
     }
 
-    public function newItemAfter() : void
+    public function newItemAfter(): void
     {
         $tab = $this->getNode();
         $new_tab = $this->dom->create_element("Tab");
@@ -40,20 +40,20 @@ class ilPCTab extends ilPageContent
         }
     }
 
-    public function newItemBefore() : void
+    public function newItemBefore(): void
     {
         $tab = $this->getNode();
         $new_tab = $this->dom->create_element("Tab");
         $new_tab = $tab->insert_before($new_tab, $tab);
     }
 
-    public function deleteItem() : void
+    public function deleteItem(): void
     {
         $tab = $this->getNode();
         $tab->unlink($tab);
     }
 
-    public function moveItemDown() : void
+    public function moveItemDown(): void
     {
         $tab = $this->getNode();
         $next = $tab->next_sibling();
@@ -62,7 +62,7 @@ class ilPCTab extends ilPageContent
         $next->unlink($next);
     }
 
-    public function moveItemUp() : void
+    public function moveItemUp(): void
     {
         $tab = $this->getNode();
         $prev = $tab->previous_sibling();

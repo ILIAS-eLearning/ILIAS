@@ -30,7 +30,6 @@ use ILIAS\FileUpload\Collection\Exception\NoSuchElementException;
  */
 interface ImmutableStringMap
 {
-
     /**
      * Returns the value of the key from the additional metadata.
      *
@@ -41,7 +40,7 @@ interface ImmutableStringMap
      * @throws \InvalidArgumentException Thrown if the key type is not of the type string.
      * @since 5.3
      */
-    public function get(string $key) : string;
+    public function get(string $key): string;
 
 
     /**
@@ -51,7 +50,7 @@ interface ImmutableStringMap
      *
      * @since 5.3
      */
-    public function toArray() : array;
+    public function toArray(): array;
 
 
     /**
@@ -63,5 +62,5 @@ interface ImmutableStringMap
      * @throws \InvalidArgumentException Thrown if the key type is not of the type string.
      * @since 5.3
      */
-    public function has(string $key) : bool;
+    public function has(string $key): bool;
 }

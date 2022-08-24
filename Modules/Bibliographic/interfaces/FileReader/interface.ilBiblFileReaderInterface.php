@@ -15,7 +15,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 use ILIAS\ResourceStorage\Identification\ResourceIdentification;
 
 /**
@@ -24,13 +24,13 @@ use ILIAS\ResourceStorage\Identification\ResourceIdentification;
  */
 interface ilBiblFileReaderInterface
 {
-    public function readContent(ResourceIdentification $identification) : bool;
-    
-    public function parseContentToEntries(ilObjBibliographic $bib) : array;
-    
-    public function getEntryFactory() : ilBiblEntryFactoryInterface;
-    
-    public function getFieldFactory() : ilBiblFieldFactoryInterface;
-    
-    public function getAttributeFactory() : ilBiblAttributeFactoryInterface;
+    public function readContent(ResourceIdentification $identification): bool;
+
+    public function parseContentToEntries(ilObjBibliographic $bib): array;
+
+    public function getEntryFactory(): ilBiblEntryFactoryInterface;
+
+    public function getFieldFactory(): ilBiblFieldFactoryInterface;
+
+    public function getAttributeFactory(): ilBiblAttributeFactoryInterface;
 }

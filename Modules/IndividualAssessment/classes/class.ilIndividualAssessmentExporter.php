@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /* Copyright (c) 2020 - Stefan Hecken <stefan.hecken@concepts-and-training.de> - Extended GPL, see LICENSE */
 
@@ -12,7 +14,7 @@ class ilIndividualAssessmentExporter extends ilXmlExporter
     /**
      * initialize the exporter
      */
-    public function init() : void
+    public function init(): void
     {
         $this->ds = new ilIndividualAssessmentDataSet();
     }
@@ -20,7 +22,7 @@ class ilIndividualAssessmentExporter extends ilXmlExporter
     /**
      * @inheritdoc
      */
-    public function getXmlRepresentation(string $a_entity, string $a_schema_version, string $a_id) : string
+    public function getXmlRepresentation(string $a_entity, string $a_schema_version, string $a_id): string
     {
         ilFileUtils::makeDirParents($this->getAbsoluteExportDirectory());
         $this->ds->setExportDirectories($this->dir_relative, $this->dir_absolute);
@@ -31,7 +33,7 @@ class ilIndividualAssessmentExporter extends ilXmlExporter
     /**
      * @inheritdoc
      */
-    public function getXmlExportTailDependencies(string $a_entity, string $a_target_release, array $a_ids) : array
+    public function getXmlExportTailDependencies(string $a_entity, string $a_target_release, array $a_ids): array
     {
         $res = [];
 
@@ -50,7 +52,7 @@ class ilIndividualAssessmentExporter extends ilXmlExporter
     /**
      * @inheritdoc
      */
-    public function getValidSchemaVersions(string $a_entity) : array
+    public function getValidSchemaVersions(string $a_entity): array
     {
         return [
             "5.2.0" => [

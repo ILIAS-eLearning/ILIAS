@@ -1,4 +1,5 @@
 <?php
+
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 require_once 'Services/Html/classes/class.ilHtmlPurifierAbstractLibWrapper.php';
@@ -11,7 +12,7 @@ require_once 'Services/Html/classes/class.ilHtmlPurifierAbstractLibWrapper.php';
  */
 abstract class ilAssHtmlPurifier extends ilHtmlPurifierAbstractLibWrapper
 {
-    protected function getPurifierType() : string
+    protected function getPurifierType(): string
     {
         return 'assessment';
     }
@@ -19,7 +20,7 @@ abstract class ilAssHtmlPurifier extends ilHtmlPurifierAbstractLibWrapper
     /**
      * @return	HTMLPurifier_Config Instance of HTMLPurifier_Config
      */
-    protected function getPurifierConfigInstance() : HTMLPurifier_Config
+    protected function getPurifierConfigInstance(): HTMLPurifier_Config
     {
         $config = HTMLPurifier_Config::createDefault();
         $config->set('HTML.DefinitionID', $this->getPurifierType());
@@ -34,18 +35,18 @@ abstract class ilAssHtmlPurifier extends ilHtmlPurifierAbstractLibWrapper
 
         return $config;
     }
-    
-    private function getAllowedElements() : array
+
+    private function getAllowedElements(): array
     {
         $allowedElements = $this->getElementsUsedForAdvancedEditing();
-        
+
         $allowedElements = $this->makeElementListTinyMceCompliant($allowedElements);
         $allowedElements = $this->removeUnsupportedElements($allowedElements);
-        
+
         return $allowedElements;
     }
-    
-    private function getElementsUsedForAdvancedEditing() : array
+
+    private function getElementsUsedForAdvancedEditing(): array
     {
         include_once 'Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php';
         return ilObjAdvancedEditing::_getUsedHTMLTags($this->getPurifierType());

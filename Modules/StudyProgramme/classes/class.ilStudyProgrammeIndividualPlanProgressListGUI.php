@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -18,23 +20,23 @@
 
 class ilStudyProgrammeIndividualPlanProgressListGUI extends ilStudyProgrammeExpandableProgressListGUI
 {
-    protected function showMyProgress() : bool
+    protected function showMyProgress(): bool
     {
         // expand tree completely on start
         return $this->progress->isRelevant();
     }
-    
-    protected function shouldShowSubProgress(ilStudyProgrammeProgress $progress) : bool
+
+    protected function shouldShowSubProgress(ilStudyProgrammeProgress $progress): bool
     {
         return true;
     }
-    
-    protected function newSubItem(ilStudyProgrammeProgress $progress) : ilStudyProgrammeExpandableProgressListGUI
+
+    protected function newSubItem(ilStudyProgrammeProgress $progress): ilStudyProgrammeExpandableProgressListGUI
     {
         return new ilStudyProgrammeIndividualPlanProgressListGUI($progress);
     }
-    
-    protected function getTitleForItem(ilObjStudyProgramme $programme) : string
+
+    protected function getTitleForItem(ilObjStudyProgramme $programme): string
     {
         $title = $programme->getTitle();
         if (!$this->progress->isRelevant()
@@ -44,12 +46,12 @@ class ilStudyProgrammeIndividualPlanProgressListGUI extends ilStudyProgrammeExpa
         }
         return $title;
     }
-    
-    protected function buildProgressStatus(ilStudyProgrammeProgress $progress) : string
+
+    protected function buildProgressStatus(ilStudyProgrammeProgress $progress): string
     {
         $programme = ilObjStudyProgramme::getInstanceByObjId($progress->getNodeId());
         $can_be_completed = $programme->canBeCompleted($progress);
-        
+
         $points = parent::buildProgressStatus($progress);
         if (!$can_be_completed && !$progress->isSuccessful()) {
             return
@@ -64,8 +66,8 @@ class ilStudyProgrammeIndividualPlanProgressListGUI extends ilStudyProgrammeExpa
 
         return $points;
     }
-    
-    protected function configureItemGUI(ilStudyProgrammeCourseListGUI $item_gui) : void
+
+    protected function configureItemGUI(ilStudyProgrammeCourseListGUI $item_gui): void
     {
         $item_gui->enableComments(false);
         $item_gui->enableTags(false);

@@ -5,7 +5,7 @@
  */
 class InitHttpServices
 {
-    public function init(\ILIAS\DI\Container $container) : void
+    public function init(\ILIAS\DI\Container $container): void
     {
         $container['http.request_factory'] = function ($c) {
             return new \ILIAS\HTTP\Request\RequestFactoryImpl();

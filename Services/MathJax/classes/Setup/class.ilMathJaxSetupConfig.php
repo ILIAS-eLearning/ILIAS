@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -47,7 +49,7 @@ class ilMathJaxSetupConfig implements Setup\Config
     /**
      * Get a data array from a config
      */
-    public function getDataFromConfig(ilMathJaxConfig $config) : array
+    public function getDataFromConfig(ilMathJaxConfig $config): array
     {
         return [
             'client_enabled' => $config->isClientEnabled(),
@@ -66,7 +68,7 @@ class ilMathJaxSetupConfig implements Setup\Config
     /**
      * Check if the setup config can be applied to an existing config
      */
-    public function isApplicableTo(ilMathJaxConfig $config) : bool
+    public function isApplicableTo(ilMathJaxConfig $config): bool
     {
         return isset($this->data['client_enabled']) && $this->config->isClientEnabled() !== $config->isClientEnabled()
             || isset($this->data['client_polyfill_url']) && $this->config->getClintPolyfillUrl() !== $config->getClintPolyfillUrl()
@@ -83,7 +85,7 @@ class ilMathJaxSetupConfig implements Setup\Config
     /**
      * Apply the setup config to an existing config
      */
-    public function applyTo(ilMathJaxConfig $config) : ilMathJaxConfig
+    public function applyTo(ilMathJaxConfig $config): ilMathJaxConfig
     {
         if (isset($this->data['client_enabled'])) {
             $config = $config->withClientEnabled($this->config->isClientEnabled());

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -42,7 +44,7 @@ class ilTermsOfServiceSequentialDocumentEvaluation implements ilTermsOfServiceDo
         $this->possibleDocuments = $possibleDocuments;
     }
 
-    public function withContextUser(ilObjUser $user) : ilTermsOfServiceDocumentEvaluation
+    public function withContextUser(ilObjUser $user): ilTermsOfServiceDocumentEvaluation
     {
         $clone = clone $this;
         $clone->user = $user;
@@ -54,7 +56,7 @@ class ilTermsOfServiceSequentialDocumentEvaluation implements ilTermsOfServiceDo
     /**
      * @return ilTermsOfServiceSignableDocument[]
      */
-    protected function getMatchingDocuments() : array
+    protected function getMatchingDocuments(): array
     {
         if (!array_key_exists($this->user->getId(), $this->matchingDocumentsByUser)) {
             $this->matchingDocumentsByUser[$this->user->getId()] = [];
@@ -80,12 +82,12 @@ class ilTermsOfServiceSequentialDocumentEvaluation implements ilTermsOfServiceDo
         return $this->matchingDocumentsByUser[$this->user->getId()];
     }
 
-    public function evaluateDocument(ilTermsOfServiceSignableDocument $document) : bool
+    public function evaluateDocument(ilTermsOfServiceSignableDocument $document): bool
     {
         return $this->evaluation->evaluate($document);
     }
 
-    public function document() : ilTermsOfServiceSignableDocument
+    public function document(): ilTermsOfServiceSignableDocument
     {
         $matchingDocuments = $this->getMatchingDocuments();
         if (count($matchingDocuments) > 0) {
@@ -99,7 +101,7 @@ class ilTermsOfServiceSequentialDocumentEvaluation implements ilTermsOfServiceDo
         ));
     }
 
-    public function hasDocument() : bool
+    public function hasDocument(): bool
     {
         return count($this->getMatchingDocuments()) > 0;
     }

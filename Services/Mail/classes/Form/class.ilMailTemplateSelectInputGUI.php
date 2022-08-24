@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -32,7 +34,7 @@ class ilMailTemplateSelectInputGUI extends ilSelectInputGUI
         $this->fields = $fields;
     }
 
-    public function render($a_mode = '') : string
+    public function render($a_mode = ''): string
     {
         $html = parent::render($a_mode);
 

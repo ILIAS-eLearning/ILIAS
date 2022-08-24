@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * TableGUI class for search results
  * @author  Stefan Meyer <smeyer.ilias@gmx.de>
@@ -88,17 +90,17 @@ class ilWebResourceLinkTableGUI extends ilTable2GUI
         $this->setEnableNumInfo(false);
     }
 
-    public function enableLinkSorting(bool $a_status) : void
+    public function enableLinkSorting(bool $a_status): void
     {
         $this->link_sort_enabled = $a_status;
     }
 
-    public function isLinkSortingEnabled() : bool
+    public function isLinkSortingEnabled(): bool
     {
         return $this->link_sort_enabled;
     }
 
-    public function parse() : void
+    public function parse(): void
     {
         $rows = [];
 
@@ -120,7 +122,7 @@ class ilWebResourceLinkTableGUI extends ilTable2GUI
         $this->setData($rows);
     }
 
-    protected function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set): void
     {
         $this->ctrl->setParameterByClass(
             get_class($this->getParentObject()),
@@ -186,7 +188,7 @@ class ilWebResourceLinkTableGUI extends ilTable2GUI
         $this->tpl->setVariable('ACTION_HTML', $actions->getHTML());
     }
 
-    protected function isEditable() : bool
+    protected function isEditable(): bool
     {
         return $this->editable;
     }

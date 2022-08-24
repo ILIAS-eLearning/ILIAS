@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\UI\Component\Input\Field;
 
 /**
@@ -27,12 +29,12 @@ interface HasDynamicInputs extends FormInput
      * Returns the instance of Input which should be used to generate
      * dynamic inputs on clientside.
      */
-    public function getTemplateForDynamicInputs() : Input;
+    public function getTemplateForDynamicInputs(): Input;
 
     /**
      * Returns serverside generated dynamic Inputs, which happens when
      * providing this withValue()
      * @return Input[]
      */
-    public function getDynamicInputs() : array;
+    public function getDynamicInputs(): array;
 }

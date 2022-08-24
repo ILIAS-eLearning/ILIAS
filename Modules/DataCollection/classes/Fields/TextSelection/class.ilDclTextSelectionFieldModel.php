@@ -22,6 +22,6 @@
  */
 class ilDclTextSelectionFieldModel extends ilDclSelectionFieldModel
 {
-    const PROP_SELECTION_TYPE = 'text_selection_type';
-    const PROP_SELECTION_OPTIONS = 'text_selection_options';
+    public const PROP_SELECTION_TYPE = 'text_selection_type';
+    public const PROP_SELECTION_OPTIONS = 'text_selection_options';
 }

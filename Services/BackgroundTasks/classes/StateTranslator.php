@@ -15,7 +15,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\BackgroundTasks\Implementation\UI;
 
 use ILIAS\BackgroundTasks\Implementation\Bucket\State;
@@ -27,7 +27,7 @@ use ILIAS\BackgroundTasks\Implementation\Bucket\State;
  */
 trait StateTranslator
 {
-    public function translateState(int $state, \ilLanguage $lng) : string
+    public function translateState(int $state, \ilLanguage $lng): string
     {
         switch ($state) {
             case State::SCHEDULED:

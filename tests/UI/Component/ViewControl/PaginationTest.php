@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 require_once("libs/composer/vendor/autoload.php");
 require_once(__DIR__ . "/../../Base.php");
 
@@ -29,10 +31,10 @@ use ILIAS\UI\Implementation\Component\ViewControl\Factory;
  */
 class PaginationTest extends ILIAS_UI_TestBase
 {
-    public function getUIFactory() : NoUIFactory
+    public function getUIFactory(): NoUIFactory
     {
-        return new class extends NoUIFactory {
-            public function symbol() : C\Symbol\Factory
+        return new class () extends NoUIFactory {
+            public function symbol(): C\Symbol\Factory
             {
                 return new IC\Symbol\Factory(
                     new IC\Symbol\Icon\Factory(),
@@ -40,24 +42,24 @@ class PaginationTest extends ILIAS_UI_TestBase
                     new IC\Symbol\Avatar\Factory()
                 );
             }
-            public function button() : C\Button\Factory
+            public function button(): C\Button\Factory
             {
                 return new IC\Button\Factory();
             }
-            public function dropdown() : C\Dropdown\Factory
+            public function dropdown(): C\Dropdown\Factory
             {
                 return new IC\Dropdown\Factory();
             }
         };
     }
 
-    private function getFactory() : Factory
+    private function getFactory(): Factory
     {
         $sg = new SignalGenerator();
         return new Factory($sg);
     }
 
-    public function testConstruction() : void
+    public function testConstruction(): void
     {
         $f = $this->getFactory();
         $pagination = $f->pagination();
@@ -65,7 +67,7 @@ class PaginationTest extends ILIAS_UI_TestBase
         $this->assertInstanceOf("ILIAS\\UI\\Component\\Signal", $pagination->getInternalSignal());
     }
 
-    public function testAttributes() : void
+    public function testAttributes(): void
     {
         $total_entries = 111;
         $page_size = 100;
@@ -92,7 +94,7 @@ class PaginationTest extends ILIAS_UI_TestBase
         $this->assertEquals(2, $p->getNumberOfPages());
     }
 
-    public function testRenderUnlimited() : void
+    public function testRenderUnlimited(): void
     {
         $p = $this->getFactory()->pagination()
             ->withTotalEntries(2)
@@ -123,7 +125,7 @@ EOT;
         $this->assertHTMLEquals($expected_html, $html);
     }
 
-    public function testRenderWithCurrentPage() : void
+    public function testRenderWithCurrentPage(): void
     {
         $p = $this->getFactory()->pagination()
             ->withTotalEntries(2)
@@ -155,7 +157,7 @@ EOT;
         $this->assertHTMLEquals($expected_html, $html);
     }
 
-    public function testRenderLimited() : void
+    public function testRenderLimited(): void
     {
         $p = $this->getFactory()->pagination()
             ->withTotalEntries(3)
@@ -190,7 +192,7 @@ EOT;
         $this->assertHTMLEquals($expected_html, $html);
     }
 
-    public function testRenderLimitedWithCurrentPage() : void
+    public function testRenderLimitedWithCurrentPage(): void
     {
         $p = $this->getFactory()->pagination()
             ->withTotalEntries(3)
@@ -230,7 +232,7 @@ EOT;
         $this->assertHTMLEquals($expected_html, $html);
     }
 
-    public function testRenderLimitedWithCurrentPage2() : void
+    public function testRenderLimitedWithCurrentPage2(): void
     {
         $p = $this->getFactory()->pagination()
             ->withTotalEntries(3)
@@ -267,7 +269,7 @@ EOT;
 
 
 
-    public function testRenderDropdown() : void
+    public function testRenderDropdown(): void
     {
         $p = $this->getFactory()->pagination()
             ->withTotalEntries(3)
@@ -302,7 +304,7 @@ EOT;
         $this->assertHTMLEquals($expected_html, $html);
     }
 
-    public function testGetRangeOnNull() : void
+    public function testGetRangeOnNull(): void
     {
         $page_size = 0;
         $current_page = 1;

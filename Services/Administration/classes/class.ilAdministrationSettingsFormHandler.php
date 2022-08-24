@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -27,7 +29,7 @@ class ilAdministrationSettingsFormHandler
      * @var array<string, int>
      */
     protected static array $OBJ_MAP;
-    
+
     public const FORM_PRIVACY = 1;
     public const FORM_SECURITY = 2;
     public const FORM_LP = 4;
@@ -64,14 +66,14 @@ class ilAdministrationSettingsFormHandler
     public const SETTINGS_COMMENTS = "coms";
 
     public const VALUE_BOOL = "bool";
-    
-    protected static function initObjectMap() : void
+
+    protected static function initObjectMap(): void
     {
         /** @var \ILIAS\DI\Container $DIC */
         global $DIC;
 
         $tree = $DIC->repositoryTree();
-        
+
         $map = array("adm" => SYSTEM_FOLDER_ID);
         foreach ($tree->getChilds(SYSTEM_FOLDER_ID) as $obj) {
             $map[$obj["type"]] = (int) $obj["ref_id"];
@@ -80,15 +82,15 @@ class ilAdministrationSettingsFormHandler
         self::$OBJ_MAP = $map;
     }
 
-    protected static function getRefId(string $a_obj_type) : int
+    protected static function getRefId(string $a_obj_type): int
     {
         if (!isset(self::$OBJ_MAP)) {
             self::initObjectMap();
         }
         return self::$OBJ_MAP[$a_obj_type] ?? 0;
     }
-    
-    public static function getSettingsGUIInstance(string $a_settings_obj_type) : ilObjectGUI
+
+    public static function getSettingsGUIInstance(string $a_settings_obj_type): ilObjectGUI
     {
         global $DIC;
 
@@ -96,7 +98,7 @@ class ilAdministrationSettingsFormHandler
 
         $ref_id = self::getRefId($a_settings_obj_type);
         $obj_type = ilObject::_lookupType($ref_id, true);
-        
+
         $class_name = $objDefinition->getClassName($obj_type);
         $class_name = "ilObj" . $class_name . "GUI";
         if (is_subclass_of($class_name, "ilObject2GUI")) {
@@ -106,20 +108,20 @@ class ilAdministrationSettingsFormHandler
         }
 
         $gui_obj->setCreationMode(true);
-        
+
         return $gui_obj;
     }
-    
+
     public static function addFieldsToForm(
         int $a_form_id,
         ilPropertyFormGUI $a_form,
         ilObjectGUI $a_parent_gui
-    ) : void {
+    ): void {
         switch ($a_form_id) {
             case self::FORM_SECURITY:
                 $types = array(self::SETTINGS_USER, self::SETTINGS_FILE, self::SETTINGS_ROLE);
                 break;
-            
+
             case self::FORM_PRIVACY:
                 $types = array(self::SETTINGS_ROLE, self::SETTINGS_FORUM, self::SETTINGS_LRES, self::SETTINGS_COMMENTS);
                 break;
@@ -128,20 +130,20 @@ class ilAdministrationSettingsFormHandler
             case self::FORM_LP:
                 $types = array(self::SETTINGS_REPOSITORY);
                 break;
-            
+
             case self::FORM_ACCESSIBILITY:
                 $types = array(self::SETTINGS_FORUM, self::SETTINGS_AUTH, self::SETTINGS_WIKI);
                 break;
-                
+
             case self::FORM_MAIL:
                 $types = array(self::SETTINGS_COURSE, self::SETTINGS_GROUP, self::SETTINGS_LEARNINGSEQUENCE);
                 break;
-            
+
             case self::FORM_COURSE:
             case self::FORM_GROUP:
                 $types = array(self::SETTINGS_PRIVACY_SECURITY, self::SETTINGS_CALENDAR, self::SETTINGS_GENERAL);
                 break;
-            
+
             case self::FORM_WSP:
                 $types = array(self::SETTINGS_PORTFOLIO);
                 break;
@@ -153,7 +155,7 @@ class ilAdministrationSettingsFormHandler
             case self::FORM_TOS:
                 $types = [self::SETTINGS_USER];
                 break;
-            
+
             default:
                 $types = null;
                 break;
@@ -170,12 +172,12 @@ class ilAdministrationSettingsFormHandler
                 }
             }
         }
-        
+
         // cron jobs - special handling
-                
+
         $parent_gui = new ilObjSystemFolderGUI(null, SYSTEM_FOLDER_ID, true);
         $parent_gui->setCreationMode(true);
-        
+
         $gui = new ilCronManagerGUI();
         $data = $gui->addToExternalSettingsForm($a_form_id);
         if (is_array($data) && count($data)) {
@@ -194,7 +196,7 @@ class ilAdministrationSettingsFormHandler
         global $DIC;
 
         $lng = $DIC->language();
-        
+
         switch ($a_field_type) {
             case self::VALUE_BOOL:
                 $a_field_value = $a_field_value ?
@@ -210,13 +212,13 @@ class ilAdministrationSettingsFormHandler
 
         return is_numeric($a_field_value) || $a_field_value !== "";
     }
-    
+
     protected static function parseFieldDefinition(
         string $a_type,
         ilPropertyFormGUI $a_form,
         ilObjectGUI $a_gui,
         $a_data
-    ) : void {
+    ): void {
         /** @var \ILIAS\DI\Container $DIC */
         global $DIC;
 
@@ -230,13 +232,13 @@ class ilAdministrationSettingsFormHandler
         $rbacsystem = $DIC->rbac()->system();
         $ilCtrl = $DIC->ctrl();
         $ilAccess = $DIC->access();
-        
+
         if (!is_array($a_data)) {
             return;
         }
 
         ilLoggerFactory::getLogger('root')->dump($a_data, ilLogLevel::ERROR);
-        
+
         // write permission for current gui?
         $has_write = $ilAccess->checkAccess(
             "write",
@@ -255,7 +257,7 @@ class ilAdministrationSettingsFormHandler
                 if (is_array($fields)) {
                     $ftpl = new ilTemplate("tpl.external_settings.html", true, true, "Services/Administration");
 
-                        
+
                     $stack = array();
                     foreach ($fields as $field_caption_id => $field_value) {
                         ilLoggerFactory::getLogger('root')->dump($field_caption_id, ilLogLevel::ERROR);
@@ -266,13 +268,13 @@ class ilAdministrationSettingsFormHandler
                             $subitems = $field_value[2] ?? [];
                             $field_value = $field_value[0];
                         }
-                                    
+
                         if (self::parseFieldValue($field_type, $field_value)) {
                             $ftpl->setCurrentBlock("value_bl");
                             $ftpl->setVariable("VALUE", $field_value);
                             $ftpl->parseCurrentBlock();
                         }
-                                                                                                                            
+
                         if (is_array($subitems)) {
                             $ftpl->setCurrentBlock("subitem_bl");
                             foreach ($subitems as $sub_caption_id => $sub_value) {
@@ -282,13 +284,13 @@ class ilAdministrationSettingsFormHandler
                                     $sub_value = $sub_value[0];
                                 }
                                 self::parseFieldValue($sub_type, $sub_value);
-                                
+
                                 $ftpl->setVariable("SUBKEY", $lng->txt($sub_caption_id));
                                 $ftpl->setVariable("SUBVALUE", $sub_value);
                                 $ftpl->parseCurrentBlock();
                             }
                         }
-                        
+
                         $ftpl->setCurrentBlock("row_bl");
                         $ftpl->setVariable("KEY", $lng->txt($field_caption_id));
                         $ftpl->parseCurrentBlock();

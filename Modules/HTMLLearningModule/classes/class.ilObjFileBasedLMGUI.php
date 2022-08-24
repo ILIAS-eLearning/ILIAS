@@ -68,15 +68,15 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
         parent::__construct($a_data, $a_id, $a_call_by_reference, false);
         $this->output_prepared = $a_prepare_output;
     }
-    
-    public function executeCommand() : void
+
+    public function executeCommand(): void
     {
         $ilUser = $this->user;
         $ilTabs = $this->tabs;
 
         $next_class = $this->ctrl->getNextClass($this);
         $cmd = $this->ctrl->getCmd();
-    
+
         if (
             $this->getCreationMode() === true ||
             strtolower($this->lm_request->getBaseClass()) === "iladministrationgui"
@@ -110,9 +110,9 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
                     );
                 }
                 $fs_gui->addCommand($this, "setStartFile", $this->lng->txt("cont_set_start_file"));
-                
+
                 $this->ctrl->forwardCommand($fs_gui);
-                                            
+
                 // try to set start file automatically
                 /* this does not work anymore, see #33348
                 if (!ilObjFileBasedLMAccess::_determineStartUrl($this->object->getId())) {
@@ -176,7 +176,7 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
                 );
                 $this->ctrl->forwardCommand($new_gui);
                 break;
-                
+
             case 'ilpermissiongui':
                 $ilTabs->activateTab('id_permissions');
                 $perm_gui = new ilPermissionGUI($this);
@@ -195,7 +195,7 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
                 $gui = ilCommonActionDispatcherGUI::getInstanceFromAjaxCall();
                 $this->ctrl->forwardCommand($gui);
                 break;
-            
+
             default:
                 $cmd = $this->ctrl->getCmd("listFiles");
                 if (
@@ -207,11 +207,11 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
                 $ret = $this->$cmd();
                 break;
         }
-        
+
         $this->addHeaderAction();
     }
 
-    protected function initCreationForms(string $new_type) : array
+    protected function initCreationForms(string $new_type): array
     {
         return [
             self::CFORM_NEW => $this->initCreateForm($new_type),
@@ -219,18 +219,18 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
         ];
     }
 
-    final public function cancelCreationObject() : void
+    final public function cancelCreationObject(): void
     {
         $ilCtrl = $this->ctrl;
-        
+
         $ilCtrl->redirectByClass("ilrepositorygui", "frameset");
     }
 
-    public function properties() : void
+    public function properties(): void
     {
         $tpl = $this->tpl;
         $ilTabs = $this->tabs;
-        
+
         $ilTabs->activateTab("id_settings");
 
         $this->initSettingsForm();
@@ -238,7 +238,7 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
         $tpl->setContent($this->form->getHTML());
     }
 
-    public function initSettingsForm() : void
+    public function initSettingsForm(): void
     {
         $obj_service = $this->getObjectService();
         $lng = $this->lng;
@@ -303,7 +303,7 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
         );
     }
 
-    public function getSettingsFormValues() : void
+    public function getSettingsFormValues(): void
     {
         $startfile = ilObjFileBasedLMAccess::_determineStartUrl($this->object->getId());
 
@@ -323,18 +323,18 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
         $this->form->setValuesByArray($values);
     }
 
-    public function toFilesystem() : void
+    public function toFilesystem(): void
     {
         $ilCtrl = $this->ctrl;
         $ilCtrl->redirectByClass("ilfilesystemgui", "listFiles");
     }
 
-    public function saveProperties() : void
+    public function saveProperties(): void
     {
         $tpl = $this->tpl;
         $ilTabs = $this->tabs;
         $obj_service = $this->getObjectService();
-        
+
         $this->initSettingsForm();
         if ($this->form->checkInput()) {
             $this->object->setTitle($this->form->getInput("title"));
@@ -364,25 +364,25 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
         $tpl->setContent($this->form->getHTML());
     }
 
-    public function editObject() : void
+    public function editObject(): void
     {
         if (!$this->rbac_system->checkAccess("visible,write", $this->object->getRefId())) {
             throw new ilPermissionException($this->lng->txt("permission_denied"));
         }
     }
 
-    public function edit() : void
+    public function edit(): void
     {
         $this->prepareOutput();
         $this->editObject();
     }
 
-    public function cancel() : void
+    public function cancel(): void
     {
         $this->cancelObject();
     }
-    
-    protected function afterSave(ilObject $new_object) : void
+
+    protected function afterSave(ilObject $new_object): void
     {
         if (!$new_object->getStartFile()) {
             // try to set start file automatically
@@ -416,31 +416,31 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
                 }
             }
         }
-        
+
         // always send a message
         $this->tpl->setOnScreenMessage('success', $this->lng->txt("object_added"), true);
         $this->object = $new_object;
         $this->redirectAfterCreation();
     }
 
-    public function update() : void
+    public function update(): void
     {
         $this->updateObject();
     }
 
-    public function setStartFile(string $a_file) : void
+    public function setStartFile(string $a_file): void
     {
         $this->object->setStartFile($a_file);
         $this->object->update();
         $this->ctrl->redirectByClass("ilfilesystemgui", "listFiles");
     }
 
-    public function getTemplate() : void
+    public function getTemplate(): void
     {
         $this->tpl->loadStandardTemplate();
     }
 
-    public function showLearningModule() : void
+    public function showLearningModule(): void
     {
         $ilUser = $this->user;
 
@@ -466,31 +466,31 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
     /**
      * this one is called from the info button in the repository
      */
-    public function infoScreen() : void
+    public function infoScreen(): void
     {
         $this->ctrl->setCmd("showSummary");
         $this->ctrl->setCmdClass("ilinfoscreengui");
         $this->showInfoScreen();
     }
 
-    public function showInfoScreen() : void
+    public function showInfoScreen(): void
     {
         $ilToolbar = $this->toolbar;
         $ilAccess = $this->access;
         $ilTabs = $this->tabs;
 
         $ilTabs->activateTab('id_info');
-        
+
         $this->lng->loadLanguageModule("meta");
 
         $info = new ilInfoScreenGUI($this);
         $info->enablePrivateNotes();
         $info->enableLearningProgress();
-        
+
         $info->enableNews();
         if ($ilAccess->checkAccess("write", "", $this->requested_ref_id)) {
             $info->enableNewsEditing();
-            
+
             $news_set = new ilSetting("news");
             $enable_internal_rss = $news_set->get("enable_rss_for_internal");
             if ($enable_internal_rss) {
@@ -508,7 +508,7 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
             $button->setTarget("ilContObj" . $this->object->getId());
             $ilToolbar->addButtonInstance($button);
         }
-        
+
         // show standard meta data section
         $info->addMetaDataSections($this->object->getId(), 0, $this->object->getType());
 
@@ -516,14 +516,14 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
         $this->ctrl->forwardCommand($info);
     }
 
-    protected function setTabs() : void
+    protected function setTabs(): void
     {
         $this->tpl->setTitleIcon(ilUtil::getImagePath("icon_lm.svg"));
         $this->getTabs();
         $this->tpl->setTitle($this->object->getTitle());
     }
 
-    protected function getTabs() : void
+    protected function getTabs(): void
     {
         $ilAccess = $this->access;
         $ilTabs = $this->tabs;
@@ -531,7 +531,7 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
         $ilHelp = $this->help;
 
         $ilHelp->setScreenIdComponent("htlm");
-        
+
         if ($ilAccess->checkAccess('write', '', $this->ref_id)) {
             $ilTabs->addTab(
                 "id_list_files",
@@ -555,7 +555,7 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
                 $this->ctrl->getLinkTarget($this, "properties")
             );
         }
-        
+
         if (ilLearningProgressAccess::checkAccess($this->object->getRefId())) {
             $ilTabs->addTab(
                 "id_learning_progress",
@@ -604,8 +604,8 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
             );
         }
     }
-    
-    public static function _goto(string $a_target) : void
+
+    public static function _goto(string $a_target): void
     {
         global $DIC;
         $main_tpl = $DIC->ui()->mainTemplate();
@@ -627,10 +627,10 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
         throw new ilPermissionException($lng->txt("msg_no_perm_read_lm"));
     }
 
-    protected function addLocatorItems() : void
+    protected function addLocatorItems(): void
     {
         $ilLocator = $this->locator;
-        
+
         if (is_object($this->object)) {
             $ilLocator->addItem(
                 $this->object->getTitle(),
@@ -641,7 +641,7 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
         }
     }
 
-    protected function importFileObject(int $parent_id = null, bool $catch_errors = true) : void
+    protected function importFileObject(int $parent_id = null, bool $catch_errors = true): void
     {
         try {
             parent::importFileObject();
@@ -651,19 +651,19 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
         }
     }
 
-    protected function afterImport(ilObject $new_object) : void
+    protected function afterImport(ilObject $new_object): void
     {
         $this->ctrl->setParameter($this, "ref_id", $new_object->getRefId());
         $this->tpl->setOnScreenMessage('success', $this->lng->txt("object_added"), true);
         $this->ctrl->redirect($this, "properties");
     }
 
-    public function createFromDirectory(string $a_dir) : void
+    public function createFromDirectory(string $a_dir): void
     {
         if ($a_dir === "" || !$this->checkPermissionBool("create", "", "htlm")) {
             throw new ilPermissionException($this->lng->txt("no_create_permission"));
         }
-        
+
         // create instance
         $newObj = new ilObjFileBasedLM();
         $filename = ilUtil::stripSlashes($_FILES["importfile"]["name"]);
@@ -675,13 +675,13 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
 
         $this->afterSave($newObj);
     }
-    
-    
+
+
     ////
     //// Export to HTML
     ////
 
-    public function exportHTML() : void
+    public function exportHTML(): void
     {
         ilExport::_createExportDirectory(
             $this->object->getId(),
@@ -693,7 +693,7 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
             "html",
             $this->object->getType()
         );
-        
+
         $subdir = $this->object->getType() . "_" . $this->object->getId();
 
         $target_dir = $export_dir . "/" . $subdir;
@@ -714,7 +714,7 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
         ilFileUtils::delDir($target_dir);
     }
 
-    public function redirectAfterCreation() : void
+    public function redirectAfterCreation(): void
     {
         $ctrl = $this->ctrl;
         $ctrl->setParameterByClass("ilObjFileBasedLMGUI", "ref_id", $this->object->getRefId());
@@ -722,12 +722,12 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
     }
 
 
-    public function learningProgress() : void
+    public function learningProgress(): void
     {
         $this->ctrl->redirectByClass("illearningprogressgui", "");
     }
 
-    public function redrawHeaderAction() : void
+    public function redrawHeaderAction(): void
     {
         $this->redrawHeaderActionObject();
     }

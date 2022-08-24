@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /* Copyright (c) 2021 Thibeau Fuhrer <thf@studer-raimann.ch> Extended GPL, see docs/LICENSE */
 
@@ -11,13 +13,13 @@ use PHPUnit\Framework\TestCase;
  */
 class ilCtrlStructureMapperTest extends TestCase
 {
-    public function testStructureMapperWithEmptyArray() : void
+    public function testStructureMapperWithEmptyArray(): void
     {
         $mapper = new ilCtrlStructureMapper([]);
         $this->assertEmpty($mapper->getStructure());
     }
 
-    public function testStructureMapperWithCommonStringArray() : void
+    public function testStructureMapperWithCommonStringArray(): void
     {
         $expected_values = ['entry0', 'entry1', 'entry2'];
         $mapper = new ilCtrlStructureMapper($expected_values);
@@ -25,7 +27,7 @@ class ilCtrlStructureMapperTest extends TestCase
         $this->assertEmpty($mapper->getStructure());
     }
 
-    public function testStructureMapperWithAssociativeStringArray() : void
+    public function testStructureMapperWithAssociativeStringArray(): void
     {
         $mapper = new ilCtrlStructureMapper([
             'key0' => 'entry0',
@@ -36,7 +38,7 @@ class ilCtrlStructureMapperTest extends TestCase
         $this->assertEmpty($mapper->getStructure());
     }
 
-    public function testStructureMapperWithEmptyClassData() : void
+    public function testStructureMapperWithEmptyClassData(): void
     {
         $expected_values = [
             'key0' => [],
@@ -52,7 +54,7 @@ class ilCtrlStructureMapperTest extends TestCase
         );
     }
 
-    public function testStructureMapperWithStructureArray() : void
+    public function testStructureMapperWithStructureArray(): void
     {
         $mapper = new ilCtrlStructureMapper([
             'class0' => [
@@ -99,7 +101,7 @@ class ilCtrlStructureMapperTest extends TestCase
         );
     }
 
-    public function testStructureMapperWithMissingReferenceLists() : void
+    public function testStructureMapperWithMissingReferenceLists(): void
     {
         $mapper = new ilCtrlStructureMapper([
             'class0' => [
@@ -138,7 +140,7 @@ class ilCtrlStructureMapperTest extends TestCase
         );
     }
 
-    public function testStructureMapperWithInvalidReferenceInList() : void
+    public function testStructureMapperWithInvalidReferenceInList(): void
     {
         $mapper = new ilCtrlStructureMapper([
             'class1' => [
@@ -158,7 +160,7 @@ class ilCtrlStructureMapperTest extends TestCase
         );
     }
 
-    public function testStructureMapperReferenceListIndexesAfterInvalidReferenceIsRemoved() : void
+    public function testStructureMapperReferenceListIndexesAfterInvalidReferenceIsRemoved(): void
     {
         $mapper = new ilCtrlStructureMapper([
             'class1' => [
@@ -187,7 +189,7 @@ class ilCtrlStructureMapperTest extends TestCase
         );
     }
 
-    public function testStructureMapperWithMixedArray() : void
+    public function testStructureMapperWithMixedArray(): void
     {
         $mapper = new ilCtrlStructureMapper([
             'class1' => [],

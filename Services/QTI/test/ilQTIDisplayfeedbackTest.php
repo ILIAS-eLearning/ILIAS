@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -21,26 +23,26 @@ use PHPUnit\Framework\TestCase;
 
 class ilQTIDisplayfeedbackTest extends TestCase
 {
-    public function testConstruct() : void
+    public function testConstruct(): void
     {
         $this->assertInstanceOf(ilQTIDisplayfeedback::class, new ilQTIDisplayfeedback());
     }
 
-    public function testSetGetFeedbacktype() : void
+    public function testSetGetFeedbacktype(): void
     {
         $instance = new ilQTIDisplayfeedback();
         $instance->setFeedbacktype('Some input.');
         $this->assertEquals('Some input.', $instance->getFeedbacktype());
     }
 
-    public function testSetGetLinkrefid() : void
+    public function testSetGetLinkrefid(): void
     {
         $instance = new ilQTIDisplayfeedback();
         $instance->setLinkrefid('Some input.');
         $this->assertEquals('Some input.', $instance->getLinkrefid());
     }
 
-    public function testSetGetContent() : void
+    public function testSetGetContent(): void
     {
         $instance = new ilQTIDisplayfeedback();
         $instance->setContent('Some input.');

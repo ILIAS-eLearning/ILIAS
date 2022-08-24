@@ -1,4 +1,6 @@
-<?php declare(strict_types=0);
+<?php
+
+declare(strict_types=0);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -14,7 +16,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * Class ilLOTestAssignmentTableGUI
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
@@ -53,7 +55,7 @@ class ilLOTestAssignmentTableGUI extends ilTable2GUI
         $this->setTopCommands(false);
     }
 
-    public function initTitle() : void
+    public function initTitle(): void
     {
         switch ($this->test_type) {
             case ilLOSettings::TYPE_TEST_INITIAL:
@@ -80,12 +82,12 @@ class ilLOTestAssignmentTableGUI extends ilTable2GUI
         }
     }
 
-    public function getSettings() : ilLOSettings
+    public function getSettings(): ilLOSettings
     {
         return $this->settings;
     }
 
-    public function getAssignmentType() : int
+    public function getAssignmentType(): int
     {
         return $this->assignment_type;
     }
@@ -93,7 +95,7 @@ class ilLOTestAssignmentTableGUI extends ilTable2GUI
     /**
      * Init table
      */
-    public function init() : void
+    public function init(): void
     {
         $this->addColumn('', '', '20px');
         $this->addColumn($this->lng->txt('title'), 'title');
@@ -119,7 +121,7 @@ class ilLOTestAssignmentTableGUI extends ilTable2GUI
         }
     }
 
-    protected function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set): void
     {
         if ($this->getAssignmentType() == self::TYPE_MULTIPLE_ASSIGNMENTS) {
             $this->tpl->setVariable('VAL_ID', $a_set['assignment_id']);
@@ -170,7 +172,7 @@ class ilLOTestAssignmentTableGUI extends ilTable2GUI
         }
     }
 
-    public function parseMultipleAssignments() : void
+    public function parseMultipleAssignments(): void
     {
         $assignments = ilLOTestAssignments::getInstance($this->container_id);
         $available = $assignments->getAssignmentsByType($this->test_type);
@@ -192,7 +194,7 @@ class ilLOTestAssignmentTableGUI extends ilTable2GUI
         $this->setData($data);
     }
 
-    public function parse(int $a_tst_ref_id) : void
+    public function parse(int $a_tst_ref_id): void
     {
         $this->setData(array($this->doParse($a_tst_ref_id)));
     }
@@ -201,7 +203,7 @@ class ilLOTestAssignmentTableGUI extends ilTable2GUI
      * Parse test
      * throws ilLOInvalidConfigurationException in case assigned test cannot be found.
      */
-    protected function doParse(int $a_tst_ref_id, int $a_objective_id = 0) : array
+    protected function doParse(int $a_tst_ref_id, int $a_objective_id = 0): array
     {
         $tst = ilObjectFactory::getInstanceByRefId($a_tst_ref_id, false);
 

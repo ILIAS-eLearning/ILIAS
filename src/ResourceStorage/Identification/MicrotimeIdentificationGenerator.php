@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -14,7 +16,7 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *********************************************************************/
- 
+
 namespace ILIAS\ResourceStorage\Identification;
 
 /**
@@ -25,11 +27,10 @@ namespace ILIAS\ResourceStorage\Identification;
  */
 class MicrotimeIdentificationGenerator implements IdentificationGenerator
 {
-
     /**
      * @throws \Exception
      */
-    public function getUniqueResourceIdentification() : ResourceIdentification
+    public function getUniqueResourceIdentification(): ResourceIdentification
     {
         return new ResourceIdentification((string) microtime(true));
     }

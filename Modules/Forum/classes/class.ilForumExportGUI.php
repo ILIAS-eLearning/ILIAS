@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -69,7 +71,7 @@ class ilForumExportGUI
         $this->is_moderator = $this->access->checkAccess('moderate_frm', '', $this->ref_id);
     }
 
-    private function retrieveRefId() : int
+    private function retrieveRefId(): int
     {
         $ref_id = 0;
         if ($this->http->wrapper()->query()->has('ref_id')) {
@@ -82,14 +84,14 @@ class ilForumExportGUI
         return $ref_id;
     }
 
-    private function prepare() : void
+    private function prepare(): void
     {
         ilMathJax::getInstance()
             ->init(ilMathJax::PURPOSE_EXPORT)
             ->setZoomFactor(10);
     }
 
-    private function ensureThreadBelongsToForum(int $objId, ilForumTopic $thread) : void
+    private function ensureThreadBelongsToForum(int $objId, ilForumTopic $thread): void
     {
         $forumId = ilObjForum::lookupForumIdByObjId($objId);
         if ($thread->getForumId() !== $forumId) {
@@ -97,7 +99,7 @@ class ilForumExportGUI
         }
     }
 
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         $next_class = $this->ctrl->getNextClass($this);
         $cmd = $this->ctrl->getCmd();
@@ -109,7 +111,7 @@ class ilForumExportGUI
         }
     }
 
-    protected function renderPostHtml(ilGlobalTemplateInterface $tpl, ilForumPost $post, int $counter, int $mode) : void
+    protected function renderPostHtml(ilGlobalTemplateInterface $tpl, ilForumPost $post, int $counter, int $mode): void
     {
         $tpl->setCurrentBlock('posts_row');
 
@@ -252,7 +254,7 @@ class ilForumExportGUI
         $tpl->parseCurrentBlock('posts_row');
     }
 
-    public function printThread() : void
+    public function printThread(): void
     {
         if (
             !$this->access->checkAccess('read,visible', '', $this->ref_id) ||
@@ -278,7 +280,7 @@ class ilForumExportGUI
             $this->refinery->kindlyTo()->int()
         )]);
         $frmData = $this->frm->getOneTopic();
-        
+
         if ($frmData->getTopPk() > 0) {
             $topic = new ilForumTopic($this->http->wrapper()->query()->retrieve(
                 'print_thread',
@@ -309,7 +311,7 @@ class ilForumExportGUI
         $tpl->printToStdout();
     }
 
-    public function printPost() : void
+    public function printPost(): void
     {
         if (!$this->access->checkAccess('read,visible', '', $this->ref_id)) {
             $this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
@@ -331,7 +333,7 @@ class ilForumExportGUI
             $this->refinery->kindlyTo()->int()
         )]);
         $frmData = $this->frm->getOneTopic();
-        
+
         if ($frmData->getTopPk() > 0) {
             $post = new ilForumPost($this->http->wrapper()->query()->retrieve(
                 'print_post',
@@ -351,7 +353,7 @@ class ilForumExportGUI
         $tpl->printToStdout();
     }
 
-    public function exportHTML() : void
+    public function exportHTML(): void
     {
         if (!$this->access->checkAccess('read,visible', '', $this->ref_id)) {
             $this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
@@ -379,7 +381,7 @@ class ilForumExportGUI
                 $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->int())
             );
         }
-        array_walk($thread_ids, function (int $threadId) use (&$threads, $isModerator) : void {
+        array_walk($thread_ids, function (int $threadId) use (&$threads, $isModerator): void {
             $thread = new ilForumTopic($threadId, $isModerator);
             $this->ensureThreadBelongsToForum($this->frm->getForumId(), $thread);
 
@@ -390,7 +392,7 @@ class ilForumExportGUI
         foreach ($threads as $topic) {
             $this->frm->setMDB2WhereCondition('top_pk = %s ', ['integer'], [$topic->getForumId()]);
             $frmData = $this->frm->getOneTopic();
-            
+
             if ($frmData->getTopPk() > 0) {
                 if (0 === $i) {
                     $tpl->setVariable('TITLE', $frmData->getTopName());

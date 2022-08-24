@@ -27,7 +27,7 @@ class ilObjWorkspaceRootFolderListGUI extends ilObjectListGUI
 {
     protected StandardGUIRequest $request;
 
-    public function init() : void
+    public function init(): void
     {
         global $DIC;
 
@@ -50,7 +50,7 @@ class ilObjWorkspaceRootFolderListGUI extends ilObjectListGUI
     /**
      * Get command link url.
      */
-    public function getCommandLink(string $cmd) : string
+    public function getCommandLink(string $cmd): string
     {
         $ilCtrl = $this->ctrl;
 

@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace ILIAS\Filesystem\Util;
@@ -47,7 +48,7 @@ final class LegacyPathHelper
      *
      * @throws \InvalidArgumentException    Thrown if no filesystem is responsible for the given path.
      */
-    public static function deriveFilesystemFrom(string $absolute_path) : Filesystem
+    public static function deriveFilesystemFrom(string $absolute_path): Filesystem
     {
         list(
             $web,
@@ -104,7 +105,7 @@ final class LegacyPathHelper
      *
      * @see LegacyPathHelper::deriveFilesystemFrom()
      */
-    public static function createRelativePath(string $absolute_path) : string
+    public static function createRelativePath(string $absolute_path): string
     {
         list(
             $web,
@@ -158,7 +159,7 @@ final class LegacyPathHelper
     }
 
 
-    private static function resolveRelativePath(string $possible_path, string $absolute_path) : string
+    private static function resolveRelativePath(string $possible_path, string $absolute_path): string
     {
         $real_possible_path = realpath($possible_path);
 
@@ -188,7 +189,7 @@ final class LegacyPathHelper
      *
      * @return bool
      */
-    private static function checkPossiblePath(string $possible_path, string $absolute_path) : bool
+    private static function checkPossiblePath(string $possible_path, string $absolute_path): bool
     {
         $real_possible_path = realpath($possible_path);
 
@@ -210,7 +211,7 @@ final class LegacyPathHelper
     /**
      * @return array
      */
-    private static function listPaths() : array
+    private static function listPaths(): array
     {
         $web = CLIENT_WEB_DIR;
         $webRelativeWithLeadingDot = './' . ILIAS_WEB_DIR . '/' . CLIENT_ID;

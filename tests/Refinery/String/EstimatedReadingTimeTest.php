@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -42,8 +44,8 @@ EOT;
 EOT;
 
     private Refinery $refinery;
-    
-    protected function setUp() : void
+
+    protected function setUp(): void
     {
         $this->refinery = new Refinery(
             $this->createMock(DataFactory::class),
@@ -56,7 +58,7 @@ EOT;
     /**
      * @return array[]
      */
-    public function inputProvider() : array
+    public function inputProvider(): array
     {
         return [
             [5],
@@ -65,7 +67,7 @@ EOT;
             [new stdClass()],
             [true],
             [null],
-            [static function () : void {
+            [static function (): void {
             }],
         ];
     }
@@ -73,9 +75,9 @@ EOT;
     /**
      * @return array[]
      */
-    public function unsupportedButKnownEntitiesProvider() : array
+    public function unsupportedButKnownEntitiesProvider(): array
     {
-        return array_map(static function (string $entity) : array {
+        return array_map(static function (string $entity): array {
             return [
                 '<div>Lorem ipsum dolor <' . $entity . '></' . $entity . '></div>'
             ];
@@ -96,7 +98,7 @@ EOT;
      * @dataProvider inputProvider
      * @param mixed $from
      */
-    public function testExceptionIsRaisedIfInputIsNotAString($from) : void
+    public function testExceptionIsRaisedIfInputIsNotAString($from): void
     {
         $this->expectException(InvalidArgumentException::class);
         $readingTimeTrafo = $this->refinery->string()->estimatedReadingTime(true);
@@ -104,7 +106,7 @@ EOT;
         $readingTimeTrafo->transform($from);
     }
 
-    public function testReadingTimeForPlainTextCanBeDetermined() : void
+    public function testReadingTimeForPlainTextCanBeDetermined(): void
     {
         $readingTimeTrafo = $this->refinery->string()->estimatedReadingTime(true);
         $this->assertEquals(
@@ -113,7 +115,7 @@ EOT;
         );
     }
 
-    public function testReadingTimeForHtmlFragmentCanBeDetermined() : void
+    public function testReadingTimeForHtmlFragmentCanBeDetermined(): void
     {
         $text = self::HTML;
 
@@ -130,13 +132,13 @@ EOT;
         );
     }
 
-    public function testSolitaryPunctuationCharactersMustNotAffectReadingTime() : void
+    public function testSolitaryPunctuationCharactersMustNotAffectReadingTime(): void
     {
         $textSegmentWithPunctuation = 'Lorem ipsum <img src="#" />, and some other text... ';
         $repetitions = 300; // 275 repetitions result in an additional minute, if the `,` would be considered
-        
+
         $readingTimeTrafo = $this->refinery->string()->estimatedReadingTime(true);
-        
+
         $text = str_repeat($textSegmentWithPunctuation, $repetitions);
 
         $timeInMinutes = $readingTimeTrafo->transform($text);
@@ -149,10 +151,10 @@ EOT;
         $this->assertEquals(23, $timeInMinutes);
     }
 
-    public function testXTHMLCommentsMustNotAffectReadingTime() : void
+    public function testXTHMLCommentsMustNotAffectReadingTime(): void
     {
         $text = self::HTML;
-    
+
         $comment = '<script><!--a comment--></script>';
         $repetitions = 300;
         $text .= str_repeat($comment, $repetitions);
@@ -168,7 +170,7 @@ EOT;
      * @dataProvider unsupportedButKnownEntitiesProvider
      * @param string $text
      */
-    public function testNoExceptionIsRaisedIfHtmlContainsUnsupportedEntities(string $text) : void
+    public function testNoExceptionIsRaisedIfHtmlContainsUnsupportedEntities(string $text): void
     {
         $reading_time_trafo = $this->refinery->string()->estimatedReadingTime(true);
 
@@ -178,7 +180,7 @@ EOT;
         $this->assertGreaterThan(0, $reading_time);
     }
 
-    public function testNoExceptionIsRaisedIfHtmlContainsAmpersandInUrls() : void
+    public function testNoExceptionIsRaisedIfHtmlContainsAmpersandInUrls(): void
     {
         $reading_time_trafo = $this->refinery->string()->estimatedReadingTime(true);
 

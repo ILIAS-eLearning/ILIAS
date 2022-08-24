@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -30,27 +32,27 @@ use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isItem;
  */
 class NullItemInformation implements ItemInformation
 {
-    public function isItemActive(isItem $item) : bool
+    public function isItemActive(isItem $item): bool
     {
         return false;
     }
 
-    public function customPosition(isItem $item) : isItem
+    public function customPosition(isItem $item): isItem
     {
         return $item;
     }
 
-    public function customTranslationForUser(hasTitle $item) : hasTitle
+    public function customTranslationForUser(hasTitle $item): hasTitle
     {
         return $item;
     }
 
-    public function getParent(isItem $item) : IdentificationInterface
+    public function getParent(isItem $item): IdentificationInterface
     {
         return new NullIdentification();
     }
 
-    public function customSymbol(hasSymbol $item) : hasSymbol
+    public function customSymbol(hasSymbol $item): hasSymbol
     {
         return $item;
     }

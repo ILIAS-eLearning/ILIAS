@@ -1,4 +1,5 @@
 <?php
+
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 require_once 'Services/UIComponent/Toolbar/classes/class.ilToolbarGUI.php';
@@ -21,8 +22,8 @@ class ilAssQuestionPreviewToolbarGUI extends ilToolbarGUI
 
         parent::__construct();
     }
-    
-    public function build() : void
+
+    public function build(): void
     {
         //Edit Question
         $button_edit_question = ilLinkButton::getInstance();
@@ -48,7 +49,7 @@ class ilAssQuestionPreviewToolbarGUI extends ilToolbarGUI
         //$this->addFormButton($this->lng->txt('qpl_reset_preview'), $this->getResetPreviewCmd(), '', false);
     }
 
-    public function setResetPreviewCmd($resetPreviewCmd) : void
+    public function setResetPreviewCmd($resetPreviewCmd): void
     {
         $this->resetPreviewCmd = $resetPreviewCmd;
     }
@@ -69,7 +70,7 @@ class ilAssQuestionPreviewToolbarGUI extends ilToolbarGUI
     /**
      * @param mixed $editQuestionCmd
      */
-    public function setEditQuestionCmd($editQuestionCmd) : void
+    public function setEditQuestionCmd($editQuestionCmd): void
     {
         $this->editQuestionCmd = $editQuestionCmd;
     }
@@ -85,7 +86,7 @@ class ilAssQuestionPreviewToolbarGUI extends ilToolbarGUI
     /**
      * @param mixed $editPageCmd
      */
-    public function setEditPageCmd($editPageCmd) : void
+    public function setEditPageCmd($editPageCmd): void
     {
         $this->editPageCmd = $editPageCmd;
     }

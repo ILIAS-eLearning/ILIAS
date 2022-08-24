@@ -1,4 +1,5 @@
 <?php
+
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 require_once 'Modules/TestQuestionPool/classes/forms/class.ilAssQuestionAuthoringFormGUI.php';
@@ -10,10 +11,10 @@ require_once 'Modules/TestQuestionPool/classes/forms/class.ilAssQuestionAuthorin
  */
 class ilAssOrderingQuestionAuthoringFormGUI extends ilAssQuestionAuthoringFormGUI
 {
-    const COMMAND_BUTTON_PREFIX = 'assOrderingQuestionBtn_';
+    public const COMMAND_BUTTON_PREFIX = 'assOrderingQuestionBtn_';
 
     protected $availableCommandButtonIds = null;
-    
+
     public function __construct()
     {
         $this->setAvailableCommandButtonIds(
@@ -24,18 +25,18 @@ class ilAssOrderingQuestionAuthoringFormGUI extends ilAssQuestionAuthoringFormGU
         );
         parent::__construct();
     }
-    
-    protected function setAvailableCommandButtonIds($availableCommandButtonIds) : void
+
+    protected function setAvailableCommandButtonIds($availableCommandButtonIds): void
     {
         $this->availableCommandButtonIds = $availableCommandButtonIds;
     }
-    
+
     protected function getAvailableCommandButtonIds()
     {
         return $this->availableCommandButtonIds;
     }
-    
-    public function addSpecificOrderingQuestionCommandButtons(assOrderingQuestion $questionOBJ) : void
+
+    public function addSpecificOrderingQuestionCommandButtons(assOrderingQuestion $questionOBJ): void
     {
         if ($questionOBJ->isImageOrderingType()) {
             $cmd = assOrderingQuestionGUI::CMD_SWITCH_TO_TERMS;
@@ -55,23 +56,23 @@ class ilAssOrderingQuestionAuthoringFormGUI extends ilAssQuestionAuthoringFormGU
             assOrderingQuestion::ORDERING_ELEMENT_FORM_FIELD_POSTVAR
         );
     }
-    
-    public function prepareValuesReprintable(assOrderingQuestion $questionOBJ) : void
+
+    public function prepareValuesReprintable(assOrderingQuestion $questionOBJ): void
     {
         $this->getOrderingElementInputField()->prepareReprintable($questionOBJ);
     }
-    
-    public function ensureReprintableFormStructure(assOrderingQuestion $questionOBJ) : void
+
+    public function ensureReprintableFormStructure(assOrderingQuestion $questionOBJ): void
     {
         $this->renewOrderingElementInput($questionOBJ);
         $this->renewOrderingCommandButtons($questionOBJ);
     }
-    
+
     /**
      * @param assOrderingQuestion $questionOBJ
      * @throws ilTestQuestionPoolException
      */
-    protected function renewOrderingElementInput(assOrderingQuestion $questionOBJ) : void
+    protected function renewOrderingElementInput(assOrderingQuestion $questionOBJ): void
     {
         $replacingInput = $questionOBJ->buildOrderingElementInputGui();
         $questionOBJ->initOrderingElementAuthoringProperties($replacingInput);
@@ -80,12 +81,12 @@ class ilAssOrderingQuestionAuthoringFormGUI extends ilAssQuestionAuthoringFormGU
         $this->replaceFormItemByPostVar($replacingInput);
     }
 
-    protected function buildCommandButtonId($id) : string
+    protected function buildCommandButtonId($id): string
     {
         return self::COMMAND_BUTTON_PREFIX . $id;
     }
 
-    protected function renewOrderingCommandButtons(assOrderingQuestion $questionOBJ) : void
+    protected function renewOrderingCommandButtons(assOrderingQuestion $questionOBJ): void
     {
         $this->clearCommandButtons();
         $this->addSpecificOrderingQuestionCommandButtons($questionOBJ);

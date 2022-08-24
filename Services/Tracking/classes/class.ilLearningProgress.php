@@ -29,14 +29,13 @@
  */
 class ilLearningProgress
 {
-
     // Static
     public static function _tracProgress(
         int $a_user_id,
         int $a_obj_id,
         int $a_ref_id,
         string $a_obj_type = ''
-    ) : bool {
+    ): bool {
         ilChangeEvent::_recordReadEvent(
             $a_obj_type,
             $a_ref_id,
@@ -49,7 +48,7 @@ class ilLearningProgress
         return true;
     }
 
-    public static function _getProgress(int $a_user_id, int $a_obj_id) : array
+    public static function _getProgress(int $a_user_id, int $a_obj_id): array
     {
         $events = ilChangeEvent::_lookupReadEvents($a_obj_id, $a_user_id);
 
@@ -86,7 +85,7 @@ class ilLearningProgress
     /**
      * lookup progress for a specific object
      */
-    public static function _lookupProgressByObjId(int $a_obj_id) : array
+    public static function _lookupProgressByObjId(int $a_obj_id): array
     {
         $progress = [];
         foreach (ilChangeEvent::_lookupReadEvents($a_obj_id) as $row) {

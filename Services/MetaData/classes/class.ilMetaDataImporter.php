@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -14,7 +16,7 @@ class ilMetaDataImporter extends ilXmlImporter
         string $a_id,
         string $a_xml,
         ilImportMapping $a_mapping
-    ) : void {
+    ): void {
         $new_id = $a_mapping->getMapping("Services/MetaData", "md", $a_id);
 
         if (is_string($new_id) && $new_id !== "") {

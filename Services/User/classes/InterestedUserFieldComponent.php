@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -33,12 +35,12 @@ class InterestedUserFieldComponent
         $this->description = $description;
     }
 
-    public function getComponentName() : string
+    public function getComponentName(): string
     {
         return $this->componentName;
     }
 
-    public function getDescription() : string
+    public function getDescription(): string
     {
         return $this->description;
     }

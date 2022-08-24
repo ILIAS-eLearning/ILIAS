@@ -31,11 +31,13 @@ class UserIdsOfPositionAndOrgUnit extends Base
         $position_id = $params[self::POSITION_ID];
         $orgu_id = $params[self::ORGU_REF_ID];
 
-        return ilOrgUnitUserAssignmentQueries::getInstance()->getUserIdsOfOrgUnitsInPosition(array($orgu_id),
-            $position_id);
+        return ilOrgUnitUserAssignmentQueries::getInstance()->getUserIdsOfOrgUnitsInPosition(
+            array($orgu_id),
+            $position_id
+        );
     }
 
-    public function getName() : string
+    public function getName(): string
     {
         return "getUserIdsOfPositionAndOrgUnit";
     }
@@ -48,12 +50,12 @@ class UserIdsOfPositionAndOrgUnit extends Base
         );
     }
 
-    public function getOutputParams() : array
+    public function getOutputParams(): array
     {
         return array('usr_ids' => Base::TYPE_INT_ARRAY);
     }
 
-    public function getDocumentation() : string
+    public function getDocumentation(): string
     {
         return "Returns ids of users in a position of a given Org Unit";
     }

@@ -14,7 +14,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * Importer class for files
  *
@@ -25,12 +25,12 @@
 class ilFileImporter extends ilXmlImporter
 {
     protected ?ilObjFile $current_obj = null;
-    
+
     /**
      * Import XML
      * @param
      */
-    public function importXmlRepresentation(string $a_entity, string $a_id, string $a_xml, ilImportMapping $a_mapping) : void
+    public function importXmlRepresentation(string $a_entity, string $a_id, string $a_xml, ilImportMapping $a_mapping): void
     {
         // case i container
         if ($new_id = $a_mapping->getMapping('Services/Container', 'objs', $a_id)) {
@@ -45,7 +45,7 @@ class ilFileImporter extends ilXmlImporter
         $parser = new ilFileXMLParser($newObj, $a_xml);
         $parser->setImportDirectory($this->getImportDirectory());
         $parser->startParsing();
-        
+
         $newObj->createProperties();
 
         $parser->setFileContents();

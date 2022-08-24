@@ -1,4 +1,6 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -34,17 +36,17 @@ class ViewSessionRepository
     {
     }
 
-    public function setAdminView() : void
+    public function setAdminView(): void
     {
         ilSession::set(self::KEY, self::VIEW_ADMIN);
     }
 
-    public function setContentView() : void
+    public function setContentView(): void
     {
         ilSession::clear(self::KEY);
     }
 
-    public function isAdminView() : bool
+    public function isAdminView(): bool
     {
         if (ilSession::has(self::KEY)) {
             return (ilSession::get(self::KEY) == self::VIEW_ADMIN);
@@ -52,7 +54,7 @@ class ViewSessionRepository
         return false;
     }
 
-    public function isContentView() : bool
+    public function isContentView(): bool
     {
         return !ilSession::has(self::KEY);
     }

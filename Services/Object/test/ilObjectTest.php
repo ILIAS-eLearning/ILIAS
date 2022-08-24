@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -26,12 +28,12 @@ class ilObjectTest extends TestCase
      * @var ilDBInterface|\PHPUnit\Framework\MockObject\MockObject
      */
     protected ilDBInterface $db_mock;
-    
-    protected function setUp() : void
+
+    protected function setUp(): void
     {
         global $DIC;
         $this->dic_backup = is_object($DIC) ? clone $DIC : $DIC;
-        
+
         $DIC = new Container();
         $DIC['ilias'] = $this->createMock(ILIAS::class);
         $DIC['objDefinition'] = $this->createMock(ilObjectDefinition::class);
@@ -42,23 +44,23 @@ class ilObjectTest extends TestCase
         $DIC['ilAppEventHandler'] = $this->createMock(ilAppEventHandler::class);
         $DIC['ilUser'] = $this->createMock(ilObjUser::class);
     }
-    
-    protected function tearDown() : void
+
+    protected function tearDown(): void
     {
         global $DIC;
         $DIC = $this->dic_backup;
     }
-    
-    public function testCreationDeletion() : void
+
+    public function testCreationDeletion(): void
     {
         $obj = new ilObject();
         $obj->setType("xxx");
-        
+
         $this->db_mock->expects($this->any())
                       ->method('nextId')
                       ->with(ilObject::TABLE_OBJECT_DATA)
                       ->willReturnOnConsecutiveCalls(21, 22, 23);
-        
+
         $str = '2022-04-28 08:00:00';
         $this->db_mock->expects($this->any())
                       ->method('fetchAssoc')
@@ -67,30 +69,30 @@ class ilObjectTest extends TestCase
                           ['last_update' => $str, 'create_date' => $str],
                           ['last_update' => $str, 'create_date' => $str]
                       );
-        
+
         $obj->create();
         $id = $obj->getId();
         $this->assertEquals(21, $id);
-        
+
         $obj->create();
         $id = $obj->getId();
         $this->assertEquals(22, $id);
-        
+
         $obj->create();
         $id = $obj->getId();
         $this->assertEquals(23, $id);
     }
-    
-    public function testSetGetLookup() : void
+
+    public function testSetGetLookup(): void
     {
         global $DIC;
         $ilUser = $DIC->user();
-        
+
         $this->db_mock->expects($this->any())
                       ->method('nextId')
                       ->withConsecutive([ilObject::TABLE_OBJECT_DATA], ['object_reference'])
                       ->willReturnOnConsecutiveCalls(21, 22);
-        
+
         $str = '2022-04-28 08:00:00';
         $this->db_mock->expects($this->any())
                       ->method('fetchAssoc')
@@ -99,8 +101,8 @@ class ilObjectTest extends TestCase
                           ['last_update' => $str, 'create_date' => $str],
                           ['last_update' => $str, 'create_date' => $str]
                       );
-        
-        
+
+
         $obj = new ilObject();
         $obj->setType("xxx");                // otherwise type check will fail
         $obj->setTitle("TestObject");
@@ -112,8 +114,8 @@ class ilObjectTest extends TestCase
         $ref_id = $obj->getRefId();
         $this->assertEquals(21, $id);
         $this->assertEquals(22, $ref_id);
-    
-        
+
+
         // Reading
         $DIC['ilDB'] = $this->db_mock = $this->createMock(ilDBInterface::class);
         $ilDBStatement = $this->createMock(ilDBStatement::class);
@@ -123,12 +125,12 @@ class ilObjectTest extends TestCase
                           . "FROM " . ilObject::TABLE_OBJECT_DATA . PHP_EOL
                           . "WHERE obj_id = " . $this->db_mock->quote(21, "integer") . PHP_EOL)
                       ->willReturn($ilDBStatement);
-        
+
         $this->db_mock->expects($this->once())
             ->method('numRows')
             ->with($ilDBStatement)
             ->willReturn(1);
-        
+
         $this->db_mock->expects($this->once())
             ->method('fetchAssoc')
             ->with($ilDBStatement)
@@ -143,9 +145,9 @@ class ilObjectTest extends TestCase
                 'import_id' => 'imp_44',
                 'offline' => false,
             ]);
-        
+
         $obj = new ilObject($id, false);
-    
+
         $this->assertEquals(21, $obj->getId());
         $this->assertEquals('TestObject', $obj->getTitle());
         $this->assertEquals('TestDescription', $obj->getDescription());

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -33,7 +35,7 @@ class ilUserAvatarLetter extends ilUserAvatarBase
         "#d22f10", "#666d4e", "#715a32", "#83693a", "#963a30", "#e74c3c"
     ];
 
-    public function getUrl() : string
+    public function getUrl(): string
     {
         static $amount_of_colors;
         if (!isset($amount_of_colors)) {

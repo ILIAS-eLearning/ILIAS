@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\UI\Component\Chart\Bar;
 
 use ILIAS\Data\Color;
@@ -32,14 +34,14 @@ class BarConfig
     {
     }
 
-    public function withColor(Color $color) : self
+    public function withColor(Color $color): self
     {
         $clone = clone $this;
         $clone->color = $color;
         return $clone;
     }
 
-    public function getColor() : ?Color
+    public function getColor(): ?Color
     {
         return $this->color;
     }
@@ -50,14 +52,14 @@ class BarConfig
      * thinner, a number greater than 1.0 will make it appear thicker. Please be aware, that using multiple thicker
      * bars at the same time will result in overlapping.
      */
-    public function withRelativeWidth(float $relative_width) : self
+    public function withRelativeWidth(float $relative_width): self
     {
         $clone = clone $this;
         $clone->size = $relative_width;
         return $clone;
     }
 
-    public function getRelativeWidth() : ?float
+    public function getRelativeWidth(): ?float
     {
         return $this->size;
     }

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -34,7 +36,7 @@ class Group
      * !! BEWARE OF THE SIDE EFFECT. This Transformation is not Side Effect free !!
      * The internal state of the PRNG will be advanced on every usage.
      */
-    public function shuffleArray(Seed $seed) : Transformation
+    public function shuffleArray(Seed $seed): Transformation
     {
         return new ShuffleTransformation($seed);
     }
@@ -43,7 +45,7 @@ class Group
      * Get a transformation which will return the given value as is.
      * Everything can be supplied to the transformation.
      */
-    public function dontShuffle() : Transformation
+    public function dontShuffle(): Transformation
     {
         return new IdentityTransformation();
     }

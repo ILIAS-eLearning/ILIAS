@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * Class ilDBPdoReverse
  * @author Fabian Schmid <fs@studer-raimann.ch>
@@ -35,7 +37,7 @@ class ilDBPdoReverse implements ilDBReverse
         $this->db_instance = $db_instance;
     }
 
-    public function getQueryUtils() : \ilMySQLQueryUtils
+    public function getQueryUtils(): \ilMySQLQueryUtils
     {
         if ($this->query_utils === null) {
             $this->query_utils = new ilMySQLQueryUtils($this->db_instance);
@@ -47,7 +49,7 @@ class ilDBPdoReverse implements ilDBReverse
     /**
      * @return array<int|string, array<string, mixed>>
      */
-    public function getTableFieldDefinition(string $table_name, string $field_name) : array
+    public function getTableFieldDefinition(string $table_name, string $field_name): array
     {
         $table = $this->db_instance->quoteIdentifier($table_name);
         $query = "SHOW COLUMNS FROM $table LIKE " . $this->db_instance->quote($field_name);
@@ -121,7 +123,7 @@ class ilDBPdoReverse implements ilDBReverse
      * @return array<string, array<int|string, array<string, string|int>>&array>
      * @throws \ilDatabaseException
      */
-    public function getTableIndexDefinition(string $table, string $constraint_name) : array
+    public function getTableIndexDefinition(string $table, string $constraint_name): array
     {
         $table = $this->db_instance->quoteIdentifier($table, true);
         $query = "SHOW INDEX FROM $table /*!50002 WHERE Key_name = %s */";
@@ -167,7 +169,7 @@ class ilDBPdoReverse implements ilDBReverse
      * @return array<string, array<int|string, array<string, string|int>>&array>|array<string, bool>
      * @throws \ilDatabaseException
      */
-    public function getTableConstraintDefinition(string $table, string $index_name) : array
+    public function getTableConstraintDefinition(string $table, string $index_name): array
     {
         $index_name = strtolower($index_name);
         $table = $this->db_instance->quoteIdentifier($table, true);
@@ -232,7 +234,7 @@ class ilDBPdoReverse implements ilDBReverse
     /**
      * @throws \ilDatabaseException
      */
-    public function getTriggerDefinition(string $trigger) : array
+    public function getTriggerDefinition(string $trigger): array
     {
         throw new ilDatabaseException('not yet implemented ' . __METHOD__);
     }

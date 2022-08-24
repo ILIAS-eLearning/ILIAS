@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * Render add new item selector
  *
@@ -38,7 +40,7 @@ class ilObjectAddNewItemGUI
     protected int $url_creation_callback = 0;
     protected string $url_creation;
     protected ?ilGroupedListGUI $gl = null;
-            
+
     public function __construct(int $parent_ref_id)
     {
         global $DIC;
@@ -53,51 +55,51 @@ class ilObjectAddNewItemGUI
 
         $this->parent_ref_id = $parent_ref_id;
         $this->mode = ilObjectDefinition::MODE_REPOSITORY;
-                
+
         $this->lng->loadLanguageModule("rep");
         $this->lng->loadLanguageModule("cntr");
     }
-    
-    public function setMode(int $mode) : void
+
+    public function setMode(int $mode): void
     {
         $this->mode = $mode;
     }
-    
+
     /**
      * Set object types which may not be created
      */
-    public function setDisabledObjectTypes(array $types) : void
+    public function setDisabledObjectTypes(array $types): void
     {
         $this->disabled_object_types = $types;
     }
-    
+
     /**
      * Set after creation callback
      */
-    public function setAfterCreationCallback(int $ref_id) : void
+    public function setAfterCreationCallback(int $ref_id): void
     {
         $this->url_creation_callback = $ref_id;
     }
-    
+
     /**
      * Set (custom) url for object creation
      */
-    public function setCreationUrl(string $url) : void
+    public function setCreationUrl(string $url): void
     {
         $this->url_creation = $url;
     }
-    
+
     /**
      * Parse creatable sub objects for personal workspace
      *
      * Grouping is not supported here, order is alphabetical (!)
      */
-    protected function parsePersonalWorkspace() : bool
+    protected function parsePersonalWorkspace(): bool
     {
         $objDefinition = $this->obj_definition;
         $lng = $this->lng;
         $ilSetting = $this->settings;
-        
+
         $this->sub_objects = array();
 
         $settings_map = [
@@ -113,49 +115,49 @@ class ilObjectAddNewItemGUI
                     $ilSetting->get("disable_wsp_" . $settings_map[$type])) {
                     continue;
                 }
-                
+
                 $this->sub_objects[] = array("type" => "object",
                     "value" => $type,
                     "title" => $lng->txt("wsp_type_" . $type));
             }
         }
-        
+
         $this->sub_objects = ilArrayUtil::sortArray($this->sub_objects, "title");
-        
+
         return (bool) sizeof($this->sub_objects);
     }
-    
+
     /**
      * Parse creatable sub objects for repository incl. grouping
      */
-    protected function parseRepository() : bool
+    protected function parseRepository(): bool
     {
         $objDefinition = $this->obj_definition;
         $lng = $this->lng;
         $ilAccess = $this->access;
-        
+
         $this->sub_objects = array();
-        
+
         if (!is_array($this->disabled_object_types)) {
             $this->disabled_object_types = array();
         }
         $this->disabled_object_types[] = "rolf";
-        
+
         $parent_type = ilObject::_lookupType($this->parent_ref_id, true);
         $subtypes = $objDefinition->getCreatableSubObjects($parent_type, $this->mode, $this->parent_ref_id);
         if (count($subtypes) > 0) {
             // grouping of object types
 
             $grp_map = $pos_group_map = array();
-            
+
             $groups = ilObjRepositorySettings::getNewItemGroups();
-            
+
             // no groups => use default
             if (!$groups) {
                 $default = ilObjRepositorySettings::getDefaultNewItemGrouping();
                 $groups = $default["groups"];
                 $grp_map = $default["items"];
-                
+
                 // reset positions (9999 = "other"/unassigned)
                 $pos = 0;
                 foreach ($subtypes as $item_type => $item) {
@@ -166,14 +168,14 @@ class ilObjectAddNewItemGUI
                         $subtypes[$item_type]["pos"] = "9999" . str_pad((string) ++$pos, 4, "0", STR_PAD_LEFT);
                     }
                 }
-                
+
                 // assign default positions
                 foreach ($default["sort"] as $item_type => $pos) {
                     if (array_key_exists($item_type, $subtypes)) {
                         $subtypes[$item_type]["pos"] = $pos;
                     }
                 }
-                
+
                 // sort by default positions
                 $subtypes = ilArrayUtil::sortArray($subtypes, "pos", "asc", true, true);
             }
@@ -185,7 +187,7 @@ class ilObjectAddNewItemGUI
                     }
                 }
             }
-            
+
             $group_separators = array();
             $pos_group_map[0] = $lng->txt("rep_new_item_group_other");
             $old_grp_ids = array();
@@ -197,7 +199,7 @@ class ilObjectAddNewItemGUI
                 }
                 $old_grp_ids[] = $item["id"];
             }
-            
+
             $current_grp = null;
             foreach ($subtypes as $type => $subitem) {
                 if (!in_array($type, $this->disabled_object_types)) {
@@ -223,7 +225,7 @@ class ilObjectAddNewItemGUI
                                         unset($group_separators[$idx]);
                                     }
                                 }
-                                
+
                                 $title = $pos_group_map[$obj_grp_id];
 
                                 $this->sub_objects[] = array("type" => "group",
@@ -239,7 +241,7 @@ class ilObjectAddNewItemGUI
                             // #13088
                             $title = $lng->txt("obj_" . $type);
                         }
-                        
+
                         $this->sub_objects[] = array("type" => "object",
                             "value" => $type,
                             "title" => $title);
@@ -247,14 +249,14 @@ class ilObjectAddNewItemGUI
                 }
             }
         }
-        
+
         return (bool) sizeof($this->sub_objects);
     }
-    
+
     /**
      * Get rendered html of sub object list
      */
-    protected function getHTML() : string
+    protected function getHTML(): string
     {
         if ($this->mode != ilObjectDefinition::MODE_WORKSPACE && !isset($this->url_creation)) {
             $base_url = "ilias.php?baseClass=ilRepositoryGUI&ref_id=" . $this->parent_ref_id . "&cmd=create";
@@ -264,11 +266,11 @@ class ilObjectAddNewItemGUI
         // I removed the token statement because you can now
         // generate links with ilCtrl::getLinkTargetByClass()
         // which automatically appends one.
-        
+
         if ($this->url_creation_callback) {
             $base_url .= "&crtcb=" . $this->url_creation_callback;
         }
-        
+
         $gl = new ilGroupedListGUI("il-add-new-item-gl");
         $gl->setAsDropDown(true);
 
@@ -303,14 +305,14 @@ class ilObjectAddNewItemGUI
             }
         }
         $this->gl = $gl;
-        
+
         return $gl->getHTML();
     }
-    
+
     /**
      * Add new item selection to current page incl. toolbar (trigger) and overlay
      */
-    public function render() : void
+    public function render(): void
     {
         if ($this->mode == ilObjectDefinition::MODE_WORKSPACE) {
             if (!$this->parsePersonalWorkspace()) {
@@ -319,7 +321,7 @@ class ilObjectAddNewItemGUI
         } elseif (!$this->parseRepository()) {
             return;
         }
-                
+
         $adv = new ilAdvancedSelectionListGUI();
         $adv->setPullRight(false);
         $adv->setListTitle($this->lng->txt("cntr_add_new_item"));

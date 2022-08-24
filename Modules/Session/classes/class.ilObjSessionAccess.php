@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -38,7 +40,7 @@ class ilObjSessionAccess extends ilObjectAccess
         $this->user = $DIC->user();
     }
 
-    public static function _getCommands() : array
+    public static function _getCommands(): array
     {
         $commands = array(
             array("permission" => "read", "cmd" => "infoScreen", "lang_var" => "info_short", "default" => true),
@@ -48,23 +50,23 @@ class ilObjSessionAccess extends ilObjectAccess
             array("permission" => "manage_materials", "cmd" => "materials", "lang_var" => "crs_objective_add_mat"),
             array('permission' => 'manage_members', 'cmd' => 'members', 'lang_var' => 'event_edit_members')
         );
-        
+
         return $commands;
     }
 
-    public function _checkAccess($a_cmd, $a_permission, $a_ref_id, $a_obj_id, $a_user_id = "") : bool
+    public function _checkAccess($a_cmd, $a_permission, $a_ref_id, $a_obj_id, $a_user_id = ""): bool
     {
         global $DIC;
 
         $ilUser = $this->user;
-        
+
         if (!$a_user_id) {
             $a_user_id = $ilUser->getId();
         }
-        
+
         switch ($a_cmd) {
             case 'register':
-                
+
                 if (!self::_lookupRegistration($a_obj_id)) {
                     return false;
                 }
@@ -81,7 +83,7 @@ class ilObjSessionAccess extends ilObjectAccess
                     return false;
                 }
                 break;
-                
+
             case 'unregister':
                 if (self::_lookupRegistration($a_obj_id) && $a_user_id != ANONYMOUS_USER_ID) {
                     return self::_lookupRegistered($a_user_id, $a_obj_id);
@@ -91,12 +93,12 @@ class ilObjSessionAccess extends ilObjectAccess
         return true;
     }
 
-    public static function _checkGoto($a_target) : bool
+    public static function _checkGoto($a_target): bool
     {
         global $DIC;
 
         $ilAccess = $DIC->access();
-        
+
         $t_arr = explode("_", $a_target);
 
         if ($t_arr[0] != "sess" || ((int) $t_arr[1]) <= 0) {
@@ -110,7 +112,7 @@ class ilObjSessionAccess extends ilObjectAccess
         return false;
     }
 
-    public static function _lookupRegistration(int $a_obj_id) : bool
+    public static function _lookupRegistration(int $a_obj_id): bool
     {
         global $DIC;
 
@@ -119,7 +121,7 @@ class ilObjSessionAccess extends ilObjectAccess
         if (!is_null(self::$registrations)) {
             return (bool) self::$registrations[$a_obj_id];
         }
-        
+
         $query = "SELECT registration,obj_id FROM event ";
         $res = $ilDB->query($query);
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
@@ -128,7 +130,7 @@ class ilObjSessionAccess extends ilObjectAccess
         return (bool) self::$registrations[$a_obj_id];
     }
 
-    public static function _lookupRegistered(int $a_usr_id, int $a_obj_id) : bool
+    public static function _lookupRegistered(int $a_usr_id, int $a_obj_id): bool
     {
         global $DIC;
 
@@ -138,7 +140,7 @@ class ilObjSessionAccess extends ilObjectAccess
         if (isset(self::$registered[$a_usr_id][$a_obj_id])) {
             return (bool) self::$registered[$a_usr_id][$a_obj_id];
         }
-        
+
         $query = "SELECT event_id, registered FROM event_participants WHERE usr_id = " . $ilDB->quote($ilUser->getId(), 'integer');
         $res = $ilDB->query($query);
         self::$registered[$a_usr_id] = [];
@@ -148,13 +150,13 @@ class ilObjSessionAccess extends ilObjectAccess
         return (bool) (self::$registered[$a_usr_id][$a_obj_id] ?? false);
     }
 
-    public static function _preloadData($a_obj_ids, $a_ref_ids) : void
+    public static function _preloadData($a_obj_ids, $a_ref_ids): void
     {
         $f = new ilBookingReservationDBRepositoryFactory();
         self::$booking_repo = $f->getRepoWithContextObjCache($a_obj_ids);
     }
 
-    public static function getBookingInfoRepo() : ?ilBookingReservationDBRepository
+    public static function getBookingInfoRepo(): ?ilBookingReservationDBRepository
     {
         if (self::$booking_repo instanceof ilBookingReservationDBRepository) {
             return self::$booking_repo;

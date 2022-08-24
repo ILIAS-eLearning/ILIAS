@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -29,16 +31,16 @@
  */
 class ilCmiXapiSettingsGUI
 {
-    const CMD_SHOW = 'show';
-    const CMD_DELIVER_CERTIFICATE = 'deliverCertificate';
-    
-    const CMD_SAVE = 'save';
-    
-    const DEFAULT_CMD = self::CMD_SHOW;
-    
-    const SUBTAB_ID_SETTINGS = 'settings';
-    const SUBTAB_ID_CERTIFICATE = 'certificate';
-    
+    public const CMD_SHOW = 'show';
+    public const CMD_DELIVER_CERTIFICATE = 'deliverCertificate';
+
+    public const CMD_SAVE = 'save';
+
+    public const DEFAULT_CMD = self::CMD_SHOW;
+
+    public const SUBTAB_ID_SETTINGS = 'settings';
+    public const SUBTAB_ID_CERTIFICATE = 'certificate';
+
     /**
      * @var ilObjCmiXapi
      */
@@ -46,7 +48,7 @@ class ilCmiXapiSettingsGUI
     private \ilGlobalTemplateInterface $main_tpl;
     private \ILIAS\DI\Container $dic;
     private ilLanguage $language;
-    
+
     public function __construct(ilObjCmiXapi $object)
     {
         global $DIC;
@@ -55,8 +57,8 @@ class ilCmiXapiSettingsGUI
         $this->main_tpl = $DIC->ui()->mainTemplate();
         $this->object = $object;
     }
-    
-    public function initSubtabs() : void
+
+    public function initSubtabs(): void
     {
         $this->dic->tabs()->addSubTab(
             self::SUBTAB_ID_SETTINGS,
@@ -74,11 +76,11 @@ class ilCmiXapiSettingsGUI
             );
         }
     }
-    
-    public function executeCommand() : void
+
+    public function executeCommand(): void
     {
         $this->initSubtabs();
-        
+
         switch ($this->dic->ctrl()->getNextClass()) {
             case strtolower(ilCertificateGUI::class):
 
@@ -87,50 +89,50 @@ class ilCmiXapiSettingsGUI
                 if (!$validator->validate()) {
                     throw new ilCmiXapiException('access denied!');
                 }
-                
+
                 $this->dic->tabs()->activateSubTab(self::SUBTAB_ID_CERTIFICATE);
 
                 $guiFactory = new ilCertificateGUIFactory();
                 $gui = $guiFactory->create($this->object);
 
                 $this->dic->ctrl()->forwardCommand($gui);
-                
+
                 break;
-                
+
             default:
                 $command = $this->dic->ctrl()->getCmd(self::DEFAULT_CMD) . 'Cmd';
                 $this->{$command}();
         }
     }
-    
-    protected function saveCmd() : void
+
+    protected function saveCmd(): void
     {
         $form = $this->buildForm();
-        
+
         if ($form->checkInput()) {
             $this->saveSettings($form);
-            
+
             $this->main_tpl->setOnScreenMessage('success', $this->language->txt('msg_obj_modified'), true);
             $this->dic->ctrl()->redirect($this, self::CMD_SHOW);
         }
-        
+
         $this->showCmd($form);
     }
-    
-    protected function showCmd(ilPropertyFormGUI $form = null) : void
+
+    protected function showCmd(ilPropertyFormGUI $form = null): void
     {
         $this->dic->tabs()->activateSubTab(self::SUBTAB_ID_SETTINGS);
-        
+
         $form = $this->buildForm();
-        
+
         $this->dic->ui()->mainTemplate()->setContent($form->getHTML());
     }
-    
-    protected function buildForm() : \ilPropertyFormGUI
+
+    protected function buildForm(): \ilPropertyFormGUI
     {
         $form = new ilPropertyFormGUI();
         $form->setFormAction($this->dic->ctrl()->getFormAction($this));
-        
+
         $ne = new ilNonEditableValueGUI($this->language->txt('type'), "");
         $ne->setValue($this->language->txt('type_' . $this->object->getContentType()));
         $form->addItem($ne);
@@ -138,7 +140,7 @@ class ilCmiXapiSettingsGUI
         $ne = new ilNonEditableValueGUI($this->language->txt('cmix_lrs_type'), "");
         $ne->setValue($this->object->getLrsType()->getTitle());
         $form->addItem($ne);
-        
+
         $item = new ilTextInputGUI($this->language->txt('title'), 'title');
         $item->setSize(40);
         $item->setMaxLength(128);
@@ -146,14 +148,14 @@ class ilCmiXapiSettingsGUI
         $item->setInfo($this->language->txt('title_info'));
         $item->setValue($this->object->getTitle());
         $form->addItem($item);
-        
+
         $item = new ilTextAreaInputGUI($this->language->txt('description'), 'description');
         $item->setInfo($this->language->txt('description_info'));
         $item->setRows(2);
         $item->setCols(80);
         $item->setValue($this->object->getDescription());
         $form->addItem($item);
-        
+
         $item = new ilTextInputGUI($this->language->txt('activity_id'), 'activity_id');
         $item->setRequired(true);
         $item->setSize(40);
@@ -162,7 +164,7 @@ class ilCmiXapiSettingsGUI
         $item->setInfo($this->language->txt('activity_id_info'));
         $item->setValue($this->object->getActivityId());
         $form->addItem($item);
-        
+
         $item = new ilCheckboxInputGUI($this->language->txt('online'), 'online');
         $item->setInfo($this->language->txt("online_info"));
         $item->setValue("1");
@@ -181,7 +183,7 @@ class ilCmiXapiSettingsGUI
             $item = new ilFormSectionHeaderGUI();
             $item->setTitle($this->language->txt("launch_options"));
             $form->addItem($item);
-            
+
             if ($this->object->isSourceTypeRemote()) {
                 $item = new ilTextInputGUI($this->language->txt('launch_url'), 'launch_url');
                 $item->setSize(40);
@@ -191,18 +193,18 @@ class ilCmiXapiSettingsGUI
                 $item->setValue($this->object->getLaunchUrl());
                 $form->addItem($item);
             }
-            
+
             if ($this->object->getContentType() != ilObjCmiXapi::CONT_TYPE_CMI5) {
                 $item = new ilCheckboxInputGUI($this->language->txt('use_fetch'), 'use_fetch');
                 $item->setInfo($this->language->txt("use_fetch_info"));
                 $item->setValue("1");
-                
+
                 if ($this->object->isAuthFetchUrlEnabled()) {
                     $item->setChecked(true);
                 }
                 $form->addItem($item);
             }
-            
+
             $display = new ilRadioGroupInputGUI($this->language->txt('launch_options'), 'display');
             $display->setRequired(true);
             $display->setValue($this->object->getLaunchMethod());
@@ -213,7 +215,7 @@ class ilCmiXapiSettingsGUI
             $optAnyWindow->setInfo($this->language->txt('conf_new_window_info'));
             $display->addOption($optAnyWindow);
             $form->addItem($display);
-            
+
             $launchMode = new ilRadioGroupInputGUI($this->language->txt('conf_launch_mode'), 'launch_mode');
             $launchMode->setRequired(true);
             $launchMode->setValue($this->object->getLaunchMode());
@@ -242,7 +244,7 @@ class ilCmiXapiSettingsGUI
             }
             // optNormal not undefined because CONT_TYPE_CMI5 is subtype
             $optNormal->addSubItem($switchMode);
-            
+
             $masteryScore = new ilNumberInputGUI($this->language->txt('conf_mastery_score'), 'mastery_score');
             $masteryScore->setInfo($this->language->txt('conf_mastery_score_info'));
             $masteryScore->setSuffix('%');
@@ -259,7 +261,7 @@ class ilCmiXapiSettingsGUI
             $masteryScore->setValue((string) $this->object->getMasteryScorePercent());
             $optNormal->addSubItem($masteryScore);
         }
-        
+
         if (!$this->object->isSourceTypeExternal()) {
             if ($this->object->getContentType() != ilObjCmiXapi::CONT_TYPE_CMI5) {
                 $sectionHeader = new ilFormSectionHeaderGUI();
@@ -282,7 +284,7 @@ class ilCmiXapiSettingsGUI
             $item = new ilFormSectionHeaderGUI();
             $item->setTitle($this->language->txt("privacy_options"));
             $form->addItem($item);
-            
+
             $userIdent = new ilRadioGroupInputGUI($this->language->txt('conf_privacy_ident'), 'privacy_ident');
             $op = new ilRadioOption(
                 $this->language->txt('conf_privacy_ident_il_uuid_user_id'),
@@ -320,7 +322,7 @@ class ilCmiXapiSettingsGUI
             );
             $userIdent->setRequired(false);
             $form->addItem($userIdent);
-            
+
             $userName = new ilRadioGroupInputGUI($this->language->txt('conf_privacy_name'), 'privacy_name');
             $op = new ilRadioOption(
                 $this->language->txt('conf_privacy_name_none'),
@@ -470,11 +472,11 @@ class ilCmiXapiSettingsGUI
             }
             $form->addItem($item);
         }
-        
+
         $item = new ilFormSectionHeaderGUI();
         $item->setTitle($this->language->txt("log_options"));
         $form->addItem($item);
-        
+
         $item = new ilCheckboxInputGUI($this->language->txt('show_debug'), 'show_debug');
         $item->setInfo($this->language->txt("show_debug_info"));
         $item->setValue("1");
@@ -482,7 +484,7 @@ class ilCmiXapiSettingsGUI
             $item->setChecked(true);
         }
         $form->addItem($item);
-        
+
         $highscore = new ilCheckboxInputGUI($this->language->txt("highscore_enabled"), "highscore_enabled");
         $highscore->setValue("1");
         $highscore->setChecked($this->object->getHighscoreEnabled());
@@ -533,28 +535,28 @@ class ilCmiXapiSettingsGUI
         $highscore_wtime->setChecked($this->object->getHighscoreWTime());
         $highscore_wtime->setInfo($this->language->txt("highscore_wtime_description"));
         $highscore->addSubItem($highscore_wtime);
-        
-        
+
+
         $form->setTitle($this->language->txt('settings'));
         $form->addCommandButton(self::CMD_SAVE, $this->language->txt("save"));
         $form->addCommandButton(self::CMD_SHOW, $this->language->txt("cancel"));
-        
+
         return $form;
     }
-    
-    protected function saveSettings(ilPropertyFormGUI $form) : void
+
+    protected function saveSettings(ilPropertyFormGUI $form): void
     {
         $this->object->setTitle($form->getInput('title'));
         $this->object->setDescription($form->getInput('description'));
-        
+
         $this->object->setActivityId($form->getInput('activity_id'));
         $this->object->setOfflineStatus(!(bool) $form->getInput('online'));
-        
+
         if (!$this->object->isSourceTypeExternal()) {
             $this->object->setLaunchMethod($form->getInput('display'));
-            
+
             $this->object->setLaunchMode($form->getInput('launch_mode'));
-            
+
             if ($this->object->getLaunchMode() == ilObjCmiXapi::LAUNCH_MODE_NORMAL) {
                 if ($this->object->getContentType() == ilObjCmiXapi::CONT_TYPE_CMI5) {
                     $this->object->setMasteryScorePercent($form->getInput('mastery_score'));
@@ -569,7 +571,7 @@ class ilCmiXapiSettingsGUI
             if ($this->object->isSourceTypeRemote()) {
                 $this->object->setLaunchUrl($form->getInput('launch_url'));
             }
-            
+
             if ($this->object->getContentType() == ilObjCmiXapi::CONT_TYPE_CMI5) {
                 $this->object->setAuthFetchUrlEnabled(true);
             } else {
@@ -583,7 +585,7 @@ class ilCmiXapiSettingsGUI
                     $this->object->setBypassProxyEnabled((bool) $form->getInput('bypass_proxy'));
                 }
             }
-            
+
             if (!$this->object->getLrsType()->getForcePrivacySettings()) {
                 $this->object->setPrivacyIdent((int) $form->getInput('privacy_ident'));
                 $this->object->setPrivacyName((int) $form->getInput('privacy_name'));
@@ -611,9 +613,9 @@ class ilCmiXapiSettingsGUI
             $this->object->setBypassProxyEnabled(true);
             $this->object->setKeepLpStatusEnabled((bool) $form->getInput('avoid_lp_deterioration'));
         }
-        
+
         $this->object->setStatementsReportEnabled((bool) $form->getInput('show_debug'));
-        
+
         $this->object->setHighscoreEnabled((bool) $form->getInput('highscore_enabled'));
         if ($this->object->getHighscoreEnabled()) {
             // highscore settings
@@ -624,11 +626,11 @@ class ilCmiXapiSettingsGUI
             $this->object->setHighscoreMode((int) $form->getInput('highscore_mode'));
             $this->object->setHighscoreTopNum((int) $form->getInput('highscore_top_num'));
         }
-        
+
         $this->object->update();
     }
-    
-    protected function deliverCertificateCmd() : void
+
+    protected function deliverCertificateCmd(): void
     {
         $validator = new ilCertificateDownloadValidator();
 

@@ -70,38 +70,38 @@ class ilQuestionEditGUI
         $this->new_id_listeners = [];
         $this->new_id_listener_cnt = 0;
     }
-    
-    public function setSelfAssessmentEditingMode(bool $a_selfassessmenteditingmode) : void
+
+    public function setSelfAssessmentEditingMode(bool $a_selfassessmenteditingmode): void
     {
         $this->selfassessmenteditingmode = $a_selfassessmenteditingmode;
     }
 
-    public function getSelfAssessmentEditingMode() : bool
+    public function getSelfAssessmentEditingMode(): bool
     {
         return $this->selfassessmenteditingmode;
     }
-    
-    public function setDefaultNrOfTries(?int $a_defaultnroftries) : void
+
+    public function setDefaultNrOfTries(?int $a_defaultnroftries): void
     {
         $this->defaultnroftries = $a_defaultnroftries;
     }
-    
-    public function getDefaultNrOfTries() : ?int
+
+    public function getDefaultNrOfTries(): ?int
     {
         return $this->defaultnroftries;
     }
 
-    public function setPageConfig(ilPageConfig $a_val) : void
+    public function setPageConfig(ilPageConfig $a_val): void
     {
         $this->page_config = $a_val;
     }
 
-    public function getPageConfig() : ?ilPageConfig
+    public function getPageConfig(): ?ilPageConfig
     {
         return $this->page_config;
     }
 
-    public function addNewIdListener(object $a_object, string $a_method, string $a_parameters = '') : void
+    public function addNewIdListener(object $a_object, string $a_method, string $a_parameters = ''): void
     {
         $cnt = $this->new_id_listener_cnt;
         $this->new_id_listeners[$cnt]['object'] = $a_object;
@@ -110,7 +110,7 @@ class ilQuestionEditGUI
         $this->new_id_listener_cnt++;
     }
 
-    public function executeCommand() : string
+    public function executeCommand(): string
     {
         $cmd = $this->ctrl->getCmd();
         $next_class = $this->ctrl->getNextClass();
@@ -156,26 +156,26 @@ class ilQuestionEditGUI
                 $ret = (string) $this->ctrl->forwardCommand($q_gui);
                 break;
         }
-        
+
         return $ret;
     }
-    
-    public function setQuestionId(?int $a_questionid) : void
+
+    public function setQuestionId(?int $a_questionid): void
     {
         $this->questionid = $a_questionid;
         $this->ctrl->setParameter($this, 'q_id', $this->questionid);
     }
 
-    public function getQuestionId() : ?int
+    public function getQuestionId(): ?int
     {
         return $this->questionid;
     }
 
-    public function setPoolRefId(?int $a_poolrefid) : void
+    public function setPoolRefId(?int $a_poolrefid): void
     {
         $this->poolrefid = $a_poolrefid;
         $this->ctrl->setParameter($this, 'qpool_ref_id', $this->poolrefid);
-        
+
         if ($this->getPoolRefId() > 0) {
             $this->setPoolObjId(ilObject::_lookupObjId($this->getPoolRefId()));
         } else {
@@ -183,29 +183,29 @@ class ilQuestionEditGUI
         }
     }
 
-    public function getPoolRefId() : ?int
+    public function getPoolRefId(): ?int
     {
         return $this->poolrefid;
     }
 
-    public function setPoolObjId(?int $a_poolobjid) : void
+    public function setPoolObjId(?int $a_poolobjid): void
     {
         $this->poolobjid = $a_poolobjid;
         $this->ctrl->setParameter($this, 'qpool_obj_id', $this->poolobjid);
     }
 
-    public function getPoolObjId() : ?int
+    public function getPoolObjId(): ?int
     {
         return $this->poolobjid;
     }
 
-    public function setQuestionType(?string $a_questiontype) : void
+    public function setQuestionType(?string $a_questiontype): void
     {
         $this->questiontype = $a_questiontype;
         $this->ctrl->setParameter($this, 'q_type', $this->questiontype);
     }
 
-    public function getQuestionType() : ?string
+    public function getQuestionType(): ?string
     {
         return $this->questiontype;
     }

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\UI;
 
 use ILIAS\UI\Component as C;
@@ -60,7 +62,7 @@ interface Factory
      * ---
      * @return  \ILIAS\UI\Component\Counter\Factory
      */
-    public function counter() : C\Counter\Factory;
+    public function counter(): C\Counter\Factory;
 
     /**
      * ---
@@ -84,7 +86,7 @@ interface Factory
      * ---
      * @return \ILIAS\UI\Component\Image\Factory
      */
-    public function image() : C\Image\Factory;
+    public function image(): C\Image\Factory;
 
     /**
      * ---
@@ -112,7 +114,7 @@ interface Factory
      * ----
      * @return  \ILIAS\UI\Component\Player\Factory
      */
-    public function player() : C\Player\Factory;
+    public function player(): C\Player\Factory;
 
     /**
      * ---
@@ -131,7 +133,7 @@ interface Factory
      * ---
      * @return \ILIAS\UI\Component\Divider\Factory
      **/
-    public function divider() : C\Divider\Factory;
+    public function divider(): C\Divider\Factory;
 
     /**
      * ---
@@ -179,7 +181,7 @@ interface Factory
      * ---
      * @return  \ILIAS\UI\Component\Link\Factory
      */
-    public function link() : C\Link\Factory;
+    public function link(): C\Link\Factory;
 
     /**
      * ---
@@ -261,7 +263,7 @@ interface Factory
      * ---
      * @return  \ILIAS\UI\Component\Button\Factory
      */
-    public function button() : C\Button\Factory;
+    public function button(): C\Button\Factory;
 
     /**
      * ---
@@ -343,7 +345,7 @@ interface Factory
      * ---
      * @return  \ILIAS\UI\Component\Dropdown\Factory
      */
-    public function dropdown() : C\Dropdown\Factory;
+    public function dropdown(): C\Dropdown\Factory;
 
     /**
      * ---
@@ -378,7 +380,7 @@ interface Factory
      * @param 	\ILIAS\UI\Component\Link\Standard[] 	$crumbs 	a list of Links
      * @return 	\ILIAS\UI\Component\Breadcrumbs\Breadcrumbs
      **/
-    public function breadcrumbs(array $crumbs) : Breadcrumbs;
+    public function breadcrumbs(array $crumbs): Breadcrumbs;
 
     /**
      * ---
@@ -391,7 +393,7 @@ interface Factory
      * ---
      * @return \ILIAS\UI\Component\ViewControl\Factory
      */
-    public function viewControl() : C\ViewControl\Factory;
+    public function viewControl(): C\ViewControl\Factory;
 
     /**
      * ---
@@ -412,7 +414,7 @@ interface Factory
      * ---
      * @return \ILIAS\UI\Component\Chart\Factory
      */
-    public function chart() : C\Chart\Factory;
+    public function chart(): C\Chart\Factory;
 
     /**
      * ---
@@ -429,7 +431,7 @@ interface Factory
      * ---
      * @return  \ILIAS\UI\Component\Input\Factory
      */
-    public function input() : C\Input\Factory;
+    public function input(): C\Input\Factory;
 
     /**
      * ---
@@ -465,7 +467,7 @@ interface Factory
      * ---
      * @return \ILIAS\UI\Component\Card\Factory
      */
-    public function card() : C\Card\Factory;
+    public function card(): C\Card\Factory;
 
     /**
      * ---
@@ -492,7 +494,7 @@ interface Factory
      * @param \ILIAS\UI\Component\Card\Card[] $cards
      * @return \ILIAS\UI\Component\Deck\Deck
      */
-    public function deck(array $cards) : Deck;
+    public function deck(array $cards): Deck;
 
     /**
      * ---
@@ -510,7 +512,7 @@ interface Factory
      * ---
      * @return \ILIAS\UI\Component\Listing\Factory
      */
-    public function listing() : C\Listing\Factory;
+    public function listing(): C\Listing\Factory;
 
     /**
      * ---
@@ -529,7 +531,7 @@ interface Factory
      * ---
      * @return \ILIAS\UI\Component\Panel\Factory
      */
-    public function panel() : C\Panel\Factory;
+    public function panel(): C\Panel\Factory;
 
     /**
      * ---
@@ -558,7 +560,7 @@ interface Factory
      * ---
      * @return \ILIAS\UI\Component\Item\Factory
      */
-    public function item() : C\Item\Factory;
+    public function item(): C\Item\Factory;
 
     /**
      * ---
@@ -595,7 +597,7 @@ interface Factory
      * ---
      * @return \ILIAS\UI\Component\Modal\Factory
      **/
-    public function modal() : C\Modal\Factory;
+    public function modal(): C\Modal\Factory;
 
     /**
      * ---
@@ -659,7 +661,7 @@ interface Factory
      * ---
      * @return \ILIAS\UI\Component\Popover\Factory
      */
-    public function popover() : C\Popover\Factory;
+    public function popover(): C\Popover\Factory;
 
     /**
      * ---
@@ -678,7 +680,7 @@ interface Factory
      * ---
      * @return \ILIAS\UI\Component\Dropzone\Factory
      */
-    public function dropzone() : C\Dropzone\Factory;
+    public function dropzone(): C\Dropzone\Factory;
 
     /**
      * ---
@@ -698,7 +700,7 @@ interface Factory
      * @param   string $content
      * @return  \ILIAS\UI\Component\Legacy\Legacy
      */
-    public function legacy(string $content) : Legacy;
+    public function legacy(string $content): Legacy;
 
     /**
      * ---
@@ -709,7 +711,7 @@ interface Factory
      * ---
      * @return \ILIAS\UI\Component\Table\Factory
      */
-    public function table() : C\Table\Factory;
+    public function table(): C\Table\Factory;
 
     /**
      * ---
@@ -740,7 +742,7 @@ interface Factory
      * ---
      * @return  \ILIAS\UI\Component\MessageBox\Factory
      */
-    public function messageBox() : C\MessageBox\Factory;
+    public function messageBox(): C\MessageBox\Factory;
 
     /**
      * ---
@@ -758,7 +760,7 @@ interface Factory
      * ---
      * @return \ILIAS\UI\Component\Layout\Factory
      */
-    public function layout() : C\Layout\Factory;
+    public function layout(): C\Layout\Factory;
 
     /**
      * ---
@@ -781,7 +783,7 @@ interface Factory
      * ---
      * @return \ILIAS\UI\Component\MainControls\Factory
      */
-    public function mainControls() : C\MainControls\Factory;
+    public function mainControls(): C\MainControls\Factory;
 
     /**
      * ---
@@ -821,7 +823,7 @@ interface Factory
      * ---
      * @return \ILIAS\UI\Component\Tree\Factory
      */
-    public function tree() : C\Tree\Factory;
+    public function tree(): C\Tree\Factory;
 
     /**
      * ---
@@ -832,7 +834,7 @@ interface Factory
      * ---
      * @return \ILIAS\UI\Component\Menu\Factory
      */
-    public function menu() : C\Menu\Factory;
+    public function menu(): C\Menu\Factory;
 
     /**
      * ---
@@ -850,7 +852,7 @@ interface Factory
      * ---
      * @return \ILIAS\UI\Component\Symbol\Factory
      */
-    public function symbol() : Component\Symbol\Factory;
+    public function symbol(): Component\Symbol\Factory;
 
     /**
      * ---
@@ -893,5 +895,5 @@ interface Factory
      * ---
      * @return \ILIAS\UI\Component\Toast\Factory
      */
-    public function toast() : C\Toast\Factory;
+    public function toast(): C\Toast\Factory;
 }

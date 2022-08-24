@@ -23,7 +23,7 @@
  */
 interface ilNewsObjectAdapterInterface
 {
-    public function getObjIdForRefId(int $a_ref_id) : int;
+    public function getObjIdForRefId(int $a_ref_id): int;
 
-    public function getTypeForObjId(int $a_obj_id) : string;
+    public function getTypeForObjId(int $a_obj_id): string;
 }

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,12 +17,12 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 use PHPUnit\Framework\TestCase;
 
 class ilDBStepReaderTestObject extends ilDBStepReader
 {
-    public function setStepNumbers(array $arr) : void
+    public function setStepNumbers(array $arr): void
     {
         $this->step_numbers = $arr;
     }
@@ -32,7 +34,7 @@ class Test_ilDBStepReader implements ilDatabaseUpdateSteps
 
     protected ?ilDBInterface $db = null;
 
-    public function prepare(ilDBInterface $db) : void
+    public function prepare(ilDBInterface $db): void
     {
         $this->db = $db;
     }
@@ -54,19 +56,19 @@ class Test_ilDBStepReader implements ilDatabaseUpdateSteps
 
 class ilDBStepReaderTest extends TestCase
 {
-    public function testObjectCreation() : void
+    public function testObjectCreation(): void
     {
         $obj = new ilDBStepReader();
         $this->assertInstanceOf(ilDBStepReader::class, $obj);
     }
 
-    public function test_getLatestStepNumber() : void
+    public function test_getLatestStepNumber(): void
     {
         $obj = new ilDBStepReaderTestObject();
         $this->assertEquals(4, $obj->getLatestStepNumber(Test_ilDBStepReader::class, "step_"));
     }
 
-    public function test_readSteps() : void
+    public function test_readSteps(): void
     {
         $obj = new ilDBStepReaderTestObject();
         $result = $obj->readStepNumbers(Test_ilDBStepReader::class, "step_");

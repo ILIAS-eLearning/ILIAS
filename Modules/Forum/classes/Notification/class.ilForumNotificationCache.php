@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -43,12 +45,12 @@ class ilForumNotificationCache
      * @param mixed $data
      * @return void
      */
-    public function store(string $key, $data) : void
+    public function store(string $key, $data): void
     {
         $this->storage[$key] = $data;
     }
 
-    public function exists(string $id) : bool
+    public function exists(string $id): bool
     {
         return array_key_exists($id, $this->storage);
     }
@@ -57,7 +59,7 @@ class ilForumNotificationCache
      * @param array $values
      * @return string An´ MD5 encoded key based on the given arrays
      */
-    public function createKeyByValues(array $values) : string
+    public function createKeyByValues(array $values): string
     {
         foreach ($values as &$value) {
             if ($value !== null && !is_scalar($value)) {

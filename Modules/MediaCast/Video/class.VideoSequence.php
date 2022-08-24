@@ -34,7 +34,7 @@ class VideoSequence
         $this->init();
     }
 
-    protected function init() : void
+    protected function init(): void
     {
         $videos = [];
         foreach ($this->media_cast->getSortedItemsArray() as $item) {
@@ -84,12 +84,12 @@ class VideoSequence
     /**
      * @return VideoItem[]
      */
-    public function getVideos() : array
+    public function getVideos(): array
     {
         return $this->videos;
     }
 
-    public function getFirst() : ?VideoItem
+    public function getFirst(): ?VideoItem
     {
         if (count($this->videos) > 0) {
             return $this->videos[0];

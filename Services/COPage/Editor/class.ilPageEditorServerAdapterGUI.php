@@ -43,7 +43,7 @@ class ilPageEditorServerAdapterGUI
         $this->page_gui = $page_gui;
     }
 
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         $ctrl = $this->ctrl;
         $next_class = $ctrl->getNextClass($this);
@@ -60,7 +60,7 @@ class ilPageEditorServerAdapterGUI
     /**
      * Invoke rpc server
      */
-    protected function invokeServer() : void
+    protected function invokeServer(): void
     {
         $server = new Server\Server($this->page_gui, $this->ui, $this->request);
         $server->reply();

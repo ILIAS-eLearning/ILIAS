@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /* Copyright (c) 2018 - Richard Klees <richard.klees@concepts-and-training.de> - Extended GPL, see LICENSE */
 
@@ -16,7 +18,7 @@ interface View
     /**
      * Build an initial state based on the Provided empty state.
      */
-    public function buildInitialState(State $empty_state) : State;
+    public function buildInitialState(State $empty_state): State;
 
     /**
      * Construct the controls for the view based on the current state.
@@ -34,7 +36,7 @@ interface View
      *
      * Commands and parameters are defined by the view in `buildControl`.
      */
-    public function updateGet(State $state, string $command, int $parameter = null) : State;
+    public function updateGet(State $state, string $command, int $parameter = null): State;
 
     /**
      * Update the state and the object based on the provided command and post-data.
@@ -43,7 +45,7 @@ interface View
      *
      * The POSTed data will be passed via $post.
      */
-    public function updatePost(State $state, string $command, array $post) : State;
+    public function updatePost(State $state, string $command, array $post): State;
 
     /**
      * Render a state using the ui-factory and URLs from the builder.
@@ -58,5 +60,5 @@ interface View
         UI\Factory $factory,
         URLBuilder $url_builder,
         array $post = null
-    ) : UI\Component\Component;
+    ): UI\Component\Component;
 }

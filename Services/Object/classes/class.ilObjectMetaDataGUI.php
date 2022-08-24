@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * Class ilObjectMetaDataGUI
  *
@@ -66,7 +68,7 @@ class ilObjectMetaDataGUI
      */
     protected ?array $record_filter = null;
     private ilObjectRequestRetriever $retriever;
-    
+
     public function __construct(
         ilObject $object = null,
         $sub_type = null,
@@ -81,7 +83,7 @@ class ilObjectMetaDataGUI
         $this->tpl = $DIC["tpl"];
         $this->logger = $GLOBALS['DIC']->logger()->obj();
         $this->retriever = new ilObjectRequestRetriever($DIC->http()->wrapper(), $DIC->refinery());
-    
+
         $this->in_workspace = ((int) $this->retriever->getMaybeInt("wsp_id")) > 0;
 
         $this->sub_type = $sub_type;
@@ -129,12 +131,12 @@ class ilObjectMetaDataGUI
         $this->lng->loadLanguageModule("meta");
         $this->lng->loadLanguageModule("tax");
     }
-    
-    public function executeCommand() : void
+
+    public function executeCommand(): void
     {
         $next_class = $this->ctrl->getNextClass($this);
         $cmd = $this->ctrl->getCmd("edit");
-        
+
         switch ($next_class) {
             case 'ilmdeditorgui':
                 $this->setSubTabs("lom");
@@ -191,7 +193,7 @@ class ilObjectMetaDataGUI
         }
     }
 
-    public function setTaxonomySettings(Closure $form_manipulator, Closure $form_saver) : void
+    public function setTaxonomySettings(Closure $form_manipulator, Closure $form_saver): void
     {
         $this->taxonomy_settings_form_manipulator = $form_manipulator;
         $this->taxonomy_settings_form_saver = $form_saver;
@@ -201,7 +203,7 @@ class ilObjectMetaDataGUI
      * Set advanced record filter
      * @param ?int[] $filter
      */
-    public function setRecordFilter(?array $filter = null) : void
+    public function setRecordFilter(?array $filter = null): void
     {
         $this->record_filter = $filter;
     }
@@ -209,7 +211,7 @@ class ilObjectMetaDataGUI
     /**
      * Enable taxonomy definition
      */
-    public function enableTaxonomyDefinition(bool $enable) : void
+    public function enableTaxonomyDefinition(bool $enable): void
     {
         if ($enable) {
             $this->tax_obj_gui = new ilObjTaxonomyGUI();
@@ -219,12 +221,12 @@ class ilObjectMetaDataGUI
         }
     }
 
-    public function getTaxonomyObjGUI() : ?ilObjTaxonomyGUI
+    public function getTaxonomyObjGUI(): ?ilObjTaxonomyGUI
     {
         return $this->tax_obj_gui;
     }
 
-    public function addMDObserver(object $class, string $method, string $section) : void
+    public function addMDObserver(object $class, string $method, string $section): void
     {
         $this->md_observers[] = [
             "class" => $class,
@@ -232,8 +234,8 @@ class ilObjectMetaDataGUI
             "section" => $section
         ];
     }
-    
-    protected function getLOMType() : string
+
+    protected function getLOMType(): string
     {
         if ($this->sub_type != "-" && $this->sub_id) {
             return $this->sub_type;
@@ -245,7 +247,7 @@ class ilObjectMetaDataGUI
      * Set object, that defines the adv md records being used. Default is $this->object, but the
      * context may set another object (e.g. media pool for media objects)
      */
-    public function setAdvMdRecordObject(int $adv_id, string $adv_type, string $adv_subtype = "-") : void
+    public function setAdvMdRecordObject(int $adv_id, string $adv_type, string $adv_subtype = "-"): void
     {
         $this->adv_id = $adv_id;
         $this->adv_type = $adv_type;
@@ -255,7 +257,7 @@ class ilObjectMetaDataGUI
     /**
      * Get adv md record type
      */
-    public function getAdvMdRecordObject() : array
+    public function getAdvMdRecordObject(): array
     {
         if ($this->adv_type == null) {
             if ($this->in_repository) {
@@ -267,7 +269,7 @@ class ilObjectMetaDataGUI
         return [$this->adv_id, $this->adv_type, $this->adv_subtype];
     }
 
-    protected function isAdvMDAvailable() : bool
+    protected function isAdvMDAvailable(): bool
     {
         foreach (ilAdvancedMDRecord::_getAssignableObjectTypes() as $item) {
             list(, $adv_type, $adv_subtype) = $this->getAdvMdRecordObject();
@@ -283,8 +285,8 @@ class ilObjectMetaDataGUI
         }
         return false;
     }
-    
-    protected function isLOMAvailable() : bool
+
+    protected function isLOMAvailable(): bool
     {
         $type = $this->getLOMType();
         if ($type == $this->sub_type) {
@@ -321,23 +323,23 @@ class ilObjectMetaDataGUI
             ])
         );
     }
-    
-    protected function hasAdvancedMDSettings() : bool
+
+    protected function hasAdvancedMDSettings(): bool
     {
         if ($this->sub_id) {
             return false;
         }
-        
+
         return (bool) ilContainer::_lookupContainerSetting(
             $this->obj_id,
             ilObjectServiceSettingsGUI::CUSTOM_METADATA
         );
     }
-    
+
     /**
      * check if active records exist in current path anf for object type
      */
-    protected function hasActiveRecords() : bool
+    protected function hasActiveRecords(): bool
     {
         list($adv_id, $adv_type, $adv_subtype) = $this->getAdvMdRecordObject();
 
@@ -348,8 +350,8 @@ class ilObjectMetaDataGUI
             $this->in_repository
         ));
     }
-    
-    protected function canEdit() : bool
+
+    protected function canEdit(): bool
     {
         if (is_array($this->sub_type)) {        // only settings
             return false;
@@ -366,7 +368,7 @@ class ilObjectMetaDataGUI
     /**
      * Get tab link if available
      */
-    public function getTab(string $base_class = null) : ?string
+    public function getTab(string $base_class = null): ?string
     {
         if (!$base_class) {
             $path = [];
@@ -374,7 +376,7 @@ class ilObjectMetaDataGUI
             $path = [$base_class];
         }
         $path[] = "ilobjectmetadatagui";
-        
+
         $link = null;
         if ($this->isLOMAvailable()) {
             $path[] = "ilmdeditorgui";
@@ -394,7 +396,7 @@ class ilObjectMetaDataGUI
         return $link;
     }
 
-    public function setSubTabs(string $active) : void
+    public function setSubTabs(string $active): void
     {
         if ($this->isLOMAvailable()) {
             $this->tabs->addSubTab(
@@ -417,7 +419,7 @@ class ilObjectMetaDataGUI
                     $this->lng->txt("meta_tab_advmd_def"),
                     $this->ctrl->getLinkTargetByClass("iladvancedmdsettingsgui", "showRecords")
                 );
-                                
+
                 $this->tabs->addSubTab(
                     "md_adv_file_list",
                     $this->lng->txt("md_adv_file_list"),
@@ -448,13 +450,13 @@ class ilObjectMetaDataGUI
 
         $this->tabs->activateSubTab($active);
     }
-    
-    protected function initEditForm() : ilPropertyFormGUI
+
+    protected function initEditForm(): ilPropertyFormGUI
     {
         $form = new ilPropertyFormGUI();
         $form->setFormAction($this->ctrl->getFormAction($this, "update"));
         $form->setTitle($this->lng->txt("meta_tab_advmd"));
-        
+
         $this->record_gui = new ilAdvancedMDRecordGUI(
             ilAdvancedMDRecordGUI::MODE_EDITOR,
             $this->obj_type,
@@ -470,13 +472,13 @@ class ilObjectMetaDataGUI
 
         $this->record_gui->setPropertyForm($form);
         $this->record_gui->parse();
-        
+
         $form->addCommandButton("update", $this->lng->txt("save"));
-        
+
         return $form;
     }
-    
-    protected function edit(ilPropertyFormGUI $a_form = null) : void
+
+    protected function edit(ilPropertyFormGUI $a_form = null): void
     {
         if (!$a_form) {
             $a_form = $this->initEditForm();
@@ -484,36 +486,36 @@ class ilObjectMetaDataGUI
 
         $this->tpl->setContent($a_form->getHTML());
     }
-    
-    protected function update() : void
+
+    protected function update(): void
     {
         $form = $this->initEditForm();
         if ($form->checkInput() && $this->record_gui->importEditFormPostValues()) {
             $this->record_gui->writeEditForm();
-            
+
             // Update ECS content
             if ($this->obj_type == "crs") {
                 $ecs = new ilECSCourseSettings($this->object);
                 $ecs->handleContentUpdate();
             }
-            
+
             $this->tpl->setOnScreenMessage('success', $this->lng->txt("settings_saved"), true);
             $this->ctrl->redirect($this, "edit");
         }
-        
+
         $form->setValuesByPost();
         $this->edit($form);
     }
 
-    protected function checkFilter(int $record_id) : bool
+    protected function checkFilter(int $record_id): bool
     {
         return !(is_array($this->record_filter) && !in_array($record_id, $this->record_filter));
     }
-    
-    public function getBlockHTML(array $commands = null, $callback = null) : string
+
+    public function getBlockHTML(array $commands = null, $callback = null): string
     {
         $html = "";
-        
+
         list($adv_id, $adv_type, $adv_subtype) = $this->getAdvMdRecordObject();
         $advanced_md_records = ilAdvancedMDRecord::_getSelectedRecordsByObject(
             $adv_type,
@@ -539,11 +541,11 @@ class ilObjectMetaDataGUI
             }
             $html .= $block->getHTML();
         }
-        
+
         return $html;
     }
 
-    public function getKeyValueList() : string
+    public function getKeyValueList(): string
     {
         $html = "";
         $sep = "";
@@ -588,14 +590,14 @@ class ilObjectMetaDataGUI
         return $html;
     }
 
-    protected function editTaxonomySettings() : void
+    protected function editTaxonomySettings(): void
     {
         $this->tabs->activateSubTab("tax_settings");
         $form = $this->initTaxonomySettingsForm();
         $this->tpl->setContent($form->getHTML());
     }
 
-    protected function initTaxonomySettingsForm() : ilPropertyFormGUI
+    protected function initTaxonomySettingsForm(): ilPropertyFormGUI
     {
         $form = new ilPropertyFormGUI();
         $form->setFormAction($this->ctrl->getFormAction($this));
@@ -607,7 +609,7 @@ class ilObjectMetaDataGUI
         return $form;
     }
 
-    protected function saveTaxonomySettings() : void
+    protected function saveTaxonomySettings(): void
     {
         $form = $this->initTaxonomySettingsForm();
         if ($form->checkInput()) {

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -63,7 +65,7 @@ class ilCronManagerTableGUI extends ilTable2GUI
         $this->setFormAction($this->ctrl->getFormAction($a_parent_obj, $a_parent_cmd));
     }
 
-    private function formatSchedule(ilCronJobEntity $entity, array $row) : string
+    private function formatSchedule(ilCronJobEntity $entity, array $row): string
     {
         $schedule = '';
         switch ($entity->getEffectiveScheduleType()) {
@@ -112,7 +114,7 @@ class ilCronManagerTableGUI extends ilTable2GUI
         return $schedule;
     }
 
-    private function formatStatusInfo(ilCronJobEntity $entity) : string
+    private function formatStatusInfo(ilCronJobEntity $entity): string
     {
         $status_info = [];
         if ($entity->getJobStatusTimestamp()) {
@@ -130,7 +132,7 @@ class ilCronManagerTableGUI extends ilTable2GUI
         return implode('<br />', $status_info);
     }
 
-    private function formatResult(ilCronJobEntity $entity) : string
+    private function formatResult(ilCronJobEntity $entity): string
     {
         $result = '-';
         if ($entity->getJobResultStatus()) {
@@ -164,7 +166,7 @@ class ilCronManagerTableGUI extends ilTable2GUI
         return $result;
     }
 
-    private function formatResultInfo(ilCronJobEntity $entity) : string
+    private function formatResultInfo(ilCronJobEntity $entity): string
     {
         $result_info = [];
         if ($entity->getJobResultDuration()) {
@@ -192,9 +194,9 @@ class ilCronManagerTableGUI extends ilTable2GUI
         return implode('<br />', $result_info);
     }
 
-    public function populate(ilCronJobCollection $collection) : self
+    public function populate(ilCronJobCollection $collection): self
     {
-        $this->setData(array_map(function (ilCronJobEntity $entity) : array {
+        $this->setData(array_map(function (ilCronJobEntity $entity): array {
             $row = [];
 
             $row['schedule'] = $this->formatSchedule($entity, $row);
@@ -248,7 +250,7 @@ class ilCronManagerTableGUI extends ilTable2GUI
         return $this;
     }
 
-    protected function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set): void
     {
         if ($this->mayWrite) {
             $this->tpl->setVariable('VAL_JID', $a_set['job_id']);

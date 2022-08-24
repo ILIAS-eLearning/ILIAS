@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\UI\Component\Toast;
 
 use ILIAS\UI\Component\Button\Shy;
@@ -37,35 +39,35 @@ interface Toast extends Component, JavaScriptBindable
      */
     public function getTitle();
 
-    public function withDescription(string $description) : Toast;
+    public function withDescription(string $description): Toast;
 
-    public function getDescription() : string;
+    public function getDescription(): string;
 
-    public function withAdditionalLink(Link $link) : Toast;
+    public function withAdditionalLink(Link $link): Toast;
 
-    public function withoutLinks() : Toast;
+    public function withoutLinks(): Toast;
 
     /**
      * @return Link[]
      */
-    public function getLinks() : array;
+    public function getLinks(): array;
 
     /**
      * Create a copy of this toast with an url, which is called asynchronous when the user interact with the item.
      */
-    public function withAction(string $action) : Toast;
+    public function withAction(string $action): Toast;
 
-    public function getAction() : string;
+    public function getAction(): string;
 
-    public function getIcon() : Icon;
+    public function getIcon(): Icon;
 
     /**
      * Init the default signals
      */
-    public function initSignals() : void;
+    public function initSignals(): void;
 
     /**
      * Get the signal to show this toast in the frontend
      */
-    public function getShowSignal() : Signal;
+    public function getShowSignal(): Signal;
 }

@@ -35,7 +35,7 @@ class ResourcesInjector
     /**
      * Inject into template
      */
-    public function inject(\ilGlobalTemplateInterface $tpl) : void
+    public function inject(\ilGlobalTemplateInterface $tpl): void
     {
         $resource_collector = $this->collector;
 

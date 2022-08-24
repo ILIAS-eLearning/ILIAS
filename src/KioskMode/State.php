@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /* Copyright (c) 2018 - Richard Klees <richard.klees@concepts-and-training.de> - Extended GPL, see LICENSE */
 
@@ -17,7 +19,7 @@ class State
     /**
      * Set a value for a key of the state.
      */
-    public function withValueFor(string $key, string $value) : State
+    public function withValueFor(string $key, string $value): State
     {
         $clone = clone $this;
         $clone->store[$key] = $value;
@@ -27,7 +29,7 @@ class State
     /**
      * Remove the key-value-pair.
      */
-    public function withoutKey(string $key) : State
+    public function withoutKey(string $key): State
     {
         $clone = clone $this;
         unset($clone->store[$key]);
@@ -37,7 +39,7 @@ class State
     /**
      * Get the value for the given key.
      */
-    public function getValueFor(string $key) : ?string
+    public function getValueFor(string $key): ?string
     {
         if (!$this->store) {
             return null;
@@ -48,7 +50,7 @@ class State
     /**
      * Get the key-value store as string
      */
-    public function serialize() : string
+    public function serialize(): string
     {
         return json_encode($this->store, JSON_THROW_ON_ERROR);
     }

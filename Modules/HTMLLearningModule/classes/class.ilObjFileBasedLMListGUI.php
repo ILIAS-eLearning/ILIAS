@@ -22,7 +22,7 @@
  */
 class ilObjFileBasedLMListGUI extends ilObjectListGUI
 {
-    public function init() : void
+    public function init(): void
     {
         $this->copy_enabled = true;
         $this->delete_enabled = true;
@@ -33,15 +33,15 @@ class ilObjFileBasedLMListGUI extends ilObjectListGUI
         $this->type = "htlm";
         $this->gui_class_name = "ilobjfilebasedlmgui";
         $this->enableLearningProgress(true);
-        
+
         // general commands array
         $this->commands = ilObjFileBasedLMAccess::_getCommands();
     }
 
-    public function getCommandLink(string $cmd) : string
+    public function getCommandLink(string $cmd): string
     {
         $ilCtrl = $this->ctrl;
-        
+
         switch ($cmd) {
             case "view":
                 $cmd_link = "ilias.php?baseClass=ilHTLMPresentationGUI&ref_id=" . $this->ref_id;
@@ -66,7 +66,7 @@ class ilObjFileBasedLMListGUI extends ilObjectListGUI
         return $cmd_link;
     }
 
-    public function getCommandFrame(string $cmd) : string
+    public function getCommandFrame(string $cmd): string
     {
         switch ($cmd) {
             case "view":
@@ -85,7 +85,7 @@ class ilObjFileBasedLMListGUI extends ilObjectListGUI
         return $frame;
     }
 
-    public function getProperties() : array
+    public function getProperties(): array
     {
         $lng = $this->lng;
         $rbacsystem = $this->rbacsystem;
@@ -106,12 +106,12 @@ class ilObjFileBasedLMListGUI extends ilObjectListGUI
         return $props;
     }
 
-    public function getInfoScreenStatus() : bool
+    public function getInfoScreenStatus(): bool
     {
         return ilObjFileBasedLMAccess::isInfoEnabled($this->obj_id);
     }
 
-    public function checkInfoPageOnAsynchronousRendering() : bool
+    public function checkInfoPageOnAsynchronousRendering(): bool
     {
         return true;
     }

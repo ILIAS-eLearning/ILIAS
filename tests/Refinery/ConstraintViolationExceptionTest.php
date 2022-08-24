@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -22,9 +24,9 @@ use ILIAS\Refinery\ConstraintViolationException;
 
 class ConstraintViolationExceptionTest extends TestCase
 {
-    public function testTranslationOfMessage() : void
+    public function testTranslationOfMessage(): void
     {
-        $callback = function (string $languageId) : string {
+        $callback = function (string $languageId): string {
             $this->assertEquals('some_key', $languageId);
             return 'Some text "%s" and "%s"';
         };

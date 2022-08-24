@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -34,7 +36,7 @@ class ilMailOptionsGUITest extends ilMailBaseTest
         GlobalHttpState $httpState,
         ilCtrlInterface $ctrl,
         ilSetting $settings
-    ) : ilMailOptionsGUI {
+    ): ilMailOptionsGUI {
         $tpl = $this->getMockBuilder(ilGlobalTemplateInterface::class)->disableOriginalConstructor()->getMock();
         $lng = $this->getMockBuilder(ilLanguage::class)->disableOriginalConstructor()->getMock();
         $user = $this->getMockBuilder(ilObjUser::class)->disableOriginalConstructor()->getMock();
@@ -54,7 +56,7 @@ class ilMailOptionsGUITest extends ilMailBaseTest
      * @doesNotPerformAssertions
      * @throws ReflectionException
      */
-    public function testMailOptionsAreAccessibleIfGlobalAccessIsNotDenied() : void
+    public function testMailOptionsAreAccessibleIfGlobalAccessIsNotDenied(): void
     {
         $ctrl = $this->getMockBuilder(ilCtrl::class)->disableOriginalConstructor()->getMock();
         $settings = $this->getMockBuilder(ilSetting::class)->disableOriginalConstructor()->getMock();
@@ -78,7 +80,7 @@ class ilMailOptionsGUITest extends ilMailBaseTest
     /**
      * @throws ReflectionException
      */
-    public function testMailOptionsAreNotAccessibleIfGlobalAccessIsDeniedAndUserWillBeRedirectedToMailSystem() : void
+    public function testMailOptionsAreNotAccessibleIfGlobalAccessIsDeniedAndUserWillBeRedirectedToMailSystem(): void
     {
         $ctrl = $this->getMockBuilder(ilCtrl::class)->disableOriginalConstructor()->getMock();
         $settings = $this->getMockBuilder(ilSetting::class)->disableOriginalConstructor()->getMock();
@@ -104,7 +106,7 @@ class ilMailOptionsGUITest extends ilMailBaseTest
     /**
      * @throws ReflectionException
      */
-    public function testMailOptionsAreNotAccessibleIfGlobalAccessIsDeniedAndUserWillBeRedirectedToPersonalSettings() : void
+    public function testMailOptionsAreNotAccessibleIfGlobalAccessIsDeniedAndUserWillBeRedirectedToPersonalSettings(): void
     {
         $this->expectException(ilCtrlException::class);
 

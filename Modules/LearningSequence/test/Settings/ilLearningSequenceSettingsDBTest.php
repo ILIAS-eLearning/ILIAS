@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 use PHPUnit\Framework\TestCase;
 
 class ilLearningSequenceSettingsDBTest extends TestCase
@@ -30,7 +32,7 @@ class ilLearningSequenceSettingsDBTest extends TestCase
      */
     protected $ls_filesystem;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         $this->db = $this->createMock(ilDBInterface::class);
         $this->ls_filesystem = $this
@@ -40,14 +42,14 @@ class ilLearningSequenceSettingsDBTest extends TestCase
         ;
     }
 
-    public function testCreateObject() : void
+    public function testCreateObject(): void
     {
         $obj = new ilLearningSequenceSettingsDB($this->db, $this->ls_filesystem);
 
         $this->assertInstanceOf(ilLearningSequenceSettingsDB::class, $obj);
     }
 
-    public function testStoreWithoutUploadsAndDeletionsAndEmptySettings() : void
+    public function testStoreWithoutUploadsAndDeletionsAndEmptySettings(): void
     {
         $settings = new ilLearningSequenceSettings(333);
 
@@ -73,7 +75,7 @@ class ilLearningSequenceSettingsDBTest extends TestCase
         $obj->store($settings);
     }
 
-    public function testStoreWithoutUploadsAndDeletionsAndWithSettings() : void
+    public function testStoreWithoutUploadsAndDeletionsAndWithSettings(): void
     {
         $settings = new ilLearningSequenceSettings(
             333,
@@ -106,7 +108,7 @@ class ilLearningSequenceSettingsDBTest extends TestCase
         $obj->store($settings);
     }
 
-    public function testStoreWithUploadsAndWithoutDeletionsAndWithSettings() : void
+    public function testStoreWithUploadsAndWithoutDeletionsAndWithSettings(): void
     {
         $settings = new ilLearningSequenceSettings(
             333,
@@ -147,7 +149,7 @@ class ilLearningSequenceSettingsDBTest extends TestCase
         $obj->store($settings);
     }
 
-    public function testStoreWithoutUploadsAndWithDeletionsAndWithSettings() : void
+    public function testStoreWithoutUploadsAndWithDeletionsAndWithSettings(): void
     {
         $settings = new ilLearningSequenceSettings(
             333,
@@ -188,7 +190,7 @@ class ilLearningSequenceSettingsDBTest extends TestCase
         $obj->store($settings);
     }
 
-    public function testGetSettingsForWithNewObject() : void
+    public function testGetSettingsForWithNewObject(): void
     {
         $sql =
             'SELECT abstract, extro, abstract_image, extro_image, gallery' . PHP_EOL
@@ -238,7 +240,7 @@ class ilLearningSequenceSettingsDBTest extends TestCase
         $this->assertEquals(false, $result->getMembersGallery());
     }
 
-    public function testGetSettingsForWithExistingData() : void
+    public function testGetSettingsForWithExistingData(): void
     {
         $sql =
               'SELECT abstract, extro, abstract_image, extro_image, gallery' . PHP_EOL

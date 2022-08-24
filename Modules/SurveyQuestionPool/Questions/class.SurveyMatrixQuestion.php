@@ -66,7 +66,7 @@ class SurveyMatrixQuestion extends SurveyQuestion
         $this->user = $DIC->user();
         $this->db = $DIC->database();
         parent::__construct($title, $description, $author, $questiontext, $owner);
-        
+
         $this->subtype = 0;
         $this->columns = new SurveyCategories();
         $this->rows = new SurveyCategories();
@@ -76,13 +76,13 @@ class SurveyMatrixQuestion extends SurveyQuestion
         $this->columnSeparators = 0;
         $this->neutralColumnSeparator = 1;
     }
-    
-    public function getColumnCount() : int
+
+    public function getColumnCount(): int
     {
         return $this->columns->getCategoryCount();
     }
-    
-    public function removeColumn(int $index) : void
+
+    public function removeColumn(int $index): void
     {
         $this->columns->removeCategory($index);
     }
@@ -90,42 +90,42 @@ class SurveyMatrixQuestion extends SurveyQuestion
     /**
      * @param int[] $array index positions
      */
-    public function removeColumns(array $array) : void
+    public function removeColumns(array $array): void
     {
         $this->columns->removeCategories($array);
     }
 
-    public function removeColumnWithName(string $name) : void
+    public function removeColumnWithName(string $name): void
     {
         $this->columns->removeCategoryWithName($name);
     }
-    
-    public function getColumns() : SurveyCategories
+
+    public function getColumns(): SurveyCategories
     {
         return $this->columns;
     }
-    
-    public function getColumn(int $index) : ?ilSurveyCategory
+
+    public function getColumn(int $index): ?ilSurveyCategory
     {
         return $this->columns->getCategory($index);
     }
 
-    public function getColumnForScale(int $scale) : ?ilSurveyCategory
+    public function getColumnForScale(int $scale): ?ilSurveyCategory
     {
         return $this->columns->getCategoryForScale($scale);
     }
 
-    public function getColumnIndex(string $name) : int
+    public function getColumnIndex(string $name): int
     {
         return $this->columns->getCategoryIndex($name);
     }
-    
-    public function flushColumns() : void
+
+    public function flushColumns(): void
     {
         $this->columns->flushCategories();
     }
-    
-    public function getRowCount() : int
+
+    public function getRowCount(): int
     {
         return $this->rows->getCategoryCount();
     }
@@ -134,47 +134,47 @@ class SurveyMatrixQuestion extends SurveyQuestion
         string $a_text,
         string $a_other,
         string $a_label
-    ) : void {
+    ): void {
         $this->rows->addCategory($a_text, (int) $a_other, 0, $a_label);
     }
-    
+
     public function addRowAtPosition(
         string $a_text,
         string $a_other,
         int $a_position
-    ) : void {
+    ): void {
         $this->rows->addCategoryAtPosition($a_text, $a_position, $a_other);
     }
 
-    public function flushRows() : void
+    public function flushRows(): void
     {
         $this->rows = new SurveyCategories();
     }
-    
-    public function getRow(int $a_index) : ?ilSurveyCategory
+
+    public function getRow(int $a_index): ?ilSurveyCategory
     {
         return $this->rows->getCategory($a_index);
     }
 
-    public function moveRowUp(int $index) : void
+    public function moveRowUp(int $index): void
     {
         $this->rows->moveCategoryUp($index);
     }
-    
-    public function moveRowDown(int $index) : void
+
+    public function moveRowDown(int $index): void
     {
         $this->rows->moveCategoryDown($index);
     }
-    
+
     /**
      * @param int[] $array index positions
      */
-    public function removeRows(array $array) : void
+    public function removeRows(array $array): void
     {
         $this->rows->removeCategories($array);
     }
 
-    public function removeRow(int $index) : void
+    public function removeRow(int $index): void
     {
         $this->rows->removeCategory($index);
     }
@@ -183,7 +183,7 @@ class SurveyMatrixQuestion extends SurveyQuestion
      * Returns one of the bipolar adjectives
      * @param int $a_index bipolar adjective (0 first,  and 1 for the second)
      */
-    public function getBipolarAdjective(int $a_index) : string
+    public function getBipolarAdjective(int $a_index): string
     {
         if ($a_index === 1) {
             return $this->bipolar_adjective2;
@@ -194,18 +194,18 @@ class SurveyMatrixQuestion extends SurveyQuestion
     public function setBipolarAdjective(
         int $a_index,
         string $a_value
-    ) : void {
+    ): void {
         if ($a_index === 1) {
             $this->bipolar_adjective2 = $a_value;
         } else {
             $this->bipolar_adjective1 = $a_value;
         }
     }
-    
+
     /**
      * Adds a phrase to the question
      */
-    public function addPhrase(int $phrase_id) : void
+    public function addPhrase(int $phrase_id): void
     {
         $ilUser = $this->user;
         $ilDB = $this->db;
@@ -224,14 +224,14 @@ class SurveyMatrixQuestion extends SurveyQuestion
             }
         }
     }
-    
+
     /**
      * Returns the question data fields from the database
      */
-    public function getQuestionDataArray(int $id) : array
+    public function getQuestionDataArray(int $id): array
     {
         $ilDB = $this->db;
-        
+
         $result = $ilDB->queryF(
             "SELECT svy_question.*, " . $this->getAdditionalTableName() . ".* FROM svy_question, " . $this->getAdditionalTableName() . " WHERE svy_question.question_id = %s AND svy_question.question_id = " . $this->getAdditionalTableName() . ".question_fi",
             array('integer'),
@@ -243,8 +243,8 @@ class SurveyMatrixQuestion extends SurveyQuestion
 
         return array();
     }
-    
-    public function loadFromDb(int $question_id) : void
+
+    public function loadFromDb(int $question_id): void
     {
         $ilDB = $this->db;
         $result = $ilDB->queryF(
@@ -288,7 +288,7 @@ class SurveyMatrixQuestion extends SurveyQuestion
                     $this->columns->addCategory($data["title"], (int) $data["other"], (int) $data["neutral"], null, ($data['scale']) ?: ($data['sequence'] + 1));
                 }
             }
-            
+
             $result = $ilDB->queryF(
                 "SELECT * FROM svy_qst_matrixrows WHERE question_fi = %s ORDER BY sequence",
                 array('integer'),
@@ -301,7 +301,7 @@ class SurveyMatrixQuestion extends SurveyQuestion
         parent::loadFromDb($question_id);
     }
 
-    public function isComplete() : bool
+    public function isComplete(): bool
     {
         return (
             $this->getTitle() !== '' &&
@@ -311,8 +311,8 @@ class SurveyMatrixQuestion extends SurveyQuestion
             $this->getRowCount()
         );
     }
-    
-    public function saveToDb(int $original_id = 0) : int
+
+    public function saveToDb(int $original_id = 0): int
     {
         $ilDB = $this->db;
 
@@ -359,13 +359,13 @@ class SurveyMatrixQuestion extends SurveyQuestion
         }
         return $affectedRows;
     }
-        
+
     public function saveBipolarAdjectives(
         string $adjective1,
         string $adjective2
-    ) : void {
+    ): void {
         $ilDB = $this->db;
-        
+
         $ilDB->manipulateF(
             "UPDATE " . $this->getAdditionalTableName() . " SET bipolar_adjective1 = %s, bipolar_adjective2 = %s WHERE question_fi = %s",
             array('text', 'text', 'integer'),
@@ -376,10 +376,10 @@ class SurveyMatrixQuestion extends SurveyQuestion
     public function saveColumnToDb(
         string $columntext,
         int $neutral = 0
-    ) : int {
+    ): int {
         $ilUser = $this->user;
         $ilDB = $this->db;
-        
+
         $result = $ilDB->queryF(
             "SELECT title, category_id FROM svy_category WHERE title = %s AND neutral = %s AND owner_fi = %s",
             array('text', 'text', 'integer'),
@@ -410,15 +410,15 @@ class SurveyMatrixQuestion extends SurveyQuestion
 
     public function saveColumnsToDb(
         int $original_id = 0
-    ) : void {
+    ): void {
         $ilDB = $this->db;
-        
+
         // save columns
         $question_id = $this->getId();
         if ($original_id > 0) {
             $question_id = $original_id;
         }
-        
+
         // delete existing column relations
         $affectedRows = $ilDB->manipulateF(
             "DELETE FROM svy_variable WHERE question_fi = %s",
@@ -441,9 +441,9 @@ class SurveyMatrixQuestion extends SurveyQuestion
 
     public function saveRowsToDb(
         int $original_id = 0
-    ) : void {
+    ): void {
         $ilDB = $this->db;
-        
+
         // save rows
         $question_id = $this->getId();
         if ($original_id > 0) {
@@ -478,7 +478,7 @@ class SurveyMatrixQuestion extends SurveyQuestion
     public function toXML(
         bool $a_include_header = true,
         bool $obligatory_state = false
-    ) : string {
+    ): string {
         $a_xml_writer = new ilXmlWriter();
         $a_xml_writer->xmlHeader();
         $this->insertXML($a_xml_writer, $a_include_header);
@@ -489,14 +489,14 @@ class SurveyMatrixQuestion extends SurveyQuestion
         }
         return $xml;
     }
-    
+
     /**
      * Adds the question XML to a given XMLWriter object
      */
     public function insertXML(
         ilXmlWriter $a_xml_writer,
         bool $a_include_header = true
-    ) : void {
+    ): void {
         $attrs = array(
             "id" => $this->getId(),
             "title" => $this->getTitle(),
@@ -505,7 +505,7 @@ class SurveyMatrixQuestion extends SurveyQuestion
             "obligatory" => $this->getObligatory()
         );
         $a_xml_writer->xmlStartTag("question", $attrs);
-        
+
         $a_xml_writer->xmlElement("description", null, $this->getDescription());
         $a_xml_writer->xmlElement("author", null, $this->getAuthor());
         $a_xml_writer->xmlStartTag("questiontext");
@@ -529,7 +529,7 @@ class SurveyMatrixQuestion extends SurveyQuestion
             $a_xml_writer->xmlEndTag("matrixrow");
         }
         $a_xml_writer->xmlEndTag("matrixrows");
-        
+
         $a_xml_writer->xmlStartTag("responses");
         if ($this->getBipolarAdjective(0) !== '' && ($this->getBipolarAdjective(1) !== '')) {
             $a_xml_writer->xmlStartTag("bipolar_adjectives");
@@ -609,11 +609,11 @@ class SurveyMatrixQuestion extends SurveyQuestion
         $a_xml_writer->xmlEndTag("metadatafield");
 
         $a_xml_writer->xmlEndTag("metadata");
-        
+
         $a_xml_writer->xmlEndTag("question");
     }
 
-    public function syncWithOriginal() : void
+    public function syncWithOriginal(): void
     {
         if ($this->getOriginalId()) {
             parent::syncWithOriginal();
@@ -628,7 +628,7 @@ class SurveyMatrixQuestion extends SurveyQuestion
     public function addStandardNumbers(
         int $lower_limit,
         int $upper_limit
-    ) : void {
+    ): void {
         for ($i = $lower_limit; $i <= $upper_limit; $i++) {
             $this->columns->addCategory($i);
         }
@@ -640,7 +640,7 @@ class SurveyMatrixQuestion extends SurveyQuestion
      */
     public function savePhrase(
         string $title
-    ) : void {
+    ): void {
         $ilUser = $this->user;
         $ilDB = $this->db;
 
@@ -651,7 +651,7 @@ class SurveyMatrixQuestion extends SurveyQuestion
             array($next_id, $title, 1, $ilUser->getId(), time())
         );
         $phrase_id = $next_id;
-            
+
         $counter = 1;
         $phrase_data = $this->edit_manager->getPhraseData();
         foreach ($phrase_data as $data) {
@@ -671,8 +671,8 @@ class SurveyMatrixQuestion extends SurveyQuestion
             $counter++;
         }
     }
-    
-    public function getQuestionType() : string
+
+    public function getQuestionType(): string
     {
         return "SurveyMatrixQuestion";
     }
@@ -680,12 +680,12 @@ class SurveyMatrixQuestion extends SurveyQuestion
     /**
      * Returns the name of the additional question data table in the database
      */
-    public function getAdditionalTableName() : string
+    public function getAdditionalTableName(): string
     {
         return "svy_qst_matrix";
     }
-    
-    public function getWorkingDataFromUserInput(array $post_data) : array
+
+    public function getWorkingDataFromUserInput(array $post_data): array
     {
         $data = array();
         foreach ($post_data as $key => $value) {
@@ -714,7 +714,7 @@ class SurveyMatrixQuestion extends SurveyQuestion
         }
         return $data;
     }
-    
+
     /**
      * Checks the input of the active user for obligatory status
      * and entered values
@@ -723,7 +723,7 @@ class SurveyMatrixQuestion extends SurveyQuestion
     public function checkUserInput(
         array $post_data,
         int $survey_id
-    ) : string {
+    ): string {
         if (!$this->getObligatory()) {
             return "";
         }
@@ -767,9 +767,9 @@ class SurveyMatrixQuestion extends SurveyQuestion
         array $post_data,
         int $active_id,
         bool $a_return = false
-    ) : ?array {
+    ): ?array {
         $ilDB = $this->db;
-        
+
         $answer_data = array();
 
         // gather data
@@ -788,7 +788,7 @@ class SurveyMatrixQuestion extends SurveyQuestion
                     }
                 }
                 break;
-                
+
             case 1:
                 foreach ($post_data as $key => $value) {
                     if (preg_match("/matrix_" . $this->getId() . "_(\d+)/", $key, $matches)) {
@@ -804,11 +804,11 @@ class SurveyMatrixQuestion extends SurveyQuestion
                 }
                 break;
         }
-        
+
         if ($a_return) {
             return $answer_data;
         }
-            
+
         // #16387 - only if any input
         if (count($answer_data)) {
             // save data
@@ -835,9 +835,9 @@ class SurveyMatrixQuestion extends SurveyQuestion
      */
     public function deleteAdditionalTableData(
         int $question_id
-    ) : void {
+    ): void {
         parent::deleteAdditionalTableData($question_id);
-        
+
         $ilDB = $this->db;
         $ilDB->manipulateF(
             "DELETE FROM svy_qst_matrixrows WHERE question_fi = %s",
@@ -849,7 +849,7 @@ class SurveyMatrixQuestion extends SurveyQuestion
     /**
     * Returns the subtype of the matrix question
     */
-    public function getSubtype() : ?int
+    public function getSubtype(): ?int
     {
         return $this->subtype;
     }
@@ -857,7 +857,7 @@ class SurveyMatrixQuestion extends SurveyQuestion
     /**
      * Sets the subtype of the matrix question
      */
-    public function setSubtype(int $a_subtype = 0) : void
+    public function setSubtype(int $a_subtype = 0): void
     {
         switch ($a_subtype) {
             case 1:
@@ -874,39 +874,39 @@ class SurveyMatrixQuestion extends SurveyQuestion
                 break;
         }
     }
-    
+
     /**
      * Enables/Disables separators for the matrix columns
      */
-    public function setColumnSeparators(bool $enable = false) : void
+    public function setColumnSeparators(bool $enable = false): void
     {
         $this->columnSeparators = $enable;
     }
-    
-    public function getColumnSeparators() : bool
+
+    public function getColumnSeparators(): bool
     {
         return $this->columnSeparators;
     }
-    
+
     /**
      * Enables/Disables separators for the matrix rows
      */
-    public function setRowSeparators(bool $enable = false) : void
+    public function setRowSeparators(bool $enable = false): void
     {
         $this->rowSeparators = $enable;
     }
-    
-    public function getRowSeparators() : bool
+
+    public function getRowSeparators(): bool
     {
         return $this->rowSeparators;
     }
 
-    public function setNeutralColumnSeparator(bool $enable = true) : void
+    public function setNeutralColumnSeparator(bool $enable = true): void
     {
         $this->neutralColumnSeparator = $enable;
     }
-    
-    public function getNeutralColumnSeparator() : bool
+
+    public function getNeutralColumnSeparator(): bool
     {
         return $this->neutralColumnSeparator;
     }
@@ -914,7 +914,7 @@ class SurveyMatrixQuestion extends SurveyQuestion
     /**
      * Import additional meta data from the question import file.
      */
-    public function importAdditionalMetadata(array $a_meta) : void
+    public function importAdditionalMetadata(array $a_meta): void
     {
         foreach ($a_meta as $key => $value) {
             switch ($value["label"]) {
@@ -937,7 +937,7 @@ class SurveyMatrixQuestion extends SurveyQuestion
     /**
      * Import bipolar adjectives from the question import file
      */
-    public function importAdjectives(array $a_data) : void
+    public function importAdjectives(array $a_data): void
     {
         $i = 0;
         foreach ($a_data as $adjective) {
@@ -955,16 +955,16 @@ class SurveyMatrixQuestion extends SurveyQuestion
      */
     public function importMatrix(
         array $a_data
-    ) : void {
+    ): void {
         foreach ($a_data as $row) {
             $this->addRow($row['title'], $row['other'], $row['label']);
         }
     }
-    
+
     /**
      * Import response data from the question import file
      */
-    public function importResponses(array $a_data) : void
+    public function importResponses(array $a_data): void
     {
         foreach ($a_data as $id => $data) {
             $column = "";
@@ -978,7 +978,7 @@ class SurveyMatrixQuestion extends SurveyQuestion
     /**
      * Returns if the question is usable for preconditions
      */
-    public function usableForPrecondition() : bool
+    public function usableForPrecondition(): bool
     {
         return false;
     }
@@ -986,7 +986,7 @@ class SurveyMatrixQuestion extends SurveyQuestion
     /**
      * Returns the output for a precondition value
      */
-    public function getPreconditionValueOutput(string $value) : string
+    public function getPreconditionValueOutput(string $value): string
     {
         return $value;
     }
@@ -998,14 +998,14 @@ class SurveyMatrixQuestion extends SurveyQuestion
         string $default,
         string $title,
         string $variable
-    ) : ?ilFormPropertyGUI {
+    ): ?ilFormPropertyGUI {
         $step3 = new ilSelectInputGUI($title, $variable);
         $options = $this->getPreconditionOptions();
         $step3->setOptions($options);
         $step3->setValue($default);
         return $step3;
     }
-    
+
     /**
      * Saves the layout of a matrix question
      * @deprecated ?
@@ -1021,9 +1021,9 @@ class SurveyMatrixQuestion extends SurveyQuestion
         float $percent_bipolar_adjective1 = 0,
         float $percent_bipolar_adjective2 = 0,
         float $percent_neutral = 0
-    ) : void {
+    ): void {
         $ilDB = $this->db;
-        
+
         $layout = array(
             "percent_row" => $percent_row,
             "percent_columns" => $percent_columns,
@@ -1038,7 +1038,7 @@ class SurveyMatrixQuestion extends SurveyQuestion
         );
     }
 
-    public function getLayout() : array
+    public function getLayout(): array
     {
         if (count($this->layout) === 0) {
             if ($this->hasBipolarAdjectives() && $this->hasNeutralColumn()) {
@@ -1081,7 +1081,7 @@ class SurveyMatrixQuestion extends SurveyQuestion
     /**
      * @param array|string $layout
      */
-    public function setLayout($layout) : void
+    public function setLayout($layout): void
     {
         if (is_array($layout)) {
             $this->layout = $layout;
@@ -1089,19 +1089,19 @@ class SurveyMatrixQuestion extends SurveyQuestion
             $this->layout = unserialize($layout, ['allowed_classes' => false]) ?: [];
         }
     }
-    
+
     /**
      * Returns TRUE if bipolar adjectives exist
      */
-    public function hasBipolarAdjectives() : bool
+    public function hasBipolarAdjectives(): bool
     {
         return $this->getBipolarAdjective(0) !== '' && $this->getBipolarAdjective(1) !== '';
     }
-    
+
     /**
      * Returns TRUE if a neutral column exists
      */
-    public function hasNeutralColumn() : bool
+    public function hasNeutralColumn(): bool
     {
         for ($i = 0; $i < $this->getColumnCount(); $i++) {
             $column = $this->getColumn($i);
@@ -1111,16 +1111,16 @@ class SurveyMatrixQuestion extends SurveyQuestion
         }
         return false;
     }
-    
+
     /**
      * Set whether placeholders should be used for the column titles or not
      */
-    public function setColumnPlaceholders(bool $a_value = false) : void
+    public function setColumnPlaceholders(bool $a_value = false): void
     {
         $this->columnPlaceholders = $a_value;
     }
-    
-    public function getColumnPlaceholders() : bool
+
+    public function getColumnPlaceholders(): bool
     {
         return $this->columnPlaceholders;
     }
@@ -1128,43 +1128,43 @@ class SurveyMatrixQuestion extends SurveyQuestion
     /**
      * Set whether the legend should be shown or not
      */
-    public function setLegend(bool $a_value = false) : void
+    public function setLegend(bool $a_value = false): void
     {
         $this->legend = $a_value;
     }
-    
-    public function getLegend() : bool
+
+    public function getLegend(): bool
     {
         return $this->legend;
     }
-    
-    public function setSingleLineRowCaption(bool $a_value = false) : void
+
+    public function setSingleLineRowCaption(bool $a_value = false): void
     {
         $this->singleLineRowCaption = $a_value;
     }
-    
-    public function getSingleLineRowCaption() : bool
+
+    public function getSingleLineRowCaption(): bool
     {
         return $this->singleLineRowCaption;
     }
-    
-    public function setRepeatColumnHeader(bool $a_value = false) : void
+
+    public function setRepeatColumnHeader(bool $a_value = false): void
     {
         $this->repeatColumnHeader = $a_value;
     }
-    
-    public function getRepeatColumnHeader() : bool
+
+    public function getRepeatColumnHeader(): bool
     {
         return $this->repeatColumnHeader;
     }
 
 
-    public function getRows() : SurveyCategories
+    public function getRows(): SurveyCategories
     {
         return $this->rows;
     }
 
-    public static function getMaxSumScore(int $survey_id) : int
+    public static function getMaxSumScore(int $survey_id): int
     {
         global $DIC;
 

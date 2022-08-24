@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /* Copyright (c) 1998-2020 ILIAS open source, Extended GPL, see docs/LICENSE */
 
@@ -10,7 +12,7 @@ class ilTestRandomQuestionsSrcPoolDefinitionQuantitiesCalculationTest extends il
 {
     private ilTestRandomQuestionsSrcPoolDefinitionQuantitiesCalculation $testObj;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -19,12 +21,12 @@ class ilTestRandomQuestionsSrcPoolDefinitionQuantitiesCalculationTest extends il
         );
     }
 
-    public function test_instantiateObject_shouldReturnInstance() : void
+    public function test_instantiateObject_shouldReturnInstance(): void
     {
         $this->assertInstanceOf(ilTestRandomQuestionsSrcPoolDefinitionQuantitiesCalculation::class, $this->testObj);
     }
 
-    public function testSourcePoolDefinition() : void
+    public function testSourcePoolDefinition(): void
     {
         $mock = $this->createMock(ilTestRandomQuestionSetSourcePoolDefinition::class);
 
@@ -32,7 +34,7 @@ class ilTestRandomQuestionsSrcPoolDefinitionQuantitiesCalculationTest extends il
         $this->assertEquals($mock, $this->testObj->getSourcePoolDefinition());
     }
 
-    public function testIntersectionQuantitySharingDefinitionList() : void
+    public function testIntersectionQuantitySharingDefinitionList(): void
     {
         $mock = $this->createMock(ilTestRandomQuestionSetSourcePoolDefinitionList::class);
 
@@ -40,19 +42,19 @@ class ilTestRandomQuestionsSrcPoolDefinitionQuantitiesCalculationTest extends il
         $this->assertEquals($mock, $this->testObj->getIntersectionQuantitySharingDefinitionList());
     }
 
-    public function testOverallQuestionAmount() : void
+    public function testOverallQuestionAmount(): void
     {
         $this->testObj->setOverallQuestionAmount(5);
         $this->assertEquals(5, $this->testObj->getOverallQuestionAmount());
     }
 
-    public function testExclusiveQuestionAmount() : void
+    public function testExclusiveQuestionAmount(): void
     {
         $this->testObj->setExclusiveQuestionAmount(5);
         $this->assertEquals(5, $this->testObj->getExclusiveQuestionAmount());
     }
 
-    public function testAvailableSharedQuestionAmount() : void
+    public function testAvailableSharedQuestionAmount(): void
     {
         $this->testObj->setAvailableSharedQuestionAmount(5);
         $this->assertEquals(5, $this->testObj->getAvailableSharedQuestionAmount());

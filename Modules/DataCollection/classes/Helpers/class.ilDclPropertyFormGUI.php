@@ -24,7 +24,6 @@
  */
 class ilDclPropertyFormGUI extends ilPropertyFormGUI
 {
-
     /**
      * Expose method for save confirmation
      */
@@ -36,7 +35,7 @@ class ilDclPropertyFormGUI extends ilPropertyFormGUI
         string $a_type,
         ?string $a_index = null,
         ?string $a_sub_index = null
-    ) : void {
+    ): void {
         $this->keepFileUpload($a_hash, $a_field, $a_tmp_name, $a_name, $a_type, $a_index, $a_sub_index);
     }
 
@@ -47,7 +46,7 @@ class ilDclPropertyFormGUI extends ilPropertyFormGUI
         string $a_type,
         ?string $a_index = null,
         ?string $a_sub_index = null
-    ) : string {
+    ): string {
         $a_name = ilFileUtils::getAsciiFileName($a_name);
 
         $tmp_file_name = implode(
@@ -72,7 +71,7 @@ class ilDclPropertyFormGUI extends ilPropertyFormGUI
     /**
      * @throws ilDclException
      */
-    public static function rebuildTempFileByHash(string $hash) : void
+    public static function rebuildTempFileByHash(string $hash): void
     {
         $temp_path = ilFileUtils::getDataDir() . "/temp";
         if (is_dir($temp_path)) {
@@ -123,7 +122,7 @@ class ilDclPropertyFormGUI extends ilPropertyFormGUI
     /**
      * Cleanup temp-files
      */
-    public function cleanupTempFiles(string $hash) : void
+    public function cleanupTempFiles(string $hash): void
     {
         $files = glob(ilFileUtils::getDataDir() . "/temp/" . session_id() . "~~" . $hash . "~~*");
 

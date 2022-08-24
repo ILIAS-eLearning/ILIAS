@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -97,34 +99,34 @@ class ilTermsOfServiceDocument extends ActiveRecord implements ilTermsOfServiceS
 
     private bool $criteriaFetched = false;
 
-    public static function returnDbTableName() : string
+    public static function returnDbTableName(): string
     {
         return self::TABLE_NAME;
     }
 
-    public function content() : string
+    public function content(): string
     {
         return $this->text;
     }
 
-    public function title() : string
+    public function title(): string
     {
         return $this->title;
     }
 
-    public function id() : int
+    public function id(): int
     {
         return $this->id;
     }
 
-    public function read() : void
+    public function read(): void
     {
         parent::read();
 
         $this->fetchAllCriterionAssignments();
     }
 
-    public function buildFromArray(array $array) : ActiveRecord
+    public function buildFromArray(array $array): ActiveRecord
     {
         $document = parent::buildFromArray($array);
 
@@ -133,7 +135,7 @@ class ilTermsOfServiceDocument extends ActiveRecord implements ilTermsOfServiceS
         return $document;
     }
 
-    public function create() : void
+    public function create(): void
     {
         $this->setCreationTs(time());
 
@@ -147,7 +149,7 @@ class ilTermsOfServiceDocument extends ActiveRecord implements ilTermsOfServiceS
         $this->initialPersistedCriteria = $this->criteria;
     }
 
-    public function update() : void
+    public function update(): void
     {
         $this->setModificationTs(time());
 
@@ -161,7 +163,7 @@ class ilTermsOfServiceDocument extends ActiveRecord implements ilTermsOfServiceS
                 $this->criteria,
                 static function (ilTermsOfServiceDocumentCriterionAssignment $criterionToMatch) use (
                     $criterionAssignment
-                ) : bool {
+                ): bool {
                     return $criterionToMatch->getId() === $criterionAssignment->getId();
                 }
             );
@@ -176,7 +178,7 @@ class ilTermsOfServiceDocument extends ActiveRecord implements ilTermsOfServiceS
         parent::update();
     }
 
-    public function delete() : void
+    public function delete(): void
     {
         foreach ($this->initialPersistedCriteria as $criterionAssignment) {
             $criterionAssignment->delete();
@@ -187,7 +189,7 @@ class ilTermsOfServiceDocument extends ActiveRecord implements ilTermsOfServiceS
         parent::delete();
     }
 
-    public function criteria() : array
+    public function criteria(): array
     {
         return $this->criteria;
     }
@@ -196,7 +198,7 @@ class ilTermsOfServiceDocument extends ActiveRecord implements ilTermsOfServiceS
      * @param ilTermsOfServiceDocumentCriterionAssignment $criterionAssignment
      * @throws ilTermsOfServiceDuplicateCriterionAssignmentException
      */
-    public function attachCriterion(ilTermsOfServiceDocumentCriterionAssignment $criterionAssignment) : void
+    public function attachCriterion(ilTermsOfServiceDocumentCriterionAssignment $criterionAssignment): void
     {
         foreach ($this->criteria as $currentAssignment) {
             if ($currentAssignment->equals($criterionAssignment)) {
@@ -215,7 +217,7 @@ class ilTermsOfServiceDocument extends ActiveRecord implements ilTermsOfServiceS
      * @param ilTermsOfServiceDocumentCriterionAssignment $criterionAssignment
      * @throws OutOfBoundsException
      */
-    public function detachCriterion(ilTermsOfServiceDocumentCriterionAssignment $criterionAssignment) : void
+    public function detachCriterion(ilTermsOfServiceDocumentCriterionAssignment $criterionAssignment): void
     {
         $numCriteriaBeforeRemoval = count($this->criteria);
 
@@ -223,7 +225,7 @@ class ilTermsOfServiceDocument extends ActiveRecord implements ilTermsOfServiceS
             $this->criteria,
             static function (ilTermsOfServiceDocumentCriterionAssignment $currentAssignment) use (
                 $criterionAssignment
-            ) : bool {
+            ): bool {
                 return !$currentAssignment->equals($criterionAssignment);
             }
         );
@@ -239,7 +241,7 @@ class ilTermsOfServiceDocument extends ActiveRecord implements ilTermsOfServiceS
         }
     }
 
-    public function fetchAllCriterionAssignments() : void
+    public function fetchAllCriterionAssignments(): void
     {
         if (!$this->criteriaFetched) {
             $this->criteriaFetched = true;

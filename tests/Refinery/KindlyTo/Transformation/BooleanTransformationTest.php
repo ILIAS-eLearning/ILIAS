@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -26,7 +28,7 @@ class BooleanTransformationTest extends TestCase
 {
     private BooleanTransformation $transformation;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         $this->transformation = new BooleanTransformation();
     }
@@ -36,7 +38,7 @@ class BooleanTransformationTest extends TestCase
      * @param mixed $originVal
      * @param bool $expectedVal
      */
-    public function testBooleanTransformation($originVal, bool $expectedVal) : void
+    public function testBooleanTransformation($originVal, bool $expectedVal): void
     {
         $transformedValue = $this->transformation->transform($originVal);
         $this->assertIsBool($transformedValue);
@@ -47,13 +49,13 @@ class BooleanTransformationTest extends TestCase
      * @dataProvider TransformationFailureDataProvider
      * @param mixed $failingValue
      */
-    public function testTransformIsInvalid($failingValue) : void
+    public function testTransformIsInvalid($failingValue): void
     {
         $this->expectException(ConstraintViolationException::class);
         $this->transformation->transform($failingValue);
     }
 
-    public function BooleanTestDataProvider() : array
+    public function BooleanTestDataProvider(): array
     {
         return [
             'true' => [true, true],
@@ -73,7 +75,7 @@ class BooleanTransformationTest extends TestCase
         ];
     }
 
-    public function TransformationFailureDataProvider() : array
+    public function TransformationFailureDataProvider(): array
     {
         return [
             'null' => [null],

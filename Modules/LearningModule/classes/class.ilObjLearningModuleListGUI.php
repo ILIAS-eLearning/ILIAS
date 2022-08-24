@@ -27,7 +27,7 @@ class ilObjLearningModuleListGUI extends ilObjectListGUI
     private int $child_id = 0;
     protected \ILIAS\LearningModule\ReadingTime\ReadingTimeManager $reading_time_manager;
 
-    public function init() : void
+    public function init(): void
     {
         global $DIC;
 
@@ -56,20 +56,20 @@ class ilObjLearningModuleListGUI extends ilObjectListGUI
         $this->reading_time_manager = new \ILIAS\LearningModule\ReadingTime\ReadingTimeManager();
     }
 
-    public function setChildId(int $a_child_id) : void
+    public function setChildId(int $a_child_id): void
     {
         $this->child_id = $a_child_id;
     }
 
-    public function getChildId() : int
+    public function getChildId(): int
     {
         return $this->child_id;
     }
-    
-    public function getCommandLink(string $cmd) : string
+
+    public function getCommandLink(string $cmd): string
     {
         $ctrl = $this->ctrl;
-        
+
         switch ($cmd) {
             case "continue":
                 $ctrl->setParameterByClass(ilLMPresentationGUI::class, "ref_id", $this->ref_id);
@@ -99,17 +99,17 @@ class ilObjLearningModuleListGUI extends ilObjectListGUI
                 $ctrl->setParameterByClass(ilObjLearningModuleGUI::class, "ref_id", $this->ref_id);
                 $cmd_link = $ctrl->getLinkTargetByClass([ilLMEditorGUI::class, ilObjLearningModuleGUI::class], "");
                 break;
-                
+
             case "properties":
                 $ctrl->setParameterByClass(ilObjLearningModuleGUI::class, "ref_id", $this->ref_id);
                 $cmd_link = $ctrl->getLinkTargetByClass([ilLMEditorGUI::class, ilObjLearningModuleGUI::class], "properties");
                 break;
-                
+
             case "infoScreen":
                 $ctrl->setParameterByClass(ilLMPresentationGUI::class, "ref_id", $this->ref_id);
                 $cmd_link = $ctrl->getLinkTargetByClass(ilLMPresentationGUI::class, "infoScreen");
                 break;
-                
+
             case 'downloadFile':
                 $ctrl->setParameterByClass(ilLMPresentationGUI::class, "ref_id", $this->ref_id);
                 $ctrl->setParameterByClass(ilLMPresentationGUI::class, "file_id", $this->getChildId());
@@ -125,8 +125,8 @@ class ilObjLearningModuleListGUI extends ilObjectListGUI
 
         return $cmd_link;
     }
-    
-    public function getCommandFrame(string $cmd) : string
+
+    public function getCommandFrame(string $cmd): string
     {
         switch ($cmd) {
             case "view":
@@ -146,7 +146,7 @@ class ilObjLearningModuleListGUI extends ilObjectListGUI
         return $frame;
     }
 
-    public function getProperties() : array
+    public function getProperties(): array
     {
         $lng = $this->lng;
         $rbacsystem = $this->rbacsystem;
@@ -169,13 +169,13 @@ class ilObjLearningModuleListGUI extends ilObjectListGUI
 
         return $props;
     }
-    
-    public function getInfoScreenStatus() : bool
+
+    public function getInfoScreenStatus(): bool
     {
         return ilObjContentObjectAccess::isInfoEnabled($this->obj_id);
     }
 
-    public function checkInfoPageOnAsynchronousRendering() : bool
+    public function checkInfoPageOnAsynchronousRendering(): bool
     {
         return true;
     }

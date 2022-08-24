@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -43,7 +45,7 @@ class ilObjForumAdministrationGUI extends ilObjectGUI
         $this->lng->loadLanguageModule('forum');
     }
 
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         if (!$this->rbac->system()->checkAccess('visible,read', $this->object->getRefId())) {
             $this->error->raiseError($this->lng->txt('no_permission'), $this->error->WARNING);
@@ -70,7 +72,7 @@ class ilObjForumAdministrationGUI extends ilObjectGUI
         }
     }
 
-    public function getAdminTabs() : void
+    public function getAdminTabs(): void
     {
         if ($this->rbac->system()->checkAccess('visible,read', $this->object->getRefId())) {
             $this->tabs_gui->addTarget(
@@ -90,7 +92,7 @@ class ilObjForumAdministrationGUI extends ilObjectGUI
         }
     }
 
-    public function editSettings(ilPropertyFormGUI $form = null) : void
+    public function editSettings(ilPropertyFormGUI $form = null): void
     {
         $this->tabs_gui->activateTab('settings');
 
@@ -102,7 +104,7 @@ class ilObjForumAdministrationGUI extends ilObjectGUI
         $this->tpl->setContent($form->getHTML());
     }
 
-    public function saveSettings() : void
+    public function saveSettings(): void
     {
         $this->checkPermission("write");
 
@@ -133,7 +135,7 @@ class ilObjForumAdministrationGUI extends ilObjectGUI
         $this->editSettings($form);
     }
 
-    protected function populateForm(ilPropertyFormGUI $form) : void
+    protected function populateForm(ilPropertyFormGUI $form): void
     {
         $frma_set = new ilSetting('frma');
 
@@ -153,7 +155,7 @@ class ilObjForumAdministrationGUI extends ilObjectGUI
         ]);
     }
 
-    protected function getSettingsForm() : ilPropertyFormGUI
+    protected function getSettingsForm(): ilPropertyFormGUI
     {
         $form = new ilPropertyFormGUI();
         $form->setFormAction($this->ctrl->getFormAction($this, 'saveSettings'));
@@ -240,7 +242,7 @@ class ilObjForumAdministrationGUI extends ilObjectGUI
         return $form;
     }
 
-    public function addToExternalSettingsForm(int $a_form_id) : array
+    public function addToExternalSettingsForm(int $a_form_id): array
     {
         switch ($a_form_id) {
             case ilAdministrationSettingsFormHandler::FORM_PRIVACY:

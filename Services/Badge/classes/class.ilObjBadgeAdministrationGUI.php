@@ -55,7 +55,7 @@ class ilObjBadgeAdministrationGUI extends ilObjectGUI
         $this->lng->loadLanguageModule("badge");
     }
 
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         $next_class = $this->ctrl->getNextClass($this);
         $cmd = $this->ctrl->getCmd();
@@ -68,7 +68,7 @@ class ilObjBadgeAdministrationGUI extends ilObjectGUI
                 $perm_gui = new ilPermissionGUI($this);
                 $this->ctrl->forwardCommand($perm_gui);
                 break;
-            
+
             case 'ilbadgemanagementgui':
                 $this->assertActive();
                 $this->tabs_gui->setTabActive('activity');
@@ -86,7 +86,7 @@ class ilObjBadgeAdministrationGUI extends ilObjectGUI
         }
     }
 
-    public function getAdminTabs() : void
+    public function getAdminTabs(): void
     {
         $rbacsystem = $this->rbacsystem;
 
@@ -96,7 +96,7 @@ class ilObjBadgeAdministrationGUI extends ilObjectGUI
                 $this->lng->txt("settings"),
                 $this->ctrl->getLinkTarget($this, "editSettings")
             );
-            
+
             if (ilBadgeHandler::getInstance()->isActive()) {
                 $this->tabs_gui->addTab(
                     "types",
@@ -115,7 +115,7 @@ class ilObjBadgeAdministrationGUI extends ilObjectGUI
                     $this->lng->txt("badge_activity_badges"),
                     $this->ctrl->getLinkTargetByClass("ilbadgemanagementgui", "")
                 );
-                
+
                 $this->tabs_gui->addTab(
                     "obj_badges",
                     $this->lng->txt("badge_object_badges"),
@@ -132,36 +132,36 @@ class ilObjBadgeAdministrationGUI extends ilObjectGUI
             );
         }
     }
-    
-    protected function assertActive() : void
+
+    protected function assertActive(): void
     {
         if (!ilBadgeHandler::getInstance()->isActive()) {
             $this->ctrl->redirect($this, "editSettings");
         }
     }
-    
-    
+
+
     //
     // settings
     //
 
-    protected function editSettings(ilPropertyFormGUI $a_form = null) : void
+    protected function editSettings(ilPropertyFormGUI $a_form = null): void
     {
         $this->tabs_gui->setTabActive("settings");
-        
+
         if (!$a_form) {
             $a_form = $this->initFormSettings();
         }
-        
+
         $this->tpl->setContent($a_form->getHTML());
     }
 
-    protected function saveSettings() : void
+    protected function saveSettings(): void
     {
         $ilCtrl = $this->ctrl;
-        
+
         $this->checkPermission("write");
-        
+
         $form = $this->initFormSettings();
         if ($form->checkInput()) {
             $handler = ilBadgeHandler::getInstance();
@@ -170,19 +170,19 @@ class ilObjBadgeAdministrationGUI extends ilObjectGUI
             $this->tpl->setOnScreenMessage('success', $this->lng->txt("settings_saved"), true);
             $ilCtrl->redirect($this, "editSettings");
         }
-        
+
         $form->setValuesByPost();
         $this->editSettings($form);
     }
 
-    protected function initFormSettings() : ilPropertyFormGUI
+    protected function initFormSettings(): ilPropertyFormGUI
     {
         $ilAccess = $this->access;
-        
+
         $form = new ilPropertyFormGUI();
         $form->setFormAction($this->ctrl->getFormAction($this));
         $form->setTitle($this->lng->txt("badge_settings"));
-        
+
         if ($ilAccess->checkAccess("write", "", $this->object->getRefId())) {
             $form->addCommandButton("saveSettings", $this->lng->txt("save"));
             $form->addCommandButton("editSettings", $this->lng->txt("cancel"));
@@ -198,19 +198,19 @@ class ilObjBadgeAdministrationGUI extends ilObjectGUI
 
         return $form;
     }
-    
-    
+
+
     //
     // types
     //
-    
-    protected function listTypes() : void
+
+    protected function listTypes(): void
     {
         $ilAccess = $this->access;
-        
+
         $this->assertActive();
         $this->tabs_gui->setTabActive("types");
-        
+
         $tbl = new ilBadgeTypesTableGUI(
             $this,
             "listTypes",
@@ -218,13 +218,13 @@ class ilObjBadgeAdministrationGUI extends ilObjectGUI
         );
         $this->tpl->setContent($tbl->getHTML());
     }
-    
-    protected function activateTypes() : void
+
+    protected function activateTypes(): void
     {
         $lng = $this->lng;
-        
+
         $this->assertActive();
-        
+
         $ids = $this->badge_request->getIds();
         if ($this->checkPermissionBool("write") && count($ids) > 0) {
             $handler = ilBadgeHandler::getInstance();
@@ -235,51 +235,51 @@ class ilObjBadgeAdministrationGUI extends ilObjectGUI
                 }
             }
             $handler->setInactiveTypes($inactive);
-            
+
             $this->tpl->setOnScreenMessage('success', $lng->txt("settings_saved"), true);
         }
         $this->ctrl->redirect($this, "listTypes");
     }
-    
-    protected function deactivateTypes() : void
+
+    protected function deactivateTypes(): void
     {
         $lng = $this->lng;
-        
+
         $this->assertActive();
-        
+
         $ids = $this->badge_request->getIds();
         if ($this->checkPermissionBool("write") && count($ids) > 0) {
             $handler = ilBadgeHandler::getInstance();
             $inactive = array_merge($handler->getInactiveTypes(), $ids);
             $handler->setInactiveTypes($inactive);
-            
+
             $this->tpl->setOnScreenMessage('success', $lng->txt("settings_saved"), true);
         }
         $this->ctrl->redirect($this, "listTypes");
     }
-    
-    
+
+
     //
     // images templates
     //
-    
-    protected function listImageTemplates() : void
+
+    protected function listImageTemplates(): void
     {
         $ilAccess = $this->access;
         $lng = $this->lng;
         $ilToolbar = $this->toolbar;
         $ilCtrl = $this->ctrl;
-            
+
         $this->assertActive();
         $this->tabs_gui->setTabActive("imgtmpl");
-        
+
         if ($this->checkPermissionBool("write")) {
             $ilToolbar->addButton(
                 $lng->txt("badge_add_template"),
                 $ilCtrl->getLinkTarget($this, "addImageTemplate")
             );
         }
-        
+
         $tbl = new ilBadgeImageTemplateTableGUI(
             $this,
             "listImageTemplates",
@@ -287,38 +287,38 @@ class ilObjBadgeAdministrationGUI extends ilObjectGUI
         );
         $this->tpl->setContent($tbl->getHTML());
     }
-    
+
     protected function addImageTemplate(
         ilPropertyFormGUI $a_form = null
-    ) : void {
+    ): void {
         $tpl = $this->tpl;
-        
+
         $this->checkPermission("write");
-        
+
         $this->assertActive();
         $this->tabs_gui->setTabActive("imgtmpl");
-        
+
         if (!$a_form) {
             $a_form = $this->initImageTemplateForm("create");
         }
-        
+
         $tpl->setContent($a_form->getHTML());
     }
-    
+
     protected function initImageTemplateForm(
         string $a_mode
-    ) : ilPropertyFormGUI {
+    ): ilPropertyFormGUI {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
-        
+
         $form = new ilPropertyFormGUI();
         $form->setFormAction($ilCtrl->getFormAction($this, "saveBadge"));
         $form->setTitle($lng->txt("badge_image_template_form"));
-        
+
         $title = new ilTextInputGUI($lng->txt("title"), "title");
         $title->setRequired(true);
         $form->addItem($title);
-        
+
         $img = new ilImageFileInputGUI($lng->txt("image"), "img");
         $img->setSuffixes(array("png", "svg"));
         if ($a_mode === "create") {
@@ -326,95 +326,95 @@ class ilObjBadgeAdministrationGUI extends ilObjectGUI
         }
         $img->setAllowDeletion(false);
         $form->addItem($img);
-        
+
         $types_mode = new ilRadioGroupInputGUI($lng->txt("badge_template_types"), "tmode");
         $types_mode->setRequired(true);
         $form->addItem($types_mode);
-        
+
         $type_all = new ilRadioOption($lng->txt("badge_template_types_all"), "all");
         $types_mode->addOption($type_all);
-        
+
         $type_spec = new ilRadioOption($lng->txt("badge_template_types_specific"), "spec");
         $types_mode->addOption($type_spec);
-        
+
         $types = new ilCheckboxGroupInputGUI($lng->txt("badge_types"), "type");
         $types->setRequired(true);
         $type_spec->addSubItem($types);
-        
+
         foreach (ilBadgeHandler::getInstance()->getAvailableTypes() as $id => $type) {
             $types->addOption(new ilCheckboxOption($type->getCaption(), $id));
         }
-        
+
         if ($a_mode === "create") {
             $form->addCommandButton("saveImageTemplate", $lng->txt("save"));
         } else {
             $form->addCommandButton("updateImageTemplate", $lng->txt("save"));
         }
         $form->addCommandButton("listImageTemplates", $lng->txt("cancel"));
-        
+
         return $form;
     }
-    
-    protected function saveImageTemplate() : void
+
+    protected function saveImageTemplate(): void
     {
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
-        
+
         $this->checkPermission("write");
-        
+
         $form = $this->initImageTemplateForm("create");
         if ($form->checkInput()) {
             $tmpl = new ilBadgeImageTemplate();
             $tmpl->setTitle($form->getInput("title"));
             $tmpl->setTypes($form->getInput("type"));
             $tmpl->create();
-            
+
             $tmpl->uploadImage($_FILES["img"]);
-            
+
             $this->tpl->setOnScreenMessage('success', $lng->txt("settings_saved"), true);
             $ilCtrl->redirect($this, "listImageTemplates");
         }
-        
+
         $form->setValuesByPost();
         $this->addImageTemplate($form);
     }
-    
+
     protected function editImageTemplate(
         ilPropertyFormGUI $a_form = null
-    ) : void {
+    ): void {
         $ilCtrl = $this->ctrl;
         $tpl = $this->tpl;
-        
+
         $this->checkPermission("write");
-        
+
         $this->assertActive();
         $this->tabs_gui->setTabActive("imgtmpl");
-                
+
         $tmpl_id = $this->badge_request->getTemplateId();
         if (!$tmpl_id) {
             $ilCtrl->redirect($this, "listImageTemplates");
         }
-        
+
         $ilCtrl->setParameter($this, "tid", $tmpl_id);
-        
+
         $tmpl = new ilBadgeImageTemplate($tmpl_id);
-        
+
         if (!$a_form) {
             $a_form = $this->initImageTemplateForm("edit");
             $this->setImageTemplateFormValues($a_form, $tmpl);
         }
-        
+
         $tpl->setContent($a_form->getHTML());
     }
-    
+
     protected function setImageTemplateFormValues(
         ilPropertyFormGUI $a_form,
         ilBadgeImageTemplate $a_tmpl
-    ) : void {
+    ): void {
         $a_form->getItemByPostVar("title")->setValue($a_tmpl->getTitle());
         $a_form->getItemByPostVar("img")->setImage($a_tmpl->getImagePath());
         $a_form->getItemByPostVar("img")->setValue($a_tmpl->getImage());
-        
+
         if ($a_tmpl->getTypes()) {
             $a_form->getItemByPostVar("tmode")->setValue("spec");
             $a_form->getItemByPostVar("type")->setValue($a_tmpl->getTypes());
@@ -422,72 +422,72 @@ class ilObjBadgeAdministrationGUI extends ilObjectGUI
             $a_form->getItemByPostVar("tmode")->setValue("all");
         }
     }
-    
-    protected function updateImageTemplate() : void
+
+    protected function updateImageTemplate(): void
     {
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
-        
+
         $this->checkPermission("write");
-        
+
         $tmpl_id = $this->badge_request->getTemplateId();
         if (!$tmpl_id) {
             $ilCtrl->redirect($this, "listImageTemplates");
         }
-        
+
         $ilCtrl->setParameter($this, "tid", $tmpl_id);
-        
+
         $tmpl = new ilBadgeImageTemplate($tmpl_id);
-        
+
         $form = $this->initImageTemplateForm("update");
         if ($form->checkInput()) {
             $tmpl->setTitle($form->getInput("title"));
-            
+
             if ($form->getInput("tmode") !== "all") {
                 $tmpl->setTypes($form->getInput("type"));
             } else {
                 $tmpl->setTypes(null);
             }
-            
+
             $tmpl->update();
-            
+
             $tmpl->uploadImage($_FILES["img"]);
-        
+
             $this->tpl->setOnScreenMessage('success', $lng->txt("settings_saved"), true);
             $ilCtrl->redirect($this, "listImageTemplates");
         }
-        
+
         $this->setImageTemplateFormValues($form, $tmpl);
         $form->setValuesByPost();
         $this->editImageTemplate($form);
     }
-    
-    protected function confirmDeleteImageTemplates() : void
+
+    protected function confirmDeleteImageTemplates(): void
     {
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
         $tpl = $this->tpl;
         $ilTabs = $this->tabs;
-        
+
         $this->checkPermission("write");
-        
+
         $tmpl_ids = $this->badge_request->getIds();
         if (!$tmpl_ids) {
             $ilCtrl->redirect($this, "listImageTemplates");
         }
-                
+
         $ilTabs->clearTargets();
         $ilTabs->setBackTarget(
             $lng->txt("back"),
             $ilCtrl->getLinkTarget($this, "listImageTemplates")
         );
-        
+
         $confirmation_gui = new ilConfirmationGUI();
         $confirmation_gui->setFormAction($ilCtrl->getFormAction($this));
         $confirmation_gui->setHeaderText($lng->txt("badge_template_deletion_confirmation"));
         $confirmation_gui->setCancel($lng->txt("cancel"), "listImageTemplates");
         $confirmation_gui->setConfirm($lng->txt("delete"), "deleteImageTemplates");
-        
+
         foreach ($tmpl_ids as $tmpl_id) {
             $tmpl = new ilBadgeImageTemplate($tmpl_id);
             $confirmation_gui->addItem("id[]", $tmpl_id, $tmpl->getTitle());
@@ -495,40 +495,40 @@ class ilObjBadgeAdministrationGUI extends ilObjectGUI
 
         $tpl->setContent($confirmation_gui->getHTML());
     }
-    
-    protected function deleteImageTemplates() : void
+
+    protected function deleteImageTemplates(): void
     {
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
-        
+
         $this->checkPermission("write");
-        
+
         $tmpl_ids = $this->badge_request->getIds();
         if ($tmpl_ids) {
             foreach ($tmpl_ids as $tmpl_id) {
                 $tmpl = new ilBadgeImageTemplate($tmpl_id);
                 $tmpl->delete();
             }
-        
+
             $this->tpl->setOnScreenMessage('success', $lng->txt("settings_saved"), true);
         }
-        
+
         $ilCtrl->redirect($this, "listImageTemplates");
     }
-    
-    
+
+
     //
     // object badges
     //
-    
-    protected function listObjectBadges() : void
+
+    protected function listObjectBadges(): void
     {
         $ilAccess = $this->access;
         $tpl = $this->tpl;
-        
+
         $this->assertActive();
         $this->tabs_gui->setTabActive("obj_badges");
-        
+
         $tbl = new ilObjectBadgeTableGUI(
             $this,
             "listObjectBadges",
@@ -536,11 +536,11 @@ class ilObjBadgeAdministrationGUI extends ilObjectGUI
         );
         $tpl->setContent($tbl->getHTML());
     }
-    
-    protected function applyObjectFilter() : void
+
+    protected function applyObjectFilter(): void
     {
         $ilAccess = $this->access;
-        
+
         $tbl = new ilObjectBadgeTableGUI(
             $this,
             "listObjectBadges",
@@ -550,11 +550,11 @@ class ilObjBadgeAdministrationGUI extends ilObjectGUI
         $tbl->writeFilterToSession();
         $this->listObjectBadges();
     }
-    
-    protected function resetObjectFilter() : void
+
+    protected function resetObjectFilter(): void
     {
         $ilAccess = $this->access;
-        
+
         $tbl = new ilObjectBadgeTableGUI(
             $this,
             "listObjectBadges",
@@ -564,119 +564,119 @@ class ilObjBadgeAdministrationGUI extends ilObjectGUI
         $tbl->resetFilter();
         $this->listObjectBadges();
     }
-    
-    protected function listObjectBadgeUsers() : void
+
+    protected function listObjectBadgeUsers(): void
     {
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
         $tpl = $this->tpl;
-        
+
         $parent_obj_id = $this->badge_request->getParentId();
         if (!$parent_obj_id) {
             $ilCtrl->redirect($this, "listObjectBadges");
         }
-        
+
         $this->assertActive();
-        
+
         $this->tabs_gui->clearTargets();
         $this->tabs_gui->setBackTarget(
             $lng->txt("back"),
             $ilCtrl->getLinkTarget($this, "listObjectBadges")
         );
-        
+
         $ilCtrl->saveParameter($this, "pid");
-        
+
         $tbl = new ilBadgeUserTableGUI($this, "listObjectBadgeUsers", 0, null, $parent_obj_id, $this->badge_request->getBadgeId());
         $tpl->setContent($tbl->getHTML());
     }
-    
-    protected function applylistObjectBadgeUsers() : void
+
+    protected function applylistObjectBadgeUsers(): void
     {
         $tbl = new ilBadgeUserTableGUI($this, "listObjectBadgeUsers", 0, null, 0, $this->badge_request->getBadgeId());
         $tbl->resetOffset();
         $tbl->writeFilterToSession();
         $this->listObjectBadgeUsers();
     }
-    
-    protected function resetlistObjectBadgeUsers() : void
+
+    protected function resetlistObjectBadgeUsers(): void
     {
         $tbl = new ilBadgeUserTableGUI($this, "listObjectBadgeUsers", 0, null, 0, $this->badge_request->getBadgeId());
         $tbl->resetOffset();
         $tbl->resetFilter();
         $this->listObjectBadgeUsers();
     }
-    
-    
+
+
     //
     // see ilBadgeManagementGUI
     //
-    
-    protected function getObjectBadgesFromMultiAction() : array
+
+    protected function getObjectBadgesFromMultiAction(): array
     {
         $ilAccess = $this->access;
         $ilCtrl = $this->ctrl;
-        
+
         $badge_ids = $this->badge_request->getIds();
         if (!$badge_ids ||
             !$ilAccess->checkAccess("write", "", $this->object->getRefId())) {
             $ilCtrl->redirect($this, "listObjectBadges");
         }
-        
+
         return $badge_ids;
     }
-    
-    protected function toggleObjectBadges(bool $a_status) : void
+
+    protected function toggleObjectBadges(bool $a_status): void
     {
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
-        
+
         $badge_ids = $this->getObjectBadgesFromMultiAction();
-        
+
         foreach ($badge_ids as $badge_id) {
             $badge = new ilBadge($badge_id);
             $badge->setActive($a_status);
             $badge->update();
         }
-        
+
         $this->tpl->setOnScreenMessage('success', $lng->txt("settings_saved"), true);
         $ilCtrl->redirect($this, "listObjectBadges");
     }
-    
-    protected function activateObjectBadges() : void
+
+    protected function activateObjectBadges(): void
     {
         $this->toggleObjectBadges(true);
     }
-    
-    protected function deactivateObjectBadges() : void
+
+    protected function deactivateObjectBadges(): void
     {
         $this->toggleObjectBadges(false);
     }
-    
-    protected function confirmDeleteObjectBadges() : void
+
+    protected function confirmDeleteObjectBadges(): void
     {
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
         $tpl = $this->tpl;
         $ilTabs = $this->tabs;
-                                
+
         $badge_ids = $this->getObjectBadgesFromMultiAction();
-                
+
         $ilTabs->clearTargets();
         $ilTabs->setBackTarget(
             $lng->txt("back"),
             $ilCtrl->getLinkTarget($this, "listObjectBadges")
         );
-        
+
         $confirmation_gui = new ilConfirmationGUI();
         $confirmation_gui->setFormAction($ilCtrl->getFormAction($this));
         $confirmation_gui->setHeaderText($lng->txt("badge_deletion_confirmation"));
         $confirmation_gui->setCancel($lng->txt("cancel"), "listObjectBadges");
         $confirmation_gui->setConfirm($lng->txt("delete"), "deleteObjectBadges");
-            
+
         foreach ($badge_ids as $badge_id) {
             $badge = new ilBadge($badge_id);
             $parent = $badge->getParentMeta();
-            
+
             // :TODO: container presentation
             $container = "(" . $parent["type"] . "/" .
                     $parent["id"] . ") " .
@@ -684,7 +684,7 @@ class ilObjBadgeAdministrationGUI extends ilObjectGUI
             if ($parent["deleted"]) {
                 $container .= ' <span class="il_ItemAlertProperty">' . $lng->txt("deleted") . '</span>';
             }
-            
+
             $confirmation_gui->addItem(
                 "id[]",
                 $badge_id,
@@ -696,19 +696,19 @@ class ilObjBadgeAdministrationGUI extends ilObjectGUI
 
         $tpl->setContent($confirmation_gui->getHTML());
     }
-    
-    protected function deleteObjectBadges() : void
+
+    protected function deleteObjectBadges(): void
     {
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
-        
+
         $badge_ids = $this->getObjectBadgesFromMultiAction();
-        
+
         foreach ($badge_ids as $badge_id) {
             $badge = new ilBadge($badge_id);
             $badge->delete();
         }
-        
+
         $this->tpl->setOnScreenMessage('success', $lng->txt("settings_saved"), true);
         $ilCtrl->redirect($this, "listObjectBadges");
     }

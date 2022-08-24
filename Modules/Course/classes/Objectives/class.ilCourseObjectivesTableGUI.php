@@ -1,4 +1,6 @@
-<?php declare(strict_types=0);
+<?php
+
+declare(strict_types=0);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -14,7 +16,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 // begin-patch lok
 // end-patch lok
 /**
@@ -66,12 +68,12 @@ class ilCourseObjectivesTableGUI extends ilTable2GUI
         $this->addCommandButton('saveSorting', $this->lng->txt('sorting_save'));
     }
 
-    public function getSettings() : ilLOSettings
+    public function getSettings(): ilLOSettings
     {
         return $this->settings;
     }
 
-    protected function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set): void
     {
         $this->tpl->setVariable('VAL_ID', $a_set['id']);
         $this->tpl->setVariable('VAL_POSITION', $a_set['position']);
@@ -252,7 +254,7 @@ class ilCourseObjectivesTableGUI extends ilTable2GUI
         // end-patch lok
     }
 
-    public function parse(array $a_objective_ids) : void
+    public function parse(array $a_objective_ids): void
     {
         $position = 1;
         $objectives = [];

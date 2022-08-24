@@ -45,22 +45,22 @@ class ilLearningHistoryEntry
         $this->ref_id = $ref_id;
     }
 
-    public function getTimestamp() : int
+    public function getTimestamp(): int
     {
         return $this->ts;
     }
 
-    public function getObjId() : int
+    public function getObjId(): int
     {
         return $this->obj_id;
     }
 
-    public function getRefId() : int
+    public function getRefId(): int
     {
         return $this->ref_id;
     }
 
-    public function getAchieveText() : string
+    public function getAchieveText(): string
     {
         return $this->achieve_text;
     }
@@ -68,12 +68,12 @@ class ilLearningHistoryEntry
     /**
      * Get "achieve in ..." text
      */
-    public function getAchieveInText() : string
+    public function getAchieveInText(): string
     {
         return $this->achieve_in_text;
     }
 
-    public function getIconPath() : string
+    public function getIconPath(): string
     {
         return $this->icon_path;
     }

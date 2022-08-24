@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace ILIAS\FileDelivery\FileDeliveryTypes;
@@ -30,7 +31,6 @@ use ILIAS\HTTP\Services;
  */
 final class FileDeliveryTypeFactory
 {
-
     /**
      * @var ilFileDeliveryType[]
      */
@@ -59,7 +59,7 @@ final class FileDeliveryTypeFactory
      *
      * @see DeliveryMethod
      */
-    public function getInstance(string $type) : \ILIAS\FileDelivery\ilFileDeliveryType
+    public function getInstance(string $type): \ILIAS\FileDelivery\ilFileDeliveryType
     {
         assert(is_string($type));
         if (isset(self::$instances[$type])) {

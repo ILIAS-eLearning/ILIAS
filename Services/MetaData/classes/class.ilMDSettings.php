@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -40,7 +42,7 @@ class ilMDSettings
         $this->read();
     }
 
-    public static function _getInstance() : ilMDSettings
+    public static function _getInstance(): ilMDSettings
     {
         if (self::$instance) {
             return self::$instance;
@@ -48,22 +50,22 @@ class ilMDSettings
         return self::$instance = new ilMDSettings();
     }
 
-    public function isCopyrightSelectionActive() : bool
+    public function isCopyrightSelectionActive(): bool
     {
         return $this->copyright_selection_active;
     }
 
-    public function activateCopyrightSelection(bool $a_status) : void
+    public function activateCopyrightSelection(bool $a_status): void
     {
         $this->copyright_selection_active = $a_status;
     }
 
-    public function setDelimiter(string $a_val) : void
+    public function setDelimiter(string $a_val): void
     {
         $this->delimiter = $a_val;
     }
 
-    public function getDelimiter() : string
+    public function getDelimiter(): string
     {
         if (trim($this->delimiter) === '') {
             return ",";
@@ -71,13 +73,13 @@ class ilMDSettings
         return $this->delimiter;
     }
 
-    public function save() : void
+    public function save(): void
     {
         $this->settings->set('copyright_selection_active', (string) $this->isCopyrightSelectionActive());
         $this->settings->set('delimiter', $this->getDelimiter());
     }
 
-    private function read() : void
+    private function read(): void
     {
         $this->settings = new ilSetting('md_settings');
 

@@ -33,12 +33,12 @@ class ilContainerUserFilter
         $this->data = $data;
     }
 
-    public function getData() : ?array
+    public function getData(): ?array
     {
         return $this->data;
     }
 
-    public function isEmpty() : bool
+    public function isEmpty(): bool
     {
         $empty = true;
         if (is_array($this->data)) {

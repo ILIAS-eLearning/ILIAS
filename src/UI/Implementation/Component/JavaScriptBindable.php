@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\UI\Implementation\Component;
 
 use Closure;
@@ -58,7 +60,7 @@ trait JavaScriptBindable
     /**
      * @see \ILIAS\UI\Component\JavaScriptBindable::getOnLoadCode
      */
-    public function getOnLoadCode() : ?Closure
+    public function getOnLoadCode(): ?Closure
     {
         return $this->on_load_code_binder;
     }
@@ -66,7 +68,7 @@ trait JavaScriptBindable
     /**
      * @throw \InvalidArgumentException	if closure does not take one argument
      */
-    private function checkBinder(Closure $binder) : void
+    private function checkBinder(Closure $binder): void
     {
         $refl = new ReflectionFunction($binder);
         $args = array_map(fn ($arg) => $arg->name, $refl->getParameters());

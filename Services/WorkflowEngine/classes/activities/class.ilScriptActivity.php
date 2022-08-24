@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -38,7 +40,7 @@ class ilScriptActivity implements ilActivity, ilWorkflowEngineElement
     }
 
     /** @param string|Closure|null $value */
-    public function setMethod($value) : void
+    public function setMethod($value): void
     {
         $this->method = $value;
     }
@@ -59,7 +61,7 @@ class ilScriptActivity implements ilActivity, ilWorkflowEngineElement
      * Executes this action according to its settings.
      * @return void
      */
-    public function execute() : void
+    public function execute(): void
     {
         $method = $this->method;
         $return_value = $this->context->getContext()->$method($this);
@@ -78,12 +80,12 @@ class ilScriptActivity implements ilActivity, ilWorkflowEngineElement
         return $this->context;
     }
 
-    public function setName($name) : void
+    public function setName($name): void
     {
         $this->name = $name;
     }
 
-    public function getName() : string
+    public function getName(): string
     {
         return $this->name;
     }

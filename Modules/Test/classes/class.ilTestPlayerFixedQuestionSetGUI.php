@@ -31,13 +31,13 @@
  */
 class ilTestPlayerFixedQuestionSetGUI extends ilTestOutputGUI
 {
-    protected function buildTestPassQuestionList() : ilAssQuestionList
+    protected function buildTestPassQuestionList(): ilAssQuestionList
     {
         global $DIC;
         $component_repository = $DIC['component.repository'];
 
         $questionList = new ilAssQuestionList($this->db, $this->lng, $component_repository);
-        
+
         $questionList->setParentObjId($this->object->getId());
 
         $questionList->setQuestionInstanceTypeFilter(ilAssQuestionList::QUESTION_INSTANCE_TYPE_DUPLICATES);

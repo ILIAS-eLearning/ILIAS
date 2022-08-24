@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -26,7 +28,7 @@ use ILIAS\GlobalScreen\Identification\NullIdentification;
  */
 trait isInterchangeableItemTrait
 {
-    public function hasChanged() : bool
+    public function hasChanged(): bool
     {
         $serialized_parent = $this->getParent()->serialize();
         if ($this instanceof isTopItem) {

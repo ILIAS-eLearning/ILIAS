@@ -29,7 +29,7 @@ class ilBPMN2Parser
      * @param string|null $workflow_name
      * @return string
      */
-    public function parseBPMN2XML(string $bpmn2_xml, string $workflow_name = '') : string
+    public function parseBPMN2XML(string $bpmn2_xml, string $workflow_name = ''): string
     {
         $bpmn2_array = $this->convertXmlToArray($bpmn2_xml);
         $process = $this->getProcessNodeFromArray($bpmn2_array);
@@ -130,7 +130,7 @@ class ilBPMN2Parser
      * @param array $bpmn2
      * @return array
      */
-    public function getProcessNodeFromArray(array $bpmn2) : array
+    public function getProcessNodeFromArray(array $bpmn2): array
     {
         $process = [];
 
@@ -150,7 +150,7 @@ class ilBPMN2Parser
      * @param array $bpmn2
      * @return array
      */
-    public function getMessageNodesFromArray(array $bpmn2) : array
+    public function getMessageNodesFromArray(array $bpmn2): array
     {
         $messages = [];
 

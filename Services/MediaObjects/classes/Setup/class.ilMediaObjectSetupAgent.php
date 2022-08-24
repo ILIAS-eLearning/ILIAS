@@ -34,12 +34,12 @@ class ilMediaObjectSetupAgent implements Setup\Agent
         $this->refinery = $refinery;
     }
 
-    public function hasConfig() : bool
+    public function hasConfig(): bool
     {
         return true;
     }
 
-    public function getArrayToConfigTransformation() : Refinery\Transformation
+    public function getArrayToConfigTransformation(): Refinery\Transformation
     {
         return $this->refinery->custom()->transformation(function ($data) {
             return new \ilMediaObjectSetupConfig(
@@ -48,7 +48,7 @@ class ilMediaObjectSetupAgent implements Setup\Agent
         });
     }
 
-    public function getInstallObjective(Setup\Config $config = null) : Setup\Objective
+    public function getInstallObjective(Setup\Config $config = null): Setup\Objective
     {
         $dir_objective = new ilFileSystemComponentDataDirectoryCreatedObjective(
             'mobs',
@@ -64,7 +64,7 @@ class ilMediaObjectSetupAgent implements Setup\Agent
         );
     }
 
-    public function getUpdateObjective(Setup\Config $config = null) : Setup\Objective
+    public function getUpdateObjective(Setup\Config $config = null): Setup\Objective
     {
         /** @var ilMediaObjectSetupConfig $config */
         if ($config !== null) {
@@ -73,17 +73,17 @@ class ilMediaObjectSetupAgent implements Setup\Agent
         return new Setup\Objective\NullObjective();
     }
 
-    public function getBuildArtifactObjective() : Setup\Objective
+    public function getBuildArtifactObjective(): Setup\Objective
     {
         return new Setup\Objective\NullObjective();
     }
 
-    public function getStatusObjective(Setup\Metrics\Storage $storage) : Setup\Objective
+    public function getStatusObjective(Setup\Metrics\Storage $storage): Setup\Objective
     {
         return new ilMediaObjectMetricsCollectedObjective($storage);
     }
 
-    public function getMigrations() : array
+    public function getMigrations(): array
     {
         return [];
     }

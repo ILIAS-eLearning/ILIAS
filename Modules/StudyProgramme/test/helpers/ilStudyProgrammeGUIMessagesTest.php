@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -23,7 +25,7 @@ class ilStudyProgrammeGUIMessagesTest extends TestCase
     protected ilPRGMessagePrinter $messages;
     protected string $topic;
 
-    public function setUp() : void
+    public function setUp(): void
     {
         $collection = new ilPRGMessageCollection();
         $lng = $this->createMock(ilLanguage::class);
@@ -35,14 +37,14 @@ class ilStudyProgrammeGUIMessagesTest extends TestCase
         $this->collection2 = $this->messages->getMessageCollection($this->topic);
     }
 
-    public function testMessageFactory() : void
+    public function testMessageFactory(): void
     {
         $this->assertInstanceOf(ilPRGMessageCollection::class, $this->collection);
         $this->assertEquals($this->collection, $this->collection2);
         $this->assertNotSame($this->collection, $this->collection2);
     }
-    
-    public function testCollectionDefaults() : void
+
+    public function testCollectionDefaults(): void
     {
         $this->assertEquals($this->topic, $this->collection->getDescription());
 
@@ -51,18 +53,18 @@ class ilStudyProgrammeGUIMessagesTest extends TestCase
 
         $this->assertFalse($this->collection->hasSuccess());
         $this->assertEquals([], $this->collection->getSuccess());
-        
+
         $this->assertFalse($this->collection->hasAnyMessages());
     }
 
-    public function testAddMessages() : void
+    public function testAddMessages(): void
     {
         $ok_message = 'looks good';
         $ok_id = 'some good record';
         $this->collection->add(true, $ok_message, $ok_id);
 
         $this->assertTrue($this->collection->hasAnyMessages());
-        
+
         $this->assertFalse($this->collection->hasErrors());
         $this->assertEquals([], $this->collection->getErrors());
 
@@ -73,7 +75,7 @@ class ilStudyProgrammeGUIMessagesTest extends TestCase
         );
     }
 
-    public function testAddErrorMessages() : void
+    public function testAddErrorMessages(): void
     {
         $message = 'looks bad';
         $id = 'some record';
@@ -84,7 +86,7 @@ class ilStudyProgrammeGUIMessagesTest extends TestCase
 
         $collection->add(false, $message, $id);
         $collection->add(false, $message, $id);
-        
+
         $this->assertTrue($collection->hasAnyMessages());
 
         $this->assertTrue($collection->hasErrors());
@@ -92,7 +94,7 @@ class ilStudyProgrammeGUIMessagesTest extends TestCase
             [[$message, $id],[$message, $id]],
             $collection->getErrors()
         );
-        
+
         $this->assertEquals([], $collection->getSuccess());
         $this->assertFalse($collection->hasSuccess());
     }

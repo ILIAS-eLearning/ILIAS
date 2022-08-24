@@ -44,7 +44,7 @@ class ilPCSourceCodeGUI extends ilPageContentGUI
         parent::__construct($a_pg_obj, $a_content_obj, $a_hier_id, $a_pc_id);
     }
 
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         // get next class that processes or forwards current command
         $next_class = $this->ctrl->getNextClass($this);
@@ -59,7 +59,7 @@ class ilPCSourceCodeGUI extends ilPageContentGUI
         }
     }
 
-    public function edit() : void
+    public function edit(): void
     {
         $form = $this->initPropertyForm($this->lng->txt("cont_edit_src"), "update", "cancelCreate");
 
@@ -98,8 +98,8 @@ class ilPCSourceCodeGUI extends ilPageContentGUI
 
         $this->tpl->setContent($form->getHTML());
     }
-    
-    public function insert() : void
+
+    public function insert(): void
     {
         $ilUser = $this->user;
 
@@ -134,7 +134,7 @@ class ilPCSourceCodeGUI extends ilPageContentGUI
         $this->tpl->setContent($form->getHTML());
     }
 
-    public function update() : void
+    public function update(): void
     {
         $this->requested_par_content = $this->request->getRaw("par_content");
         $this->requested_par_downloadtitle = str_replace('"', '', $this->request->getString("par_downloadtitle"));
@@ -142,7 +142,7 @@ class ilPCSourceCodeGUI extends ilPageContentGUI
         $this->upload_source();
 
         // set language and characteristic
-        
+
         $this->content_obj->setLanguage(
             $this->request->getString("par_language")
         );
@@ -178,13 +178,13 @@ class ilPCSourceCodeGUI extends ilPageContentGUI
             $this->edit();
         }
     }
-    
-    public function cancelUpdate() : void
+
+    public function cancelUpdate(): void
     {
         $this->ctrl->returnToParent($this, "jump" . $this->hier_id);
     }
 
-    public function create() : void
+    public function create(): void
     {
         $this->content_obj = new ilPCSourceCode($this->getPage());
         $this->content_obj->create($this->pg_obj, $this->hier_id, $this->pc_id);
@@ -196,7 +196,7 @@ class ilPCSourceCodeGUI extends ilPageContentGUI
         $this->requested_par_downloadtitle = str_replace('"', '', $this->request->getString("par_downloadtitle"));
 
         $uploaded = $this->upload_source();
-                
+
         $this->content_obj->setCharacteristic(
             $this->request->getString("par_characteristic")
         );
@@ -213,16 +213,16 @@ class ilPCSourceCodeGUI extends ilPageContentGUI
             $this->insert();
             return;
         }
-        
+
         $this->updated = $this->content_obj->setText(
             $this->content_obj->input2xml($this->requested_par_content, 0, false)
         );
-        
+
         if ($this->updated !== true) {
             $this->insert();
             return;
         }
-        
+
         $this->updated = $this->pg_obj->update();
 
         if ($this->updated === true) {
@@ -231,17 +231,17 @@ class ilPCSourceCodeGUI extends ilPageContentGUI
             $this->insert();
         }
     }
-    
-    public function cancelCreate() : void
+
+    public function cancelCreate(): void
     {
         $this->ctrl->returnToParent($this, "jump" . $this->hier_id);
     }
-        
-    public function upload_source() : bool
+
+    public function upload_source(): bool
     {
         if (isset($_FILES['userfile']['name'])) {
             $userfile = $_FILES['userfile']['tmp_name'];
-            
+
             if ($userfile == "" || !is_uploaded_file($userfile)) {
                 $error_str = "<b>Error(s):</b><br>Upload error: file name must not be empty!";
                 $this->tpl->setVariable("MESSAGE", $error_str);
@@ -259,7 +259,7 @@ class ilPCSourceCodeGUI extends ilPageContentGUI
             $this->requested_par_downloadtitle = $_FILES['userfile']['name'];
             return true;
         }
-        
+
         return false;
     }
 
@@ -268,7 +268,7 @@ class ilPCSourceCodeGUI extends ilPageContentGUI
      * Get selectable programming languages
      * @return string[]
      */
-    public function getProgLangOptions() : array
+    public function getProgLangOptions(): array
     {
         $prog_langs = array(
             "" => "other");
@@ -282,7 +282,7 @@ class ilPCSourceCodeGUI extends ilPageContentGUI
         string $a_title,
         string $a_cmd,
         string $a_cmd_cancel
-    ) : ilPropertyFormGUI {
+    ): ilPropertyFormGUI {
         $form = new ilPropertyFormGUI();
         $form->setTitle($a_title);
         $form->setFormAction($this->ctrl->getFormAction($this, $a_cmd));

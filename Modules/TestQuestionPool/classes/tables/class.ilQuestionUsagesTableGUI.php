@@ -1,4 +1,5 @@
 <?php
+
 /* Copyright (c) 1998-2014 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 require_once 'Services/Table/classes/class.ilTable2GUI.php';
@@ -15,7 +16,7 @@ class ilQuestionUsagesTableGUI extends ilTable2GUI
      * @var assQuestion
      */
     protected $question;
-    
+
     /**
      * @param string                 $cmd
      * @param string                 $template_context
@@ -32,9 +33,9 @@ class ilQuestionUsagesTableGUI extends ilTable2GUI
 
         $this->setDefaultOrderField('title');
         $this->setDefaultOrderDirection('ASC');
-        
+
         $this->setTitle($this->lng->txt('question_instances_title'));
-        
+
         $this->disable('sort');
         $this->disable('hits');
         $this->disable('numinfo');
@@ -46,7 +47,7 @@ class ilQuestionUsagesTableGUI extends ilTable2GUI
     /**
      *
      */
-    protected function initColumns() : void
+    protected function initColumns(): void
     {
         $this->addColumn($this->lng->txt('title'), 'title');
         $this->addColumn($this->lng->txt('author'), 'author');
@@ -56,7 +57,7 @@ class ilQuestionUsagesTableGUI extends ilTable2GUI
     /**
      *
      */
-    protected function initData() : void
+    protected function initData(): void
     {
         /**
          * @var $tree ilTree
@@ -85,7 +86,7 @@ class ilQuestionUsagesTableGUI extends ilTable2GUI
     /**
      * @param array $a_set
      */
-    public function fillRow(array $a_set) : void
+    public function fillRow(array $a_set): void
     {
         /**
          * @var $ilAccess ilAccessHandler

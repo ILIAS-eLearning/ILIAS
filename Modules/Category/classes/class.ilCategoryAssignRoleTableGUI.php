@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -32,18 +34,18 @@ class ilCategoryAssignRoleTableGUI extends ilTable2GUI
         $this->lng = $DIC->language();
         $ilCtrl = $DIC->ctrl();
         $lng = $DIC->language();
-        
+
         $this->setId("ilcatluaar");
-        
+
         parent::__construct($a_parent_obj, $a_parent_cmd);
 
         $this->addColumn("", "", "", true, "4%");
         $this->addColumn($lng->txt("title"), "title", "35%");
         $this->addColumn($lng->txt("description"), "desc", "45%");
         $this->addColumn($lng->txt("type"), "type", "16%");
-        
+
         $this->addMultiCommand('assignSave', $lng->txt("change_assignment"));
-    
+
         $ilCtrl->saveParameter($a_parent_obj, 'obj_id');
         $this->setFormAction($ilCtrl->getFormAction($a_parent_obj, $a_parent_cmd));
         $this->setRowTemplate("tpl.cat_role_assignment.html", "Modules/Category");
@@ -52,7 +54,7 @@ class ilCategoryAssignRoleTableGUI extends ilTable2GUI
         $this->setLimit(999999);
     }
 
-    protected function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set): void
     {
         $this->tpl->setVariable("INPUT_CHCKBX", $a_set["checkbox"]);
         $this->tpl->setVariable("TXT_TITLE", $a_set["title"]);

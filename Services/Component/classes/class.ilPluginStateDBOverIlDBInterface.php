@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 use ILIAS\Data;
 use ILIAS\Data\Version;
@@ -22,7 +24,7 @@ class ilPluginStateDBOverIlDBInterface implements ilPluginStateDB
         $this->db = $db;
     }
 
-    protected function getData() : void
+    protected function getData(): void
     {
         if ($this->has_data) {
             return;
@@ -40,13 +42,13 @@ class ilPluginStateDBOverIlDBInterface implements ilPluginStateDB
         $this->has_data = true;
     }
 
-    public function isPluginActivated(string $id) : bool
+    public function isPluginActivated(string $id): bool
     {
         $this->getData();
         return $this->data[$id][0] ?? false;
     }
 
-    public function setActivation(string $id, bool $activated) : void
+    public function setActivation(string $id, bool $activated): void
     {
         $this->getData();
         if (!isset($this->data[$id])) {
@@ -66,19 +68,19 @@ class ilPluginStateDBOverIlDBInterface implements ilPluginStateDB
         $this->has_data = false;
     }
 
-    public function getCurrentPluginVersion(string $id) : ?Version
+    public function getCurrentPluginVersion(string $id): ?Version
     {
         $this->getData();
         return $this->data[$id][1] ?? null;
     }
 
-    public function getCurrentPluginDBVersion(string $id) : ?int
+    public function getCurrentPluginDBVersion(string $id): ?int
     {
         $this->getData();
         return $this->data[$id][2] ?? null;
     }
 
-    public function setCurrentPluginVersion(string $id, Version $version, int $db_version) : void
+    public function setCurrentPluginVersion(string $id, Version $version, int $db_version): void
     {
         $this->getData();
         if (isset($this->data[$id])) {
@@ -106,7 +108,7 @@ class ilPluginStateDBOverIlDBInterface implements ilPluginStateDB
         $this->has_data = false;
     }
 
-    public function remove(string $id) : void
+    public function remove(string $id): void
     {
         $this->db->manipulate(
             "DELETE FROM " . self::TABLE_NAME . " WHERE plugin_id = " . $this->db->quote($id, "text")

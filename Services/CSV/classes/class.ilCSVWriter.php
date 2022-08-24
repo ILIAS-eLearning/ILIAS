@@ -23,29 +23,29 @@ class ilCSVWriter
     private string $new_line = "\n";
     private bool $do_utf8_decoding = false;
     private bool $first_entry = true;
-    
-    public function setSeparator(string $a_sep) : void
+
+    public function setSeparator(string $a_sep): void
     {
         $this->separator = $a_sep;
     }
-    
-    public function setDelimiter(string $a_del) : void
+
+    public function setDelimiter(string $a_del): void
     {
         $this->delimiter = $a_del;
     }
-    
-    public function addRow() : void
+
+    public function addRow(): void
     {
         $this->csv .= $this->new_line;
         $this->first_entry = true;
     }
-    
-    public function setDoUTF8Decoding($do_utf8_decoding) : void
+
+    public function setDoUTF8Decoding($do_utf8_decoding): void
     {
         $this->do_utf8_decoding = (bool) $do_utf8_decoding;
     }
-    
-    public function addColumn(string $a_col) : void
+
+    public function addColumn(string $a_col): void
     {
         if (!$this->first_entry) {
             $this->csv .= $this->separator;
@@ -55,13 +55,13 @@ class ilCSVWriter
         $this->csv .= $this->delimiter;
         $this->first_entry = false;
     }
-    
-    public function getCSVString() : string
+
+    public function getCSVString(): string
     {
         return $this->csv;
     }
-    
-    private function quote(string $a_str) : string
+
+    private function quote(string $a_str): string
     {
         return str_replace(
             $this->delimiter,

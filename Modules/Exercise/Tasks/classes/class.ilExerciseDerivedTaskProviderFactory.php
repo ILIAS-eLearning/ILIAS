@@ -15,7 +15,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * Exercise derived task provider factory
  *
@@ -48,7 +48,7 @@ class ilExerciseDerivedTaskProviderFactory implements ilDerivedTaskProviderFacto
     /**
      * @return \ilExerciseDerivedTaskProvider[]
      */
-    public function getProviders() : array
+    public function getProviders(): array
     {
         return [
             new ilExerciseDerivedTaskProvider(

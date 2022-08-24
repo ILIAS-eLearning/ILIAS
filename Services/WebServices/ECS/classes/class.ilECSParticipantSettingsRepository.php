@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /******************************************************************************
  *
@@ -31,7 +33,7 @@ class ilECSParticipantSettingsRepository
     /**
      * Get participants which are enabled and export is allowed
      */
-    public function getExportableParticipants($a_type) : array
+    public function getExportableParticipants($a_type): array
     {
         $query = 'SELECT sid,mid,export_types FROM ecs_part_settings ep ' .
             'JOIN ecs_server es ON ep.sid = es.server_id ' .
@@ -55,7 +57,7 @@ class ilECSParticipantSettingsRepository
     /**
      * Get server ids which allow an export
      */
-    public function getServersContaingExports() : array
+    public function getServersContaingExports(): array
     {
         $query = 'SELECT DISTINCT(sid) FROM ecs_part_settings  ep ' .
             'JOIN ecs_server es ON ep.sid = es.server_id ' .

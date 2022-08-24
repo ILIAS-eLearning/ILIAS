@@ -71,17 +71,17 @@ class ilLMNavigationRendererGUI
         $this->lang = $service->getPresentationStatus()->getLang();
     }
 
-    public function renderTop() : string
+    public function renderTop(): string
     {
         return $this->render();
     }
 
-    public function renderBottom() : string
+    public function renderBottom(): string
     {
         return $this->render(false);
     }
 
-    protected function render(bool $top = true) : string
+    protected function render(bool $top = true): string
     {
         $page_id = $this->current_page;
 
@@ -220,7 +220,7 @@ class ilLMNavigationRendererGUI
             }
         }
 
-        $tpl->setVariable("CLASS", ($top) ? "tnav_Top": "bnav_Bottom");
+        $tpl->setVariable("CLASS", ($top) ? "tnav_Top" : "bnav_Bottom");
 
         return $tpl->get();
     }

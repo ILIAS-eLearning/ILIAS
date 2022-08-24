@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -21,12 +23,12 @@ use PHPUnit\Framework\TestCase;
 
 class ilQTIResponseTest extends TestCase
 {
-    public function testConstruct() : void
+    public function testConstruct(): void
     {
         $this->assertInstanceOf(ilQTIResponse::class, new ilQTIResponse());
     }
 
-    public function testSetGetIdent() : void
+    public function testSetGetIdent(): void
     {
         $instance = new ilQTIResponse();
         $instance->setIdent('Some input.');
@@ -36,7 +38,7 @@ class ilQTIResponseTest extends TestCase
     /**
      * @dataProvider rtimings
      */
-    public function testSetGetRtiming(string $input, ?string $expected) : void
+    public function testSetGetRtiming(string $input, ?string $expected): void
     {
         $instance = new ilQTIResponse();
         $instance->setRtiming($input);
@@ -46,14 +48,14 @@ class ilQTIResponseTest extends TestCase
     /**
      * @dataProvider numtypes
      */
-    public function testSetGetNumtype(string $input, ?string $expected) : void
+    public function testSetGetNumtype(string $input, ?string $expected): void
     {
         $instance = new ilQTIResponse();
         $instance->setNumtype($input);
         $this->assertEquals($expected, $instance->getNumtype());
     }
 
-    public function rtimings() : array
+    public function rtimings(): array
     {
         class_exists(ilQTIResponse::class); // Force autoload to define the constants.
 
@@ -66,7 +68,7 @@ class ilQTIResponseTest extends TestCase
         ];
     }
 
-    public function numtypes() : array
+    public function numtypes(): array
     {
         class_exists(ilQTIResponse::class); // Force autoload to define the constants.
         return [

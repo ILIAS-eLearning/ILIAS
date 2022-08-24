@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * Class ilDBConstants
  *
@@ -23,71 +25,71 @@
  */
 class ilDBConstants
 {
-    const FETCHMODE_ASSOC = 2;
-    const FETCHMODE_OBJECT = 3;
-    const FETCHMODE_DEFAULT = self::FETCHMODE_ASSOC;
+    public const FETCHMODE_ASSOC = 2;
+    public const FETCHMODE_OBJECT = 3;
+    public const FETCHMODE_DEFAULT = self::FETCHMODE_ASSOC;
     // Main Types
-    const TYPE_INNODB = 'innodb';
-    const TYPE_MYSQL = 'mysql';
+    public const TYPE_INNODB = 'innodb';
+    public const TYPE_MYSQL = 'mysql';
     // Experimental
-    const TYPE_GALERA = 'galera';
-    const TYPE_MYSQLI = 'mysqli';
+    public const TYPE_GALERA = 'galera';
+    public const TYPE_MYSQLI = 'mysqli';
     // Development identifiers (will be removed in 5.3), are mapped with Main and Experimental types
-    const TYPE_PDO_MYSQL_INNODB = 'pdo-mysql-innodb';
-    const TYPE_PDO_MYSQL_GALERA = 'pdo-mysql-galera';
+    public const TYPE_PDO_MYSQL_INNODB = 'pdo-mysql-innodb';
+    public const TYPE_PDO_MYSQL_GALERA = 'pdo-mysql-galera';
     // Locks
-    const LOCK_WRITE = ilAtomQuery::LOCK_WRITE;
-    const LOCK_READ = ilAtomQuery::LOCK_READ;
+    public const LOCK_WRITE = ilAtomQuery::LOCK_WRITE;
+    public const LOCK_READ = ilAtomQuery::LOCK_READ;
     // Modules
-    const MODULE_MANAGER = 'Manager';
-    const MODULE_REVERSE = 'Reverse';
+    public const MODULE_MANAGER = 'Manager';
+    public const MODULE_REVERSE = 'Reverse';
     // Formats
-    const INDEX_FORMAT = ilDBPdoFieldDefinition::INDEX_FORMAT;
-    const SEQUENCE_FORMAT = ilDBPdoFieldDefinition::SEQUENCE_FORMAT;
-    const SEQUENCE_COLUMNS_NAME = ilDBPdoFieldDefinition::SEQUENCE_COLUMNS_NAME;
+    public const INDEX_FORMAT = ilDBPdoFieldDefinition::INDEX_FORMAT;
+    public const SEQUENCE_FORMAT = ilDBPdoFieldDefinition::SEQUENCE_FORMAT;
+    public const SEQUENCE_COLUMNS_NAME = ilDBPdoFieldDefinition::SEQUENCE_COLUMNS_NAME;
     // Types
-    const T_CLOB = ilDBPdoFieldDefinition::T_CLOB;
-    const T_DATE = ilDBPdoFieldDefinition::T_DATE;
-    const T_DATETIME = ilDBPdoFieldDefinition::T_DATETIME;
-    const T_FLOAT = ilDBPdoFieldDefinition::T_FLOAT;
-    const T_INTEGER = ilDBPdoFieldDefinition::T_INTEGER;
-    const T_TEXT = ilDBPdoFieldDefinition::T_TEXT;
-    const T_TIME = ilDBPdoFieldDefinition::T_TIME;
-    const T_TIMESTAMP = ilDBPdoFieldDefinition::T_TIMESTAMP;
-    const T_BLOB = ilDBPdoFieldDefinition::T_BLOB;
+    public const T_CLOB = ilDBPdoFieldDefinition::T_CLOB;
+    public const T_DATE = ilDBPdoFieldDefinition::T_DATE;
+    public const T_DATETIME = ilDBPdoFieldDefinition::T_DATETIME;
+    public const T_FLOAT = ilDBPdoFieldDefinition::T_FLOAT;
+    public const T_INTEGER = ilDBPdoFieldDefinition::T_INTEGER;
+    public const T_TEXT = ilDBPdoFieldDefinition::T_TEXT;
+    public const T_TIME = ilDBPdoFieldDefinition::T_TIME;
+    public const T_TIMESTAMP = ilDBPdoFieldDefinition::T_TIMESTAMP;
+    public const T_BLOB = ilDBPdoFieldDefinition::T_BLOB;
     // Engines
-    const MYSQL_ENGINE_INNODB = 'InnoDB';
+    public const MYSQL_ENGINE_INNODB = 'InnoDB';
     // Characters
-    const MYSQL_CHARACTER_UTF8 = 'utf8';
-    const MYSQL_CHARACTER_UTF8MB4 = 'utf8mb4';
+    public const MYSQL_CHARACTER_UTF8 = 'utf8';
+    public const MYSQL_CHARACTER_UTF8MB4 = 'utf8mb4';
     // Collations
-    const MYSQL_COLLATION_UTF8 = 'utf8_general_ci';
-    const MYSQL_COLLATION_UTF8MB4 = 'utf8mb4_general_ci';
-    const MYSQL_COLLATION_UTF8_CZECH = "utf8_czech_ci";
-    const MYSQL_COLLATION_UTF8_DANISH = "utf8_danish_ci";
-    const MYSQL_COLLATION_UTF8_ESTONIAN = "utf8_estonian_ci";
-    const MYSQL_COLLATION_UTF8_ICELANDIC = "utf8_icelandic_ci";
-    const MYSQL_COLLATION_UTF8_LATVIAN = "utf8_latvian_ci";
-    const MYSQL_COLLATION_UTF8_LITHUANIAN = "utf8_lithuanian_ci";
-    const MYSQL_COLLATION_UTF8_PERSIAN = "utf8_persian_ci";
-    const MYSQL_COLLATION_UTF8_POLISH = "utf8_polish_ci";
-    const MYSQL_COLLATION_UTF8_ROMAN = "utf8_roman_ci";
-    const MYSQL_COLLATION_UTF8_ROMANIAN = "utf8_romanian_ci";
-    const MYSQL_COLLATION_UTF8_SLOVAK = "utf8_slovak_ci";
-    const MYSQL_COLLATION_UTF8_SLOVENIAN = "utf8_slovenian_ci";
-    const MYSQL_COLLATION_UTF8_SPANISH2 = "utf8_spanish2_ci";
-    const MYSQL_COLLATION_UTF8_SPANISH = "utf8_spanish_ci";
-    const MYSQL_COLLATION_UTF8_SWEDISH = "utf8_swedish_ci";
-    const MYSQL_COLLATION_UTF8_TURKISH = "utf8_turkish_ci";
+    public const MYSQL_COLLATION_UTF8 = 'utf8_general_ci';
+    public const MYSQL_COLLATION_UTF8MB4 = 'utf8mb4_general_ci';
+    public const MYSQL_COLLATION_UTF8_CZECH = "utf8_czech_ci";
+    public const MYSQL_COLLATION_UTF8_DANISH = "utf8_danish_ci";
+    public const MYSQL_COLLATION_UTF8_ESTONIAN = "utf8_estonian_ci";
+    public const MYSQL_COLLATION_UTF8_ICELANDIC = "utf8_icelandic_ci";
+    public const MYSQL_COLLATION_UTF8_LATVIAN = "utf8_latvian_ci";
+    public const MYSQL_COLLATION_UTF8_LITHUANIAN = "utf8_lithuanian_ci";
+    public const MYSQL_COLLATION_UTF8_PERSIAN = "utf8_persian_ci";
+    public const MYSQL_COLLATION_UTF8_POLISH = "utf8_polish_ci";
+    public const MYSQL_COLLATION_UTF8_ROMAN = "utf8_roman_ci";
+    public const MYSQL_COLLATION_UTF8_ROMANIAN = "utf8_romanian_ci";
+    public const MYSQL_COLLATION_UTF8_SLOVAK = "utf8_slovak_ci";
+    public const MYSQL_COLLATION_UTF8_SLOVENIAN = "utf8_slovenian_ci";
+    public const MYSQL_COLLATION_UTF8_SPANISH2 = "utf8_spanish2_ci";
+    public const MYSQL_COLLATION_UTF8_SPANISH = "utf8_spanish_ci";
+    public const MYSQL_COLLATION_UTF8_SWEDISH = "utf8_swedish_ci";
+    public const MYSQL_COLLATION_UTF8_TURKISH = "utf8_turkish_ci";
 
     // Mapping AutoExec
-    const AUTOQUERY_INSERT = 1;
-    const AUTOQUERY_UPDATE = 2;
-    const AUTOQUERY_DELETE = 3;
-    const AUTOQUERY_SELECT = 4;
-    const PREPARE_MANIP = false;
+    public const AUTOQUERY_INSERT = 1;
+    public const AUTOQUERY_UPDATE = 2;
+    public const AUTOQUERY_DELETE = 3;
+    public const AUTOQUERY_SELECT = 4;
+    public const PREPARE_MANIP = false;
     // Other
-    const MB4_REPLACEMENT = "?";
+    public const MB4_REPLACEMENT = "?";
     /**
      * @var string[]
      */
@@ -105,7 +107,7 @@ class ilDBConstants
     /**
      * @return string[]
      */
-    public static function getInstallableTypes() : array
+    public static function getInstallableTypes(): array
     {
         return array(
             // Main
@@ -117,7 +119,7 @@ class ilDBConstants
         );
     }
 
-    public static function getAvailableTypes(bool $with_descriptions = true) : array
+    public static function getAvailableTypes(bool $with_descriptions = true): array
     {
         $types = self::getSupportedTypes();
         if ($with_descriptions) {
@@ -132,7 +134,7 @@ class ilDBConstants
     }
 
 
-    public static function getSupportedTypes() : array
+    public static function getSupportedTypes(): array
     {
         return array(
             ilDBConstants::TYPE_MYSQL,
@@ -144,7 +146,7 @@ class ilDBConstants
     /**
      * @return string[]
      */
-    public static function getAvailableCollations() : array
+    public static function getAvailableCollations(): array
     {
         return [
             ilDBConstants::MYSQL_COLLATION_UTF8,
@@ -168,7 +170,7 @@ class ilDBConstants
         ];
     }
 
-    public static function describe(string $type) : string
+    public static function describe(string $type): string
     {
         return self::$descriptions[$type];
     }

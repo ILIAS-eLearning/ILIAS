@@ -36,7 +36,7 @@ class ilWorkspaceUserActionProvider extends ilUserActionProvider
         parent::__construct();
     }
 
-    public function getComponentId() : string
+    public function getComponentId(): string
     {
         return "pwsp";
     }
@@ -44,14 +44,14 @@ class ilWorkspaceUserActionProvider extends ilUserActionProvider
     /**
      * @return array<string,string>
      */
-    public function getActionTypes() : array
+    public function getActionTypes(): array
     {
         return array(
             "shared_res" => $this->lng->txt("wsp_shared_resources")
         );
     }
 
-    public function collectActionsForTargetUser(int $a_target_user) : ilUserActionCollection
+    public function collectActionsForTargetUser(int $a_target_user): ilUserActionCollection
     {
         global $DIC;
 

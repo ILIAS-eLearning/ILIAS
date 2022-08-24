@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -36,7 +38,7 @@ class ilLPStatusIconsTest extends TestCase
     /**
      * @return array<string, ilLPStatusIcons>
      */
-    public function testTripleton() : array
+    public function testTripleton(): array
     {
         $utilMock = Mockery::mock('alias:' . ilUtil::class);
         $utilMock->shouldReceive('getImagePath')
@@ -85,7 +87,7 @@ class ilLPStatusIconsTest extends TestCase
         return ['long' => $long1, 'short' => $short1, 'scorm' => $scorm1];
     }
 
-    public function testGetInstanceForInvalidVariant() : void
+    public function testGetInstanceForInvalidVariant(): void
     {
         $renderer = $this->getMockBuilder(Renderer::class)
                          ->disableOriginalConstructor()
@@ -103,7 +105,7 @@ class ilLPStatusIconsTest extends TestCase
      * @depends testTripleton
      * @param array<string, ilLPStatusIcons> $instances
      */
-    public function testSomeExamplesForImagePathsByStatus(array $instances) : void
+    public function testSomeExamplesForImagePathsByStatus(array $instances): void
     {
         $path1 = $instances['long']->getImagePathInProgress();
         $path2 = $instances['long']->getImagePathForStatus(ilLPStatus::LP_STATUS_IN_PROGRESS_NUM);
@@ -122,7 +124,7 @@ class ilLPStatusIconsTest extends TestCase
      * @depends testTripleton
      * @param array<string, ilLPStatusIcons> $instances
      */
-    public function testImagePathRunningForLongVariant(array $instances) : void
+    public function testImagePathRunningForLongVariant(array $instances): void
     {
         $this->expectException(ilLPException::class);
         $instances['long']->getImagePathRunning();
@@ -132,7 +134,7 @@ class ilLPStatusIconsTest extends TestCase
      * @depends testTripleton
      * @param array<string, ilLPStatusIcons> $instances
      */
-    public function testImagePathAssetForLongVariant(array $instances) : void
+    public function testImagePathAssetForLongVariant(array $instances): void
     {
         $this->expectException(ilLPException::class);
         $instances['long']->getImagePathAsset();
@@ -142,7 +144,7 @@ class ilLPStatusIconsTest extends TestCase
      * @depends testTripleton
      * @param array<string, ilLPStatusIcons> $instances
      */
-    public function testSomeExamplesForRenderedIcons(array $instances) : void
+    public function testSomeExamplesForRenderedIcons(array $instances): void
     {
         //try rendering some icons
         $this->assertSame(
@@ -164,7 +166,7 @@ class ilLPStatusIconsTest extends TestCase
      * @depends testTripleton
      * @param array<string, ilLPStatusIcons> $instances
      */
-    public function testRenderScormIcons(array $instances) : void
+    public function testRenderScormIcons(array $instances): void
     {
         $this->expectException(ilLPException::class);
         $instances['scorm']->renderIcon('path', 'alt');

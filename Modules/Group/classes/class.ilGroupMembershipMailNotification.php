@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -39,7 +41,7 @@ class ilGroupMembershipMailNotification extends ilMailNotification
         self::TYPE_NOTIFICATION_REGISTRATION_REQUEST,
         self::TYPE_NOTIFICATION_UNSUBSCRIBE
     );
-    
+
     private bool $force_sending_mail = false;
 
     private ilLogger $logger;
@@ -58,7 +60,7 @@ class ilGroupMembershipMailNotification extends ilMailNotification
     /**
      * @inheritDoc
      */
-    protected function initMail() : ilMail
+    protected function initMail(): ilMail
     {
         parent::initMail();
         $this->mail = $this->mail->withContextParameters([
@@ -71,18 +73,18 @@ class ilGroupMembershipMailNotification extends ilMailNotification
 
         return $this->mail;
     }
-    
+
     /**
      * Force sending mail independent from global setting
      */
-    public function forceSendingMail(bool $a_status) : void
+    public function forceSendingMail(bool $a_status): void
     {
         $this->force_sending_mail = $a_status;
     }
-    
-    
-    
-    public function send() : bool
+
+
+
+    public function send(): bool
     {
         if (!$this->isNotificationTypeEnabled($this->getType())) {
             $this->logger->info('Membership mail disabled globally.');
@@ -106,10 +108,10 @@ class ilGroupMembershipMailNotification extends ilMailNotification
         }
 
         // parent::send();
-        
+
         switch ($this->getType()) {
             case self::TYPE_ADMISSION_MEMBER:
-                
+
                 foreach ($this->getRecipients() as $rcp) {
                     $this->initLanguage($rcp);
                     $this->initMail();
@@ -126,13 +128,13 @@ class ilGroupMembershipMailNotification extends ilMailNotification
                     $this->appendBody("\n\n");
                     $this->appendBody($this->createPermanentLink());
                     $this->getMail()->appendInstallationSignature(true);
-                                        
+
                     $this->sendMail(array($rcp));
                 }
                 break;
-                
+
             case self::TYPE_DISMISS_MEMBER:
-                
+
                 foreach ($this->getRecipients() as $rcp) {
                     $this->initLanguage($rcp);
                     $this->initMail();
@@ -148,10 +150,10 @@ class ilGroupMembershipMailNotification extends ilMailNotification
                     $this->sendMail(array($rcp));
                 }
                 break;
-                
-                
+
+
             case self::TYPE_NOTIFICATION_REGISTRATION:
-                
+
                 foreach ($this->getRecipients() as $rcp) {
                     $this->initLanguage($rcp);
                     $this->initMail();
@@ -160,7 +162,7 @@ class ilGroupMembershipMailNotification extends ilMailNotification
                     );
                     $this->setBody(ilMail::getSalutation($rcp, $this->getLanguage()));
                     $this->appendBody("\n\n");
-                    
+
                     $info = $this->getAdditionalInformation();
                     $this->appendBody(
                         sprintf(
@@ -173,17 +175,17 @@ class ilGroupMembershipMailNotification extends ilMailNotification
                     $this->appendBody($this->getLanguageText('grp_mail_permanent_link'));
                     $this->appendBody("\n\n");
                     $this->appendBody($this->createPermanentLink(array(), '_mem'));
-                    
+
                     $this->appendBody("\n\n");
                     $this->appendBody($this->getLanguageText('grp_notification_explanation_admin'));
-                    
+
                     $this->getMail()->appendInstallationSignature(true);
                     $this->sendMail(array($rcp));
                 }
                 break;
-                
+
             case self::TYPE_UNSUBSCRIBE_MEMBER:
-                
+
                 foreach ($this->getRecipients() as $rcp) {
                     $this->initLanguage($rcp);
                     $this->initMail();
@@ -199,7 +201,7 @@ class ilGroupMembershipMailNotification extends ilMailNotification
                     $this->sendMail(array($rcp));
                 }
                 break;
-                
+
             case self::TYPE_NOTIFICATION_UNSUBSCRIBE:
 
                 foreach ($this->getRecipients() as $rcp) {
@@ -210,7 +212,7 @@ class ilGroupMembershipMailNotification extends ilMailNotification
                     );
                     $this->setBody(ilMail::getSalutation($rcp, $this->getLanguage()));
                     $this->appendBody("\n\n");
-                    
+
                     $info = $this->getAdditionalInformation();
                     $this->appendBody(
                         sprintf(
@@ -223,16 +225,16 @@ class ilGroupMembershipMailNotification extends ilMailNotification
                     $this->appendBody($this->getLanguageText('grp_mail_notification_unsub_bod2'));
                     $this->appendBody("\n\n");
                     $this->appendBody($this->createPermanentLink(array(), '_mem'));
-                    
+
                     $this->appendBody("\n\n");
                     $this->appendBody($this->getLanguageText('grp_notification_explanation_admin'));
-                    
+
                     $this->getMail()->appendInstallationSignature(true);
                     $this->sendMail(array($rcp));
                 }
                 break;
-                
-                
+
+
             case self::TYPE_SUBSCRIBE_MEMBER:
 
                 foreach ($this->getRecipients() as $rcp) {
@@ -246,7 +248,7 @@ class ilGroupMembershipMailNotification extends ilMailNotification
                     $this->appendBody(
                         sprintf($this->getLanguageText('grp_mail_subscribe_member_bod'), $this->getObjectTitle())
                     );
-                    
+
                     $this->appendBody("\n\n");
                     $this->appendBody($this->getLanguageText('grp_mail_permanent_link'));
                     $this->appendBody("\n\n");
@@ -256,10 +258,10 @@ class ilGroupMembershipMailNotification extends ilMailNotification
                     $this->sendMail(array($rcp));
                 }
                 break;
-                
-                
+
+
             case self::TYPE_NOTIFICATION_REGISTRATION_REQUEST:
-                
+
                 foreach ($this->getRecipients() as $rcp) {
                     $this->initLanguage($rcp);
                     $this->initMail();
@@ -268,7 +270,7 @@ class ilGroupMembershipMailNotification extends ilMailNotification
                     );
                     $this->setBody(ilMail::getSalutation($rcp, $this->getLanguage()));
                     $this->appendBody("\n\n");
-                    
+
                     $info = $this->getAdditionalInformation();
                     $this->appendBody(
                         sprintf(
@@ -281,10 +283,10 @@ class ilGroupMembershipMailNotification extends ilMailNotification
                     $this->appendBody($this->getLanguageText('grp_mail_notification_reg_req_bod2'));
                     $this->appendBody("\n");
                     $this->appendBody($this->createPermanentLink(array(), '_mem'));
-                    
+
                     $this->appendBody("\n\n");
                     $this->appendBody($this->getLanguageText('grp_notification_explanation_admin'));
-                    
+
                     $this->getMail()->appendInstallationSignature(true);
                     $this->sendMail(array($rcp));
                 }
@@ -305,7 +307,7 @@ class ilGroupMembershipMailNotification extends ilMailNotification
                     );
 
                     $this->getMail()->appendInstallationSignature(true);
-                                        
+
                     $this->sendMail(array($rcp));
                 }
                 break;
@@ -328,11 +330,11 @@ class ilGroupMembershipMailNotification extends ilMailNotification
                     $this->appendBody("\n\n");
                     $this->appendBody($this->createPermanentLink());
                     $this->getMail()->appendInstallationSignature(true);
-                                        
+
                     $this->sendMail(array($rcp));
                 }
                 break;
-                
+
             case self::TYPE_WAITING_LIST_MEMBER:
                 foreach ($this->getRecipients() as $rcp) {
                     $this->initLanguage($rcp);
@@ -340,9 +342,9 @@ class ilGroupMembershipMailNotification extends ilMailNotification
                     $this->setSubject(
                         sprintf($this->getLanguageText('grp_mail_wl_sub'), $this->getObjectTitle(true))
                     );
-                    
+
                     $this->setBody(ilMail::getSalutation($rcp, $this->getLanguage()));
-                    
+
                     $info = $this->getAdditionalInformation();
                     $this->appendBody("\n\n");
                     $this->appendBody(
@@ -356,8 +358,8 @@ class ilGroupMembershipMailNotification extends ilMailNotification
                     $this->sendMail(array($rcp));
                 }
                 break;
-                
-                
+
+
             case self::TYPE_STATUS_CHANGED:
                 foreach ($this->getRecipients() as $rcp) {
                     $this->initLanguage($rcp);
@@ -370,7 +372,7 @@ class ilGroupMembershipMailNotification extends ilMailNotification
                     $this->appendBody(
                         sprintf($this->getLanguageText('grp_mail_status_bod'), $this->getObjectTitle())
                     );
-                    
+
                     $this->appendBody("\n\n");
                     $this->appendBody($this->createGroupStatus($rcp));
 
@@ -380,7 +382,7 @@ class ilGroupMembershipMailNotification extends ilMailNotification
                     $this->appendBody($this->createPermanentLink());
 
                     $this->getMail()->appendInstallationSignature(true);
-                                        
+
                     $this->sendMail(array($rcp));
                 }
                 break;
@@ -391,20 +393,20 @@ class ilGroupMembershipMailNotification extends ilMailNotification
     /**
      * @inheritDoc
      */
-    protected function initLanguage(int $a_usr_id) : void
+    protected function initLanguage(int $a_usr_id): void
     {
         parent::initLanguage($a_usr_id);
         $this->getLanguage()->loadLanguageModule('grp');
     }
-    
-    protected function createGroupStatus(int $a_usr_id) : string
+
+    protected function createGroupStatus(int $a_usr_id): string
     {
         $part = ilGroupParticipants::_getInstanceByObjId($this->getObjId());
-        
+
         $body = $this->getLanguageText('grp_new_status') . "\n";
         $body .= $this->getLanguageText('role') . ': ';
-        
-        
+
+
         if ($part->isAdmin($a_usr_id)) {
             $body .= $this->getLanguageText('il_grp_admin') . "\n";
         } else {
@@ -413,7 +415,7 @@ class ilGroupMembershipMailNotification extends ilMailNotification
 
         if ($part->isAdmin($a_usr_id)) {
             $body .= $this->getLanguageText('grp_notification') . ': ';
-            
+
             if ($part->isNotificationEnabled($a_usr_id)) {
                 $body .= $this->getLanguageText('grp_notify_on') . "\n";
             } else {
@@ -427,7 +429,7 @@ class ilGroupMembershipMailNotification extends ilMailNotification
      * get setting "mail_grp_member_notification" and excludes types which are not affected by this setting
      * See description of $this->permanent_enabled_notifications
      */
-    protected function isNotificationTypeEnabled(int $a_type) : bool
+    protected function isNotificationTypeEnabled(int $a_type): bool
     {
         return
             $this->force_sending_mail ||

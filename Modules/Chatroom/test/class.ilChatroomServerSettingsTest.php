@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -26,17 +28,17 @@ class ilChatroomServerSettingsTest extends TestCase
 {
     protected ilChatroomServerSettings $settings;
 
-    public function setterAndGettersProvider() : array
+    public function setterAndGettersProvider(): array
     {
-        $assertIsString = function ($actual) : void {
+        $assertIsString = function ($actual): void {
             $this->assertIsString($actual, 'The actual return value is not a type of "string"');
         };
 
-        $assertIsInteger = function ($actual) : void {
+        $assertIsInteger = function ($actual): void {
             $this->assertIsInt($actual, 'The actual return value is not a type of "int"');
         };
 
-        $assertIsBool = function ($actual) : void {
+        $assertIsBool = function ($actual): void {
             $this->assertIsBool($actual, 'The actual return value is not a type of "bool"');
         };
 
@@ -64,7 +66,7 @@ class ilChatroomServerSettingsTest extends TestCase
      * @param mixed $value
      * @dataProvider setterAndGettersProvider
      */
-    public function testSettersAndGetters(string $property, callable $assertionCallback, $value) : void
+    public function testSettersAndGetters(string $property, callable $assertionCallback, $value): void
     {
         $setter = 'set' . ucfirst($property);
         $getter = 'get' . ucfirst(($property));
@@ -80,7 +82,7 @@ class ilChatroomServerSettingsTest extends TestCase
         $assertionCallback($actual);
     }
 
-    public function testGetBaseUrl() : void
+    public function testGetBaseUrl(): void
     {
         $protocol = 'http://';
         $domain = '127.0.0.1';
@@ -94,7 +96,7 @@ class ilChatroomServerSettingsTest extends TestCase
         $this->assertSame($expected, $this->settings->getBaseURL());
     }
 
-    public function testGenerateClientUrlIfEnabled() : void
+    public function testGenerateClientUrlIfEnabled(): void
     {
         $protocol = 'http://';
         $domain = '127.0.0.1';
@@ -111,7 +113,7 @@ class ilChatroomServerSettingsTest extends TestCase
         $this->assertSame($expected, $this->settings->generateClientUrl());
     }
 
-    public function testGenerateClientUrlIfDisabled() : void
+    public function testGenerateClientUrlIfDisabled(): void
     {
         $protocol = 'http://';
         $domain = '127.0.0.1';
@@ -128,7 +130,7 @@ class ilChatroomServerSettingsTest extends TestCase
         $this->assertSame($expected, $this->settings->generateClientUrl());
     }
 
-    public function testGenerateIliasUrlIfEnabled() : void
+    public function testGenerateIliasUrlIfEnabled(): void
     {
         $protocol = 'http://';
         $domain = '127.0.0.1';
@@ -145,7 +147,7 @@ class ilChatroomServerSettingsTest extends TestCase
         $this->assertSame($expected, $this->settings->generateIliasUrl());
     }
 
-    public function testGenerateIliasUrlIfDisabled() : void
+    public function testGenerateIliasUrlIfDisabled(): void
     {
         $protocol = 'http://';
         $domain = '127.0.0.1';
@@ -162,7 +164,7 @@ class ilChatroomServerSettingsTest extends TestCase
         $this->assertSame($expected, $this->settings->generateIliasUrl());
     }
 
-    public function testGetUrl() : void
+    public function testGetUrl(): void
     {
         $protocol = 'http://';
         $domain = '127.0.0.1';
@@ -227,7 +229,7 @@ class ilChatroomServerSettingsTest extends TestCase
         $this->assertSame($expected, $this->settings->getURL($action, $scope));
     }
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         parent::setUp();
 

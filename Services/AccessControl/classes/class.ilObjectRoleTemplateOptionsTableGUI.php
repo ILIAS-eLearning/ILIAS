@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -14,7 +16,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * Table for object role permissions
  * @author  Stefan Meyer <meyer@leifos.com>
@@ -69,12 +71,12 @@ class ilObjectRoleTemplateOptionsTableGUI extends ilTable2GUI
     /**
      * Set show options
      */
-    public function setShowOptions(bool $a_status) : void
+    public function setShowOptions(bool $a_status): void
     {
         $this->show_options = $a_status;
     }
 
-    public function getShowOptions() : bool
+    public function getShowOptions(): bool
     {
         return $this->show_options;
     }
@@ -82,12 +84,12 @@ class ilObjectRoleTemplateOptionsTableGUI extends ilTable2GUI
     /**
      * Get role folder of current object
      */
-    public function getObjectRefId() : int
+    public function getObjectRefId(): int
     {
         return $this->obj_ref_id;
     }
 
-    public function getRoleId() : int
+    public function getRoleId(): int
     {
         return $this->role_id;
     }
@@ -95,7 +97,7 @@ class ilObjectRoleTemplateOptionsTableGUI extends ilTable2GUI
     /**
      * Fill row template
      */
-    protected function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set): void
     {
         if (!$this->getShowOptions()) {
             return;
@@ -124,7 +126,7 @@ class ilObjectRoleTemplateOptionsTableGUI extends ilTable2GUI
     /**
      * Parse permissions
      */
-    public function parse() : void
+    public function parse(): void
     {
         $row = [];
         $row[0]['recursive'] = 1;

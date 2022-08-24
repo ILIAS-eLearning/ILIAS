@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /******************************************************************************
  *
@@ -35,13 +37,13 @@ class ilObjRemoteWikiListGUI extends ilRemoteObjectBaseListGUI
     {
         parent::__construct();
     }
-    
+
     /**
      * init
      *
      * @access public
      */
-    public function init() : void
+    public function init(): void
     {
         $this->copy_enabled = false;
         $this->static_link_enabled = true;
@@ -52,12 +54,12 @@ class ilObjRemoteWikiListGUI extends ilRemoteObjectBaseListGUI
         $this->info_screen_enabled = true;
         $this->type = 'rwik';
         $this->gui_class_name = 'ilobjremotewikigui';
-        
+
         $this->substitutions = ilAdvancedMDSubstitution::_getInstanceByObjectType($this->type);
         if ($this->substitutions->isActive()) {
             $this->substitutions_enabled = true;
         }
-        
+
         // general commands array
         $this->commands = ilObjRemoteWikiAccess::_getCommands();
     }
@@ -70,7 +72,7 @@ class ilObjRemoteWikiListGUI extends ilRemoteObjectBaseListGUI
      * @param
      *
      */
-    public function getProperties() : array
+    public function getProperties(): array
     {
         if ($org = $this->_lookupOrganization(ilObjRemoteWiki::DB_TABLE_NAME, $this->obj_id)) {
             $this->addCustomProperty($this->lng->txt('organization'), $org, false, true);
@@ -78,10 +80,10 @@ class ilObjRemoteWikiListGUI extends ilRemoteObjectBaseListGUI
         if (!ilObjRemoteWiki::_lookupOnline($this->obj_id)) {
             $this->addCustomProperty($this->lng->txt("status"), $this->lng->txt("offline"), true, true);
         }
-    
+
         return array();
     }
-    
+
     /**
      * get command frame
      *
@@ -89,7 +91,7 @@ class ilObjRemoteWikiListGUI extends ilRemoteObjectBaseListGUI
      * @param
      * @return
      */
-    public function getCommandFrame(string $cmd) : string
+    public function getCommandFrame(string $cmd): string
     {
         switch ($cmd) {
             case 'show':
@@ -99,7 +101,7 @@ class ilObjRemoteWikiListGUI extends ilRemoteObjectBaseListGUI
                 )) {
                     return '_blank';
                 }
-                
+
                 // no break
             default:
                 return parent::getCommandFrame($cmd);

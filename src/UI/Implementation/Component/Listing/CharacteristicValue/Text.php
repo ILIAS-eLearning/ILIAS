@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\UI\Implementation\Component\Listing\CharacteristicValue;
 
 use ILIAS\UI\Component as C;
@@ -41,7 +43,7 @@ class Text implements C\Listing\CharacteristicValue\Text
     /**
      * @param array $items
      */
-    private function validateItems(array $items) : void
+    private function validateItems(array $items): void
     {
         if (!count($items)) {
             throw new InvalidArgumentException('expected non empty array, got empty array');
@@ -68,7 +70,7 @@ class Text implements C\Listing\CharacteristicValue\Text
     /**
      * @inheritdoc
      */
-    public function getItems() : array
+    public function getItems(): array
     {
         return $this->items;
     }

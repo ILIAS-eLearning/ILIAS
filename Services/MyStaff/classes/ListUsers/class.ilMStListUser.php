@@ -48,207 +48,207 @@ final class ilMStListUser
     private string $phone;
     private string $mobile_phone;
 
-    public function getUsrId() : int
+    public function getUsrId(): int
     {
         return $this->usr_id;
     }
 
-    public function setUsrId(int $usr_id) : void
+    public function setUsrId(int $usr_id): void
     {
         $this->usr_id = $usr_id;
     }
 
-    public function getTimeLimitOwner() : int
+    public function getTimeLimitOwner(): int
     {
         return $this->time_limit_owner;
     }
 
-    public function setTimeLimitOwner(int $time_limit_owner) : void
+    public function setTimeLimitOwner(int $time_limit_owner): void
     {
         $this->time_limit_owner = $time_limit_owner;
     }
 
-    public function getActive() : int
+    public function getActive(): int
     {
         return $this->active;
     }
 
-    public function setActive(int $active) : void
+    public function setActive(int $active): void
     {
         $this->active = $active;
     }
 
-    public function getLogin() : string
+    public function getLogin(): string
     {
         return $this->login;
     }
 
-    public function setLogin(string $login) : void
+    public function setLogin(string $login): void
     {
         $this->login = $login;
     }
 
-    public function getFirstname() : string
+    public function getFirstname(): string
     {
         return $this->firstname;
     }
 
-    public function setFirstname(string $firstname) : void
+    public function setFirstname(string $firstname): void
     {
         $this->firstname = $firstname;
     }
 
-    public function getLastname() : string
+    public function getLastname(): string
     {
         return $this->lastname;
     }
 
-    public function setLastname(string $lastname) : void
+    public function setLastname(string $lastname): void
     {
         $this->lastname = $lastname;
     }
 
-    public function getEmail() : string
+    public function getEmail(): string
     {
         return $this->email;
     }
 
-    public function setEmail(string $email) : void
+    public function setEmail(string $email): void
     {
         $this->email = $email;
     }
 
-    public function getPhone() : string
+    public function getPhone(): string
     {
         return $this->phone;
     }
 
-    public function setPhone(string $phone) : void
+    public function setPhone(string $phone): void
     {
         $this->phone = $phone;
     }
 
-    public function getMobilePhone() : string
+    public function getMobilePhone(): string
     {
         return $this->mobile_phone;
     }
 
-    public function setMobilePhone(string $mobile_phone) : void
+    public function setMobilePhone(string $mobile_phone): void
     {
         $this->mobile_phone = $mobile_phone;
     }
 
-    public function getGender() : int
+    public function getGender(): int
     {
         return $this->gender;
     }
 
-    public function setGender(int $gender) : void
+    public function setGender(int $gender): void
     {
         $this->gender = $gender;
     }
 
-    public function getTitle() : string
+    public function getTitle(): string
     {
         return $this->title;
     }
 
-    public function setTitle(string $title) : void
+    public function setTitle(string $title): void
     {
         $this->title = $title;
     }
 
-    public function getHobby() : string
+    public function getHobby(): string
     {
         return $this->hobby;
     }
 
-    public function setHobby(string $hobby) : void
+    public function setHobby(string $hobby): void
     {
         $this->hobby = $hobby;
     }
 
-    public function getInstitution() : string
+    public function getInstitution(): string
     {
         return $this->institution;
     }
 
-    public function setInstitution(string $institution) : void
+    public function setInstitution(string $institution): void
     {
         $this->institution = $institution;
     }
 
-    public function getDepartment() : string
+    public function getDepartment(): string
     {
         return $this->department;
     }
 
-    public function setDepartment(string $department) : void
+    public function setDepartment(string $department): void
     {
         $this->department = $department;
     }
 
-    public function getStreet() : string
+    public function getStreet(): string
     {
         return $this->street;
     }
 
-    public function setStreet(string $street) : void
+    public function setStreet(string $street): void
     {
         $this->street = $street;
     }
 
-    public function getZipcode() : string
+    public function getZipcode(): string
     {
         return $this->zipcode;
     }
 
-    public function setZipcode(string $zipcode) : void
+    public function setZipcode(string $zipcode): void
     {
         $this->zipcode = $zipcode;
     }
 
-    public function getCity() : string
+    public function getCity(): string
     {
         return $this->city;
     }
 
-    public function setCity(string $city) : void
+    public function setCity(string $city): void
     {
         $this->city = $city;
     }
 
-    public function getCountry() : string
+    public function getCountry(): string
     {
         return $this->country;
     }
 
-    public function setCountry(string $country) : void
+    public function setCountry(string $country): void
     {
         $this->country = $country;
     }
 
-    public function getSelCountry() : string
+    public function getSelCountry(): string
     {
         return $this->sel_country;
     }
 
-    public function setSelCountry(string $sel_country) : void
+    public function setSelCountry(string $sel_country): void
     {
         $this->sel_country = $sel_country;
     }
 
-    public function getMatriculation() : string
+    public function getMatriculation(): string
     {
         return $this->matriculation;
     }
 
-    public function setMatriculation(string $matriculation) : void
+    public function setMatriculation(string $matriculation): void
     {
         $this->matriculation = $matriculation;
     }
 
-    public function returnIlUserObj() : ilObjUser
+    public function returnIlUserObj(): ilObjUser
     {
         return new ilObjUser($this->usr_id);
     }

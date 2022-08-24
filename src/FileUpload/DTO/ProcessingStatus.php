@@ -36,11 +36,11 @@ final class ProcessingStatus
     /**
      * Upload is ok
      */
-    const OK = 1;
+    public const OK = 1;
     /**
      * Upload got rejected by a processor
      */
-    const REJECTED = 2;
+    public const REJECTED = 2;
     private int $code;
     private string $message;
 
@@ -74,7 +74,7 @@ final class ProcessingStatus
     /**
      * @since 5.3
      */
-    public function getCode() : int
+    public function getCode(): int
     {
         return $this->code;
     }
@@ -83,7 +83,7 @@ final class ProcessingStatus
     /**
      * @since 5.3
      */
-    public function getMessage() : string
+    public function getMessage(): string
     {
         return $this->message;
     }

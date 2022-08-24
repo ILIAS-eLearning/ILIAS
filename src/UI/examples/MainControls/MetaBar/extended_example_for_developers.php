@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace ILIAS\UI\examples\MainControls\MetaBar;
 
@@ -29,7 +31,7 @@ namespace ILIAS\UI\examples\MainControls\MetaBar;
 
  * @return string
  */
-function extended_example_for_developers() : string
+function extended_example_for_developers(): string
 {
     //Set up the gears as always
     global $DIC;

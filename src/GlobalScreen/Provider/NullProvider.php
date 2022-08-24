@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -23,12 +25,12 @@ namespace ILIAS\GlobalScreen\Provider;
  */
 class NullProvider implements Provider
 {
-    public function getFullyQualifiedClassName() : string
+    public function getFullyQualifiedClassName(): string
     {
         return static::class;
     }
 
-    public function getProviderNameForPresentation() : string
+    public function getProviderNameForPresentation(): string
     {
         return 'Null';
     }

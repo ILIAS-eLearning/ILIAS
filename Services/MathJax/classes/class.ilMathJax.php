@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -116,7 +118,7 @@ class ilMathJax
     /**
      * Singleton: get instance for use in ILIAS
      */
-    public static function getInstance() : ilMathJax
+    public static function getInstance(): ilMathJax
     {
         /** @var Container $DIC */
         global $DIC;
@@ -133,7 +135,7 @@ class ilMathJax
      * for use in unit tests or on the mathjax settings page
      * Don't use in standard cases!
      */
-    public static function getIndependent(ilMathJaxConfig $config, ilMathJaxFactory $factory) : ilMathJax
+    public static function getIndependent(ilMathJaxConfig $config, ilMathJaxFactory $factory): ilMathJax
     {
         return new self($config, $factory);
     }
@@ -142,7 +144,7 @@ class ilMathJax
      * Initialize the usage for a certain purpose
      * This must be done before any rendering call
      */
-    public function init(string $a_purpose = self::PURPOSE_BROWSER) : ilMathJax
+    public function init(string $a_purpose = self::PURPOSE_BROWSER): ilMathJax
     {
         // reset the class variables
         $this->engine = null;
@@ -197,7 +199,7 @@ class ilMathJax
     /**
      * Set the Rendering engine
      */
-    protected function setEngine(string $a_engine) : ilMathJax
+    protected function setEngine(string $a_engine): ilMathJax
     {
         switch ($a_engine) {
             case self::ENGINE_CLIENT:
@@ -215,7 +217,7 @@ class ilMathJax
     /**
      * Set the image type rendered by the server
      */
-    public function setRendering(string $a_rendering) : ilMathJax
+    public function setRendering(string $a_rendering): ilMathJax
     {
         switch ($a_rendering) {
             case self::RENDER_SVG_AS_XML_EMBED:
@@ -236,7 +238,7 @@ class ilMathJax
     /**
      * Set the dpi of the rendered images
      */
-    public function setDpi(int $a_dpi) : ilMathJax
+    public function setDpi(int $a_dpi): ilMathJax
     {
         $this->dpi = $a_dpi;
         return $this;
@@ -245,7 +247,7 @@ class ilMathJax
     /**
      * Set the zoom factor of the rendered images
      */
-    public function setZoomFactor(float $a_factor) : ilMathJax
+    public function setZoomFactor(float $a_factor): ilMathJax
     {
         $this->zoom_factor = $a_factor;
         return $this;
@@ -254,7 +256,7 @@ class ilMathJax
     /**
      * Include the Mathjax javascript(s) in the page template
      */
-    public function includeMathJax(ilGlobalTemplateInterface $a_tpl = null) : ilMathJax
+    public function includeMathJax(ilGlobalTemplateInterface $a_tpl = null): ilMathJax
     {
         if ($this->config->isClientEnabled()) {
             $tpl = $a_tpl ?? $this->factory->template();
@@ -279,7 +281,7 @@ class ilMathJax
      * @param string|null $a_end   end delimiter to be converted
      * @return string    replaced text
      */
-    public function insertLatexImages(string $a_text, ?string $a_start = '[tex]', ?string $a_end = '[/tex]') : string
+    public function insertLatexImages(string $a_text, ?string $a_start = '[tex]', ?string $a_end = '[/tex]'): string
     {
         // don't change anything if mathjax is not configured
         if ($this->engine === self::ENGINE_NONE) {
@@ -367,7 +369,7 @@ class ilMathJax
     /**
      * Render image from tex code using the MathJax server
      */
-    protected function renderMathJax(string $a_tex) : string
+    protected function renderMathJax(string $a_tex): string
     {
         $options = $this->default_server_options;
         $options['math'] = $a_tex;
@@ -445,7 +447,7 @@ class ilMathJax
     /**
      * Get the size of the image cache
      */
-    public function getCacheSize() : string
+    public function getCacheSize(): string
     {
         return $this->factory->image('', $this->output, $this->dpi)->getCacheSize();
     }
@@ -453,7 +455,7 @@ class ilMathJax
     /**
      * Clear the cache of rendered graphics
      */
-    public function clearCache() : void
+    public function clearCache(): void
     {
         $image = $this->factory->image('', $this->output, $this->dpi);
         $image->clearCache();

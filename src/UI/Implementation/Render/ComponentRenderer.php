@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\UI\Implementation\Render;
 
 use ILIAS\UI\Component\Component;
@@ -35,10 +37,10 @@ interface ComponentRenderer
      *
      * @throws LogicException if renderer is called with a component it can't render
      */
-    public function render(Component $component, Renderer $default_renderer) : string;
+    public function render(Component $component, Renderer $default_renderer): string;
 
     /**
      * Announce resources this renderer requires.
      */
-    public function registerResources(ResourceRegistry $registry) : void;
+    public function registerResources(ResourceRegistry $registry): void;
 }

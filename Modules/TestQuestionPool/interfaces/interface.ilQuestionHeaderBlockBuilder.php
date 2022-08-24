@@ -9,11 +9,10 @@
 
 interface ilQuestionHeaderBlockBuilder
 {
-
     /**
      * Get the HTML representation of the header block
      *
      * @return string
      */
-    public function getHTML() : string;
+    public function getHTML(): string;
 }

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 
@@ -14,7 +16,7 @@
 */
 class ilLikeUserDefinedFieldSearch extends ilUserDefinedFieldSearch
 {
-    public function setFields(array $a_fields) : void
+    public function setFields(array $a_fields): void
     {
         $fields = [];
         foreach ($a_fields as $field) {
@@ -22,9 +24,9 @@ class ilLikeUserDefinedFieldSearch extends ilUserDefinedFieldSearch
         }
         parent::setFields($fields);
     }
-    
 
-    public function __createWhereCondition() : string
+
+    public function __createWhereCondition(): string
     {
         $fields = $this->getFields();
         $field = $fields[0];

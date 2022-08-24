@@ -30,38 +30,38 @@ class ilAssQuestionPageCommandForwarder
 
     protected \ILIAS\Test\InternalRequestService $testrequest;
 
-    public function getTestObj() : ?ilObjTest
+    public function getTestObj(): ?ilObjTest
     {
         return $this->testObj;
     }
 
-    public function setTestObj(ilObjTest $testObj) : void
+    public function setTestObj(ilObjTest $testObj): void
     {
         $this->testObj = $testObj;
     }
-    
-    public function forward() : void
+
+    public function forward(): void
     {
         /* @var ILIAS\DI\Container $DIC */
         global $DIC;
         $ctrl = $DIC->ctrl();
         $main_template = $DIC->ui()->mainTemplate();
         $lng = $DIC->language();
-        
+
         $this->testrequest = $DIC->test()->internal()->request();
-        
+
         //echo $_REQUEST['prev_qid'];
         if ($this->testrequest->raw('prev_qid')) {
             $ctrl->setParameter($this, 'prev_qid', $this->testrequest->raw('prev_qid'));
         }
-        
+
         $main_template->setCurrentBlock("ContentStyle");
         $main_template->setVariable(
             "LOCATION_CONTENT_STYLESHEET",
             ilObjStyleSheet::getContentStylePath(0)
         );
         $main_template->parseCurrentBlock();
-        
+
         // syntax style
         $main_template->setCurrentBlock("SyntaxStyle");
         $main_template->setVariable(
@@ -76,7 +76,7 @@ class ilAssQuestionPageCommandForwarder
         $q_gui->outAdditionalOutput();
         $q_gui->object->setObjId($this->getTestObj()->getId());
         $question = &$q_gui->object;
- 
+
         if ($ctrl->getCmd() === 'edit' && $question->isInActiveTest()) {
             $main_template->setOnScreenMessage('failure', $lng->txt("question_is_part_of_running_test"));
             $ctrl->redirectByClass('ilAssQuestionPreviewGUI', ilAssQuestionPreviewGUI::CMD_SHOW);
@@ -98,7 +98,7 @@ class ilAssQuestionPageCommandForwarder
         $page_gui->setOutputMode($this->getTestObj()->evalTotalPersons() == 0 ? "edit" : 'preview');
         $page_gui->setHeader($question->getTitle());
         $page_gui->setPresentationTitle($question->getTitle() . ' [' . $lng->txt('question_id_short') . ': ' . $question->getId() . ']');
-        
+
         $html = $ctrl->forwardCommand($page_gui);
         $main_template->setContent($html);
     }

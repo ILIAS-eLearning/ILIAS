@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -34,12 +36,12 @@ trait FileUploadHelper
     protected int $max_file_amount = 1;
     protected ?int $max_file_size = null;
 
-    public function getUploadHandler() : UploadHandler
+    public function getUploadHandler(): UploadHandler
     {
         return $this->upload_handler;
     }
 
-    public function withMaxFileSize(int $size_in_bytes) : FileUpload
+    public function withMaxFileSize(int $size_in_bytes): FileUpload
     {
         $size_in_bytes = $this->upload_limit_resolver->min($size_in_bytes);
 
@@ -49,12 +51,12 @@ trait FileUploadHelper
         return $clone;
     }
 
-    public function getMaxFileSize() : int
+    public function getMaxFileSize(): int
     {
         return $this->max_file_size ?? $this->upload_limit_resolver->getUploadLimit();
     }
 
-    public function withMaxFiles(int $max_file_amount) : FileUpload
+    public function withMaxFiles(int $max_file_amount): FileUpload
     {
         $clone = clone $this;
         $clone->max_file_amount = $max_file_amount;
@@ -62,12 +64,12 @@ trait FileUploadHelper
         return $clone;
     }
 
-    public function getMaxFiles() : int
+    public function getMaxFiles(): int
     {
         return $this->max_file_amount;
     }
 
-    public function withAcceptedMimeTypes(array $mime_types) : FileUpload
+    public function withAcceptedMimeTypes(array $mime_types): FileUpload
     {
         $clone = clone $this;
         $clone->accepted_mime_types = $mime_types;
@@ -75,7 +77,7 @@ trait FileUploadHelper
         return $clone;
     }
 
-    public function getAcceptedMimeTypes() : array
+    public function getAcceptedMimeTypes(): array
     {
         return $this->accepted_mime_types;
     }

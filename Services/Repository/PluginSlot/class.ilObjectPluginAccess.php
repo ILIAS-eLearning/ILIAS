@@ -39,7 +39,7 @@ class ilObjectPluginAccess extends ilObjectAccess
     *
     * this method is called by ilConditionHandler
     */
-    public function _checkCondition(int $a_obj_id, string $a_operator, $a_value, int $a_usr_id = 0) : bool
+    public function _checkCondition(int $a_obj_id, string $a_operator, $a_value, int $a_usr_id = 0): bool
     {
         return true;
     }
@@ -47,12 +47,12 @@ class ilObjectPluginAccess extends ilObjectAccess
     /**
     * check whether goto script will succeed
     */
-    public static function _checkGoto(string $target) : bool
+    public static function _checkGoto(string $target): bool
     {
         global $DIC;
 
         $ilAccess = $DIC->access();
-        
+
         $t_arr = explode("_", $target);
 
         if ($ilAccess->checkAccess("read", "", (int) $t_arr[1])) {
@@ -62,7 +62,7 @@ class ilObjectPluginAccess extends ilObjectAccess
     }
 
     // this is called by permission -> check permissions of user screen
-    public static function _getCommands() : array
+    public static function _getCommands(): array
     {
         return [];
     }

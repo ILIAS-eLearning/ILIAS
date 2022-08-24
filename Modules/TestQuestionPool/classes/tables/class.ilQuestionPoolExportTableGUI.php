@@ -1,4 +1,5 @@
 <?php
+
 /* Copyright (c) 1998-2014 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 require_once 'Services/Export/classes/class.ilExportTableGUI.php';
@@ -24,7 +25,7 @@ class ilQuestionPoolExportTableGUI extends ilExportTableGUI
      * @param string $type
      * @param string $filename
      */
-    protected function formatActionsList($type, $filename) : string
+    protected function formatActionsList($type, $filename): string
     {
         /**
          * @var $ilCtrl ilCtrl
@@ -43,7 +44,7 @@ class ilQuestionPoolExportTableGUI extends ilExportTableGUI
     /**
      * @inheritdoc
      */
-    public function numericOrdering(string $a_field) : bool
+    public function numericOrdering(string $a_field): bool
     {
         if (in_array($a_field, array('size', 'date'))) {
             return true;
@@ -55,7 +56,7 @@ class ilQuestionPoolExportTableGUI extends ilExportTableGUI
     /***
      *
      */
-    protected function initMultiCommands() : void
+    protected function initMultiCommands(): void
     {
         $this->addMultiCommand('confirmDeletion', $this->lng->txt('delete'));
     }

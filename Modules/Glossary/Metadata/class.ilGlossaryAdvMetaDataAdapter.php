@@ -37,12 +37,12 @@ class ilGlossaryAdvMetaDataAdapter
         $this->glo_id = ilObject::_lookupObjectId($a_glo_ref_id);
         $this->glo_ref_id = $a_glo_ref_id;
     }
-    
+
 
     /**
      * Get all advanced metadata fields
      */
-    public function getAllFields() : array
+    public function getAllFields(): array
     {
         $fields = array();
         $recs = ilAdvancedMDRecord::_getSelectedRecordsByObject("glo", $this->glo_ref_id, "term");
@@ -59,17 +59,17 @@ class ilGlossaryAdvMetaDataAdapter
 
         return $fields;
     }
-    
+
     /**
      * Get column order
      */
-    public function getColumnOrder() : array
+    public function getColumnOrder(): array
     {
         $ilDB = $this->db;
         $lng = $this->lng;
-        
+
         $columns = array();
-        
+
         $set = $ilDB->query(
             "SELECT * FROM glo_advmd_col_order " .
                 " WHERE glo_id = " . $ilDB->quote($this->glo_id, "integer") .
@@ -87,7 +87,7 @@ class ilGlossaryAdvMetaDataAdapter
         }
 
         $fields = $this->getAllFields();
-        
+
         // add all fields that have been already sorted
         foreach ($order as $id => $order_nr) {
             if (isset($fields[$id])) {
@@ -99,23 +99,23 @@ class ilGlossaryAdvMetaDataAdapter
                     "text" => $lng->txt("cont_term"));
             }
         }
-        
+
         // add all fields that have not been sorted
         foreach ($fields as $f) {
             $columns[] = array("id" => $f["id"],
                 "text" => $f["title"]);
         }
-        
+
         return $columns;
     }
 
     /**
      * Save column order
      */
-    public function saveColumnOrder(array $a_cols) : void
+    public function saveColumnOrder(array $a_cols): void
     {
         $ilDB = $this->db;
-        
+
         $ilDB->manipulate(
             "DELETE FROM glo_advmd_col_order WHERE " .
             " glo_id = " . $ilDB->quote($this->glo_id, "integer")
@@ -144,7 +144,7 @@ class ilGlossaryAdvMetaDataAdapter
         int $a_glo_id,
         int $a_field_id,
         int $a_order_nr
-    ) : void {
+    ): void {
         global $DIC;
 
         $ilDB = $DIC->database();

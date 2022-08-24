@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 /**
@@ -23,7 +24,7 @@ use ILIAS\Modules\EmployeeTalk\Talk\Repository\IliasDBEmployeeTalkRepository;
 
 final class ilObjEmployeeTalk extends ilObject
 {
-    const TYPE = 'etal';
+    public const TYPE = 'etal';
 
     /**
      * @var int
@@ -137,7 +138,7 @@ final class ilObjEmployeeTalk extends ilObject
     /**
      * @return int
      */
-    public static function getRootOrgRefId() : int
+    public static function getRootOrgRefId(): int
     {
         self::loadRootOrgRefIdAndId();
 
@@ -147,14 +148,14 @@ final class ilObjEmployeeTalk extends ilObject
     /**
      * @return int
      */
-    public static function getRootOrgId() : int
+    public static function getRootOrgId(): int
     {
         self::loadRootOrgRefIdAndId();
 
         return self::$root_id;
     }
 
-    private static function loadRootOrgRefIdAndId() : void
+    private static function loadRootOrgRefIdAndId(): void
     {
         if (self::$root_ref_id === -1 || self::$root_id === -1) {
             global $DIC;
@@ -169,7 +170,7 @@ final class ilObjEmployeeTalk extends ilObject
         }
     }
 
-    public function getParent() : ilObjEmployeeTalkSeries
+    public function getParent(): ilObjEmployeeTalkSeries
     {
         return new ilObjEmployeeTalkSeries($this->tree->getParentId($this->getRefId()), true);
     }
@@ -218,7 +219,7 @@ final class ilObjEmployeeTalk extends ilObject
     /**
      * @return EmployeeTalk
      */
-    public function getData() : EmployeeTalk
+    public function getData(): EmployeeTalk
     {
         return clone $this->data;
     }
@@ -227,7 +228,7 @@ final class ilObjEmployeeTalk extends ilObject
      * @param EmployeeTalk $data
      * @return ilObjEmployeeTalk
      */
-    public function setData(EmployeeTalk $data) : ilObjEmployeeTalk
+    public function setData(EmployeeTalk $data): ilObjEmployeeTalk
     {
         $this->data = clone $data;
         return $this;
@@ -245,5 +246,4 @@ final class ilObjEmployeeTalk extends ilObject
 
         return $talkClone;
     }
-
 }

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\UI\Component\Modal;
 
 /**
@@ -28,5 +30,5 @@ interface LightboxDescriptionEnabledPage extends LightboxPage
     /**
      * Get the description of this page, displayed along with the media item
      */
-    public function getDescription() : string;
+    public function getDescription(): string;
 }

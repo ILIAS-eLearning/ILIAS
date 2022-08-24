@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -33,7 +35,7 @@ class ilStudyProgrammeMembershipSourceReaderFactory
      *
      * @throws InvalidArgumentException if $src_type is not one of the constant types in ilStudyProgrammeAutoMembershipSource.
      */
-    public function getReaderFor(string $src_type, int $src_id) : ilStudyProgrammeMembershipSourceReader
+    public function getReaderFor(string $src_type, int $src_id): ilStudyProgrammeMembershipSourceReader
     {
         switch ($src_type) {
             case ilStudyProgrammeAutoMembershipSource::TYPE_ROLE:

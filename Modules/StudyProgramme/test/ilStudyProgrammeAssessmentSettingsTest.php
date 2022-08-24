@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -30,7 +32,7 @@ class ilStudyProgrammeAssessmentSettingsTest extends TestCase
     private const VALID_STATUS_2 = 30;
     private const INVALID_STATUS = -1;
 
-    public function testSuccessfulCreate() : void
+    public function testSuccessfulCreate(): void
     {
         $obj = new ilStudyProgrammeAssessmentSettings(self::VALID_POINTS_1, self::VALID_STATUS_1);
 
@@ -38,7 +40,7 @@ class ilStudyProgrammeAssessmentSettingsTest extends TestCase
         $this->assertEquals(self::VALID_STATUS_1, $obj->getStatus());
     }
 
-    public function testFailCreateWithInvalidPoints() : void
+    public function testFailCreateWithInvalidPoints(): void
     {
         try {
             new ilStudyProgrammeAssessmentSettings(self::INVALID_POINTS, self::VALID_STATUS_1);
@@ -48,7 +50,7 @@ class ilStudyProgrammeAssessmentSettingsTest extends TestCase
         }
     }
 
-    public function testFailCreateWithInvalidStatus() : void
+    public function testFailCreateWithInvalidStatus(): void
     {
         try {
             new ilStudyProgrammeAssessmentSettings(self::VALID_POINTS_1, self::INVALID_STATUS);
@@ -58,7 +60,7 @@ class ilStudyProgrammeAssessmentSettingsTest extends TestCase
         }
     }
 
-    public function testFailCreateWithInvalidPointAndInvalidStatus() : void
+    public function testFailCreateWithInvalidPointAndInvalidStatus(): void
     {
         try {
             new ilStudyProgrammeAssessmentSettings(self::INVALID_POINTS, self::INVALID_STATUS);
@@ -68,7 +70,7 @@ class ilStudyProgrammeAssessmentSettingsTest extends TestCase
         }
     }
 
-    public function testSuccessfulWithPoints() : void
+    public function testSuccessfulWithPoints(): void
     {
         $obj = new ilStudyProgrammeAssessmentSettings(self::VALID_POINTS_1, self::VALID_STATUS_1);
 
@@ -78,7 +80,7 @@ class ilStudyProgrammeAssessmentSettingsTest extends TestCase
         $this->assertEquals(self::VALID_POINTS_2, $new->getPoints());
     }
 
-    public function testFailWithPoints() : void
+    public function testFailWithPoints(): void
     {
         $obj = new ilStudyProgrammeAssessmentSettings(self::VALID_POINTS_1, self::VALID_STATUS_1);
 
@@ -90,7 +92,7 @@ class ilStudyProgrammeAssessmentSettingsTest extends TestCase
         }
     }
 
-    public function testSuccessfulWithStatus() : void
+    public function testSuccessfulWithStatus(): void
     {
         $obj = new ilStudyProgrammeAssessmentSettings(self::VALID_POINTS_1, self::VALID_STATUS_1);
 
@@ -100,7 +102,7 @@ class ilStudyProgrammeAssessmentSettingsTest extends TestCase
         $this->assertEquals(self::VALID_STATUS_2, $new->getStatus());
     }
 
-    public function testFailWithStatus() : void
+    public function testFailWithStatus(): void
     {
         $obj = new ilStudyProgrammeAssessmentSettings(self::VALID_POINTS_1, self::VALID_STATUS_1);
 
@@ -112,7 +114,7 @@ class ilStudyProgrammeAssessmentSettingsTest extends TestCase
         }
     }
 
-    public function testToFormInput() : void
+    public function testToFormInput(): void
     {
         $lng = $this->createMock(ilLanguage::class);
         $df = new ILIAS\Data\Factory();

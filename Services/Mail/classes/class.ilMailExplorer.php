@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -52,7 +54,7 @@ class ilMailExplorer extends ilTreeExplorerGUI
         $this->setOrderField('title,m_type');
     }
 
-    protected function initFolder() : void
+    protected function initFolder(): void
     {
         if ($this->http->wrapper()->post()->has('mobj_id')) {
             $folderId = $this->http->wrapper()->post()->retrieve('mobj_id', $this->refinery->kindlyTo()->int());
@@ -65,12 +67,12 @@ class ilMailExplorer extends ilTreeExplorerGUI
         $this->currentFolderId = $folderId;
     }
 
-    public function getTreeLabel() : string
+    public function getTreeLabel(): string
     {
         return $this->lng->txt("mail_folders");
     }
 
-    public function getTreeComponent() : Tree
+    public function getTreeComponent(): Tree
     {
         $f = $this->ui->factory();
 
@@ -84,18 +86,18 @@ class ilMailExplorer extends ilTreeExplorerGUI
         Factory $factory,
         $record,
         $environment = null
-    ) : Node {
+    ): Node {
         return parent::build($factory, $record, $environment)->withHighlighted($this->currentFolderId === (int) $record['child']);
     }
 
-    protected function getNodeStateToggleCmdClasses($record) : array
+    protected function getNodeStateToggleCmdClasses($record): array
     {
         return [
             ilMailGUI::class,
         ];
     }
 
-    public function getNodeContent($a_node) : string
+    public function getNodeContent($a_node): string
     {
         $content = $a_node['title'];
 
@@ -108,12 +110,12 @@ class ilMailExplorer extends ilTreeExplorerGUI
         return $content;
     }
 
-    public function getNodeIconAlt($a_node) : string
+    public function getNodeIconAlt($a_node): string
     {
         return $this->getNodeContent($a_node);
     }
 
-    public function getNodeIcon($a_node) : string
+    public function getNodeIcon($a_node): string
     {
         if ((int) $a_node['child'] === (int) $this->getNodeId($this->getRootNode())) {
             $icon = ilUtil::getImagePath('icon_mail.svg');
@@ -129,7 +131,7 @@ class ilMailExplorer extends ilTreeExplorerGUI
         return $icon;
     }
 
-    public function getNodeHref($a_node) : string
+    public function getNodeHref($a_node): string
     {
         if ((int) $a_node['child'] === (int) $this->getNodeId($this->getRootNode())) {
             $a_node['child'] = 0;

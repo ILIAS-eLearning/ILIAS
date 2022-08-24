@@ -51,7 +51,7 @@ class PageRenderer
         $this->errors = $errors;
     }
 
-    public function render() : string
+    public function render(): string
     {
         $page = $this->page_data;
 
@@ -152,7 +152,7 @@ class PageRenderer
     protected function compressQuestion(
         ?array $previous_page,
         array $page
-    ) : bool {
+    ): bool {
         if (is_null($previous_page)) {
             return false;
         }

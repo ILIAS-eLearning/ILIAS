@@ -26,7 +26,7 @@ class ilAwarenessUserActionContext extends ilUserActionContext
     /**
      * @inheritdoc
      */
-    public function getComponentId() : string
+    public function getComponentId(): string
     {
         return "awrn";
     }
@@ -34,7 +34,7 @@ class ilAwarenessUserActionContext extends ilUserActionContext
     /**
      * @inheritdoc
      */
-    public function getContextId() : string
+    public function getContextId(): string
     {
         return "toplist";
     }

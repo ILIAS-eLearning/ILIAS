@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\UI\Implementation\Component\Menu;
 
 use ILIAS\UI\Component;
@@ -42,7 +44,7 @@ abstract class Menu implements IMenu\Menu
     /**
      * @inheritdoc
      */
-    public function getLabel() : string
+    public function getLabel(): string
     {
         return $this->label;
     }
@@ -50,12 +52,12 @@ abstract class Menu implements IMenu\Menu
     /**
      * @inheritdoc
      */
-    public function getItems() : array
+    public function getItems(): array
     {
         return $this->items;
     }
 
-    protected function checkItemParameter(array $items) : void
+    protected function checkItemParameter(array $items): void
     {
         $classes = [
             Sub::class,

@@ -33,7 +33,7 @@ class ilFileObjectMigrationAgent implements Setup\Agent
     /**
      * @inheritdoc
      */
-    public function hasConfig() : bool
+    public function hasConfig(): bool
     {
         return false;
     }
@@ -41,7 +41,7 @@ class ilFileObjectMigrationAgent implements Setup\Agent
     /**
      * @inheritdoc
      */
-    public function getArrayToConfigTransformation() : Refinery\Transformation
+    public function getArrayToConfigTransformation(): Refinery\Transformation
     {
         throw new \LogicException("Agent has no config.");
     }
@@ -49,7 +49,7 @@ class ilFileObjectMigrationAgent implements Setup\Agent
     /**
      * @inheritdoc
      */
-    public function getInstallObjective(Setup\Config $config = null) : Setup\Objective
+    public function getInstallObjective(Setup\Config $config = null): Setup\Objective
     {
         return new Setup\Objective\NullObjective();
     }
@@ -57,7 +57,7 @@ class ilFileObjectMigrationAgent implements Setup\Agent
     /**
      * @inheritdoc
      */
-    public function getUpdateObjective(Setup\Config $config = null) : Setup\Objective
+    public function getUpdateObjective(Setup\Config $config = null): Setup\Objective
     {
         return new ilFileObjectMigrationDoneObjective();
     }
@@ -65,7 +65,7 @@ class ilFileObjectMigrationAgent implements Setup\Agent
     /**
      * @inheritdoc
      */
-    public function getBuildArtifactObjective() : Setup\Objective
+    public function getBuildArtifactObjective(): Setup\Objective
     {
         return new Setup\Objective\NullObjective();
     }
@@ -73,7 +73,7 @@ class ilFileObjectMigrationAgent implements Setup\Agent
     /**
      * @inheritdoc
      */
-    public function getStatusObjective(Setup\Metrics\Storage $storage) : Setup\Objective
+    public function getStatusObjective(Setup\Metrics\Storage $storage): Setup\Objective
     {
         return new Setup\Objective\NullObjective();
     }
@@ -81,7 +81,7 @@ class ilFileObjectMigrationAgent implements Setup\Agent
     /**
      * @inheritDoc
      */
-    public function getMigrations() : array
+    public function getMigrations(): array
     {
         return [
             new ilFileObjectToStorageMigration()

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -25,7 +27,7 @@ class ilContainerReferenceGUI extends ilObjectGUI
 {
     public const MAX_SELECTION_ENTRIES = 50;
     public const MODE_CREATE = 1;
-    public  const MODE_EDIT = 2;
+    public const MODE_EDIT = 2;
 
     protected ilTabsGUI $tabs;
     protected ilErrorHandling $error;
@@ -60,7 +62,7 @@ class ilContainerReferenceGUI extends ilObjectGUI
             ->standardRequest();
     }
 
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         $ilCtrl = $this->ctrl;
         $ilTabs = $this->tabs;
@@ -96,24 +98,24 @@ class ilContainerReferenceGUI extends ilObjectGUI
         }
     }
 
-    protected function addLocatorItems() : void
+    protected function addLocatorItems(): void
     {
         $ilLocator = $this->locator;
-        
+
         if ($this->object instanceof ilObject) {
             $ilLocator->addItem($this->object->getPresentationTitle(), $this->ctrl->getLinkTarget($this));
         }
     }
-    
-    public function redirectObject() : void
+
+    public function redirectObject(): void
     {
         $ilCtrl = $this->ctrl;
-        
+
         $ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $this->object->getTargetRefId());
         $ilCtrl->redirectByClass("ilrepositorygui", "");
     }
-    
-    public function createObject() : void
+
+    public function createObject(): void
     {
         $ilAccess = $this->access;
         $ilErr = $this->error;
@@ -130,12 +132,12 @@ class ilContainerReferenceGUI extends ilObjectGUI
         $form = $this->initForm(self::MODE_CREATE);
         $this->tpl->setContent($form->getHTML());
     }
-    
-    
-    public function saveObject() : void
+
+
+    public function saveObject(): void
     {
         $ilAccess = $this->access;
-        
+
         if ($this->cont_request->getTargetId() === 0) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('select_one'));
             $this->createObject();
@@ -150,16 +152,16 @@ class ilContainerReferenceGUI extends ilObjectGUI
             $this->createObject();
             return;
         }
-        
+
         parent::saveObject();
     }
-    
-    protected function initCreateForm(string $new_type) : ilPropertyFormGUI
+
+    protected function initCreateForm(string $new_type): ilPropertyFormGUI
     {
         return $this->initForm(self::MODE_CREATE);
     }
 
-    protected function afterSave(ilObject $new_object) : void
+    protected function afterSave(ilObject $new_object): void
     {
         $target_obj_id = ilObject::_lookupObjId((int) $this->form->getInput('target_id'));
         $new_object->setTargetId($target_obj_id);
@@ -176,18 +178,18 @@ class ilContainerReferenceGUI extends ilObjectGUI
         $this->ctrl->setParameter($this, 'creation_mode', 0);
         $this->ctrl->redirect($this, 'firstEdit');
     }
-    
-    protected function firstEditObject() : void
+
+    protected function firstEditObject(): void
     {
         $this->editObject();
     }
 
-    public function editReferenceObject() : void
+    public function editReferenceObject(): void
     {
         $this->editObject();
     }
-    
-    public function editObject(ilPropertyFormGUI $form = null) : void
+
+    public function editObject(ilPropertyFormGUI $form = null): void
     {
         global $DIC;
 
@@ -196,14 +198,14 @@ class ilContainerReferenceGUI extends ilObjectGUI
         $ilTabs = $this->tabs;
 
         $ilTabs->setTabActive('settings');
-        
+
         if (!$form instanceof ilPropertyFormGUI) {
             $form = $this->initForm();
         }
         $main_tpl->setContent($form->getHTML());
     }
-    
-    protected function initForm(int $a_mode = self::MODE_EDIT) : ilPropertyFormGUI
+
+    protected function initForm(int $a_mode = self::MODE_EDIT): ilPropertyFormGUI
     {
         $form = new ilPropertyFormGUI();
 
@@ -240,10 +242,10 @@ class ilContainerReferenceGUI extends ilObjectGUI
         $reuse = new ilRadioOption($this->lng->txt('objref_reuse_title'));
         $reuse->setValue((string) ilContainerReference::TITLE_TYPE_REUSE);
         $ttype->addOption($reuse);
-        
+
         $custom = new ilRadioOption($this->lng->txt('objref_custom_title'));
         $custom->setValue((string) ilContainerReference::TITLE_TYPE_CUSTOM);
-        
+
         // title
         $title = new ilTextInputGUI($this->lng->txt('title'), 'title');
         $title->setSize(min(40, ilObject::TITLE_LENGTH));
@@ -281,7 +283,7 @@ class ilContainerReferenceGUI extends ilObjectGUI
         return $form;
     }
 
-    protected function loadPropertiesFromSettingsForm(ilPropertyFormGUI $form) : bool
+    protected function loadPropertiesFromSettingsForm(ilPropertyFormGUI $form): bool
     {
         global $DIC;
 
@@ -317,7 +319,7 @@ class ilContainerReferenceGUI extends ilObjectGUI
         return $ok;
     }
 
-    public function updateObject() : void
+    public function updateObject(): void
     {
         $this->checkPermission('write');
 
@@ -335,17 +337,17 @@ class ilContainerReferenceGUI extends ilObjectGUI
         $this->editObject($form);
     }
 
-    public function getTargetType() : string
+    public function getTargetType(): string
     {
         return $this->target_type;
     }
-    
-    public function getReferenceType() : string
+
+    public function getReferenceType(): string
     {
         return $this->reference_type;
     }
 
-    protected function getTabs() : void
+    protected function getTabs(): void
     {
         global $DIC;
 
@@ -370,7 +372,7 @@ class ilContainerReferenceGUI extends ilObjectGUI
         }
     }
 
-    public function getId() : int
+    public function getId(): int
     {
         return $this->obj_id;
     }

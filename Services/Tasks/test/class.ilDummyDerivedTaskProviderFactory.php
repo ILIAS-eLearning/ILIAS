@@ -46,7 +46,7 @@ class ilDummyDerivedTaskProviderFactory implements ilDerivedTaskProviderFactory
     /**
      * @inheritdoc
      */
-    public function getProviders() : array
+    public function getProviders(): array
     {
         return [
             new ilDummyDerivedTaskProvider($this->task_service)

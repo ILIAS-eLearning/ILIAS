@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -47,9 +49,9 @@ class ilCronManagerTableFilterMediator
         $this->lng = $lng;
     }
 
-    public function filter(string $action) : Standard
+    public function filter(string $action): Standard
     {
-        $componentOptions = array_unique(array_map(function (ilCronJobEntity $entity) : string {
+        $componentOptions = array_unique(array_map(function (ilCronJobEntity $entity): string {
             if ($entity->isPlugin()) {
                 return $this->lng->txt('cmps_plugin') . '/' . $entity->getComponent();
             }
@@ -125,11 +127,11 @@ class ilCronManagerTableFilterMediator
         );
     }
 
-    public function filteredJobs(Standard $filter) : ilCronJobCollection
+    public function filteredJobs(Standard $filter): ilCronJobCollection
     {
         $filterValues = $this->uiService->filter()->getData($filter);
 
-        return $this->items->filter(function (ilCronJobEntity $entity) use ($filterValues) : bool {
+        return $this->items->filter(function (ilCronJobEntity $entity) use ($filterValues): bool {
             if (
                 isset($filterValues[self::FILTER_PROPERTY_NAME_TITLE]) &&
                 is_string($filterValues[self::FILTER_PROPERTY_NAME_TITLE]) &&

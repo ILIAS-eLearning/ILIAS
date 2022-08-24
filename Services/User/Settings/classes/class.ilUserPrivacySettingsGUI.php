@@ -69,7 +69,7 @@ class ilUserPrivacySettingsGUI
         $this->profile_mode = new ilPersonalProfileMode($this->user, $this->settings);
     }
 
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         $next_class = $this->ctrl->getNextClass();
 
@@ -89,19 +89,19 @@ class ilUserPrivacySettingsGUI
     //
     //
 
-    public function workWithUserSetting(string $setting) : bool
+    public function workWithUserSetting(string $setting): bool
     {
         return $this->user_settings_config->isVisibleAndChangeable($setting);
     }
 
-    public function userSettingVisible(string $setting) : bool
+    public function userSettingVisible(string $setting): bool
     {
         return $this->user_settings_config->isVisible($setting);
     }
 
     public function showPrivacySettings(
         \ILIAS\UI\Component\Input\Container\Form\Standard $form = null
-    ) : void {
+    ): void {
         $main_tpl = $this->main_tpl;
         $user = $this->user;
         $lng = $this->lng;
@@ -132,7 +132,7 @@ class ilUserPrivacySettingsGUI
     /**
      * Is awareness tool setting visible
      */
-    protected function isAwarnessSettingVisible() : bool
+    protected function isAwarnessSettingVisible(): bool
     {
         $awrn_set = new ilSetting("awrn");
 
@@ -142,7 +142,7 @@ class ilUserPrivacySettingsGUI
     /**
      * Is contact setting visible
      */
-    protected function isContactSettingVisible() : bool
+    protected function isContactSettingVisible(): bool
     {
         return ilBuddySystem::getInstance()->isEnabled() && $this->userSettingVisible('bs_allow_to_contact_me');
     }
@@ -150,7 +150,7 @@ class ilUserPrivacySettingsGUI
     /**
      * Init  form.
      */
-    public function initPrivacySettingsForm() : \ILIAS\UI\Component\Input\Container\Form\Standard
+    public function initPrivacySettingsForm(): \ILIAS\UI\Component\Input\Container\Form\Standard
     {
         $sections = [];
 
@@ -165,12 +165,12 @@ class ilUserPrivacySettingsGUI
             ->container()
             ->form()
             ->standard($form_action, $sections)
-            ->withAdditionalTransformation($this->refinery->custom()->transformation(static function (array $values) : array {
+            ->withAdditionalTransformation($this->refinery->custom()->transformation(static function (array $values): array {
                 return array_merge(...array_values($values));
             }));
     }
 
-    private function shouldShowOnScreenChatOptions() : bool
+    private function shouldShowOnScreenChatOptions(): bool
     {
         return (
             $this->chatSettings->get('enable_osc', '0') &&
@@ -178,31 +178,31 @@ class ilUserPrivacySettingsGUI
         );
     }
 
-    private function shouldShowChatTypingBroadcastOption() : bool
+    private function shouldShowChatTypingBroadcastOption(): bool
     {
         return (
             !$this->settings->get('usr_settings_hide_chat_broadcast_typing', '0')
         );
     }
 
-    public function shouldDisplayChatSection() : bool
+    public function shouldDisplayChatSection(): bool
     {
         return (bool) $this->chatSettings->get('chat_enabled', '0');
     }
 
-    private function shouldShowNotificationOptions() : bool
+    private function shouldShowNotificationOptions(): bool
     {
         return (bool) $this->notificationSettings->get('play_sound', '0');
     }
 
-    public function shouldDisplayNotificationSection() : bool
+    public function shouldDisplayNotificationSection(): bool
     {
         return (bool) $this->notificationSettings->get('enable_osd', '0');
     }
 
     protected function populateWithAwarenessSettingsSection(
         array &$formSections
-    ) : void {
+    ): void {
         if (!$this->isAwarnessSettingVisible()) {
             return;
         }
@@ -242,7 +242,7 @@ class ilUserPrivacySettingsGUI
 
     protected function populateWithContactsSettingsSection(
         array &$formSections
-    ) : void {
+    ): void {
         if (!$this->isContactSettingVisible()) {
             return;
         }
@@ -268,7 +268,7 @@ class ilUserPrivacySettingsGUI
     /**
      * @param Section[] $formSections
      */
-    protected function populateWithNotificationSettingsSection(array &$formSections) : void
+    protected function populateWithNotificationSettingsSection(array &$formSections): void
     {
         if (!$this->shouldDisplayNotificationSection()) {
             return;
@@ -293,7 +293,7 @@ class ilUserPrivacySettingsGUI
 
     protected function populateWithChatSettingsSection(
         array &$formSections
-    ) : void {
+    ): void {
         if (!$this->shouldDisplayChatSection()) {
             return;
         }
@@ -376,7 +376,7 @@ class ilUserPrivacySettingsGUI
         }
     }
 
-    public function savePrivacySettings() : void
+    public function savePrivacySettings(): void
     {
         $request = $this->request;
         $form = $this->initPrivacySettingsForm();
@@ -489,7 +489,7 @@ class ilUserPrivacySettingsGUI
 
     protected function appendChatJsToTemplate(
         ilGlobalTemplateInterface $pageTemplate
-    ) : ilTemplate {
+    ): ilTemplate {
         $tpl = new ilTemplate('tpl.personal_chat_settings_form.html', true, true, 'Modules/Chatroom');
         if ($this->shouldShowOnScreenChatOptions() && $this->chatSettings->get('enable_browser_notifications', '0')) {
             $pageTemplate->addJavaScript('./Services/Notifications/js/browser_notifications.js');

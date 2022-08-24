@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -35,7 +37,7 @@ class ilMathJaxServer
      * @return string
      * @throws ilMathJaxException
      */
-    public function call(array $options) : string
+    public function call(array $options): string
     {
         $curl = curl_init($this->config->getServerAddress());
         curl_setopt($curl, CURLOPT_HEADER, false);

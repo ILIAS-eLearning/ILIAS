@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\UI\Component;
 
 /**
@@ -32,10 +34,10 @@ interface Signal
     /**
      * Get the ID of this signal
      */
-    public function getId() : string;
+    public function getId(): string;
 
     /**
      * Get the options of this signal
      */
-    public function getOptions() : array;
+    public function getOptions(): array;
 }

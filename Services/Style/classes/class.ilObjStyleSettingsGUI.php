@@ -40,7 +40,7 @@ class ilObjStyleSettingsGUI extends ilObjectGUI
     /**
      * Execute command
      */
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         $next_class = $this->ctrl->getNextClass($this);
         $cmd = $this->ctrl->getCmd();
@@ -108,7 +108,7 @@ class ilObjStyleSettingsGUI extends ilObjectGUI
         }*/
 
 
-    public function getAdminTabs() : void
+    public function getAdminTabs(): void
     {
         $this->getTabs();
     }
@@ -118,7 +118,7 @@ class ilObjStyleSettingsGUI extends ilObjectGUI
     * @access	public
     * @param	object	tabs gui object
     */
-    public function getTabs() : void
+    public function getTabs(): void
     {
         if ($this->rbac_system->checkAccess("visible,read", $this->object->getRefId())) {
             $this->tabs_gui->addTab(

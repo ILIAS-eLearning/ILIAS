@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\UI\Component\Listing\Workflow;
 
 use ILIAS\UI\Component\Signal;
@@ -50,7 +52,7 @@ interface Factory
      * @param null|string|\ILIAS\UI\Component\Signal 	$action
      * @return  \ILIAS\UI\Component\Listing\Workflow\Step
      */
-    public function step(string $label, string $description = '', $action = null) : Step;
+    public function step(string $label, string $description = '', $action = null): Step;
 
     /**
      * ---
@@ -82,5 +84,5 @@ interface Factory
      * @param Step[] 	$steps
      * @return  \ILIAS\UI\Component\Listing\Workflow\Linear
      */
-    public function linear(string $title, array $steps) : Linear;
+    public function linear(string $title, array $steps): Linear;
 }

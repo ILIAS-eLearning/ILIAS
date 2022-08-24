@@ -33,7 +33,7 @@ class JWK
      *
      * @uses parseKey
      */
-    public static function parseKeySet(array $jwks) : array
+    public static function parseKeySet(array $jwks): array
     {
         $keys = [];
 
@@ -127,7 +127,7 @@ class JWK
     private static function createPemFromModulusAndExponent(
         string $n,
         string $e
-    ) : string {
+    ): string {
         $mod = JWT::urlsafeB64Decode($n);
         $exp = JWT::urlsafeB64Decode($e);
 
@@ -170,7 +170,7 @@ class JWK
      * @param int $length
      * @return string
      */
-    private static function encodeLength(int $length) : string
+    private static function encodeLength(int $length): string
     {
         if ($length <= 0x7F) {
             return \chr($length);

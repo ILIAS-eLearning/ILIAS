@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -25,7 +27,7 @@ class ilSCORMTrackingItems
     /**
      * @return array<string, array<string, mixed>>
      */
-    public static function exportSelectedRawColumns() : array
+    public static function exportSelectedRawColumns(): array
     {
         global $DIC;
         $lng = $DIC->language();
@@ -51,7 +53,7 @@ class ilSCORMTrackingItems
     /**
      * @return array<string, string>
      */
-    public static function userDataHeaderForExport() : array
+    public static function userDataHeaderForExport(): array
     {
         $privacy = ilPrivacySettings::getInstance();
         $allowExportPrivacy = $privacy->enabledExportSCORM();
@@ -68,7 +70,7 @@ class ilSCORMTrackingItems
     /**
      * @return array<string, array<string, mixed>>
      */
-    public static function exportSelectedCoreColumns(bool $b_orderBySCO, bool $b_allowExportPrivacy) : array
+    public static function exportSelectedCoreColumns(bool $b_orderBySCO, bool $b_allowExportPrivacy): array
     {
         global $DIC;
         $lng = $DIC->language();
@@ -94,7 +96,7 @@ class ilSCORMTrackingItems
     /**
      * @return array<string, array<string, mixed>>
      */
-    public static function exportSelectedInteractionsColumns() : array
+    public static function exportSelectedInteractionsColumns(): array
     {
         global $DIC;
         $lng = $DIC->language();
@@ -119,7 +121,7 @@ class ilSCORMTrackingItems
     /**
      * @return array<string, array<string, mixed>>
      */
-    public static function exportSelectedObjectivesColumns() : array
+    public static function exportSelectedObjectivesColumns(): array
     {
         global $DIC;
         $lng = $DIC->language();
@@ -144,7 +146,7 @@ class ilSCORMTrackingItems
     /**
      * @return array<string, array<string, mixed>>
      */
-    public static function exportSelectedSuccessColumns() : array
+    public static function exportSelectedSuccessColumns(): array
     {
         global $DIC;
         $lng = $DIC->language();
@@ -176,7 +178,7 @@ class ilSCORMTrackingItems
         bool $allowExportPrivacy,
         int $obj_id,
         string $lmTitle
-    ) : array {
+    ): array {
         global $DIC;
         $ilDB = $DIC->database();
         $lng = $DIC->language();
@@ -218,7 +220,7 @@ class ilSCORMTrackingItems
     /**
      * @return array<int|string, mixed>
      */
-    public function scoTitlesForExportSelected(int $obj_id) : array
+    public function scoTitlesForExportSelected(int $obj_id): array
     {
         global $DIC;
         $ilDB = $DIC->database();
@@ -241,7 +243,7 @@ class ilSCORMTrackingItems
     /**
      * @return mixed[]
      */
-    public function markedLearningStatusForExportSelected(array $a_scos, int $obj_id) : array
+    public function markedLearningStatusForExportSelected(array $a_scos, int $obj_id): array
     {
         global $DIC;
         $lng = $DIC->language();
@@ -258,7 +260,7 @@ class ilSCORMTrackingItems
         return $a_scos;
     }
 
-    public static function userDataArrayForExport(int $user, bool $b_allowExportPrivacy = false) : array
+    public static function userDataArrayForExport(int $user, bool $b_allowExportPrivacy = false): array
     {
         $userArray = array();
         if ($b_allowExportPrivacy == false) {
@@ -291,7 +293,7 @@ class ilSCORMTrackingItems
         bool $allowExportPrivacy,
         int $obj_id,
         string $lmTitle
-    ) : array {
+    ): array {
         global $DIC;
         $ilDB = $DIC->database();
         $lng = $DIC->language();
@@ -379,7 +381,7 @@ class ilSCORMTrackingItems
     /**
      * @return mixed[]
      */
-    public function getScormTrackingValue(int $obj_id, array $a_user, array $a_sco, array $a_empty, string $lvalue) : array
+    public function getScormTrackingValue(int $obj_id, array $a_user, array $a_sco, array $a_empty, string $lvalue): array
     {
         global $DIC;
         $ilDB = $DIC->database();
@@ -413,7 +415,7 @@ class ilSCORMTrackingItems
         bool $allowExportPrivacy,
         int $obj_id,
         string $lmTitle
-    ) : array {
+    ): array {
         global $DIC;
         $ilDB = $DIC->database();
 
@@ -606,7 +608,7 @@ class ilSCORMTrackingItems
         string $lvalue,
         int $counter,
         string $topic
-    ) : array {
+    ): array {
         global $DIC;
         $ilDB = $DIC->database();
         $a_return = array();
@@ -639,7 +641,7 @@ class ilSCORMTrackingItems
         bool $allowExportPrivacy,
         int $obj_id,
         string $lmTitle
-    ) : array {
+    ): array {
         global $DIC;
         $ilDB = $DIC->database();
 
@@ -791,7 +793,7 @@ class ilSCORMTrackingItems
     /**
      * @return array<int, array>
      */
-    public function exportSelectedSuccess(array $a_user, bool $allowExportPrivacy, int $obj_id, string $lmTitle) : array
+    public function exportSelectedSuccess(array $a_user, bool $allowExportPrivacy, int $obj_id, string $lmTitle): array
     {
         global $DIC;
         $ilDB = $DIC->database();
@@ -895,7 +897,7 @@ class ilSCORMTrackingItems
         array $u_passedSCO,
         int $obj_id,
         string $lmTitle
-    ) : array {
+    ): array {
         $returnData = array();
         foreach ($dbdata as $data) {
             $dat = array();

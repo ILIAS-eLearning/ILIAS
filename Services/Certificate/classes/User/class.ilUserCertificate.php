@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -71,7 +73,7 @@ class ilUserCertificate
         $this->id = $id;
     }
 
-    public function withId(int $id) : self
+    public function withId(int $id): self
     {
         $clone = clone $this;
         $clone->id = $id;
@@ -79,7 +81,7 @@ class ilUserCertificate
         return $clone;
     }
 
-    public function withVersion(int $version) : self
+    public function withVersion(int $version): self
     {
         $clone = clone $this;
         $clone->version = $version;
@@ -87,77 +89,77 @@ class ilUserCertificate
         return $clone;
     }
 
-    public function getPatternCertificateId() : int
+    public function getPatternCertificateId(): int
     {
         return $this->patternCertificateId;
     }
 
-    public function getObjId() : int
+    public function getObjId(): int
     {
         return $this->objId;
     }
 
-    public function getObjType() : string
+    public function getObjType(): string
     {
         return $this->objType;
     }
 
-    public function getUserId() : int
+    public function getUserId(): int
     {
         return $this->userId;
     }
 
-    public function getUserName() : string
+    public function getUserName(): string
     {
         return $this->userName;
     }
 
-    public function getAcquiredTimestamp() : int
+    public function getAcquiredTimestamp(): int
     {
         return $this->acquiredTimestamp;
     }
 
-    public function getCertificateContent() : string
+    public function getCertificateContent(): string
     {
         return $this->certificateContent;
     }
 
-    public function getTemplateValues() : string
+    public function getTemplateValues(): string
     {
         return $this->templateValues;
     }
 
-    public function getValidUntil() : int
+    public function getValidUntil(): int
     {
         return $this->validUntil;
     }
 
-    public function getVersion() : int
+    public function getVersion(): int
     {
         return $this->version;
     }
 
-    public function getIliasVersion() : string
+    public function getIliasVersion(): string
     {
         return $this->iliasVersion;
     }
 
-    public function isCurrentlyActive() : bool
+    public function isCurrentlyActive(): bool
     {
         return $this->currentlyActive;
     }
 
-    public function getId() : ?int
+    public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getBackgroundImagePath() : ?string
+    public function getBackgroundImagePath(): ?string
     {
         return $this->backgroundImagePath;
     }
 
-    public function getThumbnailImagePath() : string
+    public function getThumbnailImagePath(): string
     {
         return $this->thumbnailImagePath;
     }

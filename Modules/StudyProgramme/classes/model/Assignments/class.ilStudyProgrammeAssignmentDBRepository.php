@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -44,7 +46,7 @@ class ilStudyProgrammeAssignmentDBRepository implements ilStudyProgrammeAssignme
      *
      * @throws ilException
      */
-    public function createFor(int $prg_id, int $usr_id, int $assigning_usr_id) : ilStudyProgrammeAssignment
+    public function createFor(int $prg_id, int $usr_id, int $assigning_usr_id): ilStudyProgrammeAssignment
     {
         if (ilObject::_lookupType($usr_id) !== "usr") {
             throw new ilException("ilStudyProgrammeAssignment::createFor: '$usr_id' "
@@ -72,7 +74,7 @@ class ilStudyProgrammeAssignmentDBRepository implements ilStudyProgrammeAssignme
      * @inheritdoc
      * @throws ilException
      */
-    public function get(int $id) : ?ilStudyProgrammeAssignment
+    public function get(int $id): ?ilStudyProgrammeAssignment
     {
         foreach ($this->loadByFilterDB([self::FIELD_ID => $id]) as $row) {
             return $this->assignmentByRow($row);
@@ -84,7 +86,7 @@ class ilStudyProgrammeAssignmentDBRepository implements ilStudyProgrammeAssignme
      * @inheritdoc
      * @throws ilException
      */
-    public function getByUsrId(int $usr_id) : array
+    public function getByUsrId(int $usr_id): array
     {
         $return = [];
         foreach ($this->loadByFilterDB([self::FIELD_USR_ID => $usr_id]) as $row) {
@@ -97,7 +99,7 @@ class ilStudyProgrammeAssignmentDBRepository implements ilStudyProgrammeAssignme
      * @inheritdoc
      * @throws ilException
      */
-    public function getByPrgId(int $prg_id) : array
+    public function getByPrgId(int $prg_id): array
     {
         $return = [];
         foreach ($this->loadByFilterDB([self::FIELD_ROOT_PRG_ID => $prg_id]) as $row) {
@@ -110,7 +112,7 @@ class ilStudyProgrammeAssignmentDBRepository implements ilStudyProgrammeAssignme
      * @throws ilException
      * @return ilStudyProgrammeAssignment[]
      */
-    public function getByUsrIdAndPrgId(int $usr_id, int $prg_id) : array
+    public function getByUsrIdAndPrgId(int $usr_id, int $prg_id): array
     {
         $return = [];
         $rows = $this->loadByFilterDB([self::FIELD_USR_ID => $usr_id, self::FIELD_ROOT_PRG_ID => $prg_id]);
@@ -124,7 +126,7 @@ class ilStudyProgrammeAssignmentDBRepository implements ilStudyProgrammeAssignme
      * @inheritdoc
      * @throws ilException
      */
-    public function getDueToRestart() : array
+    public function getDueToRestart(): array
     {
         $return = [];
         foreach ($this->loadDueToRestart() as $row) {
@@ -136,7 +138,7 @@ class ilStudyProgrammeAssignmentDBRepository implements ilStudyProgrammeAssignme
     /**
      * @return ilStudyProgrammeAssignment[]
      */
-    public function getDueToRestartAndMail() : array
+    public function getDueToRestartAndMail(): array
     {
         $return = [];
         foreach ($this->loadDueToRestartAndMail() as $row) {
@@ -145,7 +147,7 @@ class ilStudyProgrammeAssignmentDBRepository implements ilStudyProgrammeAssignme
         return $return;
     }
 
-    protected function loadDueToRestart() : Generator
+    protected function loadDueToRestart(): Generator
     {
         $q = $this->getDueToRestartBaseSQL();
         $res = $this->db->query($q);
@@ -154,7 +156,7 @@ class ilStudyProgrammeAssignmentDBRepository implements ilStudyProgrammeAssignme
         }
     }
 
-    protected function loadDueToRestartAndMail() : Generator
+    protected function loadDueToRestartAndMail(): Generator
     {
         $q = $this->getDueToRestartBaseSQL();
         $q .= '    AND ' . self::FIELD_RESTART_MAIL . ' IS NULL';
@@ -165,7 +167,7 @@ class ilStudyProgrammeAssignmentDBRepository implements ilStudyProgrammeAssignme
         }
     }
 
-    protected function getSQLHeader() : string
+    protected function getSQLHeader(): string
     {
         return 'SELECT ' . self::FIELD_ID
             . ', ' . self::FIELD_USR_ID
@@ -177,7 +179,7 @@ class ilStudyProgrammeAssignmentDBRepository implements ilStudyProgrammeAssignme
             . ' FROM ' . self::TABLE . PHP_EOL;
     }
 
-    protected function getDueToRestartBaseSQL() : string
+    protected function getDueToRestartBaseSQL(): string
     {
         return $this->getSQLHeader()
             . ' WHERE ' . self::FIELD_RESTARTED_ASSIGNMENT_ID
@@ -199,7 +201,7 @@ class ilStudyProgrammeAssignmentDBRepository implements ilStudyProgrammeAssignme
      * @inheritdoc
      * @throws Exception
      */
-    public function getDueToManuelRestart(int $days_before_end) : array
+    public function getDueToManuelRestart(int $days_before_end): array
     {
         $return = [];
         foreach ($this->loadDueToManuelRestart($days_before_end) as $row) {
@@ -211,7 +213,7 @@ class ilStudyProgrammeAssignmentDBRepository implements ilStudyProgrammeAssignme
     /**
      * @throws Exception
      */
-    protected function loadDueToManuelRestart(int $days_before_end) : Generator
+    protected function loadDueToManuelRestart(int $days_before_end): Generator
     {
         $date = new DateTime();
         $date->sub(new DateInterval('P' . $days_before_end . 'D'));
@@ -238,7 +240,7 @@ class ilStudyProgrammeAssignmentDBRepository implements ilStudyProgrammeAssignme
     /**
      * @inheritdoc
      */
-    public function update(ilStudyProgrammeAssignment $assignment) : void
+    public function update(ilStudyProgrammeAssignment $assignment): void
     {
         $row = [
             self::FIELD_ID => $assignment->getId(),
@@ -255,12 +257,12 @@ class ilStudyProgrammeAssignmentDBRepository implements ilStudyProgrammeAssignme
     /**
      * @inheritdoc
      */
-    public function delete(ilStudyProgrammeAssignment $assignment) : void
+    public function delete(ilStudyProgrammeAssignment $assignment): void
     {
         $this->deleteDB($assignment->getId());
     }
 
-    public function reminderSendFor(int $assignment_id) : void
+    public function reminderSendFor(int $assignment_id): void
     {
         $where = [
             self::FIELD_ID => [
@@ -283,7 +285,7 @@ class ilStudyProgrammeAssignmentDBRepository implements ilStudyProgrammeAssignme
      * @throws ilException
      * @return array<int, ilStudyProgrammeAssignment[]>
      */
-    public function getDashboardInstancesforUser(int $usr_id) : array
+    public function getDashboardInstancesforUser(int $usr_id): array
     {
         global $DIC;
         $db = $DIC['ilDB'];
@@ -323,7 +325,7 @@ class ilStudyProgrammeAssignmentDBRepository implements ilStudyProgrammeAssignme
     /**
      * @throws ilException
      */
-    protected function assignmentByRow(array $row) : ilStudyProgrammeAssignment
+    protected function assignmentByRow(array $row): ilStudyProgrammeAssignment
     {
         return (new ilStudyProgrammeAssignment((int) $row[self::FIELD_ID]))
             ->withRootId((int) $row[self::FIELD_ROOT_PRG_ID])
@@ -346,7 +348,7 @@ class ilStudyProgrammeAssignmentDBRepository implements ilStudyProgrammeAssignme
             );
     }
 
-    protected function loadByFilterDB(array $filter) : Generator
+    protected function loadByFilterDB(array $filter): Generator
     {
         $q = 'SELECT ' . self::FIELD_ID
             . '	,' . self::FIELD_USR_ID
@@ -366,7 +368,7 @@ class ilStudyProgrammeAssignmentDBRepository implements ilStudyProgrammeAssignme
         }
     }
 
-    protected function insertRowDB(array $row) : void
+    protected function insertRowDB(array $row): void
     {
         $this->db->insert(
             self::TABLE,
@@ -382,7 +384,7 @@ class ilStudyProgrammeAssignmentDBRepository implements ilStudyProgrammeAssignme
         );
     }
 
-    protected function updatedRowDB(array $values) : void
+    protected function updatedRowDB(array $values): void
     {
         $q = 'UPDATE ' . self::TABLE
             . '	SET'
@@ -396,20 +398,20 @@ class ilStudyProgrammeAssignmentDBRepository implements ilStudyProgrammeAssignme
         $this->db->manipulate($q);
     }
 
-    protected function deleteDB(int $id) : void
+    protected function deleteDB(int $id): void
     {
         $this->db->manipulate(
             'DELETE FROM ' . self::TABLE . ' WHERE ' . self::FIELD_ID . ' = ' . $this->db->quote($id, 'integer')
         );
     }
 
-    protected function nextId() : int
+    protected function nextId(): int
     {
         return $this->db->nextId(self::TABLE);
     }
 
 
-    public function deleteAllAssignmentsForProgrammeId(int $prg_obj_id) : void
+    public function deleteAllAssignmentsForProgrammeId(int $prg_obj_id): void
     {
         $query = 'DELETE FROM ' . self::TABLE . PHP_EOL
             . 'WHERE ' . self::FIELD_ROOT_PRG_ID . '=' . $this->db->quote($prg_obj_id, 'integer');
@@ -417,7 +419,7 @@ class ilStudyProgrammeAssignmentDBRepository implements ilStudyProgrammeAssignme
     }
 
     /** @return string[] */
-    public function getTableAndFieldOfAssignmentIds() : array
+    public function getTableAndFieldOfAssignmentIds(): array
     {
         return  [self::TABLE, self::FIELD_ID];
     }
@@ -429,18 +431,18 @@ class ilStudyProgrammeAssignmentDBRepository implements ilStudyProgrammeAssignme
       * ------------------------------------------------------------------------
       */
 
-    public function getInstanceById(int $id) : ?ilStudyProgrammeAssignment
+    public function getInstanceById(int $id): ?ilStudyProgrammeAssignment
     {
         return $this->get($id);
     }
 
-    public function getInstanceByModel(ilStudyProgrammeAssignment $assignment) : ilStudyProgrammeAssignment
+    public function getInstanceByModel(ilStudyProgrammeAssignment $assignment): ilStudyProgrammeAssignment
     {
         return $assignment;
     }
 
     /** @return ilStudyProgrammeAssignment[] */
-    public function getInstancesOfUser(int $user_id) : array
+    public function getInstancesOfUser(int $user_id): array
     {
         $assignments = $this->getByUsrId($user_id);
 

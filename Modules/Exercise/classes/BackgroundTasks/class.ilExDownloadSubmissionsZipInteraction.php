@@ -15,7 +15,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 use ILIAS\BackgroundTasks\Implementation\Tasks\AbstractUserInteraction;
 use ILIAS\BackgroundTasks\Types\SingleType;
 use ILIAS\BackgroundTasks\Implementation\Values\ScalarValues\StringValue;
@@ -45,7 +45,7 @@ class ilExDownloadSubmissionsZipInteraction extends AbstractUserInteraction
     /**
      * @return \ILIAS\BackgroundTasks\Types\SingleType[]
      */
-    public function getInputTypes() : array
+    public function getInputTypes(): array
     {
         return [
             new SingleType(StringValue::class),
@@ -53,12 +53,12 @@ class ilExDownloadSubmissionsZipInteraction extends AbstractUserInteraction
         ];
     }
 
-    public function getRemoveOption() : Option
+    public function getRemoveOption(): Option
     {
         return new UserInteractionOption('remove', self::OPTION_CANCEL);
     }
 
-    public function getOutputType() : Type
+    public function getOutputType(): Type
     {
         return new SingleType(StringValue::class);
     }
@@ -66,7 +66,7 @@ class ilExDownloadSubmissionsZipInteraction extends AbstractUserInteraction
     /**
      * @return \ILIAS\BackgroundTasks\Implementation\Tasks\UserInteraction\UserInteractionOption[]
      */
-    public function getOptions(array $input) : array
+    public function getOptions(array $input): array
     {
         return [
             new UserInteractionOption('download', self::OPTION_DOWNLOAD),
@@ -77,7 +77,7 @@ class ilExDownloadSubmissionsZipInteraction extends AbstractUserInteraction
         array $input,
         Option $user_selected_option,
         Bucket $bucket
-    ) : Value {
+    ): Value {
         global $DIC;
         $download_name = $input[0]; //directory name.
         $zip_name = $input[1]; // zip job
@@ -116,7 +116,7 @@ class ilExDownloadSubmissionsZipInteraction extends AbstractUserInteraction
         //Download_name->getValue should return the complete path to the file
         //Zip name is just an string
         ilFileDelivery::deliverFileAttached($download_name->getValue(), $zip_name);
-    
+
         $out = new StringValue();
         $out->setValue($input);
         return $out;

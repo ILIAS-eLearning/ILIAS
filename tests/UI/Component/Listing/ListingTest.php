@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 require_once(__DIR__ . "/../../../../libs/composer/vendor/autoload.php");
 require_once(__DIR__ . "/../../Base.php");
 
@@ -27,12 +29,12 @@ use ILIAS\UI\Implementation\Component\Listing\Factory;
  */
 class ListingTest extends ILIAS_UI_TestBase
 {
-    public function getListingFactory() : C\Listing\Factory
+    public function getListingFactory(): C\Listing\Factory
     {
         return new Factory();
     }
 
-    public function test_implements_factory_interface() : void
+    public function test_implements_factory_interface(): void
     {
         $f = $this->getListingFactory();
 
@@ -56,7 +58,7 @@ class ListingTest extends ILIAS_UI_TestBase
         );
     }
 
-    public function test_ordered_get_items() : void
+    public function test_ordered_get_items(): void
     {
         $f = $this->getListingFactory();
         $l = $f->ordered(array("1","2"));
@@ -65,7 +67,7 @@ class ListingTest extends ILIAS_UI_TestBase
         $this->assertEquals($l->getItems(), $items);
     }
 
-    public function test_unordered_get_items() : void
+    public function test_unordered_get_items(): void
     {
         $f = $this->getListingFactory();
         $l = $f->unordered(array("1","2"));
@@ -74,7 +76,7 @@ class ListingTest extends ILIAS_UI_TestBase
         $this->assertEquals($l->getItems(), $items);
     }
 
-    public function test_descriptive_get_items() : void
+    public function test_descriptive_get_items(): void
     {
         $f = $this->getListingFactory();
         $l = $f->descriptive(array("k1" => "c1","k2" => "c2"));
@@ -83,7 +85,7 @@ class ListingTest extends ILIAS_UI_TestBase
         $this->assertEquals($l->getItems(), $items);
     }
 
-    public function test_ordered_with_items() : void
+    public function test_ordered_with_items(): void
     {
         $f = $this->getListingFactory();
         $l = $f->ordered(array())->withItems(array("1","2"));
@@ -92,7 +94,7 @@ class ListingTest extends ILIAS_UI_TestBase
         $this->assertEquals($l->getItems(), $items);
     }
 
-    public function test_unordered_with_items() : void
+    public function test_unordered_with_items(): void
     {
         $f = $this->getListingFactory();
         $l = $f->unordered(array())->withItems(array("1","2"));
@@ -101,7 +103,7 @@ class ListingTest extends ILIAS_UI_TestBase
         $this->assertEquals($l->getItems(), $items);
     }
 
-    public function test_descriptive_with_items() : void
+    public function test_descriptive_with_items(): void
     {
         $f = $this->getListingFactory();
         $l = $f->descriptive(array())->withItems(array("k1" => "c1","k2" => "c2"));
@@ -110,7 +112,7 @@ class ListingTest extends ILIAS_UI_TestBase
         $this->assertEquals($l->getItems(), $items);
     }
 
-    public function test_render_ordered_listing() : void
+    public function test_render_ordered_listing(): void
     {
         $f = $this->getListingFactory();
         $r = $this->getDefaultRenderer();
@@ -126,7 +128,7 @@ class ListingTest extends ILIAS_UI_TestBase
         $this->assertEquals($expected, $html);
     }
 
-    public function test_descriptive_invalid_items2() : void
+    public function test_descriptive_invalid_items2(): void
     {
         $f = $this->getListingFactory();
 
@@ -137,7 +139,7 @@ class ListingTest extends ILIAS_UI_TestBase
         }
     }
 
-    public function test_descriptive_invalid_items3() : void
+    public function test_descriptive_invalid_items3(): void
     {
         $f = $this->getListingFactory();
 
@@ -148,7 +150,7 @@ class ListingTest extends ILIAS_UI_TestBase
         }
     }
 
-    public function test_render_unordered_listing() : void
+    public function test_render_unordered_listing(): void
     {
         $f = $this->getListingFactory();
         $r = $this->getDefaultRenderer();
@@ -164,7 +166,7 @@ class ListingTest extends ILIAS_UI_TestBase
         $this->assertEquals($expected, $html);
     }
 
-    public function test_render_descriptive_listing() : void
+    public function test_render_descriptive_listing(): void
     {
         $f = $this->getListingFactory();
         $r = $this->getDefaultRenderer();

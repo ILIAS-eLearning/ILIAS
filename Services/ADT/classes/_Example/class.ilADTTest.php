@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This is a ADT-based example object
@@ -15,7 +17,7 @@ class ilADTTest extends ilADTBasedObject
 
     // properties
 
-    protected function initProperties() : ilADT
+    protected function initProperties(): ilADT
     {
         // this could be generated from XML or code comments or whatever
 
@@ -86,23 +88,23 @@ class ilADTTest extends ilADTBasedObject
 
     // simple sequence example
 
-    protected function initDBBridge(ilADTDBBridge $a_adt_db) : void
+    protected function initDBBridge(ilADTDBBridge $a_adt_db): void
     {
         $a_adt_db->setTable("adt_test");
         $a_adt_db->setPrimary(array("id" => array("integer", $this->id)));
     }
 
-    protected function parsePrimary(array $a_args) : void
+    protected function parsePrimary(array $a_args): void
     {
         $this->id = (int) $a_args[0];
     }
 
-    protected function hasPrimary() : bool
+    protected function hasPrimary(): bool
     {
         return (bool) $this->id;
     }
 
-    protected function createPrimaryKeyb() : bool
+    protected function createPrimaryKeyb(): bool
     {
         $this->id = $this->db->nextId("adt_test");
 

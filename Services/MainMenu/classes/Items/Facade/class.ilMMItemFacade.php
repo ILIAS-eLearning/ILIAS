@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 use ILIAS\GlobalScreen\Scope\MainMenu\Collector\MainMenuMainCollector as Main;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\Item\Lost;
@@ -24,7 +26,6 @@ use ILIAS\GlobalScreen\Identification\IdentificationInterface;
  */
 class ilMMItemFacade extends ilMMAbstractItemFacade implements ilMMItemFacadeInterface
 {
-
     /**
      * @inheritDoc
      */
@@ -43,7 +44,7 @@ class ilMMItemFacade extends ilMMAbstractItemFacade implements ilMMItemFacadeInt
     /**
      * @return bool
      */
-    public function isCustom() : bool
+    public function isCustom(): bool
     {
         return false;
     }
@@ -52,7 +53,7 @@ class ilMMItemFacade extends ilMMAbstractItemFacade implements ilMMItemFacadeInt
     /**
      * @inheritDoc
      */
-    public function isEditable() : bool
+    public function isEditable(): bool
     {
         return (!$this->raw_item instanceof Lost);
     }
@@ -61,7 +62,7 @@ class ilMMItemFacade extends ilMMAbstractItemFacade implements ilMMItemFacadeInt
     /**
      * @inheritDoc
      */
-    public function isDeletable() : bool
+    public function isDeletable(): bool
     {
         return ($this->raw_item instanceof Lost);
     }
@@ -75,7 +76,7 @@ class ilMMItemFacade extends ilMMAbstractItemFacade implements ilMMItemFacadeInt
     /**
      * @inheritDoc
      */
-    public function setType(string $type) : void
+    public function setType(string $type): void
     {
         $this->type = $type;
     }
@@ -84,7 +85,7 @@ class ilMMItemFacade extends ilMMAbstractItemFacade implements ilMMItemFacadeInt
     /**
      * @inheritDoc
      */
-    public function setAction(string $action) : void
+    public function setAction(string $action): void
     {
         // Setting action not possible for non custom items
     }

@@ -48,14 +48,14 @@ abstract class ilPageComponentPluginImporter extends ilXmlImporter
     public static function setPCProperties(
         string $a_id,
         array $a_properties
-    ) : void {
+    ): void {
         self::$pc_properties[$a_id] = $a_properties;
     }
 
     /**
      * Get the properties of a plugged page content
      */
-    public static function getPCProperties(string $a_id) : ?array
+    public static function getPCProperties(string $a_id): ?array
     {
         return self::$pc_properties[$a_id] ?? null;
     }
@@ -67,14 +67,14 @@ abstract class ilPageComponentPluginImporter extends ilXmlImporter
     public static function setPCVersion(
         string $a_id,
         string $a_version
-    ) : void {
+    ): void {
         self::$pc_version[$a_id] = $a_version;
     }
 
     /**
      * Get the version of a plugged page content
      */
-    public static function getPCVersion(string $a_id) : ?string
+    public static function getPCVersion(string $a_id): ?string
     {
         return self::$pc_version[$a_id] ?? null;
     }
@@ -86,7 +86,7 @@ abstract class ilPageComponentPluginImporter extends ilXmlImporter
      * The mapped ID shold be used both for getPCProperties() and setPCProperties()
      * when being called in their importXmlRepresentation()
      */
-    public static function getPCMapping(string $a_id, ilImportMapping $a_mapping) : string
+    public static function getPCMapping(string $a_id, ilImportMapping $a_mapping): string
     {
         $parts = explode(':', $a_id);
         $old_page_id = $parts[0] . ':' . $parts[1];

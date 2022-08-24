@@ -14,7 +14,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 use ILIAS\BackgroundTasks\Implementation\Tasks\AbstractJob;
 use ILIAS\BackgroundTasks\Implementation\Values\ScalarValues\StringValue;
 use ILIAS\BackgroundTasks\Types\SingleType;
@@ -45,7 +45,7 @@ class ilZipJob extends AbstractJob
     /**
      * @inheritDoc
      */
-    public function getInputTypes() : array
+    public function getInputTypes(): array
     {
         return
             [
@@ -57,7 +57,7 @@ class ilZipJob extends AbstractJob
     /**
      * @inheritDoc
      */
-    public function getOutputType() : Type
+    public function getOutputType(): Type
     {
         return new SingleType(StringValue::class);
     }
@@ -66,7 +66,7 @@ class ilZipJob extends AbstractJob
     /**
      * @inheritDoc
      */
-    public function isStateless() : bool
+    public function isStateless(): bool
     {
         return true;
     }
@@ -76,7 +76,7 @@ class ilZipJob extends AbstractJob
      * @inheritDoc
      * @todo use filsystem service
      */
-    public function run(array $input, \ILIAS\BackgroundTasks\Observer $observer) : Value
+    public function run(array $input, \ILIAS\BackgroundTasks\Observer $observer): Value
     {
         $this->logger->debug('Start zipping input dir!');
         $this->logger->dump($input);
@@ -98,7 +98,7 @@ class ilZipJob extends AbstractJob
     /**
      * @inheritdoc
      */
-    public function getExpectedTimeOfTaskInSeconds() : int
+    public function getExpectedTimeOfTaskInSeconds(): int
     {
         return 30;
     }

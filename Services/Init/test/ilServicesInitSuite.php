@@ -7,7 +7,7 @@ use PHPUnit\Framework\TestSuite;
  */
 class ilServicesInitSuite extends TestSuite
 {
-    public static function suite() : self
+    public static function suite(): self
     {
         $suite = new ilServicesInitSuite();
 

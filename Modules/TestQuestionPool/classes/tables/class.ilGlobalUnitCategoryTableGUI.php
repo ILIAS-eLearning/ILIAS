@@ -1,4 +1,5 @@
 <?php
+
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 require_once 'Modules/TestQuestionPool/classes/tables/class.ilUnitCategoryTableGUI.php';
@@ -8,7 +9,7 @@ require_once 'Modules/TestQuestionPool/classes/tables/class.ilUnitCategoryTableG
  */
 class ilGlobalUnitCategoryTableGUI extends ilUnitCategoryTableGUI
 {
-    protected function populateTitle() : void
+    protected function populateTitle(): void
     {
         $this->setTitle($this->lng->txt('un_global_units') . ': ' . $this->lng->txt('categories'));
     }

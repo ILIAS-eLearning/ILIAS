@@ -1,4 +1,6 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types=1);
 
 
 /**
@@ -16,12 +18,12 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 class ilWebDAVMountInstructionsDocumentPurifier extends ilHtmlPurifierAbstractLibWrapper
 {
     private array $allowedTags;
     protected string $cacheDirectory;
-    
+
     public function __construct(array $allowedTags = null, string $cacheDirectory = null)
     {
         $this->cacheDirectory = $cacheDirectory ?? ilHtmlPurifierAbstractLibWrapper::_getCacheDirectory();
@@ -29,8 +31,8 @@ class ilWebDAVMountInstructionsDocumentPurifier extends ilHtmlPurifierAbstractLi
 
         parent::__construct();
     }
-    
-    protected function getPurifierConfigInstance() : HTMLPurifier_Config
+
+    protected function getPurifierConfigInstance(): HTMLPurifier_Config
     {
         $config = HTMLPurifier_Config::createDefault();
         $config->set('HTML.DefinitionID', 'ilias termsofservice document');

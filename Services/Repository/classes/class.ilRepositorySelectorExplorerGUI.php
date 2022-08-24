@@ -101,17 +101,17 @@ class ilRepositorySelectorExplorerGUI extends ilTreeExplorerGUI
         $this->setChildLimit((int) $ilSetting->get("rep_tree_limit_number"));
     }
 
-    public function setNodeContentModifier(Closure $a_val) : void
+    public function setNodeContentModifier(Closure $a_val): void
     {
         $this->nc_modifier = $a_val;
     }
 
-    public function getNodeContentModifier() : ?Closure
+    public function getNodeContentModifier(): ?Closure
     {
         return $this->nc_modifier;
     }
 
-    public function getNodeContent($a_node) : string
+    public function getNodeContent($a_node): string
     {
         $lng = $this->lng;
 
@@ -128,13 +128,13 @@ class ilRepositorySelectorExplorerGUI extends ilTreeExplorerGUI
         return $title;
     }
 
-    public function getNodeIcon($a_node) : string
+    public function getNodeIcon($a_node): string
     {
         $obj_id = ilObject::_lookupObjId($a_node["child"]);
         return ilObject::_getIcon($obj_id, "tiny", $a_node["type"]);
     }
 
-    public function getNodeIconAlt($a_node) : string
+    public function getNodeIconAlt($a_node): string
     {
         $lng = $this->lng;
 
@@ -150,7 +150,7 @@ class ilRepositorySelectorExplorerGUI extends ilTreeExplorerGUI
         return parent::getNodeIconAlt($a_node);
     }
 
-    public function isNodeHighlighted($a_node) : bool
+    public function isNodeHighlighted($a_node): bool
     {
         if ($this->getHighlightedNode()) {
             if ((int) $this->getHighlightedNode() === (int) $a_node["child"]) {
@@ -166,7 +166,7 @@ class ilRepositorySelectorExplorerGUI extends ilTreeExplorerGUI
         return false;
     }
 
-    public function getNodeHref($a_node) : string
+    public function getNodeHref($a_node): string
     {
         $ilCtrl = $this->ctrl;
 
@@ -181,7 +181,7 @@ class ilRepositorySelectorExplorerGUI extends ilTreeExplorerGUI
         return $link;
     }
 
-    public function isNodeVisible($a_node) : bool
+    public function isNodeVisible($a_node): bool
     {
         $ilAccess = $this->access;
 
@@ -192,7 +192,7 @@ class ilRepositorySelectorExplorerGUI extends ilTreeExplorerGUI
         return true;
     }
 
-    public function sortChilds(array $a_childs, $a_parent_node_id) : array
+    public function sortChilds(array $a_childs, $a_parent_node_id): array
     {
         $objDefinition = $this->obj_definition;
 
@@ -241,7 +241,7 @@ class ilRepositorySelectorExplorerGUI extends ilTreeExplorerGUI
         return $childs;
     }
 
-    public function getChildsOfNode($a_parent_node_id) : array
+    public function getChildsOfNode($a_parent_node_id): array
     {
         $ilAccess = $this->access;
 
@@ -252,7 +252,7 @@ class ilRepositorySelectorExplorerGUI extends ilTreeExplorerGUI
         return parent::getChildsOfNode($a_parent_node_id);
     }
 
-    public function isNodeClickable($a_node) : bool
+    public function isNodeClickable($a_node): bool
     {
         $ilAccess = $this->access;
 
@@ -267,37 +267,37 @@ class ilRepositorySelectorExplorerGUI extends ilTreeExplorerGUI
         return true;
     }
 
-    public function setHighlightedNode(string $a_value) : void
+    public function setHighlightedNode(string $a_value): void
     {
         $this->highlighted_node = $a_value;
     }
 
-    public function getHighlightedNode() : string
+    public function getHighlightedNode(): string
     {
         return $this->highlighted_node;
     }
 
-    public function setClickableTypes(array $a_types) : void
+    public function setClickableTypes(array $a_types): void
     {
         $this->clickable_types = $a_types;
     }
 
-    public function getClickableTypes() : array
+    public function getClickableTypes(): array
     {
         return $this->clickable_types;
     }
 
-    public function setSelectableTypes(array $a_types) : void
+    public function setSelectableTypes(array $a_types): void
     {
         $this->selectable_types = $a_types;
     }
 
-    public function getSelectableTypes() : array
+    public function getSelectableTypes(): array
     {
         return $this->selectable_types;
     }
 
-    protected function isNodeSelectable($a_node) : bool
+    protected function isNodeSelectable($a_node): bool
     {
         if (count($this->getSelectableTypes())) {
             return in_array($a_node['type'], $this->getSelectableTypes(), true);

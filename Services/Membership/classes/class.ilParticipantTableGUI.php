@@ -1,7 +1,9 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 
-    
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,7 +19,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /*
  * Abstract base class for course, group participants table guis
  * @author Stefan Meyer <smeyer.ilias@gmx.de
@@ -40,7 +42,7 @@ abstract class ilParticipantTableGUI extends ilTable2GUI
     /**
      * Init table filter
      */
-    public function initFilter() : void
+    public function initFilter(): void
     {
         $this->setDefaultFilterVisiblity(true);
 
@@ -89,7 +91,7 @@ abstract class ilParticipantTableGUI extends ilTable2GUI
         }
     }
 
-    public function getSelectableColumns() : array
+    public function getSelectableColumns(): array
     {
         global $DIC;
 
@@ -125,17 +127,17 @@ abstract class ilParticipantTableGUI extends ilTable2GUI
         return self::$all_columns;
     }
 
-    protected function getRepositoryObject() : ilObject
+    protected function getRepositoryObject(): ilObject
     {
         return $this->rep_object;
     }
 
-    protected function getParticipants() : ?\ilParticipants
+    protected function getParticipants(): ?\ilParticipants
     {
         return $this->participants;
     }
 
-    public function checkAcceptance(int $a_usr_id) : bool
+    public function checkAcceptance(int $a_usr_id): bool
     {
         if (!self::$confirmation_required) {
             return true;
@@ -146,7 +148,7 @@ abstract class ilParticipantTableGUI extends ilTable2GUI
         return in_array($a_usr_id, self::$accepted_ids);
     }
 
-    protected function initSettings() : void
+    protected function initSettings(): void
     {
         if (self::$accepted_ids !== null) {
             return;
@@ -162,7 +164,7 @@ abstract class ilParticipantTableGUI extends ilTable2GUI
         self::$has_odf_definitions = (bool) ilCourseDefinedFieldDefinition::_hasFields($this->getRepositoryObject()->getId());
     }
 
-    protected function showActionLinks($a_set) : void
+    protected function showActionLinks($a_set): void
     {
         $loc_enabled = (
             $this->getRepositoryObject()->getType() === 'crs' and

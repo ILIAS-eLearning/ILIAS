@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -45,7 +47,7 @@ interface Constraint extends Transformation
      * @param mixed $value
      * @return bool
      */
-    public function accepts($value) : bool;
+    public function accepts($value): bool;
 
     /**
      * Tells what the problem with the provided value is.
@@ -55,7 +57,7 @@ interface Constraint extends Transformation
      * @param mixed $value
      * @return string|null
      */
-    public function problemWith($value) : ?string;
+    public function problemWith($value): ?string;
 
     /**
      * Restricts a Result.
@@ -67,7 +69,7 @@ interface Constraint extends Transformation
      * @param Result $result
      * @return Result
      */
-    public function applyTo(Result $result) : Result;
+    public function applyTo(Result $result): Result;
 
     /**
      * Get a constraint like this one with a builder for a custom error
@@ -82,5 +84,5 @@ interface Constraint extends Transformation
      * @param callable $builder
      * @return self
      */
-    public function withProblemBuilder(callable $builder) : self;
+    public function withProblemBuilder(callable $builder): self;
 }

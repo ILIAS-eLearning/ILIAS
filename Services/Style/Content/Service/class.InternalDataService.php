@@ -1,4 +1,6 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -38,7 +40,7 @@ class InternalDataService
         int $style_id = 0,
         int $order_nr = 0,
         bool $outdated = false
-    ) : Characteristic {
+    ): Characteristic {
         $c = new Characteristic(
             $type,
             $characteristic,
@@ -59,7 +61,7 @@ class InternalDataService
         DataSize $size,
         int $width,
         int $height
-    ) : Image {
+    ): Image {
         return new Image(
             $path,
             $size,

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -14,7 +16,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\UI\Component\MainControls\Slate;
 
 use ILIAS\UI\Component\Divider\Horizontal;
@@ -29,5 +31,5 @@ interface Combined extends Slate
     /**
      * @param IBulkyButton|IBulkyLink|Slate|Horizontal $entry
      */
-    public function withAdditionalEntry($entry) : Combined;
+    public function withAdditionalEntry($entry): Combined;
 }

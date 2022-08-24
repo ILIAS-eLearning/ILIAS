@@ -25,7 +25,7 @@ abstract class ilClassificationProvider
     protected int $parent_obj_id;
     protected string $parent_type;
     protected RequestInterface $request;
-    
+
     public function __construct(
         int $a_parent_ref_id,
         int $a_parent_obj_id,
@@ -37,14 +37,14 @@ abstract class ilClassificationProvider
         $this->parent_ref_id = $a_parent_ref_id;
         $this->parent_obj_id = $a_parent_obj_id;
         $this->parent_type = $a_parent_obj_type;
-        
+
         $this->init();
     }
-    
-    protected function init() : void
+
+    protected function init(): void
     {
     }
-        
+
     /**
      * Get all valid providers (for parent container)
      */
@@ -52,20 +52,20 @@ abstract class ilClassificationProvider
         int $a_parent_ref_id,
         int $a_parent_obj_id,
         string $a_parent_obj_type
-    ) : array {
+    ): array {
         $res = array();
-        
+
         if (ilTaxonomyClassificationProvider::isActive($a_parent_ref_id, $a_parent_obj_id, $a_parent_obj_type)) {
             $res[] = new ilTaxonomyClassificationProvider($a_parent_ref_id, $a_parent_obj_id, $a_parent_obj_type);
         }
-        
+
         if (ilTaggingClassificationProvider::isActive($a_parent_ref_id, $a_parent_obj_id, $a_parent_obj_type)) {
             $res[] = new ilTaggingClassificationProvider($a_parent_ref_id, $a_parent_obj_id, $a_parent_obj_type);
         }
-        
+
         return $res;
     }
-    
+
     /**
      * Is provider currently active?
      */
@@ -73,33 +73,33 @@ abstract class ilClassificationProvider
         int $a_parent_ref_id,
         int $a_parent_obj_id,
         string $a_parent_obj_type
-    ) : bool;
+    ): bool;
 
     /**
      * Render HTML chunks
      */
-    abstract public function render(array &$a_html, object $a_parent_gui) : void;
+    abstract public function render(array &$a_html, object $a_parent_gui): void;
 
     /**
      * Import post data
      * @param array|null $a_saved
      */
-    abstract public function importPostData(?array $a_saved = null) : array;
+    abstract public function importPostData(?array $a_saved = null): array;
 
     /**
      * Set selection
      */
-    abstract public function setSelection(array $a_value) : void;
+    abstract public function setSelection(array $a_value): void;
 
     /**
      * Get filtered object ref ids
      */
-    abstract public function getFilteredObjects() : array;
-    
+    abstract public function getFilteredObjects(): array;
+
     /**
      * Init list gui properties
      */
-    public function initListGUI(ilObjectListGUI $a_list_gui) : void
+    public function initListGUI(ilObjectListGUI $a_list_gui): void
     {
     }
 }

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -22,7 +24,7 @@
  */
 class ilTermsOfServiceTrimmedDocumentPurifierTest extends ilTermsOfServiceCriterionBaseTest
 {
-    public function stringsToTrimProvider() : array
+    public function stringsToTrimProvider(): array
     {
         return [
             'Text with or without Spaces' => [' phpunit ', 'phpunit',],
@@ -30,7 +32,7 @@ class ilTermsOfServiceTrimmedDocumentPurifierTest extends ilTermsOfServiceCriter
         ];
     }
 
-    public function stringElementsArrayToTrimProvider() : array
+    public function stringElementsArrayToTrimProvider(): array
     {
         return [
             'Text with or without Spaces' => [[' phpunit '], ['phpunit'],],
@@ -43,7 +45,7 @@ class ilTermsOfServiceTrimmedDocumentPurifierTest extends ilTermsOfServiceCriter
      * @param string $text
      * @param string $expectedResult
      */
-    public function testSingleStringIsTrimmed(string $text, string $expectedResult) : void
+    public function testSingleStringIsTrimmed(string $text, string $expectedResult): void
     {
         $aggregated = $this
             ->getMockBuilder(ilHtmlPurifierInterface::class)
@@ -65,7 +67,7 @@ class ilTermsOfServiceTrimmedDocumentPurifierTest extends ilTermsOfServiceCriter
      * @param string[] $texts
      * @param string[] $expectedResult
      */
-    public function testArrayOfStringElementsIsTrimmed(array $texts, array $expectedResult) : void
+    public function testArrayOfStringElementsIsTrimmed(array $texts, array $expectedResult): void
     {
         $aggregated = $this
             ->getMockBuilder(ilHtmlPurifierInterface::class)

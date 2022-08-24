@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -30,14 +32,14 @@ class ilCmiXapiHighscoreReportLinkBuilder extends ilCmiXapiAbstractReportLinkBui
     /**
      * @return array<int, array<mixed[]>>
      */
-    protected function buildPipeline() : array
+    protected function buildPipeline(): array
     {
         $pipeline = [];
-        
+
         $pipeline[] = $this->buildFilterStage();
         $pipeline[] = $this->buildOrderStage();
 
-        
+
         $obj = $this->getObj();
         $id = null;
         if ($obj->getContentType() == ilObjCmiXapi::CONT_TYPE_GENERIC) {
@@ -57,48 +59,48 @@ class ilCmiXapiHighscoreReportLinkBuilder extends ilCmiXapiAbstractReportLinkBui
         ]];
         return $pipeline;
     }
-    
+
     /**
      * @return mixed[][]
      */
-    protected function buildFilterStage() : array
+    protected function buildFilterStage(): array
     {
         $stage = array();
-        
+
         $stage['statement.object.objectType'] = 'Activity';
         $stage['statement.actor.objectType'] = 'Agent';
 
         $stage['statement.object.id'] = $this->filter->getActivityId();
-        
+
         $stage['statement.result.score.scaled'] = [
             '$exists' => 1
         ];
-        
+
         $obj = $this->getObj();
         if (($obj->getContentType() == ilObjCmiXapi::CONT_TYPE_GENERIC) || $obj->isMixedContentType()) {
             $stage['$or'] = $this->getUsersStack();
         }
-        
+
         return [
             '$match' => $stage
         ];
     }
-    
+
     /**
      * @return array<string, array<string, int>>
      */
-    protected function buildOrderStage() : array
+    protected function buildOrderStage(): array
     {
         return [ '$sort' => [
             'statement.timestamp' => 1
         ]];
     }
-    
+
     // not used in cmi5 see above
     /**
      * @return array<string, string>[]
      */
-    protected function getUsersStack() : array
+    protected function getUsersStack(): array
     {
         $users = [];
         $obj = $this->getObj();
@@ -116,8 +118,8 @@ class ilCmiXapiHighscoreReportLinkBuilder extends ilCmiXapiAbstractReportLinkBui
         }
         return $users;
     }
-    
-    public function getPipelineDebug() : string
+
+    public function getPipelineDebug(): string
     {
         return '<pre>' . json_encode($this->buildPipeline(), JSON_PRETTY_PRINT) . '</pre>';
     }

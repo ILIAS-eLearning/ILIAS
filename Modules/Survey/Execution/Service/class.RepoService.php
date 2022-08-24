@@ -1,4 +1,6 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -37,12 +39,12 @@ class RepoService
         $this->data = $data;
     }
 
-    public function runSession() : RunSessionRepo
+    public function runSession(): RunSessionRepo
     {
         return new RunSessionRepo();
     }
 
-    public function run() : RunDBRepository
+    public function run(): RunDBRepository
     {
         return new RunDBRepository(
             $this->data,

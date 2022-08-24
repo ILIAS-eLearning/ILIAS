@@ -24,7 +24,7 @@
  */
 class ilMessageDefinitionElement extends ilBaseElement
 {
-    public function getMessageDefinitionArray(array $message) : string
+    public function getMessageDefinitionArray(array $message): string
     {
         $message_definition = [];
 

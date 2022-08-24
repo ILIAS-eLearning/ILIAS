@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
 
@@ -30,12 +32,12 @@ class ilTypicalLearningTimeInputGUI extends ilFormPropertyGUI
         $this->setValue(array(0, 0, 0, 0, 0));
     }
 
-    public function setValue(array $a_value) : void
+    public function setValue(array $a_value): void
     {
         $this->value = $a_value;
     }
 
-    public function setValueByLOMDuration(string $a_value) : void
+    public function setValueByLOMDuration(string $a_value): void
     {
         $this->lom_duration = $a_value;
         $this->valid = true;
@@ -52,12 +54,12 @@ class ilTypicalLearningTimeInputGUI extends ilFormPropertyGUI
         }
     }
 
-    public function setShowSeconds(bool $status) : void
+    public function setShowSeconds(bool $status): void
     {
         $this->show_seconds = $status;
     }
 
-    public function getShowSeconds() : bool
+    public function getShowSeconds(): bool
     {
         return $this->show_seconds;
     }
@@ -65,17 +67,17 @@ class ilTypicalLearningTimeInputGUI extends ilFormPropertyGUI
     /**
      * @return int[]
      */
-    public function getValue() : array
+    public function getValue(): array
     {
         return $this->value;
     }
 
-    public function setValueByArray(array $a_values) : void
+    public function setValueByArray(array $a_values): void
     {
         $this->setValue($a_values[$this->getPostVar()]);
     }
 
-    protected function getInputFromPost(string $post_name) : int
+    protected function getInputFromPost(string $post_name): int
     {
         if ($this->http->wrapper()->post()->has($this->getPostVar() . '[' . $post_name . ']')) {
             return $this->http->wrapper()->post()->retrieve(
@@ -86,7 +88,7 @@ class ilTypicalLearningTimeInputGUI extends ilFormPropertyGUI
         return 0;
     }
 
-    public function checkInput() : bool
+    public function checkInput(): bool
     {
         $counter = 0;
         $required_fullfilled = false;
@@ -104,7 +106,7 @@ class ilTypicalLearningTimeInputGUI extends ilFormPropertyGUI
         return true;
     }
 
-    public function __buildMonthsSelect(string $sel_month) : string
+    public function __buildMonthsSelect(string $sel_month): string
     {
         $options = [];
         for ($i = 0; $i <= 24; $i++) {
@@ -113,7 +115,7 @@ class ilTypicalLearningTimeInputGUI extends ilFormPropertyGUI
         return ilLegacyFormElementsUtil::formSelect($sel_month, $this->getPostVar() . '[mo]', $options, false, true);
     }
 
-    public function __buildDaysSelect(string $sel_day) : string
+    public function __buildDaysSelect(string $sel_day): string
     {
         $options = [];
         for ($i = 0; $i <= 31; $i++) {
@@ -122,7 +124,7 @@ class ilTypicalLearningTimeInputGUI extends ilFormPropertyGUI
         return ilLegacyFormElementsUtil::formSelect($sel_day, $this->getPostVar() . '[d]', $options, false, true);
     }
 
-    public function insert(ilTemplate $a_tpl) : void
+    public function insert(ilTemplate $a_tpl): void
     {
         $ttpl = new ilTemplate("tpl.prop_typical_learning_time.html", true, true, "Services/MetaData");
         $val = $this->getValue();

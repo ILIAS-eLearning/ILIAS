@@ -29,7 +29,7 @@ class ilItemGroupBehaviour
     /**
      * Get all behaviours
      */
-    public static function getAll() : array
+    public static function getAll(): array
     {
         global $DIC;
 

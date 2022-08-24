@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -44,7 +46,7 @@ class ilAdvancedMDRecordXMLWriter extends ilXmlWriter
         $this->record_ids = $a_record_ids;
     }
 
-    public function write() : void
+    public function write(): void
     {
         $this->buildHeader();
         $this->xmlStartTag('AdvancedMetaDataRecords');
@@ -59,7 +61,7 @@ class ilAdvancedMDRecordXMLWriter extends ilXmlWriter
      * build header
      * @access protected
      */
-    protected function buildHeader() : void
+    protected function buildHeader(): void
     {
         $this->xmlSetDtdDef("<!DOCTYPE AdvancedMetaDataRecords PUBLIC \"-//ILIAS//DTD AdvancedMetaDataRecords//EN\" \"" .
             ILIAS_HTTP_PATH . "/Services/AdvancedMetaData/xml/ilias_advanced_meta_data_records_3_9.dtd\">");

@@ -48,7 +48,7 @@ abstract class BaseNotificationSetUp extends TestCase
     /**
      * @inheritDoc
      */
-    protected function setUp() : void
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -61,14 +61,14 @@ abstract class BaseNotificationSetUp extends TestCase
         $this->factory = new NotificationFactory();
     }
 
-    public function getUIFactory() : NoUIFactory
+    public function getUIFactory(): NoUIFactory
     {
-        $factory = new class extends NoUIFactory {
-            public function item() : ILIAS\UI\Component\Item\Factory
+        $factory = new class () extends NoUIFactory {
+            public function item(): ILIAS\UI\Component\Item\Factory
             {
                 return new I\Item\Factory();
             }
-            public function symbol() : ILIAS\UI\Component\Symbol\Factory
+            public function symbol(): ILIAS\UI\Component\Symbol\Factory
             {
                 return new I\Symbol\Factory(
                     new I\Symbol\Icon\Factory(),
@@ -76,7 +76,7 @@ abstract class BaseNotificationSetUp extends TestCase
                     new I\Symbol\Avatar\Factory()
                 );
             }
-            public function mainControls() : C\MainControls\Factory
+            public function mainControls(): C\MainControls\Factory
             {
                 return new I\MainControls\Factory(
                     $this->sig_gen,
@@ -98,10 +98,10 @@ abstract class BaseNotificationSetUp extends TestCase
         return $factory;
     }
 
-    public function getDIC() : ILIAS\DI\Container
+    public function getDIC(): ILIAS\DI\Container
     {
-        $dic = new class extends ILIAS\DI\Container {
-            public function globalScreen() : Services
+        $dic = new class () extends ILIAS\DI\Container {
+            public function globalScreen(): Services
             {
                 return new Services(Mockery::mock(ProviderFactory::class));
             }
@@ -109,11 +109,11 @@ abstract class BaseNotificationSetUp extends TestCase
         return $dic;
     }
 
-    public function getDummyNotificationsProviderWithNotifications($notifications) : AbstractNotificationProvider
+    public function getDummyNotificationsProviderWithNotifications($notifications): AbstractNotificationProvider
     {
         $dic = $this->getDIC();
-        $provider = new class($dic) extends AbstractNotificationProvider {
-            public function getNotifications() : array
+        $provider = new class ($dic) extends AbstractNotificationProvider {
+            public function getNotifications(): array
             {
                 return $this->notifications;
             }

@@ -47,7 +47,7 @@ class ilDomDocument
         }
     }
 
-    public function getErrors() : array
+    public function getErrors(): array
     {
         return $this->errors;
     }
@@ -58,7 +58,7 @@ class ilDomDocument
         string $a_file = null,
         int $a_line = null,
         array $a_context = null
-    ) : void {
+    ): void {
         $pos = strpos($a_string, "]:");
         $err = trim(substr($a_string, $pos + 2));
         $this->errors[] = $err;

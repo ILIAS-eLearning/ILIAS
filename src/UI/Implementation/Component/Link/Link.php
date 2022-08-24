@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\UI\Implementation\Component\Link;
 
 use ILIAS\UI\Component as C;
@@ -39,7 +41,7 @@ abstract class Link implements C\Link\Link
     /**
      * @inheritdoc
      */
-    public function getAction() : string
+    public function getAction(): string
     {
         return $this->action;
     }
@@ -47,7 +49,7 @@ abstract class Link implements C\Link\Link
     /**
      * @inheritdoc
      */
-    public function withOpenInNewViewport(bool $open_in_new_viewport) : C\Link\Link
+    public function withOpenInNewViewport(bool $open_in_new_viewport): C\Link\Link
     {
         $clone = clone $this;
         $clone->open_in_new_viewport = $open_in_new_viewport;
@@ -57,7 +59,7 @@ abstract class Link implements C\Link\Link
     /**
      * @inheritdoc
      */
-    public function getOpenInNewViewport() : ?bool
+    public function getOpenInNewViewport(): ?bool
     {
         return $this->open_in_new_viewport;
     }

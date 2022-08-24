@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -91,12 +93,12 @@ class ilObjStudyProgrammeSettingsGUI
         $lng->loadLanguageModule("prg");
     }
 
-    public function setRefId(int $ref_id) : void
+    public function setRefId(int $ref_id): void
     {
         $this->ref_id = $ref_id;
     }
 
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         $next_class = $this->ctrl->getNextClass();
         switch ($next_class) {
@@ -135,7 +137,7 @@ class ilObjStudyProgrammeSettingsGUI
         }
     }
 
-    protected function view() : string
+    protected function view(): string
     {
         $this->buildModalHeading(
             $this->lng->txt('prg_async_settings'),
@@ -190,7 +192,7 @@ class ilObjStudyProgrammeSettingsGUI
         }
     }
 
-    protected function buildModalHeading(string $label, bool $current_node) : void
+    protected function buildModalHeading(string $label, bool $current_node): void
     {
         if (!$current_node) {
             $this->ctrl->saveParameterByClass('ilobjstudyprogrammesettingsgui', 'ref_id');
@@ -219,7 +221,7 @@ class ilObjStudyProgrammeSettingsGUI
     protected function buildForm(
         ilObjStudyProgramme $prg,
         string $submit_action
-    ) : ILIAS\UI\Component\Input\Container\Form\Form {
+    ): ILIAS\UI\Component\Input\Container\Form\Form {
         $trans = $prg->getObjectTranslation();
         $ff = $this->input_factory->field();
         $sp_types = $this->type_repository->getAllTypesArray();
@@ -246,7 +248,7 @@ class ilObjStudyProgrammeSettingsGUI
                         ->withValidityOfQualificationSettings($values['prg_validity_of_qualification'])
                         ->withAutoMailSettings($values['automail_settings'])
                         ->withTypeSettings($values['prg_type']);
-                    
+
                     $prg->updateSettings($settings);
                     $prg->updateCustomIcon();
                     return $prg;
@@ -260,7 +262,7 @@ class ilObjStudyProgrammeSettingsGUI
         ilObjectTranslation $trans,
         array $sp_types,
         ilStudyProgrammeSettings $settings
-    ) : array {
+    ): array {
         $return = [
             $this->getEditSection($ff, $trans),
             "prg_type" => $settings
@@ -290,7 +292,7 @@ class ilObjStudyProgrammeSettingsGUI
     protected function getEditSection(
         InputFieldFactory $ff,
         ilObjectTranslation $trans
-    ) : ILIAS\UI\Component\Input\Field\Section {
+    ): ILIAS\UI\Component\Input\Field\Section {
         $languages = ilMDLanguageItem::_getLanguages();
         return $ff->section(
             [
@@ -309,7 +311,7 @@ class ilObjStudyProgrammeSettingsGUI
         );
     }
 
-    protected function getObject() : ilObjStudyProgramme
+    protected function getObject(): ilObjStudyProgramme
     {
         if ($this->object === null) {
             $this->object = ilObjStudyProgramme::getInstanceByRefId($this->ref_id);
@@ -317,7 +319,7 @@ class ilObjStudyProgrammeSettingsGUI
         return $this->object;
     }
 
-    protected function txt(string $code) : string
+    protected function txt(string $code): string
     {
         return $this->lng->txt($code);
     }

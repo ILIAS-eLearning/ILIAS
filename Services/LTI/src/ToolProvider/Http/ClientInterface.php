@@ -29,7 +29,6 @@ use ILIAS\LTI\ToolProvider\Http\HTTPMessage;
  */
 interface ClientInterface
 {
-
     /**
      * Send the request to the target URL.
      *
@@ -37,5 +36,5 @@ interface ClientInterface
      *
      * @return bool True if the request was successful
      */
-    public function send(HttpMessage $message) : bool;
+    public function send(HttpMessage $message): bool;
 }

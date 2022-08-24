@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -31,7 +33,7 @@ abstract class ilCronJob
     protected ?int $schedule_value = null;
     protected ?Closure $date_time_provider = null;
 
-    private function checkSchedule(?DateTimeImmutable $last_run, ?int $schedule_type, ?int $schedule_value) : bool
+    private function checkSchedule(?DateTimeImmutable $last_run, ?int $schedule_type, ?int $schedule_value): bool
     {
         if (null === $schedule_type) {
             return false;
@@ -91,7 +93,7 @@ abstract class ilCronJob
     /**
      * @param Closure|null $date_time_provider
      */
-    public function setDateTimeProvider(?Closure $date_time_provider) : void
+    public function setDateTimeProvider(?Closure $date_time_provider): void
     {
         if ($date_time_provider !== null) {
             $r = new ReflectionFunction($date_time_provider);
@@ -124,7 +126,7 @@ abstract class ilCronJob
         ?int $schedule_type,
         ?int $schedule_value,
         bool $is_manually_executed = false
-    ) : bool {
+    ): bool {
         if ($is_manually_executed) {
             return true;
         }
@@ -141,7 +143,7 @@ abstract class ilCronJob
      * Get current schedule type (if flexible)
      * @return int|null
      */
-    public function getScheduleType() : ?int
+    public function getScheduleType(): ?int
     {
         if ($this->schedule_type && $this->hasFlexibleSchedule()) {
             return $this->schedule_type;
@@ -154,7 +156,7 @@ abstract class ilCronJob
      * Get current schedule value (if flexible)
      * @return int|null
      */
-    public function getScheduleValue() : ?int
+    public function getScheduleValue(): ?int
     {
         if ($this->schedule_value && $this->hasFlexibleSchedule()) {
             return $this->schedule_value;
@@ -168,7 +170,7 @@ abstract class ilCronJob
      * @param int|null $a_type
      * @param int|null $a_value
      */
-    public function setSchedule(?int $a_type, ?int $a_value) : void
+    public function setSchedule(?int $a_type, ?int $a_value): void
     {
         if (
             $a_value &&
@@ -184,7 +186,7 @@ abstract class ilCronJob
      * Get all available schedule types
      * @return int[]
      */
-    public function getAllScheduleTypes() : array
+    public function getAllScheduleTypes(): array
     {
         return [
             self::SCHEDULE_TYPE_DAILY,
@@ -201,7 +203,7 @@ abstract class ilCronJob
     /**
      * @return int[]
      */
-    public function getScheduleTypesWithValues() : array
+    public function getScheduleTypesWithValues(): array
     {
         return [
             self::SCHEDULE_TYPE_IN_MINUTES,
@@ -214,31 +216,31 @@ abstract class ilCronJob
      * Returns a collection of all valid schedule types for a specific job
      * @return int[]
      */
-    public function getValidScheduleTypes() : array
+    public function getValidScheduleTypes(): array
     {
         return $this->getAllScheduleTypes();
     }
 
-    public function isManuallyExecutable() : bool
+    public function isManuallyExecutable(): bool
     {
         return true;
     }
 
-    public function hasCustomSettings() : bool
+    public function hasCustomSettings(): bool
     {
         return false;
     }
 
-    public function addCustomSettingsToForm(ilPropertyFormGUI $a_form) : void
+    public function addCustomSettingsToForm(ilPropertyFormGUI $a_form): void
     {
     }
 
-    public function saveCustomSettings(ilPropertyFormGUI $a_form) : bool
+    public function saveCustomSettings(ilPropertyFormGUI $a_form): bool
     {
         return true;
     }
 
-    public function addToExternalSettingsForm(int $a_form_id, array &$a_fields, bool $a_is_active) : void
+    public function addToExternalSettingsForm(int $a_form_id, array &$a_fields, bool $a_is_active): void
     {
     }
 
@@ -250,26 +252,26 @@ abstract class ilCronJob
      * @param bool $a_currently_active
      * @return void
      */
-    public function activationWasToggled(ilDBInterface $db, ilSetting $setting, bool $a_currently_active) : void
+    public function activationWasToggled(ilDBInterface $db, ilSetting $setting, bool $a_currently_active): void
     {
     }
 
-    abstract public function getId() : string;
+    abstract public function getId(): string;
 
-    abstract public function getTitle() : string;
+    abstract public function getTitle(): string;
 
-    abstract public function getDescription() : string;
+    abstract public function getDescription(): string;
 
     /**
      * Is to be activated on "installation", does only work for ILIAS core cron jobs
      */
-    abstract public function hasAutoActivation() : bool;
+    abstract public function hasAutoActivation(): bool;
 
-    abstract public function hasFlexibleSchedule() : bool;
+    abstract public function hasFlexibleSchedule(): bool;
 
-    abstract public function getDefaultScheduleType() : int;
+    abstract public function getDefaultScheduleType(): int;
 
-    abstract public function getDefaultScheduleValue() : ?int;
+    abstract public function getDefaultScheduleValue(): ?int;
 
-    abstract public function run() : ilCronJobResult;
+    abstract public function run(): ilCronJobResult;
 }

@@ -37,7 +37,7 @@ class ilWorkflowDbHelper
      *
      * @param ilWorkflow $workflow
      */
-    public static function writeWorkflow(ilWorkflow $workflow) : void
+    public static function writeWorkflow(ilWorkflow $workflow): void
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -105,7 +105,7 @@ class ilWorkflowDbHelper
         }
     }
 
-    public static function persistWorkflowIOData(ilWorkflow $workflow) : void
+    public static function persistWorkflowIOData(ilWorkflow $workflow): void
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -137,18 +137,18 @@ class ilWorkflowDbHelper
      *
      * @param ilWorkflow $a_workflow
      */
-    public static function deleteWorkflow(ilWorkflow $a_workflow) : void
+    public static function deleteWorkflow(ilWorkflow $a_workflow): void
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
-        
+
         if ($a_workflow->hasDbId()) {
             $ilDB->manipulate(
                 'DELETE 
 				FROM wfe_workflows
 				WHERE workflow_id = ' . $ilDB->quote($a_workflow->getDbId(), 'integer')
             );
-            
+
             // This should not be necessary, actually. Still this call makes sure
             // that there won't be orphan records polluting the database.
             $ilDB->manipulate(
@@ -175,7 +175,7 @@ class ilWorkflowDbHelper
      * Takes a detector as an argument and saves it to the database.
      * @param ilDetector $a_detector
      */
-    public static function writeDetector(ilDetector $a_detector) : void
+    public static function writeDetector(ilDetector $a_detector): void
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -229,7 +229,7 @@ class ilWorkflowDbHelper
                 ]
             );
         }
-        
+
         if ($mode === self::DB_MODE_CREATE) {
             $ilDB->insert(
                 'wfe_det_listening',
@@ -254,7 +254,7 @@ class ilWorkflowDbHelper
      * from the database.
      * @param ilExternalDetector $detector
      */
-    public static function deleteDetector(ilExternalDetector $detector) : void
+    public static function deleteDetector(ilExternalDetector $detector): void
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -286,7 +286,7 @@ class ilWorkflowDbHelper
         int $subject_id,
         string $context_type,
         int $context_id
-    ) : array {
+    ): array {
         global $DIC;
         $ilDB = $DIC['ilDB'];
 
@@ -319,7 +319,7 @@ class ilWorkflowDbHelper
      * @param int $id workflow_id.
      * @return ilWorkflow An ilWorkflow-implementing instance.
      */
-    public static function wakeupWorkflow(int $id) : ?ilWorkflow
+    public static function wakeupWorkflow(int $id): ?ilWorkflow
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -343,7 +343,7 @@ class ilWorkflowDbHelper
         return $instance;
     }
 
-    public static function writeStartEventData(array $event, string $process_id) : int
+    public static function writeStartEventData(array $event, string $process_id): int
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -367,7 +367,7 @@ class ilWorkflowDbHelper
         return $event_id;
     }
 
-    public static function writeStaticInput(string $key, string $value, string $start_event) : void
+    public static function writeStaticInput(string $key, string $value, string $start_event): void
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -383,7 +383,7 @@ class ilWorkflowDbHelper
         );
     }
 
-    public static function findApplicableWorkflows(string $component, string $event, ilExtractedParams $params) : array
+    public static function findApplicableWorkflows(string $component, string $event, ilExtractedParams $params): array
     {
         $query = "SELECT event_id, workflow_id FROM wfe_startup_events WHERE
 		type = '" . $component . "' AND content = '" . $event . "' AND subject_type = '" . $params->getSubjectType() . "'
@@ -403,7 +403,7 @@ class ilWorkflowDbHelper
         return $workflows;
     }
 
-    public static function getStaticInputDataForEvent(int $event_id) : array
+    public static function getStaticInputDataForEvent(int $event_id): array
     {
         $query = "SELECT name, value FROM wfe_static_inputs WHERE event_id = '" . $event_id . "'";
 
@@ -421,7 +421,7 @@ class ilWorkflowDbHelper
         return $retval;
     }
 
-    public static function deleteStartEventData(int $event_id) : void
+    public static function deleteStartEventData(int $event_id): void
     {
         global $DIC;
 

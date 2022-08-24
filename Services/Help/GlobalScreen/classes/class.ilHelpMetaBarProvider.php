@@ -26,12 +26,12 @@ class ilHelpMetaBarProvider extends AbstractStaticMetaBarProvider
 {
     use ilHelpDisplayed;
 
-    private function getId() : IdentificationInterface
+    private function getId(): IdentificationInterface
     {
         return $this->if->identifier('help');
     }
 
-    public function getMetaBarItems() : array
+    public function getMetaBarItems(): array
     {
         global $DIC;
 
@@ -44,9 +44,9 @@ class ilHelpMetaBarProvider extends AbstractStaticMetaBarProvider
         if ($this->showHelpTool()) {
             // position should be 0, see bug #26794
             $item = $mb->topLinkItem($this->getId())
-                       ->addComponentDecorator(static function (ILIAS\UI\Component\Component $c) : ?ILIAS\UI\Component\Component {
+                       ->addComponentDecorator(static function (ILIAS\UI\Component\Component $c): ?ILIAS\UI\Component\Component {
                            if ($c instanceof BulkyButton || $c instanceof BulkyLink) {
-                               return $c->withAdditionalOnLoadCode(static function (string $id) : string {
+                               return $c->withAdditionalOnLoadCode(static function (string $id): string {
                                    return "$('#$id').on('click', function() {
                                     console.log('trigger help slate');
                                     $('body').trigger('il-help-toggle-slate');

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /******************************************************************************
  *
@@ -34,13 +36,13 @@ class ilObjRemoteCourseListGUI extends ilRemoteObjectBaseListGUI
     {
         parent::__construct();
     }
-    
+
     /**
      * init
      *
      * @access public
      */
-    public function init() : void
+    public function init(): void
     {
         $this->copy_enabled = false;
         $this->static_link_enabled = true;
@@ -51,12 +53,12 @@ class ilObjRemoteCourseListGUI extends ilRemoteObjectBaseListGUI
         $this->info_screen_enabled = true;
         $this->type = 'rcrs';
         $this->gui_class_name = 'ilobjremotecoursegui';
-        
+
         $this->substitutions = ilAdvancedMDSubstitution::_getInstanceByObjectType($this->type);
         if ($this->substitutions->isActive()) {
             $this->substitutions_enabled = true;
         }
-        
+
         // general commands array
         $this->commands = ilObjRemoteCourseAccess::_getCommands();
     }
@@ -69,7 +71,7 @@ class ilObjRemoteCourseListGUI extends ilRemoteObjectBaseListGUI
      * @param
      *
      */
-    public function getProperties() : array
+    public function getProperties(): array
     {
         global $lng;
 
@@ -83,7 +85,7 @@ class ilObjRemoteCourseListGUI extends ilRemoteObjectBaseListGUI
 
         return array();
     }
-    
+
     /**q
      * get command frame
      *
@@ -91,7 +93,7 @@ class ilObjRemoteCourseListGUI extends ilRemoteObjectBaseListGUI
      * @param
      * @return
      */
-    public function getCommandFrame(string $cmd) : string
+    public function getCommandFrame(string $cmd): string
     {
         switch ($cmd) {
             case 'show':
@@ -101,7 +103,7 @@ class ilObjRemoteCourseListGUI extends ilRemoteObjectBaseListGUI
                 )) {
                     return '_blank';
                 }
-                
+
                 // no break
             default:
                 return parent::getCommandFrame($cmd);

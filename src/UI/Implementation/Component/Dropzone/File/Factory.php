@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\UI\Implementation\Component\Dropzone\File;
 
 use ILIAS\UI\Implementation\Component\Input\UploadLimitResolver;
@@ -50,7 +52,7 @@ class Factory implements FactoryInterface
         UploadHandler $upload_handler,
         string $post_url,
         ?Input $metadata_input = null
-    ) : StandardInterface {
+    ): StandardInterface {
         return new Standard(
             $this->factory,
             $this->language,
@@ -69,7 +71,7 @@ class Factory implements FactoryInterface
         string $post_url,
         $content,
         ?Input $metadata_input = null
-    ) : WrapperInterface {
+    ): WrapperInterface {
         return new Wrapper(
             $this->factory,
             $this->language,

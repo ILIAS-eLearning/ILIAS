@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -39,27 +41,27 @@ class ilAuthFrontendCredentialsSaml extends ilAuthFrontendCredentials
         $this->setAttributes($this->auth->getAttributes());
     }
 
-    public function initFromRequest() : void
+    public function initFromRequest(): void
     {
         $this->setReturnTo((string) ($this->request->getQueryParams()['target'] ?? ''));
     }
 
-    public function setAttributes(array $attributes) : void
+    public function setAttributes(array $attributes): void
     {
         $this->attributes = $attributes;
     }
 
-    public function getAttributes() : array
+    public function getAttributes(): array
     {
         return $this->attributes;
     }
 
-    public function getReturnTo() : string
+    public function getReturnTo(): string
     {
         return $this->return_to;
     }
 
-    public function setReturnTo(string $return_to) : void
+    public function setReturnTo(string $return_to): void
     {
         $this->return_to = $return_to;
     }

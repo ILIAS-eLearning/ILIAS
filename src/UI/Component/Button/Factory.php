@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\UI\Component\Button;
 
 use ILIAS\UI\Component\Signal;
@@ -75,7 +77,7 @@ interface Factory
      * @param	string|Signal		$action		will be triggered on click
      * @return  \ILIAS\UI\Component\Button\Standard
      */
-    public function standard(string $label, $action) : Standard;
+    public function standard(string $label, $action): Standard;
 
     /**
      * ---
@@ -133,7 +135,7 @@ interface Factory
      * @param	string|Signal		$action		will be triggered on click
      * @return  \ILIAS\UI\Component\Button\Primary
      */
-    public function primary(string $label, $action) : Primary;
+    public function primary(string $label, $action): Primary;
 
     /**
      * ---
@@ -158,7 +160,7 @@ interface Factory
      * ---
      * @return  \ILIAS\UI\Component\Button\Close
      */
-    public function close() : Close;
+    public function close(): Close;
 
     /**
      * ---
@@ -175,7 +177,7 @@ interface Factory
      * ---
      * @return  \ILIAS\UI\Component\Button\Minimize
      */
-    public function minimize() : Minimize;
+    public function minimize(): Minimize;
 
     /**
      * ---
@@ -198,7 +200,7 @@ interface Factory
      * @param	string|Signal		$action		will be triggered on click
      * @return  \ILIAS\UI\Component\Button\Shy
      */
-    public function shy(string $label, $action) : Shy;
+    public function shy(string $label, $action): Shy;
 
     /**
      * ---
@@ -225,7 +227,7 @@ interface Factory
      * @param string $default Initial value, use format "mm-yyyy".
      * @return  \ILIAS\UI\Component\Button\Month
      */
-    public function month(string $default) : Month;
+    public function month(string $default): Month;
 
     /**
      * ---
@@ -261,7 +263,7 @@ interface Factory
      * @param	string|Signal		$action		will be triggered on click
      * @return  \ILIAS\UI\Component\Button\Tag
      */
-    public function tag(string $label, $action) : Tag;
+    public function tag(string $label, $action): Tag;
 
     /**
      * ---
@@ -323,7 +325,7 @@ interface Factory
      * @param	string		$action
      * @return  \ILIAS\UI\Component\Button\Bulky
      */
-    public function bulky(Symbol $icon_or_glyph, string $label, string $action) : Bulky;
+    public function bulky(Symbol $icon_or_glyph, string $label, string $action): Bulky;
 
     /**
      * ---
@@ -380,5 +382,5 @@ interface Factory
         $off_action,
         bool $is_on = false,
         Signal $click_signal = null
-    ) : Toggle;
+    ): Toggle;
 }

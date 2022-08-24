@@ -25,7 +25,7 @@ class ilPCLearningHistory extends ilPageContent
     protected php4DOMElement $lhist_node;
     protected ilObjUser $user;
 
-    public function init() : void
+    public function init(): void
     {
         global $DIC;
 
@@ -33,7 +33,7 @@ class ilPCLearningHistory extends ilPageContent
         $this->setType("lhist");
     }
 
-    public function setNode(php4DOMElement $a_node) : void
+    public function setNode(php4DOMElement $a_node): void
     {
         parent::setNode($a_node);		// this is the PageContent node
         $this->lhist_node = $a_node->first_child();		// this is the skill node
@@ -42,35 +42,35 @@ class ilPCLearningHistory extends ilPageContent
     /**
      * Create learning history node
      */
-    public function create(ilPageObject $a_pg_obj, string $a_hier_id, string $a_pc_id = "") : void
+    public function create(ilPageObject $a_pg_obj, string $a_hier_id, string $a_pc_id = ""): void
     {
         $this->node = $this->createPageContentNode();
         $a_pg_obj->insertContent($this, $a_hier_id, IL_INSERT_AFTER, $a_pc_id);
         $this->lhist_node = $this->dom->create_element("LearningHistory");
         $this->lhist_node = $this->node->append_child($this->lhist_node);
     }
-    
-    public function setFrom(int $a_val) : void
+
+    public function setFrom(int $a_val): void
     {
         $this->lhist_node->set_attribute("From", (string) $a_val);
     }
-    
-    public function getFrom() : int
+
+    public function getFrom(): int
     {
         return (int) $this->lhist_node->get_attribute("From");
     }
-    
-    public function setTo(int $a_val) : void
+
+    public function setTo(int $a_val): void
     {
         $this->lhist_node->set_attribute("To", $a_val);
     }
 
-    public function getTo() : int
+    public function getTo(): int
     {
         return (int) $this->lhist_node->get_attribute("To");
     }
 
-    public function setClasses(array $a_val) : void
+    public function setClasses(array $a_val): void
     {
         // delete properties
         $children = $this->lhist_node->child_nodes();
@@ -84,8 +84,8 @@ class ilPCLearningHistory extends ilPageContent
             $prop_node->set_attribute("Name", $class);
         }
     }
-    
-    public function getClasses() : array
+
+    public function getClasses(): array
     {
         $classes = [];
         // delete properties
@@ -101,12 +101,12 @@ class ilPCLearningHistory extends ilPageContent
         DOMDocument $a_domdoc,
         string $a_xml,
         bool $a_creation
-    ) : void {
+    ): void {
     }
-    
+
     public static function beforePageDelete(
         ilPageObject $a_page
-    ) : void {
+    ): void {
     }
 
     /**
@@ -121,13 +121,13 @@ class ilPCLearningHistory extends ilPageContent
         DOMDocument $a_old_domdoc,
         string $a_old_xml,
         int $a_old_nr
-    ) : void {
+    ): void {
     }
 
     /**
      * Get lang vars needed for editing
      */
-    public static function getLangVars() : array
+    public static function getLangVars(): array
     {
         return array("ed_insert_learning_history", "pc_learning_history");
     }
@@ -136,7 +136,7 @@ class ilPCLearningHistory extends ilPageContent
         string $a_output,
         string $a_mode,
         bool $a_abstract_only = false
-    ) : string {
+    ): string {
         $start = strpos($a_output, "{{{{{LearningHistory");
         $end = 0;
         if (is_int($start)) {
@@ -183,7 +183,7 @@ class ilPCLearningHistory extends ilPageContent
         string $to,
         array $classes,
         string $a_mode
-    ) : string {
+    ): string {
         $user_id = 0;
         if ($a_mode === "preview" || $a_mode === "presentation" || $a_mode === "print") {
             if ($this->getPage()->getParentType() === "prtf") {
@@ -201,7 +201,7 @@ class ilPCLearningHistory extends ilPageContent
                 ? (new ilDateTime($to . " 23:59:59", IL_CAL_DATETIME))->get(IL_CAL_UNIX)
                 : null;
             $classes = (is_array($classes))
-                ? array_filter($classes, static function ($i) : bool {
+                ? array_filter($classes, static function ($i): bool {
                     return ($i != "");
                 })
                 : [];

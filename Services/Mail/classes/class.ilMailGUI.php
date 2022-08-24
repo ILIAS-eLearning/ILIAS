@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -77,7 +79,7 @@ class ilMailGUI implements ilCtrlBaseClassInterface
         }
     }
 
-    protected function initFolder() : void
+    protected function initFolder(): void
     {
         if ($this->http->wrapper()->post()->has('mobj_id')) {
             $folderId = $this->http->wrapper()->post()->retrieve('mobj_id', $this->refinery->kindlyTo()->int());
@@ -92,7 +94,7 @@ class ilMailGUI implements ilCtrlBaseClassInterface
         $this->currentFolderId = $folderId;
     }
 
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         $type = "";
         if ($this->http->wrapper()->query()->has('type')) {
@@ -173,7 +175,7 @@ class ilMailGUI implements ilCtrlBaseClassInterface
             } elseif ($this->http->wrapper()->query()->has('role')) {
                 $roles = [$this->http->wrapper()->query()->retrieve('role', $this->refinery->kindlyTo()->string())];
             }
-            
+
             if ($roles !== []) {
                 ilSession::set('mail_roles', $roles);
             }
@@ -233,7 +235,7 @@ class ilMailGUI implements ilCtrlBaseClassInterface
         }
     }
 
-    private function setViewMode() : void
+    private function setViewMode(): void
     {
         $targetClass = ilMailFolderGUI::class;
         if ($this->http->wrapper()->query()->has('target')) {
@@ -276,7 +278,7 @@ class ilMailGUI implements ilCtrlBaseClassInterface
         }
     }
 
-    private function showHeader() : void
+    private function showHeader(): void
     {
         global $DIC;
 
@@ -338,7 +340,7 @@ class ilMailGUI implements ilCtrlBaseClassInterface
         }
     }
 
-    protected function toggleExplorerNodeState() : void
+    protected function toggleExplorerNodeState(): void
     {
         $exp = new ilMailExplorer($this, $this->user->getId());
         $exp->toggleExplorerNodeState();

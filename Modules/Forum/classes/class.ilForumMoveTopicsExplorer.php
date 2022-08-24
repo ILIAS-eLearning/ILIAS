@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -31,17 +33,17 @@ class ilForumMoveTopicsExplorer extends ilRepositorySelectorExplorerGUI
         $this->setSelectMode('frm_ref_id');
     }
 
-    public function getCurrentFrmRefId() : int
+    public function getCurrentFrmRefId(): int
     {
         return $this->current_frm_ref_id;
     }
 
-    public function setCurrentFrmRefId(int $current_frm_ref_id) : void
+    public function setCurrentFrmRefId(int $current_frm_ref_id): void
     {
         $this->current_frm_ref_id = $current_frm_ref_id;
     }
 
-    public function isNodeClickable($a_node) : bool
+    public function isNodeClickable($a_node): bool
     {
         global $DIC;
 
@@ -60,7 +62,7 @@ class ilForumMoveTopicsExplorer extends ilRepositorySelectorExplorerGUI
         return false;
     }
 
-    protected function isNodeSelectable($a_node) : bool
+    protected function isNodeSelectable($a_node): bool
     {
         global $DIC;
 

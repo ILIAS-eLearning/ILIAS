@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -22,7 +24,7 @@
  */
 class ilTermsOfServiceAcceptanceHistoryProviderTest extends ilTermsOfServiceBaseTest
 {
-    public function testHistoryProviderCanBeCreatedByFactory() : void
+    public function testHistoryProviderCanBeCreatedByFactory(): void
     {
         $factory = new ilTermsOfServiceTableDataProviderFactory();
         $factory->setDatabaseAdapter($this->getMockBuilder(ilDBInterface::class)->getMock());
@@ -34,7 +36,7 @@ class ilTermsOfServiceAcceptanceHistoryProviderTest extends ilTermsOfServiceBase
         $this->assertInstanceOf(ilTermsOfServiceTableDataProvider::class, $provider);
     }
 
-    public function testListCanBeRetrieved() : void
+    public function testListCanBeRetrieved(): void
     {
         $database = $this->getMockBuilder(ilDBInterface::class)->getMock();
         $result = $this->getMockBuilder(ilDBStatement::class)->getMock();
@@ -66,7 +68,7 @@ class ilTermsOfServiceAcceptanceHistoryProviderTest extends ilTermsOfServiceBase
         $database
             ->method('quote')
             ->with($this->anything(), $this->isType('string'))
-            ->willReturnCallback(static function ($arg1) : string {
+            ->willReturnCallback(static function ($arg1): string {
                 return (string) $arg1;
             });
 
@@ -93,7 +95,7 @@ class ilTermsOfServiceAcceptanceHistoryProviderTest extends ilTermsOfServiceBase
     /**
      * @doesNotPerformAssertions
      */
-    public function testRetrievingListThrowsExceptionsWhenInvalidArgumentsArePassed() : void
+    public function testRetrievingListThrowsExceptionsWhenInvalidArgumentsArePassed(): void
     {
         $database = $this->getMockBuilder(ilDBInterface::class)->getMock();
 

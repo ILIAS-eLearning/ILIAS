@@ -53,7 +53,7 @@ class ilObjMediaCastSettingsGUI extends ilObjectGUI
             ->standardRequest();
     }
 
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         $next_class = $this->ctrl->getNextClass($this);
         $cmd = $this->ctrl->getCmd();
@@ -81,7 +81,7 @@ class ilObjMediaCastSettingsGUI extends ilObjectGUI
         }
     }
 
-    public function getAdminTabs() : void
+    public function getAdminTabs(): void
     {
         $rbac_system = $this->rbac_system;
 
@@ -103,13 +103,13 @@ class ilObjMediaCastSettingsGUI extends ilObjectGUI
         }
     }
 
-    public function editSettings() : void
+    public function editSettings(): void
     {
         $this->tabs_gui->setTabActive('mcst_edit_settings');
         $this->initFormSettings();
     }
 
-    public function saveSettings() : void
+    public function saveSettings(): void
     {
         $ilCtrl = $this->ctrl;
         $ilAccess = $this->access;
@@ -140,18 +140,18 @@ class ilObjMediaCastSettingsGUI extends ilObjectGUI
         $ilCtrl->redirect($this, "view");
     }
 
-    public function cancel() : void
+    public function cancel(): void
     {
         $ilCtrl = $this->ctrl;
         $ilCtrl->redirect($this, "view");
     }
 
-    protected function initMediaCastSettings() : void
+    protected function initMediaCastSettings(): void
     {
         $this->mc_settings = ilMediaCastSettings::_getInstance();
     }
-    
-    protected function getForm() : ilPropertyFormGUI
+
+    protected function getForm(): ilPropertyFormGUI
     {
         $lng = $this->lng;
         $ilAccess = $this->access;
@@ -209,7 +209,7 @@ class ilObjMediaCastSettingsGUI extends ilObjectGUI
         return $form;
     }
 
-    protected function initFormSettings(?ilPropertyFormGUI $form = null) : void
+    protected function initFormSettings(?ilPropertyFormGUI $form = null): void
     {
         if (!$form) {
             $form = $this->getForm();

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -35,18 +37,18 @@ class ilUserSearch extends ilAbstractSearch
 {
     private bool $active_check = false;
     private bool $inactive_check = false;
-    
-    public function enableActiveCheck(bool $a_enabled) : void
+
+    public function enableActiveCheck(bool $a_enabled): void
     {
         $this->active_check = $a_enabled;
     }
-    
-    public function enableInactiveCheck(bool $a_enabled) : void
+
+    public function enableInactiveCheck(bool $a_enabled): void
     {
         $this->inactive_check = $a_enabled;
     }
 
-    public function performSearch() : ilSearchResult
+    public function performSearch(): ilSearchResult
     {
         $where = $this->__createWhereCondition();
         $locate = $this->__createLocateString();
@@ -60,7 +62,7 @@ class ilUserSearch extends ilAbstractSearch
         } elseif ($this->inactive_check) {
             $query .= 'AND active = 0 ';
         }
-        
+
 
         $res = $this->db->query($query);
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {

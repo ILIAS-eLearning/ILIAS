@@ -38,83 +38,83 @@ class StandardGUIRequest
         );
     }
 
-    public function getRefId() : int
+    public function getRefId(): int
     {
         return $this->int("ref_id");
     }
 
-    public function getUserId() : int
+    public function getUserId(): int
     {
         return $this->int("user_id");
     }
 
-    public function getItemId() : int
+    public function getItemId(): int
     {
         return $this->int("item_id");
     }
 
-    public function getPurpose() : string
+    public function getPurpose(): string
     {
         return $this->str("purpose");
     }
 
-    public function getPresentation() : bool
+    public function getPresentation(): bool
     {
         return (bool) $this->int("presentation");
     }
 
-    public function getEvent() : string
+    public function getEvent(): string
     {
         return $this->str("event");
     }
 
-    public function getPlayer() : string
+    public function getPlayer(): string
     {
         return $this->str("player");
     }
 
-    public function getMobId() : int
+    public function getMobId(): int
     {
         return $this->int("mob_id");
     }
 
-    public function getAutoplay() : bool
+    public function getAutoplay(): bool
     {
         return (bool) $this->int("autoplay");
     }
 
     /** @return int[] */
-    public function getItemIds() : array
+    public function getItemIds(): array
     {
         return $this->intArray("item_id");
     }
 
-    public function getTargetPurpose() : string
+    public function getTargetPurpose(): string
     {
         return $this->str("target_purpose");
     }
 
-    public function getTargetFormat() : string
+    public function getTargetFormat(): string
     {
         return $this->str("target_format");
     }
 
-    public function getSeconds() : int
+    public function getSeconds(): int
     {
         return $this->int("sec");
     }
 
-    public function getSettingsPurpose(string $purpose) : string
+    public function getSettingsPurpose(string $purpose): string
     {
         return $this->str($purpose);
     }
 
-    public function getDefaultAccess() : string
+    public function getDefaultAccess(): string
     {
         return $this->str("defaultaccess");
     }
 
-    public function getMimeTypes() : string
+    public function getMimeTypes(): string
     {
         return $this->str("mimetypes");
     }

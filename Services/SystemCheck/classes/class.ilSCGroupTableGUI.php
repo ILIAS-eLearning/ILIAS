@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -27,7 +29,7 @@ class ilSCGroupTableGUI extends ilTable2GUI
         parent::__construct($a_parent_obj, $a_parent_cmd);
     }
 
-    public function init() : void
+    public function init(): void
     {
         $this->lng->loadLanguageModule('sysc');
         $this->addColumn($this->lng->txt('title'), 'title', '60%');
@@ -42,7 +44,7 @@ class ilSCGroupTableGUI extends ilTable2GUI
         $this->setFormAction($this->ctrl->getFormAction($this->getParentObject()));
     }
 
-    protected function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set): void
     {
         $this->tpl->setVariable('VAL_TITLE', (string) ($a_set['title'] ?? ''));
 
@@ -85,7 +87,7 @@ class ilSCGroupTableGUI extends ilTable2GUI
         $this->tpl->setVariable('ACTIONS', $list->getHTML());
     }
 
-    public function parse() : void
+    public function parse(): void
     {
         $data = array();
 

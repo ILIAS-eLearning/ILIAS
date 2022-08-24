@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /* Copyright (c) 2021 Thibeau Fuhrer <thf@studer-raimann.ch> Extended GPL, see docs/LICENSE */
 
@@ -10,7 +12,7 @@ require_once __DIR__ . '/ilCtrlPathTestBase.php';
  */
 class ilCtrlArrayClassPathTest extends ilCtrlPathTestBase
 {
-    public function testArrayPathWithEmptyTargets() : void
+    public function testArrayPathWithEmptyTargets(): void
     {
         $path = new ilCtrlArrayClassPath(
             $this->structure,
@@ -24,7 +26,7 @@ class ilCtrlArrayClassPathTest extends ilCtrlPathTestBase
         throw $path->getException();
     }
 
-    public function testArrayPathWithUnknownTargetClass() : void
+    public function testArrayPathWithUnknownTargetClass(): void
     {
         $invalid_class = ilCtrlInvalidGuiClass::class;
         $path = new ilCtrlArrayClassPath(
@@ -39,7 +41,7 @@ class ilCtrlArrayClassPathTest extends ilCtrlPathTestBase
         throw $path->getException();
     }
 
-    public function testArrayPathWithUnrelatedTargets() : void
+    public function testArrayPathWithUnrelatedTargets(): void
     {
         $parent_class = ilCtrlBaseClass2TestGUI::class;
         $child_class = ilCtrlCommandClass2TestGUI::class;
@@ -55,7 +57,7 @@ class ilCtrlArrayClassPathTest extends ilCtrlPathTestBase
         throw $path->getException();
     }
 
-    public function testArrayPathWithoutBaseClass() : void
+    public function testArrayPathWithoutBaseClass(): void
     {
         // mocked context that will return path without cid-path.
         $context = $this->createMock(ilCtrlContextInterface::class);
@@ -77,7 +79,7 @@ class ilCtrlArrayClassPathTest extends ilCtrlPathTestBase
         throw $path->getException();
     }
 
-    public function testArrayPathWithProvidedBaseClass() : void
+    public function testArrayPathWithProvidedBaseClass(): void
     {
         // mocked context that will return path without cid-path.
         $context = $this->createMock(ilCtrlContextInterface::class);
@@ -97,7 +99,7 @@ class ilCtrlArrayClassPathTest extends ilCtrlPathTestBase
         $this->assertEquals('1:2:3', $path->getCidPath());
     }
 
-    public function testArrayPathWithContextBaseClass() : void
+    public function testArrayPathWithContextBaseClass(): void
     {
         // mocked context that will return path with base-class.
         $context = $this->createMock(ilCtrlContextInterface::class);
@@ -116,7 +118,7 @@ class ilCtrlArrayClassPathTest extends ilCtrlPathTestBase
         $this->assertEquals('1:2:3', $path->getCidPath());
     }
 
-    public function testArrayPathWithContextAndProvidedBaseClass() : void
+    public function testArrayPathWithContextAndProvidedBaseClass(): void
     {
         // mocked context that will return path with first base-class
         // that can call command class 1-

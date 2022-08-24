@@ -1,4 +1,6 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 abstract class ilWebDAVBaseMountInstructions
 {
     protected ilWebDAVMountInstructionsRepository $repo;
@@ -35,16 +37,16 @@ abstract class ilWebDAVBaseMountInstructions
         $this->language = $language;
     }
 
-    public function getMountInstructionsAsArray(array $mount_instructions = []) : array
+    public function getMountInstructionsAsArray(array $mount_instructions = []): array
     {
         if (count($mount_instructions) == 0) {
             $document = $this->repo->getMountInstructionsByLanguage($this->language);
             $processed = $document->getProcessedInstructions();
             $mount_instructions = json_decode($processed, true);
         }
-        
+
         return $this->fillPlaceholdersForMountInstructions($mount_instructions);
     }
 
-    abstract protected function fillPlaceholdersForMountInstructions(array $mount_instructions) : array ;
+    abstract protected function fillPlaceholdersForMountInstructions(array $mount_instructions): array ;
 }

@@ -38,52 +38,52 @@ class PresentationGUIRequest
         );
     }
 
-    public function getMobId() : int
+    public function getMobId(): int
     {
         return $this->int("mob_id");
     }
 
-    public function getExportType() : string
+    public function getExportType(): string
     {
         return $this->str("type");
     }
 
-    public function getFileId() : string
+    public function getFileId(): string
     {
         return $this->str("file_id");
     }
 
-    public function getSearchString() : string
+    public function getSearchString(): string
     {
         return $this->str("srcstring");
     }
 
-    public function getDefinitionPageId() : int
+    public function getDefinitionPageId(): int
     {
         return $this->int("pg_id");
     }
 
-    public function getRefId() : int
+    public function getRefId(): int
     {
         return $this->int("ref_id");
     }
 
-    public function getTermId() : int
+    public function getTermId(): int
     {
         return $this->int("term_id");
     }
 
-    public function getDefinitionId() : int
+    public function getDefinitionId(): int
     {
         return $this->int("def");
     }
 
-    public function getTaxNode() : int
+    public function getTaxNode(): int
     {
         return $this->int("tax_node");
     }
 
-    public function getLetter() : string
+    public function getLetter(): string
     {
         return $this->str("letter");
     }

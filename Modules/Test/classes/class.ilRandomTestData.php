@@ -1,4 +1,5 @@
 <?php
+
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -11,7 +12,7 @@
 class ilRandomTestData
 {
     protected $data = array();
-    
+
     /**
     * Constructor
     *
@@ -40,7 +41,7 @@ class ilRandomTestData
                 break;
         }
     }
-    
+
     public function __set($property, $value)
     {
         switch ($property) {

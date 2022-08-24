@@ -34,11 +34,11 @@ class ilHelpMapping
     public static function saveScreenIdsForChapter(
         int $a_chap,
         array $a_ids
-    ) : void {
+    ): void {
         global $DIC;
 
         $ilDB = $DIC->database();
-        
+
         self::removeScreenIdsOfChapter($a_chap);
         foreach ($a_ids as $id) {
             $id = trim($id);
@@ -68,7 +68,7 @@ class ilHelpMapping
             }
         }
     }
-    
+
     public static function saveMappingEntry(
         int $a_chap,
         string $a_comp,
@@ -76,11 +76,11 @@ class ilHelpMapping
         string $a_screen_sub_id,
         string $a_perm,
         int $a_module_id = 0
-    ) : void {
+    ): void {
         global $DIC;
 
         $ilDB = $DIC->database();
-        
+
         $ilDB->replace(
             "help_map",
             array("chap" => array("integer", $a_chap),
@@ -93,30 +93,30 @@ class ilHelpMapping
             array()
         );
     }
-    
+
     public static function removeScreenIdsOfChapter(
         int $a_chap,
         int $a_module_id = 0
-    ) : void {
+    ): void {
         global $DIC;
 
         $ilDB = $DIC->database();
-        
+
         $ilDB->manipulate(
             "DELETE FROM help_map WHERE " .
             " chap = " . $ilDB->quote($a_chap, "integer") .
             " AND module_id = " . $ilDB->quote($a_module_id, "integer")
         );
     }
-    
+
     public static function getScreenIdsOfChapter(
         int $a_chap,
         int $a_module_id = 0
-    ) : array {
+    ): array {
         global $DIC;
 
         $ilDB = $DIC->database();
-        
+
         $set = $ilDB->query(
             "SELECT * FROM help_map " .
             " WHERE chap = " . $ilDB->quote($a_chap, "integer") .
@@ -139,11 +139,11 @@ class ilHelpMapping
         }
         return $screen_ids;
     }
-    
+
     public static function getHelpSectionsForId(
         string $a_screen_id,
         int $a_ref_id
-    ) : array {
+    ): array {
         global $DIC;
 
         $ilDB = $DIC->database();
@@ -186,7 +186,7 @@ class ilHelpMapping
                     // check special "create*" permission
                     if ($rec["perm"] === "create*") {
                         $has_create_perm = false;
-                        
+
                         // check owner
                         if ($ilUser->getId() === $ilObjDataCache->lookupOwner(ilObject::_lookupObjId($a_ref_id))) {
                             $has_create_perm = true;
@@ -213,7 +213,7 @@ class ilHelpMapping
         }
         return $chaps;
     }
-    
+
     /**
      * Has given screen Id any sections?
      * Note: We removed the "ref_id" parameter here, since this method
@@ -223,17 +223,17 @@ class ilHelpMapping
      */
     public static function hasScreenIdSections(
         string $a_screen_id
-    ) : bool {
+    ): bool {
         global $DIC;
 
         $ilDB = $DIC->database();
         $ilSetting = $DIC->settings();
         $ilUser = $DIC->user();
-        
+
         if ($ilUser->getLanguage() !== "de") {
             return false;
         }
-        
+
         if ($ilSetting->get("help_mode") === "2") {
             return false;
         }
@@ -283,14 +283,14 @@ class ilHelpMapping
         }
         return false;
     }
-    
+
     public static function deleteEntriesOfModule(
         int $a_id
-    ) : void {
+    ): void {
         global $DIC;
 
         $ilDB = $DIC->database();
-        
+
         $ilDB->manipulate("DELETE FROM help_map WHERE " .
             " module_id = " . $ilDB->quote($a_id, "integer"));
     }

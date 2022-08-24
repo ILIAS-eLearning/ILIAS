@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -20,7 +22,7 @@ class ilRegistrationMimeMailNotification extends ilMimeMailNotification
 {
     public const TYPE_NOTIFICATION_ACTIVATION = 32;
 
-    public function send() : void
+    public function send(): void
     {
         if ($this->getType() === self::TYPE_NOTIFICATION_ACTIVATION) {
             $additional_information = $this->getAdditionalInformation();

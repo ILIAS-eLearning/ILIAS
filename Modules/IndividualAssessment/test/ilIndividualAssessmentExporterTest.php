@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /* Copyright (c) 2021 - Daniel Weise <daniel.weise@concepts-and-training.de> - Extended GPL, see LICENSE */
 
@@ -6,13 +8,13 @@ use PHPUnit\Framework\TestCase;
 
 class ilIndividualAssessmentExporterTest extends TestCase
 {
-    public function test_objectCreation() : void
+    public function test_objectCreation(): void
     {
         $obj = new ilIndividualAssessmentExporter();
         $this->assertInstanceOf(ilIndividualAssessmentExporter::class, $obj);
     }
 
-    public function test_getXmlExportTailDependencies_no_entity() : void
+    public function test_getXmlExportTailDependencies_no_entity(): void
     {
         $obj = new ilIndividualAssessmentExporter();
         $result = $obj->getXmlExportTailDependencies("no_entity", "", [12,13]);
@@ -21,7 +23,7 @@ class ilIndividualAssessmentExporterTest extends TestCase
         $this->assertEmpty($result);
     }
 
-    public function test_getXmlExportTailDependencies_iass() : void
+    public function test_getXmlExportTailDependencies_iass(): void
     {
         $expected[] = [
             "component" => "Services/Object",
@@ -36,7 +38,7 @@ class ilIndividualAssessmentExporterTest extends TestCase
         $this->assertEquals($expected, $result);
     }
 
-    public function test_getValidSchemaVersions() : void
+    public function test_getValidSchemaVersions(): void
     {
         $expected = [
             "5.2.0" => [

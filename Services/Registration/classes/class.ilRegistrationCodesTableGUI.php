@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -73,7 +75,7 @@ class ilRegistrationCodesTableGUI extends ilTable2GUI
     /**
      * Get user items
      */
-    public function getItems() : void
+    public function getItems(): void
     {
         $this->determineOffsetAndOrder();
 
@@ -183,7 +185,7 @@ class ilRegistrationCodesTableGUI extends ilTable2GUI
     /**
      * Init filter
      */
-    public function initFilter() : void
+    public function initFilter(): void
     {
         // code
         $ti = new ilTextInputGUI($this->lng->txt("registration_code"), "query");
@@ -236,7 +238,7 @@ class ilRegistrationCodesTableGUI extends ilTable2GUI
         $this->filter["generated"] = $si->getValue();
     }
 
-    public function getSelectedColumns() : array
+    public function getSelectedColumns(): array
     {
         return [
             "code" => "registration_code",
@@ -248,7 +250,7 @@ class ilRegistrationCodesTableGUI extends ilTable2GUI
         ];
     }
 
-    protected function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set): void
     {
         $this->tpl->setVariable("ID", $a_set["code_id"]);
         foreach (array_keys($this->getSelectedColumns()) as $c) {

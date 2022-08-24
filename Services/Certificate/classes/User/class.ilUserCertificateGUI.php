@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -131,12 +133,12 @@ class ilUserCertificateGUI
         $this->language->loadLanguageModule('cert');
     }
 
-    private function getDefaultCommand() : string
+    private function getDefaultCommand(): string
     {
         return 'listCertificates';
     }
 
-    public function executeCommand() : bool
+    public function executeCommand(): bool
     {
         $nextClass = $this->ctrl->getNextClass($this);
         $cmd = $this->ctrl->getCmd();
@@ -162,7 +164,7 @@ class ilUserCertificateGUI
      * @throws ilDateTimeException
      * @throws ilWACException
      */
-    public function listCertificates() : void
+    public function listCertificates(): void
     {
         global $DIC;
 
@@ -288,7 +290,7 @@ class ilUserCertificateGUI
         $this->template->setContent($this->uiRenderer->render($uiComponents));
     }
 
-    protected function getCurrentSortation() : string
+    protected function getCurrentSortation(): string
     {
         $sorting = ilSession::get(self::SORTATION_SESSION_KEY);
         if (!array_key_exists($sorting, $this->sortationOptions)) {
@@ -302,7 +304,7 @@ class ilUserCertificateGUI
      * @throws ilWACException
      * @throws ilDateTimeException
      */
-    protected function applySortation() : void
+    protected function applySortation(): void
     {
         $sorting = $this->request->getQueryParams()['sort_by'] ?? $this->defaultSorting;
         if (!array_key_exists($sorting, $this->sortationOptions)) {
@@ -316,7 +318,7 @@ class ilUserCertificateGUI
     /**
      * @throws ilException
      */
-    public function download() : void
+    public function download(): void
     {
         global $DIC;
 

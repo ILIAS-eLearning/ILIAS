@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -37,7 +39,7 @@ class ilAsyncContainerSelectionExplorer extends ilContainerSelectionExplorer
      * @var array<int, string> stored js onload codes
      */
     protected static array $js_on_load_added = [];
-    
+
     protected ILIAS\HTTP\Wrapper\RequestWrapper $request_wrapper;
 
     /**
@@ -56,7 +58,7 @@ class ilAsyncContainerSelectionExplorer extends ilContainerSelectionExplorer
     /**
      * Adds the javascript to template
      */
-    public static function addJavascript() : void
+    public static function addJavascript(): void
     {
         global $DIC;
         $tpl = $DIC['tpl'];
@@ -67,7 +69,7 @@ class ilAsyncContainerSelectionExplorer extends ilContainerSelectionExplorer
     /**
      * Creates the onclick function call
      */
-    public function buildOnClick($node_id, string $type, string $title) : string
+    public function buildOnClick($node_id, string $type, string $title): string
     {
         $result = "";
         $ref_id = $this->request_wrapper->retrieve("ref_id", $this->refinery->kindlyTo()->int());
@@ -87,7 +89,7 @@ class ilAsyncContainerSelectionExplorer extends ilContainerSelectionExplorer
     /**
      * Sets the href-value to a void js call
      */
-    public function buildLinkTarget($node_id, string $type) : string
+    public function buildLinkTarget($node_id, string $type): string
     {
         return "javascript:void(0);";
     }
@@ -95,7 +97,7 @@ class ilAsyncContainerSelectionExplorer extends ilContainerSelectionExplorer
     /**
      * Returns the explorer html and adds the javascript to the template
      */
-    public function getOutput() : string
+    public function getOutput(): string
     {
         $this->initJs();
 
@@ -106,7 +108,7 @@ class ilAsyncContainerSelectionExplorer extends ilContainerSelectionExplorer
      * Initializes the js
      * Adds the on load code for the async explorer
      */
-    public function initJs() : void
+    public function initJs(): void
     {
         $this->addOnLoadCode(
             'explorer',
@@ -120,7 +122,7 @@ class ilAsyncContainerSelectionExplorer extends ilContainerSelectionExplorer
     /**
      * Adds onload code to the template
      */
-    protected function addOnLoadCode(string $id, string $content) : void
+    protected function addOnLoadCode(string $id, string $content): void
     {
         if (!isset(self::$js_on_load_added[$id])) {
             $this->tpl->addOnLoadCode($content);
@@ -131,7 +133,7 @@ class ilAsyncContainerSelectionExplorer extends ilContainerSelectionExplorer
     /**
      * Adds additional js to the onload code of the async explorer
      */
-    public function addJsConf(string $key, string $value) : void
+    public function addJsConf(string $key, string $value): void
     {
         $this->js_conf[$key] = $value;
     }
@@ -139,7 +141,7 @@ class ilAsyncContainerSelectionExplorer extends ilContainerSelectionExplorer
     /**
      * Returns a certain setting of the additional configuration
      */
-    public function getJsConf(string $key) : string
+    public function getJsConf(string $key): string
     {
         return $this->js_conf[$key];
     }

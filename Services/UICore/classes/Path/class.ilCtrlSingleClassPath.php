@@ -1,4 +1,6 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -59,7 +61,7 @@ class ilCtrlSingleClassPath extends ilCtrlAbstractPath
      * @throws ilCtrlException if the class has no relations or cannot
      *                         reach the baseclass of this context.
      */
-    private function getCidPathByClass(string $target_class) : string
+    private function getCidPathByClass(string $target_class): string
     {
         $target_cid = $this->structure->getClassCidByName($target_class);
 

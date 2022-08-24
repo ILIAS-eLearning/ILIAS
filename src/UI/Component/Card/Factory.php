@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\UI\Component\Card;
 
 use ILIAS\UI\Component\Image\Image;
@@ -47,7 +49,7 @@ interface Factory
      * @param \ILIAS\UI\Component\Image\Image $image
      * @return \ILIAS\UI\Component\Card\Standard
      */
-    public function standard($title, Image $image = null) : Standard;
+    public function standard($title, Image $image = null): Standard;
 
     /**
      * ---
@@ -80,5 +82,5 @@ interface Factory
      * @param \ILIAS\UI\Component\Image\Image $image
      * @return \ILIAS\UI\Component\Card\RepositoryObject
      */
-    public function repositoryObject($title, Image $image) : RepositoryObject;
+    public function repositoryObject($title, Image $image): RepositoryObject;
 }

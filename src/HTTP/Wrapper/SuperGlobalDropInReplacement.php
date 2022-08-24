@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace ILIAS\HTTP\Wrapper;
 
@@ -38,7 +40,7 @@ class SuperGlobalDropInReplacement extends KeyValueAccess
     /**
      * @inheritDoc
      */
-    public function offsetSet($offset, $value) : void
+    public function offsetSet($offset, $value): void
     {
         if ($this->throwOnValueAssignment) {
             throw new OutOfBoundsException("Modifying global Request-Array such as \$_GET is not allowed!");
@@ -50,7 +52,7 @@ class SuperGlobalDropInReplacement extends KeyValueAccess
     /**
      * @inheritDoc
      */
-    public function offsetUnset($offset) : void
+    public function offsetUnset($offset): void
     {
         throw new LogicException("Modifying global Request-Array such as \$_GET is not allowed!");
     }

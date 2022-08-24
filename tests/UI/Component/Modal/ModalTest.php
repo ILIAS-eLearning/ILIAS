@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 use ILIAS\UI\Implementation\Component\Modal\Modal;
 
 require_once(__DIR__ . '/ModalBase.php');
@@ -27,7 +29,7 @@ require_once(__DIR__ . '/ModalBase.php');
  */
 class ModalTest extends ModalBase
 {
-    public function test_with_close_with_keyboard() : void
+    public function test_with_close_with_keyboard(): void
     {
         $modal = $this->getModal();
         $this->assertEquals(true, $modal->getCloseWithKeyboard());
@@ -35,13 +37,13 @@ class ModalTest extends ModalBase
         $this->assertEquals(false, $modal->getCloseWithKeyboard());
     }
 
-    public function test_with_async_rendered_url() : void
+    public function test_with_async_rendered_url(): void
     {
         $modal = $this->getModal()->withAsyncRenderUrl('/fake/async/url');
         $this->assertEquals('/fake/async/url', $modal->getAsyncRenderUrl());
     }
 
-    public function test_get_signals() : void
+    public function test_get_signals(): void
     {
         $modal = $this->getModal();
         $show = $modal->getShowSignal();
@@ -55,7 +57,7 @@ class ModalTest extends ModalBase
         $this->assertEquals('signal_2', "$close");
     }
 
-    public function test_with_reset_signals() : void
+    public function test_with_reset_signals(): void
     {
         $modal = $this->getModal();
         $modal2 = $modal->withResetSignals();
@@ -65,7 +67,7 @@ class ModalTest extends ModalBase
         $this->assertEquals('signal_4', "$close");
     }
 
-    protected function getModal() : ModalMock
+    protected function getModal(): ModalMock
     {
         return new ModalMock(new IncrementalSignalGenerator());
     }
@@ -73,7 +75,7 @@ class ModalTest extends ModalBase
 
 class ModalMock extends Modal
 {
-    public function getCanonicalName() : string
+    public function getCanonicalName(): string
     {
         return "Modal Mock";
     }

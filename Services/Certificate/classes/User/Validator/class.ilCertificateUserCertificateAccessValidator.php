@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -35,7 +37,7 @@ class ilCertificateUserCertificateAccessValidator
         $this->userCertificateRepository = $userCertificateRepository;
     }
 
-    public function validate(int $userId, int $objId) : bool
+    public function validate(int $userId, int $objId): bool
     {
         try {
             $this->userCertificateRepository->fetchActiveCertificate($userId, $objId);

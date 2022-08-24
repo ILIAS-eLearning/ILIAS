@@ -1,4 +1,5 @@
 <?php
+
 include_once("./Services/Component/classes/class.ilPlugin.php");
 
 /**
@@ -12,7 +13,7 @@ abstract class ilSoapHookPlugin extends ilPlugin
      *
      * @return ilSoapMethod[]
      */
-    abstract public function getSoapMethods() : array;
+    abstract public function getSoapMethods(): array;
 
     /**
      * Get any (new) types which the SOAP methods may use.
@@ -22,5 +23,5 @@ abstract class ilSoapHookPlugin extends ilPlugin
      *
      * @return ilWsdlType[]
      */
-    abstract public function getWsdlTypes() : array;
+    abstract public function getWsdlTypes(): array;
 }

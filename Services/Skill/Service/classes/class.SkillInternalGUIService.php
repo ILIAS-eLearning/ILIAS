@@ -66,12 +66,12 @@ class SkillInternalGUIService
      * not be used.
      */
 
-    public function admin_request() : SkillAdminGUIRequest
+    public function admin_request(): SkillAdminGUIRequest
     {
         return $this->admin_request;
     }
 
-    public function personal_request() : SkillPersonalGUIRequest
+    public function personal_request(): SkillPersonalGUIRequest
     {
         return $this->personal_request;
     }

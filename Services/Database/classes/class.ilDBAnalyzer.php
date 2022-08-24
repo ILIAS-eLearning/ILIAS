@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * This class gives all kind of DB information using the database manager
  * and reverse module.
@@ -64,7 +66,7 @@ class ilDBAnalyzer
      *
      * @return array field information array
      */
-    public function getFieldInformation(string $a_table, bool $a_remove_not_allowed_attributes = false) : array
+    public function getFieldInformation(string $a_table, bool $a_remove_not_allowed_attributes = false): array
     {
         $fields = $this->manager->listTableFields($a_table);
         $inf = array();
@@ -169,7 +171,7 @@ class ilDBAnalyzer
      *
      * @return array primary key information array
      */
-    public function getPrimaryKeyInformation(string $a_table) : array
+    public function getPrimaryKeyInformation(string $a_table): array
     {
         $constraints = $this->manager->listTableConstraints($a_table);
 
@@ -199,7 +201,7 @@ class ilDBAnalyzer
      *
      * @return array indices information array
      */
-    public function getIndicesInformation(string $a_table, bool $a_abstract_table = false) : array
+    public function getIndicesInformation(string $a_table, bool $a_abstract_table = false): array
     {
         //$constraints = $this->manager->listTableConstraints($a_table);
         $indexes = $this->manager->listTableIndexes($a_table);
@@ -254,7 +256,7 @@ class ilDBAnalyzer
      *
      * @return array indices information array
      */
-    public function getConstraintsInformation(string $a_table, bool $a_abstract_table = false) : array
+    public function getConstraintsInformation(string $a_table, bool $a_abstract_table = false): array
     {
         $constraints = $this->manager->listTableConstraints($a_table);
 

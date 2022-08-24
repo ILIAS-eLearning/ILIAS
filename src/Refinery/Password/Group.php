@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -36,7 +38,7 @@ class Group
     /**
      * Get the constraint that a password has a minimum length.
      */
-    public function hasMinLength(int $min_length) : Constraint
+    public function hasMinLength(int $min_length): Constraint
     {
         return new HasMinLength($min_length, $this->data_factory, $this->lng);
     }
@@ -44,7 +46,7 @@ class Group
     /**
      * Get the constraint that a password has upper case chars.
      */
-    public function hasUpperChars() : Constraint
+    public function hasUpperChars(): Constraint
     {
         return new HasUpperChars($this->data_factory, $this->lng);
     }
@@ -52,7 +54,7 @@ class Group
     /**
      * Get the constraint that a password has lower case chars.
      */
-    public function hasLowerChars() : Constraint
+    public function hasLowerChars(): Constraint
     {
         return new HasLowerChars($this->data_factory, $this->lng);
     }
@@ -60,7 +62,7 @@ class Group
     /**
      * Get the constraint that a password has numbers.
      */
-    public function hasNumbers() : Constraint
+    public function hasNumbers(): Constraint
     {
         return new HasNumbers($this->data_factory, $this->lng);
     }
@@ -68,7 +70,7 @@ class Group
     /**
      * Get the constraint that a password has special chars.
      */
-    public function hasSpecialChars() : Constraint
+    public function hasSpecialChars(): Constraint
     {
         return new HasSpecialChars($this->data_factory, $this->lng);
     }

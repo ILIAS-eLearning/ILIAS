@@ -38,139 +38,139 @@ class EditingGUIRequest
         );
     }
 
-    public function getRefId() : int
+    public function getRefId(): int
     {
         return $this->int("ref_id");
     }
 
-    public function getOldNr() : int
+    public function getOldNr(): int
     {
         return $this->int("old_nr");
     }
 
-    public function getUserId() : int
+    public function getUserId(): int
     {
         return $this->int("user");
     }
 
-    public function getWikiPageId() : int
+    public function getWikiPageId(): int
     {
         return $this->int("wpg_id");
     }
 
     /** @return int[] */
-    public function getWikiPageIds() : array
+    public function getWikiPageIds(): array
     {
         return $this->intArray("obj_id");
     }
 
-    public function getNotification() : int
+    public function getNotification(): int
     {
         return $this->int("ntf");
     }
 
-    public function getAssignmentId() : int
+    public function getAssignmentId(): int
     {
         return $this->int("ass");
     }
 
-    public function getWithComments() : bool
+    public function getWithComments(): bool
     {
         return $this->int("with_comments");
     }
 
-    public function getPage() : string
+    public function getPage(): string
     {
         return (string) $this->raw("page");
     }
 
-    public function getFromPage() : string
+    public function getFromPage(): string
     {
         return (string) $this->raw("from_page");
     }
 
-    public function getNewType() : string
+    public function getNewType(): string
     {
         return $this->str("new_type");
     }
 
-    public function getSearchString() : string
+    public function getSearchString(): string
     {
         return $this->str("srcstring");
     }
 
-    public function getSearchTerm() : string
+    public function getSearchTerm(): string
     {
         return trim($this->str("search_term"));
     }
 
-    public function getTerm() : string
+    public function getTerm(): string
     {
         return trim($this->str("term"));
     }
 
     /** @return int[] */
-    public function getUserIds() : array
+    public function getUserIds(): array
     {
         return $this->intArray("user_id");
     }
 
     /** @return string[] */
-    public function getMarks() : array
+    public function getMarks(): array
     {
         return $this->strArray("mark");
     }
 
     /** @return string[] */
-    public function getComments() : array
+    public function getComments(): array
     {
         return $this->strArray("lcomment");
     }
 
     /** @return string[] */
-    public function getStatus() : array
+    public function getStatus(): array
     {
         return $this->strArray("status");
     }
 
-    public function getImportantPageId() : int
+    public function getImportantPageId(): int
     {
         return $this->int("imp_page_id");
     }
 
     /** @return int[] */
-    public function getImportantPageIds() : array
+    public function getImportantPageIds(): array
     {
         return $this->intArray("imp_page_id");
     }
 
     /** @return int[] */
-    public function getPrintOrdering() : array
+    public function getPrintOrdering(): array
     {
         return $this->intArray("wordr");
     }
 
-    public function getStyleId() : int
+    public function getStyleId(): int
     {
         return $this->int("style_id");
     }
 
-    public function getImportantPageOrdering() : array
+    public function getImportantPageOrdering(): array
     {
         return $this->intArray("ord");
     }
 
-    public function getImportantPageIndentation() : array
+    public function getImportantPageIndentation(): array
     {
         return $this->intArray("indent");
     }
 
-    public function getFormat() : string
+    public function getFormat(): string
     {
         return trim($this->str("format"));
     }
 
-    public function getPageTemplateId() : int
+    public function getPageTemplateId(): int
     {
         $templ_id = $this->int("page_templ");
         if ($templ_id === 0) {
@@ -179,56 +179,56 @@ class EditingGUIRequest
         return $templ_id;
     }
 
-    public function getObjId() : int
+    public function getObjId(): int
     {
         return $this->int("obj_id");
     }
 
-    public function getSelectedPrintType() : string
+    public function getSelectedPrintType(): string
     {
         return $this->str("sel_type");
     }
 
     /** @return int[] */
-    public function getIds() : array
+    public function getIds(): array
     {
         return $this->intArray("id");
     }
 
     /** @return int[] */
-    public function getAllIds() : array
+    public function getAllIds(): array
     {
         return $this->intArray("all_ids");
     }
 
     /** @return int[] */
-    public function getNewPages() : array
+    public function getNewPages(): array
     {
         return $this->intArray("new_pages");
     }
 
     /** @return int[] */
-    public function getAddToPage() : array
+    public function getAddToPage(): array
     {
         return $this->intArray("add_to_page");
     }
 
-    public function getEmptyPageTemplate() : int
+    public function getEmptyPageTemplate(): int
     {
         return $this->int("empty_page_templ");
     }
 
-    public function getStatFig() : int
+    public function getStatFig(): int
     {
         return $this->int("fig");
     }
 
-    public function getStatTfr() : string
+    public function getStatTfr(): string
     {
         return $this->str("tfr");
     }
 
-    public function getStatScp() : int
+    public function getStatScp(): int
     {
         return $this->int("scp");
     }

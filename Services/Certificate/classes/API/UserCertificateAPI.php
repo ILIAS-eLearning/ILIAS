@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -50,12 +52,12 @@ class UserCertificateAPI
      *                              will be generated
      * @return array<int, UserCertificateDto>
      */
-    public function getUserCertificateData(UserDataFilter $filter, array $ilCtrlStack = []) : array
+    public function getUserCertificateData(UserDataFilter $filter, array $ilCtrlStack = []): array
     {
         return $this->userCertificateRepository->getUserData($filter, $ilCtrlStack);
     }
 
-    public function getUserCertificateDataMaxCount(UserDataFilter $filter) : int
+    public function getUserCertificateDataMaxCount(UserDataFilter $filter): int
     {
         return $this->userCertificateRepository->getUserCertificateDataMaxCount($filter);
     }

@@ -1,4 +1,6 @@
-<?php declare(strict_types=0);
+<?php
+
+declare(strict_types=0);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * @author  Stefan Meyer <smeyer.ilias@gmx.de>
  * @ingroup ModulesCourse
@@ -134,7 +136,7 @@ class ilCourseParticipantsTableGUI extends ilParticipantTableGUI
         $this->addCommandButton('updateParticipantsStatus', $this->lng->txt('save'));
     }
 
-    protected function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set): void
     {
         $this->tpl->setVariable('VAL_ID', $a_set['usr_id']);
         $this->tpl->setVariable('VAL_NAME', $a_set['lastname'] . ', ' . $a_set['firstname']);
@@ -314,7 +316,7 @@ class ilCourseParticipantsTableGUI extends ilParticipantTableGUI
         }
     }
 
-    public function parse() : void
+    public function parse(): void
     {
         $this->determineOffsetAndOrder(true);
 

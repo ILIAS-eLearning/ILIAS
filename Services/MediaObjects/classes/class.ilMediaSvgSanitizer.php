@@ -31,7 +31,7 @@ class ilMediaSvgSanitizer
      */
     public static function sanitizeFile(
         string $a_file
-    ) : void {
+    ): void {
         $sanitizer = new Sanitizer();
         $dirtySVG = file_get_contents($a_file);
         $cleanSVG = $sanitizer->sanitize($dirtySVG);
@@ -43,7 +43,7 @@ class ilMediaSvgSanitizer
      */
     public static function sanitizeDir(
         string $a_path
-    ) : void {
+    ): void {
         $path = realpath($a_path);
 
         $objects = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($path), RecursiveIteratorIterator::SELF_FIRST);

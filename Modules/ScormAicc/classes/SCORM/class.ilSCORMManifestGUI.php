@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -31,7 +33,7 @@ class ilSCORMmanifestGUI extends ilSCORMObjectGUI
         $this->sc_object = new ilSCORMManifest($a_id);
     }
 
-    public function view() : void
+    public function view(): void
     {
         $this->tpl->addBlockFile("CONTENT", "content", "tpl.scorm_obj.html", "Modules/ScormAicc");
         $this->displayParameter(

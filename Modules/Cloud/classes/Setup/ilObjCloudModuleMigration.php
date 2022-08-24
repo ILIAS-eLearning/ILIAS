@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 use ILIAS\Setup\Migration;
 use ILIAS\Setup\Environment;
@@ -23,17 +25,17 @@ class ilObjCloudModuleMigration implements Migration
 {
     protected ilDBInterface $db;
 
-    public function getLabel() : string
+    public function getLabel(): string
     {
         return 'ilObjCloudModule Data Removal. Attention, this deletes all Data of the Cloud Module from the Repository';
     }
 
-    public function getDefaultAmountOfStepsPerRun() : int
+    public function getDefaultAmountOfStepsPerRun(): int
     {
         return Migration::INFINITE;
     }
 
-    public function getRemainingAmountOfSteps() : int
+    public function getRemainingAmountOfSteps(): int
     {
         if ($this->db->fetchObject($this->getCloudReferencesQuery())) {
             return 1;
@@ -45,7 +47,7 @@ class ilObjCloudModuleMigration implements Migration
     /**
      * @return ilDatabaseUpdatedObjective[]|ilIniFilesLoadedObjective[]
      */
-    public function getPreconditions(Environment $environment) : array
+    public function getPreconditions(Environment $environment): array
     {
         return [
             new ilIniFilesLoadedObjective(),
@@ -53,7 +55,7 @@ class ilObjCloudModuleMigration implements Migration
         ];
     }
 
-    public function prepare(Environment $environment) : void
+    public function prepare(Environment $environment): void
     {
         //This is necessary for using ilObjects delete function to remove existing objects
         ilContext::init(ilContext::CONTEXT_CRON);
@@ -61,7 +63,7 @@ class ilObjCloudModuleMigration implements Migration
         $this->db = $environment->getResource(Environment::RESOURCE_DATABASE);
     }
 
-    public function step(Environment $environment) : void
+    public function step(Environment $environment): void
     {
         while ($result = $this->db->fetchObject($this->getCloudReferencesQuery())) {
             $cloud_object = new ilObjCloud((int) $result->ref_id);
@@ -69,7 +71,7 @@ class ilObjCloudModuleMigration implements Migration
         }
     }
 
-    protected function getCloudReferencesQuery() : ilDBStatement
+    protected function getCloudReferencesQuery(): ilDBStatement
     {
         return $this->db->query("
                     SELECT ref_id 

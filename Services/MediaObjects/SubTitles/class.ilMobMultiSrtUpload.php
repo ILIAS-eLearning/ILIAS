@@ -43,7 +43,7 @@ class ilMobMultiSrtUpload
     /**
      * Get directory for multi srt upload
      */
-    public function getMultiSrtUploadDir() : string
+    public function getMultiSrtUploadDir(): string
     {
         return $this->multi_srt->getUploadDir();
     }
@@ -58,7 +58,7 @@ class ilMobMultiSrtUpload
      */
     public function uploadMultipleSubtitleFile(
         array $a_file
-    ) : void {
+    ): void {
         if (!is_file($a_file["tmp_name"])) {
             throw new ilMobSrtUploadException($this->lng->txt("cont_srt_zip_file_could_not_be_uploaded"));
         }
@@ -73,7 +73,7 @@ class ilMobMultiSrtUpload
     /**
      * Clear multi feedback directory
      */
-    public function clearMultiSrtDirectory() : void
+    public function clearMultiSrtDirectory(): void
     {
         ilFileUtils::delDir($this->getMultiSrtUploadDir());
     }
@@ -81,7 +81,7 @@ class ilMobMultiSrtUpload
     /**
      * Get all srt files of srt multi upload
      */
-    public function getMultiSrtFiles() : array
+    public function getMultiSrtFiles(): array
     {
         $items = array();
 
@@ -133,7 +133,7 @@ class ilMobMultiSrtUpload
     /**
      * Move all srt files that could be mapped to media objects
      */
-    public function moveMultiSrtFiles() : int
+    public function moveMultiSrtFiles(): int
     {
         $items = $this->getMultiSrtFiles();
         $cnt = 0;

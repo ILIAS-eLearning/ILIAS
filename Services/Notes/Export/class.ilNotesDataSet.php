@@ -40,20 +40,20 @@ class ilNotesDataSet extends ilDataSet
         $this->notes_data = $DIC->notes()->internal()->data();
     }
 
-    public function getSupportedVersions() : array
+    public function getSupportedVersions(): array
     {
         return array("4.3.0");
     }
-    
-    protected function getXmlNamespace(string $a_entity, string $a_schema_version) : string
+
+    protected function getXmlNamespace(string $a_entity, string $a_schema_version): string
     {
         return "https://www.ilias.de/xml/Services/Notes/" . $a_entity;
     }
-    
+
     protected function getTypes(
         string $a_entity,
         string $a_version
-    ) : array {
+    ): array {
         // user notes
         if ($a_entity === "user_notes") {
             switch ($a_version) {
@@ -80,7 +80,7 @@ class ilNotesDataSet extends ilDataSet
         string $a_entity,
         string $a_version,
         array $a_ids
-    ) : void {
+    ): void {
         $ilDB = $this->db;
 
         // user notes
@@ -104,7 +104,7 @@ class ilNotesDataSet extends ilDataSet
         array $a_rec,
         ilImportMapping $a_mapping,
         string $a_schema_version
-    ) : void {
+    ): void {
         switch ($a_entity) {
             case "user_notes":
                 $usr_id = $a_mapping->getMapping("Services/User", "usr", $a_rec["Author"]);

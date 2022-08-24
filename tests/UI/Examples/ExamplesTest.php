@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 require_once("libs/composer/vendor/autoload.php");
 require_once(__DIR__ . "/../Base.php");
 
@@ -32,7 +34,7 @@ class ExamplesTest extends ILIAS_UI_TestBase
     protected string $path_to_base_factory = "src/UI/Factory.php";
     protected Container $dic;
 
-    public function setUp() : void
+    public function setUp(): void
     {
         //This avoids various index not set warnings, which are only relevant in test context.
         $_SERVER["REQUEST_URI"] = "";
@@ -49,7 +51,7 @@ class ExamplesTest extends ILIAS_UI_TestBase
      * please add them here. However, please check carefully if those deps are really needed. Even if the examples,
      * we try to keep them minimal. Note the most deps are wired up here as mocks only.
      */
-    protected function setUpMockDependencies() : void
+    protected function setUpMockDependencies(): void
     {
         $this->dic = new Container();
         $this->dic["tpl"] = $this->getTemplateFactory()->getTemplate("tpl.main.html", false, false);
@@ -87,7 +89,7 @@ class ExamplesTest extends ILIAS_UI_TestBase
     /**
      * @throws Crawler\Exception\CrawlerException
      */
-    public function testAllNonAbstractComponentsShowcaseExamples() : void
+    public function testAllNonAbstractComponentsShowcaseExamples(): void
     {
         global $DIC;
         $DIC = $this->dic;
@@ -107,7 +109,7 @@ class ExamplesTest extends ILIAS_UI_TestBase
     /**
      * @dataProvider provideExampleFullFunctionNamesAndPath
      */
-    public function testAllExamplesRenderAString(string $example_function_name, string $example_path) : void
+    public function testAllExamplesRenderAString(string $example_function_name, string $example_path): void
     {
         global $DIC;
         $DIC = $this->dic;
@@ -123,13 +125,13 @@ class ExamplesTest extends ILIAS_UI_TestBase
     /**
      * @throws Crawler\Exception\CrawlerException
      */
-    protected function getEntriesFromCrawler() : Crawler\Entry\ComponentEntries
+    protected function getEntriesFromCrawler(): Crawler\Entry\ComponentEntries
     {
         $crawler = new Crawler\FactoriesCrawler();
         return $crawler->crawlFactory($this->path_to_base_factory);
     }
 
-    public function provideExampleFullFunctionNamesAndPath() : array
+    public function provideExampleFullFunctionNamesAndPath(): array
     {
         $function_names = [];
         foreach ($this->getEntriesFromCrawler() as $entry) {
@@ -146,7 +148,7 @@ class ExamplesTest extends ILIAS_UI_TestBase
     /**
      * @dataProvider provideListOfFullscreenExamples
      */
-    public function testFullscreenModeExamples(string $example_function_name, string $example_path) : void
+    public function testFullscreenModeExamples(string $example_function_name, string $example_path): void
     {
         global $DIC;
         $DIC = $this->dic;
@@ -159,7 +161,7 @@ class ExamplesTest extends ILIAS_UI_TestBase
         }
     }
 
-    public function provideListOfFullscreenExamples() : array
+    public function provideListOfFullscreenExamples(): array
     {
         return [
             ['ILIAS\UI\examples\MainControls\Footer\renderFooterInFullscreenMode', "src/UI/examples/MainControls/Footer/footer.php"],

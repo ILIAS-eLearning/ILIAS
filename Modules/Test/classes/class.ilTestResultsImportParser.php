@@ -43,7 +43,7 @@ class ilTestResultsImportParser extends ilSaxParser
     /**
      * @return array
      */
-    public function getQuestionIdMapping() : array
+    public function getQuestionIdMapping(): array
     {
         return $this->question_id_mapping;
     }
@@ -51,7 +51,7 @@ class ilTestResultsImportParser extends ilSaxParser
     /**
      * @param array $question_id_mapping
      */
-    public function setQuestionIdMapping(array $question_id_mapping) : void
+    public function setQuestionIdMapping(array $question_id_mapping): void
     {
         $this->question_id_mapping = $question_id_mapping;
     }
@@ -59,7 +59,7 @@ class ilTestResultsImportParser extends ilSaxParser
     /**
      * @return array
      */
-    public function getSrcPoolDefIdMapping() : array
+    public function getSrcPoolDefIdMapping(): array
     {
         return $this->src_pool_def_id_mapping;
     }
@@ -67,7 +67,7 @@ class ilTestResultsImportParser extends ilSaxParser
     /**
      * @param array $src_pool_def_id_mapping
      */
-    public function setSrcPoolDefIdMapping(array $src_pool_def_id_mapping) : void
+    public function setSrcPoolDefIdMapping(array $src_pool_def_id_mapping): void
     {
         $this->src_pool_def_id_mapping = $src_pool_def_id_mapping;
     }
@@ -77,7 +77,7 @@ class ilTestResultsImportParser extends ilSaxParser
     * should be overwritten by inherited class
     * @access	private
     */
-    public function setHandlers($a_xml_parser) : void
+    public function setHandlers($a_xml_parser): void
     {
         xml_set_object($a_xml_parser, $this);
         xml_set_element_handler($a_xml_parser, 'handlerBeginTag', 'handlerEndTag');
@@ -87,7 +87,7 @@ class ilTestResultsImportParser extends ilSaxParser
     /**
     * handler for begin of element parser
     */
-    public function handlerBeginTag($a_xml_parser, $a_name, $a_attribs) : void
+    public function handlerBeginTag($a_xml_parser, $a_name, $a_attribs): void
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -258,7 +258,7 @@ class ilTestResultsImportParser extends ilSaxParser
     /**
     * handler for end of element
     */
-    public function handlerEndTag($a_xml_parser, $a_name) : void
+    public function handlerEndTag($a_xml_parser, $a_name): void
     {
         switch (strtolower($a_name)) {
             case "tst_active":
@@ -277,7 +277,7 @@ class ilTestResultsImportParser extends ilSaxParser
     /**
       * handler for character data
       */
-    public function handlerParseCharacterData($a_xml_parser, $a_data) : void
+    public function handlerParseCharacterData($a_xml_parser, $a_data): void
     {
         // do nothing
     }
@@ -291,7 +291,7 @@ class ilTestResultsImportParser extends ilSaxParser
         return null;
     }
 
-    private function fetchLastFinishedPass($attribs) : ?int
+    private function fetchLastFinishedPass($attribs): ?int
     {
         if (isset($attribs['last_finished_pass'])) {
             return $attribs['last_finished_pass'];
@@ -304,7 +304,7 @@ class ilTestResultsImportParser extends ilSaxParser
         return null;
     }
 
-    private function fetchLastStartedPass($attribs) : ?int
+    private function fetchLastStartedPass($attribs): ?int
     {
         if (isset($attribs['last_started_pass'])) {
             return $attribs['last_started_pass'];

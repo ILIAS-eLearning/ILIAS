@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /* Copyright (c) 2021 - Daniel Weise <daniel.weise@concepts-and-training.de> - Extended GPL, see LICENSE */
 
@@ -7,8 +9,8 @@
  */
 class ilIndividualAssessmentPrimitiveInternalNotificator extends ilMailNotification implements ilIndividualAssessmentNotificator
 {
-    const OCCASION_FAILED = 0;
-    const OCCASION_COMPLETED = 1;
+    public const OCCASION_FAILED = 0;
+    public const OCCASION_COMPLETED = 1;
 
     protected int $occasion;
     protected ilIndividualAssessmentMember $receiver;
@@ -24,7 +26,7 @@ class ilIndividualAssessmentPrimitiveInternalNotificator extends ilMailNotificat
      */
     public function withReceiver(
         ilIndividualAssessmentMember $member
-    ) : ilIndividualAssessmentPrimitiveInternalNotificator {
+    ): ilIndividualAssessmentPrimitiveInternalNotificator {
         $clone = clone $this;
         $clone->receiver = $member;
         $clone->ref_id = $member->assessment()->getRefId();
@@ -34,7 +36,7 @@ class ilIndividualAssessmentPrimitiveInternalNotificator extends ilMailNotificat
     /**
      * @inheritdoc
      */
-    public function withOccasionFailed() : ilIndividualAssessmentPrimitiveInternalNotificator
+    public function withOccasionFailed(): ilIndividualAssessmentPrimitiveInternalNotificator
     {
         $clone = clone $this;
         $clone->occasion = self::OCCASION_FAILED;
@@ -44,7 +46,7 @@ class ilIndividualAssessmentPrimitiveInternalNotificator extends ilMailNotificat
     /**
      * @inheritdoc
      */
-    public function withOccasionCompleted() : ilIndividualAssessmentPrimitiveInternalNotificator
+    public function withOccasionCompleted(): ilIndividualAssessmentPrimitiveInternalNotificator
     {
         $clone = clone $this;
         $clone->occasion = self::OCCASION_COMPLETED;
@@ -54,7 +56,7 @@ class ilIndividualAssessmentPrimitiveInternalNotificator extends ilMailNotificat
     /**
      * @inheritdoc
      */
-    public function send() : void
+    public function send(): void
     {
         if (
             !$this->receiver instanceof ilIndividualAssessmentMember ||

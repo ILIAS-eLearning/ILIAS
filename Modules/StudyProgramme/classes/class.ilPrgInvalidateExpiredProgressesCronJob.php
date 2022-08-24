@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -41,42 +43,42 @@
          $this->lng->loadLanguageModule('prg');
      }
 
-     public function getTitle() : string
+     public function getTitle(): string
      {
          return $this->lng->txt('prg_invalidate_expired_progresses_title');
      }
 
-     public function getDescription() : string
+     public function getDescription(): string
      {
          return $this->lng->txt('prg_invalidate_expired_progresses_desc');
      }
 
-     public function getId() : string
+     public function getId(): string
      {
          return self::ID;
      }
 
-     public function hasAutoActivation() : bool
+     public function hasAutoActivation(): bool
      {
          return true;
      }
 
-     public function hasFlexibleSchedule() : bool
+     public function hasFlexibleSchedule(): bool
      {
          return true;
      }
 
-     public function getDefaultScheduleType() : int
+     public function getDefaultScheduleType(): int
      {
          return self::SCHEDULE_TYPE_IN_DAYS;
      }
 
-     public function getDefaultScheduleValue() : ?int
+     public function getDefaultScheduleValue(): ?int
      {
          return 1;
      }
 
-     public function run() : ilCronJobResult
+     public function run(): ilCronJobResult
      {
          $result = new ilCronJobResult();
          foreach ($this->user_progress_db->getExpiredSuccessfull() as $progress) {

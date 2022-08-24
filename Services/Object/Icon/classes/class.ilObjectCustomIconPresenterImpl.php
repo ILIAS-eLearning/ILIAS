@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 class ilObjectCustomIconPresenterImpl implements ilObjectCustomIconPresenter
 {
     private ilObjectCustomIcon $icon;
@@ -25,12 +27,12 @@ class ilObjectCustomIconPresenterImpl implements ilObjectCustomIconPresenter
         $this->icon = $icon;
     }
 
-    public function exists() : bool
+    public function exists(): bool
     {
         return $this->icon->exists();
     }
 
-    public function getFullPath() : string
+    public function getFullPath(): string
     {
         return $this->icon->getFullPath();
     }

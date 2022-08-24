@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\UI\Component\ViewControl;
 
 use ILIAS\UI\Component\Component;
@@ -26,21 +28,20 @@ use ILIAS\UI\Component\Button\Button;
  */
 interface Section extends Component
 {
-
     /**
      * Returns the action executed by clicking on previous.
      */
-    public function getPreviousActions() : Button;
+    public function getPreviousActions(): Button;
 
     /**
      * Returns the action executed by clicking on next.
      */
-    public function getNextActions() : Button;
+    public function getNextActions(): Button;
 
     /**
      * Returns the Default- or Month Button placed in the middle of the control
      *
      * @return Component the Default- or Month Button placed in the middle of the control
      */
-    public function getSelectorButton() : Component;
+    public function getSelectorButton(): Component;
 }

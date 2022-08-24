@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 require_once(__DIR__ . "/../../../../../libs/composer/vendor/autoload.php");
 require_once(__DIR__ . "/../../../Base.php");
 
@@ -25,23 +27,23 @@ class WorkflowStepTest extends ILIAS_UI_TestBase
 {
     protected Workflow\Factory $f;
 
-    protected function buildFactory() : Workflow\Factory
+    protected function buildFactory(): Workflow\Factory
     {
         return new ILIAS\UI\Implementation\Component\Listing\Workflow\Factory();
     }
 
-    public function setUp() : void
+    public function setUp(): void
     {
         $this->f = $this->buildFactory();
     }
 
-    public function test_implements_factory_interface() : void
+    public function test_implements_factory_interface(): void
     {
         $step = $this->f->step('');
         $this->assertInstanceOf(Workflow\Step::class, $step);
     }
 
-    public function test_constructor_params() : void
+    public function test_constructor_params(): void
     {
         $label = 'label';
         $description = 'description';
@@ -51,14 +53,14 @@ class WorkflowStepTest extends ILIAS_UI_TestBase
         $this->assertEquals(Workflow\Step::NOT_STARTED, $step->getStatus());
     }
 
-    public function test_withStatus() : void
+    public function test_withStatus(): void
     {
         $status = Workflow\Step::SUCCESSFULLY;
         $step = $this->f->step('')->withStatus($status);
         $this->assertEquals($status, $step->getStatus());
     }
 
-    public function test_withStatus_wrong_args() : void
+    public function test_withStatus_wrong_args(): void
     {
         $status = 100;
         $raised = false;

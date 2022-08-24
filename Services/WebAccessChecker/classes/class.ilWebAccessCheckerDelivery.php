@@ -1,4 +1,5 @@
 <?php
+
 use ILIAS\FileDelivery\Delivery;
 use ILIAS\HTTP\Cookies\CookieFactory;
 use ILIAS\HTTP\Services;
@@ -27,7 +28,7 @@ class ilWebAccessCheckerDelivery
     private Services $http;
 
 
-    public static function run(Services $httpState, CookieFactory $cookieFactory) : void
+    public static function run(Services $httpState, CookieFactory $cookieFactory): void
     {
         $obj = new self($httpState, $cookieFactory);
         $obj->handleRequest();
@@ -44,7 +45,7 @@ class ilWebAccessCheckerDelivery
     }
 
 
-    protected function handleRequest() : void
+    protected function handleRequest(): void
     {
         // Set errorreporting
         ilInitialisation::handleErrorReporting();
@@ -88,7 +89,7 @@ class ilWebAccessCheckerDelivery
     /**
      * @throws ilWACException
      */
-    protected function deny() : void
+    protected function deny(): void
     {
         if (!$this->wac->isChecked()) {
             throw new ilWACException(ilWACException::ACCESS_WITHOUT_CHECK);
@@ -97,7 +98,7 @@ class ilWebAccessCheckerDelivery
     }
 
 
-    protected function deliverDummyImage() : void
+    protected function deliverDummyImage(): void
     {
         $ilFileDelivery = new Delivery('./Services/WebAccessChecker/templates/images/access_denied.png', $this->http);
         $ilFileDelivery->setDisposition($this->wac->getDisposition());
@@ -105,7 +106,7 @@ class ilWebAccessCheckerDelivery
     }
 
 
-    protected function deliverDummyVideo() : void
+    protected function deliverDummyVideo(): void
     {
         $ilFileDelivery = new Delivery('./Services/WebAccessChecker/templates/images/access_denied.mp4', $this->http);
         $ilFileDelivery->setDisposition($this->wac->getDisposition());
@@ -113,7 +114,7 @@ class ilWebAccessCheckerDelivery
     }
 
 
-    protected function handleAccessErrors(ilWACException $e) : void
+    protected function handleAccessErrors(ilWACException $e): void
     {
 
         //1.5.2017 Http code needs to be 200 because mod_xsendfile ignores the response with an 401 code. (possible leak of web path via xsendfile header)
@@ -137,7 +138,7 @@ class ilWebAccessCheckerDelivery
     /**
      * @throws ilWACException
      */
-    protected function handleErrors(ilWACException $e) : void
+    protected function handleErrors(ilWACException $e): void
     {
         $response = $this->http->response()
             ->withStatus(500);
@@ -156,7 +157,7 @@ class ilWebAccessCheckerDelivery
     /**
      * @throws ilWACException
      */
-    protected function deliver() : void
+    protected function deliver(): void
     {
         if (!$this->wac->isChecked()) {
             throw new ilWACException(ilWACException::ACCESS_WITHOUT_CHECK);

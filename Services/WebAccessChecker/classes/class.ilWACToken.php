@@ -57,7 +57,7 @@ class ilWACToken
     }
 
 
-    public function generateToken() : void
+    public function generateToken(): void
     {
         $this->initSalt();
         $token = implode('-', array(
@@ -72,7 +72,7 @@ class ilWACToken
     }
 
 
-    protected function initSalt() : void
+    protected function initSalt(): void
     {
         if (self::getSALT() !== '' && self::getSALT() !== '0') {
             return;
@@ -94,7 +94,7 @@ class ilWACToken
     /**
      * @throws ilWACException
      */
-    protected function generateSaltFile() : void
+    protected function generateSaltFile(): void
     {
         if (is_file(self::SALT_FILE_PATH)) {
             unlink(self::SALT_FILE_PATH);
@@ -112,127 +112,127 @@ class ilWACToken
     }
 
 
-    public function getSessionId() : string
+    public function getSessionId(): string
     {
         return $this->session_id;
     }
 
 
-    public function setSessionId(string $session_id) : void
+    public function setSessionId(string $session_id): void
     {
         $this->session_id = $session_id;
     }
 
 
-    public function getTimestamp() : int
+    public function getTimestamp(): int
     {
         return $this->timestamp;
     }
 
 
-    public function setTimestamp(int $timestamp) : void
+    public function setTimestamp(int $timestamp): void
     {
         $this->timestamp = $timestamp;
     }
 
 
-    public function getIp() : string
+    public function getIp(): string
     {
         return $this->ip;
     }
 
 
-    public function setIp(string $ip) : void
+    public function setIp(string $ip): void
     {
         $this->ip = $ip;
     }
 
 
-    public function getToken() : string
+    public function getToken(): string
     {
         return $this->token;
     }
 
 
-    public function setToken(string $token) : void
+    public function setToken(string $token): void
     {
         $this->token = $token;
     }
 
 
-    public function getPath() : string
+    public function getPath(): string
     {
         return $this->path;
     }
 
 
-    public function setPath(string $path) : void
+    public function setPath(string $path): void
     {
         $this->path = $path;
     }
 
 
-    public function getId() : string
+    public function getId(): string
     {
         return $this->id;
     }
 
 
-    public function getHashedId() : string
+    public function getHashedId(): string
     {
         return md5($this->id);
     }
 
 
-    public function setId(string $id) : void
+    public function setId(string $id): void
     {
         $this->id = $id;
     }
 
 
-    public static function getSALT() : string
+    public static function getSALT(): string
     {
         return self::$SALT;
     }
 
 
-    public static function setSALT(string $salt) : void
+    public static function setSALT(string $salt): void
     {
         self::$SALT = $salt;
     }
 
 
-    public function getClient() : string
+    public function getClient(): string
     {
         return $this->client;
     }
 
 
-    public function setClient(string $client) : void
+    public function setClient(string $client): void
     {
         $this->client = $client;
     }
 
 
-    public function getTTL() : int
+    public function getTTL(): int
     {
         return $this->ttl;
     }
 
 
-    public function setTTL(int $ttl) : void
+    public function setTTL(int $ttl): void
     {
         $this->ttl = $ttl;
     }
 
 
-    public function getRawToken() : string
+    public function getRawToken(): string
     {
         return $this->raw_token;
     }
 
 
-    public function setRawToken(string $raw_token) : void
+    public function setRawToken(string $raw_token): void
     {
         $this->raw_token = $raw_token;
     }

@@ -28,7 +28,7 @@ class ilLearningModuleImporter extends ilXmlImporter
     protected ilImportConfig $config;
     protected ilLogger $log;
 
-    public function init() : void
+    public function init(): void
     {
         $this->ds = new ilLearningModuleDataSet();
         $this->ds->setDSPrefix("ds");
@@ -57,7 +57,7 @@ class ilLearningModuleImporter extends ilXmlImporter
         string $a_id,
         string $a_xml,
         ilImportMapping $a_mapping
-    ) : void {
+    ): void {
         $this->log->debug("import XML Representation");
 
         // case i container
@@ -111,7 +111,7 @@ class ilLearningModuleImporter extends ilXmlImporter
         }
     }
 
-    public function finalProcessing(ilImportMapping $a_mapping) : void
+    public function finalProcessing(ilImportMapping $a_mapping): void
     {
         $pg_map = $a_mapping->getMappingsOfEntity("Modules/LearningModule", "pg");
 

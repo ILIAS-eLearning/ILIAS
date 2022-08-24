@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -30,18 +32,18 @@ interface ilExternalDetector extends ilDetector
 {
     // Event listener table persistence scheme.
 
-    public function setDbId(?int $a_id) : void;
+    public function setDbId(?int $a_id): void;
 
     /**
      * @return mixed
      */
     public function getDbId();
 
-    public function hasDbId() : bool;
+    public function hasDbId(): bool;
 
-    public function writeDetectorToDb() : void;
+    public function writeDetectorToDb(): void;
 
-    public function deleteDetectorFromDb() : void;
+    public function deleteDetectorFromDb(): void;
 
     // Listening only at certain times scheme.
 

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -26,32 +28,32 @@ class ilExternalAuthUserAttributeMappingRule
     protected string $external_attribute = '';
     protected bool $update_automatically = false;
 
-    public function getExternalAttribute() : string
+    public function getExternalAttribute(): string
     {
         return $this->external_attribute;
     }
 
-    public function setExternalAttribute(string $external_attribute) : void
+    public function setExternalAttribute(string $external_attribute): void
     {
         $this->external_attribute = $external_attribute;
     }
 
-    public function getAttribute() : string
+    public function getAttribute(): string
     {
         return $this->attribute;
     }
 
-    public function setAttribute(string $attribute) : void
+    public function setAttribute(string $attribute): void
     {
         $this->attribute = $attribute;
     }
 
-    public function isAutomaticallyUpdated() : bool
+    public function isAutomaticallyUpdated(): bool
     {
         return $this->update_automatically;
     }
 
-    public function updateAutomatically(bool $update_automatically) : void
+    public function updateAutomatically(bool $update_automatically): void
     {
         $this->update_automatically = $update_automatically;
     }

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\UI\Implementation\Component\Input\Field;
 
 use ILIAS\UI\Component as C;
@@ -45,7 +47,7 @@ class Url extends Input implements C\Input\Field\Url
         $this->addTransformation();
     }
 
-    protected function addValidation() : void
+    protected function addValidation(): void
     {
         $txt_id = 'ui_invalid_url';
         $error = fn (callable $txt, $value) => $txt($txt_id, $value);
@@ -65,9 +67,9 @@ class Url extends Input implements C\Input\Field\Url
         $this->setAdditionalTransformation($from_before_until);
     }
 
-    protected function addTransformation() : void
+    protected function addTransformation(): void
     {
-        $trafo = $this->refinery->custom()->transformation(function ($v) : ?\ILIAS\Data\URI {
+        $trafo = $this->refinery->custom()->transformation(function ($v): ?\ILIAS\Data\URI {
             if (is_string($v) && trim($v) === '') {
                 return null;
             }
@@ -80,9 +82,9 @@ class Url extends Input implements C\Input\Field\Url
     /**
      * @inheritcoc
      */
-    public static function getURIChecker() : Closure
+    public static function getURIChecker(): Closure
     {
-        return static function (string $value) : bool {
+        return static function (string $value): bool {
             try {
                 new URI($value);
             } catch (Throwable $e) {
@@ -95,7 +97,7 @@ class Url extends Input implements C\Input\Field\Url
     /**
      * @inheritdoc
      */
-    protected function isClientSideValueOk($value) : bool
+    protected function isClientSideValueOk($value): bool
     {
         if (is_string($value) && trim($value) === "") {
             return true;
@@ -110,7 +112,7 @@ class Url extends Input implements C\Input\Field\Url
     /**
      * @inheritdoc
      */
-    protected function getConstraintForRequirement() : ?Constraint
+    protected function getConstraintForRequirement(): ?Constraint
     {
         return $this->refinery->custom()->constraint(self::getURIChecker(), 'Not an URI');
     }
@@ -118,7 +120,7 @@ class Url extends Input implements C\Input\Field\Url
     /**
      * @inheritdoc
      */
-    public function getUpdateOnLoadCode() : Closure
+    public function getUpdateOnLoadCode(): Closure
     {
         return fn ($id) => "$('#$id').on('input', function(event) {
 				il.UI.input.onFieldUpdate(event, '$id', $('#$id').val());

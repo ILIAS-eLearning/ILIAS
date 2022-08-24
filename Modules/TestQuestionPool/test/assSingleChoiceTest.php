@@ -1,4 +1,5 @@
 <?php
+
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -14,14 +15,14 @@ class assSingleChoiceTest extends assBaseTestCase
 {
     protected $backupGlobals = false;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         parent::setUp();
         $this->setGlobalVariable('ilias', $this->getIliasMock());
         $this->setGlobalVariable('tpl', $this->getGlobalTemplateMock());
     }
 
-    public function test_isComplete_shouldReturnTrue() : void
+    public function test_isComplete_shouldReturnTrue(): void
     {
         $obj = new assSingleChoice();
         $this->assertEquals(false, $obj->isComplete());
@@ -33,20 +34,20 @@ class assSingleChoiceTest extends assBaseTestCase
         $this->assertEquals(true, $obj->isComplete());
     }
 
-    public function test_getThumbPrefix_shouldReturnString() : void
+    public function test_getThumbPrefix_shouldReturnString(): void
     {
         $obj = new assSingleChoice();
         $this->assertEquals('thumb.', $obj->getThumbPrefix());
     }
 
-    public function test_setOutputType_shouldReturngetOutputType() : void
+    public function test_setOutputType_shouldReturngetOutputType(): void
     {
         $obj = new assSingleChoice();
         $obj->setOutputType(0);
         $this->assertEquals(0, $obj->getOutputType());
     }
 
-    public function test_getAnswerCount_shouldReturnCount() : void
+    public function test_getAnswerCount_shouldReturnCount(): void
     {
         $obj = new assSingleChoice();
         $this->assertEquals(0, $obj->getAnswerCount());
@@ -57,7 +58,7 @@ class assSingleChoiceTest extends assBaseTestCase
         $this->assertEquals(1, $obj->getAnswerCount());
     }
 
-    public function test_flushAnswers_shouldClearAnswers() : void
+    public function test_flushAnswers_shouldClearAnswers(): void
     {
         $obj = new assSingleChoice();
         $obj->addAnswer('1', 1, 0);
@@ -67,19 +68,19 @@ class assSingleChoiceTest extends assBaseTestCase
         $this->assertEquals(0, $obj->getAnswerCount());
     }
 
-    public function test_getQuestionType_shouldReturnQuestionType() : void
+    public function test_getQuestionType_shouldReturnQuestionType(): void
     {
         $obj = new assSingleChoice();
         $this->assertEquals('assSingleChoice', $obj->getQuestionType());
     }
 
-    public function test_getAdditionalTableName_shouldReturnAdditionalTableName() : void
+    public function test_getAdditionalTableName_shouldReturnAdditionalTableName(): void
     {
         $obj = new assSingleChoice();
         $this->assertEquals('qpl_qst_sc', $obj->getAdditionalTableName());
     }
 
-    public function test_getAnswerTableName_shouldReturnAnswerTableName() : void
+    public function test_getAnswerTableName_shouldReturnAnswerTableName(): void
     {
         $obj = new assSingleChoice();
         $this->assertEquals('qpl_a_sc', $obj->getAnswerTableName());

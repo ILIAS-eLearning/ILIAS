@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -16,6 +18,7 @@
  *********************************************************************/
 
 /** @noinspection PhpIncompatibleReturnTypeInspection */
+
 namespace ILIAS\GlobalScreen\Scope\Tool;
 
 use ILIAS\GlobalScreen\Scope\Tool\Factory\ToolFactory;
@@ -29,19 +32,19 @@ use ILIAS\GlobalScreen\SingletonTrait;
 class ToolServices
 {
     use SingletonTrait;
-    
+
     /**
      * @return ToolFactory
      */
-    public function factory() : ToolFactory
+    public function factory(): ToolFactory
     {
         return $this->get(ToolFactory::class);
     }
-    
+
     /**
      * @return ContextServices
      */
-    public function context() : ContextServices
+    public function context(): ContextServices
     {
         return $this->get(ContextServices::class);
     }

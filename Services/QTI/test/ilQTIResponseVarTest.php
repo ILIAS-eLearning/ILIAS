@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -21,12 +23,12 @@ use PHPUnit\Framework\TestCase;
 
 class ilQTIResponseVarTest extends TestCase
 {
-    public function testConstruct() : void
+    public function testConstruct(): void
     {
         $this->assertInstanceOf(ilQTIResponseVar::class, new ilQTIResponseVar('a'));
     }
 
-    public function testSetGetVartype() : void
+    public function testSetGetVartype(): void
     {
         $instance = new ilQTIResponseVar('a');
         $instance->setVartype('Some input.');
@@ -36,21 +38,21 @@ class ilQTIResponseVarTest extends TestCase
     /**
      * @dataProvider cases
      */
-    public function testSetGetCase(string $input, ?string $expected) : void
+    public function testSetGetCase(string $input, ?string $expected): void
     {
         $instance = new ilQTIResponseVar('a');
         $instance->setCase($input);
         $this->assertEquals($expected, $instance->getCase());
     }
 
-    public function testSetGetRespident() : void
+    public function testSetGetRespident(): void
     {
         $instance = new ilQTIResponseVar('a');
         $instance->setRespident('Some input.');
         $this->assertEquals('Some input.', $instance->getRespident());
     }
 
-    public function testSetGetIndex() : void
+    public function testSetGetIndex(): void
     {
         $instance = new ilQTIResponseVar('a');
         $instance->setIndex('Some input.');
@@ -60,7 +62,7 @@ class ilQTIResponseVarTest extends TestCase
     /**
      * @dataProvider setMatches
      */
-    public function testSetGetSetmatch(string $input, ?string $expected) : void
+    public function testSetGetSetmatch(string $input, ?string $expected): void
     {
         $instance = new ilQTIResponseVar('a');
         $instance->setSetmatch($input);
@@ -70,21 +72,21 @@ class ilQTIResponseVarTest extends TestCase
     /**
      * @dataProvider areaTypes
      */
-    public function testSetGetAreatype(string $input, ?string $expected) : void
+    public function testSetGetAreatype(string $input, ?string $expected): void
     {
         $instance = new ilQTIResponseVar('a');
         $instance->setAreatype($input);
         $this->assertEquals($expected, $instance->getAreatype());
     }
 
-    public function testSetGetContent() : void
+    public function testSetGetContent(): void
     {
         $instance = new ilQTIResponseVar('a');
         $instance->setContent('Some input.');
         $this->assertEquals('Some input.', $instance->getContent());
     }
 
-    public function cases() : array
+    public function cases(): array
     {
         class_exists(ilQTIResponseVar::class); // Force autoload to define the constants.
         return [
@@ -95,7 +97,7 @@ class ilQTIResponseVarTest extends TestCase
         ];
     }
 
-    public function setMatches() : array
+    public function setMatches(): array
     {
         class_exists(ilQTIRespcondition::class); // Force autoload to define the constants.
         return [
@@ -106,7 +108,7 @@ class ilQTIResponseVarTest extends TestCase
         ];
     }
 
-    public function areaTypes() : array
+    public function areaTypes(): array
     {
         class_exists(ilQTIRespcondition::class); // Force autoload to define the constants.
         return [

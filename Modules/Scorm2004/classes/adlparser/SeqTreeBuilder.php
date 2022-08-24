@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -62,7 +64,7 @@
 
     class SeqTreeBuilder
     {
-        public function buildNodeSeqTree(string $file) : array
+        public function buildNodeSeqTree(string $file): array
         {
             $doc = new DomDocument();
             $doc->load($file);
@@ -123,7 +125,7 @@
 
 
 
-        private function buildNode(object $node, ?object $seq, object $doc) : SeqActivity
+        private function buildNode(object $node, ?object $seq, object $doc): SeqActivity
         {
 
         //create a new activity object
@@ -232,7 +234,7 @@
         }
 
 
-        private function extractSeqInfo(object $iNode, object $ioAct) : object
+        private function extractSeqInfo(object $iNode, object $ioAct): object
         {
             //set sequencing information
             $children = $iNode->childNodes;
@@ -422,7 +424,7 @@
         }
 
 
-        public static function getObjectives(object $iNode, object $ioAct) : object
+        public static function getObjectives(object $iNode, object $ioAct): object
         {
             global $DIC;
             $ilLog = ilLoggerFactory::getLogger('sc13');
@@ -474,7 +476,7 @@
             return $ioAct;
         }
 
-        public static function getADLSEQObjectives(object $iNode, object $ioAct) : object
+        public static function getADLSEQObjectives(object $iNode, object $ioAct): object
         {
             global $DIC;
             $ilLog = ilLoggerFactory::getLogger('sc13');
@@ -514,7 +516,7 @@
             return $ioAct;
         }
 
-        public static function getADLSeqMaps(object $iNode, object $curseqobj) : object
+        public static function getADLSeqMaps(object $iNode, object $curseqobj): object
         {
             if (count($curseqobj->mMaps) == null) {
                 $curseqobj->mMaps = array();
@@ -553,7 +555,7 @@
             return $curseqobj;
         }
 
-        public static function fillinADLSeqMaps(object $iNode, object $map) : object
+        public static function fillinADLSeqMaps(object $iNode, object $map): object
         {
             if ($map->mGlobalObjID == null) {
                 $map->mGlobalObjID = preg_replace('/(%20)+/', ' ', trim($iNode->getAttribute("targetObjectiveID")));
@@ -612,7 +614,7 @@
             return $map;
         }
 
-        public static function getObjectiveMaps(object $iNode) : ?array
+        public static function getObjectiveMaps(object $iNode): ?array
         {
             $tempVal = null;
             $maps = array();
@@ -664,7 +666,7 @@
             return $maps;
         }
 
-        public static function getRollupRules(object $iNode, object $ioAct) : object
+        public static function getRollupRules(object $iNode, object $ioAct): object
         {
             $ok = true;
             $tempVal = null;
@@ -780,7 +782,7 @@
         }
 
 
-        public static function getSequencingRules(object $iNode, object $ioAct) : object
+        public static function getSequencingRules(object $iNode, object $ioAct): object
         {
             //local variables
             $ok = true;
@@ -863,7 +865,7 @@
             return $ioAct;
         }
 
-        public static function extractSeqRuleConditions(object $iNode) : array
+        public static function extractSeqRuleConditions(object $iNode): array
         {
             $tempVal = null;
             $condSet = new SeqConditionSet(false);
@@ -927,7 +929,7 @@
             return $c_condSet;
         }
 
-        public static function getAuxResources(object $iNode, object $ioAct) : object
+        public static function getAuxResources(object $iNode, object $ioAct): object
         {
             $ok = true;
             $tempVal = null;
@@ -965,13 +967,13 @@
 
         //helper functions
 
-        private static function convert_to_bool(string $string) : bool
+        private static function convert_to_bool(string $string): bool
         {
             return strtoupper($string) !== "FALSE";
         }
 
 
-        private static function lookupElement(object $iNode, ?string $iElement) : ?string
+        private static function lookupElement(object $iNode, ?string $iElement): ?string
         {
             $value = null;
             $curNode = null;

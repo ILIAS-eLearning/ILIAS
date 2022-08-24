@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\UI\Component\Chart\ProgressMeter;
 
 /**
@@ -49,7 +51,7 @@ interface Factory
      * @param int|float|null $comparison Comparison value to be displayed by second bar.
      * @return \ILIAS\UI\Component\Chart\ProgressMeter\Standard
      */
-    public function standard($maximum, $main, $required = null, $comparison = null) : Standard;
+    public function standard($maximum, $main, $required = null, $comparison = null): Standard;
 
     /**
      * ---
@@ -69,7 +71,7 @@ interface Factory
      * @param int|float|null $comparison  Comparison value to be displayed by second bar.
      * @return \ILIAS\UI\Component\Chart\ProgressMeter\FixedSize
      */
-    public function fixedSize($maximum, $main, $required = null, $comparison = null) : FixedSize;
+    public function fixedSize($maximum, $main, $required = null, $comparison = null): FixedSize;
 
     /**
      * ---
@@ -90,5 +92,5 @@ interface Factory
      * @param int|float|null $required    Required value to be reached by main value.
      * @return \ILIAS\UI\Component\Chart\ProgressMeter\Mini
      */
-    public function mini($maximum, $main, $required = null) : Mini;
+    public function mini($maximum, $main, $required = null): Mini;
 }

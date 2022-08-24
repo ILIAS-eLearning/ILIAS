@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -57,117 +59,117 @@ class ilForumNotificationDataProvider implements ilForumNotificationMailData
         $this->read();
     }
 
-    public function getRefId() : int
+    public function getRefId(): int
     {
         return $this->ref_id;
     }
 
-    public function getObjId() : int
+    public function getObjId(): int
     {
         return $this->obj_id;
     }
 
-    public function getThreadId() : int
+    public function getThreadId(): int
     {
         return $this->objPost->getThreadId();
     }
 
-    public function getPostId() : int
+    public function getPostId(): int
     {
         return $this->objPost->getId();
     }
 
-    public function getForumId() : int
+    public function getForumId(): int
     {
         return $this->forum_id;
     }
 
-    public function closestContainer() : ?ilObject
+    public function closestContainer(): ?ilObject
     {
         return $this->closest_container;
     }
 
-    public function providesClosestContainer() : bool
+    public function providesClosestContainer(): bool
     {
         return $this->closest_container !== null;
     }
 
-    public function getForumTitle() : string
+    public function getForumTitle(): string
     {
         return $this->forum_title;
     }
 
-    public function getThreadTitle() : string
+    public function getThreadTitle(): string
     {
         return $this->thread_title;
     }
 
-    public function getPostTitle() : string
+    public function getPostTitle(): string
     {
         return $this->objPost->getSubject();
     }
 
-    public function getPostMessage() : string
+    public function getPostMessage(): string
     {
         return $this->objPost->getMessage();
     }
 
-    public function getPosDisplayUserId() : int
+    public function getPosDisplayUserId(): int
     {
         return $this->objPost->getDisplayUserId();
     }
 
-    public function getPostDate() : string
+    public function getPostDate(): string
     {
         return $this->objPost->getCreateDate();
     }
 
-    public function getPostUpdate() : string
+    public function getPostUpdate(): string
     {
         return $this->objPost->getChangeDate();
     }
 
-    public function isPostCensored() : bool
+    public function isPostCensored(): bool
     {
         return $this->objPost->isCensored();
     }
 
-    public function getPostCensoredDate() : string
+    public function getPostCensoredDate(): string
     {
         return $this->objPost->getCensoredDate();
     }
 
-    public function getCensorshipComment() : string
+    public function getCensorshipComment(): string
     {
         return $this->objPost->getCensorshipComment();
     }
 
-    public function getAttachments() : array
+    public function getAttachments(): array
     {
         return $this->attachments;
     }
 
-    public function getPosUserAlias() : string
+    public function getPosUserAlias(): string
     {
         return $this->objPost->getUserAlias();
     }
 
-    public function isAnonymized() : bool
+    public function isAnonymized(): bool
     {
         return $this->is_anonymized;
     }
 
-    public function getImportName() : string
+    public function getImportName(): string
     {
         return $this->objPost->getImportName();
     }
 
-    public function getPostUpdateUserId() : int
+    public function getPostUpdateUserId(): int
     {
         return $this->objPost->getUpdateUserId();
     }
 
-    public function getPostUserName(ilLanguage $user_lang) : string
+    public function getPostUserName(ilLanguage $user_lang): string
     {
         if ($this->post_user_name === null) {
             $authorinfo = new ilForumAuthorInformation(
@@ -184,7 +186,7 @@ class ilForumNotificationDataProvider implements ilForumNotificationMailData
         return (string) $this->post_user_name;
     }
 
-    public function getPostUpdateUserName(ilLanguage $user_lang) : string
+    public function getPostUpdateUserName(ilLanguage $user_lang): string
     {
         if ($this->update_user_name === null) {
             $authorinfo = new ilForumAuthorInformation(
@@ -207,7 +209,7 @@ class ilForumNotificationDataProvider implements ilForumNotificationMailData
         return (string) $this->update_user_name;
     }
 
-    public function getPublicUserInformation(ilForumAuthorInformation $authorinfo) : string
+    public function getPublicUserInformation(ilForumAuthorInformation $authorinfo): string
     {
         if ($authorinfo->hasSuffix()) {
             $public_name = $authorinfo->getAuthorName();
@@ -222,14 +224,14 @@ class ilForumNotificationDataProvider implements ilForumNotificationMailData
         return $public_name;
     }
 
-    protected function read() : void
+    protected function read(): void
     {
         $this->readForumData();
         $this->readThreadTitle();
         $this->readAttachments();
     }
 
-    private function readThreadTitle() : void
+    private function readThreadTitle(): void
     {
         $cacheKey = $this->notificationCache->createKeyByValues([
             'thread_title',
@@ -253,7 +255,7 @@ class ilForumNotificationDataProvider implements ilForumNotificationMailData
         $this->thread_title = $row['thr_subject'];
     }
 
-    private function readForumData() : void
+    private function readForumData(): void
     {
         $cacheKey = $this->notificationCache->createKeyByValues([
             'forum_data',
@@ -288,7 +290,7 @@ class ilForumNotificationDataProvider implements ilForumNotificationMailData
         $this->is_anonymized = (bool) $row['anonymized'];
     }
 
-    public function determineClosestContainer(int $frm_ref_id) : ?ilObject
+    public function determineClosestContainer(int $frm_ref_id): ?ilObject
     {
         $cacheKey = $this->notificationCache->createKeyByValues([
             'forum_container',
@@ -311,7 +313,7 @@ class ilForumNotificationDataProvider implements ilForumNotificationMailData
         return null;
     }
 
-    private function readAttachments() : void
+    private function readAttachments(): void
     {
         if (ilForumProperties::isSendAttachmentsByMailEnabled()) {
             $fileDataForum = new ilFileDataForum($this->getObjId(), $this->objPost->getId());
@@ -330,7 +332,7 @@ class ilForumNotificationDataProvider implements ilForumNotificationMailData
      * @param int $notification_type
      * @return int[]
      */
-    public function getForumNotificationRecipients(int $notification_type) : array
+    public function getForumNotificationRecipients(int $notification_type): array
     {
         $event_type = $this->getEventType($notification_type);
         $cacheKey = $this->notificationCache->createKeyByValues([
@@ -371,7 +373,7 @@ class ilForumNotificationDataProvider implements ilForumNotificationMailData
      * @param int $notification_type
      * @return int[]
      */
-    public function getThreadNotificationRecipients(int $notification_type) : array
+    public function getThreadNotificationRecipients(int $notification_type): array
     {
         if (!$this->getThreadId()) {
             return [];
@@ -413,7 +415,7 @@ class ilForumNotificationDataProvider implements ilForumNotificationMailData
     /**
      * @return int[]
      */
-    public function getPostAnsweredRecipients() : array
+    public function getPostAnsweredRecipients(): array
     {
         $cacheKey = $this->notificationCache->createKeyByValues([
             'post_answered',
@@ -437,7 +439,7 @@ class ilForumNotificationDataProvider implements ilForumNotificationMailData
     /**
      * @return int[]
      */
-    public function getPostActivationRecipients() : array
+    public function getPostActivationRecipients(): array
     {
         $cacheKey = $this->notificationCache->createKeyByValues([
             'post_activation',
@@ -455,12 +457,12 @@ class ilForumNotificationDataProvider implements ilForumNotificationMailData
         return (array) $rcps;
     }
 
-    public function setPosAuthorId(int $pos_author_id) : void
+    public function setPosAuthorId(int $pos_author_id): void
     {
         $this->pos_author_id = $pos_author_id;
     }
 
-    public function getPosAuthorId() : int
+    public function getPosAuthorId(): int
     {
         return $this->pos_author_id;
     }
@@ -469,7 +471,7 @@ class ilForumNotificationDataProvider implements ilForumNotificationMailData
      * @param int $objId
      * @return int[]
      */
-    private function getRefIdsByObjId(int $objId) : array
+    private function getRefIdsByObjId(int $objId): array
     {
         $cacheKey = $this->notificationCache->createKeyByValues([
             'refs_by_obj_id',
@@ -487,7 +489,7 @@ class ilForumNotificationDataProvider implements ilForumNotificationMailData
      * @param ilDBStatement $statement
      * @return int[]
      */
-    private function createRecipientArray(ilDBStatement $statement) : array
+    private function createRecipientArray(ilDBStatement $statement): array
     {
         $refIds = $this->getRefIdsByObjId($this->getObjId());
 
@@ -503,7 +505,7 @@ class ilForumNotificationDataProvider implements ilForumNotificationMailData
         return $usrIds;
     }
 
-    public function getDeletedBy() : string
+    public function getDeletedBy(): string
     {
         if ($this->objPost->getUserAlias() && $this->objPost->getDisplayUserId() === 0
             && $this->objPost->getPosAuthorId() === $this->user->getId()) {
@@ -513,7 +515,7 @@ class ilForumNotificationDataProvider implements ilForumNotificationMailData
         return $this->user->getLogin();
     }
 
-    private function getEventType(int $notification_type) : int
+    private function getEventType(int $notification_type): int
     {
         $event_type = 0;
         switch ($notification_type) {

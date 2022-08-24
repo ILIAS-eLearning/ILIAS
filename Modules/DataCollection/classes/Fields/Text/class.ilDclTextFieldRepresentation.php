@@ -22,10 +22,14 @@
  */
 class ilDclTextFieldRepresentation extends ilDclBaseFieldRepresentation
 {
-    public function addFilterInputFieldToTable(ilTable2GUI $table) : ?string
+    public function addFilterInputFieldToTable(ilTable2GUI $table): ?string
     {
-        $input = $table->addFilterItemByMetaType("filter_" . $this->getField()->getId(), ilTable2GUI::FILTER_TEXT,
-            false, $this->getField()->getId());
+        $input = $table->addFilterItemByMetaType(
+            "filter_" . $this->getField()->getId(),
+            ilTable2GUI::FILTER_TEXT,
+            false,
+            $this->getField()->getId()
+        );
         $input->setSubmitFormOnEnter(true);
 
         $this->setupFilterInputField($input);
@@ -36,7 +40,7 @@ class ilDclTextFieldRepresentation extends ilDclBaseFieldRepresentation
     /**
      * @param string $filter
      */
-    public function passThroughFilter(ilDclBaseRecordModel $record, $filter) : bool
+    public function passThroughFilter(ilDclBaseRecordModel $record, $filter): bool
     {
         $pass = parent::passThroughFilter($record, $filter);
 
@@ -48,7 +52,7 @@ class ilDclTextFieldRepresentation extends ilDclBaseFieldRepresentation
         return $pass;
     }
 
-    public function getInputField(ilPropertyFormGUI $form, int $record_id = 0) : ilFormPropertyGUI
+    public function getInputField(ilPropertyFormGUI $form, int $record_id = 0): ilFormPropertyGUI
     {
         $input = new ilDclTextInputGUI($this->getField()->getTitle(), 'field_' . $this->getField()->getId());
         if ($this->getField()->hasProperty(ilDclBaseFieldModel::PROP_TEXTAREA)) {
@@ -64,8 +68,10 @@ class ilDclTextFieldRepresentation extends ilDclBaseFieldRepresentation
 
         if ($this->getField()->hasProperty(ilDclBaseFieldModel::PROP_URL)) {
             $input->setInfo($this->lng->txt('dcl_text_email_detail_desc'));
-            $title_field = new ilDclTextInputGUI($this->lng->txt('dcl_text_email_title'),
-                'field_' . $this->getField()->getId() . '_title');
+            $title_field = new ilDclTextInputGUI(
+                $this->lng->txt('dcl_text_email_title'),
+                'field_' . $this->getField()->getId() . '_title'
+            );
             $title_field->setInfo($this->lng->txt('dcl_text_email_title_info'));
             $input->addSubItem($title_field);
         }
@@ -75,34 +81,44 @@ class ilDclTextFieldRepresentation extends ilDclBaseFieldRepresentation
         return $input;
     }
 
-    protected function buildFieldCreationInput(ilObjDataCollection $dcl, string $mode = 'create') : ilRadioOption
+    protected function buildFieldCreationInput(ilObjDataCollection $dcl, string $mode = 'create'): ilRadioOption
     {
         $opt = parent::buildFieldCreationInput($dcl, $mode);
 
-        $prop_length = new ilNumberInputGUI($this->lng->txt('dcl_length'),
-            $this->getPropertyInputFieldId(ilDclBaseFieldModel::PROP_LENGTH));
+        $prop_length = new ilNumberInputGUI(
+            $this->lng->txt('dcl_length'),
+            $this->getPropertyInputFieldId(ilDclBaseFieldModel::PROP_LENGTH)
+        );
         $prop_length->setSize(5);
         $prop_length->setMaxValue(4000);
         $prop_length->setInfo($this->lng->txt('dcl_length_info'));
 
         $opt->addSubItem($prop_length);
 
-        $prop_regex = new ilDclTextInputGUI($this->lng->txt('dcl_regex'),
-            $this->getPropertyInputFieldId(ilDclBaseFieldModel::PROP_REGEX));
+        $prop_regex = new ilDclTextInputGUI(
+            $this->lng->txt('dcl_regex'),
+            $this->getPropertyInputFieldId(ilDclBaseFieldModel::PROP_REGEX)
+        );
         $prop_regex->setInfo($this->lng->txt('dcl_regex_info'));
 
         $opt->addSubItem($prop_regex);
 
-        $prop_url = new ilDclCheckboxInputGUI($this->lng->txt('dcl_url'),
-            $this->getPropertyInputFieldId(ilDclBaseFieldModel::PROP_URL));
+        $prop_url = new ilDclCheckboxInputGUI(
+            $this->lng->txt('dcl_url'),
+            $this->getPropertyInputFieldId(ilDclBaseFieldModel::PROP_URL)
+        );
         $opt->addSubItem($prop_url);
 
-        $prop_textarea = new ilDclCheckboxInputGUI($this->lng->txt('dcl_text_area'),
-            $this->getPropertyInputFieldId(ilDclBaseFieldModel::PROP_TEXTAREA));
+        $prop_textarea = new ilDclCheckboxInputGUI(
+            $this->lng->txt('dcl_text_area'),
+            $this->getPropertyInputFieldId(ilDclBaseFieldModel::PROP_TEXTAREA)
+        );
         $opt->addSubItem($prop_textarea);
 
-        $prop_page_details = new ilDclCheckboxInputGUI($this->lng->txt('dcl_link_detail_page'),
-            $this->getPropertyInputFieldId(ilDclBaseFieldModel::PROP_LINK_DETAIL_PAGE_TEXT));
+        $prop_page_details = new ilDclCheckboxInputGUI(
+            $this->lng->txt('dcl_link_detail_page'),
+            $this->getPropertyInputFieldId(ilDclBaseFieldModel::PROP_LINK_DETAIL_PAGE_TEXT)
+        );
         $opt->addSubItem($prop_page_details);
 
         return $opt;

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -35,7 +37,7 @@ class ilGlobalCacheSetupAgent implements Setup\Agent
     /**
      * @inheritdoc
      */
-    public function hasConfig() : bool
+    public function hasConfig(): bool
     {
         return true;
     }
@@ -43,9 +45,9 @@ class ilGlobalCacheSetupAgent implements Setup\Agent
     /**
      * @inheritdoc
      */
-    public function getArrayToConfigTransformation() : Refinery\Transformation
+    public function getArrayToConfigTransformation(): Refinery\Transformation
     {
-        return $this->refinery->custom()->transformation(function ($data) : \ilGlobalCacheSettings {
+        return $this->refinery->custom()->transformation(function ($data): \ilGlobalCacheSettings {
             $settings = new \ilGlobalCacheSettings();
             if (
                 $data === null ||
@@ -67,7 +69,7 @@ class ilGlobalCacheSetupAgent implements Setup\Agent
                         $settings->setService(\ilGlobalCache::TYPE_STATIC);
                         break;
                     case "memcached":
-                        array_walk($data["memcached_nodes"], function (array $node) use ($settings) : void {
+                        array_walk($data["memcached_nodes"], function (array $node) use ($settings): void {
                             $settings->addMemcachedNode($this->getMemcachedServer($node));
                         });
                         $settings->setService(\ilGlobalCache::TYPE_MEMCACHED);
@@ -96,7 +98,7 @@ class ilGlobalCacheSetupAgent implements Setup\Agent
         });
     }
 
-    protected function getMemcachedServer(array $node) : ilMemcacheServer
+    protected function getMemcachedServer(array $node): ilMemcacheServer
     {
         $m = new ilMemcacheServer();
         $m->setStatus($node["active"] === "1" ? ilMemcacheServer::STATUS_ACTIVE : ilMemcacheServer::STATUS_INACTIVE);
@@ -110,7 +112,7 @@ class ilGlobalCacheSetupAgent implements Setup\Agent
     /**
      * @inheritdoc
      */
-    public function getInstallObjective(Setup\Config $config = null) : Setup\Objective
+    public function getInstallObjective(Setup\Config $config = null): Setup\Objective
     {
         if (!$config instanceof ilGlobalCacheSettings) {
             throw new Setup\UnachievableException('wrong config type, expected ilGlobalCacheSettings');
@@ -121,7 +123,7 @@ class ilGlobalCacheSetupAgent implements Setup\Agent
     /**
      * @inheritdoc
      */
-    public function getUpdateObjective(Setup\Config $config = null) : Setup\Objective
+    public function getUpdateObjective(Setup\Config $config = null): Setup\Objective
     {
         if ($config instanceof ilGlobalCacheSettings) {
             return new ilGlobalCacheConfigStoredObjective($config);
@@ -132,7 +134,7 @@ class ilGlobalCacheSetupAgent implements Setup\Agent
     /**
      * @inheritdoc
      */
-    public function getBuildArtifactObjective() : Setup\Objective
+    public function getBuildArtifactObjective(): Setup\Objective
     {
         return new Setup\Objective\NullObjective();
     }
@@ -140,7 +142,7 @@ class ilGlobalCacheSetupAgent implements Setup\Agent
     /**
      * @inheritdoc
      */
-    public function getStatusObjective(Setup\Metrics\Storage $storage) : Setup\Objective
+    public function getStatusObjective(Setup\Metrics\Storage $storage): Setup\Objective
     {
         return new ilGlobalCacheMetricsCollectedObjective($storage);
     }
@@ -148,12 +150,12 @@ class ilGlobalCacheSetupAgent implements Setup\Agent
     /**
      * @inheritDoc
      */
-    public function getMigrations() : array
+    public function getMigrations(): array
     {
         return [];
     }
-    
-    public function getNamedObjectives(?Config $config = null) : array
+
+    public function getNamedObjectives(?Config $config = null): array
     {
         return [
             'flushAll' => new ObjectiveConstructor(

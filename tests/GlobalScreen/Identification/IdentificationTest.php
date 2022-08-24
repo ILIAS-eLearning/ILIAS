@@ -28,7 +28,7 @@ require_once('./libs/composer/vendor/autoload.php');
 class IdentificationTest extends TestCase
 {
     use MockeryPHPUnitIntegration;
-    const MOCKED_PROVIDER_CLASSNAME = 'Mockery_1_ILIAS_GlobalScreen_Provider_Provider';
+    public const MOCKED_PROVIDER_CLASSNAME = 'Mockery_1_ILIAS_GlobalScreen_Provider_Provider';
     /**
      * @var Mockery\MockInterface|ProviderFactory
      */
@@ -47,7 +47,7 @@ class IdentificationTest extends TestCase
     /**
      * @inheritDoc
      */
-    protected function setUp() : void
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -65,7 +65,7 @@ class IdentificationTest extends TestCase
     }
 
 
-    public function testMustThrowExceptionSinceSerializedIdentificationIsTooLong() : void
+    public function testMustThrowExceptionSinceSerializedIdentificationIsTooLong(): void
     {
         $string = str_repeat("x", SerializerInterface::MAX_LENGTH - strlen(self::MOCKED_PROVIDER_CLASSNAME) - strlen(CoreSerializer::DIVIDER) + 1);
         $this->expectException(LogicException::class);
@@ -73,7 +73,7 @@ class IdentificationTest extends TestCase
     }
 
 
-    public function testMustNotThrowExceptionSinceSerializedIdentificationIsExactLength() : void
+    public function testMustNotThrowExceptionSinceSerializedIdentificationIsExactLength(): void
     {
         $string = str_repeat("x", SerializerInterface::MAX_LENGTH - strlen(self::MOCKED_PROVIDER_CLASSNAME) - strlen(CoreSerializer::DIVIDER));
         $this->identification->core($this->provider_mock)->identifier($string);

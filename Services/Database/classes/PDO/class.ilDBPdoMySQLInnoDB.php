@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -14,7 +16,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * Class ilDBPdoMySQLInnoDB
  *
@@ -24,19 +26,19 @@ class ilDBPdoMySQLInnoDB extends ilDBPdoMySQL
 {
     protected string $storage_engine = 'InnoDB';
 
-    public function supportsFulltext() : bool
+    public function supportsFulltext(): bool
     {
         return false;
     }
 
 
-    public function supportsTransactions() : bool
+    public function supportsTransactions(): bool
     {
         return false;
     }
 
 
-    public function addFulltextIndex(string $table_name, array $fields, string $name = 'in') : bool
+    public function addFulltextIndex(string $table_name, array $fields, string $name = 'in'): bool
     {
         return false; // NOT SUPPORTED
     }

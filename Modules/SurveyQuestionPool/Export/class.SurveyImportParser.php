@@ -123,12 +123,12 @@ class SurveyImportParser extends ilSaxParser
             ->repo()->import();
     }
 
-    public function setSurveyObject(ilObjSurvey $a_svy) : void
+    public function setSurveyObject(ilObjSurvey $a_svy): void
     {
         $this->survey = $a_svy;
     }
 
-    public function setHandlers($a_xml_parser) : void
+    public function setHandlers($a_xml_parser): void
     {
         xml_set_object($a_xml_parser, $this);
         xml_set_element_handler($a_xml_parser, 'handlerBeginTag', 'handlerEndTag');
@@ -139,7 +139,7 @@ class SurveyImportParser extends ilSaxParser
      * @param resource $a_xml_parser
      * @param resource|null $a_fp
      */
-    public function parse($a_xml_parser, $a_fp = null) : void
+    public function parse($a_xml_parser, $a_fp = null): void
     {
         switch ($this->getInputType()) {
             case 'file':
@@ -163,7 +163,7 @@ class SurveyImportParser extends ilSaxParser
         }
     }
 
-    public function getParent() : string
+    public function getParent(): string
     {
         if ($this->depth > 0) {
             return $this->path[$this->depth - 1];
@@ -175,7 +175,7 @@ class SurveyImportParser extends ilSaxParser
     /**
      * @param resource $a_xml_parser
      */
-    public function handlerBeginTag($a_xml_parser, string $a_name, array $a_attribs) : void
+    public function handlerBeginTag($a_xml_parser, string $a_name, array $a_attribs): void
     {
         $this->depth++;
         $this->path[$this->depth] = strtolower($a_name);
@@ -405,7 +405,7 @@ class SurveyImportParser extends ilSaxParser
     /**
      * @param resource $a_xml_parser
      */
-    public function handlerCharacterData($a_xml_parser, string $a_data) : void
+    public function handlerCharacterData($a_xml_parser, string $a_data): void
     {
         $this->texts++;
         $this->text_size += strlen($a_data);
@@ -416,7 +416,7 @@ class SurveyImportParser extends ilSaxParser
     /**
      * @param resource $a_xml_parser
      */
-    public function handlerEndTag($a_xml_parser, string $a_name) : void
+    public function handlerEndTag($a_xml_parser, string $a_name): void
     {
         switch ($a_name) {
             case "surveyobject":
@@ -728,52 +728,52 @@ class SurveyImportParser extends ilSaxParser
         $this->depth--;
     }
 
-    public function getErrorCode() : ?int
+    public function getErrorCode(): ?int
     {
         return $this->error_code;
     }
 
-    public function getErrorLine() : ?int
+    public function getErrorLine(): ?int
     {
         return $this->error_line;
     }
 
-    public function getErrorColumn() : ?int
+    public function getErrorColumn(): ?int
     {
         return $this->error_col;
     }
 
-    public function getErrorMessage() : ?string
+    public function getErrorMessage(): ?string
     {
         return $this->error_msg;
     }
 
-    public function getFullError() : string
+    public function getFullError(): string
     {
         return "Error: " . $this->error_msg . " at line:" . $this->error_line . " column:" . $this->error_col;
     }
 
-    public function getXMLElements() : int
+    public function getXMLElements(): int
     {
         return $this->elements;
     }
 
-    public function getXMLAttributes() : int
+    public function getXMLAttributes(): int
     {
         return $this->attributes;
     }
 
-    public function getXMLTextSections() : int
+    public function getXMLTextSections(): int
     {
         return $this->texts;
     }
 
-    public function getXMLTextSize() : int
+    public function getXMLTextSize(): int
     {
         return $this->text_size;
     }
 
-    public function hasError() : bool
+    public function hasError(): bool
     {
         return $this->has_error;
     }

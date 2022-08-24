@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /*
         +-----------------------------------------------------------------------------+
         | ILIAS open source                                                           |
@@ -77,7 +79,7 @@ class ilCalendarCategory
     /**
      * get instance by obj_id
      */
-    public static function _getInstanceByObjId(int $a_obj_id) : ?ilCalendarCategory
+    public static function _getInstanceByObjId(int $a_obj_id): ?ilCalendarCategory
     {
         global $DIC;
 
@@ -92,7 +94,7 @@ class ilCalendarCategory
         return null;
     }
 
-    public static function getInstanceByCategoryId(int $a_cat_id) : ilCalendarCategory
+    public static function getInstanceByCategoryId(int $a_cat_id): ilCalendarCategory
     {
         if (!isset(self::$instances[$a_cat_id])) {
             return self::$instances[$a_cat_id] = new ilCalendarCategory($a_cat_id);
@@ -103,7 +105,7 @@ class ilCalendarCategory
     /**
      * Lookup sort index of calendar type
      */
-    public static function lookupCategorySortIndex(int $a_type_id) : int
+    public static function lookupCategorySortIndex(int $a_type_id): int
     {
         return (int) array_search($a_type_id, self::$SORTED_TYPES);
     }
@@ -112,7 +114,7 @@ class ilCalendarCategory
      * get all assigned appointment ids
      * @return int[]
      */
-    public static function lookupAppointments(int $a_category_id) : array
+    public static function lookupAppointments(int $a_category_id): array
     {
         global $DIC;
 
@@ -127,92 +129,92 @@ class ilCalendarCategory
         return $apps;
     }
 
-    public function getCategoryID() : int
+    public function getCategoryID(): int
     {
         return $this->cat_id;
     }
 
-    public function setTitle(string $a_title) : void
+    public function setTitle(string $a_title): void
     {
         $this->title = $a_title;
     }
 
-    public function getTitle() : string
+    public function getTitle(): string
     {
         return $this->title;
     }
 
-    public function setColor(string $a_color) : void
+    public function setColor(string $a_color): void
     {
         $this->color = $a_color;
     }
 
-    public function getColor() : string
+    public function getColor(): string
     {
         return $this->color;
     }
 
-    public function setType(int $a_type) : void
+    public function setType(int $a_type): void
     {
         $this->type = $a_type;
     }
 
-    public function getType() : int
+    public function getType(): int
     {
         return $this->type;
     }
 
-    public function setObjId(int $a_obj_id) : void
+    public function setObjId(int $a_obj_id): void
     {
         $this->obj_id = $a_obj_id;
     }
 
-    public function getObjId() : int
+    public function getObjId(): int
     {
         return $this->obj_id;
     }
 
-    public function getObjType() : string
+    public function getObjType(): string
     {
         return $this->obj_type;
     }
 
-    public function getLocationType() : int
+    public function getLocationType(): int
     {
         return $this->location;
     }
 
-    public function setLocationType(int $a_type) : void
+    public function setLocationType(int $a_type): void
     {
         $this->location = $a_type;
     }
 
-    public function setRemoteUrl(string $a_url) : void
+    public function setRemoteUrl(string $a_url): void
     {
         $this->remote_url = $a_url;
     }
 
-    public function getRemoteUrl() : string
+    public function getRemoteUrl(): string
     {
         return $this->remote_url;
     }
 
-    public function setRemoteUser(string $a_user) : void
+    public function setRemoteUser(string $a_user): void
     {
         $this->remote_user = $a_user;
     }
 
-    public function getRemoteUser() : string
+    public function getRemoteUser(): string
     {
         return $this->remote_user;
     }
 
-    public function setRemotePass(string $a_pass) : void
+    public function setRemotePass(string $a_pass): void
     {
         $this->remote_pass = $a_pass;
     }
 
-    public function getRemotePass() : string
+    public function getRemotePass(): string
     {
         return $this->remote_pass;
     }
@@ -220,7 +222,7 @@ class ilCalendarCategory
     /**
      * Set remote sync last execution
      */
-    public function setRemoteSyncLastExecution(ilDateTime $dt) : void
+    public function setRemoteSyncLastExecution(ilDateTime $dt): void
     {
         $this->remote_sync = $dt;
     }
@@ -228,7 +230,7 @@ class ilCalendarCategory
     /**
      * Get last execution date of remote sync
      */
-    public function getRemoteSyncLastExecution() : ilDateTime
+    public function getRemoteSyncLastExecution(): ilDateTime
     {
         if ($this->remote_sync instanceof ilDateTime) {
             return $this->remote_sync;
@@ -236,7 +238,7 @@ class ilCalendarCategory
         return new ilDateTime();
     }
 
-    public function add() : int
+    public function add(): int
     {
         $next_id = $this->db->nextId('cal_categories');
         $query = "INSERT INTO cal_categories (cat_id,obj_id,color,type,title,loc_type,remote_url,remote_user,remote_pass,remote_sync) " .
@@ -262,7 +264,7 @@ class ilCalendarCategory
         return $this->cat_id;
     }
 
-    public function update() : void
+    public function update(): void
     {
         $query = "UPDATE cal_categories " .
             "SET obj_id = " . $this->db->quote($this->getObjId(), 'integer') . ", " .
@@ -282,7 +284,7 @@ class ilCalendarCategory
         $res = $this->db->manipulate($query);
     }
 
-    public function delete() : void
+    public function delete(): void
     {
         $query = "DELETE FROM cal_categories " .
             "WHERE cat_id = " . $this->db->quote($this->cat_id, 'integer') . " ";
@@ -296,7 +298,7 @@ class ilCalendarCategory
         ilCalendarCategoryAssignments::_deleteByCategoryId($this->cat_id);
     }
 
-    public function validate() : bool
+    public function validate(): bool
     {
         if ($this->getLocationType() == ilCalendarCategory::LTYPE_REMOTE && !$this->getRemoteUrl()) {
             return false;
@@ -307,7 +309,7 @@ class ilCalendarCategory
         return false;
     }
 
-    private function read() : void
+    private function read(): void
     {
         if (!$this->cat_id) {
             return;

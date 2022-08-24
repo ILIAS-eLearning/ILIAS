@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /* Copyright (c) 2018 - Denis Klöpfer <denis.kloepfer@concepts-and-training.de> - Extended GPL, see LICENSE */
 /* Copyright (c) 2018 - Stefan Hecken <stefan.hecken@concepts-and-training.de> - Extended GPL, see LICENSE */
@@ -8,8 +10,8 @@
  */
 class ilIndividualAssessmentSettingsStorageDB implements ilIndividualAssessmentSettingsStorage
 {
-    const IASS_SETTINGS_TABLE = "iass_settings";
-    const IASS_SETTINGS_INFO_TABLE = "iass_info_settings";
+    public const IASS_SETTINGS_TABLE = "iass_settings";
+    public const IASS_SETTINGS_INFO_TABLE = "iass_info_settings";
 
     protected ilDBInterface $db;
 
@@ -21,7 +23,7 @@ class ilIndividualAssessmentSettingsStorageDB implements ilIndividualAssessmentS
     /**
      * @inheritdoc
      */
-    public function createSettings(ilIndividualAssessmentSettings $settings) : void
+    public function createSettings(ilIndividualAssessmentSettings $settings): void
     {
         $values = [
             "obj_id" => ["integer", $settings->getObjId()],
@@ -40,7 +42,7 @@ class ilIndividualAssessmentSettingsStorageDB implements ilIndividualAssessmentS
     /**
      * @inheritdoc
      */
-    public function loadSettings(ilObjIndividualAssessment $obj) : ilIndividualAssessmentSettings
+    public function loadSettings(ilObjIndividualAssessment $obj): ilIndividualAssessmentSettings
     {
         if (!ilObjIndividualAssessment::_exists($obj->getId(), false, 'iass')) {
             return new ilIndividualAssessmentSettings(
@@ -82,7 +84,7 @@ class ilIndividualAssessmentSettingsStorageDB implements ilIndividualAssessmentS
     /**
      * @inheritdoc
      */
-    public function updateSettings(ilIndividualAssessmentSettings $settings) : void
+    public function updateSettings(ilIndividualAssessmentSettings $settings): void
     {
         $where = ["obj_id" => ["integer", $settings->getObjId()]];
 
@@ -99,7 +101,7 @@ class ilIndividualAssessmentSettingsStorageDB implements ilIndividualAssessmentS
     /**
      * Load info-screen settings corresponding to obj
      */
-    public function loadInfoSettings(ilObjIndividualAssessment $obj) : ilIndividualAssessmentInfoSettings
+    public function loadInfoSettings(ilObjIndividualAssessment $obj): ilIndividualAssessmentInfoSettings
     {
         if (!ilObjIndividualAssessment::_exists($obj->getId(), false, 'iass')) {
             return new ilIndividualAssessmentInfoSettings($obj->getId());
@@ -132,7 +134,7 @@ class ilIndividualAssessmentSettingsStorageDB implements ilIndividualAssessmentS
     /**
      * Update info-screen settings entry.
      */
-    public function updateInfoSettings(ilIndividualAssessmentInfoSettings $settings) : void
+    public function updateInfoSettings(ilIndividualAssessmentInfoSettings $settings): void
     {
         $where = ["obj_id" => ["integer", $settings->getObjId()]];
 
@@ -150,7 +152,7 @@ class ilIndividualAssessmentSettingsStorageDB implements ilIndividualAssessmentS
     /**
      * @inheritdoc
      */
-    public function deleteSettings(ilObjIndividualAssessment $obj) : void
+    public function deleteSettings(ilObjIndividualAssessment $obj): void
     {
         $sql = "DELETE FROM " . self::IASS_SETTINGS_TABLE . " WHERE obj_id = %s";
         $this->db->manipulateF($sql, array("integer"), array($obj->getId()));

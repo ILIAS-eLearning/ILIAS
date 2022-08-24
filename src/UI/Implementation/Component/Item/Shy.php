@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -14,7 +16,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\UI\Implementation\Component\Item;
 
 use ILIAS\UI\Component\Item\Shy as IShy;
@@ -41,14 +43,14 @@ class Shy extends Item implements IShy, IJavaScriptBindable
     /**
      * @inheritdoc
      */
-    public function withClose(Close $close) : IShy
+    public function withClose(Close $close): IShy
     {
         $clone = clone $this;
         $clone->close = $close;
         return $clone;
     }
 
-    public function getClose() : ?Close
+    public function getClose(): ?Close
     {
         return $this->close;
     }
@@ -56,14 +58,14 @@ class Shy extends Item implements IShy, IJavaScriptBindable
     /**
      * @inheritdoc
      */
-    public function withLeadIcon(Icon $lead) : IShy
+    public function withLeadIcon(Icon $lead): IShy
     {
         $clone = clone $this;
         $clone->lead_icon = $lead;
         return $clone;
     }
 
-    public function getLeadIcon() : ?Icon
+    public function getLeadIcon(): ?Icon
     {
         return $this->lead_icon;
     }

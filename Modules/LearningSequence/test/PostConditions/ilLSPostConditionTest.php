@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,12 +17,12 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 use PHPUnit\Framework\TestCase;
 
 class ilLSPostConditionTest extends TestCase
 {
-    public function testObjectCreation() : void
+    public function testObjectCreation(): void
     {
         $obj = new ilLSPostCondition(33, 'operator1');
 
@@ -30,7 +32,7 @@ class ilLSPostConditionTest extends TestCase
         $this->assertNull($obj->getValue());
     }
 
-    public function testWithConditionOperator() : void
+    public function testWithConditionOperator(): void
     {
         $obj = new ilLSPostCondition(23, 'operator2', 15);
         $new_obj = $obj->withConditionOperator('operator3');
@@ -44,7 +46,7 @@ class ilLSPostConditionTest extends TestCase
         $this->assertEquals(15, $new_obj->getValue());
     }
 
-    public function testWithValue() : void
+    public function testWithValue(): void
     {
         $obj = new ilLSPostCondition(45, 'operator5', 15);
         $new_obj = $obj->withValue(22);

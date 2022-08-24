@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -38,7 +40,7 @@ class ilMailBoxQuery
      * @return array{set: array[], cnt: int, cnt_unread: int}
      * @throws Exception
      */
-    public static function _getMailBoxListData() : array
+    public static function _getMailBoxListData(): array
     {
         global $DIC;
 

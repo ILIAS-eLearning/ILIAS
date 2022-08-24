@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -27,11 +29,10 @@ use ILIAS\Notifications\ilNotificationOSDHandler;
 
 class ChatInvitationNotificationProvider extends AbstractNotificationProvider
 {
-
     /**
      * @inheritDoc
      */
-    public function getNotifications() : array
+    public function getNotifications(): array
     {
         if (0 === $this->dic->user()->getId() || $this->dic->user()->isAnonymous()) {
             return [];

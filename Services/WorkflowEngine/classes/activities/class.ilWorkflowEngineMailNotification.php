@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -25,27 +27,27 @@ class ilWorkflowEngineMailNotification extends ilMailNotification
     protected string $subject_text = '';
     protected string $body_text = '';
 
-    public function getSubjectText() : string
+    public function getSubjectText(): string
     {
         return $this->subject_text;
     }
 
-    public function setSubjectText(string $subject_text) : void
+    public function setSubjectText(string $subject_text): void
     {
         $this->subject_text = $subject_text;
     }
 
-    public function getBodyText() : string
+    public function getBodyText(): string
     {
         return $this->body_text;
     }
 
-    public function setBodyText(string $body_text) : void
+    public function setBodyText(string $body_text): void
     {
         $this->body_text = $body_text;
     }
 
-    public function send(int $rcp) : void
+    public function send(int $rcp): void
     {
         $this->initLanguage($rcp);
         $this->initMail();

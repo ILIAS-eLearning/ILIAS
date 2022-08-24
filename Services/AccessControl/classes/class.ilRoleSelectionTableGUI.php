@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -14,7 +16,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * @author  Stefan Meyer <meyer@leifos.com>
  * @version $Id$
@@ -41,7 +43,7 @@ class ilRoleSelectionTableGUI extends ilTable2GUI
         $this->setDefaultOrderDirection("desc");
     }
 
-    protected function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set): void
     {
         $this->tpl->setVariable('VAL_ID', $a_set['id']);
         $this->tpl->setVariable('VAL_TITLE', $a_set['title']);
@@ -51,7 +53,7 @@ class ilRoleSelectionTableGUI extends ilTable2GUI
         $this->tpl->setVariable('VAL_CONTEXT', $a_set['context']);
     }
 
-    public function parse(array $entries) : void
+    public function parse(array $entries): void
     {
         $records_arr = [];
         foreach ($entries as $entry) {

@@ -45,7 +45,7 @@ class DownloadAllZipInteraction extends AbstractUserInteraction
         $this->logger = $DIC->logger()->mcst();
     }
 
-    public function getInputTypes() : array
+    public function getInputTypes(): array
     {
         return [
             new SingleType(StringValue::class),
@@ -54,17 +54,17 @@ class DownloadAllZipInteraction extends AbstractUserInteraction
     }
 
 
-    public function getRemoveOption() : UserInteractionOption
+    public function getRemoveOption(): UserInteractionOption
     {
         return new UserInteractionOption('remove', self::OPTION_CANCEL);
     }
 
-    public function getOutputType() : SingleType
+    public function getOutputType(): SingleType
     {
         return new SingleType(StringValue::class);
     }
 
-    public function getOptions(array $input) : array
+    public function getOptions(array $input): array
     {
         return [
             new UserInteractionOption('download', self::OPTION_DOWNLOAD)
@@ -75,7 +75,7 @@ class DownloadAllZipInteraction extends AbstractUserInteraction
         array $input,
         Option $user_selected_option,
         Bucket $bucket
-    ) : \ILIAS\BackgroundTasks\Value {
+    ): \ILIAS\BackgroundTasks\Value {
         global $DIC;
         $download_name = $input[0]; //directory name.
         $zip_name = $input[1]; // zip job

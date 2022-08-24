@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -27,12 +29,12 @@ class StringTransformationTest extends TestCase
 {
     private StringTransformation $transformation;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         $this->transformation = new StringTransformation();
     }
-    
-    public function testSimpleUri() : void
+
+    public function testSimpleUri(): void
     {
         $uri = new URI('http://ilias.de');
         $transformedValue = $this->transformation->transform($uri);
@@ -40,7 +42,7 @@ class StringTransformationTest extends TestCase
         $this->assertEquals('http://ilias.de', $transformedValue);
     }
 
-    public function testUriWithPath() : void
+    public function testUriWithPath(): void
     {
         $uri = new URI('http://ilias.de/with/path');
         $transformedValue = $this->transformation->transform($uri);
@@ -48,7 +50,7 @@ class StringTransformationTest extends TestCase
         $this->assertEquals('http://ilias.de/with/path', $transformedValue);
     }
 
-    public function testUriWithFragment() : void
+    public function testUriWithFragment(): void
     {
         $uri = new URI('http://ilias.de/test.php#title');
         $transformedValue = $this->transformation->transform($uri);
@@ -56,7 +58,7 @@ class StringTransformationTest extends TestCase
         $this->assertEquals('http://ilias.de/test.php#title', $transformedValue);
     }
 
-    public function testSimpleUriWithQueryParameter() : void
+    public function testSimpleUriWithQueryParameter(): void
     {
         $uri = new URI('http://ilias.de?test=something&further=1');
         $transformedValue = $this->transformation->transform($uri);
@@ -64,7 +66,7 @@ class StringTransformationTest extends TestCase
         $this->assertEquals('http://ilias.de?test=something&further=1', $transformedValue);
     }
 
-    public function testUriWithQueryPathAndParameter() : void
+    public function testUriWithQueryPathAndParameter(): void
     {
         $uri = new URI('http://ilias.de/with/path?test=something&further=1');
         $transformedValue = $this->transformation->transform($uri);
@@ -72,7 +74,7 @@ class StringTransformationTest extends TestCase
         $this->assertEquals('http://ilias.de/with/path?test=something&further=1', $transformedValue);
     }
 
-    public function testTransformNotURIObjectFails() : void
+    public function testTransformNotURIObjectFails(): void
     {
         $this->expectException(ConstraintViolationException::class);
         $transformedValue = $this->transformation->transform('http://ilias.de');

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -14,7 +16,7 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *********************************************************************/
- 
+
 namespace ILIAS\ResourceStorage\Revision;
 
 use ILIAS\Filesystem\Stream\FileStream;
@@ -42,12 +44,12 @@ class FileStreamRevision extends FileRevision implements Revision
         $this->setInformation($information);
     }
 
-    public function getStream() : FileStream
+    public function getStream(): FileStream
     {
         return $this->stream;
     }
 
-    public function keepOriginal() : bool
+    public function keepOriginal(): bool
     {
         return $this->keep_original;
     }

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -27,12 +29,12 @@ class BooleanTransformationTest extends TestCase
 {
     private BooleanTransformation $transformation;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         $this->transformation = new BooleanTransformation();
     }
 
-    public function testIntegerToBooleanTransformation() : void
+    public function testIntegerToBooleanTransformation(): void
     {
         $this->expectNotToPerformAssertions();
 
@@ -44,7 +46,7 @@ class BooleanTransformationTest extends TestCase
         $this->fail();
     }
 
-    public function testNegativeIntegerToBooleanTransformation() : void
+    public function testNegativeIntegerToBooleanTransformation(): void
     {
         $this->expectNotToPerformAssertions();
 
@@ -56,7 +58,7 @@ class BooleanTransformationTest extends TestCase
         $this->fail();
     }
 
-    public function testZeroIntegerToBooleanTransformation() : void
+    public function testZeroIntegerToBooleanTransformation(): void
     {
         $this->expectNotToPerformAssertions();
 
@@ -68,7 +70,7 @@ class BooleanTransformationTest extends TestCase
         $this->fail();
     }
 
-    public function testStringToBooleanTransformation() : void
+    public function testStringToBooleanTransformation(): void
     {
         $this->expectNotToPerformAssertions();
 
@@ -80,7 +82,7 @@ class BooleanTransformationTest extends TestCase
         $this->fail();
     }
 
-    public function testFloatToBooleanTransformation() : void
+    public function testFloatToBooleanTransformation(): void
     {
         $this->expectNotToPerformAssertions();
 
@@ -92,7 +94,7 @@ class BooleanTransformationTest extends TestCase
         $this->fail();
     }
 
-    public function testNegativeFloatToBooleanTransformation() : void
+    public function testNegativeFloatToBooleanTransformation(): void
     {
         $this->expectNotToPerformAssertions();
 
@@ -104,7 +106,7 @@ class BooleanTransformationTest extends TestCase
         $this->fail();
     }
 
-    public function testZeroFloatToBooleanTransformation() : void
+    public function testZeroFloatToBooleanTransformation(): void
     {
         $this->expectNotToPerformAssertions();
 
@@ -116,19 +118,19 @@ class BooleanTransformationTest extends TestCase
         $this->fail();
     }
 
-    public function testPositiveBooleanToBooleanTransformation() : void
+    public function testPositiveBooleanToBooleanTransformation(): void
     {
         $transformedValue = $this->transformation->transform(true);
         $this->assertTrue($transformedValue);
     }
 
-    public function testNegativeBooleanToBooleanTransformation() : void
+    public function testNegativeBooleanToBooleanTransformation(): void
     {
         $transformedValue = $this->transformation->transform(false);
         $this->assertFalse($transformedValue);
     }
 
-    public function testStringToBooleanApply() : void
+    public function testStringToBooleanApply(): void
     {
         $resultObject = new Result\Ok('hello');
 
@@ -137,7 +139,7 @@ class BooleanTransformationTest extends TestCase
         $this->assertTrue($transformedObject->isError());
     }
 
-    public function testPositiveIntegerToBooleanApply() : void
+    public function testPositiveIntegerToBooleanApply(): void
     {
         $resultObject = new Result\Ok(200);
 
@@ -146,7 +148,7 @@ class BooleanTransformationTest extends TestCase
         $this->assertTrue($transformedObject->isError());
     }
 
-    public function testNegativeIntegerToBooleanApply() : void
+    public function testNegativeIntegerToBooleanApply(): void
     {
         $resultObject = new Result\Ok(-200);
 
@@ -155,7 +157,7 @@ class BooleanTransformationTest extends TestCase
         $this->assertTrue($transformedObject->isError());
     }
 
-    public function testZeroIntegerToBooleanApply() : void
+    public function testZeroIntegerToBooleanApply(): void
     {
         $resultObject = new Result\Ok(0);
 
@@ -164,7 +166,7 @@ class BooleanTransformationTest extends TestCase
         $this->assertTrue($transformedObject->isError());
     }
 
-    public function testFloatToBooleanApply() : void
+    public function testFloatToBooleanApply(): void
     {
         $resultObject = new Result\Ok(10.5);
 
@@ -173,7 +175,7 @@ class BooleanTransformationTest extends TestCase
         $this->assertTrue($transformedObject->isError());
     }
 
-    public function testBooleanToBooleanApply() : void
+    public function testBooleanToBooleanApply(): void
     {
         $resultObject = new Result\Ok(true);
 

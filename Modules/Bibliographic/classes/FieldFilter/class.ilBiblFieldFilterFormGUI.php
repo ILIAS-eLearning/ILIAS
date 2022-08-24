@@ -14,7 +14,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * Class ilBiblFieldFilterFormGUI
  *
@@ -24,8 +24,8 @@
 class ilBiblFieldFilterFormGUI extends ilPropertyFormGUI
 {
     use \ILIAS\Modules\OrgUnit\ARHelper\DIC;
-    const F_FIELD_ID = "field_id";
-    const F_FILTER_TYPE = "filter_type";
+    public const F_FIELD_ID = "field_id";
+    public const F_FILTER_TYPE = "filter_type";
     protected \ilBiblFactoryFacade $facade;
     protected \ilBiblFieldFilterInterface $filter;
     protected \ilBiblFieldFilterGUI $parent_gui;
@@ -52,7 +52,7 @@ class ilBiblFieldFilterFormGUI extends ilPropertyFormGUI
     }
 
 
-    public function initForm() : void
+    public function initForm(): void
     {
         $this->setTarget('_top');
 
@@ -116,14 +116,14 @@ class ilBiblFieldFilterFormGUI extends ilPropertyFormGUI
     }
 
 
-    public function fillForm() : void
+    public function fillForm(): void
     {
         $array = array(self::F_FIELD_ID => $this->filter->getFieldId(), self::F_FILTER_TYPE => $this->filter->getFilterType(),);
         $this->setValuesByArray($array);
     }
 
 
-    protected function fillObject() : bool
+    protected function fillObject(): bool
     {
         if (!$this->checkInput()) {
             return false;
@@ -142,13 +142,13 @@ class ilBiblFieldFilterFormGUI extends ilPropertyFormGUI
     }
 
 
-    public function saveObject() : bool
+    public function saveObject(): bool
     {
         return $this->fillObject();
     }
 
 
-    protected function initButtons() : void
+    protected function initButtons(): void
     {
         if ($this->filter->getId()) {
             $this->addCommandButton(ilBiblFieldFilterGUI::CMD_UPDATE, $this->lng()->txt('save'));

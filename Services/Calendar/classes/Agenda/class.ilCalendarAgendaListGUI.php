@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /* Copyright (c) 1998-2017 ILIAS open source, Extended GPL, see docs/LICENSE */
 
@@ -28,7 +30,7 @@ class ilCalendarAgendaListGUI extends ilCalendarViewGUI
         $this->initEndPeriod();
     }
 
-    protected function initCalendarPeriodFromRequest() : int
+    protected function initCalendarPeriodFromRequest(): int
     {
         if ($this->http->wrapper()->query()->has('cal_agenda_per')) {
             return $this->http->wrapper()->query()->retrieve(
@@ -39,7 +41,7 @@ class ilCalendarAgendaListGUI extends ilCalendarViewGUI
         return 0;
     }
 
-    protected function initPeriod() : void
+    protected function initPeriod(): void
     {
         global $DIC;
 
@@ -59,7 +61,7 @@ class ilCalendarAgendaListGUI extends ilCalendarViewGUI
     /**
      * Initialises end date for calendar list view
      */
-    protected function initEndPeriod() : void
+    protected function initEndPeriod(): void
     {
         $end_date = clone $this->seed;
         switch ($this->period) {
@@ -82,7 +84,7 @@ class ilCalendarAgendaListGUI extends ilCalendarViewGUI
         $this->period_end_day = $end_date->get(IL_CAL_DATE);
     }
 
-    public function executeCommand() : ?string
+    public function executeCommand(): ?string
     {
         $next_class = $this->ctrl->getNextClass($this);
         $cmd = $this->ctrl->getCmd("getHTML");
@@ -106,7 +108,7 @@ class ilCalendarAgendaListGUI extends ilCalendarViewGUI
         return '';
     }
 
-    public function getHTML() : string
+    public function getHTML(): string
     {
         $navigation = new ilCalendarHeaderNavigationGUI(
             $this,
@@ -309,7 +311,7 @@ class ilCalendarAgendaListGUI extends ilCalendarViewGUI
         return $html;
     }
 
-    public function getPluginAgendaItem(Item $a_item, ilCalendarEntry $appointment) : ?Item
+    public function getPluginAgendaItem(Item $a_item, ilCalendarEntry $appointment): ?Item
     {
         //"capg" is the plugin slot id for AppointmentCustomGrid
         $li = null;
@@ -325,7 +327,7 @@ class ilCalendarAgendaListGUI extends ilCalendarViewGUI
      * needed in CalendarInboxGUI to get events using a proper period.
      * todo define default period only once (self::PERIOD_WEEK, protected $period = self::PERIOD_WEEK)
      */
-    public static function getPeriod() : int
+    public static function getPeriod(): int
     {
         global $DIC;
 

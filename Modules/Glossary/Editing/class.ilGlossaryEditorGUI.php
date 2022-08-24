@@ -55,21 +55,21 @@ class ilGlossaryEditorGUI implements ilCtrlBaseClassInterface
         $lng->loadLanguageModule("content");
 
         $DIC->globalScreen()->tool()->context()->claim()->repository();
-        
+
         // check write permission
         if (!$ilAccess->checkAccess("write", "", $this->requested_ref_id) &&
             !$ilAccess->checkAccess("edit_content", "", $this->requested_ref_id)) {
             throw new ilPermissionException($lng->txt("permission_denied"));
         }
-        
+
         $ilNavigationHistory->addItem(
             $this->requested_ref_id,
             "ilias.php?baseClass=ilGlossaryEditorGUI&ref_id=" . $this->requested_ref_id,
             "glo"
         );
     }
-    
-    public function executeCommand() : void
+
+    public function executeCommand(): void
     {
         $next_class = $this->ctrl->getNextClass($this);
         if ($next_class == "") {

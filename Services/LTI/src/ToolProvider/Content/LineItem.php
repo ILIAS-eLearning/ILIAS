@@ -27,7 +27,6 @@ namespace ILIAS\LTI\ToolProvider\Content;
  */
 class LineItem
 {
-
     /**
      * Label of line-item.
      *
@@ -76,7 +75,7 @@ class LineItem
      *
      * @return object
      */
-    public function toJsonldObject() : object
+    public function toJsonldObject(): object
     {
         $lineItem = new \stdClass();
 
@@ -99,7 +98,7 @@ class LineItem
      *
      * @return object
      */
-    public function toJsonObject() : object
+    public function toJsonObject(): object
     {
         $lineItem = new \stdClass();
 
@@ -120,7 +119,7 @@ class LineItem
      * @param object $item A JSON or JSON-LD object representing a content-item
      * @return LineItem|null  The LineItem object
      */
-    public static function fromJsonObject(object $item) : ?LineItem
+    public static function fromJsonObject(object $item): ?LineItem
     {
         $obj = null;
         $label = null;

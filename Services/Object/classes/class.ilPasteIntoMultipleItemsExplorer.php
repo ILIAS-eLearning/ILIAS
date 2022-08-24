@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 use ILIAS\Repository\Clipboard\ClipboardManager;
 
 /**
@@ -26,8 +28,8 @@ use ILIAS\Repository\Clipboard\ClipboardManager;
  */
 class ilPasteIntoMultipleItemsExplorer extends ilRepositoryExplorer
 {
-    const SEL_TYPE_CHECK = 1;
-    const SEL_TYPE_RADIO = 2;
+    public const SEL_TYPE_CHECK = 1;
+    public const SEL_TYPE_RADIO = 2;
 
     protected int $type = 0;
     protected ClipboardManager $clipboard;
@@ -36,7 +38,7 @@ class ilPasteIntoMultipleItemsExplorer extends ilRepositoryExplorer
     protected string $post_var = '';
     protected array $form_items = [];
     protected string $form_item_permission = 'read';
-    
+
     public function __construct(int $type, string $target, string $session_variable)
     {
         global $DIC;
@@ -49,21 +51,21 @@ class ilPasteIntoMultipleItemsExplorer extends ilRepositoryExplorer
         $this->root_id = $this->tree->readRootId();
         $this->order_column = 'title';
         $this->setSessionExpandVariable($session_variable);
-        
+
         $this->addFilter('root');
         $this->addFilter('crs');
         $this->addFilter('grp');
         $this->addFilter('cat');
         $this->addFilter('fold');
         $this->addFilter('lso');
-        
+
         $this->addFormItemForType('root');
         $this->addFormItemForType('crs');
         $this->addFormItemForType('grp');
         $this->addFormItemForType('cat');
         $this->addFormItemForType('fold');
         $this->addFormItemForType('lso');
-        
+
         $this->setFiltered(true);
         $this->setFilterMode(IL_FM_POSITIVE);
         $this->clipboard = $DIC
@@ -72,67 +74,67 @@ class ilPasteIntoMultipleItemsExplorer extends ilRepositoryExplorer
             ->domain()
             ->clipboard();
     }
-    
+
     public function isClickable(
         string $type,
         int $ref_id = 0
-    ) : bool {
+    ): bool {
         return false;
     }
-    
-    public function addFormItemForType(string $type) : void
+
+    public function addFormItemForType(string $type): void
     {
         $this->form_items[$type] = true;
     }
 
-    public function removeFormItemForType(string $type) : void
+    public function removeFormItemForType(string $type): void
     {
         $this->form_items[$type] = false;
     }
 
-    public function setCheckedItems(array $checked_items = []) : void
+    public function setCheckedItems(array $checked_items = []): void
     {
         $this->checked_items = $checked_items;
     }
 
-    public function isItemChecked(int $id) : bool
+    public function isItemChecked(int $id): bool
     {
         return in_array($id, $this->checked_items);
     }
 
-    public function setPostVar(string $post_var) : void
+    public function setPostVar(string $post_var): void
     {
         $this->post_var = $post_var;
     }
 
-    public function getPostVar() : string
+    public function getPostVar(): string
     {
         return $this->post_var;
     }
-    
-    public function setRequiredFormItemPermission(string $form_item_permission) : void
+
+    public function setRequiredFormItemPermission(string $form_item_permission): void
     {
         $this->form_item_permission = $form_item_permission;
     }
-    
-    public function getRequiredFormItemPermission() : string
+
+    public function getRequiredFormItemPermission(): string
     {
         return $this->form_item_permission;
     }
-    
-    public function buildFormItem(int $node_id, string $type) : string
+
+    public function buildFormItem(int $node_id, string $type): string
     {
         if (!$this->access->checkAccess($this->getRequiredFormItemPermission(), '', $node_id)) {
             return "";
         }
-        
+
         if (
             !array_key_exists($type, $this->form_items) ||
             !$this->form_items[$type]
         ) {
             return "";
         }
-        
+
         $disabled = false;
         if ($this->clipboard->hasEntries()) {
             $disabled = in_array($node_id, $this->clipboard->getRefIds());
@@ -159,8 +161,8 @@ class ilPasteIntoMultipleItemsExplorer extends ilRepositoryExplorer
         }
         return "";
     }
-    
-    public function formatObject(ilTemplate $tpl, $node_id, array $option, $obj_id = 0) : void
+
+    public function formatObject(ilTemplate $tpl, $node_id, array $option, $obj_id = 0): void
     {
         if (!isset($node_id) or !is_array($option)) {
             $this->error->raiseError(
@@ -198,7 +200,7 @@ class ilPasteIntoMultipleItemsExplorer extends ilRepositoryExplorer
                 $pic = true;
             }
         }
-        
+
         if (!$pic) {
             $tpl->setCurrentBlock("blank");
             $tpl->setVariable("BLANK_PATH", $this->getImage("browser/blank.png"));
@@ -207,16 +209,16 @@ class ilPasteIntoMultipleItemsExplorer extends ilRepositoryExplorer
 
         if ($this->output_icons) {
             $tpl->setCurrentBlock("icon");
-            
+
             $path = ilObject::_getIcon($obj_id, "tiny", $option["type"]);
             $tpl->setVariable("ICON_IMAGE", $path);
-            
+
             $tpl->setVariable("TARGET_ID", "iconid_" . $node_id);
             $this->iconList[] = "iconid_" . $node_id;
             $tpl->setVariable("TXT_ALT_IMG", $this->lng->txt($option["desc"]));
             $tpl->parseCurrentBlock();
         }
-        
+
         if (strlen($formItem = $this->buildFormItem($node_id, $option['type']))) {
             $tpl->setCurrentBlock('check');
             $tpl->setVariable('OBJ_CHECK', $formItem);
@@ -226,9 +228,9 @@ class ilPasteIntoMultipleItemsExplorer extends ilRepositoryExplorer
         if ($this->isClickable($option["type"], $node_id)) {
             $tpl->setCurrentBlock("link");
             $tpl->setVariable("LINK_TARGET", $this->buildLinkTarget($node_id, $option["type"]));
-                
+
             $style_class = $this->getNodeStyleClass($node_id, $option["type"]);
-            
+
             if ($style_class != "") {
                 $tpl->setVariable("A_CLASS", ' class="' . $style_class . '" ');
             }
@@ -257,7 +259,7 @@ class ilPasteIntoMultipleItemsExplorer extends ilRepositoryExplorer
             if ($node_id == $this->highlighted) {
                 $obj_title = "<span class=\"ilHighlighted\">" . $obj_title . "</span>";
             }
-            
+
             $tpl->setCurrentBlock("text");
             $tpl->setVariable("OBJ_TITLE", $obj_title);
             $tpl->setVariable(
@@ -275,14 +277,14 @@ class ilPasteIntoMultipleItemsExplorer extends ilRepositoryExplorer
         $tpl->parseCurrentBlock();
         $tpl->touchBlock("element");
     }
-    
+
     /*
      * @param int $obj_id
      */
-    public function formatHeader(ilTemplate $tpl, $obj_id, array $option) : void
+    public function formatHeader(ilTemplate $tpl, $obj_id, array $option): void
     {
         $path = ilObject::_getIcon((int) $obj_id, "tiny", "root");
-        
+
         $tpl->setCurrentBlock("icon");
         $nd = $this->tree->getNodeData(ROOT_FOLDER_ID);
         $title = $nd["title"];
@@ -299,11 +301,11 @@ class ilPasteIntoMultipleItemsExplorer extends ilRepositoryExplorer
             $tpl->setVariable('OBJ_CHECK', $formItem);
             $tpl->parseCurrentBlock();
         }
-        
+
         $tpl->setVariable('OBJ_TITLE', $title);
     }
-    
-    public function showChilds($parent_id, $obj_id = 0) : bool
+
+    public function showChilds($parent_id, $obj_id = 0): bool
     {
         if ($parent_id == 0) {
             return true;
@@ -314,7 +316,7 @@ class ilPasteIntoMultipleItemsExplorer extends ilRepositoryExplorer
         return false;
     }
 
-    public function isVisible($ref_id, string $type) : bool
+    public function isVisible($ref_id, string $type): bool
     {
         if (!$this->access->checkAccess('visible', '', $ref_id)) {
             return false;

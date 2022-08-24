@@ -30,13 +30,13 @@ class ilCOPagePCDef
     public static array $pc_gui_classes = array();
     public static array $pc_gui_classes_lc = array();
     public static array $pc_def_by_gui_class_cl = array();
-    
-    public static function init() : void
+
+    public static function init(): void
     {
         global $DIC;
 
         $db = $DIC->database();
-        
+
         if (self::$pc_def == null) {
             $set = $db->query("SELECT * FROM copg_pc_def ORDER BY order_nr");
             while ($rec = $db->fetchAssoc($set)) {
@@ -50,47 +50,47 @@ class ilCOPagePCDef
             }
         }
     }
-    
-    public static function getPCDefinitions() : array
+
+    public static function getPCDefinitions(): array
     {
         self::init();
         return self::$pc_def;
     }
-    
+
     /**
      * Get PC definition by type
      */
-    public static function getPCDefinitionByType(string $a_pc_type) : array
+    public static function getPCDefinitionByType(string $a_pc_type): array
     {
         self::init();
         return self::$pc_def[$a_pc_type];
     }
-    
+
     /**
      * Get PC definition by name
      */
     public static function getPCDefinitionByName(
         string $a_pc_name
-    ) : array {
+    ): array {
         self::init();
         return self::$pc_def_by_name[$a_pc_name];
     }
-    
+
     /**
      * Get PC definition by name
      */
     public static function getPCDefinitionByGUIClassName(
         string $a_gui_class_name
-    ) : array {
+    ): array {
         self::init();
         $a_gui_class_name = strtolower($a_gui_class_name);
         return self::$pc_def_by_gui_class_cl[$a_gui_class_name];
     }
-    
+
     public static function isPCGUIClassName(
         string $a_class_name,
         bool $a_lower_case = false
-    ) : bool {
+    ): bool {
         if ($a_lower_case) {
             return in_array($a_class_name, self::$pc_gui_classes_lc);
         } else {
@@ -103,7 +103,7 @@ class ilCOPagePCDef
      */
     public static function getPCEditorInstanceByName(
         string $a_name
-    ) : ?PageComponentEditor {
+    ): ?PageComponentEditor {
         $pc_def = self::getPCDefinitionByName($a_name);
         $pc_class = "ilPC" . $pc_def["name"] . "EditorGUI";
         if (class_exists($pc_class)) {

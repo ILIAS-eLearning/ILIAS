@@ -26,17 +26,17 @@ final class ilExternalFeedRemoveMigration implements Setup\Migration
 {
     protected ilDBInterface $db;
 
-    public function getLabel() : string
+    public function getLabel(): string
     {
         return "Remove external feeds from repository.";
     }
 
-    public function getDefaultAmountOfStepsPerRun() : int
+    public function getDefaultAmountOfStepsPerRun(): int
     {
         return 10;
     }
 
-    public function getPreconditions(Environment $environment) : array
+    public function getPreconditions(Environment $environment): array
     {
         return [
             new ilIniFilesLoadedObjective(),
@@ -45,19 +45,19 @@ final class ilExternalFeedRemoveMigration implements Setup\Migration
         ];
     }
 
-    public function prepare(Environment $environment) : void
+    public function prepare(Environment $environment): void
     {
         /** @var ilDBInterface $db */
         $db = $environment->getResource(Environment::RESOURCE_DATABASE);
         $this->db = $db;
     }
 
-    protected function log(string $str) : void
+    protected function log(string $str): void
     {
         echo "\n" . $str;
     }
 
-    public function step(Environment $environment) : void
+    public function step(Environment $environment): void
     {
         $db = $this->db;
 
@@ -75,7 +75,7 @@ final class ilExternalFeedRemoveMigration implements Setup\Migration
             $ref_ids[$rec["ref_id"]] = $rec["ref_id"];
             $obj_ids[$rec["obj_id"]] = $rec["obj_id"];
         }
-        
+
         // local roles of feed objects
         $set = $db->queryF(
             "SELECT * FROM rbac_fa " .
@@ -213,14 +213,14 @@ final class ilExternalFeedRemoveMigration implements Setup\Migration
         $this->manipulate("DELETE FROM il_custom_block WHERE type = " . $db->quote("feed", "text"));
     }
 
-    protected function manipulate(string $query) : void
+    protected function manipulate(string $query): void
     {
         $db = $this->db;
         $db->manipulate($query);
         $this->log($query);
     }
 
-    public function getRemainingAmountOfSteps() : int
+    public function getRemainingAmountOfSteps(): int
     {
         $db = $this->db;
 

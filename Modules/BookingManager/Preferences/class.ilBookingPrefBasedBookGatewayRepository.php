@@ -36,7 +36,7 @@ class ilBookingPrefBasedBookGatewayRepository
      * Get pools with overdue preference booking
      * @return int[]
      */
-    public function getPoolsWithOverdueBooking() : array
+    public function getPoolsWithOverdueBooking(): array
     {
         $db = $this->db;
 
@@ -54,13 +54,13 @@ class ilBookingPrefBasedBookGatewayRepository
         }
         return $pool_ids;
     }
-    
-    
+
+
     /**
      * Semaphore like hash setting/checking to ensure that no
      * other process is doing the same
      */
-    protected function checkProcessHash(int $pool_id) : bool
+    protected function checkProcessHash(int $pool_id): bool
     {
         $db = $this->db;
 
@@ -93,7 +93,7 @@ class ilBookingPrefBasedBookGatewayRepository
     public function storeBookings(
         int $pool_id,
         array $bookings
-    ) : void {
+    ): void {
         if ($this->checkProcessHash($pool_id)) {
             foreach ($bookings as $user_id => $obj_ids) {
                 foreach ($obj_ids as $obj_id) {
@@ -114,7 +114,7 @@ class ilBookingPrefBasedBookGatewayRepository
 
     public function getBookings(
         array $obj_ids
-    ) : array {
+    ): array {
         $bookings = [];
         foreach (ilBookingReservation::getList(
             $obj_ids,

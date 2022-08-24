@@ -55,7 +55,7 @@ class ilOrgUnitDefaultPermissionFormGUI extends ilPropertyFormGUI
         parent::__construct();
     }
 
-    public function saveObject() : bool
+    public function saveObject(): bool
     {
         if ($this->fillObject() === false) {
             return false;
@@ -67,7 +67,7 @@ class ilOrgUnitDefaultPermissionFormGUI extends ilPropertyFormGUI
         return true;
     }
 
-    private function initButtons() : void
+    private function initButtons(): void
     {
         $this->setTitle($this->txt("form_title_org_default_permissions_"
             . BaseCommands::CMD_UPDATE));
@@ -75,11 +75,10 @@ class ilOrgUnitDefaultPermissionFormGUI extends ilPropertyFormGUI
         $this->addCommandButton(BaseCommands::CMD_CANCEL, $this->txt(BaseCommands::CMD_CANCEL));
     }
 
-    private function initFormElements() : void
+    private function initFormElements(): void
     {
         foreach ($this->ilOrgUnitPermissions as $ilOrgUnitPermission) {
-
-            if($ilOrgUnitPermission->getContext() !== null) {
+            if ($ilOrgUnitPermission->getContext() !== null) {
                 $header = new ilFormSectionHeaderGUI();
                 $context = $ilOrgUnitPermission->getContext()->getContext();
                 $header->setTitle($this->getTitleForFormHeaderByContext($context));
@@ -98,12 +97,11 @@ class ilOrgUnitDefaultPermissionFormGUI extends ilPropertyFormGUI
         }
     }
 
-    public function fillForm() : void
+    public function fillForm(): void
     {
         $operations = array();
         foreach ($this->ilOrgUnitPermissions as $ilOrgUnitPermission) {
-
-            if($ilOrgUnitPermission->getContext() !== null) {
+            if ($ilOrgUnitPermission->getContext() !== null) {
                 $context = $ilOrgUnitPermission->getContext()->getContext();
                 foreach ($ilOrgUnitPermission->getPossibleOperations() as $operation) {
                     $id = $operation->getOperationId();
@@ -114,7 +112,7 @@ class ilOrgUnitDefaultPermissionFormGUI extends ilPropertyFormGUI
         $this->setValuesByArray($operations);
     }
 
-    private function fillObject() : bool
+    private function fillObject(): bool
     {
         if (!$this->checkInput()) {
             return false;
@@ -138,7 +136,7 @@ class ilOrgUnitDefaultPermissionFormGUI extends ilPropertyFormGUI
     /**
      * @return ilOrgUnitPermission[]
      */
-    public function getIlOrgUnitPermissions() : array
+    public function getIlOrgUnitPermissions(): array
     {
         return $this->ilOrgUnitPermissions;
     }
@@ -146,17 +144,17 @@ class ilOrgUnitDefaultPermissionFormGUI extends ilPropertyFormGUI
     /**
      * @param ilOrgUnitPermission[] $ilOrgUnitPermissions
      */
-    public function setIlOrgUnitPermissions(array $ilOrgUnitPermissions) : void
+    public function setIlOrgUnitPermissions(array $ilOrgUnitPermissions): void
     {
         $this->ilOrgUnitPermissions = $ilOrgUnitPermissions;
     }
 
-    private function dic() : \ILIAS\DI\Container
+    private function dic(): \ILIAS\DI\Container
     {
         return $GLOBALS["DIC"];
     }
 
-    private function txt(string $key) : string
+    private function txt(string $key): string
     {
         return $this->language->txt($key);
     }

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -75,27 +77,27 @@ class ilQTIItem
     protected ?string $iliasSourceNic = null;
     protected array $response = [];
 
-    public function setIdent(string $a_ident) : void
+    public function setIdent(string $a_ident): void
     {
         $this->ident = $a_ident;
     }
 
-    public function getIdent() : ?string
+    public function getIdent(): ?string
     {
         return $this->ident;
     }
 
-    public function setTitle(string $a_title) : void
+    public function setTitle(string $a_title): void
     {
         $this->title = $a_title;
     }
 
-    public function getTitle() : string
+    public function getTitle(): string
     {
         return $this->title;
     }
 
-    public function setComment(string $a_comment) : void
+    public function setComment(string $a_comment): void
     {
         if (preg_match("/(.*?)\=(.*)/", $a_comment, $matches)) {
             // special comments written by ILIAS
@@ -114,12 +116,12 @@ class ilQTIItem
         $this->comment = $a_comment;
     }
 
-    public function getComment() : string
+    public function getComment(): string
     {
         return $this->comment;
     }
 
-    public function setDuration(string $a_duration) : void
+    public function setDuration(string $a_duration): void
     {
         if (preg_match("/P(\d+)Y(\d+)M(\d+)DT(\d+)H(\d+)M(\d+)S/", $a_duration, $matches)) {
             $this->duration = array(
@@ -133,77 +135,77 @@ class ilQTIItem
     /**
      * @return null|array{h: string, m: string, s: string}
      */
-    public function getDuration() : ?array
+    public function getDuration(): ?array
     {
         return $this->duration;
     }
-    
-    public function setQuestiontext(ilQTIMaterial $a_questiontext) : void
+
+    public function setQuestiontext(ilQTIMaterial $a_questiontext): void
     {
         $this->questiontext = $a_questiontext;
     }
-    
-    public function getQuestiontext() : ?ilQTIMaterial
+
+    public function getQuestiontext(): ?ilQTIMaterial
     {
         return $this->questiontext;
     }
-    
-    public function addResprocessing(ilQTIResprocessing $a_resprocessing) : void
+
+    public function addResprocessing(ilQTIResprocessing $a_resprocessing): void
     {
         $this->resprocessing[] = $a_resprocessing;
     }
-    
-    public function addItemfeedback(ilQTIItemfeedback $a_itemfeedback) : void
+
+    public function addItemfeedback(ilQTIItemfeedback $a_itemfeedback): void
     {
         $this->itemfeedback[] = $a_itemfeedback;
     }
-    
-    public function setMaxattempts(string $a_maxattempts) : void
+
+    public function setMaxattempts(string $a_maxattempts): void
     {
         $this->maxattempts = $a_maxattempts;
     }
-    
-    public function getMaxattempts() : string
+
+    public function getMaxattempts(): string
     {
         return $this->maxattempts;
     }
 
-    public function setLabel(string $a_label) : void
+    public function setLabel(string $a_label): void
     {
         $this->label = $a_label;
     }
 
-    public function getLabel() : ?string
+    public function getLabel(): ?string
     {
         return $this->label;
     }
 
-    public function setXmllang(string $a_xmllang) : void
+    public function setXmllang(string $a_xmllang): void
     {
         $this->xmllang = $a_xmllang;
     }
 
-    public function getXmllang() : ?string
+    public function getXmllang(): ?string
     {
         return $this->xmllang;
     }
 
-    public function setPresentation(ilQTIPresentation $a_presentation) : void
+    public function setPresentation(ilQTIPresentation $a_presentation): void
     {
         $this->presentation = $a_presentation;
     }
 
-    public function getPresentation() : ?ilQTIPresentation
+    public function getPresentation(): ?ilQTIPresentation
     {
         return $this->presentation;
     }
 
-    public function setQuestiontype(string $a_questiontype) : void
+    public function setQuestiontype(string $a_questiontype): void
     {
         $this->questiontype = $a_questiontype;
     }
 
-    public function getQuestiontype() : ?string
+    public function getQuestiontype(): ?string
     {
         return $this->questiontype;
     }
@@ -211,12 +213,12 @@ class ilQTIItem
     /**
      * @param ilQTIResponse|ilQTIMaterial|null $a_presentationitem
      */
-    public function addPresentationitem($a_presentationitem) : void
+    public function addPresentationitem($a_presentationitem): void
     {
         $this->presentationitem[] = $a_presentationitem;
     }
 
-    public function determineQuestionType() : ?string
+    public function determineQuestionType(): ?string
     {
         switch ($this->questiontype) {
             case "ORDERING QUESTION":
@@ -260,37 +262,37 @@ class ilQTIItem
         return $this->questiontype;
     }
 
-    public function setAuthor(string $a_author) : void
+    public function setAuthor(string $a_author): void
     {
         $this->author = $a_author;
     }
 
-    public function getAuthor() : string
+    public function getAuthor(): string
     {
         return $this->author;
     }
 
-    public function getIliasSourceVersion() : ?string
+    public function getIliasSourceVersion(): ?string
     {
         return $this->iliasSourceVersion;
     }
 
-    public function setIliasSourceVersion(?string $iliasSourceVersion) : void
+    public function setIliasSourceVersion(?string $iliasSourceVersion): void
     {
         $this->iliasSourceVersion = $iliasSourceVersion ?? '';
     }
 
-    public function getIliasSourceNic() : ?string
+    public function getIliasSourceNic(): ?string
     {
         return $this->iliasSourceNic;
     }
 
-    public function setIliasSourceNic(?string $iliasSourceNic) : void
+    public function setIliasSourceNic(?string $iliasSourceNic): void
     {
         $this->iliasSourceNic = $iliasSourceNic;
     }
-    
-    public function addSuggestedSolution(ilQTIMattext $a_solution, int $a_gap_index) : void
+
+    public function addSuggestedSolution(ilQTIMattext $a_solution, int $a_gap_index): void
     {
         $this->suggested_solutions[] = array("solution" => $a_solution, "gap_index" => $a_gap_index);
     }
@@ -298,17 +300,17 @@ class ilQTIItem
     /**
      * @param array{label: string, entry: string} $a_metadata
      */
-    public function addMetadata(array $a_metadata) : void
+    public function addMetadata(array $a_metadata): void
     {
         $this->itemmetadata[] = $a_metadata;
     }
-    
-    public function getMetadata() : array
+
+    public function getMetadata(): array
     {
         return $this->itemmetadata;
     }
 
-    public function getMetadataEntry(string $a_label) : ?string
+    public function getMetadataEntry(string $a_label): ?string
     {
         foreach ($this->itemmetadata as $metadata) {
             if ($metadata["label"] === $a_label) {
@@ -318,7 +320,7 @@ class ilQTIItem
         return null;
     }
 
-    private function typeFromResponse(ilQTIResponse $response) : ?string
+    private function typeFromResponse(ilQTIResponse $response): ?string
     {
         switch ($response->getResponsetype()) {
             case ilQTIResponse::RT_RESPONSE_LID:

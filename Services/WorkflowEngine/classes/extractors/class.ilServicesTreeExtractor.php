@@ -28,7 +28,7 @@ class ilServicesTreeExtractor extends ilBaseExtractor
      * @param array  $parameters
      * @return ilExtractedParams
      */
-    public function extract(string $event, array $parameters) : ilExtractedParams
+    public function extract(string $event, array $parameters): ilExtractedParams
     {
         $this->ilExtractedParams->setSubjectType('tree');
 
@@ -44,7 +44,7 @@ class ilServicesTreeExtractor extends ilBaseExtractor
     /**
      * @param array $parameters
      */
-    protected function extractTree(array $parameters) : void
+    protected function extractTree(array $parameters): void
     {
         $this->ilExtractedParams->setSubjectId(0);
         $this->ilExtractedParams->setContextType('tree');

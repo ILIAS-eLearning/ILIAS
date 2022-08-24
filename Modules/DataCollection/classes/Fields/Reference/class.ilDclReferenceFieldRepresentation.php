@@ -23,9 +23,9 @@
  */
 class ilDclReferenceFieldRepresentation extends ilDclBaseFieldRepresentation
 {
-    const REFERENCE_SEPARATOR = " -> ";
+    public const REFERENCE_SEPARATOR = " -> ";
 
-    public function getInputField(ilPropertyFormGUI $form, int $record_id = 0) : ilSelectInputGUI
+    public function getInputField(ilPropertyFormGUI $form, int $record_id = 0): ilSelectInputGUI
     {
         if (!$this->getField()->getProperty(ilDclBaseFieldModel::PROP_N_REFERENCE)) {
             $input = new ilSelectInputGUI($this->getField()->getTitle(), 'field_' . $this->getField()->getId());
@@ -109,8 +109,12 @@ class ilDclReferenceFieldRepresentation extends ilDclBaseFieldRepresentation
      */
     public function addFilterInputFieldToTable(ilTable2GUI $table)
     {
-        $input = $table->addFilterItemByMetaType("filter_" . $this->getField()->getId(), ilTable2GUI::FILTER_SELECT,
-            false, $this->getField()->getId());
+        $input = $table->addFilterItemByMetaType(
+            "filter_" . $this->getField()->getId(),
+            ilTable2GUI::FILTER_SELECT,
+            false,
+            $this->getField()->getId()
+        );
         $ref_field_id = $this->getField()->getProperty(ilDclBaseFieldModel::PROP_REFERENCE);
         $ref_field = ilDclCache::getFieldCache($ref_field_id);
         $ref_table = ilDclCache::getTableCache($ref_field->getTableId());
@@ -133,13 +137,15 @@ class ilDclReferenceFieldRepresentation extends ilDclBaseFieldRepresentation
     /**
      * @param int $filter
      */
-    public function passThroughFilter(ilDclBaseRecordModel $record, $filter) : bool
+    public function passThroughFilter(ilDclBaseRecordModel $record, $filter): bool
     {
         $value = $record->getRecordFieldValue($this->getField()->getId());
 
         $pass = false;
-        if ($filter && $this->getField()->getProperty(ilDclBaseFieldModel::PROP_N_REFERENCE) && is_array($value) && in_array($filter,
-                $value)) {
+        if ($filter && $this->getField()->getProperty(ilDclBaseFieldModel::PROP_N_REFERENCE) && is_array($value) && in_array(
+            $filter,
+            $value
+        )) {
             $pass = true;
         }
         if (!$filter || $filter == $value) {
@@ -149,7 +155,7 @@ class ilDclReferenceFieldRepresentation extends ilDclBaseFieldRepresentation
         return $pass;
     }
 
-    protected function buildFieldCreationInput(ilObjDataCollection $dcl, string $mode = 'create') : ilRadioOption
+    protected function buildFieldCreationInput(ilObjDataCollection $dcl, string $mode = 'create'): ilRadioOption
     {
         $opt = parent::buildFieldCreationInput($dcl, $mode);
 
@@ -164,19 +170,25 @@ class ilDclReferenceFieldRepresentation extends ilDclBaseFieldRepresentation
                 }
             }
         }
-        $prop_table_selection = new ilSelectInputGUI($this->lng->txt('dcl_reference_title'),
-            'prop_' . ilDclBaseFieldModel::PROP_REFERENCE);
+        $prop_table_selection = new ilSelectInputGUI(
+            $this->lng->txt('dcl_reference_title'),
+            'prop_' . ilDclBaseFieldModel::PROP_REFERENCE
+        );
         $prop_table_selection->setOptions($options);
 
         $opt->addSubItem($prop_table_selection);
 
-        $prop_ref_link = new ilDclCheckboxInputGUI($this->lng->txt('dcl_reference_link'),
-            'prop_' . ilDclBaseFieldModel::PROP_REFERENCE_LINK);
+        $prop_ref_link = new ilDclCheckboxInputGUI(
+            $this->lng->txt('dcl_reference_link'),
+            'prop_' . ilDclBaseFieldModel::PROP_REFERENCE_LINK
+        );
         $prop_ref_link->setInfo($this->lng->txt('dcl_reference_link_info'));
         $opt->addSubItem($prop_ref_link);
 
-        $prop_multi_select = new ilDclCheckboxInputGUI($this->lng->txt('dcl_multiple_selection'),
-            'prop_' . ilDclBaseFieldModel::PROP_N_REFERENCE);
+        $prop_multi_select = new ilDclCheckboxInputGUI(
+            $this->lng->txt('dcl_multiple_selection'),
+            'prop_' . ilDclBaseFieldModel::PROP_N_REFERENCE
+        );
         $opt->addSubItem($prop_multi_select);
 
         return $opt;

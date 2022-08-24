@@ -15,7 +15,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * Select taxonomy nodes input GUI
  * @author            Alexander Killing <killing@leifos.de>
@@ -66,12 +66,12 @@ class ilTaxSelectInputGUI extends ilExplorerSelectInputGUI
         $this->tax = new ilObjTaxonomy($this->getTaxonomyId());
     }
 
-    public function setTaxonomyId(int $a_val) : void
+    public function setTaxonomyId(int $a_val): void
     {
         $this->taxononmy_id = $a_val;
     }
 
-    public function getTaxonomyId() : int
+    public function getTaxonomyId(): int
     {
         return $this->taxononmy_id;
     }
@@ -79,7 +79,7 @@ class ilTaxSelectInputGUI extends ilExplorerSelectInputGUI
     /**
      * @inheritDoc
      */
-    public function getTitleForNodeId($a_id) : string
+    public function getTitleForNodeId($a_id): string
     {
         return ilTaxonomyNode::_lookupTitle((int) $a_id);
     }

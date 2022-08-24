@@ -1,4 +1,6 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -31,12 +33,12 @@ class ItemSessionRepository
     {
     }
 
-    public function setExpanded(int $id, int $val) : void
+    public function setExpanded(int $id, int $val): void
     {
         \ilSession::set(self::KEY_BASE . "_" . $id . "_expanded", $val);
     }
 
-    public function getExpanded(int $id) : ?int
+    public function getExpanded(int $id): ?int
     {
         if (\ilSession::has(self::KEY_BASE . "_" . $id . "_expanded")) {
             return \ilSession::get(self::KEY_BASE . "_" . $id . "_expanded");

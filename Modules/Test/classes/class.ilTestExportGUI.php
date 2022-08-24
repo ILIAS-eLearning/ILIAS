@@ -1,4 +1,5 @@
 <?php
+
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 require_once 'Services/Export/classes/class.ilExportGUI.php';
@@ -45,7 +46,7 @@ class ilTestExportGUI extends ilExportGUI
     /**
      * @return ilTestExportTableGUI
      */
-    protected function buildExportTableGUI() : ilExportTableGUI
+    protected function buildExportTableGUI(): ilExportTableGUI
     {
         require_once 'Modules/Test/classes/tables/class.ilTestExportTableGUI.php';
         $table = new ilTestExportTableGUI($this, 'listExportFiles', $this->obj);
@@ -110,12 +111,12 @@ class ilTestExportGUI extends ilExportGUI
             require_once 'Modules/Test/classes/class.ilTestEvaluation.php';
             $evaluation = new ilTestEvaluation($ilDB, $this->obj->getTestId());
             $allActivesPasses = $evaluation->getAllActivesPasses();
-            
+
             require_once 'Modules/Test/classes/class.ilTestParticipantData.php';
             $participantData = new ilTestParticipantData($ilDB, $lng);
             $participantData->setActiveIdsFilter(array_keys($allActivesPasses));
             $participantData->load($this->obj->getTestId());
-            
+
             require_once 'Modules/Test/classes/class.ilTestArchiveService.php';
             $archiveService = new ilTestArchiveService($this->obj);
             $archiveService->setParticipantData($participantData);
@@ -124,7 +125,7 @@ class ilTestExportGUI extends ilExportGUI
             include_once("./Modules/Test/classes/class.ilTestArchiver.php");
             $test_id = $this->obj->getId();
             $archive_exp = new ilTestArchiver($test_id);
-            
+
             require_once './Modules/Test/classes/class.ilTestScoring.php';
             $scoring = new ilTestScoring($this->obj);
             $best_solution = $scoring->calculateBestSolutionForTest();
@@ -142,7 +143,7 @@ class ilTestExportGUI extends ilExportGUI
             $generator->generatePDF($best_solution, ilTestPDFGenerator::PDF_OUTPUT_FILE, $file_name, PDF_USER_RESULT);
             $archive_exp->handInTestBestSolution($best_solution, $file_name);
             ilFileUtils::delDir($directory_name);
-            
+
             $archive_exp->updateTestArchive();
             $archive_exp->compressTestArchive();
         } else {
@@ -151,7 +152,7 @@ class ilTestExportGUI extends ilExportGUI
         $ilCtrl->redirectByClass('iltestexportgui');
     }
 
-    public function listExportFiles() : void
+    public function listExportFiles(): void
     {
         global $DIC;
         $tpl = $DIC['tpl'];
@@ -183,7 +184,7 @@ class ilTestExportGUI extends ilExportGUI
         if (file_exists($archive_dir) && is_dir($archive_dir)) {
             $archive_files = scandir($archive_dir);
         }
-        
+
         $export_dir = $this->obj->getExportDirectory();
         $export_files = $this->obj->getExportFiles($export_dir);
         $data = array();
@@ -221,7 +222,7 @@ class ilTestExportGUI extends ilExportGUI
         foreach ($this->getCustomColumns() as $c) {
             $table->addCustomColumn($c["txt"], $c["obj"], $c["func"]);
         }
-        
+
         foreach ($this->getCustomMultiCommands() as $c) {
             $table->addCustomMultiCommand($c["txt"], "multi_" . $c["func"]);
         }
@@ -230,7 +231,7 @@ class ilTestExportGUI extends ilExportGUI
         $tpl->setContent($table->getHTML());
     }
 
-    public function download() : void
+    public function download(): void
     {
         /**
          * @var $lng ilLanguage
@@ -275,7 +276,7 @@ class ilTestExportGUI extends ilExportGUI
     /**
      * Delete files
      */
-    public function delete() : void
+    public function delete(): void
     {
         /**
          * @var $lng ilLanguage
@@ -288,7 +289,7 @@ class ilTestExportGUI extends ilExportGUI
         require_once 'class.ilTestArchiver.php';
         $archiver = new ilTestArchiver($this->getParentGUI()->object->getId());
         $archiveDir = $archiver->getZipExportDirectory();
-        
+
         $export_dir = $this->obj->getExportDirectory();
         foreach ($_POST['file'] as $file) {
             $file = basename($file);
@@ -297,7 +298,7 @@ class ilTestExportGUI extends ilExportGUI
             if (!strlen($file) || !strlen($dir)) {
                 continue;
             }
-            
+
             $exp_file = $export_dir . '/' . $file;
             $arc_file = $archiveDir . '/' . $file;
             $exp_dir = $export_dir . '/' . $dir;

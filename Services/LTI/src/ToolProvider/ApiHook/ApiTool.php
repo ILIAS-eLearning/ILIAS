@@ -27,7 +27,6 @@ namespace ILIAS\LTI\ToolProvider\ApiHook;
  */
 class ApiTool
 {
-
     /**
      * Tool object.
      *
@@ -47,7 +46,7 @@ class ApiTool
     /**
      * Check if the API hook has been configured.
      */
-    public function isConfigured() : bool
+    public function isConfigured(): bool
     {
         return true;
     }
@@ -57,7 +56,7 @@ class ApiTool
      *
      * @return string User ID value, or empty string if not available.
      */
-    public function getUserId() : string
+    public function getUserId(): string
     {
         return '';
     }
@@ -67,7 +66,7 @@ class ApiTool
      *
      * @return string Context ID value, or empty string if not available.
      */
-    public function getContextId() : string
+    public function getContextId(): string
     {
         return '';
     }

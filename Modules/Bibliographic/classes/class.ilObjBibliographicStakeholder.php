@@ -15,7 +15,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 use ILIAS\ResourceStorage\Stakeholder\AbstractResourceStakeholder;
 
 /**
@@ -27,7 +27,7 @@ class ilObjBibliographicStakeholder extends AbstractResourceStakeholder
     /**
      * @inheritDoc
      */
-    public function getId() : string
+    public function getId(): string
     {
         return 'bibl';
     }
@@ -35,7 +35,7 @@ class ilObjBibliographicStakeholder extends AbstractResourceStakeholder
     /**
      * @inheritDoc
      */
-    public function getOwnerOfNewResources() : int
+    public function getOwnerOfNewResources(): int
     {
         return 6;
     }

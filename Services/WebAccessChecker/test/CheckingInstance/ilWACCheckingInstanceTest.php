@@ -1,4 +1,5 @@
 <?php
+
 use ILIAS\HTTP\Cookies\CookieFactory;
 use ILIAS\HTTP\Services;
 use Mockery\Adapter\Phpunit\MockeryTestCase;
@@ -33,7 +34,6 @@ use Psr\Http\Message\UriInterface;
  */
 class ilWACCheckingInstanceTest //extends MockeryTestCase
 {
-
     /**
      * @var vfs\vfsStreamFile
      */
@@ -47,7 +47,7 @@ class ilWACCheckingInstanceTest //extends MockeryTestCase
     /**
      * Setup
      */
-    protected function setUp() : void
+    protected function setUp(): void
     {
         $this->root = vfs\vfsStream::setup('ilias.de');
         $this->file_one = vfs\vfsStream::newFile('data/trunk/mobs/mm_123/dummy.jpg')
@@ -69,25 +69,25 @@ class ilWACCheckingInstanceTest //extends MockeryTestCase
      * @backupGlobals          disabled
      * @backupStaticAttributes disabled
      */
-    public function testDeliver() : void
+    public function testDeliver(): void
     {
         self::markTestSkipped("WIP");
     }
 
 
-    public function testBasic() : void
+    public function testBasic(): void
     {
         self::markTestSkipped("Can't run test without db.");
     }
 
 
-    public function testBasicWithFileSigning() : void
+    public function testBasicWithFileSigning(): void
     {
         self::markTestSkipped("WIP");
     }
 
 
-    public function testBasicWithFolderSigning() : void
+    public function testBasicWithFolderSigning(): void
     {
         self::markTestSkipped("WIP");
     }
@@ -96,7 +96,7 @@ class ilWACCheckingInstanceTest //extends MockeryTestCase
     /**
      * @Test
      */
-    public function testNonCheckingInstanceNoSec() : void
+    public function testNonCheckingInstanceNoSec(): void
     {
         self::markTestSkipped("Can't run test without db.");
 

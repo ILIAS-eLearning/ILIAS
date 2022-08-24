@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /* Copyright (c) 2021 - Daniel Weise <daniel.weise@concepts-and-training.de> - Extended GPL, see LICENSE */
 
@@ -28,7 +30,7 @@ class ilIndividualAssessmentAccessHandlerTest extends TestCase
      */
     private $obj_user;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         $this->iass_object = $this->createMock(ilObjIndividualAssessment::class);
         $this->access_handler = $this->createMock(ilAccessHandler::class);
@@ -37,7 +39,7 @@ class ilIndividualAssessmentAccessHandlerTest extends TestCase
         $this->obj_user = $this->createMock(ilObjUser::class);
     }
 
-    public function testObjectCreation() : void
+    public function testObjectCreation(): void
     {
         $obj = new ilIndividualAssessmentAccessHandler(
             $this->iass_object,

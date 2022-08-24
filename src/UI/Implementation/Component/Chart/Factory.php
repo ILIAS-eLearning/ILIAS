@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\UI\Implementation\Component\Chart;
 
 use ILIAS\UI\Component as C;
@@ -40,7 +42,7 @@ class Factory implements C\Chart\Factory
     /**
      * @inheritdoc
      */
-    public function scaleBar(array $items) : C\Chart\ScaleBar
+    public function scaleBar(array $items): C\Chart\ScaleBar
     {
         return new ScaleBar($items);
     }
@@ -48,7 +50,7 @@ class Factory implements C\Chart\Factory
     /**
      * @inheritdoc
      */
-    public function progressMeter() : C\Chart\ProgressMeter\Factory
+    public function progressMeter(): C\Chart\ProgressMeter\Factory
     {
         return $this->progressmeter_factory;
     }
@@ -56,7 +58,7 @@ class Factory implements C\Chart\Factory
     /**
      * @inheritdoc
      */
-    public function bar() : C\Chart\Bar\Factory
+    public function bar(): C\Chart\Bar\Factory
     {
         return $this->bar_factory;
     }

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /* Copyright (c) 2021 ILIAS open source, Extended GPL, see docs/LICENSE */
 
@@ -17,7 +19,7 @@ interface ilComponentDefinitionProcessor
      * This methods is supposed to purge existing data in the provider of the
      * component, so new components can be added to a clean slate.
      */
-    public function purge() : void;
+    public function purge(): void;
 
     /**
      * This method is called when parsing of component.xml for the given component
@@ -25,23 +27,23 @@ interface ilComponentDefinitionProcessor
      *
      * This is supposed to reset any internal parsing state.
      */
-    public function beginComponent(string $component, string $type) : void;
+    public function beginComponent(string $component, string $type): void;
 
     /**
      * This method is called when parsing of component.xml for the given component
      * ends.
      */
-    public function endComponent(string $component, string $type) : void;
+    public function endComponent(string $component, string $type): void;
 
     /**
      * This is called when a tag starts in the context of the given component.
      *
      * @param string[] $attributes
      */
-    public function beginTag(string $name, array $attributes) : void;
+    public function beginTag(string $name, array $attributes): void;
 
     /**
      * This is called when a tag ends in the context of the given component.
      */
-    public function endTag(string $name) : void;
+    public function endTag(string $name): void;
 }

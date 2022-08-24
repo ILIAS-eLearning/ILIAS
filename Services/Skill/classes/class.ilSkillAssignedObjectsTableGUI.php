@@ -54,7 +54,7 @@ class ilSkillAssignedObjectsTableGUI extends ilTable2GUI
         $this->setRowTemplate("tpl.skill_assigned_objects_row.html", "Services/Skill");
     }
 
-    protected function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set): void
     {
         $obj_type = ilObject::_lookupType($a_set["obj_id"]);
         $this->tpl->setVariable(

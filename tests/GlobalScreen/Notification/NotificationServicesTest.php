@@ -1,4 +1,5 @@
 <?php
+
 use ILIAS\GlobalScreen\Scope\Notification\NotificationServices;
 use ILIAS\GlobalScreen\Scope\Notification\Factory\NotificationFactory;
 use PHPUnit\Framework\TestCase;

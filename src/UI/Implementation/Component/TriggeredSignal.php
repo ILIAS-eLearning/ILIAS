@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\UI\Implementation\Component;
 
 use ILIAS\UI\Component as C;
@@ -40,7 +42,7 @@ class TriggeredSignal
     /**
      * @inheritdoc
      */
-    public function getSignal() : C\Signal
+    public function getSignal(): C\Signal
     {
         return $this->signal;
     }
@@ -48,7 +50,7 @@ class TriggeredSignal
     /**
      * @inheritdoc
      */
-    public function getEvent() : string
+    public function getEvent(): string
     {
         return $this->event;
     }

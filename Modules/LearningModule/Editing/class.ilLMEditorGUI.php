@@ -101,13 +101,13 @@ class ilLMEditorGUI implements ilCtrlBaseClassInterface
         $cs = $DIC->contentStyle();
         $this->content_style_gui = $cs->gui();
     }
-    
+
     /**
      * Check request parameters
      * @throws ilCtrlException
      * @throws ilException
      */
-    protected function checkRequestParameters() : void
+    protected function checkRequestParameters(): void
     {
         $forwards_to_role = $this->ctrl->checkCurrentPathForClass("ilobjrolegui");
 
@@ -118,13 +118,13 @@ class ilLMEditorGUI implements ilCtrlBaseClassInterface
             throw new ilException("Active node does not match learning module.");
         }
     }
-    
+
 
     /**
      * @throws ilCtrlException
      * @throws ilException
      */
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         global $DIC;
 
@@ -140,14 +140,14 @@ class ilLMEditorGUI implements ilCtrlBaseClassInterface
             $this->ctrl->setParameterByClass("illmpageobjectgui", "obj_id", $this->obj_id);
             $this->ctrl->redirectByClass(array("ilobjlearningmodulegui", "illmpageobjectgui"), "edit");
         }
-        
+
         $this->showTree();
 
         $next_class = $this->ctrl->getNextClass($this);
 
         // show footer
         $show_footer = ($cmd !== "explorer");
-            
+
         switch ($next_class) {
             case "ilobjlearningmodulegui":
                 $this->main_header();
@@ -179,7 +179,7 @@ class ilLMEditorGUI implements ilCtrlBaseClassInterface
     /**
      * Show tree
      */
-    public function showTree() : void
+    public function showTree(): void
     {
         $tpl = $this->tpl;
 
@@ -190,11 +190,11 @@ class ilLMEditorGUI implements ilCtrlBaseClassInterface
 //            $tpl->setLeftNavContent($exp->getHTML());
         }
     }
-    
+
     /**
      * output main header (title and locator)
      */
-    public function main_header() : void
+    public function main_header(): void
     {
         $this->tpl->loadStandardTemplate();
 
@@ -217,7 +217,7 @@ class ilLMEditorGUI implements ilCtrlBaseClassInterface
     /**
      * Display locator
      */
-    public function displayLocator() : void
+    public function displayLocator(): void
     {
         $this->tpl->setLocator();
     }

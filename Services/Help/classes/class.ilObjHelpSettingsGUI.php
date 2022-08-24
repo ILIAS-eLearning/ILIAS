@@ -52,12 +52,12 @@ class ilObjHelpSettingsGUI extends ilObject2GUI
         );
     }
 
-    public function getType() : string
+    public function getType(): string
     {
         return "hlps";
     }
 
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         $lng = $this->lng;
         $lng->loadLanguageModule("help");
@@ -88,21 +88,21 @@ class ilObjHelpSettingsGUI extends ilObject2GUI
         }
     }
 
-    public function editSettings() : void
+    public function editSettings(): void
     {
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
         $ilSetting = $this->settings;
         $ilTabs = $this->tabs;
         $ilToolbar = $this->toolbar;
-        
+
         $ilTabs->activateTab("settings");
-        
+
         if ((int) OH_REF_ID > 0) {
             $this->tpl->setOnScreenMessage('info', "This installation is used for online help authoring. Help modules cannot be imported.");
             return;
         }
-        
+
         if ($this->checkPermissionBool("write")) {
             // help file
             $fi = new ilFileInputGUI($lng->txt("help_help_file"), "help_file");
@@ -110,7 +110,7 @@ class ilObjHelpSettingsGUI extends ilObject2GUI
             $ilToolbar->addInputItem($fi, true);
             $ilToolbar->addFormButton($lng->txt("upload"), "uploadHelpFile");
             $ilToolbar->addSeparator();
-            
+
             // help mode
             $options = array(
                 "" => $lng->txt("help_tooltips_and_help"),
@@ -121,17 +121,17 @@ class ilObjHelpSettingsGUI extends ilObject2GUI
             $si->setOptions($options);
             $si->setValue($ilSetting->get("help_mode"));
             $ilToolbar->addInputItem($si);
-            
+
             $ilToolbar->addFormButton($lng->txt("help_set_mode"), "setMode");
         }
         $ilToolbar->setFormAction($ilCtrl->getFormAction($this), true);
-        
+
         $tab = new ilHelpModuleTableGUI($this, "editSettings", $this->checkPermissionBool("write"));
-        
+
         $this->tpl->setContent($tab->getHTML());
     }
 
-    public function getAdminTabs() : void
+    public function getAdminTabs(): void
     {
         if ($this->checkPermissionBool("visible,read")) {
             $this->tabs_gui->addTab(
@@ -140,7 +140,7 @@ class ilObjHelpSettingsGUI extends ilObject2GUI
                 $this->ctrl->getLinkTarget($this, "editSettings")
             );
         }
-        
+
         if ($this->checkPermissionBool("edit_permission")) {
             $this->tabs_gui->addTab(
                 "perm_settings",
@@ -150,20 +150,20 @@ class ilObjHelpSettingsGUI extends ilObject2GUI
         }
     }
 
-    public function uploadHelpFile() : void
+    public function uploadHelpFile(): void
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
-        
+
         if ($this->checkPermissionBool("write")) {
             $this->object->uploadHelpModule($_FILES["help_file"]);
             $this->tpl->setOnScreenMessage('success', $lng->txt("help_module_uploaded"), true);
         }
-        
+
         $ilCtrl->redirect($this, "editSettings");
     }
-    
-    public function confirmHelpModulesDeletion() : void
+
+    public function confirmHelpModulesDeletion(): void
     {
         $ilCtrl = $this->ctrl;
         $tpl = $this->tpl;
@@ -182,16 +182,16 @@ class ilObjHelpSettingsGUI extends ilObject2GUI
             $cgui->setHeaderText($lng->txt("help_sure_delete_help_modules"));
             $cgui->setCancel($lng->txt("cancel"), "editSettings");
             $cgui->setConfirm($lng->txt("delete"), "deleteHelpModules");
-            
+
             foreach ($ids as $i) {
                 $cgui->addItem("id[]", $i, $this->object::lookupModuleTitle($i));
             }
-            
+
             $tpl->setContent($cgui->getHTML());
         }
     }
-    
-    public function deleteHelpModules() : void
+
+    public function deleteHelpModules(): void
     {
         $ilCtrl = $this->ctrl;
 
@@ -204,28 +204,28 @@ class ilObjHelpSettingsGUI extends ilObject2GUI
 
         $ilCtrl->redirect($this, "editSettings");
     }
-    
-    public function activateModule() : void
+
+    public function activateModule(): void
     {
         $ilSetting = $this->settings;
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
 
         $this->checkPermission("write");
-        
+
         $ilSetting->set("help_module", $this->help_request->getHelpModuleId());
         $this->tpl->setOnScreenMessage('success', $lng->txt("msg_obj_modified"), true);
         $ilCtrl->redirect($this, "editSettings");
     }
-    
-    public function deactivateModule() : void
+
+    public function deactivateModule(): void
     {
         $ilSetting = $this->settings;
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
 
         $this->checkPermission("write");
-        
+
         if ((int) $ilSetting->get("help_module") === $this->help_request->getHelpModuleId()) {
             $ilSetting->set("help_module", "");
             $this->tpl->setOnScreenMessage('success', $lng->txt("msg_obj_modified"), true);
@@ -233,14 +233,14 @@ class ilObjHelpSettingsGUI extends ilObject2GUI
         $ilCtrl->redirect($this, "editSettings");
     }
 
-    public function setMode() : void
+    public function setMode(): void
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
         $ilSetting = $this->settings;
 
         $this->checkPermission("write");
-        
+
         if ($this->checkPermissionBool("write")) {
             $ilSetting->set(
                 "help_mode",
@@ -248,7 +248,7 @@ class ilObjHelpSettingsGUI extends ilObject2GUI
             );
             $this->tpl->setOnScreenMessage('success', $lng->txt("msg_obj_modified"), true);
         }
-        
+
         $ilCtrl->redirect($this, "editSettings");
     }
 }

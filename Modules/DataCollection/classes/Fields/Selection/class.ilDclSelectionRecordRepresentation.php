@@ -22,12 +22,11 @@
  */
 abstract class ilDclSelectionRecordRepresentation extends ilDclBaseRecordRepresentation
 {
-
     // those should be overwritten by subclasses
-    const PROP_SELECTION_TYPE = '';
-    const PROP_SELECTION_OPTIONS = '';
+    public const PROP_SELECTION_TYPE = '';
+    public const PROP_SELECTION_OPTIONS = '';
 
-    public function getHTML(bool $link = true) : string
+    public function getHTML(bool $link = true): string
     {
         $record_field_value = $this->getRecordField()->getValue();
         $values = ilDclSelectionOption::getValues($this->getField()->getId(), $record_field_value);

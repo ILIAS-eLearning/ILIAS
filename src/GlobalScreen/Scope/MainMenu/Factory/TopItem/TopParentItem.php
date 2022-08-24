@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -42,7 +44,7 @@ class TopParentItem extends AbstractParentItem implements isTopItem, hasTitle, h
      * @param string $title
      * @return TopParentItem
      */
-    public function withTitle(string $title) : hasTitle
+    public function withTitle(string $title): hasTitle
     {
         $clone = clone($this);
         $clone->title = $title;
@@ -53,12 +55,12 @@ class TopParentItem extends AbstractParentItem implements isTopItem, hasTitle, h
     /**
      * @inheritDoc
      */
-    public function getTitle() : string
+    public function getTitle(): string
     {
         return $this->title;
     }
 
-    public function withSupportsAsynchronousLoading(bool $supported) : supportsAsynchronousLoading
+    public function withSupportsAsynchronousLoading(bool $supported): supportsAsynchronousLoading
     {
         $clone = clone($this);
         $clone->supports_async_loading = $supported;
@@ -66,7 +68,7 @@ class TopParentItem extends AbstractParentItem implements isTopItem, hasTitle, h
         return $clone;
     }
 
-    public function supportsAsynchronousLoading() : bool
+    public function supportsAsynchronousLoading(): bool
     {
         return $this->supports_async_loading;
     }

@@ -11,7 +11,6 @@ include_once 'Modules/TestQuestionPool/classes/questions/LogicalAnswerCompare/Op
  */
 class ilAssLacEqualsOperation extends ilAssLacAbstractOperation
 {
-
     /**
      * @var string
      */
@@ -21,12 +20,12 @@ class ilAssLacEqualsOperation extends ilAssLacAbstractOperation
      * Get a human readable description of the Composite element
      * @return string
      */
-    public function getDescription() : string
+    public function getDescription(): string
     {
         return 'mit genau ';
     }
 
-    public function getPattern() : string
+    public function getPattern(): string
     {
         return self::$pattern;
     }

@@ -15,7 +15,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * Portfolio type gui implementations
  *
@@ -43,7 +43,7 @@ class ilExAssTypePortfolioGUI implements ilExAssignmentTypeGUIInterface
     /**
      * @inheritdoc
      */
-    public function addEditFormCustomProperties(ilPropertyFormGUI $form) : void
+    public function addEditFormCustomProperties(ilPropertyFormGUI $form): void
     {
         $lng = $this->lng;
 
@@ -66,7 +66,7 @@ class ilExAssTypePortfolioGUI implements ilExAssignmentTypeGUIInterface
     /**
      * @inheritdoc
      */
-    public function importFormToAssignment(ilExAssignment $ass, ilPropertyFormGUI $form) : void
+    public function importFormToAssignment(ilExAssignment $ass, ilPropertyFormGUI $form): void
     {
         $ass->setPortfolioTemplateId(0);
         if ($form->getInput("template_id") && $form->getInput("template")) {
@@ -89,7 +89,7 @@ class ilExAssTypePortfolioGUI implements ilExAssignmentTypeGUIInterface
         return $values;
     }
 
-    public function getOverviewContent(ilInfoScreenGUI $a_info, ilExSubmission $a_submission) : void
+    public function getOverviewContent(ilInfoScreenGUI $a_info, ilExSubmission $a_submission): void
     {
     }
 }

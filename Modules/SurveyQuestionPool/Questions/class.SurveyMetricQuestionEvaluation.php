@@ -26,14 +26,14 @@ class SurveyMetricQuestionEvaluation extends SurveyQuestionEvaluation
     //
     // RESULTS
     //
-    
+
     protected function parseResults(
         ilSurveyEvaluationResults $a_results,
         array $a_answers,
         SurveyCategories $a_categories = null
-    ) : void {
+    ): void {
         parent::parseResults($a_results, $a_answers);
-        
+
         // add arithmetic mean
         $total = $sum = 0;
         foreach ($a_answers as $answers) {
@@ -46,8 +46,8 @@ class SurveyMetricQuestionEvaluation extends SurveyQuestionEvaluation
             $a_results->setMean($sum / $total);
         }
     }
-    
-    
+
+
     //
     // DETAILS
     //
@@ -59,9 +59,9 @@ class SurveyMetricQuestionEvaluation extends SurveyQuestionEvaluation
         $a_results,
         bool $a_abs = true,
         bool $a_perc = true
-    ) : array {
+    ): array {
         $lng = $this->lng;
-        
+
         if ($a_abs && $a_perc) {
             $cols = array(
                 $lng->txt("category_nr_selected"),
@@ -76,12 +76,12 @@ class SurveyMetricQuestionEvaluation extends SurveyQuestionEvaluation
                 $lng->txt("svy_fraction_of_selections")
             );
         }
-        
+
         $res = array(
             "cols" => $cols,
             "rows" => array()
         );
-        
+
         // as we have no variables build rows from answers directly
         $answ = $a_results->getAnswers();
         $total = count($answ);
@@ -119,31 +119,31 @@ class SurveyMetricQuestionEvaluation extends SurveyQuestionEvaluation
     /**
      * @param array|ilSurveyEvaluationResults $a_results
      */
-    public function getChart($a_results) : ?array
+    public function getChart($a_results): ?array
     {
         $lng = $this->lng;
-        
+
         $chart = ilChart::getInstanceByType(ilChart::TYPE_GRID, $a_results->getQuestion()->getId());
         $chart->setYAxisToInteger(true);
-        
+
         $colors = $this->getChartColors();
         $chart->setColors($colors);
 
         // :TODO:
         $chart->setSize((string) $this->chart_width, (string) $this->chart_height);
-                        
+
         $data = $chart->getDataInstance(ilChartGrid::DATA_BARS);
         $data->setLabel($lng->txt("category_nr_selected"));
         $data->setBarOptions(0.5, "center");
         $data->setFill(1);
-        
+
         $total = count($a_results->getAnswers());
         if ($total > 0) {
             $cumulated = array();
             foreach ($a_results->getAnswers() as $answer) {
                 $cumulated[$answer->value] = ($cumulated[$answer->value] ?? 0) + 1;
             }
-            
+
             $labels = array();
             foreach ($cumulated as $value => $count) {
                 $data->addPoint($value, $count);
@@ -152,7 +152,7 @@ class SurveyMetricQuestionEvaluation extends SurveyQuestionEvaluation
             $chart->addData($data);
 
             $chart->setTicks($labels, false, true);
-        
+
             return array(
                 $chart->getHTML(),
                 null
@@ -161,19 +161,19 @@ class SurveyMetricQuestionEvaluation extends SurveyQuestionEvaluation
         return null;
     }
 
-    
+
     //
     // EXPORT
     //
-    
+
     /**
      * Get grid data
      * @param ilSurveyEvaluationResults|array $a_results
      */
-    public function getExportGrid($a_results) : array
+    public function getExportGrid($a_results): array
     {
         $lng = $this->lng;
-        
+
         $res = array(
             "cols" => array(
                 $lng->txt("value"),
@@ -182,7 +182,7 @@ class SurveyMetricQuestionEvaluation extends SurveyQuestionEvaluation
             ),
             "rows" => array()
         );
-        
+
         // as we have no variables build rows from answers directly
         $total = count($a_results->getAnswers());
         if ($total > 0) {
@@ -198,7 +198,7 @@ class SurveyMetricQuestionEvaluation extends SurveyQuestionEvaluation
                 );
             }
         }
-                
+
         return $res;
     }
 
@@ -209,7 +209,7 @@ class SurveyMetricQuestionEvaluation extends SurveyQuestionEvaluation
         array &$a_row,
         int $a_user_id,
         $a_results
-    ) : void {
+    ): void {
         $answer = $a_results->getUserResults($a_user_id);
         if (count($answer) === 0) {
             $a_row[] = $this->getSkippedValue();

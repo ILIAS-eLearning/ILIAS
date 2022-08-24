@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /* Copyright (c) 1998-2020 ILIAS open source, Extended GPL, see docs/LICENSE */
 
@@ -10,7 +12,7 @@ class ilParticipantsTestResultsGUITest extends ilTestBaseTestCase
 {
     private ilParticipantsTestResultsGUI $testObj;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         parent::setUp();
         global $DIC;
@@ -21,12 +23,12 @@ class ilParticipantsTestResultsGUITest extends ilTestBaseTestCase
         $this->testObj = new ilParticipantsTestResultsGUI();
     }
 
-    public function test_instantiateObject_shouldReturnInstance() : void
+    public function test_instantiateObject_shouldReturnInstance(): void
     {
         $this->assertInstanceOf(ilParticipantsTestResultsGUI::class, $this->testObj);
     }
 
-    public function testTestObj() : void
+    public function testTestObj(): void
     {
         $objTest_mock = $this->createMock(ilObjTest::class);
 
@@ -36,7 +38,7 @@ class ilParticipantsTestResultsGUITest extends ilTestBaseTestCase
         $this->assertEquals($objTest_mock, $this->testObj->getTestObj());
     }
 
-    public function testQuestionSetConfig() : void
+    public function testQuestionSetConfig(): void
     {
         $testQuestionSetConfig_mock = $this->createMock(ilTestQuestionSetConfig::class);
 
@@ -46,7 +48,7 @@ class ilParticipantsTestResultsGUITest extends ilTestBaseTestCase
         $this->assertEquals($testQuestionSetConfig_mock, $this->testObj->getQuestionSetConfig());
     }
 
-    public function testTestAccess() : void
+    public function testTestAccess(): void
     {
         $testAccess_mock = $this->createMock(ilTestAccess::class);
 
@@ -56,7 +58,7 @@ class ilParticipantsTestResultsGUITest extends ilTestBaseTestCase
         $this->assertEquals($testAccess_mock, $this->testObj->getTestAccess());
     }
 
-    public function testObjectiveParent() : void
+    public function testObjectiveParent(): void
     {
         $objectiveParent_mock = $this->createMock(ilTestObjectiveOrientedContainer::class);
 

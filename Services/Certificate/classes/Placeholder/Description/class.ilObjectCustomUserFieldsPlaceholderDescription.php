@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -29,7 +31,7 @@ class ilObjectCustomUserFieldsPlaceholderDescription implements ilCertificatePla
         $this->initPlaceholders();
     }
 
-    private function initPlaceholders() : void
+    private function initPlaceholders(): void
     {
         $courseDefinedFields = ilCourseDefinedFieldDefinition::_getFields($this->objectId);
 
@@ -47,12 +49,12 @@ class ilObjectCustomUserFieldsPlaceholderDescription implements ilCertificatePla
      * the the description as array value.
      * @return array - [PLACEHOLDER] => 'description'
      */
-    public function getPlaceholderDescriptions() : array
+    public function getPlaceholderDescriptions(): array
     {
         return $this->placeholder;
     }
 
-    public function createPlaceholderHtmlDescription() : string
+    public function createPlaceholderHtmlDescription(): string
     {
         $template = new ilTemplate(
             'tpl.common_desc.html',

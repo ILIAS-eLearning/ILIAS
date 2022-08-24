@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -22,7 +24,7 @@
  */
 abstract class ilBuddySystemSubjectDependentRelationStateButtonRenderer extends ilAbstractBuddySystemRelationStateButtonRenderer
 {
-    protected function getTemplateVariablePrefix() : string
+    protected function getTemplateVariablePrefix(): string
     {
         if ($this->relation->isOwnedByActor()) {
             return 'REQUESTER_';
@@ -31,7 +33,7 @@ abstract class ilBuddySystemSubjectDependentRelationStateButtonRenderer extends 
         return 'REQUESTEE_';
     }
 
-    protected function render() : void
+    protected function render(): void
     {
         if ($this->relation->isOwnedByActor()) {
             $this->tpl->setCurrentBlock('requester_container');

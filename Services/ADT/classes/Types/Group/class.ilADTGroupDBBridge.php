@@ -1,17 +1,19 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 class ilADTGroupDBBridge extends ilADTDBBridge
 {
     protected array $elements = [];
 
-    protected function isValidADT(ilADT $a_adt) : bool
+    protected function isValidADT(ilADT $a_adt): bool
     {
         return ($a_adt instanceof ilADTGroup);
     }
 
     // elements
 
-    protected function prepareElements() : void
+    protected function prepareElements(): void
     {
         if (count($this->elements)) {
             return;
@@ -33,13 +35,13 @@ class ilADTGroupDBBridge extends ilADTDBBridge
     /**
      * @return ilADTDBBridge[]
      */
-    public function getElements() : array
+    public function getElements(): array
     {
         $this->prepareElements();
         return $this->elements;
     }
 
-    public function getElement(string $a_element_id) : ?ilADTDBBridge
+    public function getElement(string $a_element_id): ?ilADTDBBridge
     {
         if (array_key_exists($a_element_id, $this->getElements())) {
             return $this->elements[$a_element_id];
@@ -48,7 +50,7 @@ class ilADTGroupDBBridge extends ilADTDBBridge
     }
 
     // properties
-    public function setTable(string $a_table) : void
+    public function setTable(string $a_table): void
     {
         parent::setTable($a_table);
         if (count($this->elements)) {
@@ -58,7 +60,7 @@ class ilADTGroupDBBridge extends ilADTDBBridge
         }
     }
 
-    public function setPrimary(array $a_value) : void
+    public function setPrimary(array $a_value): void
     {
         parent::setPrimary($a_value);
 
@@ -71,28 +73,28 @@ class ilADTGroupDBBridge extends ilADTDBBridge
 
     // CRUD
 
-    public function readRecord(array $a_row) : void
+    public function readRecord(array $a_row): void
     {
         foreach ($this->getElements() as $element) {
             $element->readRecord($a_row);
         }
     }
 
-    public function prepareInsert(array &$a_fields) : void
+    public function prepareInsert(array &$a_fields): void
     {
         foreach ($this->getElements() as $element) {
             $element->prepareInsert($a_fields);
         }
     }
 
-    public function afterInsert() : void
+    public function afterInsert(): void
     {
         foreach ($this->getElements() as $element) {
             $element->afterInsert();
         }
     }
 
-    public function afterUpdate() : void
+    public function afterUpdate(): void
     {
         foreach ($this->getElements() as $element) {
             $element->afterUpdate();
@@ -122,7 +124,7 @@ class ilADTGroupDBBridge extends ilADTDBBridge
         $element->afterUpdate();
     }
 
-    public function afterDelete() : void
+    public function afterDelete(): void
     {
         foreach ($this->getElements() as $element) {
             $element->afterDelete();

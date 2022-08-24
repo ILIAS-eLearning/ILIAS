@@ -51,7 +51,7 @@ class SectionStyleSelector
         string $action = "sec.class",
         string $attr = "class",
         bool $include_none = false
-    ) : Dropdown {
+    ): Dropdown {
         $a_chars = \ilPCSectionGUI::_getCharacteristics($this->style_id);
         $ui_wrapper = $this->ui_wrapper;
         $ui = $this->ui;

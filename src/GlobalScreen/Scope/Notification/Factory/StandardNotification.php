@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -26,7 +28,6 @@ use ILIAS\UI\Component\Item\Notification as NotificationItem;
  */
 class StandardNotification extends AbstractBaseNotification implements isStandardItem, hasAmount
 {
-
     /**
      * UI Component mapping to this item
      */
@@ -42,7 +43,7 @@ class StandardNotification extends AbstractBaseNotification implements isStandar
      */
     private int $new_amount = 1;
 
-    public function withNotificationItem(NotificationItem $notification_item) : self
+    public function withNotificationItem(NotificationItem $notification_item): self
     {
         $clone = clone $this;
         $clone->notification_item = $notification_item;
@@ -53,7 +54,7 @@ class StandardNotification extends AbstractBaseNotification implements isStandar
     /**
      * @return NotificationItem
      */
-    public function getNotificationItem() : NotificationItem
+    public function getNotificationItem(): NotificationItem
     {
         return $this->notification_item;
     }
@@ -61,7 +62,7 @@ class StandardNotification extends AbstractBaseNotification implements isStandar
     /**
      * @inheritdoc
      */
-    public function withOldAmount(int $amount = 0) : StandardNotification
+    public function withOldAmount(int $amount = 0): StandardNotification
     {
         $clone = clone $this;
         $clone->old_amount = $amount;
@@ -72,7 +73,7 @@ class StandardNotification extends AbstractBaseNotification implements isStandar
     /**
      * @inheritdoc
      */
-    public function withNewAmount(int $amount = 0) : StandardNotification
+    public function withNewAmount(int $amount = 0): StandardNotification
     {
         $clone = clone $this;
         $clone->new_amount = $amount;
@@ -83,7 +84,7 @@ class StandardNotification extends AbstractBaseNotification implements isStandar
     /**
      * @inheritdoc
      */
-    public function getOldAmount() : int
+    public function getOldAmount(): int
     {
         return $this->old_amount;
     }
@@ -91,7 +92,7 @@ class StandardNotification extends AbstractBaseNotification implements isStandar
     /**
      * @inheritdoc
      */
-    public function getNewAmount() : int
+    public function getNewAmount(): int
     {
         return $this->new_amount;
     }

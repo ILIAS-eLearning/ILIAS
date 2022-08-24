@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * This logs the execution of database update steps.
  *
@@ -46,7 +48,7 @@ class ilDBStepExecutionDB implements ilDatabaseUpdateStepExecutionLog
     /**
      * @throws \LogicException	if the previously started step has not finished
      */
-    public function started(string $class, int $step) : void
+    public function started(string $class, int $step): void
     {
         $this->throwIfClassNameTooLong($class);
 
@@ -79,7 +81,7 @@ class ilDBStepExecutionDB implements ilDatabaseUpdateStepExecutionLog
     /**
      * @throws \LogicException	if the finished step does not match the previously started step
      */
-    public function finished(string $class, int $step) : void
+    public function finished(string $class, int $step): void
     {
         $this->throwIfClassNameTooLong($class);
 
@@ -103,7 +105,7 @@ class ilDBStepExecutionDB implements ilDatabaseUpdateStepExecutionLog
         );
     }
 
-    public function getLastStartedStep(string $class) : int
+    public function getLastStartedStep(string $class): int
     {
         $this->throwIfClassNameTooLong($class);
 
@@ -117,7 +119,7 @@ class ilDBStepExecutionDB implements ilDatabaseUpdateStepExecutionLog
         return (int) ($row[self::FIELD_STEP] ?? 0);
     }
 
-    public function getLastFinishedStep(string $class) : int
+    public function getLastFinishedStep(string $class): int
     {
         $this->throwIfClassNameTooLong($class);
 
@@ -132,7 +134,7 @@ class ilDBStepExecutionDB implements ilDatabaseUpdateStepExecutionLog
         return (int) ($row[self::FIELD_STEP] ?? 0);
     }
 
-    protected function throwIfClassNameTooLong(string $class) : void
+    protected function throwIfClassNameTooLong(string $class): void
     {
         if (strlen($class) > 200) {
             throw new \InvalidArgumentException(
@@ -141,7 +143,7 @@ class ilDBStepExecutionDB implements ilDatabaseUpdateStepExecutionLog
         }
     }
 
-    protected function getFormattedNow() : string
+    protected function getFormattedNow(): string
     {
         $now = ($this->get_now)();
         if (!($now instanceof \DateTime)) {

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -24,7 +26,7 @@ use PHPUnit\Framework\TestCase;
  */
 class ilLTIConsumeProviderTest extends TestCase
 {
-    public function testSetId() : void
+    public function testSetId(): void
     {
         $ltiConsumerProvider = new ilLTIConsumeProvider();
         $testId = rand(10000, 99999);
@@ -33,7 +35,7 @@ class ilLTIConsumeProviderTest extends TestCase
         $this->assertEquals($testId, $ltiConsumerProvider->getId());
     }
 
-    public function testSetTitle() : void
+    public function testSetTitle(): void
     {
         $ltiConsumerProvider = new ilLTIConsumeProvider();
         $testTitle = str_shuffle(uniqid('abcdefgh'));

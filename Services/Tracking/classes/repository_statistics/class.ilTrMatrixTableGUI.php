@@ -1,4 +1,6 @@
-<?php declare(strict_types=0);
+<?php
+
+declare(strict_types=0);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -157,7 +159,7 @@ class ilTrMatrixTableGUI extends ilLPTableBaseGUI
         $this->setExportFormats(array(self::EXPORT_CSV, self::EXPORT_EXCEL));
     }
 
-    public function initFilter() : void
+    public function initFilter(): void
     {
         $item = $this->addFilterItemByMetaType(
             "name",
@@ -174,7 +176,7 @@ class ilTrMatrixTableGUI extends ilLPTableBaseGUI
         }
     }
 
-    public function getSelectableColumns() : array
+    public function getSelectableColumns(): array
     {
         $user_cols = $this->getSelectableUserColumns(
             $this->in_course,
@@ -305,7 +307,7 @@ class ilTrMatrixTableGUI extends ilLPTableBaseGUI
     public function getItems(
         array $a_user_fields,
         array $a_privary_fields = null
-    ) : array {
+    ): array {
         // #17081
         if ($this->restore_filter) {
             $name = $this->restore_filter_values["name"];
@@ -464,7 +466,7 @@ class ilTrMatrixTableGUI extends ilLPTableBaseGUI
         return [];
     }
 
-    protected function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set): void
     {
         if ($this->has_multi) {
             $this->tpl->setVariable("USER_ID", $a_set["usr_id"]);
@@ -602,7 +604,7 @@ class ilTrMatrixTableGUI extends ilLPTableBaseGUI
         $this->tpl->setVariable("VAL_LOGIN", $login);
     }
 
-    protected function fillHeaderExcel(ilExcel $a_excel, int &$a_row) : void
+    protected function fillHeaderExcel(ilExcel $a_excel, int &$a_row): void
     {
         global $DIC;
 
@@ -657,7 +659,7 @@ class ilTrMatrixTableGUI extends ilLPTableBaseGUI
         ilExcel $a_excel,
         int &$a_row,
         array $a_set
-    ) : void {
+    ): void {
         $a_excel->setCell($a_row, 0, $a_set["login"]);
 
         $cnt = 1;
@@ -704,7 +706,7 @@ class ilTrMatrixTableGUI extends ilLPTableBaseGUI
         }
     }
 
-    protected function fillHeaderCSV(ilCSVWriter $a_csv) : void
+    protected function fillHeaderCSV(ilCSVWriter $a_csv): void
     {
         global $DIC;
 
@@ -742,7 +744,7 @@ class ilTrMatrixTableGUI extends ilLPTableBaseGUI
         $a_csv->addRow();
     }
 
-    protected function fillRowCSV(ilCSVWriter $a_csv, array $a_set) : void
+    protected function fillRowCSV(ilCSVWriter $a_csv, array $a_set): void
     {
         $a_csv->addColumn($a_set["login"]);
 

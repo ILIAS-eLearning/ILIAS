@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -65,12 +67,12 @@ class ilTermsOfServiceDocumentFormGUI extends ilPropertyFormGUI
         $this->initForm();
     }
 
-    public function setCheckInputCalled(bool $status) : void
+    public function setCheckInputCalled(bool $status): void
     {
         $this->check_input_called = $status;
     }
 
-    protected function initForm() : void
+    protected function initForm(): void
     {
         if ($this->document->getId() > 0) {
             $this->setTitle($this->lng->txt('tos_form_edit_doc_head'));
@@ -111,27 +113,27 @@ class ilTermsOfServiceDocumentFormGUI extends ilPropertyFormGUI
         $this->addCommandButton($this->cancelCommand, $this->lng->txt('cancel'));
     }
 
-    public function hasTranslatedError() : bool
+    public function hasTranslatedError(): bool
     {
         return $this->translatedError !== '';
     }
 
-    public function getTranslatedError() : string
+    public function getTranslatedError(): string
     {
         return $this->translatedError;
     }
 
-    public function hasTranslatedInfo() : bool
+    public function hasTranslatedInfo(): bool
     {
         return $this->translatedInfo !== '';
     }
 
-    public function getTranslatedInfo() : string
+    public function getTranslatedInfo(): string
     {
         return $this->translatedInfo;
     }
 
-    public function saveObject() : bool
+    public function saveObject(): bool
     {
         if (!$this->fillObject()) {
             $this->setValuesByPost();
@@ -143,7 +145,7 @@ class ilTermsOfServiceDocumentFormGUI extends ilPropertyFormGUI
         return true;
     }
 
-    protected function fillObject() : bool
+    protected function fillObject(): bool
     {
         if (!$this->checkInput()) {
             return false;

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\UI\Implementation\Component\Input;
 
 use ILIAS\UI\Implementation\Component\SignalGeneratorInterface;
@@ -43,7 +45,7 @@ class Factory implements C\Input\Factory
     /**
      * @inheritdoc
      */
-    public function field() : C\Input\Field\Factory
+    public function field(): C\Input\Field\Factory
     {
         return $this->field_factory;
     }
@@ -51,7 +53,7 @@ class Factory implements C\Input\Factory
     /**
      * @inheritdoc
      */
-    public function container() : C\Input\Container\Factory
+    public function container(): C\Input\Container\Factory
     {
         return $this->container_factory;
     }
@@ -59,7 +61,7 @@ class Factory implements C\Input\Factory
     /**
      * @inheritDoc
      */
-    public function viewControl() : C\Input\ViewControl\Factory
+    public function viewControl(): C\Input\ViewControl\Factory
     {
         return $this->control_factory;
     }

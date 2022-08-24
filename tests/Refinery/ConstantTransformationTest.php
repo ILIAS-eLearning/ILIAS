@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -23,7 +25,7 @@ use PHPUnit\Framework\TestCase;
 
 class ConstantTransformationTest extends TestCase
 {
-    public function testTransform() : void
+    public function testTransform(): void
     {
         $value = 'hejaaa';
 

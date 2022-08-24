@@ -15,7 +15,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * Class ilObjExerciseAdministration
  *
@@ -30,7 +30,7 @@ class ilObjExerciseAdministration extends ilObject
         parent::__construct($a_id, $a_call_by_reference);
     }
 
-    public function delete() : bool
+    public function delete(): bool
     {
         // DISABLED
         return false;

@@ -1,4 +1,6 @@
-<?php declare(strict_types=0);
+<?php
+
+declare(strict_types=0);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -14,7 +16,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * class ilTimingCache
  * @author Stefan Meyer <meyer@leifos.com>
@@ -38,7 +40,7 @@ class ilTimingCache
         $this->readObjectInformation();
     }
 
-    public static function getInstanceByRefId(int $ref_id) : ilTimingCache
+    public static function getInstanceByRefId(int $ref_id): ilTimingCache
     {
         if (!isset(self::$instances[$ref_id])) {
             self::$instances[$ref_id] = new self($ref_id);
@@ -46,7 +48,7 @@ class ilTimingCache
         return self::$instances[$ref_id];
     }
 
-    public function isWarningRequired(int $usr_id) : bool
+    public function isWarningRequired(int $usr_id): bool
     {
         if (in_array($usr_id, $this->completed_users)) {
             return false;
@@ -70,7 +72,7 @@ class ilTimingCache
         return $end < time();
     }
 
-    protected function readObjectInformation() : void
+    protected function readObjectInformation(): void
     {
         $this->timings = ilObjectActivation::getItem($this->ref_id);
         $this->timings_active = false;
@@ -87,7 +89,7 @@ class ilTimingCache
         $this->completed_users = ilLPStatus::_getCompleted($this->obj_id);
     }
 
-    public static function _getTimings(int $a_ref_id) : array
+    public static function _getTimings(int $a_ref_id): array
     {
         static $cache = array();
 

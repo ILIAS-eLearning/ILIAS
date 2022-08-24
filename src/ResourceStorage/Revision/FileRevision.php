@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -14,7 +16,7 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *********************************************************************/
- 
+
 namespace ILIAS\ResourceStorage\Revision;
 
 use ILIAS\ResourceStorage\Identification\ResourceIdentification;
@@ -45,17 +47,17 @@ class FileRevision implements Revision
     /**
      * @inheritDoc
      */
-    public function getIdentification() : ResourceIdentification
+    public function getIdentification(): ResourceIdentification
     {
         return $this->identification;
     }
 
-    public function setVersionNumber(int $version_number) : void
+    public function setVersionNumber(int $version_number): void
     {
         $this->version_number = $version_number;
     }
 
-    public function getVersionNumber() : int
+    public function getVersionNumber(): int
     {
         return $this->version_number;
     }
@@ -63,12 +65,12 @@ class FileRevision implements Revision
     /**
      * @inheritDoc
      */
-    public function getInformation() : Information
+    public function getInformation(): Information
     {
         return $this->information ?? new FileInformation();
     }
 
-    public function setInformation(Information $information) : void
+    public function setInformation(Information $information): void
     {
         $this->information = $information;
     }
@@ -76,7 +78,7 @@ class FileRevision implements Revision
     /**
      * @inheritDoc
      */
-    public function setUnavailable() : void
+    public function setUnavailable(): void
     {
         $this->available = false;
     }
@@ -84,17 +86,17 @@ class FileRevision implements Revision
     /**
      * @inheritDoc
      */
-    public function isAvailable() : bool
+    public function isAvailable(): bool
     {
         return $this->available;
     }
 
-    public function getOwnerId() : int
+    public function getOwnerId(): int
     {
         return $this->owner_id;
     }
 
-    public function setOwnerId(int $owner_id) : self
+    public function setOwnerId(int $owner_id): self
     {
         $this->owner_id = $owner_id;
         return $this;
@@ -103,13 +105,13 @@ class FileRevision implements Revision
     /**
      * @return $this|Revision
      */
-    public function setTitle(string $title) : Revision
+    public function setTitle(string $title): Revision
     {
         $this->title = $title;
         return $this;
     }
 
-    public function getTitle() : string
+    public function getTitle(): string
     {
         return $this->title;
     }

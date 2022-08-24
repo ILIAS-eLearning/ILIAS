@@ -15,7 +15,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * Object-based submissions (ends up as static file)
  *
@@ -40,30 +40,30 @@ class ilExSubmissionTextGUI extends ilExSubmissionBaseGUI
         $this->help = $DIC["ilHelp"];
     }
 
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         $ilCtrl = $this->ctrl;
-        
+
         if (!$this->assignment ||
             $this->assignment->getType() != ilExAssignment::TYPE_TEXT ||
             !$this->submission->canView()) {
             return;
         }
-        
+
         $class = $ilCtrl->getNextClass($this);
         $cmd = $ilCtrl->getCmd("showassignmenttext");
-        
+
         switch ($class) {
             default:
                 $this->{$cmd . "Object"}();
                 break;
         }
     }
-    
+
     public static function getOverviewContent(
         ilInfoScreenGUI $a_info,
         ilExSubmission $a_submission
-    ) : void {
+    ): void {
         global $DIC;
 
         $lng = $DIC->language();
@@ -82,21 +82,21 @@ class ilExSubmissionTextGUI extends ilExSubmissionBaseGUI
 
         $a_info->addProperty($lng->txt("exc_files_returned_text"), $files_str);
     }
-    
-    
+
+
     //
     // TEXT ASSIGNMENT (EDIT)
     //
-    
+
     protected function initAssignmentTextForm(
         bool $a_read_only = false
-    ) : ilPropertyFormGUI {
+    ): ilPropertyFormGUI {
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
 
         $form = new ilPropertyFormGUI();
         $form->setTitle($this->lng->txt("exc_assignment") . " \"" . $this->assignment->getTitle() . "\"");
-            
+
         if (!$a_read_only) {
             $text = new ilTextAreaInputGUI($this->lng->txt("exc_your_text"), "atxt");
             $text->setRequired(
@@ -118,11 +118,11 @@ class ilExSubmissionTextGUI extends ilExSubmissionBaseGUI
             }
 
             $form->addItem($text);
-            
+
             // custom rte tags
             $text->setUseRte(true);
             $text->setRTESupport($this->submission->getUserId(), "exca~", "exc_ass");
-            
+
             // see ilObjForumGUI
             $text->disableButtons(array(
                 'charmap',
@@ -141,7 +141,7 @@ class ilExSubmissionTextGUI extends ilExSubmissionBaseGUI
                 'code',
                 // 'formatselect' #13234
             ));
-            
+
             $form->setFormAction($ilCtrl->getFormAction($this, "updateAssignmentText"));
             $form->addCommandButton("updateAssignmentTextAndReturn", $this->lng->txt("save_return"));
             $form->addCommandButton("updateAssignmentText", $this->lng->txt("save"));
@@ -151,13 +151,13 @@ class ilExSubmissionTextGUI extends ilExSubmissionBaseGUI
             $text = new ilNonEditableValueGUI($this->lng->txt("exc_files_returned_text"), "atxt", true);
             $form->addItem($text);
         }
-        
+
         return $form;
     }
-    
+
     public function editAssignmentTextObject(
         ilPropertyFormGUI $a_form = null
-    ) : void {
+    ): void {
         $ilCtrl = $this->ctrl;
 
         if (!$this->submission->canSubmit()) {
@@ -186,11 +186,11 @@ class ilExSubmissionTextGUI extends ilExSubmissionBaseGUI
                 }
             }
         }
-    
+
         $this->tpl->setContent($a_form->getHTML());
     }
-    
-    public function updateAssignmentTextAndReturnObject() : void
+
+    public function updateAssignmentTextAndReturnObject(): void
     {
         $this->updateAssignmentTextObject(true);
     }
@@ -201,34 +201,34 @@ class ilExSubmissionTextGUI extends ilExSubmissionBaseGUI
      */
     public function updateAssignmentTextObject(
         bool $a_return = false
-    ) : void {
+    ): void {
         $ilCtrl = $this->ctrl;
-        
+
         if (!$this->submission->canSubmit()) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt("exercise_time_over"), true);
             $ilCtrl->redirect($this, "returnToParent");
         }
-        
+
         $form = $this->initAssignmentTextForm();
-        
+
         // we are not using a purifier, so we have to set the valid RTE tags
         // :TODO:
         $rte = $form->getItemByPostVar("atxt");
         $rte->setRteTags(ilObjAdvancedEditing::_getUsedHTMLTags("exc_ass"));
-        
+
         if ($form->checkInput()) {
             $text = trim($form->getInput("atxt"));
-                                    
+
             $returned_id = $this->submission->updateTextSubmission(
                 // mob src to mob id
                 ilRTE::_replaceMediaObjectImageSrc($text, 0)
             );
-            
+
             // no empty text
             if ($returned_id) {
                 // #16532 - always send notifications
                 $this->handleNewUpload();
-                
+
                 // mob usage
                 $mobs = ilRTE::_getMediaObjects($text, 0);
                 foreach ($mobs as $mob) {
@@ -240,7 +240,7 @@ class ilExSubmissionTextGUI extends ilExSubmissionBaseGUI
             } else {
                 $this->handleRemovedUpload();
             }
-            
+
             $this->tpl->setOnScreenMessage('success', $this->lng->txt("exc_text_saved"), true);
             if ($a_return) {
                 $ilCtrl->redirect($this, "returnToParent");
@@ -248,19 +248,19 @@ class ilExSubmissionTextGUI extends ilExSubmissionBaseGUI
                 $ilCtrl->redirect($this, "editAssignmentText");
             }
         }
-        
+
         $form->setValuesByPost();
         $this->editAssignmentTextObject($form);
     }
-    
-    public function showAssignmentTextObject() : void
+
+    public function showAssignmentTextObject(): void
     {
         if (!$this->submission->isTutor()) {
             $this->handleTabs();
         }
-        
+
         $a_form = $this->initAssignmentTextForm(true);
-        
+
         $files = $this->submission->getFiles();
         if ($files !== []) {
             $files = array_shift($files);
@@ -269,13 +269,13 @@ class ilExSubmissionTextGUI extends ilExSubmissionBaseGUI
                     !$this->submission->hasPeerReviewAccess()) {
                     $this->tpl->setOnScreenMessage('failure', $this->lng->txt("exc_late_submission"));
                 }
-                
+
                 $text = $a_form->getItemByPostVar("atxt");
                 // mob id to mob src
                 $text->setValue(nl2br(ilRTE::_replaceMediaObjectImageSrc($files["atext"], 1)));
             }
         }
-    
+
         $this->tpl->setContent($a_form->getHTML());
     }
 }

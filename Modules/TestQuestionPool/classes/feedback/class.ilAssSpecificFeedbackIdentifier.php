@@ -13,49 +13,49 @@
 class ilAssSpecificFeedbackIdentifier
 {
     protected int $feedbackId;
-    
+
     protected int $questionId;
-    
+
     protected int $questionIndex;
-    
+
     protected int $answerIndex;
-    
-    public function getFeedbackId() : int
+
+    public function getFeedbackId(): int
     {
         return $this->feedbackId;
     }
-    
-    public function setFeedbackId(int $feedbackId) : void
+
+    public function setFeedbackId(int $feedbackId): void
     {
         $this->feedbackId = $feedbackId;
     }
-    
-    public function getQuestionId() : int
+
+    public function getQuestionId(): int
     {
         return $this->questionId;
     }
-    
-    public function setQuestionId(int $questionId) : void
+
+    public function setQuestionId(int $questionId): void
     {
         $this->questionId = $questionId;
     }
-    
-    public function getQuestionIndex() : int
+
+    public function getQuestionIndex(): int
     {
         return $this->questionIndex;
     }
-    
-    public function setQuestionIndex(int $questionIndex) : void
+
+    public function setQuestionIndex(int $questionIndex): void
     {
         $this->questionIndex = $questionIndex;
     }
-    
-    public function getAnswerIndex() : int
+
+    public function getAnswerIndex(): int
     {
         return $this->answerIndex;
     }
-    
-    public function setAnswerIndex(int $answerIndex) : void
+
+    public function setAnswerIndex(int $answerIndex): void
     {
         $this->answerIndex = $answerIndex;
     }

@@ -51,7 +51,7 @@ class ilObjPortfolioAdministrationGUI extends ilObjectGUI
         $this->lng->loadLanguageModule("prtf");
     }
 
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         $next_class = $this->ctrl->getNextClass($this);
         $cmd = $this->ctrl->getCmd();
@@ -81,7 +81,7 @@ class ilObjPortfolioAdministrationGUI extends ilObjectGUI
         }
     }
 
-    public function getAdminTabs() : void
+    public function getAdminTabs(): void
     {
         $lng = $this->lng;
         $tabs = $this->tabs_gui;
@@ -114,7 +114,7 @@ class ilObjPortfolioAdministrationGUI extends ilObjectGUI
         }
     }
 
-    public function editSettings($a_form = null) : void
+    public function editSettings($a_form = null): void
     {
         $this->tabs_gui->activateTab('settings');
         if (!$a_form) {
@@ -123,11 +123,11 @@ class ilObjPortfolioAdministrationGUI extends ilObjectGUI
         $this->tpl->setContent($a_form->getHTML());
     }
 
-    public function saveSettings() : void
+    public function saveSettings(): void
     {
         $ilCtrl = $this->ctrl;
         $ilSetting = $this->settings;
-        
+
         if ($this->hasWritePermission()) {
             $form = $this->initFormSettings();
             if ($form->checkInput()) {
@@ -150,24 +150,24 @@ class ilObjPortfolioAdministrationGUI extends ilObjectGUI
         }
     }
 
-    public function cancel() : void
+    public function cancel(): void
     {
         $ilCtrl = $this->ctrl;
-        
+
         $ilCtrl->redirect($this, "view");
     }
 
-    protected function hasWritePermission() : bool
+    protected function hasWritePermission(): bool
     {
         return $this->rbac_system->checkAccess("write", $this->object->getRefId());
     }
 
-    protected function hasReadPermission() : bool
+    protected function hasReadPermission(): bool
     {
         return $this->rbac_system->checkAccess("read", $this->object->getRefId());
     }
 
-    protected function initFormSettings() : ilPropertyFormGUI
+    protected function initFormSettings(): ilPropertyFormGUI
     {
         $lng = $this->lng;
         $ilSetting = $this->settings;
@@ -175,12 +175,12 @@ class ilObjPortfolioAdministrationGUI extends ilObjectGUI
         $form = new ilPropertyFormGUI();
         $form->setFormAction($this->ctrl->getFormAction($this));
         $form->setTitle($this->lng->txt('prtf_settings'));
-        
+
         if ($this->hasWritePermission()) {
             $form->addCommandButton('saveSettings', $this->lng->txt('save'));
             $form->addCommandButton('cancel', $this->lng->txt('cancel'));
         }
-        
+
         // Enable 'Portfolios'
         $lng->loadLanguageModule('pd');
         $lng->loadLanguageModule('user');
@@ -195,12 +195,12 @@ class ilObjPortfolioAdministrationGUI extends ilObjectGUI
         $banner = new ilCheckboxInputGUI($lng->txt("prtf_preview_banner"), "banner");
         $banner->setInfo($lng->txt("prtf_preview_banner_info"));
         $form->addItem($banner);
-        
+
         $width = new ilNumberInputGUI($lng->txt("prtf_preview_banner_width"), "width");
         $width->setRequired(true);
         $width->setSize(4);
         $banner->addSubItem($width);
-        
+
         $height = new ilNumberInputGUI($lng->txt("prtf_preview_banner_height"), "height");
         $height->setRequired(true);
         $height->setSize(4);
@@ -226,7 +226,7 @@ class ilObjPortfolioAdministrationGUI extends ilObjectGUI
         $link = $this->ctrl->getLinkTarget($gui);
         $ne->setValue("<a href='$link'> >> " . $this->lng->txt("settings") . "</a>");
         $form->addItem($ne);
-        
+
         $mycourses = new ilCheckboxInputGUI($lng->txt("prtf_allow_my_courses"), "mycrs");
         $mycourses->setInfo($lng->txt("prtf_allow_my_courses_info"));
         $mycourses->setChecked($prfa_set->get("mycrs", true));
@@ -234,8 +234,8 @@ class ilObjPortfolioAdministrationGUI extends ilObjectGUI
 
         return $form;
     }
-    
-    public function addToExternalSettingsForm(int $a_form_id) : array
+
+    public function addToExternalSettingsForm(int $a_form_id): array
     {
         $ilSetting = $this->settings;
 
@@ -254,7 +254,7 @@ class ilObjPortfolioAdministrationGUI extends ilObjectGUI
     // Declaration of authorship
     //
 
-    protected function editDeclarationOfAuthorship() : void
+    protected function editDeclarationOfAuthorship(): void
     {
         $main_tpl = $this->tpl;
         $renderer = $ui = $this->ui->renderer();
@@ -265,7 +265,7 @@ class ilObjPortfolioAdministrationGUI extends ilObjectGUI
         $main_tpl->setContent($renderer->render($form));
     }
 
-    public function initAuthorshipForm() : \ILIAS\UI\Component\Input\Container\Form\Standard
+    public function initAuthorshipForm(): \ILIAS\UI\Component\Input\Container\Form\Standard
     {
         $ui = $this->ui;
         $f = $ui->factory();
@@ -292,7 +292,7 @@ class ilObjPortfolioAdministrationGUI extends ilObjectGUI
         return $f->input()->container()->form()->standard($form_action, ["sec" => $section1]);
     }
 
-    public function saveAuthorship() : void
+    public function saveAuthorship(): void
     {
         $request = $this->request;
         $form = $this->initAuthorshipForm();

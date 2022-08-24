@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /******************************************************************************
  *
@@ -66,7 +68,7 @@ showResult($client, $valid, 'isValidSession');
 
 echo "<br />End Test";
 
-function showResult(nusoap_client $client, array $data, string $message) : void
+function showResult(nusoap_client $client, array $data, string $message): void
 {
     if ($client->fault) {
         echo '<h2>Fault</h2><pre>';

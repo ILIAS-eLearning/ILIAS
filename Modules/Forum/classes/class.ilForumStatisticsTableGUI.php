@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -68,7 +70,7 @@ class ilForumStatisticsTableGUI extends ilTable2GUI
     /**
      * @return array<int, array{field: string, txt: string, sortable?: bool}>
      */
-    protected function getColumnDefinition() : array
+    protected function getColumnDefinition(): array
     {
         $i = 0;
 
@@ -105,7 +107,7 @@ class ilForumStatisticsTableGUI extends ilTable2GUI
         return $columns;
     }
 
-    protected function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set): void
     {
         parent::fillRow($a_set);
 
@@ -150,7 +152,7 @@ class ilForumStatisticsTableGUI extends ilTable2GUI
         }
     }
 
-    public function numericOrdering(string $a_field) : bool
+    public function numericOrdering(string $a_field): bool
     {
         switch ($a_field) {
             case 'ranking':

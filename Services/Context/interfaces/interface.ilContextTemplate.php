@@ -26,57 +26,57 @@ interface ilContextTemplate
     /**
      * Are redirects supported?
      */
-    public static function supportsRedirects() : bool;
+    public static function supportsRedirects(): bool;
 
     /**
      * Based on user authentication?
      */
-    public static function hasUser() : bool;
+    public static function hasUser(): bool;
 
     /**
      * Uses HTTP aka browser
      */
-    public static function usesHTTP() : bool;
+    public static function usesHTTP(): bool;
 
     /**
      * Has HTML output
      */
-    public static function hasHTML() : bool;
+    public static function hasHTML(): bool;
 
     /**
      * Uses template engine
      */
-    public static function usesTemplate() : bool;
+    public static function usesTemplate(): bool;
 
     /**
      * Init client
      */
-    public static function initClient() : bool;
+    public static function initClient(): bool;
 
     /**
      * Try authentication
      */
-    public static function doAuthentication() : bool;
+    public static function doAuthentication(): bool;
 
     /**
      * Check if persistent sessions are supported
      * false for context cli
      */
-    public static function supportsPersistentSessions() : bool;
+    public static function supportsPersistentSessions(): bool;
 
     /**
      * Check if push messages are supported, see #0018206
      */
-    public static function supportsPushMessages() : bool;
+    public static function supportsPushMessages(): bool;
 
     /**
      * Context that are not only temporary in a session (e.g. WAC is, Cron is not)
      */
-    public static function isSessionMainContext() : bool;
+    public static function isSessionMainContext(): bool;
 
     /**
      * A context might modify the ILIAS http path
      * @see \ilInitialisation::buildHTTPPath
      */
-    public static function modifyHttpPath(string $httpPath) : string;
+    public static function modifyHttpPath(string $httpPath): string;
 }

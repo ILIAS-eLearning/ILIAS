@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -27,28 +29,27 @@ use ILIAS\UI\Component\Input\Field\Input;
  */
 interface TypeHandler
 {
-
     /**
      * @return string Classname of matching Type this TypeHandler can handle
      */
-    public function matchesForType() : string;
+    public function matchesForType(): string;
 
     /**
      * @param isItem $item
      * @return isItem
      */
-    public function enrichItem(isItem $item) : isItem;
+    public function enrichItem(isItem $item): isItem;
 
     /**
      * @param IdentificationInterface $identification
      * @return Input[]
      */
-    public function getAdditionalFieldsForSubForm(IdentificationInterface $identification) : array;
+    public function getAdditionalFieldsForSubForm(IdentificationInterface $identification): array;
 
     /**
      * @param IdentificationInterface $identification
      * @param array                   $data
      * @return bool
      */
-    public function saveFormFields(IdentificationInterface $identification, array $data) : bool;
+    public function saveFormFields(IdentificationInterface $identification, array $data): bool;
 }

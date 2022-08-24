@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -22,24 +24,24 @@
  */
 class ilBuddySystemLinkedRelationState extends ilAbstractBuddySystemRelationState
 {
-    public function getName() : string
+    public function getName(): string
     {
         return 'Linked';
     }
 
-    public function getAction() : string
+    public function getAction(): string
     {
         return 'link';
     }
 
-    public function getPossibleTargetStates() : ilBuddySystemRelationStateCollection
+    public function getPossibleTargetStates(): ilBuddySystemRelationStateCollection
     {
         return new ilBuddySystemRelationStateCollection([
             new ilBuddySystemUnlinkedRelationState(),
         ]);
     }
 
-    public function unlink(ilBuddySystemRelation $relation) : void
+    public function unlink(ilBuddySystemRelation $relation): void
     {
         $relation->setState(new ilBuddySystemUnlinkedRelationState());
     }

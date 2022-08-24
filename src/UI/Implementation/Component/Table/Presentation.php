@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\UI\Implementation\Component\Table;
 
 use ILIAS\UI\Component\Table as T;
@@ -51,7 +53,7 @@ class Presentation extends Table implements T\Presentation
         $this->signal_generator = $signal_generator;
     }
 
-    public function getSignalGenerator() : SignalGeneratorInterface
+    public function getSignalGenerator(): SignalGeneratorInterface
     {
         return $this->signal_generator;
     }
@@ -59,7 +61,7 @@ class Presentation extends Table implements T\Presentation
     /**
      * @inheritdoc
      */
-    public function withRowMapping(Closure $row_mapping) : T\Presentation
+    public function withRowMapping(Closure $row_mapping): T\Presentation
     {
         $clone = clone $this;
         $clone->row_mapping = $row_mapping;
@@ -69,7 +71,7 @@ class Presentation extends Table implements T\Presentation
     /**
      * @inheritdoc
      */
-    public function getRowMapping() : Closure
+    public function getRowMapping(): Closure
     {
         return $this->row_mapping;
     }
@@ -77,7 +79,7 @@ class Presentation extends Table implements T\Presentation
     /**
      * @inheritdoc
      */
-    public function withEnvironment(array $environment) : T\Presentation
+    public function withEnvironment(array $environment): T\Presentation
     {
         $clone = clone $this;
         $clone->environment = $environment;
@@ -87,7 +89,7 @@ class Presentation extends Table implements T\Presentation
     /**
      * @inheritdoc
      */
-    public function getEnvironment() : array
+    public function getEnvironment(): array
     {
         return $this->environment;
     }
@@ -95,7 +97,7 @@ class Presentation extends Table implements T\Presentation
     /**
      * @inheritdoc
      */
-    public function withData(array $records) : T\Presentation
+    public function withData(array $records): T\Presentation
     {
         $clone = clone $this;
         $clone->records = $records;
@@ -105,7 +107,7 @@ class Presentation extends Table implements T\Presentation
     /**
      * @inheritdoc
      */
-    public function getData() : array
+    public function getData(): array
     {
         return $this->records;
     }

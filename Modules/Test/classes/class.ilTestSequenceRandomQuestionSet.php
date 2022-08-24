@@ -1,4 +1,5 @@
 <?php
+
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 require_once 'Modules/Test/classes/class.ilTestSequence.php';
@@ -58,7 +59,7 @@ class ilTestSequenceRandomQuestionSet extends ilTestSequence implements ilTestRa
      * @param $pass int Pass of the test
      * @return boolean TRUE if the test already contains questions, FALSE otherwise
      */
-    public function hasRandomQuestionsForPass($active_id, $pass) : bool
+    public function hasRandomQuestionsForPass($active_id, $pass): bool
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];

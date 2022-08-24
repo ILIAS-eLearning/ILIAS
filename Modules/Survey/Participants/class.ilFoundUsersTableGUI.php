@@ -33,9 +33,9 @@ class ilFoundUsersTableGUI extends ilTable2GUI
         $this->lng = $DIC->language();
         $ilCtrl = $DIC->ctrl();
         $lng = $DIC->language();
-        
+
         parent::__construct($a_parent_obj, $a_parent_cmd);
-        
+
         $this->addColumn("", "f", "1");
         $this->addColumn($lng->txt("login"), "", "33%");
         $this->addColumn($lng->txt("firstname"), "", "33%");
@@ -45,8 +45,8 @@ class ilFoundUsersTableGUI extends ilTable2GUI
         $this->setDefaultOrderField("lastname");
         $this->setDefaultOrderDirection("asc");
     }
-    
-    protected function fillRow(array $a_set) : void
+
+    protected function fillRow(array $a_set): void
     {
         $ilCtrl = $this->ctrl;
         $ilCtrl->setParameterByClass("ilObjSurveyAdministrationGUI", "item_id", $a_set["usr_id"]);

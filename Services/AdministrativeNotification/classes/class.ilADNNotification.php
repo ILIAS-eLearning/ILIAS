@@ -1,4 +1,5 @@
-<?php /**
+<?php
+/**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
  *
@@ -36,44 +37,44 @@ class ilADNNotification extends ActiveRecord
     public const LINK_TYPE_REF_ID = 1;
     public const LINK_TYPE_URL = 2;
     protected static array $allowed_user_ids = array(0, 13, 6);
-    
-    public function getConnectorContainerName() : string
+
+    public function getConnectorContainerName(): string
     {
         return self::TABLE_NAME;
     }
-    
+
     /**
      * @deprecated
      */
-    public static function returnDbTableName() : string
+    public static function returnDbTableName(): string
     {
         return self::TABLE_NAME;
     }
-    
-    public function dismiss(ilObjUser $ilObjUser) : void
+
+    public function dismiss(ilObjUser $ilObjUser): void
     {
         if ($this->isUserAllowedToDismiss($ilObjUser)) {
             ilADNDismiss::dismiss($ilObjUser, $this);
         }
     }
-    
-    protected function hasUserDismissed(ilObjUser $ilObjUser) : bool
+
+    protected function hasUserDismissed(ilObjUser $ilObjUser): bool
     {
         if (!$this->getDismissable()) {
             return false;
         }
-        
+
         return ilADNDismiss::hasDimissed($ilObjUser, $this);
     }
-    
-    public function resetForAllUsers() : void
+
+    public function resetForAllUsers(): void
     {
         foreach (ilADNDismiss::where(array('notification_id' => $this->getId()))->get() as $not) {
             $not->delete();
         }
     }
-    
-    public function getFullTimeFormated() : string
+
+    public function getFullTimeFormated(): string
     {
         if ($this->getEventStart() == 0 && $this->getEventEnd() == 0) {
             return '';
@@ -91,13 +92,13 @@ class ilADNNotification extends ActiveRecord
             );
         }
     }
-    
-    public function isUserAllowedToDismiss(ilObjUser $user) : bool
+
+    public function isUserAllowedToDismiss(ilObjUser $user): bool
     {
         return ($this->getDismissable() && $user->getId() !== 0 && $user->getId() !== ANONYMOUS_USER_ID);
     }
-    
-    public function getActiveType() : int
+
+    public function getActiveType(): int
     {
         if ($this->isPermanent()) {
             return $this->getType();
@@ -110,9 +111,9 @@ class ilADNNotification extends ActiveRecord
         }
         return self::TYPE_INFO;
     }
-    
 
-    protected function isVisible() : bool
+
+    protected function isVisible(): bool
     {
         if ($this->isPermanent()) {
             return true;
@@ -121,12 +122,12 @@ class ilADNNotification extends ActiveRecord
         $hasDisplayStarted = $this->hasDisplayStarted();
         $hasEventEnded = !$this->hasEventEnded();
         $hasDisplayEnded = !$this->hasDisplayEnded();
-        
+
         return ($hasEventStarted || $hasDisplayStarted)
             && ($hasEventEnded || $hasDisplayEnded);
     }
-    
-    public function isVisibleForUser(ilObjUser $ilObjUser) : bool
+
+    public function isVisibleForUser(ilObjUser $ilObjUser): bool
     {
         if ($ilObjUser->getId() === 0 && $this->interruptive) {
             return false;
@@ -139,25 +140,25 @@ class ilADNNotification extends ActiveRecord
         }
         return $this->isVisibleRoleUserRoles($ilObjUser);
     }
-    
- 
-    protected function isVisibleRoleUserRoles(ilObjUser $ilObjUser) : bool
+
+
+    protected function isVisibleRoleUserRoles(ilObjUser $ilObjUser): bool
     {
         if (!$this->isLimitToRoles()) {
             return true;
         }
         global $DIC;
-        
+
         if ($ilObjUser->getId() === 0 && in_array(0, $this->getLimitedToRoleIds())) {
             return true;
         }
-        
+
         return $DIC->rbac()->review()->isAssignedToAtLeastOneGivenRole(
             $ilObjUser->getId(),
             $this->getLimitedToRoleIds()
         );
     }
-    
+
     /**
      * @con_is_primary true
      * @con_sequence   true
@@ -304,7 +305,7 @@ class ilADNNotification extends ActiveRecord
      * @con_length    256
      */
     protected string $link_target = '_top';
-    
+
     /**
      * @param string $field_name
      * @param mixed $field_value
@@ -320,7 +321,7 @@ class ilADNNotification extends ActiveRecord
             case 'create_date':
             case 'last_update':
                 return (new DateTimeImmutable())->setTimestamp((int) $field_value);
-            
+
             case 'allowed_users':
                 if ($field_value === null) {
                     $array_unique = self::$allowed_user_ids;
@@ -331,15 +332,15 @@ class ilADNNotification extends ActiveRecord
                     }
                     $array_unique = array_unique($json_decode);
                 }
-                
+
                 sort($array_unique);
-                
+
                 return $array_unique;
             case 'limited_to_role_ids':
                 return json_decode($field_value, true);
         }
     }
-    
+
     /**
      * @param string $field_name
      * @return bool|mixed|string
@@ -363,210 +364,210 @@ class ilADNNotification extends ActiveRecord
                 foreach ($this->allowed_users as $user_id) {
                     $allowed_users[] = (int) $user_id;
                 }
-                
+
                 return json_encode(array_unique($allowed_users), JSON_THROW_ON_ERROR);
             case 'limited_to_role_ids':
                 return json_encode($this->{$field_name}, JSON_THROW_ON_ERROR);
         }
     }
-    
-    public function create() : void
+
+    public function create(): void
     {
         global $DIC;
         $this->setCreateDate(new DateTimeImmutable());
         $this->setCreatedBy($DIC->user()->getId());
         parent::create();
     }
-    
-    public function setBody(string $body) : void
+
+    public function setBody(string $body): void
     {
         $this->body = $body;
     }
-    
-    public function getBody() : string
+
+    public function getBody(): string
     {
         return $this->body;
     }
-    
-    public function setDisplayEnd(DateTimeImmutable $display_end) : void
+
+    public function setDisplayEnd(DateTimeImmutable $display_end): void
     {
         $this->display_end = $display_end;
     }
-    
-    public function getDisplayEnd() : DateTimeImmutable
+
+    public function getDisplayEnd(): DateTimeImmutable
     {
         return $this->display_end ?? new DateTimeImmutable();
     }
-    
-    public function setDisplayStart(DateTimeImmutable $display_start) : void
+
+    public function setDisplayStart(DateTimeImmutable $display_start): void
     {
         $this->display_start = $display_start;
     }
-    
-    public function getDisplayStart() : DateTimeImmutable
+
+    public function getDisplayStart(): DateTimeImmutable
     {
         return $this->display_start ?? new DateTimeImmutable();
     }
-    
-    public function setEventEnd(DateTimeImmutable $event_end) : void
+
+    public function setEventEnd(DateTimeImmutable $event_end): void
     {
         $this->event_end = $event_end;
     }
-    
-    public function getEventEnd() : DateTimeImmutable
+
+    public function getEventEnd(): DateTimeImmutable
     {
         return $this->event_end ?? new DateTimeImmutable();
     }
-    
-    public function setEventStart(DateTimeImmutable $event_start) : void
+
+    public function setEventStart(DateTimeImmutable $event_start): void
     {
         $this->event_start = $event_start;
     }
-    
-    public function getEventStart() : DateTimeImmutable
+
+    public function getEventStart(): DateTimeImmutable
     {
         return $this->event_start ?? new DateTimeImmutable();
     }
-    
-    public function setId(int $id) : void
+
+    public function setId(int $id): void
     {
         $this->id = $id;
     }
-    
-    public function getId() : int
+
+    public function getId(): int
     {
         return (int) $this->id;
     }
-    
-    public function setTitle(string $title) : void
+
+    public function setTitle(string $title): void
     {
         $this->title = $title;
     }
-    
-    public function getTitle() : string
+
+    public function getTitle(): string
     {
         return $this->title;
     }
-    
-    public function setType(int $type) : void
+
+    public function setType(int $type): void
     {
         $this->type = $type;
     }
-    
-    public function getType() : int
+
+    public function getType(): int
     {
         return $this->type;
     }
-    
-    public function setTypeDuringEvent(int $type_during_event) : void
+
+    public function setTypeDuringEvent(int $type_during_event): void
     {
         $this->type_during_event = $type_during_event;
     }
-    
-    public function getTypeDuringEvent() : int
+
+    public function getTypeDuringEvent(): int
     {
         return in_array(
             $this->type_during_event,
             [self::TYPE_WARNING, self::TYPE_ERROR, self::TYPE_INFO]
         ) ? $this->type_during_event : self::TYPE_INFO;
     }
-    
-    public function setDismissable(bool $dismissable) : void
+
+    public function setDismissable(bool $dismissable): void
     {
         $this->dismissable = $dismissable;
     }
-    
-    public function getDismissable() : bool
+
+    public function getDismissable(): bool
     {
         return $this->dismissable;
     }
-    
-    protected function hasEventStarted() : bool
+
+    protected function hasEventStarted(): bool
     {
         return $this->getTime() > $this->getEventStart();
     }
-    
-    protected function hasDisplayStarted() : bool
+
+    protected function hasDisplayStarted(): bool
     {
         return $this->getTime() > $this->getDisplayStart();
     }
-    
-    protected function hasEventEnded() : bool
+
+    protected function hasEventEnded(): bool
     {
         return $this->getTime() > $this->getEventEnd();
     }
-    
-    protected function hasDisplayEnded() : bool
+
+    protected function hasDisplayEnded(): bool
     {
         return $this->getTime() > $this->getDisplayEnd();
     }
-    
-    public function setPermanent(bool $permanent) : void
+
+    public function setPermanent(bool $permanent): void
     {
         $this->permanent = $permanent;
     }
-    
-    public function isPermanent() : bool
+
+    public function isPermanent(): bool
     {
         return $this->permanent;
     }
-    
-    public function isDuringEvent() : bool
+
+    public function isDuringEvent(): bool
     {
         return $this->hasEventStarted() && !$this->hasEventEnded();
     }
-    
-    public function setCreateDate(DateTimeImmutable $create_date) : void
+
+    public function setCreateDate(DateTimeImmutable $create_date): void
     {
         $this->create_date = $create_date;
     }
-    
-    public function getCreateDate() : DateTimeImmutable
+
+    public function getCreateDate(): DateTimeImmutable
     {
         return $this->create_date ?? new DateTimeImmutable();
     }
-    
-    public function setCreatedBy(int $created_by) : void
+
+    public function setCreatedBy(int $created_by): void
     {
         $this->created_by = $created_by;
     }
-    
-    public function getCreatedBy() : int
+
+    public function getCreatedBy(): int
     {
         return (int) $this->created_by;
     }
-    
-    protected function getTime() : DateTimeImmutable
+
+    protected function getTime(): DateTimeImmutable
     {
         return new DateTimeImmutable();
     }
-    
-    public function isActive() : bool
+
+    public function isActive(): bool
     {
         return $this->active;
     }
-    
-    public function setActive(bool $active) : void
+
+    public function setActive(bool $active): void
     {
         $this->active = $active;
     }
-    
-    public function getLimitedToRoleIds() : array
+
+    public function getLimitedToRoleIds(): array
     {
         return $this->limited_to_role_ids;
     }
-    
-    public function setLimitedToRoleIds(array $limited_to_role_ids) : void
+
+    public function setLimitedToRoleIds(array $limited_to_role_ids): void
     {
         $this->limited_to_role_ids = $limited_to_role_ids;
     }
-    
-    public function isLimitToRoles() : bool
+
+    public function isLimitToRoles(): bool
     {
         return $this->limit_to_roles;
     }
-    
-    public function setLimitToRoles(bool $limit_to_roles) : void
+
+    public function setLimitToRoles(bool $limit_to_roles): void
     {
         $this->limit_to_roles = $limit_to_roles;
     }

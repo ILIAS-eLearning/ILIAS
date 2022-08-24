@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -25,7 +27,6 @@ use Iterator;
  */
 abstract class AbstractCollection
 {
-
     /**
      * @var Js[]|Css[]|InlineCss[]|OnLoadCode[]
      */
@@ -49,7 +50,7 @@ abstract class AbstractCollection
     /**
      * @return Iterator <Css[]|InlineCss[]|Js[]|OnLoadCode[]>
      */
-    public function getItems() : Iterator
+    public function getItems(): Iterator
     {
         yield from $this->items;
     }
@@ -57,7 +58,7 @@ abstract class AbstractCollection
     /**
      * @return Js[]|Css[]|InlineCss[]|OnLoadCode[]
      */
-    public function getItemsInOrderOfDelivery() : array
+    public function getItemsInOrderOfDelivery(): array
     {
         return $this->items;
     }
@@ -66,7 +67,7 @@ abstract class AbstractCollection
      * @param string $path
      * @return string
      */
-    protected function stripPath(string $path) : string
+    protected function stripPath(string $path): string
     {
         if (strpos($path, '?') !== false) {
             return parse_url($path, PHP_URL_PATH);

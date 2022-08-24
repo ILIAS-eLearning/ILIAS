@@ -1,4 +1,6 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -31,7 +33,7 @@ class ilAuthFrontendHTTP extends ilAuthFrontend implements ilAuthFrontendInterfa
         $this->logger = $DIC->logger()->auth();
     }
 
-    public function authenticate() : bool
+    public function authenticate(): bool
     {
         foreach ($this->getProviders() as $provider) {
             $this->resetStatus();
@@ -63,7 +65,7 @@ class ilAuthFrontendHTTP extends ilAuthFrontend implements ilAuthFrontendInterfa
     /**
      * Draw basic auth
      */
-    protected function handleAuthenticationFail() : bool
+    protected function handleAuthenticationFail(): bool
     {
         header("WWW-Authenticate: Basic realm=\"" . CLIENT_ID . "\"");
         header('HTTP/1.0 401 Unauthorized');

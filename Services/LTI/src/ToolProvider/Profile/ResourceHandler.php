@@ -16,7 +16,6 @@
  *
  *********************************************************************/
 
-
 namespace ILIAS\LTI\ToolProvider\Profile;
 
 /**
@@ -28,7 +27,6 @@ namespace ILIAS\LTI\ToolProvider\Profile;
  */
 class ResourceHandler
 {
-
     /**
      * General details of resource handler.
      *

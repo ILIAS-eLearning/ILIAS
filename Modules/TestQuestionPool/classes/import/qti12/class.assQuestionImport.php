@@ -43,13 +43,13 @@ class assQuestionImport
     {
         $this->object = $a_object;
     }
-    
-    public function getQuestionId() : int
+
+    public function getQuestionId(): int
     {
         return (int) $this->object->getId();
     }
 
-    public function getFeedbackGeneric($item) : array
+    public function getFeedbackGeneric($item): array
     {
         $feedbacksgeneric = array();
         foreach ($item->resprocessing as $resprocessing) {
@@ -102,49 +102,49 @@ class assQuestionImport
         }
         return $feedbacksgeneric;
     }
-    
+
     /**
      * @param $feedbackIdent
      * @param string $prefix
      * @return int
      */
-    protected function fetchIndexFromFeedbackIdent($feedbackIdent, $prefix = 'response_') : int
+    protected function fetchIndexFromFeedbackIdent($feedbackIdent, $prefix = 'response_'): int
     {
         return (int) str_replace($prefix, '', $feedbackIdent);
     }
-    
+
     /**
      * @param ilQTIItem $item
      * @param string $prefix
      * @return array
      */
-    protected function getFeedbackAnswerSpecific(ilQTIItem $item, $prefix = 'response_') : array
+    protected function getFeedbackAnswerSpecific(ilQTIItem $item, $prefix = 'response_'): array
     {
         $feedbacks = array();
-        
+
         foreach ($item->itemfeedback as $ifb) {
             if ($ifb->getIdent() == 'response_allcorrect' || $ifb->getIdent() == 'response_onenotcorrect') {
                 continue;
             }
-            
+
             if ($ifb->getIdent() == $prefix . 'allcorrect' || $ifb->getIdent() == $prefix . 'onenotcorrect') {
                 continue;
             }
-            
+
             if (substr($ifb->getIdent(), 0, strlen($prefix)) != $prefix) {
                 continue;
             }
 
             $ident = $ifb->getIdent();
-            
+
             // found a feedback for the identifier
-            
+
             if (count($ifb->material)) {
                 foreach ($ifb->material as $material) {
                     $feedbacks[$ident] = $material;
                 }
             }
-            
+
             if ((count($ifb->flow_mat) > 0)) {
                 foreach ($ifb->flow_mat as $fmat) {
                     if (count($fmat->material)) {
@@ -155,12 +155,12 @@ class assQuestionImport
                 }
             }
         }
-        
+
         foreach ($feedbacks as $ident => $material) {
             $m = $this->object->QTIMaterialToString($material);
             $feedbacks[$ident] = $m;
         }
-        
+
         return $feedbacks;
     }
 
@@ -177,14 +177,14 @@ class assQuestionImport
     * @param array $import_mapping An array containing references to included ILIAS objects
     * @access public
     */
-    public function fromXML(&$item, $questionpool_id, &$tst_id, &$tst_object, &$question_counter, &$import_mapping) : void
+    public function fromXML(&$item, $questionpool_id, &$tst_id, &$tst_object, &$question_counter, &$import_mapping): void
     {
     }
 
     /**
      * @param ilQTIItem $item
      */
-    protected function addGeneralMetadata(ilQTIItem $item) : void
+    protected function addGeneralMetadata(ilQTIItem $item): void
     {
         if ($item->getMetadataEntry('externalID')) {
             $this->object->setExternalId($item->getMetadataEntry('externalID'));
@@ -194,12 +194,12 @@ class assQuestionImport
 
         $this->object->setLifecycle($this->fetchLifecycle($item));
     }
-    
+
     /**
      * @param ilQTIItem $item
      * @return ilAssQuestionLifecycle
      */
-    protected function fetchLifecycle(ilQTIItem $item) : ilAssQuestionLifecycle
+    protected function fetchLifecycle(ilQTIItem $item): ilAssQuestionLifecycle
     {
         try {
             $lifecycle = ilAssQuestionLifecycle::getInstance(
@@ -210,7 +210,7 @@ class assQuestionImport
                 $lomLifecycle = new ilAssQuestionLomLifecycle(
                     $item->getMetadataEntry('lifecycle')
                 );
-                
+
                 $lifecycle = ilAssQuestionLifecycle::getInstance(
                     $lomLifecycle->getMappedIliasLifecycleIdentifer()
                 );
@@ -218,33 +218,33 @@ class assQuestionImport
                 $lifecycle = ilAssQuestionLifecycle::getDraftInstance();
             }
         }
-        
+
         return $lifecycle;
     }
-    
+
     /**
      * returns the full path to extracted qpl import archiv (qpl import dir + qpl archiv subdir)
      */
-    protected function getQplImportArchivDirectory() : string
+    protected function getQplImportArchivDirectory(): string
     {
         include_once "./Modules/TestQuestionPool/classes/class.ilObjQuestionPool.php";
         return ilObjQuestionPool::_getImportDirectory() . '/' . ilSession::get("qpl_import_subdir");
     }
-    
+
     /**
      * returns the full path to extracted tst import archiv (tst import dir + tst archiv subdir)
      */
-    protected function getTstImportArchivDirectory() : string
+    protected function getTstImportArchivDirectory(): string
     {
         include_once "./Modules/Test/classes/class.ilObjTest.php";
         return ilObjTest::_getImportDirectory() . '/' . ilSession::get("tst_import_subdir");
     }
-    
-    protected function processNonAbstractedImageReferences($text, $sourceNic) : string
+
+    protected function processNonAbstractedImageReferences($text, $sourceNic): string
     {
         $reg = '/<img.*src=".*\\/mm_(\\d+)\\/(.*?)".*>/m';
         $matches = null;
-        
+
         if (preg_match_all($reg, $text, $matches)) {
             $mobs = array();
             for ($i = 0, $max = count($matches[1]); $i < $max; $i++) {
@@ -267,7 +267,7 @@ class assQuestionImport
         include_once "./Services/RTE/classes/class.ilRTE.php";
         return ilRTE::_replaceMediaObjectImageSrc($text, 0, $sourceNic);
     }
-    
+
     /**
      * fetches the "additional content editing mode" information from qti item
      * and falls back to ADDITIONAL_CONTENT_EDITING_MODE_DEFAULT when no or invalid information is given
@@ -276,14 +276,14 @@ class assQuestionImport
      * @access protected
      * @return string $additionalContentEditingMode
      */
-    final protected function fetchAdditionalContentEditingModeInformation($qtiItem) : string
+    final protected function fetchAdditionalContentEditingModeInformation($qtiItem): string
     {
         $additionalContentEditingMode = $qtiItem->getMetadataEntry('additional_cont_edit_mode');
-        
+
         if (!$this->object->isValidAdditionalContentEditingMode($additionalContentEditingMode ?? '')) {
             $additionalContentEditingMode = assQuestion::ADDITIONAL_CONTENT_EDITING_MODE_DEFAULT;
         }
-        
+
         return $additionalContentEditingMode;
     }
 
@@ -291,12 +291,12 @@ class assQuestionImport
         int $question_id,
         string $value = "",
         int $subquestion_index = 0
-    ) : void {
+    ): void {
         $type = $this->findSolutionTypeByValue($value);
         if (!$type) {
             return;
         }
-        
+
         $repo = $this->getSuggestedSolutionsRepo();
 
         $nu_value = $this->object->_resolveInternalLink($value);
@@ -305,8 +305,8 @@ class assQuestionImport
             ->withImportId($value);
         $repo->update($solution);
     }
- 
-    protected function findSolutionTypeByValue(strgin $value) : ?string
+
+    protected function findSolutionTypeByValue(strgin $value): ?string
     {
         foreach (array_keys(assQuestionSuggestedSolution::TYPES) as $type) {
             $search_type = '_' . $type . '_';
@@ -319,7 +319,7 @@ class assQuestionImport
 
 
     protected ?assQuestionSuggestedSolutionsDatabaseRepository $suggestedsolution_repo = null;
-    protected function getSuggestedSolutionsRepo() : assQuestionSuggestedSolutionsDatabaseRepository
+    protected function getSuggestedSolutionsRepo(): assQuestionSuggestedSolutionsDatabaseRepository
     {
         if (is_null($this->suggestedsolution_repo)) {
             $dic = ilQuestionPoolDIC::dic();

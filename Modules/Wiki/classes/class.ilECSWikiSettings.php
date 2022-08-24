@@ -23,17 +23,17 @@
  */
 class ilECSWikiSettings extends ilECSObjectSettings
 {
-    protected function getECSObjectType() : string
+    protected function getECSObjectType(): string
     {
         return '/campusconnect/wikis';
     }
-    
+
     protected function buildJson(ilECSSetting $a_server)
     {
         $json = $this->getJsonCore('application/ecs-wiki');
-        
+
         $json->availability = $this->content_obj->getOnline() ? 'online' : 'offline';
-        
+
         return $json;
     }
 }

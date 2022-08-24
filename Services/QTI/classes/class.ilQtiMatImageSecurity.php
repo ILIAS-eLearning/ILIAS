@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -27,54 +29,54 @@ class ilQtiMatImageSecurity
 {
     protected ilQTIMatimage $imageMaterial;
     protected string $detectedMimeType = "";
-    
+
     public function __construct(ilQTIMatimage $imageMaterial)
     {
         $this->setImageMaterial($imageMaterial);
-        
+
         if (!strlen($this->getImageMaterial()->getRawContent())) {
             throw new ilQtiException('cannot import image without content');
         }
-        
+
         $this->setDetectedMimeType(
             $this->determineMimeType($this->getImageMaterial()->getRawContent())
         );
     }
 
-    public function getImageMaterial() : ilQTIMatimage
+    public function getImageMaterial(): ilQTIMatimage
     {
         return $this->imageMaterial;
     }
 
-    public function setImageMaterial(ilQTIMatimage $imageMaterial) : void
+    public function setImageMaterial(ilQTIMatimage $imageMaterial): void
     {
         $this->imageMaterial = $imageMaterial;
     }
 
-    protected function getDetectedMimeType() : string
+    protected function getDetectedMimeType(): string
     {
         return $this->detectedMimeType;
     }
 
-    protected function setDetectedMimeType(string $detectedMimeType) : void
+    protected function setDetectedMimeType(string $detectedMimeType): void
     {
         $this->detectedMimeType = $detectedMimeType;
     }
-    
-    public function validate() : bool
+
+    public function validate(): bool
     {
         if (!$this->validateLabel()) {
             return false;
         }
-        
+
         if (!$this->validateContent()) {
             return false;
         }
-        
+
         return true;
     }
-    
-    protected function validateContent() : bool
+
+    protected function validateContent(): bool
     {
         if ($this->getImageMaterial()->getImagetype() && !assQuestion::isAllowedImageMimeType($this->getImageMaterial()->getImagetype())) {
             return false;
@@ -91,7 +93,7 @@ class ilQtiMatImageSecurity
             if ($declaredMimeType != $detectedMimeType) {
                 // since ilias exports jpeg declared pngs itself, we skip this validation ^^
                 // return false;
-                
+
                 /* @var ilComponentLogger $log */
                 $log = $GLOBALS['DIC'] ? $GLOBALS['DIC']['ilLog'] : $GLOBALS['ilLog'];
                 $log->log(
@@ -103,8 +105,8 @@ class ilQtiMatImageSecurity
 
         return true;
     }
-    
-    protected function validateLabel() : bool
+
+    protected function validateLabel(): bool
     {
         if ($this->getImageMaterial()->getUri()) {
             if (!$this->hasFileExtension($this->getImageMaterial()->getUri())) {
@@ -118,26 +120,26 @@ class ilQtiMatImageSecurity
 
         return assQuestion::isAllowedImageFileExtension($this->getDetectedMimeType(), $extension);
     }
-    
-    public function sanitizeLabel() : void
+
+    public function sanitizeLabel(): void
     {
         $label = $this->getImageMaterial()->getLabel();
-        
+
         $label = basename($label);
         $label = ilUtil::stripSlashes($label);
         $label = ilFileUtils::getASCIIFilename($label);
-        
+
         $this->getImageMaterial()->setLabel($label);
     }
-    
-    protected function determineMimeType(?string $content) : string
+
+    protected function determineMimeType(?string $content): string
     {
         $finfo = new finfo(FILEINFO_MIME);
-    
+
         return $finfo->buffer($content);
     }
 
-    protected function determineFileExtension(string $label) : ?string
+    protected function determineFileExtension(string $label): ?string
     {
         $pathInfo = pathinfo($label);
 
@@ -148,7 +150,7 @@ class ilQtiMatImageSecurity
         return null;
     }
 
-    protected function hasFileExtension(string $label) : bool
+    protected function hasFileExtension(string $label): bool
     {
         $pathInfo = pathinfo($label);
 

@@ -1,4 +1,5 @@
 <?php
+
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 require_once 'Modules/Test/classes/class.ilTestRandomQuestionSetSourcePoolDefinition.php';
@@ -15,12 +16,12 @@ class ilTestRandomQuestionSetSourcePoolDefinitionFactory
      * @var ilDBInterface
      */
     private $db = null;
-    
+
     /**
      * @var ilObjTest
      */
     private $testOBJ = null;
-    
+
     /**
      * @param ilDBInterface $db
      * @param ilObjTest $testOBJ
@@ -30,11 +31,11 @@ class ilTestRandomQuestionSetSourcePoolDefinitionFactory
         $this->db = $db;
         $this->testOBJ = $testOBJ;
     }
-    
+
     /**
      * @return ilTestRandomQuestionSetSourcePoolDefinition
      */
-    public function getSourcePoolDefinitionByOriginalPoolData($originalPoolData) : ilTestRandomQuestionSetSourcePoolDefinition
+    public function getSourcePoolDefinitionByOriginalPoolData($originalPoolData): ilTestRandomQuestionSetSourcePoolDefinition
     {
         $sourcePoolDefinition = $this->buildDefinitionInstance();
 
@@ -50,7 +51,7 @@ class ilTestRandomQuestionSetSourcePoolDefinitionFactory
     /**
      * @return ilTestRandomQuestionSetSourcePoolDefinition
      */
-    public function getSourcePoolDefinitionByDefinitionId($definitionId) : ilTestRandomQuestionSetSourcePoolDefinition
+    public function getSourcePoolDefinitionByDefinitionId($definitionId): ilTestRandomQuestionSetSourcePoolDefinition
     {
         $sourcePoolDefinition = $this->buildDefinitionInstance();
 
@@ -62,7 +63,7 @@ class ilTestRandomQuestionSetSourcePoolDefinitionFactory
     /**
      * @return ilTestRandomQuestionSetSourcePoolDefinition
      */
-    public function getEmptySourcePoolDefinition() : ilTestRandomQuestionSetSourcePoolDefinition
+    public function getEmptySourcePoolDefinition(): ilTestRandomQuestionSetSourcePoolDefinition
     {
         return $this->buildDefinitionInstance();
     }
@@ -70,7 +71,7 @@ class ilTestRandomQuestionSetSourcePoolDefinitionFactory
     /**
      * @return ilTestRandomQuestionSetSourcePoolDefinition
      */
-    private function buildDefinitionInstance() : ilTestRandomQuestionSetSourcePoolDefinition
+    private function buildDefinitionInstance(): ilTestRandomQuestionSetSourcePoolDefinition
     {
         return new ilTestRandomQuestionSetSourcePoolDefinition($this->db, $this->testOBJ);
     }

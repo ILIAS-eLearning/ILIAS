@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -31,17 +33,17 @@ class ilMailSearchLuceneResultParser
         $this->xml = $xml;
     }
 
-    public function getXml() : string
+    public function getXml(): string
     {
         return $this->xml;
     }
 
-    public function getResult() : ilMailSearchResult
+    public function getResult(): ilMailSearchResult
     {
         return $this->result;
     }
 
-    public function parse() : void
+    public function parse(): void
     {
         if ($this->getXml() === '') {
             return;

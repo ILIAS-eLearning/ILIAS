@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -42,7 +44,7 @@ class ilUserSearchOptions
      * @param bool $a_admin
      * @return array
      */
-    public static function getSelectableColumnInfo(bool $a_admin = false) : array
+    public static function getSelectableColumnInfo(bool $a_admin = false): array
     {
         $col_info = array();
         foreach (self::_getSearchableFieldsInfo($a_admin) as $field) {
@@ -61,7 +63,7 @@ class ilUserSearchOptions
         return $col_info;
     }
 
-    public static function _getSearchableFieldsInfo(bool $a_admin = false) : array
+    public static function _getSearchableFieldsInfo(bool $a_admin = false): array
     {
         global $DIC;
 
@@ -96,13 +98,13 @@ class ilUserSearchOptions
                 case 'second_email':
                     $fields[$counter]['autoComplete'] = true;
                     break;
-                
+
                 case 'title':
                     $fields[$counter]['lang'] = $lng->txt('person_title');
                     break;
-                
+
                 // SELECTS
-                
+
                 case 'gender':
                     $fields[$counter]['type'] = self::FIELD_TYPE_SELECT;
                     $fields[$counter]['values'] = array(
@@ -112,11 +114,11 @@ class ilUserSearchOptions
                         'm' => $lng->txt('gender_m'),
                     );
                     break;
-                
+
                 case 'sel_country':
                     $fields[$counter]['type'] = self::FIELD_TYPE_SELECT;
                     $fields[$counter]['values'] = array(0 => $lng->txt('please_choose'));
-                    
+
                     // #7843 -- see ilCountrySelectInputGUI
                     $lng->loadLanguageModule('meta');
                     foreach (ilCountry::getCountryCodes() as $c) {
@@ -124,7 +126,7 @@ class ilUserSearchOptions
                     }
                     asort($fields[$counter]['values']);
                     break;
-                    
+
                 case 'org_units':
                     $fields[$counter]['type'] = self::FIELD_TYPE_SELECT;
                     $paths = ilOrgUnitPathStorage::getTextRepresentationOfOrgUnits();
@@ -132,11 +134,11 @@ class ilUserSearchOptions
                     foreach ($paths as $org_ref_id => $path) {
                         $options[$org_ref_id] = $path;
                     }
-                    
+
                     $fields[$counter]['values'] = $options;
                     break;
-                        
-                    
+
+
                 // begin-patch lok
                 case 'interests_general':
                 case 'interests_help_offered':
@@ -144,7 +146,7 @@ class ilUserSearchOptions
                     $fields[$counter]['type'] = self::FIELD_TYPE_MULTI;
                     break;
             }
-            
+
             ++$counter;
         }
         $fields = ilUserSearchOptions::__appendUserDefinedFields($fields, $counter);
@@ -152,7 +154,7 @@ class ilUserSearchOptions
         return $fields ?: array();
     }
 
-    public static function _getPossibleFields(bool $a_admin = false) : array
+    public static function _getPossibleFields(bool $a_admin = false): array
     {
         return array('gender',
                      'lastname',
@@ -179,12 +181,12 @@ class ilUserSearchOptions
         // end-patch lok
     }
 
-    public static function _isSearchable(string $a_key) : bool
+    public static function _isSearchable(string $a_key): bool
     {
         return in_array($a_key, ilUserSearchOptions::_getPossibleFields());
     }
 
-    public static function _isEnabled($a_key) : bool
+    public static function _isEnabled($a_key): bool
     {
         global $DIC;
 
@@ -197,7 +199,7 @@ class ilUserSearchOptions
         return (bool) $settings->get('search_enabled_' . $a_key);
     }
 
-    public static function _saveStatus(string $a_key, bool $a_enabled) : bool
+    public static function _saveStatus(string $a_key, bool $a_enabled): bool
     {
         global $DIC;
 
@@ -207,7 +209,7 @@ class ilUserSearchOptions
         return true;
     }
 
-    public static function __appendUserDefinedFields(array $fields, int $counter) : array
+    public static function __appendUserDefinedFields(array $fields, int $counter): array
     {
         $user_defined_fields = ilUserDefinedFields::_getInstance();
         foreach ($user_defined_fields->getSearchableDefinitions() as $definition) {
@@ -223,7 +225,7 @@ class ilUserSearchOptions
                 case UDF_TYPE_SELECT:
                     $fields[$counter]['type'] = self::FIELD_TYPE_UDF_SELECT;
                     break;
-                
+
                 case UDF_TYPE_WYSIWYG:
                     $fields[$counter]['type'] = self::FIELD_TYPE_UDF_WYSIWYG;
                     break;
@@ -238,7 +240,7 @@ class ilUserSearchOptions
         return $fields;
     }
 
-    public static function __prepareValues(array $a_values) : array
+    public static function __prepareValues(array $a_values): array
     {
         global $DIC;
 

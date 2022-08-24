@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\UI\Implementation\Component\Item;
 
 use ILIAS\UI\Component\Item;
@@ -49,7 +51,7 @@ class Group implements Item\Group
     /**
      * @inheritdoc
      */
-    public function getTitle() : string
+    public function getTitle(): string
     {
         return $this->title;
     }
@@ -57,7 +59,7 @@ class Group implements Item\Group
     /**
      * @inheritdoc
      */
-    public function getItems() : array
+    public function getItems(): array
     {
         return $this->items;
     }
@@ -65,7 +67,7 @@ class Group implements Item\Group
     /**
      * @inheritdoc
      */
-    public function withActions(Dropdown\Standard $dropdown) : Item\Group
+    public function withActions(Dropdown\Standard $dropdown): Item\Group
     {
         $clone = clone $this;
         $clone->actions = $dropdown;
@@ -75,7 +77,7 @@ class Group implements Item\Group
     /**
      * @inheritdoc
      */
-    public function getActions() : ?Dropdown\Standard
+    public function getActions(): ?Dropdown\Standard
     {
         return $this->actions;
     }

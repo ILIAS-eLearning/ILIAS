@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /******************************************************************************
  *
@@ -75,27 +77,27 @@ class ilMDSaxParser extends ilSaxParser
         parent::__construct($a_xml_file);
     }
 
-    public function enableMDParsing(bool $a_status) : void
+    public function enableMDParsing(bool $a_status): void
     {
         $this->md_parsing_enabled = $a_status;
     }
 
-    public function getMDParsingStatus() : bool
+    public function getMDParsingStatus(): bool
     {
         return $this->md_parsing_enabled;
     }
 
-    public function setMDObject(ilMD $md) : void
+    public function setMDObject(ilMD $md): void
     {
         $this->md = $md;
     }
 
-    public function getMDObject() : ?ilMD
+    public function getMDObject(): ?ilMD
     {
         return is_object($this->md) ? $this->md : null;
     }
 
-    public function inMetaData() : bool
+    public function inMetaData(): bool
     {
         return $this->md_in_md;
     }
@@ -104,7 +106,7 @@ class ilMDSaxParser extends ilSaxParser
      * Set event handlers
      * @param XMLParser|resource reference to the xml parser
      */
-    public function setHandlers($a_xml_parser) : void
+    public function setHandlers($a_xml_parser): void
     {
         xml_set_object($a_xml_parser, $this);
         xml_set_element_handler($a_xml_parser, 'handlerBeginTag', 'handlerEndTag');
@@ -114,7 +116,7 @@ class ilMDSaxParser extends ilSaxParser
     /**
      * @param XMLParser|resource $a_xml_parser
      */
-    public function handlerBeginTag($a_xml_parser, string $a_name, array $a_attribs) : void
+    public function handlerBeginTag($a_xml_parser, string $a_name, array $a_attribs): void
     {
         if (!$this->getMDParsingStatus()) {
             return;
@@ -396,7 +398,7 @@ class ilMDSaxParser extends ilSaxParser
     /**
      * @param resource $a_xml_parser
      */
-    public function handlerEndTag($a_xml_parser, string $a_name) : void
+    public function handlerEndTag($a_xml_parser, string $a_name): void
     {
         if (!$this->getMDParsingStatus()) {
             return;
@@ -637,7 +639,7 @@ class ilMDSaxParser extends ilSaxParser
     /**
      * @param resource $a_xml_parser
      */
-    public function handlerCharacterData($a_xml_parser, string $a_data) : void
+    public function handlerCharacterData($a_xml_parser, string $a_data): void
     {
         if (!$this->getMDParsingStatus()) {
             return;
@@ -652,12 +654,12 @@ class ilMDSaxParser extends ilSaxParser
     }
 
     // PRIVATE
-    public function __getCharacterData() : string
+    public function __getCharacterData(): string
     {
         return trim($this->md_chr_data);
     }
 
-    public function __pushParent(object $md_obj) : void
+    public function __pushParent(object $md_obj): void
     {
         $this->md_parent[] = &$md_obj;
         $this->meta_log->debug('New parent stack (push)...');
@@ -666,7 +668,7 @@ class ilMDSaxParser extends ilSaxParser
         }
     }
 
-    public function __popParent() : void
+    public function __popParent(): void
     {
         $this->meta_log->debug('New parent stack (pop)....');
         $class = array_pop($this->md_parent);
@@ -677,7 +679,7 @@ class ilMDSaxParser extends ilSaxParser
         unset($class);
     }
 
-    public function __getParent() : object
+    public function __getParent(): object
     {
         return $this->md_parent[count($this->md_parent) - 1];
     }

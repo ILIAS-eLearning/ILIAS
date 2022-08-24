@@ -24,7 +24,7 @@ class ilCronDeleteInactiveUserReminderMail
 {
     public const TABLE_NAME = "usr_cron_mail_reminder";
 
-    private static function mailSent(int $usr_id) : void
+    private static function mailSent(int $usr_id): void
     {
         global $DIC;
 
@@ -46,7 +46,7 @@ class ilCronDeleteInactiveUserReminderMail
         ilObjUser $user,
         int $reminderTime,
         int $time_frame_for_deletion
-    ) : void {
+    ): void {
         $mail = new ilCronDeleteInactiveUserReminderMailNotification();
         $mail->setRecipients(array($user));
         $mail->setAdditionalInformation(
@@ -60,7 +60,7 @@ class ilCronDeleteInactiveUserReminderMail
         self::mailSent($user->getId());
     }
 
-    public static function removeEntriesFromTableIfLastLoginIsNewer() : void
+    public static function removeEntriesFromTableIfLastLoginIsNewer(): void
     {
         global $DIC;
 
@@ -86,7 +86,7 @@ class ilCronDeleteInactiveUserReminderMail
         ilObjUser $user,
         int $reminderTime,
         int $time_frame_for_deletion
-    ) : bool {
+    ): bool {
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
@@ -100,7 +100,7 @@ class ilCronDeleteInactiveUserReminderMail
         return false;
     }
 
-    public static function flushDataTable() : void
+    public static function flushDataTable(): void
     {
         global $DIC;
 
@@ -108,7 +108,7 @@ class ilCronDeleteInactiveUserReminderMail
         $ilDB->manipulate("DELETE FROM " . self::TABLE_NAME);
     }
 
-    public static function removeSingleUserFromTable(int $usr_id) : void
+    public static function removeSingleUserFromTable(int $usr_id): void
     {
         global $DIC;
 

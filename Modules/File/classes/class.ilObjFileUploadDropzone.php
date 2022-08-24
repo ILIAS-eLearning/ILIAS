@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -50,7 +52,7 @@ class ilObjFileUploadDropzone
         $this->content = $content;
     }
 
-    public function getDropzone() : FileDropzone
+    public function getDropzone(): FileDropzone
     {
         $this->ctrl->setParameterByClass(
             ilObjFileGUI::class,
@@ -67,7 +69,7 @@ class ilObjFileUploadDropzone
             ilObjFileGUI::PARAM_UPLOAD_ORIGIN,
             ilObjFileGUI::UPLOAD_ORIGIN_DROPZONE
         );
-    
+
         // Generate POST-URL
         $post_url = $this->ctrl->getFormActionByClass(
             [ilRepositoryGUI::class, ilObjFileGUI::class],
@@ -75,7 +77,7 @@ class ilObjFileUploadDropzone
         );
         // reset new_type again
         $this->ctrl->clearParameterByClass(ilObjFileGUI::class, 'new_type');
-        
+
         /** @var $dropzone FileDropzone */
         $dropzone = $this->ui->factory()->dropzone()->file()->wrapper(
             $this->upload_handler,
@@ -96,7 +98,7 @@ class ilObjFileUploadDropzone
         return $dropzone;
     }
 
-    public function isUploadAllowed(string $obj_type) : bool
+    public function isUploadAllowed(string $obj_type): bool
     {
         if ($this->definition->isContainer($obj_type)) {
             return $this->access->checkAccess('create_file', '', $this->target_ref_id, 'file');
@@ -105,7 +107,7 @@ class ilObjFileUploadDropzone
         return false;
     }
 
-    public function getDropzoneHtml() : string
+    public function getDropzoneHtml(): string
     {
         return $this->ui->renderer()->render($this->getDropzone());
     }

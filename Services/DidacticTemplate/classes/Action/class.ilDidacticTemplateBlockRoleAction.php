@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -17,7 +19,7 @@ class ilDidacticTemplateBlockRoleAction extends ilDidacticTemplateAction
         parent::__construct($action_id);
     }
 
-    public function addFilterPattern(ilDidacticTemplateFilterPattern $pattern) : void
+    public function addFilterPattern(ilDidacticTemplateFilterPattern $pattern): void
     {
         $this->pattern[] = $pattern;
     }
@@ -26,7 +28,7 @@ class ilDidacticTemplateBlockRoleAction extends ilDidacticTemplateAction
      * Set filter patterns
      * @param ilDidacticTemplateFilterPattern[] $patterns
      */
-    public function setFilterPatterns(array $patterns) : void
+    public function setFilterPatterns(array $patterns): void
     {
         $this->pattern = $patterns;
     }
@@ -35,22 +37,22 @@ class ilDidacticTemplateBlockRoleAction extends ilDidacticTemplateAction
      * Get filter patterns
      * @return ilDidacticTemplateFilterPattern[]
      */
-    public function getFilterPattern() : array
+    public function getFilterPattern(): array
     {
         return $this->pattern;
     }
 
-    public function setFilterType(int $a_type) : void
+    public function setFilterType(int $a_type): void
     {
         $this->filter_type = $a_type;
     }
 
-    public function getFilterType() : int
+    public function getFilterType(): int
     {
         return $this->filter_type;
     }
 
-    public function save() : int
+    public function save(): int
     {
         parent::save();
         $query = 'INSERT INTO didactic_tpl_abr (action_id,filter_type) ' .
@@ -70,7 +72,7 @@ class ilDidacticTemplateBlockRoleAction extends ilDidacticTemplateAction
         return $this->getActionId();
     }
 
-    public function delete() : void
+    public function delete(): void
     {
         parent::delete();
         $query = 'DELETE FROM didactic_tpl_abr ' .
@@ -82,7 +84,7 @@ class ilDidacticTemplateBlockRoleAction extends ilDidacticTemplateAction
         }
     }
 
-    public function apply() : bool
+    public function apply(): bool
     {
         $source = $this->initSourceObject();
         $roles = $this->filterRoles($source);
@@ -95,7 +97,7 @@ class ilDidacticTemplateBlockRoleAction extends ilDidacticTemplateAction
         return true;
     }
 
-    protected function blockRole(int $a_role_id, ilObject $source) : bool
+    protected function blockRole(int $a_role_id, ilObject $source): bool
     {
         // Set assign to 'y' only if it is a local role
         $assign = $this->review->isAssignable($a_role_id, $source->getRefId()) ? 'y' : 'n';
@@ -115,7 +117,7 @@ class ilDidacticTemplateBlockRoleAction extends ilDidacticTemplateAction
         return true;
     }
 
-    public function revert() : bool
+    public function revert(): bool
     {
         $source = $this->initSourceObject();
         $roles = $this->filterRoles($source);
@@ -128,7 +130,7 @@ class ilDidacticTemplateBlockRoleAction extends ilDidacticTemplateAction
         return true;
     }
 
-    protected function deleteLocalPolicy(int $a_role_id, ilObject $source) : bool
+    protected function deleteLocalPolicy(int $a_role_id, ilObject $source): bool
     {
         // Create role folder if it does not exist
         //$rolf = $rbacreview->getRoleFolderIdOfObject($source->getRefId());
@@ -150,12 +152,12 @@ class ilDidacticTemplateBlockRoleAction extends ilDidacticTemplateAction
         return true;
     }
 
-    public function getType() : int
+    public function getType(): int
     {
         return self::TYPE_BLOCK_ROLE;
     }
 
-    public function toXml(ilXmlWriter $writer) : void
+    public function toXml(ilXmlWriter $writer): void
     {
         $writer->xmlStartTag('blockRoleAction');
 
@@ -193,7 +195,7 @@ class ilDidacticTemplateBlockRoleAction extends ilDidacticTemplateAction
         $this->setFilterPatterns($clones);
     }
 
-    public function read() : void
+    public function read(): void
     {
         parent::read();
         $query = 'SELECT * FROM didactic_tpl_abr ' .

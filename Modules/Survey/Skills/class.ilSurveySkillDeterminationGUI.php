@@ -39,19 +39,19 @@ class ilSurveySkillDeterminationGUI
         $this->lng = $DIC->language();
         $this->survey = $a_survey;
     }
-    
-    public function executeCommand() : void
+
+    public function executeCommand(): void
     {
         $ilCtrl = $this->ctrl;
-        
+
         $cmd = $ilCtrl->getCmd("listSkillChanges");
-        
+
         if ($cmd === "listSkillChanges") {
             $this->$cmd();
         }
     }
-    
-    public function listSkillChanges() : void
+
+    public function listSkillChanges(): void
     {
         $tpl = $this->tpl;
 
@@ -68,16 +68,16 @@ class ilSurveySkillDeterminationGUI
                 $this->survey,
                 $app
             );
-            
+
             $ctpl->setCurrentBlock("appraisee");
             $ctpl->setVariable("LASTNAME", $app["lastname"]);
             $ctpl->setVariable("FIRSTNAME", $app["firstname"]);
-            
+
             $ctpl->setVariable("CHANGES_TABLE", $changes_table->getHTML());
-            
+
             $ctpl->parseCurrentBlock();
         }
-        
+
         $tpl->setContent($ctpl->get());
     }
 }

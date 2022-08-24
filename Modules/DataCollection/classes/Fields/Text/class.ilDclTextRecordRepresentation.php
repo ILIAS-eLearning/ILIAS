@@ -7,9 +7,9 @@
  */
 class ilDclTextRecordRepresentation extends ilDclBaseRecordRepresentation
 {
-    const LINK_MAX_LENGTH = 40;
+    public const LINK_MAX_LENGTH = 40;
 
-    public function getHTML(bool $link = true) : string
+    public function getHTML(bool $link = true): string
     {
         $value = $this->getRecordField()->getValue();
 
@@ -30,22 +30,31 @@ class ilDclTextRecordRepresentation extends ilDclBaseRecordRepresentation
                 $link = 'https://' . $link;
             }
 
-            if (preg_match("/^[a-z0-9!#$%&'*+=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$/i",
-                $link)) {
+            if (preg_match(
+                "/^[a-z0-9!#$%&'*+=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$/i",
+                $link
+            )) {
                 $link = "mailto:" . $link;
             } elseif (!(preg_match('~(^(news|(ht|f)tp(s?)\://){1}\S+)~i', $link))) {
                 return $link;
             }
 
-            $html = "<a rel='noopener' target='_blank' href='" . htmlspecialchars($link,
-                    ENT_QUOTES) . "'>" . htmlspecialchars($link_value, ENT_QUOTES) . "</a>";
+            $html = "<a rel='noopener' target='_blank' href='" . htmlspecialchars(
+                $link,
+                ENT_QUOTES
+            ) . "'>" . htmlspecialchars($link_value, ENT_QUOTES) . "</a>";
         } elseif ($field->hasProperty(ilDclBaseFieldModel::PROP_LINK_DETAIL_PAGE_TEXT) && $link && ilDclDetailedViewDefinition::isActive($tableview_id)) {
             $this->ctrl->clearParametersByClass("ilDclDetailedViewGUI");
-            $this->ctrl->setParameterByClass('ilDclDetailedViewGUI', 'record_id',
-                $this->getRecordField()->getRecord()->getId());
+            $this->ctrl->setParameterByClass(
+                'ilDclDetailedViewGUI',
+                'record_id',
+                $this->getRecordField()->getRecord()->getId()
+            );
             $this->ctrl->setParameterByClass('ilDclDetailedViewGUI', 'tableview_id', $tableview_id);
-            $html = '<a href="' . $this->ctrl->getLinkTargetByClass("ilDclDetailedViewGUI",
-                    'renderRecord') . '">' . $value . '</a>';
+            $html = '<a href="' . $this->ctrl->getLinkTargetByClass(
+                "ilDclDetailedViewGUI",
+                'renderRecord'
+            ) . '">' . $value . '</a>';
         } else {
             $html = (is_array($value) && isset($value['link'])) ? $value['link'] : $value;
         }
@@ -59,7 +68,7 @@ class ilDclTextRecordRepresentation extends ilDclBaseRecordRepresentation
      * @param string $value The link in it's original form.
      * @return string The shortened link
      */
-    protected function shortenLink(string $value) : string
+    protected function shortenLink(string $value): string
     {
         if (strlen($value) > self::LINK_MAX_LENGTH) {
             if (substr($value, 0, 7) == "https://") {
@@ -83,7 +92,7 @@ class ilDclTextRecordRepresentation extends ilDclBaseRecordRepresentation
         return $link;
     }
 
-    public function fillFormInput(ilPropertyFormGUI $form) : void
+    public function fillFormInput(ilPropertyFormGUI $form): void
     {
         $input_field = $form->getItemByPostVar('field_' . $this->getField()->getId());
         $raw_input = $this->getFormInput();

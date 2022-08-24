@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -63,7 +65,7 @@ class IdentificationFactory
      * Returns a IdentificationProvider for core components, only a Provider
      * is needed.
      */
-    final public function core(Provider $provider) : CoreIdentificationProvider
+    final public function core(Provider $provider): CoreIdentificationProvider
     {
         return new CoreIdentificationProvider($provider, $this->serializer_factory->core(), $this->map);
     }
@@ -72,7 +74,7 @@ class IdentificationFactory
      * Returns a IdentificationProvider for core tools, only a Provider
      * is needed.
      */
-    final public function tool(Provider $provider) : ToolIdentificationProvider
+    final public function tool(Provider $provider): ToolIdentificationProvider
     {
         return new ToolIdentificationProvider($provider, $this->serializer_factory->core(), $this->map);
     }
@@ -83,7 +85,7 @@ class IdentificationFactory
      * comes from (e.g. to disable or delete all elements when a plugin is
      * deleted or deactivated).
      */
-    final public function plugin(string $plugin_id, Provider $provider) : PluginIdentificationProvider
+    final public function plugin(string $plugin_id, Provider $provider): PluginIdentificationProvider
     {
         return new PluginIdentificationProvider($provider, $plugin_id, $this->serializer_factory->plugin(), $this->map);
     }
@@ -92,7 +94,7 @@ class IdentificationFactory
      * @param $serialized_string
      * @return IdentificationInterface
      */
-    final public function fromSerializedIdentification($serialized_string) : IdentificationInterface
+    final public function fromSerializedIdentification($serialized_string): IdentificationInterface
     {
         if ($serialized_string === null || $serialized_string === "") {
             return new NullIdentification();

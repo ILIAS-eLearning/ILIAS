@@ -25,7 +25,7 @@
 class ilBiblFieldFilterTableGUI extends ilTable2GUI
 {
     use \ILIAS\Modules\OrgUnit\ARHelper\DIC;
-    const TBL_ID = 'tbl_bibl_filters';
+    public const TBL_ID = 'tbl_bibl_filters';
     protected \ILIAS\UI\Component\Modal\RoundTrip $modal;
     protected \ilBiblFactoryFacade $facade;
     protected array $interruptive_modals = [];
@@ -64,7 +64,7 @@ class ilBiblFieldFilterTableGUI extends ilTable2GUI
     }
 
 
-    protected function initColumns() : void
+    protected function initColumns(): void
     {
         $this->addColumn($this->lng()->txt('field'), 'field');
         $this->addColumn($this->lng()->txt('filter_type'), 'filter_type');
@@ -72,14 +72,14 @@ class ilBiblFieldFilterTableGUI extends ilTable2GUI
     }
 
 
-    protected function addFilterItems() : void
+    protected function addFilterItems(): void
     {
         $field = new ilTextInputGUI($this->lng()->txt('field'), 'field');
         $this->addAndReadFilterItem($field);
     }
 
 
-    protected function addAndReadFilterItem(ilTableFilterItem $field) : void
+    protected function addAndReadFilterItem(ilTableFilterItem $field): void
     {
         $this->addFilterItem($field); //
         $field->readFromSession();
@@ -94,7 +94,7 @@ class ilBiblFieldFilterTableGUI extends ilTable2GUI
     /**
      * Fills table rows with content from $a_set.
      */
-    public function fillRow(array $a_set) : void
+    public function fillRow(array $a_set): void
     {
         /**
          * @var ilBiblFieldFilter $filter
@@ -118,7 +118,7 @@ class ilBiblFieldFilterTableGUI extends ilTable2GUI
     }
 
 
-    protected function addActionMenu(ilBiblFieldFilter $ilBiblFieldFilter) : void
+    protected function addActionMenu(ilBiblFieldFilter $ilBiblFieldFilter): void
     {
         $this->ctrl()->setParameterByClass(ilBiblFieldFilterGUI::class, ilBiblFieldFilterGUI::FILTER_ID, $ilBiblFieldFilter->getId());
 
@@ -141,7 +141,7 @@ class ilBiblFieldFilterTableGUI extends ilTable2GUI
     }
 
 
-    protected function parseData() : void
+    protected function parseData(): void
     {
         $this->determineOffsetAndOrder();
         $this->determineLimit();
@@ -167,7 +167,7 @@ class ilBiblFieldFilterTableGUI extends ilTable2GUI
     /**
      * @return \ILIAS\UI\Component\Modal\Interruptive[]
      */
-    protected function getInterruptiveModals() : array
+    protected function getInterruptiveModals(): array
     {
         return $this->interruptive_modals;
     }
@@ -176,7 +176,7 @@ class ilBiblFieldFilterTableGUI extends ilTable2GUI
     /**
      * @inheritDoc
      */
-    public function getHTML() : string
+    public function getHTML(): string
     {
         $table = parent::getHTML();
         $modals = $this->dic()->ui()->renderer()->render($this->getInterruptiveModals());

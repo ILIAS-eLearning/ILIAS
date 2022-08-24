@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -24,7 +26,7 @@ class ilMailLuceneQueryParser extends ilLuceneQueryParser
 {
     protected array $fields = [];
 
-    public function parse() : void
+    public function parse(): void
     {
         if ($this->getFields()) {
             $queried_fields = [];
@@ -44,12 +46,12 @@ class ilMailLuceneQueryParser extends ilLuceneQueryParser
         }
     }
 
-    public function setFields(array $fields) : void
+    public function setFields(array $fields): void
     {
         $this->fields = $fields;
     }
 
-    public function getFields() : array
+    public function getFields(): array
     {
         return $this->fields;
     }

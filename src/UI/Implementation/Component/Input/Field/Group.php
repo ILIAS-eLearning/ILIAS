@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\UI\Implementation\Component\Input\Field;
 
 use ILIAS\Data\Result;
@@ -63,21 +65,21 @@ class Group extends Input implements C\Input\Field\Group
         $this->lng = $lng;
     }
 
-    public function withDisabled(bool $is_disabled) : C\Input\Field\Input
+    public function withDisabled(bool $is_disabled): C\Input\Field\Input
     {
         $clone = parent::withDisabled($is_disabled);
         $clone->inputs = array_map(fn ($i) => $i->withDisabled($is_disabled), $this->inputs);
         return $clone;
     }
 
-    public function withRequired(bool $is_required) : C\Input\Field\Input
+    public function withRequired(bool $is_required): C\Input\Field\Input
     {
         $clone = parent::withRequired($is_required);
         $clone->inputs = array_map(fn ($i) => $i->withRequired($is_required), $this->inputs);
         return $clone;
     }
 
-    public function withOnUpdate(Signal $signal) : C\OnUpdateable
+    public function withOnUpdate(Signal $signal): C\OnUpdateable
     {
         $clone = parent::withOnUpdate($signal);
         $clone->inputs = array_map(fn ($i) => $i->withOnUpdate($signal), $this->inputs);
@@ -87,7 +89,7 @@ class Group extends Input implements C\Input\Field\Group
     /**
      * @inheritdoc
      */
-    protected function isClientSideValueOk($value) : bool
+    protected function isClientSideValueOk($value): bool
     {
         if (!is_array($value)) {
             return false;
@@ -124,7 +126,7 @@ class Group extends Input implements C\Input\Field\Group
      * @param   mixed
      * @throws  InvalidArgumentException    if value does not fit client side input
      */
-    public function withValue($value) : C\Input\Field\Input
+    public function withValue($value): C\Input\Field\Input
     {
         $this->checkArg("value", $this->isClientSideValueOk($value), "Display value does not match input type.");
         $clone = clone $this;
@@ -140,7 +142,7 @@ class Group extends Input implements C\Input\Field\Group
      *
      * @inheritdoc
      */
-    public function withInput(InputData $input) : C\Input\Field\Input
+    public function withInput(InputData $input): C\Input\Field\Input
     {
         if (sizeof($this->getInputs()) === 0) {
             return $this;
@@ -179,7 +181,7 @@ class Group extends Input implements C\Input\Field\Group
     /**
      * @inheritdoc
      */
-    public function withNameFrom(NameSource $source) : C\Input\Field\Input
+    public function withNameFrom(NameSource $source): C\Input\Field\Input
     {
         $clone = parent::withNameFrom($source);
         /**
@@ -198,7 +200,7 @@ class Group extends Input implements C\Input\Field\Group
     /**
      * @return Input[]
      */
-    public function getInputs() : array
+    public function getInputs(): array
     {
         return $this->inputs;
     }
@@ -206,7 +208,7 @@ class Group extends Input implements C\Input\Field\Group
     /**
      * @inheritdoc
      */
-    protected function getConstraintForRequirement() : ?Constraint
+    protected function getConstraintForRequirement(): ?Constraint
     {
         return null;
     }
@@ -214,7 +216,7 @@ class Group extends Input implements C\Input\Field\Group
     /**
      * @inheritdoc
      */
-    public function getUpdateOnLoadCode() : Closure
+    public function getUpdateOnLoadCode(): Closure
     {
         return function () {
             /*
@@ -227,7 +229,7 @@ class Group extends Input implements C\Input\Field\Group
     /**
      * @inheritdoc
      */
-    public function getContent() : Result
+    public function getContent(): Result
     {
         if (0 === count($this->getInputs())) {
             return new Ok([]);

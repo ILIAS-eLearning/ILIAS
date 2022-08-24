@@ -56,7 +56,7 @@ class ilDclEditViewDefinitionGUI extends ilPageObjectGUI
         $this->tpl->setContent($table->getHTML());
     }
 
-    public function executeCommand() : string
+    public function executeCommand(): string
     {
         global $DIC;
         $ilLocator = $DIC['ilLocator'];
@@ -83,7 +83,7 @@ class ilDclEditViewDefinitionGUI extends ilPageObjectGUI
         }
     }
 
-    protected function activate() : void
+    protected function activate(): void
     {
         $page = $this->getPageObject();
         $page->setActive(true);
@@ -91,7 +91,7 @@ class ilDclEditViewDefinitionGUI extends ilPageObjectGUI
         $this->ctrl->redirect($this, 'edit');
     }
 
-    protected function deactivate() : void
+    protected function deactivate(): void
     {
         $page = $this->getPageObject();
         $page->setActive(false);
@@ -99,7 +99,7 @@ class ilDclEditViewDefinitionGUI extends ilPageObjectGUI
         $this->ctrl->redirect($this, 'edit');
     }
 
-    public function confirmDelete() : void
+    public function confirmDelete(): void
     {
         global $DIC;
         $ilCtrl = $DIC['ilCtrl'];
@@ -118,7 +118,7 @@ class ilDclEditViewDefinitionGUI extends ilPageObjectGUI
         $tpl->setContent($conf->getHTML());
     }
 
-    public function cancelDelete() : void
+    public function cancelDelete(): void
     {
         global $DIC;
         $ilCtrl = $DIC['ilCtrl'];
@@ -126,7 +126,7 @@ class ilDclEditViewDefinitionGUI extends ilPageObjectGUI
         $ilCtrl->redirect($this, "edit");
     }
 
-    public function deleteView() : void
+    public function deleteView(): void
     {
         global $DIC;
         $ilCtrl = $DIC['ilCtrl'];
@@ -147,7 +147,7 @@ class ilDclEditViewDefinitionGUI extends ilPageObjectGUI
      * Release page lock
      * overwrite to redirect properly
      */
-    public function releasePageLock() : void
+    public function releasePageLock(): void
     {
         global $DIC;
         $ilCtrl = $DIC['ilCtrl'];
@@ -163,7 +163,7 @@ class ilDclEditViewDefinitionGUI extends ilPageObjectGUI
      * @param string $a_output
      * @return string
      */
-    public function postOutputProcessing(string $a_output) : string
+    public function postOutputProcessing(string $a_output): string
     {
         // You can use this to parse placeholders and the like before outputting
 
@@ -197,7 +197,7 @@ class ilDclEditViewDefinitionGUI extends ilPageObjectGUI
     /**
      * Save table entries
      */
-    public function saveTable() : void
+    public function saveTable(): void
     {
         /**
          * @var ilDclTableViewFieldSetting $setting
@@ -208,8 +208,10 @@ class ilDclEditViewDefinitionGUI extends ilPageObjectGUI
                 // Radio Inputs
                 foreach (array("RadioGroup") as $attribute) {
                     $selection_key = $attribute . '_' . $setting->getField();
-                    $selection = $this->http->wrapper()->post()->retrieve($selection_key,
-                        $this->refinery->kindlyTo()->string());
+                    $selection = $this->http->wrapper()->post()->retrieve(
+                        $selection_key,
+                        $this->refinery->kindlyTo()->string()
+                    );
                     $selected_radio_attribute = explode("_", $selection)[0];
 
                     foreach (array("LockedEdit", "RequiredEdit", "VisibleEdit", "NotVisibleEdit") as $radio_attribute) {
@@ -227,8 +229,10 @@ class ilDclEditViewDefinitionGUI extends ilPageObjectGUI
                 foreach (array("DefaultValue") as $attribute) {
                     $key = $attribute . '_' . $setting->getField();
                     if ($this->http->wrapper()->post()->has($key)) {
-                        $attribute_value = $this->http->wrapper()->post()->retrieve($key,
-                            $this->refinery->kindlyTo()->string());
+                        $attribute_value = $this->http->wrapper()->post()->retrieve(
+                            $key,
+                            $this->refinery->kindlyTo()->string()
+                        );
                     } else {
                         $attribute_value = "";
                     }

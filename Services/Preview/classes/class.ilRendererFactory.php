@@ -29,7 +29,7 @@ final class ilRendererFactory
      * @var ilFilePreviewRenderer[]
      */
     private array $renderers = [];
-    
+
     /**
      * @param ilFilePreviewRenderer[] $additional_renderers
      */
@@ -41,13 +41,13 @@ final class ilRendererFactory
         ];
         $this->renderers = array_merge($additional_renderers, $base_renderers);
     }
-    
+
     /**
      * Gets an array containing all available preview renderers.
      *
      * @return ilFilePreviewRenderer[] All available preview renderers.
      */
-    public function getRenderers() : array
+    public function getRenderers(): array
     {
         return $this->renderers;
     }
@@ -58,7 +58,7 @@ final class ilRendererFactory
      * @param ilPReview $preview The preview to get the renderer for.
      * @return ilPreviewRenderer A renderer or null if no renderer matches the preview object.
      */
-    public function getRenderer(\ilPreview $preview) : ?ilPreviewRenderer
+    public function getRenderer(\ilPreview $preview): ?ilPreviewRenderer
     {
         // check each renderer if it supports that preview object
         foreach ($this->getRenderers() as $renderer) {

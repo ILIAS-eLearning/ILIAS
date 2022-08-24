@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\Setup\Metrics;
 
 use ILIAS\UI\Factory;
@@ -35,31 +37,31 @@ final class Metric
      */
     // Config metrics only change when some administrator explicitely changes
     // a configuration.
-    const STABILITY_CONFIG = "config";
+    public const STABILITY_CONFIG = "config";
     // Stable metric only change occassionally when some change in the installation
     // happened, e.g. a config change or an update.
-    const STABILITY_STABLE = "stable";
+    public const STABILITY_STABLE = "stable";
     // Volatile metrics may change at every time even unexpectedly.
-    const STABILITY_VOLATILE = "volatile";
+    public const STABILITY_VOLATILE = "volatile";
     // This should only be used for collections with mixed content.
-    const STABILITY_MIXED = "mixed";
+    public const STABILITY_MIXED = "mixed";
 
     /**
      * The type of the metric tells what to expect of the values.
      */
     // Simply a yes or a no.
-    const TYPE_BOOL = "bool";
+    public const TYPE_BOOL = "bool";
     // A number that always increases.
-    const TYPE_COUNTER = "counter";
+    public const TYPE_COUNTER = "counter";
     // A numeric value to measure some quantity of the installation.
-    const TYPE_GAUGE = "gauge";
+    public const TYPE_GAUGE = "gauge";
     // A timestamp to inform about a certain event in the installation.
-    const TYPE_TIMESTAMP = "timestamp";
+    public const TYPE_TIMESTAMP = "timestamp";
     // Some textual information about the installation. Prefer using one of the
     // other types.
-    const TYPE_TEXT = "text";
+    public const TYPE_TEXT = "text";
     // A collection of metrics that contains multiple named metrics.
-    const TYPE_COLLECTION = "collection";
+    public const TYPE_COLLECTION = "collection";
 
     /**
      * @var string one of STABILITY_*
@@ -95,7 +97,7 @@ final class Metric
         $this->description = $description;
     }
 
-    protected function checkStability(string $stability, string $type) : void
+    protected function checkStability(string $stability, string $type): void
     {
         if (
             $stability !== self::STABILITY_CONFIG
@@ -109,7 +111,7 @@ final class Metric
         }
     }
 
-    protected function checkType($type) : void
+    protected function checkType($type): void
     {
         if (
             $type !== self::TYPE_BOOL
@@ -125,7 +127,7 @@ final class Metric
         }
     }
 
-    protected function checkValue($type, $value) : void
+    protected function checkValue($type, $value): void
     {
         if (
             ($type === self::TYPE_BOOL && !is_bool($value))
@@ -151,12 +153,12 @@ final class Metric
         }
     }
 
-    public function getStability() : string
+    public function getStability(): string
     {
         return $this->stability;
     }
 
-    public function getType() : string
+    public function getType(): string
     {
         return $this->type;
     }
@@ -169,12 +171,12 @@ final class Metric
         return $this->value;
     }
 
-    public function getDescription() : ?string
+    public function getDescription(): ?string
     {
         return $this->description;
     }
 
-    public function toYAML(int $indentation = 0) : string
+    public function toYAML(int $indentation = 0): string
     {
         $value = $this->getValue();
         switch ($this->getType()) {
@@ -203,7 +205,7 @@ final class Metric
                 return implode(
                     "\n",
                     array_map(
-                        function (string $k, Metric $v) use ($indentation) : string {
+                        function (string $k, Metric $v) use ($indentation): string {
                             if ($v->getType() === self::TYPE_COLLECTION) {
                                 $split = "\n";
                             } else {
@@ -257,7 +259,7 @@ final class Metric
         }
     }
 
-    protected function getIndentation(int $indentation = 0) : string
+    protected function getIndentation(int $indentation = 0): string
     {
         $res = "";
         while ($indentation--) {
@@ -272,7 +274,7 @@ final class Metric
      *
      * @return (Metric|null)[]
      */
-    public function extractByStability(string $stability) : array
+    public function extractByStability(string $stability): array
     {
         if ($stability === self::STABILITY_MIXED) {
             throw new \LogicException("Can not extract by mixed.");
@@ -324,7 +326,7 @@ final class Metric
         return [$extracted, $rest];
     }
 
-    public function toUIReport(Factory $f, string $name) : Report
+    public function toUIReport(Factory $f, string $name): Report
     {
         $yaml = $this->toYAML();
         $sub = $f->panel()->sub("", $f->legacy("<pre>" . $yaml . "</pre>"));

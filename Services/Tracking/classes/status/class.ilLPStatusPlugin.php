@@ -1,4 +1,6 @@
-<?php declare(strict_types=0);
+<?php
+
+declare(strict_types=0);
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -20,7 +22,7 @@ class ilLPStatusPlugin extends ilLPStatus
         return $olp->getPluginInstance();
     }
 
-    public static function _getNotAttempted(int $a_obj_id) : array
+    public static function _getNotAttempted(int $a_obj_id): array
     {
         $plugin = self::initPluginObj($a_obj_id);
         if ($plugin) {
@@ -37,7 +39,7 @@ class ilLPStatusPlugin extends ilLPStatus
         return array();
     }
 
-    public static function _getInProgress(int $a_obj_id) : array
+    public static function _getInProgress(int $a_obj_id): array
     {
         $plugin = self::initPluginObj($a_obj_id);
         if ($plugin) {
@@ -54,7 +56,7 @@ class ilLPStatusPlugin extends ilLPStatus
         return array();
     }
 
-    public static function _getCompleted(int $a_obj_id) : array
+    public static function _getCompleted(int $a_obj_id): array
     {
         $plugin = self::initPluginObj($a_obj_id);
         if ($plugin) {
@@ -71,7 +73,7 @@ class ilLPStatusPlugin extends ilLPStatus
         return array();
     }
 
-    public static function _getFailed(int $a_obj_id) : array
+    public static function _getFailed(int $a_obj_id): array
     {
         $plugin = self::initPluginObj($a_obj_id);
         if ($plugin) {
@@ -92,7 +94,7 @@ class ilLPStatusPlugin extends ilLPStatus
         int $a_obj_id,
         int $a_usr_id,
         object $a_obj = null
-    ) : int {
+    ): int {
         $plugin = self::initPluginObj($a_obj_id);
         if ($plugin) {
             if ($plugin !== ilPluginLP::INACTIVE_PLUGIN) {
@@ -111,7 +113,7 @@ class ilLPStatusPlugin extends ilLPStatus
         int $a_obj_id,
         int $a_usr_id,
         ?object $a_obj = null
-    ) : int {
+    ): int {
         $plugin = self::initPluginObj($a_obj_id);
         if ($plugin) {
             if ($plugin !== ilPluginLP::INACTIVE_PLUGIN) {
@@ -132,7 +134,7 @@ class ilLPStatusPlugin extends ilLPStatus
     protected static function getLPStatusData(
         int $a_obj_id,
         int $a_status
-    ) : array {
+    ): array {
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
@@ -156,7 +158,7 @@ class ilLPStatusPlugin extends ilLPStatus
     protected static function getLPDataForUser(
         int $a_obj_id,
         int $a_user_id
-    ) : int {
+    ): int {
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
@@ -178,7 +180,7 @@ class ilLPStatusPlugin extends ilLPStatus
     protected static function getPercentageForUser(
         int $a_obj_id,
         int $a_user_id
-    ) : int {
+    ): int {
         global $DIC;
 
         $ilDB = $DIC['ilDB'];

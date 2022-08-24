@@ -84,7 +84,7 @@ class ilBookingReservationsGUI
     /**
      * Reservations IDs as currently provided from
      */
-    protected function getLogReservationIds() : array
+    protected function getLogReservationIds(): array
     {
         $mrsv = $this->book_request->getReservationIds();
         if (count($mrsv) > 0) {
@@ -96,7 +96,7 @@ class ilBookingReservationsGUI
         return [];
     }
 
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         $ctrl = $this->ctrl;
 
@@ -112,7 +112,7 @@ class ilBookingReservationsGUI
         }
     }
 
-    protected function setHelpId(string $a_id) : void
+    protected function setHelpId(string $a_id): void
     {
         $this->help->setHelpId($a_id);
     }
@@ -120,7 +120,7 @@ class ilBookingReservationsGUI
     /**
      *  List reservations
      */
-    public function log() : void
+    public function log(): void
     {
         $tpl = $this->tpl;
         $table = $this->getReservationsTable();
@@ -132,7 +132,7 @@ class ilBookingReservationsGUI
      */
     protected function getReservationsTable(
         ?string $reservation_id = null
-    ) : ilBookingReservationsTableGUI {
+    ): ilBookingReservationsTableGUI {
         $show_all = ($this->checkPermissionBool('write') || $this->pool->hasPublicLog());
 
         $filter = null;
@@ -160,7 +160,7 @@ class ilBookingReservationsGUI
         );
     }
 
-    public function logDetails() : void
+    public function logDetails(): void
     {
         $tpl = $this->tpl;
 
@@ -177,7 +177,7 @@ class ilBookingReservationsGUI
     /**
      * Change status of given reservations
      */
-    public function changeStatusObject() : void
+    public function changeStatusObject(): void
     {
         $rsv_ids = $this->book_request->getReservationIds();
         if (count($rsv_ids) === 0) {
@@ -196,7 +196,7 @@ class ilBookingReservationsGUI
         $this->ctrl->redirect($this, 'log');
     }
 
-    public function applyLogFilter() : void
+    public function applyLogFilter(): void
     {
         $table = $this->getReservationsTable();
         $table->resetOffset();
@@ -204,7 +204,7 @@ class ilBookingReservationsGUI
         $this->log();
     }
 
-    public function resetLogFilter() : void
+    public function resetLogFilter(): void
     {
         $table = $this->getReservationsTable();
         $table->resetOffset();
@@ -212,7 +212,7 @@ class ilBookingReservationsGUI
         $this->log();
     }
 
-    protected function checkPermissionBool(string $a_perm) : bool
+    protected function checkPermissionBool(string $a_perm): bool
     {
         return $this->access->checkAccess($a_perm, "", $this->ref_id);
     }
@@ -230,7 +230,7 @@ class ilBookingReservationsGUI
      *
      * From the participants screen the user id is provided as bkusr
      */
-    public function rsvConfirmCancelUser() : void
+    public function rsvConfirmCancelUser(): void
     {
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
@@ -257,7 +257,7 @@ class ilBookingReservationsGUI
     /**
      * (C1.a) Confirmed (C1)
      */
-    public function rsvCancelUser() : void
+    public function rsvCancelUser(): void
     {
         $lng = $this->lng;
 
@@ -286,7 +286,7 @@ class ilBookingReservationsGUI
     /**
      * Back to reservation list
      */
-    protected function back() : void
+    protected function back(): void
     {
         $this->ctrl->redirect($this, "log");
     }
@@ -294,7 +294,7 @@ class ilBookingReservationsGUI
     /**
      * (C2) Confirmation screen for canceling booking from reservations screen (with and without schedule)
      */
-    public function rsvConfirmCancel() : void
+    public function rsvConfirmCancel(): void
     {
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
@@ -381,7 +381,7 @@ class ilBookingReservationsGUI
      * (C2.a) Cancel aggregated booking from reservations screen (with and without schedule)
      *        called in (C2)
      */
-    public function rsvConfirmCancelAggregation(array $a_ids = null) : void
+    public function rsvConfirmCancelAggregation(array $a_ids = null): void
     {
         $tpl = $this->tpl;
         $ilCtrl = $this->ctrl;
@@ -408,7 +408,7 @@ class ilBookingReservationsGUI
      */
     public function rsvConfirmCancelAggregationForm(
         array $a_ids
-    ) : ilPropertyFormGUI {
+    ): ilPropertyFormGUI {
         $form = new ilPropertyFormGUI();
         $form->setFormAction($this->ctrl->getFormAction($this, "rsvCancel"));
         $form->setTitle($this->lng->txt("book_confirm_cancel_aggregation"));
@@ -470,7 +470,7 @@ class ilBookingReservationsGUI
     /**
      * (C2.b) Cancel reservations (coming from C2 or C2.a)
      */
-    public function rsvCancel() : void
+    public function rsvCancel(): void
     {
         $ilUser = $this->user;
         $tpl = $this->tpl;
@@ -540,7 +540,7 @@ class ilBookingReservationsGUI
         $this->log();
     }
 
-    public function rsvConfirmDelete() : void
+    public function rsvConfirmDelete(): void
     {
         global $DIC;
         if (!$this->checkPermissionBool("write")) {
@@ -583,7 +583,7 @@ class ilBookingReservationsGUI
         $this->tpl->setContent($conf->getHTML());
     }
 
-    public function rsvDelete() : void
+    public function rsvDelete(): void
     {
         global $DIC;
         $get = $DIC->http()->request()->getParsedBody()['rsv_ids'];

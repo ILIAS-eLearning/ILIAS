@@ -1,8 +1,10 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace ILIAS\UI\examples\Toast\Standard;
 
-function with_additional_links() : string
+function with_additional_links(): string
 {
     global $DIC;
     $tc = $DIC->ui()->factory()->toast()->container();

@@ -34,7 +34,7 @@ class ilAssLacConditionParserException extends ilAssLacException implements ilAs
     /**
      * @return int
      */
-    public function getColumn() : int
+    public function getColumn(): int
     {
         return $this->column;
     }
@@ -43,7 +43,7 @@ class ilAssLacConditionParserException extends ilAssLacException implements ilAs
      * @param ilLanguage $lng
      * @return string
      */
-    public function getFormAlert(ilLanguage $lng) : string
+    public function getFormAlert(ilLanguage $lng): string
     {
         return sprintf(
             $lng->txt("ass_lac_invalid_statement"),
