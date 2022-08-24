@@ -23,13 +23,13 @@
 class ilCOPageObjDef
 {
     public static ?array $page_obj_def = null;
-    
-    public static function init() : void
+
+    public static function init(): void
     {
         global $DIC;
 
         $db = $DIC->database();
-        
+
         if (self::$page_obj_def == null) {
             $set = $db->query("SELECT * FROM copg_pobj_def ");
             while ($rec = $db->fetchAssoc($set)) {
@@ -41,16 +41,16 @@ class ilCOPageObjDef
     /**
      * Get all definitios
      */
-    public function getDefinitions() : array
+    public function getDefinitions(): array
     {
         self::init();
         return self::$page_obj_def;
     }
-    
+
     /**
      * Get definition by parent type
      */
-    public static function getDefinitionByParentType(string $a_parent_type) : array
+    public static function getDefinitionByParentType(string $a_parent_type): array
     {
         self::init();
         return self::$page_obj_def[$a_parent_type];

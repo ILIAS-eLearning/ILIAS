@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -26,11 +28,10 @@ use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isItem;
  */
 final class BaseTypeHandler implements TypeHandler
 {
-
     /**
      * @inheritDoc
      */
-    public function matchesForType() : string
+    public function matchesForType(): string
     {
         return "";
     }
@@ -38,7 +39,7 @@ final class BaseTypeHandler implements TypeHandler
     /**
      * @inheritDoc
      */
-    public function enrichItem(isItem $item) : isItem
+    public function enrichItem(isItem $item): isItem
     {
         return $item;
     }
@@ -46,7 +47,7 @@ final class BaseTypeHandler implements TypeHandler
     /**
      * @inheritDoc
      */
-    public function getAdditionalFieldsForSubForm(IdentificationInterface $identification) : array
+    public function getAdditionalFieldsForSubForm(IdentificationInterface $identification): array
     {
         return array();
     }
@@ -54,7 +55,7 @@ final class BaseTypeHandler implements TypeHandler
     /**
      * @inheritDoc
      */
-    public function saveFormFields(IdentificationInterface $identification, array $data) : bool
+    public function saveFormFields(IdentificationInterface $identification, array $data): bool
     {
         return true;
     }

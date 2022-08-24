@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -8,27 +10,27 @@
  */
 class ilAdvancedMDFieldDefinitionLocation extends ilAdvancedMDFieldDefinition
 {
-    public function getType() : int
+    public function getType(): int
     {
         return self::TYPE_LOCATION;
     }
 
-    public function isFilterSupported() : bool
+    public function isFilterSupported(): bool
     {
         return false;
     }
 
-    protected function initADTDefinition() : ilADTDefinition
+    protected function initADTDefinition(): ilADTDefinition
     {
         return ilADTFactory::getInstance()->getDefinitionInstanceByType("Location");
     }
 
-    public function getValueForXML(ilADT $element) : string
+    public function getValueForXML(ilADT $element): string
     {
         return $element->getLatitude() . "#" . $element->getLongitude() . "#" . $element->getZoom();
     }
 
-    public function importValueFromXML(string $a_cdata) : void
+    public function importValueFromXML(string $a_cdata): void
     {
         $parts = explode("#", $a_cdata);
         if (count($parts) == 3) {
@@ -43,7 +45,7 @@ class ilAdvancedMDFieldDefinitionLocation extends ilAdvancedMDFieldDefinition
      * @todo fix location search for lucene
      * @inheritdoc
      */
-    public function getLuceneSearchString($a_value) : string
+    public function getLuceneSearchString($a_value): string
     {
         // #14777 - currently not supported
         return '';

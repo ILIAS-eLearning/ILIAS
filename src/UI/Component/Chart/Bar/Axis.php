@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\UI\Component\Chart\Bar;
 
 /**
@@ -31,9 +33,9 @@ abstract class Axis
     protected ?int $max = null;
 
 
-    abstract public function getAbbreviation() : string;
+    abstract public function getAbbreviation(): string;
 
-    public function getType() : string
+    public function getType(): string
     {
         return $this->type;
     }
@@ -41,34 +43,34 @@ abstract class Axis
     /**
      * Should the axis be displayed? Default is true.
      */
-    public function withDisplayed(bool $displayed) : self
+    public function withDisplayed(bool $displayed): self
     {
         $clone = clone $this;
         $clone->displayed = $displayed;
         return $clone;
     }
 
-    public function isDisplayed() : bool
+    public function isDisplayed(): bool
     {
         return $this->displayed;
     }
 
-    abstract public function withPosition(string $position) : self;
+    abstract public function withPosition(string $position): self;
 
-    abstract public function getPosition() : string;
+    abstract public function getPosition(): string;
 
     /**
      * Step size between each label on the x-axis. Only relevant if labels are numeric. Default is 1.0.
      * Values less than 1.0 make the axis more detailed, values greater than 1.0 make it less detailed.
      */
-    public function withStepSize(float $step_size) : self
+    public function withStepSize(float $step_size): self
     {
         $clone = clone $this;
         $clone->step_size = $step_size;
         return $clone;
     }
 
-    public function getStepSize() : float
+    public function getStepSize(): float
     {
         return $this->step_size;
     }
@@ -77,14 +79,14 @@ abstract class Axis
      * If true, bars start always at x=0 (Horizontal Bar Chart) or y=0 (Vertical Bar Chart). If false, bars start
      * at the lowest number of a Dataset. Default is true.
      */
-    public function withBeginAtZero(bool $begin_at_zero) : self
+    public function withBeginAtZero(bool $begin_at_zero): self
     {
         $clone = clone $this;
         $clone->begin_at_zero = $begin_at_zero;
         return $clone;
     }
 
-    public function isBeginAtZero() : bool
+    public function isBeginAtZero(): bool
     {
         return $this->begin_at_zero;
     }
@@ -93,14 +95,14 @@ abstract class Axis
      * Numeric label values below this number will not be shown on the x-axis (Horizontal Bar Chart) or
      * y-axis (Vertical Bar Chart). If not defined, the chart determines the minimum automatically based on the Dataset.
      */
-    public function withMinValue(int $min) : self
+    public function withMinValue(int $min): self
     {
         $clone = clone $this;
         $clone->min = $min;
         return $clone;
     }
 
-    public function getMinValue() : ?int
+    public function getMinValue(): ?int
     {
         return $this->min;
     }
@@ -109,14 +111,14 @@ abstract class Axis
      * Numeric label values above this number will not be shown on the x-axis (Horizontal Bar Chart) or
      * y-axis (Vertical Bar Chart). If not defined, the chart determines the maximum automatically based on the Dataset.
      */
-    public function withMaxValue(int $max) : self
+    public function withMaxValue(int $max): self
     {
         $clone = clone $this;
         $clone->max = $max;
         return $clone;
     }
 
-    public function getMaxValue() : ?int
+    public function getMaxValue(): ?int
     {
         return $this->max;
     }

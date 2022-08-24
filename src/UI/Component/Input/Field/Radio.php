@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\UI\Component\Input\Field;
 
 /**
@@ -23,22 +25,21 @@ namespace ILIAS\UI\Component\Input\Field;
  */
 interface Radio extends FormInput
 {
-
     /**
      * Add an option-entry to the radio-input.
      */
-    public function withOption(string $value, string $label, string $byline = null) : Radio;
+    public function withOption(string $value, string $label, string $byline = null): Radio;
 
     /**
      * Get all options as value=>label.
      *
      * @return array <string,string>
      */
-    public function getOptions() : array;
+    public function getOptions(): array;
 
     /**
      * Get byline for a single option.
      * Returns null, if none present.
      */
-    public function getBylineFor(string $value) : ?string;
+    public function getBylineFor(string $value): ?string;
 }

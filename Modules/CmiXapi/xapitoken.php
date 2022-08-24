@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -39,7 +41,7 @@ if (!isset($origParam) || !strlen($origParam)) {
 
 try {
     $param = base64_decode(rawurldecode($origParam));
-    
+
     $param = json_decode(openssl_decrypt(
         $param,
         ilCmiXapiAuthToken::OPENSSL_ENCRYPTION_METHOD,
@@ -85,8 +87,8 @@ try {
     } else {
         $authToken = base64_encode(CLIENT_ID . ':' . $token->getToken());
     }
-    
-    
+
+
     $response = array("auth-token" => $authToken);
     send($response);
 } catch (ilCmiXapiException $e) {

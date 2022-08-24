@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,12 +17,12 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 use ILIAS\Setup;
 
 class ilDatabaseServerIsConnectableObjective extends \ilDatabaseObjective
 {
-    public function getHash() : string
+    public function getHash(): string
     {
         $pw = $this->config->getPassword();
         return hash("sha256", implode("-", [
@@ -32,22 +34,22 @@ class ilDatabaseServerIsConnectableObjective extends \ilDatabaseObjective
         ]));
     }
 
-    public function getLabel() : string
+    public function getLabel(): string
     {
         return "The database server is connectable with the supplied configuration.";
     }
 
-    public function isNotable() : bool
+    public function isNotable(): bool
     {
         return true;
     }
 
-    public function getPreconditions(Setup\Environment $environment) : array
+    public function getPreconditions(Setup\Environment $environment): array
     {
         return [];
     }
 
-    public function achieve(Setup\Environment $environment) : Setup\Environment
+    public function achieve(Setup\Environment $environment): Setup\Environment
     {
         $db = \ilDBWrapperFactory::getWrapper($this->config->getType());
         $db->initFromIniFile($this->config->toMockIniFile());
@@ -73,7 +75,7 @@ class ilDatabaseServerIsConnectableObjective extends \ilDatabaseObjective
     /**
      * @inheritDoc
      */
-    public function isApplicable(Setup\Environment $environment) : bool
+    public function isApplicable(Setup\Environment $environment): bool
     {
         return true;
     }

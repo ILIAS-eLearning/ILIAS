@@ -26,7 +26,7 @@ class ilWikiPerm
         string $a_perm,
         int $a_ref_id,
         string $a_cmd = ""
-    ) : bool {
+    ): bool {
         global $DIC;
 
         $ilAccess = $DIC->access();

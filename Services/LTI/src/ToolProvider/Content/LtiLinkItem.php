@@ -27,7 +27,6 @@ namespace ILIAS\LTI\ToolProvider\Content;
  */
 class LtiLinkItem extends Item
 {
-
     /**
      * Custom parameters for content-item.
      *
@@ -132,7 +131,7 @@ class LtiLinkItem extends Item
      *
      * @return object
      */
-    public function toJsonldObject() : object
+    public function toJsonldObject(): object
     {
         $item = parent::toJsonldObject();
         if (!empty($this->lineItem)) {
@@ -160,7 +159,7 @@ class LtiLinkItem extends Item
      *
      * @return object
      */
-    public function toJsonObject() : object
+    public function toJsonObject(): object
     {
         $item = parent::toJsonObject();
         if (!empty($this->lineItem)) {

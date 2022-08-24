@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -36,7 +38,7 @@ class ilDefaultLanguageDetector implements ilLanguageDetector
     /**
      * Returns the detected ISO2 language code
      */
-    public function getIso2LanguageCode() : string
+    public function getIso2LanguageCode(): string
     {
         return $this->ini->readVariable("language", "default");
     }

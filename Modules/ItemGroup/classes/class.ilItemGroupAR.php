@@ -23,7 +23,7 @@
  */
 class ilItemGroupAR extends ActiveRecord
 {
-    public static function returnDbTableName() : string
+    public static function returnDbTableName(): string
     {
         return 'itgr_data';
     }
@@ -81,52 +81,52 @@ class ilItemGroupAR extends ActiveRecord
      */
     protected ?int $tile_size = 0;
 
-    public function getId() : int
+    public function getId(): int
     {
         return $this->id;
     }
 
-    public function setId(int $id) : void
+    public function setId(int $id): void
     {
         $this->id = $id;
     }
 
-    public function setHideTitle(bool $a_hide_title) : void
+    public function setHideTitle(bool $a_hide_title): void
     {
         $this->hide_title = $a_hide_title;
     }
 
-    public function getHideTitle() : bool
+    public function getHideTitle(): bool
     {
         return $this->hide_title;
     }
 
-    public function setBehaviour(int $a_val) : void
+    public function setBehaviour(int $a_val): void
     {
         $this->behaviour = $a_val;
     }
 
-    public function getBehaviour() : int
+    public function getBehaviour(): int
     {
         return $this->behaviour;
     }
 
-    public function getListPresentation() : string
+    public function getListPresentation(): string
     {
         return (string) $this->list_presentation;
     }
 
-    public function setListPresentation(string $a_val) : void
+    public function setListPresentation(string $a_val): void
     {
         $this->list_presentation = $a_val;
     }
 
-    public function getTileSize() : int
+    public function getTileSize(): int
     {
         return (int) $this->tile_size;
     }
 
-    public function setTileSize(int $a_val) : void
+    public function setTileSize(int $a_val): void
     {
         $this->tile_size = $a_val;
     }

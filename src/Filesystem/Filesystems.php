@@ -28,7 +28,6 @@ use ILIAS\Filesystem\Exception\IllegalStateException;
  */
 interface Filesystems
 {
-
     /**
      * Fetches the web filesystem.
      * The web filesystem points to the data directory within the ILIAS web root.
@@ -38,7 +37,7 @@ interface Filesystems
      * @throws IllegalStateException Thrown if the filesystem is requested without initialisation.
      * @since 5.3
      */
-    public function web() : Filesystem;
+    public function web(): Filesystem;
 
 
     /**
@@ -50,7 +49,7 @@ interface Filesystems
      * @throws IllegalStateException Thrown if the filesystem is requested without initialisation.
      * @since 5.3
      */
-    public function storage() : Filesystem;
+    public function storage(): Filesystem;
 
 
     /**
@@ -61,7 +60,7 @@ interface Filesystems
      * @throws IllegalStateException Thrown if the filesystem is requested without initialisation.
      * @since 5.3
      */
-    public function temp() : Filesystem;
+    public function temp(): Filesystem;
 
 
     /**
@@ -72,7 +71,7 @@ interface Filesystems
      * @throws IllegalStateException Thrown if the filesystem is requested without initialisation.
      * @since 5.3
      */
-    public function customizing() : Filesystem;
+    public function customizing(): Filesystem;
     /**
      * Fetches the libs filesystem which is located at the root of the libs directory of ILIAS. This is read only
      *
@@ -81,7 +80,7 @@ interface Filesystems
      * @throws IllegalStateException Thrown if the filesystem is requested without initialisation.
      * @since 5.3
      */
-    public function libs() : Filesystem;
+    public function libs(): Filesystem;
 
     /**
      * Fetches the node_modules filesystem which is located at the root of the libs directory of ILIAS. This is read only
@@ -89,5 +88,5 @@ interface Filesystems
      * @throws IllegalStateException Thrown if the filesystem is requested without initialisation.
      * @since 5.3
      */
-    public function nodeModules() : Filesystem;
+    public function nodeModules(): Filesystem;
 }

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -32,12 +34,12 @@ class ilMDOrComposite extends ilMDRequirement
     private int $or_composite_id = 0;
 
     // SET/GET
-    public function setOrCompositeId(int $a_or_composite_id) : void
+    public function setOrCompositeId(int $a_or_composite_id): void
     {
         $this->or_composite_id = $a_or_composite_id;
     }
 
-    public function getOrCompositeId() : int
+    public function getOrCompositeId(): int
     {
         if (!$this->or_composite_id) {
             $query = "SELECT MAX(or_composite_id) orc FROM il_meta_requirement " .
@@ -56,7 +58,7 @@ class ilMDOrComposite extends ilMDRequirement
     /**
      * @return int[]
      */
-    public function getRequirementIds() : array
+    public function getRequirementIds(): array
     {
         return ilMDRequirement::_getIds(
             $this->getRBACId(),
@@ -67,7 +69,7 @@ class ilMDOrComposite extends ilMDRequirement
         );
     }
 
-    public function getRequirement(int $a_requirement_id) : ?ilMDRequirement
+    public function getRequirement(int $a_requirement_id): ?ilMDRequirement
     {
         if (!$a_requirement_id) {
             return null;
@@ -78,7 +80,7 @@ class ilMDOrComposite extends ilMDRequirement
         return $req;
     }
 
-    public function addRequirement() : ilMDRequirement
+    public function addRequirement(): ilMDRequirement
     {
         $req = new ilMDRequirement($this->getRBACId(), $this->getObjId(), $this->getObjType());
         $req->setParentId($this->getParentId());
@@ -88,13 +90,13 @@ class ilMDOrComposite extends ilMDRequirement
         return $req;
     }
 
-    public function save() : int
+    public function save(): int
     {
         echo 'Use ilMDOrcomposite::addRequirement()';
         return 0;
     }
 
-    public function delete() : bool
+    public function delete(): bool
     {
         foreach ($this->getRequirementIds() as $id) {
             $req = $this->getRequirement($id);
@@ -103,7 +105,7 @@ class ilMDOrComposite extends ilMDRequirement
         return true;
     }
 
-    public function toXML(ilXmlWriter $writer) : void
+    public function toXML(ilXmlWriter $writer): void
     {
         // For all requirements
         $writer->xmlStartTag('OrComposite');
@@ -131,7 +133,7 @@ class ilMDOrComposite extends ilMDRequirement
         int $a_parent_id,
         string $a_parent_type,
         int $a_or_composite_id = 0
-    ) : array {
+    ): array {
         global $DIC;
 
         $ilDB = $DIC->database();

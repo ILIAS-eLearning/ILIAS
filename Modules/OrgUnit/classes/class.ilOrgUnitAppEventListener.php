@@ -30,7 +30,7 @@ class ilOrgUnitAppEventListener
      * @param string $a_event     event e.g. "createUser", "updateUser", "deleteUser", ...
      * @param array  $a_parameter parameter array (assoc), array("name" => ..., "phone_office" => ...)
      */
-    public static function handleEvent(string $a_component, string $a_event, array $a_parameter) : void
+    public static function handleEvent(string $a_component, string $a_event, array $a_parameter): void
     {
         switch ($a_component) {
             case 'Services/Tree':

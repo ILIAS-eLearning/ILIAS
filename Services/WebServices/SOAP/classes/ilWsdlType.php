@@ -8,40 +8,40 @@ interface ilWsdlType
     /**
      * @return string
      */
-    public function getName() : string;
+    public function getName(): string;
 
     /**
      * @return string
      */
-    public function getTypeClass() : string;
+    public function getTypeClass(): string;
 
     /**
      * @return string
      */
-    public function getPhpType() : string;
+    public function getPhpType(): string;
 
     /**
      * @return string
      */
-    public function getCompositor() : string;
+    public function getCompositor(): string;
 
     /**
      * @return string
      */
-    public function getRestrictionBase() : string;
+    public function getRestrictionBase(): string;
 
     /**
      * @return array
      */
-    public function getElements() : array;
+    public function getElements(): array;
 
     /**
      * @return array
      */
-    public function getAttributes() : array;
+    public function getAttributes(): array;
 
     /**
      * @return string
      */
-    public function getArrayType() : string;
+    public function getArrayType(): string;
 }

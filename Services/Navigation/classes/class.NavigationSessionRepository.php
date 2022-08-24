@@ -1,4 +1,6 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -29,12 +31,12 @@ class NavigationSessionRepository
     {
     }
 
-    public function setHistory(array $hist) : void
+    public function setHistory(array $hist): void
     {
         \ilSession::set(self::KEY, serialize($hist));
     }
 
-    public function getHistory() : array
+    public function getHistory(): array
     {
         if (\ilSession::has(self::KEY)) {
             return unserialize(\ilSession::get(self::KEY), ['allowed_classes' => false]);

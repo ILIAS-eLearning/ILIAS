@@ -93,7 +93,7 @@ class ilResourceStorageMigrationHelper
     /**
      * @return \ilDatabaseInitializedObjective[]|\ilDatabaseUpdatedObjective[]|\ilIniFilesLoadedObjective[]
      */
-    public static function getPreconditions() : array
+    public static function getPreconditions(): array
     {
         return [
             new ilIniFilesLoadedObjective(),
@@ -102,27 +102,27 @@ class ilResourceStorageMigrationHelper
         ];
     }
 
-    public function getClientDataDir() : string
+    public function getClientDataDir(): string
     {
         return $this->client_data_dir;
     }
 
-    public function getDatabase() : ilDBInterface
+    public function getDatabase(): ilDBInterface
     {
         return $this->database;
     }
 
-    public function getStakeholder() : ResourceStakeholder
+    public function getStakeholder(): ResourceStakeholder
     {
         return $this->stakeholder;
     }
 
-    public function getResourceBuilder() : ResourceBuilder
+    public function getResourceBuilder(): ResourceBuilder
     {
         return $this->resource_builder;
     }
 
-    public function movePathToStorage(string $absolute_path, int $owner_user_id) : ?ResourceIdentification
+    public function movePathToStorage(string $absolute_path, int $owner_user_id): ?ResourceIdentification
     {
         $open_path = fopen($absolute_path, 'rb');
         if ($open_path === false) {

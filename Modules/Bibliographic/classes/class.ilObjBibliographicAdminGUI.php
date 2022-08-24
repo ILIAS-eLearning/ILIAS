@@ -14,7 +14,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * Bibliographic Administration Settings.
  *
@@ -29,9 +29,9 @@
  */
 class ilObjBibliographicAdminGUI extends ilObjectGUI
 {
-    const TAB_FIELDS = 'fields';
-    const TAB_SETTINGS = 'settings';
-    const CMD_DEFAULT = 'view';
+    public const TAB_FIELDS = 'fields';
+    public const TAB_SETTINGS = 'settings';
+    public const CMD_DEFAULT = 'view';
 
     protected string $type = 'bibs';
     public ?ilObject $object = null;
@@ -58,7 +58,7 @@ class ilObjBibliographicAdminGUI extends ilObjectGUI
     /**
      * @throws ilCtrlException
      */
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         $next_class = $this->ctrl->getNextClass($this);
         switch ($next_class) {
@@ -92,13 +92,13 @@ class ilObjBibliographicAdminGUI extends ilObjectGUI
     }
 
 
-    protected function view() : void
+    protected function view(): void
     {
         $this->ctrl->redirectByClass(ilBiblAdminRisFieldGUI::class);
     }
 
 
-    public function getAdminTabs() : void
+    public function getAdminTabs(): void
     {
         global $DIC;
         $rbacsystem = $DIC['rbacsystem'];
@@ -124,13 +124,13 @@ class ilObjBibliographicAdminGUI extends ilObjectGUI
     }
 
 
-    public function getTabsGui() : \ilTabsGUI
+    public function getTabsGui(): \ilTabsGUI
     {
         return $this->tabs_gui;
     }
 
 
-    public function setTabsGui(\ilTabsGUI $tabs_gui) : void
+    public function setTabsGui(\ilTabsGUI $tabs_gui): void
     {
         $this->tabs_gui = $tabs_gui;
     }

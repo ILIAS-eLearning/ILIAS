@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -70,7 +72,7 @@ class ilForumTopic
         }
     }
 
-    public function assignData(array $data) : void
+    public function assignData(array $data): void
     {
         $this->setId((int) $data['thr_pk']);
         $this->setForumId((int) $data['thr_top_fk']);
@@ -102,7 +104,7 @@ class ilForumTopic
         }
     }
 
-    public function insert() : bool
+    public function insert(): bool
     {
         if ($this->forum_id) {
             $nextId = $this->db->nextId('frm_threads');
@@ -135,7 +137,7 @@ class ilForumTopic
         return false;
     }
 
-    public function update() : bool
+    public function update(): bool
     {
         if ($this->id) {
             $this->db->manipulateF(
@@ -166,7 +168,7 @@ class ilForumTopic
         return false;
     }
 
-    private function read() : bool
+    private function read(): bool
     {
         if ($this->id) {
             $res = $this->db->queryF(
@@ -207,12 +209,12 @@ class ilForumTopic
         return false;
     }
 
-    public function reload() : bool
+    public function reload(): bool
     {
         return $this->read();
     }
 
-    public function getPostRootId() : int
+    public function getPostRootId(): int
     {
         $this->db->setLimit(1);
         $res = $this->db->queryF(
@@ -227,7 +229,7 @@ class ilForumTopic
         return 0;
     }
 
-    public function getFirstVisiblePostId() : int
+    public function getFirstVisiblePostId(): int
     {
         $this->db->setLimit(1);
         $res = $this->db->queryF(
@@ -242,7 +244,7 @@ class ilForumTopic
         return 0;
     }
 
-    public function updateVisits() : void
+    public function updateVisits(): void
     {
         $checkTime = time() - (60 * 60);
 
@@ -257,7 +259,7 @@ class ilForumTopic
         }
     }
 
-    public function countPosts(bool $ignoreRoot = false) : int
+    public function countPosts(bool $ignoreRoot = false): int
     {
         $res = $this->db->queryF(
             '
@@ -277,7 +279,7 @@ class ilForumTopic
         return 0;
     }
 
-    public function countActivePosts(bool $ignoreRoot = false) : int
+    public function countActivePosts(bool $ignoreRoot = false): int
     {
         $res = $this->db->queryF(
             '
@@ -299,7 +301,7 @@ class ilForumTopic
         return 0;
     }
 
-    public function getPostRootNode(bool $isModerator = false, bool $preventImplicitRead = false) : ilForumPost
+    public function getPostRootNode(bool $isModerator = false, bool $preventImplicitRead = false): ilForumPost
     {
         $this->db->setLimit(1);
         $res = $this->db->queryF(
@@ -323,7 +325,7 @@ class ilForumTopic
         throw new OutOfBoundsException(sprintf('Could not find first posting by id: %s', $this->id));
     }
 
-    public function getFirstVisiblePostNode(bool $isModerator = false, bool $preventImplicitRead = false) : ilForumPost
+    public function getFirstVisiblePostNode(bool $isModerator = false, bool $preventImplicitRead = false): ilForumPost
     {
         $this->db->setLimit(1);
         $res = $this->db->queryF(
@@ -348,7 +350,7 @@ class ilForumTopic
         throw new OutOfBoundsException(sprintf('Could not find first posting by id: %s', $this->id));
     }
 
-    public function getLastPost() : ilForumPost
+    public function getLastPost(): ilForumPost
     {
         if ($this->id) {
             $this->db->setLimit(1);
@@ -366,7 +368,7 @@ class ilForumTopic
         throw new OutOfBoundsException(sprintf('Could not find last posting by id: %s', $this->id));
     }
 
-    public function getLastActivePost() : ilForumPost
+    public function getLastActivePost(): ilForumPost
     {
         if ($this->id) {
             $this->db->setLimit(1);
@@ -392,7 +394,7 @@ class ilForumTopic
     /**
      * @return array<int, int>
      */
-    public function getAllPostIds() : array
+    public function getAllPostIds(): array
     {
         $posts = [];
 
@@ -413,7 +415,7 @@ class ilForumTopic
      * @param ilForumPost $a_post_node node-object of a post
      * @return ilForumPost[] Array of post objects
      */
-    public function getPostTree(ilForumPost $a_post_node) : array
+    public function getPostTree(ilForumPost $a_post_node): array
     {
         $posts = [];
         $data = [];
@@ -503,12 +505,12 @@ class ilForumTopic
      * @return int Number of afffected rows by updating posts
      * @throws ilFileUtilsException
      */
-    public function movePosts(int $old_obj_id, int $old_pk, int $new_obj_id, int $new_pk) : int
+    public function movePosts(int $old_obj_id, int $old_pk, int $new_obj_id, int $new_pk): int
     {
         if (!$this->id) {
             return 0;
         }
- 
+
         $post_ids = $this->getAllPostIds();
         $postsMoved = [];
         try {
@@ -541,7 +543,7 @@ class ilForumTopic
         $ilAtomQuery->addTableLock('frm_user_read');
         $ilAtomQuery->addTableLock('frm_thread_access');
 
-        $ilAtomQuery->addQueryCallable(static function (ilDBInterface $ilDB) use ($new_obj_id, $current_id) : void {
+        $ilAtomQuery->addQueryCallable(static function (ilDBInterface $ilDB) use ($new_obj_id, $current_id): void {
             $ilDB->manipulateF(
                 'DELETE FROM frm_user_read WHERE obj_id = %s AND thread_id =%s',
                 ['integer', 'integer'],
@@ -599,7 +601,7 @@ class ilForumTopic
         return count($post_ids);
     }
 
-    public function getNestedSetPostChildren(?int $pos_id = null, ?int $num_levels = null) : array
+    public function getNestedSetPostChildren(?int $pos_id = null, ?int $num_levels = null): array
     {
         $data = null;
         $objProperties = ilForumProperties::getInstance($this->getFrmObjId());
@@ -754,7 +756,7 @@ class ilForumTopic
         return $children;
     }
 
-    public function isNotificationEnabled(int $a_user_id) : bool
+    public function isNotificationEnabled(int $a_user_id): bool
     {
         if ($this->id && $a_user_id) {
             $result = $this->db->queryF(
@@ -773,7 +775,7 @@ class ilForumTopic
         return false;
     }
 
-    public function enableNotification(int $a_user_id) : void
+    public function enableNotification(int $a_user_id): void
     {
         if ($this->id && $a_user_id && !$this->isNotificationEnabled($a_user_id)) {
             $nextId = $this->db->nextId('frm_notification');
@@ -791,7 +793,7 @@ class ilForumTopic
         }
     }
 
-    public function disableNotification(int $a_user_id) : void
+    public function disableNotification(int $a_user_id): void
     {
         if ($this->id && $a_user_id) {
             $this->db->manipulateF(
@@ -802,7 +804,7 @@ class ilForumTopic
         }
     }
 
-    public function makeSticky() : bool
+    public function makeSticky(): bool
     {
         if ($this->id && !$this->is_sticky) {
             $this->db->manipulateF(
@@ -818,7 +820,7 @@ class ilForumTopic
         return false;
     }
 
-    public function unmakeSticky() : bool
+    public function unmakeSticky(): bool
     {
         if ($this->id && $this->is_sticky) {
             $this->db->manipulateF(
@@ -834,7 +836,7 @@ class ilForumTopic
         return false;
     }
 
-    public function close() : void
+    public function close(): void
     {
         if ($this->id && !$this->is_closed) {
             $this->db->manipulateF(
@@ -846,7 +848,7 @@ class ilForumTopic
         }
     }
 
-    public function reopen() : void
+    public function reopen(): void
     {
         if ($this->id && $this->is_closed) {
             $this->db->manipulateF(
@@ -859,162 +861,162 @@ class ilForumTopic
         }
     }
 
-    public function getAverageRating() : float
+    public function getAverageRating(): float
     {
         return $this->average_rating;
     }
 
-    public function setAverageRating(float $average_rating) : void
+    public function setAverageRating(float $average_rating): void
     {
         $this->average_rating = $average_rating;
     }
 
-    public function setId(int $a_id) : void
+    public function setId(int $a_id): void
     {
         $this->id = $a_id;
     }
 
-    public function getId() : int
+    public function getId(): int
     {
         return $this->id;
     }
 
-    public function setForumId(int $a_forum_id) : void
+    public function setForumId(int $a_forum_id): void
     {
         $this->forum_id = $a_forum_id;
     }
 
-    public function getForumId() : int
+    public function getForumId(): int
     {
         return $this->forum_id;
     }
 
-    public function setDisplayUserId(int $a_user_id) : void
+    public function setDisplayUserId(int $a_user_id): void
     {
         $this->display_user_id = $a_user_id;
     }
 
-    public function getDisplayUserId() : int
+    public function getDisplayUserId(): int
     {
         return $this->display_user_id;
     }
 
-    public function setUserAlias(?string $a_user_alias) : void
+    public function setUserAlias(?string $a_user_alias): void
     {
         $this->user_alias = $a_user_alias;
     }
 
-    public function getUserAlias() : ?string
+    public function getUserAlias(): ?string
     {
         return $this->user_alias;
     }
 
-    public function setSubject(string $a_subject) : void
+    public function setSubject(string $a_subject): void
     {
         $this->subject = $a_subject;
     }
 
-    public function getSubject() : string
+    public function getSubject(): string
     {
         return $this->subject;
     }
 
-    public function setCreateDate(?string $a_createdate) : void
+    public function setCreateDate(?string $a_createdate): void
     {
         $this->createdate = $a_createdate;
     }
 
-    public function getCreateDate() : ?string
+    public function getCreateDate(): ?string
     {
         return $this->createdate;
     }
 
-    public function setChangeDate(?string $a_changedate) : void
+    public function setChangeDate(?string $a_changedate): void
     {
         $this->changedate = $a_changedate;
     }
 
-    public function getChangeDate() : ?string
+    public function getChangeDate(): ?string
     {
         return $this->changedate;
     }
 
-    public function setImportName(?string $a_import_name) : void
+    public function setImportName(?string $a_import_name): void
     {
         $this->import_name = $a_import_name;
     }
 
-    public function getImportName() : ?string
+    public function getImportName(): ?string
     {
         return $this->import_name;
     }
 
-    public function setLastPostString(?string $a_last_post) : void
+    public function setLastPostString(?string $a_last_post): void
     {
         $this->last_post_string = $a_last_post;
     }
 
-    public function getLastPostString() : ?string
+    public function getLastPostString(): ?string
     {
         return $this->last_post_string;
     }
 
-    public function setVisits(int $a_visits) : void
+    public function setVisits(int $a_visits): void
     {
         $this->visits = $a_visits;
     }
 
-    public function getVisits() : int
+    public function getVisits(): int
     {
         return $this->visits;
     }
 
-    public function setSticky(bool $a_sticky) : void
+    public function setSticky(bool $a_sticky): void
     {
         $this->is_sticky = $a_sticky;
     }
 
-    public function isSticky() : bool
+    public function isSticky(): bool
     {
         return $this->is_sticky;
     }
 
-    public function setClosed(bool $a_closed) : void
+    public function setClosed(bool $a_closed): void
     {
         $this->is_closed = $a_closed;
     }
 
-    public function isClosed() : bool
+    public function isClosed(): bool
     {
         return $this->is_closed;
     }
 
-    public function setOrderField(string $a_order_field) : void
+    public function setOrderField(string $a_order_field): void
     {
         $this->orderField = $a_order_field;
     }
 
-    public function getOrderField() : string
+    public function getOrderField(): string
     {
         return $this->orderField;
     }
 
-    public function getFrmObjId() : int
+    public function getFrmObjId(): int
     {
         return $this->frm_obj_id;
     }
 
-    public function setThrAuthorId(int $thr_author_id) : void
+    public function setThrAuthorId(int $thr_author_id): void
     {
         $this->thr_author_id = $thr_author_id;
     }
 
-    public function getThrAuthorId() : int
+    public function getThrAuthorId(): int
     {
         return $this->thr_author_id;
     }
 
-    public static function lookupTitle(int $a_topic_id) : string
+    public static function lookupTitle(int $a_topic_id): string
     {
         global $DIC;
         $ilDB = $DIC->database();
@@ -1032,7 +1034,7 @@ class ilForumTopic
         return '';
     }
 
-    public function updateThreadTitle() : void
+    public function updateThreadTitle(): void
     {
         $this->db->update(
             'frm_threads',
@@ -1045,51 +1047,51 @@ class ilForumTopic
         $first_node->update();
     }
 
-    public function setNumPosts(int $a_num_posts) : ilForumTopic
+    public function setNumPosts(int $a_num_posts): ilForumTopic
     {
         $this->num_posts = $a_num_posts;
         return $this;
     }
 
-    public function getNumPosts() : int
+    public function getNumPosts(): int
     {
         return $this->num_posts;
     }
 
-    public function setNumNewPosts(int $num_new_posts) : ilForumTopic
+    public function setNumNewPosts(int $num_new_posts): ilForumTopic
     {
         $this->num_new_posts = $num_new_posts;
         return $this;
     }
 
-    public function getNumNewPosts() : int
+    public function getNumNewPosts(): int
     {
         return $this->num_new_posts;
     }
 
-    public function setNumUnreadPosts(int $num_unread_posts) : ilForumTopic
+    public function setNumUnreadPosts(int $num_unread_posts): ilForumTopic
     {
         $this->num_unread_posts = $num_unread_posts;
         return $this;
     }
 
-    public function getNumUnreadPosts() : int
+    public function getNumUnreadPosts(): int
     {
         return $this->num_unread_posts;
     }
 
-    public function setUserNotificationEnabled(bool $status) : ilForumTopic
+    public function setUserNotificationEnabled(bool $status): ilForumTopic
     {
         $this->user_notification_enabled = $status;
         return $this;
     }
 
-    public function isUserNotificationEnabled() : bool
+    public function isUserNotificationEnabled(): bool
     {
         return $this->user_notification_enabled;
     }
 
-    public function setOrderDirection(string $direction) : ilForumTopic
+    public function setOrderDirection(string $direction): ilForumTopic
     {
         if (!in_array(strtoupper($direction), self::$possibleOrderDirections, true)) {
             $direction = current(self::$possibleOrderDirections);
@@ -1099,12 +1101,12 @@ class ilForumTopic
         return $this;
     }
 
-    public function getOrderDirection() : string
+    public function getOrderDirection(): string
     {
         return $this->orderDirection;
     }
 
-    public static function lookupForumIdByTopicId(int $a_topic_id) : int
+    public static function lookupForumIdByTopicId(int $a_topic_id): int
     {
         global $DIC;
         $ilDB = $DIC->database();
@@ -1120,7 +1122,7 @@ class ilForumTopic
         return (int) $row['thr_top_fk'];
     }
 
-    public function updateMergedThread() : void
+    public function updateMergedThread(): void
     {
         $this->db->update(
             'frm_threads',
@@ -1134,7 +1136,7 @@ class ilForumTopic
         );
     }
 
-    public static function lookupCreationDate(int $thread_id) : ?string
+    public static function lookupCreationDate(int $thread_id): ?string
     {
         global $DIC;
         $ilDB = $DIC->database();
@@ -1154,12 +1156,12 @@ class ilForumTopic
         return $date;
     }
 
-    public function getLastPostForThreadOverview() : ?ilForumPost
+    public function getLastPostForThreadOverview(): ?ilForumPost
     {
         return $this->last_post;
     }
 
-    public function setLastPostForThreadOverview(ilForumPost $post) : void
+    public function setLastPostForThreadOverview(ilForumPost $post): void
     {
         $this->last_post = $post;
     }

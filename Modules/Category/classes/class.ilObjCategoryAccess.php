@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -23,7 +25,6 @@
  */
 class ilObjCategoryAccess extends ilObjectAccess
 {
-
     /**
      * get commands
      *
@@ -36,7 +37,7 @@ class ilObjCategoryAccess extends ilObjectAccess
      *		array("permission" => "write", "cmd" => "edit", "lang_var" => "edit"),
      *	);
      */
-    public static function _getCommands() : array
+    public static function _getCommands(): array
     {
         $commands = [];
         $commands[] = ["permission" => "read", "cmd" => "render", "lang_var" => "show", "default" => true];
@@ -50,19 +51,19 @@ class ilObjCategoryAccess extends ilObjectAccess
         // END WebDAV
         $commands[] = ["permission" => "write", "cmd" => "enableAdministrationPanel", "lang_var" => "edit_content"];
         $commands[] = ["permission" => "write", "cmd" => "edit", "lang_var" => "settings"];
-        
+
         return $commands;
     }
-    
+
     /**
     * check whether goto script will succeed
     */
-    public static function _checkGoto(string $target) : bool
+    public static function _checkGoto(string $target): bool
     {
         global $DIC;
 
         $ilAccess = $DIC->access();
-        
+
         $t_arr = explode("_", $target);
 
         if ($t_arr[0] !== "cat" || ((int) $t_arr[1]) <= 0) {

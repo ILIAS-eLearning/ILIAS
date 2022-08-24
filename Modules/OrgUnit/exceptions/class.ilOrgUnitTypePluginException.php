@@ -1,4 +1,5 @@
 <?php
+
 require_once('class.ilOrgUnitTypeException.php');
 
 /**
@@ -10,7 +11,6 @@ require_once('class.ilOrgUnitTypeException.php');
  */
 class ilOrgUnitTypePluginException extends ilObjOrgUnitException
 {
-
     /**
      * Contains plugin objects causing this exception
      * @var array[ilOrgUnitTypeHookPlugin]

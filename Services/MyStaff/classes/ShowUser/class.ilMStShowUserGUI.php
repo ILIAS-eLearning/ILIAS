@@ -54,7 +54,7 @@ class ilMStShowUserGUI
         $DIC->ui()->mainTemplate()->setTitleIcon(ilObjUser::_getPersonalPicturePath($this->usr_id, "xxsmall"));
     }
 
-    protected function checkAccessOrFail() : void
+    protected function checkAccessOrFail(): void
     {
         global $DIC;
 
@@ -72,7 +72,7 @@ class ilMStShowUserGUI
         }
     }
 
-    final public function executeCommand() : void
+    final public function executeCommand(): void
     {
         global $DIC;
 
@@ -132,13 +132,13 @@ class ilMStShowUserGUI
         }
     }
 
-    protected function index() : void
+    protected function index(): void
     {
         global $DIC;
         $DIC->ctrl()->redirectByClass(ilMStShowUserCoursesGUI::class);
     }
 
-    protected function showUser() : void
+    protected function showUser(): void
     {
         global $DIC;
 
@@ -152,14 +152,14 @@ class ilMStShowUserGUI
         $DIC->ui()->mainTemplate()->setContent($pub_profile->getEmbeddable());
     }
 
-    public function cancel() : void
+    public function cancel(): void
     {
         global $DIC;
 
         $DIC->ctrl()->redirect($this);
     }
 
-    protected function addTabs(string $active_tab_id) : void
+    protected function addTabs(string $active_tab_id): void
     {
         global $DIC;
 
@@ -220,7 +220,7 @@ class ilMStShowUserGUI
                     strtolower(ilEmployeeTalkMyStaffUserGUI::class)
                 ], ControlFlowCommand::INDEX));
         }
-        
+
         if ($active_tab_id) {
             $DIC->tabs()->activateTab($active_tab_id);
         }

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\UI\Implementation\Component\Listing;
 
 use ILIAS\UI\Component as C;
@@ -46,7 +48,7 @@ class Descriptive implements C\Listing\Descriptive
     /**
      * @inheritdoc
      */
-    public function withItems(array $items) : C\Listing\Descriptive
+    public function withItems(array $items): C\Listing\Descriptive
     {
         $this->checkArgList(
             "Descriptive List items",
@@ -63,7 +65,7 @@ class Descriptive implements C\Listing\Descriptive
     /**
      * @inheritdoc
      */
-    public function getItems() : array
+    public function getItems(): array
     {
         return $this->items;
     }

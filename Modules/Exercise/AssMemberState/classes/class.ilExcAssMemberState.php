@@ -15,7 +15,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * Handles everything about the state (current phase) of a user in an assignment using
  * assignment, individual deadline, user and team information.
@@ -93,7 +93,7 @@ class ilExcAssMemberState
     public static function getInstanceByIds(
         int $a_ass_id,
         int $a_user_id = 0
-    ) : ilExcAssMemberState {
+    ): ilExcAssMemberState {
         global $DIC;
 
         $lng = $DIC->language();
@@ -130,16 +130,16 @@ class ilExcAssMemberState
         int $a_time,
         ilLanguage $lng,
         ilExAssignmentTeam $a_team = null
-    ) : ilExcAssMemberState {
+    ): ilExcAssMemberState {
         return new self($a_ass, $a_user, $a_idl, $a_time, $lng, $a_team);
     }
 
-    public function getIndividualDeadlineObject() : ilExcIndividualDeadline
+    public function getIndividualDeadlineObject(): ilExcIndividualDeadline
     {
         return $this->idl;
     }
 
-    public function getGeneralStart() : ?int
+    public function getGeneralStart(): ?int
     {
         return $this->assignment->getStartTime();
     }
@@ -148,7 +148,7 @@ class ilExcAssMemberState
      * @return string
      * @throws ilDateTimeException
      */
-    public function getGeneralStartPresentation() : string
+    public function getGeneralStartPresentation(): string
     {
         if ($this->getGeneralStart()) {
             return $this->getTimePresentation($this->getGeneralStart());
@@ -156,7 +156,7 @@ class ilExcAssMemberState
         return "";
     }
 
-    public function getIndividualStart() : int
+    public function getIndividualStart(): int
     {
         if ($this->assignment->getDeadlineMode() == ilExAssignment::DEADLINE_RELATIVE) {
             return $this->idl->getStartingTimestamp();
@@ -164,7 +164,7 @@ class ilExcAssMemberState
         return 0;
     }
 
-    public function hasGenerallyStarted() : bool
+    public function hasGenerallyStarted(): bool
     {
         return !$this->assignment->notStartedYet();
     }
@@ -174,7 +174,7 @@ class ilExcAssMemberState
      * and the user started the assignment
      * the value may be restricted by the last submission date for relative deadlines
      */
-    public function getCalculatedDeadline() : int
+    public function getCalculatedDeadline(): int
     {
         $calculated_deadline = 0;
         if ($this->assignment->getDeadlineMode() == ilExAssignment::DEADLINE_RELATIVE) {
@@ -189,7 +189,7 @@ class ilExcAssMemberState
         return $calculated_deadline;
     }
 
-    public function getRelativeDeadline() : int
+    public function getRelativeDeadline(): int
     {
         if ($this->assignment->getDeadlineMode() == ilExAssignment::DEADLINE_RELATIVE) {
             return $this->assignment->getRelativeDeadline();
@@ -197,7 +197,7 @@ class ilExcAssMemberState
         return 0;
     }
 
-    public function getLastSubmissionOfRelativeDeadline() : int
+    public function getLastSubmissionOfRelativeDeadline(): int
     {
         if ($this->assignment->getDeadlineMode() == ilExAssignment::DEADLINE_RELATIVE) {
             return $this->assignment->getRelDeadlineLastSubmission();
@@ -205,7 +205,7 @@ class ilExcAssMemberState
         return 0;
     }
 
-    public function getRelativeDeadlinePresentation() : string
+    public function getRelativeDeadlinePresentation(): string
     {
         if ($this->assignment->getDeadlineMode() == ilExAssignment::DEADLINE_RELATIVE) {
             return $this->getRelativeDeadline() . " " . $this->lng->txt("days");
@@ -218,7 +218,7 @@ class ilExcAssMemberState
      * calculated deadline (using relative deadline and starting ts))
      * Grace period is not taken into account here.
      */
-    public function getOfficialDeadline() : int
+    public function getOfficialDeadline(): int
     {
         $dl = $this->idl->getIndividualDeadline();		// team or user individual deadline
 
@@ -234,7 +234,7 @@ class ilExcAssMemberState
      * @return string
      * @throws ilDateTimeException
      */
-    public function getOfficialDeadlinePresentation() : string
+    public function getOfficialDeadlinePresentation(): string
     {
         if ($this->getOfficialDeadline() > 0) {
             return $this->getTimePresentation($this->getOfficialDeadline());
@@ -247,7 +247,7 @@ class ilExcAssMemberState
      * @return string
      * @throws ilDateTimeException
      */
-    public function getLastSubmissionOfRelativeDeadlinePresentation() : string
+    public function getLastSubmissionOfRelativeDeadlinePresentation(): string
     {
         if ($this->getLastSubmissionOfRelativeDeadline() > 0) {
             return $this->getTimePresentation($this->getLastSubmissionOfRelativeDeadline());
@@ -257,7 +257,7 @@ class ilExcAssMemberState
     }
 
     // Check if official deadline exists and has ended
-    public function exceededOfficialDeadline() : bool
+    public function exceededOfficialDeadline(): bool
     {
         $od = $this->getOfficialDeadline();
         if ($od && $od < time()) {
@@ -271,7 +271,7 @@ class ilExcAssMemberState
      * @return string
      * @throws ilDateTimeException
      */
-    public function getRemainingTimePresentation() : string
+    public function getRemainingTimePresentation(): string
     {
         $lng = $this->lng;
         $official_deadline = $this->getOfficialDeadline();
@@ -287,7 +287,7 @@ class ilExcAssMemberState
         return $time_str;
     }
 
-    public function getIndividualDeadline() : int
+    public function getIndividualDeadline(): int
     {
         if ($this->idl->getIndividualDeadline() > $this->getCommonDeadline()) {
             return $this->idl->getIndividualDeadline();
@@ -299,7 +299,7 @@ class ilExcAssMemberState
      * @return string
      * @throws ilDateTimeException
      */
-    public function getIndividualDeadlinePresentation() : string
+    public function getIndividualDeadlinePresentation(): string
     {
         if ($this->getIndividualDeadline() > 0) {
             return $this->getTimePresentation($this->getIndividualDeadline());
@@ -309,7 +309,7 @@ class ilExcAssMemberState
     }
 
     // Get common deadline (no individual deadline or grace period included)
-    public function getCommonDeadline() : int
+    public function getCommonDeadline(): int
     {
         if ($this->assignment->getDeadlineMode() == ilExAssignment::DEADLINE_ABSOLUTE) {	// absolute deadline
             return $this->assignment->getDeadline();
@@ -322,7 +322,7 @@ class ilExcAssMemberState
      * @return string
      * @throws ilDateTimeException
      */
-    public function getCommonDeadlinePresentation() : string
+    public function getCommonDeadlinePresentation(): string
     {
         if ($this->getCommonDeadline() > 0) {
             return $this->getTimePresentation($this->getCommonDeadline());
@@ -332,12 +332,12 @@ class ilExcAssMemberState
     }
 
     // Get effective deadline (max of official deadline and grace end period) for the user
-    public function getEffectiveDeadline() : int
+    public function getEffectiveDeadline(): int
     {
         return max($this->getOfficialDeadline(), $this->assignment->getExtendedDeadline());
     }
 
-    public function getPeerReviewDeadline() : int
+    public function getPeerReviewDeadline(): int
     {
         if ($this->assignment->getPeerReview() &&
             $this->assignment->getPeerReviewDeadline()) {
@@ -350,7 +350,7 @@ class ilExcAssMemberState
      * @return string
      * @throws ilDateTimeException
      */
-    public function getPeerReviewDeadlinePresentation() : string
+    public function getPeerReviewDeadlinePresentation(): string
     {
         if ($this->getPeerReviewDeadline() > 0) {
             return $this->getTimePresentation($this->getPeerReviewDeadline());
@@ -360,7 +360,7 @@ class ilExcAssMemberState
     }
 
     // Is peer reviewing currently allowed
-    public function isPeerReviewAllowed() : bool
+    public function isPeerReviewAllowed(): bool
     {
         if ($this->assignment->getPeerReview() && $this->hasSubmissionEndedForAllUsers()
             && ($this->getPeerReviewDeadline() == 0 || $this->getPeerReviewDeadline() > $this->time)) {
@@ -375,7 +375,7 @@ class ilExcAssMemberState
      * @return string
      * @throws ilDateTimeException
      */
-    protected function getTimePresentation($a_timestamp) : string
+    protected function getTimePresentation($a_timestamp): string
     {
         if ($a_timestamp > 0) {
             return ilDatePresentation::formatDate(new ilDateTime($a_timestamp, IL_CAL_UNIX));
@@ -384,12 +384,12 @@ class ilExcAssMemberState
         return "";
     }
 
-    public function areInstructionsVisible() : bool
+    public function areInstructionsVisible(): bool
     {
         return $this->hasSubmissionStarted();
     }
 
-    public function inLateSubmissionPhase() : bool
+    public function inLateSubmissionPhase(): bool
     {
         // official deadline is done, but submission still allowed
         if ($this->getOfficialDeadline() &&
@@ -399,14 +399,14 @@ class ilExcAssMemberState
         }
         return false;
     }
-    
+
 
     /**
      * Check if the submission phase has started for the current user
      * (if the assignment is generally started and for relative deadlines,
      * if the user started the assignment)
      */
-    public function hasSubmissionStarted() : bool
+    public function hasSubmissionStarted(): bool
     {
         if ($this->hasGenerallyStarted() && ($this->assignment->getDeadlineMode() == ilExAssignment::DEADLINE_ABSOLUTE ||
                 $this->getIndividualStart() > 0)) {
@@ -416,7 +416,7 @@ class ilExcAssMemberState
     }
 
     // Check if the submission phase has ended for the current user
-    public function hasSubmissionEnded() : bool
+    public function hasSubmissionEnded(): bool
     {
         if ($this->getEffectiveDeadline() == 0) {
             return false;
@@ -429,7 +429,7 @@ class ilExcAssMemberState
     }
 
     // Has submission ended for all users
-    public function hasSubmissionEndedForAllUsers() : bool
+    public function hasSubmissionEndedForAllUsers(): bool
     {
         $global_subm_end = max($this->getEffectiveDeadline(), $this->assignment->getLastPersonalDeadline());
 
@@ -443,7 +443,7 @@ class ilExcAssMemberState
         return false;
     }
 
-    public function isSubmissionAllowed() : bool
+    public function isSubmissionAllowed(): bool
     {
         if ($this->hasSubmissionStarted() && !$this->hasSubmissionEnded()) {
             return true;
@@ -452,7 +452,7 @@ class ilExcAssMemberState
     }
 
     // Is global feedback file accessible?
-    public function isGlobalFeedbackFileAccessible(ilExSubmission $submission) : bool
+    public function isGlobalFeedbackFileAccessible(ilExSubmission $submission): bool
     {
         if (!$this->assignment->getFeedbackFile()) {
             return false;

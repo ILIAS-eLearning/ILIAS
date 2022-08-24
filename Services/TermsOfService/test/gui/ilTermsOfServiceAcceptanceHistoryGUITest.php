@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -53,7 +55,7 @@ class ilTermsOfServiceAcceptanceHistoryGUITest extends ilTermsOfServiceBaseTest
     /** @var MockObject&ilTermsOfServiceCriterionTypeFactoryInterface */
     protected ilTermsOfServiceCriterionTypeFactoryInterface $criterionTypeFactory;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -71,7 +73,7 @@ class ilTermsOfServiceAcceptanceHistoryGUITest extends ilTermsOfServiceBaseTest
         $this->tableDataProviderFactory = $this->getMockBuilder(ilTermsOfServiceTableDataProviderFactory::class)->disableOriginalConstructor()->getMock();
     }
 
-    public function testAccessDeniedErrorIsRaisedWhenPermissionsAreMissing() : void
+    public function testAccessDeniedErrorIsRaisedWhenPermissionsAreMissing(): void
     {
         $this->ctrl
             ->method('getCmd')

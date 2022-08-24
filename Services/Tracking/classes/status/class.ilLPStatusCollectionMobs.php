@@ -1,4 +1,6 @@
-<?php declare(strict_types=0);
+<?php
+
+declare(strict_types=0);
 /* Copyright (c) 1998-2015 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -7,7 +9,7 @@
  */
 class ilLPStatusCollectionMobs extends ilLPStatus
 {
-    public static function _getInProgress(int $a_obj_id) : array
+    public static function _getInProgress(int $a_obj_id): array
     {
         $users = array();
 
@@ -18,7 +20,7 @@ class ilLPStatusCollectionMobs extends ilLPStatus
         return $users;
     }
 
-    public static function _getCompleted(int $a_obj_id) : array
+    public static function _getCompleted(int $a_obj_id): array
     {
         $users = array();
 
@@ -30,7 +32,7 @@ class ilLPStatusCollectionMobs extends ilLPStatus
         return $users;
     }
 
-    public static function _getStatusInfo(int $a_obj_id) : array
+    public static function _getStatusInfo(int $a_obj_id): array
     {
         global $DIC;
 
@@ -126,7 +128,7 @@ class ilLPStatusCollectionMobs extends ilLPStatus
         int $a_obj_id,
         int $a_usr_id,
         object $a_obj = null
-    ) : int {
+    ): int {
         $status = self::LP_STATUS_NOT_ATTEMPTED_NUM;
         if (ilChangeEvent::hasAccessed($a_obj_id, $a_usr_id)) {
             $status = self::LP_STATUS_IN_PROGRESS_NUM;

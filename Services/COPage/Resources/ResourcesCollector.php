@@ -48,7 +48,7 @@ class ResourcesCollector
         $this->init($pg);
     }
 
-    protected function init(\ilPageObject $pg) : void
+    protected function init(\ilPageObject $pg): void
     {
         // basic files must be copied of offline version as well
         // (for all other modes they are included automatically)
@@ -91,17 +91,17 @@ class ResourcesCollector
         }
     }
 
-    public function getJavascriptFiles() : array
+    public function getJavascriptFiles(): array
     {
         return $this->js_files;
     }
 
-    public function getCssFiles() : array
+    public function getCssFiles(): array
     {
         return $this->css_files;
     }
 
-    public function getOnloadCode() : array
+    public function getOnloadCode(): array
     {
         return $this->onload_code;
     }

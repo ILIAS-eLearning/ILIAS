@@ -25,20 +25,20 @@ interface ilBadgeTypeGUI
     /**
      * Add custom fields to form
      */
-    public function initConfigForm(ilPropertyFormGUI $a_form, int $a_parent_ref_id) : void;
+    public function initConfigForm(ilPropertyFormGUI $a_form, int $a_parent_ref_id): void;
 
     /**
      * Set form values
      */
-    public function importConfigToForm(ilPropertyFormGUI $a_form, array $a_config) : void;
-    
+    public function importConfigToForm(ilPropertyFormGUI $a_form, array $a_config): void;
+
     /**
      * Export values to DB
      */
-    public function getConfigFromForm(ilPropertyFormGUI $a_form) : array;
+    public function getConfigFromForm(ilPropertyFormGUI $a_form): array;
 
     /**
      * Custom form validation
      */
-    public function validateForm(ilPropertyFormGUI $a_form) : bool;
+    public function validateForm(ilPropertyFormGUI $a_form): bool;
 }

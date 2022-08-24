@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -52,44 +54,44 @@ class Note
         $this->creation_date = $creation_date;
     }
 
-    public function withCreationDate(string $creation_date) : self
+    public function withCreationDate(string $creation_date): self
     {
         $note = clone $this;
         $note->creation_date = $creation_date;
         return $note;
     }
 
-    public function getId() : int
+    public function getId(): int
     {
         return $this->id;
     }
 
-    public function getContext() : Context
+    public function getContext(): Context
     {
         return $this->context;
     }
 
-    public function getText() : string
+    public function getText(): string
     {
         return $this->text;
     }
 
-    public function getAuthor() : int
+    public function getAuthor(): int
     {
         return $this->author;
     }
 
-    public function getType() : int
+    public function getType(): int
     {
         return $this->type;
     }
 
-    public function getCreationDate() : ?string
+    public function getCreationDate(): ?string
     {
         return $this->creation_date;
     }
 
-    public function getUpdateDate() : ?string
+    public function getUpdateDate(): ?string
     {
         return $this->update_date;
     }

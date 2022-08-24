@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -25,7 +27,7 @@ class ilUserAppEventListener implements ilAppEventListener
     /**
      * @param array<string,mixed>  $a_parameter
      */
-    public static function handleEvent(string $a_component, string $a_event, array $a_parameter) : void
+    public static function handleEvent(string $a_component, string $a_event, array $a_parameter): void
     {
         if ('Services/Object' === $a_component && 'beforeDeletion' === $a_event) {
             if (isset($a_parameter['object']) && $a_parameter['object'] instanceof ilObjRole) {

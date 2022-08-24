@@ -41,7 +41,7 @@ class ilSkillLevelProfileAssignmentTableGUI extends ilTable2GUI
         $this->admin_gui_request = $DIC->skills()->internal()->gui()->admin_request();
         $ilCtrl = $DIC->ctrl();
         $lng = $DIC->language();
-        
+
         $parts = explode(":", $a_cskill_id);
         $this->skill_id = (int) $parts[0];
         $this->tref_id = (int) $parts[1];
@@ -55,15 +55,15 @@ class ilSkillLevelProfileAssignmentTableGUI extends ilTable2GUI
             $this->skill->getTitle() . ", " .
                 $lng->txt("skmg_skill_levels")
         );
-        
+
         $this->addColumn($this->lng->txt("title"));
         $this->addColumn($this->lng->txt("actions"));
-        
+
         $this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
         $this->setRowTemplate("tpl.skill_level_profile_assignment_row.html", "Services/Skill");
     }
 
-    protected function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set): void
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
@@ -77,7 +77,7 @@ class ilSkillLevelProfileAssignmentTableGUI extends ilTable2GUI
         ));
         $ilCtrl->setParameter($this->parent_obj, "level_id", $this->requested_level_id);
         $this->tpl->parseCurrentBlock();
-        
+
         $this->tpl->setVariable("TITLE", $a_set["title"]);
     }
 }

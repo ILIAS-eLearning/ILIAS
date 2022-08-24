@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -25,7 +27,7 @@ class ilTestDynamicQuestionSetStatisticTableGUITest extends ilTestBaseTestCase
     private ilTestDynamicQuestionSetStatisticTableGUI $tableGui;
     private ilObjTestGUI $parentObj_mock;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -62,12 +64,12 @@ class ilTestDynamicQuestionSetStatisticTableGUITest extends ilTestBaseTestCase
         );
     }
 
-    public function test_instantiateObject_shouldReturnInstance() : void
+    public function test_instantiateObject_shouldReturnInstance(): void
     {
         $this->assertInstanceOf(ilTestDynamicQuestionSetStatisticTableGUI::class, $this->tableGui);
     }
 
-    public function testFilterSelection() : void
+    public function testFilterSelection(): void
     {
         $this->assertNull($this->tableGui->getFilterSelection());
 
@@ -78,13 +80,13 @@ class ilTestDynamicQuestionSetStatisticTableGUITest extends ilTestBaseTestCase
         );
     }
 
-    public function testInitTitle() : void
+    public function testInitTitle(): void
     {
         $this->tableGui->initTitle("tastas");
         $this->assertEquals("testTranslation", $this->tableGui->title);
     }
 
-    public function testTaxIds() : void
+    public function testTaxIds(): void
     {
         $this->assertIsArray($this->tableGui->getTaxIds());
         $expected = [10, 1250, 1233591, 12350];
@@ -92,7 +94,7 @@ class ilTestDynamicQuestionSetStatisticTableGUITest extends ilTestBaseTestCase
         $this->assertEquals($expected, $this->tableGui->getTaxIds());
     }
 
-    public function testAnswerStatusFilterEnabled() : void
+    public function testAnswerStatusFilterEnabled(): void
     {
         $this->assertIsBool($this->tableGui->isAnswerStatusFilterEnabled());
         $this->tableGui->setAnswerStatusFilterEnabled(false);
@@ -101,7 +103,7 @@ class ilTestDynamicQuestionSetStatisticTableGUITest extends ilTestBaseTestCase
         $this->assertTrue($this->tableGui->isAnswerStatusFilterEnabled());
     }
 
-    public function testTaxonomyFilterEnabled() : void
+    public function testTaxonomyFilterEnabled(): void
     {
         $this->assertIsBool($this->tableGui->isTaxonomyFilterEnabled());
         $this->tableGui->setTaxonomyFilterEnabled(false);

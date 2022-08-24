@@ -58,7 +58,7 @@ abstract class ilDclBaseFieldRepresentation
     /**
      * Set basic settings for filter-input-gui
      */
-    protected function setupFilterInputField(?ilTableFilterItem $input) : void
+    protected function setupFilterInputField(?ilTableFilterItem $input): void
     {
         if ($input != null) {
             $input->setTitle($this->getField()->getTitle());
@@ -69,7 +69,7 @@ abstract class ilDclBaseFieldRepresentation
      * Checks if a filter affects a record
      * @param int|string|array $filter
      */
-    public function passThroughFilter(ilDclBaseRecordModel $record, $filter) : bool
+    public function passThroughFilter(ilDclBaseRecordModel $record, $filter): bool
     {
         $value = $record->getRecordFieldValue($this->getField()->getId());
         $pass = true;
@@ -97,7 +97,7 @@ abstract class ilDclBaseFieldRepresentation
     /**
      * Returns field-input
      */
-    public function getInputField(ilPropertyFormGUI $form, int $record_id = 0) : ?ilFormPropertyGUI
+    public function getInputField(ilPropertyFormGUI $form, int $record_id = 0): ?ilFormPropertyGUI
     {
         return null;
     }
@@ -107,7 +107,7 @@ abstract class ilDclBaseFieldRepresentation
      * @param ilFormPropertyGUI $input
      * @param ilDclBaseFieldModel $field
      */
-    protected function setupInputField(ilFormPropertyGUI $input, ilDclBaseFieldModel $field) : void
+    protected function setupInputField(ilFormPropertyGUI $input, ilDclBaseFieldModel $field): void
     {
         $input->setInfo($field->getDescription() . ($input->getInfo() ? '<br>' . $input->getInfo() : ''));
     }
@@ -115,7 +115,8 @@ abstract class ilDclBaseFieldRepresentation
     /**
      * @return string|array|null
      */
-    protected function getFilterInputFieldValue(ilTableFilterItem $input
+    protected function getFilterInputFieldValue(
+        ilTableFilterItem $input
     ) {
         $value = $input->getValue();
         if (is_array($value)) {
@@ -138,7 +139,7 @@ abstract class ilDclBaseFieldRepresentation
         ilSubEnabledFormPropertyGUI $form,
         ilObjDataCollection $dcl,
         string $mode = "create"
-    ) : void {
+    ): void {
         $opt = $this->buildFieldCreationInput($dcl, $mode);
 
         if ($mode != 'create' && $this->getField()->getDatatypeId() == ilDclDatatype::INPUTFORMAT_PLUGIN) {
@@ -156,10 +157,12 @@ abstract class ilDclBaseFieldRepresentation
     /**
      * Build the creation-input-field
      */
-    protected function buildFieldCreationInput(ilObjDataCollection $dcl, string $mode = 'create') : ilRadioOption
+    protected function buildFieldCreationInput(ilObjDataCollection $dcl, string $mode = 'create'): ilRadioOption
     {
-        $opt = new ilRadioOption($this->lng->txt('dcl_' . $this->getField()->getDatatype()->getTitle()),
-            $this->getField()->getDatatypeId());
+        $opt = new ilRadioOption(
+            $this->lng->txt('dcl_' . $this->getField()->getDatatype()->getTitle()),
+            $this->getField()->getDatatypeId()
+        );
         $opt->setInfo($this->lng->txt('dcl_' . $this->getField()->getDatatype()->getTitle() . '_desc'));
 
         return $opt;
@@ -168,7 +171,7 @@ abstract class ilDclBaseFieldRepresentation
     /**
      * Return post-var for property-fields
      */
-    public function getPropertyInputFieldId(string $property) : string
+    public function getPropertyInputFieldId(string $property): string
     {
         return "prop_" . $property;
     }
@@ -176,7 +179,7 @@ abstract class ilDclBaseFieldRepresentation
     /**
      * Return BaseFieldModel
      */
-    public function getField() : ilDclBaseFieldModel
+    public function getField(): ilDclBaseFieldModel
     {
         return $this->field;
     }

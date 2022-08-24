@@ -51,7 +51,7 @@ class ilExAssignmentFileSystemGUI extends ilFileSystemGUI
     public function getTable(
         string $a_dir,
         string $a_subdir
-    ) : ilExAssignmentFileSystemTableGUI {
+    ): ilExAssignmentFileSystemTableGUI {
         return new ilExAssignmentFileSystemTableGUI(
             $this,
             "listFiles",
@@ -66,7 +66,7 @@ class ilExAssignmentFileSystemGUI extends ilFileSystemGUI
     }
 
 
-    public function uploadFile() : void
+    public function uploadFile(): void
     {
         $filename = ilUtil::stripSlashes($_FILES["new_file"]["name"]);
 
@@ -74,7 +74,7 @@ class ilExAssignmentFileSystemGUI extends ilFileSystemGUI
         parent::uploadFile();
     }
 
-    public function saveFilesOrder() : void
+    public function saveFilesOrder(): void
     {
         $ilCtrl = $this->ctrl;
 
@@ -84,7 +84,7 @@ class ilExAssignmentFileSystemGUI extends ilFileSystemGUI
         }
     }
 
-    public function deleteFile() : void
+    public function deleteFile(): void
     {
         if ($this->requested_ass_id > 0) {
             ilExAssignment::instructionFileDeleteOrder($this->requested_ass_id, $this->requested_file);
@@ -96,7 +96,7 @@ class ilExAssignmentFileSystemGUI extends ilFileSystemGUI
     /**
      * Rename File name
      */
-    public function renameFile() : void
+    public function renameFile(): void
     {
         if ($this->requested_ass_id > 0) {
             $new_name = str_replace("..", "", ilUtil::stripSlashes($this->requested_new_name));

@@ -23,7 +23,7 @@
  */
 class ilWikiPageConfig extends ilPageConfig
 {
-    public function init() : void
+    public function init(): void
     {
         $this->setEnablePCType("Map", true);
         $this->setEnablePCType("Tabs", true);
@@ -38,11 +38,11 @@ class ilWikiPageConfig extends ilPageConfig
         $this->setIntLinkHelpDefaultType("RepositoryItem");
         $this->setEnablePCType("AMDPageList", true);
     }
-    
+
     /**
      * Object specific configuration
      */
-    public function configureByObjectId(int $a_obj_id) : void
+    public function configureByObjectId(int $a_obj_id): void
     {
         global $DIC;
 

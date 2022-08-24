@@ -1,4 +1,6 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -52,7 +54,7 @@ class InternalDomainService
     public function access(
         int $ref_id = 0,
         int $user_id = 0
-    ) : StyleAccessManager {
+    ): StyleAccessManager {
         return new StyleAccessManager(
             $this->rbacsystem,
             $ref_id,
@@ -63,7 +65,7 @@ class InternalDomainService
     public function characteristic(
         int $style_id,
         StyleAccessManager $access_manager
-    ) : CharacteristicManager {
+    ): CharacteristicManager {
         return new CharacteristicManager(
             $style_id,
             $access_manager,
@@ -77,7 +79,7 @@ class InternalDomainService
     public function color(
         int $style_id,
         StyleAccessManager $access_manager
-    ) : ColorManager {
+    ): ColorManager {
         return new ColorManager(
             $style_id,
             $access_manager,
@@ -89,7 +91,7 @@ class InternalDomainService
     public function image(
         int $style_id,
         StyleAccessManager $access_manager
-    ) : ImageManager {
+    ): ImageManager {
         return new ImageManager(
             $style_id,
             $access_manager,
@@ -97,7 +99,7 @@ class InternalDomainService
         );
     }
 
-    public function repositoryContainer(int $ref_id) : ContainerManager
+    public function repositoryContainer(int $ref_id): ContainerManager
     {
         return new ContainerManager(
             $this->repo_service,
@@ -109,7 +111,7 @@ class InternalDomainService
      * Objects without ref id (e.g. portfolios) can use
      * the manager with a ref_id of 0, e.g. to get selectable styles
      */
-    public function object(int $ref_id, int $obj_id = 0) : ObjectManager
+    public function object(int $ref_id, int $obj_id = 0): ObjectManager
     {
         return new ObjectManager(
             $this->repo_service,

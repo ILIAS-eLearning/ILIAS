@@ -24,30 +24,30 @@ namespace ILIAS\Awareness\User;
  */
 interface Provider
 {
-    public function getProviderId() : string;
+    public function getProviderId(): string;
 
     /**
      * Provider title (used in awareness overlay and in administration settings)
      * @return string provider title
      */
-    public function getTitle() : string;
+    public function getTitle(): string;
 
     /**
      * Provider info (used in administration settings)
      * @return string provider info text
      */
-    public function getInfo() : string;
+    public function getInfo(): string;
 
     /**
      * Get initial set of users
      * @param ?int[] $user_ids if not null, only a subset of these IDs should be retrieved
      * @return int[] array of user IDs
      */
-    public function getInitialUserSet(?array $user_ids = null) : array;
+    public function getInitialUserSet(?array $user_ids = null): array;
 
     /**
      * Is highlighted
      * @return bool return true, if user group should be highlighted (using extra highlighted number)
      */
-    public function isHighlighted() : bool;
+    public function isHighlighted(): bool;
 }

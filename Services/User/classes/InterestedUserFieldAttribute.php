@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -45,12 +47,12 @@ class InterestedUserFieldAttribute
         $this->name = $this->getNameTranslation($fieldName, $attributeName);
     }
 
-    public function getName() : string
+    public function getName(): string
     {
         return $this->name;
     }
 
-    public function getAttributeName() : string
+    public function getAttributeName(): string
     {
         return $this->attributeName;
     }
@@ -58,12 +60,12 @@ class InterestedUserFieldAttribute
     /**
      * @return InterestedUserFieldComponent[]
      */
-    public function getComponents() : array
+    public function getComponents(): array
     {
         return $this->components;
     }
 
-    private function getNameTranslation(string $fieldName, string $attributeName) : string
+    private function getNameTranslation(string $fieldName, string $attributeName): string
     {
         $translationKey = str_replace("_$fieldName", "", $attributeName);
         if (isset(ilObjUserFolderGUI::USER_FIELD_TRANSLATION_MAPPING[$translationKey])) {
@@ -73,7 +75,7 @@ class InterestedUserFieldAttribute
         return "INVALID TRANSLATION KEY";
     }
 
-    public function addComponent(string $componentName, string $description) : InterestedUserFieldComponent
+    public function addComponent(string $componentName, string $description): InterestedUserFieldComponent
     {
         foreach ($this->components as $component) {
             if ($component->getComponentName() === $componentName) {

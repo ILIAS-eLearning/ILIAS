@@ -1,4 +1,5 @@
 <?php
+
 /* Copyright (c) 1998-2015 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 include_once './Services/Mail/classes/class.ilMailNotification.php';
@@ -34,16 +35,16 @@ class ilTestMailNotification extends ilMailNotification
         $this->appendBody("\n\n");
         $this->appendBody($this->language->txt('user_has_finished_a_test'));
         $this->appendBody("\n\n");
-        
+
         $this->appendBody($this->language->txt('title') . ': ' . $title);
         $this->appendBody("\n");
         $this->appendBody($this->language->txt('tst_participant') . ': ' . $usr_data);
         $this->appendBody("\n");
-        
+
         ilDatePresentation::setUseRelativeDates(false);
         $this->appendBody($this->language->txt('tst_finished') . ': ' . ilDatePresentation::formatDate(new ilDateTime(time(), IL_CAL_UNIX)));
         $this->appendBody("\n\n");
-        
+
         $this->appendBody($this->language->txt('tst_notification_explanation_admin'));
         $this->appendBody("\n");
         $this->getMail()->appendInstallationSignature(true);
@@ -81,10 +82,10 @@ class ilTestMailNotification extends ilMailNotification
 
         $this->appendBody($this->language->txt('tst_attached_xls_file'));
         $this->appendBody("\n\n");
-        
+
         $this->appendBody($this->language->txt('tst_notification_explanation_admin'));
         $this->appendBody("\n");
-        
+
         $this->setAttachments($file_names);
         $this->getMail()->appendInstallationSignature(true);
 

@@ -25,7 +25,7 @@
 */
 class ilMultipleChoiceWizardInputGUI extends ilSingleChoiceWizardInputGUI
 {
-    public function setValue($a_value) : void
+    public function setValue($a_value): void
     {
         $this->values = [];
         if (is_array($a_value) && isset($a_value['answer']) && is_array($a_value['answer'])) {
@@ -45,18 +45,18 @@ class ilMultipleChoiceWizardInputGUI extends ilSingleChoiceWizardInputGUI
     * Check input, strip slashes etc. set alert, if input is not ok.
     * @return	boolean		Input ok, true/false
     */
-    public function checkInput() : bool
+    public function checkInput(): bool
     {
         global $DIC;
         $lng = $DIC['lng'];
-        
+
         $post_var = $this->getPostVar();
         if (!$this->post_wrapper->has($post_var)) {
             return false;
         }
 
         $values = $this->post_wrapper->retrieve($post_var, $this->refinery->custom()->transformation(fn ($v) => $v));
-        
+
         $values = ilArrayUtil::stripSlashesRecursive( //TODO: move into transform
             $values,
             false,
@@ -64,7 +64,7 @@ class ilMultipleChoiceWizardInputGUI extends ilSingleChoiceWizardInputGUI
         );
 
         $foundvalues = $values;
-        
+
         if (is_array($foundvalues)) {
             // check answers
             if (is_array($foundvalues['answer'])) {
@@ -194,7 +194,7 @@ class ilMultipleChoiceWizardInputGUI extends ilSingleChoiceWizardInputGUI
             $this->setAlert($lng->txt("msg_input_is_required"));
             return false;
         }
-        
+
         return $this->checkSubItemsInput();
     }
 
@@ -202,11 +202,11 @@ class ilMultipleChoiceWizardInputGUI extends ilSingleChoiceWizardInputGUI
      * Insert property html
      * @param $a_tpl ilTemplate
      */
-    public function insert(ilTemplate $a_tpl) : void
+    public function insert(ilTemplate $a_tpl): void
     {
         global $DIC;
         $lng = $DIC['lng'];
-        
+
         $tpl = new ilTemplate("tpl.prop_multiplechoicewizardinput.html", true, true, "Modules/TestQuestionPool");
         $i = 0;
         foreach ($this->values as $value) {
@@ -343,7 +343,7 @@ class ilMultipleChoiceWizardInputGUI extends ilSingleChoiceWizardInputGUI
                 $tpl->parseCurrentBlock();
             }
         }
-        
+
         $tpl->setVariable("ELEMENT_ID", $this->getPostVar());
         $tpl->setVariable("TEXT_YES", $lng->txt('yes'));
         $tpl->setVariable("TEXT_NO", $lng->txt('no'));

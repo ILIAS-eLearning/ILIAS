@@ -1,4 +1,6 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -33,11 +35,11 @@ class InternalDataService
     public function counter(
         int $cnt,
         int $highlight_cnt
-    ) : Counter {
+    ): Counter {
         return new Counter($cnt, $highlight_cnt);
     }
 
-    public function userCollection() : User\Collection
+    public function userCollection(): User\Collection
     {
         return new User\Collection();
     }

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -28,7 +30,7 @@ class ilCalendarUserNotification
         $this->read();
     }
 
-    public static function deleteUser(int $a_usr_id) : void
+    public static function deleteUser(int $a_usr_id): void
     {
         global $DIC;
 
@@ -38,7 +40,7 @@ class ilCalendarUserNotification
         $res = $ilDB->manipulate($query);
     }
 
-    public static function deleteCalendarEntry(int $a_cal_id) : void
+    public static function deleteCalendarEntry(int $a_cal_id): void
     {
         global $DIC;
 
@@ -48,22 +50,22 @@ class ilCalendarUserNotification
         $res = $ilDB->manipulate($query);
     }
 
-    public function setEntryId(int $a_id) : void
+    public function setEntryId(int $a_id): void
     {
         $this->cal_id = $a_id;
     }
 
-    public function getEntryId() : int
+    public function getEntryId(): int
     {
         return $this->cal_id;
     }
 
-    public function getRecipients() : array
+    public function getRecipients(): array
     {
         return $this->rcps;
     }
 
-    public function validate() : bool
+    public function validate(): bool
     {
         if (!count($this->getRecipients())) {
             return true;
@@ -79,7 +81,7 @@ class ilCalendarUserNotification
         return true;
     }
 
-    public function save() : bool
+    public function save(): bool
     {
         $this->deleteRecipients();
         foreach ($this->getRecipients() as $rcp) {
@@ -97,7 +99,7 @@ class ilCalendarUserNotification
         return true;
     }
 
-    public function addRecipient(int $a_type, int $a_usr_id = 0, string $a_email = '') : void
+    public function addRecipient(int $a_type, int $a_usr_id = 0, string $a_email = ''): void
     {
         $this->rcps[] = array(
             'type' => $a_type,
@@ -106,19 +108,19 @@ class ilCalendarUserNotification
         );
     }
 
-    public function setRecipients(array $a_rcps) : void
+    public function setRecipients(array $a_rcps): void
     {
         $this->rcps = array();
     }
 
-    public function deleteRecipients() : void
+    public function deleteRecipients(): void
     {
         $query = 'DELETE FROM cal_notification ' .
             'WHERE cal_id = ' . $this->db->quote($this->getEntryId(), 'integer');
         $res = $this->db->manipulate($query);
     }
 
-    protected function read() : void
+    protected function read(): void
     {
         if (!$this->getEntryId()) {
             return;
@@ -138,7 +140,7 @@ class ilCalendarUserNotification
         }
     }
 
-    public static function createTable() : void
+    public static function createTable(): void
     {
         global $DIC;
 

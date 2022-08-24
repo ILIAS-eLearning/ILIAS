@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\UI\Component\MainControls\Slate;
 
 use ILIAS\UI\Component\Symbol\Symbol;
@@ -52,7 +54,7 @@ interface Factory
         string $name,
         Symbol $symbol,
         \ILIAS\UI\Component\Legacy\Legacy $content
-    ) : Legacy;
+    ): Legacy;
 
 
     /**
@@ -81,7 +83,7 @@ interface Factory
     public function combined(
         string $name,
         Symbol $symbol
-    ) : Combined;
+    ): Combined;
 
     /**
      * ---
@@ -140,7 +142,7 @@ interface Factory
      * @param \ILIAS\UI\Component\Item\Notification[] $notification_items
      * @return \ILIAS\UI\Component\MainControls\Slate\Notification
      */
-    public function notification(string $name, array $notification_items) : Notification;
+    public function notification(string $name, array $notification_items): Notification;
 
 
     /**
@@ -180,5 +182,5 @@ interface Factory
         string $name,
         \ILIAS\UI\Component\Symbol\Symbol $symbol,
         \ILIAS\UI\Component\Menu\Drilldown $drilldown
-    ) : Drilldown;
+    ): Drilldown;
 }

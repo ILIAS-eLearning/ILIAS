@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /*
   +-----------------------------------------------------------------------------+
@@ -49,7 +51,7 @@ class ilCurlConnection
         }
     }
 
-    final public static function _isCurlExtensionLoaded() : bool
+    final public static function _isCurlExtensionLoaded(): bool
     {
         if (!function_exists('curl_init')) {
             return false;
@@ -57,17 +59,17 @@ class ilCurlConnection
         return true;
     }
 
-    public function getResponseHeader() : string
+    public function getResponseHeader(): string
     {
         return $this->header_plain;
     }
 
-    public function getResponseHeaderArray() : array
+    public function getResponseHeaderArray(): array
     {
         return $this->header_arr;
     }
 
-    final public function init(bool $set_proxy = true) : bool
+    final public function init(bool $set_proxy = true): bool
     {
         // teminate existing handles
         $this->close();
@@ -108,7 +110,7 @@ class ilCurlConnection
      * @param mixed $a_value
      * @return bool
      */
-    final public function setOpt(int $a_option, $a_value) : bool
+    final public function setOpt(int $a_option, $a_value): bool
     {
         if (!curl_setopt($this->ch, $a_option, $a_value)) {
             throw new ilCurlConnectionException('Invalid option given for: ' . $a_option, curl_errno($this->ch));
@@ -134,7 +136,7 @@ class ilCurlConnection
         return $res;
     }
 
-    public function parseResponse(string $a_response) : void
+    public function parseResponse(string $a_response): void
     {
         $header_size = $this->getInfo(CURLINFO_HEADER_SIZE);
 
@@ -142,7 +144,7 @@ class ilCurlConnection
         $this->response_body = substr($a_response, $header_size);
     }
 
-    public function getResponseBody() : string
+    public function getResponseBody(): string
     {
         return $this->response_body;
     }
@@ -170,7 +172,7 @@ class ilCurlConnection
      * @param string $header
      * @return int strlen of header
      */
-    private function parseHeader($handle, string $header) : int
+    private function parseHeader($handle, string $header): int
     {
         $len = strlen($header);
         $header = explode(':', $header, 2);
@@ -180,7 +182,7 @@ class ilCurlConnection
         return $len;
     }
 
-    final public function close() : void
+    final public function close(): void
     {
         if ($this->ch !== null) {
             curl_close($this->ch);

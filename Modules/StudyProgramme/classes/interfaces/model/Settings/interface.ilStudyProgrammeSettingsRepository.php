@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -26,34 +28,34 @@ interface ilStudyProgrammeSettingsRepository
      * Create a record corresponding to a SP-Object and return representing settings.
      * Will throw if a record allready exists.
      */
-    public function createFor(int $obj_id) : ilStudyProgrammeSettings;
+    public function createFor(int $obj_id): ilStudyProgrammeSettings;
 
     /**
      * Load settings belonging to a SP-Object.
      * Will throw if the record does not exist yet.
      */
-    public function get(int $obj_id) : ilStudyProgrammeSettings;
+    public function get(int $obj_id): ilStudyProgrammeSettings;
 
     /**
      * Update settings belonging to a SP-Object.
      * Will throw if the record does not exist yet.
      */
-    public function update(ilStudyProgrammeSettings $settings) : void;
+    public function update(ilStudyProgrammeSettings $settings): void;
 
     /**
      * Delete record corresponding to settings.
      * Will throw if the record does not exist yet.
      */
-    public function delete(ilStudyProgrammeSettings $settings) : void;
+    public function delete(ilStudyProgrammeSettings $settings): void;
 
     /**
      * Load SP settings by assigned type.
      * @return ilStudyProgrammeSettings[]
      */
-    public function loadByType(int $type_id) : array;
+    public function loadByType(int $type_id): array;
 
     /**
      * Load SP setting-ids by assigned type.
      */
-    public function loadIdsByType(int $type_id) : array;
+    public function loadIdsByType(int $type_id): array;
 }

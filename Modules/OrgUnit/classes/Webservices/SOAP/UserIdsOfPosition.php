@@ -26,11 +26,10 @@ use ilOrgUnitUserAssignmentQueries;
  */
 class UserIdsOfPosition extends Base
 {
-
     /**
      * @return int[]
      */
-    protected function run(array $params) : array
+    protected function run(array $params): array
     {
         $position_id = $params[self::POSITION_ID];
 
@@ -44,22 +43,22 @@ class UserIdsOfPosition extends Base
         return $usr_ids;
     }
 
-    public function getName() : string
+    public function getName(): string
     {
         return "getUserIdsOfPosition";
     }
 
-    protected function getAdditionalInputParams() : array
+    protected function getAdditionalInputParams(): array
     {
         return array(self::POSITION_ID => Base::TYPE_INT);
     }
 
-    public function getOutputParams() : array
+    public function getOutputParams(): array
     {
         return array(self::USR_IDS => Base::TYPE_INT_ARRAY);
     }
 
-    public function getDocumentation() : string
+    public function getDocumentation(): string
     {
         return "Returns ids of users in a position";
     }

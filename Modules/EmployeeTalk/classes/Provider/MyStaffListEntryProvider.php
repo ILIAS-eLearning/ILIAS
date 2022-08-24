@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 /**
@@ -45,12 +46,12 @@ final class MyStaffListEntryProvider extends AbstractStaticMainMenuProvider
         $this->settings = $dic->settings();
     }
 
-    public function getStaticTopItems() : array
+    public function getStaticTopItems(): array
     {
         return [];
     }
 
-    public function getStaticSubItems() : array
+    public function getStaticSubItems(): array
     {
         $this->dic->language()->loadLanguageModule('etal');
         $items = [];
@@ -79,7 +80,8 @@ final class MyStaffListEntryProvider extends AbstractStaticMainMenuProvider
                                   ->withVisibilityCallable(
                                       function () {
                                           return ilMyStaffAccess::getInstance()->hasCurrentUserAccessToMyStaff();
-                                      });
+                                      }
+                                  );
 
         return $items;
     }
@@ -87,9 +89,8 @@ final class MyStaffListEntryProvider extends AbstractStaticMainMenuProvider
     /**
      * @inheritDoc
      */
-    public function getProviderNameForPresentation() : string
+    public function getProviderNameForPresentation(): string
     {
         return "Modules/EmployeeTalk";
     }
-
 }

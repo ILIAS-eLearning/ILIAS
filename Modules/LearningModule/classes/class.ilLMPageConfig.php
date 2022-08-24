@@ -23,7 +23,7 @@
  */
 class ilLMPageConfig extends ilPageConfig
 {
-    public function init() : void
+    public function init(): void
     {
         global $DIC;
 
@@ -35,7 +35,7 @@ class ilLMPageConfig extends ilPageConfig
             ->request();
 
         $lm_set = new ilSetting("lm");
-        
+
         $this->setPreventHTMLUnmasking(false);
         $this->setPreventRteUsage(true);
         $this->setUseAttachedContent(true);
@@ -62,11 +62,11 @@ class ilLMPageConfig extends ilPageConfig
     /**
      * Object specific configuration
      */
-    public function configureByObjectId(int $a_obj_id) : void
+    public function configureByObjectId(int $a_obj_id): void
     {
         if ($a_obj_id > 0) {
             $this->setDisableDefaultQuestionFeedback(ilObjLearningModule::_lookupDisableDefaultFeedback($a_obj_id));
-            
+
             if (ilObjContentObject::isOnlineHelpModule($a_obj_id, true)) {
                 $this->setEnableSelfAssessment(false, false);
             }

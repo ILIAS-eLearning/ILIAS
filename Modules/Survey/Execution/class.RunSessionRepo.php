@@ -1,4 +1,6 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -36,12 +38,12 @@ class RunSessionRepo
     {
     }
 
-    protected function getAnonymKey(int $survey_id) : string
+    protected function getAnonymKey(int $survey_id): string
     {
         return self::KEY_ANONYM . $survey_id;
     }
 
-    public function issetCode(int $survey_id) : bool
+    public function issetCode(int $survey_id): bool
     {
         return (
             \ilSession::has($this->getAnonymKey($survey_id)) &&
@@ -50,12 +52,12 @@ class RunSessionRepo
         );
     }
 
-    public function setCode(int $survey_id, string $code) : void
+    public function setCode(int $survey_id, string $code): void
     {
         \ilSession::set($this->getAnonymKey($survey_id), $code);
     }
 
-    public function getCode(int $survey_id) : string
+    public function getCode(int $survey_id): string
     {
         if (\ilSession::has($this->getAnonymKey($survey_id))) {
             return \ilSession::get($this->getAnonymKey($survey_id));
@@ -63,12 +65,12 @@ class RunSessionRepo
         return "";
     }
 
-    public function clearCode(int $survey_id) : void
+    public function clearCode(int $survey_id): void
     {
         \ilSession::clear($this->getAnonymKey($survey_id));
     }
 
-    public function isExternalRaterValidated(int $ref_id) : bool
+    public function isExternalRaterValidated(int $ref_id): bool
     {
         if (\ilSession::has(self::KEY_EXTRT . $ref_id)) {
             return (bool) \ilSession::get(self::KEY_EXTRT . $ref_id);
@@ -76,39 +78,39 @@ class RunSessionRepo
         return false;
     }
 
-    public function setExternalRaterValidation(int $ref_id, bool $valid) : void
+    public function setExternalRaterValidation(int $ref_id, bool $valid): void
     {
         \ilSession::set(self::KEY_EXTRT . $ref_id, $valid);
     }
 
-    public function setPageEnter(int $time) : void
+    public function setPageEnter(int $time): void
     {
         \ilSession::set(self::KEY_PAGE_ENTER, $time);
     }
 
-    public function getPageEnter() : int
+    public function getPageEnter(): int
     {
         return \ilSession::get(self::KEY_PAGE_ENTER) ?? 0;
     }
 
-    public function clearPageEnter() : void
+    public function clearPageEnter(): void
     {
         \ilSession::clear(self::KEY_PAGE_ENTER);
     }
 
-    protected function getPreviewDataKey(int $survey_id) : string
+    protected function getPreviewDataKey(int $survey_id): string
     {
         return self::KEY_PREVIEW_DATA . "_" . $survey_id;
     }
 
-    public function setPreviewData(int $survey_id, int $question_id, array $data) : void
+    public function setPreviewData(int $survey_id, int $question_id, array $data): void
     {
         $all_data = $this->getAllPreviewData($survey_id);
         $all_data[$question_id] = $data;
         \ilSession::set($this->getPreviewDataKey($survey_id), $all_data);
     }
 
-    protected function getAllPreviewData(int $survey_id) : array
+    protected function getAllPreviewData(int $survey_id): array
     {
         if (\ilSession::has($this->getPreviewDataKey($survey_id))) {
             return \ilSession::get($this->getPreviewDataKey($survey_id));
@@ -116,7 +118,7 @@ class RunSessionRepo
         return [];
     }
 
-    public function getPreviewData(int $survey_id, int $question_id) : array
+    public function getPreviewData(int $survey_id, int $question_id): array
     {
         if (\ilSession::has($this->getPreviewDataKey($survey_id))) {
             $data = \ilSession::get($this->getPreviewDataKey($survey_id));
@@ -125,7 +127,7 @@ class RunSessionRepo
         return [];
     }
 
-    public function clearPreviewData(int $survey_id, int $question_id) : void
+    public function clearPreviewData(int $survey_id, int $question_id): void
     {
         if (\ilSession::has($this->getPreviewDataKey($survey_id))) {
             $data = \ilSession::get($this->getPreviewDataKey($survey_id));
@@ -134,37 +136,37 @@ class RunSessionRepo
         }
     }
 
-    public function clearAllPreviewData(int $survey_id) : void
+    public function clearAllPreviewData(int $survey_id): void
     {
         \ilSession::clear($this->getPreviewDataKey($survey_id));
     }
 
-    public function setErrors(array $errors) : void
+    public function setErrors(array $errors): void
     {
         \ilSession::set(self::KEY_ERRORS, $errors);
     }
 
-    public function getErrors() : array
+    public function getErrors(): array
     {
         return \ilSession::get(self::KEY_ERRORS) ?? [];
     }
 
-    public function clearErrors() : void
+    public function clearErrors(): void
     {
         \ilSession::clear(self::KEY_ERRORS);
     }
 
-    public function setPostData(array $data) : void
+    public function setPostData(array $data): void
     {
         \ilSession::set(self::KEY_POST_DATA, $data);
     }
 
-    public function getPostData() : array
+    public function getPostData(): array
     {
         return \ilSession::get(self::KEY_POST_DATA);
     }
 
-    public function clearPostData() : void
+    public function clearPostData(): void
     {
         \ilSession::clear(self::KEY_POST_DATA);
     }

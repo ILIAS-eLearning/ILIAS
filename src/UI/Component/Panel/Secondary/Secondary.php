@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\UI\Component\Panel\Secondary;
 
 use ILIAS\UI\Component;
@@ -31,20 +33,20 @@ interface Secondary extends Component\Component, HasViewControls
     /**
      * Sets a Component being displayed below the content
      */
-    public function withFooter(Shy $component) : Secondary;
+    public function withFooter(Shy $component): Secondary;
 
     /**
      * Gets the Component being displayed below the content
      */
-    public function getFooter() : ?Shy;
+    public function getFooter(): ?Shy;
 
     /**
      * Sets the action dropdown to be displayed on the right of the title
      */
-    public function withActions(Dropdown\Standard $actions) : Secondary;
+    public function withActions(Dropdown\Standard $actions): Secondary;
 
     /**
      * Gets the action dropdown to be displayed on the right of the title
      */
-    public function getActions() : ?Dropdown\Standard;
+    public function getActions(): ?Dropdown\Standard;
 }

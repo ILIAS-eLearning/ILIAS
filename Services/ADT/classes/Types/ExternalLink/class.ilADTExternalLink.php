@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 class ilADTExternalLink extends ilADT
 {
@@ -11,7 +13,7 @@ class ilADTExternalLink extends ilADT
      * @param ilADTDefinition $a_def
      * @return bool
      */
-    protected function isValidDefinition(ilADTDefinition $a_def) : bool
+    protected function isValidDefinition(ilADTDefinition $a_def): bool
     {
         return $a_def instanceof ilADTExternalLinkDefinition;
     }
@@ -19,7 +21,7 @@ class ilADTExternalLink extends ilADT
     /**
      * Reset
      */
-    public function reset() : void
+    public function reset(): void
     {
         parent::reset();
         $this->value = null;
@@ -30,7 +32,7 @@ class ilADTExternalLink extends ilADT
      * Set title
      * @param string|null $a_title
      */
-    public function setTitle(?string $a_title = null) : void
+    public function setTitle(?string $a_title = null): void
     {
         if ($a_title !== null) {
             $a_title = trim($a_title);
@@ -42,7 +44,7 @@ class ilADTExternalLink extends ilADT
      * Get title
      * @return string|null
      */
-    public function getTitle() : ?string
+    public function getTitle(): ?string
     {
         return $this->title;
     }
@@ -51,7 +53,7 @@ class ilADTExternalLink extends ilADT
      * Set url
      * @param string|null $a_value
      */
-    public function setUrl(?string $a_value = null) : void
+    public function setUrl(?string $a_value = null): void
     {
         if ($a_value !== null) {
             $a_value = trim($a_value);
@@ -63,7 +65,7 @@ class ilADTExternalLink extends ilADT
      * Get url
      * @return string|null
      */
-    public function getUrl() : ?string
+    public function getUrl(): ?string
     {
         return $this->value;
     }
@@ -72,7 +74,7 @@ class ilADTExternalLink extends ilADT
      * @param ilADT $a_adt
      * @return bool
      */
-    public function equals(ilADT $a_adt) : ?bool
+    public function equals(ilADT $a_adt): ?bool
     {
         if ($this->getDefinition()->isComparableTo($a_adt)) {
             return strcmp($this->getCheckSum(), $a_adt->getCheckSum()) === 0;
@@ -80,12 +82,12 @@ class ilADTExternalLink extends ilADT
         return null;
     }
 
-    public function isLarger(ilADT $a_adt) : ?bool
+    public function isLarger(ilADT $a_adt): ?bool
     {
         return null;
     }
 
-    public function isSmaller(ilADT $a_adt) : ?bool
+    public function isSmaller(ilADT $a_adt): ?bool
     {
         return null;
     }
@@ -94,7 +96,7 @@ class ilADTExternalLink extends ilADT
      * is null
      * @return bool
      */
-    public function isNull() : bool
+    public function isNull(): bool
     {
         return !$this->getLength();
     }
@@ -103,7 +105,7 @@ class ilADTExternalLink extends ilADT
      * Get length
      * @return int
      */
-    public function getLength() : int
+    public function getLength(): int
     {
         if (function_exists("mb_strlen")) {
             return mb_strlen($this->getUrl() . $this->getTitle(), "UTF-8");
@@ -112,7 +114,7 @@ class ilADTExternalLink extends ilADT
         }
     }
 
-    public function isValid() : bool
+    public function isValid(): bool
     {
         $valid = parent::isValid();
         if (!$this->isNull()) {
@@ -128,7 +130,7 @@ class ilADTExternalLink extends ilADT
      * get checksum
      * @return string
      */
-    public function getCheckSum() : ?string
+    public function getCheckSum(): ?string
     {
         if (!$this->isNull()) {
             return md5($this->getUrl() . $this->getTitle());
@@ -139,7 +141,7 @@ class ilADTExternalLink extends ilADT
     /**
      * @inheritDoc
      */
-    public function exportStdClass() : ?stdClass
+    public function exportStdClass(): ?stdClass
     {
         if (!$this->isNull()) {
             $obj = new stdClass();
@@ -153,7 +155,7 @@ class ilADTExternalLink extends ilADT
     /**
      * @inheritDoc
      */
-    public function importStdClass(?stdClass $a_std) : void
+    public function importStdClass(?stdClass $a_std): void
     {
         if (is_object($a_std)) {
             $this->setTitle($a_std->title);

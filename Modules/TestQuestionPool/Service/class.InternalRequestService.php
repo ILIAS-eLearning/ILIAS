@@ -39,7 +39,7 @@ class InternalRequestService
     /**
      * @return \ILIAS\FileUpload\DTO\UploadResult[]
      */
-    public function getProcessedUploads() : array
+    public function getProcessedUploads(): array
     {
         $uploads = [];
         if ($this->upload->hasUploads()) {
@@ -57,7 +57,7 @@ class InternalRequestService
      * @param int $index
      * @return string|null
      */
-    public function getUploadFilename(array $http_names, int $index) : ?string
+    public function getUploadFilename(array $http_names, int $index): ?string
     {
         $uploaded_files = $this->http->request()->getUploadedFiles();
 
@@ -71,7 +71,7 @@ class InternalRequestService
             if (isset($uploaded_files[$index]) && $http_names === []) {
                 /** @var \GuzzleHttp\Psr7\UploadedFile $file */
                 $file = $uploaded_files[$index];
-                $c = \Closure::bind(static function (\GuzzleHttp\Psr7\UploadedFile $file) : ?string {
+                $c = \Closure::bind(static function (\GuzzleHttp\Psr7\UploadedFile $file): ?string {
                     return $file->file ?? null;
                 }, null, $file);
 
@@ -81,38 +81,38 @@ class InternalRequestService
 
         return null;
     }
-    
-    public function upload() : \ILIAS\FileUpload\FileUpload
+
+    public function upload(): \ILIAS\FileUpload\FileUpload
     {
         return $this->upload;
     }
 
-    public function isset(string $key) : bool
+    public function isset(string $key): bool
     {
         return $this->raw($key) !== null;
     }
-    public function hasRefId() : int
+    public function hasRefId(): int
     {
         return $this->raw('ref_id') !== null;
     }
 
-    public function getRefId() : int
+    public function getRefId(): int
     {
         return $this->int("ref_id");
     }
 
-    public function hasQuestionId() : bool
+    public function hasQuestionId(): bool
     {
         return $this->raw('q_id') !== null;
     }
 
-    public function getQuestionId() : int
+    public function getQuestionId(): int
     {
         return $this->int('q_id');
     }
 
     /** @return string[] */
-    public function getIds() : array
+    public function getIds(): array
     {
         return $this->strArray("id");
     }
@@ -134,7 +134,7 @@ class InternalRequestService
     /**
      * @return int[]
      */
-    public function getUnitIds() : array
+    public function getUnitIds(): array
     {
         return $this->intArray("unit_ids");
     }
@@ -142,7 +142,7 @@ class InternalRequestService
     /**
      * @return int[]
      */
-    public function getUnitCategoryIds() : array
+    public function getUnitCategoryIds(): array
     {
         return $this->intArray("category_ids");
     }

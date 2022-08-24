@@ -1,4 +1,6 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -30,24 +32,24 @@ trait ModeProviderBase
     protected InternalService $service;
     protected UIModifier $ui_modifier;
 
-    public function getId() : int
+    public function getId(): int
     {
         return $this->id;
     }
 
-    public function getFeatureConfig() : FeatureConfig
+    public function getFeatureConfig(): FeatureConfig
     {
         return $this->feature_config;
     }
 
-    public function getUIModifier() : UIModifier
+    public function getUIModifier(): UIModifier
     {
         $mod = $this->ui_modifier;
         $mod->setInternalService($this->service);
         return $mod;
     }
 
-    public function setInternalService(InternalService $service) : void
+    public function setInternalService(InternalService $service): void
     {
         $this->service = $service;
     }

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -25,29 +27,28 @@ use LogicException;/**
 
 class ToolIdentificationProvider extends CoreIdentificationProvider implements ToolIdentificationProviderInterface
 {
-    
     /**
      * @inheritDoc
      */
-    public function contextAwareIdentifier(string $identifier_string, bool $ignore_context = false) : IdentificationInterface
+    public function contextAwareIdentifier(string $identifier_string, bool $ignore_context = false): IdentificationInterface
     {
         if ($ignore_context) {
             return parent::identifier($identifier_string);
         }
         global $DIC;
-        
+
         $get = $DIC->http()->request()->getQueryParams();
         if (isset($get['ref_id'])) {
             $identifier_string .= '_' . $get['ref_id'];
         }
-        
+
         return parent::identifier($identifier_string);
     }
-    
+
     /**
      * @inheritDoc
      */
-    public function identifier(string $identifier_string) : IdentificationInterface
+    public function identifier(string $identifier_string): IdentificationInterface
     {
         throw new LogicException('Tools must use contextAwareIdentifier');
     }

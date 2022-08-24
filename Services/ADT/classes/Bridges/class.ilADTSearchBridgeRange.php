@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * Class ilADTSearchBridgeRange
@@ -8,7 +10,7 @@ abstract class ilADTSearchBridgeRange extends ilADTSearchBridge
     protected ilADT $adt_lower;
     protected ilADT $adt_upper;
 
-    protected function setDefinition(ilADTDefinition $a_adt_def) : void
+    protected function setDefinition(ilADTDefinition $a_adt_def): void
     {
         if ($this->isValidADTDefinition($a_adt_def)) {
             $factory = ilADTFactory::getInstance();
@@ -24,7 +26,7 @@ abstract class ilADTSearchBridgeRange extends ilADTSearchBridge
      * Get lower ADT
      * @return ilADT | null
      */
-    public function getLowerADT() : ?ilADT
+    public function getLowerADT(): ?ilADT
     {
         return $this->adt_lower;
     }
@@ -33,12 +35,12 @@ abstract class ilADTSearchBridgeRange extends ilADTSearchBridge
      * Get upper ADT
      * @return ilADT | null
      */
-    public function getUpperADT() : ?ilADT
+    public function getUpperADT(): ?ilADT
     {
         return $this->adt_upper;
     }
 
-    public function isNull() : bool
+    public function isNull(): bool
     {
         if (!$this->getLowerADT() instanceof ilADT || !$this->getUpperADT() instanceof ilADT) {
             return false;
@@ -46,7 +48,7 @@ abstract class ilADTSearchBridgeRange extends ilADTSearchBridge
         return ($this->getLowerADT()->isNull() && $this->getUpperADT()->isNull());
     }
 
-    public function isValid() : bool
+    public function isValid(): bool
     {
         if (!$this->getLowerADT() instanceof ilADT || !$this->getUpperADT() instanceof ilADT) {
             return false;
@@ -54,7 +56,7 @@ abstract class ilADTSearchBridgeRange extends ilADTSearchBridge
         return ($this->getLowerADT()->isValid() && $this->getUpperADT()->isValid());
     }
 
-    public function validate() : bool
+    public function validate(): bool
     {
         if (!$this->getLowerADT() instanceof ilADT || !$this->getUpperADT() instanceof ilADT) {
             return false;

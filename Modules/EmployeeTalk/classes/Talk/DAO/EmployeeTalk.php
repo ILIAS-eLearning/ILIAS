@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 /**
@@ -70,7 +71,7 @@ final class EmployeeTalk
     /**
      * @return int
      */
-    public function getObjectId() : int
+    public function getObjectId(): int
     {
         return $this->objectId;
     }
@@ -79,7 +80,7 @@ final class EmployeeTalk
      * @param int $objectId
      * @return EmployeeTalk
      */
-    public function setObjectId(int $objectId) : EmployeeTalk
+    public function setObjectId(int $objectId): EmployeeTalk
     {
         $this->objectId = $objectId;
         return $this;
@@ -88,7 +89,7 @@ final class EmployeeTalk
     /**
      * @return ilDateTime
      */
-    public function getStartDate() : ilDateTime
+    public function getStartDate(): ilDateTime
     {
         return $this->startDate;
     }
@@ -97,7 +98,7 @@ final class EmployeeTalk
      * @param ilDateTime $startDate
      * @return EmployeeTalk
      */
-    public function setStartDate(ilDateTime $startDate) : EmployeeTalk
+    public function setStartDate(ilDateTime $startDate): EmployeeTalk
     {
         $this->startDate = $startDate;
         return $this;
@@ -106,7 +107,7 @@ final class EmployeeTalk
     /**
      * @return ilDateTime
      */
-    public function getEndDate() : ilDateTime
+    public function getEndDate(): ilDateTime
     {
         return $this->endDate;
     }
@@ -115,7 +116,7 @@ final class EmployeeTalk
      * @param ilDateTime $endDate
      * @return EmployeeTalk
      */
-    public function setEndDate(ilDateTime $endDate) : EmployeeTalk
+    public function setEndDate(ilDateTime $endDate): EmployeeTalk
     {
         $this->endDate = $endDate;
         return $this;
@@ -124,7 +125,7 @@ final class EmployeeTalk
     /**
      * @return bool
      */
-    public function isAllDay() : bool
+    public function isAllDay(): bool
     {
         return $this->allDay;
     }
@@ -133,7 +134,7 @@ final class EmployeeTalk
      * @param bool $allDay
      * @return EmployeeTalk
      */
-    public function setAllDay(bool $allDay) : EmployeeTalk
+    public function setAllDay(bool $allDay): EmployeeTalk
     {
         $this->allDay = $allDay;
         return $this;
@@ -142,7 +143,7 @@ final class EmployeeTalk
     /**
      * @return string
      */
-    public function getSeriesId() : string
+    public function getSeriesId(): string
     {
         return $this->seriesId;
     }
@@ -151,7 +152,7 @@ final class EmployeeTalk
      * @param string $seriesId
      * @return EmployeeTalk
      */
-    public function setSeriesId(string $seriesId) : EmployeeTalk
+    public function setSeriesId(string $seriesId): EmployeeTalk
     {
         $this->seriesId = $seriesId;
         return $this;
@@ -160,7 +161,7 @@ final class EmployeeTalk
     /**
      * @return string
      */
-    public function getLocation() : string
+    public function getLocation(): string
     {
         return $this->location;
     }
@@ -169,7 +170,7 @@ final class EmployeeTalk
      * @param string $location
      * @return EmployeeTalk
      */
-    public function setLocation(string $location) : EmployeeTalk
+    public function setLocation(string $location): EmployeeTalk
     {
         $this->location = $location;
         return $this;
@@ -178,7 +179,7 @@ final class EmployeeTalk
     /**
      * @return int
      */
-    public function getEmployee() : int
+    public function getEmployee(): int
     {
         return $this->employee;
     }
@@ -187,7 +188,7 @@ final class EmployeeTalk
      * @param int $employee
      * @return EmployeeTalk
      */
-    public function setEmployee(int $employee) : EmployeeTalk
+    public function setEmployee(int $employee): EmployeeTalk
     {
         $this->employee = $employee;
         return $this;
@@ -196,7 +197,7 @@ final class EmployeeTalk
     /**
      * @return bool
      */
-    public function isCompleted() : bool
+    public function isCompleted(): bool
     {
         return $this->completed;
     }
@@ -205,7 +206,7 @@ final class EmployeeTalk
      * @param bool $completed
      * @return EmployeeTalk
      */
-    public function setCompleted(bool $completed) : EmployeeTalk
+    public function setCompleted(bool $completed): EmployeeTalk
     {
         $this->completed = $completed;
         return $this;
@@ -214,7 +215,7 @@ final class EmployeeTalk
     /**
      * @return bool
      */
-    public function isStandalone() : bool
+    public function isStandalone(): bool
     {
         return $this->standalone;
     }
@@ -223,11 +224,9 @@ final class EmployeeTalk
      * @param bool $standalone
      * @return EmployeeTalk
      */
-    public function setStandalone(bool $standalone) : EmployeeTalk
+    public function setStandalone(bool $standalone): EmployeeTalk
     {
         $this->standalone = $standalone;
         return $this;
     }
-
-
 }

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -41,7 +43,7 @@ class ilSetting implements \ILIAS\Administration\Setting
     public array $setting = array();
     public string $module = "";
     protected bool $cache_disabled = false;
-    
+
     public function __construct(
         string $a_module = "common",
         bool $a_disabled_cache = false
@@ -50,7 +52,7 @@ class ilSetting implements \ILIAS\Administration\Setting
 
         $this->db = $DIC->database();
         $ilDB = $DIC->database();
-        
+
         $this->cache_disabled = $a_disabled_cache;
         $this->module = $a_module;
         // check whether ini file object exists
@@ -59,16 +61,16 @@ class ilSetting implements \ILIAS\Administration\Setting
         }
         $this->read();
     }
-    
-    public function getModule() : string
+
+    public function getModule(): string
     {
         return $this->module;
     }
-        
-    public function read() : void
+
+    public function read(): void
     {
         $ilDB = $this->db;
-        
+
         // get the settings from the cache if they exist.
         // The setting array of the class is a reference to the cache.
         // So changing settings in one instance will change them in all.
@@ -90,28 +92,28 @@ class ilSetting implements \ILIAS\Administration\Setting
             $this->setting[$row["keyword"]] = $row["value"];
         }
     }
-    
+
     /**
      * get setting
      */
     public function get(
         string $a_keyword,
         ?string $a_default_value = null
-    ) : ?string {
+    ): ?string {
         return $this->setting[$a_keyword] ?? $a_default_value;
     }
-    
-    public function deleteAll() : void
+
+    public function deleteAll(): void
     {
         $ilDB = $this->db;
-        
+
         $query = "DELETE FROM settings WHERE module = " . $ilDB->quote($this->module, "text");
         $ilDB->manipulate($query);
 
         $this->setting = array();
     }
-    
-    public function deleteLike(string $a_like) : void
+
+    public function deleteLike(string $a_like): void
     {
         $ilDB = $this->db;
 
@@ -124,7 +126,7 @@ class ilSetting implements \ILIAS\Administration\Setting
         }
     }
 
-    public function delete(string $a_keyword) : void
+    public function delete(string $a_keyword): void
     {
         $ilDB = $this->db;
 
@@ -134,16 +136,16 @@ class ilSetting implements \ILIAS\Administration\Setting
 
         unset($this->setting[$a_keyword]);
     }
-    
-    public function getAll() : array
+
+    public function getAll(): array
     {
         return $this->setting;
     }
 
-    public function set(string $a_key, string $a_val) : void
+    public function set(string $a_key, string $a_val): void
     {
         $ilDB = $this->db;
-        
+
         $this->delete($a_key);
 
         if (!isset(self::$value_type)) {
@@ -168,7 +170,7 @@ class ilSetting implements \ILIAS\Administration\Setting
      * @todo this must not be part of a general settings class
      * @deprecated
      */
-    public function setScormDebug(string $a_key, string $a_val) : void
+    public function setScormDebug(string $a_key, string $a_val): void
     {
         $ilDB = $this->db;
         if ($a_val !== "1") {
@@ -176,15 +178,15 @@ class ilSetting implements \ILIAS\Administration\Setting
         }
         $this->set($a_key, $a_val);
     }
-    
+
     public static function _lookupValue(
         string $a_module,
         string $a_keyword
-    ) : ?string {
+    ): ?string {
         global $DIC;
 
         $ilDB = $DIC->database();
-        
+
         $query = "SELECT value FROM settings WHERE module = %s AND keyword = %s";
         $res = $ilDB->queryF($query, array('text', 'text'), array($a_module, $a_keyword));
         $data = $ilDB->fetchAssoc($res);
@@ -195,7 +197,7 @@ class ilSetting implements \ILIAS\Administration\Setting
      * Get the type of the value column in the database
      * @throws ilDatabaseException
      */
-    public static function _getValueType() : string
+    public static function _getValueType(): string
     {
         $analyzer = new ilDBAnalyzer();
         $info = $analyzer->getFieldInformation('settings');
@@ -215,7 +217,7 @@ class ilSetting implements \ILIAS\Administration\Setting
      */
     public static function _changeValueType(
         string $a_new_type = 'text'
-    ) : bool {
+    ): bool {
         global $DIC;
 
         $ilDB = $DIC->database();
@@ -265,7 +267,7 @@ class ilSetting implements \ILIAS\Administration\Setting
      */
     public static function _getLongerSettings(
         int $a_limit = 4000
-    ) : array {
+    ): array {
         global $DIC;
 
         $ilDB = $DIC->database();

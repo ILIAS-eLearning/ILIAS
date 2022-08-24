@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -53,14 +55,14 @@ class ilSAHSEditGUI implements ilCtrlBaseClassInterface
         $this->wrapper = $DIC->http()->wrapper();
         $this->refinery = $DIC->refinery();
         $this->refId = $DIC->http()->wrapper()->query()->retrieve('ref_id', $DIC->refinery()->kindlyTo()->int());
-        
+
         $this->ctrl->saveParameter($this, "ref_id");
     }
 
     /**
      * @throws ilCtrlException
      */
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         global $DIC;
 
@@ -80,7 +82,7 @@ class ilSAHSEditGUI implements ilCtrlBaseClassInterface
         if (!$ilAccess->checkAccess("write", "", $this->refId)) {
             $ilErr->raiseError($lng->txt("permission_denied"), $ilErr->MESSAGE);
         }
-        
+
         // add entry to navigation history
         $ilNavigationHistory->addItem(
             $this->refId,
@@ -103,16 +105,16 @@ class ilSAHSEditGUI implements ilCtrlBaseClassInterface
             case "scorm2004":
                 $this->slm_gui = new ilObjSCORM2004LearningModuleGUI([], $this->refId, true, false);
                 break;
-                
+
         }
 
         if ($next_class == "") {
             switch ($type) {
-                
+
                 case "scorm2004":
                     $this->ctrl->setCmdClass("ilobjscorm2004learningmodulegui");
                     break;
-                    
+
                 case "scorm":
                     $this->ctrl->setCmdClass("ilobjscormlearningmodulegui");
                     break;
@@ -158,7 +160,7 @@ class ilSAHSEditGUI implements ilCtrlBaseClassInterface
         default:
             die("ilSAHSEdit: Class $next_class not found.");
         }
-        
+
         $this->tpl->printToStdout();
     }
 }

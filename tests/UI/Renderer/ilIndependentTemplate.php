@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 require_once("libs/composer/vendor/autoload.php");
 
 // Do the require-dance for ilTemplate.
@@ -47,7 +49,7 @@ class ilIndependentGlobalTemplate extends ilGlobalTemplate implements \ILIAS\UI\
         bool $add_standard_elements = false,
         bool $a_main_menu = true,
         bool $a_tabs = true
-    ) : string {
+    ): string {
         return $this->template->get($part);
     }
 }
@@ -59,7 +61,7 @@ class ilIndependantTemplate extends ilTemplate
      * Copy from Service/PEAR/lib/HTML/Template/IT.php with GlobalCache-stuff
      * removed.
      */
-    public function getFile(string $filename) : string
+    public function getFile(string $filename): string
     {
         if ($filename[0] === '/' && substr($this->fileRoot, -1) === '/') {
             $filename = substr($filename, 1);
@@ -71,7 +73,7 @@ class ilIndependantTemplate extends ilTemplate
         $this->real_filename = $filename;
 
         if (!($fh = @fopen($filename, 'rb'))) {
-            $this->err[] = (new PEAR)->raiseError(
+            $this->err[] = (new PEAR())->raiseError(
                 $this->errorMessage(self::IT_TPL_NOT_FOUND) .
                 ': "' . $filename . '"',
                 self::IT_TPL_NOT_FOUND
@@ -105,12 +107,12 @@ class ilIndependantTemplate extends ilTemplate
         string $filename,
         bool $removeUnknownVariables = true,
         bool $removeEmptyBlocks = true
-    ) : bool {
+    ): bool {
         return HTML_Template_IT::loadTemplatefile($filename, $removeUnknownVariables, $removeEmptyBlocks);
     }
 
     // Small adjustment to fit \ILIAS\UI\Implementation\Template and call to
-    public function get(string $part = null) : string
+    public function get(string $part = null): string
     {
         if ($part === null) {
             $part = self::IT_DEFAULT_BLOCK;

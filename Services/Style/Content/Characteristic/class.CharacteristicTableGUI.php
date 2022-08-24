@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -109,7 +111,7 @@ class CharacteristicTableGUI extends ilTable2GUI
 
                 $this->addCommandButton("saveStatus", $txt);
             }
-    
+
             $this->addMultiCommand("copyCharacteristics", $this->lng->txt("copy"));
             $this->addMultiCommand("setOutdated", $this->lng->txt("sty_set_outdated"));
             $this->addMultiCommand("removeOutdated", $this->lng->txt("sty_remove_outdated"));
@@ -119,11 +121,11 @@ class CharacteristicTableGUI extends ilTable2GUI
                 $this->addMultiCommand("deleteCharacteristicConfirmation", $this->lng->txt("delete"));
             }
         }
-        
+
         $this->setEnableTitle(true);
     }
 
-    protected function getItems() : void
+    protected function getItems(): void
     {
         $data = [];
         foreach ($this->manager->getBySuperType($this->super_type) as $char) {
@@ -134,7 +136,7 @@ class CharacteristicTableGUI extends ilTable2GUI
         $this->setData($data);
     }
 
-    protected function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set): void
     {
         $lng = $this->lng;
         $ilCtrl = $this->gui_service->ctrl();

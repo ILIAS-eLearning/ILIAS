@@ -1,4 +1,6 @@
-<?php declare(strict_types=0);
+<?php
+
+declare(strict_types=0);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -14,7 +16,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * @author  Stefan Meyer <meyer@leifos.com>
  * @ingroup ModulesCourse
@@ -35,7 +37,7 @@ class ilCourseParticipant extends ilParticipant
         parent::__construct(self::COMPONENT_NAME, $a_obj_id, $a_usr_id);
     }
 
-    public static function _getInstanceByObjId(int $a_obj_id, int $a_usr_id) : ilCourseParticipant
+    public static function _getInstanceByObjId(int $a_obj_id, int $a_usr_id): ilCourseParticipant
     {
         if (isset(self::$instances[$a_obj_id][$a_usr_id]) && self::$instances[$a_obj_id][$a_usr_id]) {
             return self::$instances[$a_obj_id][$a_usr_id];

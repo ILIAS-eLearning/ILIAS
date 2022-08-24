@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -40,7 +42,7 @@ class ilCronJobRepositoryImpl implements ilCronJobRepository
         $this->componentFactory = $componentFactory;
     }
 
-    public function getJobInstanceById(string $id) : ?ilCronJob
+    public function getJobInstanceById(string $id): ?ilCronJob
     {
         // plugin
         if (strpos($id, 'pl__') === 0) {
@@ -95,13 +97,13 @@ class ilCronJobRepositoryImpl implements ilCronJobRepository
         string $a_component,
         string $a_class,
         bool $isCreationContext = false
-    ) : ?ilCronJob {
+    ): ?ilCronJob {
         if (class_exists($a_class)) {
             if ($isCreationContext) {
                 $refl = new ReflectionClass($a_class);
                 $job = $refl->newInstanceWithoutConstructor();
             } else {
-                $job = new $a_class;
+                $job = new $a_class();
             }
 
             if ($job instanceof ilCronJob && $job->getId() === $a_id) {
@@ -118,7 +120,7 @@ class ilCronJobRepositoryImpl implements ilCronJobRepository
      * @param bool $withInactiveJobsIncluded
      * @return array<int, array<string, mixed>>
      */
-    public function getCronJobData($id = null, bool $withInactiveJobsIncluded = true) : array
+    public function getCronJobData($id = null, bool $withInactiveJobsIncluded = true): array
     {
         $jobData = [];
 
@@ -155,7 +157,7 @@ class ilCronJobRepositoryImpl implements ilCronJobRepository
         string $a_id,
         string $a_class,
         ?string $a_path
-    ) : void {
+    ): void {
         if (!$this->db->tableExists('cron_job')) {
             return;
         }
@@ -166,7 +168,7 @@ class ilCronJobRepositoryImpl implements ilCronJobRepository
         }
     }
 
-    public function unregisterJob(string $a_component, array $a_xml_job_ids) : void
+    public function unregisterJob(string $a_component, array $a_xml_job_ids): void
     {
         if (!$this->db->tableExists('cron_job')) {
             return;
@@ -201,7 +203,7 @@ class ilCronJobRepositoryImpl implements ilCronJobRepository
         string $component,
         string $class,
         ?string $path
-    ) : void {
+    ): void {
         $query = "SELECT job_id, schedule_type, component, class, path FROM cron_job" .
             " WHERE job_id = " . $this->db->quote($job->getId(), "text");
         $res = $this->db->query($query);
@@ -266,7 +268,7 @@ class ilCronJobRepositoryImpl implements ilCronJobRepository
      * @param bool $withOnlyActive
      * @return array<int, array{0: ilCronJob, 1: array<string, mixed>}>
      */
-    public function getPluginJobs(bool $withOnlyActive = false) : array
+    public function getPluginJobs(bool $withOnlyActive = false): array
     {
         $res = [];
         foreach ($this->componentRepository->getPlugins() as $pl) {
@@ -300,8 +302,8 @@ class ilCronJobRepositoryImpl implements ilCronJobRepository
 
         return $res;
     }
-    
-    public function resetJob(ilCronJob $job) : void
+
+    public function resetJob(ilCronJob $job): void
     {
         $this->db->manipulate('UPDATE cron_job' .
             ' SET running_ts = ' . $this->db->quote(0, 'integer') .
@@ -315,7 +317,7 @@ class ilCronJobRepositoryImpl implements ilCronJobRepository
         ilObjUser $actor,
         ilCronJobResult $result,
         bool $wasManualExecution = false
-    ) : void {
+    ): void {
         $user_id = $wasManualExecution ? $actor->getId() : 0;
 
         $query = 'UPDATE cron_job SET ' .
@@ -329,8 +331,8 @@ class ilCronJobRepositoryImpl implements ilCronJobRepository
             ' WHERE job_id = ' . $this->db->quote($job->getId(), 'text');
         $this->db->manipulate($query);
     }
-    
-    public function updateRunInformation(string $jobId, int $runningTimestamp, int $aliveTimestamp) : void
+
+    public function updateRunInformation(string $jobId, int $runningTimestamp, int $aliveTimestamp): void
     {
         $this->db->manipulate('UPDATE cron_job SET' .
             ' running_ts = ' . $this->db->quote(0, 'integer') .
@@ -338,7 +340,7 @@ class ilCronJobRepositoryImpl implements ilCronJobRepository
             ' WHERE job_id = ' . $this->db->quote($jobId, 'text'));
     }
 
-    public function updateJobSchedule(ilCronJob $job, ?int $scheduleType, ?int $scheduleValue) : void
+    public function updateJobSchedule(ilCronJob $job, ?int $scheduleType, ?int $scheduleValue): void
     {
         if (
             $scheduleType === null ||
@@ -352,7 +354,7 @@ class ilCronJobRepositoryImpl implements ilCronJobRepository
         }
     }
 
-    public function activateJob(ilCronJob $job, ?ilObjUser $actor = null, bool $wasManuallyExecuted = false) : void
+    public function activateJob(ilCronJob $job, ?ilObjUser $actor = null, bool $wasManuallyExecuted = false): void
     {
         $usrId = 0;
         if ($wasManuallyExecuted && $actor instanceof ilObjUser) {
@@ -368,7 +370,7 @@ class ilCronJobRepositoryImpl implements ilCronJobRepository
         $this->db->manipulate($query);
     }
 
-    public function deactivateJob(ilCronJob $job, ilObjUser $actor, bool $wasManuallyExecuted = false) : void
+    public function deactivateJob(ilCronJob $job, ilObjUser $actor, bool $wasManuallyExecuted = false): void
     {
         $usrId = $wasManuallyExecuted ? $actor->getId() : 0;
 
@@ -381,7 +383,7 @@ class ilCronJobRepositoryImpl implements ilCronJobRepository
         $this->db->manipulate($query);
     }
 
-    public function findAll() : ilCronJobCollection
+    public function findAll(): ilCronJobCollection
     {
         $collection = new ilCronJobEntities();
 

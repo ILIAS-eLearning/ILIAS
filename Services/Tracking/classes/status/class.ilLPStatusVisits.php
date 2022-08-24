@@ -1,4 +1,6 @@
-<?php declare(strict_types=0);
+<?php
+
+declare(strict_types=0);
 
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
@@ -8,7 +10,7 @@
  */
 class ilLPStatusVisits extends ilLPStatus
 {
-    public static function _getInProgress(int $a_obj_id) : array
+    public static function _getInProgress(int $a_obj_id): array
     {
         global $DIC;
 
@@ -27,7 +29,7 @@ class ilLPStatusVisits extends ilLPStatus
         return $user_ids;
     }
 
-    public static function _getCompleted(int $a_obj_id) : array
+    public static function _getCompleted(int $a_obj_id): array
     {
         global $DIC;
 
@@ -46,7 +48,7 @@ class ilLPStatusVisits extends ilLPStatus
         return $user_ids;
     }
 
-    public static function _getStatusInfo(int $a_obj_id) : array
+    public static function _getStatusInfo(int $a_obj_id): array
     {
         $status_info['visits'] = ilLPObjSettings::_lookupVisits($a_obj_id);
         return $status_info;
@@ -56,7 +58,7 @@ class ilLPStatusVisits extends ilLPStatus
         int $a_obj_id,
         int $a_usr_id,
         object $a_obj = null
-    ) : int {
+    ): int {
         global $DIC;
 
         $ilObjDataCache = $DIC['ilObjDataCache'];
@@ -89,7 +91,7 @@ class ilLPStatusVisits extends ilLPStatus
         int $a_obj_id,
         int $a_usr_id,
         ?object $a_obj = null
-    ) : int {
+    ): int {
         $reqv = ilLPObjSettings::_lookupVisits($a_obj_id);
 
         $re = ilChangeEvent::_lookupReadEvents($a_obj_id, $a_usr_id);

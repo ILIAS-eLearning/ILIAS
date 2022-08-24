@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
 
@@ -18,7 +20,7 @@ class ilObjGroupAccess extends ilObjectAccess
     /**
      * @inheritDoc
      */
-    public function _checkAccess(string $cmd, string $permission, int $ref_id, int $obj_id, ?int $user_id = null) : bool
+    public function _checkAccess(string $cmd, string $permission, int $ref_id, int $obj_id, ?int $user_id = null): bool
     {
         global $DIC;
 
@@ -29,19 +31,19 @@ class ilObjGroupAccess extends ilObjectAccess
         if (is_null($user_id)) {
             $user_id = $ilUser->getId();
         }
-        
+
         switch ($cmd) {
             case "info":
-            
+
                 if (ilGroupParticipants::_isParticipant($ref_id, $user_id)) {
                     $ilAccess->addInfoItem(ilAccessInfo::IL_STATUS_INFO, $lng->txt("info_is_member"));
                 } else {
                     $ilAccess->addInfoItem(ilAccessInfo::IL_STATUS_INFO, $lng->txt("info_is_not_member"));
                 }
                 break;
-                
+
             case "join":
-            
+
                 if (!self::_registrationEnabled($obj_id)) {
                     return false;
                 }
@@ -54,7 +56,7 @@ class ilObjGroupAccess extends ilObjectAccess
                     return false;
                 }
                 break;
-                
+
             case 'leave':
 
                 // Regular member
@@ -67,7 +69,7 @@ class ilObjGroupAccess extends ilObjectAccess
                         );
                         return false;
                     }
-                    
+
                     if (!ilGroupParticipants::_isParticipant($ref_id, $user_id)) {
                         return false;
                     }
@@ -79,7 +81,7 @@ class ilObjGroupAccess extends ilObjectAccess
                     }
                 }
                 break;
-                
+
         }
 
         switch ($permission) {
@@ -92,7 +94,7 @@ class ilObjGroupAccess extends ilObjectAccess
     /**
      * @inheritDoc
      */
-    public static function _getCommands() : array
+    public static function _getCommands(): array
     {
         $commands = array();
         $commands[] = array("permission" => "grp_linked", "cmd" => "", "lang_var" => "show", "default" => true);
@@ -101,10 +103,10 @@ class ilObjGroupAccess extends ilObjectAccess
 
         // on waiting list
         $commands[] = array('permission' => "join", "cmd" => "leave", "lang_var" => "leave_waiting_list");
-        
+
         // regualar users
         $commands[] = array('permission' => "leave", "cmd" => "leave", "lang_var" => "grp_btn_unsubscribe");
-        
+
         if (ilDAVActivationChecker::_isActive()) {
             $webdav_obj = new ilObjWebDAV();
             $commands[] = $webdav_obj->retrieveWebDAVCommandArrayForActionMenu();
@@ -112,14 +114,14 @@ class ilObjGroupAccess extends ilObjectAccess
 
         $commands[] = array("permission" => "write", "cmd" => "enableAdministrationPanel", "lang_var" => "edit_content");
         $commands[] = array("permission" => "write", "cmd" => "edit", "lang_var" => "settings");
-        
+
         return $commands;
     }
-    
+
     /**
      * @inheritDoc
     */
-    public static function _checkGoto(string $target) : bool
+    public static function _checkGoto(string $target): bool
     {
         global $DIC;
 
@@ -143,8 +145,8 @@ class ilObjGroupAccess extends ilObjectAccess
         }
         return false;
     }
-    
-    public static function _registrationEnabled(int $a_obj_id) : bool
+
+    public static function _registrationEnabled(int $a_obj_id): bool
     {
         global $DIC;
 
@@ -153,7 +155,7 @@ class ilObjGroupAccess extends ilObjectAccess
             "WHERE obj_id = " . $ilDB->quote($a_obj_id, 'integer') . " ";
 
         $res = $ilDB->query($query);
-        
+
         $enabled = $unlimited = false;
         $start = $end = 0;
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
@@ -174,33 +176,33 @@ class ilObjGroupAccess extends ilObjectAccess
         $time = new ilDateTime(time(), IL_CAL_UNIX);
         return ilDateTime::_after($time, $start) and ilDateTime::_before($time, $end);
     }
-    
+
 
     /**
      * @inheritDoc
      */
-    public static function _preloadData(array $obj_ids, array $ref_ids) : void
+    public static function _preloadData(array $obj_ids, array $ref_ids): void
     {
         global $DIC;
 
         $ilDB = $DIC->database();
         $ilUser = $DIC->user();
-        
+
         ilGroupWaitingList::_preloadOnListInfo([$ilUser->getId()], $obj_ids);
     }
-    
-    public static function lookupRegistrationInfo(int $a_obj_id) : array
+
+    public static function lookupRegistrationInfo(int $a_obj_id): array
     {
         global $DIC;
 
         $ilDB = $DIC->database();
         $lng = $DIC->language();
-        
+
         $query = 'SELECT registration_type, registration_enabled, registration_unlimited,  registration_start, ' .
             'registration_end, registration_mem_limit, registration_max_members FROM grp_settings ' .
             'WHERE obj_id = ' . $ilDB->quote($a_obj_id, ilDBConstants::T_INTEGER);
         $res = $ilDB->query($query);
-        
+
         $info = array();
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             $info['reg_info_start'] = new ilDateTime($row->registration_start, IL_CAL_DATETIME);
@@ -208,15 +210,15 @@ class ilObjGroupAccess extends ilObjectAccess
             $info['reg_info_type'] = $row->registration_type;
             $info['reg_info_mem_limit'] = $row->registration_mem_limit;
             $info['reg_info_unlimited'] = $row->registration_unlimited;
-            
+
             $info['reg_info_max_members'] = 0;
             if ($info['reg_info_mem_limit']) {
                 $info['reg_info_max_members'] = $row->registration_max_members;
             }
-            
+
             $info['reg_info_enabled'] = $row->registration_enabled;
         }
-        
+
         $registration_possible = $info['reg_info_enabled'];
 
         // Limited registration (added $registration_possible, see bug 0010157)
@@ -241,7 +243,7 @@ class ilObjGroupAccess extends ilObjectAccess
                 $info['reg_info_list_prop']['value'] = $lng->txt('grp_list_reg_noreg');
             }
         }
-        
+
         if ($info['reg_info_mem_limit'] && $info['reg_info_max_members'] && $registration_possible) {
             // Check for free places
             $part = ilGroupParticipants::_getInstanceByObjId($a_obj_id);
@@ -270,7 +272,7 @@ class ilObjGroupAccess extends ilObjectAccess
      * @return array<{property: string, value: string}> | null
      * @throws ilDateTimeException
      */
-    public static function lookupPeriodInfo(int $a_obj_id) : ?array
+    public static function lookupPeriodInfo(int $a_obj_id): ?array
     {
         global $DIC;
 
@@ -311,7 +313,7 @@ class ilObjGroupAccess extends ilObjectAccess
         return null;
     }
 
-    public static function _usingRegistrationCode() : bool
+    public static function _usingRegistrationCode(): bool
     {
         return self::$using_code;
     }

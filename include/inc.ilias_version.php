@@ -1,4 +1,5 @@
 <?php
+
 /* Copyright (c) 1998-2020 ILIAS open source e-Learning e.V., Extended GPL, see docs/LICENSE */
 
 /**

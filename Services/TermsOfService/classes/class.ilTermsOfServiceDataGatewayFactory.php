@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -24,12 +26,12 @@ class ilTermsOfServiceDataGatewayFactory
 {
     protected ?ilDBInterface $db = null;
 
-    public function setDatabaseAdapter(?ilDBInterface $db) : void
+    public function setDatabaseAdapter(?ilDBInterface $db): void
     {
         $this->db = $db;
     }
 
-    public function getDatabaseAdapter() : ?ilDBInterface
+    public function getDatabaseAdapter(): ?ilDBInterface
     {
         return $this->db;
     }
@@ -40,7 +42,7 @@ class ilTermsOfServiceDataGatewayFactory
      * @throws InvalidArgumentException
      * @throws ilTermsOfServiceMissingDatabaseAdapterException
      */
-    public function getByName(string $name) : ilTermsOfServiceAcceptanceDataGateway
+    public function getByName(string $name): ilTermsOfServiceAcceptanceDataGateway
     {
         if (null === $this->db) {
             throw new ilTermsOfServiceMissingDatabaseAdapterException('Incomplete factory configuration. Please inject a database adapter.');

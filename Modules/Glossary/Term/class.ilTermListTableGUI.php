@@ -38,7 +38,7 @@ class ilTermListTableGUI extends ilTable2GUI
         int $a_tax_node
     ) {
         global $DIC;
-        
+
         $this->glossary = $a_parent_obj->getObject();
         $this->setId("glotl" . $this->glossary->getId());
         $this->tax_node = $a_tax_node;
@@ -68,10 +68,10 @@ class ilTermListTableGUI extends ilTable2GUI
             "default" => true);
 
         // selectable columns of advanced metadata
-        
+
         parent::__construct($a_parent_obj, $a_parent_cmd);
         $this->setTitle($this->lng->txt("cont_terms"));
-        
+
         $this->addColumn("", "", "1", true);
         //$this->addColumn($this->lng->txt("cont_term"));
 
@@ -95,13 +95,13 @@ class ilTermListTableGUI extends ilTable2GUI
         $this->setDefaultOrderDirection("asc");
         $this->setDefaultOrderField("term");
         $this->addColumn($this->lng->txt("cont_definitions"));
-        
+
         if ($this->showGlossaryColumn()) {
             $this->addColumn($this->lng->txt("obj_glo"));
         }
 
         $this->addColumn("", "", "1");
-        
+
         $this->setEnableHeader(true);
         $this->setFormAction($this->ctrl->getFormAction($a_parent_obj));
         $this->setRowTemplate("tpl.term_tbl_row.html", "Modules/Glossary");
@@ -111,7 +111,7 @@ class ilTermListTableGUI extends ilTable2GUI
         $this->addMultiCommand("referenceTerms", $this->lng->txt("glo_reference"));
         $this->addMultiCommand("confirmTermDeletion", $this->lng->txt("delete"));
         //$this->addMultiCommand("addDefinition", $this->lng->txt("cont_add_definition"));
-        
+
         $this->setShowRowsSelector(true);
 
         $this->initFilter();
@@ -128,7 +128,7 @@ class ilTermListTableGUI extends ilTable2GUI
         ));
     }
 
-    public function showGlossaryColumn() : bool
+    public function showGlossaryColumn(): bool
     {
         return (in_array(
             $this->glossary->getVirtualMode(),
@@ -137,12 +137,12 @@ class ilTermListTableGUI extends ilTable2GUI
     }
 
 
-    public function getSelectableColumns() : array
+    public function getSelectableColumns(): array
     {
         return $this->selectable_cols;
     }
 
-    public function numericOrdering(string $a_field) : bool
+    public function numericOrdering(string $a_field): bool
     {
         if (strpos($a_field, "md_") === 0) {
             $md_id = (int) substr($a_field, 3);
@@ -153,7 +153,7 @@ class ilTermListTableGUI extends ilTable2GUI
         return false;
     }
 
-    public function initFilter() : void
+    public function initFilter(): void
     {
         // term
         $ti = new ilTextInputGUI($this->lng->txt("cont_term"), "term");
@@ -163,7 +163,7 @@ class ilTermListTableGUI extends ilTable2GUI
         $this->addFilterItem($ti);
         $ti->readFromSession();
         $this->filter["term"] = $ti->getValue();
-        
+
         // definition
         if ($this->glossary->supportsLongTextQuery()) {
             $ti = new ilTextInputGUI($this->lng->txt("cont_definition"), "defintion");
@@ -176,7 +176,7 @@ class ilTermListTableGUI extends ilTable2GUI
         }
     }
 
-    protected function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set): void
     {
         $defs = ilGlossaryDefinition::getDefinitionList($a_set["id"]);
         $this->ctrl->setParameterByClass("ilobjglossarygui", "term_id", $a_set["id"]);
@@ -275,7 +275,7 @@ class ilTermListTableGUI extends ilTable2GUI
             $this->tpl->setCurrentBlock("td_usage");
             $this->tpl->parseCurrentBlock();
         }
-        
+
         // glossary title
         if ($this->showGlossaryColumn()) {
             $this->tpl->setCurrentBlock("glossary");
@@ -298,7 +298,7 @@ class ilTermListTableGUI extends ilTable2GUI
                 $this->tpl->parseCurrentBlock();
             } elseif (in_array("md_" . $c["id"], $this->selected_cols)) {
                 $id = (int) $c["id"];
-                
+
                 $val = " ";
                 if (isset($a_set["md_" . $id . "_presentation"])) {
                     $pb = $a_set["md_" . $id . "_presentation"]->getHTML();
@@ -306,7 +306,7 @@ class ilTermListTableGUI extends ilTable2GUI
                         $val = $pb;
                     }
                 }
-                                    
+
                 $this->tpl->setCurrentBlock("td");
                 $this->tpl->setVariable("TD_VAL", $val);
                 $this->tpl->parseCurrentBlock();

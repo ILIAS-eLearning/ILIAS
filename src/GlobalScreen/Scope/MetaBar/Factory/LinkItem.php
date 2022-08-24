@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -40,7 +42,7 @@ class LinkItem extends AbstractChildItem implements isItem, hasTitle, hasSymbol,
         $this->renderer = new LinkItemRenderer();
     }
 
-    public function withAction(string $action) : self
+    public function withAction(string $action): self
     {
         $clone = clone($this);
         $clone->action = $action;
@@ -51,7 +53,7 @@ class LinkItem extends AbstractChildItem implements isItem, hasTitle, hasSymbol,
     /**
      * @return string
      */
-    public function getAction() : string
+    public function getAction(): string
     {
         return $this->action;
     }
@@ -59,7 +61,7 @@ class LinkItem extends AbstractChildItem implements isItem, hasTitle, hasSymbol,
     /**
      * @inheritDoc
      */
-    public function withSymbol(Symbol $symbol) : hasSymbol
+    public function withSymbol(Symbol $symbol): hasSymbol
     {
         $clone = clone($this);
         $clone->symbol = $symbol;
@@ -70,7 +72,7 @@ class LinkItem extends AbstractChildItem implements isItem, hasTitle, hasSymbol,
     /**
      * @inheritDoc
      */
-    public function getSymbol() : Symbol
+    public function getSymbol(): Symbol
     {
         return $this->symbol;
     }
@@ -78,7 +80,7 @@ class LinkItem extends AbstractChildItem implements isItem, hasTitle, hasSymbol,
     /**
      * @inheritDoc
      */
-    public function hasSymbol() : bool
+    public function hasSymbol(): bool
     {
         return ($this->symbol instanceof Symbol);
     }
@@ -86,7 +88,7 @@ class LinkItem extends AbstractChildItem implements isItem, hasTitle, hasSymbol,
     /**
      * @inheritDoc
      */
-    public function withTitle(string $title) : hasTitle
+    public function withTitle(string $title): hasTitle
     {
         $clone = clone($this);
         $clone->title = $title;
@@ -97,7 +99,7 @@ class LinkItem extends AbstractChildItem implements isItem, hasTitle, hasSymbol,
     /**
      * @inheritDoc
      */
-    public function getTitle() : string
+    public function getTitle(): string
     {
         return $this->title;
     }

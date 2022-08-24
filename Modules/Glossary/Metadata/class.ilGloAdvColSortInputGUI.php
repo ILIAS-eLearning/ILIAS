@@ -37,37 +37,37 @@ class ilGloAdvColSortInputGUI extends ilFormPropertyGUI
         parent::__construct($a_title, $a_id);
         $this->setType("glo_adv_col_sort");
     }
-    
-    public function setValue(array $a_value) : void
+
+    public function setValue(array $a_value): void
     {
         $this->value = $a_value;
     }
 
-    public function getValue() : array
+    public function getValue(): array
     {
         return $this->value;
     }
 
-    
+
     /**
      * Input should always be valid, since we sort only
      */
-    public function checkInput() : bool
+    public function checkInput(): bool
     {
         return true;
     }
 
-    public function getInput() : array
+    public function getInput(): array
     {
         $val = $this->arrayArray($this->getPostVar());
         $val = ilArrayUtil::stripSlashesRecursive($val);
         return $val;
     }
 
-    public function render() : string
+    public function render(): string
     {
         $lng = $this->lng;
-        
+
         $tpl = new ilTemplate("tpl.adv_col_sort_input.html", true, true, "Modules/Glossary");
         if (is_array($this->getValue())) {
             foreach ($this->getValue() as $k => $v) {
@@ -85,25 +85,25 @@ class ilGloAdvColSortInputGUI extends ilFormPropertyGUI
                 $tpl->parseCurrentBlock();
             }
         }
-        
+
         return $tpl->get();
     }
-    
-    public function insert(ilTemplate $a_tpl) : void
+
+    public function insert(ilTemplate $a_tpl): void
     {
         $a_tpl->setCurrentBlock("prop_generic");
         $a_tpl->setVariable("PROP_GENERIC", $this->render());
         $a_tpl->parseCurrentBlock();
     }
-    
-    public function setValueByArray(array $a_values) : void
+
+    public function setValueByArray(array $a_values): void
     {
         if ($this->getPostVar() && isset($a_values[$this->getPostVar()])) {
             $this->setValue($a_values[$this->getPostVar()]);
         }
     }
-    
-    public function getTableFilterHTML() : string
+
+    public function getTableFilterHTML(): string
     {
         $html = $this->render();
         return $html;

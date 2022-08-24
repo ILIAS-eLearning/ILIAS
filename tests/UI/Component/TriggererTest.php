@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 require_once("libs/composer/vendor/autoload.php");
 
 use ILIAS\UI\Component;
@@ -32,12 +34,12 @@ class Triggerermock implements Component\Triggerer
     use JavaScriptBindable;
     use ComponentHelper;
 
-    public function _appendTriggeredSignal(Component\Signal $signal, string $event) : Component\Triggerer
+    public function _appendTriggeredSignal(Component\Signal $signal, string $event): Component\Triggerer
     {
         return $this->appendTriggeredSignal($signal, $event);
     }
 
-    public function _withTriggeredSignal(Component\Signal $signal, string $event) : Component\Triggerer
+    public function _withTriggeredSignal(Component\Signal $signal, string $event): Component\Triggerer
     {
         return $this->withTriggeredSignal($signal, $event);
     }
@@ -56,7 +58,7 @@ class ILIAS_UI_Component_TriggererTest extends TestCase
     protected Triggerermock $mock;
     protected int $signal_mock_counter = 0;
 
-    public function setUp() : void
+    public function setUp(): void
     {
         $this->mock = new TriggererMock();
     }
@@ -76,12 +78,12 @@ class ILIAS_UI_Component_TriggererTest extends TestCase
             ->getMock();
     }
 
-    public function testStartEmpty() : void
+    public function testStartEmpty(): void
     {
         $this->assertEquals([], $this->mock->getTriggeredSignals());
     }
 
-    public function testAppendTriggeredSignalIsImmutable() : void
+    public function testAppendTriggeredSignalIsImmutable(): void
     {
         $signal = $this->getSignalMock();
 
@@ -89,7 +91,7 @@ class ILIAS_UI_Component_TriggererTest extends TestCase
         $this->assertNotSame($mock, $this->mock);
     }
 
-    public function testAppendTriggeredSignal() : void
+    public function testAppendTriggeredSignal(): void
     {
         $signal1 = $this->getSignalMock();
         $signal2 = $this->getSignalMock();
@@ -108,7 +110,7 @@ class ILIAS_UI_Component_TriggererTest extends TestCase
         );
     }
 
-    public function testWithTriggeredSignalIsImmutable() : void
+    public function testWithTriggeredSignalIsImmutable(): void
     {
         $signal = $this->getSignalMock();
 
@@ -117,7 +119,7 @@ class ILIAS_UI_Component_TriggererTest extends TestCase
         $this->assertNotSame($mock, $this->mock);
     }
 
-    public function testWithTriggeredSignal() : void
+    public function testWithTriggeredSignal(): void
     {
         $signal1 = $this->getSignalMock();
         $signal2 = $this->getSignalMock();
@@ -129,7 +131,7 @@ class ILIAS_UI_Component_TriggererTest extends TestCase
         $this->assertEquals([new TriggeredSignal($signal2, "some_event")], $mock2->getTriggeredSignals());
     }
 
-    public function testSetTriggeredSignal() : void
+    public function testSetTriggeredSignal(): void
     {
         $signal1 = $this->getSignalMock();
         $signal2 = $this->getSignalMock();
@@ -140,14 +142,14 @@ class ILIAS_UI_Component_TriggererTest extends TestCase
         $this->assertEquals([new TriggeredSignal($signal2, "some_event")], $this->mock->getTriggeredSignals());
     }
 
-    public function testWithResetTriggeredSignalIsImmutable() : void
+    public function testWithResetTriggeredSignalIsImmutable(): void
     {
         $this->getSignalMock();
         $mock = $this->mock->withResetTriggeredSignals();
         $this->assertNotSame($mock, $this->mock);
     }
 
-    public function testWithResetTriggeredSignal() : void
+    public function testWithResetTriggeredSignal(): void
     {
         $signal1 = $this->getSignalMock();
         $signal2 = $this->getSignalMock();
@@ -160,13 +162,13 @@ class ILIAS_UI_Component_TriggererTest extends TestCase
         $this->assertEquals([], $mock->getTriggeredSignals());
     }
 
-    public function testGetTriggeredSignalsForNonRegisteredSignal() : void
+    public function testGetTriggeredSignalsForNonRegisteredSignal(): void
     {
         $signals = $this->mock->getTriggeredSignalsFor("some_event");
         $this->assertEquals([], $signals);
     }
 
-    public function testGetTriggeredSignals() : void
+    public function testGetTriggeredSignals(): void
     {
         $signal1 = $this->getSignalMock();
         $signal2 = $this->getSignalMock();

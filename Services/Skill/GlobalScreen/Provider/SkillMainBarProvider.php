@@ -32,11 +32,10 @@ use ilSetting;
  */
 class SkillMainBarProvider extends AbstractStaticMainMenuProvider
 {
-
     /**
      * @inheritDoc
      */
-    public function getStaticTopItems() : array
+    public function getStaticTopItems(): array
     {
         return [];
     }
@@ -45,7 +44,7 @@ class SkillMainBarProvider extends AbstractStaticMainMenuProvider
     /**
      * @inheritDoc
      */
-    public function getStaticSubItems() : array
+    public function getStaticSubItems(): array
     {
         global $DIC;
 
@@ -67,7 +66,7 @@ class SkillMainBarProvider extends AbstractStaticMainMenuProvider
                 ->withSymbol($icon)
                 ->withNonAvailableReason($this->dic->ui()->factory()->legacy($this->dic->language()->txt('component_not_active')))
                 ->withAvailableCallable(
-                    static function () : bool {
+                    static function (): bool {
                         $skmg_set = new ilSetting("skmg");
 
                         return (bool) ($skmg_set->get("enable_skmg"));

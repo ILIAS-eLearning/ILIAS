@@ -70,7 +70,7 @@ class ilAccessibilityControlConceptGUI implements ilCtrlBaseClassInterface
         $gtpl->printToStdout("DEFAULT", false, true);
     }
 
-    protected function initTemplate(string $a_tmpl) : ilGlobalTemplate
+    protected function initTemplate(string $a_tmpl): ilGlobalTemplate
     {
         $tpl = new ilGlobalTemplate("tpl.main.html", true, true);
         $template_file = $a_tmpl;
@@ -82,7 +82,7 @@ class ilAccessibilityControlConceptGUI implements ilCtrlBaseClassInterface
     /**
      * Show accessibility control concept
      */
-    protected function showControlConcept() : void
+    protected function showControlConcept(): void
     {
         if (!$this->user->getId()) {
             $this->user->setId(ANONYMOUS_USER_ID);
@@ -113,7 +113,7 @@ class ilAccessibilityControlConceptGUI implements ilCtrlBaseClassInterface
         $this->printToGlobalTemplate($tpl);
     }
 
-    public static function getFooterLink() : string
+    public static function getFooterLink(): string
     {
         global $DIC;
         $ilCtrl = $DIC->ctrl();
@@ -125,7 +125,7 @@ class ilAccessibilityControlConceptGUI implements ilCtrlBaseClassInterface
         return $ilCtrl->getLinkTargetByClass("ilaccessibilitycontrolconceptgui");
     }
 
-    public static function getFooterText() : string
+    public static function getFooterText(): string
     {
         global $DIC;
 

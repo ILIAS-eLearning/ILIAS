@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -21,7 +23,7 @@ use ilAwarenessUserProviderApprovedContacts as ApprovedContacts;
 
 class ilAwarenessUserProviderApprovedContactsTest extends ilBuddySystemBaseTest
 {
-    public function testConstruct() : ApprovedContacts
+    public function testConstruct(): ApprovedContacts
     {
         $user = $this->getMockBuilder(ilObjUser::class)->disableOriginalConstructor()->getMock();
         $language = $this->getMockBuilder(ilLanguage::class)->disableOriginalConstructor()->getMock();
@@ -39,22 +41,22 @@ class ilAwarenessUserProviderApprovedContactsTest extends ilBuddySystemBaseTest
     /**
      * @depends testConstruct
      */
-    public function testGetProviderId(ApprovedContacts $instance) : void
+    public function testGetProviderId(ApprovedContacts $instance): void
     {
         $this->assertSame('contact_requests', $instance->getProviderId());
     }
 
-    public function testGetTitle() : void
+    public function testGetTitle(): void
     {
         $this->expectTranslation('getTitle', 'contact_awrn_ap_contacts');
     }
 
-    public function testGetInfo() : void
+    public function testGetInfo(): void
     {
         $this->expectTranslation('getInfo', 'contact_awrn_ap_contacts_info');
     }
 
-    public function testGetInitialUserSet() : void
+    public function testGetInitialUserSet(): void
     {
         $user = $this->getMockBuilder(ilObjUser::class)->disableOriginalConstructor()->getMock();
         $user->expects(self::once())->method('isAnonymous')->willReturn(true);
@@ -71,12 +73,12 @@ class ilAwarenessUserProviderApprovedContactsTest extends ilBuddySystemBaseTest
     /**
      * @depends testConstruct
      */
-    public function testIsHighlighted(ApprovedContacts $instance) : void
+    public function testIsHighlighted(ApprovedContacts $instance): void
     {
         $this->assertFalse($instance->isHighlighted());
     }
 
-    private function expectTranslation(string $method, string $languageKey) : void
+    private function expectTranslation(string $method, string $languageKey): void
     {
         $expected = 'translated: ' . $languageKey;
         $user = $this->getMockBuilder(ilObjUser::class)->disableOriginalConstructor()->getMock();

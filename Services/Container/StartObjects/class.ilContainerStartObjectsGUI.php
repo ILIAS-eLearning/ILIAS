@@ -50,13 +50,13 @@ class ilContainerStartObjectsGUI
         $ilTabs = $DIC->tabs();
         $lng = $DIC->language();
         $tpl = $DIC["tpl"];
-        
+
         $this->ctrl = $ilCtrl;
         $this->tabs_gui = $ilTabs;
         $this->lng = $lng;
         $this->tpl = $tpl;
         $this->object = $a_parent_obj;
-                
+
         $this->start_object = new ilContainerStartObjects(
             $this->object->getRefId(),
             $this->object->getId()
@@ -66,14 +66,14 @@ class ilContainerStartObjectsGUI
             ->internal()
             ->gui()
             ->standardRequest();
-        
+
         $this->lng->loadLanguageModule("crs");
         $cs = $DIC->contentStyle();
         $this->content_style_domain = $cs->domain()->styleForRefId($a_parent_obj->getRefId());
         $this->content_style_gui = $cs->gui();
     }
-    
-    public function executeCommand() : void
+
+    public function executeCommand(): void
     {
         switch ($this->ctrl->getNextClass($this)) {
             case "ilcontainerstartobjectspagegui":
@@ -83,7 +83,7 @@ class ilContainerStartObjectsGUI
                     $this->lng->txt("back"),
                     $this->ctrl->getLinkTarget($this, "listStructure")
                 );
-                
+
                 if (!ilContainerStartObjectsPage::_exists("cstr", $this->object->getId())) {
                     // doesn't exist -> create new one
                     $new_page_object = new ilContainerStartObjectsPage();
@@ -109,7 +109,7 @@ class ilContainerStartObjectsGUI
                     $this->tpl->setContent($ret);
                 }
                 break;
-            
+
             default:
                 $cmd = $this->ctrl->getCmd("listStructure");
                 $cmd .= "Object";
@@ -117,22 +117,22 @@ class ilContainerStartObjectsGUI
                 break;
         }
     }
-    
-    protected function checkPermission(string $a_cmd) : void
+
+    protected function checkPermission(string $a_cmd): void
     {
         $ilAccess = $this->access;
-        
+
         $ref_id = $this->object->getRefId();
         if (!$ilAccess->checkAccess($a_cmd, "", $ref_id)) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt("permission_denied"), true);
             ilUtil::redirect("goto.php?target=" . $this->object->getType() . "_" . $ref_id);
         }
     }
-    
-    public function setTabs(string $a_active = "manage") : void
+
+    public function setTabs(string $a_active = "manage"): void
     {
         $ilSetting = $this->settings;
-        
+
         $this->tabs_gui->addSubTab(
             "manage",
             $this->lng->txt("cntr_manage"),
@@ -142,14 +142,14 @@ class ilContainerStartObjectsGUI
         $this->tabs_gui->activateSubTab($a_active);
     }
 
-    protected function listStructureObject() : void
+    protected function listStructureObject(): void
     {
         $ilToolbar = $this->toolbar;
         $ilSetting = $this->settings;
-        
+
         $this->checkPermission('write');
         $this->setTabs();
-        
+
         $ilToolbar->addButton(
             $this->lng->txt('crs_add_starter'),
             $this->ctrl->getLinkTarget($this, 'selectStarter')
@@ -166,8 +166,8 @@ class ilContainerStartObjectsGUI
         $table = new ilContainerStartObjectsTableGUI($this, 'listStructure', $this->start_object);
         $this->tpl->setContent($table->getHTML());
     }
-    
-    protected function saveSortingObject() : void
+
+    protected function saveSortingObject(): void
     {
         $pos = $this->request->getStartObjPositions();
         if (is_array($pos)) {
@@ -177,20 +177,20 @@ class ilContainerStartObjectsGUI
                 $counter += 10;
                 $this->start_object->setObjectPos($start_id, $counter);
             }
-            
+
             $this->tpl->setOnScreenMessage('success', $this->lng->txt('cntr_saved_sorting'), true);
         }
-        
+
         $this->ctrl->redirect($this, "listStructure");
     }
-    
-    protected function askDeleteStarterObject() : void
+
+    protected function askDeleteStarterObject(): void
     {
         if (count($this->request->getStartObjIds()) === 0) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('select_one'), true);
             $this->ctrl->redirect($this, "listStructure");
         }
-        
+
         $this->checkPermission('write');
         $this->setTabs();
 
@@ -214,10 +214,10 @@ class ilContainerStartObjectsGUI
         $this->tpl->setContent($cgui->getHTML());
     }
 
-    protected function deleteStarterObject() : void
+    protected function deleteStarterObject(): void
     {
         $this->checkPermission('write');
-        
+
         if (count($this->request->getStartObjIds()) === 0) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('select_one'), true);
         } else {
@@ -227,20 +227,20 @@ class ilContainerStartObjectsGUI
 
             $this->tpl->setOnScreenMessage('success', $this->lng->txt('crs_starter_deleted'), true);
         }
-        
+
         $this->ctrl->redirect($this, "listStructure");
     }
-        
-    protected function selectStarterObject() : void
+
+    protected function selectStarterObject(): void
     {
         $this->checkPermission('write');
         $this->setTabs();
-        
+
         $table = new ilContainerStartObjectsTableGUI($this, 'selectStarter', $this->start_object);
         $this->tpl->setContent($table->getHTML());
     }
 
-    protected function addStarterObject() : void
+    protected function addStarterObject(): void
     {
         $this->checkPermission('write');
 
@@ -248,7 +248,7 @@ class ilContainerStartObjectsGUI
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('select_one'), true);
             $this->ctrl->redirect($this, "selectStarter");
         }
-            
+
         $added = 0;
         foreach ($this->request->getStartObjIds() as $item_ref_id) {
             if (!$this->start_object->exists($item_ref_id)) {

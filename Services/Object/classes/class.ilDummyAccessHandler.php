@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * Dummy access handler
  *
@@ -28,7 +30,7 @@ class ilDummyAccessHandler
     /**
      * check access for an object
      */
-    public function checkAccess(string $permission, string $cmd, int $node_id, string $type = "") : bool
+    public function checkAccess(string $permission, string $cmd, int $node_id, string $type = ""): bool
     {
         return true;
     }

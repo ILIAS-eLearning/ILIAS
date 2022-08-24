@@ -39,7 +39,7 @@ class ilAssLacAnswerValueNotExist extends ilAssLacException implements ilAssLacF
         $this->question_index = $question_index;
         $this->answer_index = $answer_index;
         $this->value = $value;
-        
+
         if ($this->getQuestionIndex() === null && $this->getAnswerIndex() === null) {
             $msg = sprintf(
                 'The value "%s" does not exist for the current question',
@@ -72,7 +72,7 @@ class ilAssLacAnswerValueNotExist extends ilAssLacException implements ilAssLacF
     /**
      * @return int
      */
-    public function getQuestionIndex() : int
+    public function getQuestionIndex(): int
     {
         return $this->question_index;
     }
@@ -80,7 +80,7 @@ class ilAssLacAnswerValueNotExist extends ilAssLacException implements ilAssLacF
     /**
      * @return int
      */
-    public function getAnswerIndex() : ?int
+    public function getAnswerIndex(): ?int
     {
         return $this->answer_index;
     }
@@ -88,7 +88,7 @@ class ilAssLacAnswerValueNotExist extends ilAssLacException implements ilAssLacF
     /**
      * @return string
      */
-    public function getValue() : string
+    public function getValue(): string
     {
         return $this->value;
     }
@@ -97,7 +97,7 @@ class ilAssLacAnswerValueNotExist extends ilAssLacException implements ilAssLacF
      * @param ilLanguage $lng
      * @return string
      */
-    public function getFormAlert(ilLanguage $lng) : string
+    public function getFormAlert(ilLanguage $lng): string
     {
         if ($this->getQuestionIndex() === null && $this->getAnswerIndex() === null) {
             return sprintf(

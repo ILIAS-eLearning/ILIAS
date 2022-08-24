@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -73,12 +75,12 @@ class ilMailTemplateGUI
         $this->lng->loadLanguageModule('meta');
     }
 
-    private function isEditingAllowed() : bool
+    private function isEditingAllowed(): bool
     {
         return $this->rbacsystem->checkAccess('write', $this->parentObject->getRefId());
     }
 
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         $next_class = $this->ctrl->getNextClass($this);
         $cmd = $this->ctrl->getCmd();
@@ -94,7 +96,7 @@ class ilMailTemplateGUI
         }
     }
 
-    protected function showTemplates() : void
+    protected function showTemplates(): void
     {
         $contexts = ilMailTemplateContextService::getTemplateContexts();
         if (count($contexts) <= 1) {
@@ -121,7 +123,7 @@ class ilMailTemplateGUI
     /**
      * @throws ilMailException
      */
-    protected function insertTemplate() : void
+    protected function insertTemplate(): void
     {
         if (!$this->isEditingAllowed()) {
             $this->error->raiseError($this->lng->txt('msg_no_perm_write'), $this->error->WARNING);
@@ -171,7 +173,7 @@ class ilMailTemplateGUI
      * @param ilPropertyFormGUI|null $form
      * @throws ilMailException
      */
-    protected function showInsertTemplateForm(ilPropertyFormGUI $form = null) : void
+    protected function showInsertTemplateForm(ilPropertyFormGUI $form = null): void
     {
         if (!($form instanceof ilPropertyFormGUI)) {
             $form = $this->getTemplateForm();
@@ -180,7 +182,7 @@ class ilMailTemplateGUI
         $this->tpl->setContent($form->getHTML());
     }
 
-    protected function updateTemplate() : void
+    protected function updateTemplate(): void
     {
         if (!$this->isEditingAllowed()) {
             $this->error->raiseError($this->lng->txt('msg_no_perm_write'), $this->error->WARNING);
@@ -245,7 +247,7 @@ class ilMailTemplateGUI
         }
     }
 
-    protected function showEditTemplateForm(ilPropertyFormGUI $form = null) : void
+    protected function showEditTemplateForm(ilPropertyFormGUI $form = null): void
     {
         if (!($form instanceof ilPropertyFormGUI)) {
             $templateId = 0;
@@ -276,7 +278,7 @@ class ilMailTemplateGUI
         $this->tpl->setContent($form->getHTML());
     }
 
-    protected function populateFormWithTemplate(ilPropertyFormGUI $form, ilMailTemplate $template) : void
+    protected function populateFormWithTemplate(ilPropertyFormGUI $form, ilMailTemplate $template): void
     {
         $form->setValuesByArray([
             'tpl_id' => $template->getTplId(),
@@ -288,7 +290,7 @@ class ilMailTemplateGUI
         ]);
     }
 
-    protected function confirmDeleteTemplate() : void
+    protected function confirmDeleteTemplate(): void
     {
         if (!$this->isEditingAllowed()) {
             $this->error->raiseError($this->lng->txt('msg_no_perm_write'), $this->error->WARNING);
@@ -333,7 +335,7 @@ class ilMailTemplateGUI
         $this->tpl->setContent($confirm->getHTML());
     }
 
-    protected function deleteTemplate() : void
+    protected function deleteTemplate(): void
     {
         if (!$this->isEditingAllowed()) {
             $this->error->raiseError($this->lng->txt('msg_no_perm_write'), $this->error->WARNING);
@@ -373,7 +375,7 @@ class ilMailTemplateGUI
     /**
      * @throws ilMailException
      */
-    public function getAjaxPlaceholdersById() : void
+    public function getAjaxPlaceholdersById(): void
     {
         $triggerValue = '';
         if ($this->http->wrapper()->query()->has('triggerValue')) {
@@ -401,7 +403,7 @@ class ilMailTemplateGUI
      * @return ilPropertyFormGUI
      * @throws ilMailException
      */
-    protected function getTemplateForm(ilMailTemplate $template = null) : ilPropertyFormGUI
+    protected function getTemplateForm(ilMailTemplate $template = null): ilPropertyFormGUI
     {
         $form = new ilPropertyFormGUI();
 
@@ -506,7 +508,7 @@ class ilMailTemplateGUI
         return $form;
     }
 
-    public function unsetAsContextDefault() : void
+    public function unsetAsContextDefault(): void
     {
         if (!$this->isEditingAllowed()) {
             $this->error->raiseError($this->lng->txt('msg_no_perm_write'), $this->error->WARNING);
@@ -536,7 +538,7 @@ class ilMailTemplateGUI
         $this->ctrl->redirect($this, 'showTemplates');
     }
 
-    public function setAsContextDefault() : void
+    public function setAsContextDefault(): void
     {
         if (!$this->isEditingAllowed()) {
             $this->error->raiseError($this->lng->txt('msg_no_perm_write'), $this->error->WARNING);

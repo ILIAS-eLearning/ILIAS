@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\UI\Implementation\Component\Tree\Node;
 
 use ILIAS\Data\URI;
@@ -30,7 +32,7 @@ class Renderer extends AbstractComponentRenderer
     /**
      * @inheritdoc
      */
-    public function render(Component\Component $component, RendererInterface $default_renderer) : string
+    public function render(Component\Component $component, RendererInterface $default_renderer): string
     {
         $this->checkComponent($component);
 
@@ -121,7 +123,7 @@ class Renderer extends AbstractComponentRenderer
     protected function triggerFurtherSignals(
         Node\Node $component,
         array $triggered_signals
-    ) : Component\JavaScriptBindable {
+    ): Component\JavaScriptBindable {
         $signals = [];
         foreach ($triggered_signals as $s) {
             /**
@@ -152,7 +154,7 @@ class Renderer extends AbstractComponentRenderer
     /**
      * @inheritdoc
      */
-    protected function getComponentInterfaceName() : array
+    protected function getComponentInterfaceName(): array
     {
         return array(
             Node\Simple::class,

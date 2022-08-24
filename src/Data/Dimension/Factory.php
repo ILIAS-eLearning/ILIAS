@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -26,12 +28,12 @@ use ILIAS\Data\Dimension;
  */
 class Factory
 {
-    public function cardinal(array $value_labels = []) : CardinalDimension
+    public function cardinal(array $value_labels = []): CardinalDimension
     {
         return new CardinalDimension($value_labels);
     }
 
-    public function range(CardinalDimension $cardinal_dimension) : RangeDimension
+    public function range(CardinalDimension $cardinal_dimension): RangeDimension
     {
         return new RangeDimension($cardinal_dimension);
     }

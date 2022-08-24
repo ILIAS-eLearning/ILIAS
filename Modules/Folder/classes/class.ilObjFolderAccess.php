@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -22,7 +24,7 @@ class ilObjFolderAccess extends ilObjectAccess
 {
     private static ?ilSetting $folderSettings = null;
 
-    private static function getFolderSettings() : ilSetting
+    private static function getFolderSettings(): ilSetting
     {
         if (is_null(self::$folderSettings)) {
             self::$folderSettings = new ilSetting('fold');
@@ -30,7 +32,7 @@ class ilObjFolderAccess extends ilObjectAccess
         return self::$folderSettings;
     }
 
-    public function _checkAccess(string $cmd, string $permission, int $ref_id, int $obj_id, ?int $user_id = null) : bool
+    public function _checkAccess(string $cmd, string $permission, int $ref_id, int $obj_id, ?int $user_id = null): bool
     {
         if ($cmd === "download" &&
             !self::hasDownloadAction($ref_id)) {
@@ -39,7 +41,7 @@ class ilObjFolderAccess extends ilObjectAccess
         return true;
     }
 
-    public static function _getCommands() : array
+    public static function _getCommands(): array
     {
         $commands = [];
         $commands[] = ["permission" => "read", "cmd" => "view", "lang_var" => "show", "default" => true];
@@ -55,12 +57,12 @@ class ilObjFolderAccess extends ilObjectAccess
         }
         $commands[] = ["permission" => "write", "cmd" => "enableAdministrationPanel", "lang_var" => "edit_content"];
         $commands[] = ["permission" => "write", "cmd" => "edit", "lang_var" => "settings"];
-        
+
         return $commands;
     }
 
-    
-    private static function hasDownloadAction(int $ref_id) : bool
+
+    private static function hasDownloadAction(int $ref_id): bool
     {
         $settings = self::getFolderSettings();
         if ((int) $settings->get("enable_download_folder", '0') !== 1) {
@@ -69,7 +71,7 @@ class ilObjFolderAccess extends ilObjectAccess
         return true;
     }
 
-    public static function _checkGoto(string $target) : bool
+    public static function _checkGoto(string $target): bool
     {
         global $DIC;
 

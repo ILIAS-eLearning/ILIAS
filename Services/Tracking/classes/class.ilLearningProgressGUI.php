@@ -1,4 +1,6 @@
-<?php declare(strict_types=0);
+<?php
+
+declare(strict_types=0);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -125,7 +127,7 @@ class ilLearningProgressGUI extends ilLearningProgressBaseGUI
         $this->__buildFooter();
     }
 
-    public function __setCmdClass(string $a_class) : void
+    public function __setCmdClass(string $a_class): void
     {
         // If cmd class == 'illearningprogressgui' the cmd class is set to the the new forwarded class
         // otherwise e.g illplistofprogressgui tries to forward (back) to illearningprogressgui.
@@ -134,7 +136,7 @@ class ilLearningProgressGUI extends ilLearningProgressBaseGUI
         }
     }
 
-    public function __getNextClass() : string
+    public function __getNextClass(): string
     {
         // #9857
         if (!ilObjUserTracking::_enabledLearningProgress()) {
@@ -246,7 +248,7 @@ class ilLearningProgressGUI extends ilLearningProgressBaseGUI
     /**
      * Show progress screen for "edit manual"
      */
-    protected function editManual() : void
+    protected function editManual(): void
     {
         if (ilLearningProgressAccess::checkAccess($this->getRefId())) {
             $olp = ilObjectLP::getInstance(
@@ -260,7 +262,7 @@ class ilLearningProgressGUI extends ilLearningProgressBaseGUI
         }
     }
 
-    protected function initCollectionManualForm() : ilPropertyFormGUI
+    protected function initCollectionManualForm(): ilPropertyFormGUI
     {
         $form = new ilPropertyFormGUI();
         $form->setFormAction($this->ctrl->getFormAction($this, "updatemanual"));
@@ -349,7 +351,7 @@ class ilLearningProgressGUI extends ilLearningProgressBaseGUI
         return $form;
     }
 
-    protected function updateManual() : void
+    protected function updateManual(): void
     {
         if (ilLearningProgressAccess::checkAccess($this->getRefId())) {
             $olp = ilObjectLP::getInstance(

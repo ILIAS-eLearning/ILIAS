@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -65,27 +67,27 @@ class ilForumXMLParser extends ilSaxParser
         $this->setXMLContent('<?xml version="1.0" encoding="utf-8"?>' . $a_xml_data);
     }
 
-    public function setImportDirectory(?string $a_val) : void
+    public function setImportDirectory(?string $a_val): void
     {
         $this->importDirectory = $a_val;
     }
 
-    public function getImportDirectory() : ?string
+    public function getImportDirectory(): ?string
     {
         return $this->importDirectory;
     }
 
-    public function getSchemaVersion() : ?string
+    public function getSchemaVersion(): ?string
     {
         return $this->schema_version;
     }
 
-    public function setSchemaVersion(?string $schema_version) : void
+    public function setSchemaVersion(?string $schema_version): void
     {
         $this->schema_version = $schema_version;
     }
 
-    public function setHandlers($a_xml_parser) : void
+    public function setHandlers($a_xml_parser): void
     {
         xml_set_object($a_xml_parser, $this);
         xml_set_element_handler($a_xml_parser, [$this, 'handlerBeginTag'], [$this, 'handlerEndTag']);
@@ -98,7 +100,7 @@ class ilForumXMLParser extends ilSaxParser
      * @param array  $a_attribs
      * @return void
      */
-    public function handlerBeginTag($a_xml_parser, string $a_name, array $a_attribs) : void
+    public function handlerBeginTag($a_xml_parser, string $a_name, array $a_attribs): void
     {
         switch ($a_name) {
             case 'Forum':
@@ -135,11 +137,11 @@ class ilForumXMLParser extends ilSaxParser
      * @param string $a_name
      * @return void
      */
-    public function handlerEndTag($a_xml_parser, string $a_name) : void
+    public function handlerEndTag($a_xml_parser, string $a_name): void
     {
         $this->cdata = trim($this->cdata);
         $property = strtolower($this->entity) . 'Array';
-        
+
         if (!property_exists($this, $property)) {
             return;
         }
@@ -611,7 +613,7 @@ class ilForumXMLParser extends ilSaxParser
      * @param string $param
      * @return array|array{usr_id: int, usr_alias: string}
      */
-    private function getIdAndAliasArray(int $imp_usr_id, string $param = 'import') : array
+    private function getIdAndAliasArray(int $imp_usr_id, string $param = 'import'): array
     {
         $where = '';
         $select = 'SELECT od.obj_id, ud.login FROM object_data od INNER JOIN usr_data ud ON od.obj_id = ud.usr_id';
@@ -648,7 +650,7 @@ class ilForumXMLParser extends ilSaxParser
     /**
      * @return array{usr_id: int, usr_alias: string}
      */
-    private function getAnonymousArray() : array
+    private function getAnonymousArray(): array
     {
         return [
             'usr_id' => $this->aobject->getId(),
@@ -661,7 +663,7 @@ class ilForumXMLParser extends ilSaxParser
      * @param string $imp_usr_alias
      * @return array{usr_id: int, usr_alias: string}
      */
-    private function getUserIdAndAlias(int $imp_usr_id, string $imp_usr_alias = '') : array
+    private function getUserIdAndAlias(int $imp_usr_id, string $imp_usr_alias = ''): array
     {
         if (!($imp_usr_id > 0)) {
             return [
@@ -736,12 +738,12 @@ class ilForumXMLParser extends ilSaxParser
         return $return_value;
     }
 
-    public function setImportInstallId($id) : void
+    public function setImportInstallId($id): void
     {
         $this->import_install_id = $id;
     }
 
-    private function getNewForumPk() : int
+    private function getNewForumPk(): int
     {
         $query = "SELECT top_pk FROM frm_data WHERE top_frm_fk = " . $this->db->quote(
             $this->forum->getId(),
@@ -758,7 +760,7 @@ class ilForumXMLParser extends ilSaxParser
      * @param XMLParser|resource $a_xml_parser xml parser
      * @param string $a_data character data
      */
-    public function handlerCharacterData($a_xml_parser, string $a_data) : void
+    public function handlerCharacterData($a_xml_parser, string $a_data): void
     {
         if ($a_data !== "\n") {
             // Replace multiple tabs with one space

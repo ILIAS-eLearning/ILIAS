@@ -46,7 +46,7 @@ class PositionTitle extends Base
     /**
      * @return string
      */
-    public function getName() : string
+    public function getName(): string
     {
         return "getPositionTitle";
     }
@@ -56,12 +56,12 @@ class PositionTitle extends Base
         return array(self::POSITION_ID => Base::TYPE_INT);
     }
 
-    public function getOutputParams() : array
+    public function getOutputParams(): array
     {
         return array('title' => Base::TYPE_STRING);
     }
 
-    public function getDocumentation() : string
+    public function getDocumentation(): string
     {
         return "Returns the title of a position for a given position id";
     }

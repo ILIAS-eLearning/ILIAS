@@ -1,4 +1,6 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -46,7 +48,7 @@ class AccessManager
     public function canEdit(
         Note $note,
         int $user_id = 0
-    ) : bool {
+    ): bool {
         if ($user_id === 0) {
             $user_id = $this->user_id;
         }
@@ -57,7 +59,7 @@ class AccessManager
         Note $note,
         int $user_id = 0,
         $public_deletion_enabled = false
-    ) : bool {
+    ): bool {
         if ($user_id === 0) {
             $user_id = $this->user_id;
         }

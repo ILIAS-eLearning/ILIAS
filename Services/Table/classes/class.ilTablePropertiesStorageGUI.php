@@ -53,14 +53,14 @@ class ilTablePropertiesStorageGUI implements ilCtrlBaseClassInterface
     }
 
 
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         $ilCtrl = $this->ctrl;
         $cmd = $ilCtrl->getCmd();
         $this->$cmd();
     }
-    
-    public function showFilter() : void
+
+    public function showFilter(): void
     {
         $ilUser = $this->user;
 
@@ -76,8 +76,8 @@ class ilTablePropertiesStorageGUI implements ilCtrlBaseClassInterface
             );
         }
     }
-    
-    public function hideFilter() : void
+
+    public function hideFilter(): void
     {
         $ilUser = $this->user;
 
@@ -92,19 +92,19 @@ class ilTablePropertiesStorageGUI implements ilCtrlBaseClassInterface
             );
         }
     }
-    
+
     public function storeProperty(
         string $a_table_id,
         int $a_user_id,
         string $a_property,
         string $a_value
-    ) : void {
+    ): void {
         $ilDB = $this->db;
 
         if ($a_table_id == "" || !$this->isValidProperty($a_property)) {
             return;
         }
-        
+
         $storage = $this->properties[$a_property]["storage"];
         if ($a_user_id == ANONYMOUS_USER_ID) {
             $storage = "session";
@@ -113,7 +113,7 @@ class ilTablePropertiesStorageGUI implements ilCtrlBaseClassInterface
             case "session":
                 ilSession::set("table_" . $a_table_id . "_" . $a_user_id . "_" . $a_property, $a_value);
                 break;
-                
+
             case "db":
                 $ilDB->replace(
                     "table_properties",
@@ -127,12 +127,12 @@ class ilTablePropertiesStorageGUI implements ilCtrlBaseClassInterface
                 );
         }
     }
-    
+
     public function getProperty(
         string $a_table_id,
         int $a_user_id,
         string $a_property
-    ) : string {
+    ): string {
         $ilDB = $this->db;
 
         if ($a_table_id == "" || !$this->isValidProperty($a_property)) {
@@ -143,7 +143,7 @@ class ilTablePropertiesStorageGUI implements ilCtrlBaseClassInterface
         if ($a_user_id == ANONYMOUS_USER_ID) {
             $storage = "session";
         }
-        
+
         switch ($storage) {
             case "session":
                 return ilSession::get("table_" . $a_table_id . "_" . $a_user_id . "_" . $a_property) ?? "";
@@ -165,7 +165,7 @@ class ilTablePropertiesStorageGUI implements ilCtrlBaseClassInterface
      * Check if given property id is valid
      * @var string|int $a_property
      */
-    public function isValidProperty($a_property) : bool
+    public function isValidProperty($a_property): bool
     {
         if (array_key_exists($a_property, $this->properties)) {
             return true;

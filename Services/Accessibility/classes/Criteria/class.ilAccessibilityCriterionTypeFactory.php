@@ -33,12 +33,12 @@ class ilAccessibilityCriterionTypeFactory implements ilAccessibilityCriterionTyp
         ];
     }
 
-    public function getTypesByIdentMap() : array
+    public function getTypesByIdentMap(): array
     {
         return $this->types;
     }
 
-    public function hasOnlyOneCriterion() : bool
+    public function hasOnlyOneCriterion(): bool
     {
         if (count($this->types) == 1) {
             return true;
@@ -47,7 +47,7 @@ class ilAccessibilityCriterionTypeFactory implements ilAccessibilityCriterionTyp
         }
     }
 
-    public function findByTypeIdent(string $typeIdent, bool $useFallback = false) : ilAccessibilityCriterionType
+    public function findByTypeIdent(string $typeIdent, bool $useFallback = false): ilAccessibilityCriterionType
     {
         if (isset($this->types[$typeIdent])) {
             return $this->types[$typeIdent];

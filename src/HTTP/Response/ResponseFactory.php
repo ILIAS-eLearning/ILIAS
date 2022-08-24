@@ -29,9 +29,8 @@ use Psr\Http\Message\ResponseInterface;
  */
 interface ResponseFactory
 {
-
     /**
      * Creates a new response with the help of the underlying library.
      */
-    public function create() : ResponseInterface;
+    public function create(): ResponseInterface;
 }

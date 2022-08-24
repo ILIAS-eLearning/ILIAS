@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 require_once(__DIR__ . "/../../../../../../libs/composer/vendor/autoload.php");
 require_once(__DIR__ . "/../../../../Base.php");
 require_once(__DIR__ . "/FormTest.php");
@@ -37,7 +39,7 @@ class WithButtonNoUIFactory extends NoUIFactory
         $this->button_factory = $button_factory;
     }
 
-    public function button() : Factory
+    public function button(): Factory
     {
         return $this->button_factory;
     }
@@ -47,7 +49,7 @@ class InputNameSource implements NameSource
 {
     public int $count = 0;
 
-    public function getNewName() : string
+    public function getNewName(): string
     {
         $name = "form_input_{$this->count}";
         $this->count++;
@@ -61,12 +63,12 @@ class InputNameSource implements NameSource
  */
 class StandardFormTest extends ILIAS_UI_TestBase
 {
-    protected function buildFactory() : I\Input\Container\Form\Factory
+    protected function buildFactory(): I\Input\Container\Form\Factory
     {
         return new I\Input\Container\Form\Factory($this->buildInputFactory(), new InputNameSource());
     }
 
-    protected function buildInputFactory() : I\Input\Field\Factory
+    protected function buildInputFactory(): I\Input\Field\Factory
     {
         $df = new Data\Factory();
         $language = $this->createMock(ilLanguage::class);
@@ -79,17 +81,17 @@ class StandardFormTest extends ILIAS_UI_TestBase
         );
     }
 
-    protected function buildButtonFactory() : I\Button\Factory
+    protected function buildButtonFactory(): I\Button\Factory
     {
-        return new I\Button\Factory;
+        return new I\Button\Factory();
     }
 
-    public function getUIFactory() : WithButtonNoUIFactory
+    public function getUIFactory(): WithButtonNoUIFactory
     {
         return new WithButtonNoUIFactory($this->buildButtonFactory());
     }
 
-    public function test_getPostURL() : void
+    public function test_getPostURL(): void
     {
         $f = $this->buildFactory();
         $if = $this->buildInputFactory();
@@ -98,7 +100,7 @@ class StandardFormTest extends ILIAS_UI_TestBase
         $this->assertEquals($url, $form->getPostURL());
     }
 
-    public function test_render() : void
+    public function test_render(): void
     {
         $f = $this->buildFactory();
         $if = $this->buildInputFactory();
@@ -131,7 +133,7 @@ class StandardFormTest extends ILIAS_UI_TestBase
         $this->assertHTMLEquals($expected, $html);
     }
 
-    public function test_submit_caption() : void
+    public function test_submit_caption(): void
     {
         $f = $this->buildFactory();
         $if = $this->buildInputFactory();
@@ -149,7 +151,7 @@ class StandardFormTest extends ILIAS_UI_TestBase
         $this->assertEquals($caption, $form->getSubmitCaption());
     }
 
-    public function test_submit_caption_render() : void
+    public function test_submit_caption_render(): void
     {
         $f = $this->buildFactory();
         $if = $this->buildInputFactory();
@@ -182,7 +184,7 @@ class StandardFormTest extends ILIAS_UI_TestBase
         $this->assertHTMLEquals($expected, $html);
     }
 
-    public function test_render_no_url() : void
+    public function test_render_no_url(): void
     {
         $f = $this->buildFactory();
         $if = $this->buildInputFactory();
@@ -216,7 +218,7 @@ class StandardFormTest extends ILIAS_UI_TestBase
     }
 
 
-    public function testRenderWithErrorOnField() : void
+    public function testRenderWithErrorOnField(): void
     {
         $r = $this->getDefaultRenderer();
         $df = new Data\Factory();
@@ -240,10 +242,10 @@ class StandardFormTest extends ILIAS_UI_TestBase
             return false;
         }, "This is invalid...");
         $input = $if->text("label", "byline");
-        
+
         $input = $input->withAdditionalTransformation($fail);
-        
-        $form = new Form\Standard($if, new InputNameSource, '', [$input]);
+
+        $form = new Form\Standard($if, new InputNameSource(), '', [$input]);
 
         $request = $this->createMock(ServerRequestInterface::class);
         $request
@@ -282,7 +284,7 @@ class StandardFormTest extends ILIAS_UI_TestBase
     }
 
 
-    public function testRenderWithErrorOnForm() : void
+    public function testRenderWithErrorOnForm(): void
     {
         $r = $this->getDefaultRenderer();
         $df = new Data\Factory();
@@ -302,7 +304,7 @@ class StandardFormTest extends ILIAS_UI_TestBase
         }, "This is a fail on form.");
         $input = $if->text("label", "byline");
 
-        $form = new Form\Standard($if, new InputNameSource, '', [$input]);
+        $form = new Form\Standard($if, new InputNameSource(), '', [$input]);
         $form = $form->withAdditionalTransformation($fail);
 
         $request = $this->createMock(ServerRequestInterface::class);

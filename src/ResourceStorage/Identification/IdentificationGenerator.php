@@ -14,7 +14,7 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *********************************************************************/
- 
+
 namespace ILIAS\ResourceStorage\Identification;
 
 /**
@@ -24,9 +24,8 @@ namespace ILIAS\ResourceStorage\Identification;
  */
 interface IdentificationGenerator
 {
-
     /**
      * @throws \Exception
      */
-    public function getUniqueResourceIdentification() : ResourceIdentification;
+    public function getUniqueResourceIdentification(): ResourceIdentification;
 }

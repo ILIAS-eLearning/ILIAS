@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -38,58 +40,58 @@ class AdminGUIRequest
         );
     }
 
-    public function getRefId() : int
+    public function getRefId(): int
     {
         return $this->int("ref_id");
     }
 
-    public function getObjId() : int
+    public function getObjId(): int
     {
         return $this->int("obj_id");
     }
 
-    public function getItemRefId() : int
+    public function getItemRefId(): int
     {
         return $this->int("item_ref_id");
     }
 
-    public function getAdminMode() : string
+    public function getAdminMode(): string
     {
         return $this->str("admin_mode");
     }
 
-    public function getCType() : string
+    public function getCType(): string
     {
         return $this->str("ctype");
     }
 
-    public function getCName() : string
+    public function getCName(): string
     {
         return $this->str("cname");
     }
 
-    public function getSlotId() : string
+    public function getSlotId(): string
     {
         return $this->str("slot_id");
     }
 
-    public function getPluginId() : string
+    public function getPluginId(): string
     {
         return $this->str("plugin_id");
     }
 
-    public function getJumpToUserId() : int
+    public function getJumpToUserId(): int
     {
         return $this->int("jmpToUser");
     }
 
-    public function getNewType() : string
+    public function getNewType(): string
     {
         return $this->str("new_type");
     }
 
     // @return int[]
-    public function getSelectedIds() : array
+    public function getSelectedIds(): array
     {
         $ids = $this->intArray("id");
         if (count($ids) === 0) {

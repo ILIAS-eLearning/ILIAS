@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -28,7 +30,7 @@ class ilStudyProgrammeValidityOfAchievedQualificationSettingsTest extends TestCa
     private const VALID_RESTART_PERIOD_2 = 2;
     private const INVALID_RESTART_PERIOD = -1;
 
-    public function testSuccessfulCreate() : void
+    public function testSuccessfulCreate(): void
     {
         $obj = new ilStudyProgrammeValidityOfAchievedQualificationSettings(
             self::VALID_QUALIFICATION_PERIOD_1,
@@ -44,7 +46,7 @@ class ilStudyProgrammeValidityOfAchievedQualificationSettingsTest extends TestCa
         $this->assertEquals(self::VALID_RESTART_PERIOD_1, $obj->getRestartPeriod());
     }
 
-    public function testFailCreateWithInvalidQualificationPeriod() : void
+    public function testFailCreateWithInvalidQualificationPeriod(): void
     {
         try {
             new ilStudyProgrammeValidityOfAchievedQualificationSettings(
@@ -58,7 +60,7 @@ class ilStudyProgrammeValidityOfAchievedQualificationSettingsTest extends TestCa
         }
     }
 
-    public function testFailCreateWithInvalidRestartPeriod() : void
+    public function testFailCreateWithInvalidRestartPeriod(): void
     {
         try {
             new ilStudyProgrammeValidityOfAchievedQualificationSettings(
@@ -72,7 +74,7 @@ class ilStudyProgrammeValidityOfAchievedQualificationSettingsTest extends TestCa
         }
     }
 
-    public function testSuccessfulWithQualificationPeriod() : void
+    public function testSuccessfulWithQualificationPeriod(): void
     {
         $obj = new ilStudyProgrammeValidityOfAchievedQualificationSettings(
             self::VALID_QUALIFICATION_PERIOD_1,
@@ -86,7 +88,7 @@ class ilStudyProgrammeValidityOfAchievedQualificationSettingsTest extends TestCa
         $this->assertEquals(self::VALID_QUALIFICATION_PERIOD_2, $new->getQualificationPeriod());
     }
 
-    public function testFailWithQualificationPeriod() : void
+    public function testFailWithQualificationPeriod(): void
     {
         $obj = new ilStudyProgrammeValidityOfAchievedQualificationSettings(
             self::VALID_QUALIFICATION_PERIOD_1,
@@ -102,7 +104,7 @@ class ilStudyProgrammeValidityOfAchievedQualificationSettingsTest extends TestCa
         }
     }
 
-    public function testSuccessfulWithRestartPeriod() : void
+    public function testSuccessfulWithRestartPeriod(): void
     {
         $obj = new ilStudyProgrammeValidityOfAchievedQualificationSettings(
             self::VALID_QUALIFICATION_PERIOD_1,
@@ -116,7 +118,7 @@ class ilStudyProgrammeValidityOfAchievedQualificationSettingsTest extends TestCa
         $this->assertEquals(self::VALID_RESTART_PERIOD_2, $new->getRestartPeriod());
     }
 
-    public function testFailWithRestartPeriod() : void
+    public function testFailWithRestartPeriod(): void
     {
         $obj = new ilStudyProgrammeValidityOfAchievedQualificationSettings(
             self::VALID_QUALIFICATION_PERIOD_1,
@@ -132,7 +134,7 @@ class ilStudyProgrammeValidityOfAchievedQualificationSettingsTest extends TestCa
         }
     }
 
-    public function testToFormInput() : void
+    public function testToFormInput(): void
     {
         $lng = $this->createMock(ilLanguage::class);
         $df = new ILIAS\Data\Factory();

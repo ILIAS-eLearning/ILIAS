@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 use ILIAS\Refinery\Transformation;
 use ILIAS\Setup\Agent;
@@ -28,17 +30,17 @@ class ilResourceStorageSetupAgent implements Agent
 {
     use Agent\HasNoNamedObjective;
 
-    public function hasConfig() : bool
+    public function hasConfig(): bool
     {
         return false;
     }
 
-    public function getArrayToConfigTransformation() : Transformation
+    public function getArrayToConfigTransformation(): Transformation
     {
         throw new \LogicException("Agent has no config.");
     }
 
-    public function getInstallObjective(Config $config = null) : Objective
+    public function getInstallObjective(Config $config = null): Objective
     {
         return new ObjectiveCollection(
             'IRSS Installation',
@@ -50,7 +52,7 @@ class ilResourceStorageSetupAgent implements Agent
         );
     }
 
-    public function getUpdateObjective(Config $config = null) : Objective
+    public function getUpdateObjective(Config $config = null): Objective
     {
         return new ObjectiveCollection(
             'IRSS Update',
@@ -62,12 +64,12 @@ class ilResourceStorageSetupAgent implements Agent
         );
     }
 
-    public function getBuildArtifactObjective() : Objective
+    public function getBuildArtifactObjective(): Objective
     {
         return new Objective\NullObjective();
     }
 
-    public function getStatusObjective(Metrics\Storage $storage) : Objective
+    public function getStatusObjective(Metrics\Storage $storage): Objective
     {
         return new Objective\NullObjective();
     }
@@ -75,7 +77,7 @@ class ilResourceStorageSetupAgent implements Agent
     /**
      * @return \ilStorageHandlerV1Migration[]
      */
-    public function getMigrations() : array
+    public function getMigrations(): array
     {
         return [new ilStorageHandlerV1Migration()];
     }

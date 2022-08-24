@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\UI\Implementation\Component\Listing;
 
 use ILIAS\UI\Implementation\Render\AbstractComponentRenderer;
@@ -31,7 +33,7 @@ class Renderer extends AbstractComponentRenderer
     /**
      * @inheritdocs
      */
-    public function render(Component\Component $component, RendererInterface $default_renderer) : string
+    public function render(Component\Component $component, RendererInterface $default_renderer): string
     {
         /**
          * @var Component\Listing\Listing $component
@@ -48,7 +50,7 @@ class Renderer extends AbstractComponentRenderer
     protected function render_descriptive(
         Component\Listing\Descriptive $component,
         RendererInterface $default_renderer
-    ) : string {
+    ): string {
         $tpl = $this->getTemplate("tpl.descriptive.html", true, true);
 
         foreach ($component->getItems() as $key => $item) {
@@ -68,7 +70,7 @@ class Renderer extends AbstractComponentRenderer
         return $tpl->get();
     }
 
-    protected function render_simple(Component\Listing\Listing $component, RendererInterface $default_renderer) : string
+    protected function render_simple(Component\Listing\Listing $component, RendererInterface $default_renderer): string
     {
         $tpl_name = "";
 
@@ -98,7 +100,7 @@ class Renderer extends AbstractComponentRenderer
     /**
      * @inheritdocs
      */
-    protected function getComponentInterfaceName() : array
+    protected function getComponentInterfaceName(): array
     {
         return [Component\Listing\Listing::class];
     }

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -29,7 +31,7 @@ class ilMailSearchResult
     {
     }
 
-    public function addItem(int $id, array $fields) : void
+    public function addItem(int $id, array $fields): void
     {
         $this->result[$id] = $fields;
     }
@@ -37,7 +39,7 @@ class ilMailSearchResult
     /**
      * @return int[]
      */
-    public function getIds() : array
+    public function getIds(): array
     {
         return array_keys($this->result);
     }
@@ -46,12 +48,12 @@ class ilMailSearchResult
      * @param int $id
      * @return array
      */
-    public function getFields(int $id) : array
+    public function getFields(int $id): array
     {
         if (!isset($this->result[$id])) {
             throw new OutOfBoundsException('mail_missing_result_fields');
         }
-        
+
         return $this->result[$id];
     }
 }

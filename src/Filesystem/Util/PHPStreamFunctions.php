@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace ILIAS\Filesystem\Util;
@@ -32,7 +33,6 @@ namespace ILIAS\Filesystem\Util;
  */
 final class PHPStreamFunctions
 {
-    
     /**
      * ftell wrapper
      *
@@ -46,25 +46,25 @@ final class PHPStreamFunctions
     {
         return ftell($handle);
     }
-    
+
     /**
      * @param resource $stream
      * @return int 0 or -1
      */
-    public static function fseek($stream, int $offset, int $whence) : int
+    public static function fseek($stream, int $offset, int $whence): int
     {
         return fseek($stream, $offset, $whence);
     }
-    
+
     /**
      * @param resource $handle
      * @see fclose()
      */
-    public static function fclose($handle) : void
+    public static function fclose($handle): void
     {
         fclose($handle);
     }
-    
+
     /**
      * @param resource $handle
      * @return bool|string
@@ -74,7 +74,7 @@ final class PHPStreamFunctions
     {
         return fread($handle, $length);
     }
-    
+
     /**
      * @param resource $handle
      * @return bool|string
@@ -84,7 +84,7 @@ final class PHPStreamFunctions
     {
         return stream_get_contents($handle, $length);
     }
-    
+
     /**
      * @param resource $handle
      * @return bool|int
@@ -96,7 +96,7 @@ final class PHPStreamFunctions
         if (is_null($length)) {
             return fwrite($handle, $string);
         }
-        
+
         return fwrite($handle, $string, $length);
     }
 }

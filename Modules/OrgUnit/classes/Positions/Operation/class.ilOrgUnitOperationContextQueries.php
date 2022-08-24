@@ -22,7 +22,6 @@
  */
 class ilOrgUnitOperationContextQueries
 {
-
     /**
      * @throws ilException
      */
@@ -50,7 +49,7 @@ class ilOrgUnitOperationContextQueries
 
     protected static array $instance_by_name = array();
 
-    public static function findByName(string $context_name) : ilOrgUnitOperationContext
+    public static function findByName(string $context_name): ilOrgUnitOperationContext
     {
         if (!isset(self::$instance_by_name[$context_name])) {
             self::$instance_by_name[$context_name] = ilOrgUnitOperationContext::where(array('context' => $context_name))
@@ -60,19 +59,19 @@ class ilOrgUnitOperationContextQueries
         return self::$instance_by_name[$context_name];
     }
 
-    public static function findById(int $id) : ActiveRecord /*ilOrgUnitOperationContext|ActiveRecord*/
+    public static function findById(int $id): ActiveRecord /*ilOrgUnitOperationContext|ActiveRecord*/
     {
         return ilOrgUnitOperationContext::find($id);
     }
 
-    public static function findByRefId(int $ref_id) : ilOrgUnitOperationContext
+    public static function findByRefId(int $ref_id): ilOrgUnitOperationContext
     {
         $type_context = ilObject2::_lookupType($ref_id, true);
 
         return self::findByName($type_context);
     }
 
-    public static function findByObjId(int $obj_id) : ilOrgUnitOperationContext
+    public static function findByObjId(int $obj_id): ilOrgUnitOperationContext
     {
         $type_context = ilObject2::_lookupType($obj_id, false);
 

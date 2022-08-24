@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -37,18 +39,18 @@ class ilForumXMLWriter extends ilXmlWriter
         parent::__construct();
     }
 
-    public function setForumId(int $id) : void
+    public function setForumId(int $id): void
     {
         $this->forum_id = $id;
     }
 
-    public function setFileTargetDirectories(string $a_rel, string $a_abs) : void
+    public function setFileTargetDirectories(string $a_rel, string $a_abs): void
     {
         $this->target_dir_relative = $a_rel;
         $this->target_dir_absolute = $a_abs;
     }
 
-    public function start() : bool
+    public function start(): bool
     {
         global $DIC;
         $ilDB = $DIC->database();
@@ -205,7 +207,7 @@ class ilForumXMLWriter extends ilXmlWriter
         return true;
     }
 
-    public function getXML() : string
+    public function getXML(): string
     {
         // Replace ascii code 11 characters because of problems with xml sax parser
         return str_replace('&#11;', '', $this->xmlDumpMem(false));

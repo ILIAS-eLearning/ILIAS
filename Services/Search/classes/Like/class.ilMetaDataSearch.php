@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -37,17 +39,17 @@ class ilMetaDataSearch extends ilAbstractSearch
     private string $mode = '';
 
 
-    public function setMode(string $a_mode) : void
+    public function setMode(string $a_mode): void
     {
         $this->mode = $a_mode;
     }
-    public function getMode() : string
+    public function getMode(): string
     {
         return $this->mode;
     }
 
 
-    public function performSearch() : ilSearchResult
+    public function performSearch(): ilSearchResult
     {
         switch ($this->getMode()) {
             case 'keyword':
@@ -68,7 +70,7 @@ class ilMetaDataSearch extends ilAbstractSearch
 
 
     // Private
-    public function __createInStatement() : string
+    public function __createInStatement(): string
     {
         if (!$this->getFilter()) {
             return '';
@@ -79,7 +81,7 @@ class ilMetaDataSearch extends ilAbstractSearch
             return " AND obj_type IN " . $type;
         }
     }
-    public function __searchContribute() : ilSearchResult
+    public function __searchContribute(): ilSearchResult
     {
         $this->setFields(array('entity'));
 
@@ -106,7 +108,7 @@ class ilMetaDataSearch extends ilAbstractSearch
     }
 
 
-    public function __searchKeywords() : ilSearchResult
+    public function __searchKeywords(): ilSearchResult
     {
         $this->setFields(array('keyword'));
 
@@ -130,7 +132,7 @@ class ilMetaDataSearch extends ilAbstractSearch
         }
         return $this->search_result;
     }
-    public function __searchTitles() : ilSearchResult
+    public function __searchTitles(): ilSearchResult
     {
         $this->setFields(array('title'));
 
@@ -154,7 +156,7 @@ class ilMetaDataSearch extends ilAbstractSearch
         }
         return $this->search_result;
     }
-    public function __searchDescriptions() : ilSearchResult
+    public function __searchDescriptions(): ilSearchResult
     {
         $this->setFields(array('description'));
 

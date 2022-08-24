@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /******************************************************************************
  *
@@ -23,10 +25,10 @@ class ilECSCommunity
     protected string $title = '';
     protected string $description = '';
     protected int $id = 0;
-    
+
     protected array $participants = array();
     protected int $position = 0;
-    
+
     /**
      * Constructor
      *
@@ -37,29 +39,29 @@ class ilECSCommunity
         $this->json_obj = $json_obj;
         $this->read();
     }
-    
+
     /**
      * get title
      */
-    public function getTitle() : string
+    public function getTitle(): string
     {
         return $this->title;
     }
-    
+
     /**
      * getDescription
      */
-    public function getDescription() : string
+    public function getDescription(): string
     {
         return $this->description;
     }
-    
+
     /**
      * get participants
      *
      * @return ilECSParticipant[]
      */
-    public function getParticipants() : array
+    public function getParticipants(): array
     {
         return $this->participants ?: [];
     }
@@ -67,7 +69,7 @@ class ilECSCommunity
     /**
      * Get array of mids of all participants
      */
-    public function getMids() : array
+    public function getMids(): array
     {
         $mids = [];
         foreach ($this->getParticipants() as $part) {
@@ -79,7 +81,7 @@ class ilECSCommunity
     /**
      * Get own mid of community
      */
-    public function getOwnId() : int
+    public function getOwnId(): int
     {
         foreach ($this->getParticipants() as $part) {
             if ($part->isSelf()) {
@@ -89,25 +91,25 @@ class ilECSCommunity
         return 0;
     }
 
-    
+
     /**
      * get id
      */
-    public function getId() : int
+    public function getId(): int
     {
         return $this->id;
     }
-    
-    
+
+
     /**
      * Read community entries and participants
      */
-    private function read() : void
+    private function read(): void
     {
         $this->title = $this->json_obj->community->name;
         $this->description = $this->json_obj->community->description;
         $this->id = $this->json_obj->community->cid;
-        
+
         foreach ($this->json_obj->participants as $participant) {
             $this->participants[] = new ilECSParticipant($participant, $this->getId());
         }

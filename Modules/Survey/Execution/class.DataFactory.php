@@ -1,4 +1,6 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -30,7 +32,7 @@ class DataFactory
     public function run(
         int $survey_id,
         int $user_id
-    ) : Run {
+    ): Run {
         return new Run($survey_id, $user_id);
     }
 }

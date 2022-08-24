@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\UI\Component\Modal;
 
 use ILIAS\UI\Component;
@@ -62,7 +64,7 @@ interface Factory
      * @param string $form_action The URL where the modal posts its form data
      * @return \ILIAS\UI\Component\Modal\Interruptive
      */
-    public function interruptive(string $title, string $message, string $form_action) : Interruptive;
+    public function interruptive(string $title, string $message, string $form_action): Interruptive;
 
 
     /**
@@ -98,7 +100,7 @@ interface Factory
         string $title,
         Image $icon = null,
         string $description = ''
-    ) : InterruptiveItem;
+    ): InterruptiveItem;
 
 
     /**
@@ -143,7 +145,7 @@ interface Factory
      * @param Component\Component|Component\Component[] $content
      * @return \ILIAS\UI\Component\Modal\RoundTrip
      */
-    public function roundtrip(string $title, array $content) : RoundTrip;
+    public function roundtrip(string $title, array $content): RoundTrip;
 
 
     /**
@@ -174,7 +176,7 @@ interface Factory
      * @param LightboxPage|LightboxPage[] $pages
      * @return \ILIAS\UI\Component\Modal\Lightbox
      */
-    public function lightbox($pages) : Lightbox;
+    public function lightbox($pages): Lightbox;
 
 
     /**
@@ -200,7 +202,7 @@ interface Factory
      * @param string $description
      * @return \ILIAS\UI\Component\Modal\LightboxImagePage
      */
-    public function lightboxImagePage(Image $image, string $title, string $description = '') : LightboxImagePage;
+    public function lightboxImagePage(Image $image, string $title, string $description = ''): LightboxImagePage;
 
     /**
      * ---
@@ -223,5 +225,5 @@ interface Factory
      * @param string $title
      * @return \ILIAS\UI\Component\Modal\LightboxTextPage
      */
-    public function lightboxTextPage(string $text, string $title) : LightboxTextPage;
+    public function lightboxTextPage(string $text, string $title): LightboxTextPage;
 }

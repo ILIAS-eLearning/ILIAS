@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -38,14 +40,14 @@ class ilObjSessionListGUI extends ilObjectListGUI
 
         $this->lng = $DIC->language();
         $this->ctrl = $DIC->ctrl();
-        
+
         $this->lng->loadLanguageModule('crs');
         $this->lng->loadLanguageModule('sess');
-        
+
         parent::__construct();
     }
 
-    public function init() : void
+    public function init(): void
     {
         $this->delete_enabled = true;
         $this->cut_enabled = true;
@@ -56,20 +58,20 @@ class ilObjSessionListGUI extends ilObjectListGUI
         $this->subitems_enabled = true;
         $this->type = "sess";
         $this->gui_class_name = "ilobjsessiongui";
-        
+
         $this->substitutions = ilAdvancedMDSubstitution::_getInstanceByObjectType($this->type);
         $this->enableSubstitutions($this->substitutions->isActive());
 
         // general commands array
         $this->commands = ilObjSessionAccess::_getCommands();
     }
-    
+
     /**
      * get title
      * Overwritten since sessions prepend the date of the session
      * to the title
      */
-    public function getTitle() : string
+    public function getTitle(): string
     {
         $app_info = $this->getAppointmentInfo();
         $title = strlen($this->title) ? (': ' . $this->title) : '';
@@ -80,21 +82,21 @@ class ilObjSessionListGUI extends ilObjectListGUI
         ) . $title;
     }
 
-    public function getCommandLink($a_cmd) : string
+    public function getCommandLink($a_cmd): string
     {
         $ilCtrl = $this->ctrl;
-        
+
         // separate method for this line
         $ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $this->ref_id);
         $cmd_link = $ilCtrl->getLinkTargetByClass("ilrepositorygui", $a_cmd);
         $ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $this->requested_ref_id);
         return $cmd_link;
     }
-    
+
     /**
      * Only check cmd access for cmd 'register' and 'unregister'
      */
-    public function checkCommandAccess($a_permission, $a_cmd, $a_ref_id, $a_type, $a_obj_id = null) : bool
+    public function checkCommandAccess($a_permission, $a_cmd, $a_ref_id, $a_type, $a_obj_id = null): bool
     {
         if ($a_cmd != 'register' && $a_cmd != 'unregister') {
             $a_cmd = '';
@@ -102,7 +104,7 @@ class ilObjSessionListGUI extends ilObjectListGUI
         return parent::checkCommandAccess($a_permission, $a_cmd, $a_ref_id, $a_type, $a_obj_id);
     }
 
-    public function getProperties() : array
+    public function getProperties(): array
     {
         $app_info = $this->getAppointmentInfo();
 
@@ -122,7 +124,7 @@ class ilObjSessionListGUI extends ilObjectListGUI
                 );
             }
         }
-        
+
         if ($this->getDetailsLevel() == ilObjectListGUI::DETAILS_MINIMAL) {
             if ($items = self::lookupAssignedMaterials($this->obj_id)) {
                 $props[] = array(
@@ -134,7 +136,7 @@ class ilObjSessionListGUI extends ilObjectListGUI
         }
         if ($this->getDetailsLevel() == ilObjectListGUI::DETAILS_ALL) {
             $session_data = ilObjSession::lookupSession($this->obj_id);
-            
+
             if (strlen($session_data['location'])) {
                 $props[] = array(
                     'alert' => false,
@@ -189,7 +191,7 @@ class ilObjSessionListGUI extends ilObjectListGUI
         return $props;
     }
 
-    protected function getAppointmentInfo() : array
+    protected function getAppointmentInfo(): array
     {
         if (isset($this->app_info[$this->obj_id])) {
             return $this->app_info[$this->obj_id];
@@ -197,12 +199,12 @@ class ilObjSessionListGUI extends ilObjectListGUI
         return $this->app_info[$this->obj_id] = ilSessionAppointment::_lookupAppointment($this->obj_id);
     }
 
-    protected static function lookupAssignedMaterials(int $a_sess_id) : array
+    protected static function lookupAssignedMaterials(int $a_sess_id): array
     {
         global $DIC;
 
         $ilDB = $DIC->database();
-        
+
         $query = 'SELECT * FROM event_items ei ' .
                 'JOIN tree ON item_id = child ' .
                 'WHERE event_id = ' . $ilDB->quote($a_sess_id, 'integer') . ' ' .

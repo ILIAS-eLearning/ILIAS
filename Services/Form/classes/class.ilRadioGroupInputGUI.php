@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -25,7 +27,7 @@ class ilRadioGroupInputGUI extends ilSubEnabledFormPropertyGUI implements ilTabl
 {
     protected array $options = array();
     protected string $value = "";
-    
+
     public function __construct(
         string $a_title = "",
         string $a_postvar = ""
@@ -36,28 +38,28 @@ class ilRadioGroupInputGUI extends ilSubEnabledFormPropertyGUI implements ilTabl
         parent::__construct($a_title, $a_postvar);
         $this->setType("radio");
     }
-    
-    public function addOption(ilRadioOption $a_option) : void
+
+    public function addOption(ilRadioOption $a_option): void
     {
         $this->options[] = $a_option;
     }
 
-    public function getOptions() : array
+    public function getOptions(): array
     {
         return $this->options;
     }
 
-    public function setValue(string $a_value) : void
+    public function setValue(string $a_value): void
     {
         $this->value = $a_value;
     }
 
-    public function getValue() : string
+    public function getValue(): string
     {
         return $this->value;
     }
-    
-    public function setValueByArray(array $a_values) : void
+
+    public function setValueByArray(array $a_values): void
     {
         $this->setValue((string) ($a_values[$this->getPostVar()] ?? ""));
         foreach ($this->getOptions() as $option) {
@@ -67,7 +69,7 @@ class ilRadioGroupInputGUI extends ilSubEnabledFormPropertyGUI implements ilTabl
         }
     }
 
-    public function checkInput() : bool
+    public function checkInput(): bool
     {
         $lng = $this->lng;
 
@@ -76,7 +78,7 @@ class ilRadioGroupInputGUI extends ilSubEnabledFormPropertyGUI implements ilTabl
             $this->setAlert($lng->txt("msg_input_is_required"));
             return false;
         }
-        
+
         $ok = true;
         $value = $this->getInput();
         foreach ($this->getOptions() as $option) {
@@ -91,12 +93,12 @@ class ilRadioGroupInputGUI extends ilSubEnabledFormPropertyGUI implements ilTabl
         return $ok;
     }
 
-    public function getInput() : string
+    public function getInput(): string
     {
         return $this->str($this->getPostVar());
     }
 
-    public function insert(ilTemplate $a_tpl) : void
+    public function insert(ilTemplate $a_tpl): void
     {
         $html = $this->render();
 
@@ -105,10 +107,10 @@ class ilRadioGroupInputGUI extends ilSubEnabledFormPropertyGUI implements ilTabl
         $a_tpl->parseCurrentBlock();
     }
 
-    public function render() : string
+    public function render(): string
     {
         $tpl = new ilTemplate("tpl.prop_radio.html", true, true, "Services/Form");
-        
+
         foreach ($this->getOptions() as $option) {
             // information text for option
             if ($option->getInfo() != "") {
@@ -116,8 +118,8 @@ class ilRadioGroupInputGUI extends ilSubEnabledFormPropertyGUI implements ilTabl
                 $tpl->setVariable("RADIO_OPTION_DESC", $option->getInfo());
                 $tpl->parseCurrentBlock();
             }
-            
-            
+
+
             if (count($option->getSubItems()) > 0) {
                 if ($option->getValue() != $this->getValue()) {
                     // #10930
@@ -158,12 +160,12 @@ class ilRadioGroupInputGUI extends ilSubEnabledFormPropertyGUI implements ilTabl
                 );
             }
             $tpl->setVariable("TXT_RADIO_OPTION", $option->getTitle());
-            
-            
+
+
             $tpl->parseCurrentBlock();
         }
         $tpl->setVariable("ID", $this->getFieldId());
-        
+
         if ($this->getDisabled()) {
             $tpl->setVariable(
                 "HIDDEN_INPUT",
@@ -174,7 +176,7 @@ class ilRadioGroupInputGUI extends ilSubEnabledFormPropertyGUI implements ilTabl
         return $tpl->get();
     }
 
-    public function getItemByPostVar(string $a_post_var) : ?ilFormPropertyGUI
+    public function getItemByPostVar(string $a_post_var): ?ilFormPropertyGUI
     {
         if ($this->getPostVar() == $a_post_var) {
             return $this;
@@ -190,16 +192,16 @@ class ilRadioGroupInputGUI extends ilSubEnabledFormPropertyGUI implements ilTabl
                 }
             }
         }
-        
+
         return null;
     }
 
-    public function getTableFilterHTML() : string
+    public function getTableFilterHTML(): string
     {
         return $this->render();
     }
 
-    public function getSubInputItemsRecursive() : array
+    public function getSubInputItemsRecursive(): array
     {
         $subInputItems = parent::getSubInputItemsRecursive();
         foreach ($this->getOptions() as $option) {
@@ -212,7 +214,7 @@ class ilRadioGroupInputGUI extends ilSubEnabledFormPropertyGUI implements ilTabl
         return $subInputItems;
     }
 
-    public function getFormLabelFor() : string
+    public function getFormLabelFor(): string
     {
         return "";
     }

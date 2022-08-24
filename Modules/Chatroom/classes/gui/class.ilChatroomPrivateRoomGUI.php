@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -24,7 +26,7 @@
  */
 class ilChatroomPrivateRoomGUI extends ilChatroomGUIHandler
 {
-    protected function exitIfEnterRoomIsNotAllowed(ilChatroom $room, int $subRoom, ilChatroomUser $chat_user) : void
+    protected function exitIfEnterRoomIsNotAllowed(ilChatroom $room, int $subRoom, ilChatroomUser $chat_user): void
     {
         if (!$room->isAllowedToEnterPrivateRoom($chat_user->getUserId(), $subRoom)) {
             $this->sendResponse([
@@ -34,7 +36,7 @@ class ilChatroomPrivateRoomGUI extends ilChatroomGUIHandler
         }
     }
 
-    protected function exitIfNoRoomSubscription(ilChatroom $room, ilChatroomUser $chat_user) : void
+    protected function exitIfNoRoomSubscription(ilChatroom $room, ilChatroomUser $chat_user): void
     {
         if (!$room->isSubscribed($chat_user->getUserId())) {
             $this->sendResponse([
@@ -44,11 +46,11 @@ class ilChatroomPrivateRoomGUI extends ilChatroomGUIHandler
         }
     }
 
-    public function executeDefault(string $requestedMethod) : void
+    public function executeDefault(string $requestedMethod): void
     {
     }
 
-    public function create() : void
+    public function create(): void
     {
         $this->redirectIfNoPermission('read');
 
@@ -78,7 +80,7 @@ class ilChatroomPrivateRoomGUI extends ilChatroomGUIHandler
         $this->sendResponse($response);
     }
 
-    public function delete() : void
+    public function delete(): void
     {
         $room = ilChatroom::byObjectId($this->gui->getObject()->getId());
 
@@ -96,14 +98,14 @@ class ilChatroomPrivateRoomGUI extends ilChatroomGUIHandler
         $this->sendResponse($response);
     }
 
-    public function leave() : void
+    public function leave(): void
     {
         $this->redirectIfNoPermission('read');
 
         $room = ilChatroom::byObjectId($this->gui->getObject()->getId());
 
         $this->exitIfNoRoomExists($room);
-        
+
         $subRoom = $this->getRequestValue('sub', $this->refinery->kindlyTo()->int());
         $chat_user = new ilChatroomUser($this->ilUser, $room);
         $this->exitIfNoRoomSubscription($room, $chat_user);
@@ -118,7 +120,7 @@ class ilChatroomPrivateRoomGUI extends ilChatroomGUIHandler
         $this->sendResponse($response);
     }
 
-    public function enter() : void
+    public function enter(): void
     {
         $this->redirectIfNoPermission('read');
 
@@ -139,7 +141,7 @@ class ilChatroomPrivateRoomGUI extends ilChatroomGUIHandler
         $this->sendResponse($response);
     }
 
-    public function listUsers() : void
+    public function listUsers(): void
     {
         $this->redirectIfNoPermission('read');
 

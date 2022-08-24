@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\UI\Implementation\Component\Listing;
 
 use ILIAS\UI\Component\Listing as L;
@@ -29,7 +31,7 @@ class Factory implements L\Factory
     /**
      * @inheritdoc
      */
-    public function unordered(array $items) : L\Unordered
+    public function unordered(array $items): L\Unordered
     {
         return new Unordered($items);
     }
@@ -37,7 +39,7 @@ class Factory implements L\Factory
     /**
      * @inheritdoc
      */
-    public function ordered(array $items) : L\Ordered
+    public function ordered(array $items): L\Ordered
     {
         return new Ordered($items);
     }
@@ -45,7 +47,7 @@ class Factory implements L\Factory
     /**
      * @inheritdoc
      */
-    public function descriptive(array $items) : L\Descriptive
+    public function descriptive(array $items): L\Descriptive
     {
         return new Descriptive($items);
     }
@@ -53,7 +55,7 @@ class Factory implements L\Factory
     /**
      * @inheritdoc
      */
-    public function workflow() : L\Workflow\Factory
+    public function workflow(): L\Workflow\Factory
     {
         return new Workflow\Factory();
     }
@@ -61,7 +63,7 @@ class Factory implements L\Factory
     /**
      * @inheritdoc
      */
-    public function characteristicValue() : L\CharacteristicValue\Factory
+    public function characteristicValue(): L\CharacteristicValue\Factory
     {
         return new CharacteristicValue\Factory();
     }

@@ -53,7 +53,7 @@ class FlySystemFileStreamAccessTest extends TestCase
      * Sets up the fixture, for example, open a network connection.
      * This method is called before a test is executed.
      */
-    protected function setUp() : void
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -65,7 +65,7 @@ class FlySystemFileStreamAccessTest extends TestCase
      * @Test
      * @small
      */
-    public function testReadStreamWhichShouldSucceed() : void
+    public function testReadStreamWhichShouldSucceed(): void
     {
         $path = '/path/to/your/file';
         $fileContent = 'Awesome file content';
@@ -85,7 +85,7 @@ class FlySystemFileStreamAccessTest extends TestCase
      * @Test
      * @small
      */
-    public function testReadStreamWithMissingFileWhichShouldFail() : void
+    public function testReadStreamWithMissingFileWhichShouldFail(): void
     {
         $path = '/path/to/your/file';
 
@@ -104,7 +104,7 @@ class FlySystemFileStreamAccessTest extends TestCase
      * @Test
      * @small
      */
-    public function testReadStreamWithGeneralFailureWhichShouldFail() : void
+    public function testReadStreamWithGeneralFailureWhichShouldFail(): void
     {
         $path = '/path/to/your/file';
 
@@ -123,7 +123,7 @@ class FlySystemFileStreamAccessTest extends TestCase
      * @Test
      * @small
      */
-    public function testWriteStreamWhichShouldSucceed() : void
+    public function testWriteStreamWhichShouldSucceed(): void
     {
         $path = '/path/to/your/file';
         $fileContent = 'Awesome file content';
@@ -141,13 +141,13 @@ class FlySystemFileStreamAccessTest extends TestCase
      * @Test
      * @small
      */
-    public function testWriteStreamWithDetachedStreamWhichShouldFail() : void
+    public function testWriteStreamWithDetachedStreamWhichShouldFail(): void
     {
         $path = '/path/to/your/file';
         $fileContent = 'Awesome file content';
         $stream = Streams::ofString($fileContent);
         $stream->detach();
-        
+
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage('The given stream must not be detached.');
 
@@ -158,7 +158,7 @@ class FlySystemFileStreamAccessTest extends TestCase
      * @Test
      * @small
      */
-    public function testWriteStreamWithExistingFileWhichShouldFail() : void
+    public function testWriteStreamWithExistingFileWhichShouldFail(): void
     {
         $path = '/path/to/your/file';
         $fileContent = 'Awesome file content';
@@ -168,7 +168,7 @@ class FlySystemFileStreamAccessTest extends TestCase
             ->once()
             ->withArgs([$path, \resourceValue()])
             ->andThrow(FileExistsException::class);
-        
+
         $this->expectException(FileAlreadyExistsException::class);
         $this->expectExceptionMessage("File \"$path\" already exists.");
 
@@ -179,7 +179,7 @@ class FlySystemFileStreamAccessTest extends TestCase
      * @Test
      * @small
      */
-    public function testWriteStreamWithFailingAdapterWhichShouldFail() : void
+    public function testWriteStreamWithFailingAdapterWhichShouldFail(): void
     {
         $path = '/path/to/your/file';
         $fileContent = 'Awesome file content';
@@ -200,7 +200,7 @@ class FlySystemFileStreamAccessTest extends TestCase
      * @Test
      * @small
      */
-    public function testPutStreamWhichShouldSucceed() : void
+    public function testPutStreamWhichShouldSucceed(): void
     {
         $path = '/path/to/your/file';
         $fileContent = 'Awesome file content';
@@ -218,7 +218,7 @@ class FlySystemFileStreamAccessTest extends TestCase
      * @Test
      * @small
      */
-    public function testPutStreamWithGeneralFailureWhichShouldFail() : void
+    public function testPutStreamWithGeneralFailureWhichShouldFail(): void
     {
         $path = '/path/to/your/file';
         $fileContent = 'Awesome file content';
@@ -239,7 +239,7 @@ class FlySystemFileStreamAccessTest extends TestCase
      * @Test
      * @small
      */
-    public function testPutStreamWithDetachedStreamWhichShouldFail() : void
+    public function testPutStreamWithDetachedStreamWhichShouldFail(): void
     {
         $path = '/path/to/your/file';
         $fileContent = 'Awesome file content';
@@ -256,7 +256,7 @@ class FlySystemFileStreamAccessTest extends TestCase
      * @Test
      * @small
      */
-    public function testUpdateStreamWhichShouldSucceed() : void
+    public function testUpdateStreamWhichShouldSucceed(): void
     {
         $path = '/path/to/your/file';
         $fileContent = 'Awesome file content';
@@ -274,7 +274,7 @@ class FlySystemFileStreamAccessTest extends TestCase
      * @Test
      * @small
      */
-    public function testUpdateStreamWithDetachedStreamWhichShouldFail() : void
+    public function testUpdateStreamWithDetachedStreamWhichShouldFail(): void
     {
         $path = '/path/to/your/file';
         $fileContent = 'Awesome file content';
@@ -291,7 +291,7 @@ class FlySystemFileStreamAccessTest extends TestCase
      * @Test
      * @small
      */
-    public function testUpdateStreamWithGeneralFailureWhichShouldFail() : void
+    public function testUpdateStreamWithGeneralFailureWhichShouldFail(): void
     {
         $path = '/path/to/your/file';
         $fileContent = 'Awesome file content';
@@ -301,7 +301,7 @@ class FlySystemFileStreamAccessTest extends TestCase
             ->once()
             ->withArgs([$path, \resourceValue()])
             ->andReturn(false);
-        
+
         $this->expectException(IOException::class);
         $this->expectExceptionMessage("Could not update file \"$path\"");
 
@@ -312,7 +312,7 @@ class FlySystemFileStreamAccessTest extends TestCase
      * @Test
      * @small
      */
-    public function testUpdateStreamWithMissingFileWhichShouldFail() : void
+    public function testUpdateStreamWithMissingFileWhichShouldFail(): void
     {
         $path = '/path/to/your/file';
         $fileContent = 'Awesome file content';

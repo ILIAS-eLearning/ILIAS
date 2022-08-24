@@ -1,4 +1,6 @@
-<?php return [
+<?php
+
+return [
     '3gp',    // VIDEO__3_GPP
     '7z',                        // application/x-7z-compressed
     'ai',    // APPLICATION__POSTSCRIPT

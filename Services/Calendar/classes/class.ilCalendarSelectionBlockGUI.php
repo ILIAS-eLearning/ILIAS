@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
 
@@ -118,7 +120,7 @@ class ilCalendarSelectionBlockGUI extends ilBlockGUI
     /**
      * @inheritDoc
      */
-    protected function isRepositoryObject() : bool
+    protected function isRepositoryObject(): bool
     {
         return false;
     }
@@ -126,7 +128,7 @@ class ilCalendarSelectionBlockGUI extends ilBlockGUI
     /**
      * @inheritDoc
      */
-    public function getBlockType() : string
+    public function getBlockType(): string
     {
         return self::$block_type;
     }
@@ -134,7 +136,7 @@ class ilCalendarSelectionBlockGUI extends ilBlockGUI
     /**
      * @inheritDoc
      */
-    public static function getScreenMode() : string
+    public static function getScreenMode(): string
     {
         global $DIC;
 
@@ -143,7 +145,7 @@ class ilCalendarSelectionBlockGUI extends ilBlockGUI
         return IL_SCREEN_SIDE;
     }
 
-    public function executeCommand() : string
+    public function executeCommand(): string
     {
         $next_class = $this->ctrl->getNextClass();
         $cmd = $this->ctrl->getCmd("getHTML");
@@ -156,7 +158,7 @@ class ilCalendarSelectionBlockGUI extends ilBlockGUI
     /**
      * Get calendars
      */
-    public function getCalendars() : void
+    public function getCalendars(): void
     {
         $hidden_obj = ilCalendarVisibility::_getInstanceByUserId($this->user->getId(), $this->ref_id);
         $hidden = $hidden_obj->getHidden();
@@ -262,7 +264,7 @@ class ilCalendarSelectionBlockGUI extends ilBlockGUI
     /**
      * Build path for ref id
      */
-    protected function buildPath($a_ref_id) : string
+    protected function buildPath($a_ref_id): string
     {
         $path_arr = $this->tree->getPathFull($a_ref_id, ROOT_FOLDER_ID);
         $counter = 0;
@@ -281,7 +283,7 @@ class ilCalendarSelectionBlockGUI extends ilBlockGUI
         return $path;
     }
 
-    protected function getLegacyContent() : string
+    protected function getLegacyContent(): string
     {
         $tpl = new ilTemplate("tpl.cal_selection_block_content.html", true, true, "Services/Calendar");
 
@@ -312,7 +314,7 @@ class ilCalendarSelectionBlockGUI extends ilBlockGUI
         return $tpl->get();
     }
 
-    protected function renderItem(array $a_set, ilTemplate $a_tpl) : void
+    protected function renderItem(array $a_set, ilTemplate $a_tpl): void
     {
         if (strlen((string) $a_set['path'])) {
             $a_tpl->setCurrentBlock('calendar_path');
@@ -421,7 +423,7 @@ class ilCalendarSelectionBlockGUI extends ilBlockGUI
     /**
      * @inheritDoc
      */
-    public function getHTML() : string
+    public function getHTML(): string
     {
         $this->getCalendars();
         return parent::getHTML();
@@ -430,7 +432,7 @@ class ilCalendarSelectionBlockGUI extends ilBlockGUI
     /**
      * @inheritdoc
      */
-    protected function getListItemForData(array $data) : ?\ILIAS\UI\Component\Item\Item
+    protected function getListItemForData(array $data): ?\ILIAS\UI\Component\Item\Item
     {
         $factory = $this->ui->factory();
         if (isset($data["shy_button"])) {

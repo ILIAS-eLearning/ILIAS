@@ -38,42 +38,42 @@ class StandardGUIRequest
         );
     }
 
-    public function getLinkParentRefId() : int
+    public function getLinkParentRefId(): int
     {
         return $this->int("link_par_ref_id");
     }
 
-    public function getLinkParentFolderId() : int
+    public function getLinkParentFolderId(): int
     {
         return $this->int("link_par_fold_id");
     }
 
-    public function getLinkParentObjId() : int
+    public function getLinkParentObjId(): int
     {
         return $this->int("link_par_obj_id");
     }
 
-    public function getLinkType() : string
+    public function getLinkType(): string
     {
         return $this->str("link_type");
     }
 
-    public function getMediaPoolFolder() : int
+    public function getMediaPoolFolder(): int
     {
         return $this->int("mep_fold");
     }
 
-    public function getDo() : string
+    public function getDo(): string
     {
         return $this->str("do");
     }
 
-    public function getSelectedId() : int
+    public function getSelectedId(): int
     {
         return $this->int("sel_id");
     }
 
-    public function getUserSearchStr() : string
+    public function getUserSearchStr(): string
     {
         return $this->str("usr_search_str");
     }

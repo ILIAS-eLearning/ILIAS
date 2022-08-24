@@ -1,4 +1,5 @@
 <?php
+
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -32,7 +33,7 @@ class ilObjQuestionPoolListGUI extends ilObjectListGUI
     /**
     * initialisation
     */
-    public function init() : void
+    public function init(): void
     {
         $this->delete_enabled = true;
         $this->cut_enabled = true;
@@ -53,7 +54,7 @@ class ilObjQuestionPoolListGUI extends ilObjectListGUI
     /**
     * Get command target frame
     */
-    public function getCommandFrame(string $cmd) : string
+    public function getCommandFrame(string $cmd): string
     {
         $frame = '';
         switch ($cmd) {
@@ -79,7 +80,7 @@ class ilObjQuestionPoolListGUI extends ilObjectListGUI
     *						"property" (string) => property name
     *						"value" (string) => property value
     */
-    public function getProperties() : array
+    public function getProperties(): array
     {
         global $DIC;
         $lng = $DIC['lng'];
@@ -99,7 +100,7 @@ class ilObjQuestionPoolListGUI extends ilObjectListGUI
     /**
     * Get command link url.
     */
-    public function getCommandLink(string $cmd) : string
+    public function getCommandLink(string $cmd): string
     {
         global $DIC;
         $ilCtrl = $DIC['ilCtrl'];

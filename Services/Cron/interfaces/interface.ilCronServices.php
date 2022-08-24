@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -18,7 +20,7 @@
 
 interface ilCronServices
 {
-    public function manager() : ilCronManager;
+    public function manager(): ilCronManager;
 
-    public function repository() : ilCronJobRepository;
+    public function repository(): ilCronJobRepository;
 }

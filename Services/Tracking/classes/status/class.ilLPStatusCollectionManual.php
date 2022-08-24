@@ -1,4 +1,6 @@
-<?php declare(strict_types=0);
+<?php
+
+declare(strict_types=0);
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -7,7 +9,7 @@
  */
 class ilLPStatusCollectionManual extends ilLPStatus
 {
-    public static function _getInProgress(int $a_obj_id) : array
+    public static function _getInProgress(int $a_obj_id): array
     {
         $status_info = ilLPStatusWrapper::_getStatusInfo($a_obj_id);
 
@@ -23,7 +25,7 @@ class ilLPStatusCollectionManual extends ilLPStatus
         return array_diff($users, ilLPStatusWrapper::_getCompleted($a_obj_id));
     }
 
-    public static function _getCompleted(int $a_obj_id) : array
+    public static function _getCompleted(int $a_obj_id): array
     {
         $status_info = ilLPStatusWrapper::_getStatusInfo($a_obj_id);
 
@@ -41,7 +43,7 @@ class ilLPStatusCollectionManual extends ilLPStatus
         return array_unique($users);
     }
 
-    public static function _getStatusInfo(int $a_obj_id) : array
+    public static function _getStatusInfo(int $a_obj_id): array
     {
         $status_info = array();
 
@@ -89,7 +91,7 @@ class ilLPStatusCollectionManual extends ilLPStatus
         int $a_obj_id,
         int $a_usr_id,
         object $a_obj = null
-    ) : int {
+    ): int {
         $info = self::_getStatusInfo($a_obj_id);
 
         if (isset($info["completed"])) {
@@ -118,7 +120,7 @@ class ilLPStatusCollectionManual extends ilLPStatus
     public static function _getObjectStatus(
         $a_obj_id,
         $a_user_id = null
-    ) : array {
+    ): array {
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
@@ -148,7 +150,7 @@ class ilLPStatusCollectionManual extends ilLPStatus
         int $a_obj_id,
         int $a_user_id,
         array $a_completed = null
-    ) : void {
+    ): void {
         global $DIC;
 
         $ilDB = $DIC['ilDB'];

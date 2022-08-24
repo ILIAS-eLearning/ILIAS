@@ -45,12 +45,12 @@ class ilCalendarRecurrenceExclusion
         }
     }
 
-    public function getId() : int
+    public function getId(): int
     {
         return $this->exclusion_id;
     }
 
-    public function getEntryId() : int
+    public function getEntryId(): int
     {
         return $this->cal_id;
     }
@@ -60,7 +60,7 @@ class ilCalendarRecurrenceExclusion
         $this->cal_id = $a_id;
     }
 
-    public function getDate() : ?ilDate
+    public function getDate(): ?ilDate
     {
         return $this->exclusion instanceof ilDate ? $this->exclusion : null;
     }
@@ -68,12 +68,12 @@ class ilCalendarRecurrenceExclusion
     /**
      * Set exclusion date
      */
-    public function setDate(?ilDate $dt = null) : void
+    public function setDate(?ilDate $dt = null): void
     {
         $this->exclusion = $dt;
     }
 
-    public function toICal() : string
+    public function toICal(): string
     {
         $entry = new ilCalendarEntry($this->getEntryId());
         $start = $entry->getStart();
@@ -87,7 +87,7 @@ class ilCalendarRecurrenceExclusion
         }
     }
 
-    public function save() : int
+    public function save(): int
     {
         if (!$this->getDate()) {
             return 0;

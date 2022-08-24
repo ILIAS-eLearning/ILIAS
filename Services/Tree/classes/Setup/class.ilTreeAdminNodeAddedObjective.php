@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -42,22 +44,22 @@ class ilTreeAdminNodeAddedObjective implements Setup\Objective
         $this->title = $title;
     }
 
-    public function getHash() : string
+    public function getHash(): string
     {
         return hash("sha256", self::class);
     }
 
-    public function getLabel() : string
+    public function getLabel(): string
     {
         return "Add new admin node to tree (type=$this->type;title=$this->title)";
     }
 
-    public function isNotable() : bool
+    public function isNotable(): bool
     {
         return true;
     }
 
-    public function getPreconditions(Environment $environment) : array
+    public function getPreconditions(Environment $environment): array
     {
         return [
             new ilIniFilesLoadedObjective(),
@@ -65,7 +67,7 @@ class ilTreeAdminNodeAddedObjective implements Setup\Objective
         ];
     }
 
-    public function achieve(Environment $environment) : Environment
+    public function achieve(Environment $environment): Environment
     {
         global $DIC;
         $client_ini = $environment->getResource(Setup\Environment::RESOURCE_CLIENT_INI);
@@ -133,7 +135,7 @@ class ilTreeAdminNodeAddedObjective implements Setup\Objective
         return $environment;
     }
 
-    public function isApplicable(Environment $environment) : bool
+    public function isApplicable(Environment $environment): bool
     {
         $db = $environment->getResource(Environment::RESOURCE_DATABASE);
         return !((bool) ilObject::_getObjectTypeIdByTitle($this->type, $db));

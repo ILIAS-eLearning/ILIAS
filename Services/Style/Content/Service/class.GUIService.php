@@ -1,4 +1,6 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -36,7 +38,7 @@ class GUIService
         $this->internal = $internal_service;
     }
 
-    public function objectSettingsClass(bool $lower = true) : string
+    public function objectSettingsClass(bool $lower = true): string
     {
         return $this->internal->gui()->objectSettingsClass($lower);
     }
@@ -44,7 +46,7 @@ class GUIService
     public function objectSettingsGUIForRefId(
         ?int $selected_style_id,
         int $ref_id
-    ) : ilObjectContentStyleSettingsGUI {
+    ): ilObjectContentStyleSettingsGUI {
         return $this->internal->gui()->objectSettingsGUI(
             $selected_style_id,
             $ref_id
@@ -54,7 +56,7 @@ class GUIService
     public function objectSettingsGUIForObjId(
         ?int $selected_style_id,
         int $obj_id
-    ) : ilObjectContentStyleSettingsGUI {
+    ): ilObjectContentStyleSettingsGUI {
         return $this->internal->gui()->objectSettingsGUI(
             $selected_style_id,
             0,
@@ -63,7 +65,7 @@ class GUIService
     }
 
 
-    public function redirectToObjectSettings() : void
+    public function redirectToObjectSettings(): void
     {
         $this->internal->gui()->ctrl()->redirectByClass(
             $this->objectSettingsClass(),
@@ -72,7 +74,7 @@ class GUIService
     }
 
     // add effective style sheet path to global template
-    public function addCss(ilGlobalTemplateInterface $tpl, int $ref_id, int $obj_id = 0) : void
+    public function addCss(ilGlobalTemplateInterface $tpl, int $ref_id, int $obj_id = 0): void
     {
         $eff_style_id = $this->internal->domain()->object($ref_id, $obj_id)->getEffectiveStyleId();
         $tpl->addCss(ilObjStyleSheet::getContentStylePath($eff_style_id));

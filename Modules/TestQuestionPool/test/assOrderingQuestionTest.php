@@ -1,4 +1,5 @@
 <?php
+
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -12,7 +13,7 @@ class assOrderingQuestionTest extends assBaseTestCase
 {
     protected $backupGlobals = false;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -35,7 +36,7 @@ class assOrderingQuestionTest extends assBaseTestCase
         $this->setGlobalVariable('ilDB', $this->getDatabaseMock());
     }
 
-    public function test_instantiateObject_shouldReturnInstance() : void
+    public function test_instantiateObject_shouldReturnInstance(): void
     {
         // Arrange
         require_once './Modules/TestQuestionPool/classes/class.assOrderingQuestion.php';
@@ -46,7 +47,7 @@ class assOrderingQuestionTest extends assBaseTestCase
         $this->assertInstanceOf('assOrderingQuestion', $instance);
     }
 
-    public function testOrderingElementListDefaults() : ilAssOrderingElementList
+    public function testOrderingElementListDefaults(): ilAssOrderingElementList
     {
         $question_id = 7;
         $list = new ilAssOrderingElementList($question_id);
@@ -65,7 +66,7 @@ class assOrderingQuestionTest extends assBaseTestCase
         $this->assertNotEquals($original, $list->withElements([]));
     }
 
-    public function testOrderingElementDefaults() : ilAssOrderingElement
+    public function testOrderingElementDefaults(): ilAssOrderingElement
     {
         $element_id = 12;
         $element = new ilAssOrderingElement($element_id);

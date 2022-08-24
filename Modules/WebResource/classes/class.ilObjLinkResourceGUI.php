@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -63,12 +65,12 @@ class ilObjLinkResourceGUI extends ilObject2GUI
         $this->settings = $DIC->settings();
     }
 
-    protected function getWebLinkRepo() : ilWebLinkRepository
+    protected function getWebLinkRepo(): ilWebLinkRepository
     {
         return new ilWebLinkDatabaseRepository($this->object->getId());
     }
 
-    public function getType() : string
+    public function getType(): string
     {
         return "webr";
     }
@@ -76,7 +78,7 @@ class ilObjLinkResourceGUI extends ilObject2GUI
     /**
      * @todo no view mode for workspace?
      */
-    protected function initViewMode(?int $new_view_mode = null) : void
+    protected function initViewMode(?int $new_view_mode = null): void
     {
         if ($new_view_mode !== null) {
             ilSession::set('webr_view_mode', $new_view_mode);
@@ -86,7 +88,7 @@ class ilObjLinkResourceGUI extends ilObject2GUI
         }
     }
 
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         $this->initViewMode();
 
@@ -173,13 +175,13 @@ class ilObjLinkResourceGUI extends ilObject2GUI
         }
     }
 
-    protected function initCreateForm(string $new_type) : ilPropertyFormGUI
+    protected function initCreateForm(string $new_type): ilPropertyFormGUI
     {
         $this->initFormLink(self::LINK_MOD_CREATE);
         return $this->form;
     }
 
-    public function save() : void
+    public function save(): void
     {
         $this->initFormLink(self::LINK_MOD_CREATE);
         $valid = $this->form->checkInput();
@@ -202,7 +204,7 @@ class ilObjLinkResourceGUI extends ilObject2GUI
         }
     }
 
-    protected function afterSave(ilObject $new_object) : void
+    protected function afterSave(ilObject $new_object): void
     {
         $new_web_link_repo = new ilWebLinkDatabaseRepository($new_object->getId());
 
@@ -236,7 +238,7 @@ class ilObjLinkResourceGUI extends ilObject2GUI
         }
     }
 
-    protected function settings() : void
+    protected function settings(): void
     {
         $this->checkPermission('write');
         $this->tabs_gui->activateTab('id_settings');
@@ -245,7 +247,7 @@ class ilObjLinkResourceGUI extends ilObject2GUI
         $this->tpl->setContent($form->getHTML());
     }
 
-    protected function saveSettings() : void
+    protected function saveSettings(): void
     {
         $obj_service = $this->object_service;
 
@@ -291,7 +293,7 @@ class ilObjLinkResourceGUI extends ilObject2GUI
         $this->tpl->setContent($form->getHTML());
     }
 
-    protected function initFormSettings() : ilPropertyFormGUI
+    protected function initFormSettings(): ilPropertyFormGUI
     {
         $obj_service = $this->object_service;
 
@@ -383,7 +385,7 @@ class ilObjLinkResourceGUI extends ilObject2GUI
         return $this->form;
     }
 
-    public function editLink() : void
+    public function editLink(): void
     {
         $this->checkPermission('write');
         $this->activateTabs('content', 'id_content_view');
@@ -408,7 +410,7 @@ class ilObjLinkResourceGUI extends ilObject2GUI
         $this->tpl->setContent($form->getHTML());
     }
 
-    public function updateLink() : void
+    public function updateLink(): void
     {
         $form = $this->initFormLink(self::LINK_MOD_EDIT);
         $valid = $form->checkInput();
@@ -460,7 +462,7 @@ class ilObjLinkResourceGUI extends ilObject2GUI
     /**
      * Get form to transform a single weblink to a weblink list
      */
-    public function getLinkToListModal() : Component
+    public function getLinkToListModal(): Component
     {
         global $DIC;
 
@@ -502,7 +504,7 @@ class ilObjLinkResourceGUI extends ilObject2GUI
         return $modal;
     }
 
-    public function saveLinkList() : void
+    public function saveLinkList(): void
     {
         $this->checkPermission('write');
         $form = $this->initFormLink(self::LINK_MOD_SET_LIST);
@@ -530,7 +532,7 @@ class ilObjLinkResourceGUI extends ilObject2GUI
         $this->view();
     }
 
-    public function addLink() : void
+    public function addLink(): void
     {
         $this->checkPermission('write');
         $this->activateTabs('content', 'id_content_view');
@@ -539,7 +541,7 @@ class ilObjLinkResourceGUI extends ilObject2GUI
         $this->tpl->setContent($form->getHTML());
     }
 
-    public function saveAddLink() : void
+    public function saveAddLink(): void
     {
         $this->checkPermission('write');
 
@@ -575,7 +577,7 @@ class ilObjLinkResourceGUI extends ilObject2GUI
         $this->tpl->setContent($form->getHTML());
     }
 
-    protected function deleteParameter() : void
+    protected function deleteParameter(): void
     {
         $this->checkPermission('write');
 
@@ -611,7 +613,7 @@ class ilObjLinkResourceGUI extends ilObject2GUI
         $this->ctrl->redirect($this, 'editLinks');
     }
 
-    protected function deleteParameterForm() : void
+    protected function deleteParameterForm(): void
     {
         $this->checkPermission('write');
 
@@ -645,7 +647,7 @@ class ilObjLinkResourceGUI extends ilObject2GUI
         $this->ctrl->redirect($this, 'view');
     }
 
-    protected function updateLinks() : void
+    protected function updateLinks(): void
     {
         $this->checkPermission('write');
         $this->activateTabs('content', '');
@@ -790,7 +792,7 @@ class ilObjLinkResourceGUI extends ilObject2GUI
         $this->ctrl->redirect($this, 'view');
     }
 
-    protected function setValuesFromLink(int $a_link_id) : void
+    protected function setValuesFromLink(int $a_link_id): void
     {
         $item = $this->getWebLinkRepo()->getItemByLinkId($a_link_id);
         $this->form->setValuesByArray(
@@ -803,7 +805,7 @@ class ilObjLinkResourceGUI extends ilObject2GUI
         );
     }
 
-    protected function initList(int $a_mode) : void
+    protected function initList(int $a_mode): void
     {
         if ($a_mode == self::LINK_MOD_CREATE || $a_mode == self::LINK_MOD_EDIT_LIST) {
             $this->draft_list = new ilWebLinkDraftList(
@@ -824,7 +826,7 @@ class ilObjLinkResourceGUI extends ilObject2GUI
         int $a_mode,
         bool $a_valid,
         ?int $a_link_id = null
-    ) : bool {
+    ): bool {
         $valid = $a_valid;
 
         $link_input = $this->form->getInput('tar');
@@ -880,7 +882,7 @@ class ilObjLinkResourceGUI extends ilObject2GUI
         }
     }
 
-    protected function initFormLink(int $a_mode) : ilPropertyFormGUI
+    protected function initFormLink(int $a_mode): ilPropertyFormGUI
     {
         $this->tabs_gui->activateTab("id_content");
 
@@ -1105,7 +1107,7 @@ class ilObjLinkResourceGUI extends ilObject2GUI
     /**
      * Switch between "View" "Manage" and "Sort"
      */
-    protected function switchViewMode(?int $force_view_mode = null) : void
+    protected function switchViewMode(?int $force_view_mode = null): void
     {
         $new_view_mode = $this->view_mode;
         if ($force_view_mode !== null) {
@@ -1125,12 +1127,12 @@ class ilObjLinkResourceGUI extends ilObject2GUI
     /**
      * Start with manage mode
      */
-    protected function editLinks() : void
+    protected function editLinks(): void
     {
         $this->switchViewMode(self::VIEW_MODE_MANAGE);
     }
 
-    public function view() : void
+    public function view(): void
     {
         $this->tabs_gui->activateTab("id_content");
         $this->checkPermission('read');
@@ -1170,7 +1172,7 @@ class ilObjLinkResourceGUI extends ilObject2GUI
         );
     }
 
-    protected function manage() : void
+    protected function manage(): void
     {
         $this->checkPermission('write');
         $this->activateTabs('content', 'id_content_manage');
@@ -1194,7 +1196,7 @@ class ilObjLinkResourceGUI extends ilObject2GUI
         $this->tpl->setVariable('TABLE_LINKS', $table->getHTML() . $js);
     }
 
-    protected function showLinks() : void
+    protected function showLinks(): void
     {
         $this->checkPermission('read');
         $this->activateTabs('content', 'id_content_view');
@@ -1212,7 +1214,7 @@ class ilObjLinkResourceGUI extends ilObject2GUI
         $this->tpl->setVariable('LINK_TABLE', $table->getHTML());
     }
 
-    protected function sort() : void
+    protected function sort(): void
     {
         $this->checkPermission('write');
         $this->activateTabs('content', 'id_content_ordering');
@@ -1230,7 +1232,7 @@ class ilObjLinkResourceGUI extends ilObject2GUI
         $this->tpl->setVariable('LINK_TABLE', $table->getHTML());
     }
 
-    protected function saveSorting() : void
+    protected function saveSorting(): void
     {
         $this->checkPermission('write');
         $sort = ilContainerSorting::_getInstance($this->object->getId());
@@ -1253,7 +1255,7 @@ class ilObjLinkResourceGUI extends ilObject2GUI
         $this->view();
     }
 
-    protected function showToolbar(string $a_tpl_var) : void
+    protected function showToolbar(string $a_tpl_var): void
     {
         global $DIC;
 
@@ -1292,7 +1294,7 @@ class ilObjLinkResourceGUI extends ilObject2GUI
         $this->tpl->setVariable($a_tpl_var, $tool->getHTML());
     }
 
-    protected function confirmDeleteLink() : void
+    protected function confirmDeleteLink(): void
     {
         $this->checkPermission('write');
         $this->activateTabs('content', 'id_content_view');
@@ -1343,7 +1345,7 @@ class ilObjLinkResourceGUI extends ilObject2GUI
         $this->tpl->setContent($confirm->getHTML());
     }
 
-    protected function deleteLinks() : void
+    protected function deleteLinks(): void
     {
         $this->checkPermission('write');
 
@@ -1369,7 +1371,7 @@ class ilObjLinkResourceGUI extends ilObject2GUI
         $this->ctrl->redirect($this, 'view');
     }
 
-    protected function deactivateLink() : void
+    protected function deactivateLink(): void
     {
         $this->checkPermission('write');
 
@@ -1412,7 +1414,7 @@ class ilObjLinkResourceGUI extends ilObject2GUI
      * not very nice to set cmdClass/Cmd manually, if everything
      * works through ilCtrl in the future this may be changed
      */
-    public function infoScreen() : void
+    public function infoScreen(): void
     {
         $this->ctrl->setCmd("showSummary");
         $this->ctrl->setCmdClass("ilinfoscreengui");
@@ -1422,7 +1424,7 @@ class ilObjLinkResourceGUI extends ilObject2GUI
     /**
      * show information screen
      */
-    public function infoScreenForward() : void
+    public function infoScreenForward(): void
     {
         if (!$this->checkPermissionBool('visible')) {
             $this->checkPermission('read');
@@ -1451,7 +1453,7 @@ class ilObjLinkResourceGUI extends ilObject2GUI
         $this->ctrl->forwardCommand($info);
     }
 
-    public function history() : void
+    public function history(): void
     {
         $this->checkPermission('write');
         $this->tabs_gui->activateTab('id_history');
@@ -1472,7 +1474,7 @@ class ilObjLinkResourceGUI extends ilObject2GUI
     protected function activateTabs(
         string $a_active_tab,
         string $a_active_subtab = ''
-    ) : void {
+    ): void {
         switch ($a_active_tab) {
             case 'content':
                 if ($this->checkPermissionBool('write')) {
@@ -1522,7 +1524,7 @@ class ilObjLinkResourceGUI extends ilObject2GUI
         $this->tabs_gui->activateTab('id_content');
     }
 
-    protected function setTabs() : void
+    protected function setTabs(): void
     {
         global $DIC;
 
@@ -1588,7 +1590,7 @@ class ilObjLinkResourceGUI extends ilObject2GUI
         parent::setTabs();
     }
 
-    private function __prepareOutput() : void
+    private function __prepareOutput(): void
     {
         $this->tpl->setLocator();
     }
@@ -1596,7 +1598,7 @@ class ilObjLinkResourceGUI extends ilObject2GUI
     /**
      * @todo is this required?
      */
-    protected function addLocatorItems() : void
+    protected function addLocatorItems(): void
     {
         global $DIC;
 
@@ -1612,7 +1614,7 @@ class ilObjLinkResourceGUI extends ilObject2GUI
         }
     }
 
-    public function callDirectLink() : void
+    public function callDirectLink(): void
     {
         $obj_id = $this->object->getId();
 
@@ -1627,7 +1629,7 @@ class ilObjLinkResourceGUI extends ilObject2GUI
         }
     }
 
-    public function callLink() : void
+    public function callLink(): void
     {
         if ($this->http->wrapper()->query()->has('link_id')) {
             $link_id = $this->http->wrapper()->query()->retrieve(
@@ -1649,7 +1651,7 @@ class ilObjLinkResourceGUI extends ilObject2GUI
         int $a_ref_id,
         int $a_obj_id,
         string $a_url
-    ) : void {
+    ): void {
         if ($a_url) {
             ilChangeEvent::_recordReadEvent(
                 "webr",
@@ -1661,7 +1663,7 @@ class ilObjLinkResourceGUI extends ilObject2GUI
         }
     }
 
-    public function exportHTML() : void
+    public function exportHTML(): void
     {
         $tpl = new ilTemplate(
             "tpl.export_html.html",
@@ -1699,7 +1701,7 @@ class ilObjLinkResourceGUI extends ilObject2GUI
         ilUtil::deliverData($tpl->get(), "bookmarks.html");
     }
 
-    public static function _goto(string $a_target, $a_additional = null) : void
+    public static function _goto(string $a_target, $a_additional = null): void
     {
         global $DIC;
 

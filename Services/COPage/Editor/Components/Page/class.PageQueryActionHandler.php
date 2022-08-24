@@ -54,7 +54,7 @@ class PageQueryActionHandler implements Server\QueryActionHandler
     /**
      * @throws Exception
      */
-    public function handle(array $query) : Server\Response
+    public function handle(array $query): Server\Response
     {
         switch ($query["action"]) {
             case "ui.all":
@@ -67,7 +67,7 @@ class PageQueryActionHandler implements Server\QueryActionHandler
         throw new Exception("Unknown action " . $query["action"]);
     }
 
-    protected function allCommand() : Server\Response
+    protected function allCommand(): Server\Response
     {
         $ctrl = $this->ctrl;
         $f = $this->ui->factory();
@@ -100,7 +100,7 @@ class PageQueryActionHandler implements Server\QueryActionHandler
         return new Server\Response($o);
     }
 
-    protected function getConfig() : \stdClass
+    protected function getConfig(): \stdClass
     {
         $config = new \stdClass();
         $config->user = $this->user->getLogin();
@@ -116,7 +116,7 @@ class PageQueryActionHandler implements Server\QueryActionHandler
         return $config;
     }
 
-    protected function getAddCommands() : array
+    protected function getAddCommands(): array
     {
         $lng = $this->lng;
 
@@ -144,7 +144,7 @@ class PageQueryActionHandler implements Server\QueryActionHandler
     /**
      * Get page help (general)
      */
-    protected function getPageEditHelp() : string
+    protected function getPageEditHelp(): string
     {
         $lng = $this->lng;
         $lng->loadLanguageModule("content");
@@ -164,7 +164,7 @@ class PageQueryActionHandler implements Server\QueryActionHandler
     /**
      * Get page help (multi editing)
      */
-    protected function getMultiEditHelp() : string
+    protected function getMultiEditHelp(): string
     {
         $lng = $this->lng;
         $lng->loadLanguageModule("content");
@@ -176,7 +176,7 @@ class PageQueryActionHandler implements Server\QueryActionHandler
         return $tpl->get();
     }
 
-    protected function getTopActions() : string
+    protected function getTopActions(): string
     {
         $ui = $this->ui;
         $ctrl = $this->ctrl;
@@ -216,7 +216,7 @@ class PageQueryActionHandler implements Server\QueryActionHandler
         return $tpl->get();
     }
 
-    public function getActionsDropDown() : \ILIAS\UI\Component\Dropdown\Standard
+    public function getActionsDropDown(): \ILIAS\UI\Component\Dropdown\Standard
     {
         $ui = $this->ui;
         $user = $this->user;
@@ -326,7 +326,7 @@ class PageQueryActionHandler implements Server\QueryActionHandler
     /**
      * Add multi-language actions to menu
      */
-    public function getMultiLangActions() : array
+    public function getMultiLangActions(): array
     {
         $config = $this->page_gui->getPageConfig();
         $page = $this->page_gui->getPageObject();
@@ -371,7 +371,7 @@ class PageQueryActionHandler implements Server\QueryActionHandler
         return $items;
     }
 
-    public function getMultiLangInfo() : string
+    public function getMultiLangInfo(): string
     {
         $info = "";
 
@@ -399,7 +399,7 @@ class PageQueryActionHandler implements Server\QueryActionHandler
         return $info;
     }
 
-    protected function getMultiActions() : string
+    protected function getMultiActions(): string
     {
         $groups = [
             [
@@ -423,7 +423,7 @@ class PageQueryActionHandler implements Server\QueryActionHandler
     /**
      * Confirmation screen for cut/paste step
      */
-    protected function getPasteMessage() : string
+    protected function getPasteMessage(): string
     {
         $lng = $this->lng;
 
@@ -435,21 +435,21 @@ class PageQueryActionHandler implements Server\QueryActionHandler
     /**
      * Confirmation screen for cut/paste step
      */
-    protected function getErrorMessage() : string
+    protected function getErrorMessage(): string
     {
         $html = $this->ui_wrapper->getRenderedFailureBox();
 
         return $html;
     }
 
-    protected function getErrorModalMessage() : string
+    protected function getErrorModalMessage(): string
     {
         $html = $this->ui_wrapper->getRenderedModalFailureBox();
 
         return $html;
     }
 
-    protected function getFormatSelection() : string
+    protected function getFormatSelection(): string
     {
         $lng = $this->lng;
         $ui = $this->ui;
@@ -490,12 +490,12 @@ class PageQueryActionHandler implements Server\QueryActionHandler
     /**
      * Get page component model
      */
-    protected function getPCModel() : array
+    protected function getPCModel(): array
     {
         return $this->page_gui->getPageObject()->getPCModel();
     }
 
-    protected function componentEditFormResponse(array $query) : Server\Response
+    protected function componentEditFormResponse(array $query): Server\Response
     {
         $pc_edit = \ilCOPagePCDef::getPCEditorInstanceByName($query["cname"]);
         $form = "";
@@ -516,7 +516,7 @@ class PageQueryActionHandler implements Server\QueryActionHandler
     /**
      * Get components ui elements
      */
-    protected function getComponentsEditorUI() : array
+    protected function getComponentsEditorUI(): array
     {
         $ui = [];
         foreach (\ilCOPagePCDef::getPCDefinitions() as $def) {
@@ -533,7 +533,7 @@ class PageQueryActionHandler implements Server\QueryActionHandler
         return $ui;
     }
 
-    protected function getComponentsDefinitions() : array
+    protected function getComponentsDefinitions(): array
     {
         $pcdef = [];
         foreach (\ilCOPagePCDef::getPCDefinitions() as $def) {
@@ -544,7 +544,7 @@ class PageQueryActionHandler implements Server\QueryActionHandler
         return $pcdef;
     }
 
-    public function getModalTemplate() : array
+    public function getModalTemplate(): array
     {
         $ui = $this->ui;
         $modal = $ui->factory()->modal()->roundtrip('#title#', $ui->factory()->legacy('#content#'))
@@ -560,7 +560,7 @@ class PageQueryActionHandler implements Server\QueryActionHandler
     /**
      * Get confirmation template
      */
-    public function getConfirmationTemplate() : string
+    public function getConfirmationTemplate(): string
     {
         $ui = $this->ui;
 
@@ -572,7 +572,7 @@ class PageQueryActionHandler implements Server\QueryActionHandler
     /**
      * Get auto save interval
      */
-    protected function getAutoSaveInterval() : int
+    protected function getAutoSaveInterval(): int
     {
         $aset = new \ilSetting("adve");
         return (int) $aset->get("autosave");

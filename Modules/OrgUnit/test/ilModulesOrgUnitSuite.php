@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /******************************************************************************
  *
@@ -18,16 +20,16 @@ use PHPUnit\Framework\TestSuite;
 
 /** @noRector */
 require_once 'libs/composer/vendor/autoload.php';
- 
+
 class ilModulesOrgUnitSuite extends TestSuite
 {
-    public static function suite() : self
+    public static function suite(): self
     {
         $suite = new self();
         /** @noRector */
         require_once("./Modules/OrgUnit/test/ilModulesOrgUnitTest.php");
         $suite->addTestSuite("ilModulesOrgUnitTest");
-        
+
         return $suite;
     }
 }

@@ -21,7 +21,7 @@
  */
 class ilDclExportGUI extends ilExportGUI
 {
-    protected function buildExportTableGUI() : ilExportTableGUI
+    protected function buildExportTableGUI(): ilExportTableGUI
     {
         $table = new ilDclExportTableGUI($this, 'listExportFiles', $this->obj);
 
@@ -31,7 +31,7 @@ class ilDclExportGUI extends ilExportGUI
     /**
      * overwrite to check if exportable fields are available (for async xls export)
      */
-    public function createExportFile() : void
+    public function createExportFile(): void
     {
         $format = $this->http->wrapper()->post()->retrieve('format', $this->refinery->kindlyTo()->string());
         if ($format === 'xlsx') {
@@ -44,7 +44,7 @@ class ilDclExportGUI extends ilExportGUI
     /**
      * send failure and redirect if no exportable fields
      */
-    protected function checkForExportableFields() : bool
+    protected function checkForExportableFields(): bool
     {
         global $DIC;
         $ilCtrl = $DIC['ilCtrl'];

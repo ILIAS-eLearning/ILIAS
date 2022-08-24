@@ -15,7 +15,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 use ILIAS\Filesystem\Stream\Streams;
 use ILIAS\FileUpload\Location;
 use ILIAS\ResourceStorage\Manager\Manager;
@@ -95,7 +95,7 @@ class ilFileObjectToStorageMigrationRunner
     /**
      * @inheritDoc
      */
-    public function migrate(ilFileObjectToStorageDirectory $item) : void
+    public function migrate(ilFileObjectToStorageDirectory $item): void
     {
         $resource = $this->getResource($item);
 
@@ -161,7 +161,7 @@ class ilFileObjectToStorageMigrationRunner
         string $status,
         string $movement_implementation,
         string $aditional_info = null
-    ) : void {
+    ): void {
         fputcsv($this->migration_log_handle, [
             $object_id,
             $old_path,
@@ -180,7 +180,7 @@ class ilFileObjectToStorageMigrationRunner
      */
     private function getResource(
         ilFileObjectToStorageDirectory $item
-    ) : StorableResource {
+    ): StorableResource {
         $r = $this->database->queryF(
             "SELECT rid FROM file_data WHERE file_id = %s",
             ['integer'],
@@ -199,7 +199,7 @@ class ilFileObjectToStorageMigrationRunner
     /**
      * @return int|null
      */
-    public function getMigrateToNewObjectId() : ?int
+    public function getMigrateToNewObjectId(): ?int
     {
         return $this->migrate_to_new_object_id;
     }
@@ -208,7 +208,7 @@ class ilFileObjectToStorageMigrationRunner
      * @param int|null $migrate_to_new_object_id
      * @return ilFileObjectToStorageMigrationRunner
      */
-    public function setMigrateToNewObjectId(?int $migrate_to_new_object_id) : ilFileObjectToStorageMigrationRunner
+    public function setMigrateToNewObjectId(?int $migrate_to_new_object_id): ilFileObjectToStorageMigrationRunner
     {
         $this->migrate_to_new_object_id = $migrate_to_new_object_id;
         $this->keep_originals = true;

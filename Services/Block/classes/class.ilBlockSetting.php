@@ -1,4 +1,6 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -37,17 +39,17 @@ class ilBlockSetting
         string $a_setting,
         int $a_user = 0,
         int $a_block_id = 0
-    ) : ?string {
+    ): ?string {
         global $DIC;
 
         $ilDB = $DIC->database();
         $ilSetting = $DIC->settings();
-        
+
         $key = $a_type . ":" . $a_setting . ":" . $a_user . ":" . $a_block_id;
         if (isset(self::$setting[$key])) {
             return (string) self::$setting[$key];
         }
-        
+
         $set = $ilDB->query(sprintf(
             "SELECT value FROM il_block_setting WHERE type = %s " .
             "AND user_id = %s AND setting = %s AND block_id = %s",
@@ -71,7 +73,7 @@ class ilBlockSetting
     /**
      * Preload pd info
      */
-    public static function preloadPDBlockSettings() : void
+    public static function preloadPDBlockSettings(): void
     {
         global $DIC;
 
@@ -119,11 +121,11 @@ class ilBlockSetting
         string $a_value,
         int $a_user = 0,
         int $a_block_id = 0
-    ) : void {
+    ): void {
         global $DIC;
 
         $ilDB = $DIC->database();
-        
+
         $ilDB->manipulate(sprintf(
             "DELETE FROM il_block_setting WHERE type = %s AND user_id = %s AND block_id = %s AND setting = %s",
             $ilDB->quote($a_type, "text"),
@@ -148,7 +150,7 @@ class ilBlockSetting
         string $a_type,
         int $a_user = 0,
         int $a_block_id = 0
-    ) : int {
+    ): int {
         $detail = self::_lookup($a_type, "detail", $a_user, $a_block_id);
 
         if (is_null($detail)) {		// return a level of 2 (standard value) if record does not exist
@@ -163,7 +165,7 @@ class ilBlockSetting
         string $a_value,
         int $a_user = 0,
         int $a_block_id = 0
-    ) : void {
+    ): void {
         ilBlockSetting::_write($a_type, "detail", $a_value, $a_user, $a_block_id);
     }
 
@@ -172,7 +174,7 @@ class ilBlockSetting
         string $a_value,
         int $a_user = 0,
         int $a_block_id = 0
-    ) : void {
+    ): void {
         ilBlockSetting::_write($a_type, "nr", $a_value, $a_user, $a_block_id);
     }
 
@@ -183,7 +185,7 @@ class ilBlockSetting
         string $a_type,
         int $a_user = 0,
         int $a_block_id = 0
-    ) : ?string {
+    ): ?string {
         return ilBlockSetting::_lookup($a_type, "side", $a_user, $a_block_id);
     }
 
@@ -192,17 +194,17 @@ class ilBlockSetting
         string $a_value,
         int $a_user = 0,
         int $a_block_id = 0
-    ) : void {
+    ): void {
         ilBlockSetting::_write($a_type, "side", $a_value, $a_user, $a_block_id);
     }
 
     public static function _deleteSettingsOfUser(
         int $a_user
-    ) : void {
+    ): void {
         global $DIC;
 
         $ilDB = $DIC->database();
-        
+
         if ($a_user > 0) {
             $ilDB->manipulate("DELETE FROM il_block_setting WHERE user_id = " .
                 $ilDB->quote($a_user, "integer"));
@@ -212,11 +214,11 @@ class ilBlockSetting
     public static function _deleteSettingsOfBlock(
         int $a_block_id,
         string $a_block_type
-    ) : void {
+    ): void {
         global $DIC;
 
         $ilDB = $DIC->database();
-        
+
         if ($a_block_id > 0) {
             $ilDB->manipulate("DELETE FROM il_block_setting WHERE block_id = " .
                 $ilDB->quote($a_block_id, "integer") .
@@ -228,7 +230,7 @@ class ilBlockSetting
         string $block_type,
         int $block_id,
         int $new_block_id
-    ) : void {
+    ): void {
         global $DIC;
 
         $db = $DIC->database();

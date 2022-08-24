@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -31,7 +33,7 @@ class GroupTest extends TestCase
     private DataFactory $dataFactory;
     private ilLanguage $language;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         $this->dataFactory = new DataFactory();
         $this->language = $this->getMockBuilder(ilLanguage::class)
@@ -41,16 +43,16 @@ class GroupTest extends TestCase
         $this->group = new CustomGroup($this->dataFactory, $this->language);
     }
 
-    public function testCustomConstraint() : void
+    public function testCustomConstraint(): void
     {
-        $instance = $this->group->constraint(static function () : void {
+        $instance = $this->group->constraint(static function (): void {
         }, 'some error');
         $this->assertInstanceOf(CustomConstraint::class, $instance);
     }
 
-    public function testCustomTransformation() : void
+    public function testCustomTransformation(): void
     {
-        $instance = $this->group->transformation(static function () : void {
+        $instance = $this->group->transformation(static function (): void {
         });
         $this->assertInstanceOf(CustomTransformation::class, $instance);
     }

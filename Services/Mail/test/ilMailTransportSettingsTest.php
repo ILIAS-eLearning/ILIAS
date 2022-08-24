@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -25,7 +27,7 @@ class ilMailTransportSettingsTest extends ilMailBaseTest
     /**
      * @throws ReflectionException
      */
-    public function testSystemAsIncomingTypeWontUpdate() : void
+    public function testSystemAsIncomingTypeWontUpdate(): void
     {
         $mailOptions = $this->getMockBuilder(ilMailOptions::class)
             ->disableOriginalConstructor()
@@ -45,7 +47,7 @@ class ilMailTransportSettingsTest extends ilMailBaseTest
     /**
      * @throws ReflectionException
      */
-    public function testOnlyFirstMailWillResultInUpdateProcess() : void
+    public function testOnlyFirstMailWillResultInUpdateProcess(): void
     {
         $mailOptions = $this->getMockBuilder(ilMailOptions::class)
             ->disableOriginalConstructor()
@@ -65,7 +67,7 @@ class ilMailTransportSettingsTest extends ilMailBaseTest
     /**
      * @throws ReflectionException
      */
-    public function testOnlySecondMailWillResultInUpdateProcess() : void
+    public function testOnlySecondMailWillResultInUpdateProcess(): void
     {
         $mailOptions = $this->getMockBuilder(ilMailOptions::class)
             ->disableOriginalConstructor()
@@ -85,7 +87,7 @@ class ilMailTransportSettingsTest extends ilMailBaseTest
     /**
      * @throws ReflectionException
      */
-    public function testNoMailWillResultInUpdateProcess() : void
+    public function testNoMailWillResultInUpdateProcess(): void
     {
         $mailOptions = $this->getMockBuilder(ilMailOptions::class)
             ->disableOriginalConstructor()
@@ -105,7 +107,7 @@ class ilMailTransportSettingsTest extends ilMailBaseTest
     /**
      * @throws ReflectionException
      */
-    public function testNothingWillBeAdjusted() : void
+    public function testNothingWillBeAdjusted(): void
     {
         $mailOptions = $this->getMockBuilder(ilMailOptions::class)
             ->disableOriginalConstructor()

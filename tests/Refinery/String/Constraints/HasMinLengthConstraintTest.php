@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -28,7 +30,7 @@ class HasMinLengthConstraintTest extends TestCase
     private int $min_length;
     private Constraint $c;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         $this->df = new DataFactory();
         $this->lng = $this->createMock(ilLanguage::class);
@@ -42,39 +44,39 @@ class HasMinLengthConstraintTest extends TestCase
         );
     }
 
-    public function testAccepts1() : void
+    public function testAccepts1(): void
     {
         $this->assertTrue($this->c->accepts("1234567890"));
     }
 
-    public function testAccepts2() : void
+    public function testAccepts2(): void
     {
         $this->assertTrue($this->c->accepts("12345678901"));
     }
 
-    public function testNotAccepts() : void
+    public function testNotAccepts(): void
     {
         $this->assertFalse($this->c->accepts("123456789"));
     }
 
-    public function testCheckSucceed() : void
+    public function testCheckSucceed(): void
     {
         $this->c->check("1234567890");
         $this->assertTrue(true); // does not throw
     }
 
-    public function testCheckFails() : void
+    public function testCheckFails(): void
     {
         $this->expectException(UnexpectedValueException::class);
         $this->c->check("");
     }
 
-    public function testNoProblemWith() : void
+    public function testNoProblemWith(): void
     {
         $this->assertNull($this->c->problemWith("1234567890"));
     }
 
-    public function testProblemWith() : void
+    public function testProblemWith(): void
     {
         $this->lng
             ->expects($this->once())
@@ -85,7 +87,7 @@ class HasMinLengthConstraintTest extends TestCase
         $this->assertEquals("-3-10-", $this->c->problemWith("123"));
     }
 
-    public function testRestrictOk() : void
+    public function testRestrictOk(): void
     {
         $ok = $this->df->ok("1234567890");
 
@@ -93,7 +95,7 @@ class HasMinLengthConstraintTest extends TestCase
         $this->assertTrue($res->isOk());
     }
 
-    public function testRestrictNotOk() : void
+    public function testRestrictNotOk(): void
     {
         $not_ok = $this->df->ok("1234");
 
@@ -101,7 +103,7 @@ class HasMinLengthConstraintTest extends TestCase
         $this->assertFalse($res->isOk());
     }
 
-    public function testRestrictError() : void
+    public function testRestrictError(): void
     {
         $error = $this->df->error("error");
 
@@ -109,9 +111,9 @@ class HasMinLengthConstraintTest extends TestCase
         $this->assertSame($error, $res);
     }
 
-    public function testWithProblemBuilder() : void
+    public function testWithProblemBuilder(): void
     {
-        $new_c = $this->c->withProblemBuilder(static function () : string {
+        $new_c = $this->c->withProblemBuilder(static function (): string {
             return "This was a fault";
         });
         $this->assertEquals("This was a fault", $new_c->problemWith(""));

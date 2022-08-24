@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -46,7 +48,7 @@ class ilContainerPageGUI extends ilPageObjectGUI
         parent::__construct("cont", $a_id, $a_old_nr, false, $a_lang);
     }
 
-    public function getProfileBackUrl() : string
+    public function getProfileBackUrl(): string
     {
         $link = ilLink::_getLink($this->requested_ref_id);
         // make it relative, since profile only accepts relative links as back links
@@ -55,12 +57,12 @@ class ilContainerPageGUI extends ilPageObjectGUI
         return $link;
     }
 
-    public function finishEditing() : void
+    public function finishEditing(): void
     {
         $this->ctrl->returnToParent($this);
     }
 
-    public function getAdditionalPageActions() : array
+    public function getAdditionalPageActions(): array
     {
         $ctrl = $this->ctrl;
         $ui = $this->ui;

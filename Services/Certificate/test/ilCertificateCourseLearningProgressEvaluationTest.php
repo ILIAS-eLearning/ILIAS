@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -21,7 +23,7 @@
  */
 class ilCertificateCourseLearningProgressEvaluationTest extends ilCertificateBaseTestCase
 {
-    public function testOnlyOneCourseIsCompletedOnLPChange() : void
+    public function testOnlyOneCourseIsCompletedOnLPChange(): void
     {
         $templateRepository = $this->getMockBuilder(ilCertificateTemplateRepository::class)->getMock();
 
@@ -120,7 +122,7 @@ class ilCertificateCourseLearningProgressEvaluationTest extends ilCertificateBas
         $this->assertSame(5, $completedCourses[0]->getObjId());
     }
 
-    public function testAllCoursesAreCompletedOnLPChange() : void
+    public function testAllCoursesAreCompletedOnLPChange(): void
     {
         $templateRepository = $this->getMockBuilder(ilCertificateTemplateRepository::class)->getMock();
 
@@ -220,7 +222,7 @@ class ilCertificateCourseLearningProgressEvaluationTest extends ilCertificateBas
         $this->assertSame(6, $completedCourses[1]->getObjId());
     }
 
-    public function testNoSubitemDefinedForEvaluation() : void
+    public function testNoSubitemDefinedForEvaluation(): void
     {
         $templateRepository = $this->getMockBuilder(ilCertificateTemplateRepository::class)->getMock();
 
@@ -295,8 +297,8 @@ class ilCertificateCourseLearningProgressEvaluationTest extends ilCertificateBas
 
         $this->assertSame([], $completedCourses);
     }
-    
-    public function globalLearningProgressStateProvder() : array
+
+    public function globalLearningProgressStateProvder(): array
     {
         return [
             'LP globally enabled' => [true, []],
@@ -341,7 +343,7 @@ class ilCertificateCourseLearningProgressEvaluationTest extends ilCertificateBas
     public function testRetrievingCertificateTemplatesForCoursesWorksAsExpectedWhenUsingNonCachingRepository(
         bool $isGlobalLpEnabled,
         array $template_recods
-    ) : void {
+    ): void {
         $statement = $database = $this->getMockBuilder(ilDBStatement::class)->getMock();
         $i = 0;
         $database->method('fetch')->willReturnCallback(static function () use (&$i, $template_recods) {
@@ -350,7 +352,7 @@ class ilCertificateCourseLearningProgressEvaluationTest extends ilCertificateBas
 
             return $result;
         });
-        
+
         $database = $this->createMock(ilDBInterface::class);
         $database->expects($this->once())->method('queryF')->with(
             $isGlobalLpEnabled
@@ -389,13 +391,13 @@ class ilCertificateCourseLearningProgressEvaluationTest extends ilCertificateBas
         $this->assertCount(count($template_recods), $templates);
     }
 
-    public function testRetrievingCertificateTemplatesForCoursesWillBeCachedWhenCachingRepositoryIsUsed() : void
+    public function testRetrievingCertificateTemplatesForCoursesWillBeCachedWhenCachingRepositoryIsUsed(): void
     {
         $wrappedTemplateRepository = $this->getMockBuilder(ilCertificateTemplateRepository::class)->getMock();
         $wrappedTemplateRepository
             ->expects($this->exactly(2))
             ->method('fetchActiveCertificateTemplatesForCoursesWithDisabledLearningProgress')
-            ->willReturnCallback(static function (bool $isGlobalLpEnabled) : array {
+            ->willReturnCallback(static function (bool $isGlobalLpEnabled): array {
                 if ($isGlobalLpEnabled) {
                     return [];
                 }

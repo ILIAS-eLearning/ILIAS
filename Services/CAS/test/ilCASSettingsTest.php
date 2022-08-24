@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /******************************************************************************
  *
@@ -21,7 +23,7 @@ use PHPUnit\Framework\TestCase;
 
 class ilCASSettingsTest extends TestCase
 {
-    protected function setUp() : void
+    protected function setUp(): void
     {
         $this->dic = new Container();
         $GLOBALS['DIC'] = $this->dic;
@@ -36,7 +38,7 @@ class ilCASSettingsTest extends TestCase
      * @param string $name
      * @param mixed  $value
      */
-    protected function setGlobalVariable(string $name, $value) : void
+    protected function setGlobalVariable(string $name, $value): void
     {
         global $DIC;
 
@@ -48,7 +50,7 @@ class ilCASSettingsTest extends TestCase
         };
     }
 
-    public function testBasicSessionBehaviour() : void
+    public function testBasicSessionBehaviour(): void
     {
         global $DIC;
 

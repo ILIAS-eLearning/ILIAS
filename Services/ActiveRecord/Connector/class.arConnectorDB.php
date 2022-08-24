@@ -21,14 +21,14 @@
  */
 class arConnectorDB extends arConnector
 {
-    protected function returnDB() : ilDBInterface
+    protected function returnDB(): ilDBInterface
     {
         global $DIC;
 
         return $DIC['ilDB'];
     }
 
-    public function checkConnection(ActiveRecord $ar) : bool
+    public function checkConnection(ActiveRecord $ar): bool
     {
         return is_object($this->returnDB());
     }
@@ -36,12 +36,12 @@ class arConnectorDB extends arConnector
     /**
      * @return mixed
      */
-    public function nextID(ActiveRecord $ar) : int
+    public function nextID(ActiveRecord $ar): int
     {
         return $this->returnDB()->nextId($ar->getConnectorContainerName());
     }
 
-    public function installDatabase(ActiveRecord $ar, array $fields) : bool
+    public function installDatabase(ActiveRecord $ar, array $fields): bool
     {
         $ilDB = $this->returnDB();
         $ilDB->createTable($ar->getConnectorContainerName(), $fields);
@@ -57,7 +57,7 @@ class arConnectorDB extends arConnector
         return true;
     }
 
-    public function updateIndices(ActiveRecord $ar) : void
+    public function updateIndices(ActiveRecord $ar): void
     {
         $ilDB = $this->returnDB();
         $arFieldList = $ar->getArFieldList();
@@ -74,7 +74,7 @@ class arConnectorDB extends arConnector
         }
     }
 
-    public function updateDatabase(ActiveRecord $ar) : bool
+    public function updateDatabase(ActiveRecord $ar): bool
     {
         $ilDB = $this->returnDB();
         foreach ($ar->getArFieldList()->getFields() as $field) {
@@ -91,7 +91,7 @@ class arConnectorDB extends arConnector
         return true;
     }
 
-    public function resetDatabase(ActiveRecord $ar) : bool
+    public function resetDatabase(ActiveRecord $ar): bool
     {
         $ilDB = $this->returnDB();
         if ($ilDB->tableExists($ar->getConnectorContainerName())) {
@@ -102,7 +102,7 @@ class arConnectorDB extends arConnector
         return true;
     }
 
-    public function truncateDatabase(ActiveRecord $ar) : bool
+    public function truncateDatabase(ActiveRecord $ar): bool
     {
         $ilDB = $this->returnDB();
         $query = 'TRUNCATE TABLE ' . $ar->getConnectorContainerName();
@@ -115,7 +115,7 @@ class arConnectorDB extends arConnector
         return true;
     }
 
-    public function checkTableExists(ActiveRecord $ar) : bool
+    public function checkTableExists(ActiveRecord $ar): bool
     {
         $ilDB = $this->returnDB();
 
@@ -126,14 +126,14 @@ class arConnectorDB extends arConnector
         return $ilDB->tableExists($ar->getConnectorContainerName());
     }
 
-    public function checkFieldExists(ActiveRecord $ar, string $field_name) : bool
+    public function checkFieldExists(ActiveRecord $ar, string $field_name): bool
     {
         $ilDB = $this->returnDB();
 
         return $ilDB->tableColumnExists($ar->getConnectorContainerName(), $field_name);
     }
 
-    public function removeField(ActiveRecord $ar, string $field_name) : bool
+    public function removeField(ActiveRecord $ar, string $field_name): bool
     {
         $ilDB = $this->returnDB();
         if (!$ilDB->tableColumnExists($ar->getConnectorContainerName(), $field_name)) {
@@ -145,7 +145,7 @@ class arConnectorDB extends arConnector
         return true;
     }
 
-    public function renameField(ActiveRecord $ar, string $old_name, string $new_name) : bool
+    public function renameField(ActiveRecord $ar, string $old_name, string $new_name): bool
     {
         $ilDB = $this->returnDB();
         if ($ilDB->tableColumnExists($ar->getConnectorContainerName(), $old_name)) {
@@ -160,7 +160,7 @@ class arConnectorDB extends arConnector
         return true;
     }
 
-    public function create(ActiveRecord $ar) : void
+    public function create(ActiveRecord $ar): void
     {
         $ilDB = $this->returnDB();
         $ilDB->insert($ar->getConnectorContainerName(), $ar->getArrayForConnector());
@@ -169,7 +169,7 @@ class arConnectorDB extends arConnector
     /**
      * @return mixed[]
      */
-    public function read(ActiveRecord $ar) : array
+    public function read(ActiveRecord $ar): array
     {
         $ilDB = $this->returnDB();
 
@@ -185,7 +185,7 @@ class arConnectorDB extends arConnector
         return $records;
     }
 
-    public function update(ActiveRecord $ar) : void
+    public function update(ActiveRecord $ar): void
     {
         $ilDB = $this->returnDB();
 
@@ -197,7 +197,7 @@ class arConnectorDB extends arConnector
         ));
     }
 
-    public function delete(ActiveRecord $ar) : void
+    public function delete(ActiveRecord $ar): void
     {
         $ilDB = $this->returnDB();
 
@@ -209,7 +209,7 @@ class arConnectorDB extends arConnector
      * @return mixed[]
      * @internal param $q
      */
-    public function readSet(ActiveRecordList $arl) : array
+    public function readSet(ActiveRecordList $arl): array
     {
         $ilDB = $this->returnDB();
         $set = $ilDB->query($this->buildQuery($arl));
@@ -221,7 +221,7 @@ class arConnectorDB extends arConnector
         return $records;
     }
 
-    public function affectedRows(ActiveRecordList $arl) : int
+    public function affectedRows(ActiveRecordList $arl): int
     {
         $ilDB = $this->returnDB();
         $q = $this->buildQuery($arl);
@@ -235,7 +235,7 @@ class arConnectorDB extends arConnector
     /**
      * @return mixed|string
      */
-    protected function buildQuery(ActiveRecordList $arl) : string
+    protected function buildQuery(ActiveRecordList $arl): string
     {
         $method = 'asSQLStatement';
 
@@ -254,7 +254,7 @@ class arConnectorDB extends arConnector
         $q .= $arl->getArOrderCollection()->{$method}();
         // LIMIT
         $q .= $arl->getArLimitCollection()->{$method}();
-        
+
         $arl->setLastQuery($q);
 
         return $q;
@@ -263,7 +263,7 @@ class arConnectorDB extends arConnector
     /**
      * @param        $value
      */
-    public function quote($value, string $type) : string
+    public function quote($value, string $type): string
     {
         $ilDB = $this->returnDB();
 

@@ -15,7 +15,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 use ILIAS\DI\Container;
 
 /**
@@ -52,9 +52,9 @@ class ilFileVersionsTableGUI extends ilTable2GUI
         $this->setEnableHeader(true);
         $this->disable("footer");
         $this->setTitle($this->dic->language()->txt("versions"));
-    
+
         // Form
-    
+
         $this->setFormAction($this->dic->ctrl()->getFormAction($calling_gui_class));
         $this->setSelectAllCheckbox("hist_id[]");
         $this->addMultiCommand(ilFileVersionsGUI::CMD_DELETE_VERSIONS, $this->dic->language()->txt("delete"));
@@ -78,19 +78,19 @@ class ilFileVersionsTableGUI extends ilTable2GUI
         $this->initData();
     }
 
-    private function initData() : void
+    private function initData(): void
     {
         $versions = [];
         foreach ($this->file->getVersions() as $version) {
             $versions[] = $version->getArrayCopy();
         }
-        usort($versions, static fn (array $i1, array $i2) : int => $i2['version'] - $i1['version']);
+        usort($versions, static fn (array $i1, array $i2): int => $i2['version'] - $i1['version']);
 
         $this->setData($versions);
         $this->setMaxCount(is_array($versions) ? count($versions) : 0);
     }
 
-    protected function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set): void
     {
         $hist_id = $a_set["hist_entry_id"];
 
@@ -163,7 +163,7 @@ class ilFileVersionsTableGUI extends ilTable2GUI
         $this->tpl->setCurrentBlock("version_actions");
 
         $this->tpl->setVariable("ACTIONS", $actions->getHTML());
-      
+
         $this->tpl->parseCurrentBlock();
     }
 }

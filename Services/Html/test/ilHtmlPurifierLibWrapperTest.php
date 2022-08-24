@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -24,17 +26,17 @@ use PHPUnit\Framework\TestCase;
  */
 class ilHtmlPurifierLibWrapperTest extends TestCase
 {
-    private function getPurifier() : ilHtmlPurifierAbstractLibWrapper
+    private function getPurifier(): ilHtmlPurifierAbstractLibWrapper
     {
-        return new class extends ilHtmlPurifierAbstractLibWrapper {
-            protected function getPurifierConfigInstance() : HTMLPurifier_Config
+        return new class () extends ilHtmlPurifierAbstractLibWrapper {
+            protected function getPurifierConfigInstance(): HTMLPurifier_Config
             {
                 return HTMLPurifier_Config::createDefault();
             }
         };
     }
 
-    public function testPurifierIsCalledIfStringsArePurified() : void
+    public function testPurifierIsCalledIfStringsArePurified(): void
     {
         $purifier = $this->getPurifier();
 
@@ -48,7 +50,7 @@ class ilHtmlPurifierLibWrapperTest extends TestCase
         $this->assertSame($toPurify, $purifier->purifyArray($toPurify));
     }
 
-    public function invalidHtmlDataTypeProvider() : array
+    public function invalidHtmlDataTypeProvider(): array
     {
         return [
             'integer' => [5],
@@ -64,7 +66,7 @@ class ilHtmlPurifierLibWrapperTest extends TestCase
     /**
      * @dataProvider invalidHtmlDataTypeProvider
      */
-    public function testExceptionIsRaisedIfNonStringElementsArePassedForHtmlBatchProcessing($element) : void
+    public function testExceptionIsRaisedIfNonStringElementsArePassedForHtmlBatchProcessing($element): void
     {
         $this->expectException(InvalidArgumentException::class);
 

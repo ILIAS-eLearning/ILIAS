@@ -25,7 +25,7 @@ class ilNewsCache extends ilCache
 {
     protected ilSetting $settings;
     public static bool $disabled = false;
-    
+
     public function __construct()
     {
         global $DIC;
@@ -39,20 +39,20 @@ class ilNewsCache extends ilCache
             self::$disabled = true;
         }
     }
-    
-    public function isDisabled() : bool
+
+    public function isDisabled(): bool
     {
         return self::$disabled || parent::isDisabled();
     }
-    
-    protected function readEntry(string $a_id) : bool
+
+    protected function readEntry(string $a_id): bool
     {
         if (!$this->isDisabled()) {
             return parent::readEntry($a_id);
         }
         return false;
     }
-    
+
     /**
      * Id is user_id:ref_id, we store ref_if additionally
      */
@@ -63,7 +63,7 @@ class ilNewsCache extends ilCache
         ?int $a_int_key2 = null,
         ?string $a_text_key1 = null,
         ?string $a_text_key2 = null
-    ) : void {
+    ): void {
         if (!$this->isDisabled()) {
             parent::storeEntry($a_id, $a_value);
         }

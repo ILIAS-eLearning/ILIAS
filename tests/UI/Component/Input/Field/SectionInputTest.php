@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 require_once(__DIR__ . "/../../../../../libs/composer/vendor/autoload.php");
 require_once(__DIR__ . "/../../../Base.php");
 
@@ -24,7 +26,7 @@ use ILIAS\Data;
 
 class SectionInputTest extends ILIAS_UI_TestBase
 {
-    public function getFieldFactory() : Field\Factory
+    public function getFieldFactory(): Field\Factory
     {
         $factory = new Field\Factory(
             $this->createMock(\ILIAS\UI\Implementation\Component\Input\UploadLimitResolver::class),
@@ -36,7 +38,7 @@ class SectionInputTest extends ILIAS_UI_TestBase
         return $factory;
     }
 
-    public function testSectionRendering() : void
+    public function testSectionRendering(): void
     {
         $f = $this->getFieldFactory();
         $r = $this->getDefaultRenderer();
@@ -74,7 +76,7 @@ EOT;
         $this->assertEquals($expected, $actual);
     }
 
-    public function testSectionRenderingWithError() : void
+    public function testSectionRenderingWithError(): void
     {
         $f = $this->getFieldFactory();
         $r = $this->getDefaultRenderer();

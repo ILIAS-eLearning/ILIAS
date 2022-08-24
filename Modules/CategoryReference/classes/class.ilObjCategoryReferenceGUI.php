@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -40,7 +42,7 @@ class ilObjCategoryReferenceGUI extends ilContainerReferenceGUI
         parent::__construct($a_data, $a_id, true, false);
     }
 
-    public static function _goto(string $a_target) : void
+    public static function _goto(string $a_target): void
     {
         $target_ref_id = ilContainerReference::_lookupTargetRefId(ilObject::_lookupObjId((int) $a_target));
         ilObjCategoryGUI::_goto((string) $target_ref_id);

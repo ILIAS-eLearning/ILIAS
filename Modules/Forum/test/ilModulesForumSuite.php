@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -31,7 +33,7 @@ class ilModulesForumSuite extends TestSuite
      * @return self
      * @throws ReflectionException
      */
-    public static function suite() : self
+    public static function suite(): self
     {
         $suite = new self();
 

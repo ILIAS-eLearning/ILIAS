@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -66,17 +68,17 @@ class ilRTE
         $this->user = $DIC['ilUser'];
     }
 
-    public function addPlugin(string $a_plugin_name) : void
+    public function addPlugin(string $a_plugin_name): void
     {
         $this->plugins[] = $a_plugin_name;
     }
 
-    public function addButton(string $a_button_name) : void
+    public function addButton(string $a_button_name): void
     {
         $this->buttons[] = $a_button_name;
     }
 
-    public function removePlugin(string $a_plugin_name) : void
+    public function removePlugin(string $a_plugin_name): void
     {
         $key = array_search($a_plugin_name, $this->plugins, true);
         if ($key !== false) {
@@ -84,14 +86,14 @@ class ilRTE
         }
     }
 
-    public function removeAllPlugins() : void
+    public function removeAllPlugins(): void
     {
         foreach ($this->plugins as $plugin) {
             $this->removePlugin($plugin);
         }
     }
 
-    public function removeButton(string $a_button_name) : void
+    public function removeButton(string $a_button_name): void
     {
         $key = array_search($a_button_name, $this->buttons, true);
         if ($key !== false) {
@@ -106,10 +108,10 @@ class ilRTE
         bool $allowFormElements = false,
         ?string $cfg_template = null,
         bool $hide_switch = false
-    ) : void {
+    ): void {
     }
 
-    public function addUserTextEditor(string $editor_selector) : void
+    public function addUserTextEditor(string $editor_selector): void
     {
     }
 
@@ -119,11 +121,11 @@ class ilRTE
      * @param string $obj_type
      * @param string[] $tags
      */
-    public function addCustomRTESupport(int $obj_id, string $obj_type, array $tags) : void
+    public function addCustomRTESupport(int $obj_id, string $obj_type, array $tags): void
     {
     }
 
-    public static function _getRTEClassname() : string
+    public static function _getRTEClassname(): string
     {
         $editor = ilObjAdvancedEditing::_getRichTextEditor();
         if (strtolower($editor) === 'tinymce') {
@@ -139,7 +141,7 @@ class ilRTE
      * @param string $a_usage_type type of context of usage, e.g. cat:html
      * @param int $a_usage_id if of context of usage, e.g. category id
      */
-    public static function _cleanupMediaObjectUsage(string $a_text, string $a_usage_type, int $a_usage_id) : void
+    public static function _cleanupMediaObjectUsage(string $a_text, string $a_usage_type, int $a_usage_id): void
     {
         $mobs = ilObjMediaObject::_getMobsOfObject($a_usage_type, $a_usage_id);
         while (preg_match("/data\/" . CLIENT_ID . "\/mobs\/mm_([0-9]+)/i", $a_text, $found)) {
@@ -176,7 +178,7 @@ class ilRTE
         string $a_text,
         int $a_direction = 0,
         string $nic = ''
-    ) : string {
+    ): string {
         if ($a_text === '') {
             return '';
         }
@@ -217,7 +219,7 @@ class ilRTE
      * @param integer $a_direction 0 to find image src, 1 to find mob id
      * @return int[] Array of media object ids
      */
-    public static function _getMediaObjects(string $a_text, int $a_direction = 0) : array
+    public static function _getMediaObjects(string $a_text, int $a_direction = 0): array
     {
         if ($a_text === '') {
             return [];
@@ -243,13 +245,13 @@ class ilRTE
         return $mediaObjects;
     }
 
-    public function setRTERootBlockElement(?string $a_root_block_element) : self
+    public function setRTERootBlockElement(?string $a_root_block_element): self
     {
         $this->root_block_element = $a_root_block_element;
         return $this;
     }
 
-    public function getRTERootBlockElement() : ?string
+    public function getRTERootBlockElement(): ?string
     {
         return $this->root_block_element;
     }
@@ -259,7 +261,7 @@ class ilRTE
      * @param string[]|string $a_button Either a button string or an array of button strings
      * @return self
      */
-    public function disableButtons($a_button) : self
+    public function disableButtons($a_button): self
     {
         if (is_array($a_button)) {
             $this->disabled_buttons = array_unique(array_merge($this->disabled_buttons, $a_button));
@@ -284,12 +286,12 @@ class ilRTE
         return $this->disabled_buttons;
     }
 
-    public function getInitialWidth() : ?int
+    public function getInitialWidth(): ?int
     {
         return $this->initialWidth;
     }
 
-    public function setInitialWidth(?int $initialWidth) : void
+    public function setInitialWidth(?int $initialWidth): void
     {
         $this->initialWidth = $initialWidth;
     }

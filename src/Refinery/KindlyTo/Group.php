@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -71,7 +73,7 @@ class Group
      *
      * All other data will be discarded.
      */
-    public function int() : Transformation
+    public function int(): Transformation
     {
         return new IntegerTransformation();
     }
@@ -97,7 +99,7 @@ class Group
      *
      * All other data will be discarded.
      */
-    public function float() : Transformation
+    public function float(): Transformation
     {
         return new FloatTransformation();
     }
@@ -123,7 +125,7 @@ class Group
      * serialization formats. So we don't loose much if we, e.g., transform an
      * array to "Array".
      */
-    public function string() : Transformation
+    public function string(): Transformation
     {
         return new StringTransformation();
     }
@@ -154,7 +156,7 @@ class Group
      * seem to introduce more problems than they solve, so we decided to not be
      * very liberal here.
      */
-    public function bool() : Transformation
+    public function bool(): Transformation
     {
         return new BooleanTransformation();
     }
@@ -169,7 +171,7 @@ class Group
      *
      * All other data will be discarded.
      */
-    public function dateTime() : Transformation
+    public function dateTime(): Transformation
     {
         return new DateTimeTransformation();
     }
@@ -180,7 +182,7 @@ class Group
      * This supports all data represented as PHP array, which will be used via
      * array_values($v). Non-arrays will be wrapped in one.
      */
-    public function listOf(Transformation $transformation) : Transformation
+    public function listOf(Transformation $transformation): Transformation
     {
         return new ListTransformation($transformation);
     }
@@ -190,7 +192,7 @@ class Group
      *
      * This supports all data represented as PHP array.
      */
-    public function dictOf(Transformation $transformation) : Transformation
+    public function dictOf(Transformation $transformation): Transformation
     {
         return new DictionaryTransformation($transformation);
     }
@@ -204,7 +206,7 @@ class Group
      *
      * @param Transformation[] $transformation
      */
-    public function tupleOf(array $transformation) : Transformation
+    public function tupleOf(array $transformation): Transformation
     {
         return new TupleTransformation($transformation);
     }
@@ -217,7 +219,7 @@ class Group
      *
      * @param array<string, Transformation> $transformations
      */
-    public function recordOf(array $transformations) : Transformation
+    public function recordOf(array $transformations): Transformation
     {
         return new RecordTransformation($transformations);
     }
@@ -229,7 +231,7 @@ class Group
      * an empty string is being relayed to the server: This is rather the absence
      * of input than an invalid number.
      */
-    public function null() : Transformation
+    public function null(): Transformation
     {
         return new NullTransformation();
     }

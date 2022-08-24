@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -34,7 +36,7 @@ class ilMailTaskProcessorTest extends ilMailBaseTest
     /**
      * @throws ReflectionException
      */
-    protected function setUp() : void
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -55,7 +57,7 @@ class ilMailTaskProcessorTest extends ilMailBaseTest
      * @throws ilException
      * @throws ReflectionException
      */
-    public function testOneTask() : void
+    public function testOneTask(): void
     {
         $taskManager = $this->getMockBuilder(BasicTaskManager::class)
             ->onlyMethods(['run'])
@@ -124,7 +126,7 @@ class ilMailTaskProcessorTest extends ilMailBaseTest
      * @throws ilException
      * @throws ReflectionException
      */
-    public function testRunTwoTasks() : void
+    public function testRunTwoTasks(): void
     {
         $taskManager = $this->getMockBuilder(BasicTaskManager::class)
             ->onlyMethods(['run'])
@@ -201,7 +203,7 @@ class ilMailTaskProcessorTest extends ilMailBaseTest
      * @throws ilException
      * @throws ReflectionException
      */
-    public function testRunThreeTasksInDifferentBuckets() : void
+    public function testRunThreeTasksInDifferentBuckets(): void
     {
         $taskManager = $this->getMockBuilder(BasicTaskManager::class)
             ->onlyMethods(['run'])
@@ -289,7 +291,7 @@ class ilMailTaskProcessorTest extends ilMailBaseTest
      * @throws ReflectionException
      * @throws ilException
      */
-    public function testRunHasWrongTypeAndWillResultInException() : void
+    public function testRunHasWrongTypeAndWillResultInException(): void
     {
         $this->expectException(ilException::class);
 

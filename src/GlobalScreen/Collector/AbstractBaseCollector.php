@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -25,17 +27,17 @@ abstract class AbstractBaseCollector implements Collector
 {
     private bool $has_been_collected = false;
 
-    private function setCollected() : void
+    private function setCollected(): void
     {
         $this->has_been_collected = true;
     }
 
-    public function hasBeenCollected() : bool
+    public function hasBeenCollected(): bool
     {
         return $this->has_been_collected;
     }
 
-    public function collectOnce() : void
+    public function collectOnce(): void
     {
         if (!$this->hasBeenCollected()) {
             $this->collectStructure();

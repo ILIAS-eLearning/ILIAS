@@ -1,4 +1,5 @@
 <?php
+
 /* Copyright (c) 2016 Stefan Hecken, Extended GPL, see docs/LICENSE */
 
 use Whoops\Exception\Formatter;
@@ -26,14 +27,14 @@ class ilLoggingErrorFileStorage
         $this->file_name = $file_name;
     }
 
-    protected function createDir(string $path) : void
+    protected function createDir(string $path): void
     {
         if (!is_dir($this->file_path)) {
             ilFileUtils::makeDirParents($this->file_path);
         }
     }
 
-    protected function content() : string
+    protected function content(): string
     {
         return $this->pageHeader()
               . $this->exceptionContent()
@@ -41,7 +42,7 @@ class ilLoggingErrorFileStorage
               ;
     }
 
-    public function write() : void
+    public function write(): void
     {
         $this->createDir($this->file_path);
 
@@ -52,7 +53,7 @@ class ilLoggingErrorFileStorage
         chmod($file_name, 0755);
     }
 
-    protected function pageHeader() : string
+    protected function pageHeader(): string
     {
         return "";
     }
@@ -60,7 +61,7 @@ class ilLoggingErrorFileStorage
     /**
      * Get a short info about the exception.
      */
-    protected function exceptionContent() : string
+    protected function exceptionContent(): string
     {
         return Formatter::formatExceptionPlain($this->inspector);
     }
@@ -68,7 +69,7 @@ class ilLoggingErrorFileStorage
     /**
      * Get the header for the page.
      */
-    protected function tablesContent() : string
+    protected function tablesContent(): string
     {
         $ret = "";
         foreach ($this->tables() as $title => $content) {
@@ -101,7 +102,7 @@ class ilLoggingErrorFileStorage
     /**
      * Get the tables that should be rendered.
      */
-    protected function tables() : array
+    protected function tables(): array
     {
         $post = $_POST;
         $server = $_SERVER;
@@ -122,7 +123,7 @@ class ilLoggingErrorFileStorage
     /**
      * Replace passwort from post array with security message
      */
-    private function hidePassword(array $post) : array
+    private function hidePassword(array $post): array
     {
         ilSystemStyleLessVariable::class;
         if (isset($post["password"])) {
@@ -135,7 +136,7 @@ class ilLoggingErrorFileStorage
     /**
      * Shorts the php session id
      */
-    private function shortenPHPSessionId(array $server) : array
+    private function shortenPHPSessionId(array $server): array
     {
         if (!isset($server["HTTP_COOKIE"])) {
             return $server;

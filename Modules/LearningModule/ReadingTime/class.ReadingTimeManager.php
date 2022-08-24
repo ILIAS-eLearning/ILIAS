@@ -43,12 +43,12 @@ class ReadingTimeManager
         $this->page_manager = new \ILIAS\COPage\ReadingTime\ReadingTimeManager();
     }
 
-    public function isGloballyActivated() : bool
+    public function isGloballyActivated(): bool
     {
         return (bool) $this->lm_set->get("est_reading_time");
     }
 
-    public function isActivated(int $lm_id) : bool
+    public function isActivated(int $lm_id): bool
     {
         return $this->repo->isActivated($lm_id);
     }
@@ -57,7 +57,7 @@ class ReadingTimeManager
      * Set activation. If switched from off to on, ensure all
      * missing page reading times are set.
      */
-    public function activate(int $lm_id, bool $activate) : void
+    public function activate(int $lm_id, bool $activate): void
     {
         $is_active = $this->repo->isActivated($lm_id);
         $this->repo->activate($lm_id, $activate);
@@ -72,13 +72,13 @@ class ReadingTimeManager
      * of the LM and stores it (redundantly for quick access)
      * in the learning module
      */
-    public function updateReadingTime(int $lm_id) : void
+    public function updateReadingTime(int $lm_id): void
     {
         $reading_time = $this->page_manager->getParentReadingTime("lm", $lm_id);
         $this->repo->saveReadingTime($lm_id, $reading_time);
     }
 
-    public function loadData(array $lm_ids) : void
+    public function loadData(array $lm_ids): void
     {
         $this->repo->loadData($lm_ids);
     }
@@ -86,7 +86,7 @@ class ReadingTimeManager
     /**
      * @return int|null Null, if reading time is deactivated
      */
-    public function getReadingTime(int $lm_id) : ?int
+    public function getReadingTime(int $lm_id): ?int
     {
         return $this->repo->getReadingTime($lm_id);
     }

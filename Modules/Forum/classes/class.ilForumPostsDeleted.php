@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -77,7 +79,7 @@ class ilForumPostsDeleted
         }
     }
 
-    public function insert() : void
+    public function insert(): void
     {
         $next_id = $this->db->nextId('frm_posts_deleted');
 
@@ -101,157 +103,157 @@ class ilForumPostsDeleted
         ]);
     }
 
-    public function deleteNotifiedEntries() : void
+    public function deleteNotifiedEntries(): void
     {
         $this->db->manipulateF('DELETE FROM frm_posts_deleted WHERE deleted_id > %s', ['integer'], [0]);
     }
 
-    public function getDeletedId() : int
+    public function getDeletedId(): int
     {
         return $this->deleted_id;
     }
 
-    public function setDeletedId(int $deleted_id) : void
+    public function setDeletedId(int $deleted_id): void
     {
         $this->deleted_id = $deleted_id;
     }
 
-    public function getDeletedDate() : string
+    public function getDeletedDate(): string
     {
         return $this->deleted_date;
     }
 
-    public function setDeletedDate(string $deleted_date) : void
+    public function setDeletedDate(string $deleted_date): void
     {
         $this->deleted_date = $deleted_date;
     }
 
-    public function getDeletedBy() : string
+    public function getDeletedBy(): string
     {
         return $this->deleted_by;
     }
 
-    public function setDeletedBy(string $deleted_by) : void
+    public function setDeletedBy(string $deleted_by): void
     {
         $this->deleted_by = $deleted_by;
     }
 
-    public function getForumTitle() : string
+    public function getForumTitle(): string
     {
         return $this->forum_title;
     }
 
-    public function setForumTitle(string $forum_title) : void
+    public function setForumTitle(string $forum_title): void
     {
         $this->forum_title = $forum_title;
     }
 
-    public function getThreadTitle() : string
+    public function getThreadTitle(): string
     {
         return $this->thread_title;
     }
 
-    public function setThreadTitle(string $thread_title) : void
+    public function setThreadTitle(string $thread_title): void
     {
         $this->thread_title = $thread_title;
     }
 
-    public function getPostTitle() : string
+    public function getPostTitle(): string
     {
         return $this->post_title;
     }
 
-    public function setPostTitle(string $post_title) : void
+    public function setPostTitle(string $post_title): void
     {
         $this->post_title = $post_title;
     }
 
-    public function getPostMessage() : string
+    public function getPostMessage(): string
     {
         return $this->post_message;
     }
 
-    public function setPostMessage(string $post_message) : void
+    public function setPostMessage(string $post_message): void
     {
         $this->post_message = $post_message;
     }
 
-    public function getPostDate() : string
+    public function getPostDate(): string
     {
         return $this->post_date;
     }
 
-    public function setPostDate(string $post_date) : void
+    public function setPostDate(string $post_date): void
     {
         $this->post_date = $post_date;
     }
 
-    public function getObjId() : int
+    public function getObjId(): int
     {
         return $this->obj_id;
     }
 
-    public function setObjId(int $obj_id) : void
+    public function setObjId(int $obj_id): void
     {
         $this->obj_id = $obj_id;
     }
 
-    public function getRefId() : int
+    public function getRefId(): int
     {
         return $this->ref_id;
     }
 
-    public function setRefId(int $ref_id) : void
+    public function setRefId(int $ref_id): void
     {
         $this->ref_id = $ref_id;
     }
 
-    public function getThreadId() : int
+    public function getThreadId(): int
     {
         return $this->thread_id;
     }
 
-    public function setThreadId(int $thread_id) : void
+    public function setThreadId(int $thread_id): void
     {
         $this->thread_id = $thread_id;
     }
 
-    public function getForumId() : int
+    public function getForumId(): int
     {
         return $this->forum_id;
     }
 
-    public function setForumId(int $forum_id) : void
+    public function setForumId(int $forum_id): void
     {
         $this->forum_id = $forum_id;
     }
 
-    public function getPosDisplayUserId() : int
+    public function getPosDisplayUserId(): int
     {
         return $this->pos_display_user_id;
     }
 
-    public function setPosDisplayUserId(int $pos_display_user_id) : void
+    public function setPosDisplayUserId(int $pos_display_user_id): void
     {
         $this->pos_display_user_id = $pos_display_user_id;
     }
 
-    public function getPosUserAlias() : string
+    public function getPosUserAlias(): string
     {
         return $this->pos_usr_alias;
     }
 
-    public function setPosUserAlias(string $pos_usr_alias) : void
+    public function setPosUserAlias(string $pos_usr_alias): void
     {
         $this->pos_usr_alias = $pos_usr_alias;
     }
 
-    public function isThreadDeleted() : bool
+    public function isThreadDeleted(): bool
     {
         return $this->thread_deleted;
     }
 
-    public function setThreadDeleted(bool $thread_deleted) : void
+    public function setThreadDeleted(bool $thread_deleted): void
     {
         $this->thread_deleted = $thread_deleted;
     }

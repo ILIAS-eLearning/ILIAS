@@ -31,7 +31,7 @@ class StaticStrategy implements IncrementStrategy
         $this->increment_in_ms = $increment_in_ms;
     }
 
-    public function increment(int $duration_in_ms) : int
+    public function increment(int $duration_in_ms): int
     {
         return ($duration_in_ms + $this->increment_in_ms);
     }

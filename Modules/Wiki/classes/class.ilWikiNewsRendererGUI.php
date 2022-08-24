@@ -23,7 +23,7 @@
  */
 class ilWikiNewsRendererGUI extends ilNewsDefaultRendererGUI
 {
-    public function getObjectLink() : string
+    public function getObjectLink(): string
     {
         $add = "";
         $n = $this->getNewsItem();

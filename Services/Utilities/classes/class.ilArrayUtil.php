@@ -36,7 +36,7 @@ class ilArrayUtil
      *
      * @deprecated
      */
-    public static function quoteArray(array $a_array) : array
+    public static function quoteArray(array $a_array): array
     {
         global $DIC;
 
@@ -58,7 +58,7 @@ class ilArrayUtil
      * @param $data string|array
      * @deprecated
      */
-    public static function stripSlashesRecursive($a_data, bool $a_strip_html = true, string $a_allow = "") : array
+    public static function stripSlashesRecursive($a_data, bool $a_strip_html = true, string $a_allow = ""): array
     {
         if (is_array($a_data)) {
             foreach ($a_data as $k => $v) {
@@ -78,7 +78,7 @@ class ilArrayUtil
     /**
      * @deprecated
      */
-    public static function stripSlashesArray(array $a_arr, bool $a_strip_html = true, string $a_allow = "") : array
+    public static function stripSlashesArray(array $a_arr, bool $a_strip_html = true, string $a_allow = ""): array
     {
         foreach ($a_arr as $k => $v) {
             $a_arr[$k] = ilUtil::stripSlashes($v, $a_strip_html, $a_allow);
@@ -96,7 +96,7 @@ class ilArrayUtil
         string $a_array_sortorder = "asc",
         bool $a_numeric = false,
         bool $a_keep_keys = false
-    ) : array {
+    ): array {
         if (!$a_keep_keys) {
             return self::stableSortArray($array, $a_array_sortby_key, $a_array_sortorder, $a_numeric);
         }
@@ -129,7 +129,7 @@ class ilArrayUtil
     /**
      * @deprecated
      */
-    private static function sort_func(array $left, array $right) : int
+    private static function sort_func(array $left, array $right): int
     {
         global $array_sortby, $array_sortorder;
 
@@ -155,7 +155,7 @@ class ilArrayUtil
     /**
      * @deprecated
      */
-    private static function sort_func_numeric(array $left, array $right) : int
+    private static function sort_func_numeric(array $left, array $right): int
     {
         global $array_sortby, $array_sortorder;
 
@@ -176,7 +176,7 @@ class ilArrayUtil
      * @param callable $cmp_function
      * @return void
      */
-    private static function mergesort(array &$array, callable $cmp_function = null) : void
+    private static function mergesort(array &$array, callable $cmp_function = null): void
     {
         if ($cmp_function === null) {
             $cmp_function = 'strcmp';
@@ -233,7 +233,7 @@ class ilArrayUtil
         string $a_array_sortby,
         string $a_array_sortorder = "asc",
         bool $a_numeric = false
-    ) : array {
+    ): array {
         global $array_sortby, $array_sortorder;
 
         $array_sortby = $a_array_sortby;

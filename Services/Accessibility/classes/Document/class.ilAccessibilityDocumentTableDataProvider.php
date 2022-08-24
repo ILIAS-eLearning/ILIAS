@@ -21,7 +21,7 @@
  */
 class ilAccessibilityDocumentTableDataProvider implements ilAccessibilityTableDataProvider
 {
-    public function getList(array $params, array $filter) : array
+    public function getList(array $params, array $filter): array
     {
         $items = ilAccessibilityDocument::orderBy('sorting')->get();
 

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\UI\Implementation\Component\Table;
 
 use ILIAS\UI\Implementation\Render\AbstractComponentRenderer;
@@ -29,7 +31,7 @@ class Renderer extends AbstractComponentRenderer
     /**
      * @inheritdoc
      */
-    public function render(Component\Component $component, RendererInterface $default_renderer) : string
+    public function render(Component\Component $component, RendererInterface $default_renderer): string
     {
         $this->checkComponent($component);
         if ($component instanceof Component\Table\Presentation) {
@@ -44,7 +46,7 @@ class Renderer extends AbstractComponentRenderer
     protected function renderPresentationTable(
         Component\Table\Presentation $component,
         RendererInterface $default_renderer
-    ) : string {
+    ): string {
         $tpl = $this->getTemplate("tpl.presentationtable.html", true, true);
 
         $tpl->setVariable("TITLE", $component->getTitle());
@@ -80,7 +82,7 @@ class Renderer extends AbstractComponentRenderer
     protected function renderPresentationRow(
         Component\Table\PresentationRow $component,
         RendererInterface $default_renderer
-    ) : string {
+    ): string {
         $f = $this->getUIFactory();
         $tpl = $this->getTemplate("tpl.presentationrow.html", true, true);
 
@@ -153,13 +155,13 @@ class Renderer extends AbstractComponentRenderer
     /**
      * @inheritdoc
      */
-    public function registerResources(ResourceRegistry $registry) : void
+    public function registerResources(ResourceRegistry $registry): void
     {
         parent::registerResources($registry);
         $registry->register('./src/UI/templates/js/Table/presentation.js');
     }
 
-    protected function registerSignals(Component\Table\PresentationRow $component) : Component\JavaScriptBindable
+    protected function registerSignals(Component\Table\PresentationRow $component): Component\JavaScriptBindable
     {
         $show = $component->getShowSignal();
         $close = $component->getCloseSignal();
@@ -172,7 +174,7 @@ class Renderer extends AbstractComponentRenderer
     /**
      * @inheritdoc
      */
-    protected function getComponentInterfaceName() : array
+    protected function getComponentInterfaceName(): array
     {
         return array(
             Component\Table\PresentationRow::class,

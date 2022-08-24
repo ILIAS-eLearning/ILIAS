@@ -1,4 +1,6 @@
-<?php declare(strict_types=0);
+<?php
+
+declare(strict_types=0);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -14,7 +16,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * class ilCourseObjectiveMaterials
  * @author Stefan Meyer <meyer@leifos.com>
@@ -43,7 +45,7 @@ class ilCourseObjectiveMaterials
         $this->__read();
     }
 
-    public function cloneDependencies(int $a_new_objective, int $a_copy_id) : void
+    public function cloneDependencies(int $a_new_objective, int $a_copy_id): void
     {
         $cwo = ilCopyWizardOptions::_getInstance($a_copy_id);
         $mappings = $cwo->getMappings();
@@ -86,7 +88,7 @@ class ilCourseObjectiveMaterials
     /**
      * @return int[]
      */
-    public static function _getAssignedMaterials(int $a_objective_id) : array
+    public static function _getAssignedMaterials(int $a_objective_id): array
     {
         global $DIC;
 
@@ -105,7 +107,7 @@ class ilCourseObjectiveMaterials
      * Get an array of course material ids that can be assigned to learning objectives
      * No tst, fold and grp.
      */
-    public static function _getAssignableMaterials(int $a_container_id) : array
+    public static function _getAssignableMaterials(int $a_container_id): array
     {
         global $DIC;
 
@@ -144,7 +146,7 @@ class ilCourseObjectiveMaterials
     /**
      * @return int[]
      */
-    public static function _getAllAssignedMaterials(int $a_container_id) : array
+    public static function _getAllAssignedMaterials(int $a_container_id): array
     {
         global $DIC;
 
@@ -164,12 +166,12 @@ class ilCourseObjectiveMaterials
         return $ref_ids;
     }
 
-    public function getMaterials() : array
+    public function getMaterials(): array
     {
         return $this->lms;
     }
 
-    public function getChapters() : array
+    public function getChapters(): array
     {
         $chapters = [];
         foreach ($this->lms as $lm_data) {
@@ -183,7 +185,7 @@ class ilCourseObjectiveMaterials
         return $chapters;
     }
 
-    public function getLM(int $lm_id) : array
+    public function getLM(int $lm_id): array
     {
         if ($this->lms[$lm_id]) {
             return $this->lms[$lm_id];
@@ -192,37 +194,37 @@ class ilCourseObjectiveMaterials
         }
     }
 
-    public function getObjectiveId() : int
+    public function getObjectiveId(): int
     {
         return $this->objective_id;
     }
 
-    public function setLMRefId(int $a_ref_id) : void
+    public function setLMRefId(int $a_ref_id): void
     {
         $this->lm_ref_id = $a_ref_id;
     }
 
-    public function getLMRefId() : int
+    public function getLMRefId(): int
     {
         return $this->lm_ref_id;
     }
 
-    public function setLMObjId(int $a_obj_id) : void
+    public function setLMObjId(int $a_obj_id): void
     {
         $this->lm_obj_id = $a_obj_id;
     }
 
-    public function getLMObjId() : int
+    public function getLMObjId(): int
     {
         return $this->lm_obj_id;
     }
 
-    public function setType(string $a_type) : void
+    public function setType(string $a_type): void
     {
         $this->type = $a_type;
     }
 
-    public function getType() : string
+    public function getType(): string
     {
         return $this->type;
     }
@@ -245,7 +247,7 @@ class ilCourseObjectiveMaterials
         }
     }
 
-    public function isChapterAssigned(int $a_ref_id, int $a_obj_id) : bool
+    public function isChapterAssigned(int $a_ref_id, int $a_obj_id): bool
     {
         $query = "SELECT * FROM crs_objective_lm " .
             "WHERE ref_id = " . $this->db->quote($a_ref_id, 'integer') . " " .
@@ -256,7 +258,7 @@ class ilCourseObjectiveMaterials
         return (bool) $res->numRows();
     }
 
-    public function checkExists() : bool
+    public function checkExists(): bool
     {
         if ($this->getLMObjId()) {
             $query = "SELECT * FROM crs_objective_lm " .
@@ -273,7 +275,7 @@ class ilCourseObjectiveMaterials
         return (bool) $res->numRows();
     }
 
-    public function add() : int
+    public function add(): int
     {
         $next_id = $this->db->nextId('crs_objective_lm');
         $query = "INSERT INTO crs_objective_lm (lm_ass_id,objective_id,ref_id,obj_id,type) " .
@@ -288,7 +290,7 @@ class ilCourseObjectiveMaterials
         return $next_id;
     }
 
-    public function delete(int $lm_id) : bool
+    public function delete(int $lm_id): bool
     {
         if (!$lm_id) {
             return false;
@@ -300,7 +302,7 @@ class ilCourseObjectiveMaterials
         return true;
     }
 
-    public function deleteAll() : bool
+    public function deleteAll(): bool
     {
         $query = "DELETE FROM crs_objective_lm " .
             "WHERE objective_id = " . $this->db->quote($this->getObjectiveId(), 'integer') . " ";
@@ -308,7 +310,7 @@ class ilCourseObjectiveMaterials
         return true;
     }
 
-    public function writePosition(int $a_ass_id, int $a_position) : void
+    public function writePosition(int $a_ass_id, int $a_position): void
     {
         $query = "UPDATE crs_objective_lm " .
             "SET position = " . $this->db->quote((string) $a_position, 'integer') . " " .
@@ -317,7 +319,7 @@ class ilCourseObjectiveMaterials
         $this->db->manipulate($query);
     }
 
-    public function __read() : bool
+    public function __read(): bool
     {
         $container_ref_ids = ilObject::_getAllReferences(ilCourseObjective::_lookupContainerIdByObjectiveId($this->objective_id));
         $container_ref_id = current($container_ref_ids);
@@ -356,7 +358,7 @@ class ilCourseObjectiveMaterials
         return true;
     }
 
-    public function toXml(ilXmlWriter $writer) : bool
+    public function toXml(ilXmlWriter $writer): bool
     {
         foreach ($this->getMaterials() as $material) {
             $writer->xmlElement(

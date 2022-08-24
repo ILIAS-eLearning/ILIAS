@@ -22,7 +22,7 @@ class ilFileData extends ilFile
         $this->path = defined('CLIENT_DATA_DIR') ? CLIENT_DATA_DIR : '';
     }
 
-    public function checkPath(string $a_path) : bool
+    public function checkPath(string $a_path): bool
     {
         if (is_writable($a_path)) {
             return true;
@@ -31,7 +31,7 @@ class ilFileData extends ilFile
         }
     }
 
-    public function getPath() : string
+    public function getPath(): string
     {
         return $this->path;
     }

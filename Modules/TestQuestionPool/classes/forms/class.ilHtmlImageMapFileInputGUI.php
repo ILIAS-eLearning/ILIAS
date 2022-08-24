@@ -1,4 +1,5 @@
 <?php
+
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 require_once 'Services/Form/classes/class.ilFileInputGUI.php';
@@ -13,11 +14,11 @@ class ilHtmlImageMapFileInputGUI extends ilFileInputGUI
      * @var ASS_AnswerImagemap[]
      */
     protected $shapes = array();
-    
+
     /**
      * {@inheritdoc}
      */
-    public function checkInput() : bool
+    public function checkInput(): bool
     {
         /**
          * @var $lng ilLanguage
@@ -65,7 +66,7 @@ class ilHtmlImageMapFileInputGUI extends ilFileInputGUI
     /**
      * @return ASS_AnswerImagemap[]
      */
-    public function getShapes() : array
+    public function getShapes(): array
     {
         return $this->shapes;
     }

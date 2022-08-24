@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /******************************************************************************
  *
@@ -31,7 +33,7 @@ class ilConditionsTest extends TestCase
 
     protected Container $dic;
 
-    public function testCondition() : void
+    public function testCondition(): void
     {
         $condition = new ilCondition(new ilConditionTrigger(1, 2, 'drei'), 'invalid');
         $obligatory_condition = $condition->withObligatory(true);
@@ -42,7 +44,7 @@ class ilConditionsTest extends TestCase
     /**
      * @param mixed  $value
      */
-    protected function setGlobalVariable(string $name, $value) : void
+    protected function setGlobalVariable(string $name, $value): void
     {
         global $DIC;
 

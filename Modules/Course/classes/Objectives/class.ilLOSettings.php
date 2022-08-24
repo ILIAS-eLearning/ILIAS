@@ -1,4 +1,6 @@
-<?php declare(strict_types=0);
+<?php
+
+declare(strict_types=0);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -14,7 +16,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * Settings for LO courses
  * @author  Stefan Meyer <smeyer.ilias@gmx.de>
@@ -83,7 +85,7 @@ class ilLOSettings
         $this->read();
     }
 
-    public static function getInstanceByObjId(int $a_obj_id) : self
+    public static function getInstanceByObjId(int $a_obj_id): self
     {
         if (isset(self::$instances[$a_obj_id])) {
             return self::$instances[$a_obj_id];
@@ -91,42 +93,42 @@ class ilLOSettings
         return self::$instances[$a_obj_id] = new ilLOSettings($a_obj_id);
     }
 
-    public function setInitialTestType(int $a_type) : void
+    public function setInitialTestType(int $a_type): void
     {
         $this->it_type = $a_type;
     }
 
-    public function getInitialTestType() : int
+    public function getInitialTestType(): int
     {
         return $this->it_type;
     }
 
-    public function getQualifyingTestType() : int
+    public function getQualifyingTestType(): int
     {
         return $this->qt_type;
     }
 
-    public function setQualifyingTestType(int $a_type) : void
+    public function setQualifyingTestType(int $a_type): void
     {
         $this->qt_type = $a_type;
     }
 
-    public function setInitialTestAsStart(bool $a_type) : void
+    public function setInitialTestAsStart(bool $a_type): void
     {
         $this->it_start = $a_type;
     }
 
-    public function isInitialTestStart() : bool
+    public function isInitialTestStart(): bool
     {
         return $this->it_start;
     }
 
-    public function setQualifyingTestAsStart(bool $a_type) : void
+    public function setQualifyingTestAsStart(bool $a_type): void
     {
         $this->qt_start = $a_type;
     }
 
-    public function isQualifyingTestStart() : bool
+    public function isQualifyingTestStart(): bool
     {
         return $this->qt_start;
     }
@@ -134,7 +136,7 @@ class ilLOSettings
     /**
      * Check if separate initial test are configured
      */
-    public function hasSeparateInitialTests() : bool
+    public function hasSeparateInitialTests(): bool
     {
         return $this->getInitialTestType() == self::TYPE_INITIAL_PLACEMENT_SELECTED || $this->getInitialTestType() == self::TYPE_INITIAL_QUALIFYING_SELECTED;
     }
@@ -142,7 +144,7 @@ class ilLOSettings
     /**
      * Check if separate qualified tests are configured
      */
-    public function hasSeparateQualifiedTests() : bool
+    public function hasSeparateQualifiedTests(): bool
     {
         return $this->getQualifyingTestType() == self::TYPE_QUALIFYING_SELECTED;
     }
@@ -150,7 +152,7 @@ class ilLOSettings
     /**
      *  Check if initial test is qualifying*
      */
-    public function isInitialTestQualifying() : bool
+    public function isInitialTestQualifying(): bool
     {
         return $this->getInitialTestType() == self::TYPE_INITIAL_QUALIFYING_ALL || $this->getInitialTestType() == self::TYPE_INITIAL_QUALIFYING_SELECTED;
     }
@@ -158,7 +160,7 @@ class ilLOSettings
     /**
      * Check if test ref_id is used in an objective course
      */
-    public static function isObjectiveTest(int $a_trst_ref_id) : bool
+    public static function isObjectiveTest(int $a_trst_ref_id): bool
     {
         global $DIC;
 
@@ -174,7 +176,7 @@ class ilLOSettings
         return (bool) ilLOTestAssignments::lookupContainerForTest($a_trst_ref_id);
     }
 
-    public static function cloneSettings(int $a_copy_id, int $a_container_id, int $a_new_container_id) : void
+    public static function cloneSettings(int $a_copy_id, int $a_container_id, int $a_new_container_id): void
     {
         $options = ilCopyWizardOptions::_getInstance($a_copy_id);
         $mappings = $options->getMappings();
@@ -205,7 +207,7 @@ class ilLOSettings
     /**
      * Check if start objects are enabled
      */
-    public function worksWithStartObjects() : bool
+    public function worksWithStartObjects(): bool
     {
         return $this->isInitialTestStart() || $this->isQualifyingTestStart();
     }
@@ -213,54 +215,54 @@ class ilLOSettings
     /**
      * Check if the loc is configured for initial tests
      */
-    public function worksWithInitialTest() : bool
+    public function worksWithInitialTest(): bool
     {
         return $this->getInitialTestType() !== self::TYPE_INITIAL_NONE;
     }
 
-    public function isGeneralQualifiedTestVisible() : bool
+    public function isGeneralQualifiedTestVisible(): bool
     {
         return $this->getQualifyingTestType() === self::TYPE_QUALIFYING_ALL;
     }
 
-    public function getPassedObjectiveMode() : int
+    public function getPassedObjectiveMode(): int
     {
         return $this->passed_objective_mode;
     }
 
-    public function setPassedObjectiveMode(int $a_mode) : void
+    public function setPassedObjectiveMode(int $a_mode): void
     {
         $this->passed_objective_mode = $a_mode;
     }
 
-    public function isGeneralInitialTestVisible() : bool
+    public function isGeneralInitialTestVisible(): bool
     {
         return
             $this->getInitialTestType() === self::TYPE_INITIAL_PLACEMENT_ALL ||
             $this->getInitialTestType() === self::TYPE_INITIAL_QUALIFYING_ALL;
     }
 
-    public function settingsExist() : bool
+    public function settingsExist(): bool
     {
         return $this->entry_exists;
     }
 
-    public function getObjId() : int
+    public function getObjId(): int
     {
         return $this->container_id;
     }
 
-    public function setType(int $a_type) : void
+    public function setType(int $a_type): void
     {
         $this->type = $a_type;
     }
 
-    public function getType() : int
+    public function getType(): int
     {
         return $this->type;
     }
 
-    public function getTestByType(int $a_type) : int
+    public function getTestByType(int $a_type): int
     {
         switch ($a_type) {
             case self::TYPE_TEST_INITIAL:
@@ -272,7 +274,7 @@ class ilLOSettings
         return 0;
     }
 
-    public function getTests() : array
+    public function getTests(): array
     {
         $tests = array();
         if ($this->getInitialTest()) {
@@ -284,43 +286,43 @@ class ilLOSettings
         return $tests;
     }
 
-    public function isRandomTestType(int $a_type) : bool
+    public function isRandomTestType(int $a_type): bool
     {
         $tst = $this->getTestByType($a_type);
         return ilObjTest::_lookupRandomTest(ilObject::_lookupObjId($tst));
     }
 
-    public function setInitialTest(int $a_id) : void
+    public function setInitialTest(int $a_id): void
     {
         $this->initial_test = $a_id;
     }
 
-    public function getInitialTest() : int
+    public function getInitialTest(): int
     {
         return $this->initial_test;
     }
 
-    public function setQualifiedTest(int $a_id) : void
+    public function setQualifiedTest(int $a_id): void
     {
         $this->qualified_test = $a_id;
     }
 
-    public function getQualifiedTest() : int
+    public function getQualifiedTest(): int
     {
         return $this->qualified_test;
     }
 
-    public function resetResults(bool $a_status) : void
+    public function resetResults(bool $a_status): void
     {
         $this->reset_results = $a_status;
     }
 
-    public function isResetResultsEnabled() : bool
+    public function isResetResultsEnabled(): bool
     {
         return $this->reset_results;
     }
 
-    public function create() : void
+    public function create(): void
     {
         $query = 'INSERT INTO loc_settings ' .
             '(obj_id, it_type,itest,qtest,it_start,qt_type,qt_start,reset_results,passed_obj_mode) VALUES ( ' .
@@ -338,7 +340,7 @@ class ilLOSettings
         $this->entry_exists = true;
     }
 
-    public function update() : void
+    public function update(): void
     {
         if (!$this->entry_exists) {
             $this->create();
@@ -364,7 +366,7 @@ class ilLOSettings
      * Depends on course objective settings
      * @param ilContainerStartObjects
      */
-    public function updateStartObjects(ilContainerStartObjects $start) : void
+    public function updateStartObjects(ilContainerStartObjects $start): void
     {
         if ($this->getInitialTestType() != self::TYPE_INITIAL_NONE) {
             if ($start->exists($this->getQualifiedTest())) {
@@ -425,7 +427,7 @@ class ilLOSettings
     /**
      * Read
      */
-    protected function read() : void
+    protected function read(): void
     {
         $query = 'SELECT * FROM loc_settings ' .
             'WHERE obj_id = ' . $this->db->quote($this->getObjId(), 'integer');
@@ -451,7 +453,7 @@ class ilLOSettings
         }
     }
 
-    public function toXml(ilXmlWriter $writer) : void
+    public function toXml(ilXmlWriter $writer): void
     {
         $writer->xmlElement(
             'Settings',

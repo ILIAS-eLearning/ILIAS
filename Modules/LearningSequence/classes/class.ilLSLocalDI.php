@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -31,14 +33,14 @@ class ilLSLocalDI extends Container
         ArrayAccess $lsdic,
         DataFactory $data_factory,
         ilObjLearningSequence $object
-    ) : void {
+    ): void {
         $obj_id = (int) $object->getId();
 //        $obj_title = $object->getTitle();
 
         $current_user = $dic['ilUser'];
         $current_user_id = (int) $current_user->getId();
 
-        $this["obj.ref_id"] = function ($c) use ($object) : int {
+        $this["obj.ref_id"] = function ($c) use ($object): int {
             $ref = $object->getRefId();
             if (!$ref) {
                 $refs = ilObject::_getAllReferences($object->getId());
@@ -52,11 +54,11 @@ class ilLSLocalDI extends Container
 
         $this["usr.id"] = $current_user_id;
 
-        $this["obj.sorting"] = function ($c) : ilContainerSorting {
+        $this["obj.sorting"] = function ($c): ilContainerSorting {
             return ilContainerSorting::_getInstance($c["obj.obj_id"]);
         };
 
-        $this["db.lsitems"] = function ($c) use ($dic, $lsdic) : ilLSItemsDB {
+        $this["db.lsitems"] = function ($c) use ($dic, $lsdic): ilLSItemsDB {
             $online_status = new LSItemOnlineStatus();
             return new ilLSItemsDB(
                 $dic["tree"],
@@ -66,7 +68,7 @@ class ilLSLocalDI extends Container
             );
         };
 
-        $this["db.progress"] = function ($c) use ($dic) : ilLearnerProgressDB {
+        $this["db.progress"] = function ($c) use ($dic): ilLearnerProgressDB {
             return new ilLearnerProgressDB(
                 $c["db.lsitems"],
                 $dic["ilAccess"],
@@ -74,7 +76,7 @@ class ilLSLocalDI extends Container
             );
         };
 
-        $this["learneritems"] = function ($c) use ($dic, $lsdic) : ilLSLearnerItemsQueries {
+        $this["learneritems"] = function ($c) use ($dic, $lsdic): ilLSLearnerItemsQueries {
             return new ilLSLearnerItemsQueries(
                 $c["db.progress"],
                 $lsdic["db.states"],
@@ -84,12 +86,12 @@ class ilLSLocalDI extends Container
         };
 
 
-        $this["get.params"] = function ($c) use ($dic) : ArrayBasedRequestWrapper {
+        $this["get.params"] = function ($c) use ($dic): ArrayBasedRequestWrapper {
             return $dic["http"]->wrapper()->query();
         };
 
 
-        $this["gui.learner"] = function ($c) use ($dic, $lsdic, $object) : ilObjLearningSequenceLearnerGUI {
+        $this["gui.learner"] = function ($c) use ($dic, $lsdic, $object): ilObjLearningSequenceLearnerGUI {
             $intro = $object->getContentPageHTML($object::CP_INTRO);
             $extro = $object->getContentPageHTML($object::CP_EXTRO);
 
@@ -113,7 +115,7 @@ class ilLSLocalDI extends Container
             );
         };
 
-        $this["player.urlbuilder.lp"] = function ($c) use ($dic, $data_factory) : LSUrlBuilder {
+        $this["player.urlbuilder.lp"] = function ($c) use ($dic, $data_factory): LSUrlBuilder {
             $player_base_url = $dic['ilCtrl']->getLinkTargetByClass(
                 'ilObjLearningSequenceLPPollingGUI',
                 \LSControlBuilder::CMD_CHECK_CURRENT_ITEM_LP,
@@ -125,7 +127,7 @@ class ilLSLocalDI extends Container
 
             return new LSUrlBuilder($player_base_url);
         };
-        $this["gui.learner.lp"] = function ($c) use ($dic) : ilObjLearningSequenceLPPollingGUI {
+        $this["gui.learner.lp"] = function ($c) use ($dic): ilObjLearningSequenceLPPollingGUI {
             return new ilObjLearningSequenceLPPollingGUI(
                 $dic["ilCtrl"],
                 $c["usr.id"],
@@ -135,21 +137,21 @@ class ilLSLocalDI extends Container
             );
         };
 
-        $this["gui.toc"] = function ($c) use ($dic) : ilLSTOCGUI {
+        $this["gui.toc"] = function ($c) use ($dic): ilLSTOCGUI {
             return new ilLSTOCGUI(
                 $c["player.urlbuilder"],
                 $dic["ilCtrl"]
             );
         };
 
-        $this["gui.loc"] = function ($c) use ($dic) : ilLSLocatorGUI {
+        $this["gui.loc"] = function ($c) use ($dic): ilLSLocatorGUI {
             return new ilLSLocatorGUI(
                 $c["player.urlbuilder"],
                 $dic["ui.factory"]
             );
         };
 
-        $this["player.viewfactory"] = function ($c) use ($dic) : ilLSViewFactory {
+        $this["player.viewfactory"] = function ($c) use ($dic): ilLSViewFactory {
             return new ilLSViewFactory(
                 $dic['service.kiosk_mode'],
                 $dic["lng"],
@@ -157,7 +159,7 @@ class ilLSLocalDI extends Container
             );
         };
 
-        $this["player.urlbuilder"] = function ($c) use ($dic, $data_factory) : LSUrlBuilder {
+        $this["player.urlbuilder"] = function ($c) use ($dic, $data_factory): LSUrlBuilder {
             $player_base_url = $dic['ilCtrl']->getLinkTargetByClass(
                 'ilObjLearningSequenceLearnerGUI',
                 \ilObjLearningSequenceLearnerGUI::CMD_VIEW,
@@ -170,12 +172,12 @@ class ilLSLocalDI extends Container
             return new LSUrlBuilder($player_base_url);
         };
 
-        $this["globalsetttings"] = function ($c) use ($dic) : \LSGlobalSettings {
+        $this["globalsetttings"] = function ($c) use ($dic): \LSGlobalSettings {
             $db = new ilLSGlobalSettingsDB($dic['ilSetting']);
             return $db->getSettings();
         };
 
-        $this["player.controlbuilder"] = function ($c) use ($dic) : LSControlBuilder {
+        $this["player.controlbuilder"] = function ($c) use ($dic): LSControlBuilder {
             return new LSControlBuilder(
                 $dic["ui.factory"],
                 $c["player.urlbuilder"],
@@ -185,7 +187,7 @@ class ilLSLocalDI extends Container
             );
         };
 
-        $this["player.kioskrenderer"] = function ($c) use ($dic) : ilKioskPageRenderer {
+        $this["player.kioskrenderer"] = function ($c) use ($dic): ilKioskPageRenderer {
             $kiosk_template = new ilTemplate("tpl.kioskpage.html", true, true, 'Modules/LearningSequence');
             $window_title = $dic['ilSetting']->get('short_inst_name', 'ILIAS');
 
@@ -202,7 +204,7 @@ class ilLSLocalDI extends Container
             );
         };
 
-        $this["player.curriculumbuilder"] = function ($c) use ($dic) : ilLSCurriculumBuilder {
+        $this["player.curriculumbuilder"] = function ($c) use ($dic): ilLSCurriculumBuilder {
             return new ilLSCurriculumBuilder(
                 $c["learneritems"],
                 $dic["ui.factory"],
@@ -212,9 +214,9 @@ class ilLSLocalDI extends Container
             );
         };
 
-        $this["player.launchlinksbuilder"] = function ($c) use ($dic) : ilLSLaunchlinksBuilder {
+        $this["player.launchlinksbuilder"] = function ($c) use ($dic): ilLSLaunchlinksBuilder {
             $first_access = $c["learneritems"]->getFirstAccess();
-            
+
             return new ilLSLaunchlinksBuilder(
                 $dic["lng"],
                 $dic["ilAccess"],
@@ -227,7 +229,7 @@ class ilLSLocalDI extends Container
             );
         };
 
-        $this["player"] = function ($c) use ($dic, $lsdic) : ilLSPlayer {
+        $this["player"] = function ($c) use ($dic, $lsdic): ilLSPlayer {
             return new ilLSPlayer(
                 $c["learneritems"],
                 $c["player.controlbuilder"],
@@ -241,7 +243,7 @@ class ilLSLocalDI extends Container
             );
         };
 
-        $this["participants"] = function ($c) use ($dic) : ilLearningSequenceParticipants {
+        $this["participants"] = function ($c) use ($dic): ilLearningSequenceParticipants {
             return new ilLearningSequenceParticipants(
                 $c["obj.obj_id"],
                 $dic["ilLoggerFactory"]->getRootLogger(),
@@ -250,7 +252,7 @@ class ilLSLocalDI extends Container
             );
         };
 
-        $this["roles"] = function ($c) use ($dic, $current_user) : ilLearningSequenceRoles {
+        $this["roles"] = function ($c) use ($dic, $current_user): ilLearningSequenceRoles {
             return new ilLearningSequenceRoles(
                 $c["obj.ref_id"],
                 $c["obj.obj_id"],
@@ -264,7 +266,7 @@ class ilLSLocalDI extends Container
             );
         };
 
-        $this["ui.renderer"] = function ($c) use ($dic) : ILIAS\UI\Renderer {
+        $this["ui.renderer"] = function ($c) use ($dic): ILIAS\UI\Renderer {
             return $dic['ui.renderer'];
         };
     }

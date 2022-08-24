@@ -11,14 +11,14 @@ class UIHookPluginGUITest extends TestCase
 {
     //protected $backupGlobals = false;
 
-    protected function tearDown() : void
+    protected function tearDown(): void
     {
     }
 
     /**
      * Test get HTML return an array
      */
-    public function testGetHTMLReturnsArray() : void
+    public function testGetHTMLReturnsArray(): void
     {
         $plugin_gui = new ilUIHookPluginGUI();
         $res = $plugin_gui->getHTML("Test", "test", []);

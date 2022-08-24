@@ -74,36 +74,36 @@ class ilPCQuestionGUI extends ilPageContentGUI
                 } elseif ($this->sub_command != "") {
                     $cmd = $this->sub_command;
                 }
-                
+
                 $ret = $this->$cmd();
         }
-        
+
         return $ret;
     }
 
-    public function setSelfAssessmentMode(bool $a_selfassessmentmode) : void
+    public function setSelfAssessmentMode(bool $a_selfassessmentmode): void
     {
         $this->selfassessmentmode = $a_selfassessmentmode;
     }
 
-    public function getSelfAssessmentMode() : bool
+    public function getSelfAssessmentMode(): bool
     {
         return $this->selfassessmentmode;
     }
 
-    public function setInsertTabs(bool $a_active) : void
+    public function setInsertTabs(bool $a_active): void
     {
         $ilTabs = $this->tabs;
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
-        
+
         // new question
         $ilTabs->addSubTab(
             "new_question",
             $lng->txt("cont_new_question"),
             $ilCtrl->getLinkTarget($this, "insert")
         );
-        
+
         // copy from pool
         $ilCtrl->setParameter($this, "subCmd", "insertFromPool");
         $ilTabs->addSubTab(
@@ -111,24 +111,24 @@ class ilPCQuestionGUI extends ilPageContentGUI
             $lng->txt("cont_copy_question_from_pool"),
             $ilCtrl->getLinkTarget($this, "insert")
         );
-        
+
         $ilTabs->activateSubTab($a_active);
-        
+
         $ilCtrl->setParameter($this, "subCmd", "");
     }
-    
+
     /**
      * Insert new question form
      */
-    public function insert(string $a_mode = "create") : void
+    public function insert(string $a_mode = "create"): void
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
-        
+
         $this->setInsertTabs("new_question");
 
         $this->displayValidationError();
-        
+
         // get all question types (@todo: we have to check, whether they are
         // suitable for self assessment or not)
         $all_types = ilObjQuestionPool::_getSelfAssessmentQuestionTypes();
@@ -138,23 +138,23 @@ class ilPCQuestionGUI extends ilPageContentGUI
         foreach ($all_types as $k => $v) {
             $options[$v["type_tag"]] = $k;
         }
-        
+
         // new table form (input of rows and columns)
         $this->form_gui = new ilPropertyFormGUI();
         $this->form_gui->setFormAction($ilCtrl->getFormAction($this));
         $this->form_gui->setTitle($lng->txt("cont_ed_insert_pcqst"));
-        
+
         // Select Question Type
         $qtype_input = new ilSelectInputGUI($lng->txt("cont_question_type"), "q_type");
         $qtype_input->setOptions($options);
         $qtype_input->setRequired(true);
         $this->form_gui->addItem($qtype_input);
-        
+
         // additional content editor
         // assessment
         if (ilObjAssessmentFolder::isAdditionalQuestionContentEditingModePageObjectEnabled()) {
             $ri = new ilRadioGroupInputGUI($this->lng->txt("tst_add_quest_cont_edit_mode"), "add_quest_cont_edit_mode");
-            
+
             $ri->addOption(new ilRadioOption(
                 $this->lng->txt('tst_add_quest_cont_edit_mode_default'),
                 assQuestion::ADDITIONAL_CONTENT_EDITING_MODE_DEFAULT
@@ -164,7 +164,7 @@ class ilPCQuestionGUI extends ilPageContentGUI
                 $this->lng->txt('tst_add_quest_cont_edit_mode_page_object'),
                 assQuestion::ADDITIONAL_CONTENT_EDITING_MODE_PAGE_OBJECT
             ));
-            
+
             $ri->setValue(assQuestion::ADDITIONAL_CONTENT_EDITING_MODE_DEFAULT);
 
             $this->form_gui->addItem($ri);
@@ -184,16 +184,16 @@ class ilPCQuestionGUI extends ilPageContentGUI
         $this->tpl->setContent($this->form_gui->getHTML());
     }
 
-    
+
     /**
      * Create new question
      */
-    public function create() : void
+    public function create(): void
     {
         global	$ilCtrl, $ilTabs;
 
         $ilTabs->setTabActive('question');
-        
+
         $this->content_obj = new ilPCQuestion($this->getPage());
         $this->content_obj->create($this->pg_obj, $this->hier_id);
 
@@ -222,47 +222,47 @@ class ilPCQuestionGUI extends ilPageContentGUI
 
         $this->insert();
     }
-    
+
     /**
      * Set new question id
      */
-    public function setNewQuestionId(array $a_par) : void
+    public function setNewQuestionId(array $a_par): void
     {
         if ($a_par["new_id"] > 0) {
             $this->content_obj->setQuestionReference("il__qst_" . $a_par["new_id"]);
             $this->pg_obj->update();
         }
     }
-    
+
     /**
      * edit question
      */
-    public function edit() : void
+    public function edit(): void
     {
         $ilCtrl = $this->ctrl;
         $ilTabs = $this->tabs;
         $q_id = "";
-        
+
         $ilTabs->setTabActive('question');
-        
+
         if ($this->getSelfAssessmentMode()) {		// behaviour in content pages, e.g. scorm
             $q_ref = $this->content_obj->getQuestionReference();
-            
+
             if ($q_ref != "") {
                 $inst_id = ilInternalLink::_extractInstOfTarget($q_ref);
                 if (!($inst_id > 0)) {
                     $q_id = ilInternalLink::_extractObjIdOfTarget($q_ref);
                 }
             }
-            
+
             $q_type = $this->request->getString("q_type");
             $ilCtrl->setParameter($this, "q_type", $q_type);
-            
+
             if ($q_id == "" && $q_type == "") {
                 $this->insert("edit_empty");
                 return;
             }
-                        
+
             // create question first-hand (needed for uploads)
             if ($q_id < 1 && $q_type) {
                 $q_gui = assQuestionGUI::_getQuestionGUI($q_type);
@@ -276,7 +276,7 @@ class ilPCQuestionGUI extends ilPageContentGUI
                     $addContEditMode = assQuestion::ADDITIONAL_CONTENT_EDITING_MODE_DEFAULT;
                 }
                 $q_gui->object->setAdditionalContentEditingMode($addContEditMode);
-                
+
                 //set default tries
                 $q_gui->object->setObjId(0);
                 $q_id = $q_gui->object->createNewQuestion(true);
@@ -304,18 +304,18 @@ class ilPCQuestionGUI extends ilPageContentGUI
         $ilCtrl = $this->ctrl;
         $ilTabs = $this->tabs;
         $q_id = "";
-        
+
         $ilTabs->setTabActive('feedback');
-        
+
         $q_ref = $this->content_obj->getQuestionReference();
-        
+
         if ($q_ref != "") {
             $inst_id = ilInternalLink::_extractInstOfTarget($q_ref);
             if (!($inst_id > 0)) {
                 $q_id = ilInternalLink::_extractObjIdOfTarget($q_ref);
             }
         }
-        
+
         $ilCtrl->setCmdClass("ilquestioneditgui");
         $ilCtrl->setCmd("feedback");
         $edit_gui = new ilQuestionEditGUI();
@@ -334,7 +334,7 @@ class ilPCQuestionGUI extends ilPageContentGUI
      * Creates a new questionpool and returns the reference id
      * @return int Reference id of the newly created questionpool
      */
-    public function createQuestionPool(string $name = "Dummy") : int
+    public function createQuestionPool(string $name = "Dummy"): int
     {
         $tree = $this->tree;
         $parent_ref = $tree->getParentId($this->requested_ref_id);
@@ -350,8 +350,8 @@ class ilPCQuestionGUI extends ilPageContentGUI
         $qpl->saveToDb();
         return $qpl->getRefId();
     }
-    
-    public function setTabs() : void
+
+    public function setTabs(): void
     {
         $q_ref = "";
         $q_id = 0;
@@ -359,21 +359,21 @@ class ilPCQuestionGUI extends ilPageContentGUI
         if ($this->getSelfAssessmentMode()) {
             return;
         }
-        
+
         $ilTabs = $this->tabs;
         $ilCtrl = $this->ctrl;
 
         if (!is_null($this->content_obj)) {
             $q_ref = $this->content_obj->getQuestionReference();
         }
-        
+
         if ($q_ref != "") {
             $inst_id = ilInternalLink::_extractInstOfTarget($q_ref);
             if (!($inst_id > 0)) {
                 $q_id = ilInternalLink::_extractObjIdOfTarget($q_ref);
             }
         }
-            
+
         $ilTabs->addTarget(
             "question",
             $ilCtrl->getLinkTarget($this, "edit"),
@@ -385,7 +385,7 @@ class ilPCQuestionGUI extends ilPageContentGUI
                 "toggleGraphicalAnswers", "setMediaMode"),
             ""
         );
-        
+
         if ($q_id > 0) {
             if (assQuestion::_getQuestionType($q_id) != "assTextQuestion") {
                 $tabCommands = assQuestionGUI::getCommandsFromClassConstants('ilAssQuestionFeedbackEditingGUI');
@@ -401,11 +401,11 @@ class ilPCQuestionGUI extends ilPageContentGUI
     ////
     //// Get question from pool
     ////
-    
+
     /**
      * Insert question from ppol
      */
-    public function insertFromPool() : void
+    public function insertFromPool(): void
     {
         $ilAccess = $this->access;
         if ($this->edit_repo->getQuestionPool() > 0 &&
@@ -417,7 +417,7 @@ class ilPCQuestionGUI extends ilPageContentGUI
         }
     }
 
-    public function poolSelection() : void
+    public function poolSelection(): void
     {
         $ilCtrl = $this->ctrl;
         $tpl = $this->tpl;
@@ -435,25 +435,25 @@ class ilPCQuestionGUI extends ilPageContentGUI
             $tpl->setContent($exp->getHTML());
         }
     }
-    
-    public function selectPool() : void
+
+    public function selectPool(): void
     {
         $ilCtrl = $this->ctrl;
-        
+
         $this->edit_repo->setQuestionPool($this->request->getInt("pool_ref_id"));
         $ilCtrl->setParameter($this, "subCmd", "insertFromPool");
         $ilCtrl->redirect($this, "insert");
     }
 
-    public function listPoolQuestions() : void
+    public function listPoolQuestions(): void
     {
         $ilToolbar = $this->toolbar;
         $tpl = $this->tpl;
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
-        
+
         $this->tpl->setOnScreenMessage('info', $lng->txt("cont_cp_question_diff_formats_info"));
-        
+
         $ilCtrl->setParameter($this, "subCmd", "poolSelection");
         $ilToolbar->addButton(
             $lng->txt("cont_select_other_qpool"),
@@ -472,24 +472,24 @@ class ilPCQuestionGUI extends ilPageContentGUI
 
         $tpl->setContent($table_gui->getHTML());
     }
-    
-    public function copyQuestion() : void
+
+    public function copyQuestion(): void
     {
         $ilCtrl = $this->ctrl;
-        
+
         $this->content_obj = new ilPCQuestion($this->getPage());
         $this->content_obj->create(
             $this->pg_obj,
             $this->request->getHierId()
         );
-        
+
         $this->content_obj->copyPoolQuestionIntoPage(
             $this->request->getInt("q_id"),
             $this->request->getHierId()
         );
-        
+
         $this->updated = $this->pg_obj->update();
-        
+
         $ilCtrl->returnToParent($this);
     }
 }

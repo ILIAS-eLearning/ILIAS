@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * Table gui for copy progress
  *
@@ -31,22 +33,22 @@ class ilObjectCopyProgressTableGUI extends ilTable2GUI
         parent::__construct($parent_obj, $parent_cmd);
     }
 
-    public function setObjectInfo(array $ref_ids) : void
+    public function setObjectInfo(array $ref_ids): void
     {
         $this->objects = $ref_ids;
     }
 
-    public function getObjects() : array
+    public function getObjects(): array
     {
         return $this->objects;
     }
-    
-    public function setRedirectionUrl(?string $url) : void
+
+    public function setRedirectionUrl(?string $url): void
     {
         $this->main_tpl->addOnLoadCode('il.CopyRedirection.setRedirectUrl("' . $url . '")');
     }
 
-    public function init() : void
+    public function init(): void
     {
         $this->main_tpl->addJavaScript('./Services/CopyWizard/js/ilCopyRedirection.js');
         $this->main_tpl->addOnLoadCode('il.CopyRedirection.checkDone()');
@@ -59,7 +61,7 @@ class ilObjectCopyProgressTableGUI extends ilTable2GUI
         $this->addColumn($this->lng->txt('obj_copy_progress'));
     }
 
-    protected function fillRow(array $set) : void
+    protected function fillRow(array $set): void
     {
         $this->tpl->setVariable('VAL_ID', $set['ref_id']);
         $this->tpl->setVariable('OBJ_TITLE', $set['title']);
@@ -93,7 +95,7 @@ class ilObjectCopyProgressTableGUI extends ilTable2GUI
         $this->tpl->setVariable('PROGRESS_BAR', $progress->render());
     }
 
-    public function parse() : void
+    public function parse(): void
     {
         $counter = 0;
         $set = [];
@@ -105,7 +107,7 @@ class ilObjectCopyProgressTableGUI extends ilTable2GUI
             $set[$counter]['type'] = ilObject::_lookupType(ilObject::_lookupObjId($ref_id));
             $set[$counter]['title'] = ilObject::_lookupTitle(ilObject::_lookupObjId($ref_id));
             $set[$counter]['description'] = ilObject::_lookupDescription(ilObject::_lookupObjId($ref_id));
-            
+
             $copy_info = ilCopyWizardOptions::_getInstance($copy_id);
             $copy_info->read();
             $set[$counter]['max_steps'] = $copy_info->getRequiredSteps();

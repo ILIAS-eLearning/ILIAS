@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -106,7 +108,7 @@ class ilCertificateBackgroundImageUpload
      * @throws ilException
      * @throws ilFileUtilsException
      */
-    public function uploadBackgroundImage(string $imageTempFilename, int $version, ?array $pending_file = null) : string
+    public function uploadBackgroundImage(string $imageTempFilename, int $version, ?array $pending_file = null): string
     {
         $imagepath = $this->rootDirectory . $this->certificatePath;
 
@@ -165,7 +167,7 @@ class ilCertificateBackgroundImageUpload
      * @throws ilException
      * @throws ilFileUtilsException
      */
-    private function uploadFile(string $temporaryFilename, string $targetFileName, ?array $pending_file = null) : void
+    private function uploadFile(string $temporaryFilename, string $targetFileName, ?array $pending_file = null): void
     {
         $targetFilename = basename($targetFileName);
         $targetFilename = $this->fileUtilsHelper->getValidFilename($targetFilename);
@@ -207,7 +209,7 @@ class ilCertificateBackgroundImageUpload
         }
     }
 
-    private function getTargetFilesystem(string $target) : int
+    private function getTargetFilesystem(string $target): int
     {
         switch (true) {
             case strpos($target, $this->rootDirectory . '/' . $this->clientId) === 0:
@@ -231,7 +233,7 @@ class ilCertificateBackgroundImageUpload
         return $targetFilesystem;
     }
 
-    private function getTargetDir(string $target) : string
+    private function getTargetDir(string $target): string
     {
         $absTargetDir = dirname($target);
         return $this->legacyPathHelper->createRelativePath($absTargetDir);
@@ -241,7 +243,7 @@ class ilCertificateBackgroundImageUpload
      * Returns the filesystem path of the background image temp file during upload
      * @return string The filesystem path of the background image temp file
      */
-    private function createBackgroundImageTempfilePath() : string
+    private function createBackgroundImageTempfilePath(): string
     {
         return $this->rootDirectory . $this->certificatePath . self::BACKGROUND_TEMPORARY_FILENAME;
     }
@@ -250,7 +252,7 @@ class ilCertificateBackgroundImageUpload
      * Returns the filesystem path of the background image thumbnail
      * @return string The filesystem path of the background image thumbnail
      */
-    private function createBackgroundImageThumbPath() : string
+    private function createBackgroundImageThumbPath(): string
     {
         return $this->rootDirectory . $this->certificatePath . self::BACKGROUND_THUMBNAIL_IMAGE_NAME;
     }

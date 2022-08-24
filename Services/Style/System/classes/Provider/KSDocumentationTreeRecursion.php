@@ -41,7 +41,7 @@ class KSDocumentationTreeRecursion implements \ILIAS\UI\Component\Tree\TreeRecur
         }
     }
 
-    public function getChildren($record, $environment = null) : array
+    public function getChildren($record, $environment = null): array
     {
         /**
          * @var Entry $record
@@ -53,7 +53,7 @@ class KSDocumentationTreeRecursion implements \ILIAS\UI\Component\Tree\TreeRecur
         \ILIAS\UI\Component\Tree\Node\Factory $factory,
         $record,
         $environment = null
-    ) : \ILIAS\UI\Component\Tree\Node\Node {
+    ): \ILIAS\UI\Component\Tree\Node\Node {
         /**
          * @var Entry $record
          */
@@ -67,7 +67,7 @@ class KSDocumentationTreeRecursion implements \ILIAS\UI\Component\Tree\TreeRecur
                        ->withHighlighted($is_highlited);
     }
 
-    protected function getNodeUri(Entry $a_node) : URI
+    protected function getNodeUri(Entry $a_node): URI
     {
         return $this->parent_uri->withParameter('node_id', $a_node->getId());
     }

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -26,12 +28,12 @@ use PHPUnit\Framework\TestCase;
 
 class DatasetTest extends TestCase
 {
-    protected function setUp() : void
+    protected function setUp(): void
     {
         $this->f = new Data\Factory();
     }
 
-    protected function getSimpleDimensions() : array
+    protected function getSimpleDimensions(): array
     {
         $c_dimension = $this->f->dimension()->cardinal();
         $dimensions = ["A dimension" => $c_dimension, "Another dimension" => $c_dimension];
@@ -39,7 +41,7 @@ class DatasetTest extends TestCase
         return $dimensions;
     }
 
-    protected function getExtendedDimensions() : array
+    protected function getExtendedDimensions(): array
     {
         $c_dimension = $this->f->dimension()->cardinal();
         $r_dimension = $this->f->dimension()->range($c_dimension);
@@ -52,7 +54,7 @@ class DatasetTest extends TestCase
         return $dimensions;
     }
 
-    public function testDimensions() : void
+    public function testDimensions(): void
     {
         try {
             $dimensions = $this->getSimpleDimensions();
@@ -63,7 +65,7 @@ class DatasetTest extends TestCase
         }
     }
 
-    public function testInvalidDimension() : void
+    public function testInvalidDimension(): void
     {
         try {
             $dimension = "Dimension";
@@ -74,7 +76,7 @@ class DatasetTest extends TestCase
         }
     }
 
-    public function testInvalidDimensionKey() : void
+    public function testInvalidDimensionKey(): void
     {
         try {
             $dimension = $this->f->dimension()->cardinal();
@@ -85,7 +87,7 @@ class DatasetTest extends TestCase
         }
     }
 
-    public function testwithPoint() : void
+    public function testwithPoint(): void
     {
         $dataset = $this->f->dataset($this->getSimpleDimensions());
         $points = ["A dimension" => 1, "Another dimension" => 2];
@@ -96,7 +98,7 @@ class DatasetTest extends TestCase
         $this->assertEquals(["Item" => $points], $dataset->getPoints());
     }
 
-    public function testwithInvalidPointsCount() : void
+    public function testwithInvalidPointsCount(): void
     {
         try {
             $dataset = $this->f->dataset($this->getSimpleDimensions());
@@ -111,7 +113,7 @@ class DatasetTest extends TestCase
         }
     }
 
-    public function testwithAlternativeInformation() : void
+    public function testwithAlternativeInformation(): void
     {
         $dataset = $this->f->dataset($this->getSimpleDimensions());
         $info = ["A dimension" => "An information", "Another dimension" => null];
@@ -122,7 +124,7 @@ class DatasetTest extends TestCase
         $this->assertEquals(["Item" => $info], $dataset->getAlternativeInformation());
     }
 
-    public function testwithInvalidAlternativeInformationCount() : void
+    public function testwithInvalidAlternativeInformationCount(): void
     {
         try {
             $dataset = $this->f->dataset($this->getSimpleDimensions());
@@ -137,7 +139,7 @@ class DatasetTest extends TestCase
         }
     }
 
-    public function testwithInvalidAlternativeInformationValue() : void
+    public function testwithInvalidAlternativeInformationValue(): void
     {
         try {
             $dataset = $this->f->dataset($this->getSimpleDimensions());
@@ -152,7 +154,7 @@ class DatasetTest extends TestCase
         }
     }
 
-    public function testwithResetDataset() : void
+    public function testwithResetDataset(): void
     {
         $dataset = $this->f->dataset($this->getSimpleDimensions());
         $points = ["A dimension" => 1, "Another dimension" => 2];
@@ -175,7 +177,7 @@ class DatasetTest extends TestCase
         $this->assertEquals([], $dataset->getAlternativeInformation());
     }
 
-    public function testMinValue() : void
+    public function testMinValue(): void
     {
         $dataset = $this->f->dataset($this->getExtendedDimensions());
         $points1 = ["First dimension" => 0, "Second dimension" => 0.5, "Third dimension" => [0, 1]];
@@ -198,7 +200,7 @@ class DatasetTest extends TestCase
         $this->assertEquals(-3, $dataset->getMinValueForDimension("Third dimension"));
     }
 
-    public function testMaxValue() : void
+    public function testMaxValue(): void
     {
         $dataset = $this->f->dataset($this->getExtendedDimensions());
         $points1 = ["First dimension" => 0, "Second dimension" => -0.5, "Third dimension" => [0, 1]];

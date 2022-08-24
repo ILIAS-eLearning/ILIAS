@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /* Copyright (c) 1998-2020 ILIAS open source, Extended GPL, see docs/LICENSE */
 
@@ -10,19 +12,19 @@ class ilStatisticsTest extends ilTestBaseTestCase
 {
     private ilStatistics $testObj;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         parent::setUp();
 
         $this->testObj = new ilStatistics();
     }
 
-    public function test_instantiateObject_shouldReturnInstance() : void
+    public function test_instantiateObject_shouldReturnInstance(): void
     {
         $this->assertInstanceOf(ilStatistics::class, $this->testObj);
     }
 
-    public function testNANHandling() : void
+    public function testNANHandling(): void
     {
         $this->assertEquals(NAN_HANDLING_REMOVE, $this->testObj->getNANHandling());
 
@@ -33,7 +35,7 @@ class ilStatisticsTest extends ilTestBaseTestCase
         $this->assertEquals(NAN_HANDLING_ZERO, $this->testObj->getNANHandling());
     }
 
-    public function testData() : void
+    public function testData(): void
     {
         $input = [
             "1250",

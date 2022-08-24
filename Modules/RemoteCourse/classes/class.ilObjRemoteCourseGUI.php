@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /******************************************************************************
  *
@@ -34,26 +36,26 @@ class ilObjRemoteCourseGUI extends ilRemoteObjectBaseGUI implements ilCtrlBaseCl
         $this->lng->loadLanguageModule('rcrs');
         $this->lng->loadLanguageModule('crs');
     }
-    
-    public function getType() : string
+
+    public function getType(): string
     {
         return 'rcrs';
     }
 
-    protected function addCustomInfoFields(ilInfoScreenGUI $a_info) : void
+    protected function addCustomInfoFields(ilInfoScreenGUI $a_info): void
     {
         $a_info->addProperty($this->lng->txt('crs_visibility'), $this->availabilityToString());
     }
-    
-    protected function availabilityToString() : string
+
+    protected function availabilityToString(): string
     {
         switch ($this->object->getAvailabilityType()) {
             case ilObjRemoteCourse::ACTIVATION_OFFLINE:
                 return $this->lng->txt('offline');
-            
+
             case ilObjRemoteCourse::ACTIVATION_UNLIMITED:
                 return $this->lng->txt('crs_unlimited');
-            
+
             case ilObjRemoteCourse::ACTIVATION_LIMITED:
                 return ilDatePresentation::formatPeriod(
                     new ilDateTime($this->object->getStartingTime(), IL_CAL_UNIX),
@@ -62,8 +64,8 @@ class ilObjRemoteCourseGUI extends ilRemoteObjectBaseGUI implements ilCtrlBaseCl
         }
         return '';
     }
-    
-    protected function addCustomEditForm(ilPropertyFormGUI $a_form) : void
+
+    protected function addCustomEditForm(ilPropertyFormGUI $a_form): void
     {
         $radio_grp = new ilRadioGroupInputGUI($this->lng->txt('crs_visibility'), 'activation_type');
         $radio_grp->setValue($this->object->getAvailabilityType());
@@ -77,7 +79,7 @@ class ilObjRemoteCourseGUI extends ilRemoteObjectBaseGUI implements ilCtrlBaseCl
 
         // :TODO: not supported in ECS yet
         $radio_opt = new ilRadioOption($this->lng->txt('crs_visibility_until'), ilObjRemoteCourse::ACTIVATION_LIMITED);
-        
+
         $start = new ilDateTimeInputGUI($this->lng->txt('crs_start'), 'start');
         $start->setDate(new ilDateTime(time(), IL_CAL_UNIX));
         $start->setDisabled(true);
@@ -88,7 +90,7 @@ class ilObjRemoteCourseGUI extends ilRemoteObjectBaseGUI implements ilCtrlBaseCl
         $end->setDisabled(true);
         $end->setShowTime(true);
         $radio_opt->addSubItem($end);
-        
+
         $radio_grp->addOption($radio_opt);
         $a_form->addItem($radio_grp);
     }

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -20,19 +22,19 @@ class ilMailDatabaseUpdateSteps implements ilDatabaseUpdateSteps
 {
     protected ilDBInterface $db;
 
-    public function prepare(ilDBInterface $db) : void
+    public function prepare(ilDBInterface $db): void
     {
         $this->db = $db;
     }
 
-    public function step_1() : void
+    public function step_1(): void
     {
         if ($this->db->tableExists('mail') && $this->db->tableColumnExists('mail', 'm_email')) {
             $this->db->dropTableColumn('mail', 'm_email');
         }
     }
 
-    public function step_2() : void
+    public function step_2(): void
     {
         $result = $this->db->queryF('SELECT value FROM settings WHERE module = %s AND keyword = %s', ['text', 'text'], ['common', 'mail_system_sys_signature']);
         $row = $this->db->fetchAssoc($result);
@@ -48,7 +50,7 @@ class ilMailDatabaseUpdateSteps implements ilDatabaseUpdateSteps
         }
     }
 
-    public function step_3() : void
+    public function step_3(): void
     {
         $result = $this->db->query("SELECT tpl_id, m_message FROM mail_man_tpl WHERE m_message LIKE '%[CLIENT_NAME]%'");
         while ($row = $this->db->fetchAssoc($result)) {
@@ -65,7 +67,7 @@ class ilMailDatabaseUpdateSteps implements ilDatabaseUpdateSteps
         }
     }
 
-    public function step_4() : void
+    public function step_4(): void
     {
         $result = $this->db->query("SELECT lang, type, body FROM mail_template WHERE body LIKE '%[CLIENT_NAME]%'");
         while ($row = $this->db->fetchAssoc($result)) {

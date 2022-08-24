@@ -51,29 +51,29 @@ class ilVirtualSkillTreeExplorerGUI extends ilExplorerBaseGUI
         } else {
             $this->vtree = $this->tree_factory->tree()->getVirtualTreeById($tree_id);
         }
-        
+
         $this->setSkipRootNode(false);
         $this->setAjax(false);
     }
 
-    public function setShowDraftNodes(bool $a_val) : void
+    public function setShowDraftNodes(bool $a_val): void
     {
         $this->show_draft_nodes = $a_val;
         $this->vtree->setIncludeDrafts($a_val);
     }
 
-    public function getShowDraftNodes() : bool
+    public function getShowDraftNodes(): bool
     {
         return $this->show_draft_nodes;
     }
 
-    public function setShowOutdatedNodes(bool $a_val) : void
+    public function setShowOutdatedNodes(bool $a_val): void
     {
         $this->show_outdated_nodes = $a_val;
         $this->vtree->setIncludeOutdated($a_val);
     }
 
-    public function getShowOutdatedNodes() : bool
+    public function getShowOutdatedNodes(): bool
     {
         return $this->show_outdated_nodes;
     }
@@ -81,7 +81,7 @@ class ilVirtualSkillTreeExplorerGUI extends ilExplorerBaseGUI
     /**
      * @return array{id: string, cskill_id: string}
      */
-    public function getRootNode() : array
+    public function getRootNode(): array
     {
         return $this->vtree->getRootNode();
     }
@@ -90,7 +90,7 @@ class ilVirtualSkillTreeExplorerGUI extends ilExplorerBaseGUI
      * @param array|object $a_node
      * @return string
      */
-    public function getNodeId($a_node) : string
+    public function getNodeId($a_node): string
     {
         return $a_node["id"];
     }
@@ -98,7 +98,7 @@ class ilVirtualSkillTreeExplorerGUI extends ilExplorerBaseGUI
     /**
      * @inheritdoc
      */
-    public function getDomNodeIdForNodeId($a_node_id) : string
+    public function getDomNodeIdForNodeId($a_node_id): string
     {
         return parent::getDomNodeIdForNodeId(str_replace(":", "_", $a_node_id));
     }
@@ -106,7 +106,7 @@ class ilVirtualSkillTreeExplorerGUI extends ilExplorerBaseGUI
     /**
      * @inheritdoc
      */
-    public function getNodeIdForDomNodeId(string $a_dom_node_id) : string
+    public function getNodeIdForDomNodeId(string $a_dom_node_id): string
     {
         $id = parent::getNodeIdForDomNodeId($a_dom_node_id);
         return str_replace("_", ":", $id);
@@ -116,7 +116,7 @@ class ilVirtualSkillTreeExplorerGUI extends ilExplorerBaseGUI
      * @param string $a_parent_node_id
      * @return array{cskill_id: string, id: string, skill_id: string, tref_id: string, parent: string}[]
      */
-    public function getChildsOfNode($a_parent_node_id) : array
+    public function getChildsOfNode($a_parent_node_id): array
     {
         return $this->vtree->getChildsOfNode($a_parent_node_id);
     }
@@ -125,14 +125,14 @@ class ilVirtualSkillTreeExplorerGUI extends ilExplorerBaseGUI
      * @param array|object $a_node
      * @return string
      */
-    public function getNodeContent($a_node) : string
+    public function getNodeContent($a_node): string
     {
         $lng = $this->lng;
 
         $a_parent_id_parts = explode(":", $a_node["id"]);
         $a_parent_skl_tree_id = (int) $a_parent_id_parts[0];
         $a_parent_skl_template_tree_id = isset($a_parent_id_parts[1]) ? (int) $a_parent_id_parts[1] : 0;
-        
+
         // title
         if ((int) $a_node["parent"] == 0) {
             $tree_obj = $this->skill_tree_manager->getTree($a_node["skl_tree_id"]);
@@ -140,12 +140,12 @@ class ilVirtualSkillTreeExplorerGUI extends ilExplorerBaseGUI
         } else {
             $title = $a_node["title"];
         }
-        
+
         // root?
         if ($a_node["type"] == "skrt") {
             $lng->txt("skmg_skills");
         }
-        
+
         return $title;
     }
 
@@ -153,7 +153,7 @@ class ilVirtualSkillTreeExplorerGUI extends ilExplorerBaseGUI
      * @param array|object $a_node
      * @return string
      */
-    public function getNodeIcon($a_node) : string
+    public function getNodeIcon($a_node): string
     {
         $a_id_parts = explode(":", $a_node["id"]);
         $a_skl_template_tree_id = isset($a_id_parts[1]) ? (int) $a_id_parts[1] : 0;
@@ -174,7 +174,7 @@ class ilVirtualSkillTreeExplorerGUI extends ilExplorerBaseGUI
             }
             $icon = ilUtil::getImagePath("icon_" . $type . ".svg");
         }
-        
+
         return $icon;
     }
 
@@ -182,10 +182,10 @@ class ilVirtualSkillTreeExplorerGUI extends ilExplorerBaseGUI
      * @param array|object $a_node
      * @return string
      */
-    public function getNodeHref($a_node) : string
+    public function getNodeHref($a_node): string
     {
         $ilCtrl = $this->ctrl;
-        
+
         // we have a tree id like <skl_tree_id>:<skl_template_tree_id> here
         // use this, if you want a "common" skill id in format <skill_id>:<tref_id>
         $id_parts = explode(":", $a_node["id"]);
@@ -196,7 +196,7 @@ class ilVirtualSkillTreeExplorerGUI extends ilExplorerBaseGUI
             // skill in template
             $skill_id = $id_parts[1] . ":" . $id_parts[0];
         }
-        
+
         return "";
     }
 
@@ -204,7 +204,7 @@ class ilVirtualSkillTreeExplorerGUI extends ilExplorerBaseGUI
      * @param array|object $a_node
      * @return bool
      */
-    public function isNodeClickable($a_node) : bool
+    public function isNodeClickable($a_node): bool
     {
         return false;
     }
@@ -213,7 +213,7 @@ class ilVirtualSkillTreeExplorerGUI extends ilExplorerBaseGUI
      * @param array|object $a_node
      * @return string
      */
-    public function getNodeIconAlt($a_node) : string
+    public function getNodeIconAlt($a_node): string
     {
         $lng = $this->lng;
 

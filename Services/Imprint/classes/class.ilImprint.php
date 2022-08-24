@@ -24,12 +24,12 @@ class ilImprint extends ilPageObject
      * Get parent type
      * @return string parent type
      */
-    public function getParentType() : string
+    public function getParentType(): string
     {
         return "impr";
     }
 
-    public static function isActive() : bool
+    public static function isActive(): bool
     {
         return self::_lookupActive(1, "impr");
     }

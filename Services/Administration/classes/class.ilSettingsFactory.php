@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -33,7 +35,7 @@ class ilSettingsFactory
     /**
      * Get setting instance for module
      */
-    public function settingsFor(string $a_module = "common") : ilSetting
+    public function settingsFor(string $a_module = "common"): ilSetting
     {
         // @todo: this function contains some open review issues which might be addressed by rklees.
         $tmp_dic = $GLOBALS["DIC"] ?? null;//PHP8Review: This may not be a critical Global but i still would recommend to use a global call here or even better to integrate it into the classes attributes

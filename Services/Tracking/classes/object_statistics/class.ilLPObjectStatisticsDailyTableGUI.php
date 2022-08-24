@@ -1,4 +1,6 @@
-<?php declare(strict_types=0);
+<?php
+
+declare(strict_types=0);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -42,7 +44,7 @@ class ilLPObjectStatisticsDailyTableGUI extends ilLPTableBaseGUI
         parent::__construct($a_parent_obj, $a_parent_cmd);
     }
 
-    public function init() : void
+    public function init(): void
     {
         $this->setShowRowsSelector(true);
         $this->initFilter();
@@ -96,7 +98,7 @@ class ilLPObjectStatisticsDailyTableGUI extends ilLPTableBaseGUI
         $this->setExportFormats(array(self::EXPORT_EXCEL, self::EXPORT_CSV));
     }
 
-    public function getSelectableColumns() : array
+    public function getSelectableColumns(): array
     {
         $columns = [];
         $columns['obj_id'] = [
@@ -127,7 +129,7 @@ class ilLPObjectStatisticsDailyTableGUI extends ilLPTableBaseGUI
     }
 
 
-    public function numericOrdering(string $a_field) : bool
+    public function numericOrdering(string $a_field): bool
     {
         $alphabetic_ordering = [
             'title'
@@ -141,7 +143,7 @@ class ilLPObjectStatisticsDailyTableGUI extends ilLPTableBaseGUI
     /**
      * Init filter
      */
-    public function initFilter() : void
+    public function initFilter(): void
     {
         $this->setDisableFilterHiding(true);
 
@@ -195,7 +197,7 @@ class ilLPObjectStatisticsDailyTableGUI extends ilLPTableBaseGUI
         $this->filter = $this->initRepositoryFilter($this->filter);
     }
 
-    public function getItems() : void
+    public function getItems(): void
     {
         $data = array();
 
@@ -273,7 +275,7 @@ class ilLPObjectStatisticsDailyTableGUI extends ilLPTableBaseGUI
     /**
      * Fill table row
      */
-    protected function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set): void
     {
         $type = ilObject::_lookupType($a_set["obj_id"]);
         $this->tpl->setVariable("OBJ_ID", $a_set["obj_id"]);
@@ -330,7 +332,7 @@ class ilLPObjectStatisticsDailyTableGUI extends ilLPTableBaseGUI
         }
     }
 
-    public function getGraph(array $a_graph_items) : string
+    public function getGraph(array $a_graph_items): string
     {
         global $DIC;
 
@@ -376,7 +378,7 @@ class ilLPObjectStatisticsDailyTableGUI extends ilLPTableBaseGUI
         return $chart->getHTML();
     }
 
-    protected function fillMetaExcel(ilExcel $a_excel, int &$a_row) : void
+    protected function fillMetaExcel(ilExcel $a_excel, int &$a_row): void
     {
     }
 
@@ -384,7 +386,7 @@ class ilLPObjectStatisticsDailyTableGUI extends ilLPTableBaseGUI
         ilExcel $a_excel,
         int &$a_row,
         array $a_set
-    ) : void {
+    ): void {
         $a_excel->setCell($a_row, 0, ilObject::_lookupTitle($a_set["obj_id"]));
         $a_excel->setCell($a_row, 1, $a_set["obj_id"]);
 
@@ -408,11 +410,11 @@ class ilLPObjectStatisticsDailyTableGUI extends ilLPTableBaseGUI
         $a_excel->setCell($a_row, ++$col, $sum);
     }
 
-    protected function fillMetaCSV(ilCSVWriter $a_csv) : void
+    protected function fillMetaCSV(ilCSVWriter $a_csv): void
     {
     }
 
-    protected function fillRowCSV(ilCSVWriter $a_csv, array $a_set) : void
+    protected function fillRowCSV(ilCSVWriter $a_csv, array $a_set): void
     {
         $a_csv->addColumn(ilObject::_lookupTitle($a_set["obj_id"]));
         $a_csv->addColumn($a_set["obj_id"]);

@@ -30,8 +30,8 @@ use ILIAS\HTTP\Services;
  */
 class ilObjFileAccessSettingsGUI extends ilObjectGUI
 {
-    const CMD_EDIT_SETTINGS = 'editSettings';
-    const CMD_SHOW_PREVIEW_RENDERERS = 'showPreviewRenderers';
+    public const CMD_EDIT_SETTINGS = 'editSettings';
+    public const CMD_SHOW_PREVIEW_RENDERERS = 'showPreviewRenderers';
 
     protected ilSetting $folderSettings;
     protected Services $http;
@@ -57,7 +57,7 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
      * @access public
      *
      */
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         $this->lng->loadLanguageModule("file");
 
@@ -96,7 +96,7 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
      * @access public
      *
      */
-    public function getAdminTabs() : void
+    public function getAdminTabs(): void
     {
         if ($this->rbac_system->checkAccess("visible,read", $this->object->getRefId())) {
             $this->tabs_gui->addTarget(
@@ -111,7 +111,7 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
     }
 
 
-    protected function addFileObjectsSubTabs() : void
+    protected function addFileObjectsSubTabs(): void
     {
         $this->tabs_gui->addSubTabTarget(
             "settings",
@@ -129,7 +129,7 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
     /**
      * Edit settings.
      */
-    protected function initSettingsForm() : \ilPropertyFormGUI
+    protected function initSettingsForm(): \ilPropertyFormGUI
     {
         global $DIC;
         $ilCtrl = $DIC['ilCtrl'];
@@ -199,7 +199,7 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
     /**
      * Edit settings.
      */
-    public function editSettings(ilPropertyFormGUI $a_form = null) : void
+    public function editSettings(ilPropertyFormGUI $a_form = null): void
     {
         global $DIC, $ilErr;
 
@@ -222,7 +222,7 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
     /**
      * Save settings
      */
-    public function saveSettings() : void
+    public function saveSettings(): void
     {
         global $DIC;
         $rbacsystem = $DIC['rbacsystem'];
@@ -257,7 +257,7 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
     }
 
 
-    protected function showPreviewRenderers() : void
+    protected function showPreviewRenderers(): void
     {
         global $DIC;
         $rbacsystem = $DIC['rbacsystem'];
@@ -280,7 +280,7 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
 
         $factory = new ilRendererFactory();
         $renderers = $factory->getRenderers();
-        $array_wrapper = array_map(function (ilFilePreviewRenderer $renderer) : array {
+        $array_wrapper = array_map(function (ilFilePreviewRenderer $renderer): array {
             return [
                 'name' => $renderer->getName(),
                 'is_plugin' => $renderer->isPlugin(),
@@ -303,7 +303,7 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
     /**
      * called by prepare output
      */
-    protected function setTitleAndDescription() : void
+    protected function setTitleAndDescription(): void
     {
         parent::setTitleAndDescription();
         $this->tpl->setDescription($this->object->getDescription());

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /******************************************************************************
  *
@@ -20,35 +22,35 @@
 class ilECSCmsCourseCommandQueueHandler implements ilECSCommandQueueHandler
 {
     private ilLogger $logger;
-    
+
     private ilECSSetting $server;
     private int $mid = 0;
-    
-    
+
+
     /**
      * Constructor
      */
     public function __construct(ilECSSetting $server)
     {
         global $DIC;
-        
+
         $this->logger = $DIC->logger()->wsrv();
-        
+
         $this->server = $server;
     }
-    
+
     /**
      * Get server
      */
-    public function getServer() : ilECSSetting
+    public function getServer(): ilECSSetting
     {
         return $this->server;
     }
-    
+
     /**
      * Get mid
      */
-    public function getMid() : int
+    public function getMid(): int
     {
         return $this->mid;
     }
@@ -59,13 +61,13 @@ class ilECSCmsCourseCommandQueueHandler implements ilECSCommandQueueHandler
      * @param              $a_content_id
      * @return bool
      */
-    public function checkAllocationActivation(ilECSSetting $server, $a_content_id) : ?bool
+    public function checkAllocationActivation(ilECSSetting $server, $a_content_id): ?bool
     {
         try {
             $crs_reader = new ilECSCourseConnector($server);
             $details = $crs_reader->getCourse($a_content_id, true);
             $this->mid = $details->getMySender();
-            
+
             // Check if import is enabled
             $part = ilECSParticipantSetting::getInstance($this->getServer()->getServerId(), $this->getMid());
             if (!$part->isImportEnabled()) {
@@ -92,7 +94,7 @@ class ilECSCmsCourseCommandQueueHandler implements ilECSCommandQueueHandler
     /**
      * Handle create
      */
-    public function handleCreate(ilECSSetting $server, $a_content_id) : bool
+    public function handleCreate(ilECSSetting $server, $a_content_id): bool
     {
         if (!$this->checkAllocationActivation($server, $a_content_id)) {
             return true;
@@ -112,7 +114,7 @@ class ilECSCmsCourseCommandQueueHandler implements ilECSCommandQueueHandler
     /**
      * Handle delete
      */
-    public function handleDelete(ilECSSetting $server, $a_content_id) : bool
+    public function handleDelete(ilECSSetting $server, $a_content_id): bool
     {
         // nothing todo
         return true;
@@ -121,12 +123,12 @@ class ilECSCmsCourseCommandQueueHandler implements ilECSCommandQueueHandler
     /**
      * Handle update
      */
-    public function handleUpdate(ilECSSetting $server, $a_content_id) : bool
+    public function handleUpdate(ilECSSetting $server, $a_content_id): bool
     {
         if (!$this->checkAllocationActivation($server, $a_content_id)) {
             return true;
         }
-        
+
         try {
             $course = $this->readCourse($server, $a_content_id);
             $this->doUpdate($a_content_id, $course);
@@ -137,19 +139,19 @@ class ilECSCmsCourseCommandQueueHandler implements ilECSCommandQueueHandler
         }
         return true;
     }
-    
-    
+
+
     /**
      * Perform update
      */
-    protected function doUpdate(int $a_content_id, $course) : void
+    protected function doUpdate(int $a_content_id, $course): void
     {
         $this->logger->info(__METHOD__ . ': Starting course creation/update');
-        
+
         $creation_handler = new ilECSCourseCreationHandler($this->getServer(), $this->mid);
         $creation_handler->handle($a_content_id, $course);
     }
-    
+
     /**
      * Read course from ecs
      */

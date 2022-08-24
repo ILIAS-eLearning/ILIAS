@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -53,7 +55,7 @@ class ilPortfolioCertificateFileService
      * @throws IOException
      * @throws ilException
      */
-    public function createCertificateFile(int $userId, int $objectId) : void
+    public function createCertificateFile(int $userId, int $objectId): void
     {
         $userCertificateRepository = new ilUserCertificateRepository();
 
@@ -82,7 +84,7 @@ class ilPortfolioCertificateFileService
      * @throws ilException
      * @throws ilFileUtilsException
      */
-    public function deliverCertificate(int $userId, int $objectId) : void
+    public function deliverCertificate(int $userId, int $objectId): void
     {
         $dirPath = self::PERSISTENT_CERTIFICATES_DIRECTORY . $userId . '/' . $objectId;
         $fileName = $objectId . '_' . self::CERTIFICATE_FILENAME;
@@ -105,7 +107,7 @@ class ilPortfolioCertificateFileService
      * @param int $userId
      * @throws IOException
      */
-    public function deleteUserDirectory(int $userId) : void
+    public function deleteUserDirectory(int $userId): void
     {
         $dirPath = self::PERSISTENT_CERTIFICATES_DIRECTORY . $userId;
 
@@ -120,7 +122,7 @@ class ilPortfolioCertificateFileService
      * @throws FileNotFoundException
      * @throws IOException
      */
-    public function deleteCertificateFile(int $userId, int $objectId) : void
+    public function deleteCertificateFile(int $userId, int $objectId): void
     {
         $dirPath = self::PERSISTENT_CERTIFICATES_DIRECTORY . $userId;
 
@@ -137,7 +139,7 @@ class ilPortfolioCertificateFileService
      * @return string
      * @throws ilException
      */
-    public function createCertificateFilePath(int $userId, int $objectId) : string
+    public function createCertificateFilePath(int $userId, int $objectId): string
     {
         $dirPath = self::PERSISTENT_CERTIFICATES_DIRECTORY . $userId . '/' . $objectId . '/';
         $fileName = $objectId . '_' . self::CERTIFICATE_FILENAME;

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /******************************************************************************
  *
@@ -39,7 +41,7 @@ class ilECSServerTableGUI extends ilTable2GUI
     /**
      * Init Table
      */
-    public function initTable() : void
+    public function initTable(): void
     {
         $this->setTitle($this->lng->txt('ecs_available_ecs'));
         $this->setRowTemplate('tpl.ecs_server_row.html', 'Services/WebServices/ECS');
@@ -56,7 +58,7 @@ class ilECSServerTableGUI extends ilTable2GUI
      * Fill row
  * @param array $a_set
      */
-    protected function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set): void
     {
         $this->ctrl->setParameter($this->getParentObject(), 'server_id', $a_set['server_id']);
         $this->ctrl->setParameterByClass('ilecsmappingsettingsgui', 'server_id', $a_set['server_id']);
@@ -68,7 +70,7 @@ class ilECSServerTableGUI extends ilTable2GUI
             $this->tpl->setVariable('IMAGE_OK', ilUtil::getImagePath('icon_not_ok.svg'));
             $this->tpl->setVariable('TXT_OK', $this->lng->txt('ecs_inactivated'));
         }
-        
+
 
         $this->tpl->setVariable('VAL_TITLE', ilECSSetting::getInstanceByServerId($a_set['server_id'])->getTitle());
         $this->tpl->setVariable('LINK_EDIT', $this->ctrl->getLinkTarget($this->getParentObject(), 'edit'));
@@ -83,10 +85,10 @@ class ilECSServerTableGUI extends ilTable2GUI
         $dt = ilECSSetting::getInstanceByServerId($a_set['server_id'])->fetchCertificateExpiration();
         if ($dt !== null) {
             $this->tpl->setVariable('TXT_CERT_VALID', $this->lng->txt('ecs_cert_valid_until'));
-            
+
             $now = new ilDateTime(time(), IL_CAL_UNIX);
             $now->increment(IL_CAL_MONTH, 2);
-            
+
             if (ilDateTime::_before($dt, $now)) {
                 $this->tpl->setCurrentBlock('invalid');
                 $this->tpl->setVariable('VAL_ICERT', ilDatePresentation::formatDate($dt));
@@ -126,7 +128,7 @@ class ilECSServerTableGUI extends ilTable2GUI
     /**
      * Parse available servers
      */
-    public function parse(ilECSServerSettings $servers) : void
+    public function parse(ilECSServerSettings $servers): void
     {
         $rows = [];
         foreach ($servers->getServers(ilECSServerSettings::ALL_SERVER) as $server) {

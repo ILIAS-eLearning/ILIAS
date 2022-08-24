@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /******************************************************************************
  *
@@ -46,7 +48,7 @@ class ilNotificationSystem
     }
 
 
-    private function addHandler(string $channel, ilNotificationHandler $handler) : void
+    private function addHandler(string $channel, ilNotificationHandler $handler): void
     {
         if (!array_key_exists($channel, $this->handler) || !is_array($this->handler[$channel])) {
             $this->handler[$channel] = [];
@@ -58,7 +60,7 @@ class ilNotificationSystem
     /**
      * @param int[] $users
      */
-    private function toUsers(ilNotificationConfig $notification, array $users, bool $processAsync = false) : void
+    private function toUsers(ilNotificationConfig $notification, array $users, bool $processAsync = false): void
     {
         if ($processAsync === false) {
             $adminConfig = ilNotificationDatabaseHandler::loadUserConfig(-1);
@@ -119,7 +121,7 @@ class ilNotificationSystem
         }
     }
 
-    private function toListeners(ilNotificationConfig $notification, int $ref_id, bool $processAsync = false) : void
+    private function toListeners(ilNotificationConfig $notification, int $ref_id, bool $processAsync = false): void
     {
         if ($processAsync === false) {
             $users = ilNotificationDatabaseHandler::getUsersByListener($notification->getType(), $ref_id);
@@ -134,7 +136,7 @@ class ilNotificationSystem
     /**
      * @param int[] $roles
      */
-    private function toRoles(ilNotificationConfig $notification, array $roles, bool $processAsync = false) : void
+    private function toRoles(ilNotificationConfig $notification, array $roles, bool $processAsync = false): void
     {
         $users = [];
         foreach ($roles as $role) {
@@ -148,33 +150,33 @@ class ilNotificationSystem
     /**
      * @param int[] $users
      */
-    public static function sendNotificationToUsers(ilNotificationConfig $notification, array $users, bool $processAsync = false) : void
+    public static function sendNotificationToUsers(ilNotificationConfig $notification, array $users, bool $processAsync = false): void
     {
         global $DIC;
         $DIC->notifications()->system()->toUsers($notification, $users, $processAsync);
     }
 
-    public static function sendNotificationToListeners(ilNotificationConfig $notification, int $ref_id, bool $processAsync = false) : void
+    public static function sendNotificationToListeners(ilNotificationConfig $notification, int $ref_id, bool $processAsync = false): void
     {
         global $DIC;
         $DIC->notifications()->system()->toListeners($notification, $ref_id, $processAsync);
     }
-    
+
     /**
      * @param int[] $roles
      */
-    public static function sendNotificationToRoles(ilNotificationConfig $notification, array $roles, bool $processAsync = false) : void
+    public static function sendNotificationToRoles(ilNotificationConfig $notification, array $roles, bool $processAsync = false): void
     {
         global $DIC;
         $DIC->notifications()->system()->toRoles($notification, $roles, $processAsync);
     }
 
-    public static function enableListeners(string $module, int $ref_id) : void
+    public static function enableListeners(string $module, int $ref_id): void
     {
         ilNotificationDatabaseHandler::enableListeners($module, $ref_id);
     }
 
-    public static function enableUserListeners(string $module, int $ref_id, array $users) : void
+    public static function enableUserListeners(string $module, int $ref_id, array $users): void
     {
         if ($users) {
             ilNotificationDatabaseHandler::enableListeners($module, $ref_id, $users);

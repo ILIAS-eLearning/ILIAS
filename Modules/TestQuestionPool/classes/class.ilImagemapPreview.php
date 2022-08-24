@@ -1,4 +1,5 @@
 <?php
+
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 include_once "./Modules/Test/classes/inc.AssessmentConstants.php";
@@ -54,12 +55,12 @@ class ilImagemapPreview
         $this->linewidth_inner = 2;
     }
 
-    public function getAreaCount() : int
+    public function getAreaCount(): int
     {
         return count($this->areas);
     }
 
-    public function getPointCount() : int
+    public function getPointCount(): int
     {
         return count($this->points);
     }
@@ -75,7 +76,7 @@ class ilImagemapPreview
         $linecolor = "red",
         $bordercolor = "white",
         $fillcolor = "#FFFFFFA0"
-    ) : void {
+    ): void {
         if (ini_get("safe_mode")) {
             if ((strpos($fillcolor, "#") !== false) || (strpos($fillcolor, "rgb") !== false)) {
                 $fillcolor = str_replace("\"", "", $fillcolor);
@@ -101,7 +102,7 @@ class ilImagemapPreview
         $linecolor = "red",
         $bordercolor = "white",
         $fillcolor = "#FFFFFFA0"
-    ) : void {
+    ): void {
         $this->points[$index] = array(
             "coords" => "$coords",
             "linecolor" => '"' . $linecolor . '"',
@@ -111,7 +112,7 @@ class ilImagemapPreview
         );
     }
 
-    public function getAreaIdent() : string
+    public function getAreaIdent(): string
     {
         if (count($this->areas) + count($this->points) > 0) {
             $arr = array_merge(array_keys($this->areas), array_keys($this->points));
@@ -127,7 +128,7 @@ class ilImagemapPreview
         }
     }
 
-    public function createPreview() : void
+    public function createPreview(): void
     {
         if (count($this->areas) + count($this->points) == 0) {
             return;
@@ -260,7 +261,7 @@ class ilImagemapPreview
     * get imagemap html code
     * note: html code should be placed in template files
     */
-    public function getImagemap($title) : string
+    public function getImagemap($title): string
     {
         $map = "<map name=\"$title\"> ";
         foreach ($this->areas as $area) {

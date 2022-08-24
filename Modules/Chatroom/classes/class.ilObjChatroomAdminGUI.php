@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -38,12 +40,12 @@ class ilObjChatroomAdminGUI extends ilChatroomObjectGUI
     /**
      * @param int|string $ref_id
      */
-    public static function _goto($ref_id) : void
+    public static function _goto($ref_id): void
     {
         ilObjectGUI::_gotoRepositoryNode((int) $ref_id, 'view');
     }
 
-    protected function getObjectDefinition() : ilChatroomObjectDefinition
+    protected function getObjectDefinition(): ilChatroomObjectDefinition
     {
         return ilChatroomObjectDefinition::getDefaultDefinitionWithCustomGUIPath(
             'Chatroom',
@@ -51,7 +53,7 @@ class ilObjChatroomAdminGUI extends ilChatroomObjectGUI
         );
     }
 
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         $next_class = strtolower($this->ctrl->getNextClass());
 
@@ -87,12 +89,12 @@ class ilObjChatroomAdminGUI extends ilChatroomObjectGUI
         }
     }
 
-    public function getConnector() : ilChatroomServerConnector
+    public function getConnector(): ilChatroomServerConnector
     {
         return new ilChatroomServerConnector(ilChatroomServerSettings::loadDefault());
     }
 
-    public function getRefId() : int
+    public function getRefId(): int
     {
         return $this->object->getRefId();
     }

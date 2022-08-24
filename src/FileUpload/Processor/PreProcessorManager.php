@@ -34,7 +34,6 @@ use Psr\Http\Message\StreamInterface;
  */
 interface PreProcessorManager
 {
-
     /**
      * Adds the processor to the current manager.
      * It it possible to add an arbitrary number of processors.
@@ -43,7 +42,7 @@ interface PreProcessorManager
      *
      * @since 5.3
      */
-    public function with(PreProcessor $processor) : void;
+    public function with(PreProcessor $processor): void;
 
 
     /**
@@ -55,5 +54,5 @@ interface PreProcessorManager
      *
      * @since 5.3
      */
-    public function process(FileStream $stream, Metadata $metadata) : ProcessingStatus;
+    public function process(FileStream $stream, Metadata $metadata): ProcessingStatus;
 }

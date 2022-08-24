@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\UI\Component\Listing;
 
 /**
@@ -34,7 +36,7 @@ interface Factory
      * @param array $items Set of elements to be rendered (string|Component)[]
      * @return  \ILIAS\UI\Component\Listing\Unordered
      */
-    public function unordered(array $items) : Unordered;
+    public function unordered(array $items): Unordered;
 
     /**
      * ---
@@ -48,7 +50,7 @@ interface Factory
      * @param array $items Set of elements to be rendered (string|Component)[]
      * @return  \ILIAS\UI\Component\Listing\Ordered
      */
-    public function ordered(array $items) : Ordered;
+    public function ordered(array $items): Ordered;
 
     /**
      * ---
@@ -62,7 +64,7 @@ interface Factory
      * @param array $items string (key) => (string|Component)[] (value)
      * @return  \ILIAS\UI\Component\Listing\Descriptive
      */
-    public function descriptive(array $items) : Descriptive;
+    public function descriptive(array $items): Descriptive;
 
     /**
      * ---
@@ -85,7 +87,7 @@ interface Factory
      * ----
      * @return  \ILIAS\UI\Component\Listing\Workflow\Factory
      */
-    public function workflow() : Workflow\Factory;
+    public function workflow(): Workflow\Factory;
 
     /**
      * ---
@@ -103,5 +105,5 @@ interface Factory
      * ----
      * @return \ILIAS\UI\Component\Listing\CharacteristicValue\Factory
      */
-    public function characteristicValue() : CharacteristicValue\Factory;
+    public function characteristicValue(): CharacteristicValue\Factory;
 }

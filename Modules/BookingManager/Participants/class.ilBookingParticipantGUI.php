@@ -60,7 +60,7 @@ class ilBookingParticipantGUI
         $this->lng->loadLanguageModule("book");
     }
 
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         $ilCtrl = $this->ctrl;
 
@@ -95,7 +95,7 @@ class ilBookingParticipantGUI
      * Render list of booking participants.
      * uses ilBookingParticipantsTableGUI
      */
-    public function render() : void
+    public function render(): void
     {
         if ($this->access->checkAccess('write', '', $this->ref_id)) {
             ilRepositorySearchGUI::fillAutoCompleteToolbar(
@@ -115,7 +115,7 @@ class ilBookingParticipantGUI
         }
     }
 
-    public function addUserFromAutoCompleteObject() : bool
+    public function addUserFromAutoCompleteObject(): bool
     {
         if (trim($this->book_request->getUserLogin()) === '') {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('msg_no_search_string'));
@@ -146,7 +146,7 @@ class ilBookingParticipantGUI
      */
     public function addParticipantObject(
         array $a_user_ids
-    ) : bool {
+    ): bool {
         foreach ($a_user_ids as $user_id) {
             if (ilObject::_lookupType($user_id) === "usr") {
                 $participant_obj = new ilBookingParticipant($user_id, $this->pool_id);
@@ -166,19 +166,19 @@ class ilBookingParticipantGUI
         return true;
     }
 
-    public function applyParticipantsFilter() : void
+    public function applyParticipantsFilter(): void
     {
         $this->applyFilterAction(self::FILTER_ACTION_APPLY);
     }
 
-    public function resetParticipantsFilter() : void
+    public function resetParticipantsFilter(): void
     {
         $this->applyFilterAction(self::FILTER_ACTION_RESET);
     }
 
     protected function applyFilterAction(
         int $a_filter_action
-    ) : void {
+    ): void {
         $table = new ilBookingParticipantsTableGUI($this, 'render', $this->ref_id, $this->pool_id);
         $table->resetOffset();
         if ($a_filter_action === self::FILTER_ACTION_RESET) {
@@ -190,7 +190,7 @@ class ilBookingParticipantGUI
         $this->render();
     }
 
-    public function assignObjects() : void
+    public function assignObjects(): void
     {
         $this->tabs->clearTargets();
         $this->tabs->setBackTarget($this->lng->txt('book_back_to_list'), $this->ctrl->getLinkTarget($this, 'render'));

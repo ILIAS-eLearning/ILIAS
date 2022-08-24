@@ -39,7 +39,7 @@ class StandardGUIRequest
     }
 
     /** @return int[] */
-    public function getItems() : array
+    public function getItems(): array
     {
         return $this->intArray("items");
     }

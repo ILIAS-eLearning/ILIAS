@@ -1,4 +1,6 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types=1);
 
 
 /**
@@ -16,19 +18,19 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 class ilWebDAVMountInstructionsRepositoryImpl implements ilWebDAVMountInstructionsRepository
 {
-    const TABLE_MOUNT_INSTRUCTIONS = 'webdav_instructions';
+    public const TABLE_MOUNT_INSTRUCTIONS = 'webdav_instructions';
 
     protected ilDBInterface $db;
-    
+
     public function __construct(ilDBInterface $a_db)
     {
         $this->db = $a_db;
     }
-    
-    public function createMountInstructionsDocumentEntry(ilWebDAVMountInstructionsDocument $document) : void
+
+    public function createMountInstructionsDocumentEntry(ilWebDAVMountInstructionsDocument $document): void
     {
         $this->db->insert(
             // table
@@ -49,8 +51,8 @@ class ilWebDAVMountInstructionsRepositoryImpl implements ilWebDAVMountInstructio
             )
         );
     }
-    
-    public function getNextMountInstructionsDocumentId() : int
+
+    public function getNextMountInstructionsDocumentId(): int
     {
         if (!$this->db->sequenceExists(self::TABLE_MOUNT_INSTRUCTIONS)) {
             $this->db->createSequence(self::TABLE_MOUNT_INSTRUCTIONS);
@@ -58,8 +60,8 @@ class ilWebDAVMountInstructionsRepositoryImpl implements ilWebDAVMountInstructio
 
         return $this->db->nextId(self::TABLE_MOUNT_INSTRUCTIONS);
     }
-    
-    public function getHighestSortingNumber() : int
+
+    public function getHighestSortingNumber(): int
     {
         $query = "SELECT max(sorting) as max_sort FROM " . $this->db->quoteIdentifier(self::TABLE_MOUNT_INSTRUCTIONS);
         $result = $this->db->query($query);
@@ -67,8 +69,8 @@ class ilWebDAVMountInstructionsRepositoryImpl implements ilWebDAVMountInstructio
         $row = $this->db->fetchAssoc($result);
         return isset($row) && !is_null($row['max_sort']) ? (int) $row['max_sort'] : 0;
     }
-    
-    public function getMountInstructionsDocumentById(int $id) : ilWebDAVMountInstructionsDocument
+
+    public function getMountInstructionsDocumentById(int $id): ilWebDAVMountInstructionsDocument
     {
         $query = "SELECT * FROM " . $this->db->quoteIdentifier(self::TABLE_MOUNT_INSTRUCTIONS)
             . " WHERE id=" . $this->db->quote($id, 'int');
@@ -82,8 +84,8 @@ class ilWebDAVMountInstructionsRepositoryImpl implements ilWebDAVMountInstructio
 
         return $this->buildDocumentFromDatabaseRecord($record);
     }
-    
-    public function getMountInstructionsByLanguage(string $language) : ilWebDAVMountInstructionsDocument
+
+    public function getMountInstructionsByLanguage(string $language): ilWebDAVMountInstructionsDocument
     {
         $query = "SELECT * FROM " . $this->db->quoteIdentifier(self::TABLE_MOUNT_INSTRUCTIONS)
             . " WHERE lng=" . $this->db->quote($language, 'text');
@@ -98,7 +100,7 @@ class ilWebDAVMountInstructionsRepositoryImpl implements ilWebDAVMountInstructio
         return $this->buildDocumentFromDatabaseRecord($record);
     }
 
-    public function getAllMountInstructions() : array
+    public function getAllMountInstructions(): array
     {
         $query = "SELECT * FROM " . $this->db->quoteIdentifier(self::TABLE_MOUNT_INSTRUCTIONS) . " ORDER BY sorting";
         $result = $this->db->query($query);
@@ -110,19 +112,19 @@ class ilWebDAVMountInstructionsRepositoryImpl implements ilWebDAVMountInstructio
 
         return $document_list;
     }
-    
-    public function doMountInstructionsExistByLanguage(string $language) : int
+
+    public function doMountInstructionsExistByLanguage(string $language): int
     {
         $query = "SELECT id FROM " . $this->db->quoteIdentifier(self::TABLE_MOUNT_INSTRUCTIONS)
             . " WHERE lng=" . $this->db->quote($language, 'text');
 
         $result = $this->db->query($query);
         $record = $this->db->fetchAssoc($result);
-        
+
         return ($record === null ? 0 : (int) $record['id']);
     }
-    
-    public function updateMountInstructions(ilWebDAVMountInstructionsDocument $document) : void
+
+    public function updateMountInstructions(ilWebDAVMountInstructionsDocument $document): void
     {
         $this->db->update(
             // table name
@@ -145,8 +147,8 @@ class ilWebDAVMountInstructionsRepositoryImpl implements ilWebDAVMountInstructio
             )
         );
     }
-    
-    public function updateSortingValueById(int $id, int $a_new_sorting_value) : void
+
+    public function updateSortingValueById(int $id, int $a_new_sorting_value): void
     {
         $this->db->update(
         // table name
@@ -163,16 +165,16 @@ class ilWebDAVMountInstructionsRepositoryImpl implements ilWebDAVMountInstructio
             )
         );
     }
-    
-    public function deleteMountInstructionsById(int $id) : void
+
+    public function deleteMountInstructionsById(int $id): void
     {
         $query = "DELETE FROM " . $this->db->quoteIdentifier(self::TABLE_MOUNT_INSTRUCTIONS)
             . ' WHERE id=' . $this->db->quote($id, 'integer');
 
         $this->db->manipulate($query);
     }
-    
-    protected function buildDocumentFromDatabaseRecord(array $result) : ilWebDAVMountInstructionsDocument
+
+    protected function buildDocumentFromDatabaseRecord(array $result): ilWebDAVMountInstructionsDocument
     {
         return new ilWebDAVMountInstructionsDocument(
             (int) $result['id'],

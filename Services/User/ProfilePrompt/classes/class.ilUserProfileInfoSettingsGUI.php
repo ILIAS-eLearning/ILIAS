@@ -40,7 +40,7 @@ class ilUserProfileInfoSettingsGUI
         $this->prompt_settings = $this->user_prompt->data()->getSettings();
     }
 
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         $next_class = $this->ctrl->getNextClass($this);
         $cmd = $this->ctrl->getCmd("show");
@@ -53,7 +53,7 @@ class ilUserProfileInfoSettingsGUI
         }
     }
 
-    public function show() : void
+    public function show(): void
     {
         $tpl = $this->tpl;
 
@@ -61,7 +61,7 @@ class ilUserProfileInfoSettingsGUI
         $tpl->setContent($form->getHTML());
     }
 
-    public function initForm() : ilPropertyFormGUI
+    public function initForm(): ilPropertyFormGUI
     {
         $lng = $this->lng;
         $ctrl = $this->ctrl;
@@ -157,7 +157,7 @@ class ilUserProfileInfoSettingsGUI
         return $form;
     }
 
-    public function save() : void
+    public function save(): void
     {
         $lng = $this->lng;
         $ctrl = $this->ctrl;

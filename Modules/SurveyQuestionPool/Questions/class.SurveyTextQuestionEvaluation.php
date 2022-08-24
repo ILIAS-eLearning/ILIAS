@@ -34,14 +34,14 @@ class SurveyTextQuestionEvaluation extends SurveyQuestionEvaluation
         $a_results,
         bool $a_abs = true,
         bool $a_perc = true
-    ) : array {
+    ): array {
         return [];
     }
 
     /**
      * @param array|ilSurveyEvaluationResults $a_results
      */
-    public function getChart($a_results) : ?array
+    public function getChart($a_results): ?array
     {
         return null;
     }
@@ -54,16 +54,16 @@ class SurveyTextQuestionEvaluation extends SurveyQuestionEvaluation
     /**
      * @param array|ilSurveyEvaluationResults $a_results
      */
-    public function getExportGrid($a_results) : array
+    public function getExportGrid($a_results): array
     {
         return [];
     }
-    
+
     public function addUserSpecificResults(
         array &$a_row,
         int $a_user_id,
         $a_results
-    ) : void {
+    ): void {
         $answer = $a_results->getUserResults($a_user_id);
         if (count($answer) === 0) {
             $a_row[] = $this->getSkippedValue();

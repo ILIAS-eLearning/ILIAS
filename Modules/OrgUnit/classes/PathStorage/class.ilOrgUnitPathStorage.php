@@ -22,11 +22,11 @@
  */
 class ilOrgUnitPathStorage extends ActiveRecord
 {
-    const GLUE = ' > ';
-    const GLUE_SIMPLE = ' - ';
-    const ORG_SEPARATOR = ' | ';
-    const TABLE_NAME = 'orgu_path_storage';
-    const MAX_MIDDLE_PATH_LENGTH = 50;
+    public const GLUE = ' > ';
+    public const GLUE_SIMPLE = ' - ';
+    public const ORG_SEPARATOR = ' | ';
+    public const TABLE_NAME = 'orgu_path_storage';
+    public const MAX_MIDDLE_PATH_LENGTH = 50;
     /**
      * @var int
      * @con_is_primary true
@@ -55,14 +55,14 @@ class ilOrgUnitPathStorage extends ActiveRecord
     /**
      * @return string[]
      */
-    public static function getAllOrguRefIds() : array
+    public static function getAllOrguRefIds(): array
     {
         $names = self::getAllOrguNames();
 
         return array_keys($names);
     }
 
-    public function store() : void
+    public function store(): void
     {
         if (self::where(array('ref_id' => $this->getRefId()))->hasSets()) {
             $this->update();
@@ -120,7 +120,7 @@ class ilOrgUnitPathStorage extends ActiveRecord
      * @param bool $sort_by_title
      * @return array
      */
-    public static function getTextRepresentationOfOrgUnits(bool $sort_by_title = true) : array
+    public static function getTextRepresentationOfOrgUnits(bool $sort_by_title = true): array
     {
         if ($sort_by_title) {
             return ilOrgUnitPathStorage::orderBy('path')->getArray('ref_id', 'path');
@@ -128,7 +128,7 @@ class ilOrgUnitPathStorage extends ActiveRecord
         return ilOrgUnitPathStorage::getArray('ref_id', 'path');
     }
 
-    public static function writePathByRefId(string $ref_id) : void
+    public static function writePathByRefId(string $ref_id): void
     {
         $original_ref_id = $ref_id;
         $names = self::getAllOrguNames();
@@ -166,7 +166,7 @@ class ilOrgUnitPathStorage extends ActiveRecord
         $ilOrgUnitPathStorage->store();
     }
 
-    public static function clearDeleted() : void
+    public static function clearDeleted(): void
     {
         global $DIC;
         /**
@@ -179,7 +179,7 @@ class ilOrgUnitPathStorage extends ActiveRecord
     }
 
     /** @return string[] */
-    public static function getAllOrguNames(array $lng_key = null) : array
+    public static function getAllOrguNames(array $lng_key = null): array
     {
         if (count(self::$orgu_names) == 0) {
             global $DIC;
@@ -198,37 +198,37 @@ class ilOrgUnitPathStorage extends ActiveRecord
         return self::$orgu_names;
     }
 
-    public function getConnectorContainerName() : string
+    public function getConnectorContainerName(): string
     {
         return self::TABLE_NAME;
     }
 
-    public function getRefId() : int
+    public function getRefId(): int
     {
         return $this->ref_id;
     }
 
-    public function setRefId(int $ref_id) : void
+    public function setRefId(int $ref_id): void
     {
         $this->ref_id = $ref_id;
     }
 
-    public function getPath() : string
+    public function getPath(): string
     {
         return $this->path;
     }
 
-    public function setPath(string $path) : void
+    public function setPath(string $path): void
     {
         $this->path = $path;
     }
 
-    public function getObjId() : int
+    public function getObjId(): int
     {
         return $this->obj_id;
     }
 
-    public function setObjId(int $obj_id) : void
+    public function setObjId(int $obj_id): void
     {
         $this->obj_id = $obj_id;
     }

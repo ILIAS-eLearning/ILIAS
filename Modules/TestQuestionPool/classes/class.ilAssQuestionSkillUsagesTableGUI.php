@@ -1,4 +1,5 @@
 <?php
+
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 require_once 'Services/Table/classes/class.ilTable2GUI.php';
@@ -11,9 +12,9 @@ require_once 'Services/Table/classes/class.ilTable2GUI.php';
  */
 class ilAssQuestionSkillUsagesTableGUI extends ilTable2GUI
 {
-    const TABLE_ID = 'iaqsutg';
-    
-    const CMD_SHOW = 'show';
+    public const TABLE_ID = 'iaqsutg';
+
+    public const CMD_SHOW = 'show';
 
     /**
      * @var ilCtrl
@@ -49,9 +50,9 @@ class ilAssQuestionSkillUsagesTableGUI extends ilTable2GUI
         $this->myTpl = $myTpl;
         $this->myLng = $myLng;
         $this->myDb = $myDb;
-        
+
         $this->poolId = $poolId;
-        
+
         $this->setId(self::TABLE_ID . $this->poolId);
         $this->setPrefix(self::TABLE_ID . $this->poolId);
         parent::__construct($this, self::CMD_SHOW);
@@ -62,7 +63,7 @@ class ilAssQuestionSkillUsagesTableGUI extends ilTable2GUI
         $this->setDefaultOrderDirection("asc");
     }
 
-    public function executeCommand() : bool
+    public function executeCommand(): bool
     {
         switch ($this->myCtrl->getNextClass()) {
             case strtolower(__CLASS__):
@@ -71,68 +72,68 @@ class ilAssQuestionSkillUsagesTableGUI extends ilTable2GUI
                 $command = $this->myCtrl->getCmd(self::CMD_SHOW) . 'Cmd';
                 return (bool) $this->$command();
                 break;
-            
+
             default:
-                
+
                 throw new ilTestQuestionPoolException('unsupported next class');
         }
         return false;
     }
-    
-    private function showCmd() : void
+
+    private function showCmd(): void
     {
         $this->initColumns();
-        
-        
+
+
         $this->setData($this->buildTableRowsArray(
             $this->getUniqueAssignedSkillsStats()
         ));
-        
+
         $this->myTpl->setContent($this->myCtrl->getHTML($this));
     }
-    
-    protected function initColumns() : void
+
+    protected function initColumns(): void
     {
         $this->addColumn($this->myLng->txt('qpl_qst_skl_usg_skill_col'), 'skill_title', '50%');
         $this->addColumn($this->myLng->txt('qpl_qst_skl_usg_numq_col'), 'num_questions', '');
         $this->addColumn($this->myLng->txt('qpl_qst_skl_usg_sklpnt_col'), 'max_skill_points', '');
     }
-    
-    public function fillRow(array $a_set) : void
+
+    public function fillRow(array $a_set): void
     {
         $this->tpl->setVariable('SKILL_TITLE', $a_set['skill_title']);
         $this->tpl->setVariable('SKILL_PATH', $a_set['skill_path']);
         $this->tpl->setVariable('NUM_QUESTIONS', $a_set['num_questions']);
         $this->tpl->setVariable('MAX_SKILL_POINTS', $a_set['max_skill_points']);
     }
-    
-    public function numericOrdering(string $a_field) : bool
+
+    public function numericOrdering(string $a_field): bool
     {
         switch ($a_field) {
             case 'num_questions':
             case 'max_skill_points':
                 return true;
         }
-        
+
         return false;
     }
-    
-    private function getUniqueAssignedSkillsStats() : array
+
+    private function getUniqueAssignedSkillsStats(): array
     {
         require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionSkillAssignmentList.php';
         $assignmentList = new ilAssQuestionSkillAssignmentList($this->myDb);
-        
+
         $assignmentList->setParentObjId($this->poolId);
         $assignmentList->loadFromDb();
         $assignmentList->loadAdditionalSkillData();
 
         return $assignmentList->getUniqueAssignedSkills();
     }
-    
-    private function buildTableRowsArray($assignedSkills) : array
+
+    private function buildTableRowsArray($assignedSkills): array
     {
         $rows = array();
-        
+
         foreach ($assignedSkills as $assignedSkill) {
             $rows[] = array(
                 'skill_title' => $assignedSkill['skill_title'],
@@ -141,7 +142,7 @@ class ilAssQuestionSkillUsagesTableGUI extends ilTable2GUI
                 'max_skill_points' => $assignedSkill['max_points'],
             );
         }
-        
+
         return $rows;
     }
 }

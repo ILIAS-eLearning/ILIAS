@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 require_once(__DIR__ . "/../../../../../libs/composer/vendor/autoload.php");
 require_once(__DIR__ . "/../../../Base.php");
 
@@ -31,12 +33,12 @@ class MultiSelectInputTest extends ILIAS_UI_TestBase
 {
     protected DefNamesource $name_source;
 
-    public function setUp() : void
+    public function setUp(): void
     {
         $this->name_source = new DefNamesource();
     }
 
-    protected function buildFactory() : I\Input\Field\Factory
+    protected function buildFactory(): I\Input\Field\Factory
     {
         $df = new Data\Factory();
         $language = $this->createMock(ilLanguage::class);
@@ -49,7 +51,7 @@ class MultiSelectInputTest extends ILIAS_UI_TestBase
         );
     }
 
-    public function test_implements_factory_interface() : void
+    public function test_implements_factory_interface(): void
     {
         $f = $this->buildFactory();
         $options = array(
@@ -61,7 +63,7 @@ class MultiSelectInputTest extends ILIAS_UI_TestBase
         $this->assertInstanceOf(Field\MultiSelect::class, $ms);
     }
 
-    public function test_options() : void
+    public function test_options(): void
     {
         $f = $this->buildFactory();
         $options = array(
@@ -72,7 +74,7 @@ class MultiSelectInputTest extends ILIAS_UI_TestBase
         $this->assertEquals($options, $ms->getOptions());
     }
 
-    public function test_only_accepts_actual_options_from_client_side() : void
+    public function test_only_accepts_actual_options_from_client_side(): void
     {
         $this->expectException(InvalidArgumentException::class);
         $f = $this->buildFactory();
@@ -81,28 +83,28 @@ class MultiSelectInputTest extends ILIAS_UI_TestBase
             "2" => "Pick 2"
         );
         $ms = $f->multiSelect("label", $options, "byline")
-            ->withNameFrom(new class() implements NameSource {
-                public function getNewName() : string
+            ->withNameFrom(new class () implements NameSource {
+                public function getNewName(): string
                 {
                     return "name";
                 }
             });
-        $ms = $ms->withInput(new class() implements InputData {
+        $ms = $ms->withInput(new class () implements InputData {
             /**
              * @return string[]
              */
-            public function getOr($_, $__) : array
+            public function getOr($_, $__): array
             {
                 return ["3"];
             }
-            public function get($_) : void
+            public function get($_): void
             {
             }
         });
         $ms->getContent();
     }
 
-    public function test_render() : void
+    public function test_render(): void
     {
         $r = $this->getDefaultRenderer();
         $f = $this->buildFactory();
@@ -138,7 +140,7 @@ class MultiSelectInputTest extends ILIAS_UI_TestBase
         $this->assertHTMLEquals($expected, $r->render($ms));
     }
 
-    public function test_render_value() : void
+    public function test_render_value(): void
     {
         $r = $this->getDefaultRenderer();
         $f = $this->buildFactory();
@@ -184,7 +186,7 @@ class MultiSelectInputTest extends ILIAS_UI_TestBase
         $this->assertHTMLEquals($expected, $r->render($ms));
     }
 
-    public function test_render_disabled() : void
+    public function test_render_disabled(): void
     {
         $r = $this->getDefaultRenderer();
         $f = $this->buildFactory();
@@ -220,7 +222,7 @@ class MultiSelectInputTest extends ILIAS_UI_TestBase
         $this->assertHTMLEquals($expected, $r->render($ms));
     }
 
-    public function testRenderNoOptions() : void
+    public function testRenderNoOptions(): void
     {
         $r = $this->getDefaultRenderer();
         $f = $this->buildFactory();

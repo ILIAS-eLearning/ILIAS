@@ -7,7 +7,6 @@
  */
 interface ilOrgUnitPositionAndRBACAccessHandler
 {
-
     /**
      * @param string $rbac_perm
      * @param string $pos_perm           See the list of
@@ -16,7 +15,7 @@ interface ilOrgUnitPositionAndRBACAccessHandler
      * @param int    $ref_id             Reference-ID of the desired Object in the tree
      * @return bool
      */
-    public function checkRbacOrPositionPermissionAccess(string $rbac_perm, string $pos_perm, int $ref_id) : bool;
+    public function checkRbacOrPositionPermissionAccess(string $rbac_perm, string $pos_perm, int $ref_id): bool;
 
     /**
      * @param string $rbac_perm
@@ -27,7 +26,7 @@ interface ilOrgUnitPositionAndRBACAccessHandler
      * @param int[]  $user_ids
      * @return int[]
      */
-    public function filterUserIdsByRbacOrPositionOfCurrentUser(string $rbac_perm, string $pos_perm, int $ref_id, array $user_ids) : array;
+    public function filterUserIdsByRbacOrPositionOfCurrentUser(string $rbac_perm, string $pos_perm, int $ref_id, array $user_ids): array;
 
-    public function hasUserRBACorAnyPositionAccess(string $rbac_perm, int $ref_id) : bool;
+    public function hasUserRBACorAnyPositionAccess(string $rbac_perm, int $ref_id): bool;
 }

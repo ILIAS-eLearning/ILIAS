@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -8,17 +10,17 @@
  */
 class ilAdvancedMDFieldDefinitionInternalLink extends ilAdvancedMDFieldDefinition
 {
-    public function getType() : int
+    public function getType(): int
     {
         return self::TYPE_INTERNAL_LINK;
     }
 
-    protected function initADTDefinition() : ilADTDefinition
+    protected function initADTDefinition(): ilADTDefinition
     {
         return ilADTFactory::getInstance()->getDefinitionInstanceByType("InternalLink");
     }
 
-    public function getValueForXML(ilADT $element) : string
+    public function getValueForXML(ilADT $element): string
     {
         $type = ilObject::_lookupType($element->getTargetRefId(), true);
 
@@ -28,7 +30,7 @@ class ilAdvancedMDFieldDefinitionInternalLink extends ilAdvancedMDFieldDefinitio
         return '';
     }
 
-    public function importValueFromXML(string $a_cdata) : void
+    public function importValueFromXML(string $a_cdata): void
     {
         $parsed_import_id = ilUtil::parseImportId($a_cdata);
 
@@ -46,7 +48,7 @@ class ilAdvancedMDFieldDefinitionInternalLink extends ilAdvancedMDFieldDefinitio
         array $a_object_types,
         string $a_locate,
         string $a_search_type
-    ) : array {
+    ): array {
         $condition = $a_adt_search->getSQLCondition(ilADTActiveRecordByType::SINGLE_COLUMN_NAME);
         if ($condition) {
             $objects = ilADTActiveRecordByType::find(
@@ -66,7 +68,7 @@ class ilAdvancedMDFieldDefinitionInternalLink extends ilAdvancedMDFieldDefinitio
     /**
      * @inheritdoc
      */
-    public function getLuceneSearchString($a_value) : string
+    public function getLuceneSearchString($a_value): string
     {
         $query = 'select ref_id from object_reference obr join object_data obd on obr.obj_id = obd.obj_id ' .
             'where ' . $this->db->like('title', 'text', $a_value . '%');

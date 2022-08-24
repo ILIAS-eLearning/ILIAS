@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -23,74 +25,73 @@ namespace ILIAS\GlobalScreen\Scope\Layout\Factory;
  */
 class ModificationFactory
 {
-    
     /**
      * @return ContentModification
      */
-    public function content() : ContentModification
+    public function content(): ContentModification
     {
         return new ContentModification();
     }
-    
+
     /**
      * @return LogoModification
      */
-    public function logo() : LogoModification
+    public function logo(): LogoModification
     {
-        return new LogoModification;
+        return new LogoModification();
     }
-    
+
     /**
      * @return MetaBarModification
      */
-    public function metabar() : MetaBarModification
+    public function metabar(): MetaBarModification
     {
         return new MetaBarModification();
     }
-    
+
     /**
      * @return MainBarModification
      */
-    public function mainbar() : MainBarModification
+    public function mainbar(): MainBarModification
     {
         return new MainBarModification();
     }
-    
+
     /**
      * @return BreadCrumbsModification
      */
-    public function breadcrumbs() : BreadCrumbsModification
+    public function breadcrumbs(): BreadCrumbsModification
     {
         return new BreadCrumbsModification();
     }
-    
+
     /**
      * @return PageBuilderModification
      */
-    public function page() : PageBuilderModification
+    public function page(): PageBuilderModification
     {
         return new PageBuilderModification();
     }
-    
+
     /**
      * @return FooterModification
      */
-    public function footer() : FooterModification
+    public function footer(): FooterModification
     {
         return new FooterModification();
     }
-    
-    public function title() : TitleModification
+
+    public function title(): TitleModification
     {
         return new TitleModification();
     }
-    
-    public function short_title() : ShortTitleModification
+
+    public function short_title(): ShortTitleModification
     {
         return new ShortTitleModification();
     }
-    
-    public function view_title() : ViewTitleModification
+
+    public function view_title(): ViewTitleModification
     {
         return new ViewTitleModification();
     }

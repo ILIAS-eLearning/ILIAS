@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -74,7 +76,7 @@ class ilAsyncPropertyFormGUI extends ilPropertyFormGUI
      * Adds all needed js
      * By default is called by ilAsyncPropertyFormGUI::getHTML()
      */
-    public static function addJavaScript(bool $add_form_loader = false, string $js_base_path = null) : void
+    public static function addJavaScript(bool $add_form_loader = false, string $js_base_path = null): void
     {
         global $DIC;
         $tpl = $DIC['tpl'];
@@ -100,7 +102,7 @@ class ilAsyncPropertyFormGUI extends ilPropertyFormGUI
     /**
      * Saves the change input result into a property
      */
-    public function checkInput() : bool
+    public function checkInput(): bool
     {
         $result = parent::checkInput();
         $this->has_errors = $result;
@@ -113,7 +115,7 @@ class ilAsyncPropertyFormGUI extends ilPropertyFormGUI
      *
      * @return array Array with field id and error message: array([]=>array('key'=>fieldId, 'message'=>error-message))
      */
-    public function getErrors() : array
+    public function getErrors(): array
     {
         if (!$this->check_input_called) {
             $this->checkInput();
@@ -133,7 +135,7 @@ class ilAsyncPropertyFormGUI extends ilPropertyFormGUI
     /**
      * Return if there were errors on the last checkInput call
      */
-    public function hasErrors() : bool
+    public function hasErrors(): bool
     {
         return $this->has_errors;
     }
@@ -141,7 +143,7 @@ class ilAsyncPropertyFormGUI extends ilPropertyFormGUI
     /**
      * Returns the error-message template for the client-side validation
      */
-    public static function getErrorMessageTemplate() : string
+    public static function getErrorMessageTemplate(): string
     {
         global $DIC;
         $lng = $DIC['lng'];
@@ -160,7 +162,7 @@ class ilAsyncPropertyFormGUI extends ilPropertyFormGUI
     /**
      * Copies form items, buttons and properties from another form
      */
-    public function cloneForm(ilPropertyFormGUI $form_to_clone) : ilAsyncPropertyFormGUI
+    public function cloneForm(ilPropertyFormGUI $form_to_clone): ilAsyncPropertyFormGUI
     {
         if (count($this->getItems()) > 0) {
             throw new ilException("You cannot clone into a already filled form!");
@@ -187,7 +189,7 @@ class ilAsyncPropertyFormGUI extends ilPropertyFormGUI
     /**
      * Adds onload code to the template
      */
-    protected static function addOnLoadCode(string $id, string $content) : void
+    protected static function addOnLoadCode(string $id, string $content): void
     {
         global $DIC;
         $tpl = $DIC['tpl'];
@@ -201,7 +203,7 @@ class ilAsyncPropertyFormGUI extends ilPropertyFormGUI
     /**
      * Returns the rendered form content
      */
-    public function getHTML() : string
+    public function getHTML(): string
     {
         self::addJavaScript($this->isAsync());
 
@@ -211,7 +213,7 @@ class ilAsyncPropertyFormGUI extends ilPropertyFormGUI
     /**
      * Checks if the form was submitted
      */
-    public function isSubmitted() : bool
+    public function isSubmitted(): bool
     {
         if ($this->request_wrapper->has("cmd")) {
             return true;
@@ -223,7 +225,7 @@ class ilAsyncPropertyFormGUI extends ilPropertyFormGUI
      * Sets the form action
      * If the form is set to async, the cmdMode=asynch is added to the url
      */
-    public function setFormAction(string $a_formaction) : void
+    public function setFormAction(string $a_formaction): void
     {
         if ($this->isAsync()) {
             $a_formaction .= "&cmdMode=asynch";
@@ -232,27 +234,27 @@ class ilAsyncPropertyFormGUI extends ilPropertyFormGUI
         $this->formaction = $a_formaction;
     }
 
-    public function getJsPath() : ?string
+    public function getJsPath(): ?string
     {
         return self::$js_path;
     }
 
-    public function setJsPath(string $js_path) : void
+    public function setJsPath(string $js_path): void
     {
         self::$js_path = $js_path;
     }
 
-    public function getDefaultFormName() : string
+    public function getDefaultFormName(): string
     {
         return self::$default_from_name;
     }
 
-    public function isAsync() : bool
+    public function isAsync(): bool
     {
         return $this->is_async;
     }
 
-    public function setAsync(bool $is_async) : void
+    public function setAsync(bool $is_async): void
     {
         $this->is_async = $is_async;
     }
@@ -260,7 +262,7 @@ class ilAsyncPropertyFormGUI extends ilPropertyFormGUI
     /**
      * @param string $a_name
      */
-    public function setName(string $a_name) : void
+    public function setName(string $a_name): void
     {
         self::$default_from_name = $a_name;
 

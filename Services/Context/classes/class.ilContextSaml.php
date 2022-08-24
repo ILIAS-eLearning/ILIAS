@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -18,57 +20,57 @@
 
 class ilContextSaml implements ilContextTemplate
 {
-    public static function supportsRedirects() : bool
+    public static function supportsRedirects(): bool
     {
         return true;
     }
 
-    public static function hasUser() : bool
+    public static function hasUser(): bool
     {
         return true;
     }
 
-    public static function usesHTTP() : bool
+    public static function usesHTTP(): bool
     {
         return true;
     }
 
-    public static function hasHTML() : bool
+    public static function hasHTML(): bool
     {
         return true;
     }
 
-    public static function usesTemplate() : bool
+    public static function usesTemplate(): bool
     {
         return true;
     }
 
-    public static function initClient() : bool
+    public static function initClient(): bool
     {
         return true;
     }
 
-    public static function doAuthentication() : bool
+    public static function doAuthentication(): bool
     {
         return true;
     }
 
-    public static function supportsPersistentSessions() : bool
+    public static function supportsPersistentSessions(): bool
     {
         return true;
     }
 
-    public static function supportsPushMessages() : bool
+    public static function supportsPushMessages(): bool
     {
         return false;
     }
 
-    public static function isSessionMainContext() : bool
+    public static function isSessionMainContext(): bool
     {
         return false;
     }
 
-    public static function modifyHttpPath(string $httpPath) : string
+    public static function modifyHttpPath(string $httpPath): string
     {
         if (strpos($httpPath, '/Services/Saml/lib/') !== false && strpos($httpPath, '/metadata.php') === false) {
             return substr($httpPath, 0, strpos($httpPath, '/Services/Saml/lib/'));

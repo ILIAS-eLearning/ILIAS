@@ -1,4 +1,5 @@
 <?php
+
 /* Copyright (c) 1998-2014 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 require_once 'Services/Table/classes/class.ilTable2GUI.php';
@@ -26,7 +27,7 @@ class ilMarkSchemaTableGUI extends ilTable2GUI
 
         $this->object = $object;
         $this->ctrl = $ilCtrl;
-        
+
         $this->is_editable = $this->object->canEditMarks();
 
         $this->setId('mark_schema_gui_' . $this->object->getMarkSchemaForeignId());
@@ -54,7 +55,7 @@ class ilMarkSchemaTableGUI extends ilTable2GUI
         $this->initData();
     }
 
-    protected function initColumns() : void
+    protected function initColumns(): void
     {
         $this->addColumn('', '', '1', true);
         $this->addColumn($this->lng->txt('tst_mark_short_form'), '');
@@ -63,7 +64,7 @@ class ilMarkSchemaTableGUI extends ilTable2GUI
         $this->addColumn($this->lng->txt('tst_mark_passed'), '', '1');
     }
 
-    protected function initData() : void
+    protected function initData(): void
     {
         $this->object->getMarkSchema()->sort();
 
@@ -83,7 +84,7 @@ class ilMarkSchemaTableGUI extends ilTable2GUI
         $this->setData($data);
     }
 
-    public function fillRow(array $a_set) : void
+    public function fillRow(array $a_set): void
     {
         $short_name = new ilTextInputGUI('', 'mark_short_' . $a_set['mark_id']);
         $short_name->setValue($a_set['mark_short']);

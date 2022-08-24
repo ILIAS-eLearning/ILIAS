@@ -1,4 +1,6 @@
-<?php declare(strict_types=0);
+<?php
+
+declare(strict_types=0);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -167,12 +169,12 @@ class ilLPProgressTableGUI extends ilLPTableBaseGUI
         }
     }
 
-    public function numericOrdering(string $a_field) : bool
+    public function numericOrdering(string $a_field): bool
     {
         return $a_field == "percentage";
     }
 
-    public function getItems() : void
+    public function getItems(): void
     {
         $data = [];
         $obj_ids = $this->obj_ids;
@@ -264,7 +266,7 @@ class ilLPProgressTableGUI extends ilLPTableBaseGUI
         }
     }
 
-    protected function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set): void
     {
         if (!$this->details) {
             $this->tpl->setCurrentBlock("column_checkbox");
@@ -427,7 +429,7 @@ class ilLPProgressTableGUI extends ilLPTableBaseGUI
         }
     }
 
-    protected function fillHeaderExcel(ilExcel $a_excel, int &$a_row) : void
+    protected function fillHeaderExcel(ilExcel $a_excel, int &$a_row): void
     {
         $a_excel->setCell($a_row, 0, $this->lng->txt("type"));
         $a_excel->setCell($a_row, 1, $this->lng->txt("trac_title"));
@@ -446,7 +448,7 @@ class ilLPProgressTableGUI extends ilLPTableBaseGUI
         ilExcel $a_excel,
         int &$a_row,
         array $a_set
-    ) : void {
+    ): void {
         $a_excel->setCell($a_row, 0, $this->lng->txt($a_set["type"]));
         $a_excel->setCell($a_row, 1, $a_set["title"]);
         $a_excel->setCell(
@@ -480,7 +482,7 @@ class ilLPProgressTableGUI extends ilLPTableBaseGUI
         );
     }
 
-    protected function fillHeaderCSV(ilCSVWriter $a_csv) : void
+    protected function fillHeaderCSV(ilCSVWriter $a_csv): void
     {
         $a_csv->addColumn($this->lng->txt("type"));
         $a_csv->addColumn($this->lng->txt("trac_title"));
@@ -494,7 +496,7 @@ class ilLPProgressTableGUI extends ilLPTableBaseGUI
         $a_csv->addRow();
     }
 
-    protected function fillRowCSV(ilCSVWriter $a_csv, array $a_set) : void
+    protected function fillRowCSV(ilCSVWriter $a_csv, array $a_set): void
     {
         $a_csv->addColumn($this->lng->txt($a_set["type"]));
         $a_csv->addColumn($a_set["title"]);

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -39,7 +41,7 @@ class NoteSettingsDBRepository
      */
     public function commentsActive(
         int $obj_id
-    ) : bool {
+    ): bool {
         $db = $this->db;
         $set = $db->query(
             "SELECT rep_obj_id FROM note_settings " .
@@ -54,7 +56,7 @@ class NoteSettingsDBRepository
 
     public function commentsActiveMultiple(
         array $obj_ids
-    ) : array {
+    ): array {
         $db = $this->db;
 
         $set = $db->query("SELECT * FROM note_settings " .
@@ -79,7 +81,7 @@ class NoteSettingsDBRepository
         int $sub_obj_id,
         string $obj_type,
         bool $a_activate = true
-    ) : void {
+    ): void {
         $db = $this->db;
 
         if ($obj_type === "") {

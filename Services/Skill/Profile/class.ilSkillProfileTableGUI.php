@@ -79,17 +79,17 @@ class ilSkillProfileTableGUI extends ilTable2GUI
         //$this->addCommandButton("", $lng->txt(""));
     }
 
-    public function getProfiles() : array
+    public function getProfiles(): array
     {
         return $this->profile_manager->getProfilesForAllSkillTrees();
     }
 
-    public function getProfilesForSkillTree(int $a_skill_tree_id) : array
+    public function getProfilesForSkillTree(int $a_skill_tree_id): array
     {
         return $this->profile_manager->getProfilesForSkillTree($a_skill_tree_id);
     }
 
-    protected function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set): void
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;

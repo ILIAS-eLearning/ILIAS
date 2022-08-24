@@ -1,4 +1,6 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -55,19 +57,19 @@ class InternalGUIService
     }
 
     public function characteristic(
-    ) : CharacteristicUIFactory {
+    ): CharacteristicUIFactory {
         return $this->characteristic;
     }
 
     public function image(
-    ) : ImageUIFactory {
+    ): ImageUIFactory {
         return $this->image;
     }
 
     public function standardRequest(
         ?array $passed_query_params = null,
         ?array $passed_post_data = null
-    ) : StandardGUIRequest {
+    ): StandardGUIRequest {
         return new StandardGUIRequest(
             $this->http(),
             $this->domain_service->refinery(),
@@ -77,7 +79,7 @@ class InternalGUIService
     }
 
     // get class name of object settings gui class
-    public function objectSettingsClass(bool $lower = true) : string
+    public function objectSettingsClass(bool $lower = true): string
     {
         $class = ilObjectContentStyleSettingsGUI::class;
         if ($lower) {
@@ -91,7 +93,7 @@ class InternalGUIService
         ?int $selected_style_id,
         int $ref_id,
         int $obj_id = 0
-    ) : ilObjectContentStyleSettingsGUI {
+    ): ilObjectContentStyleSettingsGUI {
         return new ilObjectContentStyleSettingsGUI(
             $this->domain_service,
             $this,

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -88,7 +90,7 @@ class ilTermsOfServiceDocumentGUI implements ilTermsOfServiceControllerEnabled
         $this->refinery = $refinery;
     }
 
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         $cmd = $this->ctrl->getCmd();
 
@@ -102,7 +104,7 @@ class ilTermsOfServiceDocumentGUI implements ilTermsOfServiceControllerEnabled
         $this->$cmd();
     }
 
-    protected function confirmReset() : void
+    protected function confirmReset(): void
     {
         if (!$this->rbacsystem->checkAccess('write', $this->tos->getRefId())) {
             $this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
@@ -117,7 +119,7 @@ class ilTermsOfServiceDocumentGUI implements ilTermsOfServiceControllerEnabled
         $this->tpl->setContent($confirmation->getHTML());
     }
 
-    protected function reset() : void
+    protected function reset(): void
     {
         if (!$this->rbacsystem->checkAccess('write', $this->tos->getRefId())) {
             $this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
@@ -131,7 +133,7 @@ class ilTermsOfServiceDocumentGUI implements ilTermsOfServiceControllerEnabled
         $this->showDocuments();
     }
 
-    protected function showDocuments() : void
+    protected function showDocuments(): void
     {
         if ($this->rbacsystem->checkAccess('write', $this->tos->getRefId())) {
             $addDocumentBtn = ilLinkButton::getInstance();
@@ -158,7 +160,7 @@ class ilTermsOfServiceDocumentGUI implements ilTermsOfServiceControllerEnabled
         $this->tpl->setContent($documentTableGui->getHTML());
     }
 
-    protected function getResetMessageBoxHtml() : string
+    protected function getResetMessageBoxHtml(): string
     {
         if (((int) $this->tos->getLastResetDate()->get(IL_CAL_UNIX)) !== 0) {
             $status = ilDatePresentation::useRelativeDates();
@@ -191,7 +193,7 @@ class ilTermsOfServiceDocumentGUI implements ilTermsOfServiceControllerEnabled
         );
     }
 
-    protected function getDocumentForm(ilTermsOfServiceDocument $document) : ilTermsOfServiceDocumentFormGUI
+    protected function getDocumentForm(ilTermsOfServiceDocument $document): ilTermsOfServiceDocumentFormGUI
     {
         if ($document->getId() > 0) {
             $this->ctrl->setParameter($this, 'tos_id', $document->getId());
@@ -220,7 +222,7 @@ class ilTermsOfServiceDocumentGUI implements ilTermsOfServiceControllerEnabled
         return $form;
     }
 
-    protected function saveAddDocumentForm() : void
+    protected function saveAddDocumentForm(): void
     {
         if (!$this->rbacsystem->checkAccess('write', $this->tos->getRefId())) {
             $this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
@@ -240,7 +242,7 @@ class ilTermsOfServiceDocumentGUI implements ilTermsOfServiceControllerEnabled
         $this->tpl->setContent($form->getHTML());
     }
 
-    protected function showAddDocumentForm() : void
+    protected function showAddDocumentForm(): void
     {
         if (!$this->rbacsystem->checkAccess('write', $this->tos->getRefId())) {
             $this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
@@ -250,7 +252,7 @@ class ilTermsOfServiceDocumentGUI implements ilTermsOfServiceControllerEnabled
         $this->tpl->setContent($form->getHTML());
     }
 
-    protected function showEditDocumentForm() : void
+    protected function showEditDocumentForm(): void
     {
         if (!$this->rbacsystem->checkAccess('write', $this->tos->getRefId())) {
             $this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
@@ -262,7 +264,7 @@ class ilTermsOfServiceDocumentGUI implements ilTermsOfServiceControllerEnabled
         $this->tpl->setContent($form->getHTML());
     }
 
-    protected function saveEditDocumentForm() : void
+    protected function saveEditDocumentForm(): void
     {
         if (!$this->rbacsystem->checkAccess('write', $this->tos->getRefId())) {
             $this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
@@ -287,7 +289,7 @@ class ilTermsOfServiceDocumentGUI implements ilTermsOfServiceControllerEnabled
     /**
      * @return ilTermsOfServiceDocument[]
      */
-    protected function getDocumentsByServerRequest() : array
+    protected function getDocumentsByServerRequest(): array
     {
         $documentIds = [];
 
@@ -317,7 +319,7 @@ class ilTermsOfServiceDocumentGUI implements ilTermsOfServiceControllerEnabled
         return $documents;
     }
 
-    protected function getFirstDocumentFromList(array $documents) : ilTermsOfServiceDocument
+    protected function getFirstDocumentFromList(array $documents): ilTermsOfServiceDocument
     {
         if (1 !== count($documents)) {
             throw new UnexpectedValueException('Expected exactly one document in list');
@@ -329,7 +331,7 @@ class ilTermsOfServiceDocumentGUI implements ilTermsOfServiceControllerEnabled
         return $document;
     }
 
-    protected function deleteDocuments() : void
+    protected function deleteDocuments(): void
     {
         if (!$this->rbacsystem->checkAccess('write', $this->tos->getRefId())) {
             $this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
@@ -341,7 +343,7 @@ class ilTermsOfServiceDocumentGUI implements ilTermsOfServiceControllerEnabled
             return;
         }
 
-        $documents = array_map(static function (array $data) : ilTermsOfServiceDocument {
+        $documents = array_map(static function (array $data): ilTermsOfServiceDocument {
             $document = new ilTermsOfServiceDocument(0);
             $document = $document->buildFromArray($data);
 
@@ -379,7 +381,7 @@ class ilTermsOfServiceDocumentGUI implements ilTermsOfServiceControllerEnabled
     /**
      * @param array $documents
      */
-    protected function processDocumentDeletion(array $documents) : void
+    protected function processDocumentDeletion(array $documents): void
     {
         foreach ($documents as $document) {
             /** @var ilTermsOfServiceDocument $document */
@@ -397,7 +399,7 @@ class ilTermsOfServiceDocumentGUI implements ilTermsOfServiceControllerEnabled
         }
     }
 
-    protected function deleteDocument() : void
+    protected function deleteDocument(): void
     {
         if (!$this->rbacsystem->checkAccess('write', $this->tos->getRefId())) {
             $this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
@@ -410,7 +412,7 @@ class ilTermsOfServiceDocumentGUI implements ilTermsOfServiceControllerEnabled
         $this->ctrl->redirect($this);
     }
 
-    protected function saveDocumentSorting() : void
+    protected function saveDocumentSorting(): void
     {
         if (!$this->rbacsystem->checkAccess('write', $this->tos->getRefId())) {
             $this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
@@ -446,7 +448,7 @@ class ilTermsOfServiceDocumentGUI implements ilTermsOfServiceControllerEnabled
     protected function getCriterionForm(
         ilTermsOfServiceDocument $document,
         ilTermsOfServiceDocumentCriterionAssignment $criterionAssignment
-    ) : ilTermsOfServiceCriterionFormGUI {
+    ): ilTermsOfServiceCriterionFormGUI {
         $this->ctrl->setParameter($this, 'tos_id', $document->getId());
 
         if ($criterionAssignment->getId() > 0) {
@@ -474,7 +476,7 @@ class ilTermsOfServiceDocumentGUI implements ilTermsOfServiceControllerEnabled
         return $form;
     }
 
-    protected function saveAttachCriterionForm() : void
+    protected function saveAttachCriterionForm(): void
     {
         if (!$this->rbacsystem->checkAccess('write', $this->tos->getRefId())) {
             $this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
@@ -493,7 +495,7 @@ class ilTermsOfServiceDocumentGUI implements ilTermsOfServiceControllerEnabled
         $this->tpl->setContent($form->getHTML());
     }
 
-    protected function showAttachCriterionForm() : void
+    protected function showAttachCriterionForm(): void
     {
         if (!$this->rbacsystem->checkAccess('write', $this->tos->getRefId())) {
             $this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
@@ -505,7 +507,7 @@ class ilTermsOfServiceDocumentGUI implements ilTermsOfServiceControllerEnabled
         $this->tpl->setContent($form->getHTML());
     }
 
-    protected function showChangeCriterionForm() : void
+    protected function showChangeCriterionForm(): void
     {
         if (!$this->rbacsystem->checkAccess('write', $this->tos->getRefId())) {
             $this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
@@ -523,7 +525,7 @@ class ilTermsOfServiceDocumentGUI implements ilTermsOfServiceControllerEnabled
             $document->criteria(),
             static function (ilTermsOfServiceDocumentCriterionAssignment $criterionAssignment) use (
                 $criterionId
-            ) : bool {
+            ): bool {
                 return $criterionAssignment->getId() == $criterionId;
             }
         ))[0];
@@ -532,7 +534,7 @@ class ilTermsOfServiceDocumentGUI implements ilTermsOfServiceControllerEnabled
         $this->tpl->setContent($form->getHTML());
     }
 
-    protected function saveChangeCriterionForm() : void
+    protected function saveChangeCriterionForm(): void
     {
         if (!$this->rbacsystem->checkAccess('write', $this->tos->getRefId())) {
             $this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
@@ -550,7 +552,7 @@ class ilTermsOfServiceDocumentGUI implements ilTermsOfServiceControllerEnabled
             $document->criteria(),
             static function (ilTermsOfServiceDocumentCriterionAssignment $criterionAssignment) use (
                 $criterionId
-            ) : bool {
+            ): bool {
                 return $criterionAssignment->getId() == $criterionId;
             }
         ))[0];
@@ -566,7 +568,7 @@ class ilTermsOfServiceDocumentGUI implements ilTermsOfServiceControllerEnabled
         $this->tpl->setContent($form->getHTML());
     }
 
-    public function detachCriterionAssignment() : void
+    public function detachCriterionAssignment(): void
     {
         if (!$this->rbacsystem->checkAccess('write', $this->tos->getRefId())) {
             $this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
@@ -584,7 +586,7 @@ class ilTermsOfServiceDocumentGUI implements ilTermsOfServiceControllerEnabled
             $document->criteria(),
             static function (ilTermsOfServiceDocumentCriterionAssignment $criterionAssignment) use (
                 $criterionId
-            ) : bool {
+            ): bool {
                 return $criterionAssignment->getId() == $criterionId;
             }
         ))[0];

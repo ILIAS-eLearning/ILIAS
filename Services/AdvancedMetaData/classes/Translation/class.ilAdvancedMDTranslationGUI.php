@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 use Psr\Http\Message\RequestInterface;
 
@@ -60,7 +62,7 @@ abstract class ilAdvancedMDTranslationGUI
     /**
      * @return void
      */
-    abstract protected function translations() : void;
+    abstract protected function translations(): void;
 
     /**
      * show translation creation form
@@ -74,7 +76,7 @@ abstract class ilAdvancedMDTranslationGUI
         $this->tpl->setContent($form->getHTML());
     }
 
-    protected function initCreateTranslationForm() : ilPropertyFormGUI
+    protected function initCreateTranslationForm(): ilPropertyFormGUI
     {
         $form = new \ilPropertyFormGUI();
         $form->setFormAction($this->ctrl->getFormAction($this));
@@ -101,7 +103,7 @@ abstract class ilAdvancedMDTranslationGUI
         return $form;
     }
 
-    protected function addToolbarLanguageCreation() : void
+    protected function addToolbarLanguageCreation(): void
     {
         $button = ilLinkButton::getInstance();
         $button->setCaption('obj_add_languages');
@@ -118,7 +120,7 @@ abstract class ilAdvancedMDTranslationGUI
      * @return array<string, string>
      * @todo handle generic isConfigured
      */
-    protected function getAvailableLanguagesOptions() : array
+    protected function getAvailableLanguagesOptions(): array
     {
         $languages = ilAdvancedMDRecordTranslations::getInstanceByRecordId($this->record->getRecordId());
 
@@ -135,7 +137,7 @@ abstract class ilAdvancedMDTranslationGUI
         return $options;
     }
 
-    protected function saveAdditionalTranslations() : void
+    protected function saveAdditionalTranslations(): void
     {
         $form = $this->initCreateTranslationForm();
         if (!$form->checkInput()) {

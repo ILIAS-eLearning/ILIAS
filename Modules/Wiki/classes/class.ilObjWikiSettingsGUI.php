@@ -47,16 +47,16 @@ class ilObjWikiSettingsGUI extends ilObject2GUI
         $this->tpl = $DIC["tpl"];
     }
 
-    public function getType() : string
+    public function getType(): string
     {
         return "wiks";
     }
 
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         $ilErr = $this->error;
         $lng = $this->lng;
-        
+
         $lng->loadLanguageModule("wiki");
 
         $next_class = $this->ctrl->getNextClass($this);
@@ -84,11 +84,11 @@ class ilObjWikiSettingsGUI extends ilObject2GUI
         }
     }
 
-    protected function editSettings(ilPropertyFormGUI $form = null) : void
+    protected function editSettings(ilPropertyFormGUI $form = null): void
     {
         $ilTabs = $this->tabs;
         $tpl = $this->tpl;
-        
+
         $ilTabs->activateTab("settings");
 
         if ($this->rbac_system->checkAccess("visible,read", $this->object->getRefId())) {
@@ -100,12 +100,12 @@ class ilObjWikiSettingsGUI extends ilObject2GUI
         }
     }
 
-    protected function populateWithCurrentSettings(ilPropertyFormGUI $form) : void
+    protected function populateWithCurrentSettings(ilPropertyFormGUI $form): void
     {
         $form->setValuesByArray([]);
     }
 
-    public function initForm() : ilPropertyFormGUI
+    public function initForm(): ilPropertyFormGUI
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
@@ -119,11 +119,11 @@ class ilObjWikiSettingsGUI extends ilObject2GUI
 
         $form->setTitle($lng->txt("settings"));
         $form->setFormAction($ilCtrl->getFormAction($this));
-     
+
         return $form;
     }
-    
-    protected function saveSettings() : void
+
+    protected function saveSettings(): void
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
@@ -144,7 +144,7 @@ class ilObjWikiSettingsGUI extends ilObject2GUI
         $ilCtrl->redirect($this, 'editSettings');
     }
 
-    public function getAdminTabs() : void
+    public function getAdminTabs(): void
     {
         if ($this->checkPermissionBool("visible,read")) {
             $this->tabs_gui->addTab(
@@ -153,7 +153,7 @@ class ilObjWikiSettingsGUI extends ilObject2GUI
                 $this->ctrl->getLinkTarget($this, "editSettings")
             );
         }
-        
+
         if ($this->checkPermissionBool("edit_permission")) {
             $this->tabs_gui->addTab(
                 "perm_settings",
@@ -163,7 +163,7 @@ class ilObjWikiSettingsGUI extends ilObject2GUI
         }
     }
 
-    public function addToExternalSettingsForm(int $a_form_id) : ?array
+    public function addToExternalSettingsForm(int $a_form_id): ?array
     {
         return null;
     }

@@ -26,11 +26,10 @@
  */
 class ilObjDataCollectionListGUI extends ilObjectListGUI
 {
-
     /**
      * initialisation
      */
-    public function init() : void
+    public function init(): void
     {
         $this->copy_enabled = true;
         $this->delete_enabled = true;
@@ -52,7 +51,7 @@ class ilObjDataCollectionListGUI extends ilObjectListGUI
      *                    "property" (string) => property name
      *                    "value" (string) => property value
      */
-    public function getProperties() : array
+    public function getProperties(): array
     {
         global $DIC;
         $lng = $DIC['lng'];

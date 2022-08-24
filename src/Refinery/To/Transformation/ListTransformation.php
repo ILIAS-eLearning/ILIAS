@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -41,7 +43,7 @@ class ListTransformation implements Constraint
     /**
      * @inheritDoc
      */
-    public function transform($from) : array
+    public function transform($from): array
     {
         $this->check($from);
 
@@ -57,7 +59,7 @@ class ListTransformation implements Constraint
     /**
      * @inheritDoc
      */
-    public function getError() : string
+    public function getError(): string
     {
         return 'The value MUST be of type array.';
     }
@@ -77,7 +79,7 @@ class ListTransformation implements Constraint
     /**
      * @inheritDoc
      */
-    public function accepts($value) : bool
+    public function accepts($value): bool
     {
         return is_array($value);
     }
@@ -85,7 +87,7 @@ class ListTransformation implements Constraint
     /**
      * @inheritDoc
      */
-    public function problemWith($value) : ?string
+    public function problemWith($value): ?string
     {
         if (!$this->accepts($value)) {
             return $this->getErrorMessage($value);

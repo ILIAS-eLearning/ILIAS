@@ -36,29 +36,29 @@ class assKprimChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringAd
     public function __construct($qId = -1)
     {
         parent::__construct();
-        
+
         require_once 'Modules/TestQuestionPool/classes/class.assKprimChoice.php';
         $this->object = new assKprimChoice();
-        
+
         if ($qId > 0) {
             $this->object->loadFromDb($qId);
         }
     }
-    
+
     /**
      * @return bool
      */
-    public function hasInlineFeedback() : bool
+    public function hasInlineFeedback(): bool
     {
         return $this->object->feedbackOBJ->isSpecificAnswerFeedbackAvailable($this->object->getId());
     }
 
-    protected function getAdditionalEditQuestionCommands() : array
+    protected function getAdditionalEditQuestionCommands(): array
     {
         return array('uploadImage', 'removeImage');
     }
-    
-    protected function editQuestion(ilPropertyFormGUI $form = null) : void
+
+    protected function editQuestion(ilPropertyFormGUI $form = null): void
     {
         if ($form === null) {
             $form = $this->buildEditForm();
@@ -69,17 +69,17 @@ class assKprimChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringAd
         $this->tpl->setVariable("QUESTION_DATA", $this->ctrl->getHTML($form));
     }
 
-    protected function uploadImage() : void
+    protected function uploadImage(): void
     {
         $result = $this->writePostData(true);
-        
+
         if ($result == 0) {
             $this->object->saveToDb();
             $this->editQuestion();
         }
     }
-    
-    public function removeImage() : void
+
+    public function removeImage(): void
     {
         $position = key($_POST['cmd']['removeImage']);
         $this->object->removeAnswerImage($position);
@@ -88,17 +88,17 @@ class assKprimChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringAd
         $this->editQuestion();
     }
 
-    public function downkprim_answers() : void
+    public function downkprim_answers(): void
     {
         if (isset($_POST['cmd'][__FUNCTION__]) && count($_POST['cmd'][__FUNCTION__])) {
             $this->object->moveAnswerDown(key($_POST['cmd'][__FUNCTION__]));
             $this->object->saveToDb();
         }
-        
+
         $this->editQuestion();
     }
 
-    public function upkprim_answers() : void
+    public function upkprim_answers(): void
     {
         if (isset($_POST['cmd'][__FUNCTION__]) && count($_POST['cmd'][__FUNCTION__])) {
             $this->object->moveAnswerUp(key($_POST['cmd'][__FUNCTION__]));
@@ -111,21 +111,21 @@ class assKprimChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringAd
     /**
      * {@inheritdoc}
      */
-    protected function writePostData(bool $always = false) : int
+    protected function writePostData(bool $always = false): int
     {
         $form = $this->buildEditForm();
         $form->setValuesByPost();
-        
+
         if ($always) {
             $answersInput = $form->getItemByPostVar('kprim_answers');
             $answersInput->setIgnoreMissingUploadsEnabled(true);
-            
+
             if (!$answersInput->checkUploads($_POST[$answersInput->getPostVar()])) {
                 $this->tpl->setOnScreenMessage('failure', $this->lng->txt("form_input_not_valid"));
                 $this->editQuestion($form);
                 return 1;
             }
-            
+
             $answersInput->collectValidFiles();
         } elseif (!$form->checkInput()) {
             $this->editQuestion($form);
@@ -133,29 +133,29 @@ class assKprimChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringAd
         }
 
         $this->writeQuestionGenericPostData();
-        
+
         $this->writeQuestionSpecificPostData($form);
         $this->writeAnswerSpecificPostData($form);
-        
+
         $this->saveTaxonomyAssignments();
-        
+
         return 0;
     }
 
     /**
      * @return ilPropertyFormGUI
      */
-    protected function buildEditForm() : ilPropertyFormGUI
+    protected function buildEditForm(): ilPropertyFormGUI
     {
         $form = $this->buildBasicEditFormObject();
-        
+
         $this->addQuestionFormCommandButtons($form);
 
         $this->addBasicQuestionFormProperties($form);
 
         $this->populateQuestionSpecificFormPart($form);
         $this->populateAnswerSpecificFormPart($form);
-        
+
         $this->populateTaxonomyFormSection($form);
 
         return $form;
@@ -165,7 +165,7 @@ class assKprimChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringAd
      * @param ilPropertyFormGUI $form
      * @return ilPropertyFormGUI
      */
-    public function populateQuestionSpecificFormPart(ilPropertyFormGUI $form) : ilPropertyFormGUI
+    public function populateQuestionSpecificFormPart(ilPropertyFormGUI $form): ilPropertyFormGUI
     {
         // shuffle answers
         $shuffleAnswers = new ilCheckboxInputGUI($this->lng->txt("shuffle_answers"), "shuffle_answers_enabled");
@@ -220,7 +220,7 @@ class assKprimChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringAd
             }
         }
         $form->addItem($optionLabel);
-        
+
         // points
         $points = new ilNumberInputGUI($this->lng->txt('points'), 'points');
         $points->setRequired(true);
@@ -236,19 +236,19 @@ class assKprimChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringAd
         $scorePartialSolution->setInfo($this->lng->txt('score_partsol_enabled_info'));
         $scorePartialSolution->setChecked($this->object->isScorePartialSolutionEnabled());
         $form->addItem($scorePartialSolution);
-        
+
         return $form;
     }
 
     /**
      * @param ilPropertyFormGUI $form
      */
-    public function writeQuestionSpecificPostData(ilPropertyFormGUI $form) : void
+    public function writeQuestionSpecificPostData(ilPropertyFormGUI $form): void
     {
         $oldAnswerType = $this->object->getAnswerType();
-        
+
         $this->object->setShuffleAnswersEnabled($form->getItemByPostVar('shuffle_answers_enabled')->getChecked());
-        
+
         if (!$this->object->getSelfAssessmentEditingMode()) {
             $this->object->setAnswerType($form->getItemByPostVar('answer_type')->getValue());
         } else {
@@ -269,9 +269,9 @@ class assKprimChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringAd
                 $form->getItemByPostVar('option_label_custom_false')->getValue()
             ));
         }
-        
+
         $this->object->setPoints($form->getItemByPostVar('points')->getValue());
-        
+
         $this->object->setScorePartialSolutionEnabled($form->getItemByPostVar('score_partsol_enabled')->getChecked());
     }
 
@@ -279,7 +279,7 @@ class assKprimChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringAd
      * @param ilPropertyFormGUI $form
      * @return ilPropertyFormGUI
      */
-    public function populateAnswerSpecificFormPart(ilPropertyFormGUI $form) : ilPropertyFormGUI
+    public function populateAnswerSpecificFormPart(ilPropertyFormGUI $form): ilPropertyFormGUI
     {
         require_once 'Modules/TestQuestionPool/classes/class.ilKprimChoiceWizardInputGUI.php';
         $kprimAnswers = new ilKprimChoiceWizardInputGUI($this->lng->txt('answers'), 'kprim_answers');
@@ -296,42 +296,42 @@ class assKprimChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringAd
         }
         $kprimAnswers->setValues($this->object->getAnswers());
         $form->addItem($kprimAnswers);
-        
+
         return $form;
     }
 
     /**
      * @param ilPropertyFormGUI $form
      */
-    public function writeAnswerSpecificPostData(ilPropertyFormGUI $form) : void
+    public function writeAnswerSpecificPostData(ilPropertyFormGUI $form): void
     {
         $answers = $form->getItemByPostVar('kprim_answers')->getValues();
         $answers = $this->handleAnswerTextsSubmit($answers);
         $files = $form->getItemByPostVar('kprim_answers')->getFiles();
-        
+
         $this->object->handleFileUploads($answers, $files);
         $this->object->setAnswers($answers);
     }
-    
+
     private function handleAnswerTextsSubmit($answers)
     {
         if ($this->object->getAnswerType() == assKprimChoice::ANSWER_TYPE_MULTI_LINE) {
             return $answers;
         }
-        
+
         foreach ($answers as $key => $answer) {
             $answer->setAnswerText(ilUtil::secureString($answer->getAnswerText()));
         }
-        
+
         return $answers;
     }
-    
+
     /**
      * @param integer $active_id
      * @param integer $pass
      * @return string
      */
-    public function getSpecificFeedbackOutput(array $userSolution) : string
+    public function getSpecificFeedbackOutput(array $userSolution): string
     {
         return ''; // question type supports inline answer specific feedback
     }
@@ -353,7 +353,7 @@ class assKprimChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringAd
         $is_postponed = false,
         $use_post_solutions = false,
         $showInlineFeedback = false
-    ) : string {
+    ): string {
         // shuffle output
         $keys = $this->getParticipantsAnswerKeySequence();
 
@@ -373,7 +373,7 @@ class assKprimChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringAd
                 $user_solution[$solution_value["value1"]] = $solution_value["value2"];
             }
         }
-        
+
         // generate the question output
         include_once "./Services/UICore/classes/class.ilTemplate.php";
         $template = new ilTemplate("tpl.il_as_qpl_mc_kprim_output.html", true, true, "Modules/TestQuestionPool");
@@ -437,7 +437,7 @@ class assKprimChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringAd
             $this->lng,
             $this->object->getOptionLabel()
         ));
-        
+
         $template->setVariable("OPTION_LABEL_TRUE", $this->object->getTrueOptionLabelTranslation(
             $this->lng,
             $this->object->getOptionLabel()
@@ -447,7 +447,7 @@ class assKprimChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringAd
             $this->lng,
             $this->object->getOptionLabel()
         ));
-        
+
         $questionoutput = $template->get();
         $pageoutput = $this->outQuestionPage("", $is_postponed, $active_id, $questionoutput, $showInlineFeedback);
         return $pageoutput;
@@ -457,7 +457,7 @@ class assKprimChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringAd
      * @param bool $show_question_only
      * @param bool $showInlineFeedback
      */
-    public function getPreview($show_question_only = false, $showInlineFeedback = false) : string
+    public function getPreview($show_question_only = false, $showInlineFeedback = false): string
     {
         $user_solution = is_object($this->getPreviewSession()) ? (array) $this->getPreviewSession()->getParticipantsSolution() : array();
         // shuffle output
@@ -466,7 +466,7 @@ class assKprimChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringAd
         // generate the question output
         include_once "./Services/UICore/classes/class.ilTemplate.php";
         $template = new ilTemplate("tpl.il_as_qpl_mc_kprim_output.html", true, true, "Modules/TestQuestionPool");
-        
+
         foreach ($keys as $answer_id) {
             $answer = $this->object->getAnswer($answer_id);
             if (strlen($answer->getImageFile())) {
@@ -515,27 +515,27 @@ class assKprimChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringAd
                 $tplVar = $user_solution[$answer->getPosition()] ? 'CHECKED_ANSWER_TRUE' : 'CHECKED_ANSWER_FALSE';
                 $template->setVariable($tplVar, " checked=\"checked\"");
             }
-            
+
             $template->parseCurrentBlock();
         }
         $questiontext = $this->object->getQuestion();
         $template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($questiontext, true));
-        
+
         $template->setVariable("INSTRUCTIONTEXT", $this->object->getInstructionTextTranslation(
             $this->lng,
             $this->object->getOptionLabel()
         ));
-        
+
         $template->setVariable("OPTION_LABEL_TRUE", $this->object->getTrueOptionLabelTranslation(
             $this->lng,
             $this->object->getOptionLabel()
         ));
-        
+
         $template->setVariable("OPTION_LABEL_FALSE", $this->object->getFalseOptionLabelTranslation(
             $this->lng,
             $this->object->getOptionLabel()
         ));
-        
+
         $questionoutput = $template->get();
         if (!$show_question_only) {
             // get page object output
@@ -565,7 +565,7 @@ class assKprimChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringAd
         $show_correct_solution = false,
         $show_manual_scoring = false,
         $show_question_text = true
-    ) : string {
+    ): string {
         // shuffle output
         $keys = $this->getParticipantsAnswerKeySequence();
 
@@ -585,15 +585,15 @@ class assKprimChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringAd
 
         // generate the question output
         $template = new ilTemplate("tpl.il_as_qpl_mc_kprim_output_solution.html", true, true, "Modules/TestQuestionPool");
-        
+
         foreach ($keys as $answer_id) {
             $answer = $this->object->getAnswer($answer_id);
-            
+
             if (($active_id > 0) && (!$show_correct_solution)) {
                 if ($graphicalOutput) {
                     // output of ok/not ok icons for user entered solutions
 
-                    if ($user_solution[$answer->getPosition()] == $answer->getCorrectness()) {
+                    if (isset($user_solution[$answer->getPosition()]) && $user_solution[$answer->getPosition()] == $answer->getCorrectness()) {
                         $template->setCurrentBlock("icon_ok");
                         $template->setVariable("ICON_OK", ilUtil::getImagePath("icon_ok.svg"));
                         $template->setVariable("TEXT_OK", $this->lng->txt("answer_is_right"));
@@ -632,7 +632,7 @@ class assKprimChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringAd
             if ($show_feedback) {
                 $this->populateSpecificFeedbackInline($user_solution, $answer_id, $template);
             }
-            
+
             $template->setCurrentBlock("answer_row");
             $template->setVariable("ANSWER_TEXT", $this->object->prepareTextareaOutput($answer->getAnswertext(), true));
 
@@ -659,7 +659,7 @@ class assKprimChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringAd
                 $template->setVariable('SOL_QID', $this->object->getId());
                 $template->setVariable('SOL_SUFFIX', $show_correct_solution ? 'bestsolution' : 'usersolution');
                 $template->setVariable('SOL_POSITION', $answer->getPosition());
-                
+
                 $template->setVariable('SOL_TRUE_VALUE', 1);
                 $template->setVariable('SOL_FALSE_VALUE', 0);
 
@@ -671,10 +671,10 @@ class assKprimChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringAd
                     }
                 }
             }
-            
+
             $template->parseCurrentBlock();
         }
-        
+
         if ($show_question_text == true) {
             $questiontext = $this->object->getQuestion();
             $template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($questiontext, true));
@@ -694,8 +694,8 @@ class assKprimChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringAd
             $this->lng,
             $this->object->getOptionLabel()
         ));
-        
-        
+
+
         $questionoutput = $template->get();
         $feedback = ($show_feedback && !$this->isTestPresentationContext()) ? $this->getGenericFeedbackOutput((int) $active_id, $pass) : "";
 
@@ -706,19 +706,19 @@ class assKprimChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringAd
                 $this->hasCorrectSolution($active_id, $pass) ?
                 ilAssQuestionFeedback::CSS_CLASS_FEEDBACK_CORRECT : ilAssQuestionFeedback::CSS_CLASS_FEEDBACK_WRONG
             );
-            
+
             $solutiontemplate->setVariable("ILC_FB_CSS_CLASS", $cssClass);
             $solutiontemplate->setVariable("FEEDBACK", $this->object->prepareTextareaOutput($feedback, true));
         }
-        
+
         $solutiontemplate->setVariable("SOLUTION_OUTPUT", $questionoutput);
 
         $solutionoutput = $solutiontemplate->get();
-        
+
         if ($show_feedback && $this->hasInlineFeedback()) {
             $solutionoutput = $this->buildFocusAnchorHtml() . $solutionoutput;
         }
-        
+
         if (!$show_question_only) {
             // get page object output
             $solutionoutput = $this->getILIASPage($solutionoutput);
@@ -736,11 +736,11 @@ class assKprimChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringAd
 
         return $choiceKeys;
     }
-    
-    private function populateSpecificFeedbackInline($user_solution, $answer_id, $template) : void
+
+    private function populateSpecificFeedbackInline($user_solution, $answer_id, $template): void
     {
         require_once 'Modules/TestQuestionPool/classes/feedback/class.ilAssConfigurableMultiOptionQuestionFeedback.php';
-        
+
         if ($this->object->getSpecificFeedbackSetting() == ilAssConfigurableMultiOptionQuestionFeedback::FEEDBACK_SETTING_CHECKED) {
             if ($user_solution[$answer_id]) {
                 $fb = $this->object->feedbackOBJ->getSpecificAnswerFeedbackTestPresentation($this->object->getId(), 0, $answer_id);
@@ -784,7 +784,7 @@ class assKprimChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringAd
      *
      * @return string[]
      */
-    public function getAfterParticipationSuppressionAnswerPostVars() : array
+    public function getAfterParticipationSuppressionAnswerPostVars(): array
     {
         return array();
     }
@@ -798,7 +798,7 @@ class assKprimChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringAd
      *
      * @return string[]
      */
-    public function getAfterParticipationSuppressionQuestionPostVars() : array
+    public function getAfterParticipationSuppressionQuestionPostVars(): array
     {
         return array();
     }
@@ -809,20 +809,20 @@ class assKprimChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringAd
      * @param array $relevant_answers
      * @return string
      */
-    public function getAggregatedAnswersView(array $relevant_answers) : string
+    public function getAggregatedAnswersView(array $relevant_answers): string
     {
         return  $this->renderAggregateView(
             $this->aggregateAnswers($relevant_answers, $this->object->getAnswers())
         )->get();
-        
+
         return '<pre>' . print_r($relevant_answers, 1) . '</pre>';
     }
-    
-    public function renderAggregateView($aggregate) : ilTemplate
+
+    public function renderAggregateView($aggregate): ilTemplate
     {
         $trueOptionLabel = $this->object->getTrueOptionLabelTranslation($this->lng, $this->object->getOptionLabel());
         $falseOptionLabel = $this->object->getFalseOptionLabelTranslation($this->lng, $this->object->getOptionLabel());
-        
+
         $tpl = new ilTemplate('tpl.il_as_aggregated_kprim_answers_table.html', true, true, "Modules/TestQuestionPool");
 
         foreach ($aggregate as $lineData) {
@@ -832,18 +832,18 @@ class assKprimChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringAd
             $tpl->setVariable('COUNT_FALSE', $lineData['count_false']);
             $tpl->parseCurrentBlock();
         }
-        
+
         $tpl->setVariable('OPTION_HEAD', $this->lng->txt('answers'));
         $tpl->setVariable('COUNT_TRUE_HEAD', $trueOptionLabel);
         $tpl->setVariable('COUNT_FALSE_HEAD', $falseOptionLabel);
 
         return $tpl;
     }
-    
-    public function aggregateAnswers($rawSolutionData, $answers) : array
+
+    public function aggregateAnswers($rawSolutionData, $answers): array
     {
         $aggregate = array();
-        
+
         foreach ($answers as $answer) {
             $answerAgg = array(
                 'answertext' => $answer->getAnswerText(), 'count_true' => 0, 'count_false' => 0
@@ -861,16 +861,16 @@ class assKprimChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringAd
 
             $aggregate[] = $answerAgg;
         }
-        
+
         return $aggregate;
     }
 
-    public function getAnswersFrequency($relevantAnswers, $questionIndex) : array
+    public function getAnswersFrequency($relevantAnswers, $questionIndex): array
     {
         $agg = $this->aggregateAnswers($relevantAnswers, $this->object->getAnswers());
-        
+
         $answers = array();
-        
+
         foreach ($agg as $ans) {
             $answers[] = array(
                 'answer' => $ans['answertext'],
@@ -878,10 +878,10 @@ class assKprimChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringAd
                 'frequency_false' => $ans['count_false']
             );
         }
-        
+
         return $answers;
     }
-    
+
     /**
      * @param $parentGui
      * @param $parentCmd
@@ -889,19 +889,19 @@ class assKprimChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringAd
      * @param $questionIndex
      * @return ilKprimChoiceAnswerFreqStatTableGUI
      */
-    public function getAnswerFrequencyTableGUI($parentGui, $parentCmd, $relevantAnswers, $questionIndex) : ilAnswerFrequencyStatisticTableGUI
+    public function getAnswerFrequencyTableGUI($parentGui, $parentCmd, $relevantAnswers, $questionIndex): ilAnswerFrequencyStatisticTableGUI
     {
         require_once 'Modules/TestQuestionPool/classes/tables/class.ilKprimChoiceAnswerFreqStatTableGUI.php';
-        
+
         $table = new ilKprimChoiceAnswerFreqStatTableGUI($parentGui, $parentCmd, $this->object);
         $table->setQuestionIndex($questionIndex);
         $table->setData($this->getAnswersFrequency($relevantAnswers, $questionIndex));
         $table->initColumns();
-        
+
         return $table;
     }
-    
-    public function populateCorrectionsFormProperties(ilPropertyFormGUI $form) : void
+
+    public function populateCorrectionsFormProperties(ilPropertyFormGUI $form): void
     {
         // points
         $points = new ilNumberInputGUI($this->lng->txt('points'), 'points');
@@ -912,7 +912,7 @@ class assKprimChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringAd
         $points->setMinvalueShouldBeGreater(true);
         $points->setValue($this->object->getPoints());
         $form->addItem($points);
-        
+
         // score partial solution
         $scorePartialSolution = new ilCheckboxInputGUI($this->lng->txt('score_partsol_enabled'), 'score_partsol_enabled');
         $scorePartialSolution->setInfo($this->lng->txt('score_partsol_enabled_info'));
@@ -930,20 +930,20 @@ class assKprimChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringAd
         $kprimAnswers->setValues($this->object->getAnswers());
         $form->addItem($kprimAnswers);
     }
-    
+
     /**
      * @param ilPropertyFormGUI $form
      */
-    public function saveCorrectionsFormProperties(ilPropertyFormGUI $form) : void
+    public function saveCorrectionsFormProperties(ilPropertyFormGUI $form): void
     {
         $this->object->setPoints(
             (float) $form->getInput('points')
         );
-        
+
         $this->object->setScorePartialSolutionEnabled(
             (bool) $form->getInput('score_partsol_enabled')
         );
-        
+
         $this->object->setAnswers(
             $form->getItemByPostVar('kprim_answers')->getValues()
         );

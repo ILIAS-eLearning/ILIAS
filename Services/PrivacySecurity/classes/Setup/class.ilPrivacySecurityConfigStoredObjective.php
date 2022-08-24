@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -32,22 +34,22 @@ class ilPrivacySecurityConfigStoredObjective implements Setup\Objective
         $this->config = $config;
     }
 
-    public function getHash() : string
+    public function getHash(): string
     {
         return hash("sha256", self::class);
     }
 
-    public function getLabel() : string
+    public function getLabel(): string
     {
         return "Store information about privacy security in settings";
     }
 
-    public function isNotable() : bool
+    public function isNotable(): bool
     {
         return true;
     }
 
-    public function getPreconditions(Setup\Environment $environment) : array
+    public function getPreconditions(Setup\Environment $environment): array
     {
         return [
             new ilIniFilesPopulatedObjective(),
@@ -55,7 +57,7 @@ class ilPrivacySecurityConfigStoredObjective implements Setup\Objective
         ];
     }
 
-    public function achieve(Setup\Environment $environment) : Setup\Environment
+    public function achieve(Setup\Environment $environment): Setup\Environment
     {
         $factory = $environment->getResource(Setup\Environment::RESOURCE_SETTINGS_FACTORY);
         $settings = $factory->settingsFor("common");
@@ -80,12 +82,12 @@ class ilPrivacySecurityConfigStoredObjective implements Setup\Objective
     /**
      * @inheritDoc
      */
-    public function isApplicable(Setup\Environment $environment) : bool
+    public function isApplicable(Setup\Environment $environment): bool
     {
         return true;
     }
 
-    protected function bool2string(bool $value) : string
+    protected function bool2string(bool $value): string
     {
         if ($value) {
             return "1";

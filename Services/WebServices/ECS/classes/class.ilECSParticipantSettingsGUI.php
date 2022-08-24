@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -25,7 +27,7 @@ class ilECSParticipantSettingsGUI
 {
     private int $server_id ;
     private int $mid;
-    
+
     private ilECSParticipantSetting $participant;
 
     protected ilGlobalTemplateInterface $tpl;
@@ -50,23 +52,23 @@ class ilECSParticipantSettingsGUI
 
         $this->server_id = $a_server_id;
         $this->mid = $a_mid;
-        
+
         $this->lng->loadLanguageModule('ecs');
 
         $this->participant = new ilECSParticipantSetting($this->getServerId(), $this->getMid());
     }
-    
-    public function getServerId() : int
+
+    public function getServerId(): int
     {
         return $this->server_id;
     }
-    
-    public function getMid() : int
+
+    public function getMid(): int
     {
         return $this->mid;
     }
-    
-    private function getParticipant() : ilECSParticipantSetting
+
+    private function getParticipant(): ilECSParticipantSetting
     {
         return $this->participant;
     }
@@ -75,11 +77,11 @@ class ilECSParticipantSettingsGUI
     /**
      * Execute command
      */
-    public function executeCommand() : bool
+    public function executeCommand(): bool
     {
         $this->ctrl->saveParameter($this, 'server_id');
         $this->ctrl->saveParameter($this, 'mid');
-        
+
         $next_class = $this->ctrl->getNextClass($this);
         $cmd = $this->ctrl->getCmd('settings');
 
@@ -88,11 +90,11 @@ class ilECSParticipantSettingsGUI
 
         return true;
     }
-    
+
     /**
      * Abort editing
      */
-    private function abort() : void
+    private function abort(): void
     {
         $this->ctrl->returnToParent($this);
     }
@@ -101,7 +103,7 @@ class ilECSParticipantSettingsGUI
     /**
      * Settings
      */
-    private function settings(ilPropertyFormGUI $form = null) : void
+    private function settings(ilPropertyFormGUI $form = null): void
     {
         $this->renderConsentToolbar();
 
@@ -110,8 +112,8 @@ class ilECSParticipantSettingsGUI
         }
         $this->tpl->setContent($form->getHTML());
     }
-    
-    protected function renderConsentToolbar() : void
+
+    protected function renderConsentToolbar(): void
     {
         $consents = new ilECSParticipantConsents(
             $this->getServerId(),
@@ -142,11 +144,11 @@ class ilECSParticipantSettingsGUI
         $this->tpl->setOnScreenMessage('success', $this->lng->txt('ecs_user_consents_deleted'), true);
         $this->ctrl->redirect($this, 'settings');
     }
-    
+
     /**
      * Save settings
      */
-    protected function saveSettings() : void
+    protected function saveSettings(): void
     {
         $form = $this->initFormSettings();
         if ($form->checkInput()) {
@@ -188,29 +190,29 @@ class ilECSParticipantSettingsGUI
         $this->tpl->setOnScreenMessage('failure', $this->lng->txt('err_check_input'));
         $this->settings($form);
     }
-    
+
     /**
      * Init settings form
      */
-    protected function initFormSettings() : ilPropertyFormGUI
+    protected function initFormSettings(): ilPropertyFormGUI
     {
         $form = new ilPropertyFormGUI();
         $form->setFormAction($this->ctrl->getFormAction($this));
         $form->setTitle($this->lng->txt('ecs_part_settings') . ' ' . $this->getParticipant()->getTitle());
-        
-        
+
+
         $token = new ilCheckboxInputGUI($this->lng->txt('ecs_token_mechanism'), 'token');
         $token->setInfo($this->lng->txt('ecs_token_mechanism_info'));
         $token->setValue("1");
         $token->setChecked($this->getParticipant()->isTokenEnabled());
         $form->addItem($token);
-        
+
         $dtoken = new ilCheckboxInputGUI($this->lng->txt('ecs_deprecated_token'), 'dtoken');
         $dtoken->setInfo($this->lng->txt('ecs_deprecated_token_info'));
         $dtoken->setValue("1");
         $dtoken->setChecked($this->getParticipant()->isDeprecatedTokenEnabled());
         $form->addItem($dtoken);
-        
+
         // Export
         $export = new ilCheckboxInputGUI($this->lng->txt('ecs_tbl_export'), 'export');
         $export->setValue("1");
@@ -259,13 +261,13 @@ class ilECSParticipantSettingsGUI
         // Export types
         $obj_types = new ilCheckboxGroupInputGUI($this->lng->txt('ecs_export_types'), 'export_types');
         $obj_types->setValue($this->getParticipant()->getExportTypes());
-        
-        
+
+
         foreach (ilECSUtils::getPossibleReleaseTypes(true) as $type => $trans) {
             $obj_types->addOption(new ilCheckboxOption($trans, $type));
         }
         $export->addSubItem($obj_types);
-        
+
 
         // Import
         $import = new ilCheckboxInputGUI($this->lng->txt('ecs_tbl_import'), 'import');
@@ -309,8 +311,8 @@ class ilECSParticipantSettingsGUI
         // Import types
         $imp_types = new ilCheckboxGroupInputGUI($this->lng->txt('ecs_import_types'), 'import_types');
         $imp_types->setValue($this->getParticipant()->getImportTypes());
-        
-        
+
+
         foreach (ilECSUtils::getPossibleRemoteTypes(true) as $type => $trans) {
             $imp_types->addOption(new ilCheckboxOption($trans, $type));
         }
@@ -321,7 +323,7 @@ class ilECSParticipantSettingsGUI
         return $form;
     }
 
-    protected function parseAvailableAuthModes($a_mode_incoming = true) : array
+    protected function parseAvailableAuthModes($a_mode_incoming = true): array
     {
         $options = [];
         if ($this->isShibbolethActive()) {
@@ -334,7 +336,7 @@ class ilECSParticipantSettingsGUI
         return $options;
     }
 
-    protected function isShibbolethActive() : bool
+    protected function isShibbolethActive(): bool
     {
         return (bool) $this->settings->get('shib_active', '0');
     }
@@ -342,7 +344,7 @@ class ilECSParticipantSettingsGUI
     /**
      * Set tabs
      */
-    private function setTabs() : void
+    private function setTabs(): void
     {
         $this->tabs->clearTargets();
         $this->tabs->setBackTarget(

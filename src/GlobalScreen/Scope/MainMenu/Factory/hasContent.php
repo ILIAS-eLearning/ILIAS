@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -26,23 +28,22 @@ use ILIAS\UI\Component\Component;
  */
 interface hasContent
 {
-
     /**
      * @param Closure $content_wrapper a closure which returns a UI-Component
      *                                 This wins over a withContent
      * @return hasContent
      */
-    public function withContentWrapper(Closure $content_wrapper) : hasContent;
+    public function withContentWrapper(Closure $content_wrapper): hasContent;
 
     /**
      * @param Component $ui_component
      * @return hasContent
      * @deprecated Use withContentWrapper instead
      */
-    public function withContent(Component $ui_component) : hasContent;
+    public function withContent(Component $ui_component): hasContent;
 
     /**
      * @return Component
      */
-    public function getContent() : Component;
+    public function getContent(): Component;
 }

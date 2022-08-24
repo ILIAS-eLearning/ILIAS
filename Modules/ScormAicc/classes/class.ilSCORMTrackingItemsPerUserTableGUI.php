@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -34,7 +36,7 @@ class ilSCORMTrackingItemsPerUserTableGUI extends ilTable2GUI
         parent::__construct($a_parent_obj, $a_parent_cmd);
     }
 
-    public function getObjId() : int
+    public function getObjId(): int
     {
         return $this->obj_id;
     }
@@ -42,12 +44,12 @@ class ilSCORMTrackingItemsPerUserTableGUI extends ilTable2GUI
     /**
      * Set current user id
      */
-    public function setUserId(int $a_usr_id) : void
+    public function setUserId(int $a_usr_id): void
     {
         $this->user_id = $a_usr_id;
     }
 
-    public function getUserId() : int
+    public function getUserId(): int
     {
         return $this->user_id;
     }
@@ -55,7 +57,7 @@ class ilSCORMTrackingItemsPerUserTableGUI extends ilTable2GUI
     /**
      * Parse table content
      */
-    public function parse() : void
+    public function parse(): void
     {
         $this->initTable();
 
@@ -71,7 +73,7 @@ class ilSCORMTrackingItemsPerUserTableGUI extends ilTable2GUI
     /**
      * Fill row template
      */
-    protected function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set): void
     {
         global $DIC;
         $ilCtrl = $DIC->ctrl();
@@ -87,7 +89,7 @@ class ilSCORMTrackingItemsPerUserTableGUI extends ilTable2GUI
         $this->tpl->setVariable('VAL_SCORE', $a_set['score']);
     }
 
-    protected function initTable() : void
+    protected function initTable(): void
     {
         global $DIC;
         $ilCtrl = $DIC->ctrl();

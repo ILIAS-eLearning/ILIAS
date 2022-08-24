@@ -15,7 +15,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * Class ilBiblTypeFactory
  *
@@ -23,11 +23,10 @@
  */
 class ilBiblTypeFactory implements ilBiblTypeFactoryInterface
 {
-
     /**
      * @inheritDoc
      */
-    public function getInstanceForType(int $type) : ilBiblTypeInterface
+    public function getInstanceForType(int $type): ilBiblTypeInterface
     {
         assert(is_int($type));
         switch ($type) {
@@ -44,7 +43,7 @@ class ilBiblTypeFactory implements ilBiblTypeFactoryInterface
     /**
      * @inheritDoc
      */
-    public function getInstanceForFileName(string $filename) : ilBiblTypeInterface
+    public function getInstanceForFileName(string $filename): ilBiblTypeInterface
     {
         //return bib for filetype .bibtex:
         if (strtolower(substr($filename, -6)) == "bibtex"
@@ -61,7 +60,7 @@ class ilBiblTypeFactory implements ilBiblTypeFactoryInterface
     /**
      * @inheritDoc
      */
-    public function getInstanceForString(string $string) : ilBiblTypeInterface
+    public function getInstanceForString(string $string): ilBiblTypeInterface
     {
         switch ($string) {
             case "bib":
@@ -77,7 +76,7 @@ class ilBiblTypeFactory implements ilBiblTypeFactoryInterface
     /**
      * @inheritDoc
      */
-    public function convertFileEndingToDataType(string $file_ending) : int
+    public function convertFileEndingToDataType(string $file_ending): int
     {
         switch ($file_ending) {
             case "ris":
@@ -93,7 +92,7 @@ class ilBiblTypeFactory implements ilBiblTypeFactoryInterface
     /**
      * @inheritDoc
      */
-    public function getDataTypeIdentifierByInstance(ilBiblTypeInterface $type_inst) : int
+    public function getDataTypeIdentifierByInstance(ilBiblTypeInterface $type_inst): int
     {
         return $type_inst->getId();
     }

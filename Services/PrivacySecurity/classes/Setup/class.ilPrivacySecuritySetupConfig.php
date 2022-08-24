@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -33,17 +35,17 @@ class ilPrivacySecuritySetupConfig implements Setup\Config
         $this->account_assistance_duration_in_ms = $account_assistance_duration_in_ms;
     }
 
-    public function getForceHttpsOnLogin() : bool
+    public function getForceHttpsOnLogin(): bool
     {
         return $this->force_https_on_login;
     }
 
-    public function getAuthDurationInMs() : ?int
+    public function getAuthDurationInMs(): ?int
     {
         return $this->authentication_duration_in_ms;
     }
 
-    public function getAccountAssistanceDurationInMs() : ?int
+    public function getAccountAssistanceDurationInMs(): ?int
     {
         return $this->account_assistance_duration_in_ms;
     }

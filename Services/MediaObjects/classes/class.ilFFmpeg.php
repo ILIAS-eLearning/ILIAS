@@ -54,22 +54,22 @@ class ilFFmpeg
             )
         );
 
-    
+
     /**
      * Checks, whether FFmpeg support is enabled (path is set in the setup)
      */
-    public static function enabled() : bool
+    public static function enabled(): bool
     {
         if (defined("PATH_TO_FFMPEG") && PATH_TO_FFMPEG != "") {
             return true;
         }
         return false;
     }
-    
+
     /**
      * Get desired target mime types
      */
-    public static function getTargetMimeTypes() : array
+    public static function getTargetMimeTypes(): array
     {
         $ttypes = array();
         foreach (self::$formats as $k => $f) {
@@ -83,7 +83,7 @@ class ilFFmpeg
     /**
      * @return string[]
      */
-    public static function getSourceMimeTypes() : array
+    public static function getSourceMimeTypes(): array
     {
         $ttypes = array();
         foreach (self::$formats as $k => $f) {
@@ -93,24 +93,24 @@ class ilFFmpeg
         }
         return $ttypes;
     }
-    
+
     /**
      * Check if mime type supports image extraction
      */
     public static function supportsImageExtraction(
         string $a_mime
-    ) : bool {
+    ): bool {
         if (in_array($a_mime, self::getSourceMimeTypes(), true)) {
             return true;
         }
         return false;
     }
-    
+
 
     /**
      * Get ffmpeg command
      */
-    private static function getCmd() : string
+    private static function getCmd(): string
     {
         return PATH_TO_FFMPEG;
     }
@@ -118,7 +118,7 @@ class ilFFmpeg
     /**
      * Execute ffmpeg
      */
-    public static function exec(string $args) : array
+    public static function exec(string $args): array
     {
         return ilShellUtil::execQuoted(self::getCmd(), $args);
     }
@@ -126,11 +126,11 @@ class ilFFmpeg
     /**
      * Get last return values
      */
-    public static function getLastReturnValues() : ?array
+    public static function getLastReturnValues(): ?array
     {
         return self::$last_return;
     }
-    
+
     /**
      * Extract image from video file
      *
@@ -146,23 +146,23 @@ class ilFFmpeg
         string $a_target_filename,
         string $a_target_dir = "",
         int $a_sec = 1
-    ) : string {
+    ): string {
         $spi = pathinfo($a_file);
-        
+
         // use source directory if no target directory is passed
         $target_dir = ($a_target_dir != "")
             ? $a_target_dir
             : $spi['dirname'];
-        
+
         $target_file = $target_dir . "/" . $a_target_filename;
-        
+
         $sec = $a_sec;
         $cmd = "-y -i " . ilShellUtil::escapeShellArg(
             $a_file
         ) . " -r 1 -f image2 -vframes 1 -ss " . $sec . " " . ilShellUtil::escapeShellArg($target_file);
         $ret = self::exec($cmd . " 2>&1");
         self::$last_return = $ret;
-        
+
         if (is_file($target_file)) {
             return $target_file;
         } else {

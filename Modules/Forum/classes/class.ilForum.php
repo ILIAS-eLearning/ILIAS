@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -30,7 +32,7 @@ class ilForum
 
     /** @var array<int, int[]> */
     protected static array $moderators_by_ref_id_map = [];
-    
+
     private ilAppEventHandler $event;
     private string $dbTable;
     private string $className = 'ilForum';
@@ -63,27 +65,27 @@ class ilForum
         $this->event = $DIC->event();
     }
 
-    public function setForumId(int $a_obj_id) : void
+    public function setForumId(int $a_obj_id): void
     {
         $this->id = $a_obj_id;
     }
 
-    public function setForumRefId(int $a_ref_id) : void
+    public function setForumRefId(int $a_ref_id): void
     {
         $this->ref_id = $a_ref_id;
     }
 
-    public function getForumId() : int
+    public function getForumId(): int
     {
         return $this->id;
     }
 
-    public function getForumRefId() : int
+    public function getForumRefId(): int
     {
         return $this->ref_id;
     }
 
-    public function setDbTable(string $dbTable) : void
+    public function setDbTable(string $dbTable): void
     {
         if ($dbTable === '') {
             die($this->className . '::setDbTable(): No database table given.');
@@ -92,12 +94,12 @@ class ilForum
         $this->dbTable = $dbTable;
     }
 
-    public function getDbTable() : string
+    public function getDbTable(): string
     {
         return $this->dbTable;
     }
 
-    public function setMDB2WhereCondition(string $query_string, array $data_type, array $data_value) : bool
+    public function setMDB2WhereCondition(string $query_string, array $data_type, array $data_value): bool
     {
         $this->mdb2Query = $query_string;
         $this->mdb2DataValue = $data_value;
@@ -106,22 +108,22 @@ class ilForum
         return true;
     }
 
-    public function getMDB2Query() : string
+    public function getMDB2Query(): string
     {
         return $this->mdb2Query ?: '';
     }
 
-    public function getMDB2DataValue() : array
+    public function getMDB2DataValue(): array
     {
         return $this->mdb2DataValue ?: [];
     }
 
-    public function getMDB2DataType() : array
+    public function getMDB2DataType(): array
     {
         return $this->mdb2DataType ?: [];
     }
 
-    public function setPageHits(int $pageHits) : bool
+    public function setPageHits(int $pageHits): bool
     {
         if ($pageHits < 1) {
             $pageHits = 1;
@@ -131,12 +133,12 @@ class ilForum
         return true;
     }
 
-    public function getPageHits() : int
+    public function getPageHits(): int
     {
         return $this->pageHits;
     }
 
-    public function getOneTopic() : ForumDto
+    public function getOneTopic(): ForumDto
     {
         $data_type = [];
         $data_value = [];
@@ -160,7 +162,7 @@ class ilForum
         return ForumDto::getInstanceFromArray($row);
     }
 
-    public function getOneThread() : ilForumTopic
+    public function getOneThread(): ilForumTopic
     {
         $data_type = [];
         $data_value = [];
@@ -197,7 +199,7 @@ class ilForum
         string $date = '',
         bool $status = true,
         bool $send_activation_mail = false
-    ) : int {
+    ): int {
         $objNewPost = new ilForumPost();
         $objNewPost->setForumId($forum_id);
         $objNewPost->setThreadId($thread_id);
@@ -287,7 +289,7 @@ class ilForum
         bool $notify_posts,
         bool $status = true,
         bool $withFirstVisibleEntry = true
-    ) : int {
+    ): int {
         if (!$thread->getCreateDate()) {
             $thread->setCreateDate(date('Y-m-d H:i:s'));
         }
@@ -346,7 +348,7 @@ class ilForum
      * @param int $target_obj_id
      * @return string[] A list of error message strings
      */
-    public function moveThreads(array $thread_ids, ilObjForum $src_forum, int $target_obj_id) : array
+    public function moveThreads(array $thread_ids, ilObjForum $src_forum, int $target_obj_id): array
     {
         $errorMessages = [];
 
@@ -458,7 +460,7 @@ class ilForum
         return $errorMessages;
     }
 
-    public function postCensorship(ilObjForum $forum, string $message, int $pos_pk, int $cens = 0) : void
+    public function postCensorship(ilObjForum $forum, string $message, int $pos_pk, int $cens = 0): void
     {
         $cens_date = date('Y-m-d H:i:s');
 
@@ -522,7 +524,7 @@ class ilForum
      * @param bool $raiseEvents
      * @return int
      */
-    public function deletePost($postIdOrRecord, bool $raiseEvents = true) : int
+    public function deletePost($postIdOrRecord, bool $raiseEvents = true): int
     {
         if (is_numeric($postIdOrRecord)) {
             $p_node = $this->getPostNode($postIdOrRecord);
@@ -715,7 +717,7 @@ class ilForum
      * @param int $offset
      * @return array{cnt: int, items: array<int, ilForumTopic>}
      */
-    public function getAllThreads(int $a_topic_id, array $params = [], int $limit = 0, int $offset = 0) : array
+    public function getAllThreads(int $a_topic_id, array $params = [], int $limit = 0, int $offset = 0): array
     {
         $frm_overview_setting = (int) $this->settings->get('forum_overview');
         $frm_props = ilForumProperties::getInstance($this->getForumId());
@@ -974,7 +976,7 @@ class ilForum
         ];
     }
 
-    public function getNumberOfPublishedUserPostings(int $usr_id, bool $post_activation_required) : int
+    public function getNumberOfPublishedUserPostings(int $usr_id, bool $post_activation_required): int
     {
         $query = '
             SELECT 
@@ -1007,7 +1009,7 @@ class ilForum
      * @param bool $post_activation_required
      * @return array{usr_id: int, pos_author_id: int, firstname: string, lastname: string, login: string, public_profile: string, num_postings: int}[]
      */
-    public function getUserStatistics(bool $post_activation_required) : array
+    public function getUserStatistics(bool $post_activation_required): array
     {
         $statistic = [];
         $data_types = [];
@@ -1057,7 +1059,7 @@ class ilForum
                 $row['lastname'] = '';
                 $row['firstname'] = '';
             }
-            
+
             $row['usr_id'] = (int) $row['usr_id'];
             $row['pos_author_id'] = (int) $row['pos_author_id'];
             $row['num_postings'] = (int) $row['num_postings'];
@@ -1068,7 +1070,7 @@ class ilForum
         return $statistic;
     }
 
-    public function getRootPostIdByThread(int $a_thread_id) : int
+    public function getRootPostIdByThread(int $a_thread_id): int
     {
         $res = $this->db->queryF(
             'SELECT pos_fk FROM frm_posts_tree WHERE thr_fk = %s AND parent_pos = %s',
@@ -1087,7 +1089,7 @@ class ilForum
     /**
      * @return int[]
      */
-    public function getModerators() : array
+    public function getModerators(): array
     {
         return self::_getModerators($this->getForumRefId());
     }
@@ -1096,7 +1098,7 @@ class ilForum
      * @param int $a_ref_id
      * @return int[]
      */
-    public static function _getModerators(int $a_ref_id) : array
+    public static function _getModerators(int $a_ref_id): array
     {
         global $DIC;
 
@@ -1112,7 +1114,7 @@ class ilForum
         return [];
     }
 
-    public static function _isModerator(int $a_ref_id, int $a_usr_id) : bool
+    public static function _isModerator(int $a_ref_id, int $a_usr_id): bool
     {
         if (!isset(self::$moderators_by_ref_id_map[$a_ref_id])) {
             self::$moderators_by_ref_id_map[$a_ref_id] = self::_getModerators($a_ref_id);
@@ -1121,7 +1123,7 @@ class ilForum
         return in_array($a_usr_id, self::$moderators_by_ref_id_map[$a_ref_id], true);
     }
 
-    public function countUserArticles(int $a_user_id) : int
+    public function countUserArticles(int $a_user_id): int
     {
         $res = $this->db->queryF(
             'SELECT * FROM frm_data
@@ -1136,7 +1138,7 @@ class ilForum
         return $res->numRows();
     }
 
-    public function countActiveUserArticles(int $a_user_id) : int
+    public function countActiveUserArticles(int $a_user_id): int
     {
         $res = $this->db->queryF(
             'SELECT * FROM frm_data
@@ -1152,12 +1154,12 @@ class ilForum
         return $res->numRows();
     }
 
-    public function convertDate(string $date) : string
+    public function convertDate(string $date): string
     {
         return ilDatePresentation::formatDate(new ilDateTime($date, IL_CAL_DATETIME));
     }
 
-    public function addPostTree(int $a_tree_id, int $a_node_id = -1, string $a_date = '') : bool
+    public function addPostTree(int $a_tree_id, int $a_node_id = -1, string $a_date = ''): bool
     {
         $a_date = $a_date ?: date('Y-m-d H:i:s');
 
@@ -1190,7 +1192,7 @@ class ilForum
     /**
      * insert node under parent node
      */
-    public function insertPostNode(int $a_node_id, int $a_parent_id, int $tree_id, string $a_date = '') : void
+    public function insertPostNode(int $a_node_id, int $a_parent_id, int $tree_id, string $a_date = ''): void
     {
         $a_date = $a_date ?: date('Y-m-d H:i:s');
         $left = 1;
@@ -1256,7 +1258,7 @@ class ilForum
         );
     }
 
-    public function getPostDepth(int $a_node_id, int $tree_id) : int
+    public function getPostDepth(int $a_node_id, int $tree_id): int
     {
         if ($tree_id) {
             $res = $this->db->queryF(
@@ -1274,7 +1276,7 @@ class ilForum
         return 0;
     }
 
-    public function getFirstPostNode(int $tree_id) : array
+    public function getFirstPostNode(int $tree_id): array
     {
         $res = $this->db->queryF(
             'SELECT * FROM frm_posts, frm_posts_tree WHERE pos_pk = pos_fk AND parent_pos = %s AND thr_fk = %s',
@@ -1289,7 +1291,7 @@ class ilForum
         return [];
     }
 
-    public function getPostNode(int $post_id) : array
+    public function getPostNode(int $post_id): array
     {
         $res = $this->db->queryF(
             'SELECT * FROM frm_posts, frm_posts_tree WHERE pos_pk = pos_fk AND pos_pk = %s',
@@ -1304,7 +1306,7 @@ class ilForum
         return [];
     }
 
-    public function fetchPostNodeData(stdClass $a_row) : array
+    public function fetchPostNodeData(stdClass $a_row): array
     {
         $fullname = '';
         $loginname = '';
@@ -1314,7 +1316,7 @@ class ilForum
             $fullname = $tmp_user->getFullname();
             $loginname = $tmp_user->getLogin();
         }
-        
+
         if ($fullname === '') {
             $fullname = $this->lng->txt('unknown');
             if ($a_row->import_name) {
@@ -1354,7 +1356,7 @@ class ilForum
      * @param array $a_node
      * @return int[] An list of deleted post ids
      */
-    public function deletePostTree(array $a_node) : array
+    public function deletePostTree(array $a_node): array
     {
         $res = $this->db->queryF(
             'SELECT lft, rgt FROM frm_posts_tree WHERE thr_fk = %s AND pos_fk = %s AND parent_pos = %s',
@@ -1407,7 +1409,7 @@ class ilForum
         return $deleted_post_ids;
     }
 
-    public function updateVisits(int $ID) : void
+    public function updateVisits(int $ID): void
     {
         $checkTime = time() - (60 * 60);
         $session_key = 'frm_visit_' . $this->dbTable . '_' . $ID;
@@ -1428,7 +1430,7 @@ class ilForum
         }
     }
 
-    public function prepareText(string $text, int $edit = 0, string $quote_user = '', string $type = '') : string
+    public function prepareText(string $text, int $edit = 0, string $quote_user = '', string $type = ''): string
     {
         if ($type === 'export') {
             $this->replQuote1 = "<blockquote class=\"quote\"><hr size=\"1\" color=\"#000000\">";
@@ -1508,7 +1510,7 @@ class ilForum
     /**
      * @param int[] $a_ids
      */
-    private function deletePostFiles(array $a_ids) : void
+    private function deletePostFiles(array $a_ids): void
     {
         $forumFiles = new ilFileDataForum($this->getForumId());
         foreach ($a_ids as $pos_id) {
@@ -1520,17 +1522,17 @@ class ilForum
         }
     }
 
-    public function getImportName() : string
+    public function getImportName(): string
     {
         return $this->import_name;
     }
 
-    public function setImportName(string $a_import_name) : void
+    public function setImportName(string $a_import_name): void
     {
         $this->import_name = $a_import_name;
     }
 
-    public function enableForumNotification(int $user_id) : bool
+    public function enableForumNotification(int $user_id): bool
     {
         if (!$this->isForumNotificationEnabled($user_id)) {
             /* Remove all notifications of threads that belong to the forum */
@@ -1585,7 +1587,7 @@ class ilForum
         return true;
     }
 
-    public function disableForumNotification(int $user_id) : bool
+    public function disableForumNotification(int $user_id): bool
     {
         $this->db->manipulateF(
             'DELETE FROM frm_notification WHERE user_id = %s AND frm_id = %s',
@@ -1596,7 +1598,7 @@ class ilForum
         return true;
     }
 
-    public function isForumNotificationEnabled(int $user_id) : bool
+    public function isForumNotificationEnabled(int $user_id): bool
     {
         $res = $this->db->queryF(
             'SELECT COUNT(*) cnt FROM frm_notification WHERE user_id = %s AND frm_id = %s',
@@ -1611,7 +1613,7 @@ class ilForum
         return false;
     }
 
-    public function isThreadNotificationEnabled(int $user_id, int $thread_id) : bool
+    public function isThreadNotificationEnabled(int $user_id, int $thread_id): bool
     {
         $res = $this->db->queryF(
             'SELECT COUNT(*) cnt FROM frm_notification WHERE user_id = %s AND thread_id = %s',
@@ -1631,7 +1633,7 @@ class ilForum
      * @param int $a_sort_mode
      * @return array<int, string>
      */
-    public static function getSortedThreadSubjects(int $a_obj_id, int $a_sort_mode = self::SORT_DATE) : array
+    public static function getSortedThreadSubjects(int $a_obj_id, int $a_sort_mode = self::SORT_DATE): array
     {
         global $DIC;
 
@@ -1660,7 +1662,7 @@ class ilForum
         return $threads;
     }
 
-    public static function _lookupObjIdForForumId(int $a_for_id) : int
+    public static function _lookupObjIdForForumId(int $a_for_id): int
     {
         global $DIC;
 
@@ -1672,7 +1674,7 @@ class ilForum
         return 0;
     }
 
-    public function mergeThreads(int $source_id, int $target_id) : void
+    public function mergeThreads(int $source_id, int $target_id): void
     {
         // selected source and target objects
         $sourceThread = new ilForumTopic($source_id);

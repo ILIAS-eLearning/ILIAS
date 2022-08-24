@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -35,33 +37,33 @@ class ilAuthFactory
      * constants.
      */
     public const CONTEXT_HTTP = 2;
-    
-    
+
+
     /**
      * SOAP based authentication
      */
     public const CONTEXT_SOAP = 3;
 
     public const CONTEXT_CAS = 5;
-    
+
     /**
      * Maybe not required. HTTP based authentication for calendar access
      */
     public const CONTEXT_CALENDAR = 6;
-    
-    
+
+
     /**
      * Calendar authentication with auth token
      */
     public const CONTEXT_CALENDAR_TOKEN = 7;
-    
-    
+
+
     /**
      * Calendar authentication with auth token
      */
     public const CONTEXT_ECS = 8;
-    
-    
+
+
 
     /**
      * Apache based authentication
@@ -74,15 +76,15 @@ class ilAuthFactory
      *
      * @return int current context
      */
-    public static function getContext() : int
+    public static function getContext(): int
     {
         return self::$context;
     }
-    
+
     /**
      * set context
      */
-    public static function setContext(int $a_context) : void
+    public static function setContext(int $a_context): void
     {
         self::$context = $a_context;
     }

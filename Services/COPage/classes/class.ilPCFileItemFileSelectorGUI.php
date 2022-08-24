@@ -43,7 +43,7 @@ class ilPCFileItemFileSelectorGUI extends ilRepositorySelectorExplorerGUI
     /**
      * @param array|object $a_node
      */
-    public function getNodeHref($a_node) : string
+    public function getNodeHref($a_node): string
     {
         $ctrl = $this->ctrl;
 
@@ -55,7 +55,7 @@ class ilPCFileItemFileSelectorGUI extends ilRepositorySelectorExplorerGUI
     /**
      * @param array|object $a_node
      */
-    public function isNodeClickable($a_node) : bool
+    public function isNodeClickable($a_node): bool
     {
         $access = $this->access;
 

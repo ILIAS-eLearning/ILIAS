@@ -11,19 +11,19 @@ class HistCompareTest extends TestCase
 {
     //protected $backupGlobals = false;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         parent::setUp();
     }
 
-    protected function tearDown() : void
+    protected function tearDown(): void
     {
     }
 
     /**
      * Test compare
      */
-    public function testCompare() : void
+    public function testCompare(): void
     {
         $this->assertEquals(
             -1,
@@ -37,7 +37,7 @@ class HistCompareTest extends TestCase
     /**
      * Test compare 2
      */
-    public function testCompare2() : void
+    public function testCompare2(): void
     {
         $this->assertEquals(
             1,
@@ -51,7 +51,7 @@ class HistCompareTest extends TestCase
     /**
      * Test compare 3
      */
-    public function testCompare3() : void
+    public function testCompare3(): void
     {
         $this->assertEquals(
             0,

@@ -41,7 +41,7 @@ class Response
         $this->data = $data;
     }
 
-    public function send() : void
+    public function send(): void
     {
         $http = $this->http;
 

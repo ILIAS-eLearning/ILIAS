@@ -98,7 +98,7 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
         $this->user->setLanguage($this->lng->getLangKey());
     }
 
-    protected function initTargetFromQuery() : string
+    protected function initTargetFromQuery(): string
     {
         if ($this->http->wrapper()->query()->has('target')) {
             return $this->http->wrapper()->query()->retrieve(
@@ -112,7 +112,7 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
     /**
      * @inheritDoc
      */
-    public function getUnsafeGetCommands() : array
+    public function getUnsafeGetCommands(): array
     {
         return [];
     }
@@ -120,7 +120,7 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
     /**
      * @inheritDoc
      */
-    public function getSafePostCommands() : array
+    public function getSafePostCommands(): array
     {
         return [
             'doStandardAuthentication',
@@ -166,7 +166,7 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
     /**
      * Get logger
      */
-    public function getLogger() : ilLogger
+    public function getLogger(): ilLogger
     {
         return $this->logger;
     }
@@ -175,7 +175,7 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
      * jump to registration gui
      * @see register.php
      */
-    public function jumpToRegistration() : void
+    public function jumpToRegistration(): void
     {
         $this->ctrl->setCmdClass("ilaccountregistrationgui");
         $this->ctrl->setCmd("");
@@ -186,7 +186,7 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
      * jump to password assistance
      * @see pwassist.php
      */
-    public function jumpToPasswordAssistance() : void
+    public function jumpToPasswordAssistance(): void
     {
         $this->ctrl->setCmdClass("ilpasswordassistancegui");
         $this->ctrl->setCmd("");
@@ -196,7 +196,7 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
     /**
      * Show login page or redirect to startup page if user is not authenticated.
      */
-    protected function showLoginPageOrStartupPage() : void
+    protected function showLoginPageOrStartupPage(): void
     {
         /**
          * @var ilAuthSession
@@ -246,7 +246,7 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
      * @todo check for forced authentication like ecs, ...
      *       Show login page
      */
-    protected function showLoginPage(ilPropertyFormGUI $form = null) : void
+    protected function showLoginPage(ilPropertyFormGUI $form = null): void
     {
         global $tpl;
 
@@ -308,7 +308,7 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
     /**
      * @param ilTemplate|ilGlobalTemplateInterface $tpl
      */
-    public static function printToGlobalTemplate($tpl) : void
+    public static function printToGlobalTemplate($tpl): void
     {
         global $DIC;
         $gtpl = $DIC['tpl'];
@@ -316,7 +316,7 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
         $gtpl->printToStdout("DEFAULT", false, true);
     }
 
-    protected function showCodeForm($a_username = null, $a_form = null) : void
+    protected function showCodeForm($a_username = null, $a_form = null): void
     {
         global $tpl;
 
@@ -330,7 +330,7 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
         $tpl->printToStdout("DEFAULT", false);
     }
 
-    protected function initCodeForm(string $a_username) : ilPropertyFormGUI
+    protected function initCodeForm(string $a_username): ilPropertyFormGUI
     {
         $this->lng->loadLanguageModule("auth");
         $form = new ilPropertyFormGUI();
@@ -353,7 +353,7 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
     /**
      * @todo needs rafactoring
      */
-    protected function processCode() : ?bool
+    protected function processCode(): ?bool
     {
         $uname = $_POST["uname"];
         $form = $this->initCodeForm($uname);
@@ -425,7 +425,7 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
      * Initialize the standard
      * @return \ilPropertyFormGUI
      */
-    protected function initStandardLoginForm() : ilPropertyFormGUI
+    protected function initStandardLoginForm(): ilPropertyFormGUI
     {
         include_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
         $form = new ilPropertyFormGUI();
@@ -484,7 +484,7 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
     /**
      * Trying shibboleth authentication
      */
-    protected function doShibbolethAuthentication() : void
+    protected function doShibbolethAuthentication(): void
     {
         $this->getLogger()->debug('Trying shibboleth authentication');
 
@@ -526,7 +526,7 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
         $this->showLoginPage();
     }
 
-    protected function doCasAuthentication() : void
+    protected function doCasAuthentication(): void
     {
         $this->getLogger()->debug('Trying cas authentication');
         $credentials = new ilAuthFrontendCredentialsCAS();
@@ -562,7 +562,7 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
     /**
      * Handle lti requests
      */
-    protected function doLTIAuthentication() : void
+    protected function doLTIAuthentication(): void
     {
         $this->getLogger()->debug('Trying lti authentication');
 
@@ -608,7 +608,7 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
     /**
      * Try apache auth
      */
-    protected function doApacheAuthentication() : void
+    protected function doApacheAuthentication(): void
     {
         $this->getLogger()->debug('Trying apache authentication');
 
@@ -667,7 +667,7 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
     /**
      * Check form input; authenticate user
      */
-    protected function doStandardAuthentication() : void
+    protected function doStandardAuthentication(): void
     {
         $form = $this->initStandardLoginForm();
         if ($form->checkInput()) {
@@ -742,7 +742,7 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
     /**
      * Show login form
      */
-    protected function showLoginForm(string $page_editor_html, ilPropertyFormGUI $form = null) : string
+    protected function showLoginForm(string $page_editor_html, ilPropertyFormGUI $form = null): string
     {
         global $tpl;
 
@@ -771,7 +771,7 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
     /**
      * Show login information
      */
-    protected function showLoginInformation(string $page_editor_html, ilGlobalTemplateInterface $tpl) : string
+    protected function showLoginInformation(string $page_editor_html, ilGlobalTemplateInterface $tpl): string
     {
         if (strlen($page_editor_html)) {
             // page editor active return
@@ -790,7 +790,7 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
     /**
      * Show cas login
      */
-    protected function showCASLoginForm(string $page_editor_html) : string
+    protected function showCASLoginForm(string $page_editor_html): string
     {
         // cas login link
         if ($this->setting->get("cas_active")) {
@@ -816,7 +816,7 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
     /**
      * Show shibboleth login form
      */
-    protected function showShibbolethLoginForm(string $page_editor_html) : string
+    protected function showShibbolethLoginForm(string $page_editor_html): string
     {
         $target = $this->initTargetFromQuery();
 
@@ -910,7 +910,7 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
         string $element_html,
         string $placeholder,
         string $fallback_tplvar
-    ) : string {
+    ): string {
         if (!strlen($page_editor_html)) {
             $tpl->setVariable($fallback_tplvar, $element_html);
             return $page_editor_html;
@@ -927,7 +927,7 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
      * Get HTML of ILIAS login page editor
      * @return string html
      */
-    protected function getLoginPageEditorHTML() : string
+    protected function getLoginPageEditorHTML(): string
     {
         include_once './Services/Authentication/classes/class.ilAuthLoginPageEditorSettings.php';
         $lpe = ilAuthLoginPageEditorSettings::getInstance();
@@ -960,7 +960,7 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
     /**
      * Show registration, password forgotten, client slection links
      */
-    protected function showRegistrationLinks(string $page_editor_html) : string
+    protected function showRegistrationLinks(string $page_editor_html): string
     {
         global $tpl, $ilIliasIniFile;
 
@@ -1024,7 +1024,7 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
     /**
      * Show terms of service link
      */
-    protected function showTermsOfServiceLink(string $page_editor_html) : string
+    protected function showTermsOfServiceLink(string $page_editor_html): string
     {
         global $tpl;
 
@@ -1059,7 +1059,7 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
     /**
      * Purge page editor html from unused placeholders
      */
-    protected function purgePlaceholders(string $page_editor_html) : string
+    protected function purgePlaceholders(string $page_editor_html): string
     {
         return str_replace(
             array(
@@ -1079,7 +1079,7 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
     /**
      * Show account migration screen
      */
-    public function showAccountMigration(string $message = '') : void
+    public function showAccountMigration(string $message = ''): void
     {
         $tpl = self::initStartUpTemplate('tpl.login_account_migration.html');
 
@@ -1140,7 +1140,7 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
         self::printToGlobalTemplate($tpl);
     }
 
-    protected function migrateAccount() : void
+    protected function migrateAccount(): void
     {
         if (!isset($this->httpRequest->getParsedBody()['account_migration'])) {
             $this->showAccountMigration(
@@ -1175,7 +1175,7 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
         return;
     }
 
-    protected function doMigrationNewAccount() : bool
+    protected function doMigrationNewAccount(): bool
     {
         $credentials = new ilAuthFrontendCredentials();
         $credentials->setUsername(ilSession::get(ilAuthFrontend::MIG_EXTERNAL_ACCOUNT));
@@ -1209,7 +1209,7 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
         return true;
     }
 
-    protected function doMigration() : bool
+    protected function doMigration(): bool
     {
         $username = '';
         if ($this->http->wrapper()->post()->has('mig_username')) {
@@ -1283,7 +1283,7 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
     /**
      * Show logout screen
      */
-    protected function showLogout() : void
+    protected function showLogout(): void
     {
         global $DIC;
 
@@ -1335,7 +1335,7 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
     /**
      * show logout screen
      */
-    public function doLogout() : void
+    public function doLogout(): void
     {
         global $DIC;
 
@@ -1383,7 +1383,7 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
      * show help screen, if cookies are disabled
      * to do: link to online help here
      */
-    public function showNoCookiesScreen() : void
+    public function showNoCookiesScreen(): void
     {
         global $tpl;
 
@@ -1412,17 +1412,17 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
     /**
      * Get terms of service
      */
-    protected function getAcceptance() : void
+    protected function getAcceptance(): void
     {
         $this->showTermsOfService();
     }
 
-    protected function confirmAcceptance() : void
+    protected function confirmAcceptance(): void
     {
         $this->showTermsOfService(true);
     }
 
-    protected function confirmWithdrawal() : void
+    protected function confirmWithdrawal(): void
     {
         if (!$this->user->getId()) {
             $this->user->setId(ANONYMOUS_USER_ID);
@@ -1473,7 +1473,7 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
      * @throws ilTermsOfServiceNoSignableDocumentFoundException
      * @throws ilTermsOfServiceUnexpectedCriteriaBagContentException
      */
-    protected function showTermsOfService(bool $accepted = false) : void
+    protected function showTermsOfService(bool $accepted = false): void
     {
         $back_to_login = ('getAcceptance' !== $this->ctrl->getCmd());
         $target = $this->initTargetFromQuery();
@@ -1539,7 +1539,7 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
     /**
      * process index.php
      */
-    protected function processIndexPHP() : void
+    protected function processIndexPHP(): void
     {
         global $ilIliasIniFile, $ilAuth, $ilSetting;
 
@@ -1722,7 +1722,7 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
         return $ret;
     }
 
-    public function confirmRegistration() : void
+    public function confirmRegistration(): void
     {
         ilUtil::setCookie('iltest', 'cookie', false);
         $regitration_hash = '';
@@ -1804,7 +1804,7 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
      * @param bool  $a_show_back
      * @param bool  $a_show_logout
      */
-    public static function initStartUpTemplate($a_tmpl, bool $a_show_back = false, bool $a_show_logout = false) : ilGlobalTemplateInterface
+    public static function initStartUpTemplate($a_tmpl, bool $a_show_back = false, bool $a_show_logout = false): ilGlobalTemplateInterface
     {
         /**
          * @var $tpl       ilTemplate
@@ -1866,7 +1866,7 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
         return $tpl;
     }
 
-    protected function showSamlLoginForm(string $page_editor_html) : string
+    protected function showSamlLoginForm(string $page_editor_html): string
     {
         require_once 'Services/Saml/classes/class.ilSamlIdp.php';
         require_once 'Services/Saml/classes/class.ilSamlSettings.php';
@@ -1898,7 +1898,7 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
         return $page_editor_html;
     }
 
-    protected function showOpenIdConnectLoginForm(string $page_editor_html) : string
+    protected function showOpenIdConnectLoginForm(string $page_editor_html): string
     {
         $oidc_settings = ilOpenIdConnectSettings::getInstance();
         if ($oidc_settings->getActive()) {
@@ -1936,7 +1936,7 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
     /**
      * do open id connect authentication
      */
-    protected function doOpenIdConnectAuthentication() : void
+    protected function doOpenIdConnectAuthentication(): void
     {
         $this->getLogger()->debug('Trying openid connect authentication');
 
@@ -1978,7 +1978,7 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
         $this->showLoginPage();
     }
 
-    protected function doSamlAuthentication() : void
+    protected function doSamlAuthentication(): void
     {
         $this->getLogger()->debug('Trying saml authentication');
         $request = $this->httpRequest;
@@ -2124,7 +2124,7 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
      * @param ilSamlAuth $auth
      * @param ilSamlIdp[] $idps
      */
-    protected function showSamlIdpSelection(ilSamlAuth $auth, array $idps) : void
+    protected function showSamlIdpSelection(ilSamlAuth $auth, array $idps): void
     {
         global $DIC;
         self::initStartUpTemplate(array('tpl.saml_idp_selection.html', 'Services/Saml'));

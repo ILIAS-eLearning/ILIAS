@@ -25,7 +25,7 @@ class ilStyleSetupAgent implements Setup\Agent
     /**
      * @inheritdoc
      */
-    public function hasConfig() : bool
+    public function hasConfig(): bool
     {
         return true;
     }
@@ -33,7 +33,7 @@ class ilStyleSetupAgent implements Setup\Agent
     /**
      * @inheritdoc
      */
-    public function getArrayToConfigTransformation() : Refinery\Transformation
+    public function getArrayToConfigTransformation(): Refinery\Transformation
     {
         return $this->refinery->custom()->transformation(function ($data) {
             return new \ilStyleSetupConfig(
@@ -46,7 +46,7 @@ class ilStyleSetupAgent implements Setup\Agent
     /**
      * @inheritdoc
      */
-    public function getInstallObjective(Setup\Config $config = null) : Setup\Objective
+    public function getInstallObjective(Setup\Config $config = null): Setup\Objective
     {
         return new ilStyleConfigStoredObjective($config);
     }
@@ -54,7 +54,7 @@ class ilStyleSetupAgent implements Setup\Agent
     /**
      * @inheritdoc
      */
-    public function getUpdateObjective(Setup\Config $config = null) : Setup\Objective
+    public function getUpdateObjective(Setup\Config $config = null): Setup\Objective
     {
         if ($config !== null) {
             return new ilStyleConfigStoredObjective($config);
@@ -65,7 +65,7 @@ class ilStyleSetupAgent implements Setup\Agent
     /**
      * @inheritdoc
      */
-    public function getBuildArtifactObjective() : Setup\Objective
+    public function getBuildArtifactObjective(): Setup\Objective
     {
         return new ilKitchenSinkDataCollectedObjective();
     }
@@ -73,7 +73,7 @@ class ilStyleSetupAgent implements Setup\Agent
     /**
      * @inheritdoc
      */
-    public function getStatusObjective(Setup\Metrics\Storage $storage) : Setup\Objective
+    public function getStatusObjective(Setup\Metrics\Storage $storage): Setup\Objective
     {
         return new ilStyleMetricsCollectedObjective($storage);
     }
@@ -81,7 +81,7 @@ class ilStyleSetupAgent implements Setup\Agent
     /**
      * @inheritDoc
      */
-    public function getMigrations() : array
+    public function getMigrations(): array
     {
         return [];
     }

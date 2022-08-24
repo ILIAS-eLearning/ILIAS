@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 
@@ -38,42 +40,42 @@ class ilSoapClient
         $this->response_timeout = self::DEFAULT_RESPONSE_TIMEOUT;
     }
 
-    public function getServer() : string
+    public function getServer(): string
     {
         return $this->uri;
     }
 
-    public function setTimeout(int $a_timeout) : void
+    public function setTimeout(int $a_timeout): void
     {
         $this->connect_timeout = $a_timeout;
     }
 
-    public function getTimeout() : int
+    public function getTimeout(): int
     {
         return $this->connect_timeout;
     }
 
-    public function setResponseTimeout(int $a_timeout) : void
+    public function setResponseTimeout(int $a_timeout): void
     {
         $this->response_timeout = $a_timeout;
     }
 
-    public function getResponseTimeout() : int
+    public function getResponseTimeout(): int
     {
         return $this->response_timeout;
     }
 
-    public function enableWSDL(bool $a_stat) : void
+    public function enableWSDL(bool $a_stat): void
     {
         $this->use_wsdl = $a_stat;
     }
 
-    public function enabledWSDL() : bool
+    public function enabledWSDL(): bool
     {
         return $this->use_wsdl;
     }
 
-    public function init() : bool
+    public function init(): bool
     {
         if (trim($this->getServer()) === '') {
             if (trim($this->settings->get('soap_wsdl_path', '')) !== '') {
@@ -106,7 +108,7 @@ class ilSoapClient
         }
     }
 
-    protected function setSocketTimeout(bool $a_wsdl_mode) : bool
+    protected function setSocketTimeout(bool $a_wsdl_mode): bool
     {
         $this->stored_socket_timeout = (int) ini_get('default_socket_timeout');
         $this->log->debug('Default socket timeout is: ' . $this->stored_socket_timeout);
@@ -125,7 +127,7 @@ class ilSoapClient
     /**
      * Reset socket default timeout to defaults
      */
-    protected function resetSocketTimeout() : bool
+    protected function resetSocketTimeout(): bool
     {
         ini_set('default_socket_timeout', (string) $this->stored_socket_timeout);
         $this->log->debug('Restoring default socket timeout to: ' . $this->stored_socket_timeout);

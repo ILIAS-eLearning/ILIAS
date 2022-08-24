@@ -14,7 +14,9 @@
  * https://github.com/ILIAS-eLearning
  *
  ********************************************************************
- */ namespace ILIAS\OrgUnit\Provider;
+ */
+
+namespace ILIAS\OrgUnit\Provider;
 
 use ILIAS\GlobalScreen\Helper\BasicAccessCheckClosuresSingleton;
 use ILIAS\GlobalScreen\Scope\MainMenu\Provider\AbstractStaticMainMenuProvider;
@@ -43,7 +45,7 @@ class OrgUnitMainBarProvider extends AbstractStaticMainMenuProvider
         $this->employeeTalkTemplateIdentifier = $this->if->identifier('mm_adm_org_etal');
     }
 
-    public function getStaticTopItems() : array
+    public function getStaticTopItems(): array
     {
         return [];
     }
@@ -51,7 +53,7 @@ class OrgUnitMainBarProvider extends AbstractStaticMainMenuProvider
     /**
      * @return isItem[]
      */
-    public function getStaticSubItems() : array
+    public function getStaticSubItems(): array
     {
         $this->dic->language()->loadLanguageModule('mst');
         $this->dic->language()->loadLanguageModule('etal');
@@ -73,7 +75,7 @@ class OrgUnitMainBarProvider extends AbstractStaticMainMenuProvider
                                       ->withSymbol($icon)
                                       ->withPosition(10)
                                       ->withVisibilityCallable(
-                                          $access_helper->hasAdministrationAccess(function () : bool {
+                                          $access_helper->hasAdministrationAccess(function (): bool {
                                               return $this->dic->access()->checkAccess(
                                                   'read',
                                                   '',
@@ -94,7 +96,7 @@ class OrgUnitMainBarProvider extends AbstractStaticMainMenuProvider
                                                     ->withSymbol($icon)
                                                     ->withPosition(20)
                                                     ->withVisibilityCallable(
-                                                        $access_helper->hasAdministrationAccess(function () : bool {
+                                                        $access_helper->hasAdministrationAccess(function (): bool {
                                                             return $this->dic->access()->checkAccess(
                                                                 'read',
                                                                 '',
@@ -114,7 +116,7 @@ class OrgUnitMainBarProvider extends AbstractStaticMainMenuProvider
                                   ->withPosition(70)
                                   ->withLinks([$linkOrgUnit, $linkEmployeeTalkTemplates])
                                   ->withVisibilityCallable(
-                                      $access_helper->hasAdministrationAccess(function () : bool {
+                                      $access_helper->hasAdministrationAccess(function (): bool {
                                           return $this->dic->access()->checkAccess(
                                               'read',
                                               '',

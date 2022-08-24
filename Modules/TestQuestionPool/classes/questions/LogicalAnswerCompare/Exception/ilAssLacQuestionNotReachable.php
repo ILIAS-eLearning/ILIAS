@@ -25,7 +25,7 @@ class ilAssLacQuestionNotReachable extends ilAssLacException implements ilAssLac
     public function __construct($question_index)
     {
         $this->question_index = $question_index;
-        
+
         parent::__construct(sprintf(
             'The Question with index "Q%s" is not reachable from this node',
             $this->getQuestionIndex()
@@ -35,7 +35,7 @@ class ilAssLacQuestionNotReachable extends ilAssLacException implements ilAssLac
     /**
      * @return int
      */
-    public function getQuestionIndex() : int
+    public function getQuestionIndex(): int
     {
         return $this->question_index;
     }
@@ -44,7 +44,7 @@ class ilAssLacQuestionNotReachable extends ilAssLacException implements ilAssLac
      * @param ilLanguage $lng
      * @return string
      */
-    public function getFormAlert(ilLanguage $lng) : string
+    public function getFormAlert(ilLanguage $lng): string
     {
         return sprintf(
             $lng->txt("ass_lac_question_not_reachable"),

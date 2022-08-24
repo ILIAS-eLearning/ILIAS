@@ -35,7 +35,7 @@ class StandardGUIRequest
         );
     }
 
-    public function getBaseClass() : string
+    public function getBaseClass(): string
     {
         return $this->str("baseClass");
     }

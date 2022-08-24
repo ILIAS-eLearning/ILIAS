@@ -1,4 +1,5 @@
 <?php
+
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 require_once 'Modules/Test/classes/class.ilTestExport.php';
@@ -19,12 +20,12 @@ class ilTestExportDynamicQuestionSet extends ilTestExport
     {
     }
 
-    protected function getQuestionsQtiXml() : string
+    protected function getQuestionsQtiXml(): string
     {
         return '';
     }
-    
-    protected function getQuestionIds() : array
+
+    protected function getQuestionIds(): array
     {
         return array();
     }

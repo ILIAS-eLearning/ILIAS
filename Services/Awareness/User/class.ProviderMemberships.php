@@ -41,7 +41,7 @@ class ProviderMemberships implements Provider
      * Get provider id
      * @return string provider id
      */
-    public function getProviderId() : string
+    public function getProviderId(): string
     {
         return "mmbr_user_grpcrs";
     }
@@ -50,7 +50,7 @@ class ProviderMemberships implements Provider
      * Provider title (used in awareness overlay and in administration settings)
      * @return string provider title
      */
-    public function getTitle() : string
+    public function getTitle(): string
     {
         $this->lng->loadLanguageModule("mmbr");
         return $this->lng->txt("mmbr_awrn_my_groups_courses");
@@ -60,7 +60,7 @@ class ProviderMemberships implements Provider
      * Provider info (used in administration settings)
      * @return string provider info text
      */
-    public function getInfo() : string
+    public function getInfo(): string
     {
         $this->lng->loadLanguageModule("crs");
         return $this->lng->txt("mmbr_awrn_my_groups_courses_info");
@@ -71,7 +71,7 @@ class ProviderMemberships implements Provider
      * @param ?int[] $user_ids
      * @return int[] array of user IDs
      */
-    public function getInitialUserSet(?array $user_ids = null) : array
+    public function getInitialUserSet(?array $user_ids = null): array
     {
         $ilDB = $this->db;
 
@@ -95,7 +95,7 @@ class ProviderMemberships implements Provider
         return $ub;
     }
 
-    public function isHighlighted() : bool
+    public function isHighlighted(): bool
     {
         return false;
     }

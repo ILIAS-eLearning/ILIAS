@@ -33,7 +33,7 @@ class ilBasicSkillTemplate extends ilBasicSkill
     /**
      * Copy basic skill template
      */
-    public function copy() : ilBasicSkillTemplate
+    public function copy(): ilBasicSkillTemplate
     {
         $skill = new ilBasicSkillTemplate();
         $skill->setTitle($this->getTitle());

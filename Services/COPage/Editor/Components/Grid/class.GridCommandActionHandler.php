@@ -44,7 +44,7 @@ class GridCommandActionHandler implements Server\CommandActionHandler
         $this->ui_wrapper = new Server\UIWrapper($this->ui, $this->lng);
     }
 
-    public function handle(array $query, array $body) : Server\Response
+    public function handle(array $query, array $body): Server\Response
     {
         switch ($body["action"]) {
             case "insert":
@@ -55,7 +55,7 @@ class GridCommandActionHandler implements Server\CommandActionHandler
         }
     }
 
-    protected function insertCommand(array $body) : Server\Response
+    protected function insertCommand(array $body): Server\Response
     {
         $page = $this->page_gui->getPageObject();
 

@@ -19,7 +19,7 @@
  */
 class ilAuthProviderShibboleth extends ilAuthProvider
 {
-    public function doAuthentication(ilAuthStatus $status) : bool
+    public function doAuthentication(ilAuthStatus $status): bool
     {
         global $DIC; // for backwards compatibility of hook environment variables
         $ilias = $DIC['ilias'];

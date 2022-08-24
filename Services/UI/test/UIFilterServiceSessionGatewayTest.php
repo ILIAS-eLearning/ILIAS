@@ -9,18 +9,18 @@ class UIFilterServiceSessionGatewayTest extends TestCase
 {
     protected ilUIFilterServiceSessionGateway $gateway;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         parent::setUp();
         $this->gateway = new ilUIFilterServiceSessionGateway();
         $this->gateway->reset("filter_id");
     }
 
-    protected function tearDown() : void
+    protected function tearDown(): void
     {
     }
 
-    public function testClear() : void
+    public function testClear(): void
     {
         $gateway = $this->gateway;
         $gateway->writeActivated("filter_id", true);
@@ -47,7 +47,7 @@ class UIFilterServiceSessionGatewayTest extends TestCase
         );
     }
 
-    public function testFilterActivated() : void
+    public function testFilterActivated(): void
     {
         $gateway = $this->gateway;
         $gateway->writeActivated("filter_id", true);
@@ -57,7 +57,7 @@ class UIFilterServiceSessionGatewayTest extends TestCase
         );
     }
 
-    public function testFilterExpanded() : void
+    public function testFilterExpanded(): void
     {
         $gateway = $this->gateway;
         $gateway->writeExpanded("filter_id", true);
@@ -67,7 +67,7 @@ class UIFilterServiceSessionGatewayTest extends TestCase
         );
     }
 
-    public function testFilterInputRendered() : void
+    public function testFilterInputRendered(): void
     {
         $gateway = $this->gateway;
         $gateway->writeRendered("filter_id", "input_id", true);
@@ -77,7 +77,7 @@ class UIFilterServiceSessionGatewayTest extends TestCase
         );
     }
 
-    public function testFilterInputValue() : void
+    public function testFilterInputValue(): void
     {
         $gateway = $this->gateway;
         $gateway->writeValue("filter_id", "input_id", "a value");

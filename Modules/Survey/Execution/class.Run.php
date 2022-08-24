@@ -1,4 +1,6 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -41,96 +43,96 @@ class Run
         $this->user_id = $user_id;
     }
 
-    public function getCode() : string
+    public function getCode(): string
     {
         return $this->code;
     }
 
-    public function getSurveyId() : int
+    public function getSurveyId(): int
     {
         return $this->survey_id;
     }
 
-    public function getId() : int
+    public function getId(): int
     {
         return $this->id;
     }
 
-    public function getUserId() : int
+    public function getUserId(): int
     {
         return $this->user_id;
     }
 
-    public function getTimestamp() : int
+    public function getTimestamp(): int
     {
         return $this->tstamp;
     }
 
-    public function getFinished() : bool
+    public function getFinished(): bool
     {
         return $this->finished;
     }
 
-    public function getLastPage() : int
+    public function getLastPage(): int
     {
         return $this->lastpage;
     }
 
-    public function getAppraiseeId() : int
+    public function getAppraiseeId(): int
     {
         return $this->appraisee_id;
     }
 
-    public function withId(int $id) : self
+    public function withId(int $id): self
     {
         $run = clone $this;
         $run->id = $id;
         return $run;
     }
 
-    public function withSurveyId(int $id) : self
+    public function withSurveyId(int $id): self
     {
         $run = clone $this;
         $run->survey_id = $id;
         return $run;
     }
 
-    public function withUserId(int $user_id) : self
+    public function withUserId(int $user_id): self
     {
         $run = clone $this;
         $run->user_id = $user_id;
         return $run;
     }
 
-    public function withTimestamp(int $tstamp) : self
+    public function withTimestamp(int $tstamp): self
     {
         $run = clone $this;
         $run->tstamp = $tstamp;
         return $run;
     }
 
-    public function withCode(string $code) : self
+    public function withCode(string $code): self
     {
         $run = clone $this;
         $run->code = $code;
         return $run;
     }
 
-    public function withFinished(bool $finished) : self
+    public function withFinished(bool $finished): self
     {
         $run = clone $this;
         $run->finished = $finished;
         return $run;
     }
 
-    public function withLastPage(int $last_page) : self
+    public function withLastPage(int $last_page): self
     {
         $run = clone $this;
         $run->lastpage = $last_page;
         return $run;
     }
 
-    public function withAppraiseeId(int $appr_id) : self
+    public function withAppraiseeId(int $appr_id): self
     {
         $run = clone $this;
         $run->appraisee_id = $appr_id;

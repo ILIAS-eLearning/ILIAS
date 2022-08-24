@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -34,37 +36,37 @@ class AdministrationGUIRequest
         );
     }
 
-    public function getNewItemGroupId() : int
+    public function getNewItemGroupId(): int
     {
         return $this->int("grp_id");
     }
 
     /** @return int[] */
-    public function getNewItemGroupIds() : array
+    public function getNewItemGroupIds(): array
     {
         return $this->intArray("grp_ids");
     }
 
     /** @return int[] */
-    public function getNewItemPositions() : array
+    public function getNewItemPositions(): array
     {
         return $this->intArray("obj_pos");
     }
 
     /** @return int[] */
-    public function getNewItemGroups() : array
+    public function getNewItemGroups(): array
     {
         return $this->intArray("obj_grp");
     }
 
     /** @return int[] */
-    public function getNewItemEnablings() : array
+    public function getNewItemEnablings(): array
     {
         return $this->intArray("obj_enbl_creation");
     }
 
     /** @return int[] */
-    public function getNewItemGroupOrder() : array
+    public function getNewItemGroupOrder(): array
     {
         return $this->intArray("grp_order");
     }

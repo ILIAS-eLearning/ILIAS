@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -30,12 +32,12 @@ class ilForumNotificationTest extends TestCase
     private $tree;
     private ?Container $dic = null;
 
-    public function testConstruct() : void
+    public function testConstruct(): void
     {
         $this->assertInstanceOf(ilForumNotification::class, new ilForumNotification(938));
     }
 
-    public function testGetterAndSetter() : void
+    public function testGetterAndSetter(): void
     {
         $instance = new ilForumNotification(940);
         $instance->setNotificationId(1);
@@ -58,7 +60,7 @@ class ilForumNotificationTest extends TestCase
         $this->assertSame(7, $instance->getUserIdNoti());
     }
 
-    public function testIsAdminForceNotification() : void
+    public function testIsAdminForceNotification(): void
     {
         $forumId = 745;
         $userId = 271;
@@ -82,7 +84,7 @@ class ilForumNotificationTest extends TestCase
         $this->assertTrue($instance->isAdminForceNotification());
     }
 
-    public function testIsAdminForceNotificationFailed() : void
+    public function testIsAdminForceNotificationFailed(): void
     {
         $forumId = 745;
         $userId = 271;
@@ -106,7 +108,7 @@ class ilForumNotificationTest extends TestCase
         $this->assertFalse($instance->isAdminForceNotification());
     }
 
-    public function testIsUserToggleNotification() : void
+    public function testIsUserToggleNotification(): void
     {
         $forumId = 745;
         $userId = 271;
@@ -130,7 +132,7 @@ class ilForumNotificationTest extends TestCase
         $this->assertTrue($instance->isUserToggleNotification());
     }
 
-    public function testIsUserToggleNotificationFailed() : void
+    public function testIsUserToggleNotificationFailed(): void
     {
         $forumId = 745;
         $userId = 271;
@@ -154,7 +156,7 @@ class ilForumNotificationTest extends TestCase
         $this->assertFalse($instance->isUserToggleNotification());
     }
 
-    public function testInsertAdminForce() : void
+    public function testInsertAdminForce(): void
     {
         $userToggle = true;
         $adminForce = false;
@@ -191,7 +193,7 @@ class ilForumNotificationTest extends TestCase
         $instance->insertAdminForce();
     }
 
-    public function testDeleteAdminForce() : void
+    public function testDeleteAdminForce(): void
     {
         $userId = 739;
         $forumId = 48849;
@@ -214,7 +216,7 @@ class ilForumNotificationTest extends TestCase
         $instance->deleteAdminForce();
     }
 
-    public function testDeleteUserToggle() : void
+    public function testDeleteUserToggle(): void
     {
         $forumId = 3877;
         $userId = 3839;
@@ -236,7 +238,7 @@ class ilForumNotificationTest extends TestCase
         $instance->deleteUserToggle();
     }
 
-    public function testupdateUserToggle() : void
+    public function testupdateUserToggle(): void
     {
         $userToggle = true;
         $forumId = 3877;
@@ -255,7 +257,7 @@ class ilForumNotificationTest extends TestCase
         $instance->updateUserToggle();
     }
 
-    public function testCheckForumsExistsInsert() : void
+    public function testCheckForumsExistsInsert(): void
     {
         $nodeData = [];
         $userId = 927;
@@ -274,7 +276,7 @@ class ilForumNotificationTest extends TestCase
         ilForumNotification::checkForumsExistsInsert($refId, $userId);
     }
 
-    public function testUpdate() : void
+    public function testUpdate(): void
     {
         $forumId = 1122;
         $userId = 484;
@@ -304,7 +306,7 @@ class ilForumNotificationTest extends TestCase
         $instance->update();
     }
 
-    public function testDeleteNotificationAllUsers() : void
+    public function testDeleteNotificationAllUsers(): void
     {
         $forumId = 490;
         $this->database->expects(self::once())->method('manipulateF')->with(
@@ -320,7 +322,7 @@ class ilForumNotificationTest extends TestCase
     }
 
 
-    public function testRead() : void
+    public function testRead(): void
     {
         $forumId = 4859;
         $row = [
@@ -351,7 +353,7 @@ class ilForumNotificationTest extends TestCase
         ], $instance->read());
     }
 
-    public function testMergeThreadNotifications() : void
+    public function testMergeThreadNotifications(): void
     {
         $srcRow = ['user_id' => 47349];
         $mismatchUserIdRow = ['user_id' => 37, 'notification_id' => 48];
@@ -393,7 +395,7 @@ class ilForumNotificationTest extends TestCase
         ilForumNotification::mergeThreadNotifications($srcId, $targetId);
     }
 
-    public function testExistsNotification() : void
+    public function testExistsNotification(): void
     {
         $adminForce = false;
         $forumId = 7332;
@@ -415,7 +417,7 @@ class ilForumNotificationTest extends TestCase
         $this->assertTrue($instance->existsNotification());
     }
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         global $DIC;
 
@@ -429,7 +431,7 @@ class ilForumNotificationTest extends TestCase
         $DIC['tree'] = ($this->tree = $this->getMockBuilder(ilTree::class)->disableOriginalConstructor()->getMock());
     }
 
-    protected function tearDown() : void
+    protected function tearDown(): void
     {
         global $DIC;
 

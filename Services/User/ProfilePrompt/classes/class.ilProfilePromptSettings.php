@@ -38,32 +38,32 @@ class ilProfilePromptSettings
         $this->prompt_texts = $promp_texts;
     }
 
-    public function getDays() : int
+    public function getDays(): int
     {
         return $this->days;
     }
 
-    public function getMode() : int
+    public function getMode(): int
     {
         return $this->mode;
     }
 
-    public function getInfoTexts() : array // Missing array type.
+    public function getInfoTexts(): array // Missing array type.
     {
         return $this->info_texts;
     }
 
-    public function getPromptTexts() : array // Missing array type.
+    public function getPromptTexts(): array // Missing array type.
     {
         return $this->prompt_texts;
     }
 
-    public function getInfoText(string $lang) : string
+    public function getInfoText(string $lang): string
     {
         return $this->info_texts[$lang] ?? "";
     }
 
-    public function getPromptText(string $lang) : string
+    public function getPromptText(string $lang): string
     {
         return $this->prompt_texts[$lang] ?? "";
     }

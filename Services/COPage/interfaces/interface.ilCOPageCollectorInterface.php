@@ -28,5 +28,5 @@ interface ilCOPageCollectorInterface
      * @param int $obj_id object id of repository object
      * @return array[] inner array keys: "parent_type", "id", "lang"
      */
-    public function getAllPageIds(int $obj_id) : array;
+    public function getAllPageIds(int $obj_id): array;
 }

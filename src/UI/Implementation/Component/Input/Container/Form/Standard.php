@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\UI\Implementation\Component\Input\Container\Form;
 
 use ILIAS\UI\Component as C;
@@ -42,7 +44,7 @@ class Standard extends Form implements C\Input\Container\Form\Standard
     /**
      * @inheritdoc
      */
-    public function getPostURL() : string
+    public function getPostURL(): string
     {
         return $this->post_url;
     }
@@ -50,7 +52,7 @@ class Standard extends Form implements C\Input\Container\Form\Standard
     /**
      * @inheritDoc
      */
-    public function withSubmitCaption(string $caption) : C\Input\Container\Form\Standard
+    public function withSubmitCaption(string $caption): C\Input\Container\Form\Standard
     {
         $clone = clone $this;
         $clone->submit_caption = $caption;
@@ -60,7 +62,7 @@ class Standard extends Form implements C\Input\Container\Form\Standard
     /**
      * @inheritDoc
      */
-    public function getSubmitCaption() : ?string
+    public function getSubmitCaption(): ?string
     {
         return $this->submit_caption;
     }

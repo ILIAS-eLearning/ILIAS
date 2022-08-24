@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /******************************************************************************
  *
@@ -25,19 +27,19 @@
 
 class ilObjRemoteCategory extends ilRemoteObjectBase
 {
-    const DB_TABLE_NAME = "rcat_settings";
+    public const DB_TABLE_NAME = "rcat_settings";
 
-    public function initType() : void
+    public function initType(): void
     {
         $this->type = "rcat";
     }
-    
-    protected function getTableName() : string
+
+    protected function getTableName(): string
     {
         return self::DB_TABLE_NAME;
     }
-    
-    protected function getECSObjectType() : string
+
+    protected function getECSObjectType(): string
     {
         return "/campusconnect/categories";
     }

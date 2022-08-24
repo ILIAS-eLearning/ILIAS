@@ -24,17 +24,17 @@
  */
 class ilObjUserAccess extends ilObjectAccess implements ilWACCheckingClass
 {
-    public static function _getCommands() : array
+    public static function _getCommands(): array
     {
         throw new ilException("_getCommands must not be called on user object.");
     }
 
-    public function _checkAccess(string $cmd, string $permission, int $ref_id, int $obj_id, ?int $user_id = null) : bool
+    public function _checkAccess(string $cmd, string $permission, int $ref_id, int $obj_id, ?int $user_id = null): bool
     {
         throw new ilException("_checkAccess must not be called on user object.");
     }
 
-    public static function _checkGoto(string $target) : bool
+    public static function _checkGoto(string $target): bool
     {
         global $DIC;
         $main_tpl = $DIC->ui()->mainTemplate();
@@ -64,7 +64,7 @@ class ilObjUserAccess extends ilObjectAccess implements ilWACCheckingClass
         return true;
     }
 
-    public function canBeDelivered(ilWACPath $ilWACPath) : bool
+    public function canBeDelivered(ilWACPath $ilWACPath): bool
     {
         global $DIC;
 

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /******************************************************************************
  *
@@ -44,7 +46,7 @@ class ilECSDataMappingSetting
     /**
      * set server id
      */
-    public function setServerId(int $a_server_id) : void
+    public function setServerId(int $a_server_id): void
     {
         $this->server_id = $a_server_id;
     }
@@ -52,12 +54,12 @@ class ilECSDataMappingSetting
     /**
      * Get server id
      */
-    public function getServerId() : int
+    public function getServerId(): int
     {
         return $this->server_id;
     }
 
-    public function setECSField(string $ecs_field) : void
+    public function setECSField(string $ecs_field): void
     {
         $this->ecs_field = $ecs_field;
     }
@@ -65,7 +67,7 @@ class ilECSDataMappingSetting
     /**
      * Get ecs field
      */
-    public function getECSField() : string
+    public function getECSField(): string
     {
         return $this->ecs_field;
     }
@@ -73,7 +75,7 @@ class ilECSDataMappingSetting
     /**
      * Set mapping type
      */
-    public function setMappingType(int $mapping_type) : void
+    public function setMappingType(int $mapping_type): void
     {
         $this->mapping_type = $mapping_type;
     }
@@ -81,17 +83,17 @@ class ilECSDataMappingSetting
     /**
      * Get mapping type
      */
-    public function getMappingType() : int
+    public function getMappingType(): int
     {
         return $this->mapping_type;
     }
 
-    public function getAdvMDId() : int
+    public function getAdvMDId(): int
     {
         return $this->advmd_id;
     }
 
-    public function setAdvMDId(int $a_id) : void
+    public function setAdvMDId(int $a_id): void
     {
         $this->advmd_id = $a_id;
     }
@@ -99,7 +101,7 @@ class ilECSDataMappingSetting
     /**
      * Save mappings
      */
-    public function save() : void
+    public function save(): void
     {
         $query = 'SELECT * FROM ecs_data_mapping ' .
             'WHERE sid = ' . $this->db->quote($this->getServerId(), 'integer') . ' ' .
@@ -116,7 +118,7 @@ class ilECSDataMappingSetting
     /**
      * Update setting
      */
-    protected function update() : void
+    protected function update(): void
     {
         $query = 'UPDATE ecs_data_mapping ' .
             'SET advmd_id = ' . $this->db->quote($this->getAdvMDId(), 'integer') . ' ' .
@@ -126,7 +128,7 @@ class ilECSDataMappingSetting
         $this->db->manipulate($query);
     }
 
-    protected function create() : bool
+    protected function create(): bool
     {
         $query = 'INSERT INTO ecs_data_mapping (sid,mapping_type,ecs_field,advmd_id) ' .
             'VALUES(' .
@@ -142,7 +144,7 @@ class ilECSDataMappingSetting
     /**
      * Read settings
      */
-    private function read() : void
+    private function read(): void
     {
         if ($this->getServerId() || $this->getMappingType() || $this->getECSField()) {
             $query = 'SELECT * FROM ecs_data_mapping ' .

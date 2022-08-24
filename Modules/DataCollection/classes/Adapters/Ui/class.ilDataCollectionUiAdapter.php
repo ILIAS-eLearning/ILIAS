@@ -49,7 +49,7 @@ class ilDataCollectionUiAdapter implements ilDataCollectionUiPort
         $help->setScreenIdComponent("dcl");
     }
 
-    public static function new() : self
+    public static function new(): self
     {
         if (is_null(static::$instance) === true) {
             global $DIC;
@@ -67,68 +67,68 @@ class ilDataCollectionUiAdapter implements ilDataCollectionUiPort
         return static::$instance;
     }
 
-    public function addOnLoadJavaScriptCode(string $a_code) : void
+    public function addOnLoadJavaScriptCode(string $a_code): void
     {
         $this->tpl->addOnLoadCode($a_code);
     }
 
-    public function addJavaScriptFile(string $filePath) : void
+    public function addJavaScriptFile(string $filePath): void
     {
         $this->ui->mainTemplate()->addJavaScript("./Services/UIComponent/Modal/js/Modal.js");
     }
 
-    public function displayFailureMessage(string $message) : void
+    public function displayFailureMessage(string $message): void
     {
         $this->ui->mainTemplate()->setOnScreenMessage('failure', $message, true);
     }
 
-    public function displaySuccessMessage(string $message) : void
+    public function displaySuccessMessage(string $message): void
     {
         $this->ui->mainTemplate()->setOnScreenMessage('success', $message, true);
     }
 
-    public function displayErrorMessage(string $message) : void
+    public function displayErrorMessage(string $message): void
     {
         $this->error->raiseError($message);
     }
 
-    public function displayInfoMessage(string $message) : void
+    public function displayInfoMessage(string $message): void
     {
         $this->ui->mainTemplate()->setOnScreenMessage('info', $message, true);
     }
 
-    public function addLocatorItem(string $title, string $link, int $itemId) : void
+    public function addLocatorItem(string $title, string $link, int $itemId): void
     {
         $this->locatorGui->addItem($title, $link, "", $itemId);
     }
 
-    public function resetTabs() : void
+    public function resetTabs(): void
     {
         $this->tabs->clearTargets();
         $this->tabs->clearSubTabs();
     }
 
-    public function setBackTab(string $label, string $link) : void
+    public function setBackTab(string $label, string $link): void
     {
         $this->tabs->setBackTarget($label, $link);
     }
 
-    public function addDataCollectionEndpointToNavigationHistory(int $refId, string $link) : void
+    public function addDataCollectionEndpointToNavigationHistory(int $refId, string $link): void
     {
         $this->navigationHistory->addItem($refId, $link, "dcl");
     }
 
-    public function addCssFile(string $filePath) : void
+    public function addCssFile(string $filePath): void
     {
         $this->tpl->addCss($filePath);
     }
 
-    public function addPermaLinkTableView(int $refId, int $tableviewId) : void
+    public function addPermaLinkTableView(int $refId, int $tableviewId): void
     {
         $this->tpl->setPermanentLink("dcl", $refId, "_" . $tableviewId);
     }
 
-    public function setContent(string $content) : void
+    public function setContent(string $content): void
     {
         $this->tpl->setContent($content);
     }

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -45,7 +47,7 @@ class ilCmiXapiStatementsGUI
     /**
      * @throws ilCmiXapiException
      */
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
 
@@ -60,7 +62,7 @@ class ilCmiXapiStatementsGUI
         }
     }
 
-    protected function resetFilterCmd() : void
+    protected function resetFilterCmd(): void
     {
         $table = $this->buildTableGUI();
         $table->resetFilter();
@@ -68,7 +70,7 @@ class ilCmiXapiStatementsGUI
         $this->showCmd();
     }
 
-    protected function applyFilterCmd() : void
+    protected function applyFilterCmd(): void
     {
         $table = $this->buildTableGUI();
         $table->writeFilterToSession();
@@ -76,7 +78,7 @@ class ilCmiXapiStatementsGUI
         $this->showCmd();
     }
 
-    protected function showCmd() : void
+    protected function showCmd(): void
     {
         $table = $this->buildTableGUI();
 
@@ -99,7 +101,7 @@ class ilCmiXapiStatementsGUI
         $this->dic->ui()->mainTemplate()->setContent($table->getHTML());
     }
 
-    protected function initLimitingAndOrdering(ilCmiXapiStatementsReportFilter $filter, ilCmiXapiStatementsTableGUI $table) : void
+    protected function initLimitingAndOrdering(ilCmiXapiStatementsReportFilter $filter, ilCmiXapiStatementsTableGUI $table): void
     {
         $table->determineOffsetAndOrder();
 
@@ -113,7 +115,7 @@ class ilCmiXapiStatementsGUI
     protected function initActorFilter(
         ilCmiXapiStatementsReportFilter $filter,
         ilCmiXapiStatementsTableGUI $table
-    ) : void {
+    ): void {
         if ($this->access->hasOutcomesAccess()) {
             $actor = $table->getFilterItemByPostVar('actor')->getValue();
             if ($actor && strlen($actor)) {
@@ -134,7 +136,7 @@ class ilCmiXapiStatementsGUI
     protected function initVerbFilter(
         ilCmiXapiStatementsReportFilter $filter,
         ilCmiXapiStatementsTableGUI $table
-    ) : void {
+    ): void {
         if ($table->getFilterItemByPostVar('verb') != null) {
             $verb = urldecode($table->getFilterItemByPostVar('verb')->getValue());
 
@@ -147,7 +149,7 @@ class ilCmiXapiStatementsGUI
     protected function initPeriodFilter(
         ilCmiXapiStatementsReportFilter $filter,
         ilCmiXapiStatementsTableGUI $table
-    ) : void {
+    ): void {
         if ($table->getFilterItemByPostVar('period') != null) {
             $period = $table->getFilterItemByPostVar('period');
 
@@ -161,7 +163,7 @@ class ilCmiXapiStatementsGUI
         }
     }
 
-    public function asyncUserAutocompleteCmd() : void
+    public function asyncUserAutocompleteCmd(): void
     {
         $auto = new ilCmiXapiUserAutocomplete($this->object->getId());
         $auto->setSearchFields(array('login','firstname','lastname','email'));
@@ -186,7 +188,7 @@ class ilCmiXapiStatementsGUI
     protected function initTableData(
         ilCmiXapiStatementsTableGUI $table,
         ilCmiXapiStatementsReportFilter $filter
-    ) : void {
+    ): void {
         global $DIC;
         if ($this->access->hasOutcomesAccess()) {
             if (!ilCmiXapiUser::getUsersForObject($this->object->getId())) {
@@ -221,13 +223,13 @@ class ilCmiXapiStatementsGUI
         $table->setMaxCount($statementsReport->getMaxCount());
     }
 
-    protected function buildTableGUI() : ilCmiXapiStatementsTableGUI
+    protected function buildTableGUI(): ilCmiXapiStatementsTableGUI
     {
         $isMultiActorReport = $this->access->hasOutcomesAccess();
         $table = new ilCmiXapiStatementsTableGUI($this, 'show', $isMultiActorReport);
         $table->setFilterCommand('applyFilter');
         $table->setResetCommand('resetFilter');
-        
+
         return $table;
     }
 }

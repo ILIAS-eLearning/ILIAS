@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -25,14 +27,14 @@ class ilContainerReferenceAccess extends ilObjectAccess
     /**
      * Check if target is accessible and not deleted
      */
-    public static function _isAccessible(int $a_ref_id) : bool
+    public static function _isAccessible(int $a_ref_id): bool
     {
         global $DIC;
 
         $ilDB = $DIC->database();
         $tree = $DIC->repositoryTree();
         $access = $DIC->access();
-        
+
         $obj_id = ilObject::_lookupObjId($a_ref_id);
         $query = "SELECT target_obj_id FROM container_reference " .
             "WHERE obj_id = " . $ilDB->quote($obj_id, 'integer') . " ";

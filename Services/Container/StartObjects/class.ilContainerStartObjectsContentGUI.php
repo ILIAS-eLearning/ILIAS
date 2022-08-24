@@ -54,26 +54,26 @@ class ilContainerStartObjectsContentGUI
         $this->content_style_domain = $cs->domain()->styleForRefId($a_parent_obj->getRefId());
         $this->content_style_gui = $cs->gui();
     }
-    
+
     public function enableDesktop(
         bool $a_value,
         ilContainerGUI $a_parent_gui
-    ) : void {
+    ): void {
         $this->enable_desktop = $a_value;
-        
+
         if ($this->enable_desktop) {
             $this->parent_gui = $a_parent_gui;
         }
     }
-    
+
     // Set HTML in main template
-    public function getHTML() : void
+    public function getHTML(): void
     {
         $tpl = $this->tpl;
         $lng = $this->lng;
-        
+
         $lng->loadLanguageModule("crs");
-        
+
         $tbl = new ilContainerStartObjectsContentTableGUI(
             $this->parent_gui,
             "",
@@ -85,8 +85,8 @@ class ilContainerStartObjectsContentGUI
             $tbl->getHTML()
         );
     }
-    
-    protected function getPageHTML() : string
+
+    protected function getPageHTML(): string
     {
         $tpl = $this->tpl;
         $ilSetting = $this->settings;
@@ -94,9 +94,9 @@ class ilContainerStartObjectsContentGUI
         if (!$ilSetting->get("enable_cat_page_edit")) {
             return "";
         }
-        
+
         $page_id = $this->start_object->getObjId();
-        
+
         // if page does not exist, return nothing
         if (!ilPageUtil::_existsAndNotEmpty("cstr", $page_id)) {
             return "";
@@ -111,7 +111,7 @@ class ilContainerStartObjectsContentGUI
         $tpl->parseCurrentBlock();
 
         $page_gui = new ilContainerStartObjectsPageGUI($page_id);
-        
+
         $page_gui->setStyleId($this->content_style_domain->getEffectiveStyleId());
 
         $page_gui->setPresentationTitle("");

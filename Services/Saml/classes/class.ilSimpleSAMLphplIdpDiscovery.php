@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -39,7 +41,7 @@ class ilSimpleSAMLphplIdpDiscovery extends SimpleSAML\XHTML\IdPDisco implements 
     /**
      * @return string
      */
-    public function getMetadataDirectory() : string
+    public function getMetadataDirectory(): string
     {
         return self::METADATA_DIRECTORY;
     }
@@ -47,7 +49,7 @@ class ilSimpleSAMLphplIdpDiscovery extends SimpleSAML\XHTML\IdPDisco implements 
     /**
      * @inheritdoc
      */
-    public function getList() : array
+    public function getList(): array
     {
         return $this->getIdPList();
     }
@@ -56,7 +58,7 @@ class ilSimpleSAMLphplIdpDiscovery extends SimpleSAML\XHTML\IdPDisco implements 
      * @param int $idpId
      * @return string
      */
-    private function getMetadataPath(int $idpId) : string
+    private function getMetadataPath(int $idpId): string
     {
         return $this->getMetadataDirectory() . '/' . $idpId . '.xml';
     }
@@ -64,7 +66,7 @@ class ilSimpleSAMLphplIdpDiscovery extends SimpleSAML\XHTML\IdPDisco implements 
     /**
      * @inheritdoc
      */
-    public function storeIdpMetadata(int $idpId, string $metadata) : void
+    public function storeIdpMetadata(int $idpId, string $metadata): void
     {
         global $DIC;
 
@@ -76,7 +78,7 @@ class ilSimpleSAMLphplIdpDiscovery extends SimpleSAML\XHTML\IdPDisco implements 
     /**
      * @inheritdoc
      */
-    public function fetchIdpMetadata(int $idpId) : string
+    public function fetchIdpMetadata(int $idpId): string
     {
         global $DIC;
 
@@ -92,7 +94,7 @@ class ilSimpleSAMLphplIdpDiscovery extends SimpleSAML\XHTML\IdPDisco implements 
     /**
      * @inheritdoc
      */
-    public function deleteIdpMetadata(int $idpId) : void
+    public function deleteIdpMetadata(int $idpId): void
     {
         global $DIC;
 

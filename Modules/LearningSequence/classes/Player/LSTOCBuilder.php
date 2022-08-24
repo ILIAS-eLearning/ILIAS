@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 use ILIAS\KioskMode\TOCBuilder;
 
 /**
@@ -51,7 +53,7 @@ class LSTOCBuilder implements TOCBuilder
         $this->command = $command;
     }
 
-    public function toJSON() : string
+    public function toJSON(): string
     {
         return json_encode($this->structure);
     }
@@ -68,7 +70,7 @@ class LSTOCBuilder implements TOCBuilder
     /**
      * @inheritdoc
      */
-    public function node(string $label, int $parameter = null, int $lp = null) : TOCBuilder
+    public function node(string $label, int $parameter = null, int $lp = null): TOCBuilder
     {
         //build node
         $toc = new LSTOCBuilder($this, $this->command, $label, $parameter, $lp);
@@ -78,7 +80,7 @@ class LSTOCBuilder implements TOCBuilder
     /**
      * @inheritdoc
      */
-    public function item(string $label, int $parameter, $state = null, bool $current = false) : TOCBuilder
+    public function item(string $label, int $parameter, $state = null, bool $current = false): TOCBuilder
     {
         $item = [
             'label' => $label,

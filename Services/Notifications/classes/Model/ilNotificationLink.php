@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /******************************************************************************
  *
@@ -50,17 +52,17 @@ class ilNotificationLink
     /**
      * @param string|ilNotificationParameter $title
      */
-    public function setTitle($title) : void
+    public function setTitle($title): void
     {
         $this->title = $title;
     }
 
-    public function getUrl() : string
+    public function getUrl(): string
     {
         return $this->url;
     }
 
-    public function setUrl(string $url) : void
+    public function setUrl(string $url): void
     {
         $this->url = $url;
     }

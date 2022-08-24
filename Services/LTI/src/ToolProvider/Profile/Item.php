@@ -16,7 +16,6 @@
  *
  *********************************************************************/
 
-
 namespace ILIAS\LTI\ToolProvider\Profile;
 
 /**
@@ -28,7 +27,6 @@ namespace ILIAS\LTI\ToolProvider\Profile;
  */
 class Item
 {
-
     /**
      * ID of item.
      *

@@ -58,7 +58,7 @@ class ilUserQuery
         "last_login",
         "active"
     );
-    
+
     public function __construct()
     {
     }
@@ -67,7 +67,7 @@ class ilUserQuery
      * Set udf filter
      * @param array $a_val udf filter array
      */
-    public function setUdfFilter(array $a_val) : void // Missing array type.
+    public function setUdfFilter(array $a_val): void // Missing array type.
     {
         $valid_udfs = [];
 
@@ -80,135 +80,135 @@ class ilUserQuery
         }
         $this->udf_filter = $valid_udfs;
     }
-    
+
     /**
      * Get udf filter
      * @return array udf filter array
      */
-    public function getUdfFilter() : array // Missing array type.
+    public function getUdfFilter(): array // Missing array type.
     {
         return $this->udf_filter;
     }
-    
+
     /**
      * Set order field (column in usr_data)
      * Default order is 'login'
      */
-    public function setOrderField(string $a_order) : void
+    public function setOrderField(string $a_order): void
     {
         $this->order_field = $a_order;
     }
-    
+
     /**
      * Set order direction
      * 'asc' or 'desc'
      * Default is 'asc'
      */
-    public function setOrderDirection(string $a_dir) : void
+    public function setOrderDirection(string $a_dir): void
     {
         $this->order_dir = $a_dir;
     }
-    
-    public function setOffset(int $a_offset) : void
+
+    public function setOffset(int $a_offset): void
     {
         $this->offset = $a_offset;
     }
-    
-    public function setLimit(int $a_limit) : void
+
+    public function setLimit(int $a_limit): void
     {
         $this->limit = $a_limit;
     }
-    
+
     /**
      * Text (like) filter in login, firstname, lastname or email
      */
-    public function setTextFilter(string $a_filter) : void
+    public function setTextFilter(string $a_filter): void
     {
         $this->text_filter = $a_filter;
     }
-    
+
     /**
      * Set activation filter
      * 'active' or 'inactive' or empty
      */
-    public function setActionFilter(string $a_activation) : void
+    public function setActionFilter(string $a_activation): void
     {
         $this->activation = $a_activation;
     }
-    
+
     /**
      * Set last login filter
      */
-    public function setLastLogin(ilDateTime $dt = null) : void
+    public function setLastLogin(ilDateTime $dt = null): void
     {
         $this->last_login = $dt;
     }
-    
+
     /**
      * Enable limited access filter
      */
-    public function setLimitedAccessFilter(bool $a_status) : void
+    public function setLimitedAccessFilter(bool $a_status): void
     {
         $this->limited_access = $a_status;
     }
-    
-    public function setNoCourseFilter(bool $a_no_course) : void
+
+    public function setNoCourseFilter(bool $a_no_course): void
     {
         $this->no_courses = $a_no_course;
     }
-    
-    public function setNoGroupFilter(bool $a_no_group) : void
+
+    public function setNoGroupFilter(bool $a_no_group): void
     {
         $this->no_groups = $a_no_group;
     }
-    
+
     /**
      * Set course / group filter
      * object_id of course or group
      */
-    public function setCourseGroupFilter(int $a_cg_id) : void
+    public function setCourseGroupFilter(int $a_cg_id): void
     {
         $this->crs_grp = $a_cg_id;
     }
-    
+
     /**
      * Set role filter
      * obj_id of role
      */
-    public function setRoleFilter(int $a_role_id) : void
+    public function setRoleFilter(int $a_role_id): void
     {
         $this->role = $a_role_id;
     }
-    
+
     /**
      * Set user folder filter
      * reference id of user folder or category (local user administration)
      */
-    public function setUserFolder(?array $a_fold_id) : void // Missing array type.
+    public function setUserFolder(?array $a_fold_id): void // Missing array type.
     {
         $this->user_folder = $a_fold_id;
     }
-    
+
     /**
      * Set additional fields (columns in usr_data or 'online_time')
      */
-    public function setAdditionalFields(array $a_add) : void // Missing array type.
+    public function setAdditionalFields(array $a_add): void // Missing array type.
     {
         $this->additional_fields = $a_add;
     }
-    
+
     /**
      * Array with user ids to query against
      */
-    public function setUserFilter(array $a_filter) : void // Missing array type.
+    public function setUserFilter(array $a_filter): void // Missing array type.
     {
         $this->users = $a_filter;
     }
-    
+
     /**
      * set first letter lastname filter
      */
-    public function setFirstLetterLastname(string $a_fll) : void
+    public function setFirstLetterLastname(string $a_fll): void
     {
         $this->first_letter = $a_fll;
     }
@@ -216,7 +216,7 @@ class ilUserQuery
     /**
      * set filter for user that are limited but has access
      */
-    public function setAccessFilter(bool $a_access) : void
+    public function setAccessFilter(bool $a_access): void
     {
         $this->has_access = $a_access;
     }
@@ -225,16 +225,16 @@ class ilUserQuery
      * Set authentication filter
      * @param string $a_authentication 'default', 'local' or 'lti'
      */
-    public function setAuthenticationFilter(string $a_authentication) : void
+    public function setAuthenticationFilter(string $a_authentication): void
     {
         $this->authentication_method = $a_authentication;
     }
-    
+
     /**
      * Query usr_data
      * @return array ('cnt', 'set')
      */
-    public function query() : array
+    public function query(): array
     {
         global $DIC;
 
@@ -278,16 +278,16 @@ class ilUserQuery
         // count query
         $count_query = "SELECT count(usr_data.usr_id) cnt" .
             " FROM usr_data";
-        
+
         $all_multi_fields = array("interests_general", "interests_help_offered", "interests_help_looking");
         $multi_fields = array();
-        
+
         $sql_fields = array();
         foreach ($this->default_fields as $idx => $field) {
             if (!$field) {
                 continue;
             }
-            
+
             if (in_array($field, $all_multi_fields)) {
                 $multi_fields[] = $field;
             } elseif (strpos($field, ".") === false) {
@@ -329,7 +329,7 @@ class ilUserQuery
             $count_query .= $add;
             $where = " AND";
         }
-        
+
         if ($this->text_filter != "") {		// email, name, login
             $add = $where . " (" . $ilDB->like("usr_data.login", "text", "%" . $this->text_filter . "%") . " " .
                 "OR " . $ilDB->like("usr_data.firstname", "text", "%" . $this->text_filter . "%") . " " .
@@ -340,7 +340,7 @@ class ilUserQuery
             $count_query .= $add;
             $where = " AND";
         }
-        
+
         if ($this->activation != "") {		// activation
             if ($this->activation === "inactive") {
                 $add = $where . " usr_data.active = " . $ilDB->quote(0, "integer") . " ";
@@ -433,7 +433,7 @@ class ilUserQuery
             $count_query .= $add;
             $where = " AND";
         }
-        
+
         if ($this->user_folder) {
             $add = $where . " " . $ilDB->in('usr_data.time_limit_owner', $this->user_folder, false, 'integer');
             $query .= $add;
@@ -457,7 +457,7 @@ class ilUserQuery
                     $query .= " ORDER BY usr_data.active ASC, usr_data.time_limit_unlimited ASC, usr_data.time_limit_until ASC";
                 }
                 break;
-                
+
             case "online_time":
                 if ($this->order_dir === "desc") {
                     $query .= " ORDER BY ut_online.online_time DESC";
@@ -465,7 +465,7 @@ class ilUserQuery
                     $query .= " ORDER BY ut_online.online_time ASC";
                 }
                 break;
-                
+
             default:
                 if ($this->order_dir !== "asc" && $this->order_dir !== "desc") {
                     $this->order_dir = "asc";
@@ -495,18 +495,18 @@ class ilUserQuery
 
         $offset = $this->offset;
         $limit = $this->limit;
-        
+
         // #9866: validate offset against rowcount
         if ($offset >= $cnt) {
             $offset = 0;
         }
-        
+
         $ilDB->setLimit($limit, $offset);
-        
+
         if (count($multi_fields)) {
             $usr_ids = array();
         }
-        
+
         // set query
         $set = $ilDB->query($query);
         $result = array();
@@ -534,8 +534,8 @@ class ilUserQuery
         }
         return array("cnt" => $cnt, "set" => $result);
     }
-    
-    
+
+
     /**
      * Get data for user administration list.
      * @deprecated
@@ -557,7 +557,7 @@ class ilUserQuery
         array $a_user_filter = null,
         string $a_first_letter = "",
         string $a_authentication_filter = ""
-    ) : array {
+    ): array {
         $query = new ilUserQuery();
         $query->setOrderField($a_order_field);
         $query->setOrderDirection($a_order_dir);

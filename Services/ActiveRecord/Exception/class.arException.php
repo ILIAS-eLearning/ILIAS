@@ -66,7 +66,7 @@ class arException extends ilException
         parent::__construct($this->message, $this->code);
     }
 
-    protected function assignMessageToCode() : void
+    protected function assignMessageToCode(): void
     {
         $this->message = 'ActiveRecord Exeption: ' . self::$message_strings[$this->code] . $this->additional_info;
     }

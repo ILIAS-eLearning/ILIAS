@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -25,23 +27,23 @@ interface ilSamlAuth
     /**
      * @return string
      */
-    public function getAuthId() : string;
+    public function getAuthId(): string;
 
     /**
      * Protect a script resource with a SAML auth.
      */
-    public function protectResource() : void;
+    public function protectResource(): void;
 
     /**
      * @param string $key
      * @param mixed $value
      */
-    public function storeParam(string $key, $value) : void;
+    public function storeParam(string $key, $value): void;
 
     /**
      * @return bool
      */
-    public function isAuthenticated() : bool;
+    public function isAuthenticated(): bool;
 
     /**
      * @param string $key
@@ -58,20 +60,20 @@ interface ilSamlAuth
     /**
      * @return array
      */
-    public function getAttributes() : array;
+    public function getAttributes(): array;
 
     /**
      * @param string $returnUrl
      */
-    public function logout(string $returnUrl = '') : void;
+    public function logout(string $returnUrl = ''): void;
 
     /**
      * @return ilSamlIdpDiscovery
      */
-    public function getIdpDiscovery() : ilSamlIdpDiscovery;
+    public function getIdpDiscovery(): ilSamlIdpDiscovery;
 
     /**
      * @return array
      */
-    public function getAuthDataArray() : array;
+    public function getAuthDataArray(): array;
 }

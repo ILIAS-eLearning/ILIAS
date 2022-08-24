@@ -29,18 +29,18 @@ class ilSurveyCodesEditTableGUI extends ilTable2GUI
 
         $lng = $DIC->language();
         $ilCtrl = $DIC->ctrl();
-        
+
         parent::__construct($a_parent_obj, $a_parent_cmd);
-    
+
         $this->lng = $lng;
         $this->ctrl = $ilCtrl;
-        
+
         $this->addColumn($this->lng->txt("survey_code"), 'code', '');
         $this->addColumn($this->lng->txt("email"), 'email', '');
         $this->addColumn($this->lng->txt("lastname"), 'last_name', '');
         $this->addColumn($this->lng->txt("firstname"), 'first_name', '');
         $this->addColumn($this->lng->txt("mail_sent_short"), 'sent', '');
-        
+
         $this->setRowTemplate("tpl.il_svy_svy_codes_edit_row.html", "Modules/Survey");
 
         $this->addCommandButton('updateCodes', $this->lng->txt('save'));
@@ -52,10 +52,10 @@ class ilSurveyCodesEditTableGUI extends ilTable2GUI
         $this->setDefaultOrderDirection("asc");
     }
 
-    protected function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set): void
     {
         $this->tpl->setVariable('ID', $a_set["id"]);
-        $this->tpl->setVariable("SENT", ($a_set['sent']) ?  ' checked="checked"' : '');
+        $this->tpl->setVariable("SENT", ($a_set['sent']) ? ' checked="checked"' : '');
         $this->tpl->setVariable("CODE", $a_set['code']);
         $this->tpl->setVariable("EMAIL", $a_set['email']);
         $this->tpl->setVariable("LAST_NAME", $a_set['last_name']);

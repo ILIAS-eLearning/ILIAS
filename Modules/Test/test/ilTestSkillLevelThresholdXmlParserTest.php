@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /* Copyright (c) 1998-2020 ILIAS open source, Extended GPL, see docs/LICENSE */
 
@@ -10,19 +12,19 @@ class ilTestSkillLevelThresholdXmlParserTest extends ilTestBaseTestCase
 {
     private ilTestSkillLevelThresholdXmlParser $testObj;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         parent::setUp();
 
         $this->testObj = new ilTestSkillLevelThresholdXmlParser();
     }
 
-    public function test_instantiateObject_shouldReturnInstance() : void
+    public function test_instantiateObject_shouldReturnInstance(): void
     {
         $this->assertInstanceOf(ilTestSkillLevelThresholdXmlParser::class, $this->testObj);
     }
 
-    public function testParsingActive() : void
+    public function testParsingActive(): void
     {
         $this->testObj->setParsingActive(false);
         $this->assertFalse($this->testObj->isParsingActive());
@@ -31,7 +33,7 @@ class ilTestSkillLevelThresholdXmlParserTest extends ilTestBaseTestCase
         $this->assertTrue($this->testObj->isParsingActive());
     }
 
-    public function testInitSkillLevelThresholdImportList() : void
+    public function testInitSkillLevelThresholdImportList(): void
     {
         $this->addGlobal_ilDB();
         $this->testObj->initSkillLevelThresholdImportList();
@@ -41,19 +43,19 @@ class ilTestSkillLevelThresholdXmlParserTest extends ilTestBaseTestCase
         );
     }
 
-    public function testCurSkillBaseId() : void
+    public function testCurSkillBaseId(): void
     {
         $this->testObj->setCurSkillBaseId(12);
         $this->assertEquals(12, $this->testObj->getCurSkillBaseId());
     }
 
-    public function testCurSkillTrefId() : void
+    public function testCurSkillTrefId(): void
     {
         $this->testObj->setCurSkillTrefId(12);
         $this->assertEquals(12, $this->testObj->getCurSkillTrefId());
     }
 
-    public function testCurSkillLevelThreshold() : void
+    public function testCurSkillLevelThreshold(): void
     {
         $mock = $this->createMock(ilTestSkillLevelThresholdImport::class);
         $this->testObj->setCurSkillLevelThreshold($mock);

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -21,7 +23,7 @@ use PHPUnit\Framework\TestCase;
 
 class ilQTIRespconditionTest extends TestCase
 {
-    public function testConstruct() : void
+    public function testConstruct(): void
     {
         $this->assertInstanceOf(ilQTIRespcondition::class, new ilQTIRespcondition());
     }
@@ -29,28 +31,28 @@ class ilQTIRespconditionTest extends TestCase
     /**
      * @dataProvider continues
      */
-    public function testSetGetContinue(string $input, ?string $expected) : void
+    public function testSetGetContinue(string $input, ?string $expected): void
     {
         $instance = new ilQTIRespcondition();
         $instance->setContinue($input);
         $this->assertEquals($expected, $instance->getContinue());
     }
 
-    public function testSetGetTitle() : void
+    public function testSetGetTitle(): void
     {
         $instance = new ilQTIRespcondition();
         $instance->setTitle('Some input.');
         $this->assertEquals('Some input.', $instance->getTitle());
     }
 
-    public function testSetGetComment() : void
+    public function testSetGetComment(): void
     {
         $instance = new ilQTIRespcondition();
         $instance->setComment('Some input.');
         $this->assertEquals('Some input.', $instance->getComment());
     }
 
-    public function continues() : array
+    public function continues(): array
     {
         class_exists(ilQTIRespcondition::class); // Force autoload to define the constants.
         return [

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -49,7 +51,7 @@ class ilLTIConsumerResult
     /**
      * Get a result by id
      */
-    public static function getById(int $a_id) : ?ilLTIConsumerResult
+    public static function getById(int $a_id): ?ilLTIConsumerResult
     {
         global $DIC;
 
@@ -58,7 +60,7 @@ class ilLTIConsumerResult
 
         $res = $DIC->database()->query($query);
         if ($row = $DIC->database()->fetchAssoc($res)) {
-            $resObj = new ilLTIConsumerResult;
+            $resObj = new ilLTIConsumerResult();
             $resObj->fillData($row);
             return $resObj;
         } else {
@@ -70,7 +72,7 @@ class ilLTIConsumerResult
      * Get a result by object and user key
      * @return ilLTIConsumerResult
      */
-    public static function getByKeys(int $a_obj_id, int $a_usr_id, ?bool $a_create = false) : ?ilLTIConsumerResult
+    public static function getByKeys(int $a_obj_id, int $a_usr_id, ?bool $a_create = false): ?ilLTIConsumerResult
     {
         global $DIC;
 
@@ -80,11 +82,11 @@ class ilLTIConsumerResult
 
         $res = $DIC->database()->query($query);
         if ($row = $DIC->database()->fetchAssoc($res)) {
-            $resObj = new ilLTIConsumerResult;
+            $resObj = new ilLTIConsumerResult();
             $resObj->fillData($row);
             return $resObj;
         } elseif ($a_create) {
-            $resObj = new ilLTIConsumerResult;
+            $resObj = new ilLTIConsumerResult();
             $resObj->obj_id = $a_obj_id;
             $resObj->usr_id = $a_usr_id;
             $resObj->result = null;
@@ -99,7 +101,7 @@ class ilLTIConsumerResult
      * Fill the properties with data from an array
      * @param array assoc data
      */
-    protected function fillData(array $data) : void
+    protected function fillData(array $data): void
     {
         $this->id = (int) $data['id'];
         $this->obj_id = (int) $data['obj_id'];
@@ -110,7 +112,7 @@ class ilLTIConsumerResult
     /**
      * Save a result object
      */
-    public function save() : bool
+    public function save(): bool
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
 
@@ -133,49 +135,49 @@ class ilLTIConsumerResult
         );
         return true;
     }
-    
-    public function getId() : int
+
+    public function getId(): int
     {
         return $this->id;
     }
-    
-    public function getObjId() : int
+
+    public function getObjId(): int
     {
         return $this->obj_id;
     }
-    
-    public function getUsrId() : int
+
+    public function getUsrId(): int
     {
         return $this->usr_id;
     }
-    
-    public function getResult() : ?float
+
+    public function getResult(): ?float
     {
         return $this->result;
     }
-    
+
     /**
      * @param $objId
      * @return ilLTIConsumerResult[]
      */
-    public static function getResultsForObject(int $objId) : array
+    public static function getResultsForObject(int $objId): array
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
-        
+
         $query = 'SELECT * FROM lti_consumer_results'
             . ' WHERE obj_id = ' . $DIC->database()->quote($objId, 'integer');
-        
+
         $res = $DIC->database()->query($query);
-        
+
         $results = [];
-        
+
         if ($row = $DIC->database()->fetchAssoc($res)) {
-            $resObj = new ilLTIConsumerResult;
+            $resObj = new ilLTIConsumerResult();
             $resObj->fillData($row);
-            
+
             $results[$resObj->getUsrId()] = $resObj;
         }
-        
+
         return $results;
     }
 }

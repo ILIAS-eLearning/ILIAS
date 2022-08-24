@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace ILIAS\ResourceStorage\Preloader;
 
@@ -50,7 +52,7 @@ class DBRepositoryPreloader extends StandardRepositoryPreloader implements Repos
         );
     }
 
-    public function preload(array $identification_strings) : void
+    public function preload(array $identification_strings): void
     {
         $requested = array_diff($identification_strings, $this->preloaded);
         if (count($requested) === 0) {

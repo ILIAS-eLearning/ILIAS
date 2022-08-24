@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /* Copyright (c) 2021 ILIAS open source, Extended GPL, see docs/LICENSE */
 
@@ -10,32 +12,32 @@ class ilComponentInfoDefinitionProcessor implements ilComponentDefinitionProcess
     protected ?string $component;
     protected ?string $type;
 
-    public function getData() : array
+    public function getData(): array
     {
         return $this->data;
     }
 
-    public function purge() : void
+    public function purge(): void
     {
         $this->data = [];
         $this->slots = [];
     }
 
-    public function beginComponent(string $component, string $type) : void
+    public function beginComponent(string $component, string $type): void
     {
         $this->component_id = null;
         $this->component = $component;
         $this->type = $type;
     }
 
-    public function endComponent(string $component, string $type) : void
+    public function endComponent(string $component, string $type): void
     {
         $this->component_id = null;
         $this->component = null;
         $this->type = null;
     }
 
-    public function beginTag(string $name, array $attributes) : void
+    public function beginTag(string $name, array $attributes): void
     {
         if ($name === "module") {
             $type = "Modules";
@@ -83,7 +85,7 @@ class ilComponentInfoDefinitionProcessor implements ilComponentDefinitionProcess
         }
     }
 
-    public function endTag(string $name) : void
+    public function endTag(string $name): void
     {
     }
 }

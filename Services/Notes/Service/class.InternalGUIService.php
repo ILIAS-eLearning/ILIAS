@@ -1,4 +1,6 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -42,7 +44,7 @@ class InternalGUIService
         $this->initGUIServices($DIC);
     }
 
-    public function standardRequest() : StandardGUIRequest
+    public function standardRequest(): StandardGUIRequest
     {
         return new StandardGUIRequest(
             $this->http(),
@@ -53,7 +55,7 @@ class InternalGUIService
     public function initJavascript(
         string $ajax_url = "",
         ?\ilGlobalTemplateInterface $main_tpl = null
-    ) : void {
+    ): void {
         $tpl = $main_tpl ?? $this->mainTemplate();
         $lng = $this->domain_service->lng();
         $ctrl = $this->ctrl();
@@ -108,7 +110,7 @@ class InternalGUIService
         string $cmd,
         bool $activated = true,
         bool $expanded = true
-    ) : FilterAdapterGUI {
+    ): FilterAdapterGUI {
         return new FilterAdapterGUI(
             $filter_id,
             $class_path,
@@ -118,7 +120,7 @@ class InternalGUIService
         );
     }
 
-    public function print() : PrintProcessGUI
+    public function print(): PrintProcessGUI
     {
         $provider = new PrintViewProvider();
         return new PrintProcessGUI(

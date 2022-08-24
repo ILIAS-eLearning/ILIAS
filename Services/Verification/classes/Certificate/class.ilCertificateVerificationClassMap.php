@@ -32,14 +32,14 @@ class ilCertificateVerificationClassMap
      */
     public function getVerificationTypeByType(
         string $type
-    ) : string {
+    ): string {
         if (false === $this->typeExistsInMap($type)) {
             throw new ilException('The given type ' . $type . 'is not mapped as a verification type on the class map');
         }
         return $this->map[$type];
     }
 
-    private function typeExistsInMap(string $type) : bool
+    private function typeExistsInMap(string $type): bool
     {
         return array_key_exists($type, $this->map);
     }

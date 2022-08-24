@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * See bug discussion 24472
  *
@@ -52,7 +54,7 @@ class ilObjectGUIFactory
      * @throws ilObjectException
      * @throws ilObjectNotFoundException
      */
-    public function getInstanceByRefId(int $ref_id) : ilObject
+    public function getInstanceByRefId(int $ref_id): ilObject
     {
         // check reference id
         if (!isset($ref_id)) {

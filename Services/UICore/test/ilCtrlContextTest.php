@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /* Copyright (c) 2021 Thibeau Fuhrer <thf@studer-raimann.ch> Extended GPL, see docs/LICENSE */
 
@@ -35,7 +37,7 @@ class ilCtrlContextTest extends TestCase
     /**
      * @inheritDoc
      */
-    protected function setUp() : void
+    protected function setUp(): void
     {
         $this->values = [];
         $this->refinery = $this->createMock(Refinery::class);
@@ -53,9 +55,9 @@ class ilCtrlContextTest extends TestCase
      * @param string|null $cid_path
      * @return ilCtrlPathInterface
      */
-    protected function getPath(string $cid_path = null) : ilCtrlPathInterface
+    protected function getPath(string $cid_path = null): ilCtrlPathInterface
     {
-        return new class($cid_path) extends ilCtrlAbstractPath {
+        return new class ($cid_path) extends ilCtrlAbstractPath {
             // override parent constructor, so we don't
             // have to mock the ilCtrlStructure.
             public function __construct(string $cid_path = null)
@@ -69,11 +71,11 @@ class ilCtrlContextTest extends TestCase
      * @param array|null $request_values
      * @return ilCtrlContextInterface
      */
-    protected function getContextWithManualAdoption(array $request_values = null) : ilCtrlContextInterface
+    protected function getContextWithManualAdoption(array $request_values = null): ilCtrlContextInterface
     {
         $this->values = $request_values ?? [];
 
-        return new class($this->factory, $this->request, $this->refinery) extends ilCtrlContext {
+        return new class ($this->factory, $this->request, $this->refinery) extends ilCtrlContext {
             // override parent constructor, so the request values
             // are not adopted immediately.
             public function __construct(
@@ -89,14 +91,14 @@ class ilCtrlContextTest extends TestCase
 
             // provide a public method that manually adopts the
             // request values.
-            public function adopt() : void
+            public function adopt(): void
             {
                 $this->adoptRequestParameters();
             }
         };
     }
 
-    public function testContextPropertyAdoptionByRequest() : void
+    public function testContextPropertyAdoptionByRequest(): void
     {
         $expected_cid_path = 'test_cid_path';
         $this->factory
@@ -143,7 +145,7 @@ class ilCtrlContextTest extends TestCase
         $this->assertEquals('test_cid_path', $context->getPath()->getCidPath());
     }
 
-    public function testContextAsyncPropertyAdoptionByRequest() : void
+    public function testContextAsyncPropertyAdoptionByRequest(): void
     {
         $context = $this->getContextWithManualAdoption();
         $this->assertFalse($context->isAsync());
@@ -161,7 +163,7 @@ class ilCtrlContextTest extends TestCase
         $this->assertTrue($context->isAsync());
     }
 
-    public function testContextBaseClassPropertyAdoptionByRequest() : void
+    public function testContextBaseClassPropertyAdoptionByRequest(): void
     {
         $expected_cid_path = '0';
         $this->factory
@@ -178,7 +180,7 @@ class ilCtrlContextTest extends TestCase
         $this->assertEquals($expected_cid_path, $context->getPath()->getCidPath());
     }
 
-    public function testContextPropertyAdoptionWithoutCidPathAndBaseClass() : void
+    public function testContextPropertyAdoptionWithoutCidPathAndBaseClass(): void
     {
         $context = $this->getContextWithManualAdoption();
         $this->assertNull($context->getBaseClass());
@@ -190,7 +192,7 @@ class ilCtrlContextTest extends TestCase
         $this->assertNull($context->getPath()->getCidPath());
     }
 
-    public function testContextPropertiesThatCantBeAdopted() : void
+    public function testContextPropertiesThatCantBeAdopted(): void
     {
         $context = new ilCtrlContext($this->factory, $this->request, $this->refinery);
 
@@ -208,7 +210,7 @@ class ilCtrlContextTest extends TestCase
         $this->assertEquals('test_script', $context->getTargetScript());
     }
 
-    public function testContextCommandClassPropertyWithoutBaseClass() : void
+    public function testContextCommandClassPropertyWithoutBaseClass(): void
     {
         $context = new ilCtrlContext($this->factory, $this->request, $this->refinery);
         $this->factory
@@ -228,7 +230,7 @@ class ilCtrlContextTest extends TestCase
         $this->assertEquals(ilCtrlBaseClass1TestGUI::class, $context->getCmdClass());
     }
 
-    public function testContextCommandClassPropertyWithBaseClass() : void
+    public function testContextCommandClassPropertyWithBaseClass(): void
     {
         $context = new ilCtrlContext($this->factory, $this->request, $this->refinery);
         $this->factory
@@ -251,7 +253,7 @@ class ilCtrlContextTest extends TestCase
         $this->assertEquals(ilCtrlBaseClass1TestGUI::class, $context->getCmdClass());
     }
 
-    public function testContextPathProgressionWhenSettingClasses() : void
+    public function testContextPathProgressionWhenSettingClasses(): void
     {
         // for this test an actual instance of the path factory
         // is required, therefore we have to creat the test ctrl

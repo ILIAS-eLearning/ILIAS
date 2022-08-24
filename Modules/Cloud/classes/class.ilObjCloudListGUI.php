@@ -1,4 +1,6 @@
-<?php declare(strict_types=0);
+<?php
+
+declare(strict_types=0);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,7 +19,7 @@
 
 class ilObjCloudListGUI extends ilObjectListGUI
 {
-    public function init() : void
+    public function init(): void
     {
         // Only delete remains possible
         $this->delete_enabled = true;
@@ -38,7 +40,7 @@ class ilObjCloudListGUI extends ilObjectListGUI
         $this->gui_class_name = 'ilObjCloudGUI';
     }
 
-    public function getProperties() : array
+    public function getProperties(): array
     {
         return [[
             'alert' => true,

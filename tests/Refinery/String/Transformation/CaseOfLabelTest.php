@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -35,7 +37,7 @@ class CaseOfLabelTest extends TestCase
     private ?Transformation $case_of_label_if_possible;
     private ?Refinery $f;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         $dataFactory = new DataFactory();
 
@@ -45,20 +47,20 @@ class CaseOfLabelTest extends TestCase
         $this->case_of_label_if_possible = $this->f->string()->caseOfLabel(self::LANGUAGE_KEY);
     }
 
-    protected function tearDown() : void
+    protected function tearDown(): void
     {
         $this->f = null;
         $this->case_of_label_if_possible = null;
     }
 
-    public function testTransform1() : void
+    public function testTransform1(): void
     {
         $str = $this->case_of_label_if_possible->transform(self::TEST_STRING_1);
 
         $this->assertEquals(self::EXPECTED_RESULT_TEST_STRING_1, $str);
     }
 
-    public function testTransform2() : void
+    public function testTransform2(): void
     {
         $str = $this->case_of_label_if_possible->transform(self::TEST_STRING_2);
 
@@ -66,14 +68,14 @@ class CaseOfLabelTest extends TestCase
     }
 
 
-    public function testTransform3() : void
+    public function testTransform3(): void
     {
         $str = $this->case_of_label_if_possible->transform(self::TEST_STRING_3);
 
         $this->assertEquals(self::EXPECTED_RESULT_TEST_STRING_3, $str);
     }
 
-    public function testTransformFails() : void
+    public function testTransformFails(): void
     {
         $raised = false;
         try {
@@ -103,7 +105,7 @@ class CaseOfLabelTest extends TestCase
         $this->assertTrue($raised);
     }
 
-    public function testInvoke() : void
+    public function testInvoke(): void
     {
         $this->case_of_label_if_possible = $this->f->string()->caseOfLabel(self::LANGUAGE_KEY);
 
@@ -112,7 +114,7 @@ class CaseOfLabelTest extends TestCase
         $this->assertEquals(self::EXPECTED_RESULT_TEST_STRING_1, $str);
     }
 
-    public function testInvokeFails() : void
+    public function testInvokeFails(): void
     {
         $this->case_of_label_if_possible = $this->f->string()->caseOfLabel(self::LANGUAGE_KEY);
 
@@ -144,7 +146,7 @@ class CaseOfLabelTest extends TestCase
         $this->assertTrue($raised);
     }
 
-    public function testApplyToWithValidValueReturnsAnOkResult() : void
+    public function testApplyToWithValidValueReturnsAnOkResult(): void
     {
         $factory = new DataFactory();
 
@@ -156,7 +158,7 @@ class CaseOfLabelTest extends TestCase
         $this->assertFalse($resultObject->isError());
     }
 
-    public function testApplyToWithInvalidValueWillLeadToErrorResult() : void
+    public function testApplyToWithInvalidValueWillLeadToErrorResult(): void
     {
         $factory = new DataFactory();
 
@@ -167,7 +169,7 @@ class CaseOfLabelTest extends TestCase
         $this->assertTrue($resultObject->isError());
     }
 
-    public function testUnknownLanguageKey() : void
+    public function testUnknownLanguageKey(): void
     {
         $this->case_of_label_if_possible = $this->f->string()->caseOfLabel(self::SENSELESS_LANGUAGE_KEY);
 

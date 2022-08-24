@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -25,7 +27,7 @@ class ilEvaluationAllTableGUITest extends ilTestBaseTestCase
     private ilEvaluationAllTableGUI $tableGui;
     private ilObjTestGUI $parentObj_mock;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -60,12 +62,12 @@ class ilEvaluationAllTableGUITest extends ilTestBaseTestCase
         $this->tableGui = new ilEvaluationAllTableGUI($this->parentObj_mock, "");
     }
 
-    public function test_instantiateObject_shouldReturnInstance() : void
+    public function test_instantiateObject_shouldReturnInstance(): void
     {
         $this->assertInstanceOf(ilEvaluationAllTableGUI::class, $this->tableGui);
     }
 
-    public function testNumericOrdering() : void
+    public function testNumericOrdering(): void
     {
         $tableGui = new ilEvaluationAllTableGUI(
             $this->parentObj_mock,
@@ -168,7 +170,7 @@ class ilEvaluationAllTableGUITest extends ilTestBaseTestCase
         $this->assertEquals([], $tableGui->getSelectableColumns());
     }
 
-    public function testGetSelectedColumns() : void
+    public function testGetSelectedColumns(): void
     {
         $expected = [];
         $this->assertEquals($expected, $this->tableGui->getSelectedColumns());

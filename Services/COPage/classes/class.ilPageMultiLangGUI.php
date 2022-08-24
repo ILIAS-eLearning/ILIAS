@@ -50,16 +50,16 @@ class ilPageMultiLangGUI
         // object translation
         $this->ot = ilObjectTranslation::getInstance($a_parent_id);
     }
-    
+
     /**
      * Execute command
      */
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         $ilCtrl = $this->ctrl;
-        
+
         $next_class = $ilCtrl->getNextClass();
-        
+
         switch ($next_class) {
             default:
                 $cmd = $ilCtrl->getCmd("settings");
@@ -75,15 +75,15 @@ class ilPageMultiLangGUI
 
     public function getMultiLangInfo(
         string $a_page_lang = "-"
-    ) : string {
+    ): string {
         $lng = $this->lng;
-        
+
         if ($a_page_lang == "") {
             $a_page_lang = "-";
         }
-        
+
         $lng->loadLanguageModule("meta");
-        
+
         $tpl = new ilTemplate("tpl.page_multi_lang_info.html", true, true, "Services/COPage");
         $tpl->setVariable("TXT_MASTER_LANG", $lng->txt("obj_master_lang"));
         $tpl->setVariable("VAL_ML", $lng->txt("meta_l_" . $this->ot->getMasterLanguage()));

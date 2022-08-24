@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -23,17 +25,17 @@ class ilAuthModeDetermination
 {
     public const TYPE_MANUAL = 0;
     public const TYPE_AUTOMATIC = 1;
-    
+
     private static ?ilAuthModeDetermination $instance = null;
-    
+
     private ilLogger $logger;
-    
+
     private ilSetting $settings;
     private ilSetting $commonSettings;
-    
+
     private int $kind = self::TYPE_MANUAL;
     private array $position = [];
-    
+
 
     /**
      * Constructor (Singleton)
@@ -44,7 +46,7 @@ class ilAuthModeDetermination
     private function __construct()
     {
         global $DIC;
-      
+
         $this->logger = $DIC->logger()->auth();
 
         $this->commonSettings = $DIC->settings();
@@ -52,11 +54,11 @@ class ilAuthModeDetermination
         $this->settings = new ilSetting("auth_mode_determination");
         $this->read();
     }
-    
+
     /**
      * Get instance
      */
-    public static function _getInstance() : ilAuthModeDetermination
+    public static function _getInstance(): ilAuthModeDetermination
     {
         if (self::$instance) {
             return self::$instance;
@@ -67,7 +69,7 @@ class ilAuthModeDetermination
     /**
      * is manual selection
      */
-    public function isManualSelection() : bool
+    public function isManualSelection(): bool
     {
         return $this->kind === self::TYPE_MANUAL;
     }
@@ -75,33 +77,33 @@ class ilAuthModeDetermination
     /**
      * get kind
      */
-    public function getKind() : int
+    public function getKind(): int
     {
         return $this->kind;
     }
-    
+
     /**
      * set kind of determination
      *
      * @param int TYPE_MANUAL or TYPE_DETERMINATION
      *
      */
-    public function setKind(int $a_kind) : void
+    public function setKind(int $a_kind): void
     {
         // TODO check value range
         $this->kind = $a_kind;
     }
-    
+
     /**
      * get auth mode sequence
      */
-    public function getAuthModeSequence(string $a_username = '') : array
+    public function getAuthModeSequence(string $a_username = ''): array
     {
         if ($a_username === '') {
             return $this->position ?: array();
         }
         $sorted = array();
-        
+
         foreach ($this->position as $auth_key) {
             $sid = ilLDAPServer::getServerIdByAuthMode((string) $auth_key);
             if ($sid) {
@@ -121,49 +123,49 @@ class ilAuthModeDetermination
             }
             $sorted[] = $auth_key;
         }
-        
+
         return $sorted;
     }
-    
+
     /**
      * get number of auth modes
      */
-    public function getCountActiveAuthModes() : int
+    public function getCountActiveAuthModes(): int
     {
         return count($this->position);
     }
-    
+
     /**
      * set auth mode sequence
      *
      * @param array position => AUTH_MODE
      *
      */
-    public function setAuthModeSequence(array $a_pos) : void
+    public function setAuthModeSequence(array $a_pos): void
     {
         $this->position = $a_pos;
     }
-    
+
     /**
      * Save settings
      */
-    public function save() : void
+    public function save(): void
     {
         $this->settings->deleteAll();
-        
+
         $this->settings->set('kind', (string) $this->getKind());
-        
+
         $counter = 0;
         foreach ($this->position as $auth_mode) {
             $this->settings->set((string) $counter++, (string) $auth_mode);
         }
     }
-    
-    
+
+
     /**
      * Read settings
      */
-    private function read() : void
+    private function read(): void
     {
         $this->kind = (int) $this->settings->get('kind', (string) self::TYPE_MANUAL);
 

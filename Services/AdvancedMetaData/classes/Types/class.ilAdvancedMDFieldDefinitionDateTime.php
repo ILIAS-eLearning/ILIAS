@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -13,7 +15,7 @@ class ilAdvancedMDFieldDefinitionDateTime extends ilAdvancedMDFieldDefinition
     // generic types
     //
 
-    public function getType() : int
+    public function getType(): int
     {
         return self::TYPE_DATETIME;
     }
@@ -23,7 +25,7 @@ class ilAdvancedMDFieldDefinitionDateTime extends ilAdvancedMDFieldDefinition
     // ADT
     //
 
-    protected function initADTDefinition() : ilADTDefinition
+    protected function initADTDefinition(): ilADTDefinition
     {
         return ilADTFactory::getInstance()->getDefinitionInstanceByType("DateTime");
     }
@@ -33,17 +35,17 @@ class ilAdvancedMDFieldDefinitionDateTime extends ilAdvancedMDFieldDefinition
     // import/export
     //
 
-    public function getValueForXML(ilADT $element) : string
+    public function getValueForXML(ilADT $element): string
     {
         return $element->getDate()->get(IL_CAL_DATETIME);
     }
 
-    public function importValueFromXML(string $a_cdata) : void
+    public function importValueFromXML(string $a_cdata): void
     {
         $this->getADT()->setDate(new ilDate($a_cdata, IL_CAL_DATETIME));
     }
 
-    public function importFromECS(string $a_ecs_type, $a_value, string $a_sub_id) : bool
+    public function importFromECS(string $a_ecs_type, $a_value, string $a_sub_id): bool
     {
         $value = '';
         switch ($a_ecs_type) {
@@ -64,7 +66,7 @@ class ilAdvancedMDFieldDefinitionDateTime extends ilAdvancedMDFieldDefinition
     /**
      * @inheritdoc
      */
-    public function getLuceneSearchString($a_value) : string
+    public function getLuceneSearchString($a_value): string
     {
         // see ilADTDateTimeSearchBridgeRange::importFromPost();
 

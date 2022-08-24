@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\UI\Component\Divider;
 
 /**
@@ -48,7 +50,7 @@ interface Factory
      * ---
      * @return  \ILIAS\UI\Component\Divider\Horizontal
      */
-    public function horizontal() : Horizontal;
+    public function horizontal(): Horizontal;
 
     /**
      * ---
@@ -71,5 +73,5 @@ interface Factory
      * ---
      * @return  \ILIAS\UI\Component\Divider\Vertical
      */
-    public function vertical() : Vertical;
+    public function vertical(): Vertical;
 }

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,24 +17,24 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 require_once(__DIR__ . "/../../../../libs/composer/vendor/autoload.php");
 require_once(__DIR__ . "/../../Base.php");
 
-use \ILIAS\UI\Component as C;
-use \ILIAS\UI\Implementation as I;
+use ILIAS\UI\Component as C;
+use ILIAS\UI\Implementation as I;
 
 /**
  * Test listing panels
  */
 class PanelListingTest extends ILIAS_UI_TestBase
 {
-    public function getFactory() : C\Panel\Listing\Factory
+    public function getFactory(): C\Panel\Listing\Factory
     {
         return new I\Component\Panel\Listing\Factory();
     }
 
-    public function test_implements_factory_interface() : void
+    public function test_implements_factory_interface(): void
     {
         $f = $this->getFactory();
 
@@ -49,7 +51,7 @@ class PanelListingTest extends ILIAS_UI_TestBase
         $this->assertInstanceOf("ILIAS\\UI\\Component\\Panel\\Listing\\Standard", $std_list);
     }
 
-    public function test_get_title_get_groups() : void
+    public function test_get_title_get_groups(): void
     {
         $f = $this->getFactory();
 
@@ -69,7 +71,7 @@ class PanelListingTest extends ILIAS_UI_TestBase
         $this->assertEquals($groups, $c->getItemGroups());
     }
 
-    public function test_with_actions() : void
+    public function test_with_actions(): void
     {
         $f = $this->getFactory();
 
@@ -86,7 +88,7 @@ class PanelListingTest extends ILIAS_UI_TestBase
         $this->assertEquals($actions, $c->getActions());
     }
 
-    public function test_render_base() : void
+    public function test_render_base(): void
     {
         $f = $this->getFactory();
         $r = $this->getDefaultRenderer();
@@ -133,7 +135,7 @@ EOT;
         );
     }
 
-    public function test_render_with_actions() : void
+    public function test_render_with_actions(): void
     {
         $f = $this->getFactory();
         $r = $this->getDefaultRenderer();

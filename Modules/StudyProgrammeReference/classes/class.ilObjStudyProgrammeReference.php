@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -33,7 +35,7 @@ class ilObjStudyProgrammeReference extends ilContainerReference
      *
      * Calls nodeInserted on parent object if parent object is a program.
      */
-    public function putInTree(int $a_parent_ref) : void
+    public function putInTree(int $a_parent_ref): void
     {
         parent::putInTree($a_parent_ref);
 
@@ -43,7 +45,7 @@ class ilObjStudyProgrammeReference extends ilContainerReference
         }
     }
 
-    public function getParent() : ?ilObjStudyProgramme
+    public function getParent(): ?ilObjStudyProgramme
     {
         $parent_data = $this->tree->getParentNodeData($this->getRefId());
         if ($parent_data["type"] === "prg" && !$parent_data["deleted"]) {
@@ -52,7 +54,7 @@ class ilObjStudyProgrammeReference extends ilContainerReference
         return null;
     }
 
-    public function getReferencedObject() : ilObjStudyProgramme
+    public function getReferencedObject(): ilObjStudyProgramme
     {
         if (is_null($this->referenced_object)) {
             $this->referenced_object = ilObjStudyProgramme::getInstanceByRefId($this->target_ref_id);

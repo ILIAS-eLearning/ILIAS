@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -20,12 +22,12 @@ class ilCmiXapiDatabaseUpdateSteps implements ilDatabaseUpdateSteps
 {
     protected ilDBInterface $db;
 
-    public function prepare(ilDBInterface $db) : void
+    public function prepare(ilDBInterface $db): void
     {
         $this->db = $db;
     }
 
-    public function step_1() : void
+    public function step_1(): void
     {
         if (!$this->db->tableColumnExists('cmix_users', 'registration')) {
             $this->db->addTableColumn('cmix_users', 'registration', array(
@@ -37,7 +39,7 @@ class ilCmiXapiDatabaseUpdateSteps implements ilDatabaseUpdateSteps
         }
     }
 
-    public function step_2() : void
+    public function step_2(): void
     {
         if (!$this->db->tableColumnExists('cmix_settings', 'publisher_id')) {
             $this->db->addTableColumn('cmix_settings', 'publisher_id', array(
@@ -49,7 +51,7 @@ class ilCmiXapiDatabaseUpdateSteps implements ilDatabaseUpdateSteps
         }
     }
 
-    public function step_3() : void
+    public function step_3(): void
     {
         if (!$this->db->tableColumnExists('cmix_settings', 'anonymous_homepage')) {
             $this->db->addTableColumn('cmix_settings', 'anonymous_homepage', array(
@@ -61,7 +63,7 @@ class ilCmiXapiDatabaseUpdateSteps implements ilDatabaseUpdateSteps
         }
     }
 
-    public function step_4() : void
+    public function step_4(): void
     {
         if (!$this->db->tableColumnExists('cmix_settings', 'moveon')) {
             $this->db->addTableColumn('cmix_settings', 'moveon', array(
@@ -73,7 +75,7 @@ class ilCmiXapiDatabaseUpdateSteps implements ilDatabaseUpdateSteps
         }
     }
 
-    public function step_5() : void
+    public function step_5(): void
     {
         if (!$this->db->tableColumnExists('cmix_token', 'cmi5_session')) {
             $this->db->addTableColumn("cmix_token", "cmi5_session", [
@@ -85,7 +87,7 @@ class ilCmiXapiDatabaseUpdateSteps implements ilDatabaseUpdateSteps
         }
     }
 
-    public function step_6() : void
+    public function step_6(): void
     {
         if (!$this->db->tableColumnExists('cmix_token', 'returned_for_cmi5_session')) {
             $this->db->addTableColumn("cmix_token", "returned_for_cmi5_session", [
@@ -97,7 +99,7 @@ class ilCmiXapiDatabaseUpdateSteps implements ilDatabaseUpdateSteps
         }
     }
 
-    public function step_7() : void
+    public function step_7(): void
     {
         if (!$this->db->tableColumnExists('cmix_settings', 'launch_parameters')) {
             $this->db->addTableColumn('cmix_settings', 'launch_parameters', array(
@@ -109,7 +111,7 @@ class ilCmiXapiDatabaseUpdateSteps implements ilDatabaseUpdateSteps
         }
     }
 
-    public function step_8() : void
+    public function step_8(): void
     {
         if (!$this->db->tableColumnExists('cmix_settings', 'entitlement_key')) {
             $this->db->addTableColumn('cmix_settings', 'entitlement_key', array(
@@ -121,7 +123,7 @@ class ilCmiXapiDatabaseUpdateSteps implements ilDatabaseUpdateSteps
         }
     }
 
-    public function step_9() : void
+    public function step_9(): void
     {
         if (!$this->db->tableColumnExists('cmix_token', 'cmi5_session_data')) {
             $this->db->addTableColumn("cmix_token", "cmi5_session_data", [
@@ -130,7 +132,7 @@ class ilCmiXapiDatabaseUpdateSteps implements ilDatabaseUpdateSteps
         }
     }
 
-    public function step_10() : void
+    public function step_10(): void
     {
         if (!$this->db->tableColumnExists('cmix_users', 'satisfied')) {
             $this->db->addTableColumn('cmix_users', 'satisfied', array(
@@ -142,7 +144,7 @@ class ilCmiXapiDatabaseUpdateSteps implements ilDatabaseUpdateSteps
         }
     }
 
-    public function step_11() : void
+    public function step_11(): void
     {
         if (!$this->db->tableColumnExists('cmix_settings', 'switch_to_review')) {
             $this->db->addTableColumn('cmix_settings', 'switch_to_review', array(

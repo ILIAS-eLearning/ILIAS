@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -26,7 +28,7 @@ class ilMailUserHelper
      * @param int[] $usrIds
      * @return string[]
      */
-    public function getUsernameMapForIds(array $usrIds) : array
+    public function getUsernameMapForIds(array $usrIds): array
     {
         return ilUserUtil::getNamePresentation(
             $usrIds,

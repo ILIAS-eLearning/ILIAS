@@ -41,10 +41,10 @@ class ilGSProviderFactory implements ProviderFactory
      * @var Provider[]
      */
     protected array $all_providers;
-    
+
     protected ilComponentRepository $component_repository;
     protected ilComponentFactory $component_factory;
-    
+
     /**
      * @inheritDoc
      */
@@ -57,8 +57,8 @@ class ilGSProviderFactory implements ProviderFactory
         $this->component_repository = $dic["component.repository"];
         $this->component_factory = $dic["component.factory"];
     }
-    
-    private function initPlugins() : void
+
+    private function initPlugins(): void
     {
         if (!is_array($this->plugin_provider_collections)) {
             $this->plugin_provider_collections = [];
@@ -71,29 +71,29 @@ class ilGSProviderFactory implements ProviderFactory
             }
         }
     }
-    
+
     /**
      * @param array $providers
      */
-    protected function registerInternal(array $providers) : void
+    protected function registerInternal(array $providers): void
     {
         array_walk(
             $providers,
-            function (Provider $item) : void {
+            function (Provider $item): void {
                 $this->all_providers[get_class($item)] = $item;
             }
         );
     }
-    
+
     /**
      * @inheritDoc
      */
-    public function getMainBarProvider() : array
+    public function getMainBarProvider(): array
     {
         $providers = [];
         // Core
         $this->appendCore($providers, StaticMainMenuProvider::class);
-        
+
         // Plugins
         $this->initPlugins();
         foreach ($this->plugin_provider_collections as $collection) {
@@ -102,21 +102,21 @@ class ilGSProviderFactory implements ProviderFactory
                 $providers[] = $provider;
             }
         }
-        
+
         $this->registerInternal($providers);
-        
+
         return $providers;
     }
-    
+
     /**
      * @inheritDoc
      */
-    public function getMetaBarProvider() : array
+    public function getMetaBarProvider(): array
     {
         $providers = [];
         // Core
         $this->appendCore($providers, StaticMetaBarProvider::class);
-        
+
         // Plugins
         $this->initPlugins();
         foreach ($this->plugin_provider_collections as $collection) {
@@ -125,21 +125,21 @@ class ilGSProviderFactory implements ProviderFactory
                 $providers[] = $provider;
             }
         }
-        
+
         $this->registerInternal($providers);
-        
+
         return $providers;
     }
-    
+
     /**
      * @inheritDoc
      */
-    public function getToolProvider() : array
+    public function getToolProvider(): array
     {
         $providers = [];
         // Core
         $this->appendCore($providers, DynamicToolProvider::class);
-        
+
         // Plugins
         $this->initPlugins();
         foreach ($this->plugin_provider_collections as $collection) {
@@ -148,21 +148,21 @@ class ilGSProviderFactory implements ProviderFactory
                 $providers[] = $provider;
             }
         }
-        
+
         $this->registerInternal($providers);
-        
+
         return $providers;
     }
-    
+
     /**
      * @inheritDoc
      */
-    public function getModificationProvider() : array
+    public function getModificationProvider(): array
     {
         $providers = [];
         // Core
         $this->appendCore($providers, ModificationProvider::class);
-        
+
         // Plugins
         $this->initPlugins();
         foreach ($this->plugin_provider_collections as $collection) {
@@ -171,19 +171,19 @@ class ilGSProviderFactory implements ProviderFactory
                 $providers[] = $provider;
             }
         }
-        
+
         return $providers;
     }
-    
+
     /**
      * @inheritDoc
      */
-    public function getNotificationsProvider() : array
+    public function getNotificationsProvider(): array
     {
         $providers = [];
         // Core
         $this->appendCore($providers, NotificationProvider::class);
-        
+
         // Plugins
         $this->initPlugins();
         foreach ($this->plugin_provider_collections as $collection) {
@@ -192,17 +192,17 @@ class ilGSProviderFactory implements ProviderFactory
                 $providers[] = $provider;
             }
         }
-        
+
         $this->registerInternal($providers);
-        
+
         return $providers;
     }
-    
+
     /**
      * @param array  $array_of_providers
      * @param string $interface
      */
-    private function appendCore(array &$array_of_providers, string $interface) : void
+    private function appendCore(array &$array_of_providers, string $interface): void
     {
         foreach ($this->class_loader[$interface] as $class_name) {
             if ($this->isInstanceCreationPossible($class_name)) {
@@ -213,31 +213,31 @@ class ilGSProviderFactory implements ProviderFactory
             }
         }
     }
-    
+
     /**
      * @inheritDoc
      */
-    public function getMainBarItemInformation() : ItemInformation
+    public function getMainBarItemInformation(): ItemInformation
     {
         return $this->main_menu_item_information;
     }
-    
+
     /**
      * @inheritDoc
      */
-    public function getProviderByClassName(string $class_name) : Provider
+    public function getProviderByClassName(string $class_name): Provider
     {
         if (!$this->isInstanceCreationPossible($class_name) || !$this->isRegistered($class_name)) {
             throw new LogicException("the GlobalScreen-Provider $class_name is not available");
         }
-        
+
         return $this->all_providers[$class_name];
     }
-    
+
     /**
      * @inheritDoc
      */
-    public function isInstanceCreationPossible(string $class_name) : bool
+    public function isInstanceCreationPossible(string $class_name): bool
     {
         try {
             return class_exists($class_name);
@@ -245,11 +245,11 @@ class ilGSProviderFactory implements ProviderFactory
             return false;
         }
     }
-    
+
     /**
      * @inheritDoc
      */
-    public function isRegistered(string $class_name) : bool
+    public function isRegistered(string $class_name): bool
     {
         return isset($this->all_providers[$class_name]);
     }

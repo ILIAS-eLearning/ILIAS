@@ -14,7 +14,7 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *********************************************************************/
- 
+
 namespace ILIAS\ResourceStorage\Consumer;
 
 use ILIAS\Filesystem\Stream\FileStream;
@@ -25,5 +25,5 @@ use ILIAS\Filesystem\Stream\FileStream;
  */
 interface StreamConsumer
 {
-    public function getStream() : FileStream;
+    public function getStream(): FileStream;
 }

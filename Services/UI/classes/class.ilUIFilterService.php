@@ -69,7 +69,7 @@ class ilUIFilterService
         array $is_input_initially_rendered,
         bool $is_activated = false,
         bool $is_expanded = false
-    ) : Filter\Standard {
+    ): Filter\Standard {
         $ui = $this->ui->factory();
 
         // write expand, activation, rendered inputs info to session
@@ -127,7 +127,7 @@ class ilUIFilterService
         return $filter;
     }
 
-    public function getData(Filter\Standard $filter) : ?array
+    public function getData(Filter\Standard $filter): ?array
     {
         $filter_data = null;
         if ($filter->isActivated()) {
@@ -145,7 +145,7 @@ class ilUIFilterService
      * @param string $filter_id
      * @param FilterInput[] $inputs
      */
-    protected function writeFilterStatusToSession(string $filter_id, array $inputs) : void
+    protected function writeFilterStatusToSession(string $filter_id, array $inputs): void
     {
         if ($this->request->getFilterCmd() == self::CMD_TOGGLE_ON) {
             $this->handleRendering($filter_id, $inputs);
@@ -178,7 +178,7 @@ class ilUIFilterService
      * @param string $filter_id
      * @param FilterInput[] $inputs
      */
-    protected function handleRendering(string $filter_id, array $inputs) : void
+    protected function handleRendering(string $filter_id, array $inputs): void
     {
         foreach ($inputs as $input_id => $i) {
             if ($this->request->isInputRendered($input_id)) {
@@ -189,7 +189,7 @@ class ilUIFilterService
         }
     }
 
-    protected function handleReset(string $filter_id) : void
+    protected function handleReset(string $filter_id): void
     {
         // clear session, if reset is pressed
         if ($this->request->getFilterCmd() == self::CMD_RESET) {
@@ -197,7 +197,7 @@ class ilUIFilterService
         }
     }
 
-    protected function handleApplyAndToggle(string $filter_id, Filter\Standard $filter) : Filter\Standard
+    protected function handleApplyAndToggle(string $filter_id, Filter\Standard $filter): Filter\Standard
     {
         if ((in_array(
             $this->request->getFilterCmd(),

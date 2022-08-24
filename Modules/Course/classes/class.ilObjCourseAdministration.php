@@ -1,4 +1,6 @@
-<?php declare(strict_types=0);
+<?php
+
+declare(strict_types=0);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -14,7 +16,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * Class ilObjCourseAdministration
  * @author  Jörg Lützenkirchen <luetzenkirchen@leifos.com>
@@ -28,7 +30,7 @@ class ilObjCourseAdministration extends ilObject
         parent::__construct($a_id, $a_call_by_reference);
     }
 
-    public function delete() : bool
+    public function delete(): bool
     {
         return false;
     }

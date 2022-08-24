@@ -32,7 +32,7 @@ class SkillProfileUserDBRepository
         $this->lng = $DIC->language();
     }
 
-    public function getAssignedUsers(int $profile_id) : array
+    public function getAssignedUsers(int $profile_id): array
     {
         $ilDB = $this->db;
         $lng = $this->lng;
@@ -56,7 +56,7 @@ class SkillProfileUserDBRepository
         return $users;
     }
 
-    public function addUserToProfile(int $profile_id, int $user_id) : void
+    public function addUserToProfile(int $profile_id, int $user_id): void
     {
         $ilDB = $this->db;
 
@@ -69,7 +69,7 @@ class SkillProfileUserDBRepository
         );
     }
 
-    public function removeUserFromProfile(int $profile_id, int $user_id) : void
+    public function removeUserFromProfile(int $profile_id, int $user_id): void
     {
         $ilDB = $this->db;
 
@@ -80,7 +80,7 @@ class SkillProfileUserDBRepository
         );
     }
 
-    public function removeUserFromAllProfiles(int $user_id) : void
+    public function removeUserFromAllProfiles(int $user_id): void
     {
         $ilDB = $this->db;
 
@@ -90,7 +90,7 @@ class SkillProfileUserDBRepository
         );
     }
 
-    public function deleteProfileUsers(int $profile_id) : void
+    public function deleteProfileUsers(int $profile_id): void
     {
         $ilDB = $this->db;
 
@@ -100,7 +100,7 @@ class SkillProfileUserDBRepository
         );
     }
 
-    public function getProfilesOfUser(int $user_id) : array
+    public function getProfilesOfUser(int $user_id): array
     {
         $ilDB = $this->db;
 
@@ -119,7 +119,7 @@ class SkillProfileUserDBRepository
         return $user_profiles;
     }
 
-    public function countUsers(int $profile_id) : int
+    public function countUsers(int $profile_id): int
     {
         $ilDB = $this->db;
 

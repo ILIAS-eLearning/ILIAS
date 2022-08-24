@@ -44,7 +44,7 @@ class ilCounterDetector extends ilSimpleDetector
      *
      * @param int $count
      */
-    public function setExpectedTriggerEvents(int $count) : void
+    public function setExpectedTriggerEvents(int $count): void
     {
         $this->expected_trigger_events = $count;
     }
@@ -54,7 +54,7 @@ class ilCounterDetector extends ilSimpleDetector
      *
      * @return int
      */
-    public function getExpectedTriggerEvents() : int
+    public function getExpectedTriggerEvents(): int
     {
         return $this->expected_trigger_events;
     }
@@ -65,7 +65,7 @@ class ilCounterDetector extends ilSimpleDetector
      * @return int Number of past trigger events.
      *
      */
-    public function getActualTriggerEvents() : int
+    public function getActualTriggerEvents(): int
     {
         return $this->actual_trigger_events;
     }
@@ -77,7 +77,7 @@ class ilCounterDetector extends ilSimpleDetector
      * has to be set into a state in the middle of running. Use with care.
      * @param int $count Number of past trigger events.
      */
-    public function setActualTriggerEvents(int $count) : void
+    public function setActualTriggerEvents(int $count): void
     {
         if ($this->expected_trigger_events < $count) {
             $this->actual_trigger_events = $count;
@@ -96,7 +96,7 @@ class ilCounterDetector extends ilSimpleDetector
      *
      * @return bool False, if detector was already satisfied before.
      */
-    public function trigger($params) : ?bool
+    public function trigger($params): ?bool
     {
         if ($this->actual_trigger_events < $this->expected_trigger_events) {
             $this->actual_trigger_events++;

@@ -28,7 +28,7 @@ class ilTestInfoScreenToolbarFactory
      * @var integer
      */
     private $testRefId;
-    
+
     /**
      * @var ilObjTest
      */
@@ -57,7 +57,7 @@ class ilTestInfoScreenToolbarFactory
     /**
      * @return int
      */
-    public function getTestRefId() : int
+    public function getTestRefId(): int
     {
         return $this->testRefId;
     }
@@ -73,7 +73,7 @@ class ilTestInfoScreenToolbarFactory
     /**
      * @return ilObjTest
      */
-    public function getTestOBJ() : ilObjTest
+    public function getTestOBJ(): ilObjTest
     {
         return $this->testOBJ;
     }
@@ -85,11 +85,11 @@ class ilTestInfoScreenToolbarFactory
     {
         $this->testOBJ = $testOBJ;
     }
-    
+
     protected function ensureInitialised()
     {
         $this->ensureTestObjectInitialised();
-        
+
         $d = $GLOBALS['DIC'];
 
         $this->testQuestionSetConfigFactory = new ilTestQuestionSetConfigFactory(
@@ -98,10 +98,10 @@ class ilTestInfoScreenToolbarFactory
             $d['component.repository'],
             $this->getTestOBJ()
         );
-        
+
         $this->testPlayerFactory = new ilTestPlayerFactory($this->getTestOBJ());
         $this->testSessionFactory = new ilTestSessionFactory($this->getTestOBJ());
-        
+
         $this->testSequenceFactory = new ilTestSequenceFactory(
             $d['ilDB'],
             $d['lng'],
@@ -109,22 +109,22 @@ class ilTestInfoScreenToolbarFactory
             $this->getTestOBJ()
         );
     }
-    
+
     private function ensureTestObjectInitialised()
     {
         if (!($this->testOBJ instanceof ilObjTest)) {
             $this->testOBJ = ilObjectFactory::getInstanceByRefId($this->testRefId);
         }
     }
-    
-    public function getToolbarInstance() : ilTestInfoScreenToolbarGUI
+
+    public function getToolbarInstance(): ilTestInfoScreenToolbarGUI
     {
         $this->ensureInitialised();
-        
+
         $d = $GLOBALS['DIC'];
-        
+
         $toolbar = new ilTestInfoScreenToolbarGUI($d['ilDB'], $d['ilAccess'], $d['ilCtrl'], $d['lng'], $d['component.repository']);
-        
+
         $toolbar->setTestOBJ($this->getTestOBJ());
         $toolbar->setTestPlayerGUI($this->testPlayerFactory->getPlayerGUI());
 
@@ -137,7 +137,7 @@ class ilTestInfoScreenToolbarFactory
         $toolbar->setTestQuestionSetConfig($testQuestionSetConfig);
         $toolbar->setTestSession($testSession);
         $toolbar->setTestSequence($testSequence);
-        
+
         return $toolbar;
     }
 }

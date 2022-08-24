@@ -44,7 +44,7 @@ class ilLMEditorExplorerGUI extends ilLMExplorerGUI
     /**
      * @param object|array $a_node
      */
-    public function getNodeIcon($a_node) : string
+    public function getNodeIcon($a_node): string
     {
         if ($a_node["child"] == $this->getNodeId($this->getRootNode())) {
             $icon = ilUtil::getImagePath("icon_lm.svg");
@@ -57,15 +57,15 @@ class ilLMEditorExplorerGUI extends ilLMExplorerGUI
                     $this->lm->getType(),
                     $lm_set->get("time_scheduled_page_activation")
                 );
-                
+
                 // is page scheduled?
                 $img_sc = ($lm_set->get("time_scheduled_page_activation") &&
                     ilLMPage::_isScheduledActivation($a_node["child"], $this->lm->getType()))
                     ? "_sc"
                     : "";
-                    
+
                 $a_name = "icon_pg" . $img_sc . ".svg";
-    
+
                 if (!$active) {
                     $a_name = "icon_pg_d" . $img_sc . ".svg";
                 } else {
@@ -80,17 +80,17 @@ class ilLMEditorExplorerGUI extends ilLMExplorerGUI
             }
             $icon = ilUtil::getImagePath($a_name);
         }
-        
+
         return $icon;
     }
 
     /**
      * @param object|array $a_node
      */
-    public function getNodeIconAlt($a_node) : string
+    public function getNodeIconAlt($a_node): string
     {
         $lng = $this->lng;
-        
+
         if ($a_node["type"] == "du") {
             $a_node["type"] = "lm";
         }
@@ -117,11 +117,11 @@ class ilLMEditorExplorerGUI extends ilLMExplorerGUI
         }
         return parent::getNodeIconAlt($a_node);
     }
-    
+
     /**
      * @param object|array $a_node
      */
-    public function getNodeHref($a_node) : string
+    public function getNodeHref($a_node): string
     {
         $ilCtrl = $this->ctrl;
 

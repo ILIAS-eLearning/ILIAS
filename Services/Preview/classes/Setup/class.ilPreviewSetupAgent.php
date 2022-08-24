@@ -36,7 +36,7 @@ class ilPreviewSetupAgent implements Setup\Agent
     /**
      * @inheritdoc
      */
-    public function hasConfig() : bool
+    public function hasConfig(): bool
     {
         return true;
     }
@@ -44,9 +44,9 @@ class ilPreviewSetupAgent implements Setup\Agent
     /**
      * @inheritdoc
      */
-    public function getArrayToConfigTransformation() : Refinery\Transformation
+    public function getArrayToConfigTransformation(): Refinery\Transformation
     {
-        return $this->refinery->custom()->transformation(fn ($data) : \ilPreviewSetupConfig => new \ilPreviewSetupConfig(
+        return $this->refinery->custom()->transformation(fn ($data): \ilPreviewSetupConfig => new \ilPreviewSetupConfig(
             $data["path_to_ghostscript"] ?? null
         ));
     }
@@ -54,7 +54,7 @@ class ilPreviewSetupAgent implements Setup\Agent
     /**
      * @inheritdoc
      */
-    public function getInstallObjective(Setup\Config $config = null) : Setup\Objective
+    public function getInstallObjective(Setup\Config $config = null): Setup\Objective
     {
         /** @noinspection PhpParamsInspection */
         return new ilPreviewConfigStoredObjective($config);
@@ -63,7 +63,7 @@ class ilPreviewSetupAgent implements Setup\Agent
     /**
      * @inheritdoc
      */
-    public function getUpdateObjective(Setup\Config $config = null) : Setup\Objective
+    public function getUpdateObjective(Setup\Config $config = null): Setup\Objective
     {
         if ($config !== null) {
             /** @noinspection PhpParamsInspection */
@@ -75,7 +75,7 @@ class ilPreviewSetupAgent implements Setup\Agent
     /**
      * @inheritdoc
      */
-    public function getBuildArtifactObjective() : Setup\Objective
+    public function getBuildArtifactObjective(): Setup\Objective
     {
         return new Setup\Objective\NullObjective();
     }
@@ -83,7 +83,7 @@ class ilPreviewSetupAgent implements Setup\Agent
     /**
      * @inheritdoc
      */
-    public function getStatusObjective(Setup\Metrics\Storage $storage) : Setup\Objective
+    public function getStatusObjective(Setup\Metrics\Storage $storage): Setup\Objective
     {
         return new ilPreviewMetricsCollectedObjective($storage);
     }
@@ -91,7 +91,7 @@ class ilPreviewSetupAgent implements Setup\Agent
     /**
      * @inheritDoc
      */
-    public function getMigrations() : array
+    public function getMigrations(): array
     {
         return [];
     }

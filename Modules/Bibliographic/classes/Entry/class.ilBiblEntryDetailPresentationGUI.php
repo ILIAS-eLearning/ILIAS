@@ -60,13 +60,13 @@ class ilBiblEntryDetailPresentationGUI
     }
 
 
-    private function initHelp() : void
+    private function initHelp(): void
     {
         $this->help->setScreenIdComponent('bibl');
     }
 
 
-    private function initTabs() : void
+    private function initTabs(): void
     {
         $this->tabs->clearTargets();
         $this->tabs->setBackTarget(
@@ -75,7 +75,7 @@ class ilBiblEntryDetailPresentationGUI
         );
     }
 
-    private function initPermanentLink() : void
+    private function initPermanentLink(): void
     {
         $this->main_tpl->setPermanentLink(
             "bibl",
@@ -85,7 +85,7 @@ class ilBiblEntryDetailPresentationGUI
     }
 
 
-    public function getHTML() : string
+    public function getHTML(): string
     {
         $sub_panels = [
             $this->getOverviewPanel()
@@ -100,7 +100,7 @@ class ilBiblEntryDetailPresentationGUI
         );
     }
 
-    private function getLibrariesDeck() : ?Sub
+    private function getLibrariesDeck(): ?Sub
     {
         $settings = $this->facade->libraryFactory()->getAll();
         if (count($settings) === 0) {
@@ -120,7 +120,7 @@ class ilBiblEntryDetailPresentationGUI
         );
     }
 
-    private function getOverviewPanel() : Sub
+    private function getOverviewPanel(): Sub
     {
         $attributes = $this->facade->attributeFactory()->getAttributesForEntry($this->entry);
         $sorted = $this->facade->attributeFactory()->sortAttributes($attributes);

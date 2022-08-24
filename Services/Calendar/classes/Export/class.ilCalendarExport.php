@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -56,12 +58,12 @@ class ilCalendarExport
         $this->user = $DIC->user();
     }
 
-    public function getUserSettings() : ilCalendarUserSettings
+    public function getUserSettings(): ilCalendarUserSettings
     {
         return $this->user_settings;
     }
 
-    public function setExportType(int $a_type) : void
+    public function setExportType(int $a_type): void
     {
         $this->export_type = $a_type;
     }
@@ -69,7 +71,7 @@ class ilCalendarExport
     /**
      * @param int[] $a_apps
      */
-    public function setAppointments(array $a_apps) : void
+    public function setAppointments(array $a_apps): void
     {
         $this->appointments = $a_apps;
     }
@@ -77,7 +79,7 @@ class ilCalendarExport
     /**
      * @return int[]
      */
-    public function getAppointments() : array
+    public function getAppointments(): array
     {
         return $this->appointments;
     }
@@ -85,7 +87,7 @@ class ilCalendarExport
     /**
      * @param int[] $a_cal_ids
      */
-    public function setCalendarIds(array $a_cal_ids) : void
+    public function setCalendarIds(array $a_cal_ids): void
     {
         $this->calendars = $a_cal_ids;
     }
@@ -93,17 +95,17 @@ class ilCalendarExport
     /**
      * @return int[]
      */
-    public function getCalendarIds() : array
+    public function getCalendarIds(): array
     {
         return $this->calendars;
     }
 
-    public function getExportType() : int
+    public function getExportType(): int
     {
         return $this->export_type;
     }
 
-    public function export() : void
+    public function export(): void
     {
         $this->writer->addLine('BEGIN:VCALENDAR');
         $this->writer->addLine('VERSION:2.0');
@@ -124,7 +126,7 @@ class ilCalendarExport
         $this->writer->addLine('END:VCALENDAR');
     }
 
-    protected function addTimezone() : void
+    protected function addTimezone(): void
     {
         if ($this->getUserSettings()->getExportTimeZoneType() == ilCalendarUserSettings::CAL_EXPORT_TZ_UTC) {
             return;
@@ -143,7 +145,7 @@ class ilCalendarExport
         }
     }
 
-    protected function addCategories() : void
+    protected function addCategories(): void
     {
         foreach ($this->calendars as $category_id) {
             foreach (ilCalendarCategoryAssignments::_getAssignedAppointments(array($category_id)) as $app_id) {
@@ -152,14 +154,14 @@ class ilCalendarExport
         }
     }
 
-    protected function addAppointments() : void
+    protected function addAppointments(): void
     {
         foreach ($this->getAppointments() as $app) {
             $this->addAppointment($app);
         }
     }
 
-    protected function addAppointment(int $a_app_id) : void
+    protected function addAppointment(int $a_app_id): void
     {
         $app = new ilCalendarEntry($a_app_id);
         if ($app->isMilestone()) {
@@ -169,14 +171,14 @@ class ilCalendarExport
         }
     }
 
-    protected function createVTODO(ilCalendarEntry $app) : void
+    protected function createVTODO(ilCalendarEntry $app): void
     {
     }
 
     /**
      * Create VEVENT entry
      */
-    protected function createVEVENT(ilCalendarEntry $app) : void
+    protected function createVEVENT(ilCalendarEntry $app): void
     {
         if (!$app->getStart() instanceof ilDateTime) {
             $this->logger->notice('Cannot create appointment for app_id: ' . $app->getEntryId());
@@ -262,7 +264,7 @@ class ilCalendarExport
         $this->writer->addLine('END:VEVENT');
     }
 
-    protected function createRecurrences(ilCalendarEntry $app) : void
+    protected function createRecurrences(ilCalendarEntry $app): void
     {
         foreach (ilCalendarRecurrences::_getRecurrences($app->getEntryId()) as $rec) {
             foreach (ilCalendarRecurrenceExclusions::getExclusionDates($app->getEntryId()) as $excl) {
@@ -275,7 +277,7 @@ class ilCalendarExport
         }
     }
 
-    public function getExportString() : string
+    public function getExportString(): string
     {
         return $this->writer->__toString();
     }
@@ -283,7 +285,7 @@ class ilCalendarExport
     /**
      * Build url from calendar entry
      */
-    protected function buildAppointmentUrl(ilCalendarEntry $entry) : void
+    protected function buildAppointmentUrl(ilCalendarEntry $entry): void
     {
         $cat = ilCalendarCategory::getInstanceByCategoryId(
             current(ilCalendarCategoryAssignments::_lookupCategories($entry->getEntryId()))

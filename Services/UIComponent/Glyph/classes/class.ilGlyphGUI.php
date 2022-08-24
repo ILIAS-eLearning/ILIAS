@@ -61,7 +61,7 @@ class ilGlyphGUI
     public static function get(
         string $a_glyph,
         string $a_text = ""
-    ) : string {
+    ): string {
         global $DIC;
 
         $lng = $DIC->language();

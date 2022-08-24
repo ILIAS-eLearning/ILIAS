@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -33,7 +35,7 @@ class Group
         $this->language = $language;
     }
 
-    public function isNumeric() : Constraint
+    public function isNumeric(): Constraint
     {
         return new IsNumeric($this->dataFactory, $this->language);
     }

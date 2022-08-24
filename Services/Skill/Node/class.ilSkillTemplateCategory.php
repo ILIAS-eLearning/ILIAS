@@ -30,7 +30,7 @@ class ilSkillTemplateCategory extends ilSkillTreeNode
         $this->setType("sctp");
     }
 
-    public function copy() : ilSkillTemplateCategory
+    public function copy(): ilSkillTemplateCategory
     {
         $sctp = new ilSkillTemplateCategory();
         $sctp->setTitle($this->getTitle());

@@ -30,7 +30,7 @@ class ilMediaCastTableGUI extends ilTable2GUI
     protected bool $downloadable = false;
     protected bool $edit_order;
     protected \ILIAS\DI\UIServices $ui;
-    
+
     public function __construct(
         ilObjMediaCastGUI $a_parent_obj,
         string $a_parent_cmd = "",
@@ -51,9 +51,9 @@ class ilMediaCastTableGUI extends ilTable2GUI
         $this->ui = $DIC->ui();
         $this->edit_order = $a_edit_order;
         $this->presentation_mode = $a_presentation_mode;
-        
+
         parent::__construct($a_parent_obj, $a_parent_cmd);
-        
+
         // Check whether download-buttons will be displayed
         $mediacast = new ilObjMediaCast($a_parent_obj->getObject()->getRefId());
         $this->downloadable = $mediacast->getDownloadable();
@@ -66,17 +66,17 @@ class ilMediaCastTableGUI extends ilTable2GUI
         if (!$this->edit_order) {
             $this->addColumn($lng->txt("mcst_play"), "", "320px");
         }
-        
+
         $this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
         $this->setRowTemplate(
             "tpl.table_media_cast_row.html",
             "Modules/MediaCast"
         );
-        
+
         $this->setShowRowsSelector(true);
     }
-    
-    protected function fillRow(array $a_set) : void
+
+    protected function fillRow(array $a_set): void
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
@@ -90,7 +90,7 @@ class ilMediaCastTableGUI extends ilTable2GUI
         if ($this->presentation_mode) {
             $ilCtrl->setParameterByClass("ilobjmediacastgui", "presentation", "1");
         }
-        
+
         // access
         if ($enable_internal_rss && !$this->presentation_mode) {
             $this->tpl->setCurrentBlock("access");
@@ -102,7 +102,7 @@ class ilMediaCastTableGUI extends ilTable2GUI
             }
             $this->tpl->parseCurrentBlock();
         }
-        
+
         $ilCtrl->setParameterByClass("ilobjmediacastgui", "item_id", "");
 
         if (ilObject::_exists($a_set["mob_id"])) {
@@ -118,10 +118,10 @@ class ilMediaCastTableGUI extends ilTable2GUI
                 );
                 $this->tpl->parseCurrentBlock();
             }
-            
+
             $mob = new ilObjMediaObject($a_set["mob_id"]);
             $med = $mob->getMediaItem("Standard");
-            
+
             $this->tpl->setVariable(
                 "VAL_TITLE",
                 $a_set["title"]
@@ -138,12 +138,12 @@ class ilMediaCastTableGUI extends ilTable2GUI
                 "VAL_CREATED",
                 ilDatePresentation::formatDate(new ilDateTime($a_set["creation_date"], IL_CAL_DATETIME))
             );
-            
+
             $this->tpl->setVariable(
                 "TXT_DURATION",
                 $lng->txt("mcst_play_time")
             );
-            
+
             if ($a_set["playtime"] != "00:00:00") {
                 $this->tpl->setVariable(
                     "VAL_DURATION",
@@ -169,7 +169,7 @@ class ilMediaCastTableGUI extends ilTable2GUI
                             $size = filesize($file);
                             $size = ", " . sprintf("%.1f MB", $size / 1024 / 1024);
                         }
-                        $format = ($a_mob->getFormat() != "")?$a_mob->getFormat():"audio/mpeg";
+                        $format = ($a_mob->getFormat() != "") ? $a_mob->getFormat() : "audio/mpeg";
                         $this->tpl->setCurrentBlock("downloadable");
                         $this->tpl->setVariable("TXT_DOWNLOAD", $lng->txt("mcst_download_" . strtolower($a_mob->getPurpose())));
                         $this->tpl->setVariable("CMD_DOWNLOAD", $ilCtrl->getLinkTargetByClass("ilobjmediacastgui", "downloadItem"));
@@ -177,7 +177,7 @@ class ilMediaCastTableGUI extends ilTable2GUI
                         $this->tpl->parseCurrentBlock();
                     }
                 }
-                
+
                 // the news id will be used as player id, see also ilObjMediaCastGUI
                 $event_url = ($this->presentation_mode)
                     ? $ilCtrl->getLinkTarget($this->parent_obj, "handlePlayerEvent", "", true, false)
@@ -194,7 +194,7 @@ class ilMediaCastTableGUI extends ilTable2GUI
                     $mpl->setVideoPreviewPic(ilWACSignedPath::signFile($mob->getVideoPreviewPic()));
                     $mpl->setTitle((string) $a_set["title"]);
                     $mpl->setDescription((string) $a_set["content"]);
-                    
+
                     $med_alt = $mob->getMediaItem("VideoAlternative");
                     if (is_object($med_alt)) {
                         $a_val = ilObjMediaObject::_getURL($mob->getId()) . "/" . $med_alt->getLocation();
@@ -246,7 +246,7 @@ class ilMediaCastTableGUI extends ilTable2GUI
                 $this->tpl->parseCurrentBlock();
                 //				$this->tpl->touchBlock("contrl_col");
             }
-            
+
             // download and play counter
             if (!$this->presentation_mode) {
                 if ($a_set["mob_cnt_download"] > 0) {

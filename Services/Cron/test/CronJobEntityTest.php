@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -36,7 +38,7 @@ class CronJobEntityTest extends TestCase
         int $schedule_type = ilCronJob::SCHEDULE_TYPE_IN_MINUTES,
         int $schedule_value = 5,
         bool $is_plugin = false
-    ) : ilCronJobEntity {
+    ): ilCronJobEntity {
         $job_instance ??= $this->createMock(ilCronJob::class);
 
         return new ilCronJobEntity($job_instance, [
@@ -62,7 +64,7 @@ class CronJobEntityTest extends TestCase
         ], $is_plugin);
     }
 
-    public function testEntityCollectionCanBeCreatedWithItems() : ilCronJobEntities
+    public function testEntityCollectionCanBeCreatedWithItems(): ilCronJobEntities
     {
         $entities = new ilCronJobEntities($this->getEntity(), $this->getEntity());
 
@@ -76,7 +78,7 @@ class CronJobEntityTest extends TestCase
      * @return ilCronJobEntities
      * @depends testEntityCollectionCanBeCreatedWithItems
      */
-    public function testCollectionCanBeChanged(ilCronJobEntities $entities) : ilCronJobEntities
+    public function testCollectionCanBeChanged(ilCronJobEntities $entities): ilCronJobEntities
     {
         $entities->add($this->getEntity());
 
@@ -89,16 +91,16 @@ class CronJobEntityTest extends TestCase
      * @param ilCronJobEntities $entities
      * @depends testCollectionCanBeChanged
      */
-    public function testCollectionCanBeFilteredAndSliced(ilCronJobEntities $entities) : void
+    public function testCollectionCanBeFilteredAndSliced(ilCronJobEntities $entities): void
     {
-        $this->assertCount(0, $entities->filter(static function (ilCronJobEntity $entity) : bool {
+        $this->assertCount(0, $entities->filter(static function (ilCronJobEntity $entity): bool {
             return $entity->getJobId() !== 'phpunit';
         }));
 
         $this->assertCount(1, $entities->slice(1, 1));
     }
 
-    public function testEffectiveScheduleCanBeDetermined() : void
+    public function testEffectiveScheduleCanBeDetermined(): void
     {
         $job_instance = $this->createMock(ilCronJob::class);
         $job_instance->method('hasFlexibleSchedule')->willReturn(true);

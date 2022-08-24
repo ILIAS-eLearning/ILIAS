@@ -32,13 +32,13 @@ require_once 'Modules/TestQuestionPool/classes/feedback/class.ilAssMultiOptionQu
  */
 abstract class ilAssConfigurableMultiOptionQuestionFeedback extends ilAssMultiOptionQuestionFeedback
 {
-    const FEEDBACK_SETTING_ALL = 1;
-    const FEEDBACK_SETTING_CHECKED = 2;
-    const FEEDBACK_SETTING_CORRECT = 3;
+    public const FEEDBACK_SETTING_ALL = 1;
+    public const FEEDBACK_SETTING_CHECKED = 2;
+    public const FEEDBACK_SETTING_CORRECT = 3;
 
-    abstract protected function getSpecificQuestionTableName() : string;
+    abstract protected function getSpecificQuestionTableName(): string;
 
-    public function completeSpecificFormProperties(ilPropertyFormGUI $form) : void
+    public function completeSpecificFormProperties(ilPropertyFormGUI $form): void
     {
         if (!$this->questionOBJ->getSelfAssessmentEditingMode()) {
             $header = new ilFormSectionHeaderGUI();
@@ -58,7 +58,7 @@ abstract class ilAssConfigurableMultiOptionQuestionFeedback extends ilAssMultiOp
             $feedback->addOption(
                 new ilRadioOption($this->lng->txt($this->questionOBJ->getSpecificFeedbackAllCorrectOptionLabel()), self::FEEDBACK_SETTING_CORRECT)
             );
-            
+
             $feedback->setRequired(true);
             $form->addItem($feedback);
 
@@ -79,7 +79,7 @@ abstract class ilAssConfigurableMultiOptionQuestionFeedback extends ilAssMultiOp
         }
     }
 
-    public function initSpecificFormProperties(ilPropertyFormGUI $form) : void
+    public function initSpecificFormProperties(ilPropertyFormGUI $form): void
     {
         if (!$this->questionOBJ->getSelfAssessmentEditingMode()) {
             $form->getItemByPostVar('feedback_setting')->setValue(
@@ -103,10 +103,10 @@ abstract class ilAssConfigurableMultiOptionQuestionFeedback extends ilAssMultiOp
         }
     }
 
-    public function saveSpecificFormProperties(ilPropertyFormGUI $form) : void
+    public function saveSpecificFormProperties(ilPropertyFormGUI $form): void
     {
         $this->saveSpecificFeedbackSetting($this->questionOBJ->getId(), $form->getInput('feedback_setting'));
-        
+
         if (!$this->questionOBJ->isAdditionalContentEditingModePageObject()) {
             foreach ($this->getAnswerOptionsByAnswerIndex() as $index => $answer) {
                 $this->saveSpecificAnswerFeedbackContent(
@@ -123,7 +123,7 @@ abstract class ilAssConfigurableMultiOptionQuestionFeedback extends ilAssMultiOp
      * returns the fact that the feedback editing form is saveable in page object editing mode,
      * because this question type has additional feedback settings
      */
-    public function isSaveableInPageObjectEditingMode() : bool
+    public function isSaveableInPageObjectEditingMode(): bool
     {
         return true;
     }
@@ -132,7 +132,7 @@ abstract class ilAssConfigurableMultiOptionQuestionFeedback extends ilAssMultiOp
      * saves the given specific feedback setting for the given question id to the db.
      * (It#s stored to dataset of question itself)
      */
-    public function saveSpecificFeedbackSetting(int $questionId, int $specificFeedbackSetting) : void
+    public function saveSpecificFeedbackSetting(int $questionId, int $specificFeedbackSetting): void
     {
         $this->db->update(
             $this->getSpecificQuestionTableName(),
@@ -141,19 +141,19 @@ abstract class ilAssConfigurableMultiOptionQuestionFeedback extends ilAssMultiOp
         );
     }
 
-    protected function duplicateSpecificFeedback(int $originalQuestionId, int $duplicateQuestionId) : void
+    protected function duplicateSpecificFeedback(int $originalQuestionId, int $duplicateQuestionId): void
     {
         $this->syncSpecificFeedbackSetting($originalQuestionId, $duplicateQuestionId);
         parent::duplicateSpecificFeedback($originalQuestionId, $duplicateQuestionId);
     }
 
-    protected function syncSpecificFeedback(int $originalQuestionId, int $duplicateQuestionId) : void
+    protected function syncSpecificFeedback(int $originalQuestionId, int $duplicateQuestionId): void
     {
         $this->syncSpecificFeedbackSetting($duplicateQuestionId, $originalQuestionId);
         parent::syncSpecificFeedback($originalQuestionId, $duplicateQuestionId);
     }
-    
-    private function syncSpecificFeedbackSetting(int $sourceQuestionId, int $targetQuestionId) : void
+
+    private function syncSpecificFeedbackSetting(int $sourceQuestionId, int $targetQuestionId): void
     {
         $res = $this->db->queryF(
             "SELECT feedback_setting FROM {$this->getSpecificQuestionTableName()} WHERE question_fi = %s",

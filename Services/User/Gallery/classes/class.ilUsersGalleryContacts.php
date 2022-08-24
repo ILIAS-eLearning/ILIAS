@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -20,7 +22,7 @@ class ilUsersGalleryContacts extends ilAbstractUsersGalleryCollectionProvider
     /**
      * @return Generator<array<int, ilBuddySystemRelation>>
      */
-    protected function getRelationSequence() : Generator
+    protected function getRelationSequence(): Generator
     {
         yield ilBuddyList::getInstanceByGlobalUser()->getRequestRelationsForOwner()->toArray();
         yield ilBuddyList::getInstanceByGlobalUser()->getLinkedRelations()->toArray();
@@ -28,7 +30,7 @@ class ilUsersGalleryContacts extends ilAbstractUsersGalleryCollectionProvider
         yield ilBuddyList::getInstanceByGlobalUser()->getIgnoredRelationsForOwner()->toArray();
     }
 
-    public function getGroupedCollections(bool $ignore_myself = false) : array
+    public function getGroupedCollections(bool $ignore_myself = false): array
     {
         global $DIC;
 
@@ -59,7 +61,7 @@ class ilUsersGalleryContacts extends ilAbstractUsersGalleryCollectionProvider
         return $groups;
     }
 
-    public function hasRemovableUsers() : bool
+    public function hasRemovableUsers(): bool
     {
         return true;
     }

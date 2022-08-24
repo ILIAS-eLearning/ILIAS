@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -33,7 +35,7 @@ use ilDBInterface;
 
 class PageMetricsTest extends TestCase
 {
-    public function testRepositoryThrowsExceptionWhenPageMetricsShouldBeRetrievedButNoPageMetricsExist() : void
+    public function testRepositoryThrowsExceptionWhenPageMetricsShouldBeRetrievedButNoPageMetricsExist(): void
     {
         $this->expectException(CouldNotFindPageMetrics::class);
 
@@ -44,7 +46,7 @@ class PageMetricsTest extends TestCase
         $repo->findBy(1, 1, 'de');
     }
 
-    public function testPageMetricsCouldBeRetrievedFromRepository() : void
+    public function testPageMetricsCouldBeRetrievedFromRepository(): void
     {
         $readingTimeInMinutes = 4711;
         $language = 'en';
@@ -70,7 +72,7 @@ class PageMetricsTest extends TestCase
         $this->assertSame($pageId, $pageMetrics->pageId());
     }
 
-    public function testPropertiesAreAccessedWhenStoringPageMetrics() : void
+    public function testPropertiesAreAccessedWhenStoringPageMetrics(): void
     {
         $database = $this->getMockBuilder(ilDBInterface::class)->getMock();
 
@@ -84,7 +86,7 @@ class PageMetricsTest extends TestCase
         $repo->store($pageMetrics);
     }
 
-    public function testPropertiesAreAccessedWhenDeletingPageMetrics() : void
+    public function testPropertiesAreAccessedWhenDeletingPageMetrics(): void
     {
         $database = $this->getMockBuilder(ilDBInterface::class)->getMock();
 
@@ -97,7 +99,7 @@ class PageMetricsTest extends TestCase
         $repo->delete($pageMetrics);
     }
 
-    public function testCommandsWorkAsExpected() : void
+    public function testCommandsWorkAsExpected(): void
     {
         $getPageMetrics = new GetPageMetricsCommand(1337, 'de');
         $this->assertSame('de', $getPageMetrics->getLanguage());
@@ -108,15 +110,15 @@ class PageMetricsTest extends TestCase
         $this->assertSame(1337, $storePageMetrics->getContentPageId());
     }
 
-    public function testEventsWorkAsExpected() : void
+    public function testEventsWorkAsExpected(): void
     {
         $page = $this->getMockBuilder(ilContentPagePage::class)->disableOriginalConstructor()->getMock();
 
         $pageUpdated = new PageUpdatedEvent($page);
         $this->assertSame($page, $pageUpdated->page());
     }
-    
-    public function testPageMetricsCanBeRetrievedFromService() : void
+
+    public function testPageMetricsCanBeRetrievedFromService(): void
     {
         $readingTimeInMinutes = 4711;
         $language = 'fr';

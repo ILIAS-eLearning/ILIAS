@@ -8,7 +8,6 @@
  */
 class ilDclTableViewFieldSetting extends ActiveRecord
 {
-
     /**
      * @var int
      * @db_has_field        true
@@ -120,22 +119,22 @@ class ilDclTableViewFieldSetting extends ActiveRecord
      * @return string
      * @description Return the Name of your Database Table
      */
-    public static function returnDbTableName() : string
+    public static function returnDbTableName(): string
     {
         return "il_dcl_tview_set";
     }
 
-    public function getTableviewId() : int
+    public function getTableviewId(): int
     {
         return $this->tableview_id;
     }
 
-    public function setTableviewId(int $tableview_id) : void
+    public function setTableviewId(int $tableview_id): void
     {
         $this->tableview_id = $tableview_id;
     }
 
-    public function getField() : string
+    public function getField(): string
     {
         return $this->field;
     }
@@ -143,27 +142,27 @@ class ilDclTableViewFieldSetting extends ActiveRecord
     /**
      * @param $field
      */
-    public function setField(string $field) : void
+    public function setField(string $field): void
     {
         $this->field = $field;
     }
 
-    public function isVisibleInList() : bool
+    public function isVisibleInList(): bool
     {
         return $this->visible;
     }
 
-    public function setVisible(bool $visible) : void
+    public function setVisible(bool $visible): void
     {
         $this->visible = $visible;
     }
 
-    public function isInFilter() : bool
+    public function isInFilter(): bool
     {
         return $this->in_filter;
     }
 
-    public function setInFilter(bool $in_filter) : void
+    public function setInFilter(bool $in_filter): void
     {
         $this->in_filter = $in_filter;
     }
@@ -173,132 +172,132 @@ class ilDclTableViewFieldSetting extends ActiveRecord
         return $this->filter_value;
     }
 
-    public function setFilterValue($filter_value) : void
+    public function setFilterValue($filter_value): void
     {
         $this->filter_value = $filter_value;
     }
 
-    public function isFilterChangeable() : bool
+    public function isFilterChangeable(): bool
     {
         return $this->filter_changeable;
     }
 
-    public function setFilterChangeable(bool $filter_changeable) : void
+    public function setFilterChangeable(bool $filter_changeable): void
     {
         $this->filter_changeable = $filter_changeable;
     }
 
-    public function getId() : int
+    public function getId(): int
     {
         return $this->id;
     }
 
-    public function setId(int $id) : void
+    public function setId(int $id): void
     {
         $this->id = $id;
     }
 
-    public function isRequiredCreate() : bool
+    public function isRequiredCreate(): bool
     {
         return $this->required_create;
     }
 
-    public function setRequiredCreate(bool $required_create) : void
+    public function setRequiredCreate(bool $required_create): void
     {
         $this->required_create = $required_create;
     }
 
-    public function isLockedCreate() : bool
+    public function isLockedCreate(): bool
     {
         return $this->locked_create;
     }
 
-    public function setLockedCreate(bool $locked_create) : void
+    public function setLockedCreate(bool $locked_create): void
     {
         $this->locked_create = $locked_create;
     }
 
-    public function isRequiredEdit() : bool
+    public function isRequiredEdit(): bool
     {
         return $this->required_edit;
     }
 
-    public function setRequiredEdit(bool $required_edit) : void
+    public function setRequiredEdit(bool $required_edit): void
     {
         $this->required_edit = $required_edit;
     }
 
-    public function isLockedEdit() : bool
+    public function isLockedEdit(): bool
     {
         return $this->locked_edit;
     }
 
-    public function setLockedEdit(bool $locked_edit) : void
+    public function setLockedEdit(bool $locked_edit): void
     {
         $this->locked_edit = $locked_edit;
     }
 
-    public function getDefaultValue() : ?string
+    public function getDefaultValue(): ?string
     {
         return $this->default_value;
     }
 
-    public function setDefaultValue(?string $default_value) : void
+    public function setDefaultValue(?string $default_value): void
     {
         $this->default_value = $default_value;
     }
 
-    public function isVisibleCreate() : bool
+    public function isVisibleCreate(): bool
     {
         return $this->visible_create;
     }
 
-    public function setVisibleCreate(bool $visible_create) : void
+    public function setVisibleCreate(bool $visible_create): void
     {
         $this->visible_create = $visible_create;
     }
 
-    public function setNotVisibleCreate(bool $not_visible_create) : void
+    public function setNotVisibleCreate(bool $not_visible_create): void
     {
         $this->visible_create = !$not_visible_create;
     }
 
-    public function isNotVisibleCreate() : bool
+    public function isNotVisibleCreate(): bool
     {
         return !$this->visible_create;
     }
 
-    public function isVisibleEdit() : bool
+    public function isVisibleEdit(): bool
     {
         return $this->visible_edit;
     }
 
-    public function setVisibleEdit(bool $visible_edit) : void
+    public function setVisibleEdit(bool $visible_edit): void
     {
         $this->visible_edit = $visible_edit;
     }
 
-    public function setNotVisibleEdit(bool $not_visible) : void
+    public function setNotVisibleEdit(bool $not_visible): void
     {
         $this->visible_edit = !$not_visible;
     }
 
-    public function isNotVisibleEdit() : bool
+    public function isNotVisibleEdit(): bool
     {
         return !$this->visible_edit;
     }
 
-    public function isVisibleInForm(bool $creation_mode) : bool
+    public function isVisibleInForm(bool $creation_mode): bool
     {
         return $creation_mode ? $this->isVisibleCreate() : $this->isVisibleEdit();
     }
 
-    public function isLocked(bool $creation_mode) : bool
+    public function isLocked(bool $creation_mode): bool
     {
         return $creation_mode ? $this->isLockedCreate() : $this->isLockedEdit();
     }
 
-    public function isRequired(bool $creation_mode) : bool
+    public function isRequired(bool $creation_mode): bool
     {
         return $creation_mode ? $this->isRequiredCreate() : $this->isRequiredEdit();
     }
@@ -316,7 +315,7 @@ class ilDclTableViewFieldSetting extends ActiveRecord
         return null;
     }
 
-    public function wakeUp($field_name, $field_value) : ?array
+    public function wakeUp($field_name, $field_value): ?array
     {
         if ($field_name == 'filter_value') {
             $return = array();
@@ -335,7 +334,7 @@ class ilDclTableViewFieldSetting extends ActiveRecord
         return null;
     }
 
-    public function cloneStructure(ilDclTableViewFieldSetting $orig) : int
+    public function cloneStructure(ilDclTableViewFieldSetting $orig): int
     {
         $this->setFilterChangeable($orig->isFilterChangeable());
         $this->setInFilter($orig->isInFilter());
@@ -372,7 +371,7 @@ class ilDclTableViewFieldSetting extends ActiveRecord
     /**
      * @return ActiveRecord|self
      */
-    public static function getTableViewFieldSetting(int $id, int $tableview_id) : ActiveRecord
+    public static function getTableViewFieldSetting(int $id, int $tableview_id): ActiveRecord
     {
         return parent::where(array('field' => $id,
                                    'tableview_id' => $tableview_id
@@ -384,15 +383,13 @@ class ilDclTableViewFieldSetting extends ActiveRecord
      * @param $field_id
      * @return ActiveRecord|self
      */
-    public static function getInstance(int $tableview_id, int $field_id) : ActiveRecord
+    public static function getInstance(int $tableview_id, int $field_id): ActiveRecord
     {
         if (!($setting = self::where(array('field' => $field_id, 'tableview_id' => $tableview_id))->first())) {
             $setting = new self();
             $setting->setField($field_id);
             $setting->setTableviewId($tableview_id);
-
         }
         return $setting;
     }
-
 }

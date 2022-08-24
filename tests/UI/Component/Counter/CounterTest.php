@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 require_once("libs/composer/vendor/autoload.php");
 require_once(__DIR__ . "/../../Base.php");
 
@@ -28,12 +30,12 @@ use ILIAS\UI\Implementation\Component\Counter\Factory;
  */
 class CounterTest extends ILIAS_UI_TestBase
 {
-    public function getCounterFactory() : Factory
+    public function getCounterFactory(): Factory
     {
         return new Factory();
     }
 
-    public function test_implements_factory_interface() : void
+    public function test_implements_factory_interface(): void
     {
         $f = $this->getCounterFactory();
 
@@ -46,7 +48,7 @@ class CounterTest extends ILIAS_UI_TestBase
     /**
      * @dataProvider number_provider
      */
-    public function test_status_counter(int $number) : void
+    public function test_status_counter(int $number): void
     {
         $f = $this->getCounterFactory();
 
@@ -60,7 +62,7 @@ class CounterTest extends ILIAS_UI_TestBase
     /**
      * @dataProvider number_provider
      */
-    public function test_novelty_counter(int $number) : void
+    public function test_novelty_counter(int $number): void
     {
         $f = $this->getCounterFactory();
 
@@ -71,7 +73,7 @@ class CounterTest extends ILIAS_UI_TestBase
         $this->assertEquals($number, $c->getNumber());
     }
 
-    public function test_known_counters_only() : void
+    public function test_known_counters_only(): void
     {
         $this->expectException(InvalidArgumentException::class);
         new Counter("FOO", 1);
@@ -80,14 +82,14 @@ class CounterTest extends ILIAS_UI_TestBase
     /**
      * @dataProvider no_number_provider
      */
-    public function test_int_numbers_only($no_number) : void
+    public function test_int_numbers_only($no_number): void
     {
         $this->expectException(TypeError::class);
         $f = $this->getCounterFactory();
         $f->status($no_number);
     }
 
-    public function number_provider() : array
+    public function number_provider(): array
     {
         return [
             [-13],
@@ -97,7 +99,7 @@ class CounterTest extends ILIAS_UI_TestBase
         ];
     }
 
-    public function no_number_provider() : array
+    public function no_number_provider(): array
     {
         return [
             ["foo"],
@@ -115,7 +117,7 @@ class CounterTest extends ILIAS_UI_TestBase
     /**
      * @dataProvider	counter_type_and_number_provider
      */
-    public function test_render_status(string $type, int $number) : void
+    public function test_render_status(string $type, int $number): void
     {
         $f = $this->getCounterFactory();
         $r = $this->getDefaultRenderer();
@@ -128,7 +130,7 @@ class CounterTest extends ILIAS_UI_TestBase
         $this->assertHTMLEquals($expected, $html);
     }
 
-    public function counter_type_and_number_provider() : array
+    public function counter_type_and_number_provider(): array
     {
         return [
             ["status", 42],

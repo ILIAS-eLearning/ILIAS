@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -35,52 +37,52 @@ class ilStudyProgrammeTypeTranslation
         $this->id = $id;
     }
 
-    public function getId() : int
+    public function getId(): int
     {
         return $this->id;
     }
 
-    public function setId(int $id) : void
+    public function setId(int $id): void
     {
         $this->id = $id;
     }
 
-    public function getPrgTypeId() : int
+    public function getPrgTypeId(): int
     {
         return $this->prg_type_id;
     }
 
-    public function setPrgTypeId(int $prg_type_id) : void
+    public function setPrgTypeId(int $prg_type_id): void
     {
         $this->prg_type_id = $prg_type_id;
     }
 
-    public function getLang() : string
+    public function getLang(): string
     {
         return $this->lang;
     }
 
-    public function setLang(string $lang) : void
+    public function setLang(string $lang): void
     {
         $this->lang = $lang;
     }
 
-    public function getMember() : string
+    public function getMember(): string
     {
         return $this->member;
     }
 
-    public function setMember(string $member) : void
+    public function setMember(string $member): void
     {
         $this->member = $member;
     }
 
-    public function getValue() : string
+    public function getValue(): string
     {
         return $this->value;
     }
 
-    public function setValue(string $value) : void
+    public function setValue(string $value): void
     {
         $this->value = $value;
     }

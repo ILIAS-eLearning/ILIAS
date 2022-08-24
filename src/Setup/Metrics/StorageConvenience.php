@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\Setup\Metrics;
 
 use ILIAS\Setup\Metrics\Metric as M;
@@ -25,9 +27,9 @@ use ILIAS\Setup\Metrics\Metric as M;
  */
 trait StorageConvenience
 {
-    abstract public function store(string $key, M $metric) : void;
+    abstract public function store(string $key, M $metric): void;
 
-    public function storeConfigBool(string $key, bool $value, string $description = null) : void
+    public function storeConfigBool(string $key, bool $value, string $description = null): void
     {
         $this->store(
             $key,
@@ -35,7 +37,7 @@ trait StorageConvenience
         );
     }
 
-    public function storeConfigCounter(string $key, int $value, string $description = null) : void
+    public function storeConfigCounter(string $key, int $value, string $description = null): void
     {
         $this->store(
             $key,
@@ -43,7 +45,7 @@ trait StorageConvenience
         );
     }
 
-    public function storeConfigGauge(string $key, $value, string $description = null) : void
+    public function storeConfigGauge(string $key, $value, string $description = null): void
     {
         $this->store(
             $key,
@@ -51,7 +53,7 @@ trait StorageConvenience
         );
     }
 
-    public function storeConfigTimestamp(string $key, \DateTimeImmutable $value, string $description = null) : void
+    public function storeConfigTimestamp(string $key, \DateTimeImmutable $value, string $description = null): void
     {
         $this->store(
             $key,
@@ -59,7 +61,7 @@ trait StorageConvenience
         );
     }
 
-    public function storeConfigText(string $key, string $value, string $description = null) : void
+    public function storeConfigText(string $key, string $value, string $description = null): void
     {
         $this->store(
             $key,
@@ -68,7 +70,7 @@ trait StorageConvenience
     }
 
 
-    public function storeStableBool(string $key, bool $value, string $description = null) : void
+    public function storeStableBool(string $key, bool $value, string $description = null): void
     {
         $this->store(
             $key,
@@ -76,7 +78,7 @@ trait StorageConvenience
         );
     }
 
-    public function storeStableCounter(string $key, int $value, string $description = null) : void
+    public function storeStableCounter(string $key, int $value, string $description = null): void
     {
         $this->store(
             $key,
@@ -84,7 +86,7 @@ trait StorageConvenience
         );
     }
 
-    public function storeStableGauge(string $key, $value, string $description = null) : void
+    public function storeStableGauge(string $key, $value, string $description = null): void
     {
         $this->store(
             $key,
@@ -92,7 +94,7 @@ trait StorageConvenience
         );
     }
 
-    public function storeStableTimestamp(string $key, \DateTimeImmutable $value, string $description = null) : void
+    public function storeStableTimestamp(string $key, \DateTimeImmutable $value, string $description = null): void
     {
         $this->store(
             $key,
@@ -100,7 +102,7 @@ trait StorageConvenience
         );
     }
 
-    public function storeStableText(string $key, string $value, string $description = null) : void
+    public function storeStableText(string $key, string $value, string $description = null): void
     {
         $this->store(
             $key,
@@ -109,7 +111,7 @@ trait StorageConvenience
     }
 
 
-    public function storeVolatileBool(string $key, bool $value, string $description = null) : void
+    public function storeVolatileBool(string $key, bool $value, string $description = null): void
     {
         $this->store(
             $key,
@@ -117,7 +119,7 @@ trait StorageConvenience
         );
     }
 
-    public function storeVolatileCounter(string $key, int $value, string $description = null) : void
+    public function storeVolatileCounter(string $key, int $value, string $description = null): void
     {
         $this->store(
             $key,
@@ -125,7 +127,7 @@ trait StorageConvenience
         );
     }
 
-    public function storeVolatileGauge(string $key, $value, string $description = null) : void
+    public function storeVolatileGauge(string $key, $value, string $description = null): void
     {
         $this->store(
             $key,
@@ -133,7 +135,7 @@ trait StorageConvenience
         );
     }
 
-    public function storeVolatileTimestamp(string $key, \DateTimeImmutable $value, string $description = null) : void
+    public function storeVolatileTimestamp(string $key, \DateTimeImmutable $value, string $description = null): void
     {
         $this->store(
             $key,
@@ -141,7 +143,7 @@ trait StorageConvenience
         );
     }
 
-    public function storeVolatileText(string $key, string $value, string $description = null) : void
+    public function storeVolatileText(string $key, string $value, string $description = null): void
     {
         $this->store(
             $key,

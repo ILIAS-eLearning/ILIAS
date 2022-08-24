@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -21,11 +23,11 @@
  */
 class ilChatroomExporter extends ilXmlExporter
 {
-    public function init() : void
+    public function init(): void
     {
     }
 
-    public function getXmlRepresentation(string $a_entity, string $a_schema_version, string $a_id) : string
+    public function getXmlRepresentation(string $a_entity, string $a_schema_version, string $a_id): string
     {
         $chat = ilObjectFactory::getInstanceByObjId((int) $a_id, false);
         if (!($chat instanceof ilObjChatroom)) {
@@ -41,7 +43,7 @@ class ilChatroomExporter extends ilXmlExporter
         return $writer->getXML();
     }
 
-    public function getXmlExportTailDependencies(string $a_entity, string $a_target_release, array $a_ids) : array
+    public function getXmlExportTailDependencies(string $a_entity, string $a_target_release, array $a_ids): array
     {
         $deps = [];
 
@@ -56,7 +58,7 @@ class ilChatroomExporter extends ilXmlExporter
         return $deps;
     }
 
-    public function getValidSchemaVersions(string $a_entity) : array
+    public function getValidSchemaVersions(string $a_entity): array
     {
         return [
             '5.3.0' => [

@@ -28,7 +28,7 @@ class ilLMObjectFactory
         ilObjLearningModule $a_content_obj,
         int $a_id = 0,
         bool $a_halt = true
-    ) : ?ilLMObject {
+    ): ?ilLMObject {
         global $DIC;
 
         $ilDB = $DIC->database();

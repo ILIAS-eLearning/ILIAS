@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -69,19 +71,19 @@ class ilObjStudyProgrammeIndividualPlanGUI
         $this->tpl->addCss("Modules/StudyProgramme/templates/css/ilStudyProgramme.css");
     }
 
-    public function setParentGUI(ilObjStudyProgrammeMembersGUI $parent_gui) : void
+    public function setParentGUI(ilObjStudyProgrammeMembersGUI $parent_gui): void
     {
         $this->parent_gui = $parent_gui;
     }
 
-    public function setRefId(int $ref_id) : void
+    public function setRefId(int $ref_id): void
     {
         $this->ref_id = $ref_id;
         $this->object = ilObjStudyProgramme::getInstanceByRefId($ref_id);
         $this->permissions = ilStudyProgrammeDIC::specificDicFor($this->object)['permissionhelper'];
     }
 
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         $cmd = $this->ctrl->getCmd();
 
@@ -103,12 +105,12 @@ class ilObjStudyProgrammeIndividualPlanGUI
         $this->tpl->setContent($cont);
     }
 
-    protected function getAssignmentId() : int
+    protected function getAssignmentId(): int
     {
         return $this->http_wrapper->query()->retrieve("ass_id", $this->refinery->kindlyTo()->int());
     }
 
-    protected function getAssignmentObject() : ?ilStudyProgrammeAssignment
+    protected function getAssignmentObject(): ?ilStudyProgrammeAssignment
     {
         if ($this->assignment_object === null) {
             $id = $this->getAssignmentId();
@@ -117,7 +119,7 @@ class ilObjStudyProgrammeIndividualPlanGUI
         return $this->assignment_object;
     }
 
-    protected function view() : string
+    protected function view(): string
     {
         $ass = $this->getAssignmentObject();
 
@@ -131,7 +133,7 @@ class ilObjStudyProgrammeIndividualPlanGUI
         }
         $prg = ilObjStudyProgramme::getInstanceByObjId($ass->getRootId());
         $progress = $prg->getProgressForAssignment($ass->getId());
-        
+
         $gui = new ilStudyProgrammeIndividualPlanProgressListGUI($progress);
         $gui->setOnlyRelevant(true);
         // Wrap a frame around the original gui element to correct rendering.
@@ -140,7 +142,7 @@ class ilObjStudyProgrammeIndividualPlanGUI
         return $this->buildFrame("view", $tpl->get());
     }
 
-    protected function manage() : string
+    protected function manage(): string
     {
         $ass = $this->getAssignmentObject();
 
@@ -161,7 +163,7 @@ class ilObjStudyProgrammeIndividualPlanGUI
         return $frame;
     }
 
-    protected function updateFromCurrentPlan() : void
+    protected function updateFromCurrentPlan(): void
     {
         $ass = $this->getAssignmentObject();
 
@@ -187,8 +189,8 @@ class ilObjStudyProgrammeIndividualPlanGUI
         $this->showSuccessMessage("update_from_plan_successful");
         $this->ctrl->redirect($this, "manage");
     }
-    
-    protected function updateFromInput() : void
+
+    protected function updateFromInput(): void
     {
         $retrieve =
             $this->refinery->logical()->sequential([
@@ -215,7 +217,7 @@ class ilObjStudyProgrammeIndividualPlanGUI
         $this->ctrl->redirect($this, "manage");
     }
 
-    protected function updateStatus(array $progress_updates, ilPRGMessageCollection $msgs) : void
+    protected function updateStatus(array $progress_updates, ilPRGMessageCollection $msgs): void
     {
         $programme = $this->parent_gui->getStudyProgramme();
         $acting_user_id = $this->user->getId();
@@ -238,7 +240,7 @@ class ilObjStudyProgrammeIndividualPlanGUI
                 case ilStudyProgrammeProgress::STATUS_ACCREDITED:
                     $programme->markAccredited($progress_id, $acting_user_id, $msgs);
                     break;
-                
+
                 case ilStudyProgrammeProgress::STATUS_NOT_RELEVANT:
                     $programme->markNotRelevant($progress_id, $acting_user_id, $msgs);
                     break;
@@ -252,7 +254,7 @@ class ilObjStudyProgrammeIndividualPlanGUI
         }
     }
 
-    protected function updateDeadlines(array $deadlines, ilPRGMessageCollection $msgs) : void
+    protected function updateDeadlines(array $deadlines, ilPRGMessageCollection $msgs): void
     {
         $programme = $this->parent_gui->getStudyProgramme();
         $acting_user_id = $this->user->getId();
@@ -263,7 +265,7 @@ class ilObjStudyProgrammeIndividualPlanGUI
             } else {
                 $deadline = DateTimeImmutable::createFromFormat('d.m.Y', $deadline);
             }
-            
+
             $progress = $this->progress_repository->get($progress_id);
             $cur_deadline = $progress->getDeadline();
 
@@ -273,14 +275,14 @@ class ilObjStudyProgrammeIndividualPlanGUI
         }
     }
 
-    protected function updateRequiredPoints(array $required_points, ilPRGMessageCollection $msgs) : void
+    protected function updateRequiredPoints(array $required_points, ilPRGMessageCollection $msgs): void
     {
         $programme = $this->parent_gui->getStudyProgramme();
         $acting_user_id = $this->user->getId();
 
         foreach ($required_points as $progress_id => $points) {
             $points = (int) $points;
-            
+
             if ($points < 0) {
                 $msgs->add(false, 'msg_points_must_be_positive', $progress_id);
                 continue;
@@ -295,12 +297,12 @@ class ilObjStudyProgrammeIndividualPlanGUI
         }
     }
 
-    protected function showSuccessMessage(string $lng_var) : void
+    protected function showSuccessMessage(string $lng_var): void
     {
         $this->tpl->setOnScreenMessage("success", $this->lng->txt("prg_$lng_var"), true);
     }
 
-    protected function buildFrame(string $tab, string $content) : string
+    protected function buildFrame(string $tab, string $content): string
     {
         $tabs = [];
         if ($this->permissions->may(ilOrgUnitOperation::OP_VIEW_INDIVIDUAL_PLAN)) {
@@ -327,7 +329,7 @@ class ilObjStudyProgrammeIndividualPlanGUI
         return $tpl->get();
     }
 
-    protected function getLinkTargetForSubTab(string $tab, int $ass_id) : string
+    protected function getLinkTargetForSubTab(string $tab, int $ass_id): string
     {
         $this->ctrl->setParameter($this, "ass_id", $ass_id);
         $lnk = $this->ctrl->getLinkTarget($this, $tab);
@@ -335,14 +337,14 @@ class ilObjStudyProgrammeIndividualPlanGUI
         return $lnk;
     }
 
-    public function appendIndividualPlanActions(ilTable2GUI $table) : void
+    public function appendIndividualPlanActions(ilTable2GUI $table): void
     {
         $table->setFormAction($this->ctrl->getFormAction($this));
         $table->addCommandButton("updateFromCurrentPlan", $this->lng->txt("prg_update_from_current_plan"));
         $table->addCommandButton("updateFromInput", $this->lng->txt("save"));
     }
 
-    public function getLinkTargetView(int $ass_id) : string
+    public function getLinkTargetView(int $ass_id): string
     {
         $cl = "ilObjStudyProgrammeIndividualPlanGUI";
         $this->ctrl->setParameterByClass($cl, "ass_id", $ass_id);

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -41,7 +43,7 @@ class DateTimeTransformation implements Constraint
     /**
      * @inheritDoc
      */
-    public function transform($from) : DateTimeImmutable
+    public function transform($from): DateTimeImmutable
     {
         $this->check($from);
         return new DateTimeImmutable($from);
@@ -50,7 +52,7 @@ class DateTimeTransformation implements Constraint
     /**
      * @inheritDoc
      */
-    public function getError() : string
+    public function getError(): string
     {
         return $this->error;
     }
@@ -70,7 +72,7 @@ class DateTimeTransformation implements Constraint
     /**
      * @inheritDoc
      */
-    public function accepts($value) : bool
+    public function accepts($value): bool
     {
         try {
             new DateTimeImmutable($value);
@@ -84,7 +86,7 @@ class DateTimeTransformation implements Constraint
     /**
      * @inheritDoc
      */
-    public function problemWith($value) : ?string
+    public function problemWith($value): ?string
     {
         if (!$this->accepts($value)) {
             return $this->getErrorMessage($value);

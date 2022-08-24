@@ -36,7 +36,7 @@ class ilSurveyContainsDataMessageBoxGUI
         $this->ctrl = $DIC->ctrl();
     }
 
-    public function getHTML() : string
+    public function getHTML(): string
     {
         $ctrl = $this->ctrl;
         $lng = $this->lng;

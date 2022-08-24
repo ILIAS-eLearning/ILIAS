@@ -36,7 +36,7 @@ class ilImageMagickRenderer extends ilFilePreviewRenderer
      *
      * @return array An array containing the supported file formats.
      */
-    public function getSupportedFileFormats() : array
+    public function getSupportedFileFormats(): array
     {
         // build formats only once
         if (!isset(self::$supported_formats)) {
@@ -51,7 +51,7 @@ class ilImageMagickRenderer extends ilFilePreviewRenderer
      *
      * @return array An array containing the supported file formats.
      */
-    public static function evaluateSupportedFileFormats() : array
+    public static function evaluateSupportedFileFormats(): array
     {
         return explode(",", self::SUPPORTED_FORMATS) ?? [];
     }
@@ -63,7 +63,7 @@ class ilImageMagickRenderer extends ilFilePreviewRenderer
      * @param ilObjFile $obj The object to create images from.
      * @return array An array of ilRenderedImage containing the absolute file paths to the images.
      */
-    protected function renderImages(\ilObject $obj) : array
+    protected function renderImages(\ilObject $obj): array
     {
         $filepath = $obj->getFile();
         $tmpPath = $this->prepareFileForExec($filepath);

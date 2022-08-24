@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -27,44 +29,44 @@ class assFormulaQuestionUnitCategory
     private string $category = '';
     private int $question_fi = 0;
 
-    public function initFormArray(array $data) : void
+    public function initFormArray(array $data): void
     {
         $this->id = (int) $data['category_id'];
         $this->category = $data['category'];
         $this->question_fi = (int) $data['question_fi'];
     }
 
-    public function setId(int $id) : void
+    public function setId(int $id): void
     {
         $this->id = $id;
     }
 
-    public function getId() : int
+    public function getId(): int
     {
         return $this->id;
     }
 
-    public function setCategory(string $category) : void
+    public function setCategory(string $category): void
     {
         $this->category = $category;
     }
 
-    public function getCategory() : string
+    public function getCategory(): string
     {
         return $this->category;
     }
 
-    public function setQuestionFi(int $question_fi) : void
+    public function setQuestionFi(int $question_fi): void
     {
         $this->question_fi = $question_fi;
     }
 
-    public function getQuestionFi() : int
+    public function getQuestionFi(): int
     {
         return $this->question_fi;
     }
 
-    public function getDisplayString() : string
+    public function getDisplayString(): string
     {
         global $DIC;
 

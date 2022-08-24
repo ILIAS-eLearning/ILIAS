@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -43,21 +45,21 @@ class ilSCORMOrganizations extends ilSCORMObject
         $this->setType("sos");
     }
 
-    public function getDefaultOrganization() : string
+    public function getDefaultOrganization(): string
     {
         return $this->default_organization;
     }
 
-    public function setDefaultOrganization(string $a_def_org) : void
+    public function setDefaultOrganization(string $a_def_org): void
     {
         $this->default_organization = $a_def_org;
     }
 
-    public function read() : void
+    public function read(): void
     {
         global $DIC;
         $ilDB = $DIC->database();
-        
+
         parent::read();
 
         $obj_set = $ilDB->queryF(
@@ -69,11 +71,11 @@ class ilSCORMOrganizations extends ilSCORMObject
         $this->setDefaultOrganization($obj_rec["default_organization"]);
     }
 
-    public function create() : void
+    public function create(): void
     {
         global $DIC;
         $ilDB = $DIC->database();
-        
+
         parent::create();
 
         $ilDB->manipulateF(
@@ -84,11 +86,11 @@ class ilSCORMOrganizations extends ilSCORMObject
         );
     }
 
-    public function update() : void
+    public function update(): void
     {
         global $DIC;
         $ilDB = $DIC->database();
-        
+
         parent::update();
 
         $ilDB->manipulateF(
@@ -101,7 +103,7 @@ class ilSCORMOrganizations extends ilSCORMObject
         );
     }
 
-    public function delete() : void
+    public function delete(): void
     {
         global $DIC;
         $ilDB = $DIC->database();

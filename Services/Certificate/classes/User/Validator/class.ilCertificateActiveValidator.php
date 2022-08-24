@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -37,7 +39,7 @@ class ilCertificateActiveValidator
         $this->rpcSettings = $rpcSettings;
     }
 
-    public function validate() : bool
+    public function validate(): bool
     {
         $globalCertificateActive = (bool) $this->setting->get('active', '0');
 

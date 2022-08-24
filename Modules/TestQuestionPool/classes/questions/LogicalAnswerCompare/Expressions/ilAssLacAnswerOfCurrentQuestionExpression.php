@@ -12,7 +12,6 @@ require_once "Modules/TestQuestionPool/classes/questions/LogicalAnswerCompare/Ex
  */
 class ilAssLacAnswerOfCurrentQuestionExpression extends ilAssLacAbstractExpression implements ilAssLacQuestionExpressionInterface
 {
-
     /**
      * The pattern <b>'/R([^\[|0-9]|$)/'</b> should match the following expression in a condition <br />
      * <br />
@@ -35,7 +34,7 @@ class ilAssLacAnswerOfCurrentQuestionExpression extends ilAssLacAbstractExpressi
      *
      * @param array $matches
      */
-    protected function setMatches($matches) : void
+    protected function setMatches($matches): void
     {
     }
 
@@ -44,7 +43,7 @@ class ilAssLacAnswerOfCurrentQuestionExpression extends ilAssLacAbstractExpressi
      *
      * @return int
      */
-    public function getQuestionIndex() : ?int
+    public function getQuestionIndex(): ?int
     {
         return null;
     }
@@ -53,7 +52,7 @@ class ilAssLacAnswerOfCurrentQuestionExpression extends ilAssLacAbstractExpressi
      * Get the value of this Expression
      * @return string
      */
-    public function getValue() : string
+    public function getValue(): string
     {
         return "R";
     }
@@ -62,7 +61,7 @@ class ilAssLacAnswerOfCurrentQuestionExpression extends ilAssLacAbstractExpressi
      * Get a human readable description of the Composite element
      * @return string
      */
-    public function getDescription() : string
+    public function getDescription(): string
     {
         return "Aktuelle Frage";
     }
@@ -71,7 +70,7 @@ class ilAssLacAnswerOfCurrentQuestionExpression extends ilAssLacAbstractExpressi
      * Get the Pattern to match relevant informations for an Expression
      * @return string
      */
-    protected function getPattern() : string
+    protected function getPattern(): string
     {
         return '/.+/';
     }

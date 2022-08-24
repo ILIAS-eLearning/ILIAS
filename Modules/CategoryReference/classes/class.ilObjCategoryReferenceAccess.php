@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -37,7 +39,7 @@ class ilObjCategoryReferenceAccess extends ilContainerReferenceAccess
      *		array("permission" => "write", "cmd" => "edit", "lang_var" => "edit"),
      *	);
      */
-    public static function _getCommands(int $a_ref_id = null) : array
+    public static function _getCommands(int $a_ref_id = null): array
     {
         global $DIC;
 

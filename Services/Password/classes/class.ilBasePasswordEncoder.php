@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -35,7 +37,7 @@ abstract class ilBasePasswordEncoder implements ilPasswordEncoder
      * @param string $userString  The second password
      * @return bool true if the two passwords are the same, false otherwise
      */
-    protected function comparePasswords(string $knownString, string $userString) : bool
+    protected function comparePasswords(string $knownString, string $userString): bool
     {
         $knownString .= chr(0);
         $userString .= chr(0);
@@ -52,22 +54,22 @@ abstract class ilBasePasswordEncoder implements ilPasswordEncoder
         return 0 === $result;
     }
 
-    protected function isPasswordTooLong(string $password) : bool
+    protected function isPasswordTooLong(string $password): bool
     {
         return strlen($password) > self::MAX_PASSWORD_LENGTH;
     }
 
-    public function isSupportedByRuntime() : bool
+    public function isSupportedByRuntime(): bool
     {
         return true;
     }
 
-    public function requiresSalt() : bool
+    public function requiresSalt(): bool
     {
         return false;
     }
 
-    public function requiresReencoding(string $encoded) : bool
+    public function requiresReencoding(string $encoded): bool
     {
         return false;
     }

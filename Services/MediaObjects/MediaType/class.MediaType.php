@@ -31,7 +31,7 @@ class MediaType
      * This has been introduced for applets long time ago and been available for
      * all mime times for several years.
      */
-    public function usesParameterProperty(string $mime) : bool
+    public function usesParameterProperty(string $mime): bool
     {
         return !in_array($mime, ["image/x-ms-bmp", "image/gif", "image/jpeg", "image/x-portable-bitmap",
                      "image/png", "image/psd", "image/tiff", "application/pdf"]);
@@ -46,7 +46,7 @@ class MediaType
     public function usesAutoStartParameterOnly(
         string $location,
         string $mime
-    ) : bool {
+    ): bool {
         $lpath = pathinfo($location);
         if ($lpath["extension"] == "mp3" && $mime == "audio/mpeg") {
             return true;
@@ -60,12 +60,12 @@ class MediaType
         return false;
     }
 
-    public function isImage(string $mime) : bool
+    public function isImage(string $mime): bool
     {
         return is_int(strpos($mime, "image"));
     }
 
-    public function usesAltTextProperty(string $mime) : bool
+    public function usesAltTextProperty(string $mime): bool
     {
         return $this->isImage($mime);
     }

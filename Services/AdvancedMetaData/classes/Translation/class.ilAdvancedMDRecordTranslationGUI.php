@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * Class ilAdvancedMDRecordTranslationGUI
@@ -7,7 +9,7 @@
  */
 class ilAdvancedMDRecordTranslationGUI extends ilAdvancedMDTranslationGUI
 {
-    protected function translations() : void
+    protected function translations(): void
     {
         $this->setTabs(self::CMD_DEFAULT);
 
@@ -25,7 +27,7 @@ class ilAdvancedMDRecordTranslationGUI extends ilAdvancedMDTranslationGUI
     /**
      * @todo use kindlyTo for input parameters
      */
-    protected function saveTranslations() : void
+    protected function saveTranslations(): void
     {
         $languages = (array) $this->request->getParsedBody()['active_languages'];
         $default = (string) $this->request->getParsedBody()['default'];

@@ -25,22 +25,22 @@ namespace ILIAS\Skill\Tree;
  */
 class SkillTreeFactory
 {
-    public function getGlobalTree() : \ilGlobalSkillTree
+    public function getGlobalTree(): \ilGlobalSkillTree
     {
         return new \ilGlobalSkillTree();
     }
 
-    public function getTreeById(int $id) : \ilSkillTree
+    public function getTreeById(int $id): \ilSkillTree
     {
         return new \ilSkillTree($id);
     }
 
-    public function getGlobalVirtualTree() : \ilGlobalVirtualSkillTree
+    public function getGlobalVirtualTree(): \ilGlobalVirtualSkillTree
     {
         return new \ilGlobalVirtualSkillTree();
     }
 
-    public function getVirtualTreeById(int $id) : \ilVirtualSkillTree
+    public function getVirtualTreeById(int $id): \ilVirtualSkillTree
     {
         return new \ilVirtualSkillTree($id);
     }

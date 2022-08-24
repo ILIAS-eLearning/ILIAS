@@ -31,7 +31,7 @@ class ilDerivedTaskFactoryTest extends ilTasksTestBase
         $this->assertTrue($factory instanceof ilDerivedTaskFactory);
     }
 
-    public function testTask() : void
+    public function testTask(): void
     {
         /** @var ilTaskService $service */
         $service = $this->getTaskServiceMock();
@@ -47,7 +47,7 @@ class ilDerivedTaskFactoryTest extends ilTasksTestBase
         $this->assertEquals(0, $task->getWspId());
     }
 
-    public function testCollector() : void
+    public function testCollector(): void
     {
         /** @var ilTaskService $service */
         $service = $this->getTaskServiceMock();
@@ -58,7 +58,7 @@ class ilDerivedTaskFactoryTest extends ilTasksTestBase
         $this->assertTrue($task instanceof ilDerivedTaskCollector);
     }
 
-    public function testAllProviders() : void
+    public function testAllProviders(): void
     {
         /** @var ilTaskService $service */
         $service = $this->getTaskServiceMock();

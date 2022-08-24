@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -21,7 +23,7 @@ class ilECSUpdateSteps8 implements ilDatabaseUpdateSteps
 {
     protected ilDBInterface $db;
 
-    public function prepare(ilDBInterface $db) : void
+    public function prepare(ilDBInterface $db): void
     {
         $this->db = $db;
     }
@@ -29,7 +31,7 @@ class ilECSUpdateSteps8 implements ilDatabaseUpdateSteps
     /**
      * Add consent table
      */
-    public function step_1() : void
+    public function step_1(): void
     {
         if (!$this->db->tableExists('ecs_user_consent')) {
             $this->db->createTable('ecs_user_consent', [
@@ -48,7 +50,7 @@ class ilECSUpdateSteps8 implements ilDatabaseUpdateSteps
         }
     }
 
-    public function step_2() : void
+    public function step_2(): void
     {
         if (!$this->db->tableColumnExists('ecs_part_settings', 'username_placeholders')) {
             $this->db->addTableColumn(
@@ -64,7 +66,7 @@ class ilECSUpdateSteps8 implements ilDatabaseUpdateSteps
         }
     }
 
-    public function step_3() : void
+    public function step_3(): void
     {
         if (!$this->db->tableColumnExists('ecs_part_settings', 'incoming_auth_type')) {
             $this->db->addTableColumn(
@@ -80,7 +82,7 @@ class ilECSUpdateSteps8 implements ilDatabaseUpdateSteps
         }
     }
 
-    public function step_4() : void
+    public function step_4(): void
     {
         if (!$this->db->tableColumnExists('ecs_part_settings', 'incoming_local_accounts')) {
             $this->db->addTableColumn(
@@ -96,7 +98,7 @@ class ilECSUpdateSteps8 implements ilDatabaseUpdateSteps
         }
     }
 
-    public function step_5() : void
+    public function step_5(): void
     {
         if (!$this->db->tableColumnExists('ecs_part_settings', 'outgoing_auth_mode')) {
             $this->db->addTableColumn(
@@ -112,7 +114,7 @@ class ilECSUpdateSteps8 implements ilDatabaseUpdateSteps
         }
     }
 
-    public function step_6() : void
+    public function step_6(): void
     {
         if ($this->db->tableColumnExists('ecs_part_settings', 'outgoing_auth_mode')) {
             $this->db->renameTableColumn(

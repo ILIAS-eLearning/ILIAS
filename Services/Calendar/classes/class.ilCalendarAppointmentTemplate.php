@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /*
         +-----------------------------------------------------------------------------+
         | ILIAS open source                                                           |
@@ -46,22 +48,22 @@ class ilCalendarAppointmentTemplate
         $this->context_id = $a_id;
     }
 
-    public function setContextInfo(string $a_info) : void
+    public function setContextInfo(string $a_info): void
     {
         $this->context_info = $a_info;
     }
 
-    public function getContextInfo() : string
+    public function getContextInfo(): string
     {
         return $this->context_info;
     }
 
-    public function setTitle(string $a_title) : void
+    public function setTitle(string $a_title): void
     {
         $this->title = $a_title;
     }
 
-    public function getTitle() : string
+    public function getTitle(): string
     {
         return $this->title;
     }
@@ -71,7 +73,7 @@ class ilCalendarAppointmentTemplate
      * Used for automatic generated appointments.
      * Will be translated automatically and be appended to the title.
      */
-    public function setSubtitle(string $a_subtitle) : void
+    public function setSubtitle(string $a_subtitle): void
     {
         $this->subtitle = $a_subtitle;
     }
@@ -79,52 +81,52 @@ class ilCalendarAppointmentTemplate
     /**
      * get subtitle
      */
-    public function getSubtitle() : string
+    public function getSubtitle(): string
     {
         return $this->subtitle;
     }
 
-    public function setDescription(string $a_description) : void
+    public function setDescription(string $a_description): void
     {
         $this->description = $a_description;
     }
 
-    public function getDescription() : string
+    public function getDescription(): string
     {
         return $this->description;
     }
 
-    public function setInformation(string $a_information) : void
+    public function setInformation(string $a_information): void
     {
         $this->information = $a_information;
     }
 
-    public function getInformation() : string
+    public function getInformation(): string
     {
         return $this->information;
     }
 
-    public function setLocation(string $a_location) : void
+    public function setLocation(string $a_location): void
     {
         $this->location = $a_location;
     }
 
-    public function getLocation() : string
+    public function getLocation(): string
     {
         return $this->location;
     }
 
-    public function setStart(ilDateTime $start) : void
+    public function setStart(ilDateTime $start): void
     {
         $this->start = $start;
     }
 
-    public function getStart() : ?ilDateTime
+    public function getStart(): ?ilDateTime
     {
         return $this->start;
     }
 
-    public function setEnd(ilDateTime $end) : void
+    public function setEnd(ilDateTime $end): void
     {
         $this->end = $end;
     }
@@ -132,32 +134,32 @@ class ilCalendarAppointmentTemplate
     /**
      * @todo check if this is required
      */
-    public function getEnd() : ?ilDateTime
+    public function getEnd(): ?ilDateTime
     {
         return $this->end ?: $this->getStart();
     }
 
-    public function setFullday(bool $a_fullday) : void
+    public function setFullday(bool $a_fullday): void
     {
         $this->fullday = $a_fullday;
     }
 
-    public function isFullday() : bool
+    public function isFullday(): bool
     {
         return $this->fullday;
     }
 
-    public function setTranslationType(int $a_type) : void
+    public function setTranslationType(int $a_type): void
     {
         $this->translation_type = $a_type;
     }
 
-    public function getTranslationType() : int
+    public function getTranslationType(): int
     {
         return $this->translation_type;
     }
 
-    public function getContextId() : int
+    public function getContextId(): int
     {
         return $this->context_id;
     }

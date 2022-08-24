@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -22,19 +24,19 @@ class ilRegistrationSettingsTest extends TestCase
 {
     protected Container $dic;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         $this->initDependencies();
         parent::setUp();
     }
 
-    public function testConstruct() : void
+    public function testConstruct(): void
     {
         $settings = new ilRegistrationSettings();
         $this->assertInstanceOf(ilRegistrationSettings::class, $settings);
     }
 
-    protected function setGlobalVariable(string $name, $value) : void
+    protected function setGlobalVariable(string $name, $value): void
     {
         global $DIC;
 
@@ -45,7 +47,7 @@ class ilRegistrationSettingsTest extends TestCase
         };
     }
 
-    protected function initDependencies() : void
+    protected function initDependencies(): void
     {
         $this->dic = new Container();
         $GLOBALS['DIC'] = $this->dic;

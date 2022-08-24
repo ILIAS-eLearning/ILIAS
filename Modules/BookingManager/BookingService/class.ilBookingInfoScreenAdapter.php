@@ -40,7 +40,7 @@ class ilBookingInfoScreenAdapter
      * Get pool ids
      * @return int[]
      */
-    protected function getPoolIds() : array
+    protected function getPoolIds(): array
     {
         return array_map(static function ($ref_id) {
             return ilObject::_lookupObjId($ref_id);
@@ -51,7 +51,7 @@ class ilBookingInfoScreenAdapter
      * Get reservation list
      * @return array[]
      */
-    protected function getList() : array
+    protected function getList(): array
     {
         $filter = ["context_obj_ids" => [$this->context_obj_id]];
         $filter['past'] = true;
@@ -69,7 +69,7 @@ class ilBookingInfoScreenAdapter
     /**
      * Add info to info screen
      */
-    public function add() : void
+    public function add(): void
     {
         $info = $this->info_screen_gui;
         $current_pool_id = 0;

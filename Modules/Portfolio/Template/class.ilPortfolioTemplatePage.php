@@ -23,23 +23,23 @@
 class ilPortfolioTemplatePage extends ilPortfolioPage
 {
     public const TYPE_BLOG_TEMPLATE = 3;
-    
-    public function getParentType() : string
+
+    public function getParentType(): string
     {
         return "prtt";
     }
-    
-    public function getPageDiskSize() : int
+
+    public function getPageDiskSize(): int
     {
         $quota_sum = 0;
-        
+
         $this->buildDom();
         $dom = $this->getDom();
         if ($dom instanceof php4DOMDocument) {
             $dom = $dom->myDOMDocument;
         }
         $xpath_temp = new DOMXPath($dom);
-        
+
         // mobs
         $nodes = $xpath_temp->query("//PageContent/MediaObject/MediaAlias");
         foreach ($nodes as $node) {
@@ -48,7 +48,7 @@ class ilPortfolioTemplatePage extends ilPortfolioPage
             $mob_dir = ilObjMediaObject::_getDirectory($mob_id);
             $quota_sum += ilFileUtils::dirsize($mob_dir);
         }
-        
+
         return $quota_sum;
     }
 }

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,14 +17,14 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\UI\Component\Table;
 
 use ILIAS\UI\Component\Component;
 
 interface Table extends Component
 {
-    public function withTitle(string $title) : Table;
+    public function withTitle(string $title): Table;
 
-    public function getTitle() : string;
+    public function getTitle(): string;
 }

@@ -16,7 +16,6 @@
  *
  *********************************************************************/
 
-
 namespace ILIAS\LTI\ToolProvider\Service;
 
 use ILIAS\LTI\ToolProvider\User;
@@ -31,7 +30,6 @@ use ILIAS\LTI\ToolProvider\Outcome;
  */
 class Result extends AssignmentGrade
 {
-
     /**
      * Access scope.
      */
@@ -143,7 +141,7 @@ class Result extends AssignmentGrade
     ###  PRIVATE METHOD
     ###
 
-    private static function getOutcome(object $json) : Outcome
+    private static function getOutcome(object $json): Outcome
     {
         $outcome = new Outcome();
         $outcome->ltiUserId = $json->userId;

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /* Copyright (c) 1998-2020 ILIAS open source, Extended GPL, see docs/LICENSE */
 
@@ -10,7 +12,7 @@ class ilTestExportFixedQuestionSetTest extends ilTestBaseTestCase
 {
     private ilTestExportFixedQuestionSet $testObj;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -23,7 +25,7 @@ class ilTestExportFixedQuestionSetTest extends ilTestBaseTestCase
         $this->testObj = new ilTestExportFixedQuestionSet($objTest_mock);
     }
 
-    public function test_instantiateObject_shouldReturnInstance() : void
+    public function test_instantiateObject_shouldReturnInstance(): void
     {
         $this->assertInstanceOf(ilTestExportFixedQuestionSet::class, $this->testObj);
     }

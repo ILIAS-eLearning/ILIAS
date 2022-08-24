@@ -24,7 +24,7 @@ class ilObjPortfolio extends ilObjPortfolioBase
 {
     protected bool $default = false;
 
-    protected function initType() : void
+    protected function initType(): void
     {
         $this->type = "prtf";
     }
@@ -32,43 +32,43 @@ class ilObjPortfolio extends ilObjPortfolioBase
     //
     // PROPERTIES
     //
-    
-    public function setDefault(bool $a_value) : void
+
+    public function setDefault(bool $a_value): void
     {
         $this->default = $a_value;
     }
 
-    public function isDefault() : bool
+    public function isDefault(): bool
     {
         return $this->default;
     }
-    
-    
+
+
     //
     // CRUD
     //
-            
-    protected function doReadCustom(array $a_row) : void
+
+    protected function doReadCustom(array $a_row): void
     {
         $this->setDefault((bool) $a_row["is_default"]);
     }
-    
-    protected function doUpdate() : void
+
+    protected function doUpdate(): void
     {
         // must be online to be default
         if (!$this->isOnline() && $this->isDefault()) {
             $this->setDefault(false);
         }
-    
+
         parent::doUpdate();
     }
 
-    protected function doUpdateCustom(array &$a_fields) : void
+    protected function doUpdateCustom(array &$a_fields): void
     {
         $a_fields["is_default"] = array("integer", $this->isDefault());
     }
-    
-    protected function deleteAllPages() : void
+
+    protected function deleteAllPages(): void
     {
         // delete pages
         $pages = ilPortfolioPage::getAllPortfolioPages($this->id);
@@ -78,8 +78,8 @@ class ilObjPortfolio extends ilObjPortfolioBase
             $page_obj->delete();
         }
     }
-    
-    
+
+
     //
     // HELPER
     //
@@ -90,11 +90,11 @@ class ilObjPortfolio extends ilObjPortfolioBase
     public static function setUserDefault(
         int $a_user_id,
         ?int $a_portfolio_id = null
-    ) : void {
+    ): void {
         global $DIC;
 
         $ilDB = $DIC->database();
-        
+
         $all = array();
         foreach (self::getPortfoliosOfUser($a_user_id) as $item) {
             $all[] = $item["id"];
@@ -118,7 +118,7 @@ class ilObjPortfolio extends ilObjPortfolioBase
      */
     public static function getPortfoliosOfUser(
         int $a_user_id
-    ) : array {
+    ): array {
         global $DIC;
 
         $ilDB = $DIC->database();
@@ -135,21 +135,21 @@ class ilObjPortfolio extends ilObjPortfolioBase
         }
         return $res;
     }
-    
+
     /**
      * Get default portfolio of user
      */
-    public static function getDefaultPortfolio(int $a_user_id) : ?int
+    public static function getDefaultPortfolio(int $a_user_id): ?int
     {
         global $DIC;
 
         $ilDB = $DIC->database();
         $ilSetting = $DIC->settings();
-        
+
         if (!$ilSetting->get('user_portfolios')) {
             return null;
         }
-            
+
         $set = $ilDB->query("SELECT up.id FROM usr_portfolio up" .
             " JOIN object_data od ON (up.id = od.obj_id)" .
             " WHERE od.owner = " . $ilDB->quote($a_user_id, "integer") .
@@ -160,34 +160,34 @@ class ilObjPortfolio extends ilObjPortfolioBase
         }
         return null;
     }
-    
+
     /**
      * Delete all portfolio data for user
      */
-    public static function deleteUserPortfolios(int $a_user_id) : void
+    public static function deleteUserPortfolios(int $a_user_id): void
     {
         $all = self::getPortfoliosOfUser($a_user_id);
         if ($all) {
             $access_handler = new ilPortfolioAccessHandler();
-            
+
             foreach ($all as $item) {
                 $access_handler->removePermission($item["id"]);
-                
+
                 $portfolio = new self($item["id"], false);
                 $portfolio->delete();
             }
         }
     }
-    
-    public function deleteImage() : void
+
+    public function deleteImage(): void
     {
         if ($this->id) {
             parent::deleteImage();
             $this->handleQuotaUpdate();
         }
     }
-    
-    public function uploadImage(array $a_upload) : bool
+
+    public function uploadImage(array $a_upload): bool
     {
         if (parent::uploadImage($a_upload)) {
             $this->handleQuotaUpdate();
@@ -195,38 +195,38 @@ class ilObjPortfolio extends ilObjPortfolioBase
         }
         return false;
     }
-    
-    protected function handleQuotaUpdate() : void
+
+    protected function handleQuotaUpdate(): void
     {
     }
-    
+
     public static function getAvailablePortfolioLinksForUserIds(
         array $a_owner_ids,
         ?string $a_back_url = null
-    ) : array {
+    ): array {
         $res = array();
-        
+
         $access_handler = new ilPortfolioAccessHandler();
-        
+
         $params = null;
         if ($a_back_url) {
             $params = array("back_url" => rawurlencode($a_back_url));
         }
-        
+
         foreach ($access_handler->getShardObjectsDataForUserIds($a_owner_ids) as $owner_id => $items) {
             foreach ($items as $id => $title) {
                 $url = ilLink::_getLink($id, 'prtf', $params);
                 $res[$owner_id][$url] = $title;
             }
         }
-        
+
         return $res;
     }
 
     /**
      * Is export possible
      */
-    public function isCommentsExportPossible() : bool
+    public function isCommentsExportPossible(): bool
     {
         $setting = $this->setting;
         $privacy = ilPrivacySettings::getInstance();

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * Booking definition
  * @author  Stefan Meyer <meyer@leifos.com>
@@ -45,7 +47,7 @@ class ilWebResourceExporter extends ilXmlExporter
         string $a_entity,
         string $a_schema_version,
         string $a_id
-    ) : string {
+    ): string {
         try {
             $this->writer = new ilWebLinkXmlWriter(false);
             $this->writer->setObjId((int) $a_id);
@@ -64,7 +66,7 @@ class ilWebResourceExporter extends ilXmlExporter
         string $a_entity,
         string $a_target_release,
         array $a_ids
-    ) : array {
+    ): array {
         $deps = [];
         // service settings
         $deps[] = [
@@ -79,7 +81,7 @@ class ilWebResourceExporter extends ilXmlExporter
     /**
      * @inheritDoc
      */
-    public function getValidSchemaVersions(string $a_entity) : array
+    public function getValidSchemaVersions(string $a_entity): array
     {
         return array(
             "4.1.0" => array(
@@ -92,7 +94,7 @@ class ilWebResourceExporter extends ilXmlExporter
         );
     }
 
-    public function init() : void
+    public function init(): void
     {
     }
 }

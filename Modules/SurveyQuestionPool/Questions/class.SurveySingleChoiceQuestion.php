@@ -42,15 +42,15 @@ class SurveySingleChoiceQuestion extends SurveyQuestion
         $this->user = $DIC->user();
         $this->lng = $DIC->language();
         parent::__construct($title, $description, $author, $questiontext, $owner);
-        
+
         $this->orientation = $orientation;
         $this->categories = new SurveyCategories();
     }
-    
+
     /**
      * Gets the available categories for a given phrase
      */
-    public function getCategoriesForPhrase(int $phrase_id) : array
+    public function getCategoriesForPhrase(int $phrase_id): array
     {
         $ilDB = $this->db;
         $categories = array();
@@ -68,15 +68,15 @@ class SurveySingleChoiceQuestion extends SurveyQuestion
         }
         return $categories;
     }
-    
+
     /**
      * Adds a phrase to the question
      */
-    public function addPhrase(int $phrase_id) : void
+    public function addPhrase(int $phrase_id): void
     {
         $ilUser = $this->user;
         $ilDB = $this->db;
-        
+
         $result = $ilDB->queryF(
             "SELECT svy_category.* FROM svy_category, svy_phrase_cat WHERE svy_phrase_cat.category_fi = svy_category.category_id AND svy_phrase_cat.phrase_fi = %s AND (svy_category.owner_fi = 0 OR svy_category.owner_fi = %s) ORDER BY svy_phrase_cat.sequence",
             array('integer', 'integer'),
@@ -91,11 +91,11 @@ class SurveySingleChoiceQuestion extends SurveyQuestion
             }
         }
     }
-    
-    public function getQuestionDataArray(int $id) : array
+
+    public function getQuestionDataArray(int $id): array
     {
         $ilDB = $this->db;
-        
+
         $result = $ilDB->queryF(
             "SELECT svy_question.*, " . $this->getAdditionalTableName() . ".* FROM svy_question, " . $this->getAdditionalTableName() . " WHERE svy_question.question_id = %s AND svy_question.question_id = " . $this->getAdditionalTableName() . ".question_fi",
             array('integer'),
@@ -107,8 +107,8 @@ class SurveySingleChoiceQuestion extends SurveyQuestion
             return array();
         }
     }
-    
-    public function loadFromDb(int $question_id) : void
+
+    public function loadFromDb(int $question_id): void
     {
         $ilDB = $this->db;
 
@@ -147,7 +147,7 @@ class SurveySingleChoiceQuestion extends SurveyQuestion
         parent::loadFromDb($question_id);
     }
 
-    public function isComplete() : bool
+    public function isComplete(): bool
     {
         if (
             $this->getTitle() !== '' &&
@@ -160,8 +160,8 @@ class SurveySingleChoiceQuestion extends SurveyQuestion
             return false;
         }
     }
-    
-    public function saveToDb(int $original_id = 0) : int
+
+    public function saveToDb(int $original_id = 0): int
     {
         $ilDB = $this->db;
 
@@ -188,7 +188,7 @@ class SurveySingleChoiceQuestion extends SurveyQuestion
         return $affectedRows;
     }
 
-    public function saveCategoriesToDb() : void
+    public function saveCategoriesToDb(): void
     {
         $ilDB = $this->db;
 
@@ -219,7 +219,7 @@ class SurveySingleChoiceQuestion extends SurveyQuestion
     public function toXML(
         bool $a_include_header = true,
         bool $obligatory_state = false
-    ) : string {
+    ): string {
         $a_xml_writer = new ilXmlWriter();
         $a_xml_writer->xmlHeader();
         $this->insertXML($a_xml_writer, $a_include_header);
@@ -230,11 +230,11 @@ class SurveySingleChoiceQuestion extends SurveyQuestion
         }
         return $xml;
     }
-    
+
     public function insertXML(
         ilXmlWriter $a_xml_writer,
         bool $a_include_header = true
-    ) : void {
+    ): void {
         $attrs = array(
             "id" => $this->getId(),
             "title" => $this->getTitle(),
@@ -242,7 +242,7 @@ class SurveySingleChoiceQuestion extends SurveyQuestion
             "obligatory" => $this->getObligatory()
         );
         $a_xml_writer->xmlStartTag("question", $attrs);
-        
+
         $a_xml_writer->xmlElement("description", null, $this->getDescription());
         $a_xml_writer->xmlElement("author", null, $this->getAuthor());
         if (strlen($this->label)) {
@@ -306,7 +306,7 @@ class SurveySingleChoiceQuestion extends SurveyQuestion
         $a_xml_writer->xmlEndTag("question");
     }
 
-    public function importAdditionalMetadata(array $a_meta) : void
+    public function importAdditionalMetadata(array $a_meta): void
     {
         foreach ($a_meta as $key => $value) {
             switch ($value["label"]) {
@@ -323,7 +323,7 @@ class SurveySingleChoiceQuestion extends SurveyQuestion
     public function addStandardNumbers(
         int $lower_limit,
         int $upper_limit
-    ) : void {
+    ): void {
         for ($i = $lower_limit; $i <= $upper_limit; $i++) {
             $this->categories->addCategory($i);
         }
@@ -333,7 +333,7 @@ class SurveySingleChoiceQuestion extends SurveyQuestion
      * Saves a set of categories to a default phrase
      * note: data comes from session
      */
-    public function savePhrase(string $title) : void
+    public function savePhrase(string $title): void
     {
         $ilUser = $this->user;
         $ilDB = $this->db;
@@ -345,7 +345,7 @@ class SurveySingleChoiceQuestion extends SurveyQuestion
             array($next_id, $title, 1, $ilUser->getId(), time())
         );
         $phrase_id = $next_id;
-                
+
         $counter = 1;
         $phrase_data = $this->edit_manager->getPhraseData();
         foreach ($phrase_data as $data) {
@@ -366,19 +366,19 @@ class SurveySingleChoiceQuestion extends SurveyQuestion
         }
     }
 
-    public function getQuestionType() : string
+    public function getQuestionType(): string
     {
         return "SurveySingleChoiceQuestion";
     }
 
-    public function getAdditionalTableName() : string
+    public function getAdditionalTableName(): string
     {
         return "svy_qst_sc";
     }
-    
+
     public function getWorkingDataFromUserInput(
         array $post_data
-    ) : array {
+    ): array {
         $entered_value = $post_data[$this->getId() . "_value"] ?? "";
         $data = array();
         if (strlen($entered_value)) {
@@ -409,15 +409,15 @@ class SurveySingleChoiceQuestion extends SurveyQuestion
     public function checkUserInput(
         array $post_data,
         int $survey_id
-    ) : string {
+    ): string {
         $entered_value = $post_data[$this->getId() . "_value"] ?? "";
 
         $this->log->debug("Entered value = " . $entered_value);
-        
+
         if ((!$this->getObligatory()) && (strlen($entered_value) == 0)) {
             return "";
         }
-        
+
         if (strlen($entered_value) == 0) {
             return $this->lng->txt("question_not_checked");
         }
@@ -442,11 +442,11 @@ class SurveySingleChoiceQuestion extends SurveyQuestion
         array $post_data,
         int $active_id,
         bool $a_return = false
-    ) : ?array {
+    ): ?array {
         $ilDB = $this->db;
 
         $entered_value = $post_data[$this->getId() . "_value"];
-        
+
         if ($a_return) {
             return array(array("value" => $entered_value,
                 "textanswer" => $post_data[$this->getId() . "_" . $entered_value . "_other"] ?? ""));
@@ -454,7 +454,7 @@ class SurveySingleChoiceQuestion extends SurveyQuestion
         if (strlen($entered_value) == 0) {
             return null;
         }
-        
+
         $next_id = $ilDB->nextId('svy_answer');
         #20216
         $fields = array();
@@ -465,7 +465,7 @@ class SurveySingleChoiceQuestion extends SurveyQuestion
         $fields['textanswer'] = array("clob", isset($post_data[$this->getId() . "_" . $entered_value . "_other"]) ?
             $this->stripSlashesAddSpaceFallback($post_data[$this->getId() . "_" . $entered_value . "_other"]) : null);
         $fields['tstamp'] = array("integer", time());
-        
+
         $affectedRows = $ilDB->insert("svy_answer", $fields);
 
         $debug_value = (strlen($entered_value)) ? $entered_value : "NULL";
@@ -474,7 +474,7 @@ class SurveySingleChoiceQuestion extends SurveyQuestion
         return null;
     }
 
-    public function importResponses(array $a_data) : void
+    public function importResponses(array $a_data): void
     {
         foreach ($a_data as $id => $data) {
             $categorytext = "";
@@ -491,17 +491,17 @@ class SurveySingleChoiceQuestion extends SurveyQuestion
         }
     }
 
-    public function usableForPrecondition() : bool
+    public function usableForPrecondition(): bool
     {
         return true;
     }
-    
-    public function getAvailableRelations() : array
+
+    public function getAvailableRelations(): array
     {
         return array("<", "<=", "=", "<>", ">=", ">");
     }
 
-    public function getPreconditionOptions() : array
+    public function getPreconditionOptions(): array
     {
         $options = array();
         for ($i = 0; $i < $this->categories->getCategoryCount(); $i++) {
@@ -515,7 +515,7 @@ class SurveySingleChoiceQuestion extends SurveyQuestion
         string $default,
         string $title,
         string $variable
-    ) : ?ilFormPropertyGUI {
+    ): ?ilFormPropertyGUI {
         $step3 = new ilSelectInputGUI($title, $variable);
         $options = $this->getPreconditionOptions();
         $step3->setOptions($options);
@@ -525,22 +525,22 @@ class SurveySingleChoiceQuestion extends SurveyQuestion
 
     public function getPreconditionValueOutput(
         string $value
-    ) : string {
+    ): string {
         // #18136
         $category = $this->categories->getCategoryForScale((int) $value + 1);
-        
+
         // #17895 - see getPreconditionOptions()
         return $category->scale .
             " - " .
             ((strlen($category->title)) ? $category->title : $this->lng->txt('other_answer'));
     }
 
-    public function getCategories() : SurveyCategories
+    public function getCategories(): SurveyCategories
     {
         return $this->categories;
     }
 
-    public static function getMaxSumScore(int $survey_id) : int
+    public static function getMaxSumScore(int $survey_id): int
     {
         global $DIC;
 
@@ -559,7 +559,7 @@ class SurveySingleChoiceQuestion extends SurveyQuestion
         return (int) $rec["sum_sum_score"];
     }
 
-    protected function isSumScoreValid(int $nr_answer_records) : bool
+    protected function isSumScoreValid(int $nr_answer_records): bool
     {
         if ($nr_answer_records == 1) {
             return true;
@@ -570,7 +570,7 @@ class SurveySingleChoiceQuestion extends SurveyQuestion
     public static function compressable(
         int $id1,
         int $id2
-    ) : bool {
+    ): bool {
         /** @var SurveySingleChoiceQuestion $q1 */
         $q1 = SurveyQuestion::_instanciateQuestion($id1);
         /** @var SurveySingleChoiceQuestion $q2 */
@@ -586,7 +586,7 @@ class SurveySingleChoiceQuestion extends SurveyQuestion
 
     public static function getCompressCompareString(
         SurveySingleChoiceQuestion $q
-    ) : string {
+    ): string {
         $str = "";
         for ($i = 0; $i < $q->categories->getCategoryCount(); $i++) {
             $cat = $q->categories->getCategory($i);

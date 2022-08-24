@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -37,25 +39,25 @@ class ilLuceneSearchResult implements Iterator
      */
     private array $listener = [];
     private int $position = 0;
-    
+
     private int $limit = 0;
     private int $total_hits = 0;
     private int $max_score = 0;
 
     private array $objects = [];
     private array $relevance = [];
-    
+
 
 
     /**
      * set search callback
      * @param Closure[]
      */
-    public function setCallback(array $a_callback) : void
+    public function setCallback(array $a_callback): void
     {
         $this->listener = $a_callback;
     }
-    
+
     /**
      * Iterator rewind
      */
@@ -63,7 +65,7 @@ class ilLuceneSearchResult implements Iterator
     {
         $this->position = 0;
     }
-    
+
     /**
      * Iterator valid
      * @param
@@ -86,7 +88,7 @@ class ilLuceneSearchResult implements Iterator
         }
         return false;
     }
-    
+
     /**
      * Iterator key
      * @return
@@ -95,7 +97,7 @@ class ilLuceneSearchResult implements Iterator
     {
         return $this->position;
     }
-    
+
     /**
      * Iterator current
      * @return
@@ -104,7 +106,7 @@ class ilLuceneSearchResult implements Iterator
     {
         return $this->objects[$this->position];
     }
-    
+
     /**
      * Iterator next
      */
@@ -112,56 +114,56 @@ class ilLuceneSearchResult implements Iterator
     {
         $this->position++;
     }
-    
-    
-    
-    public function getCandidates() : array
+
+
+
+    public function getCandidates(): array
     {
         return $this->objects;
     }
-    
-    public function addObject(int $a_value, float $a_relevance = 0) : void
+
+    public function addObject(int $a_value, float $a_relevance = 0): void
     {
         $this->objects[] = $a_value;
         $this->relevance[$a_value] = $a_relevance;
     }
-    
-    public function getRelevance(int $a_obj_id) : float
+
+    public function getRelevance(int $a_obj_id): float
     {
         if (!$this->getMaxScore()) {
             return 0;
         }
         return isset($this->relevance[$a_obj_id]) ? $this->relevance[$a_obj_id] / $this->getMaxScore() * 100 : 0;
     }
-    
-    
-    public function setLimit(int $a_limit) : void
+
+
+    public function setLimit(int $a_limit): void
     {
         $this->limit = $a_limit;
     }
-    
-    public function getLimit() : int
+
+    public function getLimit(): int
     {
         return $this->limit;
     }
-    
-    
-    public function setMaxScore(int $a_score) : void
+
+
+    public function setMaxScore(int $a_score): void
     {
         $this->max_score = $a_score;
     }
-    
-    public function getMaxScore() : int
+
+    public function getMaxScore(): int
     {
         return $this->max_score;
     }
-    
-    public function setTotalHits(int $a_hits) : void
+
+    public function setTotalHits(int $a_hits): void
     {
         $this->total_hits = $a_hits;
     }
-    
-    public function getTotalHits() : int
+
+    public function getTotalHits(): int
     {
         return $this->total_hits;
     }

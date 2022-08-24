@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -54,7 +56,7 @@ class OnScreenChatProvider extends AbstractStaticMainMenuProvider
     /**
      * @inheritDoc
      */
-    public function getStaticTopItems() : array
+    public function getStaticTopItems(): array
     {
         return [];
     }
@@ -62,7 +64,7 @@ class OnScreenChatProvider extends AbstractStaticMainMenuProvider
     /**
      * @inheritDoc
      */
-    public function getStaticSubItems() : array
+    public function getStaticSubItems(): array
     {
         $icon = $this->dic->ui()->factory()->symbol()->icon()->standard(
             Standard::CHTA,
@@ -71,7 +73,7 @@ class OnScreenChatProvider extends AbstractStaticMainMenuProvider
 
         return [
             $this->mainmenu->complex($this->if->identifier('mm_chat'))
-                ->withAvailableCallable(function () : bool {
+                ->withAvailableCallable(function (): bool {
                     $isUser = 0 !== $this->dic->user()->getId() && !$this->dic->user()->isAnonymous();
                     $chatSettings = new ilSetting('chatroom');
                     $isEnabled = $chatSettings->get('chat_enabled') && $chatSettings->get('enable_osc');
@@ -81,7 +83,7 @@ class OnScreenChatProvider extends AbstractStaticMainMenuProvider
                 ->withSymbol($icon)
                 ->withContent(
                     $this->dic->ui()->factory()->item()->shy('')->withAdditionalOnLoadCode(
-                        static function ($id) : string {
+                        static function ($id): string {
                             return "il.OnScreenChat.menuCollector = $id.parentNode;$id.remove();";
                         }
                     )
@@ -97,7 +99,7 @@ class OnScreenChatProvider extends AbstractStaticMainMenuProvider
      * @throws JsonException
      * @throws ilDateTimeException
      */
-    public function getAsyncItem(string $conversationIds, bool $withAggregates) : array
+    public function getAsyncItem(string $conversationIds, bool $withAggregates): array
     {
         $conversationIds = array_filter(explode(',', $conversationIds));
 

@@ -7,16 +7,16 @@ use PHPUnit\Framework\TestCase;
  */
 class LocatorGUITest extends TestCase
 {
-    protected function setUp() : void
+    protected function setUp(): void
     {
         parent::setUp();
     }
 
-    protected function tearDown() : void
+    protected function tearDown(): void
     {
     }
 
-    public function testValue() : void
+    public function testValue(): void
     {
         $loc = new ilLocatorGUI();
         $loc->setOffline(true);

@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 /**
@@ -44,7 +45,7 @@ final class ilObjEmployeeTalkSeriesAccess extends ilObjectAccess
      *        array('permission' => 'write', 'cmd' => 'edit', 'lang_var' => 'edit'),
      *    );
      */
-    public static function _getCommands() : array
+    public static function _getCommands(): array
     {
         $commands = [
             [
@@ -68,7 +69,7 @@ final class ilObjEmployeeTalkSeriesAccess extends ilObjectAccess
      *
      * @return bool
      */
-    public static function _checkGoto(string $a_target) : bool
+    public static function _checkGoto(string $a_target): bool
     {
         global $DIC;
 

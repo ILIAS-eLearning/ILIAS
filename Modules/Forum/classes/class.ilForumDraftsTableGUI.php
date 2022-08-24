@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -35,7 +37,7 @@ class ilForumDraftsTableGUI extends ilTable2GUI
         $this->setRowTemplate('tpl.forums_threads_drafts_table.html', 'Modules/Forum');
     }
 
-    public function initTableColumns() : void
+    public function initTableColumns(): void
     {
         $this->addColumn('', 'check', '1px', true);
         $this->addColumn($this->lng->txt('drafts'), '');
@@ -45,7 +47,7 @@ class ilForumDraftsTableGUI extends ilTable2GUI
         $this->setSelectAllCheckbox('draft_ids');
     }
 
-    protected function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set): void
     {
         global $DIC;
 

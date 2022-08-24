@@ -34,52 +34,52 @@ class ilBadgeBackpack
         $this->main_tpl = $DIC->ui()->mainTemplate();
         $this->email = $a_email;
     }
-    
-    protected function authenticate() : bool
+
+    protected function authenticate(): bool
     {
         $json = $this->sendRequest(
             self::URL_DISPLAYER . "convert/email",
             array("email" => $this->email),
             true
         );
-        
+
         if (!isset($json->status) ||
             $json->status !== "okay") {
             return false;
         }
-        
+
         $this->uid = $json->userId;
         return true;
     }
-    
-    public function getGroups() : array
+
+    public function getGroups(): array
     {
         if ($this->authenticate()) {
             $json = $this->sendRequest(
                 self::URL_DISPLAYER . $this->uid . "/groups.json"
             );
-            
+
             $result = array();
-            
+
             foreach ($json->groups as $group) {
                 $result[$group->groupId] = array(
                     "title" => $group->name,
                     "size" => $group->badges
                 );
             }
-            
+
             return $result;
         }
         return [];
     }
 
-    public function getBadges(string $a_group_id) : ?array
+    public function getBadges(string $a_group_id): ?array
     {
         if ($this->authenticate()) {
             $json = $this->sendRequest(
                 self::URL_DISPLAYER . $this->uid . "/group/" . $a_group_id . ".json"
             );
-            
+
             if ($json === null) {
                 return null;
             }
@@ -97,7 +97,7 @@ class ilBadgeBackpack
                 $issued_on = is_numeric($raw->assertion->issued_on)
                     ? $raw->assertion->issued_on
                     : strtotime($raw->assertion->issued_on);
-                
+
                 $result[] = [
                     "title" => $badge->name,
                     "description" => $badge->description,
@@ -108,28 +108,28 @@ class ilBadgeBackpack
                     "issued_on" => new ilDate($issued_on, IL_CAL_UNIX)
                 ];
             }
-            
+
             return $result;
         }
         return null;
     }
-    
+
     protected function sendRequest(
         string $a_url,
         array $a_param = array(),
         bool $a_is_post = false
-    ) : ?stdClass {
+    ): ?stdClass {
         try {
             $curl = new ilCurlConnection();
             $curl->init(false);
-                
+
             $curl->setOpt(CURLOPT_FRESH_CONNECT, true);
             $curl->setOpt(CURLOPT_RETURNTRANSFER, true);
             $curl->setOpt(CURLOPT_FORBID_REUSE, true);
             $curl->setOpt(CURLOPT_HEADER, 0);
             $curl->setOpt(CURLOPT_CONNECTTIMEOUT, 3);
             $curl->setOpt(CURLOPT_POSTREDIR, 3);
-            
+
             // :TODO: SSL problems on test server
             $curl->setOpt(CURLOPT_SSL_VERIFYPEER, false);
 
@@ -156,7 +156,7 @@ class ilBadgeBackpack
             $this->main_tpl->setOnScreenMessage('failure', $ex->getMessage());
             return null;
         }
-        
+
         return json_decode($answer, false, 512, JSON_THROW_ON_ERROR);
     }
 }

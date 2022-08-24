@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -67,7 +69,7 @@ class DateFormat
         $this->format = $format;
     }
 
-    public function validateFormatElelements(array $format) : void
+    public function validateFormatElelements(array $format): void
     {
         foreach ($format as $entry) {
             if (!in_array($entry, self::TOKENS, true)) {
@@ -80,7 +82,7 @@ class DateFormat
      * Get the elements of the format as array.
      * @return string[]
      */
-    public function toArray() : array
+    public function toArray(): array
     {
         return $this->format;
     }
@@ -88,17 +90,17 @@ class DateFormat
     /**
      * Get the format as string.
      */
-    public function toString() : string
+    public function toString(): string
     {
         return implode('', $this->format);
     }
 
-    public function __toString() : string
+    public function __toString(): string
     {
         return $this->toString();
     }
 
-    public function applyTo(\DateTimeImmutable $datetime) : string
+    public function applyTo(\DateTimeImmutable $datetime): string
     {
         return $datetime->format($this->toString());
     }

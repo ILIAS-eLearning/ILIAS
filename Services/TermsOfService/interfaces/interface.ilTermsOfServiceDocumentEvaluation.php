@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -27,21 +29,21 @@ interface ilTermsOfServiceDocumentEvaluation
      * @param ilObjUser $user
      * @return ilTermsOfServiceDocumentEvaluation
      */
-    public function withContextUser(ilObjUser $user) : ilTermsOfServiceDocumentEvaluation;
+    public function withContextUser(ilObjUser $user): ilTermsOfServiceDocumentEvaluation;
 
     /**
      * Determines a document based on the context of the concrete implementation
      * @return ilTermsOfServiceSignableDocument
      * @throws ilTermsOfServiceNoSignableDocumentFoundException
      */
-    public function document() : ilTermsOfServiceSignableDocument;
+    public function document(): ilTermsOfServiceSignableDocument;
 
-    public function hasDocument() : bool;
+    public function hasDocument(): bool;
 
     /**
      * Evaluates the passed document for the context given in the concrete implementation
      * @param ilTermsOfServiceSignableDocument $document
      * @return bool
      */
-    public function evaluateDocument(ilTermsOfServiceSignableDocument $document) : bool;
+    public function evaluateDocument(ilTermsOfServiceSignableDocument $document): bool;
 }

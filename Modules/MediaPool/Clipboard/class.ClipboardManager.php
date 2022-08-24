@@ -1,4 +1,6 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -32,22 +34,22 @@ class ClipboardManager
         $this->repo = $repo;
     }
 
-    public function setFolder(int $fold_id) : void
+    public function setFolder(int $fold_id): void
     {
         $this->repo->setFolder($fold_id);
     }
 
-    public function getFolder() : int
+    public function getFolder(): int
     {
         return $this->repo->getFolder();
     }
 
-    public function setIds(array $ids) : void
+    public function setIds(array $ids): void
     {
         $this->repo->setIds($ids);
     }
 
-    public function getIds() : array
+    public function getIds(): array
     {
         return $this->repo->getIds();
     }

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -65,7 +67,7 @@ class ilCertificateTemplateExportAction
      * @throws FileNotFoundException
      * @throws IOException
      */
-    public function export(string $rootDir = CLIENT_WEB_DIR, string $installationId = IL_INST_ID) : void
+    public function export(string $rootDir = CLIENT_WEB_DIR, string $installationId = IL_INST_ID): void
     {
         $time = time();
 

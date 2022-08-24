@@ -1,4 +1,6 @@
-<?php  declare(strict_types=1);
+<?php
+
+ declare(strict_types=1);
 
 namespace ILIAS\MainMenu\Provider;
 
@@ -56,7 +58,7 @@ class CustomMainBarProvider extends AbstractStaticMainMenuProvider implements St
     /**
      * @return TopParentItem[]
      */
-    public function getStaticTopItems() : array
+    public function getStaticTopItems(): array
     {
         /**
          * @var $item ilMMCustomItemStorage
@@ -72,7 +74,7 @@ class CustomMainBarProvider extends AbstractStaticMainMenuProvider implements St
     /**
      * @return isItem[]
      */
-    public function getStaticSubItems() : array
+    public function getStaticSubItems(): array
     {
         /**
          * @var $item ilMMCustomItemStorage
@@ -90,7 +92,7 @@ class CustomMainBarProvider extends AbstractStaticMainMenuProvider implements St
      * @param bool                  $register
      * @return isItem
      */
-    public function getSingleCustomItem(ilMMCustomItemStorage $storage, bool $register = false) : isItem
+    public function getSingleCustomItem(ilMMCustomItemStorage $storage, bool $register = false): isItem
     {
         $identification = $this->globalScreen()->identification()->core($this)->identifier($storage->getIdentifier());
 
@@ -130,7 +132,7 @@ class CustomMainBarProvider extends AbstractStaticMainMenuProvider implements St
     /**
      * @inheritDoc
      */
-    public function provideTypeInformation() : TypeInformationCollection
+    public function provideTypeInformation(): TypeInformationCollection
     {
         $c = new TypeInformationCollection();
         // TopParentItem
@@ -215,7 +217,7 @@ class CustomMainBarProvider extends AbstractStaticMainMenuProvider implements St
      * @param string $type
      * @return string
      */
-    private function translateType(string $type) : string
+    private function translateType(string $type): string
     {
         $last_part = substr(strrchr($type, "\\"), 1);
         $last_part = strtolower(preg_replace('/(?<!^)[A-Z]/', '_$0', $last_part));
@@ -227,7 +229,7 @@ class CustomMainBarProvider extends AbstractStaticMainMenuProvider implements St
      * @param string $type
      * @return string
      */
-    private function translateByline(string $type) : string
+    private function translateByline(string $type): string
     {
         $last_part = substr(strrchr($type, "\\"), 1);
         $last_part = strtolower(preg_replace('/(?<!^)[A-Z]/', '_$0', $last_part));
@@ -238,7 +240,7 @@ class CustomMainBarProvider extends AbstractStaticMainMenuProvider implements St
     /**
      * @inheritDoc
      */
-    public function getProviderNameForPresentation() : string
+    public function getProviderNameForPresentation(): string
     {
         return "Custom";
     }

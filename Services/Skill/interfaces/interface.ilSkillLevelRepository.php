@@ -22,27 +22,27 @@
  */
 interface ilSkillLevelRepository
 {
-    public function deleteLevelsOfSkill(int $skill_id) : void;
+    public function deleteLevelsOfSkill(int $skill_id): void;
 
-    public function addLevel(int $skill_id, string $a_title, string $a_description, string $a_import_id = "") : void;
+    public function addLevel(int $skill_id, string $a_title, string $a_description, string $a_import_id = ""): void;
 
-    public function getLevelData(int $skill_id, int $a_id = 0) : array;
+    public function getLevelData(int $skill_id, int $a_id = 0): array;
 
-    public function lookupLevelTitle(int $a_id) : string;
+    public function lookupLevelTitle(int $a_id): string;
 
-    public function lookupLevelDescription(int $a_id) : string;
+    public function lookupLevelDescription(int $a_id): string;
 
-    public function lookupLevelSkillId(int $a_id) : int;
+    public function lookupLevelSkillId(int $a_id): int;
 
-    public function writeLevelTitle(int $a_id, string $a_title) : void;
+    public function writeLevelTitle(int $a_id, string $a_title): void;
 
-    public function writeLevelDescription(int $a_id, string $a_description) : void;
+    public function writeLevelDescription(int $a_id, string $a_description): void;
 
-    public function updateLevelOrder(array $order) : void;
+    public function updateLevelOrder(array $order): void;
 
-    public function deleteLevel(int $a_id) : void;
+    public function deleteLevel(int $a_id): void;
 
-    public function fixLevelNumbering(int $skill_id) : void;
+    public function fixLevelNumbering(int $skill_id): void;
 
-    public function getSkillForLevelId(int $a_level_id) : ?ilBasicSkill;
+    public function getSkillForLevelId(int $a_level_id): ?ilBasicSkill;
 }

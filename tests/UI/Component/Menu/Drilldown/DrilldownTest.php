@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 require_once("libs/composer/vendor/autoload.php");
 require_once(__DIR__ . "/../../../Base.php");
 
@@ -34,27 +36,27 @@ class DrilldownTest extends ILIAS_UI_TestBase
     protected C\Divider\Horizontal $divider;
     protected C\Legacy\Legacy $legacy;
 
-    public function getUIFactory() : NoUIFactory
+    public function getUIFactory(): NoUIFactory
     {
-        return new class extends NoUIFactory {
-            public function menu() : C\Menu\Factory
+        return new class () extends NoUIFactory {
+            public function menu(): C\Menu\Factory
             {
                 return new Menu\Factory(
                     new I\SignalGenerator()
                 );
             }
-            public function button() : C\Button\Factory
+            public function button(): C\Button\Factory
             {
                 return new I\Button\Factory();
             }
-            public function legacy(string $content) : C\Legacy\Legacy
+            public function legacy(string $content): C\Legacy\Legacy
             {
                 return new I\Legacy\Legacy(
                     $content,
                     new I\SignalGenerator()
                 );
             }
-            public function symbol() : \ILIAS\UI\Component\Symbol\Factory
+            public function symbol(): \ILIAS\UI\Component\Symbol\Factory
             {
                 return new I\Symbol\Factory(
                     new I\Symbol\Icon\Factory(),
@@ -65,7 +67,7 @@ class DrilldownTest extends ILIAS_UI_TestBase
         };
     }
 
-    public function setUp() : void
+    public function setUp(): void
     {
         $icon_factory = new I\Symbol\Icon\Factory();
         $glyph_factory = new I\Symbol\Glyph\Factory();
@@ -78,7 +80,7 @@ class DrilldownTest extends ILIAS_UI_TestBase
         $this->legacy = $this->getUIFactory()->legacy('');
     }
 
-    public function testConstruction() : C\Menu\Drilldown
+    public function testConstruction(): C\Menu\Drilldown
     {
         $f = $this->getUIFactory();
         $menu = $f->menu()->drilldown('root', []);
@@ -99,7 +101,7 @@ class DrilldownTest extends ILIAS_UI_TestBase
     /**
      * @depends testConstruction
      */
-    public function testGetLabel(C\Menu\Drilldown $menu) : void
+    public function testGetLabel(C\Menu\Drilldown $menu): void
     {
         $this->assertEquals(
             'root',
@@ -110,7 +112,7 @@ class DrilldownTest extends ILIAS_UI_TestBase
     /**
      * @depends testConstruction
      */
-    public function testGetItems($menu) : void
+    public function testGetItems($menu): void
     {
         $this->assertEquals(
             [],
@@ -118,7 +120,7 @@ class DrilldownTest extends ILIAS_UI_TestBase
         );
     }
 
-    public function testWithEntries() : C\Menu\Drilldown
+    public function testWithEntries(): C\Menu\Drilldown
     {
         $f = $this->getUIFactory();
         $items = array(
@@ -137,7 +139,7 @@ class DrilldownTest extends ILIAS_UI_TestBase
         return $menu;
     }
 
-    public function testWithWrongEntry() : void
+    public function testWithWrongEntry(): void
     {
         $this->expectException(InvalidArgumentException::class);
         $f = $this->getUIFactory();
@@ -147,7 +149,7 @@ class DrilldownTest extends ILIAS_UI_TestBase
     /**
      * @depends testWithEntries
      */
-    public function testRendering() : void
+    public function testRendering(): void
     {
         $r = $this->getDefaultRenderer();
         $f = $this->getUIFactory();
@@ -173,7 +175,7 @@ class DrilldownTest extends ILIAS_UI_TestBase
     /**
      * @depends testConstruction
      */
-    public function testWithPersistenceId($menu) : void
+    public function testWithPersistenceId($menu): void
     {
         $this->assertNull($menu->getPersistenceId()) ;
 

@@ -32,7 +32,7 @@ abstract class ilImportDirectory implements ilImportDirectoryHandler
         $this->init();
     }
 
-    public function getRelativePath() : string
+    public function getRelativePath(): string
     {
         return $this->relative_path;
     }
@@ -40,7 +40,7 @@ abstract class ilImportDirectory implements ilImportDirectoryHandler
     /**
      * @inheritDoc
      */
-    public function exists() : bool
+    public function exists(): bool
     {
         return $this->storage->hasDir($this->relative_path);
     }
@@ -48,7 +48,7 @@ abstract class ilImportDirectory implements ilImportDirectoryHandler
     /**
      * @inheritDoc
      */
-    public function getAbsolutePath() : string
+    public function getAbsolutePath(): string
     {
         if (!$this->exists()) {
             return '';
@@ -56,9 +56,9 @@ abstract class ilImportDirectory implements ilImportDirectoryHandler
         return ilFileUtils::getDataDir() . '/' . $this->relative_path;
     }
 
-    abstract protected function getPathPrefix() : string;
+    abstract protected function getPathPrefix(): string;
 
-    private function init() : void
+    private function init(): void
     {
         $this->relative_path = self::PATH_UPLOAD_PREFIX . '/' . $this->getPathPrefix();
     }

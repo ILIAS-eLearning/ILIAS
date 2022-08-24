@@ -30,7 +30,7 @@ class getObjectSettingsResponse
         $this->settings = $settings;
     }
 
-    public function getSettings() : \ilObjBookingServiceSettings
+    public function getSettings(): \ilObjBookingServiceSettings
     {
         return $this->settings;
     }

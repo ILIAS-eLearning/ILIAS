@@ -30,20 +30,20 @@
  */
 class ilSurveyDataSet extends ilDataSet
 {
-    public function getSupportedVersions() : array
+    public function getSupportedVersions(): array
     {
         return array("5.1.0");
     }
-    
-    protected function getXmlNamespace(string $a_entity, string $a_schema_version) : string
+
+    protected function getXmlNamespace(string $a_entity, string $a_schema_version): string
     {
         return "https://www.ilias.de/xml/Modules/Survey/" . $a_entity;
     }
-    
+
     /**
      * Get field types for entity
      */
-    protected function getTypes(string $a_entity, string $a_version) : array
+    protected function getTypes(string $a_entity, string $a_version): array
     {
         if ($a_entity === "svy_quest_skill") {
             switch ($a_version) {
@@ -71,7 +71,7 @@ class ilSurveyDataSet extends ilDataSet
         return array();
     }
 
-    public function readData(string $a_entity, string $a_version, array $a_ids) : void
+    public function readData(string $a_entity, string $a_version, array $a_ids): void
     {
         $ilDB = $this->db;
 
@@ -99,7 +99,7 @@ class ilSurveyDataSet extends ilDataSet
             }
         }
     }
-    
+
     /**
      * Determine the dependent sets of data
      */
@@ -108,7 +108,7 @@ class ilSurveyDataSet extends ilDataSet
         string $a_version,
         ?array $a_rec = null,
         ?array $a_ids = null
-    ) : array {
+    ): array {
         $ilDB = $this->db;
 
         /*switch ($a_entity)
@@ -120,14 +120,14 @@ class ilSurveyDataSet extends ilDataSet
 
         return [];
     }
-    
+
     public function importRecord(
         string $a_entity,
         array $a_types,
         array $a_rec,
         ilImportMapping $a_mapping,
         string $a_schema_version
-    ) : void {
+    ): void {
         switch ($a_entity) {
             case "svy_quest_skill":
                 $skill_data = ilBasicSkill::getCommonSkillIdForImportId($this->getCurrentInstallationId(), $a_rec["BaseSkillId"], $a_rec["TrefId"]);

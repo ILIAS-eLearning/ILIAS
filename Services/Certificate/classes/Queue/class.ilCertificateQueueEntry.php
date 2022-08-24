@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -47,37 +49,37 @@ class ilCertificateQueueEntry
         $this->id = $id;
     }
 
-    public function getObjId() : int
+    public function getObjId(): int
     {
         return $this->objId;
     }
 
-    public function getUserId() : int
+    public function getUserId(): int
     {
         return $this->userId;
     }
 
-    public function getAdapterClass() : string
+    public function getAdapterClass(): string
     {
         return $this->adapterClass;
     }
 
-    public function getState() : string
+    public function getState(): string
     {
         return $this->state;
     }
 
-    public function getStartedTimestamp() : int
+    public function getStartedTimestamp(): int
     {
         return $this->startedTimestamp;
     }
 
-    public function getId() : ?int
+    public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getTemplateId() : int
+    public function getTemplateId(): int
     {
         return $this->templateId;
     }

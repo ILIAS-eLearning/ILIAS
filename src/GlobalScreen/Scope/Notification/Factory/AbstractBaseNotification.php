@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -30,17 +32,17 @@ use Closure;
 abstract class AbstractBaseNotification implements isStandardItem
 {
     protected IdentificationInterface $provider_identification;
-    
+
     /**
      * Callable to be executed, if the notification center has been opened.
      */
     protected ?Closure $handle_opened = null;
-    
+
     /**
      * Callable to be executed, if this specific item has been closed.
      */
     protected ?Closure  $handle_closed = null;
-    
+
     /**
      * StandardNotification constructor.
      * @param IdentificationInterface $identification
@@ -49,66 +51,66 @@ abstract class AbstractBaseNotification implements isStandardItem
     {
         $this->handle_opened = function () {
         };
-        
+
         $this->provider_identification = $identification;
     }
-    
+
     /**
      * @inheritDoc
      */
-    public function getProviderIdentification() : IdentificationInterface
+    public function getProviderIdentification(): IdentificationInterface
     {
         return $this->provider_identification;
     }
-    
+
     /**
      * @inheritDoc
      */
-    public function getRenderer(UIFactory $factory) : NotificationRenderer
+    public function getRenderer(UIFactory $factory): NotificationRenderer
     {
         return new StandardNotificationRenderer($factory);
     }
-    
+
     /**
      * @inheritDoc
      */
-    public function withOpenedCallable(callable $handle_opened) : isItem
+    public function withOpenedCallable(callable $handle_opened): isItem
     {
         $clone = clone $this;
         $clone->handle_opened = $handle_opened;
         return $clone;
     }
-    
+
     /**
      * @inheritDoc
      */
-    public function getOpenedCallable() : callable
+    public function getOpenedCallable(): callable
     {
         return $this->handle_opened;
     }
-    
+
     /**
      * @inheritDoc
      */
-    public function withClosedCallable(callable $handle_closed) : isItem
+    public function withClosedCallable(callable $handle_closed): isItem
     {
         $clone = clone $this;
         $clone->handle_closed = $handle_closed;
         return $clone;
     }
-    
+
     /**
      * @inheritDoc
      */
-    public function getClosedCallable() : ?callable
+    public function getClosedCallable(): ?callable
     {
         return $this->handle_closed;
     }
-    
+
     /**
      * @inheritDoc
      */
-    public function hasClosedCallable() : bool
+    public function hasClosedCallable(): bool
     {
         return is_callable($this->handle_closed);
     }

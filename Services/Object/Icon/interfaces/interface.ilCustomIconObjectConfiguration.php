@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,23 +17,23 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 interface ilCustomIconObjectConfiguration
 {
     /**
      * @return string[]
      */
-    public function getSupportedFileExtensions() : array;
+    public function getSupportedFileExtensions(): array;
 
-    public function getTargetFileExtension() : string;
+    public function getTargetFileExtension(): string;
 
-    public function getBaseDirectory() : string;
+    public function getBaseDirectory(): string;
 
-    public function getSubDirectoryPrefix() : string;
+    public function getSubDirectoryPrefix(): string;
 
     /**
      * A collection of post processors which are invoked if a new icon has been uploaded
      * @return ilObjectCustomIconUploadPostProcessor[]
      */
-    public function getUploadPostProcessors() : array;
+    public function getUploadPostProcessors(): array;
 }

@@ -1,4 +1,6 @@
-<?php declare(strict_types=0);
+<?php
+
+declare(strict_types=0);
 
 /* Copyright (c) 1998-2011 ILIAS open source, Extended GPL, see docs/LICENSE */
 
@@ -8,7 +10,7 @@
  */
 class ilLPStatusSCORM extends ilLPStatus
 {
-    public static function _getInProgress(int $a_obj_id) : array
+    public static function _getInProgress(int $a_obj_id): array
     {
         $status_info = ilLPStatusWrapper::_getStatusInfo($a_obj_id);
         $users = array();
@@ -25,7 +27,7 @@ class ilLPStatusSCORM extends ilLPStatus
         return $users;
     }
 
-    public static function _getCompleted(int $a_obj_id) : array
+    public static function _getCompleted(int $a_obj_id): array
     {
         global $DIC;
 
@@ -49,7 +51,7 @@ class ilLPStatusSCORM extends ilLPStatus
         return $users;
     }
 
-    public static function _getFailed(int $a_obj_id) : array
+    public static function _getFailed(int $a_obj_id): array
     {
         $status_info = ilLPStatusWrapper::_getStatusInfo($a_obj_id);
 
@@ -66,7 +68,7 @@ class ilLPStatusSCORM extends ilLPStatus
         return array_unique($users);
     }
 
-    public static function _getNotAttempted(int $a_obj_id) : array
+    public static function _getNotAttempted(int $a_obj_id): array
     {
         $users = array();
 
@@ -90,7 +92,7 @@ class ilLPStatusSCORM extends ilLPStatus
         return $users;
     }
 
-    public static function _getStatusInfo(int $a_obj_id) : array
+    public static function _getStatusInfo(int $a_obj_id): array
     {
         // Which sco's determine the status
         $olp = ilObjectLP::getInstance($a_obj_id);
@@ -181,7 +183,7 @@ class ilLPStatusSCORM extends ilLPStatus
         int $a_obj_id,
         int $a_usr_id,
         object $a_obj = null
-    ) : int {
+    ): int {
         global $DIC;
 
         $status = self::LP_STATUS_NOT_ATTEMPTED_NUM;
@@ -243,7 +245,7 @@ class ilLPStatusSCORM extends ilLPStatus
         int $a_obj_id,
         int $a_usr_id,
         ?object $a_obj = null
-    ) : int {
+    ): int {
         // Which sco's determine the status
         $olp = ilObjectLP::getInstance($a_obj_id);
         $collection = $olp->getCollectionInstance();
@@ -279,7 +281,7 @@ class ilLPStatusSCORM extends ilLPStatus
         return $per;
     }
 
-    public function refreshStatus(int $a_obj_id, ?array $a_users = null) : void
+    public function refreshStatus(int $a_obj_id, ?array $a_users = null): void
     {
         parent::refreshStatus($a_obj_id, $a_users);
 

@@ -14,14 +14,14 @@ class ilFileServicesPolicy extends WhiteAndBlacklistedFileNamePolicy
 {
     protected ilFileServicesSettings $settings;
     protected ilFileServicesFilenameSanitizer $sanitizer;
-    
+
     public function __construct(ilFileServicesSettings $settings)
     {
         parent::__construct($settings->getBlackListedSuffixes(), $settings->getWhiteListedSuffixes());
         $this->sanitizer = new ilFileServicesFilenameSanitizer($settings);
     }
-    
-    public function prepareFileNameForConsumer(string $filename_with_extension) : string
+
+    public function prepareFileNameForConsumer(string $filename_with_extension): string
     {
         return $this->sanitizer->sanitize(basename($filename_with_extension));
     }

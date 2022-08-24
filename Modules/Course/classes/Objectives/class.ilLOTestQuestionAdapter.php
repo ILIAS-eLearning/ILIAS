@@ -1,4 +1,6 @@
-<?php declare(strict_types=0);
+<?php
+
+declare(strict_types=0);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -14,7 +16,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * Test question filter
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
@@ -41,17 +43,17 @@ class ilLOTestQuestionAdapter
         $this->assignments = ilLOTestAssignments::getInstance($this->container_id);
     }
 
-    public function getTestRefId() : ?int
+    public function getTestRefId(): ?int
     {
         return $this->testRefId;
     }
 
-    public function setTestRefId(int $testRefId) : void
+    public function setTestRefId(int $testRefId): void
     {
         $this->testRefId = $testRefId;
     }
 
-    protected function lookupRelevantObjectiveIdsForTest(int $a_container_id, int $a_tst_ref_id, int $a_user_id) : array
+    protected function lookupRelevantObjectiveIdsForTest(int $a_container_id, int $a_tst_ref_id, int $a_user_id): array
     {
         $assignments = ilLOTestAssignments::getInstance($a_container_id);
 
@@ -109,7 +111,7 @@ class ilLOTestQuestionAdapter
     /**
      * Called from learning objective test on actual test start
      */
-    public function notifyTestStart(ilTestSession $a_test_session, int $a_test_obj_id) : void
+    public function notifyTestStart(ilTestSession $a_test_session, int $a_test_obj_id): void
     {
         $relevant_objectives = $this->lookupRelevantObjectiveIdsForTest(
             $a_test_session->getObjectiveOrientedContainerId(),
@@ -143,7 +145,7 @@ class ilLOTestQuestionAdapter
     /**
      * Called from learning objective test
      */
-    public function prepareTestPass(ilTestSession $a_test_session, ilTestSequence $a_test_sequence) : bool
+    public function prepareTestPass(ilTestSession $a_test_session, ilTestSequence $a_test_sequence): bool
     {
         $this->logger->debug('Prepare test pass called');
 
@@ -167,7 +169,7 @@ class ilLOTestQuestionAdapter
     public function buildQuestionRelatedObjectiveList(
         ilTestQuestionSequence $a_test_sequence,
         ilTestQuestionRelatedObjectivesList $a_objectives_list
-    ) : void {
+    ): void {
         $testType = $this->assignments->getTypeByTest($this->getTestRefId());
 
         if ($testType == ilLOSettings::TYPE_TEST_INITIAL && $this->getSettings()->hasSeparateInitialTests()) {
@@ -182,7 +184,7 @@ class ilLOTestQuestionAdapter
     protected function buildQuestionRelatedObjectiveListByTest(
         ilTestQuestionSequence $a_test_sequence,
         ilTestQuestionRelatedObjectivesList $a_objectives_list
-    ) : void {
+    ): void {
         $objectiveIds = array($this->getRelatedObjectivesForSeparatedTest($this->getTestRefId()));
 
         foreach ($a_test_sequence->getQuestionIds() as $questionId) {
@@ -193,7 +195,7 @@ class ilLOTestQuestionAdapter
     protected function buildQuestionRelatedObjectiveListByQuestions(
         ilTestQuestionSequence $a_test_sequence,
         ilTestQuestionRelatedObjectivesList $a_objectives_list
-    ) : void {
+    ): void {
         foreach ($a_test_sequence->getQuestionIds() as $questionId) {
             if ($a_test_sequence instanceof ilTestRandomQuestionSequence) {
                 $definitionId = $a_test_sequence->getResponsibleSourcePoolDefinitionId($questionId);
@@ -208,17 +210,17 @@ class ilLOTestQuestionAdapter
         }
     }
 
-    protected function lookupObjectiveIdByRandomQuestionSelectionDefinitionId(int $a_id) : array
+    protected function lookupObjectiveIdByRandomQuestionSelectionDefinitionId(int $a_id): array
     {
         return ilLORandomTestQuestionPools::lookupObjectiveIdsBySequence($this->getContainerId(), $a_id);
     }
 
-    protected function lookupObjectiveIdByFixedQuestionId(int $a_question_id) : array
+    protected function lookupObjectiveIdByFixedQuestionId(int $a_question_id): array
     {
         return ilCourseObjectiveQuestion::lookupObjectivesOfQuestion($a_question_id);
     }
 
-    protected function getRelatedObjectivesForSeparatedTest(int $testRefId) : ?int
+    protected function getRelatedObjectivesForSeparatedTest(int $testRefId): ?int
     {
         foreach ($this->getAssignments()->getAssignments() as $assignment) {
             if ($assignment->getTestRefId() === $testRefId) {
@@ -228,27 +230,27 @@ class ilLOTestQuestionAdapter
         return null;
     }
 
-    protected function getUserId() : int
+    protected function getUserId(): int
     {
         return $this->user_id;
     }
 
-    protected function getContainerId() : int
+    protected function getContainerId(): int
     {
         return $this->container_id;
     }
 
-    protected function getSettings() : ilLOSettings
+    protected function getSettings(): ilLOSettings
     {
         return $this->settings;
     }
 
-    protected function getAssignments() : ilLOTestAssignments
+    protected function getAssignments(): ilLOTestAssignments
     {
         return $this->assignments;
     }
 
-    protected function initUserResult(ilTestSession $session) : void
+    protected function initUserResult(ilTestSession $session): void
     {
         // check if current test is start object and fullfilled
         // if yes => do not increase tries.
@@ -307,7 +309,7 @@ class ilLOTestQuestionAdapter
     /**
      * Check if current run is a start object run
      */
-    protected function isQualifiedStartRun(ilTestSession $session) : bool
+    protected function isQualifiedStartRun(ilTestSession $session): bool
     {
         if ($this->getAssignments()->getTypeByTest($session->getRefId()) == ilLOSettings::TYPE_TEST_INITIAL) {
             $this->logger->debug('Initial test');
@@ -342,7 +344,7 @@ class ilLOTestQuestionAdapter
     /**
      * update question result of run
      */
-    public function updateQuestionResult(ilTestSession $session, assQuestion $qst) : void
+    public function updateQuestionResult(ilTestSession $session, assQuestion $qst): void
     {
         foreach ($this->run as $run) {
             if ($run->questionExists($qst->getId())) {
@@ -389,7 +391,7 @@ class ilLOTestQuestionAdapter
         }
     }
 
-    protected function setQuestionsOptional(ilTestSequence $seq) : void
+    protected function setQuestionsOptional(ilTestSequence $seq): void
     {
         // first unset optional on all questions
         $seq->clearOptionalQuestions();
@@ -400,7 +402,7 @@ class ilLOTestQuestionAdapter
         }
     }
 
-    protected function hideQuestions(ilTestSequence $seq) : void
+    protected function hideQuestions(ilTestSequence $seq): void
     {
         // first unhide all questions
         $seq->clearHiddenQuestions();
@@ -411,7 +413,7 @@ class ilLOTestQuestionAdapter
         }
     }
 
-    protected function initTestRun(ilTestSession $session) : void
+    protected function initTestRun(ilTestSession $session): void
     {
         $this->run = ilLOTestRun::getRun(
             $this->container_id,
@@ -420,14 +422,14 @@ class ilLOTestQuestionAdapter
         );
     }
 
-    protected function storeTestRun() : void
+    protected function storeTestRun(): void
     {
         foreach ($this->run as $tst_run) {
             $tst_run->update();
         }
     }
 
-    protected function updateQuestions(ilTestSession $session, ilTestSequence $seq) : void
+    protected function updateQuestions(ilTestSession $session, ilTestSequence $seq): void
     {
         if ($this->getAssignments()->isSeparateTest($session->getRefId())) {
             $this->updateSeparateTestQuestions($session, $seq);
@@ -442,7 +444,7 @@ class ilLOTestQuestionAdapter
         }
     }
 
-    protected function updateSeparateTestQuestions(ilTestSession $session, ilTestSequence $seq) : void
+    protected function updateSeparateTestQuestions(ilTestSession $session, ilTestSequence $seq): void
     {
         foreach ($this->run as $tst_run) {
             $tst_run->clearQuestions();
@@ -455,7 +457,7 @@ class ilLOTestQuestionAdapter
         }
     }
 
-    protected function updateFixedQuestions(ilTestSession $session, ilTestSequence $seq) : void
+    protected function updateFixedQuestions(ilTestSession $session, ilTestSequence $seq): void
     {
         foreach ($this->run as $tst_run) {
             $tst_run->clearQuestions();
@@ -472,7 +474,7 @@ class ilLOTestQuestionAdapter
         }
     }
 
-    protected function updateRandomQuestions(ilTestSession $session, ilTestSequenceRandomQuestionSet $seq) : void
+    protected function updateRandomQuestions(ilTestSession $session, ilTestSequenceRandomQuestionSet $seq): void
     {
         foreach ($this->run as $tst_run) {
             // Clear questions of previous run
@@ -500,7 +502,7 @@ class ilLOTestQuestionAdapter
         }
     }
 
-    protected function isInRun(int $a_qid) : bool
+    protected function isInRun(int $a_qid): bool
     {
         foreach ($this->run as $run) {
             if ($run->questionExists($a_qid)) {
@@ -510,7 +512,7 @@ class ilLOTestQuestionAdapter
         return false;
     }
 
-    public static function getInstance(ilTestSession $a_test_session) : self
+    public static function getInstance(ilTestSession $a_test_session): self
     {
         $adapter = new self(
             $a_test_session->getUserId(),

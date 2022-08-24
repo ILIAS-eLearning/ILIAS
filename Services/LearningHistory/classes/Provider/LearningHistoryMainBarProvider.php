@@ -1,4 +1,6 @@
-<?php namespace ILIAS\LearningHistory;
+<?php
+
+namespace ILIAS\LearningHistory;
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -29,12 +31,12 @@ use ilDashboardGUI;
  */
 class LearningHistoryMainBarProvider extends AbstractStaticMainMenuProvider
 {
-    public function getStaticTopItems() : array
+    public function getStaticTopItems(): array
     {
         return [];
     }
 
-    public function getStaticSubItems() : array
+    public function getStaticSubItems(): array
     {
         global $DIC;
 
@@ -56,7 +58,7 @@ class LearningHistoryMainBarProvider extends AbstractStaticMainMenuProvider
             ->withPosition(10)
             ->withSymbol($icon)
             ->withAvailableCallable(
-                static function () use ($settings) : bool {
+                static function () use ($settings): bool {
                     return (bool) $settings->get("enable_learning_history");
                 }
             );

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -47,7 +49,7 @@ class ilTermsOfServiceDocumentHtmlPurifier extends ilHtmlPurifierAbstractLibWrap
         $this->allowedTags = $allowedTags;
     }
 
-    protected function getPurifierConfigInstance() : HTMLPurifier_Config
+    protected function getPurifierConfigInstance(): HTMLPurifier_Config
     {
         $config = HTMLPurifier_Config::createDefault();
         $config->set('HTML.DefinitionID', 'ilias termsofservice document');

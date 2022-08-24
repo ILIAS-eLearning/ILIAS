@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 use ILIAS\Data\Version;
 
@@ -63,37 +65,37 @@ class ilPluginInfo
         $this->supports_cli_setup = $supports_cli_setup;
     }
 
-    public function getPluginSlot() : ilPluginSlotInfo
+    public function getPluginSlot(): ilPluginSlotInfo
     {
         return $this->pluginslot;
     }
 
-    public function getComponent() : ilComponentInfo
+    public function getComponent(): ilComponentInfo
     {
         return $this->pluginslot->getComponent();
     }
 
-    public function getId() : string
+    public function getId(): string
     {
         return $this->id;
     }
 
-    public function getName() : string
+    public function getName(): string
     {
         return $this->name;
     }
 
-    public function getPath() : string
+    public function getPath(): string
     {
         return $this->pluginslot->getPath() . "/" . $this->getName();
     }
 
-    public function getClassName() : string
+    public function getClassName(): string
     {
         return "il" . $this->getName() . "Plugin";
     }
 
-    public function getConfigGUIClassName() : string
+    public function getConfigGUIClassName(): string
     {
         return "il" . $this->getName() . "ConfigGUI";
     }
@@ -102,57 +104,57 @@ class ilPluginInfo
      * "activated" tells if the administrator of the installation
      * wants the plugin to be effective. Compare to "active".
      */
-    public function isActivated() : bool
+    public function isActivated(): bool
     {
         return $this->activated;
     }
 
-    public function getCurrentVersion() : ?Version
+    public function getCurrentVersion(): ?Version
     {
         return $this->current_version;
     }
 
-    public function getCurrentDBVersion() : ?int
+    public function getCurrentDBVersion(): ?int
     {
         return $this->current_db_version;
     }
 
-    public function getAvailableVersion() : Version
+    public function getAvailableVersion(): Version
     {
         return $this->available_version;
     }
 
-    public function getMinimumILIASVersion() : Version
+    public function getMinimumILIASVersion(): Version
     {
         return $this->minimum_ilias_version;
     }
 
-    public function getMaximumILIASVersion() : Version
+    public function getMaximumILIASVersion(): Version
     {
         return $this->maximum_ilias_version;
     }
 
-    public function getResponsible() : string
+    public function getResponsible(): string
     {
         return $this->responsible;
     }
 
-    public function getResponsibleMail() : string
+    public function getResponsibleMail(): string
     {
         return $this->responsible_mail;
     }
 
-    public function supportsLearningProgress() : bool
+    public function supportsLearningProgress(): bool
     {
         return $this->supports_learning_progress;
     }
 
-    public function supportsExport() : bool
+    public function supportsExport(): bool
     {
         return $this->supports_export;
     }
 
-    public function supportsCLISetup() : bool
+    public function supportsCLISetup(): bool
     {
         return $this->supports_cli_setup;
     }
@@ -160,7 +162,7 @@ class ilPluginInfo
     /**
      * "Installed" tells if the plugin has some installed version.
      */
-    public function isInstalled() : bool
+    public function isInstalled(): bool
     {
         return $this->current_version !== null;
     }
@@ -168,7 +170,7 @@ class ilPluginInfo
     /**
      * "Update required" tells if the plugin needs an update.
      */
-    public function isUpdateRequired() : bool
+    public function isUpdateRequired(): bool
     {
         return $this->isInstalled() && !$this->current_version->equals($this->available_version);
     }
@@ -177,7 +179,7 @@ class ilPluginInfo
      * "Version to old" tells if the plugin code has a version that is below the
      * version that was updated last.
      */
-    public function isVersionToOld() : bool
+    public function isVersionToOld(): bool
     {
         return $this->current_version->isGreaterThan($this->available_version);
     }
@@ -186,7 +188,7 @@ class ilPluginInfo
      * "ILIAS Version compliance" tells if the plugin can be operated with the
      * given ILIAS version.
      */
-    public function isCompliantToILIAS() : bool
+    public function isCompliantToILIAS(): bool
     {
         return
             $this->actual_ilias_version->isGreaterThanOrEquals($this->minimum_ilias_version)
@@ -196,7 +198,7 @@ class ilPluginInfo
     /**
      * Can this plugin be activated right now.
      */
-    public function isActivationPossible() : bool
+    public function isActivationPossible(): bool
     {
         return $this->isCompliantToILIAS()
             && $this->isInstalled()
@@ -207,7 +209,7 @@ class ilPluginInfo
     /**
      * Is this plugin active right now?
      */
-    public function isActive() : bool
+    public function isActive(): bool
     {
         return $this->isActivationPossible()
             && $this->isActivated();
@@ -219,7 +221,7 @@ class ilPluginInfo
      * @throws \LogicException if plugin is actually active.
      * @return string to be used as identifier for language service.
      */
-    public function getReasonForInactivity() : string
+    public function getReasonForInactivity(): string
     {
         if ($this->isActive()) {
             throw new \LogicException(

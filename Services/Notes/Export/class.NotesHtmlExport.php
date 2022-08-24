@@ -73,7 +73,7 @@ class NotesHtmlExport
         }
     }
 
-    protected function initDirectories() : void
+    protected function initDirectories(): void
     {
         // initialize temporary target directory
         ilFileUtils::delDir($this->target_dir);
@@ -85,7 +85,7 @@ class NotesHtmlExport
      * @throws \ILIAS\UI\NotImplementedException
      * @throws \ilTemplateException
      */
-    public function exportHTML($page_content) : void
+    public function exportHTML($page_content): void
     {
         $this->initDirectories();
         $this->export_util->exportSystemStyle();
@@ -98,13 +98,13 @@ class NotesHtmlExport
         \ilFileDelivery::deliverFileLegacy($zip, "user_notes.zip");
     }
 
-    protected function exportUserImages() : void
+    protected function exportUserImages(): void
     {
         $user_export = new \ILIAS\Notes\Export\UserImageExporter();
         $user_export->exportUserImages($this->target_dir, $this->author_ids);
     }
 
-    public function zipPackage() : string
+    public function zipPackage(): string
     {
         $zip_file = \ilExport::_getExportDirectory($this->user_id, "html_notes", "usr") .
             "/user_notes.zip";
@@ -120,7 +120,7 @@ class NotesHtmlExport
      */
     public function exportPage(
         string $content
-    ) : void {
+    ): void {
         $tpl = $this->getInitialisedTemplate();
 
         $tpl->setTitle(($this->type === Note::PRIVATE)
@@ -133,7 +133,7 @@ class NotesHtmlExport
     /**
      * Get initialised template
      */
-    protected function getInitialisedTemplate() : \ilGlobalPageTemplate
+    protected function getInitialisedTemplate(): \ilGlobalPageTemplate
     {
         global $DIC;
 
@@ -160,7 +160,7 @@ class NotesHtmlExport
         string $a_file,
         \ilGlobalPageTemplate $a_tpl,
         string $a_content
-    ) : string {
+    ): string {
         $file = $this->target_dir . "/" . $a_file;
         if (is_file($file)) {
             return "";

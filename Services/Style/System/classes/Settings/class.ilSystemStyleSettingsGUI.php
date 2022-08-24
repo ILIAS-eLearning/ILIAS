@@ -80,7 +80,7 @@ class ilSystemStyleSettingsGUI
         $this->style_container = $this->skin_factory->skinStyleContainerFromId($skin_id, $this->message_stack);
     }
 
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         $cmd = $this->ctrl->getCmd() ? $this->ctrl->getCmd() : 'edit';
         $style = $this->style_container->getSkin()->getStyle($this->style_id);
@@ -128,7 +128,7 @@ class ilSystemStyleSettingsGUI
         }
     }
 
-    protected function setSubStyleSubTabs(string $active = '') : void
+    protected function setSubStyleSubTabs(string $active = ''): void
     {
         $this->tabs->addSubTab(
             'edit',
@@ -144,13 +144,13 @@ class ilSystemStyleSettingsGUI
         $this->tabs->activateSubTab($active);
     }
 
-    protected function edit() : void
+    protected function edit(): void
     {
         $form = $this->editSystemStyleForm();
         $this->tpl->setContent($this->renderer->render($form));
     }
 
-    protected function save() : void
+    protected function save(): void
     {
         $new_skin = $this->style_container->getSkin();
         $new_style = $new_skin->getStyle($this->style_id);
@@ -212,7 +212,7 @@ class ilSystemStyleSettingsGUI
         string $skin_id,
         string $style_id,
         ilSystemStyleMessageStack $message_stack
-    ) : void {
+    ): void {
         $active = false;
         $personal = false;
         $default = false;
@@ -275,7 +275,7 @@ class ilSystemStyleSettingsGUI
     /**
      * @throws ilSystemStyleException
      */
-    protected function editSystemStyleForm() : Form
+    protected function editSystemStyleForm(): Form
     {
         $f = $this->ui_factory->input();
         $skin = $this->style_container->getSkin();

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -33,7 +35,7 @@ class ilECSParticipantConsents
         $this->mid = $mid;
     }
 
-    public function delete() : void
+    public function delete(): void
     {
         $query = 'DELETE FROM ecs_user_consent ' .
             'WHERE mid = ' . $this->db->quote($this->mid, ilDBConstants::T_INTEGER) . ' ' .
@@ -41,7 +43,7 @@ class ilECSParticipantConsents
         $this->db->manipulate($query);
     }
 
-    public function hasConsents() : bool
+    public function hasConsents(): bool
     {
         $query = 'SELECT count(*) as num FROM ecs_user_consent ' .
             'WHERE mid = ' . $this->db->quote($this->mid, ilDBConstants::T_INTEGER) . ' ' .

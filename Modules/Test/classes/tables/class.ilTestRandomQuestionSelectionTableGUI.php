@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * Class ilTestRandomQuestionSelectionTableGUI
@@ -18,10 +20,10 @@ class ilTestRandomQuestionSelectionTableGUI extends \ilTable2GUI
         $this->setRowTemplate('tpl.il_as_tst_random_question_offer.html', 'Modules/Test');
     }
 
-    public function build(int $numberOfQuestions, int $selectedPool) : self
+    public function build(int $numberOfQuestions, int $selectedPool): self
     {
         $this->setTitle($this->lng->txt('tst_question_offer'));
-        
+
         $questionIds = $this->test->randomSelectQuestions(
             $numberOfQuestions,
             $selectedPool

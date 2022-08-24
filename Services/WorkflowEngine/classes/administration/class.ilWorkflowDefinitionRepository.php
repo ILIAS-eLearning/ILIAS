@@ -41,7 +41,7 @@ class ilWorkflowDefinitionRepository
         $this->path = $path;
     }
 
-    protected function lazyLoadWorkflowDefinitions() : void
+    protected function lazyLoadWorkflowDefinitions(): void
     {
         if ($this->definitionsLoaded) {
             return;
@@ -64,7 +64,7 @@ class ilWorkflowDefinitionRepository
         }
 
         $contents = $this->fs->storage()->listContents($this->path, false);
-        $contents = array_filter($contents, static function (ILIAS\Filesystem\DTO\Metadata $file) : bool {
+        $contents = array_filter($contents, static function (ILIAS\Filesystem\DTO\Metadata $file): bool {
             if (!$file->isFile()) {
                 return false;
             }
@@ -105,13 +105,13 @@ class ilWorkflowDefinitionRepository
     /**
      * @return array
      */
-    public function getAll() : array
+    public function getAll(): array
     {
         $this->lazyLoadWorkflowDefinitions();
         return $this->definitions;
     }
 
-    public function has(string $id) : bool
+    public function has(string $id): bool
     {
         $this->lazyLoadWorkflowDefinitions();
         return isset($this->definitions[$id]);
@@ -122,7 +122,7 @@ class ilWorkflowDefinitionRepository
      * @return array
      * @throws ilWorkflowEngineException
      */
-    public function getById(string $id) : array
+    public function getById(string $id): array
     {
         $this->lazyLoadWorkflowDefinitions();
         if (!$this->has($id)) {

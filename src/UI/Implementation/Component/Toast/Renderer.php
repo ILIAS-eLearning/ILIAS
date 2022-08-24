@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\UI\Implementation\Component\Toast;
 
 use ILIAS\UI\Component\Button\Shy;
@@ -31,7 +33,7 @@ class Renderer extends AbstractComponentRenderer
     /**
      * @inheritdoc
      */
-    public function render(Component\Component $component, RendererInterface $default_renderer) : string
+    public function render(Component\Component $component, RendererInterface $default_renderer): string
     {
         $this->checkComponent($component);
 
@@ -45,7 +47,7 @@ class Renderer extends AbstractComponentRenderer
         throw new LogicException("Cannot render: " . get_class($component));
     }
 
-    protected function renderToast(Component\Toast\Toast $component, RendererInterface $default_renderer) : string
+    protected function renderToast(Component\Toast\Toast $component, RendererInterface $default_renderer): string
     {
         $tpl = $this->getTemplate("tpl.toast.html", true, true);
 
@@ -92,14 +94,14 @@ class Renderer extends AbstractComponentRenderer
         return $tpl->get();
     }
 
-    protected function renderContainer(Component\Toast\Container $component, RendererInterface $default_renderer) : string
+    protected function renderContainer(Component\Toast\Container $component, RendererInterface $default_renderer): string
     {
         $tpl = $this->getTemplate("tpl.container.html", true, true);
         $tpl->setVariable("TOASTS", $default_renderer->render($component->getToasts()));
         return $tpl->get();
     }
 
-    public function registerResources(ResourceRegistry $registry) : void
+    public function registerResources(ResourceRegistry $registry): void
     {
         parent::registerResources($registry);
         $registry->register('./src/UI/templates/js/Toast/toast.js');
@@ -108,7 +110,7 @@ class Renderer extends AbstractComponentRenderer
     /**
      * @inheritdoc
      */
-    protected function getComponentInterfaceName() : array
+    protected function getComponentInterfaceName(): array
     {
         return [
             Component\Toast\Toast::class,

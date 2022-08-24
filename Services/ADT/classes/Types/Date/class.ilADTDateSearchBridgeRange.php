@@ -1,18 +1,20 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * Class ilADTDateSearchBridgeRange
  */
 class ilADTDateSearchBridgeRange extends ilADTSearchBridgeRange
 {
-    protected function isValidADTDefinition(ilADTDefinition $a_adt_def) : bool
+    protected function isValidADTDefinition(ilADTDefinition $a_adt_def): bool
     {
         return ($a_adt_def instanceof ilADTDateDefinition);
     }
 
     // table2gui / filter
 
-    public function loadFilter() : void
+    public function loadFilter(): void
     {
         $value = $this->readFilter();
         if ($value !== null) {
@@ -27,7 +29,7 @@ class ilADTDateSearchBridgeRange extends ilADTSearchBridgeRange
 
     // form
 
-    public function addToForm() : void
+    public function addToForm(): void
     {
         if ($this->getForm() instanceof ilPropertyFormGUI) {
             $check = new ilCustomInputGUI($this->getTitle());
@@ -74,7 +76,7 @@ class ilADTDateSearchBridgeRange extends ilADTSearchBridgeRange
         }
     }
 
-    protected function shouldBeImportedFromPost($a_post) : bool
+    protected function shouldBeImportedFromPost($a_post): bool
     {
         if ($this->getForm() instanceof ilPropertyFormGUI) {
             return (bool) $a_post["tgl"];
@@ -82,7 +84,7 @@ class ilADTDateSearchBridgeRange extends ilADTSearchBridgeRange
         return parent::shouldBeImportedFromPost($a_post);
     }
 
-    public function importFromPost(array $a_post = null) : bool
+    public function importFromPost(array $a_post = null): bool
     {
         $post = $this->extractPostValues($a_post);
 
@@ -122,7 +124,7 @@ class ilADTDateSearchBridgeRange extends ilADTSearchBridgeRange
 
     // db
 
-    public function getSQLCondition(string $a_element_id, int $mode = self::SQL_LIKE, array $quotedWords = []) : string
+    public function getSQLCondition(string $a_element_id, int $mode = self::SQL_LIKE, array $quotedWords = []): string
     {
         if (!$this->isNull() && $this->isValid()) {
             $sql = array();
@@ -143,7 +145,7 @@ class ilADTDateSearchBridgeRange extends ilADTSearchBridgeRange
         return '';
     }
 
-    public function isInCondition(ilADT $a_adt) : bool
+    public function isInCondition(ilADT $a_adt): bool
     {
         assert($a_adt instanceof ilADTDate);
 
@@ -158,7 +160,7 @@ class ilADTDateSearchBridgeRange extends ilADTSearchBridgeRange
 
     //  import/export
 
-    public function getSerializedValue() : string
+    public function getSerializedValue(): string
     {
         if (!$this->isNull() && $this->isValid()) {
             $res = array();
@@ -173,7 +175,7 @@ class ilADTDateSearchBridgeRange extends ilADTSearchBridgeRange
         return '';
     }
 
-    public function setSerializedValue(string $a_value) : void
+    public function setSerializedValue(string $a_value): void
     {
         $a_value = unserialize($a_value);
         if (is_array($a_value)) {

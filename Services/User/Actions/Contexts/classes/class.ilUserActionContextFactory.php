@@ -38,7 +38,7 @@ class ilUserActionContextFactory
      *
      * @return array[ilUserActionContext] all providers
      */
-    public static function getAllActionContexts() : array
+    public static function getAllActionContexts(): array
     {
         $contexts = array();
 

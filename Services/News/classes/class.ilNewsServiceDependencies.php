@@ -42,23 +42,23 @@ class ilNewsServiceDependencies
     /**
      * Get object adapter
      */
-    public function obj() : ilNewsObjectAdapterInterface
+    public function obj(): ilNewsObjectAdapterInterface
     {
         return $this->obj_adapter;
     }
 
-    public function language() : ilLanguage
+    public function language(): ilLanguage
     {
         return $this->lng;
     }
 
-    public function settings() : ilSetting
+    public function settings(): ilSetting
     {
         return $this->settings;
     }
 
     // Get current user
-    public function user() : ilObjUser
+    public function user(): ilObjUser
     {
         return $this->user;
     }

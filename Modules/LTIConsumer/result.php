@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 chdir("../../");
 
 if (!isset($_GET['client_id']) || !strlen($_GET['client_id'])) {
@@ -11,5 +13,5 @@ $dic = $GLOBALS['DIC'];
 
 $log = ilLoggerFactory::getLogger('lti');
 
-$service = new ilLTIConsumerResultService;
+$service = new ilLTIConsumerResultService();
 $service->handleRequest();

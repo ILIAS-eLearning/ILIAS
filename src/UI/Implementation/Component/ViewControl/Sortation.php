@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\UI\Implementation\Component\ViewControl;
 
 use ILIAS\UI\Component as C;
@@ -53,7 +55,7 @@ class Sortation implements C\ViewControl\Sortation
     /**
      * @inheritdoc
      */
-    public function withResetSignals() : C\ViewControl\Sortation
+    public function withResetSignals(): C\ViewControl\Sortation
     {
         $clone = clone $this;
         $clone->initSignals();
@@ -63,7 +65,7 @@ class Sortation implements C\ViewControl\Sortation
     /**
      * Set the signals for this component
      */
-    protected function initSignals() : void
+    protected function initSignals(): void
     {
         $this->select_signal = $this->signal_generator->create();
     }
@@ -71,7 +73,7 @@ class Sortation implements C\ViewControl\Sortation
     /**
      * @inheritdoc
      */
-    public function withLabel(string $label) : C\ViewControl\Sortation
+    public function withLabel(string $label): C\ViewControl\Sortation
     {
         $clone = clone $this;
         $clone->label = $label;
@@ -81,7 +83,7 @@ class Sortation implements C\ViewControl\Sortation
     /**
      * @inheritdoc
      */
-    public function getLabel() : string
+    public function getLabel(): string
     {
         return $this->label;
     }
@@ -89,7 +91,7 @@ class Sortation implements C\ViewControl\Sortation
     /**
      * @inheritdoc
      */
-    public function withTargetURL($url, $parameter_name) : C\ViewControl\Sortation
+    public function withTargetURL($url, $parameter_name): C\ViewControl\Sortation
     {
         $this->checkStringArg("url", $url);
         $this->checkStringArg("parameter_name", $parameter_name);
@@ -102,7 +104,7 @@ class Sortation implements C\ViewControl\Sortation
     /**
      * @inheritdoc
      */
-    public function getTargetURL() : ?string
+    public function getTargetURL(): ?string
     {
         return $this->target_url;
     }
@@ -110,7 +112,7 @@ class Sortation implements C\ViewControl\Sortation
     /**
      * @inheritdoc
      */
-    public function getParameterName() : string
+    public function getParameterName(): string
     {
         return $this->parameter_name;
     }
@@ -118,7 +120,7 @@ class Sortation implements C\ViewControl\Sortation
     /**
      * @inheritdoc
      */
-    public function getOptions() : array
+    public function getOptions(): array
     {
         return $this->options;
     }
@@ -126,7 +128,7 @@ class Sortation implements C\ViewControl\Sortation
     /**
      * @inheritdoc
      */
-    public function withOnSort(Signal $signal) : C\ViewControl\Sortation
+    public function withOnSort(Signal $signal): C\ViewControl\Sortation
     {
         return $this->withTriggeredSignal($signal, 'sort');
     }
@@ -134,7 +136,7 @@ class Sortation implements C\ViewControl\Sortation
     /**
      * @inheritdoc
      */
-    public function getSelectSignal() : Signal
+    public function getSelectSignal(): Signal
     {
         return $this->select_signal;
     }

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -30,45 +32,45 @@ use ILIAS\Setup\Objective;
  */
 final class ilEmployeeTalkSetupAgent implements Setup\Agent
 {
-    public function hasConfig() : bool
+    public function hasConfig(): bool
     {
         return false;
     }
 
-    public function getArrayToConfigTransformation() : Transformation
+    public function getArrayToConfigTransformation(): Transformation
     {
         throw new \LogicException(
             self::class . " has no config."
         );
     }
 
-    public function getInstallObjective(Config $config = null) : Objective
+    public function getInstallObjective(Config $config = null): Objective
     {
         return new \ilTreeAdminNodeAddedObjective('tala', '__TalkTemplateAdministration');
     }
 
-    public function getBuildArtifactObjective() : Objective
+    public function getBuildArtifactObjective(): Objective
     {
         return new Objective\NullObjective();
     }
 
-    public function getStatusObjective(Metrics\Storage $storage) : Objective
+    public function getStatusObjective(Metrics\Storage $storage): Objective
     {
         return new Objective\NullObjective();
     }
 
-    public function getMigrations() : array
+    public function getMigrations(): array
     {
         return [];
     }
 
-    public function getNamedObjectives(?Config $config = null) : array
+    public function getNamedObjectives(?Config $config = null): array
     {
         return [];
     }
 
 
-    public function getUpdateObjective(Setup\Config $config = null) : Setup\Objective
+    public function getUpdateObjective(Setup\Config $config = null): Setup\Objective
     {
         return new Setup\ObjectiveCollection(
             'Employee Talks',

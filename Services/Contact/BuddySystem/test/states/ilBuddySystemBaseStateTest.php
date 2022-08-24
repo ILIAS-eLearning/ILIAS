@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -27,7 +29,7 @@ abstract class ilBuddySystemBaseStateTest extends ilBuddySystemBaseTest
 
     protected ilBuddySystemRelation $relation;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -40,5 +42,5 @@ abstract class ilBuddySystemBaseStateTest extends ilBuddySystemBaseTest
         );
     }
 
-    abstract public function getInitialState() : ilBuddySystemRelationState;
+    abstract public function getInitialState(): ilBuddySystemRelationState;
 }

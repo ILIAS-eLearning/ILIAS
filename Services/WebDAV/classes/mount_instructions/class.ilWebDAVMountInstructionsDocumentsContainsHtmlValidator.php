@@ -1,4 +1,6 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types=1);
 
 
 /**
@@ -16,17 +18,17 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 class ilWebDAVMountInstructionsDocumentsContainsHtmlValidator
 {
     private string $text;
-    
+
     public function __construct(string $purified_html_content)
     {
         $this->text = $purified_html_content;
     }
-    
-    public function isValid() : bool
+
+    public function isValid(): bool
     {
         if (!preg_match('/<[^>]+?>/', $this->text)) {
             return false;
@@ -55,7 +57,7 @@ class ilWebDAVMountInstructionsDocumentsContainsHtmlValidator
         } catch (Exception|Throwable $e) {
             return false;
         }
-        
+
         return false;
     }
 }

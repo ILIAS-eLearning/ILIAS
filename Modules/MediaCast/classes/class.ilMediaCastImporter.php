@@ -24,7 +24,7 @@ class ilMediaCastImporter extends ilXmlImporter
 {
     protected ilMediaCastDataSet $ds;
 
-    public function init() : void
+    public function init(): void
     {
         $this->ds = new ilMediaCastDataSet();
         $this->ds->setDSPrefix("ds");
@@ -35,7 +35,7 @@ class ilMediaCastImporter extends ilXmlImporter
         string $a_id,
         string $a_xml,
         ilImportMapping $a_mapping
-    ) : void {
+    ): void {
         $parser = new ilDataSetImportParser(
             $a_entity,
             $this->getSchemaVersion(),
@@ -44,10 +44,10 @@ class ilMediaCastImporter extends ilXmlImporter
             $a_mapping
         );
     }
-    
+
     public function finalProcessing(
         ilImportMapping $a_mapping
-    ) : void {
+    ): void {
         // restore manual order
         $order = $this->ds->getOrder();
         if (sizeof($order)) {
@@ -56,7 +56,7 @@ class ilMediaCastImporter extends ilXmlImporter
                 foreach ($items as $old_id) {
                     $map[] = $a_mapping->getMapping("Services/News", "news", $old_id);
                 }
-                
+
                 $mcst = new ilObjMediaCast($obj_id, false);
                 $mcst->saveOrder($map);
             }

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -29,39 +31,39 @@ class Separator extends AbstractChildItem implements hasTitle, isChild
 {
     protected bool $visible_title = false;
     protected string $title = '';
-    
+
     /**
      * @param string $title
      * @return Separator
      */
-    public function withTitle(string $title) : hasTitle
+    public function withTitle(string $title): hasTitle
     {
         $clone = clone($this);
         $clone->title = $title;
-        
+
         return $clone;
     }
-    
+
     /**
      * @return string
      */
-    public function getTitle() : string
+    public function getTitle(): string
     {
         return $this->title;
     }
-    
-    public function withVisibleTitle(bool $visible_title) : self
+
+    public function withVisibleTitle(bool $visible_title): self
     {
         $clone = clone($this);
         $clone->visible_title = $visible_title;
-        
+
         return $clone;
     }
-    
+
     /**
      * @return bool
      */
-    public function isTitleVisible() : bool
+    public function isTitleVisible(): bool
     {
         return $this->visible_title;
     }

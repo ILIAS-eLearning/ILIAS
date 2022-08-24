@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /******************************************************************************
  *
@@ -23,16 +25,16 @@ class ilECSNodeMappingSettings
 
     private ilSetting $storage;
 
-    
+
     private int $server_id;
     /**
      * MID of sender
      */
     private int $mid;
-    
+
     private bool $directory_active = false;
     private bool $create_empty_containers = false;
-    
+
     /**
      * Course allocation
      */
@@ -53,32 +55,32 @@ class ilECSNodeMappingSettings
 
         $this->server_id = $a_server_id;
         $this->mid = $a_mid;
-        
+
         $this->initStorage();
         $this->read();
     }
-    
+
     /**
      * Get instance
      */
-    public static function getInstanceByServerMid(int $a_server_id, int $a_mid) : ilECSNodeMappingSettings
+    public static function getInstanceByServerMid(int $a_server_id, int $a_mid): ilECSNodeMappingSettings
     {
         $id = $a_server_id . '_' . $a_mid;
         return self::$instances[$id] ?? (self::$instances[$id] = new self($a_server_id, $a_mid));
     }
-    
+
     /**
      * Get server id of setting
      */
-    public function getServerId() : int
+    public function getServerId(): int
     {
         return $this->server_id;
     }
-    
+
     /**
      * Get mid of sender
      */
-    public function getMid() : int
+    public function getMid(): int
     {
         return $this->mid;
     }
@@ -86,7 +88,7 @@ class ilECSNodeMappingSettings
     /**
      * Check if node mapping is enabled
      */
-    public function isDirectoryMappingEnabled() : bool
+    public function isDirectoryMappingEnabled(): bool
     {
         return $this->directory_active;
     }
@@ -94,7 +96,7 @@ class ilECSNodeMappingSettings
     /**
      * Enable node mapping
      */
-    public function enableDirectoryMapping(bool $a_status) : void
+    public function enableDirectoryMapping(bool $a_status): void
     {
         $this->directory_active = $a_status;
     }
@@ -102,7 +104,7 @@ class ilECSNodeMappingSettings
     /**
      * enable creation of empty containers
      */
-    public function enableEmptyContainerCreation(bool $a_status) : void
+    public function enableEmptyContainerCreation(bool $a_status): void
     {
         $this->create_empty_containers = $a_status;
     }
@@ -110,83 +112,83 @@ class ilECSNodeMappingSettings
     /**
      * Check if the creation of empty containers (pathes without courses) is enabled
      */
-    public function isEmptyContainerCreationEnabled() : bool
+    public function isEmptyContainerCreationEnabled(): bool
     {
         return $this->create_empty_containers;
     }
-    
-    public function enableCourseAllocation(bool $a_stat) : void
+
+    public function enableCourseAllocation(bool $a_stat): void
     {
         $this->course_active = $a_stat;
     }
 
-    public function isCourseAllocationEnabled() : bool
+    public function isCourseAllocationEnabled(): bool
     {
         return $this->course_active;
     }
-    
-    public function setDefaultCourseCategory(int $a_default_category) : void
+
+    public function setDefaultCourseCategory(int $a_default_category): void
     {
         $this->default_cat = $a_default_category;
     }
-    
-    public function getDefaultCourseCategory() : int
+
+    public function getDefaultCourseCategory(): int
     {
         return $this->default_cat;
     }
-    
-    public function isAllInOneCategoryEnabled() : bool
+
+    public function isAllInOneCategoryEnabled(): bool
     {
         return $this->allinone;
     }
-    
-    public function enableAllInOne(bool $a_stat) : void
+
+    public function enableAllInOne(bool $a_stat): void
     {
         $this->allinone = $a_stat;
     }
-    
-    public function setAllInOneCategory(int $a_cat) : void
+
+    public function setAllInOneCategory(int $a_cat): void
     {
         $this->allinone_cat = $a_cat;
     }
-    
-    public function getAllInOneCategory() : int
+
+    public function getAllInOneCategory(): int
     {
         return $this->allinone_cat;
     }
-    
-    public function enableAttributeMapping(bool $a_stat) : void
+
+    public function enableAttributeMapping(bool $a_stat): void
     {
         $this->attributes = $a_stat;
     }
-    
-    public function isAttributeMappingEnabled() : bool
+
+    public function isAttributeMappingEnabled(): bool
     {
         return $this->attributes;
     }
-    
-    public function setRoleMappings(array $a_mappings) : void
+
+    public function setRoleMappings(array $a_mappings): void
     {
         $this->role_mappings = $a_mappings;
     }
-    
-    public function getRoleMappings() : array
+
+    public function getRoleMappings(): array
     {
         return $this->role_mappings;
     }
-    
+
     /**
      * Set user auth mode
      */
-    public function setAuthMode(string $a_auth_mode) : void
+    public function setAuthMode(string $a_auth_mode): void
     {
         $this->auth_mode = $a_auth_mode;
     }
-    
+
     /**
      * Get auth mode
      */
-    public function getAuthMode() : ?string
+    public function getAuthMode(): ?string
     {
         return $this->auth_mode;
     }
@@ -194,7 +196,7 @@ class ilECSNodeMappingSettings
     /**
      * Save settings to db
      */
-    public function update() : bool
+    public function update(): bool
     {
         $this->getStorage()->set('directory_active', (string) $this->isDirectoryMappingEnabled());
         $this->getStorage()->set('create_empty', (string) $this->isEmptyContainerCreationEnabled());
@@ -211,7 +213,7 @@ class ilECSNodeMappingSettings
     /**
      * Get storage
      */
-    protected function getStorage() : ilSetting
+    protected function getStorage(): ilSetting
     {
         return $this->storage;
     }
@@ -219,17 +221,17 @@ class ilECSNodeMappingSettings
     /**
      * Init storage
      */
-    protected function initStorage() : void
+    protected function initStorage(): void
     {
         $this->storage = new ilSetting('ecs_node_mapping_' . $this->getServerId() . '_' . $this->getMid());
     }
 
-    
+
     /**
      * @todo convert to own database table
      * Read settings from db
      */
-    protected function read() : void
+    protected function read(): void
     {
         if ($this->getStorage()->get('directory_active')) {
             $this->enableDirectoryMapping((bool) $this->getStorage()->get('directory_active'));

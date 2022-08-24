@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -37,7 +39,7 @@ class ilLanguageDetection
     /**
      * Return detected language
      */
-    public function detect() : string
+    public function detect(): string
     {
         global $DIC;
         $ilLog = $DIC->logger()->lang();

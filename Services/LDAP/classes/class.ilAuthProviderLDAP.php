@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -33,7 +35,7 @@ class ilAuthProviderLDAP extends ilAuthProvider implements ilAuthProviderAccount
         $this->initServer($a_server_id);
     }
 
-    public function getServer() : ilLDAPServer
+    public function getServer(): ilLDAPServer
     {
         return $this->server;
     }
@@ -41,7 +43,7 @@ class ilAuthProviderLDAP extends ilAuthProvider implements ilAuthProviderAccount
     /**
      * @inheritDoc
      */
-    public function doAuthentication(ilAuthStatus $status) : bool
+    public function doAuthentication(ilAuthStatus $status): bool
     {
         try {
             // bind
@@ -104,7 +106,7 @@ class ilAuthProviderLDAP extends ilAuthProvider implements ilAuthProviderAccount
     /**
      * Update Account
      */
-    protected function updateAccount(ilAuthStatus $status, array $user) : bool
+    protected function updateAccount(ilAuthStatus $status, array $user): bool
     {
         $user = array_change_key_case($user, CASE_LOWER);
         $this->getLogger()->dump($user, ilLogLevel::DEBUG);
@@ -144,7 +146,7 @@ class ilAuthProviderLDAP extends ilAuthProvider implements ilAuthProviderAccount
         return true;
     }
 
-    protected function initServer(int $a_server_id) : void
+    protected function initServer(int $a_server_id): void
     {
         $this->server = new ilLDAPServer($a_server_id);
     }
@@ -152,7 +154,7 @@ class ilAuthProviderLDAP extends ilAuthProvider implements ilAuthProviderAccount
     /**
      * @inheritDoc
      */
-    public function createNewAccount(ilAuthStatus $status) : void
+    public function createNewAccount(ilAuthStatus $status): void
     {
         $this->force_new_account = true;
 
@@ -190,7 +192,7 @@ class ilAuthProviderLDAP extends ilAuthProvider implements ilAuthProviderAccount
     /**
      * @inheritDoc
      */
-    public function migrateAccount(ilAuthStatus $status) : void
+    public function migrateAccount(ilAuthStatus $status): void
     {
         $this->force_new_account = true;
 
@@ -210,7 +212,7 @@ class ilAuthProviderLDAP extends ilAuthProvider implements ilAuthProviderAccount
     /**
      * @inheritDoc
      */
-    public function getTriggerAuthMode() : string
+    public function getTriggerAuthMode(): string
     {
         return ilAuthUtils::AUTH_LDAP . '_' . $this->getServer()->getServerId();
     }
@@ -218,7 +220,7 @@ class ilAuthProviderLDAP extends ilAuthProvider implements ilAuthProviderAccount
     /**
      * @inheritDoc
      */
-    public function getUserAuthModeName() : string
+    public function getUserAuthModeName(): string
     {
         return 'ldap_' . $this->getServer()->getServerId();
     }
@@ -226,12 +228,12 @@ class ilAuthProviderLDAP extends ilAuthProvider implements ilAuthProviderAccount
     /**
      * @inheritDoc
      */
-    public function getExternalAccountName() : string
+    public function getExternalAccountName(): string
     {
         return $this->migration_account;
     }
 
-    public function setExternalAccountName(string $a_name) : void
+    public function setExternalAccountName(string $a_name): void
     {
         $this->migration_account = $a_name;
     }
@@ -241,7 +243,7 @@ class ilAuthProviderLDAP extends ilAuthProvider implements ilAuthProviderAccount
      * @param string $a_string
      * @return string
      */
-    protected function changeKeyCase(string $a_string) : string
+    protected function changeKeyCase(string $a_string): string
     {
         return array_key_first(array_change_key_case(array($a_string => $a_string)));
     }

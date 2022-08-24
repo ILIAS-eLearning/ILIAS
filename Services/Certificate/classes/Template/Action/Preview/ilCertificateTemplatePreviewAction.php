@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -91,7 +93,7 @@ class ilCertificateTemplatePreviewAction
      * @param int $objectId
      * @throws Exception
      */
-    public function createPreviewPdf(int $objectId) : void
+    public function createPreviewPdf(int $objectId): void
     {
         $template = $this->templateRepository->fetchCurrentlyUsedCertificate($objectId);
 
@@ -131,7 +133,7 @@ class ilCertificateTemplatePreviewAction
         string $certificate_text,
         ilCertificateTemplate $template,
         int $objectId
-    ) : string {
+    ): string {
         $insert_tags = $this->placeholderValuesObject->getPlaceholderValuesForPreview($this->user->getId(), $objectId);
 
         foreach ($this->getCustomCertificateFields() as $key => $value) {
@@ -157,7 +159,7 @@ class ilCertificateTemplatePreviewAction
         );
     }
 
-    private function getCustomCertificateFields() : array
+    private function getCustomCertificateFields(): array
     {
         $user_field_definitions = $this->userDefinedFieldsHelper->createInstance();
         $fds = $user_field_definitions->getDefinitions();

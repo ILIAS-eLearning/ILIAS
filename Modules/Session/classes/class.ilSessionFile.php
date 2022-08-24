@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -49,82 +51,82 @@ class ilSessionFile
         $this->__read();
     }
 
-    public function setFileId(int $a_id) : void
+    public function setFileId(int $a_id): void
     {
         $this->file_id = $a_id;
     }
 
-    public function getFileId() : int
+    public function getFileId(): int
     {
         return $this->file_id;
     }
 
-    public function getSessionId() : int
+    public function getSessionId(): int
     {
         return $this->event_id;
     }
 
-    public function setSessionId(int $a_event_id) : void
+    public function setSessionId(int $a_event_id): void
     {
         $this->event_id = $a_event_id;
     }
 
-    public function setFileName(string $a_name) : void
+    public function setFileName(string $a_name): void
     {
         $this->file_name = $a_name;
     }
 
-    public function getFileName() : string
+    public function getFileName(): string
     {
         return $this->file_name;
     }
 
-    public function setFileType(string $a_type) : void
+    public function setFileType(string $a_type): void
     {
         $this->file_type = $a_type;
     }
 
-    public function getFileType() : string
+    public function getFileType(): string
     {
         return $this->file_type;
     }
 
-    public function setFileSize(int $a_size) : void
+    public function setFileSize(int $a_size): void
     {
         $this->file_size = $a_size;
     }
 
-    public function getFileSize() : int
+    public function getFileSize(): int
     {
         return $this->file_size;
     }
 
-    public function setTemporaryName(string $a_name) : void
+    public function setTemporaryName(string $a_name): void
     {
         $this->tmp_name = $a_name;
     }
 
-    public function getTemporaryName() : string
+    public function getTemporaryName(): string
     {
         return $this->tmp_name;
     }
 
-    public function setErrorCode(int $a_code) : void
+    public function setErrorCode(int $a_code): void
     {
         $this->error_code = $a_code;
     }
 
-    public function getErrorCode() : int
+    public function getErrorCode(): int
     {
         return $this->error_code;
     }
-    
-    public function getAbsolutePath() : string
+
+    public function getAbsolutePath(): string
     {
         return $this->fss_storage->getAbsolutePath() . "/" . $this->getFileId();
     }
 
-    public function validate() : bool
+    public function validate(): bool
     {
         switch ($this->getErrorCode()) {
             case UPLOAD_ERR_INI_SIZE:
@@ -151,7 +153,7 @@ class ilSessionFile
         return false;
     }
 
-    public function cloneFiles(int $a_target_event_id) : void
+    public function cloneFiles(int $a_target_event_id): void
     {
         $file = new ilSessionFile();
         $file->setSessionId($a_target_event_id);
@@ -159,16 +161,16 @@ class ilSessionFile
         $file->setFileType($this->getFileType());
         $file->setFileSize($this->getFileSize());
         $file->create(false);
-        
+
         // Copy file
         $source = new ilFSStorageSession($this->getSessionId());
         $source->copyFile($this->getAbsolutePath(), $file->getAbsolutePath());
     }
 
-    public function create(bool $a_upload = true) : bool
+    public function create(bool $a_upload = true): bool
     {
         $ilDB = $this->db;
-        
+
         if ($this->getErrorCode() != 0) {
             return false;
         }
@@ -182,7 +184,7 @@ class ilSessionFile
             $ilDB->quote($this->getFileSize(), 'integer') . ", " .
             $ilDB->quote($this->getFileType(), 'text') . " " .
             ")";
-        
+
         $res = $ilDB->manipulate($query);
         $this->setFileId($next_id);
 
@@ -201,10 +203,10 @@ class ilSessionFile
         return true;
     }
 
-    public function delete() : bool
+    public function delete(): bool
     {
         $ilDB = $this->db;
-        
+
         // Delete db entry
         $query = "DELETE FROM event_file " .
             "WHERE file_id = " . $ilDB->quote($this->getFileId(), 'integer') . " ";
@@ -214,8 +216,8 @@ class ilSessionFile
         $this->fss_storage->deleteFile($this->getAbsolutePath());
         return true;
     }
-        
-    public function _deleteByEvent(int $a_event_id) : bool
+
+    public function _deleteByEvent(int $a_event_id): bool
     {
         $ilDB = $this->db;
 
@@ -228,7 +230,7 @@ class ilSessionFile
         return true;
     }
 
-    public static function _readFilesByEvent(int $a_event_id) : array
+    public static function _readFilesByEvent(int $a_event_id): array
     {
         global $DIC;
 
@@ -245,10 +247,10 @@ class ilSessionFile
         return $files;
     }
 
-    protected function __read() : bool
+    protected function __read(): bool
     {
         $ilDB = $this->db;
-        
+
         if (!$this->file_id) {
             return true;
         }

@@ -21,39 +21,39 @@ class ilChartDataPoints extends ilChartData
 {
     protected ?int $line_width = null;
     protected ?int $radius = null;
-    
-    protected function getTypeString() : string
+
+    protected function getTypeString(): string
     {
         return "points";
     }
-    
-    public function setLineWidth(?int $a_value) : void
+
+    public function setLineWidth(?int $a_value): void
     {
         $this->line_width = $a_value;
     }
 
-    public function getLineWidth() : ?int
+    public function getLineWidth(): ?int
     {
         return $this->line_width;
     }
-    
-    public function setPointRadius(int $a_value) : void
+
+    public function setPointRadius(int $a_value): void
     {
         $this->radius = $a_value;
     }
 
-    public function getPointRadius() : ?int
+    public function getPointRadius(): ?int
     {
         return $this->radius;
     }
-    
-    protected function parseDataOptions(array &$a_options) : void
+
+    protected function parseDataOptions(array &$a_options): void
     {
         $width = $this->getLineWidth();
         if ($width !== null) {
             $a_options["lineWidth"] = $width;
         }
-        
+
         $radius = $this->getPointRadius();
         if ($radius !== null) {
             $a_options["radius"] = $radius;

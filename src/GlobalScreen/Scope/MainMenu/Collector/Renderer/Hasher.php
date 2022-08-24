@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -23,12 +25,11 @@ namespace ILIAS\GlobalScreen\Scope\MainMenu\Collector\Renderer;
  */
 trait Hasher
 {
-
     /**
      * @param $string
      * @return string
      */
-    private function hash(string $string) : string
+    private function hash(string $string): string
     {
         return bin2hex($string);
     }
@@ -37,7 +38,7 @@ trait Hasher
      * @param $string
      * @return string
      */
-    private function unhash(string $string) : string
+    private function unhash(string $string): string
     {
         return hex2bin($string);
     }

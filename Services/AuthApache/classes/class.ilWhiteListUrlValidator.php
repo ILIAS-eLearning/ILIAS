@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /******************************************************************************
  *
@@ -37,7 +39,7 @@ class ilWhiteListUrlValidator
         }, $whitelist));
     }
 
-    private function isValidDomain(string $domain) : bool
+    private function isValidDomain(string $domain): bool
     {
         foreach ($this->whitelist as $validDomain) {
             if ($domain === $validDomain) {
@@ -60,7 +62,7 @@ class ilWhiteListUrlValidator
         return false;
     }
 
-    public function isValid() : bool
+    public function isValid(): bool
     {
         $redirectDomain = parse_url($this->url, PHP_URL_HOST);
         if (null === $redirectDomain) {

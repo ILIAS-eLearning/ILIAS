@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -56,7 +58,7 @@ class ilStyleImageTableGUI extends ilTable2GUI
         $this->ui = $DIC->ui();
 
         parent::__construct($a_parent_obj, $a_parent_cmd);
-        
+
         $this->setTitle($lng->txt("sty_images"));
 
         $this->addColumn("", "", "1");	// checkbox
@@ -75,17 +77,17 @@ class ilStyleImageTableGUI extends ilTable2GUI
         if ($this->access_manager->checkWrite()) {
             $this->addMultiCommand("deleteImage", $lng->txt("delete"));
         }
-        
+
         //$this->addMultiCommand("editLink", $lng->txt("cont_set_link"));
         //$this->addCommandButton("addImage", $this->lng->txt("sty_add_image"));
-        
+
         $this->setEnableTitle(true);
     }
 
     /**
      * @throws \ILIAS\Filesystem\Exception\DirectoryNotFoundException
      */
-    public function getItems() : void
+    public function getItems(): void
     {
         $images = [];
         /** @var Content\Image $i */
@@ -97,8 +99,8 @@ class ilStyleImageTableGUI extends ilTable2GUI
         }
         $this->setData($images);
     }
-    
-    protected function fillRow(array $a_set) : void
+
+    protected function fillRow(array $a_set): void
     {
         $ilCtrl = $this->ctrl;
         $ui = $this->ui;

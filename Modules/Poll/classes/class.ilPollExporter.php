@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -25,20 +27,20 @@
 class ilPollExporter extends ilXmlExporter
 {
     protected ilPollDataSet $ds;
-    
-    public function init() : void
+
+    public function init(): void
     {
         $this->ds = new ilPollDataSet();
         $this->ds->setDSPrefix("ds");
     }
-    
-    public function getXmlRepresentation(string $a_entity, string $a_schema_version, string $a_id) : string
+
+    public function getXmlRepresentation(string $a_entity, string $a_schema_version, string $a_id): string
     {
         $this->ds->setExportDirectories($this->dir_relative, $this->dir_absolute);
         return $this->ds->getXmlRepresentation($a_entity, $a_schema_version, [$a_id], "", true, true);
     }
-    
-    public function getValidSchemaVersions(string $a_entity) : array
+
+    public function getValidSchemaVersions(string $a_entity): array
     {
         return array(
                 "4.3.0" => array(

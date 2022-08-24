@@ -24,12 +24,12 @@ interface ilAccessibilityCriterionTypeFactoryInterface
     /**
      * @return ilAccessibilityCriterionType[]
      */
-    public function getTypesByIdentMap() : array;
+    public function getTypesByIdentMap(): array;
 
     /**
      * @return bool
      */
-    public function hasOnlyOneCriterion() : bool;
+    public function hasOnlyOneCriterion(): bool;
 
     /**
      * @param string $typeIdent
@@ -37,5 +37,5 @@ interface ilAccessibilityCriterionTypeFactoryInterface
      * @return ilAccessibilityCriterionType
      * @throws ilAccessibilityCriterionTypeNotFoundException
      */
-    public function findByTypeIdent(string $typeIdent, bool $useFallback = false) : ilAccessibilityCriterionType;
+    public function findByTypeIdent(string $typeIdent, bool $useFallback = false): ilAccessibilityCriterionType;
 }

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -34,7 +36,7 @@ class HistoryDBRepository
      * Get the maximum history nr, that es older than x days for each page (and all pages)
      * @throws \ilDateTimeException
      */
-    public function getMaxHistEntryPerPageOlderThanX(int $xdays) : \Iterator
+    public function getMaxHistEntryPerPageOlderThanX(int $xdays): \Iterator
     {
         $db = $this->db;
 
@@ -66,7 +68,7 @@ class HistoryDBRepository
         string $parent_type,
         int $page_id,
         string $lang
-    ) : int {
+    ): int {
         $db = $this->db;
 
         $set = $db->queryF(
@@ -91,7 +93,7 @@ class HistoryDBRepository
         string $parent_type,
         int $page_id,
         string $lang
-    ) : void {
+    ): void {
         $db = $this->db;
 
         // main entries in history
@@ -108,7 +110,7 @@ class HistoryDBRepository
         string $parent_type,
         int $page_id,
         string $lang
-    ) : \Iterator {
+    ): \Iterator {
         $db = $this->db;
 
         $set = $db->queryF(

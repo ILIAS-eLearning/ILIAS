@@ -1,4 +1,5 @@
 <?php
+
 use Mockery\Adapter\Phpunit\MockeryTestCase;
 
 /******************************************************************************
@@ -27,16 +28,15 @@ use Mockery\Adapter\Phpunit\MockeryTestCase;
  */
 class ilWACPathTest //extends MockeryTestCase
 {
-
     /**
      * Setup
      */
-    protected function setUp() : void
+    protected function setUp(): void
     {
     }
 
 
-    public function testMobs() : void
+    public function testMobs(): void
     {
         $ilWacPath = new ilWACPath('http://trunk.local/data/trunk/mobs/mm_270/Koeniz_Komturei1.jpg');
         $this->assertEquals('mobs', $ilWacPath->getModuleType());
@@ -50,7 +50,7 @@ class ilWACPathTest //extends MockeryTestCase
     }
 
 
-    public function testUserImage() : void
+    public function testUserImage(): void
     {
         $ilWacPath = new ilWACPath('http://trunk.local/data/trunk/usr_images/usr_6_small.jpg?t=63944');
         $this->assertEquals('usr_images', $ilWacPath->getModuleType());
@@ -65,7 +65,7 @@ class ilWACPathTest //extends MockeryTestCase
     }
 
 
-    public function testBlogInSec() : void
+    public function testBlogInSec(): void
     {
         $ilWacPath = new ilWACPath('http://trunk.local/data/trunk/sec/ilBlog/blog_123/Header.mp4');
         $this->assertEquals('ilBlog', $ilWacPath->getModuleType());
@@ -80,7 +80,7 @@ class ilWACPathTest //extends MockeryTestCase
     }
 
 
-    public function testSubfolders() : void
+    public function testSubfolders(): void
     {
         $ilWacPathBase = new ilWACPath('http://trunk.local/data/trunk/lm_data/lm_123456/start.html');
         $ilWacPathSub = new ilWACPath('http://trunk.local/data/trunk/lm_data/lm_123456/subfolder/image.png');

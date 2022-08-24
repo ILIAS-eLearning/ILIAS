@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -41,7 +43,7 @@ class ilContactUserActionProvider extends ilUserActionProvider
     /**
      * @inheritDoc
      */
-    public function getComponentId() : string
+    public function getComponentId(): string
     {
         return 'contact';
     }
@@ -49,7 +51,7 @@ class ilContactUserActionProvider extends ilUserActionProvider
     /**
      * @inheritDoc
      */
-    public function getActionTypes() : array
+    public function getActionTypes(): array
     {
         $this->lng->loadLanguageModule('buddysystem');
         return [
@@ -60,7 +62,7 @@ class ilContactUserActionProvider extends ilUserActionProvider
     /**
      * @inheritDoc
      */
-    public function collectActionsForTargetUser(int $a_target_user) : ilUserActionCollection
+    public function collectActionsForTargetUser(int $a_target_user): ilUserActionCollection
     {
         $coll = ilUserActionCollection::getInstance();
 

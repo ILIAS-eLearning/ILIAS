@@ -49,7 +49,7 @@ class ilObjDashboardSettingsGUI extends ilObjectGUI
         $this->ui_renderer = $DIC->ui()->renderer();
         $this->request = $DIC->http()->request();
         $this->ui = $DIC->ui();
-        
+
         $this->type = 'dshs';
         parent::__construct($a_data, $a_id, $a_call_by_reference, $a_prepare_output);
 
@@ -60,7 +60,7 @@ class ilObjDashboardSettingsGUI extends ilObjectGUI
         $this->side_panel_settings = new ilDashboardSidePanelSettingsRepository();
     }
 
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         $next_class = $this->ctrl->getNextClass($this);
         $cmd = $this->ctrl->getCmd();
@@ -88,7 +88,7 @@ class ilObjDashboardSettingsGUI extends ilObjectGUI
         }
     }
 
-    public function getAdminTabs() : void
+    public function getAdminTabs(): void
     {
         $rbacsystem = $this->rbacsystem;
 
@@ -110,7 +110,7 @@ class ilObjDashboardSettingsGUI extends ilObjectGUI
         }
     }
 
-    public function editSettings() : void
+    public function editSettings(): void
     {
         $this->setSettingsSubTabs("general");
         $ui = $this->ui;
@@ -118,7 +118,7 @@ class ilObjDashboardSettingsGUI extends ilObjectGUI
         $this->tpl->setContent($ui->renderer()->renderAsync($form));
     }
 
-    public function initForm() : \ILIAS\UI\Component\Input\Container\Form\Standard
+    public function initForm(): \ILIAS\UI\Component\Input\Container\Form\Standard
     {
         $ui = $this->ui;
         $f = $ui->factory();
@@ -160,12 +160,12 @@ class ilObjDashboardSettingsGUI extends ilObjectGUI
         );
     }
 
-    public function saveSettings() : void
+    public function saveSettings(): void
     {
         $ilCtrl = $this->ctrl;
         $ilAccess = $this->access;
         $side_panel = $this->side_panel_settings;
-        
+
         if (!$this->canWrite()) {
             ilUtil::sendFailure($this->lng->txt('no_permission'), true);
             $ilCtrl->redirect($this, "editSettings");
@@ -187,9 +187,9 @@ class ilObjDashboardSettingsGUI extends ilObjectGUI
         $this->tpl->setOnScreenMessage('success', $this->lng->txt("settings_saved"), true);
         $ilCtrl->redirect($this, "editSettings");
     }
-    
 
-    public function setSettingsSubTabs(string $a_active) : void
+
+    public function setSettingsSubTabs(string $a_active): void
     {
         $rbacsystem = $this->rbacsystem;
 
@@ -224,7 +224,7 @@ class ilObjDashboardSettingsGUI extends ilObjectGUI
         $tabs->activateSubTab($a_active);
     }
 
-    protected function editViewCoursesGroups() : void
+    protected function editViewCoursesGroups(): void
     {
         $main_tpl = $this->tpl;
         $tabs = $this->tabs_gui;
@@ -238,7 +238,7 @@ class ilObjDashboardSettingsGUI extends ilObjectGUI
         $main_tpl->setContent($ui_renderer->render($form));
     }
 
-    protected function getViewSettingsForm(int $view) : \ILIAS\UI\Component\Input\Container\Form\Standard
+    protected function getViewSettingsForm(int $view): \ILIAS\UI\Component\Input\Container\Form\Standard
     {
         $ctrl = $this->ctrl;
         $lng = $this->lng;
@@ -292,7 +292,7 @@ class ilObjDashboardSettingsGUI extends ilObjectGUI
     }
 
 
-    protected function saveViewCoursesGroups() : void
+    protected function saveViewCoursesGroups(): void
     {
         $this->saveViewSettings(
             $this->viewSettings->getMembershipsView(),
@@ -300,7 +300,7 @@ class ilObjDashboardSettingsGUI extends ilObjectGUI
         );
     }
 
-    protected function editViewFavourites() : void
+    protected function editViewFavourites(): void
     {
         $main_tpl = $this->tpl;
         $tabs = $this->tabs_gui;
@@ -316,7 +316,7 @@ class ilObjDashboardSettingsGUI extends ilObjectGUI
         $main_tpl->setContent($ui_renderer->render($form));
     }
 
-    protected function saveViewFavourites() : void
+    protected function saveViewFavourites(): void
     {
         $this->saveViewSettings(
             $this->viewSettings->getSelectedItemsView(),
@@ -324,7 +324,7 @@ class ilObjDashboardSettingsGUI extends ilObjectGUI
         );
     }
 
-    protected function saveViewSettings(int $view, string $redirect_cmd) : void
+    protected function saveViewSettings(int $view, string $redirect_cmd): void
     {
         $request = $this->request;
         $lng = $this->lng;
@@ -357,18 +357,18 @@ class ilObjDashboardSettingsGUI extends ilObjectGUI
      * @param FormInput[] $fields
      * @return FormInput[]
      */
-    private function maybeDisable(array $fields) : array
+    private function maybeDisable(array $fields): array
     {
         if ($this->canWrite()) {
             return $fields;
         }
 
-        return array_map(static function (FormInput $field) : FormInput {
+        return array_map(static function (FormInput $field): FormInput {
             return $field->withDisabled(true);
         }, $fields);
     }
 
-    private function canWrite() : bool
+    private function canWrite(): bool
     {
         return $this->rbacsystem->checkAccess('write', $this->object->getRefId());
     }

@@ -1,4 +1,5 @@
 <?php
+
 // patched: alex, 30.4.2019: Added missing defines
 
 define('NS_MAIN', "nsmain");

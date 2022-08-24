@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -28,7 +30,7 @@ class ilVirusScannerICapRemoteAvClient extends ilVirusScannerICapRemote
         $this->options(IL_ICAP_AV_COMMAND);
     }
 
-    public function scanFile(string $file_path, string $org_name = "") : string
+    public function scanFile(string $file_path, string $org_name = ""): string
     {
         $return_string = '';
         if (is_readable($file_path)) {
@@ -51,7 +53,7 @@ class ilVirusScannerICapRemoteAvClient extends ilVirusScannerICapRemote
         return $return_string;
     }
 
-    protected function analyseHeader(array $header) : bool
+    protected function analyseHeader(array $header): bool
     {
         $virus_found = false;
         if (array_key_exists(self::HEADER, $header)) {

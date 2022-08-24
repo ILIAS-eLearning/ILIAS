@@ -98,14 +98,14 @@ class ilCronDeleteInactiveUserAccounts extends ilCronJob
     /**
      * @param string|int $number
      */
-    protected function isDecimal($number) : bool
+    protected function isDecimal($number): bool
     {
         $number = (string) $number;
 
         return strpos($number, ',') || strpos($number, '.');
     }
 
-    protected function getTimeDifferenceBySchedule(int $schedule_time, int $multiplier) : int
+    protected function getTimeDifferenceBySchedule(int $schedule_time, int $multiplier): int
     {
         $time_difference = 0;
 
@@ -139,47 +139,47 @@ class ilCronDeleteInactiveUserAccounts extends ilCronJob
         return $time_difference;
     }
 
-    public function getId() : string
+    public function getId(): string
     {
         return "user_inactive";
     }
-    
-    public function getTitle() : string
+
+    public function getTitle(): string
     {
         return $this->lng->txt("delete_inactive_user_accounts");
     }
-    
-    public function getDescription() : string
+
+    public function getDescription(): string
     {
         return $this->lng->txt("delete_inactive_user_accounts_desc");
     }
-    
-    public function getDefaultScheduleType() : int
+
+    public function getDefaultScheduleType(): int
     {
         return self::SCHEDULE_TYPE_DAILY;
     }
-    
-    public function getDefaultScheduleValue() : ?int
+
+    public function getDefaultScheduleValue(): ?int
     {
         return null;
     }
-    
-    public function hasAutoActivation() : bool
+
+    public function hasAutoActivation(): bool
     {
         return false;
     }
-    
-    public function hasFlexibleSchedule() : bool
+
+    public function hasFlexibleSchedule(): bool
     {
         return true;
     }
-    
-    public function hasCustomSettings() : bool
+
+    public function hasCustomSettings(): bool
     {
         return true;
     }
-    
-    public function run() : ilCronJobResult
+
+    public function run(): ilCronJobResult
     {
         global $DIC;
 
@@ -231,7 +231,7 @@ class ilCronDeleteInactiveUserAccounts extends ilCronJob
             }
             $counter++;
         }
-        
+
         if ($counter) {
             $status = ilCronJobResult::STATUS_OK;
         }
@@ -247,8 +247,8 @@ class ilCronDeleteInactiveUserAccounts extends ilCronJob
 
         return $result;
     }
-    
-    protected function calculateDeletionData(int $date_for_deletion) : int
+
+    protected function calculateDeletionData(int $date_for_deletion): int
     {
         $cron_timing = $this->cronRepository->getCronJobData($this->getId());
         $time_difference = 0;
@@ -269,8 +269,8 @@ class ilCronDeleteInactiveUserAccounts extends ilCronJob
         }
         return time() + $date_for_deletion + $time_difference;
     }
-    
-    public function addCustomSettingsToForm(ilPropertyFormGUI $a_form) : void
+
+    public function addCustomSettingsToForm(ilPropertyFormGUI $a_form): void
     {
         $this->lng->loadLanguageModule("user");
 
@@ -329,7 +329,7 @@ class ilCronDeleteInactiveUserAccounts extends ilCronJob
         $a_form->addItem($sub_period);
     }
 
-    public function saveCustomSettings(ilPropertyFormGUI $a_form) : bool
+    public function saveCustomSettings(ilPropertyFormGUI $a_form): bool
     {
         $this->lng->loadLanguageModule("user");
 
@@ -344,7 +344,7 @@ class ilCronDeleteInactiveUserAccounts extends ilCronJob
         $delete_period = 0;
         $reminder_period = '';
 
-        $empty_string_trafo = $this->refinery->custom()->transformation(static function ($value) : string {
+        $empty_string_trafo = $this->refinery->custom()->transformation(static function ($value): string {
             if ($value === '') {
                 return '';
             }

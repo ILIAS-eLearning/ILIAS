@@ -22,13 +22,15 @@
  */
 class ilDclDateSelectionFieldRepresentation extends ilDclSelectionFieldRepresentation
 {
-    const PROP_SELECTION_TYPE = 'date_selection_type';
-    const PROP_SELECTION_OPTIONS = 'date_selection_options';
+    public const PROP_SELECTION_TYPE = 'date_selection_type';
+    public const PROP_SELECTION_OPTIONS = 'date_selection_options';
 
-    protected function buildOptionsInput() : ilDclGenericMultiInputGUI
+    protected function buildOptionsInput(): ilDclGenericMultiInputGUI
     {
-        $selection_options = new ilDclGenericMultiInputGUI($this->lng->txt('dcl_selection_options'),
-            'prop_' . static::PROP_SELECTION_OPTIONS);
+        $selection_options = new ilDclGenericMultiInputGUI(
+            $this->lng->txt('dcl_selection_options'),
+            'prop_' . static::PROP_SELECTION_OPTIONS
+        );
         $selection_options->setMulti(true, true);
 
         $text = new ilDateTimeInputGUI($this->lng->txt('dcl_selection_options'), 'selection_value');

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * Class ilAtomQueryLock
  *
@@ -40,7 +42,7 @@ class ilAtomQueryLock extends ilAtomQueryBase implements ilAtomQuery
      *
      * @throws \ilAtomQueryException
      */
-    public function run() : void
+    public function run(): void
     {
         $this->checkBeforeRun();
         $this->runWithLocks();
@@ -50,7 +52,7 @@ class ilAtomQueryLock extends ilAtomQueryBase implements ilAtomQuery
     /**
      * @throws \ilAtomQueryException
      */
-    protected function runWithLocks() : void
+    protected function runWithLocks(): void
     {
         $this->ilDBInstance->lockTables($this->getLocksForDBInstance());
         try {
@@ -67,7 +69,7 @@ class ilAtomQueryLock extends ilAtomQueryBase implements ilAtomQuery
      * @throws \ilAtomQueryException
      * @return array<int, array<string, int|string|bool>>
      */
-    protected function getLocksForDBInstance() : array
+    protected function getLocksForDBInstance(): array
     {
         $locks = array();
         foreach ($this->tables as $table) {

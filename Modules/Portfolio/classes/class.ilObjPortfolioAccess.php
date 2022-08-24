@@ -23,10 +23,10 @@
  */
 class ilObjPortfolioAccess
 {
-    public static function _checkGoto(string $a_target) : bool
+    public static function _checkGoto(string $a_target): bool
     {
         $t_arr = explode("_", $a_target);
-        
+
         return ilSharedResourceGUI::hasAccess($t_arr[1], true);
     }
 }

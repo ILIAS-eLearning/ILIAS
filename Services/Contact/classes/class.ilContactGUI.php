@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -67,7 +69,7 @@ class ilContactGUI
         $this->lng->loadLanguageModule('buddysystem');
     }
 
-    public function executeCommand() : bool
+    public function executeCommand(): bool
     {
         $this->showSubTabs();
 
@@ -93,7 +95,7 @@ class ilContactGUI
                 $this->ctrl->setReturn($this, "showContacts");
                 $this->ctrl->forwardCommand(new ilMailSearchGroupsGUI());
                 break;
-            
+
             case strtolower(ilMailingListsGUI::class):
                 $this->activateTab('mail_my_mailing_lists');
 
@@ -138,8 +140,8 @@ class ilContactGUI
         return true;
     }
 
-    
-    private function showSubTabs() : void
+
+    private function showSubTabs(): void
     {
         $galleryCmdClasses = array_map('strtolower', [ilUsersGalleryGUI::class, self::class]);
         if ($this->tabs_gui->hasTabs()) {
@@ -195,7 +197,7 @@ class ilContactGUI
             $this->has_sub_tabs = true;
         } else {
             $this->tpl->setTitleIcon(ilUtil::getImagePath('icon_cadm.svg'));
-            
+
             $this->help->setScreenIdComponent('contacts');
 
             if (ilBuddySystem::getInstance()->isEnabled()) {
@@ -243,7 +245,7 @@ class ilContactGUI
         }
     }
 
-    protected function activateTab(string $a_id) : void
+    protected function activateTab(string $a_id): void
     {
         if ($this->has_sub_tabs) {
             $this->tabs_gui->activateSubTab($a_id);
@@ -255,7 +257,7 @@ class ilContactGUI
     /**
      * This method is used to switch the contacts view between gallery and table in the mail system
      */
-    protected function changeContactsView() : void
+    protected function changeContactsView(): void
     {
         if (!ilBuddySystem::getInstance()->isEnabled()) {
             $this->error->raiseError($this->lng->txt('msg_no_perm_read'), $this->error->MESSAGE);
@@ -275,8 +277,8 @@ class ilContactGUI
         $this->ctrl->redirect($this);
     }
 
-    
-    protected function applyContactsTableFilter() : void
+
+    protected function applyContactsTableFilter(): void
     {
         if (!ilBuddySystem::getInstance()->isEnabled()) {
             $this->error->raiseError($this->lng->txt('msg_no_perm_read'), $this->error->MESSAGE);
@@ -290,8 +292,8 @@ class ilContactGUI
         $this->showContacts();
     }
 
-    
-    protected function resetContactsTableFilter() : void
+
+    protected function resetContactsTableFilter(): void
     {
         if (!ilBuddySystem::getInstance()->isEnabled()) {
             $this->error->raiseError($this->lng->txt('msg_no_perm_read'), $this->error->MESSAGE);
@@ -305,8 +307,8 @@ class ilContactGUI
         $this->showContacts();
     }
 
-    
-    protected function showContacts() : void
+
+    protected function showContacts(): void
     {
         if (!ilBuddySystem::getInstance()->isEnabled()) {
             $this->error->raiseError($this->lng->txt('msg_no_perm_read'), $this->error->MESSAGE);
@@ -321,7 +323,7 @@ class ilContactGUI
         $this->tpl->printToStdout();
     }
 
-    private function showContactRequests() : void
+    private function showContactRequests(): void
     {
         if (!ilBuddySystem::getInstance()->isEnabled()) {
             $this->error->raiseError($this->lng->txt('msg_no_perm_read'), $this->error->MESSAGE);
@@ -340,7 +342,7 @@ class ilContactGUI
         $this->showContacts();
     }
 
-    protected function mailToUsers() : void
+    protected function mailToUsers(): void
     {
         if (!$this->rbacsystem->checkAccess('internal_mail', ilMailGlobalServices::getMailObjectRefId())) {
             $this->error->raiseError($this->lng->txt('msg_no_perm_read'), $this->error->MESSAGE);
@@ -373,7 +375,7 @@ class ilContactGUI
             if (!is_array($mail_data)) {
                 $this->umail->savePostData($this->user->getId(), [], '', '', '', '', '', false);
             }
- 
+
             $mail_data = $this->umail->appendSearchResult($logins, 'to');
             $this->umail->savePostData(
                 (int) $mail_data['user_id'],
@@ -396,7 +398,7 @@ class ilContactGUI
      * Last step of chat invitations
      * check access for every selected user and send invitation
      */
-    public function submitInvitation() : void
+    public function submitInvitation(): void
     {
         $usr_ids = [];
         try {
@@ -531,7 +533,7 @@ class ilContactGUI
     /**
      * Send chat invitations to selected Users
      */
-    protected function inviteToChat() : void
+    protected function inviteToChat(): void
     {
         $this->tabs_gui->activateSubTab('buddy_view_table');
         $this->activateTab('my_contacts');

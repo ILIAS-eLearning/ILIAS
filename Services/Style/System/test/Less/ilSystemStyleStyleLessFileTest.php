@@ -22,13 +22,13 @@ require_once('libs/composer/vendor/autoload.php');
 
 class ilSystemStyleStyleLessFileTest extends ilSystemStyleBaseFSTest
 {
-    public function testConstructAndRead() : void
+    public function testConstructAndRead(): void
     {
         $file = new ilSystemStyleLessFile($this->container->getLessVariablesFilePath($this->style->getId()));
         $this->assertCount(14, $file->getItems());
     }
 
-    public function testReadCorrectTypes() : void
+    public function testReadCorrectTypes(): void
     {
         $file = new ilSystemStyleLessFile($this->container->getLessVariablesFilePath($this->style->getId()));
 
@@ -37,7 +37,7 @@ class ilSystemStyleStyleLessFileTest extends ilSystemStyleBaseFSTest
         $this->assertCount(6, $file->getCommentsIds());
     }
 
-    public function testGetVariableByName() : void
+    public function testGetVariableByName(): void
     {
         $file = new ilSystemStyleLessFile($this->container->getLessVariablesFilePath($this->style->getId()));
 
@@ -94,7 +94,7 @@ class ilSystemStyleStyleLessFileTest extends ilSystemStyleBaseFSTest
         $this->assertEquals($expected_variable23, $file->getVariableByName('variable23'));
     }
 
-    public function testGetCategory() : void
+    public function testGetCategory(): void
     {
         $file = new ilSystemStyleLessFile($this->container->getLessVariablesFilePath($this->style->getId()));
 
@@ -105,7 +105,7 @@ class ilSystemStyleStyleLessFileTest extends ilSystemStyleBaseFSTest
         $this->assertEquals($expected_categories, $file->getCategories());
     }
 
-    public function testGetItems() : void
+    public function testGetItems(): void
     {
         $file = new ilSystemStyleLessFile($this->container->getLessVariablesFilePath($this->style->getId()));
 
@@ -179,14 +179,14 @@ class ilSystemStyleStyleLessFileTest extends ilSystemStyleBaseFSTest
         $this->assertEquals($expected_items, $file->getItems());
     }
 
-    public function testGetContent() : void
+    public function testGetContent(): void
     {
         $file = new ilSystemStyleLessFile($this->container->getLessVariablesFilePath($this->style->getId()));
         $expected_content = file_get_contents($this->container->getLessVariablesFilePath($this->style->getId()));
         $this->assertEquals($expected_content, $file->getContent());
     }
 
-    public function testReadWriteDouble() : void
+    public function testReadWriteDouble(): void
     {
         $expected_content = file_get_contents($this->container->getLessVariablesFilePath($this->style->getId()));
 
@@ -199,7 +199,7 @@ class ilSystemStyleStyleLessFileTest extends ilSystemStyleBaseFSTest
         $this->assertEquals($expected_content, $file->getContent());
     }
 
-    public function testReadWriteDoubleFullLess() : void
+    public function testReadWriteDoubleFullLess(): void
     {
         $expected_content = file_get_contents($this->container->getSkinDirectory() . 'full.less');
 
@@ -212,7 +212,7 @@ class ilSystemStyleStyleLessFileTest extends ilSystemStyleBaseFSTest
         $this->assertEquals($expected_content, $file->getContent());
     }
 
-    public function testChangeVariable() : void
+    public function testChangeVariable(): void
     {
         $file = new ilSystemStyleLessFile($this->container->getLessVariablesFilePath($this->style->getId()));
         $variable = $file->getVariableByName('variable11');
@@ -288,7 +288,7 @@ class ilSystemStyleStyleLessFileTest extends ilSystemStyleBaseFSTest
         $this->assertEquals($expected_items, $file->getItems());
     }
 
-    public function testAddAndWriteItems() : void
+    public function testAddAndWriteItems(): void
     {
         $empty_less = new ilSystemStyleLessFile($this->container->getSkinDirectory() . 'empty.less');
 
@@ -368,7 +368,7 @@ class ilSystemStyleStyleLessFileTest extends ilSystemStyleBaseFSTest
         $this->assertEquals($expected_items, $new_less->getItems());
     }
 
-    public function testGetVariableReferences() : void
+    public function testGetVariableReferences(): void
     {
         $file = new ilSystemStyleLessFile($this->container->getLessVariablesFilePath($this->style->getId()));
 
@@ -381,7 +381,7 @@ class ilSystemStyleStyleLessFileTest extends ilSystemStyleBaseFSTest
         $this->assertEquals([], $file->getReferencesToVariable('variable23'));
     }
 
-    public function testGetVariableReferencesAsString() : void
+    public function testGetVariableReferencesAsString(): void
     {
         $file = new ilSystemStyleLessFile($this->container->getLessVariablesFilePath($this->style->getId()));
 
@@ -394,7 +394,7 @@ class ilSystemStyleStyleLessFileTest extends ilSystemStyleBaseFSTest
         $this->assertEquals('', $file->getReferencesToVariableAsString('variable23'));
     }
 
-    public function testReadCorrectTypesEdgeCases() : void
+    public function testReadCorrectTypesEdgeCases(): void
     {
         $file = new ilSystemStyleLessFile($this->container->getSkinDirectory() . 'edge-cases.less');
 
@@ -403,7 +403,7 @@ class ilSystemStyleStyleLessFileTest extends ilSystemStyleBaseFSTest
         $this->assertCount(4, $file->getCommentsIds());
     }
 
-    public function testGetItemsEdgeCases() : void
+    public function testGetItemsEdgeCases(): void
     {
         $file = new ilSystemStyleLessFile($this->container->getSkinDirectory() . 'edge-cases.less');
 

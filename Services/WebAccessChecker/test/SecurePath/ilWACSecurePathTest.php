@@ -1,4 +1,5 @@
 <?php
+
 // declare(strict_types=1);
 
 use Mockery\Adapter\Phpunit\MockeryTestCase;
@@ -28,19 +29,18 @@ use Mockery\Adapter\Phpunit\MockeryTestCase;
  */
 class ilWACSecurePathTest //extends MockeryTestCase
 {
-
     /**
      * @var bool
      */
     protected $backupGlobals = false;
 
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
     }
 
 
-    public function testPath() : void
+    public function testPath(): void
     {
         /**
          * @var $obj ilWACSecurePath

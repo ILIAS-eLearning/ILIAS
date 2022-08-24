@@ -28,7 +28,7 @@ class ilModulesSessionExtractor extends ilBaseExtractor
      * @param array  $parameters
      * @return ilExtractedParams
      */
-    public function extract(string $event, array $parameters) : ilExtractedParams
+    public function extract(string $event, array $parameters): ilExtractedParams
     {
         $this->ilExtractedParams->setSubjectType('session');
         switch ($event) {

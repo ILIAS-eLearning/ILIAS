@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /* Copyright (c) 1998-2020 ILIAS open source, Extended GPL, see docs/LICENSE */
 
@@ -10,7 +12,7 @@ class ilTestPassesSelectorTest extends ilTestBaseTestCase
 {
     private ilTestPassesSelector $testObj;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -20,18 +22,18 @@ class ilTestPassesSelectorTest extends ilTestBaseTestCase
         );
     }
 
-    public function test_instantiateObject_shouldReturnInstance() : void
+    public function test_instantiateObject_shouldReturnInstance(): void
     {
         $this->assertInstanceOf(ilTestPassesSelector::class, $this->testObj);
     }
 
-    public function testActiveId() : void
+    public function testActiveId(): void
     {
         $this->testObj->setActiveId(125);
         $this->assertEquals(125, $this->testObj->getActiveId());
     }
 
-    public function testLastFinishedPass() : void
+    public function testLastFinishedPass(): void
     {
         $this->testObj->setLastFinishedPass(125);
         $this->assertEquals(125, $this->testObj->getLastFinishedPass());

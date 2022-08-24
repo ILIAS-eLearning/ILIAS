@@ -15,7 +15,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * Interface ilBiblFileReaderFactoryInterface
  * @author Fabian Schmid <fs@studer-raimann.ch>
@@ -27,5 +27,5 @@ interface ilBiblFileReaderFactoryInterface
         ilBiblEntryFactoryInterface $entry_factory,
         ilBiblFieldFactoryInterface $field_factory,
         ilBiblAttributeFactoryInterface $attribute_factory
-    ) : ilBiblFileReaderInterface;
+    ): ilBiblFileReaderInterface;
 }

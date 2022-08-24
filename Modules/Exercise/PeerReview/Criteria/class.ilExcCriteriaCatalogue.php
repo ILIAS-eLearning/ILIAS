@@ -15,7 +15,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * Class ilExcCriteriaCatalogue
  *
@@ -29,7 +29,7 @@ class ilExcCriteriaCatalogue
     protected ?int $parent = null;
     protected ?string $title = null;
     protected int $pos = 0;
-    
+
     public function __construct(int $a_id = null)
     {
         global $DIC;
@@ -41,14 +41,14 @@ class ilExcCriteriaCatalogue
     /**
      * @return self[]
      */
-    public static function getInstancesByParentId(int $a_parent_id) : array
+    public static function getInstancesByParentId(int $a_parent_id): array
     {
         global $DIC;
 
         $ilDB = $DIC->database();
-        
+
         $res = array();
-        
+
         $set = $ilDB->query("SELECT *" .
             " FROM exc_crit_cat" .
             " WHERE parent = " . $ilDB->quote($a_parent_id, "integer") .
@@ -58,69 +58,69 @@ class ilExcCriteriaCatalogue
             $obj->importFromDB($row);
             $res[$obj->getId()] = $obj;
         }
-        
+
         return $res;
     }
-    
-    
+
+
     //
     // properties
     //
-    
-    public function getId() : ?int
+
+    public function getId(): ?int
     {
         return $this->id;
     }
-    
-    protected function setId(int $a_id) : void
+
+    protected function setId(int $a_id): void
     {
         $this->id = $a_id;
     }
-    
-    public function setParent(?int $a_value) : void
+
+    public function setParent(?int $a_value): void
     {
         $this->parent = $a_value;
     }
-    
-    public function getParent() : ?int
+
+    public function getParent(): ?int
     {
         return $this->parent;
     }
-    
-    public function setTitle(?string $a_value) : void
+
+    public function setTitle(?string $a_value): void
     {
         $this->title = $a_value;
     }
-    
-    public function getTitle() : ?string
+
+    public function getTitle(): ?string
     {
         return $this->title;
     }
 
-    public function setPosition(int $a_value) : void
+    public function setPosition(int $a_value): void
     {
         $this->pos = $a_value;
     }
-    
-    public function getPosition() : int
+
+    public function getPosition(): int
     {
         return $this->pos;
     }
-    
-    
+
+
     //
     // CRUD
     //
-    
-    protected function importFromDB(array $a_row) : void
+
+    protected function importFromDB(array $a_row): void
     {
         $this->setId((int) $a_row["id"]);
         $this->setParent((int) $a_row["parent"]);
         $this->setTitle((string) $a_row["title"]);
         $this->setPosition((int) $a_row["pos"]);
     }
-    
-    protected function getDBProperties() : array
+
+    protected function getDBProperties(): array
     {
         return array(
             "title" => array("text", $this->getTitle())
@@ -128,25 +128,25 @@ class ilExcCriteriaCatalogue
         );
     }
 
-    protected function getLastPosition() : int
+    protected function getLastPosition(): int
     {
         $ilDB = $this->db;
-        
+
         if (!$this->getParent()) {
             return 0;
         }
-        
+
         $set = $ilDB->query("SELECT MAX(pos) pos" .
             " FROM exc_crit_cat" .
             " WHERE parent = " . $ilDB->quote($this->getParent(), "integer"));
         $row = $ilDB->fetchAssoc($set);
         return (int) $row["pos"];
     }
-    
-    protected function read(?int $a_id) : void
+
+    protected function read(?int $a_id): void
     {
         $ilDB = $this->db;
-        
+
         if ($a_id > 0) {
             $set = $ilDB->query("SELECT *" .
                 " FROM exc_crit_cat" .
@@ -157,79 +157,79 @@ class ilExcCriteriaCatalogue
             }
         }
     }
-    
-    public function save() : void
+
+    public function save(): void
     {
         $ilDB = $this->db;
-        
+
         if ($this->id) {
             $this->update();
             return;
         }
-        
+
         $this->id = $ilDB->nextId("exc_crit_cat");
-        
+
         $fields = $this->getDBProperties();
         $fields["parent"] = array("integer", $this->getParent());
         $fields["pos"] = array("integer", $this->getLastPosition() + 10);
         $fields["id"] = array("integer", $this->id);
-        
+
         $ilDB->insert("exc_crit_cat", $fields);
     }
-    
-    public function update() : void
+
+    public function update(): void
     {
         $ilDB = $this->db;
-        
+
         if (!$this->id) {
             $this->save();
             return;
         }
-        
+
         $primary = array("id" => array("integer", $this->id));
         $ilDB->update("exc_crit_cat", $this->getDBProperties(), $primary);
     }
-    
-    public function delete() : void
+
+    public function delete(): void
     {
         $ilDB = $this->db;
-        
+
         if (!$this->id) {
             return;
         }
-        
+
         ilExcCriteria::deleteByParent($this->id);
-                
+
         $ilDB->manipulate("DELETE FROM exc_crit_cat" .
             " WHERE id = " . $ilDB->quote($this->id, "integer"));
     }
-    
-    public static function deleteByParent(int $a_parent_id) : void
+
+    public static function deleteByParent(int $a_parent_id): void
     {
         global $DIC;
 
         $ilDB = $DIC->database();
-        
+
         if ($a_parent_id <= 0) {
             return;
         }
-        
+
         $ilDB->manipulate("DELETE FROM exc_crit" .
             " WHERE parent = " . $ilDB->quote($a_parent_id, "integer"));
     }
-    
-    public function cloneObject(int $a_target_parent_id) : int
+
+    public function cloneObject(int $a_target_parent_id): int
     {
         $new_obj = new self();
         $new_obj->setParent($a_target_parent_id);
         $new_obj->setTitle($this->getTitle());
         $new_obj->setPosition($this->getPosition());
         $new_obj->save();
-        
+
         foreach (ilExcCriteria::getInstancesByParentId($this->getId()) as $crit) {
             $crit->cloneObject($new_obj->getId());
         }
-        
+
         return $new_obj->getId();
     }
 }

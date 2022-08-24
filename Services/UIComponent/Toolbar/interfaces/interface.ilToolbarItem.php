@@ -28,5 +28,5 @@ interface ilToolbarItem
     /**
      * Get input item HTML to be inserted into ilToolbarGUI
      */
-    public function getToolbarHTML() : string;
+    public function getToolbarHTML(): string;
 }

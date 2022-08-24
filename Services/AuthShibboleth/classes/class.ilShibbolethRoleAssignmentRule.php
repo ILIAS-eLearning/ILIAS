@@ -49,87 +49,87 @@ class ilShibbolethRoleAssignmentRule
         $this->read();
     }
 
-    public function setRuleId(int $a_id) : void
+    public function setRuleId(int $a_id): void
     {
         $this->rule_id = $a_id;
     }
 
-    public function getRuleId() : int
+    public function getRuleId(): int
     {
         return $this->rule_id;
     }
 
-    public function setRoleId(int $a_id) : void
+    public function setRoleId(int $a_id): void
     {
         $this->role_id = $a_id;
     }
 
-    public function getRoleId() : int
+    public function getRoleId(): int
     {
         return $this->role_id;
     }
 
-    public function setName(string $a_name) : void
+    public function setName(string $a_name): void
     {
         $this->attribute_name = $a_name;
     }
 
-    public function getName() : string
+    public function getName(): string
     {
         return $this->attribute_name;
     }
 
-    public function setValue(string $a_value) : void
+    public function setValue(string $a_value): void
     {
         $this->attribute_value = $a_value;
     }
 
-    public function getValue() : string
+    public function getValue(): string
     {
         return $this->attribute_value;
     }
 
-    public function enablePlugin(bool $a_status) : void
+    public function enablePlugin(bool $a_status): void
     {
         $this->plugin_active = $a_status;
     }
 
-    public function isPluginActive() : bool
+    public function isPluginActive(): bool
     {
         return $this->plugin_active;
     }
 
-    public function enableAddOnUpdate(bool $a_status) : void
+    public function enableAddOnUpdate(bool $a_status): void
     {
         $this->add_on_update = $a_status;
     }
 
-    public function isAddOnUpdateEnabled() : bool
+    public function isAddOnUpdateEnabled(): bool
     {
         return $this->add_on_update;
     }
 
-    public function enableRemoveOnUpdate(bool $a_status) : void
+    public function enableRemoveOnUpdate(bool $a_status): void
     {
         $this->remove_on_update = $a_status;
     }
 
-    public function isRemoveOnUpdateEnabled() : bool
+    public function isRemoveOnUpdateEnabled(): bool
     {
         return $this->remove_on_update;
     }
 
-    public function setPluginId(?string $a_id) : void
+    public function setPluginId(?string $a_id): void
     {
         $this->plugin_id = $a_id;
     }
 
-    public function getPluginId() : ?string
+    public function getPluginId(): ?string
     {
         return $this->plugin_id;
     }
 
-    public function conditionToString() : ?string
+    public function conditionToString(): ?string
     {
         global $DIC;
         $lng = $DIC['lng'];
@@ -140,7 +140,7 @@ class ilShibbolethRoleAssignmentRule
         return $this->getName() . '=' . $this->getValue();
     }
 
-    public function validate() : string
+    public function validate(): string
     {
         if ($this->getRoleId() === 0) {
             return self::ERR_MISSING_ROLE;
@@ -159,7 +159,7 @@ class ilShibbolethRoleAssignmentRule
         return '';
     }
 
-    public function delete() : bool
+    public function delete(): bool
     {
         $query = 'DELETE FROM ' . self::TABLE_NAME . ' ' . 'WHERE rule_id = ' . $this->db->quote(
             $this->getRuleId(),
@@ -170,7 +170,7 @@ class ilShibbolethRoleAssignmentRule
         return true;
     }
 
-    public function add() : bool
+    public function add(): bool
     {
         $next_id = $this->db->nextId(self::TABLE_NAME);
         $query = 'INSERT INTO ' . self::TABLE_NAME . ' (rule_id,role_id,name,value,plugin,plugin_id,add_on_update,remove_on_update ) ' . 'VALUES( '
@@ -188,7 +188,7 @@ class ilShibbolethRoleAssignmentRule
         return true;
     }
 
-    public function update() : bool
+    public function update(): bool
     {
         $query = 'UPDATE ' . self::TABLE_NAME . ' ' . 'SET role_id = ' . $this->db->quote(
             $this->getRoleId(),
@@ -211,7 +211,7 @@ class ilShibbolethRoleAssignmentRule
     /**
      * @deprecated
      */
-    public function matches(array $a_data) : bool
+    public function matches(array $a_data): bool
     {
         if ($this->isPluginActive()) {
             return ilShibbolethRoleAssignmentRules::callPlugin($this->getPluginId(), $a_data);
@@ -231,14 +231,14 @@ class ilShibbolethRoleAssignmentRule
     /**
      * @deprecated
      */
-    protected function wildcardCompare(string $a_str1, string $a_str2) : bool
+    protected function wildcardCompare(string $a_str1, string $a_str2): bool
     {
         $pattern = str_replace('*', '.*?', $a_str1);
 
         return (bool) preg_match("/" . $pattern . "/us", $a_str2);
     }
 
-    public function doesMatch(array $a_data) : bool
+    public function doesMatch(array $a_data): bool
     {
         if ($this->isPluginActive()) {
             return ilShibbolethRoleAssignmentRules::callPlugin($this->getPluginId(), $a_data);
@@ -258,7 +258,7 @@ class ilShibbolethRoleAssignmentRule
         return (bool) preg_match('/^' . $pattern . '$/us', $values);
     }
 
-    private function read() : void
+    private function read(): void
     {
         if ($this->getRuleId() === 0) {
             return;

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 use PHPUnit\Framework\TestCase;
 
 class ilServicesGlobalCacheTest extends TestCase
@@ -23,7 +25,7 @@ class ilServicesGlobalCacheTest extends TestCase
     /**
      * @return ilGlobalCacheSettings
      */
-    private function getSettings() : ilGlobalCacheSettings
+    private function getSettings(): ilGlobalCacheSettings
     {
         $settings = new ilGlobalCacheSettings();
         $settings->setActive(true);
@@ -31,29 +33,29 @@ class ilServicesGlobalCacheTest extends TestCase
         $settings->setService(ilGlobalCache::TYPE_STATIC);
         return $settings;
     }
-    
-    public function testService() : void
+
+    public function testService(): void
     {
         $settings = $this->getSettings();
         ilGlobalCache::setup($settings);
-        
+
         $cache = ilGlobalCache::getInstance('test');
         $this->assertTrue($cache->isActive());
         $this->assertEquals('test', $cache->getComponent());
         $this->assertEquals(0, $cache->getServiceType());
-        
+
         $cache = ilGlobalCache::getInstance('test_2');
         $this->assertFalse($cache->isActive());
         $this->assertEquals('test_2', $cache->getComponent());
         $this->assertEquals(0, $cache->getServiceType());
     }
-    
-    public function testValues() : void
+
+    public function testValues(): void
     {
         $settings = $this->getSettings();
         ilGlobalCache::setup($settings);
         $cache = ilGlobalCache::getInstance('test');
-        
+
         $this->assertFalse($cache->isValid('test_key'));
         $cache->set('test_key', 'value');
         $this->assertTrue($cache->isValid('test_key'));

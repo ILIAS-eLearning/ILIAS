@@ -44,9 +44,9 @@ class ilSurveySkillExplorer extends ilExplorer
         $this->ctrl = $DIC->ctrl();
         $this->lng = $DIC->language();
         $this->templates = $a_templates;
-        
+
         parent::__construct($a_target);
-        
+
         $this->setFilterMode(IL_FM_POSITIVE);
         $this->addFilter("skrt");
         $this->addFilter("skll");
@@ -57,16 +57,16 @@ class ilSurveySkillExplorer extends ilExplorer
         $this->skill_tree_service = $DIC->skills()->tree();
         $this->tree = $this->skill_tree_service->getGlobalSkillTree();
         $this->root_id = $this->tree->readRootId();
-        
+
         $this->setSessionExpandVariable("skpexpand");
         $this->checkPermissions(false);
         $this->setPostSort(false);
-        
+
         $this->setOrderColumn("order_nr");
         //		$this->textwidth = 200;
 
         $this->force_open_path = array();
-        
+
         $this->all_nodes = $this->tree->getSubTree($this->tree->getNodeData($this->root_id));
         foreach ($this->all_nodes as $n) {
             $this->node[$n["child"]] = $n;
@@ -80,11 +80,11 @@ class ilSurveySkillExplorer extends ilExplorer
             ->editing()
             ->request();
     }
-    
+
     /**
      * set force open path
      */
-    public function setForceOpenPath(array $a_path) : void
+    public function setForceOpenPath(array $a_path): void
     {
         $this->force_open_path = $a_path;
     }
@@ -92,21 +92,21 @@ class ilSurveySkillExplorer extends ilExplorer
     public function isClickable(
         string $type,
         int $ref_id = 0
-    ) : bool {
+    ): bool {
         return $type === "skll";
     }
-    
-    public function buildLinkTarget($a_node_id, string $a_type) : string
+
+    public function buildLinkTarget($a_node_id, string $a_type): string
     {
         $ilCtrl = $this->ctrl;
         $ilCtrl->setParameterByClass("ilsurveyskillgui", "obj_id", $a_node_id);
         $ret = $ilCtrl->getLinkTargetByClass("ilsurveyskillgui", "selectSkillForQuestion");
         $ilCtrl->setParameterByClass("ilsurveyskillgui", "obj_id", $this->edit_request->getObjId());
-        
+
         return $ret;
     }
 
-    public function forceExpanded($a_obj_id) : bool
+    public function forceExpanded($a_obj_id): bool
     {
         if (in_array($a_obj_id, $this->force_open_path)) {
             return true;
@@ -118,7 +118,7 @@ class ilSurveySkillExplorer extends ilExplorer
         string $a_name,
         string $a_type = "",
         $a_obj_id = ""
-    ) : string {
+    ): string {
         if ($a_type === "sktr") {
             return ilUtil::getImagePath("icon_skll_s.gif");
         }

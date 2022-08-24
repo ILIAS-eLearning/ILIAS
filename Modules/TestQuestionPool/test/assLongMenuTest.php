@@ -11,15 +11,15 @@ class assLongmenuTest extends assBaseTestCase
     protected $backupGlobals = false;
 
 
-    protected static function getMethod($name) : ReflectionMethod
+    protected static function getMethod($name): ReflectionMethod
     {
         $class = new ReflectionClass('assLongMenu');
         $method = $class->getMethod($name);
         $method->setAccessible(true);
         return $method;
     }
-    
-    protected function setUp() : void
+
+    protected function setUp(): void
     {
         chdir(dirname(__FILE__));
         chdir('../../../');
@@ -42,31 +42,31 @@ class assLongmenuTest extends assBaseTestCase
         $this->setGlobalVariable('ilDB', $this->getDatabaseMock());
     }
 
-    public function test_instantiateObject_shouldReturnInstance() : void
+    public function test_instantiateObject_shouldReturnInstance(): void
     {
         $instance = new assLongMenu();
         $this->assertInstanceOf('assLongMenu', $instance);
     }
 
-    public function test_getAdditionalTableName_shouldReturnString() : void
+    public function test_getAdditionalTableName_shouldReturnString(): void
     {
         $instance = new assLongMenu();
         $this->assertEquals('qpl_qst_lome', $instance->getAdditionalTableName());
     }
 
-    public function test_getQuestionType_shouldReturnString() : void
+    public function test_getQuestionType_shouldReturnString(): void
     {
         $instance = new assLongMenu();
         $this->assertEquals('assLongMenu', $instance->getQuestionType());
     }
-    
-    public function test_getAnswerTableName_shouldReturnString() : void
+
+    public function test_getAnswerTableName_shouldReturnString(): void
     {
         $instance = new assLongMenu();
         $this->assertEquals('qpl_a_lome', $instance->getAnswerTableName());
     }
 
-    public function test_correctAnswerDoesNotExistInAnswerOptions_shouldReturnTrue() : void
+    public function test_correctAnswerDoesNotExistInAnswerOptions_shouldReturnTrue(): void
     {
         $method = self::getMethod('correctAnswerDoesNotExistInAnswerOptions');
         $obj = new assLongMenu();
@@ -74,7 +74,7 @@ class assLongmenuTest extends assBaseTestCase
         $this->assertEquals(true, $value);
     }
 
-    public function test_correctAnswerDoesNotExistInAnswerOptions_shouldReturnFalse() : void
+    public function test_correctAnswerDoesNotExistInAnswerOptions_shouldReturnFalse(): void
     {
         $method = self::getMethod('correctAnswerDoesNotExistInAnswerOptions');
         $obj = new assLongMenu();
@@ -82,7 +82,7 @@ class assLongmenuTest extends assBaseTestCase
         $this->assertEquals(false, $value);
     }
 
-    public function test_getMaximumPoints_shouldBeFour() : void
+    public function test_getMaximumPoints_shouldBeFour(): void
     {
         $obj = new assLongMenu();
         $obj->setCorrectAnswers(array(	0 => array( 0 => array(0 => 'answer'),1 => '2', 2 => '1'),
@@ -91,7 +91,7 @@ class assLongmenuTest extends assBaseTestCase
         $this->assertEquals(4, $value);
     }
 
-    public function test_getMaximumPoints_shouldBeFourPointFive() : void
+    public function test_getMaximumPoints_shouldBeFourPointFive(): void
     {
         $obj = new assLongMenu();
         $obj->setCorrectAnswers(array(	0 => array( 0 => array(0 => 'answer'),1 => '2.25', 2 => '1'),
@@ -100,7 +100,7 @@ class assLongmenuTest extends assBaseTestCase
         $this->assertEquals(4.5, $value);
     }
 
-    public function test_isComplete_shouldBeFalse() : void
+    public function test_isComplete_shouldBeFalse(): void
     {
         $obj = new assLongMenu();
         $obj->setCorrectAnswers(array(	0 => array( 0 => array(0 => 'answer'),1 => '2.25', 2 => '1'),
@@ -109,7 +109,7 @@ class assLongmenuTest extends assBaseTestCase
         $this->assertEquals($obj->isComplete(), false);
     }
 
-    public function test_isComplete_shouldBeTrue() : void
+    public function test_isComplete_shouldBeTrue(): void
     {
         $obj = new assLongMenu();
         $obj->setCorrectAnswers(array(	0 => array( 0 => array(0 => 'answer'),1 => '2.25', 2 => '1'),
@@ -122,27 +122,27 @@ class assLongmenuTest extends assBaseTestCase
         $this->assertEquals($obj->isComplete(), true);
     }
 
-    public function test_checkQuestionCustomPart_shouldBeFalseBecauseNoCustomPart() : void
+    public function test_checkQuestionCustomPart_shouldBeFalseBecauseNoCustomPart(): void
     {
         $obj = new assLongMenu();
         $this->assertEquals($obj->checkQuestionCustomPart(), false);
     }
 
-    public function test_checkQuestionCustomPart_shouldBeFalseBecauseOnlyAnswers() : void
+    public function test_checkQuestionCustomPart_shouldBeFalseBecauseOnlyAnswers(): void
     {
         $obj = new assLongMenu();
         $obj->setAnswers(array(array(1,2,3,4)));
         $this->assertEquals($obj->checkQuestionCustomPart(), false);
     }
 
-    public function test_checkQuestionCustomPart_shouldBeFalseBecauseOnlyCorrectAnswers() : void
+    public function test_checkQuestionCustomPart_shouldBeFalseBecauseOnlyCorrectAnswers(): void
     {
         $obj = new assLongMenu();
         $obj->setCorrectAnswers(array(	0 => array( 0 => array(0 => 'answer'),1 => '2.25', 2 => '1'),
                                            1 => array( 0 => array(0 => 'answer'),1 => '2.25', 2 => '1')));
         $this->assertEquals($obj->checkQuestionCustomPart(), false);
     }
-    public function test_checkQuestionCustomPart_shouldBeFalseBecauseToManyCorrectAnswers() : void
+    public function test_checkQuestionCustomPart_shouldBeFalseBecauseToManyCorrectAnswers(): void
     {
         $obj = new assLongMenu();
         $obj->setCorrectAnswers(array(	0 => array( 0 => array(0 => 'answer'),1 => '2.25', 2 => '1'),
@@ -150,7 +150,7 @@ class assLongmenuTest extends assBaseTestCase
         $obj->setAnswers(array(array('answer')));
         $this->assertEquals($obj->checkQuestionCustomPart(), false);
     }
-    public function test_checkQuestionCustomPart_shouldBeFalseBecauseCorrectAnswerDoesNotExistsInAnswers() : void
+    public function test_checkQuestionCustomPart_shouldBeFalseBecauseCorrectAnswerDoesNotExistsInAnswers(): void
     {
         $obj = new assLongMenu();
         $obj->setCorrectAnswers(array(	0 => array( 0 => array(0 => 'answer'),1 => '2.25', 2 => '1')));
@@ -158,7 +158,7 @@ class assLongmenuTest extends assBaseTestCase
         $this->assertEquals($obj->checkQuestionCustomPart(), false);
     }
 
-    public function test_checkQuestionCustomPart_shouldBeFalseBecauseCorrectAnswerHasNoAnswers() : void
+    public function test_checkQuestionCustomPart_shouldBeFalseBecauseCorrectAnswerHasNoAnswers(): void
     {
         $obj = new assLongMenu();
         $obj->setCorrectAnswers(array(	0 => array( 0 => array(),1 => '2.25', 2 => '1')));
@@ -166,7 +166,7 @@ class assLongmenuTest extends assBaseTestCase
         $this->assertEquals($obj->checkQuestionCustomPart(), false);
     }
 
-    public function test_checkQuestionCustomPart_shouldBeFalseBecauseCorrectAnswerHasNoPoints() : void
+    public function test_checkQuestionCustomPart_shouldBeFalseBecauseCorrectAnswerHasNoPoints(): void
     {
         $obj = new assLongMenu();
         $obj->setCorrectAnswers(array(	0 => array( 0 => array())));
@@ -174,7 +174,7 @@ class assLongmenuTest extends assBaseTestCase
         $this->assertEquals($obj->checkQuestionCustomPart(), false);
     }
 
-    public function test_checkQuestionCustomPart_shouldBeFalseBecauseCorrectAnswerPointsAreZero() : void
+    public function test_checkQuestionCustomPart_shouldBeFalseBecauseCorrectAnswerPointsAreZero(): void
     {
         $obj = new assLongMenu();
         $obj->setCorrectAnswers(array(	0 => array( 0 => array('answer'),1 => 0, 2 => '1')));
@@ -182,7 +182,7 @@ class assLongmenuTest extends assBaseTestCase
         $this->assertEquals($obj->checkQuestionCustomPart(), false);
     }
 
-    public function test_checkQuestionCustomPart_shouldBeTrue() : void
+    public function test_checkQuestionCustomPart_shouldBeTrue(): void
     {
         $obj = new assLongMenu();
         $obj->setCorrectAnswers(array(	0 => array( 0 => array('answer'),1 => 1, 2 => '1')));
@@ -190,7 +190,7 @@ class assLongmenuTest extends assBaseTestCase
         $this->assertEquals($obj->checkQuestionCustomPart(), true);
     }
 
-    public function test_getSolutionSubmit_shouldReturnSolution() : void
+    public function test_getSolutionSubmit_shouldReturnSolution(): void
     {
         $obj = new assLongMenu();
         $array = array( 0 => 'squirrel', 1 => 'icebear');
@@ -198,13 +198,13 @@ class assLongmenuTest extends assBaseTestCase
         $this->assertEquals($obj->getSolutionSubmit(), $array);
     }
 
-    public function test_setAnswerType_shouldReturnGetAnswerType() : void
+    public function test_setAnswerType_shouldReturnGetAnswerType(): void
     {
         $obj = new assLongMenu();
         $obj->setAnswerType(0);
         $this->assertEquals(0, $obj->getAnswerType());
     }
-    public function test_setLongMenuTextValue_shouldReturnGetLongMenuTextValue() : void
+    public function test_setLongMenuTextValue_shouldReturnGetLongMenuTextValue(): void
     {
         $obj = new assLongMenu();
         $this->assertEquals('', $obj->getLongMenuTextValue());
@@ -212,14 +212,14 @@ class assLongmenuTest extends assBaseTestCase
         $this->assertEquals('dummy text', $obj->getLongMenuTextValue());
     }
 
-    public function test_setJsonStructure_shouldReturnGetJsonStructure() : void
+    public function test_setJsonStructure_shouldReturnGetJsonStructure(): void
     {
         $obj = new assLongMenu();
         $obj->setJsonStructure(json_encode(array(1 => 'bla')));
         $this->assertEquals('{"1":"bla"}', $obj->getJsonStructure());
     }
 
-    public function test_isShuffleAnswersEnabled_shouldReturnFalse() : void
+    public function test_isShuffleAnswersEnabled_shouldReturnFalse(): void
     {
         $obj = new assLongMenu();
         $this->assertEquals(false, $obj->isShuffleAnswersEnabled());

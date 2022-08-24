@@ -15,7 +15,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 use ILIAS\Refinery;
 use ILIAS\Setup;
 
@@ -35,7 +35,7 @@ final class ilBibliographicSetupAgent implements Setup\Agent
     /**
      * @inheritdoc
      */
-    public function hasConfig() : bool
+    public function hasConfig(): bool
     {
         return false;
     }
@@ -43,7 +43,7 @@ final class ilBibliographicSetupAgent implements Setup\Agent
     /**
      * @inheritdoc
      */
-    public function getArrayToConfigTransformation() : Refinery\Transformation
+    public function getArrayToConfigTransformation(): Refinery\Transformation
     {
         throw new LogicException("ilBibliographicSetupAgent has no config.");
     }
@@ -51,7 +51,7 @@ final class ilBibliographicSetupAgent implements Setup\Agent
     /**
      * @inheritdoc
      */
-    public function getInstallObjective(Setup\Config $config = null) : Setup\Objective
+    public function getInstallObjective(Setup\Config $config = null): Setup\Objective
     {
         return new ilFileSystemComponentDataDirectoryCreatedObjective(
             self::COMPONENT_DIR,
@@ -62,7 +62,7 @@ final class ilBibliographicSetupAgent implements Setup\Agent
     /**
      * @inheritdoc
      */
-    public function getUpdateObjective(Setup\Config $config = null) : Setup\Objective
+    public function getUpdateObjective(Setup\Config $config = null): Setup\Objective
     {
         return new Setup\ObjectiveCollection('Setup Bibliografic directories and database', true, ...[
             new ilDatabaseUpdateStepsExecutedObjective(
@@ -74,7 +74,7 @@ final class ilBibliographicSetupAgent implements Setup\Agent
     /**
      * @inheritdoc
      */
-    public function getBuildArtifactObjective() : Setup\Objective
+    public function getBuildArtifactObjective(): Setup\Objective
     {
         return new Setup\Objective\NullObjective();
     }
@@ -82,7 +82,7 @@ final class ilBibliographicSetupAgent implements Setup\Agent
     /**
      * @inheritdoc
      */
-    public function getStatusObjective(Setup\Metrics\Storage $storage) : Setup\Objective
+    public function getStatusObjective(Setup\Metrics\Storage $storage): Setup\Objective
     {
         return new Setup\Objective\NullObjective();
     }
@@ -90,7 +90,7 @@ final class ilBibliographicSetupAgent implements Setup\Agent
     /**
      * @inheritDoc
      */
-    public function getMigrations() : array
+    public function getMigrations(): array
     {
         return [
             new ilBibliographicStorageMigration(),

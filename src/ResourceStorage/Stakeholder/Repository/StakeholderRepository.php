@@ -14,7 +14,7 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *********************************************************************/
- 
+
 namespace ILIAS\ResourceStorage\Stakeholder\Repository;
 
 use ILIAS\ResourceStorage\Identification\ResourceIdentification;
@@ -28,12 +28,12 @@ use ILIAS\ResourceStorage\Preloader\PreloadableRepository;
  */
 interface StakeholderRepository extends LockingRepository, PreloadableRepository
 {
-    public function register(ResourceIdentification $i, ResourceStakeholder $s) : bool;
+    public function register(ResourceIdentification $i, ResourceStakeholder $s): bool;
 
-    public function deregister(ResourceIdentification $i, ResourceStakeholder $s) : bool;
+    public function deregister(ResourceIdentification $i, ResourceStakeholder $s): bool;
 
     /**
      * @return ResourceStakeholder[]
      */
-    public function getStakeholders(ResourceIdentification $i) : array;
+    public function getStakeholders(ResourceIdentification $i): array;
 }

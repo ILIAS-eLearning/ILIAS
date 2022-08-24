@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\UI\Implementation\Component\Chart\ProgressMeter;
 
 use ILIAS\UI\Component as C;
@@ -40,7 +42,7 @@ class Standard extends ProgressMeter implements C\Chart\ProgressMeter\Standard
     /**
      * Get comparison value as percent
      */
-    public function getComparisonAsPercent() : int
+    public function getComparisonAsPercent(): int
     {
         return $this->getAsPercentage($this->comparison);
     }
@@ -48,7 +50,7 @@ class Standard extends ProgressMeter implements C\Chart\ProgressMeter\Standard
     /**
      * @inheritdoc
      */
-    public function withMainText(string $text) : C\Chart\ProgressMeter\ProgressMeter
+    public function withMainText(string $text): C\Chart\ProgressMeter\ProgressMeter
     {
         $this->checkStringArg("main_value_text", $text);
 
@@ -60,7 +62,7 @@ class Standard extends ProgressMeter implements C\Chart\ProgressMeter\Standard
     /**
      * @inheritdoc
      */
-    public function getMainText() : ?string
+    public function getMainText(): ?string
     {
         return $this->main_text;
     }
@@ -68,7 +70,7 @@ class Standard extends ProgressMeter implements C\Chart\ProgressMeter\Standard
     /**
      * @inheritdoc
      */
-    public function withRequiredText(string $text) : C\Chart\ProgressMeter\ProgressMeter
+    public function withRequiredText(string $text): C\Chart\ProgressMeter\ProgressMeter
     {
         $this->checkStringArg("required_value_text", $text);
 
@@ -80,7 +82,7 @@ class Standard extends ProgressMeter implements C\Chart\ProgressMeter\Standard
     /**
      * @inheritdoc
      */
-    public function getRequiredText() : ?string
+    public function getRequiredText(): ?string
     {
         return $this->required_text;
     }

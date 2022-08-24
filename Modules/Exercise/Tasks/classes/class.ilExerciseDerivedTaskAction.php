@@ -15,7 +15,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * Action class for derived tasks, mostly getting user reponsibilities
  * by respecting permissions as well.
@@ -43,7 +43,7 @@ class ilExerciseDerivedTaskAction
      * @throws ilExcUnknownAssignmentTypeException
      * @return \ilExAssignment[]
      */
-    public function getOpenAssignmentsOfUser(int $user_id) : array
+    public function getOpenAssignmentsOfUser(int $user_id): array
     {
         $user_exc_ids = $this->exc_mem_repo->getExerciseIdsOfUser($user_id);
         $assignments = [];
@@ -60,7 +60,7 @@ class ilExerciseDerivedTaskAction
      * @return ilExAssignment[]
      * @throws ilExcUnknownAssignmentTypeException
      */
-    public function getOpenPeerReviewsOfUser(int $user_id) : array
+    public function getOpenPeerReviewsOfUser(int $user_id): array
     {
         $user_exc_ids = $this->exc_mem_repo->getExerciseIdsOfUser($user_id);
         $assignments = [];
@@ -77,7 +77,7 @@ class ilExerciseDerivedTaskAction
      * @return ilExAssignment[]
      * @throws ilExcUnknownAssignmentTypeException
      */
-    public function getOpenGradingsOfUser(int $user_id) : array
+    public function getOpenGradingsOfUser(int $user_id): array
     {
         $user_exc_ids = $this->tutor_repo->getExerciseIdsBeingTutor($user_id);
         $assignments = [];

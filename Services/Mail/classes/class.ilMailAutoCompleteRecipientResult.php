@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -43,14 +45,14 @@ class ilMailAutoCompleteRecipientResult
         $this->allow_smtp = $DIC->rbac()->system()->checkAccess('smtp_mail', MAIL_SETTINGS_ID);
         $this->user_id = $DIC->user()->getId();
         $this->max_entries = ilSearchSettings::getInstance()->getAutoCompleteLength();
-        
+
         $this->initMode($mode);
     }
 
     /**
      * @throws InvalidArgumentException
      */
-    protected function initMode(int $mode) : void
+    protected function initMode(int $mode): void
     {
         if (!in_array($mode, [self::MODE_FETCH_ALL, self::MODE_STOP_ON_MAX_ENTRIES], true)) {
             throw new InvalidArgumentException("Wrong mode passed!");
@@ -58,7 +60,7 @@ class ilMailAutoCompleteRecipientResult
         $this->mode = $mode;
     }
 
-    public function isResultAddable() : bool
+    public function isResultAddable(): bool
     {
         if (
             $this->mode === self::MODE_STOP_ON_MAX_ENTRIES &&
@@ -77,7 +79,7 @@ class ilMailAutoCompleteRecipientResult
         return true;
     }
 
-    public function addResult(string $login, string $firstname, string $lastname) : void
+    public function addResult(string $login, string $firstname, string $lastname): void
     {
         if ($login !== '' && !isset($this->handled_recipients[$login])) {
             $recipient = [];
@@ -97,12 +99,12 @@ class ilMailAutoCompleteRecipientResult
     /**
      * @return array{hasMoreResults: bool, items: array{value: string, label: string}[]}
      */
-    public function getItems() : array
+    public function getItems(): array
     {
         return $this->result;
     }
 
-    public function numItems() : int
+    public function numItems(): int
     {
         return count($this->result['items']);
     }

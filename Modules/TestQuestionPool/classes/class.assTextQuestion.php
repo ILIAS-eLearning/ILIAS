@@ -43,7 +43,7 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
     * @var integer
     */
     public $maxNumOfChars;
-    
+
     /**
      * @var bool
      */
@@ -100,12 +100,22 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
         $this->matchcondition = 0;
     }
 
+    public function getMatchcondition(): int
+    {
+        return $this->matchcondition;
+    }
+
+    public function setMatchcondition(int $matchcondition): void
+    {
+        $this->matchcondition = $matchcondition;
+    }
+
     /**
     * Returns true, if a multiple choice question is complete for use
     *
     * @return boolean True, if the multiple choice question is complete for use, otherwise false
     */
-    public function isComplete() : bool
+    public function isComplete(): bool
     {
         if (strlen($this->title)
             && $this->author
@@ -122,7 +132,7 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
      *
      * @param string $original_id
      */
-    public function saveToDb($original_id = "") : void
+    public function saveToDb($original_id = ""): void
     {
         if ($original_id == '') {
             $this->saveQuestionDataToDb();
@@ -142,7 +152,7 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
     * @param integer $question_id A unique key which defines the text question in the database
     * @access public
     */
-    public function loadFromDb($question_id) : void
+    public function loadFromDb($question_id): void
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -169,16 +179,16 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
             $this->setWordCounterEnabled((bool) $data['word_cnt_enabled']);
             $this->setMaxNumOfChars($data["maxnumofchars"]);
             $this->setTextRating($this->isValidTextRating($data["textgap_rating"]) ? $data["textgap_rating"] : TEXTGAP_RATING_CASEINSENSITIVE);
-            $this->matchcondition = (strlen($data['matchcondition'])) ? $data['matchcondition'] : 0;
+            $this->matchcondition = (strlen($data['matchcondition'])) ? (int) $data['matchcondition'] : 0;
             $this->setEstimatedWorkingTime(substr($data["working_time"], 0, 2), substr($data["working_time"], 3, 2), substr($data["working_time"], 6, 2));
             $this->setKeywordRelation(($data['keyword_relation']));
-            
+
             try {
                 $this->setLifecycle(ilAssQuestionLifecycle::getInstance($data['lifecycle']));
             } catch (ilTestQuestionPoolInvalidArgumentException $e) {
                 $this->setLifecycle(ilAssQuestionLifecycle::getDraftInstance());
             }
-            
+
             try {
                 $this->setAdditionalContentEditingMode($data['add_cont_edit_mode']);
             } catch (ilTestQuestionPoolException $e) {
@@ -190,12 +200,12 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
             array("integer"),
             array($this->getId())
         );
-        
+
         $this->flushAnswers();
         while ($row = $ilDB->fetchAssoc($result)) {
             $this->addAnswer($row['answertext'], $row['points']);
         }
-        
+
         parent::loadFromDb($question_id);
     }
 
@@ -204,7 +214,7 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
     *
     * @access public
     */
-    public function duplicate(bool $for_test = true, string $title = "", string $author = "", string $owner = "", $testObjId = null) : int
+    public function duplicate(bool $for_test = true, string $title = "", string $author = "", string $owner = "", $testObjId = null): int
     {
         if ($this->id <= 0) {
             // The question has not been saved. It cannot be duplicated
@@ -213,16 +223,16 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
         // duplicate the question in database
         $this_id = $this->getId();
         $thisObjId = $this->getObjId();
-        
+
         $clone = $this;
         include_once("./Modules/TestQuestionPool/classes/class.assQuestion.php");
         $original_id = assQuestion::_getOriginalId($this->id);
         $clone->id = -1;
-        
+
         if ((int) $testObjId > 0) {
             $clone->setObjId($testObjId);
         }
-        
+
         if ($title) {
             $clone->setTitle($title);
         }
@@ -245,7 +255,7 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
         // copy XHTML media objects
         $clone->copyXHTMLMediaObjectsOfQuestion($this_id);
         #$clone->duplicateAnswers($this_id);
-        
+
         $clone->onDuplicate($thisObjId, $this_id, $clone->getObjId(), $clone->getId());
 
         return $clone->id;
@@ -256,7 +266,7 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
     *
     * @access public
     */
-    public function copyObject($target_questionpool_id, $title = "") : int
+    public function copyObject($target_questionpool_id, $title = ""): int
     {
         if ($this->getId() <= 0) {
             throw new RuntimeException('The question has not been saved. It cannot be duplicated');
@@ -278,13 +288,13 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
         $clone->copyXHTMLMediaObjectsOfQuestion($original_id);
         // duplicate answers
         #$clone->duplicateAnswers($original_id);
-        
+
         $clone->onCopy($source_questionpool_id, $original_id, $clone->getObjId(), $clone->getId());
 
         return $clone->id;
     }
 
-    public function createNewOriginalFromThisDuplicate($targetParentId, $targetQuestionTitle = "") : int
+    public function createNewOriginalFromThisDuplicate($targetParentId, $targetQuestionTitle = ""): int
     {
         if ($this->getId() <= 0) {
             throw new RuntimeException('The question has not been saved. It cannot be duplicated');
@@ -325,7 +335,7 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
     * @access public
     * @see $maxNumOfChars
     */
-    public function getMaxNumOfChars() : int
+    public function getMaxNumOfChars(): int
     {
         if (strcmp($this->maxNumOfChars, "") == 0) {
             return 0;
@@ -341,23 +351,23 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
     * @access public
     * @see $maxNumOfChars
     */
-    public function setMaxNumOfChars($maxchars = 0) : void
+    public function setMaxNumOfChars($maxchars = 0): void
     {
         $this->maxNumOfChars = $maxchars;
     }
-    
+
     /**
      * @return bool
      */
-    public function isWordCounterEnabled() : bool
+    public function isWordCounterEnabled(): bool
     {
         return $this->wordCounterEnabled;
     }
-    
+
     /**
      * @param bool $wordCounterEnabled
      */
-    public function setWordCounterEnabled($wordCounterEnabled) : void
+    public function setWordCounterEnabled($wordCounterEnabled): void
     {
         $this->wordCounterEnabled = $wordCounterEnabled;
     }
@@ -368,29 +378,29 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
     * @access public
     * @see $points
     */
-    public function getMaximumPoints() : float
+    public function getMaximumPoints(): float
     {
         if (in_array($this->getKeywordRelation(), self::getScoringModesWithPointsByQuestion())) {
             return parent::getPoints();
         }
-        
+
         $points = 0;
-        
+
         foreach ($this->answers as $answer) {
             if ($answer->getPoints() > 0) {
                 $points = $points + $answer->getPoints();
             }
         }
-        
+
         return $points;
     }
-    
+
     public function getMinimumPoints()
     {
         if (in_array($this->getKeywordRelation(), self::getScoringModesWithPointsByQuestion())) {
             return 0;
         }
-        
+
         $points = 0;
 
         foreach ($this->answers as $answer) {
@@ -410,11 +420,11 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
     * @return boolean true on success, otherwise false
     * @access public
     */
-    public function setReachedPoints($active_id, $points, $pass = null) : bool
+    public function setReachedPoints($active_id, $points, $pass = null): bool
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
-        
+
         if (($points > 0) && ($points <= $this->getPoints())) {
             if (is_null($pass)) {
                 $pass = $this->getSolutionMaxPass($active_id);
@@ -430,8 +440,8 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
             return true;
         }
     }
-    
-    private function isValidTextRating($textRating) : bool
+
+    private function isValidTextRating($textRating): bool
     {
         switch ($textRating) {
             case TEXTGAP_RATING_CASEINSENSITIVE:
@@ -443,7 +453,7 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
             case TEXTGAP_RATING_LEVENSHTEIN5:
                 return true;
         }
-        
+
         return false;
     }
 
@@ -455,7 +465,7 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
     * @return boolean TRUE if the keyword matches, FALSE otherwise
     * @access private
     */
-    public function isKeywordMatching($answertext, $a_keyword) : bool
+    public function isKeywordMatching($answertext, $a_keyword): bool
     {
         global $DIC;
         $refinery = $DIC->refinery();
@@ -475,7 +485,7 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
                 }
                 break;
         }
-        
+
         // "<p>red</p>" would not match "red" even with distance of 5
         $answertext = strip_tags($answertext);
         $answerwords = array();
@@ -512,7 +522,7 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
         }
         return $result;
     }
-    
+
     protected function calculateReachedPointsForSolution($solution)
     {
         // Return min points when keyword relation is NON KEYWORDS
@@ -526,7 +536,7 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
         if (count($answers) == 0) {
             return $this->getMinimumPoints();
         }
-        
+
         switch ($this->getKeywordRelation()) {
             case 'any':
                 $points = 0;
@@ -582,7 +592,7 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
         if ($returndetails) {
             throw new ilTestException('return details not implemented for ' . __METHOD__);
         }
-        
+
         global $DIC;
         $ilDB = $DIC['ilDB'];
 
@@ -592,12 +602,12 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
         }
 
         $result = $this->getCurrentSolutionResultSet($active_id, $pass, $authorizedSolution);
-        
+
         // Return min points when no answer was given.
         if ($ilDB->numRows($result) == 0) {
             return $this->getMinimumPoints();
         }
-        
+
         // Return points of points are already on the row.
         $row = $ilDB->fetchAssoc($result);
         if ($row["points"] != null) {
@@ -615,7 +625,7 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
      * @param integer $pass Test pass
      * @return boolean $status
      */
-    public function saveWorkingData($active_id, $pass = null, $authorized = true) : bool
+    public function saveWorkingData($active_id, $pass = null, $authorized = true): bool
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -658,7 +668,7 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
                 ), $active_id, $this->getId());
             }
         }
-        
+
         return true;
     }
 
@@ -668,11 +678,11 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
     public function getSolutionSubmit()
     {
         $text = ilUtil::stripSlashes($_POST["TEXT"], false);
-        
+
         if (ilUtil::isHTML($text)) {
             $text = $this->getHtmlUserSolutionPurifier()->purify($text);
         }
-        
+
         return $text;
     }
 
@@ -694,10 +704,10 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
             'word_cnt_enabled' => array('integer', (int) $this->isWordCounterEnabled()),
             'keywords' => array('text', null),
             'textgap_rating' => array('text', $this->getTextRating()),
-            'matchcondition' => array('integer', $this->matchcondition),
+            'matchcondition' => array('integer', $this->getMatchcondition()),
             'keyword_relation' => array('text', $this->getKeywordRelation())
         );
-        
+
         $ilDB->insert($this->getAdditionalTableName(), $fields);
     }
 
@@ -735,7 +745,7 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
     * @return integer The question type of the question
     * @access public
     */
-    public function getQuestionType() : string
+    public function getQuestionType(): string
     {
         return "assTextQuestion";
     }
@@ -747,11 +757,11 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
     * @see $text_rating
     * @access public
     */
-    public function getTextRating() : string
+    public function getTextRating(): string
     {
         return $this->text_rating;
     }
-    
+
     /**
     * Sets the rating option for text comparisons
     *
@@ -759,7 +769,7 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
     * @see $textgap_rating
     * @access public
     */
-    public function setTextRating($a_text_rating) : void
+    public function setTextRating($a_text_rating): void
     {
         switch ($a_text_rating) {
             case TEXTGAP_RATING_CASEINSENSITIVE:
@@ -776,14 +786,14 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
                 break;
         }
     }
-    
+
     /**
     * Returns the name of the additional question data table in the database
     *
     * @return string The additional table name
     * @access public
     */
-    public function getAdditionalTableName() : string
+    public function getAdditionalTableName(): string
     {
         return "qpl_qst_essay";
     }
@@ -792,7 +802,7 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
     * Collects all text in the question which could contain media objects
     * which were created with the Rich Text Editor
     */
-    public function getRTETextWithMediaObjects() : string
+    public function getRTETextWithMediaObjects(): string
     {
         return parent::getRTETextWithMediaObjects();
     }
@@ -800,16 +810,16 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
     /**
      * {@inheritdoc}
      */
-    public function setExportDetailsXLS(ilAssExcelFormatHelper $worksheet, int $startrow, int $active_id, int $pass) : int
+    public function setExportDetailsXLS(ilAssExcelFormatHelper $worksheet, int $startrow, int $active_id, int $pass): int
     {
         parent::setExportDetailsXLS($worksheet, $startrow, $active_id, $pass);
 
         $solutions = $this->getSolutionValues($active_id, $pass);
-        
+
         $i = 1;
         $worksheet->setCell($startrow + $i, 0, $this->lng->txt("result"));
         $worksheet->setBold($worksheet->getColumnCoord(0) . ($startrow + $i));
-        
+
         require_once 'Modules/Test/classes/class.ilObjAssessmentFolder.php';
         $assessment_folder = new ilObjAssessmentFolder();
 
@@ -826,11 +836,11 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
         $worksheet->setStringEscaping($string_escaping_org_value);
         return $startrow + $i + 1;
     }
-    
+
     /**
     * Returns a JSON representation of the question
     */
-    public function toJSON() : string
+    public function toJSON(): string
     {
         include_once("./Services/RTE/classes/class.ilRTE.php");
         $result = array();
@@ -844,7 +854,7 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
         return json_encode($result);
     }
 
-    public function getAnswerCount() : int
+    public function getAnswerCount(): int
     {
         return count($this->answers);
     }
@@ -868,15 +878,15 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
         $points_unchecked = 0.0,
         $order = 0,
         $answerimage = ""
-    ) : void {
+    ): void {
         include_once "./Modules/TestQuestionPool/classes/class.assAnswerMultipleResponseImage.php";
 
         // add answer
         $answer = new ASS_AnswerMultipleResponseImage($answertext, $points);
         $this->answers[] = $answer;
     }
-    
-    public function getAnswers() : array
+
+    public function getAnswers(): array
     {
         return $this->answers;
     }
@@ -890,7 +900,7 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
      * @access public
      * @see $answers
      */
-    public function getAnswer($index = 0) : ?object
+    public function getAnswer($index = 0): ?object
     {
         if ($index < 0) {
             return null;
@@ -913,7 +923,7 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
      * @access public
      * @see $answers
      */
-    public function deleteAnswer($index = 0) : void
+    public function deleteAnswer($index = 0): void
     {
         if ($index < 0) {
             return;
@@ -937,7 +947,7 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
         }
     }
 
-    public function getAnswerTableName() : string
+    public function getAnswerTableName(): string
     {
         return 'qpl_a_essay';
     }
@@ -948,12 +958,12 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
      * @access public
      * @see $answers
      */
-    public function flushAnswers() : void
+    public function flushAnswers(): void
     {
         $this->answers = array();
     }
 
-    public function setAnswers($answers) : void
+    public function setAnswers($answers): void
     {
         if (isset($answers['answer'])) {
             $count = count($answers['answer']);
@@ -962,9 +972,9 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
             $count = count($answers);
             $withPoints = false;
         }
-        
+
         $this->flushAnswers();
-        
+
         for ($i = 0; $i < $count; $i++) {
             if ($withPoints) {
                 $this->addAnswer($answers['answer'][$i], $answers['points'][$i]);
@@ -974,7 +984,7 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
         }
     }
 
-    public function duplicateAnswers($original_id) : void
+    public function duplicateAnswers($original_id): void
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -1006,27 +1016,27 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
      * This method implements a default behaviour. During the creation of a text question, the record which holds
      * the keyword relation is not existing, so keyword_relation defaults to 'one'.
      */
-    public function setKeywordRelation($a_relation) : void
+    public function setKeywordRelation($a_relation): void
     {
         $this->keyword_relation = $a_relation;
     }
-    
-    public static function getValidScoringModes() : array
+
+    public static function getValidScoringModes(): array
     {
         return array_merge(self::getScoringModesWithPointsByQuestion(), self::getScoringModesWithPointsByKeyword());
     }
-    
-    public static function getScoringModesWithPointsByQuestion() : array
+
+    public static function getScoringModesWithPointsByQuestion(): array
     {
         return array('non', 'all', 'one');
     }
-    
-    public static function getScoringModesWithPointsByKeyword() : array
+
+    public static function getScoringModesWithPointsByKeyword(): array
     {
         return array('any');
     }
-    
-    
+
+
     /**
      * returns boolean wether the question
      * is answered during test pass or not
@@ -1037,13 +1047,13 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
      * @param integer $pass
      * @return boolean $answered
      */
-    public function isAnswered(int $active_id, int $pass) : bool
+    public function isAnswered(int $active_id, int $pass): bool
     {
         $numExistingSolutionRecords = assQuestion::getNumExistingSolutionRecords($active_id, $pass, $this->getId());
 
         return $numExistingSolutionRecords > 0;
     }
-    
+
     /**
      * returns boolean wether it is possible to set
      * this question type as obligatory or not
@@ -1054,32 +1064,32 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
      * @param integer $questionId
      * @return boolean $obligationPossible
      */
-    public static function isObligationPossible(int $questionId) : bool
+    public static function isObligationPossible(int $questionId): bool
     {
         return true;
     }
-    
-    public function countLetters($text) : int
+
+    public function countLetters($text): int
     {
         $text = strip_tags($text);
-        
+
         $text = str_replace('&gt;', '>', $text);
         $text = str_replace('&lt;', '<', $text);
         $text = str_replace('&nbsp;', ' ', $text);
         $text = str_replace('&amp;', '&', $text);
-        
+
         $text = str_replace("\r\n", "\n", $text);
         $text = str_replace("\n", "", $text);
-        
+
         return ilStr::strLen($text);
     }
-    
-    public function countWords($text) : int
+
+    public function countWords($text): int
     {
         $text = str_replace('&nbsp;', ' ', $text);
-        
+
         $text = preg_replace('/[.,:;!?\-_#\'"+*\\/=()&%§$]/m', '', $text);
-        
+
         $text = preg_replace('/^\s*/m', '', $text);
         $text = preg_replace('/\s*$/m', '', $text);
         $text = preg_replace('/\s+/m', ' ', $text);

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 
@@ -14,7 +16,7 @@
 */
 class ilLikeUserMultiFieldSearch extends ilAbstractSearch
 {
-    public function performSearch() : ilSearchResult
+    public function performSearch(): ilSearchResult
     {
         $where = $this->__createWhereCondition();
         $locate = $this->__createLocateString();
@@ -23,16 +25,16 @@ class ilLikeUserMultiFieldSearch extends ilAbstractSearch
             $locate .
             "FROM usr_data_multi " .
             $where;
-        
+
         $res = $this->db->query($query);
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             $this->search_result->addEntry($row->usr_id, 'usr', $this->__prepareFound($row));
         }
         return $this->search_result;
     }
-    
 
-    public function setFields(array $a_fields) : void
+
+    public function setFields(array $a_fields): void
     {
         $fields = [];
         foreach ($a_fields as $field) {
@@ -40,9 +42,9 @@ class ilLikeUserMultiFieldSearch extends ilAbstractSearch
         }
         parent::setFields($fields);
     }
-    
 
-    public function __createWhereCondition() : string
+
+    public function __createWhereCondition(): string
     {
         $fields = $this->getFields();
         $field = $fields[0];

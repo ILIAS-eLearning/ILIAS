@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -28,7 +30,7 @@ class DateTimeTransformationTest extends TestCase
 {
     private DateTimeTransformation $transformation;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         $this->transformation = new DateTimeTransformation();
     }
@@ -38,7 +40,7 @@ class DateTimeTransformationTest extends TestCase
      * @param mixed $originVal
      * @param DateTimeImmutable $expectedVal
      */
-    public function testDateTimeISOTransformation($originVal, DateTimeImmutable $expectedVal) : void
+    public function testDateTimeISOTransformation($originVal, DateTimeImmutable $expectedVal): void
     {
         $transformedValue = $this->transformation->transform($originVal);
         $this->assertIsObject($transformedValue);
@@ -50,13 +52,13 @@ class DateTimeTransformationTest extends TestCase
      * @dataProvider TransformationFailureDataProvider
      * @param string$failingValue
      */
-    public function testTransformIsInvalid(string $failingValue) : void
+    public function testTransformIsInvalid(string $failingValue): void
     {
         $this->expectException(ConstraintViolationException::class);
         $this->transformation->transform($failingValue);
     }
 
-    public function DateTimeTransformationDataProvider() : array
+    public function DateTimeTransformationDataProvider(): array
     {
         $now = new DateTimeImmutable();
         return [
@@ -78,7 +80,7 @@ class DateTimeTransformationTest extends TestCase
         ];
     }
 
-    public function TransformationFailureDataProvider() : array
+    public function TransformationFailureDataProvider(): array
     {
         return [
             'no_matching_string_format' => ['hello']

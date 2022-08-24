@@ -14,7 +14,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * Class ilObjBibliographicAdmin
  *
@@ -26,7 +26,6 @@
  */
 class ilObjBibliographicAdmin extends ilObject
 {
-
     /**
      * Constructor
      *

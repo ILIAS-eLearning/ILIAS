@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -27,7 +29,7 @@ interface ilHtmlPurifierInterface
      * @param string $html
      * @return string
      */
-    public function purify(string $html) : string;
+    public function purify(string $html): string;
 
     /**
      * Filters an array of HTML snippets/documents to be XSS-free and standards-compliant.
@@ -35,5 +37,5 @@ interface ilHtmlPurifierInterface
      * @return string[]
      * @throws InvalidArgumentException If one of the arrays element is not of tpye string
      */
-    public function purifyArray(array $htmlCollection) : array;
+    public function purifyArray(array $htmlCollection): array;
 }

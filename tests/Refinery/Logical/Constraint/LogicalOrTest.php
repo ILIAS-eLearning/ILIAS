@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -29,7 +31,7 @@ class LogicalOrTest extends TestCase
      * @param mixed $okValue
      * @param mixed $errorValue
      */
-    public function testAccept(LogicalOr $constraint, $okValue, $errorValue) : void
+    public function testAccept(LogicalOr $constraint, $okValue, $errorValue): void
     {
         $this->assertTrue($constraint->accepts($okValue));
         $this->assertFalse($constraint->accepts($errorValue));
@@ -41,7 +43,7 @@ class LogicalOrTest extends TestCase
      * @param mixed $okValue
      * @param mixed $errorValue
      */
-    public function testCheck(LogicalOr $constraint, $okValue, $errorValue) : void
+    public function testCheck(LogicalOr $constraint, $okValue, $errorValue): void
     {
         $raised = false;
 
@@ -69,7 +71,7 @@ class LogicalOrTest extends TestCase
      * @param mixed $okValue
      * @param mixed $errorValue
      */
-    public function testProblemWith(LogicalOr $constraint, $okValue, $errorValue) : void
+    public function testProblemWith(LogicalOr $constraint, $okValue, $errorValue): void
     {
         $this->assertNull($constraint->problemWith($okValue));
         $this->assertIsString($constraint->problemWith($errorValue));
@@ -81,7 +83,7 @@ class LogicalOrTest extends TestCase
      * @param mixed $okValue
      * @param mixed $errorValue
      */
-    public function testRestrict(LogicalOr $constraint, $okValue, $errorValue) : void
+    public function testRestrict(LogicalOr $constraint, $okValue, $errorValue): void
     {
         $rf = new DataFactory();
         $ok = $rf->ok($okValue);
@@ -104,9 +106,9 @@ class LogicalOrTest extends TestCase
      * @param mixed $okValue
      * @param mixed $errorValue
      */
-    public function testWithProblemBuilder(LogicalOr $constraint, $okValue, $errorValue) : void
+    public function testWithProblemBuilder(LogicalOr $constraint, $okValue, $errorValue): void
     {
-        $new_constraint = $constraint->withProblemBuilder(static function () : string {
+        $new_constraint = $constraint->withProblemBuilder(static function (): string {
             return "This was a vault";
         });
         $this->assertEquals("This was a vault", $new_constraint->problemWith($errorValue));
@@ -115,7 +117,7 @@ class LogicalOrTest extends TestCase
     /**
      * @return array
      */
-    public function constraintsProvider() : array
+    public function constraintsProvider(): array
     {
         $mock = $this->getMockBuilder(ilLanguage::class)->disableOriginalConstructor()->getMock();
         $data_factory = new DataFactory();

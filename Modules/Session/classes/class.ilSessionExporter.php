@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -28,17 +30,17 @@ class ilSessionExporter extends ilXmlExporter
 {
     private ilSessionDataSet $ds;
 
-    public function init() : void
+    public function init(): void
     {
         $this->ds = new ilSessionDataSet();
         $this->ds->setExportDirectories($this->dir_relative, $this->dir_absolute);
         $this->ds->setDSPrefix("ds");
     }
 
-    public function getXmlExportTailDependencies(string $a_entity, string $a_target_release, array $a_ids) : array
+    public function getXmlExportTailDependencies(string $a_entity, string $a_target_release, array $a_ids): array
     {
         $deps = [];
-        
+
         $advmd_ids = [];
         foreach ($a_ids as $id) {
             $rec_ids = $this->getActiveAdvMDRecords($id);
@@ -55,7 +57,7 @@ class ilSessionExporter extends ilXmlExporter
                 "ids" => $advmd_ids
             );
         }
-        
+
         $md_ids = [];
         foreach ($a_ids as $sess_id) {
             $md_ids[] = $sess_id . ":0:sess";
@@ -80,14 +82,14 @@ class ilSessionExporter extends ilXmlExporter
             "component" => "Services/Object",
             "entity" => "tile",
             "ids" => $a_ids);
-        
+
         return $deps;
     }
 
-    protected function getActiveAdvMDRecords(int $a_id) : array
+    protected function getActiveAdvMDRecords(int $a_id): array
     {
         $active = [];
-        
+
         foreach (ilAdvancedMDRecord::_getActivatedRecordsByObjectType('sess') as $record_obj) {
             foreach ($record_obj->getAssignedObjectTypes() as $obj_info) {
                 if ($obj_info['obj_type'] == 'sess' && $obj_info['optional'] == 0) {
@@ -106,12 +108,12 @@ class ilSessionExporter extends ilXmlExporter
         return $active;
     }
 
-    public function getXmlRepresentation(string $a_entity, string $a_schema_version, string $a_id) : string
+    public function getXmlRepresentation(string $a_entity, string $a_schema_version, string $a_id): string
     {
         return $this->ds->getXmlRepresentation($a_entity, $a_schema_version, [$a_id], "", true, true);
     }
 
-    public function getValidSchemaVersions(string $a_entity) : array
+    public function getValidSchemaVersions(string $a_entity): array
     {
         return array(
             "4.1.0" => array(

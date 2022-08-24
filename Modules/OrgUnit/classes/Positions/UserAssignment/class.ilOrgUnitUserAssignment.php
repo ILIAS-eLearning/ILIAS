@@ -24,7 +24,7 @@ use ILIAS\DI\Container;
  */
 class ilOrgUnitUserAssignment extends \ActiveRecord
 {
-    public static function returnDbTableName() : string
+    public static function returnDbTableName(): string
     {
         return 'il_orgu_ua';
     }
@@ -94,7 +94,7 @@ class ilOrgUnitUserAssignment extends \ActiveRecord
         ));
     }
 
-    public function create() : void
+    public function create(): void
     {
         $this->raiseEvent('assignUserToPosition');
         parent::create();
@@ -126,7 +126,7 @@ class ilOrgUnitUserAssignment extends \ActiveRecord
         $this->user_id = $user_id;
     }
 
-     public function getPositionId(): int
+    public function getPositionId(): int
     {
         return $this->position_id;
     }

@@ -8521,6 +8521,9 @@ input[type="checkbox"]:focus:focus-visible {
   background-color: initial;
   font-size: 0.875rem;
 }
+.il-filter .glyphicon {
+  font-size: 0.875rem;
+}
 .il-filter-inputs-active {
   background-color: #f9f9f9;
   padding: 3px 9px;
@@ -16935,6 +16938,10 @@ body.ilBodyPrint {
   margin: 15px 0 0 0;
   border-top: 1px solid #dddddd;
 }
+.il_InfoScreenPropertyValue {
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
 .il_InfoScreenPropertyValue .ilProfile {
   margin: 0;
 }
@@ -17331,6 +17338,7 @@ span.ilNewsRssIcon:hover {
   padding: 20px;
   position: relative;
   background: #f9f9f9;
+  border: 1px solid #dddddd;
 }
 @media only screen and (max-width: 768px) {
   .ilTimeline > li > .ilTimelinePanel {
@@ -17343,8 +17351,8 @@ span.ilNewsRssIcon:hover {
   right: -14px;
   display: inline-block;
   border-top: 14px solid transparent;
-  border-left: 14px solid #f9f9f9;
-  border-right: 0 solid #f9f9f9;
+  border-left: 14px solid #dddddd;
+  border-right: 0 solid #dddddd;
   border-bottom: 14px solid transparent;
   content: " ";
 }
@@ -18987,8 +18995,7 @@ span.ilProfileBadge .modal .img-responsive {
 }
 .ilPreviewTooltipContent {
   position: relative;
-  background: #F8F8F8;
-  border: 1px solid #E9E9E9;
+  background: white;
   padding: 0;
 }
 .ilPreviewTooltipContent .ilPreviewList {

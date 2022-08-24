@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\Setup;
 
 /**
@@ -24,10 +26,10 @@ namespace ILIAS\Setup;
  */
 interface AdminInteraction
 {
-    public function startProgress(int $max) : void;
-    public function advanceProgress() : void;
-    public function stopProgress() : void;
-    public function inform(string $message) : void;
-    public function confirmOrDeny(string $message) : bool;
-    public function confirmExplicit(string $message, string $type_text_to_confirm) : bool;
+    public function startProgress(int $max): void;
+    public function advanceProgress(): void;
+    public function stopProgress(): void;
+    public function inform(string $message): void;
+    public function confirmOrDeny(string $message): bool;
+    public function confirmExplicit(string $message, string $type_text_to_confirm): bool;
 }

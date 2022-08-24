@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -35,12 +37,12 @@ class ilSCTaskTableGUI extends ilTable2GUI
         parent::__construct($a_parent_obj, $a_parent_cmd);
     }
 
-    public function getGroupId() : int
+    public function getGroupId(): int
     {
         return $this->group_id;
     }
 
-    public function init() : void
+    public function init(): void
     {
         $this->lng->loadLanguageModule('sysc');
         $this->addColumn($this->lng->txt('title'), 'title', '60%');
@@ -57,7 +59,7 @@ class ilSCTaskTableGUI extends ilTable2GUI
     /**
      * @param array $a_set
      */
-    protected function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set): void
     {
         $this->tpl->setVariable('VAL_TITLE', (string) ($a_set['title'] ?? ''));
         $this->tpl->setVariable('VAL_DESC', (string) ($a_set['description'] ?? ''));
@@ -109,7 +111,7 @@ class ilSCTaskTableGUI extends ilTable2GUI
         }
     }
 
-    public function parse() : void
+    public function parse(): void
     {
         $data = array();
 

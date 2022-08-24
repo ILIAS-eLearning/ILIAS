@@ -37,7 +37,7 @@ class ilPCGridEditorGUI implements PageComponentEditor
         string $page_type,
         ilPageObjectGUI $page_gui,
         int $style_id
-    ) : array {
+    ): array {
         $form = $this->getCreationForm($page_gui, $ui_wrapper);
 
         return [
@@ -52,14 +52,14 @@ class ilPCGridEditorGUI implements PageComponentEditor
         \ilPageObjectGUI $page_gui,
         int $style_id,
         string $pcid
-    ) : string {
+    ): string {
         return "";
     }
 
     protected function getCreationForm(
         ilPageObjectGUI $page_gui,
         UIWrapper $ui_wrapper
-    ) : string {
+    ): string {
         $lng = $this->lng;
 
         $grid_gui = new ilPCGridGUI($page_gui->getPageObject(), null, "", "");

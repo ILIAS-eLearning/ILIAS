@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\UI\Component\MessageBox;
 
 use ILIAS\UI\Component\Component;
@@ -34,38 +36,38 @@ interface MessageBox extends Component
     /**
      * Get the type of the Message Box.
      */
-    public function getType() : string;
+    public function getType(): string;
 
     /**
      * Get the message text of the Message Box.
      */
-    public function getMessageText() : string;
+    public function getMessageText(): string;
 
     /**
      * Get the buttons of the Message Box.
      *
      * @return array
      */
-    public function getButtons() : array;
+    public function getButtons(): array;
 
     /**
      * Get the links of the Message Box.
      *
      * @return array
      */
-    public function getLinks() : array;
+    public function getLinks(): array;
 
     /**
      * Get a Message Box like this, but with buttons.
      *
      * @param \ILIAS\UI\Component\Button\Standard[] $buttons
      */
-    public function withButtons(array $buttons) : MessageBox;
+    public function withButtons(array $buttons): MessageBox;
 
     /**
      * Get a Message Box like this, but with links.
      *
      * @param \ILIAS\UI\Component\Link\Standard[] $links
      */
-    public function withLinks(array $links) : MessageBox;
+    public function withLinks(array $links): MessageBox;
 }

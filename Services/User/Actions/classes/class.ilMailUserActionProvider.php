@@ -24,7 +24,7 @@ class ilMailUserActionProvider extends ilUserActionProvider
 {
     public static array $user_access = array();
 
-    public function checkUserMailAccess(int $a_user_id) : bool
+    public function checkUserMailAccess(int $a_user_id): bool
     {
         global $DIC;
 
@@ -37,7 +37,7 @@ class ilMailUserActionProvider extends ilUserActionProvider
         return (bool) self::$user_access[$a_user_id];
     }
 
-    public function getComponentId() : string
+    public function getComponentId(): string
     {
         return "mail";
     }
@@ -45,14 +45,14 @@ class ilMailUserActionProvider extends ilUserActionProvider
     /**
      * @return array<string,string>
      */
-    public function getActionTypes() : array
+    public function getActionTypes(): array
     {
         return array(
             "compose" => $this->lng->txt("mail")
         );
     }
 
-    public function collectActionsForTargetUser(int $a_target_user) : ilUserActionCollection
+    public function collectActionsForTargetUser(int $a_target_user): ilUserActionCollection
     {
         $coll = ilUserActionCollection::getInstance();
 

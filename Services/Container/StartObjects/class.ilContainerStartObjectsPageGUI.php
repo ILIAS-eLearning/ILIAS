@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -32,7 +34,7 @@ class ilContainerStartObjectsPageGUI extends ilPageObjectGUI
         parent::__construct("cstr", $a_id, $a_old_nr, false, $a_lang);
     }
 
-    public function finishEditing() : void
+    public function finishEditing(): void
     {
         $this->ctrl->redirectByClass(
             "ilcontainerstartobjectsgui",

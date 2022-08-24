@@ -50,7 +50,7 @@
         ]
       },
       {
-        "action": "CI/sort_langfile_entries.sh",
+        "action": "CI/sort_langfile_entries.sh check",
         "options": [],
         "conditions": [
           {

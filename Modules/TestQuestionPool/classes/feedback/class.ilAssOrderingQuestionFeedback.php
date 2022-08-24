@@ -1,4 +1,5 @@
 <?php
+
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 require_once 'Modules/TestQuestionPool/classes/feedback/class.ilAssMultiOptionQuestionFeedback.php';
@@ -19,11 +20,11 @@ class ilAssOrderingQuestionFeedback extends ilAssMultiOptionQuestionFeedback
      *
      * @return array $answerOptionsByAnswerIndex
      */
-    public function getAnswerOptionsByAnswerIndex() : array
+    public function getAnswerOptionsByAnswerIndex(): array
     {
         return $this->questionOBJ->getOrderingElementList()->getElements();
     }
-    
+
     /**
      * builds an answer option label from given (mixed type) index and answer
      * (can be overwritten by concrete question types)
@@ -33,7 +34,7 @@ class ilAssOrderingQuestionFeedback extends ilAssMultiOptionQuestionFeedback
      * @param ilAssOrderingElement $orderingElement
      * @return string $answerOptionLabel
      */
-    protected function buildAnswerOptionLabel(int $position, $orderingElement) : string
+    protected function buildAnswerOptionLabel(int $position, $orderingElement): string
     {
         return $orderingElement->getContent();
     }

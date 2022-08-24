@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 /**
@@ -59,7 +60,7 @@ final class VEventFactory
 
     private static function msOutlook2013Workaround(ilObjEmployeeTalk $talk): string
     {
-        
+
         /**
          * @var Container $DIC
          */

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 require_once("libs/composer/vendor/autoload.php");
 
 require_once(__DIR__ . "/UITestHelper.php");
@@ -26,27 +28,27 @@ use ILIAS\UI\Renderer;
 
 class UITestHelperTest extends TestCase
 {
-    public function testConstruct() : void
+    public function testConstruct(): void
     {
         $this->assertInstanceOf("UITestHelper", new UITestHelper());
     }
 
-    public function testGetFactory() : void
+    public function testGetFactory(): void
     {
         $this->assertInstanceOf(Factory::class, (new UITestHelper())->factory());
     }
 
-    public function testGetRenderer() : void
+    public function testGetRenderer(): void
     {
         $this->assertInstanceOf(Renderer::class, (new UITestHelper())->renderer());
     }
 
-    public function testGetMainTemplate() : void
+    public function testGetMainTemplate(): void
     {
         $this->assertInstanceOf(ilIndependentGlobalTemplate::class, (new UITestHelper())->mainTemplate());
     }
 
-    public function testRenderExample() : void
+    public function testRenderExample(): void
     {
         $helper = new UITestHelper();
         $c = $helper->factory()->legacy("hello world");

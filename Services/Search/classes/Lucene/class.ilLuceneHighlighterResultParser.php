@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -36,61 +38,61 @@ class ilLuceneHighlighterResultParser
     private array $result = [];
     private int $max_score = 0;
 
-    
 
-    public function getMaxScore() : int
+
+    public function getMaxScore(): int
     {
         return $this->max_score;
     }
-    
-    public function setMaxScore(int $a_score) : void
+
+    public function setMaxScore(int $a_score): void
     {
         $this->max_score = $a_score;
     }
-    
-    public function getRelevance(int $a_obj_id, int $sub_id) : float
+
+    public function getRelevance(int $a_obj_id, int $sub_id): float
     {
         if (!$this->getMaxScore()) {
             return 0;
         }
-        
+
         $score = $this->result[$a_obj_id][$sub_id]['score'];
         return $score / $this->getMaxScore() * 100;
     }
-    
-    public function setResultString(string $a_res) : void
+
+    public function setResultString(string $a_res): void
     {
         $this->result_string = $a_res;
     }
-    
-    public function getResultString() : string
+
+    public function getResultString(): string
     {
         return $this->result_string;
     }
-    
+
     /**
      * parse
      * @return bool
      */
-    public function parse() : bool
+    public function parse(): bool
     {
         if (!strlen($this->getResultString())) {
             return false;
         }
         ilLoggerFactory::getLogger('src')->debug($this->getResultString());
         $root = new SimpleXMLElement($this->getResultString());
-        
+
         $this->setMaxScore((int) $root['maxScore']);
         foreach ($root->children() as $object) {
             $obj_id = (string) $object['id'];
             foreach ($object->children() as $item) {
                 $sub_id = (string) $item['id'];
-                
+
                 // begin-patch mime_filter
                 $score = (string) $item['absoluteScore'];
                 $this->result[$obj_id][$sub_id]['score'] = $score;
                 // end-patch mime_filter
-                
+
                 foreach ($item->children() as $field) {
                     $name = (string) $field['name'];
                     $this->result[$obj_id][$sub_id][$name] = (string) $field;
@@ -99,26 +101,26 @@ class ilLuceneHighlighterResultParser
         }
         return true;
     }
-    
-    public function getTitle(int $a_obj_id, int $a_sub_id) : string
+
+    public function getTitle(int $a_obj_id, int $a_sub_id): string
     {
         return $this->result[$a_obj_id][$a_sub_id]['title'] ?? '';
     }
-    
-    public function getDescription(int $a_obj_id, int $a_sub_id) : string
+
+    public function getDescription(int $a_obj_id, int $a_sub_id): string
     {
         return $this->result[$a_obj_id][$a_sub_id]['description'] ?? '';
     }
-    
-    public function getContent(int $a_obj_id, int $a_sub_id) : string
+
+    public function getContent(int $a_obj_id, int $a_sub_id): string
     {
         return $this->result[$a_obj_id][$a_sub_id]['content'] ?? '';
     }
-    
+
     /**
      * @return int[]
      */
-    public function getSubItemIds(int $a_obj_id) : array
+    public function getSubItemIds(int $a_obj_id): array
     {
         $sub_item_ids = array();
         if (!isset($this->result[$a_obj_id])) {

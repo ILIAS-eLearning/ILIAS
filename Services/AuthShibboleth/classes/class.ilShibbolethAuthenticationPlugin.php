@@ -31,7 +31,7 @@ abstract class ilShibbolethAuthenticationPlugin extends ilPlugin implements ilSh
     /**
      * @param mixed $a_value
      */
-    protected function checkValue(array $a_user_data, string $a_keyword, $a_value) : bool
+    protected function checkValue(array $a_user_data, string $a_keyword, $a_value): bool
     {
         if (!$a_user_data[$a_keyword]) {
             return false;
@@ -49,49 +49,49 @@ abstract class ilShibbolethAuthenticationPlugin extends ilPlugin implements ilSh
     }
 
 
-    public function beforeLogin(ilObjUser $user) : ilObjUser
+    public function beforeLogin(ilObjUser $user): ilObjUser
     {
         return $user;
     }
 
 
-    public function afterLogin(ilObjUser $user) : ilObjUser
+    public function afterLogin(ilObjUser $user): ilObjUser
     {
         return $user;
     }
 
 
-    public function beforeCreateUser(ilObjUser $user) : ilObjUser
+    public function beforeCreateUser(ilObjUser $user): ilObjUser
     {
         return $user;
     }
 
 
-    public function afterCreateUser(ilObjUser $user) : ilObjUser
+    public function afterCreateUser(ilObjUser $user): ilObjUser
     {
         return $user;
     }
 
 
-    public function beforeLogout(ilObjUser $user) : ilObjUser
+    public function beforeLogout(ilObjUser $user): ilObjUser
     {
         return $user;
     }
 
 
-    public function afterLogout(ilObjUser $user) : ilObjUser
+    public function afterLogout(ilObjUser $user): ilObjUser
     {
         return $user;
     }
 
 
-    public function beforeUpdateUser(ilObjUser $user) : ilObjUser
+    public function beforeUpdateUser(ilObjUser $user): ilObjUser
     {
         return $user;
     }
 
 
-    public function afterUpdateUser(ilObjUser $user) : ilObjUser
+    public function afterUpdateUser(ilObjUser $user): ilObjUser
     {
         return $user;
     }

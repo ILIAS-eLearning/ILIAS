@@ -15,7 +15,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * Class ilObjExerciseAdministrationAccess
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>

@@ -28,7 +28,7 @@ class ilWikiFunctionsBlockGUI extends ilBlockGUI
     protected int $ref_id;
     protected ilWikiPage $pageob;
     protected ilObjWiki $wiki;
-    
+
     public function __construct()
     {
         global $DIC;
@@ -45,12 +45,12 @@ class ilWikiFunctionsBlockGUI extends ilBlockGUI
         $this->user = $DIC->user();
         $this->access = $DIC->access();
         $lng = $DIC->language();
-        
+
         parent::__construct();
-        
+
         $lng->loadLanguageModule("wiki");
         $this->setEnableNumInfo(false);
-        
+
         $this->setTitle($lng->txt("wiki_functions"));
         $this->allow_moving = false;
 
@@ -61,12 +61,12 @@ class ilWikiFunctionsBlockGUI extends ilBlockGUI
         $this->setPresentation(self::PRES_SEC_LEG);
     }
 
-    public function getBlockType() : string
+    public function getBlockType(): string
     {
         return self::$block_type;
     }
 
-    protected function isRepositoryObject() : bool
+    protected function isRepositoryObject(): bool
     {
         return false;
     }
@@ -87,17 +87,17 @@ class ilWikiFunctionsBlockGUI extends ilBlockGUI
         }
     }
 
-    public function setPageObject(ilWikiPage $a_pageob) : void
+    public function setPageObject(ilWikiPage $a_pageob): void
     {
         $this->pageob = $a_pageob;
     }
 
-    public function getPageObject() : ilWikiPage
+    public function getPageObject(): ilWikiPage
     {
         return $this->pageob;
     }
 
-    public function fillDataSection() : void
+    public function fillDataSection(): void
     {
         $this->setDataSection($this->getLegacyContent());
     }
@@ -109,14 +109,14 @@ class ilWikiFunctionsBlockGUI extends ilBlockGUI
     protected bool $new_rendering = true;
 
 
-    protected function getLegacyContent() : string
+    protected function getLegacyContent(): string
     {
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
         $ilAccess = $this->access;
-        
+
         $tpl = new ilTemplate("tpl.wiki_side_block_content.html", true, true, "Modules/Wiki");
-        
+
         $wp = $this->getPageObject();
 
         // info
@@ -142,7 +142,7 @@ class ilWikiFunctionsBlockGUI extends ilBlockGUI
 
 
         $actions = array();
-        
+
         // all pages
         $actions[] = array(
             "txt" => $lng->txt("wiki_all_pages"),
@@ -186,7 +186,7 @@ class ilWikiFunctionsBlockGUI extends ilBlockGUI
         $tpl->parseCurrentBlock();
         $tpl->touchBlock("item");
 
-        
+
         // page actions
         $list = new ilAdvancedSelectionListGUI();
         $list->setStyle(ilAdvancedSelectionListGUI::STYLE_LINK);
@@ -263,7 +263,7 @@ class ilWikiFunctionsBlockGUI extends ilBlockGUI
                 );
             }
         }
-        
+
         if ($ilAccess->checkAccess("write", "", $this->ref_id)) {
             $wpt = new ilWikiPageTemplate($this->getPageObject()->getParentId());
             if (!$wpt->isPageTemplate($this->getPageObject()->getId())) {
@@ -299,7 +299,7 @@ class ilWikiFunctionsBlockGUI extends ilBlockGUI
         //		}
 
         $actions = array();
-        
+
         // settings
         if ($ilAccess->checkAccess('write', "", $this->ref_id)) {
             $actions[] = array(

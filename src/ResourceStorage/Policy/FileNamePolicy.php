@@ -14,7 +14,7 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *********************************************************************/
- 
+
 namespace ILIAS\ResourceStorage\Policy;
 
 /**
@@ -26,11 +26,11 @@ interface FileNamePolicy
     /**
      * @throws FileNamePolicyException
      */
-    public function check(string $extension) : bool;
+    public function check(string $extension): bool;
 
-    public function isValidExtension(string $extension) : bool;
+    public function isValidExtension(string $extension): bool;
 
-    public function isBlockedExtension(string $extension) : bool;
+    public function isBlockedExtension(string $extension): bool;
 
-    public function prepareFileNameForConsumer(string $filename_with_extension) : string;
+    public function prepareFileNameForConsumer(string $filename_with_extension): string;
 }

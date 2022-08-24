@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\UI\Component\Symbol\Icon;
 
 use ILIAS\UI\Component\Symbol\Symbol;
@@ -35,36 +37,36 @@ interface Icon extends Symbol
      * Get the name of the icon.
      * Name will be used as CSS-class, e.g.
      */
-    public function getName() : string;
+    public function getName(): string;
 
     /**
      * Set the abbreviation for this icon.
      */
-    public function withAbbreviation(string $abbreviation) : Icon;
+    public function withAbbreviation(string $abbreviation): Icon;
 
     /**
      * Get the abbreviation of this icon.
      */
-    public function getAbbreviation() : ?string;
+    public function getAbbreviation(): ?string;
 
     /**
      * Set the size for this icon.
      * Size can be 'small', 'medium' or 'large'.
      */
-    public function withSize(string $size) : Icon;
+    public function withSize(string $size): Icon;
 
     /**
      * Get the size of this icon.
      */
-    public function getSize() : string;
+    public function getSize(): string;
 
     /**
      * Is the Icon disabled?
      */
-    public function isDisabled() : bool;
+    public function isDisabled(): bool;
 
     /**
      * Get an icon like this, but marked as disabled.
      */
-    public function withDisabled(bool $is_disabled) : Icon;
+    public function withDisabled(bool $is_disabled): Icon;
 }

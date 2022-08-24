@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /* Copyright (c) 2017 Stefan Hecken <stefan.hecken@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
@@ -13,7 +15,6 @@ use ILIAS\Data\Result;
  */
 class Ok implements Result
 {
-
     /**
      * @var mixed
      */
@@ -27,7 +28,7 @@ class Ok implements Result
     /**
      * @inheritdoc
      */
-    public function isOK() : bool
+    public function isOK(): bool
     {
         return true;
     }
@@ -43,7 +44,7 @@ class Ok implements Result
     /**
      * @inheritdoc
      */
-    public function isError() : bool
+    public function isError(): bool
     {
         return false;
     }
@@ -67,7 +68,7 @@ class Ok implements Result
     /**
      * @inheritdoc
      */
-    public function map(callable $f) : Result
+    public function map(callable $f): Result
     {
         $clone = clone $this;
         $value = $f($this->value);
@@ -78,7 +79,7 @@ class Ok implements Result
     /**
      * @inheritdoc
      */
-    public function then(callable $f) : Result
+    public function then(callable $f): Result
     {
         $result = $f($this->value);
 
@@ -96,7 +97,7 @@ class Ok implements Result
     /**
      * @inheritdoc
      */
-    public function except(callable $f) : Result
+    public function except(callable $f): Result
     {
         return $this;
     }

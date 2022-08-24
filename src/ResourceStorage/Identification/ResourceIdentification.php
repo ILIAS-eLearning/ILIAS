@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -14,7 +16,7 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *********************************************************************/
- 
+
 namespace ILIAS\ResourceStorage\Identification;
 
 use Serializable;
@@ -43,7 +45,7 @@ class ResourceIdentification implements Serializable
     /**
      * @inheritDoc
      */
-    public function serialize() : string
+    public function serialize(): string
     {
         return $this->unique_id;
     }
@@ -52,7 +54,7 @@ class ResourceIdentification implements Serializable
     /**
      * @inheritDoc
      */
-    public function unserialize($serialized) : void
+    public function unserialize($serialized): void
     {
         $this->unique_id = $serialized;
     }
@@ -61,7 +63,7 @@ class ResourceIdentification implements Serializable
     /**
      * @inheritDoc
      */
-    public function __toString() : string
+    public function __toString(): string
     {
         return $this->serialize();
     }

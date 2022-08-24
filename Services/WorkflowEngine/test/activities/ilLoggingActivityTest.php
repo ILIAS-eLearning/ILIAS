@@ -1,4 +1,5 @@
 <?php
+
 /* Copyright (c) 1998-2014 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 use org\bovigo\vfs;
@@ -22,24 +23,24 @@ class ilLoggingActivityTest extends TestCase
     private ilEmptyWorkflow $workflow;
     private ilBasicNode $node;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         chdir(__DIR__);
         chdir('../../../../');
 
         // Empty workflow.
         $this->workflow = new ilEmptyWorkflow();
-        
+
         // Basic node
         $this->node = new ilBasicNode($this->workflow);
-        
+
         // Wiring up so the node is attached to the workflow.
         $this->workflow->addNode($this->node);
-                
+
         $this->test_dir = vfs\vfsStream::setup('example');
     }
 
-    protected function tearDown() : void
+    protected function tearDown(): void
     {
         global $ilSetting;
         if ($ilSetting != null) {
@@ -47,12 +48,12 @@ class ilLoggingActivityTest extends TestCase
             //$ilSetting->delete('IL_PHPUNIT_TEST_MICROTIME');
         }
     }
-    
-    public function testConstructorValidContext() : void
+
+    public function testConstructorValidContext(): void
     {
         // Act
         $activity = new ilLoggingActivity($this->node);
-        
+
         // Assert
         // No exception - good
         $this->assertTrue(
@@ -61,16 +62,16 @@ class ilLoggingActivityTest extends TestCase
         );
     }
 
-    public function testSetGetValidLogFile() : void
+    public function testSetGetValidLogFile(): void
     {
         // Arrange
         $activity = new ilLoggingActivity($this->node);
         $expected = './Services/WorkflowEngine/test/testlog.txt';
-                
+
         // Act
         $activity->setLogFile($expected);
         $actual = $activity->getLogFile();
-        
+
         $this->assertEquals(
             $actual,
             $expected,
@@ -81,7 +82,7 @@ class ilLoggingActivityTest extends TestCase
     /**
      *
      */
-    public function testSetGetNonWriteableLogFile() : void
+    public function testSetGetNonWriteableLogFile(): void
     {
         $this->expectException(ilWorkflowFilesystemException::class);
 
@@ -99,7 +100,7 @@ class ilLoggingActivityTest extends TestCase
     /**
      *
      */
-    public function testSetGetIllegalExtensionLogFile() : void
+    public function testSetGetIllegalExtensionLogFile(): void
     {
         $this->expectException(ilWorkflowObjectStateException::class);
 
@@ -114,17 +115,17 @@ class ilLoggingActivityTest extends TestCase
 
         // Assertion via phpdoc. (Exception)
     }
-    
-    public function testSetGetLegalMessage() : void
+
+    public function testSetGetLegalMessage(): void
     {
         // Arrange
         $activity = new ilLoggingActivity($this->node);
         $expected = 'Hallo Spencer!';
-        
+
         // Act
         $activity->setLogMessage($expected);
         $actual = $activity->getLogMessage();
-        
+
         // Assert
         $this->assertEquals(
             $actual,
@@ -136,7 +137,7 @@ class ilLoggingActivityTest extends TestCase
     /**
      *
      */
-    public function testSetGetEmptyLogMessage() : void
+    public function testSetGetEmptyLogMessage(): void
     {
         $this->expectException(ilWorkflowObjectStateException::class);
 
@@ -150,16 +151,16 @@ class ilLoggingActivityTest extends TestCase
         // Assertion via phpdoc. (Exception)
     }
 
-    public function testSetGetValidLogLevel() : void
+    public function testSetGetValidLogLevel(): void
     {
         // Arrange
         $activity = new ilLoggingActivity($this->node);
         $expected = "MESSAGE";
-        
+
         // Act
         $activity->setLogLevel($expected);
         $actual = $activity->getLogLevel();
-        
+
         // Assert
         $this->assertEquals(
             $actual,
@@ -171,20 +172,20 @@ class ilLoggingActivityTest extends TestCase
     /**
      *
      */
-    public function testSetGetInvalidLogLevel() : void
+    public function testSetGetInvalidLogLevel(): void
     {
         $this->expectException(ilWorkflowObjectStateException::class);
 
         // Arrange
         $activity = new ilLoggingActivity($this->node);
         $expected = "guenther";
-        
+
         // Act
         $activity->setLogLevel($expected);
         $actual = $activity->getLogLevel();
     }
 
-    public function testExecute() : void
+    public function testExecute(): void
     {
         // Arrange
         $activity = new ilLoggingActivity($this->node);
@@ -211,7 +212,7 @@ class ilLoggingActivityTest extends TestCase
     /**
      *
      */
-    public function testPassInUnwriteablePath() : void
+    public function testPassInUnwriteablePath(): void
     {
         $this->expectException(ilWorkflowFilesystemException::class);
 
@@ -220,14 +221,14 @@ class ilLoggingActivityTest extends TestCase
         $activity->setLogFile(vfs\vfsStream::url('example.txt'));
     }
 
-    public function testGetContext() : void
+    public function testGetContext(): void
     {
         // Arrange
         $activity = new ilLoggingActivity($this->node);
-        
+
         // Act
         $actual = $activity->getContext();
-        
+
         // Assert
         if ($actual === $this->node) {
             $this->assertEquals($actual, $this->node);

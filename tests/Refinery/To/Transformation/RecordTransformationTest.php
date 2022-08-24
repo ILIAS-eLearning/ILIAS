@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -30,7 +32,7 @@ class RecordTransformationTest extends TestCase
     /**
      * @throws \ilException
      */
-    public function testTransformationIsCorrect() : void
+    public function testTransformationIsCorrect(): void
     {
         $recordTransformation = new RecordTransformation(
             [
@@ -44,7 +46,7 @@ class RecordTransformationTest extends TestCase
         $this->assertEquals(['stringTrafo' => 'hello', 'integerTrafo' => 1], $result);
     }
 
-    public function testInvalidTransformationArray() : void
+    public function testInvalidTransformationArray(): void
     {
         $this->expectNotToPerformAssertions();
 
@@ -62,7 +64,7 @@ class RecordTransformationTest extends TestCase
         $this->fail();
     }
 
-    public function testTransformationIsInvalidBecauseValueDoesNotMatchWithTransformation() : void
+    public function testTransformationIsInvalidBecauseValueDoesNotMatchWithTransformation(): void
     {
         $this->expectNotToPerformAssertions();
 
@@ -82,7 +84,7 @@ class RecordTransformationTest extends TestCase
         $this->fail();
     }
 
-    public function testInvalidValueKey() : void
+    public function testInvalidValueKey(): void
     {
         $this->expectNotToPerformAssertions();
 
@@ -102,7 +104,7 @@ class RecordTransformationTest extends TestCase
         $this->fail();
     }
 
-    public function testInvalidToManyValues() : void
+    public function testInvalidToManyValues(): void
     {
         $this->expectNotToPerformAssertions();
 
@@ -129,7 +131,7 @@ class RecordTransformationTest extends TestCase
         $this->fail();
     }
 
-    public function testTransformationThrowsExceptionBecauseKeyIsNotAString() : void
+    public function testTransformationThrowsExceptionBecauseKeyIsNotAString(): void
     {
         $this->expectNotToPerformAssertions();
 
@@ -152,7 +154,7 @@ class RecordTransformationTest extends TestCase
     /**
      * @throws \ilException
      */
-    public function testApplyIsCorrect() : void
+    public function testApplyIsCorrect(): void
     {
         $recordTransformation = new RecordTransformation(
             [
@@ -169,7 +171,7 @@ class RecordTransformationTest extends TestCase
     /**
      * @throws \ilException
      */
-    public function testApplyIsInvalidBecauseValueDoesNotMatchWithTransformation() : void
+    public function testApplyIsInvalidBecauseValueDoesNotMatchWithTransformation(): void
     {
         $recordTransformation = new RecordTransformation(
             [
@@ -186,7 +188,7 @@ class RecordTransformationTest extends TestCase
     /**
      * @throws \ilException
      */
-    public function testInvalidValueKeyInApplyToMethod() : void
+    public function testInvalidValueKeyInApplyToMethod(): void
     {
         $recordTransformation = new RecordTransformation(
             [
@@ -203,7 +205,7 @@ class RecordTransformationTest extends TestCase
     /**
      * @throws \ilException
      */
-    public function testInvalidToManyValuesInApplyToMethodCall() : void
+    public function testInvalidToManyValuesInApplyToMethodCall(): void
     {
         $recordTransformation = new RecordTransformation(
             [
@@ -228,7 +230,7 @@ class RecordTransformationTest extends TestCase
     /**
      * @throws \ilException
      */
-    public function testApplyThrowsExceptionBecauseKeyIsNotAString() : void
+    public function testApplyThrowsExceptionBecauseKeyIsNotAString(): void
     {
         $recordTransformation = new RecordTransformation(
             [

@@ -24,7 +24,7 @@ class arSelect extends arStatement
     protected string $as = '';
     protected string $field_name = '';
 
-    public function asSQLStatement(ActiveRecord $ar) : string
+    public function asSQLStatement(ActiveRecord $ar): string
     {
         $return = '';
         if ($this->getTableName()) {
@@ -38,32 +38,32 @@ class arSelect extends arStatement
         return $return;
     }
 
-    public function getTableName() : string
+    public function getTableName(): string
     {
         return $this->table_name;
     }
 
-    public function setTableName(string $table_name) : void
+    public function setTableName(string $table_name): void
     {
         $this->table_name = $table_name;
     }
 
-    public function getAs() : string
+    public function getAs(): string
     {
         return $this->as;
     }
 
-    public function setAs(string $as) : void
+    public function setAs(string $as): void
     {
         $this->as = $as;
     }
 
-    public function getFieldName() : string
+    public function getFieldName(): string
     {
         return $this->field_name;
     }
 
-    public function setFieldName(string $field_name) : void
+    public function setFieldName(string $field_name): void
     {
         $this->field_name = $field_name;
     }

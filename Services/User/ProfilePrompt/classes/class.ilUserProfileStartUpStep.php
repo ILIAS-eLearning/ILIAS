@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -37,12 +39,12 @@ class ilUserProfileStartUpStep extends StartUpSequenceStep
         );
     }
 
-    public function shouldStoreRequestTarget() : bool
+    public function shouldStoreRequestTarget(): bool
     {
         return true;
     }
 
-    public function isInFulfillment() : bool
+    public function isInFulfillment(): bool
     {
         $baseClass = $this->profile_request->getBaseClass();
         if ($baseClass == "" || strtolower($baseClass) != 'ildashboardgui') {
@@ -60,7 +62,7 @@ class ilUserProfileStartUpStep extends StartUpSequenceStep
         );
     }
 
-    public function shouldInterceptRequest() : bool
+    public function shouldInterceptRequest(): bool
     {
         $user_log = ilLoggerFactory::getLogger("user");
 
@@ -122,7 +124,7 @@ class ilUserProfileStartUpStep extends StartUpSequenceStep
         return false;
     }
 
-    public function execute() : void
+    public function execute(): void
     {
         $user_log = ilLoggerFactory::getLogger("user");
 

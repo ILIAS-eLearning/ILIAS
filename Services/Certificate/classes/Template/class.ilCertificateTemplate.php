@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -65,67 +67,67 @@ class ilCertificateTemplate
         $this->deleted = $deleted;
     }
 
-    public function getObjId() : int
+    public function getObjId(): int
     {
         return $this->obj_id;
     }
 
-    public function getCertificateContent() : string
+    public function getCertificateContent(): string
     {
         return $this->certificateContent;
     }
 
-    public function getCertificateHash() : string
+    public function getCertificateHash(): string
     {
         return $this->certificateHash;
     }
 
-    public function getTemplateValues() : string
+    public function getTemplateValues(): string
     {
         return $this->templateValues;
     }
 
-    public function getVersion() : int
+    public function getVersion(): int
     {
         return $this->version;
     }
 
-    public function getIliasVersion() : string
+    public function getIliasVersion(): string
     {
         return $this->iliasVersion;
     }
 
-    public function getCreatedTimestamp() : int
+    public function getCreatedTimestamp(): int
     {
         return $this->createdTimestamp;
     }
 
-    public function isCurrentlyActive() : bool
+    public function isCurrentlyActive(): bool
     {
         return $this->currentlyActive;
     }
 
-    public function getId() : ?int
+    public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getBackgroundImagePath() : string
+    public function getBackgroundImagePath(): string
     {
         return $this->backgroundImagePath;
     }
 
-    public function getObjType() : string
+    public function getObjType(): string
     {
         return $this->obj_type;
     }
 
-    public function isDeleted() : bool
+    public function isDeleted(): bool
     {
         return $this->deleted;
     }
 
-    public function getThumbnailImagePath() : string
+    public function getThumbnailImagePath(): string
     {
         return $this->thumbnailImagePath;
     }

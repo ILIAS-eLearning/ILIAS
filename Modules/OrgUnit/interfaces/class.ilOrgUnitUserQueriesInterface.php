@@ -6,7 +6,6 @@
 
 interface ilOrgUnitUserQueriesInterface
 {
-
     /**
      * @param int[] $user_ids
      */

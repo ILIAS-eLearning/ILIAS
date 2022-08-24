@@ -11,7 +11,6 @@ require_once "Modules/TestQuestionPool/classes/questions/LogicalAnswerCompare/Fa
  */
 class ilAssLacOperationManufacturer extends ilAssLacAbstractManufacturer
 {
-
     /**
      * A Singleton Instance of the OperationManufacturer
      *
@@ -27,7 +26,7 @@ class ilAssLacOperationManufacturer extends ilAssLacAbstractManufacturer
      *
      * @return ilAssLacOperationManufacturer
      */
-    public static function _getInstance() : ?ilAssLacOperationManufacturer
+    public static function _getInstance(): ?ilAssLacOperationManufacturer
     {
         if (self::$instance == null) {
             self::$instance = new ilAssLacOperationManufacturer();
@@ -41,7 +40,7 @@ class ilAssLacOperationManufacturer extends ilAssLacAbstractManufacturer
      * @return ilAssLacAbstractComposite
      * @throws ilAssLacUnsupportedOperation
      */
-    public function manufacture(string $attribute) : ilAssLacAbstractComposite
+    public function manufacture(string $attribute): ilAssLacAbstractComposite
     {
         $operation = "";
         switch ($attribute) {
@@ -95,7 +94,7 @@ class ilAssLacOperationManufacturer extends ilAssLacAbstractManufacturer
      *
      * @return string
      */
-    public function getPattern() : string
+    public function getPattern(): string
     {
         //		return '/[&\|<>=]+/';
         return '/&|\||(?<!<|>)=|<(?!=|>)|>(?!=)|<=|>=|<>/';

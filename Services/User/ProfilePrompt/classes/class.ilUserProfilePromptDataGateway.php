@@ -35,7 +35,7 @@ class ilUserProfilePromptDataGateway
         $this->db = $DIC->database();
     }
 
-    public function saveSettings(ilProfilePromptSettings $settings) : void
+    public function saveSettings(ilProfilePromptSettings $settings): void
     {
         $user_settings = $this->user_settings;
 
@@ -50,7 +50,7 @@ class ilUserProfilePromptDataGateway
         $user_settings->set("user_profile_prompt_days", $settings->getDays());
     }
 
-    public function getSettings() : ilProfilePromptSettings
+    public function getSettings(): ilProfilePromptSettings
     {
         $user_settings = $this->user_settings;
         $lng = $this->lng;
@@ -69,7 +69,7 @@ class ilUserProfilePromptDataGateway
         );
     }
 
-    public function getUserPrompt(int $user_id) : ilProfileUserPrompt
+    public function getUserPrompt(int $user_id): ilProfileUserPrompt
     {
         $db = $this->db;
 
@@ -85,7 +85,7 @@ class ilUserProfilePromptDataGateway
         return new ilProfileUserPrompt($user_id, "", "");
     }
 
-    public function saveLastUserPrompt(int $user_id, string $last_profile_prompt = "") : void
+    public function saveLastUserPrompt(int $user_id, string $last_profile_prompt = ""): void
     {
         $db = $this->db;
 

@@ -15,7 +15,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * Exercise Administration Settings
  *
@@ -40,7 +40,7 @@ class ilObjExerciseAdministrationGUI extends ilObjectGUI
         $this->lng->loadLanguageModule("exercise");
     }
 
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         $next_class = $this->ctrl->getNextClass($this);
         $cmd = $this->ctrl->getCmd();
@@ -63,7 +63,7 @@ class ilObjExerciseAdministrationGUI extends ilObjectGUI
         }
     }
 
-    public function getAdminTabs() : void
+    public function getAdminTabs(): void
     {
         if ($this->checkPermissionBool("visible,read")) {
             $this->tabs_gui->addTarget(
@@ -83,57 +83,57 @@ class ilObjExerciseAdministrationGUI extends ilObjectGUI
         }
     }
 
-    public function editSettings(ilPropertyFormGUI $a_form = null) : void
+    public function editSettings(ilPropertyFormGUI $a_form = null): void
     {
         $this->tabs_gui->setTabActive('settings');
-        
+
         if ($a_form === null) {
             $a_form = $this->initFormSettings();
         }
         $this->tpl->setContent($a_form->getHTML());
     }
 
-    public function saveSettings() : void
+    public function saveSettings(): void
     {
         $ilCtrl = $this->ctrl;
-        
+
         $this->checkPermission("write");
-        
+
         $form = $this->initFormSettings();
         if ($form->checkInput()) {
             $exc_set = new ilSetting("excs");
             $exc_set->set("add_to_pd", (bool) $form->getInput("pd"));
-            
+
             $this->tpl->setOnScreenMessage('success', $this->lng->txt("settings_saved"), true);
             $ilCtrl->redirect($this, "editSettings");
         }
-        
+
         $form->setValuesByPost();
         $this->editSettings($form);
     }
 
-    public function cancel() : void
+    public function cancel(): void
     {
         $ilCtrl = $this->ctrl;
-        
+
         $ilCtrl->redirect($this, "view");
     }
-        
-    protected function initFormSettings() : ilPropertyFormGUI
+
+    protected function initFormSettings(): ilPropertyFormGUI
     {
         $lng = $this->lng;
 
         $form = new ilPropertyFormGUI();
         $form->setFormAction($this->ctrl->getFormAction($this));
         $form->setTitle($this->lng->txt('exc_admin_settings'));
-        
+
         if ($this->checkPermissionBool("write")) {
             $form->addCommandButton('saveSettings', $this->lng->txt('save'));
             $form->addCommandButton('cancel', $this->lng->txt('cancel'));
         }
 
         $exc_set = new ilSetting("excs");
-        
+
         $pd = new ilCheckboxInputGUI($lng->txt("to_desktop"), "pd");
         $pd->setInfo($lng->txt("exc_to_desktop_info"));
         $pd->setChecked($exc_set->get("add_to_pd", true));

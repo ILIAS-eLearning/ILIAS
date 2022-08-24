@@ -1,6 +1,8 @@
-<?php declare(strict_types=1);
+<?php
 
-    
+declare(strict_types=1);
+
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -16,7 +18,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * Membership Administration Settings
  * @author  Jörg Lützenkirchen <luetzenkirchen@leifos.com>
@@ -36,13 +38,13 @@ abstract class ilMembershipAdministrationGUI extends ilObjectGUI
         $this->lng->loadLanguageModule('mem');
     }
 
-    abstract protected function getType() : string;
+    abstract protected function getType(): string;
 
-    abstract protected function getParentObjType() : string;
+    abstract protected function getParentObjType(): string;
 
-    abstract protected function getAdministrationFormId() : int;
+    abstract protected function getAdministrationFormId(): int;
 
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         $next_class = $this->ctrl->getNextClass($this);
         $cmd = $this->ctrl->getCmd();
@@ -82,7 +84,7 @@ abstract class ilMembershipAdministrationGUI extends ilObjectGUI
         }
     }
 
-    public function getAdminTabs() : void
+    public function getAdminTabs(): void
     {
         if ($this->rbac_system->checkAccess("visible,read", $this->object->getRefId())) {
             $this->tabs_gui->addTarget(
@@ -102,7 +104,7 @@ abstract class ilMembershipAdministrationGUI extends ilObjectGUI
         }
     }
 
-    public function editSettings(?ilPropertyFormGUI $a_form = null) : void
+    public function editSettings(?ilPropertyFormGUI $a_form = null): void
     {
         $this->setSubTabs('settings', self::SUB_TAB_GENERAL_SETTINGS);
         $this->tabs_gui->setTabActive('settings');
@@ -113,7 +115,7 @@ abstract class ilMembershipAdministrationGUI extends ilObjectGUI
         $this->tpl->setContent($a_form->getHTML());
     }
 
-    public function saveSettings() : void
+    public function saveSettings(): void
     {
         $this->checkPermission("write");
         $form = $this->initFormSettings();
@@ -137,7 +139,7 @@ abstract class ilMembershipAdministrationGUI extends ilObjectGUI
         $this->editSettings($form);
     }
 
-    protected function initFormSettings() : ilPropertyFormGUI
+    protected function initFormSettings(): ilPropertyFormGUI
     {
         $form = new ilPropertyFormGUI();
         $form->setFormAction($this->ctrl->getFormAction($this, "saveSettings"));
@@ -182,7 +184,7 @@ abstract class ilMembershipAdministrationGUI extends ilObjectGUI
         return $form;
     }
 
-    public function addToExternalSettingsForm(int $a_form_id) : array
+    public function addToExternalSettingsForm(int $a_form_id): array
     {
         switch ($a_form_id) {
             case ilAdministrationSettingsFormHandler::FORM_MAIL:
@@ -209,16 +211,16 @@ abstract class ilMembershipAdministrationGUI extends ilObjectGUI
         return [];
     }
 
-    protected function addFieldsToForm(ilPropertyFormGUI $a_form) : void
+    protected function addFieldsToForm(ilPropertyFormGUI $a_form): void
     {
     }
 
-    protected function save(ilPropertyFormGUI $a_form) : bool
+    protected function save(ilPropertyFormGUI $a_form): bool
     {
         return true;
     }
 
-    protected function setSubTabs(string $a_main_tab, string $a_active_tab) : void
+    protected function setSubTabs(string $a_main_tab, string $a_active_tab): void
     {
         if ($a_main_tab === 'settings') {
             $this->tabs_gui->addSubTab(

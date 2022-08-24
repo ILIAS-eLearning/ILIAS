@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /******************************************************************************
  *
@@ -23,23 +25,23 @@ class ilECSUtils
     public const TYPE_INT = 2;
     public const TYPE_STRING = 3;
     public const TYPE_TIMEPLACE = 4;
-        
+
     /**
      * get optional econtent fields
      * These fields might be mapped against AdvancedMetaData field definitions
      */
-    public static function _getOptionalEContentFields() : array
+    public static function _getOptionalEContentFields(): array
     {
         // :TODO: ?
         $def = self::getEContentDefinition('/campusconnect/courselinks');
         return array_keys($def);
     }
-    
+
     /**
      * get optional econtent fields
      * These fields might be mapped against AdvancedMetaData field definitions
      */
-    public static function _getOptionalECourseFields() : array
+    public static function _getOptionalECourseFields(): array
     {
         // :TODO: ?
         $def = self::getEContentDefinition('/campusconnect/courselinks');
@@ -49,51 +51,51 @@ class ilECSUtils
     /**
      * Get all possible remote object types
      */
-    public static function getPossibleRemoteTypes(bool $a_with_captions = false) : array
+    public static function getPossibleRemoteTypes(bool $a_with_captions = false): array
     {
         global $DIC;
 
         $lng = $DIC['lng'];
-        
+
         $all = array("rcrs", "rcat", "rfil", "rglo", "rgrp", "rlm", "rwik");
-        
+
         if (!$a_with_captions) {
             return $all;
         }
-        
+
         $res = array();
         foreach ($all as $id) {
             $res[$id] = $lng->txt("obj_" . $id);
         }
         return $res;
     }
-    
+
     /**
      * Get all possible release object types
      */
-    public static function getPossibleReleaseTypes(bool $a_with_captions = false) : array
+    public static function getPossibleReleaseTypes(bool $a_with_captions = false): array
     {
         global $DIC;
 
         $lng = $DIC['lng'];
-        
+
         $all = array("crs", "cat", "file", "glo", "grp", "lm", "wiki");
-        
+
         if (!$a_with_captions) {
             return $all;
         }
-        
+
         $res = array();
         foreach ($all as $id) {
             $res[$id] = $lng->txt("obj_" . $id);
         }
         return $res;
     }
-    
+
     /**
      * Get econtent / metadata definition
      */
-    public static function getEContentDefinition(string $a_resource_id) : array
+    public static function getEContentDefinition(string $a_resource_id): array
     {
         switch ($a_resource_id) {
             case '/campusconnect/courselinks':
@@ -110,7 +112,7 @@ class ilECSUtils
                     'room' => array(self::TYPE_TIMEPLACE, 'timePlace'),
                     'cycle' => array(self::TYPE_TIMEPLACE, 'timePlace')
                 );
-                
+
             case '/campusconnect/categories':
             case '/campusconnect/files':
             case '/campusconnect/glossaries':
@@ -122,20 +124,20 @@ class ilECSUtils
                 return [];
         }
     }
-    
+
     /**
      * Convert ECS content to rule matchable values
      */
-    public static function getMatchableContent(string $a_resource_id, int $a_server_id, object $a_ecs_content, int $a_owner) : array
+    public static function getMatchableContent(string $a_resource_id, int $a_server_id, object $a_ecs_content, int $a_owner): array
     {
         // see ilECSCategoryMapping::getPossibleFields();
         $res = array();
         $res["part_id"] = array($a_owner, ilECSCategoryMappingRule::ATTR_INT);
         $res["community"] = array(ilECSCommunitiesCache::getInstance()->lookupTitle($a_server_id, $a_owner),
             ilECSCategoryMappingRule::ATTR_STRING);
-        
+
         $definition = self::getEContentDefinition($a_resource_id);
-        
+
         $timePlace = null;
         $value = null;
         foreach ($definition as $id => $type) {
@@ -182,7 +184,7 @@ class ilECSUtils
                             $value = array($timePlace->{'getUT' . ucfirst($id)}(),
                                 ilECSCategoryMappingRule::ATTR_INT);
                             break;
-                            
+
                         case 'room':
                         case 'cycle':
                             $value = array($timePlace->{'get' . ucfirst($id)}(),
@@ -191,17 +193,17 @@ class ilECSUtils
                     }
                     break;
             }
-            
+
             $res[$id] = $value;
         }
-        
+
         return $res;
     }
-    
+
     /**
      * Get advanced metadata values for object id
      */
-    public static function getAdvancedMDValuesForObjId(int $a_obj_id) : array
+    public static function getAdvancedMDValuesForObjId(int $a_obj_id): array
     {
         $res = array();
 
@@ -209,7 +211,7 @@ class ilECSUtils
         foreach (ilAdvancedMDValues::getInstancesForObjectId($a_obj_id) as $a_values) {
             // this correctly binds group and definitions
             $a_values->read();
-            
+
             // getting elements for record
             $defs = $a_values->getDefinitions();
             foreach ($a_values->getADTGroup()->getElements() as $element_id => $element) {
@@ -222,7 +224,7 @@ class ilECSUtils
                 }
             }
         }
-        
+
         return $res;
     }
 }

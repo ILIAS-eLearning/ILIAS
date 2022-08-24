@@ -1,4 +1,20 @@
 <?php
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 require_once 'Modules/TestQuestionPool/classes/import/qti12/class.assQuestionImport.php';
 require_once 'Modules/TestQuestionPool/classes/class.assLongMenu.php';
 
@@ -6,7 +22,7 @@ class assLongMenuImport extends assQuestionImport
 {
     public $object;
 
-    public function fromXML(&$item, $questionpool_id, &$tst_id, &$tst_object, &$question_counter, &$import_mapping) : void
+    public function fromXML(&$item, $questionpool_id, &$tst_id, &$tst_object, &$question_counter, &$import_mapping): void
     {
         global $DIC;
         $ilUser = $DIC['ilUser'];
@@ -35,7 +51,7 @@ class assLongMenuImport extends assQuestionImport
                         $this->object->setQuestion($this->object->QTIMaterialToString($material));
                     }
 
-                    
+
                     break;
             }
         }
@@ -169,17 +185,17 @@ class assLongMenuImport extends assQuestionImport
                 $feedbacksgeneric[$correctness] = $m;
             }
         }
-        
+
         $this->addGeneralMetadata($item);
         $this->object->setTitle($item->getTitle());
-        $this->object->setNrOfTries($item->getMaxattempts());
+        $this->object->setNrOfTries((int)$item->getMaxattempts());
         $this->object->setComment($item->getComment());
         $this->object->setAuthor($item->getAuthor());
         $this->object->setOwner($ilUser->getId());
         $this->object->setObjId($questionpool_id);
         $this->object->setMinAutoComplete($item->getMetadataEntry("minAutoCompleteLength"));
         $this->object->setIdenticalscoring((int) $item->getMetadataEntry("identical_scoring"));
-        $this->object->setEstimatedWorkingTime($duration["h"], $duration["m"], $duration["s"]);
+        $this->object->setEstimatedWorkingTime($duration["h"] ?? 0, $duration["m"] ?? 0, $duration["s"] ?? 0);
         $this->object->setCorrectAnswers($correct_answers);
         $this->object->setPoints($sum);
         // additional content editing mode information

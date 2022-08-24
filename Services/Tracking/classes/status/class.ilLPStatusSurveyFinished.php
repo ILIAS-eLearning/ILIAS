@@ -1,4 +1,6 @@
-<?php declare(strict_types=0);
+<?php
+
+declare(strict_types=0);
 
 // patch-begin svy_lp
 
@@ -10,12 +12,12 @@
  */
 class ilLPStatusSurveyFinished extends ilLPStatus
 {
-    public static function _getInProgress(int $a_obj_id) : array
+    public static function _getInProgress(int $a_obj_id): array
     {
         return self::getParticipants($a_obj_id);
     }
 
-    public static function _getCompleted(int $a_obj_id) : array
+    public static function _getCompleted(int $a_obj_id): array
     {
         return self::getParticipants($a_obj_id, true);
     }
@@ -24,7 +26,7 @@ class ilLPStatusSurveyFinished extends ilLPStatus
         int $a_obj_id,
         int $a_usr_id,
         object $a_obj = null
-    ) : int {
+    ): int {
         $survey_id = self::getSurveyId($a_obj_id);
         if (!$survey_id) {
             return ilLPStatus::LP_STATUS_NOT_ATTEMPTED_NUM;
@@ -41,7 +43,7 @@ class ilLPStatusSurveyFinished extends ilLPStatus
         return $status;
     }
 
-    protected static function getSurveyId(int $a_obj_id) : int
+    protected static function getSurveyId(int $a_obj_id): int
     {
         global $DIC;
 
@@ -57,7 +59,7 @@ class ilLPStatusSurveyFinished extends ilLPStatus
     public static function getParticipants(
         int $a_obj_id,
         bool $a_only_finished = false
-    ) : array {
+    ): array {
         global $DIC;
 
         $ilDB = $DIC['ilDB'];

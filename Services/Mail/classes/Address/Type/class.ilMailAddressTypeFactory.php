@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -78,7 +80,7 @@ class ilMailAddressTypeFactory
         $this->roleMailboxSearch = $roleMailboxSearch;
     }
 
-    public function getByPrefix(ilMailAddress $address, bool $cached = true) : ilMailAddressType
+    public function getByPrefix(ilMailAddress $address, bool $cached = true): ilMailAddressType
     {
         switch (true) {
             case strpos($address->getMailbox(), '#') !== 0 && strpos($address->getMailbox(), '"#') !== 0:

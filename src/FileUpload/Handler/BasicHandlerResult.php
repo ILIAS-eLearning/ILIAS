@@ -45,7 +45,7 @@ class BasicHandlerResult implements HandlerResult
     /**
      * @inheritDoc
      */
-    public function getStatus() : int
+    public function getStatus(): int
     {
         return $this->status;
     }
@@ -54,7 +54,7 @@ class BasicHandlerResult implements HandlerResult
     /**
      * @inheritDoc
      */
-    public function getFileIdentifier() : string
+    public function getFileIdentifier(): string
     {
         return $this->file_identifier;
     }
@@ -63,7 +63,7 @@ class BasicHandlerResult implements HandlerResult
     /**
      * @inheritDoc
      */
-    final public function jsonSerialize() : array
+    final public function jsonSerialize(): array
     {
         $str = $this->file_identification_key ?? UploadHandler::DEFAULT_FILE_ID_PARAMETER;
 
@@ -78,7 +78,7 @@ class BasicHandlerResult implements HandlerResult
     /**
      * @inheritDoc
      */
-    public function getMessage() : string
+    public function getMessage(): string
     {
         return $this->message;
     }

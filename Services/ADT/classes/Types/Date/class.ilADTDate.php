@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 class ilADTDate extends ilADT
 {
@@ -6,19 +8,19 @@ class ilADTDate extends ilADT
 
     // definition
 
-    protected function isValidDefinition(ilADTDefinition $a_def) : bool
+    protected function isValidDefinition(ilADTDefinition $a_def): bool
     {
         return ($a_def instanceof ilADTDateDefinition);
     }
 
-    public function reset() : void
+    public function reset(): void
     {
         parent::reset();
 
         $this->value = null;
     }
 
-    public function setDate(?ilDateTime $a_value = null) : void
+    public function setDate(?ilDateTime $a_value = null): void
     {
         if ($a_value && $a_value->isNull()) {
             $a_value = null;
@@ -26,14 +28,14 @@ class ilADTDate extends ilADT
         $this->value = $a_value;
     }
 
-    public function getDate() : ?ilDateTime
+    public function getDate(): ?ilDateTime
     {
         return $this->value;
     }
 
     // comparison
 
-    public function equals(ilADT $a_adt) : ?bool
+    public function equals(ilADT $a_adt): ?bool
     {
         if ($this->getDefinition()->isComparableTo($a_adt)) {
             if (!$this->isNull() && !$a_adt->isNull()) {
@@ -46,7 +48,7 @@ class ilADTDate extends ilADT
         return null;
     }
 
-    public function isLarger(ilADT $a_adt) : ?bool
+    public function isLarger(ilADT $a_adt): ?bool
     {
         if ($this->getDefinition()->isComparableTo($a_adt)) {
             if (!$this->isNull() && !$a_adt->isNull()) {
@@ -58,7 +60,7 @@ class ilADTDate extends ilADT
         return null;
     }
 
-    public function isSmaller(ilADT $a_adt) : ?bool
+    public function isSmaller(ilADT $a_adt): ?bool
     {
         if ($this->getDefinition()->isComparableTo($a_adt)) {
             if (!$this->isNull() && !$a_adt->isNull()) {
@@ -72,12 +74,12 @@ class ilADTDate extends ilADT
 
     // null
 
-    public function isNull() : bool
+    public function isNull(): bool
     {
         return !$this->value instanceof ilDate || $this->value->isNull();
     }
 
-    public function getCheckSum() : ?string
+    public function getCheckSum(): ?string
     {
         if (!$this->isNull()) {
             return (string) $this->getDate()->get(IL_CAL_UNIX);
@@ -87,7 +89,7 @@ class ilADTDate extends ilADT
 
     // stdClass
 
-    public function exportStdClass() : ?stdClass
+    public function exportStdClass(): ?stdClass
     {
         if (!$this->isNull()) {
             $obj = new stdClass();
@@ -97,7 +99,7 @@ class ilADTDate extends ilADT
         return null;
     }
 
-    public function importStdClass(?stdClass $a_std) : void
+    public function importStdClass(?stdClass $a_std): void
     {
         if (is_object($a_std)) {
             $this->setDate(new ilDate($a_std->value, IL_CAL_UNIX));

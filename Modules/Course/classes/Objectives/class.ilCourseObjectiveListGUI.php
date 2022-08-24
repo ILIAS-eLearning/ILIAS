@@ -1,4 +1,6 @@
-<?php declare(strict_types=0);
+<?php
+
+declare(strict_types=0);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -14,7 +16,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * List gui for course objectives
  * @author  Stefan Meyer <smeyer.ilias@gmx.de>
@@ -25,7 +27,7 @@ class ilCourseObjectiveListGUI extends ilObjectListGUI
     /**
      * @inheritDoc
      */
-    public function init() : void
+    public function init(): void
     {
         $this->static_link_enabled = true;
         $this->delete_enabled = false;
@@ -47,7 +49,7 @@ class ilCourseObjectiveListGUI extends ilObjectListGUI
         string $a_title,
         string $a_description,
         bool $a_manage = false
-    ) : string {
+    ): string {
         $this->tpl = new ilTemplate(
             "tpl.container_list_item.html",
             true,
@@ -80,7 +82,7 @@ class ilCourseObjectiveListGUI extends ilObjectListGUI
     /**
      * @inheritDoc
      */
-    public function insertTitle() : void
+    public function insertTitle(): void
     {
         if (
             ilCourseObjectiveResultCache::getStatus(
@@ -118,7 +120,7 @@ class ilCourseObjectiveListGUI extends ilObjectListGUI
     /**
      * @inheritDoc
      */
-    public function insertProgressInfo() : void
+    public function insertProgressInfo(): void
     {
         $this->lng->loadLanguageModule('trac');
         $this->tpl->setCurrentBlock('item_progress');

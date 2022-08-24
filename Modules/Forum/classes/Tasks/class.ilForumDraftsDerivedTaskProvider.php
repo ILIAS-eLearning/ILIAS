@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -44,7 +46,7 @@ class ilForumDraftsDerivedTaskProvider implements ilDerivedTaskProvider
         $this->lng->loadLanguageModule('forum');
     }
 
-    public function getTasks(int $user_id) : array
+    public function getTasks(int $user_id): array
     {
         $tasks = [];
 
@@ -93,7 +95,7 @@ class ilForumDraftsDerivedTaskProvider implements ilDerivedTaskProvider
         return $tasks;
     }
 
-    protected function getFirstRefIdWithPermission(string $operation, int $objId, int $userId) : int
+    protected function getFirstRefIdWithPermission(string $operation, int $objId, int $userId): int
     {
         foreach (ilObject::_getAllReferences($objId) as $refId) {
             if ($this->accessHandler->checkAccessOfUser($userId, $operation, '', $refId)) {
@@ -104,7 +106,7 @@ class ilForumDraftsDerivedTaskProvider implements ilDerivedTaskProvider
         return 0;
     }
 
-    public function isActive() : bool
+    public function isActive(): bool
     {
         return (bool) $this->settings->get('save_post_drafts', '0');
     }

@@ -14,7 +14,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * Exporter class for Bibliographic class
  *
@@ -33,7 +33,7 @@ class ilBibliographicExporter extends ilXmlExporter
     protected $db;
 
 
-    public function init() : void
+    public function init(): void
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -43,7 +43,7 @@ class ilBibliographicExporter extends ilXmlExporter
     }
 
 
-    public function getValidSchemaVersions(string $a_entity) : array
+    public function getValidSchemaVersions(string $a_entity): array
     {
         return array(
             '4.5.0' => array(
@@ -57,7 +57,7 @@ class ilBibliographicExporter extends ilXmlExporter
     }
 
 
-    public function getXmlRepresentation(string $a_entity, string $a_schema_version, string $a_id) : string
+    public function getXmlRepresentation(string $a_entity, string $a_schema_version, string $a_id): string
     {
         ilFileUtils::makeDirParents($this->getAbsoluteExportDirectory());
         $this->ds->setExportDirectories($this->dir_relative, $this->dir_absolute);

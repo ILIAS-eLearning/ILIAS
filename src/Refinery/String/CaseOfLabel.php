@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -190,7 +192,7 @@ class CaseOfLabel implements Transformation
      * @inheritDoc
      * @throws LogicException
      */
-    public function transform($from) : string
+    public function transform($from): string
     {
         if (!is_string($from)) {
             throw new InvalidArgumentException(__METHOD__ . " the argument is not a string.");
@@ -216,16 +218,16 @@ class CaseOfLabel implements Transformation
         return $to;
     }
 
-    private function buildPatterns(array $words) : array
+    private function buildPatterns(array $words): array
     {
-        return array_reduce($words, function (array $patterns, string $word) : array {
+        return array_reduce($words, function (array $patterns, string $word): array {
             $patterns[$this->buildPattern($word)] = [ $this, "replaceHelper" ];
 
             return $patterns;
         }, []);
     }
 
-    private function buildPattern(string $word) : string
+    private function buildPattern(string $word): string
     {
         // Before the word muss be the start of the string or a space
         // After the word muss be the end of the string or a space
@@ -233,7 +235,7 @@ class CaseOfLabel implements Transformation
         return "/(\s|^)" . preg_quote($word, '/') . "(\s|$)/i";
     }
 
-    private function replaceHelper(array $result) : string
+    private function replaceHelper(array $result): string
     {
         return strtolower($result[0] ?? "");
     }

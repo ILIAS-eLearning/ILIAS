@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -44,7 +46,7 @@ class ilWebLinkParameter extends ilWebLinkBaseParameter
     }
 
     //TODO inject the dependency on DIC->user as an argument into this method
-    public function appendToLink(string $link) : string
+    public function appendToLink(string $link): string
     {
         if (!strpos($link, '?')) {
             $link .= "?";
@@ -80,7 +82,7 @@ class ilWebLinkParameter extends ilWebLinkBaseParameter
         return $link;
     }
 
-    public function getInfo() : string
+    public function getInfo(): string
     {
         $info = $this->getName();
 
@@ -104,7 +106,7 @@ class ilWebLinkParameter extends ilWebLinkBaseParameter
         }
     }
 
-    public function toXML(ilXmlWriter $writer) : void
+    public function toXML(ilXmlWriter $writer): void
     {
         switch ($this->getValue()) {
             case self::VALUES['user_id']:
@@ -133,17 +135,17 @@ class ilWebLinkParameter extends ilWebLinkBaseParameter
         );
     }
 
-    public function getWebrId() : int
+    public function getWebrId(): int
     {
         return $this->webr_id;
     }
 
-    public function getLinkId() : int
+    public function getLinkId(): int
     {
         return $this->link_id;
     }
 
-    public function getParamId() : int
+    public function getParamId(): int
     {
         return $this->param_id;
     }

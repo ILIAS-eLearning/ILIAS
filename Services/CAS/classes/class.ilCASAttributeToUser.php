@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /******************************************************************************
  *
@@ -36,7 +38,7 @@ class ilCASAttributeToUser
         $this->settings = $settings;
     }
 
-    public function create(string $a_username) : string
+    public function create(string $a_username): string
     {
         $this->writer->xmlStartTag('Users');
 

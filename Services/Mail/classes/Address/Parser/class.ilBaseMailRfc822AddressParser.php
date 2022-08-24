@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -40,7 +42,7 @@ abstract class ilBaseMailRfc822AddressParser implements ilMailRecipientParser
     /**
      * @return string A comma separated list of email addresses
      */
-    public function getAddresses() : string
+    public function getAddresses(): string
     {
         return $this->addresses;
     }
@@ -49,9 +51,9 @@ abstract class ilBaseMailRfc822AddressParser implements ilMailRecipientParser
      * @param string $addresses A comma separated list of email addresses
      * @return ilMailAddress[]
      */
-    abstract protected function parseAddressString(string $addresses) : array;
+    abstract protected function parseAddressString(string $addresses): array;
 
-    public function parse() : array
+    public function parse(): array
     {
         $addresses = preg_replace('/;/', ',', trim($this->addresses));
 

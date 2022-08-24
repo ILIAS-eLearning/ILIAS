@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 /**
@@ -66,7 +67,7 @@ final class ilObjEmployeeTalkAccess extends ilObjectAccess
      *        array('permission' => 'write', 'cmd' => 'edit', 'lang_var' => 'edit'),
      *    );
      */
-    public static function _getCommands() : array
+    public static function _getCommands(): array
     {
         $commands = [
             [
@@ -80,7 +81,7 @@ final class ilObjEmployeeTalkAccess extends ilObjectAccess
         return $commands;
     }
 
-    public static function _isOffline($a_obj_id) : bool
+    public static function _isOffline($a_obj_id): bool
     {
         return false;
     }
@@ -90,7 +91,7 @@ final class ilObjEmployeeTalkAccess extends ilObjectAccess
      *
      * @return bool
      */
-    public static function _checkGoto($a_target) : bool
+    public static function _checkGoto($a_target): bool
     {
         $access = new self();
 

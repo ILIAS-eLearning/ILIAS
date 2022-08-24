@@ -1,4 +1,6 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -35,7 +37,7 @@ class DomainService
         $this->internal = $internal_service;
     }
 
-    public function styleForObjId(int $obj_id) : ObjectFacade
+    public function styleForObjId(int $obj_id): ObjectFacade
     {
         return new ObjectFacade(
             $this->internal->data(),
@@ -45,7 +47,7 @@ class DomainService
         );
     }
 
-    public function styleForRefId(int $ref_id) : ObjectFacade
+    public function styleForRefId(int $ref_id): ObjectFacade
     {
         return new ObjectFacade(
             $this->internal->data(),

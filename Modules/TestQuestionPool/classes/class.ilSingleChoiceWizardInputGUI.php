@@ -52,7 +52,7 @@ class ilSingleChoiceWizardInputGUI extends ilTextInputGUI
         $this->post_wrapper = $DIC->http()->wrapper()->post();
     }
 
-    public function setValue($a_value) : void
+    public function setValue($a_value): void
     {
         $this->values = array();
         if (is_array($a_value)) {
@@ -72,7 +72,7 @@ class ilSingleChoiceWizardInputGUI extends ilTextInputGUI
     }
 
 
-    public function setValueByArray(array $a_values) : void
+    public function setValueByArray(array $a_values): void
     {
         if (isset($a_values[$this->getPostVar()])) {
             $this->setValue($a_values[$this->getPostVar()] ?? []);
@@ -84,7 +84,7 @@ class ilSingleChoiceWizardInputGUI extends ilTextInputGUI
     *
     * @param	array	$a_suffixes	Accepted Suffixes
     */
-    public function setSuffixes($a_suffixes) : void
+    public function setSuffixes($a_suffixes): void
     {
         $this->suffixes = $a_suffixes;
     }
@@ -94,7 +94,7 @@ class ilSingleChoiceWizardInputGUI extends ilTextInputGUI
     *
     * @param	array	$a_hide	Hide images
     */
-    public function setHideImages($a_hide) : void
+    public function setHideImages($a_hide): void
     {
         $this->hideImages = $a_hide;
     }
@@ -104,27 +104,27 @@ class ilSingleChoiceWizardInputGUI extends ilTextInputGUI
     *
     * @return	array	Accepted Suffixes
     */
-    public function getSuffixes() : array
+    public function getSuffixes(): array
     {
         return $this->suffixes;
     }
-    
-    public function setShowPoints($a_value) : void
+
+    public function setShowPoints($a_value): void
     {
         $this->showPoints = $a_value;
     }
-    
-    public function getShowPoints() : bool
+
+    public function getShowPoints(): bool
     {
         return $this->showPoints;
     }
-    
+
     /**
     * Set Values
     *
     * @param	array	$a_value	Value
     */
-    public function setValues($a_values) : void
+    public function setValues($a_values): void
     {
         $this->values = $a_values;
     }
@@ -134,7 +134,7 @@ class ilSingleChoiceWizardInputGUI extends ilTextInputGUI
     *
     * @return	array	Values
     */
-    public function getValues() : array
+    public function getValues(): array
     {
         return $this->values;
     }
@@ -144,7 +144,7 @@ class ilSingleChoiceWizardInputGUI extends ilTextInputGUI
     *
     * @param	boolean	$a_value	Value
     */
-    public function setSingleline($a_value) : void
+    public function setSingleline($a_value): void
     {
         $this->singleline = $a_value;
     }
@@ -154,7 +154,7 @@ class ilSingleChoiceWizardInputGUI extends ilTextInputGUI
     *
     * @return	boolean	Value
     */
-    public function getSingleline() : bool
+    public function getSingleline(): bool
     {
         return $this->singleline;
     }
@@ -164,7 +164,7 @@ class ilSingleChoiceWizardInputGUI extends ilTextInputGUI
     *
     * @param	object	$a_value	test object
     */
-    public function setQuestionObject($a_value) : void
+    public function setQuestionObject($a_value): void
     {
         $this->qstObject = &$a_value;
     }
@@ -174,7 +174,7 @@ class ilSingleChoiceWizardInputGUI extends ilTextInputGUI
     *
     * @return	object	Value
     */
-    public function getQuestionObject() : ?object
+    public function getQuestionObject(): ?object
     {
         return $this->qstObject;
     }
@@ -184,7 +184,7 @@ class ilSingleChoiceWizardInputGUI extends ilTextInputGUI
     *
     * @param	boolean	$a_allow_move Allow move
     */
-    public function setAllowMove($a_allow_move) : void
+    public function setAllowMove($a_allow_move): void
     {
         $this->allowMove = $a_allow_move;
     }
@@ -194,7 +194,7 @@ class ilSingleChoiceWizardInputGUI extends ilTextInputGUI
     *
     * @return	boolean	Allow move
     */
-    public function getAllowMove() : bool
+    public function getAllowMove(): bool
     {
         return $this->allowMove;
     }
@@ -203,11 +203,11 @@ class ilSingleChoiceWizardInputGUI extends ilTextInputGUI
     * Check input, strip slashes etc. set alert, if input is not ok.
     * @return	boolean		Input ok, true/false
     */
-    public function checkInput() : bool
+    public function checkInput(): bool
     {
         global $DIC;
         $lng = $DIC['lng'];
-        
+
         include_once "./Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php";
 
         if (is_array($_POST[$this->getPostVar()])) {
@@ -339,18 +339,18 @@ class ilSingleChoiceWizardInputGUI extends ilTextInputGUI
             $this->setAlert($lng->txt("msg_input_is_required"));
             return false;
         }
-        
+
         return $this->checkSubItemsInput();
     }
 
     /**
      * @param $a_tpl ilTemplate
      */
-    public function insert(ilTemplate $a_tpl) : void
+    public function insert(ilTemplate $a_tpl): void
     {
         global $DIC;
         $lng = $DIC['lng'];
-        
+
         $tpl = new ilTemplate("tpl.prop_singlechoicewizardinput.html", true, true, "Modules/TestQuestionPool");
         $i = 0;
         foreach ($this->values as $value) {
@@ -489,7 +489,7 @@ class ilSingleChoiceWizardInputGUI extends ilTextInputGUI
             $tpl->setVariable("POINTS_TEXT", $lng->txt('points'));
             $tpl->parseCurrentBlock();
         }
-        
+
         $tpl->setVariable("ELEMENT_ID", $this->getPostVar());
         $tpl->setVariable("TEXT_YES", $lng->txt('yes'));
         $tpl->setVariable("TEXT_NO", $lng->txt('no'));
@@ -501,7 +501,7 @@ class ilSingleChoiceWizardInputGUI extends ilTextInputGUI
         $a_tpl->setCurrentBlock("prop_generic");
         $a_tpl->setVariable("PROP_GENERIC", $tpl->get());
         $a_tpl->parseCurrentBlock();
-        
+
         global $DIC;
         $tpl = $DIC['tpl'];
         $tpl->addJavascript("./Services/Form/js/ServiceFormWizardInput.js");

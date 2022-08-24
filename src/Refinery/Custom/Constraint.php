@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -82,7 +84,7 @@ class Constraint implements ConstraintInterface
     /**
      * @inheritDoc
      */
-    final public function accepts($value) : bool
+    final public function accepts($value): bool
     {
         return call_user_func($this->is_ok, $value);
     }
@@ -90,7 +92,7 @@ class Constraint implements ConstraintInterface
     /**
      * @inheritDoc
      */
-    final public function problemWith($value) : ?string
+    final public function problemWith($value): ?string
     {
         if (!$this->accepts($value)) {
             return $this->getErrorMessage($value);
@@ -102,7 +104,7 @@ class Constraint implements ConstraintInterface
     /**
      * @inheritDoc
      */
-    final public function applyTo(Result $result) : Result
+    final public function applyTo(Result $result): Result
     {
         if ($result->isError()) {
             return $result;

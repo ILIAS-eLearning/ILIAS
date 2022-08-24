@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -23,7 +25,6 @@ namespace ILIAS\GlobalScreen\Identification;
  */
 interface ToolIdentificationProviderInterface extends IdentificationProviderInterface
 {
-
     /**
      * @param string $identifier_string this is a identifier which is only known
      *                                  to your component. The GlobalScreen services uses
@@ -39,5 +40,5 @@ interface ToolIdentificationProviderInterface extends IdentificationProviderInte
      * @return IdentificationInterface use this CoreIdentification to put into your
      *                                  GlobalScreen-elements.
      */
-    public function contextAwareIdentifier(string $identifier_string, bool $ignore_context = false) : IdentificationInterface;
+    public function contextAwareIdentifier(string $identifier_string, bool $ignore_context = false): IdentificationInterface;
 }

@@ -46,7 +46,7 @@ class ilContainerFilterUtil
     public function getContainerFieldTitle(
         int $record_id,
         int $field_id
-    ) : string {
+    ): string {
         $lng = $this->lng;
 
         if ($record_id === 0) {
@@ -61,7 +61,7 @@ class ilContainerFilterUtil
      * Get title of record
      * @throws ilException
      */
-    public function getContainerRecordTitle(int $record_id) : string
+    public function getContainerRecordTitle(int $record_id): string
     {
         $lng = $this->lng;
 
@@ -81,7 +81,7 @@ class ilContainerFilterUtil
         int $ref_id,
         string $action,
         bool $admin = false
-    ) : Standard {
+    ): Standard {
         /** @var \ILIAS\DI\Container $DIC */
         global $DIC;
 

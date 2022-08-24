@@ -64,7 +64,7 @@ abstract class ilDataSet
         $this->db = $DIC->database();
         $this->ds_log = ilLoggerFactory::getLogger('ds');
     }
-    
+
     /**
      * Init
      *
@@ -77,14 +77,14 @@ abstract class ilDataSet
      * 						values only, not 4.2.0 (ask for the 4.1.0
      * 						version in ILIAS 4.2.0)
      */
-    final public function init(string $a_entity, string $a_schema_version) : void
+    final public function init(string $a_entity, string $a_schema_version): void
     {
         $this->entity = $a_entity;
         $this->schema_version = $a_schema_version;
         $this->data = array();
     }
-    
-    abstract public function getSupportedVersions() : array;
+
+    abstract public function getSupportedVersions(): array;
 
     /**
      * Get (abstract) types for (abstract) field names.
@@ -93,10 +93,10 @@ abstract class ilDataSet
      * @return	array        types array, e.g.
      * array("field_1" => "text", "field_2" => "integer", ...)
      */
-    abstract protected function getTypes(string $a_entity, string $a_version) : array;
+    abstract protected function getTypes(string $a_entity, string $a_version): array;
 
-    abstract protected function getXmlNamespace(string $a_entity, string $a_schema_version) : string;
-    
+    abstract protected function getXmlNamespace(string $a_entity, string $a_schema_version): string;
+
     /**
      * Read data from DB. This should result in the
      * abstract field structure of the version set in the constructor.
@@ -105,35 +105,35 @@ abstract class ilDataSet
         string $a_entity,
         string $a_version,
         array $a_ids
-    ) : void;
-    
-    public function setExportDirectories(string $a_relative, string $a_absolute) : void
+    ): void;
+
+    public function setExportDirectories(string $a_relative, string $a_absolute): void
     {
         $this->relative_export_dir = $a_relative;
         $this->absolute_export_dir = $a_absolute;
     }
 
-    public function setImportDirectory(string $a_val) : void
+    public function setImportDirectory(string $a_val): void
     {
         $this->import_directory = $a_val;
     }
 
-    public function getImportDirectory() : string
+    public function getImportDirectory(): string
     {
         return $this->import_directory;
     }
 
-    public function setDSPrefix(string $a_val) : void
+    public function setDSPrefix(string $a_val): void
     {
         $this->ds_prefix = $a_val;
     }
 
-    public function getDSPrefix() : string
+    public function getDSPrefix(): string
     {
         return $this->ds_prefix;
     }
 
-    public function getDSPrefixString() : string
+    public function getDSPrefixString(): string
     {
         if ($this->getDSPrefix() !== "") {
             return $this->getDSPrefix() . ":";
@@ -149,9 +149,9 @@ abstract class ilDataSet
         string $a_query,
         bool $a_convert_to_leading_upper = true,
         bool $a_set = true
-    ) : array {
+    ): array {
         $ilDB = $this->db;
-        
+
         $set = $ilDB->query($a_query);
         $this->data = array();
         $ret = [];
@@ -176,7 +176,7 @@ abstract class ilDataSet
     /**
      * Make xyz_abc a XyzAbc string
      */
-    public function convertToLeadingUpper(string $a_str) : string
+    public function convertToLeadingUpper(string $a_str): string
     {
         $a_str = strtoupper(substr($a_str, 0, 1)) . substr($a_str, 1);
         while (($pos = strpos($a_str, "_")) !== false) {
@@ -216,15 +216,15 @@ abstract class ilDataSet
         string $a_field = "",
         bool $a_omit_header = false,
         bool $a_omit_types = false
-    ) : string {
+    ): string {
         $this->dircnt = 1;
-        
+
         // init writer
         $writer = new ilXmlWriter();
         if (!$a_omit_header) {
             $writer->xmlHeader();
         }
-        
+
         // collect namespaces
         $namespaces = $prefixes = array();
         $this->getNamespaces($namespaces, $a_entity, $a_schema_version);
@@ -241,23 +241,23 @@ abstract class ilDataSet
         $this->ds_log->debug("Start writing Dataset, entity: " . $a_entity . ", schema version: " . $a_schema_version .
             ", ids: " . print_r($a_ids, true));
         $writer->xmlStartTag($this->getDSPrefixString() . 'DataSet', $atts);
-        
+
         // add types
         if (!$a_omit_types) {
             $this->ds_log->debug("...write types");
             $this->addTypesXml($writer, $a_entity, $a_schema_version);
         }
-        
+
         // add records
         $this->ds_log->debug("...write records");
         $this->addRecordsXml($writer, $prefixes, $a_entity, $a_schema_version, $a_ids, $a_field);
-        
+
         $writer->xmlEndTag($this->getDSPrefixString() . "DataSet");
 
         return $writer->xmlDumpMem(false);
     }
-    
-    
+
+
     public function addRecordsXml(
         ilXmlWriter $a_writer,
         array $a_prefixes,
@@ -265,7 +265,7 @@ abstract class ilDataSet
         string $a_schema_version,
         array $a_ids,
         ?string $a_field = ""
-    ) : void {
+    ): void {
         $types = $this->getXmlTypes($a_entity, $a_schema_version);
 
         $this->ds_log->debug("...read data");
@@ -319,20 +319,20 @@ abstract class ilDataSet
         string $a_version,
         ?array $a_rec = null,
         ?array $a_ids = null
-    ) : array {
+    ): array {
         return [];
     }
 
     // After xml record writing hook record
-    public function afterXmlRecordWriting(string $a_entity, string $a_version, array $a_set) : void
+    public function afterXmlRecordWriting(string $a_entity, string $a_version, array $a_set): void
     {
     }
 
     // Add types to xml writer
-    private function addTypesXml(ilXmlWriter $a_writer, string $a_entity, string $a_schema_version) : void
+    private function addTypesXml(ilXmlWriter $a_writer, string $a_entity, string $a_schema_version): void
     {
         $types = $this->getXmlTypes($a_entity, $a_schema_version);
-        
+
         // add types of current entity
         if (count($types) > 0) {
             $a_writer->xmlStartTag(
@@ -348,16 +348,16 @@ abstract class ilDataSet
             }
             $a_writer->xmlEndTag($this->getDSPrefixString() . "Types");
         }
-        
+
         // add types of dependent entities
         $deps = $this->getDependencies($a_entity, $a_schema_version, null, null);
         foreach ($deps as $dp => $w) {
             $this->addTypesXml($a_writer, $dp, $a_schema_version);
         }
     }
-    
+
     // Get xml namespaces
-    public function getNamespaces(array &$namespaces, string $a_entity, string $a_schema_version) : void
+    public function getNamespaces(array &$namespaces, string $a_entity, string $a_schema_version): void
     {
         $ns = $this->getXmlNamespace($a_entity, $a_schema_version);
         if ($ns !== "") {
@@ -369,12 +369,12 @@ abstract class ilDataSet
             $this->getNamespaces($namespaces, $dp, $a_schema_version);
         }
     }
-    
+
     /**
      * Get xml record for version
      * @param array  $a_set abstract data record
      */
-    public function getXmlRecord(string $a_entity, string $a_version, array $a_set) : array
+    public function getXmlRecord(string $a_entity, string $a_version, array $a_set): array
     {
         return $a_set;
     }
@@ -383,16 +383,16 @@ abstract class ilDataSet
      * Get xml types
      * @return	array	types array for xml/version set in constructor
      */
-    public function getXmlTypes(string $a_entity, string $a_version) : array
+    public function getXmlTypes(string $a_entity, string $a_version): array
     {
         return $this->getTypes($a_entity, $a_version);
     }
-    
+
     /**
      * Get entity name for xml
      * (may be overwritten)
      */
-    public function getXMLEntityName(string $a_entity, string $a_version) : string
+    public function getXMLEntityName(string $a_entity, string $a_version): string
     {
         return $a_entity;
     }
@@ -400,44 +400,44 @@ abstract class ilDataSet
     /**
      * Get entity tag
      */
-    public function getXMLEntityTag(string $a_entity, string $a_schema_version) : string
+    public function getXMLEntityTag(string $a_entity, string $a_schema_version): string
     {
         return $this->convertToLeadingUpper($a_entity);
     }
-    
-    public function setImport(ilSurveyImporter $a_val) : void
+
+    public function setImport(ilSurveyImporter $a_val): void
     {
         $this->import = $a_val;
     }
-    
-    public function getImport() : ilSurveyImporter
+
+    public function getImport(): ilSurveyImporter
     {
         return $this->import;
     }
 
-    public function setCurrentInstallationId(string $a_val) : void
+    public function setCurrentInstallationId(string $a_val): void
     {
         $this->current_installation_id = $a_val;
     }
 
-    public function getCurrentInstallationId() : string
+    public function getCurrentInstallationId(): string
     {
         return $this->current_installation_id;
     }
-    
+
     /**
      * Build ilias export id
      */
-    protected function createObjectExportId(string $a_type, string $a_id) : string
+    protected function createObjectExportId(string $a_type, string $a_id): string
     {
         return "il_" . IL_INST_ID . "_" . $a_type . "_" . $a_id;
     }
-        
+
     /**
      * Parse export id
      * @return array type, id
      */
-    protected function parseObjectExportId(string $a_id, ?string $a_fallback_id = null) : array
+    protected function parseObjectExportId(string $a_id, ?string $a_fallback_id = null): array
     {
         // ilias export id?
         if (strpos($a_id, "il_") === 0) {
@@ -448,12 +448,12 @@ abstract class ilDataSet
             $inst_id = $parts[1];
             $type = $parts[2];
             $id = $parts[3];
-            
+
             // missing installation ids?
             if (($inst_id == 0 || IL_INST_ID === "0") && !DEVMODE) {
                 return array("type" => self::EXPORT_NO_INST_ID, "id" => $a_fallback_id);
             }
-                            
+
             // same installation?
             if ($inst_id == IL_INST_ID) {
                 // still existing?
@@ -497,6 +497,6 @@ abstract class ilDataSet
         array $a_rec,
         ilImportMapping $a_mapping,
         string $a_schema_version
-    ) : void {
+    ): void {
     }
 }

@@ -27,7 +27,7 @@
  */
 class ilDclRecordListTableGUI extends ilTable2GUI
 {
-    const EXPORT_EXCEL_ASYNC = 10;
+    public const EXPORT_EXCEL_ASYNC = 10;
     /** @var object|ilDclRecordListGUI|null */
     protected ?object $parent_obj;
     protected ilDclTable $table;
@@ -133,18 +133,18 @@ class ilDclRecordListTableGUI extends ilTable2GUI
     /**
      * @description Return array of fields that are currently stored in the filter. Return empty array if no filtering is required.
      */
-    public function getFilter() : array
+    public function getFilter(): array
     {
         return $this->filter;
     }
 
-    public function setRecordData(array $data) : void
+    public function setRecordData(array $data): void
     {
         $this->object_data = $data;
         $this->buildData();
     }
 
-    public function numericOrdering(string $a_field) : bool
+    public function numericOrdering(string $a_field): bool
     {
         return in_array($a_field, $this->numeric_fields);
     }
@@ -152,7 +152,7 @@ class ilDclRecordListTableGUI extends ilTable2GUI
     /**
      * @description Parse data from record objects to an array that is then set to this table with ::setData()
      */
-    private function buildData() : void
+    private function buildData(): void
     {
         $data = array();
         foreach ($this->object_data as $record) {
@@ -233,7 +233,7 @@ class ilDclRecordListTableGUI extends ilTable2GUI
         $this->setData($data);
     }
 
-    protected function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set): void
     {
         $record_obj = $a_set['_record'];
 
@@ -287,7 +287,7 @@ class ilDclRecordListTableGUI extends ilTable2GUI
     /**
      * @description This adds the column for status.
      */
-    protected function getStatus(ilDclBaseRecordModel $record, ilDclBaseFieldModel $field) : string
+    protected function getStatus(ilDclBaseRecordModel $record, ilDclBaseFieldModel $field): string
     {
         $record_field = ilDclCache::getRecordFieldCache($record, $field);
         $return = "";
@@ -302,7 +302,7 @@ class ilDclRecordListTableGUI extends ilTable2GUI
     /**
      * init filters with values from tableview
      */
-    public function initFilterFromTableView() : void
+    public function initFilterFromTableView(): void
     {
         $this->filters = [];
         $this->filter = [];
@@ -329,7 +329,7 @@ class ilDclRecordListTableGUI extends ilTable2GUI
     /**
      * normally initialize filters - used by applyFilter and resetFilter
      */
-    public function initFilter() : void
+    public function initFilter(): void
     {
         foreach ($this->tableview->getFilterableFieldSettings() as $field_set) {
             $field = $field_set->getFieldObject();
@@ -364,7 +364,7 @@ class ilDclRecordListTableGUI extends ilTable2GUI
      * @param string $type
      * @return string
      */
-    public function loadProperty(string $type) : string
+    public function loadProperty(string $type): string
     {
         if ($this->getId() && $this->userId > 0) {
             $tab_prop = new ilTablePropertiesStorageGUI();
@@ -376,7 +376,7 @@ class ilDclRecordListTableGUI extends ilTable2GUI
     /**
      * @description Get the ajax link for displaying the comments in the right panel (to be wrapped in an onclick attr)
      */
-    protected function getCommentsAjaxLink(int $recordId) : string
+    protected function getCommentsAjaxLink(int $recordId): string
     {
         $ajax_hash = ilCommonActionDispatcherGUI::buildAjaxHash(
             1,
@@ -396,7 +396,7 @@ class ilDclRecordListTableGUI extends ilTable2GUI
     public function exportData(
         string $format,
         bool $send = false
-    ) : void {
+    ): void {
         if ($this->dataExists()) {
             $exporter = new ilDclContentExporter(
                 $this->parent_obj->getRefId(),

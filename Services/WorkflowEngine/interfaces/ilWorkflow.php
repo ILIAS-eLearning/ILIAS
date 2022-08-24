@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -124,12 +126,12 @@ interface ilWorkflow
     /**
      * @return integer
      */
-    public function getDbId() : int;
+    public function getDbId(): int;
 
     /**
      * @return bool
      */
-    public function hasDbId() : bool;
+    public function hasDbId(): bool;
 
     /**
      * @return mixed

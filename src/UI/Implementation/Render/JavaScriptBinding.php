@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\UI\Implementation\Render;
 
 /**
@@ -28,16 +30,16 @@ interface JavaScriptBinding
      *
      * This MUST return a new id on every call.
      */
-    public function createId() : string;
+    public function createId(): string;
 
     /**
      * Add some JavaScript-statements to the on-load handler of the page.
      */
-    public function addOnLoadCode(string $code) : void;
+    public function addOnLoadCode(string $code): void;
 
     /**
      * Get all the registered on-load javascript code for the async context, e.g. return all code
      * inside <script> tags
      */
-    public function getOnLoadCodeAsync() : string;
+    public function getOnLoadCodeAsync(): string;
 }

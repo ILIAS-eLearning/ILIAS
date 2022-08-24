@@ -113,7 +113,7 @@ class ilDclReferenceRecordFieldModel extends ilDclBaseRecordFieldModel
      * Will mess with it.
      * @return int[]
      */
-    protected function getReferencesFromString(string $stringValues) : array
+    protected function getReferencesFromString(string $stringValues): array
     {
         $delimiter = strpos($stringValues, '; ') ? '; ' : ', ';
         $slicedStrings = explode($delimiter, $stringValues);
@@ -141,7 +141,7 @@ class ilDclReferenceRecordFieldModel extends ilDclBaseRecordFieldModel
         return $slicedReferences;
     }
 
-    public function getReferenceFromValue(int $value) : int
+    public function getReferenceFromValue(int $value): int
     {
         $field = ilDclCache::getFieldCache($this->getField()->getProperty(ilDclBaseFieldModel::PROP_REFERENCE));
         $table = ilDclCache::getTableCache($field->getTableId());
@@ -160,7 +160,7 @@ class ilDclReferenceRecordFieldModel extends ilDclBaseRecordFieldModel
         return $record_id;
     }
 
-    public function afterClone() : void
+    public function afterClone(): void
     {
         $field_clone = ilDclCache::getCloneOf($this->getField()->getId(), ilDclCache::TYPE_FIELD);
         $record_clone = ilDclCache::getCloneOf($this->getRecord()->getId(), ilDclCache::TYPE_RECORD);

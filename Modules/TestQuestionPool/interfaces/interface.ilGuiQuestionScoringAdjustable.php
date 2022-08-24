@@ -1,4 +1,5 @@
 <?php
+
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -25,13 +26,13 @@ interface ilGuiQuestionScoringAdjustable
     /**
      * Adds the question specific forms parts to a question property form gui.
      */
-    public function populateQuestionSpecificFormPart(ilPropertyFormGUI $form) : ilPropertyFormGUI;
+    public function populateQuestionSpecificFormPart(ilPropertyFormGUI $form): ilPropertyFormGUI;
 
     /**
      * Extracts the question specific values from $_POST and applies them
      * to the data object.
      */
-    public function writeQuestionSpecificPostData(ilPropertyFormGUI $form) : void;
+    public function writeQuestionSpecificPostData(ilPropertyFormGUI $form): void;
 
     /**
      * Returns a list of postvars which will be suppressed in the form output when used in scoring adjustment.
@@ -42,11 +43,11 @@ interface ilGuiQuestionScoringAdjustable
      *
      * @return string[]
      */
-    public function getAfterParticipationSuppressionQuestionPostVars() : array;
+    public function getAfterParticipationSuppressionQuestionPostVars(): array;
 
     /**
      * Returns an html string containing a question specific representation of the answers so far
      * given in the test for use in the right column in the scoring adjustment user interface.
      */
-    public function getAggregatedAnswersView(array $relevant_answers) : string;
+    public function getAggregatedAnswersView(array $relevant_answers): string;
 }

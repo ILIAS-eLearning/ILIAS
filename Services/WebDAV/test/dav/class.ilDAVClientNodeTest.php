@@ -1,4 +1,6 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -20,17 +22,17 @@ use PHPUnit\Framework\TestCase;
 use Sabre\DAV\Exception\Forbidden;
 
 require_once "./Services/WebDAV/test/ilWebDAVTestHelper.php";
- 
+
 class ilDAVClientNodeTest extends TestCase
 {
-    public function testGetNameGetsObjectTitle() : void
+    public function testGetNameGetsObjectTitle(): void
     {
         $webdav_test_helper = new ilWebDAVTestHelper();
         $dav_client = $this->getDAVClientNodeWithExpectationForFunctions();
-        
+
         $this->assertEquals($webdav_test_helper->getClientId(), $dav_client->getName());
     }
-    
+
     /*public function testGetChildWithWellformedSlugContainingRefIdReturnsCorrespondingObject() : void
     {
         $slug = 'ref_7';
@@ -320,11 +322,11 @@ class ilDAVClientNodeTest extends TestCase
                 $this->assertFalse($dav_container->childExists($additional_information['name']));
             }
         } */
-    
-    public function testSetNameThrowsForbiddenError() : void
+
+    public function testSetNameThrowsForbiddenError(): void
     {
         $dav_client = $this->getDAVClientNodeWithExpectationForFunctions();
-        
+
         try {
             $dav_client->setName('My Valid Name');
             $this->assertFalse('This should not happen!');
@@ -332,11 +334,11 @@ class ilDAVClientNodeTest extends TestCase
             $this->assertEquals('It is not possible to change the name of the root', $e->getMessage());
         }
     }
-    
-    public function testCreateFileThrowsForbiddenError() : void
+
+    public function testCreateFileThrowsForbiddenError(): void
     {
         $dav_client = $this->getDAVClientNodeWithExpectationForFunctions();
-        
+
         try {
             $dav_client->createFile('My New File.txt');
             $this->assertFalse('This should not happen!');
@@ -344,11 +346,11 @@ class ilDAVClientNodeTest extends TestCase
             $this->assertEquals('It is not possible to create a file here', $e->getMessage());
         }
     }
-    
-    public function testCreateDirectoryThrowsForbiddenError() : void
+
+    public function testCreateDirectoryThrowsForbiddenError(): void
     {
         $dav_client = $this->getDAVClientNodeWithExpectationForFunctions();
-        
+
         try {
             $dav_client->createDirectory('My New Folder');
             $this->assertFalse('This should not happen!');
@@ -356,11 +358,11 @@ class ilDAVClientNodeTest extends TestCase
             $this->assertEquals('It is not possible to create a directory here', $e->getMessage());
         }
     }
-    
-    public function testDeleteThrowsForbiddenError() : void
+
+    public function testDeleteThrowsForbiddenError(): void
     {
         $dav_client = $this->getDAVClientNodeWithExpectationForFunctions();
-        
+
         try {
             $dav_client->delete();
             $this->assertFalse('This should not happen!');
@@ -368,9 +370,9 @@ class ilDAVClientNodeTest extends TestCase
             $this->assertEquals('It is not possible to delete the root', $e->getMessage());
         }
     }
-    
+
     protected function getDAVClientNodeWithExpectationForFunctions(
-    ) : ilDAVClientNode {
+    ): ilDAVClientNode {
         $webdav_test_helper = new ilWebDAVTestHelper();
         return new ilDAVClientNode($webdav_test_helper->getClientId(), $this->createStub(ilWebDAVObjFactory::class), $this->createStub(ilWebDAVRepositoryHelper::class));
     }

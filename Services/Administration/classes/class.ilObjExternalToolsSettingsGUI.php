@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -42,21 +44,21 @@ class ilObjExternalToolsSettingsGUI extends ilObjectGUI
         $this->ctrl = $DIC->ctrl();
         $this->tpl = $DIC["tpl"];
         $lng = $DIC->language();
-        
+
         $this->type = "extt";
         parent::__construct($a_data, $a_id, $a_call_by_reference, false);
-        
+
         $lng->loadLanguageModule("delic");
         $lng->loadLanguageModule("maps");
         $lng->loadLanguageModule("mathjax");
     }
 
-    public function getAdminTabs() : void
+    public function getAdminTabs(): void
     {
         $this->getTabs();
     }
-    
-    protected function getTabs() : void
+
+    protected function getTabs(): void
     {
         $rbacsystem = $this->rbacsystem;
 
@@ -84,7 +86,7 @@ class ilObjExternalToolsSettingsGUI extends ilObjectGUI
     }
 
 
-    public function editMapsObject() : void
+    public function editMapsObject(): void
     {
         $tpl = $this->tpl;
 
@@ -93,7 +95,7 @@ class ilObjExternalToolsSettingsGUI extends ilObjectGUI
         $tpl->setContent($form->getHTML());
     }
 
-    public function getMapsForm() : ilPropertyFormGUI
+    public function getMapsForm(): ilPropertyFormGUI
     {
         $ilAccess = $this->access;
         $lng = $this->lng;
@@ -105,13 +107,13 @@ class ilObjExternalToolsSettingsGUI extends ilObjectGUI
         $form = new ilPropertyFormGUI();
         $form->setFormAction($ilCtrl->getFormAction($this));
         $form->setTitle($lng->txt("maps_settings"));
-        
+
         // Enable Maps
         $enable = new ilCheckboxInputGUI($lng->txt("maps_enable_maps"), "enable");
         $enable->setChecked(ilMapUtil::isActivated());
         $enable->setInfo($lng->txt("maps_enable_maps_info"));
         $form->addItem($enable);
-        
+
         // Select type
         $types = new ilSelectInputGUI($lng->txt("maps_map_type"), "type");
         $types->setOptions(ilMapUtil::getAvailableMapTypes());
@@ -152,14 +154,14 @@ class ilObjExternalToolsSettingsGUI extends ilObjectGUI
             $form->addCommandButton("saveMaps", $lng->txt("save"));
             $form->addCommandButton("view", $lng->txt("cancel"));
         }
-        
+
         return $form;
     }
 
     /**
      * Save Maps Settings
      */
-    public function saveMapsObject() : void
+    public function saveMapsObject(): void
     {
         $ilCtrl = $this->ctrl;
 
@@ -183,9 +185,9 @@ class ilObjExternalToolsSettingsGUI extends ilObjectGUI
         }
         $ilCtrl->redirect($this, "editMaps");
     }
-    
+
     // init sub tabs
-    public function initSubTabs(string $a_cmd) : void
+    public function initSubTabs(string $a_cmd): void
     {
         $maps = $a_cmd === 'editMaps';
         $mathjax = $a_cmd === 'editMathJax';
@@ -207,8 +209,8 @@ class ilObjExternalToolsSettingsGUI extends ilObjectGUI
             $mathjax
         );
     }
-    
-    public function executeCommand() : void
+
+    public function executeCommand(): void
     {
         $next_class = $this->ctrl->getNextClass($this);
         $cmd = $this->ctrl->getCmd();
@@ -217,7 +219,7 @@ class ilObjExternalToolsSettingsGUI extends ilObjectGUI
         if (!$this->rbacsystem->checkAccess("visible,read", $this->object->getRefId())) {
             $this->ilias->raiseError($this->lng->txt("permission_denied"), $this->ilias->error_obj->MESSAGE);
         }
-        
+
         switch ($next_class) {
 
             case 'ilmathjaxsettingsgui':
@@ -230,7 +232,7 @@ class ilObjExternalToolsSettingsGUI extends ilObjectGUI
                 $this->tabs_gui->setTabActive('ecs_server_settings');
                 $this->ctrl->forwardCommand(new ilECSSettingsGUI());
                 break;
-            
+
             case 'ilpermissiongui':
                 $perm_gui = new ilPermissionGUI($this);
                 $this->ctrl->forwardCommand($perm_gui);

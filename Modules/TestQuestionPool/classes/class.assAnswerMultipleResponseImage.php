@@ -67,7 +67,7 @@ class ASS_AnswerMultipleResponseImage extends ASS_AnswerMultipleResponse
     * @access public
     * @see $image
     */
-    public function getImage() : ?string
+    public function getImage(): ?string
     {
         return $this->image;
     }
@@ -81,7 +81,7 @@ class ASS_AnswerMultipleResponseImage extends ASS_AnswerMultipleResponse
     * @access public
     * @see $image
     */
-    public function setImage($a_image = 0) : void
+    public function setImage($a_image = 0): void
     {
         $this->image = $a_image;
     }

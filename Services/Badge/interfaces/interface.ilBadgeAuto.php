@@ -25,5 +25,5 @@ interface ilBadgeAuto
     /**
      * Evaluate if given user has earned badge
      */
-    public function evaluate(int $a_user_id, array $a_params, array $a_config) : bool;
+    public function evaluate(int $a_user_id, array $a_params, array $a_config): bool;
 }

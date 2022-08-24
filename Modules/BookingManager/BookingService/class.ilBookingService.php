@@ -31,11 +31,11 @@ class ilBookingService
 
         $this->db = $db ?? $DIC->database();
     }
-    
+
     public function cloneSettings(
         int $source_obj_id,
         int $target_obj_id
-    ) : void {
+    ): void {
         $use_book_repo = new ilObjUseBookDBRepository($this->db);
         $book_ref_ids = $use_book_repo->getUsedBookingPools($source_obj_id);
         $use_book_repo->updateUsedBookingPools($target_obj_id, $book_ref_ids);

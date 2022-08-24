@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /******************************************************************************
  *
@@ -33,7 +35,7 @@ class ilNotificationDatabaseHandler
     /**
      * @param array<string, ilNotificationParameter> $vars
      */
-    public static function getTranslatedLanguageVariablesOfNotificationParameters(array $vars = []) : array
+    public static function getTranslatedLanguageVariablesOfNotificationParameters(array $vars = []): array
     {
         global $DIC;
 
@@ -73,7 +75,7 @@ class ilNotificationDatabaseHandler
     /**
      * @param array<string, ilNotificationParameter> $vars
      */
-    protected static function fillPlaceholders(array $results, array $vars, array $langVarToTypeDict) : array
+    protected static function fillPlaceholders(array $results, array $vars, array $langVarToTypeDict): array
     {
         $pattern_old = '/##(.+?)##/im';
         $pattern = '/\[(.+?)\]/im';
@@ -101,7 +103,7 @@ class ilNotificationDatabaseHandler
         return $results;
     }
 
-    protected static function findPlaceholders(string $pattern, string $translation) : array
+    protected static function findPlaceholders(string $pattern, string $translation): array
     {
         $foundPlaceholders = [];
         preg_match_all($pattern, $translation, $foundPlaceholders);
@@ -112,7 +114,7 @@ class ilNotificationDatabaseHandler
      * @param string[] $foundPlaceholders
      * @param string[] $params
      */
-    private static function replaceFields(string $string, array $foundPlaceholders, array $params, string $startTag, string $endTage) : string
+    private static function replaceFields(string $string, array $foundPlaceholders, array $params, string $startTag, string $endTage): string
     {
         $result = $string;
         foreach ($foundPlaceholders as $placeholder) {
@@ -126,7 +128,7 @@ class ilNotificationDatabaseHandler
         return $result;
     }
 
-    public static function setUserConfig(int $userid, array $configArray) : void
+    public static function setUserConfig(int $userid, array $configArray): void
     {
         global $DIC;
 
@@ -142,7 +144,7 @@ class ilNotificationDatabaseHandler
 
         $types = array('integer');
         $values = array($userid);
-        
+
         // delete old settings
         $ilDB->manipulateF($query, $types, $values);
 
@@ -168,7 +170,7 @@ class ilNotificationDatabaseHandler
      *
      * @return string[][]
      */
-    public static function loadUserConfig(int $userid) : array
+    public static function loadUserConfig(int $userid): array
     {
         global $DIC;
 
@@ -193,7 +195,7 @@ class ilNotificationDatabaseHandler
         return $result;
     }
 
-    public static function enqueueByUsers(ilNotificationConfig $notification, array $userids) : void
+    public static function enqueueByUsers(ilNotificationConfig $notification, array $userids): void
     {
         if (!$userids) {
             return;
@@ -219,7 +221,7 @@ class ilNotificationDatabaseHandler
         }
     }
 
-    public static function enqueueByListener(ilNotificationConfig $notification, int $ref_id) : void
+    public static function enqueueByListener(ilNotificationConfig $notification, int $ref_id): void
     {
         global $DIC;
 
@@ -238,7 +240,7 @@ class ilNotificationDatabaseHandler
         $ilDB->manipulateF($query, $types, $values);
     }
 
-    public static function storeNotification(ilNotificationConfig $notification) : int
+    public static function storeNotification(ilNotificationConfig $notification): int
     {
         global $DIC;
 
@@ -257,7 +259,7 @@ class ilNotificationDatabaseHandler
         return $id;
     }
 
-    public static function removeNotification(int $id) : void
+    public static function removeNotification(int $id): void
     {
         global $DIC;
 
@@ -273,7 +275,7 @@ class ilNotificationDatabaseHandler
     /**
      * @return int[]
      */
-    public static function getUsersByListener(string $module, int $sender_id) : array
+    public static function getUsersByListener(string $module, int $sender_id): array
     {
         global $DIC;
 
@@ -292,7 +294,7 @@ class ilNotificationDatabaseHandler
         return $users;
     }
 
-    public static function disableListeners(string $module, int $sender_id) : void
+    public static function disableListeners(string $module, int $sender_id): void
     {
         global $DIC;
 
@@ -304,8 +306,8 @@ class ilNotificationDatabaseHandler
 
         $ilDB->manipulateF($query, $types, $values);
     }
-    
-    public static function enableListeners(string $module, $sender_id, array $users = []) : void
+
+    public static function enableListeners(string $module, $sender_id, array $users = []): void
     {
         global $DIC;
 
@@ -323,7 +325,7 @@ class ilNotificationDatabaseHandler
         $ilDB->manipulateF($query, $types, $values);
     }
 
-    public static function registerChannel(string $name, string $title, string $description, string $class, string $classfile, string $config_type) : void
+    public static function registerChannel(string $name, string $title, string $description, string $class, string $classfile, string $config_type): void
     {
         global $DIC;
 
@@ -342,7 +344,7 @@ class ilNotificationDatabaseHandler
         );
     }
 
-    public static function registerType(string $name, string $title, string $description, string $notification_group, string $config_type) : void
+    public static function registerType(string $name, string $title, string $description, string $notification_group, string $config_type): void
     {
         global $DIC;
 
@@ -363,7 +365,7 @@ class ilNotificationDatabaseHandler
     /**
      * @return string[][]
      */
-    public static function getAvailableChannels(array $config_types = [], bool $includeDisabled = false) : array
+    public static function getAvailableChannels(array $config_types = [], bool $includeDisabled = false): array
     {
         global $DIC;
 
@@ -384,7 +386,7 @@ class ilNotificationDatabaseHandler
             if (!$includeDisabled && !$settings->get('enable_' . $row['channel_name'])) {
                 continue;
             }
-            
+
             $result[$row['channel_name']] = array(
                 'name' => $row['channel_name'],
                 'title' => $row['title'],
@@ -401,7 +403,7 @@ class ilNotificationDatabaseHandler
     /**
      * @return string[][]
      */
-    public static function getAvailableTypes(array $config_types = []) : array
+    public static function getAvailableTypes(array $config_types = []): array
     {
         global $DIC;
 
@@ -430,7 +432,7 @@ class ilNotificationDatabaseHandler
         return $result;
     }
 
-    public static function setConfigTypeForType(string $type_name, string $config_name) : void
+    public static function setConfigTypeForType(string $type_name, string $config_name): void
     {
         global $DIC;
 
@@ -442,7 +444,7 @@ class ilNotificationDatabaseHandler
         $ilDB->manipulateF($query, $types, $values);
     }
 
-    public static function setConfigTypeForChannel(string $channel_name, string $config_name) : void
+    public static function setConfigTypeForChannel(string $channel_name, string $config_name): void
     {
         global $DIC;
 
@@ -459,7 +461,7 @@ class ilNotificationDatabaseHandler
      *
      * @return bool[]
      */
-    public static function getUsersWithCustomConfig(array $userid) : array
+    public static function getUsersWithCustomConfig(array $userid): array
     {
         global $DIC;
 

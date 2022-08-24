@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /******************************************************************************
  *
@@ -60,7 +62,7 @@ class ilCategoryImportParser extends ilSaxParser
         parent::__construct($a_xml_file);
     }
 
-    public function setHandlers($a_xml_parser) : void
+    public function setHandlers($a_xml_parser): void
     {
         xml_set_object($a_xml_parser, $this);
         xml_set_element_handler($a_xml_parser, 'handlerBeginTag', 'handlerEndTag');
@@ -72,7 +74,7 @@ class ilCategoryImportParser extends ilSaxParser
         string $type,
         string $name,
         array $attr = null
-    ) : string {
+    ): string {
         $tag = "<";
 
         if ($type === "end") {
@@ -98,7 +100,7 @@ class ilCategoryImportParser extends ilSaxParser
      * @param array  $a_attribs
      * @return void
      */
-    public function handlerBeginTag($a_xml_parser, string $a_name, array $a_attribs) : void
+    public function handlerBeginTag($a_xml_parser, string $a_name, array $a_attribs): void
     {
         switch ($a_name) {
             case "Category":
@@ -125,7 +127,7 @@ class ilCategoryImportParser extends ilSaxParser
      * @param string $a_name
      * @return void
      */
-    public function handlerEndTag($a_xml_parser, string $a_name) : void
+    public function handlerEndTag($a_xml_parser, string $a_name): void
     {
         switch ($a_name) {
             case "Category":
@@ -166,7 +168,7 @@ class ilCategoryImportParser extends ilSaxParser
      * @param string $a_data
      * @return void
      */
-    public function handlerCharacterData($a_xml_parser, string $a_data) : void
+    public function handlerCharacterData($a_xml_parser, string $a_data): void
     {
         // i don't know why this is necessary, but
         // the parser seems to convert "&gt;" to ">" and "&lt;" to "<"

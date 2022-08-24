@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 require_once(__DIR__ . "/../../../../libs/composer/vendor/autoload.php");
 require_once(__DIR__ . "/../../Base.php");
 
@@ -28,36 +30,36 @@ use ILIAS\UI\Implementation\Component\SignalGenerator;
  */
 class PanelSecondaryLegacyTest extends ILIAS_UI_TestBase
 {
-    public function getUIFactory() : NoUIFactory
+    public function getUIFactory(): NoUIFactory
     {
-        return new class extends NoUIFactory {
-            public function legacyPanel(string $title, C\Legacy\Legacy $content) : I\Component\Panel\Secondary\Legacy
+        return new class () extends NoUIFactory {
+            public function legacyPanel(string $title, C\Legacy\Legacy $content): I\Component\Panel\Secondary\Legacy
             {
                 return new I\Component\Panel\Secondary\Legacy($title, $content);
             }
 
-            public function legacy(string $content) : C\Legacy\Legacy
+            public function legacy(string $content): C\Legacy\Legacy
             {
                 $f = new I\Component\Legacy\Factory(new I\Component\SignalGenerator());
                 return $f->legacy($content);
             }
 
-            public function dropdown() : C\Dropdown\Factory
+            public function dropdown(): C\Dropdown\Factory
             {
                 return new I\Component\Dropdown\Factory();
             }
 
-            public function viewControl() : C\ViewControl\Factory
+            public function viewControl(): C\ViewControl\Factory
             {
                 return new I\Component\ViewControl\Factory(new SignalGenerator());
             }
 
-            public function button() : C\Button\Factory
+            public function button(): C\Button\Factory
             {
                 return new I\Component\Button\Factory();
             }
 
-            public function symbol() : C\Symbol\Factory
+            public function symbol(): C\Symbol\Factory
             {
                 return new I\Component\Symbol\Factory(
                     new I\Component\Symbol\Icon\Factory(),
@@ -68,14 +70,14 @@ class PanelSecondaryLegacyTest extends ILIAS_UI_TestBase
         };
     }
 
-    protected function cleanHTML(string $html) : string
+    protected function cleanHTML(string $html): string
     {
         $html = str_replace(["\n", "\t"], "", $html);
 
         return trim($html);
     }
 
-    public function test_implements_factory_interface() : void
+    public function test_implements_factory_interface(): void
     {
         $legacy = $this->getUIFactory()->legacy("Legacy content");
         $secondary_panel = $this->getUIFactory()->legacyPanel("List Title", $legacy);
@@ -83,7 +85,7 @@ class PanelSecondaryLegacyTest extends ILIAS_UI_TestBase
         $this->assertInstanceOf("ILIAS\\UI\\Component\\Panel\\Secondary\\Legacy", $secondary_panel);
     }
 
-    public function test_get_title() : void
+    public function test_get_title(): void
     {
         $legacy = $this->getUIFactory()->legacy("Legacy content");
         $secondary_panel = $this->getUIFactory()->legacyPanel("Title", $legacy);
@@ -91,7 +93,7 @@ class PanelSecondaryLegacyTest extends ILIAS_UI_TestBase
         $this->assertEquals("Title", $secondary_panel->getTitle());
     }
 
-    public function test_get_legacy_component() : void
+    public function test_get_legacy_component(): void
     {
         $legacy = $this->getUIFactory()->legacy("Legacy content");
         $secondary_panel = $this->getUIFactory()->legacyPanel("title", $legacy);
@@ -99,7 +101,7 @@ class PanelSecondaryLegacyTest extends ILIAS_UI_TestBase
         $this->assertEquals($secondary_panel->getLegacyComponent(), $legacy);
     }
 
-    public function test_with_actions() : void
+    public function test_with_actions(): void
     {
         $legacy = $this->getUIFactory()->legacy("Legacy content");
         $actions = $this->getUIFactory()->dropdown()->standard(array(
@@ -113,7 +115,7 @@ class PanelSecondaryLegacyTest extends ILIAS_UI_TestBase
         $this->assertEquals($secondary_panel->getActions(), $actions);
     }
 
-    public function test_without_viewcontrols() : void
+    public function test_without_viewcontrols(): void
     {
         $legacy = $this->getUIFactory()->legacy("Legacy content");
         $secondary_panel = $this->getUIFactory()->legacyPanel("title", $legacy);
@@ -122,7 +124,7 @@ class PanelSecondaryLegacyTest extends ILIAS_UI_TestBase
         $this->assertEquals(null, $array_vc);
     }
 
-    public function test_with_sortation_viewcontrol() : void
+    public function test_with_sortation_viewcontrol(): void
     {
         $legacy = $this->getUIFactory()->legacy("Legacy content");
         $sort_options = array(
@@ -140,7 +142,7 @@ class PanelSecondaryLegacyTest extends ILIAS_UI_TestBase
         $this->assertEquals($array_vc[0], $sortation);
     }
 
-    public function test_with_pagination_viewcontrol() : void
+    public function test_with_pagination_viewcontrol(): void
     {
         $legacy = $this->getUIFactory()->legacy("Legacy content");
         $pagination = $this->getUIFactory()->viewControl()->pagination()
@@ -157,7 +159,7 @@ class PanelSecondaryLegacyTest extends ILIAS_UI_TestBase
         $this->assertEquals($array_vc[0], $pagination);
     }
 
-    public function test_with_section_viewcontrol() : void
+    public function test_with_section_viewcontrol(): void
     {
         $legacy = $this->getUIFactory()->legacy("Legacy content");
         $back = $this->getUIFactory()->button()->standard("previous", "http://www.ilias.de");
@@ -175,7 +177,7 @@ class PanelSecondaryLegacyTest extends ILIAS_UI_TestBase
 
     //RENDER
 
-    public function test_render_with_actions() : void
+    public function test_render_with_actions(): void
     {
         $legacy = $this->getUIFactory()->legacy("Legacy content");
         $actions = $this->getUIFactory()->dropdown()->standard(array(
@@ -209,7 +211,7 @@ EOT;
         );
     }
 
-    public function test_render_with_sortation() : void
+    public function test_render_with_sortation(): void
     {
         $legacy = $this->getUIFactory()->legacy("Legacy content");
         $sort_options = array(
@@ -249,7 +251,7 @@ EOT;
         );
     }
 
-    public function test_render_with_pagination() : void
+    public function test_render_with_pagination(): void
     {
         $legacy = $this->getUIFactory()->legacy("Legacy content");
 
@@ -297,7 +299,7 @@ EOT;
         );
     }
 
-    public function test_render_with_section() : void
+    public function test_render_with_section(): void
     {
         $legacy = $this->getUIFactory()->legacy("Legacy content");
         $back = $this->getUIFactory()->button()->standard("previous", "http://www.ilias.de");
@@ -337,7 +339,7 @@ EOT;
         );
     }
 
-    public function test_render_with_footer() : void
+    public function test_render_with_footer(): void
     {
         $legacy = $this->getUIFactory()->legacy("Legacy content");
         $footer_shy_button = $this->getUIFactory()->button()->shy("Action", "");
@@ -366,7 +368,7 @@ EOT;
         );
     }
 
-    public function test_render_with_no_header() : void
+    public function test_render_with_no_header(): void
     {
         $legacy = $this->getUIFactory()->legacy("Legacy content");
 

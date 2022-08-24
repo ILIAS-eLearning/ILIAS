@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\UI\Implementation\Component\Layout\Page;
 
 use ILIAS\UI\Component\Breadcrumbs\Breadcrumbs;
@@ -57,7 +59,7 @@ class Standard implements Page\Standard
     protected array $system_infos = [];
     protected string $text_direction = "ltr";
     protected array $meta_data = [];
-    
+
     public function __construct(
         array $content,
         ?MetaBar $metabar = null,
@@ -92,7 +94,7 @@ class Standard implements Page\Standard
     /**
      * @inheritDoc
      */
-    public function withMetabar(MetaBar $meta_bar) : Page\Standard
+    public function withMetabar(MetaBar $meta_bar): Page\Standard
     {
         $clone = clone $this;
         $clone->metabar = $meta_bar;
@@ -102,28 +104,28 @@ class Standard implements Page\Standard
     /**
      * @inheritDoc
      */
-    public function withMainbar(MainBar $main_bar) : Page\Standard
+    public function withMainbar(MainBar $main_bar): Page\Standard
     {
         $clone = clone $this;
         $clone->mainbar = $main_bar;
         return $clone;
     }
 
-    public function withLogo(Image $logo) : Page\Standard
+    public function withLogo(Image $logo): Page\Standard
     {
         $clone = clone $this;
         $clone->logo = $logo;
         return $clone;
     }
 
-    public function withResponsiveLogo(Image $logo) : Page\Standard
+    public function withResponsiveLogo(Image $logo): Page\Standard
     {
         $clone = clone $this;
         $clone->responsive_logo = $logo;
         return $clone;
     }
 
-    public function withFaviconPath(string $path) : Standard
+    public function withFaviconPath(string $path): Standard
     {
         $clone = clone $this;
         $clone->favicon_path = $path;
@@ -133,7 +135,7 @@ class Standard implements Page\Standard
     /**
      * @inheritDoc
      */
-    public function withFooter(Footer $footer) : Page\Standard
+    public function withFooter(Footer $footer): Page\Standard
     {
         $clone = clone $this;
         $clone->footer = $footer;
@@ -143,7 +145,7 @@ class Standard implements Page\Standard
     /**
      * @inheritDoc
      */
-    public function hasMetabar() : bool
+    public function hasMetabar(): bool
     {
         return ($this->metabar instanceof MetaBar);
     }
@@ -151,7 +153,7 @@ class Standard implements Page\Standard
     /**
      * @inheritDoc
      */
-    public function hasMainbar() : bool
+    public function hasMainbar(): bool
     {
         return ($this->mainbar instanceof MainBar);
     }
@@ -159,17 +161,17 @@ class Standard implements Page\Standard
     /**
      * @inheritDoc
      */
-    public function hasLogo() : bool
+    public function hasLogo(): bool
     {
         return ($this->logo instanceof Image);
     }
 
-    public function hasResponsiveLogo() : bool
+    public function hasResponsiveLogo(): bool
     {
         return ($this->responsive_logo instanceof Image);
     }
 
-    public function hasFooter() : bool
+    public function hasFooter(): bool
     {
         return ($this->footer instanceof Footer);
     }
@@ -177,7 +179,7 @@ class Standard implements Page\Standard
     /**
      * @inheritdoc
      */
-    public function getContent() : array
+    public function getContent(): array
     {
         return $this->content;
     }
@@ -185,7 +187,7 @@ class Standard implements Page\Standard
     /**
      * @inheritdoc
      */
-    public function getMetabar() : ?MetaBar
+    public function getMetabar(): ?MetaBar
     {
         return $this->metabar;
     }
@@ -193,7 +195,7 @@ class Standard implements Page\Standard
     /**
      * @inheritdoc
      */
-    public function getMainbar() : ?MainBar
+    public function getMainbar(): ?MainBar
     {
         return $this->mainbar;
     }
@@ -201,7 +203,7 @@ class Standard implements Page\Standard
     /**
      * @inheritdoc
      */
-    public function getBreadcrumbs() : ?Breadcrumbs
+    public function getBreadcrumbs(): ?Breadcrumbs
     {
         return $this->breadcrumbs;
     }
@@ -209,123 +211,123 @@ class Standard implements Page\Standard
     /**
      * @inheritdoc
      */
-    public function getLogo() : ?Image
+    public function getLogo(): ?Image
     {
         return $this->logo;
     }
 
-    public function getResponsiveLogo() : ?Image
+    public function getResponsiveLogo(): ?Image
     {
         return $this->responsive_logo;
     }
 
-    public function getFaviconPath() : string
+    public function getFaviconPath(): string
     {
         return $this->favicon_path;
     }
 
-    public function getFooter() : ?Footer
+    public function getFooter(): ?Footer
     {
         return $this->footer;
     }
 
-    public function withHeaders(bool $use_headers) : Page\Standard
+    public function withHeaders(bool $use_headers): Page\Standard
     {
         $clone = clone $this;
         $clone->with_headers = $use_headers;
         return $clone;
     }
 
-    public function getWithHeaders() : bool
+    public function getWithHeaders(): bool
     {
         return $this->with_headers;
     }
 
-    public function getIsUIDemo() : bool
+    public function getIsUIDemo(): bool
     {
         return $this->ui_demo;
     }
 
-    public function withUIDemo(bool $switch = true) : Page\Standard
+    public function withUIDemo(bool $switch = true): Page\Standard
     {
         $clone = clone $this;
         $clone->ui_demo = $switch;
         return $clone;
     }
 
-    public function withTitle(string $title) : Page\Standard
+    public function withTitle(string $title): Page\Standard
     {
         $clone = clone $this;
         $clone->title = $title;
         return $clone;
     }
 
-    public function getTitle() : string
+    public function getTitle(): string
     {
         return $this->title;
     }
 
-    public function withShortTitle(string $title) : Page\Standard
+    public function withShortTitle(string $title): Page\Standard
     {
         $clone = clone $this;
         $clone->short_title = $title;
         return $clone;
     }
 
-    public function getShortTitle() : string
+    public function getShortTitle(): string
     {
         return $this->short_title;
     }
 
-    public function withViewTitle(string $title) : Page\Standard
+    public function withViewTitle(string $title): Page\Standard
     {
         $clone = clone $this;
         $clone->view_title = $title;
         return $clone;
     }
 
-    public function getViewTitle() : string
+    public function getViewTitle(): string
     {
         return $this->view_title;
     }
 
-    public function withModeInfo(ModeInfo $mode_info) : Page\Standard
+    public function withModeInfo(ModeInfo $mode_info): Page\Standard
     {
         $clone = clone $this;
         $clone->mode_info = $mode_info;
         return $clone;
     }
 
-    public function getModeInfo() : ?ModeInfo
+    public function getModeInfo(): ?ModeInfo
     {
         return $this->mode_info;
     }
 
-    public function hasModeInfo() : bool
+    public function hasModeInfo(): bool
     {
         return $this->mode_info instanceof ModeInfo;
     }
 
-    public function withNoFooter() : Page\Standard
+    public function withNoFooter(): Page\Standard
     {
         $clone = clone $this;
         $clone->footer = null;
         return $clone;
     }
-    
-    public function withAdditionalMetaDatum(string $key, string $value) : Page\Standard
+
+    public function withAdditionalMetaDatum(string $key, string $value): Page\Standard
     {
         $clone = clone $this;
         $clone->meta_data[$key] = $value;
         return $clone;
     }
-    
-    public function getMetaData() : array
+
+    public function getMetaData(): array
     {
         return $this->meta_data;
     }
-    
-    public function withSystemInfos(array $system_infos) : Page\Standard
+
+    public function withSystemInfos(array $system_infos): Page\Standard
     {
         $this->checkArgListElements("system_infos", $system_infos, [SystemInfo::class]);
         $clone = clone $this;
@@ -333,18 +335,18 @@ class Standard implements Page\Standard
         return $clone;
     }
 
-    public function getSystemInfos() : array
+    public function getSystemInfos(): array
     {
         return $this->system_infos;
     }
 
-    public function hasSystemInfos() : bool
+    public function hasSystemInfos(): bool
     {
         return count($this->system_infos) > 0;
     }
 
 
-    public function withTextDirection(string $text_direction) : Page\Standard
+    public function withTextDirection(string $text_direction): Page\Standard
     {
         $this->checkArgIsElement(
             "Text Direction",
@@ -357,17 +359,17 @@ class Standard implements Page\Standard
         return $clone;
     }
 
-    public function getTextDirection() : string
+    public function getTextDirection(): string
     {
         return $this->text_direction;
     }
 
-    public function hasOverlay() : bool
+    public function hasOverlay(): bool
     {
         return $this->overlay instanceof Container;
     }
 
-    public function getOverlay() : ?Container
+    public function getOverlay(): ?Container
     {
         return $this->overlay;
     }

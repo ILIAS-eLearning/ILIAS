@@ -23,7 +23,7 @@
  */
 class ilDclTextRecordQueryObject extends ilDclRecordQueryObject
 {
-    public function applyCustomSorting(ilDclBaseFieldModel $field, array $all_records, $direction = 'asc') : array
+    public function applyCustomSorting(ilDclBaseFieldModel $field, array $all_records, $direction = 'asc'): array
     {
         $sort_array = array();
         foreach ($all_records as $id) {

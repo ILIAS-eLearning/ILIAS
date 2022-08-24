@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -27,5 +29,5 @@ interface ilAppEventListener
     * @param	string $a_event     event e.g. "createUser", "updateUser", "deleteUser", ...
     * @param	array  $a_parameter parameter array (assoc), array("name" => ..., "phone_office" => ...)
     */
-    public static function handleEvent(string $a_component, string $a_event, array $a_parameter) : void;
+    public static function handleEvent(string $a_component, string $a_event, array $a_parameter): void;
 }

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,16 +17,16 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * Provides Role actions.
  */
 class ilLearningSequenceRoles
 {
-    const ROLE_LS_ADMIN = "il_lso_admin";
-    const ROLE_LS_MEMBER = "il_lso_member";
+    public const ROLE_LS_ADMIN = "il_lso_admin";
+    public const ROLE_LS_MEMBER = "il_lso_member";
 
-    const TYPE_PORTFOLIO = "prtf";
+    public const TYPE_PORTFOLIO = "prtf";
 
     protected int $ref_id;
     protected int $obj_id;
@@ -62,7 +64,7 @@ class ilLearningSequenceRoles
         $this->local_roles = array();
     }
 
-    public function initDefaultRoles() : void
+    public function initDefaultRoles(): void
     {
         ilObjRole::createDefaultRole(
             self::ROLE_LS_ADMIN . '_' . $this->ref_id,
@@ -82,7 +84,7 @@ class ilLearningSequenceRoles
     /**
     * @return array<string, int>
     */
-    public function getLocalLearningSequenceRoles(bool $translate = false) : array
+    public function getLocalLearningSequenceRoles(bool $translate = false): array
     {
         if (count($this->local_roles) == 0) {
             $role_ids = $this->rbacreview->getRolesOfRoleFolder(
@@ -107,24 +109,24 @@ class ilLearningSequenceRoles
         return $this->local_roles;
     }
 
-    public function getDefaultMemberRole() : int
+    public function getDefaultMemberRole(): int
     {
         $local_ls_roles = $this->getLocalLearningSequenceRoles();
         return $local_ls_roles[self::ROLE_LS_MEMBER . "_" . $this->ref_id];
     }
 
-    public function getDefaultAdminRole() : int
+    public function getDefaultAdminRole(): int
     {
         $local_ls_roles = $this->getLocalLearningSequenceRoles();
         return $local_ls_roles[self::ROLE_LS_ADMIN . "_" . $this->ref_id];
     }
 
-    public function addLSMember(int $user_id, int $role) : bool
+    public function addLSMember(int $user_id, int $role): bool
     {
         return $this->join($user_id, $role);
     }
 
-    public function join(int $user_id, int $role = null) : bool
+    public function join(int $user_id, int $role = null): bool
     {
         if (is_null($role)) {
             $role = $this->getDefaultMemberRole();
@@ -133,7 +135,7 @@ class ilLearningSequenceRoles
         return true;
     }
 
-    public function leave(int $user_id) : bool
+    public function leave(int $user_id): bool
     {
         $roles = $this->participants::getMemberRoles($this->ref_id);
 
@@ -147,7 +149,7 @@ class ilLearningSequenceRoles
     /**
      * @return array<int>
      */
-    public function getLearningSequenceAdminIds() : array
+    public function getLearningSequenceAdminIds(): array
     {
         $users = array();
         foreach ($this->rbacreview->assignedUsers($this->getDefaultAdminRole()) as $admin_id) {
@@ -160,7 +162,7 @@ class ilLearningSequenceRoles
     /**
      * @return array<string, int>|[]
      */
-    public function getDefaultLearningSequenceRoles(string $lso_id) : array
+    public function getDefaultLearningSequenceRoles(string $lso_id): array
     {
         if (strlen($lso_id) == 0) {
             $lso_id = $this->ref_id;
@@ -187,7 +189,7 @@ class ilLearningSequenceRoles
         return $default_roles;
     }
 
-    protected function getRoleObject(int $obj_id) : ?\ilObject
+    protected function getRoleObject(int $obj_id): ?\ilObject
     {
         return ilObjectFactory::getInstanceByObjId($obj_id);
     }
@@ -197,7 +199,7 @@ class ilLearningSequenceRoles
      * @param string[] $columns
      * @return array<int|string, array>
      */
-    public function readMemberData(array $user_ids, array $selected_columns = null) : array
+    public function readMemberData(array $user_ids, array $selected_columns = null): array
     {
         $portfolio_enabled = $this->isPortfolio($selected_columns);
         $tracking_enabled = $this->isTrackingEnabled();
@@ -277,7 +279,7 @@ class ilLearningSequenceRoles
         return $members;
     }
 
-    protected function isTrackingEnabled() : bool
+    protected function isTrackingEnabled(): bool
     {
         return
             ilObjUserTracking::_enabledLearningProgress() &&
@@ -285,7 +287,7 @@ class ilLearningSequenceRoles
         ;
     }
 
-    protected function isPortfolio(array $columns = null) : bool
+    protected function isPortfolio(array $columns = null): bool
     {
         if (is_null($columns)) {
             return false;
@@ -293,12 +295,12 @@ class ilLearningSequenceRoles
         return in_array(self::TYPE_PORTFOLIO, $columns);
     }
 
-    public function isMember(int $usr_id) : bool
+    public function isMember(int $usr_id): bool
     {
         return $this->participants->isMember($usr_id);
     }
 
-    public function isCompletedByUser(int $usr_id) : bool
+    public function isCompletedByUser(int $usr_id): bool
     {
         ilLPStatusWrapper::_updateStatus($this->obj_id, $usr_id);
         $tracking_active = ilObjUserTracking::_enabledLearningProgress();

@@ -24,7 +24,6 @@
  */
 class ilDclTableFieldSetting extends ActiveRecord
 {
-
     /**
      * @var int
      * @db_has_field        true
@@ -70,57 +69,57 @@ class ilDclTableFieldSetting extends ActiveRecord
     /**
      * @description Return the Name of your Database Table
      */
-    public static function returnDbTableName() : string
+    public static function returnDbTableName(): string
     {
         return "il_dcl_tfield_set";
     }
 
-    public function getId() : int
+    public function getId(): int
     {
         return $this->id;
     }
 
-    public function setId(int $id) : void
+    public function setId(int $id): void
     {
         $this->id = $id;
     }
 
-    public function getTableId() : int
+    public function getTableId(): int
     {
         return $this->table_id;
     }
 
-    public function setTableId(int $table_id) : void
+    public function setTableId(int $table_id): void
     {
         $this->table_id = $table_id;
     }
 
-    public function getField() : string
+    public function getField(): string
     {
         return $this->field;
     }
 
-    public function setField(string $field) : void
+    public function setField(string $field): void
     {
         $this->field = $field;
     }
 
-    public function getFieldOrder() : int
+    public function getFieldOrder(): int
     {
         return $this->field_order;
     }
 
-    public function setFieldOrder(int $field_order) : void
+    public function setFieldOrder(int $field_order): void
     {
         $this->field_order = $field_order;
     }
 
-    public function isExportable() : bool
+    public function isExportable(): bool
     {
         return $this->exportable;
     }
 
-    public function setExportable(bool $exportable) : void
+    public function setExportable(bool $exportable): void
     {
         $this->exportable = $exportable;
     }
@@ -128,7 +127,7 @@ class ilDclTableFieldSetting extends ActiveRecord
     /**
      * @return ActiveRecord|ilDclTableFieldSetting
      */
-    public static function getInstance(int $table_id, string $field) : ActiveRecord
+    public static function getInstance(int $table_id, string $field): ActiveRecord
     {
         $setting = self::where(array('table_id' => $table_id, 'field' => $field))->first();
         if (!$setting) {

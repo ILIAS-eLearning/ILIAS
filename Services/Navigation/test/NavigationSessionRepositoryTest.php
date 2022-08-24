@@ -11,20 +11,20 @@ class NavigationSessionRepositoryTest extends TestCase
 {
     protected \ILIAS\Navigation\NavigationSessionRepository $repo;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         parent::setUp();
         $this->repo = new \ILIAS\Navigation\NavigationSessionRepository();
     }
 
-    protected function tearDown() : void
+    protected function tearDown(): void
     {
     }
 
     /**
      * Test history
      */
-    public function testSortAscending() : void
+    public function testSortAscending(): void
     {
         $repo = $this->repo;
         $repo->setHistory([

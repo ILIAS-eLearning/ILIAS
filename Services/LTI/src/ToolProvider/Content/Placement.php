@@ -27,36 +27,35 @@ namespace ILIAS\LTI\ToolProvider\Content;
  */
 class Placement
 {
-
     /**
      * Embed placement type.
      */
-    const TYPE_EMBED = 'embed';
+    public const TYPE_EMBED = 'embed';
 
     /**
      * iFrame placement type.
      */
-    const TYPE_IFRAME = 'iframe';
+    public const TYPE_IFRAME = 'iframe';
 
     /**
      * Frame placement type.
      */
-    const TYPE_FRAME = 'frame';
+    public const TYPE_FRAME = 'frame';
 
     /**
      * Window placement type.
      */
-    const TYPE_WINDOW = 'window';
+    public const TYPE_WINDOW = 'window';
 
     /**
      * Popup placement type.
      */
-    const TYPE_POPUP = 'popup';
+    public const TYPE_POPUP = 'popup';
 
     /**
      * Overlay placement type.
      */
-    const TYPE_OVERLAY = 'overlay';
+    public const TYPE_OVERLAY = 'overlay';
 
     /**
      * Location to open content in.
@@ -140,7 +139,7 @@ class Placement
      *
      * @return object
      */
-    public function toJsonldObject() : object
+    public function toJsonldObject(): object
     {
         if (!empty($this->documentTarget)) {
             $placement = new \stdClass();
@@ -166,7 +165,7 @@ class Placement
      *
      * @return object
      */
-    public function toJsonObject() : object
+    public function toJsonObject(): object
     {
         if (!empty($this->documentTarget)) {
             $placement = new \stdClass();
@@ -215,7 +214,7 @@ class Placement
      * @param string|null $documentTarget Destination of placement to be generated (optional)
      * @return Placement
      */
-    public static function fromJsonObject(object $item, string $documentTarget = null) : ?Placement
+    public static function fromJsonObject(object $item, string $documentTarget = null): ?Placement
     {
         $obj = null;
         $displayWidth = null;

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /******************************************************************************
  *
@@ -19,7 +21,6 @@
 */
 class ilObjECSSettings extends ilObject
 {
-
     /**
     * Constructor
     * @param	$a_id int reference_id or object_id

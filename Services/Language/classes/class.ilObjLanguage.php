@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -71,7 +73,7 @@ class ilObjLanguage extends ilObject
     /**
      * Get the language objects of the installed languages
      */
-    public static function getInstalledLanguages() : array
+    public static function getInstalledLanguages(): array
     {
         $objects = array();
         $languages = ilObject::_getObjectsByType("lng");
@@ -92,7 +94,7 @@ class ilObjLanguage extends ilObject
      *
      * Return language key
      */
-    public function getKey() : string
+    public function getKey(): string
     {
         return $this->key;
     }
@@ -102,7 +104,7 @@ class ilObjLanguage extends ilObject
      *
      * Return language status
      */
-    public function getStatus() : string
+    public function getStatus(): string
     {
         return $this->status;
     }
@@ -110,7 +112,7 @@ class ilObjLanguage extends ilObject
     /**
      * check if language is system language
      */
-    public function isSystemLanguage() : bool
+    public function isSystemLanguage(): bool
     {
         if ($this->key == $this->lang_default) {
             return true;
@@ -122,7 +124,7 @@ class ilObjLanguage extends ilObject
     /**
      * check if language is system language
      */
-    public function isUserLanguage() : bool
+    public function isUserLanguage(): bool
     {
         if ($this->key == $this->lang_user) {
             return true;
@@ -136,7 +138,7 @@ class ilObjLanguage extends ilObject
      *
      * Return     true if installed
      */
-    public function isInstalled() : bool
+    public function isInstalled(): bool
     {
         if (strpos($this->getStatus(), "installed") === 0) {
             return true;
@@ -151,7 +153,7 @@ class ilObjLanguage extends ilObject
      *
      * Return     true if local language is installed
      */
-    public function isLocal() : bool
+    public function isLocal(): bool
     {
         if (substr($this->getStatus(), 10) === "local") {
             return true;
@@ -166,7 +168,7 @@ class ilObjLanguage extends ilObject
      * $scope empty (global) or "local"
      * Return installed language key
      */
-    public function install(string $scope = "") : string
+    public function install(string $scope = ""): string
     {
         if (!empty($scope)) {
             if ($scope === "global") {
@@ -207,7 +209,7 @@ class ilObjLanguage extends ilObject
      *
      * Return uninstalled language key
      */
-    public function uninstall() : string
+    public function uninstall(): string
     {
         if ((strpos($this->status, "installed") === 0) && ($this->key != $this->lang_default) && ($this->key != $this->lang_user)) {
             $this->flush('all');
@@ -225,7 +227,7 @@ class ilObjLanguage extends ilObject
     /**
      * refresh current language
      */
-    public function refresh() : bool
+    public function refresh(): bool
     {
         if ($this->isInstalled() && $this->check()) {
             $this->flush("keep_local");
@@ -250,7 +252,7 @@ class ilObjLanguage extends ilObject
     /**
     * Refresh all installed languages
     */
-    public static function refreshAll() : void
+    public static function refreshAll(): void
     {
         $languages = ilObject::_getObjectsByType("lng");
         $refreshed = array();
@@ -271,7 +273,7 @@ class ilObjLanguage extends ilObject
      * Refresh languages of activated plugins
      * $a_lang_keys    keys of languages to be refreshed (not yet supported, all available will be refreshed)
      */
-    public static function refreshPlugins(array $a_lang_keys = null) : void
+    public static function refreshPlugins(array $a_lang_keys = null): void
     {
         global $DIC;
 
@@ -290,7 +292,7 @@ class ilObjLanguage extends ilObject
     * Delete languge data
     ** $a_lang_key    lang key
     */
-    public static function _deleteLangData(string $a_lang_key, bool $a_keep_local_change = false) : void
+    public static function _deleteLangData(string $a_lang_key, bool $a_keep_local_change = false): void
     {
         global $DIC;
         $ilDB = $DIC->database();
@@ -309,7 +311,7 @@ class ilObjLanguage extends ilObject
      * remove language data from database
      * $a_mode     "all" or "keep_local"
      */
-    public function flush(string $a_mode = "all") : void
+    public function flush(string $a_mode = "all"): void
     {
         global $DIC;
         $ilDB = $DIC->database();
@@ -329,7 +331,7 @@ class ilObjLanguage extends ilObject
     * $a_max_date    maximum change date "yyyy-mm-dd hh:mm:ss"
     * Return array       [module][identifier] => value
     */
-    public function getLocalChanges(string $a_min_date = "", string $a_max_date = "") : array
+    public function getLocalChanges(string $a_min_date = "", string $a_max_date = ""): array
     {
         global $DIC;
         $ilDB = $DIC->database();
@@ -363,7 +365,7 @@ class ilObjLanguage extends ilObject
     * $a_key    language key
     * Return change_date "yyyy-mm-dd hh:mm:ss"
     */
-    public static function _getLastLocalChange(string $a_key) : string
+    public static function _getLastLocalChange(string $a_key): string
     {
         global $DIC;
         $ilDB = $DIC->database();
@@ -389,7 +391,7 @@ class ilObjLanguage extends ilObject
      * $a_module       Module key
      * Return array    identifier => value
      */
-    public static function _getLocalChangesByModule(string $a_key, string $a_module) : array
+    public static function _getLocalChangesByModule(string $a_key, string $a_module): array
     {
         global $DIC;
         $ilDB = $DIC->database();
@@ -413,7 +415,7 @@ class ilObjLanguage extends ilObject
      *
      * $scope  empty (global) or "local"
      */
-    public function insert(string $scope = "") : void
+    public function insert(string $scope = ""): void
     {
         global $DIC;
         $ilDB = $DIC->database();
@@ -560,7 +562,7 @@ class ilObjLanguage extends ilObject
     /**
     * Replace language module array
     */
-    final public static function replaceLangModule(string $a_key, string $a_module, array $a_array) : void
+    final public static function replaceLangModule(string $a_key, string $a_module, array $a_array): void
     {
         global $DIC;
         $ilDB = $DIC->database();
@@ -615,7 +617,7 @@ class ilObjLanguage extends ilObject
         string $a_value,
         string $a_local_change = null,
         string $a_remarks = null
-    ) : bool {
+    ): bool {
         global $DIC;
         $ilDB = $DIC->database();
 
@@ -662,7 +664,7 @@ class ilObjLanguage extends ilObject
         string $a_value,
         string $a_local_change = null,
         string $a_remarks = null
-    ) : void {
+    ): void {
         global $DIC;
         $ilDB = $DIC->database();
 
@@ -697,7 +699,7 @@ class ilObjLanguage extends ilObject
     /**
     * Delete lang entry
     */
-    final public static function deleteLangEntry(string $a_module, string $a_identifier, string $a_lang_key) : bool
+    final public static function deleteLangEntry(string $a_module, string $a_identifier, string $a_lang_key): bool
     {
         global $DIC;
         $ilDB = $DIC->database();
@@ -720,7 +722,7 @@ class ilObjLanguage extends ilObject
      *
      * $lang_key    international language key (2 digits)
      */
-    public function resetUserLanguage(string $lang_key) : void
+    public function resetUserLanguage(string $lang_key): void
     {
         global $DIC;
         $ilDB = $DIC->database();
@@ -758,7 +760,7 @@ class ilObjLanguage extends ilObject
      * Return true on success
      * @deprecated
      */
-    public function optimizeData() : bool
+    public function optimizeData(): bool
     {
         // Mantis #22313: removed table optimization
         return true;
@@ -773,7 +775,7 @@ class ilObjLanguage extends ilObject
      * $scope  empty (global) or "local"
      * Return system message
      */
-    public function check(string $scope = "") : bool
+    public function check(string $scope = ""): bool
     {
         include_once "./Services/Utilities/classes/class.ilStr.php";
         $scopeExtension = "";
@@ -838,7 +840,7 @@ class ilObjLanguage extends ilObject
     /**
     * Count number of users that use a language
     */
-    public static function countUsers(string $a_lang) : int
+    public static function countUsers(string $a_lang): int
     {
         global $DIC;
         $ilDB = $DIC->database();

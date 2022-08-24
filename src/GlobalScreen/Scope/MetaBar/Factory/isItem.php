@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -26,11 +28,10 @@ use ILIAS\GlobalScreen\Scope\MetaBar\Collector\Renderer\MetaBarItemRenderer;
  */
 interface isItem extends isGlobalScreenItem
 {
-
     /**
      * @return MetaBarItemRenderer
      */
-    public function getRenderer() : MetaBarItemRenderer;
+    public function getRenderer(): MetaBarItemRenderer;
 
     /**
      * Pass a callable which can decide whether your element is visible for
@@ -38,12 +39,12 @@ interface isItem extends isGlobalScreenItem
      * @param callable $is_visible
      * @return isItem
      */
-    public function withVisibilityCallable(callable $is_visible) : isItem;
+    public function withVisibilityCallable(callable $is_visible): isItem;
 
     /**
      * @return bool
      */
-    public function isVisible() : bool;
+    public function isVisible(): bool;
 
     /**
      * Pass a callable which can decide whether your element is available in
@@ -52,23 +53,23 @@ interface isItem extends isGlobalScreenItem
      * @param callable $is_avaiable
      * @return isItem
      */
-    public function withAvailableCallable(callable $is_available) : isItem;
+    public function withAvailableCallable(callable $is_available): isItem;
 
     /**
      * @return bool
      */
-    public function isAvailable() : bool;
+    public function isAvailable(): bool;
 
     /**
      * Return the default position for installation, this will be overridden by
      * the configuration later
      * @return int
      */
-    public function getPosition() : int;
+    public function getPosition(): int;
 
     /**
      * @param int $position
      * @return isItem
      */
-    public function withPosition(int $position) : isItem;
+    public function withPosition(int $position): isItem;
 }

@@ -47,7 +47,7 @@ class ilLearningHistoryProviderFactory
     public function getAllProviders(
         bool $active_only = false,
         int $user_id = 0
-    ) : array {
+    ): array {
         $providers = array();
 
         if ($user_id === 0) {

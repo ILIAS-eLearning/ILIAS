@@ -23,7 +23,7 @@
  */
 class ilPageLayoutPage extends ilPageObject
 {
-    public function getParentType() : string
+    public function getParentType(): string
     {
         return "stys";
     }

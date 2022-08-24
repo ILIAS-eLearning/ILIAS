@@ -37,7 +37,7 @@ class ilAwarenessGUI implements ilCtrlBaseClassInterface
     protected UIServices $ui;
     protected ilLanguage $lng;
     protected InternalDataService $data_service;
-    
+
     public function __construct(
         InternalDataService $data_service = null,
         InternalDomainService $domain_service = null,
@@ -67,7 +67,7 @@ class ilAwarenessGUI implements ilCtrlBaseClassInterface
         );
     }
 
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         $cmd = $this->ctrl->getCmd();
 
@@ -76,7 +76,7 @@ class ilAwarenessGUI implements ilCtrlBaseClassInterface
         }
     }
 
-    public function initJS() : void
+    public function initJS(): void
     {
         $ilUser = $this->user;
         // init js
@@ -102,7 +102,7 @@ class ilAwarenessGUI implements ilCtrlBaseClassInterface
      * @return ?array<string,string>
      * @throws ilWACException
      */
-    public function getAwarenessList(bool $return = false) : ?array
+    public function getAwarenessList(bool $return = false): ?array
     {
         $filter = $this->request->getFilter();
 

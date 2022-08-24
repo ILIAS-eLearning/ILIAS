@@ -38,12 +38,12 @@ class ilBlogDraftsDerivedTaskProvider implements ilDerivedTaskProvider
         $this->lng->loadLanguageModule('blog');
     }
 
-    public function isActive() : bool
+    public function isActive(): bool
     {
         return true;
     }
 
-    public function getTasks(int $user_id) : array
+    public function getTasks(int $user_id): array
     {
         $tasks = [];
 
@@ -96,7 +96,7 @@ class ilBlogDraftsDerivedTaskProvider implements ilDerivedTaskProvider
         string $operation,
         int $objId,
         int $userId
-    ) : int {
+    ): int {
         foreach (\ilObject::_getAllReferences($objId) as $refId) {
             if ($this->accessHandler->checkAccessOfUser($userId, $operation, '', $refId)) {
                 return $refId;
@@ -106,7 +106,7 @@ class ilBlogDraftsDerivedTaskProvider implements ilDerivedTaskProvider
         return 0;
     }
 
-    protected function getWspId(int $objId, int $userId) : int
+    protected function getWspId(int $objId, int $userId): int
     {
         $wst = new ilWorkspaceTree($userId);
         return $wst->lookupNodeId($objId);

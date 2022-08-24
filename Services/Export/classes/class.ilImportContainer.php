@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -32,7 +34,7 @@ class ilImportContainer extends ilImport
         string $a_type,
         string $a_component = "",
         string $a_tmpdir = ""
-    ) : array {
+    ): array {
         $manifest_file = $dir . "/manifest.xml";
         if (!file_exists($manifest_file)) {
             return [];
@@ -68,7 +70,7 @@ class ilImportContainer extends ilImport
         return $ret;
     }
 
-    protected function createDummy(string $a_type) : ilObject
+    protected function createDummy(string $a_type): ilObject
     {
         $class_name = "ilObj" . $this->objDefinition->getClassName($a_type);
 

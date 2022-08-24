@@ -32,53 +32,53 @@ class ilAssOrderingTextsInputGUI extends ilMultipleTextsInputGUI
         require_once 'Modules/TestQuestionPool/classes/forms/class.ilAssOrderingDefaultElementFallback.php';
         $manipulator = new ilAssOrderingDefaultElementFallback();
         $this->addFormValuesManipulator($manipulator);
-        
+
         parent::__construct('', $postVar);
-        
+
         $this->addFormValuesManipulator($converter);
     }
-    
+
     /**
      * FOR COMPATIBILITY ONLY
      *
      * @param $stylingDisabled
      */
-    public function setStylingDisabled($stylingDisabled) : void
+    public function setStylingDisabled($stylingDisabled): void
     {
     }
-    
+
     /**
      * FOR COMPATIBILITY ONLY
      *
      * @return bool
      */
-    public function getStylingDisabled() : bool
+    public function getStylingDisabled(): bool
     {
         return false;
     }
-    
+
     /**
      * @param ilAssOrderingElementList $elementList
      */
-    public function setElementList(ilAssOrderingElementList $elementList) : void
+    public function setElementList(ilAssOrderingElementList $elementList): void
     {
         $this->setIdentifiedMultiValues($elementList->getRandomIdentifierIndexedElements());
     }
-    
+
     /**
      * @param integer $questionId
      * @return ilAssOrderingElementList
      */
-    public function getElementList($questionId) : ilAssOrderingElementList
+    public function getElementList($questionId): ilAssOrderingElementList
     {
         return ilAssOrderingElementList::buildInstance($questionId, $this->getIdentifiedMultiValues());
     }
-    
+
     /**
      * @param mixed $value
      * @return bool
      */
-    protected function valueHasContentText($value) : bool
+    protected function valueHasContentText($value): bool
     {
         if ($value === null || is_array($value)) {
             return false;
@@ -87,7 +87,7 @@ class ilAssOrderingTextsInputGUI extends ilMultipleTextsInputGUI
         if ($value instanceof ilAssOrderingElement) {
             return (bool) strlen((string) $value);
         }
-        
+
         return (bool) strlen($value);
     }
 }

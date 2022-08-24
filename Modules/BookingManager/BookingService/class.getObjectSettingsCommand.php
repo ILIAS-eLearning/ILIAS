@@ -30,7 +30,7 @@ class getObjectSettingsCommand
         $this->obj_id = $obj_id;
     }
 
-    public function getObjectId() : int
+    public function getObjectId(): int
     {
         return $this->obj_id;
     }

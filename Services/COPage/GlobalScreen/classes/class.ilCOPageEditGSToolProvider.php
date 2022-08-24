@@ -29,15 +29,15 @@ use ILIAS\UI\Implementation\Component\MainControls\Slate\Legacy as LegacySlate;
  */
 class ilCOPageEditGSToolProvider extends AbstractDynamicToolProvider
 {
-    public const SHOW_EDITOR = 'copg_show_editor';
     use Hasher;
+    public const SHOW_EDITOR = 'copg_show_editor';
 
-    public function isInterestedInContexts() : ContextCollection
+    public function isInterestedInContexts(): ContextCollection
     {
         return $this->context_collection->main()->repository();
     }
 
-    public function getToolsForContextStack(CalledContexts $called_contexts) : array
+    public function getToolsForContextStack(CalledContexts $called_contexts): array
     {
         $tools = [];
         $additional_data = $called_contexts->current()->getAdditionalData();
@@ -54,7 +54,7 @@ class ilCOPageEditGSToolProvider extends AbstractDynamicToolProvider
             $identification = $iff("copg_editor");
             $hashed = $this->hash($identification->serialize());
             $tools[] = $this->factory->tool($identification)
-                ->addComponentDecorator(static function (ILIAS\UI\Component\Component $c) use ($hashed) : ILIAS\UI\Component\Component {
+                ->addComponentDecorator(static function (ILIAS\UI\Component\Component $c) use ($hashed): ILIAS\UI\Component\Component {
                     if ($c instanceof LegacySlate) {
                         $signal_id = $c->getToggleSignal()->getId();
                         return $c->withAdditionalOnLoadCode(static function ($id) use ($hashed) {
@@ -74,7 +74,7 @@ class ilCOPageEditGSToolProvider extends AbstractDynamicToolProvider
         return $tools;
     }
 
-    private function getContent() : string
+    private function getContent(): string
     {
         return "<div id='copg-editor-slate-error'></div><div id='copg-editor-slate-content'></div>";
     }

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -25,43 +27,42 @@ use ILIAS\UI\Component\MainControls\Footer;
  */
 class FooterModification extends AbstractLayoutModification implements LayoutModification
 {
-    
     /**
      * @inheritDoc
      */
-    public function isFinal() : bool
+    public function isFinal(): bool
     {
         return true;
     }
-    
+
     /**
      * @inheritDoc
      */
-    public function getClosureFirstArgumentType() : string
+    public function getClosureFirstArgumentType(): string
     {
         return Footer::class;
     }
-    
+
     /**
      * @inheritDoc
      */
-    public function getClosureReturnType() : string
+    public function getClosureReturnType(): string
     {
         return Footer::class;
     }
-    
+
     /**
      * @inheritDoc
      */
-    public function firstArgumentAllowsNull() : bool
+    public function firstArgumentAllowsNull(): bool
     {
         return true;
     }
-    
+
     /**
      * @inheritDoc
      */
-    public function returnTypeAllowsNull() : bool
+    public function returnTypeAllowsNull(): bool
     {
         return false;
     }

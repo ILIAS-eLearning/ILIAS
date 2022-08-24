@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /* Copyright (c) 2021 - Daniel Weise <daniel.weise@concepts-and-training.de> - Extended GPL, see LICENSE */
 
@@ -10,7 +12,7 @@ trait ilIndividualAssessmentDIC
     public function getObjectDIC(
         ilObjIndividualAssessment $object,
         ArrayAccess $dic
-    ) : Container {
+    ): Container {
         $container = new Container();
 
         $container['DataFactory'] = function () {

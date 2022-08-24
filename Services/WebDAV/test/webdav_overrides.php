@@ -1,4 +1,6 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,17 +17,17 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 class ilDAVContainerWithOverridenGetChildCollection extends ilDAVContainer
 {
     protected ilContainer $child_collection;
-    
-    public function setChildcollection(ilContainer $child_collection) : void
+
+    public function setChildcollection(ilContainer $child_collection): void
     {
         $this->child_collection = $child_collection;
     }
-    
-    protected function getChildCollection() : ilContainer
+
+    protected function getChildCollection(): ilContainer
     {
         return $this->child_collection;
     }

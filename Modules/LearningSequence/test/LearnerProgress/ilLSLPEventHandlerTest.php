@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,17 +17,17 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 use PHPUnit\Framework\TestCase;
 
 class ilLPStatusWrapperStub extends ilLPStatusWrapper
 {
-    public static function _refreshStatus(int $a_obj_id, ?array $a_users = null) : void
+    public static function _refreshStatus(int $a_obj_id, ?array $a_users = null): void
     {
         throw new \Exception('Do not use ilLPStatusWrapper::_refreshStatus here; use _updateStatus instead');
     }
 
-    public static function _updateStatus(int $a_obj_id, int $a_usr_id, ?object $a_obj = null, bool $a_percentage = false, bool $a_force_raise = false) : void
+    public static function _updateStatus(int $a_obj_id, int $a_usr_id, ?object $a_obj = null, bool $a_percentage = false, bool $a_force_raise = false): void
     {
     }
 }
@@ -35,7 +37,7 @@ class ilLSLPEventHandlerStub extends ilLSLPEventHandler
     /**
      * @return int[]
      */
-    protected function getRefIdsOfObjId(int $triggerer_obj_id) : array
+    protected function getRefIdsOfObjId(int $triggerer_obj_id): array
     {
         return [14, 20];
     }
@@ -46,20 +48,20 @@ class ilLSLPEventHandlerTest extends TestCase
     protected ilTree $tree;
     protected ilLPStatusWrapper $lp_status;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         $this->tree = $this->createMock(ilTree::class);
         $this->lp_status = new ilLPStatusWrapperStub();
     }
 
-    public function testCreateObject() : void
+    public function testCreateObject(): void
     {
         $obj = new ilLSLPEventHandler($this->tree, $this->lp_status);
 
         $this->assertInstanceOf(ilLSLPEventHandler::class, $obj);
     }
 
-    public function testUpdateLPForChildEvent() : void
+    public function testUpdateLPForChildEvent(): void
     {
         $values = [
             'obj_id' => 12,

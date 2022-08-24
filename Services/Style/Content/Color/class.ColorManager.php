@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -50,7 +52,7 @@ class ColorManager
     public function addColor(
         string $a_name,
         string $a_code
-    ) : void {
+    ): void {
         $this->color_repo->addColor(
             $this->style_id,
             $a_name,
@@ -63,7 +65,7 @@ class ColorManager
      */
     public function colorExists(
         string $name
-    ) : bool {
+    ): bool {
         return $this->color_repo->colorExists(
             $this->style_id,
             $name
@@ -77,7 +79,7 @@ class ColorManager
         string $name,
         string $new_name,
         string $code
-    ) : void {
+    ): void {
         if (!$this->access_manager->checkWrite()) {
             throw new ContentStyleNoPermissionException("No write permission for style.");
         }

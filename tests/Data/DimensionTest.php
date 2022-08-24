@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -24,19 +26,19 @@ use PHPUnit\Framework\TestCase;
 
 class DimensionTest extends TestCase
 {
-    protected function setUp() : void
+    protected function setUp(): void
     {
         $this->f = new Dimension\Factory();
     }
 
-    public function testCardinaltLabels() : void
+    public function testCardinaltLabels(): void
     {
         $labels = ["label1", "label2", "label3"];
         $c = $this->f->cardinal($labels);
         $this->assertEquals($labels, $c->getLabels());
     }
 
-    public function testRangeLabels() : void
+    public function testRangeLabels(): void
     {
         $labels = ["label1", "label2", "label3"];
         $c = $this->f->cardinal($labels);
@@ -45,7 +47,7 @@ class DimensionTest extends TestCase
         $this->assertEquals($c->getLabels(), $r->getLabels());
     }
 
-    public function testCardinalNumericValues() : void
+    public function testCardinalNumericValues(): void
     {
         try {
             $c = $this->f->cardinal();
@@ -59,7 +61,7 @@ class DimensionTest extends TestCase
         }
     }
 
-    public function testCardinalNullValue() : void
+    public function testCardinalNullValue(): void
     {
         try {
             $c = $this->f->cardinal();
@@ -70,7 +72,7 @@ class DimensionTest extends TestCase
         }
     }
 
-    public function testCardinalInvalidValue() : void
+    public function testCardinalInvalidValue(): void
     {
         try {
             $c = $this->f->cardinal();
@@ -81,7 +83,7 @@ class DimensionTest extends TestCase
         }
     }
 
-    public function testRangeNullValue() : void
+    public function testRangeNullValue(): void
     {
         try {
             $c = $this->f->cardinal();
@@ -93,7 +95,7 @@ class DimensionTest extends TestCase
         }
     }
 
-    public function testRangeNumericValues() : void
+    public function testRangeNumericValues(): void
     {
         try {
             $c = $this->f->cardinal();
@@ -106,7 +108,7 @@ class DimensionTest extends TestCase
         }
     }
 
-    public function testRangeInvalidArray() : void
+    public function testRangeInvalidArray(): void
     {
         try {
             $c = $this->f->cardinal();
@@ -118,7 +120,7 @@ class DimensionTest extends TestCase
         }
     }
 
-    public function testRangeInvalidCount() : void
+    public function testRangeInvalidCount(): void
     {
         try {
             $c = $this->f->cardinal();
@@ -130,7 +132,7 @@ class DimensionTest extends TestCase
         }
     }
 
-    public function testRangeInvalidValues() : void
+    public function testRangeInvalidValues(): void
     {
         try {
             $c = $this->f->cardinal();

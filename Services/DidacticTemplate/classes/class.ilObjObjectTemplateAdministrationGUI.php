@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -18,7 +20,7 @@ class ilObjObjectTemplateAdministrationGUI extends ilObjectGUI
         $this->lng->loadLanguageModule("didactic");
     }
 
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         $next_class = $this->ctrl->getNextClass($this);
         $this->prepareOutput();
@@ -43,7 +45,7 @@ class ilObjObjectTemplateAdministrationGUI extends ilObjectGUI
         }
     }
 
-    public function getAdminTabs() : void
+    public function getAdminTabs(): void
     {
         if ($this->checkPermissionBool('write')) {
             $this->lng->loadLanguageModule('didactic');

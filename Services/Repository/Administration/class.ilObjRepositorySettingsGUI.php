@@ -74,8 +74,8 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
             ->administration()
             ->request();
     }
-    
-    public function executeCommand() : void
+
+    public function executeCommand(): void
     {
         $ilErr = $this->error;
         $ilAccess = $this->access;
@@ -101,29 +101,29 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
                 break;
         }
     }
-    
-    public function getAdminTabs() : void
+
+    public function getAdminTabs(): void
     {
         $rbacsystem = $this->rbacsystem;
-        
+
         $this->tabs_gui->addTab(
             "settings",
             $this->lng->txt("settings"),
             $this->ctrl->getLinkTarget($this, "view")
         );
-        
+
         $this->tabs_gui->addTab(
             "icons",
             $this->lng->txt("rep_custom_icons"),
             $this->ctrl->getLinkTarget($this, "customIcons")
         );
-        
+
         $this->tabs_gui->addTab(
             "modules",
             $this->lng->txt("cmps_repository_object_types"),
             $this->ctrl->getLinkTarget($this, "listModules")
         );
-        
+
         if ($rbacsystem->checkAccess('edit_permission', $this->object->getRefId())) {
             $this->tabs_gui->addTab(
                 "perm_settings",
@@ -136,7 +136,7 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
     public function view(StandardForm $a_form = null) : void
     {
         $this->tabs_gui->activateTab("settings");
-        
+
         if (!$a_form) {
             $a_form = $this->initSettingsForm();
         }
@@ -388,12 +388,12 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
 
         return $form;
     }
-    
-    public function saveSettings() : void
+
+    public function saveSettings(): void
     {
         $ilSetting = $this->settings;
         $ilAccess = $this->access;
-        
+
         if (!$ilAccess->checkAccess('write', '', $this->object->getRefId())) {
             $this->tpl->setOnScreenMessage(
                 'failure',
@@ -516,7 +516,7 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
                     (string) $data['comments_tagging_in_lists']['comments_tagging_in_lists_tags']
                 );
             }
-                        
+
             $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_obj_modified"), true);
             $this->ctrl->redirect($this, "view");
         }
@@ -527,7 +527,7 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
     public function customIcons(StandardForm $a_form = null) : void
     {
         $this->tabs_gui->activateTab("icons");
-        
+
         if (!$a_form) {
             $a_form = $this->initCustomIconsForm();
         }
@@ -556,15 +556,15 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
             $this->ctrl->getFormAction($this, 'saveCustomIcons'),
             ['section' => $section]
         );
-        
+
         return $form;
     }
-    
-    public function saveCustomIcons() : void
+
+    public function saveCustomIcons(): void
     {
         $ilSetting = $this->settings;
         $ilAccess = $this->access;
-        
+
         if (!$ilAccess->checkAccess('write', '', $this->object->getRefId())) {
             $this->tpl->setOnScreenMessage(
                 'failure',
@@ -591,40 +591,40 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
 
         $this->customIcons($form);
     }
-    
-    protected function setModuleSubTabs(string $a_active) : void
+
+    protected function setModuleSubTabs(string $a_active): void
     {
         $this->tabs_gui->activateTab('modules');
-        
+
         $this->tabs_gui->addSubTab(
             "list_mods",
             $this->lng->txt("rep_new_item_menu"),
             $this->ctrl->getLinkTarget($this, "listModules")
         );
-        
+
         $this->tabs_gui->addSubTab(
             "new_item_groups",
             $this->lng->txt("rep_new_item_groups"),
             $this->ctrl->getLinkTarget($this, "listNewItemGroups")
         );
-        
+
         $this->tabs_gui->activateSubTab($a_active);
     }
-    
-    protected function listModules() : void
+
+    protected function listModules(): void
     {
         $ilAccess = $this->access;
-        
+
         $this->setModuleSubTabs("list_mods");
-                
+
         $has_write = $ilAccess->checkAccess('write', '', $this->object->getRefId());
-        
+
         $comp_table = new ilModulesTableGUI($this, "listModules", $has_write);
-                
+
         $this->tpl->setContent($comp_table->getHTML());
     }
-    
-    protected function saveModules() : void
+
+    protected function saveModules(): void
     {
         $ilSetting = $this->settings;
         $ilCtrl = $this->ctrl;
@@ -638,28 +638,28 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
             !$ilAccess->checkAccess('write', '', $this->object->getRefId())) {
             $ilCtrl->redirect($this, "listModules");
         }
-        
+
         $grp_pos_map = [0 => 9999];
         foreach (ilObjRepositorySettings::getNewItemGroups() as $item) {
             $grp_pos_map[$item["id"]] = $item["pos"];
         }
-        
+
         $type_pos_map = [];
         $item_enablings = $this->admin_gui_request->getNewItemEnablings();
         foreach ($item_positions as $obj_type => $pos) {
             $grp_id = ($item_groups[$obj_type] ?? 0);
             $type_pos_map[$grp_id][$obj_type] = $pos;
-            
+
             // enable creation?
             $ilSetting->set(
                 "obj_dis_creation_" . $obj_type,
                 (string) ((int) (!($item_enablings[$obj_type] ?? false)))
             );
         }
-        
+
         foreach ($type_pos_map as $grp_id => $obj_types) {
             $grp_pos = str_pad($grp_pos_map[$grp_id], 4, "0", STR_PAD_LEFT);
-        
+
             asort($obj_types);
             $pos = 0;
             foreach (array_keys($obj_types) as $obj_type) {
@@ -673,30 +673,30 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
         $this->tpl->setOnScreenMessage('success', $lng->txt("msg_obj_modified"), true);
         $ilCtrl->redirect($this, "listModules");
     }
-    
-    protected function listNewItemGroups() : void
+
+    protected function listNewItemGroups(): void
     {
         $ilToolbar = $this->toolbar;
         $ilAccess = $this->access;
-        
+
         $this->setModuleSubTabs("new_item_groups");
-        
+
         $has_write = $ilAccess->checkAccess('write', '', $this->object->getRefId());
-        
+
         if ($has_write) {
             $ilToolbar->addButton(
                 $this->lng->txt("rep_new_item_group_add"),
                 $this->ctrl->getLinkTarget($this, "addNewItemGroup")
             );
-        
+
             $ilToolbar->addButton(
                 $this->lng->txt("rep_new_item_group_add_separator"),
                 $this->ctrl->getLinkTarget($this, "addNewItemGroupSeparator")
             );
         }
-        
+
         $grp_table = new ilNewItemGroupTableGUI($this, "listNewItemGroups", $has_write);
-                
+
         $this->tpl->setContent($grp_table->getHTML());
     }
 
@@ -708,13 +708,13 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
 
         $this->lng->loadLanguageModule("meta");
         $def_lng = $this->lng->getDefaultLanguage();
-    
+
         $title = new ilTextInputGUI($this->lng->txt("title"), "title_" . $def_lng);
         $title->setInfo($this->lng->txt("meta_l_" . $def_lng) .
             " (" . $this->lng->txt("default_language") . ")");
         $title->setRequired(true);
         $form->addItem($title);
-        
+
         foreach ($this->lng->getInstalledLanguages() as $lang_id) {
             if ($lang_id !== $def_lng) {
                 $title = new ilTextInputGUI($this->lng->txt("translation"), "title_" . $lang_id);
@@ -722,43 +722,43 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
                 $form->addItem($title);
             }
         }
-                                        
+
         if (!$a_grp_id) {
             $form->setTitle($this->lng->txt("rep_new_item_group_add"));
             $form->setFormAction($this->ctrl->getFormAction($this, "saveNewItemGroup"));
-            
+
             $form->addCommandButton("saveNewItemGroup", $this->lng->txt("save"));
         } else {
             $form->setTitle($this->lng->txt("rep_new_item_group_edit"));
             $form->setFormAction($this->ctrl->getFormAction($this, "updateNewItemGroup"));
-            
+
             $grp = ilObjRepositorySettings::getNewItemGroups();
             $grp = $grp[$a_grp_id];
-            
+
             foreach ($grp["titles"] as $id => $value) {
                 $field = $form->getItemByPostVar("title_" . $id);
                 if ($field) {
                     $field->setValue($value);
                 }
             }
-            
+
             $form->addCommandButton("updateNewItemGroup", $this->lng->txt("save"));
         }
         $form->addCommandButton("listNewItemGroups", $this->lng->txt("cancel"));
-        
+
         return $form;
     }
-    
-    protected function addNewItemGroup(ilPropertyFormGUI $a_form = null) : void
+
+    protected function addNewItemGroup(ilPropertyFormGUI $a_form = null): void
     {
         if (!$a_form) {
             $a_form = $this->initNewItemGroupForm();
         }
-        
+
         $this->tpl->setContent($a_form->getHTML());
     }
-    
-    protected function saveNewItemGroup() : void
+
+    protected function saveNewItemGroup(): void
     {
         $form = $this->initNewItemGroupForm();
         if ($form->checkInput()) {
@@ -766,24 +766,24 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
             foreach ($this->lng->getInstalledLanguages() as $lang_id) {
                 $titles[$lang_id] = $form->getInput("title_" . $lang_id);
             }
-            
+
             if (ilObjRepositorySettings::addNewItemGroup($titles)) {
                 $this->tpl->setOnScreenMessage('success', $this->lng->txt("settings_saved"), true);
                 $this->ctrl->redirect($this, "listNewItemGroups");
             }
         }
-        
+
         $form->setValuesByPost();
         $this->addNewItemGroup($form);
     }
-    
-    protected function editNewItemGroup(StandardForm $a_form = null) : void
+
+    protected function editNewItemGroup(ilPropertyFormGUI $a_form = null): void
     {
         $grp_id = $this->admin_gui_request->getNewItemGroupId();
         if (!$grp_id) {
             $this->ctrl->redirect($this, "listNewItemGroups");
         }
-        
+
         if (!$a_form) {
             $this->ctrl->setParameter($this, "grp_id", $grp_id);
             $a_form = $this->initNewItemGroupForm($grp_id);
@@ -791,54 +791,54 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
 
         $this->tpl->setContent($a_form->getHTML());
     }
-    
-    protected function updateNewItemGroup() : void
+
+    protected function updateNewItemGroup(): void
     {
         $grp_id = $this->admin_gui_request->getNewItemGroupId();
         if (!$grp_id) {
             $this->ctrl->redirect($this, "listNewItemGroups");
         }
-        
+
         $this->ctrl->setParameter($this, "grp_id", $grp_id);
-        
+
         $form = $this->initNewItemGroupForm($grp_id);
         if ($form->checkInput()) {
             $titles = [];
             foreach ($this->lng->getInstalledLanguages() as $lang_id) {
                 $titles[$lang_id] = $form->getInput("title_" . $lang_id);
             }
-            
+
             if (ilObjRepositorySettings::updateNewItemGroup($grp_id, $titles)) {
                 $this->tpl->setOnScreenMessage('success', $this->lng->txt("settings_saved"), true);
                 $this->ctrl->redirect($this, "listNewItemGroups");
             }
         }
-        
+
         $form->setValuesByPost();
         $this->addNewItemGroup($form);
     }
-    
-    protected function addNewItemGroupSeparator() : void
+
+    protected function addNewItemGroupSeparator(): void
     {
         if (ilObjRepositorySettings::addNewItemGroupSeparator()) {
             $this->tpl->setOnScreenMessage('success', $this->lng->txt("settings_saved"), true);
         }
         $this->ctrl->redirect($this, "listNewItemGroups");
     }
-    
-    protected function saveNewItemGroupOrder() : void
+
+    protected function saveNewItemGroupOrder(): void
     {
         $ilSetting = $this->settings;
 
         $group_order = $this->admin_gui_request->getNewItemGroupOrder();
         if (count($group_order) > 0) {
             ilObjRepositorySettings::updateNewItemGroupOrder($group_order);
-                                    
+
             $grp_pos_map = [];
             foreach (ilObjRepositorySettings::getNewItemGroups() as $item) {
                 $grp_pos_map[$item["id"]] = str_pad($item["pos"], 4, "0", STR_PAD_LEFT);
             }
-        
+
             // update order of assigned objects
             foreach (ilObjRepositorySettings::getNewItemGroupSubItems() as $grp_id => $subitems) {
                 // unassigned objects will always be last
@@ -852,13 +852,13 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
                     }
                 }
             }
-            
+
             $this->tpl->setOnScreenMessage('success', $this->lng->txt("settings_saved"), true);
         }
         $this->ctrl->redirect($this, "listNewItemGroups");
     }
-    
-    protected function confirmDeleteNewItemGroup() : void
+
+    protected function confirmDeleteNewItemGroup(): void
     {
         $group_ids = $this->admin_gui_request->getNewItemGroupIds();
         if (count($group_ids) === 0) {
@@ -866,62 +866,62 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
             $this->listNewItemGroups();
             return;
         }
-        
+
         $this->setModuleSubTabs("new_item_groups");
-        
+
         $cgui = new ilConfirmationGUI();
         $cgui->setHeaderText($this->lng->txt("rep_new_item_group_delete_sure"));
 
         $cgui->setFormAction($this->ctrl->getFormAction($this));
         $cgui->setCancel($this->lng->txt("cancel"), "listNewItemGroups");
         $cgui->setConfirm($this->lng->txt("confirm"), "deleteNewItemGroup");
-        
+
         $groups = ilObjRepositorySettings::getNewItemGroups();
 
         foreach ($group_ids as $grp_id) {
             $cgui->addItem("grp_ids[]", (string) $grp_id, $groups[$grp_id]["title"]);
         }
-        
+
         $this->tpl->setContent($cgui->getHTML());
     }
-    
-    protected function deleteNewItemGroup() : void
+
+    protected function deleteNewItemGroup(): void
     {
         $group_ids = $this->admin_gui_request->getNewItemGroupIds();
         if (count($group_ids) === 0) {
             $this->listNewItemGroups();
             return;
         }
-        
+
         foreach ($group_ids as $grp_id) {
             ilObjRepositorySettings::deleteNewItemGroup($grp_id);
         }
-        
+
         $this->tpl->setOnScreenMessage('success', $this->lng->txt("settings_saved"), true);
         $this->ctrl->redirect($this, "listNewItemGroups");
     }
-    
-    public function addToExternalSettingsForm(int $a_form_id) : ?array
+
+    public function addToExternalSettingsForm(int $a_form_id): ?array
     {
         $ilSetting = $this->settings;
-        
+
         switch ($a_form_id) {
             case ilAdministrationSettingsFormHandler::FORM_LP:
-                
+
                 $fields = ['trac_show_repository_views' => [ilChangeEvent::_isActive(), ilAdministrationSettingsFormHandler::VALUE_BOOL]];
-                                                
+
                 return [["view", $fields]];
-                
-                
+
+
             case ilAdministrationSettingsFormHandler::FORM_TAGGING:
-                
+
                 $fields = [
                     'adm_show_comments_tagging_in_lists' => [
                         $ilSetting->get('comments_tagging_in_lists'), ilAdministrationSettingsFormHandler::VALUE_BOOL,
                         ['adm_show_comments_tagging_in_lists_tags' => [$ilSetting->get('comments_tagging_in_lists_tags'), ilAdministrationSettingsFormHandler::VALUE_BOOL]]
                     ]
                 ];
-                
+
                 return [["view", $fields]];
         }
         return null;

@@ -45,7 +45,7 @@ class ilOrgUnitGlobalSettingsGUI
         }
     }
 
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         $cmd = $this->ctrl->getCmd('settings');
         $next_class = $this->ctrl->getNextClass($this);
@@ -57,7 +57,7 @@ class ilOrgUnitGlobalSettingsGUI
         }
     }
 
-    private function settings(ilPropertyFormGUI $form = null) : void
+    private function settings(ilPropertyFormGUI $form = null): void
     {
         if (!$form instanceof ilPropertyFormGUI) {
             $form = $this->initSettingsForm();
@@ -65,7 +65,7 @@ class ilOrgUnitGlobalSettingsGUI
         $this->tpl->setContent($form->getHTML());
     }
 
-    private function initSettingsForm() : ilPropertyFormGUI
+    private function initSettingsForm(): ilPropertyFormGUI
     {
         global $DIC;
 
@@ -109,16 +109,20 @@ class ilOrgUnitGlobalSettingsGUI
             $type->setValue(1);
             $type->setChecked($setting->isActive());
             if ($is_multi) {
-                $scope = new ilRadioGroupInputGUI($this->lng->txt('orgu_global_set_type_changeable'),
-                    $object_type . '_changeable');
+                $scope = new ilRadioGroupInputGUI(
+                    $this->lng->txt('orgu_global_set_type_changeable'),
+                    $object_type . '_changeable'
+                );
                 $scope->setValue((int) $setting->isChangeableForObject());
 
                 $scope_object = new ilRadioOption(
                     $this->lng->txt('orgu_global_set_type_changeable_object'),
                     1
                 );
-                $default = new ilCheckboxInputGUI($this->lng->txt('orgu_global_set_type_default'),
-                    $object_type . '_default');
+                $default = new ilCheckboxInputGUI(
+                    $this->lng->txt('orgu_global_set_type_default'),
+                    $object_type . '_default'
+                );
                 $default->setInfo($this->lng->txt('orgu_global_set_type_default_info'));
                 $default->setValue(ilOrgUnitObjectTypePositionSetting::DEFAULT_ON);
                 $default->setChecked($setting->getActivationDefault());
@@ -141,7 +145,7 @@ class ilOrgUnitGlobalSettingsGUI
         return $form;
     }
 
-    private function saveSettings() : void
+    private function saveSettings(): void
     {
         global $DIC;
         $objDefinition = $DIC['objDefinition'];

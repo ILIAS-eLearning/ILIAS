@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /******************************************************************************
  *
@@ -42,8 +44,8 @@ class ilObjNotificationAdminGUI extends ilObjectGUI
         parent::__construct($a_data, $a_id, $a_call_by_reference, false);
         $this->lng->loadLanguageModule('notification_adm');
     }
-    
-    public function executeCommand() : void
+
+    public function executeCommand(): void
     {
         $this->prepareOutput();
 
@@ -66,7 +68,7 @@ class ilObjNotificationAdminGUI extends ilObjectGUI
     /**
      * @throws ilCtrlException
      */
-    public function showGeneralSettings(?Form $form = null) : void
+    public function showGeneralSettings(?Form $form = null): void
     {
         if ($form === null) {
             $settings = new ilSetting('notifications');
@@ -90,7 +92,7 @@ class ilObjNotificationAdminGUI extends ilObjectGUI
     /**
      * @throws ilCtrlException
      */
-    public function saveGeneralSettings() : void
+    public function saveGeneralSettings(): void
     {
         $settings = new ilSetting('notifications');
 
@@ -114,7 +116,7 @@ class ilObjNotificationAdminGUI extends ilObjectGUI
     /**
      * @throws ilCtrlException
      */
-    protected function getForm(array $value = null) : Form
+    protected function getForm(array $value = null): Form
     {
         $enable_osd = $this->dic->ui()->factory()->input()->field()->optionalGroup(
             [

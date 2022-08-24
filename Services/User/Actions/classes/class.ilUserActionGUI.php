@@ -41,11 +41,11 @@ class ilUserActionGUI
         ilUserActionContext $a_user_action_context,
         ilGlobalTemplateInterface $a_global_tpl,
         int $a_current_user_id
-    ) : ilUserActionGUI {
+    ): ilUserActionGUI {
         return new ilUserActionGUI($a_user_action_context, $a_global_tpl, $a_current_user_id);
     }
 
-    public function init() : void
+    public function init(): void
     {
         $tpl = $this->tpl;
 
@@ -65,7 +65,7 @@ class ilUserActionGUI
         }
     }
 
-    public function renderDropDown(int $a_target_user_id) : string
+    public function renderDropDown(int $a_target_user_id): string
     {
         if (!$this->init_done) {
             $this->init();

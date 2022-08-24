@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /******************************************************************************
  *
@@ -29,17 +31,17 @@ class ilECSNodeMappingAssignment
     private bool $title_update = false;
     private bool $position_update = false;
     private bool $tree_update = false;
-    
+
     private bool $mapped = false;
-    
+
     private ilDBInterface $db;
 
     public function __construct(int $a_server_id, int $mid, int $cs_root, int $cs_id)
     {
         global $DIC;
-        
+
         $this->db = $DIC->database();
-        
+
         $this->server_id = $a_server_id;
         $this->mid = $mid;
         $this->cs_root = $cs_root;
@@ -47,98 +49,98 @@ class ilECSNodeMappingAssignment
 
         $this->read();
     }
-    
-    public function isMapped() : bool
+
+    public function isMapped(): bool
     {
         return $this->mapped;
     }
-    
-    public function getServerId() : int
+
+    public function getServerId(): int
     {
         return $this->server_id;
     }
-    
-    public function setServerId(int $a_id) : void
+
+    public function setServerId(int $a_id): void
     {
         $this->server_id = $a_id;
     }
 
-    public function setMembershipId(int $a_member_id) : void
+    public function setMembershipId(int $a_member_id): void
     {
         $this->mid = $a_member_id;
     }
 
-    public function getMembershipId() : int
+    public function getMembershipId(): int
     {
         return $this->mid;
     }
-    
-    public function getTreeId() : int
+
+    public function getTreeId(): int
     {
         return $this->cs_root;
     }
 
-    public function setTreeId(int $root) : void
+    public function setTreeId(int $root): void
     {
         $this->cs_root = $root;
     }
 
-    public function getCSId() : int
+    public function getCSId(): int
     {
         return $this->cs_id;
     }
 
-    public function setCSId(int $id) : void
+    public function setCSId(int $id): void
     {
         $this->cs_id = $id;
     }
 
-    public function getRefId() : int
+    public function getRefId(): int
     {
         return $this->ref_id;
     }
 
-    public function setRefId(int $a_id) : void
+    public function setRefId(int $a_id): void
     {
         $this->ref_id = $a_id;
     }
 
-    public function getObjId() : int
+    public function getObjId(): int
     {
         return $this->obj_id;
     }
 
-    public function setObjId(int $id) : void
+    public function setObjId(int $id): void
     {
         $this->obj_id = $id;
     }
 
-    public function isTitleUpdateEnabled() : bool
+    public function isTitleUpdateEnabled(): bool
     {
         return $this->title_update;
     }
 
-    public function enableTitleUpdate(bool $enabled) : void
+    public function enableTitleUpdate(bool $enabled): void
     {
         $this->title_update = $enabled;
     }
 
-    public function isPositionUpdateEnabled() : bool
+    public function isPositionUpdateEnabled(): bool
     {
         return $this->position_update;
     }
 
-    public function enablePositionUpdate(bool $enabled) : void
+    public function enablePositionUpdate(bool $enabled): void
     {
         $this->position_update = $enabled;
     }
 
-    public function isTreeUpdateEnabled() : bool
+    public function isTreeUpdateEnabled(): bool
     {
         return $this->tree_update;
     }
 
-    public function enableTreeUpdate(bool $enabled) : void
+    public function enableTreeUpdate(bool $enabled): void
     {
         $this->tree_update = $enabled;
     }
@@ -146,13 +148,13 @@ class ilECSNodeMappingAssignment
     /**
      * Update node mapping
      */
-    public function update() : void
+    public function update(): void
     {
         $this->delete();
         $this->create();
     }
 
-    public function create() : bool
+    public function create(): bool
     {
         $query = 'INSERT INTO ecs_node_mapping_a (server_id,mid,cs_root,cs_id,ref_id,obj_id,title_update,position_update,tree_update) ' .
             'VALUES( ' .
@@ -174,7 +176,7 @@ class ilECSNodeMappingAssignment
     /**
      * Delete entry
      */
-    public function delete() : void
+    public function delete(): void
     {
         $query = 'DELETE FROM ecs_node_mapping_a ' .
             'WHERE server_id = ' . $this->db->quote($this->getServerId(), 'integer') . ' ' .
@@ -189,7 +191,7 @@ class ilECSNodeMappingAssignment
     /**
      * read settings
      */
-    protected function read() : void
+    protected function read(): void
     {
         $query = 'SELECT * FROM ecs_node_mapping_a ' .
             'WHERE server_id = ' . $this->db->quote($this->getServerId(), 'integer') . ' ' .
@@ -197,7 +199,7 @@ class ilECSNodeMappingAssignment
             'AND cs_root = ' . $this->db->quote($this->getTreeId(), 'integer') . ' ' .
             'AND cs_id = ' . $this->db->quote($this->getCSId(), 'integer') . ' ';
         $res = $this->db->query($query);
-                
+
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             $this->setObjId($row->obj_id);
             $this->setRefId($row->ref_id);
@@ -207,8 +209,8 @@ class ilECSNodeMappingAssignment
             $this->mapped = true;
         }
     }
-    
-    public static function deleteByServerId($a_server_id) : bool
+
+    public static function deleteByServerId($a_server_id): bool
     {
         global $DIC;
 

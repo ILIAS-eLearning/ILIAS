@@ -1,5 +1,5 @@
 <?php
-    
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -15,7 +15,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\Membership\GlobalScreen;
 
 use ILIAS\GlobalScreen\Helper\BasicAccessCheckClosuresSingleton;
@@ -28,11 +28,10 @@ use ILIAS\MainMenu\Provider\StandardTopItemsProvider;
  */
 class MembershipMainBarProvider extends AbstractStaticMainMenuProvider
 {
-
     /**
      * @inheritDoc
      */
-    public function getStaticTopItems() : array
+    public function getStaticTopItems(): array
     {
         return [];
     }
@@ -40,7 +39,7 @@ class MembershipMainBarProvider extends AbstractStaticMainMenuProvider
     /**
      * @inheritDoc
      */
-    public function getStaticSubItems() : array
+    public function getStaticSubItems(): array
     {
         $dic = $this->dic;
         $access_helper = BasicAccessCheckClosuresSingleton::getInstance();

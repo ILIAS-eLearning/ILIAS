@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\UI\Component\MainControls\Slate;
 
 /**
@@ -26,10 +28,10 @@ interface Prompt extends Slate
     /**
      * Set the Prompt's Status Counter to $count.
      */
-    public function withUpdatedStatusCounter(int $count) : Prompt;
+    public function withUpdatedStatusCounter(int $count): Prompt;
 
     /**
      * Set the Prompt's Novelty Counter to $count.
      */
-    public function withUpdatedNoveltyCounter(int $count) : Prompt;
+    public function withUpdatedNoveltyCounter(int $count): Prompt;
 }

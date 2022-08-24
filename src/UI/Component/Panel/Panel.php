@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\UI\Component\Panel;
 
 use ILIAS\UI\Component\Component;
@@ -31,7 +33,7 @@ interface Panel extends Component
      *
      * @return string $title Title of the Panel
      */
-    public function getTitle() : string;
+    public function getTitle(): string;
 
     /**
      * Gets the content to be displayed inside the panel
@@ -42,10 +44,10 @@ interface Panel extends Component
     /**
      * Sets action Dropdown being displayed beside the title
      */
-    public function withActions(Dropdown\Standard $actions) : Panel;
+    public function withActions(Dropdown\Standard $actions): Panel;
 
     /**
      * Gets action Dropdown being displayed beside the title
      */
-    public function getActions() : ?Dropdown\Standard;
+    public function getActions(): ?Dropdown\Standard;
 }

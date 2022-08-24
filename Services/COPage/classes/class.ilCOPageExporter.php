@@ -45,7 +45,7 @@ class ilCOPageExporter extends ilXmlExporter
     /**
      * Initialisation
      */
-    public function init() : void
+    public function init(): void
     {
         global $DIC;
         /** @var ilComponentRepository $component_repository */
@@ -79,7 +79,7 @@ class ilCOPageExporter extends ilXmlExporter
         string $a_entity,
         string $a_target_release,
         array $a_ids
-    ) : array {
+    ): array {
         if ($a_entity == "pg") {
             // get all media objects and files of the page
             $mob_ids = array();
@@ -90,7 +90,7 @@ class ilCOPageExporter extends ilXmlExporter
                 $lang = ($this->config->getMasterLanguageOnly())
                     ? "-"
                     : "";
-    
+
                 // get media objects
                 if ($this->config->getIncludeMedia()) {
                     $mids = ilObjMediaObject::_getMobsOfObject($pg_id[0] . ":pg", $pg_id[1], 0, $lang);
@@ -100,7 +100,7 @@ class ilCOPageExporter extends ilXmlExporter
                         }
                     }
                 }
-    
+
                 // get files
                 $files = ilObjFile::_getFilesOfObject($pg_id[0] . ":pg", $pg_id[1], 0, $lang);
                 foreach ($files as $file) {
@@ -109,7 +109,7 @@ class ilCOPageExporter extends ilXmlExporter
                     }
                 }
             }
-    
+
             return array(
                 array(
                     "component" => "Services/MediaObjects",
@@ -121,21 +121,21 @@ class ilCOPageExporter extends ilXmlExporter
                     "ids" => $file_ids)
                 );
         }
-        
+
         return array();
     }
-    
+
     public function getXmlExportTailDependencies(
         string $a_entity,
         string $a_target_release,
         array $a_ids
-    ) : array {
+    ): array {
         if ($a_entity == "pgtp") {
             $pg_ids = array();
             foreach ($a_ids as $id) {
                 $pg_ids[] = "stys:" . $id;
             }
-    
+
             return array(
                 array(
                     "component" => "Services/COPage",
@@ -156,7 +156,7 @@ class ilCOPageExporter extends ilXmlExporter
         string $a_entity,
         string $a_schema_version,
         string $a_id
-    ) : string {
+    ): string {
         if ($a_entity == "pg") {
             $id = explode(":", $a_id);
 
@@ -187,7 +187,7 @@ class ilCOPageExporter extends ilXmlExporter
                 $xml .= "</PageObject>";
                 $page_object->freeDom();
             }
-    
+
             return $xml;
         }
         if ($a_entity == "pgtp") {
@@ -198,7 +198,7 @@ class ilCOPageExporter extends ilXmlExporter
 
     public function getValidSchemaVersions(
         string $a_entity
-    ) : array {
+    ): array {
         if ($a_entity == "pg") {
             return array(
                 "4.2.0" => array(
@@ -236,7 +236,7 @@ class ilCOPageExporter extends ilXmlExporter
      */
     protected function extractPluginProperties(
         ilPageObject $a_page
-    ) : void {
+    ): void {
         if (empty($this->plugin_dependencies)) {
             return;
         }

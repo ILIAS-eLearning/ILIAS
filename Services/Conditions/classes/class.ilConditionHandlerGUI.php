@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /******************************************************************************
  *
@@ -83,7 +85,7 @@ class ilConditionHandlerGUI
         }
     }
 
-    protected function initConditionIdFromQuery() : int
+    protected function initConditionIdFromQuery(): int
     {
         if ($this->http->wrapper()->query()->has('condition_id')) {
             return $this->http->wrapper()->query()->retrieve(
@@ -94,7 +96,7 @@ class ilConditionHandlerGUI
         return 0;
     }
 
-    protected function initConditionsIdsFromPost() : SplFixedArray
+    protected function initConditionsIdsFromPost(): SplFixedArray
     {
         if ($this->http->wrapper()->post()->has('conditions')) {
             return SplFixedArray::fromArray(
@@ -109,7 +111,7 @@ class ilConditionHandlerGUI
         return new SplFixedArray(0);
     }
 
-    protected function initItemIdsFromPost() : SplFixedArray
+    protected function initItemIdsFromPost(): SplFixedArray
     {
         if ($this->http->wrapper()->post()->has('item_ids')) {
             return SplFixedArray::fromArray(
@@ -124,7 +126,7 @@ class ilConditionHandlerGUI
         return new SplFixedArray(0);
     }
 
-    protected function initObligatoryItemsFromPost() : SplFixedArray
+    protected function initObligatoryItemsFromPost(): SplFixedArray
     {
         if ($this->http->wrapper()->post()->has('obl')) {
             return SplFixedArray::fromArray(
@@ -139,7 +141,7 @@ class ilConditionHandlerGUI
         return new SplFixedArray(0);
     }
 
-    protected function initListModeFromPost() : string
+    protected function initListModeFromPost(): string
     {
         if ($this->http->wrapper()->post()->has('list_mode')) {
             return $this->http->wrapper()->post()->retrieve(
@@ -150,7 +152,7 @@ class ilConditionHandlerGUI
         return "";
     }
 
-    protected function initSourceIdFromQuery() : int
+    protected function initSourceIdFromQuery(): int
     {
         if ($this->http->wrapper()->query()->has('source_id')) {
             return $this->http->wrapper()->query()->retrieve(
@@ -161,7 +163,7 @@ class ilConditionHandlerGUI
         return 0;
     }
 
-    public static function translateOperator(int $a_obj_id, string $a_operator) : string
+    public static function translateOperator(int $a_obj_id, string $a_operator): string
     {
         global $DIC;
 
@@ -179,17 +181,17 @@ class ilConditionHandlerGUI
         }
     }
 
-    protected function getConditionHandler() : ilConditionHandler
+    protected function getConditionHandler(): ilConditionHandler
     {
         return $this->ch_obj;
     }
 
-    public function setBackButtons(array $a_btn_arr) : void
+    public function setBackButtons(array $a_btn_arr): void
     {
         ilSession::set('precon_btn', $a_btn_arr);
     }
 
-    public function getBackButtons() : array
+    public function getBackButtons(): array
     {
         if (ilSession::has('precon_btn')) {
             return ilSession::get('precon_btn');
@@ -197,7 +199,7 @@ class ilConditionHandlerGUI
         return [];
     }
 
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         global $DIC;
 
@@ -219,47 +221,47 @@ class ilConditionHandlerGUI
         }
     }
 
-    public function setAutomaticValidation(bool $a_status) : void
+    public function setAutomaticValidation(bool $a_status): void
     {
         $this->automatic_validation = $a_status;
     }
 
-    public function getAutomaticValidation() : bool
+    public function getAutomaticValidation(): bool
     {
         return $this->automatic_validation;
     }
 
-    public function setTargetId(int $a_target_id) : void
+    public function setTargetId(int $a_target_id): void
     {
         $this->target_id = $a_target_id;
     }
 
-    public function getTargetId() : int
+    public function getTargetId(): int
     {
         return $this->target_id;
     }
 
-    public function setTargetRefId(int $a_target_ref_id) : void
+    public function setTargetRefId(int $a_target_ref_id): void
     {
         $this->target_ref_id = $a_target_ref_id;
     }
 
-    public function getTargetRefId() : int
+    public function getTargetRefId(): int
     {
         return $this->target_ref_id;
     }
 
-    public function setTargetType(string $a_target_type) : void
+    public function setTargetType(string $a_target_type): void
     {
         $this->target_type = $a_target_type;
     }
 
-    public function getTargetType() : string
+    public function getTargetType(): string
     {
         return $this->target_type;
     }
 
-    public function setTargetTitle(string $a_target_title) : void
+    public function setTargetTitle(string $a_target_title): void
     {
         $this->target_title = $a_target_title;
     }
@@ -267,17 +269,17 @@ class ilConditionHandlerGUI
     /**
      * Check if target has refernce id
      */
-    public function isTargetReferenced() : bool
+    public function isTargetReferenced(): bool
     {
         return (bool) $this->getTargetRefId();
     }
 
-    public function getTargetTitle() : string
+    public function getTargetTitle(): string
     {
         return $this->target_title;
     }
 
-    protected function listConditions() : void
+    protected function listConditions(): void
     {
         // check if parent deals with conditions
         if (
@@ -331,7 +333,7 @@ class ilConditionHandlerGUI
         $this->tpl->setVariable('TABLE_CONDITIONS', $h);
     }
 
-    protected function saveObligatorySettings() : void
+    protected function saveObligatorySettings(): void
     {
         $form = $this->showObligatoryForm();
         if ($form !== null && $form->checkInput()) {
@@ -384,7 +386,7 @@ class ilConditionHandlerGUI
         $this->tpl->setContent($form->getHTML());
     }
 
-    protected function saveObligatoryList() : void
+    protected function saveObligatoryList(): void
     {
         $all_conditions = ilConditionHandler::_getPersistedConditionsOfTarget(
             $this->getTargetRefId(),
@@ -420,7 +422,7 @@ class ilConditionHandlerGUI
 
     protected function showObligatoryForm(
         string $list_mode = self::LIST_MODE_ALL
-    ) : ?ilPropertyFormGUI {
+    ): ?ilPropertyFormGUI {
         if (!$this->objectDefinition->isRBACObject($this->getTargetType())) {
             return null;
         }
@@ -475,7 +477,7 @@ class ilConditionHandlerGUI
         return $form;
     }
 
-    public function edit(?ilPropertyFormGUI $form = null) : void
+    public function edit(?ilPropertyFormGUI $form = null): void
     {
         $condition_id = $this->initConditionIdFromQuery();
         if (!$condition_id) {
@@ -492,7 +494,7 @@ class ilConditionHandlerGUI
         $this->tpl->setContent($form->getHTML());
     }
 
-    public function updateCondition() : void
+    public function updateCondition(): void
     {
         $condition_id = $this->initConditionIdFromQuery();
         if (!$condition_id) {
@@ -548,7 +550,7 @@ class ilConditionHandlerGUI
         $this->ctrl->redirect($this, 'listConditions');
     }
 
-    public function askDelete() : void
+    public function askDelete(): void
     {
         $condition_ids = $this->initConditionsIdsFromPost();
         if (!count($condition_ids)) {
@@ -580,7 +582,7 @@ class ilConditionHandlerGUI
         $this->tpl->setContent($cgui->getHTML());
     }
 
-    public function delete() : void
+    public function delete(): void
     {
         $condition_ids = $this->initConditionsIdsFromPost();
         if (!count($condition_ids)) {
@@ -596,7 +598,7 @@ class ilConditionHandlerGUI
         $this->ctrl->redirect($this, 'listConditions');
     }
 
-    public function selector() : void
+    public function selector(): void
     {
         $this->tpl->setOnScreenMessage('info', $this->lng->txt("condition_select_object"));
 
@@ -614,7 +616,7 @@ class ilConditionHandlerGUI
         }
     }
 
-    public function add(?ilPropertyFormGUI $form = null) : void
+    public function add(?ilPropertyFormGUI $form = null): void
     {
         $source_id = $this->initSourceIdFromQuery();
         if (!$source_id) {
@@ -631,7 +633,7 @@ class ilConditionHandlerGUI
     /**
      * assign new trigger condition to target
      */
-    public function assign() : void
+    public function assign(): void
     {
         $source_id = $this->initSourceIdFromQuery();
         if (!$source_id) {
@@ -693,7 +695,7 @@ class ilConditionHandlerGUI
         $this->ctrl->redirect($this, 'listConditions');
     }
 
-    public function getConditionsOfTarget() : array
+    public function getConditionsOfTarget(): array
     {
         $cond = [];
         foreach (ilConditionHandler::_getPersistedConditionsOfTarget(
@@ -714,7 +716,7 @@ class ilConditionHandlerGUI
         int $a_source_id,
         int $a_condition_id = 0,
         string $a_mode = 'add'
-    ) : ilPropertyFormGUI {
+    ): ilPropertyFormGUI {
         $trigger_obj_id = ilObject::_lookupObjId($a_source_id);
         $trigger_type = ilObject::_lookupType($trigger_obj_id);
 

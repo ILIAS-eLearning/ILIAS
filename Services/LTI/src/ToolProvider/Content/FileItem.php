@@ -27,7 +27,6 @@ namespace ILIAS\LTI\ToolProvider\Content;
  */
 class FileItem extends Item
 {
-
     /**
      * Copy advice for content-item.
      *
@@ -76,7 +75,7 @@ class FileItem extends Item
      *
      * @return object
      */
-    public function toJsonldObject() : object
+    public function toJsonldObject(): object
     {
         $item = parent::toJsonldObject();
         if (!is_null($this->copyAdvice)) {
@@ -94,7 +93,7 @@ class FileItem extends Item
      *
      * @return object
      */
-    public function toJsonObject() : object
+    public function toJsonObject(): object
     {
         $item = parent::toJsonObject();
         if (!empty($this->expiresAt)) {

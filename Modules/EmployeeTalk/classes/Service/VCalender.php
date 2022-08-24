@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 /**
@@ -57,7 +58,7 @@ final class VCalender
         $this->method = $method;
     }
 
-    public function render() : string
+    public function render(): string
     {
         return 'BEGIN:VCALENDAR' . "\r\n" .
             'PRODID:-//ILIAS' . "\r\n" .
@@ -67,7 +68,7 @@ final class VCalender
             'NAME:' . $this->name . "\r\n" .
             'X-WR-CALNAME:' . $this->name . "\r\n" .
             'LAST-MODIFIED:' . date("Ymd\THis") . "\r\n" .
-            'METHOD:' .$this->method. "\r\n" .
+            'METHOD:' . $this->method . "\r\n" .
             'BEGIN:VTIMEZONE' . "\r\n" .
             'TZID:Europe/Paris' . "\r\n" .
             'X-LIC-LOCATION:Europe/Paris' . "\r\n" .
@@ -89,13 +90,13 @@ final class VCalender
 
             $this->renderVEvents() .
 
-            'END:VCALENDAR'. "\r\n";
+            'END:VCALENDAR' . "\r\n";
     }
 
     /**
      * @return string
      */
-    public function getName() : string
+    public function getName(): string
     {
         return $this->name;
     }
@@ -103,7 +104,7 @@ final class VCalender
     /**
      * @return string
      */
-    public function getUid() : string
+    public function getUid(): string
     {
         return $this->uid;
     }
@@ -111,7 +112,7 @@ final class VCalender
     /**
      * @return VEvent[]
      */
-    public function getEvents() : array
+    public function getEvents(): array
     {
         return $this->events;
     }
@@ -119,12 +120,12 @@ final class VCalender
     /**
      * @return string
      */
-    public function getMethod() : string
+    public function getMethod(): string
     {
         return $this->method;
     }
 
-    private function renderVEvents() : string
+    private function renderVEvents(): string
     {
         $eventString = "";
         foreach ($this->events as $event) {

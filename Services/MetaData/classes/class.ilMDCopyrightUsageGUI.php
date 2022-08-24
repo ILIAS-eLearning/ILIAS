@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
@@ -37,7 +39,7 @@ class ilMDCopyrightUsageGUI
         $this->entry_id = $a_entry_id;
     }
 
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         // save usage id for all request
         $this->ctrl->saveParameter($this, 'entry_id');
@@ -72,7 +74,7 @@ class ilMDCopyrightUsageGUI
         }
     }
 
-    public function showUsageTable() : void
+    public function showUsageTable(): void
     {
         $this->tpl->setOnScreenMessage('info', $this->lng->txt("meta_info_only_repository_objects"));
 
@@ -88,12 +90,12 @@ class ilMDCopyrightUsageGUI
         $this->tpl->setContent($table_gui->getHTML());
     }
 
-    public function getEntryId() : int
+    public function getEntryId(): int
     {
         return $this->entry_id;
     }
 
-    protected function applyUsageFilter() : void
+    protected function applyUsageFilter(): void
     {
         $table_gui = new ilMDCopyrightUsageTableGUI(
             $this,
@@ -106,7 +108,7 @@ class ilMDCopyrightUsageGUI
         $this->ctrl->redirect($this, self::DEFAULT_CMD);
     }
 
-    protected function resetUsageFilter() : void
+    protected function resetUsageFilter(): void
     {
         $table_gui = new ilMDCopyrightUsageTableGUI(
             $this,
@@ -119,7 +121,7 @@ class ilMDCopyrightUsageGUI
         $this->ctrl->redirect($this, self::DEFAULT_CMD);
     }
 
-    protected function setTabs() : void
+    protected function setTabs(): void
     {
         $this->tabs->clearTargets();
         $this->tabs->setBackTarget(

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -18,14 +20,14 @@
 
 interface ilCronJobCollection extends Countable, IteratorAggregate
 {
-    public function add(ilCronJobEntity $job) : void;
+    public function add(ilCronJobEntity $job): void;
 
     /**
      * Returns all the elements of this collection that satisfy the predicate $callable.
      * @param callable $callable
      * @return self
      */
-    public function filter(callable $callable) : ilCronJobCollection;
+    public function filter(callable $callable): ilCronJobCollection;
 
     /**
      * Extracts a slice of $length elements starting at position $offset from the Collection.
@@ -35,10 +37,10 @@ interface ilCronJobCollection extends Countable, IteratorAggregate
      * @param int|null $length The maximum number of elements to return, or null for no limit.
      * @return self
      */
-    public function slice(int $offset, ?int $length = null) : ilCronJobCollection;
+    public function slice(int $offset, ?int $length = null): ilCronJobCollection;
 
     /**
      * @return ilCronJobEntity[]
      */
-    public function toArray() : array;
+    public function toArray(): array;
 }

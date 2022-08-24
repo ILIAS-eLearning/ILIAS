@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -31,12 +33,12 @@ class ilTermsOfServiceHistorizedCriterion implements ilTermsOfServiceEvaluableCr
         $this->config = $config;
     }
 
-    public function getCriterionValue() : ilTermsOfServiceCriterionConfig
+    public function getCriterionValue(): ilTermsOfServiceCriterionConfig
     {
         return new ilTermsOfServiceCriterionConfig($this->config);
     }
 
-    public function getCriterionId() : string
+    public function getCriterionId(): string
     {
         return $this->id;
     }
