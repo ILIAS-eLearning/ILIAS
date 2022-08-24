@@ -166,7 +166,7 @@ class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectCon
         }
 
         if ($this->checkPermissionBool('write')) {
-            $this->tabs->addTab(
+            $this->tabs_gui->addTab(
                 self::UI_TAB_ID_MD,
                 $this->lng->txt('meta_data'),
                 $this->ctrl->getLinkTargetByClass(ilMDEditorGUI::class)
@@ -307,7 +307,7 @@ class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectCon
                 $this->checkPermission('write');
 
                 $this->prepareOutput();
-                $this->tabs->activateTab(self::UI_TAB_ID_MD);
+                $this->tabs_gui->activateTab(self::UI_TAB_ID_MD);
 
 
                 $md_gui = new ilMDEditorGUI($this->object->getId(), 0, $this->object->getType());
