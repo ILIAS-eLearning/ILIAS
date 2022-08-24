@@ -315,7 +315,7 @@ class ilMailSearchGUI
                     $result[$counter]['check'] = ilLegacyFormElementsUtil::formCheckbox(
                         false,
                         'search_name_to_addr[]',
-                        $user
+                        (string) $user
                     );
                 }
 
