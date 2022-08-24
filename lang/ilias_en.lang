@@ -14019,13 +14019,13 @@ rep#:#rep_add_new_def_grp_feedback#:#Feedback and Evaluation
 rep#:#rep_add_new_def_grp_organisation#:#Organisation
 rep#:#rep_add_new_def_grp_templates#:#Templates
 rep#:#rep_add_to_favourites#:#Add to Favourites
-rep#:#rep_breadcr_crs#:#Breadcrumb Starts With Course
-rep#:#rep_breadcr_crs_overwrite_not#:#Setting is not changeable on course level
-rep#:#rep_breadcr_crs_overwrite#:#Setting is changeable on course level
-rep#:#rep_breadcr_crs_overwrite_settings#:#Allow Exceptions
-rep#:#rep_breadcr_crs_overwrite_with_default#:#Setting is changeable on course level, with this as default
 rep#:#rep_added_rec_content#:#Recommended content has been added.
 rep#:#rep_added_to_favourites#:#The item has been added to your favourites.
+rep#:#rep_breadcr_crs#:#Breadcrumb Starts With Course
+rep#:#rep_breadcr_crs_overwrite#:#Setting is changeable on course level
+rep#:#rep_breadcr_crs_overwrite_not#:#Setting is not changeable on course level
+rep#:#rep_breadcr_crs_overwrite_settings#:#Allow Exceptions
+rep#:#rep_breadcr_crs_overwrite_with_default#:#Setting is changeable on course level, with this as default
 rep#:#rep_configure#:#Configure
 rep#:#rep_custom_icons#:#Custom Icons
 rep#:#rep_default#:#Default
