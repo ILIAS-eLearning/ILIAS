@@ -116,7 +116,7 @@ class ilTrObjectUsersPropsTableGUI extends ilLPTableBaseGUI
         $this->setExternalSegmentation(true);
         $this->setEnableHeader(true);
         $this->setFormAction(
-            $this->ctrl->getFormActionByClass(get_class($this))
+            $this->ctrl->getFormActionByClass([ilLPListOfObjectsGUI::class, get_class($this)])
         );
         $this->setRowTemplate(
             "tpl.object_users_props_row.html",
