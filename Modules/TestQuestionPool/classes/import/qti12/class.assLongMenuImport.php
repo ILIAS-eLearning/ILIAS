@@ -185,17 +185,17 @@ class assLongMenuImport extends assQuestionImport
                 $feedbacksgeneric[$correctness] = $m;
             }
         }
-        
+
         $this->addGeneralMetadata($item);
         $this->object->setTitle($item->getTitle());
-        $this->object->setNrOfTries($item->getMaxattempts());
+        $this->object->setNrOfTries((int)$item->getMaxattempts());
         $this->object->setComment($item->getComment());
         $this->object->setAuthor($item->getAuthor());
         $this->object->setOwner($ilUser->getId());
         $this->object->setObjId($questionpool_id);
         $this->object->setMinAutoComplete($item->getMetadataEntry("minAutoCompleteLength"));
         $this->object->setIdenticalscoring((int) $item->getMetadataEntry("identical_scoring"));
-        $this->object->setEstimatedWorkingTime($duration["h"], $duration["m"], $duration["s"]);
+        $this->object->setEstimatedWorkingTime($duration["h"] ?? 0, $duration["m"] ?? 0, $duration["s"] ?? 0);
         $this->object->setCorrectAnswers($correct_answers);
         $this->object->setPoints($sum);
         // additional content editing mode information

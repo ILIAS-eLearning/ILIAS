@@ -62,10 +62,10 @@ class assFormulaQuestionImport extends assQuestionImport
         $this->object->setOwner($ilUser->getId());
         $this->object->setQuestion($this->object->QTIMaterialToString($item->getQuestiontext()));
         $this->object->setObjId($questionpool_id);
-        $this->object->setEstimatedWorkingTime($duration["h"], $duration["m"], $duration["s"]);
+        $this->object->setEstimatedWorkingTime($duration["h"] ?? 0, $duration["m"] ?? 0, $duration["s"] ?? 0);
         if (preg_match_all("/(\\\$v\\d+)/ims", $this->object->getQuestion(), $matches)) {
             foreach ($matches[1] as $variable) {
-                $data = unserialize($item->getMetadataEntry($variable));
+                $data = unserialize($item->getMetadataEntry($variable), false);
                 $unit = $this->object->getUnitRepository()->getUnit($data["unitvalue"]);
                 require_once 'Modules/TestQuestionPool/classes/class.assFormulaQuestionVariable.php';
                 $varObj = new assFormulaQuestionVariable($variable, $data["rangemin"], $data["rangemax"], $unit, $data["precision"], $data["intprecision"]);
@@ -74,7 +74,7 @@ class assFormulaQuestionImport extends assQuestionImport
         }
         if (preg_match_all("/(\\\$r\\d+)/ims", $this->object->getQuestion(), $rmatches)) {
             foreach ($rmatches[1] as $result) {
-                $data = unserialize($item->getMetadataEntry($result));
+                $data = unserialize($item->getMetadataEntry($result), false);
                 $unit = $this->object->getUnitRepository()->getUnit($data["unitvalue"]);
                 require_once 'Modules/TestQuestionPool/classes/class.assFormulaQuestionResult.php';
                 if (!is_array($data["rating"])) {

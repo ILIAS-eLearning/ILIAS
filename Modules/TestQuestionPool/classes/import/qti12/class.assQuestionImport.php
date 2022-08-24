@@ -280,7 +280,7 @@ class assQuestionImport
     {
         $additionalContentEditingMode = $qtiItem->getMetadataEntry('additional_cont_edit_mode');
         
-        if (!$this->object->isValidAdditionalContentEditingMode($additionalContentEditingMode)) {
+        if (!$this->object->isValidAdditionalContentEditingMode($additionalContentEditingMode ?? '')) {
             $additionalContentEditingMode = assQuestion::ADDITIONAL_CONTENT_EDITING_MODE_DEFAULT;
         }
         
@@ -308,9 +308,9 @@ class assQuestionImport
  
     protected function findSolutionTypeByValue(strgin $value) : ?string
     {
-        foreach ($array_keys(assQuestionSuggestedSolution::TYPES) as $type) {
+        foreach (array_keys(assQuestionSuggestedSolution::TYPES) as $type) {
             $search_type = '_' . $type . '_';
-            if (substr($value, $searchtype)) {
+            if (substr($value, $search_type)) {
                 return $type;
             }
         }
