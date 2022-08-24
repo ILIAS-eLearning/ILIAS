@@ -70,11 +70,11 @@ class ilObjLearningSequence extends ilContainer
 
     public function read(): void
     {
+        parent::read();
         $this->getLSSettings();
         if ($this->getRefId()) {
             $this->getLSActivation();
         }
-        parent::read();
     }
 
     public function create(): int
