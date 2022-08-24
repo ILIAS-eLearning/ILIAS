@@ -187,9 +187,13 @@ class ilObjectTranslation
      */
     public function getDefaultTitle()
     {
-        foreach ($this->languages as $l) {
-            if ($l["lang_default"]) {
-                return $l["title"];
+        if ($this->getFallbackLanguage() != "") {
+            return $this->languages[$this->getFallbackLanguage()]["title"];
+        } else {
+            foreach ($this->languages as $l) {
+                if ($l["lang_default"]) {
+                    return $l["title"];
+                }
             }
         }
         if (count($this->languages) == 0) {
@@ -205,9 +209,13 @@ class ilObjectTranslation
      */
     public function setDefaultTitle($a_title)
     {
-        foreach ($this->languages as $k => $l) {
-            if ($l["lang_default"]) {
-                $this->languages[$k]["title"] = $a_title;
+        if ($this->getFallbackLanguage() != "") {
+            $this->languages[$this->getFallbackLanguage()]["title"] = $a_title;
+        } else {
+            foreach ($this->languages as $k => $l) {
+                if ($l["lang_default"]) {
+                    $this->languages[$k]["title"] = $a_title;
+                }
             }
         }
     }
@@ -219,6 +227,9 @@ class ilObjectTranslation
      */
     public function getDefaultDescription()
     {
+        if ($this->getFallbackLanguage() != "") {
+            return $this->languages[$this->getFallbackLanguage()]["description"];
+        }
         foreach ($this->languages as $l) {
             if ($l["lang_default"]) {
                 return $l["description"];
@@ -237,9 +248,13 @@ class ilObjectTranslation
      */
     public function setDefaultDescription($a_description)
     {
-        foreach ($this->languages as $k => $l) {
-            if ($l["lang_default"]) {
-                $this->languages[$k]["description"] = $a_description;
+        if ($this->getFallbackLanguage() != "") {
+            $this->languages[$this->getFallbackLanguage()]["description"] = $a_description;
+        } else {
+            foreach ($this->languages as $k => $l) {
+                if ($l["lang_default"]) {
+                    $this->languages[$k]["description"] = $a_description;
+                }
             }
         }
     }
@@ -251,6 +266,9 @@ class ilObjectTranslation
      */
     public function getDefaultLanguage()
     {
+        if ($this->getFallbackLanguage() != "") {
+            return $this->getFallbackLanguage();
+        }
         foreach ($this->languages as $l) {
             if ($l["lang_default"]) {
                 return $l["lang_code"];
@@ -373,7 +391,6 @@ class ilObjectTranslation
                 }
             }
         }
-
         foreach ($this->getLanguages() as $l => $trans) {
             $this->db->manipulate($t = "INSERT INTO object_translation " .
                 "(obj_id, title, description, lang_code, lang_default) VALUES (" .

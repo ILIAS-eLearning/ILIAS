@@ -300,8 +300,7 @@ class ilObject
         } elseif ($translation_type == "db") {
             $q = "SELECT title,description FROM object_translation " .
                  "WHERE obj_id = " . $ilDB->quote($this->id, 'integer') . " " .
-                 "AND lang_code = " . $ilDB->quote($ilUser->getCurrentLanguage(), 'text') . " " .
-                 "AND NOT lang_default = 1";
+                 "AND lang_code = " . $ilDB->quote($ilUser->getCurrentLanguage(), 'text');
             $r = $ilDB->query($q);
             $row = $r->fetchRow(ilDBConstants::FETCHMODE_OBJECT);
             if ($row) {

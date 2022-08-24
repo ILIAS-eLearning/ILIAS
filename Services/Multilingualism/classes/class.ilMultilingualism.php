@@ -5,23 +5,6 @@
 /**
  * Class handles translation mode for an object.
  *
- * Objects may not use any translations at all
- * - use translations for title/description only or
- * - use translation for (the page editing) content, too.
- *
- * Currently supported by container objects and ILIAS learning modules.
- *
- * Content master lang vs. default language
- * - If no translation mode for the content is active no master lang will be
- *   set and no record in table obj_content_master_lng will be saved. For the
- *   title/descriptions the default will be marked by field lang_default in table
- *   object_translation.
- * - If translation for content is activated a master language must be set (since
- *   concent may already exist the language of this content is defined through
- *   setting the master language (in obj_content_master_lng). Modules that use
- *   this mode will not get informed about this, so they can not internally
- *   assign existing content to the master lang
- *
  * @author Alex Killing <alex.killing@gmx.de>
  * @version $Id$
  * @ingroup ServicesObject

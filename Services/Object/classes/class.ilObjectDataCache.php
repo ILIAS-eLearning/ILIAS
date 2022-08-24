@@ -206,8 +206,7 @@ class ilObjectDataCache
                 if (!$this->trans_loaded[$a_obj_id]) {
                     $q = "SELECT title,description FROM object_translation " .
                          "WHERE obj_id = " . $ilDB->quote($a_obj_id, 'integer') . " " .
-                         "AND lang_code = " . $ilDB->quote($a_lang, 'text') . " " .
-                         "AND NOT lang_default = 1";
+                         "AND lang_code = " . $ilDB->quote($a_lang, 'text');
                     $r = $ilDB->query($q);
 
                     $row = $r->fetchRow(ilDBConstants::FETCHMODE_OBJECT);
@@ -308,8 +307,7 @@ class ilObjectDataCache
         if (count($obj_ids) > 0) {
             $q = "SELECT obj_id, title, description FROM object_translation " .
                  "WHERE " . $ilDB->in('obj_id', $obj_ids, false, 'integer') . " " .
-                 "AND lang_code = " . $ilDB->quote($a_lang, 'text') . " " .
-                 "AND NOT lang_default = 1";
+                 "AND lang_code = " . $ilDB->quote($a_lang, 'text');
             $r = $ilDB->query($q);
             while ($row2 = $r->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
                 $this->object_data_cache[$row2->obj_id]['title'] = $row2->title;
