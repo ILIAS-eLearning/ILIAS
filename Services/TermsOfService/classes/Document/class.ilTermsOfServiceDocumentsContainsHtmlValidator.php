@@ -52,7 +52,7 @@ class ilTermsOfServiceDocumentsContainsHtmlValidator
 
             $this->endXmlLogging();
 
-            if (!$import_succeeded || $this->xmlErrorsOccured()) {
+            if (!$import_succeeded || $this->xmlErrorsOccurred()) {
                 return false;
             }
 
@@ -111,7 +111,7 @@ class ilTermsOfServiceDocumentsContainsHtmlValidator
         });
     }
 
-    private function xmlErrorsOccured() : bool
+    private function xmlErrorsOccurred() : bool
     {
         return $this->relevantXmlErrors() !== [];
     }
