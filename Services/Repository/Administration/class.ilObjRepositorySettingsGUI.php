@@ -186,7 +186,7 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
             $this->lng->txt("rep_tree_limit_number_info")
         )->withValue($ilSetting->get("rep_tree_limit_number"))
          ->withAdditionalTransformation($this->getMaxLengthConstraint(3))
-         ->withAdditionalTransformation($this->getPositiveConstraint());
+         ->withAdditionalTransformation($this->getNonNegativeConstraint());
 
         // limit items in tree
         $tree_limit = $f->optionalGroup(
@@ -201,16 +201,14 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
         }
 
         // breadcrumbs start with courses
-        //TODO this needs cleaning up, was previously made up of nested inputs two layers deep
         $change_mode = $f->radio(
-            $this->lng->txt("rep_breadcr_crs")
+            $this->lng->txt("rep_breadcr_crs_overwrite_settings")
         )->withOption(
             '1',
             $this->lng->txt("rep_breadcr_crs_overwrite")
         )->withOption(
-            'rep_breadcr_crs_default', //this was previously the postvar
-            $this->lng->txt("rep_breadcr_crs_overwrite") .
-            ' (' . $this->lng->txt("rep_default") . ')' //TODO introduce new langvar for this
+            'rep_breadcr_crs_default',
+            $this->lng->txt("rep_breadcr_crs_overwrite_with_default")
         )->withOption(
             '0',
             $this->lng->txt("rep_breadcr_crs_overwrite_not")
@@ -248,12 +246,19 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
             $this->lng->txt("rep_export_limitation_disabled")
         );
 
-        // limit items in tree (number)
+        // export unlimited
+        $exp_unlimited = $f->group(
+            [],
+            $this->lng->txt("rep_export_limitation_unlimited")
+        );
+
+        // limit export items (number)
         $exp_limit_num = $f->numeric(
             $this->lng->txt("rep_export_limit_number")
         )->withAdditionalTransformation($this->getMaxLengthConstraint(6))
          ->withAdditionalTransformation($this->getPositiveConstraint())
-         ->withValue($ilSetting->get("rep_export_limit_number"));
+         ->withValue($ilSetting->get("rep_export_limit_number"))
+         ->withRequired(true);
 
         $exp_limited = $f->group(
             [
@@ -266,11 +271,19 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
         $exp_limit = $f->switchableGroup(
             [
                 (string) ilExportLimitation::SET_EXPORT_DISABLED => $exp_disabled,
-                (string) ilExportLimitation::SET_EXPORT_LIMITED => $exp_limited
+                (string) ilExportLimitation::SET_EXPORT_LIMITED => $exp_limited,
+                'rep_export_unlimited' => $exp_unlimited
             ],
             $this->lng->txt("rep_export_limitation"),
             $this->lng->txt("rep_export_limitation_info")
         )->withValue((string) $limiter->getLimitationMode());
+
+        if (
+            $limiter->getLimitationMode() === ilExportLimitation::SET_EXPORT_LIMITED &&
+            $ilSetting->get("rep_export_limit_number") === ''
+        ) {
+            $exp_limit = $exp_limit->withValue('rep_export_unlimited');
+        }
 
         // Show download action for folder
         $dl_prob = $f->checkbox(
@@ -322,7 +335,7 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
             $this->lng->txt("adm_rep_shorten_description_length")
         )->withValue($ilSetting->get("rep_shorten_description_length"))
          ->withAdditionalTransformation($this->getMaxLengthConstraint(3))
-         ->withAdditionalTransformation($this->getPositiveConstraint());
+         ->withAdditionalTransformation($this->getNonNegativeConstraint());
 
         $sdesc = $f->optionalGroup(
             [
@@ -410,16 +423,28 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
                 (string) $data["rep_favourites"]
             );
 
-            $ilSetting->set(
-                "rep_export_limitation",
-                (string) $data["rep_export_limitation"][0]
-            );
+            if ($data["rep_export_limitation"][0] === 'rep_export_unlimited') {
+                $ilSetting->set(
+                    "rep_export_limitation",
+                    (string) ilExportLimitation::SET_EXPORT_LIMITED
+                );
+                $ilSetting->set(
+                    "rep_export_limit_number",
+                    ''
+                );
+            } else {
+                $ilSetting->set(
+                    "rep_export_limitation",
+                    (string) $data["rep_export_limitation"][0]
+                );
+            }
             if ($data["rep_export_limitation"][0] === (string) ilExportLimitation::SET_EXPORT_LIMITED) {
                 $ilSetting->set(
                     "rep_export_limit_number",
                     (string) $data["rep_export_limitation"][1]["rep_export_limit_number"] ?? ''
                 );
             }
+
             $ilSetting->set(
                 "enable_trash",
                 (string) $data["enable_trash"]
@@ -674,11 +699,13 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
                 
         $this->tpl->setContent($grp_table->getHTML());
     }
-    
-    protected function initNewItemGroupForm(int $a_grp_id = 0) : StandardForm
+
+    protected function initNewItemGroupForm(int $a_grp_id = 0) : ilPropertyFormGUI
     {
         $this->setModuleSubTabs("new_item_groups");
-        
+
+        $form = new ilPropertyFormGUI();
+
         $this->lng->loadLanguageModule("meta");
         $def_lng = $this->lng->getDefaultLanguage();
     
@@ -761,8 +788,8 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
             $this->ctrl->setParameter($this, "grp_id", $grp_id);
             $a_form = $this->initNewItemGroupForm($grp_id);
         }
-        
-        $this->tpl->setContent($this->renderer->render($a_form));
+
+        $this->tpl->setContent($a_form->getHTML());
     }
     
     protected function updateNewItemGroup() : void
@@ -910,6 +937,11 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
     }
 
     protected function getPositiveConstraint() : Constraint
+    {
+        return $this->refinery->int()->isGreaterThan(0);
+    }
+
+    protected function getNonNegativeConstraint() : Constraint
     {
         return $this->refinery->int()->isGreaterThanOrEqual(0);
     }
