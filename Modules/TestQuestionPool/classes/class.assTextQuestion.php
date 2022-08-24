@@ -100,6 +100,16 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
         $this->matchcondition = 0;
     }
 
+    public function getMatchcondition() : int
+    {
+        return $this->matchcondition;
+    }
+
+    public function setMatchcondition(int $matchcondition) : void
+    {
+        $this->matchcondition = $matchcondition;
+    }
+
     /**
     * Returns true, if a multiple choice question is complete for use
     *
@@ -169,7 +179,7 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
             $this->setWordCounterEnabled((bool) $data['word_cnt_enabled']);
             $this->setMaxNumOfChars($data["maxnumofchars"]);
             $this->setTextRating($this->isValidTextRating($data["textgap_rating"]) ? $data["textgap_rating"] : TEXTGAP_RATING_CASEINSENSITIVE);
-            $this->matchcondition = (strlen($data['matchcondition'])) ? $data['matchcondition'] : 0;
+            $this->matchcondition = (strlen($data['matchcondition'])) ? (int) $data['matchcondition'] : 0;
             $this->setEstimatedWorkingTime(substr($data["working_time"], 0, 2), substr($data["working_time"], 3, 2), substr($data["working_time"], 6, 2));
             $this->setKeywordRelation(($data['keyword_relation']));
             
@@ -694,7 +704,7 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
             'word_cnt_enabled' => array('integer', (int) $this->isWordCounterEnabled()),
             'keywords' => array('text', null),
             'textgap_rating' => array('text', $this->getTextRating()),
-            'matchcondition' => array('integer', $this->matchcondition),
+            'matchcondition' => array('integer', $this->getMatchcondition()),
             'keyword_relation' => array('text', $this->getKeywordRelation())
         );
         
