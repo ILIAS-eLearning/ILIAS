@@ -1545,21 +1545,21 @@ class ilObjStyleSheet extends ilObject
                 fwrite($css_file, "\n");
 
                 // use table border attributes for th td as well
-    /*			if ($tag[0]["type"] == "table")
-                {
-                    if (count($t_border) > 0)
-                    {
-                        fwrite ($css_file, $tag[0]["tag"].".ilc_".$tag[0]["type"]."_".$tag[0]["class"]." th,".
-                            $tag[0]["tag"].".ilc_".$tag[0]["type"]."_".$tag[0]["class"]." td\n");
-                        fwrite ($css_file, "{\n");
-                        foreach ($t_border as $p => $v)
-                        {
-    //						fwrite ($css_file, "\t".$p.": ".$v.";\n");
-                        }
-                        fwrite ($css_file, "}\n");
-                        fwrite ($css_file, "\n");
-                    }
-                }*/
+                /*			if ($tag[0]["type"] == "table")
+                            {
+                                if (count($t_border) > 0)
+                                {
+                                    fwrite ($css_file, $tag[0]["tag"].".ilc_".$tag[0]["type"]."_".$tag[0]["class"]." th,".
+                                        $tag[0]["tag"].".ilc_".$tag[0]["type"]."_".$tag[0]["class"]." td\n");
+                                    fwrite ($css_file, "{\n");
+                                    foreach ($t_border as $p => $v)
+                                    {
+                //						fwrite ($css_file, "\t".$p.": ".$v.";\n");
+                                    }
+                                    fwrite ($css_file, "}\n");
+                                    fwrite ($css_file, "\n");
+                                }
+                            }*/
             }
 
             if ($page_background != "") {

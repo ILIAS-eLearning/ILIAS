@@ -49,7 +49,6 @@ class ilLOMemberTestResultGUI
         $cmd = $this->ctrl->getCmd();
 
         switch ($next_class) {
-
             default:
                 if (!$cmd) {
                     $cmd = 'viewResult';

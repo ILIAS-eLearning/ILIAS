@@ -825,7 +825,7 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
                         break;
                     }
 
-                // no break
+                    // no break
                 default:
                     $value = $this->parseValue($c, $a_set[$c], $a_set["type"]);
                     $this->tpl->setVariable(strtoupper($c), $value);

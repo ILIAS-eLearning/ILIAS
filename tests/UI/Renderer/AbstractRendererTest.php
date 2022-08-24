@@ -19,7 +19,6 @@ declare(strict_types=1);
  *********************************************************************/
 
 namespace ILIAS\UI\Implementation\Component\Symbol\Glyph {
-
     require_once("libs/composer/vendor/autoload.php");
 
     use ILIAS\UI\Component\Component;
@@ -57,7 +56,6 @@ namespace ILIAS\UI\Implementation\Component\Symbol\Glyph {
 }
 
 namespace ILIAS\UI\Implementation\Component\Counter {
-
     use ILIAS\UI\Component\Component;
     use ILIAS\UI\Renderer;
     use ILIAS\UI\Implementation\Render\AbstractComponentRenderer;
@@ -82,7 +80,6 @@ namespace ILIAS\UI\Implementation\Component\Counter {
 }
 
 namespace {
-
     /**
      * This file is part of ILIAS, a powerful learning management system
      * published by ILIAS open source e-Learning e.V.

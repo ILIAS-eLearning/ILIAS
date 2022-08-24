@@ -93,8 +93,8 @@ class ilPCImageMapEditorGUI extends ilImageMapEditorGUI
         switch ($this->map_repo->getMode()) {
             // save edited link
             case "edit_link":
-//				$std_alias_item = new ilMediaAliasItem($this->content_obj->dom,
-//					$this->content_obj->hier_id, "Standard", $this->content_obj->getPcId());
+                //				$std_alias_item = new ilMediaAliasItem($this->content_obj->dom,
+                //					$this->content_obj->hier_id, "Standard", $this->content_obj->getPcId());
 
                 $area_link_type = $this->edit_request->getString("area_link_type");
                 if ($area_link_type == IL_INT_LINK) {
@@ -118,7 +118,7 @@ class ilPCImageMapEditorGUI extends ilImageMapEditorGUI
                 $this->page->update();
                 break;
 
-            // save edited shape
+                // save edited shape
             case "edit_shape":
                 $this->std_alias_item->setShape(
                     $this->map_repo->getAreaNr(),
@@ -128,7 +128,7 @@ class ilPCImageMapEditorGUI extends ilImageMapEditorGUI
                 $this->page->update();
                 break;
 
-            // save new area
+                // save new area
             default:
                 $area_type = $this->map_repo->getAreaType();
                 $coords = $this->map_repo->getCoords();
@@ -156,8 +156,8 @@ class ilPCImageMapEditorGUI extends ilImageMapEditorGUI
                         break;
                 }
 
-//				$std_alias_item = new ilMediaAliasItem($this->content_obj->dom,
-//					$this->content_obj->hier_id, "Standard", $this->content_obj->getPcId());
+                //				$std_alias_item = new ilMediaAliasItem($this->content_obj->dom,
+                //					$this->content_obj->hier_id, "Standard", $this->content_obj->getPcId());
                 $this->std_alias_item->addMapArea(
                     $area_type,
                     $coords,

@@ -193,7 +193,6 @@ class ilMediaCreationGUI
         $cmd = $ctrl->getCmd("creationSelection");
 
         switch ($next_class) {
-
             case "ilpropertyformgui":
                 $form = $this->initPoolSelection();
                 $ctrl->forwardCommand($form);

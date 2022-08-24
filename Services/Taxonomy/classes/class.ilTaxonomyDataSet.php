@@ -231,10 +231,9 @@ class ilTaxonomyDataSet extends ilDataSet
                             $node->getId()
                         );
                         break;
-
                 }
 
-            // no break
+                // no break
             case "tax_node_assignment":
                 $new_item_id = (int) $a_mapping->getMapping(
                     "Services/Taxonomy",

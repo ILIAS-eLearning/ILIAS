@@ -62,7 +62,6 @@ class ilAccordionPropertiesStorageGUI implements ilCtrlBaseClassInterface
 
         if ($this->user_id == $ilUser->getId()) {
             switch ($this->request->getAction()) {
-
                 case "add":
                     $cur = $this->getProperty(
                         $this->req_acc_id,

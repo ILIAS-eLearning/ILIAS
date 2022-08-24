@@ -116,7 +116,6 @@ class ilWebAccessCheckerDelivery
 
     protected function handleAccessErrors(ilWACException $e): void
     {
-
         //1.5.2017 Http code needs to be 200 because mod_xsendfile ignores the response with an 401 code. (possible leak of web path via xsendfile header)
         $response = $this->http
             ->response()

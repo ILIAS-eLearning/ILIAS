@@ -171,7 +171,6 @@ class ilGlossaryDefinition
         $ilAtomQuery->addTableLock('glossary_definition');
 
         $ilAtomQuery->addQueryCallable(function (ilDBInterface $ilDB) {
-
             // get maximum definition number
             $q = "SELECT max(nr) AS max_nr FROM glossary_definition WHERE term_id = " .
                 $ilDB->quote($this->getTermId(), "integer");
@@ -221,7 +220,6 @@ class ilGlossaryDefinition
         $ilAtomQuery->addTableLock("glossary_definition");
 
         $ilAtomQuery->addQueryCallable(function (ilDBInterface $ilDB) {
-
             // be sure to get the right number
             $q = "SELECT * FROM glossary_definition WHERE id = " .
                 $ilDB->quote($this->id, "integer");
@@ -257,7 +255,6 @@ class ilGlossaryDefinition
         $ilAtomQuery->addTableLock('glossary_definition');
 
         $ilAtomQuery->addQueryCallable(function (ilDBInterface $ilDB) {
-
             // be sure to get the right number
             $q = "SELECT * FROM glossary_definition WHERE id = " .
                 $ilDB->quote($this->id, "integer");
@@ -292,7 +289,6 @@ class ilGlossaryDefinition
         $ilAtomQuery->addTableLock('glossary_definition');
 
         $ilAtomQuery->addQueryCallable(function (ilDBInterface $ilDB) {
-
             // be sure to get the right number
             $q = "SELECT * FROM glossary_definition WHERE id = " .
                 $ilDB->quote($this->id, "integer");

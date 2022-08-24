@@ -203,7 +203,7 @@ class ilWikiPageGUI extends ilPageObjectGUI
                         case 4:
                             ilNotification::setNotification(ilNotification::TYPE_WIKI_PAGE, $ilUser->getId(), $this->getPageObject()->getId(), true);
                             break;
-                   }
+                    }
                     $ilCtrl->redirect($this, "preview");
                 }
 
@@ -933,7 +933,6 @@ class ilWikiPageGUI extends ilPageObjectGUI
         string $a_action,
         int $a_note_id
     ): void {
-
         // #10040 - get note text
         $note = $this->notes->domain()->getById($a_note_id);
         $text = $note->getText();

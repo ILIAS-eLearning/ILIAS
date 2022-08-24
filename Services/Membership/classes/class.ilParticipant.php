@@ -166,7 +166,6 @@ abstract class ilParticipant
             case 'il_crs_m':
             default:
                 return self::MEMBERSHIP_MEMBER;
-
         }
     }
 
@@ -354,7 +353,6 @@ abstract class ilParticipant
             case ilParticipants::IL_CRS_MEMBER:
                 $this->members = true;
                 break;
-
         }
 
         $this->rbacAdmin->assignUser($this->role_data[$a_role], $a_usr_id);

@@ -1057,7 +1057,6 @@ class ilLMObject
 
             if ($copied_type == "pg" ||
                 $copied_type == "st") {
-
                 //
                 // 2. Incoming links to the original pages
                 //
@@ -1069,7 +1068,6 @@ class ilLMObject
                 $original_type = ilObject::_lookupType($original_lm);
 
                 if ($original_lm != $copy_lm) {
-
                     // This gets sources that link to A+B (so we have C here)
                     // (this also does already the trick when instance map areas are given in C)
                     // int_link, where target_type, target_id, target_inst -> ok

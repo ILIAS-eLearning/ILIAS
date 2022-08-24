@@ -332,7 +332,6 @@ class ilRegistrationSettingsGUI
                     $this->tpl->setOnScreenMessage('failure', $this->lng->txt('reg_approve_needs_recipient') . ' ' . $this->registration_settings->getUnknown());
                     $this->view();
                     return false;
-
             }
         }
 

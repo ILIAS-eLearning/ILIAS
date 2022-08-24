@@ -158,15 +158,15 @@ class ilHTTPS
         switch ($to_protocol) {
             case self::PROTOCOL_HTTP:
                 return (
-                        !in_array(basename($_SERVER['SCRIPT_NAME']), $this->protected_scripts) &&
-                        !in_array(strtolower($_GET['cmdClass']), $this->protected_classes)
-                    ) && $_SERVER['HTTPS'] == 'on';
+                    !in_array(basename($_SERVER['SCRIPT_NAME']), $this->protected_scripts) &&
+                    !in_array(strtolower($_GET['cmdClass']), $this->protected_classes)
+                ) && $_SERVER['HTTPS'] == 'on';
 
             case self::PROTOCOL_HTTPS:
                 return (
-                        in_array(basename($_SERVER['SCRIPT_NAME']), $this->protected_scripts) ||
-                        in_array(strtolower($_GET['cmdClass']), $this->protected_classes)
-                    ) && $_SERVER['HTTPS'] != 'on';
+                    in_array(basename($_SERVER['SCRIPT_NAME']), $this->protected_scripts) ||
+                    in_array(strtolower($_GET['cmdClass']), $this->protected_classes)
+                ) && $_SERVER['HTTPS'] != 'on';
         }
 
         return false;

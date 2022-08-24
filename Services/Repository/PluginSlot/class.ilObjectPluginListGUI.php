@@ -92,7 +92,6 @@ abstract class ilObjectPluginListGUI extends ilObjectListGUI
 
     public function getCommandLink(string $cmd): string
     {
-
         // separate method for this line
         $cmd_link = "ilias.php?baseClass=ilObjPluginDispatchGUI&amp;" .
             "cmd=forward&amp;ref_id=" . $this->ref_id . "&amp;forwardCmd=" . $cmd;

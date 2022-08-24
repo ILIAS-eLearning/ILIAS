@@ -75,7 +75,7 @@ class ilSCORMObjectGUI
                 return $srs_gui;
 
             default:
-                case "sre":					// resource
+            case "sre":					// resource
                 $sre_gui = new ilSCORMResourceGUI($a_id);
                 return $sre_gui;
         }

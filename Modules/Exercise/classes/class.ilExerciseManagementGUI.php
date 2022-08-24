@@ -272,7 +272,7 @@ class ilExerciseManagementGUI
                 break;
 
             default:
-            // case self::VIEW_ASSIGNMENT:
+                // case self::VIEW_ASSIGNMENT:
                 $back_cmd = "members";
                 break;
         }

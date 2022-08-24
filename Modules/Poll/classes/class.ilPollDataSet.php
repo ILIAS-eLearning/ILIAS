@@ -87,7 +87,7 @@ class ilPollDataSet extends ilDataSet
                         "PeriodEnd" => "integer"
 
                     );
-                break;
+                    break;
             }
         }
 
@@ -131,7 +131,6 @@ class ilPollDataSet extends ilDataSet
                         " WHERE " . $ilDB->in("pl.id", $a_ids, false, "integer") .
                         " AND od.type = " . $ilDB->quote("poll", "text"));
                     break;
-
             }
         }
 

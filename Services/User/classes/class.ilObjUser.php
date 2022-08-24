@@ -346,9 +346,9 @@ class ilObjUser extends ilObject
                 break;
 
             default:
-                 $ilErr->raiseError("<b>Error: passwd_type missing in function saveAsNew. " .
-                                    $this->id . "!</b><br />class: " . get_class($this) . "<br />Script: " . __FILE__ .
-                                    "<br />Line: " . __LINE__, $ilErr->FATAL);
+                $ilErr->raiseError("<b>Error: passwd_type missing in function saveAsNew. " .
+                                   $this->id . "!</b><br />class: " . get_class($this) . "<br />Script: " . __FILE__ .
+                                   "<br />Line: " . __LINE__, $ilErr->FATAL);
         }
 
         if (!$this->active) {

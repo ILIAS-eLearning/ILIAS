@@ -1489,7 +1489,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
                     preg_match("/^deleteImage_.*/", $key, $matches) ||
                     preg_match("/^upload_.*/", $key, $matches) ||
                     preg_match("/^addSuggestedSolution_.*/", $key, $matches)
-                    ) {
+                ) {
                     $force_active = true;
                 }
             }
@@ -1574,9 +1574,9 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
             }
 
             //			$this->tabs_gui->addTarget("export",
-//				 $this->ctrl->getLinkTarget($this,'export'),
-//				 array("export", "createExportFile", "confirmDeleteExportFile", "downloadExportFile"),
-//				 "", "");
+            //				 $this->ctrl->getLinkTarget($this,'export'),
+            //				 array("export", "createExportFile", "confirmDeleteExportFile", "downloadExportFile"),
+            //				 "", "");
         }
 
         if ($currentUserHasWriteAccess) {

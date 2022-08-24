@@ -1107,7 +1107,6 @@ class ilObjectListGUI
 
             // has preview?
             if (ilPreview::hasPreview($this->obj_id, $this->type)) {
-
                 // get context for access checks later on
                 switch ($this->context) {
                     case self::CONTEXT_WORKSPACE:
@@ -2994,7 +2993,6 @@ class ilObjectListGUI
             // properties are optional
             if ($ilSetting->get('comments_tagging_in_lists')) {
                 if ($active_notes || $active_comments) {
-
                     // @todo: should be refactored, see comment in notes db repo
                     self::$cnt_notes = $notes_manager->countNotesAndCommentsMultipleObjects(
                         $obj_ids,

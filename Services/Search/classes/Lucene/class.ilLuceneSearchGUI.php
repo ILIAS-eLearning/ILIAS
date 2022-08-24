@@ -578,7 +578,6 @@ class ilLuceneSearchGUI extends ilSearchBaseGUI
             case 3:
                 // on
                 return '+(cdate:' . $limit->get(IL_CAL_DATE) . '*) ';
-
         }
         return '';
     }

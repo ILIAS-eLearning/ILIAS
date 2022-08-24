@@ -781,7 +781,6 @@ abstract class ilParticipants
             case self::IL_CRS_MEMBER:
                 $this->members[] = $a_usr_id;
                 break;
-
         }
 
         $this->participants[] = $a_usr_id;

@@ -177,8 +177,8 @@ class assImagemapQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
     public function populateAnswerSpecificFormPart(\ilPropertyFormGUI $form): ilPropertyFormGUI
     {
         return $form; // Nothing to do here since selectable areas are handled in question-specific-form part
-                      // due to their immediate dependency to the image. I decide to not break up the interfaces
-                      // more just to support this very rare case. tl;dr: See the issue, ignore it.
+        // due to their immediate dependency to the image. I decide to not break up the interfaces
+        // more just to support this very rare case. tl;dr: See the issue, ignore it.
     }
 
     public function populateQuestionSpecificFormPart(\ilPropertyFormGUI $form): ilPropertyFormGUI
@@ -646,7 +646,7 @@ class assImagemapQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 
     // hey: prevPassSolutions - pass will be always available from now on
     public function getTestOutput($active_id, $pass, $is_postponed = false, $use_post_solutions = false, $show_feedback = false): string
-        // hey.
+    // hey.
     {
         if ($active_id) {
             // hey: prevPassSolutions - obsolete due to central check

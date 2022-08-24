@@ -382,7 +382,6 @@ class ilRepositoryTrashGUI
             return false;
         }
         try {
-
             // find parent foreach node
             $by_location = [];
             foreach ($a_ref_ids as $deleted_node_id) {

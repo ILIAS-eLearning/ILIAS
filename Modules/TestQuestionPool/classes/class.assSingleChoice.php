@@ -708,7 +708,7 @@ class assSingleChoice extends assQuestion implements ilObjQuestionScoringAdjusta
 
         $ilDB->manipulateF(
             "INSERT INTO " . $this->getAdditionalTableName(
-                                                                               ) . " (question_fi, shuffle, allow_images, thumb_size) VALUES (%s, %s, %s, %s)",
+            ) . " (question_fi, shuffle, allow_images, thumb_size) VALUES (%s, %s, %s, %s)",
             array( "integer", "text", "text", "integer" ),
             array(
                                 $this->getId(),

@@ -62,7 +62,7 @@ final class LegacyPathHelper
             $temp,
             $nodeModules,
             $nodeModulesWithLeadingDot
-            ) = self::listPaths();
+        ) = self::listPaths();
 
         switch (true) {
             case self::checkPossiblePath($temp, $absolute_path):
@@ -119,36 +119,36 @@ final class LegacyPathHelper
             $temp,
             $nodeModules,
             $nodeModulesWithLeadingDot
-            ) = self::listPaths();
+        ) = self::listPaths();
 
         switch (true) {
             // web without ./
             case self::checkPossiblePath($webRelativeWithoutLeadingDot, $absolute_path):
                 return self::resolveRelativePath($webRelativeWithoutLeadingDot, $absolute_path);
-            // web with ./
+                // web with ./
             case self::checkPossiblePath($webRelativeWithLeadingDot, $absolute_path):
                 return self::resolveRelativePath($webRelativeWithLeadingDot, $absolute_path);
-            // web/
+                // web/
             case self::checkPossiblePath($web, $absolute_path):
                 return self::resolveRelativePath($web, $absolute_path);
-            // temp/
+                // temp/
             case self::checkPossiblePath($temp, $absolute_path):
                 return self::resolveRelativePath($temp, $absolute_path);
-            // iliasdata/
+                // iliasdata/
             case self::checkPossiblePath($storage, $absolute_path):
                 return self::resolveRelativePath($storage, $absolute_path);
-            // Customizing/
+                // Customizing/
             case self::checkPossiblePath($customizing, $absolute_path):
                 return self::resolveRelativePath($customizing, $absolute_path);
-            // ./Customizing/
+                // ./Customizing/
             case self::checkPossiblePath($customizingRelativeWithLeadingDot, $absolute_path):
                 return self::resolveRelativePath($customizingRelativeWithLeadingDot, $absolute_path);
-            // libs/
+                // libs/
             case self::checkPossiblePath($libs, $absolute_path):
                 // ./libs
             case self::checkPossiblePath($libsRelativeWithLeadingDot, $absolute_path):
                 return self::resolveRelativePath($libsRelativeWithLeadingDot, $absolute_path);
-            // node_modules/
+                // node_modules/
             case self::checkPossiblePath($nodeModules, $absolute_path):
                 // ./node_modules
             case self::checkPossiblePath($nodeModulesWithLeadingDot, $absolute_path):

@@ -41,7 +41,6 @@ class ilSCUtils
 
             case ilSCTask::STATUS_COMPLETED:
                 return $lng->txt('sysc_status_completed');
-
         }
         return '';
     }

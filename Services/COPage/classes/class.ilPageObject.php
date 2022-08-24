@@ -1153,7 +1153,7 @@ s     */
                 }
                 if ($a_append_bib) {
                     // deprecated
-//					$bibs = $this->getBibliographyXML();
+                    //					$bibs = $this->getBibliographyXML();
                 }
                 $trans = $this->getLanguageVariablesXML();
                 //echo htmlentities($this->dom->dump_node($this->node)); exit;
@@ -3400,7 +3400,7 @@ s     */
                 $new_node = $a_cont_obj->getNode();
                 //$a_pos = ilPageContent::incEdId($a_pos);
                 //$curr_node = $this->getContentNode($a_pos);
-//echo "behind $a_pos:";
+                //echo "behind $a_pos:";
                 if ($succ_node = $curr_node->next_sibling()) {
                     $new_node = $succ_node->insert_before($new_node, $succ_node);
                 } else {
@@ -3411,16 +3411,16 @@ s     */
                 break;
 
             case IL_INSERT_BEFORE:
-//echo "INSERT_BEF";
+                //echo "INSERT_BEF";
                 $new_node = $a_cont_obj->getNode();
                 $succ_node = $this->getContentNode($a_pos);
                 $new_node = $succ_node->insert_before($new_node, $succ_node);
                 $a_cont_obj->setNode($new_node);
                 break;
 
-            // insert new node as first child of parent $a_pos (= $a_parent)
+                // insert new node as first child of parent $a_pos (= $a_parent)
             case IL_INSERT_CHILD:
-//echo "insert as child:parent_childs:$cnt_parent_childs:<br>";
+                //echo "insert as child:parent_childs:$cnt_parent_childs:<br>";
                 $new_node = $a_cont_obj->getNode();
                 if ($cnt_parent_childs == 0) {
                     $new_node = $parent_node->append_child($new_node);
@@ -3428,7 +3428,7 @@ s     */
                     $new_node = $parent_childs[0]->insert_before($new_node, $parent_childs[0]);
                 }
                 $a_cont_obj->setNode($new_node);
-//echo "PP";
+                //echo "PP";
                 break;
         }
 
@@ -3507,7 +3507,7 @@ s     */
                 //$a_cont_obj->setNode($new_node);
                 break;
 
-            // insert new node as first child of parent $a_pos (= $a_parent)
+                // insert new node as first child of parent $a_pos (= $a_parent)
             case IL_INSERT_CHILD:
                 //$new_node = $a_cont_obj->getNode();
                 if ($cnt_parent_childs == 0) {

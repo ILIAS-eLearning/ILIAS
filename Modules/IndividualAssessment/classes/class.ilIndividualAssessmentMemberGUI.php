@@ -594,7 +594,7 @@ class ilIndividualAssessmentMemberGUI extends AbstractCtrlAwareUploadHandler
         return
             $this->getAccessHandler()->isSystemAdmin() ||
             ($this->isFinalized() && ($this->userMayGrade() || $this->userMayView()))
-            ;
+        ;
     }
 
     protected function mayBeAmended(): bool
@@ -607,7 +607,7 @@ class ilIndividualAssessmentMemberGUI extends AbstractCtrlAwareUploadHandler
         return
             $this->getAccessHandler()->isSystemAdmin() ||
             (!$this->targetWasEditedByOtherUser($this->getMember()) && $this->getAccessHandler()->mayGradeUser())
-            ;
+        ;
     }
 
     protected function userMayView(): bool
@@ -625,7 +625,7 @@ class ilIndividualAssessmentMemberGUI extends AbstractCtrlAwareUploadHandler
         return
             (int) $member->examinerId() !== $this->user->getId() &&
             0 !== (int) $member->examinerId()
-            ;
+        ;
     }
 
     protected function isFinalized(): bool

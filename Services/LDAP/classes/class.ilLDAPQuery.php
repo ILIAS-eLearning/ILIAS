@@ -593,8 +593,8 @@ class ilLDAPQuery
             /** @noinspection PhpMissingBreakStatementInspection */
             case self::LDAP_BIND_TEST:
                 ldap_set_option($this->lh, LDAP_OPT_NETWORK_TIMEOUT, ilLDAPServer::DEFAULT_NETWORK_TIMEOUT);
-            // fall through
-            // no break
+                // fall through
+                // no break
             case self::LDAP_BIND_DEFAULT:
                 // Now bind anonymously or as user
                 if (

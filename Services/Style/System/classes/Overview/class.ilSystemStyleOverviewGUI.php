@@ -125,7 +125,6 @@ class ilSystemStyleOverviewGUI
             case 'view':
                 $this->$cmd();
                 break;
-
         }
         $this->message_stack->sendMessages();
     }

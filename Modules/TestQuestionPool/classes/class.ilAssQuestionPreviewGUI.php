@@ -147,8 +147,8 @@ class ilAssQuestionPreviewGUI
                     } else {
                         $this->tabs->setBackTarget($this->lng->txt("qpl"), ilLink::_getLink($ref_id));
                     }
-                    //} elseif (true) {
-                    // We're in the underworld and want to go back to the question page
+                //} elseif (true) {
+                // We're in the underworld and want to go back to the question page
                 } else {
                     $this->tabs->setBackTarget($this->lng->txt("backtocallingpool"), $this->ctrl->getLinkTargetByClass("ilobjquestionpoolgui", "questions"));
                     //BACK FROM Question Page to Pool

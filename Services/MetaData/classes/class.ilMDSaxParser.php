@@ -173,7 +173,7 @@ class ilMDSaxParser extends ilSaxParser
                     break;
                 }
 
-            // no break
+                // no break
             case 'Keyword':
                 $par = $this->__getParent();
                 if (!$par instanceof ilMD) {
@@ -222,7 +222,7 @@ class ilMDSaxParser extends ilSaxParser
                     // single element in 'Annotation'
                     break;
                 }
-            // no break
+                // no break
             case 'Date':
                 break;
 
@@ -631,7 +631,6 @@ class ilMDSaxParser extends ilSaxParser
                 $par = $this->__getParent();
                 $par->setSource($this->__getCharacterData());
                 break;
-
         }
         $this->md_chr_data = '';
     }

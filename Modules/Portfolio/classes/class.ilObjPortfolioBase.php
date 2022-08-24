@@ -470,7 +470,7 @@ abstract class ilObjPortfolioBase extends ilObject2
                     }
                     break;
 
-                // blog template => blog (needs recipe)
+                    // blog template => blog (needs recipe)
                 case ilPortfolioTemplatePage::TYPE_BLOG_TEMPLATE:
                     if ($direction === "t2p" && (is_array($page_recipe) || $copy_all)) {
                         $page_type = ilPortfolioPage::TYPE_BLOG;
@@ -497,7 +497,7 @@ abstract class ilObjPortfolioBase extends ilObject2
                     }
                     break;
 
-                // page editor
+                    // page editor
                 default:
                     $target_page->setXMLContent(
                         $source_page->copyXmlContent(

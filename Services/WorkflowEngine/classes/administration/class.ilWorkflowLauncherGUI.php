@@ -57,7 +57,6 @@ class ilWorkflowLauncherGUI
                 default:
                     $item = new ilTextInputGUI($input_var['caption'], $input_var['name']);
                     break;
-
             }
             $item->setRequired($input_var['requirement'] === 'required');
             $item->setInfo($input_var['description']);

@@ -380,9 +380,9 @@ class ilObjLTIConsumer extends ilObject2
                 case ilObjectActivation::TIMINGS_ACTIVATION:
                     $this->setActivationLimited(true);
 
-$this->setActivationStartingTime($activation["timing_start"]);
+                    $this->setActivationStartingTime($activation["timing_start"]);
 
-$this->setActivationEndingTime($activation["timing_end"]);
+                    $this->setActivationEndingTime($activation["timing_end"]);
                     $this->setActivationVisibility($activation["visible"]);
                     break;
 

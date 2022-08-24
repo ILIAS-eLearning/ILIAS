@@ -160,7 +160,6 @@ class ilSurveyPageEditGUI
                                 default:
                                     $has_content = $this->$subcmd($id, $this->svy_request->getHForm("node"));
                                     break;
-
                             }
                         }
                     }

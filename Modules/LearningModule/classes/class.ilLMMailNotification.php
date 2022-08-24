@@ -91,7 +91,6 @@ class ilLMMailNotification extends ilMailNotification
                     $this->sendMail(array($rcp));
                 }
                 break;
-
         }
         return true;
     }

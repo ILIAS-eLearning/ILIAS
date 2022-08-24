@@ -78,7 +78,7 @@ class ilSkillUsageTableGUI extends ilTable2GUI
         $this->setEnableNumInfo(false);
 
         //		$this->addMultiCommand("", $lng->txt(""));
-//		$this->addCommandButton("", $lng->txt(""));
+        //		$this->addCommandButton("", $lng->txt(""));
     }
 
     protected function fillRow(array $a_set): void

@@ -177,7 +177,6 @@ class ilMathJax
 
         // support client-side rendering if enabled
         if ($this->config->isClientEnabled()) {
-
             // included mathjax script may render code which is not found by the server-side rendering
             // see https://docu.ilias.de/goto_docu_wiki_wpage_5614_1357.html
             $this->includeMathJax();

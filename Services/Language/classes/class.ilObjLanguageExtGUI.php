@@ -674,7 +674,7 @@ class ilObjLanguageExtGUI extends ilObjectGUI
                 }
                 break;
 
-            // load the content of the local language file
+                // load the content of the local language file
             case "load":
                 $lang_file = $this->object->getCustLangPath() . "/ilias_" . $this->object->key . ".lang.local";
                 if (is_file($lang_file) and is_readable($lang_file)) {
@@ -686,7 +686,7 @@ class ilObjLanguageExtGUI extends ilObjectGUI
                 }
                 break;
 
-            // revert the database to the default language file
+                // revert the database to the default language file
             case "clear":
                 $lang_file = $this->object->getLangPath() . "/ilias_" . $this->object->key . ".lang";
                 if (is_file($lang_file) and is_readable($lang_file)) {
@@ -698,12 +698,12 @@ class ilObjLanguageExtGUI extends ilObjectGUI
                 }
                 break;
 
-            // delete local additions in the datavase (langmode only)
+                // delete local additions in the datavase (langmode only)
             case "delete_added":
                 ilObjLanguageExt::_deleteValues($this->object->key, $this->object->getAddedValues());
                 break;
 
-            // merge local changes back to the global language file (langmode only)
+                // merge local changes back to the global language file (langmode only)
             case "merge":
                 $orig_file = $this->object->getLangPath() . "/ilias_" . $this->object->key . ".lang";
                 $copy_file = $this->object->getCustLangPath() . "/ilias_" . $this->object->key . ".lang";
@@ -723,7 +723,7 @@ class ilObjLanguageExtGUI extends ilObjectGUI
                 }
                 break;
 
-            // remove the local language file (langmode only)
+                // remove the local language file (langmode only)
             case "remove_local_file":
                 $lang_file = $this->object->getCustLangPath() . "/ilias_" . $this->object->key . ".lang.local";
 

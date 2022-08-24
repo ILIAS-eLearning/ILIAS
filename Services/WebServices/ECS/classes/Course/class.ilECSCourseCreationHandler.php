@@ -383,7 +383,6 @@ class ilECSCourseCreationHandler
                 default:
                     // nothing to do
                     break;
-
             }
 
             // do update
@@ -424,8 +423,6 @@ class ilECSCourseCreationHandler
                     $this->createCourseReference($crs, $a_parent_obj_id);
                     $this->setImported($course_id, $crs, $a_content_id);
                     break;
-
-
             }
         }
         // finally update course urls

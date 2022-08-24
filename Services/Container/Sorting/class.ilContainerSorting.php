@@ -206,7 +206,7 @@ class ilContainerSorting
                         // is set correctly, so we witch back to sortArray (with 4.4.0) and see what
                         // feedback we get
                         // (next line has been used from 3.10.6 to 4.3.x)
-//						$sorted[$type] = $data;
+                        //						$sorted[$type] = $data;
                     }
                     return $sorted ?: [];
 
@@ -271,7 +271,6 @@ class ilContainerSorting
             $items = $this->sortOrderDefault($items);
 
             switch ($type) {
-
                 case '_non_sess':
                 case '_all':
                 default:
@@ -510,7 +509,6 @@ class ilContainerSorting
                     ($this->getSortingSettings()->getSortDirection() === ilContainer::SORT_DIRECTION_ASC) ? 'asc' : 'desc',
                     true
                 );
-
         }
         $count = (
             $this->getSortingSettings()->getSortNewItemsPosition() === ilContainer::SORT_NEW_ITEMS_POSITION_TOP

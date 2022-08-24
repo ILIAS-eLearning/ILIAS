@@ -197,7 +197,7 @@ class ilPermissionGUI extends ilPermission2GUI
             case ilObjectRolePermissionTableGUI::ROLE_FILTER_ALL:
                 return $a_roles;
 
-            // only global roles
+                // only global roles
             case ilObjectRolePermissionTableGUI::ROLE_FILTER_GLOBAL:
                 $arr_global_roles = $this->rbacreview->getGlobalRoles();
                 $arr_remove_roles = array_diff(array_keys($a_roles), $arr_global_roles);
@@ -206,7 +206,7 @@ class ilPermissionGUI extends ilPermission2GUI
                 }
                 return $a_roles;
 
-            // only local roles (all local roles in context that are not defined at ROLE_FOLDER_ID)
+                // only local roles (all local roles in context that are not defined at ROLE_FOLDER_ID)
             case ilObjectRolePermissionTableGUI::ROLE_FILTER_LOCAL:
                 $arr_global_roles = $this->rbacreview->getGlobalRoles();
                 foreach ($arr_global_roles as $role_id) {
@@ -214,7 +214,7 @@ class ilPermissionGUI extends ilPermission2GUI
                 }
                 return $a_roles;
 
-            // only roles which use a local policy
+                // only roles which use a local policy
             case ilObjectRolePermissionTableGUI::ROLE_FILTER_LOCAL_POLICY:
                 $arr_local_roles = $this->rbacreview->getRolesOfObject($this->getCurrentObject()->getRefId());
                 $arr_remove_roles = array_diff(array_keys($a_roles), $arr_local_roles);
@@ -223,7 +223,7 @@ class ilPermissionGUI extends ilPermission2GUI
                 }
                 return $a_roles;
 
-            // only true local role defined at current position
+                // only true local role defined at current position
             case ilObjectRolePermissionTableGUI::ROLE_FILTER_LOCAL_OBJECT:
                 $arr_local_roles = $this->rbacreview->getRolesOfObject($this->getCurrentObject()->getRefId(), true);
                 $arr_remove_roles = array_diff(array_keys($a_roles), $arr_local_roles);
@@ -535,7 +535,6 @@ class ilPermissionGUI extends ilPermission2GUI
         $form = $this->initImportForm();
         if ($form->checkInput()) {
             try {
-
                 // For global roles set import id to parent of current ref_id (adm)
                 $imp = new ilImport($this->getCurrentObject()->getRefId());
                 $imp->getMapping()->addMapping(

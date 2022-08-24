@@ -898,7 +898,6 @@ abstract class ilBlockGUI
                     $this->getListItemGroups()
                 );
                 break;
-
         }
 
         // actions

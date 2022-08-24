@@ -369,13 +369,12 @@ class ilHelpGUI implements ilCtrlBaseClassInterface
                 switch ($type) {
                     case "PageObject":
                     case "StructureObject":
-                            if ($type === "PageObject") {
-                                $href = "#pg_" . $target_id;
-                            } else {
-                                $href = "#";
-                            }
+                        if ($type === "PageObject") {
+                            $href = "#pg_" . $target_id;
+                        } else {
+                            $href = "#";
+                        }
                         break;
-
                 }
 
                 $link_info .= "<IntLinkInfo Target=\"$target\" Type=\"$type\" " .

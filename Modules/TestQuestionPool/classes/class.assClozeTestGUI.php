@@ -882,7 +882,7 @@ JS;
                     }
                     // fau: fixGapReplace - use replace function
                     $output = $this->object->replaceFirstGap($output, $gaptemplate->get());
-// fau.
+                    // fau.
                     break;
                 case CLOZE_SELECT:
                     $gaptemplate = new ilTemplate("tpl.il_as_qpl_cloze_question_gap_select.html", true, true, "Modules/TestQuestionPool");
@@ -905,7 +905,7 @@ JS;
                     $gaptemplate->setVariable("PLEASE_SELECT", $this->lng->txt("please_select"));
                     $gaptemplate->setVariable("GAP_COUNTER", $gap_index);// fau: fixGapReplace - use replace function
                     $output = $this->object->replaceFirstGap($output, $gaptemplate->get());
-// fau.
+                    // fau.
                     break;
                 case CLOZE_NUMERIC:
                     $gaptemplate = new ilTemplate("tpl.il_as_qpl_cloze_question_gap_numeric.html", true, true, "Modules/TestQuestionPool");
@@ -925,7 +925,7 @@ JS;
                     }
                     // fau: fixGapReplace - use replace function
                     $output = $this->object->replaceFirstGap($output, $gaptemplate->get());
-// fau.
+                    // fau.
                     break;
             }
         }
@@ -1088,7 +1088,7 @@ JS;
                     $this->populateSolutiontextToGapTpl($gaptemplate, $gap, $solutiontext);
                     // fau: fixGapReplace - use replace function
                     $output = $this->object->replaceFirstGap($output, $gaptemplate->get());
-// fau.
+                    // fau.
                     break;
                 case CLOZE_SELECT:
                     $solutiontext = "";
@@ -1113,7 +1113,7 @@ JS;
                     $this->populateSolutiontextToGapTpl($gaptemplate, $gap, $solutiontext);
                     // fau: fixGapReplace - use replace function
                     $output = $this->object->replaceFirstGap($output, $gaptemplate->get());
-// fau.
+                    // fau.
                     break;
             }
         }
@@ -1266,7 +1266,7 @@ JS;
                     }
                     // fau: fixGapReplace - use replace function
                     $output = $this->object->replaceFirstGap($output, $gaptemplate->get());
-// fau.
+                    // fau.
                     break;
                 case CLOZE_SELECT:
                     $gaptemplate = new ilTemplate("tpl.il_as_qpl_cloze_question_gap_select.html", true, true, "Modules/TestQuestionPool");
@@ -1289,7 +1289,7 @@ JS;
                     $gaptemplate->setVariable("PLEASE_SELECT", $this->lng->txt("please_select"));
                     $gaptemplate->setVariable("GAP_COUNTER", $gap_index);// fau: fixGapReplace - use replace function
                     $output = $this->object->replaceFirstGap($output, $gaptemplate->get());
-// fau.
+                    // fau.
                     break;
                 case CLOZE_NUMERIC:
                     $gaptemplate = new ilTemplate("tpl.il_as_qpl_cloze_question_gap_numeric.html", true, true, "Modules/TestQuestionPool");
@@ -1310,7 +1310,7 @@ JS;
                     }
                     // fau: fixGapReplace - use replace function
                     $output = $this->object->replaceFirstGap($output, $gaptemplate->get());
-// fau.
+                    // fau.
                     break;
             }
         }

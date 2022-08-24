@@ -533,7 +533,6 @@ class ilBasicSkillGUI extends ilSkillTreeNodeGUI
         //			$ilCtrl->getLinkTargetByClass("ilobjskillmanagementgui", "editSkills"));
 
         if (is_object($this->node_object)) {
-
             // levels
             $ilTabs->addTab(
                 "levels",

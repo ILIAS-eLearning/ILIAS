@@ -228,7 +228,7 @@ class ilObjSurveyAccess extends ilObjectAccess implements ilConditionHandling
                 case ilObjSurvey::RESULTS_360_OWN:
                     return true;
 
-                // not applicable
+                    // not applicable
             }
         }
 

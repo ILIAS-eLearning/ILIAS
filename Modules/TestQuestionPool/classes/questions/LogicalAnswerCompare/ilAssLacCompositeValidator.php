@@ -159,12 +159,12 @@ class ilAssLacCompositeValidator
                             }
                         }
                     }
-                break;
+                    break;
                 case 2: // numeric
                     if ($answer_expression instanceof ilAssLacNumericResultExpression) {
                         $found = true;
                     }
-                break;
+                    break;
             }
 
             if ($answer_expression instanceof ilAssLacEmptyAnswerExpression) {

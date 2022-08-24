@@ -174,10 +174,8 @@ class FlySystemDirectoryAccess implements DirectoryAccess
 
         //foreach file and dir
         foreach ($contentList as $content) {
-
             //ignore the directories and only copy the files
             if ($content->isFile()) {
-
                 //create destination path
                 $position = strpos($content->getPath(), $source);
                 if ($position !== false) {
@@ -198,7 +196,6 @@ class FlySystemDirectoryAccess implements DirectoryAccess
      */
     private function ensureEmptyDirectory(string $path): void
     {
-
         //check if destination dir is empty
         try {
             $destinationContent = $this->listContents($path, true);

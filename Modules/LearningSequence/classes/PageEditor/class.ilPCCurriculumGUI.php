@@ -35,7 +35,6 @@ class ilPCCurriculumGUI extends ilPageContentGUI
             default:
                 $cmd = $this->ctrl->getCmd(self::CMD_EDIT);
                 switch ($cmd) {
-
                     case self::CMD_INSERT:
                         $this->insertNewContentObj();
                         // no break

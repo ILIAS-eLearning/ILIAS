@@ -197,7 +197,7 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 
             default:
 //                if ($this->object && !$this->object->getEditable()) {
-                    $cmd = $this->ctrl->getCmd("properties");
+                $cmd = $this->ctrl->getCmd("properties");
 //                } else {
 //                    $cmd = $this->ctrl->getCmd("frameset");
 //                }
@@ -393,54 +393,54 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 
         // create and insert object in objecttree
         switch ($subType) {
-        case "scorm2004":
-            $newObj = new ilObjSCORM2004LearningModule();
+            case "scorm2004":
+                $newObj = new ilObjSCORM2004LearningModule();
 //            $newObj->setEditable(false);//$_POST["editable"] == 'y');
 //            $newObj->setImportSequencing($_POST["import_sequencing"]);
 //            $newObj->setSequencingExpertMode($_POST["import_sequencing"]);
-            break;
+                break;
 
-        case "scorm":
-            $newObj = new ilObjSCORMLearningModule();
-            break;
+            case "scorm":
+                $newObj = new ilObjSCORMLearningModule();
+                break;
 
-        case "exportFile":
-            $sFile = $_FILES["scormfile"];
-            $fType = $sFile["type"];
-            $cFileTypes = ["application/zip", "application/x-compressed","application/x-zip-compressed"];
-            if (in_array($fType, $cFileTypes)) {
-                $timeStamp = time();
-                $tempFile = $sFile["tmp_name"];
-                $lmDir = ilFileUtils::getWebspaceDir("filesystem") . "/lm_data/";
-                $lmTempDir = $lmDir . $timeStamp;
-                if (!file_exists($lmTempDir)) {
-                    if (!mkdir($lmTempDir, 0755, true) && !is_dir($lmTempDir)) {
-                        throw new \RuntimeException(sprintf('Directory "%s" was not created', $lmTempDir));
+            case "exportFile":
+                $sFile = $_FILES["scormfile"];
+                $fType = $sFile["type"];
+                $cFileTypes = ["application/zip", "application/x-compressed","application/x-zip-compressed"];
+                if (in_array($fType, $cFileTypes)) {
+                    $timeStamp = time();
+                    $tempFile = $sFile["tmp_name"];
+                    $lmDir = ilFileUtils::getWebspaceDir("filesystem") . "/lm_data/";
+                    $lmTempDir = $lmDir . $timeStamp;
+                    if (!file_exists($lmTempDir)) {
+                        if (!mkdir($lmTempDir, 0755, true) && !is_dir($lmTempDir)) {
+                            throw new \RuntimeException(sprintf('Directory "%s" was not created', $lmTempDir));
+                        }
                     }
-                }
-                $zar = new ZipArchive();
-                $zar->open($tempFile);
-                $zar->extractTo($lmTempDir);
-                $zar->close();
-                $importer = new ilScormAiccImporter();
-                $import_dirname = $lmTempDir . '/' . substr($_FILES["scormfile"]["name"], 0, -4);
-                $importer->importXmlRepresentation("sahs", "", $import_dirname, null);
-                $importFromXml = true;
+                    $zar = new ZipArchive();
+                    $zar->open($tempFile);
+                    $zar->extractTo($lmTempDir);
+                    $zar->close();
+                    $importer = new ilScormAiccImporter();
+                    $import_dirname = $lmTempDir . '/' . substr($_FILES["scormfile"]["name"], 0, -4);
+                    $importer->importXmlRepresentation("sahs", "", $import_dirname, null);
+                    $importFromXml = true;
 //                if ($importer->importXmlRepresentation("sahs", "", $import_dirname, null) == true) {
 //                    $importFromXml = true;
 //                }
-                $mprops = $importer->moduleProperties;
-                $subType = (string) $mprops["SubType"];
-                if ($subType === "scorm") {
-                    $newObj = new ilObjSCORMLearningModule();
-                } else {
-                    $newObj = new ilObjSCORM2004LearningModule();
-                    // $newObj->setEditable($_POST["editable"]=='y');
-                    // $newObj->setImportSequencing($_POST["import_sequencing"]);
-                    // $newObj->setSequencingExpertMode($_POST["import_sequencing"]);
+                    $mprops = $importer->moduleProperties;
+                    $subType = (string) $mprops["SubType"];
+                    if ($subType === "scorm") {
+                        $newObj = new ilObjSCORMLearningModule();
+                    } else {
+                        $newObj = new ilObjSCORM2004LearningModule();
+                        // $newObj->setEditable($_POST["editable"]=='y');
+                        // $newObj->setImportSequencing($_POST["import_sequencing"]);
+                        // $newObj->setSequencingExpertMode($_POST["import_sequencing"]);
+                    }
                 }
-            }
-            break;
+                break;
         }
 
         $newObj->setTitle($name);

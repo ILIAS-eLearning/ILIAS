@@ -358,7 +358,6 @@ class ilSearchGUI extends ilSearchBaseGUI
 
     public function showSavedResults(): void
     {
-
         // Read old result sets
 
         $result_obj = new ilSearchResult($this->user->getId());
@@ -574,7 +573,6 @@ class ilSearchGUI extends ilSearchBaseGUI
                     $result_meta =& $this->__searchMeta($query_parser,'description');
                     $result->mergeEntries($result_meta);*/
                     break;
-
             }
         }
         return $result;

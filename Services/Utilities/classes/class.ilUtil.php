@@ -166,7 +166,7 @@ class ilUtil
         // use ilStyleDefinition instead of account to get the current skin
         if (ilStyleDefinition::getCurrentSkin() != "default") {
             $filename = "./Customizing/global/skin/" . ilStyleDefinition::getCurrentSkin(
-                ) . "/" . $a_css_location . $stylesheet_name;
+            ) . "/" . $a_css_location . $stylesheet_name;
         }
         if (strlen($filename) == 0 || !file_exists($filename)) {
             $filename = "./" . $a_css_location . "templates/default/" . $stylesheet_name;
@@ -426,12 +426,12 @@ class ilUtil
             $a_str = ilUtil::unmaskSecureTags($a_str, $allow_array);
 
         // a possible solution could be something like:
-            // $a_str = str_replace("<", "&lt;", $a_str);
-            // $a_str = str_replace(">", "&gt;", $a_str);
-            // $a_str = ilUtil::unmaskSecureTags($a_str, $allow_array);
+        // $a_str = str_replace("<", "&lt;", $a_str);
+        // $a_str = str_replace(">", "&gt;", $a_str);
+        // $a_str = ilUtil::unmaskSecureTags($a_str, $allow_array);
             //
-            // output would be ok then, but input fields would show
-            // "a &lt;= b" for input "a <= b" if data is brought back to a form
+        // output would be ok then, but input fields would show
+        // "a &lt;= b" for input "a <= b" if data is brought back to a form
         } else {
             // only for scripts, that need to allow more/other tags and parameters
             if ($a_strip_html) {

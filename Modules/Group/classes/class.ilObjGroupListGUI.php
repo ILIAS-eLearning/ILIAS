@@ -81,9 +81,9 @@ class ilObjGroupListGUI extends ilObjectListGUI
                     $cmd_link = $uri_builder->getUriToMountInstructionModalByRef($this->ref_id);
                     break;
                 } // fall through if plugin is not active
-            // END Mount Webfolder.
+                // END Mount Webfolder.
 
-            // no break
+                // no break
             case "edit":
             default:
                 $this->ctrl->setParameterByClass("ilrepositorygui", "ref_id", $this->ref_id);

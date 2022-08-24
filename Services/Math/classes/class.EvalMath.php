@@ -344,20 +344,25 @@ class EvalMath
                 }
                 switch ($token) {
                     case '+':
-                        $stack->push(ilMath::_add($op1, $op2)); break;
+                        $stack->push(ilMath::_add($op1, $op2));
+                        break;
                     case '-':
-                        $stack->push(ilMath::_sub($op1, $op2)); break;
+                        $stack->push(ilMath::_sub($op1, $op2));
+                        break;
                     case '*':
-                        $stack->push(ilMath::_mul($op1, $op2)); break;
+                        $stack->push(ilMath::_mul($op1, $op2));
+                        break;
                     case '/':
                         if ($op2 == 0) {
                             return $this->trigger("division by zero");
                         }
-                        $stack->push(ilMath::_div($op1, $op2)); break;
+                        $stack->push(ilMath::_div($op1, $op2));
+                        break;
                     case '^':
-                        $stack->push(ilMath::_pow($op1, $op2)); break;
+                        $stack->push(ilMath::_pow($op1, $op2));
+                        break;
                 }
-                // if the token is a unary operator, pop one value off the stack, do the operation, and push it back on
+            // if the token is a unary operator, pop one value off the stack, do the operation, and push it back on
             } elseif ($token == "_") {
                 $stack->push(-1 * $stack->pop());
             // if the token is a function, pop arguments off the stack, hand them to the function, and push the result back on
@@ -385,7 +390,7 @@ class EvalMath
                     }
                     $stack->push($this->pfx($this->f[$fnn]['func'], $args)); // yay... recursion!!!!
                 }
-                // if the token is a number or variable, push it on the stack
+            // if the token is a number or variable, push it on the stack
             } else {
                 if (is_numeric($token)) {
                     $stack->push($token);

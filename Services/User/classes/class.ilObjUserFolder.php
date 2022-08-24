@@ -166,7 +166,6 @@ class ilObjUserFolder extends ilObject
         array $data,
         string $filename
     ): void {
-
         // header
         $headerrow = array();
         $udf_ex_fields = $this->getUserDefinedExportFields();

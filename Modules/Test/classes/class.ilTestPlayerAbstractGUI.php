@@ -2633,8 +2633,8 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
         $this->tpl->parseCurrentBlock();
 
         // fau: testNav - the discard solution modal is now handled by ilTestPlayerNavigationControl.js
-//		$this->tpl->addJavaScript('Modules/Test/js/ilTestPlayerDiscardSolutionModal.js', true);
-// fau.
+        //		$this->tpl->addJavaScript('Modules/Test/js/ilTestPlayerDiscardSolutionModal.js', true);
+        // fau.
     }
 
     // fau: testNav - populateNavWhileEditModal is obsolete and can be deleted.

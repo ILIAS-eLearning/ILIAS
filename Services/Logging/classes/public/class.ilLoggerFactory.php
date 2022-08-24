@@ -152,7 +152,6 @@ class ilLoggerFactory
             default:
                 $logger = new Logger($loggerNamePrefix . $a_component_id);
                 break;
-
         }
 
         if (!$this->isLoggingEnabled()) {

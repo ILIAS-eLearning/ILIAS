@@ -327,7 +327,6 @@ class ilVirtualSkillTree
         }
 
         uasort($c_skill_ids, function ($a, $b) use ($node_data, $a_skill_id_key, $a_tref_id_key): int {
-
             // normalize to cskill strings
             if (is_array($a)) {
                 $cskilla = $a[$a_skill_id_key] . ":" . $a[$a_tref_id_key];

@@ -103,7 +103,7 @@ class ilUserSearchOptions
                     $fields[$counter]['lang'] = $lng->txt('person_title');
                     break;
 
-                // SELECTS
+                    // SELECTS
 
                 case 'gender':
                     $fields[$counter]['type'] = self::FIELD_TYPE_SELECT;
@@ -139,7 +139,7 @@ class ilUserSearchOptions
                     break;
 
 
-                // begin-patch lok
+                    // begin-patch lok
                 case 'interests_general':
                 case 'interests_help_offered':
                 case 'interests_help_looking':

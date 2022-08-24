@@ -120,16 +120,16 @@ class ilMediaPoolDataSet extends ilDataSet
             switch ($a_version) {
                 case "4.1.0":
                 case "5.1.0":
-                        return array(
-                            "MepId" => "integer",
-                            "Child" => "integer",
-                            "Parent" => "integer",
-                            "Depth" => "integer",
-                            "Type" => "text",
-                            "Title" => "text",
-                            "ForeignId" => "integer",
-                            "ImportId" => "text"
-                        );
+                    return array(
+                        "MepId" => "integer",
+                        "Child" => "integer",
+                        "Parent" => "integer",
+                        "Depth" => "integer",
+                        "Type" => "text",
+                        "Title" => "text",
+                        "ForeignId" => "integer",
+                        "ImportId" => "text"
+                    );
             }
         }
         return [];
@@ -173,7 +173,6 @@ class ilMediaPoolDataSet extends ilDataSet
                         $this->data[] = $rec;
                     }
                     break;
-
             }
         }
 
@@ -332,7 +331,6 @@ class ilMediaPoolDataSet extends ilDataSet
                                 $this->current_obj->insertInTree($item->getId(), $parent);
                             }
                             break;
-
                     }
                 } elseif ($a_rec["Type"] === "pg") {
                     $imp_id = explode("_", $a_rec["ImportId"]);

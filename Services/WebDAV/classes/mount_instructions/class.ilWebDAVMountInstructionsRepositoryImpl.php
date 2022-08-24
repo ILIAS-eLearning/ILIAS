@@ -151,7 +151,7 @@ class ilWebDAVMountInstructionsRepositoryImpl implements ilWebDAVMountInstructio
     public function updateSortingValueById(int $id, int $a_new_sorting_value): void
     {
         $this->db->update(
-        // table name
+            // table name
             self::TABLE_MOUNT_INSTRUCTIONS,
 
             // values to update

@@ -69,7 +69,6 @@ class ilSurveyRaterGUI
         $cmd = $ctrl->getCmd("add");
 
         switch ($next_class) {
-
             case 'ilrepositorysearchgui':
                 $rep_search = new ilRepositorySearchGUI();
 
@@ -212,7 +211,6 @@ class ilSurveyRaterGUI
                 case "search":
                     $this->ctrl->redirectByClass("ilrepositorysearchgui", "");
                     break;
-
             }
         } else {
             $form->setValuesByPost();

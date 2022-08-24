@@ -410,7 +410,7 @@ class ilPropertyFormGUI extends ilFormGUI
 
                 return $ok;
 
-            // Otherwise, we send it using ilUtil, and it will be rendered in the Template
+                // Otherwise, we send it using ilUtil, and it will be rendered in the Template
             default:
 
                 if (!$ok && !$this->getDisableStandardMessage()) {
@@ -502,7 +502,7 @@ class ilPropertyFormGUI extends ilFormGUI
         if ($this->getMode() == "std" &&
             $this->getTitle() == "" &&
             is_object($fi) && $fi->getType() == "section_header"
-            ) {
+        ) {
             $this->setTitle($fi->getTitle());
             unset($this->items[0]);
         }

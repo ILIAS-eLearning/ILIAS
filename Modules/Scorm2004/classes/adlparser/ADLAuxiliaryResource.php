@@ -17,11 +17,11 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
-    class ADLAuxiliaryResource
-    {
-        public ?string $mType = null;
+class ADLAuxiliaryResource
+{
+    public ?string $mType = null;
 
-        public ?string $mResourceID = null;
+    public ?string $mResourceID = null;
 
-        public ?string $mParameter = null;
-    }
+    public ?string $mParameter = null;
+}

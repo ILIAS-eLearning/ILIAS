@@ -587,7 +587,7 @@ class ilAuthUtils
             case self::AUTH_APACHE:
                 return true;
 
-            // No local passwords for these auth modes
+                // No local passwords for these auth modes
             case self::AUTH_LDAP:
             case self::AUTH_ECS:
             case self::AUTH_SCRIPT:
@@ -605,7 +605,6 @@ class ilAuthUtils
                 return (bool) $ilSetting->get("soap_auth_allow_local", '0');
             case self::AUTH_CAS:
                 return (bool) $ilSetting->get("cas_allow_local", '0');
-
         }
         return false;
     }
@@ -642,12 +641,12 @@ class ilAuthUtils
                 $idp = ilSamlIdp::getInstanceByIdpId(ilSamlIdp::getIdpIdByAuthMode((string) $a_authmode));
                 return $idp->isActive() && $idp->allowLocalAuthentication();
 
-            // Always for and local
+                // Always for and local
             case self::AUTH_LOCAL:
             case self::AUTH_APACHE:
                 return true;
 
-            // Read setting:
+                // Read setting:
             case self::AUTH_SHIBBOLETH:
                 return $ilSetting->get("shib_auth_allow_local");
             case self::AUTH_SOAP:
@@ -725,7 +724,6 @@ class ilAuthUtils
                 }
 
                 return $lng->txt('auth_' . self::_getAuthModeName($a_auth_key));
-
         }
     }
 }

@@ -271,7 +271,6 @@ class ilWebDAVMountInstructionsUploadGUI
 
         $position = 0;
         foreach ($sorting as $document_id => $ignored_sort_value) {
-
             // Only accept numbers
             if (!is_numeric($document_id)) {
                 continue;

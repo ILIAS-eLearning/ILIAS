@@ -1127,7 +1127,6 @@ class ilContainer extends ilObject
                             case ilContainerFilterField::STD_FIELD_AUTHOR:
                                 $meta_search->setMode('contribute');
                                 break;
-
                         }
                         //$meta_search->setOptions($this->options);
                         $result = $meta_search->performSearch();

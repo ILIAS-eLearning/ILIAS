@@ -327,7 +327,6 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI
                         )
                     );
                     break;
-
             }
         }
         $this->tpl->setVariable(

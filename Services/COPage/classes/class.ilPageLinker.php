@@ -179,7 +179,6 @@ class ilPageLinker implements \ILIAS\COPage\PageLinker
                             $lcontent = str_replace("&", "&amp;", htmlentities($lcontent));
                         }
                         break;
-
                 }
                 if ($href != "") {
                     $anc_par = 'Anchor="' . $anc . '"';

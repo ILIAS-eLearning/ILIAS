@@ -120,7 +120,6 @@ final class ilObjEmployeeTalkSeriesGUI extends ilContainerGUI
             case strtolower(ilRepositorySearchGUI::class):
                 $repo = new ilRepositorySearchGUI();
                 $repo->addUserAccessFilterCallable(function ($userIds) {
-
                     /**
                      * @var ilAccess $access
                      */

@@ -80,7 +80,6 @@ class ilObjLearningSequenceSettingsGUI
 
             default:
                 throw new ilException("ilObjLearningSequenceSettingsGUI: Command not supported: $cmd");
-
         }
         $this->tpl->setContent($content);
     }

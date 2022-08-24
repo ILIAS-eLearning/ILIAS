@@ -178,7 +178,6 @@ class ilCourseObjectiveListGUI extends ilObjectListGUI
                     );
                 }
                 break;
-
         }
         $this->tpl->parseCurrentBlock();
     }

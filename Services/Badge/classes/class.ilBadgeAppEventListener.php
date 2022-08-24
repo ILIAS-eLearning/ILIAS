@@ -51,7 +51,6 @@ class ilBadgeAppEventListener implements ilAppEventListener
                         break;
                 }
                 break;
-
         }
     }
 }

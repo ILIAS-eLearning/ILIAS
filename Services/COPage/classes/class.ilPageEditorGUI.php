@@ -333,7 +333,7 @@ class ilPageEditorGUI
                 $ret = $this->ctrl->forwardCommand($link_gui);
                 break;
 
-            // PC Media Object
+                // PC Media Object
             case "ilpcmediaobjectgui":
                 $this->tabs_gui->clearTargets();
                 $this->tabs_gui->setBackTarget(
@@ -348,7 +348,7 @@ class ilPageEditorGUI
                 $ilHelp->setScreenIdComponent("copg_media");
                 break;
 
-            // only for "linked" media
+                // only for "linked" media
             case "ilobjmediaobjectgui":
                 $this->tabs_gui->clearTargets();
                 $this->tabs_gui->setBackTarget(
@@ -363,7 +363,7 @@ class ilPageEditorGUI
                 $ret = $this->ctrl->forwardCommand($mob_gui);
                 break;
 
-            // Question
+                // Question
             case "ilpcquestiongui":
                 $pc_question_gui = new ilPCQuestionGUI($this->page, $cont_obj, $hier_id, $pc_id);
                 $pc_question_gui->setSelfAssessmentMode($this->page_gui->getPageConfig()->getEnableSelfAssessment());
@@ -384,7 +384,7 @@ class ilPageEditorGUI
                 }
                 break;
 
-            // Plugged Component
+                // Plugged Component
             case "ilpcpluggedgui":
                 $this->tabs_gui->clearTargets();
                 $plugged_gui = new ilPCPluggedGUI(
@@ -442,7 +442,6 @@ class ilPageEditorGUI
                     }
                 }
                 break;
-
         }
 
         $this->log->debug("end --------------------");

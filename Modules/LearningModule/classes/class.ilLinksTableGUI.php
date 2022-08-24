@@ -186,7 +186,6 @@ class ilLinksTableGUI extends ilTable2GUI
                         }
                         $this->tpl->parseCurrentBlock();
                         break;
-
                 }
             } else {
                 $type = $link["Type"];

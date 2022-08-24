@@ -172,7 +172,7 @@ class ilGroupXMLParser extends ilMDSaxParser implements ilSaxSubsetParser
                 break;
 
 
-            // GROUP DATA
+                // GROUP DATA
             case "group":
                 $this->group_data["admin"] = array();
                 $this->group_data["member"] = array();
@@ -368,7 +368,6 @@ class ilGroupXMLParser extends ilMDSaxParser implements ilSaxSubsetParser
             case 'ViewMode':
                 $this->group_data['view_mode'] = (int) $this->cdata;
                 break;
-
         }
         $this->cdata = '';
     }

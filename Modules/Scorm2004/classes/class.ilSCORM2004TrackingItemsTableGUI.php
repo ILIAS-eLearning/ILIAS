@@ -122,28 +122,28 @@ class ilSCORM2004TrackingItemsTableGUI extends ilTable2GUI
         switch ($this->report) {
             case "exportSelectedCore":
                 $cols = ilSCORM2004TrackingItems::exportSelectedCoreColumns($this->bySCO, $this->allowExportPrivacy);
-            break;
+                break;
             case "exportSelectedInteractions":
                 $cols = ilSCORM2004TrackingItems::exportSelectedInteractionsColumns();
-            break;
+                break;
             case "exportSelectedObjectives":
                 $cols = ilSCORM2004TrackingItems::exportSelectedObjectivesColumns();
-            break;
+                break;
             case "exportObjGlobalToSystem":
                 $cols = ilSCORM2004TrackingItems::exportObjGlobalToSystemColumns();
-            break;
+                break;
             case "tracInteractionItem":
                 $cols = ilSCORM2004TrackingItems::tracInteractionItemColumns($this->bySCO, $this->allowExportPrivacy);
-            break;
+                break;
             case "tracInteractionUser":
                 $cols = ilSCORM2004TrackingItems::tracInteractionUserColumns($this->bySCO, $this->allowExportPrivacy);
-            break;
+                break;
             case "tracInteractionUserAnswers":
                 $cols = ilSCORM2004TrackingItems::tracInteractionUserAnswersColumns((array) $this->userSelected, (array) $this->scosSelected, $this->bySCO, $this->allowExportPrivacy);
-            break;
+                break;
             case "exportSelectedSuccess":
                 $cols = ilSCORM2004TrackingItems::exportSelectedSuccessColumns();
-            break;
+                break;
         }
 
         return $cols;
@@ -163,28 +163,28 @@ class ilSCORM2004TrackingItemsTableGUI extends ilTable2GUI
         switch ($this->report) {
             case "exportSelectedCore":
                 $tr_data = $ilSCORM2004TrackingItems->exportSelectedCore((array) $this->userSelected, (array) $this->scosSelected, $this->bySCO, $this->allowExportPrivacy, $this->getObjId(), $this->lmTitle);
-            break;
+                break;
             case "exportSelectedInteractions":
                 $tr_data = $ilSCORM2004TrackingItems->exportSelectedInteractions((array) $this->userSelected, (array) $this->scosSelected, $this->bySCO, $this->allowExportPrivacy, $this->getObjId(), $this->lmTitle);
-            break;
+                break;
             case "exportSelectedObjectives":
                 $tr_data = $ilSCORM2004TrackingItems->exportSelectedObjectives((array) $this->userSelected, (array) $this->scosSelected, $this->bySCO, $this->allowExportPrivacy, $this->getObjId(), $this->lmTitle);
-            break;
+                break;
             case "exportObjGlobalToSystem":
                 $tr_data = $ilSCORM2004TrackingItems->exportObjGlobalToSystem((array) $this->userSelected, $this->allowExportPrivacy, $this->getObjId(), $this->lmTitle);
-            break;
+                break;
             case "tracInteractionItem":
                 $tr_data = $ilSCORM2004TrackingItems->tracInteractionItem((array) $this->userSelected, (array) $this->scosSelected, $this->bySCO, $this->allowExportPrivacy, $this->getObjId(), $this->lmTitle);
-            break;
+                break;
             case "tracInteractionUser":
                 $tr_data = $ilSCORM2004TrackingItems->tracInteractionUser((array) $this->userSelected, (array) $this->scosSelected, $this->bySCO, $this->allowExportPrivacy, $this->getObjId(), $this->lmTitle);
-            break;
+                break;
             case "tracInteractionUserAnswers":
                 $tr_data = $ilSCORM2004TrackingItems->tracInteractionUserAnswers((array) $this->userSelected, (array) $this->scosSelected, $this->bySCO, $this->allowExportPrivacy, $this->getObjId(), $this->lmTitle);
-            break;
+                break;
             case "exportSelectedSuccess":
                 $tr_data = $ilSCORM2004TrackingItems->exportSelectedSuccess((array) $this->userSelected, $this->allowExportPrivacy, $this->getObjId(), $this->lmTitle);
-            break;
+                break;
         }
         // $this->setMaxCount($tr_data["cnt"]);
         if (ilUtil::stripSlashes($this->getOrderField()) != "") {

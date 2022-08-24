@@ -71,7 +71,6 @@ class ilSkillAppEventListener implements ilAppEventListener
                         break;
                 }
                 break;
-
         }
     }
 }

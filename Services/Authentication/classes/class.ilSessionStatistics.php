@@ -226,7 +226,6 @@ class ilSessionStatistics
         $ilAtomQuery->addTableLock("usr_session_stats");
 
         $ilAtomQuery->addQueryCallable(function (ilDBInterface $ilDB) use ($a_now, &$slot) {
-
             // if we had to wait for the lock, no current slot should be returned here
             $slot = self::getCurrentSlot($a_now);
             if (!is_array($slot)) {

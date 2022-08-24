@@ -72,10 +72,10 @@ class ilNestedListInputGUI extends ilFormPropertyGUI
     public function setValueByArray(array $a_values): void
     {
         //		$this->setChecked($a_values[$this->getPostVar()]);
-//		foreach($this->getSubItems() as $item)
-//		{
-//			$item->setValueByArray($a_values);
-//		}
+        //		foreach($this->getSubItems() as $item)
+        //		{
+        //			$item->setValueByArray($a_values);
+        //		}
     }
 
     public function checkInput(): bool

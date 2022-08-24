@@ -168,7 +168,7 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
                 $ret = $this->ctrl->forwardCommand($mob_gui);
                 break;
 
-            // instance image map editing
+                // instance image map editing
             case "ilpcimagemapeditorgui":
                 $ilTabs->setTabActive("cont_inst_map_areas");
                 /** @var ilPCMediaObject $pc_med */

@@ -1501,7 +1501,6 @@ class ilObjMediaPoolGUI extends ilObject2GUI
         $this->checkPermission("write");
 
         if ($this->rbac_system->checkAccess("visible", SYSTEM_FOLDER_ID)) {
-
             // action type
             $options = array(
                 "rename" => $lng->txt("mep_up_dir_move"),

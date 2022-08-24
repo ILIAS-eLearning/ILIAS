@@ -1222,7 +1222,7 @@ class ilPCParagraph extends ilPageContent
                     }
                     break;
 
-                // Repository Item (using ref id)
+                    // Repository Item (using ref id)
                 case "RepositoryItem":
                     if ($inst_str == "") {
                         $target_type = ilObject::_lookupType($target_id, true);
@@ -1233,12 +1233,12 @@ class ilPCParagraph extends ilPageContent
                     $a_text = preg_replace('~<IntLink' . $found[1] . '>~i', "[iln " . $inst_str . "$target_type=\"" . $target_id . "\"" . $tframestr . "]", $a_text);
                     break;
 
-                // Download File (not in repository, Object ID)
+                    // Download File (not in repository, Object ID)
                 case "File":
                     $a_text = preg_replace('~<IntLink' . $found[1] . '>~i', "[iln " . $inst_str . "dfile=\"" . $target_id . "\"" . $tframestr . "]", $a_text);
                     break;
 
-                // User
+                    // User
                 case "User":
                     $a_text = preg_replace('~<IntLink' . $found[1] . '>~i', "[iln " . $inst_str . "user=\"" . ilObjUser::_lookupLogin($target_id) . "\"/]", $a_text);
                     break;
@@ -1883,7 +1883,6 @@ class ilPCParagraph extends ilPageContent
                             if ($tex_bpos > 0 && $tex_epos > 0 && $tex_bpos < $pos && $tex_epos > $pos) {
                                 $pos += ilStr::strLen($t["term"]);
                             } else {
-
                                 // check if the string is not included in another word
                                 // note that []
                                 $valid_limiters = array("", " ", "&nbsp;", ".", ",", ":", ";", "!", "?", "\"", "'", "(", ")");
@@ -1915,7 +1914,7 @@ class ilPCParagraph extends ilPageContent
                 }
 
                 //				var_dump($p);
-//				var_dump($node->nodeValue);
+                //				var_dump($node->nodeValue);
             }
 
 

@@ -397,16 +397,16 @@ class ilCmiXapiContentUploadImporter
         switch ($moveOn) {
             case ilCmiXapiLP::MOVEON_COMPLETED:
                 $mode = ilLPObjSettings::LP_MODE_CMIX_COMPLETED;
-            break;
+                break;
             case ilCmiXapiLP::MOVEON_PASSED:
                 $mode = ilLPObjSettings::LP_MODE_CMIX_PASSED;
-            break;
+                break;
             case ilCmiXapiLP::MOVEON_COMPLETED_OR_PASSED:
                 $mode = ilLPObjSettings::LP_MODE_CMIX_COMPLETED_OR_PASSED;
-            break;
+                break;
             case ilCmiXapiLP::MOVEON_COMPLETED_AND_PASSED: // ich würde es noch implementieren
                 $mode = ilLPObjSettings::LP_MODE_CMIX_PASSED;
-            break;
+                break;
         }
         $lpSettings->setMode($mode);
         $lpSettings->update();

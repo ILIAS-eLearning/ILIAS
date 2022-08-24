@@ -217,12 +217,12 @@ class ilObjExerciseGUI extends ilObjectGUI
                 $this->ctrl->forwardCommand($crit_gui);
                 break;
 
-            /* seems to be unused, at least initSumbission is not known here...
-            case "ilportfolioexercisegui":
-                $this->ctrl->saveParameter($this, array("part_id"));
-                $gui = new ilPortfolioExerciseGUI($this->object, $this->initSubmission());
-                $ilCtrl->forwardCommand($gui);
-                break; */
+                /* seems to be unused, at least initSumbission is not known here...
+                case "ilportfolioexercisegui":
+                    $this->ctrl->saveParameter($this, array("part_id"));
+                    $gui = new ilPortfolioExerciseGUI($this->object, $this->initSubmission());
+                    $ilCtrl->forwardCommand($gui);
+                    break; */
 
             case "ilexcrandomassignmentgui":
                 $gui = $this->exercise_ui->getRandomAssignmentGUI();
@@ -893,10 +893,10 @@ class ilObjExerciseGUI extends ilObjectGUI
                     );
                     break;
 
-                /*case "download":
-                    $ilCtrl->setParameterByClass("ilExerciseHandlerGUI", "member_id", $member);
-                    $ilCtrl->redirectByClass(array("ilRepositoryGUI", "ilExerciseHandlerGUI", "ilObjExerciseGUI", "ilExerciseManagementGUI", "ilExSubmissionFileGUI"),"downloadNewReturned");
-                    break;*/
+                    /*case "download":
+                        $ilCtrl->setParameterByClass("ilExerciseHandlerGUI", "member_id", $member);
+                        $ilCtrl->redirectByClass(array("ilRepositoryGUI", "ilExerciseHandlerGUI", "ilObjExerciseGUI", "ilExerciseManagementGUI", "ilExSubmissionFileGUI"),"downloadNewReturned");
+                        break;*/
 
                 case "setdownload":
                     $ilCtrl->setParameterByClass("ilExerciseHandlerGUI", "member_id", $member);
@@ -916,7 +916,6 @@ class ilObjExerciseGUI extends ilObjectGUI
                         "showOverview"
                     );
                     break;
-
             }
         } elseif ($ilAccess->checkAccess("visible", "", $a_target)) {
             $ilCtrl->redirectByClass(

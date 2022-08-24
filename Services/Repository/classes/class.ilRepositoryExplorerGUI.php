@@ -201,7 +201,6 @@ class ilRepositoryExplorerGUI extends ilTreeExplorerGUI
 
             default:
                 return ilLink::_getStaticLink($a_node["child"], $a_node["type"], true);
-
         }
     }
 
@@ -475,7 +474,7 @@ class ilRepositoryExplorerGUI extends ilTreeExplorerGUI
                 }
                 return false;
 
-            // media pools can only be edited
+                // media pools can only be edited
             case "mep":
                 if ($rbacsystem->checkAccess("read", $a_node["child"])) {
                     return true;
@@ -487,9 +486,9 @@ class ilRepositoryExplorerGUI extends ilTreeExplorerGUI
                 return ilContainerReferenceAccess::_isAccessible($a_node["child"]);
 
             case 'prg':
-                    return $rbacsystem->checkAccess("read", $a_node["child"]);
+                return $rbacsystem->checkAccess("read", $a_node["child"]);
 
-            // all other types are only clickable, if read permission is given
+                // all other types are only clickable, if read permission is given
             default:
                 if ($rbacsystem->checkAccess("read", $a_node["child"])) {
                     // check if lm is online

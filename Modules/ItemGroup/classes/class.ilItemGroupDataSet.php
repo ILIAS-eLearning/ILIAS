@@ -84,7 +84,6 @@ class ilItemGroupDataSet extends ilDataSet
                         "WHERE " .
                         $ilDB->in("obj_id", $a_ids, false, "integer"));
                     break;
-
             }
         }
 
@@ -164,7 +163,6 @@ class ilItemGroupDataSet extends ilDataSet
                     $itgri->update();
                 }
                 break;
-
         }
     }
 }

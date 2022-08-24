@@ -146,7 +146,7 @@ class ilSAHSPresentationGUI implements ilCtrlBaseClassInterface
                 $this->tpl->printToStdout();
                 break;
 
-                default:
+            default:
                 $this->$cmd();
         }
     }

@@ -134,7 +134,6 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
         if ($needs_convert) {
             // if file exists and enough space left on device
             if ($check_for_manifest_file && ($check_disc_free > 1)) {
-
                 // create backup from original
                 if (!copy($manifest_file, $manifest_file . ".old")) {
                     echo "Failed to copy $manifest_file...<br>\n";

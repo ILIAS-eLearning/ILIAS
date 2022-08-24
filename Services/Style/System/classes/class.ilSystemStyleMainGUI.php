@@ -121,7 +121,6 @@ class ilSystemStyleMainGUI
 
         try {
             switch ($next_class) {
-
                 case 'ilsystemstylesettingsgui':
                     $this->help->setSubScreenId('settings');
                     $this->checkPermission('sty_management');

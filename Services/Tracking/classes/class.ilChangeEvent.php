@@ -261,7 +261,6 @@ class ilChangeEvent
                                 (int) $read_count_diff
                             );
                         } else {
-
                             // #10407
                             $ilDB->replace(
                                 'read_event',
@@ -381,7 +380,6 @@ class ilChangeEvent
 
             $ilAtomQuery->addQueryCallable(
                 function (ilDBInterface $ilDB) use ($a_now, $a_minimum, &$ret) {
-
                     // if other process was transferring, we had to wait for the lock and
                     // the source table should now have less than minimum/needed entries
                     $set = $ilDB->query(
@@ -425,7 +423,6 @@ class ilChangeEvent
 
                 $ilAtomQuery->addQueryCallable(
                     function (ilDBInterface $ilDB) use ($a_now, $a_minimum) {
-
                         // process log data (timestamp is not needed anymore)
                         $sql = "SELECT obj_id, obj_type, yyyy, mm, dd, hh, SUM(read_count) AS read_count," .
                             " SUM(childs_read_count) AS childs_read_count, SUM(spent_seconds) AS spent_seconds," .

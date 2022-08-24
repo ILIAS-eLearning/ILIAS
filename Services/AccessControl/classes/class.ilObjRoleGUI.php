@@ -720,7 +720,7 @@ class ilObjRoleGUI extends ilObjectGUI
                 ilObjRole::MODE_PROTECTED_KEEP_LOCAL_POLICIES,
                 array('all'),
                 array()
-            #$a_show_admin_permissions ? array('adm') : array()
+                #$a_show_admin_permissions ? array('adm') : array()
             );
         } else {
             $this->object->changeExistingObjects(
@@ -728,7 +728,7 @@ class ilObjRoleGUI extends ilObjectGUI
                 ilObjRole::MODE_UNPROTECTED_KEEP_LOCAL_POLICIES,
                 array('all'),
                 array()
-            #$a_show_admin_permissions ? array('adm') : array()
+                #$a_show_admin_permissions ? array('adm') : array()
             );
         }
         $this->tpl->setOnScreenMessage('success', $this->lng->txt("saved_successfully"), true);
@@ -933,8 +933,6 @@ class ilObjRoleGUI extends ilObjectGUI
                 !ilSecuritySettings::_getInstance()->isAdminRoleProtected()
             )
         ) {
-
-
             // add member
             ilRepositorySearchGUI::fillAutoCompleteToolbar(
                 $this,

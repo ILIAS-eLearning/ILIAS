@@ -70,7 +70,6 @@ class ilLikeMetaDataSearch extends ilMetaDataSearch
     }
     public function __createTitleWhereCondition(): string
     {
-
         /*
         $concat = ' CONCAT(title,coverage) '; // broken if coverage is null
         // DONE: fix coverage search

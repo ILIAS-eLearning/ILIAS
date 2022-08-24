@@ -619,12 +619,12 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
                         $ilCtrl->setParameter($this, "prvm", "fsc");
                         break;
 
-                    // blog in portfolio
+                        // blog in portfolio
                     case "previewEmbedded":
                         $ilCtrl->setParameter($this, "prvm", "emb");
                         break;
 
-                    // edit
+                        // edit
                     default:
                         $this->setContentStyleSheet();
 
@@ -666,7 +666,6 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
                 }
 
                 if ($ret != "") {
-
                     // $is_owner = $this->object->getOwner() == $ilUser->getId();
                     $is_owner = $this->mayContribute();
                     $is_active = $bpost_gui->getBlogPosting()->getActive();
@@ -686,7 +685,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
                             $this->renderFullScreen($ret, $nav);
                             break;
 
-                        // blog in portfolio
+                            // blog in portfolio
                         case "previewEmbedded":
                             $this->addHeaderActionForCommand($cmd);
                             $this->filterInactivePostings();
@@ -694,7 +693,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
                             $this->buildEmbedded($ret, $nav);
                             return;
 
-                        // ilias/editor
+                            // ilias/editor
                         default:
                             // infos about draft status / snippet
                             $info = array();

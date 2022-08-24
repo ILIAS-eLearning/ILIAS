@@ -661,14 +661,13 @@ class ilContObjParser extends ilMDSaxParser
                         case "DisableDefaultFeedback":
                             $this->content_object->setDisableDefaultFeedback($a_attribs["Value"]);
                             break;
-
                     }
                 }
                 break;
 
-            ////////////////////////////////////////////////
-            /// Meta Data Section
-            ////////////////////////////////////////////////
+                ////////////////////////////////////////////////
+                /// Meta Data Section
+                ////////////////////////////////////////////////
             case "MetaData":
                 $this->in_meta_data = true;
                 // media obejct meta data handling
@@ -722,7 +721,7 @@ class ilContObjParser extends ilMDSaxParser
                 }
                 break;
 
-            // Identifier
+                // Identifier
             case "Identifier":
 
                 // begin-patch optes_lok_export
@@ -787,7 +786,7 @@ class ilContObjParser extends ilMDSaxParser
                 $this->in_meta_meta_data = true;
                 break;
 
-            // Internal Link
+                // Internal Link
             case "IntLink":
                 if (is_object($this->page_object)) {
                     $this->page_object->setContainsIntLink(true);
@@ -805,7 +804,7 @@ class ilContObjParser extends ilMDSaxParser
                 }
                 break;
 
-            // External Link
+                // External Link
             case "ExtLink":
                 if ($this->in_map_area) {
                     $this->map_area->setLinkType(IL_EXT_LINK);
@@ -814,7 +813,7 @@ class ilContObjParser extends ilMDSaxParser
                 }
                 break;
 
-            // Question
+                // Question
             case "Question":
                 $this->cur_qid = $a_attribs["QRef"];
                 $this->page_object->setContainsQuestion(true);
@@ -823,7 +822,6 @@ class ilContObjParser extends ilMDSaxParser
             case "Location":
                 $this->loc_type = $a_attribs["Type"];
                 break;
-
         }
         $this->beginElement($a_name);
 
@@ -953,7 +951,7 @@ class ilContObjParser extends ilMDSaxParser
                     if ($this->page_object->getContainsQuestion()) {
                         $this->pages_to_parse["lm:" . $this->page_object->getId()] = "lm:" . $this->page_object->getId();
                     }
-                    //}
+                //}
                 } else {
                     $xml = $this->page_object->getXMLContent();
                     if ($this->cur_qid != "") {
@@ -1262,7 +1260,7 @@ class ilContObjParser extends ilMDSaxParser
                 }
                 break;
 
-            // Location
+                // Location
             case "Location":
                 // TODO: adapt for files in "real" subdirectories
                 if ($this->in_media_item) {
@@ -1301,7 +1299,6 @@ class ilContObjParser extends ilMDSaxParser
                     $this->file_item->setTitle(trim($this->chr_data));
                 }
                 break;
-
         }
         $this->endElement($a_name);
         $this->chr_data = "";
@@ -1347,14 +1344,12 @@ class ilContObjParser extends ilMDSaxParser
             }
 
             switch ($this->getCurrentElement()) {
-
                 case "IntLink":
                 case "ExtLink":
                     if ($this->in_map_area) {
                         $this->map_area->appendTitle($a_data);
                     }
                     break;
-
             }
         }
     }

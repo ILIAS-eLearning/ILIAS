@@ -126,7 +126,6 @@ class ilObjSkillManagementGUI extends ilObjectGUI
         }
 
         switch ($next_class) {
-
             case 'ilskillrootgui':
                 $skrt_gui = new ilSkillRootGUI(
                     $this->skill_tree_node_manager,
@@ -135,53 +134,53 @@ class ilObjSkillManagementGUI extends ilObjectGUI
                 $skrt_gui->setParentGUI($this);
                 $ret = $this->ctrl->forwardCommand($skrt_gui);
                 break;
-            /*
-            case 'ilskillcategorygui':
-                $this->tabs_gui->activateTab("skills");
-                $scat_gui = new ilSkillCategoryGUI($this->requested_node_id);
-                $scat_gui->setParentGUI($this);
-                $this->showTree(false, $scat_gui, "listItems");
-                $ret = $this->ctrl->forwardCommand($scat_gui);
-                break;
+                /*
+                case 'ilskillcategorygui':
+                    $this->tabs_gui->activateTab("skills");
+                    $scat_gui = new ilSkillCategoryGUI($this->requested_node_id);
+                    $scat_gui->setParentGUI($this);
+                    $this->showTree(false, $scat_gui, "listItems");
+                    $ret = $this->ctrl->forwardCommand($scat_gui);
+                    break;
 
-            case 'ilbasicskillgui':
-                $this->tabs_gui->activateTab("skills");
-                $skill_gui = new ilBasicSkillGUI($this->requested_node_id);
-                $skill_gui->setParentGUI($this);
-                $this->showTree(false, $skill_gui, "edit");
-                $ret = $this->ctrl->forwardCommand($skill_gui);
-                break;
+                case 'ilbasicskillgui':
+                    $this->tabs_gui->activateTab("skills");
+                    $skill_gui = new ilBasicSkillGUI($this->requested_node_id);
+                    $skill_gui->setParentGUI($this);
+                    $this->showTree(false, $skill_gui, "edit");
+                    $ret = $this->ctrl->forwardCommand($skill_gui);
+                    break;
 
-            case 'ilskilltemplatecategorygui':
-                $this->tabs_gui->activateTab("skill_templates");
-                $sctp_gui = new ilSkillTemplateCategoryGUI($this->requested_node_id, $this->requested_tref_id);
-                $sctp_gui->setParentGUI($this);
-                $this->showTree(($this->requested_tref_id == 0), $sctp_gui, "listItems");
-                $ret = $this->ctrl->forwardCommand($sctp_gui);
-                break;
+                case 'ilskilltemplatecategorygui':
+                    $this->tabs_gui->activateTab("skill_templates");
+                    $sctp_gui = new ilSkillTemplateCategoryGUI($this->requested_node_id, $this->requested_tref_id);
+                    $sctp_gui->setParentGUI($this);
+                    $this->showTree(($this->requested_tref_id == 0), $sctp_gui, "listItems");
+                    $ret = $this->ctrl->forwardCommand($sctp_gui);
+                    break;
 
-            case 'ilbasicskilltemplategui':
-                $this->tabs_gui->activateTab("skill_templates");
-                $sktp_gui = new ilBasicSkillTemplateGUI($this->requested_node_id, $this->requested_tref_id);
-                $sktp_gui->setParentGUI($this);
-                $this->showTree(($this->requested_tref_id == 0), $sktp_gui, "edit");
-                $ret = $this->ctrl->forwardCommand($sktp_gui);
-                break;
+                case 'ilbasicskilltemplategui':
+                    $this->tabs_gui->activateTab("skill_templates");
+                    $sktp_gui = new ilBasicSkillTemplateGUI($this->requested_node_id, $this->requested_tref_id);
+                    $sktp_gui->setParentGUI($this);
+                    $this->showTree(($this->requested_tref_id == 0), $sktp_gui, "edit");
+                    $ret = $this->ctrl->forwardCommand($sktp_gui);
+                    break;
 
-            case 'ilskilltemplatereferencegui':
-                $this->tabs_gui->activateTab("skills");
-                $sktr_gui = new ilSkillTemplateReferenceGUI($this->requested_tref_id);
-                $sktr_gui->setParentGUI($this);
-                $this->showTree(false, $sktr_gui, "listItems");
-                $ret = $this->ctrl->forwardCommand($sktr_gui);
-                break;
+                case 'ilskilltemplatereferencegui':
+                    $this->tabs_gui->activateTab("skills");
+                    $sktr_gui = new ilSkillTemplateReferenceGUI($this->requested_tref_id);
+                    $sktr_gui->setParentGUI($this);
+                    $this->showTree(false, $sktr_gui, "listItems");
+                    $ret = $this->ctrl->forwardCommand($sktr_gui);
+                    break;
 
-            case "ilskillprofilegui":
-                $ilTabs->activateTab("profiles");
-                $skprof_gui = new ilSkillProfileGUI();
-                $ret = $this->ctrl->forwardCommand($skprof_gui);
-                break;
-                */
+                case "ilskillprofilegui":
+                    $ilTabs->activateTab("profiles");
+                    $skprof_gui = new ilSkillProfileGUI();
+                    $ret = $this->ctrl->forwardCommand($skprof_gui);
+                    break;
+                    */
             case "ilskillprofileuploadhandlergui":
                 $skprof_upl_gui = new ilSkillProfileUploadHandlerGUI();
                 $ret = $this->ctrl->forwardCommand($skprof_upl_gui);

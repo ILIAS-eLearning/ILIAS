@@ -838,7 +838,6 @@ class ilNoteGUI
         $a_obj_id = $context->getSubObjId();
 
         if ($context->getObjId() > 0) {
-
             // get first visible reference
             $vis_ref_id = 0;
             $ref_ids = ilObject::_getAllReferences($context->getObjId());

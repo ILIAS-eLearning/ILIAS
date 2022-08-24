@@ -140,17 +140,17 @@ abstract class assQuestionGUI
     public function addHeaderAction(): void
     {
         global $DIC; /* @var ILIAS\DI\Container $DIC */
-/*
-        $DIC->ui()->mainTemplate()->setVariable(
-            "HEAD_ACTION",
-            $this->getHeaderAction()
-        );
+        /*
+                $DIC->ui()->mainTemplate()->setVariable(
+                    "HEAD_ACTION",
+                    $this->getHeaderAction()
+                );
 
-        $this->notes_gui->initJavascript();
+                $this->notes_gui->initJavascript();
 
-        $redrawActionsUrl = $this->ctrl->getLinkTarget($this, 'redrawHeaderAction', '', true);
-        $this->ui->mainTemplate()->addOnLoadCode("il.Object.setRedrawAHUrl('$redrawActionsUrl');");
-*/
+                $redrawActionsUrl = $this->ctrl->getLinkTarget($this, 'redrawHeaderAction', '', true);
+                $this->ui->mainTemplate()->addOnLoadCode("il.Object.setRedrawAHUrl('$redrawActionsUrl');");
+        */
     }
 
     public function redrawHeaderAction(): void

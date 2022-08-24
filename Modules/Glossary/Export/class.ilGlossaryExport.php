@@ -64,7 +64,6 @@ class ilGlossaryExport
                 $this->subdir = $this->glo_obj->getType() . "_" . $this->glo_obj->getId();
                 $this->filename = $this->subdir . ".zip";
                 break;
-
         }
     }
 

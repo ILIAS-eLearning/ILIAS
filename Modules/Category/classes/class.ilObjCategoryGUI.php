@@ -101,7 +101,6 @@ class ilObjCategoryGUI extends ilContainerGUI
 
         $header_action = true;
         switch ($next_class) {
-
             case strtolower(ilRepositoryTrashGUI::class):
                 $ru = new ilRepositoryTrashGUI($this);
                 $this->ctrl->setReturn($this, 'trash');
@@ -178,7 +177,7 @@ class ilObjCategoryGUI extends ilContainerGUI
                 }
                 break;
 
-            // container page editing
+                // container page editing
             case "ilcontainerpagegui":
                 $this->prepareOutput(false);
                 $ret = $this->forwardToPageObject();

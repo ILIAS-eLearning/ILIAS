@@ -144,7 +144,7 @@ class ilObjLinkResource extends ilObject
     public function toXML(ilXmlWriter $writer): void
     {
         $attribs = array("obj_id" => "il_" . IL_INST_ID . "_webr_" . $this->getId(
-            )
+        )
         );
 
         $writer->xmlStartTag('WebLinks', $attribs);

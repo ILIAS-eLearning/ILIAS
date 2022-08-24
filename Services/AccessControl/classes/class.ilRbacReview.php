@@ -820,25 +820,25 @@ class ilRbacReview
             case self::FILTER_ALL:
                 return $this->getAssignableRoles(true, true, $title_filter);
 
-            // all (assignable) global roles
+                // all (assignable) global roles
             case self::FILTER_ALL_GLOBAL:
                 $where = 'WHERE ' . $this->db->in('rbac_fa.rol_id', $this->getGlobalRoles(), false, 'integer') . ' ';
                 break;
 
-            // all (assignable) local roles
+                // all (assignable) local roles
             case self::FILTER_ALL_LOCAL:
             case self::FILTER_INTERNAL:
             case self::FILTER_NOT_INTERNAL:
                 $where = 'WHERE ' . $this->db->in('rbac_fa.rol_id', $this->getGlobalRoles(), true, 'integer');
                 break;
 
-            // all role templates
+                // all role templates
             case self::FILTER_TEMPLATES:
                 $where = "WHERE object_data.type = 'rolt'";
                 $assign = "n";
                 break;
 
-            // only assigned roles, handled by ilObjUserGUI::roleassignmentObject()
+                // only assigned roles, handled by ilObjUserGUI::roleassignmentObject()
             case 0:
             default:
                 if (!$a_user_id) {

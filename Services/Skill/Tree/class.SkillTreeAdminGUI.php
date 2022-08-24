@@ -77,7 +77,6 @@ class SkillTreeAdminGUI
         $cmd = $ctrl->getCmd("listTrees");
 
         switch ($next_class) {
-
             case "ilobjskilltreegui":
                 $this->tabs->clearTargets();
                 $gui = new ilObjSkillTreeGUI([], $this->requested_ref_id, true, false);

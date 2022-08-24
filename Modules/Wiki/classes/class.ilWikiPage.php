@@ -739,7 +739,6 @@ class ilWikiPage extends ilPageObject
                     );
                     $new_content = $wpage->getXMLContent();
                     foreach ($col as $c) {
-
                         // this complicated procedure is needed due to the fact
                         // that depending on the collation e = é is true
                         // in the (mysql) database

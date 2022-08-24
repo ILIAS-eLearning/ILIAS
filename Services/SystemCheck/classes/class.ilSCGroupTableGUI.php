@@ -67,7 +67,6 @@ class ilSCGroupTableGUI extends ilTable2GUI
             case ilSCTask::STATUS_FAILED:
                 $this->tpl->setVariable('STATUS_CLASS', 'warning');
                 break;
-
         }
 
         // Actions

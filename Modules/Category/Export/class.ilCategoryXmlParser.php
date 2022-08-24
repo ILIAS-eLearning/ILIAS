@@ -179,7 +179,6 @@ class ilCategoryXmlParser extends ilSaxParser
 
     protected function save(): bool
     {
-
         /**
          * mode can be create or update
          */

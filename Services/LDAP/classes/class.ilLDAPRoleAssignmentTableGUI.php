@@ -98,7 +98,6 @@ class ilLDAPRoleAssignmentTableGUI extends ilTable2GUI
                 case ilLDAPRoleAssignmentRule::TYPE_PLUGIN:
                     $tmp_arr['type'] = $this->lng->txt('ldap_role_by_plugin');
                     break;
-
             }
 
             $tmp_arr['condition'] = $rule->conditionToString();

@@ -109,7 +109,7 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
         );
         $ilDB->manipulateF(
             "INSERT INTO " . $this->getAdditionalTableName(
-                                                                                             ) . " (question_fi, maxsize, allowedextensions, compl_by_submission) VALUES (%s, %s, %s, %s)",
+            ) . " (question_fi, maxsize, allowedextensions, compl_by_submission) VALUES (%s, %s, %s, %s)",
             array( "integer", "float", "text", "integer" ),
             array(
                                 $this->getId(),

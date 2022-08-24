@@ -79,7 +79,6 @@ class ilUserFilterGUI
             default:
                 $cmd = $this->ctrl->getCmd() ? $this->ctrl->getCmd() : 'show';
                 $this->$cmd();
-
         }
     }
 

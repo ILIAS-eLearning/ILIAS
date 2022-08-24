@@ -314,7 +314,6 @@ class Stream implements FileStream
      */
     public function getMetadata($key = null)
     {
-
         //return empty array if stream is detached
         if ($this->stream === null) {
             return [];
@@ -362,7 +361,6 @@ class Stream implements FileStream
      */
     public function __destruct()
     {
-
         //cleanup the resource on object destruction if the stream is not detached.
         if (!is_null($this->stream)) {
             $this->close();

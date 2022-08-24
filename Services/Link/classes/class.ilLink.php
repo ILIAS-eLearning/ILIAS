@@ -53,7 +53,7 @@ class ilLink
         }
         switch ($a_type) {
             case 'git':
-            //case 'pg':
+                //case 'pg':
                 return ILIAS_HTTP_PATH . '/' . self::LINK_SCRIPT . '?client_id=' . CLIENT_ID . $param_string . $append;
 
             default:

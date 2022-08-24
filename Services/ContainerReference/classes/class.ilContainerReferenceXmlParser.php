@@ -80,7 +80,6 @@ class ilContainerReferenceXmlParser extends ilSaxParser
 
             case 'Title':
                 switch ($a_attribs['type']) {
-
                     case ilContainerReference::TITLE_TYPE_REUSE:
                     default:
                         $this->getReference()->setTitleType(ilContainerReference::TITLE_TYPE_REUSE);

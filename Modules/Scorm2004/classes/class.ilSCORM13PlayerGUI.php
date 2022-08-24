@@ -189,7 +189,6 @@ class ilSCORM13PlayerGUI
         //$ilLog->write("SCORM2004 Player cmd: ".$cmd);
 
         switch ($cmd) {
-
             case 'getRTEjs':
                 $this->getRTEjs();
                 break;
@@ -211,7 +210,7 @@ class ilSCORM13PlayerGUI
                 break;
 
             case 'gobjective':
-//				$this->writeGObjective();
+                //				$this->writeGObjective();
                 break;
 
             case 'getGobjective':
@@ -273,7 +272,7 @@ class ilSCORM13PlayerGUI
                 ilSCORM2004StoreData::scormPlayerUnload($this->packageId, $this->ref_id, $this->slm->getTime_from_lms(), $this->userId);
                 break;
 
-            // case 'getConfigForPlayer':
+                // case 'getConfigForPlayer':
                 // $this->getConfigForPlayer();
                 // break;
             default:
@@ -837,7 +836,6 @@ class ilSCORM13PlayerGUI
         }
 
         if ($dataStores["readPermissions"] != null && array_sum($dataStores["readPermissions"]) != 0) {
-
             //If there exists at least one readSharedData permission, then
             //fill in the existing values (if any) already in the store.
 
@@ -1153,7 +1151,6 @@ class ilSCORM13PlayerGUI
 						AND sahs_lm.id = %s';
 
                     break;
-
             }
 
             $result['data'][$k] = array();

@@ -110,7 +110,6 @@ class ilLMTOCExplorerGUI extends ilLMExplorerGUI
             $this->complete_tree["visibility"][$node_id] = ($this->activation_data[$node_id]["active"] ||
                 $this->activation_data[$node_id]["show_info"]);
         } elseif ($current_node["type"] == "st") {
-
             // make chapters visible as soon as there is one visible child
             $this->complete_tree["visibility"][$node_id] = false;
             if (is_array($this->complete_tree["childs"][$node_id])) {

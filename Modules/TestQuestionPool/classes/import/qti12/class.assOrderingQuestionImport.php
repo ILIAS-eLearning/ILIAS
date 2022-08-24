@@ -266,9 +266,9 @@ class assOrderingQuestionImport extends assQuestionImport
                     $fh = fopen($imagepath, "wb");
                     if ($fh == false) {
                         //									global $DIC;
-//									$ilErr = $DIC['ilErr'];
-//									$ilErr->raiseError($this->object->lng->txt("error_save_image_file") . ": $php_errormsg", $ilErr->MESSAGE);
-//									return;
+                        //									$ilErr = $DIC['ilErr'];
+                        //									$ilErr->raiseError($this->object->lng->txt("error_save_image_file") . ": $php_errormsg", $ilErr->MESSAGE);
+                        //									return;
                     } else {
                         $imagefile = fwrite($fh, $image);
                         fclose($fh);

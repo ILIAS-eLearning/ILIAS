@@ -138,42 +138,42 @@ class ilTestRandomQuestionSetPoolDefinitionFormGUI extends ilPropertyFormGUI
                 $this->addItem($taxCheckbox);
             }
 
-            #$taxRadio = new ilRadioGroupInputGUI(
-            #		$this->lng->txt('tst_inp_source_pool_filter_tax'), 'filter_tax'
-            #);
+        #$taxRadio = new ilRadioGroupInputGUI(
+        #		$this->lng->txt('tst_inp_source_pool_filter_tax'), 'filter_tax'
+        #);
 
-            #$taxRadio->setRequired(true);
+        #$taxRadio->setRequired(true);
 
-            #$taxRadio->addOption(new ilRadioOption(
-            #		$this->lng->txt('tst_inp_source_pool_no_tax_filter'), 0
-            #));
+        #$taxRadio->addOption(new ilRadioOption(
+        #		$this->lng->txt('tst_inp_source_pool_no_tax_filter'), 0
+        #));
 
-            #$taxRadio->setValue(0);
+        #$taxRadio->setValue(0);
 
-            #require_once 'Services/Taxonomy/classes/class.ilTaxSelectInputGUI.php';
+        #require_once 'Services/Taxonomy/classes/class.ilTaxSelectInputGUI.php';
 
-            #foreach($availableTaxonomyIds as $taxId)
-            #{
-            #	$taxonomy = new ilObjTaxonomy($taxId);
-            #	$label = sprintf($this->lng->txt('tst_inp_source_pool_filter_tax_x'), $taxonomy->getTitle());
+        #foreach($availableTaxonomyIds as $taxId)
+        #{
+        #	$taxonomy = new ilObjTaxonomy($taxId);
+        #	$label = sprintf($this->lng->txt('tst_inp_source_pool_filter_tax_x'), $taxonomy->getTitle());
 
-            #	$taxRadioOption = new ilRadioOption($label, $taxId);
+        #	$taxRadioOption = new ilRadioOption($label, $taxId);
 
-            #	$taxRadio->addOption($taxRadioOption);
+        #	$taxRadio->addOption($taxRadioOption);
 
-            #	$taxSelect = new ilTaxSelectInputGUI($taxId, "filter_tax_$taxId", false);
-            #	$taxSelect->setRequired(true);
-            #	$taxRadioOption->addSubItem($taxSelect);
+        #	$taxSelect = new ilTaxSelectInputGUI($taxId, "filter_tax_$taxId", false);
+        #	$taxSelect->setRequired(true);
+        #	$taxRadioOption->addSubItem($taxSelect);
 
-            #	if( $taxId == $sourcePool->getOriginalFilterTaxId() )
-            #	{
-            #		$taxRadio->setValue( $sourcePool->getOriginalFilterTaxId() );
-            #		$taxSelect->setValue( $sourcePool->getOriginalFilterTaxNodeId() );
-            #	}
-            #}
+        #	if( $taxId == $sourcePool->getOriginalFilterTaxId() )
+        #	{
+        #		$taxRadio->setValue( $sourcePool->getOriginalFilterTaxId() );
+        #		$taxSelect->setValue( $sourcePool->getOriginalFilterTaxNodeId() );
+        #	}
+        #}
 
-            #$this->addItem($taxRadio);
-            // fau.
+        #$this->addItem($taxRadio);
+        // fau.
         } else {
             $hiddenNoTax = new ilHiddenInputGUI('filter_tax');
             $hiddenNoTax->setValue('0');

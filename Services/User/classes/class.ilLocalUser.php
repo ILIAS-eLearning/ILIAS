@@ -100,8 +100,8 @@ class ilLocalUser
                 if (self::_getFolderIds()) {
                     $where = "WHERE " . $ilDB->in("time_limit_owner", self::_getFolderIds(), false, "integer") . " ";
                 //$where .= '(';
-                    //$where .= implode(",",ilUtil::quoteArray(ilLocalUser::_getFolderIds()));
-                    //$where .= ')';
+                //$where .= implode(",",ilUtil::quoteArray(ilLocalUser::_getFolderIds()));
+                //$where .= ')';
                 } else {
                     //$where = "WHERE time_limit_owner IN ('')";
                     return [];

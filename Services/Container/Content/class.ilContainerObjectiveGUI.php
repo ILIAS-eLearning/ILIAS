@@ -383,7 +383,7 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
                             $this->renderer->addCustomBlock($block_id, $lng->txt('crs_other_resources'));
                             break;
 
-                        // manage
+                            // manage
                         default:
                             $block_id = "all";
                             $this->renderer->addCustomBlock($block_id, $lng->txt('content'));

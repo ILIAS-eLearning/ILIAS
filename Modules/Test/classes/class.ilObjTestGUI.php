@@ -536,9 +536,9 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
 
             case 'ilpageeditorgui':
             case 'iltestexpresspageobjectgui':
-            if ((!$ilAccess->checkAccess("read", "", $this->testrequest->getRefId()))) {
-                $ilias->raiseError($this->lng->txt("permission_denied"), $ilias->error_obj->MESSAGE);
-            }
+                if ((!$ilAccess->checkAccess("read", "", $this->testrequest->getRefId()))) {
+                    $ilias->raiseError($this->lng->txt("permission_denied"), $ilias->error_obj->MESSAGE);
+                }
                 $this->getTabsManager()->getQuestionsSubTabs();
                 $this->getTabsManager()->activateSubTab(ilTestTabsManager::SUBTAB_ID_QST_PAGE_VIEW);
                 $incompleteQuestionPurger = new ilAssIncompleteQuestionPurger($ilDB);
@@ -766,9 +766,9 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
 
             case '':
             case 'ilobjtestgui':
-            if ((!$ilAccess->checkAccess("read", "", $this->testrequest->getRefId()) && !$ilAccess->checkAccess("visible", "", $this->testrequest->getRefId()))) {
-                $ilias->raiseError($this->lng->txt("permission_denied"), $ilias->error_obj->MESSAGE);
-            }
+                if ((!$ilAccess->checkAccess("read", "", $this->testrequest->getRefId()) && !$ilAccess->checkAccess("visible", "", $this->testrequest->getRefId()))) {
+                    $ilias->raiseError($this->lng->txt("permission_denied"), $ilias->error_obj->MESSAGE);
+                }
                 $this->prepareOutput();
                 $this->addHeaderAction();
                 if ((strcmp($cmd, "properties") == 0) && ($this->testrequest->raw("browse"))) {
@@ -2858,7 +2858,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
             case "importVerifiedFile":
             case "cancelImport":
                 break;
-        default:
+            default:
                 $ilLocator->addItem($this->object->getTitle(), $this->ctrl->getLinkTarget($this, ""), "", $this->testrequest->getRefId());
                 break;
         }

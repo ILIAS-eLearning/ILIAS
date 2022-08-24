@@ -107,7 +107,6 @@ class ilCourseReferenceAppEventListener implements ilAppEventListener
     {
         ilLoggerFactory::getLogger('crs')->warning($a_component);
         switch ($a_component) {
-
             case 'Services/AccessControl':
                 $self = new self();
                 $self->handleUserAssignments($a_event, $a_parameter);

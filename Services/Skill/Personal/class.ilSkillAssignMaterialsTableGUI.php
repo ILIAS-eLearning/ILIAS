@@ -80,7 +80,7 @@ class ilSkillAssignMaterialsTableGUI extends ilTable2GUI
         $this->setEnableTitle(true);
 
         //		$this->addMultiCommand("", $lng->txt(""));
-//		$this->addCommandButton("", $lng->txt(""));
+        //		$this->addCommandButton("", $lng->txt(""));
     }
 
     public function getLevels(): array

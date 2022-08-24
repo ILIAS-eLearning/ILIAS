@@ -658,7 +658,7 @@ class assTextSubset extends assQuestion implements ilObjQuestionScoringAdjustabl
 
         $ilDB->manipulateF(
             "INSERT INTO " . $this->getAdditionalTableName(
-                                                                        ) . " (question_fi, textgap_rating, correctanswers) VALUES (%s, %s, %s)",
+            ) . " (question_fi, textgap_rating, correctanswers) VALUES (%s, %s, %s)",
             array( "integer", "text", "integer" ),
             array(
                                 $this->getId(),

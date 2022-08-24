@@ -152,7 +152,6 @@ class ilCalendarManageTableGUI extends ilTable2GUI
                 $this->tpl->setVariable('IMG_SRC', ilUtil::getImagePath('icon_calch.svg'));
                 $this->tpl->setVariable('IMG_ALT', $this->lng->txt('cal_ch_ch'));
                 break;
-
         }
 
         $this->tpl->setVariable('VAL_TITLE', $a_set['title']);

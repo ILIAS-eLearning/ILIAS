@@ -147,7 +147,7 @@ class ilWebDAVMountInstructionsGUI
             || stristr($ua, 'aix') !== false
             || stristr($ua, 'unix') !== false
             || stristr($ua, 'gvfs') !== false // nautilus browser uses this ID
-            ) {
+        ) {
             return ['linux'];
         }
 

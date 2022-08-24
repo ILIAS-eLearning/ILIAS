@@ -62,7 +62,6 @@ class PageQueryActionHandler implements Server\QueryActionHandler
 
             case "component.edit.form":
                 return $this->componentEditFormResponse($query);
-
         }
         throw new Exception("Unknown action " . $query["action"]);
     }
@@ -298,7 +297,6 @@ class PageQueryActionHandler implements Server\QueryActionHandler
 
         $lm_set = new \ilSetting("lm");
         if ($this->page_gui->getEnableEditing() && $this->user->getId() != ANONYMOUS_USER_ID) {
-
             // history
             if ($lm_set->get("page_history", 1)) {
                 $items[] = $ui->factory()->link()->standard(

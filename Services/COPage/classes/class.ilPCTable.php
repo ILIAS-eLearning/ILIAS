@@ -332,7 +332,6 @@ class ilPCTable extends ilPageContent
      */
     public function fixHideAndSpans(): void
     {
-
         // first: get max x and y
         $max_x = $max_y = 0;
         $y = 0;

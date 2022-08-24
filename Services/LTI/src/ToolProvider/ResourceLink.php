@@ -1493,7 +1493,7 @@ EOF;
                     $ltiOutcome->setValue($parts[0] / $parts[1]);
                     $ltiOutcome->type = self::EXT_TYPE_DECIMAL;
                 }
-                // Convert letter_af to letter_af_plus or text
+            // Convert letter_af to letter_af_plus or text
             } elseif ($type === self::EXT_TYPE_LETTER_AF) {
                 if (in_array(self::EXT_TYPE_LETTER_AF_PLUS, $supportedTypes)) {
                     $ok = true;
@@ -1502,7 +1502,7 @@ EOF;
                     $ok = true;
                     $ltiOutcome->type = self::EXT_TYPE_TEXT;
                 }
-                // Convert letter_af_plus to letter_af or text
+            // Convert letter_af_plus to letter_af or text
             } elseif ($type === self::EXT_TYPE_LETTER_AF_PLUS) {
                 if (in_array(self::EXT_TYPE_LETTER_AF, $supportedTypes) && (strlen($value) === 1)) {
                     $ok = true;
@@ -1511,7 +1511,7 @@ EOF;
                     $ok = true;
                     $ltiOutcome->type = self::EXT_TYPE_TEXT;
                 }
-                // Convert text to decimal
+            // Convert text to decimal
             } elseif ($type === self::EXT_TYPE_TEXT) {
                 $ok = is_numeric($value) && ($value >= 0) && ($value <= 1);
                 if ($ok) {

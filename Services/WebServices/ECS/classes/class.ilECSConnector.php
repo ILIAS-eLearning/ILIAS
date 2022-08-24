@@ -485,7 +485,6 @@ class ilECSConnector
                     $this->curl->setOpt(CURLOPT_SSLKEY, $this->settings->getKeyPath());
                     $this->curl->setOpt(CURLOPT_SSLKEYPASSWD, $this->settings->getKeyPassword());
                     break;
-
             }
         } catch (ilCurlConnectionException $exc) {
             throw($exc);

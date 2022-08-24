@@ -90,7 +90,7 @@ class ilLPCollectionOfRepositoryObjects extends ilLPCollection
                             }
                             break;
 
-                        // repository plugin object?
+                            // repository plugin object?
                         case $this->objDefinition->isPluginTypeName(
                             $node['type']
                         ):

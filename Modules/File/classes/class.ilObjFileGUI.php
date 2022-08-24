@@ -141,7 +141,7 @@ class ilObjFileGUI extends ilObject2GUI
                 $this->ctrl->forwardCommand($md_gui);
                 break;
 
-            // repository permissions
+                // repository permissions
             case 'ilpermissiongui':
                 $ilTabs->activateTab("id_permissions");
                 $perm_gui = new ilPermissionGUI($this);
@@ -161,7 +161,7 @@ class ilObjFileGUI extends ilObject2GUI
                 $this->ctrl->forwardCommand($cp);
                 break;
 
-            // personal workspace permissions
+                // personal workspace permissions
             case "ilworkspaceaccessgui":
                 $ilTabs->activateTab("id_permissions");
                 $wspacc = new ilWorkspaceAccessGUI($this->node_id, $this->getAccessHandler());

@@ -2139,7 +2139,7 @@ class ilObjCourseGUI extends ilContainerGUI
                 $this->ctrl->forwardCommand($agreement);
                 break;
 
-            // container page editing
+                // container page editing
             case "ilcontainerpagegui":
                 $ret = $this->forwardToPageObject();
                 if ($ret != "") {

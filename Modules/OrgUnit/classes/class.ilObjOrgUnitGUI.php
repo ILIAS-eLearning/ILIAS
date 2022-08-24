@@ -247,7 +247,8 @@ class ilObjOrgUnitGUI extends ilContainerGUI
                     $this->tpl->setOnScreenMessage('failure', $this->lng->txt("permission_denied"), true);
                     $this->ctrl->redirect($this);
                 }
-                $this->tabs_gui->activateTab(self::TAB_EXPORT);;
+                $this->tabs_gui->activateTab(self::TAB_EXPORT);
+                ;
                 $ilOrgUnitExportGUI = new ilOrgUnitExportGUI($this);
                 $ilOrgUnitExportGUI->addFormat('xml');
                 $this->ctrl->forwardCommand($ilOrgUnitExportGUI);
@@ -711,7 +712,7 @@ class ilObjOrgUnitGUI extends ilContainerGUI
             foreach ($this->toolbar->items as $key => $item) {
                 if ($item["cmd"] == "link" || $item["cmd"] == "copy"
                      || $item["cmd"] == "download"
-                 ) {
+                ) {
                     unset($this->toolbar->items[$key]);
                 }
             }

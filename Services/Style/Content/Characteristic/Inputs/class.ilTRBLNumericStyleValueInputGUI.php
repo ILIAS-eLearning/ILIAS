@@ -135,11 +135,16 @@ class ilTRBLNumericStyleValueInputGUI extends ilFormPropertyGUI
 
             if (trim($num_value) != "") {
                 switch ($dir) {
-                    case "all": $this->setAllValue($num_value . $num_unit); break;
-                    case "top": $this->setTopValue($num_value . $num_unit); break;
-                    case "bottom": $this->setBottomValue($num_value . $num_unit); break;
-                    case "left": $this->setLeftValue($num_value . $num_unit); break;
-                    case "right": $this->setRightValue($num_value . $num_unit); break;
+                    case "all": $this->setAllValue($num_value . $num_unit);
+                        break;
+                    case "top": $this->setTopValue($num_value . $num_unit);
+                        break;
+                    case "bottom": $this->setBottomValue($num_value . $num_unit);
+                        break;
+                    case "left": $this->setLeftValue($num_value . $num_unit);
+                        break;
+                    case "right": $this->setRightValue($num_value . $num_unit);
+                        break;
                 }
             }
         }
@@ -164,11 +169,16 @@ class ilTRBLNumericStyleValueInputGUI extends ilFormPropertyGUI
             $unit_options = ilObjStyleSheet::_getStyleParameterNumericUnits(!$this->getAllowPercentage());
 
             switch ($dir) {
-                case "all": $value = strtolower(trim($this->getAllValue())); break;
-                case "top": $value = strtolower(trim($this->getTopValue())); break;
-                case "bottom": $value = strtolower(trim($this->getBottomValue())); break;
-                case "left": $value = strtolower(trim($this->getLeftValue())); break;
-                case "right": $value = strtolower(trim($this->getRightValue())); break;
+                case "all": $value = strtolower(trim($this->getAllValue()));
+                    break;
+                case "top": $value = strtolower(trim($this->getTopValue()));
+                    break;
+                case "bottom": $value = strtolower(trim($this->getBottomValue()));
+                    break;
+                case "left": $value = strtolower(trim($this->getLeftValue()));
+                    break;
+                case "right": $value = strtolower(trim($this->getRightValue()));
+                    break;
             }
 
             $current_unit = "";

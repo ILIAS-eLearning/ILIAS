@@ -84,7 +84,6 @@ class ilSurveyDataSet extends ilDataSet
                             " FROM svy_quest_skill WHERE " .
                             $ilDB->in("survey_id", $a_ids, false, "integer"));
                     break;
-
             }
         }
 
@@ -95,7 +94,6 @@ class ilSurveyDataSet extends ilDataSet
                             " FROM svy_skill_threshold WHERE " .
                             $ilDB->in("survey_id", $a_ids, false, "integer"));
                     break;
-
             }
         }
     }

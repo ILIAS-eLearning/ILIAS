@@ -88,7 +88,6 @@ class ilObjectCustomIconFactory
             default:
                 $presenter = new ilObjectCustomIconPresenterImpl($this->getByObjId($objId, $objType));
                 break;
-
         }
 
         return $presenter;

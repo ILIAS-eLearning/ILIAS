@@ -68,7 +68,6 @@ class ilPDNewsGUI
         $next_class = $this->ctrl->getNextClass();
 
         switch ($next_class) {
-
             default:
                 $cmd = $this->ctrl->getCmd("view");
                 $this->displayHeader();

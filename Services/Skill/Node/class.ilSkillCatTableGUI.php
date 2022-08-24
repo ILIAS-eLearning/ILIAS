@@ -128,7 +128,7 @@ class ilSkillCatTableGUI extends ilTable2GUI
                 $ilCtrl->setParameterByClass("ilskillcategorygui", "node_id", $this->requested_node_id);
                 break;
 
-            // skill template reference
+                // skill template reference
             case "sktr":
                 $tid = ilSkillTemplateReference::_lookupTemplateId($a_set["child"]);
                 $ilCtrl->setParameterByClass("ilskilltemplatereferencegui", "tref_id", $a_set["child"]);
@@ -138,23 +138,23 @@ class ilSkillCatTableGUI extends ilTable2GUI
                 $ilCtrl->setParameterByClass("ilskilltemplatereferencegui", "tref_id", $this->requested_tref_id);
                 break;
 
-            // skill
+                // skill
             case "skll":
                 $ilCtrl->setParameterByClass("ilbasicskillgui", "node_id", $a_set["child"]);
                 $ret = $ilCtrl->getLinkTargetByClass("ilbasicskillgui", "edit");
                 $ilCtrl->setParameterByClass("ilbasicskillgui", "node_id", $this->requested_node_id);
                 break;
 
-            // --------
+                // --------
 
-            // template
+                // template
             case "sktp":
                 $ilCtrl->setParameterByClass("ilbasicskilltemplategui", "node_id", $a_set["child"]);
                 $ret = $ilCtrl->getLinkTargetByClass("ilbasicskilltemplategui", "edit");
                 $ilCtrl->setParameterByClass("ilbasicskilltemplategui", "node_id", $this->requested_node_id);
                 break;
 
-            // template category
+                // template category
             case "sctp":
                 $ilCtrl->setParameterByClass("ilskilltemplatecategorygui", "node_id", $a_set["child"]);
                 $ret = $ilCtrl->getLinkTargetByClass("ilskilltemplatecategorygui", "listItems");

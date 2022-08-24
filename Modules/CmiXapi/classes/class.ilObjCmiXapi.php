@@ -363,19 +363,19 @@ class ilObjCmiXapi extends ilObject2
         switch ($this->getLPMode()) {
             case ilLPObjSettings::LP_MODE_DEACTIVATED:
                 $moveOn = ilCmiXapiLP::MOVEON_NOT_APPLICABLE;
-            break;
+                break;
             case ilLPObjSettings::LP_MODE_CMIX_COMPLETED:
             case ilLPObjSettings::LP_MODE_CMIX_COMPL_WITH_FAILED:
                 $moveOn = ilCmiXapiLP::MOVEON_COMPLETED;
-            break;
+                break;
             case ilLPObjSettings::LP_MODE_CMIX_PASSED:
             case ilLPObjSettings::LP_MODE_CMIX_PASSED_WITH_FAILED:
                 $moveOn = ilCmiXapiLP::MOVEON_PASSED;
-            break;
-                case ilLPObjSettings::LP_MODE_CMIX_COMPLETED_OR_PASSED:
-                case ilLPObjSettings::LP_MODE_CMIX_COMPL_OR_PASSED_WITH_FAILED:
+                break;
+            case ilLPObjSettings::LP_MODE_CMIX_COMPLETED_OR_PASSED:
+            case ilLPObjSettings::LP_MODE_CMIX_COMPL_OR_PASSED_WITH_FAILED:
                 $moveOn = ilCmiXapiLP::MOVEON_COMPLETED_OR_PASSED;
-            break;
+                break;
         }
         return $moveOn;
     }

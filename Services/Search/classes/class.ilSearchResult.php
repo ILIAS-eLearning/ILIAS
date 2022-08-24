@@ -324,8 +324,6 @@ class ilSearchResult
      */
     public function filter(int $a_root_node, bool $check_and): bool
     {
-
-
         // get ref_ids and check access
         $counter = 0;
         $offset_counter = 0;

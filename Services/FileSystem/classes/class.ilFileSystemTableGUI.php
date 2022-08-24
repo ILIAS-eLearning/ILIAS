@@ -128,7 +128,7 @@ class ilFileSystemTableGUI extends ilTable2GUI
                 ];
             }
 
-            //$entries = ilFileUtils::getDir('/var/iliasdata/ilias/default/' . $this->cur_dir);
+        //$entries = ilFileUtils::getDir('/var/iliasdata/ilias/default/' . $this->cur_dir);
         } else {
             $entries = array(array("type" => "dir", "entry" => ".."));
         }

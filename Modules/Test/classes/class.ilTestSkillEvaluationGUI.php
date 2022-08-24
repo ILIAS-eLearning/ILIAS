@@ -128,17 +128,17 @@ class ilTestSkillEvaluationGUI
     {
         #$this->tabs->clearTargets();
 #
-#		$this->tabs->setBackTarget(
-#			$this->lng->txt('tst_results_back_introduction'),
-#			$this->ctrl->getLinkTargetByClass('ilObjTestGUI', 'infoScreen')
-#		);
+        #		$this->tabs->setBackTarget(
+        #			$this->lng->txt('tst_results_back_introduction'),
+        #			$this->ctrl->getLinkTargetByClass('ilObjTestGUI', 'infoScreen')
+        #		);
 
-#		if( $this->getObjectiveOrientedContainer()->isObjectiveOrientedPresentationRequired() )
-#		{
-#			require_once 'Services/Link/classes/class.ilLink.php';
-#			$courseLink = ilLink::_getLink($this->getObjectiveOrientedContainer()->getRefId());
-#			$this->tabs->setBack2Target($this->lng->txt('back_to_objective_container'), $courseLink);
-#		}
+        #		if( $this->getObjectiveOrientedContainer()->isObjectiveOrientedPresentationRequired() )
+        #		{
+        #			require_once 'Services/Link/classes/class.ilLink.php';
+        #			$courseLink = ilLink::_getLink($this->getObjectiveOrientedContainer()->getRefId());
+        #			$this->tabs->setBack2Target($this->lng->txt('back_to_objective_container'), $courseLink);
+        #		}
     }
 
     protected function init($skillProfileEnabled)

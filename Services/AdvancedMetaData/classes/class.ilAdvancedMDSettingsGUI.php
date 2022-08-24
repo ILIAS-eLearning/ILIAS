@@ -258,7 +258,6 @@ class ilAdvancedMDSettingsGUI
         $next_class = $this->ctrl->getNextClass($this);
         $cmd = $this->ctrl->getCmd();
         switch ($next_class) {
-
             case strtolower(ilAdvancedMDRecordTranslationGUI::class):
                 $record = $this->initRecordObject();
                 $this->setRecordSubTabs(1, true);
@@ -2024,10 +2023,10 @@ class ilAdvancedMDSettingsGUI
                 }
                 // scope needs to match in object context
                 if (
-                ilAdvancedMDRecord::isFilteredByScope(
-                    $this->ref_id,
-                    $record->getScopes()
-                )
+                    ilAdvancedMDRecord::isFilteredByScope(
+                        $this->ref_id,
+                        $record->getScopes()
+                    )
                 ) {
                     continue;
                 }

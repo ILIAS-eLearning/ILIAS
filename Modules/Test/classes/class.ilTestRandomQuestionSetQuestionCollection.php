@@ -13,7 +13,7 @@ require_once 'Modules/Test/classes/class.ilTestRandomQuestionSetQuestion.php';
 // hey: fixRandomTestBuildable - iterator interface for collection
 class ilTestRandomQuestionSetQuestionCollection implements
     Iterator
-// hey.
+    // hey.
 {
     private $questions = array();
 

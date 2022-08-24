@@ -155,7 +155,6 @@ class ilBookCronNotification extends ilCronJob
 
             // group by user, type, pool
             foreach ($res as $r) {
-
                 // users
                 $log->debug("check notification of user id: " . $r["user_id"]);
                 if (in_array($r["user_id"], $user_ids)) {

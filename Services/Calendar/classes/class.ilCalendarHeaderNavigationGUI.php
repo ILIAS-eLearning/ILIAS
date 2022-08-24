@@ -156,7 +156,7 @@ class ilCalendarHeaderNavigationGUI
                 if ($day > 28) {
                     $this->seed->increment(IL_CAL_DAY, (31 - $day) * -1);
                 }
-            // no break
+                // no break
             default:
                 $this->seed->increment($this->increment, $a_count);
                 break;

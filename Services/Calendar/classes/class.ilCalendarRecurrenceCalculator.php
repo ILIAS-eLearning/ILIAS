@@ -510,7 +510,6 @@ class ilCalendarRecurrenceCalculator
                 case ilCalendarRecurrence::FREQ_DAILY:
                     $day_array[strtoupper(substr($seed->get(IL_CAL_FKT_DATE, 'D'), 0, 2))] = array($seed_info['yday']);
                     break;
-
             }
             foreach ($this->recurrence->getBYDAYList() as $byday) {
                 $year_day = array();

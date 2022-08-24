@@ -552,10 +552,10 @@ abstract class SurveyQuestionGUI
                 $title = ilLegacyFormElementsUtil::prepareFormOutput($this->object->getTitle());
                 break;
 
-            #19448  get rid of showing only the label without title
-            //case 2:
-            //	$title = ilUtil::prepareFormOutput($this->object->getLabel());
-            //	break;
+                #19448  get rid of showing only the label without title
+                //case 2:
+                //	$title = ilUtil::prepareFormOutput($this->object->getLabel());
+                //	break;
 
             case ilObjSurvey::PRINT_SHOW_LABELS:
                 $title = ilLegacyFormElementsUtil::prepareFormOutput($this->object->getTitle());

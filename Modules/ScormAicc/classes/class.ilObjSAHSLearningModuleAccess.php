@@ -45,7 +45,6 @@ class ilObjSAHSLearningModuleAccess extends ilObjectAccess implements ilConditio
         int $a_usr_id
     ): bool {
         switch ($a_operator) {
-
             case ilConditionHandler::OPERATOR_FAILED:
                 return ilLPStatus::_lookupStatus($a_trigger_obj_id, $a_usr_id) == ilLPStatus::LP_STATUS_FAILED_NUM;
                 break;
@@ -53,7 +52,6 @@ class ilObjSAHSLearningModuleAccess extends ilObjectAccess implements ilConditio
             case ilConditionHandler::OPERATOR_FINISHED:
             default:
                 return ilLPStatus::_hasUserCompleted($a_trigger_obj_id, $a_usr_id);
-
         }
     }
 

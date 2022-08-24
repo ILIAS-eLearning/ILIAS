@@ -180,7 +180,6 @@ class ilObjOrgUnitTree
      */
     public function getOrgusWhereUserHasPermissionForOperation($operation): array
     {
-
         /*$q = "SELECT object_data.obj_id, object_reference.ref_id, object_data.title, object_data.type, rbac_pa.ops_id, rbac_operations.ops_id as op_id FROM object_data
         INNER JOIN rbac_operations ON rbac_operations.operation = ".$this->db->quote($operation, "text")."
         INNER JOIN rbac_ua ON rbac_ua.usr_id = ".$this->db->quote($ilUser->getId(), "integer")."

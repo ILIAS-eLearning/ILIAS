@@ -175,7 +175,7 @@ class ilLuceneAdvancedSearchFields
                 $text->setMaxLength(255);
                 return $text;
 
-            // General
+                // General
             case 'lom_language':
                 $select = new ilSelectInputGUI($this->active_fields[$a_field_name], $a_post_name);
                 $select->setValue($a_query['lom_language']);
@@ -214,7 +214,7 @@ class ilLuceneAdvancedSearchFields
                 ));
                 return $select;
 
-            // Lifecycle
+                // Lifecycle
             case 'lom_status':
                 $select = new ilSelectInputGUI($this->active_fields[$a_field_name], $a_post_name);
                 $select->setValue($a_query['lom_status']);
@@ -244,15 +244,15 @@ class ilLuceneAdvancedSearchFields
                     true
                 ));
 
-                    $text = new ilTextInputGUI($this->lng->txt('meta_entry'), 'query[' . 'lom_role_entry' . ']');
-                    $text->setValue($a_query['lom_role_entry']);
-                    $text->setSize(30);
-                    $text->setMaxLength(255);
+                $text = new ilTextInputGUI($this->lng->txt('meta_entry'), 'query[' . 'lom_role_entry' . ']');
+                $text->setValue($a_query['lom_role_entry']);
+                $text->setSize(30);
+                $text->setMaxLength(255);
 
                 $select->addSubItem($text);
                 return $select;
 
-            // Technical
+                // Technical
             case 'lom_format':
                 $select = new ilSelectInputGUI($this->active_fields[$a_field_name], $a_post_name);
                 $select->setValue($a_query['lom_format']);
@@ -286,7 +286,7 @@ class ilLuceneAdvancedSearchFields
                 ));
                 return $select;
 
-            // Education
+                // Education
             case 'lom_interactivity':
                 $select = new ilSelectInputGUI($this->active_fields[$a_field_name], $a_post_name);
                 $select->setValue($a_query['lom_interactivity']);
@@ -389,7 +389,7 @@ class ilLuceneAdvancedSearchFields
                 $range->setHtml($html);
                 return $range;
 
-            // Rights
+                // Rights
             case 'lom_costs':
                 $select = new ilSelectInputGUI($this->active_fields[$a_field_name], $a_post_name);
                 $select->setValue($a_query['lom_costs']);
@@ -414,7 +414,7 @@ class ilLuceneAdvancedSearchFields
 
 
 
-            // Classification
+                // Classification
             case 'lom_purpose':
                 $select = new ilSelectInputGUI($this->active_fields[$a_field_name], $a_post_name);
                 $select->setValue($a_query['lom_purpose']);
@@ -479,11 +479,10 @@ class ilLuceneAdvancedSearchFields
 
                     default:
                         return '-offline:1';
-
                 }
 
-            // General
-            // no break
+                // General
+                // no break
             case 'lom_language':
                 return 'lomLanguage:' . $a_query;
 
@@ -496,22 +495,22 @@ class ilLuceneAdvancedSearchFields
             case 'lom_structure':
                 return 'lomStructure:' . $a_query;
 
-            // Lifecycle
+                // Lifecycle
             case 'lom_status':
                 return 'lomStatus:' . $a_query;
 
             case 'lom_version':
                 return 'lomVersion:' . $a_query;
 
-            // Begin Contribute
+                // Begin Contribute
             case 'lom_role':
                 return 'lomRole:' . $a_query;
 
             case 'lom_role_entry':
                 return 'lomRoleEntity:' . $a_query;
-            // End contribute
+                // End contribute
 
-            // Technical
+                // Technical
             case 'lom_format':
                 return 'lomFormat:' . $a_query;
 
@@ -521,7 +520,7 @@ class ilLuceneAdvancedSearchFields
             case 'lom_browser':
                 return 'lomBrowser:' . $a_query;
 
-            // Educational
+                // Educational
             case 'lom_interactivity':
                 return 'lomInteractivity:' . $a_query;
 
@@ -600,14 +599,14 @@ class ilLuceneAdvancedSearchFields
                 }
                 return $q_string;
 
-            // Rights
+                // Rights
             case 'lom_costs':
                 return 'lomCosts:' . $a_query;
 
             case 'lom_copyright':
                 return 'lomCopyright:' . $a_query;
 
-            // Classification
+                // Classification
             case 'lom_purpose':
                 return 'lomPurpose:' . $a_query;
 
@@ -681,7 +680,7 @@ class ilLuceneAdvancedSearchFields
                     $this->active_sections['default']['name'] = '';
                     break;
 
-                // General
+                    // General
                 case 'lom_language':
                     $this->active_sections['general']['fields'][] = 'lom_language';
                     $this->active_sections['general']['name'] = $this->lng->txt('meta_general');
@@ -699,7 +698,7 @@ class ilLuceneAdvancedSearchFields
                     $this->active_sections['general']['name'] = $this->lng->txt('meta_general');
                     break;
 
-                // Lifecycle
+                    // Lifecycle
                 case 'lom_status':
                     $this->active_sections['lifecycle']['fields'][] = 'lom_status';
                     $this->active_sections['lifecycle']['name'] = $this->lng->txt('meta_lifecycle');
@@ -713,7 +712,7 @@ class ilLuceneAdvancedSearchFields
                     $this->active_sections['lifecycle']['name'] = $this->lng->txt('meta_lifecycle');
                     break;
 
-                // Technical
+                    // Technical
                 case 'lom_format':
                     $this->active_sections['technical']['fields'][] = 'lom_format';
                     $this->active_sections['technical']['name'] = $this->lng->txt('meta_technical');
@@ -727,7 +726,7 @@ class ilLuceneAdvancedSearchFields
                     $this->active_sections['technical']['name'] = $this->lng->txt('meta_technical');
                     break;
 
-                // Education
+                    // Education
                 case 'lom_interactivity':
                     $this->active_sections['education']['fields'][] = 'lom_interactivity';
                     $this->active_sections['education']['name'] = $this->lng->txt('meta_education');
@@ -757,7 +756,7 @@ class ilLuceneAdvancedSearchFields
                     $this->active_sections['education']['name'] = $this->lng->txt('meta_education');
                     break;
 
-                // Rights
+                    // Rights
                 case 'lom_costs':
                     $this->active_sections['rights']['fields'][] = 'lom_costs';
                     $this->active_sections['rights']['name'] = $this->lng->txt('meta_rights');
@@ -767,7 +766,7 @@ class ilLuceneAdvancedSearchFields
                     $this->active_sections['rights']['name'] = $this->lng->txt('meta_rights');
                     break;
 
-                // Classification
+                    // Classification
                 case 'lom_purpose':
                     $this->active_sections['classification']['fields'][] = 'lom_purpose';
                     $this->active_sections['classification']['name'] = $this->lng->txt('meta_classification');

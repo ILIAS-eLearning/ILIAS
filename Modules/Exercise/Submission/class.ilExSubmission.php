@@ -801,7 +801,7 @@ class ilExSubmission
                             $file["filetitle"]["login"] . ").zip";
                         break;
 
-                    // @todo: generalize
+                        // @todo: generalize
                     case ilExAssignment::TYPE_WIKI_TEAM:
                         $file["filetitle"] = ilObject::_lookupTitle($this->assignment->getExerciseId()) . " - " .
                             $this->assignment->getTitle() . " (Team " . $this->getTeam()->getId() . ").zip";

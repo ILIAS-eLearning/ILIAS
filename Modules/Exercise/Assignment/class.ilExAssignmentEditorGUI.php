@@ -101,7 +101,7 @@ class ilExAssignmentEditorGUI
                 $ilCtrl->forwardCommand($form);
                 break;
 
-            // instruction files
+                // instruction files
             case "ilexassignmentfilesystemgui":
                 $this->setAssignmentHeader();
                 $ilTabs->activateTab("ass_files");

@@ -86,7 +86,6 @@ class ilSoapDummyAuthServer
 
     public function registerMethods(): bool
     {
-
         // Add useful complex types. E.g. array("a","b") or array(1,2)
         $this->server->wsdl->addComplexType(
             'intArray',

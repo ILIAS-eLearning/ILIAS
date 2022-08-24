@@ -284,18 +284,18 @@ class ilObjMediaObjectAccess implements ilWACCheckingClass
                         }
                         break;
 
-                    // Don't yet give access if the term is linked by another glossary
-                    // The link will lead to the origin glossary which is already checked
-                    /*
-                    case 'gdf:pg':
-                        $src_term_id = ilGlossaryDefinition::_lookupTermId($src['id']);
-                        $src_obj_id = ilGlossaryTerm::_lookGlossaryID($src_term_id);
-                        if ($this->checkAccessObject($src_obj_id, 'glo'))
-                        {
-                            return true;
-                        }
-                        break;
-                    */
+                        // Don't yet give access if the term is linked by another glossary
+                        // The link will lead to the origin glossary which is already checked
+                        /*
+                        case 'gdf:pg':
+                            $src_term_id = ilGlossaryDefinition::_lookupTermId($src['id']);
+                            $src_obj_id = ilGlossaryTerm::_lookGlossaryID($src_term_id);
+                            if ($this->checkAccessObject($src_obj_id, 'glo'))
+                            {
+                                return true;
+                            }
+                            break;
+                        */
                 }
             }
         }

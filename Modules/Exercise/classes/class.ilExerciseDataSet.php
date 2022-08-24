@@ -499,7 +499,6 @@ class ilExerciseDataSet extends ilDataSet
                             "exc_ass_file_order" => array("ids" => $a_rec["Id"] ?? null),
                             "exc_ass_reminders" => array("ids" => $a_rec["Id"] ?? null)
                         );
-
                 }
                 break;
         }

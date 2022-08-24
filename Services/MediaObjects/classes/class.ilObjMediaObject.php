@@ -566,11 +566,11 @@ class ilObjMediaObject extends ilObject
                 }
                 break;
 
-            // for output we need technical sections of meta data
+                // for output we need technical sections of meta data
             case IL_MODE_OUTPUT:
 
                 // get first technical section
-//				$meta = $this->getMetaData();
+                //				$meta = $this->getMetaData();
                 $xml = "<MediaObject Id=\"il__mob_" . $this->getId() . "\">";
 
                 $media_items = $this->getMediaItems();
@@ -650,10 +650,10 @@ class ilObjMediaObject extends ilObject
                 }
                 break;
 
-            // full xml for export
+                // full xml for export
             case IL_MODE_FULL:
 
-//				$meta = $this->getMetaData();
+                //				$meta = $this->getMetaData();
                 $xml = "<MediaObject>";
 
                 // meta data
@@ -1113,25 +1113,25 @@ class ilObjMediaObject extends ilObject
                         $frm_pk = $oDraft->getForumId();
                         $obj_id = ilForum::_lookupObjIdForForumId($frm_pk);
                         break;
-                    // temporary items (per user)
+                        // temporary items (per user)
                     case "frm~":
                     case "exca~":
                         $obj_id = (int) $a_usage['id'];
                         break;
 
-                    // "old" category pages
+                        // "old" category pages
                     case "cat":
-                    // InfoScreen Text
+                        // InfoScreen Text
                     case "tst":
                     case "svy":
-                    // data collection
+                        // data collection
                     case "dcl":
                         $obj_id = (int) $id;
                         break;
                 }
                 break;
 
-            // page editor
+                // page editor
             case "pg":
 
                 switch ($cont_type) {
@@ -1217,12 +1217,12 @@ class ilObjMediaObject extends ilObject
                 }
                 break;
 
-            // Media Pool
+                // Media Pool
             case "mep":
                 $obj_id = $id;
                 break;
 
-            // News Context Object (e.g. MediaCast)
+                // News Context Object (e.g. MediaCast)
             case "news":
                 $obj_id = ilNewsItem::_lookupContextObjId($id);
                 break;

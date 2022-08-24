@@ -102,7 +102,6 @@ final class ilEmployeeTalkMyStaffListGUI implements ControlFlowCommandHandler
                     default:
                         $this->view();
                 }
-
         }
     }
 

@@ -115,10 +115,9 @@ class ilCategoryImportParser extends ilSaxParser
                 $this->parent[$this->parent_cnt++] = $this->category->getRefId();
                 break;
 
-        case "CategorySpec":
-          $this->cur_spec_lang = $a_attribs["Language"];
-          break;
-
+            case "CategorySpec":
+                $this->cur_spec_lang = $a_attribs["Language"];
+                break;
         }
     }
 

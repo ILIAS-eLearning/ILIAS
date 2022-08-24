@@ -221,7 +221,6 @@ class ilObjExternalToolsSettingsGUI extends ilObjectGUI
         }
 
         switch ($next_class) {
-
             case 'ilmathjaxsettingsgui':
                 $this->tabs_gui->setTabActive('settings');
                 $this->initSubTabs("editMathJax");

@@ -39,7 +39,6 @@ class ilObjectAccess implements ilWACCheckingClass
     */
     public function _checkAccess(string $cmd, string $permission, int $ref_id, int $obj_id, ?int $user_id = null): bool
     {
-
         // add no access info item and return false if access is not granted
         // $ilAccess->addInfoItem(ilAccessInfo::IL_NO_OBJECT_ACCESS, $a_text, $a_data = "");
         //

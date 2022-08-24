@@ -83,9 +83,9 @@ class assFlashQuestionImport extends assQuestionImport
         $fh = fopen($filename, "wb");
         if ($fh == false) {
             //									global $DIC;
-//									$ilErr = $DIC['ilErr'];
-//									$ilErr->raiseError($this->object->lng->txt("error_save_image_file") . ": $php_errormsg", $ilErr->MESSAGE);
-//									return;
+            //									$ilErr = $DIC['ilErr'];
+            //									$ilErr->raiseError($this->object->lng->txt("error_save_image_file") . ": $php_errormsg", $ilErr->MESSAGE);
+            //									return;
         } else {
             fwrite($fh, $flashapplet);
             fclose($fh);

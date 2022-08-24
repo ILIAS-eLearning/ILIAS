@@ -170,7 +170,7 @@ class ilPCIIMTriggerEditorGUI extends ilPCImageMapEditorGUI
                 $this->page->update();
                 break;
 
-            // save new area
+                // save new area
             default:
                 $area_type = $this->map->getAreaType();
                 $coords = $this->map->getCoords();
@@ -285,7 +285,6 @@ class ilPCIIMTriggerEditorGUI extends ilPCImageMapEditorGUI
 
     public function outputPostProcessing(string $a_output): string
     {
-
         // for question html get the page gui object
         $pg_gui = new ilPageObjectGUI($this->page->getParentType(), $this->page->getId());
         $pg_gui->setOutputMode(ilPageObjectGUI::PREVIEW);

@@ -62,7 +62,6 @@ class ilPCAMDFormGUI extends ilPageContentGUI
         $cmd = $this->ctrl->getCmd();
 
         switch ($next_class) {
-
             case "ilpropertyformgui":
                 $form = $this->getPortfolioForm(true);
                 $this->ctrl->forwardCommand($form);

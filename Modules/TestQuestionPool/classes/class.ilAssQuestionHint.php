@@ -324,11 +324,16 @@ class ilAssQuestionHint
     {
         foreach ($hintDbRow as $field => $value) {
             switch ($field) {
-                case 'qht_hint_id':			$questionHint->setId($value); break;
-                case 'qht_question_fi':		$questionHint->setQuestionId($value); break;
-                case 'qht_hint_index':		$questionHint->setIndex($value); break;
-                case 'qht_hint_points':		$questionHint->setPoints($value); break;
-                case 'qht_hint_text':		$questionHint->setText($value); break;
+                case 'qht_hint_id':			$questionHint->setId($value);
+                    break;
+                case 'qht_question_fi':		$questionHint->setQuestionId($value);
+                    break;
+                case 'qht_hint_index':		$questionHint->setIndex($value);
+                    break;
+                case 'qht_hint_points':		$questionHint->setPoints($value);
+                    break;
+                case 'qht_hint_text':		$questionHint->setText($value);
+                    break;
 
                 default:	throw new ilTestQuestionPoolException("invalid db field identifier ($field) given!");
             }

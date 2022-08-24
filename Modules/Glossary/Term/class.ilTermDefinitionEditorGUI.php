@@ -106,7 +106,6 @@ class ilTermDefinitionEditorGUI
         }
 
         switch ($next_class) {
-
             case "ilglossarydefpagegui":
                 // output number of usages
                 if ($ilCtrl->getCmd() == "edit" &&
@@ -179,7 +178,6 @@ class ilTermDefinitionEditorGUI
                 $gloss_loc->display();
                 $this->$cmd();
                 break;
-
         }
     }
 

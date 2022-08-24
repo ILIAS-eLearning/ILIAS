@@ -235,7 +235,7 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI
                 switch ($cmd) {
                     case "cancelDelete":
                         $cmd = "view";
-                    // no break
+                        // no break
                     case "create":
                     case "save":
                     case "view":

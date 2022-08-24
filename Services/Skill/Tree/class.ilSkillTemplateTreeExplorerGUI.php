@@ -164,7 +164,7 @@ class ilSkillTemplateTreeExplorerGUI extends ilTreeExplorerGUI
                 $ilCtrl->setParameterByClass("ilskillrootgui", "node_id", $this->requested_skill_node_id);
                 return $ret;
 
-            // template
+                // template
             case "sktp":
                 $ilCtrl->setParameterByClass("ilbasicskilltemplategui", "node_id", $a_node["child"]);
                 $ret = $ilCtrl->getLinkTargetByClass(["ilAdministrationGUI",
@@ -176,7 +176,7 @@ class ilSkillTemplateTreeExplorerGUI extends ilTreeExplorerGUI
                 $ilCtrl->setParameterByClass("ilbasicskilltemplategui", "node_id", $this->requested_skill_node_id);
                 return $ret;
 
-            // template category
+                // template category
             case "sctp":
                 $ilCtrl->setParameterByClass("ilskilltemplatecategorygui", "node_id", $a_node["child"]);
                 $ret = $ilCtrl->getLinkTargetByClass(["ilAdministrationGUI",

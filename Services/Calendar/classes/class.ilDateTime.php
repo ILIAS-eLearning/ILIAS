@@ -144,7 +144,6 @@ class ilDateTime
             case '':
             default:
                 return $start->dt_obj < $end->dt_obj;
-
         }
     }
 
@@ -179,7 +178,6 @@ class ilDateTime
             case '':
             default:
                 return $start->dt_obj == $end->dt_obj;
-
         }
     }
 
@@ -217,7 +215,6 @@ class ilDateTime
             case '':
             default:
                 return $start->dt_obj > $end->dt_obj;
-
         }
     }
 

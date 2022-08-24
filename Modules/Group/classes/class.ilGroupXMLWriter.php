@@ -199,7 +199,6 @@ class ilGroupXMLWriter extends ilXmlWriter
 
     public function __buildRegistration(): void
     {
-
         // registration type
         switch ($this->group_obj->getRegistrationType()) {
             case ilGroupConstants::GRP_REGISTRATION_DIRECT:

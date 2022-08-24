@@ -200,7 +200,6 @@ class NotesManager
         });
 
         if ($type === Note::PUBLIC) {
-
             // additionally all objects on the personal desktop of the user
             // that have at least on comment
             $fav_obj_ids = array_map(function ($i) {

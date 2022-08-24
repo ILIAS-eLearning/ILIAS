@@ -39,7 +39,7 @@ class ilLoggingErrorFileStorage
         return $this->pageHeader()
               . $this->exceptionContent()
               . $this->tablesContent()
-              ;
+        ;
     }
 
     public function write(): void

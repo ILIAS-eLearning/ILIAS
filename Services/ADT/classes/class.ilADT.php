@@ -264,10 +264,9 @@ abstract class ilADT
             case self::ADT_VALIDATION_ERROR_MAX:
                 return $this->lng->txt("form_msg_value_too_high");
 
-            // :TODO: currently not used - see ilDateTimeInputGUI
+                // :TODO: currently not used - see ilDateTimeInputGUI
             case self::ADT_VALIDATION_DATE:
                 return $this->lng->txt("exc_date_not_valid");
-
         }
         throw new Exception("ADT unknown error code");
     }

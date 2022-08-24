@@ -531,7 +531,6 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
         //do testing for converted versions as well as earlier ILIAS version messed up utf8 conversion
         if (strcmp($new_manifest, $old_manifest) == 0 || strcmp(utf8_encode($new_manifest), $old_manifest) == 0 ||
             strcmp($reload_manifest, $old_manifest) == 0 || strcmp(utf8_encode($reload_manifest), $old_manifest) == 0) {
-
             //get exisiting module version
             $module_version = $this->object->getModuleVersion() + 1;
 

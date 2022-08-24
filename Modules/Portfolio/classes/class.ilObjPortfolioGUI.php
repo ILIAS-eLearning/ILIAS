@@ -322,7 +322,6 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
                 asort($options);
             }
             if (!count($options)) {
-
                 // #18147
                 $this->lng->loadLanguageModule('pd');
                 $url = $this->ctrl->getLinkTargetByClass("ilDashboardGUI", "jumpToWorkspace");

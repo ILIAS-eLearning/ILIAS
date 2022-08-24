@@ -259,7 +259,6 @@ class ilObjForumAdministrationGUI extends ilObjectGUI
                 ];
 
                 return [['editSettings', $fields]];
-
         }
         return [];
     }

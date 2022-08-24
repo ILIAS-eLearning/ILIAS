@@ -61,11 +61,11 @@ class LPMainBarProvider extends AbstractStaticMainMenuProvider
                            ->withAvailableCallable(
                                function () {
                                    return ilObjUserTracking::_enabledLearningProgress(
-                                       )
+                                   )
                                        && (ilObjUserTracking::_hasLearningProgressOtherUsers(
-                                           )
-                                           || ilObjUserTracking::_hasLearningProgressLearner(
-                                           ));
+                                       )
+                                       || ilObjUserTracking::_hasLearningProgressLearner(
+                                       ));
                                }
                            ),
         ];

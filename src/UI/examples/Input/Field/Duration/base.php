@@ -9,7 +9,6 @@ namespace ILIAS\UI\examples\Input\Field\Duration;
  */
 function base()
 {
-
     //Step 0: Declare dependencies
     global $DIC;
 

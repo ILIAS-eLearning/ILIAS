@@ -125,7 +125,7 @@ class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
         switch ($a_mode) {
             case "level":
             case "subtree":
-            // case "fixed":
+                // case "fixed":
                 $this->virtual_mode = $a_mode;
                 $this->virtual = true;
                 break;

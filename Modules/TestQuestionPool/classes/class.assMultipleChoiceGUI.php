@@ -641,11 +641,11 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
 
         // HEY: affects next if (!) /// noneAboveChecked repaired but disabled because the checked input ..
         if (false) { // .. makes the qstEditController initialize the "edit" instead of the "answered" state
-        if ($this->isUseEmptySolutionInputChecked()) {
-            $tpl->setCurrentBlock('checked');
-            $tpl->touchBlock('checked');
-            $tpl->parseCurrentBlock();
-        }
+            if ($this->isUseEmptySolutionInputChecked()) {
+                $tpl->setCurrentBlock('checked');
+                $tpl->touchBlock('checked');
+                $tpl->parseCurrentBlock();
+            }
         }
 
         $tpl->setCurrentBlock('checkbox');

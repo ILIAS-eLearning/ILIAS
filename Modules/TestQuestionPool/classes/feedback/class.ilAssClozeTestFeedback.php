@@ -849,7 +849,7 @@ class ilAssClozeTestFeedback extends ilAssMultiOptionQuestionFeedback
                 }
 
                 //  if ($solutionValue > $upperBound) {
-                    return self::FB_NUMERIC_GAP_TOO_HIGH_INDEX;
+                return self::FB_NUMERIC_GAP_TOO_HIGH_INDEX;
                 //}
         }
     }

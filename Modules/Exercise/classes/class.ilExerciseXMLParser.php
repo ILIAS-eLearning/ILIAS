@@ -124,16 +124,15 @@ class ilExerciseXMLParser extends ilSaxParser
                 }
                 break;
             case 'Marking':
-                 $this->status = $a_attribs["status"];
-                 if ($this->status == ilExerciseXMLWriter::$STATUS_NOT_GRADED) {
-                     $this->status = "notgraded";
-                 } elseif ($this->status == ilExerciseXMLWriter::$STATUS_PASSED) {
-                     $this->status = "passed";
-                 } else {
-                     $this->status = "failed";
-                 }
-                 break;
-
+                $this->status = $a_attribs["status"];
+                if ($this->status == ilExerciseXMLWriter::$STATUS_NOT_GRADED) {
+                    $this->status = "notgraded";
+                } elseif ($this->status == ilExerciseXMLWriter::$STATUS_PASSED) {
+                    $this->status = "passed";
+                } else {
+                    $this->status = "failed";
+                }
+                break;
         }
     }
 
@@ -176,20 +175,20 @@ class ilExerciseXMLParser extends ilSaxParser
                 $this->file_content = trim($this->cdata);
                 break;
             case 'File':
-                   $this->updateFile($this->file_name, $this->file_content, $this->file_action);
+                $this->updateFile($this->file_name, $this->file_content, $this->file_action);
                 break;
             case 'Comment':
-                 $this->comment = trim($this->cdata);
-                 break;
+                $this->comment = trim($this->cdata);
+                break;
             case 'Notice':
-                 $this->notice = trim($this->cdata);
-                 break;
+                $this->notice = trim($this->cdata);
+                break;
             case 'Mark':
-                 $this->mark = trim($this->cdata);
-                 break;
+                $this->mark = trim($this->cdata);
+                break;
             case 'Marking':
-                 // see Member end tag
-                 break;
+                // see Member end tag
+                break;
         }
         $this->cdata = '';
     }

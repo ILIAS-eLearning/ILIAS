@@ -63,9 +63,9 @@ class ilServicesLanguageSuite extends TestSuite
             if (class_exists($className)) {
                 $reflection = new ReflectionClass($className);
                 if (
-                        !$reflection->isAbstract() &&
-                        !$reflection->isInterface() &&
-                        $reflection->isSubclassOf(TestCase::class)) {
+                    !$reflection->isAbstract() &&
+                    !$reflection->isInterface() &&
+                    $reflection->isSubclassOf(TestCase::class)) {
                     $suite->addTestSuite($className);
                 }
             }

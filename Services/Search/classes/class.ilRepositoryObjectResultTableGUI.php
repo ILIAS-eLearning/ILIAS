@@ -104,7 +104,6 @@ class ilRepositoryObjectResultTableGUI extends ilTable2GUI
             $row['id'] = $object_id;
 
             switch ($type) {
-
                 case 'crs':
                 case 'grp':
                     if (ilParticipants::hasParticipantListAccess($object_id)) {

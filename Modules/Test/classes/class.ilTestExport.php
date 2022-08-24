@@ -154,9 +154,11 @@ abstract class ilTestExport
     {
         switch ($this->mode) {
             case "results":
-                return "csv"; break;
+                return "csv";
+                break;
             default:
-                return "xml"; break;
+                return "xml";
+                break;
         }
     }
 

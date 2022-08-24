@@ -159,11 +159,16 @@ class ilObjTestDynamicQuestionSetConfig extends ilTestQuestionSetConfig
     {
         foreach ($dataArray as $field => $value) {
             switch ($field) {
-                case 'source_qpl_fi':				$this->setSourceQuestionPoolId($value);			break;
-                case 'source_qpl_title':			$this->setSourceQuestionPoolTitle($value);		break;
-                case 'answer_filter_enabled':		$this->setAnswerStatusFilterEnabled($value);	break;
-                case 'tax_filter_enabled':			$this->setTaxonomyFilterEnabled($value);		break;
-                case 'order_tax':					$this->setOrderingTaxonomyId($value);			break;
+                case 'source_qpl_fi':				$this->setSourceQuestionPoolId($value);
+                    break;
+                case 'source_qpl_title':			$this->setSourceQuestionPoolTitle($value);
+                    break;
+                case 'answer_filter_enabled':		$this->setAnswerStatusFilterEnabled($value);
+                    break;
+                case 'tax_filter_enabled':			$this->setTaxonomyFilterEnabled($value);
+                    break;
+                case 'order_tax':					$this->setOrderingTaxonomyId($value);
+                    break;
             }
         }
     }

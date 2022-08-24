@@ -325,7 +325,6 @@ class ilNestedSetTree implements ilTreeImplementation
                         }
                     } // Treatment for trees without gaps
                     else {
-
                         // get right value of parent
                         if ($this->getTree()->__isMainTree()) {
                             $query = sprintf(
@@ -427,7 +426,6 @@ class ilNestedSetTree implements ilTreeImplementation
                     }
 
                     break;
-
             }
 
             // get depth
@@ -463,7 +461,6 @@ class ilNestedSetTree implements ilTreeImplementation
     public function deleteTree(int $a_node_id): void
     {
         $delete_tree_callable = function (ilDBInterface $db) use ($a_node_id): void {
-
             // Fetch lft, rgt directly (without fetchNodeData) to avoid unnecessary table locks
             // (object_reference, object_data)
             $query = 'SELECT *  FROM ' . $this->getTree()->getTreeTable() . ' ' .

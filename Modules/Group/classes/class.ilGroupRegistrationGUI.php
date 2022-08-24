@@ -164,9 +164,9 @@ class ilGroupRegistrationGUI extends ilRegistrationGUI
             $waiting_list = new ilGroupWaitingList($this->container->getId());
 
             if (
-                    $this->container->isWaitingListEnabled() and
-                    $this->container->isMembershipLimited() and
-                    (!$free or $waiting_list->getCountUsers())) {
+                $this->container->isWaitingListEnabled() and
+                $this->container->isMembershipLimited() and
+                (!$free or $waiting_list->getCountUsers())) {
                 if ($waiting_list->isOnList($this->user->getId())) {
                     $tpl->setVariable('TXT_WAIT', $this->lng->txt('mem_waiting_list_position'));
                     $tpl->setVariable('NUM_WAIT', $waiting_list->getPosition($this->user->getId()));
@@ -181,27 +181,27 @@ class ilGroupRegistrationGUI extends ilRegistrationGUI
             }
 
             if (
-                    !$free and
-                    !$this->container->isWaitingListEnabled()) {
+                !$free and
+                !$this->container->isWaitingListEnabled()) {
                 // Disable registration
                 $this->enableRegistration(false);
                 $alert = $this->lng->txt('mem_alert_no_places');
             } elseif (
-                    $this->container->isWaitingListEnabled() and
-                    $this->container->isMembershipLimited() and
-                    $waiting_list->isOnList($this->user->getId())) {
+                $this->container->isWaitingListEnabled() and
+                $this->container->isMembershipLimited() and
+                $waiting_list->isOnList($this->user->getId())) {
                 // Disable registration
                 $this->enableRegistration(false);
             } elseif (
-                    !$free and
-                    $this->container->isWaitingListEnabled() and
-                    $this->container->isMembershipLimited()) {
+                !$free and
+                $this->container->isWaitingListEnabled() and
+                $this->container->isMembershipLimited()) {
                 $alert = $this->lng->txt('grp_warn_no_max_set_on_waiting_list');
             } elseif (
-                    $free and
-                    $this->container->isWaitingListEnabled() and
-                    $this->container->isMembershipLimited() and
-                    $this->getWaitingList()->getCountUsers()) {
+                $free and
+                $this->container->isWaitingListEnabled() and
+                $this->container->isMembershipLimited() and
+                $this->getWaitingList()->getCountUsers()) {
                 $alert = $this->lng->txt('grp_warn_wl_set_on_waiting_list');
             }
         }
@@ -294,7 +294,6 @@ class ilGroupRegistrationGUI extends ilRegistrationGUI
 
                 $this->form->addItem($txt);
                 break;
-
         }
     }
 
@@ -380,9 +379,9 @@ class ilGroupRegistrationGUI extends ilRegistrationGUI
         $free = max(0, $this->container->getMaxMembers() - $this->participants->getCountMembers());
         $waiting_list = new ilGroupWaitingList($this->container->getId());
         if (
-                $this->container->isMembershipLimited() and
-                $this->container->isWaitingListEnabled() and
-                (!$free or $waiting_list->getCountUsers())) {
+            $this->container->isMembershipLimited() and
+            $this->container->isWaitingListEnabled() and
+            (!$free or $waiting_list->getCountUsers())) {
             $waiting_list->addToList($this->user->getId());
             $info = sprintf(
                 $this->lng->txt('grp_added_to_list'),
@@ -493,8 +492,8 @@ class ilGroupRegistrationGUI extends ilRegistrationGUI
             return $active = false;
         }
         if (
-                !$this->container->isWaitingListEnabled() or
-                !$this->container->isMembershipLimited()) {
+            !$this->container->isWaitingListEnabled() or
+            !$this->container->isMembershipLimited()) {
             return $active = false;
         }
 

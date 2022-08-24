@@ -9,7 +9,6 @@ namespace ILIAS\UI\examples\Input\Field\Select;
  */
 function base()
 {
-
     //Step 0: Declare dependencies
     global $DIC;
 

@@ -78,7 +78,7 @@ class ilDataSetImportParser extends ilSaxParser
     ): void {
         switch ($a_name) {
             case $this->dspref . "DataSet":
-//				$this->import->initDataset($this->ds_component, $a_attribs["top_entity"]);
+                //				$this->import->initDataset($this->ds_component, $a_attribs["top_entity"]);
                 $this->current_installation_id = $a_attribs["InstallationId"];
                 $this->ds->setCurrentInstallationId($a_attribs["InstallationId"]);
                 break;

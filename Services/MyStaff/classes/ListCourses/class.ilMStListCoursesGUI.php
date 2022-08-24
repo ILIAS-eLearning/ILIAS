@@ -76,7 +76,6 @@ class ilMStListCoursesGUI extends ilPropertyFormGUI
                 break;
             default:
                 switch ($cmd) {
-
                     case self::CMD_RESET_FILTER:
                     case self::CMD_APPLY_FILTER:
                     case self::CMD_INDEX:

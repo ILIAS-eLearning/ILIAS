@@ -236,7 +236,7 @@ final class ilEmployeeTalkTableGUI extends ilTable2GUI
             if ($filter['etal_date'] !== false && $filter['etal_date'] !== null) {
                 $filterDate = new ilDateTime($filter['etal_date'], IL_CAL_DATE);
                 if (
-                !ilDateTime::_equals($filterDate, $val->getStartDate(), IL_CAL_DAY)
+                    !ilDateTime::_equals($filterDate, $val->getStartDate(), IL_CAL_DAY)
                 ) {
                     continue;
                 }

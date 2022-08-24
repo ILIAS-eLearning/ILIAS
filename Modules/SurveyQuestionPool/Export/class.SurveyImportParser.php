@@ -328,18 +328,18 @@ class SurveyImportParser extends ilSaxParser
                 $this->material[] = array("text" => "", "image" => "", "label" => $a_attribs["label"] ?? "");
                 break;
             case "matimage":
-                case "label":
-                    if (array_key_exists("label", $a_attribs)) {
-                        if (preg_match("/(il_([0-9]+)_mob_([0-9]+))/", $a_attribs["label"] ?? "", $matches)) {
-                            // import an mediaobject which was inserted using tiny mce
-                            $this->session_repo->addMob(
-                                $a_attribs["label"] ?? "",
-                                $a_attribs["uri"],
-                                $a_attribs["type"],
-                                $a_attribs["id"]
-                            );
-                        }
+            case "label":
+                if (array_key_exists("label", $a_attribs)) {
+                    if (preg_match("/(il_([0-9]+)_mob_([0-9]+))/", $a_attribs["label"] ?? "", $matches)) {
+                        // import an mediaobject which was inserted using tiny mce
+                        $this->session_repo->addMob(
+                            $a_attribs["label"] ?? "",
+                            $a_attribs["uri"],
+                            $a_attribs["type"],
+                            $a_attribs["id"]
+                        );
                     }
+                }
                 break;
             case "metadata":
                 $this->metadata = array();

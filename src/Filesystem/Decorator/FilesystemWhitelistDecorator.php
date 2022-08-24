@@ -99,10 +99,8 @@ final class FilesystemWhitelistDecorator implements Filesystem
 
         //foreach file and dir
         foreach ($contentList as $content) {
-
             //ignore the directories and only copy the files
             if ($content->isFile()) {
-
                 //create destination path
                 $position = strpos($content->getPath(), $source);
                 if ($position !== false) {
@@ -306,7 +304,6 @@ final class FilesystemWhitelistDecorator implements Filesystem
      */
     private function ensureEmptyDirectory(string $path): void
     {
-
         //check if destination dir is empty
         try {
             $destinationContent = $this->listContents($path, true);

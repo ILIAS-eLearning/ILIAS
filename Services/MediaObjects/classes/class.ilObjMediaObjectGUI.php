@@ -786,7 +786,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
                 ($form->getInput("full_type") == "Standard" && $form->getInput("standard_type") == "File")) {
                 if (($form->getInput("full_size") != "original" &&
                         is_int(strpos($format, "image")))
-                    ) {
+                ) {
                     $full_wh_input = $form->getInput("full_width_height");
                     $location = ilObjMediaObject::_resizeImage(
                         $file,
@@ -878,7 +878,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
         $std_item = $this->object->getMediaItem("Standard");
         if ($std_item->getLocationType() == "LocalFile" &&
             is_int(strpos($std_item->getFormat(), "image"))
-            ) {
+        ) {
             $file = $mob_dir . "/" . $std_item->getLocation();
             $location = ilObjMediaObject::_resizeImage(
                 $file,
@@ -894,7 +894,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
             $full_item = $this->object->getMediaItem("Fullscreen");
             if ($full_item->getLocationType() == "LocalFile" &&
                 is_int(strpos($full_item->getFormat(), "image"))
-                ) {
+            ) {
                 $file = $mob_dir . "/" . $full_item->getLocation();
                 $location = ilObjMediaObject::_resizeImage(
                     $file,

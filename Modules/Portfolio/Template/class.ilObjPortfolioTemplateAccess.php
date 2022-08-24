@@ -61,35 +61,34 @@ class ilObjPortfolioTemplateAccess extends ilObjectAccess
         }
 
         switch ($cmd) {
-               case "view":
-                    if (!self::_lookupOnline($obj_id)
-                         && !$rbacsystem->checkAccessOfUser($user_id, 'write', $ref_id)) {
-                        $ilAccess->addInfoItem(ilAccessInfo::IL_NO_OBJECT_ACCESS, $lng->txt("offline"));
-                        return false;
-                    }
-                    break;
+            case "view":
+                if (!self::_lookupOnline($obj_id)
+                     && !$rbacsystem->checkAccessOfUser($user_id, 'write', $ref_id)) {
+                    $ilAccess->addInfoItem(ilAccessInfo::IL_NO_OBJECT_ACCESS, $lng->txt("offline"));
+                    return false;
+                }
+                break;
 
-               // for permission query feature
-               case "infoScreen":
-                    if (!self::_lookupOnline($obj_id)) {
-                        $ilAccess->addInfoItem(ilAccessInfo::IL_NO_OBJECT_ACCESS, $lng->txt("offline"));
-                    } else {
-                        $ilAccess->addInfoItem(ilAccessInfo::IL_STATUS_MESSAGE, $lng->txt("online"));
-                    }
-                    break;
-
-          }
+                // for permission query feature
+            case "infoScreen":
+                if (!self::_lookupOnline($obj_id)) {
+                    $ilAccess->addInfoItem(ilAccessInfo::IL_NO_OBJECT_ACCESS, $lng->txt("offline"));
+                } else {
+                    $ilAccess->addInfoItem(ilAccessInfo::IL_STATUS_MESSAGE, $lng->txt("online"));
+                }
+                break;
+        }
 
         switch ($permission) {
-               case "read":
-               case "visible":
-                    if (!self::_lookupOnline($obj_id) &&
-                         (!$rbacsystem->checkAccessOfUser($user_id, 'write', $ref_id))) {
-                        $ilAccess->addInfoItem(ilAccessInfo::IL_NO_OBJECT_ACCESS, $lng->txt("offline"));
-                        return false;
-                    }
-                    break;
-          }
+            case "read":
+            case "visible":
+                if (!self::_lookupOnline($obj_id) &&
+                     (!$rbacsystem->checkAccessOfUser($user_id, 'write', $ref_id))) {
+                    $ilAccess->addInfoItem(ilAccessInfo::IL_NO_OBJECT_ACCESS, $lng->txt("offline"));
+                    return false;
+                }
+                break;
+        }
 
         return true;
     }

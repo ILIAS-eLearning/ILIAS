@@ -214,7 +214,7 @@ class ilObjSurveyGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
                 $this->ctrl->forwardCommand($gui);
                 break;
 
-            // 360, skill service
+                // 360, skill service
             case 'ilsurveyskillgui':
                 $ilTabs->activateTab("survey_competences");
                 $gui = new ilSurveySkillGUI($survey);

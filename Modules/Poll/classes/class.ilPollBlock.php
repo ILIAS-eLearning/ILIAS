@@ -122,7 +122,7 @@ class ilPollBlock extends ilCustomBlock
             case ilObjPoll::VIEW_RESULTS_ALWAYS:
                 // fallthrough
 
-            // #12023 - see mayNotResultsYet()
+                // #12023 - see mayNotResultsYet()
             case ilObjPoll::VIEW_RESULTS_AFTER_PERIOD:
                 return true;
 

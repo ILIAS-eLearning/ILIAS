@@ -669,7 +669,6 @@ class ilTestTabsManager
 
         if ($this->isWriteAccessGranted()) {
             if (!$this->isHiddenTab(self::TAB_ID_HISTORY)) {
-
                 // history
                 $this->tabs->addTarget(
                     self::TAB_ID_HISTORY,

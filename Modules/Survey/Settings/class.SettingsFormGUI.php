@@ -821,7 +821,6 @@ class SettingsFormGUI
         }
 
         if (!$feature_config->supportsTutorNotification()) {
-
             // "one mail after all participants finished"
             if ($form->getInput("tut")) {
                 $tut_ids = $this->getTutorIdsFromForm($form);

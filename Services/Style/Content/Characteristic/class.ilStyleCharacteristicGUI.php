@@ -559,7 +559,7 @@ class ilStyleCharacteristicGUI
                         if (ilObjStyleSheet::_getStyleParameterInputType($par) == "numeric_no_perc") {
                             $num_input->setAllowPercentage(false);
                         }
-                    $form_gui->addItem($num_input);
+                        $form_gui->addItem($num_input);
                         break;
 
                     case "percentage":

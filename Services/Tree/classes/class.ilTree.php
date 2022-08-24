@@ -1145,7 +1145,6 @@ class ilTree
                 $data["desc"] = $lng->txt("obj_" . $data["type"] . "_desc");
             }
         } elseif ($translation_type == "db") {
-
             // Try to retrieve object translation from cache
             $lang_code = ''; // This did never work, because it was undefined before
             if ($this->isCacheUsed() &&

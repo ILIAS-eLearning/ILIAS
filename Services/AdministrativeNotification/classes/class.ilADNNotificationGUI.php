@@ -65,7 +65,6 @@ class ilADNNotificationGUI extends ilADNAbstractGUI
             case self::CMD_DEFAULT:
             default:
                 return $this->index();
-
         }
 
         return "";

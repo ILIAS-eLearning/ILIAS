@@ -60,7 +60,6 @@ class ilObjAdvancedEditingGUI extends ilObjectGUI
         $this->prepareOutput();
 
         switch ($next_class) {
-
             case 'ilpermissiongui':
                 $perm_gui = new ilPermissionGUI($this);
                 $this->ctrl->forwardCommand($perm_gui);

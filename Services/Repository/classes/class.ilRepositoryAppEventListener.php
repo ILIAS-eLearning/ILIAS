@@ -47,7 +47,6 @@ class ilRepositoryAppEventListener implements ilAppEventListener
 
 
                         if ($a_parameter["object"]->getType() === "usr") {
-
                             // remove recommended content
                             $rec_manager = new ilRecommendedContentManager();
                             $rec_manager->removeRecommendationsOfUser((int) $a_parameter["object"]->getId());
@@ -58,7 +57,6 @@ class ilRepositoryAppEventListener implements ilAppEventListener
                         }
 
                         if ($a_parameter["object"]->getType() === "role") {
-
                             // remove recommended content
                             $rec_manager = new ilRecommendedContentManager();
                             $rec_manager->removeRecommendationsOfRole((int) $a_parameter["object"]->getId());

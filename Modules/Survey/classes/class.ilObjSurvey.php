@@ -2330,7 +2330,6 @@ class ilObjSurvey extends ilObject
 
         // self eval writes skills on finishing
         if ($this->getMode() === self::MODE_IND_FEEDB) {
-
             // we use a rater id like "a27" for anonymous or
             // "123" for non anonymous user
             // @todo: move this e.g. to participant manager
@@ -5124,7 +5123,6 @@ class ilObjSurvey extends ilObject
         $ilDB = $this->db;
 
         if ($this->getTutorNotificationStatus()) {
-
             // get target users, either parent course/group members or
             // user with the survey on the dashboard
             $user_ids = $this->getNotificationTargetUserIds(($this->getTutorNotificationTarget() === self::NOTIFICATION_INVITED_USERS));

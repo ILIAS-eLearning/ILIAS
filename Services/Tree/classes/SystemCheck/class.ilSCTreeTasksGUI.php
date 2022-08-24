@@ -181,7 +181,6 @@ class ilSCTreeTasksGUI extends ilSCComponentTaskGUI
                     );
                 }
                 break;
-
         }
         return $actions;
     }

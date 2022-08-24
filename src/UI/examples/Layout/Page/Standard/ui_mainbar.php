@@ -137,7 +137,7 @@ function getUIContent(\ILIAS\UI\Factory $f, RequestInterface $request): array
                 $f->legacy('<h1>Maulwurf</h1><p>Der Europäische Maulwurf ist ein mittelgroßer Vertreter der Eurasischen Maulwürfe (Talpa). Er erreicht eine Kopf-Rumpf-Länge von 11,3 bis 15,9 cm, der Schwanz wird 2,5 bis 4,0 cm lang.</p>')
                 ,$f->link()->standard("Quelle: Wikipedia", "https://de.wikipedia.org/wiki/Tier_des_Jahres")
             ];
-             break;
+            break;
         case 3:
             $t = 'Tier des Jahres: Reh';
             $c = [

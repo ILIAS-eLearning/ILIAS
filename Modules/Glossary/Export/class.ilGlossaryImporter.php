@@ -71,7 +71,6 @@ class ilGlossaryImporter extends ilXmlImporter
     public function finalProcessing(
         ilImportMapping $a_mapping
     ): void {
-
         // get all glossaries of the import
         $maps = $a_mapping->getMappingsOfEntity("Modules/Glossary", "glo");
         foreach ($maps as $old => $new) {

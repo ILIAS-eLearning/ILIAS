@@ -144,12 +144,12 @@ class ilObjMediaCastGUI extends ilObjectGUI
                 break;
 
             case "ilexportgui":
-//				$this->prepareOutput();
+                //				$this->prepareOutput();
                 $ilTabs->activateTab("export");
                 $exp_gui = new ilExportGUI($this);
                 $exp_gui->addFormat("xml");
                 $ret = $this->ctrl->forwardCommand($exp_gui);
-//				$this->tpl->show();
+                //				$this->tpl->show();
                 break;
 
             case 'ilpermissiongui':
@@ -197,7 +197,7 @@ class ilObjMediaCastGUI extends ilObjectGUI
                 }
                 $this->$cmd();
 
-            break;
+                break;
         }
         $this->addHeaderAction();
     }
@@ -498,7 +498,6 @@ class ilObjMediaCastGUI extends ilObjectGUI
                 $clearCheckBox->setTitle($lng->txt("mcst_clear_purpose_title"));
                 $this->form_gui->addItem($clearCheckBox);
             } else {
-
                 //
                 $ne = new ilNonEditableValueGUI($lng->txt("mcst_mimetype"), "mimetype_" . $purpose);
                 $this->form_gui->addItem($ne);

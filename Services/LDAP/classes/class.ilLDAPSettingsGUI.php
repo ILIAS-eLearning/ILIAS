@@ -192,7 +192,7 @@ class ilLDAPSettingsGUI
                 if (!$cmd) {
                     $cmd = "serverList";
                 }
-               $this->$cmd();
+                $this->$cmd();
                 break;
         }
         return true;

@@ -111,7 +111,6 @@ class MigrateCommand extends Command
             default:
                 $io->text("Determined $steps step(s) to run.");
                 break;
-
         }
         $objective = new Objective\MigrationObjective($migration, $steps);
 

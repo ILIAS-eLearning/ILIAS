@@ -103,7 +103,7 @@ class ilObjRootFolderGUI extends ilContainerGUI
                 $this->ctrl->forwardCommand($ru);
                 break;
 
-            // container page editing
+                // container page editing
             case "ilcontainerpagegui":
                 $this->prepareOutput(false);
                 $ret = $this->forwardToPageObject();

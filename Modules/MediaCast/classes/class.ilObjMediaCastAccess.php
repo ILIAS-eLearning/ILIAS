@@ -69,7 +69,7 @@ class ilObjMediaCastAccess extends ilObjectAccess
                 }
                 break;
 
-            // for permission query feature
+                // for permission query feature
             case "infoScreen":
                 if (!ilObjMediaCastAccess::_lookupOnline($obj_id)) {
                     $ilAccess->addInfoItem(ilAccessInfo::IL_NO_OBJECT_ACCESS, $lng->txt("offline"));
@@ -77,7 +77,6 @@ class ilObjMediaCastAccess extends ilObjectAccess
                     $ilAccess->addInfoItem(ilAccessInfo::IL_STATUS_MESSAGE, $lng->txt("online"));
                 }
                 break;
-
         }
         switch ($permission) {
             case "read":

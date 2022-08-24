@@ -165,10 +165,14 @@ class ilTestRandomQuestionSetConfig extends ilTestQuestionSetConfig
     {
         foreach ($dataArray as $field => $value) {
             switch ($field) {
-                case 'req_pools_homo_scored':		$this->setPoolsWithHomogeneousScoredQuestionsRequired($value);	break;
-                case 'quest_amount_cfg_mode':		$this->setQuestionAmountConfigurationMode($value);				break;
-                case 'quest_amount_per_test':		$this->setQuestionAmountPerTest($value);						break;
-                case 'quest_sync_timestamp':		$this->setLastQuestionSyncTimestamp($value);					break;
+                case 'req_pools_homo_scored':		$this->setPoolsWithHomogeneousScoredQuestionsRequired($value);
+                    break;
+                case 'quest_amount_cfg_mode':		$this->setQuestionAmountConfigurationMode($value);
+                    break;
+                case 'quest_amount_per_test':		$this->setQuestionAmountPerTest($value);
+                    break;
+                case 'quest_sync_timestamp':		$this->setLastQuestionSyncTimestamp($value);
+                    break;
             }
         }
     }

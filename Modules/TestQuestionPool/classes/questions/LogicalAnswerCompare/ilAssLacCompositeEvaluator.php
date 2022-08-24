@@ -104,7 +104,6 @@ class ilAssLacCompositeEvaluator
                 } elseif (
                     $rightNode instanceof ilAssLacPercentageResultExpression &&
                     $composite->nodes[0] instanceof ilAssLacResultOfAnswerOfQuestionExpression) {
-
                     /**
                      * @var $answers assAnswerCloze[]
                      */

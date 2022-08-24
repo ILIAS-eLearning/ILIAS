@@ -110,7 +110,6 @@ class ilObjBookingPoolAccess extends ilObjectAccess
 
     public function canBeDelivered(ilWACPath $ilWACPath): bool
     {
-
         // we return always false, since the files in the file/ and post/ directoies
         // are server by php (they could/should be moved to the data dir outside of the web doc root)
         return false;

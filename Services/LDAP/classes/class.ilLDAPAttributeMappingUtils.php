@@ -43,7 +43,7 @@ class ilLDAPAttributeMappingUtils
                 $mapping_rule['phone_mobile'] = 'mobile';
                 $mapping_rule['email'] = 'mail';
                 $mapping_rule['photo'] = 'jpegPhoto';
-            // no break since it inherits from organizationalPerson and person
+                // no break since it inherits from organizationalPerson and person
 
             case 'organizationalPerson':
                 $mapping_rule['fax'] = 'facsimileTelephoneNumber';
@@ -52,7 +52,7 @@ class ilLDAPAttributeMappingUtils
                 $mapping_rule['zipcode'] = 'postalCode';
                 $mapping_rule['city'] = 'l';
                 $mapping_rule['country'] = 'st';
-            // no break since it inherits from person
+                // no break since it inherits from person
 
             case 'person':
                 $mapping_rule['lastname'] = 'sn';

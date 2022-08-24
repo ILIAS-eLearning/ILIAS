@@ -263,7 +263,6 @@ class ilTimingsManageTableGUI extends ilTable2GUI
                 $current_row['title'] = $item['title'];
                 $current_row['title_link'] = '';
                 break;
-
         }
         $current_row['desc'] = $item['desc'];
 

@@ -212,7 +212,7 @@ class ilMembershipNotifications
                 }
                 break;
 
-            // all members, mind opt-out
+                // all members, mind opt-out
             case self::MODE_ALL:
                 // users who did opt-out
                 $inactive = array();
@@ -226,12 +226,12 @@ class ilMembershipNotifications
                 $users = array_diff($all, $inactive);
                 break;
 
-            // all members, no opt-out
+                // all members, no opt-out
             case self::MODE_ALL_BLOCKED:
                 $users = $all;
                 break;
 
-            // custom settings
+                // custom settings
             case self::MODE_CUSTOM:
                 foreach ($this->custom as $user_id => $status) {
                     if ($status !== self::VALUE_OFF) {

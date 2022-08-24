@@ -77,26 +77,26 @@ class ilTestFinalMarkLangVarBuilderTest extends TestCase
             )
         );
         // OTX: Test breaks with fatal error...
-//		foreach($testCases as $case)
-//		{
-//			// arrange
+        //		foreach($testCases as $case)
+        //		{
+        //			// arrange
 //
-//			$passedStatus = $case['param_passedStatus'];
-//			$obligationsAnsweredStatus = $case['param_obligationsAnsweredStatus'];
-//			$obligationsEnabled = $case['param_obligationsEnabled'];
+        //			$passedStatus = $case['param_passedStatus'];
+        //			$obligationsAnsweredStatus = $case['param_obligationsAnsweredStatus'];
+        //			$obligationsEnabled = $case['param_obligationsEnabled'];
 //
-//			$expected = $case['expected'];
+        //			$expected = $case['expected'];
 //
-//			require_once './Modules/Test/classes/class.ilTestFinalMarkLangVarBuilder.php';
-//			$instance = new ilTestFinalMarkLangVarBuilder($passedStatus, $obligationsAnsweredStatus, $obligationsEnabled);
+        //			require_once './Modules/Test/classes/class.ilTestFinalMarkLangVarBuilder.php';
+        //			$instance = new ilTestFinalMarkLangVarBuilder($passedStatus, $obligationsAnsweredStatus, $obligationsEnabled);
 //
-//			// act
+        //			// act
 //
-//			$actual = $instance->build();
+        //			$actual = $instance->build();
 //
-//			// assert
+        //			// assert
 //
-//			$this->assertEquals($expected, $actual);
-//		}
+        //			$this->assertEquals($expected, $actual);
+        //		}
     }
 }

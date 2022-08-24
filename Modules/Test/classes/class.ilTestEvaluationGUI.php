@@ -1169,7 +1169,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
             $filename = $name['lastname'] . '_' . $name['firstname'] . '_' . $name['login'] . '__' . $this->object->getTitleFilenameCompliant();
             ilTestPDFGenerator::generatePDF($template->get(), ilTestPDFGenerator::PDF_OUTPUT_DOWNLOAD, $filename, PDF_USER_RESULT);
         //ilUtil::deliverData($file, ilUtil::getASCIIFilename($this->object->getTitle()) . ".pdf", "application/pdf", false, true);
-            //$template->setVariable("PDF_FILE_LOCATION", $filename);
+        //$template->setVariable("PDF_FILE_LOCATION", $filename);
         } else {
             $this->tpl->setVariable("ADM_CONTENT", $template->get());
         }

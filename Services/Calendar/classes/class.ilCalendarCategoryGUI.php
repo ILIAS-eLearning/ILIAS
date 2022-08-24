@@ -1020,7 +1020,6 @@ class ilCalendarCategoryGUI
                 $tpl->setVariable('HTEXT', $this->lng->txt('dash_favourites'));
                 $tpl->touchBlock('head_item');
                 break;
-
         }
         return $tpl->get();
     }

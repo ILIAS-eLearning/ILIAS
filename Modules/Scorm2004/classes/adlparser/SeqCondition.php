@@ -46,28 +46,28 @@ declare(strict_types=1);
     DAMAGES.
 */
 
-    define("SATISFIED", "satisfied");
-    define("OBJSTATUSKNOWN", "objectiveStatusKnown");
-    define("OBJMEASUREKNOWN", "objectiveMeasureKnown");
-    define("OBJMEASUREGRTHAN", "objectiveMeasureGreaterThan");
-    define("OBJMEASURELSTHAN", "objectiveMeasureLessThan");
-    define("COMPLETED", "completed");
-    define("PROGRESSKNOWN", "activityProgressKnown");
-    define("ATTEMPTED", "attempted");
-    define("ATTEMPTSEXCEEDED", "attemptLimitExceeded");
-    define("TIMELIMITEXCEEDED", "timeLimitExceeded");
-    define("OUTSIDETIME", "outsideAvailableTimeRange");
-    define("ALWAYS", "always");
-    define("NEVER", "never");
+define("SATISFIED", "satisfied");
+define("OBJSTATUSKNOWN", "objectiveStatusKnown");
+define("OBJMEASUREKNOWN", "objectiveMeasureKnown");
+define("OBJMEASUREGRTHAN", "objectiveMeasureGreaterThan");
+define("OBJMEASURELSTHAN", "objectiveMeasureLessThan");
+define("COMPLETED", "completed");
+define("PROGRESSKNOWN", "activityProgressKnown");
+define("ATTEMPTED", "attempted");
+define("ATTEMPTSEXCEEDED", "attemptLimitExceeded");
+define("TIMELIMITEXCEEDED", "timeLimitExceeded");
+define("OUTSIDETIME", "outsideAvailableTimeRange");
+define("ALWAYS", "always");
+define("NEVER", "never");
 
-    class SeqCondition
+class SeqCondition
+{
+    public ?string $mCondition = null;
+    public bool $mNot = false;
+    public ?string $mObjID = null;
+    public float $mThreshold = 0.0;
+
+    public function __construct()
     {
-        public ?string $mCondition = null;
-        public bool $mNot = false;
-        public ?string $mObjID = null;
-        public float $mThreshold = 0.0;
-
-        public function __construct()
-        {
-        }
     }
+}

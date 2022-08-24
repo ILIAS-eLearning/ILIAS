@@ -239,7 +239,6 @@ class ilECSNodeMappingAssignments
 
                 case ilECSCmsData::MAPPING_PENDING_NOT_DISCONNECTABLE:
                     break;
-
             }
         }
         self::deleteMappingsByCsId($a_server_id, $a_mid, $a_tree_id, $toDelete);

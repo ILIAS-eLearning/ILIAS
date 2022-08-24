@@ -722,7 +722,7 @@ class assTextQuestionGUI extends assQuestionGUI implements ilGuiQuestionScoringA
         $scoringMode->setRequired(true);
         $scoringMode->setValue(
             strlen($this->object->getKeywordRelation()) ? $this->object->getKeywordRelation(
-                                ) : 'non'
+            ) : 'non'
         );
 
         if ($this->object->getAnswerCount() == 0) {

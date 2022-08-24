@@ -528,7 +528,7 @@ class assNumeric extends assQuestion implements ilObjQuestionScoringAdjustable, 
 
         $ilDB->manipulateF(
             "INSERT INTO " . $this->getAdditionalTableName(
-                                                   ) . " (question_fi, maxnumofchars) VALUES (%s, %s)",
+            ) . " (question_fi, maxnumofchars) VALUES (%s, %s)",
             array( "integer", "integer" ),
             array(
                                 $this->getId(),
@@ -556,7 +556,7 @@ class assNumeric extends assQuestion implements ilObjQuestionScoringAdjustable, 
 							 VALUES (%s, %s, %s, %s, %s, %s, %s)",
             array( 'integer', 'integer', 'text', 'text', 'float', 'integer', 'integer' ),
             array( $next_id, $this->id, $this->getLowerLimit(), $this->getUpperLimit(
-                            ), $this->getPoints(), 0, time() )
+            ), $this->getPoints(), 0, time() )
         );
     }
 

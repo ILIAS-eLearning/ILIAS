@@ -145,7 +145,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
                     throw new ilGlossaryException("No permission.");
                 }
                 $this->getTemplate();
-//				$this->quickList();
+                //				$this->quickList();
                 $this->ctrl->setReturn($this, "listTerms");
                 $term_gui = new ilGlossaryTermGUI($this->term_id);
                 $term_gui->setGlossary($this->getGlossary());

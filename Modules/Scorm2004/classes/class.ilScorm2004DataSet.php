@@ -86,7 +86,6 @@ class ilScorm2004DataSet extends ilDataSet
                         }
                     }
                     break;
-
             }
         }
     }

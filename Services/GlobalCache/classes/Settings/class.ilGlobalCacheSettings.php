@@ -232,9 +232,9 @@ class ilGlobalCacheSettings implements Setup\Config
     public function __toString(): string
     {
         $service = 'Service: ' . ($this->getService(
-            ) > 0 ? ilGlobalCache::lookupServiceClassName(
-                $this->getService()
-            ) : 'none');
+        ) > 0 ? ilGlobalCache::lookupServiceClassName(
+            $this->getService()
+        ) : 'none');
         $activated = 'Activated Components: ' . implode(
             ', ',
             $this->getActivatedComponents()

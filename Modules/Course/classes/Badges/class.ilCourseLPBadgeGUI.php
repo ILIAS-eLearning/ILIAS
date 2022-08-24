@@ -104,7 +104,6 @@ class ilCourseLPBadgeGUI implements ilBadgeTypeGUI
 
     public static function getInvalidLPModes(): array
     {
-
         /* supported modes
             LP_MODE_TLT
             LP_MODE_OBJECTIVES

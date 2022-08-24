@@ -71,7 +71,6 @@ class ilFolderXmlParser extends ilSaxParser
     public function handlerBeginTag($a_xml_parser, string $a_name, array $a_attribs): void
     {
         switch ($a_name) {
-
             case 'Folder':
             case 'Title':
             case 'Description':
@@ -94,7 +93,6 @@ class ilFolderXmlParser extends ilSaxParser
         $GLOBALS['ilLog']->write(__METHOD__ . ': Called ' . $a_name);
 
         switch ($a_name) {
-
             case 'Folder':
                 $this->getFolder()->update();
                 break;
@@ -106,7 +104,6 @@ class ilFolderXmlParser extends ilSaxParser
             case 'Description':
                 $this->getFolder()->setDescription(trim($this->cdata));
                 break;
-
         }
 
         // Reset cdata

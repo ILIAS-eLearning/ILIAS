@@ -237,7 +237,6 @@ class InfoScreenGUI
                     $this->toolbar->addButtonInstance($button);
                 }
             } else {
-
                 // list appraisees
                 $appr_ids = array();
 

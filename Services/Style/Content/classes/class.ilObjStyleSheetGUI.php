@@ -122,7 +122,6 @@ class ilObjStyleSheetGUI extends ilObjectGUI
         }
 
         switch ($next_class) {
-
             case "ilexportgui":
                 $this->prepareOutput();
                 $exp_gui = new ilExportGUI($this);

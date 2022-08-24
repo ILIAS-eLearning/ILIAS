@@ -18,6 +18,7 @@
 
 use ILIAS\Administration\Setting;
 use ILIAS\DI\Container;
+
 use function _PHPStan_e04cc8dfb\RingCentral\Psr7\str;
 
 /**

@@ -317,7 +317,6 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
                             $lcontent = ilUserUtil::getNamePresentation($target_id, false, false);
                         }
                         break;
-
                 }
 
                 if ($href != "") {

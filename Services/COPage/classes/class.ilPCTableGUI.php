@@ -916,7 +916,7 @@ class ilPCTableGUI extends ilPageContentGUI
                     }
                     break;
 
-                // spreadsheet
+                    // spreadsheet
                 case "spreadsheet":
                     $this->content_obj->importSpreadsheet($this->form->getInput("language"), $import_table);
                     break;

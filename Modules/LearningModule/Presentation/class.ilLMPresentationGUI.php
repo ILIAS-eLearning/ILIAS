@@ -541,7 +541,6 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
             $child_attr = $this->attrib2arr($child->attributes());
 
             switch ($child->node_name()) {
-
                 case "ilPage":
                     $this->renderPageTitle();
                     $this->setHeader();
@@ -559,7 +558,7 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
 
                 case "ilLMNavigation":
                     // @todo 6.0
-//						$this->ilLMNavigation();
+                    //						$this->ilLMNavigation();
                     break;
 
                 case "ilMedia":
@@ -584,7 +583,7 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
 
                 case "ilLMHead":
                     // @todo 6.0
-//						$this->ilLMHead();
+                    //						$this->ilLMHead();
                     break;
 
                 case "ilLMSubMenu":
@@ -1500,14 +1499,14 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
                     $img_alt = $lng->txt("icon") . " " . $lng->txt("pg");
                     break;
 
-                // learning module
+                    // learning module
                 case "du":
                     $text = $this->getLMPresentationTitle();
                     $img_src = ilUtil::getImagePath("icon_lm.svg");
                     $img_alt = $lng->txt("icon") . " " . $lng->txt("obj_lm");
                     break;
 
-                // chapter
+                    // chapter
                 case "st":
                     $text =
                         ilStructureObject::_getPresentationTitle(

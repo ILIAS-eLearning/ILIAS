@@ -270,7 +270,6 @@ class ilAdministrationGUI implements ilCtrlBaseClassInterface
                     $this->ctrl->redirectByClass("ilobjuserfoldergui", "view");
                 }
             } else {
-
                 // this code should not be necessary anymore...
                 throw new ilPermissionException("Missing AdmiGUI parameter.");
 

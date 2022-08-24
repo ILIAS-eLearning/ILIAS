@@ -64,7 +64,6 @@ class ilContainerBlockPropertiesStorageGUI implements ilCtrlBaseClassInterface
         $ilUser = $this->user;
 
         switch ($this->request->getBlockAction()) {
-
             case "expand":
                 $this->block_repo->setProperty(
                     $this->request->getBlockId(),

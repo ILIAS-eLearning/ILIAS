@@ -494,7 +494,6 @@ class ilCalendarWeekGUI extends ilCalendarViewGUI
         foreach ($hours as $num_hour => $hours_per_day) {
             $first = true;
             foreach ($hours_per_day as $num_day => $hour) {
-
                 #ADD the hours in the left side of the grid.
                 if ($first) {
                     if (!($num_hour % 60) || ($num_hour == $morning_aggr && $morning_aggr) ||

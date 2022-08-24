@@ -34,9 +34,9 @@ class DataService
         \ilInitialisation::initILIAS();
         // Remember original values
         // $_ORG_SERVER = array(
-          // 'HTTP_HOST'    => $_SERVER['HTTP_HOST'],
-          // 'REQUEST_URI'  => $_SERVER['REQUEST_URI'],
-          // 'PHP_SELF'     => $_SERVER['PHP_SELF'],
+        // 'HTTP_HOST'    => $_SERVER['HTTP_HOST'],
+        // 'REQUEST_URI'  => $_SERVER['REQUEST_URI'],
+        // 'PHP_SELF'     => $_SERVER['PHP_SELF'],
         // );
         // // Overwrite $_SERVER entries which would confuse ILIAS during initialisation
         // $_SERVER['REQUEST_URI'] = '';

@@ -167,7 +167,6 @@ class ilNewsDataSet extends ilDataSet
                     }
                 }
                 break;
-
         }
     }
 }

@@ -158,7 +158,7 @@ class ilLPTableBaseGUI extends ilTable2GUI
                     }
                     break;
 
-                // page selector
+                    // page selector
                 default:
                     $this->determineOffsetAndOrder();
                     $this->storeNavParameter();
@@ -773,7 +773,7 @@ class ilLPTableBaseGUI extends ilTable2GUI
                 $a_user = $this->user;
             }
             $user .= ", " . $a_user->getFullName(
-                ); // " [".$a_user->getLogin()."]";
+            ); // " [".$a_user->getLogin()."]";
         }
 
         if ($a_obj_id != ROOT_FOLDER_ID) {

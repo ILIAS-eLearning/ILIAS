@@ -18,11 +18,11 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
- /**
- * Class ilStudyProgrammeAutoMembershipsDBRepository
- *
- * @author Nils Haagen <nils.haagen@concepts-and-training.de>
- */
+/**
+* Class ilStudyProgrammeAutoMembershipsDBRepository
+*
+* @author Nils Haagen <nils.haagen@concepts-and-training.de>
+*/
 class ilStudyProgrammeAutoMembershipsDBRepository implements ilStudyProgrammeAutoMembershipsRepository
 {
     private const TABLE = 'prg_auto_membership';

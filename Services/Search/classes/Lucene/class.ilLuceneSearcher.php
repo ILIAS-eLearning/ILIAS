@@ -165,7 +165,6 @@ class ilLuceneSearcher
         }
         try {
             switch ($this->getType()) {
-
                 case self::TYPE_USER:
                     /** @noinspection PhpUndefinedMethodInspection */
                     $res = ilRpcClientFactory::factory('RPCSearchHandler')->searchUsers(
@@ -182,7 +181,6 @@ class ilLuceneSearcher
                         $this->getPageNumber()
                     );
                     break;
-
             }
             ilLoggerFactory::getLogger('src')->debug('Searching for: ' . $this->query_parser->getQuery());
         } catch (Exception $e) {

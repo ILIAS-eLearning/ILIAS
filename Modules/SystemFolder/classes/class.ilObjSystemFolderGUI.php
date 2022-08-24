@@ -173,7 +173,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
                 break;
 
             default:
-//var_dump($_POST);
+                //var_dump($_POST);
                 $cmd = $this->ctrl->getCmd("view");
 
                 $cmd .= "Object";

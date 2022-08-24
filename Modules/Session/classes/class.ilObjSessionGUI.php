@@ -210,12 +210,12 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
                 break;
 
             case "ilexportgui":
-//				$this->prepareOutput();
+                //				$this->prepareOutput();
                 $this->tabs_gui->setTabActive("export");
                 $exp_gui = new ilExportGUI($this);
                 $exp_gui->addFormat("xml");
                 $ret = $this->ctrl->forwardCommand($exp_gui);
-//				$this->tpl->show();
+                //				$this->tpl->show();
                 break;
 
             case "ilcommonactiondispatchergui":
@@ -273,7 +273,7 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
                 $cmd .= "Object";
                 $this->$cmd();
 
-            break;
+                break;
         }
 
         $this->addHeaderAction();

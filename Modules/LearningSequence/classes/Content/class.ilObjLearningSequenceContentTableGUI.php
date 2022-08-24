@@ -167,12 +167,12 @@ class ilObjLearningSequenceContentTableGUI extends ilTable2GUI
             case $this->ls_item_online_status::S_CONTENTPAGE:
             case $this->ls_item_online_status::S_EXERCISE:
             case $this->ls_item_online_status::S_FILE:
-                    $prop_for_type = 'edit';
-                    break;
+                $prop_for_type = 'edit';
+                break;
 
             case $this->ls_item_online_status::S_TEST:
-                    $prop_for_type = 'ilObjTestSettingsGeneralGUI::showForm';
-                    break;
+                $prop_for_type = 'ilObjTestSettingsGeneralGUI::showForm';
+                break;
 
             case $this->ls_item_online_status::S_IND_ASSESSMENT:
             default:

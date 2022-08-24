@@ -38,12 +38,12 @@ class ilSCORMPackageParser extends ilSaxParser
     public object $current_resource;	// current resource object
     public array $item_stack;		// current open item objects
     public string $package_title = "";	// title for the package (title from organisation)
-                /**
-                 * Constructor
-                 *
-                 * @param	object		$a_lm_object	must be of type ilObjLearningModule
-                 * @param	string		$a_xml_file		xml file
-                 */
+    /**
+     * Constructor
+     *
+     * @param	object		$a_lm_object	must be of type ilObjLearningModule
+     * @param	string		$a_xml_file		xml file
+     */
     public function __construct(object $a_slm_object, string $a_xml_file)
     {
         parent::__construct($a_xml_file);
@@ -274,7 +274,6 @@ class ilSCORMPackageParser extends ilSaxParser
                 $dependency->setIdentifierRef($a_attribs["identifierref"]);
                 $this->current_resource->addDependency($dependency);
                 break;
-
         }
         $this->beginElement($a_name);
     }
@@ -311,7 +310,6 @@ class ilSCORMPackageParser extends ilSaxParser
                 $this->current_resource->update();
                 array_pop($this->parent_stack);
                 break;
-
         }
         $this->endElement($a_name);
     }
@@ -366,7 +364,6 @@ class ilSCORMPackageParser extends ilSaxParser
                 case "adlcp:masteryscore":
                     $this->item_stack[count($this->item_stack) - 1]->setMasteryScore($a_data);
                     break;
-
             }
         }
     }

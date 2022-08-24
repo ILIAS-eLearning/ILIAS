@@ -18,11 +18,11 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
- /**
- * Class ilStudyProgrammeAutoMembershipsTableGUI
- *
- * @author: Nils Haagen <nils.haagen@concepts-and-training.de>
- */
+/**
+* Class ilStudyProgrammeAutoMembershipsTableGUI
+*
+* @author: Nils Haagen <nils.haagen@concepts-and-training.de>
+*/
 class ilStudyProgrammeAutoMembershipsTableGUI extends ilTable2GUI
 {
     public function __construct(

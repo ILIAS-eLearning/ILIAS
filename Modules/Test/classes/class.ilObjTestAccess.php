@@ -86,7 +86,6 @@ class ilObjTestAccess extends ilObjectAccess implements ilConditionHandling
                     return false;
                 }
                 break;
-
         }
 
         return true;

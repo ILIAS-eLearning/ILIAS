@@ -362,24 +362,36 @@ class ilTestRandomQuestionSetSourcePoolDefinition
     {
         foreach ($dataArray as $field => $value) {
             switch ($field) {
-                case 'def_id':				$this->setId($value);						break;
-                case 'pool_fi':				$this->setPoolId($value);					break;
-                case 'pool_ref_id':         $this->setPoolRefId($value ? (int) $value : null); break;
-                case 'pool_title':			$this->setPoolTitle($value);				break;
-                case 'pool_path':			$this->setPoolPath($value);					break;
-                case 'pool_quest_count':	$this->setPoolQuestionCount($value);		break;
-                // fau: taxFilter - use new db fields
-                #case 'origin_tax_fi':		$this->setOriginalFilterTaxId($value);		break;
-                #case 'origin_node_fi':		$this->setOriginalFilterTaxNodeId($value);	break;
-                #case 'mapped_tax_fi':		$this->setMappedFilterTaxId($value);		break;
-                #case 'mapped_node_fi':		$this->setMappedFilterTaxNodeId($value);	break;
-                case 'origin_tax_filter':	$this->setOriginalTaxonomyFilterFromDbValue($value);	break;
-                case 'mapped_tax_filter':	$this->setMappedTaxonomyFilterFromDbValue($value);		break;
-                case 'type_filter':			$this->setTypeFilterFromDbValue($value);	break;
-                case 'lifecycle_filter':			$this->setLifecycleFilterFromDbValue($value);	break;
-                // fau.
-                case 'quest_amount':		$this->setQuestionAmount($value);			break;
-                case 'sequence_pos':		$this->setSequencePosition($value);			break;
+                case 'def_id':				$this->setId($value);
+                    break;
+                case 'pool_fi':				$this->setPoolId($value);
+                    break;
+                case 'pool_ref_id':         $this->setPoolRefId($value ? (int) $value : null);
+                    break;
+                case 'pool_title':			$this->setPoolTitle($value);
+                    break;
+                case 'pool_path':			$this->setPoolPath($value);
+                    break;
+                case 'pool_quest_count':	$this->setPoolQuestionCount($value);
+                    break;
+                    // fau: taxFilter - use new db fields
+                    #case 'origin_tax_fi':		$this->setOriginalFilterTaxId($value);		break;
+                    #case 'origin_node_fi':		$this->setOriginalFilterTaxNodeId($value);	break;
+                    #case 'mapped_tax_fi':		$this->setMappedFilterTaxId($value);		break;
+                    #case 'mapped_node_fi':		$this->setMappedFilterTaxNodeId($value);	break;
+                case 'origin_tax_filter':	$this->setOriginalTaxonomyFilterFromDbValue($value);
+                    break;
+                case 'mapped_tax_filter':	$this->setMappedTaxonomyFilterFromDbValue($value);
+                    break;
+                case 'type_filter':			$this->setTypeFilterFromDbValue($value);
+                    break;
+                case 'lifecycle_filter':			$this->setLifecycleFilterFromDbValue($value);
+                    break;
+                    // fau.
+                case 'quest_amount':		$this->setQuestionAmount($value);
+                    break;
+                case 'sequence_pos':		$this->setSequencePosition($value);
+                    break;
             }
         }
     }

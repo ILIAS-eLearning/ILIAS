@@ -81,7 +81,6 @@ class ilObjGroupAccess extends ilObjectAccess
                     }
                 }
                 break;
-
         }
 
         switch ($permission) {

@@ -41,8 +41,6 @@ class ilPageActivationDBRepository
         bool $check_scheduled_activation = false,
         string $lang = ""
     ): array {
-
-
         // language must be set at least to "-"
         if ($lang == "") {
             $lang = "-";

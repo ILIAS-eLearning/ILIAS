@@ -251,7 +251,6 @@ class assErrorTextGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
 
         $selections = array();
         if (($active_id > 0) && (!$show_correct_solution)) {
-
             /* Retrieve tst_solutions entries. */
             $reached_points = $this->object->getReachedPoints($active_id, $pass);
             $solutions = $this->object->getSolutionValues($active_id, $pass);

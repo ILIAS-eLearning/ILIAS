@@ -352,13 +352,13 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
                 $container_view = new ilContainerObjectiveGUI($this);
                 break;
 
-            // all items in one block
+                // all items in one block
             case ilContainer::VIEW_SESSIONS:
             case ilCourseConstants::IL_CRS_VIEW_TIMING: // not nice this workaround
                 $container_view = new ilContainerSessionsContentGUI($this);
                 break;
 
-            // all items in one block
+                // all items in one block
             case ilContainer::VIEW_BY_TYPE:
             default:
                 $container_view = new ilContainerByTypeContentGUI($this, $this->container_user_filter);

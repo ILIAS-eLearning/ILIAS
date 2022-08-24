@@ -297,7 +297,6 @@ class ilAccountCode
                 case 'unlimited':
                     $user->setTimeLimitUnlimited(1);
                     break;
-
             }
         } else {
             $user->setTimeLimitUnlimited(1);

@@ -55,7 +55,6 @@ class ilObjMediaPoolSubItemListGUI extends ilSubItemListGUI
                     break;
 
                 default:
-
             }
 
 

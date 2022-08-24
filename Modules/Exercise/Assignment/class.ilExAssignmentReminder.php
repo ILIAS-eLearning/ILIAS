@@ -293,7 +293,6 @@ class ilExAssignmentReminder
 
             $exc_refs = ilObject::_getAllReferences($exc_id);
             foreach ($exc_refs as $exc_ref) {
-
                 // check if we have an upper course
                 if ($course_ref_id = $this->tree->checkForParentType($exc_ref, 'crs')) {
                     $obj = new ilObjCourse($course_ref_id);

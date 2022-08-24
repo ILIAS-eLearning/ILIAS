@@ -283,7 +283,6 @@ class ilCourseObjectivesTableGUI extends ilTable2GUI
                         $materials[$material['ref_id']]['items'][] = $material;
                         break;
                     default:
-
                 }
             }
             $objective_data['materials'] = $materials;

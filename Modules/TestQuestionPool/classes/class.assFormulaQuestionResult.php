@@ -182,8 +182,7 @@ class assFormulaQuestionResult
 
     public function suggestRange($variables, $results): void
     {
-
-//		@todo Check this
+        //		@todo Check this
         include_once "./Services/Math/classes/class.EvalMath.php";
         $range_min = null;
         $range_max = null;
@@ -375,7 +374,7 @@ class assFormulaQuestionResult
                 }
                 $frac_value = ilMath::_round($frac_value, $this->getPrecision());
                 $check_fraction = true;
-            break;
+                break;
         }
 
         if (is_object($unit)) {

@@ -119,7 +119,6 @@ class ilPCMediaObjectQuickEdit
         $full_alias = $this->pcmedia->getFullscreenMediaAliasItem();
         // if fullscreen should be used...
         if ($use_fullscreen) {
-
             //... ensure mob has fullscreen
             if (!$this->mob->hasFullscreenItem()) {
                 $std_item = $this->mob->getMediaItem("Standard");

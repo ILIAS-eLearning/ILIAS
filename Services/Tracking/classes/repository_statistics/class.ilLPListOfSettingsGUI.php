@@ -32,7 +32,6 @@ class ilLPListOfSettingsGUI extends ilLearningProgressBaseGUI
             default:
                 $cmd = $this->__getDefaultCommand();
                 $this->$cmd();
-
         }
     }
 

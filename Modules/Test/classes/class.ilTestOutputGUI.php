@@ -132,9 +132,9 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
                 require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionHintRequestGUI.php';
                 $gui = new ilAssQuestionHintRequestGUI($this, ilTestPlayerCommands::SHOW_QUESTION, $questionGUI, $questionHintTracking);
 
-// fau: testNav - save the 'answer changed' status for viewing hint requests
+                // fau: testNav - save the 'answer changed' status for viewing hint requests
                 $this->setAnswerChangedParameter($this->getAnswerChangedParameter());
-// fau.
+                // fau.
                 $ret = $this->ctrl->forwardCommand($gui);
 
                 break;
@@ -381,9 +381,9 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
         switch ($presentationMode) {
             case ilTestPlayerAbstractGUI::PRESENTATION_MODE_EDIT:
 
-// fau: testNav - enable navigation toolbar in edit mode
+                // fau: testNav - enable navigation toolbar in edit mode
                 $navigationToolbarGUI->setDisabledStateEnabled(false);
-// fau.
+                // fau.
                 $this->showQuestionEditable($questionGui, $formAction, $isQuestionWorkedThrough, $instantResponse);
 
                 break;

@@ -25,7 +25,6 @@ class ilObjObjectTemplateAdministrationGUI extends ilObjectGUI
         $next_class = $this->ctrl->getNextClass($this);
         $this->prepareOutput();
         switch ($next_class) {
-
             case 'ilpermissiongui':
                 $this->tabs_gui->setTabActive('perm_settings');
                 $perm_gui = new ilPermissionGUI($this);

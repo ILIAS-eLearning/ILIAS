@@ -205,7 +205,6 @@ class ilLMContentRendererGUI
 
             case self::STATUS_NO_PAGE_FOUND:
                 return $this->renderNoPageFoundMessage();
-
         }
 
         // page id is e.g. > 0 when footer or header page is processed

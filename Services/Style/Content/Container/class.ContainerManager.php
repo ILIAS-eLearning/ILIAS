@@ -22,7 +22,7 @@ namespace ILIAS\Style\Content\Container;
 
 use ILIAS\Style\Content\InternalRepoService;
 
-    /**
+/**
  * Manages container related content style behaviour
  * @author Alexander Killing <killing@leifos.de>
  */

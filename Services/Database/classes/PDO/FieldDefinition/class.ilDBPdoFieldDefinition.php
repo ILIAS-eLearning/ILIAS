@@ -1650,7 +1650,7 @@ abstract class ilDBPdoFieldDefinition
                     $db->loadModule('Function');
                     $match = $db->lower($field) . ' LIKE ';
                     break;
-                // case sensitive
+                    // case sensitive
                 case 'LIKE':
                     $match = is_null($field) ? 'LIKE ' : $field . ' LIKE ';
                     break;

@@ -77,7 +77,6 @@ class ilAchievements
 
             case self::SERV_CERTIFICATES:
                 return $this->validator->validate();
-
         }
         return false;
     }

@@ -23,7 +23,6 @@ class ilRepositoryTreeTest extends TestCase
 
     public function testInitLanguage(): void
     {
-
         // no global user available
         $tree = new ilTree(1);
         $tree->initLangCode();

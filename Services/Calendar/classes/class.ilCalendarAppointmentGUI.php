@@ -125,7 +125,6 @@ class ilCalendarAppointmentGUI
 
         $next_class = $this->ctrl->getNextClass($this);
         switch ($next_class) {
-
             default:
                 $cmd = $this->ctrl->getCmd("add");
                 $this->$cmd();

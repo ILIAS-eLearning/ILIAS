@@ -190,7 +190,6 @@ class ilDidacticTemplateLocalPolicyAction extends ilDidacticTemplateAction
         $writer->xmlStartTag('localPolicyAction');
 
         switch ($this->getFilterType()) {
-
             case self::FILTER_SOURCE_OBJ_ID:
                 $writer->xmlStartTag('roleFilter', ['source' => 'objId']);
                 break;
@@ -354,7 +353,6 @@ class ilDidacticTemplateLocalPolicyAction extends ilDidacticTemplateAction
                     (int) $role_data['obj_id']
                 );
                 break;
-
         }
         // Change existing object
         $role_obj = new ilObjRole((int) $role_data['obj_id']);

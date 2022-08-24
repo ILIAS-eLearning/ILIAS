@@ -92,7 +92,6 @@ class ilLOTestAssignmentForm
             case ilLOSettings::TYPE_TEST_QUALIFIED:
                 $form->setTitle($this->lng->txt('crs_loc_settings_qtest_tbl'));
                 break;
-
         }
 
         $assignable = $this->getAssignableTests();

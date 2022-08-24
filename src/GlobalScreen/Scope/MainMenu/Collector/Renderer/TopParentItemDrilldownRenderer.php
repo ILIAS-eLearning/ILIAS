@@ -58,7 +58,6 @@ class TopParentItemDrilldownRenderer extends BaseTypeRenderer
         $type = get_class($item);
 
         switch ($type) {
-
             case Link::class:
                 $act = $this->getDataFactory()->uri(
                     $this->getBaseURL()

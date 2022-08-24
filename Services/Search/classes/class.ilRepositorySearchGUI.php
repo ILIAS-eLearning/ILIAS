@@ -963,7 +963,6 @@ class ilRepositorySearchGUI
                     $result_obj = $multi_search->performSearch();
                     $this->__storeEntries($result_obj);
                     break;
-
             }
         }
         return true;

@@ -212,7 +212,7 @@ class ilWebLinkXmlParser extends ilMDSaxParser
 
             case 'WebLinks':
                 $this->sorting_positions = array();
-            // no break
+                // no break
             case 'Title':
             case 'Description':
             case 'Target':

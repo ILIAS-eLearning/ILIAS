@@ -672,7 +672,7 @@ class ilObjLinkResourceGUI extends ilObject2GUI
         }
 
         $link_post = (array) ($this->http->request()->getParsedBody(
-            )['links'] ?? []);
+        )['links'] ?? []);
 
         // Validate
         $invalid = [];

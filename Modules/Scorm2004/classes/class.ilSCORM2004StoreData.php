@@ -473,7 +473,6 @@ class ilSCORM2004StoreData
                 $dbuser = $user;
 
                 if ($key === "status") {
-
                     //special handling for status
                     $completed = $g_data->$key->$skey->$user->{"completed"};
                     $measure = $g_data->$key->$skey->$user->{"measure"};

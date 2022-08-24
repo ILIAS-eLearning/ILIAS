@@ -81,9 +81,7 @@ class assFormulaQuestionVariable
         $roundedRangeMIN = round($this->getRangeMin(), $this->getPrecision());
         $roundedRangeMAX = round($this->getRangeMax(), $this->getPrecision());
         while ($calcval < $roundedRangeMIN || $calcval > $roundedRangeMAX) {
-
-
-//		while($calcval < $this->getRangeMin() || $calcval > $this->getRangeMax())
+            //		while($calcval < $this->getRangeMin() || $calcval > $this->getRangeMax())
             $rnd = mt_rand($r1, $r2);
             $calcval = ilMath::_div($rnd, $mul, $this->getPrecision());
             if (($this->getPrecision() == 0) && ($this->getIntprecision() != 0)) {

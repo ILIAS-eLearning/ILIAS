@@ -49,11 +49,11 @@ class BasicAccessCheckClosures
             $is_user_logged_in = $this->isUserLoggedIn()();
             if (!$is_user_logged_in) {
                 $this->access_cache['repo_read'] = $this->dic->settings()->get('pub_section') && $this->dic->access(
-                    )->checkAccess(
-                        'read',
-                        '',
-                        \ROOT_FOLDER_ID
-                    );
+                )->checkAccess(
+                    'read',
+                    '',
+                    \ROOT_FOLDER_ID
+                );
             } else {
                 $this->access_cache['repo_read'] = $this->dic->access()->checkAccess(
                     'read',
@@ -74,11 +74,11 @@ class BasicAccessCheckClosures
             $is_user_logged_in = $this->isUserLoggedIn()();
             if (!$is_user_logged_in) {
                 $this->access_cache['repo_visible'] = $this->dic->settings()->get('pub_section') && $this->dic->access(
-                    )->checkAccess(
-                        'visible',
-                        '',
-                        \ROOT_FOLDER_ID
-                    );
+                )->checkAccess(
+                    'visible',
+                    '',
+                    \ROOT_FOLDER_ID
+                );
             } else {
                 $this->access_cache['repo_visible'] = $this->dic->access()->checkAccess(
                     'visible',
@@ -97,7 +97,7 @@ class BasicAccessCheckClosures
     {
         if (!isset($this->access_cache['is_anonymous'])) {
             $this->access_cache['is_anonymous'] = ($this->dic->user()->isAnonymous() || $this->dic->user()->getId(
-                ) === 0);
+            ) === 0);
         }
 
         return $this->getClosureWithOptinalClosure(function (): bool {

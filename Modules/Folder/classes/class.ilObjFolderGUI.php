@@ -135,7 +135,7 @@ class ilObjFolderGUI extends ilContainerGUI
                 $this->tabs_gui->setTabActive('learning_progress');
                 break;
 
-            // container page editing
+                // container page editing
             case "ilcontainerpagegui":
                 $this->prepareOutput(false);
                 $ret = $this->forwardToPageObject();

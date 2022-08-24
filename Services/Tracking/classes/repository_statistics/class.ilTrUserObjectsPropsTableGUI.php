@@ -259,7 +259,6 @@ class ilTrUserObjectsPropsTableGUI extends ilLPTableBaseGUI
         $olp = ilObjectLP::getInstance($this->obj_id);
         $collection = $olp->getCollectionInstance();
         if ($collection instanceof ilLPCollectionOfRepositoryObjects) {
-
             // show collection only/all
             $ti = new ilRadioGroupInputGUI(
                 $this->lng->txt("trac_view_mode"),
@@ -369,7 +368,6 @@ class ilTrUserObjectsPropsTableGUI extends ilLPTableBaseGUI
                         case "percentage":
                             $val = $a_set[$c] . "%";
                             break;
-
                     }
                 }
                 if ($c == "mark" &&

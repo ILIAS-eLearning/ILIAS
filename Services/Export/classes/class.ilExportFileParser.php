@@ -109,7 +109,6 @@ class ilExportFileParser extends ilSaxParser
                     $this->install_url
                 );
                 break;
-
         }
 
         if ($this->in_export_item) {

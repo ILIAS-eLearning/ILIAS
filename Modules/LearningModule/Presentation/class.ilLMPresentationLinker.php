@@ -201,7 +201,7 @@ class ilLMPresentationLinker implements \ILIAS\COPage\PageLinker
                         false,
                         true
                     );
-//					$link = str_replace("&", "&amp;", $link);
+                    //					$link = str_replace("&", "&amp;", $link);
 
                     $this->ctrl->setParameterByClass(self::TARGET_GUI, "frame", null);
                     $this->ctrl->setParameterByClass(self::TARGET_GUI, "obj_id", null);
@@ -217,7 +217,6 @@ class ilLMPresentationLinker implements \ILIAS\COPage\PageLinker
             }
 
             switch ($a_cmd) {
-
                 case "fullscreen":
                     $link = "fullscreen.html";		// id is handled by xslt
                     break;
@@ -498,7 +497,6 @@ class ilLMPresentationLinker implements \ILIAS\COPage\PageLinker
                             $lcontent = ilUserUtil::getNamePresentation($target_id, false, false);
                         }
                         break;
-
                 }
 
                 $anc_par = 'Anchor="' . $anc . '"';

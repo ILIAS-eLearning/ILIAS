@@ -80,7 +80,6 @@ class ilSurveyExport
      */
     public function buildExportFileXML(): string
     {
-
         // create directories
         $this->survey_obj->createExportDirectory();
         ilFileUtils::makeDir($this->export_dir . "/" . $this->subdir);

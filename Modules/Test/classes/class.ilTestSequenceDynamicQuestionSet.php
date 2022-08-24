@@ -393,10 +393,10 @@ class ilTestSequenceDynamicQuestionSet implements ilTestSequenceSummaryProvider
         $this->questionSet->load($dynamicQuestionSetConfig, $filterSelection);
 
         //		echo "<table><tr>";
-//		echo "<td width='200'><pre>".print_r($this->questionSet->getActualQuestionSequence(), 1)."</pre></td>";
-//		echo "<td width='200'><pre>".print_r($this->correctAnsweredQuestions, 1)."</pre></td>";
-//		echo "<td width='200'><pre>".print_r($this->wrongAnsweredQuestions, 1)."</pre></td>";
-//		echo "</tr></table>";
+        //		echo "<td width='200'><pre>".print_r($this->questionSet->getActualQuestionSequence(), 1)."</pre></td>";
+        //		echo "<td width='200'><pre>".print_r($this->correctAnsweredQuestions, 1)."</pre></td>";
+        //		echo "<td width='200'><pre>".print_r($this->wrongAnsweredQuestions, 1)."</pre></td>";
+        //		echo "</tr></table>";
     }
 
     // -----------------------------------------------------------------------------------------------------------------

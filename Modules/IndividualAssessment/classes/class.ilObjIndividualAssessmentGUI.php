@@ -159,7 +159,7 @@ class ilObjIndividualAssessmentGUI extends ilObjectGUI
                 }
                 $cmd .= 'Object';
                 $this->$cmd();
-            }
+        }
     }
 
     public function viewObject(): void

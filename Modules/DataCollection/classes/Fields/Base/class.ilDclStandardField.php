@@ -75,7 +75,6 @@ class ilDclStandardField extends ilDclBaseFieldModel
 
     public static function _getStandardFieldsAsArray(): array
     {
-
         //TODO: this isn't particularly pretty especially as $lng is used in the model. On the long run the standard fields should be refactored into "normal" fields.
         global $DIC;
         $lng = $DIC['lng'];

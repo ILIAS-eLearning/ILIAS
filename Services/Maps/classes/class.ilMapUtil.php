@@ -135,10 +135,10 @@ class ilMapUtil
         $type = self::getType();
         switch ($type) {
             case "openlayers":
-                 $map = new ilOpenLayersMapGUI();
-                 $map->setTileServers(self::getStdTileServers());
-                 $map->setGeolocationServer(self::getStdGeolocationServer());
-                 return $map;
+                $map = new ilOpenLayersMapGUI();
+                $map->setTileServers(self::getStdTileServers());
+                $map->setGeolocationServer(self::getStdGeolocationServer());
+                return $map;
             default:
                 return new ilGoogleMapGUI();
         }

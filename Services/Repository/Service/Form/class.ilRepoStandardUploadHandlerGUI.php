@@ -68,7 +68,6 @@ class ilRepoStandardUploadHandlerGUI extends AbstractCtrlAwareUploadHandler
                 $this->debug("nr of results: " . count($this->upload->getResults()));
                 foreach ($this->upload->getResults(
                 ) as $result) { // in this version, there will only be one upload at the time
-
                     $rh = $this->result_handler;
                     $id = $rh($this->upload, $result);
 

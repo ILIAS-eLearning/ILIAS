@@ -308,7 +308,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
                 $this->ctrl->forwardCommand($perm_gui);
                 break;
 
-            // infoscreen
+                // infoscreen
             case 'ilinfoscreengui':
                 $this->addHeaderAction();
                 $this->addLocations(true);

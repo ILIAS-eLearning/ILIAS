@@ -116,7 +116,6 @@ class ilMDEditorGUI
 
         $cmd = $this->ctrl->getCmd();
         switch ($next_class) {
-
             default:
                 if (!$cmd) {
                     $cmd = "listSection";
@@ -3577,7 +3576,6 @@ class ilMDEditorGUI
                 $key = $this->md_section->addKeyword();
                 $key->save();
                 break;
-
         }
 
         $this->listSection();

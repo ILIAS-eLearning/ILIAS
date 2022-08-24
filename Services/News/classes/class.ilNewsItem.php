@@ -1825,7 +1825,7 @@ class ilNewsItem
         if ($per <= 0 ||
             (!$allow_shorter_periods && ($per < $default_per)) ||
             (!$allow_longer_periods && ($per > $default_per))
-            ) {
+        ) {
             $per = $default_per;
         }
 

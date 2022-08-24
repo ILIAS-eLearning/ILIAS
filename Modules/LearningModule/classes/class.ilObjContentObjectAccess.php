@@ -63,13 +63,12 @@ class ilObjContentObjectAccess extends ilObjectAccess
                 */
                 break;
 
-            // for permission query feature
+                // for permission query feature
             case "info":
                 if (!ilObject::lookupOfflineStatus($obj_id)) {
                     $ilAccess->addInfoItem(ilAccessInfo::IL_STATUS_MESSAGE, $lng->txt("online"));
                 }
                 break;
-
         }
 
         return true;

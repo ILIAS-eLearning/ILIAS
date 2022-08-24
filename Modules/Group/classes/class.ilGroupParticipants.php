@@ -226,8 +226,6 @@ class ilGroupParticipants extends ilParticipants
                 $mail->setRecipients(array($a_usr_id));
                 $mail->send();
                 break;
-
-
         }
     }
 }

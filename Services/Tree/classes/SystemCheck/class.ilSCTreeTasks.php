@@ -280,7 +280,6 @@ class ilSCTreeTasks
 
     protected function repairMissingObject(int $a_parent_ref, int $a_ref_id): void
     {
-
         // check if object entry exist
         $query = 'SELECT obj_id FROM object_reference ' .
             'WHERE ref_id = ' . $this->db->quote($a_ref_id, ilDBConstants::T_INTEGER);

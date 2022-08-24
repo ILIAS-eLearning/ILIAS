@@ -258,17 +258,17 @@ class ilObjLanguageExt extends ilObjLanguage
                 $to_keep = $this->getAllValues();
                 break;
 
-            // keep existing online changes
+                // keep existing online changes
             case "keepnew":
                 $to_keep = $this->getChangedValues();
                 break;
 
-            // replace all existing definitions
+                // replace all existing definitions
             case "replace":
                 $to_keep = array();
                 break;
 
-           // delete all existing entries
+                // delete all existing entries
             case "delete":
                 ilObjLanguage::_deleteLangData($this->key, false);
                 $ilDB->manipulate("DELETE FROM lng_modules WHERE lang_key = " .

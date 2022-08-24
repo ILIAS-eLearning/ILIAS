@@ -255,7 +255,6 @@ class ilLDAPAttributeToUser
                             default:
                                 $this->writer->xmlElement('Gender', array(), 'f');
                                 break;
-
                         }
                         break;
 
@@ -327,12 +326,12 @@ class ilLDAPAttributeToUser
                         $this->writer->xmlElement('Matriculation', array(), $value);
                         break;
 
-                    /*
-                    case 'photo':
-                        $this->writer->xmlElement('PersonalPicture',array('encoding' => 'Base64','imagetype' => 'image/jpeg'),
-                            base64_encode($this->convertInput($user[$value])));
-                        break;
-                    */
+                        /*
+                        case 'photo':
+                            $this->writer->xmlElement('PersonalPicture',array('encoding' => 'Base64','imagetype' => 'image/jpeg'),
+                                base64_encode($this->convertInput($user[$value])));
+                            break;
+                        */
                     default:
                         // Handle user defined fields
                         if (strpos($field, 'udf_') !== 0) {
@@ -351,8 +350,6 @@ class ilLDAPAttributeToUser
                             $value
                         );
                         break;
-
-
                 }
             }
             $this->writer->xmlEndTag('User');

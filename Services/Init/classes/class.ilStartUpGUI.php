@@ -1264,7 +1264,7 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
                     [$provider]
                 );
                 if (
-                $frontend->migrateAccount($GLOBALS['DIC']['ilAuthSession'])
+                    $frontend->migrateAccount($GLOBALS['DIC']['ilAuthSession'])
                 ) {
                     ilInitialisation::redirectToStartingPage();
                 } else {

@@ -379,9 +379,9 @@ class ilTestQuestionHeaderBlockBuilder implements ilQuestionHeaderBlockBuilder
 
                 $headerBlock .= " - " . $this->getQuestionTitle();
                 $headerBlock .= $this->buildQuestionPostponedString();
-// fau: testNav - put the points in parentheses here, not in building the string
+                // fau: testNav - put the points in parentheses here, not in building the string
                 $headerBlock .= ' (' . $this->buildQuestionPointsString() . ')';
-// fau.
+                // fau.
                 $headerBlock .= $this->buildQuestionObligatoryString();
         }
 

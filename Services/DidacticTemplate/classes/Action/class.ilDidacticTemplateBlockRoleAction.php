@@ -174,7 +174,6 @@ class ilDidacticTemplateBlockRoleAction extends ilDidacticTemplateAction
             default:
                 $writer->xmlStartTag('roleFilter', ['source' => 'title']);
                 break;
-
         }
 
         foreach ($this->getFilterPattern() as $pattern) {

@@ -250,7 +250,6 @@ class ilInternalLink
                 }
 
                 break;
-
         }
         return null;
     }

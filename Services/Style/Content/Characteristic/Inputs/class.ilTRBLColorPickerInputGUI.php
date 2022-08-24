@@ -152,11 +152,16 @@ class ilTRBLColorPickerInputGUI extends ilTextInputGUI
 
             if (trim($value) != "") {
                 switch ($dir) {
-                    case "all": $this->setAllValue($value); break;
-                    case "top": $this->setTopValue($value); break;
-                    case "bottom": $this->setBottomValue($value); break;
-                    case "left": $this->setLeftValue($value); break;
-                    case "right": $this->setRightValue($value); break;
+                    case "all": $this->setAllValue($value);
+                        break;
+                    case "top": $this->setTopValue($value);
+                        break;
+                    case "bottom": $this->setBottomValue($value);
+                        break;
+                    case "left": $this->setLeftValue($value);
+                        break;
+                    case "right": $this->setRightValue($value);
+                        break;
                 }
             }
         }

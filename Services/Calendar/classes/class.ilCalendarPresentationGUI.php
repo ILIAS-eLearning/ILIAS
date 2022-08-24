@@ -303,7 +303,7 @@ class ilCalendarPresentationGUI
                     break;
                 }
 
-            // no break
+                // no break
             case 'ilcalendarblockgui':
                 $side_cal = new ilCalendarBlockGUI();
                 $side_cal->setRepositoryMode($this->getRepositoryMode());
@@ -518,7 +518,6 @@ class ilCalendarPresentationGUI
                 $this->ctrl->getParentReturn($this)
             );
         } elseif ($this->http->wrapper()->query()->has('backvm')) {
-
             // no object calendar => back is back to manage view
             $this->tabs_gui->setBackTarget(
                 $this->lng->txt("back"),

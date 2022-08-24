@@ -113,7 +113,6 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
         if ($needs_convert) {
             // if file exists and enough space left on device
             if ($check_for_manifest_file && ($check_disc_free > 1)) {
-
                 // create backup from original
                 if (!copy($manifest_file, $manifest_file . ".old")) {
                     echo "Failed to copy $manifest_file...<br>\n";
@@ -489,18 +488,18 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
 
             while ($data_rec = $ilDB->fetchAssoc($data_set)) {
                 switch ($data_rec["lvalue"]) {
-                        case "cmi.core.lesson_status":
-                            $status = $data_rec["rvalue"];
-                            break;
+                    case "cmi.core.lesson_status":
+                        $status = $data_rec["rvalue"];
+                        break;
 
-                        case "cmi.core.total_time":
-                            $time = $data_rec["rvalue"];
-                            break;
+                    case "cmi.core.total_time":
+                        $time = $data_rec["rvalue"];
+                        break;
 
-                        case "cmi.core.score.raw":
-                            $score = $data_rec["rvalue"];
-                            break;
-                    }
+                    case "cmi.core.score.raw":
+                        $score = $data_rec["rvalue"];
+                        break;
+                }
             }
 
             $data[] = array("user_id" => $user_rec["user_id"],

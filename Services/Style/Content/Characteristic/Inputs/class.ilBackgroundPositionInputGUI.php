@@ -122,8 +122,10 @@ class ilBackgroundPositionInputGUI extends ilFormPropertyGUI
 
             if (trim($value) != "") {
                 switch ($dir) {
-                    case "horizontal": $this->setHorizontalValue($value); break;
-                    case "vertical": $this->setVerticalValue($value); break;
+                    case "horizontal": $this->setHorizontalValue($value);
+                        break;
+                    case "vertical": $this->setVerticalValue($value);
+                        break;
                 }
             }
         }
@@ -150,8 +152,10 @@ class ilBackgroundPositionInputGUI extends ilFormPropertyGUI
             $pre_options = ilObjStyleSheet::_getStyleParameterValues("background-position");
             $pre_options = $pre_options[$dir];
             switch ($dir) {
-                case "horizontal": $value = strtolower(trim($this->getHorizontalValue())); break;
-                case "vertical": $value = strtolower(trim($this->getVerticalValue())); break;
+                case "horizontal": $value = strtolower(trim($this->getHorizontalValue()));
+                    break;
+                case "vertical": $value = strtolower(trim($this->getVerticalValue()));
+                    break;
             }
 
             if (in_array($value, $pre_options)) {

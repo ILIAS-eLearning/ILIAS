@@ -67,7 +67,6 @@ class ilObjectContentStyleSettingsGUI
         $cmd = $ctrl->getCmd("settings");
 
         switch ($next_class) {
-
             case "ilobjstylesheetgui":
                 $this->gui->tabs()->clearTargets();
                 $ctrl->setReturn($this, "settings");

@@ -2279,7 +2279,6 @@ class ilObjContentObject extends ilObject
                     $ot->save();
                 }
                 break;
-
         }
     }
 

@@ -325,7 +325,6 @@ class ilObjectPermissionStatusGUI
                     default:
                         $text .= "<span class=\"" . $alert . "\">" . $info['text'] . "</span><br/> ";
                         break;
-
                 }
             }
         }

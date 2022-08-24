@@ -352,7 +352,6 @@ class ilUserStartingPointGUI
         if ($form->checkInput()) {
             //if role
             if ($form->getInput('role')) {
-
                 // check if we have a locale role
                 if ($form->getInput('role_type') == 1) {
                     if ($this->user_request->getRoleId() > 0) {

@@ -903,7 +903,6 @@ class ilObjStudyProgramme extends ilContainer
         $rbacadmin = $DIC['rbacadmin'];
 
         if ($parent = $this->getParent()) {
-
             // TODO: check if there some leafs in the new parent
 
             $this->tree->moveTree($this->getRefId(), $new_parent->getRefId());
@@ -2211,7 +2210,6 @@ class ilObjStudyProgramme extends ilContainer
         }
 
         switch ($progress->getStatus()) {
-
             case ilStudyProgrammeProgress::STATUS_IN_PROGRESS:
                 if (!is_null($deadline)
                     && $deadline->format($format) < $today->format($format)

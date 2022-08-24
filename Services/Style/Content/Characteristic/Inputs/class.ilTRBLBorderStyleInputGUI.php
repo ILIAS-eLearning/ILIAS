@@ -117,11 +117,16 @@ class ilTRBLBorderStyleInputGUI extends ilFormPropertyGUI
 
             if (trim($value) != "") {
                 switch ($dir) {
-                    case "all": $this->setAllValue($value); break;
-                    case "top": $this->setTopValue($value); break;
-                    case "bottom": $this->setBottomValue($value); break;
-                    case "left": $this->setLeftValue($value); break;
-                    case "right": $this->setRightValue($value); break;
+                    case "all": $this->setAllValue($value);
+                        break;
+                    case "top": $this->setTopValue($value);
+                        break;
+                    case "bottom": $this->setBottomValue($value);
+                        break;
+                    case "left": $this->setLeftValue($value);
+                        break;
+                    case "right": $this->setRightValue($value);
+                        break;
                 }
             }
         }
@@ -148,11 +153,16 @@ class ilTRBLBorderStyleInputGUI extends ilFormPropertyGUI
             );
 
             switch ($dir) {
-                case "all": $value = strtolower(trim($this->getAllValue())); break;
-                case "top": $value = strtolower(trim($this->getTopValue())); break;
-                case "bottom": $value = strtolower(trim($this->getBottomValue())); break;
-                case "left": $value = strtolower(trim($this->getLeftValue())); break;
-                case "right": $value = strtolower(trim($this->getRightValue())); break;
+                case "all": $value = strtolower(trim($this->getAllValue()));
+                    break;
+                case "top": $value = strtolower(trim($this->getTopValue()));
+                    break;
+                case "bottom": $value = strtolower(trim($this->getBottomValue()));
+                    break;
+                case "left": $value = strtolower(trim($this->getLeftValue()));
+                    break;
+                case "right": $value = strtolower(trim($this->getRightValue()));
+                    break;
             }
 
             foreach ($pre_options as $option) {

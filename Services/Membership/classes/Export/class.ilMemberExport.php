@@ -314,7 +314,6 @@ class ilMemberExport
                             default:
                                 $this->addCol($this->lng->txt('crs_waiting_list'), $row, $col++);
                                 break;
-
                         }
                         break;
 
@@ -331,7 +330,7 @@ class ilMemberExport
                         }
                         break;
 
-                    // These fields are always enabled
+                        // These fields are always enabled
                     case 'username':
                         $this->addCol($this->user_profile_data[$usr_id]['login'], $row, $col++);
                         break;
@@ -388,7 +387,6 @@ class ilMemberExport
                             $this->addCol('', $row, $col++);
                         }
                         break;
-
                 }
             }
             $this->addRow();

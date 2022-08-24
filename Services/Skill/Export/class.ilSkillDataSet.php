@@ -309,21 +309,20 @@ class ilSkillDataSet extends ilDataSet
         if ($a_entity == "skee") {	// dummy node
             switch ($a_version) {
                 case "8.0":
-                foreach ($a_ids as $id) {
-                    if ($this->getMode() == self::MODE_SKILLS) {
-                        $this->data[] = array(
-                            "Id" => $id,
-                            "Mode" => "Skills"
-                        );
-                    } elseif ($this->getMode() == self::MODE_PROFILES) {
-                        $this->data[] = array(
-                            "Id" => $id,
-                            "Mode" => "Profiles"
-                        );
+                    foreach ($a_ids as $id) {
+                        if ($this->getMode() == self::MODE_SKILLS) {
+                            $this->data[] = array(
+                                "Id" => $id,
+                                "Mode" => "Skills"
+                            );
+                        } elseif ($this->getMode() == self::MODE_PROFILES) {
+                            $this->data[] = array(
+                                "Id" => $id,
+                                "Mode" => "Profiles"
+                            );
+                        }
                     }
-                }
-                break;
-
+                    break;
             }
         }
         if ($a_entity == "skl_subtree") {	// get subtree for top node
@@ -360,7 +359,6 @@ class ilSkillDataSet extends ilDataSet
                         }
                     }
                     break;
-
             }
         }
 
@@ -391,7 +389,6 @@ class ilSkillDataSet extends ilDataSet
                         }
                     }
                     break;
-
             }
         }
 
@@ -404,7 +401,6 @@ class ilSkillDataSet extends ilDataSet
                             " FROM skl_level WHERE " .
                             $ilDB->in("skill_id", $a_ids, false, "integer") . " ORDER BY skill_id ASC, nr ASC");
                     break;
-
             }
         }
 
@@ -430,7 +426,6 @@ class ilSkillDataSet extends ilDataSet
                         ];
                     }
                     break;
-
             }
         }
 
@@ -483,7 +478,6 @@ class ilSkillDataSet extends ilDataSet
                         }
                     }
                     break;
-
             }
         }
 
@@ -666,7 +660,6 @@ class ilSkillDataSet extends ilDataSet
                             $a_mapping->addMapping("Services/Skill", "skl_tree", $a_rec["Child"], $sktr->getId());
                         }
                         break;
-
                 }
                 break;
 

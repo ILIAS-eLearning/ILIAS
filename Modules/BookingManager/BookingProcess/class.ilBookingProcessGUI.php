@@ -246,7 +246,6 @@ class ilBookingProcessGUI
             if (!$find_first_open) {
                 $this->buildDatesBySchedule($week_start, $hours, $schedule, $object_ids, $seed, $dates);
             } else {
-
                 //loop for 1 week
                 $has_open_slot = $this->buildDatesBySchedule($week_start, $hours, $schedule, $object_ids, $seed, $dates);
 
@@ -820,7 +819,6 @@ class ilBookingProcessGUI
 
     public function confirmedBookingNumbers(): void
     {
-
         //get the user who will get the booking.
         if ($this->book_request->getBookedUser() > 0) {
             $this->user_id_to_book = $this->book_request->getBookedUser();

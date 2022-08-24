@@ -100,7 +100,7 @@ class ilObjBibliographicAccess extends ilObjectAccess
                     return false;
                 }
                 break;
-            // for permission query feature
+                // for permission query feature
             case "infoScreen":
                 if (!self::_lookupOnline($obj_id)) {
                     $ilAccess->addInfoItem(ilAccessInfo::IL_NO_OBJECT_ACCESS, $lng->txt("offline"));

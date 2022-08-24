@@ -705,7 +705,7 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
             // get old thumbnail size
             $result = $ilDB->queryF(
                 "SELECT thumb_size FROM " . $this->getAdditionalTableName(
-                             ) . " WHERE question_fi = %s",
+                ) . " WHERE question_fi = %s",
                 array( "integer" ),
                 array( $this->getId() )
             );

@@ -334,7 +334,7 @@ class ilMemberExportGUI
                             'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
                         );
 
-                    // no break
+                        // no break
                     case 'xls':
                         ilUtil::deliverData(
                             $contents,
@@ -342,7 +342,7 @@ class ilMemberExportGUI
                             'application/vnd.ms-excel'
                         );
 
-                    // no break
+                        // no break
                     default:
                     case 'csv':
                         ilUtil::deliverData(

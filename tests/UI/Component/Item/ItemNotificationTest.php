@@ -222,7 +222,7 @@ class ItemNotificationTest extends ILIAS_UI_TestBase
             ->withAggregateNotifications([$aggregate])
             ->withCloseAction("closeAction")
             ->withActions($actions)
-            ;
+        ;
 
         $html = $this->brutallyTrimHTML($r->render($c));
         $expected = <<<EOT

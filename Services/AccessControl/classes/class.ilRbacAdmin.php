@@ -543,7 +543,6 @@ class ilRbacAdmin
         int $a_dest_id,
         int $a_dest_parent
     ): void {
-
         // exclude system role from rbac
         if ($a_dest_id == SYSTEM_ROLE_ID) {
             $this->logger->logStack(ilLogLevel::DEBUG);
@@ -954,7 +953,6 @@ class ilRbacAdmin
                             $node_id
                         );
                         break;
-
                 }
             }
 

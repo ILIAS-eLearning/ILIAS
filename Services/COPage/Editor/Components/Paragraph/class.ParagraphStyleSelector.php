@@ -60,9 +60,15 @@ class ParagraphStyleSelector
             $t = "text_block";
             $tag = "div";
             switch ($char) {
-                case "Headline1": $t = "heading1"; $tag = "h1"; break;
-                case "Headline2": $t = "heading2"; $tag = "h2"; break;
-                case "Headline3": $t = "heading3"; $tag = "h3"; break;
+                case "Headline1": $t = "heading1";
+                    $tag = "h1";
+                    break;
+                case "Headline2": $t = "heading2";
+                    $tag = "h2";
+                    break;
+                case "Headline3": $t = "heading3";
+                    $tag = "h3";
+                    break;
             }
             $html = '<div class="ilCOPgEditStyleSelectionItem"><' . $tag . ' class="ilc_' . $t . '_' . $char . '" style="' . self::$style_selector_reset . '">' . $char_lang . "</" . $tag . "></div>";
             $buttons[] = $ui_wrapper->getButton($html, $type, $action, [$attr => $char]);

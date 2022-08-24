@@ -684,7 +684,6 @@ abstract class assQuestion
         $output = array();
         foreach ($this->suggested_solutions as $solution) {
             switch ($solution->getType()) {
-
                 case assQuestionSuggestedSolution::TYPE_LM:
                 case assQuestionSuggestedSolution::TYPE_LM_CHAPTER:
                 case assQuestionSuggestedSolution::TYPE_LM_PAGE:
@@ -1097,7 +1096,6 @@ abstract class assQuestion
             $exam_identifier = ilObjTest::buildExamId($active_id, $pass, $test_obj_id);
 
             $updatePassResultCallback = function () use ($ilDB, $data, $active_id, $pass, $row, $time, $obligations_answered, $exam_identifier) {
-
                 /** @var $ilDB ilDBInterface */
                 $ilDB->replace(
                     'tst_pass_result',
@@ -2222,7 +2220,6 @@ abstract class assQuestion
             }
         }
         if ($resolvedlinks) {
-
             // there are resolved links -> reenter theses links to the database
             // delete all internal links from the database
             ilInternalLink::_deleteAllLinksOfSource("qst", $question_id);

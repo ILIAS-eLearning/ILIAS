@@ -479,7 +479,6 @@ class ilObjStudyProgrammeTreeGUI
 
             // do some additional validation if it is a StudyProgramme
             if ($obj instanceof ilObjStudyProgramme) {
-
                 //check if you are not deleting a parent element of the current element
                 $children_of_node = ilObjStudyProgramme::getAllChildren($obj->getRefId());
                 $get_ref_ids = static function (ilObjStudyProgramme $obj): int {

@@ -691,16 +691,15 @@ class ilTrMatrixTableGUI extends ilLPTableBaseGUI
                     $a_excel->setCell($a_row, $cnt, $val);
                     break;
 
-                /* #14142
-                case "last_access":
-                case "spent_seconds":
-                case "status_changed":
-                */
+                    /* #14142
+                    case "last_access":
+                    case "spent_seconds":
+                    case "status_changed":
+                    */
                 default:
                     $val = $this->parseValue($c, $a_set[$c], "user");
                     $a_excel->setCell($a_row, $cnt, $val);
                     break;
-
             }
             $cnt++;
         }
@@ -775,16 +774,15 @@ class ilTrMatrixTableGUI extends ilLPTableBaseGUI
                     $a_csv->addColumn($val);
                     break;
 
-                /* #14142
-                case "last_access":
-                case "spent_seconds":
-                case "status_changed":
-                */
+                    /* #14142
+                    case "last_access":
+                    case "spent_seconds":
+                    case "status_changed":
+                    */
                 default:
                     $val = $this->parseValue($c, $a_set[$c], "user");
                     $a_csv->addColumn($val);
                     break;
-
             }
         }
 

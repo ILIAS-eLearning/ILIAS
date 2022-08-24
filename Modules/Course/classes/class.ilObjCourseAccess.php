@@ -275,9 +275,9 @@ class ilObjCourseAccess extends ilObjectAccess implements ilConditionHandling
                     $a_visible_flag = $item['visible'];
                     return false;
                 }
-            // fallthrough
+                // fallthrough
 
-            // no break
+                // no break
             default:
                 return true;
         }
@@ -312,7 +312,7 @@ class ilObjCourseAccess extends ilObjectAccess implements ilConditionHandling
                 if (time() > $reg_start && time() < $reg_end) {
                     return true;
                 }
-            // no break
+                // no break
             default:
                 return false;
         }

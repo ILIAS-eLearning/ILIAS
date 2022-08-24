@@ -47,7 +47,6 @@ final class DelegatingFilesystemFactory implements FilesystemFactory
      */
     public function __construct(FilenameSanitizer $sanitizer)
     {
-
         /*
          * ---------- ABSTRACTION SWITCH -------------
          * Change the factory to switch to another filesystem abstraction!

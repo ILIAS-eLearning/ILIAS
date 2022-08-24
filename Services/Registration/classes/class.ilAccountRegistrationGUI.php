@@ -449,7 +449,6 @@ class ilAccountRegistrationGUI
             // #10853 - could be optional
             $code = $this->form->getInput('usr_registration_code');
             if ($code) {
-
                 // set code to used
                 ilRegistrationCode::useCode($code);
                 $this->code_was_used = true;

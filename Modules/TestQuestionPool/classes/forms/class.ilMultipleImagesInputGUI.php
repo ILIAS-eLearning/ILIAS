@@ -200,40 +200,40 @@ abstract class ilMultipleImagesInputGUI extends ilIdentifiedMultiValuesInputGUI
                     switch ($error) {
                         case UPLOAD_ERR_FORM_SIZE:
                         case UPLOAD_ERR_INI_SIZE:
-                        $this->setAlert($this->lng->txt("form_msg_file_size_exceeds"));
-                        return false;
-                        break;
+                            $this->setAlert($this->lng->txt("form_msg_file_size_exceeds"));
+                            return false;
+                            break;
 
                         case UPLOAD_ERR_PARTIAL:
-                        $this->setAlert($this->lng->txt("form_msg_file_partially_uploaded"));
-                        return false;
-                        break;
-
-                    case UPLOAD_ERR_NO_FILE:
-                        if (!$this->getRequired()) {
+                            $this->setAlert($this->lng->txt("form_msg_file_partially_uploaded"));
+                            return false;
                             break;
-                        } elseif (isset($F[self::FILE_DATA_INDEX_DODGING_FILE][$index]) && $F[self::FILE_DATA_INDEX_DODGING_FILE][$index] !== '') {
+
+                        case UPLOAD_ERR_NO_FILE:
+                            if (!$this->getRequired()) {
+                                break;
+                            } elseif (isset($F[self::FILE_DATA_INDEX_DODGING_FILE][$index]) && $F[self::FILE_DATA_INDEX_DODGING_FILE][$index] !== '') {
+                                break;
+                            }
+                            $this->setAlert($this->lng->txt("form_msg_file_no_upload"));
+                            return false;
                             break;
-                        }
-                        $this->setAlert($this->lng->txt("form_msg_file_no_upload"));
-                        return false;
-                        break;
 
-                    case UPLOAD_ERR_NO_TMP_DIR:
-                        $this->setAlert($this->lng->txt("form_msg_file_missing_tmp_dir"));
-                        return false;
-                        break;
+                        case UPLOAD_ERR_NO_TMP_DIR:
+                            $this->setAlert($this->lng->txt("form_msg_file_missing_tmp_dir"));
+                            return false;
+                            break;
 
-                    case UPLOAD_ERR_CANT_WRITE:
-                        $this->setAlert($this->lng->txt("form_msg_file_cannot_write_to_disk"));
-                        return false;
-                        break;
+                        case UPLOAD_ERR_CANT_WRITE:
+                            $this->setAlert($this->lng->txt("form_msg_file_cannot_write_to_disk"));
+                            return false;
+                            break;
 
-                    case UPLOAD_ERR_EXTENSION:
-                        $this->setAlert($this->lng->txt("form_msg_file_upload_stopped_ext"));
-                        return false;
-                        break;
-                }
+                        case UPLOAD_ERR_EXTENSION:
+                            $this->setAlert($this->lng->txt("form_msg_file_upload_stopped_ext"));
+                            return false;
+                            break;
+                    }
                 }
             }
         }

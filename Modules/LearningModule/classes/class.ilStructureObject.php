@@ -264,7 +264,6 @@ class ilStructureObject extends ilLMObject
     public function exportFO(
         ilXmlWriter $a_xml_writer
     ): void {
-
         // fo:block (complete)
         $attrs = array();
         $attrs["font-family"] = "Times";

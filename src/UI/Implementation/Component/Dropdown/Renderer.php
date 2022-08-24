@@ -44,7 +44,6 @@ class Renderer extends AbstractComponentRenderer
 
     protected function renderDropdown(Dropdown $component, RendererInterface $default_renderer): string
     {
-
         // get template
         $tpl_name = "tpl.standard.html";
         $tpl = $this->getTemplate($tpl_name, true, true);

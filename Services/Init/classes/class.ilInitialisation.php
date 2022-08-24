@@ -1590,7 +1590,6 @@ class ilInitialisation
         );
 
         if (ilContext::hasUser()) {
-
             // set hits per page for all lists using table module
             $_GET['limit'] = (int) $ilUser->getPref('hits_per_page');
             ilSession::set('tbl_limit', $_GET['limit']);

@@ -65,7 +65,6 @@ class ilObjRoleFolderGUI extends ilObjectGUI
         $this->prepareOutput();
 
         switch ($next_class) {
-
             case 'ilpermissiongui':
                 $perm_gui = new ilPermissionGUI($this);
                 $ret = $this->ctrl->forwardCommand($perm_gui);

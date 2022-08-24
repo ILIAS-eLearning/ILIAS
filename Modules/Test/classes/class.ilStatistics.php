@@ -10,9 +10,9 @@
 * @version $Id$
 */
 
-    /**
-    * Constants for the handling of elements which are not a number
-    */
+/**
+* Constants for the handling of elements which are not a number
+*/
 const NAN_HANDLING_REMOVE = 0;
 const NAN_HANDLING_ZERO = 1;
 

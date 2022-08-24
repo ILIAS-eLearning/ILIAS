@@ -1374,7 +1374,6 @@ class ilValidator
         // now move all subtrees to new location
         // TODO: this whole put in place again stuff needs revision. Permission settings get lost.
         foreach ($subnodes as $key => $subnode) {
-
             // first paste top_node ...
             $rbacadmin->revokePermission((int) $key);
             $obj_data = ilObjectFactory::getInstanceByRefId($key);

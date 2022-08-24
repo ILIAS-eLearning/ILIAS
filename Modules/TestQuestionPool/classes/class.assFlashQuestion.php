@@ -108,7 +108,7 @@ class assFlashQuestion extends assQuestion implements ilObjQuestionScoringAdjust
         );
         $ilDB->manipulateF(
             "INSERT INTO " . $this->getAdditionalTableName(
-                                                                               ) . " (question_fi, width, height, applet, params) VALUES (%s, %s, %s, %s, %s)",
+            ) . " (question_fi, width, height, applet, params) VALUES (%s, %s, %s, %s, %s)",
             array( "integer", "integer", "integer", "text", "text" ),
             array(
                                 $this->getId(),

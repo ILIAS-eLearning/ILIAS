@@ -247,7 +247,7 @@ class CheckboxInputTest extends ILIAS_UI_TestBase
             ->withDisabled(true)
             ->withValue(true)
             ->withInput($this->createMock(InputData::class))
-            ;
+        ;
 
         $this->assertIsBool($checkbox->getContent()->value());
         $this->assertTrue($checkbox->getContent()->value());
@@ -267,7 +267,7 @@ class CheckboxInputTest extends ILIAS_UI_TestBase
                 return $new_value;
             }))
             ->withInput($this->createMock(InputData::class))
-            ;
+        ;
 
         $this->assertIsString($checkbox->getContent()->value());
         $this->assertEquals($new_value, $checkbox->getContent()->value());

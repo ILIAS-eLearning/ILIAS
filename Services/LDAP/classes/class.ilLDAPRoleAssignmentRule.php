@@ -117,7 +117,6 @@ class ilLDAPRoleAssignmentRule
 
             case self::TYPE_GROUP:
                 return $this->isGroupMember($a_user_data);
-
         }
 
         return false;

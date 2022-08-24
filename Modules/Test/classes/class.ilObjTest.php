@@ -1840,25 +1840,25 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
     public function setAnswerFeedback($answer_feedback = 0): void
     {
         switch ($answer_feedback) {
-        case 1:
-            $this->answer_feedback = 1;
-            break;
-        default:
-            $this->answer_feedback = 0;
-            break;
-    }
+            case 1:
+                $this->answer_feedback = 1;
+                break;
+            default:
+                $this->answer_feedback = 0;
+                break;
+        }
     }
 
     public function setGenericAnswerFeedback(int $generic_answer_feedback = 0): void
     {
         switch ($generic_answer_feedback) {
-        case 1:
-            $this->answer_feedback = 1;
-            break;
-        default:
-            $this->answer_feedback = 0;
-            break;
-    }
+            case 1:
+                $this->answer_feedback = 1;
+                break;
+            default:
+                $this->answer_feedback = 0;
+                break;
+        }
     }
 
     /**
@@ -7030,15 +7030,15 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
                         //}
                         //if ($found == $count)
                         //{
-                            //$filtered_participants[$active_id] = $participant;
+                        //$filtered_participants[$active_id] = $participant;
                         //}
                         //else
                         //{
-                            $assessmentSetting = new ilSetting("assessment");
-                            $manscoring_done = $assessmentSetting->get("manscoring_done_" . $active_id);
-                            if ($manscoring_done) {
-                                $filtered_participants[$active_id] = $participant;
-                            }
+                        $assessmentSetting = new ilSetting("assessment");
+                        $manscoring_done = $assessmentSetting->get("manscoring_done_" . $active_id);
+                        if ($manscoring_done) {
+                            $filtered_participants[$active_id] = $participant;
+                        }
                         //}
                         break;
                     case 5:
@@ -7050,11 +7050,11 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
                         //}
                         //if ($found == 0)
                         //{
-                            $assessmentSetting = new ilSetting("assessment");
-                            $manscoring_done = $assessmentSetting->get("manscoring_done_" . $active_id);
-                            if (!$manscoring_done) {
-                                $filtered_participants[$active_id] = $participant;
-                            }
+                        $assessmentSetting = new ilSetting("assessment");
+                        $manscoring_done = $assessmentSetting->get("manscoring_done_" . $active_id);
+                        if (!$manscoring_done) {
+                            $filtered_participants[$active_id] = $participant;
+                        }
                         //}
                         break;
                     case 6:
@@ -9568,11 +9568,11 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
         return true;
 
         //		global $DIC;
-//		$ilUser = $DIC['ilUser'];
-//		if (strcmp($_GET["tst_javascript"], "0") == 0) return FALSE;
-//		if ($this->getForceJS()) return TRUE;
-//		$assessmentSetting = new ilSetting("assessment");
-//		return ($ilUser->getPref("tst_javascript") === FALSE) ? $assessmentSetting->get("use_javascript") : $ilUser->getPref("tst_javascript");
+        //		$ilUser = $DIC['ilUser'];
+        //		if (strcmp($_GET["tst_javascript"], "0") == 0) return FALSE;
+        //		if ($this->getForceJS()) return TRUE;
+        //		$assessmentSetting = new ilSetting("assessment");
+        //		return ($ilUser->getPref("tst_javascript") === FALSE) ? $assessmentSetting->get("use_javascript") : $ilUser->getPref("tst_javascript");
     }
 
     public function &createTestSequence($active_id, $pass, $shuffle)
@@ -10133,9 +10133,9 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
     public function isAnyInstantFeedbackOptionEnabled(): bool
     {
         return (
-                $this->getSpecificAnswerFeedback() || $this->getGenericAnswerFeedback() ||
-                $this->getAnswerFeedbackPoints() || $this->getInstantFeedbackSolution()
-            );
+            $this->getSpecificAnswerFeedback() || $this->getGenericAnswerFeedback() ||
+            $this->getAnswerFeedbackPoints() || $this->getInstantFeedbackSolution()
+        );
     }
 
     public function getInstantFeedbackOptionsAsArray(): array

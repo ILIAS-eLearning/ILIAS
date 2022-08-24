@@ -6,7 +6,6 @@ namespace ILIAS\UI\examples\Menu\Drilldown;
 
 function drilldown()
 {
-
     /**
         0 Animal of the year
         1    Switzerland

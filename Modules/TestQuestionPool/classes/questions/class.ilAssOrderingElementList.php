@@ -486,8 +486,10 @@ class ilAssOrderingElementList implements Iterator
     protected function populateIdentifier(ilAssOrderingElement $element, $identifierType, $identifier): void
     {
         switch ($identifierType) {
-            case self::IDENTIFIER_TYPE_SOLUTION: $element->setSolutionIdentifier($identifier); break;
-            case self::IDENTIFIER_TYPE_RANDOM: $element->setRandomIdentifier($identifier); break;
+            case self::IDENTIFIER_TYPE_SOLUTION: $element->setSolutionIdentifier($identifier);
+                break;
+            case self::IDENTIFIER_TYPE_RANDOM: $element->setRandomIdentifier($identifier);
+                break;
             default: $this->throwUnknownIdentifierTypeException($identifierType);
         }
     }

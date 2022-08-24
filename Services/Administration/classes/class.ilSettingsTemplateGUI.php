@@ -206,14 +206,14 @@ class ilSettingsTemplateGUI
                         $cb->addSubItem($si);
                         break;
 
-                                        case ilSettingsTemplateConfig::CHECKBOX:
-                                                $chbs = new ilCheckboxGroupInputGUI($lng->txt("adm_value"), "value_" . $s["id"]);
-                                                foreach ($s['options'] as $key => $value) {
-                                                    $chbs->addOption($c = new ilCheckboxInputGUI($value, $key));
-                                                    $c->setValue($key);
-                                                }
-                                                $cb->addSubItem($chbs);
-                                                break;
+                    case ilSettingsTemplateConfig::CHECKBOX:
+                        $chbs = new ilCheckboxGroupInputGUI($lng->txt("adm_value"), "value_" . $s["id"]);
+                        foreach ($s['options'] as $key => $value) {
+                            $chbs->addOption($c = new ilCheckboxInputGUI($value, $key));
+                            $c->setValue($key);
+                        }
+                        $cb->addSubItem($chbs);
+                        break;
                 }
 
                 if ($s['hidable']) {

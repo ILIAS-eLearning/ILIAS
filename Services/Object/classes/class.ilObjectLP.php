@@ -84,7 +84,7 @@ class ilObjectLP
                 case "lso":
                     return "ilLSLP";
 
-                // learning resources
+                    // learning resources
                 case "lm":
                     return "ilLearningModuleLP";
                 case "htlm":
@@ -92,7 +92,7 @@ class ilObjectLP
                 case "sahs":
                     return "ilScormLP";
 
-                // misc
+                    // misc
                 case "tst":
                     return "ilTestLP";
                 case "exc":
@@ -118,7 +118,7 @@ class ilObjectLP
                 case 'frm':
                     return ilForumLP::class;
 
-                // plugin
+                    // plugin
                 case $objDefinition->isPluginTypeName($type):
                     return "ilPluginLP";
             }

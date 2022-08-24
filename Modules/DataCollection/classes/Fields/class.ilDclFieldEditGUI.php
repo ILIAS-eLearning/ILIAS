@@ -296,7 +296,6 @@ class ilDclFieldEditGUI
         $this->initForm($a_mode == "update" ? "edit" : "create");
 
         if ($this->checkInput($a_mode)) {
-
             // check if confirmation is needed and if so, fetch and render confirmationGUI
             if (($a_mode == "update") && !($this->form->getInput('confirmed')) && $this->field_obj->isConfirmationRequired($this->form)) {
                 $ilConfirmationGUI = $this->field_obj->getConfirmationGUI($this->form);

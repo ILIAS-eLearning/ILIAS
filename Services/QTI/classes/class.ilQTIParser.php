@@ -835,7 +835,7 @@ class ilQTIParser extends ilSaxParser
                 $this->matimage = null;
                 break;
 
-            // add support for matbreak element
+                // add support for matbreak element
             case "matbreak":
                 $this->mattext = new ilQTIMattext();
                 $this->mattext->setContent('<br />');
@@ -1106,7 +1106,6 @@ class ilQTIParser extends ilSaxParser
                     }
                 }
                 break;
-
         }
     }
 

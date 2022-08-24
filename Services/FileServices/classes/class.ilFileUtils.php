@@ -174,7 +174,6 @@ class ilFileUtils
      */
     public static function utf8_encode(string $string): string
     {
-
         // From http://w3.org/International/questions/qa-forms-utf-8.html
         return (preg_match(
             '%^(?:
@@ -529,7 +528,7 @@ class ilFileUtils
             if ($upload_result instanceof UploadResult) {
                 $processing_status = $upload_result->getStatus();
                 if ($processing_status->getCode(
-                    ) === ProcessingStatus::REJECTED) {
+                ) === ProcessingStatus::REJECTED) {
                     throw new ilException($processing_status->getMessage());
                 }
             } else {
@@ -1045,16 +1044,16 @@ class ilFileUtils
             switch (strtoupper($suffix)) {
                 case 'P':
                     $value *= 1024;
-                // no break
+                    // no break
                 case 'T':
                     $value *= 1024;
-                // no break
+                    // no break
                 case 'G':
                     $value *= 1024;
-                // no break
+                    // no break
                 case 'M':
                     $value *= 1024;
-                // no break
+                    // no break
                 case 'K':
                     $value *= 1024;
                     break;

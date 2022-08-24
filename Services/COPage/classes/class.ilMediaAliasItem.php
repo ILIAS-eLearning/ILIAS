@@ -929,7 +929,7 @@ class ilMediaAliasItem
             if (((($i + 1) == $a_area_nr) && !$a_exclude) ||
                     ((($i + 1) != $a_area_nr) && $a_exclude) ||
                     ($a_area_nr == 0)
-                ) {
+            ) {
                 $area = new ilMapArea();
                 $area->setShape($areas[$i]["Shape"]);
                 $area->setCoords($areas[$i]["Coords"]);

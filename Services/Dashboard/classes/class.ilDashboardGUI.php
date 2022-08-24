@@ -98,8 +98,7 @@ class ilDashboardGUI implements ilCtrlBaseClassInterface
         $next_class = $this->ctrl->getNextClass();
         $this->ctrl->setReturn($this, "show");
         switch ($next_class) {
-
-                // profile
+            // profile
             case "ilpersonalprofilegui":
                 $this->getStandardTemplates();
                 $this->setTabs();
@@ -107,7 +106,7 @@ class ilDashboardGUI implements ilCtrlBaseClassInterface
                 $this->ctrl->forwardCommand($profile_gui);
                 break;
 
-            // settings
+                // settings
             case "ilpersonalsettingsgui":
                 $this->getStandardTemplates();
                 $this->setTabs();
@@ -139,7 +138,7 @@ class ilDashboardGUI implements ilCtrlBaseClassInterface
                 $this->ctrl->forwardCommand($pd_notes_gui);
                 break;
 
-            // pd news
+                // pd news
             case "ilpdnewsgui":
                 $this->getStandardTemplates();
                 $this->setTabs();

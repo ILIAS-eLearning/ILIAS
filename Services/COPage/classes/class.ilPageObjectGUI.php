@@ -833,7 +833,7 @@ class ilPageObjectGUI
                 $ret = $this->ctrl->forwardCommand($clip_gui);
                 break;
 
-            // notes
+                // notes
             case "ilnotegui":
                 $html = $this->edit();
                 $this->tabs_gui->setTabActive("edit");
@@ -1089,7 +1089,6 @@ class ilPageObjectGUI
 
             // get js files for JS enabled editing
             if ($sel_js_mode == "enable") {
-
                 // add int link parts
                 $tpl->setCurrentBlock("int_link_prep");
                 $tpl->setVariable("INT_LINK_PREP", ilInternalLinkGUI::getInitHTML(
@@ -1299,7 +1298,6 @@ class ilPageObjectGUI
 
         // manage hierarchical ids
         if ($this->getOutputMode() == "edit") {
-
             // add pc ids, if necessary
             if (!$this->obj->checkPCIds()) {
                 $this->obj->insertPCIds();
@@ -1790,7 +1788,8 @@ class ilPageObjectGUI
                 $t = "text_inline";
                 $tag = "span";
                 switch ($key) {
-                    case "Code": $tag = "code"; break;
+                    case "Code": $tag = "code";
+                        break;
                 }
                 $html = '<' . $tag . ' class="ilc_' . $t . '_' . $key . '" style="font-size:90%; margin-top:2px; margin-bottom:2px; position:static;">' . $char["txt"] . "</" . $tag . ">";
                 $char_formats[] = ["text" => $html, "action" => "selection.format", "data" => ["format" => $key]];

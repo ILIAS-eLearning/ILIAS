@@ -98,7 +98,6 @@ class ilObjOrgUnitListGUI extends ilObjectListGUI
 
     public function insertIconsAndCheckboxes(): void
     {
-
         // FSX removed $this->getCheckboxStatus() in if-Statement: 0014726
         if (!$this->settings->get('custom_icons')) {
             parent::insertIconsAndCheckboxes();

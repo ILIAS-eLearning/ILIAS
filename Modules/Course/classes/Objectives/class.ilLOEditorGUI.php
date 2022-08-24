@@ -267,7 +267,7 @@ class ilLOEditorGUI
                 $settings->setInitialTest(0);
                 $this->deleteAssignments(ilLOSettings::TYPE_TEST_INITIAL);
 
-            // no break
+                // no break
             case ilLOSettings::TYPE_INITIAL_PLACEMENT_ALL:
             case ilLOSettings::TYPE_INITIAL_QUALIFYING_ALL:
                 $this->deleteAssignments(ilLOSettings::TYPE_TEST_INITIAL);

@@ -97,7 +97,6 @@ class ilContainerFilterUtil
 
         // if admin mode
         if ($admin) {
-
             // always add online/offline filter
             $options = [
                 1 => $this->lng->txt("online"),

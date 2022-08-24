@@ -878,7 +878,6 @@ class ilGlossaryPresentationGUI implements ilCtrlBaseClassInterface
             }
         } else {	// handle offline links
             switch ($a_cmd) {
-
                 case "fullscreen":
                     $link = "fullscreen.html";		// id is handled by xslt
                     break;

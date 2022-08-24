@@ -381,7 +381,7 @@ class ilToolbarGUI
                             $tpl_items->touchBlock("item");
                             break;
 
-                        // bs-patch start
+                            // bs-patch start
                         case "dropdown":
                             $tpl_items->setCurrentBlock("dropdown");
                             $tpl_items->setVariable("TXT_DROPDOWN", $item["txt"]);
@@ -389,7 +389,7 @@ class ilToolbarGUI
                             $tpl_items->parseCurrentBlock();
                             $tpl_items->touchBlock("item");
                             break;
-                        // bs-patch end
+                            // bs-patch end
                         case "text":
                             $tpl_items->setCurrentBlock("text");
                             $tpl_items->setVariable("VAL_TEXT", $item["text"]);

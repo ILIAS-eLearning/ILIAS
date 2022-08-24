@@ -38,7 +38,6 @@ class ilLikeForumSearch extends ilForumSearch
 {
     public function __createPostAndCondition(): string
     {
-
         /*
         $concat  = " CONCAT(";
         $concat .= 'pos_message,pos_subject';

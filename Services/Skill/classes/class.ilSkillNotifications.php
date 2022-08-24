@@ -174,7 +174,6 @@ class ilSkillNotifications extends ilCronJob
         $a_achievements = $vtree->getOrderedNodeset($a_achievements, "skill_id", "tref_id");
 
         foreach ($a_achievements as $skill_level) {
-
             // path
             $path = [];
             foreach ($tree->getPathId($skill_level["trigger_ref_id"]) as $node) {

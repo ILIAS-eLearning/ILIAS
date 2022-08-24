@@ -183,13 +183,13 @@ class ilWikiUtil
                     $m[1] = str_replace(array('<', '>'), array('&lt;', '&gt;'), urldecode($m[1]));
                 }
                 $trail = $m[3];
-            /*			} elseif( preg_match($e1_img, $line, $m) ) { # Invalid, but might be an image with a link in its caption
-                            $might_be_img = true;
-                            $text = $m[2];
-                            if ( strpos( $m[1], '%' ) !== false ) {
-                                $m[1] = urldecode($m[1]);
-                            }
-                            $trail = "";*/
+                /*			} elseif( preg_match($e1_img, $line, $m) ) { # Invalid, but might be an image with a link in its caption
+                                $might_be_img = true;
+                                $text = $m[2];
+                                if ( strpos( $m[1], '%' ) !== false ) {
+                                    $m[1] = urldecode($m[1]);
+                                }
+                                $trail = "";*/
             } else { # Invalid form; output directly
                 $s .= $prefix . '[[' . $line ;
                 //wfProfileOut( "$fname-e1" );
@@ -316,7 +316,6 @@ class ilWikiUtil
             # Fail gracefully
             $retVal = "<!-- ERROR -->{$prefix}{$text}{$trail}";
         } else {
-
             // remove anchor from text, define anchor
             $anc = "";
             if ($nt->mFragment != "") {

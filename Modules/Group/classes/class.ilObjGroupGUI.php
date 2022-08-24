@@ -226,7 +226,7 @@ class ilObjGroupGUI extends ilContainerGUI
                 $this->renderObject();
                 break;
 
-            // container page editing
+                // container page editing
             case "ilcontainerpagegui":
                 $ret = $this->forwardToPageObject();
                 if ($ret != "") {
@@ -494,8 +494,8 @@ class ilObjGroupGUI extends ilContainerGUI
         // check for parent group or course => SORT_INHERIT
         $sort_mode = ilContainer::SORT_TITLE;
         if (
-                $this->tree->checkForParentType($new_object->getRefId(), 'crs', true) ||
-                $this->tree->checkForParentType($new_object->getRefId(), 'grp', true)
+            $this->tree->checkForParentType($new_object->getRefId(), 'crs', true) ||
+            $this->tree->checkForParentType($new_object->getRefId(), 'grp', true)
         ) {
             $sort_mode = ilContainer::SORT_INHERIT;
         }
@@ -1252,7 +1252,6 @@ class ilObjGroupGUI extends ilContainerGUI
                         $this->lng->txt('grp_reg_passwd_info_screen')
                     );
                     break;
-
             }
             /*
             $info->addProperty($this->lng->txt('group_registration_time'),
@@ -1782,7 +1781,6 @@ class ilObjGroupGUI extends ilContainerGUI
     protected function setSubTabs(string $a_tab): void
     {
         switch ($a_tab) {
-
             case 'settings':
                 $this->tabs_gui->addSubTabTarget(
                     "grp_settings",

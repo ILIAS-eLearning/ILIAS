@@ -244,9 +244,9 @@ final class Metric
             case self::TYPE_TIMESTAMP:
                 return $value->format(\DateTimeInterface::ISO8601);
             case self::TYPE_TEXT:
-                    if (substr_count($value, "\n") > 0) {
-                        return ">" . str_replace("\n", "\n" . $this->getIndentation($indentation), "\n$value");
-                    }
+                if (substr_count($value, "\n") > 0) {
+                    return ">" . str_replace("\n", "\n" . $this->getIndentation($indentation), "\n$value");
+                }
                 return $value;
             case self::TYPE_COLLECTION:
                 $result = [];

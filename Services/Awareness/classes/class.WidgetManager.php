@@ -286,7 +286,6 @@ class WidgetManager
             $this->data = array();
 
             foreach ($user_collections as $uc) {
-
                 // limit part 1
                 if (count($this->data) >= $max) {
                     continue;

@@ -249,7 +249,6 @@ class UIModifier extends Mode\AbstractUIModifier
         $ret = "";
         if ($request->getShowTable()) {
             if (!$matrix) {
-
                 // rater
                 $a_tpl->setCurrentBlock("grid_col_header_bl");
                 $a_tpl->setVariable("COL_HEADER", $lng->txt("svy_rater"));
@@ -322,10 +321,8 @@ class UIModifier extends Mode\AbstractUIModifier
                 }
                 $ret = $a_tpl->get();
             } else {
-
                 /** @var $answer \ilSurveyEvaluationResultsAnswer */
                 foreach ($answers as $answer) {
-
                     /** @var $q \SurveyMatrixQuestion */
 
                     $cats = $q->getColumns();
