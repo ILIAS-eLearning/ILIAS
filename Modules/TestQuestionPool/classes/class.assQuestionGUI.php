@@ -852,7 +852,7 @@ abstract class assQuestionGUI
                 $this->ctrl->redirectByClass('ilAssQuestionPreviewGUI', ilAssQuestionPreviewGUI::CMD_SHOW);
             }
         }
-        $tabs = $DIC['ilTabs'];
+        $tabs = $this->ilTabs;
         $tabs->setTabActive('edit_question');
     }
 
