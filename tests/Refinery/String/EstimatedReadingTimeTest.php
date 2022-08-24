@@ -18,6 +18,8 @@
 
 namespace ILIAS\Tests\Refinery\String;
 
+require_once 'libs/composer/vendor/autoload.php';
+
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\Data\Factory as DataFactory;
 use ilLanguage;
@@ -35,8 +37,8 @@ EOT;
 <div>Lorem ipsum dolor <span style="color: red;">sit amet</span>, <img src="#" /> consetetur sadipscing elitr, sed diam nonumy eirmod <img src="#" />  tempor invidunt <img src="#" />  ut labore et dolore <img src="#" />  magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor <img src="#" />  sit amet. <img src="#" />  Lorem ipsum dolor <img src="#" />  sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, <img src="#" />  sed diam voluptua. <img src="#" />  At vero eos et accusam et justo duo dolores et ea rebum. Stet <img src="#" />  clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</div>
 EOT;
 
-    private const INVALID_XHTML = <<<EOT
-<div>Lorem ipsum dolor <span style="color: red;">sit amet</span>, <div<img src="#" /> consetetur sadipscing elitr, sed diam nonumy eirmod <img src="#" />  tempor invidunt <img src="#" />  ut labore et dolore <img src="#" />  magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor <img src="#" />  sit amet. <img src="#" />  Lorem ipsum dolor <img src="#" />  sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, <img src="#" />  sed diam voluptua. <img src="#" />  At vero eos et accusam et justo duo dolores et ea rebum. Stet <img src="#" />  clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</div>
+    private const HTML_WITH_NON_XHTML_URLS = <<<EOT
+<a href="http://www.ilias.de=foo=1&bar=2">ILIAS</a>
 EOT;
 
     private Refinery $refinery;
@@ -175,12 +177,14 @@ EOT;
         $this->assertIsInt($reading_time);
         $this->assertGreaterThan(0, $reading_time);
     }
-    
-    public function testInvalidArgumentExceptionIsRaisedIfInputCannotBeParsed() : void
+
+    public function testNoExceptionIsRaisedIfHtmlContainsAmpersandInUrls() : void
     {
-        $this->expectException(InvalidArgumentException::class);
         $reading_time_trafo = $this->refinery->string()->estimatedReadingTime(true);
 
-        $reading_time = $reading_time_trafo->transform(self::INVALID_XHTML);
+        $reading_time = $reading_time_trafo->transform(self::HTML_WITH_NON_XHTML_URLS);
+
+        $this->assertIsInt($reading_time);
+        $this->assertGreaterThan(0, $reading_time);
     }
 }
