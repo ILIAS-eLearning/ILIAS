@@ -24,7 +24,7 @@ declare(strict_types=1);
  */
 abstract class ilHtmlPurifierAbstractLibWrapper implements ilHtmlPurifierInterface
 {
-    private const _HTML_PURIFIER = '/HTMLPurifier';
+    private const HTML_PURIFIER_DIRECTORY = '/HTMLPurifier';
     private const NOT_SUPPORTED_TAGS = [
         'rp',
         'rt',
@@ -85,11 +85,11 @@ abstract class ilHtmlPurifierAbstractLibWrapper implements ilHtmlPurifierInterfa
 
     final public static function _getCacheDirectory(): string
     {
-        if (!is_dir(ilFileUtils::getDataDir() . self::_HTML_PURIFIER)) {
-            ilFileUtils::makeDirParents(ilFileUtils::getDataDir() . self::_HTML_PURIFIER);
+        if (!is_dir(ilFileUtils::getDataDir() . self::HTML_PURIFIER_DIRECTORY)) {
+            ilFileUtils::makeDirParents(ilFileUtils::getDataDir() . self::HTML_PURIFIER_DIRECTORY);
         }
 
-        return ilFileUtils::getDataDir() . self::_HTML_PURIFIER;
+        return ilFileUtils::getDataDir() . self::HTML_PURIFIER_DIRECTORY;
     }
 
     /**
