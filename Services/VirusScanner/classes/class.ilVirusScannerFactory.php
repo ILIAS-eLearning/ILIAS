@@ -20,7 +20,7 @@ declare(strict_types=1);
 
 class ilVirusScannerFactory
 {
-    public static function _getInstance(): ?ilVirusScanner
+    public static function _getInstance(): ilVirusScanner
     {
         $vs = null;
 
