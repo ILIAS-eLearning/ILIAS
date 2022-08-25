@@ -147,36 +147,6 @@ class ilDatabaseMetricsCollectedObjective extends Setup\Metrics\CollectedObjecti
         $db_update->readCustomUpdatesInfo(true);
 
         $storage->storeStableCounter(
-            "version",
-            $db_update->getCurrentVersion(),
-            "The version of the database schema that is currently installed."
-        );
-        $storage->storeStableCounter(
-            "available_version",
-            $db_update->getFileVersion(),
-            "The version of the database schema that is available in the current source."
-        );
-        $storage->storeStableBool(
-            "update_required",
-            !$db_update->getDBVersionStatus(),
-            "Does the database require an update?"
-        );
-        $storage->storeStableCounter(
-            "hotfix_version",
-            $db_update->getHotfixCurrentVersion() ?? 0,
-            "The version of the hotfix database schema that is currently installed."
-        );
-        $storage->storeStableCounter(
-            "available_hotfix_version",
-            $db_update->getHotfixFileVersion() ?? 0,
-            "The version of the hotfix database schema that is available in the current source."
-        );
-        $storage->storeStableBool(
-            "hotfix_required",
-            $db_update->hotfixAvailable(),
-            "Does the database require a hotfix update?"
-        );
-        $storage->storeStableCounter(
             "custom_version",
             $db_update->getCustomUpdatesCurrentVersion() ?? 0,
             "The version of the custom database schema that is currently installed."
