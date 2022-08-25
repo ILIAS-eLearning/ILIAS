@@ -1,5 +1,5 @@
 <profile version="1.0">
-  <option name="myName" value="ILIAS PhpStorm PHP 8 Inspections" />
+  <option name="myName" value="ILIAS PhpStorm PHP 9 Inspections" />
   <inspection_tool class="AngularAmbiguousComponentTag" enabled="false" level="ERROR" enabled_by_default="false" />
   <inspection_tool class="AngularCliAddDependency" enabled="false" level="WARNING" enabled_by_default="false" />
   <inspection_tool class="AngularInaccessibleComponentMemberInAotMode" enabled="false" level="WARNING" enabled_by_default="false" />
