@@ -3802,7 +3802,6 @@ common#:#day#:#Tag
 common#:#days#:#Tage
 common#:#db_host#:#Datenbank-Host
 common#:#db_name#:#Datenbankname
-common#:#db_need_hotfix#:#Hotfix vorhanden. Bitte öffnen Sie das <a href="./setup/setup.php">»Setup</a>!
 common#:#db_need_update#:#Datenbank benötigt ein Update!
 common#:#db_pass#:#Datenbank-Password
 common#:#db_type#:#Datenbank Typ
