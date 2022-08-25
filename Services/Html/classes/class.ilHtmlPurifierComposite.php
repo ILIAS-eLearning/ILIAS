@@ -22,10 +22,10 @@ declare(strict_types=1);
  * Composite for nesting multiple purifiers
  * @author Michael Jansen <mjansen@databay.de>
  */
-class ilHtmlPurifierComposite implements ilHtmlPurifierInterface
+final class ilHtmlPurifierComposite implements ilHtmlPurifierInterface
 {
     /** @var ilHtmlPurifierInterface[]  */
-    protected array $purifiers = [];
+    private array $purifiers = [];
 
     /**
      * Adds a node to composite
@@ -34,7 +34,7 @@ class ilHtmlPurifierComposite implements ilHtmlPurifierInterface
      */
     public function addPurifier(ilHtmlPurifierInterface $purifier): bool
     {
-        if (false === in_array($purifier, $this->purifiers, true)) {
+        if (!in_array($purifier, $this->purifiers, true)) {
             $this->purifiers[] = $purifier;
             return true;
         }

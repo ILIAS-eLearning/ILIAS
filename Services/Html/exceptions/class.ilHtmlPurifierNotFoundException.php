@@ -22,6 +22,6 @@ declare(strict_types=1);
  * Class ilHtmlPurifierNotFoundException
  * @author Michael Jansen <mjansen@databay.de>
  */
-class ilHtmlPurifierNotFoundException extends ilHtmlException
+final class ilHtmlPurifierNotFoundException extends ilHtmlException
 {
 }

@@ -24,8 +24,14 @@ use PHPUnit\Framework\TestCase;
  * Class ilHtmlPurifierCompositeTest
  * @author Michael Jansen <mjansen@databay.de>
  */
-class ilHtmlPurifierCompositeTest extends TestCase
+final class ilHtmlPurifierCompositeTest extends TestCase
 {
+    private const TO_PURIFY = [
+        'phpunit1',
+        'phpunit2',
+        'phpunit3',
+    ];
+
     private function getFakePurifier(): ilHtmlPurifierInterface
     {
         return new class () implements ilHtmlPurifierInterface {
@@ -36,7 +42,7 @@ class ilHtmlPurifierCompositeTest extends TestCase
 
             public function purifyArray(array $htmlCollection): array
             {
-                foreach ($htmlCollection as $key => &$html) {
+                foreach ($htmlCollection as &$html) {
                     $html .= '.';
                 }
 
@@ -78,23 +84,20 @@ class ilHtmlPurifierCompositeTest extends TestCase
         $purifier->addPurifier($p2);
         $purifier->addPurifier($p3);
 
-        $toPurify = [
-            'phpunit1',
-            'phpunit2',
-            'phpunit3',
-        ];
-
         $this->assertSame(array_map(static function (string $html): string {
             return $html . '...';
-        }, $toPurify), $purifier->purifyArray($toPurify));
+        }, self::TO_PURIFY), $purifier->purifyArray(self::TO_PURIFY));
 
         $purifier->removePurifier($p2);
 
         $this->assertSame(array_map(static function (string $html): string {
             return $html . '..';
-        }, $toPurify), $purifier->purifyArray($toPurify));
+        }, self::TO_PURIFY), $purifier->purifyArray(self::TO_PURIFY));
     }
 
+    /**
+     * @return array{integer: int[], float: float[], null: null[], array: never[][], object: \stdClass[], bool: false[], resource: resource[]|false[]}
+     */
     public function invalidHtmlDataTypeProvider(): array
     {
         return [

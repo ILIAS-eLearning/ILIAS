@@ -24,8 +24,14 @@ use PHPUnit\Framework\TestCase;
  * Class ilHtmlPurifierLibWrapperTest
  * @author Michael Jansen <mjansen@databay.de>
  */
-class ilHtmlPurifierLibWrapperTest extends TestCase
+final class ilHtmlPurifierLibWrapperTest extends TestCase
 {
+    private const TO_PURIFY = [
+        'phpunit1',
+        'phpunit2',
+        'phpunit3',
+    ];
+
     private function getPurifier(): ilHtmlPurifierAbstractLibWrapper
     {
         return new class () extends ilHtmlPurifierAbstractLibWrapper {
@@ -41,15 +47,12 @@ class ilHtmlPurifierLibWrapperTest extends TestCase
         $purifier = $this->getPurifier();
 
         $this->assertSame('phpunit', $purifier->purify('phpunit'));
-
-        $toPurify = [
-            'phpunit1',
-            'phpunit2',
-            'phpunit3',
-        ];
-        $this->assertSame($toPurify, $purifier->purifyArray($toPurify));
+        $this->assertSame(self::TO_PURIFY, $purifier->purifyArray(self::TO_PURIFY));
     }
 
+    /**
+     * @return array{integer: int[], float: float[], null: null[], array: never[][], object: \stdClass[], bool: false[], resource: resource[]|false[]}
+     */
     public function invalidHtmlDataTypeProvider(): array
     {
         return [

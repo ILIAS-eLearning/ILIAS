@@ -26,7 +26,7 @@ require_once __DIR__ . '/bootstrap.php';
  * Class ilServicesHtmlSuite
  * @author Michael Jansen <mjansen@databay.de>
  */
-class ilServicesHtmlSuite extends TestSuite
+final class ilServicesHtmlSuite extends TestSuite
 {
     public static function suite(): self
     {

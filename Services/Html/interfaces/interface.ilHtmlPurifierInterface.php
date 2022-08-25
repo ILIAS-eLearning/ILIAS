@@ -26,8 +26,6 @@ interface ilHtmlPurifierInterface
 {
     /**
      * Filters an HTML snippet/document to be XSS-free and standards-compliant.
-     * @param string $html
-     * @return string
      */
     public function purify(string $html): string;
 

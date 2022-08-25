@@ -24,7 +24,7 @@ use PHPUnit\Framework\TestCase;
  * Class ilHtmlDomNodeIteratorTest
  * @author Michael Jansen <mjansen@databay.de>
  */
-class ilHtmlDomNodeIteratorTest extends TestCase
+final class ilHtmlDomNodeIteratorTest extends TestCase
 {
     public function testDomNodeIteratorIteratesOverXhtmlDocumentNodes(): void
     {

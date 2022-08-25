@@ -22,10 +22,10 @@ declare(strict_types=1);
  * Class ilHtmlDomNodeIterator
  * @author Michael Jansen <mjansen@databay.de>
  */
-class ilHtmlDomNodeIterator implements RecursiveIterator
+final class ilHtmlDomNodeIterator implements RecursiveIterator
 {
-    protected int $position = 0;
-    protected DOMNodeList $nodeList;
+    private int $position;
+    private DOMNodeList $nodeList;
 
     public function __construct(DOMNode $el)
     {
