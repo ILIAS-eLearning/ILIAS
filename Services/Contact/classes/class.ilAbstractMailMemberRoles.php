@@ -25,7 +25,6 @@ declare(strict_types=1);
 abstract class ilAbstractMailMemberRoles
 {
     /**
-     * @param int $ref_id
      * @return array{role_id: int, mailbox: string, form_option_title: string, default_checked?: bool}[]
      */
     abstract public function getMailRoles(int $ref_id): array;

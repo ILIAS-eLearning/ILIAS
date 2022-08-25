@@ -37,18 +37,12 @@ abstract class ilMailSearchObjectGUI
     protected ilObjectDataCache $cache;
     protected ilFormatMail $umail;
     protected bool $mailing_allowed;
-    /**
-     * @var ilWorkspaceAccessHandler|ilPortfolioAccessHandler|null
-     */
-    protected $wsp_access_handler = null;
-    protected ?int $wsp_node_id = null;
 
     /**
      * @param ilWorkspaceAccessHandler|ilPortfolioAccessHandler|null $wsp_access_handler
-     * @param int|null                      $wsp_node_id
      * @throws ilCtrlException
      */
-    public function __construct($wsp_access_handler = null, ?int $wsp_node_id = null)
+    public function __construct(protected $wsp_access_handler = null, protected ?int $wsp_node_id = null)
     {
         global $DIC;
 
@@ -63,9 +57,6 @@ abstract class ilMailSearchObjectGUI
         $this->cache = $DIC['ilObjDataCache'];
         $this->http = $DIC->http();
         $this->refinery = $DIC->refinery();
-
-        $this->wsp_access_handler = $wsp_access_handler;
-        $this->wsp_node_id = $wsp_node_id;
 
         $this->ctrl->saveParameter($this, 'mobj_id');
         $this->ctrl->saveParameter($this, 'ref');
@@ -97,7 +88,7 @@ abstract class ilMailSearchObjectGUI
     private function isLocalRoleTitle(string $title): bool
     {
         foreach ($this->getLocalDefaultRolePrefixes() as $local_role_prefix) {
-            if (strpos($title, $local_role_prefix) === 0) {
+            if (str_starts_with($title, $local_role_prefix)) {
                 return true;
             }
         }
@@ -312,11 +303,7 @@ abstract class ilMailSearchObjectGUI
             }
         }
 
-        if ($members !== []) {
-            $mail_data = $this->umail->appendSearchResult($members, 'to');
-        } else {
-            $mail_data = $this->umail->getSavedData();
-        }
+        $mail_data = $members !== [] ? $this->umail->appendSearchResult($members, 'to') : $this->umail->getSavedData();
 
         $this->umail->savePostData(
             (int) $mail_data['user_id'],
@@ -504,7 +491,7 @@ abstract class ilMailSearchObjectGUI
         }
         $table->setData($tableData);
 
-        if (count($tableData)) {
+        if ($tableData !== []) {
             $searchTpl->setVariable('TXT_MARKED_ENTRIES', $this->lng->txt('marked_entries'));
         }
 

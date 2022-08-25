@@ -35,10 +35,6 @@ class ilBuddySystemRelationsTableGUI extends ilTable2GUI
     /** @var array<string, mixed>  */
     protected array $filter = [];
 
-    /**
-     * @param object $a_parent_obj
-     * @param string $a_parent_cmd
-     */
     public function __construct(object $a_parent_obj, string $a_parent_cmd)
     {
         global $DIC;
@@ -123,9 +119,7 @@ class ilBuddySystemRelationsTableGUI extends ilTable2GUI
     }
 
     /**
-     * @param string $filterKey
      * @param mixed $value
-     * @return void
      */
     public function applyFilterValue(string $filterKey, $value): void
     {
@@ -196,7 +190,7 @@ class ilBuddySystemRelationsTableGUI extends ilTable2GUI
             return ilObjUser::_lookupActive($usrId);
         });
 
-        foreach ($relations->toArray() as $usr_id => $relation) {
+        foreach (array_keys($relations->toArray()) as $usr_id) {
             $data[] = [
                 'usr_id' => $usr_id,
                 'public_name' => $public_names[$usr_id],

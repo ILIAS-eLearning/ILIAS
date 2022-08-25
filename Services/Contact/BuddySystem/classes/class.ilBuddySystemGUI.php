@@ -96,22 +96,9 @@ class ilBuddySystemGUI
             throw new RuntimeException('This controller only accepts requests of logged in users');
         }
 
-        $nextClass = $this->ctrl->getNextClass($this);
-        $cmd = $this->ctrl->getCmd();
-
-        switch ($nextClass) {
-            default:
-                $cmd .= 'Command';
-                $this->$cmd();
-                break;
-        }
+        $this->{$this->ctrl->getCmd() . 'Command'}();
     }
 
-    /**
-     * @param string $key
-     * @param int $type
-     * @return bool
-     */
     protected function isRequestParameterGiven(string $key, int $type): bool
     {
         switch ($type) {
@@ -177,7 +164,7 @@ class ilBuddySystemGUI
                 $this->lng->txt($e->getMessage()),
                 ilObjUser::_lookupLogin($usrId)
             ), true);
-        } catch (ilException $e) {
+        } catch (Exception) {
             $this->main_tpl->setOnScreenMessage('info', $this->lng->txt('buddy_bs_action_not_possible'), true);
         }
 
@@ -238,16 +225,16 @@ class ilBuddySystemGUI
                 $response->success = true;
             } catch (ilBuddySystemRelationStateAlreadyGivenException | ilBuddySystemRelationStateTransitionException $e) {
                 $response->message = sprintf($this->lng->txt($e->getMessage()), $login);
-            } catch (Exception $e) {
+            } catch (Exception) {
                 $response->message = $this->lng->txt('buddy_bs_action_not_possible');
             }
 
-            $response->state = get_class($relation->getState());
+            $response->state = $relation->getState()::class;
             $response->state_html = $this->stateFactory->getStateButtonRendererByOwnerAndRelation(
                 $this->buddyList->getOwnerId(),
                 $relation
             )->getHtml();
-        } catch (Exception $e) {
+        } catch (Exception) {
             $response->message = $this->lng->txt('buddy_bs_action_not_possible');
         }
 

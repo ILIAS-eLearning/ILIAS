@@ -22,6 +22,7 @@ declare(strict_types=1);
  * Class ilBuddySystemRelationCollection
  * A collection which contains all entries of a buddy list
  * @author Michael Jansen <mjansen@databay.de>
+ * @implements ilBuddySystemCollection<ilBuddySystemRelation>
  */
 class ilBuddySystemRelationCollection extends ilBuddySystemArrayCollection
 {

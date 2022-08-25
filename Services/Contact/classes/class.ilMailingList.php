@@ -24,7 +24,6 @@ declare(strict_types=1);
  */
 class ilMailingList
 {
-    private int $mail_id;
     private int $user_id;
     private string $title = '';
     private string $description = '';
@@ -37,13 +36,11 @@ class ilMailingList
     public const MODE_TEMPORARY = 2;
     private int $mode;
 
-    public function __construct(ilObjUser $user, int $id = 0)
+    public function __construct(ilObjUser $user, private int $mail_id = 0)
     {
         global $DIC;
 
         $this->db = $DIC['ilDB'];
-
-        $this->mail_id = $id;
         $this->user_id = $user->getId();
 
         $this->setMode(self::MODE_ADDRESSBOOK);
@@ -54,7 +51,7 @@ class ilMailingList
     public function insert(): bool
     {
         $nextId = $this->db->nextId('addressbook_mlist');
-        $statement = $this->db->manipulateF(
+        $this->db->manipulateF(
             '
 			INSERT INTO addressbook_mlist 
 			(   ml_id,
@@ -94,7 +91,7 @@ class ilMailingList
     public function update(): bool
     {
         if ($this->mail_id && $this->user_id) {
-            $statement = $this->db->manipulateF(
+            $this->db->manipulateF(
                 '
 				UPDATE addressbook_mlist
 				SET title = %s,
@@ -132,7 +129,7 @@ class ilMailingList
         if ($this->mail_id && $this->user_id) {
             $this->deassignAllEntries();
 
-            $statement = $this->db->manipulateF(
+            $this->db->manipulateF(
                 'DELETE FROM addressbook_mlist WHERE ml_id = %s AND user_id = %s',
                 ['integer', 'integer'],
                 [$this->getId(), $this->getUserId()]
@@ -180,7 +177,6 @@ class ilMailingList
         );
 
         $entries = [];
-        $counter = 0;
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             $entries[(int) $row->a_id] = [
                 'a_id' => (int) $row->a_id,

@@ -25,7 +25,6 @@ declare(strict_types=1);
 class ilBuddySystemRelationTest extends ilBuddySystemBaseTest
 {
     private const RELATION_OWNER_ID = -1;
-    private const RELATION_BUDDY_ID = -2;
 
     public function testPriorStateIsEmptyAfterInstanceWasCreated(): void
     {

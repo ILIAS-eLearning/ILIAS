@@ -22,6 +22,6 @@ declare(strict_types=1);
  * Class ilBuddySystemException
  * @author Michael Jansen <mjansen@databay.de>
  */
-class ilBuddySystemException extends ilException
+class ilBuddySystemException extends Exception
 {
 }

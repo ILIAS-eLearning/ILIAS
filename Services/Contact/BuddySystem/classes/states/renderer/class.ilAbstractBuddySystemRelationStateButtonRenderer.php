@@ -24,17 +24,12 @@ declare(strict_types=1);
  */
 abstract class ilAbstractBuddySystemRelationStateButtonRenderer implements ilBuddySystemRelationStateButtonRenderer
 {
-    protected ilBuddySystemRelation $relation;
-    protected int $usrId;
     protected ilTemplate $tpl;
     protected ilLanguage $lng;
 
-    public function __construct(int $usrId, ilBuddySystemRelation $relation)
+    public function __construct(protected int $usrId, protected ilBuddySystemRelation $relation, ilLanguage $lng = null)
     {
         global $DIC;
-
-        $this->usrId = $usrId;
-        $this->relation = $relation;
 
         $this->tpl = new ilTemplate(
             'tpl.buddy_system_state_' . ilStr::convertUpperCamelCaseToUnderscoreCase($this->relation->getState()->getName()) . '.html',
@@ -43,7 +38,7 @@ abstract class ilAbstractBuddySystemRelationStateButtonRenderer implements ilBud
             'Services/Contact/BuddySystem'
         );
 
-        $this->lng = $DIC['lng'];
+        $this->lng = $lng ?? $DIC['lng'];
     }
 
     protected function getLanguageVariableSuffix(): string
@@ -89,7 +84,7 @@ abstract class ilAbstractBuddySystemRelationStateButtonRenderer implements ilBud
 
         $this->tpl->setVariable(
             $this->getTemplateVariablePrefix() . 'TARGET_STATE_' . strtoupper($target_state_id),
-            get_class($target_state)
+            $target_state::class
         );
         $this->tpl->setVariable(
             $this->getTemplateVariablePrefix() . 'TARGET_STATE_ACTION_' . strtoupper($target_state_id),

@@ -25,10 +25,8 @@ declare(strict_types=1);
 class ilMailMemberSearchDataProvider
 {
     protected ilAccessHandler $access;
-    protected int $ref_id;
     protected string $type = 'crs';
     protected array $data = [];
-    protected ilParticipants $objParticipants;
     protected ilObjectDataCache $dataCache;
     /**
      * @var array<string, int>
@@ -43,17 +41,14 @@ class ilMailMemberSearchDataProvider
     protected ilLanguage $lng;
 
 
-    public function __construct(ilParticipants $objParticipants, int $a_ref_id)
+    public function __construct(protected ilParticipants $objParticipants, protected int $ref_id)
     {
         global $DIC;
 
         $this->dataCache = $DIC['ilObjDataCache'];
         $this->access = $DIC->access();
-        $this->objParticipants = $objParticipants;
         $this->type = $this->objParticipants->getType();
         $this->lng = $DIC['lng'];
-
-        $this->ref_id = $a_ref_id;
 
         $this->collectTableData();
     }

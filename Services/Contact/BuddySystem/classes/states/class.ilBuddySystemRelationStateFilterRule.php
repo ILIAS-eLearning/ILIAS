@@ -24,11 +24,8 @@ declare(strict_types=1);
  */
 abstract class ilBuddySystemRelationStateFilterRule
 {
-    protected ilBuddySystemRelation $relation;
-
-    public function __construct(ilBuddySystemRelation $relation)
+    public function __construct(protected ilBuddySystemRelation $relation)
     {
-        $this->relation = $relation;
     }
 
     public function getStates(): ilBuddySystemRelationStateCollection

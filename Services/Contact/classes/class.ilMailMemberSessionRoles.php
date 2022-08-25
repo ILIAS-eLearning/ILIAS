@@ -46,7 +46,6 @@ class ilMailMemberSessionRoles extends ilAbstractMailMemberRoles
         $role_ids = $this->rbacreview->getLocalRoles($ref_id);
 
         $sorted_role_ids = [];
-        $counter = 2;
 
         foreach ($role_ids as $role_id) {
             $role_title = ilObject::_lookupTitle($role_id);

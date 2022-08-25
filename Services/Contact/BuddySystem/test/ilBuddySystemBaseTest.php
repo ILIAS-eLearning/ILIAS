@@ -49,7 +49,6 @@ class ilBuddySystemBaseTest extends TestCase
     }
 
     /**
-     * @param string $name
      * @param mixed $value
      */
     protected function setGlobalVariable(string $name, $value): void

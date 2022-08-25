@@ -34,19 +34,13 @@ class ilMailSearchGUI
     protected ilObjectDataCache $object_data_cache;
     private ilLanguage $lng;
     private ilFormatMail $umail;
-    private bool $errorDelete = false;
-    /**
-     * @var ilWorkspaceAccessHandler|null|ilPortfolioAccessHandler
-     */
-    private $wsp_access_handler = null;
-    private ?int $wsp_node_id = null;
     private GlobalHttpState $http;
     private Refinery $refinery;
 
     /**
      * @param ilWorkspaceAccessHandler|null|ilPortfolioAccessHandler $wsp_access_handler
      */
-    public function __construct($wsp_access_handler = null, ?int $wsp_node_id = null)
+    public function __construct(private $wsp_access_handler = null, private ?int $wsp_node_id = null)
     {
         /** @var $DIC \ILIAS\DI\Container */
         global $DIC;
@@ -59,9 +53,6 @@ class ilMailSearchGUI
         $this->http = $DIC->http();
         $this->refinery = $DIC->refinery();
 
-        $this->wsp_access_handler = $wsp_access_handler;
-        $this->wsp_node_id = $wsp_node_id;
-
         $this->ctrl->saveParameter($this, 'mobj_id');
         $this->ctrl->saveParameter($this, 'ref');
 
@@ -70,18 +61,10 @@ class ilMailSearchGUI
 
     public function executeCommand(): bool
     {
-        $forward_class = $this->ctrl->getNextClass($this);
-        switch ($forward_class) {
-            default:
-                if (!($cmd = $this->ctrl->getCmd())) {
-                    $cmd = "showResults";
-                }
-
-                $this->$cmd();
-                break;
+        if (!($cmd = $this->ctrl->getCmd())) {
+            $cmd = "showResults";
         }
-
-        return true;
+        $this->$cmd();
     }
 
     private function isDefaultRequestContext(): bool
@@ -283,7 +266,7 @@ class ilMailSearchGUI
         }
 
         $relations = ilBuddyList::getInstanceByGlobalUser()->getLinkedRelations();
-        if (count($relations)) {
+        if (count($relations) > 0) {
             $contacts_search_result = new ilSearchResult();
 
             $query_parser = new ilQueryParser(addcslashes(ilSession::get('mail_search_search'), '%_'));
@@ -368,7 +351,7 @@ class ilMailSearchGUI
             $tbl_contacts->addColumn($this->lng->txt('lastname'), 'lastname', '15%');
             if ($has_mail_addr) {
                 foreach ($result as $key => $val) {
-                    if (!isset($val['email']) || (string) $val['email'] === '') {
+                    if (!isset($val['email']) || $val['email'] === '') {
                         $result[$key]['email'] = '&nbsp;';
                     }
                 }
@@ -413,7 +396,7 @@ class ilMailSearchGUI
         // Filter users (depends on setting in user accounts)
         $has_mail_usr = false;
         $users = ilUserFilter::getInstance()->filter($all_results->getResultIds());
-        if (count($users)) {
+        if ($users !== []) {
             $tbl_users = new ilMailSearchResultsTableGUI($this, 'usr');
             $tbl_users->setTitle($this->lng->txt('system') . ': ' . $this->lng->txt('persons'));
             $tbl_users->setRowTemplate('tpl.mail_search_users_row.html', 'Services/Contact');
@@ -469,9 +452,9 @@ class ilMailSearchGUI
             $tbl_users->addColumn($this->lng->txt('login'), 'login', '15%');
             $tbl_users->addColumn($this->lng->txt('firstname'), 'firstname', '15%');
             $tbl_users->addColumn($this->lng->txt('lastname'), 'lastname', '15%');
-            if ($has_mail_usr === true) {
+            if ($has_mail_usr) {
                 foreach ($result as $key => $val) {
-                    if (!isset($val['email']) || (string) $val['email'] === '') {
+                    if (!isset($val['email']) || $val['email'] === '') {
                         $result[$key]['email'] = '&nbsp;';
                     }
                 }
@@ -526,8 +509,8 @@ class ilMailSearchGUI
                     $roles = $this->rbacreview->getAssignableChildRoles($grp['ref_id']);
                     foreach ($roles as $role) {
                         if (
-                            strpos($role['title'], 'il_grp_member_') === 0 ||
-                            strpos($role['title'], 'il_grp_admin_') === 0
+                            str_starts_with($role['title'], 'il_grp_member_') ||
+                            str_starts_with($role['title'], 'il_grp_admin_')
                         ) {
                             // FIX for Mantis: 7523
                             $members[] = '#' . $role['title'];
@@ -553,7 +536,7 @@ class ilMailSearchGUI
                 $visible_groups[] = $grp;
             }
 
-            if ($visible_groups) {
+            if ($visible_groups !== []) {
                 $tbl_grp->setData($result);
 
                 if ($this->isDefaultRequestContext()) {

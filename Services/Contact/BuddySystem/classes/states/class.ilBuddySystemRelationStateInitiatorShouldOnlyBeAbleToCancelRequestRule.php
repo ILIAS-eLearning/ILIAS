@@ -30,11 +30,7 @@ class ilBuddySystemRelationStateInitiatorShouldOnlyBeAbleToCancelRequestRule ext
             return false;
         }
 
-        if (!$this->relation->isOwnedByActor()) {
-            return false;
-        }
-
-        return true;
+        return $this->relation->isOwnedByActor();
     }
 
     public function __invoke(ilBuddySystemRelationState $state): bool

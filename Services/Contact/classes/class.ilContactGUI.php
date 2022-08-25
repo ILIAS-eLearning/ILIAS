@@ -358,7 +358,7 @@ class ilContactGUI
             if ($usr_ids === []) {
                 throw new LengthException('mail_select_one_entry');
             }
-        } catch (Exception $e) {
+        } catch (Exception) {
             $this->tpl->setOnScreenMessage('info', $this->lng->txt('mail_select_one_entry'));
             $this->showContacts();
             return;
@@ -370,7 +370,7 @@ class ilContactGUI
         }
         $logins = array_filter($logins);
 
-        if (count($logins) > 0) {
+        if ($logins !== []) {
             $mail_data = $this->umail->getSavedData();
             if (!is_array($mail_data)) {
                 $this->umail->savePostData($this->user->getId(), [], '', '', '', '', '', false);
@@ -413,7 +413,7 @@ class ilContactGUI
             if ($usr_ids === []) {
                 throw new LengthException('select_one');
             }
-        } catch (Exception $e) {
+        } catch (Exception) {
             $this->tpl->setOnScreenMessage('info', $this->lng->txt('select_one'), true);
             $this->ctrl->redirect($this);
         }
@@ -469,11 +469,11 @@ class ilContactGUI
         if (count($no_access) || count($no_login)) {
             $message = '';
 
-            if (count($no_access) > 0) {
+            if ($no_access !== []) {
                 $message .= $this->lng->txt('chat_users_without_permission') . ':<br>';
                 $list = '';
 
-                foreach ($no_access as $usr_id => $login) {
+                foreach ($no_access as $login) {
                     $list .= '<li>' . $login . '</li>';
                 }
 
@@ -482,7 +482,7 @@ class ilContactGUI
                 $message .= '</ul>';
             }
 
-            if (count($no_login) > 0) {
+            if ($no_login !== []) {
                 $message .= $this->lng->txt('chat_users_without_login') . ':<br>';
                 $list = '';
 
@@ -503,11 +503,7 @@ class ilContactGUI
 
         $ref_id = $room->getRefIdByRoomId($room_id);
 
-        if ($scope) {
-            $url = ilLink::_getStaticLink($ref_id, 'chtr', true, '_' . $scope);
-        } else {
-            $url = ilLink::_getStaticLink($ref_id, 'chtr');
-        }
+        $url = $scope !== 0 ? ilLink::_getStaticLink($ref_id, 'chtr', true, '_' . $scope) : ilLink::_getStaticLink($ref_id, 'chtr');
         $link = '<p><a target="chatframe" href="' . $url . '" title="' . $this->lng->txt('goto_invitation_chat') . '">' . $this->lng->txt('goto_invitation_chat') . '</a></p>';
 
         $userlist = [];
@@ -523,7 +519,7 @@ class ilContactGUI
             $userlist[] = '<li>' . $valid_user_to_login_map[$id] . '</li>';
         }
 
-        if ($userlist) {
+        if ($userlist !== []) {
             $this->tpl->setOnScreenMessage('success', $this->lng->txt('chat_users_have_been_invited') . '<ul>' . implode('', $userlist) . '</ul>' . $link, true);
         }
 
@@ -547,7 +543,7 @@ class ilContactGUI
                     'usr_id',
                     $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->int())
                 );
-            } catch (Exception $e) {
+            } catch (Exception) {
                 $usr_ids = [];
             }
         }
@@ -565,7 +561,7 @@ class ilContactGUI
         $chat_rooms = $ilChatroom->getAccessibleRoomIdByTitleMap($this->user->getId());
         $subrooms = [];
 
-        foreach ($chat_rooms as $room_id => $title) {
+        foreach (array_keys($chat_rooms) as $room_id) {
             $subrooms[] = $ilChatroom->getPrivateSubRooms($room_id, $this->user->getId());
         }
 

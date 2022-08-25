@@ -73,8 +73,8 @@ class ilBuddySystemStateFactoryTest extends ilBuddySystemBaseTest
             $this->assertThat(count($otions), $this->greaterThan(0));
 
             array_walk($otions, function (string $value, string $key) use ($tableFilterStateMapper, $state): void {
-                if (get_class($state) === ilBuddySystemRequestedRelationState::class) {
-                    if ($key === get_class($state) . '_a') {
+                if ($state instanceof \ilBuddySystemRequestedRelationState) {
+                    if ($key === $state::class . '_a') {
                         $relation = $this->getMockBuilder(ilBuddySystemRelation::class)->disableOriginalConstructor()->getMock();
                         $relation->method('isOwnedByActor')->willReturn(false);
 
@@ -83,7 +83,7 @@ class ilBuddySystemStateFactoryTest extends ilBuddySystemBaseTest
                         $relation = $this->getMockBuilder(ilBuddySystemRelation::class)->disableOriginalConstructor()->getMock();
                         $relation->method('isOwnedByActor')->willReturn(true);
                         $this->assertTrue($status = $tableFilterStateMapper->filterMatchesRelation($key, $relation));
-                    } elseif ($key === get_class($state) . '_p') {
+                    } elseif ($key === $state::class . '_p') {
                         $relation = $this->getMockBuilder(ilBuddySystemRelation::class)->disableOriginalConstructor()->getMock();
                         $relation->method('isOwnedByActor')->willReturn(true);
 

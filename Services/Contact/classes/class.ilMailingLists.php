@@ -25,15 +25,13 @@ declare(strict_types=1);
 class ilMailingLists
 {
     private ilDBInterface $db;
-    private ilObjUser $user;
     private ?ilMailingList $ml = null;
 
-    public function __construct(ilObjUser $a_user)
+    public function __construct(private ilObjUser $user)
     {
         global $DIC;
 
         $this->db = $DIC['ilDB'];
-        $this->user = $a_user;
     }
 
     public function isOwner(int $a_ml_id, int $a_usr_id): bool
@@ -62,7 +60,7 @@ class ilMailingLists
         $entries = [];
 
         foreach ($a_ids as $id) {
-            $entries[] = new ilMailingList($this->user, (int) $id);
+            $entries[] = new ilMailingList($this->user, $id);
         }
 
         return $entries;

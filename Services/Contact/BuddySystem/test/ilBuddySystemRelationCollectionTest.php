@@ -26,7 +26,6 @@ class ilBuddySystemRelationCollectionTest extends ilBuddySystemBaseTest
 {
     /**
      * @dataProvider provideElements
-     * @param array $elements
      */
     public function testElementsCanBeInitiallyAdded(array $elements): void
     {
@@ -46,7 +45,6 @@ class ilBuddySystemRelationCollectionTest extends ilBuddySystemBaseTest
 
     /**
      * @dataProvider provideElements
-     * @param array $elements
      */
     public function testElementsCanBeAddedAndRemoved(array $elements): void
     {
@@ -98,7 +96,6 @@ class ilBuddySystemRelationCollectionTest extends ilBuddySystemBaseTest
 
     /**
      * @dataProvider provideElements
-     * @param array $elements
      */
     public function testIterator(array $elements): void
     {
@@ -133,7 +130,7 @@ class ilBuddySystemRelationCollectionTest extends ilBuddySystemBaseTest
         $collection->add(3);
         $collection->add(4);
 
-        $this->assertCount(2, $collection->filter(function ($elm) {
+        $this->assertCount(2, $collection->filter(function ($elm): bool {
             return $elm % 2 === 0;
         })->toArray());
     }
@@ -149,6 +146,9 @@ class ilBuddySystemRelationCollectionTest extends ilBuddySystemBaseTest
         $this->assertSame([3], $collection->slice(2, 1)->getValues());
     }
 
+    /**
+     * @return array{indexed: int[][], associative: array<int, array{A: string, B: string, C: string}>, mixed: array<int, array<int|string, int|string>>, relations: \ilBuddySystemRelation&\PHPUnit\Framework\MockObject\MockObject[][]}
+     */
     public function provideElements(): array
     {
         $relation1 = $this->getMockBuilder(ilBuddySystemRelation::class)->disableOriginalConstructor()->getMock();

@@ -22,6 +22,7 @@ declare(strict_types=1);
  * Class ilBuddySystemRelationStateCollection
  * A collection of relation states
  * @author Michael Jansen <mjansen@databay.de>
+ * @implements ilBuddySystemCollection<ilBuddySystemRelationState>
  */
 class ilBuddySystemRelationStateCollection extends ilBuddySystemArrayCollection
 {

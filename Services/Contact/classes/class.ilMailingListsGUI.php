@@ -77,20 +77,10 @@ class ilMailingListsGUI
             $this->error->raiseError($this->lng->txt('msg_no_perm_read'), $this->error->MESSAGE);
         }
 
-        $forward_class = $this->ctrl->getNextClass($this);
-
-        switch ($forward_class) {
-            default:
-                if (!($cmd = $this->ctrl->getCmd())) {
-                    $cmd = 'showMailingLists';
-                }
-
-                $this->$cmd();
-                break;
+        if (!($cmd = $this->ctrl->getCmd())) {
+            $cmd = 'showMailingLists';
         }
-
-
-        return true;
+        $this->$cmd();
     }
 
     /**
@@ -165,7 +155,7 @@ class ilMailingListsGUI
                 }
             }
 
-            if ($counter) {
+            if ($counter !== 0) {
                 $this->tpl->setOnScreenMessage('info', $this->lng->txt('mail_deleted_entry'));
             }
         } else {
@@ -208,7 +198,7 @@ class ilMailingListsGUI
             }
         }
 
-        if (count($lists)) {
+        if ($lists !== []) {
             $mail_data = $this->umail->appendSearchResult($lists, 'to');
             $this->umail->savePostData(
                 (int) $mail_data['user_id'],
@@ -247,7 +237,7 @@ class ilMailingListsGUI
 
         $result = [];
         $entries = $this->mlists->getAll();
-        if (count($entries)) {
+        if ($entries !== []) {
             $tbl->enable('select_all');
             $counter = 0;
 
@@ -335,7 +325,7 @@ class ilMailingListsGUI
             }
 
             $this->ctrl->setParameter($this, 'ml_id', $this->mlists->getCurrentMailingList()->getId());
-            $this->initForm('edit');
+            $this->initForm();
         } else {
             $this->initForm();
         }
@@ -347,7 +337,7 @@ class ilMailingListsGUI
             $this->mlists->getCurrentMailingList()->setDescription(
                 $this->form_gui->getInput('description')
             );
-            if ($this->mlists->getCurrentMailingList()->getId()) {
+            if ($this->mlists->getCurrentMailingList()->getId() !== 0) {
                 $this->mlists->getCurrentMailingList()->setChangedate(date('Y-m-d H:i:s'));
                 $this->mlists->getCurrentMailingList()->update();
                 $this->tpl->setOnScreenMessage('success', $this->lng->txt('saved_successfully'));
@@ -371,22 +361,18 @@ class ilMailingListsGUI
         $this->tpl->printToStdout();
     }
 
-    private function initForm(string $a_type = 'create'): void
+    private function initForm(): void
     {
         $this->form_gui = new ilPropertyFormGUI();
-
         $this->form_gui->setFormAction($this->ctrl->getFormAction($this, 'saveForm'));
         $this->form_gui->setTitle($this->lng->txt('mail_mailing_list'));
-
         $titleGui = new ilTextInputGUI($this->lng->txt('title'), 'title');
         $titleGui->setRequired(true);
         $this->form_gui->addItem($titleGui);
-
         $descriptionGui = new ilTextAreaInputGUI($this->lng->txt('description'), 'description');
         $descriptionGui->setCols(40);
         $descriptionGui->setRows(8);
         $this->form_gui->addItem($descriptionGui);
-
         $this->form_gui->addCommandButton('saveForm', $this->lng->txt('save'));
         $this->form_gui->addCommandButton('showMailingLists', $this->lng->txt('cancel'));
     }
@@ -418,7 +404,7 @@ class ilMailingListsGUI
             }
 
             $this->ctrl->setParameter($this, 'ml_id', $this->mlists->getCurrentMailingList()->getId());
-            $this->initForm('edit');
+            $this->initForm();
             $this->setValuesByObject();
         } else {
             $this->initForm();
@@ -431,7 +417,7 @@ class ilMailingListsGUI
 
     public function showMembersList(): bool
     {
-        if (!$this->mlists->getCurrentMailingList()->getId()) {
+        if ($this->mlists->getCurrentMailingList()->getId() === 0) {
             $this->showMailingLists();
             return true;
         }
@@ -464,7 +450,7 @@ class ilMailingListsGUI
             ),
         );
 
-        if (count($availale_usr_ids) > 0) {
+        if ($availale_usr_ids !== []) {
             $create_btn = ilLinkButton::getInstance();
             $create_btn->setCaption('add');
             $create_btn->setUrl($this->ctrl->getLinkTarget($this, 'showAssignmentForm'));
@@ -472,7 +458,7 @@ class ilMailingListsGUI
         }
 
         $assigned_entries = $this->mlists->getCurrentMailingList()->getAssignedEntries();
-        if (count($assigned_entries)) {
+        if ($assigned_entries !== []) {
             $tbl->enable('select_all');
             $tbl->setSelectAllCheckbox('a_id');
 
@@ -609,11 +595,9 @@ class ilMailingListsGUI
         }
 
         $assigned_entries = $this->mlists->getCurrentMailingList()->getAssignedEntries();
-        if (count($assigned_entries)) {
-            foreach ($assigned_entries as $assigned_entry) {
-                if (array_key_exists($assigned_entry['usr_id'], $options)) {
-                    unset($options[$assigned_entry['usr_id']]);
-                }
+        foreach ($assigned_entries as $assigned_entry) {
+            if (array_key_exists($assigned_entry['usr_id'], $options)) {
+                unset($options[$assigned_entry['usr_id']]);
             }
         }
 
@@ -670,7 +654,7 @@ class ilMailingListsGUI
 
     public function showAssignmentForm(?ilPropertyFormGUI $form = null): bool
     {
-        if (!$this->mlists->getCurrentMailingList()->getId()) {
+        if ($this->mlists->getCurrentMailingList()->getId() === 0) {
             $this->showMembersList();
             return true;
         }

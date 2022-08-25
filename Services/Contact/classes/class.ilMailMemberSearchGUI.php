@@ -30,23 +30,18 @@ class ilMailMemberSearchGUI
     private ServerRequestInterface $httpRequest;
     /** @var array{role_id: int, mailbox: string, form_option_title: string, default_checked: bool}[] */
     private array $mail_roles;
-    /** @var ilObjGroupGUI|ilObjCourseGUI|ilMembershipGUI */
-    private $gui;
-    private ilAbstractMailMemberRoles $objMailMemberRoles;
     private ?ilParticipants $objParticipants;
     private ilCtrlInterface $ctrl;
     private ilGlobalTemplateInterface $tpl;
     private ilLanguage $lng;
     private ilAccessHandler $access;
-    public int $ref_id;
 
     /**
      * ilMailMemberSearchGUI constructor.
      * @param ilObjGroupGUI|ilObjCourseGUI|ilMembershipGUI $gui
-     * @param int $ref_id
      * @param ilAbstractMailMemberRoles $objMailMemberRoles
      */
-    public function __construct(object $gui, int $ref_id, ilAbstractMailMemberRoles $objMailMemberRoles)
+    public function __construct(private object $gui, public int $ref_id, private ilAbstractMailMemberRoles $objMailMemberRoles)
     {
         global $DIC;
 
@@ -58,18 +53,13 @@ class ilMailMemberSearchGUI
 
         $this->lng->loadLanguageModule('mail');
         $this->lng->loadLanguageModule('search');
-
-        $this->gui = $gui;
-        $this->ref_id = $ref_id;
-
-        $this->objMailMemberRoles = $objMailMemberRoles;
         $this->mail_roles = $objMailMemberRoles->getMailRoles($ref_id);
     }
 
 
     public function executeCommand(): bool
     {
-        $next_class = $this->ctrl->getNextClass($this);
+        $this->ctrl->getNextClass($this);
         $cmd = $this->ctrl->getCmd();
 
         $this->ctrl->setReturn($this, '');
@@ -147,7 +137,7 @@ class ilMailMemberSearchGUI
         $form = $this->initMailToMembersForm();
         if ($form->checkInput()) {
             if ($form->getInput('mail_member_type') === 'mail_member_roles') {
-                if (is_array($form->getInput('roles')) && count($form->getInput('roles')) > 0) {
+                if (is_array($form->getInput('roles')) && $form->getInput('roles') !== []) {
                     $role_mail_boxes = [];
                     $roles = $form->getInput('roles');
                     foreach ($roles as $role_id) {
@@ -236,7 +226,7 @@ class ilMailMemberSearchGUI
 
     protected function sendMailToSelectedUsers(): void
     {
-        if (!isset($this->httpRequest->getParsedBody()['user_ids']) || !is_array($this->httpRequest->getParsedBody()['user_ids']) || 0 === count($this->httpRequest->getParsedBody()['user_ids'])) {
+        if (!isset($this->httpRequest->getParsedBody()['user_ids']) || !is_array($this->httpRequest->getParsedBody()['user_ids']) || [] === $this->httpRequest->getParsedBody()['user_ids']) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt("no_checkbox"));
             $this->showSelectableUsers();
             return;
@@ -247,7 +237,7 @@ class ilMailMemberSearchGUI
             $rcps[] = ilObjUser::_lookupLogin($usr_id);
         }
 
-        if (!count(array_filter($rcps))) {
+        if (array_filter($rcps) === []) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt("no_checkbox"));
             $this->showSelectableUsers();
             return;
@@ -281,9 +271,6 @@ class ilMailMemberSearchGUI
         return $this->objParticipants;
     }
 
-    /**
-     * @param ilParticipants $objParticipants
-     */
     public function setObjParticipants(ilParticipants $objParticipants): void
     {
         $this->objParticipants = $objParticipants;
@@ -329,7 +316,7 @@ class ilMailMemberSearchGUI
         foreach ($mail_roles as $role) {
             $chk_role = new ilCheckboxInputGUI($role['form_option_title'], 'roles[]');
 
-            if (isset($role['default_checked']) && $role['default_checked'] === true) {
+            if (isset($role['default_checked']) && $role['default_checked']) {
                 $chk_role->setChecked(true);
             }
             $chk_role->setValue((string) $role['role_id']);

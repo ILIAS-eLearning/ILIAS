@@ -510,11 +510,6 @@ class ilBuddyListTest extends ilBuddySystemBaseTest
         $this->assertEquals(array_keys($relations), $buddyList->getRelationUserIds());
     }
 
-    /**
-     * @param ilBuddySystemRelation $relation
-     * @param ilBuddySystemRelationState $state
-     * @throws ReflectionException
-     */
     private function setPriorRelationState(
         ilBuddySystemRelation $relation,
         ilBuddySystemRelationState $state

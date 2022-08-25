@@ -28,10 +28,8 @@ class ilMailSearchObjectsTableGUI extends ilTable2GUI
 
     /**
      * @param ilMailSearchCoursesGUI|ilMailSearchGroupsGUI $a_parent_obj
-     * @param string $type
-     * @param string $context
      */
-    public function __construct(object $a_parent_obj, string $type = 'crs', string $context = 'mail')
+    public function __construct($a_parent_obj, string $type = 'crs', string $context = 'mail')
     {
         global $DIC;
 
