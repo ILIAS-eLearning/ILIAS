@@ -13267,11 +13267,13 @@ img.ilSmallIcon {
   width: 100%;
 }
 .il_VAccordionInnerContainer {
+  border: 1px solid #dddddd;
   margin-bottom: 12px;
+  border-radius: 3px;
 }
-.il_VAccordionContent .form-horizontal,
-.il_HAccordionContent .form-horizontal {
-  background-color: #f9f9f9;
+.il_VAccordionContent,
+.il_HAccordionContent {
+  padding-top: 9px;
 }
 .il_HAccordionHeadActive,
 .il_VAccordionHeadActive {
@@ -17152,8 +17154,8 @@ div.ilRatingOverlay {
 }
 /* Modules/Excercise */
 .ilExcAssignmentBody {
-  padding: 20px;
-  background-color: #f9f9f9;
+  padding-left: 15px;
+  padding-right: 15px;
 }
 .ilExcAssignmentHead img {
   display: block;
