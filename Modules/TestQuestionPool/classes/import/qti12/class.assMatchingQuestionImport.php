@@ -225,10 +225,10 @@ class assMatchingQuestionImport extends assQuestionImport
             // @PHP8-CR: If you look above, how $this->object->addDefinition does in fact take an object, I take this
             // issue as an indicator for a bigger issue and won't suppress / "quickfix" this but postpone further
             // analysis, eventually involving T&A TechSquad (see also remark in assMatchingQuestionGUI
-            $this->object->addTerm(new assAnswerMatchingTerm($term["term"], $term['answerimage']['label'], $term["ident"]));
+            $this->object->addTerm(new assAnswerMatchingTerm($term["term"], $term['answerimage']['label'] ?? '', $term["ident"]));
         }
         foreach ($definitions as $definitionindex => $definition) {
-            $this->object->addDefinition(new assAnswerMatchingDefinition($definition["answertext"], $definition['answerimage']['label'], $definition["answerorder"]));
+            $this->object->addDefinition(new assAnswerMatchingDefinition($definition["answertext"], $definition['answerimage']['label'] ?? '', $definition["answerorder"]));
         }
 
         if (strlen($extended_shuffle) > 0) {

@@ -277,7 +277,7 @@ class assClozeTestImport extends assQuestionImport
             foreach ($gap["answers"] as $index => $answer) {
                 include_once "./Modules/TestQuestionPool/classes/class.assAnswerCloze.php";
                 $gapanswer = new assAnswerCloze($answer["answertext"], $answer["points"], $answer["answerorder"]);
-                $gapanswer->setGapSize((int) $gap["gap_size"]);
+                $gapanswer->setGapSize((int) ($gap["gap_size"] ?? 0));
                 switch ($clozegap->getType()) {
                     case CLOZE_SELECT:
                         $clozegap->setShuffle($answer["shuffle"]);
@@ -287,7 +287,7 @@ class assClozeTestImport extends assQuestionImport
                         $gapanswer->setUpperBound($gap["maxnumber"]);
                         break;
                 }
-                $clozegap->setGapSize((int) $gap["gap_size"]);
+                $clozegap->setGapSize((int) ($gap["gap_size"] ?? 0));
                 $clozegap->addItem($gapanswer);
                 array_push($gapcontent, $answer["answertext"]);
             }

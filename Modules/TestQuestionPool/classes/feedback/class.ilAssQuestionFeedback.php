@@ -659,7 +659,7 @@ abstract class ilAssQuestionFeedback
     {
         $pageObjectId = $this->getGenericFeedbackId($questionId, $solutionCompleted);
         
-        if ($pageObjectId != -1) {
+        if ($pageObjectId == -1) {
             $pageObjectId = $this->saveGenericFeedbackContent($questionId, $solutionCompleted, '');
         }
         

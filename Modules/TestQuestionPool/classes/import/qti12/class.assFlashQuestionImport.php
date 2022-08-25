@@ -66,7 +66,7 @@ class assFlashQuestionImport extends assQuestionImport
         $this->object->setWidth($item->getMetadataEntry("width"));
         $this->object->setHeight($item->getMetadataEntry("height"));
         $this->object->setApplet($item->getMetadataEntry("applet"));
-        $this->object->setParameters(unserialize($item->getMetadataEntry("params"), false));
+        $this->object->setParameters(unserialize($item->getMetadataEntry("params"), ["allowed_classes" => false]));
         $this->object->setPoints($item->getMetadataEntry("points"));
         // additional content editing mode information
         $this->object->setAdditionalContentEditingMode(

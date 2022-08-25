@@ -198,7 +198,7 @@ class assFlashQuestion extends assQuestion implements ilObjQuestionScoringAdjust
                 $this->setWidth($data["width"]);
                 $this->setHeight($data["height"]);
                 $this->setApplet($data["applet"]);
-                $this->parameters = unserialize($data["params"],false);
+                $this->parameters = unserialize($data["params"],["allowed_classes" => false]);
                 if (!is_array($this->parameters)) {
                     $this->clearParameters();
                 }

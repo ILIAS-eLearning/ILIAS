@@ -84,6 +84,8 @@ class assOrderingQuestionImport extends assQuestionImport
                             foreach ($rendertype->response_labels as $response_label) {
                                 $ident = $response_label->getIdent();
                                 $answertext = "";
+                                $answerimage = [];
+                                $answerdepth = 0;
                                 foreach ($response_label->material as $mat) {
                                     for ($m = 0; $m < $mat->getMaterialCount(); $m++) {
                                         $foundmat = $mat->getMaterial($m);
@@ -211,7 +213,7 @@ class assOrderingQuestionImport extends assQuestionImport
         $solanswers = array();
         
         foreach ($answers as $answer) {
-            $solanswers[$answer["solutionorder"]] = $answer;
+            $solanswers[$answer["solutionorder"] ?? null] = $answer;
         }
         ksort($solanswers);
         $position = 0;
@@ -230,7 +232,7 @@ class assOrderingQuestionImport extends assQuestionImport
             }
             
             if ($this->object->isImageOrderingType()) {
-                $element->setContent($answer["answerimage"]["label"]);
+                $element->setContent($answer["answerimage"]["label"] ?? '');
             } else {
                 $element->setContent($answer["answertext"]);
             }
@@ -256,7 +258,7 @@ class assOrderingQuestionImport extends assQuestionImport
         foreach ($answers as $answer) {
             if ($type == OQ_PICTURES || $type == OQ_NESTED_PICTURES) {
                 include_once "./Services/Utilities/classes/class.ilUtil.php";
-                if (strlen($answer['answerimage']['label']) && strlen($answer['answerimage']['content'])) {
+                if (strlen($answer['answerimage']['label'] ?? '') && strlen($answer['answerimage']['content'])) {
                     $image = base64_decode($answer["answerimage"]["content"]);
                     $imagepath = $this->object->getImagePath();
                     if (!file_exists($imagepath)) {
