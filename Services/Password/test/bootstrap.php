@@ -18,5 +18,5 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
-require_once 'libs/composer/vendor/autoload.php';
-require_once 'ilPasswordBaseTest.php';
+require_once __DIR__ . '/../../../libs/composer/vendor/autoload.php';
+require_once __DIR__ . '/ilPasswordBaseTest.php';

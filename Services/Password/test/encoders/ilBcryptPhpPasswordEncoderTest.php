@@ -23,7 +23,7 @@ declare(strict_types=1);
  * @author  Michael Jansen <mjansen@databay.de>
  * @package ServicesPassword
  */
-class ilBcryptPhpPasswordEncoderTest extends ilPasswordBaseTest
+final class ilBcryptPhpPasswordEncoderTest extends ilPasswordBaseTest
 {
     /** @var string */
     private const VALID_COSTS = '08';

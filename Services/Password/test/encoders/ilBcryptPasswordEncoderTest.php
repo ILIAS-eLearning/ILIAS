@@ -25,7 +25,7 @@ use org\bovigo\vfs;
  * @author  Michael Jansen <mjansen@databay.de>
  * @package ServicesPassword
  */
-class ilBcryptPasswordEncoderTest extends ilPasswordBaseTest
+final class ilBcryptPasswordEncoderTest extends ilPasswordBaseTest
 {
     /** @var string */
     private const VALID_COSTS = '08';
@@ -42,8 +42,8 @@ class ilBcryptPasswordEncoderTest extends ilPasswordBaseTest
     /** @var string */
     private const PASSWORD_SALT = 'salt';
 
-    protected vfs\vfsStreamDirectory $testDirectory;
-    protected string $testDirectoryUrl;
+    private vfs\vfsStreamDirectory $testDirectory;
+    private string $testDirectoryUrl;
 
     public function getTestDirectory(): vfs\vfsStreamDirectory
     {
@@ -97,7 +97,7 @@ class ilBcryptPasswordEncoderTest extends ilPasswordBaseTest
     private function getInstanceWithConfiguredDataDirectory(): ilBcryptPasswordEncoder
     {
         return new ilBcryptPasswordEncoder([
-            'data_directory' => $this->getTestDirectoryUrl()
+            'data_directory' => $this->testDirectoryUrl
         ]);
     }
 
@@ -107,19 +107,19 @@ class ilBcryptPasswordEncoderTest extends ilPasswordBaseTest
 
         $security_flaw_ignoring_encoder = new ilBcryptPasswordEncoder([
             'ignore_security_flaw' => true,
-            'data_directory' => $this->getTestDirectoryUrl()
+            'data_directory' => $this->testDirectoryUrl
         ]);
         $this->assertTrue($security_flaw_ignoring_encoder->isSecurityFlawIgnored());
 
         $security_flaw_respecting_encoder = new ilBcryptPasswordEncoder([
             'ignore_security_flaw' => false,
-            'data_directory' => $this->getTestDirectoryUrl()
+            'data_directory' => $this->testDirectoryUrl
         ]);
         $this->assertFalse($security_flaw_respecting_encoder->isSecurityFlawIgnored());
 
         $encoder = new ilBcryptPasswordEncoder([
             'cost' => self::VALID_COSTS,
-            'data_directory' => $this->getTestDirectoryUrl()
+            'data_directory' => $this->testDirectoryUrl
         ]);
         $this->assertInstanceOf(ilBcryptPasswordEncoder::class, $encoder);
         $this->assertSame(self::VALID_COSTS, $encoder->getCosts());
@@ -260,8 +260,8 @@ class ilBcryptPasswordEncoderTest extends ilPasswordBaseTest
     {
         $this->skipIfvfsStreamNotSupported();
 
-        $this->getTestDirectory()->chmod(0777);
-        vfs\vfsStream::newFile(ilBcryptPasswordEncoder::SALT_STORAGE_FILENAME)->withContent(self::CLIENT_SALT)->at($this->getTestDirectory());
+        $this->testDirectory->chmod(0777);
+        vfs\vfsStream::newFile(ilBcryptPasswordEncoder::SALT_STORAGE_FILENAME)->withContent(self::CLIENT_SALT)->at($this->testDirectory);
 
         $encoder = $this->getInstanceWithConfiguredDataDirectory();
         $this->assertSame(self::CLIENT_SALT, $encoder->getClientSalt());
@@ -271,7 +271,7 @@ class ilBcryptPasswordEncoderTest extends ilPasswordBaseTest
     {
         $this->skipIfvfsStreamNotSupported();
 
-        $this->getTestDirectory()->chmod(0777);
+        $this->testDirectory->chmod(0777);
 
         $encoder = $this->getInstanceWithConfiguredDataDirectory();
         $this->assertNotNull($encoder->getClientSalt());
@@ -282,7 +282,7 @@ class ilBcryptPasswordEncoderTest extends ilPasswordBaseTest
         $this->skipIfvfsStreamNotSupported();
 
         $this->expectException(ilPasswordException::class);
-        $this->getTestDirectory()->chmod(0000);
+        $this->testDirectory->chmod(0000);
 
         $this->getInstanceWithConfiguredDataDirectory();
     }

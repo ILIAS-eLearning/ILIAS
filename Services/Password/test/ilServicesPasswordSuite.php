@@ -28,7 +28,7 @@ require_once __DIR__ . '/bootstrap.php';
  * @author  Michael Jansen <mjansen@databay.de>
  * @package ServicesPassword
  */
-class ilServicesPasswordSuite extends TestSuite
+final class ilServicesPasswordSuite extends TestSuite
 {
     public static function suite(): self
     {

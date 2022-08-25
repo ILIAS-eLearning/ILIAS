@@ -24,7 +24,7 @@ declare(strict_types=1);
  * @package ServicesPassword
  * @deprecated
  */
-class ilBcryptPasswordEncoder extends ilBcryptPhpPasswordEncoder
+final class ilBcryptPasswordEncoder extends ilBcryptPhpPasswordEncoder
 {
     /** @var int */
     private const MIN_SALT_SIZE = 16;
@@ -53,14 +53,10 @@ class ilBcryptPasswordEncoder extends ilBcryptPhpPasswordEncoder
         }
 
         parent::__construct($config);
-    }
-
-    protected function init(): void
-    {
         $this->readClientSalt();
     }
 
-    protected function isBcryptSupported(): bool
+    private function isBcryptSupported(): bool
     {
         return PHP_VERSION_ID >= 50307;
     }
@@ -110,7 +106,7 @@ class ilBcryptPasswordEncoder extends ilBcryptPhpPasswordEncoder
 
     public function encodePassword(string $raw, string $salt): string
     {
-        if (!$this->getClientSalt()) {
+        if (!$this->client_salt) {
             throw new ilPasswordException('Missing client salt.');
         }
 
@@ -123,7 +119,7 @@ class ilBcryptPasswordEncoder extends ilBcryptPhpPasswordEncoder
 
     public function isPasswordValid(string $encoded, string $raw, string $salt): bool
     {
-        if (!$this->getClientSalt()) {
+        if (!$this->client_salt) {
             throw new ilPasswordException('Missing client salt.');
         }
 
@@ -145,9 +141,9 @@ class ilBcryptPasswordEncoder extends ilBcryptPhpPasswordEncoder
         return false;
     }
 
-    protected function encode(string $raw, string $userSecret): string
+    private function encode(string $raw, string $userSecret): string
     {
-        $clientSecret = $this->getClientSalt();
+        $clientSecret = $this->client_salt;
         $hashedPassword = hash_hmac(
             'whirlpool',
             str_pad($raw, strlen($raw) * 4, sha1($userSecret), STR_PAD_BOTH),
@@ -164,12 +160,12 @@ class ilBcryptPasswordEncoder extends ilBcryptPhpPasswordEncoder
          * Check for security flaw in the bcrypt implementation used by crypt()
          * @see http://php.net/security/crypt_blowfish.php
          */
-        if ($this->isBcryptSupported() && !$this->isBackwardCompatibilityEnabled()) {
+        if ($this->isBcryptSupported() && !$this->backward_compatibility) {
             $prefix = '$2y$';
         } else {
             $prefix = '$2a$';
             // check if the password contains 8-bit character
-            if (!$this->isSecurityFlawIgnored() && preg_match('#[\x80-\xFF]#', $raw)) {
+            if (!$this->is_security_flaw_ignored && preg_match('#[\x80-\xFF]#', $raw)) {
                 throw new ilPasswordException(
                     'The bcrypt implementation used by PHP can contain a security flaw ' .
                     'using passwords with 8-bit characters. ' .
@@ -186,12 +182,12 @@ class ilBcryptPasswordEncoder extends ilBcryptPhpPasswordEncoder
         return $saltedPassword;
     }
 
-    protected function check(string $encoded, string $raw, string $salt): bool
+    private function check(string $encoded, string $raw, string $salt): bool
     {
         $hashedPassword = hash_hmac(
             'whirlpool',
             str_pad($raw, strlen($raw) * 4, sha1($salt), STR_PAD_BOTH),
-            $this->getClientSalt(),
+            $this->client_salt,
             true
         );
 
@@ -200,7 +196,7 @@ class ilBcryptPasswordEncoder extends ilBcryptPhpPasswordEncoder
 
     public function getClientSaltLocation(): string
     {
-        return $this->getDataDirectory() . '/' . self::SALT_STORAGE_FILENAME;
+        return $this->data_directory . '/' . self::SALT_STORAGE_FILENAME;
     }
 
     private function readClientSalt(): void
@@ -232,7 +228,7 @@ class ilBcryptPasswordEncoder extends ilBcryptPhpPasswordEncoder
         });
 
         try {
-            $result = file_put_contents($location, $this->getClientSalt());
+            $result = file_put_contents($location, $this->client_salt);
             if (!$result) {
                 throw new ilPasswordException(sprintf(
                     'Could not store the client salt in: %s. Please contact an administrator.',
@@ -243,7 +239,7 @@ class ilBcryptPasswordEncoder extends ilBcryptPhpPasswordEncoder
             throw new ilPasswordException(sprintf(
                 'Could not store the client salt in: %s. Please contact an administrator.',
                 $location
-            ));
+            ), $e->getCode(), $e);
         } finally {
             restore_error_handler();
         }

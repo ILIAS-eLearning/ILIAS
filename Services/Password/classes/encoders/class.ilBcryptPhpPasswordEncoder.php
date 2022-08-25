@@ -25,7 +25,9 @@ declare(strict_types=1);
  */
 class ilBcryptPhpPasswordEncoder extends ilBasePasswordEncoder
 {
-    protected string $costs = '08';
+    private const COST = 'cost';
+
+    private string $costs = '08';
 
     /**
      * @param array<string, mixed> $config
@@ -34,21 +36,15 @@ class ilBcryptPhpPasswordEncoder extends ilBasePasswordEncoder
     public function __construct(array $config = [])
     {
         foreach ($config as $key => $value) {
-            if (strtolower($key) === 'cost') {
+            if (strtolower($key) === self::COST) {
                 $this->setCosts($value);
             }
         }
 
-        if (!isset($config['cost']) && static::class === self::class) {
+        if (!isset($config[self::COST]) && static::class === self::class) {
             // Determine the costs only if they are not passed in constructor
             $this->setCosts((string) $this->benchmarkCost());
         }
-
-        $this->init();
-    }
-
-    protected function init(): void
-    {
     }
 
     /**
@@ -62,7 +58,7 @@ class ilBcryptPhpPasswordEncoder extends ilBasePasswordEncoder
         do {
             ++$cost;
             $start = microtime(true);
-            $encoder = new self(['cost' => (string) $cost]);
+            $encoder = new self([self::COST => (string) $cost]);
             $encoder->encodePassword('test', '');
             $end = microtime(true);
         } while (($end - $start) < $time_target && $cost < 32);
@@ -98,7 +94,7 @@ class ilBcryptPhpPasswordEncoder extends ilBasePasswordEncoder
         }
 
         return password_hash($raw, PASSWORD_BCRYPT, [
-            'cost' => $this->getCosts()
+            self::COST => $this->costs
         ]);
     }
 
@@ -110,7 +106,7 @@ class ilBcryptPhpPasswordEncoder extends ilBasePasswordEncoder
     public function requiresReencoding(string $encoded): bool
     {
         return password_needs_rehash($encoded, PASSWORD_BCRYPT, [
-            'cost' => $this->getCosts()
+            self::COST => $this->costs
         ]);
     }
 }

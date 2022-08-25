@@ -23,7 +23,7 @@ declare(strict_types=1);
  * @author  Michael Jansen <mjansen@databay.de>
  * @package ServicesPassword
  */
-class ilMd5PasswordEncoderTest extends ilPasswordBaseTest
+final class ilMd5PasswordEncoderTest extends ilPasswordBaseTest
 {
     public function testInstanceCanBeCreated(): ilMd5PasswordEncoder
     {

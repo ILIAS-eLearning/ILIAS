@@ -27,7 +27,7 @@ declare(strict_types=1);
  * @package ServicesPassword
  * @deprecated
  */
-class ilMd5PasswordEncoder extends ilBasePasswordEncoder
+final class ilMd5PasswordEncoder extends ilBasePasswordEncoder
 {
     public function encodePassword(string $raw, string $salt): string
     {
