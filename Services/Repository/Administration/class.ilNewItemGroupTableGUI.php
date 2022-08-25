@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -94,7 +94,7 @@ class ilNewItemGroupTableGUI extends ilTable2GUI
                 "pos" => $item["pos"],
                 "title" => $item["title"],
                 "type" => $item["type"],
-                "subitems" => is_array($subitems[$item["id"]]) ? count($subitems[$item["id"]]) : 0
+                "subitems" => is_array($subitems[$item["id"]] ?? null) ? count($subitems[$item["id"]]) : 0
             ];
         }
 

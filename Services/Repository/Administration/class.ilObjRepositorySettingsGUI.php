@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -17,6 +17,12 @@
  *********************************************************************/
 
 use ILIAS\Repository\Administration\AdministrationGUIRequest;
+use ILIAS\HTTP\GlobalHttpState;
+use ILIAS\UI\Factory as UIFactory;
+use ILIAS\UI\Renderer as UIRenderer;
+use ILIAS\Refinery\Factory as RefFactory;
+use ILIAS\UI\Component\Input\Container\Form\Standard as StandardForm;
+use ILIAS\Refinery\Constraint;
 
 /**
  * Repository settings.
@@ -30,6 +36,10 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
     protected AdministrationGUIRequest $admin_gui_request;
     protected ilErrorHandling $error;
     protected ilSetting $folder_settings;
+    protected GlobalHttpState $http;
+    protected UIFactory $factory;
+    protected UIRenderer $renderer;
+    protected RefFactory $refinery;
 
     public function __construct(
         $a_data,
@@ -44,9 +54,13 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
         $this->rbacsystem = $DIC->rbac()->system();
         $this->settings = $DIC->settings();
         $this->folder_settings = new ilSetting('fold');
+        $this->http = $DIC->http();
         $this->ctrl = $DIC->ctrl();
         $this->lng = $DIC->language();
         $this->toolbar = $DIC->toolbar();
+        $this->factory = $DIC->ui()->factory();
+        $this->renderer = $DIC->ui()->renderer();
+        $this->refinery = $DIC->refinery();
         parent::__construct($a_data, $a_id, $a_call_by_reference, $a_prepare_output);
 
         $this->type = 'reps';
@@ -118,219 +132,259 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
             );
         }
     }
-
-    public function view(ilPropertyFormGUI $a_form = null): void
+    
+    public function view(StandardForm $a_form = null) : void
     {
         $this->tabs_gui->activateTab("settings");
 
         if (!$a_form) {
             $a_form = $this->initSettingsForm();
         }
-
-        $this->tpl->setContent($a_form->getHTML());
+        
+        $this->tpl->setContent($this->renderer->render($a_form));
     }
-
-    protected function initSettingsForm(): ilPropertyFormGUI
+    
+    protected function initSettingsForm() : StandardForm
     {
         $ilSetting = $this->settings;
         $ilAccess = $this->access;
 
-        $form = new ilPropertyFormGUI();
-        $form->setTitle($this->lng->txt("settings"));
-        $form->setFormAction($this->ctrl->getFormAction($this, 'saveSettings'));
+        $read_only = !$ilAccess->checkAccess('write', '', $this->object->getRefId());
 
-        // default repository view
-        /*
-        $options = array(
-            "flat" => $this->lng->txt("flatview"),
-            "tree" => $this->lng->txt("treeview")
-            );
-        $si = new ilSelectInputGUI($this->lng->txt("def_repository_view"), "default_rep_view");
-        $si->setOptions($options);
-        $si->setInfo($this->lng->txt(""));
-        if ($ilSetting->get("default_repository_view") == "tree") {
-            $si->setValue("tree");
-        } else {
-            $si->setValue("flat");
-        }
-        $form->addItem($si);*/
-
-        //
-        $options = [
-            "" => $this->lng->txt("adm_rep_tree_only_container"),
-            "tree" => $this->lng->txt("adm_all_resource_types")
-        ];
+        $f = $this->factory->input()->field();
 
         // repository tree
-        $radg = new ilRadioGroupInputGUI($this->lng->txt("adm_rep_tree_presentation"), "tree_pres");
-        $radg->setValue($ilSetting->get("repository_tree_pres") ?? "");
-        $op1 = new ilRadioOption(
-            $this->lng->txt("adm_rep_tree_only_cntr"),
-            "",
-            $this->lng->txt("adm_rep_tree_only_cntr_info")
-        );
-        $radg->addOption($op1);
-
-        $op2 = new ilRadioOption(
-            $this->lng->txt("adm_rep_tree_all_types"),
-            "all_types",
-            $this->lng->txt("adm_rep_tree_all_types_info")
-        );
+        $op1 = $f->group(
+            [],
+            $this->lng->txt("adm_rep_tree_only_cntr")
+        )->withByline($this->lng->txt("adm_rep_tree_only_cntr_info"));
 
         // limit tree in courses and groups
-        $cb = new ilCheckboxInputGUI($this->lng->txt("adm_rep_tree_limit_grp_crs"), "rep_tree_limit_grp_crs");
-        $cb->setChecked((bool) $ilSetting->get("rep_tree_limit_grp_crs"));
-        $cb->setInfo($this->lng->txt("adm_rep_tree_limit_grp_crs_info"));
-        $op2->addSubItem($cb);
+        $cb = $f->checkbox(
+            $this->lng->txt("adm_rep_tree_limit_grp_crs"),
+            $this->lng->txt("adm_rep_tree_limit_grp_crs_info")
+        )->withValue((bool) $ilSetting->get("rep_tree_limit_grp_crs"));
 
-        $radg->addOption($op2);
+        $op2 = $f->group(
+            [
+                'rep_tree_limit_grp_crs' => $cb
+            ],
+            $this->lng->txt("adm_rep_tree_all_types")
+        )->withByline($this->lng->txt("adm_rep_tree_all_types_info"));
 
-        $form->addItem($radg);
+        $tree_pres = $f->switchableGroup(
+            [
+                '' => $op1,
+                'all_types' => $op2
+            ],
+            $this->lng->txt("adm_rep_tree_presentation")
+        )->withValue($ilSetting->get("repository_tree_pres") ?? "");
+
+        // limit items in tree (number)
+        $tree_limit_number = $f->numeric(
+            $this->lng->txt("rep_tree_limit_number"),
+            $this->lng->txt("rep_tree_limit_number_info")
+        )->withValue($ilSetting->get("rep_tree_limit_number"))
+         ->withAdditionalTransformation($this->getMaxLengthConstraint(3))
+         ->withAdditionalTransformation($this->getNonNegativeConstraint());
 
         // limit items in tree
-        $tree_limit = new ilCheckboxInputGUI($this->lng->txt("rep_tree_limit"), "rep_tree_limit");
-        $tree_limit->setChecked($ilSetting->get("rep_tree_limit_number") > 0);
-        $tree_limit->setInfo($this->lng->txt("rep_tree_limit_info"));
-        $form->addItem($tree_limit);
-
-        // limit items in tree (number)
-        $tree_limit_number = new ilNumberInputGUI($this->lng->txt("rep_tree_limit_number"), "rep_tree_limit_number");
-        $tree_limit_number->setMaxLength(3);
-        $tree_limit_number->setSize(3);
-        $tree_limit_number->setValue($ilSetting->get("rep_tree_limit_number"));
-        $tree_limit_number->setInfo($this->lng->txt("rep_tree_limit_number_info"));
-        $tree_limit->addSubItem($tree_limit_number);
+        $tree_limit = $f->optionalGroup(
+            [
+                'rep_tree_limit_number' => $tree_limit_number
+            ],
+            $this->lng->txt("rep_tree_limit"),
+            $this->lng->txt("rep_tree_limit_info")
+        );
+        if ($ilSetting->get("rep_tree_limit_number") <= 0) {
+            $tree_limit = $tree_limit->withValue(null);
+        }
 
         // breadcrumbs start with courses
-        $cb = new ilCheckboxInputGUI($this->lng->txt("rep_breadcr_crs"), "rep_breadcr_crs");
-        $cb->setChecked((bool) $ilSetting->get("rep_breadcr_crs"));
-        $form->addItem($cb);
+        $change_mode = $f->radio(
+            $this->lng->txt("rep_breadcr_crs_overwrite_settings")
+        )->withOption(
+            '1',
+            $this->lng->txt("rep_breadcr_crs_overwrite")
+        )->withOption(
+            'rep_breadcr_crs_default',
+            $this->lng->txt("rep_breadcr_crs_overwrite_with_default")
+        )->withOption(
+            '0',
+            $this->lng->txt("rep_breadcr_crs_overwrite_not")
+        )->withValue((string) ((int) $ilSetting->get("rep_breadcr_crs_overwrite")));
+        if ($ilSetting->get("rep_breadcr_crs_default")) {
+            $change_mode = $change_mode->withValue('rep_breadcr_crs_default');
+        }
 
-        $radg = new ilRadioGroupInputGUI($this->lng->txt("rep_breadcr_crs"), "rep_breadcr_crs_overwrite");
-        $radg->setValue((string) ((int) $ilSetting->get("rep_breadcr_crs_overwrite")));
-
-        $op0 = new ilRadioOption($this->lng->txt("rep_breadcr_crs_overwrite"), '1');
-        $cb0 = new ilCheckboxInputGUI($this->lng->txt("rep_default"), "rep_breadcr_crs_default");
-        $cb0->setChecked((bool) $ilSetting->get("rep_breadcr_crs_default"));
-        $op0->addSubItem($cb0);
-        $radg->addOption($op0);
-
-        $op1 = new ilRadioOption($this->lng->txt("rep_breadcr_crs_overwrite_not"), '0');
-        $radg->addOption($op1);
-
-
-        $cb->addSubItem($radg);
-
-
+        $breadcrumbs = $f->optionalGroup(
+            [
+                'rep_breadcr_crs_overwrite' => $change_mode
+            ],
+            $this->lng->txt("rep_breadcr_crs")
+        );
+        if (!$ilSetting->get("rep_breadcr_crs")) {
+            $breadcrumbs = $breadcrumbs->withValue(null);
+        }
 
         // trash
-        $cb = new ilCheckboxInputGUI($this->lng->txt("enable_trash"), "enable_trash");
-        $cb->setInfo($this->lng->txt("enable_trash_info"));
-        if ($ilSetting->get("enable_trash")) {
-            $cb->setChecked(true);
-        }
-        $form->addItem($cb);
-
+        $enable_trash = $f->checkbox(
+            $this->lng->txt("enable_trash"),
+            $this->lng->txt("enable_trash_info")
+        )->withValue((bool) $ilSetting->get("enable_trash"));
+    
         // change event
         $this->lng->loadLanguageModule("trac");
-        $event = new ilCheckboxInputGUI($this->lng->txt('trac_show_repository_views'), 'change_event_tracking');
-        $event->setInfo($this->lng->txt("trac_show_repository_views_info"));
-        $event->setChecked(ilChangeEvent::_isActive());
-        $form->addItem($event);
-
-
-        ilAdministrationSettingsFormHandler::addFieldsToForm(
-            ilAdministrationSettingsFormHandler::FORM_REPOSITORY,
-            $form,
-            $this
-        );
+        $event = $f->checkbox(
+            $this->lng->txt('trac_show_repository_views'),
+            $this->lng->txt("trac_show_repository_views_info")
+        )->withValue(ilChangeEvent::_isActive());
 
         // export limitations
+        $exp_disabled = $f->group(
+            [],
+            $this->lng->txt("rep_export_limitation_disabled")
+        );
+
+        // export unlimited
+        $exp_unlimited = $f->group(
+            [],
+            $this->lng->txt("rep_export_limitation_unlimited")
+        );
+
+        // limit export items (number)
+        $exp_limit_num = $f->numeric(
+            $this->lng->txt("rep_export_limit_number")
+        )->withAdditionalTransformation($this->getMaxLengthConstraint(6))
+         ->withAdditionalTransformation($this->getPositiveConstraint())
+         ->withValue($ilSetting->get("rep_export_limit_number"))
+         ->withRequired(true);
+
+        $exp_limited = $f->group(
+            [
+                'rep_export_limit_number' => $exp_limit_num
+            ],
+            $this->lng->txt("rep_export_limitation_limited")
+        );
+
         $limiter = new ilExportLimitation();
-        $exp_limit = new ilRadioGroupInputGUI($this->lng->txt("rep_export_limitation"), "rep_export_limitation");
-        $exp_limit->setValue((string) $limiter->getLimitationMode());
-        $exp_limit->setInfo($this->lng->txt("rep_export_limitation_info"));
+        $exp_limit = $f->switchableGroup(
+            [
+                (string) ilExportLimitation::SET_EXPORT_DISABLED => $exp_disabled,
+                (string) ilExportLimitation::SET_EXPORT_LIMITED => $exp_limited,
+                'rep_export_unlimited' => $exp_unlimited
+            ],
+            $this->lng->txt("rep_export_limitation"),
+            $this->lng->txt("rep_export_limitation_info")
+        )->withValue((string) $limiter->getLimitationMode());
 
-        $op_disabled = new ilRadioOption(
-            $this->lng->txt("rep_export_limitation_disabled"),
-            (string) ilExportLimitation::SET_EXPORT_DISABLED
-        );
-        $exp_limit->addOption($op_disabled);
-
-        $op_limited = new ilRadioOption(
-            $this->lng->txt("rep_export_limitation_limited"),
-            (string) ilExportLimitation::SET_EXPORT_LIMITED
-        );
-        $exp_limit->addOption($op_limited);
-
-        // limit items in tree (number)
-        $exp_limit_num = new ilNumberInputGUI($this->lng->txt("rep_export_limit_number"), "rep_export_limit_number");
-        $exp_limit_num->setMaxLength(6);
-        $exp_limit_num->setSize(6);
-        $exp_limit_num->setValue($ilSetting->get("rep_export_limit_number"));
-        $op_limited->addSubItem($exp_limit_num);
-
-        $form->addItem($exp_limit);
+        if (
+            $limiter->getLimitationMode() === ilExportLimitation::SET_EXPORT_LIMITED &&
+            $ilSetting->get("rep_export_limit_number") === ''
+        ) {
+            $exp_limit = $exp_limit->withValue('rep_export_unlimited');
+        }
 
         // Show download action for folder
-        $dl_prop = new ilCheckboxInputGUI($this->lng->txt("enable_download_folder"), "enable_download_folder");
-        $dl_prop->setValue('1');
-        // default value should reflect previous behaviour (-> 0)
-        $dl_prop->setChecked((int) $this->folder_settings->get("enable_download_folder", '0') === 1);
-        $dl_prop->setInfo($this->lng->txt('enable_download_folder_info'));
-        $form->addItem($dl_prop);
+        $dl_prob = $f->checkbox(
+            $this->lng->txt("enable_download_folder"),
+            $this->lng->txt('enable_download_folder_info')
+        )->withValue(
+            (int) $this->folder_settings->get(
+                "enable_download_folder",
+                '0'
+            ) === 1
+        ); // default value should reflect previous behaviour (-> 0)
 
         // multi download
-        $dl_prop = new ilCheckboxInputGUI($this->lng->txt("enable_multi_download"), "enable_multi_download");
-        $dl_prop->setValue('1');
-        // default value should reflect previous behaviour (-> 0)
-        $dl_prop->setChecked((int) $this->folder_settings->get("enable_multi_download", '1') === 1);
-        $dl_prop->setInfo($this->lng->txt('enable_multi_download_info'));
-        $form->addItem($dl_prop);
+        $dl_prop = $f->checkbox(
+            $this->lng->txt("enable_multi_download"),
+            $this->lng->txt('enable_multi_download_info')
+        )->withValue(
+            (int) $this->folder_settings->get(
+                "enable_multi_download",
+                '1'
+            ) === 1
+        ); // default value should reflect previous behaviour (-> 0)
 
         // favourites
-        $cb = new ilCheckboxInputGUI($this->lng->txt("rep_favourites"), "rep_favourites");
-        $cb->setInfo($this->lng->txt("rep_favourites_info"));
-        $cb->setChecked((bool) $ilSetting->get("rep_favourites"));
-        $form->addItem($cb);
+        $fav = $f->checkbox(
+            $this->lng->txt("rep_favourites"),
+            $this->lng->txt("rep_favourites_info")
+        )->withValue((bool) $ilSetting->get("rep_favourites"));
 
+        //TODO split this up into two sections
+        $settings = $f->section(
+            [
+                'tree_pres' => $tree_pres,
+                'rep_tree_limit' => $tree_limit,
+                'rep_breadcr_crs' => $breadcrumbs,
+                'enable_trash' => $enable_trash,
+                'change_event_tracking' => $event,
+                'rep_export_limitation' => $exp_limit,
+                'enable_download_folder' => $dl_prob,
+                'enable_multi_download' => $dl_prop,
+                'rep_favourites' => $fav
+            ],
+            $this->lng->txt("settings")
+        )->withDisabled($read_only);
 
         // object lists
+        //shorten description
+        $sdesclen = $f->numeric(
+            $this->lng->txt("adm_rep_shorten_description_length")
+        )->withValue($ilSetting->get("rep_shorten_description_length"))
+         ->withAdditionalTransformation($this->getMaxLengthConstraint(3))
+         ->withAdditionalTransformation($this->getNonNegativeConstraint());
 
-        $lists = new ilFormSectionHeaderGUI();
-        $lists->setTitle($this->lng->txt("rep_object_lists"));
-        $form->addItem($lists);
-
-        $sdesc = new ilCheckboxInputGUI($this->lng->txt("adm_rep_shorten_description"), "rep_shorten_description");
-        $sdesc->setInfo($this->lng->txt("adm_rep_shorten_description_info"));
-        $sdesc->setChecked((bool) $ilSetting->get("rep_shorten_description"));
-        $form->addItem($sdesc);
-
-        $sdesclen = new ilNumberInputGUI($this->lng->txt("adm_rep_shorten_description_length"), "rep_shorten_description_length");
-        $sdesclen->setValue($ilSetting->get("rep_shorten_description_length"));
-        $sdesclen->setSize(3);
-        $sdesc->addSubItem($sdesclen);
+        $sdesc = $f->optionalGroup(
+            [
+                'rep_shorten_description_length' => $sdesclen
+            ],
+            $this->lng->txt("adm_rep_shorten_description"),
+            $this->lng->txt("adm_rep_shorten_description_info")
+        );
+        if (!$ilSetting->get("rep_shorten_description")) {
+            $sdesc = $sdesc->withValue(null);
+        }
 
         // load action commands asynchronously
-        $cb = new ilCheckboxInputGUI($this->lng->txt("adm_item_cmd_asynch"), "item_cmd_asynch");
-        $cb->setInfo($this->lng->txt("adm_item_cmd_asynch_info"));
-        $cb->setChecked((bool) $ilSetting->get("item_cmd_asynch"));
-        $form->addItem($cb);
-
+        $async = $f->checkbox(
+            $this->lng->txt("adm_item_cmd_asynch"),
+            $this->lng->txt("adm_item_cmd_asynch_info")
+        )->withValue((bool) $ilSetting->get("item_cmd_asynch"));
+        
         // notes/comments/tagging
-        $pl = new ilCheckboxInputGUI($this->lng->txt('adm_show_comments_tagging_in_lists'), 'comments_tagging_in_lists');
-        $pl->setValue('1');
-        $pl->setChecked((bool) $ilSetting->get('comments_tagging_in_lists'));
-        $form->addItem($pl);
+        $pltags = $f->checkbox(
+            $this->lng->txt('adm_show_comments_tagging_in_lists_tags')
+        )->withValue((bool) $ilSetting->get('comments_tagging_in_lists_tags'));
 
-        $pltags = new ilCheckboxInputGUI($this->lng->txt('adm_show_comments_tagging_in_lists_tags'), 'comments_tagging_in_lists_tags');
-        $pltags->setValue('1');
-        $pltags->setChecked((bool) $ilSetting->get('comments_tagging_in_lists_tags'));
-        $pl->addSubItem($pltags);
-
-        if ($ilAccess->checkAccess('write', '', $this->object->getRefId())) {
-            $form->addCommandButton('saveSettings', $this->lng->txt('save'));
+        $pl = $f->optionalGroup(
+            [
+                'comments_tagging_in_lists_tags' => $pltags
+            ],
+            $this->lng->txt('adm_show_comments_tagging_in_lists')
+        );
+        if (!$ilSetting->get('comments_tagging_in_lists')) {
+            $pl = $pl->withValue(null);
         }
+
+        $obj_lists = $f->section(
+            [
+                'rep_shorten_description' => $sdesc,
+                'item_cmd_asynch' => $async,
+                'comments_tagging_in_lists' => $pl
+            ],
+            $this->lng->txt("rep_object_lists")
+        )->withDisabled($read_only);
+
+        $form = $this->factory->input()->container()->form()->standard(
+            $this->ctrl->getFormAction($this, 'saveSettings'),
+            [
+                'settings' => $settings,
+                'obj_lists' => $obj_lists
+            ]
+        );
 
         return $form;
     }
@@ -341,135 +395,167 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
         $ilAccess = $this->access;
 
         if (!$ilAccess->checkAccess('write', '', $this->object->getRefId())) {
+            $this->tpl->setOnScreenMessage(
+                'failure',
+                $this->lng->txt('permission_denied'),
+                true
+            );
             $this->ctrl->redirect($this, "view");
         }
-
-        $form = $this->initSettingsForm();
-        if ($form->checkInput()) {
-            $ilSetting->set(
-                "default_repository_view",
-                $form->getInput("default_rep_view")
-            );
+    
+        $form = $this->initSettingsForm()
+                     ->withRequest($this->http->request());
+        if ($form->getData()) {
+            $data = $form->getData()['settings'];
             $ilSetting->set(
                 "repository_tree_pres",
-                $form->getInput("tree_pres")
+                $data["tree_pres"][0]
             );
-            $rep_tree_limit_grp_crs = $form->getInput("rep_tree_limit_grp_crs");
-            if ($form->getInput("tree_pres") == "") {
-                $rep_tree_limit_grp_crs = "";
+            if ($data['tree_pres'][0] === 'all_types') {
+                $ilSetting->set(
+                    "rep_tree_limit_grp_crs",
+                    (string) $data['tree_pres'][1]["rep_tree_limit_grp_crs"] ?? ''
+                );
             }
-            $ilSetting->set(
-                "rep_tree_limit_grp_crs",
-                $rep_tree_limit_grp_crs
-            );
 
             $ilSetting->set(
                 "rep_favourites",
-                $form->getInput("rep_favourites")
+                (string) $data["rep_favourites"]
             );
 
-            $ilSetting->set(
-                "rep_export_limitation",
-                $form->getInput("rep_export_limitation")
-            );
-            $ilSetting->set(
-                "rep_export_limit_number",
-                (string) $form->getInput("rep_export_limit_number")
-            );
+            if ($data["rep_export_limitation"][0] === 'rep_export_unlimited') {
+                $ilSetting->set(
+                    "rep_export_limitation",
+                    (string) ilExportLimitation::SET_EXPORT_LIMITED
+                );
+                $ilSetting->set(
+                    "rep_export_limit_number",
+                    ''
+                );
+            } else {
+                $ilSetting->set(
+                    "rep_export_limitation",
+                    (string) $data["rep_export_limitation"][0]
+                );
+            }
+            if ($data["rep_export_limitation"][0] === (string) ilExportLimitation::SET_EXPORT_LIMITED) {
+                $ilSetting->set(
+                    "rep_export_limit_number",
+                    (string) $data["rep_export_limitation"][1]["rep_export_limit_number"] ?? ''
+                );
+            }
+
             $ilSetting->set(
                 "enable_trash",
-                $form->getInput("enable_trash")
-            );
-            $ilSetting->set(
-                "rep_breadcr_crs_overwrite",
-                (string) ((int) $form->getInput("rep_breadcr_crs_overwrite"))
-            );
-            $ilSetting->set(
-                "rep_breadcr_crs",
-                (string) ((int) $form->getInput("rep_breadcr_crs"))
-            );
-            $ilSetting->set(
-                "rep_breadcr_crs_default",
-                (string) ((int) $form->getInput("rep_breadcr_crs_default"))
-            );
-            $ilSetting->set(
-                "rep_shorten_description",
-                $form->getInput('rep_shorten_description')
-            );
-            $ilSetting->set(
-                "rep_shorten_description_length",
-                (string) ((int) $form->getInput('rep_shorten_description_length'))
-            );
-            $ilSetting->set(
-                'item_cmd_asynch',
-                (string) ((int) $form->getInput('item_cmd_asynch'))
-            );
-            $ilSetting->set(
-                'comments_tagging_in_lists',
-                (string) ((int) $form->getInput('comments_tagging_in_lists'))
-            );
-            $ilSetting->set(
-                'comments_tagging_in_lists_tags',
-                $form->getInput('comments_tagging_in_lists_tags')
+                (string) $data["enable_trash"]
             );
 
+            $ilSetting->set(
+                "rep_breadcr_crs",
+                (string) ((int) $data["rep_breadcr_crs"])
+            );
+            if (isset($data["rep_breadcr_crs"])) {
+                $overwrite = $data["rep_breadcr_crs"]["rep_breadcr_crs_overwrite"];
+                $ilSetting->set(
+                    "rep_breadcr_crs_default",
+                    (string) ((int) ($overwrite === 'rep_breadcr_crs_default'))
+                );
+                if ($overwrite === 'rep_breadcr_crs_default') {
+                    $overwrite = '1';
+                }
+                $ilSetting->set(
+                    "rep_breadcr_crs_overwrite",
+                    (string) ((int) $overwrite)
+                );
+            }
+
             // repository tree limit of children
-            $limit_number = ($form->getInput('rep_tree_limit') &&
-                $form->getInput('rep_tree_limit_number') > 0)
-                ? (int) $form->getInput('rep_tree_limit_number')
+            $limit_number = ($data['rep_tree_limit'] &&
+                $data['rep_tree_limit']['rep_tree_limit_number'] > 0)
+                ? (int) $data['rep_tree_limit']['rep_tree_limit_number']
                 : 0;
             $ilSetting->set('rep_tree_limit_number', (string) $limit_number);
 
             $this->folder_settings->set(
                 "enable_download_folder",
-                (string) ((int) $form->getInput("enable_download_folder") === 1)
+                (string) ((int) $data["enable_download_folder"] === 1)
             );
             $this->folder_settings->set(
                 "enable_multi_download",
-                (string) ((int) $form->getInput("enable_multi_download") === 1)
+                (string) ((int) $data["enable_multi_download"] === 1)
             );
-            if ($form->getInput('change_event_tracking')) {
+            if ($data['change_event_tracking']) {
                 ilChangeEvent::_activate();
             } else {
                 ilChangeEvent::_deactivate();
+            }
+
+            //object lists
+            $data = $form->getData()['obj_lists'];
+            $ilSetting->set(
+                "rep_shorten_description",
+                (string) ((int) $data['rep_shorten_description'])
+            );
+            if (isset($data['rep_shorten_description'])) {
+                $ilSetting->set(
+                    "rep_shorten_description_length",
+                    (string) ((int) $data['rep_shorten_description']['rep_shorten_description_length'])
+                );
+            }
+            $ilSetting->set(
+                'item_cmd_asynch',
+                (string) ((int) $data['item_cmd_asynch'])
+            );
+            $ilSetting->set(
+                'comments_tagging_in_lists',
+                (string) ((int) $data['comments_tagging_in_lists'])
+            );
+            if (isset($data['comments_tagging_in_lists'])) {
+                $ilSetting->set(
+                    'comments_tagging_in_lists_tags',
+                    (string) $data['comments_tagging_in_lists']['comments_tagging_in_lists_tags']
+                );
             }
 
             $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_obj_modified"), true);
             $this->ctrl->redirect($this, "view");
         }
 
-        $form->setValuesByPost();
         $this->view($form);
     }
-
-    public function customIcons(ilPropertyFormGUI $a_form = null): void
+    
+    public function customIcons(StandardForm $a_form = null) : void
     {
         $this->tabs_gui->activateTab("icons");
 
         if (!$a_form) {
             $a_form = $this->initCustomIconsForm();
         }
-
-        $this->tpl->setContent($a_form->getHTML());
+        
+        $this->tpl->setContent($this->renderer->render($a_form));
     }
-
-    protected function initCustomIconsForm(): ilPropertyFormGUI
+    
+    protected function initCustomIconsForm() : StandardForm
     {
         $ilSetting = $this->settings;
         $ilAccess = $this->access;
 
-        $form = new ilPropertyFormGUI();
-        $form->setTitle($this->lng->txt("rep_custom_icons"));
-        $form->setFormAction($this->ctrl->getFormAction($this, 'saveCustomIcons'));
+        $cb = $this->factory->input()->field()->checkbox(
+            $this->lng->txt("enable_custom_icons"),
+            $this->lng->txt("enable_custom_icons_info")
+        )->withValue((bool) $ilSetting->get("custom_icons"));
 
-        $cb = new ilCheckboxInputGUI($this->lng->txt("enable_custom_icons"), "custom_icons");
-        $cb->setInfo($this->lng->txt("enable_custom_icons_info"));
-        $cb->setChecked((bool) $ilSetting->get("custom_icons"));
-        $form->addItem($cb);
+        $section = $this->factory->input()->field()->section(
+            ['custom_icons' => $cb],
+            $this->lng->txt("rep_custom_icons")
+        )->withDisabled(
+            !$ilAccess->checkAccess('write', '', $this->object->getRefId())
+        );
 
-        if ($ilAccess->checkAccess('write', '', $this->object->getRefId())) {
-            $form->addCommandButton('saveCustomIcons', $this->lng->txt('save'));
-        }
+        $form = $this->factory->input()->container()->form()->standard(
+            $this->ctrl->getFormAction($this, 'saveCustomIcons'),
+            ['section' => $section]
+        );
 
         return $form;
     }
@@ -480,17 +566,29 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
         $ilAccess = $this->access;
 
         if (!$ilAccess->checkAccess('write', '', $this->object->getRefId())) {
+            $this->tpl->setOnScreenMessage(
+                'failure',
+                $this->lng->txt('permission_denied'),
+                true
+            );
+            $this->ctrl->redirect($this, "customIcons");
+        }
+    
+        $form = $this->initCustomIconsForm()
+                     ->withRequest($this->http->request());
+        if ($form->getData()) {
+            $ilSetting->set(
+                "custom_icons",
+                (string) ((int) $form->getData()['section']['custom_icons'])
+            );
+            $this->tpl->setOnScreenMessage(
+                'success',
+                $this->lng->txt("msg_obj_modified"),
+                true
+            );
             $this->ctrl->redirect($this, "customIcons");
         }
 
-        $form = $this->initCustomIconsForm();
-        if ($form->checkInput()) {
-            $ilSetting->set("custom_icons", (string) ((int) $form->getInput("custom_icons")));
-            $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_obj_modified"), true);
-            $this->ctrl->redirect($this, "customIcons");
-        }
-
-        $form->setValuesByPost();
         $this->customIcons($form);
     }
 
@@ -602,7 +700,7 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
         $this->tpl->setContent($grp_table->getHTML());
     }
 
-    protected function initNewItemGroupForm(int $a_grp_id = 0): ilPropertyFormGUI
+    protected function initNewItemGroupForm(int $a_grp_id = 0) : ilPropertyFormGUI
     {
         $this->setModuleSubTabs("new_item_groups");
 
@@ -827,5 +925,24 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
                 return [["view", $fields]];
         }
         return null;
+    }
+
+    protected function getMaxLengthConstraint(int $max_length) : Constraint
+    {
+        //This gives max_length many 9's in a row (and 0 for non-positive max_length)
+        //The int cast is necessary for negative max_length
+        $bound = (int) (10 ** $max_length - 1);
+
+        return $this->refinery->int()->isLessThanOrEqual($bound);
+    }
+
+    protected function getPositiveConstraint() : Constraint
+    {
+        return $this->refinery->int()->isGreaterThan(0);
+    }
+
+    protected function getNonNegativeConstraint() : Constraint
+    {
+        return $this->refinery->int()->isGreaterThanOrEqual(0);
     }
 }

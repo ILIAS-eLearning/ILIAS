@@ -130,7 +130,7 @@ administration#:#adm_rep_tree_presentation#:#Repository Tree Presentation
 administration#:#adm_repository_and_objects#:#Repository and Objects
 administration#:#adm_search_and_find#:#Search and Find
 administration#:#adm_settings_templates#:#Settings Templates
-administration#:#adm_show_comments_tagging_in_lists#:#Show number of notes, comments and tags in object lists
+administration#:#adm_show_comments_tagging_in_lists#:#Show Number of Notes, Comments and Tags in Object Lists
 administration#:#adm_show_comments_tagging_in_lists_tags#:#Display tags instead of number
 administration#:#adm_sql#:#SQL
 administration#:#adm_sure_delete_settings_template#:#Do you really want to delete the following templates?
@@ -3902,7 +3902,7 @@ common#:#enable_custom_icons#:#Enable custom icons
 common#:#enable_custom_icons_info#:#This allows you to define custom icons for single container objects and the content page object. The properties section of these objects will provide an image upload dialog.
 common#:#enable_dnd_upload#:#Enable drag-and-drop upload
 common#:#enable_dnd_upload_info#:#Files can be uploaded with drag-and-drop from the local computer if enabled.
-common#:#enable_download_folder#:#"Download Action for Folders" enabled
+common#:#enable_download_folder#:#"Download Action for Folders" Enabled
 common#:#enable_download_folder_info#:#Enables a download option inside the action drop-down of folders.
 common#:#enable_export_scorm_desc#:#Display of Personal Data in the Protocol Data (SCORM)
 common#:#enable_fora_statistics#:#Enable Statistics in Forum
@@ -3910,7 +3910,7 @@ common#:#enable_fora_statistics_desc#:#If disabled, nobody is able to access the
 common#:#enable_hide_user_toggle#:#Member is not allowed to deactivate
 common#:#enable_hist_user_comments#:#Enable user comments in history
 common#:#enable_hist_user_comments_desc#:#Give authors the opportunity to add comments to the history log of pages.
-common#:#enable_multi_download#:#«Download multiple objects» enabled
+common#:#enable_multi_download#:#"Download Multiple Objects" Enabled
 common#:#enable_multi_download_info#:#Enables that multiple folders/files can be selected to download them as zip archive.
 common#:#enable_password_assistance#:#Enable Password Assistance
 common#:#enable_preview#:#Enable Preview
@@ -14021,9 +14021,11 @@ rep#:#rep_add_new_def_grp_templates#:#Templates
 rep#:#rep_add_to_favourites#:#Add to Favourites
 rep#:#rep_added_rec_content#:#Recommended content has been added.
 rep#:#rep_added_to_favourites#:#The item has been added to your favourites.
-rep#:#rep_breadcr_crs#:#Breadcrumb starts with course
+rep#:#rep_breadcr_crs#:#Breadcrumb Starts With Course
 rep#:#rep_breadcr_crs_overwrite#:#Setting is changeable on course level
 rep#:#rep_breadcr_crs_overwrite_not#:#Setting is not changeable on course level
+rep#:#rep_breadcr_crs_overwrite_settings#:#Allow Exceptions
+rep#:#rep_breadcr_crs_overwrite_with_default#:#Setting is changeable on course level, with this as default
 rep#:#rep_configure#:#Configure
 rep#:#rep_custom_icons#:#Custom Icons
 rep#:#rep_default#:#Default
@@ -14035,6 +14037,7 @@ rep#:#rep_export_limitation#:#Container Export Limitation
 rep#:#rep_export_limitation_disabled#:#Container Export Disabled
 rep#:#rep_export_limitation_info#:#Limits the number of objects for container exports (courses, categories, ...) in the repository.
 rep#:#rep_export_limitation_limited#:#Limit Export
+rep#:#rep_export_limitation_unlimited#:#Unlimited Export
 rep#:#rep_failure_trashed_trash#:#You selected objects that cannot be restored to their original location, because their parent objects were deleted. Please uncheck the respective object in the table or select the Restore to New Location instead.
 rep#:#rep_fav_intro1#:#You have not yet selected any favourites. To do this, you must take two steps:
 rep#:#rep_fav_intro2#:#Click on '%s' and select a learning object from the available offer, e.g. a learning module or a forum.

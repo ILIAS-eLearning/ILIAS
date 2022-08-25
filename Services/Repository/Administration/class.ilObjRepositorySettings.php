@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -106,7 +106,7 @@ class ilObjRepositorySettings extends ilObject
 
         // move subitems to unassigned
         $sub_items = self::getNewItemGroupSubItems();
-        $sub_items = $sub_items[$a_id];
+        $sub_items = $sub_items[$a_id] ?? null;
         if ($sub_items) {
             foreach ($sub_items as $obj_type) {
                 $old_pos = $ilSetting->get("obj_add_new_pos_" . $obj_type);
