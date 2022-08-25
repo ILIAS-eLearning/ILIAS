@@ -52,8 +52,8 @@ class assFormulaQuestionImport extends assQuestionImport
         $this->object->setEstimatedWorkingTime($duration["h"] ?? 0, $duration["m"] ?? 0, $duration["s"] ?? 0);
         if (preg_match_all("/(\\\$v\\d+)/ims", $this->object->getQuestion(), $matches)) {
             foreach ($matches[1] as $variable) {
-                $data = unserialize($item->getMetadataEntry($variable), false);
-                $unit = $this->object->getUnitRepository()->getUnit($data["unitvalue"]);
+                $data = unserialize($item->getMetadataEntry($variable), ["allowed_classes" => false]);
+                $unit = $this->object->getUnitRepository()->getUnit((int) $data["unitvalue"]);
                 require_once 'Modules/TestQuestionPool/classes/class.assFormulaQuestionVariable.php';
                 $varObj = new assFormulaQuestionVariable($variable, $data["rangemin"], $data["rangemax"], $unit, $data["precision"], $data["intprecision"]);
                 $this->object->addVariable($varObj);
@@ -61,8 +61,8 @@ class assFormulaQuestionImport extends assQuestionImport
         }
         if (preg_match_all("/(\\\$r\\d+)/ims", $this->object->getQuestion(), $rmatches)) {
             foreach ($rmatches[1] as $result) {
-                $data = unserialize($item->getMetadataEntry($result), false);
-                $unit = $this->object->getUnitRepository()->getUnit($data["unitvalue"]);
+                $data = unserialize($item->getMetadataEntry($result), ["allowed_classes" => false]);
+                $unit = $this->object->getUnitRepository()->getUnit((int) $data["unitvalue"]);
                 require_once 'Modules/TestQuestionPool/classes/class.assFormulaQuestionResult.php';
                 if (!is_array($data["rating"])) {
                     $resObj = new assFormulaQuestionResult($result, $data["rangemin"], $data["rangemax"], $data["tolerance"], $unit, $data["formula"], $data["points"], $data["precision"], true);

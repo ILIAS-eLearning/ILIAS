@@ -218,13 +218,13 @@ class assMultipleChoiceImport extends assQuestionImport
         $this->object->setEstimatedWorkingTime($duration["h"] ?? 0, $duration["m"] ?? 0, $duration["s"] ?? 0);
         $this->object->setShuffle($shuffle);
         $this->object->setSelectionLimit($selectionLimit);
-        $this->object->setThumbSize($item->getMetadataEntry("thumb_size"));
+        $this->object->setThumbSize((int) $item->getMetadataEntry("thumb_size"));
 
         foreach ($answers as $answer) {
             if ($item->getMetadataEntry('singleline') || (is_array($answer["imagefile"]) && count($answer["imagefile"]) > 0)) {
                 $this->object->setIsSingleline(true);
             }
-            $this->object->addAnswer($answer["answertext"], $answer["points"], $answer["points_unchecked"], $answer["answerorder"], $answer["imagefile"]["label"]);
+            $this->object->addAnswer($answer["answertext"], $answer["points"], $answer["points_unchecked"], $answer["answerorder"], $answer["imagefile"]["label"] ?? '');
         }
         // additional content editing mode information
         $this->object->setAdditionalContentEditingMode(

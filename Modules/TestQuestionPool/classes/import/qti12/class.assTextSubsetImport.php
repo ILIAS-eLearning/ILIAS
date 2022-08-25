@@ -65,7 +65,7 @@ class assTextSubsetImport extends assQuestionImport
                         case "varsubset":
                             $respident = $conditionvar->varsubset[$order["index"]]->getRespident();
                             $content = $conditionvar->varsubset[$order["index"]]->getContent();
-                            if (!is_array($responses[$respident])) {
+                            if (!isset($responses[$respident]) || !is_array($responses[$respident])) {
                                 $responses[$respident] = array();
                             }
                             $vars = explode(",", $content);

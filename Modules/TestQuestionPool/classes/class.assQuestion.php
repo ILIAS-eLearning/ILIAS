@@ -92,7 +92,7 @@ abstract class assQuestion
     /**
      * Object id of the container object
      */
-    protected int $obj_id;
+    protected int $obj_id = 0;
 
     /**
      * The reference to the ILIAS class
@@ -140,7 +140,7 @@ abstract class assQuestion
     public const ADDITIONAL_CONTENT_EDITING_MODE_DEFAULT = 'default';
     public const ADDITIONAL_CONTENT_EDITING_MODE_PAGE_OBJECT = 'pageobject';
 
-    private string $additionalContentEditingMode;
+    private string $additionalContentEditingMode = '';
 
     public \ilAssQuestionFeedback $feedbackOBJ;
 

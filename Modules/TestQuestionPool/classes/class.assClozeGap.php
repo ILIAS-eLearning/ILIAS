@@ -37,7 +37,7 @@ class assClozeGap
     public const TYPE_TEXT = 0;
     public const TYPE_SELECT = 1;
     public const TYPE_NUMERIC = 2;
-    private ?Transformation $shuffler;
+    private ?Transformation $shuffler = null;
 
     public int $type;
 

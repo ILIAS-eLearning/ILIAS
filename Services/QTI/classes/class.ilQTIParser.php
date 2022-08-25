@@ -779,6 +779,10 @@ class ilQTIParser extends ilSaxParser
             case "material":
                 if ($this->material) {
                     $mat = $this->material->getMaterial(0);
+                    if(!is_array($mat)) {
+                        $this->material = null;
+                        break;
+                    }
                     if ($mat["type"] === "mattext" && $mat["material"]->getLabel() === "suggested_solution") {
                         $this->item->addSuggestedSolution($mat["material"], $this->gap_index);
                     }
