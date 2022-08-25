@@ -37,10 +37,7 @@ class SuperGlobalDropInReplacement extends KeyValueAccess
         parent::__construct($raw_values, $factory->kindlyTo()->string());
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function offsetSet($offset, $value): void
+    public function offsetSet(mixed $offset, mixed $value): void
     {
         if ($this->throwOnValueAssignment) {
             throw new OutOfBoundsException("Modifying global Request-Array such as \$_GET is not allowed!");
@@ -49,10 +46,7 @@ class SuperGlobalDropInReplacement extends KeyValueAccess
         parent::offsetSet($offset, $value);
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function offsetUnset($offset): void
+    public function offsetUnset(mixed $offset): void
     {
         throw new LogicException("Modifying global Request-Array such as \$_GET is not allowed!");
     }
