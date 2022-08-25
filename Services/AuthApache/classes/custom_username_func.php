@@ -16,7 +16,7 @@ declare(strict_types=1);
  *
  *****************************************************************************/
 
-class ApacheCustom
+final class ApacheCustom
 {
     public static function getUsername(): string
     {

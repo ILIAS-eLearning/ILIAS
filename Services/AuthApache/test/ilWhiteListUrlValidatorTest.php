@@ -22,7 +22,7 @@ use PHPUnit\Framework\TestCase;
  * Class ilWhiteListUrlValidatorTest
  * @author Michael Jansen <mjansen@databay.de>
  */
-class ilWhiteListUrlValidatorTest extends TestCase
+final class ilWhiteListUrlValidatorTest extends TestCase
 {
     public function domainProvider(): array
     {
@@ -64,9 +64,6 @@ class ilWhiteListUrlValidatorTest extends TestCase
 
     /**
      * @dataProvider domainProvider
-     * @param string $domain
-     * @param array $whitelist
-     * @param bool $result
      */
     public function testValidator(string $domain, array $whitelist, bool $result): void
     {

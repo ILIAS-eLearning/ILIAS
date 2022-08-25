@@ -22,13 +22,13 @@ use PHPUnit\Framework\TestSuite;
  * Class ilServicesAuthApacheSuite
  * @author Michael Jansen <mjansen@databay.de>
  */
-class ilServicesAuthApacheSuite extends TestSuite
+final class ilServicesAuthApacheSuite extends TestSuite
 {
     public static function suite(): self
     {
         $suite = new self();
 
-        require_once './Services/AuthApache/test/ilWhiteListUrlValidatorTest.php';
+        require_once __DIR__ . '/ilWhiteListUrlValidatorTest.php';
         $suite->addTestSuite('ilWhiteListUrlValidatorTest');
 
         return $suite;
