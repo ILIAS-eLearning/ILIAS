@@ -31,12 +31,12 @@ class ilObjItemGroupListGUI extends ilObjectListGUI
         $this->lng = $DIC->language();
         $this->ctrl = $DIC->ctrl();
         $lng = $DIC->language();
-        
+
         $lng->loadLanguageModule('itgr');
         parent::__construct();
     }
-    
-    public function init() : void
+
+    public function init(): void
     {
         $this->delete_enabled = true;
         $this->cut_enabled = false;
@@ -47,37 +47,37 @@ class ilObjItemGroupListGUI extends ilObjectListGUI
         $this->subitems_enabled = true;
         $this->type = "itgr";
         $this->gui_class_name = "ilobjitemgroupgui";
-        
+
         // general commands array
         $this->commands = ilObjItemGroupAccess::_getCommands();
     }
 
-    public function enableSubscribe(bool $status) : void
+    public function enableSubscribe(bool $status): void
     {
         $this->subscribe_enabled = false;
     }
-    
+
     /**
      * Prevent enabling info
      * necessary due to bug 11509
      */
-    public function enableInfoScreen(bool $info_screen) : void
+    public function enableInfoScreen(bool $info_screen): void
     {
         $this->info_screen_enabled = false;
     }
 
-    public function getCommandLink(string $cmd) : string
+    public function getCommandLink(string $cmd): string
     {
         $ilCtrl = $this->ctrl;
-        
+
         // separate method for this line
         $ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $this->ref_id);
         $cmd_link = $ilCtrl->getLinkTargetByClass("ilrepositorygui", $cmd);
         $ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $this->requested_ref_id);
         return $cmd_link;
     }
-    
-    public function getProperties() : array
+
+    public function getProperties(): array
     {
         $props = array();
         return $props;

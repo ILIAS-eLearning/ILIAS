@@ -1,4 +1,5 @@
 <?php
+
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -47,7 +48,7 @@ class ilLPObjectStatisticsAdminTableGUI extends ilLPTableBaseGUI
         $this->getItems();
     }
 
-    public function getItems() : void
+    public function getItems(): void
     {
         $data = ilTrQuery::getObjectStatisticsMonthlySummary();
 
@@ -65,7 +66,7 @@ class ilLPObjectStatisticsAdminTableGUI extends ilLPTableBaseGUI
     /**
      * Fill table row
      */
-    protected function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set): void
     {
         global $DIC;
 

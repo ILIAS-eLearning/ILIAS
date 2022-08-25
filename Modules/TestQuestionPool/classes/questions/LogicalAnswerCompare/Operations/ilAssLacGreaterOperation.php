@@ -11,13 +11,12 @@ include_once 'Modules/TestQuestionPool/classes/questions/LogicalAnswerCompare/Op
  */
 class ilAssLacGreaterOperation extends ilAssLacAbstractOperation
 {
-
     /**
      * @var string
      */
     public static $pattern = ">";
 
-    public function getDescription() : string
+    public function getDescription(): string
     {
         return "mit mehr als ";
     }
@@ -25,7 +24,7 @@ class ilAssLacGreaterOperation extends ilAssLacAbstractOperation
     /**
      * @return string
      */
-    public function getPattern() : string
+    public function getPattern(): string
     {
         return self::$pattern;
     }

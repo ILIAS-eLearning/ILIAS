@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -21,7 +23,7 @@ class ilBuddySystemRequestedRelationStateTableFilterMapper extends ilAbstractBud
     /**
      * @inheritDoc
      */
-    public function optionsForState() : array
+    public function optionsForState(): array
     {
         return [
             get_class($this->state) . '_a' => $this->lng->txt(
@@ -36,7 +38,7 @@ class ilBuddySystemRequestedRelationStateTableFilterMapper extends ilAbstractBud
     /**
      * @inheritDoc
      */
-    public function filterMatchesRelation(string $filterKey, ilBuddySystemRelation $relation) : bool
+    public function filterMatchesRelation(string $filterKey, ilBuddySystemRelation $relation): bool
     {
         return (
             (strtolower($filterKey) === strtolower(get_class($this->state) . '_a') && $relation->isOwnedByActor()) ||

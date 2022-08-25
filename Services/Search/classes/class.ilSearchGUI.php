@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -40,7 +42,7 @@ class ilSearchGUI extends ilSearchBaseGUI
 
     protected ilTabsGUI $tabs_gui;
     protected ilHelpGUI $help_gui;
-    
+
     /**
     * Constructor
     * @access public
@@ -120,7 +122,7 @@ class ilSearchGUI extends ilSearchBaseGUI
     * Control
     * @access public
     */
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         $next_class = $this->ctrl->getNextClass($this);
         $cmd = $this->ctrl->getCmd();
@@ -133,14 +135,14 @@ class ilSearchGUI extends ilSearchBaseGUI
                 $this->ctrl->setReturn($this, 'storeRoot');
                 $this->ctrl->forwardCommand($form);
                 return;
-                
+
             case 'ilobjectcopygui':
                 $this->prepareOutput();
                 $this->ctrl->setReturn($this, '');
                 $cp = new ilObjectCopyGUI($this);
                 $this->ctrl->forwardCommand($cp);
                 break;
-            
+
             default:
                 if (!$cmd) {
                     $cmd = "showSavedResults";
@@ -155,14 +157,14 @@ class ilSearchGUI extends ilSearchBaseGUI
     * Set/get type of search (detail or 'fast' search)
     * @access public
     */
-    public function setType(int $a_type) : void
+    public function setType(int $a_type): void
     {
         $session_search = ilSession::get('saerch');
         $session_search['type'] = $this->type = $a_type;
         ilSession::set('search', $session_search);
     }
 
-    public function getType() : int
+    public function getType(): int
     {
         return $this->type ?? ilSearchBaseGUI::SEARCH_FAST;
     }
@@ -170,13 +172,13 @@ class ilSearchGUI extends ilSearchBaseGUI
     * Set/get combination of search ('and' or 'or')
     * @access public
     */
-    public function setCombination(string $a_combination) : void
+    public function setCombination(string $a_combination): void
     {
         $session_search = ilSession::get('search') ?? [];
         $session_search['combination'] = $this->combination = $a_combination;
         ilSession::set('search', $session_search);
     }
-    public function getCombination() : string
+    public function getCombination(): string
     {
         return $this->combination ?: ilSearchBaseGUI::SEARCH_OR;
     }
@@ -184,13 +186,13 @@ class ilSearchGUI extends ilSearchBaseGUI
     * Set/get search string
     * @access public
     */
-    public function setString(string $a_str) : void
+    public function setString(string $a_str): void
     {
         $session_search = ilSession::get('search') ?? [];
         $session_search['string'] = $this->string = $a_str;
         ilSession::set('search', $session_search);
     }
-    public function getString() : string
+    public function getString(): string
     {
         return $this->string;
     }
@@ -198,30 +200,30 @@ class ilSearchGUI extends ilSearchBaseGUI
     * Set/get details (object types for details search)
     * @access public
     */
-    public function setDetails(array $a_details) : void
+    public function setDetails(array $a_details): void
     {
         $session_search = ilSession::get('search') ?? [];
         $session_search['details'] = $this->details = $a_details;
         ilSession::set('search', $session_search);
     }
-    public function getDetails() : array
+    public function getDetails(): array
     {
         return $this->details ?? [];
     }
 
-        
-    public function getRootNode() : int
+
+    public function getRootNode(): int
     {
         return $this->root_node ?: ROOT_FOLDER_ID;
     }
 
-    public function setRootNode(int $a_node_id) : void
+    public function setRootNode(int $a_node_id): void
     {
         ilSession::set('search_root', $this->root_node = $a_node_id);
     }
-        
-    
-    public function remoteSearch() : void
+
+
+    public function remoteSearch(): void
     {
         $root_id = 0;
         if ($this->http->wrapper()->post()->has('root_id')) {
@@ -241,11 +243,11 @@ class ilSearchGUI extends ilSearchBaseGUI
         $this->setRootNode($root_id);
         $this->performSearch();
     }
-    
+
     /**
      * Store new root node
      */
-    protected function storeRoot() : void
+    protected function storeRoot(): void
     {
         $form = $this->getSearchAreaForm();
 
@@ -260,7 +262,7 @@ class ilSearchGUI extends ilSearchBaseGUI
     /**
     * Data resource for autoComplete
     */
-    public function autoComplete() : void
+    public function autoComplete(): void
     {
         $query = '';
         if ($this->http->wrapper()->post()->has('term')) {
@@ -292,10 +294,10 @@ class ilSearchGUI extends ilSearchBaseGUI
 
             $res = $auto->getList($query);
             $res_obj = json_decode($res);
-            
+
             ilLoggerFactory::getLogger('sea')->debug($res);
-            
-            
+
+
             ilLoggerFactory::getLogger('sea')->dump($res_obj->items, ilLogLevel::DEBUG);
             if (is_array($res_obj->items)) {
                 echo json_encode($res_obj->items);
@@ -308,8 +310,8 @@ class ilSearchGUI extends ilSearchBaseGUI
             exit;
         }
     }
-    
-    public function showSearch() : void
+
+    public function showSearch(): void
     {
         ilOverlayGUI::initJavascript();
         $this->tpl->addJavascript("./Services/Search/js/Search.js");
@@ -337,7 +339,7 @@ class ilSearchGUI extends ilSearchBaseGUI
             $this->tpl->setVariable("FORM", $this->form->getHTML());
             $this->tpl->parseCurrentBlock();
         }
-        
+
         if (ilSearchSettings::getInstance()->isDateFilterEnabled()) {
             // begin-patch creation_date
             $this->tpl->setVariable('TXT_FILTER_BY_CDATE', $this->lng->txt('search_filter_cd'));
@@ -346,7 +348,7 @@ class ilSearchGUI extends ilSearchBaseGUI
             $this->tpl->setVariable("ARR_IMG_CD", ilGlyphGUI::get(ilGlyphGUI::CARET));
             // end-patch creation_date
         }
-        
+
 
         $this->tpl->setVariable("TXT_AREA", $this->lng->txt("search_area"));
 
@@ -354,9 +356,8 @@ class ilSearchGUI extends ilSearchBaseGUI
         $this->tpl->setVariable('SEARCH_AREA_FORM', $this->getSearchAreaForm()->getHTML());
     }
 
-    public function showSavedResults() : void
+    public function showSavedResults(): void
     {
-
         // Read old result sets
 
         $result_obj = new ilSearchResult($this->user->getId());
@@ -385,7 +386,7 @@ class ilSearchGUI extends ilSearchBaseGUI
     /**
      * Perform search
      */
-    public function performSearch() : bool
+    public function performSearch(): bool
     {
         $page_number = $this->initPageNumberFromQuery();
         if (!$page_number and $this->search_mode != 'in_results') {
@@ -403,7 +404,7 @@ class ilSearchGUI extends ilSearchBaseGUI
         if (!is_object($query_parser = $this->__parseQueryString())) {
             $this->tpl->setOnScreenMessage('info', $query_parser);
             $this->showSearch();
-            
+
             return false;
         }
         // Step 2: perform object search. Get an ObjectSearch object via factory. Depends on fulltext or like search type.
@@ -415,13 +416,13 @@ class ilSearchGUI extends ilSearchBaseGUI
 
         $result_meta = $this->__searchMeta($query_parser, 'contribute');
         $result->mergeEntries($result_meta);
-    
+
         $result_meta = $this->__searchMeta($query_parser, 'title');
         $result->mergeEntries($result_meta);
-    
+
         $result_meta = $this->__searchMeta($query_parser, 'description');
         $result->mergeEntries($result_meta);
-    
+
         // Perform details search in object specific tables
         if ($this->getType() == ilSearchBaseGUI::SEARCH_DETAILS) {
             $result = $this->__performDetailsSearch($query_parser, $result);
@@ -433,7 +434,7 @@ class ilSearchGUI extends ilSearchBaseGUI
 
             $result->diffEntriesFromResult();
         }
-            
+
 
         // Step 4: merge and validate results
         $result->filter(
@@ -454,7 +455,7 @@ class ilSearchGUI extends ilSearchBaseGUI
 
         // Step 6: show results
         $this->addPager($result, 'max_page');
-        
+
         $presentation = new ilSearchResultPresentation($this, ilSearchResultPresentation::MODE_STANDARD);
         $presentation->setResults($result->getResultsForPresentation());
         $presentation->setSubitemIds($result->getSubitemIds());
@@ -466,12 +467,12 @@ class ilSearchGUI extends ilSearchBaseGUI
         return true;
     }
 
-        
 
-    public function prepareOutput() : void
+
+    public function prepareOutput(): void
     {
         parent::prepareOutput();
-        
+
         $this->help_gui->setScreenIdComponent("src");
 
         $this->tabs_gui->addTab(
@@ -479,7 +480,7 @@ class ilSearchGUI extends ilSearchBaseGUI
             $this->lng->txt("search"),
             $this->ctrl->getLinkTarget($this)
         );
-        
+
         if (!$this->settings->getHideAdvancedSearch()) {
             $this->tabs_gui->addTab(
                 "adv_search",
@@ -487,11 +488,11 @@ class ilSearchGUI extends ilSearchBaseGUI
                 $this->ctrl->getLinkTargetByClass('iladvancedsearchgui')
             );
         }
-        
+
         $this->tabs_gui->activateTab("search");
     }
 
-    protected function __performDetailsSearch(ilQueryParser $query_parser, ilSearchResult $result) : ilSearchResult
+    protected function __performDetailsSearch(ilQueryParser $query_parser, ilSearchResult $result): ilSearchResult
     {
         foreach ($this->getDetails() as $type => $enabled) {
             if (!$enabled) {
@@ -504,13 +505,13 @@ class ilSearchGUI extends ilSearchBaseGUI
                     $crs_search->setFilter(array('crs'));
                     $result->mergeEntries($crs_search->performSearch());
                     break;
-                
+
                 case 'grp':
                     $grp_search = ilObjectSearchFactory::_getObjectSearchInstance($query_parser);
                     $grp_search->setFilter(array('grp'));
                     $result->mergeEntries($grp_search->performSearch());
                     break;
-                
+
                 case 'lms':
                     $content_search = ilObjectSearchFactory::_getLMContentSearchInstance($query_parser);
                     $content_search->setFilter($this->__getFilter());
@@ -554,12 +555,12 @@ class ilSearchGUI extends ilSearchBaseGUI
                     $mep_search = ilObjectSearchFactory::_getMediaPoolSearchInstance($query_parser);
                     $mep_search->setFilter($this->__getFilter());
                     $result->mergeEntries($mep_search->performSearch());
-                    
+
                     // Mob keyword search
                     $mob_search = ilObjectSearchFactory::_getMediaPoolSearchInstance($query_parser);
                     $mob_search->setFilter($this->__getFilter());
                     $result->mergeEntries($mob_search->performKeywordSearch());
-                    
+
                     break;
 
                 case 'wiki':
@@ -572,7 +573,6 @@ class ilSearchGUI extends ilSearchBaseGUI
                     $result_meta =& $this->__searchMeta($query_parser,'description');
                     $result->mergeEntries($result_meta);*/
                     break;
-
             }
         }
         return $result;
@@ -596,7 +596,7 @@ class ilSearchGUI extends ilSearchBaseGUI
     /**
     * Search in obect title,desctiption
     */
-    public function __searchObjects(ilQueryParser $query_parser) : ilSearchResult
+    public function __searchObjects(ilQueryParser $query_parser): ilSearchResult
     {
         $obj_search = ilObjectSearchFactory::_getObjectSearchInstance($query_parser);
         if ($this->getType() == ilSearchBaseGUI::SEARCH_DETAILS) {
@@ -605,8 +605,8 @@ class ilSearchGUI extends ilSearchBaseGUI
         $this->parseCreationFilter($obj_search);
         return $obj_search->performSearch();
     }
-    
-    public function parseCreationFilter(ilObjectSearch $search) : bool
+
+    public function parseCreationFilter(ilObjectSearch $search): bool
     {
         $options = $this->getSearchCache()->getCreationFilter();
         if (!($options['enabled'] ?? false)) {
@@ -614,16 +614,16 @@ class ilSearchGUI extends ilSearchBaseGUI
         }
         $limit = new ilDate($options['date'] ?? 0, IL_CAL_UNIX);
         $search->setCreationDateFilterDate($limit);
-        
+
         switch ($options['ontype'] ?? 0) {
             case 1:
                 $search->setCreationDateFilterOperator(ilObjectSearch::CDATE_OPERATOR_AFTER);
                 break;
-                
+
             case 2:
                 $search->setCreationDateFilterOperator(ilObjectSearch::CDATE_OPERATOR_BEFORE);
                 break;
-                
+
             case 3:
                 $search->setCreationDateFilterOperator(ilObjectSearch::CDATE_OPERATOR_ON);
                 break;
@@ -637,7 +637,7 @@ class ilSearchGUI extends ilSearchBaseGUI
     * @return ilSearchResult result object
     * @access public
     */
-    public function __searchMeta(ilQueryParser $query_parser, string $a_type) : ilSearchResult
+    public function __searchMeta(ilQueryParser $query_parser, string $a_type): ilSearchResult
     {
         $meta_search = ilObjectSearchFactory::_getMetaDataSearchInstance($query_parser);
         if ($this->getType() == ilSearchBaseGUI::SEARCH_DETAILS) {
@@ -666,7 +666,7 @@ class ilSearchGUI extends ilSearchBaseGUI
     * Get object type for filter (If detail search is enabled)
      * @return string[]
     */
-    public function __getFilter() : array
+    public function __getFilter(): array
     {
         if ($this->getType() != ilSearchBaseGUI::SEARCH_DETAILS) {
             return [];
@@ -677,7 +677,7 @@ class ilSearchGUI extends ilSearchBaseGUI
             if (!$detail_type) {
                 continue;
             }
-            
+
             switch ($key) {
                 case 'lms':
                     $filter[] = 'lm';
@@ -719,11 +719,11 @@ class ilSearchGUI extends ilSearchBaseGUI
                 case 'fil':
                     $filter[] = 'file';
                     break;
-                    
+
                 case 'wiki':
                     $filter[] = 'wpg';
                     break;
-                
+
                 default:
                     $filter[] = $key;
             }

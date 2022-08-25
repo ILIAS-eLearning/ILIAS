@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -28,7 +30,7 @@ class Group
      * @param Transformation[] $inTransformations
      * @return Transformation
      */
-    public function series(array $inTransformations) : Transformation
+    public function series(array $inTransformations): Transformation
     {
         return new Series($inTransformations);
     }
@@ -39,7 +41,7 @@ class Group
      * @param Transformation[] $inTransformations
      * @return Transformation
      */
-    public function parallel(array $inTransformations) : Transformation
+    public function parallel(array $inTransformations): Transformation
     {
         return new Parallel($inTransformations);
     }

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -34,19 +36,19 @@
 
 class ilLikeUserSearch extends ilUserSearch
 {
-    public function __createWhereCondition() : string
+    public function __createWhereCondition(): string
     {
         $fields = $this->getFields();
         $field = $fields[0] . ' ';
 
         $and = "  WHERE ( ";
-        
+
         $counter = 0;
         foreach ($this->query_parser->getQuotedWords() as $word) {
             if ($counter++) {
                 $and .= " OR ";
             }
-            
+
             if (strpos($word, '^') === 0) {
                 $and .= $this->db->like($field, 'text', substr($word, 1) . '%');
             } else {

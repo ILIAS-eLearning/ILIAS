@@ -15,7 +15,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\BackgroundTasks\Implementation\Values;
 
 use ILIAS\BackgroundTasks\Task;
@@ -31,23 +31,23 @@ use ILIAS\BackgroundTasks\Value;
 abstract class AbstractValue implements Value
 {
     protected Task $parentTask;
-    
-    public function getType() : Type
+
+    public function getType(): Type
     {
         return new SingleType(static::class);
     }
-    
-    public function getParentTask() : Task
+
+    public function getParentTask(): Task
     {
         return $this->parentTask;
     }
-    
-    public function setParentTask(Task $parentTask) : void
+
+    public function setParentTask(Task $parentTask): void
     {
         $this->parentTask = $parentTask;
     }
-    
-    public function hasParentTask() : bool
+
+    public function hasParentTask(): bool
     {
         return isset($this->parentTask);
     }

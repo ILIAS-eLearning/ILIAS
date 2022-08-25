@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -32,27 +34,27 @@ class ilAwarenessUserProviderContactRequestsTest extends ilBuddySystemBaseTest
      */
     private $language;
 
-    public function testConstruct() : void
+    public function testConstruct(): void
     {
         $this->assertInstanceOf(Contacts::class, $this->create());
     }
 
-    public function testGetProviderId() : void
+    public function testGetProviderId(): void
     {
         $this->assertSame('contact_approved', $this->create()->getProviderId());
     }
 
-    public function testGetTitle() : void
+    public function testGetTitle(): void
     {
         $this->expectTranslation('getTitle', 'contact_awrn_req_contacts');
     }
 
-    public function testGetInfo() : void
+    public function testGetInfo(): void
     {
         $this->expectTranslation('getInfo', 'contact_awrn_req_contacts_info');
     }
 
-    public function testGetInitialUserSet() : void
+    public function testGetInitialUserSet(): void
     {
         $instance = $this->create();
 
@@ -61,12 +63,12 @@ class ilAwarenessUserProviderContactRequestsTest extends ilBuddySystemBaseTest
         $this->assertEquals([], $instance->getInitialUserSet());
     }
 
-    public function testIsHighlighted() : void
+    public function testIsHighlighted(): void
     {
         $this->assertTrue($this->create()->isHighlighted());
     }
 
-    private function expectTranslation(string $method, string $languageKey) : void
+    private function expectTranslation(string $method, string $languageKey): void
     {
         $expected = 'translated: ' . $languageKey;
 
@@ -78,7 +80,7 @@ class ilAwarenessUserProviderContactRequestsTest extends ilBuddySystemBaseTest
         $this->assertSame($expected, $instance->$method());
     }
 
-    private function create() : Contacts
+    private function create(): Contacts
     {
         $this->user = $this->getMockBuilder(ilObjUser::class)->disableOriginalConstructor()->getMock();
         $this->language = $this->getMockBuilder(ilLanguage::class)->disableOriginalConstructor()->getMock();

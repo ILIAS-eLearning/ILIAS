@@ -22,15 +22,15 @@
 class ilObjWorkspaceFolderAccess extends ilObjectAccess
 {
     private static ?ilSetting $folderSettings = null;
-   
-    private static function getFolderSettings() : ?ilSetting
+
+    private static function getFolderSettings(): ?ilSetting
     {
         if (is_null(ilObjWorkspaceFolderAccess::$folderSettings)) {
             ilObjWorkspaceFolderAccess::$folderSettings = new ilSetting('fold');
         }
         return ilObjWorkspaceFolderAccess::$folderSettings;
     }
-    
+
     /**
      * get commands
      *
@@ -43,7 +43,7 @@ class ilObjWorkspaceFolderAccess extends ilObjectAccess
      *		array("permission" => "write", "cmd" => "edit", "lang_var" => "edit"),
      *	);
      */
-    public static function _getCommands() : array
+    public static function _getCommands(): array
     {
         $commands = array();
         $commands[] = array("permission" => "read", "cmd" => "view", "lang_var" => "show", "default" => true);

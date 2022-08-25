@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -20,7 +22,7 @@ use ilBuddySystemRelationStateReceiverShouldNotBeAbleToCancelRequestRule as Dont
 
 class ilBuddySystemRelationStateReceiverShouldNotBeAbleToCancelRequestRuleTest extends ilBuddySystemBaseTest
 {
-    public function testConstruct() : void
+    public function testConstruct(): void
     {
         $relation = $this->mock(ilBuddySystemRelation::class);
         $this->assertInstanceOf(
@@ -29,7 +31,7 @@ class ilBuddySystemRelationStateReceiverShouldNotBeAbleToCancelRequestRuleTest e
         );
     }
 
-    public function testMatches() : void
+    public function testMatches(): void
     {
         $relation = $this->mock(ilBuddySystemRelation::class);
         $relation->expects(self::once())->method('isRequested')->willReturn(true);
@@ -39,7 +41,7 @@ class ilBuddySystemRelationStateReceiverShouldNotBeAbleToCancelRequestRuleTest e
         $this->assertTrue($instance->matches());
     }
 
-    public function testMatchesRequested() : void
+    public function testMatchesRequested(): void
     {
         $relation = $this->mock(ilBuddySystemRelation::class);
         $relation->expects(self::once())->method('isRequested')->willReturn(false);
@@ -49,7 +51,7 @@ class ilBuddySystemRelationStateReceiverShouldNotBeAbleToCancelRequestRuleTest e
         $this->assertFalse($instance->matches());
     }
 
-    public function testMatchesOwned() : void
+    public function testMatchesOwned(): void
     {
         $relation = $this->mock(ilBuddySystemRelation::class);
         $relation->expects(self::once())->method('isRequested')->willReturn(true);
@@ -59,7 +61,7 @@ class ilBuddySystemRelationStateReceiverShouldNotBeAbleToCancelRequestRuleTest e
         $this->assertFalse($instance->matches());
     }
 
-    public function testInvokeFalse() : void
+    public function testInvokeFalse(): void
     {
         $relation = $this->mock(ilBuddySystemRelation::class);
         $state = $this->mock(ilBuddySystemUnlinkedRelationState::class);
@@ -69,7 +71,7 @@ class ilBuddySystemRelationStateReceiverShouldNotBeAbleToCancelRequestRuleTest e
         $this->assertFalse($instance($state));
     }
 
-    public function testInvoke() : void
+    public function testInvoke(): void
     {
         $relation = $this->mock(ilBuddySystemRelation::class);
         $state = $this->mock(ilBuddySystemRelationState::class);

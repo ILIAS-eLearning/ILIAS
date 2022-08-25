@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace ILIAS\Filesystem\Provider\FlySystem;
@@ -29,11 +30,10 @@ use ILIAS\Filesystem\Provider\FilesystemFactory;
  */
 final class FlySystemFilesystemFactory implements FilesystemFactory
 {
-
     /**
      * @inheritDoc
      */
-    public function getLocal(LocalConfig $config, bool $read_only = false) : Filesystem
+    public function getLocal(LocalConfig $config, bool $read_only = false): Filesystem
     {
         $localFactory = new FlySystemLocalFilesystemFactory();
 

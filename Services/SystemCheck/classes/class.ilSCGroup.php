@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -36,7 +38,7 @@ class ilSCGroup
         $this->read();
     }
 
-    public static function lookupComponent(int $a_id) : string
+    public static function lookupComponent(int $a_id): string
     {
         global $DIC;
 
@@ -51,27 +53,27 @@ class ilSCGroup
         return '';
     }
 
-    public function getId() : int
+    public function getId(): int
     {
         return $this->id;
     }
 
-    public function setComponentId(string $a_comp) : void
+    public function setComponentId(string $a_comp): void
     {
         $this->component_id = $a_comp;
     }
 
-    public function getComponentId() : string
+    public function getComponentId(): string
     {
         return $this->component_id;
     }
 
-    public function setLastUpdate(ilDateTime $a_update) : void
+    public function setLastUpdate(ilDateTime $a_update): void
     {
         $this->last_update = $a_update;
     }
 
-    public function getLastUpdate() : ilDateTime
+    public function getLastUpdate(): ilDateTime
     {
         if (!$this->last_update) {
             return $this->last_update = new ilDateTime();
@@ -79,17 +81,17 @@ class ilSCGroup
         return $this->last_update;
     }
 
-    public function setStatus(int $a_status) : void
+    public function setStatus(int $a_status): void
     {
         $this->status = $a_status;
     }
 
-    public function getStatus() : int
+    public function getStatus(): int
     {
         return $this->status;
     }
 
-    public function read() : bool
+    public function read(): bool
     {
         if (!$this->getId()) {
             return false;
@@ -106,7 +108,7 @@ class ilSCGroup
         return true;
     }
 
-    public function create() : int
+    public function create(): int
     {
         $this->id = $this->db->nextId('sysc_groups');
 

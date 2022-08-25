@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -35,27 +37,27 @@ class ilAdvancedMDSearch extends ilAbstractSearch
         parent::__construct($query_parser);
     }
 
-    public function setDefinition(ilAdvancedMDFieldDefinition $a_def) : void
+    public function setDefinition(ilAdvancedMDFieldDefinition $a_def): void
     {
         $this->definition = $a_def;
     }
 
-    public function getDefinition() : ilAdvancedMDFieldDefinition
+    public function getDefinition(): ilAdvancedMDFieldDefinition
     {
         return $this->definition;
     }
 
-    public function setSearchElement(ilADTSearchBridge $a_adt) : void
+    public function setSearchElement(ilADTSearchBridge $a_adt): void
     {
         $this->adt = $a_adt;
     }
 
-    public function getSearchElement() : ilADTSearchBridge
+    public function getSearchElement(): ilADTSearchBridge
     {
         return $this->adt;
     }
 
-    public function performSearch() : ilSearchResult
+    public function performSearch(): ilSearchResult
     {
         $this->query_parser->parse();
 

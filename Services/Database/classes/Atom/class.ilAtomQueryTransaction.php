@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * Class ilAtomQueryTransaction
  *
@@ -25,13 +27,12 @@
  */
 class ilAtomQueryTransaction extends ilAtomQueryBase implements ilAtomQuery
 {
-
     /**
      * Fire your Queries
      *
      * @throws \ilAtomQueryException
      */
-    public function run() : void
+    public function run(): void
     {
         $this->checkBeforeRun();
         $this->runWithTransactions();
@@ -41,7 +42,7 @@ class ilAtomQueryTransaction extends ilAtomQueryBase implements ilAtomQuery
     /**
      * @throws \ilAtomQueryException
      */
-    protected function runWithTransactions() : void
+    protected function runWithTransactions(): void
     {
         $i = 0;
         do {

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -64,7 +66,7 @@ class ilForumAuthorInformation
         $this->init();
     }
 
-    protected function initUserInstance() : void
+    protected function initUserInstance(): void
     {
         if ($this->display_id > 0) {
             // Try to read user instance from preloaded cache array
@@ -83,22 +85,22 @@ class ilForumAuthorInformation
         }
     }
 
-    protected function doesAuthorAccountExists() : bool
+    protected function doesAuthorAccountExists(): bool
     {
         return $this->getAuthor() instanceof ilObjUser && $this->getAuthor()->getId();
     }
 
-    protected function isAuthorAnonymous() : bool
+    protected function isAuthorAnonymous(): bool
     {
         return $this->doesAuthorAccountExists() && $this->getAuthor()->isAnonymous();
     }
 
-    protected function isCurrentUserSessionLoggedIn() : bool
+    protected function isCurrentUserSessionLoggedIn(): bool
     {
         return !$this->globalUser->isAnonymous();
     }
 
-    protected function buildAuthorProfileLink(bool $with_profile_link) : void
+    protected function buildAuthorProfileLink(bool $with_profile_link): void
     {
         $link = '';
 
@@ -124,7 +126,7 @@ class ilForumAuthorInformation
         $this->linked_short_name = $linked_login;
     }
 
-    protected function init() : void
+    protected function init(): void
     {
         $translationLanguage = $this->globalLng;
         if ($this->lng instanceof ilLanguage) {
@@ -197,7 +199,7 @@ class ilForumAuthorInformation
         }
     }
 
-    protected function getUserImagePath(ilObjUser $user) : string
+    protected function getUserImagePath(ilObjUser $user): string
     {
         if (!ilContext::hasHTML()) {
             return '';
@@ -206,7 +208,7 @@ class ilForumAuthorInformation
         return $user->getPersonalPicturePath('xsmall');
     }
 
-    protected function getAvatarImageSource(string $name, int $usrId = ANONYMOUS_USER_ID) : string
+    protected function getAvatarImageSource(string $name, int $usrId = ANONYMOUS_USER_ID): string
     {
         global $DIC;
 
@@ -222,17 +224,17 @@ class ilForumAuthorInformation
         return $avatar->getUrl();
     }
 
-    public function getProfilePicture() : string
+    public function getProfilePicture(): string
     {
         return $this->profilePicture;
     }
 
-    public function getAuthor() : ilObjUser
+    public function getAuthor(): ilObjUser
     {
         return $this->author;
     }
 
-    public function getAuthorName(bool $without_short_name = false) : string
+    public function getAuthorName(bool $without_short_name = false): string
     {
         if (!$without_short_name) {
             return $this->author_name;
@@ -241,37 +243,37 @@ class ilForumAuthorInformation
         return trim(preg_replace('/\(' . preg_quote($this->getAuthorShortName(), '/') . '\)/', '', $this->author_name));
     }
 
-    public function getAuthorShortName() : string
+    public function getAuthorShortName(): string
     {
         return $this->author_short_name;
     }
 
-    public function getLinkedAuthorName() : string
+    public function getLinkedAuthorName(): string
     {
         return $this->linked_public_name;
     }
 
-    public function getLinkedAuthorShortName() : string
+    public function getLinkedAuthorShortName(): string
     {
         return $this->linked_short_name;
     }
 
-    public function hasSuffix() : bool
+    public function hasSuffix(): bool
     {
         return $this->suffix !== '';
     }
 
-    public function getSuffix() : string
+    public function getSuffix(): string
     {
         return $this->suffix;
     }
 
-    public function isDeleted() : bool
+    public function isDeleted(): bool
     {
         return $this->is_deleted;
     }
 
-    public function getAlias() : string
+    public function getAlias(): string
     {
         return $this->alias;
     }

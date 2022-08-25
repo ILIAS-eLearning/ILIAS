@@ -26,44 +26,44 @@ class ilObjAdministrativeNotificationGUI extends ilObject2GUI
 {
     public const TAB_PERMISSIONS = 'perm_settings';
     public const TAB_MAIN = 'main';
-    
+
     private ilADNTabHandling $tab_handling;
     private ilObjAdministrativeNotificationAccess $admin_notification_access;
-    
+
     /**
      * ilObjAdministrativeNotificationGUI constructor.
      */
     public function __construct()
     {
         global $DIC;
-    
+
         $this->ref_id = $DIC->http()->wrapper()->query()->has('ref_id')
             ? $DIC->http()->wrapper()->query()->retrieve('ref_id', $DIC->refinery()->kindlyTo()->int())
             : null;
-        
+
         parent::__construct($this->ref_id);
 
         $this->lng->loadLanguageModule('adn');
         $this->tab_handling = new ilADNTabHandling($this->ref_id);
         $this->admin_notification_access = new ilObjAdministrativeNotificationAccess();
-        
+
         $this->assignObject();
     }
-    
-    public function executeCommand() : void
+
+    public function executeCommand(): void
     {
         $this->admin_notification_access->checkAccessAndThrowException("visible,read");
-        
+
         $next_class = $this->ctrl->getNextClass();
-        
+
         if ($next_class == '') {
             $this->ctrl->redirectByClass(ilADNNotificationGUI::class);
-            
+
             return;
         }
-        
+
         $this->prepareOutput();
-        
+
         switch ($next_class) {
             case strtolower(ilPermissionGUI::class):
                 $this->tab_handling->initTabs(self::TAB_PERMISSIONS);
@@ -79,8 +79,8 @@ class ilObjAdministrativeNotificationGUI extends ilObject2GUI
                 break;
         }
     }
-    
-    public function getType() : string
+
+    public function getType(): string
     {
         return ilObjAdministrativeNotification::TYPE_ADN;
     }

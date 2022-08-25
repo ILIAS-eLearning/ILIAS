@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /* Copyright (c) 2021 - Daniel Weise <daniel.weise@concepts-and-training.de> - Extended GPL, see LICENSE */
 
@@ -9,7 +11,7 @@ class ilIndividualAssessmentImporter extends ilXmlImporter
 {
     protected ilIndividualAssessmentDataSet $ds;
 
-    public function init() : void
+    public function init(): void
     {
         $this->ds = new ilIndividualAssessmentDataSet();
         $this->ds->setImportDirectory($this->getImportDirectory());
@@ -23,7 +25,7 @@ class ilIndividualAssessmentImporter extends ilXmlImporter
         string $a_id,
         string $a_xml,
         ilImportMapping $a_mapping
-    ) : void {
+    ): void {
         new ilDataSetImportParser($a_entity, $this->getSchemaVersion(), $a_xml, $this->ds, $a_mapping);
     }
 }

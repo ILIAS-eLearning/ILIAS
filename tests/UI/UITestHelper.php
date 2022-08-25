@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 require_once("libs/composer/vendor/autoload.php");
 
 require_once(__DIR__ . "/Base.php");
@@ -24,7 +26,7 @@ use ILIAS\DI\Container;
 use ILIAS\UI\Factory;
 use ILIAS\UI\Renderer;
 use ILIAS\Refinery\Factory as RefinaryFactory;
-use \ILIAS\Data\Factory as DataFactory;
+use ILIAS\Data\Factory as DataFactory;
 
 /**
  * Class UITestHelper can be helpful for test cases outside the UI Components, to inject a working
@@ -35,7 +37,7 @@ class UITestHelper
 {
     protected Container $dic;
 
-    public function init(Container $dic = null) : Container
+    public function init(Container $dic = null): Container
     {
         if ($dic) {
             $this->dic = $dic;
@@ -55,7 +57,7 @@ class UITestHelper
         return $this->dic;
     }
 
-    public function factory() : Factory
+    public function factory(): Factory
     {
         if (!isset($this->dic)) {
             $this->init();
@@ -63,7 +65,7 @@ class UITestHelper
         return $this->dic->ui()->factory();
     }
 
-    public function renderer() : Renderer
+    public function renderer(): Renderer
     {
         if (!isset($this->dic)) {
             $this->init();
@@ -71,7 +73,7 @@ class UITestHelper
         return $this->dic->ui()->renderer();
     }
 
-    public function mainTemplate() : ilGlobalTemplateInterface
+    public function mainTemplate(): ilGlobalTemplateInterface
     {
         if (!isset($this->dic)) {
             $this->init();

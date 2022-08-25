@@ -26,7 +26,7 @@ class ilWikiExporter extends ilXmlExporter
     private ilWikiDataSet $ds;
     protected ilLogger $wiki_log;
 
-    public function init() : void
+    public function init(): void
     {
         $this->ds = new ilWikiDataSet();
         $this->ds->setExportDirectories($this->dir_relative, $this->dir_absolute);
@@ -38,7 +38,7 @@ class ilWikiExporter extends ilXmlExporter
         string $a_entity,
         string $a_target_release,
         array $a_ids
-    ) : array {
+    ): array {
         $pg_ids = array();
         foreach ($a_ids as $id) {
             $pages = ilWikiPage::getAllWikiPages($id);
@@ -60,7 +60,7 @@ class ilWikiExporter extends ilXmlExporter
                 "ids" => $a_ids
                 )
             );
-        
+
         $advmd_ids = array();
         foreach ($a_ids as $id) {
             $rec_ids = $this->getActiveAdvMDRecords($id);
@@ -100,8 +100,8 @@ class ilWikiExporter extends ilXmlExporter
 
         return $deps;
     }
-    
-    protected function getActiveAdvMDRecords(int $a_id) : array
+
+    protected function getActiveAdvMDRecords(int $a_id): array
     {
         $active = array();
         // selected globals
@@ -123,11 +123,11 @@ class ilWikiExporter extends ilXmlExporter
         string $a_entity,
         string $a_schema_version,
         string $a_id
-    ) : string {
+    ): string {
         return $this->ds->getXmlRepresentation($a_entity, $a_schema_version, [$a_id], "", true, true);
     }
 
-    public function getValidSchemaVersions(string $a_entity) : array
+    public function getValidSchemaVersions(string $a_entity): array
     {
         return array(
             "5.4.0" => array(

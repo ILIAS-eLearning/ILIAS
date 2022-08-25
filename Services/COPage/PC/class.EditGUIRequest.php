@@ -38,22 +38,22 @@ class EditGUIRequest
         );
     }
 
-    public function getSubCmd() : string
+    public function getSubCmd(): string
     {
         return $this->str("subCmd");
     }
 
-    public function getRefId() : int
+    public function getRefId(): int
     {
         return $this->int("ref_id");
     }
 
-    public function getHierId() : string
+    public function getHierId(): string
     {
         return $this->str("hier_id");
     }
 
-    public function getPCId() : string
+    public function getPCId(): string
     {
         $pc_id = $this->str("pcid");
         if ($pc_id == "") {
@@ -62,17 +62,17 @@ class EditGUIRequest
         return $pc_id;
     }
 
-    public function getInt(string $key) : int
+    public function getInt(string $key): int
     {
         return $this->int($key);
     }
 
-    public function getString(string $key) : string
+    public function getString(string $key): string
     {
         return $this->str($key);
     }
 
-    public function getRaw(string $key) : string
+    public function getRaw(string $key): string
     {
         return $this->raw($key);
     }
@@ -80,7 +80,7 @@ class EditGUIRequest
     /**
      * @return int[]
      */
-    public function getIntArray(string $key) : array
+    public function getIntArray(string $key): array
     {
         return $this->intArray($key);
     }
@@ -88,7 +88,7 @@ class EditGUIRequest
     /**
      * @return string[]
      */
-    public function getStringArray(string $key) : array
+    public function getStringArray(string $key): array
     {
         return $this->strArray($key);
     }
@@ -97,7 +97,7 @@ class EditGUIRequest
     /**
      * @return array[]
      */
-    public function getArrayArray(string $key) : array
+    public function getArrayArray(string $key): array
     {
         return $this->arrayArray($key);
     }

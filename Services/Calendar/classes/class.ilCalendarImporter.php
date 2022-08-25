@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -13,7 +15,7 @@ class ilCalendarImporter extends ilXmlImporter
     /**
      * @inheritDoc
      */
-    public function init() : void
+    public function init(): void
     {
         $this->ds = new ilCalendarDataSet();
         $this->ds->setDSPrefix("ds");
@@ -27,7 +29,7 @@ class ilCalendarImporter extends ilXmlImporter
         string $a_id,
         string $a_xml,
         ilImportMapping $a_mapping
-    ) : void {
+    ): void {
         $parser = new ilDataSetImportParser(
             $a_entity,
             $this->getSchemaVersion(),

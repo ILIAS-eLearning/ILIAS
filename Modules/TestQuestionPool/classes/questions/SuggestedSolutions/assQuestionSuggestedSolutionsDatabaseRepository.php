@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -25,7 +27,7 @@ namespace ILIAS\TA\Questions;
  */
 class assQuestionSuggestedSolutionsDatabaseRepository
 {
-    const TABLE_SUGGESTED_SOLUTIONS = 'qpl_sol_sug';
+    public const TABLE_SUGGESTED_SOLUTIONS = 'qpl_sol_sug';
 
     protected \ilDBInterface $db;
 
@@ -34,7 +36,7 @@ class assQuestionSuggestedSolutionsDatabaseRepository
         $this->db = $db;
     }
 
-    public function create(int $question_id, string $type) : assQuestionSuggestedSolution
+    public function create(int $question_id, string $type): assQuestionSuggestedSolution
     {
         $solution = $this->buildSuggestedSolution(
             -1,
@@ -52,7 +54,7 @@ class assQuestionSuggestedSolutionsDatabaseRepository
     /**
      * return assQuestionSuggestedSolution[]
      */
-    public function selectFor(int $question_id) : array
+    public function selectFor(int $question_id): array
     {
         $ret = [];
         $query = 'SELECT' . PHP_EOL
@@ -81,14 +83,14 @@ class assQuestionSuggestedSolutionsDatabaseRepository
         return $ret;
     }
 
-    public function update(array $suggested_solutions) : void
+    public function update(array $suggested_solutions): void
     {
         foreach ($suggested_solutions as $solution) {
             if (!is_a($solution, assQuestionSuggestedSolution::class)) {
                 throw new \Exception('cannot update other than assQuestionSuggestedSolution');
             }
         };
-        
+
         foreach ($suggested_solutions as $solution) {
             $query = 'DELETE FROM ' . self::TABLE_SUGGESTED_SOLUTIONS . PHP_EOL
                 . 'WHERE question_fi = ' . $this->db->quote($solution->getQuestionId(), 'integer') . PHP_EOL
@@ -113,19 +115,19 @@ class assQuestionSuggestedSolutionsDatabaseRepository
                    'tstamp' => ['integer', $this->getNow()->format('U')]
                 ]
             );
-            
+
             $this->additionalOnStore($solution);
         }
     }
 
-    public function delete(int $suggested_solution_id) : void
+    public function delete(int $suggested_solution_id): void
     {
         $query = 'DELETE FROM ' . self::TABLE_SUGGESTED_SOLUTIONS . PHP_EOL
             . 'WHERE suggested_solution_id = ' . $this->db->quote($suggested_solution_id, 'integer');
         $this->db->manipulate($query);
     }
 
-    public function deleteForQuestion(int $question_id) : void
+    public function deleteForQuestion(int $question_id): void
     {
         $query = 'DELETE FROM ' . self::TABLE_SUGGESTED_SOLUTIONS . PHP_EOL
             . 'WHERE question_fi = ' . $this->db->quote($question_id, 'integer');
@@ -133,7 +135,7 @@ class assQuestionSuggestedSolutionsDatabaseRepository
         $this->additionalOnDelete($question_id);
     }
 
-    public function syncForQuestion(int $source_question_id, int $target_question_id) : void
+    public function syncForQuestion(int $source_question_id, int $target_question_id): void
     {
         if ($source_question_id === $target_question_id) {
             throw new \LogicException('do not sync with same question');
@@ -153,7 +155,7 @@ class assQuestionSuggestedSolutionsDatabaseRepository
         string $type,
         string $value,
         \DateTimeImmutable $last_update
-    ) : assQuestionSuggestedSolution {
+    ): assQuestionSuggestedSolution {
         switch ($type) {
             case assQuestionSuggestedSolution::TYPE_FILE:
                 $suggestion_class = assSuggestedSolutionFile::class;
@@ -183,18 +185,18 @@ class assQuestionSuggestedSolutionsDatabaseRepository
         );
     }
 
-    protected function getNow() : \DateTimeImmutable
+    protected function getNow(): \DateTimeImmutable
     {
         return new \DateTimeImmutable();
     }
 
 
-    protected function additionalOnDelete(int $question_id) : void
+    protected function additionalOnDelete(int $question_id): void
     {
         \ilInternalLink::_deleteAllLinksOfSource("qst", $question_id);
     }
-    
-    protected function additionalOnStore(assQuestionSuggestedSolution $solution) : void
+
+    protected function additionalOnStore(assQuestionSuggestedSolution $solution): void
     {
         if ($solution->isOfTypeLink()) {
             if (preg_match("/il_(\d*?)_(\w+)_(\d+)/", $solution->getInternalLink(), $matches)) {

@@ -20,11 +20,11 @@
  */
 class arJoin extends arStatement
 {
-    const TYPE_NORMAL = self::TYPE_INNER;
-    const TYPE_LEFT = 'LEFT';
-    const TYPE_RIGHT = 'RIGHT';
-    const TYPE_INNER = 'INNER';
-    const AS_TEXT = ' AS ';
+    public const TYPE_NORMAL = self::TYPE_INNER;
+    public const TYPE_LEFT = 'LEFT';
+    public const TYPE_RIGHT = 'RIGHT';
+    public const TYPE_INNER = 'INNER';
+    public const AS_TEXT = ' AS ';
     protected string $type = self::TYPE_NORMAL;
     protected string $table_name = '';
     protected array $fields = array('*');
@@ -35,7 +35,7 @@ class arJoin extends arStatement
     protected bool $both_external = false;
     protected bool $is_mapped = false;
 
-    protected function asStatementText(ActiveRecord $ar, string $as = ' AS ') : string
+    protected function asStatementText(ActiveRecord $ar, string $as = ' AS '): string
     {
         $return = ' ' . $this->getType() . ' ';
         $return .= ' JOIN ' . $this->getTableName() . $as . $this->getTableNameAs();
@@ -48,112 +48,112 @@ class arJoin extends arStatement
         return $return . ($this->getTableNameAs() . '.' . $this->getOnSecondField());
     }
 
-    public function asSQLStatement(ActiveRecord $ar) : string
+    public function asSQLStatement(ActiveRecord $ar): string
     {
         return $this->asStatementText($ar, self::AS_TEXT);
     }
 
-    public function setLeft() : void
+    public function setLeft(): void
     {
         $this->setType(self::TYPE_LEFT);
     }
 
-    public function setRght() : void
+    public function setRght(): void
     {
         $this->setType(self::TYPE_RIGHT);
     }
 
-    public function setInner() : void
+    public function setInner(): void
     {
         $this->setType(self::TYPE_INNER);
     }
 
-    public function setFields(array $fields) : void
+    public function setFields(array $fields): void
     {
         $this->fields = $fields;
     }
 
-    public function getFields() : array
+    public function getFields(): array
     {
         return $this->fields;
     }
 
-    public function setOnFirstField(string $on_first_field) : void
+    public function setOnFirstField(string $on_first_field): void
     {
         $this->on_first_field = $on_first_field;
     }
 
-    public function getOnFirstField() : string
+    public function getOnFirstField(): string
     {
         return $this->on_first_field;
     }
 
-    public function setOnSecondField(string $on_second_field) : void
+    public function setOnSecondField(string $on_second_field): void
     {
         $this->on_second_field = $on_second_field;
     }
 
-    public function getOnSecondField() : string
+    public function getOnSecondField(): string
     {
         return $this->on_second_field;
     }
 
-    public function setOperator(string $operator) : void
+    public function setOperator(string $operator): void
     {
         $this->operator = $operator;
     }
 
-    public function getOperator() : string
+    public function getOperator(): string
     {
         return $this->operator;
     }
 
-    public function setTableName(string $table_name) : void
+    public function setTableName(string $table_name): void
     {
         $this->table_name = $table_name;
     }
 
-    public function getTableName() : string
+    public function getTableName(): string
     {
         return $this->table_name;
     }
 
-    public function setType(string $type) : void
+    public function setType(string $type): void
     {
         $this->type = $type;
     }
 
-    public function getType() : string
+    public function getType(): string
     {
         return $this->type;
     }
 
-    public function setBothExternal(bool $both_external) : void
+    public function setBothExternal(bool $both_external): void
     {
         $this->both_external = $both_external;
     }
 
-    public function getBothExternal() : bool
+    public function getBothExternal(): bool
     {
         return $this->both_external;
     }
 
-    public function setFullNames(bool $full_names) : void
+    public function setFullNames(bool $full_names): void
     {
         $this->full_names = $full_names;
     }
 
-    public function getFullNames() : bool
+    public function getFullNames(): bool
     {
         return $this->full_names;
     }
 
-    public function isIsMapped() : bool
+    public function isIsMapped(): bool
     {
         return $this->is_mapped;
     }
 
-    public function setIsMapped(bool $is_mapped) : void
+    public function setIsMapped(bool $is_mapped): void
     {
         $this->is_mapped = $is_mapped;
     }

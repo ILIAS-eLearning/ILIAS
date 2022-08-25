@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -18,7 +20,7 @@
 
 class ilMailBodyPurifierTest extends ilMailBaseTest
 {
-    public function bodyProvider() : array
+    public function bodyProvider(): array
     {
         return [
             'Reply indicators are kept' => [
@@ -35,14 +37,14 @@ class ilMailBodyPurifierTest extends ilMailBaseTest
     /**
      * @dataProvider bodyProvider
      */
-    public function testMailBodyPurifier(string $body, string $expectedBody) : void
+    public function testMailBodyPurifier(string $body, string $expectedBody): void
     {
         $purifier = new ilMailBodyPurifier();
 
         $this->assertSame($expectedBody, $purifier->purify($body));
     }
 
-    public function testCarriageReturnCharactersAreRemoved() : void
+    public function testCarriageReturnCharactersAreRemoved(): void
     {
         $purifier = new ilMailBodyPurifier();
 

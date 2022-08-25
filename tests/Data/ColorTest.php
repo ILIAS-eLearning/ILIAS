@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /* Copyright (c) 2017 Nils Haagen <nils.haagen@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
@@ -16,17 +18,17 @@ class ColorTest extends TestCase
 {
     private ?Data\Factory $f;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         $this->f = new Data\Factory();
     }
 
-    protected function tearDown() : void
+    protected function tearDown(): void
     {
         $this->f = null;
     }
 
-    public function testFullHexValue() : void
+    public function testFullHexValue(): void
     {
         $v = $this->f->color('#0fff2f');
 
@@ -38,7 +40,7 @@ class ColorTest extends TestCase
         $this->assertEquals(47, $v->b());
     }
 
-    public function testShortHexValue() : void
+    public function testShortHexValue(): void
     {
         $v = $this->f->color('#f0f');
         $this->assertEquals('#ff00ff', $v->asHex());
@@ -46,7 +48,7 @@ class ColorTest extends TestCase
         $this->assertEquals(array(255, 0, 255), $v->asArray());
     }
 
-    public function testShortHexValue2() : void
+    public function testShortHexValue2(): void
     {
         $v = $this->f->color('f0f');
         $this->assertEquals('#ff00ff', $v->asHex());
@@ -54,7 +56,7 @@ class ColorTest extends TestCase
         $this->assertEquals(array(255, 0, 255), $v->asArray());
     }
 
-    public function testRBGValue() : void
+    public function testRBGValue(): void
     {
         $v = $this->f->color(array(15,255,47));
         $this->assertEquals('#0fff2f', $v->asHex());
@@ -62,7 +64,7 @@ class ColorTest extends TestCase
         $this->assertEquals(array(15, 255, 47), $v->asArray());
     }
 
-    public function testWrongRBGValue() : void
+    public function testWrongRBGValue(): void
     {
         try {
             $v = $this->f->color(array(-1,0,0));
@@ -72,7 +74,7 @@ class ColorTest extends TestCase
         }
     }
 
-    public function testWrongRBGValue2() : void
+    public function testWrongRBGValue2(): void
     {
         try {
             $v = $this->f->color(array(256,0,0));
@@ -82,7 +84,7 @@ class ColorTest extends TestCase
         }
     }
 
-    public function testWrongRBGValue3() : void
+    public function testWrongRBGValue3(): void
     {
         try {
             $v = $this->f->color(array(1,1,'123'));
@@ -92,7 +94,7 @@ class ColorTest extends TestCase
         }
     }
 
-    public function testWrongRBGValue4() : void
+    public function testWrongRBGValue4(): void
     {
         try {
             $v = $this->f->color(array());
@@ -102,7 +104,7 @@ class ColorTest extends TestCase
         }
     }
 
-    public function testWrongHexValue() : void
+    public function testWrongHexValue(): void
     {
         try {
             $v = $this->f->color('1234');
@@ -112,7 +114,7 @@ class ColorTest extends TestCase
         }
     }
 
-    public function testWrongHexValue2() : void
+    public function testWrongHexValue2(): void
     {
         try {
             $v = $this->f->color('#ff');
@@ -122,7 +124,7 @@ class ColorTest extends TestCase
         }
     }
 
-    public function testWrongHexValue4() : void
+    public function testWrongHexValue4(): void
     {
         try {
             $v = $this->f->color('#gg0000');
@@ -132,13 +134,13 @@ class ColorTest extends TestCase
         }
     }
 
-    public function testDarkness() : void
+    public function testDarkness(): void
     {
         $v = $this->f->color('#6541f4');
         $this->assertEquals(true, $v->isDark());
     }
 
-    public function testDarkness2() : void
+    public function testDarkness2(): void
     {
         $v = $this->f->color('#c1f441');
         $this->assertEquals(false, $v->isDark());

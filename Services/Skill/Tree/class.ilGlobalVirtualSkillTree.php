@@ -44,7 +44,7 @@ class ilGlobalVirtualSkillTree extends ilVirtualSkillTree
     /**
      * @return array{id: int, parent: int, depth: int, obj_id: int}
      */
-    public function getRootNode() : array
+    public function getRootNode(): array
     {
         $root_id = 0;
         $root_node = $this->tree->getNodeData($root_id);
@@ -60,7 +60,7 @@ class ilGlobalVirtualSkillTree extends ilVirtualSkillTree
     /**
      * @return array{id: int, child: int, parent: int}[]
      */
-    public function getChildsOfNode(string $a_parent_id) : array
+    public function getChildsOfNode(string $a_parent_id): array
     {
         if ($a_parent_id === "0") {
             $childs = [];
@@ -84,7 +84,7 @@ class ilGlobalVirtualSkillTree extends ilVirtualSkillTree
     /**
      * @return {cskill_id: string, id: string, skill_id: string, tref_id: string, parent: string, type: string}[]
      */
-    public function getSubTreeForTreeId(string $a_tree_id) : array
+    public function getSubTreeForTreeId(string $a_tree_id): array
     {
         return array_merge(
             [$this->getNode($a_tree_id)],

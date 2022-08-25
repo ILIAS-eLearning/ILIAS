@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -38,12 +40,12 @@ abstract class ilWebLinkBaseItemsContainer
     /**
      * @return ilWebLinkBaseItem[]
      */
-    public function getItems() : array
+    public function getItems(): array
     {
         return $this->items;
     }
 
-    public function getFirstItem() : ?ilWebLinkBaseItem
+    public function getFirstItem(): ?ilWebLinkBaseItem
     {
         return $this->items[0] ?? null;
     }

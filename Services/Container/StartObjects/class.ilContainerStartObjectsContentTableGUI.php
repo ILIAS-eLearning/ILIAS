@@ -30,7 +30,7 @@ class ilContainerStartObjectsContentTableGUI extends ilTable2GUI
     protected array $item_list_guis;
     protected bool $enable_desktop;
     protected ilFavouritesManager $fav_manager;
-    
+
     public function __construct(
         ?object $a_parent_obj,
         string $a_parent_cmd,
@@ -45,40 +45,40 @@ class ilContainerStartObjectsContentTableGUI extends ilTable2GUI
         $this->obj_definition = $DIC["objDefinition"];
         $lng = $DIC->language();
         $ilCtrl = $DIC->ctrl();
-        
+
         $this->lng = $lng;
         $this->lng->loadLanguageModule('rep');
         $this->ctrl = $ilCtrl;
-        
+
         $this->start_object = $a_start_objects;
         $this->enable_desktop = $a_enable_desktop;
-        
+
         parent::__construct($a_parent_obj, $a_parent_cmd);
-            
+
         $this->addColumn($this->lng->txt('crs_nr'), 'nr');
         $this->addColumn($this->lng->txt('title'), 'title');
         $this->addColumn($this->lng->txt('crs_objective_accomplished'), 'status');
         $this->addColumn($this->lng->txt('actions'), '');
-        
+
         $this->setTitle($this->lng->txt('crs_table_start_objects'));
         $this->setDescription($this->lng->txt('crs_info_start'));
-     
+
         $this->setRowTemplate("tpl.start_objects_content_row.html", "Services/Container");
         $this->setFormAction($this->ctrl->getFormAction($a_parent_obj));
-        
+
         $this->setDefaultOrderField('nr');
         $this->setDefaultOrderDirection('asc');
         $this->fav_manager = new ilFavouritesManager();
-        
+
         $this->getItems();
     }
-    
-    protected function getItems() : void
+
+    protected function getItems(): void
     {
         $ilUser = $this->user;
         $ilObjDataCache = $this->obj_data_cache;
         $ilAccess = $this->access;
-        
+
         $lm_continue = new ilCourseLMHistory($this->start_object->getRefId(), $ilUser->getId());
         $continue_data = $lm_continue->getLMHistory();
 
@@ -88,18 +88,18 @@ class ilContainerStartObjectsContentTableGUI extends ilTable2GUI
             $obj_id = $ilObjDataCache->lookupObjId((int) $start['item_ref_id']);
             $ref_id = $start['item_ref_id'];
             $type = $ilObjDataCache->lookupType($obj_id);
-            
+
             if (!$ilAccess->checkAccess("visible", "", $ref_id)) {
                 continue;
             }
-        
+
             // start object status
             if ($this->start_object->isFullfilled($ilUser->getId(), $ref_id)) {
                 $accomplished = 'accomplished';
             } else {
                 $accomplished = 'not_accomplished';
             }
-            
+
             // add/remove desktop
             $actions = [];
             if ($this->enable_desktop) {
@@ -120,7 +120,7 @@ class ilContainerStartObjectsContentTableGUI extends ilTable2GUI
                     $actions[$url] = $this->lng->txt("rep_remove_from_favourites");
                 }
             }
-            
+
             $default_params = null;
             if ($type === "tst") {
                 $default_params["crs_show_result"] = $ref_id;
@@ -139,7 +139,7 @@ class ilContainerStartObjectsContentTableGUI extends ilTable2GUI
             } else {
                 $icon = ilUtil::getImagePath("icon_not_ok.svg");
             }
-            
+
             $items[] = [
                 "nr" => ++$counter,
                 "obj_id" => $obj_id,
@@ -153,7 +153,7 @@ class ilContainerStartObjectsContentTableGUI extends ilTable2GUI
                 "actions" => $actions
             ];
         }
-        
+
         $preloader = new ilObjectListGUIPreloader(ilObjectListGUI::CONTEXT_REPOSITORY);
         foreach ($items as $item) {
             $preloader->addItem($item["obj_id"], $item["type"], $item["ref_id"]);
@@ -163,8 +163,8 @@ class ilContainerStartObjectsContentTableGUI extends ilTable2GUI
 
         $this->setData($items);
     }
-        
-    protected function getItemListGUI(string $a_type) : ?ilObjectListGUI
+
+    protected function getItemListGUI(string $a_type): ?ilObjectListGUI
     {
         $objDefinition = $this->obj_definition;
 
@@ -185,14 +185,14 @@ class ilContainerStartObjectsContentTableGUI extends ilTable2GUI
         } else {
             $item_list_gui = $this->item_list_guis[$a_type];
         }
-        
+
         $item_list_gui->setDefaultCommandParameters([]);
-        
+
         return $item_list_gui;
     }
-    
+
     // Get list gui html
-    protected function getListItem(array $a_item) : string
+    protected function getListItem(array $a_item): string
     {
         $item_list_gui = $this->getItemListGUI($a_item["type"]);
         if (!$item_list_gui) {
@@ -201,7 +201,7 @@ class ilContainerStartObjectsContentTableGUI extends ilTable2GUI
 
         $item_list_gui->setContainerObject($this);
         $item_list_gui->enableCommands(true, true);
-        
+
         // ilObjectActivation::addListGUIActivationProperty($item_list_gui, $a_item);
 
         // notes, comment currently do not work properly
@@ -216,15 +216,15 @@ class ilContainerStartObjectsContentTableGUI extends ilTable2GUI
         $item_list_gui->enableLink(false);
         $item_list_gui->enableInfoScreen(true);
         $item_list_gui->enableSubscribe(false);
-        
+
         $level = 3;
-        
+
         if ($level < 3) {
             $item_list_gui->enableDescription(false);
             $item_list_gui->enableProperties(false);
             $item_list_gui->enablePreconditions(false);
         }
-        
+
         if ($a_item["append_default"]) {
             $item_list_gui->setDefaultCommandParameters($a_item["append_default"]);
         }
@@ -239,15 +239,15 @@ class ilContainerStartObjectsContentTableGUI extends ilTable2GUI
         return "";
     }
 
-    protected function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set): void
     {
         $this->tpl->setVariable("VAL_NR", $a_set["nr"]);
-        
+
         // begin-patch lok
         $this->tpl->setVariable("TXT_TITLE", $this->getListItem($a_set));
         $this->tpl->setVariable("TXT_STATUS", $a_set["status"]);
         $this->tpl->setVariable("IMG_STATUS", $a_set["status_img"]);
-        
+
         if ($a_set["actions"]) {
             $this->tpl->setCurrentBlock("link");
             foreach ($a_set["actions"] as $url => $caption) {

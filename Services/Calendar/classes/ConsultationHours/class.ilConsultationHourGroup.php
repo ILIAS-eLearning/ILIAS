@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
@@ -23,42 +25,42 @@ class ilConsultationHourGroup
         $this->read();
     }
 
-    public function getGroupId() : int
+    public function getGroupId(): int
     {
         return $this->group_id;
     }
 
-    public function setUserId(int $a_id) : void
+    public function setUserId(int $a_id): void
     {
         $this->usr_id = $a_id;
     }
 
-    public function getUserId() : int
+    public function getUserId(): int
     {
         return $this->usr_id;
     }
 
-    public function setMaxAssignments(int $a_num) : void
+    public function setMaxAssignments(int $a_num): void
     {
         $this->num_assignments = $a_num;
     }
 
-    public function getMaxAssignments() : int
+    public function getMaxAssignments(): int
     {
         return $this->num_assignments;
     }
 
-    public function setTitle(string $a_title) : void
+    public function setTitle(string $a_title): void
     {
         $this->title = $a_title;
     }
 
-    public function getTitle() : string
+    public function getTitle(): string
     {
         return $this->title;
     }
 
-    public function save() : int
+    public function save(): int
     {
         $this->group_id = $this->db->nextId('cal_ch_group');
         $query = 'INSERT INTO cal_ch_group (grp_id,usr_id,multiple_assignments,title) ' .
@@ -72,7 +74,7 @@ class ilConsultationHourGroup
         return $this->getGroupId();
     }
 
-    public function update() : void
+    public function update(): void
     {
         $query = 'UPDATE cal_ch_group SET ' .
             'usr_id = ' . $this->db->quote($this->getUserId(), 'integer') . ', ' .
@@ -82,7 +84,7 @@ class ilConsultationHourGroup
         $this->db->manipulate($query);
     }
 
-    public function delete() : void
+    public function delete(): void
     {
         $query = 'DELETE FROM cal_ch_group ' .
             'WHERE grp_id = ' . $this->db->quote($this->getGroupId(), 'integer');
@@ -90,7 +92,7 @@ class ilConsultationHourGroup
         ilBookingEntry::resetGroup($this->getGroupId());
     }
 
-    protected function read() : void
+    protected function read(): void
     {
         if (!$this->getGroupId()) {
             return;

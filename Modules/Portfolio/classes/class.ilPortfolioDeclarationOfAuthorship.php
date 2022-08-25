@@ -39,7 +39,7 @@ class ilPortfolioDeclarationOfAuthorship
      */
     public function getForLanguage(
         string $l
-    ) : string {
+    ): string {
         return $this->prtf_settings->get("decl_author_" . $l);
     }
 
@@ -49,7 +49,7 @@ class ilPortfolioDeclarationOfAuthorship
     public function setForLanguage(
         string $l,
         string $value
-    ) : void {
+    ): void {
         $this->prtf_settings->set("decl_author_" . $l, $value);
     }
 
@@ -58,7 +58,7 @@ class ilPortfolioDeclarationOfAuthorship
      */
     public function getForUser(
         ilObjUser $user
-    ) : string {
+    ): string {
         $lng = $this->lng;
 
         $decl = $this->getForLanguage($user->getLanguage());

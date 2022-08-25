@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -33,7 +35,7 @@ class ilObjChatroomListGUI extends ilObjectListGUI
         self::$publicRoomObjId = ilObjChatroom::_getPublicObjId();
     }
 
-    public function init() : void
+    public function init(): void
     {
         $this->delete_enabled = true;
         $this->cut_enabled = true;
@@ -47,7 +49,7 @@ class ilObjChatroomListGUI extends ilObjectListGUI
         $this->commands = ilObjChatroomAccess::_getCommands();
     }
 
-    public function getProperties() : array
+    public function getProperties(): array
     {
         $props = [];
 

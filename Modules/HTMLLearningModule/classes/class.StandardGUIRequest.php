@@ -38,17 +38,17 @@ class StandardGUIRequest
         );
     }
 
-    public function getRefId() : int
+    public function getRefId(): int
     {
         return $this->int("ref_id");
     }
 
-    public function getUserId() : int
+    public function getUserId(): int
     {
         return $this->int("user_id");
     }
 
-    public function getBaseClass() : string
+    public function getBaseClass(): string
     {
         return $this->str("baseClass");
     }

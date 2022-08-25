@@ -28,22 +28,22 @@ abstract class ilAccessibilityTableDatabaseDataProvider implements ilAccessibili
         $this->db = $db;
     }
 
-    abstract protected function getSelectPart(array $params, array $filter) : string;
+    abstract protected function getSelectPart(array $params, array $filter): string;
 
-    abstract protected function getFromPart(array $params, array $filter) : string;
+    abstract protected function getFromPart(array $params, array $filter): string;
 
-    abstract protected function getWherePart(array $params, array $filter) : string;
+    abstract protected function getWherePart(array $params, array $filter): string;
 
-    abstract protected function getGroupByPart(array $params, array $filter) : string;
+    abstract protected function getGroupByPart(array $params, array $filter): string;
 
-    abstract protected function getHavingPart(array $params, array $filter) : string;
+    abstract protected function getHavingPart(array $params, array $filter): string;
 
-    abstract protected function getOrderByPart(array $params, array $filter) : string;
+    abstract protected function getOrderByPart(array $params, array $filter): string;
 
     /**
      * @throws InvalidArgumentException
      */
-    public function getList(array $params, array $filter) : array
+    public function getList(array $params, array $filter): array
     {
         $data = [
             'items' => [],

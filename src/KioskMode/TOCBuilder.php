@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /* Copyright (c) 2018 - Richard Klees <richard.klees@concepts-and-training.de> - Extended GPL, see LICENSE */
 
@@ -33,7 +35,7 @@ interface TOCBuilder
      *
      * @param	mixed $state one of the LP_ constants from TOCBuilder
      */
-    public function node(string $label, int $parameter = null, int $lp = null) : TOCBuilder;
+    public function node(string $label, int $parameter = null, int $lp = null): TOCBuilder;
 
     /**
      * Build an entry in the TOC.
@@ -46,5 +48,5 @@ interface TOCBuilder
      * @param mixed $state one of the LP_ constants from TOCBuilder
      * @param bool $current is this the currently active item?
      */
-    public function item(string $label, int $parameter, $state = null, bool $current = false) : TOCBuilder;
+    public function item(string $label, int $parameter, $state = null, bool $current = false): TOCBuilder;
 }

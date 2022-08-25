@@ -15,7 +15,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\BackgroundTasks\Task\UserInteraction;
 
 /**
@@ -26,11 +26,11 @@ namespace ILIAS\BackgroundTasks\Task\UserInteraction;
  */
 interface Option
 {
-    public function getLangVar() : string;
-    
+    public function getLangVar(): string;
+
     public function setLangVar(string $lang_var);
-    
-    public function getValue() : string;
-    
+
+    public function getValue(): string;
+
     public function setValue(string $value);
 }

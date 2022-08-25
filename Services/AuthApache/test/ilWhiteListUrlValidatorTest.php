@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /******************************************************************************
  *
@@ -22,7 +24,7 @@ use PHPUnit\Framework\TestCase;
  */
 class ilWhiteListUrlValidatorTest extends TestCase
 {
-    public function domainProvider() : array
+    public function domainProvider(): array
     {
         return [
             'Empty String / Empty Whitelist' => ['', [], false],
@@ -66,7 +68,7 @@ class ilWhiteListUrlValidatorTest extends TestCase
      * @param array $whitelist
      * @param bool $result
      */
-    public function testValidator(string $domain, array $whitelist, bool $result) : void
+    public function testValidator(string $domain, array $whitelist, bool $result): void
     {
         $this->assertSame((new ilWhiteListUrlValidator($domain, $whitelist))->isValid(), $result);
     }

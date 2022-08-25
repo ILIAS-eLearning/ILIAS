@@ -23,7 +23,7 @@
  */
 class ilBadgeAppEventListener implements ilAppEventListener
 {
-    public static function handleEvent(string $a_component, string $a_event, array $a_parameter) : void
+    public static function handleEvent(string $a_component, string $a_event, array $a_parameter): void
     {
         switch ($a_component) {
             case 'Services/User':
@@ -37,7 +37,7 @@ class ilBadgeAppEventListener implements ilAppEventListener
                         break;
                 }
                 break;
-            
+
             case 'Services/Tracking':
                 switch ($a_event) {
                     case 'updateStatus':
@@ -51,7 +51,6 @@ class ilBadgeAppEventListener implements ilAppEventListener
                         break;
                 }
                 break;
-                        
         }
     }
 }

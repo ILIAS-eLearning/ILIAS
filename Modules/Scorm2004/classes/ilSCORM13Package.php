@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -23,14 +25,14 @@
 */
 class ilSCORM13Package
 {
-    const DB_ENCODE_XSL = './Modules/Scorm2004/templates/xsl/op/op-scorm13.xsl';
-    const CONVERT_XSL = './Modules/Scorm2004/templates/xsl/op/scorm12To2004.xsl';
-    const DB_DECODE_XSL = './Modules/Scorm2004/templates/xsl/op/op-scorm13-revert.xsl';
-    const VALIDATE_XSD = './libs/ilias/Scorm2004/xsd/op/op-scorm13.xsd';
-    
-    const WRAPPER_HTML = './Modules/Scorm2004/scripts/converter/GenericRunTimeWrapper1.0_aadlc/GenericRunTimeWrapper.htm';
-    const WRAPPER_JS = './Modules/Scorm2004/scripts/converter/GenericRunTimeWrapper1.0_aadlc/SCOPlayerWrapper.js';
-    
+    public const DB_ENCODE_XSL = './Modules/Scorm2004/templates/xsl/op/op-scorm13.xsl';
+    public const CONVERT_XSL = './Modules/Scorm2004/templates/xsl/op/scorm12To2004.xsl';
+    public const DB_DECODE_XSL = './Modules/Scorm2004/templates/xsl/op/op-scorm13-revert.xsl';
+    public const VALIDATE_XSD = './libs/ilias/Scorm2004/xsd/op/op-scorm13.xsd';
+
+    public const WRAPPER_HTML = './Modules/Scorm2004/scripts/converter/GenericRunTimeWrapper1.0_aadlc/GenericRunTimeWrapper.htm';
+    public const WRAPPER_JS = './Modules/Scorm2004/scripts/converter/GenericRunTimeWrapper1.0_aadlc/SCOPlayerWrapper.js';
+
 
 //    private $packageFile;
     private string $packageFolder;
@@ -89,17 +91,17 @@ class ilSCORM13Package
             $this->load($packageId);
         }
     }
-    
-    public function load(int $packageId) : void
+
+    public function load(int $packageId): void
     {
         global $DIC;
         $ilDB = $DIC->database();
-        
+
         $lm_set = $ilDB->queryF('SELECT * FROM sahs_lm WHERE id = %s', array('integer'), array($packageId));
         $lm_data = $ilDB->fetchAssoc($lm_set);
         $pg_set = $ilDB->queryF('SELECT * FROM cp_package WHERE obj_id  = %s', array('integer'), array($packageId));
         $pg_data = $ilDB->fetchAssoc($lm_set);
-        
+
         $this->packageData = array_merge($lm_data, $pg_data);
         $this->packageId = $packageId;
         $this->packageFolder = $this->packagesFolder . '/' . $packageId;
@@ -118,7 +120,7 @@ class ilSCORM13Package
         $ilDB = $DIC->database();
         $ilLog = ilLoggerFactory::getLogger('sc13');
         $ilErr = $DIC['ilErr'];
-        
+
         $title = "";
 
         if ($reimport === true) {
@@ -135,7 +137,7 @@ class ilSCORM13Package
         $this->packageId = $packageId;
         $this->imsmanifestFile = $this->packageFolder . '/' . 'imsmanifest.xml';
         //step 1 - parse Manifest-File and validate
-        $this->imsmanifest = new DOMDocument;
+        $this->imsmanifest = new DOMDocument();
         $this->imsmanifest->async = false;
         if (!@$this->imsmanifest->load($this->imsmanifestFile)) {
             $this->diagnostic[] = 'XML not wellformed';
@@ -144,7 +146,7 @@ class ilSCORM13Package
 
         //step 2 tranform
         $this->manifest = $this->transform($this->imsmanifest, self::DB_ENCODE_XSL);
-  
+
         if (!$this->manifest) {
             $this->diagnostic[] = 'Cannot transform into normalized manifest';
             return false;
@@ -189,7 +191,7 @@ class ilSCORM13Package
         $x = simplexml_load_string($this->manifest->saveXML());
         $x['persistPreviousAttempts'] = $this->packageData['persistprevattempts'];
         // $x['online'] = !$this->getOfflineStatus();//$this->packageData['c_online'];
-        
+
         $x['defaultLessonMode'] = $this->packageData['default_lesson_mode'];
         $x['credit'] = $this->packageData['credit'];
         $x['autoReview'] = $this->packageData['auto_review'];
@@ -224,7 +226,7 @@ class ilSCORM13Package
         $j['base'] = $packageFolder . '/';
         $j['foreignId'] = floatval($x['foreignId']); // manifest cp_node_id for associating global (package wide) objectives
         $j['id'] = strval($x['id']); // manifest id for associating global (package wide) objectives
-    
+
 
         //last step - build ADL Activity tree
         $act = new SeqTreeBuilder();
@@ -250,8 +252,8 @@ class ilSCORM13Package
 
         return $j['item']['title'];
     }
-    
-    
+
+
     /**
      * Helper for UploadAndImport
      * Recursively copies values from XML into PHP array for export as json
@@ -259,7 +261,7 @@ class ilSCORM13Package
      * xml element to process
      * reference to array object where to copy values
      */
-    public function jsonNode(object $node, ?array &$sink) : void
+    public function jsonNode(object $node, ?array &$sink): void
     {
         foreach ($node->attributes() as $k => $v) {
             // cast to boolean and number if possible
@@ -278,11 +280,11 @@ class ilSCORM13Package
         }
     }
 
-    public function dbImport(object $node, ?int &$lft = 1, ?int $depth = 1, ?int $parent = 0) : void
+    public function dbImport(object $node, ?int &$lft = 1, ?int $depth = 1, ?int $parent = 0): void
     {
         global $DIC;
         $ilDB = $DIC->database();
-        
+
         switch ($node->nodeType) {
             case XML_DOCUMENT_NODE:
 
@@ -311,7 +313,7 @@ class ilSCORM13Package
                         array($this->packageId, $this->packageName, 0, null)
                     );
                 }
-                
+
                 // run sub nodes
                 $this->dbImport($node->documentElement); // RECURSION
                 break;
@@ -325,7 +327,7 @@ class ilSCORM13Package
                 }
 
                 $cp_node_id = $ilDB->nextId('cp_node');
-                
+
                 $query = 'INSERT INTO cp_node (cp_node_id, slm_id, nodename) '
                        . 'VALUES (%s, %s, %s)';
                 $ilDB->manipulateF(
@@ -333,7 +335,7 @@ class ilSCORM13Package
                     array('integer', 'integer', 'text'),
                     array($cp_node_id, $this->packageId, $node->nodeName)
                 );
-                
+
                 $query = 'INSERT INTO cp_tree (child, depth, lft, obj_id, parent, rgt) '
                        . 'VALUES (%s, %s, %s, %s, %s, %s)';
                 $ilDB->manipulateF(
@@ -347,40 +349,67 @@ class ilSCORM13Package
                 $names = array('cp_node_id');
                 $values = array($cp_node_id);
                 $types = array('integer');
-        
+
                 foreach ($node->attributes as $attr) {
                     switch (strtolower($attr->name)) {
-                        case 'completionsetbycontent': $names[] = 'completionbycontent';break;
-                        case 'objectivesetbycontent': $names[] = 'objectivebycontent';break;
-                        case 'type': $names[] = 'c_type';break;
-                        case 'mode': $names[] = 'c_mode';break;
-                        case 'language': $names[] = 'c_language';break;
-                        case 'condition': $names[] = 'c_condition';break;
-                        case 'operator': $names[] = 'c_operator';break;
+                        case 'completionsetbycontent': $names[] = 'completionbycontent';
+                            break;
+                        case 'objectivesetbycontent': $names[] = 'objectivebycontent';
+                            break;
+                        case 'type': $names[] = 'c_type';
+                            break;
+                        case 'mode': $names[] = 'c_mode';
+                            break;
+                        case 'language': $names[] = 'c_language';
+                            break;
+                        case 'condition': $names[] = 'c_condition';
+                            break;
+                        case 'operator': $names[] = 'c_operator';
+                            break;
 //                        case 'condition': $names[] = 'c_condition';break;
-                        case 'readnormalizedmeasure': $names[] = 'readnormalmeasure';break;
-                        case 'writenormalizedmeasure': $names[] = 'writenormalmeasure';break;
-                        case 'minnormalizedmeasure': $names[] = 'minnormalmeasure';break;
-                        case 'primary': $names[] = 'c_primary';break;
+                        case 'readnormalizedmeasure': $names[] = 'readnormalmeasure';
+                            break;
+                        case 'writenormalizedmeasure': $names[] = 'writenormalmeasure';
+                            break;
+                        case 'minnormalizedmeasure': $names[] = 'minnormalmeasure';
+                            break;
+                        case 'primary': $names[] = 'c_primary';
+                            break;
 //                        case 'minnormalizedmeasure': $names[] = 'minnormalmeasure';break;
-                        case 'persistpreviousattempts': $names[] = 'persistprevattempts';break;
-                        case 'identifier': $names[] = 'c_identifier';break;
-                        case 'settings': $names[] = 'c_settings';break;
-                        case 'activityabsolutedurationlimit': $names[] = 'activityabsdurlimit';break;
-                        case 'activityexperienceddurationlimit': $names[] = 'activityexpdurlimit';break;
-                        case 'attemptabsolutedurationlimit': $names[] = 'attemptabsdurlimit';break;
-                        case 'measuresatisfactionifactive': $names[] = 'measuresatisfactive';break;
-                        case 'objectivemeasureweight': $names[] = 'objectivemeasweight';break;
-                        case 'requiredforcompleted': $names[] = 'requiredcompleted';break;
-                        case 'requiredforincomplete': $names[] = 'requiredincomplete';break;
-                        case 'requiredfornotsatisfied': $names[] = 'requirednotsatisfied';break;
-                        case 'rollupobjectivesatisfied': $names[] = 'rollupobjectivesatis';break;
-                        case 'rollupprogresscompletion': $names[] = 'rollupprogcompletion';break;
-                        case 'usecurrentattemptobjectiveinfo': $names[] = 'usecurattemptobjinfo';break;
-                        case 'usecurrentattemptprogressinfo': $names[] = 'usecurattemptproginfo';break;
-                        default: $names[] = strtolower($attr->name);break;
+                        case 'persistpreviousattempts': $names[] = 'persistprevattempts';
+                            break;
+                        case 'identifier': $names[] = 'c_identifier';
+                            break;
+                        case 'settings': $names[] = 'c_settings';
+                            break;
+                        case 'activityabsolutedurationlimit': $names[] = 'activityabsdurlimit';
+                            break;
+                        case 'activityexperienceddurationlimit': $names[] = 'activityexpdurlimit';
+                            break;
+                        case 'attemptabsolutedurationlimit': $names[] = 'attemptabsdurlimit';
+                            break;
+                        case 'measuresatisfactionifactive': $names[] = 'measuresatisfactive';
+                            break;
+                        case 'objectivemeasureweight': $names[] = 'objectivemeasweight';
+                            break;
+                        case 'requiredforcompleted': $names[] = 'requiredcompleted';
+                            break;
+                        case 'requiredforincomplete': $names[] = 'requiredincomplete';
+                            break;
+                        case 'requiredfornotsatisfied': $names[] = 'requirednotsatisfied';
+                            break;
+                        case 'rollupobjectivesatisfied': $names[] = 'rollupobjectivesatis';
+                            break;
+                        case 'rollupprogresscompletion': $names[] = 'rollupprogcompletion';
+                            break;
+                        case 'usecurrentattemptobjectiveinfo': $names[] = 'usecurattemptobjinfo';
+                            break;
+                        case 'usecurrentattemptprogressinfo': $names[] = 'usecurattemptproginfo';
+                            break;
+                        default: $names[] = strtolower($attr->name);
+                            break;
                     }
-                    
+
                     if (in_array(
                         $names[count($names) - 1],
                         array('flow', 'completionbycontent',
@@ -407,7 +436,7 @@ class ilSCORM13Package
                     } else {
                         $values[] = $attr->value;
                     }
-                                        
+
                     if (in_array(
                         $names[count($names) - 1],
                         array('objectivesglobtosys', 'attemptlimit',
@@ -437,24 +466,24 @@ class ilSCORM13Package
                         $types[] = 'text';
                     }
                 }
-                
+
                 if ($node->nodeName === 'datamap') {
                     $names[] = 'slm_id';
                     $values[] = $this->packageId;
                     $types[] = 'integer';
-                    
+
                     $names[] = 'sco_node_id';
                     $values[] = $parent;
                     $types[] = 'integer';
                 }
-                
+
                 // we have to change the insert method because of clob fields ($ilDB->manipulate does not work here)
                 $insert_data = array();
                 foreach ($names as $key => $db_field) {
                     $insert_data[$db_field] = array($types[$key], trim((string) $values[$key]));
                 }
                 $ilDB->insert('cp_' . strtolower($node->nodeName), $insert_data);
-    
+
                 $node->setAttribute('foreignId', (string) $cp_node_id);
                 $this->idmap[$node->getAttribute('id')] = $cp_node_id;
 
@@ -470,27 +499,27 @@ class ilSCORM13Package
                     array('integer', 'integer'),
                     array($lft++, $cp_node_id)
                 );
-        
+
                 break;
         }
     }
 
 
-    public function removeCMIData() : void
+    public function removeCMIData(): void
     {
         ilSCORM2004DeleteData::removeCMIDataForPackage($this->packageId);
         ilLPStatusWrapper::_refreshStatus($this->packageId);
     }
-    
-    public function removeCPData() : void
+
+    public function removeCPData(): void
     {
         global $DIC;
         $ilDB = $DIC->database();
         $ilLog = ilLoggerFactory::getLogger('sc13');
-        
+
         //get relevant nodes
         $cp_nodes = array();
-        
+
         $res = $ilDB->queryF(
             'SELECT cp_node.cp_node_id FROM cp_node WHERE cp_node.slm_id = %s',
             array('integer'),
@@ -499,15 +528,15 @@ class ilSCORM13Package
         while ($data = $ilDB->fetchAssoc($res)) {
             $cp_nodes[] = $data['cp_node_id'];
         }
-        
+
         //remove package data
         foreach (self::$elements['cp'] as $t) {
             $t = 'cp_' . $t;
-            
+
             $in = $ilDB->in(strtolower($t) . '.cp_node_id', $cp_nodes, false, 'integer');
             $ilDB->manipulate('DELETE FROM ' . strtolower($t) . ' WHERE ' . $in);
         }
-        
+
         // remove CP structure entries in tree and node
         $ilDB->manipulateF(
             'DELETE FROM cp_tree WHERE cp_tree.obj_id = %s',
@@ -520,7 +549,7 @@ class ilSCORM13Package
             array('integer'),
             array($this->packageId)
         );
-        
+
         // remove general package entry
         $ilDB->manipulateF(
             'DELETE FROM cp_package WHERE cp_package.obj_id = %s',
@@ -529,7 +558,7 @@ class ilSCORM13Package
         );
     }
 
-    public function dbRemoveAll() : void
+    public function dbRemoveAll(): void
     {
         //dont change order of calls
         $this->removeCMIData();
@@ -541,12 +570,12 @@ class ilSCORM13Package
      */
     public function transform(\DOMDocument $inputdoc, string $xslfile, ?string $outputpath = null)
     {
-        $xsl = new DOMDocument;
+        $xsl = new DOMDocument();
         $xsl->async = false;
         if (!@$xsl->load($xslfile)) {
             die('ERROR: load StyleSheet ' . $xslfile);
         }
-        $prc = new XSLTProcessor;
+        $prc = new XSLTProcessor();
         $prc->registerPHPFunctions();
         $r = @$prc->importStyleSheet($xsl);
         if (false === @$prc->importStyleSheet($xsl)) {
@@ -560,7 +589,7 @@ class ilSCORM13Package
     }
 
     //to be called from IlObjUser
-    public static function _removeTrackingDataForUser(int $user_id) : void
+    public static function _removeTrackingDataForUser(int $user_id): void
     {
         ilSCORM2004DeleteData::removeCMIDataForUser($user_id);
     }

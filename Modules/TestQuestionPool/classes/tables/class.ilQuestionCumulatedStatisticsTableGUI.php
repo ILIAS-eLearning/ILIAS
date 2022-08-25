@@ -1,4 +1,5 @@
 <?php
+
 /* Copyright (c) 1998-2014 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 require_once 'Services/Table/classes/class.ilTable2GUI.php';
@@ -47,7 +48,7 @@ class ilQuestionCumulatedStatisticsTableGUI extends ilTable2GUI
     /**
      *
      */
-    protected function initColumns() : void
+    protected function initColumns(): void
     {
         $this->addColumn($this->lng->txt('result'), 'result');
         $this->addColumn($this->lng->txt('value'), 'value');
@@ -56,7 +57,7 @@ class ilQuestionCumulatedStatisticsTableGUI extends ilTable2GUI
     /**
      *
      */
-    protected function initData() : void
+    protected function initData(): void
     {
         $rows = array();
 
@@ -85,7 +86,7 @@ class ilQuestionCumulatedStatisticsTableGUI extends ilTable2GUI
      * @param string $a_field
      * @return bool
      */
-    public function numericOrdering(string $a_field) : bool
+    public function numericOrdering(string $a_field): bool
     {
         if ('value' == $a_field) {
             return true;
@@ -97,7 +98,7 @@ class ilQuestionCumulatedStatisticsTableGUI extends ilTable2GUI
     /**
      * @param array $a_set
      */
-    public function fillRow(array $a_set) : void
+    public function fillRow(array $a_set): void
     {
         $this->tpl->setVariable('VAL_RESULT', $a_set['result']);
         $this->tpl->setVariable('VAL_VALUE', $a_set['is_percent'] ? sprintf("%2.2f", $a_set['value'])

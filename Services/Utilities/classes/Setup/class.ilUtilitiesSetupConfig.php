@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -23,7 +25,7 @@ class ilUtilitiesSetupConfig implements Setup\Config
     protected string $path_to_convert;
     protected string $path_to_zip;
     protected string $path_to_unzip;
-    
+
     public function __construct(
         string $path_to_convert,
         string $path_to_zip,
@@ -33,26 +35,26 @@ class ilUtilitiesSetupConfig implements Setup\Config
         $this->path_to_zip = $this->toLinuxConvention($path_to_zip);
         $this->path_to_unzip = $this->toLinuxConvention($path_to_unzip);
     }
-    
-    protected function toLinuxConvention(?string $p) : ?string
+
+    protected function toLinuxConvention(?string $p): ?string
     {
         if (!$p) {
             return null;
         }
         return preg_replace("/\\\\/", "/", $p);
     }
-    
-    public function getPathToConvert() : string
+
+    public function getPathToConvert(): string
     {
         return $this->path_to_convert;
     }
-    
-    public function getPathToZip() : string
+
+    public function getPathToZip(): string
     {
         return $this->path_to_zip;
     }
-    
-    public function getPathToUnzip() : string
+
+    public function getPathToUnzip(): string
     {
         return $this->path_to_unzip;
     }

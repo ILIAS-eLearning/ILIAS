@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 /**
@@ -187,13 +188,14 @@ final class ilEmployeeTalkMyStaffUserGUI implements ControlFlowCommandHandler
         $this->template->setContent($table->getHTML());
     }
 
-    private function loadActionBar(): void {
+    private function loadActionBar(): void
+    {
         $gl = new ilGroupedListGUI();
         $gl->setAsDropDown(true, false);
 
         $templates = new CallbackFilterIterator(
             new ArrayIterator(ilObject::_getObjectsByType("talt")),
-            function(array $item) {
+            function (array $item) {
                 return
                     (
                         $item['offline'] === "0" ||

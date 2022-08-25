@@ -1,4 +1,6 @@
-<?php declare(strict_types=0);
+<?php
+
+declare(strict_types=0);
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -33,7 +35,7 @@ abstract class ilLPCollection
     public static function getInstanceByMode(
         int $a_obj_id,
         int $a_mode
-    ) : ?ilLPCollection {
+    ): ?ilLPCollection {
         $path = "Services/Tracking/classes/collection/";
 
         switch ($a_mode) {
@@ -60,7 +62,7 @@ abstract class ilLPCollection
         return null;
     }
 
-    public static function getCollectionModes() : array
+    public static function getCollectionModes(): array
     {
         return array(
             ilLPObjSettings::LP_MODE_COLLECTION
@@ -77,12 +79,12 @@ abstract class ilLPCollection
         );
     }
 
-    public function hasSelectableItems() : bool
+    public function hasSelectableItems(): bool
     {
         return true;
     }
 
-    public function cloneCollection(int $a_target_id, int $a_copy_id) : void
+    public function cloneCollection(int $a_target_id, int $a_copy_id): void
     {
         $target_obj_id = ilObject::_lookupObjId($a_target_id);
         $cwo = ilCopyWizardOptions::_getInstance($a_copy_id);
@@ -100,12 +102,12 @@ abstract class ilLPCollection
         $this->logger->debug('cloned learning progress collection.');
     }
 
-    public function getItems() : array
+    public function getItems(): array
     {
         return $this->items;
     }
 
-    protected function read(int $a_obj_id) : void
+    protected function read(int $a_obj_id): void
     {
         $items = array();
         $res = $this->db->query(
@@ -122,7 +124,7 @@ abstract class ilLPCollection
         $this->items = $items;
     }
 
-    public function delete() : void
+    public function delete(): void
     {
         $query = "DELETE FROM ut_lp_collections" .
             " WHERE obj_id = " . $this->db->quote($this->obj_id, "integer");
@@ -139,12 +141,12 @@ abstract class ilLPCollection
     // ENTRIES
     //
 
-    protected function validateEntry(int $a_item_id) : bool
+    protected function validateEntry(int $a_item_id): bool
     {
         return true;
     }
 
-    public function isAssignedEntry(int $a_item_id) : bool
+    public function isAssignedEntry(int $a_item_id): bool
     {
         if (is_array($this->items)) {
             return in_array($a_item_id, $this->items);
@@ -152,7 +154,7 @@ abstract class ilLPCollection
         return false;
     }
 
-    protected function addEntry(int $a_item_id) : bool
+    protected function addEntry(int $a_item_id): bool
     {
         if (!$this->isAssignedEntry($a_item_id)) {
             $query = "INSERT INTO ut_lp_collections" .
@@ -167,7 +169,7 @@ abstract class ilLPCollection
         return true;
     }
 
-    protected function deleteEntry(int $a_item_id) : bool
+    protected function deleteEntry(int $a_item_id): bool
     {
         $query = "DELETE FROM ut_lp_collections" .
             " WHERE obj_id = " . $this->db->quote($this->obj_id, "integer") .
@@ -179,7 +181,7 @@ abstract class ilLPCollection
     /**
      * @param int[] $a_item_ids
      */
-    public function deactivateEntries(array $a_item_ids) : void
+    public function deactivateEntries(array $a_item_ids): void
     {
         foreach ($a_item_ids as $item_id) {
             $this->deleteEntry($item_id);
@@ -189,7 +191,7 @@ abstract class ilLPCollection
     /**
      * @param int[] $a_item_ids
      */
-    public function activateEntries(array $a_item_ids) : void
+    public function activateEntries(array $a_item_ids): void
     {
         foreach ($a_item_ids as $item_id) {
             $this->addEntry($item_id);

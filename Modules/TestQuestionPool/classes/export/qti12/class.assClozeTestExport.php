@@ -46,16 +46,16 @@ class assClozeTestExport extends assQuestionExport
     * Returns a QTI xml representation of the question and sets the internal
     * domxml variable with the DOM XML representation of the QTI xml representation
     */
-    public function toXML($a_include_header = true, $a_include_binary = true, $a_shuffle = false, $test_output = false, $force_image_references = false) : string
+    public function toXML($a_include_header = true, $a_include_binary = true, $a_shuffle = false, $test_output = false, $force_image_references = false): string
     {
         global $DIC;
         $ilias = $DIC['ilias'];
-        
+
         include_once "./Services/Math/classes/class.EvalMath.php";
         $eval = new EvalMath();
         $eval->suppress_errors = true;
         include_once("./Services/Xml/classes/class.ilXmlWriter.php");
-        $a_xml_writer = new ilXmlWriter;
+        $a_xml_writer = new ilXmlWriter();
         // set xml header
         $a_xml_writer->xmlHeader();
         $a_xml_writer->xmlStartTag("questestinterop");
@@ -86,26 +86,26 @@ class assClozeTestExport extends assQuestionExport
         $a_xml_writer->xmlElement("fieldlabel", null, "AUTHOR");
         $a_xml_writer->xmlElement("fieldentry", null, $this->object->getAuthor());
         $a_xml_writer->xmlEndTag("qtimetadatafield");
-        
+
         // additional content editing information
         $this->addAdditionalContentEditingModeInformation($a_xml_writer);
         $this->addGeneralMetadata($a_xml_writer);
-        
+
         $a_xml_writer->xmlStartTag("qtimetadatafield");
         $a_xml_writer->xmlElement("fieldlabel", null, "textgaprating");
         $a_xml_writer->xmlElement("fieldentry", null, $this->object->getTextgapRating());
         $a_xml_writer->xmlEndTag("qtimetadatafield");
-        
+
         $a_xml_writer->xmlStartTag("qtimetadatafield");
         $a_xml_writer->xmlElement("fieldlabel", null, "fixedTextLength");
         $a_xml_writer->xmlElement("fieldentry", null, $this->object->getFixedTextLength());
         $a_xml_writer->xmlEndTag("qtimetadatafield");
-        
+
         $a_xml_writer->xmlStartTag("qtimetadatafield");
         $a_xml_writer->xmlElement("fieldlabel", null, "identicalScoring");
         $a_xml_writer->xmlElement("fieldentry", null, $this->object->getIdenticalScoring());
         $a_xml_writer->xmlEndTag("qtimetadatafield");
-        
+
         $a_xml_writer->xmlStartTag("qtimetadatafield");
         $a_xml_writer->xmlElement("fieldlabel", null, "feedback_mode");
         $a_xml_writer->xmlElement("fieldentry", null, $this->object->getFeedbackMode());
@@ -115,10 +115,10 @@ class assClozeTestExport extends assQuestionExport
         $a_xml_writer->xmlElement("fieldlabel", null, "combinations");
         $a_xml_writer->xmlElement("fieldentry", null, base64_encode(json_encode($this->object->getGapCombinations())));
         $a_xml_writer->xmlEndTag("qtimetadatafield");
-        
+
         $a_xml_writer->xmlEndTag("qtimetadata");
         $a_xml_writer->xmlEndTag("itemmetadata");
-        
+
         // PART I: qti presentation
         $attrs = array(
             "label" => $this->object->getTitle()
@@ -126,12 +126,12 @@ class assClozeTestExport extends assQuestionExport
         $a_xml_writer->xmlStartTag("presentation", $attrs);
         // add flow to presentation
         $a_xml_writer->xmlStartTag("flow");
-        
+
         $questionText = $this->object->getQuestion() ? $this->object->getQuestion() : '&nbsp;';
         $this->object->addQTIMaterial($a_xml_writer, $questionText);
-        
+
         $text_parts = preg_split("/\[gap.*?\[\/gap\]/", $this->object->getClozeText());
-        
+
         // add material with question text to presentation
         for ($i = 0; $i <= $this->object->getGapCount(); $i++) {
             $this->object->addQTIMaterial($a_xml_writer, $text_parts[$i]);
@@ -344,7 +344,7 @@ class assClozeTestExport extends assQuestionExport
             $a_xml_writer->xmlStartTag("respcondition", $attrs);
             // qti conditionvar
             $a_xml_writer->xmlStartTag("conditionvar");
-            
+
             for ($i = 0; $i < $this->object->getGapCount(); $i++) {
                 $gap = $this->object->getGap($i);
                 $indexes = $gap->getBestSolutionIndexes();
@@ -396,7 +396,7 @@ class assClozeTestExport extends assQuestionExport
             $a_xml_writer->xmlStartTag("respcondition", $attrs);
             // qti conditionvar
             $a_xml_writer->xmlStartTag("conditionvar");
-            
+
             $a_xml_writer->xmlStartTag("not");
             for ($i = 0; $i < $this->object->getGapCount(); $i++) {
                 $gap = $this->object->getGap($i);
@@ -516,7 +516,7 @@ class assClozeTestExport extends assQuestionExport
             $a_xml_writer->xmlEndTag("flow_mat");
             $a_xml_writer->xmlEndTag("itemfeedback");
         }
-        
+
         $a_xml_writer = $this->addSolutionHints($a_xml_writer);
 
         $a_xml_writer->xmlEndTag("item");
@@ -529,40 +529,40 @@ class assClozeTestExport extends assQuestionExport
         }
         return $xml;
     }
-    
+
     /**
      * @param ilXmlWriter $xmlWriter
      */
-    protected function exportAnswerSpecificFeedbacks(ilXmlWriter $xmlWriter) : void
+    protected function exportAnswerSpecificFeedbacks(ilXmlWriter $xmlWriter): void
     {
         require_once 'Modules/TestQuestionPool/classes/feedback/class.ilAssSpecificFeedbackIdentifierList.php';
         $feedbackIdentifierList = new ilAssSpecificFeedbackIdentifierList();
         $feedbackIdentifierList->load($this->object->getId());
-        
+
         foreach ($feedbackIdentifierList as $fbIdentifier) {
             $feedback = $this->object->feedbackOBJ->getSpecificAnswerFeedbackExportPresentation(
                 $this->object->getId(),
                 $fbIdentifier->getQuestionIndex(),
                 $fbIdentifier->getAnswerIndex()
             );
-            
+
             $xmlWriter->xmlStartTag("itemfeedback", array(
                 "ident" => $this->buildQtiExportIdent($fbIdentifier), "view" => "All"
             ));
-            
+
             $xmlWriter->xmlStartTag("flow_mat");
             $this->object->addQTIMaterial($xmlWriter, $feedback);
             $xmlWriter->xmlEndTag("flow_mat");
-            
+
             $xmlWriter->xmlEndTag("itemfeedback");
         }
     }
-    
+
     /**
      * @param ilAssSpecificFeedbackIdentifier $fbIdentifier
      * @return string
      */
-    public function buildQtiExportIdent(ilAssSpecificFeedbackIdentifier $fbIdentifier) : string
+    public function buildQtiExportIdent(ilAssSpecificFeedbackIdentifier $fbIdentifier): string
     {
         return "{$fbIdentifier->getQuestionIndex()}_{$fbIdentifier->getAnswerIndex()}";
     }

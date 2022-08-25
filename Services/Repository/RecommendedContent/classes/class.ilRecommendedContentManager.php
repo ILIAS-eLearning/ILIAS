@@ -48,12 +48,12 @@ class ilRecommendedContentManager
             : $fav_manager;
     }
 
-    public function addRoleRecommendation(int $role_id, int $ref_id) : void
+    public function addRoleRecommendation(int $role_id, int $ref_id): void
     {
         $this->repo->addRoleRecommendation($role_id, $ref_id);
     }
 
-    public function removeRoleRecommendation(int $role_id, int $ref_id) : void
+    public function removeRoleRecommendation(int $role_id, int $ref_id): void
     {
         $this->repo->removeRoleRecommendation($role_id, $ref_id);
     }
@@ -61,34 +61,34 @@ class ilRecommendedContentManager
     /**
      * @return int[] ref ids of recommendations
      */
-    public function getRecommendationsOfRole(int $role_id) : array
+    public function getRecommendationsOfRole(int $role_id): array
     {
         return $this->repo->getRecommendationsOfRoles([$role_id]);
     }
 
 
-    public function addObjectRecommendation(int $user_id, int $ref_id) : void
+    public function addObjectRecommendation(int $user_id, int $ref_id): void
     {
         $this->repo->addObjectRecommendation($user_id, $ref_id);
     }
 
-    public function removeObjectRecommendation(int $user_id, int $ref_id) : void
+    public function removeObjectRecommendation(int $user_id, int $ref_id): void
     {
         $this->repo->removeObjectRecommendation($user_id, $ref_id);
     }
 
     //  Remove all recommendations of a ref id (role and user/object related)
-    public function removeRecommendationsOfRefId(int $ref_id) : void
+    public function removeRecommendationsOfRefId(int $ref_id): void
     {
         $this->repo->removeRecommendationsOfRefId($ref_id);
     }
 
-    public function removeRecommendationsOfUser(int $user_id) : void
+    public function removeRecommendationsOfUser(int $user_id): void
     {
         $this->repo->removeRecommendationsOfUser($user_id);
     }
 
-    public function removeRecommendationsOfRole(int $role_id) : void
+    public function removeRecommendationsOfRole(int $role_id): void
     {
         $this->repo->removeRecommendationsOfRole($role_id);
     }
@@ -96,7 +96,7 @@ class ilRecommendedContentManager
     /**
      * @return int[] ref ids
      */
-    public function getOpenRecommendationsOfUser(int $user_id) : array
+    public function getOpenRecommendationsOfUser(int $user_id): array
     {
         $review = $this->rbacreview;
         $repo = $this->repo;
@@ -108,13 +108,13 @@ class ilRecommendedContentManager
         // filter out favourites
         $favourites = $this->fav_manager->getFavouritesOfUser($user_id);
         $favourites_ref_ids = array_column($favourites, "ref_id");
-        
-        return array_filter($recommendations, static function (int $i) use ($favourites_ref_ids) : bool {
+
+        return array_filter($recommendations, static function (int $i) use ($favourites_ref_ids): bool {
             return !in_array($i, $favourites_ref_ids, true);
         });
     }
 
-    public function declineObjectRecommendation(int $user_id, int $ref_id) : void
+    public function declineObjectRecommendation(int $user_id, int $ref_id): void
     {
         $this->repo->declineObjectRecommendation($user_id, $ref_id);
     }

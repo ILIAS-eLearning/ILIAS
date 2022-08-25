@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\UI\Component\Table;
 
 use ILIAS\UI\Component\ViewControl\HasViewControls;
@@ -49,12 +51,12 @@ interface Presentation extends Table, HasViewControls
      *   mixed 				$environment
      * The closure MUST return \PresentationRow
      */
-    public function withRowMapping(Closure $row_mapping) : Presentation;
+    public function withRowMapping(Closure $row_mapping): Presentation;
 
     /**
      * Get the closure to construct row-entries with.
      */
-    public function getRowMapping() : Closure;
+    public function getRowMapping(): Closure;
 
     /**
      * Add a list of additional things the mapping-closure needs for processing.
@@ -62,14 +64,14 @@ interface Presentation extends Table, HasViewControls
      *
      * @param array<string,mixed> 	$environment
      */
-    public function withEnvironment(array $environment) : Presentation;
+    public function withEnvironment(array $environment): Presentation;
 
     /**
      * Get an array of additionally needed elements to build a data-entry.
      *
      * @return array<string,mixed>
      */
-    public function getEnvironment() : array;
+    public function getEnvironment(): array;
 
     /**
      * Fill a recordset into the table.
@@ -77,7 +79,7 @@ interface Presentation extends Table, HasViewControls
      *
      * @param array<mixed> 	$records
      */
-    public function withData(array $records) : Presentation;
+    public function withData(array $records): Presentation;
 
     /**
      * Get the recordset of this table.
@@ -85,5 +87,5 @@ interface Presentation extends Table, HasViewControls
      *
      * @return array<mixed>
      */
-    public function getData() : array;
+    public function getData(): array;
 }

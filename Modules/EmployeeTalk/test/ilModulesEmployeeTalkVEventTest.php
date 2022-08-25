@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -22,7 +24,7 @@ use ILIAS\EmployeeTalk\Service\VEventStatus;
 
 class ilModulesEmployeeTalkVEventTest extends TestCase
 {
-    public function testVEventRenderingWithValidDataWhichShouldSucceed() : void
+    public function testVEventRenderingWithValidDataWhichShouldSucceed(): void
     {
         $expectedStart = "BEGIN:VEVENT\r\n";
         $expectedStart .= "UID: unique-id-of-some-sort\r\n";
@@ -47,7 +49,7 @@ class ilModulesEmployeeTalkVEventTest extends TestCase
         $expectedEnd .= "ACTION:DISPLAY\r\n";
         $expectedEnd .= "END:VALARM\r\n";
         $expectedEnd .= "END:VEVENT\r\n";
-        
+
         $subject = new VEvent(
             "unique-id-of-some-sort",
             "test description",

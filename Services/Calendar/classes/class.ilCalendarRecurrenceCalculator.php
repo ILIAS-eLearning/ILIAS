@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -55,7 +57,7 @@ class ilCalendarRecurrenceCalculator
     /**
      * Get duration of event
      */
-    protected function getDuration() : int
+    protected function getDuration(): int
     {
         return $this->duration;
     }
@@ -67,7 +69,7 @@ class ilCalendarRecurrenceCalculator
      * @param int limit number of returned dates
      * @return ilDateList List of recurring dates
      */
-    public function calculateDateList(ilDateTime $a_start, ilDateTime $a_end, int $a_limit = -1) : ilDateList
+    public function calculateDateList(ilDateTime $a_start, ilDateTime $a_end, int $a_limit = -1): ilDateList
     {
         $this->valid_dates = $this->initDateList();
 
@@ -154,7 +156,7 @@ class ilCalendarRecurrenceCalculator
     /**
      * Apply duration period
      */
-    protected function applyDurationPeriod(ilDateList $list, ilDateTime $start, ilDateTime $end) : void
+    protected function applyDurationPeriod(ilDateList $list, ilDateTime $start, ilDateTime $end): void
     {
         $list_copy = clone $list;
         foreach ($list_copy as $start_date) {
@@ -178,7 +180,7 @@ class ilCalendarRecurrenceCalculator
     /**
      * Adjust timezone
      */
-    protected function adjustTimeZones(ilDateTime $a_start, ilDateTime $a_end) : void
+    protected function adjustTimeZones(ilDateTime $a_start, ilDateTime $a_end): void
     {
         $this->timezone = $this->event->isFullday() ? ilTimeZone::UTC : $this->recurrence->getTimeZone();
         ilTimeZone::_setDefaultTimeZone($this->timezone);
@@ -204,7 +206,7 @@ class ilCalendarRecurrenceCalculator
         }
     }
 
-    protected function optimizeStartingTime() : ilDateTime
+    protected function optimizeStartingTime(): ilDateTime
     {
         // starting time cannot be optimzed if RRULE UNTIL is given.
         // In that case we have to calculate all dates until "UNTIL" is reached.
@@ -220,7 +222,7 @@ class ilCalendarRecurrenceCalculator
         return $optimized;
     }
 
-    protected function incrementByFrequency(ilDateTime $start) : ilDateTime
+    protected function incrementByFrequency(ilDateTime $start): ilDateTime
     {
         switch ($this->recurrence->getFrequenceType()) {
             case ilCalendarRecurrence::FREQ_YEARLY:
@@ -246,7 +248,7 @@ class ilCalendarRecurrenceCalculator
         return $start;
     }
 
-    protected function applyBYMONTHRules(ilDateList $list) : ilDateList
+    protected function applyBYMONTHRules(ilDateList $list): ilDateList
     {
         // return unmodified, if no bymonth rules are available
         if (!$this->recurrence->getBYMONTHList()) {
@@ -282,7 +284,7 @@ class ilCalendarRecurrenceCalculator
      * Apply BYWEEKNO rules (1 to 53 and -1 to -53).
      * This rule can only be applied to YEARLY rules (RFC 2445 4.3.10)
      */
-    protected function applyBYWEEKNORules(ilDateList $list) : ilDateList
+    protected function applyBYWEEKNORules(ilDateList $list): ilDateList
     {
         if ($this->recurrence->getFrequenceType() != ilCalendarRecurrence::FREQ_YEARLY) {
             return $list;
@@ -327,7 +329,7 @@ class ilCalendarRecurrenceCalculator
         return $weeks_list;
     }
 
-    protected function applyBYYEARDAYRules(ilDateList $list) : ilDateList
+    protected function applyBYYEARDAYRules(ilDateList $list): ilDateList
     {
         // return unmodified, if no byweekno rules are available
         if (!$this->recurrence->getBYYEARDAYList()) {
@@ -388,7 +390,7 @@ class ilCalendarRecurrenceCalculator
         return $days_list;
     }
 
-    protected function applyBYMONTHDAYRules(ilDateList $list) : ilDateList
+    protected function applyBYMONTHDAYRules(ilDateList $list): ilDateList
     {
         // return unmodified, if no byweekno rules are available
         if (!$this->recurrence->getBYMONTHDAYList()) {
@@ -469,7 +471,7 @@ class ilCalendarRecurrenceCalculator
         return $days_list;
     }
 
-    protected function applyBYDAYRules(ilDateList $list) : ilDateList
+    protected function applyBYDAYRules(ilDateList $list): ilDateList
     {
         // return unmodified, if no byday rules are available
         if (!$this->recurrence->getBYDAYList()) {
@@ -508,7 +510,6 @@ class ilCalendarRecurrenceCalculator
                 case ilCalendarRecurrence::FREQ_DAILY:
                     $day_array[strtoupper(substr($seed->get(IL_CAL_FKT_DATE, 'D'), 0, 2))] = array($seed_info['yday']);
                     break;
-
             }
             foreach ($this->recurrence->getBYDAYList() as $byday) {
                 $year_day = array();
@@ -546,7 +547,7 @@ class ilCalendarRecurrenceCalculator
     /**
      * get a list of year week days according to the BYMONTH rule
      */
-    protected function getYearWeekDays(ilDateTime $seed) : array
+    protected function getYearWeekDays(ilDateTime $seed): array
     {
         $time = microtime(true);
 
@@ -571,7 +572,7 @@ class ilCalendarRecurrenceCalculator
         return $year_days;
     }
 
-    protected function getMonthWeekDays(string $year, string $month) : array
+    protected function getMonthWeekDays(string $year, string $month): array
     {
         static $month_days = array();
 
@@ -603,7 +604,7 @@ class ilCalendarRecurrenceCalculator
     /**
      * get weedays of week
      */
-    protected function getWeekWeekDays(array $seed_info) : array
+    protected function getWeekWeekDays(array $seed_info): array
     {
         $days = array(0 => 'SU', 1 => 'MO', 2 => 'TU', 3 => 'WE', 4 => 'TH', 5 => 'FR', 6 => 'SA');
 
@@ -617,7 +618,7 @@ class ilCalendarRecurrenceCalculator
     /**
      * Apply BYSETPOST rules
      */
-    protected function applyBYSETPOSRules(ilDateList $list) : ilDateList
+    protected function applyBYSETPOSRules(ilDateList $list): ilDateList
     {
         // return unmodified, if no bysetpos rules are available
         if (!$this->recurrence->getBYSETPOSList()) {
@@ -641,7 +642,7 @@ class ilCalendarRecurrenceCalculator
     /**
      * Apply limits (count or until)
      */
-    protected function applyLimits(ilDateList $list) : bool
+    protected function applyLimits(ilDateList $list): bool
     {
         $list->sort();
         // Check valid dates before starting time
@@ -679,7 +680,7 @@ class ilCalendarRecurrenceCalculator
         return true;
     }
 
-    protected function applyExclusionDates() : void
+    protected function applyExclusionDates(): void
     {
         if (!$this->recurrence->getExclusionDates()) {
             return;
@@ -689,12 +690,12 @@ class ilCalendarRecurrenceCalculator
         }
     }
 
-    protected function initDateList() : ilDateList
+    protected function initDateList(): ilDateList
     {
         return new ilDateList($this->event->isFullday() ? ilDateList::TYPE_DATE : ilDateList::TYPE_DATETIME);
     }
 
-    protected function createDate($a_date, $a_format_type = IL_CAL_UNIX) : ilDateTime
+    protected function createDate($a_date, $a_format_type = IL_CAL_UNIX): ilDateTime
     {
         if ($this->event->isFullday()) {
             return new ilDate($a_date, $a_format_type);
@@ -704,7 +705,7 @@ class ilCalendarRecurrenceCalculator
         }
     }
 
-    protected function validateRecurrence() : bool
+    protected function validateRecurrence(): bool
     {
         return $this->recurrence->validate();
     }

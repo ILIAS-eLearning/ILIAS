@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -25,7 +27,7 @@ class ilDidacticTemplateSettingsTableGUI extends ilTable2GUI
     /**
      * Init table
      */
-    public function init() : void
+    public function init(): void
     {
         $this->addColumn('', 'f', '1px');
         $this->lng->loadLanguageModule('search');
@@ -55,7 +57,7 @@ class ilDidacticTemplateSettingsTableGUI extends ilTable2GUI
     /**
      * Parse didactic templates
      */
-    public function parse(ilDidacticTemplateSettingsTableFilter $filter) : void
+    public function parse(ilDidacticTemplateSettingsTableFilter $filter): void
     {
         $tpls = ilDidacticTemplateSettings::getInstance();
         $tpls->readInactive();
@@ -87,7 +89,7 @@ class ilDidacticTemplateSettingsTableGUI extends ilTable2GUI
         $this->setData($data);
     }
 
-    protected function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set): void
     {
         if ($this->access->checkAccess('write', '', $this->ref_id)) {
             $this->tpl->setVariable('VAL_ID', $a_set['id']);

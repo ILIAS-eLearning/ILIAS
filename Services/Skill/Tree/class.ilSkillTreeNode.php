@@ -66,87 +66,87 @@ class ilSkillTreeNode
         }
     }
 
-    public function setTitle(string $a_title) : void
+    public function setTitle(string $a_title): void
     {
         $this->title = $a_title;
     }
 
-    public function getTitle() : string
+    public function getTitle(): string
     {
         return $this->title;
     }
 
-    public function getSkillTree() : ilSkillTree
+    public function getSkillTree(): ilSkillTree
     {
         return $this->skill_tree;
     }
 
-    public function setDescription(string $a_description) : void
+    public function setDescription(string $a_description): void
     {
         $this->description = $a_description;
     }
 
-    public function getDescription() : string
+    public function getDescription(): string
     {
         return $this->description;
     }
 
-    public function setType(string $a_type) : void
+    public function setType(string $a_type): void
     {
         $this->type = $a_type;
     }
 
-    public function getType() : string
+    public function getType(): string
     {
         return $this->type;
     }
 
-    public function setId(int $a_id) : void
+    public function setId(int $a_id): void
     {
         $this->id = $a_id;
     }
 
-    public function getId() : int
+    public function getId(): int
     {
         return $this->id;
     }
 
-    public function setSelfEvaluation(bool $a_val) : void
+    public function setSelfEvaluation(bool $a_val): void
     {
         $this->self_eval = $a_val;
     }
 
-    public function getSelfEvaluation() : bool
+    public function getSelfEvaluation(): bool
     {
         return $this->self_eval;
     }
 
-    public function setOrderNr(int $a_val) : void
+    public function setOrderNr(int $a_val): void
     {
         $this->order_nr = $a_val;
     }
 
-    public function getOrderNr() : int
+    public function getOrderNr(): int
     {
         return $this->order_nr;
     }
 
-    public function setImportId(string $a_val) : void
+    public function setImportId(string $a_val): void
     {
         $this->import_id = $a_val;
     }
 
-    public function getImportId() : string
+    public function getImportId(): string
     {
         return $this->import_id;
     }
 
-    protected function setCreationDate(string $a_val) : void
+    protected function setCreationDate(string $a_val): void
     {
         $this->creation_date = $a_val;
     }
 
-    public function getCreationDate() : string
+    public function getCreationDate(): string
     {
         return $this->creation_date;
     }
@@ -154,7 +154,7 @@ class ilSkillTreeNode
     /**
      * Get all status as array, key is value, value is lang text
      */
-    public static function getAllStatus() : array
+    public static function getAllStatus(): array
     {
         global $DIC;
 
@@ -167,7 +167,7 @@ class ilSkillTreeNode
         );
     }
 
-    public static function getStatusInfo(int $a_status) : string
+    public static function getStatusInfo(int $a_status): string
     {
         global $DIC;
 
@@ -184,7 +184,7 @@ class ilSkillTreeNode
     /**
     * Read Data of Node
     */
-    public function read() : void
+    public function read(): void
     {
         $ilDB = $this->db;
 
@@ -210,12 +210,12 @@ class ilSkillTreeNode
     /**
     * this method should only be called by class ilSCORM2004NodeFactory
     */
-    public function setDataRecord(array $a_record) : void
+    public function setDataRecord(array $a_record): void
     {
         $this->data_record = $a_record;
     }
 
-    protected static function _lookup(int $a_obj_id, string $a_field) : ?string
+    protected static function _lookup(int $a_obj_id, string $a_field): ?string
     {
         global $DIC;
 
@@ -229,7 +229,7 @@ class ilSkillTreeNode
         return isset($obj_rec[$a_field]) ? (string) $obj_rec[$a_field] : null;
     }
 
-    public static function _lookupTitle(int $a_obj_id, int $a_tref_id = 0) : string
+    public static function _lookupTitle(int $a_obj_id, int $a_tref_id = 0): string
     {
         if ($a_tref_id > 0 && ilSkillTemplateReference::_lookupTemplateId($a_tref_id) == $a_obj_id) {
             return self::_lookup($a_tref_id, "title");
@@ -237,7 +237,7 @@ class ilSkillTreeNode
         return (string) self::_lookup($a_obj_id, "title");
     }
 
-    public static function _lookupDescription(int $a_obj_id) : string
+    public static function _lookupDescription(int $a_obj_id): string
     {
         global $DIC;
 
@@ -246,7 +246,7 @@ class ilSkillTreeNode
         return (string) self::_lookup($a_obj_id, "description");
     }
 
-    public static function _lookupSelfEvaluation(int $a_obj_id) : bool
+    public static function _lookupSelfEvaluation(int $a_obj_id): bool
     {
         global $DIC;
 
@@ -255,7 +255,7 @@ class ilSkillTreeNode
         return (bool) self::_lookup($a_obj_id, "self_eval");
     }
 
-    public static function _lookupStatus(int $a_obj_id) : int
+    public static function _lookupStatus(int $a_obj_id): int
     {
         global $DIC;
 
@@ -264,7 +264,7 @@ class ilSkillTreeNode
         return (int) self::_lookup($a_obj_id, "status");
     }
 
-    public static function _lookupType(int $a_obj_id) : string
+    public static function _lookupType(int $a_obj_id): string
     {
         global $DIC;
 
@@ -278,17 +278,17 @@ class ilSkillTreeNode
         return $obj_rec["type"] ?? "";
     }
 
-    public function setStatus(int $a_val) : void
+    public function setStatus(int $a_val): void
     {
         $this->status = $a_val;
     }
 
-    public function getStatus() : int
+    public function getStatus(): int
     {
         return $this->status;
     }
 
-    public static function _writeTitle(int $a_obj_id, string $a_title) : void
+    public static function _writeTitle(int $a_obj_id, string $a_title): void
     {
         global $DIC;
 
@@ -301,7 +301,7 @@ class ilSkillTreeNode
         $ilDB->manipulate($query);
     }
 
-    public static function _writeDescription(int $a_obj_id, string $a_description) : void
+    public static function _writeDescription(int $a_obj_id, string $a_description): void
     {
         global $DIC;
 
@@ -314,7 +314,7 @@ class ilSkillTreeNode
         $ilDB->manipulate($query);
     }
 
-    public static function _writeOrderNr(int $a_obj_id, int $a_nr) : void
+    public static function _writeOrderNr(int $a_obj_id, int $a_nr): void
     {
         global $DIC;
 
@@ -329,7 +329,7 @@ class ilSkillTreeNode
     /**
     * Create Node
     */
-    public function create() : void
+    public function create(): void
     {
         $ilDB = $this->db;
 
@@ -371,10 +371,10 @@ class ilSkillTreeNode
         $ilDB->manipulate($query);
     }
 
-    public function delete() : void
+    public function delete(): void
     {
         $ilDB = $this->db;
-        
+
         $query = "DELETE FROM skl_tree_node WHERE obj_id= " .
             $ilDB->quote($this->getId(), "integer");
         $ilDB->manipulate($query);
@@ -383,7 +383,7 @@ class ilSkillTreeNode
     /**
      * Check for unique types
      */
-    public static function uniqueTypesCheck(array $a_items) : bool
+    public static function uniqueTypesCheck(array $a_items): bool
     {
         $types = [];
         foreach ($a_items as $item) {
@@ -400,7 +400,7 @@ class ilSkillTreeNode
     /**
      * @return array<int, string>
      */
-    public static function getAllSelfEvaluationNodes() : array
+    public static function getAllSelfEvaluationNodes(): array
     {
         global $DIC;
 
@@ -421,17 +421,17 @@ class ilSkillTreeNode
     /**
      * @return array{obj_id: int, order_nr: int, status: int, self_eval: bool, title: string, type: string, create_date: string, description: string}[]
      */
-    public static function getSelectableSkills() : array
+    public static function getSelectableSkills(): array
     {
         global $DIC;
 
         $ilDB = $DIC->database();
-        
+
         $set = $ilDB->query(
             "SELECT * FROM skl_tree_node " .
             " WHERE self_eval = " . $ilDB->quote(1, "integer")
         );
-        
+
         $sel_skills = [];
         while ($rec = $ilDB->fetchAssoc($set)) {
             $rec['obj_id'] = (int) $rec['obj_id'];
@@ -440,11 +440,11 @@ class ilSkillTreeNode
             $rec['self_eval'] = (bool) $rec['self_eval'];
             $sel_skills[] = $rec;
         }
-        
+
         return $sel_skills;
     }
 
-    public static function getIconPath(int $a_obj_id, string $a_type, string $a_size = "", int $a_status = 0) : string
+    public static function getIconPath(int $a_obj_id, string $a_type, string $a_size = "", int $a_status = 0): string
     {
         if ($a_status == self::STATUS_DRAFT && $a_type == "sctp") {
             $a_type = "scat";
@@ -452,11 +452,11 @@ class ilSkillTreeNode
         if ($a_status == self::STATUS_DRAFT && $a_type == "sktp") {
             $a_type = "skll";
         }
-        
+
         $off = ($a_status == self::STATUS_DRAFT)
             ? "_off"
             : "";
-            
+
         $a_name = "icon_" . $a_type . $a_size . $off . ".svg";
         if ($a_type == "sktr") {
             $tid = ilSkillTemplateReference::_lookupTemplateId($a_obj_id);
@@ -472,7 +472,7 @@ class ilSkillTreeNode
     /**
      * Get all possible common skill IDs for node IDs
      */
-    public static function getAllCSkillIdsForNodeIds(array $a_node_ids) : array
+    public static function getAllCSkillIdsForNodeIds(array $a_node_ids): array
     {
         $cskill_ids = [];
         foreach ($a_node_ids as $id) {

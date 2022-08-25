@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /******************************************************************************
  *
  * This file is part of ILIAS, a powerful learning management system.
@@ -37,7 +39,7 @@ class ilFSStorageGroup extends ilFileSystemAbstractionStorage
     /**
      * Init export directory and create it if it does not exist
      */
-    public function initMemberExportDirectory() : void
+    public function initMemberExportDirectory(): void
     {
         ilFileUtils::makeDirParents($this->getMemberExportDirectory());
     }
@@ -45,12 +47,12 @@ class ilFSStorageGroup extends ilFileSystemAbstractionStorage
     /**
      * Get path of export directory
      */
-    public function getMemberExportDirectory() : string
+    public function getMemberExportDirectory(): string
     {
         return $this->getAbsolutePath() . '/' . self::MEMBER_EXPORT_DIR;
     }
 
-    public function addMemberExportFile(string $a_data, string $a_rel_name) : bool
+    public function addMemberExportFile(string $a_data, string $a_rel_name): bool
     {
         $this->initMemberExportDirectory();
         if (!$this->writeToFile($a_data, $this->getMemberExportDirectory() . '/' . $a_rel_name)) {
@@ -63,7 +65,7 @@ class ilFSStorageGroup extends ilFileSystemAbstractionStorage
     /**
      * @return array<int, array{name: string, timest: string, type: string, id: string, size: int}>
      */
-    public function getMemberExportFiles() : array
+    public function getMemberExportFiles(): array
     {
         if (!is_dir($this->getMemberExportDirectory())) {
             return [];
@@ -93,7 +95,7 @@ class ilFSStorageGroup extends ilFileSystemAbstractionStorage
         return $files;
     }
 
-    public function getMemberExportFile(string $a_name) : string
+    public function getMemberExportFile(string $a_name): string
     {
         $file_name = $this->getMemberExportDirectory() . '/' . $a_name;
         if (file_exists($file_name)) {
@@ -102,7 +104,7 @@ class ilFSStorageGroup extends ilFileSystemAbstractionStorage
         return '';
     }
 
-    public function deleteMemberExportFile(string $a_export_name) : bool
+    public function deleteMemberExportFile(string $a_export_name): bool
     {
         return $this->deleteFile($this->getMemberExportDirectory() . '/' . $a_export_name);
     }
@@ -110,7 +112,7 @@ class ilFSStorageGroup extends ilFileSystemAbstractionStorage
     /**
      * @inheritDoc
      */
-    protected function getPathPostfix() : string
+    protected function getPathPostfix(): string
     {
         return 'grp';
     }
@@ -118,7 +120,7 @@ class ilFSStorageGroup extends ilFileSystemAbstractionStorage
     /**
      * @inheritDoc
      */
-    protected function getPathPrefix() : string
+    protected function getPathPrefix(): string
     {
         return 'ilGroup';
     }

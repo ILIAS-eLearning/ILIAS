@@ -19,7 +19,7 @@ use PHPUnit\Framework\TestSuite;
 
 class ilModulesTestQuestionPoolSuite extends TestSuite
 {
-    public static function suite() : ilModulesTestQuestionPoolSuite
+    public static function suite(): ilModulesTestQuestionPoolSuite
     {
         chdir(dirname(__FILE__));
         chdir('../../../');
@@ -27,7 +27,7 @@ class ilModulesTestQuestionPoolSuite extends TestSuite
         require_once("./Modules/TestQuestionPool/test/assBaseTestCase.php");
 
         $suite = new ilModulesTestQuestionPoolSuite();
-    
+
         // Questiontypes & related classes
         // -------------------------------------------------------------------------------------------------------------
 

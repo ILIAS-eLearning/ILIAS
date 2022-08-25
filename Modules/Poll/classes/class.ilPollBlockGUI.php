@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -67,7 +69,7 @@ class ilPollBlockGUI extends ilBlockGUI
         $this->notes = $DIC->notes();
     }
 
-    public function getBlockType() : string
+    public function getBlockType(): string
     {
         return self::$block_type;
     }
@@ -75,23 +77,23 @@ class ilPollBlockGUI extends ilBlockGUI
     /**
      * @inheritdoc
      */
-    protected function isRepositoryObject() : bool
+    protected function isRepositoryObject(): bool
     {
         return true;
     }
 
-    protected function getRepositoryObjectGUIName() : string
+    protected function getRepositoryObjectGUIName(): string
     {
         return "ilobjpollgui";
     }
 
-    public function setBlock(ilPollBlock $a_block) : void
+    public function setBlock(ilPollBlock $a_block): void
     {
         $this->setBlockId((string) $a_block->getId());
         $this->poll_block = $a_block;
     }
 
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         $next_class = $this->ctrl->getNextClass();
         $cmd = $this->ctrl->getCmd("getHTML");
@@ -103,7 +105,7 @@ class ilPollBlockGUI extends ilBlockGUI
         }
     }
 
-    public function fillRow(array $a_set) : void
+    public function fillRow(array $a_set): void
     {
         // todo: Refactoring needed
         $a_set = $a_set[0];
@@ -348,7 +350,7 @@ class ilPollBlockGUI extends ilBlockGUI
         }
     }
 
-    public function getHTML() : string
+    public function getHTML(): string
     {
         $this->poll_block->setRefId($this->getRefId());
         $may_write = $this->access->checkAccess("write", "", $this->getRefId());
@@ -417,7 +419,7 @@ class ilPollBlockGUI extends ilBlockGUI
     /**
      * Builds JavaScript Call to open CommentLayer via html link
      */
-    private function commentJSCall() : string
+    private function commentJSCall(): string
     {
         $refId = $this->getRefId();
         $objectId = ilObject2::_lookupObjectId($refId);
@@ -433,7 +435,7 @@ class ilPollBlockGUI extends ilBlockGUI
         return ilNoteGUI::getListCommentsJSCall($ajaxHash, "ilPoll.redrawComments(" . $refId . ");");
     }
 
-    public function getNumberOfCommentsForRedraw() : void
+    public function getNumberOfCommentsForRedraw(): void
     {
         global $DIC;
 
@@ -456,14 +458,14 @@ class ilPollBlockGUI extends ilBlockGUI
         exit();
     }
 
-    public function getNumberOfComments(int $ref_id) : int
+    public function getNumberOfComments(int $ref_id): int
     {
         $obj_id = ilObject2::_lookupObjectId($ref_id);
         $context = $this->notes->data()->context($obj_id, 0, "poll");
         return $this->notes->domain()->getNrOfCommentsForContext($context);
     }
 
-    public function fillDataSection() : void
+    public function fillDataSection(): void
     {
         $this->setDataSection($this->getLegacyContent());
     }
@@ -475,7 +477,7 @@ class ilPollBlockGUI extends ilBlockGUI
     /**
      * @inheritdoc
      */
-    protected function getLegacyContent() : string
+    protected function getLegacyContent(): string
     {
         $this->tpl = new ilTemplate(
             $this->getRowTemplateName(),

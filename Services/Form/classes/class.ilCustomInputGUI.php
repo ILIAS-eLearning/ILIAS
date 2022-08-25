@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -25,7 +27,7 @@
 class ilCustomInputGUI extends ilSubEnabledFormPropertyGUI
 {
     protected string $html = "";
-    
+
     public function __construct(
         string $a_title = "",
         string $a_postvar = ""
@@ -35,35 +37,35 @@ class ilCustomInputGUI extends ilSubEnabledFormPropertyGUI
         parent::__construct($a_title, $a_postvar);
         $this->setType("custom");
     }
-    
-    public function setHtml(string $a_html) : void
+
+    public function setHtml(string $a_html): void
     {
         $this->html = $a_html;
     }
 
-    public function getHtml() : string
+    public function getHtml(): string
     {
         return $this->html;
     }
 
-    public function setValueByArray(array $a_values) : void
+    public function setValueByArray(array $a_values): void
     {
         foreach ($this->getSubItems() as $item) {
             $item->setValueByArray($a_values);
         }
     }
 
-    public function insert(ilTemplate $a_tpl) : void
+    public function insert(ilTemplate $a_tpl): void
     {
         $a_tpl->setCurrentBlock("prop_custom");
         $a_tpl->setVariable("CUSTOM_CONTENT", $this->getHtml());
         $a_tpl->parseCurrentBlock();
     }
-    
-    public function checkInput() : bool
+
+    public function checkInput(): bool
     {
         $lng = $this->lng;
-        
+
         if ($this->getPostVar()) {
             if ($this->getRequired() && $this->getInput() == "") {
                 $this->setAlert($lng->txt("msg_input_is_required"));
@@ -73,7 +75,7 @@ class ilCustomInputGUI extends ilSubEnabledFormPropertyGUI
         return $this->checkSubItemsInput();
     }
 
-    public function getInput() : string
+    public function getInput(): string
     {
         return trim($this->str($this->getPostVar()));
     }

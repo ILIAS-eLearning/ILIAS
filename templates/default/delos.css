@@ -7122,8 +7122,7 @@ fieldset[disabled] .navbar-inverse .btn-link:focus {
 .il-card a {
   overflow: hidden;
 }
-.il-card .card-title .btn,
-.il-card .card-title a {
+.il-card .card-title {
   font-size: 0.875rem;
 }
 .il-card.thumbnail {
@@ -15436,13 +15435,11 @@ div.ilNoteInput {
   right: 0;
   left: inherit;
 }
+.il-notes-section .il-standard-form-header {
+  border-top: 1px solid #dddddd;
+}
 .il-notes-section .il-standard-form-header .il-standard-form-cmd {
   visibility: hidden;
-}
-.il-notes-section .il-section-input-header,
-.il-notes-section .il-standard-form-footer,
-.il-notes-section .il-standard-form-header {
-  background-color: #f9f9f9;
 }
 .il-notes-section textarea {
   height: 6em;

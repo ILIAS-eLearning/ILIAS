@@ -1,4 +1,6 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -29,7 +31,7 @@ class UIModifier extends Mode\AbstractUIModifier
 {
     public function getSurveySettingsGeneral(
         \ilObjSurvey $survey
-    ) : array {
+    ): array {
         $items = [];
 
         return $items;
@@ -38,7 +40,7 @@ class UIModifier extends Mode\AbstractUIModifier
     public function getSurveySettingsResults(
         \ilObjSurvey $survey,
         InternalGUIService $ui_service
-    ) : array {
+    ): array {
         $items = [];
         $lng = $ui_service->lng();
 
@@ -64,7 +66,7 @@ class UIModifier extends Mode\AbstractUIModifier
     public function getSurveySettingsReminderTargets(
         \ilObjSurvey $survey,
         InternalGUIService $ui_service
-    ) : array {
+    ): array {
         $items = [];
         $lng = $ui_service->lng();
 
@@ -98,7 +100,7 @@ class UIModifier extends Mode\AbstractUIModifier
     public function setValuesFromForm(
         \ilObjSurvey $survey,
         \ilPropertyFormGUI $form
-    ) : void {
+    ): void {
         if ($form->getInput("remind_appraisees") && $form->getInput("remind_raters")) {
             $survey->setReminderTarget(\ilObjSurvey::NOTIFICATION_APPRAISEES_AND_RATERS);
         } elseif ($form->getInput("remind_appraisees")) {
@@ -117,7 +119,7 @@ class UIModifier extends Mode\AbstractUIModifier
         \ilObjSurvey $survey,
         \ilToolbarGUI $toolbar,
         int $user_id
-    ) : void {
+    ): void {
         $this->addApprSelectionToToolbar(
             $survey,
             $toolbar,
@@ -135,7 +137,7 @@ class UIModifier extends Mode\AbstractUIModifier
         \ilObjSurvey $survey,
         \ilToolbarGUI $toolbar,
         int $user_id
-    ) : void {
+    ): void {
         $this->addApprSelectionToToolbar(
             $survey,
             $toolbar,
@@ -156,7 +158,7 @@ class UIModifier extends Mode\AbstractUIModifier
         \ilObjSurvey $survey,
         \ilToolbarGUI $toolbar,
         int $user_id
-    ) : void {
+    ): void {
         $lng = $this->service->gui()->lng();
         $ctrl = $this->service->gui()->ctrl();
         $req = $this->service->gui()->evaluation($survey)->request();
@@ -198,7 +200,7 @@ class UIModifier extends Mode\AbstractUIModifier
     protected function getPanelChart(
         \ILIAS\Survey\Evaluation\EvaluationGUIRequest $request,
         \SurveyQuestionEvaluation $a_eval
-    ) : string {
+    ): string {
         return "";
     }
 
@@ -206,7 +208,7 @@ class UIModifier extends Mode\AbstractUIModifier
         \ILIAS\Survey\Evaluation\EvaluationGUIRequest $request,
         \SurveyQuestionEvaluation $a_eval,
         \ilSurveyEvaluationResults $question_res
-    ) : string {
+    ): string {
         return "";
     }
 
@@ -214,7 +216,7 @@ class UIModifier extends Mode\AbstractUIModifier
         array $participants,
         \ILIAS\Survey\Evaluation\EvaluationGUIRequest $request,
         \SurveyQuestionEvaluation $a_eval
-    ) : string {
+    ): string {
         $a_results = $a_eval->getResults();
         $lng = $this->service->gui()->lng();
         $matrix = false;
@@ -247,7 +249,6 @@ class UIModifier extends Mode\AbstractUIModifier
         $ret = "";
         if ($request->getShowTable()) {
             if (!$matrix) {
-
                 // rater
                 $a_tpl->setCurrentBlock("grid_col_header_bl");
                 $a_tpl->setVariable("COL_HEADER", $lng->txt("svy_rater"));
@@ -306,7 +307,7 @@ class UIModifier extends Mode\AbstractUIModifier
                             $a_results->getScaleText($answer["text"])
                         );
                     } else {
-                        $scale_texts = array_map(static function ($v) use ($a_results) : string {
+                        $scale_texts = array_map(static function ($v) use ($a_results): string {
                             return $a_results->getScaleText($v);
                         }, $answer["value"]);
                         $a_tpl->setVariable(
@@ -320,10 +321,8 @@ class UIModifier extends Mode\AbstractUIModifier
                 }
                 $ret = $a_tpl->get();
             } else {
-
                 /** @var $answer \ilSurveyEvaluationResultsAnswer */
                 foreach ($answers as $answer) {
-
                     /** @var $q \SurveyMatrixQuestion */
 
                     $cats = $q->getColumns();
@@ -386,7 +385,7 @@ class UIModifier extends Mode\AbstractUIModifier
         return $ret;
     }
 
-    protected function getParticipantByActiveId(array $participants, int $active_id) : ?array
+    protected function getParticipantByActiveId(array $participants, int $active_id): ?array
     {
         foreach ($participants as $part) {
             if ((int) $part["active_id"] === $active_id) {
@@ -396,7 +395,7 @@ class UIModifier extends Mode\AbstractUIModifier
         return null;
     }
 
-    protected function getCaptionForParticipant(array $part_array) : string
+    protected function getCaptionForParticipant(array $part_array): string
     {
         return $part_array["sortname"];
     }

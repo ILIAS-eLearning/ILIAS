@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -27,7 +29,7 @@ use ILIAS\HTTP\Wrapper\WrapperFactory;
  */
 class ilObjFileServicesGUI extends ilObject2GUI
 {
-    const CMD_EDIT_SETTINGS = 'editSettings';
+    public const CMD_EDIT_SETTINGS = 'editSettings';
     protected ilTabsGUI $tabs;
     public ilLanguage $lng;
     public ilErrorHandling $error_handling;
@@ -63,12 +65,12 @@ class ilObjFileServicesGUI extends ilObject2GUI
         $this->file_service_settings = new ilFileServicesSettings($DIC->settings());
     }
 
-    public function getType() : string
+    public function getType(): string
     {
         return ilObjFileServices::TYPE_FILE_SERVICES;
     }
 
-    protected function checkPermissionOrFail(string $str) : void
+    protected function checkPermissionOrFail(string $str): void
     {
         if (!$this->hasUserPermissionTo($str)) {
             $this->error_handling->raiseError(
@@ -78,7 +80,7 @@ class ilObjFileServicesGUI extends ilObject2GUI
         }
     }
 
-    protected function hasUserPermissionTo(string $str) : bool
+    protected function hasUserPermissionTo(string $str): bool
     {
         return $this->access->checkAccess($str, '', $this->ref_id);
     }
@@ -87,7 +89,7 @@ class ilObjFileServicesGUI extends ilObject2GUI
      * Execute command
      * @access public
      */
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         $this->lng->loadLanguageModule("fils");
 
@@ -115,7 +117,7 @@ class ilObjFileServicesGUI extends ilObject2GUI
     /**
      * Get tabs
      */
-    public function getAdminTabs() : void
+    public function getAdminTabs(): void
     {
         if ($this->rbac_system->checkAccess(
             "visible,read",
@@ -142,13 +144,13 @@ class ilObjFileServicesGUI extends ilObject2GUI
         }
     }
 
-    public function setTitleAndDescription() : void
+    public function setTitleAndDescription(): void
     {
         parent::setTitleAndDescription();
         $this->tpl->setDescription($this->object->getDescription());
     }
 
-    private function initSettingsForm() : ilPropertyFormGUI
+    private function initSettingsForm(): ilPropertyFormGUI
     {
         $permission_to_write = $this->hasUserPermissionTo('write');
 
@@ -211,7 +213,7 @@ class ilObjFileServicesGUI extends ilObject2GUI
         return $form;
     }
 
-    protected function editSettings() : void
+    protected function editSettings(): void
     {
         $this->tabs_gui->setTabActive('settings');
 
@@ -231,14 +233,14 @@ class ilObjFileServicesGUI extends ilObject2GUI
         $this->tpl->setContent($form->getHTML());
     }
 
-    protected function saveSettings() : void
+    protected function saveSettings(): void
     {
         $this->checkPermissionOrFail("write");
 
         // get form
         $form = $this->initSettingsForm();
         if ($form->checkInput()) {
-            $trafo = function (string $id) : ?string {
+            $trafo = function (string $id): ?string {
                 return $this->http->post()->has($id)
                     ? $this->http->post()->retrieve($id, $this->refinery->to()->string())
                     : null;

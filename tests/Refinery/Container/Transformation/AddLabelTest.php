@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -33,7 +35,7 @@ class AddLabelTest extends TestCase
     private ?Refinery $f;
     private ?Transformation $add_label;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         $dataFactory = new DataFactory();
         $language = $this->createMock(ilLanguage::class);
@@ -42,19 +44,19 @@ class AddLabelTest extends TestCase
         $this->add_label = $this->f->container()->addLabels(self::$labels);
     }
 
-    protected function tearDown() : void
+    protected function tearDown(): void
     {
         $this->f = null;
         $this->add_label = null;
     }
 
-    public function testTransform() : void
+    public function testTransform(): void
     {
         $with = $this->add_label->transform(self::$test_array);
         $this->assertEquals(self::$result_array, $with);
     }
 
-    public function testTransformFails() : void
+    public function testTransformFails(): void
     {
         $raised = false;
         try {
@@ -93,14 +95,14 @@ class AddLabelTest extends TestCase
         $this->assertTrue($raised);
     }
 
-    public function testInvoke() : void
+    public function testInvoke(): void
     {
         $add_label = $this->f->container()->addLabels(self::$labels);
         $with = $add_label(self::$test_array);
         $this->assertEquals(self::$result_array, $with);
     }
 
-    public function testInvokeFails() : void
+    public function testInvokeFails(): void
     {
         $add_label = $this->f->container()->addLabels(self::$labels);
 

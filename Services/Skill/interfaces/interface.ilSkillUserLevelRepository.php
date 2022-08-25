@@ -22,7 +22,7 @@
  */
 interface ilSkillUserLevelRepository
 {
-    public function deleteUserLevelsOfSkill(int $skill_id) : void;
+    public function deleteUserLevelsOfSkill(int $skill_id): void;
 
     /**
      * Reset skill level status. This is currently only used for self evaluations with a "no competence" level.
@@ -46,7 +46,7 @@ interface ilSkillUserLevelRepository
         int $a_tref_id = 0,
         int $a_trigger_ref_id = 0,
         bool $a_self_eval = false
-    ) : void;
+    ): void;
 
     /**
      * Has recent self evaluation. Check if self evaluation for user/object has been done on the same day
@@ -64,14 +64,14 @@ interface ilSkillUserLevelRepository
         int $a_skill_id,
         int $a_tref_id = 0,
         int $a_trigger_ref_id = 0
-    ) : string;
+    ): string;
 
     public function getNewAchievementsPerUser(
         string $a_timestamp,
         string $a_timestamp_to = null,
         int $a_user_id = 0,
         int $a_self_eval = 0
-    ) : array;
+    ): array;
 
     /**
      * Write skill level status
@@ -104,7 +104,7 @@ interface ilSkillUserLevelRepository
         string $a_unique_identifier = "",
         float $a_next_level_fulfilment = 0.0,
         string $trigger_user_id = ""
-    ) : void;
+    ): void;
 
     /**
      * Remove a user skill completely
@@ -119,9 +119,9 @@ interface ilSkillUserLevelRepository
         int $a_trigger_obj_id,
         bool $a_self_eval = false,
         string $a_unique_identifier = ""
-    ) : bool;
+    ): bool;
 
-    public function removeAllUserData(int $a_user_id) : void;
+    public function removeAllUserData(int $a_user_id): void;
 
     public function getMaxLevelPerType(
         int $skill_id,
@@ -130,7 +130,7 @@ interface ilSkillUserLevelRepository
         string $a_type,
         int $a_user_id = 0,
         int $a_self_eval = 0
-    ) : int;
+    ): int;
 
     public function getNextLevelFulfilmentPerType(
         int $skill_id,
@@ -138,21 +138,21 @@ interface ilSkillUserLevelRepository
         string $a_type,
         int $a_user_id = 0,
         int $a_self_eval = 0
-    ) : float;
+    ): float;
 
     public function getAllLevelEntriesOfUser(
         int $skill_id,
         int $a_tref_id,
         int $a_user_id = 0,
         int $a_self_eval = 0
-    ) : array;
+    ): array;
 
     public function getAllHistoricLevelEntriesOfUser(
         int $skill_id,
         int $a_tref_id,
         int $a_user_id = 0,
         int $a_eval_by = 0
-    ) : array;
+    ): array;
 
     public function getMaxLevelPerObject(
         int $skill_id,
@@ -161,7 +161,7 @@ interface ilSkillUserLevelRepository
         int $a_object_id,
         int $a_user_id = 0,
         int $a_self_eval = 0
-    ) : int;
+    ): int;
 
     public function getNextLevelFulfilmentPerObject(
         int $skill_id,
@@ -169,7 +169,7 @@ interface ilSkillUserLevelRepository
         int $a_object_id,
         int $a_user_id = 0,
         int $a_self_eval = 0
-    ) : float;
+    ): float;
 
     public function getMaxLevel(
         int $skill_id,
@@ -177,16 +177,16 @@ interface ilSkillUserLevelRepository
         int $a_tref_id,
         int $a_user_id = 0,
         int $a_self_eval = 0
-    ) : int;
+    ): int;
 
     public function getNextLevelFulfilment(
         int $skill_id,
         int $a_tref_id,
         int $a_user_id = 0,
         int $a_self_eval = 0
-    ) : float;
+    ): float;
 
-    public function hasSelfEvaluated(int $a_user_id, int $a_skill_id, int $a_tref_id) : bool;
+    public function hasSelfEvaluated(int $a_user_id, int $a_skill_id, int $a_tref_id): bool;
 
     public function getLastLevelPerObject(
         int $skill_id,
@@ -194,7 +194,7 @@ interface ilSkillUserLevelRepository
         int $a_object_id,
         int $a_user_id = 0,
         int $a_self_eval = 0
-    ) : int;
+    ): int;
 
     public function getLastUpdatePerObject(
         int $skill_id,
@@ -202,5 +202,5 @@ interface ilSkillUserLevelRepository
         int $a_object_id,
         int $a_user_id = 0,
         int $a_self_eval = 0
-    ) : ?string;
+    ): ?string;
 }

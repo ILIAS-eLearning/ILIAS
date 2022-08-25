@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -36,17 +38,17 @@ abstract class ilMailMimeTransportBase implements ilMailMimeTransport
         $this->setMailer($mail);
     }
 
-    protected function getMailer() : PHPMailer
+    protected function getMailer(): PHPMailer
     {
         return $this->mailer;
     }
 
-    protected function setMailer(PHPMailer $mailer) : void
+    protected function setMailer(PHPMailer $mailer): void
     {
         $this->mailer = $mailer;
     }
 
-    protected function resetMailer() : void
+    protected function resetMailer(): void
     {
         $this->getMailer()->clearAllRecipients();
         $this->getMailer()->clearAttachments();
@@ -54,11 +56,11 @@ abstract class ilMailMimeTransportBase implements ilMailMimeTransport
         $this->getMailer()->ErrorInfo = '';
     }
 
-    protected function onBeforeSend() : void
+    protected function onBeforeSend(): void
     {
     }
 
-    final public function send(ilMimeMail $mail) : bool
+    final public function send(ilMimeMail $mail): bool
     {
         $this->resetMailer();
 
@@ -154,7 +156,7 @@ abstract class ilMailMimeTransportBase implements ilMailMimeTransport
 
         $this->getMailer()->CharSet = 'utf-8';
 
-        $this->mailer->Debugoutput = static function (string $message, $level) : void {
+        $this->mailer->Debugoutput = static function (string $message, $level): void {
             if (
                 strpos($message, 'Invalid address') ||
                 strpos($message, 'Message body empty')

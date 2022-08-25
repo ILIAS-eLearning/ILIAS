@@ -1,4 +1,6 @@
-<?php declare(strict_types=0);
+<?php
+
+declare(strict_types=0);
 
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
@@ -9,12 +11,12 @@
  */
 class ilLPCollectionOfObjectives extends ilLPCollection
 {
-    protected function read(int $a_obj_id) : void
+    protected function read(int $a_obj_id): void
     {
         $this->items = ilCourseObjective::_getObjectiveIds($a_obj_id, true);
     }
 
-    public function hasSelectableItems() : bool
+    public function hasSelectableItems(): bool
     {
         return false;
     }

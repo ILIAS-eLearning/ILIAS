@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -32,7 +34,7 @@ class ilTermsOfServiceAppEventListener implements ilAppEventListener
         $this->helper = $helper;
     }
 
-    public function withComponent(string $component) : self
+    public function withComponent(string $component): self
     {
         $clone = clone $this;
 
@@ -41,7 +43,7 @@ class ilTermsOfServiceAppEventListener implements ilAppEventListener
         return $clone;
     }
 
-    public function withEvent(string $event) : self
+    public function withEvent(string $event): self
     {
         $clone = clone $this;
 
@@ -50,7 +52,7 @@ class ilTermsOfServiceAppEventListener implements ilAppEventListener
         return $clone;
     }
 
-    public function withParameters(array $parameters) : self
+    public function withParameters(array $parameters): self
     {
         $clone = clone $this;
 
@@ -59,7 +61,7 @@ class ilTermsOfServiceAppEventListener implements ilAppEventListener
         return $clone;
     }
 
-    protected function isUserDeletionEvent() : bool
+    protected function isUserDeletionEvent(): bool
     {
         return (
             'Services/User' === $this->component &&
@@ -67,14 +69,14 @@ class ilTermsOfServiceAppEventListener implements ilAppEventListener
         );
     }
 
-    public function handle() : void
+    public function handle(): void
     {
         if ($this->isUserDeletionEvent()) {
             $this->helper->deleteAcceptanceHistoryByUser($this->parameters['usr_id']);
         }
     }
 
-    public static function handleEvent(string $a_component, string $a_event, array $a_parameter) : void
+    public static function handleEvent(string $a_component, string $a_event, array $a_parameter): void
     {
         $listener = new self(new ilTermsOfServiceHelper());
         $listener

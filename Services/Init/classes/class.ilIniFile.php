@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -65,7 +67,7 @@ class ilIniFile
     /**
      * read from ini file
      */
-    public function read() : bool
+    public function read(): bool
     {
         //check if file exists
         if (!file_exists($this->INI_FILE_NAME)) {
@@ -81,7 +83,7 @@ class ilIniFile
     /**
      * load and parse an inifile
      */
-    public function parse() : bool
+    public function parse(): bool
     {
         //use php4 function parse_ini_file
         $this->GROUPS = @parse_ini_file($this->INI_FILE_NAME, true);
@@ -106,7 +108,7 @@ class ilIniFile
     /**
      * Fix ini file (make it compatible for PHP 5.3)
      */
-    public function fixIniFile() : void
+    public function fixIniFile(): void
     {
         // first read content
         $lines = array();
@@ -146,7 +148,7 @@ class ilIniFile
     /**
      * save ini-file-data to filesystem
      */
-    public function write() : bool
+    public function write(): bool
     {
         $fp = @fopen($this->INI_FILE_NAME, "w");
 
@@ -186,7 +188,7 @@ class ilIniFile
     /**
      * returns the content of IniFile
      */
-    public function show() : string
+    public function show(): string
     {
         $groups = $this->readGroups();
         $group_cnt = count($groups);
@@ -218,7 +220,7 @@ class ilIniFile
     /**
      * returns number of groups
      */
-    public function getGroupCount() : int
+    public function getGroupCount(): int
     {
         return count($this->GROUPS);
     }
@@ -226,7 +228,7 @@ class ilIniFile
     /**
      * returns an array with the names of all the groups
      */
-    public function readGroups() : array
+    public function readGroups(): array
     {
         $groups = array();
 
@@ -240,7 +242,7 @@ class ilIniFile
     /**
      * checks if a group exists
      */
-    public function groupExists(string $a_group_name) : bool
+    public function groupExists(string $a_group_name): bool
     {
         if (!isset($this->GROUPS[$a_group_name])) {
             return false;
@@ -252,7 +254,7 @@ class ilIniFile
     /**
      * returns an associative array of the variables in one group
      */
-    public function readGroup(string $a_group_name) : array
+    public function readGroup(string $a_group_name): array
     {
         if (!$this->groupExists($a_group_name)) {
             $this->error("Group '" . $a_group_name . "' does not exist");
@@ -265,7 +267,7 @@ class ilIniFile
     /**
      * adds a new group
      */
-    public function addGroup(string $a_group_name) : bool
+    public function addGroup(string $a_group_name): bool
     {
         if ($this->groupExists($a_group_name)) {
             $this->error("Group '" . $a_group_name . "' exists");
@@ -279,7 +281,7 @@ class ilIniFile
     /**
      * removes a group
      */
-    public function removeGroup(string $a_group_name) : bool
+    public function removeGroup(string $a_group_name): bool
     {
         if (!$this->groupExists($a_group_name)) {
             $this->error("Group '" . $a_group_name . "' does not exist");
@@ -293,7 +295,7 @@ class ilIniFile
     /**
      * returns if a variable exists or not
      */
-    public function variableExists(string $a_group, string $a_var_name) : bool
+    public function variableExists(string $a_group, string $a_var_name): bool
     {
         return isset($this->GROUPS[$a_group][$a_var_name]);
     }
@@ -301,7 +303,7 @@ class ilIniFile
     /**
      * reads a single variable from a group
      */
-    public function readVariable(string $a_group, string $a_var_name) : string
+    public function readVariable(string $a_group, string $a_var_name): string
     {
         if (!isset($this->GROUPS[$a_group][$a_var_name])) {
             $this->error("'" . $a_var_name . "' does not exist in '" . $a_group . "'");
@@ -314,7 +316,7 @@ class ilIniFile
     /**
      * sets a variable in a group
      */
-    public function setVariable(string $a_group_name, string $a_var_name, string $a_var_value) : bool
+    public function setVariable(string $a_group_name, string $a_var_name, string $a_var_value): bool
     {
         if (!$this->groupExists($a_group_name)) {
             $this->error("Group '" . $a_group_name . "' does not exist");
@@ -325,14 +327,14 @@ class ilIniFile
         return true;
     }
 
-    public function error(string $a_errmsg) : bool
+    public function error(string $a_errmsg): bool
     {
         $this->ERROR = $a_errmsg;
 
         return true;
     }
 
-    public function getError() : string
+    public function getError(): string
     {
         return $this->ERROR;
     }

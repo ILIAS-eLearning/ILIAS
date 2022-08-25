@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -33,27 +35,27 @@ class ilQTIFlowMat implements ilQTIMaterialAware
     /** @var ilQTIMaterial[] */
     public array $material = [];
 
-    public function setComment(string $a_comment) : void
+    public function setComment(string $a_comment): void
     {
         $this->comment = $a_comment;
     }
 
-    public function getComment() : ?string
+    public function getComment(): ?string
     {
         return $this->comment;
     }
 
-    public function addFlowMat(ilQTIFlowMat $a_flow_mat) : void
+    public function addFlowMat(ilQTIFlowMat $a_flow_mat): void
     {
         $this->flow_mat[] = $a_flow_mat;
     }
 
-    public function addMaterial(ilQTIMaterial $material) : void
+    public function addMaterial(ilQTIMaterial $material): void
     {
         $this->material[] = $material;
     }
 
-    public function getMaterial(int $index) : ?ilQTIMaterial
+    public function getMaterial(int $index): ?ilQTIMaterial
     {
         return $this->material[$index] ?? null;
     }

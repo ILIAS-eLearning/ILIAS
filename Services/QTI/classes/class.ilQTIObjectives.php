@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -30,13 +32,13 @@ class ilQTIObjectives
     /** @var ilQTIMaterial[] */
     public array $materials = [];
     public string $view = "All";
-    
-    public function addMaterial(ilQTIMaterial $a_material) : void
+
+    public function addMaterial(ilQTIMaterial $a_material): void
     {
         $this->materials[] = $a_material;
     }
 
-    public function setView(string $a_view) : void
+    public function setView(string $a_view): void
     {
         switch ($a_view) {
             case "Administrator":
@@ -56,7 +58,7 @@ class ilQTIObjectives
         }
     }
 
-    public function getView() : string
+    public function getView(): string
     {
         return $this->view;
     }

@@ -15,7 +15,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * Handles user interface for exercises
  * @author Alexander Killing <killing@leifos.de>
@@ -49,7 +49,7 @@ class ilExerciseHandlerGUI implements ilCtrlBaseClassInterface
      * @throws ilCtrlException
      * @throws ilExerciseException
      */
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         $ilAccess = $this->access;
         $tpl = $this->tpl;

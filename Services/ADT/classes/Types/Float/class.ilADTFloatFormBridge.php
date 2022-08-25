@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,12 +20,12 @@
 
 class ilADTFloatFormBridge extends ilADTFormBridge
 {
-    protected function isValidADT(ilADT $a_adt) : bool
+    protected function isValidADT(ilADT $a_adt): bool
     {
         return ($a_adt instanceof ilADTFloat);
     }
 
-    public function addToForm() : void
+    public function addToForm(): void
     {
         $def = $this->getADT()->getCopyOfDefinition();
 
@@ -54,7 +56,7 @@ class ilADTFloatFormBridge extends ilADTFormBridge
         $this->addToParentElement($number);
     }
 
-    public function importFromPost() : void
+    public function importFromPost(): void
     {
         // ilPropertyFormGUI::checkInput() is pre-requisite
         $this->getADT()->setNumber($this->getForm()->getInput($this->getElementId()));

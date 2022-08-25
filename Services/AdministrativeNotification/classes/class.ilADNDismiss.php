@@ -25,7 +25,7 @@ class ilADNDismiss extends ActiveRecord
 {
     public const TABLE_NAME = 'il_adn_dismiss';
 
-    public function getConnectorContainerName() : string
+    public function getConnectorContainerName(): string
     {
         return self::TABLE_NAME;
     }
@@ -33,14 +33,14 @@ class ilADNDismiss extends ActiveRecord
     /**
      * @deprecated
      */
-    public static function returnDbTableName() : string
+    public static function returnDbTableName(): string
     {
         return self::TABLE_NAME;
     }
 
     protected static array $request_cache = array();
 
-    public static function hasDimissed(ilObjUser $ilObjUser, ilADNNotification $ilADNNotification) : bool
+    public static function hasDimissed(ilObjUser $ilObjUser, ilADNNotification $ilADNNotification): bool
     {
         $not_id = $ilADNNotification->getId();
         $usr_id = $ilObjUser->getId();
@@ -54,7 +54,7 @@ class ilADNDismiss extends ActiveRecord
         return (bool) self::$request_cache[$usr_id][$not_id];
     }
 
-    public static function dismiss(ilObjUser $ilObjUser, ilADNNotification $ilADNNotification) : void
+    public static function dismiss(ilObjUser $ilObjUser, ilADNNotification $ilADNNotification): void
     {
         if (!self::hasDimissed($ilObjUser, $ilADNNotification) && $ilADNNotification->isUserAllowedToDismiss($ilObjUser)) {
             $obj = new self();
@@ -64,7 +64,7 @@ class ilADNDismiss extends ActiveRecord
         }
     }
 
-    public static function reactivateAll(ilADNNotification $ilADNNotification) : void
+    public static function reactivateAll(ilADNNotification $ilADNNotification): void
     {
         /**
          * @var ilADNDismiss $dismiss
@@ -96,32 +96,32 @@ class ilADNDismiss extends ActiveRecord
      */
     protected int $notification_id = 0;
 
-    public function getId() : ?int
+    public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function setId(int $id) : void
+    public function setId(int $id): void
     {
         $this->id = $id;
     }
 
-    public function getUsrId() : int
+    public function getUsrId(): int
     {
         return $this->usr_id;
     }
 
-    public function setUsrId(int $usr_id) : void
+    public function setUsrId(int $usr_id): void
     {
         $this->usr_id = $usr_id;
     }
 
-    public function getNotificationId() : int
+    public function getNotificationId(): int
     {
         return $this->notification_id;
     }
 
-    public function setNotificationId(int $notification_id) : void
+    public function setNotificationId(int $notification_id): void
     {
         $this->notification_id = $notification_id;
     }

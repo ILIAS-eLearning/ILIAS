@@ -73,7 +73,7 @@ class ilPDNotesGUI
         $ilHelp->setScreenIdComponent("note");
 
         $lng->loadLanguageModule("notes");
-        
+
         // initiate variables
         $this->tpl = $tpl;
         $this->lng = $lng;
@@ -111,7 +111,7 @@ class ilPDNotesGUI
         $this->gui->initJavascript($ajax_url);
     }
 
-    protected function readFilter() : void
+    protected function readFilter(): void
     {
         $data = $this->getFilter()->getData();
         if (!isset($data["object"]) || $data["object"] === "") {
@@ -122,7 +122,7 @@ class ilPDNotesGUI
         $this->search_text = $data["text"] ?? "";
     }
 
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         $next_class = $this->ctrl->getNextClass();
         switch ($next_class) {
@@ -130,7 +130,7 @@ class ilPDNotesGUI
                 $this->displayHeader();
                 $this->view();		// forwardCommand is invoked in view() method
                 break;
-                
+
             default:
                 $cmd = $this->ctrl->getCmd("view");
                 $this->displayHeader();
@@ -140,7 +140,7 @@ class ilPDNotesGUI
         $this->tpl->printToStdout(true);
     }
 
-    public function displayHeader() : void
+    public function displayHeader(): void
     {
         $ilSetting = $this->settings;
 
@@ -163,7 +163,7 @@ class ilPDNotesGUI
         $this->tpl->setTitle($t);
     }
 
-    protected function getRelatedObjects() : array
+    protected function getRelatedObjects(): array
     {
         if (is_null($this->related_objects)) {
             $this->related_objects = $this->notes_manager->getRelatedObjectsOfUser(
@@ -173,7 +173,7 @@ class ilPDNotesGUI
         return $this->related_objects;
     }
 
-    public function view() : void
+    public function view(): void
     {
         $ilUser = $this->user;
         $lng = $this->lng;
@@ -229,7 +229,7 @@ class ilPDNotesGUI
             );
         }
         //$notes_gui->setHideNewForm(true);
-        
+
         if ($this->note_type === Note::PRIVATE) {
             $notes_gui->enablePrivateNotes(true);
             $notes_gui->enablePublicNotes(false);
@@ -263,8 +263,8 @@ class ilPDNotesGUI
 
         $this->tpl->setContent($filter_html . $html);
     }
-    
-    public function changeRelatedObject() : void
+
+    public function changeRelatedObject(): void
     {
         $ilUser = $this->user;
 
@@ -275,34 +275,34 @@ class ilPDNotesGUI
         $this->ctrl->redirect($this);
     }
 
-    public function showPrivateNotes() : void
+    public function showPrivateNotes(): void
     {
         $ilUser = $this->user;
         $ilCtrl = $this->ctrl;
-        
+
         $ilCtrl->redirectByClass(ilNoteGUI::class, "getNotesHTML");
     }
-    
-    public function showPublicComments() : void
+
+    public function showPublicComments(): void
     {
         $ilUser = $this->user;
         $ilCtrl = $this->ctrl;
         $ilSetting = $this->settings;
-        
+
         if ($ilSetting->get("disable_comments")) {
             $ilCtrl->redirect($this, "showPrivateNotes");
         }
-        
+
         $ilCtrl->redirectByClass(ilNoteGUI::class, "getCommentsHTML");
     }
 
-    protected function setSortation() : void
+    protected function setSortation(): void
     {
         $this->notes_manager->setSortAscending($this->gui->standardRequest()->getSortation() === "asc");
         $this->view();
     }
 
-    protected function getFilter() : \ILIAS\Notes\FilterAdapterGUI
+    protected function getFilter(): \ILIAS\Notes\FilterAdapterGUI
     {
         $gui = $this->gui;
         $lng = $this->lng;
@@ -329,7 +329,7 @@ class ilPDNotesGUI
         return $this->filter;
     }
 
-    protected function setToolbar() : void
+    protected function setToolbar(): void
     {
         $ctrl = $this->ctrl;
 
@@ -366,7 +366,7 @@ class ilPDNotesGUI
     /**
      * @throws \ILIAS\HTTP\Response\Sender\ResponseSendingException
      */
-    public function printSelection() : void
+    public function printSelection(): void
     {
         $pv = $this->gui->print();
         $pv->sendForm();

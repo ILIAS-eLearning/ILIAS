@@ -1,4 +1,6 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -74,13 +76,13 @@ class InfoScreenGUI
         $this->requested_code = (string) ($body["anonymous_id"] ?? "");
     }
 
-    public function getInfoScreenGUI() : \ilInfoScreenGUI
+    public function getInfoScreenGUI(): \ilInfoScreenGUI
     {
         $user = $this->user;
         $toolbar = $this->toolbar;
         $status_manager = $this->status_manager;
         $survey = $this->survey;
-        
+
         $external_rater = $status_manager->isExternalRater();
 
         $output_gui = new \ilSurveyExecutionGUI($survey);
@@ -210,7 +212,7 @@ class InfoScreenGUI
         \ilInfoScreenGUI $info,
         string $anonymous_code,
         $output_gui
-    ) : void {
+    ): void {
         $survey = $this->survey;
 
         $status_manager = $this->status_manager;
@@ -235,7 +237,6 @@ class InfoScreenGUI
                     $this->toolbar->addButtonInstance($button);
                 }
             } else {
-
                 // list appraisees
                 $appr_ids = array();
 
@@ -310,7 +311,7 @@ class InfoScreenGUI
 
     protected function addAppraiseeInfo(
         \ilInfoScreenGUI $info
-    ) : void {
+    ): void {
         $survey = $this->survey;
         if ($this->status_manager->isAppraisee()) {
             $info->addSection($this->lng->txt("survey_360_appraisee_info"));
@@ -359,7 +360,7 @@ class InfoScreenGUI
         }
     }
 
-    protected function displayNotStartableReasons() : void
+    protected function displayNotStartableReasons(): void
     {
         $survey = $this->survey;
 

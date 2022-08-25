@@ -63,12 +63,12 @@ class RawHTTPServices implements GlobalHttpState
         $this->durationFactory = $durationFactory;
     }
 
-    public function durations() : DurationFactory
+    public function durations(): DurationFactory
     {
         return $this->durationFactory;
     }
 
-    public function wrapper() : WrapperFactory
+    public function wrapper(): WrapperFactory
     {
         return new WrapperFactory($this->request());
     }
@@ -77,7 +77,7 @@ class RawHTTPServices implements GlobalHttpState
     /**
      * @inheritDoc
      */
-    public function cookieJar() : CookieJar
+    public function cookieJar(): CookieJar
     {
         return $this->cookieJarFactory->fromResponse($this->response());
     }
@@ -86,7 +86,7 @@ class RawHTTPServices implements GlobalHttpState
     /**
      * @inheritDoc
      */
-    public function request() : \Psr\Http\Message\RequestInterface
+    public function request(): \Psr\Http\Message\RequestInterface
     {
         if ($this->request === null) {
             $this->request = $this->requestFactory->create();
@@ -99,7 +99,7 @@ class RawHTTPServices implements GlobalHttpState
     /**
      * @inheritDoc
      */
-    public function response() : ResponseInterface
+    public function response(): ResponseInterface
     {
         if ($this->response === null) {
             $this->response = $this->responseFactory->create();
@@ -112,7 +112,7 @@ class RawHTTPServices implements GlobalHttpState
     /**
      * @inheritDoc
      */
-    public function saveRequest(ServerRequestInterface $request) : void
+    public function saveRequest(ServerRequestInterface $request): void
     {
         $this->request = $request;
     }
@@ -121,7 +121,7 @@ class RawHTTPServices implements GlobalHttpState
     /**
      * @inheritDoc
      */
-    public function saveResponse(ResponseInterface $response) : void
+    public function saveResponse(ResponseInterface $response): void
     {
         $this->response = $response;
     }
@@ -130,13 +130,13 @@ class RawHTTPServices implements GlobalHttpState
     /**
      * @inheritDoc
      */
-    public function sendResponse() : void
+    public function sendResponse(): void
     {
         $this->sender->sendResponse($this->response());
     }
 
 
-    public function close() : void
+    public function close(): void
     {
         exit;
     }

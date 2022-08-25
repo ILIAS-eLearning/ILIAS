@@ -1,4 +1,5 @@
 <?php
+
 /* Copyright (c) 1998-2014 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 require_once 'Services/WorkflowEngine/test/ilWorkflowEngineBaseTest.php';
@@ -15,22 +16,22 @@ class test_007_IntermediateCatchEvent extends ilWorkflowEngineBaseTest
     public string $base_path = './Services/WorkflowEngine/test/parser/';
     public string $suite_path = '007_IntermediateCatchEvent/';
 
-    public function getTestInputFilename($test_name) : string
+    public function getTestInputFilename($test_name): string
     {
         return $this->base_path . $this->suite_path . $test_name . '.bpmn2';
     }
 
-    public function getTestOutputFilename($test_name) : string
+    public function getTestOutputFilename($test_name): string
     {
         return $this->base_path . $this->suite_path . $test_name . '_output.php';
     }
 
-    public function getTestGoldsampleFilename($test_name) : string
+    public function getTestGoldsampleFilename($test_name): string
     {
         return $this->base_path . $this->suite_path . $test_name . '_goldsample.php';
     }
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         chdir(__DIR__);
         chdir('../../../../../');
@@ -40,7 +41,7 @@ class test_007_IntermediateCatchEvent extends ilWorkflowEngineBaseTest
         require_once './Services/WorkflowEngine/classes/parser/class.ilBPMN2Parser.php';
     }
 
-    public function test_WorkflowWithSimpleIntermediateMessageEventShouldOutputAccordingly() : void
+    public function test_WorkflowWithSimpleIntermediateMessageEventShouldOutputAccordingly(): void
     {
         $test_name = 'IntermediateCatchEvent_Message_Simple';
         $xml = file_get_contents($this->getTestInputFilename($test_name));
@@ -67,7 +68,7 @@ class test_007_IntermediateCatchEvent extends ilWorkflowEngineBaseTest
 
         require_once $this->getTestOutputFilename($test_name);
         /** @var ilBaseWorkflow $process */
-        $process = new $test_name;
+        $process = new $test_name();
         $process->startWorkflow();
         $all_triggered = true;
         foreach ($process->getNodes() as $node) {
@@ -119,7 +120,7 @@ class test_007_IntermediateCatchEvent extends ilWorkflowEngineBaseTest
         unlink($this->getTestOutputFilename($test_name));
     }
 
-    public function test_WorkflowWithSimpleIntermediateSignalEventShouldOutputAccordingly() : void
+    public function test_WorkflowWithSimpleIntermediateSignalEventShouldOutputAccordingly(): void
     {
         $test_name = 'IntermediateCatchEvent_Signal_Simple';
         $xml = file_get_contents($this->getTestInputFilename($test_name));
@@ -146,7 +147,7 @@ class test_007_IntermediateCatchEvent extends ilWorkflowEngineBaseTest
 
         require_once $this->getTestOutputFilename($test_name);
         /** @var ilBaseWorkflow $process */
-        $process = new $test_name;
+        $process = new $test_name();
         $process->startWorkflow();
         $all_triggered = true;
         foreach ($process->getNodes() as $node) {
@@ -198,7 +199,7 @@ class test_007_IntermediateCatchEvent extends ilWorkflowEngineBaseTest
         unlink($this->getTestOutputFilename($test_name));
     }
 
-    public function test_WorkflowWithSimpleIntermediateTimerEventShouldOutputAccordingly() : void
+    public function test_WorkflowWithSimpleIntermediateTimerEventShouldOutputAccordingly(): void
     {
         $test_name = 'IntermediateCatchEvent_Timer_Simple';
         $xml = file_get_contents($this->getTestInputFilename($test_name));
@@ -225,7 +226,7 @@ class test_007_IntermediateCatchEvent extends ilWorkflowEngineBaseTest
 
         require_once $this->getTestOutputFilename($test_name);
         /** @var ilBaseWorkflow $process */
-        $process = new $test_name;
+        $process = new $test_name();
         $process->startWorkflow();
         $all_triggered = true;
         foreach ($process->getNodes() as $node) {

@@ -30,7 +30,7 @@ use ILIAS\HTTP\Wrapper\WrapperFactory;
  */
 class ilShibbolethWAYF
 {
-    const COOKIE_NAME_SAML_IDP = '_saml_idp';
+    public const COOKIE_NAME_SAML_IDP = '_saml_idp';
     public bool $is_selection = false;
     public bool $is_valid_selection = false;
     public string $selected_idp = '-';
@@ -39,7 +39,7 @@ class ilShibbolethWAYF
     protected ilLanguage $lng;
     protected ilSetting $settings;
     protected \ILIAS\Refinery\Factory $refinery;
-    
+
     public function __construct()
     {
         global $DIC;
@@ -73,17 +73,17 @@ class ilShibbolethWAYF
         }
     }
 
-    public function isSelection() : bool
+    public function isSelection(): bool
     {
         return $this->is_selection;
     }
 
-    public function isValidSelection() : bool
+    public function isValidSelection(): bool
     {
         return $this->is_valid_selection;
     }
 
-    public function generateSelection() : string
+    public function generateSelection(): string
     {
         $_saml_idp = $this->wrapper->cookie()->has(self::COOKIE_NAME_SAML_IDP)
             ? $this->wrapper->cookie()->retrieve(
@@ -120,7 +120,7 @@ class ilShibbolethWAYF
     /**
      * @description Redirects user to the local Shibboleth session initatiotor with already set GET arguments for the right IdP and return location.
      */
-    public function redirect() : void
+    public function redirect(): void
     {
         // Where to return after the authentication process
         $target = $this->wrapper->post()->has('il_target')
@@ -142,7 +142,7 @@ class ilShibbolethWAYF
     /**
      * @description Sets the standard SAML domain cookie that is also used to preselect the right entry on the local wayf
      */
-    public function setSAMLCookie() : void
+    public function setSAMLCookie(): void
     {
         $_saml_idp = $this->wrapper->cookie()->retrieve(self::COOKIE_NAME_SAML_IDP, $this->refinery->kindlyTo()->string());
         $arr_idps = $_saml_idp ? $this->generateCookieArray($_saml_idp) : [];
@@ -153,7 +153,7 @@ class ilShibbolethWAYF
     /**
      * @description Show notice in case no IdP was selected
      */
-    public function showNotice() : string
+    public function showNotice(): string
     {
         if (!$this->isSelection() || $this->isValidSelection()) {
             return '';
@@ -166,7 +166,7 @@ class ilShibbolethWAYF
      * @description Generate array of IdPs from ILIAS Shibboleth settings
      * @return array<string, string[]>
      */
-    public function getIdplist() : array
+    public function getIdplist(): array
     {
         $idp_list = [];
         $idp_raw_list = explode("\n", $this->settings->get("shib_idp_list"));
@@ -186,7 +186,7 @@ class ilShibbolethWAYF
      * @description Generates an array of IDPs using the cookie value
      * @return bool[]|string[]
      */
-    public function generateCookieArray(?string $value) : array
+    public function generateCookieArray(?string $value): array
     {
         if (null === $value) {
             return [];
@@ -198,7 +198,7 @@ class ilShibbolethWAYF
     /**
      * @description Generate the value that is stored in the cookie using the list of IDPs
      */
-    public function generateCookieValue(array $arr_cookie) : string
+    public function generateCookieValue(array $arr_cookie): string
     {
         $arr_cookie = array_map('base64_encode', $arr_cookie);
         return implode(' ', $arr_cookie);
@@ -208,7 +208,7 @@ class ilShibbolethWAYF
      * @description Append a value to the array of IDPs
      * @return mixed[]
      */
-    public function appendCookieValue(string $value, array $arr_cookie) : array
+    public function appendCookieValue(string $value, array $arr_cookie): array
     {
         $arr_cookie[] = $value;
         $arr_cookie = array_reverse($arr_cookie);

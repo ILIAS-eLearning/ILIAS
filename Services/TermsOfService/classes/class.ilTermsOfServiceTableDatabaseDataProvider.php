@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -34,28 +36,28 @@ abstract class ilTermsOfServiceTableDatabaseDataProvider implements ilTermsOfSer
      * @param array $filter
      * @return string
      */
-    abstract protected function getSelectPart(array $params, array $filter) : string;
+    abstract protected function getSelectPart(array $params, array $filter): string;
 
     /**
      * @param array $params
      * @param array $filter
      * @return string
      */
-    abstract protected function getFromPart(array $params, array $filter) : string;
+    abstract protected function getFromPart(array $params, array $filter): string;
 
     /**
      * @param array $params
      * @param array $filter
      * @return string
      */
-    abstract protected function getWherePart(array $params, array $filter) : string;
+    abstract protected function getWherePart(array $params, array $filter): string;
 
     /**
      * @param array $params
      * @param array $filter
      * @return string
      */
-    abstract protected function getGroupByPart(array $params, array $filter) : string;
+    abstract protected function getGroupByPart(array $params, array $filter): string;
 
     /**
      * @param array $params
@@ -63,14 +65,14 @@ abstract class ilTermsOfServiceTableDatabaseDataProvider implements ilTermsOfSer
      * @return string
      * @abstract
      */
-    abstract protected function getHavingPart(array $params, array $filter) : string;
+    abstract protected function getHavingPart(array $params, array $filter): string;
 
     /**
      * @param array $params
      * @param array $filter
      * @return string
      */
-    abstract protected function getOrderByPart(array $params, array $filter) : string;
+    abstract protected function getOrderByPart(array $params, array $filter): string;
 
     /**
      * @param array $params
@@ -78,7 +80,7 @@ abstract class ilTermsOfServiceTableDatabaseDataProvider implements ilTermsOfSer
      * @return array
      * @throws InvalidArgumentException
      */
-    public function getList(array $params, array $filter) : array
+    public function getList(array $params, array $filter): array
     {
         $data = [
             'items' => [],

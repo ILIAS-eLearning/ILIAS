@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\UI\Implementation\Component\Symbol\Icon;
 
 use ILIAS\UI\Implementation\Render\AbstractComponentRenderer;
@@ -31,7 +33,7 @@ class Renderer extends AbstractComponentRenderer
     /**
      * @inheritdoc
      */
-    public function render(Component\Component $component, RendererInterface $default_renderer) : string
+    public function render(Component\Component $component, RendererInterface $default_renderer): string
     {
         /**
          * @var Component\Symbol\Icon\Icon $component
@@ -40,7 +42,7 @@ class Renderer extends AbstractComponentRenderer
         $tpl = $this->getTemplate("tpl.icon.html", true, true);
 
         $id = $this->bindJavaScript($component);
-    
+
         if ($id !== null) {
             $tpl->setCurrentBlock("with_id");
             $tpl->setVariable("ID", $id);
@@ -82,13 +84,13 @@ class Renderer extends AbstractComponentRenderer
         return $tpl->get();
     }
 
-    protected function renderLabel(Component\Component $component, Template $tpl) : Template
+    protected function renderLabel(Component\Component $component, Template $tpl): Template
     {
         $tpl->setVariable('LABEL', $component->getLabel());
         return $tpl;
     }
 
-    protected function getStandardIconPath(Component\Symbol\Icon\Icon $icon) : string
+    protected function getStandardIconPath(Component\Symbol\Icon\Icon $icon): string
     {
         $name = $icon->getName();
         if (!in_array($name, $icon->getAllStandardHandles())) {
@@ -103,7 +105,7 @@ class Renderer extends AbstractComponentRenderer
     /**
      * @inheritdoc
      */
-    protected function getComponentInterfaceName() : array
+    protected function getComponentInterfaceName(): array
     {
         return array(Component\Symbol\Icon\Icon::class);
     }

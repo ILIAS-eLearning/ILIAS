@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * A PostCondition does restrict the progression of a user through the learning sequence.
  * Thus, instead of saying "You may only _visit_ this object if you did this",
@@ -39,29 +41,29 @@ class ilLSPostCondition
         $this->value = $value;
     }
 
-    public function getRefId() : int
+    public function getRefId(): int
     {
         return $this->ref_id;
     }
 
-    public function getConditionOperator() : string
+    public function getConditionOperator(): string
     {
         return $this->operator;
     }
 
-    public function withConditionOperator(string $operator) : ilLSPostCondition
+    public function withConditionOperator(string $operator): ilLSPostCondition
     {
         $clone = clone $this;
         $clone->operator = $operator;
         return $clone;
     }
 
-    public function getValue() : ?int
+    public function getValue(): ?int
     {
         return $this->value;
     }
 
-    public function withValue(int $value) : ilLSPostCondition
+    public function withValue(int $value): ilLSPostCondition
     {
         $clone = clone $this;
         $clone->value = $value;

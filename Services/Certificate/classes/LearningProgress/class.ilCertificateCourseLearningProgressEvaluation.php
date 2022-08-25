@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -61,7 +63,7 @@ class ilCertificateCourseLearningProgressEvaluation
      * @param int $userId
      * @return ilCertificateTemplate[]
      */
-    public function evaluate(int $refId, int $userId) : array
+    public function evaluate(int $refId, int $userId): array
     {
         $courseTemplates = $this->templateRepository
             ->fetchActiveCertificateTemplatesForCoursesWithDisabledLearningProgress(

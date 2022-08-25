@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -46,7 +48,7 @@ class CallbackHandler
         $this->global_screen = $DIC->globalScreen();
     }
 
-    public function run() : void
+    public function run(): void
     {
         $this->ctrl->setTargetScript(self::TARGET_SCRIPT);
 
@@ -64,15 +66,15 @@ class CallbackHandler
         }
     }
 
-    private function resolveCallback(isToolItem $item) : \Closure
+    private function resolveCallback(isToolItem $item): \Closure
     {
         return $item->hasCloseCallback()
             ? $item->getCloseCallback()
-            : static function () : void {
+            : static function (): void {
             };
     }
 
-    private function getIdentification() : IdentificationInterface
+    private function getIdentification(): IdentificationInterface
     {
         $hashed = $this->wrapper->query()->has(self::KEY_ITEM)
             ? $this->wrapper->query()->retrieve(self::KEY_ITEM, $this->refinery->to()->string())

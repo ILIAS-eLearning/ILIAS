@@ -27,7 +27,7 @@ class ilDclFormulaRecordQueryObject extends ilDclRecordQueryObject
         ilDclBaseFieldModel $field,
         array $all_records,
         string $direction = 'asc'
-    ) : array {
+    ): array {
         $sort_array = array();
         foreach ($all_records as $id) {
             $formula_field = ilDclCache::getRecordFieldCache(new ilDclBaseRecordModel($id), $field);

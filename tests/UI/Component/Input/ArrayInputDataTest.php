@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\Tests\UI\Component\Input;
 
 use ILIAS\UI\Implementation\Component\Input\ArrayInputData;
@@ -27,7 +29,7 @@ use LogicException;
  */
 class ArrayInputDataTest extends TestCase
 {
-    public function testInvalidKeyWithoutDefault() : void
+    public function testInvalidKeyWithoutDefault(): void
     {
         $test_key = 'test_key_1';
         $input_data = new ArrayInputData([]);
@@ -36,7 +38,7 @@ class ArrayInputDataTest extends TestCase
         $input_data->get($test_key);
     }
 
-    public function testInvalidKeyWithDefault() : void
+    public function testInvalidKeyWithDefault(): void
     {
         $test_key = 'test_key_1';
         $expected_value = 'expected_value_1';
@@ -48,7 +50,7 @@ class ArrayInputDataTest extends TestCase
         );
     }
 
-    public function testValidKeyWithoutDefault() : void
+    public function testValidKeyWithoutDefault(): void
     {
         $test_key = 'test_key_1';
         $expected_value = 'expected_value_1';
@@ -62,7 +64,7 @@ class ArrayInputDataTest extends TestCase
         );
     }
 
-    public function testValidKeyWithDefault() : void
+    public function testValidKeyWithDefault(): void
     {
         $test_key = 'test_key_1';
         $expected_value = 'expected_value_1';
@@ -77,7 +79,7 @@ class ArrayInputDataTest extends TestCase
         );
     }
 
-    public function testDefaultValues() : void
+    public function testDefaultValues(): void
     {
         $input_data = new ArrayInputData([]);
 

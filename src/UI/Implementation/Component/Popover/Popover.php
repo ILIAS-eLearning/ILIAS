@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\UI\Implementation\Component\Popover;
 
 use ILIAS\UI\Component as C;
@@ -51,7 +53,7 @@ abstract class Popover implements C\Popover\Popover
     /**
      * @inheritdoc
      */
-    public function getTitle() : string
+    public function getTitle(): string
     {
         return $this->title;
     }
@@ -59,7 +61,7 @@ abstract class Popover implements C\Popover\Popover
     /**
      * @inheritdoc
      */
-    public function getPosition() : string
+    public function getPosition(): string
     {
         return $this->position;
     }
@@ -67,7 +69,7 @@ abstract class Popover implements C\Popover\Popover
     /**
      * @inheritdoc
      */
-    public function getAsyncContentUrl() : string
+    public function getAsyncContentUrl(): string
     {
         return $this->ajax_content_url;
     }
@@ -75,7 +77,7 @@ abstract class Popover implements C\Popover\Popover
     /**
      * @inheritdoc
      */
-    public function withVerticalPosition() : C\Popover\Popover
+    public function withVerticalPosition(): C\Popover\Popover
     {
         $clone = clone $this;
         $clone->position = self::POS_VERTICAL;
@@ -85,7 +87,7 @@ abstract class Popover implements C\Popover\Popover
     /**
      * @inheritdoc
      */
-    public function withHorizontalPosition() : C\Popover\Popover
+    public function withHorizontalPosition(): C\Popover\Popover
     {
         $clone = clone $this;
         $clone->position = self::POS_HORIZONTAL;
@@ -95,7 +97,7 @@ abstract class Popover implements C\Popover\Popover
     /**
      * @inheritdoc
      */
-    public function withAsyncContentUrl(string $url) : C\Popover\Popover
+    public function withAsyncContentUrl(string $url): C\Popover\Popover
     {
         $clone = clone $this;
         $clone->ajax_content_url = $url;
@@ -105,7 +107,7 @@ abstract class Popover implements C\Popover\Popover
     /**
      * @inheritdoc
      */
-    public function withTitle(string $title) : C\Popover\Popover
+    public function withTitle(string $title): C\Popover\Popover
     {
         $clone = clone $this;
         $clone->title = $title;
@@ -115,7 +117,7 @@ abstract class Popover implements C\Popover\Popover
     /**
      * @inheritdoc
      */
-    public function withResetSignals() : C\Popover\Popover
+    public function withResetSignals(): C\Popover\Popover
     {
         $clone = clone $this;
         $clone->initSignals();
@@ -125,7 +127,7 @@ abstract class Popover implements C\Popover\Popover
     /**
      * @inheritdoc
      */
-    public function getShowSignal() : C\Signal
+    public function getShowSignal(): C\Signal
     {
         return $this->show_signal;
     }
@@ -133,7 +135,7 @@ abstract class Popover implements C\Popover\Popover
     /**
      * @inheritdoc
      */
-    public function getReplaceContentSignal() : C\ReplaceContentSignal
+    public function getReplaceContentSignal(): C\ReplaceContentSignal
     {
         return $this->replace_content_signal;
     }
@@ -152,7 +154,7 @@ abstract class Popover implements C\Popover\Popover
     /**
      * @inheritdoc
      */
-    public function withFixedPosition() : C\Popover\Popover
+    public function withFixedPosition(): C\Popover\Popover
     {
         $this->fixed_position = true;
 
@@ -162,7 +164,7 @@ abstract class Popover implements C\Popover\Popover
     /**
      * @inheritdoc
      */
-    public function isFixedPosition() : bool
+    public function isFixedPosition(): bool
     {
         return $this->fixed_position;
     }

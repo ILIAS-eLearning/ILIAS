@@ -21,5 +21,5 @@
  */
 interface ilAccessibilityJsonSerialization
 {
-    public function toJson() : string;
+    public function toJson(): string;
 }

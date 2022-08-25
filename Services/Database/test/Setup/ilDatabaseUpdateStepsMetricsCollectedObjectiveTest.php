@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 use PHPUnit\Framework\TestCase;
 use ILIAS\Setup\Metrics\Storage;
 
@@ -23,7 +25,7 @@ class Test_ilDatabaseUpdateSteps2 implements ilDatabaseUpdateSteps
 {
     protected ?ilDBInterface $db = null;
 
-    public function prepare(ilDBInterface $db) : void
+    public function prepare(ilDBInterface $db): void
     {
         $this->db = $db;
     }
@@ -46,13 +48,13 @@ class ilDatabaseUpdateStepsMetricsCollectedObjectiveTest extends TestCase
     public Test_ilDatabaseUpdateSteps2 $steps;
     public Storage $storage;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
-        $this->steps = new Test_ilDatabaseUpdateSteps2;
+        $this->steps = new Test_ilDatabaseUpdateSteps2();
         $this->storage = $this->createMock(Storage::class);
     }
 
-    public function testObjectCreation() : ilDatabaseUpdateStepsMetricsCollectedObjective
+    public function testObjectCreation(): ilDatabaseUpdateStepsMetricsCollectedObjective
     {
         $obj = new ilDatabaseUpdateStepsMetricsCollectedObjective($this->storage, $this->steps);
         $this->assertInstanceOf(ilDatabaseUpdateStepsMetricsCollectedObjective::class, $obj);

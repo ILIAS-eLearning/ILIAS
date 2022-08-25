@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -34,7 +36,7 @@ class ilUsersGalleryParticipants extends ilAbstractUsersGalleryCollectionProvide
      * @param int[] $usr_ids
      * @return array<int, ilObjUser>
      */
-    protected function getUsers(array $usr_ids) : array
+    protected function getUsers(array $usr_ids): array
     {
         $users = [];
 
@@ -58,7 +60,7 @@ class ilUsersGalleryParticipants extends ilAbstractUsersGalleryCollectionProvide
         return $users;
     }
 
-    public function getGroupedCollections() : array
+    public function getGroupedCollections(): array
     {
         /** @var ILIAS\DI\Container $DIC */
         global $DIC;

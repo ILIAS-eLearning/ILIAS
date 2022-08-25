@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -25,12 +27,12 @@ class ilLinkifyUtil
     private static string $ver = "1_1";
     private static string $min = ".min";
 
-    public static function initLinkify(?ilGlobalTemplateInterface $a_tpl = null) : void
+    public static function initLinkify(?ilGlobalTemplateInterface $a_tpl = null): void
     {
         global $DIC;
 
         $tpl = $DIC["tpl"];
-        
+
         if ($a_tpl === null) {
             $a_tpl = $tpl;
         }
@@ -44,7 +46,7 @@ class ilLinkifyUtil
      * Get paths of necessary js files
      * @return string[]
      */
-    public static function getLocalJsPaths() : array
+    public static function getLocalJsPaths(): array
     {
         return [
             "./node_modules/linkifyjs/dist/linkify.min.js",

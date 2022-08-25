@@ -32,7 +32,7 @@ class ilExportIDTableGUI extends ilTable2GUI
     public bool $online_help_mode = false;
     protected EditingGUIRequest $request;
     protected \ilGlobalTemplateInterface $main_tpl;
-    
+
     public function __construct(
         object $a_parent_obj,
         string $a_parent_cmd,
@@ -88,17 +88,17 @@ class ilExportIDTableGUI extends ilTable2GUI
         $this->addCommandButton("saveExportIDs", $lng->txt("save"));
     }
 
-    public function setOnlineHelpMode(bool $a_val) : void
+    public function setOnlineHelpMode(bool $a_val): void
     {
         $this->online_help_mode = $a_val;
     }
-    
-    public function getOnlineHelpMode() : bool
+
+    public function getOnlineHelpMode(): bool
     {
         return $this->online_help_mode;
     }
-    
-    protected function fillRow(array $a_set) : void
+
+    protected function fillRow(array $a_set): void
     {
         $lng = $this->lng;
 

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /* Copyright (c) 1998-2020 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -9,20 +11,20 @@ class ilTestAnswerOptionalQuestionsConfirmationGUITest extends ilTestBaseTestCas
 {
     protected $lng_mock;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         parent::setUp();
         $this->lng_mock = $this->createMock(ilLanguage::class);
     }
 
-    public function test_instantiateObject_shouldReturnInstance() : void
+    public function test_instantiateObject_shouldReturnInstance(): void
     {
         $instance = new ilTestAnswerOptionalQuestionsConfirmationGUI($this->lng_mock);
 
         $this->assertInstanceOf(ilTestAnswerOptionalQuestionsConfirmationGUI::class, $instance);
     }
 
-    public function testGetAndSetCancelCmd() : void
+    public function testGetAndSetCancelCmd(): void
     {
         $expect = "testCancelCmd";
 
@@ -33,7 +35,7 @@ class ilTestAnswerOptionalQuestionsConfirmationGUITest extends ilTestBaseTestCas
         $this->assertEquals($expect, $gui->getCancelCmd());
     }
 
-    public function testGetAndSetConfirmCmd() : void
+    public function testGetAndSetConfirmCmd(): void
     {
         $expect = "testConfirmCmd";
 

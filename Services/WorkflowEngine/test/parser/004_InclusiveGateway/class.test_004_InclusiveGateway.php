@@ -1,4 +1,5 @@
 <?php
+
 /* Copyright (c) 1998-2014 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 require_once 'Services/WorkflowEngine/test/ilWorkflowEngineBaseTest.php';
@@ -15,22 +16,22 @@ class test_004_InclusiveGateway extends ilWorkflowEngineBaseTest
     public string $base_path = './Services/WorkflowEngine/test/parser/';
     public string $suite_path = '004_InclusiveGateway/';
 
-    public function getTestInputFilename($test_name) : string
+    public function getTestInputFilename($test_name): string
     {
         return $this->base_path . $this->suite_path . $test_name . '.bpmn2';
     }
 
-    public function getTestOutputFilename($test_name) : string
+    public function getTestOutputFilename($test_name): string
     {
         return $this->base_path . $this->suite_path . $test_name . '_output.php';
     }
 
-    public function getTestGoldsampleFilename($test_name) : string
+    public function getTestGoldsampleFilename($test_name): string
     {
         return $this->base_path . $this->suite_path . $test_name . '_goldsample.php';
     }
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         chdir(__DIR__);
         chdir('../../../../../');
@@ -40,7 +41,7 @@ class test_004_InclusiveGateway extends ilWorkflowEngineBaseTest
         require_once './Services/WorkflowEngine/classes/parser/class.ilBPMN2Parser.php';
     }
 
-    public function test_WorkflowWithSimpleInclusiveGatewayShouldOutputAccordingly() : void
+    public function test_WorkflowWithSimpleInclusiveGatewayShouldOutputAccordingly(): void
     {
         $test_name = 'InclusiveGateway_Simple';
         $xml = file_get_contents($this->getTestInputFilename($test_name));
@@ -56,7 +57,7 @@ class test_004_InclusiveGateway extends ilWorkflowEngineBaseTest
         $this->assertEquals($goldsample, $parse_result, 'Output does not match goldsample.');
 
         require_once $this->getTestOutputFilename($test_name);
-        $process = new $test_name;
+        $process = new $test_name();
         $this->assertFalse($process->isActive());
 
         $process->startWorkflow();

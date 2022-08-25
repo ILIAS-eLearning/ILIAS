@@ -28,7 +28,7 @@ class ilRatingImporter extends ilXmlImporter
     /**
      * Initialisation
      */
-    public function init() : void
+    public function init(): void
     {
         $this->ds = new ilRatingDataSet();
         $this->ds->setDSPrefix("ds");
@@ -38,7 +38,7 @@ class ilRatingImporter extends ilXmlImporter
     /**
      * @inheritDoc
      */
-    public function importXmlRepresentation(string $a_entity, string $a_id, string $a_xml, ilImportMapping $a_mapping) : void
+    public function importXmlRepresentation(string $a_entity, string $a_id, string $a_xml, ilImportMapping $a_mapping): void
     {
         $parser = new ilDataSetImportParser(
             $a_entity,

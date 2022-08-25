@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -23,7 +25,6 @@
  */
 interface ilAuthProviderAccountMigrationInterface
 {
-    
     /**
      * Get auth mode which triggered the account migration
      * 2_1 for ldap account migration with server id 1
@@ -31,30 +32,30 @@ interface ilAuthProviderAccountMigrationInterface
      *
      * @see ilAuthUtils
      */
-    public function getTriggerAuthMode() : string;
-    
+    public function getTriggerAuthMode(): string;
+
     /**
      * Get user auth mode name
      * ldap_1 for ldap account migration with server id 1
      * apache for apache auth
      */
-    public function getUserAuthModeName() : string;
-    
+    public function getUserAuthModeName(): string;
+
     /**
      * Get external account name
      */
-    public function getExternalAccountName() : string;
-    
-    
-    
+    public function getExternalAccountName(): string;
+
+
+
     /**
      * Create new account
      */
-    public function migrateAccount(ilAuthStatus $status) : void;
-    
-    
+    public function migrateAccount(ilAuthStatus $status): void;
+
+
     /**
      * Create new ILIAS account for external_account
      */
-    public function createNewAccount(ilAuthStatus $status) : void;
+    public function createNewAccount(ilAuthStatus $status): void;
 }

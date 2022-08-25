@@ -16,7 +16,6 @@
  *
  *********************************************************************/
 
-
 namespace ILIAS\LTI\ToolProvider\Service;
 
 /**
@@ -28,7 +27,6 @@ namespace ILIAS\LTI\ToolProvider\Service;
  */
 class AssignmentGrade extends Service
 {
-
     /**
      * Class constructor.
      * @param \ILIAS\LTI\ToolProvider\Platform $platform Platform object for this service request
@@ -47,7 +45,7 @@ class AssignmentGrade extends Service
      * @param string $path     Path
      * @return string The endpoint with the path added
      */
-    private static function addPath(string $endpoint, string $path) : string
+    private static function addPath(string $endpoint, string $path): string
     {
         if (strpos($endpoint, '?') === false) {
             if (substr($endpoint, -strlen($path)) !== $path) {

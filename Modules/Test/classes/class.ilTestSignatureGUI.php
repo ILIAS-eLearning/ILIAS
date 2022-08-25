@@ -1,4 +1,5 @@
 <?php
+
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 require_once 'Services/Export/classes/class.ilExportGUI.php';
@@ -24,7 +25,7 @@ class ilTestSignatureGUI
 
     /** @var $testGUI \ilObjTestGUI */
     protected $testGUI;
-    
+
     /** @var $ilTestOutputGUI \ilTestOutputGUI */
     protected $ilTestOutputGUI;
 
@@ -41,7 +42,7 @@ class ilTestSignatureGUI
         $ilCtrl = $DIC['ilCtrl'];
         $tpl = $DIC['tpl'];
         $component_factory = $DIC["component.factory"];
-        
+
         $this->lng = $lng;
         $this->ilCtrl = $ilCtrl;
         $this->tpl = $tpl;
@@ -95,7 +96,7 @@ class ilTestSignatureGUI
     /**
      * @return \ilObjTest
      */
-    public function getTest() : ilObjTest
+    public function getTest(): ilObjTest
     {
         return $this->test;
     }
@@ -111,7 +112,7 @@ class ilTestSignatureGUI
     /**
      * @return \ilObjTestGUI
      */
-    public function getTestGUI() : ilObjTestGUI
+    public function getTestGUI(): ilObjTestGUI
     {
         return $this->testGUI;
     }
@@ -127,7 +128,7 @@ class ilTestSignatureGUI
     /**
      * @return \ilTestOutputGUI
      */
-    public function getTestOutputGUI() : ilTestOutputGUI
+    public function getTestOutputGUI(): ilTestOutputGUI
     {
         return $this->ilTestOutputGUI;
     }

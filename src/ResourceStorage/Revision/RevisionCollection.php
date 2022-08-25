@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -14,7 +16,7 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *********************************************************************/
- 
+
 namespace ILIAS\ResourceStorage\Revision;
 
 use ILIAS\ResourceStorage\Identification\ResourceIdentification;
@@ -25,7 +27,6 @@ use ILIAS\ResourceStorage\Identification\ResourceIdentification;
  */
 class RevisionCollection
 {
-
     /**
      * @var FileRevision[]
      */
@@ -42,7 +43,7 @@ class RevisionCollection
         $this->revisions = $revisions;
     }
 
-    public function add(Revision $revision) : void
+    public function add(Revision $revision): void
     {
         if ($this->identification->serialize() !== $revision->getIdentification()->serialize()) {
             throw new NonMatchingIdentificationException("Can't add Revision since it's not the same ResourceIdentification");
@@ -59,7 +60,7 @@ class RevisionCollection
         asort($this->revisions);
     }
 
-    public function remove(Revision $revision) : void
+    public function remove(Revision $revision): void
     {
         foreach ($this->revisions as $k => $revision_e) {
             if ($revision->getVersionNumber() === $revision_e->getVersionNumber()) {
@@ -70,7 +71,7 @@ class RevisionCollection
         }
     }
 
-    public function replaceSingleRevision(Revision $revision) : void
+    public function replaceSingleRevision(Revision $revision): void
     {
         foreach ($this->revisions as $k => $revision_e) {
             if ($revision_e->getVersionNumber() === $revision->getVersionNumber()) {
@@ -79,13 +80,13 @@ class RevisionCollection
         }
     }
 
-    public function replaceAllRevisions(Revision $revision) : void
+    public function replaceAllRevisions(Revision $revision): void
     {
         $this->revisions = [];
         $this->add($revision);
     }
 
-    public function getCurrent() : Revision
+    public function getCurrent(): Revision
     {
         $v = array_values($this->revisions);
         sort($v);
@@ -100,12 +101,12 @@ class RevisionCollection
     /**
      * @return Revision[]
      */
-    public function getAll() : array
+    public function getAll(): array
     {
         return $this->revisions;
     }
 
-    public function getMax() : int
+    public function getMax(): int
     {
         if (count($this->revisions) === 0) {
             return 0;

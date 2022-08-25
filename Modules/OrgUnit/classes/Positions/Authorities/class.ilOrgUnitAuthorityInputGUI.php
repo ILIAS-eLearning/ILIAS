@@ -22,7 +22,6 @@
  */
 class ilOrgUnitAuthorityInputGUI extends ilFormPropertyGUI implements ilMultiValuesItem
 {
-
     /**
      * @var ilOrgUnitAuthority[]
      */
@@ -50,7 +49,7 @@ class ilOrgUnitAuthorityInputGUI extends ilFormPropertyGUI implements ilMultiVal
     /**
      * @param \ilTemplate $a_tpl
      */
-    public function insert(ilTemplate $a_tpl) : void
+    public function insert(ilTemplate $a_tpl): void
     {
         $html = $this->render();
 
@@ -62,7 +61,7 @@ class ilOrgUnitAuthorityInputGUI extends ilFormPropertyGUI implements ilMultiVal
     /**
      * @param array $values
      */
-    public function setValueByArray(array $values) : void
+    public function setValueByArray(array $values): void
     {
         $authorities = $values[$this->getPostVar()];
         if (!is_array($authorities)) {
@@ -77,7 +76,7 @@ class ilOrgUnitAuthorityInputGUI extends ilFormPropertyGUI implements ilMultiVal
     /**
      * @param \ilOrgUnitAuthority[] $a_value
      */
-    public function setValue(array $a_value) : void
+    public function setValue(array $a_value): void
     {
         $this->value = $a_value;
     }
@@ -85,7 +84,7 @@ class ilOrgUnitAuthorityInputGUI extends ilFormPropertyGUI implements ilMultiVal
     /**
      * @return \ilOrgUnitAuthority[]
      */
-    public function getValue() : array
+    public function getValue(): array
     {
         return $this->value;
     }
@@ -93,7 +92,7 @@ class ilOrgUnitAuthorityInputGUI extends ilFormPropertyGUI implements ilMultiVal
     /**
      * @throws ilTemplateException
      */
-    protected function render() : string
+    protected function render(): string
     {
         $tpl = new ilTemplate("tpl.authority_input.html", true, true, "Modules/OrgUnit");
         //		if (strlen($this->getValue())) {
@@ -147,12 +146,12 @@ class ilOrgUnitAuthorityInputGUI extends ilFormPropertyGUI implements ilMultiVal
         return $tpl->get();
     }
 
-    protected function dic() : \ILIAS\DI\Container
+    protected function dic(): \ILIAS\DI\Container
     {
         return $GLOBALS["DIC"];
     }
 
-    protected function lang() : \ilLanguage
+    protected function lang(): \ilLanguage
     {
         static $loaded;
         $lang = $this->dic()->language();
@@ -164,12 +163,12 @@ class ilOrgUnitAuthorityInputGUI extends ilFormPropertyGUI implements ilMultiVal
         return $lang;
     }
 
-    public function getMulti() : bool
+    public function getMulti(): bool
     {
         return false;
     }
 
-    protected function initJS() : void
+    protected function initJS(): void
     {
         // Global JS
         /**

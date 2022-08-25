@@ -1,4 +1,5 @@
 <?php
+
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 include_once("./Services/COPage/classes/class.ilPageObject.php");
@@ -17,7 +18,7 @@ class ilAssGenFeedbackPage extends ilPageObject
      * Get parent type
      * @return string parent type
      */
-    public function getParentType() : string
+    public function getParentType(): string
     {
         return "qfbg";
     }

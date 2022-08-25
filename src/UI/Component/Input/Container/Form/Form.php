@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\UI\Component\Input\Container\Form;
 
 use ILIAS\UI\Component\Component;
@@ -33,7 +35,7 @@ interface Form extends Component
      *
      * @return    array<mixed,FormInput>
      */
-    public function getInputs() : array;
+    public function getInputs(): array;
 
     /**
      * Get a form like this where data from the request is attached.
@@ -64,5 +66,5 @@ interface Form extends Component
     /**
      * @return null|string
      */
-    public function getError() : ?string;
+    public function getError(): ?string;
 }

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -23,11 +25,11 @@
  */
 class ilMetaDataExporter extends ilXmlExporter
 {
-    public function init() : void
+    public function init(): void
     {
     }
 
-    public function getXmlRepresentation(string $a_entity, string $a_schema_version, string $a_id) : string
+    public function getXmlRepresentation(string $a_entity, string $a_schema_version, string $a_id): string
     {
         $id = explode(":", $a_id);
         $mdxml = new ilMD2XML((int) $id[0], (int) $id[1], (string) $id[2]);
@@ -43,7 +45,7 @@ class ilMetaDataExporter extends ilXmlExporter
      * fit to the target release. Please put the newest on top.
      * @return array<string, array<string, string>>
      */
-    public function getValidSchemaVersions(string $a_entity) : array
+    public function getValidSchemaVersions(string $a_entity): array
     {
         return array(
             "4.1.0" => array(

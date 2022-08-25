@@ -15,13 +15,13 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 require_once(__DIR__ . "/../../../../libs/composer/vendor/autoload.php");
 require_once(__DIR__ . "/../../Base.php");
 
-use \ILIAS\UI\Component as C;
-use \ILIAS\UI\Implementation\Component as I;
-use \ILIAS\UI\Implementation\Component\MainControls\Slate\Notification;
+use ILIAS\UI\Component as C;
+use ILIAS\UI\Implementation\Component as I;
+use ILIAS\UI\Implementation\Component\MainControls\Slate\Notification;
 
 /**
  * Checks if the HTML used for the Client tests is rendered as specified
@@ -33,23 +33,23 @@ class ItemNotificationClientHtmlTest extends ILIAS_UI_TestBase
      */
     protected $sig_gen;
 
-    public function setUp() : void
+    public function setUp(): void
     {
         $this->sig_gen = new I\SignalGenerator();
     }
 
-    public function getUIFactory() : NoUIFactory
+    public function getUIFactory(): NoUIFactory
     {
-        $factory = new class extends NoUIFactory {
-            public function counter() : C\Counter\Factory
+        $factory = new class () extends NoUIFactory {
+            public function counter(): C\Counter\Factory
             {
                 return new I\Counter\Factory();
             }
-            public function button() : C\Button\Factory
+            public function button(): C\Button\Factory
             {
                 return new I\Button\Factory($this->sig_gen);
             }
-            public function symbol() : ILIAS\UI\Component\Symbol\Factory
+            public function symbol(): ILIAS\UI\Component\Symbol\Factory
             {
                 return new I\Symbol\Factory(
                     new I\Symbol\Icon\Factory(),
@@ -57,11 +57,11 @@ class ItemNotificationClientHtmlTest extends ILIAS_UI_TestBase
                     new I\Symbol\Avatar\Factory()
                 );
             }
-            public function item() : C\Item\Factory
+            public function item(): C\Item\Factory
             {
                 return new I\Item\Factory();
             }
-            public function mainControls() : C\MainControls\Factory
+            public function mainControls(): C\MainControls\Factory
             {
                 return new I\MainControls\Factory(
                     $this->sig_gen,
@@ -78,7 +78,7 @@ class ItemNotificationClientHtmlTest extends ILIAS_UI_TestBase
         return $factory;
     }
 
-    public function testRenderClientHtml() : void
+    public function testRenderClientHtml(): void
     {
         $f = $this->getUIFactory();
         $expected_html = file_get_contents(__DIR__ . "/../../Client/Item/Notification/NotificationItemTest.html");

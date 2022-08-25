@@ -63,14 +63,14 @@ class ilSurveyParticipantsGUI
         $ilCtrl = $DIC->ctrl();
         $lng = $DIC->language();
         $tpl = $DIC["tpl"];
-        
+
         $this->parent_gui = $a_parent_gui;
         /** @var ilObjSurvey $survey */
         $survey = $this->parent_gui->getObject();
         $this->object = $survey;
         $this->ref_id = $this->object->getRefId();
         $this->has_write = $a_has_write_access;
-        
+
         $this->ctrl = $ilCtrl;
         $this->lng = $lng;
         $this->tpl = $tpl;
@@ -98,31 +98,31 @@ class ilSurveyParticipantsGUI
             ->request();
     }
 
-    public function getObject() : ilObjSurvey
+    public function getObject(): ilObjSurvey
     {
         return $this->object;
     }
 
-    protected function handleWriteAccess() : void
+    protected function handleWriteAccess(): void
     {
         if (!$this->has_write) {
             throw new ilSurveyException("Permission denied");
         }
     }
-    
-    public function executeCommand() : void
+
+    public function executeCommand(): void
     {
         $ilCtrl = $this->ctrl;
         $ilTabs = $this->tabs;
         $lng = $this->lng;
-        
+
         $cmd = $ilCtrl->getCmd("maintenance");
         $next_class = $this->ctrl->getNextClass($this);
-        
+
         switch ($next_class) {
             case 'ilrepositorysearchgui':
                 $rep_search = new ilRepositorySearchGUI();
-                
+
                 if (!$this->edit_request->getAppr360() && !$this->edit_request->getRate360()) {
                     $ilTabs->clearTargets();
                     $ilTabs->setBackTarget(
@@ -147,10 +147,10 @@ class ilSurveyParticipantsGUI
                         $this->lng->txt("btn_back"),
                         $this->ctrl->getLinkTarget($this, "listAppraisees")
                     );
-                    
+
                     $this->ctrl->setParameter($this, "rate360", 1);
                     $this->ctrl->saveParameter($this, "appr_id");
-                    
+
                     $rep_search->setCallback(
                         $this,
                         'addRater',
@@ -164,7 +164,7 @@ class ilSurveyParticipantsGUI
                 } else {
                     $ilTabs->activateTab("survey_360_appraisees");
                     $this->ctrl->setParameter($this, "appr360", 1);
-                    
+
                     $rep_search->setCallback(
                         $this,
                         'addAppraisee',
@@ -190,10 +190,10 @@ class ilSurveyParticipantsGUI
                 break;
         }
     }
-    
+
     protected function filterSurveyParticipantsByAccess(
         array $a_finished_ids = null
-    ) : array {
+    ): array {
         $all_participants = $this->object->getSurveyParticipants($a_finished_ids, false, true);
         $participant_ids = [];
         foreach ($all_participants as $participant) {
@@ -221,12 +221,12 @@ class ilSurveyParticipantsGUI
 
         return $participants;
     }
-    
-    
+
+
     /**
      * Participants maintenance
      */
-    public function maintenanceObject() : void
+    public function maintenanceObject(): void
     {
         $ilToolbar = $this->toolbar;
 
@@ -234,7 +234,7 @@ class ilSurveyParticipantsGUI
             $this->listAppraiseesObject();
             return;
         }
-        
+
         //Btn Determine Competence Levels
         if ($this->object->getMode() === ilObjSurvey::MODE_SELF_EVAL) {
             $skmg_set = new ilSkillManagementSettings();
@@ -296,8 +296,8 @@ class ilSurveyParticipantsGUI
         $table_gui->setData($data);
         $this->tpl->setVariable('ADM_CONTENT', $table_gui->getHTML());
     }
-    
-    protected function isAnonymousListActive() : bool
+
+    protected function isAnonymousListActive(): bool
     {
         $surveySetting = new ilSetting("survey");
 
@@ -314,21 +314,21 @@ class ilSurveyParticipantsGUI
         }
         return false;
     }
-    
+
     protected function setParticipantSubTabs(
         string $active
-    ) : void {
+    ): void {
         $ilTabs = $this->tabs;
-        
+
         // not used in 360° mode
-    
+
         // overview
         $ilTabs->addSubTab(
             "overview",
             $this->lng->txt("svy_part_overview"),
             $this->ctrl->getLinkTarget($this, 'maintenance')
         );
-        
+
         if ($this->isAnonymousListActive()) {
             $ilTabs->addSubTab(
                 "anon_participants",
@@ -344,7 +344,7 @@ class ilSurveyParticipantsGUI
                 $this->ctrl->getLinkTarget($this, 'codes')
             );
         }
-        
+
 
         $data = $this->object->getExternalCodeRecipients();
         if (count($data)) {
@@ -357,12 +357,12 @@ class ilSurveyParticipantsGUI
 
         $ilTabs->activateSubTab($active);
     }
-    
+
 
     /**
      * Creates a confirmation form for delete all user data
      */
-    public function deleteAllUserDataObject() : void
+    public function deleteAllUserDataObject(): void
     {
         $cgui = new ilConfirmationGUI();
         $cgui->setHeaderText($this->lng->txt("confirm_delete_all_user_data"));
@@ -371,11 +371,11 @@ class ilSurveyParticipantsGUI
         $cgui->setConfirm($this->lng->txt("confirm"), "confirmDeleteAllUserData");
         $this->tpl->setContent($cgui->getHTML());
     }
-    
+
     /**
      * Deletes all user data of the survey after confirmation
      */
-    public function confirmDeleteAllUserDataObject() : void
+    public function confirmDeleteAllUserDataObject(): void
     {
         if ($this->access->checkAccess('write', '', $this->object->getRefId())) {
             $this->object->deleteAllUserData();
@@ -390,31 +390,31 @@ class ilSurveyParticipantsGUI
         if ($this->object->get360Mode()) {
             $this->object->openAllAppraisees();
         }
-        
+
         $this->tpl->setOnScreenMessage('success', $this->lng->txt("svy_all_user_data_deleted"), true);
         $this->ctrl->redirect($this, "maintenance");
     }
-    
+
     /**
      * Cancels delete of all user data in maintenance
      */
-    public function cancelDeleteAllUserDataObject() : void
+    public function cancelDeleteAllUserDataObject(): void
     {
         $this->ctrl->redirect($this, "maintenance");
     }
-    
+
     /**
      * Deletes all user data for the test object
      */
-    public function confirmDeleteSelectedUserDataObject() : void
+    public function confirmDeleteSelectedUserDataObject(): void
     {
         $user_ids = $this->edit_request->getUserIds();
         if (count($user_ids) > 0) {
-            $this->object->removeSelectedSurveyResults(array_filter($user_ids, static function ($i) : bool {
+            $this->object->removeSelectedSurveyResults(array_filter($user_ids, static function ($i): bool {
                 return is_numeric($i);
             }));
 
-            $invitations = array_filter($user_ids, static function ($i) : bool {
+            $invitations = array_filter($user_ids, static function ($i): bool {
                 return strpos($i, "inv") === 0;
             });
             foreach ($invitations as $i) {
@@ -425,20 +425,20 @@ class ilSurveyParticipantsGUI
         }
         $this->ctrl->redirect($this, "maintenance");
     }
-    
+
     /**
      * Cancels the deletion of all user data
      */
-    public function cancelDeleteSelectedUserDataObject() : void
+    public function cancelDeleteSelectedUserDataObject(): void
     {
         $this->tpl->setOnScreenMessage('info', $this->lng->txt('msg_cancel'), true);
         $this->ctrl->redirect($this, "maintenance");
     }
-    
+
     /**
      * Asks for a confirmation to delete selected user data
      */
-    public function deleteSingleUserResultsObject() : void
+    public function deleteSingleUserResultsObject(): void
     {
         $this->handleWriteAccess();
 
@@ -469,11 +469,11 @@ class ilSurveyParticipantsGUI
         $table_gui->setData($data);
         $this->tpl->setVariable('ADM_CONTENT', $table_gui->getHTML());
     }
-    
+
     /**
      * Change survey language for direct access URL's
      */
-    public function setCodeLanguageObject() : void
+    public function setCodeLanguageObject(): void
     {
         if (strcmp($this->edit_request->getLang(), "-1") !== 0) {
             $ilUser = $this->user;
@@ -482,18 +482,18 @@ class ilSurveyParticipantsGUI
         $this->tpl->setOnScreenMessage('success', $this->lng->txt('language_changed'), true);
         $this->ctrl->redirect($this, 'codes');
     }
-    
+
     /**
      * Display the survey access codes tab
      */
-    public function codesObject() : void
+    public function codesObject(): void
     {
         $ilUser = $this->user;
         $ilToolbar = $this->toolbar;
-        
+
         $this->handleWriteAccess();
         $this->setParticipantSubTabs("codes");
-        
+
         if ($this->object->isAccessibleWithoutCode()) {
             $this->tpl->setOnScreenMessage('info', $this->lng->txt("survey_codes_no_anonymization"));
             return;
@@ -503,38 +503,38 @@ class ilSurveyParticipantsGUI
 
         // creation buttons
         $ilToolbar->setFormAction($this->ctrl->getFormAction($this));
-        
+
         $si = new ilTextInputGUI($this->lng->txt("new_survey_codes"), "nrOfCodes");
         $si->setValue(1);
         $si->setSize(3);
         $ilToolbar->addInputItem($si, true);
-        
+
         $button = ilSubmitButton::getInstance();
         $button->setCaption("create");
         $button->setCommand("createSurveyCodes");
         $ilToolbar->addButtonInstance($button);
-    
+
         $ilToolbar->addSeparator();
-        
+
         $button = ilSubmitButton::getInstance();
         $button->setCaption("import_from_file");
         $button->setCommand("importExternalMailRecipientsFromFileForm");
         $ilToolbar->addButtonInstance($button);
-        
+
         $button = ilSubmitButton::getInstance();
         $button->setCaption("import_from_text");
         $button->setCommand("importExternalMailRecipientsFromTextForm");
         $ilToolbar->addButtonInstance($button);
-        
+
         $ilToolbar->addSeparator();
-                
+
         $button = ilSubmitButton::getInstance();
         $button->setCaption("svy_import_codes");
         $button->setCommand("importAccessCodes");
         $ilToolbar->addButtonInstance($button);
-            
+
         $ilToolbar->addSeparator();
-        
+
         $languages = $this->lng->getInstalledLanguages();
         $options = array();
         $this->lng->loadLanguageModule("meta");
@@ -545,35 +545,35 @@ class ilSurveyParticipantsGUI
         $si->setOptions($options);
         $si->setValue($default_lang);
         $ilToolbar->addInputItem($si, true);
-        
+
         $button = ilSubmitButton::getInstance();
         $button->setCaption("set");
         $button->setCommand("setCodeLanguage");
         $ilToolbar->addButtonInstance($button);
-    
+
         $table_gui = new ilSurveyCodesTableGUI($this, 'codes');
         $survey_codes = $this->object->getSurveyCodesTableData(null, $default_lang);
         $table_gui->setData($survey_codes);
         $this->tpl->setContent($table_gui->getHTML());
     }
-    
-    public function editCodesObject() : void
+
+    public function editCodesObject(): void
     {
         $ids = $this->edit_request->getCodeIds();
         if (count($ids) === 0) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('no_checkbox'), true);
             $this->ctrl->redirect($this, 'codes');
         }
-    
+
         $this->handleWriteAccess();
         $this->setParticipantSubTabs("codes");
-        
+
         $table_gui = new ilSurveyCodesEditTableGUI($this, 'editCodes');
         $table_gui->setData($this->object->getSurveyCodesTableData($ids));
         $this->tpl->setContent($table_gui->getHTML());
     }
-    
-    public function updateCodesObject() : void
+
+    public function updateCodesObject(): void
     {
         $codes = $this->edit_request->getCodes();
         $mails = $this->edit_request->getCodesPar("mail");
@@ -608,8 +608,8 @@ class ilSurveyParticipantsGUI
 
         $this->ctrl->redirect($this, 'codes');
     }
-    
-    public function deleteCodesConfirmObject() : void
+
+    public function deleteCodesConfirmObject(): void
     {
         $codes = $this->edit_request->getCodes();
         if (count($codes) > 0) {
@@ -619,20 +619,20 @@ class ilSurveyParticipantsGUI
             $cgui->setFormAction($this->ctrl->getFormAction($this));
             $cgui->setCancel($this->lng->txt("cancel"), "codes");
             $cgui->setConfirm($this->lng->txt("confirm"), "deleteCodes");
-            
+
             $data = $this->object->getSurveyCodesTableData($codes);
 
             foreach ($data as $item) {
                 if ($item["used"]) {
                     continue;
                 }
-                
+
                 $title = array($item["code"]);
                 $title[] = $item["email"] ?? "";
                 $title[] = $item["last_name"] ?? "";
                 $title[] = $item["first_name"] ?? "";
                 $title = implode(", ", $title);
-                                
+
                 $cgui->addItem("chb_code[]", $item["code"], $title);
             }
 
@@ -642,11 +642,11 @@ class ilSurveyParticipantsGUI
             $this->ctrl->redirect($this, 'codes');
         }
     }
-    
+
     /**
      * Delete a list of survey codes
      */
-    public function deleteCodesObject() : void
+    public function deleteCodesObject(): void
     {
         $codes = $this->edit_request->getCodes();
         if (count($codes) > 0) {
@@ -659,11 +659,11 @@ class ilSurveyParticipantsGUI
         }
         $this->ctrl->redirect($this, 'codes');
     }
-    
+
     /**
      * Exports a list of survey codes
      */
-    public function exportCodesObject() : void
+    public function exportCodesObject(): void
     {
         $codes = $this->edit_request->getCodes();
         if (count($codes) > 0) {
@@ -674,24 +674,24 @@ class ilSurveyParticipantsGUI
             $this->ctrl->redirect($this, 'codes');
         }
     }
-    
+
     /**
      * Exports all survey codes
      */
-    public function exportAllCodesObject() : void
+    public function exportAllCodesObject(): void
     {
         $export = $this->object->getSurveyCodesForExport();
         ilUtil::deliverData($export, ilFileUtils::getASCIIFilename($this->object->getTitle() . ".csv"));
     }
-    
+
     /**
      * Import codes from export codes file (upload form)
      */
-    protected function importAccessCodesObject() : void
+    protected function importAccessCodesObject(): void
     {
         $this->handleWriteAccess();
         $this->setParticipantSubTabs("codes");
-        
+
         $form_import_file = new ilPropertyFormGUI();
         $form_import_file->setFormAction($this->ctrl->getFormAction($this));
         $form_import_file->setTableWidth("100%");
@@ -700,7 +700,7 @@ class ilSurveyParticipantsGUI
         $headerfile = new ilFormSectionHeaderGUI();
         $headerfile->setTitle($this->lng->txt("svy_import_codes"));
         $form_import_file->addItem($headerfile);
-        
+
         $export_file = new ilFileInputGUI($this->lng->txt("codes"), "codes");
         $export_file->setInfo(sprintf(
             $this->lng->txt('svy_import_codes_info'),
@@ -709,24 +709,24 @@ class ilSurveyParticipantsGUI
         $export_file->setSuffixes(array("csv"));
         $export_file->setRequired(true);
         $form_import_file->addItem($export_file);
-        
+
         $form_import_file->addCommandButton("importAccessCodesAction", $this->lng->txt("import"));
         $form_import_file->addCommandButton("codes", $this->lng->txt("cancel"));
 
         $this->tpl->setContent($form_import_file->getHTML());
     }
-    
+
     /**
      * Import codes from export codes file
      */
-    protected function importAccessCodesActionObject() : void
+    protected function importAccessCodesActionObject(): void
     {
         if (trim($_FILES['codes']['tmp_name'])) {
             $existing = array();
             foreach ($this->object->getSurveyCodesTableData() as $item) {
                 $existing[$item["code"]] = $item["id"];
             }
-            
+
             $reader = new ilCSVReader();
             $reader->open($_FILES['codes']['tmp_name']);
             foreach ($reader->getCsvAsArray() as $row) {
@@ -734,7 +734,7 @@ class ilSurveyParticipantsGUI
                 if (count($row) === 8 && is_numeric($row[5])) {
                     // used/sent/url are not relevant when importing
                     [$code, $email, $last_name, $first_name, $created, $used, $sent, $url] = $row;
-                    
+
                     // unique code?
                     if (!array_key_exists($code, $existing)) {
                         // could be date or datetime
@@ -759,17 +759,17 @@ class ilSurveyParticipantsGUI
                     }
                 }
             }
-            
+
             $this->tpl->setOnScreenMessage('success', $this->lng->txt('codes_created'), true);
         }
-        
+
         $this->ctrl->redirect($this, 'codes');
     }
-    
+
     /**
      * Create access codes for the survey
      */
-    public function createSurveyCodesObject() : void
+    public function createSurveyCodesObject(): void
     {
         if ($this->edit_request->getNrOfCodes() > 0) {
             $ids = $this->code_manager->addCodes($this->edit_request->getNrOfCodes());
@@ -782,7 +782,7 @@ class ilSurveyParticipantsGUI
         }
     }
 
-    public function insertSavedMessageObject() : void
+    public function insertSavedMessageObject(): void
     {
         $this->handleWriteAccess();
         $this->setParticipantSubTabs("codes");
@@ -805,7 +805,7 @@ class ilSurveyParticipantsGUI
         $this->tpl->setVariable("ADM_CONTENT", $form_gui->getHTML());
     }
 
-    public function deleteSavedMessageObject() : void
+    public function deleteSavedMessageObject(): void
     {
         $this->handleWriteAccess();
         $this->setParticipantSubTabs("codes");
@@ -827,8 +827,8 @@ class ilSurveyParticipantsGUI
         }
         $this->tpl->setVariable("ADM_CONTENT", $form_gui->getHTML());
     }
-    
-    public function mailCodesObject() : void
+
+    public function mailCodesObject(): void
     {
         $this->handleWriteAccess();
         $this->setParticipantSubTabs("codes");
@@ -847,11 +847,11 @@ class ilSurveyParticipantsGUI
         $form_gui->setValuesByArray($mailData);
         $this->tpl->setVariable("ADM_CONTENT", $form_gui->getHTML());
     }
-    
-    public function sendCodesMailObject() : void
+
+    public function sendCodesMailObject(): void
     {
         $ilUser = $this->user;
-        
+
         $this->handleWriteAccess();
         $this->setParticipantSubTabs("mail_survey_codes");
 
@@ -868,7 +868,7 @@ class ilSurveyParticipantsGUI
                         ?: ilStr::subStr($this->edit_request->getCodeMailPart("message"), 0, 40) . '...';
                     $this->object->saveUserSettings($ilUser->getId(), 'savemessage', $title, $this->edit_request->getCodeMailPart("message"));
                 }
-                
+
                 $lang = $ilUser->getPref("survey_code_language");
                 if (!$lang) {
                     $lang = $this->lng->getDefaultLanguage();
@@ -887,8 +887,8 @@ class ilSurveyParticipantsGUI
         }
         $this->tpl->setVariable("ADM_CONTENT", $form_gui->getHTML());
     }
-    
-    public function importExternalRecipientsFromTextObject() : void
+
+    public function importExternalRecipientsFromTextObject(): void
     {
         if (trim($this->edit_request->getExternalText())) {
             $data = preg_split("/[\n\r]/", $this->edit_request->getExternalText());
@@ -932,7 +932,7 @@ class ilSurveyParticipantsGUI
             $this->tpl->setOnScreenMessage('success', $this->lng->txt('external_recipients_imported'), true);
             $this->ctrl->redirect($this, 'codes');
         }
-        
+
         $this->ctrl->redirect($this, 'importExternalMailRecipientsFromTextForm');
     }
 
@@ -943,7 +943,7 @@ class ilSurveyParticipantsGUI
         string $email,
         string $lastname,
         string $firstname
-    ) : int {
+    ): int {
         $code = $this->data_manager->code("")
            ->withEmail($email)
            ->withLastName($lastname)
@@ -958,7 +958,7 @@ class ilSurveyParticipantsGUI
         string $a_string,
         string $a_from_charset = "",
         string $a_to_charset = "UTF-8"
-    ) : string {
+    ): string {
         if (extension_loaded("mbstring")) {
             if (!$a_from_charset) {
                 mb_detect_order("UTF-8, ISO-8859-1, Windows-1252, ASCII");
@@ -972,13 +972,13 @@ class ilSurveyParticipantsGUI
     }
 
     // @todo move to manager/transformation class
-    protected function removeUTF8Bom(string $a_text) : string
+    protected function removeUTF8Bom(string $a_text): string
     {
         $bom = pack('H*', 'EFBBBF');
         return preg_replace('/^' . $bom . '/', '', $a_text);
     }
 
-    public function importExternalRecipientsFromFileObject() : void
+    public function importExternalRecipientsFromFileObject(): void
     {
         if (trim($_FILES['externalmails']['tmp_name'])) {
             $reader = new ilCSVReader();
@@ -1001,7 +1001,7 @@ class ilSurveyParticipantsGUI
                     $existingcolumns[] = $key;
                 }
             }
-            
+
             $founddata = array();
             foreach ($data as $row) {
                 if (count($row) === count($fields)) {
@@ -1009,7 +1009,7 @@ class ilSurveyParticipantsGUI
                     foreach ($fields as $idx => $fieldname) {
                         // #14811
                         $row[$idx] = $this->_convertCharset($row[$idx]);
-                        
+
                         if (count($existingcolumns)) {
                             if (array_key_exists($idx, $existingcolumns)) {
                                 $dataset[$fieldname] = $row[$idx];
@@ -1029,22 +1029,22 @@ class ilSurveyParticipantsGUI
                 }
             }
             $reader->close();
-            
+
             if (count($founddata)) {
                 $this->tpl->setOnScreenMessage('success', $this->lng->txt('external_recipients_imported'), true);
             }
         }
-        
+
         $this->ctrl->redirect($this, 'codes');
     }
-    
-    public function importExternalMailRecipientsFromFileFormObject() : void
+
+    public function importExternalMailRecipientsFromFileFormObject(): void
     {
         $ilAccess = $this->access;
-        
+
         $this->handleWriteAccess();
         $this->setParticipantSubTabs("mail_survey_codes");
-        
+
         $form_import_file = new ilPropertyFormGUI();
         $form_import_file->setFormAction($this->ctrl->getFormAction($this));
         $form_import_file->setTableWidth("100%");
@@ -1053,7 +1053,7 @@ class ilSurveyParticipantsGUI
         $headerfile = new ilFormSectionHeaderGUI();
         $headerfile->setTitle($this->lng->txt("import_from_file"));
         $form_import_file->addItem($headerfile);
-        
+
         $externalmails = new ilFileInputGUI($this->lng->txt("externalmails"), "externalmails");
         $externalmails->setInfo($this->lng->txt('externalmails_info'));
         $externalmails->setRequired(true);
@@ -1068,13 +1068,13 @@ class ilSurveyParticipantsGUI
         $this->tpl->setContent($form_import_file->getHTML());
     }
 
-    public function importExternalMailRecipientsFromTextFormObject() : void
+    public function importExternalMailRecipientsFromTextFormObject(): void
     {
         $ilAccess = $this->access;
-        
+
         $this->handleWriteAccess();
         $this->setParticipantSubTabs("mail_survey_codes");
-        
+
         $form_import_text = new ilPropertyFormGUI();
         $form_import_text->setFormAction($this->ctrl->getFormAction($this));
         $form_import_text->setTableWidth("100%");
@@ -1108,21 +1108,21 @@ class ilSurveyParticipantsGUI
 
         $this->tpl->setContent($form_import_text->getHTML());
     }
-    
+
     //
     // 360°
     //
 
-    public function listAppraiseesObject() : void
+    public function listAppraiseesObject(): void
     {
         $ilToolbar = $this->toolbar;
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
-        
+
         $this->handleWriteAccess();
-        
+
         $this->ctrl->setParameter($this, "appr360", 1);
-        
+
         ilRepositorySearchGUI::fillAutoCompleteToolbar(
             $this,
             $ilToolbar,
@@ -1133,7 +1133,7 @@ class ilSurveyParticipantsGUI
                 'add_from_container' => $this->ref_id
             )
         );
-        
+
         // competence calculations
         $skmg_set = new ilSkillManagementSettings();
         if ($this->object->getSkillService() && $skmg_set->isActivated()) {
@@ -1144,23 +1144,23 @@ class ilSurveyParticipantsGUI
                 ""
             );
         }
-        
+
         $ilToolbar->addSeparator();
         $ilToolbar->addButton(
             $this->lng->txt('svy_delete_all_user_data'),
             $this->ctrl->getLinkTarget($this, 'deleteAllUserData')
         );
-        
+
         $this->ctrl->setParameter($this, "appr360", "");
-        
+
         $tbl = new ilSurveyAppraiseesTableGUI($this, "listAppraisees");
         $tbl->setData($this->object->getAppraiseesData());
         $this->tpl->setContent($tbl->getHTML());
     }
-    
+
     public function addAppraisee(
         array $a_user_ids
-    ) : void {
+    ): void {
         if (count($a_user_ids)) {
             // #13319
             foreach (array_unique($a_user_ids) as $user_id) {
@@ -1171,8 +1171,8 @@ class ilSurveyParticipantsGUI
         }
         $this->ctrl->redirect($this, "listAppraisees");
     }
-    
-    public function confirmDeleteAppraiseesObject() : void
+
+    public function confirmDeleteAppraiseesObject(): void
     {
         $ilTabs = $this->tabs;
 
@@ -1181,13 +1181,13 @@ class ilSurveyParticipantsGUI
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt("select_one"), true);
             $this->ctrl->redirect($this, "listAppraisees");
         }
-        
+
         $ilTabs->clearTargets();
         $ilTabs->setBackTarget(
             $this->lng->txt("btn_back"),
             $this->ctrl->getLinkTarget($this, "listAppraisees")
         );
-        
+
         $cgui = new ilConfirmationGUI();
         $cgui->setHeaderText($this->lng->txt("survey_360_sure_delete_appraises"));
 
@@ -1196,7 +1196,7 @@ class ilSurveyParticipantsGUI
         $cgui->setConfirm($this->lng->txt("confirm"), "deleteAppraisees");
 
         $data = $this->object->getAppraiseesData();
-        
+
         $count = 0;
         foreach ($appr_ids as $id) {
             if (isset($data[$id]) && !$data[$id]["closed"]) {
@@ -1204,7 +1204,7 @@ class ilSurveyParticipantsGUI
                 $count++;
             }
         }
-        
+
         if (!$count) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt("select_one"), true);
             $this->ctrl->redirect($this, "listAppraisees");
@@ -1212,8 +1212,8 @@ class ilSurveyParticipantsGUI
 
         $this->tpl->setContent($cgui->getHTML());
     }
-    
-    public function deleteAppraiseesObject() : void
+
+    public function deleteAppraiseesObject(): void
     {
         $appr_ids = $this->edit_request->getAppraiseeIds();
         if (count($appr_ids) > 0) {
@@ -1225,18 +1225,18 @@ class ilSurveyParticipantsGUI
                     $this->object->deleteAppraisee($id);
                 }
             }
-            
+
             $this->tpl->setOnScreenMessage('success', $this->lng->txt("settings_saved"), true);
         }
-        
+
         $this->ctrl->redirect($this, "listAppraisees");
     }
-    
-    public function handleRatersAccess() : ?int
+
+    public function handleRatersAccess(): ?int
     {
         $ilAccess = $this->access;
         $ilUser = $this->user;
-        
+
         if ($ilAccess->checkAccess("write", "", $this->ref_id)) {
             $appr_id = $this->edit_request->getAppraiseeId();
             if (!$appr_id) {
@@ -1253,7 +1253,7 @@ class ilSurveyParticipantsGUI
         return null;
     }
 
-    protected function storeMailSent() : void
+    protected function storeMailSent(): void
     {
         $appr_id = $this->handleRatersAccess();
         $all_data = $this->object->getRatersData($appr_id);
@@ -1277,7 +1277,7 @@ class ilSurveyParticipantsGUI
         $this->ctrl->redirect($this, "editRaters");
     }
 
-    public function editRatersObject() : void
+    public function editRatersObject(): void
     {
         if ($this->edit_request->getReturnedFromMail() === 1) {
             $this->storeMailSent();
@@ -1297,7 +1297,7 @@ class ilSurveyParticipantsGUI
                 $this->ctrl->getLinkTarget($this, "listAppraisees")
             );
         }
-        
+
         $this->ctrl->setParameter($this, "appr_id", $appr_id);
         $this->ctrl->setParameter($this, "rate360", 1);
 
@@ -1308,21 +1308,21 @@ class ilSurveyParticipantsGUI
 
         // #13320
         $url = ilLink::_getStaticLink($this->object->getRefId());
-        
+
         $tbl = new ilSurveyAppraiseesTableGUI($this, "editRaters", true, !$this->object->isAppraiseeClosed($appr_id), $url); // #11285
         $tbl->setData($this->object->getRatersData($appr_id));
         $this->tpl->setContent($tbl->getHTML());
     }
-    
+
     public function addExternalRaterFormObject(
         ilPropertyFormGUI $a_form = null
-    ) : void {
+    ): void {
         $ilTabs = $this->tabs;
         $ilAccess = $this->access;
-        
+
         $appr_id = $this->handleRatersAccess();
         $this->ctrl->setParameter($this, "appr_id", $appr_id);
-        
+
         $has_write = $ilAccess->checkAccess("write", "", $this->ref_id);
         if ($has_write) {
             $ilTabs->clearTargets();
@@ -1331,17 +1331,17 @@ class ilSurveyParticipantsGUI
                 $this->ctrl->getLinkTarget($this, "editRaters")
             );
         }
-        
+
         if (!$a_form) {
             $a_form = $this->initExternalRaterForm($appr_id);
         }
-        
+
         $this->tpl->setContent($a_form->getHTML());
     }
-    
+
     protected function initExternalRaterForm(
         int $appr_id
-    ) : ilPropertyFormGUI {
+    ): ilPropertyFormGUI {
         $form = new ilPropertyFormGUI();
         $form->setFormAction($this->ctrl->getFormAction($this, "addExternalRater"));
         $form->setTitle($this->lng->txt("survey_360_add_external_rater") .
@@ -1350,30 +1350,30 @@ class ilSurveyParticipantsGUI
         $email = new ilEmailInputGUI($this->lng->txt("email"), "email");
         $email->setRequired(true);
         $form->addItem($email);
-        
+
         $lname = new ilTextInputGUI($this->lng->txt("lastname"), "lname");
         $lname->setSize(30);
         $form->addItem($lname);
-        
+
         $fname = new ilTextInputGUI($this->lng->txt("firstname"), "fname");
         $fname->setSize(30);
         $form->addItem($fname);
 
         $form->addCommandButton("addExternalRater", $this->lng->txt("save"));
         $form->addCommandButton("editRaters", $this->lng->txt("cancel"));
-        
+
         return $form;
     }
-    
-    public function addExternalRaterObject() : void
+
+    public function addExternalRaterObject(): void
     {
         $appr_id = $this->edit_request->getAppraiseeId();
         if (!$appr_id) {
             $this->ctrl->redirect($this, "listAppraisees");
         }
-        
+
         $this->ctrl->setParameter($this, "appr_id", $appr_id);
-        
+
         $form = $this->initExternalRaterForm($appr_id);
         if ($form->checkInput()) {
             $code_id = $this->addCodeForExternal(
@@ -1383,24 +1383,24 @@ class ilSurveyParticipantsGUI
             );
 
             $this->object->addRater($appr_id, 0, $code_id);
-            
+
             $this->tpl->setOnScreenMessage('success', $this->lng->txt("settings_saved"), true);
             $this->ctrl->setParameter($this, "appr_id", $appr_id);
             $this->ctrl->redirect($this, "editRaters");
         }
-        
+
         $form->setValuesByPost();
         $this->addExternalRaterFormObject($form);
     }
-    
+
     public function addRater(
         array $a_user_ids
-    ) : void {
+    ): void {
         $ilAccess = $this->access;
         $ilUser = $this->user;
-        
+
         $appr_id = $this->handleRatersAccess();
-        
+
         if (count($a_user_ids)) {
             // #13319
             foreach (array_unique($a_user_ids) as $user_id) {
@@ -1416,12 +1416,12 @@ class ilSurveyParticipantsGUI
                 }
             }
         }
-        
+
         $this->ctrl->setParameter($this, "appr_id", $appr_id);
         $this->ctrl->redirect($this, "editRaters");
     }
-    
-    public function confirmDeleteRatersObject() : void
+
+    public function confirmDeleteRatersObject(): void
     {
         $ilTabs = $this->tabs;
 
@@ -1432,13 +1432,13 @@ class ilSurveyParticipantsGUI
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt("select_one"), true);
             $this->ctrl->redirect($this, "editRaters");
         }
-        
+
         $ilTabs->clearTargets();
         $ilTabs->setBackTarget(
             $this->lng->txt("btn_back"),
             $this->ctrl->getLinkTarget($this, "editRaters")
         );
-                
+
         $cgui = new ilConfirmationGUI();
         $cgui->setHeaderText(sprintf(
             $this->lng->txt("survey_360_sure_delete_raters"),
@@ -1450,7 +1450,7 @@ class ilSurveyParticipantsGUI
         $cgui->setConfirm($this->lng->txt("confirm"), "deleteRaters");
 
         $data = $this->object->getRatersData($appr_id);
-            
+
         foreach ($rater_ids as $id) {
             if (isset($data[$id])) {
                 $cgui->addItem("rtr_id[]", $id, $data[$id]["lastname"] . ", " .
@@ -1460,8 +1460,8 @@ class ilSurveyParticipantsGUI
 
         $this->tpl->setContent($cgui->getHTML());
     }
-    
-    public function deleteRatersObject() : void
+
+    public function deleteRatersObject(): void
     {
         $appr_id = $this->handleRatersAccess();
         $this->ctrl->setParameter($this, "appr_id", $appr_id);
@@ -1479,33 +1479,33 @@ class ilSurveyParticipantsGUI
                     }
                 }
             }
-            
+
             $this->tpl->setOnScreenMessage('success', $this->lng->txt("settings_saved"), true);
         }
 
         $this->ctrl->redirect($this, "editRaters");
     }
-    
-    public function addSelfAppraiseeObject() : void
+
+    public function addSelfAppraiseeObject(): void
     {
         $ilUser = $this->user;
-        
+
         if ($this->object->get360SelfAppraisee() &&
             !$this->object->isAppraisee($ilUser->getId())) {
             $this->object->addAppraisee($ilUser->getId());
         }
-        
+
         $this->ctrl->redirect($this->parent_gui, "infoScreen");
     }
 
     public function initMailRatersForm(
         int $appr_id,
         array $rec_ids
-    ) : ilPropertyFormGUI {
+    ): ilPropertyFormGUI {
         $form = new ilPropertyFormGUI();
         $form->setFormAction($this->ctrl->getFormAction($this, "mailRatersAction"));
         $form->setTitle($this->lng->txt('compose'));
-        
+
         $all_data = $this->object->getRatersData($appr_id);
         $rec_data = array();
         foreach ($rec_ids as $rec_id) {
@@ -1524,7 +1524,7 @@ class ilSurveyParticipantsGUI
         $subject->setSize(50);
         $subject->setRequired(true);
         $form->addItem($subject);
-        
+
         $existingdata = $this->object->getExternalCodeRecipients();
         $existingcolumns = array();
         if (count($existingdata)) {
@@ -1541,29 +1541,29 @@ class ilSurveyParticipantsGUI
         $mailmessage_u->setCols(80);
         $mailmessage_u->setRows(10);
         $form->addItem($mailmessage_u);
-        
+
         $mailmessage_a = new ilTextAreaInputGUI($this->lng->txt('survey_360_rater_message_content_anonymous'), 'message_a');
         $mailmessage_a->setRequired(true);
         $mailmessage_a->setCols(80);
         $mailmessage_a->setRows(10);
         $mailmessage_a->setInfo(sprintf($this->lng->txt('message_content_info'), implode(', ', $existingcolumns)));
         $form->addItem($mailmessage_a);
-        
+
         $recf = new ilHiddenInputGUI("rater_id");
         $recf->setValue(implode(";", $rec_ids));
         $form->addItem($recf);
 
         $form->addCommandButton("mailRatersAction", $this->lng->txt("send"));
         $form->addCommandButton("editRaters", $this->lng->txt("cancel"));
-        
+
         $subject->setValue(sprintf($this->lng->txt('survey_360_rater_subject_default'), $this->object->getTitle()));
         $mailmessage_u->setValue($this->lng->txt('survey_360_rater_message_content_registered_default'));
         $mailmessage_a->setValue($this->lng->txt('survey_360_rater_message_content_anonymous_default'));
-        
+
         return $form;
     }
 
-    public function mailRatersObject() : void
+    public function mailRatersObject(): void
     {
         $appr_id = $this->handleRatersAccess();
         $all_data = $this->object->getRatersData($appr_id);
@@ -1616,57 +1616,57 @@ class ilSurveyParticipantsGUI
 
     public function mailRatersObjectOld(
         ilPropertyFormGUI $a_form = null
-    ) : void {
+    ): void {
         $ilTabs = $this->tabs;
         $rater_ids = $this->edit_request->getRaterIds();
         if (!$a_form) {
             $appr_id = $this->handleRatersAccess();
             $this->ctrl->setParameter($this, "appr_id", $appr_id);
-        
+
             if (count($rater_ids) === 0) {
                 $this->tpl->setOnScreenMessage('failure', $this->lng->txt("select_one"), true);
                 $this->ctrl->redirect($this, "editRaters");
             }
-        
+
             $a_form = $this->initMailRatersForm($appr_id, $rater_ids);
         }
-                
+
         $ilTabs->clearTargets();
         $ilTabs->setBackTarget(
             $this->lng->txt("btn_back"),
             $this->ctrl->getLinkTarget($this, "editRaters")
         );
-        
+
         $this->tpl->setContent($a_form->getHTML());
     }
-    
-    public function mailRatersActionObject() : void
+
+    public function mailRatersActionObject(): void
     {
         $ilUser = $this->user;
         $appr_id = $this->handleRatersAccess();
         $this->ctrl->setParameter($this, "appr_id", $appr_id);
-        
+
         $rec_ids = $this->edit_request->getRaterIds();
         if (count($rec_ids) === 0) {
             $this->ctrl->redirect($this, "editRaters");
         }
-        
+
         $form = $this->initMailRatersForm($appr_id, $rec_ids);
         if ($form->checkInput()) {
             $txt_u = $form->getInput("message_u");
             $txt_a = $form->getInput("message_a");
             $subj = $form->getInput("subject");
-                    
+
             // #12743
             $sender_id = (trim($ilUser->getEmail()))
                 ? $ilUser->getId()
                 : ANONYMOUS_USER_ID;
-                
+
             $all_data = $this->object->getRatersData($appr_id);
             foreach ($rec_ids as $rec_id) {
                 if (isset($all_data[$rec_id])) {
                     $user = $all_data[$rec_id];
-                    
+
                     // anonymous
                     if (strpos($rec_id, "a") === 0) {
                         $mytxt = $txt_a;
@@ -1686,7 +1686,7 @@ class ilSurveyParticipantsGUI
                         [$user["lastname"], $user["firstname"], $url, $user["code"]],
                         $mytxt
                     );
-                    
+
                     $mail = new ilMail($sender_id);
                     $mail->enqueue(
                         $rcp, // to
@@ -1696,7 +1696,7 @@ class ilSurveyParticipantsGUI
                         $mytxt, // message
                         array() // attachments
                     );
-                    
+
                     $this->object->set360RaterSent(
                         $appr_id,
                         (strpos($rec_id, "a") === 0) ? 0 : (int) substr($rec_id, 1),
@@ -1704,21 +1704,21 @@ class ilSurveyParticipantsGUI
                     );
                 }
             }
-            
+
             $this->tpl->setOnScreenMessage('success', $this->lng->txt("mail_sent"), true);
             $this->ctrl->redirect($this, "editRaters");
         }
-        
+
         $form->setValuesByPost();
         $this->mailRatersObject();
     }
-   
-    public function confirmAppraiseeCloseObject() : void
+
+    public function confirmAppraiseeCloseObject(): void
     {
         $ilUser = $this->user;
         $tpl = $this->tpl;
         $ilTabs = $this->tabs;
-        
+
         $ilTabs->clearTargets();
         $ilTabs->setBackTarget(
             $this->lng->txt("menuback"),
@@ -1728,7 +1728,7 @@ class ilSurveyParticipantsGUI
         if (!$this->object->isAppraisee($ilUser->getId())) {
             $this->ctrl->redirect($this->parent_gui, "infoScreen");
         }
-       
+
         $cgui = new ilConfirmationGUI();
         $cgui->setHeaderText($this->lng->txt("survey_360_sure_appraisee_close"));
 
@@ -1738,29 +1738,29 @@ class ilSurveyParticipantsGUI
 
         $tpl->setContent($cgui->getHTML());
     }
-   
-    public function confirmAppraiseeCloseCancelObject() : void
+
+    public function confirmAppraiseeCloseCancelObject(): void
     {
         $this->ctrl->redirect($this->parent_gui, "infoScreen");
     }
-   
-    public function appraiseeCloseObject() : void
+
+    public function appraiseeCloseObject(): void
     {
         $ilUser = $this->user;
 
         if (!$this->object->isAppraisee($ilUser->getId())) {
             $this->ctrl->redirect($this->parent_gui, "infoScreen");
         }
-        
+
         $this->object->closeAppraisee($ilUser->getId());
         $this->tpl->setOnScreenMessage('success', $this->lng->txt("survey_360_appraisee_close_action_success"), true);
         $this->ctrl->redirect($this->parent_gui, "infoScreen");
     }
-   
-    public function confirmAdminAppraiseesCloseObject() : void
+
+    public function confirmAdminAppraiseesCloseObject(): void
     {
         $tpl = $this->tpl;
-       
+
         $this->handleWriteAccess();
 
         $appr_ids = $this->edit_request->getAppraiseeIds();
@@ -1783,30 +1783,30 @@ class ilSurveyParticipantsGUI
 
         $tpl->setContent($cgui->getHTML());
     }
-   
-    public function adminAppraiseesCloseObject() : void
+
+    public function adminAppraiseesCloseObject(): void
     {
         $this->handleWriteAccess();
 
         $appr_ids = $this->edit_request->getAppraiseeIds();
-        
+
         if (count($appr_ids) === 0) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt("select_one"), true);
             $this->ctrl->redirect($this, "listAppraisees");
         }
-        
+
         $appr_data = $this->object->getAppraiseesData();
         foreach ($appr_ids as $appr_id) {
             if (isset($appr_data[$appr_id]) && !$appr_data[$appr_id]["closed"]) {
                 $this->object->closeAppraisee($appr_id);
             }
         }
-        
+
         $this->tpl->setOnScreenMessage('success', $this->lng->txt("survey_360_appraisee_close_action_success_admin"), true);
         $this->ctrl->redirect($this, "listAppraisees");
     }
-   
-    protected function listParticipantsObject() : void
+
+    protected function listParticipantsObject(): void
     {
         $ilToolbar = $this->toolbar;
 
@@ -1831,7 +1831,7 @@ class ilSurveyParticipantsGUI
      * @param int[] $user_ids
      * @throws ilCtrlException
      */
-    public function inviteUsers(array $user_ids) : void
+    public function inviteUsers(array $user_ids): void
     {
         $lng = $this->lng;
         $ctrl = $this->ctrl;

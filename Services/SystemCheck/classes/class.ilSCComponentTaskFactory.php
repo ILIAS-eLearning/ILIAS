@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -21,7 +23,7 @@
  */
 class ilSCComponentTaskFactory
 {
-    public static function getComponentTaskGUIForGroup(int $a_group_id, ?int $a_task_id = null) : ?ilSCComponentTaskGUI
+    public static function getComponentTaskGUIForGroup(int $a_group_id, ?int $a_task_id = null): ?ilSCComponentTaskGUI
     {
         $component_id = ilSCGroup::lookupComponent($a_group_id);
 
@@ -40,7 +42,7 @@ class ilSCComponentTaskFactory
         return null;
     }
 
-    public static function getTask(int $a_group_id, int $a_task_id) : ilSCTask
+    public static function getTask(int $a_group_id, int $a_task_id): ilSCTask
     {
         $component_id = ilSCGroup::lookupComponent($a_group_id);
         switch ($component_id) {
@@ -52,7 +54,7 @@ class ilSCComponentTaskFactory
         return new ilSCTask($a_task_id);
     }
 
-    public static function getComponentTask(int $a_task_id) : ilSCTreeTasksGUI
+    public static function getComponentTask(int $a_task_id): ilSCTreeTasksGUI
     {
         $group_id = ilSCTasks::lookupGroupId($a_task_id);
 

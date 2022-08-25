@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -26,26 +28,26 @@ interface ilWebLinkRepository
      * be created on their own, but only by adding them as drafts to a
      * drafted item, and then updating or creating with it.
      */
-    public function createItem(ilWebLinkDraftItem $item) : ilWebLinkItem;
+    public function createItem(ilWebLinkDraftItem $item): ilWebLinkItem;
 
-    public function createList(ilWebLinkDraftList $list) : ilWebLinkList;
+    public function createList(ilWebLinkDraftList $list): ilWebLinkList;
 
-    public function createAllItemsInDraftContainer(ilWebLinkDraftItemsContainer $container) : ilWebLinkItemsContainer;
+    public function createAllItemsInDraftContainer(ilWebLinkDraftItemsContainer $container): ilWebLinkItemsContainer;
 
-    public function getAllItemsAsContainer(bool $only_active = false) : ilWebLinkItemsContainer;
+    public function getAllItemsAsContainer(bool $only_active = false): ilWebLinkItemsContainer;
 
-    public function getItemByLinkId(int $link_id) : ilWebLinkItem;
+    public function getItemByLinkId(int $link_id): ilWebLinkItem;
 
-    public function doesOnlyOneItemExist(bool $only_active = false) : bool;
+    public function doesOnlyOneItemExist(bool $only_active = false): bool;
 
     public function getParameterinItemByParamId(
         ilWebLinkItem $item,
         int $param_id
-    ) : ilWebLinkParameter;
+    ): ilWebLinkParameter;
 
-    public function getList() : ilWebLinkList;
+    public function getList(): ilWebLinkList;
 
-    public function doesListExist() : bool;
+    public function doesListExist(): bool;
 
     /**
      * Updates an item. New parameters added as drafts update the parameter
@@ -55,21 +57,21 @@ interface ilWebLinkRepository
     public function updateItem(
         ilWebLinkItem $item,
         ilWebLinkDraftItem $drafted_item
-    ) : void;
+    ): void;
 
     public function updateList(
         ilWebLinkList $list,
         ilWebLinkDraftList $drafted_list
-    ) : void;
+    ): void;
 
-    public function deleteAllItems() : void;
+    public function deleteAllItems(): void;
 
-    public function deleteItemByLinkID(int $link_id) : void;
+    public function deleteItemByLinkID(int $link_id): void;
 
     public function deleteParameterByLinkIdAndParamId(
         int $link_id,
         int $param_id
-    ) : void;
+    ): void;
 
-    public function deleteList() : void;
+    public function deleteList(): void;
 }

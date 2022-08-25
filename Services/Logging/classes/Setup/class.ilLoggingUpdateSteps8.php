@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -21,7 +23,7 @@ class ilLoggingUpdateSteps8 implements ilDatabaseUpdateSteps
 {
     protected ilDBInterface $db;
 
-    public function prepare(ilDBInterface $db) : void
+    public function prepare(ilDBInterface $db): void
     {
         $this->db = $db;
     }
@@ -29,7 +31,7 @@ class ilLoggingUpdateSteps8 implements ilDatabaseUpdateSteps
     /**
      * Add consent table
      */
-    public function step_1() : void
+    public function step_1(): void
     {
         $query = 'DELETE from log_components ' .
             'WHERE component_id = ' . $this->db->quote('lchk', ilDBConstants::T_TEXT);

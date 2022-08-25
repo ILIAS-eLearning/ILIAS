@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\UI\Implementation\Component\Layout\Page;
 
 use ILIAS\UI\Implementation\Render\AbstractComponentRenderer;
@@ -35,7 +37,7 @@ class Renderer extends AbstractComponentRenderer
     /**
      * @inheritdoc
      */
-    public function render(Component\Component $component, RendererInterface $default_renderer) : string
+    public function render(Component\Component $component, RendererInterface $default_renderer): string
     {
         $this->checkComponent($component);
 
@@ -49,7 +51,7 @@ class Renderer extends AbstractComponentRenderer
     protected function renderStandardPage(
         Component\Layout\Page\Standard $component,
         RendererInterface $default_renderer
-    ) : string {
+    ): string {
         $tpl = $this->getTemplate("tpl.standardpage.html", true, true);
 
         $tpl->setVariable('FAVICON_PATH', $component->getFaviconPath());
@@ -106,7 +108,7 @@ class Renderer extends AbstractComponentRenderer
         if ($component->getWithHeaders()) {
             $tpl = $this->setHeaderVars($tpl, $component->getIsUIDemo());
         }
-    
+
         foreach ($component->getMetaData() as $meta_key => $meta_value) {
             $tpl->setCurrentBlock('meta_datum');
             $tpl->setVariable('META_KEY', $meta_key);
@@ -119,7 +121,7 @@ class Renderer extends AbstractComponentRenderer
 
     protected function convertBreadcrumbsToDropdownLocator(
         Component\Breadcrumbs\Breadcrumbs $breadcrumbs
-    ) : Component\Dropdown\Dropdown {
+    ): Component\Dropdown\Dropdown {
         $f = $this->getUIFactory();
         $buttons = [];
         $items = array_reverse($breadcrumbs->getItems());
@@ -140,7 +142,7 @@ class Renderer extends AbstractComponentRenderer
      * with resources set as properties at the page or similar mechanisms.
      * Please also see ROADMAP.md, "Page-Layout and ilTemplate, CSS/JS Header".
      */
-    protected function setHeaderVars(Template $tpl, bool $for_ui_demo = false) : Template
+    protected function setHeaderVars(Template $tpl, bool $for_ui_demo = false): Template
     {
         global $DIC;
         $il_tpl = $DIC["tpl"] ?? null;
@@ -202,7 +204,7 @@ class Renderer extends AbstractComponentRenderer
     /**
      * @inheritdoc
      */
-    public function registerResources(ResourceRegistry $registry) : void
+    public function registerResources(ResourceRegistry $registry): void
     {
         parent::registerResources($registry);
         $registry->register('./src/UI/templates/js/Page/stdpage.js');
@@ -211,7 +213,7 @@ class Renderer extends AbstractComponentRenderer
     /**
      * @inheritdoc
      */
-    protected function getComponentInterfaceName() : array
+    protected function getComponentInterfaceName(): array
     {
         return array(
             Component\Layout\Page\Standard::class

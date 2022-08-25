@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -40,34 +42,34 @@ class ilEMailInputGUI extends ilFormPropertyGUI
         $this->setRetype(false);
     }
 
-    public function setValue(string $a_value) : void
+    public function setValue(string $a_value): void
     {
         $this->value = $a_value;
     }
 
-    public function getValue() : string
+    public function getValue(): string
     {
         return $this->value;
     }
 
-    public function setValueByArray(array $a_values) : void
+    public function setValueByArray(array $a_values): void
     {
         $this->setValue($a_values[$this->getPostVar()] ?? "");
         $this->setRetypeValue($a_values[$this->getPostVar() . '_retype'] ?? "");
     }
-    
+
     /**
      * Allow extended email address format
      *
      * "example@example.com" vs "example <example@example.com>"
      */
-    public function allowRFC822(bool $a_value) : void
+    public function allowRFC822(bool $a_value): void
     {
         $this->allowRFC822 = $a_value;
     }
 
     // get string parameter kindly
-    protected function sanitize($key) : string
+    protected function sanitize($key): string
     {
         $t = $this->refinery->kindlyTo()->string();
         return ilUtil::stripSlashes(
@@ -76,7 +78,7 @@ class ilEMailInputGUI extends ilFormPropertyGUI
         );
     }
 
-    public function checkInput() : bool
+    public function checkInput(): bool
     {
         $lng = $this->lng;
 
@@ -98,12 +100,12 @@ class ilEMailInputGUI extends ilFormPropertyGUI
         return true;
     }
 
-    public function getInput() : string
+    public function getInput(): string
     {
         return trim($this->sanitize($this->getPostVar()));
     }
 
-    public function insert(ilTemplate $a_tpl) : void
+    public function insert(ilTemplate $a_tpl): void
     {
         $lng = $this->lng;
 
@@ -134,7 +136,7 @@ class ilEMailInputGUI extends ilFormPropertyGUI
             $ptpl->setVariable('DISABLED', ' disabled="disabled"');
             $ptpl->setVariable('HIDDEN_INPUT', $this->getHiddenTag($this->getPostVar(), $this->getValue()));
         }
-        
+
         if ($this->getRequired()) {
             $ptpl->setVariable("REQUIRED", "required=\"required\"");
         }
@@ -144,42 +146,42 @@ class ilEMailInputGUI extends ilFormPropertyGUI
         $a_tpl->parseCurrentBlock();
     }
 
-    public function setRetype(bool $a_val) : void
+    public function setRetype(bool $a_val): void
     {
         $this->retype = $a_val;
     }
 
-    public function getRetype() : bool
+    public function getRetype(): bool
     {
         return $this->retype;
     }
 
-    public function setRetypeValue(string $a_retypevalue) : void
+    public function setRetypeValue(string $a_retypevalue): void
     {
         $this->retypevalue = $a_retypevalue;
     }
 
-    public function getRetypeValue() : string
+    public function getRetypeValue(): string
     {
         return $this->retypevalue;
     }
 
-    public function setSize(int $size) : void
+    public function setSize(int $size): void
     {
         $this->size = $size;
     }
 
-    public function getSize() : int
+    public function getSize(): int
     {
         return $this->size;
     }
 
-    public function setMaxLength(int $max_length) : void
+    public function setMaxLength(int $max_length): void
     {
         $this->max_length = $max_length;
     }
 
-    public function getMaxLength() : int
+    public function getMaxLength(): int
     {
         return $this->max_length;
     }

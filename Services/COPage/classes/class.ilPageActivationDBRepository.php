@@ -40,9 +40,7 @@ class ilPageActivationDBRepository
         array $ids,
         bool $check_scheduled_activation = false,
         string $lang = ""
-    ) : array {
-
-
+    ): array {
         // language must be set at least to "-"
         if ($lang == "") {
             $lang = "-";
@@ -69,7 +67,7 @@ class ilPageActivationDBRepository
         array $ids,
         bool $check_scheduled_activation = false,
         string $lang = ""
-    ) : array {
+    ): array {
         $db = $this->db;
         $set = $db->queryF(
             "SELECT page_id, active, activation_start, activation_end, show_activation_info FROM page_object WHERE " .

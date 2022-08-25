@@ -23,12 +23,11 @@
  */
 class ilDclTokenizer
 {
-
     /**
      * Split expression by & (ignore escaped &-symbols with backslash)
      * @param string $expression Global expression to parse
      */
-    public static function getTokens(string $expression) : array
+    public static function getTokens(string $expression): array
     {
         $expression = ltrim($expression, '=');
         $expression = trim($expression);
@@ -51,7 +50,7 @@ class ilDclTokenizer
      * Generate tokens for a math expression
      * @param string $math_expression Expression of type math
      */
-    public static function getMathTokens(string $math_expression) : array
+    public static function getMathTokens(string $math_expression): array
     {
         $operators = array_keys(ilDclExpressionParser::getOperators());
         $pattern = '#((^\[\[)[\d\.]+)|(\(|\)|\\' . implode("|\\", $operators) . ')#';

@@ -4,13 +4,13 @@ use ILIAS\Setup;
 
 class ilComponentBuildComponentInfoObjective extends Setup\Artifact\BuildArtifactObjective
 {
-    public function getArtifactPath() : string
+    public function getArtifactPath(): string
     {
         return \ilArtifactComponentRepository::COMPONENT_DATA_PATH;
     }
 
 
-    public function build() : Setup\Artifact
+    public function build(): Setup\Artifact
     {
         $processor = new \ilComponentInfoDefinitionProcessor();
         $reader = new \ilComponentDefinitionReader(

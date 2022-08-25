@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\UI\Implementation\Component\MessageBox;
 
 use ILIAS\UI\Component as C;
@@ -28,7 +30,7 @@ class Factory implements C\MessageBox\Factory
     /**
      * @inheritdoc
      */
-    public function failure(string $message_text) : C\MessageBox\MessageBox
+    public function failure(string $message_text): C\MessageBox\MessageBox
     {
         return new MessageBox(C\MessageBox\MessageBox::FAILURE, $message_text);
     }
@@ -36,7 +38,7 @@ class Factory implements C\MessageBox\Factory
     /**
      * @inheritdoc
      */
-    public function success(string $message_text) : C\MessageBox\MessageBox
+    public function success(string $message_text): C\MessageBox\MessageBox
     {
         return new MessageBox(C\MessageBox\MessageBox::SUCCESS, $message_text);
     }
@@ -44,7 +46,7 @@ class Factory implements C\MessageBox\Factory
     /**
      * @inheritdoc
      */
-    public function info(string $message_text) : C\MessageBox\MessageBox
+    public function info(string $message_text): C\MessageBox\MessageBox
     {
         return new MessageBox(C\MessageBox\MessageBox::INFO, $message_text);
     }
@@ -52,7 +54,7 @@ class Factory implements C\MessageBox\Factory
     /**
      * @inheritdoc
      */
-    public function confirmation(string $message_text) : C\MessageBox\MessageBox
+    public function confirmation(string $message_text): C\MessageBox\MessageBox
     {
         return new MessageBox(C\MessageBox\MessageBox::CONFIRMATION, $message_text);
     }

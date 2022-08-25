@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\Setup\CLI;
 
 use ILIAS\Setup\AgentFinder;
@@ -54,7 +56,7 @@ class MigrateCommand extends Command
         $this->preconditions = $preconditions;
     }
 
-    protected function configure() : void
+    protected function configure(): void
     {
         $this->setDescription("Starts and manages migrations needed after an update of ILIAS");
         $this->addOption("yes", "y", InputOption::VALUE_NONE, "Confirm every message of the installation.");
@@ -68,7 +70,7 @@ class MigrateCommand extends Command
         $this->configureCommandForPlugins();
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output) : int
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new IOWrapper($input, $output);
         $io->printLicenseMessage();
@@ -84,7 +86,7 @@ class MigrateCommand extends Command
         return 0;
     }
 
-    protected function runMigration(InputInterface $input, IOWrapper $io) : void
+    protected function runMigration(InputInterface $input, IOWrapper $io): void
     {
         $agent = $this->getRelevantAgent($input);
 
@@ -109,7 +111,6 @@ class MigrateCommand extends Command
             default:
                 $io->text("Determined $steps step(s) to run.");
                 break;
-
         }
         $objective = new Objective\MigrationObjective($migration, $steps);
 
@@ -133,7 +134,7 @@ class MigrateCommand extends Command
         }
     }
 
-    protected function listMigrations(InputInterface $input, IOWrapper $io) : void
+    protected function listMigrations(InputInterface $input, IOWrapper $io): void
     {
         $agent = $this->getRelevantAgent($input);
         $migrations = $agent->getMigrations();
@@ -161,7 +162,7 @@ class MigrateCommand extends Command
     protected function prepareEnvironmentForMigration(
         Environment $environment,
         Migration $migration
-    ) : Environment {
+    ): Environment {
         $preconditions = $migration->getPreconditions($environment);
         if ($preconditions !== []) {
             $objective = new Objective\ObjectiveWithPreconditions(

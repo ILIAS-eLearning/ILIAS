@@ -54,7 +54,7 @@ class ilProfileChecklistStatus
         $this->profile_mode = new ilPersonalProfileMode($this->user, $DIC->settings());
     }
 
-    private function areOnScreenChatOptionsVisible() : bool
+    private function areOnScreenChatOptionsVisible(): bool
     {
         $chatSettings = new ilSetting('chatroom');
 
@@ -65,7 +65,7 @@ class ilProfileChecklistStatus
         );
     }
 
-    private function areChatTypingBroadcastOptionsVisible() : bool
+    private function areChatTypingBroadcastOptionsVisible(): bool
     {
         $chatSettings = new ilSetting('chatroom');
 
@@ -78,7 +78,7 @@ class ilProfileChecklistStatus
     /**
      * @return array<int,string>
      */
-    public function getSteps() : array
+    public function getSteps(): array
     {
         $lng = $this->lng;
 
@@ -96,7 +96,7 @@ class ilProfileChecklistStatus
     /**
      * Any visibility settings?
      */
-    public function anyVisibilitySettings() : bool
+    public function anyVisibilitySettings(): bool
     {
         $awrn_set = new ilSetting("awrn");
         if (
@@ -114,7 +114,7 @@ class ilProfileChecklistStatus
     /**
      * Get status of step
      */
-    public function getStatus(int $step) : int
+    public function getStatus(int $step): int
     {
         $status = self::STATUS_NOT_STARTED;
         $user = $this->user;
@@ -150,7 +150,7 @@ class ilProfileChecklistStatus
     /**
      * Get status details
      */
-    public function getStatusDetails(int $step) : string
+    public function getStatusDetails(int $step): string
     {
         $lng = $this->lng;
         $user = $this->user;
@@ -210,11 +210,11 @@ class ilProfileChecklistStatus
         return $details;
     }
 
-    
+
     /**
      * Save step success
      */
-    public function saveStepSucess(int $step) : void
+    public function saveStepSucess(int $step): void
     {
         $user = $this->user;
         switch ($step) {

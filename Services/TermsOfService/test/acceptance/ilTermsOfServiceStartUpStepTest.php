@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -27,7 +29,7 @@ use Psr\Http\Message\ServerRequestInterface;
  */
 class ilTermsOfServiceStartUpStepTest extends ilTermsOfServiceBaseTest
 {
-    public function testUserShouldBeForcedToAcceptTermsOfServiceWhenNotDoingItYetInCurrentRequest() : void
+    public function testUserShouldBeForcedToAcceptTermsOfServiceWhenNotDoingItYetInCurrentRequest(): void
     {
         $dic = new Container();
 
@@ -44,7 +46,7 @@ class ilTermsOfServiceStartUpStepTest extends ilTermsOfServiceBaseTest
         $ctrl
             ->expects($this->once())
             ->method('redirectToURL');
-        $dic['ilCtrl'] = static function () use ($ctrl) : ilCtrlInterface {
+        $dic['ilCtrl'] = static function () use ($ctrl): ilCtrlInterface {
             return $ctrl;
         };
 
@@ -67,7 +69,7 @@ class ilTermsOfServiceStartUpStepTest extends ilTermsOfServiceBaseTest
             ->expects($this->atLeast(1))
             ->method('hasToAcceptTermsOfServiceInSession')
             ->willReturn(true);
-        $dic['ilUser'] = static function () use ($user) : ilObjUser {
+        $dic['ilUser'] = static function () use ($user): ilObjUser {
             return $user;
         };
 
@@ -77,19 +79,19 @@ class ilTermsOfServiceStartUpStepTest extends ilTermsOfServiceBaseTest
         $http
             ->method('request')
             ->willReturn($request);
-        $dic['http'] = static function () use ($http) : GlobalHttpState {
+        $dic['http'] = static function () use ($http): GlobalHttpState {
             return $http;
         };
 
         $evaluator = $this->createMock(ilTermsOfServiceDocumentEvaluation::class);
-        $dic['tos.document.evaluator'] = static function () use ($evaluator) : ilTermsOfServiceDocumentEvaluation {
+        $dic['tos.document.evaluator'] = static function () use ($evaluator): ilTermsOfServiceDocumentEvaluation {
             return $evaluator;
         };
 
         $criterionFactory = $this->createMock(ilTermsOfServiceCriterionTypeFactoryInterface::class);
         $dic['tos.criteria.type.factory'] = static function () use (
             $criterionFactory
-        ) : ilTermsOfServiceCriterionTypeFactoryInterface {
+        ): ilTermsOfServiceCriterionTypeFactoryInterface {
             return $criterionFactory;
         };
 
@@ -100,7 +102,7 @@ class ilTermsOfServiceStartUpStepTest extends ilTermsOfServiceBaseTest
         $requestInterceptor->execute();
     }
 
-    public function testUserShouldNotBeForcedToAcceptTermsOfServiceWhenDoingItAlreadyInCurrentRequest() : void
+    public function testUserShouldNotBeForcedToAcceptTermsOfServiceWhenDoingItAlreadyInCurrentRequest(): void
     {
         $dic = new Container();
 
@@ -115,7 +117,7 @@ class ilTermsOfServiceStartUpStepTest extends ilTermsOfServiceBaseTest
             ->expects($this->atLeast(1))
             ->method('getCmd')
             ->willReturn('getacceptance');
-        $dic['ilCtrl'] = static function () use ($ctrl) : ilCtrlInterface {
+        $dic['ilCtrl'] = static function () use ($ctrl): ilCtrlInterface {
             return $ctrl;
         };
 
@@ -136,7 +138,7 @@ class ilTermsOfServiceStartUpStepTest extends ilTermsOfServiceBaseTest
         $user
             ->method('hasToAcceptTermsOfServiceInSession')
             ->willReturn(true);
-        $dic['ilUser'] = static function () use ($user) : ilObjUser {
+        $dic['ilUser'] = static function () use ($user): ilObjUser {
             return $user;
         };
 
@@ -146,19 +148,19 @@ class ilTermsOfServiceStartUpStepTest extends ilTermsOfServiceBaseTest
         $http
             ->method('request')
             ->willReturn($request);
-        $dic['http'] = static function () use ($http) : GlobalHttpState {
+        $dic['http'] = static function () use ($http): GlobalHttpState {
             return $http;
         };
 
         $evaluator = $this->createMock(ilTermsOfServiceDocumentEvaluation::class);
-        $dic['tos.document.evaluator'] = static function () use ($evaluator) : ilTermsOfServiceDocumentEvaluation {
+        $dic['tos.document.evaluator'] = static function () use ($evaluator): ilTermsOfServiceDocumentEvaluation {
             return $evaluator;
         };
 
         $criterionFactory = $this->createMock(ilTermsOfServiceCriterionTypeFactoryInterface::class);
         $dic['tos.criteria.type.factory'] = static function () use (
             $criterionFactory
-        ) : ilTermsOfServiceCriterionTypeFactoryInterface {
+        ): ilTermsOfServiceCriterionTypeFactoryInterface {
             return $criterionFactory;
         };
 
@@ -167,7 +169,7 @@ class ilTermsOfServiceStartUpStepTest extends ilTermsOfServiceBaseTest
         $this->assertFalse($requestInterceptor->shouldInterceptRequest());
     }
 
-    public function userProvider() : array
+    public function userProvider(): array
     {
         $user1 = $this
             ->getMockBuilder(ilObjUser::class)
@@ -234,7 +236,7 @@ class ilTermsOfServiceStartUpStepTest extends ilTermsOfServiceBaseTest
      * @dataProvider userProvider
      * @param ilObjUser $user
      */
-    public function testUserShouldNotBeForcedToAcceptTermsOfServiceWhenAlreadyDone(ilObjUser $user) : void
+    public function testUserShouldNotBeForcedToAcceptTermsOfServiceWhenAlreadyDone(ilObjUser $user): void
     {
         $logger = $this
             ->getMockBuilder(ilLogger::class)
@@ -253,7 +255,7 @@ class ilTermsOfServiceStartUpStepTest extends ilTermsOfServiceBaseTest
             ->method('__call')
             ->willReturn($logger);
 
-        $dic = new class($loggingServices) extends Container {
+        $dic = new class ($loggingServices) extends Container {
             private LoggingServices $loggingServices;
 
             public function __construct(LoggingServices $loggingServices)
@@ -262,7 +264,7 @@ class ilTermsOfServiceStartUpStepTest extends ilTermsOfServiceBaseTest
                 parent::__construct();
             }
 
-            public function logger() : LoggingServices
+            public function logger(): LoggingServices
             {
                 return $this->loggingServices;
             }
@@ -277,7 +279,7 @@ class ilTermsOfServiceStartUpStepTest extends ilTermsOfServiceBaseTest
         $ctrl
             ->method('getCmd')
             ->willReturn('');
-        $dic['ilCtrl'] = static function () use ($ctrl) : ilCtrlInterface {
+        $dic['ilCtrl'] = static function () use ($ctrl): ilCtrlInterface {
             return $ctrl;
         };
 
@@ -287,19 +289,19 @@ class ilTermsOfServiceStartUpStepTest extends ilTermsOfServiceBaseTest
         $http
             ->method('request')
             ->willReturn($request);
-        $dic['http'] = static function () use ($http) : GlobalHttpState {
+        $dic['http'] = static function () use ($http): GlobalHttpState {
             return $http;
         };
 
         $evaluator = $this->createMock(ilTermsOfServiceDocumentEvaluation::class);
-        $dic['tos.document.evaluator'] = static function () use ($evaluator) : ilTermsOfServiceDocumentEvaluation {
+        $dic['tos.document.evaluator'] = static function () use ($evaluator): ilTermsOfServiceDocumentEvaluation {
             return $evaluator;
         };
 
         $criterionFactory = $this->createMock(ilTermsOfServiceCriterionTypeFactoryInterface::class);
         $dic['tos.criteria.type.factory'] = static function () use (
             $criterionFactory
-        ) : ilTermsOfServiceCriterionTypeFactoryInterface {
+        ): ilTermsOfServiceCriterionTypeFactoryInterface {
             return $criterionFactory;
         };
 
@@ -310,11 +312,11 @@ class ilTermsOfServiceStartUpStepTest extends ilTermsOfServiceBaseTest
         $service
             ->method('hasToResignAcceptance')
             ->willReturn(false);
-        $dic['tos.service'] = static function () use ($service) : ilTermsOfServiceHelper {
+        $dic['tos.service'] = static function () use ($service): ilTermsOfServiceHelper {
             return $service;
         };
 
-        $dic['ilUser'] = static function () use ($user) : ilObjUser {
+        $dic['ilUser'] = static function () use ($user): ilObjUser {
             return $user;
         };
 
@@ -326,7 +328,7 @@ class ilTermsOfServiceStartUpStepTest extends ilTermsOfServiceBaseTest
     /**
      * @dataProvider userProvider
      */
-    public function testUserShouldBeForcedToResignTermsOfService() : void
+    public function testUserShouldBeForcedToResignTermsOfService(): void
     {
         $logger = $this
             ->getMockBuilder(ilLogger::class)
@@ -345,7 +347,7 @@ class ilTermsOfServiceStartUpStepTest extends ilTermsOfServiceBaseTest
             ->method('__call')
             ->willReturn($logger);
 
-        $dic = new class($loggingServices) extends Container {
+        $dic = new class ($loggingServices) extends Container {
             private LoggingServices $loggingServices;
 
             public function __construct(LoggingServices $loggingServices)
@@ -354,7 +356,7 @@ class ilTermsOfServiceStartUpStepTest extends ilTermsOfServiceBaseTest
                 parent::__construct();
             }
 
-            public function logger() : LoggingServices
+            public function logger(): LoggingServices
             {
                 return $this->loggingServices;
             }
@@ -369,7 +371,7 @@ class ilTermsOfServiceStartUpStepTest extends ilTermsOfServiceBaseTest
         $ctrl
             ->method('getCmd')
             ->willReturn('');
-        $dic['ilCtrl'] = static function () use ($ctrl) : ilCtrlInterface {
+        $dic['ilCtrl'] = static function () use ($ctrl): ilCtrlInterface {
             return $ctrl;
         };
 
@@ -379,19 +381,19 @@ class ilTermsOfServiceStartUpStepTest extends ilTermsOfServiceBaseTest
         $http
             ->method('request')
             ->willReturn($request);
-        $dic['http'] = static function () use ($http) : GlobalHttpState {
+        $dic['http'] = static function () use ($http): GlobalHttpState {
             return $http;
         };
 
         $evaluator = $this->createMock(ilTermsOfServiceDocumentEvaluation::class);
-        $dic['tos.document.evaluator'] = static function () use ($evaluator) : ilTermsOfServiceDocumentEvaluation {
+        $dic['tos.document.evaluator'] = static function () use ($evaluator): ilTermsOfServiceDocumentEvaluation {
             return $evaluator;
         };
 
         $criterionFactory = $this->createMock(ilTermsOfServiceCriterionTypeFactoryInterface::class);
         $dic['tos.criteria.type.factory'] = static function () use (
             $criterionFactory
-        ) : ilTermsOfServiceCriterionTypeFactoryInterface {
+        ): ilTermsOfServiceCriterionTypeFactoryInterface {
             return $criterionFactory;
         };
 
@@ -404,7 +406,7 @@ class ilTermsOfServiceStartUpStepTest extends ilTermsOfServiceBaseTest
             ->willReturn(true);
         $service->expects($this->once())
             ->method('resetAcceptance');
-        $dic['tos.service'] = static function () use ($service) : ilTermsOfServiceHelper {
+        $dic['tos.service'] = static function () use ($service): ilTermsOfServiceHelper {
             return $service;
         };
 
@@ -422,7 +424,7 @@ class ilTermsOfServiceStartUpStepTest extends ilTermsOfServiceBaseTest
         $user
             ->method('hasToAcceptTermsOfServiceInSession')
             ->willReturn(true);
-        $dic['ilUser'] = static function () use ($user) : ilObjUser {
+        $dic['ilUser'] = static function () use ($user): ilObjUser {
             return $user;
         };
 

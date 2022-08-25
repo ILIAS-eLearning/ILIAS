@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -36,7 +38,7 @@ class Client
         $this->settings = $settings;
     }
 
-    public function init(MetaContent $content) : void
+    public function init(MetaContent $content): void
     {
         $content->addJs("./src/GlobalScreen/Client/dist/GS.js", true, 1);
         $init_script = "il.GS.Client.init('" . json_encode($this->settings) . "');";

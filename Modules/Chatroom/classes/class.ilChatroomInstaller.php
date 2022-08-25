@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -29,7 +31,7 @@ class ilChatroomInstaller
      * registerAdminObject methods.
      * @global ilDBInterface $ilDB
      */
-    public static function install() : void
+    public static function install(): void
     {
         /**
          * @var $ilDB ilDBInterface
@@ -214,7 +216,7 @@ class ilChatroomInstaller
      * Registers chat object by inserting it into object_data.
      * @global ilDBInterface $ilDB
      */
-    public static function registerObject() : void
+    public static function registerObject(): void
     {
         global $DIC;
 
@@ -273,7 +275,7 @@ class ilChatroomInstaller
         }
     }
 
-    private static function getModeratorPermissionId() : int
+    private static function getModeratorPermissionId(): int
     {
         global $DIC;
 
@@ -296,7 +298,7 @@ class ilChatroomInstaller
      * Registgers admin chat object by inserting it into object_data.
      * @global ilDBInterface $ilDB
      */
-    public static function registerAdminObject() : void
+    public static function registerAdminObject(): void
     {
         global $DIC;
 
@@ -330,7 +332,7 @@ class ilChatroomInstaller
         }
     }
 
-    public static function removeOldChatEntries() : void
+    public static function removeOldChatEntries(): void
     {
         global $DIC;
 
@@ -377,7 +379,7 @@ class ilChatroomInstaller
     /**
      * Converts old 'chat' objects to 'chtr' objects.
      */
-    public static function convertChatObjects() : void
+    public static function convertChatObjects(): void
     {
         global $DIC;
 
@@ -409,7 +411,7 @@ class ilChatroomInstaller
      * Sets autogen_usernames default option for chatrooms
      * @param int[] $obj_ids
      */
-    public static function setChatroomSettings(array $obj_ids) : void
+    public static function setChatroomSettings(array $obj_ids): void
     {
         foreach ($obj_ids as $obj_id) {
             $room = new ilChatroom();
@@ -421,7 +423,7 @@ class ilChatroomInstaller
         }
     }
 
-    public static function createDefaultPublicRoom(bool $force = false) : void
+    public static function createDefaultPublicRoom(bool $force = false): void
     {
         global $DIC;
 
@@ -481,7 +483,7 @@ class ilChatroomInstaller
         }
     }
 
-    public static function createMissinRoomSettingsForConvertedObjects() : void
+    public static function createMissinRoomSettingsForConvertedObjects(): void
     {
         global $DIC;
 
@@ -506,7 +508,7 @@ class ilChatroomInstaller
     /**
      * @param int $ref_id
      */
-    public static function ensureCorrectPublicChatroomTreeLocation(int $ref_id) : void
+    public static function ensureCorrectPublicChatroomTreeLocation(int $ref_id): void
     {
         global $DIC;
 

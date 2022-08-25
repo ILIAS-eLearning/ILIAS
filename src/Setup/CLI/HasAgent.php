@@ -14,7 +14,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\Setup\CLI;
 
 use ILIAS\Setup\Agent;
@@ -29,14 +29,14 @@ trait HasAgent
 {
     protected ?AgentFinder $agent_finder = null;
 
-    protected function configureCommandForPlugins() : void
+    protected function configureCommandForPlugins(): void
     {
         $this->addOption("plugin", null, InputOption::VALUE_REQUIRED, "Name of the plugin to run the command for.");
         $this->addOption("no-plugins", null, InputOption::VALUE_NONE, "Ignore all plugins when running the command.");
         $this->addOption("skip", null, InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY, "Skip plugin with the supplied <plugin-name> when running the command.");
     }
 
-    protected function getRelevantAgent(InputInterface $input) : Agent
+    protected function getRelevantAgent(InputInterface $input): Agent
     {
         if (!$this->agent_finder) {
             throw new \LogicException(

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -29,17 +31,17 @@ class ReportDto
         $this->user_id = $user_id;
     }
 
-    public function getUserId() : int
+    public function getUserId(): int
     {
         return $this->user_id;
     }
 
-    public function addFolderObject(FolderDto $folder_obj) : void
+    public function addFolderObject(FolderDto $folder_obj): void
     {
         $this->folder_objects[$folder_obj->getFolderId()] = $folder_obj;
     }
 
-    public function getFolderObjectById(int $folder_id) : ?FolderDto
+    public function getFolderObjectById(int $folder_id): ?FolderDto
     {
         return $this->folder_objects[$folder_id] ?? null;
     }
@@ -47,7 +49,7 @@ class ReportDto
     /**
      * @return array<int, FolderDto>
      */
-    public function getFolderObjects() : array
+    public function getFolderObjects(): array
     {
         return $this->folder_objects;
     }

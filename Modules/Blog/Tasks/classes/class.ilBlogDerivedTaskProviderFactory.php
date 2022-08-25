@@ -44,7 +44,7 @@ class ilBlogDerivedTaskProviderFactory implements ilDerivedTaskProviderFactory
             : $lng;
     }
 
-    public function getProviders() : array
+    public function getProviders(): array
     {
         return [
             new ilBlogDraftsDerivedTaskProvider(

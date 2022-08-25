@@ -73,19 +73,19 @@ class ilContObjectExport
         }
     }
 
-    public function getInstId() : int
+    public function getInstId(): int
     {
         return $this->inst_id;
     }
 
     public function buildExportFile(
         string $a_mode = ""
-    ) : void {
+    ): void {
         switch ($this->mode) {
             case "html":
                 $this->buildExportFileHTML();
                 break;
-                
+
             default:
                 $this->buildExportFileXML($a_mode);
                 break;
@@ -97,7 +97,7 @@ class ilContObjectExport
      */
     public function buildExportFileXML(
         string $a_mode = ""
-    ) : string {
+    ): string {
         if (in_array($a_mode, array("master", "masternomedia"))) {
             $exp = new ilExport();
             $conf = $exp->getConfig("Modules/LearningModule");
@@ -151,7 +151,7 @@ class ilContObjectExport
 
         // dump xml document to file
         $this->xml->xmlDumpFile($this->export_dir . "/" . $this->subdir . "/" . $this->filename, false);
-        
+
         // help export (workaround to use ref id here)
         if (ilObjContentObject::isOnlineHelpModule(
             $this->cont_obj->getRefId()
@@ -178,7 +178,7 @@ class ilContObjectExport
         return $this->export_dir . "/" . $this->subdir . ".zip";
     }
 
-    public function buildExportFileHTML() : void
+    public function buildExportFileHTML(): void
     {
         // create directories
         if ($this->lang == "") {

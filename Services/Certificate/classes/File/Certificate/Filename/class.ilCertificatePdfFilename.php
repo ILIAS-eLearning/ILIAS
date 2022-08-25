@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -30,7 +32,7 @@ class ilCertificatePdfFilename implements ilCertificateFilename
         $this->lng->loadLanguageModule('certificate');
     }
 
-    public function createFileName(ilUserCertificatePresentation $presentation) : string
+    public function createFileName(ilUserCertificatePresentation $presentation): string
     {
         $basename = $this->lng->txt('certificate_file_basename');
         if ('' === trim($basename)) {

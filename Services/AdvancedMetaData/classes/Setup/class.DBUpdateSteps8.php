@@ -24,12 +24,12 @@ class DBUpdateSteps8 implements \ilDatabaseUpdateSteps
 {
     private \ilDBInterface $db;
 
-    public function prepare(\ilDBInterface $db) : void
+    public function prepare(\ilDBInterface $db): void
     {
         $this->db = $db;
     }
 
-    public function step_1() : void
+    public function step_1(): void
     {
         if ($this->db->tableColumnExists('adv_mdf_definition', 'field_values')) {
             $field_infos = [
@@ -41,7 +41,7 @@ class DBUpdateSteps8 implements \ilDatabaseUpdateSteps
         }
     }
 
-    public function step_2() : void
+    public function step_2(): void
     {
         if (!$this->db->tableColumnExists('pg_amd_page_list', 'sdata')) {
             $field_infos = [
@@ -53,7 +53,7 @@ class DBUpdateSteps8 implements \ilDatabaseUpdateSteps
         }
     }
 
-    private function migrate(int $id, int $field_id, $data) : void
+    private function migrate(int $id, int $field_id, $data): void
     {
         $query = 'UPDATE pg_amd_page_list ' .
             'SET sdata = ' . $this->db->quote(serialize(serialize($data)), \ilDBConstants::T_TEXT) . ' ' .
@@ -62,7 +62,7 @@ class DBUpdateSteps8 implements \ilDatabaseUpdateSteps
         $this->db->manipulate($query);
     }
 
-    private function migrateData(int $field_id, $data) : array
+    private function migrateData(int $field_id, $data): array
     {
         if (!is_array($data)) {
             return [];
@@ -95,7 +95,7 @@ class DBUpdateSteps8 implements \ilDatabaseUpdateSteps
 
 
 
-    public function step_3() : void
+    public function step_3(): void
     {
         $query = 'SELECT id, pg.field_id, data, field_type FROM pg_amd_page_list pg ' .
             'JOIN adv_mdf_definition adv ' .

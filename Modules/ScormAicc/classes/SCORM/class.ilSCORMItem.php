@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -46,111 +48,111 @@ class ilSCORMItem extends ilSCORMObject
         $this->setType("sit");
     }
 
-    public function getImportId() : string
+    public function getImportId(): string
     {
         return $this->import_id;
     }
 
-    public function setImportId(string $a_import_id) : void
+    public function setImportId(string $a_import_id): void
     {
         $this->import_id = $a_import_id;
     }
 
-    public function getIdentifierRef() : string
+    public function getIdentifierRef(): string
     {
         return $this->identifierref;
     }
 
-    public function setIdentifierRef(string $a_id_ref) : void
+    public function setIdentifierRef(string $a_id_ref): void
     {
         $this->identifierref = $a_id_ref;
     }
 
-    public function getVisible() : bool
+    public function getVisible(): bool
     {
         return $this->isvisible;
     }
 
-    public function setVisible(bool $a_visible) : void
+    public function setVisible(bool $a_visible): void
     {
         $this->isvisible = $a_visible;
     }
 
-    public function getParameters() : ?string
+    public function getParameters(): ?string
     {
         return $this->parameters;
     }
 
-    public function setParameters(?string $a_par) : void
+    public function setParameters(?string $a_par): void
     {
         $this->parameters = $a_par;
     }
 
-    public function getPrereqType() : ?string
+    public function getPrereqType(): ?string
     {
         return $this->prereq_type;
     }
 
-    public function setPrereqType(?string $a_p_type) : void
+    public function setPrereqType(?string $a_p_type): void
     {
         $this->prereq_type = $a_p_type;
     }
 
-    public function getPrerequisites() : ?string
+    public function getPrerequisites(): ?string
     {
         return $this->prerequisites;
     }
 
-    public function setPrerequisites(?string $a_pre) : void
+    public function setPrerequisites(?string $a_pre): void
     {
         $this->prerequisites = $a_pre;
     }
 
-    public function getMaxTimeAllowed() : ?string
+    public function getMaxTimeAllowed(): ?string
     {
         return $this->maxtimeallowed;
     }
 
-    public function setMaxTimeAllowed(?string $a_max) : void
+    public function setMaxTimeAllowed(?string $a_max): void
     {
         $this->maxtimeallowed = $a_max;
     }
 
-    public function getTimeLimitAction() : ?string
+    public function getTimeLimitAction(): ?string
     {
         return $this->timelimitaction;
     }
 
-    public function setTimeLimitAction(?string $a_lim_act) : void
+    public function setTimeLimitAction(?string $a_lim_act): void
     {
         $this->timelimitaction = $a_lim_act;
     }
 
-    public function getDataFromLms() : ?string
+    public function getDataFromLms(): ?string
     {
         return $this->datafromlms;
     }
 
-    public function setDataFromLms(?string $a_data) : void
+    public function setDataFromLms(?string $a_data): void
     {
         $this->datafromlms = $a_data;
     }
 
-    public function getMasteryScore() : ?string
+    public function getMasteryScore(): ?string
     {
         return $this->masteryscore;
     }
 
-    public function setMasteryScore(?string $a_score) : void
+    public function setMasteryScore(?string $a_score): void
     {
         $this->masteryscore = $a_score;
     }
 
-    public function read() : void
+    public function read(): void
     {
         global $DIC;
         $ilDB = $DIC->database();
-        
+
         parent::read();
 
         $obj_set = $ilDB->queryF(
@@ -175,15 +177,15 @@ class ilSCORMItem extends ilSCORMObject
         $this->setMasteryScore($obj_rec["masteryscore"]);
     }
 
-    public function create() : void
+    public function create(): void
     {
         global $DIC;
         $ilDB = $DIC->database();
-        
+
         parent::create();
 
         $str_visible = ($this->getVisible()) ? 'true' : 'false';
-        
+
         $ilDB->insert('sc_item', array(
             'obj_id' => array('integer', $this->getId()),
             'import_id' => array('text', $this->getImportId()),
@@ -199,15 +201,15 @@ class ilSCORMItem extends ilSCORMObject
         ));
     }
 
-    public function update() : void
+    public function update(): void
     {
         global $DIC;
         $ilDB = $DIC->database();
 
         parent::update();
-        
+
         $str_visible = ($this->getVisible()) ? 'true' : 'false';
-        
+
         $ilDB->update(
             'sc_item',
             array(
@@ -233,7 +235,7 @@ class ilSCORMItem extends ilSCORMObject
      *
      * @return array<int|string, mixed>
      */
-    public function getTrackingDataOfUser(int $a_user_id = 0) : array
+    public function getTrackingDataOfUser(int $a_user_id = 0): array
     {
         global $DIC;
         $ilDB = $DIC->database();
@@ -242,7 +244,7 @@ class ilSCORMItem extends ilSCORMObject
         if ($a_user_id == 0) {
             $a_user_id = $ilUser->getId();
         }
-        
+
         $track_set = $ilDB->queryF(
             '
 			SELECT lvalue, rvalue FROM scorm_tracking 
@@ -252,7 +254,7 @@ class ilSCORMItem extends ilSCORMObject
             array('integer', 'integer', 'integer'),
             array($this->getId(), $a_user_id, $this->getSLMId())
         );
-        
+
         $trdata = array();
         while ($track_rec = $ilDB->fetchAssoc($track_set)) {
             $trdata[$track_rec["lvalue"]] = $track_rec["rvalue"];
@@ -264,7 +266,7 @@ class ilSCORMItem extends ilSCORMObject
     /**
      * @return array<int|string, mixed>
      */
-    public static function _lookupTrackingDataOfUser(int $a_item_id, int $a_user_id = 0, int $a_obj_id = 0) : array
+    public static function _lookupTrackingDataOfUser(int $a_item_id, int $a_user_id = 0, int $a_obj_id = 0): array
     {
         global $DIC;
         $ilDB = $DIC->database();
@@ -283,7 +285,7 @@ class ilSCORMItem extends ilSCORMObject
             array('integer', 'integer', 'integer'),
             array($a_item_id, $a_user_id, $a_obj_id)
         );
-        
+
         $trdata = array();
         while ($track_rec = $ilDB->fetchAssoc($track_set)) {
             $trdata[$track_rec["lvalue"]] = $track_rec["rvalue"];
@@ -292,7 +294,7 @@ class ilSCORMItem extends ilSCORMObject
         return $trdata;
     }
 
-    public function delete() : void
+    public function delete(): void
     {
         global $DIC;
         $ilDB = $DIC->database();
@@ -305,7 +307,7 @@ class ilSCORMItem extends ilSCORMObject
             array('integer'),
             array($this->getId())
         );
-        
+
         $ilLog->write("SAHS Delete(ScormItem): " .
             'DELETE FROM scorm_tracking WHERE sco_id = ' . $this->getId() . ' AND obj_id = ' . $this->getSLMId());
         $ilDB->manipulateF(
@@ -316,7 +318,7 @@ class ilSCORMItem extends ilSCORMObject
         ilLPStatusWrapper::_refreshStatus($this->getSLMId());
     }
 
-    public function insertTrackData(string $a_lval, string $a_rval, int $a_obj_id) : void
+    public function insertTrackData(string $a_lval, string $a_rval, int $a_obj_id): void
     {
         //ilObjSCORMTracking::_insertTrackData($this->getId(), $a_lval, $a_rval, $a_ref_id);
         ilObjSCORMTracking::_insertTrackData($this->getId(), $a_lval, $a_rval, $a_obj_id);
@@ -325,7 +327,7 @@ class ilSCORMItem extends ilSCORMObject
     /**
      * @return int[]
      */
-    public static function _getItems(int $a_obj_id) : array
+    public static function _getItems(int $a_obj_id): array
     {
         global $DIC;
         $ilDB = $DIC->database();
@@ -345,7 +347,7 @@ class ilSCORMItem extends ilSCORMObject
         return $item_ids;
     }
 
-    public static function _lookupTitle(int $a_obj_id) : string
+    public static function _lookupTitle(int $a_obj_id): string
     {
         global $DIC;
         $ilDB = $DIC->database();
@@ -355,7 +357,7 @@ class ilSCORMItem extends ilSCORMObject
             array('integer'),
             array($a_obj_id)
         );
-        
+
         while ($row = $ilDB->fetchObject($res)) {
             return $row->title;
         }

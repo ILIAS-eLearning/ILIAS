@@ -33,7 +33,7 @@ class ilFileSystemSetupAgent implements Setup\Agent
     /**
      * @inheritdoc
      */
-    public function hasConfig() : bool
+    public function hasConfig(): bool
     {
         return true;
     }
@@ -41,9 +41,9 @@ class ilFileSystemSetupAgent implements Setup\Agent
     /**
      * @inheritdoc
      */
-    public function getArrayToConfigTransformation() : Refinery\Transformation
+    public function getArrayToConfigTransformation(): Refinery\Transformation
     {
-        return $this->refinery->custom()->transformation(fn ($data) : \ilFileSystemSetupConfig => new \ilFileSystemSetupConfig(
+        return $this->refinery->custom()->transformation(fn ($data): \ilFileSystemSetupConfig => new \ilFileSystemSetupConfig(
             $data["data_dir"]
         ));
     }
@@ -51,7 +51,7 @@ class ilFileSystemSetupAgent implements Setup\Agent
     /**
      * @inheritdoc
      */
-    public function getInstallObjective(Setup\Config $config = null) : Setup\Objective
+    public function getInstallObjective(Setup\Config $config = null): Setup\Objective
     {
         /** @noinspection PhpParamsInspection */
         return new ilFileSystemDirectoriesCreatedObjective($config);
@@ -60,7 +60,7 @@ class ilFileSystemSetupAgent implements Setup\Agent
     /**
      * @inheritdoc
      */
-    public function getUpdateObjective(Setup\Config $config = null) : Setup\Objective
+    public function getUpdateObjective(Setup\Config $config = null): Setup\Objective
     {
         if ($config) {
             /** @noinspection PhpParamsInspection */
@@ -72,7 +72,7 @@ class ilFileSystemSetupAgent implements Setup\Agent
     /**
      * @inheritdoc
      */
-    public function getBuildArtifactObjective() : Setup\Objective
+    public function getBuildArtifactObjective(): Setup\Objective
     {
         return new Setup\Objective\NullObjective();
     }
@@ -80,7 +80,7 @@ class ilFileSystemSetupAgent implements Setup\Agent
     /**
      * @inheritdoc
      */
-    public function getStatusObjective(Setup\Metrics\Storage $storage) : Setup\Objective
+    public function getStatusObjective(Setup\Metrics\Storage $storage): Setup\Objective
     {
         return new ilFileSystemMetricsCollectedObjective($storage);
     }
@@ -88,7 +88,7 @@ class ilFileSystemSetupAgent implements Setup\Agent
     /**
      * @inheritDoc
      */
-    public function getMigrations() : array
+    public function getMigrations(): array
     {
         return [];
     }

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace ILIAS\UI\examples\Input\Field\Select;
 
@@ -7,7 +9,6 @@ namespace ILIAS\UI\examples\Input\Field\Select;
  */
 function base()
 {
-
     //Step 0: Declare dependencies
     global $DIC;
 

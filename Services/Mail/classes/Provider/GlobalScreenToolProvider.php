@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -33,15 +35,15 @@ class GlobalScreenToolProvider extends AbstractDynamicToolProvider
 {
     public const SHOW_MAIL_FOLDERS_TOOL = 'show_mail_folders_tool';
 
-    public function isInterestedInContexts() : ContextCollection
+    public function isInterestedInContexts(): ContextCollection
     {
         return $this->context_collection->main()->repository()->administration();
     }
 
     public function getToolsForContextStack(
         CalledContexts $called_contexts
-    ) : array {
-        $identification = function ($id) : IdentificationInterface {
+    ): array {
+        $identification = function ($id): IdentificationInterface {
             return $this->identification_provider->contextAwareIdentifier($id);
         };
 
@@ -57,7 +59,7 @@ class GlobalScreenToolProvider extends AbstractDynamicToolProvider
                 ->tool($identification('mail_folders_tree'))
                 ->withTitle($title)
                 ->withSymbol($icon)
-                ->withContentWrapper(function () : Legacy {
+                ->withContentWrapper(function (): Legacy {
                     $exp = new ilMailExplorer(new ilMailGUI(), $this->dic->user()->getId());
 
                     return $this->dic->ui()->factory()->legacy($exp->getHTML(true));

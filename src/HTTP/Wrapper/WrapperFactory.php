@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace ILIAS\HTTP\Wrapper;
 
@@ -24,7 +26,7 @@ use Psr\Http\Message\RequestInterface;
 class WrapperFactory
 {
     private RequestInterface $request;
-    
+
     /**
      * WrapperFactory constructor.
      */
@@ -32,18 +34,18 @@ class WrapperFactory
     {
         $this->request = $request;
     }
-    
-    public function query() : ArrayBasedRequestWrapper
+
+    public function query(): ArrayBasedRequestWrapper
     {
         return new ArrayBasedRequestWrapper($this->request->getQueryParams());
     }
-    
-    public function post() : ArrayBasedRequestWrapper
+
+    public function post(): ArrayBasedRequestWrapper
     {
         return new ArrayBasedRequestWrapper($this->request->getParsedBody());
     }
-    
-    public function cookie() : ArrayBasedRequestWrapper
+
+    public function cookie(): ArrayBasedRequestWrapper
     {
         return new ArrayBasedRequestWrapper($this->request->getCookieParams());
     }

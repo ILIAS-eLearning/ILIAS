@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace ILIAS\MainMenu\Provider;
 
@@ -40,7 +42,7 @@ class StandardTopItemsProvider extends AbstractStaticMainMenuProvider
     /**
      * @return StandardTopItemsProvider
      */
-    public static function getInstance() : StandardTopItemsProvider
+    public static function getInstance(): StandardTopItemsProvider
     {
         global $DIC;
         if (!isset(self::$instance)) {
@@ -70,7 +72,7 @@ class StandardTopItemsProvider extends AbstractStaticMainMenuProvider
     /**
      * @inheritDoc
      */
-    public function getStaticTopItems() : array
+    public function getStaticTopItems(): array
     {
         $f = function ($id) {
             return $this->dic->language()->txt($id);
@@ -134,7 +136,7 @@ class StandardTopItemsProvider extends AbstractStaticMainMenuProvider
         $icon = $this->dic->ui()->factory()->symbol()->icon()->custom(\ilUtil::getImagePath("icon_orga.svg"), $title);
 
         $organisation = $this->mainmenu->topParentItem($this->getOrganisationIdentification())
-            ->withVisibilityCallable($this->basic_access_helper->isUserLoggedIn(function () : bool {
+            ->withVisibilityCallable($this->basic_access_helper->isUserLoggedIn(function (): bool {
                 return (new ilMyStaffCachedAccessDecorator(
                     $this->dic,
                     ilMyStaffAccess::getInstance()
@@ -144,7 +146,7 @@ class StandardTopItemsProvider extends AbstractStaticMainMenuProvider
             ->withTitle($title)
             ->withPosition(60)
             ->withAvailableCallable(
-                function () : bool {
+                function (): bool {
                     return (new ilMyStaffCachedAccessDecorator(
                         $this->dic,
                         ilMyStaffAccess::getInstance()
@@ -184,7 +186,7 @@ class StandardTopItemsProvider extends AbstractStaticMainMenuProvider
     /**
      * @inheritDoc
      */
-    public function getProviderNameForPresentation() : string
+    public function getProviderNameForPresentation(): string
     {
         return "Default";
     }
@@ -193,7 +195,7 @@ class StandardTopItemsProvider extends AbstractStaticMainMenuProvider
     /**
      * @inheritDoc
      */
-    public function getStaticSubItems() : array
+    public function getStaticSubItems(): array
     {
         return [];
     }
@@ -202,7 +204,7 @@ class StandardTopItemsProvider extends AbstractStaticMainMenuProvider
     /**
      * @return IdentificationInterface
      */
-    public function getAdministrationIdentification() : IdentificationInterface
+    public function getAdministrationIdentification(): IdentificationInterface
     {
         return $this->administration_identification;
     }
@@ -211,7 +213,7 @@ class StandardTopItemsProvider extends AbstractStaticMainMenuProvider
     /**
      * @return IdentificationInterface
      */
-    public function getOrganisationIdentification() : IdentificationInterface
+    public function getOrganisationIdentification(): IdentificationInterface
     {
         return $this->organisation_identification;
     }
@@ -220,7 +222,7 @@ class StandardTopItemsProvider extends AbstractStaticMainMenuProvider
     /**
      * @return IdentificationInterface
      */
-    public function getCommunicationIdentification() : IdentificationInterface
+    public function getCommunicationIdentification(): IdentificationInterface
     {
         return $this->communication_identification;
     }
@@ -229,7 +231,7 @@ class StandardTopItemsProvider extends AbstractStaticMainMenuProvider
     /**
      * @return IdentificationInterface
      */
-    public function getAchievementsIdentification() : IdentificationInterface
+    public function getAchievementsIdentification(): IdentificationInterface
     {
         return $this->achievements_identification;
     }
@@ -238,7 +240,7 @@ class StandardTopItemsProvider extends AbstractStaticMainMenuProvider
     /**
      * @return IdentificationInterface
      */
-    public function getPersonalWorkspaceIdentification() : IdentificationInterface
+    public function getPersonalWorkspaceIdentification(): IdentificationInterface
     {
         return $this->personal_workspace_identification;
     }
@@ -247,7 +249,7 @@ class StandardTopItemsProvider extends AbstractStaticMainMenuProvider
     /**
      * @return IdentificationInterface
      */
-    public function getRepositoryIdentification() : IdentificationInterface
+    public function getRepositoryIdentification(): IdentificationInterface
     {
         return $this->repository_identification;
     }

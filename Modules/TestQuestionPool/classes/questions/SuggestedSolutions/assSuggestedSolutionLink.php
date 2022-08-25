@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -41,21 +43,21 @@ class assSuggestedSolutionLink extends assQuestionSuggestedSolution
         $this->internal_link = $internal_link;
     }
 
-    public function getType() : string
+    public function getType(): string
     {
         return $this->type;
     }
 
-    public function getStorableValue() : string
+    public function getStorableValue(): string
     {
         return $this->getInternalLink();
     }
 
-    public function getInternalLink() : string
+    public function getInternalLink(): string
     {
         return $this->internal_link;
     }
-    public function withInternalLink(string $internal_link) : static
+    public function withInternalLink(string $internal_link): static
     {
         $clone = clone $this;
         $clone->internal_link = $internal_link;

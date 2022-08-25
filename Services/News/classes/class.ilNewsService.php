@@ -36,7 +36,7 @@ class ilNewsService
         $this->_deps = new ilNewsServiceDependencies($lng, $settings, $user, $obj_adapter);
     }
 
-    public function data() : ilNewsData
+    public function data(): ilNewsData
     {
         return new ilNewsData($this, $this->_deps);
     }
@@ -44,7 +44,7 @@ class ilNewsService
     /**
      * Get a new news item for a context
      */
-    public function item(ilNewsContext $context) : ilNewsItem
+    public function item(ilNewsContext $context): ilNewsItem
     {
         $news = new ilNewsItem();
         $news->setContext($context->getObjId(), $context->getObjType(), $context->getSubId(), $context->getSubType());
@@ -60,7 +60,7 @@ class ilNewsService
         int $ref_id,
         int $subid = 0,
         string $subtype = ""
-    ) : ilNewsContext {
+    ): ilNewsContext {
         $obj_id = $this->_deps->obj()->getObjIdForRefId($ref_id);
         $obj_type = $this->_deps->obj()->getTypeForObjId($obj_id);
         return new ilNewsContext($obj_id, $obj_type, $subid, $subtype);

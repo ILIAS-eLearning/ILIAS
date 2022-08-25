@@ -40,19 +40,19 @@ class ilContainerSorting
         $this->log = $DIC["ilLog"];
         $this->tree = $DIC->repositoryTree();
         $ilDB = $DIC->database();
-        
+
         $this->db = $ilDB;
         $this->obj_id = $a_obj_id;
-        
+
         $this->read();
     }
-    
-    public function getSortingSettings() : ?ilContainerSortingSettings
+
+    public function getSortingSettings(): ?ilContainerSortingSettings
     {
         return $this->sorting_settings;
     }
-    
-    public static function _getInstance(int $a_obj_id) : self
+
+    public static function _getInstance(int $a_obj_id): self
     {
         return self::$instances[$a_obj_id] ?? (self::$instances[$a_obj_id] = new ilContainerSorting($a_obj_id));
     }
@@ -61,7 +61,7 @@ class ilContainerSorting
      * @param int $a_obj_id
      * @return array<int, int>
      */
-    public static function lookupPositions(int $a_obj_id) : array
+    public static function lookupPositions(int $a_obj_id): array
     {
         global $DIC;
 
@@ -77,18 +77,18 @@ class ilContainerSorting
 
         return $sorted;
     }
-    
+
     public function cloneSorting(
         int $a_target_id,
         int $a_copy_id
-    ) : void {
+    ): void {
         $ilDB = $this->db;
 
         $ilLog = ilLoggerFactory::getLogger("cont");
         $ilLog->debug("Cloning container sorting.");
 
         $target_obj_id = ilObject::_lookupObjId($a_target_id);
-        
+
         $mappings = ilCopyWizardOptions::_getInstance($a_copy_id)->getMappings();
 
 
@@ -124,7 +124,7 @@ class ilContainerSorting
             "WHERE obj_id = " . $ilDB->quote($this->obj_id, 'integer');
 
         $res = $ilDB->query($query);
-        
+
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             if (!isset($mappings[$row->child_id]) || !$mappings[$row->child_id]) {
                 $ilLog->debug("No mapping found for child id:" . $row->child_id);
@@ -160,7 +160,7 @@ class ilContainerSorting
                 "AND parent_id = " . $ilDB->quote((int) $new_parent_id, 'integer');
             $ilLog->debug($query);
             $ilDB->manipulate($query);
-            
+
             // Add new value
             $query = "INSERT INTO container_sorting (obj_id,child_id,position,parent_type,parent_id) " .
                 "VALUES( " .
@@ -174,8 +174,8 @@ class ilContainerSorting
             $ilDB->manipulate($query);
         }
     }
-    
-    public function sortItems(array $a_items) : array
+
+    public function sortItems(array $a_items): array
     {
         if (!is_array($a_items)) {
             return [];
@@ -206,10 +206,10 @@ class ilContainerSorting
                         // is set correctly, so we witch back to sortArray (with 4.4.0) and see what
                         // feedback we get
                         // (next line has been used from 3.10.6 to 4.3.x)
-//						$sorted[$type] = $data;
+                        //						$sorted[$type] = $data;
                     }
                     return $sorted ?: [];
-                    
+
                 case ilContainer::SORT_ACTIVATION:
                     foreach ($a_items as $type => $data) {
                         // #16311 - sorting will remove keys (prev/next)
@@ -217,7 +217,7 @@ class ilContainerSorting
                             $sorted[$type] = $data;
                             continue;
                         }
-                    
+
                         $sorted[$type] = ilArrayUtil::sortArray(
                             (array) $data,
                             'start',
@@ -226,8 +226,8 @@ class ilContainerSorting
                         );
                     }
                     return $sorted ?: [];
-                    
-                    
+
+
                 case ilContainer::SORT_CREATION:
                     foreach ($a_items as $type => $data) {
                         // #16311 - sorting will remove keys (prev/next)
@@ -235,7 +235,7 @@ class ilContainerSorting
                             $sorted[$type] = $data;
                             continue;
                         }
-                    
+
                         $sorted[$type] = ilArrayUtil::sortArray(
                             (array) $data,
                             'create_date',
@@ -256,7 +256,7 @@ class ilContainerSorting
                 $sorted[$type] = $data;
                 continue;
             }
-            
+
             // Add position
             $items = [];
             foreach ((array) $data as $key => $item) {
@@ -271,7 +271,6 @@ class ilContainerSorting
             $items = $this->sortOrderDefault($items);
 
             switch ($type) {
-
                 case '_non_sess':
                 case '_all':
                 default:
@@ -281,7 +280,7 @@ class ilContainerSorting
         }
         return $sorted ?: [];
     }
-    
+
     /**
      * sort subitems (items of sessions or learning objectives)
      */
@@ -289,7 +288,7 @@ class ilContainerSorting
         string $a_parent_type,
         int $a_parent_id,
         array $a_items
-    ) : array {
+    ): array {
         switch ($this->getSortingSettings()->getSortMode()) {
             case ilContainer::SORT_MANUAL:
                 $items = [];
@@ -300,7 +299,7 @@ class ilContainerSorting
 
                 $items = $this->sortOrderDefault($items);
                 return ilArrayUtil::sortArray($items, 'position', 'asc', true);
-                
+
 
             case ilContainer::SORT_ACTIVATION:
                 return ilArrayUtil::sortArray(
@@ -328,11 +327,11 @@ class ilContainerSorting
                 );
         }
     }
-    
+
     /**
      * @param array $a_type_positions positions e.g array(crs => array(1,2,3),'lres' => array(3,5,6))
      */
-    public function savePost(array $a_type_positions) : void
+    public function savePost(array $a_type_positions): void
     {
         if (!is_array($a_type_positions)) {
             return;
@@ -349,26 +348,26 @@ class ilContainerSorting
                 }
             }
         }
-        
+
         if (!count($items)) {
             $this->saveItems([]);
             return;
         }
-        
+
         asort($items);
         $new_indexed = [];
         $position = 0;
         foreach ($items as $key => $null) {
             $new_indexed[$key] = ++$position;
         }
-        
+
         $this->saveItems($new_indexed);
     }
-    
-    protected function saveItems(array $a_items) : void
+
+    protected function saveItems(array $a_items): void
     {
         $ilDB = $this->db;
-        
+
         foreach ($a_items as $child_id => $position) {
             $ilDB->replace(
                 'container_sorting',
@@ -384,12 +383,12 @@ class ilContainerSorting
             );
         }
     }
-    
+
     protected function saveSubItems(
         string $a_parent_type,
         int $a_parent_id,
         array $a_items
-    ) : void {
+    ): void {
         $ilDB = $this->db;
 
         foreach ($a_items as $child_id => $position) {
@@ -407,11 +406,11 @@ class ilContainerSorting
             );
         }
     }
-        
+
     /**
      * Save block custom positions (for current object id)
      */
-    protected function saveBlockPositions(array $a_values) : void
+    protected function saveBlockPositions(array $a_values): void
     {
         $ilDB = $this->db;
         asort($a_values);
@@ -425,14 +424,14 @@ class ilContainerSorting
             ]
         );
     }
-    
+
     /**
      * Read block custom positions (for current object id)
      */
-    public function getBlockPositions() : array
+    public function getBlockPositions(): array
     {
         $ilDB = $this->db;
-        
+
         $set = $ilDB->query("SELECT block_ids" .
             " FROM container_sorting_bl" .
             " WHERE obj_id = " . $ilDB->quote($this->obj_id, "integer"));
@@ -443,13 +442,13 @@ class ilContainerSorting
 
         return [];
     }
-    
-    private function read() : void
+
+    private function read(): void
     {
         if (!$this->obj_id) {
             $this->sorting_settings = new ilContainerSortingSettings();
         }
-        
+
         $sorting_settings = ilContainerSortingSettings::getInstanceByObjId($this->obj_id);
         $this->sorting_settings = $sorting_settings->loadEffectiveSettings();
         $query = "SELECT * FROM container_sorting " .
@@ -467,7 +466,7 @@ class ilContainerSorting
     /**
      * Position and order sort order for new object without position in manual sorting type
      */
-    private function sortOrderDefault(array $items) : array
+    private function sortOrderDefault(array $items): array
     {
         $no_position = [];
 
@@ -510,7 +509,6 @@ class ilContainerSorting
                     ($this->getSortingSettings()->getSortDirection() === ilContainer::SORT_DIRECTION_ASC) ? 'asc' : 'desc',
                     true
                 );
-
         }
         $count = (
             $this->getSortingSettings()->getSortNewItemsPosition() === ilContainer::SORT_NEW_ITEMS_POSITION_TOP

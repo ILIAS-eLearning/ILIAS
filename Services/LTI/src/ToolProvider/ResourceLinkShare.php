@@ -16,7 +16,6 @@
  *
  *********************************************************************/
 
-
 namespace ILIAS\LTI\ToolProvider;
 
 /**
@@ -28,7 +27,6 @@ namespace ILIAS\LTI\ToolProvider;
  */
 class ResourceLinkShare
 {
-
     /**
      * Consumer name value.
      *

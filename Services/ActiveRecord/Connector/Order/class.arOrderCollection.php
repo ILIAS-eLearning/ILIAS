@@ -20,7 +20,7 @@
  */
 class arOrderCollection extends arStatementCollection
 {
-    public function asSQLStatement() : string
+    public function asSQLStatement(): string
     {
         $return = '';
         if ($this->hasStatements()) {
@@ -40,7 +40,7 @@ class arOrderCollection extends arStatementCollection
     /**
      * @return arOrder[]
      */
-    public function getOrders() : array
+    public function getOrders(): array
     {
         return $this->statements;
     }

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -14,7 +16,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * Class ilDBWrapperFactory
  *
@@ -29,13 +31,12 @@
  */
 class ilDBWrapperFactory
 {
-
     /**
      * @param string $a_type
      * @return ilDBPdoInterface
      * @throws ilDatabaseException
      */
-    public static function getWrapper(string $a_type) : \ilDBPdoInterface
+    public static function getWrapper(string $a_type): \ilDBPdoInterface
     {
         switch ($a_type) {
             case 'pdo-mysql-innodb':

@@ -70,10 +70,14 @@ class ilDclFieldEditGUI
             $has_datatype = $this->http->wrapper()->post()->has('datatype');
 
             if ($has_datatype) {
-                $datatype_value = $this->http->wrapper()->post()->retrieve('datatype',
-                    $this->refinery->kindlyTo()->string());
-                if (in_array($datatype_value,
-                    array_keys(ilDclDatatype::getAllDatatype()))) {
+                $datatype_value = $this->http->wrapper()->post()->retrieve(
+                    'datatype',
+                    $this->refinery->kindlyTo()->string()
+                );
+                if (in_array(
+                    $datatype_value,
+                    array_keys(ilDclDatatype::getAllDatatype())
+                )) {
                     $datatype = $datatype_value;
                 }
             }
@@ -91,7 +95,7 @@ class ilDclFieldEditGUI
     /**
      * execute command
      */
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         global $DIC;
         $ilCtrl = $DIC['ilCtrl'];
@@ -117,7 +121,7 @@ class ilDclFieldEditGUI
     /**
      * create field add form
      */
-    public function create() : void
+    public function create(): void
     {
         global $DIC;
         $tpl = $DIC['tpl'];
@@ -129,7 +133,7 @@ class ilDclFieldEditGUI
     /**
      * create field edit form
      */
-    public function edit() : void
+    public function edit(): void
     {
         global $DIC;
         $tpl = $DIC['tpl'];
@@ -144,7 +148,7 @@ class ilDclFieldEditGUI
     /*
      * permissionDenied
      */
-    public function permissionDenied() : void
+    public function permissionDenied(): void
     {
         global $DIC;
         $tpl = $DIC['tpl'];
@@ -154,7 +158,7 @@ class ilDclFieldEditGUI
     /**
      * confirmDelete
      */
-    public function confirmDelete() : void
+    public function confirmDelete(): void
     {
         global $DIC;
         $ilCtrl = $DIC['ilCtrl'];
@@ -176,7 +180,7 @@ class ilDclFieldEditGUI
     /**
      * cancelDelete
      */
-    public function cancelDelete() : void
+    public function cancelDelete(): void
     {
         global $DIC;
         $ilCtrl = $DIC['ilCtrl'];
@@ -187,7 +191,7 @@ class ilDclFieldEditGUI
     /*
      * delete
      */
-    public function delete() : void
+    public function delete(): void
     {
         global $DIC;
         $ilCtrl = $DIC['ilCtrl'];
@@ -199,7 +203,7 @@ class ilDclFieldEditGUI
     /*
      * cancel
      */
-    public function cancel() : void
+    public function cancel(): void
     {
         global $DIC;
         $ilCtrl = $DIC['ilCtrl'];
@@ -210,7 +214,7 @@ class ilDclFieldEditGUI
      * initEditCustomForm
      * @param string $a_mode values: create | edit
      */
-    public function initForm(string $a_mode = "create") : void
+    public function initForm(string $a_mode = "create"): void
     {
         global $DIC;
         $ilCtrl = $DIC['ilCtrl'];
@@ -240,8 +244,10 @@ class ilDclFieldEditGUI
 
         $text_prop = new ilTextInputGUI($lng->txt("title"), "title");
         $text_prop->setRequired(true);
-        $text_prop->setInfo(sprintf($lng->txt('fieldtitle_allow_chars'),
-            ilDclBaseFieldModel::_getTitleInvalidChars(false)));
+        $text_prop->setInfo(sprintf(
+            $lng->txt('fieldtitle_allow_chars'),
+            ilDclBaseFieldModel::_getTitleInvalidChars(false)
+        ));
         $text_prop->setValidationRegexp(ilDclBaseFieldModel::_getTitleInvalidChars(true));
         $this->form->addItem($text_prop);
 
@@ -280,7 +286,7 @@ class ilDclFieldEditGUI
      * save Field
      * @param string $a_mode values: create | update
      */
-    public function save(string $a_mode = "create") : void
+    public function save(string $a_mode = "create"): void
     {
         global $DIC;
         $ilCtrl = $DIC['ilCtrl'];
@@ -290,7 +296,6 @@ class ilDclFieldEditGUI
         $this->initForm($a_mode == "update" ? "edit" : "create");
 
         if ($this->checkInput($a_mode)) {
-
             // check if confirmation is needed and if so, fetch and render confirmationGUI
             if (($a_mode == "update") && !($this->form->getInput('confirmed')) && $this->field_obj->isConfirmationRequired($this->form)) {
                 $ilConfirmationGUI = $this->field_obj->getConfirmationGUI($this->form);
@@ -340,7 +345,7 @@ class ilDclFieldEditGUI
      * @param $a_mode 'create' | 'update'
      * @return bool
      */
-    protected function checkInput(string $a_mode) : bool
+    protected function checkInput(string $a_mode): bool
     {
         global $DIC;
         $lng = $DIC['lng'];
@@ -379,21 +384,26 @@ class ilDclFieldEditGUI
     /**
      * @return bool
      */
-    protected function checkAccess() : bool
+    protected function checkAccess(): bool
     {
         if ($field_id = $this->field_obj->getId()) {
-            return ilObjDataCollectionAccess::hasAccessToField($this->getDataCollectionObject()->getRefId(),
-                $this->table_id, $field_id);
+            return ilObjDataCollectionAccess::hasAccessToField(
+                $this->getDataCollectionObject()->getRefId(),
+                $this->table_id,
+                $field_id
+            );
         } else {
-            return ilObjDataCollectionAccess::hasAccessToFields($this->getDataCollectionObject()->getRefId(),
-                $this->table_id);
+            return ilObjDataCollectionAccess::hasAccessToFields(
+                $this->getDataCollectionObject()->getRefId(),
+                $this->table_id
+            );
         }
     }
 
     /**
      * @return ilObjDataCollection
      */
-    public function getDataCollectionObject() : ilObjDataCollection
+    public function getDataCollectionObject(): ilObjDataCollection
     {
         return $this->parent_obj->getDataCollectionObject();
     }

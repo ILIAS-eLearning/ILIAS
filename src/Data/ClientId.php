@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
 
@@ -30,12 +32,12 @@ class ClientId
         $this->clientId = $clientId;
     }
 
-    public function toString() : string
+    public function toString(): string
     {
         return $this->clientId;
     }
 
-    public function __toString() : string
+    public function __toString(): string
     {
         return $this->toString();
     }

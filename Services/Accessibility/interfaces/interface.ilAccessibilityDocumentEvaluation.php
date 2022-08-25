@@ -25,10 +25,10 @@ interface ilAccessibilityDocumentEvaluation
      * @return ilAccessibilitySignableDocument
      * @throws ilAccessibilityNoSignableDocumentFoundException
      */
-    public function document() : ilAccessibilitySignableDocument;
+    public function document(): ilAccessibilitySignableDocument;
 
     /**
      * @return bool
      */
-    public function hasDocument() : bool;
+    public function hasDocument(): bool;
 }

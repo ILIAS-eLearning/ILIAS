@@ -35,29 +35,28 @@ use ILIAS\HTTP\Cookies\CookieFactoryImpl;
  */
 class ilUtil
 {
-    
     /**
      * Builds an html image tag
      *
      * @deprecated Use UI-Service!
      */
-    public static function getImageTagByType(string $a_type, string $a_path, bool $a_big = false) : string
+    public static function getImageTagByType(string $a_type, string $a_path, bool $a_big = false): string
     {
         global $DIC;
-        
+
         $lng = $DIC->language();
-        
+
         $size = ($a_big)
             ? "big"
             : "small";
-        
+
         $filename = ilObject::_getIcon(0, $size, $a_type);
-        
+
         return "<img src=\"" . $filename . "\" alt=\"" . $lng->txt("obj_" . $a_type) . "\" title=\"" . $lng->txt(
             "obj_" . $a_type
         ) . "\" border=\"0\" vspace=\"0\"/>";
     }
-    
+
     /**
      * get image path (for images located in a template directory)
      *
@@ -69,7 +68,7 @@ class ilUtil
         string $module_path = "",
         string $mode = "output",
         bool $offline = false
-    ) : string {
+    ): string {
         global $DIC;
 
         $styleDefinition = null;
@@ -116,14 +115,14 @@ class ilUtil
 
         return $default_img;            // take image in default
     }
-    
+
     /**
      * get url of path
      *
      * @param $relative_path string: complete path to file, relative to web root (e.g.  /data/pfplms103/mobs/mm_732/athena_standing.jpg)
      * @deprecated
      */
-    public static function getHtmlPath(string $relative_path) : string
+    public static function getHtmlPath(string $relative_path): string
     {
         if (substr($relative_path, 0, 2) == './') {
             $relative_path = (substr($relative_path, 1));
@@ -134,7 +133,7 @@ class ilUtil
         $htmlpath = ILIAS_HTTP_PATH . $relative_path;
         return $htmlpath;
     }
-    
+
     /**
      * get full style sheet file name (path inclusive) of current user
      *
@@ -149,11 +148,11 @@ class ilUtil
         string $mode = "output",
         string $a_css_name = "",
         string $a_css_location = ""
-    ) : string {
+    ): string {
         global $DIC;
-        
+
         $ilSetting = $DIC->settings();
-        
+
         // add version as parameter to force reload for new releases
         // use ilStyleDefinition instead of account to get the current style
         $stylesheet_name = (strlen($a_css_name))
@@ -162,36 +161,36 @@ class ilUtil
         if (strlen($a_css_location) && (strcmp(substr($a_css_location, -1), "/") != 0)) {
             $a_css_location = $a_css_location . "/";
         }
-        
+
         $filename = "";
         // use ilStyleDefinition instead of account to get the current skin
         if (ilStyleDefinition::getCurrentSkin() != "default") {
             $filename = "./Customizing/global/skin/" . ilStyleDefinition::getCurrentSkin(
-                ) . "/" . $a_css_location . $stylesheet_name;
+            ) . "/" . $a_css_location . $stylesheet_name;
         }
         if (strlen($filename) == 0 || !file_exists($filename)) {
             $filename = "./" . $a_css_location . "templates/default/" . $stylesheet_name;
         }
         return $filename;
     }
-    
+
     /**
      * get full style sheet file name (path inclusive) of current user
      *
      * @deprecated
      */
-    public static function getNewContentStyleSheetLocation(string $mode = "output") : string
+    public static function getNewContentStyleSheetLocation(string $mode = "output"): string
     {
         global $DIC;
-        
+
         $ilSetting = $DIC->settings();
-        
+
         // add version as parameter to force reload for new releases
         if ($mode != "filesystem") {
             $vers = str_replace(" ", "-", ILIAS_VERSION);
             $vers = "?vers=" . str_replace(".", "-", $vers);
         }
-        
+
         // use ilStyleDefinition instead of account to get the current skin and style
         if (ilStyleDefinition::getCurrentSkin() == "default") {
             $in_style = "./templates/" . ilStyleDefinition::getCurrentSkin() . "/"
@@ -200,21 +199,21 @@ class ilUtil
             $in_style = "./Customizing/global/skin/" . ilStyleDefinition::getCurrentSkin() . "/"
                 . ilStyleDefinition::getCurrentStyle() . "_cont.css";
         }
-        
+
         if (is_file("./" . $in_style)) {
             return $in_style . $vers;
         } else {
             return "templates/default/delos_cont.css" . $vers;
         }
     }
-    
+
     /**
      * switches style sheets for each even $a_num
      * (used for changing colors of different result rows)
      *
      * @deprecated
      */
-    public static function switchColor(int $a_num, string $a_css1, string $a_css2) : string
+    public static function switchColor(int $a_num, string $a_css1, string $a_css2): string
     {
         if (!($a_num % 2)) {
             return $a_css1;
@@ -222,17 +221,17 @@ class ilUtil
             return $a_css2;
         }
     }
-    
+
     /**
      * @depracated Use the respective `Refinery` transformation `$refinery->string()->makeClickable("foo bar")` to convert URL-like string parts to an HTML anchor (`<a>`) element (the boolean flag is removed)
      */
-    public static function makeClickable(string $a_text, bool $detectGotoLinks = false) : string
+    public static function makeClickable(string $a_text, bool $detectGotoLinks = false): string
     {
         global $DIC;
-        
+
         return $DIC->refinery()->string()->makeClickable()->transform($a_text);
     }
-    
+
     /**
      * This preg-based function checks whether an e-mail address is formally valid.
      * It works with all top level domains including the new ones (.biz, .info, .museum etc.)
@@ -245,11 +244,11 @@ class ilUtil
     public static function is_email(
         string $a_email,
         ilMailRfc822AddressParserFactory $mailAddressParserFactory = null
-    ) : bool {
+    ): bool {
         if ($mailAddressParserFactory === null) {
             $mailAddressParserFactory = new ilMailRfc822AddressParserFactory();
         }
-        
+
         try {
             $parser = $mailAddressParserFactory->getParser($a_email);
             $addresses = $parser->parse();
@@ -258,30 +257,30 @@ class ilUtil
             return false;
         }
     }
-    
+
     /**
      * @deprecated
      */
-    public static function isLogin(string $a_login) : bool
+    public static function isLogin(string $a_login): bool
     {
         if (empty($a_login)) {
             return false;
         }
-        
+
         if (strlen($a_login) < 3) {
             return false;
         }
-        
+
         // FIXME - If ILIAS is configured to use RFC 822
         //         compliant mail addresses we should not
         //         allow the @ character.
         if (!preg_match("/^[A-Za-z0-9_\.\+\*\@!\$\%\~\-]+$/", $a_login)) {
             return false;
         }
-        
+
         return true;
     }
-    
+
     /**
      * Build img tag
      *
@@ -314,10 +313,10 @@ class ilUtil
             $img .= ' id="' . $a_id . '"';
         }
         $img .= ' />';
-        
+
         return $img;
     }
-    
+
     /**
      * @deprecated use ilFileDelivery
      */
@@ -325,7 +324,7 @@ class ilUtil
         string $a_data,
         string $a_filename,
         string $mime = "application/octet-stream"
-    ) : void {
+    ): void {
         global $DIC;
         $delivery = new Delivery(
             Delivery::DIRECT_PHP_OUTPUT,
@@ -340,51 +339,51 @@ class ilUtil
         $DIC->http()->saveResponse($repsonse);
         $delivery->deliver();
     }
-    
+
     /**
      * @deprecated
      */
-    public static function appendUrlParameterString(string $a_url, string $a_par, bool $xml_style = false) : string
+    public static function appendUrlParameterString(string $a_url, string $a_par, bool $xml_style = false): string
     {
         $amp = $xml_style
             ? "&amp;"
             : "&";
-        
+
         $url = (is_int(strpos($a_url, "?")))
             ? $a_url . $amp . $a_par
             : $a_url . "?" . $a_par;
-        
+
         return $url;
     }
-    
+
     /**
      * @deprecated
      */
-    public static function stripSlashes(string $a_str, bool $a_strip_html = true, string $a_allow = "") : string
+    public static function stripSlashes(string $a_str, bool $a_strip_html = true, string $a_allow = ""): string
     {
         if (ini_get("magic_quotes_gpc")) {
             $a_str = stripslashes($a_str);
         }
-        
+
         return ilUtil::secureString($a_str, $a_strip_html, $a_allow);
     }
-    
+
     /**
      * @deprecated
      */
-    public static function stripOnlySlashes(string $a_str) : string
+    public static function stripOnlySlashes(string $a_str): string
     {
         if (ini_get("magic_quotes_gpc")) {
             $a_str = stripslashes($a_str);
         }
-        
+
         return $a_str;
     }
-    
+
     /**
      * @deprecated
      */
-    public static function secureString(string $a_str, bool $a_strip_html = true, string $a_allow = "") : string
+    public static function secureString(string $a_str, bool $a_strip_html = true, string $a_allow = ""): string
     {
         // check whether all allowed tags can be made secure
         $only_secure = true;
@@ -394,14 +393,14 @@ class ilUtil
         foreach ($allow_tags as $allow) {
             if ($allow != "") {
                 $allow = str_replace("<", "", $allow);
-                
+
                 if (!in_array($allow, $sec_tags)) {
                     $only_secure = false;
                 }
                 $allow_array[] = $allow;
             }
         }
-        
+
         // default behaviour: allow only secure tags 1:1
         if (($only_secure || $a_allow == "") && $a_strip_html) {
             if ($a_allow === "") {
@@ -427,23 +426,23 @@ class ilUtil
             $a_str = ilUtil::unmaskSecureTags($a_str, $allow_array);
 
         // a possible solution could be something like:
-            // $a_str = str_replace("<", "&lt;", $a_str);
-            // $a_str = str_replace(">", "&gt;", $a_str);
-            // $a_str = ilUtil::unmaskSecureTags($a_str, $allow_array);
+        // $a_str = str_replace("<", "&lt;", $a_str);
+        // $a_str = str_replace(">", "&gt;", $a_str);
+        // $a_str = ilUtil::unmaskSecureTags($a_str, $allow_array);
             //
-            // output would be ok then, but input fields would show
-            // "a &lt;= b" for input "a <= b" if data is brought back to a form
+        // output would be ok then, but input fields would show
+        // "a &lt;= b" for input "a <= b" if data is brought back to a form
         } else {
             // only for scripts, that need to allow more/other tags and parameters
             if ($a_strip_html) {
                 $a_str = ilUtil::stripScriptHTML($a_str, $a_allow);
             }
         }
-        
+
         return $a_str;
     }
-    
-    public static function getSecureTags() : array
+
+    public static function getSecureTags(): array
     {
         return ["strong",
                 "em",
@@ -466,19 +465,19 @@ class ilUtil
                 "bdo"
         ];
     }
-    
-    private static function maskSecureTags(string $a_str, array $allow_array) : string
+
+    private static function maskSecureTags(string $a_str, array $allow_array): string
     {
         foreach ($allow_array as $t) {
             switch ($t) {
                 case "a":
                     $a_str = ilUtil::maskAttributeTag($a_str, "a", "href");
                     break;
-                
+
                 case "img":
                     $a_str = ilUtil::maskAttributeTag($a_str, "img", "src");
                     break;
-                
+
                 case "p":
                 case "div":
                     $a_str = ilUtil::maskTag($a_str, $t, [
@@ -488,28 +487,28 @@ class ilUtil
                         ["param" => "align", "value" => "right"]
                     ]);
                     break;
-                
+
                 default:
                     $a_str = ilUtil::maskTag($a_str, $t);
                     break;
             }
         }
-        
+
         return $a_str;
     }
-    
-    private static function unmaskSecureTags(string $a_str, array $allow_array) : string
+
+    private static function unmaskSecureTags(string $a_str, array $allow_array): string
     {
         foreach ($allow_array as $t) {
             switch ($t) {
                 case "a":
                     $a_str = ilUtil::unmaskAttributeTag($a_str, "a", "href");
                     break;
-                
+
                 case "img":
                     $a_str = ilUtil::unmaskAttributeTag($a_str, "img", "src");
                     break;
-                
+
                 case "p":
                 case "div":
                     $a_str = ilUtil::unmaskTag($a_str, $t, [
@@ -519,20 +518,20 @@ class ilUtil
                         ["param" => "align", "value" => "right"]
                     ]);
                     break;
-                
+
                 default:
                     $a_str = ilUtil::unmaskTag($a_str, $t);
                     break;
             }
         }
-        
+
         return $a_str;
     }
-    
+
     /**
      * @deprecated
      */
-    public static function securePlainString(string $a_str) : string
+    public static function securePlainString(string $a_str): string
     {
         if (ini_get("magic_quotes_gpc")) {
             return stripslashes($a_str);
@@ -540,7 +539,7 @@ class ilUtil
             return $a_str;
         }
     }
-    
+
     /**
      * Encodes a plain text string into HTML for display in a browser.
      * This function encodes HTML special characters: < > & with &lt; &gt; &amp;
@@ -561,9 +560,9 @@ class ilUtil
         string $a_str,
         bool $a_make_links_clickable,
         bool $a_detect_goto_links = false
-    ) : string {
+    ): string {
         $encoded = "";
-        
+
         if ($a_make_links_clickable) {
             // Find text sequences in the plain text string which match
             // the URI syntax rules, and pass them to ilUtil::makeClickable.
@@ -589,18 +588,18 @@ class ilUtil
             );
             $pos1 = 0;
             $encoded = "";
-            
+
             foreach ($matches[0] as $match) {
                 $matched_text = $match[0];
                 $pos2 = $match[1];
-                
+
                 // encode plain text
                 $encoded .= nl2br(htmlspecialchars(substr($a_str, $pos1, $pos2 - $pos1)));
-                
+
                 // encode URI
                 $encoded .= ilUtil::makeClickable($matched_text, $a_detect_goto_links);
-                
-                
+
+
                 $pos1 = $pos2 + strlen($matched_text);
             }
             if ($pos1 < strlen($a_str)) {
@@ -611,16 +610,16 @@ class ilUtil
         }
         return $encoded;
     }
-    
-    private static function maskAttributeTag(string $a_str, string $tag, string $tag_att) : string
+
+    private static function maskAttributeTag(string $a_str, string $tag, string $tag_att): string
     {
         global $DIC;
-        
+
         $ilLog = $DIC["ilLog"];
-        
+
         $ws = "[\s]*";
         $att = $ws . "[^>]*" . $ws;
-        
+
         while (preg_match(
             '/<(' . $tag . $att . '(' . $tag_att . $ws . '="' . $ws . '(([$@!*()~;,_0-9A-z\/:=%.&#?+\-])*)")' . $att . ')>/i',
             $a_str,
@@ -647,13 +646,13 @@ class ilUtil
         );
         return $a_str;
     }
-    
-    private static function unmaskAttributeTag(string $a_str, string $tag, string $tag_att) : string
+
+    private static function unmaskAttributeTag(string $a_str, string $tag, string $tag_att): string
     {
         global $DIC;
-        
+
         $ilLog = $DIC["ilLog"];
-        
+
         while (preg_match(
             '/&lt;(' . $tag . ' ' . $tag_att . $tag_att . '="(([$@!*()~;,_0-9A-z\/:=%.&#?+\-])*)")&gt;/i',
             $a_str,
@@ -676,8 +675,8 @@ class ilUtil
         $a_str = str_replace('&lt;/' . $tag . '&gt;', '</' . $tag . '>', $a_str);
         return $a_str;
     }
-    
-    public static function maskTag(string $a_str, string $tag, array $fix_param = []) : string
+
+    public static function maskTag(string $a_str, string $tag, array $fix_param = []): string
     {
         $a_str = str_replace(
             ["<$tag>", "<" . strtoupper($tag) . ">"],
@@ -689,7 +688,7 @@ class ilUtil
             "&lt;/" . $tag . "&gt;",
             $a_str
         );
-        
+
         foreach ($fix_param as $p) {
             $k = $p["param"];
             $v = $p["value"];
@@ -699,15 +698,15 @@ class ilUtil
                 $a_str
             );
         }
-        
+
         return $a_str;
     }
-    
-    private static function unmaskTag(string $a_str, string $tag, array $fix_param = []) : string
+
+    private static function unmaskTag(string $a_str, string $tag, array $fix_param = []): string
     {
         $a_str = str_replace("&lt;" . $tag . "&gt;", "<" . $tag . ">", $a_str);
         $a_str = str_replace("&lt;/" . $tag . "&gt;", "</" . $tag . ">", $a_str);
-        
+
         foreach ($fix_param as $p) {
             $k = $p["param"];
             $v = $p["value"];
@@ -719,11 +718,11 @@ class ilUtil
         }
         return $a_str;
     }
-    
+
     /**
      * @deprecated
      */
-    public static function secureLink(string $a_str) : string
+    public static function secureLink(string $a_str): string
     {
         $a_str = str_ireplace("javascript", "jvscrpt", $a_str);
         $a_str = str_ireplace(["%00",
@@ -741,11 +740,11 @@ class ilUtil
         ], "-", $a_str);
         return $a_str;
     }
-    
+
     /**
      * @deprecated
      */
-    public static function stripScriptHTML(string $a_str, string $a_allow = "", bool $a_rm_js = true) : string
+    public static function stripScriptHTML(string $a_str, string $a_allow = "", bool $a_rm_js = true): string
     {
         $negativestr = "a,abbr,acronym,address,applet,area,base,basefont," .
             "big,blockquote,body,br,button,caption,center,cite,code,col," .
@@ -762,7 +761,7 @@ class ilUtil
             $outer_old_str = $a_str;
             foreach ($negatives as $item) {
                 $pos = strpos($a_allow, "<$item>");
-                
+
                 // remove complete tag, if not allowed
                 if ($pos === false) {
                     $old_str = "";
@@ -774,26 +773,26 @@ class ilUtil
                 }
             }
         }
-        
+
         if ($a_rm_js) {
             // remove all attributes if an "on..." attribute is given
             $a_str = preg_replace("/<\s*\w*(\/?)(\s+[^>]*)?(\s+on[^>]*)>/i", "", $a_str);
-            
+
             // remove all attributes if a "javascript" is within tag
             $a_str = preg_replace("/<\s*\w*(\/?)\s+[^>]*javascript[^>]*>/i", "", $a_str);
-            
+
             // remove all attributes if an "expression" is within tag
             // (IE allows something like <b style='width:expression(alert(1))'>test</b>)
             $a_str = preg_replace("/<\s*\w*(\/?)\s+[^>]*expression[^>]*>/i", "", $a_str);
         }
-        
+
         return $a_str;
     }
-    
+
     /**
      * @deprecated
      */
-    public static function secureUrl(string $url) : string
+    public static function secureUrl(string $url): string
     {
         // check if url is valid (absolute or relative)
         if (filter_var($url, FILTER_VALIDATE_URL) === false &&
@@ -809,11 +808,11 @@ class ilUtil
         $url = htmlspecialchars($url, ENT_QUOTES);
         return $url;
     }
-    
+
     /**
      * @deprecated
      */
-    public static function extractParameterString(string $a_parstr) : array
+    public static function extractParameterString(string $a_parstr): array
     {
         // parse parameters in array
         $par = [];
@@ -834,14 +833,14 @@ class ilUtil
             ) || substr($cpar, strlen($cpar) - 1, 1) == chr(10)) {
                 $cpar = substr($cpar, 0, strlen($cpar) - 1);
             }
-            
+
             // parameter name should only
             $cpar_old = "";
             while ($cpar != $cpar_old) {
                 $cpar_old = $cpar;
                 $cpar = preg_replace("/[^a-zA-Z0-9_]/i", "", $cpar);
             }
-            
+
             // extract value
             if ($cpar != "") {
                 if ($spos = strpos($a_parstr, "\"")) {
@@ -859,14 +858,14 @@ class ilUtil
                 }
             }
         }
-        
+
         return $ok ? $par : [];
     }
-    
+
     /**
      * @deprecated use Refinery instead
      */
-    public static function yn2tf(string $a_yn) : bool
+    public static function yn2tf(string $a_yn): bool
     {
         if (strtolower($a_yn) === "y") {
             return true;
@@ -874,11 +873,11 @@ class ilUtil
             return false;
         }
     }
-    
+
     /**
      * @deprecated
      */
-    public static function tf2yn(bool $a_tf) : string
+    public static function tf2yn(bool $a_tf): string
     {
         if ($a_tf) {
             return "y";
@@ -886,13 +885,13 @@ class ilUtil
             return "n";
         }
     }
-    
+
     /**
      * checks if mime type is provided by getimagesize()
      *
      * @deprecated
      */
-    public static function deducibleSize(string $a_mime) : bool
+    public static function deducibleSize(string $a_mime): bool
     {
         if (($a_mime == "image/gif") || ($a_mime == "image/jpeg") ||
             ($a_mime == "image/png") || ($a_mime == "application/x-shockwave-flash") ||
@@ -903,20 +902,20 @@ class ilUtil
             return false;
         }
     }
-    
+
     /**
      * @deprecated Use $DIC->ctrl()->redirectToURL() instead
      */
-    public static function redirect(string $a_script) : void
+    public static function redirect(string $a_script): void
     {
         global $DIC;
-        
+
         if (!isset($DIC['ilCtrl']) || !$DIC['ilCtrl'] instanceof ilCtrl) {
             (new InitCtrlService())->init($DIC);
         }
         $DIC->ctrl()->redirectToURL($a_script);
     }
-    
+
     /**
      * inserts installation id into ILIAS id
      *
@@ -924,15 +923,15 @@ class ilUtil
      *
      * @deprecated
      */
-    public static function insertInstIntoID(string $a_value) : string
+    public static function insertInstIntoID(string $a_value): string
     {
         if (substr($a_value, 0, 4) == "il__") {
             $a_value = "il_" . IL_INST_ID . "_" . substr($a_value, 4, strlen($a_value) - 4);
         }
-        
+
         return $a_value;
     }
-    
+
     /**
      * checks if group name already exists. Groupnames must be unique for mailing purposes
      * static function
@@ -944,52 +943,52 @@ class ilUtil
      * @static
      *
      */
-    public static function groupNameExists(string $a_group_name, ?int $a_id = null) : bool
+    public static function groupNameExists(string $a_group_name, ?int $a_id = null): bool
     {
         global $DIC;
-        
+
         $ilDB = $DIC->database();
-        
+
         $ilErr = null;
         if (isset($DIC["ilErr"])) {
             $ilErr = $DIC["ilErr"];
         }
-        
+
         if (empty($a_group_name)) {
             $message = __METHOD__ . ": No groupname given!";
             $ilErr->raiseError($message, $ilErr->WARNING);
         }
-        
+
         $clause = ($a_id !== null) ? " AND obj_id != " . $ilDB->quote($a_id) . " " : "";
-        
+
         $q = "SELECT obj_id FROM object_data " .
             "WHERE title = " . $ilDB->quote($a_group_name, "text") . " " .
             "AND type = " . $ilDB->quote("grp", "text") .
             $clause;
-        
+
         $r = $ilDB->query($q);
-        
+
         return $r->numRows() > 0;
     }
-    
+
     /**
      * @deprecated
      */
-    public static function isWindows() : bool
+    public static function isWindows(): bool
     {
         return (strtolower(substr(php_uname(), 0, 3)) === "win");
     }
-    
+
     /**
      * Return current timestamp in Y-m-d H:i:s format
      *
      * @deprecated
      */
-    public static function now() : string
+    public static function now(): string
     {
         return date("Y-m-d H:i:s");
     }
-    
+
     /**
      * Get all objects of a specific type and check access
      * This function is not recursive, instead it parses the serialized rbac_pa entries
@@ -1023,22 +1022,22 @@ class ilUtil
         string $a_operation,
         int $a_usr_id = 0,
         int $limit = 0
-    ) : array {
+    ): array {
         global $DIC;
-        
+
         $ilDB = $DIC->database();
         $rbacreview = $DIC->rbac()->review();
         $ilAccess = $DIC->access();
         $ilUser = $DIC->user();
         $ilSetting = $DIC->settings();
         $tree = $DIC->repositoryTree();
-        
+
         if (!is_array($a_obj_type)) {
             $where = "WHERE type = " . $ilDB->quote($a_obj_type, "text") . " ";
         } else {
             $where = "WHERE " . $ilDB->in("type", $a_obj_type, false, "text") . " ";
         }
-        
+
         // limit number of results default is search result limit
         if (!$limit) {
             $limit = (int) $ilSetting->get('search_max_hits', "100");
@@ -1046,11 +1045,11 @@ class ilUtil
         if ($limit == -1) {
             $limit = 10000;
         }
-        
+
         // default to logged in usr
         $a_usr_id = $a_usr_id ?: $ilUser->getId();
         $a_roles = $rbacreview->assignedRoles($a_usr_id);
-        
+
         // Since no rbac_pa entries are available for the system role. This function returns !all! ref_ids in the case the user
         // is assigned to the system role
         if ($rbacreview->isAssigned($a_usr_id, SYSTEM_ROLE_ID)) {
@@ -1058,7 +1057,7 @@ class ilUtil
                 "LEFT JOIN tree ON obr.ref_id = tree.child " .
                 $where .
                 "AND tree = 1";
-            
+
             $res = $ilDB->query($query);
             $counter = 0;
             $ref_ids = [];
@@ -1067,28 +1066,28 @@ class ilUtil
                 if ($tree->isGrandChild(RECOVERY_FOLDER_ID, $row->ref_id)) {
                     continue;
                 }
-                
+
                 if ($counter++ >= $limit) {
                     break;
                 }
-                
+
                 $ref_ids[] = $row->ref_id;
             }
             return $ref_ids;
         } // End Administrators
-        
+
         // Check ownership if it is not asked for edit_permission or a create permission
         if ($a_operation == 'edit_permissions' or strpos($a_operation, 'create') !== false) {
             $check_owner = ") ";
         } else {
             $check_owner = "OR owner = " . $ilDB->quote($a_usr_id, "integer") . ") ";
         }
-        
+
         $ops_ids = ilRbacReview::_getOperationIdsByName([$a_operation]);
         $ops_id = $ops_ids[0];
-        
+
         $and = "AND ((" . $ilDB->in("rol_id", $a_roles, false, "integer") . " ";
-        
+
         $query = "SELECT DISTINCT(obr.ref_id),obr.obj_id,type FROM object_reference obr " .
             "JOIN object_data obd ON obd.obj_id = obr.obj_id " .
             "LEFT JOIN rbac_pa  ON obr.ref_id = rbac_pa.ref_id " .
@@ -1097,7 +1096,7 @@ class ilUtil
             "AND (" . $ilDB->like("ops_id", "text", "%i:" . $ops_id . "%") . " " .
             "OR " . $ilDB->like("ops_id", "text", "%:\"" . $ops_id . "\";%") . ")) " .
             $check_owner;
-        
+
         $res = $ilDB->query($query);
         $counter = 0;
         $ref_ids = [];
@@ -1105,12 +1104,12 @@ class ilUtil
             if ($counter >= $limit) {
                 break;
             }
-            
+
             // Filter objects in recovery folder
             if ($tree->isGrandChild(RECOVERY_FOLDER_ID, $row->ref_id)) {
                 continue;
             }
-            
+
             // Check deleted, hierarchical access ...
             if ($ilAccess->checkAccessOfUser($a_usr_id, $a_operation, '', $row->ref_id, $row->type, $row->obj_id)) {
                 $counter++;
@@ -1119,7 +1118,7 @@ class ilUtil
         }
         return $ref_ids ?: [];
     }
-    
+
     /**
      * Checks if a given string contains HTML or not
      *
@@ -1128,33 +1127,33 @@ class ilUtil
      * @access public
      * @static
      */
-    public static function isHTML(string $a_text) : bool
+    public static function isHTML(string $a_text): bool
     {
         if (strlen(strip_tags($a_text)) < strlen($a_text)) {
             return true;
         }
-        
+
         return false;
     }
-    
+
     /**
      *  extract ref id from role title, e.g. 893 from 'il_crs_member_893'
      *
      * @param string $role_title with format like il_crs_member_893
      * @deprecated
      */
-    public static function __extractRefId(string $role_title) : ?int
+    public static function __extractRefId(string $role_title): ?int
     {
         $test_str = explode('_', $role_title);
         $prefix = $test_str[0] ?? '';
-        
+
         if ($prefix === 'il') {
             $ref_id = $test_str[3] ?? null;
             return is_numeric($ref_id) ? (int) $ref_id : null;
         }
         return null;
     }
-    
+
     /**
      * extract ref id from role title, e.g. 893 from 'il_122_role_893'
      *
@@ -1162,45 +1161,45 @@ class ilUtil
      * @param int    $inst_id  Installation ID must match inst id in param ilias_id
      * @deprecated
      */
-    
-    public static function __extractId(string $ilias_id, int $inst_id) : ?int
+
+    public static function __extractId(string $ilias_id, int $inst_id): ?int
     {
         $test_str = explode('_', $ilias_id);
-        
+
         $parsed_inst_id = (int) $test_str[1] ?? 0;
         $prefix = $test_str[0] ?? '';
-        
+
         if ($prefix === 'il' && $parsed_inst_id === $inst_id && count($test_str) === 4) {
             return is_numeric($test_str[3]) ? (int) $test_str[3] : null;
         }
         return null;
     }
-    
+
     /**
      * Function that sorts ids by a given table field using WHERE IN
      * E.g: __sort(array(6,7),'usr_data','lastname','usr_id') => sorts by lastname
      *
      * @deprecated
      */
-    public static function _sortIds(array $a_ids, string $a_table, string $a_field, string $a_id_name) : array
+    public static function _sortIds(array $a_ids, string $a_table, string $a_field, string $a_id_name): array
     {
         global $DIC;
-        
+
         $ilDB = $DIC->database();
-        
+
         if (!$a_ids) {
             return [];
         }
-        
+
         // use database to sort user array
         $where = "WHERE " . $a_id_name . " IN (";
         $where .= implode(",", ilArrayUtil::quoteArray($a_ids));
         $where .= ") ";
-        
+
         $query = "SELECT " . $a_id_name . " FROM " . $a_table . " " .
             $where .
             "ORDER BY " . $a_field;
-        
+
         $res = $ilDB->query($query);
         $ids = [];
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
@@ -1208,7 +1207,7 @@ class ilUtil
         }
         return $ids;
     }
-    
+
     /**
      * Get HTML for a system message
      *
@@ -1219,7 +1218,7 @@ class ilUtil
     public static function getSystemMessageHTML(string $a_txt, string $a_type = "info")
     {
         global $DIC;
-        
+
         $box_factory = $DIC->ui()->factory()->messageBox();
         switch ($a_type) {
             case 'info':
@@ -1237,10 +1236,10 @@ class ilUtil
             default:
                 throw new InvalidArgumentException();
         }
-        
+
         return $DIC->ui()->renderer()->render($box);
     }
-    
+
     /**
      * @deprecated use HTTP-service instead
      */
@@ -1249,12 +1248,12 @@ class ilUtil
         string $a_cookie_value = '',
         bool $a_also_set_super_global = true,
         bool $a_set_cookie_invalid = false
-    ) : void {
+    ): void {
         global $DIC;
-        
+
         $cookie_factory = new CookieFactoryImpl();
         $defalut_cookie_time = time() - (365 * 24 * 60 * 60);
-        
+
         $cookie = $cookie_factory->create($a_cookie_name, $a_cookie_value)
                                  ->withExpires($a_set_cookie_invalid ? 0 : $defalut_cookie_time)
                                  ->withSecure(defined('IL_COOKIE_SECURE') ? IL_COOKIE_SECURE : false)
@@ -1263,16 +1262,16 @@ class ilUtil
                                  ->withHttpOnly(defined('IL_COOKIE_HTTPONLY') ? IL_COOKIE_HTTPONLY : false);
         $DIC->http()->cookieJar()->with($cookie);
     }
-    
+
     /**
      * @deprecated
      */
-    public static function _getHttpPath() : string
+    public static function _getHttpPath(): string
     {
         global $DIC;
-        
+
         $ilIliasIniFile = $DIC["ilIliasIniFile"];
-        
+
         if ((isset($_SERVER['SHELL']) && $_SERVER['SHELL']) || PHP_SAPI === 'cli' ||
             // fallback for windows systems, useful in crons
             (class_exists("ilContext") && !ilContext::usesHTTP())) {
@@ -1281,7 +1280,7 @@ class ilUtil
             return ILIAS_HTTP_PATH;
         }
     }
-    
+
     /**
      * Parse an ilias import id
      * Typically of type il_[IL_INST_ID]_[OBJ_TYPE]_[OBJ_ID]
@@ -1296,10 +1295,10 @@ class ilUtil
      * @deprecated
      *
      */
-    public static function parseImportId(string $a_import_id) : array
+    public static function parseImportId(string $a_import_id): array
     {
         $exploded = explode('_', $a_import_id);
-        
+
         $parsed['orig'] = $a_import_id;
         if ($exploded[0] == 'il') {
             $parsed['prefix'] = $exploded[0];
@@ -1308,13 +1307,13 @@ class ilUtil
             $parsed['inst_id'] = (int) $exploded[1];
         }
         $parsed['type'] = $exploded[2];
-        
+
         if (is_numeric($exploded[3])) {
             $parsed['id'] = (int) $exploded[3];
         }
         return $parsed;
     }
-    
+
     /**
      * format a float
      *
@@ -1330,27 +1329,27 @@ class ilUtil
         string $a_dec_point = null,
         string $a_thousands_sep = null,
         bool $a_suppress_dot_zero = false
-    ) : string {
+    ): string {
         global $DIC;
-        
+
         $lng = $DIC->language();
-        
+
         if ($a_dec_point === null) {
             $a_dec_point = ".";
         }
         if ($a_dec_point === '-lang_sep_decimal-') {
             $a_dec_point = ".";
         }
-        
+
         if ($a_thousands_sep === null) {
             $a_thousands_sep = $lng->txt('lang_sep_thousand');
         }
         if ($a_thousands_sep === '-lang_sep_thousand-') {
             $a_thousands_sep = ",";
         }
-        
+
         $txt = number_format($a_float, $a_decimals, $a_dec_point, $a_thousands_sep);
-        
+
         // remove trailing ".0"
         if (($a_suppress_dot_zero == 0 || $a_decimals == 0)
             && substr($txt, -2) == $a_dec_point . '0'
@@ -1360,10 +1359,10 @@ class ilUtil
         if ($a_float == 0 and $txt == "") {
             $txt = "0";
         }
-        
+
         return $txt;
     }
-    
+
     /**
      * Returns the specified file size value in a human friendly form.
      * <p>
@@ -1380,17 +1379,17 @@ class ilUtil
      *                  "long" is useful for display on the info page of an object
      * @param ilLanguage  The language object, or null if you want to use the system language.
      */
-    public static function formatSize(int $size, string $a_mode = 'short', ?ilLanguage $a_lng = null) : string
+    public static function formatSize(int $size, string $a_mode = 'short', ?ilLanguage $a_lng = null): string
     {
         global $DIC;
-        
+
         $lng = $DIC->language();
         if ($a_lng == null) {
             $a_lng = $lng;
         }
-        
+
         $mag = 1024;
-        
+
         if ($size >= $mag * $mag * $mag) {
             $scaled_size = $size / $mag / $mag / $mag;
             $scaled_unit = 'lang_size_gb';
@@ -1408,7 +1407,7 @@ class ilUtil
                 }
             }
         }
-        
+
         $result = self::fmtFloat(
             $scaled_size,
             ($scaled_unit
@@ -1427,7 +1426,7 @@ class ilUtil
             ) . ' '
                 . $a_lng->txt('lang_size_bytes') . ')';
         }
-        
+
         return $result;
     }
 }

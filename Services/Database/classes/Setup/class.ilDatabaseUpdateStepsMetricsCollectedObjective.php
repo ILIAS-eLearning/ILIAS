@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,14 +17,14 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 use ILIAS\Setup;
 use ILIAS\Setup\Metrics\Metric;
 use ILIAS\Setup\Metrics\Storage;
 
 class ilDatabaseUpdateStepsMetricsCollectedObjective extends Setup\Metrics\CollectedObjective
 {
-    const STEP_METHOD_PREFIX = "step_";
+    public const STEP_METHOD_PREFIX = "step_";
 
     protected string $step_class;
 
@@ -32,7 +34,7 @@ class ilDatabaseUpdateStepsMetricsCollectedObjective extends Setup\Metrics\Colle
         $this->step_class = get_class($steps);
     }
 
-    protected function collectFrom(Setup\Environment $environment, Storage $storage) : void
+    protected function collectFrom(Setup\Environment $environment, Storage $storage): void
     {
         $execution_log = $environment->getResource(ilDatabaseUpdateStepExecutionLog::class);
         $step_reader = $environment->getResource(ilDBStepReader::class);
@@ -71,7 +73,7 @@ class ilDatabaseUpdateStepsMetricsCollectedObjective extends Setup\Metrics\Colle
         $storage->store($this->step_class, $collection);
     }
 
-    protected function getTentativePreconditions(Setup\Environment $environment) : array
+    protected function getTentativePreconditions(Setup\Environment $environment): array
     {
         return [
             new ilIniFilesLoadedObjective(),
@@ -81,7 +83,7 @@ class ilDatabaseUpdateStepsMetricsCollectedObjective extends Setup\Metrics\Colle
         ];
     }
 
-    public function getHash() : string
+    public function getHash(): string
     {
         return hash("sha256", static::class . $this->step_class);
     }

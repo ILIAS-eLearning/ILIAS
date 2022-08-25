@@ -24,17 +24,17 @@ class ilItemGroupDataSet extends ilDataSet
 {
     protected ilObjItemGroup $current_obj;
 
-    public function getSupportedVersions() : array
+    public function getSupportedVersions(): array
     {
         return array("4.3.0", "5.3.0");
     }
-    
-    public function getXmlNamespace(string $a_entity, string $a_schema_version) : string
+
+    public function getXmlNamespace(string $a_entity, string $a_schema_version): string
     {
         return "https://www.ilias.de/xml/Modules/ItemGroup/" . $a_entity;
     }
-    
-    protected function getTypes(string $a_entity, string $a_version) : array
+
+    protected function getTypes(string $a_entity, string $a_version): array
     {
         if ($a_entity == "itgr") {
             switch ($a_version) {
@@ -66,7 +66,7 @@ class ilItemGroupDataSet extends ilDataSet
         return [];
     }
 
-    public function readData(string $a_entity, string $a_version, array $a_ids) : void
+    public function readData(string $a_entity, string $a_version, array $a_ids): void
     {
         $ilDB = $this->db;
 
@@ -84,7 +84,6 @@ class ilItemGroupDataSet extends ilDataSet
                         "WHERE " .
                         $ilDB->in("obj_id", $a_ids, false, "integer"));
                     break;
-
             }
         }
 
@@ -100,8 +99,8 @@ class ilItemGroupDataSet extends ilDataSet
             }
         }
     }
-    
-    public function getXmlRecord(string $a_entity, string $a_version, array $a_set) : array
+
+    public function getXmlRecord(string $a_entity, string $a_version, array $a_set): array
     {
         if ($a_entity == "itgr_item") {
             // make ref id an object id
@@ -115,7 +114,7 @@ class ilItemGroupDataSet extends ilDataSet
         string $a_version,
         ?array $a_rec = null,
         ?array $a_ids = null
-    ) : array {
+    ): array {
         switch ($a_entity) {
             case "itgr":
                 return array(
@@ -132,7 +131,7 @@ class ilItemGroupDataSet extends ilDataSet
         array $a_rec,
         ilImportMapping $a_mapping,
         string $a_schema_version
-    ) : void {
+    ): void {
         switch ($a_entity) {
             case "itgr":
                 if ($new_id = $a_mapping->getMapping('Services/Container', 'objs', $a_rec['Id'])) {
@@ -143,7 +142,7 @@ class ilItemGroupDataSet extends ilDataSet
                     $newObj->setType("itgr");
                     $newObj->create(true);
                 }
-                
+
                 $newObj->setTitle($a_rec["Title"]);
                 $newObj->setDescription($a_rec["Description"]);
                 $newObj->setBehaviour($a_rec["Behaviour"]);
@@ -151,9 +150,9 @@ class ilItemGroupDataSet extends ilDataSet
                 $newObj->update();
                 $this->current_obj = $newObj;
                 $a_mapping->addMapping("Modules/ItemGroup", "itgr", $a_rec["Id"], $newObj->getId());
-                
+
                 break;
-                
+
             case "itgr_item":
                 if ($obj_id = $a_mapping->getMapping('Services/Container', 'objs', $a_rec['ItemId'])) {
                     $ref_id = current(ilObject::_getAllReferences($obj_id));
@@ -164,7 +163,6 @@ class ilItemGroupDataSet extends ilDataSet
                     $itgri->update();
                 }
                 break;
-
         }
     }
 }

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
@@ -24,7 +26,7 @@ class ilConsultationHourBookingTableGUI extends ilTable2GUI
     /**
      * Init table
      */
-    protected function initTable() : void
+    protected function initTable(): void
     {
         $this->setRowTemplate('tpl.ch_booking_row.html', 'Services/Calendar');
 
@@ -52,7 +54,7 @@ class ilConsultationHourBookingTableGUI extends ilTable2GUI
     /**
      * @inheritDoc
      */
-    protected function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set): void
     {
         $this->tpl->setVariable('START', $a_set['start_str']);
         $this->tpl->setVariable('NAME', $a_set['name']);
@@ -86,7 +88,7 @@ class ilConsultationHourBookingTableGUI extends ilTable2GUI
      * Parse Groups
      * @param int[]
      */
-    public function parse(array $appointments) : void
+    public function parse(array $appointments): void
     {
         $rows = array();
         $counter = 0;

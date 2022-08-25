@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\UI\Component\Input\Field;
 
 /**
@@ -26,10 +28,10 @@ interface Text extends FilterInput
     /**
      * Defines the Max Length of text that can be entered in the text input
      */
-    public function withMaxLength(int $max_length) : Text;
+    public function withMaxLength(int $max_length): Text;
 
     /**
      * Gets the max length of the text input
      */
-    public function getMaxLength() : ?int;
+    public function getMaxLength(): ?int;
 }

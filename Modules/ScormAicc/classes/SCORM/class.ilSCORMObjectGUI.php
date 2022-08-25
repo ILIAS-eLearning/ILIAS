@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -25,7 +27,6 @@
 */
 class ilSCORMObjectGUI
 {
-
     /**
      * @var ilSCORMManifest|ilSCORMItem|ilSCORMOrganization|ilSCORMOrganizations
      */
@@ -74,13 +75,13 @@ class ilSCORMObjectGUI
                 return $srs_gui;
 
             default:
-                case "sre":					// resource
+            case "sre":					// resource
                 $sre_gui = new ilSCORMResourceGUI($a_id);
                 return $sre_gui;
         }
     }
 
-    public function displayParameter(string $a_name, string $a_value) : void
+    public function displayParameter(string $a_name, string $a_value): void
     {
         $this->tpl->setCurrentBlock("parameter");
         $this->tpl->setVariable("TXT_PARAMETER_NAME", $a_name);

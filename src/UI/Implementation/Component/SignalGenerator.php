@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\UI\Implementation\Component;
 
 /**
@@ -31,13 +33,13 @@ class SignalGenerator implements SignalGeneratorInterface
     /**
      * @inheritdoc
      */
-    public function create(string $class = '') : Signal
+    public function create(string $class = ''): Signal
     {
         $id = $this->createId();
         return ($class) ? new $class($id) : new Signal($id);
     }
 
-    protected function createId() : string
+    protected function createId(): string
     {
         return str_replace(".", "_", uniqid(self::PREFIX, true));
     }

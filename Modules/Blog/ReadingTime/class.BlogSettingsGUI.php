@@ -48,7 +48,7 @@ class BlogSettingsGUI
         $this->blog_id = $blog_id;
     }
 
-    public function addSettingToForm(\ilPropertyFormGUI $form) : void
+    public function addSettingToForm(\ilPropertyFormGUI $form): void
     {
         if ($this->manager->isGloballyActivated()) {
             $cb = new \ilCheckboxInputGUI($this->lng->txt("blog_est_reading_time"), "est_reading_time");
@@ -57,13 +57,13 @@ class BlogSettingsGUI
         }
     }
 
-    public function addValueToArray(array $values) : array
+    public function addValueToArray(array $values): array
     {
         $values["est_reading_time"] = $this->manager->isActivated($this->blog_id);
         return $values;
     }
 
-    public function saveSettingFromForm(\ilPropertyFormGUI $form) : void
+    public function saveSettingFromForm(\ilPropertyFormGUI $form): void
     {
         if ($this->manager->isGloballyActivated()) {
             $this->manager->activate(

@@ -15,7 +15,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 use ILIAS\UI\Factory;
 use ILIAS\UI\Renderer;
 
@@ -66,15 +66,15 @@ abstract class ilExerciseSubmissionTableGUI extends ilTable2GUI
         $this->lng = $DIC->language();
 
         $ilCtrl = $DIC->ctrl();
-        
+
         $this->exc = $a_exc;
 
         $this->initMode($a_item_id);
 
         parent::__construct($a_parent_obj, $a_parent_cmd);
-        
+
         $this->setShowTemplates(true);
-                
+
         $this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
         $this->setRowTemplate("tpl.exc_members_row.html", "Modules/Exercise");
 
@@ -83,12 +83,12 @@ abstract class ilExerciseSubmissionTableGUI extends ilTable2GUI
             $this->setDefaultOrderField("name");
             $this->setDefaultOrderDirection("asc");
         }
-        
-        
+
+
         // columns
-        
+
         $this->addColumn("", "", "1", true);
-        
+
         $selected = $this->getSelectedColumns();
         $columns = $this->parseColumns();
         foreach ($this->cols_order as $id) {
@@ -100,19 +100,19 @@ abstract class ilExerciseSubmissionTableGUI extends ilTable2GUI
                 }
             }
         }
-        
+
         $this->addColumn($this->lng->txt("actions"));
-        
-        
+
+
         // multi actions
-        
+
         $this->addMultiCommand("saveStatusSelected", $this->lng->txt("exc_save_selected"));
 
         // TODO get rid of the constant from ilExAssignment. Get this value from ilExAssignmentTypes
         if ($this->mode == self::MODE_BY_ASSIGNMENT && $this->ass->getType() == ilExAssignment::TYPE_TEXT) {
             $this->addMultiCommand("compareTextAssignments", $this->lng->txt("exc_compare_submissions"));
         }
-            
+
         $this->setFormName("ilExcIDlForm");
 
         // see 0021530 and parseRow here with similar action per user
@@ -121,39 +121,39 @@ abstract class ilExerciseSubmissionTableGUI extends ilTable2GUI
             !$this->ass->hasReadOnlyIDl()) {
             $this->addMultiCommand("setIndividualDeadline", $this->lng->txt("exc_individual_deadline_action"));
         }
-    
+
         if ($this->exc->hasTutorFeedbackMail() &&
             $this->mode == self::MODE_BY_ASSIGNMENT) {
             $this->addMultiCommand("redirectFeedbackMail", $this->lng->txt("exc_tbl_action_feedback_mail"));
         }
-        
+
         $this->addMultiCommand("sendMembers", $this->lng->txt("exc_send_assignment"));
-        
+
         if ($this->mode == self::MODE_BY_ASSIGNMENT &&
             $this->ass &&
             $this->ass->hasTeam()) {
             $this->addMultiCommand("createTeams", $this->lng->txt("exc_team_multi_create"));
             $this->addMultiCommand("dissolveTeams", $this->lng->txt("exc_team_multi_dissolve"));
         }
-        
+
         if ($this->mode == self::MODE_BY_ASSIGNMENT) {
             $this->addMultiCommand("confirmDeassignMembers", $this->lng->txt("exc_deassign_members"));
         }
-        
+
         $this->setFilterCommand($this->getParentCmd() . "Apply");
         $this->setResetCommand($this->getParentCmd() . "Reset");
-        
+
         $this->initFilter();
         $this->setData($this->parseData());
     }
-                    
-    public function initFilter() : void
+
+    public function initFilter(): void
     {
         if ($this->mode == self::MODE_BY_ASSIGNMENT) {
             $item = $this->addFilterItemByMetaType("flt_name", self::FILTER_TEXT, false, $this->lng->txt("name") . " / " . $this->lng->txt("login"));
             $this->filter["name"] = $item->getValue();
         }
-        
+
         $this->lng->loadLanguageModule("search");
         $options = array(
             "" => $this->lng->txt("search_any"),
@@ -164,7 +164,7 @@ abstract class ilExerciseSubmissionTableGUI extends ilTable2GUI
         $item = $this->addFilterItemByMetaType("flt_status", self::FILTER_SELECT, false, $this->lng->txt("exc_tbl_status"));
         $item->setOptions($options);
         $this->filter["status"] = $item->getValue();
-        
+
         $options = array(
             "" => $this->lng->txt("search_any"),
             "y" => $this->lng->txt("exc_tbl_filter_has_submission"),
@@ -174,26 +174,26 @@ abstract class ilExerciseSubmissionTableGUI extends ilTable2GUI
         $item->setOptions($options);
         $this->filter["subm"] = $item->getValue();
     }
-    
-    abstract protected function initMode(int $a_item_id) : void;
-    
-    abstract protected function parseData() : array;
-    
-    abstract protected function parseModeColumns() : array;
-        
-    public function getSelectableColumns() : array
+
+    abstract protected function initMode(int $a_item_id): void;
+
+    abstract protected function parseData(): array;
+
+    abstract protected function parseModeColumns(): array;
+
+    public function getSelectableColumns(): array
     {
         $cols = array();
-        
+
         $columns = $this->parseColumns();
         foreach ($this->cols_order as $id) {
             if (in_array($id, $this->cols_mandatory)) {
                 continue;
             }
-            
+
             if (array_key_exists($id, $columns)) {
                 $col = $columns[$id];
-            
+
                 $cols[$id] = array(
                     "txt" => $col[0],
                     "default" => in_array($id, $this->cols_default)
@@ -202,31 +202,31 @@ abstract class ilExerciseSubmissionTableGUI extends ilTable2GUI
         }
         return $cols;
     }
-            
-    protected function parseColumns() : array
+
+    protected function parseColumns(): array
     {
         $cols = $this->parseModeColumns();
-                
+
         $cols["submission"] = array($this->lng->txt("exc_tbl_submission_date"), "submission");
-        
+
         $cols["status"] = array($this->lng->txt("exc_tbl_status"), "status");
         $cols["mark"] = array($this->lng->txt("exc_tbl_mark"), "mark");
         $cols["status_time"] = array($this->lng->txt("exc_tbl_status_time"), "status_time");
-        
+
         $cols["sent_time"] = array($this->lng->txt("exc_tbl_sent_time"), "sent_time");
-            
+
         if ($this->exc->hasTutorFeedbackText() ||
             $this->exc->hasTutorFeedbackMail() ||
             $this->exc->hasTutorFeedbackFile()) {
             $cols["feedback_time"] = array($this->lng->txt("exc_tbl_feedback_time"), "feedback_time");
         }
-                
+
         if ($this->exc->hasTutorFeedbackText()) {
             $cols["comment"] = array($this->lng->txt("exc_tbl_comment"), "comment");
         }
-        
+
         $cols["notice"] = array($this->lng->txt("exc_tbl_notice"), "notice");
-        
+
         return $cols;
     }
 
@@ -239,13 +239,13 @@ abstract class ilExerciseSubmissionTableGUI extends ilTable2GUI
         int $a_user_id,
         ilExAssignment $a_ass,
         array $a_row
-    ) : void {
+    ): void {
         $ilCtrl = $this->ctrl;
         $ilAccess = $this->access;
 
         $has_no_team_yet = ($a_ass->hasTeam() &&
             !ilExAssignmentTeam::getTeamId($a_ass->getId(), $a_user_id));
-        
+
 
         // static columns
 
@@ -301,7 +301,7 @@ abstract class ilExerciseSubmissionTableGUI extends ilTable2GUI
         } else {
             $this->tpl->setVariable("VAL_NAME", $a_row["name"]);
         }
-        
+
         // do not grade or mark if no team yet
         if (!$has_no_team_yet) {
             // status
@@ -313,11 +313,11 @@ abstract class ilExerciseSubmissionTableGUI extends ilTable2GUI
             $nt_colspan = in_array("mark", $this->getSelectedColumns())
                 ? 2
                 : 1;
-                        
+
             $this->tpl->setVariable("NO_TEAM_COLSPAN", $nt_colspan);
         }
-                
-        
+
+
         // comment modal
         $comment_id = "excasscomm_" . $a_ass->getId() . "_" . $a_user_id;
         if ($this->exc->hasTutorFeedbackText()) {
@@ -343,10 +343,10 @@ abstract class ilExerciseSubmissionTableGUI extends ilTable2GUI
             $this->comment_modals[] = $modal->getHTML();
             unset($modal);
         }
-                        
-        
+
+
         // selectable columns
-            
+
         foreach ($this->getSelectedColumns() as $col) {
             $include_seconds = false;
             switch ($col) {
@@ -359,7 +359,7 @@ abstract class ilExerciseSubmissionTableGUI extends ilTable2GUI
                         }
                     }
                     break;
-                    
+
                 case "team_members":
                     if ($a_ass->hasTeam()) {
                         if (count($a_row["team"]) === 0) {
@@ -403,7 +403,7 @@ abstract class ilExerciseSubmissionTableGUI extends ilTable2GUI
                         ilLegacyFormElementsUtil::prepareFormOutput(trim($a_row[$col]))
                     );
                     break;
-                    
+
                 case "comment":
                     // for js-updating
                     $this->tpl->setVariable("LCOMMENT_ID", $comment_id . "_snip");
@@ -413,7 +413,7 @@ abstract class ilExerciseSubmissionTableGUI extends ilTable2GUI
                         ? nl2br(trim($a_row[$col]))
                         : "&nbsp;");
                     break;
-                                
+
                 case "feedback_time":
                 case "status_time":
                 case "sent_time":
@@ -439,7 +439,7 @@ abstract class ilExerciseSubmissionTableGUI extends ilTable2GUI
                             : "&nbsp;"
                     );
                     break;
-                    
+
                 case "login":
                     if (!$a_ass->hasTeam()) {
                         $this->tpl->setVariable("VAL_" . strtoupper($col), $a_row[$col]
@@ -455,14 +455,14 @@ abstract class ilExerciseSubmissionTableGUI extends ilTable2GUI
                     break;
             }
         }
-        
-        
+
+
         // actions
 
         $items = array();
 
         $file_info = $a_row["submission_obj"]->getDownloadedFilesInfoForTableGUIS();
-        
+
         $counter = $file_info["files"]["count"];
         if ($counter) {
             if (isset($file_info["files"]["download_url"])) {
@@ -471,7 +471,7 @@ abstract class ilExerciseSubmissionTableGUI extends ilTable2GUI
                     $file_info["files"]["download_url"]
                 );
             }
-            
+
             if (isset($file_info["files"]["download_new_url"])) {
                 $items[] = $this->ui_factory->button()->shy(
                     $file_info["files"]["download_new_txt"],
@@ -495,7 +495,7 @@ abstract class ilExerciseSubmissionTableGUI extends ilTable2GUI
             $idl_id = $a_ass->hasTeam()
                 ? "t" . ilExAssignmentTeam::getTeamId($a_ass->getId(), $a_user_id)
                 : $a_user_id;
-            
+
             $this->tpl->setVariable("VAL_IDL_ID", $a_ass->getId() . "_" . $idl_id);
 
             $assignment_id = $a_ass->getId();
@@ -504,7 +504,7 @@ abstract class ilExerciseSubmissionTableGUI extends ilTable2GUI
                     return "$('#$id').on('click', function() {il.ExcIDl.trigger('$idl_id', '$assignment_id'); return false;})";
                 });
         }
-        
+
         // feedback mail
         if ($this->exc->hasTutorFeedbackMail()) {
             $items[] = $this->ui_factory->button()->shy(
@@ -512,7 +512,7 @@ abstract class ilExerciseSubmissionTableGUI extends ilTable2GUI
                 $ilCtrl->getLinkTarget($this->parent_obj, "redirectFeedbackMail")
             );
         }
-        
+
         // feedback files
         if ($this->exc->hasTutorFeedbackFile()) {
             $storage = new ilFSStorageExercise($this->exc->getId(), $a_ass->getId());
@@ -534,7 +534,7 @@ abstract class ilExerciseSubmissionTableGUI extends ilTable2GUI
                     return "$('#$id').on('click', function() {il.ExcManagement.showComment('$comment_id'); return false;})";
                 });
         }
-        
+
         // peer review
         if (($peer_review = $a_row["submission_obj"]->getPeerReview()) && $a_ass->afterDeadlineStrict()) {	// see #22246
             $counter = $peer_review->countGivenFeedback(true, $a_user_id);
@@ -545,7 +545,7 @@ abstract class ilExerciseSubmissionTableGUI extends ilTable2GUI
                 $this->lng->txt("exc_tbl_action_peer_review_given") . $counter,
                 $ilCtrl->getLinkTargetByClass("ilexpeerreviewgui", "showGivenPeerReview")
             );
-            
+
             $counter = count($peer_review->getPeerReviewsByPeerId($a_user_id, true));
             $counter = $counter !== 0
                 ? " (" . $counter . ")"
@@ -556,7 +556,7 @@ abstract class ilExerciseSubmissionTableGUI extends ilTable2GUI
                 $ilCtrl->getLinkTargetByClass("ilexpeerreviewgui", "showReceivedPeerReview")
             );
         }
-        
+
         // team
         if ($has_no_team_yet) {
             $items[] = $this->ui_factory->button()->shy(
@@ -574,18 +574,18 @@ abstract class ilExerciseSubmissionTableGUI extends ilTable2GUI
 
         $this->tpl->setVariable("ACTIONS", $this->ui_renderer->render($actions));
     }
-        
-    public function render() : string
+
+    public function render(): string
     {
         global $DIC;
         $ilCtrl = $this->ctrl;
         $tpl = $DIC->ui()->mainTemplate();
-        
+
         $url = $ilCtrl->getLinkTarget($this->getParentObject(), "saveCommentForLearners", "", true, false);
-        
+
         $tpl->addJavaScript("Modules/Exercise/js/ilExcManagement.js");
         $tpl->addOnLoadCode('il.ExcManagement.init("' . $url . '");');
-        
+
         return parent::render() .
             implode("\n", $this->comment_modals);
     }

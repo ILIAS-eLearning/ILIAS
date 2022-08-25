@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -20,7 +22,7 @@ use ILIAS\OnScreenChat\Repository\Conversation;
 
 class ConversationRepositoryTest extends ilOnScreenChatBaseTest
 {
-    public function testConversationsCanBeRetrieved() : void
+    public function testConversationsCanBeRetrieved(): void
     {
         $conversations_fixture = [
             [
@@ -108,7 +110,7 @@ class ConversationRepositoryTest extends ilOnScreenChatBaseTest
             $user
         );
 
-        $conversations = $repository->findByIds(array_map(static function (array $conversation) : string {
+        $conversations = $repository->findByIds(array_map(static function (array $conversation): string {
             return $conversation['conversation']['id'];
         }, $conversations_fixture));
 

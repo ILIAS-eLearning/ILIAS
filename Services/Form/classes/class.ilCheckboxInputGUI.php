@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -27,7 +29,7 @@ class ilCheckboxInputGUI extends ilSubEnabledFormPropertyGUI implements ilToolba
     protected bool $checked = false;
     protected string $optiontitle = "";
     protected string $additional_attributes = '';
-    
+
     public function __construct(
         string $a_title = "",
         string $a_postvar = ""
@@ -39,37 +41,37 @@ class ilCheckboxInputGUI extends ilSubEnabledFormPropertyGUI implements ilToolba
         $this->setType("checkbox");
     }
 
-    public function setValue(string $a_value) : void
+    public function setValue(string $a_value): void
     {
         $this->value = $a_value;
     }
 
-    public function getValue() : string
+    public function getValue(): string
     {
         return $this->value;
     }
 
-    public function setChecked(bool $a_checked) : void
+    public function setChecked(bool $a_checked): void
     {
         $this->checked = $a_checked;
     }
 
-    public function getChecked() : bool
+    public function getChecked(): bool
     {
         return $this->checked;
     }
 
-    public function setOptionTitle(string $a_optiontitle) : void
+    public function setOptionTitle(string $a_optiontitle): void
     {
         $this->optiontitle = $a_optiontitle;
     }
 
-    public function getOptionTitle() : string
+    public function getOptionTitle(): string
     {
         return $this->optiontitle;
     }
 
-    public function setValueByArray(array $a_values) : void
+    public function setValueByArray(array $a_values): void
     {
         $checked = $a_values[$this->getPostVar()] ?? false;
         $this->setChecked((bool) $checked);
@@ -78,12 +80,12 @@ class ilCheckboxInputGUI extends ilSubEnabledFormPropertyGUI implements ilToolba
         }
     }
 
-    public function setAdditionalAttributes(string $a_attrs) : void
+    public function setAdditionalAttributes(string $a_attrs): void
     {
         $this->additional_attributes = $a_attrs;
     }
 
-    public function getAdditionalAttributes() : string
+    public function getAdditionalAttributes(): string
     {
         return $this->additional_attributes;
     }
@@ -92,7 +94,7 @@ class ilCheckboxInputGUI extends ilSubEnabledFormPropertyGUI implements ilToolba
     * Check input, strip slashes etc. set alert, if input is not ok.
     * @return    bool        Input ok, true/false
     */
-    public function checkInput() : bool
+    public function checkInput(): bool
     {
         $ok = $this->checkSubItemsInput();
 
@@ -104,20 +106,20 @@ class ilCheckboxInputGUI extends ilSubEnabledFormPropertyGUI implements ilToolba
         return $ok;
     }
 
-    public function getInput() : string
+    public function getInput(): string
     {
         return $this->str($this->getPostVar());
     }
 
-    public function hideSubForm() : bool
+    public function hideSubForm(): bool
     {
         return !$this->getChecked();
     }
 
-    public function render($a_mode = '') : string
+    public function render($a_mode = ''): string
     {
         $tpl = new ilTemplate("tpl.prop_checkbox.html", true, true, "Services/Form");
-        
+
         $tpl->setVariable("POST_VAR", $this->getPostVar());
         $tpl->setVariable("ID", $this->getFieldId());
         $tpl->setVariable("PROPERTY_VALUE", $this->getValue());
@@ -137,7 +139,7 @@ class ilCheckboxInputGUI extends ilSubEnabledFormPropertyGUI implements ilToolba
                 'disabled="disabled"'
             );
         }
-        
+
         if ($a_mode == "toolbar") {
             // block-inline hack, see: http://blog.mozilla.com/webdev/2009/02/20/cross-browser-inline-block/
             // -moz-inline-stack for FF2
@@ -150,7 +152,7 @@ class ilCheckboxInputGUI extends ilSubEnabledFormPropertyGUI implements ilToolba
         return $tpl->get();
     }
 
-    public function insert(ilTemplate $a_tpl) : void
+    public function insert(ilTemplate $a_tpl): void
     {
         $html = $this->render();
 
@@ -159,18 +161,18 @@ class ilCheckboxInputGUI extends ilSubEnabledFormPropertyGUI implements ilToolba
         $a_tpl->parseCurrentBlock();
     }
 
-    public function getTableFilterHTML() : string
+    public function getTableFilterHTML(): string
     {
         $html = $this->render();
         return $html;
     }
 
-    public function serializeData() : string
+    public function serializeData(): string
     {
         return serialize($this->getChecked());
     }
-    
-    public function unserializeData(string $a_data) : void
+
+    public function unserializeData(string $a_data): void
     {
         $data = unserialize($a_data);
 
@@ -179,8 +181,8 @@ class ilCheckboxInputGUI extends ilSubEnabledFormPropertyGUI implements ilToolba
             $this->setChecked(true);
         }
     }
-    
-    public function getToolbarHTML() : string
+
+    public function getToolbarHTML(): string
     {
         $html = $this->render('toolbar');
         return $html;

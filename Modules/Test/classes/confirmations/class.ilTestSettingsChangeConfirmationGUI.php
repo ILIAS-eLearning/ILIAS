@@ -32,26 +32,26 @@ class ilTestSettingsChangeConfirmationGUI extends ilConfirmationGUI
     public function __construct(ilObjTest $testOBJ)
     {
         $this->testOBJ = $testOBJ;
-        
+
         parent::__construct();
     }
 
-    public function setOldQuestionSetType(string $oldQuestionSetType) : void
+    public function setOldQuestionSetType(string $oldQuestionSetType): void
     {
         $this->oldQuestionSetType = $oldQuestionSetType;
     }
 
-    public function getOldQuestionSetType() : ?string
+    public function getOldQuestionSetType(): ?string
     {
         return $this->oldQuestionSetType;
     }
 
-    public function setNewQuestionSetType(string $newQuestionSetType) : void
+    public function setNewQuestionSetType(string $newQuestionSetType): void
     {
         $this->newQuestionSetType = $newQuestionSetType;
     }
 
-    public function getNewQuestionSetType() : string
+    public function getNewQuestionSetType(): string
     {
         return $this->newQuestionSetType;
     }
@@ -59,17 +59,17 @@ class ilTestSettingsChangeConfirmationGUI extends ilConfirmationGUI
     /**
      * @param bool $questionLossInfoEnabled
      */
-    public function setQuestionLossInfoEnabled(bool $questionLossInfoEnabled) : void
+    public function setQuestionLossInfoEnabled(bool $questionLossInfoEnabled): void
     {
         $this->questionLossInfoEnabled = $questionLossInfoEnabled;
     }
 
-    public function isQuestionLossInfoEnabled() : bool
+    public function isQuestionLossInfoEnabled(): bool
     {
         return $this->questionLossInfoEnabled;
     }
 
-    private function buildHeaderText() : string
+    private function buildHeaderText(): string
     {
         $headerText = sprintf(
             $this->lng->txt('tst_change_quest_set_type_from_old_to_new_with_conflict'),
@@ -84,12 +84,12 @@ class ilTestSettingsChangeConfirmationGUI extends ilConfirmationGUI
         return $headerText;
     }
 
-    public function build() : void
+    public function build(): void
     {
         $this->setHeaderText($this->buildHeaderText());
     }
 
-    public function populateParametersFromPost() : void
+    public function populateParametersFromPost(): void
     {
         foreach ($_POST as $key => $value) {
             if (strcmp($key, "cmd") != 0) {
@@ -104,7 +104,7 @@ class ilTestSettingsChangeConfirmationGUI extends ilConfirmationGUI
         }
     }
 
-    public function populateParametersFromPropertyForm(ilPropertyFormGUI $form, $timezone) : void
+    public function populateParametersFromPropertyForm(ilPropertyFormGUI $form, $timezone): void
     {
         foreach ($form->getInputItemsRecursive() as $key => $item) {
             switch ($item->getType()) {

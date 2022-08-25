@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,18 +17,18 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * Persistence for View-States
  */
 class ilLSStateDB
 {
-    const TABLE_NAME = 'lso_states';
+    public const TABLE_NAME = 'lso_states';
 
-    const CURRENT_ITEM_ID = "current_item";
-    const STATES = "states";
-    const FIRST_ACCESS = "first_access";
-    const LAST_ACCESS = "last_access";
+    public const CURRENT_ITEM_ID = "current_item";
+    public const STATES = "states";
+    public const FIRST_ACCESS = "first_access";
+    public const LAST_ACCESS = "last_access";
 
     protected ilDBInterface $db;
 
@@ -38,7 +40,7 @@ class ilLSStateDB
     /**
      * @return  array <int,ILIAS\KioskMode\State>	usr_id => [item_ref_id=>State]
      */
-    public function getStatesFor(int $lso_ref_id, array $usr_ids = []) : array
+    public function getStatesFor(int $lso_ref_id, array $usr_ids = []): array
     {
         $data = $this->select($lso_ref_id, $usr_ids);
         $ret = [];
@@ -55,7 +57,7 @@ class ilLSStateDB
     /**
      * @return  array <int, int>	usr_id => item_ref_id
      */
-    public function getCurrentItemsFor(int $lso_ref_id, array $usr_ids = []) : array
+    public function getCurrentItemsFor(int $lso_ref_id, array $usr_ids = []): array
     {
         $data = $this->select($lso_ref_id, $usr_ids);
         $ret = [];
@@ -73,7 +75,7 @@ class ilLSStateDB
      * @param array<int> $usr_ids
      * @return array<int, string>
      */
-    public function getFirstAccessFor(int $lso_ref_id, array $usr_ids = []) : array
+    public function getFirstAccessFor(int $lso_ref_id, array $usr_ids = []): array
     {
         $data = $this->select($lso_ref_id, $usr_ids);
         $ret = [];
@@ -91,7 +93,7 @@ class ilLSStateDB
      * @param int[] $usr_ids
      * @return array<int, string>
      */
-    public function getLastAccessFor(int $lso_ref_id, array $usr_ids = []) : array
+    public function getLastAccessFor(int $lso_ref_id, array $usr_ids = []): array
     {
         $data = $this->select($lso_ref_id, $usr_ids);
         $ret = [];
@@ -115,7 +117,7 @@ class ilLSStateDB
         int $ref_id,
         ILIAS\KioskMode\State $state,
         int $current_item = null
-    ) : void {
+    ): void {
         $insert_first = $this->entryExistsFor($lso_ref_id, $usr_id) === false;
         $states = $this->getStatesFor($lso_ref_id, [$usr_id]);
         $states = $states[$usr_id];
@@ -128,7 +130,7 @@ class ilLSStateDB
         $ilAtomQuery = $this->db->buildAtomQuery();
         $ilAtomQuery->addTableLock(static::TABLE_NAME);
         $ilAtomQuery->addQueryCallable(
-            function (ilDBInterface $db) use ($insert_first, $lso_ref_id, $usr_id, $current_item, $serialized) : void {
+            function (ilDBInterface $db) use ($insert_first, $lso_ref_id, $usr_id, $current_item, $serialized): void {
                 if ($insert_first) {
                     $this->insert($lso_ref_id, $usr_id);
                 }
@@ -139,12 +141,12 @@ class ilLSStateDB
         $ilAtomQuery->run();
     }
 
-    protected function entryExistsFor(int $lso_ref_id, int $usr_id) : bool
+    protected function entryExistsFor(int $lso_ref_id, int $usr_id): bool
     {
         return $this->select($lso_ref_id, [$usr_id]) !== [];
     }
 
-    protected function insert(int $lso_ref_id, int $usr_id) : void
+    protected function insert(int $lso_ref_id, int $usr_id): void
     {
         $first_access = date("d.m.Y H:i:s");
         $values = array(
@@ -162,7 +164,7 @@ class ilLSStateDB
         int $usr_id,
         int $current_item,
         string $serialized
-    ) : void {
+    ): void {
         $last_access = date("d.m.Y H:i:s");
         $where = array(
             "lso_ref_id" => array("integer", $lso_ref_id),
@@ -180,7 +182,7 @@ class ilLSStateDB
     /**
      * @param int[] $usr_ids
      */
-    public function deleteFor(int $lso_ref_id, array $usr_ids = []) : void
+    public function deleteFor(int $lso_ref_id, array $usr_ids = []): void
     {
         $query =
              "DELETE FROM " . static::TABLE_NAME . PHP_EOL
@@ -194,7 +196,7 @@ class ilLSStateDB
         $this->db->manipulate($query);
     }
 
-    public function deleteForItem(int $lso_ref_id, int $item_ref_id) : void
+    public function deleteForItem(int $lso_ref_id, int $item_ref_id): void
     {
         $all_states = $this->select($lso_ref_id);
         if ($all_states === []) {
@@ -204,7 +206,7 @@ class ilLSStateDB
         $ilAtomQuery = $this->db->buildAtomQuery();
         $ilAtomQuery->addTableLock(static::TABLE_NAME);
         $ilAtomQuery->addQueryCallable(
-            function (ilDBInterface $db) use ($lso_ref_id, $all_states, $item_ref_id) : void {
+            function (ilDBInterface $db) use ($lso_ref_id, $all_states, $item_ref_id): void {
                 foreach ($all_states as $usr_id => $state_entry) {
                     $current_item = $state_entry['current_item'];
                     $states = $state_entry['states'];
@@ -229,7 +231,7 @@ class ilLSStateDB
     /**
      * @return array <int,ILIAS\KioskMode\State> ref_id=>State
      */
-    protected function buildStates(string $serialized) : array
+    protected function buildStates(string $serialized): array
     {
         $states = [];
         $data = json_decode($serialized, true);
@@ -248,7 +250,7 @@ class ilLSStateDB
     /**
      * @param array <int,ILIAS\KioskMode\State> ref_id=>State
      */
-    protected function serializeStates(array $states) : string
+    protected function serializeStates(array $states): string
     {
         $data = [];
         foreach ($states as $ref_id => $state) {
@@ -268,7 +270,7 @@ class ilLSStateDB
      * @param int[] $usr_ids
      * @return array<string, array>
      */
-    protected function select(int $lso_ref_id, array $usr_ids = []) : array
+    protected function select(int $lso_ref_id, array $usr_ids = []): array
     {
         $query =
              "SELECT usr_id, current_item, states, first_access, last_access" . PHP_EOL

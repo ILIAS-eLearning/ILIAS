@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /******************************************************************************
  *
@@ -14,11 +16,11 @@
  *
  *****************************************************************************/
 
- /**
- * Presentation of ecs uril (http://...campusconnect/courselinks)
- *
- * @author Stefan Meyer <smeyer.ilias@gmx.de>
- */
+/**
+* Presentation of ecs uril (http://...campusconnect/courselinks)
+*
+* @author Stefan Meyer <smeyer.ilias@gmx.de>
+*/
 class ilECSUriList
 {
     public array $uris = array();
@@ -26,7 +28,7 @@ class ilECSUriList
     /**
      * Add uri
      */
-    public function add(string $a_uri, int $a_link_id) : void
+    public function add(string $a_uri, int $a_link_id): void
     {
         $this->uris[$a_link_id] = $a_uri;
     }
@@ -34,7 +36,7 @@ class ilECSUriList
     /**
      * Get link ids
      */
-    public function getLinkIds() : array
+    public function getLinkIds(): array
     {
         return array_keys($this->uris);
     }
@@ -42,7 +44,7 @@ class ilECSUriList
     /**
      * Get uris
      */
-    public function getUris() : array
+    public function getUris(): array
     {
         return $this->uris;
     }

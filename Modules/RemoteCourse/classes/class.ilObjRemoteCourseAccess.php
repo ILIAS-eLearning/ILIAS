@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /******************************************************************************
  *
@@ -46,7 +48,7 @@ class ilObjRemoteCourseAccess extends ilObjectAccess
     * checks whether a user may invoke a command or not
     * (this method is called by ilAccessHandler::checkAccess)
     */
-    public function _checkAccess(string $cmd, string $permission, int $ref_id, int $obj_id, ?int $user_id = null) : bool
+    public function _checkAccess(string $cmd, string $permission, int $ref_id, int $obj_id, ?int $user_id = null): bool
     {
         $this->logger->debug('>' . $cmd . '< >' . $permission . '< >' . $ref_id . '< >' . $obj_id . '< >' . $user_id . '<');
         if (is_null($user_id)) {
@@ -95,14 +97,14 @@ class ilObjRemoteCourseAccess extends ilObjectAccess
      *		array("permission" => "write", "cmd" => "edit", "lang_var" => "edit"),
      *	);
      */
-    public static function _getCommands() : array
+    public static function _getCommands(): array
     {
         $commands = array(
             array("permission" => "read", "cmd" => "show", "lang_var" => "info",
                 "default" => true),
             array("permission" => "write", "cmd" => "edit", "lang_var" => "edit")
         );
-        
+
         return $commands;
     }
 }

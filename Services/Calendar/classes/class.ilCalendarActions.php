@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -46,7 +48,7 @@ class ilCalendarActions
     /**
      * Get instance
      */
-    public static function getInstance() : ilCalendarActions
+    public static function getInstance(): ilCalendarActions
     {
         if (!self::$instance instanceof self) {
             self::$instance = new self();
@@ -57,7 +59,7 @@ class ilCalendarActions
     /**
      * Check calendar editing
      */
-    public function checkSettingsCal(int $a_cat_id) : bool
+    public function checkSettingsCal(int $a_cat_id): bool
     {
         $info = $this->cats->getCategoryInfo($a_cat_id);
         return (bool) ($info['accepted'] ?? false);
@@ -66,7 +68,7 @@ class ilCalendarActions
     /**
      * Check sharing (own) calendar
      */
-    public function checkShareCal(int $a_cat_id) : bool
+    public function checkShareCal(int $a_cat_id): bool
     {
         $info = $this->cats->getCategoryInfo($a_cat_id);
         return
@@ -77,7 +79,7 @@ class ilCalendarActions
     /**
      * Check un-sharing (other users) calendar
      */
-    public function checkUnshareCal(int $a_cat_id) : bool
+    public function checkUnshareCal(int $a_cat_id): bool
     {
         $info = $this->cats->getCategoryInfo($a_cat_id);
         if ($info['accepted'] ?? false) {
@@ -89,7 +91,7 @@ class ilCalendarActions
     /**
      * Check synchronize remote calendar
      */
-    public function checkSynchronizeCal(int $a_cat_id) : bool
+    public function checkSynchronizeCal(int $a_cat_id): bool
     {
         $info = $this->cats->getCategoryInfo($a_cat_id);
         if ($info['remote'] ?? false) {
@@ -101,7 +103,7 @@ class ilCalendarActions
     /**
      * Check if adding an event is possible
      */
-    public function checkAddEvent(int $a_cat_id) : bool
+    public function checkAddEvent(int $a_cat_id): bool
     {
         $info = $this->cats->getCategoryInfo($a_cat_id);
         return $info['editable'] ?? false;
@@ -110,7 +112,7 @@ class ilCalendarActions
     /**
      * Check if adding an event is possible
      */
-    public function checkDeleteCal(int $a_cat_id) : bool
+    public function checkDeleteCal(int $a_cat_id): bool
     {
         $info = $this->cats->getCategoryInfo($a_cat_id);
         if (($info['type'] ?? 0) == ilCalendarCategory::TYPE_USR && ($info['obj_id'] ?? 0) == $this->user_id) {

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -28,27 +30,27 @@ class ilCronJobEntities implements ilCronJobCollection
     /**
      * @return ArrayIterator|ilCronJobEntity[]
      */
-    public function getIterator() : ArrayIterator
+    public function getIterator(): ArrayIterator
     {
         return $this->jobs;
     }
 
-    public function count() : int
+    public function count(): int
     {
         return iterator_count($this);
     }
 
-    public function add(ilCronJobEntity $job) : void
+    public function add(ilCronJobEntity $job): void
     {
         $this->jobs->append($job);
     }
 
-    public function filter(callable $callable) : ilCronJobCollection
+    public function filter(callable $callable): ilCronJobCollection
     {
         return new static(...array_filter(iterator_to_array($this), $callable));
     }
 
-    public function slice(int $offset, ?int $length = null) : ilCronJobCollection
+    public function slice(int $offset, ?int $length = null): ilCronJobCollection
     {
         return new static(...array_slice(iterator_to_array($this), $offset, $length, true));
     }
@@ -56,7 +58,7 @@ class ilCronJobEntities implements ilCronJobCollection
     /**
      * @return ilCronJobEntity[]
      */
-    public function toArray() : array
+    public function toArray(): array
     {
         return iterator_to_array($this);
     }

@@ -22,7 +22,7 @@
 class ilObjLearningModuleSubItemListGUI extends ilSubItemListGUI
 {
     protected ilObjUser $user;
-    
+
     public function __construct(string $a_cmd_class)
     {
         global $DIC;
@@ -31,8 +31,8 @@ class ilObjLearningModuleSubItemListGUI extends ilSubItemListGUI
         $this->user = $DIC->user();
     }
 
-    
-    public function getHTML() : string
+
+    public function getHTML(): string
     {
         $lng = $this->lng;
 
@@ -45,8 +45,8 @@ class ilObjLearningModuleSubItemListGUI extends ilSubItemListGUI
             $this->tpl->setCurrentBlock('subitem');
 
             $this->tpl->setVariable('SEPERATOR', ':');
-            
-            
+
+
             switch (ilLMObject::_lookupType($sub_item, $this->getObjId())) {
                 case 'pg':
                     $this->getItemListGUI()->setChildId($sub_item);
@@ -57,9 +57,9 @@ class ilObjLearningModuleSubItemListGUI extends ilSubItemListGUI
                     $this->tpl->setVariable('TARGET', $this->getItemListGUI()->getCommandFrame('page'));
                     $this->tpl->setVariable('TITLE', ilLMObject::_lookupTitle($sub_item));
                     break;
-                    
+
                 case 'st':
-                    
+
                     $this->getItemListGUI()->setChildId($sub_item);
                     $this->tpl->setVariable("SUBITEM_TYPE", $lng->txt('obj_st'));
                     $link = $this->getItemListGUI()->getCommandLink('page');
@@ -74,7 +74,7 @@ class ilObjLearningModuleSubItemListGUI extends ilSubItemListGUI
                     if (ilObject::_lookupType($sub_item) != 'file') {
                         return '';
                     }
-                    
+
                     $this->getItemListGUI()->setChildId('il__file_' . $sub_item);
                     $this->tpl->setVariable('SUBITEM_TYPE', $lng->txt('obj_file'));
                     $link = $this->getItemListGUI()->getCommandLink('downloadFile');
@@ -86,12 +86,12 @@ class ilObjLearningModuleSubItemListGUI extends ilSubItemListGUI
             if (count($this->getSubItemIds(true)) > 1) {
                 $this->parseRelevance($sub_item);
             }
-            
+
             $this->tpl->parseCurrentBlock();
         }
-        
+
         $this->showDetailsLink();
-        
+
         return $this->tpl->get();
     }
 }

@@ -9,7 +9,6 @@
  */
 class ilAssLacCompositeBuilder
 {
-
     /**
      * This array defines the weights and direction of operators.<br />
      * It is required to build the composite tree with the correct depth structure
@@ -32,7 +31,7 @@ class ilAssLacCompositeBuilder
      *
      * @return array
      */
-    public function create($nodes) : array
+    public function create($nodes): array
     {
         if ($nodes['type'] == 'group') {
             foreach ($nodes['nodes'] as $key => $child) {

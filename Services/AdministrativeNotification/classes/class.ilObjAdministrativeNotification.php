@@ -22,7 +22,7 @@
 class ilObjAdministrativeNotification extends ilObject
 {
     public const TYPE_ADN = "adn";
-    
+
     public function __construct(int $id = 0, bool $call_by_reference = true)
     {
         $this->type = self::TYPE_ADN;
@@ -32,7 +32,7 @@ class ilObjAdministrativeNotification extends ilObject
     /**
      * @inheritDoc
      */
-    public function getPresentationTitle() : string
+    public function getPresentationTitle(): string
     {
         return $this->lng->txt("obj_adn");
     }
@@ -40,7 +40,7 @@ class ilObjAdministrativeNotification extends ilObject
     /**
      * @inheritDoc
      */
-    public function getLongDescription() : string
+    public function getLongDescription(): string
     {
         return $this->lng->txt("administrative_notification_description");
     }

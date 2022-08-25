@@ -1,4 +1,6 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -42,7 +44,7 @@ class InternalDataService
         string $type = "",
         int $news_id = 0,
         bool $in_repo = true
-    ) : Context {
+    ): Context {
         return new Context(
             $obj_id,
             $sub_obj_id,
@@ -60,7 +62,7 @@ class InternalDataService
         int $type = Note::PRIVATE,
         ?string $creation_date = null,
         ?string $update_date = null
-    ) : Note {
+    ): Note {
         return new Note(
             $id,
             $context,

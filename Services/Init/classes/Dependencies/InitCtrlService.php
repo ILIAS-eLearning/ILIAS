@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /* Copyright (c) 2021 Thibeau Fuhrer <thf@studer-raimann.ch> Extended GPL, see docs/LICENSE */
 
@@ -20,7 +22,7 @@ final class InitCtrlService
      * @param Container $dic
      * @throws ilCtrlException if the initialization fails.
      */
-    public function init(Container $dic) : void
+    public function init(Container $dic): void
     {
         $this->abortIfMissingDependencies($dic);
         $ilias_path = dirname(__FILE__, 5) . '/';
@@ -71,7 +73,7 @@ final class InitCtrlService
      * @throws ilCtrlException if a necessary dependency is not yet
      *                         initialized.
      */
-    private function abortIfMissingDependencies(Container $dic) : void
+    private function abortIfMissingDependencies(Container $dic): void
     {
         if (!$dic->offsetExists('http')) {
             throw new ilCtrlException("Cannot initialize ilCtrl if HTTP Services are not yet available.");

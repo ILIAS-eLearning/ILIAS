@@ -15,7 +15,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * Importer class for exercises
  *
@@ -25,14 +25,14 @@ class ilExerciseImporter extends ilXmlImporter
 {
     protected ilExerciseDataSet $ds;
 
-    public function init() : void
+    public function init(): void
     {
         $this->ds = new ilExerciseDataSet();
         $this->ds->setDSPrefix("ds");
         $this->ds->setImportDirectory($this->getImportDirectory());
     }
 
-    public function importXmlRepresentation(string $a_entity, string $a_id, string $a_xml, ilImportMapping $a_mapping) : void
+    public function importXmlRepresentation(string $a_entity, string $a_id, string $a_xml, ilImportMapping $a_mapping): void
     {
         new ilDataSetImportParser(
             $a_entity,

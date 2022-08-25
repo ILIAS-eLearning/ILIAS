@@ -1,4 +1,5 @@
 <?php
+
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 require_once 'Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php';
@@ -10,7 +11,6 @@ require_once 'Services/Table/classes/class.ilTable2GUI.php';
  */
 abstract class ilUnitCategoryTableGUI extends ilTable2GUI
 {
-
     /**
      * @param ilUnitConfigurationGUI $controller
      * @param string                 $cmd
@@ -22,7 +22,7 @@ abstract class ilUnitCategoryTableGUI extends ilTable2GUI
          */
         global $DIC;
         $ilCtrl = $DIC['ilCtrl'];
-        
+
         $this->setId('ucats_' . $controller->getUniqueId());
 
         parent::__construct($controller, $cmd);
@@ -55,19 +55,19 @@ abstract class ilUnitCategoryTableGUI extends ilTable2GUI
         $this->setRowTemplate('tpl.unit_category_row.html', 'Modules/TestQuestionPool');
     }
 
-    abstract protected function populateTitle() : void;
+    abstract protected function populateTitle(): void;
 
     /**
      * @param array $row
      */
-    public function fillRow(array $row) : void
+    public function fillRow(array $row): void
     {
         /**
          * @var $ilCtrl ilCtrl
          */
         global $DIC;
         $ilCtrl = $DIC['ilCtrl'];
-        
+
         $row['chb'] = ilLegacyFormElementsUtil::formCheckbox(false, 'category_ids[]', $row['category_id']);
 
         $action = new ilAdvancedSelectionListGUI();

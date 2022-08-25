@@ -39,15 +39,15 @@ class BadgeNotificationPrefRepository
     /**
      * Set last checked timestamp
      */
-    public function updateLastCheckedTimestamp() : void
+    public function updateLastCheckedTimestamp(): void
     {
         $this->user->writePref("badge_last_checked", (string) time());
     }
-    
+
     /**
      * Get last checked timestamp
      */
-    public function getLastCheckedTimestamp() : int
+    public function getLastCheckedTimestamp(): int
     {
         return (int) $this->user->getPref("badge_last_checked");
     }

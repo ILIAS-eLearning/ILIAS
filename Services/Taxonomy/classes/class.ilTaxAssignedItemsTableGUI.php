@@ -78,12 +78,12 @@ class ilTaxAssignedItemsTableGUI extends ilTable2GUI
         $this->addCommandButton("saveAssignedItemsSorting", $lng->txt("save"));
     }
 
-    public function numericOrdering(string $a_field) : bool
+    public function numericOrdering(string $a_field): bool
     {
         return $a_field == "order_nr";
     }
 
-    protected function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set): void
     {
         $this->tpl->setVariable("ONODE_ID", $a_set["item_id"]);
         $this->tpl->setVariable("ORDER_NR", (int) $a_set["order_nr"]);

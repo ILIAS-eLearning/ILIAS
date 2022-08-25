@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -44,27 +46,27 @@ class ilSCORM13MDImporter extends ilMDXMLCopier
         }
     }
 
-    public function setTitle(string $a_val) : void
+    public function setTitle(string $a_val): void
     {
         $this->title = $a_val;
     }
 
-    public function getTitle() : string
+    public function getTitle(): string
     {
         return $this->title;
     }
 
-    public function setDescription(string $a_val) : void
+    public function setDescription(string $a_val): void
     {
         $this->description = $a_val;
     }
 
-    public function getDescription() : string
+    public function getDescription(): string
     {
         return $this->description;
     }
 
-    public function import() : void
+    public function import(): void
     {
         if ($this->metadata_found) {
             $this->startParsing();
@@ -78,7 +80,7 @@ class ilSCORM13MDImporter extends ilMDXMLCopier
      * handler for begin of element
      * @param XMLParser|resource $a_xml_parser reference to the xml parser
      */
-    public function handlerBeginTag($a_xml_parser, string $a_name, array $a_attribs) : void
+    public function handlerBeginTag($a_xml_parser, string $a_name, array $a_attribs): void
     {
         $this->path[] = $a_name;
 
@@ -128,7 +130,7 @@ class ilSCORM13MDImporter extends ilMDXMLCopier
                     strtolower(get_class($par)) === 'ilmdannotation' or
                     strtolower(get_class($par)) === 'ilmdclassification') {
                     // todo
-//					$par->setDescriptionLanguage(new ilMDLanguageItem($a_attribs['Language']));
+                    //					$par->setDescriptionLanguage(new ilMDLanguageItem($a_attribs['Language']));
                 } elseif ($this->in("general")) {
                     $this->md_des = $par->addDescription();
                     $this->md_des->save();
@@ -145,11 +147,11 @@ class ilSCORM13MDImporter extends ilMDXMLCopier
                 }
                 break;
 
-            // todo
-            /*case 'Coverage':
-                $par =& $this->__getParent();
-                $par->setCoverageLanguage(new ilMDLanguageItem($a_attribs['Language']));
-                break;*/
+                // todo
+                /*case 'Coverage':
+                    $par =& $this->__getParent();
+                    $par->setCoverageLanguage(new ilMDLanguageItem($a_attribs['Language']));
+                    break;*/
 
             case 'lifeCycle':
                 $par = $this->__getParent();
@@ -163,201 +165,201 @@ class ilSCORM13MDImporter extends ilMDXMLCopier
                 // nothing to do here
                 break;
 
-            /*case 'metaMetadata':
-                $par = $this->__getParent();
-                $this->md_met = $par->addMetaMetadata();
-                $this->md_met->setMetaDataScheme($a_attribs['MetadataScheme']);
-                $this->md_met->setLanguage(new ilMDLanguageItem($a_attribs['Language']));
-                $this->md_met->save();
-                $this->__pushParent($this->md_met);
-                break;*/
+                /*case 'metaMetadata':
+                    $par = $this->__getParent();
+                    $this->md_met = $par->addMetaMetadata();
+                    $this->md_met->setMetaDataScheme($a_attribs['MetadataScheme']);
+                    $this->md_met->setLanguage(new ilMDLanguageItem($a_attribs['Language']));
+                    $this->md_met->save();
+                    $this->__pushParent($this->md_met);
+                    break;*/
 
-            // todo
-            /*case 'Contribute':
-                $par =& $this->__getParent();
-                $this->md_con =& $par->addContribute();
-                $this->md_con->setRole($a_attribs['Role']);
-                $this->md_con->save();
-                $this->__pushParent($this->md_con);
-                break;
-
-            case 'Entity':
-                $par =& $this->__getParent();
-
-                if(strtolower(get_class($par)) == 'ilmdcontribute')
-                {
-                    $this->md_ent =& $par->addEntity();
-                    $this->md_ent->save();
-                    $this->__pushParent($this->md_ent);
+                // todo
+                /*case 'Contribute':
+                    $par =& $this->__getParent();
+                    $this->md_con =& $par->addContribute();
+                    $this->md_con->setRole($a_attribs['Role']);
+                    $this->md_con->save();
+                    $this->__pushParent($this->md_con);
                     break;
-                }
-                else
-                {
-                    // single element in 'Annotation'
+
+                case 'Entity':
+                    $par =& $this->__getParent();
+
+                    if(strtolower(get_class($par)) == 'ilmdcontribute')
+                    {
+                        $this->md_ent =& $par->addEntity();
+                        $this->md_ent->save();
+                        $this->__pushParent($this->md_ent);
+                        break;
+                    }
+                    else
+                    {
+                        // single element in 'Annotation'
+                        break;
+                    }
+                case 'Date':
                     break;
-                }
-            case 'Date':
-                break;
 
 
-            case 'Technical':
-                $par =& $this->__getParent();
-                $this->md_tec =& $par->addTechnical();
-                $this->md_tec->save();
-                $this->__pushParent($this->md_tec);
-                break;
+                case 'Technical':
+                    $par =& $this->__getParent();
+                    $this->md_tec =& $par->addTechnical();
+                    $this->md_tec->save();
+                    $this->__pushParent($this->md_tec);
+                    break;
 
-            case 'Format':
-                $par =& $this->__getParent();
-                $this->md_for =& $par->addFormat();
-                $this->md_for->save();
-                $this->__pushParent($this->md_for);
-                break;
+                case 'Format':
+                    $par =& $this->__getParent();
+                    $this->md_for =& $par->addFormat();
+                    $this->md_for->save();
+                    $this->__pushParent($this->md_for);
+                    break;
 
-            case 'Size':
-                break;
+                case 'Size':
+                    break;
 
-            case 'Location':
-                $par =& $this->__getParent();
-                $this->md_loc =& $par->addLocation();
-                $this->md_loc->setLocationType($a_attribs['Type']);
-                $this->md_loc->save();
-                $this->__pushParent($this->md_loc);
-                break;
+                case 'Location':
+                    $par =& $this->__getParent();
+                    $this->md_loc =& $par->addLocation();
+                    $this->md_loc->setLocationType($a_attribs['Type']);
+                    $this->md_loc->save();
+                    $this->__pushParent($this->md_loc);
+                    break;
 
-            case 'Requirement':
-                $par =& $this->__getParent();
-                $this->md_req =& $par->addRequirement();
-                $this->md_req->save();
-                $this->__pushParent($this->md_req);
-                break;
+                case 'Requirement':
+                    $par =& $this->__getParent();
+                    $this->md_req =& $par->addRequirement();
+                    $this->md_req->save();
+                    $this->__pushParent($this->md_req);
+                    break;
 
-            case 'OrComposite':
-                $par =& $this->__getParent();
-                $this->md_orc =& $par->addOrComposite();
-                $this->__pushParent($this->md_orc);
-                break;
+                case 'OrComposite':
+                    $par =& $this->__getParent();
+                    $this->md_orc =& $par->addOrComposite();
+                    $this->__pushParent($this->md_orc);
+                    break;
 
-            case 'Type':
-                break;
+                case 'Type':
+                    break;
 
-            case 'OperatingSystem':
-                $par =& $this->__getParent();
-                $par->setOperatingSystemName($a_attribs['Name']);
-                $par->setOperatingSystemMinimumVersion($a_attribs['MinimumVersion']);
-                $par->setOperatingSystemMaximumVersion($a_attribs['MaximumVersion']);
-                break;
+                case 'OperatingSystem':
+                    $par =& $this->__getParent();
+                    $par->setOperatingSystemName($a_attribs['Name']);
+                    $par->setOperatingSystemMinimumVersion($a_attribs['MinimumVersion']);
+                    $par->setOperatingSystemMaximumVersion($a_attribs['MaximumVersion']);
+                    break;
 
-            case 'Browser':
-                $par =& $this->__getParent();
-                $par->setBrowserName($a_attribs['Name']);
-                $par->setBrowserMinimumVersion($a_attribs['MinimumVersion']);
-                $par->setBrowserMaximumVersion($a_attribs['MaximumVersion']);
-                break;
+                case 'Browser':
+                    $par =& $this->__getParent();
+                    $par->setBrowserName($a_attribs['Name']);
+                    $par->setBrowserMinimumVersion($a_attribs['MinimumVersion']);
+                    $par->setBrowserMaximumVersion($a_attribs['MaximumVersion']);
+                    break;
 
-            case 'InstallationRemarks':
-                $par =& $this->__getParent();
-                $par->setInstallationRemarksLanguage(new ilMDLanguageItem($a_attribs['Language']));
-                break;
+                case 'InstallationRemarks':
+                    $par =& $this->__getParent();
+                    $par->setInstallationRemarksLanguage(new ilMDLanguageItem($a_attribs['Language']));
+                    break;
 
-            case 'OtherPlatformRequirements':
-                $par =& $this->__getParent();
-                $par->setOtherPlatformRequirementsLanguage(new ilMDLanguageItem($a_attribs['Language']));
-                break;
+                case 'OtherPlatformRequirements':
+                    $par =& $this->__getParent();
+                    $par->setOtherPlatformRequirementsLanguage(new ilMDLanguageItem($a_attribs['Language']));
+                    break;
 
-            case 'Duration':
-                break;
+                case 'Duration':
+                    break;
 
-            case 'Educational':
-                $par =& $this->__getParent();
-                $this->md_edu =& $par->addEducational();
-                $this->md_edu->setInteractivityType($a_attribs['InteractivityType']);
-                $this->md_edu->setLearningResourceType($a_attribs['LearningResourceType']);
-                $this->md_edu->setInteractivityLevel($a_attribs['InteractivityLevel']);
-                $this->md_edu->setSemanticDensity($a_attribs['SemanticDensity']);
-                $this->md_edu->setIntendedEndUserRole($a_attribs['IntendedEndUserRole']);
-                $this->md_edu->setContext($a_attribs['Context']);
-                $this->md_edu->setDifficulty($a_attribs['Difficulty']);
-                $this->md_edu->save();
-                $this->__pushParent($this->md_edu);
-                break;
+                case 'Educational':
+                    $par =& $this->__getParent();
+                    $this->md_edu =& $par->addEducational();
+                    $this->md_edu->setInteractivityType($a_attribs['InteractivityType']);
+                    $this->md_edu->setLearningResourceType($a_attribs['LearningResourceType']);
+                    $this->md_edu->setInteractivityLevel($a_attribs['InteractivityLevel']);
+                    $this->md_edu->setSemanticDensity($a_attribs['SemanticDensity']);
+                    $this->md_edu->setIntendedEndUserRole($a_attribs['IntendedEndUserRole']);
+                    $this->md_edu->setContext($a_attribs['Context']);
+                    $this->md_edu->setDifficulty($a_attribs['Difficulty']);
+                    $this->md_edu->save();
+                    $this->__pushParent($this->md_edu);
+                    break;
 
-            case 'TypicalAgeRange':
-                $par =& $this->__getParent();
-                $this->md_typ =& $par->addTypicalAgeRange();
-                $this->md_typ->setTypicalAgeRangeLanguage(new ilMDLanguageItem($a_attribs['Language']));
-                $this->md_typ->save();
-                $this->__pushParent($this->md_typ);
-                break;
+                case 'TypicalAgeRange':
+                    $par =& $this->__getParent();
+                    $this->md_typ =& $par->addTypicalAgeRange();
+                    $this->md_typ->setTypicalAgeRangeLanguage(new ilMDLanguageItem($a_attribs['Language']));
+                    $this->md_typ->save();
+                    $this->__pushParent($this->md_typ);
+                    break;
 
-            case 'TypicalLearningTime':
-                break;
+                case 'TypicalLearningTime':
+                    break;
 
-            case 'Rights':
-                $par =& $this->__getParent();
-                $this->md_rig =& $par->addRights();
-                $this->md_rig->setCosts($a_attribs['Cost']);
-                $this->md_rig->setCopyrightAndOtherRestrictions($a_attribs['CopyrightAndOtherRestrictions']);
-                $this->md_rig->save();
-                $this->__pushParent($this->md_rig);
-                break;
+                case 'Rights':
+                    $par =& $this->__getParent();
+                    $this->md_rig =& $par->addRights();
+                    $this->md_rig->setCosts($a_attribs['Cost']);
+                    $this->md_rig->setCopyrightAndOtherRestrictions($a_attribs['CopyrightAndOtherRestrictions']);
+                    $this->md_rig->save();
+                    $this->__pushParent($this->md_rig);
+                    break;
 
-            case 'Relation':
-                $par =& $this->__getParent();
-                $this->md_rel =& $par->addRelation();
-                $this->md_rel->setKind($a_attribs['Kind']);
-                $this->md_rel->save();
-                $this->__pushParent($this->md_rel);
-                break;
+                case 'Relation':
+                    $par =& $this->__getParent();
+                    $this->md_rel =& $par->addRelation();
+                    $this->md_rel->setKind($a_attribs['Kind']);
+                    $this->md_rel->save();
+                    $this->__pushParent($this->md_rel);
+                    break;
 
-            case 'Resource':
-                break;
+                case 'Resource':
+                    break;
 
-            case 'Identifier_':
-                $par =& $this->__getParent();
-                $this->md_ide_ =& $par->addIdentifier_();
-                $this->md_ide_->setCatalog($a_attribs['Catalog']);
-                $this->md_ide_->setEntry($a_attribs['Entry']);
-                $this->md_ide_->save();
-                $this->__pushParent($this->md_ide_);
-                break;
+                case 'Identifier_':
+                    $par =& $this->__getParent();
+                    $this->md_ide_ =& $par->addIdentifier_();
+                    $this->md_ide_->setCatalog($a_attribs['Catalog']);
+                    $this->md_ide_->setEntry($a_attribs['Entry']);
+                    $this->md_ide_->save();
+                    $this->__pushParent($this->md_ide_);
+                    break;
 
-            case 'Annotation':
-                $par =& $this->__getParent();
-                $this->md_ann =& $par->addAnnotation();
-                $this->md_ann->save();
-                $this->__pushParent($this->md_ann);
-                break;
+                case 'Annotation':
+                    $par =& $this->__getParent();
+                    $this->md_ann =& $par->addAnnotation();
+                    $this->md_ann->save();
+                    $this->__pushParent($this->md_ann);
+                    break;
 
-            case 'Classification':
-                $par =& $this->__getParent();
-                $this->md_cla =& $par->addClassification();
-                $this->md_cla->setPurpose($a_attribs['Purpose']);
-                $this->md_cla->save();
-                $this->__pushParent($this->md_cla);
-                break;
+                case 'Classification':
+                    $par =& $this->__getParent();
+                    $this->md_cla =& $par->addClassification();
+                    $this->md_cla->setPurpose($a_attribs['Purpose']);
+                    $this->md_cla->save();
+                    $this->__pushParent($this->md_cla);
+                    break;
 
-            case 'TaxonPath':
-                $par =& $this->__getParent();
-                $this->md_taxp =& $par->addTaxonPath();
-                $this->md_taxp->save();
-                $this->__pushParent($this->md_taxp);
-                break;
+                case 'TaxonPath':
+                    $par =& $this->__getParent();
+                    $this->md_taxp =& $par->addTaxonPath();
+                    $this->md_taxp->save();
+                    $this->__pushParent($this->md_taxp);
+                    break;
 
-            case 'Source':
-                $par =& $this->__getParent();
-                $par->setSourceLanguage(new ilMDLanguageItem($a_attribs['Language']));
-                break;
+                case 'Source':
+                    $par =& $this->__getParent();
+                    $par->setSourceLanguage(new ilMDLanguageItem($a_attribs['Language']));
+                    break;
 
-            case 'Taxon':
-                $par =& $this->__getParent();
-                $this->md_tax =& $par->addTaxon();
-                $this->md_tax->setTaxonLanguage(new ilMDLanguageItem($a_attribs['Language']));
-                $this->md_tax->setTaxonId($a_attribs['Id']);
-                $this->md_tax->save();
-                $this->__pushParent($this->md_tax);
-                break;
-            */
+                case 'Taxon':
+                    $par =& $this->__getParent();
+                    $this->md_tax =& $par->addTaxon();
+                    $this->md_tax->setTaxonLanguage(new ilMDLanguageItem($a_attribs['Language']));
+                    $this->md_tax->setTaxonId($a_attribs['Id']);
+                    $this->md_tax->save();
+                    $this->__pushParent($this->md_tax);
+                    break;
+                */
 
             case 'string':
                 $par = $this->__getParent();
@@ -380,7 +382,6 @@ class ilSCORM13MDImporter extends ilMDXMLCopier
                 }
 
                 break;
-
         }
     }
 
@@ -388,7 +389,7 @@ class ilSCORM13MDImporter extends ilMDXMLCopier
      * handler for end of element
      * @param XMLParser|resource $a_xml_parser reference to the xml parser
      */
-    public function handlerEndTag($a_xml_parser, string $a_name) : void
+    public function handlerEndTag($a_xml_parser, string $a_name): void
     {
         //echo "<br>End TAG: ".$a_name;
         unset($this->path[count($this->path) - 1]);
@@ -447,11 +448,11 @@ class ilSCORM13MDImporter extends ilMDXMLCopier
                 }
                 break;
 
-            // todo
-            /*case 'Coverage':
-                $par =& $this->__getParent();
-                $par->setCoverage($this->__getCharacterData());
-                break;*/
+                // todo
+                /*case 'Coverage':
+                    $par =& $this->__getParent();
+                    $par->setCoverage($this->__getCharacterData());
+                    break;*/
 
             case 'lifeCycle':
                 $par = $this->__getParent();
@@ -464,168 +465,168 @@ class ilSCORM13MDImporter extends ilMDXMLCopier
                 break;
 
 
-            // todo
-            /*case 'Contribute':
-                $par =& $this->__getParent();
-                $par->update();
-                $this->__popParent();
-                break;
-
-            case 'Entity':
-                $par =& $this->__getParent();
-
-                if(strtolower(get_class($par)) == 'ilmdentity')
-                {
-                    $par->setEntity($this->__getCharacterData());
+                // todo
+                /*case 'Contribute':
+                    $par =& $this->__getParent();
                     $par->update();
                     $this->__popParent();
-                }
-                else
-                {
-                    // Single element in 'Annotation'
-                    $par->setEntity($this->__getCharacterData());
-                }
-                break;
+                    break;
 
-            case 'Date':
-                $par =& $this->__getParent();
-                $par->setDate($this->__getCharacterData());
-                break;
+                case 'Entity':
+                    $par =& $this->__getParent();
 
-            case 'Meta-Metadata':
-                $par =& $this->__getParent();
-                $par->update();
-                $this->__popParent();
-                break;
+                    if(strtolower(get_class($par)) == 'ilmdentity')
+                    {
+                        $par->setEntity($this->__getCharacterData());
+                        $par->update();
+                        $this->__popParent();
+                    }
+                    else
+                    {
+                        // Single element in 'Annotation'
+                        $par->setEntity($this->__getCharacterData());
+                    }
+                    break;
 
-            case 'Technical':
-                $par =& $this->__getParent();
-                $par->update();
-                $this->__popParent();
-                break;
+                case 'Date':
+                    $par =& $this->__getParent();
+                    $par->setDate($this->__getCharacterData());
+                    break;
 
-            case 'Format':
-                $par =& $this->__getParent();
-                $par->setFormat($this->__getCharacterData());
-                $par->update();
-                $this->__popParent();
-                break;
+                case 'Meta-Metadata':
+                    $par =& $this->__getParent();
+                    $par->update();
+                    $this->__popParent();
+                    break;
 
-            case 'Size':
-                $par =& $this->__getParent();
-                $par->setSize($this->__getCharacterData());
-                break;
+                case 'Technical':
+                    $par =& $this->__getParent();
+                    $par->update();
+                    $this->__popParent();
+                    break;
 
-            case 'Location':
-                $par =& $this->__getParent();
-                $par->setLocation($this->__getCharacterData());
-                $par->update();
-                $this->__popParent();
-                break;
+                case 'Format':
+                    $par =& $this->__getParent();
+                    $par->setFormat($this->__getCharacterData());
+                    $par->update();
+                    $this->__popParent();
+                    break;
 
-            case 'Requirement':
-                $par =& $this->__getParent();
-                $par->update();
-                $this->__popParent();
-                break;
+                case 'Size':
+                    $par =& $this->__getParent();
+                    $par->setSize($this->__getCharacterData());
+                    break;
 
-            case 'OrComposite':
-                $this->__popParent();
-                break;
+                case 'Location':
+                    $par =& $this->__getParent();
+                    $par->setLocation($this->__getCharacterData());
+                    $par->update();
+                    $this->__popParent();
+                    break;
 
-            case 'Type':
-                break;
+                case 'Requirement':
+                    $par =& $this->__getParent();
+                    $par->update();
+                    $this->__popParent();
+                    break;
 
-            case 'OperatingSystem':
-                break;
+                case 'OrComposite':
+                    $this->__popParent();
+                    break;
 
-            case 'Browser':
-                break;
+                case 'Type':
+                    break;
 
-            case 'InstallationRemarks':
-                $par =& $this->__getParent();
-                $par->setInstallationRemarks($this->__getCharacterData());
-                break;
+                case 'OperatingSystem':
+                    break;
 
-            case 'OtherPlatformRequirements':
-                $par =& $this->__getParent();
-                $par->setOtherPlatformRequirements($this->__getCharacterData());
-                break;
+                case 'Browser':
+                    break;
 
-            case 'Duration':
-                $par =& $this->__getParent();
-                $par->setDuration($this->__getCharacterData());
-                break;
+                case 'InstallationRemarks':
+                    $par =& $this->__getParent();
+                    $par->setInstallationRemarks($this->__getCharacterData());
+                    break;
 
-            case 'Educational':
-                $par =& $this->__getParent();
-                $par->update();
-                $this->__popParent();
-                break;
+                case 'OtherPlatformRequirements':
+                    $par =& $this->__getParent();
+                    $par->setOtherPlatformRequirements($this->__getCharacterData());
+                    break;
 
-            case 'TypicalAgeRange':
-                $par =& $this->__getParent();
-                $par->setTypicalAgeRange($this->__getCharacterData());
-                $par->update();
-                $this->__popParent();
-                break;
+                case 'Duration':
+                    $par =& $this->__getParent();
+                    $par->setDuration($this->__getCharacterData());
+                    break;
 
-            case 'TypicalLearningTime':
-                $par =& $this->__getParent();
-                $par->setTypicalLearningTime($this->__getCharacterData());
-                break;
+                case 'Educational':
+                    $par =& $this->__getParent();
+                    $par->update();
+                    $this->__popParent();
+                    break;
 
-            case 'Rights':
-                $par =& $this->__getParent();
-                $par->update();
-                $this->__popParent();
-                break;
+                case 'TypicalAgeRange':
+                    $par =& $this->__getParent();
+                    $par->setTypicalAgeRange($this->__getCharacterData());
+                    $par->update();
+                    $this->__popParent();
+                    break;
 
-            case 'Relation':
-                $par =& $this->__getParent();
-                $par->update();
-                $this->__popParent();
-                break;
+                case 'TypicalLearningTime':
+                    $par =& $this->__getParent();
+                    $par->setTypicalLearningTime($this->__getCharacterData());
+                    break;
 
-            case 'Resource':
-                break;
+                case 'Rights':
+                    $par =& $this->__getParent();
+                    $par->update();
+                    $this->__popParent();
+                    break;
 
-            case 'Identifier_':
-                $par =& $this->__getParent();
-                $par->update();
-                $this->__popParent();
-                break;
+                case 'Relation':
+                    $par =& $this->__getParent();
+                    $par->update();
+                    $this->__popParent();
+                    break;
 
-            case 'Annotation':
-                $par =& $this->__getParent();
-                $par->update();
-                $this->__popParent();
-                break;
+                case 'Resource':
+                    break;
 
-            case 'Classification':
-                $par =& $this->__getParent();
-                $par->update();
-                $this->__popParent();
-                break;
+                case 'Identifier_':
+                    $par =& $this->__getParent();
+                    $par->update();
+                    $this->__popParent();
+                    break;
 
-            case 'TaxonPath':
-                $par =& $this->__getParent();
-                $par->update();
-                $this->__popParent();
-                break;
+                case 'Annotation':
+                    $par =& $this->__getParent();
+                    $par->update();
+                    $this->__popParent();
+                    break;
 
-            case 'Taxon':
-                $par =& $this->__getParent();
-                $par->setTaxon($this->__getCharacterData());
-                $par->update();
-                $this->__popParent();
-                break;
+                case 'Classification':
+                    $par =& $this->__getParent();
+                    $par->update();
+                    $this->__popParent();
+                    break;
 
-            case 'Source':
-                $par =& $this->__getParent();
-                $par->setSource($this->__getCharacterData());
-                break;
-            */
+                case 'TaxonPath':
+                    $par =& $this->__getParent();
+                    $par->update();
+                    $this->__popParent();
+                    break;
+
+                case 'Taxon':
+                    $par =& $this->__getParent();
+                    $par->setTaxon($this->__getCharacterData());
+                    $par->update();
+                    $this->__popParent();
+                    break;
+
+                case 'Source':
+                    $par =& $this->__getParent();
+                    $par->setSource($this->__getCharacterData());
+                    break;
+                */
 
             case 'string':
                 $par = $this->__getParent();
@@ -709,12 +710,11 @@ class ilSCORM13MDImporter extends ilMDXMLCopier
                     $this->md_ide->update();
                 }
                 break;
-
         }
         $this->md_chr_data = '';
     }
 
-    public function in(string $a_name) : bool
+    public function in(string $a_name): bool
     {
         //		echo "<br>"; var_dump($this->path);
         if (in_array($a_name, $this->path)) {

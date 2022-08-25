@@ -34,7 +34,7 @@ class ilObjLearningModuleAccess extends ilObjContentObjectAccess implements ilCo
     /**
      * Get possible conditions operators
      */
-    public static function getConditionOperators() : array
+    public static function getConditionOperators(): array
     {
         // currently only one mode "ilConditionHandler::OPERATOR_LP"
         // which is automatically added by condition handling, if lp is activated
@@ -42,13 +42,13 @@ class ilObjLearningModuleAccess extends ilObjContentObjectAccess implements ilCo
     }
 
 
-    public static function checkCondition(int $a_trigger_obj_id, string $a_operator, string $a_value, int $a_usr_id) : bool
+    public static function checkCondition(int $a_trigger_obj_id, string $a_operator, string $a_value, int $a_usr_id): bool
     {
         return true;
     }
 
 
-    public static function _lookupSetting(string $a_set) : ?string
+    public static function _lookupSetting(string $a_set): ?string
     {
         if (!is_array(self::$lm_set)) {
             $lm_set = new ilSetting("lm");
@@ -58,7 +58,7 @@ class ilObjLearningModuleAccess extends ilObjContentObjectAccess implements ilCo
         return self::$lm_set[$a_set] ?? null;
     }
 
-    public static function _getCommands() : array
+    public static function _getCommands(): array
     {
         if (self::_lookupSetting("lm_starting_point") == "first") {
             $commands = array(
@@ -78,7 +78,7 @@ class ilObjLearningModuleAccess extends ilObjContentObjectAccess implements ilCo
     }
 
 
-    public function canBeDelivered(ilWACPath $ilWACPath) : bool
+    public function canBeDelivered(ilWACPath $ilWACPath): bool
     {
         $ilAccess = $this->access;
         /**

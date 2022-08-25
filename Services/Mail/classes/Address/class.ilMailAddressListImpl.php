@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -31,13 +33,13 @@ class ilMailAddressListImpl implements ilMailAddressList
     public function __construct(array $addresses)
     {
         // Ensure valid types in array
-        array_walk($addresses, static function (ilMailAddress $address) : void {
+        array_walk($addresses, static function (ilMailAddress $address): void {
         });
 
         $this->addresses = $addresses;
     }
 
-    public function value() : array
+    public function value(): array
     {
         return $this->addresses;
     }

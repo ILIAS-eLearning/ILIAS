@@ -1,4 +1,6 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -59,7 +61,7 @@ class ilSurveyRaterGUI
             ->request();
     }
 
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         $ctrl = $this->ctrl;
 
@@ -67,7 +69,6 @@ class ilSurveyRaterGUI
         $cmd = $ctrl->getCmd("add");
 
         switch ($next_class) {
-
             case 'ilrepositorysearchgui':
                 $rep_search = new ilRepositorySearchGUI();
 
@@ -99,14 +100,14 @@ class ilSurveyRaterGUI
         }
     }
 
-    protected function cancel() : void
+    protected function cancel(): void
     {
         $this->ctrl->redirect($this->parent, "editRaters");
     }
 
     protected function add(
         ilPropertyFormGUI $form = null
-    ) : void {
+    ): void {
         $form_html = (!is_null($form))
             ? $form->getHTML()
             : $this->initOptionSelectForm()->getHTML();
@@ -114,7 +115,7 @@ class ilSurveyRaterGUI
         $main_tpl->setContent($form_html);
     }
 
-    public function initOptionSelectForm() : ilPropertyFormGUI
+    public function initOptionSelectForm(): ilPropertyFormGUI
     {
         $ctrl = $this->ctrl;
         $lng = $this->lng;
@@ -175,7 +176,7 @@ class ilSurveyRaterGUI
         return $form;
     }
 
-    public function doAutoComplete() : void
+    public function doAutoComplete(): void
     {
         $fields = array('login','firstname','lastname','email');
 
@@ -194,7 +195,7 @@ class ilSurveyRaterGUI
         exit();
     }
 
-    protected function continue() : void
+    protected function continue(): void
     {
         $form = $this->initOptionSelectForm();
         if ($form->checkInput()) {
@@ -210,7 +211,6 @@ class ilSurveyRaterGUI
                 case "search":
                     $this->ctrl->redirectByClass("ilrepositorysearchgui", "");
                     break;
-
             }
         } else {
             $form->setValuesByPost();
@@ -218,7 +218,7 @@ class ilSurveyRaterGUI
         }
     }
 
-    public function addRater(ilPropertyFormGUI $form) : void
+    public function addRater(ilPropertyFormGUI $form): void
     {
         // check access
         $ilAccess = $this->access;
@@ -250,7 +250,7 @@ class ilSurveyRaterGUI
     }
 
 
-    public function mailRaters(ilPropertyFormGUI $a_form = null) : void
+    public function mailRaters(ilPropertyFormGUI $a_form = null): void
     {
         $appr_id = $this->parent->handleRatersAccess();
         $this->ctrl->setParameterByClass("ilSurveyParticipantsGUI", "appr_id", $appr_id);
@@ -261,7 +261,7 @@ class ilSurveyRaterGUI
     public function initMailRatersForm(
         int $appr_id,
         array $rec_ids
-    ) : ilPropertyFormGUI {
+    ): ilPropertyFormGUI {
         $form = new ilPropertyFormGUI();
         $form->setFormAction($this->ctrl->getFormAction($this, "mailRatersAction"));
         $form->setTitle($this->lng->txt('compose'));
@@ -325,7 +325,7 @@ class ilSurveyRaterGUI
     }
 
 
-    public function mailRatersAction() : void
+    public function mailRatersAction(): void
     {
         $ilUser = $this->user;
 
@@ -399,7 +399,7 @@ class ilSurveyRaterGUI
 //        $this->mailRatersObject($form);
     }
 
-    public function addExternalRater(ilPropertyFormGUI $form) : void
+    public function addExternalRater(ilPropertyFormGUI $form): void
     {
         $appr_id = $this->edit_request->getAppraiseeId();
 
@@ -427,7 +427,7 @@ class ilSurveyRaterGUI
 
     public function addFromSearch(
         array $user_ids
-    ) : void {
+    ): void {
         // check access
         $ilAccess = $this->access;
         $ilUser = $this->user;
@@ -451,7 +451,7 @@ class ilSurveyRaterGUI
             }
         }
 
-        $user_str = implode(";", array_map(static function ($u) : string {
+        $user_str = implode(";", array_map(static function ($u): string {
             return "u" . $u;
         }, $user_ids));
 

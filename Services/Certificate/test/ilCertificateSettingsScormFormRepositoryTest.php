@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -21,7 +23,7 @@
  */
 class ilCertificateSettingsScormFormRepositoryTest extends ilCertificateBaseTestCase
 {
-    public function testSave() : void
+    public function testSave(): void
     {
         $object = $this->getMockBuilder(ilObject::class)
             ->disableOriginalConstructor()
@@ -80,7 +82,7 @@ class ilCertificateSettingsScormFormRepositoryTest extends ilCertificateBaseTest
         );
     }
 
-    public function testFetchFormFieldData() : void
+    public function testFetchFormFieldData(): void
     {
         $object = $this->getMockBuilder(ilObject::class)
             ->disableOriginalConstructor()

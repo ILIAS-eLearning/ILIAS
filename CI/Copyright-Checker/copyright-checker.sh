@@ -61,53 +61,40 @@ do
     continue
   fi
 
-  FIRSTLINE=$(sed -n 1p ${FELONE})
-  SECONDLINE=$(sed -n 2p ${FELONE})
-  THIRDLINE=$(sed -n 3p ${FELONE})
+  LINE1=$(sed -n 1p ${FELONE})
+  LINE2=$(sed -n 2p ${FELONE})
+  LINE3=$(sed -n 3p ${FELONE})
+  LINE4=$(sed -n 4p ${FELONE})
+  LINE5=$(sed -n 5p ${FELONE})
 
-  if [[ ${SECONDLINE} == *"/**"* ]]
+  if [[ ${LINE2} == *"/**"* ]]
   then
-
-    COUNTER=0
-    COPYLINE=""
-    while IFS= read -r LINE
-    do
-      let COUNTER=COUNTER+1
-      if (( ${COUNTER} >= 2 )) && (( ${COUNTER} <= 14 ))
-      then
-        COPYLINE+="${LINE}"
-      fi
-    done < "${FELONE}"
-
-    COPYLINE="$(echo -e "${COPYLINE}" | tr -d '[:space:]')"
-    COPYLINE="$(echo -e "${COPYLINE}" | tr -d '*')"
-    COPYLINE="$(echo -e "${COPYLINE}" | tr -d '/')"
-
-    if [[ "${COPYLINE}" == "${STRINGTOCHECK}" ]]
+    START=2
+  elif [[ -z ${LINE2} ]]
+  then
+    if [[ ${LINE3} == *"/**"* ]]
     then
-      if [[ -z ${GHRUN} ]]
-      then
-        echo -ne "."
-      fi
-      continue
-    else
-      FILES+=("Copyright not as expected in $PHPFILE")
-      if [[ -z ${GHRUN} ]]
-      then
-        echo -ne "F"
-      fi
+      START=3
+    elif [[ ${LINE3} == *"declare(strict_types=1);"* ]] && [[ -z ${LINE4} ]] && [[ ${LINE5} == *"/**"* ]]
+    then
+      START=5
     fi
   fi
 
-  if [[ -z ${SECONDLINE} ]] && [[ ${THIRDLINE} == *"/**"* ]]
+  if [[ -z ${START} ]]
   then
-
+    FILES+=("Start of file not as expected in $PHPFILE")
+    if [[ -z ${GHRUN} ]]
+    then
+      echo -ne "F"
+    fi
+  else
     COUNTER=0
     COPYLINE=""
     while IFS= read -r LINE
     do
       let COUNTER=COUNTER+1
-      if (( ${COUNTER} >= 3 )) && (( ${COUNTER} <= 15 ))
+      if (( ${COUNTER} >= START )) && (( ${COUNTER} <= START+12 ))
       then
         COPYLINE+="${LINE}"
       fi
@@ -130,18 +117,13 @@ do
       then
         echo -ne "F"
       fi
-    fi
-  else
-    FILES+=("Copyright not as expected in $PHPFILE")
-    if [[ -z ${GHRUN} ]]
-    then
-      echo -ne "F"
     fi
   fi
 done
 
 cd $DIR
 AMOUNTFILES=${#FILES[@]}
+echo -ne "\n"
 echo "Scan complete. Found $AMOUNTFILES incidents."
 if [ "$AMOUNTFILES" -gt "0" ]; then
   for (( i=0; i<${AMOUNTFILES}; i++ ));

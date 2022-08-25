@@ -38,48 +38,48 @@ class ilBookCronNotification extends ilCronJob
         $this->book_log = ilLoggerFactory::getLogger("book");
     }
 
-    public function getId() : string
+    public function getId(): string
     {
         return "book_notification";
     }
-    
-    public function getTitle() : string
+
+    public function getTitle(): string
     {
         $lng = $this->lng;
-        
+
         $lng->loadLanguageModule("book");
         return $lng->txt("book_notification");
     }
-    
-    public function getDescription() : string
+
+    public function getDescription(): string
     {
         $lng = $this->lng;
-        
+
         $lng->loadLanguageModule("book");
         return $lng->txt("book_notification_info");
     }
-    
-    public function getDefaultScheduleType() : int
+
+    public function getDefaultScheduleType(): int
     {
         return self::SCHEDULE_TYPE_DAILY;
     }
-    
-    public function getDefaultScheduleValue() : ?int
+
+    public function getDefaultScheduleValue(): ?int
     {
         return null;
     }
-    
-    public function hasAutoActivation() : bool
+
+    public function hasAutoActivation(): bool
     {
         return false;
     }
-    
-    public function hasFlexibleSchedule() : bool
+
+    public function hasFlexibleSchedule(): bool
     {
         return false;
     }
-    
-    public function run() : ilCronJobResult
+
+    public function run(): ilCronJobResult
     {
         $status = ilCronJobResult::STATUS_NO_ACTION;
 
@@ -88,14 +88,14 @@ class ilBookCronNotification extends ilCronJob
         if ($count > 0) {
             $status = ilCronJobResult::STATUS_OK;
         }
-        
+
         $result = new ilCronJobResult();
         $result->setStatus($status);
-        
+
         return $result;
     }
 
-    protected function sendNotifications() : int
+    protected function sendNotifications(): int
     {
         $log = $this->book_log;
 
@@ -155,7 +155,6 @@ class ilBookCronNotification extends ilCronJob
 
             // group by user, type, pool
             foreach ($res as $r) {
-
                 // users
                 $log->debug("check notification of user id: " . $r["user_id"]);
                 if (in_array($r["user_id"], $user_ids)) {
@@ -188,7 +187,7 @@ class ilBookCronNotification extends ilCronJob
 
     protected function sendMails(
         array $notifications
-    ) : void {
+    ): void {
         foreach ($notifications as $uid => $n) {
             $ntf = new ilSystemNotification();
             $lng = $ntf->getUserLanguage($uid);
@@ -236,7 +235,7 @@ class ilBookCronNotification extends ilCronJob
         string $perm,
         int $uid,
         int $obj_id
-    ) : bool {
+    ): bool {
         $access = $this->access;
         foreach (ilObject::_getAllReferences($obj_id) as $ref_id) {
             if ($access->checkAccessOfUser($uid, $perm, "", $ref_id)) {

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -25,11 +27,10 @@ use ILIAS\UI\Component\MainControls\MetaBar as UIMetaBar;
  */
 class MetaBarModification extends AbstractLayoutModification implements LayoutModification
 {
-
     /**
      * @inheritDoc
      */
-    public function isFinal() : bool
+    public function isFinal(): bool
     {
         return false;
     }
@@ -37,7 +38,7 @@ class MetaBarModification extends AbstractLayoutModification implements LayoutMo
     /**
      * @inheritDoc
      */
-    public function getClosureFirstArgumentType() : string
+    public function getClosureFirstArgumentType(): string
     {
         return UIMetaBar::class;
     }
@@ -45,7 +46,7 @@ class MetaBarModification extends AbstractLayoutModification implements LayoutMo
     /**
      * @inheritDoc
      */
-    public function getClosureReturnType() : string
+    public function getClosureReturnType(): string
     {
         return UIMetaBar::class;
     }
@@ -53,7 +54,7 @@ class MetaBarModification extends AbstractLayoutModification implements LayoutMo
     /**
      * @inheritDoc
      */
-    public function firstArgumentAllowsNull() : bool
+    public function firstArgumentAllowsNull(): bool
     {
         return true;
     }
@@ -61,7 +62,7 @@ class MetaBarModification extends AbstractLayoutModification implements LayoutMo
     /**
      * @inheritDoc
      */
-    public function returnTypeAllowsNull() : bool
+    public function returnTypeAllowsNull(): bool
     {
         return true;
     }

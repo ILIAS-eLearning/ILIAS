@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -21,7 +23,7 @@ use PHPUnit\Framework\TestCase;
 
 class ilQTISetvarTest extends TestCase
 {
-    public function testConstruct() : void
+    public function testConstruct(): void
     {
         $this->assertInstanceOf(ilQTISetvar::class, new ilQTISetvar());
     }
@@ -29,28 +31,28 @@ class ilQTISetvarTest extends TestCase
     /**
      * @dataProvider actions
      */
-    public function testSetGetAction(string $input, ?string $expected) : void
+    public function testSetGetAction(string $input, ?string $expected): void
     {
         $instance = new ilQTISetvar();
         $instance->setAction($input);
         $this->assertEquals($expected, $instance->getAction());
     }
 
-    public function testSetGetContent() : void
+    public function testSetGetContent(): void
     {
         $instance = new ilQTISetvar();
         $instance->setContent('Some input.');
         $this->assertEquals('Some input.', $instance->getContent());
     }
 
-    public function testSetGetVarname() : void
+    public function testSetGetVarname(): void
     {
         $instance = new ilQTISetvar();
         $instance->setVarname('Some input.');
         $this->assertEquals('Some input.', $instance->getVarname());
     }
 
-    public function actions() : array
+    public function actions(): array
     {
         class_exists(ilQTISetvar::class); // Force autoload to define the constants.
         return [

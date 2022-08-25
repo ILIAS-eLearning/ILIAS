@@ -27,41 +27,41 @@ use ILIAS\Notes\Service;
  *
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
  */
-    class ilBlogDataSet extends ilDataSet
+class ilBlogDataSet extends ilDataSet
+{
+    protected Service $notes;
+    protected ilObjBlog $current_blog;
+    public static array $style_map = array();
+    protected \ILIAS\Style\Content\DomainService $content_style_domain;
+
+    public function __construct()
     {
-        protected Service $notes;
-        protected ilObjBlog $current_blog;
-        public static array $style_map = array();
-        protected \ILIAS\Style\Content\DomainService $content_style_domain;
+        global $DIC;
+        parent::__construct();
+        $this->content_style_domain = $DIC
+        ->contentStyle()
+        ->domain();
+        $this->notes = $DIC->notes();
+    }
 
-        public function __construct()
-        {
-            global $DIC;
-            parent::__construct();
-            $this->content_style_domain = $DIC
-            ->contentStyle()
-            ->domain();
-            $this->notes = $DIC->notes();
-        }
+    public function getSupportedVersions(): array
+    {
+        return array("4.3.0", "5.0.0", "5.3.0");
+    }
 
-        public function getSupportedVersions() : array
-        {
-            return array("4.3.0", "5.0.0", "5.3.0");
-        }
-    
-        protected function getXmlNamespace(
-            string $a_entity,
-            string $a_schema_version
-        ) : string {
-            return "https://www.ilias.de/xml/Modules/Blog/" . $a_entity;
-        }
-    
-        protected function getTypes(
-            string $a_entity,
-            string $a_version
-        ) : array {
-            if ($a_entity === "blog") {
-                switch ($a_version) {
+    protected function getXmlNamespace(
+        string $a_entity,
+        string $a_schema_version
+    ): string {
+        return "https://www.ilias.de/xml/Modules/Blog/" . $a_entity;
+    }
+
+    protected function getTypes(
+        string $a_entity,
+        string $a_version
+    ): array {
+        if ($a_entity === "blog") {
+            switch ($a_version) {
                 case "4.3.0":
                     return array(
                         "Id" => "integer",
@@ -76,7 +76,7 @@ use ILIAS\Notes\Service;
                         "Approval" => "integer",
                         "Dir" => "directory"
                         );
-                    
+
                 case "5.0.0":
                     return array(
                         "Id" => "integer",
@@ -132,12 +132,11 @@ use ILIAS\Notes\Service;
                         "OvPost" => "integer",
                         "Style" => "integer"
                     );
+            }
+        }
 
-            }
-            }
-        
-            if ($a_entity === "blog_posting") {
-                switch ($a_version) {
+        if ($a_entity === "blog_posting") {
+            switch ($a_version) {
                 case "4.3.0":
                 case "5.0.0":
                 case "5.3.0":
@@ -151,19 +150,19 @@ use ILIAS\Notes\Service;
                         "LastWithdrawn" => "text"
                     );
             }
-            }
-            return [];
         }
+        return [];
+    }
 
-        public function readData(
-            string $a_entity,
-            string $a_version,
-            array $a_ids
-        ) : void {
-            $ilDB = $this->db;
+    public function readData(
+        string $a_entity,
+        string $a_version,
+        array $a_ids
+    ): void {
+        $ilDB = $this->db;
 
-            if ($a_entity === "blog") {
-                switch ($a_version) {
+        if ($a_entity === "blog") {
+            switch ($a_version) {
                 case "4.3.0":
                     $this->getDirectDataFromQuery("SELECT bl.id,od.title,od.description," .
                         "bl.notes,bl.bg_color,bl.font_color,bl.img,bl.ppic,bl.rss_active,bl.approval" .
@@ -172,7 +171,7 @@ use ILIAS\Notes\Service;
                         " WHERE " . $ilDB->in("bl.id", $a_ids, false, "integer") .
                         " AND od.type = " . $ilDB->quote("blog", "text"));
                     break;
-                
+
                 case "5.0.0":
                     $this->getDirectDataFromQuery("SELECT bl.id,od.title,od.description," .
                         "bl.bg_color,bl.font_color,bl.img,bl.ppic,bl.rss_active,bl.approval," .
@@ -197,10 +196,10 @@ use ILIAS\Notes\Service;
                         " AND od.type = " . $ilDB->quote("blog", "text"));
                     break;
             }
-            }
-        
-            if ($a_entity === "blog_posting") {
-                switch ($a_version) {
+        }
+
+        if ($a_entity === "blog_posting") {
+            switch ($a_version) {
                 case "4.3.0":
                 case "5.0.0":
                 case "5.3.0":
@@ -213,62 +212,62 @@ use ILIAS\Notes\Service;
                     }
                     break;
             }
-            
-                // keywords
-                foreach ($this->data as $idx => $item) {
-                    $blog_id = ilBlogPosting::lookupBlogId($item["Id"]);
-                    $keywords = ilBlogPosting::getKeywords($blog_id, $item["Id"]);
-                    if ($keywords) {
-                        foreach ($keywords as $kidx => $keyword) {
-                            $this->data[$idx]["Keyword" . $kidx] = $keyword;
-                        }
+
+            // keywords
+            foreach ($this->data as $idx => $item) {
+                $blog_id = ilBlogPosting::lookupBlogId($item["Id"]);
+                $keywords = ilBlogPosting::getKeywords($blog_id, $item["Id"]);
+                if ($keywords) {
+                    foreach ($keywords as $kidx => $keyword) {
+                        $this->data[$idx]["Keyword" . $kidx] = $keyword;
                     }
                 }
             }
         }
-    
-        protected function getDependencies(
-            string $a_entity,
-            string $a_version,
-            ?array $a_rec = null,
-            ?array $a_ids = null
-        ) : array {
-            if ($a_entity === "blog") {
-                return array(
-                "blog_posting" => array("ids" => $a_rec["Id"] ?? null)
+    }
+
+    protected function getDependencies(
+        string $a_entity,
+        string $a_version,
+        ?array $a_rec = null,
+        ?array $a_ids = null
+    ): array {
+        if ($a_entity === "blog") {
+            return array(
+            "blog_posting" => array("ids" => $a_rec["Id"] ?? null)
             );
-            }
-            return [];
+        }
+        return [];
+    }
+
+    public function getXmlRecord(
+        string $a_entity,
+        string $a_version,
+        array $a_set
+    ): array {
+        if ($a_entity === "blog") {
+            $style = $this->content_style_domain->styleForObjId((int) $a_set["Id"]);
+
+            $dir = ilObjBlog::initStorage($a_set["Id"]);
+            $a_set["Dir"] = $dir;
+
+            $a_set["Style"] = $style->getStyleId();
+
+            // #14734
+            $a_set["Notes"] = $this->notes->domain()->commentsActive((int) $a_set["Id"]);
         }
 
-        public function getXmlRecord(
-            string $a_entity,
-            string $a_version,
-            array $a_set
-        ) : array {
-            if ($a_entity === "blog") {
-                $style = $this->content_style_domain->styleForObjId((int) $a_set["Id"]);
+        return $a_set;
+    }
 
-                $dir = ilObjBlog::initStorage($a_set["Id"]);
-                $a_set["Dir"] = $dir;
-            
-                $a_set["Style"] = $style->getStyleId();
-            
-                // #14734
-                $a_set["Notes"] = $this->notes->domain()->commentsActive((int) $a_set["Id"]);
-            }
-
-            return $a_set;
-        }
-    
-        public function importRecord(
-            string $a_entity,
-            array $a_types,
-            array $a_rec,
-            ilImportMapping $a_mapping,
-            string $a_schema_version
-        ) : void {
-            switch ($a_entity) {
+    public function importRecord(
+        string $a_entity,
+        array $a_types,
+        array $a_rec,
+        ilImportMapping $a_mapping,
+        string $a_schema_version
+    ): void {
+        switch ($a_entity) {
             case "blog":
 
                 // container copy
@@ -278,7 +277,7 @@ use ILIAS\Notes\Service;
                     $newObj = new ilObjBlog();
                     $newObj->create();
                 }
-                                
+
                 $newObj->setTitle($a_rec["Title"] ?? "");
                 $newObj->setDescription($a_rec["Description"] ?? "");
                 $newObj->setNotesStatus((bool) ($a_rec["Notes"] ?? false));
@@ -288,7 +287,7 @@ use ILIAS\Notes\Service;
                 $newObj->setRSS((bool) ($a_rec["RssActive"] ?? false));
                 $newObj->setApproval((bool) ($a_rec["Approval"] ?? false));
                 $newObj->setImage($a_rec["Img"] ?? "");
-                
+
                 $newObj->setAbstractShorten((bool) ($a_rec["AbsShorten"] ?? false));
                 $newObj->setAbstractShortenLength((int) ($a_rec["AbsShortenLen"] ?? 0));
                 $newObj->setAbstractImage((int) ($a_rec["AbsImage"] ?? 0));
@@ -314,9 +313,9 @@ use ILIAS\Notes\Service;
                     $ov_post = (int) $ov_post;
                 }
                 $newObj->setOverviewPostings($ov_post);
-                
+
                 $newObj->update();
-                
+
                 // handle image(s)
                 if ($a_rec["Img"] ?? false) {
                     $dir = str_replace("..", "", $a_rec["Dir"]);
@@ -342,13 +341,13 @@ use ILIAS\Notes\Service;
                     $newObj->setCreated(new ilDateTime($a_rec["Created"] ?? null, IL_CAL_DATETIME));
                     $newObj->setApproved($a_rec["Approved"] ?? null);
                     $newObj->setWithdrawn(new ilDateTime($a_rec["LastWithdrawn"] ?? null, IL_CAL_DATETIME));
-                    
+
                     // parse export id into local id (if possible)
                     $author = $this->parseObjectExportId($a_rec["Author"] ?? "", -1);
                     $newObj->setAuthor((int) $author["id"]);
-                    
+
                     $newObj->create(true);
-                    
+
                     // keywords
                     $keywords = array();
                     for ($loop = 0; $loop < 1000; $loop++) {
@@ -363,10 +362,10 @@ use ILIAS\Notes\Service;
                     if (count($keywords)) {
                         $newObj->updateKeywords($keywords);
                     }
-                    
+
                     $a_mapping->addMapping("Services/COPage", "pg", "blp:" . $a_rec["Id"], "blp:" . $newObj->getId());
                 }
                 break;
         }
-        }
     }
+}

@@ -14,7 +14,7 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *********************************************************************/
- 
+
 namespace ILIAS\ResourceStorage\Policy;
 
 /**
@@ -29,12 +29,12 @@ class FileNamePolicyStack implements FileNamePolicy
      */
     protected array $stack = [];
 
-    public function addPolicy(FileNamePolicy $policy) : void
+    public function addPolicy(FileNamePolicy $policy): void
     {
         $this->stack[] = $policy;
     }
 
-    public function isValidExtension(string $extension) : bool
+    public function isValidExtension(string $extension): bool
     {
         foreach ($this->stack as $policy) {
             if (!$policy->isValidExtension($extension)) {
@@ -44,7 +44,7 @@ class FileNamePolicyStack implements FileNamePolicy
         return true;
     }
 
-    public function isBlockedExtension(string $extension) : bool
+    public function isBlockedExtension(string $extension): bool
     {
         foreach ($this->stack as $policy) {
             if (!$policy->isBlockedExtension($extension)) {
@@ -54,7 +54,7 @@ class FileNamePolicyStack implements FileNamePolicy
         return true;
     }
 
-    public function prepareFileNameForConsumer(string $filename_with_extension) : string
+    public function prepareFileNameForConsumer(string $filename_with_extension): string
     {
         foreach ($this->stack as $policy) {
             $filename_with_extension = $policy->prepareFileNameForConsumer($filename_with_extension);
@@ -62,7 +62,7 @@ class FileNamePolicyStack implements FileNamePolicy
         return $filename_with_extension;
     }
 
-    public function check(string $extension) : bool
+    public function check(string $extension): bool
     {
         foreach ($this->stack as $policy) {
             $policy->check($extension);

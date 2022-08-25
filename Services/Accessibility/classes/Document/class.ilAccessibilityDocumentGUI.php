@@ -83,7 +83,7 @@ class ilAccessibilityDocumentGUI implements ilAccessibilityControllerEnabled
         $this->documentPurifier = $documentPurifier;
     }
 
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         $cmd = $this->ctrl->getCmd();
 
@@ -102,7 +102,7 @@ class ilAccessibilityDocumentGUI implements ilAccessibilityControllerEnabled
      * @throws ilAccessibilityMissingDatabaseAdapterException
      * @throws ilCtrlException
      */
-    protected function showDocuments() : void
+    protected function showDocuments(): void
     {
         if ($this->rbacsystem->checkAccess('write', $this->accs->getRefId())) {
             $addDocumentBtn = $this->uiFactory->button()->primary(
@@ -129,7 +129,7 @@ class ilAccessibilityDocumentGUI implements ilAccessibilityControllerEnabled
     /**
      * @throws ilCtrlException
      */
-    protected function getDocumentForm(ilAccessibilityDocument $document) : ilAccessibilityDocumentFormGUI
+    protected function getDocumentForm(ilAccessibilityDocument $document): ilAccessibilityDocumentFormGUI
     {
         if ($document->getId() > 0) {
             $this->ctrl->setParameter($this, 'acc_id', $document->getId());
@@ -158,7 +158,7 @@ class ilAccessibilityDocumentGUI implements ilAccessibilityControllerEnabled
         return $form;
     }
 
-    protected function saveAddDocumentForm() : void
+    protected function saveAddDocumentForm(): void
     {
         if (!$this->rbacsystem->checkAccess('write', $this->accs->getRefId())) {
             $this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
@@ -178,7 +178,7 @@ class ilAccessibilityDocumentGUI implements ilAccessibilityControllerEnabled
         $this->tpl->setContent($form->getHTML());
     }
 
-    protected function showAddDocumentForm() : void
+    protected function showAddDocumentForm(): void
     {
         if (!$this->rbacsystem->checkAccess('write', $this->accs->getRefId())) {
             $this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
@@ -188,7 +188,7 @@ class ilAccessibilityDocumentGUI implements ilAccessibilityControllerEnabled
         $this->tpl->setContent($form->getHTML());
     }
 
-    protected function showEditDocumentForm() : void
+    protected function showEditDocumentForm(): void
     {
         if (!$this->rbacsystem->checkAccess('write', $this->accs->getRefId())) {
             $this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
@@ -200,7 +200,7 @@ class ilAccessibilityDocumentGUI implements ilAccessibilityControllerEnabled
         $this->tpl->setContent($form->getHTML());
     }
 
-    protected function saveEditDocumentForm() : void
+    protected function saveEditDocumentForm(): void
     {
         if (!$this->rbacsystem->checkAccess('write', $this->accs->getRefId())) {
             $this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
@@ -225,7 +225,7 @@ class ilAccessibilityDocumentGUI implements ilAccessibilityControllerEnabled
     /**
      * @return ilAccessibilityDocument[]
      */
-    protected function getDocumentsByServerRequest() : array
+    protected function getDocumentsByServerRequest(): array
     {
         $documents = [];
 
@@ -251,7 +251,7 @@ class ilAccessibilityDocumentGUI implements ilAccessibilityControllerEnabled
      * @return ilAccessibilityDocument
      * @throws UnexpectedValueException
      */
-    protected function getFirstDocumentFromList(array $documents) : ilAccessibilityDocument
+    protected function getFirstDocumentFromList(array $documents): ilAccessibilityDocument
     {
         if (1 !== count($documents)) {
             throw new UnexpectedValueException('Expected exactly one document in list');
@@ -264,7 +264,7 @@ class ilAccessibilityDocumentGUI implements ilAccessibilityControllerEnabled
         return $document;
     }
 
-    protected function deleteDocuments() : void
+    protected function deleteDocuments(): void
     {
         if (!$this->rbacsystem->checkAccess('write', $this->accs->getRefId())) {
             $this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
@@ -311,7 +311,7 @@ class ilAccessibilityDocumentGUI implements ilAccessibilityControllerEnabled
         }
     }
 
-    protected function processDocumentDeletion(array $documents) : void
+    protected function processDocumentDeletion(array $documents): void
     {
         foreach ($documents as $document) {
             /** @var $document ilAccessibilityDocument */
@@ -324,7 +324,7 @@ class ilAccessibilityDocumentGUI implements ilAccessibilityControllerEnabled
         }
     }
 
-    protected function deleteDocument() : void
+    protected function deleteDocument(): void
     {
         if (!$this->rbacsystem->checkAccess('write', $this->accs->getRefId())) {
             $this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
@@ -337,7 +337,7 @@ class ilAccessibilityDocumentGUI implements ilAccessibilityControllerEnabled
         $this->ctrl->redirect($this);
     }
 
-    protected function saveDocumentSorting() : void
+    protected function saveDocumentSorting(): void
     {
         if (!$this->rbacsystem->checkAccess('write', $this->accs->getRefId())) {
             $this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
@@ -376,7 +376,7 @@ class ilAccessibilityDocumentGUI implements ilAccessibilityControllerEnabled
     protected function getCriterionForm(
         ilAccessibilityDocument $document,
         ilAccessibilityDocumentCriterionAssignment $criterionAssignment
-    ) : ilAccessibilityCriterionFormGUI {
+    ): ilAccessibilityCriterionFormGUI {
         $this->ctrl->setParameter($this, 'acc_id', $document->getId());
 
         if ($criterionAssignment->getId() > 0) {
@@ -404,7 +404,7 @@ class ilAccessibilityDocumentGUI implements ilAccessibilityControllerEnabled
         return $form;
     }
 
-    protected function saveAttachCriterionForm() : void
+    protected function saveAttachCriterionForm(): void
     {
         if (!$this->rbacsystem->checkAccess('write', $this->accs->getRefId())) {
             $this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
@@ -423,7 +423,7 @@ class ilAccessibilityDocumentGUI implements ilAccessibilityControllerEnabled
         $this->tpl->setContent($form->getHTML());
     }
 
-    protected function showAttachCriterionForm() : void
+    protected function showAttachCriterionForm(): void
     {
         if (!$this->rbacsystem->checkAccess('write', $this->accs->getRefId())) {
             $this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
@@ -435,7 +435,7 @@ class ilAccessibilityDocumentGUI implements ilAccessibilityControllerEnabled
         $this->tpl->setContent($form->getHTML());
     }
 
-    protected function showChangeCriterionForm() : void
+    protected function showChangeCriterionForm(): void
     {
         if (!$this->rbacsystem->checkAccess('write', $this->accs->getRefId())) {
             $this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
@@ -460,7 +460,7 @@ class ilAccessibilityDocumentGUI implements ilAccessibilityControllerEnabled
         $this->tpl->setContent($form->getHTML());
     }
 
-    protected function saveChangeCriterionForm() : void
+    protected function saveChangeCriterionForm(): void
     {
         if (!$this->rbacsystem->checkAccess('write', $this->accs->getRefId())) {
             $this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
@@ -492,7 +492,7 @@ class ilAccessibilityDocumentGUI implements ilAccessibilityControllerEnabled
         $this->tpl->setContent($form->getHTML());
     }
 
-    public function detachCriterionAssignment() : void
+    public function detachCriterionAssignment(): void
     {
         if (!$this->rbacsystem->checkAccess('write', $this->accs->getRefId())) {
             $this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);

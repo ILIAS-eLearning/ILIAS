@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -41,42 +43,42 @@ class ilAuthUtils
     public const AUTH_SAML = 12;
 
     public const AUTH_OPENID_CONNECT = 15;
-    
+
     //TODO this is not used anywhere, can it be removed
     private const AUTH_INACTIVE = 18;
-    
+
     //TODO this is not used anywhere, can it be removed
     private const AUTH_MULTIPLE = 20;
-    
+
     //TODO this is not used anywhere, can it be removed
     private const AUTH_SESSION = 21;
 
     public const AUTH_PROVIDER_LTI = 22;
-    
+
     //TODO this is not used anywhere, can it be removed
     private const AUTH_SOAP_NO_ILIAS_USER = -100;
     //TODO this is not used anywhere, can it be removed
     private const AUTH_LDAP_NO_ILIAS_USER = -200;
-    
+
     // apache auhtentication failed...
     // maybe no (valid) certificate or
     // username could not be extracted
     //TODO this is not used anywhere, can it be removed
     private const AUTH_APACHE_FAILED = -500;
-    
+
     //TODO this is not used anywhere, can it be removed
     private const AUTH_SAML_FAILED = -501;
-  
+
     //TODO this is not used anywhere, can it be removed
     private const AUTH_MODE_INACTIVE = -1000;
-    
+
     // an external user cannot be found in ilias, but his email address
     // matches one or more ILIAS users
     //TODO this is not used anywhere, can it be removed?
     private const AUTH_SOAP_NO_ILIAS_USER_BUT_EMAIL = -101;
     //TODO this is not used anywhere, can it be removed?
     private const AUTH_CAS_NO_ILIAS_USER = -90;
-    
+
     // ilUser validation (no login)
     //TODO All these are is not used anywhere, can it be removed?
     private const AUTH_USER_WRONG_IP = -600;
@@ -87,7 +89,7 @@ class ilAuthUtils
     /**
      * Check if authentication is should be forced.
      */
-    public static function isAuthenticationForced() : bool
+    public static function isAuthenticationForced(): bool
     {
         //TODO rework forced authentication concept
         global $DIC;
@@ -95,7 +97,7 @@ class ilAuthUtils
         return $query_wrapper->has('ecs_hash') || $query_wrapper->has('ecs_hash_url');
     }
 
-    public static function handleForcedAuthentication() : void
+    public static function handleForcedAuthentication(): void
     {
         global $DIC;
         $query_wrapper = $DIC->http()->wrapper()->query();
@@ -104,12 +106,12 @@ class ilAuthUtils
             $credentials = new ilAuthFrontendCredentials();
             $credentials->setUsername($query_wrapper->retrieve('ecs_login', $string_refinery));
             $credentials->setAuthMode((string) self::AUTH_ECS);
-            
+
             $provider_factory = new ilAuthProviderFactory();
             $providers = $provider_factory->getProviders($credentials);
-            
+
             $status = ilAuthStatus::getInstance();
-            
+
             $frontend_factory = new ilAuthFrontendFactory();
             $frontend_factory->setContext(ilAuthFrontendFactory::CONTEXT_STANDARD_FORM);
             $frontend = $frontend_factory->getFrontend(
@@ -118,13 +120,13 @@ class ilAuthUtils
                 $credentials,
                 $providers
             );
-            
+
             $frontend->authenticate();
-            
+
             switch ($status->getStatus()) {
                 case ilAuthStatus::STATUS_AUTHENTICATED:
                     return;
-                    
+
                 case ilAuthStatus::STATUS_AUTHENTICATION_FAILED:
                     ilInitialisation::goToPublicSection();
                     return;
@@ -155,17 +157,17 @@ class ilAuthUtils
             case "local":
                 return self::AUTH_LOCAL;
                 break;
-                
+
             case "ldap":
                 return ilLDAPServer::getKeyByAuthMode($a_auth_mode);
-                
+
             case 'lti':
                 return ilAuthProviderLTI::getKeyByAuthMode($a_auth_mode);
-                
+
             case "script":
                 return self::AUTH_SCRIPT;
                 break;
-                
+
             case "shibboleth":
                 return self::AUTH_SHIBBOLETH;
                 break;
@@ -184,7 +186,7 @@ class ilAuthUtils
             case "soap":
                 return self::AUTH_SOAP;
                 break;
-                
+
             case 'ecs':
                 return self::AUTH_ECS;
 
@@ -196,22 +198,22 @@ class ilAuthUtils
                 break;
         }
     }
-    
+
     /**
      * @param $a_auth_key int|string
      */
-    public static function _getAuthModeName($a_auth_key) : string
+    public static function _getAuthModeName($a_auth_key): string
     {
         switch ($a_auth_key) {
             case self::AUTH_LOCAL:
                 return "local";
                 break;
-                
+
             case self::AUTH_LDAP:
                 // begin-patch ldap_multiple
                 return ilLDAPServer::getAuthModeByKey($a_auth_key);
                 // end-patch ldap_multiple
-                
+
             case self::AUTH_PROVIDER_LTI:
                 return ilAuthProviderLTI::getAuthModeByKey($a_auth_key);
 
@@ -222,7 +224,7 @@ class ilAuthUtils
             case self::AUTH_SCRIPT:
                 return "script";
                 break;
-                
+
             case self::AUTH_SHIBBOLETH:
                 return "shibboleth";
                 break;
@@ -233,7 +235,7 @@ class ilAuthUtils
             case self::AUTH_SOAP:
                 return "soap";
                 break;
-                
+
             case self::AUTH_ECS:
                 return 'ecs';
 
@@ -253,7 +255,7 @@ class ilAuthUtils
     /**
      * @return array<string, int|string>
      */
-    public static function _getActiveAuthModes() : array
+    public static function _getActiveAuthModes(): array
     {
         global $DIC;
 
@@ -267,7 +269,7 @@ class ilAuthUtils
         foreach (ilLDAPServer::_getActiveServerList() as $sid) {
             $modes['ldap_' . $sid] = (self::AUTH_LDAP . '_' . $sid);
         }
-        
+
         foreach (ilAuthProviderLTI::getAuthModes() as $sid) {
             $modes['lti_' . $sid] = (self::AUTH_PROVIDER_LTI . '_' . $sid);
         }
@@ -291,7 +293,7 @@ class ilAuthUtils
         if ($ilSetting->get("apache_active")) {
             $modes['apache'] = self::AUTH_APACHE;
         }
-                
+
         if (ilECSServerSettings::getInstance()->activeServerExists()) {
             $modes['ecs'] = self::AUTH_ECS;
         }
@@ -316,7 +318,7 @@ class ilAuthUtils
     /**
      * @return array<int|string, string>
      */
-    public static function _getAllAuthModes() : array
+    public static function _getAllAuthModes(): array
     {
         $modes = array(
             self::AUTH_LOCAL,
@@ -360,17 +362,17 @@ class ilAuthUtils
         }
         return $ret;
     }
-    
+
     /**
     * generate free login by starting with a default string and adding
     * postfix numbers
     */
-    public static function _generateLogin(string $a_login) : string
+    public static function _generateLogin(string $a_login): string
     {
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
-        
+
         // Check if username already exists
         $found = false;
         $postfix = 0;
@@ -385,11 +387,11 @@ class ilAuthUtils
                 $found = true;
             }
         }
-        
+
         return $c_login;
     }
-    
-    public static function _hasMultipleAuthenticationMethods() : bool
+
+    public static function _hasMultipleAuthenticationMethods(): bool
     {
         if (count(ilLDAPServer::_getActiveServerList())) {
             return true;
@@ -421,17 +423,17 @@ class ilAuthUtils
      * @param ilLanguage $lng
      * @return array<int|string, string>
      */
-    public static function _getMultipleAuthModeOptions(ilLanguage $lng) : array
+    public static function _getMultipleAuthModeOptions(ilLanguage $lng): array
     {
         global $DIC;
 
         $ilSetting = $DIC['ilSetting'];
         $options = [];
         // in the moment only ldap is activated as additional authentication method
-        
+
         $options[self::AUTH_LOCAL]['txt'] = $lng->txt('authenticate_ilias');
 
-        
+
         foreach (ilLDAPServer::_getActiveServerList() as $sid) {
             $server = ilLDAPServer::getInstanceByServerId($sid);
             $options[self::AUTH_LDAP . '_' . $sid]['txt'] = $server->getName();
@@ -451,7 +453,7 @@ class ilAuthUtils
         } else {
             $default = self::AUTH_LOCAL;
         }
-        
+
         $default = $ilSetting->get('default_auth_mode', (string) $default);
 
         // begin-patch auth_plugin
@@ -478,12 +480,12 @@ class ilAuthUtils
      * Check if an external account name is required.
      * That's the case if LDAP, CAS or SOAP is active
      */
-    public static function _isExternalAccountEnabled() : bool
+    public static function _isExternalAccountEnabled(): bool
     {
         global $DIC;
 
         $ilSetting = $DIC['ilSetting'];
-        
+
         if ($ilSetting->get("cas_active")) {
             return true;
         }
@@ -496,11 +498,11 @@ class ilAuthUtils
         if (count(ilLDAPServer::_getActiveServerList())) {
             return true;
         }
-        
+
         if (count(ilAuthProviderLTI::getActiveAuthModes())) {
             return true;
         }
-        
+
         if (count(ilSamlIdp::getActiveIdpList()) > 0) {
             return true;
         }
@@ -518,15 +520,15 @@ class ilAuthUtils
             }
         }
         // end-path auth_plugin
-        
+
         return false;
     }
-    
+
     /**
      * Allow password modification
      * @param int|string auth_mode
      */
-    public static function _allowPasswordModificationByAuthMode($a_auth_mode) : bool
+    public static function _allowPasswordModificationByAuthMode($a_auth_mode): bool
     {
         switch ((int) $a_auth_mode) {
             case self::AUTH_LDAP:
@@ -538,13 +540,13 @@ class ilAuthUtils
                 return true;
         }
     }
-    
+
     /**
      * Check if chosen auth mode needs an external account entry
      *
      * @param null|string|int $a_auth_mode auth_mode
      */
-    public static function _needsExternalAccountByAuthMode($a_auth_mode) : bool
+    public static function _needsExternalAccountByAuthMode($a_auth_mode): bool
     {
         switch ($a_auth_mode) {
             case self::AUTH_LOCAL:
@@ -558,7 +560,7 @@ class ilAuthUtils
     /**
      * @return bool
      */
-    public static function isPasswordModificationHidden() : bool
+    public static function isPasswordModificationHidden(): bool
     {
         /** @var $ilSetting \ilSetting */
         global $DIC;
@@ -567,13 +569,13 @@ class ilAuthUtils
 
         return $ilSetting->get('usr_settings_hide_password') || $ilSetting->get('usr_settings_disable_password');
     }
-    
+
     /**
      * Check if local password validation is enabled for a specific auth_mode
      * @param int|string $a_authmode
      * @return bool
      */
-    public static function isLocalPasswordEnabledForAuthMode($a_authmode) : bool
+    public static function isLocalPasswordEnabledForAuthMode($a_authmode): bool
     {
         global $DIC;
 
@@ -585,7 +587,7 @@ class ilAuthUtils
             case self::AUTH_APACHE:
                 return true;
 
-            // No local passwords for these auth modes
+                // No local passwords for these auth modes
             case self::AUTH_LDAP:
             case self::AUTH_ECS:
             case self::AUTH_SCRIPT:
@@ -603,7 +605,6 @@ class ilAuthUtils
                 return (bool) $ilSetting->get("soap_auth_allow_local", '0');
             case self::AUTH_CAS:
                 return (bool) $ilSetting->get("cas_allow_local", '0');
-
         }
         return false;
     }
@@ -615,7 +616,7 @@ class ilAuthUtils
      * @param int|string $a_authmode
      * @return bool
      */
-    public static function isPasswordModificationEnabled($a_authmode) : bool
+    public static function isPasswordModificationEnabled($a_authmode): bool
     {
         global $DIC;
 
@@ -624,7 +625,7 @@ class ilAuthUtils
         if (self::isPasswordModificationHidden()) {
             return false;
         }
-        
+
         //TODO fix casting strings like 2_1 (auth_key for first ldap server) to int to get it to 2
         switch ((int) $a_authmode) {
             // No local passwords for these auth modes and default
@@ -639,13 +640,13 @@ class ilAuthUtils
             case self::AUTH_SAML:
                 $idp = ilSamlIdp::getInstanceByIdpId(ilSamlIdp::getIdpIdByAuthMode((string) $a_authmode));
                 return $idp->isActive() && $idp->allowLocalAuthentication();
-            
-            // Always for and local
+
+                // Always for and local
             case self::AUTH_LOCAL:
             case self::AUTH_APACHE:
                 return true;
 
-            // Read setting:
+                // Read setting:
             case self::AUTH_SHIBBOLETH:
                 return $ilSetting->get("shib_auth_allow_local");
             case self::AUTH_SOAP:
@@ -654,20 +655,20 @@ class ilAuthUtils
                 return $ilSetting->get("cas_allow_local");
         }
     }
-    
+
     /**
      * Check if local password validation is supported
      * @param null|string|int $a_authmode
      * @return
      */
-    public static function supportsLocalPasswordValidation($a_authmode) : int
+    public static function supportsLocalPasswordValidation($a_authmode): int
     {
         //TODO fix casting strings like 2_1 (auth_key for first ldap server) to int to get it to 2
         switch ((int) $a_authmode) {
             case self::AUTH_LDAP:
             case self::AUTH_LOCAL:
                 return self::LOCAL_PWV_FULL;
-            
+
             case self::AUTH_SHIBBOLETH:
             case self::AUTH_OPENID_CONNECT:
             case self::AUTH_SAML:
@@ -677,7 +678,7 @@ class ilAuthUtils
                     return self::LOCAL_PWV_NO;
                 }
                 return self::LOCAL_PWV_USER;
-                
+
             case self::AUTH_PROVIDER_LTI:
             case self::AUTH_ECS:
             case self::AUTH_SCRIPT:
@@ -686,31 +687,31 @@ class ilAuthUtils
                 return self::LOCAL_PWV_USER;
         }
     }
-    
+
     /**
      * Get active enabled auth plugins
      */
-    public static function getAuthPlugins() : \Iterator
+    public static function getAuthPlugins(): \Iterator
     {
         return $GLOBALS['DIC']['component.factory']->getActivePluginsInSlot('authhk');
     }
 
-    public static function getAuthModeTranslation(string $a_auth_key, string $auth_name = '') : ?string
+    public static function getAuthModeTranslation(string $a_auth_key, string $auth_name = ''): ?string
     {
         global $DIC;
 
         $lng = $DIC['lng'];
-        
+
         //TODO fix casting strings like 2_1 (auth_key for first ldap server) to int to get it to 2
         switch ((int) $a_auth_key) {
             case self::AUTH_LDAP:
                 $sid = ilLDAPServer::getServerIdByAuthMode($a_auth_key);
                 return ilLDAPServer::getInstanceByServerId($sid)->getName();
-                
+
             case self::AUTH_PROVIDER_LTI:
                 $sid = ilAuthProviderLTI::getServerIdByAuthMode($a_auth_key);
                 return ilAuthProviderLTI::lookupConsumer($sid);
-                
+
 
             case self::AUTH_SAML:
                 $idp_id = ilSamlIdp::getIdpIdByAuthMode($a_auth_key);
@@ -723,7 +724,6 @@ class ilAuthUtils
                 }
 
                 return $lng->txt('auth_' . self::_getAuthModeName($a_auth_key));
-
         }
     }
 }

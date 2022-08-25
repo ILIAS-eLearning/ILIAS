@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -27,7 +29,7 @@ class ilStudyProgrammeDeadlineSettingsTest extends TestCase
     private const INVALID_DEADLINE_PERIOD = -1;
     private const VALID_DEADLINE_DATE = '2019-02-14';
 
-    public function testSuccessfulCreate() : void
+    public function testSuccessfulCreate(): void
     {
         $obj = new ilStudyProgrammeDeadlineSettings(
             self::VALID_DEADLINE_PERIOD_1,
@@ -38,7 +40,7 @@ class ilStudyProgrammeDeadlineSettingsTest extends TestCase
         $this->assertEquals(self::VALID_DEADLINE_DATE, $obj->getDeadlineDate()->format('Y-m-d'));
     }
 
-    public function testFailCreateWithInvalidDeadlinePeriod() : void
+    public function testFailCreateWithInvalidDeadlinePeriod(): void
     {
         try {
             new ilStudyProgrammeDeadlineSettings(
@@ -51,7 +53,7 @@ class ilStudyProgrammeDeadlineSettingsTest extends TestCase
         }
     }
 
-    public function testSuccessfulWithDeadlinePeriod() : void
+    public function testSuccessfulWithDeadlinePeriod(): void
     {
         $obj = new ilStudyProgrammeDeadlineSettings(
             self::VALID_DEADLINE_PERIOD_1,
@@ -64,7 +66,7 @@ class ilStudyProgrammeDeadlineSettingsTest extends TestCase
         $this->assertEquals(self::VALID_DEADLINE_PERIOD_2, $new->getDeadlinePeriod());
     }
 
-    public function testFailWithDeadlinePeriod() : void
+    public function testFailWithDeadlinePeriod(): void
     {
         $obj = new ilStudyProgrammeDeadlineSettings(
             self::VALID_DEADLINE_PERIOD_1,
@@ -79,7 +81,7 @@ class ilStudyProgrammeDeadlineSettingsTest extends TestCase
         }
     }
 
-    public function testToFormInput() : void
+    public function testToFormInput(): void
     {
         $lng = $this->createMock(ilLanguage::class);
         $df = new ILIAS\Data\Factory();

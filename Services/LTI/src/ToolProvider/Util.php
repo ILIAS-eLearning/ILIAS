@@ -22,31 +22,30 @@ use ILIAS\LTIOAuth;
 
 final class Util
 {
-
     /**
      * LTI version 1 for messages.
      */
-    const LTI_VERSION1 = 'LTI-1p0';
+    public const LTI_VERSION1 = 'LTI-1p0';
 
     /**
      * LTI version 1.3 for messages.
      */
-    const LTI_VERSION1P3 = '1.3.0';
+    public const LTI_VERSION1P3 = '1.3.0';
 
     /**
      * LTI version 2 for messages.
      */
-    const LTI_VERSION2 = 'LTI-2p0';
+    public const LTI_VERSION2 = 'LTI-2p0';
 
     /**
      * Prefix for standard JWT message claims.
      */
-    const JWT_CLAIM_PREFIX = 'https://purl.imsglobal.org/spec/lti';
+    public const JWT_CLAIM_PREFIX = 'https://purl.imsglobal.org/spec/lti';
 
     /**
      * Mapping for standard message types.
      */
-    const MESSAGE_TYPE_MAPPING = array(
+    public const MESSAGE_TYPE_MAPPING = array(
         'basic-lti-launch-request' => 'LtiResourceLinkRequest',
         'ContentItemSelectionRequest' => 'LtiDeepLinkingRequest',
         'ContentItemSelection' => 'LtiDeepLinkingResponse',
@@ -56,7 +55,7 @@ final class Util
     /**
      * Mapping for standard message parameters to JWT claim.
      */
-    const JWT_CLAIM_MAPPING = array(
+    public const JWT_CLAIM_MAPPING = array(
         'accept_types' => array('suffix' => 'dl', 'group' => 'deep_linking_settings', 'claim' => 'accept_types', 'isArray' => true),
         'accept_copy_advice' => array('suffix' => 'dl', 'group' => 'deep_linking_settings', 'claim' => 'copyAdvice', 'isBoolean' => true),
         'accept_media_types' => array('suffix' => 'dl', 'group' => 'deep_linking_settings', 'claim' => 'accept_media_types'),
@@ -139,22 +138,22 @@ final class Util
     /**
      * No logging.
      */
-    const LOGLEVEL_NONE = 0;
+    public const LOGLEVEL_NONE = 0;
 
     /**
      * Log errors only.
      */
-    const LOGLEVEL_ERROR = 1;
+    public const LOGLEVEL_ERROR = 1;
 
     /**
      * Log error and information messages.
      */
-    const LOGLEVEL_INFO = 2;
+    public const LOGLEVEL_INFO = 2;
 
     /**
      * Log all messages.
      */
-    const LOGLEVEL_DEBUG = 3;
+    public const LOGLEVEL_DEBUG = 3;
 
     /**
      * Permitted LTI versions for messages.
@@ -194,7 +193,7 @@ final class Util
      *
      * @return bool
      */
-    public static function isLtiMessage() : bool
+    public static function isLtiMessage(): bool
     {
 //        $isLti = ($_SERVER['REQUEST_METHOD'] === 'POST') &&
 //            (!empty($_POST['lti_message_type']) || !empty($_POST['id_token']) || !empty($_POST['JWT']) ||
@@ -222,7 +221,7 @@ final class Util
      *
      * @return array|null
      */
-    public static function getRequestParameters() : ?array
+    public static function getRequestParameters(): ?array
     {
         if (is_null(self::$requestParameters)) {
 //            special for ILIAS instead of
@@ -464,7 +463,7 @@ final class Util
      * @param string $target Name of target (optional)
      * @return string
      */
-    public static function sendForm(string $url, array $params, string $target = '') : string
+    public static function sendForm(string $url, array $params, string $target = ''): string
     {
         self::logForm($url, $params, 'POST');
         $page = <<< EOD
@@ -521,7 +520,7 @@ EOD;
      * @param array  $params Array of form parameters
      * @return string
      */
-    public static function redirect(string $url, array $params) : string
+    public static function redirect(string $url, array $params): string
     {
         if (!empty($params)) {
             if (strpos($url, '?') === false) {
@@ -556,7 +555,7 @@ EOD;
      * @param int $length Length of string to be generated (optional, default is 8 characters)
      * @return string Random string
      */
-    public static function getRandomString(int $length = 8) : string
+    public static function getRandomString(int $length = 8): string
     {
         $chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
 
@@ -575,7 +574,7 @@ EOD;
      * @param string $html HTML string to be stripped
      * @return string
      */
-    public static function stripHtml(string $html) : string
+    public static function stripHtml(string $html): string
     {
         $html = strip_tags($html);
         $html = html_entity_decode($html, ENT_QUOTES | ENT_HTML401);
@@ -588,7 +587,7 @@ EOD;
      * @param object $obj Object to be cloned
      * @return object
      */
-    public static function cloneObject(object $obj) : object
+    public static function cloneObject(object $obj): object
     {
         $clone = clone $obj;
         $objVars = get_object_vars($clone);

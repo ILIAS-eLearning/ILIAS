@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 use ILIAS\BackgroundTasks\Implementation\Values\AbstractValue;
 use ILIAS\BackgroundTasks\Value;
@@ -30,7 +32,7 @@ class ilCalendarCopyDefinition extends AbstractValue
      * Get copy definitions
      * @return ilCalendarCopyDefinition[]
      */
-    public function getCopyDefinitions() : array
+    public function getCopyDefinitions(): array
     {
         return $this->copy_definitions;
     }
@@ -39,7 +41,7 @@ class ilCalendarCopyDefinition extends AbstractValue
      * Set copy definitions
      * @param ilCalendarCopyDefinition[] $a_definitions
      */
-    public function setCopyDefinitions(array $a_definitions) : void
+    public function setCopyDefinitions(array $a_definitions): void
     {
         $this->copy_definitions = $a_definitions;
     }
@@ -48,7 +50,7 @@ class ilCalendarCopyDefinition extends AbstractValue
      * Get directory name located in /temp/ directory.
      * @return string
      */
-    public function getTempDir() : string
+    public function getTempDir(): string
     {
         return $this->temp_dir;
     }
@@ -57,7 +59,7 @@ class ilCalendarCopyDefinition extends AbstractValue
      * Set directory name located in /temp/ directory.
      * @param string $temp_dir
      */
-    public function setTempDir(string $temp_dir) : void
+    public function setTempDir(string $temp_dir): void
     {
         $this->temp_dir = $temp_dir;
     }
@@ -65,7 +67,7 @@ class ilCalendarCopyDefinition extends AbstractValue
     /**
      * Add copy definition
      */
-    public function addCopyDefinition(string $a_source, string $a_target) : void
+    public function addCopyDefinition(string $a_source, string $a_target): void
     {
         $this->copy_definitions[] =
             [
@@ -77,7 +79,7 @@ class ilCalendarCopyDefinition extends AbstractValue
     /**
      * @inheritDoc
      */
-    public function equals(Value $other) : bool
+    public function equals(Value $other): bool
     {
         return strcmp($this->getHash(), $other->getHash()) === 0;
     }
@@ -85,7 +87,7 @@ class ilCalendarCopyDefinition extends AbstractValue
     /**
      * @inheritDoc
      */
-    public function getHash() : string
+    public function getHash(): string
     {
         return md5($this->serialize());
     }
@@ -106,7 +108,7 @@ class ilCalendarCopyDefinition extends AbstractValue
     /**
      * @inheritDoc
      */
-    public function setValue($value) : void
+    public function setValue($value): void
     {
         $this->copy_definitions = $value;
     }

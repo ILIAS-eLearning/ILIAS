@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -22,7 +24,7 @@ use ILIAS\Data\Factory as DataFactory;
 
 class MyValidationConstraintsConstraint extends CustomConstraint
 {
-    public function _getLngClosure() : Closure
+    public function _getLngClosure(): Closure
     {
         return $this->getLngClosure();
     }
@@ -32,7 +34,7 @@ class MyToStringClass
 {
     private string $str_repr = '';
 
-    public function __toString() : string
+    public function __toString(): string
     {
         return $this->str_repr;
     }
@@ -44,31 +46,31 @@ class ValidationConstraintsCustomTest extends TestCase
     private ilLanguage $lng;
     private MyValidationConstraintsConstraint $constraint;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
-        $is_ok = static function ($value) : bool {
+        $is_ok = static function ($value): bool {
             return false;
         };
         $this->txt_id = "TXT_ID";
-        $error = function (callable $txt, $value) : string {
+        $error = function (callable $txt, $value): string {
             return $txt($this->txt_id, $value);
         };
         $this->lng = $this->createMock(ilLanguage::class);
         $this->constraint = new MyValidationConstraintsConstraint($is_ok, $error, new DataFactory(), $this->lng);
     }
 
-    public function testWithProblemBuilder() : void
+    public function testWithProblemBuilder(): void
     {
-        $new_constraint = $this->constraint->withProblemBuilder(static function () : string {
+        $new_constraint = $this->constraint->withProblemBuilder(static function (): string {
             return "This was a fault";
         });
         $this->assertEquals("This was a fault", $new_constraint->problemWith(""));
     }
 
-    public function testProblemBuilderRetrievesLngClosure() : void
+    public function testProblemBuilderRetrievesLngClosure(): void
     {
         $cls = null;
-        $c = $this->constraint->withProblemBuilder(function ($txt) use (&$cls) : string {
+        $c = $this->constraint->withProblemBuilder(function ($txt) use (&$cls): string {
             $cls = $txt;
             return "";
         });
@@ -76,7 +78,7 @@ class ValidationConstraintsCustomTest extends TestCase
         $this->assertIsCallable($cls);
     }
 
-    public function test_use_txt() : void
+    public function test_use_txt(): void
     {
         $txt_out = "'%s'";
         $this->lng
@@ -91,7 +93,7 @@ class ValidationConstraintsCustomTest extends TestCase
         $this->assertEquals(sprintf($txt_out, $value), $problem);
     }
 
-    public function test_exception_on_no_parameter() : void
+    public function test_exception_on_no_parameter(): void
     {
         $lng_closure = $this->constraint->_getLngClosure();
 
@@ -100,7 +102,7 @@ class ValidationConstraintsCustomTest extends TestCase
         $lng_closure();
     }
 
-    public function test_no_sprintf_on_one_parameter() : void
+    public function test_no_sprintf_on_one_parameter(): void
     {
         $lng_closure = $this->constraint->_getLngClosure();
 
@@ -116,7 +118,7 @@ class ValidationConstraintsCustomTest extends TestCase
         $this->assertEquals($txt_out, $res);
     }
 
-    public function test_gracefully_handle_arrays_and_objects() : void
+    public function test_gracefully_handle_arrays_and_objects(): void
     {
         $lng_closure = $this->constraint->_getLngClosure();
 

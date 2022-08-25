@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -44,12 +46,12 @@ class ilContentPageKioskModeView extends ilKioskModeView
     protected \ILIAS\Style\Content\Object\ObjectFacade $content_style_domain;
     protected \ILIAS\Style\Content\GUIService $content_style_gui;
 
-    protected function getObjectClass() : string
+    protected function getObjectClass(): string
     {
         return ilObjContentPage::class;
     }
 
-    protected function setObject(ilObject $object) : void
+    protected function setObject(ilObject $object): void
     {
         global $DIC;
 
@@ -68,22 +70,22 @@ class ilContentPageKioskModeView extends ilKioskModeView
         $this->content_style_domain = $cs->domain()->styleForRefId($object->getRefId());
     }
 
-    protected function hasPermissionToAccessKioskMode() : bool
+    protected function hasPermissionToAccessKioskMode(): bool
     {
         return $this->access->checkAccess('read', '', $this->contentPageObject->getRefId());
     }
 
-    public function buildInitialState(State $empty_state) : State
+    public function buildInitialState(State $empty_state): State
     {
         return $empty_state;
     }
 
-    public function buildControls(State $state, ControlBuilder $builder) : void
+    public function buildControls(State $state, ControlBuilder $builder): void
     {
         $this->buildLearningProgressToggleControl($builder);
     }
 
-    protected function buildLearningProgressToggleControl(ControlBuilder $builder) : void
+    protected function buildLearningProgressToggleControl(ControlBuilder $builder): void
     {
         $learningProgress = ilObjectLP::getInstance($this->contentPageObject->getId());
         if ($learningProgress->getCurrentMode() === ilLPObjSettings::LP_MODE_MANUAL) {
@@ -105,14 +107,14 @@ class ilContentPageKioskModeView extends ilKioskModeView
         }
     }
 
-    public function updateGet(State $state, string $command, int $parameter = null) : State
+    public function updateGet(State $state, string $command, int $parameter = null): State
     {
         $this->toggleLearningProgress($command);
 
         return $state;
     }
 
-    protected function toggleLearningProgress(string $command) : void
+    protected function toggleLearningProgress(string $command): void
     {
         if (in_array($command, [
             self::CMD_LP_TO_COMPLETED,
@@ -138,7 +140,7 @@ class ilContentPageKioskModeView extends ilKioskModeView
         }
     }
 
-    public function updatePost(State $state, string $command, array $post) : State
+    public function updatePost(State $state, string $command, array $post): State
     {
         return $state;
     }
@@ -148,7 +150,7 @@ class ilContentPageKioskModeView extends ilKioskModeView
         Factory $factory,
         URLBuilder $url_builder,
         array $post = null
-    ) : Component {
+    ): Component {
         ilLearningProgress::_tracProgress(
             $this->user->getId(),
             $this->contentPageObject->getId(),
@@ -183,7 +185,7 @@ class ilContentPageKioskModeView extends ilKioskModeView
     /**
      * Renders the content style of a ContentPage object into main template
      */
-    protected function renderContentStyle() : void
+    protected function renderContentStyle(): void
     {
         $this->mainTemplate->addCss(ilObjStyleSheet::getSyntaxStylePath());
         $this->content_style_gui->addCss(

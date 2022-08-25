@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -241,12 +243,12 @@ class ilCertificateGUI
         return $cmd;
     }
 
-    public function certificateImport() : void
+    public function certificateImport(): void
     {
         $this->certificateEditor();
     }
 
-    public function certificatePreview() : void
+    public function certificatePreview(): void
     {
         try {
             $this->previewAction->createPreviewPdf($this->objectId);
@@ -262,7 +264,7 @@ class ilCertificateGUI
      * @throws FileNotFoundException
      * @throws IOException
      */
-    public function certificateExportFO() : void
+    public function certificateExportFO(): void
     {
         $this->exportAction->export();
     }
@@ -276,13 +278,13 @@ class ilCertificateGUI
      * @throws ilObjectNotFoundException
      * @throws ilWACException
      */
-    public function certificateRemoveBackground() : void
+    public function certificateRemoveBackground(): void
     {
         $this->backgroundImageDelete->deleteBackgroundImage(null);
         $this->certificateEditor();
     }
 
-    public function certificateDelete() : void
+    public function certificateDelete(): void
     {
         // display confirmation message
         $cgui = new ilConfirmationGUI();
@@ -297,7 +299,7 @@ class ilCertificateGUI
     /**
      * Deletes the certificate and all its data
      */
-    public function certificateDeleteConfirm() : void
+    public function certificateDeleteConfirm(): void
     {
         $template = $this->templateRepository->fetchCurrentlyUsedCertificate($this->objectId);
         $templateId = $template->getId();
@@ -315,7 +317,7 @@ class ilCertificateGUI
      * @throws ilException
      * @throws ilWACException
      */
-    public function certificateSave() : void
+    public function certificateSave(): void
     {
         global $DIC;
 
@@ -343,7 +345,7 @@ class ilCertificateGUI
      * @throws ilObjectNotFoundException
      * @throws ilWACException
      */
-    public function certificateUpload() : void
+    public function certificateUpload(): void
     {
         $this->certificateEditor();
     }
@@ -357,7 +359,7 @@ class ilCertificateGUI
      * @throws ilException
      * @throws ilWACException
      */
-    private function getEditorForm() : ilPropertyFormGUI
+    private function getEditorForm(): ilPropertyFormGUI
     {
         $certificateTemplate = $this->templateRepository->fetchCurrentlyUsedCertificate($this->objectId);
 
@@ -384,7 +386,7 @@ class ilCertificateGUI
      * @throws ilObjectNotFoundException
      * @throws ilWACException
      */
-    public function certificateEditor() : void
+    public function certificateEditor(): void
     {
         $form = $this->getEditorForm();
         $enabledGlobalLearningProgress = ilObjUserTracking::_enabledLearningProgress();
@@ -415,7 +417,7 @@ class ilCertificateGUI
         $this->tpl->setVariable("ADM_CONTENT", $messageBoxHtml . $formHtml);
     }
 
-    private function saveCertificate(ilPropertyFormGUI $form, array $form_fields, $objId) : void
+    private function saveCertificate(ilPropertyFormGUI $form, array $form_fields, $objId): void
     {
         $previousCertificateTemplate = $this->templateRepository->fetchPreviousCertificate($objId);
         $currentVersion = $previousCertificateTemplate->getVersion();
@@ -573,7 +575,7 @@ class ilCertificateGUI
         $this->tpl->setVariable("ADM_CONTENT", $form->getHTML());
     }
 
-    private function setTemplateContent(ilCertificateTemplate $certificate, ilPropertyFormGUI $form) : void
+    private function setTemplateContent(ilCertificateTemplate $certificate, ilPropertyFormGUI $form): void
     {
         $form_fields = $this->settingsFormFactory->fetchFormFieldData($certificate->getCertificateContent());
         $form_fields['active'] = $certificate->isCurrentlyActive();
@@ -583,7 +585,7 @@ class ilCertificateGUI
         $this->tpl->setVariable("ADM_CONTENT", $form->getHTML());
     }
 
-    private function createFormatArray(ilCertificateTemplate $certificateTemplate) : array
+    private function createFormatArray(ilCertificateTemplate $certificateTemplate): array
     {
         if ('' === $certificateTemplate->getCertificateHash()) {
             $format = $this->settings->get('pageformat', '');

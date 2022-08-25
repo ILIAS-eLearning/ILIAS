@@ -81,7 +81,7 @@ class ilContProfileTableGUI extends ilTable2GUI
         }
     }
 
-    public function getProfiles() : array
+    public function getProfiles(): array
     {
         $profiles = [];
         if ($this->skmg_settings->getLocalAssignmentOfProfiles()) {
@@ -105,7 +105,7 @@ class ilContProfileTableGUI extends ilTable2GUI
         return $profiles;
     }
 
-    protected function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set): void
     {
         $tpl = $this->tpl;
         $ctrl = $this->ctrl;

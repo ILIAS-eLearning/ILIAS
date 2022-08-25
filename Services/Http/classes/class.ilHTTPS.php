@@ -68,7 +68,7 @@ class ilHTTPS
         }
     }
 
-    private function readProtectedScripts() : void
+    private function readProtectedScripts(): void
     {
         $this->protected_scripts[] = 'login.php';
         $this->protected_scripts[] = 'index.php';
@@ -82,7 +82,7 @@ class ilHTTPS
      *
      * @return bool, if https is detected by protocol or by automatic detection, if enabled, false otherwise
      */
-    public function isDetected() : bool
+    public function isDetected(): bool
     {
         if (isset($_SERVER["HTTPS"]) && $_SERVER["HTTPS"] == "on") {
             return true;
@@ -103,14 +103,14 @@ class ilHTTPS
         return false;
     }
 
-    private function readProtectedClasses() : void
+    private function readProtectedClasses(): void
     {
         $this->protected_classes[] = 'ilstartupgui';
         $this->protected_classes[] = 'ilaccountregistrationgui';
         $this->protected_classes[] = 'ilpersonalsettingsgui';
     }
 
-    public function checkHTTPS(int $port = 443) : bool
+    public function checkHTTPS(int $port = 443): bool
     {
         if (($sp = fsockopen($_SERVER["SERVER_NAME"], $port, $errno, $error)) === false) {
             return false;
@@ -119,7 +119,7 @@ class ilHTTPS
         return true;
     }
 
-    public function enableSecureCookies() : void
+    public function enableSecureCookies(): void
     {
         $secure_disabled = (bool) $this->client_ini->readVariable('session', 'disable_secure_cookies');
         if (!$secure_disabled && !$this->enabled && $this->isDetected() && !session_id()) {
@@ -137,7 +137,7 @@ class ilHTTPS
         }
     }
 
-    public function checkProtocolAndRedirectIfNeeded() : bool
+    public function checkProtocolAndRedirectIfNeeded(): bool
     {
         // if https is enabled for scripts or classes, check for redirection
         if ($this->enabled) {
@@ -153,20 +153,20 @@ class ilHTTPS
         return true;
     }
 
-    private function shouldSwitchProtocol($to_protocol) : bool
+    private function shouldSwitchProtocol($to_protocol): bool
     {
         switch ($to_protocol) {
             case self::PROTOCOL_HTTP:
                 return (
-                        !in_array(basename($_SERVER['SCRIPT_NAME']), $this->protected_scripts) &&
-                        !in_array(strtolower($_GET['cmdClass']), $this->protected_classes)
-                    ) && $_SERVER['HTTPS'] == 'on';
+                    !in_array(basename($_SERVER['SCRIPT_NAME']), $this->protected_scripts) &&
+                    !in_array(strtolower($_GET['cmdClass']), $this->protected_classes)
+                ) && $_SERVER['HTTPS'] == 'on';
 
             case self::PROTOCOL_HTTPS:
                 return (
-                        in_array(basename($_SERVER['SCRIPT_NAME']), $this->protected_scripts) ||
-                        in_array(strtolower($_GET['cmdClass']), $this->protected_classes)
-                    ) && $_SERVER['HTTPS'] != 'on';
+                    in_array(basename($_SERVER['SCRIPT_NAME']), $this->protected_scripts) ||
+                    in_array(strtolower($_GET['cmdClass']), $this->protected_classes)
+                ) && $_SERVER['HTTPS'] != 'on';
         }
 
         return false;

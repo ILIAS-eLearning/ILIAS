@@ -44,7 +44,7 @@ class ilAssLacNumericResultExpression extends ilAssLacAbstractExpression impleme
      *
      * @param array $matches
      */
-    protected function setMatches($matches) : void
+    protected function setMatches($matches): void
     {
         $this->numeric_value = $matches[0][0];
     }
@@ -52,7 +52,7 @@ class ilAssLacNumericResultExpression extends ilAssLacAbstractExpression impleme
     /**
      * @return float
      */
-    public function getNumericValue() : float
+    public function getNumericValue(): float
     {
         return $this->numeric_value;
     }
@@ -61,7 +61,7 @@ class ilAssLacNumericResultExpression extends ilAssLacAbstractExpression impleme
      * Get the value of this Expression
      * @return string
      */
-    public function getValue() : string
+    public function getValue(): string
     {
         return "#" . $this->numeric_value . "#";
     }
@@ -70,7 +70,7 @@ class ilAssLacNumericResultExpression extends ilAssLacAbstractExpression impleme
      * Get a human readable description of the Composite element
      * @return string
      */
-    public function getDescription() : string
+    public function getDescription(): string
     {
         return $this->numeric_value . " beantwortet ";
     }
@@ -82,7 +82,7 @@ class ilAssLacNumericResultExpression extends ilAssLacAbstractExpression impleme
      *
      * @return bool
      */
-    public function checkResult($result, $comperator, $index = null) : bool
+    public function checkResult($result, $comperator, $index = null): bool
     {
         $isTrue = false;
         if ($index == null) {
@@ -99,7 +99,7 @@ class ilAssLacNumericResultExpression extends ilAssLacAbstractExpression impleme
         return $isTrue;
     }
 
-    private function compare($comperator, $value) : bool
+    private function compare($comperator, $value): bool
     {
         switch ($comperator) {
             case "<":

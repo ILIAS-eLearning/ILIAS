@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 /**
@@ -21,20 +22,20 @@ namespace ILIAS\EmployeeTalk\UI;
 
 interface ControlFlowCommand
 {
-    const DEFAULT = "view";
-    const INDEX = "view";
+    public const DEFAULT = "view";
+    public const INDEX = "view";
 
-    const CREATE = "create";
-    const SAVE = "save";
+    public const CREATE = "create";
+    public const SAVE = "save";
 
-    const UPDATE_INDEX = "update";
-    const UPDATE = "edit";
+    public const UPDATE_INDEX = "update";
+    public const UPDATE = "edit";
 
-    const DELETE_INDEX = "delete";
-    const DELETE = "confirmedDelete";
+    public const DELETE_INDEX = "delete";
+    public const DELETE = "confirmedDelete";
 
-    const APPLY_FILTER = 'applyFilter';
-    const RESET_FILTER = 'resetFilter';
+    public const APPLY_FILTER = 'applyFilter';
+    public const RESET_FILTER = 'resetFilter';
 
-    const TABLE_ACTIONS = 'getActions';
+    public const TABLE_ACTIONS = 'getActions';
 }

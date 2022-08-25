@@ -25,27 +25,27 @@ class ilJsLinkButton extends ilButton
 {
     protected string $target;
 
-    public static function getInstance() : self
+    public static function getInstance(): self
     {
         return new self(self::TYPE_LINK);
     }
 
-    public function setTarget(string $a_value) : void
+    public function setTarget(string $a_value): void
     {
         $this->target = trim($a_value);
     }
 
-    public function getTarget() : string
+    public function getTarget(): string
     {
         return $this->target;
     }
 
-    protected function renderCaption() : string
+    protected function renderCaption(): string
     {
         return '&nbsp;' . $this->getCaption() . '&nbsp;';
     }
 
-    public function render() : string
+    public function render(): string
     {
         $this->prepareRender();
 

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -42,7 +44,7 @@ class ilObjPollAccess extends ilObjectAccess implements ilWACCheckingClass
     /**
     * @inheritdoc
     */
-    public function _checkAccess(string $cmd, string $permission, int $ref_id, int $obj_id, ?int $user_id = null) : bool
+    public function _checkAccess(string $cmd, string $permission, int $ref_id, int $obj_id, ?int $user_id = null): bool
     {
         $ilUser = $this->user;
         $lng = $this->lng;
@@ -59,11 +61,11 @@ class ilObjPollAccess extends ilObjectAccess implements ilWACCheckingClass
         ) {
             return false;
         }
-        
+
         return true;
     }
 
-    public static function _isActivated(int $a_ref_id) : bool
+    public static function _isActivated(int $a_ref_id): bool
     {
         $item = ilObjectActivation::getItem($a_ref_id);
         switch ($item['timing_type']) {
@@ -73,35 +75,35 @@ class ilObjPollAccess extends ilObjectAccess implements ilWACCheckingClass
                     return false;
                 }
                 // fallthrough
-                
+
                 // no break
             default:
                 return true;
         }
     }
-    
+
     /**
      * @inheritdoc
      */
-    public static function _getCommands() : array
+    public static function _getCommands(): array
     {
         return [
             ["permission" => "read", "cmd" => "preview", "lang_var" => "show", "default" => true],
             ["permission" => "write", "cmd" => "render", "lang_var" => "edit"]
         ];
     }
-    
+
     /**
     * @inheritdoc
     */
-    public static function _checkGoto(string $target) : bool
+    public static function _checkGoto(string $target): bool
     {
         global $DIC;
 
         $ilAccess = $DIC->access();
-        
+
         $t_arr = explode("_", $target);
-        
+
         if ($t_arr[0] !== "poll" || ((int) $t_arr[1]) <= 0) {
             return false;
         }
@@ -117,7 +119,7 @@ class ilObjPollAccess extends ilObjectAccess implements ilWACCheckingClass
     /**
      * @inheritdoc
      */
-    public function canBeDelivered(ilWACPath $ilWACPath) : bool
+    public function canBeDelivered(ilWACPath $ilWACPath): bool
     {
         $ilAccess = $this->access;
         preg_match("/\\/poll_([\\d]*)\\//uism", $ilWACPath->getPath(), $results);

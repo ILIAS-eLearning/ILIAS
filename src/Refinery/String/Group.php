@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -42,7 +44,7 @@ class Group
      *                       with the new constraint
      * @return Constraint
      */
-    public function hasMinLength(int $minimum) : Constraint
+    public function hasMinLength(int $minimum): Constraint
     {
         return new HasMinLength($minimum, $this->dataFactory, $this->language);
     }
@@ -55,7 +57,7 @@ class Group
      *                       with the new constraint
      * @return Constraint
      */
-    public function hasMaxLength(int $maximum) : Constraint
+    public function hasMaxLength(int $maximum): Constraint
     {
         return new HasMaxLength($maximum, $this->dataFactory, $this->language);
     }
@@ -64,7 +66,7 @@ class Group
      * Creates a transformation that can be used to split a given
      * string by given delimiter.
      */
-    public function splitString(string $delimiter) : Transformation
+    public function splitString(string $delimiter): Transformation
     {
         return new SplitString($delimiter, $this->dataFactory);
     }
@@ -75,7 +77,7 @@ class Group
      *
      * Uses php's strip_tags under the hood.
      */
-    public function stripTags() : Transformation
+    public function stripTags(): Transformation
     {
         return new StripTags();
     }
@@ -85,7 +87,7 @@ class Group
      *
      * Throws a LogicException in the transform method, if a not supported language is passed
      */
-    public function caseOfLabel(string $language_key) : Transformation
+    public function caseOfLabel(string $language_key): Transformation
     {
         return new CaseOfLabel($language_key);
     }
@@ -99,7 +101,7 @@ class Group
      * Any images after the tenth image are counted at three seconds.
      * The reading time returned in minutes as a integer value.
      */
-    public function estimatedReadingTime(bool $withImages = false) : Transformation
+    public function estimatedReadingTime(bool $withImages = false): Transformation
     {
         return new EstimatedReadingTime($withImages);
     }
@@ -108,7 +110,7 @@ class Group
      * Creates a transformation to replace URL's like www.ilias.de to <a href="www.ilias.de">www.ilias.de</a>. But does not replace URL's already in anchor tags.
      * Expects a string of mixed HTML and plain text.
      */
-    public function makeClickable() : Transformation
+    public function makeClickable(): Transformation
     {
         return new MakeClickable();
     }
@@ -120,7 +122,7 @@ class Group
      *
      * @return Levenshtein
      */
-    public function levenshtein() : Levenshtein
+    public function levenshtein(): Levenshtein
     {
         return new Levenshtein();
     }

@@ -1,4 +1,5 @@
 <?php
+
 /* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -21,7 +22,7 @@ class ilServicesUserTasks
      * @param array  $params
      * @return array
      */
-    public static function createAnonymousUsers(ilNode $context, array $params) : array
+    public static function createAnonymousUsers(ilNode $context, array $params): array
     {
         $input_params = $params[0];
         $output_params = $params[1];
@@ -61,7 +62,7 @@ class ilServicesUserTasks
     /**
      * @return string
      */
-    protected static function getValidLogin() : string
+    protected static function getValidLogin(): string
     {
         $random = new ilRandom();
         do {
@@ -75,7 +76,7 @@ class ilServicesUserTasks
      * @param int $length
      * @return string
      */
-    protected static function generatePassword(int $length = 8) : string
+    protected static function generatePassword(int $length = 8): string
     {
         $random = new ilRandom();
         $password = [];
@@ -95,7 +96,7 @@ class ilServicesUserTasks
      * @param string $email
      * @return int
      */
-    protected static function createUser(string $login, string $password, string $email) : int
+    protected static function createUser(string $login, string $password, string $email): int
     {
         global $DIC;
         $rbacadmin = $DIC['rbacadmin'];
@@ -126,7 +127,7 @@ class ilServicesUserTasks
      * @param ilNode $context
      * @param array  $params
      */
-    public static function repersonalizeUsers(ilNode $context, array $params) : void
+    public static function repersonalizeUsers(ilNode $context, array $params): void
     {
         // IN: discloseMap
         $input_params = $params[0];

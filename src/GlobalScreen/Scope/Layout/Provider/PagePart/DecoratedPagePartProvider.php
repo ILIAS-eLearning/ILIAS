@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -32,12 +34,12 @@ use ILIAS\UI\Component\MainControls\MetaBar;
  */
 class DecoratedPagePartProvider implements PagePartProvider
 {
-    const PURPOSE_TITLE = 'ptitle';
-    const PURPOSE_SHORTTITLE = 'stitle';
-    const PURPOSE_VIEWTITLE = 'vtitle';
-    const PURPOSE_LOGO = 'plogo';
-    const PURPOSE_RESPONSIVE_LOGO = 'prlogo';
-    const PURPOSE_FAVICON = 'pfavicon';
+    public const PURPOSE_TITLE = 'ptitle';
+    public const PURPOSE_SHORTTITLE = 'stitle';
+    public const PURPOSE_VIEWTITLE = 'vtitle';
+    public const PURPOSE_LOGO = 'plogo';
+    public const PURPOSE_RESPONSIVE_LOGO = 'prlogo';
+    public const PURPOSE_FAVICON = 'pfavicon';
 
     private PagePartProvider $original;
     private Closure $deco;
@@ -67,7 +69,7 @@ class DecoratedPagePartProvider implements PagePartProvider
         return $original;
     }
 
-    private function isDecorated(string $purpose) : bool
+    private function isDecorated(string $purpose): bool
     {
         return $purpose === $this->purpose;
     }
@@ -75,7 +77,7 @@ class DecoratedPagePartProvider implements PagePartProvider
     /**
      * @inheritDoc
      */
-    public function getContent() : ?Legacy
+    public function getContent(): ?Legacy
     {
         return $this->getDecoratedOrOriginal(Legacy::class, $this->original->getContent());
     }
@@ -83,7 +85,7 @@ class DecoratedPagePartProvider implements PagePartProvider
     /**
      * @inheritDoc
      */
-    public function getMetaBar() : ?MetaBar
+    public function getMetaBar(): ?MetaBar
     {
         return $this->getDecoratedOrOriginal(MetaBar::class, $this->original->getMetaBar());
     }
@@ -91,7 +93,7 @@ class DecoratedPagePartProvider implements PagePartProvider
     /**
      * @inheritDoc
      */
-    public function getMainBar() : ?MainBar
+    public function getMainBar(): ?MainBar
     {
         return $this->getDecoratedOrOriginal(MainBar::class, $this->original->getMainBar());
     }
@@ -99,7 +101,7 @@ class DecoratedPagePartProvider implements PagePartProvider
     /**
      * @inheritDoc
      */
-    public function getBreadCrumbs() : ?Breadcrumbs
+    public function getBreadCrumbs(): ?Breadcrumbs
     {
         return $this->getDecoratedOrOriginal(Breadcrumbs::class, $this->original->getBreadCrumbs());
     }
@@ -107,18 +109,18 @@ class DecoratedPagePartProvider implements PagePartProvider
     /**
      * @inheritDoc
      */
-    public function getLogo() : ?Image
+    public function getLogo(): ?Image
     {
         return $this->getDecoratedOrOriginal(self::PURPOSE_LOGO, $this->original->getLogo());
     }
 
 
-    public function getResponsiveLogo() : ?Image
+    public function getResponsiveLogo(): ?Image
     {
         return $this->getDecoratedOrOriginal(self::PURPOSE_RESPONSIVE_LOGO, $this->original->getResponsiveLogo());
     }
 
-    public function getFaviconPath() : string
+    public function getFaviconPath(): string
     {
         return $this->getDecoratedOrOriginal(self::PURPOSE_FAVICON, $this->original->getFaviconPath());
     }
@@ -126,7 +128,7 @@ class DecoratedPagePartProvider implements PagePartProvider
     /**
      * @inheritDoc
      */
-    public function getSystemInfos() : array
+    public function getSystemInfos(): array
     {
         return $this->original->getSystemInfos();
     }
@@ -134,7 +136,7 @@ class DecoratedPagePartProvider implements PagePartProvider
     /**
      * @inheritDoc
      */
-    public function getFooter() : ?Footer
+    public function getFooter(): ?Footer
     {
         return $this->getDecoratedOrOriginal(Footer::class, $this->original->getFooter());
     }
@@ -142,7 +144,7 @@ class DecoratedPagePartProvider implements PagePartProvider
     /**
      * @inheritDoc
      */
-    public function getTitle() : string
+    public function getTitle(): string
     {
         return $this->getDecoratedOrOriginal(self::PURPOSE_TITLE, $this->original->getTitle());
     }
@@ -150,7 +152,7 @@ class DecoratedPagePartProvider implements PagePartProvider
     /**
      * @inheritDoc
      */
-    public function getShortTitle() : string
+    public function getShortTitle(): string
     {
         return $this->getDecoratedOrOriginal(self::PURPOSE_SHORTTITLE, $this->original->getShortTitle());
     }
@@ -158,7 +160,7 @@ class DecoratedPagePartProvider implements PagePartProvider
     /**
      * @inheritDoc
      */
-    public function getViewTitle() : string
+    public function getViewTitle(): string
     {
         return $this->getDecoratedOrOriginal(self::PURPOSE_VIEWTITLE, $this->original->getViewTitle());
     }

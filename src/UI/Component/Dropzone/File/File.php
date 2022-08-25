@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\UI\Component\Dropzone\File;
 
 use ILIAS\UI\Component\Input\Container\Form\Form;
@@ -30,10 +32,10 @@ interface File extends FileUpload, Form, Droppable
     /**
      * Get a dropzone like this, but showing a custom title in the appearing modal.
      */
-    public function withTitle(string $title) : File;
+    public function withTitle(string $title): File;
 
     /**
      * Get the custom title if set.
      */
-    public function getTitle() : string;
+    public function getTitle(): string;
 }

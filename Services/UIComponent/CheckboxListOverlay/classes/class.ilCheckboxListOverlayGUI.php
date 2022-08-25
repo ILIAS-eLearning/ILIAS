@@ -44,81 +44,81 @@ class ilCheckboxListOverlayGUI
         $this->main_tpl = $DIC->ui()->mainTemplate();
     }
 
-    public function setId(string $a_val) : void
+    public function setId(string $a_val): void
     {
         $this->id = $a_val;
     }
-    
-    public function getId() : string
+
+    public function getId(): string
     {
         return $this->id;
     }
-    
-    public function setLinkTitle(string $a_val) : void
+
+    public function setLinkTitle(string $a_val): void
     {
         $this->link_title = $a_val;
     }
-    
-    public function getLinkTitle() : string
+
+    public function getLinkTitle(): string
     {
         return $this->link_title;
     }
-    
-    public function setItems(array $a_val) : void
+
+    public function setItems(array $a_val): void
     {
         $this->items = $a_val;
     }
-    
-    public function getItems() : array
+
+    public function getItems(): array
     {
         return $this->items;
     }
-    
+
     public function setSelectionHeaderClass(
         string $a_selectionheaderclass
-    ) : void {
+    ): void {
         $this->selectionheaderclass = $a_selectionheaderclass;
     }
 
-    public function getSelectionHeaderClass() : string
+    public function getSelectionHeaderClass(): string
     {
         return $this->selectionheaderclass;
     }
 
-    public function setFormCmd(string $a_val) : void
+    public function setFormCmd(string $a_val): void
     {
         $this->form_cmd = $a_val;
     }
-    
-    public function getFormCmd() : string
+
+    public function getFormCmd(): string
     {
         return $this->form_cmd;
     }
-    
-    public function setFieldVar(string $a_val) : void
+
+    public function setFieldVar(string $a_val): void
     {
         $this->field_var = $a_val;
     }
-    
-    public function getFieldVar() : string
+
+    public function getFieldVar(): string
     {
         return $this->field_var;
     }
-    
-    public function setHiddenVar(string $a_val) : void
+
+    public function setHiddenVar(string $a_val): void
     {
         $this->hidden_var = $a_val;
     }
-    
-    public function getHiddenVar() : string
+
+    public function getHiddenVar(): string
     {
         return $this->hidden_var;
     }
 
-    public function getHTML(bool $pull_right = true) : string
+    public function getHTML(bool $pull_right = true): string
     {
         $lng = $this->lng;
-        
+
         $items = $this->getItems();
 
         $tpl = new ilTemplate(
@@ -136,12 +136,12 @@ class ilCheckboxListOverlayGUI
 		});");
 
         $tpl->setCurrentBlock("top_img");
-        
+
         // do not repeat title (accessibility) -> empty alt
         $tpl->setVariable("TXT_SEL_TOP", $this->getLinkTitle());
 
         $tpl->parseCurrentBlock();
-        
+
         reset($items);
         $cnt = 0;
         foreach ($items as $k => $v) {

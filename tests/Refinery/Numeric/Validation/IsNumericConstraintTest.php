@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -27,7 +29,7 @@ class IsNumericConstraintTest extends TestCase
     private Refinery $f;
     private \ILIAS\Refinery\Constraint $c;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         $this->df = new DataFactory();
         $this->lng = $this->createMock(ilLanguage::class);
@@ -37,67 +39,67 @@ class IsNumericConstraintTest extends TestCase
         $this->c = $this->f->numeric()->isNumeric();
     }
 
-    public function testAccepts1() : void
+    public function testAccepts1(): void
     {
         $this->assertTrue($this->c->accepts(0));
     }
 
-    public function testAccepts2() : void
+    public function testAccepts2(): void
     {
         $this->assertTrue($this->c->accepts("1"));
     }
 
-    public function testAccepts3() : void
+    public function testAccepts3(): void
     {
         $this->assertTrue($this->c->accepts(1));
     }
 
-    public function testAccepts4() : void
+    public function testAccepts4(): void
     {
         $this->assertTrue($this->c->accepts(0x102));
     }
 
-    public function testAccepts5() : void
+    public function testAccepts5(): void
     {
         $this->assertTrue($this->c->accepts(0102));
     }
 
-    public function testAccepts6() : void
+    public function testAccepts6(): void
     {
         $this->assertTrue($this->c->accepts(0b101));
     }
 
-    public function testAccepts7() : void
+    public function testAccepts7(): void
     {
         $this->assertTrue($this->c->accepts(192e0));
     }
 
-    public function testAccepts8() : void
+    public function testAccepts8(): void
     {
         $this->assertTrue($this->c->accepts(9.1));
     }
 
-    public function testNotAccepts1() : void
+    public function testNotAccepts1(): void
     {
         $this->assertFalse($this->c->accepts(null));
     }
 
-    public function testNotAccepts2() : void
+    public function testNotAccepts2(): void
     {
         $this->assertFalse($this->c->accepts("foo"));
     }
 
-    public function testCheckSucceed() : void
+    public function testCheckSucceed(): void
     {
         $this->c->check(2);
         $this->assertTrue(true); // does not throw
     }
 
-    public function testCheckFails() : void
+    public function testCheckFails(): void
     {
         $this->lng
             ->method('txt')
-            ->willReturnCallback(static function (string $value) : string {
+            ->willReturnCallback(static function (string $value): string {
                 return $value;
             })
         ;
@@ -105,12 +107,12 @@ class IsNumericConstraintTest extends TestCase
         $this->c->check("");
     }
 
-    public function testNoProblemWith() : void
+    public function testNoProblemWith(): void
     {
         $this->assertNull($this->c->problemWith(2));
     }
 
-    public function testProblemWith() : void
+    public function testProblemWith(): void
     {
         $this->lng
             ->expects($this->once())
@@ -121,7 +123,7 @@ class IsNumericConstraintTest extends TestCase
         $this->assertEquals("-aa-", $this->c->problemWith("aa"));
     }
 
-    public function testRestrictOk() : void
+    public function testRestrictOk(): void
     {
         $ok = $this->df->ok(2);
 
@@ -129,7 +131,7 @@ class IsNumericConstraintTest extends TestCase
         $this->assertTrue($res->isOk());
     }
 
-    public function testRestrictNotOk() : void
+    public function testRestrictNotOk(): void
     {
         $not_ok = $this->df->ok("");
 
@@ -143,7 +145,7 @@ class IsNumericConstraintTest extends TestCase
         $this->assertFalse($res->isOk());
     }
 
-    public function testRestrictError() : void
+    public function testRestrictError(): void
     {
         $error = $this->df->error("error");
 
@@ -151,9 +153,9 @@ class IsNumericConstraintTest extends TestCase
         $this->assertSame($error, $res);
     }
 
-    public function testWithProblemBuilder() : void
+    public function testWithProblemBuilder(): void
     {
-        $new_c = $this->c->withProblemBuilder(static function () : string {
+        $new_c = $this->c->withProblemBuilder(static function (): string {
             return "This was a fault";
         });
         $this->assertEquals("This was a fault", $new_c->problemWith(""));

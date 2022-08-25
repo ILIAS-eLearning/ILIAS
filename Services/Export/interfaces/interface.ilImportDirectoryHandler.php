@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -23,7 +25,7 @@
  */
 interface ilImportDirectoryHandler
 {
-    public function exists() : bool;
+    public function exists(): bool;
 
-    public function getAbsolutePath() : string;
+    public function getAbsolutePath(): string;
 }

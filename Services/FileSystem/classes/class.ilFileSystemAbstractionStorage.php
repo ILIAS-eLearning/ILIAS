@@ -34,7 +34,7 @@ abstract class ilFileSystemAbstractionStorage
     private bool $path_conversion = false;
     protected ?string $path = null;
     protected \ILIAS\Filesystem\Filesystems $file_system_service;
-    
+
     /**
      * Constructor
      *
@@ -52,24 +52,24 @@ abstract class ilFileSystemAbstractionStorage
         $this->path_conversion = $a_path_conversion;
         $this->container_id = $a_container_id;
         $this->file_system_service = $DIC->filesystem();
-        
+
         // Get path info
         $this->init();
     }
-    
-    public function fileExists(string $a_absolute_path) : bool
+
+    public function fileExists(string $a_absolute_path): bool
     {
         return $this->getFileSystemService()->has($this->createRelativePathForFileSystem($a_absolute_path));
     }
-    
-    protected function getLegacyFullAbsolutePath(string $relative_path) : string
+
+    protected function getLegacyFullAbsolutePath(string $relative_path): string
     {
         $stream = $this->getFileSystemService()->readStream($relative_path);
-        
+
         return $stream->getMetadata('uri');
     }
-    
-    protected function getFileSystemService() : Filesystem
+
+    protected function getFileSystemService(): Filesystem
     {
         switch ($this->getStorageType()) {
             case self::STORAGE_DATA:
@@ -81,13 +81,13 @@ abstract class ilFileSystemAbstractionStorage
         }
         throw new LogicException('cannot determine correct filesystem');
     }
-    
-    public function getContainerId() : int
+
+    public function getContainerId(): int
     {
         return $this->container_id;
     }
-    
-    public static function createPathFromId(int $a_container_id, string $a_name) : string
+
+    public static function createPathFromId(int $a_container_id, string $a_name): string
     {
         $path = [];
         $found = false;
@@ -101,14 +101,14 @@ abstract class ilFileSystemAbstractionStorage
                 $found = true;
             }
         }
-        
+
         if (count($path)) {
             $path_string = (implode('/', $path) . '/');
         }
-        
+
         return $path_string . $a_name . '_' . $a_container_id;
     }
-    
+
     /**
      * @deprecated Please use StorageService or FilesystemService for all file opertion
      */
@@ -124,11 +124,11 @@ abstract class ilFileSystemAbstractionStorage
         @fclose($fp);
         return true;
     }
-    
+
     /**
      * @deprecated Please use StorageService or FilesystemService for all file opertion
      */
-    public function copyFile(string $a_from, string $a_to) : bool
+    public function copyFile(string $a_from, string $a_to): bool
     {
         if (@file_exists($a_from)) {
             @copy($a_from, $a_to);
@@ -136,27 +136,27 @@ abstract class ilFileSystemAbstractionStorage
         }
         return false;
     }
-    
+
     /**
      * Get path prefix. Prefix that will be prepended to the path
      * No trailing slash. E.g ilFiles for files
      */
-    abstract protected function getPathPrefix() : string;
-    
+    abstract protected function getPathPrefix(): string;
+
     /**
      * Get directory name. E.g for files => file
      * Only relative path, no trailing slash
      * '_<obj_id>' will be appended automatically
      */
-    abstract protected function getPathPostfix() : string;
-    
-    public function create() : void
+    abstract protected function getPathPostfix(): string;
+
+    public function create(): void
     {
         if (!$this->getFileSystemService()->has($this->path)) {
             $this->getFileSystemService()->createDir($this->path);
         }
     }
-    
+
     /**
      * Calculates the full path on the filesystem.
      * This method is filesystem aware and will create the absolute path
@@ -166,11 +166,11 @@ abstract class ilFileSystemAbstractionStorage
      *
      * @throws IOException Thrown if the absolute path could not be created.
      */
-    public function getAbsolutePath() : string
+    public function getAbsolutePath(): string
     {
         return $this->getLegacyAbsolutePath();
     }
-    
+
     /**
      * Calculates the absolute filesystem storage location.
      *
@@ -178,19 +178,19 @@ abstract class ilFileSystemAbstractionStorage
      *
      * @throws IOException Thrown if the directory could not be created.
      */
-    protected function getLegacyAbsolutePath() : string
+    protected function getLegacyAbsolutePath(): string
     {
         if (!$this->getFileSystemService()->has($this->path)) {
             $this->getFileSystemService()->createDir($this->path);
         }
-        
+
         if ($this->getStorageType() === self::STORAGE_DATA) {
             return CLIENT_DATA_DIR . '/' . $this->path;
         }
         return CLIENT_WEB_DIR . '/' . $this->path;
     }
-    
-    protected function init() : bool
+
+    protected function init(): bool
     {
         switch ($this->storage_type) {
             case self::STORAGE_DATA:
@@ -200,95 +200,95 @@ abstract class ilFileSystemAbstractionStorage
                 $this->path = rtrim($this->path, '/') . '/' . self::SECURED_DIRECTORY . '/';
                 break;
         }
-        
+
         // Append path prefix
         $this->path .= ($this->getPathPrefix() . '/');
-        
+
         if ($this->path_conversion) {
             $this->path .= self::createPathFromId($this->container_id, $this->getPathPostfix());
         } else {
             $this->path .= ($this->getPathPostfix() . '_' . $this->container_id);
         }
-        
+
         return true;
     }
-    
-    public function delete() : bool
+
+    public function delete(): bool
     {
         try {
             $this->getFileSystemService()->deleteDir($this->getAbsolutePath());
         } catch (Exception $e) {
             return false;
         }
-        
+
         return true;
     }
-    
-    public function deleteDirectory(string $a_abs_name) : bool
+
+    public function deleteDirectory(string $a_abs_name): bool
     {
         $path = $this->createRelativePathForFileSystem($a_abs_name);
         $this->getFileSystemService()->deleteDir($path);
         return !$this->getFileSystemService()->has($path);
     }
-    
-    public function deleteFile(string $a_abs_name) : bool
+
+    public function deleteFile(string $a_abs_name): bool
     {
         $path = $this->createRelativePathForFileSystem($a_abs_name);
         $this->getFileSystemService()->delete($path);
         return !$this->getFileSystemService()->has($path);
     }
-    
-    public static function _copyDirectory(string $a_sdir, string $a_tdir) : bool
+
+    public static function _copyDirectory(string $a_sdir, string $a_tdir): bool
     {
         try {
             $sourceFS = LegacyPathHelper::deriveFilesystemFrom($a_sdir);
             $targetFS = LegacyPathHelper::deriveFilesystemFrom($a_tdir);
-            
+
             $sourceDir = LegacyPathHelper::createRelativePath($a_sdir);
             $targetDir = LegacyPathHelper::createRelativePath($a_tdir);
-            
+
             // check if arguments are directories
             if (!$sourceFS->hasDir($sourceDir)) {
                 return false;
             }
-            
+
             $sourceList = $sourceFS->listContents($sourceDir, true);
-            
+
             foreach ($sourceList as $item) {
                 if ($item->isDir()) {
                     continue;
                 }
-                
+
                 $itemPath = $targetDir . '/' . substr($item->getPath(), strlen($sourceDir));
                 $stream = $sourceFS->readStream($sourceDir);
                 $targetFS->writeStream($itemPath, $stream);
             }
-            
+
             return true;
         } catch (\Exception $exception) {
             return false;
         }
     }
-    
-    public function appendToPath(string $a_appendix) : void
+
+    public function appendToPath(string $a_appendix): void
     {
         $this->path .= $a_appendix;
     }
-    
-    public function getStorageType() : int
+
+    public function getStorageType(): int
     {
         return $this->storage_type;
     }
-    
-    public function getPath() : string
+
+    public function getPath(): string
     {
         return $this->path;
     }
-    
-    private function createRelativePathForFileSystem(string $a_absolute_path) : string
+
+    private function createRelativePathForFileSystem(string $a_absolute_path): string
     {
         $relative_path = ILIAS\Filesystem\Util\LegacyPathHelper::createRelativePath($a_absolute_path);
-        
+
         return $relative_path;
     }
 }

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -24,7 +26,7 @@ final class ilSamlIdpXmlMetadataErrorFormatter
      * @param LibXMLError $error The LibXMLError which should be formatted.
      * @return string A string representing the given LibXMLError.
      */
-    private function formatError(LibXMLError $error) : string
+    private function formatError(LibXMLError $error): string
     {
         return implode(',', [
             'level=' . $error->level,
@@ -44,7 +46,7 @@ final class ilSamlIdpXmlMetadataErrorFormatter
      * @param LibXMLError ...$errors A list of error arguments.
      * @return string A string representing the errors. An empty string will be returned if there were no errors in the argument list.
      */
-    public function formatErrors(LibXMLError ...$errors) : string
+    public function formatErrors(LibXMLError ...$errors): string
     {
         $text = '';
         foreach ($errors as $error) {

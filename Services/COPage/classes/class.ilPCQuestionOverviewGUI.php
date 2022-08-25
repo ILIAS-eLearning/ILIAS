@@ -37,7 +37,7 @@ class ilPCQuestionOverviewGUI extends ilPageContentGUI
         parent::__construct($a_pg_obj, $a_content_obj, $a_hier_id, $a_pc_id);
     }
 
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         // get next class that processes or forwards current command
         $next_class = $this->ctrl->getNextClass($this);
@@ -52,20 +52,20 @@ class ilPCQuestionOverviewGUI extends ilPageContentGUI
         }
     }
 
-    public function insert() : void
+    public function insert(): void
     {
         $this->edit(true);
     }
 
     public function edit(
         bool $a_insert = false
-    ) : void {
+    ): void {
         $ilCtrl = $this->ctrl;
         $tpl = $this->tpl;
         $lng = $this->lng;
-        
+
         $this->displayValidationError();
-        
+
         // edit form
         $form = new ilPropertyFormGUI();
         $form->setFormAction($ilCtrl->getFormAction($this));
@@ -74,7 +74,7 @@ class ilPCQuestionOverviewGUI extends ilPageContentGUI
         } else {
             $form->setTitle($this->lng->txt("cont_edit_qover"));
         }
-        
+
         // short message
         $cb = new ilCheckboxInputGUI($this->lng->txt("cont_qover_short_message"), "short");
         $cb->setInfo($this->lng->txt("cont_qover_short_message_info"));
@@ -84,7 +84,7 @@ class ilPCQuestionOverviewGUI extends ilPageContentGUI
             $cb->setChecked(true);
         }
         $form->addItem($cb);
-        
+
         // list wrong questions
         $cb = new ilCheckboxInputGUI($this->lng->txt("cont_qover_list_wrong_q"), "wrong_questions");
         $cb->setInfo($this->lng->txt("cont_qover_list_wrong_q_info"));
@@ -92,7 +92,7 @@ class ilPCQuestionOverviewGUI extends ilPageContentGUI
             $cb->setChecked($this->content_obj->getListWrongQuestions());
         }
         $form->addItem($cb);
-        
+
         // save/cancel buttons
         if ($a_insert) {
             $form->addCommandButton("create_qover", $lng->txt("save"));
@@ -108,7 +108,7 @@ class ilPCQuestionOverviewGUI extends ilPageContentGUI
     /**
      * Create new question overview
      */
-    public function create() : void
+    public function create(): void
     {
         $this->content_obj = new ilPCQuestionOverview($this->getPage());
         $this->content_obj->create($this->pg_obj, $this->hier_id, $this->pc_id);
@@ -129,7 +129,7 @@ class ilPCQuestionOverviewGUI extends ilPageContentGUI
     /**
      * Update question overview
      */
-    public function update() : void
+    public function update(): void
     {
         $this->content_obj->setShortMessage(
             $this->request->getString("short")

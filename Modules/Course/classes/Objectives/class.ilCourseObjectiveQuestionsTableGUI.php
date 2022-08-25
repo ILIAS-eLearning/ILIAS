@@ -1,4 +1,6 @@
-<?php declare(strict_types=0);
+<?php
+
+declare(strict_types=0);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -14,7 +16,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 use ILIAS\HTTP\Services as HTTPServices;
 use ILIAS\Refinery\Factory as Refinery;
 
@@ -56,7 +58,7 @@ class ilCourseObjectiveQuestionsTableGUI extends ilTable2GUI
         $this->addCommandButton('saveQuestionOverview', $this->lng->txt('save'));
     }
 
-    protected function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set): void
     {
         static $row_counter = 1;
 
@@ -124,7 +126,7 @@ class ilCourseObjectiveQuestionsTableGUI extends ilTable2GUI
         }
     }
 
-    public function parse(array $a_objective_ids) : void
+    public function parse(array $a_objective_ids): void
     {
         $post_self_limits = [];
         if ($this->http->wrapper()->post()->has('self')) {

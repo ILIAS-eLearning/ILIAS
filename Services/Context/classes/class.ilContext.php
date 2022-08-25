@@ -26,7 +26,7 @@ class ilContext
 {
     protected static string $class_name = "";
     protected static string $type = "";
-    
+
     public const CONTEXT_WEB = ilContextWeb::class;
     public const CONTEXT_CRON = ilContextCron::class;
     public const CONTEXT_RSS = ilContextRss::class;
@@ -49,14 +49,14 @@ class ilContext
     /**
      * Init context by type
      */
-    public static function init(string $a_type) : bool
+    public static function init(string $a_type): bool
     {
         self::$class_name = $a_type;
         self::$type = $a_type;
-        
+
         return true;
     }
-    
+
     /**
      * Call context method directly without internal handling
      * @return mixed
@@ -82,11 +82,11 @@ class ilContext
         }
         return call_user_func_array([self::$class_name, $a_method], $args);
     }
-    
+
     /**
      * Are redirects supported?
      */
-    public static function supportsRedirects() : bool
+    public static function supportsRedirects(): bool
     {
         global $DIC;
 
@@ -94,85 +94,85 @@ class ilContext
         if (isset($DIC["ilCtrl"])) {
             $ilCtrl = $DIC->ctrl();
         }
-        
+
         // asynchronous calls must never be redirected
         if ($ilCtrl && $ilCtrl->isAsynch()) {
             return false;
         }
-        
+
         return (bool) self::callContext("supportsRedirects");
     }
-    
+
     /**
      * Based on user authentication?
      */
-    public static function hasUser() : bool
+    public static function hasUser(): bool
     {
         return (bool) self::callContext("hasUser");
     }
-    
+
     /**
      * Uses HTTP aka browser
      */
-    public static function usesHTTP() : bool
+    public static function usesHTTP(): bool
     {
         return (bool) self::callContext("usesHTTP");
     }
-    
+
     /**
      * Has HTML output
      */
-    public static function hasHTML() : bool
+    public static function hasHTML(): bool
     {
         return (bool) self::callContext("hasHTML");
     }
-    
+
     /**
      * Uses template engine
      */
-    public static function usesTemplate() : bool
+    public static function usesTemplate(): bool
     {
         return (bool) self::callContext("usesTemplate");
     }
-    
+
     /**
      * Init client
      */
-    public static function initClient() : bool
+    public static function initClient(): bool
     {
         return (bool) self::callContext("initClient");
     }
-    
+
     /**
      * Try authentication
      */
-    public static function doAuthentication() : bool
+    public static function doAuthentication(): bool
     {
         return (bool) self::callContext("doAuthentication");
     }
-    
+
     /**
      * Supports push messages
      */
-    public static function supportsPushMessages() : bool
+    public static function supportsPushMessages(): bool
     {
         return (bool) self::callContext("supportsPushMessages");
     }
-    
+
     /**
      * Get context type
      */
-    public static function getType() : string
+    public static function getType(): string
     {
         return self::$type;
     }
-    
+
     /**
      * Check if context supports persistent
      * session handling.
      * false for cli context
      */
-    public static function supportsPersistentSessions() : bool
+    public static function supportsPersistentSessions(): bool
     {
         return (bool) self::callContext('supportsPersistentSessions');
     }
@@ -180,12 +180,12 @@ class ilContext
     /**
      * Context that are not only temporary in a session (e.g. WAC is, Cron is not)
      */
-    public static function isSessionMainContext() : bool
+    public static function isSessionMainContext(): bool
     {
         return (bool) self::callContext('isSessionMainContext');
     }
 
-    public static function modifyHttpPath(string $httpPath) : string
+    public static function modifyHttpPath(string $httpPath): string
     {
         return (string) self::callContext('modifyHttpPath', [$httpPath]);
     }

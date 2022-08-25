@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -25,7 +27,7 @@ class ilMailAddressTest extends ilMailBaseTest
     private const LOCAL_PART = 'phpunit';
     private const DOMAIN_PART = 'ilias.de';
 
-    public function testInstanceCanBeCreated() : ilMailAddress
+    public function testInstanceCanBeCreated(): ilMailAddress
     {
         $address = new ilMailAddress(self::LOCAL_PART, self::DOMAIN_PART);
 
@@ -37,7 +39,7 @@ class ilMailAddressTest extends ilMailBaseTest
     /**
      * @depends testInstanceCanBeCreated
      */
-    public function testAddressShouldReturnMailboxAndHost(ilMailAddress $address) : void
+    public function testAddressShouldReturnMailboxAndHost(ilMailAddress $address): void
     {
         $this->assertSame(self::LOCAL_PART, $address->getMailbox());
         $this->assertSame(self::DOMAIN_PART, $address->getHost());

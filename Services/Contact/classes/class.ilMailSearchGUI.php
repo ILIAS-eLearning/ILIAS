@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -59,14 +61,14 @@ class ilMailSearchGUI
 
         $this->wsp_access_handler = $wsp_access_handler;
         $this->wsp_node_id = $wsp_node_id;
-        
+
         $this->ctrl->saveParameter($this, 'mobj_id');
         $this->ctrl->saveParameter($this, 'ref');
 
         $this->umail = new ilFormatMail($DIC->user()->getId());
     }
 
-    public function executeCommand() : bool
+    public function executeCommand(): bool
     {
         $forward_class = $this->ctrl->getNextClass($this);
         switch ($forward_class) {
@@ -82,7 +84,7 @@ class ilMailSearchGUI
         return true;
     }
 
-    private function isDefaultRequestContext() : bool
+    private function isDefaultRequestContext(): bool
     {
         return (
             !$this->http->wrapper()->query()->has('ref') ||
@@ -90,13 +92,13 @@ class ilMailSearchGUI
         );
     }
 
-    public function adopt() : void
+    public function adopt(): void
     {
         $trafo = $this->refinery->kindlyTo()->int();
         if ($this->isDefaultRequestContext()) {
             $trafo = $this->refinery->kindlyTo()->string();
         }
-        
+
         $recipients_to = [];
         foreach (['addr', 'usr', 'grp'] as $search_type) {
             if ($this->http->wrapper()->post()->has('search_name_to_' . $search_type)) {
@@ -126,7 +128,7 @@ class ilMailSearchGUI
             ));
         }
         ilSession::set('mail_search_results_bcc', $recipients_bcc);
-        
+
         if ($this->isDefaultRequestContext()) {
             $this->saveMailData();
         } else {
@@ -136,7 +138,7 @@ class ilMailSearchGUI
         $this->ctrl->returnToParent($this);
     }
 
-    private function saveMailData() : void
+    private function saveMailData(): void
     {
         $mail_data = $this->umail->getSavedData();
 
@@ -154,12 +156,12 @@ class ilMailSearchGUI
         );
     }
 
-    public function cancel() : void
+    public function cancel(): void
     {
         $this->ctrl->returnToParent($this);
     }
 
-    public function search() : bool
+    public function search(): bool
     {
         $search = '';
         if ($this->http->wrapper()->post()->has('search')) {
@@ -180,7 +182,7 @@ class ilMailSearchGUI
         return true;
     }
 
-    protected function initSearchForm() : ilPropertyFormGUI
+    protected function initSearchForm(): ilPropertyFormGUI
     {
         if ($this->isDefaultRequestContext()) {
             $this->saveMailData();
@@ -217,7 +219,7 @@ class ilMailSearchGUI
         return $form;
     }
 
-    public function lookupRecipientAsync() : void
+    public function lookupRecipientAsync(): void
     {
         $search = '';
         if ($this->http->wrapper()->query()->has('term')) {
@@ -241,7 +243,7 @@ class ilMailSearchGUI
             $quoted = ilUtil::stripSlashes($search);
             $quoted = str_replace(['%', '_'], ['\%', '\_'], $quoted);
 
-            $mailFormObj = new ilMailForm;
+            $mailFormObj = new ilMailForm();
             $result = $mailFormObj->getRecipientAsync(
                 "%" . $quoted . "%",
                 ilUtil::stripSlashes($search),
@@ -259,7 +261,7 @@ class ilMailSearchGUI
     }
 
 
-    public function showResults() : void
+    public function showResults(): void
     {
         $form = $this->initSearchForm();
 
@@ -599,7 +601,7 @@ class ilMailSearchGUI
     /**
      * @param int[] $a_obj_ids
      */
-    protected function addPermission(array $a_obj_ids) : void
+    protected function addPermission(array $a_obj_ids): void
     {
         if (!is_array($a_obj_ids)) {
             $a_obj_ids = [$a_obj_ids];

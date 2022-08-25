@@ -34,7 +34,7 @@ class saveObjectSettingsCommandHandler
         $this->use_book_repo = $use_book_repo;
     }
 
-    public function handle() : void
+    public function handle(): void
     {
         $settings = $this->cmd->getSettings();
         $repo = $this->use_book_repo;

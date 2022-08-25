@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\UI\Implementation\Component\ViewControl;
 
 use ILIAS\UI\Component\ViewControl as VC;
@@ -35,7 +37,7 @@ class Factory implements VC\Factory
     /**
      * @inheritdoc
      */
-    public function mode(array $labelled_actions, string $aria_label) : VC\Mode
+    public function mode(array $labelled_actions, string $aria_label): VC\Mode
     {
         return new Mode($labelled_actions, $aria_label);
     }
@@ -43,7 +45,7 @@ class Factory implements VC\Factory
     /**
      * @inheritdoc
      */
-    public function section(Button $previous_action, Component $button, Button $next_action) : VC\Section
+    public function section(Button $previous_action, Component $button, Button $next_action): VC\Section
     {
         return new Section($previous_action, $button, $next_action);
     }
@@ -51,7 +53,7 @@ class Factory implements VC\Factory
     /**
      * @inheritdoc
      */
-    public function sortation(array $options) : VC\Sortation
+    public function sortation(array $options): VC\Sortation
     {
         return new Sortation($options, $this->signal_generator);
     }
@@ -59,7 +61,7 @@ class Factory implements VC\Factory
     /**
      * @inheritdoc
      */
-    public function pagination() : VC\Pagination
+    public function pagination(): VC\Pagination
     {
         return new Pagination($this->signal_generator);
     }

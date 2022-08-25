@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -27,13 +29,13 @@ class ilQTIPresentationMaterial implements ilQTIFlowMatAware
      * @var ilQTIFlowMat[]
      */
     protected array $flow_mat = [];
-    
-    public function addFlowMat(ilQTIFlowMat $flow_mat) : void
+
+    public function addFlowMat(ilQTIFlowMat $flow_mat): void
     {
         $this->flow_mat[] = $flow_mat;
     }
 
-    public function getFlowMat(int $index) : ?ilQTIFlowMat
+    public function getFlowMat(int $index): ?ilQTIFlowMat
     {
         return $this->flow_mat[$index] ?? null;
     }

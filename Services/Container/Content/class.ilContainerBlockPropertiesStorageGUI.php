@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -47,7 +49,7 @@ class ilContainerBlockPropertiesStorageGUI implements ilCtrlBaseClassInterface
             $DIC->container()->internal()->repo()->content()->block();
     }
 
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         $ilCtrl = $this->ctrl;
 
@@ -56,13 +58,12 @@ class ilContainerBlockPropertiesStorageGUI implements ilCtrlBaseClassInterface
             $this->$cmd();
         }
     }
-    
-    public function store() : void
+
+    public function store(): void
     {
         $ilUser = $this->user;
 
         switch ($this->request->getBlockAction()) {
-
             case "expand":
                 $this->block_repo->setProperty(
                     $this->request->getBlockId(),

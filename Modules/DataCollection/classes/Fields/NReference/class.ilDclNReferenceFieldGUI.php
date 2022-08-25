@@ -29,7 +29,7 @@ class ilDclNReferenceFieldGUI
         $this->field = $field;
     }
 
-    public function getSingleHTML(?array $options = null) : string
+    public function getSingleHTML(?array $options = null): string
     {
         $values = $this->field->getValue();
 
@@ -46,7 +46,7 @@ class ilDclNReferenceFieldGUI
         ilDclNReferenceRecordFieldModel $record_field,
         array $values,
         ?array $options
-    ) : ilTemplate {
+    ): ilTemplate {
         $tpl = new ilTemplate("tpl.reference_list.html", true, true, "Modules/DataCollection");
         $tpl->setCurrentBlock("reference_list");
         foreach ($values as $value) {
@@ -58,8 +58,10 @@ class ilDclNReferenceFieldGUI
             } else {
                 $tpl->setCurrentBlock("reference");
                 if (!$options) {
-                    $tpl->setVariable("CONTENT",
-                        $ref_record->getRecordFieldHTML($record_field->getField()->getFieldRef()));
+                    $tpl->setVariable(
+                        "CONTENT",
+                        $ref_record->getRecordFieldHTML($record_field->getField()->getFieldRef())
+                    );
                 } else {
                     $tpl->setVariable("CONTENT", $record_field->getLinkHTML($options['link']['name'], $value));
                 }
@@ -71,7 +73,7 @@ class ilDclNReferenceFieldGUI
         return $tpl;
     }
 
-    public function getHTML() : string
+    public function getHTML(): string
     {
         $values = $this->field->getValue();
         $record_field = $this->field;

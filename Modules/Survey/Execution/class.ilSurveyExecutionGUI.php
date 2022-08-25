@@ -107,8 +107,8 @@ class ilSurveyExecutionGUI
         // be refactored somehow to avoid the use of the complete post body
         $this->raw_post_data = $DIC->http()->request()->getParsedBody() ?? [];
     }
-    
-    public function executeCommand() : string
+
+    public function executeCommand(): string
     {
         // record read event for lp
         ilChangeEvent::_recordReadEvent(
@@ -117,7 +117,7 @@ class ilSurveyExecutionGUI
             $this->object->getId(),
             $GLOBALS['DIC']->user()->getId()
         );
-        
+
         $cmd = $this->ctrl->getCmd();
         $next_class = $this->ctrl->getNextClass($this);
 
@@ -138,14 +138,14 @@ class ilSurveyExecutionGUI
         }
         return (string) $ret;
     }
-    
+
     protected function checkAuth(
         bool $a_may_start = false,
         bool $a_ignore_status = false
-    ) : void {
+    ): void {
         $rbacsystem = $this->rbacsystem;
         $ilUser = $this->user;
-        
+
         if ($this->preview) {
             if (!$rbacsystem->checkAccess("write", $this->object->getRefId())) {
                 // only with write access it is possible to preview the survey
@@ -159,7 +159,7 @@ class ilSurveyExecutionGUI
             // only with read access it is possible to run the test
             throw new ilSurveyException($this->lng->txt("cannot_read_survey"));
         }
-        
+
         $user_id = $ilUser->getId();
 
         // check existing code
@@ -174,7 +174,7 @@ class ilSurveyExecutionGUI
                 $this->ctrl->redirectByClass("ilobjsurveygui", "infoScreen");
             }
         }
-        
+
         // appraisee validation
         $appr_id = 0;
         $appraisees = [];
@@ -200,9 +200,9 @@ class ilSurveyExecutionGUI
         if ($this->object->getMode() === ilObjSurvey::MODE_SELF_EVAL) {
             $appr_id = $ilUser->getId();
         }
-        
+
         //$_SESSION["appr_id"][$this->object->getId()] = $appr_id;
-                    
+
         if (!$a_ignore_status) {
             // completed
             if ($this->run_manager->hasFinished($appr_id)) {
@@ -233,27 +233,27 @@ class ilSurveyExecutionGUI
         }
     }
 
-    public function resume() : void
+    public function resume(): void
     {
         $this->start(true);
     }
-    
-    public function start(bool $resume = false) : void
+
+    public function start(bool $resume = false): void
     {
         if ($this->preview) {
             $this->run_manager->clearAllPreviewData();
         }
         $this->run_manager->clearErrors();
-        
+
         $this->checkAuth(!$resume);
-                
+
         $activepage = "";
         if ($resume) {
             $activepage = $this->object->getLastActivePage(
                 $this->getCurrentRunId()
             );
         }
-        
+
         if ((string) $activepage !== '') {
             $this->ctrl->setParameter($this, "qid", (string) $activepage);
         }
@@ -265,7 +265,7 @@ class ilSurveyExecutionGUI
      * Called when a user answered a page to perform a redirect after POST.
      * This is called for security reasons to prevent users sending a form twice.
      */
-    public function redirectQuestion() : void
+    public function redirectQuestion(): void
     {
         switch ($this->request->getActiveCommand()) {
             case "previous":
@@ -285,15 +285,15 @@ class ilSurveyExecutionGUI
                 break;
         }
     }
-    
-    public function previousNoSave() : void
+
+    public function previousNoSave(): void
     {
         $this->previous(false);
     }
 
     public function previous(
         bool $a_save_input = true
-    ) : void {
+    ): void {
         $has_error = "";
         if ($a_save_input) {
             // #16209
@@ -308,11 +308,11 @@ class ilSurveyExecutionGUI
         }
         $this->ctrl->redirect($this, "redirectQuestion");
     }
-    
+
     /**
      * Navigates to the next page
      */
-    public function next() : void
+    public function next(): void
     {
         $result = $this->saveUserInput("next");
         $this->ctrl->setParameter($this, "activecommand", "next");
@@ -324,11 +324,11 @@ class ilSurveyExecutionGUI
         }
         $this->ctrl->redirect($this, "redirectQuestion");
     }
-    
+
     /**
      * Go to a specific page without saving
      */
-    public function gotoPage() : void
+    public function gotoPage(): void
     {
         $this->ctrl->setParameter($this, "activecommand", "gotoPage");
         $this->ctrl->setParameter($this, "qid", $this->request->getQuestionId());
@@ -344,13 +344,13 @@ class ilSurveyExecutionGUI
     public function outSurveyPage(
         int $activepage = 0,
         int $direction = 0
-    ) : void {
+    ): void {
         $ilUser = $this->user;
-        
+
         $this->checkAuth();
         $page = $this->object->getNextPage($activepage, $direction);
         $constraint_true = 0;
-        
+
         // check for constraints
         if (!is_null($page) && is_array($page[0]["constraints"]) && count($page[0]["constraints"])) {
             $this->log->debug("Page constraints= ", $page[0]["constraints"]);
@@ -375,7 +375,7 @@ class ilSurveyExecutionGUI
                     // #11047 - we are skipping the page, so we have to get rid of existing answers for that question(s)
                     foreach ($page as $page_question) {
                         $qid = $page_question["question_id"];
-                                                
+
                         // see saveActiveQuestionData()
                         if (!$this->preview) {
                             $this->object->deleteWorkingData($qid, $this->getCurrentRunId());
@@ -383,7 +383,7 @@ class ilSurveyExecutionGUI
                             $this->run_manager->clearPreviewData($qid);
                         }
                     }
-                    
+
                     $page = $this->object->getNextPage($page[0]["question_id"], $direction);
                 }
             }
@@ -404,7 +404,7 @@ class ilSurveyExecutionGUI
             $ilHelp = $this->help;
             $ilHelp->setScreenIdComponent("svy");
             $ilHelp->setScreenId("quest_presentation");
-            
+
             if ($ilUser->getId() !== ANONYMOUS_USER_ID) {
                 ilLearningProgress::_tracProgress($ilUser->getId(), $this->object->getId(), $this->object->getRefId(), "svy");
             }
@@ -416,7 +416,7 @@ class ilSurveyExecutionGUI
             // title / appraisee
             if ($this->feature_config->usesAppraisees()) {
                 $appr_id = $this->requested_appr_id;
-                
+
                 $this->tpl->setTitle($this->object->getTitle() . " (" .
                     $this->lng->txt("survey_360_appraisee") . ": " .
                     ilUserUtil::getNamePresentation($appr_id) . ")");
@@ -496,7 +496,7 @@ class ilSurveyExecutionGUI
         }
     }
 
-    protected function getCurrentRunId() : int
+    protected function getCurrentRunId(): int
     {
         return $this->run_manager->getCurrentRunId($this->requested_appr_id);
     }
@@ -506,11 +506,11 @@ class ilSurveyExecutionGUI
      */
     public function saveUserInput(
         string $navigationDirection = "next"
-    ) : int {
+    ): int {
         if (!$this->preview) {
             $this->run_manager->setEndTime();
         }
-        
+
         // check users input when it is a metric question
         $this->run_manager->clearErrors();
         $this->run_manager->setPostData($this->raw_post_data);
@@ -536,7 +536,7 @@ class ilSurveyExecutionGUI
     /**
      * Saves the users input of the active page
      */
-    public function saveActiveQuestionData(array $data) : int
+    public function saveActiveQuestionData(array $data): int
     {
         $question = SurveyQuestion::_instanciateQuestion($data["question_id"]);
         $error = $question->checkUserInput($this->raw_post_data, $this->object->getSurveyId());
@@ -544,7 +544,7 @@ class ilSurveyExecutionGUI
             if (!$this->preview) {
                 // delete old answers
                 $this->object->deleteWorkingData($data["question_id"], $this->getCurrentRunId());
-        
+
                 $question->saveUserInput($this->raw_post_data, $this->getCurrentRunId());
             } else {
                 $this->run_manager->setPreviewData(
@@ -560,22 +560,22 @@ class ilSurveyExecutionGUI
             return 1;
         }
     }
-    
-    public function cancel() : void
+
+    public function cancel(): void
     {
         $this->ctrl->redirectByClass("ilobjsurveygui", "infoScreen");
     }
-    
+
     /**
      * Show finish page
      */
-    public function runShowFinishedPage() : void
+    public function runShowFinishedPage(): void
     {
         $ilToolbar = $this->toolbar;
         $ilUser = $this->user;
-        
+
         $has_button = false;
-        
+
 
         if (!$this->preview) {
             if ($this->object->hasViewOwnResults()) {
@@ -583,10 +583,10 @@ class ilSurveyExecutionGUI
                 $button->setCaption("svy_view_own_results");
                 $button->setUrl($this->ctrl->getLinkTarget($this, "viewUserResults"));
                 $ilToolbar->addButtonInstance($button);
-            
+
                 $has_button = true;
             }
-                
+
             if ($this->object->hasMailConfirmation()) {
                 if ($has_button) {
                     $ilToolbar->addSeparator();
@@ -598,28 +598,28 @@ class ilSurveyExecutionGUI
                     $mail->setSize(25);
                     $ilToolbar->addInputItem($mail, true);
                 }
-                                
+
                 $ilToolbar->setFormAction($this->ctrl->getFormAction($this, "mailUserResults"));
-                                
+
                 $button = ilSubmitButton::getInstance();
                 $button->setCaption("svy_mail_send_confirmation");
                 $button->setCommand("mailUserResults");
                 $ilToolbar->addButtonInstance($button);
-                
+
                 $has_button = true;
             }
-            
+
             // #6307
             if (ilObjSurveyAccess::_hasEvaluationAccess($this->object->getId(), $ilUser->getId())) {
                 $button = ilLinkButton::getInstance();
                 $button->setCaption("svy_results");
                 $button->setUrl($this->ctrl->getLinkTargetByClass("ilObjSurveyGUI", "evaluation"));
                 $ilToolbar->addButtonInstance($button);
-            
+
                 $has_button = true;
             }
         }
-        
+
         if (!$has_button &&
             $this->object->getOutro() === '') {
             $this->exitSurvey();
@@ -627,12 +627,12 @@ class ilSurveyExecutionGUI
             if ($has_button) {
                 $ilToolbar->addSeparator();
             }
-            
+
             $button = ilLinkButton::getInstance();
             $button->setCaption("survey_execution_exit");
             $button->setUrl($this->ctrl->getLinkTarget($this, "exitSurvey"));
             $ilToolbar->addButtonInstance($button);
-        
+
             if ($this->object->getOutro() !== '') {
                 $panel = ilPanelGUI::getInstance();
                 $panel->setBody($this->object->prepareTextareaOutput($this->object->getOutro()));
@@ -640,11 +640,11 @@ class ilSurveyExecutionGUI
             }
         }
     }
-    
-    public function backToRepository() : void
+
+    public function backToRepository(): void
     {
         $tree = $this->tree;
-        
+
         // #14971
         if ($this->feature_config->usesAppraisees()) {
             $target_ref_id = $this->object->getRefId();
@@ -652,14 +652,14 @@ class ilSurveyExecutionGUI
             // #11534
             $target_ref_id = $tree->getParentId($this->object->getRefId());
         }
-                
+
         ilUtil::redirect(ilLink::_getLink($target_ref_id));
     }
 
     /**
      * Exits the survey after finishing it
      */
-    public function exitSurvey() : void
+    public function exitSurvey(): void
     {
         if (!$this->preview) {
             $this->backToRepository();
@@ -669,12 +669,12 @@ class ilSurveyExecutionGUI
             $this->ctrl->redirectByClass(array("ilobjsurveygui", "ilsurveyeditorgui"), "questions");
         }
     }
-    
+
     public function outNavigationButtons(
         string $navigationblock,
         array $page,
         ilTemplate $stpl
-    ) : void {
+    ): void {
         $prevpage = $this->object->getNextPage($page[0]["question_id"], -1);
         $stpl->setCurrentBlock($navigationblock . "_prev");
         if (is_null($prevpage)) {
@@ -693,41 +693,41 @@ class ilSurveyExecutionGUI
         $stpl->parseCurrentBlock();
     }
 
-    public function preview() : void
+    public function preview(): void
     {
         $this->outSurveyPage();
     }
-    
-    public function viewUserResults() : void
+
+    public function viewUserResults(): void
     {
         $ilToolbar = $this->toolbar;
-        
+
         if (!$this->object->hasViewOwnResults()) {
             $this->backToRepository();
         }
-        
+
         $this->checkAuth(false, true);
-                
+
         $button = ilLinkButton::getInstance();
         $button->setCaption("btn_back");
         $button->setUrl($this->ctrl->getLinkTarget($this, "runShowFinishedPage"));
         $ilToolbar->addButtonInstance($button);
-            
+
         $survey_gui = new ilObjSurveyGUI();
         $html = $survey_gui->getUserResultsTable($this->getCurrentRunId());
         $this->tpl->setContent($html);
     }
-    
-    public function mailUserResults() : void
+
+    public function mailUserResults(): void
     {
         $ilUser = $this->user;
 
         if (!$this->object->hasMailConfirmation()) {
             $this->backToRepository();
         }
-        
+
         $this->checkAuth(false, true);
-        
+
         $recipient = $this->request->getMail();
         if (!$recipient) {
             $recipient = $ilUser->getEmail();
@@ -735,38 +735,38 @@ class ilSurveyExecutionGUI
         if (!ilUtil::is_email($recipient)) {
             $this->ctrl->redirect($this, "runShowFinishedPage");
         }
-        
+
         $survey_gui = new ilObjSurveyGUI();
         $survey_gui->sendUserResultsMail(
             $this->getCurrentRunId(),
             $recipient
         );
-        
+
         $this->tpl->setOnScreenMessage('success', $this->lng->txt("mail_sent"), true);
         $this->ctrl->redirect($this, "runShowFinishedPage");
     }
-    
-    public function showFinishConfirmation() : void
+
+    public function showFinishConfirmation(): void
     {
         $tpl = $this->tpl;
-        
+
         $cgui = new ilConfirmationGUI();
         $cgui->setHeaderText($this->lng->txt("survey_execution_sure_finish"));
 
         $cgui->setFormAction($this->ctrl->getFormAction($this, "confirmedFinish"));
         $cgui->setCancel($this->lng->txt("cancel"), "previousNoSave");
         $cgui->setConfirm($this->lng->txt("confirm"), "confirmedFinish");
-        
+
         $tpl->setContent($cgui->getHTML());
     }
-    
-    public function confirmedFinish() : void
+
+    public function confirmedFinish(): void
     {
         $ilUser = $this->user;
-        
+
         if (!$this->preview) {
             $this->object->finishSurvey($this->getCurrentRunId(), $this->requested_appr_id);
-                        
+
             if ($ilUser->getId() !== ANONYMOUS_USER_ID) {
                 ilLPStatusWrapper::_updateStatus($this->object->getId(), $ilUser->getId());
             }

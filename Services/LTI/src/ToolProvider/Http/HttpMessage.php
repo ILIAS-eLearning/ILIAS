@@ -16,7 +16,6 @@
  *
  *********************************************************************/
 
-
 namespace ILIAS\LTI\ToolProvider\Http;
 
 use ILIAS\LTI\ToolProvider\Util;
@@ -30,7 +29,6 @@ use ILIAS\LTI\ToolProvider\Util;
  */
 class HttpMessage
 {
-
     /**
      * True if message was processed successfully.
      *
@@ -137,7 +135,7 @@ class HttpMessage
      *
      * @return string|null Request URL  //UK: Changed from string to string|null
      */
-    public function getUrl() : ?string
+    public function getUrl(): ?string
     {
         return $this->url;
     }
@@ -147,7 +145,7 @@ class HttpMessage
      *
      * @return string|null Message method  //UK: Changed from string to string|null
      */
-    public function getMethod() : ?string
+    public function getMethod(): ?string
     {
         return $this->method;
     }
@@ -189,7 +187,7 @@ class HttpMessage
      *
      * @return bool    True if the request was successful
      */
-    public function send() : bool
+    public function send(): bool
     {
         $client = self::getHttpClient();
         $this->relativeLinks = array();
@@ -240,7 +238,7 @@ class HttpMessage
      * @param string $rel
      * @return bool  True if it exists
      */
-    public function hasRelativeLink(string $rel) : bool
+    public function hasRelativeLink(string $rel): bool
     {
         return array_key_exists($rel, $this->relativeLinks);
     }
@@ -250,7 +248,7 @@ class HttpMessage
      * @param string $rel
      * @return string|null  The URL associated with the relative link, null if it is not defined
      */
-    public function getRelativeLink(string $rel) : ?string
+    public function getRelativeLink(string $rel): ?string
     {
         $url = null;
         if ($this->hasRelativeLink($rel)) {
@@ -265,7 +263,7 @@ class HttpMessage
      *
      * @return array  Associative array of relative links
      */
-    public function getRelativeLinks() : array
+    public function getRelativeLinks(): array
     {
         return $this->relativeLinks;
     }

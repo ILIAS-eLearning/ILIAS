@@ -1,4 +1,5 @@
 <?php
+
 /* Copyright (c) 1998-2014 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 require_once 'Services/Export/classes/class.ilExportGUI.php';
@@ -14,7 +15,7 @@ class ilQuestionPoolExportGUI extends ilExportGUI
     /**
      * {@inheritdoc}
      */
-    protected function buildExportTableGUI() : ilExportTableGUI
+    protected function buildExportTableGUI(): ilExportTableGUI
     {
         require_once 'Modules/TestQuestionPool/classes/tables/class.ilQuestionPoolExportTableGUI.php';
         $table = new ilQuestionPoolExportTableGUI($this, 'listExportFiles', $this->obj);
@@ -24,7 +25,7 @@ class ilQuestionPoolExportGUI extends ilExportGUI
     /**
      * Download file
      */
-    public function download() : void
+    public function download(): void
     {
         // @MBECKER Check if this is still needed.
         /*

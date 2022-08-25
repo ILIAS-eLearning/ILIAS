@@ -90,7 +90,7 @@ class EvalMath
 {
     public bool $suppress_errors = false;
     public ?string $last_error = null;
-    
+
     public array $v = array('e' => 2.71,'pi' => 3.14); // variables (and constants)
     public array $f = []; // user-defined functions
     public array $vb = array('e', 'pi'); // constants
@@ -108,18 +108,18 @@ class EvalMath
         $this->v['e'] = exp(1); // different result for exp(1) and e
         $this->fb[] = 'exp'; // usage of php exp function in formula
     }
-    
+
     public function e(string $expr)
     {
         return $this->evaluate($expr);
     }
-    
+
     public function evaluate(string $expr)
     {
         // convert exponential notation
         $expr = preg_replace_callback(
             "/(\\d{0,1})e(-{0,1}\\d+)/is",
-            fn ($hit) : string => $hit[1] . ((strlen($hit[1])) ? '*' : '') . '10^(' . $hit[2] . ')',
+            fn ($hit): string => $hit[1] . ((strlen($hit[1])) ? '*' : '') . '10^(' . $hit[2] . ')',
             $expr
         );
         // standard functionality
@@ -166,19 +166,19 @@ class EvalMath
             return $this->pfx($this->nfx($expr)); // straight up evaluation, woo
         }
     }
-    
-    public function vars() : array
+
+    public function vars(): array
     {
         $output = $this->v;
         unset($output['pi']);
         unset($output['e']);
         return $output;
     }
-    
+
     /**
      * @return string[]
      */
-    public function funcs() : array
+    public function funcs(): array
     {
         $output = [];
         foreach ($this->f as $fnn => $dat) {
@@ -186,25 +186,25 @@ class EvalMath
         }
         return $output;
     }
-    
+
     public function nfx($expr)
     {
         $index = 0;
-        $stack = new EvalMathStack;
+        $stack = new EvalMathStack();
         $output = []; // postfix form of expression, to be passed to pfx()
         $expr = trim(strtolower($expr));
-        
+
         $ops = array('+', '-', '*', '/', '^', '_');
         $ops_r = array('+' => 0,'-' => 0,'*' => 0,'/' => 0,'^' => 1); // right-associative operator?
         $ops_p = array('+' => 0,'-' => 0,'*' => 1,'/' => 1,'_' => 1,'^' => 2); // operator precedence
-        
+
         $expecting_op = false; // we use this in syntax-checking the expression
         // and determining when a - is a negation
-    
+
         if (preg_match("/[^\w\s+*^\/()\.,-]/", $expr, $matches)) { // make sure the characters are all good
             return $this->trigger("illegal character '{$matches[0]}'");
         }
-    
+
         while (1) { // 1 Infinite Loop ;)
             $op = substr($expr, $index, 1); // get the first character at the current index
             // find out if we're currently at the beginning of a number/variable/function/parenthesis/operand
@@ -330,9 +330,9 @@ class EvalMath
         if ($tokens == false) {
             return false;
         }
-    
-        $stack = new EvalMathStack;
-        
+
+        $stack = new EvalMathStack();
+
         foreach ($tokens as $token) { // nice and easy
             // if the token is a binary operator, pop two values off the stack, do the operation, and push the result back on
             if (in_array($token, array('+', '-', '*', '/', '^'))) {
@@ -344,20 +344,25 @@ class EvalMath
                 }
                 switch ($token) {
                     case '+':
-                        $stack->push(ilMath::_add($op1, $op2)); break;
+                        $stack->push(ilMath::_add($op1, $op2));
+                        break;
                     case '-':
-                        $stack->push(ilMath::_sub($op1, $op2)); break;
+                        $stack->push(ilMath::_sub($op1, $op2));
+                        break;
                     case '*':
-                        $stack->push(ilMath::_mul($op1, $op2)); break;
+                        $stack->push(ilMath::_mul($op1, $op2));
+                        break;
                     case '/':
                         if ($op2 == 0) {
                             return $this->trigger("division by zero");
                         }
-                        $stack->push(ilMath::_div($op1, $op2)); break;
+                        $stack->push(ilMath::_div($op1, $op2));
+                        break;
                     case '^':
-                        $stack->push(ilMath::_pow($op1, $op2)); break;
+                        $stack->push(ilMath::_pow($op1, $op2));
+                        break;
                 }
-                // if the token is a unary operator, pop one value off the stack, do the operation, and push it back on
+            // if the token is a unary operator, pop one value off the stack, do the operation, and push it back on
             } elseif ($token == "_") {
                 $stack->push(-1 * $stack->pop());
             // if the token is a function, pop arguments off the stack, hand them to the function, and push the result back on
@@ -385,7 +390,7 @@ class EvalMath
                     }
                     $stack->push($this->pfx($this->f[$fnn]['func'], $args)); // yay... recursion!!!!
                 }
-                // if the token is a number or variable, push it on the stack
+            // if the token is a number or variable, push it on the stack
             } else {
                 if (is_numeric($token)) {
                     $stack->push($token);
@@ -406,9 +411,9 @@ class EvalMath
         }
         return $stack->pop();
     }
-    
+
     // trigger an error, but nicely, if need be
-    public function trigger(string $msg) : bool
+    public function trigger(string $msg): bool
     {
         $this->last_error = $msg;
         if (!$this->suppress_errors) {
@@ -416,7 +421,7 @@ class EvalMath
         }
         return false;
     }
-    
+
     // check if the token is a hex/bin number, and convert to decimal
     //  1234h/0101010b are allowed
     public function from_hexbin($token)
@@ -449,13 +454,13 @@ class EvalMathStack
 {
     public array $stack = [];
     public int $count = 0;
-    
-    public function push($val) : void
+
+    public function push($val): void
     {
         $this->stack[$this->count] = $val;
         $this->count++;
     }
-    
+
     public function pop()
     {
         if ($this->count > 0) {
@@ -464,7 +469,7 @@ class EvalMathStack
         }
         return null;
     }
-    
+
     public function last($n = 1)
     {
         if (isset($this->stack[$this->count - $n])) {

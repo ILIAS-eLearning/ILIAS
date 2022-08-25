@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /******************************************************************************
  *
@@ -35,12 +37,12 @@ class ilFolderXmlParser extends ilSaxParser
         $this->setThrowException(true);
     }
 
-    public function setFolder(ilObject $folder) : void
+    public function setFolder(ilObject $folder): void
     {
         $this->folder = $folder;
     }
 
-    public function getFolder() : ilObject
+    public function getFolder(): ilObject
     {
         return $this->folder;
     }
@@ -48,12 +50,12 @@ class ilFolderXmlParser extends ilSaxParser
     /**
      * @throws ilSaxParserException
      */
-    public function start() : void
+    public function start(): void
     {
         $this->startParsing();
     }
 
-    public function setHandlers($a_xml_parser) : void
+    public function setHandlers($a_xml_parser): void
     {
         xml_set_object($a_xml_parser, $this);
         xml_set_element_handler($a_xml_parser, 'handlerBeginTag', 'handlerEndTag');
@@ -66,10 +68,9 @@ class ilFolderXmlParser extends ilSaxParser
      * @param array  $a_attribs
      * @return void
      */
-    public function handlerBeginTag($a_xml_parser, string $a_name, array $a_attribs) : void
+    public function handlerBeginTag($a_xml_parser, string $a_name, array $a_attribs): void
     {
         switch ($a_name) {
-
             case 'Folder':
             case 'Title':
             case 'Description':
@@ -87,12 +88,11 @@ class ilFolderXmlParser extends ilSaxParser
      * @param string $a_name
      * @return void
      */
-    public function handlerEndTag($a_xml_parser, string $a_name) : void
+    public function handlerEndTag($a_xml_parser, string $a_name): void
     {
         $GLOBALS['ilLog']->write(__METHOD__ . ': Called ' . $a_name);
 
         switch ($a_name) {
-
             case 'Folder':
                 $this->getFolder()->update();
                 break;
@@ -104,7 +104,6 @@ class ilFolderXmlParser extends ilSaxParser
             case 'Description':
                 $this->getFolder()->setDescription(trim($this->cdata));
                 break;
-
         }
 
         // Reset cdata
@@ -116,7 +115,7 @@ class ilFolderXmlParser extends ilSaxParser
      * @param string $a_data
      * @return void
      */
-    public function handlerCharacterData($a_xml_parser, string $a_data) : void
+    public function handlerCharacterData($a_xml_parser, string $a_data): void
     {
         if ($a_data !== "\n") {
             // Replace multiple tabs with one space

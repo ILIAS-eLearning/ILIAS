@@ -28,54 +28,53 @@ namespace ILIAS\HTTP\Cookies;
  */
 interface Cookie
 {
-
     /**
      * Cookie name.
      */
-    public function getName() : string;
+    public function getName(): string;
 
 
     /**
      * Cookie value.
      */
-    public function getValue() : ?string;
+    public function getValue(): ?string;
 
 
     /**
      * Expiration date as unix timestamp.
      */
-    public function getExpires() : int;
+    public function getExpires(): int;
 
 
     /**
      * Max age measured in seconds.
      * If the max age is zero no max age is set.
      */
-    public function getMaxAge() : int;
+    public function getMaxAge(): int;
 
 
     /**
      * Cookie path.
      */
-    public function getPath() : ?string;
+    public function getPath(): ?string;
 
 
     /**
      * Cookie domain.
      */
-    public function getDomain() : ?string;
+    public function getDomain(): ?string;
 
 
     /**
      * True if it's secure cookie otherwise false.
      */
-    public function getSecure() : bool;
+    public function getSecure(): bool;
 
 
     /**
      * True if the cookie is http only otherwise false.
      */
-    public function getHttpOnly() : bool;
+    public function getHttpOnly(): bool;
 
 
     /**
@@ -83,7 +82,7 @@ interface Cookie
      *
      * @param null|string $value The cookie value.
      */
-    public function withValue(string $value = null) : Cookie;
+    public function withValue(string $value = null): Cookie;
 
 
     /**
@@ -95,20 +94,20 @@ interface Cookie
      *
      * @param null|\DateTimeInterface|int|string $expires The expiration time of the Cookie.
      */
-    public function withExpires($expires = null) : Cookie;
+    public function withExpires($expires = null): Cookie;
 
 
     /**
      * Sets the expiration date to +5 years.
      */
-    public function rememberForLongTime() : Cookie;
+    public function rememberForLongTime(): Cookie;
 
 
     /**
      * Expire the cookie.
      * Useful if the cookie should be deleted at the client side.
      */
-    public function expire() : Cookie;
+    public function expire(): Cookie;
 
 
     /**
@@ -117,7 +116,7 @@ interface Cookie
      *
      * @param null|int $maxAge Lifetime in seconds.
      */
-    public function withMaxAge(int $maxAge = null) : Cookie;
+    public function withMaxAge(int $maxAge = null): Cookie;
 
 
     /**
@@ -125,7 +124,7 @@ interface Cookie
      *
      * @param null|string $path The cookie path.
      */
-    public function withPath(string $path = null) : Cookie;
+    public function withPath(string $path = null): Cookie;
 
 
     /**
@@ -133,7 +132,7 @@ interface Cookie
      *
      * @param null|string $domain Cookie domain.
      */
-    public function withDomain(string $domain = null) : Cookie;
+    public function withDomain(string $domain = null): Cookie;
 
 
     /**
@@ -141,7 +140,7 @@ interface Cookie
      *
      * @param null|bool $secure Secure flag.
      */
-    public function withSecure(bool $secure = null) : Cookie;
+    public function withSecure(bool $secure = null): Cookie;
 
 
     /**
@@ -149,7 +148,7 @@ interface Cookie
      *
      * @param null|bool $httpOnly http only flag.
      */
-    public function withHttpOnly(bool $httpOnly = null) : Cookie;
+    public function withHttpOnly(bool $httpOnly = null): Cookie;
 
 
     /**
@@ -157,5 +156,5 @@ interface Cookie
      *
      * @return string String representation.
      */
-    public function __toString() : string;
+    public function __toString(): string;
 }

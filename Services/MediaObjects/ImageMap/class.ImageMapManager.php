@@ -1,4 +1,6 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -32,112 +34,112 @@ class ImageMapManager
         $this->repo = $repo;
     }
 
-    public function setTargetScript(string $script) : void
+    public function setTargetScript(string $script): void
     {
         $this->repo->setTargetScript($script);
     }
 
-    public function getTargetScript() : string
+    public function getTargetScript(): string
     {
         return $this->repo->getTargetScript();
     }
 
-    public function setRefId(int $ref_id) : void
+    public function setRefId(int $ref_id): void
     {
         $this->repo->setRefId($ref_id);
     }
 
-    public function getRefId() : int
+    public function getRefId(): int
     {
         return $this->repo->getRefId();
     }
 
-    public function setObjId(int $obj_id) : void
+    public function setObjId(int $obj_id): void
     {
         $this->repo->setObjId($obj_id);
     }
 
-    public function getObjId() : int
+    public function getObjId(): int
     {
         return $this->repo->getObjId();
     }
 
-    public function setHierId(string $hier_id) : void
+    public function setHierId(string $hier_id): void
     {
         $this->repo->setHierId($hier_id);
     }
 
-    public function getHierId() : string
+    public function getHierId(): string
     {
         return $this->repo->getHierId();
     }
 
-    public function setPCId(string $pc_id) : void
+    public function setPCId(string $pc_id): void
     {
         $this->repo->setPCId($pc_id);
     }
 
-    public function getPCId() : string
+    public function getPCId(): string
     {
         return $this->repo->getPCId();
     }
 
-    public function setAreaType(string $type) : void
+    public function setAreaType(string $type): void
     {
         $this->repo->setAreaType($type);
     }
 
-    public function getAreaType() : string
+    public function getAreaType(): string
     {
         return $this->repo->getAreaType();
     }
 
-    public function setAreaNr(int $nr) : void
+    public function setAreaNr(int $nr): void
     {
         $this->repo->setAreaNr($nr);
     }
 
-    public function getAreaNr() : int
+    public function getAreaNr(): int
     {
         return $this->repo->getAreaNr();
     }
 
-    public function setCoords(string $coords) : void
+    public function setCoords(string $coords): void
     {
         $this->repo->setCoords($coords);
     }
 
-    public function getCoords() : string
+    public function getCoords(): string
     {
         return $this->repo->getCoords();
     }
 
-    public function setMode(string $mode) : void
+    public function setMode(string $mode): void
     {
         $this->repo->setMode($mode);
     }
 
-    public function getMode() : string
+    public function getMode(): string
     {
         return $this->repo->getMode();
     }
 
-    public function setLinkType(string $type) : void
+    public function setLinkType(string $type): void
     {
         $this->repo->setLinkType($type);
     }
 
-    public function getLinkType() : string
+    public function getLinkType(): string
     {
         return $this->repo->getLinkType();
     }
 
-    public function setExternalLink(string $href) : void
+    public function setExternalLink(string $href): void
     {
         $this->repo->setExternalLink($href);
     }
 
-    public function getExternalLink() : string
+    public function getExternalLink(): string
     {
         return $this->repo->getExternalLink();
     }
@@ -147,7 +149,7 @@ class ImageMapManager
         string $target,
         string $target_frame,
         string $anchor
-    ) : void {
+    ): void {
         $this->repo->setInternalLink(
             $type,
             $target,
@@ -155,13 +157,13 @@ class ImageMapManager
             $anchor
         );
     }
-    
-    public function getInternalLink() : array
+
+    public function getInternalLink(): array
     {
         return $this->repo->getInternalLink();
     }
 
-    public function clear() : void
+    public function clear(): void
     {
         $this->repo->clear();
     }

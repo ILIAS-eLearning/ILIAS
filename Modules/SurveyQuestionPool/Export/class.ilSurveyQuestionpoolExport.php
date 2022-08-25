@@ -40,10 +40,10 @@ class ilSurveyQuestionpoolExport
         $ilDB = $DIC->database();
 
         $this->spl_obj = $a_spl_obj;
-    
+
         $this->db = $ilDB;
         $this->mode = $a_mode;
-    
+
         $this->inst_id = (int) IL_INST_ID;
 
         $date = time();
@@ -57,7 +57,7 @@ class ilSurveyQuestionpoolExport
         }
     }
 
-    public function getInstId() : int
+    public function getInstId(): int
     {
         return $this->inst_id;
     }
@@ -68,7 +68,7 @@ class ilSurveyQuestionpoolExport
      */
     public function buildExportFile(
         array $questions = null
-    ) : string {
+    ): string {
         switch ($this->mode) {
             default:
                 return $this->buildExportFileXML($questions);
@@ -80,7 +80,7 @@ class ilSurveyQuestionpoolExport
      */
     public function buildExportFileXML(
         array $questions = null
-    ) : string {
+    ): string {
         // create directories
         $this->spl_obj->createExportDirectory();
         ilFileUtils::makeDir($this->export_dir . "/" . $this->subdir);

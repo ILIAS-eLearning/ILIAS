@@ -1,4 +1,6 @@
-<?php declare(strict_types=0);
+<?php
+
+declare(strict_types=0);
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -30,7 +32,7 @@ class ilObjUserTrackingGUI extends ilObjectGUI
         $this->lng->loadLanguageModule('trac');
     }
 
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         $next_class = $this->ctrl->getNextClass();
         $this->ctrl->setReturn($this, "show");
@@ -75,12 +77,12 @@ class ilObjUserTrackingGUI extends ilObjectGUI
         }
     }
 
-    public function getAdminTabs() : void
+    public function getAdminTabs(): void
     {
         $this->getTabs();
     }
 
-    protected function getTabs() : void
+    protected function getTabs(): void
     {
         $this->ctrl->setParameter($this, "ref_id", $this->ref_id);
 
@@ -143,7 +145,7 @@ class ilObjUserTrackingGUI extends ilObjectGUI
         }
     }
 
-    public function settingsObject(?ilPropertyFormGUI $a_form = null) : void
+    public function settingsObject(?ilPropertyFormGUI $a_form = null): void
     {
         if (!$this->rbac_system->checkAccess(
             "visible,read",
@@ -179,7 +181,7 @@ class ilObjUserTrackingGUI extends ilObjectGUI
         $this->tpl->setContent($a_form->getHTML());
     }
 
-    protected function initSettingsForm() : ilPropertyFormGUI
+    protected function initSettingsForm(): ilPropertyFormGUI
     {
         $form = new ilPropertyFormGUI();
         $form->setFormAction($this->ctrl->getFormAction($this));
@@ -325,7 +327,7 @@ class ilObjUserTrackingGUI extends ilObjectGUI
         return $form;
     }
 
-    public function saveSettingsObject() : void
+    public function saveSettingsObject(): void
     {
         $this->checkPermission('write');
 
@@ -387,7 +389,7 @@ class ilObjUserTrackingGUI extends ilObjectGUI
 
     protected function editLPDefaultsObject(
         ?ilPropertyFormGUI $a_form = null
-    ) : void {
+    ): void {
         $this->checkPermission('read');
 
         $this->tabs_gui->addSubTab(
@@ -412,7 +414,7 @@ class ilObjUserTrackingGUI extends ilObjectGUI
         $this->tpl->setContent($a_form->getHTML());
     }
 
-    protected function initLPDefaultsForm() : ilPropertyFormGUI
+    protected function initLPDefaultsForm(): ilPropertyFormGUI
     {
         $form = new ilPropertyFormGUI();
         $form->setFormAction($this->ctrl->getFormAction($this));
@@ -467,7 +469,7 @@ class ilObjUserTrackingGUI extends ilObjectGUI
         return $form;
     }
 
-    protected function saveLPDefaultsObject() : void
+    protected function saveLPDefaultsObject(): void
     {
         $this->checkPermission('write');
 
@@ -497,7 +499,7 @@ class ilObjUserTrackingGUI extends ilObjectGUI
         $this->editLPDefaultsObject($form);
     }
 
-    public function addToExternalSettingsForm(string $a_form_id) : array
+    public function addToExternalSettingsForm(string $a_form_id): array
     {
         switch ($a_form_id) {
             case ilAdministrationSettingsFormHandler::FORM_CERTIFICATE:

@@ -1,4 +1,6 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -21,12 +23,12 @@ class ilSkillDBUpdateSteps implements ilDatabaseUpdateSteps
 {
     protected \ilDBInterface $db;
 
-    public function prepare(\ilDBInterface $db) : void
+    public function prepare(\ilDBInterface $db): void
     {
         $this->db = $db;
     }
 
-    public function step_1() : void
+    public function step_1(): void
     {
         if ($this->db->sequenceExists('skl_self_eval')) {
             $this->db->dropSequence('skl_self_eval');
@@ -41,7 +43,7 @@ class ilSkillDBUpdateSteps implements ilDatabaseUpdateSteps
         }
     }
 
-    public function step_2() : void
+    public function step_2(): void
     {
         if (!$this->db->tableColumnExists('skl_user_skill_level', 'trigger_user_id')) {
             $this->db->addTableColumn(
@@ -57,7 +59,7 @@ class ilSkillDBUpdateSteps implements ilDatabaseUpdateSteps
         }
     }
 
-    public function step_3() : void
+    public function step_3(): void
     {
         if (!$this->db->tableColumnExists('skl_user_has_level', 'trigger_user_id')) {
             $this->db->addTableColumn(
@@ -73,7 +75,7 @@ class ilSkillDBUpdateSteps implements ilDatabaseUpdateSteps
         }
     }
 
-    public function step_4() : void
+    public function step_4(): void
     {
         include_once 'Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php';
 
@@ -140,7 +142,7 @@ class ilSkillDBUpdateSteps implements ilDatabaseUpdateSteps
         }
     }
 
-    public function step_5() : void
+    public function step_5(): void
     {
         include_once 'Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php';
         $skill_tree_type_id = ilDBUpdateNewObjectType::getObjectTypeId('skee');
@@ -157,7 +159,7 @@ class ilSkillDBUpdateSteps implements ilDatabaseUpdateSteps
         ilDBUpdateNewObjectType::addRBACOperation($skill_tree_type_id, $ops_id);
     }
 
-    public function step_6() : void
+    public function step_6(): void
     {
         // get skill managemenet object id
         $set = $this->db->queryF(
@@ -205,7 +207,7 @@ class ilSkillDBUpdateSteps implements ilDatabaseUpdateSteps
         $tree->insertNode($ref_id, (int) $skmg_ref_id);
     }
 
-    public function step_7() : void
+    public function step_7(): void
     {
         $set = $this->db->queryF(
             "SELECT * FROM object_data " .
@@ -226,7 +228,7 @@ class ilSkillDBUpdateSteps implements ilDatabaseUpdateSteps
         );
     }
 
-    public function step_8() : void
+    public function step_8(): void
     {
         if (!$this->db->tableColumnExists("skl_profile", "skill_tree_id")) {
             $this->db->addTableColumn("skl_profile", "skill_tree_id", array(
@@ -238,7 +240,7 @@ class ilSkillDBUpdateSteps implements ilDatabaseUpdateSteps
         }
     }
 
-    public function step_9() : void
+    public function step_9(): void
     {
         $set = $this->db->queryF(
             "SELECT * FROM object_data " .
@@ -259,7 +261,7 @@ class ilSkillDBUpdateSteps implements ilDatabaseUpdateSteps
         );
     }
 
-    public function step_10() : void
+    public function step_10(): void
     {
         if (!$this->db->tableColumnExists("skl_profile", "image_id")) {
             $this->db->addTableColumn("skl_profile", "image_id", array(
@@ -270,7 +272,7 @@ class ilSkillDBUpdateSteps implements ilDatabaseUpdateSteps
         }
     }
 
-    public function step_11() : void
+    public function step_11(): void
     {
         if (!$this->db->tableExists("skl_profile_completion")) {
             $fields = [

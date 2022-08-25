@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /* Copyright (c) 2021 - Daniel Weise <daniel.weise@concepts-and-training.de> - Extended GPL, see LICENSE */
 
@@ -14,9 +16,9 @@ use Psr\Http\Message\ServerRequestInterface;
  */
 class ilIndividualAssessmentSettingsGUI
 {
-    const TAB_EDIT = 'settings';
-    const TAB_EDIT_INFO = 'infoSettings';
-    const TAB_COMMON_SETTINGS = 'commonSettings';
+    public const TAB_EDIT = 'settings';
+    public const TAB_EDIT_INFO = 'infoSettings';
+    public const TAB_COMMON_SETTINGS = 'commonSettings';
 
     protected ilCtrl $ctrl;
     protected ilObjIndividualAssessment $object;
@@ -69,7 +71,7 @@ class ilIndividualAssessmentSettingsGUI
         $this->lng->loadLanguageModule('cntr');
     }
 
-    protected function getSubTabs(ilTabsGUI $tabs) : void
+    protected function getSubTabs(ilTabsGUI $tabs): void
     {
         $tabs->addSubTab(
             self::TAB_EDIT,
@@ -94,7 +96,7 @@ class ilIndividualAssessmentSettingsGUI
         );
     }
 
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         if (!$this->iass_access->mayEditObject()) {
             $this->handleAccessViolation();
@@ -124,7 +126,7 @@ class ilIndividualAssessmentSettingsGUI
         }
     }
 
-    protected function buildForm() : Form\Form
+    protected function buildForm(): Form\Form
     {
         $settings = $this->object->getSettings();
         $field = $settings->toFormInput(
@@ -143,14 +145,14 @@ class ilIndividualAssessmentSettingsGUI
         );
     }
 
-    protected function edit() : void
+    protected function edit(): void
     {
         $this->tabs_gui->setSubTabActive(self::TAB_EDIT);
         $form = $this->buildForm();
         $this->tpl->setContent($this->ui_renderer->render($form));
     }
 
-    protected function update() : void
+    protected function update(): void
     {
         $form = $this->buildForm();
         $form = $form->withRequest($this->http_request);
@@ -166,14 +168,14 @@ class ilIndividualAssessmentSettingsGUI
         }
     }
 
-    protected function editInfo() : void
+    protected function editInfo(): void
     {
         $this->tabs_gui->setSubTabActive(self::TAB_EDIT_INFO);
         $form = $this->buildInfoSettingsForm();
         $this->tpl->setContent($this->ui_renderer->render($form));
     }
 
-    protected function updateInfo() : void
+    protected function updateInfo(): void
     {
         $form = $this->buildInfoSettingsForm();
         $form = $form->withRequest($this->http_request);
@@ -189,7 +191,7 @@ class ilIndividualAssessmentSettingsGUI
         }
     }
 
-    protected function buildInfoSettingsForm() : Form\Form
+    protected function buildInfoSettingsForm(): Form\Form
     {
         $info_settings = $this->object->getInfoSettings();
         $field = $info_settings->toFormInput(
@@ -208,7 +210,7 @@ class ilIndividualAssessmentSettingsGUI
             );
     }
 
-    public function handleAccessViolation() : void
+    public function handleAccessViolation(): void
     {
         $this->error_object->raiseError($this->lng->txt("msg_no_perm_read"), $this->error_object->WARNING);
     }

@@ -1,4 +1,5 @@
 <?php
+
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 include_once('./Services/Table/classes/class.ilTable2GUI.php');
@@ -14,9 +15,9 @@ include_once('./Services/Table/classes/class.ilTable2GUI.php');
 class ilQuestionPoolPrintViewTableGUI extends ilTable2GUI
 {
     protected $outputmode;
-    
+
     protected $totalPoints;
-    
+
     public function __construct($a_parent_obj, $a_parent_cmd, $outputmode = '')
     {
         $this->setId("qpl_print");
@@ -29,7 +30,7 @@ class ilQuestionPoolPrintViewTableGUI extends ilTable2GUI
         $this->lng = $lng;
         $this->ctrl = $ilCtrl;
         $this->outputmode = $outputmode;
-    
+
         $this->setFormName('printviewform');
         $this->setStyle('table', 'fullwidth');
 
@@ -41,17 +42,17 @@ class ilQuestionPoolPrintViewTableGUI extends ilTable2GUI
         $this->setDefaultOrderField("title");
         $this->setDefaultOrderDirection("asc");
         $this->setLimit(999);
-        
+
         $this->enable('sort');
         $this->enable('header');
         //		$this->disable('numinfo');
         $this->disable('select_all');
     }
-    
-    public function initColumns() : void
+
+    public function initColumns(): void
     {
         $this->addColumn($this->lng->txt("title"), 'title', '');
-        
+
         foreach ($this->getSelectedColumns() as $c) {
             if (strcmp($c, 'description') == 0) {
                 $this->addColumn($this->lng->txt("description"), 'description', '');
@@ -73,13 +74,13 @@ class ilQuestionPoolPrintViewTableGUI extends ilTable2GUI
             }
         }
     }
-    
-    private function getPointsColumnHeader() : string
+
+    private function getPointsColumnHeader(): string
     {
         return $this->lng->txt("points") . ' (' . $this->getTotalPoints() . ')';
     }
 
-    public function getSelectableColumns() : array
+    public function getSelectableColumns(): array
     {
         global $DIC;
         $lng = $DIC['lng'];
@@ -116,7 +117,7 @@ class ilQuestionPoolPrintViewTableGUI extends ilTable2GUI
      * @param
      * @return void
      */
-    public function fillRow(array $a_set) : void
+    public function fillRow(array $a_set): void
     {
         ilDatePresentation::setUseRelativeDates(false);
         $this->tpl->setVariable("TITLE", ilLegacyFormElementsUtil::prepareFormOutput($a_set['title']));
@@ -180,7 +181,7 @@ class ilQuestionPoolPrintViewTableGUI extends ilTable2GUI
      * @param string $a_field
      * @return bool
      */
-    public function numericOrdering(string $a_field) : bool
+    public function numericOrdering(string $a_field): bool
     {
         if (in_array($a_field, array('points', 'created', 'updated'))) {
             return true;
@@ -194,7 +195,7 @@ class ilQuestionPoolPrintViewTableGUI extends ilTable2GUI
         return $this->totalPoints;
     }
 
-    public function setTotalPoints($totalPoints) : void
+    public function setTotalPoints($totalPoints): void
     {
         $this->totalPoints = $totalPoints;
     }

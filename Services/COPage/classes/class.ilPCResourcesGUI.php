@@ -39,12 +39,12 @@ class ilPCResourcesGUI extends ilPageContentGUI
         $this->lng = $DIC->language();
         $this->obj_definition = $DIC["objDefinition"];
         $tree = $DIC->repositoryTree();
-        
+
         $this->rep_tree = $tree;
         parent::__construct($a_pg_obj, $a_content_obj, $a_hier_id, $a_pc_id);
     }
 
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         // get next class that processes or forwards current command
         $next_class = $this->ctrl->getNextClass($this);
@@ -59,12 +59,12 @@ class ilPCResourcesGUI extends ilPageContentGUI
         }
     }
 
-    public function insert() : void
+    public function insert(): void
     {
         $this->edit(true);
     }
 
-    public function edit(bool $a_insert = false) : void
+    public function edit(bool $a_insert = false): void
     {
         $ilCtrl = $this->ctrl;
         $tpl = $this->tpl;
@@ -73,9 +73,9 @@ class ilPCResourcesGUI extends ilPageContentGUI
 
         $op_type = null;
         $op_itemgroup = null;
-        
+
         $this->displayValidationError();
-        
+
         // edit form
         $form = new ilPropertyFormGUI();
         $form->setFormAction($ilCtrl->getFormAction($this));
@@ -84,7 +84,7 @@ class ilPCResourcesGUI extends ilPageContentGUI
         } else {
             $form->setTitle($this->lng->txt("cont_update_resources"));
         }
-        
+
         // count number of existing objects per type and collect item groups
         $ref_id = $this->requested_ref_id;
         $childs = $this->rep_tree->getChilds($ref_id);
@@ -101,7 +101,7 @@ class ilPCResourcesGUI extends ilPageContentGUI
                 $item_groups[$c["ref_id"]] = $c["title"];
             }
         }
-        
+
         if (count($item_groups) > 0) {
             // radio group for type selection
             $radg = new ilRadioGroupInputGUI($lng->txt("cont_resources"), "res_type");
@@ -110,14 +110,14 @@ class ilPCResourcesGUI extends ilPageContentGUI
             } else {
                 $radg->setValue("by_type");
             }
-            
+
             $op_type = new ilRadioOption($lng->txt("cont_resources_of_type"), "by_type", "");
             $radg->addOption($op_type);
             $op_itemgroup = new ilRadioOption($lng->txt("obj_itgr"), "itgr", "");
             $radg->addOption($op_itemgroup);
             $form->addItem($radg);
         }
-        
+
         // type selection
         $type_prop = new ilSelectInputGUI(
             $this->lng->txt("cont_type"),
@@ -147,7 +147,7 @@ class ilPCResourcesGUI extends ilPageContentGUI
         } else {
             $form->addItem($type_prop);
         }
-        
+
         if (count($item_groups) > 0) {
             // item groups
             $options = $item_groups;
@@ -158,8 +158,8 @@ class ilPCResourcesGUI extends ilPageContentGUI
                 : $this->content_obj->getItemGroupRefId();
             $op_itemgroup->addSubItem($si);
         }
-            
-        
+
+
         // save/cancel buttons
         if ($a_insert) {
             $form->addCommandButton("create_resources", $lng->txt("save"));
@@ -172,7 +172,7 @@ class ilPCResourcesGUI extends ilPageContentGUI
         $tpl->setContent($html);
     }
 
-    public function create() : void
+    public function create(): void
     {
         $this->content_obj = new ilPCResources($this->getPage());
         $this->content_obj->create($this->pg_obj, $this->hier_id, $this->pc_id);
@@ -194,7 +194,7 @@ class ilPCResourcesGUI extends ilPageContentGUI
         }
     }
 
-    public function update() : void
+    public function update(): void
     {
         if ($this->request->getString("res_type") != "itgr") {
             $this->content_obj->setResourceListType(
@@ -213,13 +213,13 @@ class ilPCResourcesGUI extends ilPageContentGUI
             $this->edit();
         }
     }
-    
+
     /**
      * Insert resources (see also ilContainerContentGUI::determinePageEmbeddedBlocks for presentation)
      */
     public static function insertResourcesIntoPageContent(
         string $a_content
-    ) : string {
+    ): string {
         global $DIC;
 
         $objDefinition = $DIC["objDefinition"];
@@ -235,7 +235,7 @@ class ilPCResourcesGUI extends ilPageContentGUI
             ->getRefId();
         $obj_id = ilObject::_lookupObjId($ref_id);
         $obj_type = ilObject::_lookupType($obj_id);
-        
+
         // determine type -> group
         $type_to_grp = array();
         $type_grps =
@@ -264,7 +264,7 @@ class ilPCResourcesGUI extends ilPageContentGUI
                 // render block
                 $tpl = new ilTemplate("tpl.resource_block.html", true, true, "Services/COPage");
                 $cnt = 0;
-                
+
                 if (isset($childs_by_type[$type]) && count($childs_by_type[$type]) > 0) {
                     foreach ($childs_by_type[$type] as $child) {
                         $tpl->setCurrentBlock("row");
@@ -282,16 +282,16 @@ class ilPCResourcesGUI extends ilPageContentGUI
                 $a_content = str_replace("[list-" . $type . "]", $tpl->get(), $a_content);
             }
         }
-        
+
         // handle item groups
         while (preg_match('/\[(item-group-([0-9]*))\]/i', $a_content, $found)) {
             $itgr_ref_id = (int) $found[2];
-            
+
             // check whether this item group is child -> insert editing html
             if (isset($item_groups[$itgr_ref_id])) {
                 $itgr_items = new ilItemGroupItems($itgr_ref_id);
                 $items = $itgr_items->getValidItems();
-                
+
                 // render block
                 $tpl = new ilTemplate("tpl.resource_block.html", true, true, "Services/COPage");
                 foreach ($items as $it_ref_id) {
@@ -317,7 +317,7 @@ class ilPCResourcesGUI extends ilPageContentGUI
             }
             $a_content = preg_replace('/\[' . $found[1] . '\]/i', $html, $a_content);
         }
-        
+
 
         return $a_content;
     }

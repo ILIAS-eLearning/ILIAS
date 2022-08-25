@@ -15,7 +15,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * Class ilExerciseMembersFilter
  *
@@ -56,7 +56,7 @@ class ilExerciseMembersFilter
      * Filter manageable members by position or rbac access
      * @return int[]
      */
-    public function filterParticipantsByAccess() : array
+    public function filterParticipantsByAccess(): array
     {
         if ($this->access->checkAccessOfUser(
             $this->user_id,

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace ILIAS\Data\UUID;
 
@@ -19,27 +21,27 @@ class RamseyUuidWrapper implements Uuid
         $this->wrapped_uuid = $wrapped_uuid;
     }
 
-    public function getWrappedUuid() : RamseyUuidInterface
+    public function getWrappedUuid(): RamseyUuidInterface
     {
         return $this->wrapped_uuid;
     }
 
-    public function compareTo(Uuid $other) : int
+    public function compareTo(Uuid $other): int
     {
         return $this->wrapped_uuid->compareTo($other->getWrappedUuid());
     }
 
-    public function equals(Uuid $other) : bool
+    public function equals(Uuid $other): bool
     {
         return $this->wrapped_uuid->equals($other->getWrappedUuid());
     }
 
-    public function toString() : string
+    public function toString(): string
     {
         return $this->wrapped_uuid->toString();
     }
 
-    public function __toString() : string
+    public function __toString(): string
     {
         return $this->toString();
     }

@@ -1,4 +1,6 @@
-<?php declare(strict_types=0);
+<?php
+
+declare(strict_types=0);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,21 +17,21 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * Class ilObjCourseVerificationAccess
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
  */
 class ilObjCourseVerificationAccess extends ilObjectAccess
 {
-    public static function _getCommands() : array
+    public static function _getCommands(): array
     {
         $commands = [];
         $commands[] = ['permission' => 'read', 'cmd' => 'view', 'lang_var' => 'show', 'default' => true];
         return $commands;
     }
 
-    public static function _checkGoto($a_target) : bool
+    public static function _checkGoto($a_target): bool
     {
         global $DIC;
 

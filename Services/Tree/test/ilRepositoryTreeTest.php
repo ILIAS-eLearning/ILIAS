@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 use PHPUnit\Framework\TestCase;
 use ILIAS\DI\Container;
@@ -7,21 +9,20 @@ class ilRepositoryTreeTest extends TestCase
 {
     protected Container $dic;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         $this->initRepositoryTreeDependencies();
         parent::setUp();
     }
 
-    public function testTreeConstruct() : void
+    public function testTreeConstruct(): void
     {
         $tree = new ilTree(1);
         $this->assertTrue($tree instanceof ilTree);
     }
 
-    public function testInitLanguage() : void
+    public function testInitLanguage(): void
     {
-
         // no global user available
         $tree = new ilTree(1);
         $tree->initLangCode();
@@ -48,7 +49,7 @@ class ilRepositoryTreeTest extends TestCase
      * @param string $name
      * @param mixed  $value
      */
-    protected function setGlobalVariable(string $name, $value) : void
+    protected function setGlobalVariable(string $name, $value): void
     {
         global $DIC;
 
@@ -59,7 +60,7 @@ class ilRepositoryTreeTest extends TestCase
         };
     }
 
-    protected function initRepositoryTreeDependencies() : void
+    protected function initRepositoryTreeDependencies(): void
     {
         $this->dic = new Container();
         $GLOBALS['DIC'] = $this->dic;

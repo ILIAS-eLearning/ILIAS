@@ -52,7 +52,7 @@ class PageCommandActionHandler implements Server\CommandActionHandler
     /**
      * @throws Exception
      */
-    public function handle(array $query, array $body) : Server\Response
+    public function handle(array $query, array $body): Server\Response
     {
         switch ($body["action"]) {
             case "cut":
@@ -85,7 +85,7 @@ class PageCommandActionHandler implements Server\CommandActionHandler
         }
     }
 
-    protected function cutCommand(array $body) : Server\Response
+    protected function cutCommand(array $body): Server\Response
     {
         $pcids = $body["data"]["pcids"];
         $page = $this->page_gui->getPageObject();
@@ -102,7 +102,7 @@ class PageCommandActionHandler implements Server\CommandActionHandler
         return $this->sendPage($updated);
     }
 
-    protected function pasteCommand(array $body) : Server\Response
+    protected function pasteCommand(array $body): Server\Response
     {
         $target_pcid = $body["data"]["target_pcid"];
         $page = $this->page_gui->getPageObject();
@@ -114,7 +114,7 @@ class PageCommandActionHandler implements Server\CommandActionHandler
         return $this->sendPage($updated);
     }
 
-    protected function copyCommand(array $body) : Server\Response
+    protected function copyCommand(array $body): Server\Response
     {
         $pcids = $body["data"]["pcids"];
         $page = $this->page_gui->getPageObject();
@@ -131,7 +131,7 @@ class PageCommandActionHandler implements Server\CommandActionHandler
         return $this->sendPage(true);
     }
 
-    protected function format(array $body) : Server\Response
+    protected function format(array $body): Server\Response
     {
         $pcids = $body["data"]["pcids"];
         $par = $body["data"]["paragraph_format"];
@@ -150,7 +150,7 @@ class PageCommandActionHandler implements Server\CommandActionHandler
         return $this->sendPage($updated);
     }
 
-    protected function delete(array $body) : Server\Response
+    protected function delete(array $body): Server\Response
     {
         $pcids = $body["data"]["pcids"];
         $page = $this->page_gui->getPageObject();
@@ -171,7 +171,7 @@ class PageCommandActionHandler implements Server\CommandActionHandler
         return $this->sendPage($updated);
     }
 
-    protected function dragDropCommand(array $body) : Server\Response
+    protected function dragDropCommand(array $body): Server\Response
     {
         $target = $body["data"]["target"];
         $source = $body["data"]["source"];
@@ -190,7 +190,7 @@ class PageCommandActionHandler implements Server\CommandActionHandler
      * Send whole page as response
      * @param bool|array $updated
      */
-    protected function sendPage($updated) : Server\Response
+    protected function sendPage($updated): Server\Response
     {
         return $this->ui_wrapper->sendPage($this->page_gui, $updated);
     }
@@ -198,7 +198,7 @@ class PageCommandActionHandler implements Server\CommandActionHandler
     /**
      * Get id for pcid
      */
-    protected function getIdForPCId(string $pcid) : string
+    protected function getIdForPCId(string $pcid): string
     {
         $page = $this->page_gui->getPageObject();
         $id = "pg:";
@@ -212,7 +212,7 @@ class PageCommandActionHandler implements Server\CommandActionHandler
     /**
      * Get hier id for pcid
      */
-    protected function getHierIdForPCId(string $pcid) : string
+    protected function getHierIdForPCId(string $pcid): string
     {
         $page = $this->page_gui->getPageObject();
         $id = "pg";
@@ -223,7 +223,7 @@ class PageCommandActionHandler implements Server\CommandActionHandler
         return $id;
     }
 
-    protected function updateCommand(array $body) : Server\Response
+    protected function updateCommand(array $body): Server\Response
     {
         $page = $this->page_gui->getPageObject();
 
@@ -249,7 +249,7 @@ class PageCommandActionHandler implements Server\CommandActionHandler
         return new Server\Response($data);
     }
 
-    protected function activate(array $body) : Server\Response
+    protected function activate(array $body): Server\Response
     {
         $pcids = $body["data"]["pcids"];
         $page = $this->page_gui->getPageObject();
@@ -276,7 +276,7 @@ class PageCommandActionHandler implements Server\CommandActionHandler
      * @param $body
      * @return Server\Response
      */
-    protected function listEdit($body) : Server\Response
+    protected function listEdit($body): Server\Response
     {
         $pcid = $body["data"]["pcid"];
         $list_cmd = $body["data"]["list_cmd"];

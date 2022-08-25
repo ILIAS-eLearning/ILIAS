@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -34,17 +36,17 @@ class ilForumModerators
         $this->ref_id = $a_ref_id;
     }
 
-    public function setRefId(int $ref_id) : void
+    public function setRefId(int $ref_id): void
     {
         $this->ref_id = $ref_id;
     }
 
-    public function getRefId() : int
+    public function getRefId(): int
     {
         return $this->ref_id;
     }
 
-    public function addModeratorRole(int $a_usr_id) : bool
+    public function addModeratorRole(int $a_usr_id): bool
     {
         $a_rol_id = null;
         $role_list = $this->rbac->review()->getRoleListByObject($this->getRefId());
@@ -63,7 +65,7 @@ class ilForumModerators
         return false;
     }
 
-    public function detachModeratorRole(int $a_usr_id) : bool
+    public function detachModeratorRole(int $a_usr_id): bool
     {
         $a_rol_id = null;
         $role_list = $this->rbac->review()->getRoleListByObject($this->getRefId());
@@ -85,7 +87,7 @@ class ilForumModerators
     /**
      * @return int[]
      */
-    public function getCurrentModerators() : array
+    public function getCurrentModerators(): array
     {
         $assigned_users = [];
         $roles = $this->rbac->review()->getRoleListByObject($this->getRefId());
@@ -102,7 +104,7 @@ class ilForumModerators
     /**
      * @return int[]
      */
-    public function getUsers() : array
+    public function getUsers(): array
     {
         $assigned_users = [];
         $roles = $this->rbac->review()->getRoleListByObject($this->getRefId());

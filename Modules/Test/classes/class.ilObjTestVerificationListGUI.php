@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -7,7 +9,7 @@
  */
 class ilObjTestVerificationListGUI extends ilObjectListGUI
 {
-    public function init() : void
+    public function init(): void
     {
         $this->delete_enabled = true;
         $this->cut_enabled = true;
@@ -20,12 +22,12 @@ class ilObjTestVerificationListGUI extends ilObjectListGUI
 
         $this->commands = ilObjTestVerificationAccess::_getCommands();
     }
-    
-    public function getProperties() : array
+
+    public function getProperties(): array
     {
         global $DIC;
         $lng = $DIC['lng'];
-        
+
         return [
             [
                 'alert' => false,

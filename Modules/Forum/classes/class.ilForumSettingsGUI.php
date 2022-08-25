@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -66,18 +68,18 @@ class ilForumSettingsGUI implements ilForumObjectConstants
         $this->lng->loadLanguageModule('cont');
     }
 
-    public function getRefId() : int
+    public function getRefId(): int
     {
         return $this->ref_id;
     }
 
-    private function initForcedForumNotification() : void
+    private function initForcedForumNotification(): void
     {
         $this->forumNotificationObj = new ilForumNotification($this->parent_obj->getObject()->getRefId());
         $this->forumNotificationObj->readAllForcedEvents();
     }
 
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         $cmd = $this->ctrl->getCmd();
         $next_class = $this->ctrl->getNextClass();
@@ -96,7 +98,7 @@ class ilForumSettingsGUI implements ilForumObjectConstants
         }
     }
 
-    private function addAvailabilitySection(ilPropertyFormGUI $form) : void
+    private function addAvailabilitySection(ilPropertyFormGUI $form): void
     {
         $section = new ilFormSectionHeaderGUI();
         $section->setTitle($this->lng->txt('rep_activation_availability'));
@@ -107,7 +109,7 @@ class ilForumSettingsGUI implements ilForumObjectConstants
         $form->addItem($online);
     }
 
-    public function getCustomForm(ilPropertyFormGUI $a_form) : void
+    public function getCustomForm(ilPropertyFormGUI $a_form): void
     {
         $this->settingsTabs();
         $this->tabs->activateSubTab(self::UI_SUB_TAB_ID_BASIC_SETTINGS);
@@ -202,7 +204,7 @@ class ilForumSettingsGUI implements ilForumObjectConstants
         }
     }
 
-    public function settingsTabs() : bool
+    public function settingsTabs(): bool
     {
         $this->tabs->addSubTabTarget(
             self::UI_SUB_TAB_ID_BASIC_SETTINGS,
@@ -264,7 +266,7 @@ class ilForumSettingsGUI implements ilForumObjectConstants
         return true;
     }
 
-    public function getCustomValues(array &$a_values) : void
+    public function getCustomValues(array &$a_values): void
     {
         $a_values['anonymized'] = $this->parent_obj->objProperties->isAnonymized();
         $a_values['statistics_enabled'] = $this->parent_obj->objProperties->isStatisticEnabled();
@@ -304,7 +306,7 @@ class ilForumSettingsGUI implements ilForumObjectConstants
         $a_values['activation_online'] = $object->getOfflineStatus() === false;
     }
 
-    public function updateCustomValues(ilPropertyFormGUI $a_form) : void
+    public function updateCustomValues(ilPropertyFormGUI $a_form): void
     {
         $default_view_input_value = (int) $a_form->getInput('default_view');
         if (in_array($default_view_input_value, [
@@ -356,7 +358,7 @@ class ilForumSettingsGUI implements ilForumObjectConstants
         $object->update();
     }
 
-    public function showMembers() : void
+    public function showMembers(): void
     {
         if (!$this->access->checkAccess('write', '', $this->parent_obj->getRefId())) {
             $this->error->raiseError(
@@ -433,7 +435,7 @@ class ilForumSettingsGUI implements ilForumObjectConstants
         }
     }
 
-    private function getUserNotificationTableData($user_ids) : array
+    private function getUserNotificationTableData($user_ids): array
     {
         $counter = 0;
         $users = [];
@@ -456,7 +458,7 @@ class ilForumSettingsGUI implements ilForumObjectConstants
         return $users;
     }
 
-    private function showMembersTable(array $moderators, array $admins, array $members, array $tutors) : void
+    private function showMembersTable(array $moderators, array $admins, array $members, array $tutors): void
     {
         foreach (array_filter([
             'moderators' => $moderators,
@@ -472,7 +474,7 @@ class ilForumSettingsGUI implements ilForumObjectConstants
         }
     }
 
-    public function saveEventsForUser() : void
+    public function saveEventsForUser(): void
     {
         if (!$this->access->checkAccess('write', '', $this->parent_obj->getRefId())) {
             $this->error->raiseError(
@@ -526,7 +528,7 @@ class ilForumSettingsGUI implements ilForumObjectConstants
         $this->showMembers();
     }
 
-    public function enableAdminForceNoti() : void
+    public function enableAdminForceNoti(): void
     {
         if (!$this->access->checkAccess('write', '', $this->parent_obj->getRefId())) {
             $this->error->raiseError(
@@ -565,7 +567,7 @@ class ilForumSettingsGUI implements ilForumObjectConstants
         $this->showMembers();
     }
 
-    public function disableAdminForceNoti() : void
+    public function disableAdminForceNoti(): void
     {
         if (!$this->access->checkAccess('write', '', $this->parent_obj->getRefId())) {
             $this->error->raiseError(
@@ -602,7 +604,7 @@ class ilForumSettingsGUI implements ilForumObjectConstants
         $this->showMembers();
     }
 
-    public function enableHideUserToggleNoti() : void
+    public function enableHideUserToggleNoti(): void
     {
         if (!$this->access->checkAccess('write', '', $this->parent_obj->getRefId())) {
             $this->error->raiseError(
@@ -643,7 +645,7 @@ class ilForumSettingsGUI implements ilForumObjectConstants
         $this->showMembers();
     }
 
-    public function disableHideUserToggleNoti() : void
+    public function disableHideUserToggleNoti(): void
     {
         if (!$this->access->checkAccess('write', '', $this->parent_obj->getRefId())) {
             $this->error->raiseError(
@@ -683,7 +685,7 @@ class ilForumSettingsGUI implements ilForumObjectConstants
         $this->showMembers();
     }
 
-    public function getParticipants() : ilParticipants
+    public function getParticipants(): ilParticipants
     {
         if (!$this->parent_obj->isParentObjectCrsOrGrp()) {
             $this->error->raiseError(
@@ -704,7 +706,7 @@ class ilForumSettingsGUI implements ilForumObjectConstants
         return ilCourseParticipants::_getInstanceByObjId($parent_obj->getId());
     }
 
-    private function updateUserNotifications(bool $update_all_users = false) : void
+    private function updateUserNotifications(bool $update_all_users = false): void
     {
         $oParticipants = $this->getParticipants();
 
@@ -735,7 +737,7 @@ class ilForumSettingsGUI implements ilForumObjectConstants
         }
     }
 
-    private function initNotificationSettingsForm() : bool
+    private function initNotificationSettingsForm(): bool
     {
         if (null === $this->notificationSettingsForm) {
             $form = new ilPropertyFormGUI();
@@ -788,7 +790,7 @@ class ilForumSettingsGUI implements ilForumObjectConstants
         return true;
     }
 
-    public function updateNotificationSettings() : void
+    public function updateNotificationSettings(): void
     {
         if (!$this->access->checkAccess('write', '', $this->parent_obj->getRefId())) {
             $this->error->raiseError(

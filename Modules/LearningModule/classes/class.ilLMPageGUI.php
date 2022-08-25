@@ -59,7 +59,7 @@ class ilLMPageGUI extends ilPageObjectGUI
     /**
      * On feedback editing forwarding
      */
-    public function onFeedbackEditingForwarding() : void
+    public function onFeedbackEditingForwarding(): void
     {
         $lng = $this->lng;
 
@@ -75,7 +75,7 @@ class ilLMPageGUI extends ilPageObjectGUI
     /**
      * Process answer
      */
-    public function processAnswer() : void
+    public function processAnswer(): void
     {
         $ilUser = $this->user;
         $ilDB = $this->db;
@@ -122,7 +122,7 @@ class ilLMPageGUI extends ilPageObjectGUI
         }
     }
 
-    public function finishEditing() : void
+    public function finishEditing(): void
     {
         $lm_tree = new ilLMTree($this->getPageObject()->getParentId());
         if ($lm_tree->isInTree($this->getPageObject()->getId())) {

@@ -75,7 +75,7 @@ class ilLMTOCExplorerGUI extends ilLMExplorerGUI
         $this->initTreeData();
     }
 
-    protected function initTreeData() : void
+    protected function initTreeData(): void
     {
         $nodes = $this->tree->getCompleteTree();
         foreach ($nodes as $node) {
@@ -96,7 +96,7 @@ class ilLMTOCExplorerGUI extends ilLMExplorerGUI
 
     protected function initVisibilityData(
         int $node_id
-    ) : void {
+    ): void {
         $current_node = $this->complete_tree["nodes"][$node_id];
 
         if (isset($this->complete_tree["childs"][$node_id])) {
@@ -110,7 +110,6 @@ class ilLMTOCExplorerGUI extends ilLMExplorerGUI
             $this->complete_tree["visibility"][$node_id] = ($this->activation_data[$node_id]["active"] ||
                 $this->activation_data[$node_id]["show_info"]);
         } elseif ($current_node["type"] == "st") {
-
             // make chapters visible as soon as there is one visible child
             $this->complete_tree["visibility"][$node_id] = false;
             if (is_array($this->complete_tree["childs"][$node_id])) {
@@ -126,7 +125,7 @@ class ilLMTOCExplorerGUI extends ilLMExplorerGUI
         }
     }
 
-    public function getRootNode() : array
+    public function getRootNode(): array
     {
         $root_id = $this->getTree()->readRootId();
         if ($this->focus_id > 0 && $this->getTree()->isInTree($this->focus_id) &&
@@ -136,22 +135,22 @@ class ilLMTOCExplorerGUI extends ilLMExplorerGUI
         return $this->getTree()->getNodeData($root_id);
     }
 
-    public function setTracker(ilLMTracker $a_val) : void
+    public function setTracker(ilLMTracker $a_val): void
     {
         $this->tracker = $a_val;
     }
 
-    public function getTracker() : ilLMTracker
+    public function getTracker(): ilLMTracker
     {
         return $this->tracker;
     }
 
-    public function setHighlightNode(int $a_val) : void
+    public function setHighlightNode(int $a_val): void
     {
         $this->highlight_node = $a_val;
     }
 
-    public function getHighlightNode() : int
+    public function getHighlightNode(): int
     {
         return $this->highlight_node;
     }
@@ -159,7 +158,7 @@ class ilLMTOCExplorerGUI extends ilLMExplorerGUI
     /**
      * @param object|array $a_node
      */
-    public function isNodeHighlighted($a_node) : bool
+    public function isNodeHighlighted($a_node): bool
     {
         if ($a_node["child"] == $this->getHighlightNode()) {
             return true;
@@ -170,7 +169,7 @@ class ilLMTOCExplorerGUI extends ilLMExplorerGUI
     /**
      * @param array|object $a_node
      */
-    public function getNodeContent($a_node) : string
+    public function getNodeContent($a_node): string
     {
         if ($a_node["child"] == $this->getNodeId($this->getRootNode())) {
             return $this->service->getPresentationStatus()->getLMPresentationTitle();
@@ -209,7 +208,7 @@ class ilLMTOCExplorerGUI extends ilLMExplorerGUI
     /**
      * @param array|object $a_node
      */
-    public function getNodeIcon($a_node) : string
+    public function getNodeIcon($a_node): string
     {
         // overwrite chapter icons with lp info?
         if (!$this->getOfflineMode() && $a_node["type"] == "st") {
@@ -256,7 +255,7 @@ class ilLMTOCExplorerGUI extends ilLMExplorerGUI
     /**
      * @param array|object $a_node
      */
-    public function isNodeClickable($a_node) : bool
+    public function isNodeClickable($a_node): bool
     {
         $ilUser = $this->user;
 
@@ -329,7 +328,7 @@ class ilLMTOCExplorerGUI extends ilLMExplorerGUI
     /**
      * @param array|object $a_node
      */
-    public function getNodeIconAlt($a_node) : string
+    public function getNodeIconAlt($a_node): string
     {
         return "";
     }
@@ -337,7 +336,7 @@ class ilLMTOCExplorerGUI extends ilLMExplorerGUI
     /**
      * @param array|object $a_node
      */
-    public function getNodeHref($a_node) : string
+    public function getNodeHref($a_node): string
     {
         if (!$this->getOfflineMode()) {
             return $this->linker->getLink("", $a_node["child"]);
@@ -379,7 +378,7 @@ class ilLMTOCExplorerGUI extends ilLMExplorerGUI
     /**
      * @param array|object $a_node
      */
-    public function isNodeVisible($a_node) : bool
+    public function isNodeVisible($a_node): bool
     {
         return (bool) $this->complete_tree["visibility"][$a_node["child"]];
     }
@@ -388,12 +387,12 @@ class ilLMTOCExplorerGUI extends ilLMExplorerGUI
     // Learning Sequence TOC
     //
 
-    public function renderLSToc(\LSTOCBuilder $toc) : void
+    public function renderLSToc(\LSTOCBuilder $toc): void
     {
         $this->renderLSTocNode($toc, null);
     }
 
-    protected function renderLSTocNode(\LSTOCBuilder $toc, ?int $current_node = null) : void
+    protected function renderLSTocNode(\LSTOCBuilder $toc, ?int $current_node = null): void
     {
         $root = false;
         if ($current_node == 0) {

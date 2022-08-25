@@ -1,4 +1,6 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -42,7 +44,7 @@ class InternalGUIService
         $this->initGUIServices($DIC);
     }
 
-    public function editing() : Editing\GUIService
+    public function editing(): Editing\GUIService
     {
         return new Editing\GUIService(
             $this->domain_service,
@@ -50,7 +52,7 @@ class InternalGUIService
         );
     }
 
-    public function presentation() : Presentation\GUIService
+    public function presentation(): Presentation\GUIService
     {
         return new Presentation\GUIService(
             $this->domain_service,

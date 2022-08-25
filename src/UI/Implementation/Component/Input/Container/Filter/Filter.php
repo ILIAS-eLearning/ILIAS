@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\UI\Implementation\Component\Input\Container\Filter;
 
 use ILIAS\UI\Component as C;
@@ -191,7 +193,7 @@ abstract class Filter implements C\Input\Container\Filter\Filter, CI\Input\NameS
     /**
      * @inheritdocs
      */
-    public function getInputs() : array
+    public function getInputs(): array
     {
         return $this->getInputGroup()->getInputs();
     }
@@ -199,7 +201,7 @@ abstract class Filter implements C\Input\Container\Filter\Filter, CI\Input\NameS
     /**
      * @inheritdocs
      */
-    public function isInputRendered() : array
+    public function isInputRendered(): array
     {
         return $this->is_input_rendered;
     }
@@ -207,7 +209,7 @@ abstract class Filter implements C\Input\Container\Filter\Filter, CI\Input\NameS
     /**
      * @inheritdocs
      */
-    public function getInputGroup() : C\Input\Field\Group
+    public function getInputGroup(): C\Input\Field\Group
     {
         return $this->input_group;
     }
@@ -241,7 +243,7 @@ abstract class Filter implements C\Input\Container\Filter\Filter, CI\Input\NameS
     /**
      * Extract post data from request.
      */
-    protected function extractParamData(ServerRequestInterface $request) : CI\Input\InputData
+    protected function extractParamData(ServerRequestInterface $request): CI\Input\InputData
     {
         return new QueryParamsFromServerRequest($request);
     }
@@ -251,7 +253,7 @@ abstract class Filter implements C\Input\Container\Filter\Filter, CI\Input\NameS
      *
      * @inheritdoc
      */
-    public function getNewName() : string
+    public function getNewName(): string
     {
         $name = "filter_input_$this->count";
         $this->count++;
@@ -262,7 +264,7 @@ abstract class Filter implements C\Input\Container\Filter\Filter, CI\Input\NameS
     /**
      * @inheritdoc
      */
-    public function isActivated() : bool
+    public function isActivated(): bool
     {
         return $this->is_activated;
     }
@@ -270,7 +272,7 @@ abstract class Filter implements C\Input\Container\Filter\Filter, CI\Input\NameS
     /**
      * @inheritdoc
      */
-    public function withActivated() : Filter
+    public function withActivated(): Filter
     {
         $clone = clone $this;
         $clone->is_activated = true;
@@ -280,7 +282,7 @@ abstract class Filter implements C\Input\Container\Filter\Filter, CI\Input\NameS
     /**
      * @inheritdoc
      */
-    public function withDeactivated() : Filter
+    public function withDeactivated(): Filter
     {
         $clone = clone $this;
         $clone->is_activated = false;
@@ -290,7 +292,7 @@ abstract class Filter implements C\Input\Container\Filter\Filter, CI\Input\NameS
     /**
      * @inheritdoc
      */
-    public function isExpanded() : bool
+    public function isExpanded(): bool
     {
         return $this->is_expanded;
     }
@@ -298,7 +300,7 @@ abstract class Filter implements C\Input\Container\Filter\Filter, CI\Input\NameS
     /**
      * @inheritdoc
      */
-    public function withExpanded() : Filter
+    public function withExpanded(): Filter
     {
         $clone = clone $this;
         $clone->is_expanded = true;
@@ -308,7 +310,7 @@ abstract class Filter implements C\Input\Container\Filter\Filter, CI\Input\NameS
     /**
      * @inheritdoc
      */
-    public function withCollapsed() : Filter
+    public function withCollapsed(): Filter
     {
         $clone = clone $this;
         $clone->is_expanded = false;
@@ -318,7 +320,7 @@ abstract class Filter implements C\Input\Container\Filter\Filter, CI\Input\NameS
     /**
      * @inheritdoc
      */
-    public function getUpdateSignal() : Signal
+    public function getUpdateSignal(): Signal
     {
         return $this->update_signal;
     }
@@ -326,7 +328,7 @@ abstract class Filter implements C\Input\Container\Filter\Filter, CI\Input\NameS
     /**
      * @inheritdoc
      */
-    public function withResetSignals() : Filter
+    public function withResetSignals(): Filter
     {
         $clone = clone $this;
         $clone->initSignals();
@@ -336,7 +338,7 @@ abstract class Filter implements C\Input\Container\Filter\Filter, CI\Input\NameS
     /**
      * Set the update signal for this input
      */
-    protected function initSignals() : void
+    protected function initSignals(): void
     {
         $this->update_signal = $this->signal_generator->create();
     }

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -24,7 +26,7 @@ class ilTestScoringGUITest extends ilTestBaseTestCase
 {
     private ilTestScoringGUI $testObj;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -41,12 +43,12 @@ class ilTestScoringGUITest extends ilTestBaseTestCase
         $this->testObj = new ilTestScoringGUI($this->createMock(ilObjTest::class));
     }
 
-    public function test_instantiateObject_shouldReturnInstance() : void
+    public function test_instantiateObject_shouldReturnInstance(): void
     {
         $this->assertInstanceOf(ilTestScoringGUI::class, $this->testObj);
     }
 
-    public function testTestAccess() : void
+    public function testTestAccess(): void
     {
         $mock = $this->createMock(ilTestAccess::class);
         $this->testObj->setTestAccess($mock);

@@ -1,4 +1,5 @@
 <?php
+
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -97,12 +98,12 @@ class ilTestRandomQuestionSetSourcePoolDefinition
         return $this->poolId;
     }
 
-    public function getPoolRefId() : ?int
+    public function getPoolRefId(): ?int
     {
         return $this->poolRefId;
     }
 
-    public function setPoolRefId(?int $poolRefId) : void
+    public function setPoolRefId(?int $poolRefId): void
     {
         $this->poolRefId = $poolRefId;
     }
@@ -142,7 +143,7 @@ class ilTestRandomQuestionSetSourcePoolDefinition
      * get the original taxonomy filter conditions
      * @return array	taxId => [nodeId, ...]
      */
-    public function getOriginalTaxonomyFilter() : array
+    public function getOriginalTaxonomyFilter(): array
     {
         return $this->originalTaxonomyFilter;
     }
@@ -160,7 +161,7 @@ class ilTestRandomQuestionSetSourcePoolDefinition
      * get the original taxonomy filter for insert into the database
      * @return null|string		serialized taxonomy filter
      */
-    private function getOriginalTaxonomyFilterForDbValue() : ?string
+    private function getOriginalTaxonomyFilterForDbValue(): ?string
     {
         // TODO-RND2017: migrate to separate table for common selections by e.g. statistics
         return empty($this->originalTaxonomyFilter) ? null : serialize($this->originalTaxonomyFilter);
@@ -180,7 +181,7 @@ class ilTestRandomQuestionSetSourcePoolDefinition
      * get the mapped taxonomy filter conditions
      * @return 	array	taxId => [nodeId, ...]
      */
-    public function getMappedTaxonomyFilter() : array
+    public function getMappedTaxonomyFilter(): array
     {
         return $this->mappedTaxonomyFilter;
     }
@@ -198,7 +199,7 @@ class ilTestRandomQuestionSetSourcePoolDefinition
      * get the original taxonomy filter for insert into the database
      * @return null|string		serialized taxonomy filter
      */
-    private function getMappedTaxonomyFilterForDbValue() : ?string
+    private function getMappedTaxonomyFilterForDbValue(): ?string
     {
         return empty($this->mappedTaxonomyFilter) ? null : serialize($this->mappedTaxonomyFilter);
     }
@@ -234,7 +235,7 @@ class ilTestRandomQuestionSetSourcePoolDefinition
         $this->typeFilter = $typeFilter;
     }
 
-    public function getTypeFilter() : array
+    public function getTypeFilter(): array
     {
         return $this->typeFilter;
     }
@@ -243,7 +244,7 @@ class ilTestRandomQuestionSetSourcePoolDefinition
      * get the question type filter for insert into the database
      * @return null|string		serialized type filter
      */
-    private function getTypeFilterForDbValue() : ?string
+    private function getTypeFilterForDbValue(): ?string
     {
         return empty($this->typeFilter) ? null : serialize($this->typeFilter);
     }
@@ -260,7 +261,7 @@ class ilTestRandomQuestionSetSourcePoolDefinition
     /**
      * @return array
      */
-    public function getLifecycleFilter() : array
+    public function getLifecycleFilter(): array
     {
         return $this->lifecycleFilter;
     }
@@ -276,7 +277,7 @@ class ilTestRandomQuestionSetSourcePoolDefinition
     /**
      * @return null|string		serialized lifecycle filter
      */
-    public function getLifecycleFilterForDbValue() : ?string
+    public function getLifecycleFilterForDbValue(): ?string
     {
         return empty($this->lifecycleFilter) ? null : serialize($this->lifecycleFilter);
     }
@@ -361,24 +362,36 @@ class ilTestRandomQuestionSetSourcePoolDefinition
     {
         foreach ($dataArray as $field => $value) {
             switch ($field) {
-                case 'def_id':				$this->setId($value);						break;
-                case 'pool_fi':				$this->setPoolId($value);					break;
-                case 'pool_ref_id':         $this->setPoolRefId($value ? (int) $value : null); break;
-                case 'pool_title':			$this->setPoolTitle($value);				break;
-                case 'pool_path':			$this->setPoolPath($value);					break;
-                case 'pool_quest_count':	$this->setPoolQuestionCount($value);		break;
-                // fau: taxFilter - use new db fields
-                #case 'origin_tax_fi':		$this->setOriginalFilterTaxId($value);		break;
-                #case 'origin_node_fi':		$this->setOriginalFilterTaxNodeId($value);	break;
-                #case 'mapped_tax_fi':		$this->setMappedFilterTaxId($value);		break;
-                #case 'mapped_node_fi':		$this->setMappedFilterTaxNodeId($value);	break;
-                case 'origin_tax_filter':	$this->setOriginalTaxonomyFilterFromDbValue($value);	break;
-                case 'mapped_tax_filter':	$this->setMappedTaxonomyFilterFromDbValue($value);		break;
-                case 'type_filter':			$this->setTypeFilterFromDbValue($value);	break;
-                case 'lifecycle_filter':			$this->setLifecycleFilterFromDbValue($value);	break;
-                // fau.
-                case 'quest_amount':		$this->setQuestionAmount($value);			break;
-                case 'sequence_pos':		$this->setSequencePosition($value);			break;
+                case 'def_id':				$this->setId($value);
+                    break;
+                case 'pool_fi':				$this->setPoolId($value);
+                    break;
+                case 'pool_ref_id':         $this->setPoolRefId($value ? (int) $value : null);
+                    break;
+                case 'pool_title':			$this->setPoolTitle($value);
+                    break;
+                case 'pool_path':			$this->setPoolPath($value);
+                    break;
+                case 'pool_quest_count':	$this->setPoolQuestionCount($value);
+                    break;
+                    // fau: taxFilter - use new db fields
+                    #case 'origin_tax_fi':		$this->setOriginalFilterTaxId($value);		break;
+                    #case 'origin_node_fi':		$this->setOriginalFilterTaxNodeId($value);	break;
+                    #case 'mapped_tax_fi':		$this->setMappedFilterTaxId($value);		break;
+                    #case 'mapped_node_fi':		$this->setMappedFilterTaxNodeId($value);	break;
+                case 'origin_tax_filter':	$this->setOriginalTaxonomyFilterFromDbValue($value);
+                    break;
+                case 'mapped_tax_filter':	$this->setMappedTaxonomyFilterFromDbValue($value);
+                    break;
+                case 'type_filter':			$this->setTypeFilterFromDbValue($value);
+                    break;
+                case 'lifecycle_filter':			$this->setLifecycleFilterFromDbValue($value);
+                    break;
+                    // fau.
+                case 'quest_amount':		$this->setQuestionAmount($value);
+                    break;
+                case 'sequence_pos':		$this->setSequencePosition($value);
+                    break;
             }
         }
     }
@@ -387,7 +400,7 @@ class ilTestRandomQuestionSetSourcePoolDefinition
      * @param integer $poolId
      * @return boolean
      */
-    public function loadFromDb($id) : bool
+    public function loadFromDb($id): bool
     {
         $res = $this->db->queryF(
             "SELECT * FROM tst_rnd_quest_set_qpls WHERE def_id = %s",
@@ -494,7 +507,7 @@ class ilTestRandomQuestionSetSourcePoolDefinition
 
     // -----------------------------------------------------------------------------------------------------------------
 
-    public function getPoolInfoLabel(ilLanguage $lng) : string
+    public function getPoolInfoLabel(ilLanguage $lng): string
     {
         $pool_path = $this->getPoolPath();
         if (is_int($this->getPoolRefId()) && ilObject::_lookupObjId($this->getPoolRefId())) {

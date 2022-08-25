@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -58,7 +60,7 @@ class ilPdfGenerator
      * @return string
      * @throws ilException
      */
-    public function generate(int $userCertificateId) : string
+    public function generate(int $userCertificateId): string
     {
         $certificate = $this->certificateRepository->fetchCertificate($userCertificateId);
 
@@ -71,7 +73,7 @@ class ilPdfGenerator
      * @return string
      * @throws ilException
      */
-    public function generateCurrentActiveCertificate(int $userId, int $objId) : string
+    public function generateCurrentActiveCertificate(int $userId, int $objId): string
     {
         $certificate = $this->certificateRepository->fetchActiveCertificate($userId, $objId);
 
@@ -86,7 +88,7 @@ class ilPdfGenerator
      * @throws ilException
      * @throws ilObjectNotFoundException
      */
-    public function generateFileName(int $userId, int $objId) : string
+    public function generateFileName(int $userId, int $objId): string
     {
         $certificate = $this->certificateRepository->fetchActiveCertificateForPresentation($userId, $objId);
 
@@ -98,7 +100,7 @@ class ilPdfGenerator
         return $this->pdfFilenameFactory->create($certificate);
     }
 
-    private function createPDFScalar(ilUserCertificate $certificate) : string
+    private function createPDFScalar(ilUserCertificate $certificate): string
     {
         $certificateContent = $certificate->getCertificateContent();
 

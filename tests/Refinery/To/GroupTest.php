@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -38,47 +40,47 @@ class GroupTest extends TestCase
 {
     private ToGroup $basicGroup;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         $this->basicGroup = new ToGroup(new DataFactory());
     }
 
-    public function testIsIntegerTransformationInstance() : void
+    public function testIsIntegerTransformationInstance(): void
     {
         $transformation = $this->basicGroup->int();
 
         $this->assertInstanceOf(IntegerTransformation::class, $transformation);
     }
 
-    public function testIsStringTransformationInstance() : void
+    public function testIsStringTransformationInstance(): void
     {
         $transformation = $this->basicGroup->string();
 
         $this->assertInstanceOf(StringTransformation::class, $transformation);
     }
 
-    public function testIsFloatTransformationInstance() : void
+    public function testIsFloatTransformationInstance(): void
     {
         $transformation = $this->basicGroup->float();
 
         $this->assertInstanceOf(FloatTransformation::class, $transformation);
     }
 
-    public function testIsBooleanTransformationInstance() : void
+    public function testIsBooleanTransformationInstance(): void
     {
         $transformation = $this->basicGroup->bool();
 
         $this->assertInstanceOf(BooleanTransformation::class, $transformation);
     }
 
-    public function testListOfTransformation() : void
+    public function testListOfTransformation(): void
     {
         $transformation = $this->basicGroup->listOf(new StringTransformation());
 
         $this->assertInstanceOf(ListTransformation::class, $transformation);
     }
 
-    public function testTupleOfTransformation() : void
+    public function testTupleOfTransformation(): void
     {
         $transformation = $this->basicGroup->tupleOf([new StringTransformation()]);
 
@@ -88,14 +90,14 @@ class GroupTest extends TestCase
     /**
      * @throws \ilException
      */
-    public function testRecordOfTransformation() : void
+    public function testRecordOfTransformation(): void
     {
         $transformation = $this->basicGroup->recordOf(['toString' => new StringTransformation()]);
 
         $this->assertInstanceOf(RecordTransformation::class, $transformation);
     }
 
-    public function testDictionaryOfTransformation() : void
+    public function testDictionaryOfTransformation(): void
     {
         $transformation = $this->basicGroup->dictOf(new StringTransformation());
 
@@ -105,7 +107,7 @@ class GroupTest extends TestCase
     /**
      * @throws \ilException
      */
-    public function testNewObjectTransformation() : void
+    public function testNewObjectTransformation(): void
     {
         $transformation = $this->basicGroup->toNew(MyClass::class);
 
@@ -115,14 +117,14 @@ class GroupTest extends TestCase
     /**
      * @throws \ilException
      */
-    public function testNewMethodTransformation() : void
+    public function testNewMethodTransformation(): void
     {
         $transformation = $this->basicGroup->toNew([new MyClass(), 'myMethod']);
 
         $this->assertInstanceOf(NewMethodTransformation::class, $transformation);
     }
 
-    public function testNewMethodTransformationThrowsExceptionBecauseToManyParametersAreGiven() : void
+    public function testNewMethodTransformationThrowsExceptionBecauseToManyParametersAreGiven(): void
     {
         $this->expectNotToPerformAssertions();
 
@@ -135,7 +137,7 @@ class GroupTest extends TestCase
         $this->fail();
     }
 
-    public function testNewMethodTransformationThrowsExceptionBecauseToFewParametersAreGiven() : void
+    public function testNewMethodTransformationThrowsExceptionBecauseToFewParametersAreGiven(): void
     {
         $this->expectNotToPerformAssertions();
 
@@ -151,7 +153,7 @@ class GroupTest extends TestCase
     /**
      * @throws \ilException
      */
-    public function testCreateDataTransformation() : void
+    public function testCreateDataTransformation(): void
     {
         $transformation = $this->basicGroup->data('alphanumeric');
 
@@ -165,7 +167,7 @@ class GroupTest extends TestCase
 
 class MyClass
 {
-    public function myMethod() : array
+    public function myMethod(): array
     {
         return [$this->string, $this->integer];
     }

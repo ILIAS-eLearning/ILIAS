@@ -50,12 +50,12 @@ class SkillInternalService
         $this->refinery = $DIC->refinery();
     }
 
-    public function repo() : SkillInternalRepoService
+    public function repo(): SkillInternalRepoService
     {
         return new SkillInternalRepoService($this->factory());
     }
 
-    public function manager() : SkillInternalManagerService
+    public function manager(): SkillInternalManagerService
     {
         return new SkillInternalManagerService(
             $this->skmg_ref_id,
@@ -69,7 +69,7 @@ class SkillInternalService
     /**
      * Skill service repos
      */
-    public function factory() : SkillInternalFactoryService
+    public function factory(): SkillInternalFactoryService
     {
         return new SkillInternalFactoryService();
     }
@@ -77,7 +77,7 @@ class SkillInternalService
     public function gui(
         array $query_params = null,
         array $post_data = null
-    ) : SkillInternalGUIService {
+    ): SkillInternalGUIService {
         return new SkillInternalGUIService(
             $this->http,
             $this->refinery,

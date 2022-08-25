@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\UI\Component\MainControls;
 
 use ILIAS\Data\URI;
@@ -32,18 +34,18 @@ interface Footer extends Component
     /**
      * @return Link\Standard[]
      */
-    public function getLinks() : array;
+    public function getLinks(): array;
 
-    public function getText() : string;
+    public function getText(): string;
 
     /**
      * @return array<Modal\RoundTrip, Button\Shy>[]
      */
-    public function getModals() : array;
+    public function getModals(): array;
 
-    public function withAdditionalModalAndTrigger(Modal\RoundTrip $roundTripModal, Button\Shy $shyButton) : Footer;
+    public function withAdditionalModalAndTrigger(Modal\RoundTrip $roundTripModal, Button\Shy $shyButton): Footer;
 
-    public function getPermanentURL() : ?URI;
+    public function getPermanentURL(): ?URI;
 
-    public function withPermanentURL(URI $url) : Footer;
+    public function withPermanentURL(URI $url): Footer;
 }

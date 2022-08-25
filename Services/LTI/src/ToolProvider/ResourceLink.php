@@ -16,7 +16,6 @@
  *
  *********************************************************************/
 
-
 namespace ILIAS\LTI\ToolProvider;
 
 use ILIAS\LTI\ToolProvider\DataConnector\DataConnector;
@@ -40,62 +39,62 @@ class ResourceLink
     /**
      * Read action.
      */
-    const EXT_READ = 1;
+    public const EXT_READ = 1;
 
     /**
      * Write (create/update) action.
      */
-    const EXT_WRITE = 2;
+    public const EXT_WRITE = 2;
 
     /**
      * Delete action.
      */
-    const EXT_DELETE = 3;
+    public const EXT_DELETE = 3;
 
     /**
      * Create action.
      */
-    const EXT_CREATE = 4;
+    public const EXT_CREATE = 4;
 
     /**
      * Update action.
      */
-    const EXT_UPDATE = 5;
+    public const EXT_UPDATE = 5;
 
     /**
      * Decimal outcome type.
      */
-    const EXT_TYPE_DECIMAL = 'decimal';
+    public const EXT_TYPE_DECIMAL = 'decimal';
 
     /**
      * Percentage outcome type.
      */
-    const EXT_TYPE_PERCENTAGE = 'percentage';
+    public const EXT_TYPE_PERCENTAGE = 'percentage';
 
     /**
      * Ratio outcome type.
      */
-    const EXT_TYPE_RATIO = 'ratio';
+    public const EXT_TYPE_RATIO = 'ratio';
 
     /**
      * Letter (A-F) outcome type.
      */
-    const EXT_TYPE_LETTER_AF = 'letteraf';
+    public const EXT_TYPE_LETTER_AF = 'letteraf';
 
     /**
      * Letter (A-F) with optional +/- outcome type.
      */
-    const EXT_TYPE_LETTER_AF_PLUS = 'letterafplus';
+    public const EXT_TYPE_LETTER_AF_PLUS = 'letterafplus';
 
     /**
      * Pass/fail outcome type.
      */
-    const EXT_TYPE_PASS_FAIL = 'passfail';
+    public const EXT_TYPE_PASS_FAIL = 'passfail';
 
     /**
      * Free text outcome type.
      */
-    const EXT_TYPE_TEXT = 'freetext';
+    public const EXT_TYPE_TEXT = 'freetext';
 
     /**
      * Context title.
@@ -309,7 +308,7 @@ class ResourceLink
      *
      * @return bool    True if the resource link was successfully saved.
      */
-    public function save() : bool
+    public function save(): bool
     {
         $ok = $this->getDataConnector()->saveResourceLink($this);
         if ($ok) {
@@ -324,7 +323,7 @@ class ResourceLink
      *
      * @return bool    True if the resource link was successfully deleted.
      */
-    public function delete() : bool
+    public function delete(): bool
     {
         return $this->getDataConnector()->deleteResourceLink($this);
     }
@@ -379,7 +378,7 @@ class ResourceLink
      *
      * @return Platform  Platform object for this resource link.
      */
-    public function getPlatform() : ?Platform
+    public function getPlatform(): ?Platform
     {
         if (is_null($this->platform)) {
             if (!is_null($this->context) || !is_null($this->contextId)) {
@@ -397,7 +396,7 @@ class ResourceLink
      *
      * @return int|null  Platform ID for this resource link.
      */
-    public function getPlatformId() : ?int
+    public function getPlatformId(): ?int
     {
         return $this->platformId;
     }
@@ -417,7 +416,7 @@ class ResourceLink
      *
      * @return Context|null LTIContext object for this resource link.
      */
-    public function getContext() : ?Context
+    public function getContext(): ?Context
     {
         if (is_null($this->context) && !is_null($this->contextId)) {
             $this->context = Context::fromRecordId($this->contextId, $this->getDataConnector());
@@ -431,7 +430,7 @@ class ResourceLink
      *
      * @return int|null Context record ID for this resource link.
      */
-    public function getContextId() : ?int
+    public function getContextId(): ?int
     {
         if (is_null($this->contextId) && !is_null($this->context)) {
             $this->contextId = $this->context->getRecordId();
@@ -467,7 +466,7 @@ class ResourceLink
      *
      * @return string Consumer key value for this resource link.
      */
-    public function getKey() : string
+    public function getKey(): string
     {
         return $this->getPlatform()->getKey();
     }
@@ -477,7 +476,7 @@ class ResourceLink
      *
      * @return string ID for this resource link.
      */
-    public function getId() : ?string
+    public function getId(): ?string
     {
         return $this->ltiResourceLinkId;
     }
@@ -487,7 +486,7 @@ class ResourceLink
      *
      * @return int|null Record ID for this resource link.
      */
-    public function getRecordId() : ?int
+    public function getRecordId(): ?int
     {
         return $this->id;
     }
@@ -506,7 +505,7 @@ class ResourceLink
      *
      * @return DataConnector|null Data connector object or string
      */
-    public function getDataConnector() : ?DataConnector
+    public function getDataConnector(): ?DataConnector
     {
         if (empty($this->dataConnector)) {
             $this->getPlatform();
@@ -524,7 +523,7 @@ class ResourceLink
      * @param string $default Value to return if the setting does not exist (optional, default is an empty string)
      * @return string Setting value
      */
-    public function getSetting(string $name, string $default = '') : string
+    public function getSetting(string $name, string $default = ''): string
     {
         if (array_key_exists($name, $this->settings)) {
             $value = $this->settings[$name];
@@ -558,7 +557,7 @@ class ResourceLink
      *
      * @return array Associative array of setting values
      */
-    public function getSettings() : ?array
+    public function getSettings(): ?array
     {
         return $this->settings;
     }
@@ -577,7 +576,7 @@ class ResourceLink
      *
      * @return bool    True if the settings were successfully saved
      */
-    public function saveSettings() : bool
+    public function saveSettings(): bool
     {
         if ($this->settingsChanged) {
             $ok = $this->save();
@@ -593,7 +592,7 @@ class ResourceLink
      *
      * @return bool    True if this resource link supports an Outcomes service
      */
-    public function hasOutcomesService() : bool
+    public function hasOutcomesService(): bool
     {
         $has = !empty($this->getSetting('ext_ims_lis_basic_outcome_url')) || !empty($this->getSetting('lis_outcome_service_url'));
         if (!$has && !empty($this->getSetting('custom_lineitem_url')) && !empty($this->getSetting('custom_ags_scopes'))) {
@@ -611,7 +610,7 @@ class ResourceLink
      *
      * @return bool    True if this resource link supports a Memberships service
      */
-    public function hasMembershipsService() : bool
+    public function hasMembershipsService(): bool
     {
         $has = false;
         if (!empty($this->getContextId())) {
@@ -635,7 +634,7 @@ class ResourceLink
      *
      * @return bool    True if this resource link supports the Setting extension service
      */
-    public function hasSettingService() : bool
+    public function hasSettingService(): bool
     {
         $url = $this->getSetting('ext_ims_lti_tool_setting_url');
 
@@ -647,7 +646,7 @@ class ResourceLink
      *
      * @return bool    True if this resource link supports the Line Item service
      */
-    public function hasLineItemService() : bool
+    public function hasLineItemService(): bool
     {
         $has = false;
         if (!empty($this->getSetting('custom_ags_scopes'))) {
@@ -665,7 +664,7 @@ class ResourceLink
      *
      * @return bool    True if this resource link supports the Score service
      */
-    public function hasScoreService() : bool
+    public function hasScoreService(): bool
     {
         $has = false;
         if (!empty($this->getSetting('custom_ags_scopes'))) {
@@ -683,7 +682,7 @@ class ResourceLink
      *
      * @return bool    True if this resource link supports the Result service
      */
-    public function hasResultService() : bool
+    public function hasResultService(): bool
     {
         $has = false;
         if (!empty($this->getSetting('custom_ags_scopes'))) {
@@ -701,7 +700,7 @@ class ResourceLink
      *
      * @return bool    True if this resource link supports the Assessment Control service
      */
-    public function hasAssessmentControlService() : bool
+    public function hasAssessmentControlService(): bool
     {
         $url = $this->getSetting('custom_ap_acs_url');
 
@@ -715,7 +714,7 @@ class ResourceLink
      * @param UserResult $userResult UserResult object
      * @return bool    True if the request was successfully processed
      */
-    public function doOutcomesService(int $action, Outcome $ltiOutcome, UserResult $userResult) : bool
+    public function doOutcomesService(int $action, Outcome $ltiOutcome, UserResult $userResult): bool
     {
         $ok = false;
         $this->extResponse = '';
@@ -958,7 +957,7 @@ EOF;
      *
      * @return bool    True if this resource link supports the Tool Settings service
      */
-    public function hasToolSettingsService() : bool
+    public function hasToolSettingsService(): bool
     {
         $has = !empty($this->getSetting('custom_link_setting_url'));
         if (!$has) {
@@ -998,7 +997,7 @@ EOF;
      * @param array $settings An associative array of settings (optional, default is none)
      * @return bool    True if action was successful, otherwise false
      */
-    public function setToolSettings(array $settings = array()) : bool
+    public function setToolSettings(array $settings = array()): bool
     {
         $ok = false;
         if (!empty($this->getSetting('custom_link_setting_url'))) {
@@ -1024,7 +1023,7 @@ EOF;
      *
      * @return bool    True if this resource link supports the Membership service
      */
-    public function hasMembershipService() : bool
+    public function hasMembershipService(): bool
     {
         Util::logDebug(
             'Method ceLTIc\LTI\ResourceLink::hasMembershipService() has been deprecated; please use ceLTIc\LTI\ResourceLink::hasMembershipsService() instead.',
@@ -1237,7 +1236,7 @@ EOF;
      * @param int|null $idScope   Scope to use for ID values (optional, default is null for platform default)
      * @return UserResult[] Array of UserResult objects
      */
-    public function getUserResultSourcedIDs(bool $localOnly = false, int $idScope = null) : array
+    public function getUserResultSourcedIDs(bool $localOnly = false, int $idScope = null): array
     {
         return $this->getDataConnector()->getUserResultSourcedIDsResourceLink($this, $localOnly, $idScope);
     }
@@ -1247,7 +1246,7 @@ EOF;
      *
      * @return ResourceLinkShare[] Array of ResourceLinkShare objects
      */
-    public function getShares() : array
+    public function getShares(): array
     {
         return $this->getDataConnector()->getSharesResourceLink($this);
     }
@@ -1286,7 +1285,7 @@ EOF;
      * @param LineItem $lineItem Line item object
      * @return bool  True if successful
      */
-    public function createLineItem(LineItem $lineItem) : bool
+    public function createLineItem(LineItem $lineItem): bool
     {
         $ok = false;
         $lineItemService = $this->getLineItemService();
@@ -1382,7 +1381,7 @@ EOF;
      * @param string|null $tempId            Temporary Resource link ID value (optional, default is null)
      * @return ResourceLink
      */
-    public static function fromPlatform(Platform $platform, string $ltiResourceLinkId, string $tempId = null) : ResourceLink
+    public static function fromPlatform(Platform $platform, string $ltiResourceLinkId, string $tempId = null): ResourceLink
     {
         $resourceLink = new ResourceLink();
         $resourceLink->platform = $platform;
@@ -1407,7 +1406,7 @@ EOF;
      * @param string|null $tempId            Temporary Resource link ID value (optional, default is null)
      * @return ResourceLink
      */
-    public static function fromContext(Context $context, string $ltiResourceLinkId, string $tempId = null) : ResourceLink
+    public static function fromContext(Context $context, string $ltiResourceLinkId, string $tempId = null): ResourceLink
     {
         $resourceLink = new ResourceLink();
         $resourceLink->setContext($context);
@@ -1432,7 +1431,7 @@ EOF;
      * @param DataConnector $dataConnector Database connection object
      * @return ResourceLink  ResourceLink object
      */
-    public static function fromRecordId(int $id, DataConnector $dataConnector) : ResourceLink
+    public static function fromRecordId(int $id, DataConnector $dataConnector): ResourceLink
     {
         $resourceLink = new ResourceLink();
         $resourceLink->dataConnector = $dataConnector;
@@ -1450,7 +1449,7 @@ EOF;
      * @param int|null $id Record ID of resource link (optional, default is null)
      * @return bool    True if resource link was successfully loaded
      */
-    private function load(int $id = null) : bool
+    private function load(int $id = null): bool
     {
         $this->initialize();
         $this->id = $id;
@@ -1464,7 +1463,7 @@ EOF;
      * @param array|null $supportedTypes Array of outcome types to be supported (optional, default is null to use supported types reported in the last launch for this resource link)
      * @return bool    True if the type/value are valid and supported
      */
-    private function checkValueType(Outcome $ltiOutcome, array $supportedTypes = null) : bool
+    private function checkValueType(Outcome $ltiOutcome, array $supportedTypes = null): bool
     {
         if (empty($supportedTypes)) {
             $supportedTypes = explode(
@@ -1494,7 +1493,7 @@ EOF;
                     $ltiOutcome->setValue($parts[0] / $parts[1]);
                     $ltiOutcome->type = self::EXT_TYPE_DECIMAL;
                 }
-                // Convert letter_af to letter_af_plus or text
+            // Convert letter_af to letter_af_plus or text
             } elseif ($type === self::EXT_TYPE_LETTER_AF) {
                 if (in_array(self::EXT_TYPE_LETTER_AF_PLUS, $supportedTypes)) {
                     $ok = true;
@@ -1503,7 +1502,7 @@ EOF;
                     $ok = true;
                     $ltiOutcome->type = self::EXT_TYPE_TEXT;
                 }
-                // Convert letter_af_plus to letter_af or text
+            // Convert letter_af_plus to letter_af or text
             } elseif ($type === self::EXT_TYPE_LETTER_AF_PLUS) {
                 if (in_array(self::EXT_TYPE_LETTER_AF, $supportedTypes) && (strlen($value) === 1)) {
                     $ok = true;
@@ -1512,7 +1511,7 @@ EOF;
                     $ok = true;
                     $ltiOutcome->type = self::EXT_TYPE_TEXT;
                 }
-                // Convert text to decimal
+            // Convert text to decimal
             } elseif ($type === self::EXT_TYPE_TEXT) {
                 $ok = is_numeric($value) && ($value >= 0) && ($value <= 1);
                 if ($ok) {
@@ -1543,7 +1542,7 @@ EOF;
      * @param string $scope  Scope for service
      * @return bool    True if the request successfully obtained a response
      */
-    private function doService(string $type, string $url, array $params, string $scope) : bool
+    private function doService(string $type, string $url, array $params, string $scope): bool
     {
         $ok = false;
         $this->extRequest = '';
@@ -1619,7 +1618,7 @@ EOF;
      * @param string     $url        URL to send request to
      * @return Outcome    Outcome object
      */
-    private function doResultService(UserResult $userResult, string $url) : ?Outcome
+    private function doResultService(UserResult $userResult, string $url): ?Outcome
     {
         $outcome = null;
         $this->extRequest = '';
@@ -1648,7 +1647,7 @@ EOF;
      * @param string     $url        URL to send request to
      * @return bool    True if the request successfully obtained a response
      */
-    private function doScoreService(Outcome $ltiOutcome, UserResult $userResult, string $url) : bool
+    private function doScoreService(Outcome $ltiOutcome, UserResult $userResult, string $url): bool
     {
         $ok = false;
         $this->extRequest = '';
@@ -1678,7 +1677,7 @@ EOF;
      * @param string $xml  XML of message request
      * @return bool    True if the request successfully obtained a response
      */
-    private function doLTI11Service(string $type, string $url, string $xml) : bool
+    private function doLTI11Service(string $type, string $url, string $xml): bool
     {
         $ok = false;
         $this->extRequest = '';

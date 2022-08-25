@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -14,7 +16,7 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *********************************************************************/
- 
+
 namespace ILIAS\ResourceStorage\Resource\InfoResolver;
 
 /**
@@ -38,17 +40,17 @@ abstract class AbstractInfoResolver implements InfoResolver
         $this->revision_title = $revision_title;
     }
 
-    public function getNextVersionNumber() : int
+    public function getNextVersionNumber(): int
     {
         return $this->next_version_number;
     }
 
-    public function getOwnerId() : int
+    public function getOwnerId(): int
     {
         return $this->revision_owner_id;
     }
 
-    public function getRevisionTitle() : string
+    public function getRevisionTitle(): string
     {
         return $this->revision_title;
     }

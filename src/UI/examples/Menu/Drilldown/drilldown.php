@@ -1,10 +1,11 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace ILIAS\UI\examples\Menu\Drilldown;
 
 function drilldown()
 {
-
     /**
         0 Animal of the year
         1    Switzerland
@@ -63,7 +64,7 @@ function drilldown()
 }
 
 
-function toBulky(string $label) : \ILIAS\UI\Component\Button\Bulky
+function toBulky(string $label): \ILIAS\UI\Component\Button\Bulky
 {
     global $DIC;
     $f = $DIC->ui()->factory();

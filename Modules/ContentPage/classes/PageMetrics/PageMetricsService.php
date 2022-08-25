@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -43,12 +45,12 @@ final class PageMetricsService implements ilContentPageObjectConstants
         $this->refinery = $refinery;
     }
 
-    protected function doesPageExistsForLanguage(int $contentPageId, string $language) : bool
+    protected function doesPageExistsForLanguage(int $contentPageId, string $language): bool
     {
         return ilContentPagePage::_exists(self::OBJ_TYPE, $contentPageId, $language);
     }
 
-    protected function ensurePageObjectExists(int $contentPageId, string $language) : void
+    protected function ensurePageObjectExists(int $contentPageId, string $language): void
     {
         if (!$this->doesPageExistsForLanguage($contentPageId, $language)) {
             $pageObject = new ilContentPagePage();
@@ -63,7 +65,7 @@ final class PageMetricsService implements ilContentPageObjectConstants
      * @param StorePageMetricsCommand $command
      * @throws ilException
      */
-    public function store(StorePageMetricsCommand $command) : void
+    public function store(StorePageMetricsCommand $command): void
     {
         $this->ensurePageObjectExists($command->getContentPageId(), $command->getLanguage());
 
@@ -91,7 +93,7 @@ final class PageMetricsService implements ilContentPageObjectConstants
      * @return PageMetrics
      * @throws CouldNotFindPageMetrics
      */
-    public function get(GetPageMetricsCommand $command) : PageMetrics
+    public function get(GetPageMetricsCommand $command): PageMetrics
     {
         return $this->pageMetricsRepository->findBy(
             $command->getContentPageId(),

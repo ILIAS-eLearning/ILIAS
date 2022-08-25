@@ -1,4 +1,5 @@
 <?php
+
 /* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 use PHPUnit\Framework\TestCase;
@@ -16,7 +17,7 @@ abstract class assBaseTestCase extends TestCase
     /**
      * @inheritdoc
      */
-    protected function setUp() : void
+    protected function setUp(): void
     {
         global $DIC;
 
@@ -60,7 +61,7 @@ abstract class assBaseTestCase extends TestCase
         parent::setUp();
     }
 
-    protected function tearDown() : void
+    protected function tearDown(): void
     {
         global $DIC;
 
@@ -73,7 +74,7 @@ abstract class assBaseTestCase extends TestCase
      * @param string $name
      * @param mixed $value
      */
-    protected function setGlobalVariable(string $name, $value) : void
+    protected function setGlobalVariable(string $name, $value): void
     {
         global $DIC;
 

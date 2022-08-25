@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -24,7 +26,7 @@ class ilQuestionPoolDIC
 {
     public static ?Container $dic = null;
 
-    public static function dic() : Container
+    public static function dic(): Container
     {
         if (!self::$dic) {
             self::$dic = self::buildDIC();
@@ -32,13 +34,13 @@ class ilQuestionPoolDIC
         return self::$dic;
     }
 
-    protected static function buildDIC() : Container
+    protected static function buildDIC(): Container
     {
         global $DIC;
         $dic = $DIC;
         $container = new Container();
 
-        $dic['question.repo.suggestedsolutions'] = function ($c) use ($dic) : assQuestionSuggestedSolutionsDatabaseRepository {
+        $dic['question.repo.suggestedsolutions'] = function ($c) use ($dic): assQuestionSuggestedSolutionsDatabaseRepository {
             return new assQuestionSuggestedSolutionsDatabaseRepository($dic['ilDB']);
         };
 

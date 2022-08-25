@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -35,7 +37,7 @@ class ilMDLanguageItem
         $this->language_code = $a_code;
     }
 
-    public function getLanguageCode() : string
+    public function getLanguageCode(): string
     {
         $lang = self::_getPossibleLanguageCodes();
         if (in_array($this->language_code, $lang)) {
@@ -47,7 +49,7 @@ class ilMDLanguageItem
     /**
      * @return string[]
      */
-    public static function _getPossibleLanguageCodes() : array
+    public static function _getPossibleLanguageCodes(): array
     {
         return array(
             "aa",
@@ -195,7 +197,7 @@ class ilMDLanguageItem
     /**
      * @return array<string, string>
      */
-    public static function _getLanguages() : array
+    public static function _getLanguages(): array
     {
         global $DIC;
 

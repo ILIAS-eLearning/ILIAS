@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /******************************************************************************
  *
@@ -34,26 +36,26 @@ class ilObjRemoteGroupGUI extends ilRemoteObjectBaseGUI implements ilCtrlBaseCla
         $this->lng->loadLanguageModule('rgrp');
         $this->lng->loadLanguageModule('grp');
     }
-    
-    public function getType() : string
+
+    public function getType(): string
     {
         return 'rgrp';
     }
 
-    protected function addCustomInfoFields(ilInfoScreenGUI $a_info) : void
+    protected function addCustomInfoFields(ilInfoScreenGUI $a_info): void
     {
         $a_info->addProperty($this->lng->txt('grp_visibility'), $this->availabilityToString());
     }
-    
+
     protected function availabilityToString()
     {
         switch ($this->object->getAvailabilityType()) {
             case ilObjRemoteGroup::ACTIVATION_OFFLINE:
                 return $this->lng->txt('offline');
-            
+
             case ilObjRemoteGroup::ACTIVATION_UNLIMITED:
                 return $this->lng->txt('grp_unlimited');
-            
+
             case ilObjRemoteGroup::ACTIVATION_LIMITED:
                 return ilDatePresentation::formatPeriod(
                     new ilDateTime($this->object->getStartingTime(), IL_CAL_UNIX),
@@ -62,8 +64,8 @@ class ilObjRemoteGroupGUI extends ilRemoteObjectBaseGUI implements ilCtrlBaseCla
         }
         return '';
     }
-    
-    protected function addCustomEditForm(ilPropertyFormGUI $a_form) : void
+
+    protected function addCustomEditForm(ilPropertyFormGUI $a_form): void
     {
         $radio_grp = new ilRadioGroupInputGUI($this->lng->txt('grp_visibility'), 'activation_type');
         $radio_grp->setValue($this->object->getAvailabilityType());
@@ -77,7 +79,7 @@ class ilObjRemoteGroupGUI extends ilRemoteObjectBaseGUI implements ilCtrlBaseCla
 
         // :TODO: not supported in ECS yet
         $radio_opt = new ilRadioOption($this->lng->txt('grp_visibility_until'), ilObjRemoteGroup::ACTIVATION_LIMITED);
-        
+
         $start = new ilDateTimeInputGUI($this->lng->txt('grp_start'), 'start');
         $start->setDate(new ilDateTime(time(), IL_CAL_UNIX));
         $start->setDisabled(true);
@@ -88,7 +90,7 @@ class ilObjRemoteGroupGUI extends ilRemoteObjectBaseGUI implements ilCtrlBaseCla
         $end->setDisabled(true);
         $end->setShowTime(true);
         $radio_opt->addSubItem($end);
-        
+
         $radio_grp->addOption($radio_opt);
         $a_form->addItem($radio_grp);
     }

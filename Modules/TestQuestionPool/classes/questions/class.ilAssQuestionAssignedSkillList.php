@@ -1,4 +1,5 @@
 <?php
+
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -13,40 +14,40 @@ class ilAssQuestionAssignedSkillList implements Iterator
      * @var array
      */
     protected $skills = array();
-    
+
     /**
      * @param integer $skillBaseId
      * @param integer $skillTrefId
      */
-    public function addSkill($skillBaseId, $skillTrefId) : void
+    public function addSkill($skillBaseId, $skillTrefId): void
     {
         $this->skills[] = "{$skillBaseId}:{$skillTrefId}";
     }
-    
+
     /**
      * @return bool
      */
-    public function skillsExist() : bool
+    public function skillsExist(): bool
     {
         return (bool) count($this->skills);
     }
-    
+
     /**
      * @return array
      */
-    public function current() : array
+    public function current(): array
     {
         return current($this->skills);
     }
-    
+
     /**
      * @return array
      */
-    public function next() : array
+    public function next(): array
     {
         return next($this->skills);
     }
-    
+
     /**
      * @return integer|bool
      */
@@ -55,16 +56,16 @@ class ilAssQuestionAssignedSkillList implements Iterator
         $res = key($this->skills);
         return $res;
     }
-    
+
     /**
      * @return bool
      */
-    public function valid() : bool
+    public function valid(): bool
     {
         $res = key($this->skills);
         return $res !== null;
     }
-    
+
     /**
      * @return array|bool
      */
@@ -72,16 +73,16 @@ class ilAssQuestionAssignedSkillList implements Iterator
     {
         return reset($this->skills);
     }
-    
+
     /**
      * @return array
      */
-    public function sleep() : array
+    public function sleep(): array
     {
         return array('skills');
     }
-    
-    public function wakeup() : void
+
+    public function wakeup(): void
     {
         // TODO: Implement __wakeup() method.
     }

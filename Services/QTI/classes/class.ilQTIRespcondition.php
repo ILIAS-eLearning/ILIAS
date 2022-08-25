@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -39,7 +41,7 @@ class ilQTIRespcondition
     /** @var ilQTIDisplayfeedback[] */
     public array $displayfeedback = [];
 
-    public function setContinue(string $a_continue) : void
+    public function setContinue(string $a_continue): void
     {
         switch (strtolower($a_continue)) {
             case "1":
@@ -53,47 +55,47 @@ class ilQTIRespcondition
         }
     }
 
-    public function getContinue() : ?string
+    public function getContinue(): ?string
     {
         return $this->continue;
     }
 
-    public function setTitle(string $a_title) : void
+    public function setTitle(string $a_title): void
     {
         $this->title = $a_title;
     }
 
-    public function getTitle() : ?string
+    public function getTitle(): ?string
     {
         return $this->title;
     }
 
-    public function setComment(string $a_comment) : void
+    public function setComment(string $a_comment): void
     {
         $this->comment = $a_comment;
     }
 
-    public function getComment() : ?string
+    public function getComment(): ?string
     {
         return $this->comment;
     }
 
-    public function setConditionvar(ilQTIConditionvar $a_conditionvar) : void
+    public function setConditionvar(ilQTIConditionvar $a_conditionvar): void
     {
         $this->conditionvar = $a_conditionvar;
     }
 
-    public function getConditionvar() : ?ilQTIConditionvar
+    public function getConditionvar(): ?ilQTIConditionvar
     {
         return $this->conditionvar;
     }
 
-    public function addSetvar(ilQTISetvar $a_setvar) : void
+    public function addSetvar(ilQTISetvar $a_setvar): void
     {
         $this->setvar[] = $a_setvar;
     }
-    
-    public function addDisplayfeedback(ilQTIDisplayfeedback $a_displayfeedback) : void
+
+    public function addDisplayfeedback(ilQTIDisplayfeedback $a_displayfeedback): void
     {
         $this->displayfeedback[] = $a_displayfeedback;
     }

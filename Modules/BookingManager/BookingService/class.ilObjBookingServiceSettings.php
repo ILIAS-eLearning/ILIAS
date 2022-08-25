@@ -40,7 +40,7 @@ class ilObjBookingServiceSettings
     }
 
     // Get object id of repo object
-    public function getObjectId() : int
+    public function getObjectId(): int
     {
         return $this->obj_id;
     }
@@ -49,7 +49,7 @@ class ilObjBookingServiceSettings
      * Get used booking object ids
      * @return int[]
      */
-    public function getUsedBookingObjectIds() : array
+    public function getUsedBookingObjectIds(): array
     {
         return $this->book_obj_ids;
     }

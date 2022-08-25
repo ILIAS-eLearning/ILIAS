@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /******************************************************************************
  *
@@ -42,7 +44,7 @@ class ilCategoryXmlParser extends ilSaxParser
         $this->cat_log = ilLoggerFactory::getLogger("cat");
     }
 
-    public function getParentId() : int
+    public function getParentId(): int
     {
         return $this->parent_id;
     }
@@ -50,19 +52,19 @@ class ilCategoryXmlParser extends ilSaxParser
     /**
      * @return array
      */
-    protected function getCurrentTranslation() : array
+    protected function getCurrentTranslation(): array
     {
         return $this->current_translation;
     }
 
-    public function setHandlers($a_xml_parser) : void
+    public function setHandlers($a_xml_parser): void
     {
         xml_set_object($a_xml_parser, $this);
         xml_set_element_handler($a_xml_parser, 'handlerBeginTag', 'handlerEndTag');
         xml_set_character_data_handler($a_xml_parser, 'handlerCharacterData');
     }
 
-    public function startParsing() : void
+    public function startParsing(): void
     {
         parent::startParsing();
 
@@ -77,7 +79,7 @@ class ilCategoryXmlParser extends ilSaxParser
      * @param array  $a_attribs
      * @return void
      */
-    public function handlerBeginTag($a_xml_parser, string $a_name, array $a_attribs) : void
+    public function handlerBeginTag($a_xml_parser, string $a_name, array $a_attribs): void
     {
         switch ($a_name) {
             case "Category":
@@ -109,7 +111,7 @@ class ilCategoryXmlParser extends ilSaxParser
      * @param string $a_name
      * @return void
      */
-    public function handlerEndTag($a_xml_parser, string $a_name) : void
+    public function handlerEndTag($a_xml_parser, string $a_name): void
     {
         switch ($a_name) {
             case "Category":
@@ -168,16 +170,15 @@ class ilCategoryXmlParser extends ilSaxParser
      * @param string $a_data
      * @return void
      */
-    public function handlerCharacterData($a_xml_parser, string $a_data) : void
+    public function handlerCharacterData($a_xml_parser, string $a_data): void
     {
         if (!empty($a_data)) {
             $this->cdata .= $a_data;
         }
     }
 
-    protected function save() : bool
+    protected function save(): bool
     {
-
         /**
          * mode can be create or update
          */
@@ -191,17 +192,17 @@ class ilCategoryXmlParser extends ilSaxParser
         return true;
     }
 
-    public function setMode(int $mode) : void
+    public function setMode(int $mode): void
     {
         $this->mode = $mode;
     }
 
-    public function setCategory(ilObjCategory $cat) : void
+    public function setCategory(ilObjCategory $cat): void
     {
         $this->cat = $cat;
     }
 
-    public function getCategory() : ?ilObjCategory
+    public function getCategory(): ?ilObjCategory
     {
         return $this->cat;
     }

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * Class ilAtomQueryException
  *
@@ -35,7 +37,7 @@ class ilAtomQueryException extends ilDatabaseException
     public const DB_ATOM_IDENTICAL_TABLES = 10909;
 
 
-    protected function tranlateException(int $code) : string
+    protected function tranlateException(int $code): string
     {
         $message = 'An undefined Exception occured';
         switch ($code) {

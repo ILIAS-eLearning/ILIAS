@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -54,12 +56,12 @@ abstract class ilWebLinkBaseParameter
         $this->name = $name;
     }
 
-    public function getValue() : int
+    public function getValue(): int
     {
         return $this->value;
     }
 
-    public function getName() : string
+    public function getName(): string
     {
         return $this->name;
     }

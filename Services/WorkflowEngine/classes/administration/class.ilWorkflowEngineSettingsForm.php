@@ -37,7 +37,7 @@ class ilWorkflowEngineSettingsForm
         $this->service = $DIC->workflowEngine();
     }
 
-    public function getForm(string $action) : ilPropertyFormGUI
+    public function getForm(string $action): ilPropertyFormGUI
     {
         $this->form = new ilPropertyFormGUI();
         $this->form->setFormAction($action);

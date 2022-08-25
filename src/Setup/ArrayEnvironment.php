@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\Setup;
 
 use ILIAS\Setup;
@@ -51,7 +53,7 @@ class ArrayEnvironment implements Environment
     /**
      * @inheritdoc
      */
-    public function withResource(string $id, $resource) : Environment
+    public function withResource(string $id, $resource): Environment
     {
         if (isset($this->resources[$id])) {
             throw new \RuntimeException(
@@ -66,7 +68,7 @@ class ArrayEnvironment implements Environment
     /**
      * @inheritdoc
      */
-    public function withConfigFor(string $component, $config) : Environment
+    public function withConfigFor(string $component, $config): Environment
     {
         if (isset($this->configs[$component])) {
             throw new \RuntimeException(
@@ -94,7 +96,7 @@ class ArrayEnvironment implements Environment
     /**
      * @inheritdoc
      */
-    public function hasConfigFor(string $component) : bool
+    public function hasConfigFor(string $component): bool
     {
         return isset($this->configs[$component]);
     }

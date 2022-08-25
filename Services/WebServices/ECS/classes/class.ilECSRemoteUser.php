@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /******************************************************************************
  *
@@ -25,8 +27,8 @@ class ilECSRemoteUser
     private int $mid;
     private int $usr_id;
     private string $remote_usr_id;
-    
-    
+
+
     /**
      * Constructor
      */
@@ -43,48 +45,48 @@ class ilECSRemoteUser
         $this->usr_id = $usr_id;
         $this->remote_usr_id = $remote_usr_id;
     }
-    
-    public function getId() : int
+
+    public function getId(): int
     {
         return $this->eru_id;
     }
-    
-    public function setServerId(int $a_sid) : void
+
+    public function setServerId(int $a_sid): void
     {
         $this->sid = $a_sid;
     }
-    
-    public function getServerId() : int
+
+    public function getServerId(): int
     {
         return $this->sid;
     }
-    
-    public function setMid(int $a_mid) : void
+
+    public function setMid(int $a_mid): void
     {
         $this->mid = $a_mid;
     }
-    
-    public function getMid() : int
+
+    public function getMid(): int
     {
         return $this->mid;
     }
-    
-    public function setUserId(int $a_usr_id) : void
+
+    public function setUserId(int $a_usr_id): void
     {
         $this->usr_id = $a_usr_id;
     }
-    
-    public function getUserId() : int
+
+    public function getUserId(): int
     {
         return $this->usr_id;
     }
-    
-    public function setRemoteUserId(string $a_remote_id) : void
+
+    public function setRemoteUserId(string $a_remote_id): void
     {
         $this->remote_usr_id = $a_remote_id;
     }
-    
-    public function getRemoteUserId() : string
+
+    public function getRemoteUserId(): string
     {
         return $this->remote_usr_id;
     }

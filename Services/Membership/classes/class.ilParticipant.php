@@ -1,5 +1,7 @@
-<?php declare(strict_types=1);
-    
+<?php
+
+declare(strict_types=1);
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * Base class for course and group participant
  * @author  Stefan Meyer <smeyer.ilias@gmx.de>
@@ -75,7 +77,7 @@ abstract class ilParticipant
         $this->readParticipantStatus();
     }
 
-    public static function updateMemberRoles(int $a_obj_id, int $a_usr_id, int $a_role_id, int $a_status) : void
+    public static function updateMemberRoles(int $a_obj_id, int $a_usr_id, int $a_role_id, int $a_status): void
     {
         global $DIC;
 
@@ -150,7 +152,7 @@ abstract class ilParticipant
         $ilDB->manipulate($query);
     }
 
-    public static function getMembershipRoleType(int $a_role_id) : int
+    public static function getMembershipRoleType(int $a_role_id): int
     {
         $title = ilObject::_lookupTitle($a_role_id);
         switch (substr($title, 0, 8)) {
@@ -164,7 +166,6 @@ abstract class ilParticipant
             case 'il_crs_m':
             default:
                 return self::MEMBERSHIP_MEMBER;
-
         }
     }
 
@@ -172,7 +173,7 @@ abstract class ilParticipant
         int $a_obj_id,
         int $a_usr_id,
         int $a_membership_role_type
-    ) : int {
+    ): int {
         global $DIC;
 
         $ilDB = $DIC->database();
@@ -199,17 +200,17 @@ abstract class ilParticipant
      * Get component name
      * Used for event handling
      */
-    protected function getComponent() : string
+    protected function getComponent(): string
     {
         return $this->component;
     }
 
-    public function getUserId() : int
+    public function getUserId(): int
     {
         return $this->usr_id;
     }
 
-    public function isBlocked() : bool
+    public function isBlocked(): bool
     {
         return (bool) ($this->participants_status[$this->getUserId()]['blocked'] ?? false);
     }
@@ -217,37 +218,37 @@ abstract class ilParticipant
     /**
      * Check if user is contact for current object
      */
-    public function isContact() : bool
+    public function isContact(): bool
     {
         return (bool) ($this->participants_status[$this->getUserId()]['contact'] ?? false);
     }
 
-    public function isAssigned() : bool
+    public function isAssigned(): bool
     {
         return $this->participants;
     }
 
-    public function isMember() : bool
+    public function isMember(): bool
     {
         return $this->members;
     }
 
-    public function isAdmin() : bool
+    public function isAdmin(): bool
     {
         return $this->admins;
     }
 
-    public function isTutor() : bool
+    public function isTutor(): bool
     {
         return $this->tutors;
     }
 
-    public function isParticipant() : bool
+    public function isParticipant(): bool
     {
         return $this->participants;
     }
 
-    public function getNumberOfMembers() : int
+    public function getNumberOfMembers(): int
     {
         if ($this->numMembers === null) {
             $this->numMembers = $this->rbacReview->getNumberOfAssignedUsers($this->member_roles);
@@ -255,7 +256,7 @@ abstract class ilParticipant
         return $this->numMembers;
     }
 
-    protected function readParticipant() : void
+    protected function readParticipant(): void
     {
         $this->roles = $this->rbacReview->getRolesOfRoleFolder($this->ref_id, false);
         $this->member_roles = [];
@@ -316,7 +317,7 @@ abstract class ilParticipant
         }
     }
 
-    protected function readParticipantStatus() : void
+    protected function readParticipantStatus(): void
     {
         $query = "SELECT * FROM obj_members " .
             "WHERE obj_id = " . $this->db->quote($this->obj_id, 'integer') . " " .
@@ -332,7 +333,7 @@ abstract class ilParticipant
         }
     }
 
-    public function add(int $a_usr_id, int $a_role) : bool
+    public function add(int $a_usr_id, int $a_role): bool
     {
         if ($this->rbacReview->isAssignedToAtLeastOneGivenRole($a_usr_id, $this->roles)) {
             return false;
@@ -352,7 +353,6 @@ abstract class ilParticipant
             case ilParticipants::IL_CRS_MEMBER:
                 $this->members = true;
                 break;
-
         }
 
         $this->rbacAdmin->assignUser($this->role_data[$a_role], $a_usr_id);
@@ -375,7 +375,7 @@ abstract class ilParticipant
         return true;
     }
 
-    public function delete(int $a_usr_id) : void
+    public function delete(int $a_usr_id): void
     {
         $this->recommended_content_manager->removeObjectRecommendation($a_usr_id, $this->ref_id);
         foreach ($this->roles as $role_id) {
@@ -397,7 +397,7 @@ abstract class ilParticipant
         );
     }
 
-    public function deleteSubscriber(int $a_usr_id) : void
+    public function deleteSubscriber(int $a_usr_id): void
     {
         $query = "DELETE FROM il_subscribers " .
             "WHERE usr_id = " . $this->db->quote($a_usr_id, 'integer') . " " .
@@ -405,14 +405,14 @@ abstract class ilParticipant
         $res = $this->db->manipulate($query);
     }
 
-    public function addRecommendation($a_usr_id) : void
+    public function addRecommendation($a_usr_id): void
     {
         // deactivated for now, see discussion at
         // https://docu.ilias.de/goto_docu_wiki_wpage_5620_1357.html
         //$this->recommended_content_manager->addObjectRecommendation($a_usr_id, $this->ref_id);
     }
 
-    public function updateContact(int $a_usr_id, bool $a_contact) : void
+    public function updateContact(int $a_usr_id, bool $a_contact): void
     {
         $this->db->manipulate(
             'UPDATE obj_members SET ' .
@@ -423,7 +423,7 @@ abstract class ilParticipant
         $this->participants_status[$a_usr_id]['contact'] = $a_contact;
     }
 
-    public function updateNotification(int $a_usr_id, bool $a_notification) : void
+    public function updateNotification(int $a_usr_id, bool $a_notification): void
     {
         $this->participants_status[$a_usr_id]['notification'] = $a_notification;
 
@@ -449,7 +449,7 @@ abstract class ilParticipant
         $this->db->manipulate($query);
     }
 
-    public function checkLastAdmin(array $a_usr_ids) : bool
+    public function checkLastAdmin(array $a_usr_ids): bool
     {
         $admin_role_id =
             $this->type === 'crs' ?

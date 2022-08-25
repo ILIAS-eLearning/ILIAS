@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -23,7 +25,7 @@ class ilContentPageExporter extends ilXmlExporter implements ilContentPageObject
     protected ilContentPageDataSet $ds;
     protected DomainService $content_style_domain;
 
-    public function init() : void
+    public function init(): void
     {
         global $DIC;
 
@@ -33,7 +35,7 @@ class ilContentPageExporter extends ilXmlExporter implements ilContentPageObject
                                           ->domain();
     }
 
-    public function getXmlRepresentation(string $a_entity, string $a_schema_version, string $a_id) : string
+    public function getXmlRepresentation(string $a_entity, string $a_schema_version, string $a_id): string
     {
         ilFileUtils::makeDirParents($this->getAbsoluteExportDirectory());
         $this->ds->setExportDirectories($this->dir_relative, $this->dir_absolute);
@@ -41,7 +43,7 @@ class ilContentPageExporter extends ilXmlExporter implements ilContentPageObject
         return $this->ds->getXmlRepresentation($a_entity, $a_schema_version, [$a_id], '', true, true);
     }
 
-    public function getValidSchemaVersions(string $a_entity) : array
+    public function getValidSchemaVersions(string $a_entity): array
     {
         return [
             '5.4.0' => [
@@ -54,7 +56,7 @@ class ilContentPageExporter extends ilXmlExporter implements ilContentPageObject
         ];
     }
 
-    public function getXmlExportTailDependencies(string $a_entity, string $a_target_release, array $a_ids) : array
+    public function getXmlExportTailDependencies(string $a_entity, string $a_target_release, array $a_ids): array
     {
         $pageObjectIds = [];
         $styleIds = [];

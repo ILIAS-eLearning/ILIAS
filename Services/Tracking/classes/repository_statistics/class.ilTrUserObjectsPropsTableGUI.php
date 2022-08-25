@@ -106,7 +106,7 @@ class ilTrUserObjectsPropsTableGUI extends ilLPTableBaseGUI
         $this->getItems();
     }
 
-    public function getSelectableColumns() : array
+    public function getSelectableColumns(): array
     {
         // default fields
         $cols = array();
@@ -253,13 +253,12 @@ class ilTrUserObjectsPropsTableGUI extends ilLPTableBaseGUI
         }
     }
 
-    public function initFilter() : void
+    public function initFilter(): void
     {
         // for scorm and objectives this filter does not make sense / is not implemented
         $olp = ilObjectLP::getInstance($this->obj_id);
         $collection = $olp->getCollectionInstance();
         if ($collection instanceof ilLPCollectionOfRepositoryObjects) {
-
             // show collection only/all
             $ti = new ilRadioGroupInputGUI(
                 $this->lng->txt("trac_view_mode"),
@@ -280,7 +279,7 @@ class ilTrUserObjectsPropsTableGUI extends ilLPTableBaseGUI
         }
     }
 
-    protected function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set): void
     {
         global $DIC;
         $icons = ilLPStatusIcons::getInstance(ilLPStatusIcons::ICON_VARIANT_LONG);
@@ -369,7 +368,6 @@ class ilTrUserObjectsPropsTableGUI extends ilLPTableBaseGUI
                         case "percentage":
                             $val = $a_set[$c] . "%";
                             break;
-
                     }
                 }
                 if ($c == "mark" &&
@@ -532,7 +530,7 @@ class ilTrUserObjectsPropsTableGUI extends ilLPTableBaseGUI
         }
     }
 
-    protected function fillHeaderExcel(ilExcel $a_excel, int &$a_row) : void
+    protected function fillHeaderExcel(ilExcel $a_excel, int &$a_row): void
     {
         $a_excel->setCell($a_row, 0, $this->lng->txt("type"));
         $a_excel->setCell($a_row, 1, $this->lng->txt("title"));
@@ -552,7 +550,7 @@ class ilTrUserObjectsPropsTableGUI extends ilLPTableBaseGUI
         ilExcel $a_excel,
         int &$a_row,
         array $a_set
-    ) : void {
+    ): void {
         $a_excel->setCell($a_row, 0, $this->lng->txt($a_set["type"]));
         $a_excel->setCell($a_row, 1, $a_set["title"]);
 
@@ -569,7 +567,7 @@ class ilTrUserObjectsPropsTableGUI extends ilLPTableBaseGUI
         }
     }
 
-    protected function fillHeaderCSV(ilCSVWriter $a_csv) : void
+    protected function fillHeaderCSV(ilCSVWriter $a_csv): void
     {
         $a_csv->addColumn($this->lng->txt("type"));
         $a_csv->addColumn($this->lng->txt("title"));
@@ -582,7 +580,7 @@ class ilTrUserObjectsPropsTableGUI extends ilLPTableBaseGUI
         $a_csv->addRow();
     }
 
-    protected function fillRowCSV(ilCSVWriter $a_csv, array $a_set) : void
+    protected function fillRowCSV(ilCSVWriter $a_csv, array $a_set): void
     {
         $a_csv->addColumn($this->lng->txt($a_set["type"]));
         $a_csv->addColumn($a_set["title"]);

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -37,8 +39,8 @@ abstract class ilCmiXapiAbstractRequest
     {
         $this->basicAuth = $basicAuth;
     }
-    
-    protected function sendRequest(string $url) : string
+
+    protected function sendRequest(string $url): string
     {
         $client = new GuzzleHttp\Client();
         $req_opts = array(
@@ -65,7 +67,7 @@ abstract class ilCmiXapiAbstractRequest
     }
 
     //todo body?
-    public static function checkResponse(array $response, &$body, array $allowedStatus = [200, 204]) : bool
+    public static function checkResponse(array $response, &$body, array $allowedStatus = [200, 204]): bool
     {
         if ($response['state'] == 'fulfilled') {
             $status = $response['value']->getStatusCode();
@@ -87,7 +89,7 @@ abstract class ilCmiXapiAbstractRequest
     }
 
     //todo
-    public static function buildQuery(array $params, $encoding = PHP_QUERY_RFC3986) : string
+    public static function buildQuery(array $params, $encoding = PHP_QUERY_RFC3986): string
     {
         if ($params === []) {
             return '';

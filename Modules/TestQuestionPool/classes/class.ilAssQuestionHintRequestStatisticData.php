@@ -1,4 +1,5 @@
 <?php
+
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -17,7 +18,7 @@ class ilAssQuestionHintRequestStatisticData
      * @var integer
      */
     private $requestsPoints = null;
-    
+
     /**
      * The number of hint requests
      *
@@ -38,7 +39,7 @@ class ilAssQuestionHintRequestStatisticData
      * @access public
      * @return integer $requestsPoints
      */
-    public function getRequestsPoints() : ?int
+    public function getRequestsPoints(): ?int
     {
         return $this->requestsPoints;
     }
@@ -49,7 +50,7 @@ class ilAssQuestionHintRequestStatisticData
      * @access public
      * @param integer $requestsPoints
      */
-    public function setRequestsPoints($requestsPoints) : void
+    public function setRequestsPoints($requestsPoints): void
     {
         $this->requestsPoints = $requestsPoints;
     }
@@ -60,7 +61,7 @@ class ilAssQuestionHintRequestStatisticData
      * @access public
      * @return integer $requestsCount
      */
-    public function getRequestsCount() : ?int
+    public function getRequestsCount(): ?int
     {
         return $this->requestsCount;
     }
@@ -71,7 +72,7 @@ class ilAssQuestionHintRequestStatisticData
      * @access public
      * @param integer $requestsCount
      */
-    public function setRequestsCount($requestsCount) : void
+    public function setRequestsCount($requestsCount): void
     {
         $this->requestsCount = $requestsCount;
     }

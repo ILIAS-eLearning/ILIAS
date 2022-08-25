@@ -47,7 +47,7 @@ class ilPortfolioRoleAssignmentGUI
             ->standardRequest();
     }
 
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         $ctrl = $this->ctrl;
 
@@ -73,7 +73,7 @@ class ilPortfolioRoleAssignmentGUI
         }
     }
 
-    protected function listAssignments() : void
+    protected function listAssignments(): void
     {
         $lng = $this->lng;
         $this->toolbar->addButton(
@@ -89,14 +89,14 @@ class ilPortfolioRoleAssignmentGUI
         $this->main_tpl->setContent($table->getHTML());
     }
 
-    protected function addAssignment() : void
+    protected function addAssignment(): void
     {
         $main_tpl = $this->main_tpl;
         $form = $this->initAssignmentForm();
         $main_tpl->setContent($form->getHTML());
     }
 
-    public function initAssignmentForm() : ilPropertyFormGUI
+    public function initAssignmentForm(): ilPropertyFormGUI
     {
         $ctrl = $this->ctrl;
         $lng = $this->lng;
@@ -125,7 +125,7 @@ class ilPortfolioRoleAssignmentGUI
         return $form;
     }
 
-    public function saveAssignment() : void
+    public function saveAssignment(): void
     {
         $ctrl = $this->ctrl;
         $lng = $this->lng;
@@ -145,7 +145,7 @@ class ilPortfolioRoleAssignmentGUI
         }
     }
 
-    protected function confirmAssignmentDeletion() : void
+    protected function confirmAssignmentDeletion(): void
     {
         $ctrl = $this->ctrl;
         $lng = $this->lng;
@@ -175,7 +175,7 @@ class ilPortfolioRoleAssignmentGUI
         }
     }
 
-    protected function deleteAssignments() : void
+    protected function deleteAssignments(): void
     {
         $ctrl = $this->ctrl;
         $lng = $this->lng;

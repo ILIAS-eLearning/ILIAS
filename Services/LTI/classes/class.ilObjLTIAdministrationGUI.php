@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -44,11 +46,11 @@ class ilObjLTIAdministrationGUI extends ilObjectGUI
         }
     }
 
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         $next_class = $this->ctrl->getNextClass($this);
         $cmd = $this->ctrl->getCmd();
-        
+
         $this->prepareOutput();
 
         switch ($next_class) {
@@ -76,12 +78,12 @@ class ilObjLTIAdministrationGUI extends ilObjectGUI
         }
     }
 
-    public function getType() : string
+    public function getType(): string
     {
         return "ltis";
     }
 
-    public function getAdminTabs() : void
+    public function getAdminTabs(): void
     {
         if ($this->rbac_system->checkAccess("visible,read", $this->object->getRefId())) {
             $this->tabs_gui->addTab(
@@ -110,7 +112,7 @@ class ilObjLTIAdministrationGUI extends ilObjectGUI
         }
     }
 
-    protected function addProvidingSubtabs() : void
+    protected function addProvidingSubtabs(): void
     {
         if ($this->rbac_system->checkAccess("visible,read", $this->object->getRefId())) {
             // currently no general settings.
@@ -133,7 +135,7 @@ class ilObjLTIAdministrationGUI extends ilObjectGUI
         }
     }
 
-    protected function initSettingsForm(ilPropertyFormGUI $form = null) : void
+    protected function initSettingsForm(ilPropertyFormGUI $form = null): void
     {
         if (!($form instanceof ilPropertyFormGUI)) {
             $form = $this->getSettingsForm();
@@ -143,7 +145,7 @@ class ilObjLTIAdministrationGUI extends ilObjectGUI
     }
 
 
-    protected function getSettingsForm() : \ilPropertyFormGUI
+    protected function getSettingsForm(): \ilPropertyFormGUI
     {
         $form = new ilPropertyFormGUI();
         /*
@@ -201,9 +203,9 @@ class ilObjLTIAdministrationGUI extends ilObjectGUI
         $this->initSettingsForm($form);
     }
     */
-    
+
     // create global role LTI-User
-    protected function createLtiUserRole() : void
+    protected function createLtiUserRole(): void
     {
         // include_once './Services/AccessControl/classes/class.ilObjRole.php';
         $role = new ilObjRole();
@@ -221,15 +223,15 @@ class ilObjLTIAdministrationGUI extends ilObjectGUI
             array('cat'),
             array()
         );
-        
+
         $this->tpl->setOnScreenMessage('success', $this->lng->txt("lti_user_role_created"), true);
         $this->listConsumers();
     }
-    
+
 
     // consumers
 
-    protected function initConsumerForm(ilPropertyFormGUI $form = null) : void
+    protected function initConsumerForm(ilPropertyFormGUI $form = null): void
     {
         if (!($form instanceof ilPropertyFormGUI)) {
             $form = $this->getConsumerForm();
@@ -237,7 +239,7 @@ class ilObjLTIAdministrationGUI extends ilObjectGUI
         $this->tpl->setContent($form->getHTML());
     }
 
-    protected function getConsumerForm(string $a_mode = '') : \ilPropertyFormGUI
+    protected function getConsumerForm(string $a_mode = ''): \ilPropertyFormGUI
     {
         $this->tabs_gui->activateSubTab("consumers");
 
@@ -262,7 +264,7 @@ class ilObjLTIAdministrationGUI extends ilObjectGUI
 
         $si_language = new ilSelectInputGUI($this->lng->txt("language"), "language");
         $si_language->setOptions($array_lang);
-        
+
         $cb_active = new ilCheckboxInputGUI($this->lng->txt('active'), 'active');
 
         $form->addItem($cb_active);
@@ -310,7 +312,7 @@ class ilObjLTIAdministrationGUI extends ilObjectGUI
      * Edit consumer
      * @param ilPropertyFormGUI $a_form
      */
-    protected function editConsumer(ilPropertyFormGUI $a_form = null) : void
+    protected function editConsumer(ilPropertyFormGUI $a_form = null): void
     {
         $this->ctrl->setParameter($this, "cid", $this->consumer_id);
 
@@ -335,12 +337,12 @@ class ilObjLTIAdministrationGUI extends ilObjectGUI
     /**
      * Create new lti consumer
      */
-    protected function createLTIConsumer() : void
+    protected function createLTIConsumer(): void
     {
         $this->checkPermission("write");
 
         $form = $this->getConsumerForm();
-        
+
         if ($form->checkInput()) {
             // $consumer = new ilLTIExternalConsumer();
             // $dataConnector = new ilLTIDataConnector();
@@ -352,7 +354,7 @@ class ilObjLTIAdministrationGUI extends ilObjectGUI
             $consumer->setActive((bool) $form->getInput('active'));
             $consumer->setRole((int) $form->getInput('role'));
             $consumer->saveGlobalToolConsumerSettings($this->dataConnector);
-            
+
             $this->object->saveConsumerObjectTypes(
                 $consumer->getExtConsumerId(),
                 $form->getInput('types')
@@ -369,7 +371,7 @@ class ilObjLTIAdministrationGUI extends ilObjectGUI
     /**
      * Update lti consumer settings
      */
-    protected function updateLTIConsumer() : void
+    protected function updateLTIConsumer(): void
     {
         $this->checkPermission("write");
 
@@ -399,7 +401,7 @@ class ilObjLTIAdministrationGUI extends ilObjectGUI
     /**
      * Delete consumers
      */
-    protected function deleteLTIConsumer() : void
+    protected function deleteLTIConsumer(): void
     {
         $consumer_id = 0;
         if ($this->request_wrapper->has('cid')) {
@@ -419,7 +421,7 @@ class ilObjLTIAdministrationGUI extends ilObjectGUI
     /**
      * List consumers
      */
-    protected function listConsumers() : void
+    protected function listConsumers(): void
     {
         if ($this->checkPermissionBool('write')) {
             $this->toolbar->addButton(
@@ -447,7 +449,7 @@ class ilObjLTIAdministrationGUI extends ilObjectGUI
     /**
      * Change activation status
      */
-    protected function changeStatusLTIConsumer() : void
+    protected function changeStatusLTIConsumer(): void
     {
         if (!$this->consumer_id) {
             $this->ctrl->redirect($this, "listConsumers");
@@ -466,18 +468,18 @@ class ilObjLTIAdministrationGUI extends ilObjectGUI
 
         $this->ctrl->redirect($this, 'listConsumers');
     }
-    
+
     /**
      * Show relases objects
      */
-    protected function releasedObjects() : void
+    protected function releasedObjects(): void
     {
         $this->tabs_gui->activateSubTab('releasedObjects');
 
         $table = new ilLTIProviderReleasedObjectsTableGUI($this, 'releasedObjects', 'ltireleases');
         $table->init();
         $table->parse();
-        
+
         $this->tpl->setContent($table->getHTML());
     }
 }

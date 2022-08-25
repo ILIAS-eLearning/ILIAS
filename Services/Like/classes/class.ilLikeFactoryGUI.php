@@ -28,7 +28,7 @@ class ilLikeFactoryGUI
     /**
      * Get widget
      */
-    public function widget(array $a_obj_ids) : ilLikeGUI
+    public function widget(array $a_obj_ids): ilLikeGUI
     {
         $data = new ilLikeData($a_obj_ids);
         return new ilLikeGUI($data);

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -38,7 +40,7 @@ class ilAwarenessUserProviderApprovedContacts implements Provider
     /**
      * @inheritDoc
      */
-    public function getProviderId() : string
+    public function getProviderId(): string
     {
         return 'contact_requests';
     }
@@ -46,7 +48,7 @@ class ilAwarenessUserProviderApprovedContacts implements Provider
     /**
      * @inheritDoc
      */
-    public function getTitle() : string
+    public function getTitle(): string
     {
         $this->lng->loadLanguageModule('contact');
         return $this->lng->txt('contact_awrn_ap_contacts');
@@ -55,7 +57,7 @@ class ilAwarenessUserProviderApprovedContacts implements Provider
     /**
      * @inheritDoc
      */
-    public function getInfo() : string
+    public function getInfo(): string
     {
         $this->lng->loadLanguageModule('contact');
         return $this->lng->txt('contact_awrn_ap_contacts_info');
@@ -66,7 +68,7 @@ class ilAwarenessUserProviderApprovedContacts implements Provider
      * @param ?int[] $user_ids
      * @return int[] array of user IDs
      */
-    public function getInitialUserSet(?array $user_ids = null) : array
+    public function getInitialUserSet(?array $user_ids = null): array
     {
         if ($this->user->isAnonymous()) {
             return [];
@@ -79,7 +81,7 @@ class ilAwarenessUserProviderApprovedContacts implements Provider
         return ilBuddyList::getInstanceByGlobalUser()->getLinkedRelations()->getKeys();
     }
 
-    public function isHighlighted() : bool
+    public function isHighlighted(): bool
     {
         return false;
     }

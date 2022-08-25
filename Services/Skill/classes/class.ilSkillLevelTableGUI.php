@@ -94,7 +94,7 @@ class ilSkillLevelTableGUI extends ilTable2GUI
     /**
      * @inheritdoc
      */
-    public function numericOrdering(string $a_field) : bool
+    public function numericOrdering(string $a_field): bool
     {
         if ($a_field == "nr") {
             return true;
@@ -102,27 +102,27 @@ class ilSkillLevelTableGUI extends ilTable2GUI
         return false;
     }
 
-    public function getSkillLevelData() : array
+    public function getSkillLevelData(): array
     {
         $levels = $this->skill->getLevelData();
-    
+
         // add ressource data
         $res = [];
         $resources = new ilSkillResources($this->skill_id, $this->tref_id);
         foreach ($resources->getResources() as $level_id => $item) {
             $res[$level_id] = $item;
         }
-        
+
         foreach ($levels as $idx => $item) {
             if (isset($res[$item["id"]])) {
                 $levels[$idx]["ressources"] = $res[$item["id"]];
             }
         }
-        
+
         return $levels;
     }
 
-    protected function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set): void
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
@@ -142,7 +142,7 @@ class ilSkillLevelTableGUI extends ilTable2GUI
             }
             $this->tpl->parseCurrentBlock();
         }
-        
+
         $this->tpl->setCurrentBlock("cmd");
         if ($this->manage_perm) {
             $this->tpl->setVariable("TXT_CMD", $lng->txt("edit"));

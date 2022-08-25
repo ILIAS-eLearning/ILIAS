@@ -80,17 +80,17 @@ class ilObjFileGUI extends ilObject2GUI
         $this->lng->loadLanguageModule(ilObjFile::OBJECT_TYPE);
     }
 
-    public function getType() : string
+    public function getType(): string
     {
         return ilObjFile::OBJECT_TYPE;
     }
 
-    public function getParentId() : int
+    public function getParentId(): int
     {
         return $this->parent_id;
     }
 
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         global $DIC;
         $ilNavigationHistory = $DIC['ilNavigationHistory'];
@@ -141,7 +141,7 @@ class ilObjFileGUI extends ilObject2GUI
                 $this->ctrl->forwardCommand($md_gui);
                 break;
 
-            // repository permissions
+                // repository permissions
             case 'ilpermissiongui':
                 $ilTabs->activateTab("id_permissions");
                 $perm_gui = new ilPermissionGUI($this);
@@ -161,7 +161,7 @@ class ilObjFileGUI extends ilObject2GUI
                 $this->ctrl->forwardCommand($cp);
                 break;
 
-            // personal workspace permissions
+                // personal workspace permissions
             case "ilworkspaceaccessgui":
                 $ilTabs->activateTab("id_permissions");
                 $wspacc = new ilWorkspaceAccessGUI($this->node_id, $this->getAccessHandler());
@@ -229,12 +229,12 @@ class ilObjFileGUI extends ilObject2GUI
      * This Method is needed if called from personal resources
      * @see executeCommand() line 162
      */
-    protected function render() : void
+    protected function render(): void
     {
         $this->infoScreen();
     }
 
-    protected function addUIFormToAccordion(ilAccordionGUI $accordion, Standard $form, int $form_type) : void
+    protected function addUIFormToAccordion(ilAccordionGUI $accordion, Standard $form, int $form_type): void
     {
         // abort if form-type is unknown
         if (!in_array($form_type, [self::CFORM_NEW, self::CFORM_CLONE, self::CFORM_IMPORT], true)) {
@@ -256,7 +256,7 @@ class ilObjFileGUI extends ilObject2GUI
         ilAccordionGUI $accordion,
         ilPropertyFormGUI $form,
         int $form_type
-    ) : void {
+    ): void {
         // abort if form-type is unknown
         if (!in_array($form_type, [self::CFORM_NEW, self::CFORM_CLONE, self::CFORM_IMPORT], true)) {
             return;
@@ -275,7 +275,7 @@ class ilObjFileGUI extends ilObject2GUI
         $accordion->addItem($tpl->get(), $form->getHTML());
     }
 
-    protected function getCreationFormsHTML(array $a_forms) : string
+    protected function getCreationFormsHTML(array $a_forms): string
     {
         // abort if empty array was passed
         if (empty($a_forms)) {
@@ -312,7 +312,7 @@ class ilObjFileGUI extends ilObject2GUI
     /**
      * @return array
      */
-    protected function initCreationForms($a_new_type) : array
+    protected function initCreationForms($a_new_type): array
     {
         $forms[self::CFORM_NEW] = $this->initUploadForm();
 
@@ -325,7 +325,7 @@ class ilObjFileGUI extends ilObject2GUI
         return $forms;
     }
 
-    public function initUploadForm() : Standard
+    public function initUploadForm(): Standard
     {
         $this->ctrl->setParameterByClass(self::class, 'new_type', $this->getType());
         $this->ctrl->setParameterByClass(
@@ -353,7 +353,7 @@ class ilObjFileGUI extends ilObject2GUI
     /**
      * MUST be protected, since this is Called from ilObject2GUI when used in Personal Workspace.
      */
-    protected function uploadFiles() : void
+    protected function uploadFiles(): void
     {
         $origin = ($this->http->query()->has(self::PARAM_UPLOAD_ORIGIN)) ?
             $this->http->query()->retrieve(
@@ -428,7 +428,7 @@ class ilObjFileGUI extends ilObject2GUI
     /**
      * updates object entry in object_data
      */
-    public function update() : void
+    public function update(): void
     {
         global $DIC;
         $ilTabs = $DIC['ilTabs'];
@@ -474,7 +474,7 @@ class ilObjFileGUI extends ilObject2GUI
         ilUtil::redirect($this->ctrl->getLinkTarget($this, self::CMD_EDIT, '', false, false));
     }
 
-    public function edit() : void
+    public function edit(): void
     {
         global $DIC;
         $ilTabs = $DIC['ilTabs'];
@@ -499,7 +499,7 @@ class ilObjFileGUI extends ilObject2GUI
         $this->tpl->setContent($form->getHTML());
     }
 
-    protected function initPropertiesForm() : ilPropertyFormGUI
+    protected function initPropertiesForm(): ilPropertyFormGUI
     {
         $form = new ilPropertyFormGUI();
         $form->setFormAction($this->ctrl->getFormAction($this, 'update'));
@@ -512,11 +512,11 @@ class ilObjFileGUI extends ilObject2GUI
         $title->setValue($this->object->getTitle());
         $title->setInfo($this->lng->txt("if_no_title_then_filename"));
         $form->addItem($title);
-        
+
         $o = new ilNonEditableValueGUI($this->lng->txt('upload_info'));
         $o->setValue($this->lng->txt('upload_info_desc'));
         $form->addItem($o);
-        
+
         $desc = new ilTextAreaInputGUI($this->lng->txt('description'), 'description');
         $desc->setRows(3);
         $form->addItem($desc);
@@ -536,7 +536,7 @@ class ilObjFileGUI extends ilObject2GUI
         return $form;
     }
 
-    public function sendFile() : bool
+    public function sendFile(): bool
     {
         $hist_entry_id = $this->http->query()->has('hist_id')
             ? $this->http->query()->retrieve('hist_id', $this->refinery->kindlyTo()->int())
@@ -570,12 +570,12 @@ class ilObjFileGUI extends ilObject2GUI
     /**
      * @deprecated
      */
-    public function versions() : void
+    public function versions(): void
     {
         $this->ctrl->redirectByClass(ilFileVersionsGUI::class);
     }
 
-    public function unzipCurrentRevision() : void
+    public function unzipCurrentRevision(): void
     {
         $this->ctrl->redirectByClass(ilFileVersionsGUI::class, ilFileVersionsGUI::CMD_UNZIP_CURRENT_REVISION);
     }
@@ -585,7 +585,7 @@ class ilObjFileGUI extends ilObject2GUI
      * not very nice to set cmdClass/Cmd manually, if everything
      * works through ilCtrl in the future this may be changed
      */
-    public function infoScreen() : void
+    public function infoScreen(): void
     {
         $this->ctrl->setCmd("showSummary");
         $this->ctrl->setCmdClass("ilinfoscreengui");
@@ -595,7 +595,7 @@ class ilObjFileGUI extends ilObject2GUI
     /**
      * show information screen
      */
-    public function infoScreenForward() : void
+    public function infoScreenForward(): void
     {
         $this->tabs_gui->activateTab("id_info");
 
@@ -711,7 +711,7 @@ class ilObjFileGUI extends ilObject2GUI
     }
 
     // get tabs
-    protected function setTabs() : void
+    protected function setTabs(): void
     {
         global $DIC;
         $ilTabs = $DIC['ilTabs'];
@@ -780,7 +780,7 @@ class ilObjFileGUI extends ilObject2GUI
         parent::setTabs();
     }
 
-    public static function _goto($a_target, $a_additional = null) : void
+    public static function _goto($a_target, $a_additional = null): void
     {
         global $DIC;
         $main_tpl = $DIC->ui()->mainTemplate();
@@ -821,7 +821,7 @@ class ilObjFileGUI extends ilObject2GUI
     /**
      *
      */
-    protected function addLocatorItems() : void
+    protected function addLocatorItems(): void
     {
         global $DIC;
         $ilLocator = $DIC['ilLocator'];
@@ -831,7 +831,7 @@ class ilObjFileGUI extends ilObject2GUI
         }
     }
 
-    protected function initHeaderAction($a_sub_type = null, $a_sub_id = null) : ?\ilObjectListGUI
+    protected function initHeaderAction($a_sub_type = null, $a_sub_id = null): ?\ilObjectListGUI
     {
         $lg = parent::initHeaderAction($a_sub_type, $a_sub_id);
         if ($lg instanceof ilObjectListGUI && $this->object->hasRating()) {

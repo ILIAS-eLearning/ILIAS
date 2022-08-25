@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -51,12 +53,12 @@ class ilSurveyMailTemplateRaterInvitationContext extends ilMailTemplateContext
 
     public const ID = 'svy_rater_inv';
 
-    public function getId() : string
+    public function getId(): string
     {
         return self::ID;
     }
 
-    public function getTitle() : string
+    public function getTitle(): string
     {
         $lng = $this->lng;
 
@@ -65,7 +67,7 @@ class ilSurveyMailTemplateRaterInvitationContext extends ilMailTemplateContext
         return $lng->txt('svy_mail_context_rater_invitation_title');
     }
 
-    public function getDescription() : string
+    public function getDescription(): string
     {
         $lng = $this->lng;
 
@@ -74,7 +76,7 @@ class ilSurveyMailTemplateRaterInvitationContext extends ilMailTemplateContext
         return $lng->txt('svy_mail_context_rater_invitation_info');
     }
 
-    public function getSpecificPlaceholders() : array
+    public function getSpecificPlaceholders(): array
     {
         $lng = $this->lng;
 
@@ -110,7 +112,7 @@ class ilSurveyMailTemplateRaterInvitationContext extends ilMailTemplateContext
         array $context_parameters,
         ilObjUser $recipient = null,
         bool $html_markup = false
-    ) : string {
+    ): string {
         /**
          * @var $ilObjDataCache ilObjectDataCache
          */

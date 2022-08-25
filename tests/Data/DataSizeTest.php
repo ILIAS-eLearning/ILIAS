@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /* Copyright (c) 2017 Daniel Weise <daniel.weise@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
@@ -17,7 +19,7 @@ class DataSizeTest extends TestCase
     /**
      * @dataProvider tDataProvider
      */
-    public function test_normal($a, $b, $expected, $expected_in_bytes) : void
+    public function test_normal($a, $b, $expected, $expected_in_bytes): void
     {
         $ds = new DataSize($a, $b);
         $this->assertEquals($a / $b, $ds->getSize());
@@ -28,7 +30,7 @@ class DataSizeTest extends TestCase
         }
     }
 
-    public function test_division_by_zero() : void
+    public function test_division_by_zero(): void
     {
         try {
             $ds = new DataSize(4533, 0);
@@ -38,7 +40,7 @@ class DataSizeTest extends TestCase
         }
     }
 
-    public function tDataProvider() : array
+    public function tDataProvider(): array
     {
         return [
             [122, 1000, "0.122 KB", 122],

@@ -51,7 +51,7 @@ class DownloadAllCollectFilesJob extends AbstractJob
         $this->sanitized_title = "images";
     }
 
-    public function getInputTypes() : array
+    public function getInputTypes(): array
     {
         return
             [
@@ -60,22 +60,22 @@ class DownloadAllCollectFilesJob extends AbstractJob
             ];
     }
 
-    public function getOutputType() : \ILIAS\BackgroundTasks\Types\Type
+    public function getOutputType(): \ILIAS\BackgroundTasks\Types\Type
     {
         return new SingleType(StringValue::class);
     }
 
-    public function isStateless() : bool
+    public function isStateless(): bool
     {
         return true;
     }
 
-    public function getExpectedTimeOfTaskInSeconds() : int
+    public function getExpectedTimeOfTaskInSeconds(): int
     {
         return 30;
     }
 
-    public function run(array $input, Observer $observer) : StringValue
+    public function run(array $input, Observer $observer): StringValue
     {
         $this->user_id = $input[0]->getValue();
         $this->mcst_ref_id = $input[1]->getValue();
@@ -88,13 +88,13 @@ class DownloadAllCollectFilesJob extends AbstractJob
         $this->logger->debug("Collect in " . $target_dir);
         $this->collectMediaFiles($target_dir);
         $this->logger->debug("Finished collecting.");
-        
+
         $out = new StringValue();
         $out->setValue($target_dir);
         return $out;
     }
 
-    protected function createDirectory() : string
+    protected function createDirectory(): string
     {
         // temp dir
         $this->temp_dir = \ilFileUtils::ilTempnam();
@@ -107,7 +107,7 @@ class DownloadAllCollectFilesJob extends AbstractJob
         return $this->target_directory;
     }
 
-    public function collectMediaFiles(string $target_dir) : void
+    public function collectMediaFiles(string $target_dir): void
     {
         $cnt = 0;
         foreach ($this->media_cast->getSortedItemsArray() as $item) {

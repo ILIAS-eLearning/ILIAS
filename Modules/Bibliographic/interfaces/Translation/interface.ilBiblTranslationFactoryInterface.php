@@ -14,7 +14,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * Created by PhpStorm.
  * User: fschmid
@@ -27,7 +27,6 @@
  */
 interface ilBiblTranslationFactoryInterface
 {
-
     /**
      * Translates a field in the current users language in tho folowing order:
      * - if standard-field, user ILIAS ilLanguage
@@ -35,40 +34,40 @@ interface ilBiblTranslationFactoryInterface
      * - if a translation is only for the systems language, us this
      * - return string like "bib_year"
      */
-    public function translate(ilBiblFieldInterface $field) : string;
+    public function translate(ilBiblFieldInterface $field): string;
 
-    public function translateAttribute(ilBiblAttributeInterface $attribute) : string;
+    public function translateAttribute(ilBiblAttributeInterface $attribute): string;
 
-    public function translateAttributeString(int $type_id, ilBiblAttributeInterface $attribute) : string;
+    public function translateAttributeString(int $type_id, ilBiblAttributeInterface $attribute): string;
 
-    public function getFieldFactory() : \ilBiblFieldFactoryInterface;
+    public function getFieldFactory(): \ilBiblFieldFactoryInterface;
 
-    public function translationExistsForFieldAndUsersLanguage(ilBiblFieldInterface $field) : bool;
+    public function translationExistsForFieldAndUsersLanguage(ilBiblFieldInterface $field): bool;
 
-    public function translationExistsForFieldAndSystemsLanguage(ilBiblFieldInterface $field) : bool;
+    public function translationExistsForFieldAndSystemsLanguage(ilBiblFieldInterface $field): bool;
 
-    public function translationExistsForField(ilBiblFieldInterface $field) : bool;
+    public function translationExistsForField(ilBiblFieldInterface $field): bool;
 
-    public function getInstanceForFieldAndUsersLanguage(ilBiblFieldInterface $field) : ?\ilBiblTranslationInterface;
+    public function getInstanceForFieldAndUsersLanguage(ilBiblFieldInterface $field): ?\ilBiblTranslationInterface;
 
-    public function getInstanceForFieldAndSystemsLanguage(ilBiblFieldInterface $field) : ?\ilBiblTranslationInterface;
+    public function getInstanceForFieldAndSystemsLanguage(ilBiblFieldInterface $field): ?\ilBiblTranslationInterface;
 
     public function findArCreateInstanceForFieldAndlanguage(
         ilBiblFieldInterface $field,
         string $language_key
-    ) : \ilBiblTranslationInterface;
+    ): \ilBiblTranslationInterface;
 
     /**
      * @return \ilBiblTranslationInterface[]
      */
-    public function getAllTranslationsForField(ilBiblFieldInterface $field) : array;
+    public function getAllTranslationsForField(ilBiblFieldInterface $field): array;
 
     /**
      * @return string[]
      */
-    public function getAllTranslationsForFieldAsArray(ilBiblFieldInterface $field) : array;
+    public function getAllTranslationsForFieldAsArray(ilBiblFieldInterface $field): array;
 
-    public function findById(int $id) : \ilBiblTranslationInterface;
+    public function findById(int $id): \ilBiblTranslationInterface;
 
-    public function deleteById(int $id) : bool;
+    public function deleteById(int $id): bool;
 }

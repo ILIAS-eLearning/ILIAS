@@ -52,7 +52,7 @@ class ilSkillProfileLevelsTableGUI extends ilTable2GUI
         $this->skill_manager = $DIC->skills()->internal()->manager();
         $this->tree_repo = $DIC->skills()->internal()->repo()->getTreeRepo();
         $this->admin_gui_request = $DIC->skills()->internal()->gui()->admin_request();
-        
+
         $this->profile = $a_profile;
         $this->requested_ref_id = $this->admin_gui_request->getRefId();
         parent::__construct($a_parent_obj, $a_parent_cmd);
@@ -67,7 +67,7 @@ class ilSkillProfileLevelsTableGUI extends ilTable2GUI
         }
         $this->addColumn($this->lng->txt("skmg_skill"));
         $this->addColumn($this->lng->txt("skmg_level"));
-        
+
         $this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
         $this->setRowTemplate("tpl.skill_profile_level_row.html", "Services/Skill");
 
@@ -79,7 +79,7 @@ class ilSkillProfileLevelsTableGUI extends ilTable2GUI
         }
     }
 
-    protected function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set): void
     {
         $tree_id = $this->tree_repo->getTreeIdForNodeId($a_set["base_skill_id"]);
         $node_manager = $this->skill_manager->getTreeNodeManager($tree_id);
@@ -90,7 +90,7 @@ class ilSkillProfileLevelsTableGUI extends ilTable2GUI
                 $a_set["tref_id"]
             )
         );
-        
+
         $this->tpl->setVariable("LEVEL_TITLE", ilBasicSkill::lookupLevelTitle($a_set["level_id"]));
 
         $access_manager = $this->skill_manager->getTreeAccessManager($this->requested_ref_id);

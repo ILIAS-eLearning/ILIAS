@@ -26,5 +26,5 @@ interface ilBadgeProvider
      * Get available badge types from component
      * @return ilBadgeType[]
      */
-    public function getBadgeTypes() : array;
+    public function getBadgeTypes(): array;
 }

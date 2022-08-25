@@ -1,4 +1,6 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -41,7 +43,7 @@ class CodeDBRepo
     /**
      * Delete all codes of a survey
      */
-    public function deleteAll(int $survey_id) : void
+    public function deleteAll(int $survey_id): void
     {
         $db = $this->db;
 
@@ -56,7 +58,7 @@ class CodeDBRepo
     /**
      * Delete single code
      */
-    public function delete(int $survey_id, string $code) : void
+    public function delete(int $survey_id, string $code): void
     {
         $db = $this->db;
 
@@ -73,7 +75,7 @@ class CodeDBRepo
     /**
      * Get a new unique code
      */
-    protected function getNew(int $survey_id) : string
+    protected function getNew(int $survey_id): string
     {
         // create a 5 character code
         $codestring = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
@@ -96,7 +98,7 @@ class CodeDBRepo
     public function exists(
         int $survey_id,
         string $code
-    ) : bool {
+    ): bool {
         $db = $this->db;
         $set = $db->queryF(
             "SELECT anonymous_id FROM svy_anonymous " .
@@ -110,7 +112,7 @@ class CodeDBRepo
     /**
      * Get user key for id
      */
-    protected function getUserKey(int $user_id) : ?string
+    protected function getUserKey(int $user_id): ?string
     {
         $user_key = ($user_id > 0)
             ? md5((string) $user_id)
@@ -132,7 +134,7 @@ class CodeDBRepo
         string $first_name = "",
         int $sent = 0,
         int $tstamp = 0
-    ) : int {
+    ): int {
         $db = $this->db;
 
         if ($code === "") {
@@ -180,7 +182,7 @@ class CodeDBRepo
     public function addCodes(
         int $survey_id,
         int $nr
-    ) : array {
+    ): array {
         $ids = [];
         while ($nr-- > 0) {
             $ids[] = $this->add($survey_id);
@@ -197,7 +199,7 @@ class CodeDBRepo
         string $last_name,
         string $first_name,
         int $sent
-    ) : bool {
+    ): bool {
         $ilDB = $this->db;
 
         $email = trim($email);
@@ -230,7 +232,7 @@ class CodeDBRepo
      */
     public function getAll(
         int $survey_id
-    ) : array {
+    ): array {
         $db = $this->db;
 
         $set = $db->queryF(
@@ -252,7 +254,7 @@ class CodeDBRepo
      */
     public function getAllData(
         int $survey_id
-    ) : array {
+    ): array {
         $db = $this->db;
 
         $set = $db->queryF(
@@ -280,7 +282,7 @@ class CodeDBRepo
     public function getByUserKey(
         int $survey_id,
         string $survey_key
-    ) : ?Code {
+    ): ?Code {
         $db = $this->db;
 
         $set = $db->queryF(
@@ -313,7 +315,7 @@ class CodeDBRepo
         int $survey_id,
         string $code,
         int $user_id
-    ) : void {
+    ): void {
         $db = $this->db;
 
         $user_key = $this->getUserKey($user_id);
@@ -336,7 +338,7 @@ class CodeDBRepo
     public function getByUserId(
         int $survey_id,
         int $user_id
-    ) : string {
+    ): string {
         $db = $this->db;
 
         $user_key = $this->getUserKey($user_id);

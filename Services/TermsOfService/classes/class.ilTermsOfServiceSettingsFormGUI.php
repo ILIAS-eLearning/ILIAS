@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -43,7 +45,7 @@ class ilTermsOfServiceSettingsFormGUI extends ilPropertyFormGUI
         $this->initForm();
     }
 
-    protected function initForm() : void
+    protected function initForm(): void
     {
         $this->setTitle($this->lng->txt('tos_tos_settings'));
         $this->setFormAction($this->formAction);
@@ -67,22 +69,22 @@ class ilTermsOfServiceSettingsFormGUI extends ilPropertyFormGUI
         }
     }
 
-    public function setCheckInputCalled(bool $status) : void
+    public function setCheckInputCalled(bool $status): void
     {
         $this->check_input_called = $status;
     }
 
-    public function hasTranslatedError() : bool
+    public function hasTranslatedError(): bool
     {
         return $this->translatedError !== '';
     }
 
-    public function getTranslatedError() : string
+    public function getTranslatedError(): string
     {
         return $this->translatedError;
     }
 
-    public function saveObject() : bool
+    public function saveObject(): bool
     {
         if (!$this->fillObject()) {
             $this->setValuesByPost();
@@ -114,7 +116,7 @@ class ilTermsOfServiceSettingsFormGUI extends ilPropertyFormGUI
         return true;
     }
 
-    protected function fillObject() : bool
+    protected function fillObject(): bool
     {
         if (!$this->checkInput()) {
             return false;

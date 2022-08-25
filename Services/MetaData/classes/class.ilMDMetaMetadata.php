@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -34,7 +36,7 @@ class ilMDMetaMetadata extends ilMDBase
     /**
      * @return array<string, string>
      */
-    public function getPossibleSubelements() : array
+    public function getPossibleSubelements(): array
     {
         $subs['Identifier'] = 'meta_identifier';
         $subs['Contribute'] = 'meta_contribute';
@@ -47,12 +49,12 @@ class ilMDMetaMetadata extends ilMDBase
     /**
      * @return int[]
      */
-    public function getIdentifierIds() : array
+    public function getIdentifierIds(): array
     {
         return ilMDIdentifier::_getIds($this->getRBACId(), $this->getObjId(), $this->getMetaId(), 'meta_meta_data');
     }
 
-    public function getIdentifier(int $a_identifier_id) : ?ilMDIdentifier
+    public function getIdentifier(int $a_identifier_id): ?ilMDIdentifier
     {
         if (!$a_identifier_id) {
             return null;
@@ -63,7 +65,7 @@ class ilMDMetaMetadata extends ilMDBase
         return $ide;
     }
 
-    public function addIdentifier() : ilMDIdentifier
+    public function addIdentifier(): ilMDIdentifier
     {
         $ide = new ilMDIdentifier($this->getRBACId(), $this->getObjId(), $this->getObjType());
         $ide->setParentId($this->getMetaId());
@@ -75,12 +77,12 @@ class ilMDMetaMetadata extends ilMDBase
     /**
      * @return int[]
      */
-    public function getContributeIds() : array
+    public function getContributeIds(): array
     {
         return ilMDContribute::_getIds($this->getRBACId(), $this->getObjId(), $this->getMetaId(), 'meta_meta_data');
     }
 
-    public function getContribute(int $a_contribute_id) : ?ilMDContribute
+    public function getContribute(int $a_contribute_id): ?ilMDContribute
     {
         if (!$a_contribute_id) {
             return null;
@@ -91,7 +93,7 @@ class ilMDMetaMetadata extends ilMDBase
         return $con;
     }
 
-    public function addContribute() : ilMDContribute
+    public function addContribute(): ilMDContribute
     {
         $con = new ilMDContribute($this->getRBACId(), $this->getObjId(), $this->getObjType());
         $con->setParentId($this->getMetaId());
@@ -102,33 +104,33 @@ class ilMDMetaMetadata extends ilMDBase
 
     // SET/GET
     //TODO: check fixed attribute
-    public function setMetaDataScheme(string $a_val) : void
+    public function setMetaDataScheme(string $a_val): void
     {
         $this->meta_data_scheme = $a_val;
     }
 
-    public function getMetaDataScheme() : string
+    public function getMetaDataScheme(): string
     {
         // Fixed attribute
         return 'LOM v 1.0';
     }
 
-    public function setLanguage(ilMDLanguageItem $lng_obj) : void
+    public function setLanguage(ilMDLanguageItem $lng_obj): void
     {
         $this->language = $lng_obj;
     }
 
-    public function getLanguage() : ?ilMDLanguageItem
+    public function getLanguage(): ?ilMDLanguageItem
     {
         return is_object($this->language) ? $this->language : null;
     }
 
-    public function getLanguageCode() : string
+    public function getLanguageCode(): string
     {
         return is_object($this->language) ? $this->language->getLanguageCode() : '';
     }
 
-    public function save() : int
+    public function save(): int
     {
         $fields = $this->__getFields();
         $fields['meta_meta_data_id'] = array('integer', $next_id = $this->db->nextId('il_meta_meta_data'));
@@ -140,7 +142,7 @@ class ilMDMetaMetadata extends ilMDBase
         return 0;
     }
 
-    public function update() : bool
+    public function update(): bool
     {
         return $this->getMetaId() && $this->db->update(
             'il_meta_meta_data',
@@ -149,7 +151,7 @@ class ilMDMetaMetadata extends ilMDBase
         );
     }
 
-    public function delete() : bool
+    public function delete(): bool
     {
         if ($this->getMetaId()) {
             $query = "DELETE FROM il_meta_meta_data " .
@@ -174,7 +176,7 @@ class ilMDMetaMetadata extends ilMDBase
     /**
      * @return array<string, array<string, mixed>>
      */
-    public function __getFields() : array
+    public function __getFields(): array
     {
         return array(
             'rbac_id' => array('integer', $this->getRBACId()),
@@ -185,7 +187,7 @@ class ilMDMetaMetadata extends ilMDBase
         );
     }
 
-    public function read() : bool
+    public function read(): bool
     {
         if ($this->getMetaId()) {
             $query = "SELECT * FROM il_meta_meta_data " .
@@ -204,7 +206,7 @@ class ilMDMetaMetadata extends ilMDBase
         return false;
     }
 
-    public function toXML(ilXmlWriter $writer) : void
+    public function toXML(ilXmlWriter $writer): void
     {
         $attr = null;
         if ($this->getMetaDataScheme()) {
@@ -241,7 +243,7 @@ class ilMDMetaMetadata extends ilMDBase
     }
 
     // STATIC
-    public static function _getId(int $a_rbac_id, int $a_obj_id) : int
+    public static function _getId(int $a_rbac_id, int $a_obj_id): int
     {
         global $DIC;
 

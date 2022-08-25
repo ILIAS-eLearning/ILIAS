@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace ILIAS\Filesystem\Security\Sanitizing;
@@ -31,7 +32,6 @@ use ilFileUtils;
  */
 class FilenameSanitizerImpl implements FilenameSanitizer
 {
-
     /**
      * Contains the whitelisted file suffixes.
      *
@@ -57,7 +57,7 @@ class FilenameSanitizerImpl implements FilenameSanitizer
     /**
      * @inheritDoc
      */
-    public function isClean(string $filename) : bool
+    public function isClean(string $filename): bool
     {
         return in_array($this->extractFileSuffix($filename), $this->whitelist, true);
     }
@@ -66,7 +66,7 @@ class FilenameSanitizerImpl implements FilenameSanitizer
     /**
      * @inheritDoc
      */
-    public function sanitize(string $filename) : string
+    public function sanitize(string $filename): string
     {
         if ($this->isClean($filename)) {
             return $filename;
@@ -96,7 +96,7 @@ class FilenameSanitizerImpl implements FilenameSanitizer
      * @param string $filename The filename which should be used to extract the file suffix.
      * @return string The file name suffix in lowercase.
      */
-    private function extractFileSuffix(string $filename) : string
+    private function extractFileSuffix(string $filename): string
     {
         return strtolower(pathinfo($filename, PATHINFO_EXTENSION));
     }

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -40,12 +42,12 @@ abstract class ilADTBasedObject
      * Init properties (aka set ADT definition)
      * @return ilADT
      */
-    abstract protected function initProperties() : ilADT;
+    abstract protected function initProperties(): ilADT;
 
     /**
      * Get all properties
      */
-    public function getProperties() : ilADT
+    public function getProperties(): ilADT
     {
         return $this->properties;
     }
@@ -54,7 +56,7 @@ abstract class ilADTBasedObject
      * Validate
      * @return bool
      */
-    public function isValid() : bool
+    public function isValid(): bool
     {
         return $this->properties->isValid();
     }
@@ -94,31 +96,31 @@ abstract class ilADTBasedObject
      * @param array $a_args
      * @see __construct()
      */
-    abstract protected function parsePrimary(array $a_args) : void;
+    abstract protected function parsePrimary(array $a_args): void;
 
     /**
      * Check if currently has primary
      * @return bool
      */
-    abstract protected function hasPrimary() : bool;
+    abstract protected function hasPrimary(): bool;
 
     /**
      * Create new primary key, e.g. sequence
      * @return bool
      */
-    abstract protected function createPrimaryKeyb() : bool;
+    abstract protected function createPrimaryKeyb(): bool;
 
     /**
      * Init (properties) DB bridge
      * @param ilADTDBBridge $a_adt_db
      */
-    abstract protected function initDBBridge(ilADTDBBridge $a_adt_db) : void;
+    abstract protected function initDBBridge(ilADTDBBridge $a_adt_db): void;
 
     /**
      * Init active record helper for current table, primary and properties
      * @return ilADTActiveRecord
      */
-    protected function initActiveRecordInstance() : ilADTActiveRecord
+    protected function initActiveRecordInstance(): ilADTActiveRecord
     {
         if (!$this->hasPrimary()) {
             throw new Exception("ilADTBasedObject no primary");
@@ -140,7 +142,7 @@ abstract class ilADTBasedObject
      * Read record
      * @return bool
      */
-    public function read() : bool
+    public function read(): bool
     {
         if ($this->hasPrimary()) {
             $rec = $this->initActiveRecordInstance();
@@ -153,7 +155,7 @@ abstract class ilADTBasedObject
      * Create record (only if valid)
      * @return bool
      */
-    public function create() : bool
+    public function create(): bool
     {
         if ($this->hasPrimary()) {
             return $this->update();
@@ -178,7 +180,7 @@ abstract class ilADTBasedObject
      * Update record (only if valid)
      * @return bool
      */
-    public function update() : bool
+    public function update(): bool
     {
         if (!$this->hasPrimary()) {
             return $this->create();
@@ -201,7 +203,7 @@ abstract class ilADTBasedObject
      * Delete record
      * @return bool
      */
-    public function delete() : bool
+    public function delete(): bool
     {
         if ($this->hasPrimary()) {
             $rec = $this->initActiveRecordInstance();
@@ -215,7 +217,7 @@ abstract class ilADTBasedObject
      * Get DB errors
      * @return array
      */
-    public function getDBErrors() : array
+    public function getDBErrors(): array
     {
         return $this->db_errors;
     }
@@ -225,7 +227,7 @@ abstract class ilADTBasedObject
      * @param array $a_codes
      * @return array
      */
-    public function translateDBErrorCodes(array $a_codes) : array
+    public function translateDBErrorCodes(array $a_codes): array
     {
         $res = array();
 
@@ -244,7 +246,7 @@ abstract class ilADTBasedObject
      * @param string $delimiter
      * @return string
      */
-    public function getAllTranslatedErrors(string $delimiter = "\n") : string
+    public function getAllTranslatedErrors(string $delimiter = "\n"): string
     {
         $tmp = array();
 

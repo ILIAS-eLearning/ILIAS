@@ -61,7 +61,7 @@ class ilDclEditViewTableGUI extends ilTable2GUI
     /**
      * Get HTML
      */
-    public function getHTML() : string
+    public function getHTML(): string
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
@@ -184,7 +184,7 @@ class ilDclEditViewTableGUI extends ilTable2GUI
         return $this->render();
     }
 
-    public function fillRowFromObject(object $a_set) : void
+    public function fillRowFromObject(object $a_set): void
     {
         global $DIC;
         $lng = $DIC['lng'];

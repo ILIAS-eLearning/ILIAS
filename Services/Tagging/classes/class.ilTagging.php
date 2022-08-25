@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -38,7 +40,7 @@ class ilTagging
         string $a_sub_obj_type,
         int $a_user_id,
         array $a_tags
-    ) : void {
+    ): void {
         global $DIC;
 
         $ilDB = $DIC->database();
@@ -81,7 +83,7 @@ class ilTagging
         int $a_sub_obj_id,
         string $a_sub_obj_type,
         int $a_user_id
-    ) : array {
+    ): array {
         global $DIC;
 
         $ilDB = $DIC->database();
@@ -114,7 +116,7 @@ class ilTagging
         int $a_sub_obj_id,
         string $a_sub_obj_type,
         bool $a_only_online = true
-    ) : array {
+    ): array {
         global $DIC;
 
         $ilDB = $DIC->database();
@@ -148,7 +150,7 @@ class ilTagging
         int $a_user_id,
         int $a_max = 0,
         bool $a_only_online = true
-    ) : array {
+    ): array {
         global $DIC;
 
         $ilDB = $DIC->database();
@@ -177,7 +179,7 @@ class ilTagging
     public static function getObjectsForTagAndUser(
         int $a_user_id,
         string $a_tag
-    ) : array {
+    ): array {
         global $DIC;
 
         $ilDB = $DIC->database();
@@ -211,7 +213,7 @@ class ilTagging
     public static function getRelevanceClass(
         int $cnt,
         int $max
-    ) : string {
+    ): string {
         $m = $cnt / $max;
         if ($m >= 0.8) {
             return "ilTagRelVeryHigh";
@@ -233,7 +235,7 @@ class ilTagging
         int $a_sub_obj_id,
         string $a_sub_obj_type,
         bool $a_offline = true
-    ) : void {
+    ): void {
         global $DIC;
 
         $ilDB = $DIC->database();
@@ -260,7 +262,7 @@ class ilTagging
         string $a_obj_type,
         int $a_sub_obj_id,
         string $a_sub_obj_type
-    ) : void {
+    ): void {
         global $DIC;
 
         $ilDB = $DIC->database();
@@ -289,7 +291,7 @@ class ilTagging
         int $a_sub_obj_id,
         string $a_sub_obj_type,
         string $a_tag
-    ) : void {
+    ): void {
         global $DIC;
 
         $ilDB = $DIC->database();
@@ -315,7 +317,7 @@ class ilTagging
     // Get users for tag
     public static function getUsersForTag(
         string $a_tag
-    ) : array {
+    ): array {
         global $DIC;
         $ilDB = $DIC->database();
 
@@ -340,7 +342,7 @@ class ilTagging
     public static function _countTags(
         array $a_obj_ids,
         bool $a_all_users = false
-    ) : array {
+    ): array {
         global $DIC;
 
         $ilDB = $DIC->database();
@@ -371,7 +373,7 @@ class ilTagging
         array $a_obj_ids,
         ?int $a_user_id = null,
         int $a_divide = 0
-    ) : array {
+    ): array {
         global $DIC;
 
         $ilDB = $DIC->database();
@@ -421,7 +423,7 @@ class ilTagging
         string $a_tag,
         int $a_user_id = null,
         bool $a_invert = false
-    ) : array {
+    ): array {
         global $DIC;
 
         $ilDB = $DIC->database();
@@ -456,7 +458,7 @@ class ilTagging
     public static function _getListTagsForObjects(
         array $a_obj_ids,
         int $a_user_id = null
-    ) : array {
+    ): array {
         global $DIC;
 
         $ilDB = $DIC->database();

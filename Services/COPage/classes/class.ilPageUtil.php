@@ -32,17 +32,17 @@ class ilPageUtil
         string $a_parent_type,
         int $a_id,
         string $a_lang = "-"
-    ) : bool {
+    ): bool {
         global $DIC;
 
         $ilDB = $DIC->database();
-        
+
         // language must be set at least to "-"
         if ($a_lang == "") {
             $a_lang = "-";
         }
         $and_lang = " AND lang = " . $ilDB->quote($a_lang, "text");
-        
+
         $query = "SELECT page_id, is_empty FROM page_object WHERE page_id = " . $ilDB->quote($a_id, "integer") . " " .
             "AND parent_type= " . $ilDB->quote($a_parent_type, "text") . $and_lang;
 

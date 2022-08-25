@@ -25,11 +25,11 @@ class BookManStandardGUIRequestTest extends TestCase
 {
     //protected $backupGlobals = false;
 
-    protected function tearDown() : void
+    protected function tearDown(): void
     {
     }
 
-    protected function getRequest(array $get, array $post) : \ILIAS\BookingManager\StandardGUIRequest
+    protected function getRequest(array $get, array $post): \ILIAS\BookingManager\StandardGUIRequest
     {
         $http_mock = $this->createMock(ILIAS\HTTP\Services::class);
         $lng_mock = $this->createMock(ilLanguage::class);
@@ -43,7 +43,7 @@ class BookManStandardGUIRequestTest extends TestCase
         );
     }
 
-    public function testRefId() : void
+    public function testRefId(): void
     {
         $request = $this->getRequest(
             [
@@ -58,7 +58,7 @@ class BookManStandardGUIRequestTest extends TestCase
         );
     }
 
-    public function testPoolRefId() : void
+    public function testPoolRefId(): void
     {
         $request = $this->getRequest(
             [
@@ -73,7 +73,7 @@ class BookManStandardGUIRequestTest extends TestCase
         );
     }
 
-    public function testReservationIds() : void
+    public function testReservationIds(): void
     {
         $request = $this->getRequest(
             [

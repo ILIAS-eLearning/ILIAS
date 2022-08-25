@@ -43,13 +43,13 @@ class ilClassificationBlockGUI extends ilBlockGUI
         $this->tree = $DIC->repositoryTree();
         $this->access = $DIC->access();
         $lng = $DIC->language();
-        
+
         parent::__construct();
-                            
+
         $this->parent_ref_id = $this->requested_ref_id;
         $this->parent_obj_id = ilObject::_lookupObjId($this->parent_ref_id);
         $this->parent_obj_type = ilObject::_lookupType($this->parent_obj_id);
-        
+
         $lng->loadLanguageModule("classification");
         $this->setTitle($lng->txt("clsfct_block_title"));
         // @todo: find another solution for this
@@ -63,20 +63,20 @@ class ilClassificationBlockGUI extends ilBlockGUI
         $this->repo = new ilClassificationSessionRepository($this->parent_ref_id);
     }
 
-    public function getBlockType() : string
+    public function getBlockType(): string
     {
         return 'clsfct';
     }
 
-    protected function isRepositoryObject() : bool
+    protected function isRepositoryObject(): bool
     {
         return false;
     }
 
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         $ilCtrl = $this->ctrl;
-        
+
         $cmd = $ilCtrl->getCmd();
         $next_class = $ilCtrl->getNextClass($this);
 
@@ -91,13 +91,13 @@ class ilClassificationBlockGUI extends ilBlockGUI
                 break;
         }
     }
-    
-    public static function getScreenMode() : string
+
+    public static function getScreenMode(): string
     {
         global $DIC;
 
         $ilCtrl = $DIC->ctrl();
-        
+
         if ($ilCtrl->isAsynch()) {
             return "";
         }
@@ -108,52 +108,52 @@ class ilClassificationBlockGUI extends ilBlockGUI
         }
         return "";
     }
-    
-    public function getHTML() : string
+
+    public function getHTML(): string
     {
         $tpl = $this->main_tpl;
         $ilCtrl = $this->ctrl;
-        
+
         if (!$ilCtrl->isAsynch()) {
 //            $this->repo->unsetAll();
         }
-        
+
         $this->initProviders();
-        
+
         if (!$this->validate()) {
             return "";
         }
-        
+
         $tpl->addJavaScript("Services/Classification/js/ilClassification.js");
-                
+
         return parent::getHTML();
     }
-    
-    public function getAjax() : void
+
+    public function getAjax(): void
     {
         $tpl = $this->main_tpl;
-        
+
         $this->initProviders(true);
-        
+
         echo $this->getHTML();
         echo $tpl->getOnLoadCodeForAsynch();
 
         exit();
     }
 
-    protected function getLegacyContent() : string
+    protected function getLegacyContent(): string
     {
         $tpl = $this->main_tpl;
 
         $ilCtrl = $this->ctrl;
-        
+
         $html = array();
         foreach ($this->providers as $provider) {
             $provider->render($html, $this);
         }
-        
+
         //		$this->tpl->setVariable("BLOCK_ROW", "");
-                    
+
         $ajax_block_id = "block_" . $this->getBlockType() . "_0";
         $ajax_block_url = $ilCtrl->getLinkTarget($this, "getAjax", "", true, false);
         $ajax_content_id = "il_center_col";
@@ -185,22 +185,22 @@ class ilClassificationBlockGUI extends ilBlockGUI
         }
         return $overall_html;
     }
-    
-    protected function validate() : bool
+
+    protected function validate(): bool
     {
         return sizeof($this->providers);
     }
-    
-    protected function filterContainer() : void
+
+    protected function filterContainer(): void
     {
         $objDefinition = $this->obj_definition;
         $lng = $this->lng;
         $tree = $this->tree;
         $ilAccess = $this->access;
         $tpl = $this->main_tpl;
-        
+
         $this->initProviders();
-            
+
         // empty selection is invalid
         if ($this->repo->isEmpty()) {
             exit();
@@ -224,7 +224,7 @@ class ilClassificationBlockGUI extends ilBlockGUI
 
 
         $ltpl = new ilTemplate("tpl.classification_object_list.html", true, true, "Services/Classification");
-        
+
         if (is_array($all_matching_provider_object_ids) && sizeof($all_matching_provider_object_ids)) {
             $fields = array(
                 "object_reference.ref_id"
@@ -243,11 +243,11 @@ class ilClassificationBlockGUI extends ilBlockGUI
             //$matching = $this->getSubItemIds($all_matching_provider_object_ids);
             if (sizeof($matching)) {
                 $valid_objects = array();
-            
+
                 // :TODO: not sure if this makes sense...
                 include_once "Services/Object/classes/class.ilObjectListGUIPreloader.php";
                 $preloader = new ilObjectListGUIPreloader(ilObjectListGUI::CONTEXT_REPOSITORY);
-                
+
                 foreach ($matching as $item) {
                     if ($item["ref_id"] != $this->parent_ref_id &&
                         !$tree->isDeleted($item["ref_id"]) &&
@@ -278,7 +278,7 @@ class ilClassificationBlockGUI extends ilBlockGUI
                 $valid_objects = ilArrayUtil::sortArray($valid_objects, "title", "asc", false, true);
                 if (sizeof($valid_objects)) {
                     $has_content = true;
-                    
+
                     $preloader->preload();
 
                     $this->item_list_gui = array();
@@ -345,8 +345,8 @@ class ilClassificationBlockGUI extends ilBlockGUI
 
         exit();
     }
-    
-    protected function initProviders(bool $a_check_post = false) : void
+
+    protected function initProviders(bool $a_check_post = false): void
     {
         if (!isset(self::$providers_cache[$this->parent_ref_id])) {
             include_once "Services/Classification/classes/class.ilClassificationProvider.php";
@@ -366,7 +366,7 @@ class ilClassificationBlockGUI extends ilBlockGUI
                 }
             }
         }
-        
+
         foreach ($this->providers as $provider) {
             $id = get_class($provider);
             $current = $this->repo->getValueForProvider($id);
@@ -376,7 +376,7 @@ class ilClassificationBlockGUI extends ilBlockGUI
         }
     }
 
-    protected function toggle() : void
+    protected function toggle(): void
     {
         $this->initProviders(true);
         $this->ctrl->returnToParent($this);
@@ -394,7 +394,7 @@ class ilClassificationBlockGUI extends ilBlockGUI
      * object ids
      * @param int[]
      */
-    protected function getSubItemIds(array $obj_ids) : array
+    protected function getSubItemIds(array $obj_ids): array
     {
         $tree = $this->tree;
         if (ilObject::_lookupType($this->parent_ref_id, true) == "cat") {

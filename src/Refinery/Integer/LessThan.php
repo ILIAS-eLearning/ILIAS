@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -27,10 +29,10 @@ class LessThan extends Constraint
     public function __construct(int $max, Data\Factory $data_factory, ilLanguage $lng)
     {
         parent::__construct(
-            static function ($value) use ($max) : bool {
+            static function ($value) use ($max): bool {
                 return $value < $max;
             },
-            static function ($txt, $value) use ($max) : string {
+            static function ($txt, $value) use ($max): string {
                 return (string) $txt("not_less_than", $value, $max);
             },
             $data_factory,

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -105,7 +107,7 @@ class ilAdvancedMDSettingsGUI
         $this->permissions = ilAdvancedMDPermissionHelper::getInstance($DIC->user()->getId(), $this->ref_id);
     }
 
-    protected function getRecordIdFromQuery() : ?int
+    protected function getRecordIdFromQuery(): ?int
     {
         if ($this->http->wrapper()->query()->has('record_id')) {
             return $this->http->wrapper()->query()->retrieve(
@@ -116,7 +118,7 @@ class ilAdvancedMDSettingsGUI
         return null;
     }
 
-    protected function getRecordIdsFromPost() : SplFixedArray
+    protected function getRecordIdsFromPost(): SplFixedArray
     {
         if ($this->http->wrapper()->post()->has('record_id')) {
             return SplFixedArray::fromArray(
@@ -131,7 +133,7 @@ class ilAdvancedMDSettingsGUI
         return new SplFixedArray(0);
     }
 
-    protected function getFieldIdFromQuery() : ?int
+    protected function getFieldIdFromQuery(): ?int
     {
         if ($this->http->wrapper()->query()->has('field_id')) {
             return $this->http->wrapper()->query()->retrieve(
@@ -142,7 +144,7 @@ class ilAdvancedMDSettingsGUI
         return null;
     }
 
-    protected function getFieldIdsFromPost() : SplFixedArray
+    protected function getFieldIdsFromPost(): SplFixedArray
     {
         if ($this->http->wrapper()->post()->has('field_id')) {
             return SplFixedArray::fromArray(
@@ -157,7 +159,7 @@ class ilAdvancedMDSettingsGUI
         return new SplFixedArray(0);
     }
 
-    protected function getFileIdsFromPost() : SplFixedArray
+    protected function getFileIdsFromPost(): SplFixedArray
     {
         if ($this->http->wrapper()->post()->has('file_id')) {
             return SplFixedArray::fromArray(
@@ -172,7 +174,7 @@ class ilAdvancedMDSettingsGUI
         return new SplFixedArray(0);
     }
 
-    protected function getFieldTypeFromQuery() : ?int
+    protected function getFieldTypeFromQuery(): ?int
     {
         if ($this->http->wrapper()->query()->has('ftype')) {
             return $this->http->wrapper()->query()->retrieve(
@@ -183,7 +185,7 @@ class ilAdvancedMDSettingsGUI
         return null;
     }
 
-    protected function getFieldTypeFromPost() : ?int
+    protected function getFieldTypeFromPost(): ?int
     {
         if ($this->http->wrapper()->post()->has('ftype')) {
             return $this->http->wrapper()->post()->retrieve(
@@ -194,7 +196,7 @@ class ilAdvancedMDSettingsGUI
         return null;
     }
 
-    protected function getOidFromQuery() : ?int
+    protected function getOidFromQuery(): ?int
     {
         if ($this->http->wrapper()->query()->has('oid')) {
             return $this->http->wrapper()->query()->retrieve(
@@ -208,7 +210,7 @@ class ilAdvancedMDSettingsGUI
     /**
      * @return array<string, float>
      */
-    protected function getPositionsFromPost() : array
+    protected function getPositionsFromPost(): array
     {
         if ($this->http->wrapper()->post()->has('position')) {
             return $this->http->wrapper()->post()->retrieve(
@@ -224,7 +226,7 @@ class ilAdvancedMDSettingsGUI
     /**
      * @return ilAdvancedMDPermissionHelper
      */
-    protected function getPermissions() : ilAdvancedMDPermissionHelper
+    protected function getPermissions(): ilAdvancedMDPermissionHelper
     {
         return $this->permissions;
     }
@@ -237,7 +239,7 @@ class ilAdvancedMDSettingsGUI
         int $ref_id,
         ?string $obj_type,
         $sub_type
-    ) : void {
+    ): void {
         if ($context === self::CONTEXT_ADMINISTRATION) {
             $this->ref_id = $ref_id;
             $this->obj_id = null;
@@ -251,12 +253,11 @@ class ilAdvancedMDSettingsGUI
         }
     }
 
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         $next_class = $this->ctrl->getNextClass($this);
         $cmd = $this->ctrl->getCmd();
         switch ($next_class) {
-
             case strtolower(ilAdvancedMDRecordTranslationGUI::class):
                 $record = $this->initRecordObject();
                 $this->setRecordSubTabs(1, true);
@@ -280,7 +281,7 @@ class ilAdvancedMDSettingsGUI
         }
     }
 
-    public function showRecords() : void
+    public function showRecords(): void
     {
         global $DIC;
 
@@ -341,7 +342,7 @@ class ilAdvancedMDSettingsGUI
         $DIC->ui()->mainTemplate()->setContent($table_gui->getHTML());
     }
 
-    protected function showPresentation() : void
+    protected function showPresentation(): void
     {
         $this->setSubTabs($this->context);
         $form = $this->initFormSubstitutions();
@@ -357,7 +358,7 @@ class ilAdvancedMDSettingsGUI
      * Update substitution
      * @access public
      */
-    public function updateSubstitutions() : void
+    public function updateSubstitutions(): void
     {
         global $DIC;
 
@@ -462,7 +463,7 @@ class ilAdvancedMDSettingsGUI
      * Export records
      * @access public
      */
-    public function exportRecords() : void
+    public function exportRecords(): void
     {
         $record_ids = $this->getRecordIdsFromPost();
         if (!count($record_ids)) {
@@ -503,7 +504,7 @@ class ilAdvancedMDSettingsGUI
     /**
      * Show export files
      */
-    protected function showFiles() : void
+    protected function showFiles(): void
     {
         $this->setSubTabs($this->context);
         $this->tabs_gui->setSubTabActive('md_adv_file_list');
@@ -531,7 +532,7 @@ class ilAdvancedMDSettingsGUI
      * @access public
      * @param
      */
-    public function downloadFile() : void
+    public function downloadFile(): void
     {
         $file_ids = $this->getFileIdsFromPost();
         if (count($file_ids) !== 1) {
@@ -550,7 +551,7 @@ class ilAdvancedMDSettingsGUI
      * confirm delete files
      * @access public
      */
-    public function confirmDeleteFiles() : void
+    public function confirmDeleteFiles(): void
     {
         $file_ids = $this->getFileIdsFromPost();
         if (count($file_ids) !== 1) {
@@ -589,7 +590,7 @@ class ilAdvancedMDSettingsGUI
      * @access public
      * @param
      */
-    public function deleteFiles() : void
+    public function deleteFiles(): void
     {
         $file_ids = $this->getFileIdsFromPost();
         if (count($file_ids) === 0) {
@@ -617,7 +618,7 @@ class ilAdvancedMDSettingsGUI
      * Confirm delete
      * @access public
      */
-    public function confirmDeleteRecords() : void
+    public function confirmDeleteRecords(): void
     {
         $this->initRecordObject();
         $this->setRecordSubTabs();
@@ -649,7 +650,7 @@ class ilAdvancedMDSettingsGUI
      * Permanently delete records
      * @access public
      */
-    public function deleteRecords() : void
+    public function deleteRecords(): void
     {
         $record_ids = $this->getRecordIdsFromPost();
         if (!count($record_ids)) {
@@ -696,7 +697,7 @@ class ilAdvancedMDSettingsGUI
      * @access public
      * @param
      */
-    public function updateRecords() : void
+    public function updateRecords(): void
     {
         // sort positions and renumber
         $positions = $this->getPositionsFromPost();
@@ -791,7 +792,7 @@ class ilAdvancedMDSettingsGUI
         $this->ctrl->redirect($this, "showRecords");
     }
 
-    public function confirmDeleteFields() : void
+    public function confirmDeleteFields(): void
     {
         $field_ids = $this->getFieldIdsFromPost();
         if (!count($field_ids)) {
@@ -819,7 +820,7 @@ class ilAdvancedMDSettingsGUI
         $this->tpl->setContent($c_gui->getHTML());
     }
 
-    public function deleteFields() : void
+    public function deleteFields(): void
     {
         $this->ctrl->saveParameter($this, 'record_id');
 
@@ -855,7 +856,7 @@ class ilAdvancedMDSettingsGUI
         $this->ctrl->redirect($this, "editFields");
     }
 
-    public function editRecord(ilPropertyFormGUI $form = null) : void
+    public function editRecord(ilPropertyFormGUI $form = null): void
     {
         $record_id = $this->getRecordIdFromQuery();
         if (!$record_id) {
@@ -873,7 +874,7 @@ class ilAdvancedMDSettingsGUI
         $this->tpl->setContent($this->form->getHTML());
     }
 
-    protected function editFields() : void
+    protected function editFields(): void
     {
         global $DIC;
 
@@ -960,7 +961,7 @@ class ilAdvancedMDSettingsGUI
      * Update fields
      * @access public
      */
-    public function updateFields() : void
+    public function updateFields(): void
     {
         $this->ctrl->saveParameter($this, 'record_id');
         $positions = $this->getPositionsFromPost();
@@ -1012,7 +1013,7 @@ class ilAdvancedMDSettingsGUI
      * @access public
      * @param
      */
-    public function updateRecord() : void
+    public function updateRecord(): void
     {
         $record_id = $this->getRecordIdFromQuery();
         if (!$record_id) {
@@ -1049,7 +1050,7 @@ class ilAdvancedMDSettingsGUI
      * @access public
      * @param
      */
-    public function createRecord(ilPropertyFormGUI $form = null) : void
+    public function createRecord(ilPropertyFormGUI $form = null): void
     {
         $this->initRecordObject();
         $this->setRecordSubTabs();
@@ -1059,7 +1060,7 @@ class ilAdvancedMDSettingsGUI
         $this->tpl->setContent($this->form->getHTML());
     }
 
-    protected function importRecords() : void
+    protected function importRecords(): void
     {
         $this->initRecordObject();
         $this->setRecordSubTabs();
@@ -1072,7 +1073,7 @@ class ilAdvancedMDSettingsGUI
     /**
      * Set subtabs for record editing/creation
      */
-    protected function setRecordSubTabs(int $level = 1, bool $show_settings = false) : void
+    protected function setRecordSubTabs(int $level = 1, bool $show_settings = false): void
     {
         $this->tabs_gui->clearTargets();
         $this->tabs_gui->clearSubTabs();
@@ -1117,7 +1118,7 @@ class ilAdvancedMDSettingsGUI
         }
     }
 
-    protected function initImportForm() : void
+    protected function initImportForm(): void
     {
         if (is_object($this->import_form)) {
             return;
@@ -1138,7 +1139,7 @@ class ilAdvancedMDSettingsGUI
         $this->import_form->addCommandButton('showRecords', $this->lng->txt('cancel'));
     }
 
-    public function importRecord() : void
+    public function importRecord(): void
     {
         $this->initImportForm();
         if (!$this->import_form->checkInput()) {
@@ -1184,7 +1185,7 @@ class ilAdvancedMDSettingsGUI
      * @access public
      * @param
      */
-    public function saveRecord() : void
+    public function saveRecord(): void
     {
         $this->initRecordObject();
         $form = $this->initForm('create');
@@ -1223,7 +1224,7 @@ class ilAdvancedMDSettingsGUI
      * Edit field
      * @access public
      */
-    public function editField(ilPropertyFormGUI $a_form = null) : void
+    public function editField(ilPropertyFormGUI $a_form = null): void
     {
         $record_id = $this->getRecordIdFromQuery();
         $field_id = $this->getFieldIdFromQuery();
@@ -1254,7 +1255,7 @@ class ilAdvancedMDSettingsGUI
      * Update field
      * @access public
      */
-    public function updateField() : void
+    public function updateField(): void
     {
         $record_id = $this->getRecordIdFromQuery();
         $field_id = $this->getFieldIdFromQuery();
@@ -1302,7 +1303,7 @@ class ilAdvancedMDSettingsGUI
      * Show field type selection
      * @access public
      */
-    public function createField(ilPropertyFormGUI $a_form = null) : void
+    public function createField(ilPropertyFormGUI $a_form = null): void
     {
         $record_id = $this->getRecordIdFromQuery();
         $field_type = $this->getFieldTypeFromPost();
@@ -1324,7 +1325,7 @@ class ilAdvancedMDSettingsGUI
         $this->tpl->setContent($a_form->getHTML());
     }
 
-    public function saveField() : void
+    public function saveField(): void
     {
         $record_id = $this->getRecordIdFromQuery();
         $ftype = $this->getFieldTypeFromQuery();
@@ -1361,7 +1362,7 @@ class ilAdvancedMDSettingsGUI
         $this->createField($form);
     }
 
-    protected function initFieldForm(ilAdvancedMDFieldDefinition $a_definition) : ilPropertyFormGUI
+    protected function initFieldForm(ilAdvancedMDFieldDefinition $a_definition): ilPropertyFormGUI
     {
         $is_creation_mode = $a_definition->getFieldId() ? false : true;
 
@@ -1395,7 +1396,7 @@ class ilAdvancedMDSettingsGUI
         return $form;
     }
 
-    protected function initForm($a_mode) : ilPropertyFormGUI
+    protected function initForm($a_mode): ilPropertyFormGUI
     {
         if ($this->form instanceof ilPropertyFormGUI) {
             return $this->form;
@@ -1561,7 +1562,7 @@ class ilAdvancedMDSettingsGUI
         return $this->form;
     }
 
-    protected function getSubstitutionFieldPermissions(string $a_obj_type, int $a_field_id) : array
+    protected function getSubstitutionFieldPermissions(string $a_obj_type, int $a_field_id): array
     {
         if ($a_obj_type == "crs") {
             $perm = $this->getPermissions()->hasPermissions(
@@ -1709,7 +1710,7 @@ class ilAdvancedMDSettingsGUI
      * init form table 'substitutions'
      * @access protected
      */
-    protected function initFormSubstitutions() : ?ilPropertyFormGUI
+    protected function initFormSubstitutions(): ?ilPropertyFormGUI
     {
         global $DIC;
 
@@ -1843,7 +1844,7 @@ class ilAdvancedMDSettingsGUI
         return $this->form;
     }
 
-    protected function loadRecordFormData(ilPropertyFormGUI $form) : ilAdvancedMDRecord
+    protected function loadRecordFormData(ilPropertyFormGUI $form): ilAdvancedMDRecord
     {
         $translations = ilAdvancedMDRecordTranslations::getInstanceByRecordId($this->record->getRecordId());
 
@@ -1927,7 +1928,7 @@ class ilAdvancedMDSettingsGUI
     /**
      * @todo get rid of $this->obj_id switch
      */
-    protected function initRecordObject() : ilAdvancedMDRecord
+    protected function initRecordObject(): ilAdvancedMDRecord
     {
         if (!$this->record instanceof ilAdvancedMDRecord) {
             $record_id = $this->getRecordIdFromQuery();
@@ -1946,7 +1947,7 @@ class ilAdvancedMDSettingsGUI
      * Set sub tabs
      * @access protected
      */
-    protected function setSubTabs(int $context) : void
+    protected function setSubTabs(int $context): void
     {
         if ($context == self::CONTEXT_OBJECT) {
             return;
@@ -1981,7 +1982,7 @@ class ilAdvancedMDSettingsGUI
      * @todo get rid of this (used in ilAdvancedMDRecordTableGUI) and the parsing there. Also get rid of the usage in
      *       ilAvancedMDSettingsGUI::updateRecords
      */
-    protected function getParsedRecordObjects() : array
+    protected function getParsedRecordObjects(): array
     {
         $res = [];
 
@@ -2022,10 +2023,10 @@ class ilAdvancedMDSettingsGUI
                 }
                 // scope needs to match in object context
                 if (
-                ilAdvancedMDRecord::isFilteredByScope(
-                    $this->ref_id,
-                    $record->getScopes()
-                )
+                    ilAdvancedMDRecord::isFilteredByScope(
+                        $this->ref_id,
+                        $record->getScopes()
+                    )
                 ) {
                     continue;
                 }
@@ -2100,7 +2101,7 @@ class ilAdvancedMDSettingsGUI
     // complex options
     //
 
-    public function editComplexOption(ilPropertyFormGUI $a_form = null) : void
+    public function editComplexOption(ilPropertyFormGUI $a_form = null): void
     {
         $field_id = $this->getFieldIdFromQuery();
         if (!$field_id) {
@@ -2120,7 +2121,7 @@ class ilAdvancedMDSettingsGUI
         $this->tpl->setContent($a_form->getHTML());
     }
 
-    protected function initComplexOptionForm(ilAdvancedMDFieldDefinition $a_def) : ilPropertyFormGUI
+    protected function initComplexOptionForm(ilAdvancedMDFieldDefinition $a_def): ilPropertyFormGUI
     {
         $this->ctrl->saveParameter($this, "record_id");
         $this->ctrl->saveParameter($this, "field_id");
@@ -2139,7 +2140,7 @@ class ilAdvancedMDSettingsGUI
         return $form;
     }
 
-    public function updateComplexOption() : void
+    public function updateComplexOption(): void
     {
         $field_id = $this->getFieldIdFromQuery();
         $field_definition = ilAdvancedMDFieldDefinition::getInstance($field_id);
@@ -2157,7 +2158,7 @@ class ilAdvancedMDSettingsGUI
         $this->ctrl->redirect($this, "editField");
     }
 
-    protected function initLanguage(int $record_id) : void
+    protected function initLanguage(int $record_id): void
     {
         $translations = ilAdvancedMDRecordTranslations::getInstanceByRecordId($record_id);
         // read active language
@@ -2171,7 +2172,7 @@ class ilAdvancedMDSettingsGUI
         $this->active_language = $active;
     }
 
-    protected function showLanguageSwitch(int $record_id, string $target) : void
+    protected function showLanguageSwitch(int $record_id, string $target): void
     {
         $translations = ilAdvancedMDRecordTranslations::getInstanceByRecordId($record_id);
 

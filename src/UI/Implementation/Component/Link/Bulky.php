@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\UI\Implementation\Component\Link;
 
 use ILIAS\UI\Component as C;
@@ -50,7 +52,7 @@ class Bulky extends Link implements C\Link\Bulky
     /**
      * @inheritdoc
      */
-    public function getLabel() : string
+    public function getLabel(): string
     {
         return $this->label;
     }
@@ -58,7 +60,7 @@ class Bulky extends Link implements C\Link\Bulky
     /**
      * @inheritdoc
      */
-    public function getSymbol() : C\Symbol\Symbol
+    public function getSymbol(): C\Symbol\Symbol
     {
         return $this->symbol;
     }
@@ -66,7 +68,7 @@ class Bulky extends Link implements C\Link\Bulky
     /**
      * Get a button like this, but with an additional ARIA role.
      */
-    public function withAriaRole(string $aria_role) : C\Link\Bulky
+    public function withAriaRole(string $aria_role): C\Link\Bulky
     {
         $this->checkArgIsElement(
             "role",
@@ -82,7 +84,7 @@ class Bulky extends Link implements C\Link\Bulky
     /**
      * Get the ARIA role on the button.
      */
-    public function getAriaRole() : ?string
+    public function getAriaRole(): ?string
     {
         return $this->aria_role;
     }

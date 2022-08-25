@@ -25,7 +25,7 @@ class ilObjMediaCastListGUI extends ilObjectListGUI
 {
     protected int $child_id;
 
-    public function init() : void
+    public function init(): void
     {
         $this->copy_enabled = true;
         $this->delete_enabled = true;
@@ -35,12 +35,12 @@ class ilObjMediaCastListGUI extends ilObjectListGUI
         $this->info_screen_enabled = true;
         $this->type = "mcst";
         $this->gui_class_name = "ilobjmediacastgui";
-        
+
         // general commands array
         $this->commands = ilObjMediaCastAccess::_getCommands();
     }
 
-    public function getCommandFrame(string $cmd) : string
+    public function getCommandFrame(string $cmd): string
     {
         switch ($cmd) {
             default:
@@ -52,7 +52,7 @@ class ilObjMediaCastListGUI extends ilObjectListGUI
     }
 
 
-    public function getProperties() : array
+    public function getProperties(): array
     {
         $lng = $this->lng;
         $props = array();
@@ -65,7 +65,7 @@ class ilObjMediaCastListGUI extends ilObjectListGUI
         return $props;
     }
 
-    public function getCommandLink(string $cmd) : string
+    public function getCommandLink(string $cmd): string
     {
         // separate method for this line
         $cmd_link = "ilias.php?baseClass=ilMediaCastHandlerGUI&ref_id=" . $this->ref_id . "&cmd=$cmd";
@@ -73,12 +73,12 @@ class ilObjMediaCastListGUI extends ilObjectListGUI
         return $cmd_link;
     }
 
-    public function setChildId(int $a_child_id) : void
+    public function setChildId(int $a_child_id): void
     {
         $this->child_id = $a_child_id;
     }
 
-    public function getChildId() : int
+    public function getChildId(): int
     {
         return $this->child_id;
     }

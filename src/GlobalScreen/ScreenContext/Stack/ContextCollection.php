@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -44,7 +46,7 @@ class ContextCollection
     /**
      * @param ScreenContext $context
      */
-    public function push(ScreenContext $context) : void
+    public function push(ScreenContext $context): void
     {
         $this->stack[] = $context;
     }
@@ -52,7 +54,7 @@ class ContextCollection
     /**
      * @return ScreenContext
      */
-    public function getLast() : ?ScreenContext
+    public function getLast(): ?ScreenContext
     {
         $last = end($this->stack);
         if ($last) {
@@ -64,7 +66,7 @@ class ContextCollection
     /**
      * @return ScreenContext[]
      */
-    public function getStack() : array
+    public function getStack(): array
     {
         return $this->stack;
     }
@@ -72,7 +74,7 @@ class ContextCollection
     /**
      * @return array
      */
-    public function getStackAsArray() : array
+    public function getStackAsArray(): array
     {
         $return = [];
         foreach ($this->stack as $item) {
@@ -86,9 +88,9 @@ class ContextCollection
      * @param ContextCollection $other_collection
      * @return bool
      */
-    public function hasMatch(ContextCollection $other_collection) : bool
+    public function hasMatch(ContextCollection $other_collection): bool
     {
-        $mapper = function (ScreenContext $c) : string {
+        $mapper = function (ScreenContext $c): string {
             return $c->getUniqueContextIdentifier();
         };
         $mine = array_map($mapper, $this->getStack());
@@ -97,7 +99,7 @@ class ContextCollection
         return (count(array_intersect($mine, $theirs)) > 0);
     }
 
-    public function main() : self
+    public function main(): self
     {
         $context = $this->repo->main();
         $this->push($context);
@@ -105,42 +107,42 @@ class ContextCollection
         return $this;
     }
 
-    public function desktop() : self
+    public function desktop(): self
     {
         $this->push($this->repo->desktop());
 
         return $this;
     }
 
-    public function repository() : self
+    public function repository(): self
     {
         $this->push($this->repo->repository());
 
         return $this;
     }
 
-    public function administration() : self
+    public function administration(): self
     {
         $this->push($this->repo->administration());
 
         return $this;
     }
 
-    public function internal() : self
+    public function internal(): self
     {
         $this->push($this->repo->internal());
 
         return $this;
     }
 
-    public function external() : self
+    public function external(): self
     {
         $this->push($this->repo->external());
 
         return $this;
     }
 
-    public function lti() : self
+    public function lti(): self
     {
         $this->push($this->repo->lti());
         return $this;

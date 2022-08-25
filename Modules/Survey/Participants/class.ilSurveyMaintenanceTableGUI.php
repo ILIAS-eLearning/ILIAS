@@ -23,7 +23,7 @@ class ilSurveyMaintenanceTableGUI extends ilTable2GUI
 {
     protected int $counter;
     protected bool $confirmdelete;
-    
+
     public function __construct(
         object $a_parent_obj,
         string $a_parent_cmd,
@@ -40,7 +40,7 @@ class ilSurveyMaintenanceTableGUI extends ilTable2GUI
         $this->ctrl = $ilCtrl;
         $this->counter = 1;
         $this->confirmdelete = $confirmdelete;
-        
+
         $this->setFormName('maintenanceform');
         $this->setStyle('table', 'fullwidth');
 
@@ -53,7 +53,7 @@ class ilSurveyMaintenanceTableGUI extends ilTable2GUI
         $this->addColumn($this->lng->txt("workingtime"), 'workingtime', '');
         $this->addColumn($this->lng->txt("svy_status"), '', '');
         $this->addColumn($this->lng->txt("survey_results_finished"), 'finished', '');
-    
+
         $this->setRowTemplate("tpl.il_svy_svy_maintenance_row.html", "Modules/Survey/Participants");
 
         if ($confirmdelete) {
@@ -67,9 +67,9 @@ class ilSurveyMaintenanceTableGUI extends ilTable2GUI
 
         $this->setDefaultOrderField("name");
         $this->setDefaultOrderDirection("asc");
-        
+
         $this->setShowRowsSelector(true);
-        
+
         if ($confirmdelete) {
             $this->disable('sort');
             $this->disable('select_all');
@@ -82,7 +82,7 @@ class ilSurveyMaintenanceTableGUI extends ilTable2GUI
         $this->enable('header');
     }
 
-    protected function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set): void
     {
         if (!$this->confirmdelete) {
             $this->tpl->setCurrentBlock('checkbox');
@@ -131,7 +131,7 @@ class ilSurveyMaintenanceTableGUI extends ilTable2GUI
      * @param mixed $timeinseconds
      * @return string
      */
-    protected function formatTime($timeinseconds) : string
+    protected function formatTime($timeinseconds): string
     {
         if (is_null($timeinseconds)) {
             return " ";
@@ -144,7 +144,7 @@ class ilSurveyMaintenanceTableGUI extends ilTable2GUI
         return sprintf("%02d:%02d:%02d", ($timeinseconds / 3600), ($timeinseconds / 60) % 60, $timeinseconds % 60);
     }
 
-    public function numericOrdering(string $a_field) : bool
+    public function numericOrdering(string $a_field): bool
     {
         switch ($a_field) {
             case 'workingtime':

@@ -16,7 +16,6 @@
  *
  *********************************************************************/
 
-
 namespace ILIAS\LTI\ToolProvider\Service;
 
 use ILIAS\LTI\ToolProvider;
@@ -32,16 +31,15 @@ use ILIAS\LTI\ToolProvider\ResourceLink;
  */
 class Membership extends Service
 {
-
     /**
      * Media type for version 1 of Memberships service.
      */
-    const MEDIA_TYPE_MEMBERSHIPS_V1 = 'application/vnd.ims.lis.v2.membershipcontainer+json';
+    public const MEDIA_TYPE_MEMBERSHIPS_V1 = 'application/vnd.ims.lis.v2.membershipcontainer+json';
 
     /**
      * Media type for Names and Role Provisioning service.
      */
-    const MEDIA_TYPE_MEMBERSHIPS_NRPS = 'application/vnd.ims.lti-nrps.v2.membershipcontainer+json';
+    public const MEDIA_TYPE_MEMBERSHIPS_NRPS = 'application/vnd.ims.lti-nrps.v2.membershipcontainer+json';
 
     /**
      * Access scope.

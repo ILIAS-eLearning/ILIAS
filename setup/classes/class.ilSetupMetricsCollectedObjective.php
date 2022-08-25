@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -20,12 +22,12 @@ use ILIAS\Setup;
 
 class ilSetupMetricsCollectedObjective extends Setup\Metrics\CollectedObjective
 {
-    public function getLabel() : string
+    public function getLabel(): string
     {
         return "Collect common metrics for the ILIAS installation.";
     }
 
-    protected function getTentativePreconditions(Setup\Environment $environment) : array
+    protected function getTentativePreconditions(Setup\Environment $environment): array
     {
         return [
             new ilIniFilesLoadedObjective(),
@@ -33,7 +35,7 @@ class ilSetupMetricsCollectedObjective extends Setup\Metrics\CollectedObjective
         ];
     }
 
-    protected function collectFrom(Setup\Environment $environment, Setup\Metrics\Storage $storage) : void
+    protected function collectFrom(Setup\Environment $environment, Setup\Metrics\Storage $storage): void
     {
         $ini = $environment->getResource(Setup\Environment::RESOURCE_ILIAS_INI);
         $client_ini = $environment->getResource(Setup\Environment::RESOURCE_CLIENT_INI);

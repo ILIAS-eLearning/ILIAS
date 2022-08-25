@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace ILIAS\FileDelivery;
@@ -23,11 +24,10 @@ namespace ILIAS\FileDelivery;
  */
 interface ilFileDeliveryType
 {
-
     /**
      * @return bool
      */
-    public function doesFileExists(string $path_to_file) : bool;
+    public function doesFileExists(string $path_to_file): bool;
 
 
     /**
@@ -35,7 +35,7 @@ interface ilFileDeliveryType
      *
      * @return bool
      */
-    public function prepare(string $path_to_file) : bool;
+    public function prepare(string $path_to_file): bool;
 
 
     /**
@@ -46,7 +46,7 @@ interface ilFileDeliveryType
      *
      * @return void
      */
-    public function deliver(string $path_to_file, bool $file_marked_to_delete) : void;
+    public function deliver(string $path_to_file, bool $file_marked_to_delete): void;
 
 
     /**
@@ -54,12 +54,12 @@ interface ilFileDeliveryType
      *
      * @return bool
      */
-    public function handleFileDeletion(string $path_to_file) : bool;
+    public function handleFileDeletion(string $path_to_file): bool;
 
 
-    public function supportsInlineDelivery() : bool;
+    public function supportsInlineDelivery(): bool;
 
-    public function supportsAttachmentDelivery() : bool;
+    public function supportsAttachmentDelivery(): bool;
 
-    public function supportsStreaming() : bool;
+    public function supportsStreaming(): bool;
 }

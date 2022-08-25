@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -27,7 +29,7 @@ use PHPUnit\Framework\TestCase;
  */
 class ilLDAPServerTest extends TestCase
 {
-    protected function setUp() : void
+    protected function setUp(): void
     {
         $this->dic = new Container();
         $GLOBALS['DIC'] = $this->dic;
@@ -53,7 +55,7 @@ class ilLDAPServerTest extends TestCase
      * @param string $name
      * @param mixed  $value
      */
-    protected function setGlobalVariable(string $name, $value) : void
+    protected function setGlobalVariable(string $name, $value): void
     {
         global $DIC;
 
@@ -68,7 +70,7 @@ class ilLDAPServerTest extends TestCase
     /**
      * @return MockObject|ilLanguage
      */
-    protected function getLanguageMock() : ilLanguage
+    protected function getLanguageMock(): ilLanguage
     {
         $lng = $this
             ->getMockBuilder(ilLanguage::class)
@@ -79,7 +81,7 @@ class ilLDAPServerTest extends TestCase
         return $lng;
     }
 
-    public function testConstructorWithoutParam() : void
+    public function testConstructorWithoutParam(): void
     {
         global $DIC;
 
@@ -107,7 +109,7 @@ class ilLDAPServerTest extends TestCase
         $this->assertFalse($server->isActive());
     }
 
-    public function testConstructorWithParameter() : void
+    public function testConstructorWithParameter(): void
     {
         global $DIC;
 

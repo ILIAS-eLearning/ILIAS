@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -64,7 +66,7 @@ class ilSettingActivity implements ilActivity, ilWorkflowEngineElement
      * @return void
      *@see $setting_name
      */
-    public function setSettingName(string $name) : void
+    public function setSettingName(string $name): void
     {
         $this->setting_name = $name;
     }
@@ -76,7 +78,7 @@ class ilSettingActivity implements ilActivity, ilWorkflowEngineElement
      *
      * @return string
      */
-    public function getSettingName() : string
+    public function getSettingName(): string
     {
         return $this->setting_name;
     }
@@ -87,7 +89,7 @@ class ilSettingActivity implements ilActivity, ilWorkflowEngineElement
      * @return void
      *@see $setting_value
      */
-    public function setSettingValue(string $value) : void
+    public function setSettingValue(string $value): void
     {
         $this->setting_value = $value;
     }
@@ -99,7 +101,7 @@ class ilSettingActivity implements ilActivity, ilWorkflowEngineElement
      *
      * @return string
      */
-    public function getSettingValue() : string
+    public function getSettingValue(): string
     {
         return $this->setting_value;
     }
@@ -110,7 +112,7 @@ class ilSettingActivity implements ilActivity, ilWorkflowEngineElement
      * @param string $value Value to be set.
      * @return void
      */
-    public function setSetting(string $name, string $value) : void
+    public function setSetting(string $name, string $value): void
     {
         $this->setSettingName($name);
         $this->setSettingValue($value);
@@ -121,7 +123,7 @@ class ilSettingActivity implements ilActivity, ilWorkflowEngineElement
      * @return void
      * @todo Use exceptions / internal logging.
      */
-    public function execute() : void
+    public function execute(): void
     {
         global $DIC;
         /** @var ilSetting $ilSetting */
@@ -140,12 +142,12 @@ class ilSettingActivity implements ilActivity, ilWorkflowEngineElement
         return $this->context;
     }
 
-    public function setName($name) : void
+    public function setName($name): void
     {
         $this->name = $name;
     }
 
-    public function getName() : string
+    public function getName(): string
     {
         return $this->name;
     }

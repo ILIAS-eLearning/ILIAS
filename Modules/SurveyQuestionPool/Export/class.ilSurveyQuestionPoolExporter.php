@@ -23,7 +23,7 @@
  */
 class ilSurveyQuestionPoolExporter extends ilXmlExporter
 {
-    public function init() : void
+    public function init(): void
     {
     }
 
@@ -31,10 +31,10 @@ class ilSurveyQuestionPoolExporter extends ilXmlExporter
         string $a_entity,
         string $a_schema_version,
         string $a_id
-    ) : string {
+    ): string {
         $spl = new ilObjSurveyQuestionPool($a_id, false);
         $spl->loadFromDb();
-        
+
         $spl_exp = new ilSurveyQuestionpoolExport($spl, 'xml');
         $spl_exp->buildExportFile();
         return "";
@@ -44,7 +44,7 @@ class ilSurveyQuestionPoolExporter extends ilXmlExporter
         string $a_entity,
         string $a_target_release,
         array $a_ids
-    ) : array {
+    ): array {
         $deps = [];
 
         // service settings
@@ -57,7 +57,7 @@ class ilSurveyQuestionPoolExporter extends ilXmlExporter
         return $deps;
     }
 
-    public function getValidSchemaVersions(string $a_entity) : array
+    public function getValidSchemaVersions(string $a_entity): array
     {
         return array(
             "4.1.0" => array(

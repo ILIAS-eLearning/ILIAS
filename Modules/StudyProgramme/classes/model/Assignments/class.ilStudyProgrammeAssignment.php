@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -48,41 +50,41 @@ class ilStudyProgrammeAssignment
         $this->id = $id;
     }
 
-    public function getId() : int
+    public function getId(): int
     {
         return $this->id;
     }
 
-    public function getRootId() : int
+    public function getRootId(): int
     {
         return $this->root_prg_id;
     }
 
-    public function withRootId(int $root_prg_id) : ilStudyProgrammeAssignment
+    public function withRootId(int $root_prg_id): ilStudyProgrammeAssignment
     {
         $clone = clone $this;
         $clone->root_prg_id = $root_prg_id;
         return $clone;
     }
 
-    public function getUserId() : int
+    public function getUserId(): int
     {
         return $this->usr_id;
     }
 
-    public function withUserId(int $usr_id) : ilStudyProgrammeAssignment
+    public function withUserId(int $usr_id): ilStudyProgrammeAssignment
     {
         $clone = clone $this;
         $clone->usr_id = $usr_id;
         return $clone;
     }
 
-    public function getLastChangeBy() : int
+    public function getLastChangeBy(): int
     {
         return $this->last_change_by;
     }
 
-    public function getLastChange() : ?DateTimeImmutable
+    public function getLastChange(): ?DateTimeImmutable
     {
         if ($this->last_change) {
             return DateTimeImmutable::createFromFormat(self::DATE_TIME_FORMAT, $this->last_change);
@@ -96,7 +98,7 @@ class ilStudyProgrammeAssignment
     public function withLastChange(
         int $last_change_by,
         DateTimeImmutable $timestamp
-    ) : ilStudyProgrammeAssignment {
+    ): ilStudyProgrammeAssignment {
         $new_date = $timestamp->format(self::DATE_TIME_FORMAT);
         if ($this->getLastChange() && $this->getLastChange()->format(self::DATE_TIME_FORMAT) > $new_date) {
             throw new ilException(
@@ -112,12 +114,12 @@ class ilStudyProgrammeAssignment
         return $clone;
     }
 
-    public function getRestartDate() : ?DateTimeImmutable
+    public function getRestartDate(): ?DateTimeImmutable
     {
         return $this->restart_date;
     }
 
-    public function getRestartedAssignmentId() : int
+    public function getRestartedAssignmentId(): int
     {
         return $this->restarted_asssignment_id;
     }
@@ -125,7 +127,7 @@ class ilStudyProgrammeAssignment
     public function withRestarted(
         int $restarted_asssignment_id,
         DateTimeImmutable $restart_date = null
-    ) : ilStudyProgrammeAssignment {
+    ): ilStudyProgrammeAssignment {
         $clone = clone $this;
         $clone->restarted_asssignment_id = $restarted_asssignment_id;
         $clone->restart_date = $restart_date;

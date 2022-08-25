@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -35,7 +37,7 @@ class ilTermsOfServiceUserHasCountryCriterionTest extends ilTermsOfServiceCriter
     /** @var string[] */
     protected array $countries = [];
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -48,12 +50,12 @@ class ilTermsOfServiceUserHasCountryCriterionTest extends ilTermsOfServiceCriter
         $this->countries = ['EN', 'DE'];
     }
 
-    protected function getInstance() : ilTermsOfServiceUserHasCountryCriterion
+    protected function getInstance(): ilTermsOfServiceUserHasCountryCriterion
     {
         return new ilTermsOfServiceUserHasCountryCriterion($this->countries);
     }
 
-    public function testInstanceCanBeCreated() : ilTermsOfServiceUserHasCountryCriterion
+    public function testInstanceCanBeCreated(): ilTermsOfServiceUserHasCountryCriterion
     {
         $criterion = $this->getInstance();
 
@@ -71,7 +73,7 @@ class ilTermsOfServiceUserHasCountryCriterionTest extends ilTermsOfServiceCriter
     protected function buildForm(
         ilTermsOfServiceCriterionTypeGUI $gui,
         string $httpCriterionSelectionBodyParameter
-    ) : ilPropertyFormGUI {
+    ): ilPropertyFormGUI {
         $form = $this->getFormMock();
 
         $radioGroup = $this->getRadioGroupMock();
@@ -94,7 +96,7 @@ class ilTermsOfServiceUserHasCountryCriterionTest extends ilTermsOfServiceCriter
      */
     public function testFormUserInterfaceElementsAreProperlyBuilt(
         ilTermsOfServiceUserHasCountryCriterion $criterion
-    ) : ilTermsOfServiceUserHasCountryCriterion {
+    ): ilTermsOfServiceUserHasCountryCriterion {
         $httpCriterionSelectionBodyParameter = 'criterion';
         $httpCriterionConfigBodyParameter = $criterion->getTypeIdent() . '_country';
 
@@ -117,7 +119,7 @@ class ilTermsOfServiceUserHasCountryCriterionTest extends ilTermsOfServiceCriter
      */
     public function testValuesFromFormUserInterfaceElementsCanBeRetrieved(
         ilTermsOfServiceUserHasCountryCriterion $criterion
-    ) : void {
+    ): void {
         $httpCriterionSelectionBodyParameter = 'criterion';
         $httpCriterionConfigBodyParameter = $criterion->getTypeIdent() . '_country';
 
@@ -146,7 +148,7 @@ class ilTermsOfServiceUserHasCountryCriterionTest extends ilTermsOfServiceCriter
      */
     public function testTypeIdentPresentationIsANonEmptyString(
         ilTermsOfServiceUserHasCountryCriterion $criterion
-    ) : void {
+    ): void {
         $gui = $criterion->ui($this->lng);
 
         $actual = $gui->getIdentPresentation();
@@ -158,7 +160,7 @@ class ilTermsOfServiceUserHasCountryCriterionTest extends ilTermsOfServiceCriter
     /**
      * @return array<string, string[]>
      */
-    public function countryProvider() : array
+    public function countryProvider(): array
     {
         return [
             'English Language' => [$this->expectedInitialValue, $this->englishLanguageTranslation],
@@ -172,7 +174,7 @@ class ilTermsOfServiceUserHasCountryCriterionTest extends ilTermsOfServiceCriter
      * @param string $translation
      * @dataProvider countryProvider
      */
-    public function testValuePresentationMatchesExpectation(string $country, string $translation) : void
+    public function testValuePresentationMatchesExpectation(string $country, string $translation): void
     {
         $language = $this->getLanguageMock();
 
@@ -195,7 +197,7 @@ class ilTermsOfServiceUserHasCountryCriterionTest extends ilTermsOfServiceCriter
         $this->assertSame($translation, $actual->getContent());
     }
 
-    public function failingConfigProvider() : array
+    public function failingConfigProvider(): array
     {
         $criterion = $this->getInstance();
 
@@ -213,7 +215,7 @@ class ilTermsOfServiceUserHasCountryCriterionTest extends ilTermsOfServiceCriter
         ];
     }
 
-    public function succeedingConfigProvider() : array
+    public function succeedingConfigProvider(): array
     {
         $criterion = $this->getInstance();
 
@@ -231,7 +233,7 @@ class ilTermsOfServiceUserHasCountryCriterionTest extends ilTermsOfServiceCriter
     public function testEvaluationFailsIfUserCountryDoesNotMatchDefinedLanguage(
         ilTermsOfServiceUserHasCountryCriterion $criterion,
         ilTermsOfServiceCriterionConfig $config
-    ) : void {
+    ): void {
         $user = $this->getUserMock();
 
         $user
@@ -249,7 +251,7 @@ class ilTermsOfServiceUserHasCountryCriterionTest extends ilTermsOfServiceCriter
     public function testEvaluationSucceedsIfUserCountryDoesMatchDefinedLanguage(
         ilTermsOfServiceUserHasCountryCriterion $criterion,
         ilTermsOfServiceCriterionConfig $config
-    ) : void {
+    ): void {
         $user = $this->getUserMock();
 
         $user

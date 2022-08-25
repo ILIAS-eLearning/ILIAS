@@ -23,7 +23,7 @@ class ilSurveyQuestionPoolExportTableGUI extends ilTable2GUI
 {
     protected bool $confirmdelete;
     protected int $counter;
-    
+
     public function __construct(
         object $a_parent_obj,
         string $a_parent_cmd,
@@ -40,7 +40,7 @@ class ilSurveyQuestionPoolExportTableGUI extends ilTable2GUI
         $this->ctrl = $ilCtrl;
         $this->confirmdelete = $confirmdelete;
         $this->counter = 0;
-        
+
         $this->setFormName('phrases');
         $this->setTitle($this->lng->txt('svy_export_files'));
         $this->setStyle('table', 'fullwidth');
@@ -64,7 +64,7 @@ class ilSurveyQuestionPoolExportTableGUI extends ilTable2GUI
         $this->setFormAction($this->ctrl->getFormAction($a_parent_obj, $a_parent_cmd));
         $this->setDefaultOrderField("file");
         $this->setDefaultOrderDirection("asc");
-        
+
         if ($confirmdelete) {
             $this->disable('sort');
             $this->disable('select_all');
@@ -77,7 +77,7 @@ class ilSurveyQuestionPoolExportTableGUI extends ilTable2GUI
         $this->enable('header');
     }
 
-    protected function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set): void
     {
         if (!$this->confirmdelete) {
             $this->tpl->setCurrentBlock('checkbox');

@@ -26,12 +26,12 @@ use ILIAS\MainMenu\Provider\StandardTopItemsProvider;
  */
 class PDMainBarProvider extends AbstractStaticMainMenuProvider
 {
-    public function getStaticTopItems() : array
+    public function getStaticTopItems(): array
     {
         return [];
     }
 
-    public function getStaticSubItems() : array
+    public function getStaticSubItems(): array
     {
         $items = [
         ];

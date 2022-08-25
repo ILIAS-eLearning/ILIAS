@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace ILIAS\Filesystem;
 
@@ -65,7 +67,7 @@ final class FilesystemsImpl implements Filesystems
     /**
      * @inheritDoc
      */
-    public function web() : Filesystem
+    public function web(): Filesystem
     {
         return $this->web;
     }
@@ -74,7 +76,7 @@ final class FilesystemsImpl implements Filesystems
     /**
      * @inheritDoc
      */
-    public function storage() : Filesystem
+    public function storage(): Filesystem
     {
         return $this->storage;
     }
@@ -83,7 +85,7 @@ final class FilesystemsImpl implements Filesystems
     /**
      * @inheritDoc
      */
-    public function temp() : Filesystem
+    public function temp(): Filesystem
     {
         return $this->temp;
     }
@@ -92,7 +94,7 @@ final class FilesystemsImpl implements Filesystems
     /**
      * @inheritDoc
      */
-    public function customizing() : Filesystem
+    public function customizing(): Filesystem
     {
         return $this->customizing;
     }
@@ -101,7 +103,7 @@ final class FilesystemsImpl implements Filesystems
     /**
      * @inheritDoc
      */
-    public function libs() : Filesystem
+    public function libs(): Filesystem
     {
         return $this->libs;
     }
@@ -109,7 +111,7 @@ final class FilesystemsImpl implements Filesystems
     /**
      * @inheritDoc
      */
-    public function nodeModules() : Filesystem
+    public function nodeModules(): Filesystem
     {
         return $this->node_modules;
     }

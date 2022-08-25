@@ -28,7 +28,7 @@ class ilSkillExporter extends ilXmlExporter
     private ilSkillDataSet $ds;
     protected ilExportConfig $config;
 
-    public function init() : void
+    public function init(): void
     {
         $this->ds = new ilSkillDataSet();
         $this->ds->setExportDirectories($this->dir_relative, $this->dir_absolute);
@@ -39,11 +39,11 @@ class ilSkillExporter extends ilXmlExporter
         $this->ds->setMode($this->config->getMode());
         $this->ds->setSkillTreeId($this->config->getSkillTreeId());
     }
-    
+
     /**
      * @inheritdoc
      */
-    public function getXmlRepresentation(string $a_entity, string $a_schema_version, string $a_id) : string
+    public function getXmlRepresentation(string $a_entity, string $a_schema_version, string $a_id): string
     {
         return $this->ds->getXmlRepresentation($a_entity, $a_schema_version, [$a_id], "", true, true);
     }
@@ -51,7 +51,7 @@ class ilSkillExporter extends ilXmlExporter
     /**
      * @inheritdoc
      */
-    public function getValidSchemaVersions(string $a_entity) : array
+    public function getValidSchemaVersions(string $a_entity): array
     {
         return array(
             "8.0" => array(

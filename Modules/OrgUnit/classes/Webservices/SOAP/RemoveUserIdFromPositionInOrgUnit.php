@@ -30,7 +30,6 @@ use SoapFault;
  */
 class RemoveUserIdFromPositionInOrgUnit extends Base
 {
-
     /**
      * @throws SoapFault
      */
@@ -69,7 +68,7 @@ class RemoveUserIdFromPositionInOrgUnit extends Base
     /**
      * @return string
      */
-    public function getName() : string
+    public function getName(): string
     {
         return "removeUserFromPositionInOrgUnit";
     }
@@ -82,12 +81,12 @@ class RemoveUserIdFromPositionInOrgUnit extends Base
         );
     }
 
-    public function getOutputParams() : array
+    public function getOutputParams(): array
     {
         return [];
     }
 
-    public function getDocumentation() : string
+    public function getDocumentation(): string
     {
         return "Removes a user from a position in a orgunit";
     }

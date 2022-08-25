@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /*
         +-----------------------------------------------------------------------------+
         | ILIAS open source                                                           |
@@ -49,7 +51,7 @@ class ilCalendarSharedListTableGUI extends ilTable2GUI
     /**
      * set id
      */
-    public function setCalendarId(int $a_calendar_id) : void
+    public function setCalendarId(int $a_calendar_id): void
     {
         $this->calendar_id = $a_calendar_id;
     }
@@ -57,7 +59,7 @@ class ilCalendarSharedListTableGUI extends ilTable2GUI
     /**
      * @inheritDoc
      */
-    protected function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set): void
     {
         $this->tpl->setVariable('VAL_ID', $a_set['obj_id']);
         $this->tpl->setVariable('NAME', $a_set['title']);
@@ -76,7 +78,7 @@ class ilCalendarSharedListTableGUI extends ilTable2GUI
         }
     }
 
-    public function parse() : void
+    public function parse(): void
     {
         $shared = new ilCalendarShared($this->calendar_id);
         $items = array();

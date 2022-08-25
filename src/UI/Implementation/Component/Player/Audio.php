@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\UI\Implementation\Component\Player;
 
 use ILIAS\UI\Component as C;
@@ -34,7 +36,7 @@ class Audio extends Player implements C\Player\Audio
         $this->transcript = $transcript;
     }
 
-    public function getTranscription() : string
+    public function getTranscription(): string
     {
         return $this->transcript;
     }

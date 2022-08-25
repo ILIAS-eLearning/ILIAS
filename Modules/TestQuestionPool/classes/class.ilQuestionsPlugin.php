@@ -1,4 +1,5 @@
 <?php
+
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 include_once("./Services/Component/classes/class.ilPlugin.php");
@@ -15,5 +16,5 @@ abstract class ilQuestionsPlugin extends ilPlugin
 {
     abstract public function getQuestionType();
 
-    abstract public function getQuestionTypeTranslation() : string;
+    abstract public function getQuestionTypeTranslation(): string;
 }

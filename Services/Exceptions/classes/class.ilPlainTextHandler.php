@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -31,7 +33,7 @@ class ilPlainTextHandler extends Handler
     /**
      * Last missing method from HandlerInterface.
      */
-    public function handle() : ?int
+    public function handle(): ?int
     {
         header("Content-Type: text/plain");
         echo "<pre>\n";
@@ -43,7 +45,7 @@ class ilPlainTextHandler extends Handler
     /**
      * Assemble the output for this handler.
      */
-    protected function content() : string
+    protected function content(): string
     {
         return $this->pageHeader()
             . $this->exceptionContent()
@@ -53,7 +55,7 @@ class ilPlainTextHandler extends Handler
     /**
      * Get the header for the page.
      */
-    protected function pageHeader() : string
+    protected function pageHeader(): string
     {
         return "";
     }
@@ -61,7 +63,7 @@ class ilPlainTextHandler extends Handler
     /**
      * Get a short info about the exception.
      */
-    protected function exceptionContent() : string
+    protected function exceptionContent(): string
     {
         return Formatter::formatExceptionPlain($this->getInspector());
     }
@@ -69,7 +71,7 @@ class ilPlainTextHandler extends Handler
     /**
      * Get the header for the page.
      */
-    protected function tablesContent() : string
+    protected function tablesContent(): string
     {
         $ret = "";
         foreach ($this->tables() as $title => $content) {
@@ -85,7 +87,7 @@ class ilPlainTextHandler extends Handler
                     $value = implode(
                         "\n",
                         array_map(
-                            static function ($line) use (&$first, $indentation) : string {
+                            static function ($line) use (&$first, $indentation): string {
                                 if ($first) {
                                     $first = false;
                                     return $line;
@@ -108,7 +110,7 @@ class ilPlainTextHandler extends Handler
     /**
      * Get the tables that should be rendered.
      */
-    protected function tables() : array
+    protected function tables(): array
     {
         return [
             "GET Data" => $_GET,

@@ -41,9 +41,9 @@ class ilOrgUnitUserAssignmentGUI extends BaseCommands
     public function __construct()
     {
         global $DIC;
-        
+
         parent::__construct();
-        
+
         $this->main_tpl = $DIC->ui()->mainTemplate();
         $this->http = $DIC->http();
         $this->ctrl = $DIC->ctrl();
@@ -52,7 +52,7 @@ class ilOrgUnitUserAssignmentGUI extends BaseCommands
         $this->language = $DIC->language();
     }
 
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         if (!ilObjOrgUnitAccess::_checkAccessPositions((int) filter_input(
             INPUT_GET,
@@ -85,7 +85,7 @@ class ilOrgUnitUserAssignmentGUI extends BaseCommands
         }
     }
 
-    protected function index() : void
+    protected function index(): void
     {
         $this->addSubTabs();
         $this->activeSubTab(self::SUBTAB_ASSIGNMENTS);
@@ -113,7 +113,7 @@ class ilOrgUnitUserAssignmentGUI extends BaseCommands
         $this->setContent($html);
     }
 
-    protected function assignmentsRecursive() : void
+    protected function assignmentsRecursive(): void
     {
         $this->addSubTabs();
         $this->activeSubTab(self::SUBTAB_ASSIGNMENTS_RECURSIVE);
@@ -131,7 +131,7 @@ class ilOrgUnitUserAssignmentGUI extends BaseCommands
         $this->setContent($html);
     }
 
-    protected function confirm() : void
+    protected function confirm(): void
     {
         $confirmation = $this->getConfirmationGUI();
         $confirmation->setConfirm($this->language->txt('remove_user'), self::CMD_DELETE);
@@ -139,7 +139,7 @@ class ilOrgUnitUserAssignmentGUI extends BaseCommands
         $this->setContent($confirmation->getHTML());
     }
 
-    protected function confirmRecursive() : void
+    protected function confirmRecursive(): void
     {
         $confirmation = $this->getConfirmationGUI();
         $confirmation->setConfirm($this->language->txt('remove_user'), self::CMD_DELETE_RECURSIVE);
@@ -147,13 +147,13 @@ class ilOrgUnitUserAssignmentGUI extends BaseCommands
         $this->setContent($confirmation->getHTML());
     }
 
-    protected function getConfirmationGUI() : ilConfirmationGUI
+    protected function getConfirmationGUI(): ilConfirmationGUI
     {
         $this->ctrl->saveParameter($this, 'position_id');
         $confirmation = new ilConfirmationGUI();
         $confirmation->setFormAction($this->ctrl->getFormAction($this));
         $confirmation->setCancel($this->language->txt(self::CMD_CANCEL), self::CMD_CANCEL);
-        
+
         $params = $this->http->request()->getQueryParams();
         $usr_id = $params['usr_id'];
         $position_id = $params['position_id'];
@@ -167,12 +167,12 @@ class ilOrgUnitUserAssignmentGUI extends BaseCommands
         return $confirmation;
     }
 
-    protected function delete() : void
+    protected function delete(): void
     {
         $params = $this->http->request()->getQueryParams();
         $usr_id = $_POST['usr_id'];
         $position_id = $params['position_id'];
-        
+
         $ua = ilOrgUnitUserAssignmentQueries::getInstance()->getAssignmentOrFail(
             $usr_id,
             $position_id,
@@ -197,12 +197,12 @@ class ilOrgUnitUserAssignmentGUI extends BaseCommands
         $this->cancel();
     }
 
-    protected function cancel() : void
+    protected function cancel(): void
     {
         $this->ctrl->redirect($this, self::CMD_INDEX);
     }
 
-    public function addStaff() : void
+    public function addStaff(): void
     {
         if (!$this->access->checkAccess("write", "", $this->getParentRefId())) {
             $this->main_tpl->setOnScreenMessage('failure', $this->language->txt("permission_denied"), true);
@@ -237,7 +237,7 @@ class ilOrgUnitUserAssignmentGUI extends BaseCommands
         $this->ctrl->redirect($this, self::CMD_INDEX);
     }
 
-    public function addSubTabs() : void
+    public function addSubTabs(): void
     {
         $this->pushSubTab(self::SUBTAB_ASSIGNMENTS, $this->ctrl
                                                          ->getLinkTarget($this, self::CMD_INDEX));

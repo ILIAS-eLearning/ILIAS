@@ -54,7 +54,7 @@ class ilWikiUserHTMLExport
         $this->log->debug("comments: " . $this->with_comments);
     }
 
-    protected function read() : void
+    protected function read(): void
     {
         $set = $this->db->query(
             "SELECT * FROM wiki_user_html_export " .
@@ -66,7 +66,7 @@ class ilWikiUserHTMLExport
         }
     }
 
-    protected function getProcess() : int
+    protected function getProcess(): int
     {
         $this->log->debug("getProcess");
         $last_change = ilPageObject::getLastChangeByParent("wpg", $this->wiki->getId());
@@ -77,7 +77,7 @@ class ilWikiUserHTMLExport
 
         $ilAtomQuery->addQueryCallable(function (ilDBInterface $ilDB) use ($last_change, &$ret, $file_exists) {
             $this->log->debug("atom query start");
-            
+
             $this->read();
             $ts = ilUtil::now();
 
@@ -140,7 +140,7 @@ class ilWikiUserHTMLExport
     public function updateStatus(
         int $a_progress,
         int $a_status
-    ) : void {
+    ): void {
         $this->db->manipulate(
             "UPDATE wiki_user_html_export SET " .
             " progress = " . $this->db->quote($a_progress, "integer") . "," .
@@ -153,7 +153,7 @@ class ilWikiUserHTMLExport
         $this->read();
     }
 
-    public function getProgress() : array
+    public function getProgress(): array
     {
         $set = $this->db->query(
             "SELECT progress, status FROM wiki_user_html_export " .
@@ -165,14 +165,14 @@ class ilWikiUserHTMLExport
         return array("progress" => (int) $rec["progress"], "status" => (int) $rec["status"]);
     }
 
-    public function initUserHTMLExport() : void
+    public function initUserHTMLExport(): void
     {
         // get process, if not already running or export is up-to-date, return corresponding status
         echo $this->getProcess();
         exit;
     }
 
-    public function startUserHTMLExport() : void
+    public function startUserHTMLExport(): void
     {
         ignore_user_abort(true);
         // do the export
@@ -188,7 +188,7 @@ class ilWikiUserHTMLExport
         exit;
     }
 
-    protected function doesFileExist() : bool
+    protected function doesFileExist(): bool
     {
         $exp = new WikiHtmlExport($this->wiki);
         if ($this->with_comments) {
@@ -200,7 +200,7 @@ class ilWikiUserHTMLExport
         return is_file($file);
     }
 
-    public function deliverFile() : void
+    public function deliverFile(): void
     {
         $this->log->debug("deliver");
 

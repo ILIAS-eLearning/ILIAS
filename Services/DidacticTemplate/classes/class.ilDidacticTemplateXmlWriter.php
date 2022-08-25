@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -16,12 +18,12 @@ class ilDidacticTemplateXmlWriter extends ilXmlWriter
         $this->tpl = new ilDidacticTemplateSetting($a_tpl_id);
     }
 
-    public function getSetting() : ilDidacticTemplateSetting
+    public function getSetting(): ilDidacticTemplateSetting
     {
         return $this->tpl;
     }
 
-    public function write() : void
+    public function write(): void
     {
         $this->xmlHeader();
         $this->xmlStartTag('didacticTemplateDefinition');

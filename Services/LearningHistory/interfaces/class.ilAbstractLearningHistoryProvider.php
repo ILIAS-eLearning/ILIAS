@@ -48,22 +48,22 @@ abstract class ilAbstractLearningHistoryProvider //TODO-PHP8-REVIEW please add t
         $this->template = $template;
     }
 
-    protected function getUserId() : int
+    protected function getUserId(): int
     {
         return $this->user_id;
     }
 
-    protected function getFactory() : ilLearningHistoryFactory
+    protected function getFactory(): ilLearningHistoryFactory
     {
         return $this->factory;
     }
 
-    protected function getLanguage() : ilLanguage
+    protected function getLanguage(): ilLanguage
     {
         return $this->lng;
     }
 
-    protected function getEmphasizedTitle(string $title) : string
+    protected function getEmphasizedTitle(string $title): string
     {
         $clone = clone $this->template;
         $clone->setVariable("TITLE", $title);

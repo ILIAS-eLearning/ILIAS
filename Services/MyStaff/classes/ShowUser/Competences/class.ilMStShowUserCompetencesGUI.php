@@ -26,9 +26,9 @@ use ILIAS\MyStaff\ilMyStaffAccess;
  */
 class ilMStShowUserCompetencesGUI
 {
-    const CMD_SHOW_SKILLS = 'showSkills';
-    const CMD_INDEX = self::CMD_SHOW_SKILLS;
-    const SUB_TAB_SKILLS = 'skills';
+    public const CMD_SHOW_SKILLS = 'showSkills';
+    public const CMD_INDEX = self::CMD_SHOW_SKILLS;
+    public const SUB_TAB_SKILLS = 'skills';
     private int $usr_id;
     protected ilTable2GUI $table;
     protected ilMyStaffAccess $access;
@@ -46,7 +46,7 @@ class ilMStShowUserCompetencesGUI
         $this->dic->ctrl()->setParameter($this, 'usr_id', $this->usr_id);
     }
 
-    protected function checkAccessOrFail() : void
+    protected function checkAccessOrFail(): void
     {
         if (!$this->usr_id) {
             $this->main_tpl->setOnScreenMessage('failure', $this->dic->language()->txt("permission_denied"), true);
@@ -63,7 +63,7 @@ class ilMStShowUserCompetencesGUI
         }
     }
 
-    final public function executeCommand() : void
+    final public function executeCommand(): void
     {
         $this->checkAccessOrFail();
 
@@ -83,7 +83,7 @@ class ilMStShowUserCompetencesGUI
         }
     }
 
-    protected function addSubTabs(string $active_sub_tab) : void
+    protected function addSubTabs(string $active_sub_tab): void
     {
         $this->dic->language()->loadLanguageModule('skmg');
         $this->dic->tabs()->addSubTab(
@@ -95,7 +95,7 @@ class ilMStShowUserCompetencesGUI
         $this->dic->tabs()->activateSubTab($active_sub_tab);
     }
 
-    protected function showSkills() : void
+    protected function showSkills(): void
     {
         $skills_gui = new ilPersonalSkillsGUI();
         $skills = ilPersonalSkill::getSelectedUserSkills($this->usr_id);

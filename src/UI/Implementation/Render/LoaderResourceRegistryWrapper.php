@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\UI\Implementation\Render;
 
 use ILIAS\UI\Component\Component;
@@ -37,7 +39,7 @@ class LoaderResourceRegistryWrapper implements Loader
     /**
      * @inheritdocs
      */
-    public function getRendererFor(Component $component, array $contexts) : ComponentRenderer
+    public function getRendererFor(Component $component, array $contexts): ComponentRenderer
     {
         $renderer = $this->loader->getRendererFor($component, $contexts);
         $renderer->registerResources($this->resource_registry);
@@ -47,7 +49,7 @@ class LoaderResourceRegistryWrapper implements Loader
     /**
      * @inheritdocs
      */
-    public function getRendererFactoryFor(Component $component) : RendererFactory
+    public function getRendererFactoryFor(Component $component): RendererFactory
     {
         return $this->loader->getRendererFactoryFor($component);
     }

@@ -20,7 +20,6 @@
  */
 abstract class arStatementCollection
 {
-
     /**
      * @var arStatementCollection[]
      */
@@ -31,17 +30,17 @@ abstract class arStatementCollection
     protected array $statements = [];
     protected ?\ActiveRecord $ar = null;
 
-    public function add(arStatement $statement) : void
+    public function add(arStatement $statement): void
     {
         $this->statements[] = $statement;
     }
 
-    public function hasStatements() : bool
+    public function hasStatements(): bool
     {
         return $this->statements !== [];
     }
 
-    public static function getInstance(ActiveRecord $ar) : arStatementCollection
+    public static function getInstance(ActiveRecord $ar): arStatementCollection
     {
         /**
          * @var $classname arStatementCollection
@@ -53,14 +52,14 @@ abstract class arStatementCollection
         return $arWhereCollection;
     }
 
-    abstract public function asSQLStatement() : string;
+    abstract public function asSQLStatement(): string;
 
-    public function setAr(ActiveRecord $ar) : void
+    public function setAr(ActiveRecord $ar): void
     {
         $this->ar = $ar;
     }
 
-    public function getAr() : ?\ActiveRecord
+    public function getAr(): ?\ActiveRecord
     {
         return $this->ar;
     }
@@ -68,7 +67,7 @@ abstract class arStatementCollection
     /**
      * @param \arStatement[] $statements
      */
-    public function setStatements(array $statements) : void
+    public function setStatements(array $statements): void
     {
         $this->statements = $statements;
     }
@@ -76,7 +75,7 @@ abstract class arStatementCollection
     /**
      * @return \arStatement[]
      */
-    public function getStatements() : array
+    public function getStatements(): array
     {
         return $this->statements;
     }

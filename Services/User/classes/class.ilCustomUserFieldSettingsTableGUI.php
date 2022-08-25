@@ -38,21 +38,21 @@ class ilCustomUserFieldSettingsTableGUI extends ilTable2GUI
 
         $ilCtrl = $DIC['ilCtrl'];
         $lng = $DIC['lng'];
-        
+
         $this->permissions = $a_permissions;
         $this->perm_map = ilCustomUserFieldsGUI::getAccessPermissions();
-                
+
         parent::__construct($a_parent_obj, $a_parent_cmd);
         $this->setTitle($lng->txt("user_defined_list"));
         $this->setLimit(9999);
-        
+
         $this->addColumn("", "", 1);
         $this->addColumn($this->lng->txt("user_field"), "");
         $this->addColumn($this->lng->txt("access"), "");
         $this->addColumn($this->lng->txt("export") . " / " . $this->lng->txt("search") .
             " / " . $this->lng->txt("certificate"), "");
         $this->addColumn($this->lng->txt("actions"), "");
-        
+
         $this->setEnableHeader(true);
         $this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
         $this->setRowTemplate("tpl.std_fields_settings_row.html", "Services/User");
@@ -78,15 +78,15 @@ class ilCustomUserFieldSettingsTableGUI extends ilTable2GUI
      * @param array<string,string> $a_set
      * @throws ilTemplateException
      */
-    protected function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set): void
     {
         global $DIC;
 
         $lng = $DIC['lng'];
         $ilCtrl = $DIC['ilCtrl'];
-        
+
         $field = $a_set["field_id"];
-        
+
         $props = array("visible" => "user_visible_in_profile",
             "changeable" => "changeable",
             "searchable" => "header_searchable",
@@ -99,7 +99,7 @@ class ilCustomUserFieldSettingsTableGUI extends ilTable2GUI
             'changeable_lua' => 'usr_settings_changeable_lua',
             'certificate' => 'certificate'
         );
-        
+
         $perms = $this->permissions->hasPermissions(
             ilUDFPermissionHelper::CONTEXT_FIELD,
             (string) $field,
@@ -143,7 +143,7 @@ class ilCustomUserFieldSettingsTableGUI extends ilTable2GUI
                     $lng->txt($lv)
                 );
                 $this->tpl->setVariable("PROFILE_OPTION_" . $up_prop, $prop . "_" . $field);
-                
+
                 // determine checked status
                 $checked = false;
                 if ($a_set[$prop]) {
@@ -152,19 +152,19 @@ class ilCustomUserFieldSettingsTableGUI extends ilTable2GUI
                 if ($this->confirm_change == 1) {	// confirm value
                     $checked = $req_checked[$prop . "_" . $field] ?? false;
                 }
-    
+
                 if ($checked) {
                     $this->tpl->setVariable("CHECKED_" . $up_prop, " checked=\"checked\"");
                 }
-                
+
                 if (!$perms[ilUDFPermissionHelper::ACTION_FIELD_EDIT_ACCESS][$this->perm_map[$prop]]) {
                     $this->tpl->setVariable("DISABLE_" . $up_prop, " disabled=\"disabled\"");
                 }
-                
+
                 $this->tpl->parseCurrentBlock();
             }
         }
-        
+
         // actions
         if ($perms[ilUDFPermissionHelper::ACTION_FIELD_EDIT]) {
             $ilCtrl->setParameter($this->parent_obj, 'field_id', $a_set["field_id"]);
@@ -176,15 +176,15 @@ class ilCustomUserFieldSettingsTableGUI extends ilTable2GUI
             $this->tpl->setVariable("TXT_CMD", $lng->txt("edit"));
             $this->tpl->parseCurrentBlock();
         }
-        
+
         // field name
         $this->tpl->setCurrentBlock("cb");
         $this->tpl->setVariable("FIELD_ID", $a_set["field_id"]);
         $this->tpl->parseCurrentBlock();
         $this->tpl->setVariable("TXT_FIELD", $a_set["field_name"]);
     }
-    
-    public function setConfirmChange() : void
+
+    public function setConfirmChange(): void
     {
         $this->confirm_change = true;
     }

@@ -29,10 +29,10 @@ use ILIAS\HTTP\Wrapper\WrapperFactory;
  */
 class ilMStListCertificatesGUI
 {
-    const CMD_APPLY_FILTER = 'applyFilter';
-    const CMD_INDEX = 'index';
-    const CMD_GET_ACTIONS = "getActions";
-    const CMD_RESET_FILTER = 'resetFilter';
+    public const CMD_APPLY_FILTER = 'applyFilter';
+    public const CMD_INDEX = 'index';
+    public const CMD_GET_ACTIONS = "getActions";
+    public const CMD_RESET_FILTER = 'resetFilter';
     protected ilTable2GUI $table;
     protected ilMyStaffAccess $access;
     private ilGlobalTemplateInterface $main_tpl;
@@ -54,7 +54,7 @@ class ilMStListCertificatesGUI
         $this->accessHandler = $DIC->access();
     }
 
-    protected function checkAccessOrFail() : void
+    protected function checkAccessOrFail(): void
     {
         if ($this->access->hasCurrentUserAccessToMyStaff()) {
             return;
@@ -64,7 +64,7 @@ class ilMStListCertificatesGUI
         }
     }
 
-    final public function executeCommand() : void
+    final public function executeCommand(): void
     {
         $cmd = $this->ctrl->getCmd();
         $next_class = $this->ctrl->getNextClass();
@@ -83,7 +83,6 @@ class ilMStListCertificatesGUI
                 break;
             default:
                 switch ($cmd) {
-
                     case self::CMD_RESET_FILTER:
                     case self::CMD_APPLY_FILTER:
                     case self::CMD_INDEX:
@@ -98,12 +97,12 @@ class ilMStListCertificatesGUI
         }
     }
 
-    final public function index() : void
+    final public function index(): void
     {
         $this->listUsers();
     }
 
-    final public function listUsers() : void
+    final public function listUsers(): void
     {
         $this->checkAccessOrFail();
 
@@ -112,7 +111,7 @@ class ilMStListCertificatesGUI
         $this->main_tpl->setContent($this->table->getHTML());
     }
 
-    final public function applyFilter() : void
+    final public function applyFilter(): void
     {
         $this->table = new ilMStListCertificatesTableGUI($this, self::CMD_APPLY_FILTER);
         $this->table->writeFilterToSession();
@@ -120,7 +119,7 @@ class ilMStListCertificatesGUI
         $this->index();
     }
 
-    final public function resetFilter() : void
+    final public function resetFilter(): void
     {
         $this->table = new ilMStListCertificatesTableGUI($this, self::CMD_RESET_FILTER);
         $this->table->resetOffset();
@@ -128,19 +127,19 @@ class ilMStListCertificatesGUI
         $this->index();
     }
 
-    final public function getId() : string
+    final public function getId(): string
     {
         $this->table = new ilMStListCertificatesTableGUI($this, self::CMD_INDEX);
 
         return $this->table->getId();
     }
 
-    final public function cancel() : void
+    final public function cancel(): void
     {
         $this->ctrl->redirect($this);
     }
 
-    final public function getActions() : void
+    final public function getActions(): void
     {
         $mst_co_usr_id = 0;
         $mst_lco_crs_ref_id = 0;

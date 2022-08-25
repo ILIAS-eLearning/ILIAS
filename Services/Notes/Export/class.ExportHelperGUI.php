@@ -40,7 +40,7 @@ class ExportHelperGUI
         string $export_cmd,
         string $export_with_comments_cmd,
         bool $js = false
-    ) : \ILIAS\UI\Component\Modal\RoundTrip {
+    ): \ILIAS\UI\Component\Modal\RoundTrip {
         $ui = $this->ui;
         $factory = $ui->factory();
 
@@ -49,7 +49,7 @@ class ExportHelperGUI
 
         $b1 = $factory->button()
             ->standard($this->lng->txt("no"), "")
-            ->withAdditionalOnLoadCode(static function ($id) use ($export_cmd, $js) : string {
+            ->withAdditionalOnLoadCode(static function ($id) use ($export_cmd, $js): string {
                 $cmd_js = ($js)
                     ? $export_cmd
                     : "window.location.href='$export_cmd'";
@@ -61,7 +61,7 @@ class ExportHelperGUI
 
         $b2 = $factory->button()
             ->standard($this->lng->txt("yes"), "")
-            ->withAdditionalOnLoadCode(static function ($id) use ($export_with_comments_cmd, $js) : string {
+            ->withAdditionalOnLoadCode(static function ($id) use ($export_with_comments_cmd, $js): string {
                 $cmd_js = ($js)
                     ? $export_with_comments_cmd
                     : "window.location.href='$export_with_comments_cmd'";

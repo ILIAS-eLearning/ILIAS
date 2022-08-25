@@ -31,7 +31,7 @@ class PositionIds extends Base
         return ilOrgUnitPosition::getArray(null, 'id');
     }
 
-    public function getName() : string
+    public function getName(): string
     {
         return "getPositionIds";
     }
@@ -41,12 +41,12 @@ class PositionIds extends Base
         return array();
     }
 
-    public function getOutputParams() : array
+    public function getOutputParams(): array
     {
         return array('position_ids' => Base::TYPE_INT_ARRAY);
     }
 
-    public function getDocumentation() : string
+    public function getDocumentation(): string
     {
         return "Returns an array of all existing position ids";
     }

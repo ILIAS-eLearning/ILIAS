@@ -31,7 +31,7 @@ class ilUserActionAdmin
         string $a_action_comp,
         string $a_action_type,
         bool $a_active
-    ) : void {
+    ): void {
         global $DIC;
 
         $db = $DIC->database();
@@ -55,7 +55,7 @@ class ilUserActionAdmin
         string $a_context_id,
         string $a_action_comp,
         string $a_action_type
-    ) : bool {
+    ): bool {
         if (!self::$loaded) {
             self::loadData();
         }
@@ -70,7 +70,7 @@ class ilUserActionAdmin
         return (bool) self::$data[$a_context_comp][$a_context_id][$a_action_comp][$a_action_type];
     }
 
-    protected static function loadData() : void
+    protected static function loadData(): void
     {
         global $DIC;
 

@@ -29,20 +29,20 @@ class ilUserCreationContext
 
     private static ?ilUserCreationContext $instance = null;
     private array $contexts = array(); // Missing array type.
-    
+
     protected function __construct()
     {
     }
-    
-    public static function getInstance() : self
+
+    public static function getInstance(): self
     {
         if (!self::$instance) {
             self::$instance = new self();
         }
         return self::$instance;
     }
-    
-    public function getValidContexts() : array // Missing array type.
+
+    public function getValidContexts(): array // Missing array type.
     {
         return array(
             self::CONTEXT_REGISTRATION,
@@ -52,13 +52,13 @@ class ilUserCreationContext
             self::CONTEXT_SHIB
         );
     }
-    
-    public function getCurrentContexts() : array // Missing array type.
+
+    public function getCurrentContexts(): array // Missing array type.
     {
         return $this->contexts;
     }
-    
-    public function addContext(int $a_context) : void
+
+    public function addContext(int $a_context): void
     {
         if (in_array($a_context, $this->getValidContexts())) {
             if (!in_array($a_context, $this->getCurrentContexts())) {

@@ -22,7 +22,7 @@ use PHPUnit\Framework\TestSuite;
 
 class ilServicesStyleSystemSuite extends TestSuite
 {
-    public static function suite() : TestSuite
+    public static function suite(): TestSuite
     {
         $suite = new ilServicesStyleSystemSuite();
 

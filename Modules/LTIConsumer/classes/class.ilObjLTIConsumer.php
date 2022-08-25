@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -26,7 +28,7 @@
  */
 class ilObjLTIConsumer extends ilObject2
 {
-    const DB_TABLE_NAME = 'lti_consumer_settings';
+    public const DB_TABLE_NAME = 'lti_consumer_settings';
 
     /**
      * repository object activation settings (handled by ilObject)
@@ -40,9 +42,9 @@ class ilObjLTIConsumer extends ilObject2
 
     protected ?ilLTIConsumeProvider $provider = null;
 
-    const LAUNCH_METHOD_OWN_WIN = 'ownWin';
-    const LAUNCH_METHOD_NEW_WIN = 'newWin';
-    const LAUNCH_METHOD_EMBEDDED = 'embedded';
+    public const LAUNCH_METHOD_OWN_WIN = 'ownWin';
+    public const LAUNCH_METHOD_NEW_WIN = 'newWin';
+    public const LAUNCH_METHOD_EMBEDDED = 'embedded';
 
     protected bool $use_xapi = false;
     protected string $custom_activity_id = '';
@@ -75,9 +77,9 @@ class ilObjLTIConsumer extends ilObject2
 
     protected int $_highscore_top_num = 10;
 
-    const HIGHSCORE_SHOW_ALL_TABLES = 1;
-    const HIGHSCORE_SHOW_TOP_TABLE = 2;
-    const HIGHSCORE_SHOW_OWN_TABLE = 3;
+    public const HIGHSCORE_SHOW_ALL_TABLES = 1;
+    public const HIGHSCORE_SHOW_TOP_TABLE = 2;
+    public const HIGHSCORE_SHOW_OWN_TABLE = 3;
 
     /**
      * ilObjLTIConsumer constructor.
@@ -87,137 +89,137 @@ class ilObjLTIConsumer extends ilObject2
         parent::__construct($a_id, $a_reference);
     }
 
-    protected function initType() : void
+    protected function initType(): void
     {
         $this->type = "lti";
     }
 
-    public function isActivationLimited() : bool
+    public function isActivationLimited(): bool
     {
         return $this->activationLimited;
     }
 
-    public function setActivationLimited(bool $activationLimited) : void
+    public function setActivationLimited(bool $activationLimited): void
     {
         $this->activationLimited = $activationLimited;
     }
 
-    public function getActivationStartingTime() : ?int
+    public function getActivationStartingTime(): ?int
     {
         return $this->activationStartingTime;
     }
 
-    public function setActivationStartingTime(int $activationStartingTime) : void
+    public function setActivationStartingTime(int $activationStartingTime): void
     {
         $this->activationStartingTime = $activationStartingTime;
     }
 
-    public function getActivationEndingTime() : ?int
+    public function getActivationEndingTime(): ?int
     {
         return $this->activationEndingTime;
     }
 
-    public function setActivationEndingTime(int $activationEndingTime) : void
+    public function setActivationEndingTime(int $activationEndingTime): void
     {
         $this->activationEndingTime = $activationEndingTime;
     }
 
-    public function getActivationVisibility() : ?bool
+    public function getActivationVisibility(): ?bool
     {
         return $this->activationVisibility;
     }
 
-    public function setActivationVisibility(bool $activationVisibility) : void
+    public function setActivationVisibility(bool $activationVisibility): void
     {
         $this->activationVisibility = $activationVisibility;
     }
 
-    public function getMasteryScore() : float
+    public function getMasteryScore(): float
     {
         return $this->mastery_score;
     }
 
-    public function setMasteryScore(float $mastery_score) : void
+    public function setMasteryScore(float $mastery_score): void
     {
         $this->mastery_score = $mastery_score;
     }
 
-    public function getMasteryScorePercent() : float
+    public function getMasteryScorePercent(): float
     {
         return $this->mastery_score * 100;
     }
 
-    public function setMasteryScorePercent(float $mastery_score_percent) : void
+    public function setMasteryScorePercent(float $mastery_score_percent): void
     {
         $this->mastery_score = $mastery_score_percent / 100;
     }
 
-    public function getProviderId() : int
+    public function getProviderId(): int
     {
         return $this->providerId;
     }
 
-    public function setProviderId(int $providerId) : void
+    public function setProviderId(int $providerId): void
     {
         $this->providerId = $providerId;
     }
 
-    public function initProvider() : void
+    public function initProvider(): void
     {
         $this->provider = new ilLTIConsumeProvider($this->getProviderId());
     }
 
-    public function getProvider() : ?\ilLTIConsumeProvider
+    public function getProvider(): ?\ilLTIConsumeProvider
     {
         return $this->provider;
     }
 
-    public function setProvider(ilLTIConsumeProvider $provider) : void
+    public function setProvider(ilLTIConsumeProvider $provider): void
     {
         $this->provider = $provider;
     }
 
-    public function isLaunchMethodOwnWin() : bool
+    public function isLaunchMethodOwnWin(): bool
     {
         return $this->launchMethod == self::LAUNCH_METHOD_OWN_WIN;
     }
 
-    public function isLaunchMethodEmbedded() : bool
+    public function isLaunchMethodEmbedded(): bool
     {
         return $this->launchMethod == self::LAUNCH_METHOD_EMBEDDED;
     }
 
-    public function getLaunchMethod() : string
+    public function getLaunchMethod(): string
     {
         return $this->launchMethod;
     }
 
-    public function setLaunchMethod(string $launchMethod) : void
+    public function setLaunchMethod(string $launchMethod): void
     {
         $this->launchMethod = $launchMethod;
     }
 
-    public function getCustomLaunchKey() : string
+    public function getCustomLaunchKey(): string
     {
         return $this->customLaunchKey;
     }
 
-    public function setCustomLaunchKey(string $customLaunchKey) : void
+    public function setCustomLaunchKey(string $customLaunchKey): void
     {
         $this->customLaunchKey = $customLaunchKey;
     }
 
-    public function getCustomLaunchSecret() : string
+    public function getCustomLaunchSecret(): string
     {
         return $this->customLaunchSecret;
     }
 
-    public function setCustomLaunchSecret(string $customLaunchSecret) : void
+    public function setCustomLaunchSecret(string $customLaunchSecret): void
     {
         $this->customLaunchSecret = $customLaunchSecret;
     }
 
-    public function getLaunchKey() : string
+    public function getLaunchKey(): string
     {
         if ($this->getProvider()->isProviderKeyCustomizable()) {
             return $this->getCustomLaunchKey();
@@ -226,7 +228,7 @@ class ilObjLTIConsumer extends ilObject2
         return $this->getProvider()->getProviderKey();
     }
 
-    public function getLaunchSecret() : string
+    public function getLaunchSecret(): string
     {
         if ($this->getProvider()->isProviderKeyCustomizable()) {
             return $this->getCustomLaunchSecret();
@@ -235,27 +237,27 @@ class ilObjLTIConsumer extends ilObject2
         return $this->getProvider()->getProviderSecret();
     }
 
-    public function getUseXapi() : bool
+    public function getUseXapi(): bool
     {
         return $this->use_xapi;
     }
 
-    public function setUseXapi(bool $use_xapi) : void
+    public function setUseXapi(bool $use_xapi): void
     {
         $this->use_xapi = $use_xapi;
     }
 
-    public function getCustomActivityId() : string
+    public function getCustomActivityId(): string
     {
         return $this->custom_activity_id;
     }
 
-    public function setCustomActivityId(string $custom_activity_id) : void
+    public function setCustomActivityId(string $custom_activity_id): void
     {
         $this->custom_activity_id = $custom_activity_id;
     }
 
-    public function getActivityId() : string
+    public function getActivityId(): string
     {
         if (strlen($this->getProvider()->getXapiActivityId())) {
             return $this->getProvider()->getXapiActivityId();
@@ -264,12 +266,12 @@ class ilObjLTIConsumer extends ilObject2
         return $this->custom_activity_id;
     }
 
-    public function isStatementsReportEnabled() : bool
+    public function isStatementsReportEnabled(): bool
     {
         return $this->statementsReportEnabled;
     }
 
-    public function setStatementsReportEnabled(bool $statementsReportEnabled) : void
+    public function setStatementsReportEnabled(bool $statementsReportEnabled): void
     {
         $this->statementsReportEnabled = $statementsReportEnabled;
     }
@@ -277,7 +279,7 @@ class ilObjLTIConsumer extends ilObject2
     /**
      * @return string[]
      */
-    private function getCustomParams() : array
+    private function getCustomParams(): array
     {
         $paramsAsArray = [];
 
@@ -298,12 +300,12 @@ class ilObjLTIConsumer extends ilObject2
     }
 
 
-    protected function doRead() : void
+    protected function doRead(): void
     {
         $this->load();
     }
 
-    public function load() : void
+    public function load(): void
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
 
@@ -338,12 +340,12 @@ class ilObjLTIConsumer extends ilObject2
         $this->loadRepositoryActivationSettings();
     }
 
-    protected function doUpdate() : void
+    protected function doUpdate(): void
     {
         $this->save();
     }
 
-    public function save() : void
+    public function save(): void
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
 
@@ -370,7 +372,7 @@ class ilObjLTIConsumer extends ilObject2
         $this->saveRepositoryActivationSettings();
     }
 
-    protected function loadRepositoryActivationSettings() : void
+    protected function loadRepositoryActivationSettings(): void
     {
         if ($this->ref_id > 0) {
             $activation = ilObjectActivation::getItem($this->ref_id);
@@ -378,9 +380,9 @@ class ilObjLTIConsumer extends ilObject2
                 case ilObjectActivation::TIMINGS_ACTIVATION:
                     $this->setActivationLimited(true);
 
-$this->setActivationStartingTime($activation["timing_start"]);
+                    $this->setActivationStartingTime($activation["timing_start"]);
 
-$this->setActivationEndingTime($activation["timing_end"]);
+                    $this->setActivationEndingTime($activation["timing_end"]);
                     $this->setActivationVisibility($activation["visible"]);
                     break;
 
@@ -391,12 +393,12 @@ $this->setActivationEndingTime($activation["timing_end"]);
         }
     }
 
-    protected function saveRepositoryActivationSettings() : void
+    protected function saveRepositoryActivationSettings(): void
     {
         if ($this->ref_id > 0) {
             ilObjectActivation::getItem($this->ref_id);
 
-            $item = new ilObjectActivation;
+            $item = new ilObjectActivation();
             if (!$this->isActivationLimited()) {
                 $item->setTimingType(ilObjectActivation::TIMINGS_DEACTIVATED);
             } else {
@@ -410,7 +412,7 @@ $this->setActivationEndingTime($activation["timing_end"]);
         }
     }
 
-    protected function dbTableName() : string
+    protected function dbTableName(): string
     {
         return self::DB_TABLE_NAME;
     }
@@ -422,7 +424,7 @@ $this->setActivationEndingTime($activation["timing_end"]);
     /**
      * Sets if the highscore feature should be enabled.
      */
-    public function setHighscoreEnabled(bool $a_enabled) : void
+    public function setHighscoreEnabled(bool $a_enabled): void
     {
         $this->_highscore_enabled = $a_enabled;
     }
@@ -432,7 +434,7 @@ $this->setActivationEndingTime($activation["timing_end"]);
      *
      * @return bool True, if highscore is enabled.
      */
-    public function getHighscoreEnabled() : bool
+    public function getHighscoreEnabled(): bool
     {
         return $this->_highscore_enabled;
     }
@@ -441,7 +443,7 @@ $this->setActivationEndingTime($activation["timing_end"]);
     /**
      * Sets if the date and time of the scores achievement should be displayed.
      */
-    public function setHighscoreAchievedTS(bool $a_achieved_ts) : void
+    public function setHighscoreAchievedTS(bool $a_achieved_ts): void
     {
         $this->_highscore_achieved_ts = $a_achieved_ts;
     }
@@ -451,7 +453,7 @@ $this->setActivationEndingTime($activation["timing_end"]);
      *
      * @return bool True, if column should be shown.
      */
-    public function getHighscoreAchievedTS() : bool
+    public function getHighscoreAchievedTS(): bool
     {
         return $this->_highscore_achieved_ts;
     }
@@ -459,7 +461,7 @@ $this->setActivationEndingTime($activation["timing_end"]);
     /**
      * Sets if the percentages of the scores pass should be shown.
      */
-    public function setHighscorePercentage(bool $a_percentage) : void
+    public function setHighscorePercentage(bool $a_percentage): void
     {
         $this->_highscore_percentage = $a_percentage;
     }
@@ -469,7 +471,7 @@ $this->setActivationEndingTime($activation["timing_end"]);
      *
      * @return bool True, if percentage column should be shown.
      */
-    public function getHighscorePercentage() : bool
+    public function getHighscorePercentage(): bool
     {
         return $this->_highscore_percentage;
     }
@@ -477,7 +479,7 @@ $this->setActivationEndingTime($activation["timing_end"]);
     /**
      * Sets if the workingtime of the scores should be shown.
      */
-    public function setHighscoreWTime(bool $a_wtime) : void
+    public function setHighscoreWTime(bool $a_wtime): void
     {
         $this->_highscore_wtime = $a_wtime;
     }
@@ -487,7 +489,7 @@ $this->setActivationEndingTime($activation["timing_end"]);
      *
      * @return bool True, if the workingtime column should be shown.
      */
-    public function getHighscoreWTime() : bool
+    public function getHighscoreWTime(): bool
     {
         return $this->_highscore_wtime;
     }
@@ -497,7 +499,7 @@ $this->setActivationEndingTime($activation["timing_end"]);
      *
      * @param bool $a_own_table True, if table with own ranking should be shown.
      */
-    public function setHighscoreOwnTable(bool $a_own_table) : void
+    public function setHighscoreOwnTable(bool $a_own_table): void
     {
         $this->_highscore_own_table = $a_own_table;
     }
@@ -507,7 +509,7 @@ $this->setActivationEndingTime($activation["timing_end"]);
      *
      * @return bool True, if the own rankings table should be shown.
      */
-    public function getHighscoreOwnTable() : bool
+    public function getHighscoreOwnTable(): bool
     {
         return $this->_highscore_own_table;
     }
@@ -515,7 +517,7 @@ $this->setActivationEndingTime($activation["timing_end"]);
     /**
      * Sets if the top-rankings table should be shown.
      */
-    public function setHighscoreTopTable(bool $a_top_table) : void
+    public function setHighscoreTopTable(bool $a_top_table): void
     {
         $this->_highscore_top_table = $a_top_table;
     }
@@ -525,7 +527,7 @@ $this->setActivationEndingTime($activation["timing_end"]);
      *
      * @return bool True, if top-rankings table should be shown.
      */
-    public function getHighscoreTopTable() : bool
+    public function getHighscoreTopTable(): bool
     {
         return $this->_highscore_top_table;
     }
@@ -536,7 +538,7 @@ $this->setActivationEndingTime($activation["timing_end"]);
      *
      * @param integer $a_top_num Number of entries in the top-rankings table.
      */
-    public function setHighscoreTopNum(int $a_top_num) : void
+    public function setHighscoreTopNum(int $a_top_num): void
     {
         $this->_highscore_top_num = $a_top_num;
     }
@@ -549,7 +551,7 @@ $this->setActivationEndingTime($activation["timing_end"]);
      *
      * @return integer Number of entries to be shown in the top-rankings table.
      */
-    public function getHighscoreTopNum(int $a_retval = 10) : int
+    public function getHighscoreTopNum(int $a_retval = 10): int
     {
         $retval = $a_retval;
         if ($this->_highscore_top_num != 0) {
@@ -559,7 +561,7 @@ $this->setActivationEndingTime($activation["timing_end"]);
         return $retval;
     }
 
-    public function getHighscoreMode() : int
+    public function getHighscoreMode(): int
     {
         switch (true) {
             case $this->getHighscoreOwnTable() && $this->getHighscoreTopTable():
@@ -577,7 +579,7 @@ $this->setActivationEndingTime($activation["timing_end"]);
     /**
      * @param $mode int
      */
-    public function setHighscoreMode(int $mode) : void
+    public function setHighscoreMode(int $mode): void
     {
         switch ($mode) {
             case self::HIGHSCORE_SHOW_ALL_TABLES:
@@ -601,7 +603,7 @@ $this->setActivationEndingTime($activation["timing_end"]);
     /**
      * @throws ilWACException
      */
-    public function buildLaunchParameters(ilCmiXapiUser $cmixUser, string $token, string $contextType, string $contextId, string $contextTitle, ?string $returnUrl = '') : array
+    public function buildLaunchParameters(ilCmiXapiUser $cmixUser, string $token, string $contextType, string $contextId, string $contextTitle, ?string $returnUrl = ''): array
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
 
@@ -712,7 +714,7 @@ $this->setActivationEndingTime($activation["timing_end"]);
      * @throws ilWACException
      */
 
-    public function buildLaunchParametersLTI13(ilCmiXapiUser $cmixUser, string $endpoint, string $clientId, int $deploymentId, string $nonce, string $contextType, string $contextId, string $contextTitle, ?string $returnUrl = '') : ?array
+    public function buildLaunchParametersLTI13(ilCmiXapiUser $cmixUser, string $endpoint, string $clientId, int $deploymentId, string $nonce, string $contextType, string $contextId, string $contextTitle, ?string $returnUrl = ''): ?array
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
 

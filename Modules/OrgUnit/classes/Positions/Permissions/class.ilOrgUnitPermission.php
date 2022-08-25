@@ -23,7 +23,7 @@
 class ilOrgUnitPermission extends ActiveRecord
 {
     public const PARENT_TEMPLATE = -1;
-    public  const TABLE_NAME = 'il_orgu_permissions';
+    public const TABLE_NAME = 'il_orgu_permissions';
     /**
      * @var int
      * @con_is_primary true
@@ -87,7 +87,7 @@ class ilOrgUnitPermission extends ActiveRecord
         parent::update();
     }
 
-    public function create() : void
+    public function create(): void
     {
         if ($this->isProtected()) {
             throw new ilException('Cannot modify a protected ilOrgUnitPermission');
@@ -103,7 +103,7 @@ class ilOrgUnitPermission extends ActiveRecord
         parent::delete();
     }
 
-    public function afterObjectLoad() : void
+    public function afterObjectLoad(): void
     {
         $this->possible_operations = ilOrgUnitOperationQueries::getOperationsForContextId($this->getContextId());
         $this->operations = is_array($this->operations) ? $this->operations : array();
@@ -193,7 +193,7 @@ class ilOrgUnitPermission extends ActiveRecord
         $this->context = $context;
     }
 
-    public static function returnDbTableName() : string
+    public static function returnDbTableName(): string
     {
         return self::TABLE_NAME;
     }

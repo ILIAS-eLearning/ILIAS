@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -47,7 +49,7 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
      * @throws ilCtrlException
      * @throws ilException
      */
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         global $DIC;
         $ilAccess = $DIC->access();
@@ -195,7 +197,7 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 
             default:
 //                if ($this->object && !$this->object->getEditable()) {
-                    $cmd = $this->ctrl->getCmd("properties");
+                $cmd = $this->ctrl->getCmd("properties");
 //                } else {
 //                    $cmd = $this->ctrl->getCmd("frameset");
 //                }
@@ -230,11 +232,11 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
     /**
     * module properties
     */
-    public function properties() : void
+    public function properties(): void
     {
     }
 
-    public function saveProperties() : void
+    public function saveProperties(): void
     {
     }
 
@@ -247,7 +249,7 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
      * @return array|ilPropertyFormGUI[]
      * @throws ilCtrlException
      */
-    protected function initCreationForms(string $a_new_type) : array
+    protected function initCreationForms(string $a_new_type): array
     {
         $forms = array();
 
@@ -262,7 +264,7 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
     /**
      * @throws ilCtrlException
      */
-    public function initUploadForm() : void
+    public function initUploadForm(): void
     {
         global $DIC;
         $lng = $DIC->language();
@@ -328,7 +330,7 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
      * @throws ilFileUtilsException
      * @throws ilObjectNotFoundException
      */
-    public function uploadObject() : void
+    public function uploadObject(): void
     {
         global $DIC;
         $rbacsystem = $DIC->access();
@@ -391,54 +393,54 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 
         // create and insert object in objecttree
         switch ($subType) {
-        case "scorm2004":
-            $newObj = new ilObjSCORM2004LearningModule();
+            case "scorm2004":
+                $newObj = new ilObjSCORM2004LearningModule();
 //            $newObj->setEditable(false);//$_POST["editable"] == 'y');
 //            $newObj->setImportSequencing($_POST["import_sequencing"]);
 //            $newObj->setSequencingExpertMode($_POST["import_sequencing"]);
-            break;
+                break;
 
-        case "scorm":
-            $newObj = new ilObjSCORMLearningModule();
-            break;
+            case "scorm":
+                $newObj = new ilObjSCORMLearningModule();
+                break;
 
-        case "exportFile":
-            $sFile = $_FILES["scormfile"];
-            $fType = $sFile["type"];
-            $cFileTypes = ["application/zip", "application/x-compressed","application/x-zip-compressed"];
-            if (in_array($fType, $cFileTypes)) {
-                $timeStamp = time();
-                $tempFile = $sFile["tmp_name"];
-                $lmDir = ilFileUtils::getWebspaceDir("filesystem") . "/lm_data/";
-                $lmTempDir = $lmDir . $timeStamp;
-                if (!file_exists($lmTempDir)) {
-                    if (!mkdir($lmTempDir, 0755, true) && !is_dir($lmTempDir)) {
-                        throw new \RuntimeException(sprintf('Directory "%s" was not created', $lmTempDir));
+            case "exportFile":
+                $sFile = $_FILES["scormfile"];
+                $fType = $sFile["type"];
+                $cFileTypes = ["application/zip", "application/x-compressed","application/x-zip-compressed"];
+                if (in_array($fType, $cFileTypes)) {
+                    $timeStamp = time();
+                    $tempFile = $sFile["tmp_name"];
+                    $lmDir = ilFileUtils::getWebspaceDir("filesystem") . "/lm_data/";
+                    $lmTempDir = $lmDir . $timeStamp;
+                    if (!file_exists($lmTempDir)) {
+                        if (!mkdir($lmTempDir, 0755, true) && !is_dir($lmTempDir)) {
+                            throw new \RuntimeException(sprintf('Directory "%s" was not created', $lmTempDir));
+                        }
                     }
-                }
-                $zar = new ZipArchive();
-                $zar->open($tempFile);
-                $zar->extractTo($lmTempDir);
-                $zar->close();
-                $importer = new ilScormAiccImporter();
-                $import_dirname = $lmTempDir . '/' . substr($_FILES["scormfile"]["name"], 0, -4);
-                $importer->importXmlRepresentation("sahs", "", $import_dirname, null);
-                $importFromXml = true;
+                    $zar = new ZipArchive();
+                    $zar->open($tempFile);
+                    $zar->extractTo($lmTempDir);
+                    $zar->close();
+                    $importer = new ilScormAiccImporter();
+                    $import_dirname = $lmTempDir . '/' . substr($_FILES["scormfile"]["name"], 0, -4);
+                    $importer->importXmlRepresentation("sahs", "", $import_dirname, null);
+                    $importFromXml = true;
 //                if ($importer->importXmlRepresentation("sahs", "", $import_dirname, null) == true) {
 //                    $importFromXml = true;
 //                }
-                $mprops = $importer->moduleProperties;
-                $subType = (string) $mprops["SubType"];
-                if ($subType === "scorm") {
-                    $newObj = new ilObjSCORMLearningModule();
-                } else {
-                    $newObj = new ilObjSCORM2004LearningModule();
-                    // $newObj->setEditable($_POST["editable"]=='y');
-                    // $newObj->setImportSequencing($_POST["import_sequencing"]);
-                    // $newObj->setSequencingExpertMode($_POST["import_sequencing"]);
+                    $mprops = $importer->moduleProperties;
+                    $subType = (string) $mprops["SubType"];
+                    if ($subType === "scorm") {
+                        $newObj = new ilObjSCORMLearningModule();
+                    } else {
+                        $newObj = new ilObjSCORM2004LearningModule();
+                        // $newObj->setEditable($_POST["editable"]=='y');
+                        // $newObj->setImportSequencing($_POST["import_sequencing"]);
+                        // $newObj->setSequencingExpertMode($_POST["import_sequencing"]);
+                    }
                 }
-            }
-            break;
+                break;
         }
 
         $newObj->setTitle($name);
@@ -503,7 +505,7 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
      * @throws ilFileUtilsException
      * @throws ilObjectNotFoundException
      */
-    public function upload() : void
+    public function upload(): void
     {
         $this->uploadObject();
     }
@@ -559,7 +561,7 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
     /**
      * output main header (title and locator)
      */
-    public function getTemplate() : void
+    public function getTemplate(): void
     {
         global $DIC;
         $lng = $DIC->language();
@@ -570,7 +572,7 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
     /**
      * @throws ilCtrlException
      */
-    protected function setTabs() : void
+    protected function setTabs(): void
     {
         global $DIC;
         $baseClass = $refId = $DIC->http()->wrapper()->query()->retrieve('baseClass', $DIC->refinery()->kindlyTo()->string());
@@ -585,7 +587,7 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
     /**
      * Shows the certificate editor
      */
-    public function certificate() : void
+    public function certificate(): void
     {
         $guiFactory = new ilCertificateGUIFactory();
         $output_gui = $guiFactory->create($this->object);
@@ -597,7 +599,7 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
      * adds tabs to tab gui object
      * @throws ilCtrlException
      */
-    protected function getTabs() : void
+    protected function getTabs(): void
     {
         global $DIC;
         $rbacsystem = $DIC->access();
@@ -721,7 +723,7 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
     /**
      * goto target course
      */
-    public static function _goto(string $a_target) : void
+    public static function _goto(string $a_target): void
     {
         global $DIC;
         $main_tpl = $DIC->ui()->mainTemplate();
@@ -764,7 +766,7 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
     /**
      * @throws ilCtrlException
      */
-    public function addLocatorItems() : void
+    public function addLocatorItems(): void
     {
         global $DIC;
         $ilLocator = $DIC['ilLocator'];
@@ -800,7 +802,7 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
     /**
      * @throws ilCtrlException
      */
-    public function setSettingsSubTabs() : void
+    public function setSettingsSubTabs(): void
     {
         global $DIC;
         $lng = $DIC->language();
@@ -861,7 +863,7 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
         return $this->ctrl->forwardCommand($exp_gui);
     }
 
-    public function exportModule() : void
+    public function exportModule(): void
     {
         global $DIC;
 //        $ilDB = $DIC->database();
@@ -871,7 +873,7 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 //        $xml = $exporter->getXmlRepresentation("sahs", "5.1.0", $moduleId);
     }
 
-    public function getType() : string
+    public function getType(): string
     {
         return "sahs";
     }

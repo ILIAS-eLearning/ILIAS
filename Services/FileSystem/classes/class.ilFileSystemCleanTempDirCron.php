@@ -49,46 +49,46 @@ class ilFileSystemCleanTempDirCron extends ilCronJob
         }
     }
 
-    private function initDependencies() : void
+    private function initDependencies(): void
     {
     }
 
-    public function getId() : string
+    public function getId(): string
     {
         return "file_system_clean_temp_dir";
     }
 
-    public function getTitle() : string
+    public function getTitle(): string
     {
         return $this->language->txt('file_system_clean_temp_dir_cron');
     }
 
-    public function getDescription() : string
+    public function getDescription(): string
     {
         return $this->language->txt("file_system_clean_temp_dir_cron_info");
     }
 
-    public function hasAutoActivation() : bool
+    public function hasAutoActivation(): bool
     {
         return true;
     }
 
-    public function hasFlexibleSchedule() : bool
+    public function hasFlexibleSchedule(): bool
     {
         return false;
     }
 
-    public function getDefaultScheduleType() : int
+    public function getDefaultScheduleType(): int
     {
         return self::SCHEDULE_TYPE_DAILY;
     }
 
-    public function getDefaultScheduleValue() : ?int
+    public function getDefaultScheduleValue(): ?int
     {
         return null;
     }
 
-    public function run() : ilCronJobResult
+    public function run(): ilCronJobResult
     {
         $this->initDependencies();
         // only delete files and folders older than ten days to prevent issues with ongoing processes (e.g. zipping a folder)
@@ -114,7 +114,7 @@ class ilFileSystemCleanTempDirCron extends ilCronJob
         $folders = $this->filesystem->finder()->in([""])->date($date)->directories()->sort(fn (
             Metadata $a,
             Metadata $b
-        ) : int => strlen($a->getPath()) - strlen($b->getPath()))->reverseSorting();
+        ): int => strlen($a->getPath()) - strlen($b->getPath()))->reverseSorting();
         $deleted_folders = [];
         foreach ($folders as $folder_match) {
             try {

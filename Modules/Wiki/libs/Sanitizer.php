@@ -349,7 +349,7 @@ class Sanitizer
         global $wgUseTidy;
 
         static $htmlpairs, $htmlsingle, $htmlsingleonly, $htmlnest, $tabletags,
-            $htmllist, $listtags, $htmlsingleallowed, $htmlelements, $staticInitialised;
+        $htmllist, $listtags, $htmlsingleallowed, $htmlelements, $staticInitialised;
 
         wfProfileIn(__METHOD__);
 

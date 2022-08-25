@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -26,7 +28,7 @@ class ilContainerStartObjectsPageConfig extends ilPageConfig
     /**
      * Init
      */
-    public function init() : void
+    public function init(): void
     {
         $this->setEnableInternalLinks(true);
         $this->setIntLinkHelpDefaultType("RepositoryItem");

@@ -29,7 +29,6 @@ use ILIAS\LTI\ToolProvider\Service;
  */
 class ApiContext
 {
-
     /**
      * Context object.
      *
@@ -51,7 +50,7 @@ class ApiContext
      *
      * @return bool  True if the API hook has been configured
      */
-    public function isConfigured() : bool
+    public function isConfigured(): bool
     {
         return true;
     }
@@ -61,7 +60,7 @@ class ApiContext
      *
      * @return bool  True if the request was successful
      */
-    public function getGroups() : bool
+    public function getGroups(): bool
     {
         return false;
     }
@@ -92,7 +91,7 @@ class ApiContext
      * @param array $settings An associative array of settings (optional, default is none)
      * @return bool    True if action was successful, otherwise false
      */
-    public function setToolSettings(array $settings = array()) : bool
+    public function setToolSettings(array $settings = array()): bool
     {
         return false;
     }

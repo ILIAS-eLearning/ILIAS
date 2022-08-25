@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -31,17 +33,17 @@ class ilQTIOutcomes
     /** @var (ilQTIDecvar)[] */
     public array $decvar = [];
 
-    public function setComment(string $a_comment) : void
+    public function setComment(string $a_comment): void
     {
         $this->comment = $a_comment;
     }
 
-    public function getComment() : ?string
+    public function getComment(): ?string
     {
         return $this->comment;
     }
-    
-    public function addDecvar(ilQTIDecvar $a_decvar) : void
+
+    public function addDecvar(ilQTIDecvar $a_decvar): void
     {
         $this->decvar[] = $a_decvar;
     }

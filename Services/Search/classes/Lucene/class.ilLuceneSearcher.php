@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -34,9 +36,9 @@ class ilLuceneSearcher
 {
     public const TYPE_STANDARD = 1;
     public const TYPE_USER = 2;
-    
+
     private static ?ilLuceneSearcher $instance = null;
-    
+
     private ilLuceneQueryParser $query_parser;
     private ilLuceneSearchResult $result;
     private ?ilLuceneHighlighterResultParser $highlighter = null;
@@ -54,30 +56,30 @@ class ilLuceneSearcher
         $this->result->setCallback([$this,'nextResultPage']);
         $this->query_parser = $qp;
     }
-    
+
     /**
      * Get singleton instance
      */
-    public static function getInstance(ilLuceneQueryParser $qp) : self
+    public static function getInstance(ilLuceneQueryParser $qp): self
     {
         if (self::$instance instanceof ilLuceneSearcher) {
             return self::$instance;
         }
         return self::$instance = new ilLuceneSearcher($qp);
     }
-    
+
     /**
      * Set search type
      */
-    public function setType(int $a_type) : void
+    public function setType(int $a_type): void
     {
         $this->type = $a_type;
     }
-    
+
     /**
      * Get type
      */
-    public function getType() : int
+    public function getType(): int
     {
         return $this->type;
     }
@@ -86,7 +88,7 @@ class ilLuceneSearcher
     /**
      * Search
      */
-    public function search() : void
+    public function search(): void
     {
         $this->performSearch();
     }
@@ -95,12 +97,12 @@ class ilLuceneSearcher
      * @param int[] $a_obj_ids
      * @return ilLuceneHighlighterResultParser|null
      */
-    public function highlight(array $a_obj_ids) : ?ilLuceneHighlighterResultParser
+    public function highlight(array $a_obj_ids): ?ilLuceneHighlighterResultParser
     {
         if (!$this->query_parser->getQuery()) {
             return null;
         }
-        
+
         // Search in combined index
         try {
             $res = ilRpcClientFactory::factory('RPCSearchHandler')->highlight(
@@ -119,51 +121,50 @@ class ilLuceneSearcher
 
         return $this->highlighter;
     }
-    
+
     /**
      * get next result page
      */
-    public function nextResultPage() : void
+    public function nextResultPage(): void
     {
         $this->page_number++;
         $this->performSearch();
     }
-    
+
     /**
      * get highlighter
      */
-    public function getHighlighter() : ?ilLuceneHighlighterResultParser
+    public function getHighlighter(): ?ilLuceneHighlighterResultParser
     {
         return $this->highlighter;
     }
-    
+
     /**
      * Get result
      */
-    public function getResult() : ilLuceneSearchResult
+    public function getResult(): ilLuceneSearchResult
     {
         return $this->result;
     }
-    
+
     /**
      * get current page number
      */
-    public function getPageNumber() : int
+    public function getPageNumber(): int
     {
         return $this->page_number;
     }
-    
+
     /**
      * search lucene
      */
-    protected function performSearch() : void
+    protected function performSearch(): void
     {
         if (!$this->query_parser->getQuery()) {
             return;
         }
         try {
             switch ($this->getType()) {
-                
                 case self::TYPE_USER:
                     /** @noinspection PhpUndefinedMethodInspection */
                     $res = ilRpcClientFactory::factory('RPCSearchHandler')->searchUsers(
@@ -171,7 +172,7 @@ class ilLuceneSearcher
                         $this->query_parser->getQuery()
                     );
                     break;
-                
+
                 case self::TYPE_STANDARD:
                 default:
                     $res = ilRpcClientFactory::factory('RPCSearchHandler')->search(
@@ -180,14 +181,13 @@ class ilLuceneSearcher
                         $this->getPageNumber()
                     );
                     break;
-                
             }
             ilLoggerFactory::getLogger('src')->debug('Searching for: ' . $this->query_parser->getQuery());
         } catch (Exception $e) {
             ilLoggerFactory::getLogger('src')->error('Searching failed with message: ' . $e->getMessage());
             return;
         }
-        
+
         // Parse results
         $parser = new ilLuceneSearchResultParser($res);
         $parser->parse($this->result);

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -13,7 +15,7 @@ class ilSCTreeDuplicatesTableGUI extends ilTable2GUI
         parent::__construct($a_parent_obj, $a_parent_cmd);
     }
 
-    public function init() : void
+    public function init(): void
     {
         $this->setExternalSorting(true);
         $this->setFormAction($this->ctrl->getFormAction($this->getParentObject()));
@@ -31,12 +33,12 @@ class ilSCTreeDuplicatesTableGUI extends ilTable2GUI
         $this->addCommandButton('deleteDuplicatesFromTrash', $this->lng->txt('sysc_delete_duplicates_from_trash'));
     }
 
-    public function parse(int $a_duplicate_id) : void
+    public function parse(int $a_duplicate_id): void
     {
         $this->setData(array(array('id' => $a_duplicate_id)));
     }
 
-    protected function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set): void
     {
         $id = (int) ($a_set['id'] ?? 0);
         $duplicates = ilSCTreeTasks::findDuplicates($id);
@@ -75,7 +77,7 @@ class ilSCTreeDuplicatesTableGUI extends ilTable2GUI
         }
     }
 
-    protected function fillObjectRow(int $a_tree_id, int $a_ref_id, int $a_start_depth, string $a_prefix) : void
+    protected function fillObjectRow(int $a_tree_id, int $a_ref_id, int $a_start_depth, string $a_prefix): void
     {
         $child_data = ilSCTreeTasks::getNodeInfo($a_tree_id, $a_ref_id);
 

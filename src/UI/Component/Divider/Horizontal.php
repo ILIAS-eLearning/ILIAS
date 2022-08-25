@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\UI\Component\Divider;
 
 use ILIAS\UI\Component\Component;
@@ -28,10 +30,10 @@ interface Horizontal extends Component
     /**
      * Get the label of the divider
      */
-    public function getLabel() : ?string;
+    public function getLabel(): ?string;
 
     /**
      * Get a divider like this, but with another label
      */
-    public function withLabel(string $label) : Horizontal;
+    public function withLabel(string $label): Horizontal;
 }

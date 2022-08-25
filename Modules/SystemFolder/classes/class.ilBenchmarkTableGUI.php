@@ -77,7 +77,6 @@ class ilBenchmarkTableGUI extends ilTable2GUI
                 $this->addColumn($this->lng->txt("adm_time"));
                 $this->addColumn($this->lng->txt("adm_sql"));
                 break;
-
         }
 
         $this->setEnableHeader(true);
@@ -87,7 +86,7 @@ class ilBenchmarkTableGUI extends ilTable2GUI
         $this->setEnableTitle(true);
 
         //		$this->addMultiCommand("", $lng->txt(""));
-//		$this->addCommandButton("", $lng->txt(""));
+        //		$this->addCommandButton("", $lng->txt(""));
     }
 
     /**
@@ -163,7 +162,7 @@ class ilBenchmarkTableGUI extends ilTable2GUI
     /**
      * Fill table row
      */
-    protected function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set): void
     {
         $lng = $this->lng;
 

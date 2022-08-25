@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -21,12 +23,12 @@ use PHPUnit\Framework\TestCase;
 
 class ilQTIFlowMatTest extends TestCase
 {
-    public function testConstruct() : void
+    public function testConstruct(): void
     {
         $this->assertInstanceOf(ilQTIFlowMat::class, new ilQTIFlowMat());
     }
 
-    public function testSetGetComment() : void
+    public function testSetGetComment(): void
     {
         $instance = new ilQTIFlowMat();
         $instance->setComment('Some input.');

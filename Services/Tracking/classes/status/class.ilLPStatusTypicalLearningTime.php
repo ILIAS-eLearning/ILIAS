@@ -1,4 +1,6 @@
-<?php declare(strict_types=0);
+<?php
+
+declare(strict_types=0);
 
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
@@ -8,7 +10,7 @@
  */
 class ilLPStatusTypicalLearningTime extends ilLPStatus
 {
-    public static function _getInProgress(int $a_obj_id) : array
+    public static function _getInProgress(int $a_obj_id): array
     {
         global $DIC;
 
@@ -28,7 +30,7 @@ class ilLPStatusTypicalLearningTime extends ilLPStatus
         return $user_ids;
     }
 
-    public static function _getCompleted(int $a_obj_id) : array
+    public static function _getCompleted(int $a_obj_id): array
     {
         global $DIC;
 
@@ -48,7 +50,7 @@ class ilLPStatusTypicalLearningTime extends ilLPStatus
         return $user_ids;
     }
 
-    public static function _getStatusInfo(int $a_obj_id) : array
+    public static function _getStatusInfo(int $a_obj_id): array
     {
         $status_info['tlt'] = ilMDEducational::_getTypicalLearningTimeSeconds(
             $a_obj_id
@@ -60,7 +62,7 @@ class ilLPStatusTypicalLearningTime extends ilLPStatus
         int $a_obj_id,
         int $a_usr_id,
         object $a_obj = null
-    ) : int {
+    ): int {
         $status = self::LP_STATUS_NOT_ATTEMPTED_NUM;
         switch ($this->ilObjDataCache->lookupType($a_obj_id)) {
             case 'lm':
@@ -88,7 +90,7 @@ class ilLPStatusTypicalLearningTime extends ilLPStatus
         int $a_obj_id,
         int $a_usr_id,
         ?object $a_obj = null
-    ) : int {
+    ): int {
         $tlt = ilMDEducational::_getTypicalLearningTimeSeconds($a_obj_id);
         $re = ilChangeEvent::_lookupReadEvents($a_obj_id, $a_usr_id);
         $spent = (int) ($re[0]["spent_seconds"] ?? 0);

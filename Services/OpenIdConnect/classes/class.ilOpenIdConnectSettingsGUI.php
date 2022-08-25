@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /******************************************************************************
  *
@@ -63,19 +65,19 @@ class ilOpenIdConnectSettingsGUI
         $this->settings = ilOpenIdConnectSettings::getInstance();
     }
 
-    protected function checkAccess(string $a_permission) : void
+    protected function checkAccess(string $a_permission): void
     {
         if (!$this->checkAccessBool($a_permission)) {
             $this->error->raiseError($this->lng->txt('msg_no_perm_read'), $this->error->WARNING);
         }
     }
 
-    protected function checkAccessBool(string $a_permission) : bool
+    protected function checkAccessBool(string $a_permission): bool
     {
         return $this->access->checkAccess($a_permission, '', $this->ref_id);
     }
 
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         $this->checkAccess('read');
 
@@ -87,7 +89,7 @@ class ilOpenIdConnectSettingsGUI
         }
     }
 
-    protected function settings(ilPropertyFormGUI $form = null) : void
+    protected function settings(ilPropertyFormGUI $form = null): void
     {
         $this->checkAccess('read');
         $this->setSubTabs(self::STAB_SETTINGS);
@@ -100,7 +102,7 @@ class ilOpenIdConnectSettingsGUI
         $this->mainTemplate->setContent($form->getHTML());
     }
 
-    protected function initSettingsForm() : ilPropertyFormGUI
+    protected function initSettingsForm(): ilPropertyFormGUI
     {
         $form = new ilPropertyFormGUI();
         $form->setTitle($this->lng->txt('auth_oidc_settings_title'));
@@ -320,7 +322,7 @@ class ilOpenIdConnectSettingsGUI
         return $form;
     }
 
-    protected function saveSettings() : void
+    protected function saveSettings(): void
     {
         $this->checkAccess('write');
 
@@ -382,7 +384,7 @@ class ilOpenIdConnectSettingsGUI
         $this->ctrl->redirect($this, 'settings');
     }
 
-    protected function saveImageFromHttpRequest() : void
+    protected function saveImageFromHttpRequest(): void
     {
         try {
             if (!$this->upload->hasBeenProcessed()) {
@@ -407,7 +409,7 @@ class ilOpenIdConnectSettingsGUI
      * @param bool $a_with_select_option
      * @return array<string, string>
      */
-    protected function prepareRoleSelection(bool $a_with_select_option = true) : array
+    protected function prepareRoleSelection(bool $a_with_select_option = true): array
     {
         $global_roles = ilUtil::_sortIds(
             $this->review->getGlobalRoles(),
@@ -430,7 +432,7 @@ class ilOpenIdConnectSettingsGUI
         return $select;
     }
 
-    protected function profile(ilPropertyFormGUI $form = null) : void
+    protected function profile(ilPropertyFormGUI $form = null): void
     {
         $this->checkAccess('read');
         $this->setSubTabs(self::STAB_PROFILE);
@@ -441,7 +443,7 @@ class ilOpenIdConnectSettingsGUI
         $this->mainTemplate->setContent($form->getHTML());
     }
 
-    protected function initProfileForm() : ilPropertyFormGUI
+    protected function initProfileForm(): ilPropertyFormGUI
     {
         $form = new ilPropertyFormGUI();
         $form->setTitle($this->lng->txt('auth_oidc_mapping_table'));
@@ -468,7 +470,7 @@ class ilOpenIdConnectSettingsGUI
         return $form;
     }
 
-    protected function saveProfile() : void
+    protected function saveProfile(): void
     {
         $this->checkAccessBool('write');
 
@@ -495,7 +497,7 @@ class ilOpenIdConnectSettingsGUI
         $this->ctrl->redirect($this, self::STAB_PROFILE);
     }
 
-    protected function roles(ilPropertyFormGUI $form = null) : void
+    protected function roles(ilPropertyFormGUI $form = null): void
     {
         $this->checkAccess('read');
         $this->setSubTabs(self::STAB_ROLES);
@@ -506,7 +508,7 @@ class ilOpenIdConnectSettingsGUI
         $this->mainTemplate->setContent($form->getHTML());
     }
 
-    protected function initRolesForm() : ilPropertyFormGUI
+    protected function initRolesForm(): ilPropertyFormGUI
     {
         $form = new ilPropertyFormGUI();
         $form->setTitle($this->lng->txt('auth_oidc_role_mapping_table'));
@@ -537,7 +539,7 @@ class ilOpenIdConnectSettingsGUI
         return $form;
     }
 
-    protected function saveRoles() : void
+    protected function saveRoles(): void
     {
         $this->checkAccess('write');
         $form = $this->initRolesForm();
@@ -584,7 +586,7 @@ class ilOpenIdConnectSettingsGUI
         $this->roles($form);
     }
 
-    protected function setSubTabs(string $active_tab) : void
+    protected function setSubTabs(string $active_tab): void
     {
         $this->tabs->addSubTab(
             self::STAB_SETTINGS,

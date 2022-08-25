@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -28,7 +30,7 @@ class ilLDAPRoleAssignmentRules
 
     protected static ?int $default_role = null;
 
-    public static function getDefaultRole(int $a_server_id) : int
+    public static function getDefaultRole(int $a_server_id): int
     {
         return self::$default_role =
             ilLDAPAttributeMapping::_lookupGlobalRole($a_server_id);
@@ -38,7 +40,7 @@ class ilLDAPRoleAssignmentRules
      * Get all assignable roles (used for import parser)
      * @return array<int, int> array of roles assigned
      */
-    public static function getAllPossibleRoles(int $a_server_id) : array
+    public static function getAllPossibleRoles(int $a_server_id): array
     {
         global $DIC;
 
@@ -64,7 +66,7 @@ class ilLDAPRoleAssignmentRules
      * get all possible attribute names
      * @return string[]
      */
-    public static function getAttributeNames($a_server_id) : array
+    public static function getAttributeNames($a_server_id): array
     {
         global $DIC;
 
@@ -85,7 +87,7 @@ class ilLDAPRoleAssignmentRules
         return array_merge($names, self::getAdditionalPluginAttributes());
     }
 
-    public static function getAssignmentsForUpdate(int $a_server_id, $a_usr_id, $a_usr_name, $a_usr_data) : array
+    public static function getAssignmentsForUpdate(int $a_server_id, $a_usr_id, $a_usr_name, $a_usr_data): array
     {
         global $DIC;
 
@@ -135,7 +137,7 @@ class ilLDAPRoleAssignmentRules
     /**
      * @return array role data
      */
-    public static function getAssignmentsForCreation(int $a_server_id, string $a_usr_name, array $a_usr_data) : array
+    public static function getAssignmentsForCreation(int $a_server_id, string $a_usr_name, array $a_usr_data): array
     {
         global $DIC;
 
@@ -178,7 +180,7 @@ class ilLDAPRoleAssignmentRules
     /**
      * Call plugin check if the condition matches.
      */
-    public static function callPlugin(int $a_plugin_id, array $a_user_data) : bool
+    public static function callPlugin(int $a_plugin_id, array $a_user_data): bool
     {
         global $DIC;
 
@@ -195,7 +197,7 @@ class ilLDAPRoleAssignmentRules
      * Fetch additional attributes from plugin
      * @return string[]
      */
-    protected static function getAdditionalPluginAttributes() : array
+    protected static function getAdditionalPluginAttributes(): array
     {
         global $DIC;
 
@@ -208,7 +210,7 @@ class ilLDAPRoleAssignmentRules
         return array_merge(...$attributes);
     }
 
-    protected static function parseRole(int $a_role_id, string $a_action) : array
+    protected static function parseRole(int $a_role_id, string $a_action): array
     {
         global $DIC;
 

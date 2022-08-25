@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -43,22 +45,22 @@ class ilEventItems
         $this->__read();
     }
 
-    public function getEventId() : int
+    public function getEventId(): int
     {
         return $this->event_id;
     }
 
-    public function setEventId(int $a_event_id) : void
+    public function setEventId(int $a_event_id): void
     {
         $this->event_id = $a_event_id;
     }
 
-    public function getItems() : array
+    public function getItems(): array
     {
         return $this->items;
     }
 
-    public function setItems(array $a_items) : void
+    public function setItems(array $a_items): void
     {
         $this->items = [];
         foreach ($a_items as $item_id) {
@@ -66,17 +68,17 @@ class ilEventItems
         }
     }
 
-    public function addItem(int $a_item_ref_id) : void
+    public function addItem(int $a_item_ref_id): void
     {
         $this->items[] = $a_item_ref_id;
     }
 
-    public function delete() : bool
+    public function delete(): bool
     {
         return self::_delete($this->getEventId());
     }
-    
-    public static function _delete(int $a_event_id) : bool
+
+    public static function _delete(int $a_event_id): bool
     {
         global $DIC;
 
@@ -88,7 +90,7 @@ class ilEventItems
         return true;
     }
 
-    public function removeItems(array $a_items) : bool
+    public function removeItems(array $a_items): bool
     {
         $query = "DELETE FROM event_items WHERE " . $this->db->in('item_id', $a_items, false, 'integer') .
             " AND event_id = " . $this->db->quote($this->event_id, 'integer');
@@ -97,15 +99,15 @@ class ilEventItems
 
         return true;
     }
-    
-    public function update() : bool
+
+    public function update(): bool
     {
         global $DIC;
 
         $ilDB = $DIC->database();
-        
+
         $this->delete();
-        
+
         foreach ($this->items as $item) {
             $query = "INSERT INTO event_items (event_id,item_id) " .
                 "VALUES( " .
@@ -116,14 +118,14 @@ class ilEventItems
         }
         return true;
     }
-    
-    public static function _getItemsOfContainer(int $a_ref_id) : array
+
+    public static function _getItemsOfContainer(int $a_ref_id): array
     {
         global $DIC;
 
         $ilDB = $DIC->database();
         $tree = $DIC->repositoryTree();
-        
+
         $session_nodes = $tree->getChildsByType($a_ref_id, 'sess');
         $session_ids = [];
         foreach ($session_nodes as $node) {
@@ -131,7 +133,7 @@ class ilEventItems
         }
         $query = "SELECT item_id FROM event_items " .
             "WHERE " . $ilDB->in('event_id', $session_ids, false, 'integer');
-            
+
 
         $res = $ilDB->query($query);
         $items = [];
@@ -141,12 +143,12 @@ class ilEventItems
         return $items;
     }
 
-    public static function _getItemsOfEvent(int $a_event_id) : array
+    public static function _getItemsOfEvent(int $a_event_id): array
     {
         global $DIC;
 
         $ilDB = $DIC->database();
-        
+
         $query = "SELECT * FROM event_items " .
             "WHERE event_id = " . $ilDB->quote($a_event_id, 'integer');
         $res = $ilDB->query($query);
@@ -157,7 +159,7 @@ class ilEventItems
         return $items;
     }
 
-    public function _isAssigned(int $a_item_id) : bool
+    public function _isAssigned(int $a_item_id): bool
     {
         global $DIC;
 
@@ -174,7 +176,7 @@ class ilEventItems
      * @param int $item_ref_id
      * @return int[]
      */
-    public static function getEventsForItemOrderedByStartingTime(int $item_ref_id) : array
+    public static function getEventsForItemOrderedByStartingTime(int $item_ref_id): array
     {
         global $DIC;
 
@@ -193,18 +195,18 @@ class ilEventItems
         return $events;
     }
 
-    public function cloneItems(int $a_source_id, int $a_copy_id) : bool
+    public function cloneItems(int $a_source_id, int $a_copy_id): bool
     {
         global $DIC;
 
         $ilObjDataCache = $DIC['ilObjDataCache'];
         $ilLog = $DIC->logger()->root();
-        
+
         $ilLog->debug('Begin cloning session materials ...');
 
         $cwo = ilCopyWizardOptions::_getInstance($a_copy_id);
         $mappings = $cwo->getMappings();
-        
+
         $new_items = [];
         foreach (ilEventItems::_getItemsOfEvent($a_source_id) as $item_id) {
             if (isset($mappings[$item_id]) && $mappings[$item_id]) {
@@ -220,13 +222,13 @@ class ilEventItems
         return true;
     }
 
-    protected function __read() : bool
+    protected function __read(): bool
     {
         global $DIC;
 
         $ilDB = $this->db;
         $tree = $this->tree;
-        
+
         $query = "SELECT * FROM event_items " .
             "WHERE event_id = " . $ilDB->quote($this->getEventId(), 'integer') . " ";
 
@@ -242,7 +244,7 @@ class ilEventItems
                 $ilDB->manipulate($query);
                 continue;
             }
-            
+
             $this->items[] = (int) $row->item_id;
         }
         return true;

@@ -1,4 +1,6 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -54,7 +56,7 @@ class RunDBRepository
      */
     public function getFinishedSurveysOfUser(
         int $user_id
-    ) : array {
+    ): array {
         $db = $this->db;
 
         $set = $db->queryF(
@@ -76,7 +78,7 @@ class RunDBRepository
      */
     public function getUnfinishedSurveysOfUser(
         int $user_id
-    ) : array {
+    ): array {
         $db = $this->db;
 
         $set = $db->queryF(
@@ -98,7 +100,7 @@ class RunDBRepository
      */
     public function getFinishedAppraiseesForRater(
         int $rater_id
-    ) : array {
+    ): array {
         $db = $this->db;
 
         $set = $db->queryF(
@@ -122,7 +124,7 @@ class RunDBRepository
         int $user_id,
         string $code = "",
         int $appr_id = 0
-    ) : ?int {
+    ): ?int {
         $db = $this->db;
 
         if ($code !== "") { // #15031 - should not matter if code was used by registered or anonymous (each code must be unique)
@@ -148,7 +150,7 @@ class RunDBRepository
 
     public function getState(
         int $run_id
-    ) : int {
+    ): int {
         $db = $this->db;
 
         $set = $db->queryF(
@@ -170,7 +172,7 @@ class RunDBRepository
         int $survey_id,
         int $user_id,
         string $code = ""
-    ) : array {
+    ): array {
         $db = $this->db;
 
         $sql = "SELECT * FROM svy_finished" .
@@ -206,7 +208,7 @@ class RunDBRepository
 
     public function getById(
         int $run_id
-    ) : ?Run {
+    ): ?Run {
         $db = $this->db;
 
         $sql = "SELECT * FROM svy_finished" .
@@ -234,7 +236,7 @@ class RunDBRepository
         int $user_id,
         string $code,
         int $appraisee_id = 0
-    ) : int {
+    ): int {
         $db = $this->db;
 
         $next_id = $db->nextId('svy_finished');
@@ -251,7 +253,7 @@ class RunDBRepository
     /**
      * Add time record
      */
-    public function addTime(int $run_id, int $time, int $first_question) : void
+    public function addTime(int $run_id, int $time, int $first_question): void
     {
         $db = $this->db;
         $id = $db->nextId('svy_times');
@@ -262,7 +264,7 @@ class RunDBRepository
         );
     }
 
-    public function updateTime(int $run_id, int $time, int $entered_time) : void
+    public function updateTime(int $run_id, int $time, int $entered_time): void
     {
         $db = $this->db;
         $db->manipulateF(

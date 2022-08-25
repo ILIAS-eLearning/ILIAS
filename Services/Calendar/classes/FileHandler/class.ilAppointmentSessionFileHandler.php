@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /* Copyright (c) 1998-2017 ILIAS open source, Extended GPL, see docs/LICENSE */
 
@@ -16,7 +18,7 @@ class ilAppointmentSessionFileHandler extends ilAppointmentBaseFileHandler imple
      * @param
      * @return ilFileProperty[]
      */
-    public function getFiles() : array
+    public function getFiles(): array
     {
         $cat_info = $this->getCatInfo();
 

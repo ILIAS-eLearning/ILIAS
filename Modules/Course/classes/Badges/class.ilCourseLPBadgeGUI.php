@@ -14,7 +14,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * Course LP badge gui
  * @author  Jörg Lützenkirchen <luetzenkirchen@leifos.com>
@@ -39,7 +39,7 @@ class ilCourseLPBadgeGUI implements ilBadgeTypeGUI
         $this->lng->loadLanguageModule('trac');
     }
 
-    public function initConfigForm(ilPropertyFormGUI $a_form, int $a_parent_ref_id) : void
+    public function initConfigForm(ilPropertyFormGUI $a_form, int $a_parent_ref_id): void
     {
         $this->parent_ref_id = $a_parent_ref_id;
 
@@ -54,7 +54,7 @@ class ilCourseLPBadgeGUI implements ilBadgeTypeGUI
             $white[] = "fold";
         }
         $exp->setTypeWhiteList($white);
-        $subitems->setTitleModifier(function ($a_id) : string {
+        $subitems->setTitleModifier(function ($a_id): string {
             $obj_id = ilObject::_lookupObjId($a_id);
             $olp = ilObjectLP::getInstance($obj_id);
             $invalid_modes = ilCourseLPBadgeGUI::getInvalidLPModes();
@@ -69,7 +69,7 @@ class ilCourseLPBadgeGUI implements ilBadgeTypeGUI
         $a_form->addItem($subitems);
     }
 
-    protected function getLPTypes(int $a_parent_ref_id) : array
+    protected function getLPTypes(int $a_parent_ref_id): array
     {
         $res = [];
         $root = $this->tree->getNodeData($a_parent_ref_id);
@@ -89,7 +89,7 @@ class ilCourseLPBadgeGUI implements ilBadgeTypeGUI
         return $res;
     }
 
-    public function importConfigToForm(ilPropertyFormGUI $a_form, array $a_config) : void
+    public function importConfigToForm(ilPropertyFormGUI $a_form, array $a_config): void
     {
         if (is_array($a_config["subitems"])) {
             $items = $a_form->getItemByPostVar("subitems");
@@ -97,14 +97,13 @@ class ilCourseLPBadgeGUI implements ilBadgeTypeGUI
         }
     }
 
-    public function getConfigFromForm(ilPropertyFormGUI $a_form) : array
+    public function getConfigFromForm(ilPropertyFormGUI $a_form): array
     {
         return ["subitems" => $a_form->getInput("subitems")];
     }
 
-    public static function getInvalidLPModes() : array
+    public static function getInvalidLPModes(): array
     {
-
         /* supported modes
             LP_MODE_TLT
             LP_MODE_OBJECTIVES
@@ -142,7 +141,7 @@ class ilCourseLPBadgeGUI implements ilBadgeTypeGUI
         return $invalid_modes;
     }
 
-    public function validateForm(ilPropertyFormGUI $a_form) : bool
+    public function validateForm(ilPropertyFormGUI $a_form): bool
     {
         $invalid = array();
         $invalid_modes = self::getInvalidLPModes();

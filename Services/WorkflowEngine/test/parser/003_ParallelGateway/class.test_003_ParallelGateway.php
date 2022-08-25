@@ -1,4 +1,5 @@
 <?php
+
 /* Copyright (c) 1998-2014 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 require_once 'Services/WorkflowEngine/test/ilWorkflowEngineBaseTest.php';
@@ -15,22 +16,22 @@ class test_003_ParallelGateway extends ilWorkflowEngineBaseTest
     public string $base_path = './Services/WorkflowEngine/test/parser/';
     public string $suite_path = '003_ParallelGateway/';
 
-    public function getTestInputFilename($test_name) : string
+    public function getTestInputFilename($test_name): string
     {
         return $this->base_path . $this->suite_path . $test_name . '.bpmn2';
     }
 
-    public function getTestOutputFilename($test_name) : string
+    public function getTestOutputFilename($test_name): string
     {
         return $this->base_path . $this->suite_path . $test_name . '_output.php';
     }
 
-    public function getTestGoldsampleFilename($test_name) : string
+    public function getTestGoldsampleFilename($test_name): string
     {
         return $this->base_path . $this->suite_path . $test_name . '_goldsample.php';
     }
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         chdir(__DIR__);
         chdir('../../../../../');
@@ -40,13 +41,13 @@ class test_003_ParallelGateway extends ilWorkflowEngineBaseTest
         require_once './Services/WorkflowEngine/classes/parser/class.ilBPMN2Parser.php';
     }
 
-    public function test_WorkflowWithSimpleParallelGatewayShouldOutputAccordingly() : void
+    public function test_WorkflowWithSimpleParallelGatewayShouldOutputAccordingly(): void
     {
         $test_name = 'ParallelGateway_Simple';
         $xml = file_get_contents($this->getTestInputFilename($test_name));
         $parser = new ilBPMN2Parser();
         $parse_result = $parser->parseBPMN2XML($xml);
-        
+
         file_put_contents($this->getTestOutputFilename($test_name), $parse_result);
         $return = exec('php -l ' . $this->getTestOutputFilename($test_name));
 
@@ -57,7 +58,7 @@ class test_003_ParallelGateway extends ilWorkflowEngineBaseTest
 
         require_once $this->getTestOutputFilename($test_name);
         /** @var ParallelGateway_Simple $process */
-        $process = new $test_name;
+        $process = new $test_name();
         $this->assertFalse($process->isActive());
 
         /*
@@ -91,7 +92,7 @@ class test_003_ParallelGateway extends ilWorkflowEngineBaseTest
         unlink($this->getTestOutputFilename($test_name));
     }
 
-    public function test_WorkflowWithJoiningParallelGatewayShouldOutputAccordingly() : void
+    public function test_WorkflowWithJoiningParallelGatewayShouldOutputAccordingly(): void
     {
         $test_name = 'ParallelGateway_Joining';
         $xml = file_get_contents($this->getTestInputFilename($test_name));
@@ -107,7 +108,7 @@ class test_003_ParallelGateway extends ilWorkflowEngineBaseTest
         $this->assertEquals($goldsample, $parse_result, 'Output does not match goldsample.');
 
         require_once $this->getTestOutputFilename($test_name);
-        $process = new $test_name;
+        $process = new $test_name();
         $this->assertFalse($process->isActive());
 
         $process->startWorkflow();
@@ -131,7 +132,7 @@ class test_003_ParallelGateway extends ilWorkflowEngineBaseTest
         unlink($this->getTestOutputFilename($test_name));
     }
 
-    public function test_WorkflowWithForkingParallelGatewayShouldOutputAccordingly() : void
+    public function test_WorkflowWithForkingParallelGatewayShouldOutputAccordingly(): void
     {
         $test_name = 'ParallelGateway_Forking';
         $xml = file_get_contents($this->getTestInputFilename($test_name));
@@ -147,7 +148,7 @@ class test_003_ParallelGateway extends ilWorkflowEngineBaseTest
         $this->assertEquals($goldsample, $parse_result, 'Output does not match goldsample.');
 
         require_once $this->getTestOutputFilename($test_name);
-        $process = new $test_name;
+        $process = new $test_name();
         $this->assertFalse($process->isActive());
 
         $process->startWorkflow();
@@ -168,7 +169,7 @@ class test_003_ParallelGateway extends ilWorkflowEngineBaseTest
             }
         }
         $this->assertTrue($all_triggered);
-    
+
         unlink($this->getTestOutputFilename($test_name));
     }
 }

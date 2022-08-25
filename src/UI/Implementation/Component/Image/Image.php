@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\UI\Implementation\Component\Image;
 
 use ILIAS\UI\Component as C;
@@ -56,7 +58,7 @@ class Image implements C\Image\Image
     /**
      * @inheritdoc
      */
-    public function getType() : string
+    public function getType(): string
     {
         return $this->type;
     }
@@ -64,7 +66,7 @@ class Image implements C\Image\Image
     /**
      * @inheritdoc
      */
-    public function withSource(string $source) : C\Image\Image
+    public function withSource(string $source): C\Image\Image
     {
         $clone = clone $this;
         $clone->src = $source;
@@ -74,7 +76,7 @@ class Image implements C\Image\Image
     /**
      * @inheritdoc
      */
-    public function getSource() : string
+    public function getSource(): string
     {
         return $this->src;
     }
@@ -82,7 +84,7 @@ class Image implements C\Image\Image
     /**
      * @inheritdoc
      */
-    public function withAlt(string $alt) : C\Image\Image
+    public function withAlt(string $alt): C\Image\Image
     {
         $clone = clone $this;
         $clone->alt = $alt;
@@ -92,7 +94,7 @@ class Image implements C\Image\Image
     /**
      * @inheritdoc
      */
-    public function getAlt() : string
+    public function getAlt(): string
     {
         return $this->alt;
     }
@@ -100,7 +102,7 @@ class Image implements C\Image\Image
     /**
      * @inheritdoc
      */
-    public function withAction($action) : C\Image\Image
+    public function withAction($action): C\Image\Image
     {
         $this->checkStringOrSignalArg("action", $action);
         $clone = clone $this;
@@ -131,7 +133,7 @@ class Image implements C\Image\Image
     /**
      * @inheritdoc
      */
-    public function withOnClick(Signal $signal) : C\Clickable
+    public function withOnClick(Signal $signal): C\Clickable
     {
         return $this->withTriggeredSignal($signal, 'click');
     }
@@ -139,7 +141,7 @@ class Image implements C\Image\Image
     /**
      * @inheritdoc
      */
-    public function appendOnClick(Signal $signal) : C\Clickable
+    public function appendOnClick(Signal $signal): C\Clickable
     {
         return $this->appendTriggeredSignal($signal, 'click');
     }

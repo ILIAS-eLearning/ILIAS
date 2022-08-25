@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -57,7 +59,7 @@ class ilObjectContentStyleSettingsGUI
         $this->current_style_id = $current_style_id ?? $this->object_manager->getStyleId();
     }
 
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         $ctrl = $this->gui->ctrl();
 
@@ -65,7 +67,6 @@ class ilObjectContentStyleSettingsGUI
         $cmd = $ctrl->getCmd("settings");
 
         switch ($next_class) {
-
             case "ilobjstylesheetgui":
                 $this->gui->tabs()->clearTargets();
                 $ctrl->setReturn($this, "settings");
@@ -87,7 +88,7 @@ class ilObjectContentStyleSettingsGUI
         }
     }
 
-    protected function settings() : void
+    protected function settings(): void
     {
         $mt = $this->gui->mainTemplate();
         $form = $this->initStylePropertiesForm();
@@ -99,7 +100,7 @@ class ilObjectContentStyleSettingsGUI
     /**
      * Init style properties form
      */
-    public function initStylePropertiesForm() : ilPropertyFormGUI
+    public function initStylePropertiesForm(): ilPropertyFormGUI
     {
         $ilCtrl = $this->gui->ctrl();
         $lng = $this->domain->lng();
@@ -187,7 +188,7 @@ class ilObjectContentStyleSettingsGUI
         return $form;
     }
 
-    protected function isContainer() : bool
+    protected function isContainer(): bool
     {
         if ($this->ref_id > 0) {
             $type = ilObject::_lookupType($this->ref_id, true);
@@ -221,29 +222,29 @@ class ilObjectContentStyleSettingsGUI
         }
     }
 
-    protected function updateStyleId(int $style_id) : void
+    protected function updateStyleId(int $style_id): void
     {
         $this->object_manager->updateStyleId($style_id);
     }
 
-    protected function setOwnerId(int $style_id) : void
+    protected function setOwnerId(int $style_id): void
     {
         $this->object_manager->setOwnerOfStyle($style_id);
     }
 
-    public function createStyle() : void
+    public function createStyle(): void
     {
         $ctrl = $this->gui->ctrl();
         $ctrl->redirectByClass("ilobjstylesheetgui", "create");
     }
 
-    public function editStyle() : void
+    public function editStyle(): void
     {
         $ctrl = $this->gui->ctrl();
         $ctrl->redirectByClass("ilobjstylesheetgui", "edit");
     }
 
-    public function deleteStyle() : void
+    public function deleteStyle(): void
     {
         $ctrl = $this->gui->ctrl();
         $ctrl->redirectByClass("ilobjstylesheetgui", "delete");
@@ -252,7 +253,7 @@ class ilObjectContentStyleSettingsGUI
     /**
      * Save style settings
      */
-    protected function saveStyleSettings() : void
+    protected function saveStyleSettings(): void
     {
         $settings = $this->domain->settings();
         $lng = $this->domain->lng();
@@ -270,7 +271,7 @@ class ilObjectContentStyleSettingsGUI
         $ctrl->redirect($this, "settings");
     }
 
-    protected function saveIndividualStyleSettings() : void
+    protected function saveIndividualStyleSettings(): void
     {
         $lng = $this->domain->lng();
         $ctrl = $this->gui->ctrl();

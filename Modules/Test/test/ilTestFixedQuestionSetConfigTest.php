@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -30,7 +32,7 @@ class ilTestFixedQuestionSetConfigTest extends ilTestBaseTestCase
      */
     private $objTest_mock;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -44,17 +46,17 @@ class ilTestFixedQuestionSetConfigTest extends ilTestBaseTestCase
         );
     }
 
-    public function test_instantiateObject_shouldReturnInstance() : void
+    public function test_instantiateObject_shouldReturnInstance(): void
     {
         $this->assertInstanceOf(ilTestFixedQuestionSetConfig::class, $this->testObj);
     }
 
-    public function testIsQuestionSetConfigured() : void
+    public function testIsQuestionSetConfigured(): void
     {
         $this->assertFalse($this->testObj->isQuestionSetConfigured());
     }
 
-    public function testDoesQuestionSetRelatedDataExist() : void
+    public function testDoesQuestionSetRelatedDataExist(): void
     {
         $this->assertFalse($this->testObj->doesQuestionSetRelatedDataExist());
     }

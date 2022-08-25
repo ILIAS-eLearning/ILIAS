@@ -15,8 +15,8 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
-use \Psr\Http\Message\RequestInterface;
+
+use Psr\Http\Message\RequestInterface;
 
 /**
  * Taxonomies selection for metadata helper GUI
@@ -93,14 +93,14 @@ class ilTaxMDGUI
         return "";
     }
 
-    public function show() : void
+    public function show(): void
     {
         $tpl = $this->tpl;
         $form = $this->initForm();
         $tpl->setContent($form->getHTML());
     }
 
-    public function save() : void
+    public function save(): void
     {
         $tpl = $this->tpl;
         $ctrl = $this->ctrl;
@@ -119,7 +119,7 @@ class ilTaxMDGUI
     /**
      * Init taxonomy form.
      */
-    public function initForm() : ilPropertyFormGUI
+    public function initForm(): ilPropertyFormGUI
     {
         $form = new ilPropertyFormGUI();
 
@@ -132,7 +132,7 @@ class ilTaxMDGUI
     }
 
     // Get selectable taxonomies for current object
-    public function getSelectableTaxonomies() : array
+    public function getSelectableTaxonomies(): array
     {
         $objDefinition = $this->obj_definition;
         $tree = $this->tree;
@@ -163,15 +163,15 @@ class ilTaxMDGUI
     /**
      * @throws ilTaxonomyException
      */
-    protected function initTaxNodeAssignment(int $a_tax_id) : ilTaxNodeAssignment
+    protected function initTaxNodeAssignment(int $a_tax_id): ilTaxNodeAssignment
     {
         return new ilTaxNodeAssignment($this->md_obj_type, $this->md_obj_id, "obj", $a_tax_id);
     }
-    
+
     /**
      * Add taxonomy selector to MD (quick edit) form
      */
-    public function addToMDForm(ilPropertyFormGUI $a_form) : void
+    public function addToMDForm(ilPropertyFormGUI $a_form): void
     {
         $tax_ids = $this->getSelectableTaxonomies();
         if (is_array($tax_ids)) {
@@ -182,28 +182,28 @@ class ilTaxMDGUI
                 foreach ($ta->getAssignmentsOfItem($this->md_obj_id) as $ass) {
                     $node_ids[] = $ass["node_id"];
                 }
-                
+
                 $tax_sel = new ilTaxSelectInputGUI($tax_id, "md_tax_" . $tax_id, true);
                 $tax_sel->setValue($node_ids);
                 $a_form->addItem($tax_sel);
             }
         }
     }
-    
+
     /**
      * Import settings from MD (quick edit) form
      */
-    public function updateFromMDForm() : void
+    public function updateFromMDForm(): void
     {
         $body = $this->request->getParsedBody();
         $tax_ids = $this->getSelectableTaxonomies();
         if (is_array($tax_ids)) {
             foreach ($tax_ids as $tax_id) {
                 $ta = $this->initTaxNodeAssignment($tax_id);
-                
+
                 // delete existing assignments
                 $ta->deleteAssignmentsOfItem($this->md_obj_id);
-                            
+
                 // set current assignment
                 if (is_array($body["md_tax_" . $tax_id])) {
                     foreach ($body["md_tax_" . $tax_id] as $node_id) {
@@ -217,7 +217,7 @@ class ilTaxMDGUI
     /**
      * addSubTab
      */
-    public function addSubTab() : void
+    public function addSubTab(): void
     {
         $tabs = $this->tabs;
         $ctrl = $this->ctrl;

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -14,7 +16,7 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *********************************************************************/
- 
+
 namespace ILIAS\ResourceStorage\Consumer;
 
 use ILIAS\ResourceStorage\Resource\StorableResource;
@@ -43,7 +45,7 @@ class ConsumerFactory
         $this->file_name_policy = $file_name_policy ?? new NoneFileNamePolicy();
     }
 
-    public function download(StorableResource $resource) : DownloadConsumer
+    public function download(StorableResource $resource): DownloadConsumer
     {
         return new DownloadConsumer(
             $resource,
@@ -52,7 +54,7 @@ class ConsumerFactory
         );
     }
 
-    public function inline(StorableResource $resource) : InlineConsumer
+    public function inline(StorableResource $resource): InlineConsumer
     {
         return new InlineConsumer(
             $resource,
@@ -61,7 +63,7 @@ class ConsumerFactory
         );
     }
 
-    public function fileStream(StorableResource $resource) : FileStreamConsumer
+    public function fileStream(StorableResource $resource): FileStreamConsumer
     {
         return new FileStreamConsumer(
             $resource,
@@ -72,7 +74,7 @@ class ConsumerFactory
     /**
      * @deprecated
      */
-    public function absolutePath(StorableResource $resource) : AbsolutePathConsumer
+    public function absolutePath(StorableResource $resource): AbsolutePathConsumer
     {
         return new AbsolutePathConsumer(
             $resource,
@@ -81,7 +83,7 @@ class ConsumerFactory
         );
     }
 
-    public function src(StorableResource $resource) : SrcConsumer
+    public function src(StorableResource $resource): SrcConsumer
     {
         return new SrcConsumer(
             $resource,

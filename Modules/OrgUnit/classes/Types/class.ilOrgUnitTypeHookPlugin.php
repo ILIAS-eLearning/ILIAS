@@ -27,7 +27,7 @@ abstract class ilOrgUnitTypeHookPlugin extends ilPlugin
     /**
      * The following methods can be overridden by plugins
      */
-    public function allowSetTitle(int $a_type_id, string $a_lang_code, string $a_title) : bool
+    public function allowSetTitle(int $a_type_id, string $a_lang_code, string $a_title): bool
     {
         return true;
     }
@@ -35,7 +35,7 @@ abstract class ilOrgUnitTypeHookPlugin extends ilPlugin
     /**
      * Return false if setting a description is not allowed
      */
-    public function allowSetDescription(int $a_type_id, string $a_lang_code, string $a_description) : bool
+    public function allowSetDescription(int $a_type_id, string $a_lang_code, string $a_description): bool
     {
         return true;
     }
@@ -43,7 +43,7 @@ abstract class ilOrgUnitTypeHookPlugin extends ilPlugin
     /**
      * Return false if setting a default language is not allowed
      */
-    public function allowSetDefaultLanguage(int $a_type_id, string $a_lang_code) : bool
+    public function allowSetDefaultLanguage(int $a_type_id, string $a_lang_code): bool
     {
         return true;
     }
@@ -51,7 +51,7 @@ abstract class ilOrgUnitTypeHookPlugin extends ilPlugin
     /**
      * Return false if OrgUnit type cannot be deleted
      */
-    public function allowDelete(int $a_type_id) : bool
+    public function allowDelete(int $a_type_id): bool
     {
         return true;
     }
@@ -59,7 +59,7 @@ abstract class ilOrgUnitTypeHookPlugin extends ilPlugin
     /**
      * Return false if OrgUnit type is locked and no updates are possible
      */
-    public function allowUpdate(int $a_type_id) : bool
+    public function allowUpdate(int $a_type_id): bool
     {
         return true;
     }
@@ -67,7 +67,7 @@ abstract class ilOrgUnitTypeHookPlugin extends ilPlugin
     /**
      * Return false if an AdvancedMDRecord cannot be assigned to an OrgUnit type
      */
-    public function allowAssignAdvancedMDRecord(int $a_type_id, int $a_record_id) : bool
+    public function allowAssignAdvancedMDRecord(int $a_type_id, int $a_record_id): bool
     {
         return true;
     }
@@ -75,7 +75,7 @@ abstract class ilOrgUnitTypeHookPlugin extends ilPlugin
     /**
      * Return false if an AdvancedMDRecord cannot be deassigned from an OrgUnit type
      */
-    public function allowDeassignAdvancedMDRecord(int $a_type_id, int $a_record_id) : bool
+    public function allowDeassignAdvancedMDRecord(int $a_type_id, int $a_record_id): bool
     {
         return true;
     }

@@ -42,7 +42,7 @@ class ilLearningHistoryService
         $this->tree = $tree;
     }
 
-    public function request() : \ILIAS\LearningHistory\StandardGUIRequest
+    public function request(): \ILIAS\LearningHistory\StandardGUIRequest
     {
         global $DIC;
 
@@ -52,27 +52,27 @@ class ilLearningHistoryService
         );
     }
 
-    public function repositoryTree() : ilTree
+    public function repositoryTree(): ilTree
     {
         return $this->tree;
     }
 
-    public function access() : ilAccessHandler
+    public function access(): ilAccessHandler
     {
         return $this->access;
     }
 
-    public function user() : ilObjUser
+    public function user(): ilObjUser
     {
         return $this->current_user;
     }
 
-    public function language() : ilLanguage
+    public function language(): ilLanguage
     {
         return $this->lng;
     }
 
-    public function ui() : \ILIAS\DI\UIServices
+    public function ui(): \ILIAS\DI\UIServices
     {
         return $this->ui;
     }
@@ -80,12 +80,12 @@ class ilLearningHistoryService
     /**
      * Factory for learning history entries
      */
-    public function factory() : ilLearningHistoryFactory
+    public function factory(): ilLearningHistoryFactory
     {
         return new ilLearningHistoryFactory($this);
     }
 
-    public function provider() : ilLearningHistoryProviderFactory
+    public function provider(): ilLearningHistoryProviderFactory
     {
         return new ilLearningHistoryProviderFactory($this);
     }
@@ -93,7 +93,7 @@ class ilLearningHistoryService
     /**
      * Is the service active? The service will be active, if any of its providers are active.
      */
-    public function isActive(int $user_id = 0) : bool
+    public function isActive(int $user_id = 0): bool
     {
         global $DIC;
 

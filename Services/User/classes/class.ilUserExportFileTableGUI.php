@@ -41,7 +41,7 @@ class ilUserExportFileTableGUI extends \ilTable2GUI
         $this->logger = $DIC->logger()->user();
     }
 
-    public function init() : void
+    public function init(): void
     {
         $this->lng->loadLanguageModule('usr');
         $this->setFormName(self::USER_EXPORT_FORM_NAME);
@@ -72,7 +72,7 @@ class ilUserExportFileTableGUI extends \ilTable2GUI
         $this->enable('num_info');
     }
 
-    public function numericOrdering(string $a_field) : bool
+    public function numericOrdering(string $a_field): bool
     {
         switch ($a_field) {
             case 'size_sort':
@@ -85,7 +85,7 @@ class ilUserExportFileTableGUI extends \ilTable2GUI
     /**
      * @param array<string,mixed> $a_set
      */
-    protected function fillRow(array $a_set) : void // Missing array type.
+    protected function fillRow(array $a_set): void // Missing array type.
     {
         $this->tpl->setVariable('CHECKBOX_ID', $a_set['file']);
         $this->tpl->setVariable('TXT_FILENAME', $a_set['file']);
@@ -93,7 +93,7 @@ class ilUserExportFileTableGUI extends \ilTable2GUI
         $this->tpl->setVariable('TXT_DATE', $a_set['date']);
     }
 
-    public function parse(array $export_files) : void // Missing array type.
+    public function parse(array $export_files): void // Missing array type.
     {
         $files = [];
         $counter = 0;

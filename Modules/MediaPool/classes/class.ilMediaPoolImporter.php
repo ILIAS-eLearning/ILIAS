@@ -26,7 +26,7 @@ class ilMediaPoolImporter extends ilXmlImporter
     protected ilImportConfig $config;
     protected ilMediaPoolDataSet $ds;
 
-    public function init() : void
+    public function init(): void
     {
         $this->ds = new ilMediaPoolDataSet();
         $this->ds->setDSPrefix("ds");
@@ -53,7 +53,7 @@ class ilMediaPoolImporter extends ilXmlImporter
         string $a_id,
         string $a_xml,
         ilImportMapping $a_mapping
-    ) : void {
+    ): void {
         $parser = new ilDataSetImportParser(
             $a_entity,
             $this->getSchemaVersion(),
@@ -65,7 +65,7 @@ class ilMediaPoolImporter extends ilXmlImporter
 
     public function finalProcessing(
         ilImportMapping $a_mapping
-    ) : void {
+    ): void {
         $pg_map = $a_mapping->getMappingsOfEntity("Modules/MediaPool", "pg");
 
         foreach ($pg_map as $pg_id) {

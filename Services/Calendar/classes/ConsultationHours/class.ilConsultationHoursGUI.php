@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -90,7 +92,7 @@ class ilConsultationHoursGUI
         $this->toolbar = $DIC->toolbar();
     }
 
-    protected function initSearchAssignmentToAppointments($a_default = false) : int
+    protected function initSearchAssignmentToAppointments($a_default = false): int
     {
         $this->search_assignment_to_appointments = $a_default;
         if ($this->http->wrapper()->query()->has('assignM')) {
@@ -102,7 +104,7 @@ class ilConsultationHoursGUI
         return $this->search_assignment_to_appointments;
     }
 
-    protected function initGroupIdFromQuery() : int
+    protected function initGroupIdFromQuery(): int
     {
         if ($this->http->wrapper()->query()->has('group_id')) {
             return $this->http->wrapper()->query()->retrieve(
@@ -113,7 +115,7 @@ class ilConsultationHoursGUI
         return 0;
     }
 
-    protected function initAppointmentIdsFromPost() : array
+    protected function initAppointmentIdsFromPost(): array
     {
         if ($this->http->wrapper()->post()->has('apps')) {
             return $this->http->wrapper()->post()->retrieve(
@@ -126,7 +128,7 @@ class ilConsultationHoursGUI
         return [];
     }
 
-    protected function initAppointmentIdsFromPostString() : array
+    protected function initAppointmentIdsFromPostString(): array
     {
         if ($this->http->wrapper()->post()->has('apps')) {
             $app_string = $this->http->wrapper()->post()->retrieve(
@@ -138,7 +140,7 @@ class ilConsultationHoursGUI
         return [];
     }
 
-    protected function initGroupIdsFromPost() : array
+    protected function initGroupIdsFromPost(): array
     {
         if ($this->http->wrapper()->post()->has('groups')) {
             return $this->http->wrapper()->post()->retrieve(
@@ -154,7 +156,7 @@ class ilConsultationHoursGUI
     /**
      * @return string[]
      */
-    protected function initBookingUsersFromPost() : array
+    protected function initBookingUsersFromPost(): array
     {
         if ($this->http->wrapper()->post()->has('bookuser')) {
             return $this->http->wrapper()->post()->retrieve(
@@ -167,7 +169,7 @@ class ilConsultationHoursGUI
         return [];
     }
 
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         $this->help->setScreenIdComponent("cal");
 
@@ -226,12 +228,12 @@ class ilConsultationHoursGUI
         }
     }
 
-    public function getUserId() : int
+    public function getUserId(): int
     {
         return $this->user_id;
     }
 
-    protected function searchUsersForAppointments() : void
+    protected function searchUsersForAppointments(): void
     {
         ilSession::set('ch_apps', $this->initAppointmentIdsFromPost());
         if (!count(ilSession::get('ch_apps'))) {
@@ -248,7 +250,7 @@ class ilConsultationHoursGUI
      * Send info message about unassigned users
      * @param int[] $unassigned
      */
-    protected function sendInfoAboutUnassignedUsers(array $unassigned) : bool
+    protected function sendInfoAboutUnassignedUsers(array $unassigned): bool
     {
         if (!$unassigned) {
             return true;
@@ -288,7 +290,7 @@ class ilConsultationHoursGUI
      * @return int[] $unassigned_users
      * @throws ilCtrlException
      */
-    public function assignUsersToAppointment(array $users, int $a_app = 0, bool $a_redirect = true) : array
+    public function assignUsersToAppointment(array $users, int $a_app = 0, bool $a_redirect = true): array
     {
         if ($a_app) {
             $app = $a_app;
@@ -327,7 +329,7 @@ class ilConsultationHoursGUI
     /**
      * @param int[] $usr_ids
      */
-    public function assignUsersToGroup(array $usr_ids) : void
+    public function assignUsersToGroup(array $usr_ids): void
     {
         $group_id = $this->initGroupIdFromQuery();
 
@@ -362,7 +364,7 @@ class ilConsultationHoursGUI
     /**
      * Show consultation hour group
      */
-    protected function groupList() : void
+    protected function groupList(): void
     {
         $this->help->setScreenId("consultation_hours");
 
@@ -381,7 +383,7 @@ class ilConsultationHoursGUI
     /**
      * Show add group form
      */
-    protected function addGroup(?ilPropertyFormGUI $form = null) : void
+    protected function addGroup(?ilPropertyFormGUI $form = null): void
     {
         $this->setSubTabs();
         $this->tabs->activateSubTab('cal_ch_app_grp');
@@ -395,7 +397,7 @@ class ilConsultationHoursGUI
     /**
      * Save new group
      */
-    protected function saveGroup() : void
+    protected function saveGroup(): void
     {
         $form = $this->initGroupForm();
         if ($form->checkInput()) {
@@ -416,7 +418,7 @@ class ilConsultationHoursGUI
     /**
      * Edit group
      */
-    protected function editGroup(?ilPropertyFormGUI $form = null) : void
+    protected function editGroup(?ilPropertyFormGUI $form = null): void
     {
         $this->ctrl->setParameter($this, 'grp_id', $this->initGroupIdFromQuery());
         $this->setSubTabs();
@@ -431,7 +433,7 @@ class ilConsultationHoursGUI
     /**
      * Update group
      */
-    protected function updateGroup() : void
+    protected function updateGroup(): void
     {
         $group_id = $this->initGroupIdFromQuery();
         $this->ctrl->setParameter($this, 'grp_id', $group_id);
@@ -455,7 +457,7 @@ class ilConsultationHoursGUI
     /**
      * Confirm delete
      */
-    protected function confirmDeleteGroup() : void
+    protected function confirmDeleteGroup(): void
     {
         $group_id = $this->initGroupIdFromQuery();
         $this->ctrl->setParameter($this, 'grp_id', $group_id);
@@ -480,7 +482,7 @@ class ilConsultationHoursGUI
     /**
      * Delete groups
      */
-    protected function deleteGroup() : void
+    protected function deleteGroup(): void
     {
         foreach ($this->initGroupIdsFromPost() as $grp_id) {
             $group = new ilConsultationHourGroup($grp_id);
@@ -490,7 +492,7 @@ class ilConsultationHoursGUI
         $this->ctrl->redirect($this, 'groupList');
     }
 
-    protected function initGroupForm(int $a_group_id = 0) : ilPropertyFormGUI
+    protected function initGroupForm(int $a_group_id = 0): ilPropertyFormGUI
     {
         $group = new ilConsultationHourGroup($a_group_id);
 
@@ -529,7 +531,7 @@ class ilConsultationHoursGUI
     /**
      * Show list of bookings
      */
-    protected function bookingList() : void
+    protected function bookingList(): void
     {
         $this->help->setScreenId("consultation_hours");
 
@@ -544,7 +546,7 @@ class ilConsultationHoursGUI
     /**
      * Show delete booking confirmation
      */
-    protected function confirmDeleteBooking() : void
+    protected function confirmDeleteBooking(): void
     {
         $this->confirmRejectBooking(false);
     }
@@ -552,7 +554,7 @@ class ilConsultationHoursGUI
     /**
      * Show delete booking confirmation
      */
-    protected function confirmRejectBooking(bool $a_send_notification = true) : void
+    protected function confirmRejectBooking(bool $a_send_notification = true): void
     {
         $this->setSubTabs();
         $this->tabs->activateSubTab('cal_ch_app_bookings');
@@ -595,12 +597,12 @@ class ilConsultationHoursGUI
     /**
      * Delete booking
      */
-    protected function deleteBooking() : void
+    protected function deleteBooking(): void
     {
         $this->rejectBooking(false);
     }
 
-    protected function rejectBooking(bool $a_send_notification = true) : void
+    protected function rejectBooking(bool $a_send_notification = true): void
     {
         foreach ($this->initBookingUsersFromPost() as $bookuser) {
             $ids = explode('_', $bookuser);
@@ -619,7 +621,7 @@ class ilConsultationHoursGUI
      * Show settings of consultation hours
      * @todo add list/filter of consultation hours if user is responsible for more than one other consultation hour series.
      */
-    protected function appointmentList() : void
+    protected function appointmentList(): void
     {
         $this->help->setScreenId("consultation_hours");
 
@@ -640,7 +642,7 @@ class ilConsultationHoursGUI
     /**
      * Create new sequence
      */
-    protected function createSequence() : void
+    protected function createSequence(): void
     {
         $this->initFormSequence(self::MODE_CREATE);
 
@@ -657,7 +659,7 @@ class ilConsultationHoursGUI
     /**
      * @todo get rid of $this->form
      */
-    protected function initFormSequence(int $a_mode) : ilPropertyFormGUI
+    protected function initFormSequence(int $a_mode): ilPropertyFormGUI
     {
         ilYuiUtil::initDomEvent();
 
@@ -767,7 +769,7 @@ class ilConsultationHoursGUI
     /**
      * Save new sequence
      */
-    protected function saveSequence() : void
+    protected function saveSequence(): void
     {
         $this->initFormSequence(self::MODE_CREATE);
 
@@ -820,7 +822,7 @@ class ilConsultationHoursGUI
     /**
      * Create calendar appointments
      */
-    protected function createAppointments(ilBookingEntry $booking) : void
+    protected function createAppointments(ilBookingEntry $booking): void
     {
         $concurrent_dates = new ilDateList(ilDateList::TYPE_DATETIME);
         $start = clone $this->form->getItemByPostVar('st')->getDate();
@@ -888,7 +890,7 @@ class ilConsultationHoursGUI
         }
     }
 
-    protected function setTabs() : void
+    protected function setTabs(): void
     {
         $this->ctrl->setParameter($this, 'user_id', '');
         $this->tabs->addTab(
@@ -910,7 +912,7 @@ class ilConsultationHoursGUI
         $this->tabs->activateTab('consultation_hours_' . $this->getUserId());
     }
 
-    protected function setSubTabs() : void
+    protected function setSubTabs(): void
     {
         $this->ctrl->setParameter($this, 'user_id', $this->getUserId());
         $this->tabs->addSubTab(
@@ -933,7 +935,7 @@ class ilConsultationHoursGUI
     /**
      * Edit multiple sequence items
      */
-    public function edit() : void
+    public function edit(): void
     {
         if (!$this->http->wrapper()->post()->has('apps')) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('select_one'));
@@ -976,7 +978,7 @@ class ilConsultationHoursGUI
         $this->tpl->setContent($this->form->getHTML());
     }
 
-    protected function createNewBookingEntry(ilPropertyFormGUI $validate_form) : ?ilBookingEntry
+    protected function createNewBookingEntry(ilPropertyFormGUI $validate_form): ?ilBookingEntry
     {
         $booking = new \ilBookingEntry();
         $booking->setObjId($this->user_id);
@@ -1014,7 +1016,7 @@ class ilConsultationHoursGUI
         ilBookingEntry $booking,
         array $appointments,
         ilPropertyFormGUI $form
-    ) : void {
+    ): void {
         foreach ($appointments as $appointment_id) {
             $booking_appointment = new \ilCalendarEntry($appointment_id);
             $booking_start = $booking_appointment->getStart();
@@ -1045,7 +1047,7 @@ class ilConsultationHoursGUI
     /**
      * Update multiple sequence items
      */
-    protected function updateMulti() : void
+    protected function updateMulti(): void
     {
         $this->initFormSequence(self::MODE_MULTI);
 
@@ -1071,7 +1073,7 @@ class ilConsultationHoursGUI
     /**
      * confirm delete for multiple entries
      */
-    public function confirmDelete() : void
+    public function confirmDelete(): void
     {
         $apps = $this->initAppointmentIdsFromPost();
         if (!count($apps)) {
@@ -1116,7 +1118,7 @@ class ilConsultationHoursGUI
     /**
      * delete multiple entries
      */
-    public function delete() : void
+    public function delete(): void
     {
         if (!count($this->initAppointmentIdsFromPost())) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('select_one'));
@@ -1147,7 +1149,7 @@ class ilConsultationHoursGUI
     /**
      * show public profile of given user
      */
-    public function showProfile() : void
+    public function showProfile(): void
     {
         $this->tabs->clearTargets();
 
@@ -1166,7 +1168,7 @@ class ilConsultationHoursGUI
     /**
      * Build context-sensitive profile back url
      */
-    protected function getProfileBackUrl() : string
+    protected function getProfileBackUrl(): string
     {
         // from repository
         if ($this->http->wrapper()->query()->has('ref_id')) {
@@ -1184,7 +1186,7 @@ class ilConsultationHoursGUI
     /**
      * display settings gui
      */
-    public function settings() : void
+    public function settings(): void
     {
         $this->help->setScreenId("consultation_hours_settings");
         $this->tabs->activateTab('ch_settings');
@@ -1196,7 +1198,7 @@ class ilConsultationHoursGUI
     /**
      * build settings form
      */
-    protected function initSettingsForm() : ilPropertyFormGUI
+    protected function initSettingsForm(): ilPropertyFormGUI
     {
         $form = new ilPropertyFormGUI();
         $form->setFormAction($this->ctrl->getFormAction($this));
@@ -1215,7 +1217,7 @@ class ilConsultationHoursGUI
     /**
      * save settings
      */
-    public function updateSettings() : void
+    public function updateSettings(): void
     {
         $form = $this->initSettingsForm();
         if ($form->checkInput()) {

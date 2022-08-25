@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -30,7 +32,7 @@ class ilUserAvatarFactory
         $this->dic = $dic;
     }
 
-    public function avatar(string $size) : ilUserAvatar
+    public function avatar(string $size): ilUserAvatar
     {
         if ((int) $this->dic->settings()->get('letter_avatars')) {
             return $this->letter();
@@ -39,12 +41,12 @@ class ilUserAvatarFactory
         return $this->file($size);
     }
 
-    public function letter() : ilUserAvatarLetter
+    public function letter(): ilUserAvatarLetter
     {
         return new ilUserAvatarLetter();
     }
 
-    public function file(string $size) : ilUserAvatarFile
+    public function file(string $size): ilUserAvatarFile
     {
         return new ilUserAvatarFile($size);
     }

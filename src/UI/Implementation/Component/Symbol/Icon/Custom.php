@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\UI\Implementation\Component\Symbol\Icon;
 
 use ILIAS\UI\Component as C;
@@ -42,7 +44,7 @@ class Custom extends Icon implements C\Symbol\Icon\Custom
     /**
      * @inheritdoc
      */
-    public function getIconPath() : string
+    public function getIconPath(): string
     {
         return $this->icon_path;
     }

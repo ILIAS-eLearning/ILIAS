@@ -69,7 +69,7 @@ rector.php definition file located in `./CI/Rector/basic_rector.php`. A full lis
 of available rules can be found [here](https://github.com/rectorphp/rector/blob/main/docs/rector_rules_overview.md).
 
 The current configuration applied rules and rulesets will help you to 
-maintain your code and update it für PHP 7.4 and PHP 8.
+maintain your code and update it für PHP 8.0 and PHP 8.1.
 
 The rules will be applied to your code using the following command (the 
 example applies the ule so Services/GlobalCache): 

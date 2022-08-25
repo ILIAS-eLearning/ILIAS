@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -52,23 +54,23 @@ class ilSessionAppointment implements ilDatePeriod
         $this->__read();
     }
 
-    public static function _lookupAppointment(int $a_obj_id) : array
+    public static function _lookupAppointment(int $a_obj_id): array
     {
         global $DIC;
 
         $ilDB = $DIC->database();
-        
+
         $query = "SELECT * FROM event_appointment " .
             "WHERE event_id = " . $ilDB->quote($a_obj_id, 'integer') . " ";
         $res = $ilDB->query($query);
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             $info['fullday'] = $row->fulltime;
-            
+
             $date = new ilDateTime($row->e_start, IL_CAL_DATETIME, 'UTC');
             $info['start'] = $date->getUnixTime();
             $date = new ilDateTime($row->e_end, IL_CAL_DATETIME, 'UTC');
             $info['end'] = $date->getUnixTime();
-            
+
             return $info;
         }
         return [];
@@ -83,8 +85,8 @@ class ilSessionAppointment implements ilDatePeriod
 
         $tree = $DIC->repositoryTree();
         $ilDB = $DIC->database();
-        
-        
+
+
         $sessions = $tree->getChildsByType($a_ref_id, 'sess');
         $obj_ids = [];
         foreach ($sessions as $tree_data) {
@@ -98,24 +100,24 @@ class ilSessionAppointment implements ilDatePeriod
         $now = new ilDate(time(), IL_CAL_UNIX);
         $tomorrow = clone $now;
         $tomorrow->increment(IL_CAL_DAY, 2);
-        
+
         $query = "SELECT event_id FROM event_appointment " .
             "WHERE e_start > " . $ilDB->quote($now->get(IL_CAL_DATE), 'timestamp') . ' ' .
             "AND e_start < " . $ilDB->quote($tomorrow->get(IL_CAL_DATE), 'timestamp') . ' ' .
             "AND " . $ilDB->in('event_id', $obj_ids, false, 'integer') . ' ' .
             "ORDER BY e_start ";
-            
+
         $event_ids = [];
-            
+
         $res = $ilDB->query($query);
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             $event_ids[] = $row->event_id;
         }
-        
+
         if (count($event_ids)) {
             return $event_ids;
         }
-        
+
         // Alternativ: get next event.
         $query = "SELECT event_id FROM event_appointment " .
             "WHERE e_start > " . $ilDB->now() . " " .
@@ -138,7 +140,7 @@ class ilSessionAppointment implements ilDatePeriod
 
         $tree = $DIC->repositoryTree();
         $ilDB = $DIC->database();
-        
+
         $sessions = $tree->getChildsByType($a_ref_id, 'sess');
         $obj_ids = [];
         foreach ($sessions as $tree_data) {
@@ -159,96 +161,96 @@ class ilSessionAppointment implements ilDatePeriod
         return $event_id ?? 0;
     }
 
-    public function isFullday() : bool
+    public function isFullday(): bool
     {
         return $this->enabledFullTime();
     }
 
-    public function getStart() : ?ilDateTime
+    public function getStart(): ?ilDateTime
     {
         return $this->start ?: $this->start = new ilDateTime(date('Y-m-d') . ' 08:00:00', IL_CAL_DATETIME);
     }
 
-    public function setStart(ilDateTime $a_start) : void
+    public function setStart(ilDateTime $a_start): void
     {
         $this->start = $a_start;
     }
 
-    public function getEnd() : ?ilDateTime
+    public function getEnd(): ?ilDateTime
     {
         return $this->end ?: $this->end = new ilDateTime(date('Y-m-d') . ' 16:00:00', IL_CAL_DATETIME);
     }
 
-    public function setEnd(ilDateTime $a_end) : void
+    public function setEnd(ilDateTime $a_end): void
     {
         $this->end = $a_end;
     }
 
-    public function setAppointmentId(int $a_appointment_id) : void
+    public function setAppointmentId(int $a_appointment_id): void
     {
         $this->appointment_id = $a_appointment_id;
     }
 
-    public function getAppointmentId() : int
+    public function getAppointmentId(): int
     {
         return $this->appointment_id;
     }
 
-    public function setSessionId(int $a_session_id) : void
+    public function setSessionId(int $a_session_id): void
     {
         $this->session_id = $a_session_id;
     }
-    public function getSessionId() : int
+    public function getSessionId(): int
     {
         return $this->session_id;
     }
 
-    public function setStartingTime(int $a_starting_time) : void
+    public function setStartingTime(int $a_starting_time): void
     {
         $this->starting_time = $a_starting_time;
         $this->start = new ilDateTime($this->starting_time, IL_CAL_UNIX);
     }
 
-    public function getStartingTime() : int
+    public function getStartingTime(): int
     {
         return $this->starting_time ?? mktime(8, 0, 0, (int) date('n', time()), (int) date('j', time()), (int) date('Y', time()));
     }
-    
-    public function setEndingTime(int $a_ending_time) : void
+
+    public function setEndingTime(int $a_ending_time): void
     {
         $this->ending_time = $a_ending_time;
         $this->end = new ilDateTime($this->ending_time, IL_CAL_UNIX);
     }
-    public function getEndingTime() : int
+    public function getEndingTime(): int
     {
         return $this->ending_time ?? mktime(16, 0, 0, (int) date('n', time()), (int) date('j', time()), (int) date('Y', time()));
     }
 
-    public function toggleFullTime(bool $a_status) : void
+    public function toggleFullTime(bool $a_status): void
     {
         $this->fulltime = $a_status;
     }
-    public function enabledFullTime() : bool
+    public function enabledFullTime(): bool
     {
         return $this->fulltime;
     }
 
-    public function formatTime() : string
+    public function formatTime(): string
     {
         return $this->timeToString($this->getStartingTime(), $this->getEndingTime());
     }
 
-    public function timeToString(int $start, int $end) : string
+    public function timeToString(int $start, int $end): string
     {
         $lng = $this->lng;
 
         $start = date($lng->txt('lang_timeformat_no_sec'), $start);
         $end = date($lng->txt('lang_timeformat_no_sec'), $end);
-        
+
         return $start . ' - ' . $end;
     }
 
-    public static function _appointmentToString(int $start, int $end, bool $fulltime) : string
+    public static function _appointmentToString(int $start, int $end, bool $fulltime): string
     {
         global $DIC;
 
@@ -268,12 +270,12 @@ class ilSessionAppointment implements ilDatePeriod
         }
     }
 
-    public function appointmentToString() : string
+    public function appointmentToString(): string
     {
         return self::_appointmentToString($this->getStartingTime(), $this->getEndingTime(), $this->isFullday());
     }
 
-    public function cloneObject(int $new_id) : self
+    public function cloneObject(int $new_id): self
     {
         $new_app = new ilSessionAppointment();
         $new_app->setSessionId($new_id);
@@ -285,10 +287,10 @@ class ilSessionAppointment implements ilDatePeriod
         return $new_app;
     }
 
-    public function create() : bool
+    public function create(): bool
     {
         $ilDB = $this->db;
-        
+
         if (!$this->getSessionId()) {
             return false;
         }
@@ -303,14 +305,14 @@ class ilSessionAppointment implements ilDatePeriod
             ")";
         $this->appointment_id = $next_id;
         $res = $ilDB->manipulate($query);
-        
+
         return true;
     }
 
-    public function update() : bool
+    public function update(): bool
     {
         $ilDB = $this->db;
-        
+
         if (!$this->getSessionId()) {
             return false;
         }
@@ -325,12 +327,12 @@ class ilSessionAppointment implements ilDatePeriod
         return true;
     }
 
-    public function delete() : bool
+    public function delete(): bool
     {
         return self::_delete($this->getAppointmentId());
     }
 
-    public static function _delete(int $a_appointment_id) : bool
+    public static function _delete(int $a_appointment_id): bool
     {
         global $DIC;
 
@@ -343,7 +345,7 @@ class ilSessionAppointment implements ilDatePeriod
         return true;
     }
 
-    public static function _deleteBySession(int $a_event_id) : bool
+    public static function _deleteBySession(int $a_event_id): bool
     {
         global $DIC;
 
@@ -356,7 +358,7 @@ class ilSessionAppointment implements ilDatePeriod
         return true;
     }
 
-    public static function _readAppointmentsBySession(int $a_event_id) : array
+    public static function _readAppointmentsBySession(int $a_event_id): array
     {
         global $DIC;
 
@@ -373,8 +375,8 @@ class ilSessionAppointment implements ilDatePeriod
         }
         return $appointments;
     }
-            
-    public function validate() : bool
+
+    public function validate(): bool
     {
         if ($this->starting_time > $this->ending_time) {
             $this->ilErr->appendMessage($this->lng->txt('event_etime_smaller_stime'));
@@ -383,10 +385,10 @@ class ilSessionAppointment implements ilDatePeriod
         return true;
     }
 
-    protected function __read() : ?bool
+    protected function __read(): ?bool
     {
         $ilDB = $this->db;
-        
+
         if (!$this->getAppointmentId()) {
             return null;
         }
@@ -397,7 +399,7 @@ class ilSessionAppointment implements ilDatePeriod
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             $this->setSessionId((int) $row->event_id);
             $this->toggleFullTime((bool) $row->fulltime);
-            
+
             if ($this->isFullday()) {
                 $this->start = new ilDate($row->e_start, IL_CAL_DATETIME);
                 $this->end = new ilDate($row->e_end, IL_CAL_DATETIME);

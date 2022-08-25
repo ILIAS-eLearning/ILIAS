@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -51,7 +53,7 @@ class ilUserPasswordEncoderFactory
      * @return ilPasswordEncoder[]
      * @throws ilPasswordException
      */
-    protected function getValidEncoders(array $config) : array // Missing array type.
+    protected function getValidEncoders(array $config): array // Missing array type.
     {
         return [
             new ilBcryptPhpPasswordEncoder($config),
@@ -64,7 +66,7 @@ class ilUserPasswordEncoderFactory
      * @param array $config
      * @throws ilPasswordException
      */
-    protected function initEncoders(array $config) : void // Missing array type.
+    protected function initEncoders(array $config): void // Missing array type.
     {
         $this->encoders = [];
 
@@ -76,12 +78,12 @@ class ilUserPasswordEncoderFactory
         }
     }
 
-    public function getDefaultEncoder() : ?string
+    public function getDefaultEncoder(): ?string
     {
         return $this->defaultEncoder;
     }
 
-    public function setDefaultEncoder(string $defaultEncoder) : void
+    public function setDefaultEncoder(string $defaultEncoder): void
     {
         $this->defaultEncoder = $defaultEncoder;
     }
@@ -89,7 +91,7 @@ class ilUserPasswordEncoderFactory
     /**
      * @return array<string, ilPasswordEncoder>
      */
-    public function getEncoders() : array
+    public function getEncoders(): array
     {
         return $this->encoders;
     }
@@ -98,7 +100,7 @@ class ilUserPasswordEncoderFactory
      * @param ilPasswordEncoder[] $encoders
      * @throws ilUserException
      */
-    public function setEncoders(array $encoders) : void
+    public function setEncoders(array $encoders): void
     {
         $this->encoders = [];
         foreach ($encoders as $encoder) {
@@ -115,7 +117,7 @@ class ilUserPasswordEncoderFactory
     /**
      * @return string[]
      */
-    public function getSupportedEncoderNames() : array
+    public function getSupportedEncoderNames(): array
     {
         return array_keys($this->getEncoders());
     }
@@ -126,7 +128,7 @@ class ilUserPasswordEncoderFactory
      * @return ilPasswordEncoder
      * @throws ilUserException
      */
-    public function getEncoderByName(string $name, bool $get_default_on_mismatch = false) : ilPasswordEncoder
+    public function getEncoderByName(string $name, bool $get_default_on_mismatch = false): ilPasswordEncoder
     {
         if (!isset($this->encoders[$name])) {
             if (!$get_default_on_mismatch) {
@@ -149,7 +151,7 @@ class ilUserPasswordEncoderFactory
      * @return ilPasswordEncoder
      * @throws ilUserException
      */
-    public function getFirstEncoderForEncodedPasswordAndMatchers(string $encoded, array $matchers) : ilPasswordEncoder
+    public function getFirstEncoderForEncodedPasswordAndMatchers(string $encoded, array $matchers): ilPasswordEncoder
     {
         foreach ($this->getEncoders() as $encoder) {
             foreach ($matchers as $encoderName => $callback) {

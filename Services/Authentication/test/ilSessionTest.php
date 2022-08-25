@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -27,7 +29,7 @@ use PHPUnit\Framework\TestCase;
  */
 class ilSessionTest extends TestCase
 {
-    protected function setUp() : void
+    protected function setUp(): void
     {
         $this->dic = new Container();
         $GLOBALS['DIC'] = $this->dic;
@@ -60,7 +62,7 @@ class ilSessionTest extends TestCase
      * @param string $name
      * @param mixed  $value
      */
-    protected function setGlobalVariable(string $name, $value) : void
+    protected function setGlobalVariable(string $name, $value): void
     {
         global $DIC;
 
@@ -72,7 +74,7 @@ class ilSessionTest extends TestCase
         };
     }
 
-    public function tstBasicSessionBehaviour() : void
+    public function tstBasicSessionBehaviour(): void
     {
         global $DIC;
 
@@ -198,7 +200,7 @@ class ilSessionTest extends TestCase
         if (ilSession::_exists($duplicate)) {
             $result .= "destroyExp-";
         }
-        
+
         ilSession::_destroyByUserId(17);
         if (!ilSession::_exists($duplicate)) {
             $result .= "destroyByUser-";
@@ -206,7 +208,7 @@ class ilSessionTest extends TestCase
         $this->assertEquals("exists-write-get-duplicate-destroy-destroyExp-destroyByUser-", $result);
     }
 
-    public function testPasswordAssisstanceSession() : void
+    public function testPasswordAssisstanceSession(): void
     {
         global $DIC;
 

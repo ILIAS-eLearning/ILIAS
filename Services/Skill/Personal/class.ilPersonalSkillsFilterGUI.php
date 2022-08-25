@@ -43,7 +43,7 @@ class ilPersonalSkillsFilterGUI
         $this->requested_materials_resources = $this->personal_gui_request->getShowMaterialsResources();
     }
 
-    public function addToToolbar(ilToolbarGUI $toolbar, bool $a_include_target = true) : void
+    public function addToToolbar(ilToolbarGUI $toolbar, bool $a_include_target = true): void
     {
         $lng = $this->lng;
 
@@ -99,7 +99,7 @@ class ilPersonalSkillsFilterGUI
     /**
      * Save filter values to session
      */
-    public function save() : void
+    public function save(): void
     {
         $from = new ilDateTimeInputGUI("", "from");
         $from->checkInput();
@@ -118,7 +118,7 @@ class ilPersonalSkillsFilterGUI
         ilSession::set("skmg_pf_to", $t);
     }
 
-    public function isInRange(array $level_entry) : bool
+    public function isInRange(array $level_entry): bool
     {
         // from
         if (ilSession::get("skmg_pf_from") != "") {
@@ -149,12 +149,12 @@ class ilPersonalSkillsFilterGUI
         return true;
     }
 
-    public function showTargetLevel() : bool
+    public function showTargetLevel(): bool
     {
         return !ilSession::get("skmg_pf_target_level");
     }
 
-    public function showMaterialsRessources() : bool
+    public function showMaterialsRessources(): bool
     {
         return !ilSession::get("skmg_pf_mat_res");
     }

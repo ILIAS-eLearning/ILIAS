@@ -15,7 +15,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 use ILIAS\BackgroundTasks\Implementation\Bucket\BasicBucket;
 use ILIAS\BackgroundTasks\Task\TaskFactory;
 use ILIAS\BackgroundTasks\TaskManager;
@@ -57,7 +57,7 @@ class ilDownloadSubmissionsBackgroundTask
         $this->logger = $DIC->logger()->exc();
     }
 
-    public function run() : bool
+    public function run(): bool
     {
         $bucket = new BasicBucket();
         $bucket->setUserId($this->user_id);
@@ -104,7 +104,7 @@ class ilDownloadSubmissionsBackgroundTask
         return true;
     }
 
-    protected function getParticipantBucketTitle() : string
+    protected function getParticipantBucketTitle(): string
     {
         $name = ilObjUser::_lookupName($this->participant_id);
         return ucfirst($name['lastname']) . ", " . ucfirst($name['firstname']);

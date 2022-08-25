@@ -27,8 +27,8 @@ require_once 'Modules/TestQuestionPool/exceptions/class.ilTestQuestionPoolExcept
  */
 class ilAssQuestionHint
 {
-    const PAGE_OBJECT_TYPE = 'qht';
-    
+    public const PAGE_OBJECT_TYPE = 'qht';
+
     /**
      * this is the primary key for a hint single hint
      *
@@ -36,7 +36,7 @@ class ilAssQuestionHint
      * @var		integer
      */
     private $id = null;
-    
+
     /**
      * the id of question this hint relates to
      *
@@ -44,7 +44,7 @@ class ilAssQuestionHint
      * @var		integer
      */
     private $questionId = null;
-    
+
     /**
      * a list of hints is offered step by step
      * regarding to the order based on this index
@@ -53,7 +53,7 @@ class ilAssQuestionHint
      * @var		integer
      */
     private $index = null;
-    
+
     /**
      * the points the have to be ground-off
      * when a user resorts to this hint
@@ -62,7 +62,7 @@ class ilAssQuestionHint
      * @var		integer
      */
     private $points = null;
-    
+
     /**
      * the hint text itself
      *
@@ -70,7 +70,7 @@ class ilAssQuestionHint
      * @var		string
      */
     private $text = null;
-    
+
     /**
      * Constructor
      *
@@ -79,14 +79,14 @@ class ilAssQuestionHint
     public function __construct()
     {
     }
-    
+
     /**
      * returns the hint id
      *
      * @access	public
      * @return	integer	$id
      */
-    public function getId() : ?int
+    public function getId(): ?int
     {
         return $this->id;
     }
@@ -97,7 +97,7 @@ class ilAssQuestionHint
      * @access	public
      * @param	integer	$id
      */
-    public function setId($id) : void
+    public function setId($id): void
     {
         $this->id = (int) $id;
     }
@@ -108,7 +108,7 @@ class ilAssQuestionHint
      * @access	public
      * @return	integer	$questionId
      */
-    public function getQuestionId() : ?int
+    public function getQuestionId(): ?int
     {
         return $this->questionId;
     }
@@ -119,7 +119,7 @@ class ilAssQuestionHint
      * @access	public
      * @param	integer	$questionId
      */
-    public function setQuestionId($questionId) : void
+    public function setQuestionId($questionId): void
     {
         $this->questionId = (int) $questionId;
     }
@@ -130,7 +130,7 @@ class ilAssQuestionHint
      * @access	public
      * @return	integer	$index
      */
-    public function getIndex() : ?int
+    public function getIndex(): ?int
     {
         return $this->index;
     }
@@ -141,7 +141,7 @@ class ilAssQuestionHint
      * @access	public
      * @param	integer	$index
      */
-    public function setIndex($index) : void
+    public function setIndex($index): void
     {
         $this->index = (int) $index;
     }
@@ -152,7 +152,7 @@ class ilAssQuestionHint
      * @access	public
      * @return	integer	$points
      */
-    public function getPoints() : ?float
+    public function getPoints(): ?float
     {
         return $this->points;
     }
@@ -163,7 +163,7 @@ class ilAssQuestionHint
      * @access	public
      * @param	integer	$points
      */
-    public function setPoints($points) : void
+    public function setPoints($points): void
     {
         $this->points = (float) $points;
     }
@@ -174,7 +174,7 @@ class ilAssQuestionHint
      * @access	public
      * @return	string	$text
      */
-    public function getText() : ?string
+    public function getText(): ?string
     {
         return $this->text;
     }
@@ -185,11 +185,11 @@ class ilAssQuestionHint
      * @access	public
      * @param	string	$text
      */
-    public function setText($text) : void
+    public function setText($text): void
     {
         $this->text = $text;
     }
-    
+
     /**
      * loads the hint dataset with passed id from database
      * and assigns it the to this hint object instance
@@ -199,11 +199,11 @@ class ilAssQuestionHint
      * @param	integer	$id
      * @return	boolean	$success
      */
-    public function load($id) : bool
+    public function load($id): bool
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
-        
+
         $query = "
 			SELECT	qht_hint_id,
 					qht_question_fi,
@@ -215,22 +215,22 @@ class ilAssQuestionHint
 			
 			WHERE	qht_hint_id = %s
 		";
-        
+
         $res = $ilDB->queryF(
             $query,
             array('integer'),
             array((int) $id)
         );
-        
+
         while ($row = $ilDB->fetchAssoc($res)) {
             self::assignDbRow($this, $row);
-            
+
             return true;
         }
-        
+
         return false;
     }
-    
+
     /**
      * saves the current hint object state to database. it performs an insert or update,
      * depending on the current initialisation of the hint id property
@@ -240,7 +240,7 @@ class ilAssQuestionHint
      * @access	public
      * @return	boolean	$success
      */
-    public function save() : bool
+    public function save(): bool
     {
         if ($this->getId()) {
             return $this->update();
@@ -248,7 +248,7 @@ class ilAssQuestionHint
             return $this->insert();
         }
     }
-    
+
     /**
      * persists the current object state to database by updating
      * an existing dataset identified by hint id
@@ -257,11 +257,11 @@ class ilAssQuestionHint
      * @global	ilDBInterface	$ilDB
      * @return	boolean	$success
      */
-    private function update() : bool
+    private function update(): bool
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
-        
+
         return $ilDB->update(
             'qpl_hints',
             array(
@@ -275,7 +275,7 @@ class ilAssQuestionHint
                 )
         );
     }
-    
+
     /**
      * persists the current object state to database by inserting
      * a new dataset with a new hint id fetched from primary key sequence
@@ -284,13 +284,13 @@ class ilAssQuestionHint
      * @global	ilDBInterface	$ilDB
      * @return	boolean	$success
      */
-    private function insert() : bool
+    private function insert(): bool
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
-        
+
         $this->setId($ilDB->nextId('qpl_hints'));
-        
+
         return $ilDB->insert('qpl_hints', array(
             'qht_hint_id' => array('integer', $this->getId()),
             'qht_question_fi' => array('integer', $this->getQuestionId()),
@@ -299,18 +299,18 @@ class ilAssQuestionHint
             'qht_hint_text' => array('clob', $this->getText())
         ));
     }
-    
+
     /**
      * deletes the persisted hint object in database by deleting
      * the hint dataset identified by hint id
      *
      * @return	integer	$affectedRows
      */
-    public function delete() : int
+    public function delete(): int
     {
         return self::deleteById($this->getId());
     }
-    
+
     /**
      * assigns the field elements of passed hint db row array to the
      * corresponding hint object properties of passed hint object instance
@@ -320,21 +320,26 @@ class ilAssQuestionHint
      * @param	self	$questionHint
      * @param	array	$hintDbRow
      */
-    public static function assignDbRow(self $questionHint, $hintDbRow) : void
+    public static function assignDbRow(self $questionHint, $hintDbRow): void
     {
         foreach ($hintDbRow as $field => $value) {
             switch ($field) {
-                case 'qht_hint_id':			$questionHint->setId($value); break;
-                case 'qht_question_fi':		$questionHint->setQuestionId($value); break;
-                case 'qht_hint_index':		$questionHint->setIndex($value); break;
-                case 'qht_hint_points':		$questionHint->setPoints($value); break;
-                case 'qht_hint_text':		$questionHint->setText($value); break;
-                
+                case 'qht_hint_id':			$questionHint->setId($value);
+                    break;
+                case 'qht_question_fi':		$questionHint->setQuestionId($value);
+                    break;
+                case 'qht_hint_index':		$questionHint->setIndex($value);
+                    break;
+                case 'qht_hint_points':		$questionHint->setPoints($value);
+                    break;
+                case 'qht_hint_text':		$questionHint->setText($value);
+                    break;
+
                 default:	throw new ilTestQuestionPoolException("invalid db field identifier ($field) given!");
             }
         }
     }
-    
+
     /**
      * deletes the persisted hint object in database by deleting
      * the hint dataset identified by hint id
@@ -345,23 +350,23 @@ class ilAssQuestionHint
      * @param	integer	$hintId
      * @return	integer	$affectedRows
      */
-    public static function deleteById($hintId) : int
+    public static function deleteById($hintId): int
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
-        
+
         $query = "
 			DELETE FROM		qpl_hints
 			WHERE			qht_hint_id = %s
 		";
-        
+
         return $ilDB->manipulateF(
             $query,
             array('integer'),
             array($hintId)
         );
     }
-    
+
     /**
      * creates a hint object instance, loads the persisted hint dataset
      * identified by passed hint id from database and assigns it as object state
@@ -371,19 +376,19 @@ class ilAssQuestionHint
      * @param	integer	$hintId
      * @return	self	$hintInstance
      */
-    public static function getInstanceById($hintId) : ilAssQuestionHint
+    public static function getInstanceById($hintId): ilAssQuestionHint
     {
         $questionHint = new self();
         $questionHint->load($hintId);
         return $questionHint;
     }
-    
-    public function getPageObjectType() : string
+
+    public function getPageObjectType(): string
     {
         return self::PAGE_OBJECT_TYPE;
     }
-    
-    public static function getHintIndexLabel(ilLanguage $lng, $hintIndex) : string
+
+    public static function getHintIndexLabel(ilLanguage $lng, $hintIndex): string
     {
         return sprintf($lng->txt('tst_question_hints_index_column_label'), $hintIndex);
     }

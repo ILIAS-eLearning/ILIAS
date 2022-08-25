@@ -54,7 +54,7 @@ class ilOrgUnitTypeTranslation
      * @param string $a_lang_code    Language code
      * @return ilOrgUnitTypeTranslation|null
      */
-    public static function getInstance(int $a_orgu_type_id, string $a_lang_code) : ?ilOrgUnitTypeTranslation
+    public static function getInstance(int $a_orgu_type_id, string $a_lang_code): ?ilOrgUnitTypeTranslation
     {
         if (!$a_orgu_type_id || !$a_lang_code) {
             return null;
@@ -79,14 +79,16 @@ class ilOrgUnitTypeTranslation
      * @param int $a_orgu_type_id
      * @return array
      */
-    public static function getAllTranslations(int $a_orgu_type_id) : array
+    public static function getAllTranslations(int $a_orgu_type_id): array
     {
         global $DIC;
         /** @var ilDBInterface $db **/;
         $db = $DIC->database();
 
-        $sql = 'SELECT DISTINCT lang FROM ' . self::TABLE_NAME . ' WHERE orgu_type_id = ' . $db->quote($a_orgu_type_id,
-                'integer');
+        $sql = 'SELECT DISTINCT lang FROM ' . self::TABLE_NAME . ' WHERE orgu_type_id = ' . $db->quote(
+            $a_orgu_type_id,
+            'integer'
+        );
         $set = $db->query($sql);
         $objects = array();
         while ($rec = $db->fetchObject($set)) {
@@ -108,7 +110,7 @@ class ilOrgUnitTypeTranslation
      * @param string $a_lang
      * @return bool
      */
-    public static function exists(int $a_orgu_type_id, string $a_member, string $a_lang, string $a_value) : bool
+    public static function exists(int $a_orgu_type_id, string $a_member, string $a_lang, string $a_value): bool
     {
         global $DIC;
         /** @var ilDBInterface $db **/;
@@ -129,7 +131,7 @@ class ilOrgUnitTypeTranslation
      * @param string $a_member Name of the variable, e.g. title,description
      * @return string|null
      */
-    public function getMember(string $a_member) : ?string
+    public function getMember(string $a_member): ?string
     {
         return (isset($this->members[$a_member])) ? (string) $this->members[$a_member] : null;
     }
@@ -149,7 +151,7 @@ class ilOrgUnitTypeTranslation
     /**
      * Insert all translated member into database
      */
-    public function create() : void
+    public function create(): void
     {
         foreach ($this->members as $member => $value) {
             $this->insertMember($member, $value);
@@ -160,7 +162,7 @@ class ilOrgUnitTypeTranslation
     /**
      * Update translations in database. Newly added members are inserted.
      */
-    public function update() : void
+    public function update(): void
     {
         foreach ($this->changes as $changed_member) {
             // Check if the member needs to be updated or inserted into database
@@ -176,10 +178,12 @@ class ilOrgUnitTypeTranslation
     /**
      * Delete object
      */
-    public function delete() : void
+    public function delete(): void
     {
-        $sql = 'DELETE FROM ' . self::TABLE_NAME . ' WHERE orgu_type_id = ' . $this->db->quote($this->getOrguTypeId(),
-                'integer') .
+        $sql = 'DELETE FROM ' . self::TABLE_NAME . ' WHERE orgu_type_id = ' . $this->db->quote(
+            $this->getOrguTypeId(),
+            'integer'
+        ) .
             ' AND lang = ' . $this->db->quote($this->getLang(), 'text');
         $this->db->manipulate($sql);
     }
@@ -187,7 +191,7 @@ class ilOrgUnitTypeTranslation
     /**
      * Delete every translation existing for a given OrgUnit type id
      */
-    public static function deleteAllTranslations(string $a_orgu_type_id) : void
+    public static function deleteAllTranslations(string $a_orgu_type_id): void
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -204,7 +208,7 @@ class ilOrgUnitTypeTranslation
     /**
      * Insert a (member,value) pair in database
      */
-    protected function insertMember(string $member, string $value) : void
+    protected function insertMember(string $member, string $value): void
     {
         $this->db->insert(self::TABLE_NAME, array(
             'orgu_type_id' => array('integer', $this->getOrguTypeId()),
@@ -217,7 +221,7 @@ class ilOrgUnitTypeTranslation
     /**
      * Update a (member,value) pair in database
      */
-    protected function updateMember(string $member, string $value) : void
+    protected function updateMember(string $member, string $value): void
     {
         $this->db->update(self::TABLE_NAME, array(
             'value' => array('text', $value),
@@ -233,7 +237,7 @@ class ilOrgUnitTypeTranslation
      * @param string $a_member Name of a variable, e.g. title,description
      * @param bool   $is_new   True if the member did not exist before
      */
-    protected function trackChange(string $a_member, bool $is_new) : void
+    protected function trackChange(string $a_member, bool $is_new): void
     {
         if (!in_array($a_member, $this->changes)) {
             $this->changes[] = $a_member;
@@ -246,7 +250,7 @@ class ilOrgUnitTypeTranslation
     /**
      * Reset tracked members
      */
-    protected function resetTrackChanges() : void
+    protected function resetTrackChanges(): void
     {
         $this->changes = array();
         $this->members_new = array();
@@ -256,10 +260,12 @@ class ilOrgUnitTypeTranslation
      * Read object data from database
      * @throws ilOrgUnitTypeException
      */
-    protected function read() : void
+    protected function read(): void
     {
-        $sql = 'SELECT * FROM ' . self::TABLE_NAME . ' WHERE orgu_type_id = ' . $this->db->quote($this->orgu_type_id,
-                'integer') .
+        $sql = 'SELECT * FROM ' . self::TABLE_NAME . ' WHERE orgu_type_id = ' . $this->db->quote(
+            $this->orgu_type_id,
+            'integer'
+        ) .
             ' AND lang = ' . $this->db->quote($this->lang, 'text');
         $set = $this->db->query($sql);
         if (!$this->db->numRows($set)) {
@@ -275,27 +281,27 @@ class ilOrgUnitTypeTranslation
      * Getters & Setters
      */
 
-    public function setLang(string $lang) : void
+    public function setLang(string $lang): void
     {
         $this->lang = $lang;
     }
 
-    public function getLang() : string
+    public function getLang(): string
     {
         return $this->lang;
     }
 
-    public function getMembers() : array
+    public function getMembers(): array
     {
         return $this->members;
     }
 
-    public function getOrguTypeId() : int
+    public function getOrguTypeId(): int
     {
         return $this->orgu_type_id;
     }
 
-    public function setOrguTypeId(int $id) : void
+    public function setOrguTypeId(int $id): void
     {
         $this->orgu_type_id = $id;
     }

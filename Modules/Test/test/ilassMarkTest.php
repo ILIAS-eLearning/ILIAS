@@ -1,4 +1,5 @@
 <?php
+
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 use PHPUnit\Framework\TestCase;
@@ -17,7 +18,7 @@ class ilassMarkTest extends TestCase
     /** @var  $ass_mark ASS_Mark */
     protected ASS_Mark $ass_mark;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         chdir(dirname(__FILE__));
         chdir('../../../');

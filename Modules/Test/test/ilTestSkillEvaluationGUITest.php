@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /* Copyright (c) 1998-2020 ILIAS open source, Extended GPL, see docs/LICENSE */
 
@@ -10,7 +12,7 @@ class ilTestSkillEvaluationGUITest extends ilTestBaseTestCase
 {
     private ilTestSkillEvaluationGUI $testObj;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -24,33 +26,33 @@ class ilTestSkillEvaluationGUITest extends ilTestBaseTestCase
         );
     }
 
-    public function test_instantiateObject_shouldReturnInstance() : void
+    public function test_instantiateObject_shouldReturnInstance(): void
     {
         $this->assertInstanceOf(ilTestSkillEvaluationGUI::class, $this->testObj);
     }
 
-    public function testQuestionList() : void
+    public function testQuestionList(): void
     {
         $mock = $this->createMock(ilAssQuestionList::class);
         $this->testObj->setQuestionList($mock);
         $this->assertEquals($mock, $this->testObj->getQuestionList());
     }
 
-    public function testObjectiveOrientedContainer() : void
+    public function testObjectiveOrientedContainer(): void
     {
         $mock = $this->createMock(ilTestObjectiveOrientedContainer::class);
         $this->testObj->setObjectiveOrientedContainer($mock);
         $this->assertEquals($mock, $this->testObj->getObjectiveOrientedContainer());
     }
 
-    public function testTestSession() : void
+    public function testTestSession(): void
     {
         $mock = $this->createMock(ilTestSession::class);
         $this->testObj->setTestSession($mock);
         $this->assertEquals($mock, $this->testObj->getTestSession());
     }
 
-    public function testNoSkillProfileOptionEnabled() : void
+    public function testNoSkillProfileOptionEnabled(): void
     {
         $this->testObj->setNoSkillProfileOptionEnabled(false);
         $this->assertFalse($this->testObj->isNoSkillProfileOptionEnabled());
@@ -59,14 +61,14 @@ class ilTestSkillEvaluationGUITest extends ilTestBaseTestCase
         $this->assertTrue($this->testObj->isNoSkillProfileOptionEnabled());
     }
 
-    public function testAvailableSkillProfiles() : void
+    public function testAvailableSkillProfiles(): void
     {
         $expected = ["test", "test2"];
         $this->testObj->setAvailableSkillProfiles($expected);
         $this->assertEquals($expected, $this->testObj->getAvailableSkillProfiles());
     }
 
-    public function testAvailableSkills() : void
+    public function testAvailableSkills(): void
     {
         $expected = ["test", "test2"];
         $this->testObj->setAvailableSkills($expected);

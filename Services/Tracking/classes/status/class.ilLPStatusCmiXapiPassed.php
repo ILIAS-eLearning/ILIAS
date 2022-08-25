@@ -1,4 +1,6 @@
-<?php declare(strict_types=0);
+<?php
+
+declare(strict_types=0);
 
 /******************************************************************************
  * This file is part of ILIAS, a powerful learning management system.
@@ -18,7 +20,7 @@
  */
 class ilLPStatusCmiXapiPassed extends ilLPStatusCmiXapiAbstract
 {
-    protected function resultSatisfyCompleted(ilCmiXapiResult $result) : bool
+    protected function resultSatisfyCompleted(ilCmiXapiResult $result): bool
     {
         if ($result->getStatus() === 'passed') {
             return true;
@@ -27,7 +29,7 @@ class ilLPStatusCmiXapiPassed extends ilLPStatusCmiXapiAbstract
         return false;
     }
 
-    protected function resultSatisfyFailed(ilCmiXapiResult $result) : bool
+    protected function resultSatisfyFailed(ilCmiXapiResult $result): bool
     {
         return false;
     }

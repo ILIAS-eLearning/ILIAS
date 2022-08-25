@@ -36,19 +36,19 @@ class ilTimelineGUI
         $this->tpl = $DIC->ui()->mainTemplate();
     }
 
-    public static function getInstance() : self
+    public static function getInstance(): self
     {
         return new self();
     }
 
-    public function addItem(ilTimelineItemInt $a_item) : void
+    public function addItem(ilTimelineItemInt $a_item): void
     {
         $this->items[] = $a_item;
     }
 
     public function render(
         bool $a_items_only = false
-    ) : string {
+    ): string {
         $this->tpl->addJavaScript("./Services/News/Timeline/js/Timeline.js");
         $this->tpl->addJavaScript("./Services/News/Timeline/libs/jquery-dynamic-max-height-master/src/jquery.dynamicmaxheight.js");
 

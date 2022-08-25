@@ -40,28 +40,28 @@ class ilPersonalSkillTableGUI extends ilTable2GUI
         $ilAccess = $DIC->access();
         $lng = $DIC->language();
         $ilUser = $DIC->user();
-        
+
         parent::__construct($a_parent_obj, $a_parent_cmd);
-        
+
         $this->setData(ilPersonalSkill::getSelectedUserSkills($ilUser->getId()));
         $this->setTitle($lng->txt("skills"));
-        
+
         $this->addColumn("", "", "1", true);
         $this->addColumn($this->lng->txt("title"), "title");
         $this->addColumn($this->lng->txt("skmg_materials"));
         $this->addColumn($this->lng->txt("actions"));
-        
+
         $this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
         $this->setRowTemplate("tpl.personal_skill_row.html", "Services/Skill");
 
         $this->addMultiCommand("confirmSkillRemove", $lng->txt("skmg_remove_skills"));
     }
 
-    protected function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set): void
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
-        
+
         // assign materials
         $ilCtrl->setParameterByClass("ilpersonalskillsgui", "skill_id", $a_set["skill_node_id"]);
         $this->tpl->setCurrentBlock("cmd");

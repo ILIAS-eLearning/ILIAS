@@ -54,7 +54,7 @@ class ilObjLearningHistorySettingsGUI extends ilObjectGUI
         $this->lng->loadLanguageModule("lhist");
     }
 
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         $ctrl = $this->ctrl;
         $tabs = $this->tabs;
@@ -87,7 +87,7 @@ class ilObjLearningHistorySettingsGUI extends ilObjectGUI
         }
     }
 
-    public function getAdminTabs() : void
+    public function getAdminTabs(): void
     {
         $rbacsystem = $this->rbacsystem;
         $lng = $this->lng;
@@ -111,7 +111,7 @@ class ilObjLearningHistorySettingsGUI extends ilObjectGUI
         }
     }
 
-    public function editSettings() : void
+    public function editSettings(): void
     {
         $main_tpl = $this->main_tpl;
         $ui = $this->ui;
@@ -123,7 +123,7 @@ class ilObjLearningHistorySettingsGUI extends ilObjectGUI
         $main_tpl->setContent($ui->renderer()->render($form));
     }
 
-    public function initForm() : \ILIAS\UI\Component\Input\Container\Form\Standard
+    public function initForm(): \ILIAS\UI\Component\Input\Container\Form\Standard
     {
         $ui = $this->ui;
         $f = $ui->factory();
@@ -145,7 +145,7 @@ class ilObjLearningHistorySettingsGUI extends ilObjectGUI
         return $f->input()->container()->form()->standard($form_action, ["sec" => $section1]);
     }
 
-    public function saveSettings() : void
+    public function saveSettings(): void
     {
         $request = $this->request;
         $form = $this->initForm();

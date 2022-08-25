@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -41,22 +43,22 @@ class ilStudyProgrammeAutoCategory
         $this->last_edited = $last_edited;
     }
 
-    public function getPrgObjId() : int
+    public function getPrgObjId(): int
     {
         return $this->prg_obj_id;
     }
 
-    public function getCategoryRefId() : int
+    public function getCategoryRefId(): int
     {
         return $this->category_ref_id;
     }
 
-    public function getLastEditorId() : int
+    public function getLastEditorId(): int
     {
         return $this->last_edited_usr_id;
     }
 
-    public function getLastEdited() : DateTimeImmutable
+    public function getLastEdited(): DateTimeImmutable
     {
         return $this->last_edited;
     }

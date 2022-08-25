@@ -14,25 +14,25 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * Class ilBiblFieldFilter
  * @author: Benjamin Seglias   <bs@studer-raimann.ch>
  */
 class ilBiblFieldFilter extends ActiveRecord implements ilBiblFieldFilterInterface
 {
-    const TABLE_NAME = 'il_bibl_filter';
-    
-    public static function returnDbTableName() : string
+    public const TABLE_NAME = 'il_bibl_filter';
+
+    public static function returnDbTableName(): string
     {
         return self::TABLE_NAME;
     }
-    
-    public function getConnectorContainerName() : string
+
+    public function getConnectorContainerName(): string
     {
         return self::TABLE_NAME;
     }
-    
+
     /**
      * @con_has_field  true
      * @con_fieldtype  integer
@@ -65,43 +65,43 @@ class ilBiblFieldFilter extends ActiveRecord implements ilBiblFieldFilterInterfa
      * @con_length    1
      */
     protected int $filter_type;
-    
-    public function getId() : ?int
+
+    public function getId(): ?int
     {
         return $this->id;
     }
-    
-    public function setId(int $id) : void
+
+    public function setId(int $id): void
     {
         $this->id = $id;
     }
-    
-    public function getFieldId() : int
+
+    public function getFieldId(): int
     {
         return $this->field_id;
     }
-    
-    public function setFieldId(int $field_id) : void
+
+    public function setFieldId(int $field_id): void
     {
         $this->field_id = $field_id;
     }
-    
-    public function getObjectId() : int
+
+    public function getObjectId(): int
     {
         return $this->object_id;
     }
-    
-    public function setObjectId(int $object_id) : void
+
+    public function setObjectId(int $object_id): void
     {
         $this->object_id = $object_id;
     }
-    
-    public function getFilterType() : int
+
+    public function getFilterType(): int
     {
         return $this->filter_type;
     }
-    
-    public function setFilterType(int $filter_type) : void
+
+    public function setFilterType(int $filter_type): void
     {
         $this->filter_type = $filter_type;
     }

@@ -24,24 +24,24 @@ class ilGlobalCacheSetupAgentTest extends TestCase
      */
     protected $obj;
 
-    public function setUp() : void
+    public function setUp(): void
     {
         $this->refinery = new Refinery($this->createMock(DataFactory::class), $this->createMock(\ilLanguage::class));
 
         $this->obj = new TestObj($this->refinery);
     }
 
-    public function testCreate() : void
+    public function testCreate(): void
     {
         $this->assertInstanceOf(\ilGlobalCacheSetupAgent::class, $this->obj);
     }
 
-    public function testHasConfig() : void
+    public function testHasConfig(): void
     {
         $this->assertTrue($this->obj->hasConfig());
     }
 
-    public function testGetArrayToConfigTransformationWithNullData() : void
+    public function testGetArrayToConfigTransformationWithNullData(): void
     {
         $fnc = $this->obj->getArrayToConfigTransformation();
 
@@ -51,7 +51,7 @@ class ilGlobalCacheSetupAgentTest extends TestCase
         $this->assertFalse($settings->isActive());
     }
 
-    public function testGetArrayToConfigTransformationWithEmptyDataArray() : void
+    public function testGetArrayToConfigTransformationWithEmptyDataArray(): void
     {
         $fnc = $this->obj->getArrayToConfigTransformation();
 
@@ -61,7 +61,7 @@ class ilGlobalCacheSetupAgentTest extends TestCase
         $this->assertFalse($settings->isActive());
     }
 
-    public function testGetArrayToConfigTransformationWithNullComponents() : void
+    public function testGetArrayToConfigTransformationWithNullComponents(): void
     {
         $fnc = $this->obj->getArrayToConfigTransformation();
 
@@ -71,7 +71,7 @@ class ilGlobalCacheSetupAgentTest extends TestCase
         $this->assertFalse($settings->isActive());
     }
 
-    public function testGetArrayToConfigTransformationWithNullMemcachedData() : void
+    public function testGetArrayToConfigTransformationWithNullMemcachedData(): void
     {
         $fnc = $this->obj->getArrayToConfigTransformation();
 
@@ -81,7 +81,7 @@ class ilGlobalCacheSetupAgentTest extends TestCase
         $this->assertFalse($settings->isActive());
     }
 
-    public function testGetArrayToConfigTransformationWithNullMemcachedDataArray() : void
+    public function testGetArrayToConfigTransformationWithNullMemcachedDataArray(): void
     {
         $fnc = $this->obj->getArrayToConfigTransformation();
 
@@ -91,7 +91,7 @@ class ilGlobalCacheSetupAgentTest extends TestCase
         $this->assertFalse($settings->isActive());
     }
 
-    public function testGetArrayToConfigTransformationWithEmptyMemcachedDataArray() : void
+    public function testGetArrayToConfigTransformationWithEmptyMemcachedDataArray(): void
     {
         $fnc = $this->obj->getArrayToConfigTransformation();
 
@@ -101,10 +101,10 @@ class ilGlobalCacheSetupAgentTest extends TestCase
         $this->assertFalse($settings->isActive());
     }
 
-    public function testGetArrayToConfigTransformationWithDataServices() : void
+    public function testGetArrayToConfigTransformationWithDataServices(): void
     {
         $fnc = $this->obj->getArrayToConfigTransformation();
-    
+
         $services = [
             \ilGlobalCache::TYPE_STATIC => "static",
             \ilGlobalCache::TYPE_MEMCACHED => "memcached",
@@ -131,7 +131,7 @@ class ilGlobalCacheSetupAgentTest extends TestCase
         }
     }
 
-    public function testGetArrayToConfigTransformationWithServiceException() : void
+    public function testGetArrayToConfigTransformationWithServiceException(): void
     {
         $fnc = $this->obj->getArrayToConfigTransformation();
 
@@ -154,7 +154,7 @@ class ilGlobalCacheSetupAgentTest extends TestCase
         );
     }
 
-    public function testGetArrayToConfigTransformationWithMemcachedNode() : void
+    public function testGetArrayToConfigTransformationWithMemcachedNode(): void
     {
         $fnc = $this->obj->getArrayToConfigTransformation();
 
@@ -185,7 +185,7 @@ class ilGlobalCacheSetupAgentTest extends TestCase
         $this->assertEquals("10", $node->getWeight());
     }
 
-    public function testGetMemcachedServerActive() : void
+    public function testGetMemcachedServerActive(): void
     {
         $node = $node = [
             "active" => "1",
@@ -202,7 +202,7 @@ class ilGlobalCacheSetupAgentTest extends TestCase
         $this->assertEquals("20", $result->getWeight());
     }
 
-    public function testGetMemcachedServerInactive() : void
+    public function testGetMemcachedServerInactive(): void
     {
         $node = $node = [
             "active" => "0",
@@ -219,7 +219,7 @@ class ilGlobalCacheSetupAgentTest extends TestCase
         $this->assertEquals("20", $result->getWeight());
     }
 
-    public function testGetInstallObjectives() : void
+    public function testGetInstallObjectives(): void
     {
         $setup_conf_mock = $this->createMock(\ilGlobalCacheSettings::class);
         $objective_collection = $this->obj->getInstallObjective($setup_conf_mock);
@@ -228,7 +228,7 @@ class ilGlobalCacheSetupAgentTest extends TestCase
         $this->assertFalse($objective_collection->isNotable());
     }
 
-    public function testGetUpdateObjective() : void
+    public function testGetUpdateObjective(): void
     {
         $setup_conf_mock = $this->createMock(\ilGlobalCacheSettings::class);
         $objective_collection = $this->obj->getUpdateObjective($setup_conf_mock);
@@ -237,7 +237,7 @@ class ilGlobalCacheSetupAgentTest extends TestCase
         $this->assertFalse($objective_collection->isNotable());
     }
 
-    public function testGetUpdateObjectiveWithoutConfig() : void
+    public function testGetUpdateObjectiveWithoutConfig(): void
     {
         $objective_collection = $this->obj->getUpdateObjective();
 
@@ -245,7 +245,7 @@ class ilGlobalCacheSetupAgentTest extends TestCase
     }
 
 
-    public function testGetBuildArtifactObjective() : void
+    public function testGetBuildArtifactObjective(): void
     {
         $objective_collection = $this->obj->getBuildArtifactObjective();
 

@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 /**
@@ -23,10 +24,10 @@ use ILIAS\DI\UIServices;
 
 final class ilEmployeeTalkTableGUI extends ilTable2GUI
 {
-    const STATUS_ALL = 0;
-    const STATUS_PENDING = 1;
-    const STATUS_COMPLETED = 2;
-    
+    public const STATUS_ALL = 0;
+    public const STATUS_PENDING = 1;
+    public const STATUS_COMPLETED = 2;
+
     private ilLanguage $language;
     private ilObjUser $currentUser;
     private UIServices $ui;
@@ -235,7 +236,7 @@ final class ilEmployeeTalkTableGUI extends ilTable2GUI
             if ($filter['etal_date'] !== false && $filter['etal_date'] !== null) {
                 $filterDate = new ilDateTime($filter['etal_date'], IL_CAL_DATE);
                 if (
-                !ilDateTime::_equals($filterDate, $val->getStartDate(), IL_CAL_DAY)
+                    !ilDateTime::_equals($filterDate, $val->getStartDate(), IL_CAL_DAY)
                 ) {
                     continue;
                 }

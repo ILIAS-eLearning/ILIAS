@@ -1,4 +1,6 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types=1);
 
 /******************************************************************************
  *
@@ -33,7 +35,7 @@ class Service
         $this->dic = $DIC;
     }
 
-    public function system() : ilNotificationSystem
+    public function system(): ilNotificationSystem
     {
         return new ilNotificationSystem($this->dic->rbac()->review());
     }

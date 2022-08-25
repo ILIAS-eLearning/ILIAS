@@ -44,14 +44,14 @@ class ilObjQuestionPoolXMLParser extends ilSaxParser
         return parent::__construct($xmlFile);
     }
 
-    public function setHandlers($a_xml_parser) : void
+    public function setHandlers($a_xml_parser): void
     {
         xml_set_object($a_xml_parser, $this);
         xml_set_element_handler($a_xml_parser, 'handlerBeginTag', 'handlerEndTag');
         xml_set_character_data_handler($a_xml_parser, 'handlerCharacterData');
     }
 
-    public function handlerBeginTag($xmlParser, $tagName, $tagAttributes) : void
+    public function handlerBeginTag($xmlParser, $tagName, $tagAttributes): void
     {
         switch ($tagName) {
             case 'MetaData':
@@ -84,7 +84,7 @@ class ilObjQuestionPoolXMLParser extends ilSaxParser
         }
     }
 
-    public function handlerEndTag($xmlParser, $tagName) : void
+    public function handlerEndTag($xmlParser, $tagName): void
     {
         switch ($tagName) {
             case 'MetaData':
@@ -126,7 +126,7 @@ class ilObjQuestionPoolXMLParser extends ilSaxParser
         }
     }
 
-    public function handlerCharacterData($xmlParser, $charData) : void
+    public function handlerCharacterData($xmlParser, $charData): void
     {
         if ($charData != "\n") {
             // Replace multiple tabs with one space

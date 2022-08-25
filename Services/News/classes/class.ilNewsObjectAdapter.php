@@ -23,12 +23,12 @@
  */
 class ilNewsObjectAdapter implements ilNewsObjectAdapterInterface
 {
-    public function getObjIdForRefId(int $a_ref_id) : int
+    public function getObjIdForRefId(int $a_ref_id): int
     {
         return ilObject::_lookupObjId($a_ref_id);
     }
 
-    public function getTypeForObjId(int $a_obj_id) : string
+    public function getTypeForObjId(int $a_obj_id): string
     {
         return ilObject::_lookupType($a_obj_id);
     }

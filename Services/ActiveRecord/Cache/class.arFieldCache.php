@@ -22,22 +22,22 @@ class arFieldCache
 {
     protected static array $cache = array();
 
-    public static function isCached(ActiveRecord $ar) : bool
+    public static function isCached(ActiveRecord $ar): bool
     {
         return array_key_exists(get_class($ar), self::$cache);
     }
 
-    public static function store(ActiveRecord $ar) : void
+    public static function store(ActiveRecord $ar): void
     {
         self::$cache[get_class($ar)] = arFieldList::getInstance($ar);
     }
 
-    public static function storeFromStorage(string $storage_class_name, ActiveRecord $foreign_model) : void
+    public static function storeFromStorage(string $storage_class_name, ActiveRecord $foreign_model): void
     {
         self::$cache[$storage_class_name] = arFieldList::getInstanceFromStorage($foreign_model);
     }
 
-    public static function get(ActiveRecord $ar) : \arFieldList
+    public static function get(ActiveRecord $ar): \arFieldList
     {
         if (!self::isCached($ar)) {
             self::store($ar);
@@ -46,12 +46,12 @@ class arFieldCache
         return self::$cache[get_class($ar)];
     }
 
-    public static function purge(ActiveRecord $ar) : void
+    public static function purge(ActiveRecord $ar): void
     {
         unset(self::$cache[get_class($ar)]);
     }
 
-    public static function getPrimaryFieldName(ActiveRecord $ar) : string
+    public static function getPrimaryFieldName(ActiveRecord $ar): string
     {
         return self::get($ar)->getPrimaryFieldName();
     }
@@ -59,7 +59,7 @@ class arFieldCache
     /**
      * @return mixed
      */
-    public static function getPrimaryFieldType(ActiveRecord $ar) : string
+    public static function getPrimaryFieldType(ActiveRecord $ar): string
     {
         return self::get($ar)->getPrimaryFieldType();
     }

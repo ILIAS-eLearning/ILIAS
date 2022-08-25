@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 use ILIAS\UI\Component\Component;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isItem;
@@ -12,7 +14,7 @@ class ilMMRepositoryLinkItemRenderer extends TopLinkItemRenderer
 {
     use ilMMCloseOnClick;
 
-    public function getComponentWithContent(isItem $item) : Component
+    public function getComponentWithContent(isItem $item): Component
     {
         return parent::getComponentWithContent($this->addDisengageDecorator($item));
     }

@@ -1,4 +1,5 @@
 <?php
+
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 include_once "./Modules/Test/classes/inc.AssessmentConstants.php";
@@ -17,7 +18,7 @@ class ilTestStatistics
 {
     public $test_id;
     public $statistics;
-    
+
     /**
     * ilTestStatistics constructor
     *
@@ -36,7 +37,7 @@ class ilTestStatistics
     * @access public
     * @see $statistics
     */
-    public function getStatistics() : ?object
+    public function getStatistics(): ?object
     {
         return $this->statistics;
     }

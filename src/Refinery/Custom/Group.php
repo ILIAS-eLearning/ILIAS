@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -39,7 +41,7 @@ class Group
      * @param string|callable $error
      * @return ConstraintInterface
      */
-    public function constraint(callable $callable, $error) : ConstraintInterface
+    public function constraint(callable $callable, $error): ConstraintInterface
     {
         return new Constraint(
             $callable,
@@ -49,7 +51,7 @@ class Group
         );
     }
 
-    public function transformation(callable $transform) : TransformationInterface
+    public function transformation(callable $transform): TransformationInterface
     {
         return new Transformation($transform);
     }

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -22,12 +24,12 @@
  */
 class ilMailImapRfc822AddressParser extends ilBaseMailRfc822AddressParser
 {
-    protected function parseAddressString(string $addresses) : array
+    protected function parseAddressString(string $addresses): array
     {
         $parsedAddresses = imap_rfc822_parse_adrlist($addresses, $this->installationHost);
 
         // #18992
-        $validParsedAddresses = array_filter($parsedAddresses, static function (stdClass $address) : bool {
+        $validParsedAddresses = array_filter($parsedAddresses, static function (stdClass $address): bool {
             return '.SYNTAX-ERROR.' !== $address->host;
         });
 
@@ -35,7 +37,7 @@ class ilMailImapRfc822AddressParser extends ilBaseMailRfc822AddressParser
             throw new ilMailException($addresses);
         }
 
-        return array_map(static function (stdClass $address) : ilMailAddress {
+        return array_map(static function (stdClass $address): ilMailAddress {
             return new ilMailAddress($address->mailbox, $address->host);
         }, $validParsedAddresses);
     }

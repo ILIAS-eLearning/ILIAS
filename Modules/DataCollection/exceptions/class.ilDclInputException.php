@@ -24,15 +24,15 @@
  */
 class ilDclInputException extends ilException
 {
-    const TYPE_EXCEPTION = 0;
-    const LENGTH_EXCEPTION = 1;
-    const REGEX_EXCEPTION = 2;
-    const UNIQUE_EXCEPTION = 3;
-    const NOT_URL = 4;
-    const NOT_IMAGE = 5;
-    const WRONG_FILE_TYPE = 6;
-    const CUSTOM_MESSAGE = 7;
-    const REGEX_CONFIG_EXCEPTION = 8;
+    public const TYPE_EXCEPTION = 0;
+    public const LENGTH_EXCEPTION = 1;
+    public const REGEX_EXCEPTION = 2;
+    public const UNIQUE_EXCEPTION = 3;
+    public const NOT_URL = 4;
+    public const NOT_IMAGE = 5;
+    public const WRONG_FILE_TYPE = 6;
+    public const CUSTOM_MESSAGE = 7;
+    public const REGEX_CONFIG_EXCEPTION = 8;
 
     protected string $exception_type;
     protected string $additional_text;
@@ -47,12 +47,12 @@ class ilDclInputException extends ilException
         $this->additional_text = $additional_text;
     }
 
-    public function getExceptionType() : string
+    public function getExceptionType(): string
     {
         return $this->exception_type;
     }
 
-    public function __toString() : string
+    public function __toString(): string
     {
         global $DIC;
         $lng = $DIC['lng'];

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 class ilObjLearningSequenceContentTableGUI extends ilTable2GUI
 {
     protected ilObjLearningSequenceContentGUI $parent_gui;
@@ -65,7 +67,7 @@ class ilObjLearningSequenceContentTableGUI extends ilTable2GUI
         $this->setLimit(9999);
     }
 
-    protected function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set): void
     {
         /** @var LSItem $a_set */
         $a_set = $a_set[0];
@@ -118,7 +120,7 @@ class ilObjLearningSequenceContentTableGUI extends ilTable2GUI
         $this->tpl->setVariable("TYPE", $a_set->getType());
     }
 
-    protected function getItemActionsMenu(int $ref_id, string $type) : string
+    protected function getItemActionsMenu(int $ref_id, string $type): string
     {
         $item_obj_id = $this->getObjIdFor($ref_id);
         $item_list_gui = $this->getListGuiFor($type);
@@ -144,7 +146,7 @@ class ilObjLearningSequenceContentTableGUI extends ilTable2GUI
      *					"granted" => true/false: command granted or not
      *					"access_info" => access info object (to do: implementation)
      */
-    protected function getActionMenuItems(int $ref_id, string $type) : array
+    protected function getActionMenuItems(int $ref_id, string $type): array
     {
         $item_obj_id = $this->getObjIdFor($ref_id);
         $item_list_gui = $this->getListGuiFor($type);
@@ -152,7 +154,7 @@ class ilObjLearningSequenceContentTableGUI extends ilTable2GUI
         return $item_list_gui->getCommands();
     }
 
-    protected function getEditLink(int $ref_id, string $type, array $action_items) : ?string
+    protected function getEditLink(int $ref_id, string $type, array $action_items): ?string
     {
         switch ($type) {
             case $this->ls_item_online_status::S_LEARNMODULE_IL:
@@ -165,12 +167,12 @@ class ilObjLearningSequenceContentTableGUI extends ilTable2GUI
             case $this->ls_item_online_status::S_CONTENTPAGE:
             case $this->ls_item_online_status::S_EXERCISE:
             case $this->ls_item_online_status::S_FILE:
-                    $prop_for_type = 'edit';
-                    break;
+                $prop_for_type = 'edit';
+                break;
 
             case $this->ls_item_online_status::S_TEST:
-                    $prop_for_type = 'ilObjTestSettingsGeneralGUI::showForm';
-                    break;
+                $prop_for_type = 'ilObjTestSettingsGeneralGUI::showForm';
+                break;
 
             case $this->ls_item_online_status::S_IND_ASSESSMENT:
             default:
@@ -188,17 +190,17 @@ class ilObjLearningSequenceContentTableGUI extends ilTable2GUI
         return null;
     }
 
-    protected function getObjIdFor(int $ref_id) : int
+    protected function getObjIdFor(int $ref_id): int
     {
         return ilObject::_lookupObjId($ref_id);
     }
 
-    protected function getListGuiFor(string $type) : ilObjectListGUI
+    protected function getListGuiFor(string $type): ilObjectListGUI
     {
         return ilObjectListGUIFactory::_getListGUIByType($type);
     }
 
-    protected function getStdLink(int $ref_id, string $type) : string
+    protected function getStdLink(int $ref_id, string $type): string
     {
         return ilLink::_getLink($ref_id, $type);
     }

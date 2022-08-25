@@ -51,7 +51,7 @@ class DownloadAllBackgroundTask
         $this->logger = $DIC->logger()->mcst();
     }
 
-    public function run() : bool
+    public function run(): bool
     {
         $bucket = new BasicBucket();
         $bucket->setUserId($this->user_id);

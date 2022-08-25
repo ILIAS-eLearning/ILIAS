@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -71,7 +73,7 @@ class ilAccountRegistrationGUI
         $this->refinery = $DIC->refinery();
     }
 
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         if ($this->registration_settings->getRegistrationType() === ilRegistrationSettings::IL_REG_DISABLED) {
             $this->error->raiseError($this->lng->txt('reg_disabled'), $this->error->FATAL);
@@ -90,7 +92,7 @@ class ilAccountRegistrationGUI
         ilStartUpGUI::printToGlobalTemplate($tpl);
     }
 
-    public function displayForm() : ilGlobalTemplateInterface
+    public function displayForm(): ilGlobalTemplateInterface
     {
         $tpl = ilStartUpGUI::initStartUpTemplate(['tpl.usr_registration.html', 'Services/Registration'], true);
         $tpl->setVariable('TXT_PAGEHEADLINE', $this->lng->txt('registration'));
@@ -102,7 +104,7 @@ class ilAccountRegistrationGUI
         return $tpl;
     }
 
-    protected function initForm() : void
+    protected function initForm(): void
     {
         $this->globalUser->setLanguage($this->lng->getLangKey());
         $this->globalUser->setId(ANONYMOUS_USER_ID);
@@ -219,7 +221,7 @@ class ilAccountRegistrationGUI
         $this->form->addCommandButton("saveForm", $this->lng->txt("register"));
     }
 
-    public function saveForm() : ilTemplate
+    public function saveForm(): ilTemplate
     {
         $this->initForm();
         $form_valid = $this->form->checkInput();
@@ -366,7 +368,7 @@ class ilAccountRegistrationGUI
         return $this->displayForm();
     }
 
-    protected function createUser(int $a_role) : string
+    protected function createUser(int $a_role): string
     {
         // something went wrong with the form validation
         if (!$a_role) {
@@ -447,7 +449,6 @@ class ilAccountRegistrationGUI
             // #10853 - could be optional
             $code = $this->form->getInput('usr_registration_code');
             if ($code) {
-
                 // set code to used
                 ilRegistrationCode::useCode($code);
                 $this->code_was_used = true;
@@ -586,7 +587,7 @@ class ilAccountRegistrationGUI
         return (string) $password;
     }
 
-    protected function distributeMails(string $password) : void
+    protected function distributeMails(string $password): void
     {
         // Always send mail to approvers
         $mail = new ilRegistrationMailNotification();
@@ -622,7 +623,7 @@ class ilAccountRegistrationGUI
         }
     }
 
-    public function login() : ilGlobalTemplateInterface
+    public function login(): ilGlobalTemplateInterface
     {
         $tpl = ilStartUpGUI::initStartUpTemplate(['tpl.usr_registered.html', 'Services/Registration'], false);
         $this->tpl->setVariable('TXT_PAGEHEADLINE', $this->lng->txt('registration'));
@@ -655,7 +656,7 @@ class ilAccountRegistrationGUI
         return $tpl;
     }
 
-    protected function doProfileAutoComplete() : void
+    protected function doProfileAutoComplete(): void
     {
         $field_id = (string) $_REQUEST["f"];
         $term = (string) $_REQUEST["term"];

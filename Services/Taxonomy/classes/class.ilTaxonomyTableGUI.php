@@ -91,7 +91,7 @@ class ilTaxonomyTableGUI extends ilTable2GUI
         $this->addCommandButton("saveSorting", $lng->txt("save"));
     }
 
-    public function numericOrdering(string $a_field) : bool
+    public function numericOrdering(string $a_field): bool
     {
         if ($a_field == "order_nr") {
             return true;
@@ -99,7 +99,7 @@ class ilTaxonomyTableGUI extends ilTable2GUI
         return false;
     }
 
-    protected function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set): void
     {
         $ilCtrl = $this->ctrl;
 

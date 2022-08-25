@@ -89,7 +89,7 @@ class ilLMMenuRendererGUI
         $this->requested_ref_id = $request->getRefId();
     }
 
-    public function render() : string
+    public function render(): string
     {
         $ilCtrl = $this->ctrl;
         $ilAccess = $this->access;
@@ -121,7 +121,7 @@ class ilLMMenuRendererGUI
         } elseif ($this->offline) {
             $tabs_gui->setForcePresentationOfSingleTab(true);
         }
-    
+
         if (!$content_active) {
             return "";
         }

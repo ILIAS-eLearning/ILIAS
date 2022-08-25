@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\UI\Implementation\Component\Button;
 
 use ILIAS\UI\Component as C;
@@ -83,12 +85,12 @@ class Toggle extends Button implements C\Button\Toggle
         return $this->getTriggeredSignalsFor("toggle_on");
     }
 
-    public function withAdditionalToggleOnSignal(Signal $signal) : C\Button\Toggle
+    public function withAdditionalToggleOnSignal(Signal $signal): C\Button\Toggle
     {
         return $this->appendTriggeredSignal($signal, "toggle_on");
     }
 
-    public function withAdditionalToggleOffSignal(Signal $signal) : C\Button\Toggle
+    public function withAdditionalToggleOffSignal(Signal $signal): C\Button\Toggle
     {
         return $this->appendTriggeredSignal($signal, "toggle_off");
     }

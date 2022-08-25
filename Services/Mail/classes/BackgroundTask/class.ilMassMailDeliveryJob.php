@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -41,7 +43,7 @@ class ilMassMailDeliveryJob extends AbstractJob
         $this->mailJsonService = new ilMailValueObjectJsonService();
     }
 
-    public function run(array $input, Observer $observer) : Value
+    public function run(array $input, Observer $observer): Value
     {
         $mailValueObjects = $this->mailJsonService->convertFromJson((string) $input[1]->getValue());
 
@@ -85,7 +87,7 @@ class ilMassMailDeliveryJob extends AbstractJob
         return $output;
     }
 
-    public function getInputTypes() : array
+    public function getInputTypes(): array
     {
         return [
             new SingleType(IntegerValue::class), // User Id
@@ -95,17 +97,17 @@ class ilMassMailDeliveryJob extends AbstractJob
         ];
     }
 
-    public function isStateless() : bool
+    public function isStateless(): bool
     {
         return true;
     }
 
-    public function getExpectedTimeOfTaskInSeconds() : int
+    public function getExpectedTimeOfTaskInSeconds(): int
     {
         return 42; // The answer to life, universe and the rest
     }
 
-    public function getOutputType() : Type
+    public function getOutputType(): Type
     {
         return new SingleType(BooleanValue::class);
     }

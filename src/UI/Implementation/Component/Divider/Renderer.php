@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\UI\Implementation\Component\Divider;
 
 use ILIAS\UI\Implementation\Render\AbstractComponentRenderer;
@@ -27,7 +29,7 @@ class Renderer extends AbstractComponentRenderer
     /**
      * @inheritdoc
      */
-    public function render(Component\Component $component, RendererInterface $default_renderer) : string
+    public function render(Component\Component $component, RendererInterface $default_renderer): string
     {
         $this->checkComponent($component);
 
@@ -40,7 +42,7 @@ class Renderer extends AbstractComponentRenderer
         return "";
     }
 
-    protected function renderDividerHorizontal(Component\Divider\Horizontal $component) : string
+    protected function renderDividerHorizontal(Component\Divider\Horizontal $component): string
     {
         $tpl = $this->getTemplate("tpl.horizontal.html", true, true);
 
@@ -58,7 +60,7 @@ class Renderer extends AbstractComponentRenderer
         return $tpl->get();
     }
 
-    protected function renderDividerVertical() : string
+    protected function renderDividerVertical(): string
     {
         $tpl = $this->getTemplate("tpl.vertical.html", true, true);
 
@@ -70,7 +72,7 @@ class Renderer extends AbstractComponentRenderer
     /**
      * @inheritdoc
      */
-    protected function getComponentInterfaceName() : array
+    protected function getComponentInterfaceName(): array
     {
         return [
             Component\Divider\Horizontal::class,

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -31,7 +33,7 @@ class ilMailGlobalAddressSettingsChangedCommand
         $this->option = $option;
     }
 
-    public function execute() : void
+    public function execute(): void
     {
         $this->db->manipulateF(
             "UPDATE settings SET value = %s WHERE module = 'common' AND keyword = 'mail_address_option'",

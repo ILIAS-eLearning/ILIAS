@@ -41,41 +41,41 @@ abstract class ilChart
         $this->tpl = $DIC["tpl"];
         $this->id = $a_id;
         $this->data = array();
-                
+
         $this->setShadow(2);
     }
 
     public static function getInstanceByType(
         int $a_type,
         string $a_id
-    ) : ilChart {
+    ): ilChart {
         switch ($a_type) {
             case self::TYPE_GRID:
                 return new ilChartGrid($a_id);
-                
+
             case self::TYPE_PIE:
                 return new ilChartPie($a_id);
-                
+
             case self::TYPE_SPIDER:
                 return new ilChartSpider($a_id);
         }
         throw new ilException("Unknown chart type.");
     }
-    
+
     /**
      * Get data series instance
      */
-    abstract public function getDataInstance(int $a_type = null) : ilChartData;
+    abstract public function getDataInstance(int $a_type = null): ilChartData;
 
     /**
      * Validate data series
      */
-    abstract protected function isValidDataType(ilChartData $a_series) : bool;
+    abstract protected function isValidDataType(ilChartData $a_series): bool;
 
     /**
      * Basic validation
      */
-    protected function isValid() : bool
+    protected function isValid(): bool
     {
         if (sizeof($this->data)) {
             return true;
@@ -86,7 +86,7 @@ abstract class ilChart
     /**
      * Set chart size
      */
-    public function setSize(string $a_x, string $a_y) : void
+    public function setSize(string $a_x, string $a_y): void
     {
         $this->width = $a_x;
         $this->height = $a_y;
@@ -98,7 +98,7 @@ abstract class ilChart
     public function addData(
         ilChartData $a_series,
         ?int $a_idx = null
-    ) : ?int {
+    ): ?int {
         if ($this->isValidDataType($a_series)) {
             if ($a_idx === null) {
                 $a_idx = sizeof($this->data);
@@ -109,12 +109,12 @@ abstract class ilChart
         return null;
     }
 
-    public function setLegend(ilChartLegend $a_legend) : void
+    public function setLegend(ilChartLegend $a_legend): void
     {
         $this->legend = $a_legend;
     }
-    
-    public function setColors(array $a_values) : void
+
+    public function setColors(array $a_values): void
     {
         foreach ($a_values as $color) {
             if (self::isValidColor($color)) {
@@ -123,7 +123,7 @@ abstract class ilChart
         }
     }
 
-    public function getColors() : array
+    public function getColors(): array
     {
         return $this->colors;
     }
@@ -131,7 +131,7 @@ abstract class ilChart
     /**
      * Validate html color code
      */
-    public static function isValidColor(string $a_value) : bool
+    public static function isValidColor(string $a_value): bool
     {
         if (preg_match("/^#[0-9a-f]{3}$/i", $a_value, $match)) {
             return true;
@@ -147,7 +147,7 @@ abstract class ilChart
     public static function renderColor(
         string $a_value,
         float $a_opacity = 1
-    ) : string {
+    ): string {
         if (self::isValidColor($a_value)) {
             if (strlen($a_value) == 4) {
                 return "rgba(" . hexdec($a_value[1] . $a_value[1]) . ", " .
@@ -162,82 +162,82 @@ abstract class ilChart
         return "";
     }
 
-    public function setShadow(int $a_value) : void
+    public function setShadow(int $a_value): void
     {
         $this->shadow = $a_value;
     }
 
-    public function getShadow() : int
+    public function getShadow(): int
     {
         return $this->shadow;
     }
-    
+
     /**
      * Toggle auto-resizing on window resize/redraw
      */
     public function setAutoResize(
         bool $a_value
-    ) : void {
+    ): void {
         $this->auto_resize = $a_value;
     }
-    
-    public function setStacked(bool $a_value) : void
+
+    public function setStacked(bool $a_value): void
     {
         $this->stacked = $a_value;
     }
-    
+
     /**
      * Init JS script files
      */
-    protected function initJS() : void
+    protected function initJS(): void
     {
         $tpl = $this->tpl;
-        
+
         iljQueryUtil::initjQuery();
-        
+
         $tpl->addJavaScript("Services/Chart/js/flot/excanvas.min.js");
         $tpl->addJavaScript("Services/Chart/js/flot/jquery.flot.min.js");
-        
+
         if ($this->auto_resize) {
             // #13108
             $tpl->addJavaScript("Services/Chart/js/flot/jquery.flot.resize.min.js");
         }
-        
+
         if ($this->stacked) {
             $tpl->addJavaScript("Services/Chart/js/flot/jquery.flot.stack.min.js");
         }
-        
+
         $this->addCustomJS();
     }
-    
+
     /**
      * Add type-specific JS script
      */
-    protected function addCustomJS() : void
+    protected function addCustomJS(): void
     {
     }
-    
+
     /**
      * Convert (global) properties to flot config
      */
-    public function parseGlobalOptions(stdClass $a_options) : void
+    public function parseGlobalOptions(stdClass $a_options): void
     {
     }
-    
+
     /**
      * Render
      */
-    public function getHTML() : string
+    public function getHTML(): string
     {
         if (!$this->isValid()) {
             return "";
         }
-        
+
         $this->initJS();
-    
+
         $chart = new ilTemplate("tpl.grid.html", true, true, "Services/Chart");
         $chart->setVariable("ID", $this->id);
-        
+
         if ($this->width) {
             if (is_numeric($this->width)) {
                 $chart->setVariable("WIDTH", "width:" . $this->width . "px;");
@@ -252,32 +252,32 @@ abstract class ilChart
                 $chart->setVariable("HEIGHT", "height:" . $this->height . ";");
             }
         }
-        
-        
+
+
         // (series) data
-        
+
         $json_series = array();
         foreach ($this->data as $series) {
             $series->parseData($json_series);
         }
         $series_str = json_encode($json_series);
-        
-        
+
+
         // global options
-        
+
         $json_options = new stdClass();
         $json_options->series = new stdClass();
         $json_options->series->shadowSize = $this->getShadow();
         $json_options->series->lines = new stdClass();
         $json_options->series->lines->show = false;
         $json_options->series->stack = $this->stacked;
-        
+
         foreach ($this->data as $series) {
             $series->parseGlobalOptions($json_options, $this);
         }
-        
+
         $this->parseGlobalOptions($json_options);
-        
+
         $colors = $this->getColors();
         if ($colors) {
             $json_options->colors = array();
@@ -293,7 +293,7 @@ abstract class ilChart
         } else {
             $this->legend->parseOptions($json_options->legend);
         }
-    
+
         $options = json_encode($json_options);
 
         $this->tpl->addOnLoadCode('$.plot($("#ilChart' . $this->id . '"), ' . $series_str . ', ' . $options . ');');

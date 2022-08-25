@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -197,27 +199,27 @@ class ilQTIParser extends ilSaxParser
         $this->depth = new SplObjectStorage();
     }
 
-    public function isIgnoreItemsEnabled() : bool
+    public function isIgnoreItemsEnabled(): bool
     {
         return $this->ignoreItemsEnabled;
     }
 
-    public function setIgnoreItemsEnabled(bool $ignoreItemsEnabled) : void
+    public function setIgnoreItemsEnabled(bool $ignoreItemsEnabled): void
     {
         $this->ignoreItemsEnabled = $ignoreItemsEnabled;
     }
 
-    public function getQuestionSetType() : ?string
+    public function getQuestionSetType(): ?string
     {
         return $this->questionSetType;
     }
 
-    public function setQuestionSetType(string $questionSetType) : void
+    public function setQuestionSetType(string $questionSetType): void
     {
         $this->questionSetType = $questionSetType;
     }
 
-    public function setTestObject(ilObjTest $a_tst_object) : void
+    public function setTestObject(ilObjTest $a_tst_object): void
     {
         $this->tst_object = $a_tst_object;
         $this->tst_id = $this->tst_object->getId();
@@ -230,14 +232,14 @@ class ilQTIParser extends ilSaxParser
     *
     * @param XMLParser|resource $a_xml_parser
     */
-    public function setHandlers($a_xml_parser) : void
+    public function setHandlers($a_xml_parser): void
     {
         xml_set_object($a_xml_parser, $this);
         xml_set_element_handler($a_xml_parser, 'handlerBeginTag', 'handlerEndTag');
         xml_set_character_data_handler($a_xml_parser, 'handlerCharacterData');
     }
 
-    public function startParsing() : void
+    public function startParsing(): void
     {
         $this->question_counter = 1;
         parent::startParsing();
@@ -246,7 +248,7 @@ class ilQTIParser extends ilSaxParser
     /**
      * @param XMLParser|resource $a_xml_parser
      */
-    public function getParent($a_xml_parser) : string
+    public function getParent($a_xml_parser): string
     {
         if ($this->depth[$a_xml_parser] > 0) {
             return $this->path[$this->depth[$a_xml_parser] - 1];
@@ -259,7 +261,7 @@ class ilQTIParser extends ilSaxParser
      * @param XMLParser|resource $a_xml_parser
      * @param array<string, string> $a_attribs
      */
-    public function handlerBeginTag($a_xml_parser, string $a_name, array $a_attribs) : void
+    public function handlerBeginTag($a_xml_parser, string $a_name, array $a_attribs): void
     {
         switch ($this->parser_mode) {
             case self::IL_MO_PARSE_QTI:
@@ -275,7 +277,7 @@ class ilQTIParser extends ilSaxParser
      * @param XMLParser|resource $a_xml_parser
      * @param array<string, string> $a_attribs
      */
-    public function handlerParseBeginTag($a_xml_parser, string $a_name, array $a_attribs) : void
+    public function handlerParseBeginTag($a_xml_parser, string $a_name, array $a_attribs): void
     {
         if ($this->do_nothing) {
             return;
@@ -528,7 +530,7 @@ class ilQTIParser extends ilSaxParser
     /**
      * @param XMLParser|resource $a_xml_parser
      */
-    public function handlerEndTag($a_xml_parser, string $a_name) : void
+    public function handlerEndTag($a_xml_parser, string $a_name): void
     {
         switch ($this->parser_mode) {
             case self::IL_MO_PARSE_QTI:
@@ -544,7 +546,7 @@ class ilQTIParser extends ilSaxParser
      * @noinspection NotOptimalIfConditionsInspection
      * @param XMLParser|resource $a_xml_parser
      */
-    public function handlerParseEndTag($a_xml_parser, string $a_name) : void
+    public function handlerParseEndTag($a_xml_parser, string $a_name): void
     {
         if ($this->do_nothing && strtolower($a_name) !== "item") {
             return;
@@ -837,7 +839,7 @@ class ilQTIParser extends ilSaxParser
                 $this->matimage = null;
                 break;
 
-            // add support for matbreak element
+                // add support for matbreak element
             case "matbreak":
                 $this->mattext = new ilQTIMattext();
                 $this->mattext->setContent('<br />');
@@ -874,7 +876,7 @@ class ilQTIParser extends ilSaxParser
     /**
      * @param XMLParser|resource $a_xml_parser
      */
-    public function handlerCharacterData($a_xml_parser, string $a_data) : void
+    public function handlerCharacterData($a_xml_parser, string $a_data): void
     {
         switch ($this->parser_mode) {
             case self::IL_MO_PARSE_QTI:
@@ -889,7 +891,7 @@ class ilQTIParser extends ilSaxParser
     /**
      * @param XMLParser|resource $a_xml_parser
      */
-    public function handlerParseCharacterData($a_xml_parser, string $a_data) : void
+    public function handlerParseCharacterData($a_xml_parser, string $a_data): void
     {
         if ($this->do_nothing) {
             return;
@@ -985,7 +987,7 @@ class ilQTIParser extends ilSaxParser
      * @param XMLParser|resource $a_xml_parser
      * @param array<string, string> $a_attribs
      */
-    public function handlerVerifyBeginTag($a_xml_parser, string $a_name, array $a_attribs) : void
+    public function handlerVerifyBeginTag($a_xml_parser, string $a_name, array $a_attribs): void
     {
         $this->qti_element = $a_name;
 
@@ -1108,14 +1110,13 @@ class ilQTIParser extends ilSaxParser
                     }
                 }
                 break;
-
         }
     }
 
     /**
      * @param XMLParser|resource $a_xml_parser
      */
-    public function handlerVerifyEndTag($a_xml_parser, string $a_name) : void
+    public function handlerVerifyEndTag($a_xml_parser, string $a_name): void
     {
         switch (strtolower($a_name)) {
             case "assessment":
@@ -1162,7 +1163,7 @@ class ilQTIParser extends ilSaxParser
     /**
      * @param XMLParser|resource $a_xml_parser
      */
-    public function handlerVerifyCharacterData($a_xml_parser, string $a_data) : void
+    public function handlerVerifyCharacterData($a_xml_parser, string $a_data): void
     {
         if ($this->verifyqticomment == 1) {
             if (preg_match("/Questiontype\=(.*)/", $a_data, $matches)) {
@@ -1189,7 +1190,7 @@ class ilQTIParser extends ilSaxParser
     /**
      * @return array{title: string, type: string, ident: string}[]
      */
-    public function &getFoundItems() : array
+    public function &getFoundItems(): array
     {
         return $this->founditems;
     }
@@ -1198,7 +1199,7 @@ class ilQTIParser extends ilSaxParser
      * Get array of new created questions for import id.
      * @return array<string, {test: mixed}>
      */
-    public function getImportMapping() : array
+    public function getImportMapping(): array
     {
         return $this->import_mapping;
     }
@@ -1206,7 +1207,7 @@ class ilQTIParser extends ilSaxParser
     /**
      * @return array<string, mixed>
      */
-    public function getQuestionIdMapping() : array
+    public function getQuestionIdMapping(): array
     {
         $questionIdMapping = [];
 
@@ -1220,7 +1221,7 @@ class ilQTIParser extends ilSaxParser
         return $questionIdMapping;
     }
 
-    public function setXMLContent(string $a_xml_content) : void
+    public function setXMLContent(string $a_xml_content): void
     {
         $a_xml_content = $this->cleanInvalidXmlChars($a_xml_content);
 
@@ -1239,7 +1240,7 @@ class ilQTIParser extends ilSaxParser
         return parent::openXMLFile();
     }
 
-    protected function fetchNumericVersionFromVersionDateString(string $versionDateString) : ?string
+    protected function fetchNumericVersionFromVersionDateString(string $versionDateString): ?string
     {
         $matches = null;
 
@@ -1250,7 +1251,7 @@ class ilQTIParser extends ilSaxParser
         return null;
     }
 
-    protected function fetchSourceNicFromItemIdent(string $itemIdent) : ?string
+    protected function fetchSourceNicFromItemIdent(string $itemIdent): ?string
     {
         $matches = null;
 
@@ -1261,7 +1262,7 @@ class ilQTIParser extends ilSaxParser
         return null;
     }
 
-    protected function cleanInvalidXmlChars(string $xmlContent) : string
+    protected function cleanInvalidXmlChars(string $xmlContent): string
     {
         // http://www.w3.org/TR/xml/#charsets
 
@@ -1292,12 +1293,12 @@ class ilQTIParser extends ilSaxParser
         return $xmlContent;
     }
 
-    public function getNumImportedItems() : int
+    public function getNumImportedItems(): int
     {
         return $this->numImportedItems;
     }
 
-    protected function isMatImageAvailable() : bool
+    protected function isMatImageAvailable(): bool
     {
         if (!$this->material) {
             return false;
@@ -1310,7 +1311,7 @@ class ilQTIParser extends ilSaxParser
         return true;
     }
 
-    protected function virusDetected(string $buffer) : bool
+    protected function virusDetected(string $buffer): bool
     {
         $vs = ilVirusScannerFactory::_getInstance();
 
@@ -1321,7 +1322,7 @@ class ilQTIParser extends ilSaxParser
         return $vs->scanBuffer($buffer);
     }
 
-    private function assessmentBeginTag(array $a_attribs) : void
+    private function assessmentBeginTag(array $a_attribs): void
     {
         $this->assessment = $this->assessments[] = new ilQTIAssessment();
         $this->in_assessment = true;
@@ -1337,7 +1338,7 @@ class ilQTIParser extends ilSaxParser
         }
     }
 
-    private function assessmentControlBeginTag(array $a_attribs) : void
+    private function assessmentControlBeginTag(array $a_attribs): void
     {
         $this->assessmentcontrol = new ilQTIAssessmentcontrol();
         foreach ($a_attribs as $attribute => $value) {
@@ -1355,7 +1356,7 @@ class ilQTIParser extends ilSaxParser
         }
     }
 
-    private function itemFeedbackBeginTag(array $a_attribs) : void
+    private function itemFeedbackBeginTag(array $a_attribs): void
     {
         $this->itemfeedback = new ilQTIItemfeedback();
         foreach ($a_attribs as $attribute => $value) {
@@ -1370,7 +1371,7 @@ class ilQTIParser extends ilSaxParser
         }
     }
 
-    private function displayFeedbackBeginTag(array $a_attribs) : void
+    private function displayFeedbackBeginTag(array $a_attribs): void
     {
         $this->displayfeedback = new ilQTIDisplayfeedback();
         foreach ($a_attribs as $attribute => $value) {
@@ -1385,7 +1386,7 @@ class ilQTIParser extends ilSaxParser
         }
     }
 
-    private function setVarBeginTag(array $a_attribs) : void
+    private function setVarBeginTag(array $a_attribs): void
     {
         $this->setvar = new ilQTISetvar();
         foreach ($a_attribs as $attribute => $value) {
@@ -1400,7 +1401,7 @@ class ilQTIParser extends ilSaxParser
         }
     }
 
-    private function varEqualBeginTag(array $a_attribs) : void
+    private function varEqualBeginTag(array $a_attribs): void
     {
         $this->responsevar = new ilQTIResponseVar(ilQTIResponseVar::RESPONSEVAR_EQUAL);
         foreach ($a_attribs as $attribute => $value) {
@@ -1418,7 +1419,7 @@ class ilQTIParser extends ilSaxParser
         }
     }
 
-    private function termsAndDefinitionsBeginTag(string $a_name, array $a_attribs) : void
+    private function termsAndDefinitionsBeginTag(string $a_name, array $a_attribs): void
     {
         $response_type = 0;
         switch (strtolower($a_name)) {
@@ -1459,7 +1460,7 @@ class ilQTIParser extends ilSaxParser
         }
     }
 
-    private function itemBeginTag(array $a_attribs) : void
+    private function itemBeginTag(array $a_attribs): void
     {
         $this->gap_index = 0;
         $this->item = $this->items[] = new ilQTIItem();
@@ -1488,7 +1489,7 @@ class ilQTIParser extends ilSaxParser
         }
     }
 
-    private function resprocessingBeginTag(array $a_attribs) : void
+    private function resprocessingBeginTag(array $a_attribs): void
     {
         $this->resprocessing = new ilQTIResprocessing();
         foreach ($a_attribs as $attribute => $value) {
@@ -1500,7 +1501,7 @@ class ilQTIParser extends ilSaxParser
         }
     }
 
-    private function renderFibBeginTag(array $a_attribs) : void
+    private function renderFibBeginTag(array $a_attribs): void
     {
         if (!$this->in_response) {
             return;
@@ -1539,7 +1540,7 @@ class ilQTIParser extends ilSaxParser
         }
     }
 
-    private function renderHotspotBeginTag(array $a_attribs) : void
+    private function renderHotspotBeginTag(array $a_attribs): void
     {
         if (!$this->in_response) {
             return;
@@ -1560,7 +1561,7 @@ class ilQTIParser extends ilSaxParser
         }
     }
 
-    private function renderChoiceBeginTag(array $a_attribs) : void
+    private function renderChoiceBeginTag(array $a_attribs): void
     {
         if (!$this->in_response) {
             return;
@@ -1581,7 +1582,7 @@ class ilQTIParser extends ilSaxParser
         }
     }
 
-    private function responseLabelBeginTag(array $a_attribs) : void
+    private function responseLabelBeginTag(array $a_attribs): void
     {
         if ($this->render_type == null) {
             return;
@@ -1614,7 +1615,7 @@ class ilQTIParser extends ilSaxParser
         }
     }
 
-    private function matAppletBeginTag(array $a_attribs) : void
+    private function matAppletBeginTag(array $a_attribs): void
     {
         $this->matapplet = new ilQTIMatapplet();
         foreach ($a_attribs as $attribute => $value) {
@@ -1647,7 +1648,7 @@ class ilQTIParser extends ilSaxParser
         }
     }
 
-    private function matTextBeginTag(array $a_attribs) : void
+    private function matTextBeginTag(array $a_attribs): void
     {
         $this->mattext = new ilQTIMattext();
         foreach ($a_attribs as $attribute => $value) {
@@ -1689,7 +1690,7 @@ class ilQTIParser extends ilSaxParser
         }
     }
 
-    private function materialBeginTag(array $a_attribs) : void
+    private function materialBeginTag(array $a_attribs): void
     {
         $this->material = new ilQTIMaterial();
         $this->material->setFlow($this->flow);
@@ -1702,7 +1703,7 @@ class ilQTIParser extends ilSaxParser
         }
     }
 
-    private function matImageBeginTag(array $a_attribs) : void
+    private function matImageBeginTag(array $a_attribs): void
     {
         $this->matimage = new ilQTIMatimage();
         foreach ($a_attribs as $attribute => $value) {
@@ -1741,7 +1742,7 @@ class ilQTIParser extends ilSaxParser
         }
     }
 
-    private function decVarBeginTag(array $a_attribs) : void
+    private function decVarBeginTag(array $a_attribs): void
     {
         $this->decvar = new ilQTIDecvar();
         foreach ($a_attribs as $attribute => $value) {

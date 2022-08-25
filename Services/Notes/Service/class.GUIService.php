@@ -1,4 +1,6 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -30,7 +32,7 @@ class GUIService
         $this->internal_gui_service = $internal_gui_service;
     }
 
-    public function initJavascript(string $ajax_url = "") : void
+    public function initJavascript(string $ajax_url = ""): void
     {
         $this->internal_gui_service->initJavascript($ajax_url);
     }

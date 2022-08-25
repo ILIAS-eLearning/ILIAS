@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 use ILIAS\DI\Container;
 
 /**
@@ -26,7 +28,7 @@ class ilLearningSequenceConditionController implements ilConditionControllerInte
     /**
      * @inheritdoc
      */
-    public function isContainerConditionController(int $a_container_ref_id) : bool
+    public function isContainerConditionController(int $a_container_ref_id): bool
     {
         return true;
     }
@@ -34,7 +36,7 @@ class ilLearningSequenceConditionController implements ilConditionControllerInte
     /**
      * @inheritdoc
      */
-    public function getConditionSetForRepositoryObject(int $a_container_child_ref_id) : ilConditionSet
+    public function getConditionSetForRepositoryObject(int $a_container_child_ref_id): ilConditionSet
     {
         $f = $this->getConditionsFactory();
         $conditions = [];
@@ -77,36 +79,36 @@ class ilLearningSequenceConditionController implements ilConditionControllerInte
         return $f->set($conditions);
     }
 
-    protected function getConditionsFactory() : ilConditionFactory
+    protected function getConditionsFactory(): ilConditionFactory
     {
         return $this->getDIC()->conditions()->factory();
     }
 
-    protected function getDIC() : Container
+    protected function getDIC(): Container
     {
         global $DIC;
         return $DIC;
     }
 
-    protected function getTree() : ilTree
+    protected function getTree(): ilTree
     {
         $dic = $this->getDIC();
         return $dic['tree'];
     }
 
-    protected function getAccess() : ilAccess
+    protected function getAccess(): ilAccess
     {
         $dic = $this->getDIC();
         return $dic['ilAccess'];
     }
 
-    protected function getParentRefIdFor(int $child_ref_id) : int
+    protected function getParentRefIdFor(int $child_ref_id): int
     {
         $tree = $this->getTree();
         return (int) $tree->getParentId($child_ref_id);
     }
 
-    protected function getContainerObject(int $container_ref_id) : ilObjLearningSequence
+    protected function getContainerObject(int $container_ref_id): ilObjLearningSequence
     {
         /** @var ilObjLearningSequence $possible_object */
         $possible_object = ilObjectFactory::getInstanceByRefId($container_ref_id);
@@ -125,13 +127,13 @@ class ilLearningSequenceConditionController implements ilConditionControllerInte
     /**
      * @return LSItem[]
      */
-    protected function getSequencedItems(int $container_ref_id) : array
+    protected function getSequencedItems(int $container_ref_id): array
     {
         $container = $this->getContainerObject($container_ref_id);
         return $container->getLSItems();
     }
 
-    protected function applyConditionsForCurrentUser(int $container_ref_id) : bool
+    protected function applyConditionsForCurrentUser(int $container_ref_id): bool
     {
         $il_access = $this->getAccess();
         $may_edit = $il_access->checkAccess('edit_permission', '', $container_ref_id);

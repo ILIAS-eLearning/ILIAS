@@ -45,7 +45,7 @@ class ilSkillProfileUploadHandlerGUI extends AbstractCtrlAwareUploadHandler
         $this->stakeholder = new ilSkillProfileStorageStakeHolder();
     }
 
-    protected function getUploadResult() : HandlerResultInterface
+    protected function getUploadResult(): HandlerResultInterface
     {
         $this->upload->process();
         /**
@@ -67,7 +67,7 @@ class ilSkillProfileUploadHandlerGUI extends AbstractCtrlAwareUploadHandler
         return new BasicHandlerResult($this->getFileIdentifierParameterName(), $status, $identifier, $message);
     }
 
-    protected function getRemoveResult(string $identifier) : HandlerResultInterface
+    protected function getRemoveResult(string $identifier): HandlerResultInterface
     {
         $id = $this->storage->manage()->find($identifier);
         if ($id !== null) {
@@ -79,7 +79,7 @@ class ilSkillProfileUploadHandlerGUI extends AbstractCtrlAwareUploadHandler
         }
     }
 
-    public function getInfoResult(string $identifier) : ?FileInfoResult
+    public function getInfoResult(string $identifier): ?FileInfoResult
     {
         $id = $this->storage->manage()->find($identifier);
         if ($id === null) {
@@ -96,7 +96,7 @@ class ilSkillProfileUploadHandlerGUI extends AbstractCtrlAwareUploadHandler
         );
     }
 
-    public function getInfoForExistingFiles(array $file_ids) : array
+    public function getInfoForExistingFiles(array $file_ids): array
     {
         $infos = [];
         foreach ($file_ids as $file_id) {

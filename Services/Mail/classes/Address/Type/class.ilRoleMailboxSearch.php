@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -83,7 +85,7 @@ class ilRoleMailboxSearch
      * If Pear Mail is not installed, then the mailbox address
      * @return int[] Array with role ids that were found
      */
-    public function searchRoleIdsByAddressString(string $a_address_list) : array
+    public function searchRoleIdsByAddressString(string $a_address_list): array
     {
         $parser = $this->parserFactory->getParser($a_address_list);
         $parsedList = $parser->parse();

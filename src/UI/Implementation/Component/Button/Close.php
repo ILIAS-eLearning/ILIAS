@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\UI\Implementation\Component\Button;
 
 use ILIAS\UI\Component as C;
@@ -33,7 +35,7 @@ class Close implements C\Button\Close
     /**
      * @inheritdoc
      */
-    public function withOnClick(Signal $signal) : C\Clickable
+    public function withOnClick(Signal $signal): C\Clickable
     {
         return $this->withTriggeredSignal($signal, 'click');
     }
@@ -41,7 +43,7 @@ class Close implements C\Button\Close
     /**
      * @inheritdoc
      */
-    public function appendOnClick(Signal $signal) : C\Clickable
+    public function appendOnClick(Signal $signal): C\Clickable
     {
         return $this->appendTriggeredSignal($signal, 'click');
     }

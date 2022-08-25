@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /* Copyright (c) 1998-2020 ILIAS open source, Extended GPL, see docs/LICENSE */
 
@@ -10,7 +12,7 @@ class ilTestSequenceDynamicQuestionSetTest extends ilTestBaseTestCase
 {
     private ilTestSequenceDynamicQuestionSet $testObj;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -20,17 +22,17 @@ class ilTestSequenceDynamicQuestionSetTest extends ilTestBaseTestCase
         $this->testObj = new ilTestSequenceDynamicQuestionSet($db_mock, $testDynamicQuestionSet_mock, 17);
     }
 
-    public function test_instantiateObject_shouldReturnInstance() : void
+    public function test_instantiateObject_shouldReturnInstance(): void
     {
         $this->assertInstanceOf(ilTestSequenceDynamicQuestionSet::class, $this->testObj);
     }
 
-    public function testGetActiveId() : void
+    public function testGetActiveId(): void
     {
         $this->assertEquals(17, $this->testObj->getActiveId());
     }
 
-    public function testPreventCheckedQuestionsFromComingUpEnabled() : void
+    public function testPreventCheckedQuestionsFromComingUpEnabled(): void
     {
         $this->testObj->setPreventCheckedQuestionsFromComingUpEnabled(false);
         $this->assertFalse($this->testObj->isPreventCheckedQuestionsFromComingUpEnabled());
@@ -39,7 +41,7 @@ class ilTestSequenceDynamicQuestionSetTest extends ilTestBaseTestCase
         $this->assertTrue($this->testObj->isPreventCheckedQuestionsFromComingUpEnabled());
     }
 
-    public function testCurrentQuestionId() : void
+    public function testCurrentQuestionId(): void
     {
         $this->testObj->setCurrentQuestionId(5);
         $this->assertEquals(5, $this->testObj->getCurrentQuestionId());

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 use ILIAS\Data;
 use ILIAS\HTTP\Wrapper\ArrayBasedRequestWrapper;
 
@@ -50,59 +52,59 @@ use ILIAS\HTTP\Wrapper\ArrayBasedRequestWrapper;
  */
 class ilObjLearningSequenceGUI extends ilContainerGUI implements ilCtrlBaseClassInterface
 {
-    const CMD_VIEW = "view";
-    const CMD_LEARNER_VIEW = "learnerView";
-    const CMD_CONTENT = "manageContent";
+    public const CMD_VIEW = "view";
+    public const CMD_LEARNER_VIEW = "learnerView";
+    public const CMD_CONTENT = "manageContent";
 
-    const CMD_MEMBERS = "members";
-    const CMD_MANAGE_MEMBERS = "participants";
-    const CMD_MEMBERS_GALLERY = "jump2UsersGallery";
+    public const CMD_MEMBERS = "members";
+    public const CMD_MANAGE_MEMBERS = "participants";
+    public const CMD_MEMBERS_GALLERY = "jump2UsersGallery";
 
-    const CMD_INFO = "showSummary";
-    const CMD_INFO_SCREEN = "infoScreen";
-    const CMD_SETTINGS = "settings";
-    const CMD_PERMISSIONS = "perm";
-    const CMD_LP = "learningProgress";
-    const CMD_EXPORT = "export";
-    const CMD_IMPORT = "importFile";
-    const CMD_CREATE = "create";
-    const CMD_SAVE = "save";
-    const CMD_CANCEL = "cancel";
-    const CMD_UNPARTICIPATE = "unparticipate";
-    const CMD_ADD_TO_DESK = "addToDesk";
-    const CMD_REMOVE_FROM_DESK = "removeFromDesk";
-    const CMD_LINK = "link";
-    const CMD_CANCEL_LINK = "cancelMoveLink";
-    const CMD_CUT = "cut";
-    const CMD_CANCEL_CUT = "cancelCut";
-    const CMD_CUT_SHOWTREE = "showPasteTree";
-    const CMD_CUT_CLIPBOARD = "keepObjectsInClipboard";
-    const CMD_DELETE = "delete";
-    const CMD_CANCEL_DELETE = "cancelDelete";
-    const CMD_DELETE_CONFIRMED = "confirmedDelete";
-    const CMD_PERFORM_PASTE = 'performPasteIntoMultipleObjects';
-    const CMD_SHOW_TRASH = 'trash';
-    const CMD_UNDELETE = 'undelete';
+    public const CMD_INFO = "showSummary";
+    public const CMD_INFO_SCREEN = "infoScreen";
+    public const CMD_SETTINGS = "settings";
+    public const CMD_PERMISSIONS = "perm";
+    public const CMD_LP = "learningProgress";
+    public const CMD_EXPORT = "export";
+    public const CMD_IMPORT = "importFile";
+    public const CMD_CREATE = "create";
+    public const CMD_SAVE = "save";
+    public const CMD_CANCEL = "cancel";
+    public const CMD_UNPARTICIPATE = "unparticipate";
+    public const CMD_ADD_TO_DESK = "addToDesk";
+    public const CMD_REMOVE_FROM_DESK = "removeFromDesk";
+    public const CMD_LINK = "link";
+    public const CMD_CANCEL_LINK = "cancelMoveLink";
+    public const CMD_CUT = "cut";
+    public const CMD_CANCEL_CUT = "cancelCut";
+    public const CMD_CUT_SHOWTREE = "showPasteTree";
+    public const CMD_CUT_CLIPBOARD = "keepObjectsInClipboard";
+    public const CMD_DELETE = "delete";
+    public const CMD_CANCEL_DELETE = "cancelDelete";
+    public const CMD_DELETE_CONFIRMED = "confirmedDelete";
+    public const CMD_PERFORM_PASTE = 'performPasteIntoMultipleObjects';
+    public const CMD_SHOW_TRASH = 'trash';
+    public const CMD_UNDELETE = 'undelete';
 
-    const TAB_VIEW_CONTENT = "view";
-    const TAB_MANAGE = "manage";
-    const TAB_CONTENT_MAIN = "manage_content_maintab";
-    const TAB_INFO = "show_summary";
-    const TAB_SETTINGS = "settings";
-    const TAB_PERMISSIONS = "perm_settings";
-    const TAB_MEMBERS = "members";
-    const TAB_LP = "learning_progress";
-    const TAB_EXPORT = "export";
-    
-    const TAB_EDIT_INTRO = "edit_intropage";
-    const TAB_EDIT_EXTRO = "edit_extropage";
+    public const TAB_VIEW_CONTENT = "view";
+    public const TAB_MANAGE = "manage";
+    public const TAB_CONTENT_MAIN = "manage_content_maintab";
+    public const TAB_INFO = "show_summary";
+    public const TAB_SETTINGS = "settings";
+    public const TAB_PERMISSIONS = "perm_settings";
+    public const TAB_MEMBERS = "members";
+    public const TAB_LP = "learning_progress";
+    public const TAB_EXPORT = "export";
+
+    public const TAB_EDIT_INTRO = "edit_intropage";
+    public const TAB_EDIT_EXTRO = "edit_extropage";
 
 
-    const MAIL_ALLOWED_ALL = 1;
-    const MAIL_ALLOWED_TUTORS = 2;
+    public const MAIL_ALLOWED_ALL = 1;
+    public const MAIL_ALLOWED_TUTORS = 2;
 
-    const ACCESS_READ = 'read';
-    const ACCESS_VISIBLE = 'visible';
+    public const ACCESS_READ = 'read';
+    public const ACCESS_VISIBLE = 'visible';
 
     protected string $obj_type;
     protected ilNavigationHistory $navigation_history;
@@ -117,7 +119,7 @@ class ilObjLearningSequenceGUI extends ilContainerGUI implements ilCtrlBaseClass
     protected ArrayBasedRequestWrapper $post_wrapper;
     protected ILIAS\Refinery\Factory $refinery;
 
-    public static function _goto(string $target) : void
+    public static function _goto(string $target): void
     {
         global $DIC;
         $main_tpl = $DIC->ui()->mainTemplate();
@@ -162,7 +164,7 @@ class ilObjLearningSequenceGUI extends ilContainerGUI implements ilCtrlBaseClass
         }
     }
 
-    protected static function isAccessible(int $id) : bool
+    protected static function isAccessible(int $id): bool
     {
         return $id > 0 && (
             self::hasAccess(self::ACCESS_READ, $id) ||
@@ -171,13 +173,13 @@ class ilObjLearningSequenceGUI extends ilContainerGUI implements ilCtrlBaseClass
         );
     }
 
-    protected static function hasAccess(string $mode, int $id) : bool
+    protected static function hasAccess(string $mode, int $id): bool
     {
         global $DIC;
         return $DIC->access()->checkAccess($mode, '', $id);
     }
 
-    protected static function forwardByClass(string $base_class, array $classes, array $params, string $cmd = '') : void
+    protected static function forwardByClass(string $base_class, array $classes, array $params, string $cmd = ''): void
     {
         global $DIC;
         $ctrl = $DIC->ctrl();
@@ -230,7 +232,7 @@ class ilObjLearningSequenceGUI extends ilContainerGUI implements ilCtrlBaseClass
         parent::__construct([], $this->ref_id, true, false);
     }
 
-    protected function recordLearningSequenceRead() : void
+    protected function recordLearningSequenceRead(): void
     {
         ilChangeEvent::_recordReadEvent(
             $this->object->getType(),
@@ -240,7 +242,7 @@ class ilObjLearningSequenceGUI extends ilContainerGUI implements ilCtrlBaseClass
         );
     }
 
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         $next_class = $this->ctrl->getNextClass($this);
         $cmd = $this->ctrl->getCmd();
@@ -326,7 +328,7 @@ class ilObjLearningSequenceGUI extends ilContainerGUI implements ilCtrlBaseClass
                 }
 
                 $this->addSubTabsForContent($which_tab);
-                
+
                 $page_id = $this->object->getContentPageId($which_page);
                 if (!$this->object->hasContentPage($which_page)) {
                     $this->object->createContentPage($which_page);
@@ -338,7 +340,7 @@ class ilObjLearningSequenceGUI extends ilContainerGUI implements ilCtrlBaseClass
                 );
                 $this->ctrl->setCmd($cmd);
                 $out = $this->ctrl->forwardCommand($gui);
-                
+
                 //editor's guis will write to template, but not return
                 //e.g. see ilPCTabsGUI::insert
                 if (!is_null($out)) {
@@ -438,7 +440,7 @@ class ilObjLearningSequenceGUI extends ilContainerGUI implements ilCtrlBaseClass
         }
     }
 
-    public function addToNavigationHistory() : void
+    public function addToNavigationHistory(): void
     {
         if (
             !$this->getCreationMode() &&
@@ -449,7 +451,7 @@ class ilObjLearningSequenceGUI extends ilContainerGUI implements ilCtrlBaseClass
         }
     }
 
-    protected function info(string $cmd = self::CMD_INFO) : void
+    protected function info(string $cmd = self::CMD_INFO): void
     {
         $this->tabs->setTabActive(self::TAB_INFO);
         $this->ctrl->setCmdClass('ilinfoscreengui');
@@ -458,7 +460,7 @@ class ilObjLearningSequenceGUI extends ilContainerGUI implements ilCtrlBaseClass
         $this->ctrl->forwardCommand($info);
     }
 
-    protected function permissions(string $cmd = self::CMD_PERMISSIONS) : void
+    protected function permissions(string $cmd = self::CMD_PERMISSIONS): void
     {
         $this->tabs->setTabActive(self::TAB_PERMISSIONS);
         $perm_gui = new ilPermissionGUI($this);
@@ -466,7 +468,7 @@ class ilObjLearningSequenceGUI extends ilContainerGUI implements ilCtrlBaseClass
         $this->ctrl->forwardCommand($perm_gui);
     }
 
-    protected function settings(string $cmd = self::CMD_SETTINGS) : void
+    protected function settings(string $cmd = self::CMD_SETTINGS): void
     {
         $this->tabs->activateTab(self::TAB_SETTINGS);
         $gui = new ilObjLearningSequenceSettingsGUI(
@@ -483,7 +485,7 @@ class ilObjLearningSequenceGUI extends ilContainerGUI implements ilCtrlBaseClass
         $this->ctrl->forwardCommand($gui);
     }
 
-    protected function view() : void
+    protected function view(): void
     {
         $this->recordLearningSequenceRead();
         $this->tabs->clearSubTabs();
@@ -498,7 +500,7 @@ class ilObjLearningSequenceGUI extends ilContainerGUI implements ilCtrlBaseClass
         }
     }
 
-    protected function manageContent(string $cmd = self::CMD_CONTENT) : void
+    protected function manageContent(string $cmd = self::CMD_CONTENT): void
     {
         $this->tabs->activateTab(self::TAB_CONTENT_MAIN);
         $this->addSubTabsForContent(self::TAB_MANAGE);
@@ -518,7 +520,7 @@ class ilObjLearningSequenceGUI extends ilContainerGUI implements ilCtrlBaseClass
         $this->ctrl->forwardCommand($gui);
     }
 
-    protected function learnerView(string $cmd = self::CMD_LEARNER_VIEW) : void
+    protected function learnerView(string $cmd = self::CMD_LEARNER_VIEW): void
     {
         $this->tabs->activateTab(self::TAB_CONTENT_MAIN);
         $this->addSubTabsForContent(self::TAB_VIEW_CONTENT);
@@ -529,7 +531,7 @@ class ilObjLearningSequenceGUI extends ilContainerGUI implements ilCtrlBaseClass
         $this->ctrl->forwardCommand($gui);
     }
 
-    protected function members() : void
+    protected function members(): void
     {
         $may_manage_members = $this->checkAccess("edit_members");
         $this->ctrl->setCmdClass('ilLearningSequenceMembershipGUI');
@@ -540,7 +542,7 @@ class ilObjLearningSequenceGUI extends ilContainerGUI implements ilCtrlBaseClass
         }
     }
 
-    protected function manage_members(string $cmd = self::CMD_MANAGE_MEMBERS) : void
+    protected function manage_members(string $cmd = self::CMD_MANAGE_MEMBERS): void
     {
         $this->tabs->setTabActive(self::TAB_MEMBERS);
 
@@ -561,7 +563,7 @@ class ilObjLearningSequenceGUI extends ilContainerGUI implements ilCtrlBaseClass
         $this->ctrl->forwardCommand($ms_gui);
     }
 
-    protected function learningProgress(string $cmd = self::CMD_LP) : void
+    protected function learningProgress(string $cmd = self::CMD_LP): void
     {
         $this->tabs->setTabActive(self::TAB_LP);
 
@@ -585,7 +587,7 @@ class ilObjLearningSequenceGUI extends ilContainerGUI implements ilCtrlBaseClass
         $this->ctrl->forwardCommand($lp_gui);
     }
 
-    protected function export() : void
+    protected function export(): void
     {
         $this->tabs->setTabActive(self::TAB_EXPORT);
         $gui = new ilExportGUI($this);
@@ -594,22 +596,22 @@ class ilObjLearningSequenceGUI extends ilContainerGUI implements ilCtrlBaseClass
         $this->ctrl->forwardCommand($gui);
     }
 
-    protected function initDidacticTemplate(ilPropertyFormGUI $form) : ilPropertyFormGUI
+    protected function initDidacticTemplate(ilPropertyFormGUI $form): ilPropertyFormGUI
     {
         return $form;
     }
 
-    protected function create() : void
+    protected function create(): void
     {
         parent::createObject();
     }
 
-    protected function save() : void
+    protected function save(): void
     {
         parent::saveObject();
     }
 
-    protected function afterSave(ilObject $new_object) : void
+    protected function afterSave(ilObject $new_object): void
     {
         $participant = new ilLearningSequenceParticipants(
             $new_object->getId(),
@@ -641,7 +643,7 @@ class ilObjLearningSequenceGUI extends ilContainerGUI implements ilCtrlBaseClass
         );
     }
 
-    public function unparticipate() : void
+    public function unparticipate(): void
     {
         if ($this->checkAccess('unparticipate')) {
             $usr_id = $this->user->getId();
@@ -650,7 +652,7 @@ class ilObjLearningSequenceGUI extends ilContainerGUI implements ilCtrlBaseClass
         }
     }
 
-    protected function getTabs() : void
+    protected function getTabs(): void
     {
         if ($this->checkAccess("read")) {
             $this->tabs->addTab(
@@ -717,13 +719,13 @@ class ilObjLearningSequenceGUI extends ilContainerGUI implements ilCtrlBaseClass
         }
     }
 
-    public function renderObject() : void
+    public function renderObject(): void
     {
         // disables this method in ilContainerGUI
     }
 
 
-    protected function addSubTabsForContent(string $active) : void
+    protected function addSubTabsForContent(string $active): void
     {
         $this->tabs->addSubTab(
             self::TAB_VIEW_CONTENT,
@@ -758,12 +760,12 @@ class ilObjLearningSequenceGUI extends ilContainerGUI implements ilCtrlBaseClass
         $this->tabs->activateSubTab($active);
     }
 
-    protected function checkAccess(string $which) : bool
+    protected function checkAccess(string $which): bool
     {
         return $this->access->checkAccess($which, "", $this->ref_id);
     }
 
-    protected function checkLPAccess() : bool
+    protected function checkLPAccess(): bool
     {
         if (ilObject::_lookupType($this->obj_id) !== "lso") {
             return false;
@@ -778,7 +780,7 @@ class ilObjLearningSequenceGUI extends ilContainerGUI implements ilCtrlBaseClass
         return ($lp_access || $may_edit_lp_settings);
     }
 
-    protected function getLinkTarget(string $cmd) : string
+    protected function getLinkTarget(string $cmd): string
     {
         $class = $this->getClassForTabs($cmd);
         $class_path = [
@@ -788,7 +790,7 @@ class ilObjLearningSequenceGUI extends ilContainerGUI implements ilCtrlBaseClass
         return $this->ctrl->getLinkTargetByClass($class_path, $cmd);
     }
 
-    protected function getClassForTabs(string $cmd) : string
+    protected function getClassForTabs(string $cmd): string
     {
         switch ($cmd) {
             case self::CMD_CONTENT:
@@ -808,7 +810,7 @@ class ilObjLearningSequenceGUI extends ilContainerGUI implements ilCtrlBaseClass
         throw new InvalidArgumentException('cannot resolve class for command: ' . $cmd);
     }
 
-    public function createMailSignature() : string
+    public function createMailSignature(): string
     {
         $link = chr(13) . chr(10) . chr(13) . chr(10);
         $link .= $this->lng->txt('lso_mail_permanent_link');
@@ -818,7 +820,7 @@ class ilObjLearningSequenceGUI extends ilContainerGUI implements ilCtrlBaseClass
         return rawurlencode(base64_encode($link));
     }
 
-    public function getObject() : ilObjLearningSequence
+    public function getObject(): ilObjLearningSequence
     {
         if ($this->object === null) {
             /** @var ilObjLearningSequence $obj */
@@ -829,7 +831,7 @@ class ilObjLearningSequenceGUI extends ilContainerGUI implements ilCtrlBaseClass
         return $this->object;
     }
 
-    protected function getTrackingObject() : ilObjUserTracking
+    protected function getTrackingObject(): ilObjUserTracking
     {
         return new ilObjUserTracking();
     }
@@ -837,7 +839,7 @@ class ilObjLearningSequenceGUI extends ilContainerGUI implements ilCtrlBaseClass
     /**
      * @return array [role_id => title]
      */
-    public function getLocalRoles() : array
+    public function getLocalRoles(): array
     {
         $local_roles = $this->object->getLocalLearningSequenceRoles();
         $lso_member = $this->object->getDefaultMemberRole();
@@ -859,7 +861,7 @@ class ilObjLearningSequenceGUI extends ilContainerGUI implements ilCtrlBaseClass
      * append additional types to ilRepositoryExplorerGUI's whitelist
      * @return int[]|string[]
      */
-    protected function getAdditionalWhitelistTypes() : array
+    protected function getAdditionalWhitelistTypes(): array
     {
         return array_filter(
             array_keys($this->obj_definition->getSubObjects('lso', false)),
@@ -870,7 +872,7 @@ class ilObjLearningSequenceGUI extends ilContainerGUI implements ilCtrlBaseClass
     /**
      * @return array<int|string, mixed>
      */
-    public function addCustomData(array $a_data) : array
+    public function addCustomData(array $a_data): array
     {
         $res_data = array();
         foreach ($a_data as $usr_id => $user_data) {
@@ -886,7 +888,7 @@ class ilObjLearningSequenceGUI extends ilContainerGUI implements ilCtrlBaseClass
         return $res_data;
     }
 
-    public function showPossibleSubObjects() : void
+    public function showPossibleSubObjects(): void
     {
         parent::showPossibleSubObjects();
     }

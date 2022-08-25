@@ -15,7 +15,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * Exercise XML Parser which completes/updates a given file by an xml string.
  *
@@ -81,27 +81,27 @@ class ilFileXMLParser extends ilSaxParser
         $this->result = false;
         $this->mode = $mode;
     }
-    
+
     /**
      * Set import directory
      *
      * @param string    import directory
      */
-    public function setImportDirectory(?string $a_val) : void
+    public function setImportDirectory(?string $a_val): void
     {
         $this->import_directory = $a_val;
     }
-    
+
     /**
      * Get import directory
      *
      * @return mixed|null import directory
      */
-    public function getImportDirectory() : ?string
+    public function getImportDirectory(): ?string
     {
         return $this->import_directory;
     }
-    
+
     /**
      * set event handlers
      *
@@ -109,13 +109,13 @@ class ilFileXMLParser extends ilSaxParser
      *
      * @access    private
      */
-    public function setHandlers($a_xml_parser) : void
+    public function setHandlers($a_xml_parser): void
     {
         xml_set_object($a_xml_parser, $this);
         xml_set_element_handler($a_xml_parser, 'handlerBeginTag', 'handlerEndTag');
         xml_set_character_data_handler($a_xml_parser, 'handlerCharacterData');
     }
-    
+
     /**
      * handler for begin of element
      *
@@ -126,12 +126,12 @@ class ilFileXMLParser extends ilSaxParser
      * @throws   ilFileException   when obj id != - 1 and if it it does not match the id in the xml
      *                              or deflation mode is not supported
      */
-    public function handlerBeginTag($a_xml_parser, string $a_name, array $a_attribs) : void
+    public function handlerBeginTag($a_xml_parser, string $a_name, array $a_attribs): void
     {
         global $DIC;
-        
+
         global $DIC;
-        
+
         switch ($a_name) {
             case 'File':
                 if (isset($a_attribs["obj_id"])) {
@@ -159,7 +159,7 @@ class ilFileXMLParser extends ilSaxParser
                     }
                     break;
                 }
-                
+
                 $this->mode = ilFileXMLParser::$CONTENT_NOT_COMPRESSED;
                 #echo $a_attribs["mode"];
                 if (isset($a_attribs["mode"])) {
@@ -189,7 +189,7 @@ class ilFileXMLParser extends ilSaxParser
                     }
                     // end-patch fm
                 }
-                
+
                 if ($a_name === "Version") {
                     $this->version = (int) $a_attribs["version"];
                     $this->max_version = (int) $a_attribs["max_version"];
@@ -199,19 +199,19 @@ class ilFileXMLParser extends ilSaxParser
                 }
         }
     }
-    
+
     /**
      * handler for end of element
      *
      * @param resource $a_xml_parser xml parser
      * @param string   $a_name       element name
      */
-    public function handlerEndTag($a_xml_parser, string $a_name) : void
+    public function handlerEndTag($a_xml_parser, string $a_name): void
     {
         $this->cdata = trim($this->cdata);
-        
+
         $GLOBALS['DIC']['ilLog']->write(__METHOD__ . ': ' . $this->cdata);
-        
+
         switch ($a_name) {
             case 'File':
                 $this->result = true;
@@ -220,10 +220,10 @@ class ilFileXMLParser extends ilSaxParser
                 if ($this->cdata === '') {
                     throw new ilFileException("Filename ist missing!");
                 }
-                
+
                 $this->file->setFilename($this->cdata);
                 $this->file->setTitle($this->cdata);
-                
+
                 break;
             case 'Title':
                 $this->file->setTitle(trim($this->cdata));
@@ -240,7 +240,7 @@ class ilFileXMLParser extends ilSaxParser
                     // Old import files
                     break;
                 }
-                
+
                 $baseDecodedFilename = ilFileUtils::ilTempnam();
                 if ($this->mode == ilFileXMLParser::$CONTENT_COPY) {
                     $this->tmpFilename = $this->getImportDirectory() . "/" . self::normalizeRelativePath($this->cdata);
@@ -277,22 +277,22 @@ class ilFileXMLParser extends ilSaxParser
                         $this->tmpFilename = $baseDecodedFilename;
                     }
                 }
-                
+
                 //$this->content = $content;
                 // see #17211
-                
+
                 if ($this->version == $this->file->getVersion()) {
                     if (is_file($this->tmpFilename)) {
                         $this->file->setFileSize(filesize($this->tmpFilename)); // strlen($this->content));
                     }
-                    
+
                     // if no file type is given => lookup mime type
                     if (!$this->file->getFileType()) {
                         global $DIC;
                         $this->file->setFileType(MimeType::getMimeType($this->tmpFilename));
                     }
                 }
-                
+
                 $this->versions[] = [
                     "version" => $this->version,
                     "max_version" => $this->max_version,
@@ -306,17 +306,17 @@ class ilFileXMLParser extends ilSaxParser
                 $this->usr_id = null;
                 break;
         }
-        
+
         $this->cdata = '';
     }
-    
+
     /**
      * handler for character data
      *
      * @param resource $a_xml_parser xml parser
      * @param string   $a_data       character data
      */
-    public function handlerCharacterData($a_xml_parser, string $a_data) : void
+    public function handlerCharacterData($a_xml_parser, string $a_data): void
     {
         if ($a_data != "\n") {
             // begin-patch fm
@@ -329,17 +329,17 @@ class ilFileXMLParser extends ilSaxParser
             }
         }
     }
-    
+
     /**
      * update file according to filename and version, does not update history
      * has to be called after (!) file save for new objects, since file storage will be initialised with obj id.
      *
      */
-    public function setFileContents() : void
+    public function setFileContents(): void
     {
         // Delete exists version 1 history
         ilHistory::_removeEntriesForObject($this->file->getId());
-        
+
         foreach ($this->versions as $version) {
             if (!file_exists($version["tmpFilename"])) {
                 // try to get first file of dir
@@ -350,33 +350,33 @@ class ilFileXMLParser extends ilSaxParser
                 ) . "/" . $files[2];// because [0] = "." [1] = ".."
                 if (!file_exists($version["tmpFilename"])) {
                     ilLoggerFactory::getLogger('file')->error(__METHOD__ . ' "' . ($version["tmpFilename"]) . '" file not found.');
-                    
+
                     continue;
                 }
             }
-            
+
             if (filesize($version["tmpFilename"]) == 0) {
                 continue;
             }
-            
+
             // imported file version
             $import_file_version_path = $version["tmpFilename"];
-            
+
             $stream = Streams::ofResource(fopen($import_file_version_path, 'rb'));
             $this->file->appendStream($stream, $this->file->getTitle());
         }
     }
-    
+
     /**
      * update file according to filename and version and create history entry
      * has to be called after (!) file save for new objects, since file storage will be initialised with obj id.
      *
      */
-    public function updateFileContents() : void
+    public function updateFileContents(): void
     {
         // removed
     }
-    
+
     /**
      * starts parsing an changes object by side effect.
      *
@@ -384,13 +384,13 @@ class ilFileXMLParser extends ilSaxParser
      *
      * @throws ilFileException when obj id != - 1 and if it it does not match the id in the xml
      */
-    public function start() : bool
+    public function start(): bool
     {
         $this->startParsing();
-        
+
         return $this->result > 0;
     }
-    
+
     /**
      * Normalize relative directories in a path.
      *
@@ -401,14 +401,14 @@ class ilFileXMLParser extends ilSaxParser
      * @throws LogicException
      *
      */
-    public static function normalizeRelativePath(string $path) : string
+    public static function normalizeRelativePath(string $path): string
     {
         $path = str_replace('\\', '/', $path);
-        
+
         while (preg_match('#\p{C}+|^\./#u', $path)) {
             $path = preg_replace('#\p{C}+|^\./#u', '', $path);
         }
-        
+
         $parts = [];
         foreach (explode('/', $path) as $part) {
             switch ($part) {
@@ -423,16 +423,16 @@ class ilFileXMLParser extends ilSaxParser
                     break;
             }
         }
-        
+
         return implode('/', $parts);
     }
-    
-    private function fastBase64Decode(string $filein, string $fileout) : bool
+
+    private function fastBase64Decode(string $filein, string $fileout): bool
     {
         $fh = fopen($filein, 'rb');
         $fh2 = fopen($fileout, 'wb');
         stream_filter_append($fh2, 'convert.base64-decode');
-        
+
         while (!feof($fh)) {
             $chunk = fgets($fh);
             if ($chunk === false) {
@@ -442,11 +442,11 @@ class ilFileXMLParser extends ilSaxParser
         }
         fclose($fh);
         fclose($fh2);
-        
+
         return true;
     }
-    
-    private function fastGunzip(string $in, string $out) : bool
+
+    private function fastGunzip(string $in, string $out): bool
     {
         if (!file_exists($in) || !is_readable($in)) {
             return false;
@@ -454,18 +454,18 @@ class ilFileXMLParser extends ilSaxParser
         if ((!file_exists($out) && !is_writable(dirname($out)) || (file_exists($out) && !is_writable($out)))) {
             return false;
         }
-        
+
         $in_file = gzopen($in, "rb");
         $out_file = fopen($out, "wb");
-        
+
         while (!gzeof($in_file)) {
             $buffer = gzread($in_file, 4096);
             fwrite($out_file, $buffer, 4096);
         }
-        
+
         gzclose($in_file);
         fclose($out_file);
-        
+
         return true;
     }
 }

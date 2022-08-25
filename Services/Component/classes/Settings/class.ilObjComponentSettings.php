@@ -39,19 +39,19 @@ class ilObjComponentSettings extends ilObject
         parent::__construct($a_id, $a_call_by_reference);
     }
 
-    public function update() : bool
+    public function update(): bool
     {
         global $DIC;
         $ilDB = $DIC->database();
-        
+
         if (!parent::update()) {
             return false;
         }
 
         return true;
     }
-    
-    public function read() : void
+
+    public function read(): void
     {
         global $DIC;
         $ilDB = $DIC->database();
@@ -59,15 +59,15 @@ class ilObjComponentSettings extends ilObject
         parent::read();
     }
 
-    public function delete() : bool
+    public function delete(): bool
     {
         // always call parent delete function first!!
         if (!parent::delete()) {
             return false;
         }
-        
+
         //put here your module specific stuff
-        
+
         return true;
     }
 }

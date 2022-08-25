@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\UI\Component\Link;
 
 /**
@@ -26,5 +28,5 @@ interface Standard extends Link
     /**
      * Get the label of the link
      */
-    public function getLabel() : string;
+    public function getLabel(): string;
 }

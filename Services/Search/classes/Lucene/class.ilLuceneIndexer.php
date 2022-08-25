@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 
@@ -24,47 +26,47 @@ class ilLuceneIndexer extends ilCronJob
         $this->lng = $DIC->language();
         $this->setting = $DIC->settings();
     }
-    
-    public function getId() : string
+
+    public function getId(): string
     {
         return "src_lucene_indexer";
     }
-    
-    public function getTitle() : string
+
+    public function getTitle(): string
     {
         return $this->lng->txt("cron_lucene_index");
     }
-    
-    public function getDescription() : string
+
+    public function getDescription(): string
     {
         return $this->lng->txt("cron_lucene_index_info");
     }
-    
-    public function getDefaultScheduleType() : int
+
+    public function getDefaultScheduleType(): int
     {
         return self::SCHEDULE_TYPE_DAILY;
     }
-    
-    public function getDefaultScheduleValue() : ?int
+
+    public function getDefaultScheduleValue(): ?int
     {
         return null;
     }
-    
-    public function hasAutoActivation() : bool
+
+    public function hasAutoActivation(): bool
     {
         return false;
     }
-    
-    public function hasFlexibleSchedule() : bool
+
+    public function hasFlexibleSchedule(): bool
     {
         return true;
     }
-    
-    public function run() : ilCronJobResult
+
+    public function run(): ilCronJobResult
     {
         $status = ilCronJobResult::STATUS_NO_ACTION;
         $error_message = null;
-        
+
         try {
             ilRpcClientFactory::factory('RPCIndexHandler', 60)->index(
                 CLIENT_ID . '_' . $this->setting->get('inst_id', "0"),
@@ -72,14 +74,14 @@ class ilLuceneIndexer extends ilCronJob
             );
         } catch (Exception $e) {
             $error_message = $e->getMessage();
-            
+
             if ($e instanceof ilRpcClientException && $e->getCode() == 28) {
                 ilLoggerFactory::getLogger('src')->info('Connection timed out after ' . $this->timeout . ' seconds. ' .
                     'Indexing will continoue without a proper return message. View ilServer log if you think there are problems while indexing.');
                 $error_message = null;
             }
         }
-        
+
         $result = new ilCronJobResult();
         if ($error_message) {
             // #16035 - currently no way to discern the severity of the exception
@@ -91,14 +93,14 @@ class ilLuceneIndexer extends ilCronJob
         $result->setStatus($status);
         return $result;
     }
-    
-    
+
+
     /**
      * Update lucene index
      * @param int[] $a_obj_ids
      * @return bool
      */
-    public static function updateLuceneIndex(array $a_obj_ids) : bool
+    public static function updateLuceneIndex(array $a_obj_ids): bool
     {
         global $DIC;
 
@@ -106,7 +108,7 @@ class ilLuceneIndexer extends ilCronJob
         if (!ilSearchSettings::getInstance()->isLuceneUserSearchEnabled()) {
             return false;
         }
-        
+
         try {
             ilLoggerFactory::getLogger('src')->info('Lucene update index call BEGIN --- ');
 

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -14,7 +16,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * This class displays the permission status of a user concerning a specific object.
  * ("Permissions" -> "Permission of User")
@@ -66,7 +68,7 @@ class ilObjectPermissionStatusGUI
     /**
      * execute command
      */
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         // determine next class in the call structure
         $next_class = $this->ctrl->getNextClass($this);
@@ -89,7 +91,7 @@ class ilObjectPermissionStatusGUI
      * cmd function
      * @todo use global template
      */
-    public function perminfo() : void
+    public function perminfo(): void
     {
         $tpl = new ilTemplate("tpl.info_layout.html", false, false, "Services/AccessControl");
 
@@ -104,7 +106,7 @@ class ilObjectPermissionStatusGUI
     /**
      * Creates Toolbar entries
      */
-    public function addToolbar() : void
+    public function addToolbar(): void
     {
         $this->toolbar->setFormAction($this->ctrl->getFormAction($this, "perminfo"));
         $this->toolbar->addText($this->lng->txt('user'));
@@ -122,7 +124,7 @@ class ilObjectPermissionStatusGUI
     /**
      * Access- and Statusinformation Info
      */
-    public function accessStatusInfo() : string
+    public function accessStatusInfo(): string
     {
         $info = new ilInfoScreenGUI(new stdClass());
         $info->setFormAction($this->ctrl->getFormAction($this));
@@ -139,7 +141,7 @@ class ilObjectPermissionStatusGUI
     /**
      * Access Permissions Table
      */
-    public function accessPermissionsTable() : string
+    public function accessPermissionsTable(): string
     {
         $table = new ilAccessPermissionsStatusTableGUI($this, "perminfo");
 
@@ -153,7 +155,7 @@ class ilObjectPermissionStatusGUI
      * Available Roles Table
      * @return string HTML
      */
-    public function availableRolesTable() : string
+    public function availableRolesTable(): string
     {
         $table = new ilAvailableRolesStatusTableGUI($this, "perminfo");
 
@@ -166,7 +168,7 @@ class ilObjectPermissionStatusGUI
     /**
      * get Assigned Valid Roles
      */
-    public function getAssignedValidRoles() : array
+    public function getAssignedValidRoles(): array
     {
         $assigned_valid_roles = array();
 
@@ -201,7 +203,7 @@ class ilObjectPermissionStatusGUI
     /**
      * get Commands
      */
-    public function getCommands(string $a_type) : array
+    public function getCommands(string $a_type): array
     {
         global $DIC;
 
@@ -221,7 +223,7 @@ class ilObjectPermissionStatusGUI
     /**
      * ilUser
      */
-    public function getUser() : ilObjUser
+    public function getUser(): ilObjUser
     {
         global $DIC;
 
@@ -248,7 +250,7 @@ class ilObjectPermissionStatusGUI
     /**
      * Access Status Info Data
      */
-    public function getAccessStatusInfoData() : array
+    public function getAccessStatusInfoData(): array
     {
         global $DIC;
 
@@ -323,7 +325,6 @@ class ilObjectPermissionStatusGUI
                     default:
                         $text .= "<span class=\"" . $alert . "\">" . $info['text'] . "</span><br/> ";
                         break;
-
                 }
             }
         }
@@ -336,7 +337,7 @@ class ilObjectPermissionStatusGUI
     /**
      * Access Permissions Table Data
      */
-    public function getAccessPermissionTableData() : array
+    public function getAccessPermissionTableData(): array
     {
         global $DIC;
 
@@ -413,7 +414,7 @@ class ilObjectPermissionStatusGUI
     /**
      * Available Roles Table Data
      */
-    public function getAvailableRolesTableData() : array
+    public function getAvailableRolesTableData(): array
     {
         global $DIC;
 
@@ -441,8 +442,8 @@ class ilObjectPermissionStatusGUI
             }
 
             $result_set[$counter]["role"] = str_replace(" ", "&nbsp;", ilObjRole::_getTranslation($role["title"]));
-    
-            
+
+
             if ($role['role_type'] != "linked") {
                 $result_set[$counter]["effective_from"] = "";
             } else {

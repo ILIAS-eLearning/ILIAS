@@ -49,7 +49,7 @@ class ilUserQuestionResult
      * @param mixed $key
      * @param mixed $value
      */
-    public function addKeyValue($key, $value) : void
+    public function addKeyValue($key, $value): void
     {
         $this->solutions[] = array(
             self::$USER_SOLUTION_IDENTIFIER_KEY => $key,
@@ -60,7 +60,7 @@ class ilUserQuestionResult
     /**
      * @param string $key
      */
-    public function removeByKey($key) : void
+    public function removeByKey($key): void
     {
         foreach ($this->solutions as $array_key => $solution) {
             if ($solution[self::$USER_SOLUTION_IDENTIFIER_KEY] == $key) {
@@ -76,7 +76,7 @@ class ilUserQuestionResult
      * @return array
      * @throws Exception
      */
-    public function getUserSolutionsByIdentifier($identifier) : array
+    public function getUserSolutionsByIdentifier($identifier): array
     {
         if (
             $identifier != self::$USER_SOLUTION_IDENTIFIER_KEY &&
@@ -95,7 +95,7 @@ class ilUserQuestionResult
     /**
      * @return array
      */
-    public function getSolutions() : array
+    public function getSolutions(): array
     {
         return $this->solutions;
     }
@@ -105,7 +105,7 @@ class ilUserQuestionResult
      *
      * @return array
      */
-    public function getSolutionForKey($key) : ?array
+    public function getSolutionForKey($key): ?array
     {
         foreach ($this->solutions as $solution) {
             if ($solution[self::$USER_SOLUTION_IDENTIFIER_KEY] == $key) {
@@ -118,7 +118,7 @@ class ilUserQuestionResult
     /**
      * @param int $reached_percentage
      */
-    public function setReachedPercentage($reached_percentage) : void
+    public function setReachedPercentage($reached_percentage): void
     {
         $this->reached_percentage = $reached_percentage;
     }
@@ -126,7 +126,7 @@ class ilUserQuestionResult
     /**
      * @return int
      */
-    public function getReachedPercentage() : int
+    public function getReachedPercentage(): int
     {
         return $this->reached_percentage;
     }
@@ -134,7 +134,7 @@ class ilUserQuestionResult
     /**
      * @return boolean
      */
-    public function hasSolutions() : bool
+    public function hasSolutions(): bool
     {
         return count($this->solutions) > 0;
     }

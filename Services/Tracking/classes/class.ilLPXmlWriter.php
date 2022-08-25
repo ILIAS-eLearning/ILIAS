@@ -1,4 +1,6 @@
-<?php declare(strict_types=0);
+<?php
+
+declare(strict_types=0);
 /* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -31,7 +33,7 @@ class ilLPXmlWriter extends ilXmlWriter
      * Set timestamp
      * @param string $a_val timestamp (YYYY-MM-DD hh:mm:ss)
      */
-    public function setTimestamp(string $a_val) : void
+    public function setTimestamp(string $a_val): void
     {
         $this->timestamp = $a_val;
     }
@@ -40,17 +42,17 @@ class ilLPXmlWriter extends ilXmlWriter
      * Get timestamp
      * @return string timestamp (YYYY-MM-DD hh:mm:ss)
      */
-    public function getTimestamp() : string
+    public function getTimestamp(): string
     {
         return $this->timestamp;
     }
 
-    public function setIncludeRefIds(bool $a_val) : void
+    public function setIncludeRefIds(bool $a_val): void
     {
         $this->include_ref_ids = $a_val;
     }
 
-    public function getIncludeRefIds() : bool
+    public function getIncludeRefIds(): bool
     {
         return $this->include_ref_ids;
     }
@@ -59,7 +61,7 @@ class ilLPXmlWriter extends ilXmlWriter
      * Set type filter
      * @param string[] $a_val
      */
-    public function setTypeFilter(array $a_val) : void
+    public function setTypeFilter(array $a_val): void
     {
         $this->type_filter = $a_val;
     }
@@ -68,7 +70,7 @@ class ilLPXmlWriter extends ilXmlWriter
      * Get type filter
      * @return string[]
      */
-    public function getTypeFilter() : array
+    public function getTypeFilter(): array
     {
         return $this->type_filter;
     }
@@ -78,7 +80,7 @@ class ilLPXmlWriter extends ilXmlWriter
      * @return
      * @throws UnexpectedValueException Thrown if obj_id is not of type webr or no obj_id is given
      */
-    public function write() : void
+    public function write(): void
     {
         $this->init();
         if ($this->add_header) {
@@ -87,17 +89,17 @@ class ilLPXmlWriter extends ilXmlWriter
         $this->addLPInformation();
     }
 
-    protected function buildHeader() : void
+    protected function buildHeader(): void
     {
         $this->xmlHeader();
     }
 
-    protected function init() : void
+    protected function init(): void
     {
         $this->xmlClear();
     }
 
-    public function addLPInformation() : void
+    public function addLPInformation(): void
     {
         $this->xmlStartTag('LPData', array());
         $set = $this->db->query(

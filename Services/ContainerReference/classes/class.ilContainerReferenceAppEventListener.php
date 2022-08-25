@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -23,12 +25,12 @@
  */
 class ilContainerReferenceAppEventListener implements ilAppEventListener
 {
-    public static function handleEvent(string $a_component, string $a_event, array $a_parameter) : void
+    public static function handleEvent(string $a_component, string $a_event, array $a_parameter): void
     {
         global $DIC;
 
         $ilLog = $DIC["ilLog"];
-        
+
         switch ($a_component) {
             case 'Modules/Course':
             case 'Modules/Category':
@@ -42,15 +44,15 @@ class ilContainerReferenceAppEventListener implements ilAppEventListener
                 break;
         }
     }
-    
-    public static function deleteReferences(int $a_target_id) : void
+
+    public static function deleteReferences(int $a_target_id): void
     {
         global $DIC;
 
         $ilLog = $DIC["ilLog"];
         $ilAppEventHandler = $DIC["ilAppEventHandler"];
         $tree = $DIC["tree"];
-        
+
         if (!$source_id = ilContainerReference::_lookupSourceId($a_target_id)) {
             return;
         }
@@ -77,7 +79,7 @@ class ilContainerReferenceAppEventListener implements ilAppEventListener
                         ]
                     );
                     break;
-                    
+
                 default:
                     $ilLog->write(__METHOD__ . ': Unexpected object type ' . $instance->getType() . ' with Id ' . $instance->getId());
                     break;

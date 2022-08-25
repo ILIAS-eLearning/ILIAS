@@ -1,4 +1,5 @@
 <?php
+
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 include_once "./Modules/Test/classes/inc.AssessmentConstants.php";
@@ -48,7 +49,7 @@ class ilQuestionpoolExport
         if (!is_array($array_questions)) {
             $array_questions = &$a_qpl_obj->getAllQuestionIds();
         }
-        
+
         $this->err = &$ilErr;
         $this->ilias = &$ilias;
         $this->db = &$ilDB;
@@ -95,7 +96,7 @@ class ilQuestionpoolExport
     /**
     *   build export file (complete zip file)
     */
-    public function buildExportFile() : string
+    public function buildExportFile(): string
     {
         switch ($this->mode) {
             case "xls":
@@ -109,7 +110,7 @@ class ilQuestionpoolExport
     /**
     * build xml export file
     */
-    public function buildExportFileXML() : string
+    public function buildExportFileXML(): string
     {
         global $DIC;
         $ilBench = $DIC['ilBench'];
@@ -117,7 +118,7 @@ class ilQuestionpoolExport
         $ilBench->start("QuestionpoolExport", "buildExportFile");
 
         include_once("./Services/Xml/classes/class.ilXmlWriter.php");
-        $this->xml = new ilXmlWriter;
+        $this->xml = new ilXmlWriter();
 
         // set dtd definition
         $this->xml->xmlSetDtdDef("<!DOCTYPE Test SYSTEM \"http://www.ilias.uni-koeln.de/download/dtd/ilias_co.dtd\">");
@@ -143,7 +144,7 @@ class ilQuestionpoolExport
         $expLog->delete();
         $expLog->setLogFormat("");
         $expLog->write(date("[y-m-d H:i:s] ") . "Start Export");
-        
+
         // write qti file
         $qti_file = fopen($this->export_dir . "/" . $this->subdir . "/" . $this->qti_filename, "w");
         fwrite($qti_file, $this->qpl_obj->questionsToXML($this->questions));
@@ -171,7 +172,7 @@ class ilQuestionpoolExport
         $ilBench->start("QuestionpoolExport", "buildExportFile_dumpToFile");
         $this->xml->xmlDumpFile($this->export_dir . "/" . $this->subdir . "/" . $this->filename, false);
         $ilBench->stop("QuestionpoolExport", "buildExportFile_dumpToFile");
-        
+
         // add media objects which were added with tiny mce
         $ilBench->start("QuestionpoolExport", "buildExportFile_saveAdditionalMobs");
         $this->exportXHTMLMediaObjects($this->export_dir . "/" . $this->subdir);
@@ -196,10 +197,10 @@ class ilQuestionpoolExport
         return $this->export_dir . "/" . $this->subdir . ".zip";
     }
 
-    public function exportXHTMLMediaObjects($a_export_dir) : void
+    public function exportXHTMLMediaObjects($a_export_dir): void
     {
         include_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
-        
+
         foreach ($this->questions as $question_id) {
             $mobs = ilObjMediaObject::_getMobsOfObject("qpl:html", $question_id);
             foreach ($mobs as $mob) {
@@ -211,11 +212,11 @@ class ilQuestionpoolExport
             }
         }
     }
-    
+
     /**
     * build xml export file
     */
-    protected function buildExportFileXLS() : string
+    protected function buildExportFileXLS(): string
     {
         require_once 'Modules/TestQuestionPool/classes/class.ilAssExcelFormatHelper.php';
         require_once 'Modules/TestQuestionPool/classes/class.assQuestion.php';

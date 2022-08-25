@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -28,14 +30,14 @@ class ClientSettings implements JsonSerializable
     private bool $hashing = true;
     private bool $logging = false;
 
-    public function setHashing(bool $hashing) : self
+    public function setHashing(bool $hashing): self
     {
         $this->hashing = $hashing;
 
         return $this;
     }
 
-    public function setLogging(bool $logging) : self
+    public function setLogging(bool $logging): self
     {
         $this->logging = $logging;
 

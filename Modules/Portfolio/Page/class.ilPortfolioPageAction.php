@@ -36,7 +36,7 @@ class ilPortfolioPageAction
     /**
      * Delete pages of blog
      */
-    public function deletePagesOfBlog(int $a_blog_id) : void
+    public function deletePagesOfBlog(int $a_blog_id): void
     {
         $pages = ilPortfolioPage::getPagesForBlog($a_blog_id);
         foreach ($pages as $page) {

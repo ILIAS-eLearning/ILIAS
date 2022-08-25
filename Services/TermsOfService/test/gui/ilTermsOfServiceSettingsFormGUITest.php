@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -22,7 +24,7 @@
  */
 class ilTermsOfServiceSettingsFormGUITest extends ilTermsOfServiceBaseTest
 {
-    public function testFormCanBeProperlyBuilt() : void
+    public function testFormCanBeProperlyBuilt(): void
     {
         $tos = $this->getMockBuilder(ilObjTermsOfService::class)->disableOriginalConstructor()->getMock();
 
@@ -71,7 +73,7 @@ class ilTermsOfServiceSettingsFormGUITest extends ilTermsOfServiceBaseTest
         );
     }
 
-    public function testFormCanBeSavedWithDisabledService() : void
+    public function testFormCanBeSavedWithDisabledService(): void
     {
         $tos = $this->getMockBuilder(ilObjTermsOfService::class)->disableOriginalConstructor()->getMock();
 
@@ -111,7 +113,7 @@ class ilTermsOfServiceSettingsFormGUITest extends ilTermsOfServiceBaseTest
         $this->assertEmpty($form->getTranslatedError());
     }
 
-    public function testFormCanBeSavedWithEnabledServiceWhenAtLeastOneDocumentExists() : void
+    public function testFormCanBeSavedWithEnabledServiceWhenAtLeastOneDocumentExists(): void
     {
         $tos = $this->getMockBuilder(ilObjTermsOfService::class)->disableOriginalConstructor()->getMock();
 
@@ -160,7 +162,7 @@ class ilTermsOfServiceSettingsFormGUITest extends ilTermsOfServiceBaseTest
         $this->assertEmpty($form->getTranslatedError());
     }
 
-    public function testFormCannotBeSavedWithEnabledServiceWhenNoDocumentsExistAndServiceIsCurrentlyDisabled() : void
+    public function testFormCannotBeSavedWithEnabledServiceWhenNoDocumentsExistAndServiceIsCurrentlyDisabled(): void
     {
         $lng = $this->getLanguageMock();
 
@@ -216,7 +218,7 @@ class ilTermsOfServiceSettingsFormGUITest extends ilTermsOfServiceBaseTest
         $this->assertNotEmpty($form->getTranslatedError());
     }
 
-    public function testFormCanBeSavedWithEnabledServiceWhenNoDocumentsExistButServiceIsAlreadyEnabled() : void
+    public function testFormCanBeSavedWithEnabledServiceWhenNoDocumentsExistButServiceIsAlreadyEnabled(): void
     {
         $tos = $this->getMockBuilder(ilObjTermsOfService::class)->disableOriginalConstructor()->getMock();
 

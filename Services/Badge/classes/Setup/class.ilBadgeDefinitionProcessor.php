@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -27,25 +29,25 @@ class ilBadgeDefinitionProcessor implements ilComponentDefinitionProcessor
         $this->db = $db;
     }
 
-    public function purge() : void
+    public function purge(): void
     {
         $bh = ilBadgeHandler::getInstance();
         $bh->setComponents(null);
     }
 
-    public function beginComponent(string $component, string $type) : void
+    public function beginComponent(string $component, string $type): void
     {
         $this->has_badges = false;
         $this->component_id = null;
     }
 
-    public function endComponent(string $component, string $type) : void
+    public function endComponent(string $component, string $type): void
     {
         $this->has_badges = false;
         $this->component_id = null;
     }
 
-    public function beginTag(string $name, array $attributes) : void
+    public function beginTag(string $name, array $attributes): void
     {
         if ($name === "module" || $name === "service") {
             $this->component_id = $attributes["id"] ?? null;
@@ -66,7 +68,7 @@ class ilBadgeDefinitionProcessor implements ilComponentDefinitionProcessor
         $this->has_badges = true;
     }
 
-    public function endTag(string $name) : void
+    public function endTag(string $name): void
     {
         if ($name === "module" || $name === "service") {
             $this->component_id = null;

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,7 +18,7 @@
  *
  *********************************************************************/
 
-function toNewObject() : bool
+function toNewObject(): bool
 {
     class SomeOtherClass
     {
@@ -34,27 +36,27 @@ function toNewObject() : bool
             $this->thirdParameter = $thirdParameter;
         }
 
-        public function say() : string
-        {
-            return $this->firstParameter;
-        }
-        
-        public function getFirstParameter() : string
+        public function say(): string
         {
             return $this->firstParameter;
         }
 
-        public function getSecodParameter() : int
+        public function getFirstParameter(): string
+        {
+            return $this->firstParameter;
+        }
+
+        public function getSecodParameter(): int
         {
             return $this->secondParameter;
         }
 
-        public function getThirdParameter() : string
+        public function getThirdParameter(): string
         {
             return $this->thirdParameter;
         }
     }
-    
+
     global $DIC;
 
     $refinery = $DIC->refinery();

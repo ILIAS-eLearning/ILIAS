@@ -27,7 +27,7 @@ class ilBadgeUserTableGUI extends ilTable2GUI
     protected ?ilBadge $award_badge = null;
     protected bool $do_parent = false;
     protected array $filter = [];
-    
+
     public function __construct(
         object $a_parent_obj,
         string $a_parent_cmd,
@@ -43,26 +43,26 @@ class ilBadgeUserTableGUI extends ilTable2GUI
         $this->tree = $DIC->repositoryTree();
         $ilCtrl = $DIC->ctrl();
         $lng = $DIC->language();
-        
+
         $this->setId("bdgusr");
         $this->award_badge = $a_award_bagde;
         $this->do_parent = false;
-        
+
         $parent_type = ilObject::_lookupType($a_parent_ref_id, true);
         if (in_array($parent_type, array("grp", "crs"))) {
             $this->do_parent = (!$a_parent_obj_id && !$this->award_badge);
         }
 
         parent::__construct($a_parent_obj, $a_parent_cmd);
-            
+
         $this->setLimit(9999);
-        
+
         if ($this->award_badge) {
             $this->setTitle($lng->txt("badge_award_badge") . ": " . $a_award_bagde->getTitle());
             $this->setDescription($a_award_bagde->getDescription());
-            
+
             $this->addColumn("", "", 1);
-            
+
             $this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
             $this->addMultiCommand("assignBadge", $lng->txt("badge_award_badge"));
             $this->addMultiCommand("confirmDeassignBadge", $lng->txt("badge_remove_badge"));
@@ -84,67 +84,67 @@ class ilBadgeUserTableGUI extends ilTable2GUI
             }
             $this->setTitle($parent . $lng->txt("users"));
         }
-        
+
         $this->addColumn($lng->txt("name"), "name");
         $this->addColumn($lng->txt("login"), "login");
         $this->addColumn($lng->txt("type"), "type");
         $this->addColumn($lng->txt("title"), "title");
         $this->addColumn($lng->txt("badge_issued_on"), "issued");
-        
+
         if ($this->do_parent) {
             $this->addColumn($lng->txt("object"), "parent_id");
         }
-        
+
         $this->setDefaultOrderField("name");
-                
+
         $this->setRowTemplate("tpl.user_row.html", "Services/Badge");
-        
+
         $this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
         $this->setFilterCommand("apply" . ucfirst($this->getParentCmd()));
         $this->setResetCommand("reset" . ucfirst($this->getParentCmd()));
 
         $this->initFilter();
-                
+
         $this->getItems($a_parent_ref_id, $this->award_badge, $a_parent_obj_id, $a_restrict_badge_id);
     }
-    
-    public function initFilter() : void
+
+    public function initFilter(): void
     {
         $lng = $this->lng;
-        
+
         $name = $this->addFilterItemByMetaType("name", self::FILTER_TEXT, false, $lng->txt("name"));
         $this->filter["name"] = $name->getValue();
     }
-    
+
     public function getItems(
         int $a_parent_ref_id,
         ilBadge $a_award_bagde = null,
         int $a_parent_obj_id = null,
         int $a_restrict_badge_id = null
-    ) : void {
+    ): void {
         $tree = $this->tree;
         $user_ids = null;
-        
+
         $data = array();
-                    
+
         if (!$a_parent_obj_id) {
             $a_parent_obj_id = ilObject::_lookupObjId($a_parent_ref_id);
         }
-        
+
         // repository context: walk tree for available users
         if ($a_parent_ref_id) {
             $user_ids = ilBadgeHandler::getInstance()->getUserIds($a_parent_ref_id, $a_parent_obj_id);
         }
 
         $obj_ids = array($a_parent_obj_id);
-        
+
         // add sub-items
         if ($this->do_parent) {
             foreach ($tree->getSubTree($tree->getNodeData($a_parent_ref_id)) as $node) {
                 $obj_ids[] = $node["obj_id"];
             }
         }
-        
+
         $badges = $assignments = array();
         foreach ($obj_ids as $obj_id) {
             foreach (ilBadge::getInstancesByParentId($obj_id) as $badge) {
@@ -156,7 +156,7 @@ class ilBadgeUserTableGUI extends ilTable2GUI
                     $a_restrict_badge_id !== $ass->getBadgeId()) {
                     continue;
                 }
-                
+
                 // when awarding we only want to see the current badge
                 if ($this->award_badge &&
                     $ass->getBadgeId() !== $this->award_badge->getId()) {
@@ -189,13 +189,13 @@ class ilBadgeUserTableGUI extends ilTable2GUI
             if (array_key_exists($user["usr_id"], $assignments)) {
                 foreach ($assignments[$user["usr_id"]] as $user_ass) {
                     $idx = $user_ass->getBadgeId() . "-" . $user["usr_id"];
-                    
+
                     $badge = $badges[$user_ass->getBadgeId()];
                     $parent = [];
                     if ($this->do_parent) {
                         $parent = $badge->getParentMeta();
                     }
-                    
+
                     $data[$idx] = array(
                         "user_id" => $user["usr_id"],
                         "name" => $user["lastname"] . ", " . $user["firstname"],
@@ -211,7 +211,7 @@ class ilBadgeUserTableGUI extends ilTable2GUI
             // no badge yet, add dummy entry (for manual awarding)
             elseif ($this->award_badge) {
                 $idx = "0-" . $user["usr_id"];
-                    
+
                 $data[$idx] = array(
                     "user_id" => $user["usr_id"],
                     "name" => $user["lastname"] . ", " . $user["firstname"],
@@ -223,18 +223,18 @@ class ilBadgeUserTableGUI extends ilTable2GUI
                 );
             }
         }
-        
+
         $this->setData($data);
     }
-    
-    protected function fillRow(array $a_set) : void
+
+    protected function fillRow(array $a_set): void
     {
         $lng = $this->lng;
-        
+
         if ($this->award_badge) {
             $this->tpl->setVariable("VAL_ID", $a_set["user_id"]);
         }
-        
+
         $this->tpl->setVariable("TXT_NAME", $a_set["name"]);
         $this->tpl->setVariable("TXT_LOGIN", $a_set["login"]);
         $this->tpl->setVariable("TXT_TYPE", $a_set["type"]);
@@ -242,7 +242,7 @@ class ilBadgeUserTableGUI extends ilTable2GUI
         $this->tpl->setVariable("TXT_ISSUED", $a_set["issued"]
             ? ilDatePresentation::formatDate(new ilDateTime($a_set["issued"], IL_CAL_UNIX))
             : "");
-        
+
         if ($a_set["parent_id"]) {
             $parent = $a_set["parent_meta"];
             $this->tpl->setVariable("PARENT", $parent["title"]);

@@ -9,11 +9,11 @@ class MediaCastStandardGUIRequestTest extends TestCase
 {
     //protected $backupGlobals = false;
 
-    protected function tearDown() : void
+    protected function tearDown(): void
     {
     }
 
-    protected function getRequest(array $get, array $post) : \ILIAS\MediaCast\StandardGUIRequest
+    protected function getRequest(array $get, array $post): \ILIAS\MediaCast\StandardGUIRequest
     {
         $http_mock = $this->createMock(ILIAS\HTTP\Services::class);
         $lng_mock = $this->createMock(ilLanguage::class);
@@ -27,7 +27,7 @@ class MediaCastStandardGUIRequestTest extends TestCase
         );
     }
 
-    public function testRefId() : void
+    public function testRefId(): void
     {
         $request = $this->getRequest(
             [
@@ -42,7 +42,7 @@ class MediaCastStandardGUIRequestTest extends TestCase
         );
     }
 
-    public function testMimeTypes() : void
+    public function testMimeTypes(): void
     {
         $request = $this->getRequest(
             [
@@ -57,7 +57,7 @@ class MediaCastStandardGUIRequestTest extends TestCase
         );
     }
 
-    public function testItemIds() : void
+    public function testItemIds(): void
     {
         $request = $this->getRequest(
             [
@@ -73,7 +73,7 @@ class MediaCastStandardGUIRequestTest extends TestCase
         );
     }
 
-    public function testSeconds() : void
+    public function testSeconds(): void
     {
         $request = $this->getRequest(
             [

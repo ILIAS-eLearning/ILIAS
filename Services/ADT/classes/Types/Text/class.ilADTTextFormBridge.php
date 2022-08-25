@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -28,19 +30,19 @@ class ilADTTextFormBridge extends ilADTFormBridge
         $this->lng->loadLanguageModule('meta');
     }
 
-    public function setMulti(bool $a_value, ?int $a_cols = null, ?int $a_rows = null) : void
+    public function setMulti(bool $a_value, ?int $a_cols = null, ?int $a_rows = null): void
     {
         $this->multi = $a_value;
         $this->multi_rows = ($a_rows === null) ? null : $a_rows;
         $this->multi_cols = ($a_cols === null) ? null : $a_cols;
     }
 
-    public function isMulti() : bool
+    public function isMulti(): bool
     {
         return $this->multi;
     }
 
-    protected function isValidADT(ilADT $a_adt) : bool
+    protected function isValidADT(ilADT $a_adt): bool
     {
         return ($a_adt instanceof ilADTText);
     }
@@ -51,7 +53,7 @@ class ilADTTextFormBridge extends ilADTFormBridge
         string $value,
         bool $is_translation = false,
         string $language = ''
-    ) : void {
+    ): void {
         $def = $this->getADT()->getCopyOfDefinition();
 
         if (!$this->isMulti()) {
@@ -91,7 +93,7 @@ class ilADTTextFormBridge extends ilADTFormBridge
         $this->addToParentElement($text);
     }
 
-    public function addToForm() : void
+    public function addToForm(): void
     {
         $this->addElementToForm(
             (string) $this->getTitle(),
@@ -100,7 +102,7 @@ class ilADTTextFormBridge extends ilADTFormBridge
         );
     }
 
-    public function importFromPost() : void
+    public function importFromPost(): void
     {
         // ilPropertyFormGUI::checkInput() is pre-requisite
         $this->getADT()->setText($this->getForm()->getInput($this->getElementId()));

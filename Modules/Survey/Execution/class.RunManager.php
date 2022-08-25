@@ -1,4 +1,6 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -57,12 +59,12 @@ class RunManager
         $this->code_manager = $domain_service->code($survey, $current_user_id);
     }
 
-    protected function codeNeeded() : bool
+    protected function codeNeeded(): bool
     {
         return !$this->survey->isAccessibleWithoutCode();
     }
 
-    public function getCurrentRunId(int $appraisee = 0) : int
+    public function getCurrentRunId(int $appraisee = 0): int
     {
         $repo = $this->repo;
         $survey_id = $this->survey_id;
@@ -89,7 +91,7 @@ class RunManager
         int $user_id,
         string $code = "",
         int $appraisee = 0
-    ) : void {
+    ): void {
         if ($this->feature_config->usesAppraisees() && $appraisee === 0) {
             throw new \ilSurveyException("No appraisee specified");
         }
@@ -106,14 +108,14 @@ class RunManager
 
 
     // Get state of current run
-    protected function getCurrentState(int $appraisee = 0) : int
+    protected function getCurrentState(int $appraisee = 0): int
     {
         $repo = $this->repo;
         $run_id = $this->getCurrentRunId($appraisee);
         return $repo->getState($run_id);
     }
 
-    public function hasStarted(int $appraisee = 0) : bool
+    public function hasStarted(int $appraisee = 0): bool
     {
         return in_array(
             $this->getCurrentState($appraisee),
@@ -122,7 +124,7 @@ class RunManager
         );
     }
 
-    public function hasFinished(int $appraisee = 0) : bool
+    public function hasFinished(int $appraisee = 0): bool
     {
         return ($this->getCurrentState($appraisee) ===
             RunDBRepository::FINISHED);
@@ -136,7 +138,7 @@ class RunManager
     public function belongsToFinishedRun(
         string $code,
         int $appraisee_id = 0
-    ) : bool {
+    ): bool {
         $repo = $this->repo;
         $code_manager = $this->domain_service->code($this->survey, $this->current_user_id);
 
@@ -163,11 +165,11 @@ class RunManager
     public function getRunsForUser(
         int $user_id,
         string $code = ""
-    ) : array {
+    ): array {
         return $this->repo->getRunsForUser($this->survey->getSurveyId(), $user_id, $code);
     }
 
-    public function getById(int $run_id) : ?Run
+    public function getById(int $run_id): ?Run
     {
         $run = $this->repo->getById($run_id);
         if (!is_null($run) && $run->getSurveyId() !== $this->survey->getSurveyId()) {
@@ -181,7 +183,7 @@ class RunManager
      */
     public function start(
         int $appraisee_id = 0
-    ) : void {
+    ): void {
         $code = $this->getCode();
         $user_id = $this->current_user_id;
         $survey = $this->survey;
@@ -194,7 +196,7 @@ class RunManager
 
     public function initSession(
         string $requested_code = ""
-    ) : void {
+    ): void {
         $user_id = $this->current_user_id;
         $survey = $this->survey;
         $session_repo = $this->session_repo;
@@ -249,12 +251,12 @@ class RunManager
     /**
      * Get current valid code
      */
-    public function getCode() : string
+    public function getCode(): string
     {
         return $this->session_repo->getCode($this->survey->getId());
     }
 
-    public function clearCode() : void
+    public function clearCode(): void
     {
         $this->session_repo->clearCode($this->survey->getId());
     }
@@ -264,14 +266,14 @@ class RunManager
      */
     public function setStartTime(
         int $first_question
-    ) : void {
+    ): void {
         $run_id = $this->getCurrentRunId();
         $time = time();
         $this->session_repo->setPageEnter($time);
         $this->repo->addTime($run_id, $time, $first_question);
     }
 
-    public function setEndTime() : void
+    public function setEndTime(): void
     {
         $run_id = $this->getCurrentRunId();
         $time = time();
@@ -279,57 +281,57 @@ class RunManager
         $this->session_repo->clearPageEnter();
     }
 
-    public function getPageEnter() : int
+    public function getPageEnter(): int
     {
         return $this->session_repo->getPageEnter();
     }
 
-    public function setPreviewData(int $question_id, array $data) : void
+    public function setPreviewData(int $question_id, array $data): void
     {
         $this->session_repo->setPreviewData($this->survey_id, $question_id, $data);
     }
 
-    public function getPreviewData(int $question_id) : array
+    public function getPreviewData(int $question_id): array
     {
         return $this->session_repo->getPreviewData($this->survey_id, $question_id);
     }
 
-    public function clearPreviewData(int $question_id) : void
+    public function clearPreviewData(int $question_id): void
     {
         $this->session_repo->clearPreviewData($this->survey_id, $question_id);
     }
 
-    public function clearAllPreviewData() : void
+    public function clearAllPreviewData(): void
     {
         $this->session_repo->clearAllPreviewData($this->survey_id);
     }
 
-    public function setErrors(array $errors) : void
+    public function setErrors(array $errors): void
     {
         $this->session_repo->setErrors($errors);
     }
 
-    public function getErrors() : array
+    public function getErrors(): array
     {
         return $this->session_repo->getErrors();
     }
 
-    public function clearErrors() : void
+    public function clearErrors(): void
     {
         $this->session_repo->clearErrors();
     }
 
-    public function setPostData(array $data) : void
+    public function setPostData(array $data): void
     {
         $this->session_repo->setPostData($data);
     }
 
-    public function getPostData() : array
+    public function getPostData(): array
     {
         return $this->session_repo->getPostData();
     }
 
-    public function clearPostData() : void
+    public function clearPostData(): void
     {
         $this->session_repo->clearPostData();
     }

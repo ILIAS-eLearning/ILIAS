@@ -42,7 +42,7 @@ abstract class Duration
         $this->duration_in_ms = $duration_in_ms;
     }
 
-    public function withIncrement(IncrementStrategy $increment) : self
+    public function withIncrement(IncrementStrategy $increment): self
     {
         $clone = clone $this;
         $clone->increment = $increment;
@@ -50,7 +50,7 @@ abstract class Duration
         return $clone;
     }
 
-    public function increment() : self
+    public function increment(): self
     {
         if (null === $this->increment) {
             return $this;
@@ -62,7 +62,7 @@ abstract class Duration
         return $clone;
     }
 
-    public function withDuration(int $duration_in_ms) : self
+    public function withDuration(int $duration_in_ms): self
     {
         $clone = clone $this;
         $clone->duration_in_ms = $duration_in_ms;
@@ -70,7 +70,7 @@ abstract class Duration
         return $clone;
     }
 
-    public function getDuration() : int
+    public function getDuration(): int
     {
         return $this->duration_in_ms;
     }

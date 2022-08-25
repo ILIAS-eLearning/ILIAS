@@ -68,7 +68,7 @@ class PortfolioHtmlExport
             ->domain()->styleForObjId($this->portfolio->getId());
     }
 
-    protected function init() : void
+    protected function init(): void
     {
         $this->export_dir = \ilExport::_getExportDirectory($this->portfolio->getId(), "html", "prtf");
         $this->sub_dir = $this->portfolio->getType() . "_" . $this->portfolio->getId();
@@ -80,12 +80,12 @@ class PortfolioHtmlExport
         $this->co_page_html_export = new \ilCOPageHTMLExport($this->target_dir);
     }
 
-    public function includeComments(bool $a_include_comments) : void
+    public function includeComments(bool $a_include_comments): void
     {
         $this->include_comments = $a_include_comments;
     }
 
-    public function setPrintVersion(bool $print_version) : void
+    public function setPrintVersion(bool $print_version): void
     {
         $this->print_version = $print_version;
     }
@@ -93,7 +93,7 @@ class PortfolioHtmlExport
     /**
      * Initialize directories
      */
-    protected function initDirectories() : void
+    protected function initDirectories(): void
     {
         // create export file
         \ilExport::_createExportDirectory($this->portfolio->getId(), "html", "prtf");
@@ -106,7 +106,7 @@ class PortfolioHtmlExport
     /**
      * Export banner
      */
-    protected function exportBanner() : void
+    protected function exportBanner(): void
     {
         // banner
         $prfa_set = new \ilSetting("prfa");
@@ -136,7 +136,7 @@ class PortfolioHtmlExport
     /**
      * Build export file
      */
-    public function exportHtml() : string
+    public function exportHtml(): string
     {
         $this->init();
         $this->initDirectories();
@@ -181,7 +181,7 @@ class PortfolioHtmlExport
     /**
      * Export user images
      */
-    protected function exportUserImages() : void
+    protected function exportUserImages(): void
     {
         if ($this->include_comments) {
             $user_export = new \ILIAS\Notes\Export\UserImageExporter();
@@ -194,7 +194,7 @@ class PortfolioHtmlExport
      *
      * @return string
      */
-    public function zipPackage() : string
+    public function zipPackage(): string
     {
         // zip it all
         $date = time();
@@ -214,7 +214,7 @@ class PortfolioHtmlExport
      * @throws \ilException
      * @throws \ilTemplateException
      */
-    public function exportHTMLPages() : void
+    public function exportHTMLPages(): void
     {
         $pages = \ilPortfolioPage::getAllPortfolioPages($this->portfolio->getId());
 
@@ -229,7 +229,7 @@ class PortfolioHtmlExport
         }
 
         // for sub-pages, e.g. blog postings
-        $tpl_callback = function (array $js_files = []) : \ilGlobalPageTemplate {
+        $tpl_callback = function (array $js_files = []): \ilGlobalPageTemplate {
             return $this->getInitialisedTemplate($js_files);
         };
 
@@ -265,7 +265,7 @@ class PortfolioHtmlExport
     /**
      * Export all pages as one print version
      */
-    public function exportHTMLPagesPrint() : void
+    public function exportHTMLPagesPrint(): void
     {
         // collect page elements
         $pages = \ilPortfolioPage::getAllPortfolioPages($this->portfolio->getId());
@@ -293,7 +293,7 @@ class PortfolioHtmlExport
      */
     public function getInitialisedTemplate(
         array $a_js_files = []
-    ) : \ilGlobalPageTemplate {
+    ): \ilGlobalPageTemplate {
         global $DIC;
 
         $this->global_screen->layout()->meta()->reset();
@@ -339,7 +339,7 @@ class PortfolioHtmlExport
     public function writeExportFile(
         string $a_file,
         string $content
-    ) : string {
+    ): string {
         $file = $this->target_dir . "/" . $a_file;
         // return if file is already existing
         if (is_file($file)) {
@@ -356,7 +356,7 @@ class PortfolioHtmlExport
      */
     public function renderPage(
         string $a_post_id
-    ) : string {
+    ): string {
         // page
         $pgui = new \ilPortfolioPageGUI($this->portfolio->getId(), $a_post_id);
         $pgui->setOutputMode("offline");

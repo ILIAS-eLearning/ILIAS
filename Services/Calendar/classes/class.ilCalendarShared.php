@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /*
         +-----------------------------------------------------------------------------+
         | ILIAS open source                                                           |
@@ -50,7 +52,7 @@ class ilCalendarShared
         $this->read();
     }
 
-    public static function deleteByCalendar(int $a_cal_id) : void
+    public static function deleteByCalendar(int $a_cal_id): void
     {
         global $DIC;
 
@@ -62,7 +64,7 @@ class ilCalendarShared
     /**
      * Delete all entries for a specific user
      */
-    public static function deleteByUser(int $a_user_id) : void
+    public static function deleteByUser(int $a_user_id): void
     {
         global $DIC;
 
@@ -74,7 +76,7 @@ class ilCalendarShared
     /**
      * is shared with user
      */
-    public static function isSharedWithUser(int $a_usr_id, int $a_calendar_id) : bool
+    public static function isSharedWithUser(int $a_usr_id, int $a_calendar_id): bool
     {
         global $DIC;
 
@@ -106,7 +108,7 @@ class ilCalendarShared
         return false;
     }
 
-    public static function getSharedCalendarsForUser(int $a_usr_id = 0) : array
+    public static function getSharedCalendarsForUser(int $a_usr_id = 0): array
     {
         global $DIC;
 
@@ -155,32 +157,32 @@ class ilCalendarShared
         return $shared;
     }
 
-    public function getCalendarId() : int
+    public function getCalendarId(): int
     {
         return $this->calendar_id;
     }
 
-    public function getShared() : array
+    public function getShared(): array
     {
         return $this->shared;
     }
 
-    public function getUsers() : array
+    public function getUsers(): array
     {
         return $this->shared_users;
     }
 
-    public function getRoles() : array
+    public function getRoles(): array
     {
         return $this->shared_roles;
     }
 
-    public function isShared(int $a_obj_id) : bool
+    public function isShared(int $a_obj_id): bool
     {
         return isset($this->shared[$a_obj_id]);
     }
 
-    public function isEditableForUser(int $a_user_id) : bool
+    public function isEditableForUser(int $a_user_id): bool
     {
         foreach ($this->shared as $info) {
             if (!$info['writable']) {
@@ -204,7 +206,7 @@ class ilCalendarShared
         return false;
     }
 
-    public function share(int $a_obj_id, int $a_type, bool $a_writable = false) : void
+    public function share(int $a_obj_id, int $a_type, bool $a_writable = false): void
     {
         if ($this->isShared($a_obj_id)) {
             return;
@@ -222,7 +224,7 @@ class ilCalendarShared
         $this->read();
     }
 
-    public function stopSharing(int $a_obj_id) : void
+    public function stopSharing(int $a_obj_id): void
     {
         if (!$this->isShared($a_obj_id)) {
             return;
@@ -235,7 +237,7 @@ class ilCalendarShared
         $this->read();
     }
 
-    protected function read() : void
+    protected function read(): void
     {
         $this->shared = $this->shared_users = $this->shared_roles = array();
         $query = "SELECT * FROM cal_shared WHERE cal_id = " . $this->db->quote($this->getCalendarId(), 'integer');
@@ -255,7 +257,6 @@ class ilCalendarShared
                     $this->shared_roles[$row->obj_id]['create_date'] = $row->create_date;
                     $this->shared_roles[$row->obj_id]['writable'] = $row->writable;
                     break;
-
             }
 
             $this->shared[$row->obj_id]['obj_id'] = $row->obj_id;

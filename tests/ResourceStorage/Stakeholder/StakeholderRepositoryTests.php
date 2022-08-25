@@ -29,14 +29,14 @@ class StakeholderRepositoryTests extends AbstractBaseTest
     protected \ILIAS\ResourceStorage\Stakeholder\Repository\StakeholderDBRepository $stakeholder_repository;
     protected \ILIAS\ResourceStorage\Identification\ResourceIdentification $identification;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         parent::setUp();
         $this->stakeholder_repository = new StakeholderDBRepository($this->db_mock);
         $this->identification = new ResourceIdentification('test_identification');
     }
 
-    public function testIdTooLong() : void
+    public function testIdTooLong(): void
     {
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage('stakeholder ids MUST be shorter or equal to than 64 characters');
@@ -46,7 +46,7 @@ class StakeholderRepositoryTests extends AbstractBaseTest
         $this->stakeholder_repository->register($this->identification, $stakeholder);
     }
 
-    public function testNameTooLong() : void
+    public function testNameTooLong(): void
     {
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage('stakeholder classnames MUST be shorter or equal to than 250 characters');
@@ -57,10 +57,9 @@ class StakeholderRepositoryTests extends AbstractBaseTest
         $this->stakeholder_repository->register($this->identification, $stakeholder);
     }
 
-    protected function getResourceStakeholder(?string $stakeholder_id = null, ?string $stakeholder_classname = null) : \ILIAS\ResourceStorage\Stakeholder\ResourceStakeholder
+    protected function getResourceStakeholder(?string $stakeholder_id = null, ?string $stakeholder_classname = null): \ILIAS\ResourceStorage\Stakeholder\ResourceStakeholder
     {
-        return new class($stakeholder_id, $stakeholder_classname) implements ResourceStakeholder {
-
+        return new class ($stakeholder_id, $stakeholder_classname) implements ResourceStakeholder {
             /**
              * @var string|mixed
              */
@@ -76,37 +75,37 @@ class StakeholderRepositoryTests extends AbstractBaseTest
                 $this->stakeholder_classname = $stakeholder_classname ?? $this->stakeholder_classname;
             }
 
-            public function getId() : string
+            public function getId(): string
             {
                 return $this->stakeholder_id;
             }
 
-            public function getConsumerNameForPresentation() : string
+            public function getConsumerNameForPresentation(): string
             {
                 return 'VeryLong';
             }
 
-            public function getFullyQualifiedClassName() : string
+            public function getFullyQualifiedClassName(): string
             {
                 return $this->stakeholder_classname;
             }
 
-            public function isResourceInUse(ResourceIdentification $identification) : bool
+            public function isResourceInUse(ResourceIdentification $identification): bool
             {
                 return true;
             }
 
-            public function resourceHasBeenDeleted(ResourceIdentification $identification) : bool
+            public function resourceHasBeenDeleted(ResourceIdentification $identification): bool
             {
                 return false;
             }
 
-            public function getOwnerOfResource(ResourceIdentification $identification) : int
+            public function getOwnerOfResource(ResourceIdentification $identification): int
             {
                 return 0;
             }
 
-            public function getOwnerOfNewResources() : int
+            public function getOwnerOfNewResources(): int
             {
                 return 0;
             }

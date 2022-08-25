@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -28,13 +30,13 @@
 */
 class ilObjSCORMInitData
 {
-    public static function encodeURIComponent(string $str) : string
+    public static function encodeURIComponent(string $str): string
     {
         $revert = array('%21' => '!', '%2A' => '*', '%27' => "'", '%28' => '(', '%29' => ')', '%7E' => '~');
         return strtr(rawurlencode($str), $revert);
     }
 
-    public static function getIliasScormVars(ilObjSCORMLearningModule $slm_obj) : string
+    public static function getIliasScormVars(ilObjSCORMLearningModule $slm_obj): string
     {
         global $DIC;
         $ilLog = ilLoggerFactory::getLogger('sahs');
@@ -60,7 +62,7 @@ class ilObjSCORMInitData
         }
         $i_lessonScoreMax = '-1';
         $i_lessonMasteryScore = $slm_obj->getMasteryScore();
-        
+
         //other variables
         $b_messageLog = 'false';
 //        if ($ilLog->current_log_level == 30) {
@@ -212,7 +214,7 @@ class ilObjSCORMInitData
         return $s_out;
     }
 
-    public static function getIliasScormData(int $a_packageId) : string
+    public static function getIliasScormData(int $a_packageId): string
     {
         global $DIC;
         $ilUser = $DIC->user();
@@ -238,7 +240,7 @@ class ilObjSCORMInitData
         return json_encode($a_out);
     }
 
-    public static function getIliasScormResources(int $a_packageId) : string
+    public static function getIliasScormResources(int $a_packageId): string
     {
         global $DIC;
         $ilDB = $DIC->database();
@@ -282,7 +284,7 @@ class ilObjSCORMInitData
         return json_encode($a_out);
     }
 
-    public static function getIliasScormTree(int $a_packageId) : string
+    public static function getIliasScormTree(int $a_packageId): string
     {
         global $DIC;
         $ilDB = $DIC->database();
@@ -307,7 +309,7 @@ class ilObjSCORMInitData
     /**
      * @return array<string, mixed>
      */
-    public static function getStatus(int $a_packageId, int $a_user_id, bool $auto_last_visited, string $scormType = "1.2") : array
+    public static function getStatus(int $a_packageId, int $a_user_id, bool $auto_last_visited, string $scormType = "1.2"): array
     {
         global $DIC;
         $ilDB = $DIC->database();
@@ -323,7 +325,7 @@ class ilObjSCORMInitData
         }
         $status['hash'] = ilObjSCORMInitData::setHash($a_packageId, $a_user_id);
         $status['p'] = $a_user_id;
-        
+
         $status['last_visited'] = null;
         $status['total_time_sec'] = 0;
         $val_set = $ilDB->queryF(
@@ -354,7 +356,7 @@ class ilObjSCORMInitData
     /**
      * hash for storing data without session
      */
-    private static function setHash(int $a_packageId, int $a_user_id) : int
+    private static function setHash(int $a_packageId, int $a_user_id): int
     {
         global $DIC;
         $ilDB = $DIC->database();

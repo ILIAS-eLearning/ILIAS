@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\UI\Implementation\Component\Popover;
 
 use ILIAS\UI\Implementation\Component\SignalGeneratorInterface;
@@ -39,7 +41,7 @@ class Factory implements C\Popover\Factory
     /**
      * @inheritdoc
      */
-    public function standard($content) : C\Popover\Standard
+    public function standard($content): C\Popover\Standard
     {
         return new Standard($content, $this->signal_generator);
     }
@@ -47,7 +49,7 @@ class Factory implements C\Popover\Factory
     /**
      * @inheritdoc
      */
-    public function listing($items) : C\Popover\Listing
+    public function listing($items): C\Popover\Listing
     {
         return new Listing($items, $this->signal_generator);
     }

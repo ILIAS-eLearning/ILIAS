@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * Settings for an LSO (like abstract, extro)
  */
@@ -54,53 +56,53 @@ class ilLearningSequenceSettings
         $this->members_gallery = $members_gallery;
     }
 
-    public function getObjId() : int
+    public function getObjId(): int
     {
         return $this->obj_id;
     }
 
-    public function getAbstract() : string
+    public function getAbstract(): string
     {
         return $this->abstract;
     }
 
-    public function withAbstract(string $abstract) : ilLearningSequenceSettings
+    public function withAbstract(string $abstract): ilLearningSequenceSettings
     {
         $clone = clone $this;
         $clone->abstract = $abstract;
         return $clone;
     }
 
-    public function getExtro() : string
+    public function getExtro(): string
     {
         return $this->extro;
     }
 
-    public function withExtro(string $extro) : ilLearningSequenceSettings
+    public function withExtro(string $extro): ilLearningSequenceSettings
     {
         $clone = clone $this;
         $clone->extro = $extro;
         return $clone;
     }
 
-    public function getAbstractImage() : string
+    public function getAbstractImage(): string
     {
         return $this->abstract_image ?? '';
     }
 
-    public function withAbstractImage(string $path = null) : ilLearningSequenceSettings
+    public function withAbstractImage(string $path = null): ilLearningSequenceSettings
     {
         $clone = clone $this;
         $clone->abstract_image = $path;
         return $clone;
     }
 
-    public function getExtroImage() : string
+    public function getExtroImage(): string
     {
         return $this->extro_image ?? '';
     }
 
-    public function withExtroImage(string $path = null) : ilLearningSequenceSettings
+    public function withExtroImage(string $path = null): ilLearningSequenceSettings
     {
         $clone = clone $this;
         $clone->extro_image = $path;
@@ -110,12 +112,12 @@ class ilLearningSequenceSettings
     /**
      * @return array<string, array>
      */
-    public function getUploads() : array
+    public function getUploads(): array
     {
         return $this->uploads;
     }
 
-    public function withUpload(array $upload_info, string $which) : ilLearningSequenceSettings
+    public function withUpload(array $upload_info, string $which): ilLearningSequenceSettings
     {
         $clone = clone $this;
         $clone->uploads[$which] = $upload_info;
@@ -125,24 +127,24 @@ class ilLearningSequenceSettings
     /**
      * @return string[]
      */
-    public function getDeletions() : array
+    public function getDeletions(): array
     {
         return $this->deletions;
     }
 
-    public function withDeletion(string $which) : ilLearningSequenceSettings
+    public function withDeletion(string $which): ilLearningSequenceSettings
     {
         $clone = clone $this;
         $clone->deletions[] = $which;
         return $clone;
     }
 
-    public function getMembersGallery() : bool
+    public function getMembersGallery(): bool
     {
         return $this->members_gallery;
     }
 
-    public function withMembersGallery(bool $members_gallery) : ilLearningSequenceSettings
+    public function withMembersGallery(bool $members_gallery): ilLearningSequenceSettings
     {
         $clone = clone $this;
         $clone->members_gallery = $members_gallery;

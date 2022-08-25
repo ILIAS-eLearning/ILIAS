@@ -61,7 +61,7 @@ class ilObjTaggingSettingsGUI extends ilObjectGUI
      * @throws ilCtrlException
      * @throws ilObjectException
      */
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         $next_class = $this->ctrl->getNextClass($this);
         $cmd = $this->ctrl->getCmd();
@@ -87,7 +87,7 @@ class ilObjTaggingSettingsGUI extends ilObjectGUI
         }
     }
 
-    public function getAdminTabs() : void
+    public function getAdminTabs(): void
     {
         $rbacsystem = $this->rbacsystem;
 
@@ -109,7 +109,7 @@ class ilObjTaggingSettingsGUI extends ilObjectGUI
         }
     }
 
-    public function addSubTabs() : void
+    public function addSubTabs(): void
     {
         $ilTabs = $this->tabs;
 
@@ -138,7 +138,7 @@ class ilObjTaggingSettingsGUI extends ilObjectGUI
     }
 
 
-    public function editSettings() : void
+    public function editSettings(): void
     {
         $ilTabs = $this->tabs;
 
@@ -149,7 +149,7 @@ class ilObjTaggingSettingsGUI extends ilObjectGUI
         $this->tpl->setContent($form->getHTML());
     }
 
-    public function saveSettings() : void
+    public function saveSettings(): void
     {
         $ilCtrl = $this->ctrl;
         $ilSetting = $this->settings;
@@ -167,7 +167,7 @@ class ilObjTaggingSettingsGUI extends ilObjectGUI
         $ilCtrl->redirect($this, "view");
     }
 
-    public function cancel() : void
+    public function cancel(): void
     {
         $ilCtrl = $this->ctrl;
         $ilCtrl->redirect($this, "view");
@@ -176,7 +176,7 @@ class ilObjTaggingSettingsGUI extends ilObjectGUI
     /**
      * Init settings property form
      */
-    protected function initFormSettings() : ilPropertyFormGUI
+    protected function initFormSettings(): ilPropertyFormGUI
     {
         $lng = $this->lng;
         $ilAccess = $this->access;
@@ -226,7 +226,7 @@ class ilObjTaggingSettingsGUI extends ilObjectGUI
     //
     //
 
-    public function editForbiddenTags() : void
+    public function editForbiddenTags(): void
     {
         $ilTabs = $this->tabs;
         $tpl = $this->tpl;
@@ -242,7 +242,7 @@ class ilObjTaggingSettingsGUI extends ilObjectGUI
     /**
      * Init forbidden tags form.
      */
-    public function initForbiddenTagsForm() : ilPropertyFormGUI
+    public function initForbiddenTagsForm(): ilPropertyFormGUI
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
@@ -276,7 +276,7 @@ class ilObjTaggingSettingsGUI extends ilObjectGUI
     /**
      * Save forbidden tags
      */
-    public function saveForbiddenTags() : void
+    public function saveForbiddenTags(): void
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
@@ -314,7 +314,7 @@ class ilObjTaggingSettingsGUI extends ilObjectGUI
     //
     //
 
-    public function showUsers(bool $a_search = false) : void
+    public function showUsers(bool $a_search = false): void
     {
         $ilTabs = $this->tabs;
         $tpl = $this->tpl;
@@ -353,7 +353,7 @@ class ilObjTaggingSettingsGUI extends ilObjectGUI
     /**
      * Search users for tag
      */
-    public function searchUsersForTag() : void
+    public function searchUsersForTag(): void
     {
         $this->showUsers(true);
     }

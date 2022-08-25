@@ -29,12 +29,12 @@ class ilPCTabs extends ilPageContent
 
     public php4DOMElement $tabs_node;
 
-    public function init() : void
+    public function init(): void
     {
         $this->setType("tabs");
     }
 
-    public function setNode(php4DOMElement $a_node) : void
+    public function setNode(php4DOMElement $a_node): void
     {
         parent::setNode($a_node);		// this is the PageContent node
         $this->tabs_node = $a_node->first_child();		// this is the Tabs node
@@ -44,7 +44,7 @@ class ilPCTabs extends ilPageContent
         ilPageObject $a_pg_obj,
         string $a_hier_id,
         string $a_pc_id = ""
-    ) : void {
+    ): void {
         $this->node = $this->createPageContentNode();
         $a_pg_obj->insertContent($this, $a_hier_id, IL_INSERT_AFTER, $a_pc_id);
         $this->tabs_node = $this->dom->create_element("Tabs");
@@ -54,7 +54,7 @@ class ilPCTabs extends ilPageContent
     protected function setTabsAttribute(
         string $a_attr,
         string $a_value
-    ) : void {
+    ): void {
         if (!empty($a_value)) {
             $this->tabs_node->set_attribute($a_attr, $a_value);
         } else {
@@ -69,7 +69,7 @@ class ilPCTabs extends ilPageContent
      */
     public function setTabType(
         string $a_type = "HorizontalTabs"
-    ) : void {
+    ): void {
         switch ($a_type) {
             case ilPCTabs::ACCORDION_VER:
             case ilPCTabs::ACCORDION_HOR:
@@ -79,52 +79,52 @@ class ilPCTabs extends ilPageContent
         }
     }
 
-    public function getTabType() : string
+    public function getTabType(): string
     {
         return $this->tabs_node->get_attribute("Type");
     }
-    
-    public function setContentWidth(string $a_val) : void
+
+    public function setContentWidth(string $a_val): void
     {
         $this->setTabsAttribute("ContentWidth", $a_val);
     }
-    
-    public function getContentWidth() : string
+
+    public function getContentWidth(): string
     {
         return $this->tabs_node->get_attribute("ContentWidth");
     }
-    
-    public function setContentHeight(string $a_val) : void
+
+    public function setContentHeight(string $a_val): void
     {
         $this->setTabsAttribute("ContentHeight", $a_val);
     }
-    
-    public function getContentHeight() : string
+
+    public function getContentHeight(): string
     {
         return $this->tabs_node->get_attribute("ContentHeight");
     }
 
-    public function setHorizontalAlign(string $a_val) : void
+    public function setHorizontalAlign(string $a_val): void
     {
         $this->setTabsAttribute("HorizontalAlign", $a_val);
     }
-    
-    public function getHorizontalAlign() : string
+
+    public function getHorizontalAlign(): string
     {
         return $this->tabs_node->get_attribute("HorizontalAlign");
     }
 
-    public function setBehavior(string $a_val) : void
+    public function setBehavior(string $a_val): void
     {
         $this->setTabsAttribute("Behavior", $a_val);
     }
-    
-    public function getBehavior() : string
+
+    public function getBehavior(): string
     {
         return $this->tabs_node->get_attribute("Behavior");
     }
-    
-    public function getCaptions() : array
+
+    public function getCaptions(): array
     {
         $captions = array();
         $tab_nodes = $this->tabs_node->child_nodes();
@@ -146,14 +146,14 @@ class ilPCTabs extends ilPageContent
                 $k++;
             }
         }
-        
+
         return $captions;
     }
 
     public function getCaption(
         string $a_hier_id,
         string $a_pc_id
-    ) : string {
+    ): string {
         $tab_nodes = $this->tabs_node->child_nodes();
         for ($i = 0; $i < count($tab_nodes); $i++) {
             if ($tab_nodes[$i]->node_name() == "Tab") {
@@ -168,7 +168,7 @@ class ilPCTabs extends ilPageContent
                 }
             }
         }
-        
+
         return "";
     }
 
@@ -177,9 +177,9 @@ class ilPCTabs extends ilPageContent
      */
     public function savePositions(
         array $a_pos
-    ) : void {
+    ): void {
         asort($a_pos);
-        
+
         // File Item
         $childs = $this->tabs_node->child_nodes();
         $nodes = array();
@@ -191,7 +191,7 @@ class ilPCTabs extends ilPageContent
                 $childs[$i]->unlink($childs[$i]);
             }
         }
-        
+
         foreach ($a_pos as $k => $v) {
             if (is_object($nodes[$k])) {
                 $nodes[$k] = $this->tabs_node->append_child($nodes[$k]);
@@ -199,7 +199,7 @@ class ilPCTabs extends ilPageContent
         }
     }
 
-    public function saveCaptions(array $a_captions) : void
+    public function saveCaptions(array $a_captions): void
     {
         // iterate all tab nodes
         $tab_nodes = $this->tabs_node->child_nodes();
@@ -228,7 +228,7 @@ class ilPCTabs extends ilPageContent
     public function deleteTab(
         string $a_hier_id,
         string $a_pc_id
-    ) : void {
+    ): void {
         // File Item
         $childs = $this->tabs_node->child_nodes();
         $nodes = array();
@@ -242,7 +242,7 @@ class ilPCTabs extends ilPageContent
         }
     }
 
-    public function addTab(string $a_caption) : void
+    public function addTab(string $a_caption): void
     {
         $new_item = $this->dom->create_element("Tab");
         $new_item = $this->tabs_node->append_child($new_item);
@@ -255,28 +255,28 @@ class ilPCTabs extends ilPageContent
             array()
         );
     }
-    
-    public function setTemplate(string $a_template) : void
+
+    public function setTemplate(string $a_template): void
     {
         $this->setTabsAttribute("Template", $a_template);
     }
 
-    public function getTemplate() : string
+    public function getTemplate(): string
     {
         return $this->tabs_node->get_attribute("Template");
     }
 
-    public static function getLangVars() : array
+    public static function getLangVars(): array
     {
         return array("pc_vacc", "pc_hacc", "pc_carousel");
     }
 
-    public function setAutoTime(?int $a_val) : void
+    public function setAutoTime(?int $a_val): void
     {
         $this->setTabsAttribute("AutoAnimWait", (string) $a_val);
     }
 
-    public function getAutoTime() : ?int
+    public function getAutoTime(): ?int
     {
         $val = $this->tabs_node->get_attribute("AutoAnimWait");
         if ($val) {
@@ -285,22 +285,22 @@ class ilPCTabs extends ilPageContent
         return null;
     }
 
-    public function setRandomStart(bool $a_val) : void
+    public function setRandomStart(bool $a_val): void
     {
         $this->setTabsAttribute("RandomStart", $a_val);
     }
 
-    public function getRandomStart() : bool
+    public function getRandomStart(): bool
     {
         return (bool) $this->tabs_node->get_attribute("RandomStart");
     }
 
-    public function getJavascriptFiles(string $a_mode) : array
+    public function getJavascriptFiles(string $a_mode): array
     {
         return ilAccordionGUI::getLocalJavascriptFiles();
     }
 
-    public function getCssFiles(string $a_mode) : array
+    public function getCssFiles(string $a_mode): array
     {
         return ilAccordionGUI::getLocalCssFiles();
     }

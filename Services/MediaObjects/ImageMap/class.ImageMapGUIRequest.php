@@ -34,107 +34,107 @@ class ImageMapGUIRequest
         );
     }
 
-    public function getRefId() : int
+    public function getRefId(): int
     {
         return $this->int("ref_id");
     }
 
-    public function getObjId() : int
+    public function getObjId(): int
     {
         return $this->int("obj_id");
     }
 
-    public function getHierId() : string
+    public function getHierId(): string
     {
         return $this->str("hier_id");
     }
 
-    public function getPCId() : string
+    public function getPCId(): string
     {
         return $this->str("pc_id");
     }
 
-    public function getItemId() : int
+    public function getItemId(): int
     {
         return $this->int("item_id");
     }
 
-    public function getLinkType() : string
+    public function getLinkType(): string
     {
         return $this->str("linktype");
     }
 
-    public function getLinkTarget() : string
+    public function getLinkTarget(): string
     {
         return $this->str("linktarget");
     }
 
-    public function getLinkTargetFrame() : string
+    public function getLinkTargetFrame(): string
     {
         return $this->str("linktargetframe");
     }
 
-    public function getLinkAnchor() : string
+    public function getLinkAnchor(): string
     {
         return $this->str("linkanchor");
     }
 
-    public function getX() : string
+    public function getX(): string
     {
         return $this->str("editImagemapForward_x");
     }
 
-    public function getY() : string
+    public function getY(): string
     {
         return $this->str("editImagemapForward_y");
     }
 
-    public function getAreaTitle(int $nr) : string
+    public function getAreaTitle(int $nr): string
     {
         return $this->str("name_" . $nr);
     }
 
-    public function getAreaName() : string
+    public function getAreaName(): string
     {
         return $this->str("area_name");
     }
 
-    public function getAreaHighlightMode(int $nr) : string
+    public function getAreaHighlightMode(int $nr): string
     {
         return $this->str("hl_mode_" . $nr);
     }
 
-    public function getAreaHighlightClass(int $nr) : string
+    public function getAreaHighlightClass(int $nr): string
     {
         return $this->str("hl_class_" . $nr);
     }
 
-    public function getHighlightMode() : string
+    public function getHighlightMode(): string
     {
         return $this->str("highlight_mode");
     }
 
-    public function getHighlightClass() : string
+    public function getHighlightClass(): string
     {
         return $this->str("highlight_class");
     }
 
-    public function getAreaShape() : string
+    public function getAreaShape(): string
     {
         return $this->str("shape");
     }
 
-    public function getAreaLinkType() : string
+    public function getAreaLinkType(): string
     {
         return $this->str("area_link_type");
     }
 
-    public function getExternalLink() : string
+    public function getExternalLink(): string
     {
         return $this->str("area_link_ext");
     }
-    
-    public function getArea() : array
+
+    public function getArea(): array
     {
         return $this->strArray("area");
     }

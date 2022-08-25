@@ -1,4 +1,5 @@
 <?php
+
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -70,7 +71,7 @@ class ILIAS
         $this->error_obj = $DIC['ilErr'];
     }
 
-    protected function getSettingObject() : ?ilSetting
+    protected function getSettingObject(): ?ilSetting
     {
         global $DIC;
 
@@ -84,7 +85,7 @@ class ILIAS
      * read one value from settingstable
      * @deprecated
      */
-    public function getSetting(string $a_keyword, ?string $a_default_value = null) : ?string
+    public function getSetting(string $a_keyword, ?string $a_default_value = null): ?string
     {
         return $this->getSettingObject()->get($a_keyword, $a_default_value);
     }
@@ -94,7 +95,7 @@ class ILIAS
      * @deprecated
      * @see $DIC->settings()->delete()
      */
-    public function deleteSetting(string $a_keyword) : void
+    public function deleteSetting(string $a_keyword): void
     {
         $this->getSettingObject()->delete($a_keyword);
     }
@@ -102,7 +103,7 @@ class ILIAS
     /**
      * @deprecated
      */
-    public function getAllSettings() : array
+    public function getAllSettings(): array
     {
         return $this->getSettingObject()->getAll();
     }
@@ -110,12 +111,12 @@ class ILIAS
     /**
      * @deprecated
      */
-    public function setSetting(string $a_key, string $a_val) : void
+    public function setSetting(string $a_key, string $a_val): void
     {
         $this->getSettingObject()->set($a_key, $a_val);
     }
 
-    public function getClientId() : string
+    public function getClientId(): string
     {
         if (defined('CLIENT_ID')) {
             return (string) CLIENT_ID;
@@ -127,7 +128,7 @@ class ILIAS
      * wrapper for downward compability
      * @deprecated
      */
-    public function raiseError(string $a_msg, int $a_err_obj) : void
+    public function raiseError(string $a_msg, int $a_err_obj): void
     {
         $this->error_obj->raiseError($a_msg, $a_err_obj);
     }

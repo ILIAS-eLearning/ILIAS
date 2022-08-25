@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 use PHPUnit\Framework\TestCase;
 
@@ -9,11 +11,11 @@ use PHPUnit\Framework\TestCase;
  */
 class ContRefStandardGUIRequestTest extends TestCase
 {
-    protected function tearDown() : void
+    protected function tearDown(): void
     {
     }
 
-    protected function getRequest(array $get, array $post) : \ILIAS\ContainerReference\StandardGUIRequest
+    protected function getRequest(array $get, array $post): \ILIAS\ContainerReference\StandardGUIRequest
     {
         $http_mock = $this->createMock(ILIAS\HTTP\Services::class);
         $lng_mock = $this->createMock(ilLanguage::class);
@@ -30,7 +32,7 @@ class ContRefStandardGUIRequestTest extends TestCase
     /**
      * Test ref id
      */
-    public function testRefId() : void
+    public function testRefId(): void
     {
         $request = $this->getRequest(
             [
@@ -48,7 +50,7 @@ class ContRefStandardGUIRequestTest extends TestCase
     /**
      * Test no ref id
      */
-    public function testNoRefId() : void
+    public function testNoRefId(): void
     {
         $request = $this->getRequest(
             [
@@ -65,7 +67,7 @@ class ContRefStandardGUIRequestTest extends TestCase
     /**
      * Test target id
      */
-    public function testTargetId() : void
+    public function testTargetId(): void
     {
         $request = $this->getRequest(
             [
@@ -83,7 +85,7 @@ class ContRefStandardGUIRequestTest extends TestCase
     /**
      * Test new type
      */
-    public function testNewType() : void
+    public function testNewType(): void
     {
         $request = $this->getRequest(
             [
@@ -101,7 +103,7 @@ class ContRefStandardGUIRequestTest extends TestCase
     /**
      * Test creation mode
      */
-    public function testCreationMode() : void
+    public function testCreationMode(): void
     {
         $request = $this->getRequest(
             [

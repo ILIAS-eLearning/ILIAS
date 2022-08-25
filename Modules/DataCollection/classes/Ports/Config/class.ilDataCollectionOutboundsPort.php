@@ -20,9 +20,9 @@
  */
 interface ilDataCollectionOutboundsPort
 {
-    public function getDataCollectionUi() : ilDataCollectionUiPort;
+    public function getDataCollectionUi(): ilDataCollectionUiPort;
 
-    public function getDataCollectionAccess() : ilDataCollectionAccessPort;
+    public function getDataCollectionAccess(): ilDataCollectionAccessPort;
 
-    public function getDataCollectionEndpoint() : ilDataCollectionEndpointPort;
+    public function getDataCollectionEndpoint(): ilDataCollectionEndpointPort;
 }

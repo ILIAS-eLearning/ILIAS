@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -29,12 +31,12 @@ class ilScorm2004DataSet extends ilDataSet
      * Get supported versions
      * @return string[]
      */
-    public function getSupportedVersions() : array
+    public function getSupportedVersions(): array
     {
         return array("5.1.0");
     }
 
-    public function getXmlNamespace(string $a_entity, string $a_schema_version) : string
+    public function getXmlNamespace(string $a_entity, string $a_schema_version): string
     {
         return "http://www.ilias.de/xml/Modules/Scorm2004/" . $a_entity;
     }
@@ -42,7 +44,7 @@ class ilScorm2004DataSet extends ilDataSet
     /**
      * @return array<string, class-string<\directory>>|array<string, string>
      */
-    protected function getTypes(string $a_entity, string $a_version) : array
+    protected function getTypes(string $a_entity, string $a_version): array
     {
         if ($a_entity === "sahs") {
             switch ($a_version) {
@@ -60,7 +62,7 @@ class ilScorm2004DataSet extends ilDataSet
         return [];
     }
 
-    public function readData(string $a_entity, string $a_version, array $a_ids) : void
+    public function readData(string $a_entity, string $a_version, array $a_ids): void
     {
         $ilDB = $this->db;
 
@@ -84,7 +86,6 @@ class ilScorm2004DataSet extends ilDataSet
                         }
                     }
                     break;
-
             }
         }
     }
@@ -140,7 +141,7 @@ class ilScorm2004DataSet extends ilDataSet
 //        return $a_set;
 //    }
 
-    public function afterXmlRecordWriting(string $a_entity, string $a_version, array $a_set) : void
+    public function afterXmlRecordWriting(string $a_entity, string $a_version, array $a_set): void
     {
         if ($a_entity === "sahs") {
             // delete our temp dir

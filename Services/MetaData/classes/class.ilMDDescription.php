@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -32,32 +34,32 @@ class ilMDDescription extends ilMDBase
     private ?ilMDLanguageItem $description_language = null;
 
     // SET/GET
-    public function setDescription(string $a_description) : void
+    public function setDescription(string $a_description): void
     {
         $this->description = $a_description;
     }
 
-    public function getDescription() : string
+    public function getDescription(): string
     {
         return $this->description;
     }
 
-    public function setDescriptionLanguage(ilMDLanguageItem $lng_obj) : void
+    public function setDescriptionLanguage(ilMDLanguageItem $lng_obj): void
     {
         $this->description_language = $lng_obj;
     }
 
-    public function getDescriptionLanguage() : ?ilMDLanguageItem
+    public function getDescriptionLanguage(): ?ilMDLanguageItem
     {
         return is_object($this->description_language) ? $this->description_language : null;
     }
 
-    public function getDescriptionLanguageCode() : string
+    public function getDescriptionLanguageCode(): string
     {
         return is_object($this->description_language) ? $this->description_language->getLanguageCode() : '';
     }
 
-    public function save() : int
+    public function save(): int
     {
         $fields = $this->__getFields();
         $fields['meta_description_id'] = array('integer', $next_id = $this->db->nextId('il_meta_description'));
@@ -69,7 +71,7 @@ class ilMDDescription extends ilMDBase
         return 0;
     }
 
-    public function update() : bool
+    public function update(): bool
     {
         return $this->getMetaId() && $this->db->update(
             'il_meta_description',
@@ -78,7 +80,7 @@ class ilMDDescription extends ilMDBase
         );
     }
 
-    public function delete() : bool
+    public function delete(): bool
     {
         if ($this->getMetaId()) {
             $query = "DELETE FROM il_meta_description " .
@@ -93,7 +95,7 @@ class ilMDDescription extends ilMDBase
     /**
      * @return array<string, array<string, mixed>>
      */
-    public function __getFields() : array
+    public function __getFields(): array
     {
         return array(
             'rbac_id' => array('integer', $this->getRBACId()),
@@ -106,7 +108,7 @@ class ilMDDescription extends ilMDBase
         );
     }
 
-    public function read() : bool
+    public function read(): bool
     {
         if ($this->getMetaId()) {
             $query = "SELECT * FROM il_meta_description " .
@@ -126,7 +128,7 @@ class ilMDDescription extends ilMDBase
         return true;
     }
 
-    public function toXML(ilXmlWriter $writer) : void
+    public function toXML(ilXmlWriter $writer): void
     {
         $writer->xmlElement(
             'Description',
@@ -142,7 +144,7 @@ class ilMDDescription extends ilMDBase
     /**
      * @return int[]
      */
-    public static function _getIds(int $a_rbac_id, int $a_obj_id, int $a_parent_id, string $a_parent_type) : array
+    public static function _getIds(int $a_rbac_id, int $a_obj_id, int $a_parent_id, string $a_parent_type): array
     {
         global $DIC;
 

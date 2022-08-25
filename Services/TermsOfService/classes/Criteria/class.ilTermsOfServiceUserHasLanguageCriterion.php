@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -22,17 +24,17 @@
  */
 class ilTermsOfServiceUserHasLanguageCriterion implements ilTermsOfServiceCriterionType
 {
-    public function getTypeIdent() : string
+    public function getTypeIdent(): string
     {
         return 'usr_language';
     }
 
-    public function hasUniqueNature() : bool
+    public function hasUniqueNature(): bool
     {
         return true;
     }
 
-    public function evaluate(ilObjUser $user, ilTermsOfServiceCriterionConfig $config) : bool
+    public function evaluate(ilObjUser $user, ilTermsOfServiceCriterionConfig $config): bool
     {
         $lng = $config['lng'] ?? '';
 
@@ -43,7 +45,7 @@ class ilTermsOfServiceUserHasLanguageCriterion implements ilTermsOfServiceCriter
         return strtolower($lng) === strtolower($user->getLanguage());
     }
 
-    public function ui(ilLanguage $lng) : ilTermsOfServiceCriterionTypeGUI
+    public function ui(ilLanguage $lng): ilTermsOfServiceCriterionTypeGUI
     {
         return new ilTermsOfServiceUserHasLanguageCriterionGUI($this, $lng);
     }

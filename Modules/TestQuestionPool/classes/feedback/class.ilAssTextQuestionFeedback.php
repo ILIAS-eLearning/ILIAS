@@ -1,4 +1,5 @@
 <?php
+
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 require_once 'Modules/TestQuestionPool/classes/feedback/class.ilAssMultiOptionQuestionFeedback.php';
@@ -22,11 +23,11 @@ class ilAssTextQuestionFeedback extends ilAssMultiOptionQuestionFeedback
      * @param mixed $answer
      * @return string $answerOptionLabel
      */
-    protected function buildAnswerOptionLabel(int $index, $answer) : string
+    protected function buildAnswerOptionLabel(int $index, $answer): string
     {
         $caption = $ordinal = $index + 1;
         $caption .= '. ' . $answer->getAnswertext();
-        
+
         return $caption;
     }
 }

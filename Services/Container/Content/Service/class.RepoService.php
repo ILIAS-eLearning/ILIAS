@@ -1,4 +1,6 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -35,17 +37,17 @@ class RepoService
         $this->db = $db;
     }
 
-    public function item() : ItemSessionRepository
+    public function item(): ItemSessionRepository
     {
         return new ItemSessionRepository();
     }
 
-    public function view() : ViewSessionRepository
+    public function view(): ViewSessionRepository
     {
         return new ViewSessionRepository();
     }
 
-    public function block() : BlockSessionRepository
+    public function block(): BlockSessionRepository
     {
         return new BlockSessionRepository();
     }

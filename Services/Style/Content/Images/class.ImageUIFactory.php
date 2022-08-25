@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -40,7 +42,7 @@ class ImageUIFactory
     public function ilContentStyleImageGUI(
         StyleAccessManager $access_manager,
         ImageManager $image_manager
-    ) : ilContentStyleImageGUI {
+    ): ilContentStyleImageGUI {
         return new ilContentStyleImageGUI(
             $this->domain_service,
             $this->gui_service,

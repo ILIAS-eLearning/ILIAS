@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -29,8 +31,8 @@ require_once("./Services/Object/classes/class.ilObjectFactory.php");
 class ilObjectFactoryWrapper
 {
     public static ?ilObjectFactoryWrapper $instance = null;
-    
-    public static function singleton() : ilObjectFactoryWrapper
+
+    public static function singleton(): ilObjectFactoryWrapper
     {
         if (self::$instance === null) {
             self::$instance = new self();
@@ -38,7 +40,7 @@ class ilObjectFactoryWrapper
         return self::$instance;
     }
 
-    public function getInstanceByRefId(int $ref_id, bool $stop_on_error = true) : ?ilObject
+    public function getInstanceByRefId(int $ref_id, bool $stop_on_error = true): ?ilObject
     {
         return ilObjectFactory::getInstanceByRefId($ref_id, $stop_on_error);
     }

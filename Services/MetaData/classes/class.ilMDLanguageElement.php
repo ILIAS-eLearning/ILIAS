@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -178,7 +180,7 @@ class ilMDLanguageElement
         );
     }
 
-    public function getLanguageCode() : string
+    public function getLanguageCode(): string
     {
         if (in_array($this->language_code, $this->possible_language_codes, true)) {
             return $this->language_code;

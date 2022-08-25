@@ -44,7 +44,7 @@ class ilMyStaffGUI
         $DIC->ui()->mainTemplate()->setTitle($DIC->language()->txt('mst_my_staff'));
     }
 
-    final public function executeCommand() : void
+    final public function executeCommand(): void
     {
         global $DIC;
 
@@ -89,7 +89,7 @@ class ilMyStaffGUI
         ilAdvancedSelectionListGUI $selection,
         int $usr_id = 0,
         string $return_url = ""
-    ) : ilAdvancedSelectionListGUI {
+    ): ilAdvancedSelectionListGUI {
         global $DIC;
 
         $user_action_collector = ilUserActionCollector::getInstance(
@@ -154,7 +154,7 @@ class ilMyStaffGUI
         return $selection;
     }
 
-    final public static function getUserLpStatusAsHtml(ilMStListCourse $my_staff_course) : string
+    final public static function getUserLpStatusAsHtml(ilMStListCourse $my_staff_course): string
     {
         global $DIC;
 
@@ -173,7 +173,7 @@ class ilMyStaffGUI
         return '&nbsp';
     }
 
-    final public static function getUserLpStatusAsText(ilMStListCourse $my_staff_course) : string
+    final public static function getUserLpStatusAsText(ilMStListCourse $my_staff_course): string
     {
         if (ilMyStaffAccess::getInstance()->hasCurrentUserAccessToLearningProgressInObject($my_staff_course->getCrsRefId())) {
             return ilLearningProgressBaseGUI::_getStatusText(intval($my_staff_course->getUsrLpStatus()));

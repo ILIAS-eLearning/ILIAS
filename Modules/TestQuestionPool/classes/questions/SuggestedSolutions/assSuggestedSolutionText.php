@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -39,21 +41,21 @@ class assSuggestedSolutionText extends assQuestionSuggestedSolution
         $this->value = $value;
     }
 
-    public function getType() : string
+    public function getType(): string
     {
         return parent::TYPE_TEXT;
     }
 
-    public function getStorableValue() : string
+    public function getStorableValue(): string
     {
         return $this->getValue();
     }
 
-    public function getValue() : string
+    public function getValue(): string
     {
         return $this->value;
     }
-    public function withValue(string $value) : static
+    public function withValue(string $value): static
     {
         $clone = clone $this;
         $clone->value = $value;

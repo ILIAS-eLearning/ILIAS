@@ -42,7 +42,7 @@ class SkillTreeNodeManager
         $this->tree = $tree_factory->getTreeById($skill_tree_id);
     }
 
-    public function putIntoTree(\ilSkillTreeNode $node, int $parent_node_id, int $a_target_node_id = 0) : void
+    public function putIntoTree(\ilSkillTreeNode $node, int $parent_node_id, int $a_target_node_id = 0): void
     {
         $tree = $this->tree;
         $node->setOrderNr($tree->getMaxOrderNr($parent_node_id) + 10);
@@ -84,7 +84,7 @@ class SkillTreeNodeManager
         }
     }
 
-    public function getWrittenPath(int $node_id, int $tref_id = 0) : string
+    public function getWrittenPath(int $node_id, int $tref_id = 0): string
     {
         $path = $this->tree->getSkillTreePath($node_id, $tref_id);
 
@@ -97,7 +97,7 @@ class SkillTreeNodeManager
         return implode(" > ", $path_items);
     }
 
-    public function getRootId() : int
+    public function getRootId(): int
     {
         return $this->tree->readRootId();
     }
@@ -106,7 +106,7 @@ class SkillTreeNodeManager
     /**
      * Cut and copy a set of skills/skill categories into the clipboard
      */
-    public function clipboardCut(array $a_ids) : void
+    public function clipboardCut(array $a_ids): void
     {
         $this->clearClipboard();
         $tree = $this->tree;
@@ -148,7 +148,7 @@ class SkillTreeNodeManager
     /**
      * Copy a set of skills/skill categories into the clipboard
      */
-    public function clipboardCopy(array $a_ids) : void
+    public function clipboardCopy(array $a_ids): void
     {
         $ilUser = $this->user;
 
@@ -195,7 +195,7 @@ class SkillTreeNodeManager
     /**
      * Insert basic skills from clipboard
      */
-    public function insertItemsFromClip(string $a_type, int $a_obj_id) : array
+    public function insertItemsFromClip(string $a_type, int $a_obj_id): array
     {
         $ilUser = $this->user;
 
@@ -235,7 +235,7 @@ class SkillTreeNodeManager
     /**
      * Remove all skill items from clipboard
      */
-    public static function clearClipboard() : void
+    public static function clearClipboard(): void
     {
         global $DIC;
 
@@ -261,7 +261,7 @@ class SkillTreeNodeManager
         array &$a_copied_nodes,
         bool $a_as_copy = false,
         bool $a_add_suffix = false
-    ) : int {
+    ): int {
         global $DIC;
 
         $ilUser = $this->user;
@@ -319,7 +319,7 @@ class SkillTreeNodeManager
         return $target_item->getId();
     }
 
-    public function saveChildsOrder(int $a_par_id, array $a_childs_order, bool $a_templates = false) : void
+    public function saveChildsOrder(int $a_par_id, array $a_childs_order, bool $a_templates = false): void
     {
         $skill_tree = $this->tree;
 
@@ -357,7 +357,7 @@ class SkillTreeNodeManager
     /**
      * Get top skill templates and template categories
      */
-    public function getTopTemplates() : array
+    public function getTopTemplates(): array
     {
         return $this->tree->getChildsByTypeFilter(
             $this->tree->readRootId(),

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -22,52 +24,52 @@
  */
 interface ilForumNotificationMailData
 {
-    public function getRefId() : int;
+    public function getRefId(): int;
 
-    public function getObjId() : int;
+    public function getObjId(): int;
 
-    public function getForumId() : int;
+    public function getForumId(): int;
 
     /** @return ilObjCourse|ilObjGroup|null */
-    public function closestContainer() : ?ilObject;
+    public function closestContainer(): ?ilObject;
 
-    public function providesClosestContainer() : bool;
+    public function providesClosestContainer(): bool;
 
-    public function getForumTitle() : string;
+    public function getForumTitle(): string;
 
-    public function getThreadId() : int;
+    public function getThreadId(): int;
 
-    public function getThreadTitle() : string;
+    public function getThreadTitle(): string;
 
-    public function getPostId() : int;
+    public function getPostId(): int;
 
-    public function getPostTitle() : string;
+    public function getPostTitle(): string;
 
-    public function getPostMessage() : ?string;
+    public function getPostMessage(): ?string;
 
-    public function getPosAuthorId() : int;
+    public function getPosAuthorId(): int;
 
-    public function getPostUpdateUserId() : int;
+    public function getPostUpdateUserId(): int;
 
-    public function getPosDisplayUserId() : int;
+    public function getPosDisplayUserId(): int;
 
-    public function getPosUserAlias() : string;
+    public function getPosUserAlias(): string;
 
-    public function getPostUserName(ilLanguage $user_lang) : string;
+    public function getPostUserName(ilLanguage $user_lang): string;
 
-    public function getPostDate() : string;
+    public function getPostDate(): string;
 
-    public function getPostUpdate() : string;
+    public function getPostUpdate(): string;
 
-    public function getPostUpdateUserName(ilLanguage $user_lang) : string;
+    public function getPostUpdateUserName(ilLanguage $user_lang): string;
 
-    public function isPostCensored() : bool;
+    public function isPostCensored(): bool;
 
-    public function getPostCensoredDate() : string;
+    public function getPostCensoredDate(): string;
 
-    public function getCensorshipComment() : string;
+    public function getCensorshipComment(): string;
 
-    public function getAttachments() : array;
+    public function getAttachments(): array;
 
-    public function getDeletedBy() : string;
+    public function getDeletedBy(): string;
 }

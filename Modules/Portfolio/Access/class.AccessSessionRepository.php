@@ -1,4 +1,6 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -31,13 +33,13 @@ class AccessSessionRepository
     {
     }
 
-    public function setSharedSessionPassword(int $node_id, string $pw) : void
+    public function setSharedSessionPassword(int $node_id, string $pw): void
     {
         $key = self::KEY_BASE . "_shpw_" . $node_id;
         \ilSession::set($key, $pw);
     }
 
-    public function getSharedSessionPassword(int $node_id) : string
+    public function getSharedSessionPassword(int $node_id): string
     {
         $key = self::KEY_BASE . "_shpw_" . $node_id;
         if (\ilSession::has($key)) {

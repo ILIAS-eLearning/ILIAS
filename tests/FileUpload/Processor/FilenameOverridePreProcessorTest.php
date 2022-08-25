@@ -21,7 +21,6 @@ use PHPUnit\Framework\TestCase;
  */
 class FilenameOverridePreProcessorTest extends TestCase
 {
-
     /**
      * @Test
      * @small

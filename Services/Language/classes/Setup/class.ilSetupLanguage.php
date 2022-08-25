@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -15,7 +17,7 @@
  *
  ********************************************************************
  */
- 
+
 /**
  * language handling for setup
  *
@@ -54,7 +56,7 @@ class ilSetupLanguage extends ilLanguage
         $this->lang_path = $il_absolute_path . "/lang";
         $this->cust_lang_path = $il_absolute_path . "/Customizing/global/lang";
     }
-    
+
     /**
      * gets the text for a given topic
      *
@@ -62,16 +64,16 @@ class ilSetupLanguage extends ilLanguage
      *
      * $a_topic    topic
      */
-    public function txt(string $a_topic, string $a_default_lang_fallback_mod = '') : string
+    public function txt(string $a_topic, string $a_default_lang_fallback_mod = ''): string
     {
         global $log;
-        
+
         if (empty($a_topic)) {
             return "";
         }
 
         $translation = $this->text[$a_topic] ?? '';
-        
+
         //get position of the comment_separator
         $pos = strpos($translation, $this->comment_separator);
 
@@ -98,11 +100,11 @@ class ilSetupLanguage extends ilLanguage
     public function installLanguages(array $a_lang_keys, array $a_local_keys)
     {
         global $ilDB;
-        
+
         if (empty($a_lang_keys)) {
             $a_lang_keys = array();
         }
-        
+
         if (empty($a_local_keys)) {
             $a_local_keys = array();
         }
@@ -115,7 +117,7 @@ class ilSetupLanguage extends ilLanguage
             if ($this->checkLanguage($lang_key)) {
                 $this->flushLanguage($lang_key, "keep_local");
                 $this->insertLanguage($lang_key);
-                
+
                 if (in_array($lang_key, $a_local_keys, true) && is_dir($this->cust_lang_path)) {
                     if ($this->checkLanguage($lang_key, "local")) {
                         $this->insertLanguage($lang_key, "local");
@@ -123,7 +125,7 @@ class ilSetupLanguage extends ilLanguage
                         $err_lang[] = $lang_key;
                     }
                 }
-                
+
                 // register language first time install
                 if (!array_key_exists($lang_key, $db_langs)) {
                     if (in_array($lang_key, $a_local_keys, true)) {
@@ -150,7 +152,7 @@ class ilSetupLanguage extends ilLanguage
                 $err_lang[] = $lang_key;
             }
         }
-        
+
         foreach ($db_langs as $key => $val) {
             if (!in_array($key, $err_lang, true)) {
                 if (in_array($key, $a_lang_keys, true)) {
@@ -188,10 +190,10 @@ class ilSetupLanguage extends ilLanguage
     /**
      * get already installed languages (in db)
      */
-    public function getInstalledLanguages() : array
+    public function getInstalledLanguages(): array
     {
         global $ilDB;
-        
+
         $arr = array();
 
         $query = "SELECT * FROM object_data " .
@@ -205,14 +207,14 @@ class ilSetupLanguage extends ilLanguage
 
         return $arr;
     }
-    
+
     /**
      * get already installed local languages (in db)
      */
-    public function getInstalledLocalLanguages() : array
+    public function getInstalledLocalLanguages(): array
     {
         global $ilDB;
-        
+
         $arr = array();
 
         $query = "SELECT * FROM object_data " .
@@ -230,10 +232,10 @@ class ilSetupLanguage extends ilLanguage
     /**
      * get already registered languages (in db)
      */
-    protected function getAvailableLanguages() : array
+    protected function getAvailableLanguages(): array
     {
         global $ilDB;
-        
+
         $arr = array();
 
         $query = "SELECT * FROM object_data " .
@@ -259,7 +261,7 @@ class ilSetupLanguage extends ilLanguage
      * $scope          empty (global) or "local"
      * $info_text      message about results of check OR "1" if all checks successfully passed
      */
-    protected function checkLanguage(string $a_lang_key, string $scope = "") : bool
+    protected function checkLanguage(string $a_lang_key, string $scope = ""): bool
     {
         $scopeExtension = "";
         if (!empty($scope)) {
@@ -269,7 +271,7 @@ class ilSetupLanguage extends ilLanguage
                 $scopeExtension = "." . $scope;
             }
         }
-        
+
         $path = $this->lang_path;
         if ($scope === "local") {
             $path = $this->cust_lang_path;
@@ -335,10 +337,10 @@ class ilSetupLanguage extends ilLanguage
      * $a_lang_key     language key
      * $a_mode        "all" or "keep_local"
      */
-    protected function flushLanguage(string $a_lang_key, string $a_mode = "all") : void
+    protected function flushLanguage(string $a_lang_key, string $a_mode = "all"): void
     {
         global $ilDB;
-        
+
         self::_deleteLangData($a_lang_key, ($a_mode === "keep_local"));
 
         if ($a_mode === "all") {
@@ -352,10 +354,10 @@ class ilSetupLanguage extends ilLanguage
     *
     * $a_lang_key lang key
     */
-    public static function _deleteLangData(string $a_lang_key, bool $a_keep_local_change) : void
+    public static function _deleteLangData(string $a_lang_key, bool $a_keep_local_change): void
     {
         global $ilDB;
-        
+
         if (!$a_keep_local_change) {
             $ilDB->manipulate("DELETE FROM lng_data WHERE lang_key = " .
                 $ilDB->quote($a_lang_key, "text"));
@@ -373,17 +375,17 @@ class ilSetupLanguage extends ilLanguage
     * $a_max_date maximum change date "yyyy-mm-dd hh:mm:ss"
     * Returned value       [module][identifier] => value
     */
-    public function getLocalChanges(string $a_lang_key, string $a_min_date = "", string $a_max_date = "") : array
+    public function getLocalChanges(string $a_lang_key, string $a_min_date = "", string $a_max_date = ""): array
     {
         global $ilDB;
-        
+
         if ($a_min_date === "") {
             $a_min_date = "1980-01-01 00:00:00";
         }
         if ($a_max_date === "") {
             $a_max_date = "2200-01-01 00:00:00";
         }
-        
+
         $q = sprintf(
             "SELECT * FROM lng_data WHERE lang_key = %s " .
             "AND local_change >= %s AND local_change <= %s",
@@ -392,7 +394,7 @@ class ilSetupLanguage extends ilLanguage
             $ilDB->quote($a_max_date, "timestamp")
         );
         $result = $ilDB->query($q);
-        
+
         $changes = array();
         while ($row = $result->fetchRow(ilDBConstants::FETCHMODE_ASSOC)) {
             $changes[$row["module"]][$row["identifier"]] = $row["value"];
@@ -408,12 +410,12 @@ class ilSetupLanguage extends ilLanguage
      * $lang_key   international language key (2 digits)
      * $scope      empty (global) or "local"
      */
-    protected function insertLanguage(string $lang_key, string $scope = "") : void
+    protected function insertLanguage(string $lang_key, string $scope = ""): void
     {
         global $ilDB;
-        
+
         $lang_array = array();
-        
+
         $scopeExtension = "";
         if (!empty($scope)) {
             if ($scope === "global") {
@@ -427,7 +429,7 @@ class ilSetupLanguage extends ilLanguage
         if ($scope === "local") {
             $path = $this->cust_lang_path;
         }
-        
+
         $tmpPath = getcwd();
         chdir($path);
 
@@ -533,10 +535,10 @@ class ilSetupLanguage extends ilLanguage
     /**
     * Replace language module array
     */
-    final public static function replaceLangModule(string $a_key, string $a_module, array $a_array) : void
+    final public static function replaceLangModule(string $a_key, string $a_module, array $a_array): void
     {
         global $ilDB;
-        
+
         $ilDB->manipulate(sprintf(
             "DELETE FROM lng_modules WHERE lang_key = %s AND module = %s",
             $ilDB->quote($a_key, "text"),
@@ -558,7 +560,7 @@ class ilSetupLanguage extends ilLanguage
         string $a_lang_key,
         string $a_value,
         string $a_local_change = null
-    ) : void {
+    ): void {
         global $ilDB;
 
         $ilDB->manipulate(sprintf(
@@ -592,9 +594,9 @@ class ilSetupLanguage extends ilLanguage
         string $a_lang_key,
         string $a_value,
         string $a_local_change = null
-    ) : void {
+    ): void {
         global $ilDB;
-        
+
         $ilDB->manipulate(sprintf(
             "UPDATE lng_data " .
             "SET value = %s, local_change = %s " .
@@ -611,14 +613,14 @@ class ilSetupLanguage extends ilLanguage
      * Searches for the existence of *.lang.local files.
      * Returns array with language keys
      */
-    public function getLocalLanguages() : array
+    public function getLocalLanguages(): array
     {
         $local_langs = array();
         if (is_dir($this->cust_lang_path)) {
             $d = dir($this->cust_lang_path);
             $tmpPath = getcwd();
             chdir($this->cust_lang_path);
-    
+
             // get available .lang.local files
             while ($entry = $d->read()) {
                 if (is_file($entry) && (preg_match("~(^ilias_.{2}\.lang.local$)~", $entry))) {
@@ -626,7 +628,7 @@ class ilSetupLanguage extends ilLanguage
                     $local_langs[] = $lang_key;
                 }
             }
-    
+
             chdir($tmpPath);
         }
 
@@ -636,7 +638,7 @@ class ilSetupLanguage extends ilLanguage
     /**
      * Return installable languages
      */
-    public function getInstallableLanguages() : array
+    public function getInstallableLanguages(): array
     {
         $d = dir($this->lang_path);
         $tmpPath = getcwd();
@@ -655,19 +657,19 @@ class ilSetupLanguage extends ilLanguage
 
         return $installableLanguages;
     }
-    
+
     /**
      * set db handler object
      * @string   object      db handler
      * Return true on success
      */
-    public function setDbHandler(ilDBInterface $a_db_handler) : bool
+    public function setDbHandler(ilDBInterface $a_db_handler): bool
     {
         $this->db = &$a_db_handler;
         return true;
     }
-    
-    public function loadLanguageModule(string $a_module) : void
+
+    public function loadLanguageModule(string $a_module): void
     {
     }
 }

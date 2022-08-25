@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -62,11 +64,11 @@ abstract class ilWebLinkItem extends ilWebLinkBaseItem
         $this->last_update = $last_update;
     }
 
-    abstract public function getResolvedLink(bool $with_parameters = true) : string;
+    abstract public function getResolvedLink(bool $with_parameters = true): string;
 
-    abstract public function isInternal() : bool;
+    abstract public function isInternal(): bool;
 
-    public function toXML(ilXmlWriter $writer, int $position) : void
+    public function toXML(ilXmlWriter $writer, int $position): void
     {
         $writer->xmlStartTag(
             'WebLink',
@@ -88,22 +90,22 @@ abstract class ilWebLinkItem extends ilWebLinkBaseItem
         $writer->xmlEndTag('WebLink');
     }
 
-    public function getWebrId() : int
+    public function getWebrId(): int
     {
         return $this->webr_id;
     }
 
-    public function getLinkId() : int
+    public function getLinkId(): int
     {
         return $this->link_id;
     }
 
-    public function getCreateDate() : DateTimeImmutable
+    public function getCreateDate(): DateTimeImmutable
     {
         return $this->create_date;
     }
 
-    public function getLastUpdate() : DateTimeImmutable
+    public function getLastUpdate(): DateTimeImmutable
     {
         return $this->last_update;
     }
@@ -111,7 +113,7 @@ abstract class ilWebLinkItem extends ilWebLinkBaseItem
     /**
      * @return ilWebLinkParameter[]
      */
-    public function getParameters() : array
+    public function getParameters(): array
     {
         return $this->parameters;
     }

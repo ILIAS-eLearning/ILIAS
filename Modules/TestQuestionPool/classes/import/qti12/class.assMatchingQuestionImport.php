@@ -28,7 +28,7 @@ include_once "./Modules/TestQuestionPool/classes/import/qti12/class.assQuestionI
 */
 class assMatchingQuestionImport extends assQuestionImport
 {
-    public function saveImage($data, $filename) : void
+    public function saveImage($data, $filename): void
     {
         $image = base64_decode($data);
         $imagepath = $this->object->getImagePath();
@@ -44,7 +44,7 @@ class assMatchingQuestionImport extends assQuestionImport
             fclose($fh);
         }
     }
-    
+
     /**
     * Creates a question from a QTI file
     *
@@ -58,7 +58,7 @@ class assMatchingQuestionImport extends assQuestionImport
     * @param array $import_mapping An array containing references to included ILIAS objects
     * @access public
     */
-    public function fromXML(&$item, $questionpool_id, &$tst_id, &$tst_object, &$question_counter, &$import_mapping) : void
+    public function fromXML(&$item, $questionpool_id, &$tst_id, &$tst_object, &$question_counter, &$import_mapping): void
     {
         global $DIC;
         $ilUser = $DIC['ilUser'];
@@ -186,7 +186,7 @@ class assMatchingQuestionImport extends assQuestionImport
                 }
             }
         }
-        
+
         include_once "./Modules/TestQuestionPool/classes/class.assAnswerMatchingTerm.php";
         include_once "./Modules/TestQuestionPool/classes/class.assAnswerMatchingDefinition.php";
         include_once "./Modules/TestQuestionPool/classes/class.assAnswerMatchingPair.php";
@@ -292,10 +292,10 @@ class assMatchingQuestionImport extends assQuestionImport
                 } else {
                     $importfile = $this->getQplImportArchivDirectory() . '/' . $mob["uri"];
                 }
-                
+
                 global $DIC; /* @var ILIAS\DI\Container $DIC */
                 $DIC['ilLog']->write(__METHOD__ . ': import mob from dir: ' . $importfile);
-                
+
                 $media_object = ilObjMediaObject::_saveTempFileAsMediaObject(basename($importfile), $importfile, false);
                 ilObjMediaObject::_saveUsage($media_object->getId(), "qpl:html", $this->object->getId());
                 $questiontext = str_replace("src=\"" . $mob["mob"] . "\"", "src=\"" . "il_" . IL_INST_ID . "_mob_" . $media_object->getId() . "\"", $questiontext);
@@ -310,7 +310,7 @@ class assMatchingQuestionImport extends assQuestionImport
         $this->object->setQuestion(ilRTE::_replaceMediaObjectImageSrc($questiontext, 1));
         foreach ($feedbacks as $ident => $material) {
             $index = $this->fetchIndexFromFeedbackIdent($ident, 'correct_');
-            
+
             $this->object->feedbackOBJ->importSpecificAnswerFeedback(
                 $this->object->getId(),
                 0,
@@ -335,30 +335,30 @@ class assMatchingQuestionImport extends assQuestionImport
             $import_mapping[$item->getIdent()] = array("pool" => $this->object->getId(), "test" => 0);
         }
     }
-    
+
     /**
      * @param $feedbackIdent
      * @param string $prefix
      * @return int
      */
-    protected function fetchIndexFromFeedbackIdent($feedbackIdent, $prefix = 'response_') : int
+    protected function fetchIndexFromFeedbackIdent($feedbackIdent, $prefix = 'response_'): int
     {
         list($termId, $definitionId) = explode('_', str_replace($prefix, '', $feedbackIdent));
-        
+
         foreach ($this->object->getMatchingPairs() as $index => $pair) {
             /* @var assAnswerMatchingPair $pair */
-            
+
             if ($pair->term->identifier != $termId) {
                 continue;
             }
-            
+
             if ($pair->definition->identifier != $definitionId) {
                 continue;
             }
-            
+
             return (int) $index;
         }
-        
+
         return -1;
     }
 }

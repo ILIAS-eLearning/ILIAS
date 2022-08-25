@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -34,52 +36,52 @@ class ilMDTypicalAgeRange extends ilMDBase
     private string $typical_age_range_maximum = '';
 
     // SET/GET
-    public function setTypicalAgeRange(string $a_typical_age_range) : void
+    public function setTypicalAgeRange(string $a_typical_age_range): void
     {
         $this->typical_age_range = $a_typical_age_range;
     }
 
-    public function getTypicalAgeRange() : string
+    public function getTypicalAgeRange(): string
     {
         return $this->typical_age_range;
     }
 
-    public function setTypicalAgeRangeLanguage(ilMDLanguageItem $lng_obj) : void
+    public function setTypicalAgeRangeLanguage(ilMDLanguageItem $lng_obj): void
     {
         $this->typical_age_range_language = $lng_obj;
     }
 
-    public function getTypicalAgeRangeLanguage() : ?ilMDLanguageItem
+    public function getTypicalAgeRangeLanguage(): ?ilMDLanguageItem
     {
         return is_object($this->typical_age_range_language) ? $this->typical_age_range_language : null;
     }
 
-    public function getTypicalAgeRangeLanguageCode() : string
+    public function getTypicalAgeRangeLanguageCode(): string
     {
         return is_object($this->typical_age_range_language) ? $this->typical_age_range_language->getLanguageCode() : '';
     }
 
-    public function setTypicalAgeRangeMinimum(string $a_min) : void
+    public function setTypicalAgeRangeMinimum(string $a_min): void
     {
         $this->typical_age_range_minimum = $a_min;
     }
 
-    public function getTypicalAgeRangeMinimum() : string
+    public function getTypicalAgeRangeMinimum(): string
     {
         return $this->typical_age_range_minimum;
     }
 
-    public function setTypicalAgeRangeMaximum(string $a_max) : void
+    public function setTypicalAgeRangeMaximum(string $a_max): void
     {
         $this->typical_age_range_maximum = $a_max;
     }
 
-    public function getTypicalAgeRangeMaximum() : string
+    public function getTypicalAgeRangeMaximum(): string
     {
         return $this->typical_age_range_maximum;
     }
 
-    public function save() : int
+    public function save(): int
     {
         $fields = $this->__getFields();
         $fields['meta_tar_id'] = array('integer', $next_id = $this->db->nextId('il_meta_tar'));
@@ -91,7 +93,7 @@ class ilMDTypicalAgeRange extends ilMDBase
         return 0;
     }
 
-    public function update() : bool
+    public function update(): bool
     {
         $this->__parseTypicalAgeRange();
 
@@ -102,7 +104,7 @@ class ilMDTypicalAgeRange extends ilMDBase
         );
     }
 
-    public function delete() : bool
+    public function delete(): bool
     {
         if ($this->getMetaId()) {
             $query = "DELETE FROM il_meta_tar " .
@@ -116,7 +118,7 @@ class ilMDTypicalAgeRange extends ilMDBase
     /**
      * @return array<string, array<string, mixed>>
      */
-    public function __getFields() : array
+    public function __getFields(): array
     {
         return array(
             'rbac_id' => array('integer', $this->getRBACId()),
@@ -131,7 +133,7 @@ class ilMDTypicalAgeRange extends ilMDBase
         );
     }
 
-    public function read() : bool
+    public function read(): bool
     {
         if ($this->getMetaId()) {
             $query = "SELECT * FROM il_meta_tar " .
@@ -153,7 +155,7 @@ class ilMDTypicalAgeRange extends ilMDBase
         return true;
     }
 
-    public function toXML(ilXmlWriter $writer) : void
+    public function toXML(ilXmlWriter $writer): void
     {
         $writer->xmlElement(
             'TypicalAgeRange',
@@ -169,7 +171,7 @@ class ilMDTypicalAgeRange extends ilMDBase
     /**
      * @return int[]
      */
-    public static function _getIds(int $a_rbac_id, int $a_obj_id, int $a_parent_id, string $a_parent_type) : array
+    public static function _getIds(int $a_rbac_id, int $a_obj_id, int $a_parent_id, string $a_parent_type): array
     {
         global $DIC;
 
@@ -191,7 +193,7 @@ class ilMDTypicalAgeRange extends ilMDBase
     }
 
     // PRIVATE
-    public function __parseTypicalAgeRange() : bool
+    public function __parseTypicalAgeRange(): bool
     {
         if (preg_match("/\s*(\d*)\s*(-?)\s*(\d*)/", $this->getTypicalAgeRange(), $matches)) {
             if (!$matches[2] and !$matches[3]) {

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,13 +17,13 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * Manage participants.
  */
 class ilLearningSequenceParticipants extends ilParticipants
 {
-    const COMPONENT_NAME = 'Modules/LearningSequence';
+    public const COMPONENT_NAME = 'Modules/LearningSequence';
 
     /**
      * @var ilLearningSequenceParticipants[]
@@ -44,7 +46,7 @@ class ilLearningSequenceParticipants extends ilParticipants
         $this->settings = $settings;
     }
 
-    public static function _getInstanceByObjId(int $obj_id) : ilLearningSequenceParticipants
+    public static function _getInstanceByObjId(int $obj_id): ilLearningSequenceParticipants
     {
         global $DIC;
 
@@ -64,7 +66,7 @@ class ilLearningSequenceParticipants extends ilParticipants
         );
     }
 
-    public static function getMemberRoles(int $ref_id) : array
+    public static function getMemberRoles(int $ref_id): array
     {
         global $DIC;
 
@@ -88,7 +90,7 @@ class ilLearningSequenceParticipants extends ilParticipants
         return $roles;
     }
 
-    public static function _isParticipant(int $a_ref_id, int $a_usr_id) : bool
+    public static function _isParticipant(int $a_ref_id, int $a_usr_id): bool
     {
         global $DIC;
 
@@ -98,12 +100,12 @@ class ilLearningSequenceParticipants extends ilParticipants
         return $rbacreview->isAssignedToAtLeastOneGivenRole($a_usr_id, $local_roles);
     }
 
-    public function add(int $a_usr_id, int $a_role) : bool
+    public function add(int $a_usr_id, int $a_role): bool
     {
         return parent::add($a_usr_id, $a_role);
     }
 
-    public function addSubscriber(int $a_usr_id) : void
+    public function addSubscriber(int $a_usr_id): void
     {
         parent::addSubscriber($a_usr_id);
 
@@ -121,7 +123,7 @@ class ilLearningSequenceParticipants extends ilParticipants
     /**
      * Send notification mail.
      */
-    public function sendNotification(int $type, int $usr_id, bool $force_sending_mail = false) : bool
+    public function sendNotification(int $type, int $usr_id, bool $force_sending_mail = false): bool
     {
         $mail = new ilLearningSequenceMembershipMailNotification($this->logger, $this->settings);
         $mail->forceSendingMail($force_sending_mail);

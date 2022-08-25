@@ -34,7 +34,7 @@ class ilSkillLevelDBRepository implements ilSkillLevelRepository
             ?: $DIC->database();
     }
 
-    public function deleteLevelsOfSkill(int $skill_id) : void
+    public function deleteLevelsOfSkill(int $skill_id): void
     {
         $ilDB = $this->db;
 
@@ -44,7 +44,7 @@ class ilSkillLevelDBRepository implements ilSkillLevelRepository
         );
     }
 
-    public function addLevel(int $skill_id, string $a_title, string $a_description, string $a_import_id = "") : void
+    public function addLevel(int $skill_id, string $a_title, string $a_description, string $a_import_id = ""): void
     {
         $ilDB = $this->db;
 
@@ -61,7 +61,7 @@ class ilSkillLevelDBRepository implements ilSkillLevelRepository
         ));
     }
 
-    protected function getMaxLevelNr(int $skill_id) : int
+    protected function getMaxLevelNr(int $skill_id): int
     {
         $ilDB = $this->db;
 
@@ -76,7 +76,7 @@ class ilSkillLevelDBRepository implements ilSkillLevelRepository
     /**
      * Returns multiple rows when $a_id is 0 else one or [].
      */
-    public function getLevelData(int $skill_id, int $a_id = 0) : array
+    public function getLevelData(int $skill_id, int $a_id = 0): array
     {
         $ilDB = $this->db;
 
@@ -101,7 +101,7 @@ class ilSkillLevelDBRepository implements ilSkillLevelRepository
         return $levels;
     }
 
-    protected function lookupLevelProperty(int $a_id, string $a_prop) : ?string
+    protected function lookupLevelProperty(int $a_id, string $a_prop): ?string
     {
         $ilDB = $this->db;
 
@@ -114,22 +114,22 @@ class ilSkillLevelDBRepository implements ilSkillLevelRepository
         return isset($rec[$a_prop]) ? (string) $rec[$a_prop] : null;
     }
 
-    public function lookupLevelTitle(int $a_id) : string
+    public function lookupLevelTitle(int $a_id): string
     {
         return $this->lookupLevelProperty($a_id, "title") ?? "";
     }
 
-    public function lookupLevelDescription(int $a_id) : string
+    public function lookupLevelDescription(int $a_id): string
     {
         return $this->lookupLevelProperty($a_id, "description") ?? "";
     }
 
-    public function lookupLevelSkillId(int $a_id) : int
+    public function lookupLevelSkillId(int $a_id): int
     {
         return (int) $this->lookupLevelProperty($a_id, "skill_id") ?? 0;
     }
 
-    protected function writeLevelProperty(int $a_id, string $a_prop, ?string $a_value, string $a_type) : void
+    protected function writeLevelProperty(int $a_id, string $a_prop, ?string $a_value, string $a_type): void
     {
         $ilDB = $this->db;
 
@@ -140,17 +140,17 @@ class ilSkillLevelDBRepository implements ilSkillLevelRepository
         ));
     }
 
-    public function writeLevelTitle(int $a_id, string $a_title) : void
+    public function writeLevelTitle(int $a_id, string $a_title): void
     {
         $this->writeLevelProperty($a_id, "title", $a_title, "text");
     }
 
-    public function writeLevelDescription(int $a_id, string $a_description) : void
+    public function writeLevelDescription(int $a_id, string $a_description): void
     {
         $this->writeLevelProperty($a_id, "description", $a_description, "clob");
     }
 
-    public function updateLevelOrder(array $order) : void
+    public function updateLevelOrder(array $order): void
     {
         $ilDB = $this->db;
 
@@ -165,7 +165,7 @@ class ilSkillLevelDBRepository implements ilSkillLevelRepository
         }
     }
 
-    public function deleteLevel(int $a_id) : void
+    public function deleteLevel(int $a_id): void
     {
         $ilDB = $this->db;
 
@@ -175,7 +175,7 @@ class ilSkillLevelDBRepository implements ilSkillLevelRepository
         );
     }
 
-    public function fixLevelNumbering(int $skill_id) : void
+    public function fixLevelNumbering(int $skill_id): void
     {
         $ilDB = $this->db;
 
@@ -195,7 +195,7 @@ class ilSkillLevelDBRepository implements ilSkillLevelRepository
         }
     }
 
-    public function getSkillForLevelId(int $a_level_id) : ?ilBasicSkill
+    public function getSkillForLevelId(int $a_level_id): ?ilBasicSkill
     {
         $ilDB = $this->db;
 

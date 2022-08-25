@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -23,7 +25,7 @@
  */
 class ilObjSCORMVerification extends ilVerificationObject
 {
-    protected function initType() : void
+    protected function initType(): void
     {
         $this->type = 'scov';
     }
@@ -31,7 +33,7 @@ class ilObjSCORMVerification extends ilVerificationObject
     /**
      * @return array<string, int>
      */
-    protected function getPropertyMap() : array
+    protected function getPropertyMap(): array
     {
         return [
             'issued_on' => self::TYPE_DATE,

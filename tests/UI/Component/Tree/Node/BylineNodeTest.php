@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 require_once("libs/composer/vendor/autoload.php");
 require_once(__DIR__ . "../../../../Base.php");
 
@@ -30,14 +32,14 @@ class BylineNodeTest extends ILIAS_UI_TestBase
     private I\Tree\Node\Factory $node_factory;
     private C\Symbol\Icon\Standard $icon;
 
-    public function setUp() : void
+    public function setUp(): void
     {
         $this->node_factory = new I\Tree\Node\Factory();
         $icon_factory = new I\Symbol\Icon\Factory();
         $this->icon = $icon_factory->standard("", '');
     }
 
-    public function testCreateBylineNode() : void
+    public function testCreateBylineNode(): void
     {
         $node = $this->node_factory->bylined('My Label', 'This is my byline', $this->icon);
         $this->assertEquals('My Label', $node->getLabel());
@@ -45,7 +47,7 @@ class BylineNodeTest extends ILIAS_UI_TestBase
         $this->assertEquals($this->icon, $node->getIcon());
     }
 
-    public function testRendering() : void
+    public function testRendering(): void
     {
         $node = $this->node_factory->bylined('My Label', 'This is my byline');
 
@@ -67,7 +69,7 @@ EOT;
         );
     }
 
-    public function testRenderingWithIcon() : void
+    public function testRenderingWithIcon(): void
     {
         $node = $this->node_factory->bylined('My Label', 'This is my byline', $this->icon);
 
@@ -92,7 +94,7 @@ EOT;
         );
     }
 
-    public function testRenderingWithAsync() : void
+    public function testRenderingWithAsync(): void
     {
         $node = $this->node_factory->bylined('My Label', 'This is my byline');
         $node = $node->withAsyncURL('something.de');
@@ -119,7 +121,7 @@ EOT;
         );
     }
 
-    public function testRenderingExpanded() : void
+    public function testRenderingExpanded(): void
     {
         $node = $this->node_factory->bylined('My Label', 'This is my byline');
         $node = $node->withAsyncURL('something.de')->withExpanded(true);

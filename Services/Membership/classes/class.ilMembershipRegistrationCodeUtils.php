@@ -1,5 +1,7 @@
-<?php declare(strict_types=1);
-    
+<?php
+
+declare(strict_types=1);
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * Stores registration keys for key based registration on courses and groups
  * @author  Stefan Meyer <meyer@leifos.com>
@@ -26,7 +28,7 @@ class ilMembershipRegistrationCodeUtils
 {
     protected const CODE_LENGTH = 10;
 
-    public static function handleCode(int $a_ref_id, string $a_type, string $a_code) : void
+    public static function handleCode(int $a_ref_id, string $a_type, string $a_code): void
     {
         global $DIC;
         $main_tpl = $DIC->ui()->mainTemplate();
@@ -78,7 +80,7 @@ class ilMembershipRegistrationCodeUtils
      * @throws ilObjectNotFoundException
      * @todo: throw an error if registration fails (max members, availibility...)
      */
-    protected static function useCode(string $a_code, int $a_endnode) : void
+    protected static function useCode(string $a_code, int $a_endnode): void
     {
         global $DIC;
 
@@ -110,7 +112,7 @@ class ilMembershipRegistrationCodeUtils
     /**
      * Generate new registration key
      */
-    public static function generateCode() : string
+    public static function generateCode(): string
     {
         // missing : 01iloO
         $map = "23456789abcdefghjkmnpqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ";
@@ -127,7 +129,7 @@ class ilMembershipRegistrationCodeUtils
      * Get all objects with enabled access codes
      * @return int[]
      */
-    protected static function lookupObjectsByCode(string $a_code) : array
+    protected static function lookupObjectsByCode(string $a_code): array
     {
         return array_merge(
             ilObjGroup::lookupObjectsByCode($a_code),

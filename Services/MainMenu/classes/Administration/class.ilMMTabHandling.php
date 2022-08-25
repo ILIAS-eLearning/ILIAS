@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -23,17 +25,17 @@
 class ilMMTabHandling
 {
     private int $ref_id;
-    
+
     private ilRbacSystem $rbacsystem;
-    
+
     private ilTabsGUI $tabs;
-    
+
     private ilLanguage $lng;
-    
+
     protected ilCtrl $ctrl;
-    
+
     private ilHelpGUI $help;
-    
+
     /**
      * ilMMTabHandling constructor.
      * @param int $ref_id
@@ -41,7 +43,7 @@ class ilMMTabHandling
     public function __construct(int $ref_id)
     {
         global $DIC;
-        
+
         $this->ref_id = $ref_id;
         $this->tabs = $DIC['ilTabs'];
         $this->lng = $DIC->language();
@@ -50,13 +52,13 @@ class ilMMTabHandling
         $this->rbacsystem = $DIC['rbacsystem'];
         $this->help = $DIC->help();
     }
-    
+
     public function initTabs(
         ?string $tab,
         ?string $subtab = null,
         bool $backtab = false,
         ?string $calling_class = ""
-    ) : void {
+    ): void {
         $this->tabs->clearTargets(); // clears Help-ID
 
         // Help Screen-ID

@@ -1,4 +1,6 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -29,7 +31,7 @@ class Service
     /**
      * Internal service, do not use in other components
      */
-    public function internal() : InternalService
+    public function internal(): InternalService
     {
         return new InternalService($this->DIC);
     }

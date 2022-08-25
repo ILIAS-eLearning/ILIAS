@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * Importer class for objects (currently focused on translation information)
  *
@@ -24,13 +26,13 @@
 class ilObjectImporter extends ilXmlImporter
 {
     protected ?ilObjectDataSet $ds = null;
-    
+
     public function __construct()
     {
         parent::__construct();
     }
 
-    public function init() : void
+    public function init(): void
     {
         $this->ds = new ilObjectDataSet();
         $this->ds->setDSPrefix("ds");
@@ -42,7 +44,7 @@ class ilObjectImporter extends ilXmlImporter
         string $id,
         string $xml,
         ilImportMapping $mapping
-    ) : void {
+    ): void {
         new ilDataSetImportParser(
             $entity,
             $this->getSchemaVersion(),

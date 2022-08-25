@@ -1,4 +1,6 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -44,7 +46,7 @@ class DataService
         string $type = "",
         int $news_id = 0,
         bool $in_repo = true
-    ) : Context {
+    ): Context {
         return $this->internal_data->context(
             $obj_id,
             $sub_obj_id,

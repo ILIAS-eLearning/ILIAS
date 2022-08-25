@@ -1,4 +1,6 @@
-<?php declare(strict_types=0);
+<?php
+
+declare(strict_types=0);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -14,7 +16,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * Settings for LO courses
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
@@ -43,7 +45,7 @@ class ilLOTestAssignments
         $this->readTestAssignments();
     }
 
-    public static function getInstance(int $a_container_id) : self
+    public static function getInstance(int $a_container_id): self
     {
         if (isset(self::$instances[$a_container_id])) {
             return self::$instances[$a_container_id];
@@ -51,7 +53,7 @@ class ilLOTestAssignments
         return self::$instances[$a_container_id] = new self($a_container_id);
     }
 
-    public static function lookupContainerForTest(int $a_test_ref_id) : int
+    public static function lookupContainerForTest(int $a_test_ref_id): int
     {
         global $DIC;
 
@@ -66,12 +68,12 @@ class ilLOTestAssignments
         return 0;
     }
 
-    public function getContainerId() : int
+    public function getContainerId(): int
     {
         return $this->container_id;
     }
 
-    public function getSettings() : ilLOSettings
+    public function getSettings(): ilLOSettings
     {
         return $this->settings;
     }
@@ -80,12 +82,12 @@ class ilLOTestAssignments
      * Get assignments
      * @return ilLOTestAssignment[]
      */
-    public function getAssignments() : array
+    public function getAssignments(): array
     {
         return $this->assignments;
     }
 
-    public static function deleteByContainer(int $a_container_id) : void
+    public static function deleteByContainer(int $a_container_id): void
     {
         global $DIC;
 
@@ -99,7 +101,7 @@ class ilLOTestAssignments
      * Get assignments by type
      * @return ilLOTestAssignment[]
      */
-    public function getAssignmentsByType(int $a_type) : array
+    public function getAssignmentsByType(int $a_type): array
     {
         $by_type = array();
         foreach ($this->assignments as $assignment) {
@@ -113,7 +115,7 @@ class ilLOTestAssignments
     /**
      * @return int[]
      */
-    public function getTests() : array
+    public function getTests(): array
     {
         $tests = array();
         if ($this->getSettings()->getInitialTest()) {
@@ -128,7 +130,7 @@ class ilLOTestAssignments
         return $tests;
     }
 
-    public function getTestByObjective(int $a_objective_id, int $a_type) : int
+    public function getTestByObjective(int $a_objective_id, int $a_type): int
     {
         switch ($a_type) {
             case ilLOSettings::TYPE_TEST_INITIAL:
@@ -151,7 +153,7 @@ class ilLOTestAssignments
         return 0;
     }
 
-    public function isSeparateTest(int $a_test_ref_id) : bool
+    public function isSeparateTest(int $a_test_ref_id): bool
     {
         if (!$this->getSettings()->hasSeparateInitialTests()) {
             if ($this->getSettings()->getInitialTest() == $a_test_ref_id) {
@@ -166,7 +168,7 @@ class ilLOTestAssignments
         return true;
     }
 
-    public function getTypeByTest(int $a_test_ref_id) : int
+    public function getTypeByTest(int $a_test_ref_id): int
     {
         if ($this->getSettings()->worksWithInitialTest() && !$this->getSettings()->hasSeparateInitialTests()) {
             if ($this->getSettings()->getInitialTest() == $a_test_ref_id) {
@@ -193,7 +195,7 @@ class ilLOTestAssignments
         return ilLOSettings::TYPE_TEST_UNDEFINED;
     }
 
-    public function getAssignmentByObjective(int $a_objective_id, int $a_type) : ?ilLOTestAssignment
+    public function getAssignmentByObjective(int $a_objective_id, int $a_type): ?ilLOTestAssignment
     {
         foreach ($this->assignments as $assignment) {
             if (
@@ -206,7 +208,7 @@ class ilLOTestAssignments
         return null;
     }
 
-    protected function readTestAssignments() : void
+    protected function readTestAssignments(): void
     {
         $query = 'SELECT assignment_id FROM loc_tst_assignments ' .
             'WHERE container_id = ' . $this->db->quote($this->getContainerId(), 'integer');
@@ -218,7 +220,7 @@ class ilLOTestAssignments
         }
     }
 
-    public function toXml(ilXmlWriter $writer, int $a_objective_id) : void
+    public function toXml(ilXmlWriter $writer, int $a_objective_id): void
     {
         foreach ($this->getAssignments() as $assignment) {
             if ($assignment->getObjectiveId() != $a_objective_id) {
@@ -235,7 +237,7 @@ class ilLOTestAssignments
         }
     }
 
-    public static function lookupObjectivesForTest(int $a_test_ref_id) : array
+    public static function lookupObjectivesForTest(int $a_test_ref_id): array
     {
         global $DIC;
 

@@ -1,5 +1,7 @@
-<?php declare(strict_types=1);
-    
+<?php
+
+declare(strict_types=1);
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * Base class for course and group waiting lists
  * @author  Stefan Meyer <smeyer.ilias@gmx.de>
@@ -42,7 +44,7 @@ abstract class ilWaitingList
         }
     }
 
-    public static function lookupListSize(int $a_obj_id) : int
+    public static function lookupListSize(int $a_obj_id): int
     {
         global $DIC;
 
@@ -55,7 +57,7 @@ abstract class ilWaitingList
         return 0;
     }
 
-    public static function _deleteAll(int $a_obj_id) : void
+    public static function _deleteAll(int $a_obj_id): void
     {
         global $DIC;
 
@@ -65,7 +67,7 @@ abstract class ilWaitingList
         $res = $ilDB->manipulate($query);
     }
 
-    public static function _deleteUser(int $a_usr_id) : void
+    public static function _deleteUser(int $a_usr_id): void
     {
         global $DIC;
 
@@ -74,7 +76,7 @@ abstract class ilWaitingList
         $res = $ilDB->manipulate($query);
     }
 
-    public static function deleteUserEntry(int $a_usr_id, int $a_obj_id) : void
+    public static function deleteUserEntry(int $a_usr_id, int $a_obj_id): void
     {
         global $DIC;
 
@@ -85,12 +87,12 @@ abstract class ilWaitingList
         $ilDB->query($query);
     }
 
-    public function getObjId() : int
+    public function getObjId(): int
     {
         return $this->obj_id;
     }
 
-    public function addToList(int $a_usr_id) : bool
+    public function addToList(int $a_usr_id): bool
     {
         if ($this->isOnList($a_usr_id)) {
             return false;
@@ -106,7 +108,7 @@ abstract class ilWaitingList
         return true;
     }
 
-    public function updateSubscriptionTime(int $a_usr_id, int $a_subtime) : void
+    public function updateSubscriptionTime(int $a_usr_id, int $a_subtime): void
     {
         $query = "UPDATE crs_waiting_list " .
             "SET sub_time = " . $this->db->quote($a_subtime, 'integer') . " " .
@@ -115,7 +117,7 @@ abstract class ilWaitingList
         $res = $this->db->manipulate($query);
     }
 
-    public function removeFromList(int $a_usr_id) : bool
+    public function removeFromList(int $a_usr_id): bool
     {
         $query = "DELETE FROM crs_waiting_list " .
             " WHERE obj_id = " . $this->db->quote($this->getObjId(), 'integer') . " " .
@@ -125,12 +127,12 @@ abstract class ilWaitingList
         return $affected > 0;
     }
 
-    public function isOnList(int $a_usr_id) : bool
+    public function isOnList(int $a_usr_id): bool
     {
         return isset($this->users[$a_usr_id]);
     }
 
-    public static function _isOnList(int $a_usr_id, int $a_obj_id) : bool
+    public static function _isOnList(int $a_usr_id, int $a_obj_id): bool
     {
         global $DIC;
 
@@ -153,7 +155,7 @@ abstract class ilWaitingList
      * The function is triggered in the preload functions of ilObjCourseAccess
      * and ilObjGroupAccess.
      */
-    public static function _preloadOnListInfo(array $a_usr_ids, array $a_obj_ids) : void
+    public static function _preloadOnListInfo(array $a_usr_ids, array $a_obj_ids): void
     {
         global $DIC;
 
@@ -174,12 +176,12 @@ abstract class ilWaitingList
         }
     }
 
-    public function getCountUsers() : int
+    public function getCountUsers(): int
     {
         return count($this->users);
     }
 
-    public function getPosition(int $a_usr_id) : int
+    public function getPosition(int $a_usr_id): int
     {
         return isset($this->users[$a_usr_id]) ? $this->users[$a_usr_id]['position'] : -1;
     }
@@ -189,7 +191,7 @@ abstract class ilWaitingList
      * @access public
      * @return array<int, array<{position: int, time: int, usr_id: int}>>
      */
-    public function getAllUsers() : array
+    public function getAllUsers(): array
     {
         return $this->users;
     }
@@ -199,7 +201,7 @@ abstract class ilWaitingList
      * @param int usr_id
      * @return array<{position: int, time: int, usr_id: int}>
      */
-    public function getUser(int $a_usr_id) : array
+    public function getUser(int $a_usr_id): array
     {
         return $this->users[$a_usr_id] ?? [];
     }
@@ -207,12 +209,12 @@ abstract class ilWaitingList
     /**
      * @return int[]
      */
-    public function getUserIds() : array
+    public function getUserIds(): array
     {
         return $this->user_ids;
     }
 
-    private function read() : void
+    private function read(): void
     {
         $this->users = [];
         $query = "SELECT * FROM crs_waiting_list " .

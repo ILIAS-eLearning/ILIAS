@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -33,7 +35,7 @@ class ilDurationInputGUI extends ilFormPropertyGUI
     protected bool $showhours = true;
     protected bool $showminutes = true;
     protected bool $showseconds = false;
-    
+
     public function __construct(
         string $a_title = "",
         string $a_postvar = ""
@@ -45,107 +47,107 @@ class ilDurationInputGUI extends ilFormPropertyGUI
         $this->setType("duration");
     }
 
-    public function setDays(int $a_days) : void
+    public function setDays(int $a_days): void
     {
         $this->days = $a_days;
     }
 
-    public function getDays() : int
+    public function getDays(): int
     {
         return $this->days;
     }
 
-    public function setHours(int $a_hours) : void
+    public function setHours(int $a_hours): void
     {
         $this->hours = $a_hours;
     }
 
-    public function getHours() : int
+    public function getHours(): int
     {
         return $this->hours;
     }
 
-    public function setMinutes(int $a_minutes) : void
+    public function setMinutes(int $a_minutes): void
     {
         $this->minutes = $a_minutes;
     }
 
-    public function getMinutes() : int
+    public function getMinutes(): int
     {
         return $this->minutes;
     }
 
-    public function setSeconds(int $a_seconds) : void
+    public function setSeconds(int $a_seconds): void
     {
         $this->seconds = $a_seconds;
     }
-    
-    public function setMonths(int $a_months) : void
+
+    public function setMonths(int $a_months): void
     {
         $this->months = $a_months;
     }
-    
-    public function getMonths() : int
+
+    public function getMonths(): int
     {
         return $this->months;
     }
 
-    public function getSeconds() : int
+    public function getSeconds(): int
     {
         return $this->seconds;
     }
 
-    public function setShowMonths(bool $a_show_months) : void
+    public function setShowMonths(bool $a_show_months): void
     {
         $this->showmonths = $a_show_months;
     }
-    
-    public function getShowMonths() : bool
+
+    public function getShowMonths(): bool
     {
         return $this->showmonths;
     }
 
-    public function setShowDays(bool $a_showdays) : void
+    public function setShowDays(bool $a_showdays): void
     {
         $this->showdays = $a_showdays;
     }
 
-    public function getShowDays() : bool
+    public function getShowDays(): bool
     {
         return $this->showdays;
     }
 
-    public function setShowHours(bool $a_showhours) : void
+    public function setShowHours(bool $a_showhours): void
     {
         $this->showhours = $a_showhours;
     }
 
-    public function getShowHours() : bool
+    public function getShowHours(): bool
     {
         return $this->showhours;
     }
 
-    public function setShowMinutes(bool $a_showminutes) : void
+    public function setShowMinutes(bool $a_showminutes): void
     {
         $this->showminutes = $a_showminutes;
     }
 
-    public function getShowMinutes() : bool
+    public function getShowMinutes(): bool
     {
         return $this->showminutes;
     }
 
-    public function setShowSeconds(bool $a_showseconds) : void
+    public function setShowSeconds(bool $a_showseconds): void
     {
         $this->showseconds = $a_showseconds;
     }
 
-    public function getShowSeconds() : bool
+    public function getShowSeconds(): bool
     {
         return $this->showseconds;
     }
 
-    public function setValueByArray(array $a_values) : void
+    public function setValueByArray(array $a_values): void
     {
         $values = $a_values[$this->getPostVar()];
         $value_or_zero = fn ($part) => array_key_exists($part, $values ?? []) ? (int) $values[$part] : 0;
@@ -156,17 +158,17 @@ class ilDurationInputGUI extends ilFormPropertyGUI
         $this->setSeconds($value_or_zero("ss"));
     }
 
-    public function checkInput() : bool
+    public function checkInput(): bool
     {
         return true;
     }
 
-    public function getInput() : array
+    public function getInput(): array
     {
         return $this->strArray($this->getPostVar());
     }
 
-    public function insert(ilTemplate $a_tpl) : void
+    public function insert(ilTemplate $a_tpl): void
     {
         $html = $this->render();
 
@@ -175,12 +177,12 @@ class ilDurationInputGUI extends ilFormPropertyGUI
         $a_tpl->parseCurrentBlock();
     }
 
-    public function render() : string
+    public function render(): string
     {
         $lng = $this->lng;
 
         $tpl = new ilTemplate("tpl.prop_duration.html", true, true, "Services/Form");
-        
+
         if ($this->getShowMonths()) {
             $tpl->setCurrentBlock("dur_months");
             $tpl->setVariable("TXT_MONTHS", $lng->txt("form_months"));
@@ -296,17 +298,17 @@ class ilDurationInputGUI extends ilFormPropertyGUI
             );
             $tpl->parseCurrentBlock();
         }
-        
+
         return $tpl->get();
     }
 
-    public function getTableFilterHTML() : string
+    public function getTableFilterHTML(): string
     {
         $html = $this->render();
         return $html;
     }
 
-    public function serializeData() : string
+    public function serializeData(): string
     {
         $data = array("months" => $this->getMonths(),
             "days" => $this->getDays(),
@@ -317,10 +319,10 @@ class ilDurationInputGUI extends ilFormPropertyGUI
         return serialize($data);
     }
 
-    public function unserializeData(string $a_data) : void
+    public function unserializeData(string $a_data): void
     {
         $data = unserialize($a_data);
-        
+
         $this->setMonths($data["months"]);
         $this->setDays($data["days"]);
         $this->setHours($data["hours"]);
@@ -328,7 +330,7 @@ class ilDurationInputGUI extends ilFormPropertyGUI
         $this->setSeconds($data["seconds"]);
     }
 
-    public function getValueInSeconds() : int
+    public function getValueInSeconds(): int
     {
         $value = 0;
         if ($this->getShowMonths()) {

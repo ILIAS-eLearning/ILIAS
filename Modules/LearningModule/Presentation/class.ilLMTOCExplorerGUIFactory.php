@@ -33,7 +33,7 @@ class ilLMTOCExplorerGUIFactory
     public function getExplorer(
         ilLMPresentationService $service,
         string $parent_cmd = ""
-    ) : ilLMTOCExplorerGUI {
+    ): ilLMTOCExplorerGUI {
         // this needs a proper interface
         $tracker = $service->getTracker();
         $chapter_has_no_active_page = $service->getNavigationStatus()->isChapterWithoutActivePage();

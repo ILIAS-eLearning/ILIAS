@@ -32,13 +32,13 @@ class ilObjTaxonomyAdministration extends ilObject
         parent::__construct($a_id, $a_call_by_reference);
     }
 
-    public function delete() : bool
+    public function delete(): bool
     {
         // DISABLED
         return false;
     }
 
-    protected function getPath(int $a_ref_id) : array
+    protected function getPath(int $a_ref_id): array
     {
         $tree = $this->tree;
 
@@ -51,7 +51,7 @@ class ilObjTaxonomyAdministration extends ilObject
         return $res;
     }
 
-    public function getRepositoryTaxonomies() : array
+    public function getRepositoryTaxonomies(): array
     {
         $ilDB = $this->db;
         $tree = $this->tree;

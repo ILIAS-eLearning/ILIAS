@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -39,14 +41,14 @@ abstract class ilMailAutoCompleteRecipientProvider implements Iterator
         $this->user_id = $DIC->user()->getId();
     }
 
-    public function valid() : bool
+    public function valid(): bool
     {
         $this->data = $this->db->fetchAssoc($this->res);
 
         return is_array($this->data) && !empty($this->data);
     }
 
-    public function next() : void
+    public function next(): void
     {
     }
 

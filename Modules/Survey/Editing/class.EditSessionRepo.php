@@ -1,4 +1,6 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -33,49 +35,49 @@ class EditSessionRepo
     {
     }
 
-    public function setConstraintStructure(?array $structure) : void
+    public function setConstraintStructure(?array $structure): void
     {
         \ilSession::set(self::KEY_CONSTRAINT_STRUCTURE, $structure);
     }
 
-    public function getConstraintStructure() : ?array
+    public function getConstraintStructure(): ?array
     {
         return \ilSession::get(self::KEY_CONSTRAINT_STRUCTURE);
     }
 
-    public function clearConstraintStructure() : void
+    public function clearConstraintStructure(): void
     {
         \ilSession::clear(self::KEY_CONSTRAINT_STRUCTURE);
     }
 
-    public function setConstraintElements(?array $elements) : void
+    public function setConstraintElements(?array $elements): void
     {
         \ilSession::set(self::KEY_CONSTRAINT_ELEMENTS, $elements);
     }
 
-    public function getConstraintElements() : ?array
+    public function getConstraintElements(): ?array
     {
         return \ilSession::get(self::KEY_CONSTRAINT_ELEMENTS);
     }
 
-    public function clearConstraintElements() : void
+    public function clearConstraintElements(): void
     {
         \ilSession::clear(self::KEY_CONSTRAINT_ELEMENTS);
     }
 
-    public function setMoveSurveyQuestions(int $survey_id, array $question_ids) : void
+    public function setMoveSurveyQuestions(int $survey_id, array $question_ids): void
     {
         \ilSession::set(self::KEY_BASE . "move_svy_id", $survey_id);
         \ilSession::set(self::KEY_BASE . "move_svy_qids", $question_ids);
     }
 
-    public function clearMoveSurveyQuestions() : void
+    public function clearMoveSurveyQuestions(): void
     {
         \ilSession::clear(self::KEY_BASE . "move_svy_id");
         \ilSession::clear(self::KEY_BASE . "move_svy_qids");
     }
 
-    public function getMoveSurveyQuestions() : array
+    public function getMoveSurveyQuestions(): array
     {
         if (\ilSession::has(self::KEY_BASE . "move_svy_qids")) {
             return \ilSession::get(self::KEY_BASE . "move_svy_qids");
@@ -83,7 +85,7 @@ class EditSessionRepo
         return [];
     }
 
-    public function getMoveSurveyId() : int
+    public function getMoveSurveyId(): int
     {
         if (\ilSession::has(self::KEY_BASE . "move_svy_id")) {
             return \ilSession::get(self::KEY_BASE . "move_svy_id");
@@ -91,7 +93,7 @@ class EditSessionRepo
         return 0;
     }
 
-    protected function getClipKey(int $ref_id) : string
+    protected function getClipKey(int $ref_id): string
     {
         return self::KEY_BASE . "q_clip_" . $ref_id;
     }
@@ -101,7 +103,7 @@ class EditSessionRepo
         int $page,
         string $mode,
         array $question_ids
-    ) : void {
+    ): void {
         \ilSession::set(
             $this->getClipKey($ref_id),
             [
@@ -112,12 +114,12 @@ class EditSessionRepo
         );
     }
 
-    public function clearQuestionClipboard($ref_id) : void
+    public function clearQuestionClipboard($ref_id): void
     {
         \ilSession::clear($this->getClipKey($ref_id));
     }
 
-    public function getQuestionClipboardSourcePage(int $ref_id) : ?int
+    public function getQuestionClipboardSourcePage(int $ref_id): ?int
     {
         if (\ilSession::has($this->getClipKey($ref_id))) {
             $data = \ilSession::get($this->getClipKey($ref_id));
@@ -126,7 +128,7 @@ class EditSessionRepo
         return null;
     }
 
-    public function getQuestionClipboardMode(int $ref_id) : string
+    public function getQuestionClipboardMode(int $ref_id): string
     {
         if (\ilSession::has($this->getClipKey($ref_id))) {
             $data = \ilSession::get($this->getClipKey($ref_id));
@@ -135,7 +137,7 @@ class EditSessionRepo
         return "";
     }
 
-    public function getQuestionClipboardQuestions(int $ref_id) : array
+    public function getQuestionClipboardQuestions(int $ref_id): array
     {
         if (\ilSession::has($this->getClipKey($ref_id))) {
             $data = \ilSession::get($this->getClipKey($ref_id));
@@ -144,7 +146,7 @@ class EditSessionRepo
         return [];
     }
 
-    public function isQuestionClipboardEmpty(int $ref_id) : bool
+    public function isQuestionClipboardEmpty(int $ref_id): bool
     {
         if (\ilSession::has($this->getClipKey($ref_id))) {
             return false;
@@ -152,12 +154,12 @@ class EditSessionRepo
         return true;
     }
 
-    public function setPoolChoice(int $id) : void
+    public function setPoolChoice(int $id): void
     {
         \ilSession::set(self::KEY_BASE . "pool_choice", $id);
     }
 
-    public function getPoolChoice() : int
+    public function getPoolChoice(): int
     {
         if (\ilSession::has(self::KEY_BASE . "pool_choice")) {
             return \ilSession::get(self::KEY_BASE . "pool_choice");
@@ -165,12 +167,12 @@ class EditSessionRepo
         return 0;
     }
 
-    public function setExternalText(string $text) : void
+    public function setExternalText(string $text): void
     {
         \ilSession::set(self::KEY_EXT_TEXT, $text);
     }
 
-    public function getExternalText() : string
+    public function getExternalText(): string
     {
         return (string) \ilSession::get(self::KEY_EXT_TEXT);
     }

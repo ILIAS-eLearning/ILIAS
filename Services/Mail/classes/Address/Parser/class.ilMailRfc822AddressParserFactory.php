@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -22,7 +24,7 @@
  */
 class ilMailRfc822AddressParserFactory
 {
-    public function getParser(string $address) : ilMailRecipientParser
+    public function getParser(string $address): ilMailRecipientParser
     {
         return new ilMailRfc822AddressParser(new ilMailPearRfc822WrapperAddressParser($address));
     }

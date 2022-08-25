@@ -15,7 +15,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 use ILIAS\DI\UIServices;
 
 /**
@@ -47,33 +47,33 @@ class ilExSubmissionFileGUI extends ilExSubmissionBaseGUI
         $this->ui = $DIC->ui();
     }
 
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         $ilCtrl = $this->ctrl;
-        
+
         if (!$this->submission->canView()) {
             $this->returnToParentObject();
         }
-        
+
         $class = $ilCtrl->getNextClass($this);
         $cmd = $ilCtrl->getCmd("submissionScreen");
-        
+
         switch ($class) {
             default:
                 $this->{$cmd . "Object"}();
                 break;
         }
     }
-    
+
     public static function getOverviewContent(
         ilInfoScreenGUI $a_info,
         ilExSubmission $a_submission
-    ) : void {
+    ): void {
         global $DIC;
 
         $lng = $DIC->language();
         $ilCtrl = $DIC->ctrl();
-        
+
         $titles = array();
         foreach ($a_submission->getFiles() as $file) {
             $titles[] = $file["filetitle"];
@@ -109,7 +109,7 @@ class ilExSubmissionFileGUI extends ilExSubmissionBaseGUI
     }
 
     // Displays a form which allows members to deliver their solutions
-    public function submissionScreenObject() : void
+    public function submissionScreenObject(): void
     {
         $ilToolbar = $this->toolbar;
         $ilHelp = $this->help;
@@ -126,7 +126,7 @@ class ilExSubmissionFileGUI extends ilExSubmissionBaseGUI
             $this->tpl->setOnScreenMessage('info', $this->lng->txt("exercise_time_over"));
         } else {
             $max_files = $this->submission->getAssignment()->getMaxFile();
-            
+
             if ($this->submission->canAddFile()) {
                 // #15883 - extended deadline warning
                 $deadline = $this->assignment->getPersonalDeadline($ilUser->getId());
@@ -143,7 +143,7 @@ class ilExSubmissionFileGUI extends ilExSubmissionBaseGUI
                     $this->ctrl->getLinkTarget($this, "uploadForm")
                 );
                 $ilToolbar->addStickyItem($b);
-                
+
                 if (!$max_files ||
                     $max_files > 1) {
                     $ilToolbar->addButton(
@@ -152,7 +152,7 @@ class ilExSubmissionFileGUI extends ilExSubmissionBaseGUI
                     );
                 }
             }
-            
+
             if ($max_files) {
                 $this->tpl->setOnScreenMessage('info', sprintf($this->lng->txt("exc_max_file_reached"), $max_files));
             }
@@ -161,15 +161,15 @@ class ilExSubmissionFileGUI extends ilExSubmissionBaseGUI
         $tab = new ilExcDeliveredFilesTableGUI($this, "submissionScreen", $this->submission);
         $this->tpl->setContent($tab->getHTML());
     }
-    
+
     // Display form for single file upload
     public function uploadFormObject(
         ilPropertyFormGUI $a_form = null
-    ) : void {
+    ): void {
         if (!$this->submission->canSubmit()) {
             $this->ctrl->redirect($this, "submissionScreen");
         }
-        
+
         $this->tabs_gui->clearTargets();
         $this->tabs_gui->setBackTarget(
             $this->lng->txt("back"),
@@ -185,14 +185,14 @@ class ilExSubmissionFileGUI extends ilExSubmissionBaseGUI
         }
         $this->tpl->setContent($a_form->getHTML());
     }
-    
+
     public function uploadZipFormObject(
         ilPropertyFormGUI $a_form = null
-    ) : void {
+    ): void {
         if (!$this->submission->canSubmit()) {
             $this->ctrl->redirect($this, "submissionScreen");
         }
-        
+
         $this->tabs_gui->clearTargets();
         $this->tabs_gui->setBackTarget(
             $this->lng->txt("back"),
@@ -204,63 +204,63 @@ class ilExSubmissionFileGUI extends ilExSubmissionBaseGUI
         }
         $this->tpl->setContent($a_form->getHTML());
     }
- 
+
     /**
      * Init upload form form.
      */
-    protected function initUploadForm() : ilPropertyFormGUI
+    protected function initUploadForm(): ilPropertyFormGUI
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
-    
+
         $form = new ilPropertyFormGUI();
-    
+
         // file input
         $fi = new ilFileWizardInputGUI($lng->txt("file"), "deliver");
         $fi->setFilenames(array(0 => ''));
         $fi->setRequired(true);
         $form->addItem($fi);
-    
+
         $form->addCommandButton("uploadFile", $lng->txt("upload"));
         $form->addCommandButton("submissionScreen", $lng->txt("cancel"));
-                    
+
         $form->setTitle($lng->txt("file_add"));
         $form->setFormAction($ilCtrl->getFormAction($this, "uploadFile"));
-        
+
         return $form;
     }
 
     /**
      * Init upload form form.
      */
-    protected function initZipUploadForm() : ilPropertyFormGUI
+    protected function initZipUploadForm(): ilPropertyFormGUI
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
-    
+
         $form = new ilPropertyFormGUI();
-    
+
         $fi = new ilFileInputGUI($lng->txt("file"), "deliver");
         $fi->setSuffixes(array("zip"));
         $fi->setRequired(true);
         $form->addItem($fi);
-    
+
         $form->addCommandButton("uploadZip", $lng->txt("upload"));
         $form->addCommandButton("submissionScreen", $lng->txt("cancel"));
-                    
+
         $form->setTitle($lng->txt("header_zip"));
         $form->setFormAction($ilCtrl->getFormAction($this, "uploadZip"));
-        
+
         return $form;
     }
- 
+
     /**
      * Upload files
      */
-    public function uploadFileObject() : void
+    public function uploadFileObject(): void
     {
         $ilCtrl = $this->ctrl;
-        
+
         // #15322
         if (!$this->submission->canSubmit()) {
             $this->tpl->setOnScreenMessage('info', $this->lng->txt("exercise_time_over"), true);
@@ -270,7 +270,7 @@ class ilExSubmissionFileGUI extends ilExSubmissionBaseGUI
                 $this->uploadFormObject($form);
                 return;
             }
-            
+
             $success = false;
             foreach ($_FILES["deliver"]["name"] as $k => $v) {
                 $file = array(
@@ -292,17 +292,17 @@ class ilExSubmissionFileGUI extends ilExSubmissionBaseGUI
                 $this->handleNewUpload();
             }
         }
-        
+
         $ilCtrl->redirect($this, "submissionScreen");
     }
 
     /**
      * Upload zip file
      */
-    public function uploadZipObject() : void
+    public function uploadZipObject(): void
     {
         $ilCtrl = $this->ctrl;
-    
+
         // #15322
         if (!$this->submission->canSubmit()) {
             $this->tpl->setOnScreenMessage('info', $this->lng->txt("exercise_time_over"), true);
@@ -312,7 +312,7 @@ class ilExSubmissionFileGUI extends ilExSubmissionBaseGUI
                 $this->uploadZipFormObject($form);
                 return;
             }
-            
+
             if (preg_match("/zip/", $_FILES["deliver"]["type"]) == 1) {
                 if ($this->submission->processUploadedZipFile($_FILES["deliver"]["tmp_name"])) {
                     $this->tpl->setOnScreenMessage('success', $this->lng->txt("file_added"), true);
@@ -320,14 +320,14 @@ class ilExSubmissionFileGUI extends ilExSubmissionBaseGUI
                 }
             }
         }
-        
+
         $ilCtrl->redirect($this, "submissionScreen");
     }
-    
+
     /**
      * Confirm deletion of delivered files
      */
-    public function confirmDeleteDeliveredObject() : void
+    public function confirmDeleteDeliveredObject(): void
     {
         $ilCtrl = $this->ctrl;
         $tpl = $this->tpl;
@@ -338,7 +338,7 @@ class ilExSubmissionFileGUI extends ilExSubmissionBaseGUI
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt("exercise_time_over"), true);
             $ilCtrl->redirect($this, "submissionScreen");
         }
-        
+
         if (count($file_ids) == 0) {
             $this->tpl->setOnScreenMessage('failure', $lng->txt("no_checkbox"), true);
             $ilCtrl->redirect($this, "submissionScreen");
@@ -348,13 +348,13 @@ class ilExSubmissionFileGUI extends ilExSubmissionBaseGUI
                 $this->lng->txt("back"),
                 $this->ctrl->getLinkTarget($this, "submissionScreen")
             );
-        
+
             $cgui = new ilConfirmationGUI();
             $cgui->setFormAction($ilCtrl->getFormAction($this));
             $cgui->setHeaderText($lng->txt("info_delete_sure"));
             $cgui->setCancel($lng->txt("cancel"), "submissionScreen");
             $cgui->setConfirm($lng->txt("delete"), "deleteDelivered");
-            
+
             $files = $this->submission->getFiles();
 
             foreach ($file_ids as $i) {
@@ -371,16 +371,16 @@ class ilExSubmissionFileGUI extends ilExSubmissionBaseGUI
             $tpl->setContent($cgui->getHTML());
         }
     }
-    
+
     /**
      * Delete file(s) submitted by user
      */
-    public function deleteDeliveredObject() : void
+    public function deleteDeliveredObject(): void
     {
         $ilCtrl = $this->ctrl;
 
         $file_ids = $this->request->getSubmittedFileIds();
-        
+
         if (!$this->submission->canSubmit()) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt("exercise_time_over"), true);
         } elseif (count($file_ids) == 0) {
@@ -388,16 +388,16 @@ class ilExSubmissionFileGUI extends ilExSubmissionBaseGUI
         } else {
             $this->submission->deleteSelectedFiles($file_ids);
             $this->handleRemovedUpload();
-            
+
             $this->tpl->setOnScreenMessage('success', $this->lng->txt("exc_submitted_files_deleted"), true);
         }
         $ilCtrl->redirect($this, "submissionScreen");
     }
-    
+
     /**
      * Download submitted files of user.
      */
-    public function downloadReturnedObject(bool $a_only_new = false) : void
+    public function downloadReturnedObject(bool $a_only_new = false): void
     {
         $lng = $this->lng;
 
@@ -407,7 +407,7 @@ class ilExSubmissionFileGUI extends ilExSubmissionBaseGUI
             // no access
             return;
         }
-        
+
         $this->submission->downloadFiles(null, $a_only_new, $peer_review_mask_filename);
         // we only get here, if no files have been found for download
         if ($a_only_new) {
@@ -419,7 +419,7 @@ class ilExSubmissionFileGUI extends ilExSubmissionBaseGUI
     /**
     * Download newly submitted files of user.
     */
-    public function downloadNewReturnedObject() : void
+    public function downloadNewReturnedObject(): void
     {
         $this->downloadReturnedObject(true);
     }
@@ -427,7 +427,7 @@ class ilExSubmissionFileGUI extends ilExSubmissionBaseGUI
     /**
      * User downloads (own) submitted files
      */
-    public function downloadObject() : void
+    public function downloadObject(): void
     {
         $ilCtrl = $this->ctrl;
 

@@ -1,4 +1,5 @@
 <?php
+
 /* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 require_once 'Services/Table/classes/class.ilTable2GUI.php';
@@ -17,7 +18,7 @@ class ilTestDetailedEvaluationStatisticsTableGUI extends ilTable2GUI
 
         $this->setId('ass_eval_det_' . $a_template_context);
         parent::__construct($a_parent_obj, $a_parent_cmd, '');
-        
+
         $this->setFormAction($DIC->ctrl()->getFormAction($this->getParentObject(), $this->getParentCmd()));
 
         $this->setRowTemplate('tpl.table_evaluation_detail_row.html', 'Modules/Test');
@@ -27,7 +28,7 @@ class ilTestDetailedEvaluationStatisticsTableGUI extends ilTable2GUI
         $this->setLimit(PHP_INT_MAX);
     }
 
-    public function fillRow(array $a_set) : void
+    public function fillRow(array $a_set): void
     {
         $this->tpl->setVariable('VAL_COUNTER', $a_set['counter']);
         $this->tpl->setVariable('VAL_QUESTION_ID_TXT', $a_set['id_txt']);

@@ -26,7 +26,7 @@ class ilMediaPoolExporter extends ilXmlExporter
     private ilMediaPoolDataSet $ds;
     private ilExportConfig $config;
 
-    public function init() : void
+    public function init(): void
     {
         $this->ds = new ilMediaPoolDataSet();
         $this->ds->setExportDirectories($this->dir_relative, $this->dir_absolute);
@@ -43,7 +43,7 @@ class ilMediaPoolExporter extends ilXmlExporter
         string $a_entity,
         string $a_target_release,
         array $a_ids
-    ) : array {
+    ): array {
         $mob_ids = array();
 
         foreach ($a_ids as $id) {
@@ -69,7 +69,7 @@ class ilMediaPoolExporter extends ilXmlExporter
         string $a_entity,
         string $a_target_release,
         array $a_ids
-    ) : array {
+    ): array {
         $pg_ids = array();
 
         foreach ($a_ids as $id) {
@@ -105,11 +105,11 @@ class ilMediaPoolExporter extends ilXmlExporter
         string $a_entity,
         string $a_schema_version,
         string $a_id
-    ) : string {
+    ): string {
         return $this->ds->getXmlRepresentation($a_entity, $a_schema_version, [$a_id], "", true, true);
     }
 
-    public function getValidSchemaVersions(string $a_entity) : array
+    public function getValidSchemaVersions(string $a_entity): array
     {
         return array(
             "5.1.0" => array(

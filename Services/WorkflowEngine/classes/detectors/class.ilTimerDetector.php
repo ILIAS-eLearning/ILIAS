@@ -79,7 +79,7 @@ class ilTimerDetector extends ilSimpleDetector implements ilExternalDetector
      * Sets the timers start datetime.
      * @param int $timer_start Unix timestamp.
      */
-    public function setTimerStart(int $timer_start) : void
+    public function setTimerStart(int $timer_start): void
     {
         $this->timer_start = $timer_start;
     }
@@ -89,7 +89,7 @@ class ilTimerDetector extends ilSimpleDetector implements ilExternalDetector
      *
      * @return int Unix timestamp of the timers start.
      */
-    public function getTimerStart() : int
+    public function getTimerStart(): int
     {
         return $this->timer_start;
     }
@@ -98,7 +98,7 @@ class ilTimerDetector extends ilSimpleDetector implements ilExternalDetector
      * Sets the timers limit
      * @param int $timer_limit Seconds of the timers runtime.
      */
-    public function setTimerLimit(int $timer_limit) : void
+    public function setTimerLimit(int $timer_limit): void
     {
         $this->timer_limit = $timer_limit;
     }
@@ -108,7 +108,7 @@ class ilTimerDetector extends ilSimpleDetector implements ilExternalDetector
      *
      * @return int Seconds of the timers limit.
      */
-    public function getTimerLimit() : int
+    public function getTimerLimit(): int
     {
         return $this->timer_limit;
     }
@@ -123,7 +123,7 @@ class ilTimerDetector extends ilSimpleDetector implements ilExternalDetector
      *
      * @return bool False, if detector was already satisfied before.
      */
-    public function trigger($params) : ?bool
+    public function trigger($params): ?bool
     {
         if ($this->getDetectorState() === true) {
             return false;
@@ -140,7 +140,7 @@ class ilTimerDetector extends ilSimpleDetector implements ilExternalDetector
      *
      * @return bool
      */
-    public function isListening() : bool
+    public function isListening(): bool
     {
         // No listening phase = always listening.
         if ($this->listening_start === 0 && $this->listening_end === 0) {
@@ -178,7 +178,7 @@ class ilTimerDetector extends ilSimpleDetector implements ilExternalDetector
     /**
      * Method called on activation.
      */
-    public function onActivate() : void
+    public function onActivate(): void
     {
         if ($this->timer_relative) {
             if ($this->timer_start === 0) {
@@ -199,13 +199,13 @@ class ilTimerDetector extends ilSimpleDetector implements ilExternalDetector
     /**
      * Method called on deactivation.
      */
-    public function onDeactivate() : void
+    public function onDeactivate(): void
     {
         $this->setDetectorState(false);
         $this->deleteDetectorFromDb();
     }
 
-    public function setDbId(?int $a_id) : void
+    public function setDbId(?int $a_id): void
     {
         $this->db_id = $a_id;
     }
@@ -215,7 +215,7 @@ class ilTimerDetector extends ilSimpleDetector implements ilExternalDetector
      *
      * @return int
      */
-    public function getDbId() : int
+    public function getDbId(): int
     {
         if ($this->db_id !== null) {
             return $this->db_id;
@@ -229,7 +229,7 @@ class ilTimerDetector extends ilSimpleDetector implements ilExternalDetector
      *
      * @return bool If a database id is set.
      */
-    public function hasDbId() : bool
+    public function hasDbId(): bool
     {
         return $this->db_id !== null;
     }
@@ -238,7 +238,7 @@ class ilTimerDetector extends ilSimpleDetector implements ilExternalDetector
      * Passes this detector to the ilWorkflowDBHelper in order to write or update
      * the detector data to the database.
      */
-    public function writeDetectorToDb() : void
+    public function writeDetectorToDb(): void
     {
         ilWorkflowDbHelper::writeDetector($this);
     }
@@ -247,7 +247,7 @@ class ilTimerDetector extends ilSimpleDetector implements ilExternalDetector
      * Passes this detector to the ilWorkflowDbHelper in order to remove the
      * detector data from the database.
      */
-    public function deleteDetectorFromDb() : void
+    public function deleteDetectorFromDb(): void
     {
         ilWorkflowDbHelper::deleteDetector($this);
     }
@@ -257,7 +257,7 @@ class ilTimerDetector extends ilSimpleDetector implements ilExternalDetector
      *
      * @return array{type: string, content: string}
      */
-    public function getEvent() : array
+    public function getEvent(): array
     {
         return ['type' => $this->event_type, 'content' => $this->event_content];
     }
@@ -267,7 +267,7 @@ class ilTimerDetector extends ilSimpleDetector implements ilExternalDetector
      *
      * @return array{type: string, identifier: string}
      */
-    public function getEventSubject() : array
+    public function getEventSubject(): array
     {
         return ['type' => $this->event_subject_type, 'identifier' => $this->event_subject_identifier];
     }
@@ -277,7 +277,7 @@ class ilTimerDetector extends ilSimpleDetector implements ilExternalDetector
      *
      * @return array{type: string, identifier: string}
      */
-    public function getEventContext() : array
+    public function getEventContext(): array
     {
         return ['type' => $this->event_context_type, 'identifier' => $this->event_context_identifier];
     }
@@ -286,17 +286,17 @@ class ilTimerDetector extends ilSimpleDetector implements ilExternalDetector
      * Returns the listening timefrage of the detector.
      * @return array{listening_start: int, listening_end: int}
      */
-    public function getListeningTimeframe() : array
+    public function getListeningTimeframe(): array
     {
         return ['listening_start' => $this->listening_start, 'listening_end' => $this->listening_end];
     }
 
-    public function isTimerRelative() : bool
+    public function isTimerRelative(): bool
     {
         return $this->timer_relative;
     }
 
-    public function setTimerRelative(bool $timer_relative) : void
+    public function setTimerRelative(bool $timer_relative): void
     {
         $this->timer_relative = $timer_relative;
     }

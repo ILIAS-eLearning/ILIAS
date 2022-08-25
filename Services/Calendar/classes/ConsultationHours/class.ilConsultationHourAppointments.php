@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -8,7 +10,6 @@
  */
 class ilConsultationHourAppointments
 {
-
     /**
      * @return int[]
      */
@@ -18,7 +19,7 @@ class ilConsultationHourAppointments
         ?ilDateTime $a_start = null,
         ?int $a_type = null,
         bool $a_check_owner = true
-    ) : array {
+    ): array {
         global $DIC;
 
         $ilDB = $DIC->database();
@@ -63,7 +64,7 @@ class ilConsultationHourAppointments
         int $a_user_id,
         int $a_ch_group_id,
         ?ilDateTime $start = null
-    ) : array {
+    ): array {
         global $DIC;
 
         $ilDB = $DIC->database();
@@ -93,7 +94,7 @@ class ilConsultationHourAppointments
      * Get all appointments
      * @return ilCalendarEntry[]
      */
-    public static function getAppointments(int $a_user_id) : array
+    public static function getAppointments(int $a_user_id): array
     {
         $entries = [];
         foreach (self::getAppointmentIds($a_user_id) as $app_id) {
@@ -138,7 +139,7 @@ class ilConsultationHourAppointments
      * @param string $a_user_name
      * @return bool
      */
-    public static function setManager(string $a_user_name) : bool
+    public static function setManager(string $a_user_name): bool
     {
         global $DIC;
 
@@ -168,7 +169,7 @@ class ilConsultationHourAppointments
      * Get all managed consultation hours users for current users
      * @return array
      */
-    public static function getManagedUsers() : array
+    public static function getManagedUsers(): array
     {
         global $DIC;
 

@@ -29,7 +29,7 @@ class ilSurveyQuestionbrowserTableGUI extends ilTable2GUI
     protected array $browsercolumns = array();
     protected ?array $questionpools = null;
     protected array $filter = [];
-    
+
     public function __construct(
         object $a_parent_obj,
         string $a_parent_cmd,
@@ -48,7 +48,7 @@ class ilSurveyQuestionbrowserTableGUI extends ilTable2GUI
 
         $this->lng = $lng;
         $this->ctrl = $ilCtrl;
-    
+
         $this->setWriteAccess($a_write_access);
 
         $this->setFormName('surveyquestionbrowser');
@@ -65,7 +65,7 @@ class ilSurveyQuestionbrowserTableGUI extends ilTable2GUI
 
         $this->setPrefix('q_id');
         $this->setSelectAllCheckbox('q_id');
-        
+
         $this->addMultiCommand('insertQuestions', $this->lng->txt('insert'));
 
         $this->setRowTemplate("tpl.il_svy_svy_questionbrowser_row.html", "Modules/Survey");
@@ -74,7 +74,7 @@ class ilSurveyQuestionbrowserTableGUI extends ilTable2GUI
         $this->setDefaultOrderField("title");
         $this->setDefaultOrderDirection("asc");
         $this->questionpools = ilObjSurveyQuestionPool::_getAvailableQuestionpools(true, false, true);
-        
+
         $this->enable('sort');
         $this->enable('header');
         $this->enable('select_all');
@@ -84,8 +84,8 @@ class ilSurveyQuestionbrowserTableGUI extends ilTable2GUI
         $this->initFilter();
         $this->initData($a_object);
     }
-    
-    public function initData(ilObjSurvey $a_object) : void
+
+    public function initData(ilObjSurvey $a_object): void
     {
         $arrFilter = array();
         foreach ($this->getFilterItems() as $item) {
@@ -94,7 +94,7 @@ class ilSurveyQuestionbrowserTableGUI extends ilTable2GUI
             }
         }
         $data = $a_object->getQuestionsTable($arrFilter);
-        
+
         // translate pools for proper sorting
         if (count($data)) {
             $pools = $this->getQuestionPools();
@@ -102,11 +102,11 @@ class ilSurveyQuestionbrowserTableGUI extends ilTable2GUI
                 $data[$idx]["spl"] = $pools[$row["obj_fi"]];
             }
         }
-        
+
         $this->setData($data);
     }
-    
-    public function getQuestionPools() : array
+
+    public function getQuestionPools(): array
     {
         return $this->questionpools;
     }
@@ -114,7 +114,7 @@ class ilSurveyQuestionbrowserTableGUI extends ilTable2GUI
     /**
     * Init filter
     */
-    public function initFilter() : void
+    public function initFilter(): void
     {
         $lng = $this->lng;
 
@@ -126,7 +126,7 @@ class ilSurveyQuestionbrowserTableGUI extends ilTable2GUI
         $this->addFilterItem($ti);
         $ti->readFromSession();
         $this->filter["title"] = $ti->getValue();
-        
+
         // description
         $ti = new ilTextInputGUI($lng->txt("description"), "description");
         $ti->setMaxLength(64);
@@ -135,7 +135,7 @@ class ilSurveyQuestionbrowserTableGUI extends ilTable2GUI
         $this->addFilterItem($ti);
         $ti->readFromSession();
         $this->filter["description"] = $ti->getValue();
-        
+
         // author
         $ti = new ilTextInputGUI($lng->txt("author"), "author");
         $ti->setMaxLength(64);
@@ -144,7 +144,7 @@ class ilSurveyQuestionbrowserTableGUI extends ilTable2GUI
         $this->addFilterItem($ti);
         $ti->readFromSession();
         $this->filter["author"] = $ti->getValue();
-        
+
         // questiontype
         $types = ilObjSurveyQuestionPool::_getQuestiontypes();
         $options = array();
@@ -158,8 +158,8 @@ class ilSurveyQuestionbrowserTableGUI extends ilTable2GUI
         $this->addFilterItem($si);
         $si->readFromSession();
         $this->filter["type"] = $si->getValue();
-        
-        
+
+
         // questionpool text
         $ti = new ilTextInputGUI($lng->txt("survey_question_pool_title"), "spl_txt");
         $ti->setMaxLength(64);
@@ -167,7 +167,7 @@ class ilSurveyQuestionbrowserTableGUI extends ilTable2GUI
         $this->addFilterItem($ti);
         $ti->readFromSession();
         $this->filter["spl_txt"] = $ti->getValue();
-        
+
         // questionpool select
         $options = array();
         $options[""] = $lng->txt('filter_all_questionpools');
@@ -181,8 +181,8 @@ class ilSurveyQuestionbrowserTableGUI extends ilTable2GUI
         $si->readFromSession();
         $this->filter["type"] = $si->getValue();
     }
-    
-    protected function fillRow(array $a_set) : void
+
+    protected function fillRow(array $a_set): void
     {
         $this->tpl->setVariable('QUESTION_ID', $a_set["question_id"]);
         $this->tpl->setVariable("QUESTION_TITLE", ilLegacyFormElementsUtil::prepareFormOutput($a_set["title"]));
@@ -202,23 +202,23 @@ class ilSurveyQuestionbrowserTableGUI extends ilTable2GUI
         $this->tpl->setVariable("QUESTION_UPDATED", ilDatePresentation::formatDate(new ilDate($a_set["tstamp"], IL_CAL_UNIX)));
         $this->tpl->setVariable("QPL", ilLegacyFormElementsUtil::prepareFormOutput($a_set["spl"]));
     }
-    
-    public function setEditable(bool $value) : void
+
+    public function setEditable(bool $value): void
     {
         $this->editable = $value;
     }
-    
-    public function getEditable() : bool
+
+    public function getEditable(): bool
     {
         return $this->editable;
     }
 
-    public function setWriteAccess(bool $value) : void
+    public function setWriteAccess(bool $value): void
     {
         $this->writeAccess = $value;
     }
-    
-    public function getWriteAccess() : bool
+
+    public function getWriteAccess(): bool
     {
         return $this->writeAccess;
     }

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -35,14 +37,14 @@ abstract class ilADTBasedObjectGUI
     /**
      * Init ADT-based object
      */
-    abstract protected function initObject() : ilADTBasedObject;
+    abstract protected function initObject(): ilADTBasedObject;
 
 
     //
     // VERY BASIC EXAMPLE OF FORM HANDLING
     //
 
-    public function editAction(ilADTGroupFormBridge $a_form = null) : bool
+    public function editAction(ilADTGroupFormBridge $a_form = null): bool
     {
         if (!$a_form) {
             $a_form = $this->initForm();
@@ -56,13 +58,13 @@ abstract class ilADTBasedObjectGUI
      * Prepare/customize form elements
      * @param ilADTGroupFormBridge $a_adt_form
      */
-    abstract protected function prepareFormElements(ilADTGroupFormBridge $a_adt_form) : void;
+    abstract protected function prepareFormElements(ilADTGroupFormBridge $a_adt_form): void;
 
     /**
      * Init ADT-based form
      * @return ilADTFormBridge $a_form
      */
-    protected function initForm() : ilADTFormBridge
+    protected function initForm(): ilADTFormBridge
     {
         $form = new ilPropertyFormGUI();
         $form->setFormAction($this->ctrl->getFormAction($this->gui, "updateAction"));
@@ -88,7 +90,7 @@ abstract class ilADTBasedObjectGUI
      * Parse incoming values and update if valid
      * @noinspection PhpParamsInspection
      */
-    public function updateAction() : bool
+    public function updateAction(): bool
     {
         $adt_form = $this->initForm();
         $valid = $adt_form->getForm()->checkInput();

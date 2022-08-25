@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 use PHPUnit\Framework\TestCase;
 use ILIAS\UI\Implementation\Render\Loader;
 use ILIAS\UI\Implementation\Render\ComponentRenderer;
@@ -27,7 +29,7 @@ use ILIAS\UI\Implementation\Render\RendererFactory;
 
 class ComponentRendererLoaderResourceRegistryWrapperTest extends TestCase
 {
-    public function test_forwards_from_underlying() : void
+    public function test_forwards_from_underlying(): void
     {
         $underlying = $this->getMockBuilder(\ILIAS\UI\Implementation\Render\Loader::class)
             ->onlyMethods(["getRendererFor", "getRendererFactoryFor"])
@@ -53,7 +55,7 @@ class ComponentRendererLoaderResourceRegistryWrapperTest extends TestCase
         $this->assertSame($renderer, $r);
     }
 
-    public function test_registerResources() : void
+    public function test_registerResources(): void
     {
         $underlying = $this->getMockBuilder(\ILIAS\UI\Implementation\Render\Loader::class)
             ->onlyMethods(["getRendererFor", "getRendererFactoryFor"])
@@ -81,7 +83,7 @@ class ComponentRendererLoaderResourceRegistryWrapperTest extends TestCase
         $l->getRendererFor($component, []);
     }
 
-    public function test_passthrough_getRendererFactory() : void
+    public function test_passthrough_getRendererFactory(): void
     {
         $underlying = $this->getMockBuilder(\ILIAS\UI\Implementation\Render\Loader::class)
             ->onlyMethods(["getRendererFor", "getRendererFactoryFor"])

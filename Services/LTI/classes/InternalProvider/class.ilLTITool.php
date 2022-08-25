@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -49,7 +51,6 @@ use ILIAS\LTI\ToolProvider\ResourceLinkShareKey;
  */
 class ilLTITool extends ILIAS\LTI\ToolProvider\Tool
 {
-
     /**
      * @var \ilLogger
      */
@@ -77,7 +78,7 @@ class ilLTITool extends ILIAS\LTI\ToolProvider\Tool
     /**
      * Process a valid launch request
      */
-    protected function onLaunch() : void
+    protected function onLaunch(): void
     {
         // save/update current user
         if ($this->userResult instanceof User) {

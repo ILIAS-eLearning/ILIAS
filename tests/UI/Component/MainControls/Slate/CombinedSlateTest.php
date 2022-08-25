@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 require_once("libs/composer/vendor/autoload.php");
 require_once(__DIR__ . "/../../../Base.php");
 
@@ -33,7 +35,7 @@ class CombinedSlateTest extends ILIAS_UI_TestBase
     protected I\Divider\Factory $divider_factory;
     protected I\Symbol\Icon\Factory $icon_factory;
 
-    public function setUp() : void
+    public function setUp(): void
     {
         $this->sig_gen = new I\SignalGenerator();
         $this->button_factory = new I\Button\Factory();
@@ -41,26 +43,26 @@ class CombinedSlateTest extends ILIAS_UI_TestBase
         $this->icon_factory = new I\Symbol\Icon\Factory();
     }
 
-    public function getUIFactory() : NoUIFactory
+    public function getUIFactory(): NoUIFactory
     {
-        $factory = new class extends NoUIFactory {
+        $factory = new class () extends NoUIFactory {
             public I\SignalGenerator $sig_gen;
 
-            public function button() : C\Button\Factory
+            public function button(): C\Button\Factory
             {
                 return $this->button_factory;
             }
-            public function glyph() : C\Symbol\Glyph\Factory
+            public function glyph(): C\Symbol\Glyph\Factory
             {
                 return new I\Symbol\Glyph\Factory();
             }
 
-            public function divider() : C\Divider\Factory
+            public function divider(): C\Divider\Factory
             {
                 return new I\Divider\Factory();
             }
 
-            public function mainControls() : C\MainControls\Factory
+            public function mainControls(): C\MainControls\Factory
             {
                 return new I\MainControls\Factory($this->sig_gen);
             }
@@ -70,14 +72,14 @@ class CombinedSlateTest extends ILIAS_UI_TestBase
         return $factory;
     }
 
-    public function brutallyTrimHTML(string $html) : string
+    public function brutallyTrimHTML(string $html): string
     {
         $html = str_replace(["\n", "\r", "\t"], "", $html);
         $html = preg_replace('# {2,}#', " ", $html);
         return trim($html);
     }
 
-    public function testRendering() : void
+    public function testRendering(): void
     {
         $name = 'name';
         $icon = $this->icon_factory->custom('', '');
@@ -93,7 +95,7 @@ class CombinedSlateTest extends ILIAS_UI_TestBase
         );
     }
 
-    public function testRenderingWithAriaRole() : void
+    public function testRenderingWithAriaRole(): void
     {
         $name = 'name';
         $icon = $this->icon_factory->custom('', '');
@@ -110,7 +112,7 @@ class CombinedSlateTest extends ILIAS_UI_TestBase
         );
     }
 
-    public function testRenderingWithSubDivider() : void
+    public function testRenderingWithSubDivider(): void
     {
         $name = 'name';
         $icon = $this->icon_factory->custom('', '');
@@ -138,7 +140,7 @@ EOT;
         );
     }
 
-    public function testRenderingWithSubslateAndButton() : void
+    public function testRenderingWithSubslateAndButton(): void
     {
         $name = 'name';
         $icon = $this->icon_factory->custom('', '');

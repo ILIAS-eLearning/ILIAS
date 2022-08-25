@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /* Copyright (c) 2021 - Daniel Weise <daniel.weise@concepts-and-training.de> - Extended GPL, see LICENSE */
 
@@ -20,30 +22,30 @@ class ilAccessRBACTemplateAddedObjective implements Setup\Objective
         $this->op_ids = $op_ids;
     }
 
-    public function getHash() : string
+    public function getHash(): string
     {
         return hash("sha256", self::class);
     }
 
-    public function getLabel() : string
+    public function getLabel(): string
     {
         $op_ids = implode(",", $this->op_ids);
         return "Add rbac template (type=$this->type;id=$this->id;description=$this->description;op_ids=$op_ids)";
     }
 
-    public function isNotable() : bool
+    public function isNotable(): bool
     {
         return true;
     }
 
-    public function getPreconditions(Environment $environment) : array
+    public function getPreconditions(Environment $environment): array
     {
         return [
             new ilDatabaseInitializedObjective()
         ];
     }
 
-    public function achieve(Environment $environment) : Environment
+    public function achieve(Environment $environment): Environment
     {
         $db = $environment->getResource(Environment::RESOURCE_DATABASE);
 
@@ -80,7 +82,7 @@ class ilAccessRBACTemplateAddedObjective implements Setup\Objective
         return $environment;
     }
 
-    public function isApplicable(Environment $environment) : bool
+    public function isApplicable(Environment $environment): bool
     {
         return (bool) count($this->op_ids);
     }

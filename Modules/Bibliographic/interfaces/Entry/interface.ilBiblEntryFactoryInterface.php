@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,39 +17,38 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * Interface ilBiblEntryFactoryInterface
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
 interface ilBiblEntryFactoryInterface
 {
-    
     /**
      * @deprecated REFACTOR This has to be refactored to type_id and not type_string
      */
-    public function findByIdAndTypeString(int $id, string $type_string) : ilBiblEntryInterface;
-    
-    public function findOrCreateEntry(int $id, int $bibliographic_obj_id, string $entry_type) : \ilBiblEntryInterface;
-    
-    public function createEntry(int $bibliographic_obj_id, string $entry_type) : \ilBiblEntryInterface;
-    
-    public function getEmptyInstance() : \ilBiblEntry;
-    
+    public function findByIdAndTypeString(int $id, string $type_string): ilBiblEntryInterface;
+
+    public function findOrCreateEntry(int $id, int $bibliographic_obj_id, string $entry_type): \ilBiblEntryInterface;
+
+    public function createEntry(int $bibliographic_obj_id, string $entry_type): \ilBiblEntryInterface;
+
+    public function getEmptyInstance(): \ilBiblEntry;
+
     /**
      * @param \ilBiblTableQueryInfo|null $info
      * @return \ilBiblEntryInterface[]
      */
-    public function filterEntriesForTable(int $object_id, ilBiblTableQueryInfo $info = null) : array;
-    
-    public function filterEntryIdsForTableAsArray(int $object_id, ?ilBiblTableQueryInfo $info = null) : array;
-    
-    public function deleteEntryById(int $id) : void;
-    
-    public function deleteEntriesById(int $object_id) : void;
-    
+    public function filterEntriesForTable(int $object_id, ilBiblTableQueryInfo $info = null): array;
+
+    public function filterEntryIdsForTableAsArray(int $object_id, ?ilBiblTableQueryInfo $info = null): array;
+
+    public function deleteEntryById(int $id): void;
+
+    public function deleteEntriesById(int $object_id): void;
+
     /**
      * Reads all the entrys attributes from database
      */
-    public function loadParsedAttributesByEntryId(int $entry_id) : array;
+    public function loadParsedAttributesByEntryId(int $entry_id): array;
 }

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -72,16 +74,16 @@ class ilCertificateSettingsStudyProgrammeFormRepository implements ilCertificate
      * @throws ilException
      * @throws ilWACException
      */
-    public function createForm(ilCertificateGUI $certificateGUI) : ilPropertyFormGUI
+    public function createForm(ilCertificateGUI $certificateGUI): ilPropertyFormGUI
     {
         return $this->settingsFormRepository->createForm($certificateGUI);
     }
 
-    public function save(array $formFields) : void
+    public function save(array $formFields): void
     {
     }
 
-    public function fetchFormFieldData(string $content) : array
+    public function fetchFormFieldData(string $content): array
     {
         return $this->settingsFormRepository->fetchFormFieldData($content);
     }

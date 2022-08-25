@@ -80,10 +80,10 @@ class ilSkillAssignMaterialsTableGUI extends ilTable2GUI
         $this->setEnableTitle(true);
 
         //		$this->addMultiCommand("", $lng->txt(""));
-//		$this->addCommandButton("", $lng->txt(""));
+        //		$this->addCommandButton("", $lng->txt(""));
     }
 
-    public function getLevels() : array
+    public function getLevels(): array
     {
         $this->skill = ilSkillTreeNodeFactory::getInstance($this->basic_skill_id);
         $levels = [];
@@ -94,7 +94,7 @@ class ilSkillAssignMaterialsTableGUI extends ilTable2GUI
         return $levels;
     }
 
-    protected function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set): void
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
@@ -122,7 +122,7 @@ class ilSkillAssignMaterialsTableGUI extends ilTable2GUI
             $this->tpl->setVariable("HREF_MAT", $url);
             $this->tpl->parseCurrentBlock();
         }
-        
+
         $this->tpl->setCurrentBlock("cmd");
         $this->tpl->setVariable("HREF_CMD", $ilCtrl->getLinkTarget(
             $this->parent_obj,
@@ -131,7 +131,7 @@ class ilSkillAssignMaterialsTableGUI extends ilTable2GUI
         $this->tpl->setVariable("TXT_CMD", $lng->txt("skmg_assign_materials"));
         $this->tpl->parseCurrentBlock();
         $ilCtrl->setParameter($this->parent_obj, "level_id", "");
-        
+
         $this->tpl->setVariable("LEVEL_ID", $a_set["id"]);
         $this->tpl->setVariable("SKILL_ID", $this->basic_skill_id);
         $this->tpl->setVariable("TXT_SKILL", $a_set["title"]);

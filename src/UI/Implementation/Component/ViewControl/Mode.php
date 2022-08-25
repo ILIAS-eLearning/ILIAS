@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\UI\Implementation\Component\ViewControl;
 
 use ILIAS\UI\Component as C;
@@ -35,24 +37,24 @@ class Mode implements C\ViewControl\Mode
         $this->aria_label = $aria_label;
     }
 
-    public function withActive(string $label) : C\ViewControl\Mode
+    public function withActive(string $label): C\ViewControl\Mode
     {
         $clone = clone $this;
         $clone->active = $label;
         return $clone;
     }
 
-    public function getActive() : ?string
+    public function getActive(): ?string
     {
         return $this->active;
     }
 
-    public function getLabelledActions() : array
+    public function getLabelledActions(): array
     {
         return $this->labeled_actions;
     }
 
-    public function getAriaLabel() : string
+    public function getAriaLabel(): string
     {
         return $this->aria_label;
     }

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Handler\TypeHandler;
 use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Renderer\BaseTypeRenderer;
@@ -27,25 +29,25 @@ abstract class ilMMAbstractBaseTypeHandlerAction implements TypeHandler
 {
     protected array $links = [];
 
-    const F_ACTION = 'action';
-    const F_EXTERNAL = 'external';
+    public const F_ACTION = 'action';
+    public const F_EXTERNAL = 'external';
 
     public function __construct()
     {
         $this->links = ilMMTypeActionStorage::getArray('identification', [self::F_ACTION, self::F_EXTERNAL]);
     }
 
-    abstract public function matchesForType() : string;
+    abstract public function matchesForType(): string;
 
     /**
      * @inheritdoc
      */
-    abstract public function enrichItem(isItem $item) : isItem;
+    abstract public function enrichItem(isItem $item): isItem;
 
     /**
      * @inheritdoc
      */
-    public function saveFormFields(IdentificationInterface $identification, array $data) : bool
+    public function saveFormFields(IdentificationInterface $identification, array $data): bool
     {
         ilMMTypeActionStorage::find($identification->serialize())->setAction((string) $data[self::F_ACTION])->setExternal((bool) $data[self::F_EXTERNAL])->update();
 
@@ -55,7 +57,7 @@ abstract class ilMMAbstractBaseTypeHandlerAction implements TypeHandler
     /**
      * @inheritdoc
      */
-    public function getAdditionalFieldsForSubForm(IdentificationInterface $identification) : array
+    public function getAdditionalFieldsForSubForm(IdentificationInterface $identification): array
     {
         global $DIC;
         /**
@@ -81,7 +83,7 @@ abstract class ilMMAbstractBaseTypeHandlerAction implements TypeHandler
     /**
      * @return string
      */
-    abstract protected function getFieldTranslation() : string;
+    abstract protected function getFieldTranslation(): string;
 
-    abstract protected function getFieldInfoTranslation() : string;
+    abstract protected function getFieldInfoTranslation(): string;
 }

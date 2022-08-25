@@ -1,4 +1,5 @@
 <?php
+
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -12,13 +13,13 @@ class assNumericRangeTest extends assBaseTestCase
 {
     protected $backupGlobals = false;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         chdir(dirname(__FILE__));
         chdir('../../../');
     }
 
-    public function test_instantiateObject_shouldReturnInstance() : void
+    public function test_instantiateObject_shouldReturnInstance(): void
     {
         // Arrange
         require_once './Modules/TestQuestionPool/classes/class.assNumericRange.php';
@@ -29,7 +30,7 @@ class assNumericRangeTest extends assBaseTestCase
         $this->assertInstanceOf('assNumericRange', $instance);
     }
 
-    public function test_setGetLowerLimit_shouldReturnUnchangedLowerLimit() : void
+    public function test_setGetLowerLimit_shouldReturnUnchangedLowerLimit(): void
     {
         // Arrange
         require_once './Modules/TestQuestionPool/classes/class.assNumericRange.php';
@@ -44,7 +45,7 @@ class assNumericRangeTest extends assBaseTestCase
         $this->assertEquals($expected, $actual);
     }
 
-    public function test_setGetUpperLimit_shouldReturnUnchangedUpperLimit() : void
+    public function test_setGetUpperLimit_shouldReturnUnchangedUpperLimit(): void
     {
         // Arrange
         require_once './Modules/TestQuestionPool/classes/class.assNumericRange.php';
@@ -59,7 +60,7 @@ class assNumericRangeTest extends assBaseTestCase
         $this->assertEquals($expected, $actual);
     }
 
-    public function test_setGetOrder_shouldReturnUnchangedOrder() : void
+    public function test_setGetOrder_shouldReturnUnchangedOrder(): void
     {
         // Arrange
         require_once './Modules/TestQuestionPool/classes/class.assNumericRange.php';
@@ -74,7 +75,7 @@ class assNumericRangeTest extends assBaseTestCase
         $this->assertEquals($expected, $actual);
     }
 
-    public function test_setPoints_shouldReturnUnchangedPoints() : void
+    public function test_setPoints_shouldReturnUnchangedPoints(): void
     {
         // Arrange
         require_once './Modules/TestQuestionPool/classes/class.assNumericRange.php';
@@ -89,7 +90,7 @@ class assNumericRangeTest extends assBaseTestCase
         $this->assertEquals($expected, $actual);
     }
 
-    public function test_contains_shouldReturnTrueIfValueIsContained() : void
+    public function test_contains_shouldReturnTrueIfValueIsContained(): void
     {
         // Arrange
         require_once './Modules/TestQuestionPool/classes/class.assNumericRange.php';
@@ -105,7 +106,7 @@ class assNumericRangeTest extends assBaseTestCase
         $this->assertEquals($expected, $actual);
     }
 
-    public function test_contains_shouldReturnFalseIfValueIsNotContained() : void
+    public function test_contains_shouldReturnFalseIfValueIsNotContained(): void
     {
         // Arrange
         require_once './Modules/TestQuestionPool/classes/class.assNumericRange.php';
@@ -121,7 +122,7 @@ class assNumericRangeTest extends assBaseTestCase
         $this->assertEquals($expected, $actual);
     }
 
-    public function test_contains_shouldReturnFalseIfValueIsHokum() : void
+    public function test_contains_shouldReturnFalseIfValueIsHokum(): void
     {
         // Arrange
         require_once './Modules/TestQuestionPool/classes/class.assNumericRange.php';

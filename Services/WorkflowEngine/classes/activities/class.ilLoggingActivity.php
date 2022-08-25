@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -57,7 +59,7 @@ class ilLoggingActivity implements ilActivity, ilWorkflowEngineElement
      * @param string $a_log_file Path, name and extension of the log file.
      * @return void
      */
-    public function setLogFile(string $a_log_file) : void
+    public function setLogFile(string $a_log_file): void
     {
         $extension = substr($a_log_file, strlen($a_log_file) - 4, 4);
         $this->checkExtensionValidity($extension);
@@ -69,7 +71,7 @@ class ilLoggingActivity implements ilActivity, ilWorkflowEngineElement
      * Checks if the file is "really really" writeable.
      * @throws ilWorkflowFilesystemException
      */
-    private function checkFileWriteability(string $a_log_file) : void
+    private function checkFileWriteability(string $a_log_file): void
     {
         if (!is_writable(dirname($a_log_file))) {
             throw new ilWorkflowFilesystemException('Could not write to filesystem - no pointer returned.', 1002);
@@ -87,7 +89,7 @@ class ilLoggingActivity implements ilActivity, ilWorkflowEngineElement
      * (One of .log or .txt)
      * @throws ilWorkflowObjectStateException
      */
-    private function checkExtensionValidity(string $extension) : void
+    private function checkExtensionValidity(string $extension): void
     {
         if ($extension !== '.log' && $extension !== '.txt') {
             throw new ilWorkflowObjectStateException('Illegal extension. Log file must be either .txt or .log.', 1002);
@@ -99,7 +101,7 @@ class ilLoggingActivity implements ilActivity, ilWorkflowEngineElement
      *
      * @return string File name and path of the log file.
      */
-    public function getLogFile() : string
+    public function getLogFile(): string
     {
         return $this->log_file;
     }
@@ -109,7 +111,7 @@ class ilLoggingActivity implements ilActivity, ilWorkflowEngineElement
      * @param string $a_log_message Text of the log message
      * @return void
      */
-    public function setLogMessage(string $a_log_message) : void
+    public function setLogMessage(string $a_log_message): void
     {
         $this->checkForExistingLogMessageContent($a_log_message);
         $this->log_message = $a_log_message;
@@ -119,7 +121,7 @@ class ilLoggingActivity implements ilActivity, ilWorkflowEngineElement
      * Checks if an actual log message is set for the instance.
      * @throws ilWorkflowObjectStateException
      */
-    private function checkForExistingLogMessageContent(?string $a_log_message) : void
+    private function checkForExistingLogMessageContent(?string $a_log_message): void
     {
         if ($a_log_message === null || $a_log_message === '') {
             throw new ilWorkflowObjectStateException('Log message must not be null or empty.', 1002);
@@ -131,7 +133,7 @@ class ilLoggingActivity implements ilActivity, ilWorkflowEngineElement
      *
      * @return string
      */
-    public function getLogMessage() : string
+    public function getLogMessage(): string
     {
         return $this->log_message;
     }
@@ -143,7 +145,7 @@ class ilLoggingActivity implements ilActivity, ilWorkflowEngineElement
      * @throws ilWorkflowObjectStateException on illegal log level.
      * @see $log_level
      */
-    public function setLogLevel(string $a_log_level) : void
+    public function setLogLevel(string $a_log_level): void
     {
         $valid = $this->determineValidityOfLogLevel($a_log_level);
         if ($valid === false) {
@@ -156,7 +158,7 @@ class ilLoggingActivity implements ilActivity, ilWorkflowEngineElement
      * Determines, if the given log level is a valid one.
      * Log levels are similar to Apache log4j levels.
      */
-    private function determineValidityOfLogLevel(string $a_log_level) : bool
+    private function determineValidityOfLogLevel(string $a_log_level): bool
     {
         switch (strtolower($a_log_level)) {
             case 'trace':
@@ -179,7 +181,7 @@ class ilLoggingActivity implements ilActivity, ilWorkflowEngineElement
      *
      * @return string
      */
-    public function getLogLevel() : string
+    public function getLogLevel(): string
     {
         return $this->log_level;
     }
@@ -198,7 +200,7 @@ class ilLoggingActivity implements ilActivity, ilWorkflowEngineElement
      * Executes this action according to its settings.
      * @return void
      */
-    public function execute() : void
+    public function execute(): void
     {
         $file_pointer = $this->acquireFilePointer();
         $this->writeLogMessage($file_pointer);
@@ -212,7 +214,7 @@ class ilLoggingActivity implements ilActivity, ilWorkflowEngineElement
      * @return void
      * @throws ilWorkflowFilesystemException
      */
-    private function closeFilePointer($file_pointer) : void
+    private function closeFilePointer($file_pointer): void
     {
         if (!fclose($file_pointer)) {
             throw new ilWorkflowFilesystemException('Cannot write to filesystem - pointer returned did not close.', 1001);
@@ -225,7 +227,7 @@ class ilLoggingActivity implements ilActivity, ilWorkflowEngineElement
      * @param resource $file_pointer
      * @return void
      */
-    private function writeLogMessage($file_pointer) : void
+    private function writeLogMessage($file_pointer): void
     {
         fwrite($file_pointer, date('Y/m/d H:i:s') . substr(ilWorkflowUtils::microtime(), 1, 6) . ' :: ');
         fwrite($file_pointer, $this->log_level . ' :: ');
@@ -248,12 +250,12 @@ class ilLoggingActivity implements ilActivity, ilWorkflowEngineElement
         return $file_pointer;
     }
 
-    public function setName($name) : void
+    public function setName($name): void
     {
         $this->name = $name;
     }
 
-    public function getName() : string
+    public function getName(): string
     {
         return $this->name;
     }

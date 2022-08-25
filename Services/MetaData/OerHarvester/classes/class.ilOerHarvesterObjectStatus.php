@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
@@ -33,7 +35,7 @@ class ilOerHarvesterObjectStatus
     /**
      * @return int[]
      */
-    public static function lookupHarvested() : array
+    public static function lookupHarvested(): array
     {
         global $DIC;
 
@@ -49,7 +51,7 @@ class ilOerHarvesterObjectStatus
         return $hids;
     }
 
-    public static function lookupObjIdByHarvestingId(int $a_href_id) : int
+    public static function lookupObjIdByHarvestingId(int $a_href_id): int
     {
         global $DIC;
 
@@ -63,42 +65,42 @@ class ilOerHarvesterObjectStatus
         return 0;
     }
 
-    public function setObjId(int $a_obj_id) : void
+    public function setObjId(int $a_obj_id): void
     {
         $this->obj_id = $a_obj_id;
     }
 
-    public function getObjId() : int
+    public function getObjId(): int
     {
         return $this->obj_id;
     }
 
-    public function setHarvestRefId(int $a_ref_id) : void
+    public function setHarvestRefId(int $a_ref_id): void
     {
         $this->harvest_ref_id = $a_ref_id;
     }
 
-    public function getHarvestRefId() : int
+    public function getHarvestRefId(): int
     {
         return $this->harvest_ref_id;
     }
 
-    public function setBlocked(bool $a_stat) : void
+    public function setBlocked(bool $a_stat): void
     {
         $this->blocked = $a_stat;
     }
 
-    public function isBlocked() : bool
+    public function isBlocked(): bool
     {
         return $this->blocked;
     }
 
-    public function isCreated() : bool
+    public function isCreated(): bool
     {
         return (bool) $this->harvest_ref_id;
     }
 
-    public function save() : bool
+    public function save(): bool
     {
         $this->delete();
         $query = 'INSERT INTO il_meta_oer_stat ' .
@@ -112,7 +114,7 @@ class ilOerHarvesterObjectStatus
         return true;
     }
 
-    public function delete() : bool
+    public function delete(): bool
     {
         $query = 'DELETE FROM il_meta_oer_stat ' .
             'WHERE obj_id = ' . $this->db->quote($this->getObjId(), 'integer');
@@ -120,7 +122,7 @@ class ilOerHarvesterObjectStatus
         return true;
     }
 
-    public function read() : void
+    public function read(): void
     {
         $query = 'SELECT * FROM il_meta_oer_stat ' .
             'WHERE obj_id = ' . $this->db->quote($this->getObjId(), 'integer');

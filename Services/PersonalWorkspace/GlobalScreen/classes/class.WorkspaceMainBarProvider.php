@@ -28,11 +28,10 @@ use ILIAS\MainMenu\Provider\StandardTopItemsProvider;
  */
 class WorkspaceMainBarProvider extends AbstractStaticMainMenuProvider
 {
-
     /**
      * @inheritDoc
      */
-    public function getStaticTopItems() : array
+    public function getStaticTopItems(): array
     {
         return [];
     }
@@ -41,7 +40,7 @@ class WorkspaceMainBarProvider extends AbstractStaticMainMenuProvider
     /**
      * @inheritDoc
      */
-    public function getStaticSubItems() : array
+    public function getStaticSubItems(): array
     {
         $dic = $this->dic;
 

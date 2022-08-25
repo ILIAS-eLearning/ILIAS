@@ -36,7 +36,6 @@ use Psr\Http\Message\StreamInterface;
  */
 interface FileStreamWriteAccess
 {
-
     /**
      * Writes the stream to a new file.
      * The directory path to the file will be created.
@@ -53,7 +52,7 @@ interface FileStreamWriteAccess
      *
      * @see     FileStream::detach()
      */
-    public function writeStream(string $path, FileStream $stream) : void;
+    public function writeStream(string $path, FileStream $stream): void;
 
 
     /**
@@ -72,7 +71,7 @@ interface FileStreamWriteAccess
      *
      * @see     FileStream::detach()
      */
-    public function putStream(string $path, FileStream $stream) : void;
+    public function putStream(string $path, FileStream $stream): void;
 
 
     /**
@@ -91,5 +90,5 @@ interface FileStreamWriteAccess
      *
      * @see     FileStream::detach()
      */
-    public function updateStream(string $path, FileStream $stream) : void;
+    public function updateStream(string $path, FileStream $stream): void;
 }

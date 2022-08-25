@@ -56,7 +56,7 @@ class ilOrgUnitRecursiveUserAssignmentTableGUI extends ilTable2GUI
         $this->setData($this->loadData());
     }
 
-    protected function setTableHeaders() : void
+    protected function setTableHeaders(): void
     {
         $this->addColumn($this->lng->txt("login"), "login");
         $this->addColumn($this->lng->txt("firstname"), "first_name");
@@ -66,7 +66,7 @@ class ilOrgUnitRecursiveUserAssignmentTableGUI extends ilTable2GUI
     }
 
 
-    public function loadData() : array
+    public function loadData(): array
     {
         global $DIC;
         $access = $DIC['ilAccess'];
@@ -75,7 +75,7 @@ class ilOrgUnitRecursiveUserAssignmentTableGUI extends ilTable2GUI
         // maybe any parent gives us recursive permission
         (int) $root = (int) ilObjOrgUnit::getRootOrgRefId();
         $parent = (int) $orgu_tree->getParent($this->orgu_ref_id);
-        
+
         while ($parent !== $root) {
             if (ilObjOrgUnitAccess::_checkAccessStaffRec($parent)) {
                 array_merge(
@@ -122,7 +122,7 @@ class ilOrgUnitRecursiveUserAssignmentTableGUI extends ilTable2GUI
         return $data;
     }
 
-    private function mayViewLPIn(int $ref_id, ilAccess $access, ilObjOrgUnitTree $orgu_tree) : bool
+    private function mayViewLPIn(int $ref_id, ilAccess $access, ilObjOrgUnitTree $orgu_tree): bool
     {
         if ($access->checkAccess("view_learning_progress", "", $ref_id)) { // admission by local
             return true;
@@ -150,7 +150,7 @@ class ilOrgUnitRecursiveUserAssignmentTableGUI extends ilTable2GUI
         return false;
     }
 
-    public function fillRow(array $a_set) : void
+    public function fillRow(array $a_set): void
     {
         global $DIC;
 
@@ -191,7 +191,7 @@ class ilOrgUnitRecursiveUserAssignmentTableGUI extends ilTable2GUI
         $this->tpl->setVariable("ACTIONS", $selection->getHTML());
     }
 
-    protected function addActions(ilAdvancedSelectionListGUI $selection) : void
+    protected function addActions(ilAdvancedSelectionListGUI $selection): void
     {
         $selection->addItem($this->lng->txt("remove"), "delete_from_employees", $this->ctrl->getLinkTargetByClass(ilOrgUnitUserAssignmentGUI::class, ilOrgUnitUserAssignmentGUI::CMD_CONFIRM_RECURSIVE));
     }

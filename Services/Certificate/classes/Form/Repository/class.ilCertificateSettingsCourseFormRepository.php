@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -112,7 +114,7 @@ class ilCertificateSettingsCourseFormRepository implements ilCertificateFormRepo
      * @throws ilException
      * @throws ilWACException
      */
-    public function createForm(ilCertificateGUI $certificateGUI) : ilPropertyFormGUI
+    public function createForm(ilCertificateGUI $certificateGUI): ilPropertyFormGUI
     {
         $form = $this->settingsFormFactory->createForm($certificateGUI);
 
@@ -161,7 +163,7 @@ class ilCertificateSettingsCourseFormRepository implements ilCertificateFormRepo
      * @param array $formFields
      * @throws ilException
      */
-    public function save(array $formFields) : void
+    public function save(array $formFields): void
     {
         $invalidModes = $this->getInvalidLPModes();
 
@@ -191,7 +193,7 @@ class ilCertificateSettingsCourseFormRepository implements ilCertificateFormRepo
         );
     }
 
-    public function fetchFormFieldData(string $content) : array
+    public function fetchFormFieldData(string $content): array
     {
         $formFields = $this->settingsFormFactory->fetchFormFieldData($content);
 
@@ -209,7 +211,7 @@ class ilCertificateSettingsCourseFormRepository implements ilCertificateFormRepo
      * @param int $a_parent_ref_id
      * @return string[]
      */
-    private function getLPTypes(int $a_parent_ref_id) : array
+    private function getLPTypes(int $a_parent_ref_id): array
     {
         $result = [];
 
@@ -235,7 +237,7 @@ class ilCertificateSettingsCourseFormRepository implements ilCertificateFormRepo
     /**
      * @return int[]
      */
-    private function getInvalidLPModes() : array
+    private function getInvalidLPModes(): array
     {
         $invalid_modes = [
             ilLPObjSettings::LP_MODE_DEACTIVATED,

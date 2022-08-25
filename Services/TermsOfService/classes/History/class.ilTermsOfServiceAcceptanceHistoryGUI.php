@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -69,7 +71,7 @@ class ilTermsOfServiceAcceptanceHistoryGUI implements ilTermsOfServiceController
         $this->tableDataProviderFactory = $tableDataProviderFactory;
     }
 
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         $nextClass = $this->ctrl->getNextClass($this);
         $cmd = $this->ctrl->getCmd();
@@ -91,7 +93,7 @@ class ilTermsOfServiceAcceptanceHistoryGUI implements ilTermsOfServiceController
         }
     }
 
-    protected function getAcceptanceHistoryTable() : ilTermsOfServiceAcceptanceHistoryTableGUI
+    protected function getAcceptanceHistoryTable(): ilTermsOfServiceAcceptanceHistoryTableGUI
     {
         $table = new ilTermsOfServiceAcceptanceHistoryTableGUI(
             $this,
@@ -106,7 +108,7 @@ class ilTermsOfServiceAcceptanceHistoryGUI implements ilTermsOfServiceController
         return $table;
     }
 
-    protected function showAcceptanceHistory() : void
+    protected function showAcceptanceHistory(): void
     {
         $table = $this->getAcceptanceHistoryTable();
 
@@ -115,7 +117,7 @@ class ilTermsOfServiceAcceptanceHistoryGUI implements ilTermsOfServiceController
         $this->tpl->setContent($table->getHTML());
     }
 
-    protected function applyAcceptanceHistoryFilter() : void
+    protected function applyAcceptanceHistoryFilter(): void
     {
         $table = $this->getAcceptanceHistoryTable();
         $table->resetOffset();
@@ -124,7 +126,7 @@ class ilTermsOfServiceAcceptanceHistoryGUI implements ilTermsOfServiceController
         $this->showAcceptanceHistory();
     }
 
-    protected function resetAcceptanceHistoryFilter() : void
+    protected function resetAcceptanceHistoryFilter(): void
     {
         $table = $this->getAcceptanceHistoryTable();
         $table->resetOffset();
@@ -133,7 +135,7 @@ class ilTermsOfServiceAcceptanceHistoryGUI implements ilTermsOfServiceController
         $this->showAcceptanceHistory();
     }
 
-    protected function addUserAutoComplete() : void
+    protected function addUserAutoComplete(): void
     {
         $auto = new ilUserAutoComplete();
         $auto->setSearchFields(['login', 'firstname', 'lastname', 'email']);

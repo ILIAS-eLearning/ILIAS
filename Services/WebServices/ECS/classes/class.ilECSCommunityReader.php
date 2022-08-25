@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /******************************************************************************
  *
@@ -49,7 +51,7 @@ class ilECSCommunityReader
         $this->settings = $setting;
 
         $this->connector = new ilECSConnector($this->settings);
-        
+
         $this->read();
         $this->logger->debug(__METHOD__ . ': Finished reading communities');
     }
@@ -57,7 +59,7 @@ class ilECSCommunityReader
     /**
      * Get instance by server id
      */
-    public static function getInstanceByServerId(int $a_server_id) : \ilECSCommunityReader
+    public static function getInstanceByServerId(int $a_server_id): \ilECSCommunityReader
     {
         return self::$instances[$a_server_id] ?? (self::$instances[$a_server_id] = new ilECSCommunityReader(ilECSSetting::getInstanceByServerId($a_server_id)));
     }
@@ -65,16 +67,16 @@ class ilECSCommunityReader
     /**
      * Get server setting
      */
-    public function getServer() : \ilECSSetting
+    public function getServer(): \ilECSSetting
     {
         return $this->settings;
     }
-    
+
     /**
      * Get participants
      * @return ilECSParticipant[]
      */
-    public function getParticipants() : array
+    public function getParticipants(): array
     {
         return $this->participants;
     }
@@ -83,29 +85,29 @@ class ilECSCommunityReader
     /**
      * get publishable ids
      */
-    public function getOwnMIDs() : array
+    public function getOwnMIDs(): array
     {
         return $this->own_ids ?: [];
     }
-    
+
     /**
      * get communities
      *
      * @access public
      * @return \ilECSCommunity[]
      */
-    public function getCommunities() : array
+    public function getCommunities(): array
     {
         return $this->communities ?: [];
     }
-    
+
     /**
      * get community by id
      *
      * @access public
      * @param int comm_id
      */
-    public function getCommunityById($a_id) : ?ilECSCommunity
+    public function getCommunityById($a_id): ?ilECSCommunity
     {
         foreach ($this->communities as $community) {
             if ($community->getId() === $a_id) {
@@ -118,7 +120,7 @@ class ilECSCommunityReader
     /**
      * @return \ilECSParticipant[]
      */
-    public function getParticipantsByPid(int $a_pid) : array
+    public function getParticipantsByPid(int $a_pid): array
     {
         $participants = [];
         foreach ($this->getCommunities() as $community) {
@@ -130,7 +132,7 @@ class ilECSCommunityReader
         }
         return $participants;
     }
-    
+
     /**
      * get participant by id
      *
@@ -142,17 +144,17 @@ class ilECSCommunityReader
         return $this->participants[$a_mid] ?? false;
     }
 
-    public function getParticipantNameByMid($a_mid) : string
+    public function getParticipantNameByMid($a_mid): string
     {
         return isset($this->participants[$a_mid]) ?
-            $this->participants[$a_mid]-> getParticipantName():
+            $this->participants[$a_mid]-> getParticipantName() :
             '';
     }
 
     /**
      * Get community by mid
      */
-    public function getCommunityByMID(int $a_mid) : ?\ilECSCommunity
+    public function getCommunityByMID(int $a_mid): ?\ilECSCommunity
     {
         foreach ($this->communities as $community) {
             foreach ($community->getParticipants() as $part) {
@@ -163,11 +165,11 @@ class ilECSCommunityReader
         }
         return null;
     }
-    
+
     /**
      * get enabled participants
      */
-    public function getEnabledParticipants() : array
+    public function getEnabledParticipants(): array
     {
         $ps = ilECSParticipantSettings::getInstanceByServerId($this->getServer()->getServerId());
         $en = $ps->getEnabledParticipants();
@@ -187,7 +189,7 @@ class ilECSCommunityReader
      *
      * @throws ilECSConnectorException
      */
-    private function read() : void
+    private function read(): void
     {
         try {
             $res = $this->connector->getMemberships();

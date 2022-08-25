@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\UI\Component\Button;
 
 use ILIAS\UI\Component\Component;
@@ -31,7 +33,7 @@ interface Engageable extends Component
      * a state (withEngagedState), since not all Buttons are used as toggles
      * and thus should not bear an aria-pressed attribute.
      */
-    public function isEngageable() : bool;
+    public function isEngageable(): bool;
 
     /**
      * Get a copy of the Engageable Button with engaged state for $state=true
@@ -44,5 +46,5 @@ interface Engageable extends Component
     /**
      * Returns whether the button is currently engaged or not.
      */
-    public function isEngaged() : bool;
+    public function isEngaged(): bool;
 }

@@ -49,7 +49,7 @@ class ilOrgUnitTypeTableGUI extends ilTable2GUI
     /**
      * Pass data to row template
      */
-    public function fillRow(array $a_set) : void
+    public function fillRow(array $a_set): void
     {
         $this->tpl->setVariable('TITLE', $a_set['title']);
         $this->tpl->setVariable('DESCRIPTION', $a_set['description']);
@@ -59,10 +59,16 @@ class ilOrgUnitTypeTableGUI extends ilTable2GUI
         $selection = new ilAdvancedSelectionListGUI();
         $selection->setListTitle($this->lng->txt('Actions'));
         $selection->setId('action_orgu_type' . $a_set['id']);
-        $selection->addItem($this->lng->txt('edit'), 'edit',
-            $this->ctrl->getLinkTargetByClass('ilorgunittypegui', 'edit'));
-        $selection->addItem($this->lng->txt('delete'), 'delete',
-            $this->ctrl->getLinkTargetByClass('ilorgunittypegui', 'delete'));
+        $selection->addItem(
+            $this->lng->txt('edit'),
+            'edit',
+            $this->ctrl->getLinkTargetByClass('ilorgunittypegui', 'edit')
+        );
+        $selection->addItem(
+            $this->lng->txt('delete'),
+            'delete',
+            $this->ctrl->getLinkTargetByClass('ilorgunittypegui', 'delete')
+        );
         $this->tpl->setVariable('ACTIONS', $selection->getHTML());
     }
 

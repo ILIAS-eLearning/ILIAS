@@ -27,25 +27,25 @@ class ilContainerImporter extends ilXmlImporter
     protected ilLogger $cont_log;
     protected \ILIAS\Skill\Service\SkillProfileService $skill_profile_service;
 
-    public function init() : void
+    public function init(): void
     {
         global $DIC;
 
         $this->cont_log = ilLoggerFactory::getLogger('cont');
         $this->skill_profile_service = $DIC->skills()->profile();
     }
-    
+
     /**
      * Import XML
      *
      * @inheritdoc
      */
-    public function importXmlRepresentation(string $a_entity, string $a_id, string $a_xml, ilImportMapping $a_mapping) : void
+    public function importXmlRepresentation(string $a_entity, string $a_id, string $a_xml, ilImportMapping $a_mapping): void
     {
         $this->structure_xml = $a_xml;
         $this->cont_log->debug('Import xml: ' . $a_xml);
         $this->cont_log->debug('Using id: ' . $a_id);
-        
+
         $parser = new ilContainerXmlParser($a_mapping, trim($a_xml));
         $parser->parse($a_id);
     }
@@ -53,7 +53,7 @@ class ilContainerImporter extends ilXmlImporter
     /**
      * @inheritdoc
      */
-    public function finalProcessing(ilImportMapping $a_mapping) : void
+    public function finalProcessing(ilImportMapping $a_mapping): void
     {
         $this->handleOfflineStatus($this->structure_xml, $a_mapping);
         // pages
@@ -71,7 +71,7 @@ class ilContainerImporter extends ilXmlImporter
                 $this->cont_log->debug('write parent id, type: ' . $pg_type . ", page id: " . $new_pg_id . ", parent id: " . $new_obj_id);
             }
         }
-        
+
         // style
         $sty_map = $a_mapping->getMappingsOfEntity('Services/Style', 'sty');
         foreach ($sty_map as $old_sty_id => $new_sty_id) {
@@ -98,7 +98,7 @@ class ilContainerImporter extends ilXmlImporter
         }
     }
 
-    protected function handleOfflineStatus(string $xml, ilImportMapping $mapping) : void
+    protected function handleOfflineStatus(string $xml, ilImportMapping $mapping): void
     {
         $use_internal_errors = libxml_use_internal_errors(true);
         $root = simplexml_load_string($xml);
@@ -143,7 +143,7 @@ class ilContainerImporter extends ilXmlImporter
         }
     }
 
-    protected function isRootNode(int $ref_id, ilImportMapping $mapping) : bool
+    protected function isRootNode(int $ref_id, ilImportMapping $mapping): bool
     {
         global $DIC;
 

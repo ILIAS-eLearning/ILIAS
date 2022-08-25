@@ -1,4 +1,5 @@
 <?php
+
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 
@@ -20,11 +21,11 @@ class ilListOfQuestionsTableGUI extends ilTable2GUI
 
     protected ?bool $showObligationsEnabled = false;
     protected ?bool $obligationsFilterEnabled = false;
-    
+
     protected ?bool $obligationsNotAnswered = false;
-    
+
     protected ?bool $finishTestButtonEnabled = false;
-    
+
     public function __construct($a_parent_obj, $a_parent_cmd)
     {
         parent::__construct($a_parent_obj, $a_parent_cmd);
@@ -40,7 +41,7 @@ class ilListOfQuestionsTableGUI extends ilTable2GUI
         $this->setStyle('table', 'fullwidth');
 
         $this->setRowTemplate("tpl.il_as_tst_list_of_questions_row.html", "Modules/Test");
-        
+
         $this->setLimit(999);
 
         $this->setFormAction($this->ctrl->getFormAction($a_parent_obj, $a_parent_cmd));
@@ -49,45 +50,45 @@ class ilListOfQuestionsTableGUI extends ilTable2GUI
         $this->disable('sort');
         $this->disable('select_all');
     }
-    
-    public function init() : void
+
+    public function init(): void
     {
         // table title
-        
+
         if ($this->isObligationsFilterEnabled()) {
             $this->setTitle($this->lng->txt('obligations_summary'));
         } else {
             $this->setTitle($this->lng->txt('question_summary'));
         }
-        
+
         // columns
 
         $this->addColumn($this->lng->txt("tst_qst_order"), 'order', '');
         $this->addColumn($this->lng->txt("tst_question_title"), 'title', '');
-        
+
         if ($this->isShowObligationsEnabled()) {
             $this->addColumn($this->lng->txt("obligatory"), 'obligatory', '');
         }
-        
+
         $this->addColumn('', 'postponed', '');
-        
+
         if ($this->isShowPointsEnabled()) {
             $this->addColumn($this->lng->txt("tst_maximum_points"), 'points', '');
         }
-        
+
         #$this->addColumn($this->lng->txt("worked_through"),'worked_through', '');
         $this->addColumn($this->lng->txt("answered"), 'answered', '');
-        
+
         if (false && $this->isShowObligationsEnabled()) {
             $this->addColumn($this->lng->txt("answered"), 'answered', '');
         }
-        
+
         if ($this->isShowMarkerEnabled()) {
             $this->addColumn($this->lng->txt("tst_question_marker"), 'marked', '');
         }
-        
+
         // command buttons
-        
+
         $this->addCommandButton(
             ilTestPlayerCommands::SHOW_QUESTION,
             $this->lng->txt('tst_resume_test')
@@ -101,7 +102,7 @@ class ilListOfQuestionsTableGUI extends ilTable2GUI
         }
     }
 
-    public function fillRow(array $a_set) : void
+    public function fillRow(array $a_set): void
     {
         if ($this->isShowPointsEnabled()) {
             $this->tpl->setCurrentBlock('points');
@@ -151,11 +152,11 @@ class ilListOfQuestionsTableGUI extends ilTable2GUI
             }
             $this->tpl->setVariable("QUESTION_OBLIGATORY", $OBLIGATORY);
         }
-        
+
         $postponed = (
             $a_set['postponed'] ? $this->lng->txt('postponed') : ''
         );
-        
+
         if ($a_set['disabled']) {
             $this->tpl->setCurrentBlock('static_title');
             $this->tpl->setVariable("STATIC_TITLE", ilLegacyFormElementsUtil::prepareFormOutput($a_set['title']));
@@ -164,13 +165,13 @@ class ilListOfQuestionsTableGUI extends ilTable2GUI
             $this->ctrl->setParameter($this->parent_obj, 'sequence', $a_set['sequence']);
             $this->ctrl->setParameter($this->parent_obj, 'pmode', '');
             $href = $this->ctrl->getLinkTarget($this->parent_obj, ilTestPlayerCommands::SHOW_QUESTION);
-            
+
             $this->tpl->setCurrentBlock('linked_title');
             $this->tpl->setVariable("LINKED_TITLE", ilLegacyFormElementsUtil::prepareFormOutput($a_set['title']));
             $this->tpl->setVariable("HREF", $href);
             $this->tpl->parseCurrentBlock();
         }
-        
+
         $this->tpl->setVariable("ORDER", $a_set['order']);
         $this->tpl->setVariable("POSTPONED", $postponed);
         if ($a_set["worked_through"]) {
@@ -180,62 +181,62 @@ class ilListOfQuestionsTableGUI extends ilTable2GUI
         }
     }
 
-    public function isShowPointsEnabled() : bool
+    public function isShowPointsEnabled(): bool
     {
         return $this->showPointsEnabled;
     }
 
-    public function setShowPointsEnabled($showPointsEnabled) : void
+    public function setShowPointsEnabled($showPointsEnabled): void
     {
         $this->showPointsEnabled = $showPointsEnabled;
     }
 
-    public function isShowMarkerEnabled() : bool
+    public function isShowMarkerEnabled(): bool
     {
         return $this->showMarkerEnabled;
     }
 
-    public function setShowMarkerEnabled($showMarkerEnabled) : void
+    public function setShowMarkerEnabled($showMarkerEnabled): void
     {
         $this->showMarkerEnabled = $showMarkerEnabled;
     }
 
-    public function isShowObligationsEnabled() : bool
+    public function isShowObligationsEnabled(): bool
     {
         return $this->showObligationsEnabled;
     }
 
-    public function setShowObligationsEnabled($showObligationsEnabled) : void
+    public function setShowObligationsEnabled($showObligationsEnabled): void
     {
         $this->showObligationsEnabled = $showObligationsEnabled;
     }
 
-    public function isObligationsFilterEnabled() : bool
+    public function isObligationsFilterEnabled(): bool
     {
         return $this->obligationsFilterEnabled;
     }
 
-    public function setObligationsFilterEnabled($obligationsFilterEnabled) : void
+    public function setObligationsFilterEnabled($obligationsFilterEnabled): void
     {
         $this->obligationsFilterEnabled = $obligationsFilterEnabled;
     }
 
-    public function areObligationsNotAnswered() : bool
+    public function areObligationsNotAnswered(): bool
     {
         return $this->obligationsNotAnswered;
     }
 
-    public function setObligationsNotAnswered($obligationsNotAnswered) : void
+    public function setObligationsNotAnswered($obligationsNotAnswered): void
     {
         $this->obligationsNotAnswered = $obligationsNotAnswered;
     }
 
-    public function isFinishTestButtonEnabled() : bool
+    public function isFinishTestButtonEnabled(): bool
     {
         return $this->finishTestButtonEnabled;
     }
 
-    public function setFinishTestButtonEnabled(bool $finishTestButtonEnabled) : void
+    public function setFinishTestButtonEnabled(bool $finishTestButtonEnabled): void
     {
         $this->finishTestButtonEnabled = $finishTestButtonEnabled;
     }

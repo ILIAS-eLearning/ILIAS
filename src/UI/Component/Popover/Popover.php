@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\UI\Component\Popover;
 
 use ILIAS\UI\Component\Component;
@@ -35,29 +37,29 @@ interface Popover extends Component, Triggerable
     /**
      * Get the same popover displaying a title above the content.
      */
-    public function withTitle(string $title) : Popover;
+    public function withTitle(string $title): Popover;
 
     /**
      * Get the title of the popover.
      */
-    public function getTitle() : string;
+    public function getTitle(): string;
 
     /**
      * Get the same popover being rendered below or above the trigger, based on the available
      * space.
      */
-    public function withVerticalPosition() : Popover;
+    public function withVerticalPosition(): Popover;
 
     /**
      * Get the same popover being rendered to the left or right of the trigger, based on the
      * available space.
      */
-    public function withHorizontalPosition() : Popover;
+    public function withHorizontalPosition(): Popover;
 
     /**
      * Get the position of the popover.
      */
-    public function getPosition() : string;
+    public function getPosition(): string;
 
     /**
      * Get a popover like this who's content is rendered via ajax by the given $url before the
@@ -67,31 +69,31 @@ interface Popover extends Component, Triggerable
      * user, an ajax request is sent to this url. The request MUST return the rendered content for
      * the popover.
      */
-    public function withAsyncContentUrl(string $url) : Popover;
+    public function withAsyncContentUrl(string $url): Popover;
 
     /**
      * Get the url returning the rendered content, if the popovers content is rendered via ajax.
      */
-    public function getAsyncContentUrl() : string;
+    public function getAsyncContentUrl(): string;
 
     /**
      * Get the signal to show this popover in the frontend.
      */
-    public function getShowSignal() : Signal;
+    public function getShowSignal(): Signal;
 
     /**
      * Get the signal to replace the content of this popover.
      */
-    public function getReplaceContentSignal() : ReplaceContentSignal;
+    public function getReplaceContentSignal(): ReplaceContentSignal;
 
     /**
      * Get a popover which can be used in fixed places such as the main menu.
      * This popover will stay fixed when scrolling and therefore remain on the screen.
      */
-    public function withFixedPosition() : Popover;
+    public function withFixedPosition(): Popover;
 
     /**
      * @return bool whether it's fixed or not
      */
-    public function isFixedPosition() : bool;
+    public function isFixedPosition(): bool;
 }

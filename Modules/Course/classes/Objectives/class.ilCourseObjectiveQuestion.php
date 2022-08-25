@@ -1,4 +1,6 @@
-<?php declare(strict_types=0);
+<?php
+
+declare(strict_types=0);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -14,7 +16,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * class ilcourseobjectiveQuestion
  * @author Stefan Meyer <meyer@leifos.com>
@@ -54,7 +56,7 @@ class ilCourseObjectiveQuestion
     /**
      * @return int[]
      */
-    public static function lookupObjectivesOfQuestion(int $a_qid) : array
+    public static function lookupObjectivesOfQuestion(int $a_qid): array
     {
         global $DIC;
 
@@ -69,7 +71,7 @@ class ilCourseObjectiveQuestion
         return $objectiveIds;
     }
 
-    public static function _isTestAssignedToObjective(int $a_test_id, int $a_objective_id) : bool
+    public static function _isTestAssignedToObjective(int $a_test_id, int $a_objective_id): bool
     {
         global $DIC;
 
@@ -82,7 +84,7 @@ class ilCourseObjectiveQuestion
         return (bool) $res->numRows();
     }
 
-    public function cloneDependencies(int $a_new_objective, int $a_copy_id) : void
+    public function cloneDependencies(int $a_new_objective, int $a_copy_id): void
     {
         $cwo = ilCopyWizardOptions::_getInstance($a_copy_id);
         $mappings = $cwo->getMappings();
@@ -136,7 +138,7 @@ class ilCourseObjectiveQuestion
         }
     }
 
-    public static function _getAssignableTests(int $a_container_ref_id) : array
+    public static function _getAssignableTests(int $a_container_ref_id): array
     {
         global $DIC;
 
@@ -145,27 +147,27 @@ class ilCourseObjectiveQuestion
     }
 
     // ########################################################  Methods for test table
-    public function setTestStatus(int $a_status) : void
+    public function setTestStatus(int $a_status): void
     {
         $this->tst_status = $a_status;
     }
 
-    public function getTestStatus() : int
+    public function getTestStatus(): int
     {
         return $this->tst_status;
     }
 
-    public function setTestSuggestedLimit(int $a_limit) : void
+    public function setTestSuggestedLimit(int $a_limit): void
     {
         $this->tst_limit = $a_limit;
     }
 
-    public function getTestSuggestedLimit() : int
+    public function getTestSuggestedLimit(): int
     {
         return $this->tst_limit;
     }
 
-    public function __addTest() : void
+    public function __addTest(): void
     {
         $query = "UPDATE crs_objective_tst " .
             "SET tst_status = " . $this->db->quote($this->getTestStatus(), 'integer') . " " .
@@ -208,7 +210,7 @@ class ilCourseObjectiveQuestion
         $res = $this->db->manipulate($query);
     }
 
-    public function __deleteTest(int $a_test_ref_id) : void
+    public function __deleteTest(int $a_test_ref_id): void
     {
         // Delete questions
         $query = "DELETE FROM crs_objective_qst " .
@@ -224,7 +226,7 @@ class ilCourseObjectiveQuestion
         unset($this->tests[$a_test_ref_id]);
     }
 
-    public static function _updateTestLimits(int $a_objective_id, int $a_status, int $a_limit) : void
+    public static function _updateTestLimits(int $a_objective_id, int $a_status, int $a_limit): void
     {
         global $DIC;
 
@@ -237,7 +239,7 @@ class ilCourseObjectiveQuestion
         $res = $ilDB->manipulate($query);
     }
 
-    public function updateTest(int $a_objective_id) : void
+    public function updateTest(int $a_objective_id): void
     {
         $query = "UPDATE crs_objective_tst " .
             "SET tst_status = " . $this->db->quote($this->getTestStatus(), 'integer') . ", " .
@@ -246,7 +248,7 @@ class ilCourseObjectiveQuestion
         $res = $this->db->manipulate($query);
     }
 
-    public function getTests() : array
+    public function getTests(): array
     {
         $query = "SELECT * FROM crs_objective_tst cot " .
             "JOIN object_data obd ON cot.obj_id = obd.obj_id " .
@@ -269,7 +271,7 @@ class ilCourseObjectiveQuestion
         return $tests;
     }
 
-    public function getSelfAssessmentTests() : array
+    public function getSelfAssessmentTests(): array
     {
         $self = [];
         foreach ($this->tests as $test) {
@@ -280,7 +282,7 @@ class ilCourseObjectiveQuestion
         return $self;
     }
 
-    public function getFinalTests() : array
+    public function getFinalTests(): array
     {
         $final = [];
         foreach ($this->tests as $test) {
@@ -291,7 +293,7 @@ class ilCourseObjectiveQuestion
         return $final;
     }
 
-    public static function _getTest(int $a_test_objective_id) : array
+    public static function _getTest(int $a_test_objective_id): array
     {
         global $DIC;
 
@@ -313,12 +315,12 @@ class ilCourseObjectiveQuestion
         return $test;
     }
 
-    public function getQuestions() : array
+    public function getQuestions(): array
     {
         return $this->questions;
     }
 
-    public function getSelfAssessmentQuestions() : array
+    public function getSelfAssessmentQuestions(): array
     {
         $self = [];
         foreach ($this->questions as $question) {
@@ -329,7 +331,7 @@ class ilCourseObjectiveQuestion
         return $self;
     }
 
-    public function getSelfAssessmentPoints() : int
+    public function getSelfAssessmentPoints(): int
     {
         $points = 0;
         foreach ($this->getSelfAssessmentQuestions() as $question) {
@@ -338,7 +340,7 @@ class ilCourseObjectiveQuestion
         return $points;
     }
 
-    public function getFinalTestPoints() : int
+    public function getFinalTestPoints(): int
     {
         $points = 0;
         foreach ($this->getFinalTestQuestions() as $question) {
@@ -347,7 +349,7 @@ class ilCourseObjectiveQuestion
         return $points;
     }
 
-    public function isSelfAssessmentQuestion(int $a_question_id) : bool
+    public function isSelfAssessmentQuestion(int $a_question_id): bool
     {
         foreach ($this->questions as $question) {
             if ($question['question_id'] == $a_question_id) {
@@ -357,7 +359,7 @@ class ilCourseObjectiveQuestion
         return false;
     }
 
-    public function isFinalTestQuestion(int $a_question_id) : bool
+    public function isFinalTestQuestion(int $a_question_id): bool
     {
         foreach ($this->questions as $question) {
             if ($question['question_id'] == $a_question_id) {
@@ -367,7 +369,7 @@ class ilCourseObjectiveQuestion
         return false;
     }
 
-    public function getFinalTestQuestions() : array
+    public function getFinalTestQuestions(): array
     {
         $final = [];
         foreach ($this->questions as $question) {
@@ -378,7 +380,7 @@ class ilCourseObjectiveQuestion
         return $final;
     }
 
-    public function getQuestionsOfTest(int $a_test_id) : array
+    public function getQuestionsOfTest(int $a_test_id): array
     {
         $questions = [];
         foreach ($this->getQuestions() as $qst) {
@@ -389,7 +391,7 @@ class ilCourseObjectiveQuestion
         return $questions;
     }
 
-    public function getQuestion(int $question_id) : array
+    public function getQuestion(int $question_id): array
     {
         if ($this->questions[$question_id]) {
             return $this->questions[$question_id];
@@ -398,42 +400,42 @@ class ilCourseObjectiveQuestion
         }
     }
 
-    public function getObjectiveId() : int
+    public function getObjectiveId(): int
     {
         return $this->objective_id;
     }
 
-    public function setTestRefId(int $a_ref_id) : void
+    public function setTestRefId(int $a_ref_id): void
     {
         $this->tst_ref_id = $a_ref_id;
     }
 
-    public function getTestRefId() : int
+    public function getTestRefId(): int
     {
         return $this->tst_ref_id;
     }
 
-    public function setTestObjId(int $a_obj_id) : void
+    public function setTestObjId(int $a_obj_id): void
     {
         $this->tst_obj_id = $a_obj_id;
     }
 
-    public function getTestObjId() : int
+    public function getTestObjId(): int
     {
         return $this->tst_obj_id;
     }
 
-    public function setQuestionId(int $a_question_id) : void
+    public function setQuestionId(int $a_question_id): void
     {
         $this->question_id = $a_question_id;
     }
 
-    public function getQuestionId() : int
+    public function getQuestionId(): int
     {
         return $this->question_id;
     }
 
-    public function getMaxPointsByObjective() : int
+    public function getMaxPointsByObjective(): int
     {
         $points = 0;
         foreach ($this->getQuestions() as $question) {
@@ -444,7 +446,7 @@ class ilCourseObjectiveQuestion
         return $points;
     }
 
-    public function getMaxPointsByTest(int $a_test_ref_id) : int
+    public function getMaxPointsByTest(int $a_test_ref_id): int
     {
         $points = 0;
         $tmp_test = ilObjectFactory::getInstanceByRefId($a_test_ref_id);
@@ -457,12 +459,12 @@ class ilCourseObjectiveQuestion
         return $points;
     }
 
-    public static function _lookupMaximumPointsOfQuestion(int $a_question_id) : float
+    public static function _lookupMaximumPointsOfQuestion(int $a_question_id): float
     {
         return assQuestion::_getMaximumPoints($a_question_id);
     }
 
-    public function getNumberOfQuestionsByTest(int $a_test_ref_id) : int
+    public function getNumberOfQuestionsByTest(int $a_test_ref_id): int
     {
         $counter = 0;
         foreach ($this->getQuestions() as $question) {
@@ -473,7 +475,7 @@ class ilCourseObjectiveQuestion
         return $counter;
     }
 
-    public function getQuestionsByTest(int $a_test_ref_id) : array
+    public function getQuestionsByTest(int $a_test_ref_id): array
     {
         $qst = [];
         foreach ($this->getQuestions() as $question) {
@@ -484,7 +486,7 @@ class ilCourseObjectiveQuestion
         return $qst;
     }
 
-    public function updateLimits() : void
+    public function updateLimits(): void
     {
         $points = 0;
         foreach ($this->tests as $test_data) {
@@ -515,7 +517,7 @@ class ilCourseObjectiveQuestion
         }
     }
 
-    public function add() : void
+    public function add(): void
     {
         $query = "DELETE FROM crs_objective_qst " .
             "WHERE objective_id = " . $this->db->quote($this->getObjectiveId(), 'integer') . " " .
@@ -537,7 +539,7 @@ class ilCourseObjectiveQuestion
         $this->__read();
     }
 
-    public function delete(int $qst_id) : void
+    public function delete(int $qst_id): void
     {
         if (!$qst_id) {
             return;
@@ -570,7 +572,7 @@ class ilCourseObjectiveQuestion
     }
 
     // begin-patch lok
-    public static function deleteTest(int $a_tst_ref_id) : void
+    public static function deleteTest(int $a_tst_ref_id): void
     {
         global $DIC;
 
@@ -584,7 +586,7 @@ class ilCourseObjectiveQuestion
         $ilDB->manipulate($query);
     }
 
-    public function deleteByTestType(int $a_type) : void
+    public function deleteByTestType(int $a_type): void
     {
         // Read tests by type
         $deletable_refs = array();
@@ -605,7 +607,7 @@ class ilCourseObjectiveQuestion
         $this->db->manipulate($query);
     }
 
-    public function deleteAll() : void
+    public function deleteAll(): void
     {
         $query = "DELETE FROM crs_objective_qst " .
             "WHERE objective_id = " . $this->db->quote($this->getObjectiveId(), 'integer') . " ";
@@ -616,7 +618,7 @@ class ilCourseObjectiveQuestion
         $res = $this->db->manipulate($query);
     }
 
-    public function __read() : void
+    public function __read(): void
     {
         $container_ref_ids = ilObject::_getAllReferences(ilCourseObjective::_lookupContainerIdByObjectiveId($this->objective_id));
         $container_ref_id = current($container_ref_ids);
@@ -665,7 +667,7 @@ class ilCourseObjectiveQuestion
         }
     }
 
-    public static function _hasTests(int $a_course_id) : bool
+    public static function _hasTests(int $a_course_id): bool
     {
         global $DIC;
 
@@ -678,7 +680,7 @@ class ilCourseObjectiveQuestion
         return (bool) $res->numRows();
     }
 
-    public static function _isAssigned(int $a_objective_id, int $a_tst_ref_id, int $a_question_id) : int
+    public static function _isAssigned(int $a_objective_id, int $a_tst_ref_id, int $a_question_id): int
     {
         global $DIC;
 
@@ -697,7 +699,7 @@ class ilCourseObjectiveQuestion
         return $objective_id;
     }
 
-    public static function lookupQuestionsByObjective(int $a_test_id, int $a_objective) : array
+    public static function lookupQuestionsByObjective(int $a_test_id, int $a_objective): array
     {
         global $DIC;
 
@@ -714,7 +716,7 @@ class ilCourseObjectiveQuestion
         return $questions;
     }
 
-    public static function loookupTestLimit(int $a_test_id, int $a_objective_id) : int
+    public static function loookupTestLimit(int $a_test_id, int $a_objective_id): int
     {
         global $DIC;
 
@@ -729,7 +731,7 @@ class ilCourseObjectiveQuestion
         return 0;
     }
 
-    public function toXml(ilXmlWriter $writer) : void
+    public function toXml(ilXmlWriter $writer): void
     {
         foreach ($this->getTests() as $test) {
             $writer->xmlStartTag(

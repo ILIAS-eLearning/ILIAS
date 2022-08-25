@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\UI\Implementation\Component\Card;
 
 use ILIAS\UI\Component as C;
@@ -28,12 +30,12 @@ use ILIAS\UI\Component\Image\Image;
  */
 class Factory implements C\Card\Factory
 {
-    public function standard($title, Image $image = null) : C\Card\Standard
+    public function standard($title, Image $image = null): C\Card\Standard
     {
         return new Standard($title, $image);
     }
 
-    public function repositoryObject($title, Image $image) : C\Card\RepositoryObject
+    public function repositoryObject($title, Image $image): C\Card\RepositoryObject
     {
         return new RepositoryObject($title, $image);
     }

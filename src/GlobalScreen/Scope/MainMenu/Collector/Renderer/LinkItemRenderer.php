@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -26,11 +28,10 @@ use ILIAS\UI\Component\Component;
  */
 class LinkItemRenderer extends BaseTypeRenderer
 {
-
     /**
      * @inheritDoc
      */
-    public function getComponentWithContent(isItem $item) : Component
+    public function getComponentWithContent(isItem $item): Component
     {
         return $this->ui_factory->link()->bulky($this->getStandardSymbol($item), $item->getTitle(), $this->getURI($item->getAction()))->withOpenInNewViewport($item->isLinkWithExternalAction());
     }

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -59,17 +61,17 @@ class ilStudyProgrammeMailTemplateContext extends ilMailTemplateContext
         $this->lng->loadLanguageModule('prg');
     }
 
-    public function getId() : string
+    public function getId(): string
     {
         return self::ID;
     }
 
-    public function getTitle() : string
+    public function getTitle(): string
     {
         return $this->lng->txt('prg_mail_context_title');
     }
 
-    public function getDescription() : string
+    public function getDescription(): string
     {
         return $this->lng->txt('prg_mail_context_info');
     }
@@ -77,7 +79,7 @@ class ilStudyProgrammeMailTemplateContext extends ilMailTemplateContext
     /**
      * Return an array of placeholders
      */
-    public function getSpecificPlaceholders() : array
+    public function getSpecificPlaceholders(): array
     {
         $placeholders = [];
 
@@ -157,7 +159,7 @@ class ilStudyProgrammeMailTemplateContext extends ilMailTemplateContext
         array $context_parameters,
         ilObjUser $recipient = null,
         bool $html_markup = false
-    ) : string {
+    ): string {
         if (is_null($recipient)) {
             return '';
         }
@@ -259,11 +261,11 @@ class ilStudyProgrammeMailTemplateContext extends ilMailTemplateContext
         return $string;
     }
 
-    protected function getNewestProgressForUser(ilObjStudyProgramme $obj, int $user_id) : ilStudyProgrammeProgress
+    protected function getNewestProgressForUser(ilObjStudyProgramme $obj, int $user_id): ilStudyProgrammeProgress
     {
         $progress = $obj->getProgressesOf($user_id);
 
-        $successfully_progress = array_filter($progress, static function (ilStudyProgrammeProgress $a) : bool {
+        $successfully_progress = array_filter($progress, static function (ilStudyProgrammeProgress $a): bool {
             return $a->isSuccessful() || $a->isSuccessfulExpired() || $a->isAccredited();
         });
 
@@ -271,7 +273,7 @@ class ilStudyProgrammeMailTemplateContext extends ilMailTemplateContext
             return $progress[0];
         }
 
-        usort($successfully_progress, static function (ilStudyProgrammeProgress $a, ilStudyProgrammeProgress $b) : int {
+        usort($successfully_progress, static function (ilStudyProgrammeProgress $a, ilStudyProgrammeProgress $b): int {
             if ($a->getCompletionDate() > $b->getCompletionDate()) {
                 return -1;
             } elseif ($a->getCompletionDate() < $b->getCompletionDate()) {
@@ -284,7 +286,7 @@ class ilStudyProgrammeMailTemplateContext extends ilMailTemplateContext
         return array_shift($successfully_progress);
     }
 
-    protected function statusToRepr(int $status, string $lang) : string
+    protected function statusToRepr(int $status, string $lang): string
     {
         if ($status === ilStudyProgrammeProgress::STATUS_IN_PROGRESS) {
             return $this->lng->txtlng('prg', 'prg_status_in_progress', $lang);
@@ -301,11 +303,11 @@ class ilStudyProgrammeMailTemplateContext extends ilMailTemplateContext
         if ($status === ilStudyProgrammeProgress::STATUS_FAILED) {
             return $this->lng->txtlng('prg', 'prg_status_failed', $lang);
         }
-            
+
         throw new ilException("Unknown status: '$status'");
     }
 
-    protected function date2String(DateTimeImmutable $date_time = null) : string
+    protected function date2String(DateTimeImmutable $date_time = null): string
     {
         if (is_null($date_time)) {
             return '';

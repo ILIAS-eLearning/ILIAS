@@ -25,7 +25,7 @@ class ilAssLacQuestionNotExist extends ilAssLacException implements ilAssLacForm
     public function __construct($question_index)
     {
         $this->question_index = $question_index;
-        
+
         parent::__construct(sprintf(
             'The Question with index "Q%s" does not exist',
             $this->getQuestionIndex()
@@ -35,7 +35,7 @@ class ilAssLacQuestionNotExist extends ilAssLacException implements ilAssLacForm
     /**
      * @return int
      */
-    public function getQuestionIndex() : int
+    public function getQuestionIndex(): int
     {
         return $this->question_index;
     }
@@ -44,7 +44,7 @@ class ilAssLacQuestionNotExist extends ilAssLacException implements ilAssLacForm
      * @param ilLanguage $lng
      * @return string
      */
-    public function getFormAlert(ilLanguage $lng) : string
+    public function getFormAlert(ilLanguage $lng): string
     {
         return sprintf(
             $lng->txt("ass_lac_question_not_exist"),

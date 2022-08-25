@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /* Copyright (c) 1998-2020 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -9,7 +11,7 @@ class ilTestRandomQuestionSetSourcePoolDefinitionListToolbarGUITest extends ilTe
 {
     private ilTestRandomQuestionSetSourcePoolDefinitionListToolbarGUI $toolbarGUI;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -29,7 +31,7 @@ class ilTestRandomQuestionSetSourcePoolDefinitionListToolbarGUITest extends ilTe
         );
     }
 
-    public function test_instantiateObject_shouldReturnInstance() : void
+    public function test_instantiateObject_shouldReturnInstance(): void
     {
         $this->assertInstanceOf(ilTestRandomQuestionSetSourcePoolDefinitionListToolbarGUI::class, $this->toolbarGUI);
     }

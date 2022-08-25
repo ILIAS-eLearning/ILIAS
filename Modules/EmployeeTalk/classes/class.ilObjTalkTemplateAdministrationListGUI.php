@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 /**
@@ -51,7 +52,7 @@ final class ilObjTalkTemplateAdministrationListGUI extends ilObjectListGUI
     public function insertTimingsCommand(): void
     {
     }
-    
+
     public function insertCommonSocialCommands(bool $header_actions = false): void
     {
     }

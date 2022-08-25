@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -14,7 +16,7 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *********************************************************************/
- 
+
 namespace ILIAS\ResourceStorage\Resource\InfoResolver;
 
 use ILIAS\FileUpload\MimeType;
@@ -52,7 +54,7 @@ class StreamInfoResolver extends AbstractInfoResolver implements InfoResolver
         $this->initCreationDate();
     }
 
-    protected function initMimeType() : void
+    protected function initMimeType(): void
     {
         $this->mime_type = 'unknown';
         if (function_exists('mime_content_type') && file_exists($this->path)) {
@@ -74,7 +76,7 @@ class StreamInfoResolver extends AbstractInfoResolver implements InfoResolver
         }
     }
 
-    protected function initSize() : void
+    protected function initSize(): void
     {
         $this->size = 0;
         try {
@@ -89,20 +91,20 @@ class StreamInfoResolver extends AbstractInfoResolver implements InfoResolver
                     $this->size += strlen($content);
                 }
             }
-            
+
             if ($this->file_stream->isSeekable()) {
                 $this->file_stream->rewind();
             }
         }
     }
 
-    protected function initCreationDate() : void
+    protected function initCreationDate(): void
     {
         $filectime = file_exists($this->path) ? filectime($this->path) : false;
         $this->creation_date = $filectime ? (new \DateTimeImmutable())->setTimestamp($filectime) : new \DateTimeImmutable();
     }
 
-    protected function initFileName() : void
+    protected function initFileName(): void
     {
         $this->file_name = basename($this->path);
         if ($this->file_name === 'memory' || $this->file_name === 'input') { // in case the stream is ofString or of php://input
@@ -110,32 +112,32 @@ class StreamInfoResolver extends AbstractInfoResolver implements InfoResolver
         }
     }
 
-    public function getFileName() : string
+    public function getFileName(): string
     {
         return $this->file_name;
     }
 
-    public function getMimeType() : string
+    public function getMimeType(): string
     {
         return $this->mime_type;
     }
 
-    public function getSuffix() : string
+    public function getSuffix(): string
     {
         return $this->suffix;
     }
 
-    public function getCreationDate() : DateTimeImmutable
+    public function getCreationDate(): DateTimeImmutable
     {
         return $this->creation_date;
     }
 
-    public function getSize() : int
+    public function getSize(): int
     {
         return $this->size;
     }
-    
-    protected function getMSFileTypeFromSuffix() : string
+
+    protected function getMSFileTypeFromSuffix(): string
     {
         $mime_types_array = MimeType::getExt2MimeMap();
         $suffix_with_dot = '.' . $this->getSuffix();

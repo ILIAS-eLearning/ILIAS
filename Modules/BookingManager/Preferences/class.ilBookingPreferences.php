@@ -52,7 +52,7 @@ class ilBookingPreferences
      * Get user preferences
      * @return int[][]
      */
-    public function getPreferences() : array
+    public function getPreferences(): array
     {
         return $this->preferences;
     }

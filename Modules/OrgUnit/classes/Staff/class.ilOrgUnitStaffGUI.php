@@ -391,18 +391,24 @@ class ilOrgUnitStaffGUI
 
     public function setTabs()
     {
-        $this->tabs_gui->addSubTab("show_staff",
+        $this->tabs_gui->addSubTab(
+            "show_staff",
             sprintf($this->lng->txt("local_staff"), $this->parent_object->getTitle()),
-            $this->ctrl->getLinkTarget($this, "showStaff"));
+            $this->ctrl->getLinkTarget($this, "showStaff")
+        );
         if ($this->ilAccess->checkAccess("view_learning_progress_rec", "", $this->parent_object->getRefId())) {
-            $this->tabs_gui->addSubTab("show_staff_rec",
+            $this->tabs_gui->addSubTab(
+                "show_staff_rec",
                 sprintf($this->lng->txt("rec_staff"), $this->parent_object->getTitle()),
-                $this->ctrl->getLinkTarget($this, "showStaffRec"));
+                $this->ctrl->getLinkTarget($this, "showStaffRec")
+            );
         }
         if ($this->ilAccess->checkAccess("write", "", $this->parent_object->getRefId())) {
-            $this->tabs_gui->addSubTab("show_other_roles",
+            $this->tabs_gui->addSubTab(
+                "show_other_roles",
                 sprintf($this->lng->txt("local_other_roles"), $this->parent_object->getTitle()),
-                $this->ctrl->getLinkTarget($this, "showOtherRoles"));
+                $this->ctrl->getLinkTarget($this, "showOtherRoles")
+            );
         }
     }
 }

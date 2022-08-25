@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -22,14 +24,14 @@
  */
 class ilTermsOfServiceEntityFactoryTest extends ilTermsOfServiceBaseTest
 {
-    public function testInstanceCanBeCreated() : void
+    public function testInstanceCanBeCreated(): void
     {
         $factory = new ilTermsOfServiceEntityFactory();
 
         $this->assertInstanceOf(ilTermsOfServiceEntityFactory::class, $factory);
     }
 
-    public function testExceptionIsRaisedWhenUnknownEntityIsRequested() : void
+    public function testExceptionIsRaisedWhenUnknownEntityIsRequested(): void
     {
         $this->expectException(InvalidArgumentException::class);
 
@@ -40,7 +42,7 @@ class ilTermsOfServiceEntityFactoryTest extends ilTermsOfServiceBaseTest
     /**
      *
      */
-    public function testAcceptanceEntityIsReturnedWhenRequestedByName() : void
+    public function testAcceptanceEntityIsReturnedWhenRequestedByName(): void
     {
         $factory = new ilTermsOfServiceEntityFactory();
 

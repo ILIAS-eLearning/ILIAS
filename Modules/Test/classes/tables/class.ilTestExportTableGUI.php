@@ -1,4 +1,5 @@
 <?php
+
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 require_once 'Services/Export/classes/class.ilExportTableGUI.php';
@@ -23,7 +24,7 @@ class ilTestExportTableGUI extends ilExportTableGUI
         //$this->addCustomColumn($this->lng->txt('actions'), $this, 'formatActionsList');
     }
 
-    protected function formatActionsList(string $type, string $filename) : string
+    protected function formatActionsList(string $type, string $filename): string
     {
         /**
          * @var $ilCtrl ilCtrl
@@ -39,7 +40,7 @@ class ilTestExportTableGUI extends ilExportTableGUI
         return $list->getHTML();
     }
 
-    protected function initMultiCommands() : void
+    protected function initMultiCommands(): void
     {
         $this->addMultiCommand('confirmDeletion', $this->lng->txt('delete'));
     }
@@ -47,12 +48,12 @@ class ilTestExportTableGUI extends ilExportTableGUI
     /**
      * Overwrite method because data is passed from outside
      */
-    public function getExportFiles() : array
+    public function getExportFiles(): array
     {
         return array();
     }
 
-    protected function initColumns() : void
+    protected function initColumns(): void
     {
         $this->addColumn($this->lng->txt(''), '', '1', true);
         $this->addColumn($this->lng->txt('file'), 'file');
@@ -60,7 +61,7 @@ class ilTestExportTableGUI extends ilExportTableGUI
         $this->addColumn($this->lng->txt('date'), 'timestamp');
     }
 
-    public function numericOrdering(string $a_field) : bool
+    public function numericOrdering(string $a_field): bool
     {
         if (in_array($a_field, array('size', 'date'))) {
             return true;
@@ -69,7 +70,7 @@ class ilTestExportTableGUI extends ilExportTableGUI
         return false;
     }
 
-    protected function getRowId(array $row) : string
+    protected function getRowId(array $row): string
     {
         return $row['file'];
     }

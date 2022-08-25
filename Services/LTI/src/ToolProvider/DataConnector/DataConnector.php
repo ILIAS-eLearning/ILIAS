@@ -28,7 +28,7 @@ use ILIAS\LTI\ToolProvider\UserResult;
 use ILIAS\LTI\ToolProvider\Tool;
 use ILIAS\LTI\ToolProvider\Util;
 //UK: added
-use \ILIAS\LTI\ToolProvider\AccessToken;
+use ILIAS\LTI\ToolProvider\AccessToken;
 
 /**
  * Class to provide a connection to a persistent store for LTI objects
@@ -41,11 +41,10 @@ use \ILIAS\LTI\ToolProvider\AccessToken;
  */
 class DataConnector
 {
-
     /**
      * Default name for database table used to store platforms.
      */
-    const PLATFORM_TABLE_NAME = 'lti2_consumer';
+    public const PLATFORM_TABLE_NAME = 'lti2_consumer';
 
     /**
      * Default name for database table used to store platforms.
@@ -53,42 +52,42 @@ class DataConnector
      * @deprecated Use DataConnector::PLATFORM_TABLE_NAME instead
      * @see DataConnector::PLATFORM_TABLE_NAME
      */
-    const CONSUMER_TABLE_NAME = self::PLATFORM_TABLE_NAME;
+    public const CONSUMER_TABLE_NAME = self::PLATFORM_TABLE_NAME;
 
     /**
      * Default name for database table used to store contexts.
      */
-    const CONTEXT_TABLE_NAME = 'lti2_context';
+    public const CONTEXT_TABLE_NAME = 'lti2_context';
 
     /**
      * Default name for database table used to store resource links.
      */
-    const RESOURCE_LINK_TABLE_NAME = 'lti2_resource_link';
+    public const RESOURCE_LINK_TABLE_NAME = 'lti2_resource_link';
 
     /**
      * Default name for database table used to store users.
      */
-    const USER_RESULT_TABLE_NAME = 'lti2_user_result';
+    public const USER_RESULT_TABLE_NAME = 'lti2_user_result';
 
     /**
      * Default name for database table used to store resource link share keys.
      */
-    const RESOURCE_LINK_SHARE_KEY_TABLE_NAME = 'lti2_share_key';
+    public const RESOURCE_LINK_SHARE_KEY_TABLE_NAME = 'lti2_share_key';
 
     /**
      * Default name for database table used to store nonce values.
      */
-    const NONCE_TABLE_NAME = 'lti2_nonce';
+    public const NONCE_TABLE_NAME = 'lti2_nonce';
 
     /**
      * Default name for database table used to store access token values.
      */
-    const ACCESS_TOKEN_TABLE_NAME = 'lti2_access_token';
+    public const ACCESS_TOKEN_TABLE_NAME = 'lti2_access_token';
 
     /**
      * Default name for database table used to store tools.
      */
-    const TOOL_TABLE_NAME = 'lti2_tool';
+    public const TOOL_TABLE_NAME = 'lti2_tool';
 
     /**
      * Database connection.
@@ -204,7 +203,7 @@ class DataConnector
      * @param Platform $platform Platform object
      * @return bool    True if the platform object was successfully loaded
      */
-    public function loadPlatform(Platform $platform) : bool
+    public function loadPlatform(Platform $platform): bool
     {
         $platform->secret = 'secret';
         $platform->enabled = true;
@@ -220,7 +219,7 @@ class DataConnector
      * @param Platform $platform Platform object
      * @return bool    True if the platform object was successfully saved
      */
-    public function savePlatform(Platform $platform) : bool
+    public function savePlatform(Platform $platform): bool
     {
         $platform->updated = time();
 
@@ -232,7 +231,7 @@ class DataConnector
      * @param Platform $platform Platform object
      * @return bool    True if the platform object was successfully deleted
      */
-    public function deletePlatform(Platform $platform) : bool
+    public function deletePlatform(Platform $platform): bool
     {
         $platform->initialize();
 
@@ -244,7 +243,7 @@ class DataConnector
      *
      * @return Platform[] Array of all defined Platform objects
      */
-    public function getPlatforms() : array
+    public function getPlatforms(): array
     {
         return array();
     }
@@ -258,7 +257,7 @@ class DataConnector
      * @param Context $context Context object
      * @return bool    True if the context object was successfully loaded
      */
-    public function loadContext(Context $context) : bool
+    public function loadContext(Context $context): bool
     {
         $now = time();
         $context->created = $now;
@@ -272,7 +271,7 @@ class DataConnector
      * @param Context $context Context object
      * @return bool    True if the context object was successfully saved
      */
-    public function saveContext(Context $context) : bool
+    public function saveContext(Context $context): bool
     {
         $context->updated = time();
 
@@ -284,7 +283,7 @@ class DataConnector
      * @param Context $context Context object
      * @return bool    True if the Context object was successfully deleted
      */
-    public function deleteContext(Context $context) : bool
+    public function deleteContext(Context $context): bool
     {
         $context->initialize();
 
@@ -300,7 +299,7 @@ class DataConnector
      * @param ResourceLink $resourceLink ResourceLink object
      * @return bool    True if the resource link object was successfully loaded
      */
-    public function loadResourceLink(ResourceLink $resourceLink) : bool
+    public function loadResourceLink(ResourceLink $resourceLink): bool
     {
         $now = time();
         $resourceLink->created = $now;
@@ -314,7 +313,7 @@ class DataConnector
      * @param ResourceLink $resourceLink ResourceLink object
      * @return bool    True if the resource link object was successfully saved
      */
-    public function saveResourceLink(ResourceLink $resourceLink) : bool
+    public function saveResourceLink(ResourceLink $resourceLink): bool
     {
         $resourceLink->updated = time();
 
@@ -326,7 +325,7 @@ class DataConnector
      * @param ResourceLink $resourceLink ResourceLink object
      * @return bool    True if the resource link object was successfully deleted
      */
-    public function deleteResourceLink(ResourceLink $resourceLink) : bool
+    public function deleteResourceLink(ResourceLink $resourceLink): bool
     {
         $resourceLink->initialize();
 
@@ -342,7 +341,7 @@ class DataConnector
      * @param int          $idScope      Scope value to use for user IDs
      * @return UserResult[] Array of UserResult objects
      */
-    public function getUserResultSourcedIDsResourceLink(ResourceLink $resourceLink, bool $localOnly, int $idScope) : array
+    public function getUserResultSourcedIDsResourceLink(ResourceLink $resourceLink, bool $localOnly, int $idScope): array
     {
         return array();
     }
@@ -352,7 +351,7 @@ class DataConnector
      * @param ResourceLink $resourceLink ResourceLink object
      * @return ResourceLinkShare[] Array of ResourceLinkShare objects
      */
-    public function getSharesResourceLink(ResourceLink $resourceLink) : array
+    public function getSharesResourceLink(ResourceLink $resourceLink): array
     {
         return array();
     }
@@ -417,7 +416,7 @@ class DataConnector
      * @param PlatformNonce $nonce Nonce object
      * @return bool    True if the nonce object was successfully loaded
      */
-    public function loadPlatformNonce(PlatformNonce $nonce) : bool
+    public function loadPlatformNonce(PlatformNonce $nonce): bool
     {
         return false;  // assume the nonce does not already exist
     }
@@ -427,7 +426,7 @@ class DataConnector
      * @param PlatformNonce $nonce Nonce object
      * @return bool    True if the nonce object was successfully saved
      */
-    public function savePlatformNonce(PlatformNonce $nonce) : bool
+    public function savePlatformNonce(PlatformNonce $nonce): bool
     {
         return true;
     }
@@ -437,7 +436,7 @@ class DataConnector
      * @param PlatformNonce $nonce Nonce object
      * @return bool    True if the nonce object was successfully deleted
      */
-    public function deletePlatformNonce(PlatformNonce $nonce) : bool
+    public function deletePlatformNonce(PlatformNonce $nonce): bool
     {
         return true;
     }
@@ -451,7 +450,7 @@ class DataConnector
      * @param AccessToken $accessToken Access token object  // UK: changed from
      * @return bool    True if the nonce object was successfully loaded
      */
-    public function loadAccessToken(AccessToken $accessToken) : bool
+    public function loadAccessToken(AccessToken $accessToken): bool
     {
         return false;  // assume the access token does not already exist
     }
@@ -461,7 +460,7 @@ class DataConnector
      * @param AccessToken $accessToken Access token object
      * @return bool    True if the access token object was successfully saved
      */
-    public function saveAccessToken(AccessToken $accessToken) : bool
+    public function saveAccessToken(AccessToken $accessToken): bool
     {
         return true;
     }
@@ -475,7 +474,7 @@ class DataConnector
      * @param ResourceLinkShareKey $shareKey ResourceLink share key object
      * @return bool    True if the resource link share key object was successfully loaded
      */
-    public function loadResourceLinkShareKey(ResourceLinkShareKey $shareKey) : bool
+    public function loadResourceLinkShareKey(ResourceLinkShareKey $shareKey): bool
     {
         return true;
     }
@@ -485,7 +484,7 @@ class DataConnector
      * @param ResourceLinkShareKey $shareKey Resource link share key object
      * @return bool    True if the resource link share key object was successfully saved
      */
-    public function saveResourceLinkShareKey(ResourceLinkShareKey $shareKey) : bool
+    public function saveResourceLinkShareKey(ResourceLinkShareKey $shareKey): bool
     {
         return true;
     }
@@ -495,7 +494,7 @@ class DataConnector
      * @param ResourceLinkShareKey $shareKey Resource link share key object
      * @return bool    True if the resource link share key object was successfully deleted
      */
-    public function deleteResourceLinkShareKey(ResourceLinkShareKey $shareKey) : bool
+    public function deleteResourceLinkShareKey(ResourceLinkShareKey $shareKey): bool
     {
         return true;
     }
@@ -509,7 +508,7 @@ class DataConnector
      * @param UserResult $userresult UserResult object
      * @return bool    True if the user object was successfully loaded
      */
-    public function loadUserResult(UserResult $userresult) : bool
+    public function loadUserResult(UserResult $userresult): bool
     {
         $now = time();
         $userresult->created = $now;
@@ -523,7 +522,7 @@ class DataConnector
      * @param UserResult $userresult UserResult object
      * @return bool    True if the user object was successfully saved
      */
-    public function saveUserResult(UserResult $userresult) : bool
+    public function saveUserResult(UserResult $userresult): bool
     {
         $userresult->updated = time();
 
@@ -535,7 +534,7 @@ class DataConnector
      * @param UserResult $userresult UserResult object
      * @return bool    True if the user object was successfully deleted
      */
-    public function deleteUserResult(UserResult $userresult) : bool
+    public function deleteUserResult(UserResult $userresult): bool
     {
         $userresult->initialize();
 
@@ -551,7 +550,7 @@ class DataConnector
      * @param Tool $tool Tool object
      * @return bool    True if the tool object was successfully loaded
      */
-    public function loadTool(Tool $tool) : bool
+    public function loadTool(Tool $tool): bool
     {
         $tool->secret = 'secret';
         $tool->enabled = true;
@@ -567,7 +566,7 @@ class DataConnector
      * @param Tool $tool Tool object
      * @return bool    True if the tool object was successfully saved
      */
-    public function saveTool(Tool $tool) : bool
+    public function saveTool(Tool $tool): bool
     {
         $tool->updated = time();
 
@@ -579,7 +578,7 @@ class DataConnector
      * @param Tool $tool Tool object
      * @return bool    True if the tool object was successfully deleted
      */
-    public function deleteTool(Tool $tool) : bool
+    public function deleteTool(Tool $tool): bool
     {
         $tool->initialize();
 
@@ -591,7 +590,7 @@ class DataConnector
      *
      * @return Tool[] Array of all defined Tool objects
      */
-    public function getTools() : array
+    public function getTools(): array
     {
         return array();
     }
@@ -612,7 +611,7 @@ class DataConnector
      * @param string      $type              The type of data connector (optional, default is based on $db parameter)
      * @return DataConnector Data connector object
      */
-    public static function getDataConnector(object $db = null, string $dbTableNamePrefix = '', string $type = '') : DataConnector
+    public static function getDataConnector(object $db = null, string $dbTableNamePrefix = '', string $type = ''): DataConnector
     {
         if (is_null($dbTableNamePrefix)) {
             $dbTableNamePrefix = '';
@@ -670,7 +669,7 @@ class DataConnector
      * @param bool   $addQuotes If true the returned string will be enclosed in single quotes (optional, default is true)
      * @return string The escaped string.
      */
-    public function escape(string $value, bool $addQuotes = true) : string
+    public function escape(string $value, bool $addQuotes = true): string
     {
         return static::quoted($value, $addQuotes);
     }
@@ -683,7 +682,7 @@ class DataConnector
      * @param bool   $addQuotes If true the returned string will be enclosed in single quotes (optional, default is true)
      * @return string The quoted string.
      */
-    public static function quoted(string $value, bool $addQuotes = true) : string
+    public static function quoted(string $value, bool $addQuotes = true): string
     {
         if (is_null($value)) {
             $value = 'null';

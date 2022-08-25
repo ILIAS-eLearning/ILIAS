@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -20,12 +22,12 @@ class ilLocalUnitConfigurationGUI extends ilUnitConfigurationGUI
 {
     private const REQUEST_PARAM_SUB_CONTEXT_ID = 'question_fi';
 
-    protected function getDefaultCommand() : string
+    protected function getDefaultCommand(): string
     {
         return 'showLocalUnitCategories';
     }
 
-    public function getUnitCategoryOverviewCommand() : string
+    public function getUnitCategoryOverviewCommand(): string
     {
         if ($this->isCRUDContext()) {
             return 'showLocalUnitCategories';
@@ -34,7 +36,7 @@ class ilLocalUnitConfigurationGUI extends ilUnitConfigurationGUI
         return 'showGlobalUnitCategories';
     }
 
-    public function isCRUDContext() : bool
+    public function isCRUDContext(): bool
     {
         if (!$this->request->isset(self::REQUEST_PARAM_SUB_CONTEXT_ID) ||
             $this->request->raw(self::REQUEST_PARAM_SUB_CONTEXT_ID) == $this->repository->getConsumerId()) {
@@ -44,7 +46,7 @@ class ilLocalUnitConfigurationGUI extends ilUnitConfigurationGUI
         return false;
     }
 
-    public function getUniqueId() : string
+    public function getUniqueId(): string
     {
         $id = $this->repository->getConsumerId();
         if ($this->isCRUDContext()) {
@@ -56,7 +58,7 @@ class ilLocalUnitConfigurationGUI extends ilUnitConfigurationGUI
         return $id;
     }
 
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         global $DIC;
 
@@ -69,7 +71,7 @@ class ilLocalUnitConfigurationGUI extends ilUnitConfigurationGUI
         parent::executeCommand();
     }
 
-    protected function handleSubtabs() : void
+    protected function handleSubtabs(): void
     {
         global $DIC;
 
@@ -88,7 +90,7 @@ class ilLocalUnitConfigurationGUI extends ilUnitConfigurationGUI
         }
     }
 
-    protected function showLocalUnitCategories() : void
+    protected function showLocalUnitCategories(): void
     {
         global $DIC;
 
@@ -99,7 +101,7 @@ class ilLocalUnitConfigurationGUI extends ilUnitConfigurationGUI
         $repo = $this->repository;
         $categories = array_filter(
             $this->repository->getAllUnitCategories(),
-            static function (assFormulaQuestionUnitCategory $category) use ($repo) : bool {
+            static function (assFormulaQuestionUnitCategory $category) use ($repo): bool {
                 return $category->getQuestionFi() === $repo->getConsumerId();
             }
         );
@@ -118,7 +120,7 @@ class ilLocalUnitConfigurationGUI extends ilUnitConfigurationGUI
     /**
      * @param array $categories
      */
-    protected function showUnitCategories(array $categories) : void
+    protected function showUnitCategories(array $categories): void
     {
         $table = new ilLocalUnitCategoryTableGUI($this, $this->getUnitCategoryOverviewCommand());
         $table->setData($categories);
@@ -126,7 +128,7 @@ class ilLocalUnitConfigurationGUI extends ilUnitConfigurationGUI
         $this->tpl->setContent($table->getHTML());
     }
 
-    protected function confirmImportGlobalCategory() : void
+    protected function confirmImportGlobalCategory(): void
     {
         if (!$this->request->isset('category_id')) {
             $this->showGlobalUnitCategories();
@@ -135,13 +137,13 @@ class ilLocalUnitConfigurationGUI extends ilUnitConfigurationGUI
         $this->confirmImportGlobalCategories([$this->request->raw('category_id')]);
     }
 
-    protected function confirmImportGlobalCategories(array $category_ids) : void
+    protected function confirmImportGlobalCategories(array $category_ids): void
     {
         // @todo: Confirmation Currently not implemented, so forward to import
         $this->importGlobalCategories($category_ids);
     }
 
-    protected function importGlobalCategories(array $category_ids) : void
+    protected function importGlobalCategories(array $category_ids): void
     {
         if ($this->isCRUDContext()) {
             $this->{$this->getDefaultCommand()}();

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -46,7 +48,7 @@ class ilObjCalendarSettingsGUI extends ilObjectGUI
         $this->lng->loadLanguageModule('jscalendar');
     }
 
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         $next_class = $this->ctrl->getNextClass($this);
         $cmd = $this->ctrl->getCmd();
@@ -75,7 +77,7 @@ class ilObjCalendarSettingsGUI extends ilObjectGUI
         }
     }
 
-    public function getAdminTabs() : void
+    public function getAdminTabs(): void
     {
         if ($this->access->checkAccess("read", '', $this->object->getRefId())) {
             $this->tabs_gui->addTarget(
@@ -95,7 +97,7 @@ class ilObjCalendarSettingsGUI extends ilObjectGUI
         }
     }
 
-    public function settings(?ilPropertyFormGUI $form = null) : void
+    public function settings(?ilPropertyFormGUI $form = null): void
     {
         if (!$this->rbac_system->checkAccess("visible,read", $this->object->getRefId())) {
             $this->error->raiseError($this->lng->txt('no_permission'), $this->error->WARNING);
@@ -155,7 +157,7 @@ class ilObjCalendarSettingsGUI extends ilObjectGUI
     /**
      * init calendar settings
      */
-    protected function initCalendarSettings() : void
+    protected function initCalendarSettings(): void
     {
         $this->calendar_settings = ilCalendarSettings::_getInstance();
     }
@@ -164,7 +166,7 @@ class ilObjCalendarSettingsGUI extends ilObjectGUI
      * Init settings property form
      * @access protected
      */
-    protected function initFormSettings() : ilPropertyFormGUI
+    protected function initFormSettings(): ilPropertyFormGUI
     {
         $form = new ilPropertyFormGUI();
         $form->setFormAction($this->ctrl->getFormAction($this));
@@ -430,7 +432,7 @@ class ilObjCalendarSettingsGUI extends ilObjectGUI
         return $form;
     }
 
-    public function addToExternalSettingsForm(int $a_form_id) : array
+    public function addToExternalSettingsForm(int $a_form_id): array
     {
         switch ($a_form_id) {
             case ilAdministrationSettingsFormHandler::FORM_COURSE:

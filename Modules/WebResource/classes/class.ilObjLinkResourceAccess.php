@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * Class ilObjLinkResourceAccess
  * @author        Alex Killing <alex.killing@gmx.de>
@@ -28,7 +30,7 @@ class ilObjLinkResourceAccess extends ilObjectAccess
     public static array $item = [];
     public static array $single_link = [];
 
-    public static function _getCommands() : array
+    public static function _getCommands(): array
     {
         return array(
             array("permission" => "read",
@@ -51,7 +53,7 @@ class ilObjLinkResourceAccess extends ilObjectAccess
         );
     }
 
-    public static function _checkGoto(string $target) : bool
+    public static function _checkGoto(string $target): bool
     {
         global $DIC;
 
@@ -74,7 +76,7 @@ class ilObjLinkResourceAccess extends ilObjectAccess
         int $ref_id,
         int $obj_id,
         ?int $user_id = null
-    ) : bool {
+    ): bool {
         global $DIC;
         $rbacsystem = $DIC->rbac()->system();
         $web_link_repo = new ilWebLinkDatabaseRepository($obj_id);
@@ -104,7 +106,7 @@ class ilObjLinkResourceAccess extends ilObjectAccess
      * Get first link item
      * Check before with _isSingular() if there is more or less than one
      */
-    public static function _getFirstLink(int $a_webr_id) : ilWebLinkItem
+    public static function _getFirstLink(int $a_webr_id): ilWebLinkItem
     {
         if (isset(self::$item[$a_webr_id])) {
             return self::$item[$a_webr_id];
@@ -120,7 +122,7 @@ class ilObjLinkResourceAccess extends ilObjectAccess
         return $current_item;
     }
 
-    public static function _preloadData(array $obj_ids, array $ref_ids) : void
+    public static function _preloadData(array $obj_ids, array $ref_ids): void
     {
         foreach ($obj_ids as $id) {
             $web_link_repo = new ilWebLinkDatabaseRepository($id);
@@ -134,7 +136,7 @@ class ilObjLinkResourceAccess extends ilObjectAccess
      * Check whether there is only one active link in the web resource.
      * In this case this link is shown in a new browser window
      */
-    public static function _checkDirectLink($a_obj_id) : bool
+    public static function _checkDirectLink($a_obj_id): bool
     {
         if (isset(self::$single_link[$a_obj_id])) {
             return self::$single_link[$a_obj_id];

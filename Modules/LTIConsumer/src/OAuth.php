@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -83,13 +85,13 @@ if (!class_exists('OAuthToken')) {
         // access tokens and request tokens
         /** @var string */
         public string $key;
-        
+
         /** @var string */
         public string $secret;
-        
+
         /** @var callable|null */
         public $callback = null;
-        
+
         /**
          * @param string $key    = the token
          * @param string $secret = the token secret
@@ -99,12 +101,12 @@ if (!class_exists('OAuthToken')) {
             $this->key = $key;
             $this->secret = $secret;
         }
-        
+
         /**
          * generates the basic string serialization of a token that a server
          * would respond to request_token and access_token calls with
          */
-        public function to_string() : string
+        public function to_string(): string
         {
             /** @var string $key */
             $key = OAuthUtil::urlencode_rfc3986($this->key);
@@ -114,7 +116,7 @@ if (!class_exists('OAuthToken')) {
                 "&oauth_token_secret=" . $secret .
                 "&oauth_callback_confirmed=true";
         }
-        
+
         /**
          * @return string
          */
@@ -134,7 +136,7 @@ if (!class_exists('OAuthSignatureMethod')) {
         /**
          * Needs to return the name of the Signature Method (ie HMAC-SHA1)
          */
-        abstract public function get_name() : string;
+        abstract public function get_name(): string;
 
         /**
          * Build up the signature
@@ -143,7 +145,7 @@ if (!class_exists('OAuthSignatureMethod')) {
          * request is serialized
          * @param OAuthToken $token|null
          */
-        abstract public function build_signature(OAuthRequest $request, OAuthConsumer $consumer, OAuthToken $token) : string;
+        abstract public function build_signature(OAuthRequest $request, OAuthConsumer $consumer, OAuthToken $token): string;
 
         /**
          * Verifies that a given signature is correct
@@ -153,7 +155,7 @@ if (!class_exists('OAuthSignatureMethod')) {
          * @param string        $signature
          * @return bool
          */
-        public function check_signature(OAuthRequest $request, OAuthConsumer $consumer, OAuthToken $token, string $signature) : bool
+        public function check_signature(OAuthRequest $request, OAuthConsumer $consumer, OAuthToken $token, string $signature): bool
         {
             $built = $this->build_signature($request, $consumer, $token);
 
@@ -184,34 +186,34 @@ if (!class_exists('OAuthSignatureMethod')) {
  *   - Chapter 9.2 ("HMAC-SHA1")
  */
 //if (!class_exists('OAuthSignatureMethod_HMAC_SHA1')) {
-    class OAuthSignatureMethod_HMAC_SHA1 extends OAuthSignatureMethod
+class OAuthSignatureMethod_HMAC_SHA1 extends OAuthSignatureMethod
+{
+    public function get_name(): string
     {
-        public function get_name() : string
-        {
-            return "HMAC-SHA1";
-        }
+        return "HMAC-SHA1";
+    }
 
 
-        /**
-         * @param OAuthToken $token|null
-         */
-        public function build_signature(OAuthRequest $request, OAuthConsumer $consumer, ?OAuthToken $token) : string
-        {
-            $base_string = $request->get_signature_base_string();
-            $request->base_string = $base_string;
+    /**
+     * @param OAuthToken $token|null
+     */
+    public function build_signature(OAuthRequest $request, OAuthConsumer $consumer, ?OAuthToken $token): string
+    {
+        $base_string = $request->get_signature_base_string();
+        $request->base_string = $base_string;
 
-            $key_parts = [
-            $consumer->secret,
-            ($token) ? $token->secret : ""
+        $key_parts = [
+        $consumer->secret,
+        ($token) ? $token->secret : ""
         ];
 
-            /** @var array $key_parts */
-            $key_parts = OAuthUtil::urlencode_rfc3986($key_parts);
-            $key = implode('&', $key_parts);
+        /** @var array $key_parts */
+        $key_parts = OAuthUtil::urlencode_rfc3986($key_parts);
+        $key = implode('&', $key_parts);
 
-            return base64_encode(hash_hmac('sha1', $base_string, $key, true));
-        }
+        return base64_encode(hash_hmac('sha1', $base_string, $key, true));
     }
+}
 //}
 /**
  * The PLAINTEXT method does not provide any security protection and SHOULD only be used
@@ -221,7 +223,7 @@ if (!class_exists('OAuthSignatureMethod')) {
 if (!class_exists('OAuthSignatureMethod_PLAINTEXT')) {
     class OAuthSignatureMethod_PLAINTEXT extends OAuthSignatureMethod
     {
-        public function get_name() : string
+        public function get_name(): string
         {
             return "PLAINTEXT";
         }
@@ -238,7 +240,7 @@ if (!class_exists('OAuthSignatureMethod_PLAINTEXT')) {
          * @param OAuthToken|null $token
          * @return string
          */
-        public function build_signature(OAuthRequest $request, OAuthConsumer $consumer, ?OAuthToken $token) : string
+        public function build_signature(OAuthRequest $request, OAuthConsumer $consumer, ?OAuthToken $token): string
         {
             $key_parts = [
             $consumer->secret,
@@ -265,7 +267,7 @@ if (!class_exists('OAuthSignatureMethod_PLAINTEXT')) {
 if (!class_exists('OAuthSignatureMethod_RSA_SHA1')) {
     abstract class OAuthSignatureMethod_RSA_SHA1 extends OAuthSignatureMethod
     {
-        public function get_name() : string
+        public function get_name(): string
         {
             return "RSA-SHA1";
         }
@@ -295,7 +297,7 @@ if (!class_exists('OAuthSignatureMethod_RSA_SHA1')) {
         abstract protected function fetch_private_cert(OAuthRequest &$request);
 
 
-        public function build_signature(OAuthRequest $request, OAuthConsumer $consumer, OAuthToken $token) : string
+        public function build_signature(OAuthRequest $request, OAuthConsumer $consumer, OAuthToken $token): string
         {
             $base_string = $request->get_signature_base_string();
             $request->base_string = $base_string;
@@ -317,7 +319,7 @@ if (!class_exists('OAuthSignatureMethod_RSA_SHA1')) {
         }
 
 
-        public function check_signature(OAuthRequest $request, OAuthConsumer $consumer, OAuthToken $token, string $signature) : bool
+        public function check_signature(OAuthRequest $request, OAuthConsumer $consumer, OAuthToken $token, string $signature): bool
         {
             $decoded_sig = base64_decode($signature);
 
@@ -386,7 +388,7 @@ if (!class_exists('OAuthRequest')) {
          * @param array|null  $parameters
          * @return OAuthRequest
          */
-        public static function from_request(?string $http_method = null, ?string $http_url = null, ?array $parameters = null) : OAuthRequest
+        public static function from_request(?string $http_method = null, ?string $http_url = null, ?array $parameters = null): OAuthRequest
         {
             $scheme = (!isset($_SERVER['HTTPS']) || $_SERVER['HTTPS'] != "on")
             ? 'http'
@@ -431,7 +433,7 @@ if (!class_exists('OAuthRequest')) {
                 if ($http_method == "POST"
                 && isset($request_headers['Content-Type'])
                 && strstr($request_headers['Content-Type'], 'application/x-www-form-urlencoded')
-            ) {
+                ) {
                     $post_data = OAuthUtil::parse_parameters(
                         file_get_contents(self::$POST_INPUT)
                     );
@@ -442,7 +444,7 @@ if (!class_exists('OAuthRequest')) {
                 // and add those overriding any duplicates from GET or POST
                 if (isset($request_headers['Authorization'])
                 && substr($request_headers['Authorization'], 0, 6) == 'OAuth '
-            ) {
+                ) {
                     $header_parameters = OAuthUtil::split_header(
                         $request_headers['Authorization']
                     );
@@ -462,7 +464,7 @@ if (!class_exists('OAuthRequest')) {
          * @param array|null      $parameters
          * @return OAuthRequest
          */
-        public static function from_consumer_and_token(OAuthConsumer $consumer, ?OAuthToken $token, string $http_method, string $http_url, ?array $parameters = null) : OAuthRequest
+        public static function from_consumer_and_token(OAuthConsumer $consumer, ?OAuthToken $token, string $http_method, string $http_url, ?array $parameters = null): OAuthRequest
         {
             $parameters = ($parameters) ? $parameters : [];
             $defaults = ["oauth_version" => OAuthRequest::$version,
@@ -479,7 +481,7 @@ if (!class_exists('OAuthRequest')) {
         }
 
 
-        public function set_parameter(string $name, string $value, bool $allow_duplicates = true) : void
+        public function set_parameter(string $name, string $value, bool $allow_duplicates = true): void
         {
             if ($allow_duplicates && isset($this->parameters[$name])) {
                 // We have already added parameter(s) with this name, so add to the list
@@ -508,13 +510,13 @@ if (!class_exists('OAuthRequest')) {
         /**
          * @return array|null
          */
-        public function get_parameters() : array
+        public function get_parameters(): array
         {
             return $this->parameters;
         }
 
 
-        public function unset_parameter(string $name) : void
+        public function unset_parameter(string $name): void
         {
             unset($this->parameters[$name]);
         }
@@ -523,7 +525,7 @@ if (!class_exists('OAuthRequest')) {
         /**
          * The request parameters, sorted and concatenated into a normalized string.
          */
-        public function get_signable_parameters() : string
+        public function get_signable_parameters(): string
         {
             // Grab all parameters
             $params = $this->parameters;
@@ -545,7 +547,7 @@ if (!class_exists('OAuthRequest')) {
          * and the parameters (normalized), each urlencoded
          * and the concated with &.
          */
-        public function get_signature_base_string() : string
+        public function get_signature_base_string(): string
         {
             $parts = [
             $this->get_normalized_http_method(),
@@ -563,7 +565,7 @@ if (!class_exists('OAuthRequest')) {
         /**
          * just uppercases the http method
          */
-        public function get_normalized_http_method() : string
+        public function get_normalized_http_method(): string
         {
             return strtoupper($this->http_method);
         }
@@ -573,7 +575,7 @@ if (!class_exists('OAuthRequest')) {
          * parses the url and rebuilds it to be
          * scheme://host/path
          */
-        public function get_normalized_http_url() : string
+        public function get_normalized_http_url(): string
         {
             $parts = parse_url($this->http_url);
 
@@ -593,7 +595,7 @@ if (!class_exists('OAuthRequest')) {
         /**
          * builds a url usable for a GET request
          */
-        public function to_url() : string
+        public function to_url(): string
         {
             $post_data = $this->to_postdata();
             $out = $this->get_normalized_http_url();
@@ -607,7 +609,7 @@ if (!class_exists('OAuthRequest')) {
         /**
          * builds the data one would send in a POST request
          */
-        public function to_postdata() : string
+        public function to_postdata(): string
         {
             return OAuthUtil::build_http_query($this->parameters);
         }
@@ -618,7 +620,7 @@ if (!class_exists('OAuthRequest')) {
          * @return string
          * @throws OAuthException
          */
-        public function to_header(?string $realm = null) : string
+        public function to_header(?string $realm = null): string
         {
             $first = true;
             if (!is_null($realm)) {
@@ -658,7 +660,7 @@ if (!class_exists('OAuthRequest')) {
         }
 
 
-        public function sign_request(OAuthSignatureMethod $signature_method, OAuthConsumer $consumer, ?OAuthToken $token) : void
+        public function sign_request(OAuthSignatureMethod $signature_method, OAuthConsumer $consumer, ?OAuthToken $token): void
         {
             $this->set_parameter(
                 "oauth_signature_method",
@@ -670,7 +672,7 @@ if (!class_exists('OAuthRequest')) {
         }
 
 
-        public function build_signature(OAuthSignatureMethod $signature_method, OAuthConsumer $consumer, ?OAuthToken $token) : string
+        public function build_signature(OAuthSignatureMethod $signature_method, OAuthConsumer $consumer, ?OAuthToken $token): string
         {
             $signature = $signature_method->build_signature($this, $consumer, $token);
             return $signature;
@@ -680,7 +682,7 @@ if (!class_exists('OAuthRequest')) {
         /**
          * util function: current timestamp
          */
-        private static function generate_timestamp() : int
+        private static function generate_timestamp(): int
         {
             return time();
         }
@@ -689,7 +691,7 @@ if (!class_exists('OAuthRequest')) {
         /**
          * util function: current nonce
          */
-        private static function generate_nonce() : string
+        private static function generate_nonce(): string
         {
             $mt = microtime();
             $rand = mt_rand();
@@ -723,7 +725,7 @@ if (!class_exists('OAuthServer')) {
         }
 
 
-        public function add_signature_method(OAuthSignatureMethod $signature_method) : void
+        public function add_signature_method(OAuthSignatureMethod $signature_method): void
         {
             $this->signature_methods[$signature_method->get_name()] =
             $signature_method;
@@ -735,7 +737,7 @@ if (!class_exists('OAuthServer')) {
          * process a request_token request
          * returns the request token on success
          */
-        public function fetch_request_token(OAuthRequest &$request) : OAuthToken
+        public function fetch_request_token(OAuthRequest &$request): OAuthToken
         {
             $this->getVersion($request);
 
@@ -758,7 +760,7 @@ if (!class_exists('OAuthServer')) {
          * process an access_token request
          * returns the access token on success
          */
-        public function fetch_access_token(OAuthRequest &$request) : OAuthToken
+        public function fetch_access_token(OAuthRequest &$request): OAuthToken
         {
             $this->getVersion($request);
 
@@ -782,7 +784,7 @@ if (!class_exists('OAuthServer')) {
          *
          * @return OAuthConsumer[]|OAuthToken[]
          */
-        public function verify_request(OAuthRequest &$request) : array
+        public function verify_request(OAuthRequest &$request): array
         {
             $this->getVersion($request);
             $consumer = $this->getConsumer($request);
@@ -796,7 +798,7 @@ if (!class_exists('OAuthServer')) {
         /**
          * version 1
          */
-        private function getVersion(OAuthRequest &$request) : string
+        private function getVersion(OAuthRequest &$request): string
         {
             $version = $request->get_parameter("oauth_version");
             if (!$version) {
@@ -816,7 +818,7 @@ if (!class_exists('OAuthServer')) {
          * @return object
          * @throws OAuthException
          */
-        private function getSignatureMethod(OAuthRequest $request) : object
+        private function getSignatureMethod(OAuthRequest $request): object
         {
             $signature_method = $request->get_parameter("oauth_signature_method");
 
@@ -849,7 +851,7 @@ if (!class_exists('OAuthServer')) {
          *
          * @param OAuthRequest $request
          */
-        private function getConsumer(OAuthRequest $request) : OAuthConsumer
+        private function getConsumer(OAuthRequest $request): OAuthConsumer
         {
             $consumer_key = $request->get_parameter("oauth_consumer_key");
 
@@ -871,7 +873,7 @@ if (!class_exists('OAuthServer')) {
          *
          * @throws OAuthException
          */
-        private function getToken(OAuthRequest $request, OAuthConsumer $consumer, string $token_type = "access") : OAuthToken
+        private function getToken(OAuthRequest $request, OAuthConsumer $consumer, string $token_type = "access"): OAuthToken
         {
             $token_field = $request->get_parameter('oauth_token');
 
@@ -896,7 +898,7 @@ if (!class_exists('OAuthServer')) {
          * @param OAuthToken $token|null
          * @throws OAuthException
          */
-        private function checkSignature(OAuthRequest $request, OAuthConsumer $consumer, OAuthToken $token = null) : void
+        private function checkSignature(OAuthRequest $request, OAuthConsumer $consumer, OAuthToken $token = null): void
         {
             // this should probably be in a different method
             $timestamp = (int) $request->get_parameter('oauth_timestamp');
@@ -907,8 +909,8 @@ if (!class_exists('OAuthServer')) {
 
 //            $signature_method = 'OAuthSignatureMethod_' . $this->getSignatureMethod($request);
             $signature_method = $this->getSignatureMethod($request); //check UK
-                /** @psalm-suppress InvalidStringClass */
-            $method = new $signature_method;
+            /** @psalm-suppress InvalidStringClass */
+            $method = new $signature_method();
 
             $signature = $request->get_parameter('oauth_signature');
 //            $valid_sig = $method->checkSignature( //check UK
@@ -930,7 +932,7 @@ if (!class_exists('OAuthServer')) {
          *
          * @throws OAuthException
          */
-        private function checkTimestamp(?int $timestamp) : void
+        private function checkTimestamp(?int $timestamp): void
         {
             if (!$timestamp) {
                 throw new OAuthException(
@@ -953,7 +955,7 @@ if (!class_exists('OAuthServer')) {
          *
          * @throws OAuthException
          */
-        private function checkNonce(OAuthConsumer $consumer, ?OAuthToken $token, string $nonce, int $timestamp) : void
+        private function checkNonce(OAuthConsumer $consumer, ?OAuthToken $token, string $nonce, int $timestamp): void
         {
             if (!$nonce) {
                 throw new OAuthException(
@@ -1027,7 +1029,7 @@ if (!class_exists('OAuthUtil')) {
          * modifications to the encoding process. However, this method doesn't
          * seem to be used anywhere so leaving it as is.
          */
-        public static function urldecode_rfc3986(string $string) : string
+        public static function urldecode_rfc3986(string $string): string
         {
             return urldecode($string);
         }
@@ -1042,7 +1044,7 @@ if (!class_exists('OAuthUtil')) {
          *
          * @return array<int|string, string>
          */
-        public static function split_header(string $header, bool $only_allow_oauth_parameters = true) : array
+        public static function split_header(string $header, bool $only_allow_oauth_parameters = true): array
         {
             $params = [];
             if (preg_match_all(
@@ -1066,7 +1068,7 @@ if (!class_exists('OAuthUtil')) {
          *
          * @return array<string, mixed>
          */
-        public static function get_headers() : array
+        public static function get_headers(): array
         {
             if (function_exists('apache_request_headers')) {
                 // we need this to get the actual Authorization: header
@@ -1126,7 +1128,7 @@ if (!class_exists('OAuthUtil')) {
          *
          * @return mixed[]
          */
-        public static function parse_parameters(string $input) : array
+        public static function parse_parameters(string $input): array
         {
             if (!strlen($input)) {
                 return [];
@@ -1162,7 +1164,7 @@ if (!class_exists('OAuthUtil')) {
         /**
          * @param mixed[] $params
          */
-        public static function build_http_query(array $params) : string
+        public static function build_http_query(array $params): string
         {
             if (!$params) {
                 return '';

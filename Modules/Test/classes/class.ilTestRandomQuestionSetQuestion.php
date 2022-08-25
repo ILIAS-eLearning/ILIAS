@@ -1,4 +1,5 @@
 <?php
+
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 
@@ -36,7 +37,7 @@ class ilTestRandomQuestionSetQuestion
     /**
      * @return int
      */
-    public function getQuestionId() : ?int
+    public function getQuestionId(): ?int
     {
         return $this->questionId;
     }
@@ -52,7 +53,7 @@ class ilTestRandomQuestionSetQuestion
     /**
      * @return int
      */
-    public function getSequencePosition() : ?int
+    public function getSequencePosition(): ?int
     {
         return $this->sequencePosition;
     }
@@ -68,7 +69,7 @@ class ilTestRandomQuestionSetQuestion
     /**
      * @return int
      */
-    public function getSourcePoolDefinitionId() : ?int
+    public function getSourcePoolDefinitionId(): ?int
     {
         return $this->sourcePoolDefinitionId;
     }

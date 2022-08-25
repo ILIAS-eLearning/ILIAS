@@ -73,7 +73,7 @@ class ilOrgUnitPermissionTableGUI extends ilTable2GUI
     /**
      * @throws ilTemplateException
      */
-    public function fillRow(array $a_set) : void
+    public function fillRow(array $a_set): void
     {
         // Select all
         if (isset($a_set['show_select_all'])) {
@@ -134,8 +134,10 @@ class ilOrgUnitPermissionTableGUI extends ilTable2GUI
 
             $ops = [];
             foreach ($positions as $position) {
-                $ilOrgUnitPermission = ilOrgUnitPermissionQueries::getSetForRefId($this->getRefId(),
-                    $position->getId());
+                $ilOrgUnitPermission = ilOrgUnitPermissionQueries::getSetForRefId(
+                    $this->getRefId(),
+                    $position->getId()
+                );
 
                 $is_template = $ilOrgUnitPermission->isTemplate();
                 $from_templates[$position->getId()] = $is_template;

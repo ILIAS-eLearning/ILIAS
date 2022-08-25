@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -26,7 +28,7 @@ class ChangedUserFieldAttributeTest extends ilUserBaseTest
 {
     private ChangedUserFieldAttribute $changedUserFieldAttribute;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         $this->changedUserFieldAttribute = new ChangedUserFieldAttribute(
             "AttributeName",
@@ -35,17 +37,17 @@ class ChangedUserFieldAttributeTest extends ilUserBaseTest
         );
     }
 
-    public function testGetAttributeName() : void
+    public function testGetAttributeName(): void
     {
         $this->assertEquals("AttributeName", $this->changedUserFieldAttribute->getAttributeName());
     }
 
-    public function testGetOldValue() : void
+    public function testGetOldValue(): void
     {
         $this->assertEquals("oldValue", $this->changedUserFieldAttribute->getOldValue());
     }
 
-    public function testGetNewValue() : void
+    public function testGetNewValue(): void
     {
         $this->assertEquals("newValue", $this->changedUserFieldAttribute->getNewValue());
     }

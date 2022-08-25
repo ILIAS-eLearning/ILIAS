@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -28,15 +30,15 @@
 class ilLanguageFactory
 {
     private static array $languages = array();
-    
+
     /**
      * Get language object
      */
-    public static function _getLanguage(string $a_lang_key = '') : ilLanguage
+    public static function _getLanguage(string $a_lang_key = ''): ilLanguage
     {
         global $DIC;
         $lng = $DIC->language();
-        
+
         if (!$a_lang_key) {
             if (is_object($lng)) {
                 $a_lang_key = $lng->getDefaultLanguage();
@@ -47,12 +49,12 @@ class ilLanguageFactory
 
         return self::$languages[$a_lang_key] ?? (self::$languages[$a_lang_key] = new ilLanguage($a_lang_key));
     }
-    
+
     /**
      * Get language object of user
      * @static
      */
-    public static function _getLanguageOfUser(int $a_usr_id) : ilLanguage
+    public static function _getLanguageOfUser(int $a_usr_id): ilLanguage
     {
         return self::_getLanguage(ilObjUser::_lookupLanguage($a_usr_id));
     }
