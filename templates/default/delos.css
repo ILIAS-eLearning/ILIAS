@@ -13646,14 +13646,14 @@ blockquote.ilForumQuote {
 div.ilForumQuoteHead {
   font-weight: 600;
   font-size: 0.75rem;
-  margin: 0 0 10px;
+  margin: 0 0 12px;
 }
 /* Modules/Forum */
 #ilFrmPostList {
   list-style: none;
   margin: 0;
   padding: 0;
-  background-color: #f9f9f9;
+  background-color: white;
 }
 .ilFrmPostImage {
   float: left;
@@ -13662,14 +13662,14 @@ div.ilForumQuoteHead {
 }
 .ilFrmPostImage img {
   vertical-align: top;
-  margin: 5px 20px 5px 5px;
+  margin: 9px 18px 9px 6px;
   border: none;
   max-width: 100%;
 }
 @media only screen and (min-width: 768px) {
   .ilFrmPostImage img {
     margin: 0 !important;
-    padding: 5px 8px 5px 5px;
+    padding: 6px 9px 9px 6px;
   }
 }
 .ilFrmPostClear {
@@ -13684,7 +13684,7 @@ div.ilForumQuoteHead {
 }
 @media only screen and (max-width: 768px) {
   .ilFrmPostTitle {
-    margin-top: 5px;
+    margin-top: 6px;
     font-size: 0.875rem;
   }
 }
@@ -13692,12 +13692,13 @@ div.ilFrmPostHeader span.small {
   color: #6f6f6f;
 }
 .ilFrmPostContentContainer {
-  margin: 0 0 10px;
+  margin: 0 0 3px;
   width: 80%;
   float: left;
 }
 @media only screen and (max-width: 768px) {
   .ilFrmPostContentContainer {
+    padding-left: 6px;
     width: 100%;
   }
 }
@@ -13721,31 +13722,36 @@ div.ilFrmPostHeader span.small {
   display: none;
 }
 .ilFrmPostContent {
-  margin-top: 20px;
+  margin-top: 15px;
 }
-.ilFrmPostRow {
-  padding: 3px;
-  border-top: 1px solid #f0f0f0;
+li.ilFrmPostRow {
+  padding: 3px 0 3px 3px;
+  margin-bottom: 15px;
+  border-left: 6px solid #dddddd;
 }
-.ilFrmPostRow div.ilForm {
+li.ilFrmPostRow.tblrowmarked {
+  background-color: white;
+  border-left: 6px solid #e2e8ef;
+}
+li.ilFrmPostRow div.ilForm {
   width: 100%;
   max-width: 1000px;
 }
-.ilFrmPostRow div.ilForm div.ilFormValue {
+li.ilFrmPostRow div.ilForm div.ilFormValue {
   width: auto;
 }
-.ilFrmPostRow div.ilForm div.ilFormOption {
+li.ilFrmPostRow div.ilForm div.ilFormOption {
   width: 150px;
 }
 @media only screen and (max-width: 768px) {
-  .ilFrmPostRow div.ilForm,
-  .ilFrmPostRow div.ilForm input[type=text],
-  .ilFrmPostRow div.ilForm textarea {
+  li.ilFrmPostRow div.ilForm,
+  li.ilFrmPostRow div.ilForm input[type=text],
+  li.ilFrmPostRow div.ilForm textarea {
     width: 100%;
   }
 }
 @media only screen and (max-width: 768px) {
-  .ilFrmPostRow img.ilUserIcon {
+  li.ilFrmPostRow img.ilUserIcon {
     width: 50px;
     height: 50px;
   }
@@ -13779,13 +13785,13 @@ div.ilFrmPostHeader span.small {
     padding-left: 300px;
   }
 }
-.ilFrmPostCensorshipAdvice {
+li.ilFrmPostCensorshipAdvice {
   margin: 0;
   padding: 0;
   font-weight: 600;
 }
 .ilFrmPostAttachmentsContainer {
-  margin: 20px 0 0;
+  margin: 15px 0 0;
   font-weight: 600;
 }
 .ilFrmPostAttachmentsContainer a {
@@ -13798,16 +13804,14 @@ div.ilFrmPostHeader span.small {
   float: right;
   margin: 0 0 3px;
 }
-.ilModeratorPosting {
-  background-color: #ff9;
-  padding: 0 5px;
+li.ilModeratorPosting {
+  border-left: 6px solid #f3de2c;
 }
-.ilPostingNeedsActivation {
-  background-color: #ffe4e4;
-  padding: 0 5px;
+li.ilPostingNeedsActivation {
+  border-left: 6px solid #82639e;
 }
 .ilFrmBottomToolbar {
-  margin-top: 20px;
+  margin-top: 15px;
 }
 .ilForumTreeTitle {
   display: inline-block;
@@ -15299,7 +15303,7 @@ tr.tblheader {
   background-color: #d0d0ff;
 }
 .tblrowmarked {
-  background-color: #ffe4e4 !important;
+  background-color: #e2e8ef;
   color: #161616;
   padding: 3px;
 }
@@ -15316,7 +15320,7 @@ tr.tblheader {
   vertical-align: top;
 }
 .tblrowmarkedtop {
-  background-color: #ffe4e4;
+  background-color: #e2e8ef;
   color: #161616;
   padding: 3px;
   vertical-align: top;
