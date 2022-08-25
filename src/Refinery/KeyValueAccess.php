@@ -35,18 +35,12 @@ class KeyValueAccess implements ArrayAccess, Countable
         $this->raw_values = $raw_values;
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function offsetExists($offset): bool
+    public function offsetExists(mixed $offset): bool
     {
         return isset($this->raw_values[$offset]);
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function offsetGet($offset)
+    public function offsetGet(mixed $offset): mixed
     {
         if (!$this->offsetExists($offset)) {
             return null;
@@ -70,27 +64,18 @@ class KeyValueAccess implements ArrayAccess, Countable
         };
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function offsetSet($offset, $value): void
+    public function offsetSet(mixed $offset, mixed $value): void
     {
         $this->raw_values[$offset] = $value;
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function offsetUnset($offset): void
+    public function offsetUnset(mixed $offset): void
     {
         if ($this->offsetExists($offset)) {
             unset($this->raw_values[$offset]);
         }
     }
 
-    /**
-     * @inheritDoc
-     */
     public function count(): int
     {
         return count($this->raw_values);
