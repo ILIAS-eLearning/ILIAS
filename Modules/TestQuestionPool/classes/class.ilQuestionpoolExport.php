@@ -95,16 +95,14 @@ class ilQuestionpoolExport
     /**
     *   build export file (complete zip file)
     */
-    public function buildExportFile() : void
+    public function buildExportFile() : string
     {
         switch ($this->mode) {
             case "xls":
-                $this->buildExportFileXLS();
-                break;
+                return $this->buildExportFileXLS();
             case "xml":
             default:
-                $this->buildExportFileXML();
-                break;
+                return $this->buildExportFileXML();
         }
     }
 
@@ -217,7 +215,7 @@ class ilQuestionpoolExport
     /**
     * build xml export file
     */
-    protected function buildExportFileXLS() : void
+    protected function buildExportFileXLS() : string
     {
         require_once 'Modules/TestQuestionPool/classes/class.ilAssExcelFormatHelper.php';
         require_once 'Modules/TestQuestionPool/classes/class.assQuestion.php';
@@ -256,5 +254,6 @@ class ilQuestionpoolExport
         if (@file_exists($this->export_dir . "/" . $this->filename)) {
             @unlink($this->export_dir . "/" . $this->filename);
         }
+        return $this->export_dir . "/" . $this->zipfilename;
     }
 }

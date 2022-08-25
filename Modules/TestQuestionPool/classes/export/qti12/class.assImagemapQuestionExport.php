@@ -100,7 +100,7 @@ class assImagemapQuestionExport extends assQuestionExport
         );
         $a_xml_writer->xmlStartTag("response_xy", $attrs);
         $solution = $this->object->getSuggestedSolution(0);
-        if (count($solution)) {
+        if ($solution !== null && count($solution)) {
             if (preg_match("/il_(\d*?)_(\w+)_(\d+)/", $solution["internal_link"], $matches)) {
                 $a_xml_writer->xmlStartTag("material");
                 $intlink = "il_" . IL_INST_ID . "_" . $matches[2] . "_" . $matches[3];

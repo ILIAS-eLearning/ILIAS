@@ -981,13 +981,15 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
     public function exportQuestionObject() : void
     {
         // export button was pressed
-        if (array_key_exists('q_id', $_POST) && is_array($_POST['q_id']) && count($_POST['q_id']) > 0) {
-            $qpl_exp = new ilQuestionpoolExport($this->object, "xml", $_POST["q_id"]);
+        $post = $this->qplrequest->getParsedBody();
+        if (array_key_exists('q_id', $post) && is_array($post['q_id']) && count($post['q_id']) > 0) {
+            $qpl_exp = new ilQuestionpoolExport($this->object, "xml", $post["q_id"]);
             // @PHP8-CR: This seems to be a pointer to an issue with exports. I like to leave this open for now and
             // schedule a thorough examination / analysis for later, eventually involved T&A TechSquad
             $export_file = $qpl_exp->buildExportFile();
             $filename = $export_file;
             $filename = preg_replace("/.*\//", "", $filename);
+            if($export_file === '') $export_file = "StandIn";
             ilFileDelivery::deliverFileLegacy($export_file, $filename);
             exit();
         } else {

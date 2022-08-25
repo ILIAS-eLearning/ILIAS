@@ -104,7 +104,7 @@ class assMatchingQuestionExport extends assQuestionExport
         );
         $a_xml_writer->xmlStartTag("response_grp", $attrs);
         $solution = $this->object->getSuggestedSolution(0);
-        if (count($solution)) {
+        if ($solution !== null && count($solution)) {
             if (preg_match("/il_(\d*?)_(\w+)_(\d+)/", $solution["internal_link"], $matches)) {
                 $a_xml_writer->xmlStartTag("material");
                 $intlink = "il_" . IL_INST_ID . "_" . $matches[2] . "_" . $matches[3];
@@ -261,7 +261,7 @@ class assMatchingQuestionExport extends assQuestionExport
             // qti displayfeedback
             $attrs = array(
                 "feedbacktype" => "Response",
-                "linkrefid" => "correct_" . $matchingpair->term->identifier . "_" . $matchingpair->definition_identifier
+                "linkrefid" => "correct_" . $matchingpair->term->identifier . "_" . $matchingpair->definition->identifier
             );
             $a_xml_writer->xmlElement("displayfeedback", $attrs);
             $a_xml_writer->xmlEndTag("respcondition");
