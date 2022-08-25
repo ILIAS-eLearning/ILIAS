@@ -3804,7 +3804,6 @@ common#:#day#:#Day
 common#:#days#:#Days
 common#:#db_host#:#Database Host
 common#:#db_name#:#Database Name
-common#:#db_need_hotfix#:#Hotfix available. Please open <a href="./setup/setup.php">»Setup</a>!
 common#:#db_need_update#:#Database needs an update!
 common#:#db_pass#:#Database Password
 common#:#db_type#:#Database Type
