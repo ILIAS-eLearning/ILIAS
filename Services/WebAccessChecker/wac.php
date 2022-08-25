@@ -22,6 +22,10 @@ $container['http.cookie_jar_factory'] = static fn ($c) => new \ILIAS\HTTP\Cookie
 
 $container['http.response_sender_strategy'] = static fn ($c) => new \ILIAS\HTTP\Response\Sender\DefaultResponseSenderStrategy();
 
+$container['http.duration_factory'] = static fn ($c) => new \ILIAS\HTTP\Duration\DurationFactory(
+    new \ILIAS\HTTP\Duration\Increment\IncrementFactory()
+);
+
 $container['http'] = static fn ($c) => new \ILIAS\HTTP\Services($c);
 
 $GLOBALS["DIC"] = $container;
