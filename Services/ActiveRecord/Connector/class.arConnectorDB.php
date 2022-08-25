@@ -23,9 +23,7 @@ class arConnectorDB extends arConnector
 {
     protected function returnDB(): ilDBInterface
     {
-        global $DIC;
-
-        return $DIC['ilDB'];
+        return $GLOBALS['ilDB'];
     }
 
     public function checkConnection(ActiveRecord $ar): bool
