@@ -22,13 +22,10 @@ declare(strict_types=1);
  * Class ilSimpleSAMLphplIdpDiscovery
  * @author Michael Jansen <mjansen@databay.de>
  */
-class ilSimpleSAMLphplIdpDiscovery extends SimpleSAML\XHTML\IdPDisco implements ilSamlIdpDiscovery
+final class ilSimpleSAMLphplIdpDiscovery extends SimpleSAML\XHTML\IdPDisco implements ilSamlIdpDiscovery
 {
     private const METADATA_DIRECTORY = 'auth/saml/metadata';
 
-    /**
-     * ilSimpleSAMLphplIdpDiscovery constructor.
-     */
     public function __construct()
     {
         $this->config = SimpleSAML\Configuration::getInstance();
@@ -38,34 +35,21 @@ class ilSimpleSAMLphplIdpDiscovery extends SimpleSAML\XHTML\IdPDisco implements 
         $this->isPassive = false;
     }
 
-    /**
-     * @return string
-     */
     public function getMetadataDirectory(): string
     {
         return self::METADATA_DIRECTORY;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function getList(): array
     {
         return $this->getIdPList();
     }
 
-    /**
-     * @param int $idpId
-     * @return string
-     */
     private function getMetadataPath(int $idpId): string
     {
         return $this->getMetadataDirectory() . '/' . $idpId . '.xml';
     }
 
-    /**
-     * @inheritdoc
-     */
     public function storeIdpMetadata(int $idpId, string $metadata): void
     {
         global $DIC;
@@ -75,9 +59,6 @@ class ilSimpleSAMLphplIdpDiscovery extends SimpleSAML\XHTML\IdPDisco implements 
         $fs->put($this->getMetadataPath($idpId), $metadata);
     }
 
-    /**
-     * @inheritdoc
-     */
     public function fetchIdpMetadata(int $idpId): string
     {
         global $DIC;
@@ -91,9 +72,6 @@ class ilSimpleSAMLphplIdpDiscovery extends SimpleSAML\XHTML\IdPDisco implements 
         return $fs->read($this->getMetadataPath($idpId));
     }
 
-    /**
-     * @inheritdoc
-     */
     public function deleteIdpMetadata(int $idpId): void
     {
         global $DIC;

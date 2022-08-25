@@ -22,10 +22,12 @@ declare(strict_types=1);
  * Class ilSimpleSAMLphpWrapper
  * @author Michael Jansen <mjansen@databay.de>
  */
-class ilSimpleSAMLphpWrapper implements ilSamlAuth
+final class ilSimpleSAMLphpWrapper implements ilSamlAuth
 {
-    protected SimpleSAML\Configuration $config;
-    protected SimpleSAML\Auth\Simple $authSource;
+    private const ILIAS = 'ilias';
+
+    private SimpleSAML\Configuration $config;
+    private SimpleSAML\Auth\Simple $authSource;
 
     public function __construct(string $authSourceName, string $configurationPath)
     {
@@ -47,7 +49,7 @@ class ilSimpleSAMLphpWrapper implements ilSamlAuth
         $this->authSource = new SimpleSAML\Auth\Simple($authSourceName);
     }
 
-    protected function initConfigFiles(string $configurationPath): void
+    private function initConfigFiles(string $configurationPath): void
     {
         global $DIC;
 
@@ -66,72 +68,48 @@ class ilSimpleSAMLphpWrapper implements ilSamlAuth
         ]);
     }
 
-    /**
-     * @inheritdoc
-     */
     public function getAuthId(): string
     {
         return $this->authSource->getAuthSource()->getAuthId();
     }
 
-    /**
-     * @inheritdoc
-     */
     public function protectResource(): void
     {
         $this->authSource->requireAuth();
     }
 
-    /**
-     * @inheritdoc
-     */
     public function storeParam(string $key, $value): void
     {
         $session = SimpleSAML\Session::getSessionFromRequest();
-        $session->setData('ilias', $key, $value);
+        $session->setData(self::ILIAS, $key, $value);
     }
 
-    /**
-     * @inheritdoc
-     */
     public function getParam(string $key)
     {
         $session = SimpleSAML\Session::getSessionFromRequest();
 
-        return $session->getData('ilias', $key);
+        return $session->getData(self::ILIAS, $key);
     }
 
-    /**
-     * @inheritdoc
-     */
     public function popParam(string $key)
     {
         $session = SimpleSAML\Session::getSessionFromRequest();
         $value = $this->getParam($key);
-        $session->deleteData('ilias', $key);
+        $session->deleteData(self::ILIAS, $key);
 
         return $value;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function isAuthenticated(): bool
     {
         return $this->authSource->isAuthenticated();
     }
 
-    /**
-     * @inheritdoc
-     */
     public function getAttributes(): array
     {
         return $this->authSource->getAttributes();
     }
 
-    /**
-     * @inheritdoc
-     */
     public function logout(string $returnUrl = ''): void
     {
         ilSession::set('used_external_auth', false);
@@ -148,17 +126,11 @@ class ilSimpleSAMLphpWrapper implements ilSamlAuth
         $this->authSource->logout($params);
     }
 
-    /**
-     * @inheritdoc
-     */
     public function getIdpDiscovery(): ilSamlIdpDiscovery
     {
         return new ilSimpleSAMLphplIdpDiscovery();
     }
 
-    /**
-     * @inheritDoc
-     */
     public function getAuthDataArray(): array
     {
         return $this->authSource->getAuthDataArray();

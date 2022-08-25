@@ -24,19 +24,14 @@ use Psr\Http\Message\ServerRequestInterface;
  * Class ilAuthFrontendCredentialsSaml
  * @author Michael Jansen <mjansen@databay.de>
  */
-class ilAuthFrontendCredentialsSaml extends ilAuthFrontendCredentials
+final class ilAuthFrontendCredentialsSaml extends ilAuthFrontendCredentials
 {
-    private ilSamlAuth $auth;
-    private ServerRequestInterface $request;
     private string $return_to = '';
     private array $attributes = [];
 
-    public function __construct(ilSamlAuth $auth, ServerRequestInterface $request)
+    public function __construct(private ilSamlAuth $auth, private ServerRequestInterface $request)
     {
         parent::__construct();
-
-        $this->auth = $auth;
-        $this->request = $request;
 
         $this->setAttributes($this->auth->getAttributes());
     }

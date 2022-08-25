@@ -22,27 +22,33 @@ declare(strict_types=1);
  * Class ilSamlIdp
  * @author Michael Jansen <mjansen@databay.de>
  */
-class ilSamlIdp
+final class ilSamlIdp
 {
-    protected ilDBInterface $db;
+    private const PROP_IDP_ID = 'idp_id';
+    private const PROP_IS_ACTIVE = 'is_active';
+    private const PROP_DEFAULT_ROLE_ID = 'default_role_id';
+    private const PROP_UID_CLAIM = 'uid_claim';
+    private const PROP_LOGIN_CLAIM = 'login_claim';
+    private const PROP_ENTITY_ID = 'entity_id';
+    private const PROP_SYNC_STATUS = 'sync_status';
+    private const PROP_ALLOW_LOCAL_AUTH = 'allow_local_auth';
+    private const PROP_ACCOUNT_MIGR_STATUS = 'account_migr_status';
+
+    private ilDBInterface $db;
     /** @var self[] */
     private static array $instances = [];
-    protected int $idp_id;
-    protected bool $is_active = false;
-    protected bool $allow_local_auth = false;
-    protected int $default_role_id = 0;
-    protected string $uid_claim = '';
-    protected string $login_claim = '';
-    protected bool $sync_status = false;
-    protected string $entity_id = '';
-    protected bool $account_migration_status = false;
-    /** @var array */
-    protected static array $idp_as_data = [];
+    private bool $is_active = false;
+    private bool $allow_local_auth = false;
+    private int $default_role_id = 0;
+    private string $uid_claim = '';
+    private string $login_claim = '';
+    private bool $sync_status = false;
+    private string $entity_id = '';
+    private bool $account_migration_status = false;
 
-    public function __construct(int $a_idp_id = 0)
+    public function __construct(protected int $idp_id = 0)
     {
         $this->db = $GLOBALS['DIC']->database();
-        $this->idp_id = $a_idp_id;
 
         if ($this->idp_id > 0) {
             $this->read();
@@ -52,7 +58,7 @@ class ilSamlIdp
     public static function getFirstActiveIdp(): self
     {
         $idps = self::getActiveIdpList();
-        if (count($idps) > 0) {
+        if ($idps !== []) {
             return current($idps);
         }
 
@@ -70,7 +76,7 @@ class ilSamlIdp
 
     private function read(): void
     {
-        $query = 'SELECT * FROM saml_idp_settings WHERE idp_id = ' . $this->db->quote($this->getIdpId(), 'integer');
+        $query = 'SELECT * FROM saml_idp_settings WHERE idp_id = ' . $this->db->quote($this->idp_id, ilDBConstants::T_INTEGER);
         $res = $this->db->query($query);
         while ($record = $this->db->fetchAssoc($res)) {
             $this->bindDbRecord($record);
@@ -82,24 +88,24 @@ class ilSamlIdp
 
     public function persist(): void
     {
-        if (!$this->getIdpId()) {
+        if ($this->idp_id === 0) {
             $this->setIdpId($this->db->nextId('saml_idp_settings'));
         }
 
         $this->db->replace(
             'saml_idp_settings',
             [
-                'idp_id' => ['integer', $this->getIdpId()]
+                self::PROP_IDP_ID => [ilDBConstants::T_INTEGER, $this->idp_id]
             ],
             [
-                'is_active' => ['integer', (int) $this->isActive()],
-                'default_role_id' => ['integer', $this->getDefaultRoleId()],
-                'uid_claim' => ['text', $this->getUidClaim()],
-                'login_claim' => ['text', $this->getLoginClaim()],
-                'entity_id' => ['text', $this->getEntityId()],
-                'sync_status' => ['integer', (int) $this->isSynchronizationEnabled()],
-                'allow_local_auth' => ['integer', (int) $this->allowLocalAuthentication()],
-                'account_migr_status' => ['integer', (int) $this->isAccountMigrationEnabled()]
+                self::PROP_IS_ACTIVE => [ilDBConstants::T_INTEGER, (int) $this->is_active],
+                self::PROP_DEFAULT_ROLE_ID => [ilDBConstants::T_INTEGER, $this->default_role_id],
+                self::PROP_UID_CLAIM => [ilDBConstants::T_TEXT, $this->uid_claim],
+                self::PROP_LOGIN_CLAIM => [ilDBConstants::T_TEXT, $this->login_claim],
+                self::PROP_ENTITY_ID => [ilDBConstants::T_TEXT, $this->entity_id],
+                self::PROP_SYNC_STATUS => [ilDBConstants::T_INTEGER, (int) $this->sync_status],
+                self::PROP_ALLOW_LOCAL_AUTH => [ilDBConstants::T_INTEGER, (int) $this->allow_local_auth],
+                self::PROP_ACCOUNT_MIGR_STATUS => [ilDBConstants::T_INTEGER, (int) $this->account_migration_status]
             ]
         );
     }
@@ -110,36 +116,36 @@ class ilSamlIdp
      */
     public function delete(): void
     {
-        $mapping = new ilExternalAuthUserAttributeMapping('saml', $this->getIdpId());
+        $mapping = new ilExternalAuthUserAttributeMapping('saml', $this->idp_id);
         $mapping->delete();
 
         $this->db->manipulateF(
             'UPDATE usr_data SET auth_mode = %s WHERE auth_mode = %s',
-            array('text', 'text'),
-            array('default', ilAuthUtils::AUTH_SAML . '_' . $this->getIdpId())
+            [ilDBConstants::T_TEXT, ilDBConstants::T_TEXT],
+            ['default', ilAuthUtils::AUTH_SAML . '_' . $this->idp_id]
         );
 
         $this->db->manipulate('DELETE FROM saml_idp_settings WHERE idp_id = ' . $this->db->quote(
-            $this->getIdpId(),
-            'integer'
+            $this->idp_id,
+            ilDBConstants::T_INTEGER
         ));
     }
 
     /**
-     * @return array<string, mixed>
+     * @return array{idp_id: int, is_active: bool, default_role_id: int, uid_claim: string, login_claim: string, sync_status: bool, account_migr_status: bool, allow_local_auth: bool, entity_id: string}
      */
     public function toArray(): array
     {
         return [
-            'idp_id' => $this->getIdpId(),
-            'is_active' => $this->isActive(),
-            'default_role_id' => $this->getDefaultRoleId(),
-            'uid_claim' => $this->getUidClaim(),
-            'login_claim' => $this->getLoginClaim(),
-            'sync_status' => $this->isSynchronizationEnabled(),
-            'account_migr_status' => $this->isAccountMigrationEnabled(),
-            'allow_local_auth' => $this->allowLocalAuthentication(),
-            'entity_id' => $this->getEntityId()
+            self::PROP_IDP_ID => $this->idp_id,
+            self::PROP_IS_ACTIVE => $this->is_active,
+            self::PROP_DEFAULT_ROLE_ID => $this->default_role_id,
+            self::PROP_UID_CLAIM => $this->uid_claim,
+            self::PROP_LOGIN_CLAIM => $this->login_claim,
+            self::PROP_SYNC_STATUS => $this->sync_status,
+            self::PROP_ACCOUNT_MIGR_STATUS => $this->account_migration_status,
+            self::PROP_ALLOW_LOCAL_AUTH => $this->allow_local_auth,
+            self::PROP_ENTITY_ID => $this->entity_id
         ];
     }
 
@@ -148,25 +154,25 @@ class ilSamlIdp
      */
     public function bindDbRecord(array $record): void
     {
-        $this->setIdpId((int) $record['idp_id']);
-        $this->setActive((bool) $record['is_active']);
-        $this->setDefaultRoleId((int) $record['default_role_id']);
-        $this->setUidClaim((string) $record['uid_claim']);
-        $this->setLoginClaim((string) $record['login_claim']);
-        $this->setSynchronizationStatus((bool) $record['sync_status']);
-        $this->setAccountMigrationStatus((bool) $record['account_migr_status']);
-        $this->setLocalLocalAuthenticationStatus((bool) $record['allow_local_auth']);
-        $this->setEntityId((string) $record['entity_id']);
+        $this->setIdpId((int) $record[self::PROP_IDP_ID]);
+        $this->setActive((bool) $record[self::PROP_IS_ACTIVE]);
+        $this->setDefaultRoleId((int) $record[self::PROP_DEFAULT_ROLE_ID]);
+        $this->setUidClaim((string) $record[self::PROP_UID_CLAIM]);
+        $this->setLoginClaim((string) $record[self::PROP_LOGIN_CLAIM]);
+        $this->setSynchronizationStatus((bool) $record[self::PROP_SYNC_STATUS]);
+        $this->setAccountMigrationStatus((bool) $record[self::PROP_ACCOUNT_MIGR_STATUS]);
+        $this->setLocalLocalAuthenticationStatus((bool) $record[self::PROP_ALLOW_LOCAL_AUTH]);
+        $this->setEntityId((string) $record[self::PROP_ENTITY_ID]);
     }
 
     public function bindForm(ilPropertyFormGUI $form): void
     {
-        $this->setDefaultRoleId((int) $form->getInput('default_role_id'));
-        $this->setUidClaim((string) $form->getInput('uid_claim'));
-        $this->setLoginClaim((string) $form->getInput('login_claim'));
-        $this->setSynchronizationStatus((bool) $form->getInput('sync_status'));
-        $this->setLocalLocalAuthenticationStatus((bool) $form->getInput('allow_local_auth'));
-        $this->setAccountMigrationStatus((bool) $form->getInput('account_migr_status'));
+        $this->setDefaultRoleId((int) $form->getInput(self::PROP_DEFAULT_ROLE_ID));
+        $this->setUidClaim((string) $form->getInput(self::PROP_UID_CLAIM));
+        $this->setLoginClaim((string) $form->getInput(self::PROP_LOGIN_CLAIM));
+        $this->setSynchronizationStatus((bool) $form->getInput(self::PROP_SYNC_STATUS));
+        $this->setLocalLocalAuthenticationStatus((bool) $form->getInput(self::PROP_ALLOW_LOCAL_AUTH));
+        $this->setAccountMigrationStatus((bool) $form->getInput(self::PROP_ACCOUNT_MIGR_STATUS));
 
         /** @var ilSamlIdpMetadataInputGUI $metadata */
         $metadata = $form->getItemByPostVar('metadata');
@@ -214,7 +220,6 @@ class ilSamlIdp
     public static function getActiveIdpList(): array
     {
         $idps = [];
-
         foreach (self::getAllIdps() as $idp) {
             if ($idp->isActive()) {
                 $idps[] = $idp;
@@ -247,7 +252,7 @@ class ilSamlIdp
     public static function getAuthModeByKey(string $a_auth_key): string
     {
         $auth_arr = explode('_', $a_auth_key);
-        if (count((array) $auth_arr) > 1) {
+        if (count($auth_arr) > 1) {
             return 'saml_' . $auth_arr[1];
         }
 
@@ -257,7 +262,7 @@ class ilSamlIdp
     public static function getKeyByAuthMode(string $a_auth_mode): string
     {
         $auth_arr = explode('_', $a_auth_mode);
-        if (count((array) $auth_arr) > 1) {
+        if (count($auth_arr) > 1) {
             return ilAuthUtils::AUTH_SAML . '_' . $auth_arr[1];
         }
 

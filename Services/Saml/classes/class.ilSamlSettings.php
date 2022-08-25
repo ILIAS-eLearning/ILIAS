@@ -22,12 +22,12 @@ declare(strict_types=1);
  * Class ilSamlSettings
  * @author Michael Jansen <mjansen@databay.de>
  */
-class ilSamlSettings
+final class ilSamlSettings
 {
-    protected static ?self $instance = null;
-    protected ilSetting $settings;
+    private static ?self $instance = null;
+    private ilSetting $settings;
 
-    protected function __construct()
+    private function __construct()
     {
         $this->settings = new ilSetting('auth_saml');
     }

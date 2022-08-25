@@ -23,23 +23,19 @@ use ILIAS\Data\Result;
 
 final class ilSamlIdpXmlMetadataParser
 {
-    private DataTypeFactory $dataFactory;
-    private ilSamlIdpXmlMetadataErrorFormatter $errorFormatter;
     private Result $result;
     private bool $xmlErrorState = false;
     /** @var array<int, LibXMLError[]> */
     private array $errorStack = [];
 
-    public function __construct(DataTypeFactory $dataFactory, ilSamlIdpXmlMetadataErrorFormatter $errorFormatter)
+    public function __construct(private DataTypeFactory $dataFactory, private ilSamlIdpXmlMetadataErrorFormatter $errorFormatter)
     {
-        $this->dataFactory = $dataFactory;
-        $this->errorFormatter = $errorFormatter;
         $this->result = new Result\Error('No metadata parsed, yet');
     }
 
     private function beginLogging(): void
     {
-        if (0 === count($this->errorStack)) {
+        if ([] === $this->errorStack) {
             $this->xmlErrorState = libxml_use_internal_errors(true);
             libxml_clear_errors();
         } else {
@@ -67,7 +63,7 @@ final class ilSamlIdpXmlMetadataParser
 
         $errors = array_pop($this->errorStack);
 
-        if (0 === count($this->errorStack)) {
+        if ([] === $this->errorStack) {
             libxml_use_internal_errors($this->xmlErrorState);
         }
 
@@ -110,7 +106,7 @@ final class ilSamlIdpXmlMetadataParser
             $errors[] = $error;
 
             $this->result = $this->dataFactory->error($this->errorFormatter->formatErrors(...$errors));
-        } catch (Exception $e) {
+        } catch (Exception) {
             $this->result = $this->dataFactory->error($this->errorFormatter->formatErrors(...$this->endLogging()));
         }
     }

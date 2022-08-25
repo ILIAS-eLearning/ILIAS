@@ -18,8 +18,6 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
-require_once 'libs/composer/vendor/autoload.php';
-
 use PHPUnit\Framework\TestSuite;
 
 /**
@@ -32,10 +30,10 @@ class ilServicesSamlTestSuite extends TestSuite
     {
         $suite = new self();
 
-        require_once 'Services/Saml/test/ilSamlMappedUserAttributeValueParserTest.php';
+        require_once __DIR__ . '/ilSamlMappedUserAttributeValueParserTest.php';
         $suite->addTestSuite(ilSamlMappedUserAttributeValueParserTest::class);
 
-        require_once 'Services/Saml/test/ilSamlIdpXmlMetadataParserTest.php';
+        require_once __DIR__ . '/ilSamlIdpXmlMetadataParserTest.php';
         $suite->addTestSuite(ilSamlIdpXmlMetadataParserTest::class);
 
         return $suite;

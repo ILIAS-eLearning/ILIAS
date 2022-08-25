@@ -18,19 +18,13 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
-class ilSamlIdpMetadataInputGUI extends ilTextAreaInputGUI
+final class ilSamlIdpMetadataInputGUI extends ilTextAreaInputGUI
 {
-    protected ilSamlIdpXmlMetadataParser $idpMetadataParser;
+    private const AUTH_SAML_ADD_IDP_MD_ERROR = 'auth_saml_add_idp_md_error';
 
-    public function __construct(string $title, string $httpPostVar, ilSamlIdpXmlMetadataParser $idpMetadataParser)
+    public function __construct(string $title, string $httpPostVar, protected ilSamlIdpXmlMetadataParser $idpMetadataParser)
     {
         parent::__construct($title, $httpPostVar);
-        $this->idpMetadataParser = $idpMetadataParser;
-    }
-
-    public function getIdpMetadataParser(): ilSamlIdpXmlMetadataParser
-    {
-        return $this->idpMetadataParser;
     }
 
     public function checkInput(): bool
@@ -45,18 +39,18 @@ class ilSamlIdpMetadataInputGUI extends ilTextAreaInputGUI
 
             $this->idpMetadataParser->parse($httpValue);
             if ($this->idpMetadataParser->result()->isError()) {
-                $this->setAlert(implode(' ', [$this->lng->txt('auth_saml_add_idp_md_error'), $this->idpMetadataParser->result()->error()]));
+                $this->setAlert(implode(' ', [$this->lng->txt(self::AUTH_SAML_ADD_IDP_MD_ERROR), $this->idpMetadataParser->result()->error()]));
                 return false;
             }
 
             if (!$this->idpMetadataParser->result()->value()) {
-                $this->setAlert($this->lng->txt('auth_saml_add_idp_md_error'));
+                $this->setAlert($this->lng->txt(self::AUTH_SAML_ADD_IDP_MD_ERROR));
                 return false;
             }
 
             $this->value = $this->stripSlashesAddSpaceFallback($this->idpMetadataParser->result()->value());
-        } catch (Exception $e) {
-            $this->setAlert($this->lng->txt('auth_saml_add_idp_md_error'));
+        } catch (Exception) {
+            $this->setAlert($this->lng->txt(self::AUTH_SAML_ADD_IDP_MD_ERROR));
             return false;
         }
 

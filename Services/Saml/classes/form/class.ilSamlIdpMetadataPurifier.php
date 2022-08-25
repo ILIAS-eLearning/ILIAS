@@ -22,19 +22,13 @@ declare(strict_types=1);
  * Class ilSamlIdpMetadataPurifier
  * @author Michael Jansen <mjansen@databay.de>
  */
-class ilSamlIdpMetadataPurifier implements ilHtmlPurifierInterface
+final class ilSamlIdpMetadataPurifier implements ilHtmlPurifierInterface
 {
-    /**
-     * @inheritdoc
-     */
     public function purify(string $html): string
     {
         return $html;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function purifyArray(array $htmlCollection): array
     {
         foreach ($htmlCollection as $key => $html) {

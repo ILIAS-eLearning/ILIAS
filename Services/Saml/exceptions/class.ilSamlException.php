@@ -22,6 +22,6 @@ declare(strict_types=1);
  * Class ilSamlException
  * @author Michael Jansen <mjansen@databay.de>
  */
-class ilSamlException extends ilException
+final class ilSamlException extends Exception
 {
 }

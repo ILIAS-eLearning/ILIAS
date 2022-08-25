@@ -22,7 +22,7 @@ declare(strict_types=1);
  * Class ilSamlIdpSelectionTableGUI
  * @author Michael Jansen <mjansen@databay.de>
  */
-class ilSamlIdpSelectionTableGUI extends ilTable2GUI
+final class ilSamlIdpSelectionTableGUI extends ilTable2GUI
 {
     public function __construct(object $parent_gui, string $parent_cmd)
     {

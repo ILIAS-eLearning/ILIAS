@@ -24,18 +24,12 @@ declare(strict_types=1);
  */
 class ilSamlIdpTableGUI extends ilTable2GUI
 {
-    private ILIAS\DI\Container $dic;
-    private bool $hasWriteAccess;
-
-    public function __construct(object $parent_gui, string $parent_cmd, bool $hasWriteAccess)
+    public function __construct(ilSamlSettingsGUI $parent_gui, string $parent_cmd, private bool $hasWriteAccess)
     {
         global $DIC;
 
-        $this->dic = $DIC;
-        $this->hasWriteAccess = $hasWriteAccess;
-
-        $f = $this->dic->ui()->factory();
-        $renderer = $this->dic->ui()->renderer();
+        $f = $DIC->ui()->factory();
+        $renderer = $DIC->ui()->renderer();
 
         $this->setId('saml_idp_list');
         parent::__construct($parent_gui, $parent_cmd);
