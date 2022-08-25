@@ -148,7 +148,8 @@ class assClozeTestExport extends assQuestionExport
                         );
                         $a_xml_writer->xmlStartTag("response_str", $attrs);
                         $solution = $this->object->getSuggestedSolution($i);
-                        if (count($solution)) {
+
+                        if ($solution !== null && count($solution)) {
                             if (preg_match("/il_(\d*?)_(\w+)_(\d+)/", $solution["internal_link"], $matches)) {
                                 $attrs = array(
                                     "label" => "suggested_solution"
@@ -188,7 +189,7 @@ class assClozeTestExport extends assQuestionExport
                         );
                         $a_xml_writer->xmlStartTag("response_str", $attrs);
                         $solution = $this->object->getSuggestedSolution($i);
-                        if (count($solution)) {
+                        if ($solution !== null && count($solution)) {
                             if (preg_match("/il_(\d*?)_(\w+)_(\d+)/", $solution["internal_link"], $matches)) {
                                 $attrs = array(
                                     "label" => "suggested_solution"
@@ -221,7 +222,7 @@ class assClozeTestExport extends assQuestionExport
                         );
                         $a_xml_writer->xmlStartTag("response_num", $attrs);
                         $solution = $this->object->getSuggestedSolution($i);
-                        if (count($solution)) {
+                        if ($solution !== null && count($solution)) {
                             if (preg_match("/il_(\d*?)_(\w+)_(\d+)/", $solution["internal_link"], $matches)) {
                                 $attrs = array(
                                     "label" => "suggested_solution"
