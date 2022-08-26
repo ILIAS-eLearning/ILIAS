@@ -38,7 +38,6 @@ use ILIAS\OrgUnit\Webservices\SOAP\UserIdsOfPositionAndOrgUnit;
 
 class ilSoapFunctions
 {
-
     // These functions are wrappers for soap, since it cannot register methods inside classes
 
     /**
@@ -827,7 +826,7 @@ class ilSoapFunctions
         return $roa->searchRoles($sid, $key, $combination, $role_type);
     }
 
-    public static function getInstallationInfoXML() : string
+    public static function getInstallationInfoXML(): string
     {
         include_once 'webservice/soap/classes/class.ilSoapAdministration.php';
         $roa = new ilSoapAdministration();
@@ -847,7 +846,7 @@ class ilSoapFunctions
     /**
      * @return string
      */
-    public static function buildHTTPPath() : string
+    public static function buildHTTPPath(): string
     {
         if ($_SERVER["HTTPS"] === "on") {
             $protocol = 'https://';
@@ -906,7 +905,7 @@ class ilSoapFunctions
     public static function createWebLink(string $sid, int $ref_id, string $xml)
     {
         include_once './webservice/soap/classes/class.ilSoapWebLinkAdministration.php';
-        
+
         $swa = new ilSoapWebLinkAdministration();
         return $swa->createWebLink($sid, $ref_id, $xml);
     }
@@ -921,7 +920,7 @@ class ilSoapFunctions
         return $swa->updateWebLink($sid, $ref_id, $xml);
     }
 
-    public static function deleteExpiredDualOptInUserObjects(string $sid, int $usr_id) : bool
+    public static function deleteExpiredDualOptInUserObjects(string $sid, int $usr_id): bool
     {
         include_once './webservice/soap/classes/class.ilSoapUtils.php';
 

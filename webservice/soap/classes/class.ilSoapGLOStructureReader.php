@@ -32,7 +32,7 @@ include_once "./webservice/soap/classes/class.ilSoapStructureObjectFactory.php";
  */
 class ilSoapGLOStructureReader extends ilSoapStructureReader
 {
-    public function _parseStructure() : void
+    public function _parseStructure(): void
     {
         /* @var $object ilObjGlossary */
         $object = $this->object;

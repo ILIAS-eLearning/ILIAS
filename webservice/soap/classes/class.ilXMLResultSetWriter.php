@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
@@ -17,7 +19,7 @@ class ilXMLResultSetWriter extends ilXmlWriter
         $this->xmlResultSet = $xmlResultSet;
     }
 
-    public function start() : bool
+    public function start(): bool
     {
         $this->buildHeader();
         $this->buildColSpecs();
@@ -26,14 +28,14 @@ class ilXMLResultSetWriter extends ilXmlWriter
         return true;
     }
 
-    private function buildHeader() : void
+    private function buildHeader(): void
     {
         $this->xmlSetDtdDef("<!DOCTYPE result PUBLIC \"-//ILIAS//DTD XMLResultSet//EN\" \"" . ILIAS_HTTP_PATH . "/xml/ilias_xml_resultset_3_7.dtd\">");
         $this->xmlHeader();
         $this->xmlStartTag("result");
     }
 
-    private function buildColSpecs() : void
+    private function buildColSpecs(): void
     {
         $this->xmlStartTag("colspecs");
         foreach ($this->xmlResultSet->getColSpecs() as $colSpec) {
@@ -44,7 +46,7 @@ class ilXMLResultSetWriter extends ilXmlWriter
         $this->xmlEndTag("colspecs");
     }
 
-    private function buildRows() : void
+    private function buildRows(): void
     {
         $this->xmlStartTag("rows");
         foreach ($this->xmlResultSet->getRows() as $row) {
@@ -53,7 +55,7 @@ class ilXMLResultSetWriter extends ilXmlWriter
         $this->xmlEndTag("rows");
     }
 
-    private function appendRow(ilXMLResultSetRow $xmlResultSetRow) : void
+    private function appendRow(ilXMLResultSetRow $xmlResultSetRow): void
     {
         $this->xmlStartTag('row', null);
         foreach ($xmlResultSetRow->getColumns() as $value) {
@@ -62,12 +64,12 @@ class ilXMLResultSetWriter extends ilXmlWriter
         $this->xmlEndTag('row');
     }
 
-    private function buildFooter() : void
+    private function buildFooter(): void
     {
         $this->xmlEndTag('result');
     }
 
-    public function getXML() : string
+    public function getXML(): string
     {
         return $this->xmlDumpMem(false);
     }

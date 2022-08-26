@@ -472,16 +472,16 @@ class ilSoapUserAdministration extends ilSoapAdministration
                 $data = ilObjUser::_getUsersForFolder($ref_id, $active);
                 break;
             case "crs":
-            {
-                // GET ALL MEMBERS
-                $roles = $object->__getLocalRoles();
+                {
+                    // GET ALL MEMBERS
+                    $roles = $object->__getLocalRoles();
 
-                foreach ($roles as $role_id) {
-                    $data = array_merge($rbacreview->assignedUsers($role_id), $data);
+                    foreach ($roles as $role_id) {
+                        $data = array_merge($rbacreview->assignedUsers($role_id), $data);
+                    }
+
+                    break;
                 }
-
-                break;
-            }
             case "grp":
                 $member_ids = $object->getGroupMemberIds();
                 $data = ilObjUser::_getUsersForGroup($member_ids, $active);
@@ -591,7 +591,7 @@ class ilSoapUserAdministration extends ilSoapAdministration
     /**
      *    Create XML ResultSet
      **/
-    private function getImportProtocolAsXML(array $a_array) : string
+    private function getImportProtocolAsXML(array $a_array): string
     {
         include_once './webservice/soap/classes/class.ilXMLResultSet.php';
         include_once './webservice/soap/classes/class.ilXMLResultSetWriter.php';
@@ -746,7 +746,7 @@ class ilSoapUserAdministration extends ilSoapAdministration
     /**
      * create search term according to parameters
      */
-    private function buildSearchQuery(array $a_keyfields, string $queryOperator, array $a_keyvalues) : string
+    private function buildSearchQuery(array $a_keyfields, string $queryOperator, array $a_keyvalues): string
     {
         global $DIC;
 

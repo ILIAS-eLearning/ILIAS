@@ -25,7 +25,7 @@ class ilObjectXMLParser extends ilSaxParser
         $this->setXMLContent($a_xml_data);
     }
 
-    public function getObjectData() : array
+    public function getObjectData(): array
     {
         return $this->object_data;
     }
@@ -34,7 +34,7 @@ class ilObjectXMLParser extends ilSaxParser
      * @param XMLParser|resource $a_xml_parser
      * @return void
      */
-    public function setHandlers($a_xml_parser) : void
+    public function setHandlers($a_xml_parser): void
     {
         xml_set_object($a_xml_parser, $this);
         xml_set_element_handler($a_xml_parser, 'handlerBeginTag', 'handlerEndTag');
@@ -44,7 +44,7 @@ class ilObjectXMLParser extends ilSaxParser
     /**
      * @param XMLParser|resource $a_xml_parser
      */
-    public function handlerBeginTag($a_xml_parser, string $a_name, array $a_attribs) : void
+    public function handlerBeginTag($a_xml_parser, string $a_name, array $a_attribs): void
     {
         switch ($a_name) {
             case 'Objects':
@@ -107,7 +107,6 @@ class ilObjectXMLParser extends ilSaxParser
                     $this->time_target['suggestion_end'] = $a_attribs['ending_time'];
                 }
                 break;
-
         }
     }
 
@@ -116,7 +115,7 @@ class ilObjectXMLParser extends ilSaxParser
      * @param string $a_name
      * @return void
      */
-    public function handlerEndTag($a_xml_parser, string $a_name) : void
+    public function handlerEndTag($a_xml_parser, string $a_name): void
     {
         switch ($a_name) {
             case 'Object':
@@ -160,7 +159,7 @@ class ilObjectXMLParser extends ilSaxParser
      * @param string $a_data
      * @return void
      */
-    public function handlerCharacterData($a_xml_parser, string $a_data) : void
+    public function handlerCharacterData($a_xml_parser, string $a_data): void
     {
         if ($a_data !== "\n") {
             // Replace multiple tabs with one space
@@ -175,12 +174,12 @@ class ilObjectXMLParser extends ilSaxParser
      * @param string | int $a_value
      * @return void
      */
-    private function addProperty(string $a_name, $a_value) : void
+    private function addProperty(string $a_name, $a_value): void
     {
         $this->object_data[$this->curr_obj][$a_name] = $a_value;
     }
 
-    private function addReference(int $a_ref_id, int $a_parent_id, array $a_time_target) : void
+    private function addReference(int $a_ref_id, int $a_parent_id, array $a_time_target): void
     {
         $reference['ref_id'] = $a_ref_id;
         $reference['parent_id'] = $a_parent_id;

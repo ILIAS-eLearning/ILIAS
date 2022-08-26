@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /******************************************************************************
  * This file is part of ILIAS, a powerful learning management system.
@@ -22,7 +24,7 @@ class ilXMLResultSetParser extends ilSaxParser
         $this->setXMLContent($a_xml_data);
     }
 
-    public function getXMLResultSet() : ?ilXMLResultSet
+    public function getXMLResultSet(): ?ilXMLResultSet
     {
         return $this->xmlResultSet;
     }
@@ -30,7 +32,7 @@ class ilXMLResultSetParser extends ilSaxParser
     /**
      * @param XMLParser|resource A reference to the xml parser
      */
-    public function setHandlers($a_xml_parser) : void
+    public function setHandlers($a_xml_parser): void
     {
         xml_set_object($a_xml_parser, $this);
         xml_set_element_handler($a_xml_parser, 'handlerBeginTag', 'handlerEndTag');
@@ -43,7 +45,7 @@ class ilXMLResultSetParser extends ilSaxParser
      * @param array $a_attribs element attributes array
      * @return void
      */
-    public function handlerBeginTag($a_xml_parser, string $a_name, array $a_attribs) : void
+    public function handlerBeginTag($a_xml_parser, string $a_name, array $a_attribs): void
     {
         switch ($a_name) {
             case 'result':
@@ -70,7 +72,7 @@ class ilXMLResultSetParser extends ilSaxParser
      * @param string $a_name element name
      * @return void
      */
-    public function handlerEndTag($a_xml_parser, string $a_name) : void
+    public function handlerEndTag($a_xml_parser, string $a_name): void
     {
         switch ($a_name) {
             case 'column':
@@ -87,7 +89,7 @@ class ilXMLResultSetParser extends ilSaxParser
      * @param string $a_data character data
      * @return void
      */
-    public function handlerCharacterData($a_xml_parser, string $a_data) : void
+    public function handlerCharacterData($a_xml_parser, string $a_data): void
     {
         if ($a_data !== "\n") {
             // Replace multiple tabs with one space

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -23,12 +25,12 @@ include_once './webservice/soap/classes/class.ilSoapAdministration.php';
 
 class ilSoapUtils extends ilSoapAdministration
 {
-    public function ignoreUserAbort() : int
+    public function ignoreUserAbort(): int
     {
         return ignore_user_abort(true);
     }
 
-    public function disableSOAPCheck() : void
+    public function disableSOAPCheck(): void
     {
         $this->soap_check = false;
     }
@@ -197,12 +199,11 @@ class ilSoapUtils extends ilSoapAdministration
                 ilLoggerFactory::getLogger('obj')->warning('No valid action type given for: ' . $node['obj_id'] . ', ' . $node['title'] . ', ' . $node['type']);
                 $this->callNextNode($sid, $cp_options);
                 break;
-
         }
         return $new_ref_id;
     }
 
-    protected function rewriteActionForNode(ilCopyWizardOptions $cpo, array $node, array $options) : int
+    protected function rewriteActionForNode(ilCopyWizardOptions $cpo, array $node, array $options): int
     {
         $default_mode = \ilCopyWizardOptions::COPY_WIZARD_UNDEFINED;
         if (array_key_exists('type', $options)) {
@@ -221,7 +222,7 @@ class ilSoapUtils extends ilSoapAdministration
         return $default_mode;
     }
 
-    protected function findMappedReferenceForNode(\ilCopyWizardOptions $cpo, array $node) : ?int
+    protected function findMappedReferenceForNode(\ilCopyWizardOptions $cpo, array $node): ?int
     {
         global $DIC;
 
@@ -250,7 +251,7 @@ class ilSoapUtils extends ilSoapAdministration
         return null;
     }
 
-    private function callNextNode(string $sid, ilCopyWizardOptions $cp_options) : void
+    private function callNextNode(string $sid, ilCopyWizardOptions $cp_options): void
     {
         global $DIC;
 
@@ -273,7 +274,7 @@ class ilSoapUtils extends ilSoapAdministration
         }
     }
 
-    private function callNextDependency(string $sid, ilCopyWizardOptions $cp_options) : void
+    private function callNextDependency(string $sid, ilCopyWizardOptions $cp_options): void
     {
         $cp_options->dropFirstDependenciesNode();
 
@@ -293,7 +294,7 @@ class ilSoapUtils extends ilSoapAdministration
         }
     }
 
-    private function cloneNode(array $node, ilCopyWizardOptions $cp_options) : int
+    private function cloneNode(array $node, ilCopyWizardOptions $cp_options): int
     {
         global $DIC;
 
@@ -340,7 +341,7 @@ class ilSoapUtils extends ilSoapAdministration
         return $new_obj->getRefId();
     }
 
-    private function cloneDependencies(array $node, ilCopyWizardOptions $cp_options) : void
+    private function cloneDependencies(array $node, ilCopyWizardOptions $cp_options): void
     {
         global $DIC;
 
@@ -359,7 +360,7 @@ class ilSoapUtils extends ilSoapAdministration
         $orig->cloneDependencies($target_id, $cp_options->getCopyId());
     }
 
-    private function internalLinkNode(array $node, ilCopyWizardOptions $cp_options) : int
+    private function internalLinkNode(array $node, ilCopyWizardOptions $cp_options): int
     {
         global $DIC;
 
@@ -411,7 +412,7 @@ class ilSoapUtils extends ilSoapAdministration
         return $new_ref_id;
     }
 
-    private function linkNode(array $node, ilCopyWizardOptions $cp_options) : int
+    private function linkNode(array $node, ilCopyWizardOptions $cp_options): int
     {
         global $DIC;
 
@@ -459,7 +460,7 @@ class ilSoapUtils extends ilSoapAdministration
      * Method for soap webservice: deleteExpiredDualOptInUserObjects
      * This service will run in background. The client has not to wait for response.
      */
-    public function deleteExpiredDualOptInUserObjects(string $sid, int $usr_id) : bool
+    public function deleteExpiredDualOptInUserObjects(string $sid, int $usr_id): bool
     {
         $this->initAuth($sid);
         $this->initIlias();

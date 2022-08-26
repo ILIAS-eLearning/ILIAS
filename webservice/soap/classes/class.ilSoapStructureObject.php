@@ -44,64 +44,64 @@ class ilSoapStructureObject
         $this->parentRefId = $parentRefId;
     }
 
-    public function addStructureObject(ilSoapStructureObject $structureObject) : void
+    public function addStructureObject(ilSoapStructureObject $structureObject): void
     {
         $this->structureObjects [$structureObject->getObjId()] = $structureObject;
     }
 
-    public function getStructureObjects() : array
+    public function getStructureObjects(): array
     {
         return $this->structureObjects;
     }
 
-    public function setObjId(int $value) : void
+    public function setObjId(int $value): void
     {
         $this->obj_id = $value;
     }
 
-    public function getObjId() : int
+    public function getObjId(): int
     {
         return $this->obj_id;
     }
 
-    public function setTitle(string $value) : void
+    public function setTitle(string $value): void
     {
         $this->title = $value;
     }
 
-    public function getTitle() : string
+    public function getTitle(): string
     {
         return $this->title;
     }
 
-    public function setDescription(string $value) : void
+    public function setDescription(string $value): void
     {
         $this->description = $value;
     }
 
-    public function getDescription() : string
+    public function getDescription(): string
     {
         return $this->description;
     }
 
-    public function setType(string $value) : void
+    public function setType(string $value): void
     {
         $this->type = $value;
     }
 
-    public function getType() : string
+    public function getType(): string
     {
         return $this->type;
     }
 
-    public function getGotoLink() : string
+    public function getGotoLink(): string
     {
         return ILIAS_HTTP_PATH . "/" . "goto.php?target=" . $this->getType() .
             "_" . $this->getObjId() .
             (is_numeric($this->getParentRefId()) ? "_" . $this->getParentRefId() : "") . "&client_id=" . CLIENT_ID;
     }
 
-    public function getInternalLink() : string
+    public function getInternalLink(): string
     {
         return '';
     }
@@ -109,7 +109,7 @@ class ilSoapStructureObject
     /**
      * @return array{type: string, obj_id: int}
      */
-    public function _getXMLAttributes() : array
+    public function _getXMLAttributes(): array
     {
         return array(
             'type' => $this->getType(),
@@ -117,22 +117,22 @@ class ilSoapStructureObject
         );
     }
 
-    public function _getTagName() : string
+    public function _getTagName(): string
     {
         return "StructureObject";
     }
 
-    public function setParentRefId(int $parentRefId) : void
+    public function setParentRefId(int $parentRefId): void
     {
         $this->parentRefId = $parentRefId;
     }
 
-    public function getParentRefId() : ?int
+    public function getParentRefId(): ?int
     {
         return $this->parentRefId;
     }
 
-    public function exportXML(ilXmlWriter $xml_writer) : void
+    public function exportXML(ilXmlWriter $xml_writer): void
     {
         $attrs = $this->_getXMLAttributes();
 

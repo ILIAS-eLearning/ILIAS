@@ -481,7 +481,6 @@ class ilSoapRBACAdministration extends ilSoapAdministration
 
         $new_roles = [];
         foreach ($xml_parser->getObjectData() as $object_data) {
-
             // check if role title has il_ prefix
             if (strpos($object_data['title'], "il_") === 0) {
                 return $this->raiseError(

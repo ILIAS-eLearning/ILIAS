@@ -31,7 +31,7 @@ include_once './webservice/soap/classes/class.ilSoapAdministration.php';
 
 class ilSoapTestAdministration extends ilSoapAdministration
 {
-    private function hasWritePermissionForTest(int $active_id) : bool
+    private function hasWritePermissionForTest(int $active_id): bool
     {
         global $DIC;
 
@@ -59,7 +59,7 @@ class ilSoapTestAdministration extends ilSoapAdministration
         return $permission_ok;
     }
 
-    public function isAllowedCall(string $sid, int $active_id, bool $saveaction = true) : bool
+    public function isAllowedCall(string $sid, int $active_id, bool $saveaction = true): bool
     {
         global $DIC;
 
@@ -728,17 +728,17 @@ class ilSoapTestAdministration extends ilSoapAdministration
         return $xmlWriter->getXML();
     }
 
-    protected function checkManageParticipantsAccess(int $refId) : bool
+    protected function checkManageParticipantsAccess(int $refId): bool
     {
         return $this->getTestAccess($refId)->checkManageParticipantsAccess();
     }
 
-    protected function checkParticipantsResultsAccess(int $refId) : bool
+    protected function checkParticipantsResultsAccess(int $refId): bool
     {
         return $this->getTestAccess($refId)->checkParticipantsResultsAccess();
     }
 
-    protected function getTestAccess(int $refId) : ilTestAccess
+    protected function getTestAccess(int $refId): ilTestAccess
     {
         require_once 'Modules/Test/classes/class.ilTestAccess.php';
 
