@@ -119,8 +119,9 @@ class ilRbacAdmin
     {
         // exclude system role from rbac
         if ($a_rol_id == SYSTEM_ROLE_ID) {
-            $this->logger->logStack(ilLogLevel::WARNING);
-            throw new DomainException('System administrator role is not deletable.');
+            $this->logger->logStack(ilLogLevel::NOTICE);
+            $this->logger->notice('System administrator role is not deletable.');
+            return;
         }
 
         $clause = '';
