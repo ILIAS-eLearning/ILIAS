@@ -69,14 +69,9 @@ class ilGroupMembershipGUI extends ilMembershipGUI
         );
     }
 
-    /**
-     * @param int[]  $user_ids
-     * @param int $a_type
-     * @return bool
-     * @throws ilCtrlException
-     */
-    public function assignMembers(array $user_ids, int $a_type): bool
+    public function assignMembers(array $user_ids, string $a_type): bool
     {
+        $a_type = (int) $a_type;
         if (!count($user_ids)) {
             $this->lng->loadLanguageModule('search');
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('search_err_user_not_exist'), true);
@@ -85,6 +80,7 @@ class ilGroupMembershipGUI extends ilMembershipGUI
 
         $assigned = false;
         foreach ($user_ids as $new_member) {
+            $new_member = (int) $new_member;
             if ($this->getMembersObject()->isAssigned($new_member)) {
                 continue;
             }
