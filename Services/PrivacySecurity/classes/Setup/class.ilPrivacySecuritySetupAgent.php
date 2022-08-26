@@ -82,6 +82,10 @@ class ilPrivacySecuritySetupAgent implements Setup\Agent
      */
     public function getUpdateObjective(Setup\Config $config = null): Setup\Objective
     {
+        if ($config === null || $config instanceof Setup\NullConfig) {
+            return new Setup\Objective\NullObjective();
+        }
+
         return $this->getInstallObjective($config);
     }
 
