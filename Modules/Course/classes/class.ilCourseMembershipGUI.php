@@ -151,8 +151,9 @@ class ilCourseMembershipGUI extends ilMembershipGUI
     /**
      * callback from repository search gui
      */
-    public function assignMembers(array $a_usr_ids, int $a_type): bool
+    public function assignMembers(array $a_usr_ids, string $a_type): bool
     {
+        $a_type = (int) $a_type;
         if (!$this->checkRbacOrPositionAccessBool('manage_members', 'manage_members')) {
             $this->error->raiseError($this->lng->txt("msg_no_perm_read"), $this->error->FATAL);
         }
