@@ -24,24 +24,14 @@ declare(strict_types=1);
  */
 class ilTermsOfServiceSequentialDocumentEvaluation implements ilTermsOfServiceDocumentEvaluation
 {
-    protected ilTermsOfServiceDocumentCriteriaEvaluation $evaluation;
-    protected ilObjUser $user;
     /** @var array<int, ilTermsOfServiceDocument[]> */
     protected array $matchingDocumentsByUser = [];
-    /** @var ilTermsOfServiceSignableDocument[] */
-    protected array $possibleDocuments = [];
-    protected ilLogger $log;
 
-    public function __construct(
-        ilTermsOfServiceDocumentCriteriaEvaluation $evaluation,
-        ilObjUser $user,
-        ilLogger $log,
-        array $possibleDocuments
-    ) {
-        $this->evaluation = $evaluation;
-        $this->user = $user;
-        $this->log = $log;
-        $this->possibleDocuments = $possibleDocuments;
+    /**
+     * @param \ilTermsOfServiceSignableDocument[] $possibleDocuments
+     */
+    public function __construct(protected ilTermsOfServiceDocumentCriteriaEvaluation $evaluation, protected ilObjUser $user, protected ilLogger $log, protected array $possibleDocuments)
+    {
     }
 
     public function withContextUser(ilObjUser $user): ilTermsOfServiceDocumentEvaluation
@@ -90,7 +80,7 @@ class ilTermsOfServiceSequentialDocumentEvaluation implements ilTermsOfServiceDo
     public function document(): ilTermsOfServiceSignableDocument
     {
         $matchingDocuments = $this->getMatchingDocuments();
-        if (count($matchingDocuments) > 0) {
+        if ($matchingDocuments !== []) {
             return $matchingDocuments[0];
         }
 
@@ -103,6 +93,6 @@ class ilTermsOfServiceSequentialDocumentEvaluation implements ilTermsOfServiceDo
 
     public function hasDocument(): bool
     {
-        return count($this->getMatchingDocuments()) > 0;
+        return $this->getMatchingDocuments() !== [];
     }
 }

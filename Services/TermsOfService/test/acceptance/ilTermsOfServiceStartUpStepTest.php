@@ -234,7 +234,6 @@ class ilTermsOfServiceStartUpStepTest extends ilTermsOfServiceBaseTest
 
     /**
      * @dataProvider userProvider
-     * @param ilObjUser $user
      */
     public function testUserShouldNotBeForcedToAcceptTermsOfServiceWhenAlreadyDone(ilObjUser $user): void
     {
@@ -256,11 +255,8 @@ class ilTermsOfServiceStartUpStepTest extends ilTermsOfServiceBaseTest
             ->willReturn($logger);
 
         $dic = new class ($loggingServices) extends Container {
-            private LoggingServices $loggingServices;
-
-            public function __construct(LoggingServices $loggingServices)
+            public function __construct(private LoggingServices $loggingServices)
             {
-                $this->loggingServices = $loggingServices;
                 parent::__construct();
             }
 
@@ -348,11 +344,8 @@ class ilTermsOfServiceStartUpStepTest extends ilTermsOfServiceBaseTest
             ->willReturn($logger);
 
         $dic = new class ($loggingServices) extends Container {
-            private LoggingServices $loggingServices;
-
-            public function __construct(LoggingServices $loggingServices)
+            public function __construct(private LoggingServices $loggingServices)
             {
-                $this->loggingServices = $loggingServices;
                 parent::__construct();
             }
 

@@ -27,15 +27,8 @@ use ILIAS\UI\Factory;
  */
 class ilTermsOfServiceUserHasLanguageCriterionGUI implements ilTermsOfServiceCriterionTypeGUI
 {
-    protected ilTermsOfServiceUserHasLanguageCriterion $type;
-    protected ilLanguage $lng;
-
-    public function __construct(
-        ilTermsOfServiceUserHasLanguageCriterion $type,
-        ilLanguage $lng
-    ) {
-        $this->type = $type;
-        $this->lng = $lng;
+    public function __construct(protected ilTermsOfServiceUserHasLanguageCriterion $type, protected ilLanguage $lng)
+    {
     }
 
     public function appendOption(ilRadioGroupInputGUI $group, ilTermsOfServiceCriterionConfig $config): void
@@ -66,11 +59,9 @@ class ilTermsOfServiceUserHasLanguageCriterionGUI implements ilTermsOfServiceCri
 
     public function getConfigByForm(ilPropertyFormGUI $form): ilTermsOfServiceCriterionConfig
     {
-        $config = new ilTermsOfServiceCriterionConfig([
+        return new ilTermsOfServiceCriterionConfig([
             'lng' => (string) $form->getInput($this->type->getTypeIdent() . '_lng')
         ]);
-
-        return $config;
     }
 
     public function getIdentPresentation(): string

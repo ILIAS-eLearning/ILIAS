@@ -28,11 +28,8 @@ use ILIAS\Init\StartupSequence\StartUpSequenceStep;
  */
 class ilTermsOfServiceWithdrawalStartUpStep extends StartUpSequenceStep
 {
-    private Container $dic;
-
-    public function __construct(Container $dic)
+    public function __construct(private Container $dic)
     {
-        $this->dic = $dic;
     }
 
     public function shouldStoreRequestTarget(): bool
@@ -59,12 +56,7 @@ class ilTermsOfServiceWithdrawalStartUpStep extends StartUpSequenceStep
         if ($this->isInFulfillment()) {
             return false;
         }
-
-        if ($this->dic->user()->getPref('consent_withdrawal_requested')) {
-            return true;
-        }
-
-        return false;
+        return (bool) $this->dic->user()->getPref('consent_withdrawal_requested');
     }
 
     public function execute(): void

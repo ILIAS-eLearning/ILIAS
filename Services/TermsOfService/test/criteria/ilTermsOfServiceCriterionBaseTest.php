@@ -49,12 +49,10 @@ abstract class ilTermsOfServiceCriterionBaseTest extends ilTermsOfServiceBaseTes
      */
     protected function getObjectDataCacheMock(): ilObjectDataCache
     {
-        $objectDataCache = $this
+        return $this
             ->getMockBuilder(ilObjectDataCache::class)
             ->disableOriginalConstructor()
             ->getMock();
-
-        return $objectDataCache;
     }
 
     /**
@@ -62,13 +60,11 @@ abstract class ilTermsOfServiceCriterionBaseTest extends ilTermsOfServiceBaseTes
      */
     protected function getRadioGroupMock(): ilRadioGroupInputGUI
     {
-        $radioGroup = $this
+        return $this
             ->getMockBuilder(ilRadioGroupInputGUI::class)
             ->disableOriginalConstructor()
             ->onlyMethods(['getPostVar'])
             ->getMock();
-
-        return $radioGroup;
     }
 
     /**
@@ -76,13 +72,11 @@ abstract class ilTermsOfServiceCriterionBaseTest extends ilTermsOfServiceBaseTes
      */
     protected function getFormMock(): ilPropertyFormGUI
     {
-        $form = $this
+        return $this
             ->getMockBuilder(ilPropertyFormGUI::class)
             ->disableOriginalConstructor()
             ->onlyMethods(['getInput'])
             ->getMock();
-
-        return $form;
     }
 
     /**

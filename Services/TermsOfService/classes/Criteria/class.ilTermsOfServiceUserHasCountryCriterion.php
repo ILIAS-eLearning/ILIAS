@@ -24,16 +24,12 @@ declare(strict_types=1);
  */
 class ilTermsOfServiceUserHasCountryCriterion implements ilTermsOfServiceCriterionType
 {
-    /** @var string[] */
-    protected array $countryCodes = [];
-
     /**
      * ilTermsOfServiceUserHasCountryCriterion constructor.
      * @param string[] $countryCodes
      */
-    public function __construct(array $countryCodes)
+    public function __construct(protected array $countryCodes)
     {
-        $this->countryCodes = $countryCodes;
     }
 
     public function getTypeIdent(): string

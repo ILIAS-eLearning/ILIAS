@@ -26,7 +26,6 @@ interface ilTermsOfServiceEquatable
 {
     /**
      * @param mixed $other
-     * @return bool
      */
     public function equals($other): bool;
 }

@@ -27,25 +27,15 @@ use ILIAS\UI\Factory;
  */
 class ilTermsOfServiceUserHasCountryCriterionGUI implements ilTermsOfServiceCriterionTypeGUI
 {
-    protected ilTermsOfServiceUserHasCountryCriterion $type;
-    protected ilLanguage $lng;
-    /** @var string[] */
-    protected array $countryCodes = [];
-
     /**
      * ilTermsOfServiceUserHasLanguageCriterionGUI constructor.
-     * @param ilTermsOfServiceUserHasCountryCriterion $type
-     * @param ilLanguage $lng
      * @param string[] $countryCodes
      */
     public function __construct(
-        ilTermsOfServiceUserHasCountryCriterion $type,
-        ilLanguage $lng,
-        array $countryCodes
+        protected ilTermsOfServiceUserHasCountryCriterion $type,
+        protected ilLanguage $lng,
+        protected array $countryCodes
     ) {
-        $this->type = $type;
-        $this->lng = $lng;
-        $this->countryCodes = $countryCodes;
     }
 
     public function appendOption(ilRadioGroupInputGUI $group, ilTermsOfServiceCriterionConfig $config): void
@@ -75,11 +65,9 @@ class ilTermsOfServiceUserHasCountryCriterionGUI implements ilTermsOfServiceCrit
 
     public function getConfigByForm(ilPropertyFormGUI $form): ilTermsOfServiceCriterionConfig
     {
-        $config = new ilTermsOfServiceCriterionConfig([
+        return new ilTermsOfServiceCriterionConfig([
             'country' => (string) $form->getInput($this->type->getTypeIdent() . '_country')
         ]);
-
-        return $config;
     }
 
     public function getIdentPresentation(): string

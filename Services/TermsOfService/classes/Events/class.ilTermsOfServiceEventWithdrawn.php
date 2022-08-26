@@ -24,11 +24,8 @@ declare(strict_types=1);
  */
 final class ilTermsOfServiceEventWithdrawn
 {
-    private ilObjUser $user;
-
-    public function __construct(ilObjUser $user)
+    public function __construct(private ilObjUser $user)
     {
-        $this->user = $user;
     }
 
     public function getUser(): ilObjUser

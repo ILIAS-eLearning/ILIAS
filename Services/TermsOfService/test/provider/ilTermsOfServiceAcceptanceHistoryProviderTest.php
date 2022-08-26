@@ -107,31 +107,31 @@ class ilTermsOfServiceAcceptanceHistoryProviderTest extends ilTermsOfServiceBase
         try {
             $provider->getList(['limit' => 'phpunit'], []);
             $this->fail('An expected exception has not been raised.');
-        } catch (InvalidArgumentException $e) {
+        } catch (InvalidArgumentException) {
         }
 
         try {
             $provider->getList(['limit' => 5, 'offset' => 'phpunit'], []);
             $this->fail('An expected exception has not been raised.');
-        } catch (InvalidArgumentException $e) {
+        } catch (InvalidArgumentException) {
         }
 
         try {
             $provider->getList(['order_field' => 'phpunit'], []);
             $this->fail('An expected exception has not been raised.');
-        } catch (InvalidArgumentException $e) {
+        } catch (InvalidArgumentException) {
         }
 
         try {
             $provider->getList(['order_field' => 5], []);
             $this->fail('An expected exception has not been raised.');
-        } catch (InvalidArgumentException $e) {
+        } catch (InvalidArgumentException) {
         }
 
         try {
             $provider->getList(['order_field' => 'ts', 'order_direction' => 'phpunit'], []);
             $this->fail('An expected exception has not been raised.');
-        } catch (InvalidArgumentException $e) {
+        } catch (InvalidArgumentException) {
         }
     }
 }

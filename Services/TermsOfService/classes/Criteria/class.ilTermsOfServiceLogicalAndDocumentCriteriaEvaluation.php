@@ -24,18 +24,8 @@ declare(strict_types=1);
  */
 class ilTermsOfServiceLogicalAndDocumentCriteriaEvaluation implements ilTermsOfServiceDocumentCriteriaEvaluation
 {
-    protected ilTermsOfServiceCriterionTypeFactoryInterface $criterionTypeFactory;
-    protected ilObjUser $user;
-    protected ilLogger $log;
-
-    public function __construct(
-        ilTermsOfServiceCriterionTypeFactoryInterface $criterionTypeFactory,
-        ilObjUser $user,
-        ilLogger $log
-    ) {
-        $this->criterionTypeFactory = $criterionTypeFactory;
-        $this->user = $user;
-        $this->log = $log;
+    public function __construct(protected ilTermsOfServiceCriterionTypeFactoryInterface $criterionTypeFactory, protected ilObjUser $user, protected ilLogger $log)
+    {
     }
 
     public function withContextUser(ilObjUser $user): ilTermsOfServiceDocumentCriteriaEvaluation

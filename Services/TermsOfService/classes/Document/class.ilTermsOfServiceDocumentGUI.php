@@ -31,63 +31,26 @@ use ILIAS\UI\Renderer;
  */
 class ilTermsOfServiceDocumentGUI implements ilTermsOfServiceControllerEnabled
 {
-    protected ilTermsOfServiceTableDataProviderFactory $tableDataProviderFactory;
-    protected ilObjTermsOfService $tos;
-    protected ilGlobalTemplateInterface $tpl;
-    protected ilCtrlInterface $ctrl;
-    protected ilLanguage $lng;
-    protected ilRbacSystem $rbacsystem;
-    protected ilErrorHandling $error;
-    protected ilObjUser $user;
-    protected ilLogger $log;
-    protected Factory $uiFactory;
-    protected Renderer $uiRenderer;
-    protected ILIAS\HTTP\GlobalHttpState $httpState;
-    protected ilToolbarGUI $toolbar;
-    protected FileUpload $fileUpload;
-    protected Filesystems $fileSystems;
-    protected ilTermsOfServiceCriterionTypeFactoryInterface $criterionTypeFactory;
-    protected ilHtmlPurifierInterface $documentPurifier;
-    protected Refinery $refinery;
-
     public function __construct(
-        ilObjTermsOfService $tos,
-        ilTermsOfServiceCriterionTypeFactoryInterface $criterionTypeFactory,
-        ilGlobalTemplateInterface $tpl,
-        ilObjUser $user,
-        ilCtrlInterface $ctrl,
-        ilLanguage $lng,
-        ilRbacSystem $rbacsystem,
-        ilErrorHandling $error,
-        ilLogger $log,
-        ilToolbarGUI $toolbar,
-        GlobalHttpState $httpState,
-        Factory $uiFactory,
-        Renderer $uiRenderer,
-        Filesystems $fileSystems,
-        FileUpload $fileUpload,
-        ilTermsOfServiceTableDataProviderFactory $tableDataProviderFactory,
-        ilHtmlPurifierInterface $documentPurifier,
-        Refinery $refinery
+        protected ilObjTermsOfService $tos,
+        protected ilTermsOfServiceCriterionTypeFactoryInterface $criterionTypeFactory,
+        protected ilGlobalTemplateInterface $tpl,
+        protected ilObjUser $user,
+        protected ilCtrlInterface $ctrl,
+        protected ilLanguage $lng,
+        protected ilRbacSystem $rbacsystem,
+        protected ilErrorHandling $error,
+        protected ilLogger $log,
+        protected ilToolbarGUI $toolbar,
+        protected GlobalHttpState $httpState,
+        protected Factory $uiFactory,
+        protected Renderer $uiRenderer,
+        protected Filesystems $fileSystems,
+        protected FileUpload $fileUpload,
+        protected ilTermsOfServiceTableDataProviderFactory $tableDataProviderFactory,
+        protected ilHtmlPurifierInterface $documentPurifier,
+        protected Refinery $refinery
     ) {
-        $this->tos = $tos;
-        $this->criterionTypeFactory = $criterionTypeFactory;
-        $this->tpl = $tpl;
-        $this->ctrl = $ctrl;
-        $this->lng = $lng;
-        $this->rbacsystem = $rbacsystem;
-        $this->error = $error;
-        $this->user = $user;
-        $this->log = $log;
-        $this->toolbar = $toolbar;
-        $this->httpState = $httpState;
-        $this->uiFactory = $uiFactory;
-        $this->uiRenderer = $uiRenderer;
-        $this->fileSystems = $fileSystems;
-        $this->fileUpload = $fileUpload;
-        $this->tableDataProviderFactory = $tableDataProviderFactory;
-        $this->documentPurifier = $documentPurifier;
-        $this->refinery = $refinery;
     }
 
     public function executeCommand(): void
@@ -207,7 +170,7 @@ class ilTermsOfServiceDocumentGUI implements ilTermsOfServiceControllerEnabled
             $saveCommand = 'saveEditDocumentForm';
         }
 
-        $form = new ilTermsOfServiceDocumentFormGUI(
+        return new ilTermsOfServiceDocumentFormGUI(
             $document,
             $this->documentPurifier,
             $this->user,
@@ -218,8 +181,6 @@ class ilTermsOfServiceDocumentGUI implements ilTermsOfServiceControllerEnabled
             'showDocuments',
             $this->rbacsystem->checkAccess('write', $this->tos->getRefId())
         );
-
-        return $form;
     }
 
     protected function saveAddDocumentForm(): void
@@ -311,12 +272,10 @@ class ilTermsOfServiceDocumentGUI implements ilTermsOfServiceControllerEnabled
             return $documentIds;
         }
 
-        $documents = ilTermsOfServiceDocument::where(
+        return ilTermsOfServiceDocument::where(
             ['id' => array_filter(array_map('intval', $documentIds))],
             ['id' => 'IN']
         )->getArray();
-
-        return $documents;
     }
 
     protected function getFirstDocumentFromList(array $documents): ilTermsOfServiceDocument
@@ -338,7 +297,7 @@ class ilTermsOfServiceDocumentGUI implements ilTermsOfServiceControllerEnabled
         }
 
         $documents = $this->getDocumentsByServerRequest();
-        if (0 === count($documents)) {
+        if ([] === $documents) {
             $this->showDocuments();
             return;
         }
@@ -378,9 +337,6 @@ class ilTermsOfServiceDocumentGUI implements ilTermsOfServiceControllerEnabled
         }
     }
 
-    /**
-     * @param array $documents
-     */
     protected function processDocumentDeletion(array $documents): void
     {
         foreach ($documents as $document) {
@@ -419,7 +375,7 @@ class ilTermsOfServiceDocumentGUI implements ilTermsOfServiceControllerEnabled
         }
 
         $sorting = $this->httpState->request()->getParsedBody()['sorting'] ?? [];
-        if (!is_array($sorting) || 0 === count($sorting)) {
+        if (!is_array($sorting) || [] === $sorting) {
             $this->showDocuments();
             return;
         }
@@ -427,7 +383,7 @@ class ilTermsOfServiceDocumentGUI implements ilTermsOfServiceControllerEnabled
         asort($sorting, SORT_NUMERIC);
 
         $position = 0;
-        foreach ($sorting as $documentId => $ignoredSortValue) {
+        foreach (array_keys($sorting) as $documentId) {
             if (!is_numeric($documentId)) {
                 continue;
             }
@@ -436,7 +392,7 @@ class ilTermsOfServiceDocumentGUI implements ilTermsOfServiceControllerEnabled
                 $document = new ilTermsOfServiceDocument((int) $documentId);
                 $document->setSorting(++$position);
                 $document->store();
-            } catch (ilException $e) {
+            } catch (ilException) {
                 // Empty catch block
             }
         }
@@ -463,7 +419,7 @@ class ilTermsOfServiceDocumentGUI implements ilTermsOfServiceControllerEnabled
             $saveCommand = 'saveChangeCriterionForm';
         }
 
-        $form = new ilTermsOfServiceCriterionFormGUI(
+        return new ilTermsOfServiceCriterionFormGUI(
             $document,
             $criterionAssignment,
             $this->criterionTypeFactory,
@@ -472,8 +428,6 @@ class ilTermsOfServiceDocumentGUI implements ilTermsOfServiceControllerEnabled
             $saveCommand,
             'showDocuments'
         );
-
-        return $form;
     }
 
     protected function saveAttachCriterionForm(): void

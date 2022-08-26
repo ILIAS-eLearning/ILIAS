@@ -49,7 +49,6 @@ class ilTermsOfServiceCriterionTypeFactoryTest extends ilTermsOfServiceBaseTest
 
     /**
      * @depends testInstanceCanBeCreated
-     * @param ilTermsOfServiceCriterionTypeFactory $criterionTypeFactory
      */
     public function testFactoryReturnsValidCriteriaWhenRequested(
         ilTermsOfServiceCriterionTypeFactory $criterionTypeFactory
@@ -59,7 +58,6 @@ class ilTermsOfServiceCriterionTypeFactoryTest extends ilTermsOfServiceBaseTest
 
     /**
      * @depends testInstanceCanBeCreated
-     * @param ilTermsOfServiceCriterionTypeFactory $criterionTypeFactory
      */
     public function testKeysOfCriteriaCollectionMatchTheRespectiveTypeIdent(
         ilTermsOfServiceCriterionTypeFactory $criterionTypeFactory
@@ -76,7 +74,6 @@ class ilTermsOfServiceCriterionTypeFactoryTest extends ilTermsOfServiceBaseTest
 
     /**
      * @depends testInstanceCanBeCreated
-     * @param ilTermsOfServiceCriterionTypeFactory $criterionTypeFactory
      */
     public function testCriterionIsReturnedIfRequestedByTypeIdent(
         ilTermsOfServiceCriterionTypeFactory $criterionTypeFactory
@@ -88,7 +85,6 @@ class ilTermsOfServiceCriterionTypeFactoryTest extends ilTermsOfServiceBaseTest
 
     /**
      * @depends testInstanceCanBeCreated
-     * @param ilTermsOfServiceCriterionTypeFactory $criterionTypeFactory
      */
     public function testExceptionIsRaisedIfUnsupportedCriterionIsRequested(
         ilTermsOfServiceCriterionTypeFactory $criterionTypeFactory
@@ -100,7 +96,6 @@ class ilTermsOfServiceCriterionTypeFactoryTest extends ilTermsOfServiceBaseTest
 
     /**
      * @depends testInstanceCanBeCreated
-     * @param ilTermsOfServiceCriterionTypeFactory $criterionTypeFactory
      */
     public function testNullCriterionIsReturnedAsFallbackIfUnsupportedCriterionIsRequested(
         ilTermsOfServiceCriterionTypeFactory $criterionTypeFactory

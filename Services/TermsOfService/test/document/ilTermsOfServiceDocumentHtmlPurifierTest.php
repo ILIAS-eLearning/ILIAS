@@ -62,8 +62,6 @@ class ilTermsOfServiceDocumentHtmlPurifierTest extends ilTermsOfServiceCriterion
 
     /**
      * @dataProvider documentTextProvider
-     * @param string $text
-     * @param string $expected
      */
     public function testPurifyingWorksAsExpected(string $text, string $expected): void
     {

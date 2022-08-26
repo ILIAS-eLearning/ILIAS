@@ -27,11 +27,8 @@ use ILIAS\Init\StartupSequence\StartUpSequenceStep;
  */
 class ilTermsOfServiceAcceptanceStartUpStep extends StartUpSequenceStep
 {
-    private Container $dic;
-
-    public function __construct(Container $dic)
+    public function __construct(private Container $dic)
     {
-        $this->dic = $dic;
     }
 
     public function shouldStoreRequestTarget(): bool

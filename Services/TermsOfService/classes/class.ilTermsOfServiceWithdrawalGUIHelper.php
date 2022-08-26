@@ -32,18 +32,15 @@ class ilTermsOfServiceWithdrawalGUIHelper
     protected ilLanguage $lng;
     protected ilCtrlInterface $ctrl;
     protected ilSetting $setting;
-    protected ilObjUser $user;
     protected Factory $uiFactory;
     protected Renderer $uiRenderer;
     protected ilTermsOfServiceHelper $tosHelper;
     private ilGlobalTemplateInterface $main_tpl;
 
-    public function __construct(ilObjUser $subjectUser)
+    public function __construct(protected ilObjUser $user)
     {
         global $DIC;
         $this->main_tpl = $DIC->ui()->mainTemplate();
-
-        $this->user = $subjectUser;
 
         $this->lng = $DIC->language();
         $this->ctrl = $DIC->ctrl();
@@ -69,8 +66,6 @@ class ilTermsOfServiceWithdrawalGUIHelper
     }
 
     /**
-     * @param Footer $footer
-     * @return Footer
      * @throws ilTermsOfServiceMissingDatabaseAdapterException
      */
     public function modifyFooter(Footer $footer): Footer
@@ -81,7 +76,7 @@ class ilTermsOfServiceWithdrawalGUIHelper
             $this->user->getAgreeDate()
         ) {
             $entity = $this->tosHelper->getCurrentAcceptanceForUser($this->user);
-            if ($entity->getId()) {
+            if ($entity->getId() !== 0) {
                 $footer = $footer->withAdditionalModalAndTrigger(
                     $this->uiFactory->modal()->roundtrip(
                         $entity->getTitle(),

@@ -24,61 +24,28 @@ declare(strict_types=1);
  */
 abstract class ilTermsOfServiceTableDatabaseDataProvider implements ilTermsOfServiceTableDataProvider
 {
-    protected ilDBInterface $db;
-
-    public function __construct(ilDBInterface $db)
+    public function __construct(protected ilDBInterface $db)
     {
-        $this->db = $db;
     }
 
-    /**
-     * @param array $params
-     * @param array $filter
-     * @return string
-     */
     abstract protected function getSelectPart(array $params, array $filter): string;
 
-    /**
-     * @param array $params
-     * @param array $filter
-     * @return string
-     */
     abstract protected function getFromPart(array $params, array $filter): string;
 
-    /**
-     * @param array $params
-     * @param array $filter
-     * @return string
-     */
     abstract protected function getWherePart(array $params, array $filter): string;
 
-    /**
-     * @param array $params
-     * @param array $filter
-     * @return string
-     */
     abstract protected function getGroupByPart(array $params, array $filter): string;
 
     /**
-     * @param array $params
-     * @param array $filter
-     * @return string
      * @abstract
      */
     abstract protected function getHavingPart(array $params, array $filter): string;
 
-    /**
-     * @param array $params
-     * @param array $filter
-     * @return string
-     */
     abstract protected function getOrderByPart(array $params, array $filter): string;
 
     /**
-     * @param array $params
-     * @param array $filter
-     * @return array
      * @throws InvalidArgumentException
+     * @return array{items: mixed[][], cnt: int}
      */
     public function getList(array $params, array $filter): array
     {

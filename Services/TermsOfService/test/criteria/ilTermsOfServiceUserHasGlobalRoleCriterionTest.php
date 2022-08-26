@@ -48,24 +48,16 @@ class ilTermsOfServiceUserHasGlobalRoleCriterionTest extends ilTermsOfServiceCri
             ->willReturn('dummy');
     }
 
-    /**
-     * @return ilTermsOfServiceUserHasGlobalRoleCriterion
-     */
     protected function getInstance(): ilTermsOfServiceUserHasGlobalRoleCriterion
     {
         $this->rbacReview = $this->getRbacReviewMock();
 
-        $criterion = new ilTermsOfServiceUserHasGlobalRoleCriterion(
+        return new ilTermsOfServiceUserHasGlobalRoleCriterion(
             $this->rbacReview,
             $this->getObjectDataCacheMock()
         );
-
-        return $criterion;
     }
 
-    /**
-     * @return ilTermsOfServiceUserHasGlobalRoleCriterion
-     */
     public function testInstanceCanBeCreated(): ilTermsOfServiceUserHasGlobalRoleCriterion
     {
         $criterion = $this->getInstance();
@@ -77,8 +69,6 @@ class ilTermsOfServiceUserHasGlobalRoleCriterionTest extends ilTermsOfServiceCri
     }
 
     /**
-     * @param ilTermsOfServiceCriterionTypeGUI $gui
-     * @param string                           $httpCriterionSelectionBodyParameter
      * @return MockObject&ilPropertyFormGUI
      */
     protected function buildForm(
@@ -104,9 +94,7 @@ class ilTermsOfServiceUserHasGlobalRoleCriterionTest extends ilTermsOfServiceCri
     }
 
     /**
-     * @param ilTermsOfServiceUserHasGlobalRoleCriterion $criterion
      * @depends testInstanceCanBeCreated
-     * @return ilTermsOfServiceUserHasGlobalRoleCriterion
      */
     public function testFormUserInterfaceElementsAreProperlyBuilt(
         ilTermsOfServiceUserHasGlobalRoleCriterion $criterion
@@ -129,7 +117,6 @@ class ilTermsOfServiceUserHasGlobalRoleCriterionTest extends ilTermsOfServiceCri
 
     /**
      * @depends testFormUserInterfaceElementsAreProperlyBuilt
-     * @param ilTermsOfServiceUserHasGlobalRoleCriterion $criterion
      */
     public function testValuesFromFormUserInterfaceElementsCanBeRetrieved(
         ilTermsOfServiceUserHasGlobalRoleCriterion $criterion
@@ -145,7 +132,7 @@ class ilTermsOfServiceUserHasGlobalRoleCriterionTest extends ilTermsOfServiceCri
             ->expects($this->once())
             ->method('getInput')
             ->with($httpCriterionConfigBodyParameter)
-            ->willReturnCallback(function () {
+            ->willReturnCallback(function (): int {
                 return $this->expectedAfterFormSubmitValue;
             });
 
@@ -158,7 +145,6 @@ class ilTermsOfServiceUserHasGlobalRoleCriterionTest extends ilTermsOfServiceCri
 
     /**
      * @depends testFormUserInterfaceElementsAreProperlyBuilt
-     * @param ilTermsOfServiceUserHasGlobalRoleCriterion $criterion
      */
     public function testTypeIdentPresentationIsANonEmptyString(
         ilTermsOfServiceUserHasGlobalRoleCriterion $criterion
@@ -181,8 +167,6 @@ class ilTermsOfServiceUserHasGlobalRoleCriterionTest extends ilTermsOfServiceCri
     }
 
     /**
-     * @param int    $roleId
-     * @param string $roleTitle
      * @dataProvider objectCacheProvider
      */
     public function testValuePresentationMatchesExpectation(int $roleId, string $roleTitle): void
@@ -227,8 +211,6 @@ class ilTermsOfServiceUserHasGlobalRoleCriterionTest extends ilTermsOfServiceCri
     }
 
     /**
-     * @param ilTermsOfServiceUserHasGlobalRoleCriterion $criterion
-     * @param ilTermsOfServiceCriterionConfig            $config
      * @dataProvider failingConfigProvider
      */
     public function testEvaluationFailsIfConfiguredRoleDoesNotMatchTheExpectedFormat(

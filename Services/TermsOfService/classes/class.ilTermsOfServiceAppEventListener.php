@@ -24,14 +24,12 @@ declare(strict_types=1);
  */
 class ilTermsOfServiceAppEventListener implements ilAppEventListener
 {
-    protected ilTermsOfServiceHelper $helper;
     protected string $component = '';
     protected string $event = '';
     protected array $parameters = [];
 
-    public function __construct(ilTermsOfServiceHelper $helper)
+    public function __construct(protected ilTermsOfServiceHelper $helper)
     {
-        $this->helper = $helper;
     }
 
     public function withComponent(string $component): self

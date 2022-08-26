@@ -142,11 +142,6 @@ class ilTermsOfServiceDocumentCriterionAssignment extends ActiveRecord implement
         $valueCurrent = $this->getCriterionValue();
         $valueNew = $other->getCriterionValue();
 
-        $equals = (
-            $criterionIdCurrent === $criterionIdNew &&
-            $valueCurrent == $valueNew
-        );
-
-        return $equals;
+        return $criterionIdCurrent === $criterionIdNew && $valueCurrent == $valueNew;
     }
 }

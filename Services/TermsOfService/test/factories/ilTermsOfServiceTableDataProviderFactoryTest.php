@@ -36,7 +36,6 @@ class ilTermsOfServiceTableDataProviderFactoryTest extends ilTermsOfServiceBaseT
 
     /**
      * @depends           testInstanceCanBeCreated
-     * @param ilTermsOfServiceTableDataProviderFactory $factory
      */
     public function testExceptionIsRaisedWhenUnsupportedProviderIsRequested(
         ilTermsOfServiceTableDataProviderFactory $factory
@@ -47,7 +46,6 @@ class ilTermsOfServiceTableDataProviderFactoryTest extends ilTermsOfServiceBaseT
     }
 
     /**
-     * @param ilTermsOfServiceTableDataProviderFactory $factory
      * @depends           testInstanceCanBeCreated
      */
     public function testFactoryShouldReturnDatabaseAdapterWhenDatabaseAdapterIsSet(
@@ -61,7 +59,6 @@ class ilTermsOfServiceTableDataProviderFactoryTest extends ilTermsOfServiceBaseT
 
     /**
      * @depends           testInstanceCanBeCreated
-     * @param ilTermsOfServiceTableDataProviderFactory $factory
      */
     public function testExceptionIsRaisedWhenAcceptanceHistoryProviderIsRequestedWithoutCompleteFactoryConfiguration(
         ilTermsOfServiceTableDataProviderFactory $factory
@@ -73,7 +70,6 @@ class ilTermsOfServiceTableDataProviderFactoryTest extends ilTermsOfServiceBaseT
     }
 
     /**
-     * @param ilTermsOfServiceTableDataProviderFactory $factory
      * @depends           testInstanceCanBeCreated
      */
     public function testFactoryShouldReturnAcceptanceHistoryProviderWhenRequested(

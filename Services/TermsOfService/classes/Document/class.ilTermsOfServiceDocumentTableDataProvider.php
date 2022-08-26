@@ -24,6 +24,9 @@ declare(strict_types=1);
  */
 class ilTermsOfServiceDocumentTableDataProvider implements ilTermsOfServiceTableDataProvider
 {
+    /**
+     * @return array{items: \ActiveRecord[], cnt: int}
+     */
     public function getList(array $params, array $filter): array
     {
         $items = ilTermsOfServiceDocument::orderBy('sorting')->get();

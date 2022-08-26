@@ -58,7 +58,6 @@ class ilTermsOfServiceNullCriterionTest extends ilTermsOfServiceCriterionBaseTes
     }
 
     /**
-     * @param ilTermsOfServiceCriterionTypeGUI $gui
      * @return MockObject&ilPropertyFormGUI
      */
     protected function buildForm(
@@ -84,9 +83,7 @@ class ilTermsOfServiceNullCriterionTest extends ilTermsOfServiceCriterionBaseTes
     }
 
     /**
-     * @param ilTermsOfServiceNullCriterion $criterion
      * @depends testInstanceCanBeCreated
-     * @return ilTermsOfServiceNullCriterion
      */
     public function testNoFormUserInterfaceElementsAreBuilt(
         ilTermsOfServiceNullCriterion $criterion
@@ -100,7 +97,6 @@ class ilTermsOfServiceNullCriterionTest extends ilTermsOfServiceCriterionBaseTes
 
     /**
      * @depends testNoFormUserInterfaceElementsAreBuilt
-     * @param ilTermsOfServiceNullCriterion $criterion
      */
     public function testCriterionAlwaysCreateEmptyConfigValue(ilTermsOfServiceNullCriterion $criterion): void
     {
@@ -120,7 +116,6 @@ class ilTermsOfServiceNullCriterionTest extends ilTermsOfServiceCriterionBaseTes
 
     /**
      * @depends testNoFormUserInterfaceElementsAreBuilt
-     * @param ilTermsOfServiceNullCriterion $criterion
      */
     public function testTypeIdentPresentationEqualsANonEmptyString(ilTermsOfServiceNullCriterion $criterion): void
     {

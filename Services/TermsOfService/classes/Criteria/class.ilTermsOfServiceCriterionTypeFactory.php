@@ -29,8 +29,6 @@ class ilTermsOfServiceCriterionTypeFactory implements ilTermsOfServiceCriterionT
 
     /**
      * ilTermsOfServiceCriterionTypeFactory constructor.
-     * @param ilRbacReview $rbacReview
-     * @param ilObjectDataCache $objectCache
      * @param string[] $countryCodes
      */
     public function __construct(ilRbacReview $rbacReview, ilObjectDataCache $objectCache, array $countryCodes)

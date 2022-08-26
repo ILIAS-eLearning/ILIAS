@@ -24,15 +24,8 @@ declare(strict_types=1);
  */
 class ilTermsOfServiceHistorizedDocument implements ilTermsOfServiceSignableDocument
 {
-    private ilTermsOfServiceAcceptanceEntity $entity;
-    private ilTermsOfServiceAcceptanceHistoryCriteriaBag $criteria;
-
-    public function __construct(
-        ilTermsOfServiceAcceptanceEntity $entity,
-        ilTermsOfServiceAcceptanceHistoryCriteriaBag $criteria
-    ) {
-        $this->entity = $entity;
-        $this->criteria = $criteria;
+    public function __construct(private ilTermsOfServiceAcceptanceEntity $entity, private ilTermsOfServiceAcceptanceHistoryCriteriaBag $criteria)
+    {
     }
 
     public function content(): string

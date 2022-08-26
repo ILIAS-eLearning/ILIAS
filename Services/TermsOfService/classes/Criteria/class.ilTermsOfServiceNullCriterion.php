@@ -45,11 +45,8 @@ class ilTermsOfServiceNullCriterion implements ilTermsOfServiceCriterionType
     public function ui(ilLanguage $lng): ilTermsOfServiceCriterionTypeGUI
     {
         return new class ($lng) implements ilTermsOfServiceCriterionTypeGUI {
-            protected ilLanguage $lng;
-
-            public function __construct(ilLanguage $lng)
+            public function __construct(protected ilLanguage $lng)
             {
-                $this->lng = $lng;
             }
 
             public function appendOption(ilRadioGroupInputGUI $group, ilTermsOfServiceCriterionConfig $config): void

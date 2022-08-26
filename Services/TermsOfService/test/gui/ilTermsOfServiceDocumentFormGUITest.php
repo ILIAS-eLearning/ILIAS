@@ -246,7 +246,7 @@ class ilTermsOfServiceDocumentFormGUITest extends ilTermsOfServiceBaseTest
         $documentConnector
             ->expects($this->once())
             ->method('readSet')
-            ->willReturnCallback(function () use ($expectedSortingValueExistingDocuments) {
+            ->willReturnCallback(function () use ($expectedSortingValueExistingDocuments): array {
                 return [
                     [
                         'id' => 666,
@@ -304,7 +304,7 @@ class ilTermsOfServiceDocumentFormGUITest extends ilTermsOfServiceBaseTest
         $documentConnector
             ->expects($this->once())
             ->method('readSet')
-            ->willReturnCallback(function () {
+            ->willReturnCallback(function (): array {
                 return [];
             });
 

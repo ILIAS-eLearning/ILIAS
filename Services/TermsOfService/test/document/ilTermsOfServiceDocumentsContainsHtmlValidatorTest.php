@@ -39,8 +39,6 @@ class ilTermsOfServiceDocumentsContainsHtmlValidatorTest extends \PHPUnit\Framew
 
     /**
      * @dataProvider textProvider
-     * @param string $text
-     * @param bool $result
      */
     public function testHtmlCanBeDetected(string $text, bool $result): void
     {

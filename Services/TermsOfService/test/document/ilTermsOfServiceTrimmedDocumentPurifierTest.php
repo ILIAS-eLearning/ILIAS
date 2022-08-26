@@ -42,8 +42,6 @@ class ilTermsOfServiceTrimmedDocumentPurifierTest extends ilTermsOfServiceCriter
 
     /**
      * @dataProvider stringsToTrimProvider
-     * @param string $text
-     * @param string $expectedResult
      */
     public function testSingleStringIsTrimmed(string $text, string $expectedResult): void
     {

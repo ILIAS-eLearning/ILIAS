@@ -43,7 +43,7 @@ abstract class ilTermsOfServiceTableGUI extends ilTable2GUI
                     $column['txt'],
                     isset($column['sortable']) && $column['sortable'] ? $column['field'] : '',
                     $column['width'] ?? '',
-                    isset($column['is_checkbox']) ? (bool) $column['is_checkbox'] : false
+                    isset($column['is_checkbox']) && (bool) $column['is_checkbox']
                 );
             }
         }
@@ -59,17 +59,12 @@ abstract class ilTermsOfServiceTableGUI extends ilTable2GUI
         return $this->provider;
     }
 
-    /**
-     * @param array $params
-     * @param array $filter
-     */
     protected function onBeforeDataFetched(array &$params, array &$filter): void
     {
     }
 
     /**
      * This method can be used to add some field values dynamically or manipulate existing values of the table row array
-     * @param array $row
      */
     protected function prepareRow(array &$row): void
     {
@@ -77,7 +72,6 @@ abstract class ilTermsOfServiceTableGUI extends ilTable2GUI
 
     /**
      * This method can be used to process the array of all fetched data
-     * @param array $data
      */
     protected function preProcessData(array &$data): void
     {
@@ -85,9 +79,6 @@ abstract class ilTermsOfServiceTableGUI extends ilTable2GUI
 
     /**
      * Define a final formatting for a cell value
-     * @param string $column
-     * @param array $row
-     * @return string
      */
     protected function formatCellValue(string $column, array $row): string
     {
@@ -101,7 +92,7 @@ abstract class ilTermsOfServiceTableGUI extends ilTable2GUI
         });
 
         $columns = [];
-        foreach ($optionalColumns as $index => $column) {
+        foreach ($optionalColumns as $column) {
             $columns[$column['field']] = $column;
         }
 

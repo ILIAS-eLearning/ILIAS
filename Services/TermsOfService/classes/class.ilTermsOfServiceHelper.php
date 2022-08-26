@@ -70,7 +70,6 @@ class ilTermsOfServiceHelper
     }
 
     /**
-     * @param int $userId
      * @throws ilTermsOfServiceMissingDatabaseAdapterException
      */
     public function deleteAcceptanceHistoryByUser(int $userId): void
@@ -82,8 +81,6 @@ class ilTermsOfServiceHelper
     }
 
     /**
-     * @param ilObjUser $user
-     * @return ilTermsOfServiceAcceptanceEntity
      * @throws ilTermsOfServiceMissingDatabaseAdapterException
      */
     public function getCurrentAcceptanceForUser(ilObjUser $user): ilTermsOfServiceAcceptanceEntity
@@ -95,8 +92,6 @@ class ilTermsOfServiceHelper
     }
 
     /**
-     * @param int $id
-     * @return ilTermsOfServiceAcceptanceEntity
      * @throws ilTermsOfServiceMissingDatabaseAdapterException
      */
     public function getById(int $id): ilTermsOfServiceAcceptanceEntity
@@ -108,8 +103,6 @@ class ilTermsOfServiceHelper
     }
 
     /**
-     * @param ilObjUser $user
-     * @param ilTermsOfServiceSignableDocument $document
      * @throws ilTermsOfServiceMissingDatabaseAdapterException
      * @throws ilTermsOfServiceUnexpectedCriteriaBagContentException
      */
@@ -195,7 +188,7 @@ class ilTermsOfServiceHelper
         }
 
         $entity = $this->getCurrentAcceptanceForUser($user);
-        if (!($entity->getId() > 0)) {
+        if ($entity->getId() <= 0) {
             $logger->debug('No signed Terms of Service document found, resigning not required ...');
             return false;
         }

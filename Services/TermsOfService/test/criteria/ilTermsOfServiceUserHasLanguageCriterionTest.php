@@ -66,8 +66,6 @@ class ilTermsOfServiceUserHasLanguageCriterionTest extends ilTermsOfServiceCrite
     }
 
     /**
-     * @param ilTermsOfServiceCriterionTypeGUI $gui
-     * @param string                           $httpCriterionSelectionBodyParameter
      * @return MockObject&ilPropertyFormGUI
      */
     protected function buildForm(
@@ -90,9 +88,7 @@ class ilTermsOfServiceUserHasLanguageCriterionTest extends ilTermsOfServiceCrite
     }
 
     /**
-     * @param ilTermsOfServiceUserHasLanguageCriterion $criterion
      * @depends testInstanceCanBeCreated
-     * @return ilTermsOfServiceUserHasLanguageCriterion
      */
     public function testFormUserInterfaceElementsAreProperlyBuilt(
         ilTermsOfServiceUserHasLanguageCriterion $criterion
@@ -115,7 +111,6 @@ class ilTermsOfServiceUserHasLanguageCriterionTest extends ilTermsOfServiceCrite
 
     /**
      * @depends testFormUserInterfaceElementsAreProperlyBuilt
-     * @param ilTermsOfServiceUserHasLanguageCriterion $criterion
      */
     public function testValuesFromFormUserInterfaceElementsCanBeRetrieved(
         ilTermsOfServiceUserHasLanguageCriterion $criterion
@@ -131,7 +126,7 @@ class ilTermsOfServiceUserHasLanguageCriterionTest extends ilTermsOfServiceCrite
             ->expects($this->once())
             ->method('getInput')
             ->with($httpCriterionConfigBodyParameter)
-            ->willReturnCallback(function () {
+            ->willReturnCallback(function (): string {
                 return $this->expectedAfterFormSubmitValue;
             });
 
@@ -144,7 +139,6 @@ class ilTermsOfServiceUserHasLanguageCriterionTest extends ilTermsOfServiceCrite
 
     /**
      * @depends testFormUserInterfaceElementsAreProperlyBuilt
-     * @param ilTermsOfServiceUserHasLanguageCriterion $criterion
      */
     public function testTypeIdentPresentationIsANonEmptyString(
         ilTermsOfServiceUserHasLanguageCriterion $criterion
@@ -167,8 +161,6 @@ class ilTermsOfServiceUserHasLanguageCriterionTest extends ilTermsOfServiceCrite
     }
 
     /**
-     * @param string $lng
-     * @param string $translation
      * @dataProvider languageProvider
      */
     public function testValuePresentationMatchesExpectation(string $lng, string $translation): void
@@ -223,8 +215,6 @@ class ilTermsOfServiceUserHasLanguageCriterionTest extends ilTermsOfServiceCrite
     }
 
     /**
-     * @param ilTermsOfServiceUserHasLanguageCriterion $criterion
-     * @param ilTermsOfServiceCriterionConfig          $config
      * @dataProvider failingConfigProvider
      */
     public function testEvaluationFailsIfUserLanguageDoesNotMatchDefinedLanguage(
@@ -241,8 +231,6 @@ class ilTermsOfServiceUserHasLanguageCriterionTest extends ilTermsOfServiceCrite
     }
 
     /**
-     * @param ilTermsOfServiceUserHasLanguageCriterion $criterion
-     * @param ilTermsOfServiceCriterionConfig          $config
      * @dataProvider succeedingConfigProvider
      */
     public function testEvaluationSucceedsIfUserLanguageDoesMatchDefinedLanguage(

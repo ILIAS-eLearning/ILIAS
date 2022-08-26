@@ -30,8 +30,6 @@ class ilTermsOfServiceTableDataProviderFactory
     protected ?ilDBInterface $db = null;
 
     /**
-     * @param string $context
-     * @return ilTermsOfServiceTableDataProvider
      * @throws ilTermsOfServiceMissingDatabaseAdapterException
      * @throws InvalidArgumentException
      */
@@ -51,7 +49,6 @@ class ilTermsOfServiceTableDataProviderFactory
     }
 
     /**
-     * @param array $mandatoryMemberVariables
      * @throws ilTermsOfServiceMissingDatabaseAdapterException
      */
     protected function validateConfiguration(array $mandatoryMemberVariables): void
@@ -65,21 +62,16 @@ class ilTermsOfServiceTableDataProviderFactory
     }
 
     /**
-     * @param string $member
-     * @return ilTermsOfServiceException
      * @throws InvalidArgumentException
      */
     protected function getExceptionByMember(string $member): ilTermsOfServiceException
     {
-        switch ($member) {
-            case 'db':
-                return new ilTermsOfServiceMissingDatabaseAdapterException(
-                    'Incomplete factory configuration. Please inject a database adapter.'
-                );
-
-            default:
-                throw new InvalidArgumentException("Exception for member $member not supported");
-        }
+        return match ($member) {
+            'db' => new ilTermsOfServiceMissingDatabaseAdapterException(
+                'Incomplete factory configuration. Please inject a database adapter.'
+            ),
+            default => throw new InvalidArgumentException("Exception for member $member not supported"),
+        };
     }
 
     public function setDatabaseAdapter(?ilDBInterface $db): void

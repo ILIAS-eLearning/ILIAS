@@ -24,11 +24,8 @@ declare(strict_types=1);
  */
 class ilTermsOfServiceTrimmedDocumentPurifier implements ilHtmlPurifierInterface
 {
-    protected ilHtmlPurifierInterface $inner;
-
-    public function __construct(ilHtmlPurifierInterface $inner)
+    public function __construct(protected ilHtmlPurifierInterface $inner)
     {
-        $this->inner = $inner;
     }
 
     public function purify(string $html): string

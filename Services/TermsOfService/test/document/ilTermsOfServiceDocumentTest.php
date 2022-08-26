@@ -92,9 +92,6 @@ class ilTermsOfServiceDocumentTest extends ilTermsOfServiceCriterionBaseTest
 
     /**
      * @dataProvider criteriaAssignmentProvider
-     * @param ilTermsOfServiceDocumentCriterionAssignment $criterionAssignment1
-     * @param ilTermsOfServiceDocumentCriterionAssignment $criterionAssignment2
-     * @param ilTermsOfServiceDocumentCriterionAssignment $criterionAssignment3
      */
     public function testDocumentModelCanBeBuiltFromArrayWithAttachedCriteriaBeingRead(
         ilTermsOfServiceDocumentCriterionAssignment $criterionAssignment1,
@@ -107,7 +104,7 @@ class ilTermsOfServiceDocumentTest extends ilTermsOfServiceCriterionBaseTest
         $criterionConnector
             ->expects($this->once())
             ->method('readSet')
-            ->willReturnCallback(function () use ($criterionAssignment1, $criterionAssignment2, $criterionAssignment3) {
+            ->willReturnCallback(function () use ($criterionAssignment1, $criterionAssignment2, $criterionAssignment3): array {
                 return [
                     [
                         'id' => $criterionAssignment1->getId(),
@@ -145,9 +142,6 @@ class ilTermsOfServiceDocumentTest extends ilTermsOfServiceCriterionBaseTest
 
     /**
      * @dataProvider criteriaAssignmentProvider
-     * @param ilTermsOfServiceDocumentCriterionAssignment $criterionAssignment1
-     * @param ilTermsOfServiceDocumentCriterionAssignment $criterionAssignment2
-     * @param ilTermsOfServiceDocumentCriterionAssignment $criterionAssignment3
      */
     public function testDocumentModelCanBeCreatedByIdWithAttachedCriteriaBeingRead(
         ilTermsOfServiceDocumentCriterionAssignment $criterionAssignment1,
@@ -160,7 +154,7 @@ class ilTermsOfServiceDocumentTest extends ilTermsOfServiceCriterionBaseTest
         $documentConnector
             ->expects($this->once())
             ->method('read')
-            ->willReturnCallback(function () {
+            ->willReturnCallback(function (): array {
                 $object = new stdClass();
 
                 $object->id = 4711;
@@ -178,7 +172,7 @@ class ilTermsOfServiceDocumentTest extends ilTermsOfServiceCriterionBaseTest
         $criterionConnector
             ->expects($this->once())
             ->method('readSet')
-            ->willReturnCallback(function () use ($criterionAssignment1, $criterionAssignment2, $criterionAssignment3) {
+            ->willReturnCallback(function () use ($criterionAssignment1, $criterionAssignment2, $criterionAssignment3): array {
                 return [
                     [
                         'id' => $criterionAssignment1->getId(),
@@ -211,9 +205,6 @@ class ilTermsOfServiceDocumentTest extends ilTermsOfServiceCriterionBaseTest
 
     /**
      * @dataProvider criteriaAssignmentProvider
-     * @param ilTermsOfServiceDocumentCriterionAssignment $criterionAssignment1
-     * @param ilTermsOfServiceDocumentCriterionAssignment $criterionAssignment2
-     * @param ilTermsOfServiceDocumentCriterionAssignment $criterionAssignment3
      */
     public function testCriteriaCanBeAttachedToDocument(
         ilTermsOfServiceDocumentCriterionAssignment $criterionAssignment1,
@@ -230,9 +221,6 @@ class ilTermsOfServiceDocumentTest extends ilTermsOfServiceCriterionBaseTest
 
     /**
      * @dataProvider criteriaAssignmentProvider
-     * @param ilTermsOfServiceDocumentCriterionAssignment $criterionAssignment1
-     * @param ilTermsOfServiceDocumentCriterionAssignment $criterionAssignment2
-     * @param ilTermsOfServiceDocumentCriterionAssignment $criterionAssignment3
      */
     public function testCriteriaCanBeDetachedFromDocument(
         ilTermsOfServiceDocumentCriterionAssignment $criterionAssignment1,

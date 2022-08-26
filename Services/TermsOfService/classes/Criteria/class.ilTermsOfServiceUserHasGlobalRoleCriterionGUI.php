@@ -27,22 +27,12 @@ use ILIAS\UI\Factory;
  */
 class ilTermsOfServiceUserHasGlobalRoleCriterionGUI implements ilTermsOfServiceCriterionTypeGUI
 {
-    protected ilTermsOfServiceUserHasGlobalRoleCriterion $type;
-    protected ilRbacReview $rbacReview;
-    protected ilLanguage $lng;
-    protected ilObjectDataCache $objectCache;
-
     public function __construct(
-        ilTermsOfServiceUserHasGlobalRoleCriterion $type,
-        ilLanguage $lng,
-        ilRbacReview $rbacReview,
-        ilObjectDataCache $objectCache
+        protected ilTermsOfServiceUserHasGlobalRoleCriterion $type,
+        protected ilLanguage $lng,
+        protected ilRbacReview $rbacReview,
+        protected ilObjectDataCache $objectCache
     ) {
-        $this->type = $type;
-        $this->lng = $lng;
-        $this->rbacReview = $rbacReview;
-        $this->objectCache = $objectCache;
-
         $this->lng->loadLanguageModule('rbac');
     }
 
@@ -74,11 +64,9 @@ class ilTermsOfServiceUserHasGlobalRoleCriterionGUI implements ilTermsOfServiceC
 
     public function getConfigByForm(ilPropertyFormGUI $form): ilTermsOfServiceCriterionConfig
     {
-        $config = new ilTermsOfServiceCriterionConfig([
+        return new ilTermsOfServiceCriterionConfig([
             'role_id' => (int) $form->getInput($this->type->getTypeIdent() . '_role_id')
         ]);
-
-        return $config;
     }
 
     public function getIdentPresentation(): string

@@ -26,32 +26,17 @@ use ILIAS\Data\Factory;
  */
 class ilTermsOfServiceCriterionFormGUI extends ilPropertyFormGUI
 {
-    protected ilTermsOfServiceDocument $document;
-    protected ilTermsOfServiceDocumentCriterionAssignment $assignment;
-    protected string $formAction;
-    protected ilObjUser $actor;
-    protected string $saveCommand;
-    protected string $cancelCommand;
     protected string $translatedError = '';
-    protected ilTermsOfServiceCriterionTypeFactoryInterface $criterionTypeFactory;
 
     public function __construct(
-        ilTermsOfServiceDocument $document,
-        ilTermsOfServiceDocumentCriterionAssignment $assignment,
-        ilTermsOfServiceCriterionTypeFactoryInterface $criterionTypeFactory,
-        ilObjUser $actor,
-        string $formAction = '',
-        string $saveCommand = 'saveDocument',
-        string $cancelCommand = 'showDocuments'
+        protected ilTermsOfServiceDocument $document,
+        protected ilTermsOfServiceDocumentCriterionAssignment $assignment,
+        protected ilTermsOfServiceCriterionTypeFactoryInterface $criterionTypeFactory,
+        protected ilObjUser $actor,
+        protected string $formAction = '',
+        protected string $saveCommand = 'saveDocument',
+        protected string $cancelCommand = 'showDocuments'
     ) {
-        $this->document = $document;
-        $this->assignment = $assignment;
-        $this->criterionTypeFactory = $criterionTypeFactory;
-        $this->actor = $actor;
-        $this->formAction = $formAction;
-        $this->saveCommand = $saveCommand;
-        $this->cancelCommand = $cancelCommand;
-
         parent::__construct();
 
         $this->initForm();

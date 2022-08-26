@@ -51,13 +51,11 @@ abstract class ilTermsOfServiceBaseTest extends TestCase
      */
     protected function getLanguageMock(): ilLanguage
     {
-        $lng = $this
+        return $this
             ->getMockBuilder(ilLanguage::class)
             ->disableOriginalConstructor()
             ->onlyMethods(['txt', 'getInstalledLanguages', 'loadLanguageModule'])
             ->getMock();
-
-        return $lng;
     }
 
     /**
@@ -82,7 +80,6 @@ abstract class ilTermsOfServiceBaseTest extends TestCase
     }
 
     /**
-     * @param string $name
      * @param mixed  $value
      */
     protected function setGlobalVariable(string $name, $value): void
@@ -99,7 +96,6 @@ abstract class ilTermsOfServiceBaseTest extends TestCase
 
     /**
      * @param mixed $value
-     * @return ilTermsOfServiceCriterionConfig
      */
     protected function getCriterionConfig($value = null): ilTermsOfServiceCriterionConfig
     {

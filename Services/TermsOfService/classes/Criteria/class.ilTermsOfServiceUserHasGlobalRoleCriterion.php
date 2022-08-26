@@ -24,13 +24,8 @@ declare(strict_types=1);
  */
 class ilTermsOfServiceUserHasGlobalRoleCriterion implements ilTermsOfServiceCriterionType
 {
-    protected ilRbacReview $rbacReview;
-    protected ilObjectDataCache $objectCache;
-
-    public function __construct(ilRbacReview $rbacReview, ilObjectDataCache $objectCache)
+    public function __construct(protected ilRbacReview $rbacReview, protected ilObjectDataCache $objectCache)
     {
-        $this->rbacReview = $rbacReview;
-        $this->objectCache = $objectCache;
     }
 
     public function getTypeIdent(): string

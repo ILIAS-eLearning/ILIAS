@@ -27,23 +27,16 @@ use ILIAS\UI\Renderer;
  */
 class ilTermsOfServiceAcceptanceHistoryTableGUI extends ilTermsOfServiceTableGUI
 {
-    protected Factory $uiFactory;
-    protected Renderer $uiRenderer;
     protected int $numRenderedCriteria = 0;
-    protected ilTermsOfServiceCriterionTypeFactoryInterface $criterionTypeFactory;
 
     public function __construct(
         ilTermsOfServiceControllerEnabled $controller,
         string $command,
-        ilTermsOfServiceCriterionTypeFactoryInterface $criterionTypeFactory,
-        Factory $uiFactory,
-        Renderer $uiRenderer,
+        protected ilTermsOfServiceCriterionTypeFactoryInterface $criterionTypeFactory,
+        protected Factory $uiFactory,
+        protected Renderer $uiRenderer,
         ilGlobalTemplateInterface $globalTemplate
     ) {
-        $this->criterionTypeFactory = $criterionTypeFactory;
-        $this->uiFactory = $uiFactory;
-        $this->uiRenderer = $uiRenderer;
-
         $this->setId('tos_acceptance_history');
         $this->setFormName('tos_acceptance_history');
 

@@ -39,7 +39,6 @@ class ilTermsOfServiceDocumentTableDataProviderTest extends ilTermsOfServiceBase
 
     /**
      * @depends testDocumentProviderCanBeCreatedByFactory
-     * @param ilTermsOfServiceDocumentTableDataProvider $provider
      */
     public function testListOfDocumentsCanBeRetrieved(ilTermsOfServiceDocumentTableDataProvider $provider): void
     {
@@ -66,7 +65,7 @@ class ilTermsOfServiceDocumentTableDataProviderTest extends ilTermsOfServiceBase
         $criterionConnector
             ->expects($this->exactly(count($documentData)))
             ->method('readSet')
-            ->willReturnCallback(function () {
+            ->willReturnCallback(function (): array {
                 return [];
             });
 

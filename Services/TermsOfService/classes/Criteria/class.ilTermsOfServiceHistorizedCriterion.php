@@ -24,13 +24,8 @@ declare(strict_types=1);
  */
 class ilTermsOfServiceHistorizedCriterion implements ilTermsOfServiceEvaluableCriterion
 {
-    private string $id;
-    private array $config;
-
-    public function __construct(string $id, array $config)
+    public function __construct(private string $id, private array $config)
     {
-        $this->id = $id;
-        $this->config = $config;
     }
 
     public function getCriterionValue(): ilTermsOfServiceCriterionConfig

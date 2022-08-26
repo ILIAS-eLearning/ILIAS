@@ -27,29 +27,20 @@ use ILIAS\UI\Renderer;
  */
 class ilTermsOfServiceDocumentTableGUI extends ilTermsOfServiceTableGUI
 {
-    protected Factory $uiFactory;
-    protected Renderer $uiRenderer;
-    protected bool $isEditable = false;
     protected int $factor = 10;
     protected int $i = 1;
     protected int $numRenderedCriteria = 0;
-    protected ilTermsOfServiceCriterionTypeFactoryInterface $criterionTypeFactory;
     /** @var ILIAS\UI\Component\Component[] */
     protected array $uiComponents = [];
 
     public function __construct(
         ilTermsOfServiceControllerEnabled $a_parent_obj,
         string $command,
-        ilTermsOfServiceCriterionTypeFactoryInterface $criterionTypeFactory,
-        Factory $uiFactory,
-        Renderer $uiRenderer,
-        bool $isEditable = false
+        protected ilTermsOfServiceCriterionTypeFactoryInterface $criterionTypeFactory,
+        protected Factory $uiFactory,
+        protected Renderer $uiRenderer,
+        protected bool $isEditable = false
     ) {
-        $this->criterionTypeFactory = $criterionTypeFactory;
-        $this->uiFactory = $uiFactory;
-        $this->uiRenderer = $uiRenderer;
-        $this->isEditable = $isEditable;
-
         $this->setId('tos_documents');
         $this->setFormName('tos_documents');
 
@@ -239,8 +230,6 @@ class ilTermsOfServiceDocumentTableGUI extends ilTermsOfServiceTableGUI
         }
 
         foreach ($row['criteriaAssignments'] as $criterion) {
-            /** @var ilTermsOfServiceDocumentCriterionAssignment $criterion */
-
             $this->ctrl->setParameter($this->getParentObject(), 'tos_id', $row['id']);
             $this->ctrl->setParameter($this->getParentObject(), 'crit_id', $criterion->getId());
 

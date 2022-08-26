@@ -53,12 +53,10 @@ abstract class ilTermsOfServiceEvaluationBaseTest extends ilTermsOfServiceBaseTe
      */
     protected function getLogMock(): ilLogger
     {
-        $log = $this
+        return $this
             ->getMockBuilder(ilLogger::class)
             ->disableOriginalConstructor()
             ->getMock();
-
-        return $log;
     }
 
     /**
@@ -66,12 +64,10 @@ abstract class ilTermsOfServiceEvaluationBaseTest extends ilTermsOfServiceBaseTe
      */
     protected function getEvaluatorMock(): ilTermsOfServiceDocumentCriteriaEvaluation
     {
-        $evaluator = $this
+        return $this
             ->getMockBuilder(ilTermsOfServiceDocumentCriteriaEvaluation::class)
             ->disableOriginalConstructor()
             ->getMock();
-
-        return $evaluator;
     }
 
     /**
@@ -79,15 +75,12 @@ abstract class ilTermsOfServiceEvaluationBaseTest extends ilTermsOfServiceBaseTe
      */
     protected function getCriterionTypeFactoryMock(): ilTermsOfServiceCriterionTypeFactoryInterface
     {
-        $criterionTypeFactory = $this
+        return $this
             ->getMockBuilder(ilTermsOfServiceCriterionTypeFactoryInterface::class)
             ->getMock();
-
-        return $criterionTypeFactory;
     }
 
     /**
-     * @param string $typeIdent
      * @return MockObject&ilTermsOfServiceCriterionType
      */
     protected function getCriterionTypeMock(string $typeIdent): ilTermsOfServiceCriterionType
@@ -104,7 +97,6 @@ abstract class ilTermsOfServiceEvaluationBaseTest extends ilTermsOfServiceBaseTe
     }
 
     /**
-     * @param ilTermsOfServiceCriterionType $criterionType
      * @return MockObject&ilTermsOfServiceEvaluableCriterion
      */
     protected function getCriterionAssignmentMock(

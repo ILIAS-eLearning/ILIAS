@@ -119,7 +119,6 @@ class ilTermsOfServiceDocumentGUITest extends ilTermsOfServiceBaseTest
 
     /**
      * @dataProvider commandProvider
-     * @param string $command
      * @param bool[] $accessResults
      */
     public function testAccessDeniedErrorIsRaisedWhenPermissionsAreMissing(string $command, array $accessResults): void
@@ -133,7 +132,7 @@ class ilTermsOfServiceDocumentGUITest extends ilTermsOfServiceBaseTest
         $this->rbacsystem
             ->expects($this->exactly(count($accessResults)))
             ->method('checkAccess')
-            ->willReturnCallback(function () use ($accessResults, &$accessResultCounter) {
+            ->willReturnCallback(function () use ($accessResults, &$accessResultCounter): bool {
                 $result = $accessResults[$accessResultCounter];
 
                 $accessResultCounter++;

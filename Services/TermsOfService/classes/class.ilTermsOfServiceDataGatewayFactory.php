@@ -37,23 +37,19 @@ class ilTermsOfServiceDataGatewayFactory
     }
 
     /**
-     * @param string $name
      * @return ilTermsOfServiceAcceptanceDatabaseGateway
      * @throws InvalidArgumentException
      * @throws ilTermsOfServiceMissingDatabaseAdapterException
      */
     public function getByName(string $name): ilTermsOfServiceAcceptanceDataGateway
     {
-        if (null === $this->db) {
+        if (!$this->db instanceof \ilDBInterface) {
             throw new ilTermsOfServiceMissingDatabaseAdapterException('Incomplete factory configuration. Please inject a database adapter.');
         }
 
-        switch (strtolower($name)) {
-            case 'iltermsofserviceacceptancedatabasegateway':
-                return new ilTermsOfServiceAcceptanceDatabaseGateway($this->db);
-
-            default:
-                throw new InvalidArgumentException('Data gateway not supported');
-        }
+        return match (strtolower($name)) {
+            'iltermsofserviceacceptancedatabasegateway' => new ilTermsOfServiceAcceptanceDatabaseGateway($this->db),
+            default => throw new InvalidArgumentException('Data gateway not supported'),
+        };
     }
 }

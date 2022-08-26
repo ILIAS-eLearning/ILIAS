@@ -23,23 +23,14 @@ declare(strict_types=1);
  */
 class ilTermsOfServiceSettingsFormGUI extends ilPropertyFormGUI
 {
-    protected ilObjTermsOfService $tos;
-    protected string $formAction = '';
-    protected string $saveCommand = '';
-    protected bool $isEditable = false;
     protected string $translatedError = '';
 
     public function __construct(
-        ilObjTermsOfService $tos,
-        string $formAction = '',
-        string $saveCommand = 'saveSettings',
-        bool $isEditable = false
+        protected ilObjTermsOfService $tos,
+        protected string $formAction = '',
+        protected string $saveCommand = 'saveSettings',
+        protected bool $isEditable = false
     ) {
-        $this->tos = $tos;
-        $this->formAction = $formAction;
-        $this->saveCommand = $saveCommand;
-        $this->isEditable = $isEditable;
-
         parent::__construct();
 
         $this->initForm();
@@ -91,7 +82,7 @@ class ilTermsOfServiceSettingsFormGUI extends ilPropertyFormGUI
             return false;
         }
 
-        if (!(int) $this->getInput('tos_status')) {
+        if ((int) $this->getInput('tos_status') === 0) {
             $this->tos->saveStatus((bool) $this->getInput('tos_status'));
             return true;
         }
@@ -118,10 +109,6 @@ class ilTermsOfServiceSettingsFormGUI extends ilPropertyFormGUI
 
     protected function fillObject(): bool
     {
-        if (!$this->checkInput()) {
-            return false;
-        }
-
-        return true;
+        return $this->checkInput();
     }
 }

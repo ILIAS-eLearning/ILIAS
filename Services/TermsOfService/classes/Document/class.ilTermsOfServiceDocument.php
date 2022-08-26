@@ -168,7 +168,7 @@ class ilTermsOfServiceDocument extends ActiveRecord implements ilTermsOfServiceS
                 }
             );
 
-            if (0 === count($found)) {
+            if ([] === $found) {
                 $criterionAssignment->delete();
             }
         }
@@ -195,7 +195,6 @@ class ilTermsOfServiceDocument extends ActiveRecord implements ilTermsOfServiceS
     }
 
     /**
-     * @param ilTermsOfServiceDocumentCriterionAssignment $criterionAssignment
      * @throws ilTermsOfServiceDuplicateCriterionAssignmentException
      */
     public function attachCriterion(ilTermsOfServiceDocumentCriterionAssignment $criterionAssignment): void
@@ -214,7 +213,6 @@ class ilTermsOfServiceDocument extends ActiveRecord implements ilTermsOfServiceS
     }
 
     /**
-     * @param ilTermsOfServiceDocumentCriterionAssignment $criterionAssignment
      * @throws OutOfBoundsException
      */
     public function detachCriterion(ilTermsOfServiceDocumentCriterionAssignment $criterionAssignment): void
@@ -246,15 +244,7 @@ class ilTermsOfServiceDocument extends ActiveRecord implements ilTermsOfServiceS
         if (!$this->criteriaFetched) {
             $this->criteriaFetched = true;
 
-            $this->initialPersistedCriteria = [];
-            $this->criteria = [];
-
-            $criteria = ilTermsOfServiceDocumentCriterionAssignment::where(['doc_id' => $this->getId()])->get();
-            foreach ($criteria as $criterionAssignment) {
-                /** @var ilTermsOfServiceDocumentCriterionAssignment $criterionAssignment */
-                $this->criteria[] = $criterionAssignment;
-            }
-
+            $this->criteria = ilTermsOfServiceDocumentCriterionAssignment::where(['doc_id' => $this->getId()])->get();
             $this->initialPersistedCriteria = $this->criteria;
         }
     }

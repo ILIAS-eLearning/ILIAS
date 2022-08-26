@@ -25,15 +25,12 @@ declare(strict_types=1);
 class ilTermsOfServiceDocumentsContainsHtmlValidator
 {
     private const LIBXML_CODE_HTML_UNKNOWN_TAG = 801;
-
-    private string $text;
     private bool $xmlErrorState = false;
     /** @var LibXMLError[] */
     private array $xmlErrors = [];
 
-    public function __construct(string $text)
+    public function __construct(private string $text)
     {
-        $this->text = $text;
     }
 
     public function isValid(): bool
@@ -74,7 +71,7 @@ class ilTermsOfServiceDocumentsContainsHtmlValidator
             }
 
             return false;
-        } catch (Throwable $e) {
+        } catch (Throwable) {
             $this->endXmlLogging();
             return false;
         } finally {
