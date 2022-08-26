@@ -12693,7 +12693,7 @@ div.il_info {
   text-align: right;
 }
 /* ---------------- headlines ------------------ */
-a#il_mhead_t_focus {
+#il_mhead_t_focus {
   color: #2c2c2c;
   vertical-align: middle;
   font-size: 1.75rem;
@@ -12701,11 +12701,11 @@ a#il_mhead_t_focus {
   cursor: default;
 }
 @media only screen and (max-width: 768px) {
-  a#il_mhead_t_focus {
+  #il_mhead_t_focus {
     font-size: 1.5rem;
   }
 }
-a#il_mhead_t_focus[href] {
+#il_mhead_t_focus[href] {
   cursor: pointer;
 }
 h1.ilHeader {
@@ -13064,8 +13064,8 @@ div.ilRightPanel {
   /* may causes a scrollbar when omitted */
   right: -2000px;
 }
-a.ilAccAnchor,
-a.ilAccAnchor:hover {
+div.ilAccAnchor,
+div.ilAccAnchor:hover {
   text-decoration: none;
   color: inherit;
 }

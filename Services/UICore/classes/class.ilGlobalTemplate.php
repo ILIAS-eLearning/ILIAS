@@ -761,11 +761,6 @@ class ilGlobalTemplate implements ilGlobalTemplateInterface
             $header_tpl->parseCurrentBlock();
         }
 
-        // edge-case of tabindex and tag name.
-        if ($this->template_name === 'tpl.page_content.html') {
-            $header_tpl->touchBlock('header_link_additions');
-        }
-
         if ($this->title_desc !== "") {
             $header_tpl->setCurrentBlock("header_desc");
             $header_tpl->setVariable("H_DESCRIPTION", $this->title_desc);
