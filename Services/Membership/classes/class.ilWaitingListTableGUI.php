@@ -159,7 +159,7 @@ class ilWaitingListTableGUI extends ilTable2GUI
     protected function fillRow(array $a_set): void
     {
         if (
-            !ilObjCourseGrouping::_checkGroupingDependencies($this->getRepositoryObject(), $a_set['usr_id']) &&
+            !ilObjCourseGrouping::_checkGroupingDependencies($this->getRepositoryObject(), (int) $a_set['usr_id']) &&
             ($ids = ilObjCourseGrouping::getAssignedObjects())
         ) {
             $prefix = $this->getRepositoryObject()->getType();
@@ -202,7 +202,7 @@ class ilWaitingListTableGUI extends ilTable2GUI
                     $this->tpl->setCurrentBlock('custom_fields');
                     $this->tpl->setVariable(
                         'VAL_CUST',
-                        ilOrgUnitPathStorage::getTextRepresentationOfUsersOrgUnits($a_set['usr_id'])
+                        ilOrgUnitPathStorage::getTextRepresentationOfUsersOrgUnits((int) $a_set['usr_id'])
                     );
                     $this->tpl->parseCurrentBlock();
                     break;
@@ -286,14 +286,14 @@ class ilWaitingListTableGUI extends ilTable2GUI
         }
         $usr_ids = [];
         foreach ((array) $usr_data['set'] as $user) {
-            $usr_ids[] = $user['usr_id'];
+            $usr_ids[] = (int) $user['usr_id'];
         }
 
         // merge course data
         $course_user_data = $this->getParentObject()->readMemberData($usr_ids, array());
         $a_user_data = array();
         foreach ((array) $usr_data['set'] as $ud) {
-            $a_user_data[$ud['usr_id']] = array_merge($ud, $course_user_data[$ud['usr_id']]);
+            $a_user_data[(int) $ud['usr_id']] = array_merge($ud, $course_user_data[(int) $ud['usr_id']]);
         }
 
         // Custom user data fields
@@ -348,12 +348,12 @@ class ilWaitingListTableGUI extends ilTable2GUI
 
         foreach ($usr_data['set'] as $user) {
             // Check acceptance
-            if (!$this->checkAcceptance($user['usr_id'])) {
+            if (!$this->checkAcceptance((int) $user['usr_id'])) {
                 continue;
             }
             // DONE: accepted
             foreach ($usr_data_fields as $field) {
-                $a_user_data[$user['usr_id']][$field] = $user[$field] ?: '';
+                $a_user_data[(int) $user['usr_id']][$field] = $user[$field] ?: '';
             }
         }
 
@@ -364,7 +364,7 @@ class ilWaitingListTableGUI extends ilTable2GUI
             }
         }
 
-        $this->setMaxCount($usr_data['cnt'] ?: 0);
+        $this->setMaxCount((int) ($usr_data['cnt'] ?? 0));
         $this->setData($a_user_data);
     }
 

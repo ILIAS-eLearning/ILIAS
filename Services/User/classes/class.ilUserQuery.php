@@ -514,7 +514,7 @@ class ilUserQuery
         while ($rec = $ilDB->fetchAssoc($set)) {
             $result[] = $rec;
             if (count($multi_fields)) {
-                $usr_ids[] = $rec["usr_id"];
+                $usr_ids[] = (int) $rec["usr_id"];
             }
         }
 
@@ -524,7 +524,7 @@ class ilUserQuery
             $set = $ilDB->query("SELECT * FROM usr_data_multi" .
                 " WHERE " . $ilDB->in("usr_id", $usr_ids, "", "integer"));
             while ($row = $ilDB->fetchAssoc($set)) {
-                $usr_multi[$row["usr_id"]][$row["field_id"]][] = $row["value"];
+                $usr_multi[(int) $row["usr_id"]][$row["field_id"]][] = $row["value"];
             }
             foreach ($result as $idx => $item) {
                 if (isset($usr_multi[$item["usr_id"]])) {
