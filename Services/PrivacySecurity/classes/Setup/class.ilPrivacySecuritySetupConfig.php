@@ -28,7 +28,7 @@ class ilPrivacySecuritySetupConfig implements Setup\Config
     public function __construct(
         bool $force_https_on_login = false,
         ?int $authentication_duration_in_ms = null,
-        ?int $account_assistance_duration_in_ms = null,
+        ?int $account_assistance_duration_in_ms = null
     ) {
         $this->force_https_on_login = $force_https_on_login;
         $this->authentication_duration_in_ms = $authentication_duration_in_ms;
