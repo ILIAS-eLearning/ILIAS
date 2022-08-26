@@ -12,7 +12,6 @@
     <option name="KEEP_RPAREN_AND_LBRACE_ON_ONE_LINE" value="true" />
     <option name="BLANK_LINES_AFTER_OPENING_TAG" value="1" />
     <option name="KEEP_BLANK_LINES_AFTER_LBRACE" value="0" />
-    <option name="NEW_LINE_AFTER_PHP_OPENING_TAG" value="true" />
     <option name="ATTRIBUTES_WRAP" value="2" />
     <option name="PARAMETERS_ATTRIBUTES_WRAP" value="2" />
   </PHPCodeStyleSettings>
