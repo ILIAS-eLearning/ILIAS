@@ -44,9 +44,9 @@ class CreationGUIRequest
         return $this->int("mep_ref_id");
     }
 
-    public function getPoolView(): int
+    public function getPoolView(): string
     {
-        return $this->int("pool_view");
+        return $this->str("pool_view");
     }
 
     /**
