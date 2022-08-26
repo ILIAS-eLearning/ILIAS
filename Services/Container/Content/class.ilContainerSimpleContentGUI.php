@@ -24,7 +24,7 @@
 class ilContainerSimpleContentGUI extends ilContainerContentGUI
 {
     protected ilTabsGUI $tabs;
-    protected int $force_details;
+    protected int $force_details = 0;
 
     public function __construct(
         ilContainerGUI $container_gui_obj
