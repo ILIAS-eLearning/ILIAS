@@ -104,6 +104,7 @@ class ilMediaCreationGUI
             ->request();
 
         $this->requested_mep = $this->request->getMediaPoolId();
+        $this->ctrl->setParameter($this, "mep", $this->requested_mep);
 
         $pv = $this->request->getPoolView();
         $this->pool_view = (in_array($pv, [self::POOL_VIEW_FOLDER, self::POOL_VIEW_ALL]))
