@@ -1,4 +1,5 @@
 
+
 *
 *
 *
@@ -4195,6 +4196,7 @@ common#:#grpr_add#:#Add Group Link
 common#:#grpr_edit#:#Edit Group Link
 common#:#grpr_edit_info#:#Please choose one group for creating a new group link.
 common#:#grpr_new#:#Create Group Link
+common#:#grpr_settings#:#Group Link Settings
 common#:#header_searchable#:#Searchable
 common#:#header_title#:#Header Title
 common#:#header_visible_registration#:#Visible in Registration
