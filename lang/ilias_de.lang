@@ -23,6 +23,7 @@
 */
 /**
 /**
+/**
 // Language file names refer to ISO 639, see: http://www.oasis-open.org/cover/iso639a.html
 // NOTICE: Character coding of all ILIAS lang files is UTF-8! Please set your editor
 // The language file starts beyond the HTML-comment below. DO NOT modify this line!
@@ -4194,6 +4195,7 @@ common#:#grpr_add#:#Gruppenlink anlegen
 common#:#grpr_edit#:#Gruppenlink bearbeiten
 common#:#grpr_edit_info#:#Bitte wählen Sie die Gruppe aus, für die Sie einen Link erstellen möchten.
 common#:#grpr_new#:#Neuen Gruppenlink anlegen
+common#:#grpr_settings#:#Einstellungen des Gruppenlinks
 common#:#header_searchable#:#Durchsuchbar
 common#:#header_title#:#Installationsüberschrift
 common#:#header_visible_registration#:#Sichtbar im Registrierungsformular
