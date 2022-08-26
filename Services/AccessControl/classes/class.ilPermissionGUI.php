@@ -642,7 +642,7 @@ class ilPermissionGUI extends ilPermission2GUI
                         ($par["type"] == 'role' ? $this->lng->txt('obj_role') : $this->lng->txt(
                             'obj_rolt'
                         )) . ": " . ilObjRole::_getTranslation($par["title"]),
-                        $par["obj_id"]
+                        (string) $par["obj_id"]
                     );
                     $option->setInfo($par["desc"]);
                     $rights->addOption($option);
