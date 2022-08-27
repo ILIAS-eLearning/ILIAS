@@ -173,6 +173,7 @@ class ilMediaCreationGUI
         }
         if (in_array(self::TYPE_VIDEO, $this->accept_types)) {
             $mimes[] = "video/vimeo";
+            $mimes[] = "video/youtube";
             $mimes[] = "video/mp4";
         }
         if (in_array(self::TYPE_AUDIO, $this->accept_types)) {
@@ -270,6 +271,7 @@ class ilMediaCreationGUI
                     $this->lng->txt("files"),
                     \Closure::fromCallable([$this, 'handleUploadResult']),
                     "mep_id",
+                    "",
                     20,
                     $this->getMimeTypes()
                 );
@@ -287,7 +289,11 @@ class ilMediaCreationGUI
 
         //
         $ti = new \ilTextInputGUI($lng->txt("mob_url"), "url");
-        $ti->setInfo($lng->txt("mob_url_info"));
+        $info = $lng->txt("mob_url_info1") . " " . implode(", ", $this->getSuffixes()) . ".";
+        if (in_array(self::TYPE_VIDEO, $this->accept_types)) {
+            $info.= " " . $lng->txt("mob_url_info_video");
+        }
+        $ti->setInfo($info);
         $ti->setRequired(true);
         $form->addItem($ti);
 
@@ -581,6 +587,15 @@ class ilMediaCreationGUI
 
             // get mime type, if not already set!
             $format = ilObjMediaObject::getMimeType($url, true);
+            if (!in_array($format, $this->getMimeTypes())) {
+                $this->main_tpl->setOnScreenMessage(
+                    "failure",
+                    $this->lng->txt("mob_type_not_supported") . " " . $format
+                );
+                $form->setValuesByPost();
+                $this->main_tpl->setContent($form->getHTML());
+                return;
+            }
             // set real meta and object data
             $mediaItem->setFormat($format);
             $mediaItem->setLocation($url);

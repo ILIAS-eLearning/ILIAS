@@ -26,6 +26,7 @@ use ILIAS\UI\Component\Input\Field\FormInput;
 class FormAdapterGUI
 {
     protected const DEFAULT_SECTION = "@internal_default_section";
+    protected \ilLanguage $lng;
     protected string $title = "";
     /**
      * @var mixed|null
@@ -56,6 +57,7 @@ class FormAdapterGUI
         $this->ui = $DIC->ui();
         $this->ctrl = $DIC->ctrl();
         $this->http = $DIC->http();
+        $this->lng = $DIC->language();
     }
 
     public function getTitle(): string
@@ -131,6 +133,7 @@ class FormAdapterGUI
         string $title,
         \Closure $result_handler,
         string $id_parameter,
+        string $description = "",
         int $max_files = 1,
         array $mime_types = []
     ): self {
@@ -139,9 +142,15 @@ class FormAdapterGUI
             $id_parameter
         );
 
+        if (count($mime_types) > 0) {
+            $description.= $this->lng->txt("rep_allowed_types") . ": " .
+                implode(", ", $mime_types);
+        }
+
         $field = $this->ui->factory()->input()->field()->file(
             $this->upload_handler[$key],
-            $title
+            $title,
+            $description
         )
             ->withMaxFileSize((int) \ilFileUtils::getUploadSizeLimitBytes())
             ->withMaxFiles($max_files);

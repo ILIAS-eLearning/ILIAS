@@ -11927,6 +11927,8 @@ mob#:#mob_upload_multi_srt#:#Upload as ZIP
 mob#:#mob_upload_multi_srt_howto#:#The .zip file should contain no subdirectory, all .srt files should be located on the top level. The file names should end with "_&lt;lang code&gt;.srt" where lang code is e.g. "en", "it", "de".
 mob#:#mob_url#:#URL
 mob#:#mob_url_info#:#External resource URL, e.g. Youtube or Vimeo URL.
+mob#:#mob_url_info1#:#External resource URL, allowed suffixes are:
+mob#:#mob_url_info_video#:#You may also refer to a Youtube or Vimeo URL.
 mst#:#mst_cert_issued_on#:#Issued On
 mst#:#mst_courses_of#:#Course Memberships of %s
 mst#:#mst_download_certificate#:#Download Certificate
