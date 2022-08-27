@@ -1699,6 +1699,7 @@ class ilObjMediaPoolGUI extends ilObject2GUI
                     $this->lng->txt("mep_media_files"),
                     \Closure::fromCallable([$this, 'handleUploadResult']),
                     "mep_id",
+                    "",
                     20
                 );
             // ->meta()->text()->meta()->textarea()
