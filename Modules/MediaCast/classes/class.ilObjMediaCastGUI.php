@@ -32,6 +32,7 @@ use ILIAS\Filesystem\Util\LegacyPathHelper;
  */
 class ilObjMediaCastGUI extends ilObjectGUI
 {
+    protected \ILIAS\MediaCast\MediaCastManager $mc_manager;
     protected ilPropertyFormGUI $form_gui;
     protected ilNewsItem $mcst_item;
     protected StandardGUIRequest $mc_request;
@@ -92,6 +93,9 @@ class ilObjMediaCastGUI extends ilObjectGUI
 //            $this->mimeTypes[$mt] = $mt;
         }
         asort($this->mimeTypes);
+
+        $this->mc_manager = $DIC->mediaCast()->internal()
+            ->domain()->mediaCast();
     }
 
     public function executeCommand(): void
@@ -131,8 +135,9 @@ class ilObjMediaCastGUI extends ilObjectGUI
                 }, function ($mob_id) {
                     $this->onMobUpdate($mob_id);
                 });
+                /*
                 $creation->setAllSuffixes($this->purposeSuffixes["Standard"]);
-                $creation->setAllMimeTypes($this->mimeTypes);
+                $creation->setAllMimeTypes($this->mimeTypes);*/
                 $this->ctrl->forwardCommand($creation);
                 break;
 
@@ -486,7 +491,9 @@ class ilObjMediaCastGUI extends ilObjectGUI
                 $this->form_gui->addItem($value);
             }
             $file = new ilFileInputGUI($lng->txt("file"), "file_" . $purpose);
-            $file->setSuffixes($this->purposeSuffixes[$purpose]);
+            $file->setSuffixes($this->mc_manager->getSuffixesForViewMode(
+                $this->object->getViewMode()
+            ));
             $this->form_gui->addItem($file);
             $text_input = new ilRegExpInputGUI($lng->txt("url"), "url_" . $purpose);
             $text_input->setPattern("/https?\:\/\/.+/i");
