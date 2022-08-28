@@ -54,10 +54,8 @@ class InternalDomainService
         );
     }*/
 
-    /*public function clipboard() : ClipboardManager
+    public function mediaCast(): MediaCastManager
     {
-        return new ClipboardManager(
-            $this->repo_service->clipboard()
-        );
-    }*/
+        return new MediaCastManager();
+    }
 }

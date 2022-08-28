@@ -39,6 +39,7 @@ class ilMediaCreationGUI
     public const TYPE_ALL = 5;
     public const POOL_VIEW_FOLDER = "fold";
     public const POOL_VIEW_ALL = "all";
+    protected \ILIAS\MediaObjects\MediaType\MediaTypeManager $type_manager;
     protected InternalGUIService $gui;
     protected ?FormAdapterGUI $bulk_upload_form = null;
     protected CreationGUIRequest $request;
@@ -94,6 +95,10 @@ class ilMediaCreationGUI
         $this->after_pool_insert = $after_pool_insert;
         $this->finish_single_upload = $finish_single_upload;
         $this->on_mob_update = $on_mob_update;
+        $this->type_manager = $DIC->mediaObjects()
+            ->internal()
+            ->domain()
+            ->mediaType();
 
         $this->ctrl->saveParameter($this, ["mep", "pool_view"]);
 
@@ -144,20 +149,17 @@ class ilMediaCreationGUI
     protected function getSuffixes(): array
     {
         $suffixes = [];
-        if (in_array(self::TYPE_ALL, $this->accept_types)) {
+        if (in_array(self::TYPE_ALL, $this->accept_types, true)) {
             $suffixes = $this->getAllSuffixes();
         }
-        if (in_array(self::TYPE_VIDEO, $this->accept_types)) {
-            $suffixes[] = "mp4";
+        if (in_array(self::TYPE_VIDEO, $this->accept_types, true)) {
+            $suffixes = array_merge($suffixes, $this->type_manager->getImageSuffixes());
         }
-        if (in_array(self::TYPE_AUDIO, $this->accept_types)) {
-            $suffixes[] = "mp3";
+        if (in_array(self::TYPE_AUDIO, $this->accept_types, true)) {
+            $suffixes = array_merge($suffixes, $this->type_manager->getAudioMimeTypes());
         }
         if (in_array(self::TYPE_IMAGE, $this->accept_types)) {
-            $suffixes[] = "jpeg";
-            $suffixes[] = "jpg";
-            $suffixes[] = "png";
-            $suffixes[] = "gif";
+            $suffixes = array_merge($suffixes, $this->type_manager->getImageSuffixes());
         }
         return $suffixes;
     }

@@ -74,7 +74,7 @@ class ilRegExpInputGUI extends ilTextInputGUI
             return false;
         }
 
-        $result = preg_match($this->pattern, $value);
+        $result = (bool) preg_match($this->pattern, $value);
         if (!$result) {
             if ($this->getNoMatchMessage() == "") {
                 $this->setAlert($lng->txt("msg_input_does_not_match_regexp"));

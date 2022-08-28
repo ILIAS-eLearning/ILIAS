@@ -58,7 +58,10 @@ class ilPCMediaObjectEditorGUI implements PageComponentEditor
         $lng = $DIC->language();
         $lng->loadLanguageModule("content");
 
-        $media_type = new ILIAS\MediaObjects\MediaType\MediaType();
+        $media_type = $DIC->mediaObjects()
+            ->internal()
+            ->domain()
+            ->mediaType();
 
         $form = new ilPropertyFormGUI();
         $form->setShowTopButtons(false);
