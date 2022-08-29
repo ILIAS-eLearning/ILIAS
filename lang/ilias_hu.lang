@@ -29,7 +29,6 @@
 // to the corresponding mode!
 // Language file names refer to ISO 639, see: http://www.oasis-open.org/cover/iso639a.html
 <!-- language file start -->
-
 acc#:#acc_add_document_btn_label#:#Dokumentum hozzáadása
 acc#:#acc_crit_type_usr_language#:#A profil nyelve
 acc#:#acc_criterion_assignment_must_be_unique_insert#:#Ezt a feltételt nem csatolhatja ehhez az értékhez. Már létezik egy ugyanilyen kritérium.

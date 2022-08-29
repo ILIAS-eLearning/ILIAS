@@ -31,7 +31,6 @@
 // to the corresponding mode!
 // language file names refer to ISO 639, see: http://www.oasis-open.org/cover/iso639a.html
 <!-- language file start -->
-
 acc#:#acc_add_document_btn_label#:#Add Document###07 02 2020 new variable
 acc#:#acc_crit_type_usr_language#:#Profile Language###07 02 2020 new variable
 acc#:#acc_criterion_assignment_must_be_unique_insert#:#You cannot attach this criterion with this value. There is already an identical criterion attached.###07 02 2020 new variable

@@ -18,6 +18,7 @@ while(\$l = array_shift(\$c)) {
         break;
     }
 }
+\$c = array_filter(\$c, function(\$v) { return !empty(\$v); } );
 array_multisort(\$c);
 file_put_contents("php://stdout",join("\n",array_merge(\$h, \$c)));
 EOF
