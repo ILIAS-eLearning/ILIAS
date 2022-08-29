@@ -4092,22 +4092,6 @@ class ilObjUserFolderGUI extends ilObjectGUI
                 $fields['ps_security_protection'] = array(null, null, $subitems);
 
                 return array(array("generalSettings", $fields));
-
-            case ilAdministrationSettingsFormHandler::FORM_TOS:
-                return [
-                    [
-                        'generalSettings',
-                        [
-                            'tos_withdrawal_usr_deletion' => [
-                                (bool) $DIC->settings()->get(
-                                    'tos_withdrawal_usr_deletion',
-                                    '0'
-                                ),
-                                ilAdministrationSettingsFormHandler::VALUE_BOOL
-                            ],
-                        ]
-                    ],
-                ];
         }
         return [];
     }

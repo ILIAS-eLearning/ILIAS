@@ -189,7 +189,7 @@ class ilObjTermsOfServiceGUI extends ilObject2GUI implements ilTermsOfServiceCon
             ],
             $this->lng->txt('tos_status_enable'),
             $this->lng->txt('tos_status_desc')
-        )->withValue([self::F_TOS_REEVALUATE_ON_LOGIN => $this->object->shouldReevaluateOnLogin()])
+        )->withValue($this->object->getStatus() ? [self::F_TOS_REEVALUATE_ON_LOGIN => $this->object->shouldReevaluateOnLogin()] : null)
         ->withDisabled(!$this->rbac_system->checkAccess('write', $this->object->getRefId()));
 
         $form = $this->dic->ui()->factory()->input()->container()->form()->standard(
@@ -208,7 +208,7 @@ class ilObjTermsOfServiceGUI extends ilObject2GUI implements ilTermsOfServiceCon
         }
 
         $this->request = $this->dic->http()->request();
-        $bindToModelTransformation = $this->refinery->custom()->transformation(function (array $values) : array {
+        $bindToModelTransformation = $this->refinery->custom()->transformation(function (array $values): array {
             $this->object->bindFormInput($values);
             return $values;
         });
@@ -254,6 +254,19 @@ class ilObjTermsOfServiceGUI extends ilObject2GUI implements ilTermsOfServiceCon
         $this->showMissingDocuments();
 
         $form = $this->getSettingsForm();
+
+        $this->components[] = $this->dic->ui()->factory()->messageBox()->info(
+            $this->lng->txt('tos_withdrawal_usr_deletion') . ': ' . ($this->dic->settings()->get(
+                'tos_withdrawal_usr_deletion',
+                '0'
+            ) ? $this->lng->txt('enabled') : $this->lng->txt('disabled'))
+        )->withLinks([
+            $this->dic->ui()->factory()->link()->standard(
+                $this->lng->txt('adm_external_setting_edit'),
+                $this->ctrl->getLinkTargetByClass(ilObjUserFolderGUI::class, 'generalSettings')
+            )
+        ]);
+
         $this->components[] = $form;
         $this->tpl->setContent($this->dic->ui()->renderer()->render($this->components));
     }
