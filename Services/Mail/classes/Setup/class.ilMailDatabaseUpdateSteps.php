@@ -84,7 +84,7 @@ class ilMailDatabaseUpdateSteps implements ilDatabaseUpdateSteps
         }
     }
 
-    public function step_5() : void
+    public function step_5(): void
     {
         if ($this->db->tableExists('mail_options') && $this->db->tableColumnExists('mail_options', 'linebreak')) {
             $this->db->dropTableColumn('mail_options', 'linebreak');

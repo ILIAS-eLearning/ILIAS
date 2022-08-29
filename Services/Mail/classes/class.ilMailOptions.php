@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -163,7 +165,7 @@ class ilMailOptions
         return $this->incomingType;
     }
 
-    public function setSignature(string $signature) : void
+    public function setSignature(string $signature): void
     {
         $this->signature = $signature;
     }
