@@ -226,7 +226,7 @@ class ilMailOptions
         $this->emailAddressMode = $emailAddressMode;
     }
 
-    public function getUsrId() : int
+    public function getUsrId(): int
     {
         return $this->usrId;
     }
@@ -284,57 +284,57 @@ class ilMailOptions
         return $emailAddresses;
     }
 
-    public function setAbsenceAutoresponderBody(string $absence_auto_responder_body) : void
+    public function setAbsenceAutoresponderBody(string $absence_auto_responder_body): void
     {
         $this->absence_auto_responder_body = $absence_auto_responder_body;
     }
 
-    public function getAbsenceAutoresponderBody() : string
+    public function getAbsenceAutoresponderBody(): string
     {
         return $this->absence_auto_responder_body;
     }
 
-    public function setAbsenceStatus(bool $absence_status) : void
+    public function setAbsenceStatus(bool $absence_status): void
     {
         $this->absence_status = $absence_status;
     }
 
-    public function getAbsenceStatus() : bool
+    public function getAbsenceStatus(): bool
     {
         return $this->absence_status;
     }
 
-    public function setAbsentFrom(int $absent_from) : void
+    public function setAbsentFrom(int $absent_from): void
     {
         $this->absent_from = $absent_from;
     }
 
-    public function getAbsentFrom() : int
+    public function getAbsentFrom(): int
     {
         return $this->absent_from;
     }
 
-    public function setAbsentUntil(int $absent_until) : void
+    public function setAbsentUntil(int $absent_until): void
     {
         $this->absent_until = $absent_until;
     }
 
-    public function getAbsentUntil() : int
+    public function getAbsentUntil(): int
     {
         return $this->absent_until;
     }
 
-    public function setAbsenceAutoresponderSubject(string $absence_auto_responder_subject) : void
+    public function setAbsenceAutoresponderSubject(string $absence_auto_responder_subject): void
     {
         $this->absence_auto_responder_subject = $absence_auto_responder_subject;
     }
 
-    public function getAbsenceAutoresponderSubject() : string
+    public function getAbsenceAutoresponderSubject(): string
     {
         return $this->absence_auto_responder_subject;
     }
 
-    public function isAbsent() : bool
+    public function isAbsent(): bool
     {
         return
             $this->getAbsenceStatus() &&

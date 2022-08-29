@@ -154,7 +154,7 @@ class ilMailOptionsFormGUI extends ilPropertyFormGUI
         return true;
     }
 
-    private function applyDefaultOrUse(string $body) : string
+    private function applyDefaultOrUse(string $body): string
     {
         if ($body !== '') {
             return $body;

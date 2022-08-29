@@ -1,4 +1,6 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -35,18 +37,18 @@ class MailService
     {
         $this->dic = $DIC;
         if (!isset($this->dic['mail.texttemplates.service'])) {
-            $this->dic['mail.texttemplates.service'] = static function (Container $c) : ilMailTemplateService {
+            $this->dic['mail.texttemplates.service'] = static function (Container $c): ilMailTemplateService {
                 return new ilMailTemplateService(new ilMailTemplateRepository($c->database()));
             };
         }
     }
 
-    public function mime() : MimeMailService
+    public function mime(): MimeMailService
     {
         return new MimeMailService($this->dic);
     }
 
-    public function autoresponder() : AutoresponderService
+    public function autoresponder(): AutoresponderService
     {
         return new AutoresponderServiceImpl(
             (int) $this->dic->settings()->get('mail_auto_responder_idle_time'),
@@ -56,7 +58,7 @@ class MailService
         );
     }
 
-    public function textTemplates() : ilMailTemplateService
+    public function textTemplates(): ilMailTemplateService
     {
         return $this->dic["mail.texttemplates.service"];
     }
