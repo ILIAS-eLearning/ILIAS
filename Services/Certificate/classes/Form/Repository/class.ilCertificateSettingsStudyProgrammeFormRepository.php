@@ -24,10 +24,7 @@ use ILIAS\Filesystem\Exception\FileNotFoundException;
 
 class ilCertificateSettingsStudyProgrammeFormRepository implements ilCertificateFormRepository
 {
-    private ilLanguage $language;
     private ilCertificateSettingsFormRepository $settingsFormRepository;
-    private ilObject $object;
-    private ilSetting $setting;
 
     public function __construct(
         ilObject $object,
@@ -38,12 +35,8 @@ class ilCertificateSettingsStudyProgrammeFormRepository implements ilCertificate
         ilAccess $access,
         ilToolbarGUI $toolbar,
         ilCertificatePlaceholderDescription $placeholderDescriptionObject,
-        ?ilCertificateSettingsFormRepository $settingsFormRepository = null,
-        ?ilSetting $setting = null
+        ?ilCertificateSettingsFormRepository $settingsFormRepository = null
     ) {
-        $this->object = $object;
-        $this->language = $language;
-
         if (null === $settingsFormRepository) {
             $settingsFormRepository = new ilCertificateSettingsFormRepository(
                 $object->getId(),
@@ -58,15 +51,9 @@ class ilCertificateSettingsStudyProgrammeFormRepository implements ilCertificate
         }
 
         $this->settingsFormRepository = $settingsFormRepository;
-        if (null === $setting) {
-            $setting = new ilSetting('prg');
-        }
-        $this->setting = $setting;
     }
 
     /**
-     * @param ilCertificateGUI $certificateGUI
-     * @return ilPropertyFormGUI
      * @throws FileAlreadyExistsException
      * @throws FileNotFoundException
      * @throws IOException
@@ -83,6 +70,9 @@ class ilCertificateSettingsStudyProgrammeFormRepository implements ilCertificate
     {
     }
 
+    /**
+     * @return array{pageformat: string, pagewidth: mixed, pageheight: mixed, margin_body_top: mixed, margin_body_right: mixed, margin_body_bottom: mixed, margin_body_left: mixed, certificate_text: string}
+     */
     public function fetchFormFieldData(string $content): array
     {
         return $this->settingsFormRepository->fetchFormFieldData($content);

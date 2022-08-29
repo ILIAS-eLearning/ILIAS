@@ -26,36 +26,24 @@ use ilCtrlInterface;
 use ilDBConstants;
 use ilUserCertificateApiGUI;
 use ilDBInterface;
-use ilLogger;
 
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
 class UserDataRepository
 {
-    private ilDBInterface $database;
-    private ilLogger $logger;
     private string $defaultTitle;
-    private ilCtrlInterface $ctrl;
 
     /**
-     * @param ilDBInterface   $database
-     * @param ilLogger        $logger
-     * @param ilCtrlInterface $ctrl
      * @param string|null     $defaultTitle The default title is use if the title of an repository object could not be
      *                                    determined. This could be the case if the object is deleted from system and
      *                                    mechanisms to store the title of deleted objects (table: object_data_del) failed.
      */
     public function __construct(
-        ilDBInterface $database,
-        ilLogger $logger,
-        ilCtrlInterface $ctrl,
+        private ilDBInterface $database,
+        private ilCtrlInterface $ctrl,
         ?string $defaultTitle = null
     ) {
-        $this->database = $database;
-        $this->logger = $logger;
-        $this->ctrl = $ctrl;
-
         if (null === $defaultTitle) {
             global $DIC;
             $defaultTitle = $DIC->language()->txt('certificate_no_object_title');
@@ -64,7 +52,6 @@ class UserDataRepository
     }
 
     /**
-     * @param UserDataFilter $filter
      * @param string[] $ilCtrlStack
      * @return array<int, UserCertificateDto>
      */
@@ -144,11 +131,6 @@ FROM
         return (int) $this->database->fetchAssoc($query)["count"];
     }
 
-    /**
-     * @param UserDataFilter $filter
-     * @param bool           $max_count_only
-     * @return string
-     */
     private function getQuery(UserDataFilter $filter, bool $max_count_only = false): string
     {
         $sql = '(
@@ -242,8 +224,6 @@ INNER JOIN usr_data ON usr_data.usr_id = cert.usr_id
 
     /**
      * Creating the additional where condition based on the filter object
-     * @param UserDataFilter $filter
-     * @return string
      */
     private function createWhereCondition(UserDataFilter $filter): string
     {
@@ -303,7 +283,7 @@ INNER JOIN usr_data ON usr_data.usr_id = cert.usr_id
         }
 
         $onlyCertActive = $filter->isOnlyCertActive();
-        if ($onlyCertActive === true) {
+        if ($onlyCertActive) {
             $wheres[] = 'cert.currently_active = ' . $this->database->quote(1, ilDBConstants::T_INTEGER);
         }
 

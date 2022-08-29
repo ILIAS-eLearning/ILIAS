@@ -50,8 +50,6 @@ class ilCertificateGUI
     protected ilAccessHandler $access;
     protected ilToolbarGUI $toolbar;
     private ilCertificateTemplateRepository $templateRepository;
-    private ilCertificatePlaceholderDescription $placeholderDescriptionObject;
-    private int $objectId;
     private ilCertificateFormRepository $settingsFormFactory;
     private ilXlsFoParser $xlsFoParser;
     private ilCertificateDeleteAction $deleteAction;
@@ -66,9 +64,9 @@ class ilCertificateGUI
     private ilLogger $logger;
 
     public function __construct(
-        ilCertificatePlaceholderDescription $placeholderDescriptionObject,
+        private ilCertificatePlaceholderDescription $placeholderDescriptionObject,
         ilCertificatePlaceholderValues $placeholderValuesObject,
-        int $objectId,
+        private int $objectId,
         string $certificatePath,
         ?ilCertificateFormRepository $settingsFormFactory = null,
         ?ilCertificateDeleteAction $deleteAction = null,
@@ -102,10 +100,6 @@ class ilCertificateGUI
         $this->lng->loadLanguageModule("trac");
 
         $this->ref_id = (int) $DIC->http()->wrapper()->query()->retrieve("ref_id", $DIC->refinery()->kindlyTo()->int());
-
-        $this->placeholderDescriptionObject = $placeholderDescriptionObject;
-
-        $this->objectId = $objectId;
 
         $this->logger = $DIC->logger()->cert();
 
@@ -147,8 +141,7 @@ class ilCertificateGUI
             $upload = new ilCertificateBackgroundImageUpload(
                 $DIC->upload(),
                 $certificatePath,
-                $DIC->language(),
-                $this->logger
+                $DIC->language()
             );
         }
         $this->backgroundImageUpload = $upload;
@@ -252,7 +245,7 @@ class ilCertificateGUI
     {
         try {
             $this->previewAction->createPreviewPdf($this->objectId);
-        } catch (Exception $exception) {
+        } catch (Exception) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('error_creating_certificate_pdf'));
             $this->certificateEditor();
         }
@@ -351,7 +344,6 @@ class ilCertificateGUI
     }
 
     /**
-     * @return ilPropertyFormGUI
      * @throws FileAlreadyExistsException
      * @throws FileNotFoundException
      * @throws IOException
@@ -417,7 +409,7 @@ class ilCertificateGUI
         $this->tpl->setVariable("ADM_CONTENT", $messageBoxHtml . $formHtml);
     }
 
-    private function saveCertificate(ilPropertyFormGUI $form, array $form_fields, $objId): void
+    private function saveCertificate(ilPropertyFormGUI $form, array $form_fields, int $objId): void
     {
         $previousCertificateTemplate = $this->templateRepository->fetchPreviousCertificate($objId);
         $currentVersion = $previousCertificateTemplate->getVersion();
@@ -452,10 +444,10 @@ class ilCertificateGUI
                             $nextVersion,
                             $form->getInput('background')
                         );
-                    } catch (ilException $exception) {
+                    } catch (ilException) {
                         $form->getItemByPostVar('background')->setAlert($this->lng->txt("certificate_error_upload_bgimage"));
                     }
-                    if (false === $this->fileSystem->has($backgroundImagePath)) {
+                    if (!$this->fileSystem->has($backgroundImagePath)) {
                         $form->getItemByPostVar('background')->setAlert($this->lng->txt("certificate_error_upload_bgimage"));
                         $backgroundImagePath = '';
                     }
@@ -474,7 +466,7 @@ class ilCertificateGUI
                 $temporaryFileName = $_FILES['certificate_card_thumbnail_image']['tmp_name'];
                 if ($temporaryFileName !== '' && $this->fileUpload->hasUploads()) {
                     try {
-                        if (false === $this->fileUpload->hasBeenProcessed()) {
+                        if (!$this->fileUpload->hasBeenProcessed()) {
                             $this->fileUpload->process();
                         }
 
@@ -505,10 +497,10 @@ class ilCertificateGUI
                         } else {
                             throw new ilException($this->lng->txt('upload_error_file_not_found'));
                         }
-                    } catch (ilException $exception) {
+                    } catch (ilException) {
                         $form->getItemByPostVar('certificate_card_thumbnail_image')->setAlert($this->lng->txt("certificate_error_upload_ctimage"));
                     }
-                    if (false === $this->fileSystem->has($cardThumbnailImagePath)) {
+                    if (!$this->fileSystem->has($cardThumbnailImagePath)) {
                         $form->getItemByPostVar('certificate_card_thumbnail_image')->setAlert($this->lng->txt("certificate_error_upload_ctimage"));
                         $cardThumbnailImagePath = '';
                     }
@@ -571,16 +563,6 @@ class ilCertificateGUI
         }
 
         $form->setValuesByPost();
-
-        $this->tpl->setVariable("ADM_CONTENT", $form->getHTML());
-    }
-
-    private function setTemplateContent(ilCertificateTemplate $certificate, ilPropertyFormGUI $form): void
-    {
-        $form_fields = $this->settingsFormFactory->fetchFormFieldData($certificate->getCertificateContent());
-        $form_fields['active'] = $certificate->isCurrentlyActive();
-
-        $form->setValuesByArray($form_fields);
 
         $this->tpl->setVariable("ADM_CONTENT", $form->getHTML());
     }

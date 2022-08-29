@@ -59,10 +59,9 @@ class ilCertificateVerificationFileService
         $verificationObject->setProperty('issued_on', $issueDate);
 
         $ilUserCertificateRepository = new ilUserCertificateRepository($this->database, $this->logger);
-        $pdfGenerator = new ilPdfGenerator($ilUserCertificateRepository, $this->logger);
+        $pdfGenerator = new ilPdfGenerator($ilUserCertificateRepository);
 
         $pdfAction = new ilCertificatePdfAction(
-            $this->logger,
             $pdfGenerator,
             new ilCertificateUtilHelper(),
             $this->language->txt('error_creating_certificate_pdf')

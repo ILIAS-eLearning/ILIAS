@@ -65,8 +65,6 @@ class ilDefaultPlaceholderDescription implements ilCertificatePlaceholderDescrip
      * This method is different then the 'getPlaceholderValues' method, this
      * method is used to create a placeholder value array containing dummy values
      * that is used to create a preview certificate.
-     * @param ilTemplate|null $template
-     * @return string
      */
     public function createPlaceholderHtmlDescription(?ilTemplate $template = null): string
     {

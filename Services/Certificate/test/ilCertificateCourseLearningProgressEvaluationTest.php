@@ -337,8 +337,7 @@ class ilCertificateCourseLearningProgressEvaluationTest extends ilCertificateBas
 
     /**
      * @dataProvider globalLearningProgressStateProvder
-     * @param bool                    $isGlobalLpEnabled
-     * @param ilCertificateTemplate[] $template_recods
+     * @param array[] $template_recods
      */
     public function testRetrievingCertificateTemplatesForCoursesWorksAsExpectedWhenUsingNonCachingRepository(
         bool $isGlobalLpEnabled,
@@ -346,7 +345,7 @@ class ilCertificateCourseLearningProgressEvaluationTest extends ilCertificateBas
     ): void {
         $statement = $database = $this->getMockBuilder(ilDBStatement::class)->getMock();
         $i = 0;
-        $database->method('fetch')->willReturnCallback(static function () use (&$i, $template_recods) {
+        $database->method('fetch')->willReturnCallback(static function () use (&$i, $template_recods): ?array {
             $result = $template_recods[$i] ?? null;
             ++$i;
 

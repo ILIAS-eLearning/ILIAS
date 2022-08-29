@@ -50,9 +50,6 @@ class ilObjPersistentCertificateVerificationGUI
     }
 
     /**
-     * @param ilPortfolioPage $a_page
-     * @param int             $objectId
-     * @param int             $userId
      * @throws ilException
      * @throws ilFileUtilsException
      */

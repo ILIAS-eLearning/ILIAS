@@ -23,21 +23,15 @@ declare(strict_types=1);
  */
 class ilCertificatePdfAction
 {
-    private ilLogger $logger;
-    private ilPdfGenerator $pdfGenerator;
     private ilCertificateUtilHelper $ilUtilHelper;
     private ilErrorHandling $errorHandler;
-    private string $translatedErrorText;
 
     public function __construct(
-        ilLogger $logger,
-        ilPdfGenerator $pdfGenerator,
+        private ilPdfGenerator $pdfGenerator,
         ?ilCertificateUtilHelper $ilUtilHelper = null,
-        string $translatedErrorText = '',
+        private string $translatedErrorText = '',
         ?ilErrorHandling $errorHandler = null
     ) {
-        $this->logger = $logger;
-        $this->pdfGenerator = $pdfGenerator;
         if (null === $ilUtilHelper) {
             $ilUtilHelper = new ilCertificateUtilHelper();
         }
@@ -48,8 +42,6 @@ class ilCertificatePdfAction
             $errorHandler = $DIC['ilErr'];
         }
         $this->errorHandler = $errorHandler;
-
-        $this->translatedErrorText = $translatedErrorText;
     }
 
     public function createPDF(int $userId, int $objectId): string
@@ -69,7 +61,7 @@ class ilCertificatePdfAction
                 $fileName,
                 'application/pdf'
             );
-        } catch (ilException $clientException) {
+        } catch (ilException) {
             $this->errorHandler->raiseError($this->translatedErrorText, $this->errorHandler->MESSAGE);
             return '';
         }

@@ -27,16 +27,14 @@ use ILIAS\Filesystem\Exception\IOException;
  */
 class ilCertificateSettingsScormFormRepository implements ilCertificateFormRepository
 {
-    private ilObject $object;
-    private ilLanguage $language;
     private ilCertificateSettingsFormRepository $settingsFormFactory;
     private ilSetting $setting;
 
     public function __construct(
-        ilObject $object,
+        private ilObject $object,
         string $certificatePath,
         bool $hasAdditionalElements,
-        ilLanguage $language,
+        private ilLanguage $language,
         ilCtrlInterface $ctrl,
         ilAccess $access,
         ilToolbarGUI $toolbar,
@@ -44,10 +42,6 @@ class ilCertificateSettingsScormFormRepository implements ilCertificateFormRepos
         ?ilCertificateSettingsFormRepository $settingsFormRepository = null,
         ?ilSetting $setting = null
     ) {
-        $this->object = $object;
-
-        $this->language = $language;
-
         if (null === $settingsFormRepository) {
             $settingsFormRepository = new ilCertificateSettingsFormRepository(
                 $object->getId(),
@@ -70,8 +64,6 @@ class ilCertificateSettingsScormFormRepository implements ilCertificateFormRepos
     }
 
     /**
-     * @param ilCertificateGUI $certificateGUI
-     * @return ilPropertyFormGUI
      * @throws FileAlreadyExistsException
      * @throws FileNotFoundException
      * @throws IOException

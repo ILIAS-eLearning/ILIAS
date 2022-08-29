@@ -23,23 +23,14 @@ declare(strict_types=1);
  */
 class ilUserCertificateZip
 {
-    private int $objectId;
-    private string $webDirectory;
-    private string $certificatePath;
     private string $typeInFileName;
-    private string $installionId;
 
     public function __construct(
-        int $objectId,
-        string $certificatePath,
-        string $webDirectory = CLIENT_WEB_DIR,
-        string $installationId = IL_INST_ID
+        private int $objectId,
+        private string $certificatePath,
+        private string $webDirectory = CLIENT_WEB_DIR,
+        private string $installionId = IL_INST_ID
     ) {
-        $this->objectId = $objectId;
-        $this->certificatePath = $certificatePath;
-        $this->webDirectory = $webDirectory;
-        $this->installionId = $installationId;
-
         // The mapping to types is made to reflect the old behaviour of
         // the adapters
         $iliasType = ilObject::_lookupType($this->objectId);

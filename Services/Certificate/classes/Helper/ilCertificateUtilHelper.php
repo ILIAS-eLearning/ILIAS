@@ -80,12 +80,6 @@ class ilCertificateUtilHelper
     }
 
     /**
-     * @param string $file
-     * @param string $name
-     * @param string $target
-     * @param bool   $raise_errors
-     * @param string $mode
-     * @return bool
      * @throws ilException
      */
     public function moveUploadedFile(

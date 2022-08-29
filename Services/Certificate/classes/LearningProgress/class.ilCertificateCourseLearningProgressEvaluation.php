@@ -23,21 +23,18 @@ declare(strict_types=1);
  */
 class ilCertificateCourseLearningProgressEvaluation
 {
-    private ilCertificateTemplateRepository $templateRepository;
     private ilSetting $setting;
     private ilCertificateObjectHelper $objectHelper;
     private ilCertificateLPStatusHelper $statusHelper;
     private ilCertificateObjUserTrackingHelper $trackingHelper;
 
     public function __construct(
-        ilCertificateTemplateRepository $templateRepository,
+        private ilCertificateTemplateRepository $templateRepository,
         ?ilSetting $setting = null,
         ?ilCertificateObjectHelper $objectHelper = null,
         ?ilCertificateLPStatusHelper $statusHelper = null,
         ?ilCertificateObjUserTrackingHelper $trackingHelper = null
     ) {
-        $this->templateRepository = $templateRepository;
-
         if (null === $setting) {
             $setting = new ilSetting('crs');
         }
@@ -59,8 +56,6 @@ class ilCertificateCourseLearningProgressEvaluation
     }
 
     /**
-     * @param int $refId
-     * @param int $userId
      * @return ilCertificateTemplate[]
      */
     public function evaluate(int $refId, int $userId): array
@@ -92,7 +87,7 @@ class ilCertificateCourseLearningProgressEvaluation
                 $completed = true;
 
                 // check if all subitems are completed now
-                foreach ($subitem_obj_ids as $subitem_ref_id => $subitem_id) {
+                foreach ($subitem_obj_ids as $subitem_id) {
                     $status = $this->statusHelper->lookUpStatus($subitem_id, $userId);
 
                     if ($status !== ilLPStatus::LP_STATUS_COMPLETED_NUM) {
@@ -101,7 +96,7 @@ class ilCertificateCourseLearningProgressEvaluation
                     }
                 }
 
-                if (true === $completed) {
+                if ($completed) {
                     $templatesOfCompletedCourses[] = $courseTemplate;
                 }
             }

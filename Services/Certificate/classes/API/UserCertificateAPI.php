@@ -38,7 +38,6 @@ class UserCertificateAPI
 
             $userCertificateRepository = new UserDataRepository(
                 $DIC->database(),
-                $DIC->logger()->cert(),
                 $DIC->ctrl()
             );
         }
@@ -46,7 +45,6 @@ class UserCertificateAPI
     }
 
     /**
-     * @param UserDataFilter $filter
      * @param string[] $ilCtrlStack An array of ilCtrl-enabled GUI class names that are used to create the link,
      *                              if this is an empty array (default) no link
      *                              will be generated

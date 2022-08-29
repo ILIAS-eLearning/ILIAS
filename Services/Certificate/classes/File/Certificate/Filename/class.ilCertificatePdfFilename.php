@@ -23,12 +23,8 @@ declare(strict_types=1);
  */
 class ilCertificatePdfFilename implements ilCertificateFilename
 {
-    private ilLanguage $lng;
-
-    public function __construct(ilLanguage $lng)
+    public function __construct(private ilLanguage $lng)
     {
-        $this->lng = $lng;
-
         $this->lng->loadLanguageModule('certificate');
     }
 

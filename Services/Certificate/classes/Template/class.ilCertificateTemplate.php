@@ -23,48 +23,21 @@ declare(strict_types=1);
  */
 class ilCertificateTemplate
 {
-    private int $obj_id;
-    private string $certificateContent;
-    private string $certificateHash;
-    private string $templateValues;
-    private int $version;
-    private string $iliasVersion;
-    private int $createdTimestamp;
-    private bool $currentlyActive;
-    private ?int $id;
-    private string $backgroundImagePath;
-    private string $obj_type;
-    private bool $deleted;
-    private string $thumbnailImagePath;
-
     public function __construct(
-        int $obj_id,
-        string $obj_type,
-        string $certificateContent,
-        string $certificateHash,
-        string $templateValues,
-        int $version,
-        string $iliasVersion,
-        int $createdTimestamp,
-        bool $currentlyActive,
-        string $backgroundImagePath = '',
-        string $thumbnailImagePath = '',
-        ?int $id = null,
-        bool $deleted = false
+        private int $obj_id,
+        private string $obj_type,
+        private string $certificateContent,
+        private string $certificateHash,
+        private string $templateValues,
+        private int $version,
+        private string $iliasVersion,
+        private int $createdTimestamp,
+        private bool $currentlyActive,
+        private string $backgroundImagePath = '',
+        private string $thumbnailImagePath = '',
+        private ?int $id = null,
+        private bool $deleted = false
     ) {
-        $this->obj_id = $obj_id;
-        $this->obj_type = $obj_type;
-        $this->certificateContent = $certificateContent;
-        $this->certificateHash = $certificateHash;
-        $this->templateValues = $templateValues;
-        $this->version = $version;
-        $this->iliasVersion = $iliasVersion;
-        $this->createdTimestamp = $createdTimestamp;
-        $this->currentlyActive = $currentlyActive;
-        $this->backgroundImagePath = $backgroundImagePath;
-        $this->thumbnailImagePath = $thumbnailImagePath;
-        $this->id = $id;
-        $this->deleted = $deleted;
     }
 
     public function getObjId(): int

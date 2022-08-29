@@ -238,7 +238,7 @@ class ilUserCertificateTableProviderTest extends ilCertificateBaseTestCase
             'default_title'
         );
 
-        $dataSet = $provider->fetchDataSet(
+        $provider->fetchDataSet(
             100,
             ['language' => 'de', 'limit' => 2, 'order_field' => 'something'],
             []
@@ -283,7 +283,7 @@ class ilUserCertificateTableProviderTest extends ilCertificateBaseTestCase
             'default_title'
         );
 
-        $dataSet = $provider->fetchDataSet(
+        $provider->fetchDataSet(
             100,
             ['language' => 'de', 'limit' => 2, 'order_field' => false],
             []
@@ -328,7 +328,7 @@ class ilUserCertificateTableProviderTest extends ilCertificateBaseTestCase
             'default_title'
         );
 
-        $dataSet = $provider->fetchDataSet(
+        $provider->fetchDataSet(
             600,
             [
                 'language' => 'de',
@@ -378,7 +378,7 @@ class ilUserCertificateTableProviderTest extends ilCertificateBaseTestCase
             'default_title'
         );
 
-        $dataSet = $provider->fetchDataSet(
+        $provider->fetchDataSet(
             600,
             [
                 'language' => 'de',
@@ -428,7 +428,7 @@ class ilUserCertificateTableProviderTest extends ilCertificateBaseTestCase
             'default_title'
         );
 
-        $dataSet = $provider->fetchDataSet(
+        $provider->fetchDataSet(
             600,
             [
                 'limit' => 3,

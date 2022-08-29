@@ -26,19 +26,16 @@ class ilScormPlaceholderDescription implements ilCertificatePlaceholderDescripti
     private ilDefaultPlaceholderDescription $defaultPlaceHolderDescriptionObject;
     private ilLanguage $language;
     private array $placeholder;
-    private ilObject $object;
     private ilObjectLP $learningProgressObject;
 
     public function __construct(
-        ilObject $object,
+        private ilObject $object,
         ?ilDefaultPlaceholderDescription $defaultPlaceholderDescriptionObject = null,
         ?ilLanguage $language = null,
         ?ilObjectLP $learningProgressObject = null,
         ?ilUserDefinedFieldsPlaceholderDescription $userDefinedFieldPlaceHolderDescriptionObject = null
     ) {
         global $DIC;
-
-        $this->object = $object;
 
         if (null === $language) {
             $language = $DIC->language();
@@ -96,7 +93,7 @@ class ilScormPlaceholderDescription implements ilCertificatePlaceholderDescripti
 
         $collection = $this->learningProgressObject->getCollectionInstance();
         $items = [];
-        if ($collection) {
+        if ($collection !== null) {
             $items = $collection->getPossibleItems();
         }
 
@@ -116,7 +113,7 @@ class ilScormPlaceholderDescription implements ilCertificatePlaceholderDescripti
         }
         $template->parseCurrentBlock();
 
-        if ($collection) {
+        if ($collection !== null) {
             $counter = 0;
             foreach ($items as $item_id => $sahs_item) {
                 if ($collection->isAssignedEntry($item_id)) {

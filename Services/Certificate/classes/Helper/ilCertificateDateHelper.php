@@ -25,8 +25,6 @@ class ilCertificateDateHelper
 {
     /**
      * @param string|int $date
-     * @param ?int       $dateFormat
-     * @return string
      */
     public function formatDate($date, ?int $dateFormat = null): string
     {
@@ -46,8 +44,6 @@ class ilCertificateDateHelper
 
     /**
      * @param string|int $dateTime
-     * @param ?int       $dateFormat
-     * @return string
      * @throws ilDateTimeException
      */
     public function formatDateTime($dateTime, ?int $dateFormat = null): string

@@ -46,7 +46,7 @@ class ilCertificateDownloadValidator
 
     public function isCertificateDownloadable(int $userId, int $objId): bool
     {
-        if (false === $this->activeValidator->validate()) {
+        if (!$this->activeValidator->validate()) {
             return false;
         }
 

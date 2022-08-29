@@ -289,7 +289,6 @@ class ilObjExercise extends ilObject
             $pathFactory,
             $templateRepository,
             $this->webFilesystem,
-            $this->log,
             new ilCertificateObjectHelper()
         );
 

@@ -28,26 +28,17 @@ use ILIAS\Filesystem\Exception\IOException;
  */
 class ilCertificateTemplateExportAction
 {
-    private int $objectId;
-    private string $certificatePath;
-    private ilCertificateTemplateRepository $templateRepository;
-    private Filesystem $filesystem;
     private ilCertificateObjectHelper $objectHelper;
     private ilCertificateUtilHelper $utilHelper;
 
     public function __construct(
-        int $objectId,
-        string $certificatePath,
-        ilCertificateTemplateRepository $templateRepository,
-        Filesystem $filesystem,
+        private int $objectId,
+        private string $certificatePath,
+        private ilCertificateTemplateRepository $templateRepository,
+        private Filesystem $filesystem,
         ?ilCertificateObjectHelper $objectHelper = null,
         ?ilCertificateUtilHelper $utilHelper = null
     ) {
-        $this->objectId = $objectId;
-        $this->certificatePath = $certificatePath;
-        $this->templateRepository = $templateRepository;
-        $this->filesystem = $filesystem;
-
         if (null === $objectHelper) {
             $objectHelper = new ilCertificateObjectHelper();
         }
@@ -61,8 +52,6 @@ class ilCertificateTemplateExportAction
 
     /**
      * Creates a downloadable file via the browser
-     * @param string $rootDir
-     * @param string $installationId
      * @throws FileAlreadyExistsException
      * @throws FileNotFoundException
      * @throws IOException
@@ -85,12 +74,12 @@ class ilCertificateTemplateExportAction
         $this->filesystem->put($exportPath . 'certificate.xml', $xslContent);
 
         $backgroundImagePath = $template->getBackgroundImagePath();
-        if ($backgroundImagePath !== '' && true === $this->filesystem->has($backgroundImagePath)) {
+        if ($backgroundImagePath !== '' && $this->filesystem->has($backgroundImagePath)) {
             $this->filesystem->copy($backgroundImagePath, $exportPath . 'background.jpg');
         }
 
         $thumbnailImagePath = $template->getThumbnailImagePath();
-        if ($thumbnailImagePath !== '' && true === $this->filesystem->has($backgroundImagePath)) {
+        if ($thumbnailImagePath !== '' && $this->filesystem->has($backgroundImagePath)) {
             $this->filesystem->copy($thumbnailImagePath, $exportPath . 'thumbnail.svg');
         }
 

@@ -25,46 +25,26 @@ namespace ILIAS\Certificate\API\Data;
  */
 class UserCertificateDto
 {
-    private string $objectTitle = '';
-    /** @var int[] */
-    private array $objectRefIds = [];
-    private int $objectId = 0;
-    private int $issuedOnTimestamp = 0;
-    private int $userId = 0;
     private string $downloadLink = '';
-    private int $certificateId = 0;
-    private string $userFirstName = '';
-    private string $userLastName = '';
-    private string $userLogin = '';
-    private string $userEmail = '';
-    private string $userSecondEmail = '';
 
+    /**
+     * @param int[] $objectRefIds
+     */
     public function __construct(
-        int $certificateId,
-        string $objectTitle,
-        int $objectId,
-        int $issuedOnTimestamp,
-        int $userId,
-        string $userFirstName,
-        string $userLastName,
-        string $userLogin,
-        string $userEmail,
-        string $userSecondEmail,
-        array $objectRefId = [],
+        private int $certificateId,
+        private string $objectTitle,
+        private int $objectId,
+        private int $issuedOnTimestamp,
+        private int $userId,
+        private string $userFirstName,
+        private string $userLastName,
+        private string $userLogin,
+        private string $userEmail,
+        private string $userSecondEmail,
+        private array $objectRefIds = [],
         ?string $downloadLink = null
     ) {
-        $this->certificateId = $certificateId;
-        $this->objectTitle = $objectTitle;
-        $this->objectRefIds = $objectRefId;
-        $this->objectId = $objectId;
-        $this->issuedOnTimestamp = $issuedOnTimestamp;
-        $this->userId = $userId;
         $this->downloadLink = (string) $downloadLink;
-        $this->userFirstName = $userFirstName;
-        $this->userLastName = $userLastName;
-        $this->userLogin = $userLogin;
-        $this->userEmail = $userEmail;
-        $this->userSecondEmail = $userSecondEmail;
     }
 
     public function getObjectTitle(): string

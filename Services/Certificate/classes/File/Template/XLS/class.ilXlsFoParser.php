@@ -23,8 +23,6 @@ declare(strict_types=1);
  */
 class ilXlsFoParser
 {
-    private ilSetting $settings;
-    private ilPageFormats $pageFormats;
     private ilXMLChecker $xmlChecker;
     private ilCertificateUtilHelper $utilHelper;
     private ilCertificateXlstProcess $xlstProcess;
@@ -32,17 +30,14 @@ class ilXlsFoParser
     private ilCertificateXlsFileLoader $certificateXlsFileLoader;
 
     public function __construct(
-        ilSetting $settings,
-        ilPageFormats $pageFormats,
+        private ilSetting $settings,
+        private ilPageFormats $pageFormats,
         ?ilXMLChecker $xmlChecker = null,
         ?ilCertificateUtilHelper $utilHelper = null,
         ?ilCertificateXlstProcess $xlstProcess = null,
         ?ilLanguage $language = null,
         ?ilCertificateXlsFileLoader $certificateXlsFileLoader = null
     ) {
-        $this->settings = $settings;
-        $this->pageFormats = $pageFormats;
-
         if (null === $xmlChecker) {
             $xmlChecker = new ilXMLChecker(new ILIAS\Data\Factory());
         }
@@ -71,8 +66,6 @@ class ilXlsFoParser
     }
 
     /**
-     * @param array $formData
-     * @return string
      * @throws Exception
      */
     public function parse(array $formData): string

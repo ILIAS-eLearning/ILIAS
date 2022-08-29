@@ -73,7 +73,7 @@ class ilCertificateTemplateRepositoryTest extends ilCertificateBaseTestCase
             'v5.4.0',
             123456789,
             true,
-            $backgroundImagePath = '/some/where/background.jpg',
+            '/some/where/background.jpg',
             'some/path/test.svg'
         );
 

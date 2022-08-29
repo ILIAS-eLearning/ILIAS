@@ -56,10 +56,6 @@ class ilPdfGeneratorTest extends ilCertificateBaseTestCase
         $userCertificateRepository->method('fetchCertificate')
             ->willReturn($certificate);
 
-        $logger = $this->getMockBuilder(ilLogger::class)
-            ->disableOriginalConstructor()
-            ->getMock();
-
         $rpcHelper = $this->getMockBuilder(ilCertificateRpcClientFactoryHelper::class)
             ->getMock();
 
@@ -78,7 +74,6 @@ class ilPdfGeneratorTest extends ilCertificateBaseTestCase
 
         $pdfGenerator = new ilPdfGenerator(
             $userCertificateRepository,
-            $logger,
             $rpcHelper,
             $pdfFileNameFactory,
             $language
@@ -120,10 +115,6 @@ class ilPdfGeneratorTest extends ilCertificateBaseTestCase
         $userCertificateRepository->method('fetchActiveCertificate')
             ->willReturn($certificate);
 
-        $logger = $this->getMockBuilder(ilLogger::class)
-            ->disableOriginalConstructor()
-            ->getMock();
-
         $rpcHelper = $this->getMockBuilder(ilCertificateRpcClientFactoryHelper::class)
             ->getMock();
 
@@ -142,7 +133,6 @@ class ilPdfGeneratorTest extends ilCertificateBaseTestCase
 
         $pdfGenerator = new ilPdfGenerator(
             $userCertificateRepository,
-            $logger,
             $rpcHelper,
             $pdfFileNameFactory,
             $language

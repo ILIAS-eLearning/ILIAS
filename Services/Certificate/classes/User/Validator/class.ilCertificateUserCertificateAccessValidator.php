@@ -41,7 +41,7 @@ class ilCertificateUserCertificateAccessValidator
     {
         try {
             $this->userCertificateRepository->fetchActiveCertificate($userId, $objId);
-        } catch (ilException $exception) {
+        } catch (ilException) {
             return false;
         }
 

@@ -23,11 +23,8 @@ declare(strict_types=1);
  */
 class ilCertificatePdfFileNameFactory
 {
-    private ilLanguage $lng;
-
-    public function __construct(ilLanguage $lng)
+    public function __construct(private ilLanguage $lng)
     {
-        $this->lng = $lng;
     }
 
     public function create(ilUserCertificatePresentation $presentation): string

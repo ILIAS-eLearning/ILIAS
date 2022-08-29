@@ -23,13 +23,8 @@ declare(strict_types=1);
  */
 class ilCertificateQueueRepository
 {
-    private ilDBInterface $database;
-    private ilLogger $logger;
-
-    public function __construct(ilDBInterface $database, ilLogger $logger)
+    public function __construct(private ilDBInterface $database, private ilLogger $logger)
     {
-        $this->database = $database;
-        $this->logger = $logger;
     }
 
     public function addToQueue(ilCertificateQueueEntry $certificateQueueEntry): void

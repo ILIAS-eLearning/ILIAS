@@ -719,8 +719,6 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI
 
     protected function deliverCertificateObject(): void
     {
-        global $DIC;
-
         $this->lng->loadLanguageModule('cert');
 
         $user_id = (int) $this->user->getId();
@@ -732,10 +730,8 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI
             $this->ctrl->redirect($this);
         }
         $repository = new ilUserCertificateRepository();
-        $cert_logger = $DIC->logger()->cert();
         $pdf_action = new ilCertificatePdfAction(
-            $cert_logger,
-            new ilPdfGenerator($repository, $cert_logger),
+            new ilPdfGenerator($repository),
             new ilCertificateUtilHelper(),
             $this->lng->txt('error_creating_certificate_pdf')
         );

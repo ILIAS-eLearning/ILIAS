@@ -28,11 +28,8 @@ class ilCachedCertificateTemplateRepository implements ilCertificateTemplateRepo
     /** @var array<int, ilCertificateTemplate[]> */
     protected static array $crs_certificates_without_lp = [];
 
-    private ilCertificateTemplateRepository $wrapped;
-
-    public function __construct(ilCertificateTemplateRepository $wrapped)
+    public function __construct(private ilCertificateTemplateRepository $wrapped)
     {
-        $this->wrapped = $wrapped;
     }
 
     public function save(ilCertificateTemplate $certificateTemplate): void

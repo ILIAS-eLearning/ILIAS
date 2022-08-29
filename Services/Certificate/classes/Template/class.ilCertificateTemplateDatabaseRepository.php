@@ -25,20 +25,17 @@ declare(strict_types=1);
  */
 class ilCertificateTemplateDatabaseRepository implements ilCertificateTemplateRepository
 {
-    private ilDBInterface $database;
     private ilLogger $logger;
     private ilObjectDataCache $objectDataCache;
 
     public function __construct(
-        ilDBInterface $database,
+        private ilDBInterface $database,
         ?ilLogger $logger = null,
         ?ilObjectDataCache $objectDataCache = null
     ) {
-        $this->database = $database;
-
         if (null === $logger) {
             global $DIC;
-            $logger = $logger = $DIC->logger()->cert();
+            $logger = $DIC->logger()->cert();
         }
         $this->logger = $logger;
 
@@ -92,8 +89,6 @@ class ilCertificateTemplateDatabaseRepository implements ilCertificateTemplateRe
     }
 
     /**
-     * @param int $templateId
-     * @return ilCertificateTemplate
      * @throws ilException
      */
     public function fetchTemplate(int $templateId): ilCertificateTemplate
@@ -116,7 +111,6 @@ ORDER BY version ASC';
     }
 
     /**
-     * @param int $objId
      * @return ilCertificateTemplate[]
      */
     public function fetchCertificateTemplatesByObjId(int $objId): array
@@ -186,8 +180,6 @@ ORDER BY id DESC
     }
 
     /**
-     * @param int $objId
-     * @return ilCertificateTemplate
      * @throws ilException
      */
     public function fetchCurrentlyActiveCertificate(int $objId): ilCertificateTemplate
@@ -346,8 +338,6 @@ WHERE id = ' . $this->database->quote($previousCertificate->getId(), 'integer');
     }
 
     /**
-     * @param int $objId
-     * @return ilCertificateTemplate
      * @throws ilException
      */
     public function fetchFirstCreatedTemplate(int $objId): ilCertificateTemplate
@@ -387,7 +377,6 @@ WHERE obj_id = ' . $this->database->quote($objId, 'integer');
 
     /**
      * @param array<string, mixed> $row
-     * @return ilCertificateTemplate
      */
     private function createCertificateTemplate(array $row): ilCertificateTemplate
     {

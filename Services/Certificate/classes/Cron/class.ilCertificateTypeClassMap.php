@@ -37,13 +37,11 @@ class ilCertificateTypeClassMap
     ];
 
     /**
-     * @param string $type
-     * @return string
      * @throws ilException
      */
     public function getPlaceHolderClassNameByType(string $type): string
     {
-        if (false === $this->typeExistsInMap($type)) {
+        if (!$this->typeExistsInMap($type)) {
             throw new ilException('The given type ' . $type . 'is not mapped as a class on the class map');
         }
 
