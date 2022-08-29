@@ -626,7 +626,7 @@ class ilMailFormGUI
                         . chr(13)
                         . chr(10);
                 }
-                $mailData['m_message'] .= $this->umail->appendSignature($mailData['m_message']);
+                $mailData['m_message'] .= $this->umail->appendSignature('');
 
                 ilSession::set('rcp_to', '');
                 ilSession::set('rcp_cc', '');
@@ -671,7 +671,7 @@ class ilMailFormGUI
                 $mailData['m_message'] .= $additionalMessageText
                     . chr(13)
                     . chr(10)
-                    . $this->umail->appendSignature($mailData['m_message']);
+                    . $this->umail->appendSignature('');
                 ilSession::set('mail_roles', []);
                 break;
 
