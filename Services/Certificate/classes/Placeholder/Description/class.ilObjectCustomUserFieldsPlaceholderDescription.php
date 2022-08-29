@@ -21,12 +21,10 @@ declare(strict_types=1);
 class ilObjectCustomUserFieldsPlaceholderDescription implements ilCertificatePlaceholderDescription
 {
     private array $placeholder;
-    private int $objectId;
 
-    public function __construct(int $objectId)
+    public function __construct(private int $objectId)
     {
         $this->placeholder = [];
-        $this->objectId = $objectId;
 
         $this->initPlaceholders();
     }

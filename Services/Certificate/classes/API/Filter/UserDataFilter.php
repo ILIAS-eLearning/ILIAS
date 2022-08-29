@@ -50,10 +50,6 @@ class UserDataFilter
     private ?int $limitCount = null;
     private bool $shouldIncludeDeletedObjects = true;
 
-    public function __construct()
-    {
-    }
-
     /**
      * @param int[] $usrIds
      */

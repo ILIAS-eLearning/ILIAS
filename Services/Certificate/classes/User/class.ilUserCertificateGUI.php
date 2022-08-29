@@ -67,8 +67,6 @@ class ilUserCertificateGUI
     ) {
         global $DIC;
 
-        $logger = $DIC->logger()->cert();
-
         if ($template === null) {
             $template = $DIC->ui()->mainTemplate();
         }
@@ -140,7 +138,6 @@ class ilUserCertificateGUI
 
     public function executeCommand(): bool
     {
-        $nextClass = $this->ctrl->getNextClass($this);
         $cmd = $this->ctrl->getCmd();
 
         if (!$this->certificateSettings->get('active', '0')) {
@@ -148,14 +145,10 @@ class ilUserCertificateGUI
         }
 
         $this->template->setTitle($this->language->txt('obj_cert'));
-
-        switch ($nextClass) {
-            default:
-                if (!method_exists($this, $cmd)) {
-                    $cmd = $this->getDefaultCommand();
-                }
-                $this->{$cmd}();
+        if (!method_exists($this, $cmd)) {
+            $cmd = $this->getDefaultCommand();
         }
+        $this->{$cmd}();
 
         return true;
     }
@@ -191,7 +184,7 @@ class ilUserCertificateGUI
 
         $uiComponents = [];
 
-        if (count($data['items']) > 0) {
+        if ($data['items'] !== []) {
             $sortationOptions = [];
             $cards = [];
 
@@ -245,14 +238,12 @@ class ilUserCertificateGUI
 
                 $objectTitle = $certificateData['title'];
                 $refIds = ilObject::_getAllReferences((int) $certificateData['obj_id']);
-                if (count($refIds) > 0) {
-                    foreach ($refIds as $refId) {
-                        if ($this->access->checkAccess('read', '', $refId)) {
-                            $objectTitle = $this->uiRenderer->render(
-                                $this->uiFactory->link()->standard($objectTitle, ilLink::_getLink($refId))
-                            );
-                            break;
-                        }
+                foreach ($refIds as $refId) {
+                    if ($this->access->checkAccess('read', '', $refId)) {
+                        $objectTitle = $this->uiRenderer->render(
+                            $this->uiFactory->link()->standard($objectTitle, ilLink::_getLink($refId))
+                        );
+                        break;
                     }
                 }
 
@@ -325,7 +316,7 @@ class ilUserCertificateGUI
         $user = $DIC->user();
         $language = $DIC->language();
 
-        $pdfGenerator = new ilPdfGenerator($this->userCertificateRepository, $this->certificateLogger);
+        $pdfGenerator = new ilPdfGenerator($this->userCertificateRepository);
 
         $userCertificateId = (int) $this->request->getQueryParams()['certificate_id'];
 
@@ -346,7 +337,6 @@ class ilUserCertificateGUI
         }
 
         $pdfAction = new ilCertificatePdfAction(
-            $this->certificateLogger,
             $pdfGenerator,
             new ilCertificateUtilHelper(),
             $this->language->txt('error_creating_certificate_pdf')

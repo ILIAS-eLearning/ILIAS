@@ -34,7 +34,7 @@ class ilScormPlaceholderValuesTest extends ilCertificateBaseTestCase
             ->getMock();
 
         $language->method('txt')
-            ->willReturnCallback(function ($variableValue) {
+            ->willReturnCallback(function ($variableValue): string {
                 if ($variableValue === 'lang_sep_decimal') {
                     return ',';
                 } elseif ($variableValue === 'lang_sep_thousand') {
@@ -166,7 +166,7 @@ class ilScormPlaceholderValuesTest extends ilCertificateBaseTestCase
             ->getMock();
 
         $language->method('txt')
-            ->willReturnCallback(function ($variableValue) {
+            ->willReturnCallback(function ($variableValue): string {
                 if ($variableValue === 'lang_sep_decimal') {
                     return ',';
                 } elseif ($variableValue === 'lang_sep_thousand') {

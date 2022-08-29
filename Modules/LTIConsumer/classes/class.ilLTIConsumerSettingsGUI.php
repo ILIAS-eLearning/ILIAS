@@ -212,11 +212,9 @@ class ilLTIConsumerSettingsGUI
 
         $repository = new ilUserCertificateRepository();
 
-        $certLogger = $DIC->logger()->cert();
-        $pdfGenerator = new ilPdfGenerator($repository, $certLogger);
+        $pdfGenerator = new ilPdfGenerator($repository);
 
         $pdfAction = new ilCertificatePdfAction(
-            $certLogger,
             $pdfGenerator,
             new ilCertificateUtilHelper(),
             $DIC->language()->txt('error_creating_certificate_pdf')

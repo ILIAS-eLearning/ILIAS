@@ -506,13 +506,10 @@ class ilSCORMPresentationGUI
         $certValidator = new ilCertificateDownloadValidator();
         $allowed = $certValidator->isCertificateDownloadable($ilUser->getId(), $obj_id);
         if ($allowed) {
-            $certificateLogger = $DIC->logger()->root();
-
             $ilUserCertificateRepository = new ilUserCertificateRepository();
-            $pdfGenerator = new ilPdfGenerator($ilUserCertificateRepository, $certificateLogger);
+            $pdfGenerator = new ilPdfGenerator($ilUserCertificateRepository);
 
             $pdfAction = new ilCertificatePdfAction(
-                $certificateLogger,
                 $pdfGenerator,
                 new ilCertificateUtilHelper(),
                 $this->lng->txt('error_creating_certificate_pdf')

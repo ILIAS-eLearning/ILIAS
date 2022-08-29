@@ -30,18 +30,11 @@ class ilCertificateBackgroundImageFileService
     public const BACKGROUND_THUMBNAIL_FILE_ENDING = '.thumb.jpg';
     public const PLACEHOLDER_CLIENT_WEB_DIRECTORY = '[CLIENT_WEB_DIR]';
 
-    private Filesystem $fileSystem;
-    private string $certificatePath;
-    private string $webDirectory;
-
     public function __construct(
-        string $certificatePath,
-        Filesystem $filesystem,
-        string $webDirectory = CLIENT_WEB_DIR
+        private string $certificatePath,
+        private Filesystem $fileSystem,
+        private string $webDirectory = CLIENT_WEB_DIR
     ) {
-        $this->certificatePath = $certificatePath;
-        $this->fileSystem = $filesystem;
-        $this->webDirectory = $webDirectory;
     }
 
     public function hasBackgroundImage(ilCertificateTemplate $template): bool
@@ -51,25 +44,7 @@ class ilCertificateBackgroundImageFileService
             return false;
         }
 
-        if ($this->fileSystem->has($backgroundImagePath)) {
-            return true;
-        }
-
-        return false;
-    }
-
-    public function hasBackgroundImageThumbnail(ilCertificateTemplate $template): bool
-    {
-        $backgroundImagePath = $template->getThumbnailImagePath();
-        if ($backgroundImagePath === '') {
-            return false;
-        }
-
-        if ($this->fileSystem->has($backgroundImagePath)) {
-            return true;
-        }
-
-        return false;
+        return $this->fileSystem->has($backgroundImagePath);
     }
 
     public function getBackgroundImageThumbPath(): string

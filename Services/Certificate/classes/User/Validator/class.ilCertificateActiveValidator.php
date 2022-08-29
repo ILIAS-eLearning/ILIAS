@@ -43,16 +43,10 @@ class ilCertificateActiveValidator
     {
         $globalCertificateActive = (bool) $this->setting->get('active', '0');
 
-        if (false === $globalCertificateActive) {
+        if (!$globalCertificateActive) {
             return false;
         }
 
-        $serverActive = $this->rpcSettings->isEnabled();
-
-        if (false === $serverActive) {
-            return false;
-        }
-
-        return true;
+        return $this->rpcSettings->isEnabled();
     }
 }

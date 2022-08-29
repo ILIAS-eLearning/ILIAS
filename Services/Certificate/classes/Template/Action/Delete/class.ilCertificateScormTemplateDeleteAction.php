@@ -23,13 +23,10 @@ declare(strict_types=1);
  */
 class ilCertificateScormTemplateDeleteAction implements ilCertificateDeleteAction
 {
-    private ilCertificateTemplateDeleteAction $deleteAction;
     private ilSetting $setting;
 
-    public function __construct(ilCertificateTemplateDeleteAction $deleteAction, ?ilSetting $setting = null)
+    public function __construct(private ilCertificateTemplateDeleteAction $deleteAction, ?ilSetting $setting = null)
     {
-        $this->deleteAction = $deleteAction;
-
         if (null === $setting) {
             $setting = new ilSetting('scorm');
         }

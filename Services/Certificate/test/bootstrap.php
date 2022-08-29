@@ -21,5 +21,5 @@ declare(strict_types=1);
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
-require_once 'libs/composer/vendor/autoload.php';
-require_once 'ilCertificateBaseTestCase.php';
+require_once __DIR__ . '/../../../libs/composer/vendor/autoload.php';
+require_once __DIR__ . '/ilCertificateBaseTestCase.php';

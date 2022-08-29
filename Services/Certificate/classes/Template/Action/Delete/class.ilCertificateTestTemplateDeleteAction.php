@@ -23,15 +23,8 @@ declare(strict_types=1);
  */
 class ilCertificateTestTemplateDeleteAction implements ilCertificateDeleteAction
 {
-    private ilCertificateDeleteAction $deleteAction;
-    private ilCertificateObjectHelper $objectHelper;
-
-    public function __construct(
-        ilCertificateDeleteAction $deleteAction,
-        ilCertificateObjectHelper $objectHelper
-    ) {
-        $this->deleteAction = $deleteAction;
-        $this->objectHelper = $objectHelper;
+    public function __construct(private ilCertificateDeleteAction $deleteAction)
+    {
     }
 
     public function delete(int $templateId, int $objectId): void

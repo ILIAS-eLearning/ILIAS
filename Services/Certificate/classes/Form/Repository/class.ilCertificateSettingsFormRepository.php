@@ -30,30 +30,23 @@ use ILIAS\Refinery\Factory;
  */
 class ilCertificateSettingsFormRepository implements ilCertificateFormRepository
 {
-    private int $objectId;
-    private ilLanguage $language;
-    private ilCtrlInterface $ctrl;
-    private ilAccess $access;
-    private ilToolbarGUI $toolbar;
-    private ilCertificatePlaceholderDescription $placeholderDescriptionObject;
     private ilPageFormats $pageFormats;
     private ilFormFieldParser $formFieldParser;
     private ilCertificateTemplateImportAction $importAction;
     private ilCertificateTemplateRepository $templateRepository;
-    private bool $hasAdditionalElements;
     private ilCertificateBackgroundImageFileService $backGroundImageFileService;
     private WrapperFactory $httpWrapper;
     private Factory $refinery;
 
     public function __construct(
-        int $objectId,
+        private int $objectId,
         string $certificatePath,
-        bool $hasAdditionalElements,
-        ilLanguage $language,
-        ilCtrlInterface $ctrl,
-        ilAccess $access,
-        ilToolbarGUI $toolbar,
-        ilCertificatePlaceholderDescription $placeholderDescriptionObject,
+        private bool $hasAdditionalElements,
+        private ilLanguage $language,
+        private ilCtrlInterface $ctrl,
+        private ilAccessHandler $access,
+        private ilToolbarGUI $toolbar,
+        private ilCertificatePlaceholderDescription $placeholderDescriptionObject,
         ?ilPageFormats $pageFormats = null,
         ?ilFormFieldParser $formFieldParser = null,
         ?ilCertificateTemplateImportAction $importAction = null,
@@ -65,18 +58,11 @@ class ilCertificateSettingsFormRepository implements ilCertificateFormRepository
         global $DIC;
         $this->httpWrapper = $DIC->http()->wrapper();
         $this->refinery = $DIC->refinery();
-        $this->objectId = $objectId;
-        $this->language = $language;
-        $this->ctrl = $ctrl;
-        $this->access = $access;
-        $this->toolbar = $toolbar;
-        $this->placeholderDescriptionObject = $placeholderDescriptionObject;
-        $this->hasAdditionalElements = $hasAdditionalElements;
 
         $database = $DIC->database();
 
         if (null === $logger) {
-            $logger = $logger = $DIC->logger()->cert();
+            $logger = $DIC->logger()->cert();
         }
 
         if (null === $pageFormats) {
@@ -119,8 +105,6 @@ class ilCertificateSettingsFormRepository implements ilCertificateFormRepository
     }
 
     /**
-     * @param ilCertificateGUI $certificateGUI
-     * @return ilPropertyFormGUI
      * @throws FileAlreadyExistsException
      * @throws FileNotFoundException
      * @throws IOException
@@ -155,10 +139,10 @@ class ilCertificateSettingsFormRepository implements ilCertificateFormRepository
                 $_FILES["certificate_import"]["tmp_name"],
                 $_FILES["certificate_import"]["name"]
             );
-            if ($result === false) {
-                $import->setAlert($this->language->txt("certificate_error_import"));
-            } else {
+            if ($result) {
                 $this->ctrl->redirect($certificateGUI, "certificateEditor");
+            } else {
+                $import->setAlert($this->language->txt("certificate_error_import"));
             }
         }
         $form->addItem($import);
@@ -294,7 +278,7 @@ class ilCertificateSettingsFormRepository implements ilCertificateFormRepository
 
         $form->addItem($certificate);
 
-        if (true === $this->hasAdditionalElements) {
+        if ($this->hasAdditionalElements) {
             $formSection = new ilFormSectionHeaderGUI();
             $formSection->setTitle($this->language->txt("cert_form_sec_add_features"));
             $form->addItem($formSection);
@@ -334,8 +318,7 @@ class ilCertificateSettingsFormRepository implements ilCertificateFormRepository
     }
 
     /**
-     * @param string $content
-     * @return array
+     * @return array{pageformat: string, pagewidth: mixed, pageheight: mixed, margin_body_top: mixed, margin_body_right: mixed, margin_body_bottom: mixed, margin_body_left: mixed, certificate_text: string}
      */
     public function fetchFormFieldData(string $content): array
     {

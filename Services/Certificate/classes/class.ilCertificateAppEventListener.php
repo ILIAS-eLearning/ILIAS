@@ -28,9 +28,6 @@ use ILIAS\Filesystem\Exception\IOException;
  */
 class ilCertificateAppEventListener implements ilAppEventListener
 {
-    protected ilDBInterface $db;
-    private ilObjectDataCache $objectDataCache;
-    private ilLogger $logger;
     protected string $component = '';
     protected string $event = '';
     protected array $parameters = [];
@@ -40,13 +37,10 @@ class ilCertificateAppEventListener implements ilAppEventListener
     private ilUserCertificateRepository $userCertificateRepository;
 
     public function __construct(
-        ilDBInterface $db,
-        ilObjectDataCache $objectDataCache,
-        ilLogger $logger
+        protected ilDBInterface $db,
+        private ilObjectDataCache $objectDataCache,
+        private ilLogger $logger
     ) {
-        $this->db = $db;
-        $this->objectDataCache = $objectDataCache;
-        $this->logger = $logger;
         $this->certificateQueueRepository = new ilCertificateQueueRepository($this->db, $this->logger);
         $this->certificateClassMap = new ilCertificateTypeClassMap();
         $this->templateRepository = new ilCertificateTemplateDatabaseRepository($this->db, $this->logger);
@@ -123,9 +117,6 @@ class ilCertificateAppEventListener implements ilAppEventListener
     }
 
     /**
-     * @param string $a_component
-     * @param string $a_event
-     * @param array  $a_parameter
      * @throws IOException
      */
     public static function handleEvent(string $a_component, string $a_event, array $a_parameter): void
@@ -168,7 +159,7 @@ class ilCertificateAppEventListener implements ilAppEventListener
                 try {
                     $template = $this->templateRepository->fetchCurrentlyActiveCertificate($objectId);
 
-                    if (true === $template->isCurrentlyActive()) {
+                    if ($template->isCurrentlyActive()) {
                         $this->logger->debug(sprintf(
                             "Trigger persisting certificate achievement for: usr_id: %s/obj_id: %s/type: %s/template_id: %s",
                             $userId,
@@ -186,7 +177,7 @@ class ilCertificateAppEventListener implements ilAppEventListener
                             $template->getId()
                         ));
                     }
-                } catch (ilException $exception) {
+                } catch (ilException) {
                     $this->logger->debug(sprintf(
                         "Did not find an active certificate template for case: usr_id: %s/obj_id: %s/type: %s",
                         $userId,
@@ -219,7 +210,7 @@ class ilCertificateAppEventListener implements ilAppEventListener
             );
             foreach (ilObject::_getAllReferences($objectId) as $refId) {
                 $templatesOfCompletedCourses = $progressEvaluation->evaluate($refId, $userId);
-                if (0 === count($templatesOfCompletedCourses)) {
+                if ([] === $templatesOfCompletedCourses) {
                     $this->logger->debug(sprintf(
                         "No dependent course certificate template configuration found for child object: usr_id: %s/obj_id: %s/ref_id: %s/type: %s",
                         $userId,
@@ -235,7 +226,7 @@ class ilCertificateAppEventListener implements ilAppEventListener
                     try {
                         $courseObjectId = $courseTemplate->getObjId();
 
-                        if (true === $courseTemplate->isCurrentlyActive()) {
+                        if ($courseTemplate->isCurrentlyActive()) {
                             $type = $this->objectDataCache->lookupType($courseObjectId);
 
                             $this->logger->debug(sprintf(
@@ -275,7 +266,7 @@ class ilCertificateAppEventListener implements ilAppEventListener
     {
         $portfolioFileService = new ilPortfolioCertificateFileService();
 
-        if (false === array_key_exists('usr_id', $this->parameters)) {
+        if (!array_key_exists('usr_id', $this->parameters)) {
             $this->logger->error('User ID is not added to the event. Abort.');
             return;
         }
@@ -332,7 +323,7 @@ class ilCertificateAppEventListener implements ilAppEventListener
         $userId = $this->parameters['usr_id'] ?? 0;
         try {
             $template = $this->templateRepository->fetchCurrentlyActiveCertificate($objectId);
-            if (true === $template->isCurrentlyActive()) {
+            if ($template->isCurrentlyActive()) {
                 $entry = new ilCertificateQueueEntry(
                     $objectId,
                     $userId,

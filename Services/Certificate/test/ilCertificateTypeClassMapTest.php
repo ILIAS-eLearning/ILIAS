@@ -62,7 +62,7 @@ class ilCertificateTypeClassMapTest extends ilCertificateBaseTestCase
     {
         $this->expectException(ilException::class);
 
-        $class = $this->classMap->getPlaceHolderClassNameByType('something');
+        $this->classMap->getPlaceHolderClassNameByType('something');
 
         $this->fail('Should never happen. No Exception thrown?');
     }

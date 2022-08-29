@@ -28,41 +28,27 @@ use ILIAS\Filesystem\Exception\IOException;
  */
 class ilCertificateTemplateImportAction
 {
-    private int $objectId;
-    private string $certificatePath;
     private ilCertificateTemplateRepository $templateRepository;
-    private ilCertificatePlaceholderDescription $placeholderDescriptionObject;
-    private ilLogger $logger;
-    private Filesystem $filesystem;
     private ilCertificateObjectHelper $objectHelper;
     private ilCertificateUtilHelper $utilHelper;
-    private string $installationID;
     private ilCertificateBackgroundImageFileService $fileService;
 
     public function __construct(
-        int $objectId,
-        string $certificatePath,
-        ilCertificatePlaceholderDescription $placeholderDescriptionObject,
+        private int $objectId,
+        private string $certificatePath,
+        private ilCertificatePlaceholderDescription $placeholderDescriptionObject,
         ilLogger $logger,
-        Filesystem $filesystem,
+        private Filesystem $filesystem,
         ?ilCertificateTemplateRepository $templateRepository = null,
         ?ilCertificateObjectHelper $objectHelper = null,
         ?ilCertificateUtilHelper $utilHelper = null,
         ?ilDBInterface $database = null,
         ?ilCertificateBackgroundImageFileService $fileService = null
     ) {
-        $this->objectId = $objectId;
-        $this->certificatePath = $certificatePath;
-
-        $this->logger = $logger;
         if (null === $database) {
             global $DIC;
             $database = $DIC->database();
         }
-
-        $this->filesystem = $filesystem;
-
-        $this->placeholderDescriptionObject = $placeholderDescriptionObject;
 
         if (null === $templateRepository) {
             $templateRepository = new ilCertificateTemplateDatabaseRepository($database, $logger);
@@ -89,12 +75,6 @@ class ilCertificateTemplateImportAction
     }
 
     /**
-     * @param string       $zipFile
-     * @param string       $filename
-     * @param string       $rootDir
-     * @param string       $iliasVerision
-     * @param string|false $installationID
-     * @return bool
      * @throws FileAlreadyExistsException
      * @throws FileNotFoundException
      * @throws IOException
@@ -134,7 +114,7 @@ class ilCertificateTemplateImportAction
 
         $xmlFiles = 0;
         foreach ($directoryInformation as $file) {
-            if (strcmp($file['type'], 'file') === 0 && strpos($file['entry'], '.xml') !== false) {
+            if (strcmp($file['type'], 'file') === 0 && str_contains($file['entry'], '.xml')) {
                 $xmlFiles++;
             }
         }
@@ -156,7 +136,7 @@ class ilCertificateTemplateImportAction
         foreach ($directoryInformation as $file) {
             if (strcmp($file['type'], 'file') === 0) {
                 $filePath = $importPath . $subDirectoryName . $file['entry'];
-                if (strpos($file['entry'], '.xml') !== false) {
+                if (str_contains($file['entry'], '.xml')) {
                     $xsl = $this->filesystem->read($filePath);
                     // as long as we cannot make RPC calls in a given directory, we have
                     // to add the complete path to every url
@@ -176,7 +156,7 @@ class ilCertificateTemplateImportAction
                         },
                         $xsl
                     );
-                } elseif (strpos($file['entry'], '.jpg') !== false) {
+                } elseif (str_contains($file['entry'], '.jpg')) {
                     $newBackgroundImageName = 'background_' . $newVersion . '.jpg';
                     $newPath = $this->certificatePath . $newBackgroundImageName;
                     $this->filesystem->copy($filePath, $newPath);
@@ -195,7 +175,7 @@ class ilCertificateTemplateImportAction
                         'JPEG',
                         "100"
                     );
-                } elseif (strpos($file['entry'], '.svg') !== false) {
+                } elseif (str_contains($file['entry'], '.svg')) {
                     $newCardThumbnailName = 'thumbnail_' . $newVersion . '.svg';
                     $newPath = $this->certificatePath . $newCardThumbnailName;
 
@@ -244,7 +224,6 @@ class ilCertificateTemplateImportAction
 
     /**
      * Creates a directory for a zip archive containing multiple certificates
-     * @param string $installationID
      * @return string The created archive directory
      * @throws IOException
      */

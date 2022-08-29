@@ -62,9 +62,9 @@ class ilCertificateTemplateDeleteActionTest extends ilCertificateBaseTestCase
         $action = new ilCertificateTemplateDeleteAction(
             $templateRepositoryMock,
             __DIR__,
+            'v5.4.0',
             $utilHelper,
-            $objectHelper,
-            'v5.4.0'
+            $objectHelper
         );
 
         $action->delete(100, 2000);
@@ -108,9 +108,9 @@ class ilCertificateTemplateDeleteActionTest extends ilCertificateBaseTestCase
         $action = new ilCertificateTemplateDeleteAction(
             $templateRepositoryMock,
             __DIR__,
+            'v5.4.0',
             $utilHelper,
-            $objectHelper,
-            'v5.4.0'
+            $objectHelper
         );
 
         $action->delete(100, 2000);

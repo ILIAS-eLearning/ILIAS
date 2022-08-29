@@ -38,10 +38,6 @@ class ilCertificateTemplatePreviewActionTest extends ilCertificateBaseTestCase
                 'USER_FIRSTNAME' => 'SomeFirstName'
             ]);
 
-        $logger = $this->getMockBuilder(ilLogger::class)
-            ->disableOriginalConstructor()
-            ->getMock();
-
         $user = $this->getMockBuilder(ilObjUser::class)
             ->disableOriginalConstructor()
             ->getMock();
@@ -108,13 +104,12 @@ class ilCertificateTemplatePreviewActionTest extends ilCertificateBaseTestCase
         $previewAction = new ilCertificateTemplatePreviewAction(
             $templateRepository,
             $placeholderValuesObject,
-            $logger,
+            'some/where/',
             $user,
             $utilHelper,
             $mathJaxHelper,
             $userDefinedFieldsHelper,
             $rpcClientFactoryHelper,
-            'some/where/',
             $pdfFileNameFactory
         );
 

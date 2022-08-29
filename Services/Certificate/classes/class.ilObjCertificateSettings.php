@@ -124,11 +124,8 @@ class ilObjCertificateSettings extends ilObject
     public function hasBackgroundImage(): bool
     {
         $filePath = $this->getDefaultBackgroundImagePath();
-        if (is_file($filePath) && filesize($filePath) > 0) {
-            return true;
-        }
 
-        return false;
+        return is_file($filePath) && filesize($filePath) > 0;
     }
 
     public function getDefaultBackgroundImagePathWeb(): string

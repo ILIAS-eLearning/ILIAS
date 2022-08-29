@@ -23,15 +23,11 @@ declare(strict_types=1);
  */
 class ilCertificateScormPdfFilename implements ilCertificateFilename
 {
-    private ilSetting $scormSetting;
-    private ilCertificateFilename $origin;
-    private ilLanguage $lng;
-
-    public function __construct(ilCertificateFilename $origin, ilLanguage $lng, ilSetting $scormSetting)
-    {
-        $this->scormSetting = $scormSetting;
-        $this->origin = $origin;
-        $this->lng = $lng;
+    public function __construct(
+        private ilCertificateFilename $origin,
+        private ilLanguage $lng,
+        private ilSetting $scormSetting
+    ) {
     }
 
     public function createFileName(ilUserCertificatePresentation $presentation): string

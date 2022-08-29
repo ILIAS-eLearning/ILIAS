@@ -6483,8 +6483,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
     {
         global $DIC;
 
-        /** @noinspection PhpUndefinedMethodInspection */
-        $certificateLogger = $DIC->logger()->cert();
         $tree = $DIC['tree'];
         $ilDB = $DIC->database();
         $component_repository = $DIC['component.repository'];
@@ -6590,7 +6588,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
             $pathFactory,
             $templateRepository,
             $DIC->filesystem()->web(),
-            $certificateLogger,
             new ilCertificateObjectHelper()
         );
 

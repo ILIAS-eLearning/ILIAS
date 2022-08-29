@@ -21,21 +21,19 @@ use ILIAS\Data\Factory as DataTypeFactory;
 
 final class ilXMLChecker
 {
-    private DataTypeFactory $dataFactory;
     private Result $result;
     private bool $xmlErrorState = false;
     /** @var array<int, LibXMLError[]> */
     private array $errorStack = [];
 
-    public function __construct(DataTypeFactory $dataFactory)
+    public function __construct(private DataTypeFactory $dataFactory)
     {
-        $this->dataFactory = $dataFactory;
         $this->result = new Result\Error('No XML parsed, yet');
     }
 
     private function beginLogging(): void
     {
-        if (0 === count($this->errorStack)) {
+        if ([] === $this->errorStack) {
             $this->xmlErrorState = libxml_use_internal_errors(true);
             libxml_clear_errors();
         } else {
@@ -63,7 +61,7 @@ final class ilXMLChecker
 
         $errors = array_pop($this->errorStack);
 
-        if (0 === count($this->errorStack)) {
+        if ([] === $this->errorStack) {
             libxml_use_internal_errors($this->xmlErrorState);
         }
 
@@ -75,11 +73,12 @@ final class ilXMLChecker
         try {
             $this->beginLogging();
 
-            $xml = new SimpleXMLElement($xmlString);
+            /** @noinspection PhpExpressionResultUnusedInspection */
+            new SimpleXMLElement($xmlString);
 
             $this->result = $this->dataFactory->ok($xmlString);
             $this->endLogging();
-        } catch (Exception $e) {
+        } catch (Exception) {
             $this->result = $this->dataFactory->error(implode(
                 "\n",
                 array_map(static function (LibXMLError $error): string {

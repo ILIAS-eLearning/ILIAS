@@ -120,7 +120,7 @@ class ilCertificateSettingsExerciseRepositoryTest extends ilCertificateBaseTestC
             ->disableOriginalConstructor()
             ->getMock();
 
-        $repository = new ilCertificateSettingsExerciseRepository(
+        new ilCertificateSettingsExerciseRepository(
             $object,
             '/some/where/',
             false,
@@ -131,8 +131,6 @@ class ilCertificateSettingsExerciseRepositoryTest extends ilCertificateBaseTestC
             $placeholderDescriptionObject,
             $settingsFormFactory
         );
-
-        $repository->save([1, 2, 3]);
     }
 
     public function testFormFieldData(): void

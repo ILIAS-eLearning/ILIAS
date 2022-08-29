@@ -23,22 +23,11 @@ declare(strict_types=1);
  */
 class ilUserCertificateTableProvider
 {
-    private ilDBInterface $database;
-    private ilLogger $logger;
-    private string $defaultTitle;
-
-    public function __construct(
-        ilDBInterface $database,
-        ilLogger $logger,
-        string $defaultTitle
-    ) {
-        $this->database = $database;
-        $this->logger = $logger;
-        $this->defaultTitle = $defaultTitle;
+    public function __construct(private ilDBInterface $database, private ilLogger $logger, private string $defaultTitle)
+    {
     }
 
     /**
-     * @param int                  $userId
      * @param array<string, mixed> $params
      * @param array<string, mixed> $filter
      * @return array{cnt: int, items: array<int, array>}

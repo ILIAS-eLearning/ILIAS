@@ -63,7 +63,7 @@ class ilCertificateCronTest extends ilCertificateBaseTestCase
 
         $dic
             ->method('offsetGet')
-            ->willReturnCallback(static function ($key) use ($configValues) {
+            ->willReturnCallback(static function ($key) use ($configValues): string {
                 return $configValues[$key];
             });
 
@@ -124,7 +124,7 @@ class ilCertificateCronTest extends ilCertificateBaseTestCase
 
         $dic
             ->method('offsetGet')
-            ->willReturnCallback(static function ($key) use ($configValues) {
+            ->willReturnCallback(static function ($key) use ($configValues): string {
                 return $configValues[$key];
             });
 
@@ -185,7 +185,7 @@ class ilCertificateCronTest extends ilCertificateBaseTestCase
 
         $dic
             ->method('offsetGet')
-            ->willReturnCallback(static function ($key) use ($configValues) {
+            ->willReturnCallback(static function ($key) use ($configValues): string {
                 return $configValues[$key];
             });
 
@@ -267,7 +267,7 @@ class ilCertificateCronTest extends ilCertificateBaseTestCase
 
         $dic
             ->method('offsetGet')
-            ->willReturnCallback(static function ($key) use ($configValues) {
+            ->willReturnCallback(static function ($key) use ($configValues): string {
                 return $configValues[$key];
             });
 
@@ -349,7 +349,7 @@ class ilCertificateCronTest extends ilCertificateBaseTestCase
 
         $dic
             ->method('offsetGet')
-            ->willReturnCallback(static function ($key) use ($configValues) {
+            ->willReturnCallback(static function ($key) use ($configValues): string {
                 return $configValues[$key];
             });
 
@@ -431,7 +431,7 @@ class ilCertificateCronTest extends ilCertificateBaseTestCase
 
         $dic
             ->method('offsetGet')
-            ->willReturnCallback(static function ($key) use ($configValues) {
+            ->willReturnCallback(static function ($key) use ($configValues): string {
                 return $configValues[$key];
             });
 
@@ -513,7 +513,7 @@ class ilCertificateCronTest extends ilCertificateBaseTestCase
 
         $dic
             ->method('offsetGet')
-            ->willReturnCallback(static function ($key) use ($configValues) {
+            ->willReturnCallback(static function ($key) use ($configValues): string {
                 return $configValues[$key];
             });
 

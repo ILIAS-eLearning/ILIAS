@@ -24,9 +24,6 @@ declare(strict_types=1);
 class ilCertificateObjectHelper
 {
     /**
-     * @param int  $objectId
-     * @param bool $stop_on_error
-     * @return null|ilObject
      * @throws ilDatabaseException
      * @throws ilObjectNotFoundException
      */

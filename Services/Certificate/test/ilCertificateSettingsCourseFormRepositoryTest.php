@@ -54,10 +54,6 @@ class ilCertificateSettingsCourseFormRepositoryTest extends ilCertificateBaseTes
             ->disableOriginalConstructor()
             ->getMock();
 
-        $leaningProgressObject = $this->getMockBuilder(ilObjectLP::class)
-            ->disableOriginalConstructor()
-            ->getMock();
-
         $settingsFormFactory = $this->getMockBuilder(ilCertificateSettingsFormRepository::class)
             ->disableOriginalConstructor()
             ->getMock();
@@ -104,7 +100,6 @@ class ilCertificateSettingsCourseFormRepositoryTest extends ilCertificateBaseTes
             $access,
             $toolbar,
             $placeholderDescriptionObject,
-            $leaningProgressObject,
             $settingsFormFactory,
             $trackingHelper,
             $objectHelper,
@@ -144,10 +139,6 @@ class ilCertificateSettingsCourseFormRepositoryTest extends ilCertificateBaseTes
             ->getMock();
 
         $placeholderDescriptionObject = $this->getMockBuilder(ilCertificatePlaceholderDescription::class)
-            ->disableOriginalConstructor()
-            ->getMock();
-
-        $leaningProgressObject = $this->getMockBuilder(ilObjectLP::class)
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -199,7 +190,6 @@ class ilCertificateSettingsCourseFormRepositoryTest extends ilCertificateBaseTes
             $access,
             $toolbar,
             $placeholderDescriptionObject,
-            $leaningProgressObject,
             $settingsFormFactory,
             $trackingHelper,
             $objectHelper,

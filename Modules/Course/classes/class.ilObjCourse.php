@@ -765,7 +765,6 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
             $pathFactory,
             $templateRepository,
             $DIC->filesystem()->web(),
-            null,
             new ilCertificateObjectHelper()
         );
 

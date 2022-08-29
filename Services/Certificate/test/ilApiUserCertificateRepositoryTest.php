@@ -27,8 +27,6 @@ class ilApiUserCertificateRepositoryTest extends ilCertificateBaseTestCase
 {
     /** @var MockObject&ilDBInterface */
     private $database;
-    /** @var MockObject&ilLogger */
-    private $logger;
     /** @var MockObject&ilCtrlInterface */
     private $controller;
 
@@ -36,9 +34,6 @@ class ilApiUserCertificateRepositoryTest extends ilCertificateBaseTestCase
     {
         $this->database = $this->createMock(ilDBInterface::class);
         $this->controller = $this->createMock(ilCtrlInterface::class);
-        $this->logger = $this->getMockBuilder(ilLogger::class)
-                         ->disableOriginalConstructor()
-                         ->getMock();
     }
 
     public function testGetUserData(): void
@@ -80,7 +75,6 @@ class ilApiUserCertificateRepositoryTest extends ilCertificateBaseTestCase
 
         $repository = new \ILIAS\Certificate\API\Repository\UserDataRepository(
             $this->database,
-            $this->logger,
             $this->controller,
             'no title given'
         );

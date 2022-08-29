@@ -37,8 +37,6 @@ class ilCertificateGUIFactory
     }
 
     /**
-     * @param ilObject $object
-     * @return ilCertificateGUI
      * @throws ilException
      */
     public function create(ilObject $object): ilCertificateGUI
@@ -65,7 +63,6 @@ class ilCertificateGUIFactory
                     $objectId,
                     $certificatePath,
                     false,
-                    $object,
                     $DIC->language(),
                     $DIC->ctrl(),
                     $DIC->access(),
@@ -74,14 +71,11 @@ class ilCertificateGUIFactory
                 );
 
                 $deleteAction = new ilCertificateTestTemplateDeleteAction(
-                    $deleteAction,
-                    new ilCertificateObjectHelper()
+                    $deleteAction
                 );
 
                 break;
             case 'crs':
-                $hasAdditionalElements = true;
-
                 $placeholderDescriptionObject = new ilCoursePlaceholderDescription($objectId);
                 $placeholderValuesObject = new ilCoursePlaceholderValues();
 
@@ -159,10 +153,8 @@ class ilCertificateGUIFactory
                 );
                 break;
             case 'prg':
-                $placeholderDescriptionObject =
-                    new ilStudyProgrammePlaceholderDescription();
-                $placeholderValuesObject =
-                    new ilStudyProgrammePlaceholderValues();
+                $placeholderDescriptionObject = new ilStudyProgrammePlaceholderDescription();
+                $placeholderValuesObject = new ilStudyProgrammePlaceholderValues();
                 $formFactory = new ilCertificateSettingsStudyProgrammeFormRepository(
                     $object,
                     $certificatePath,

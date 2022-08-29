@@ -63,10 +63,6 @@ class ilCertificateBackgroundImageUploadTest extends ilCertificateBaseTestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $logger = $this->getMockBuilder(ilLogger::class)
-            ->disableOriginalConstructor()
-            ->getMock();
-
         $fileSystem = $this->getMockBuilder(Filesystem::class)
             ->getMock();
 
@@ -98,13 +94,12 @@ class ilCertificateBackgroundImageUploadTest extends ilCertificateBaseTestCase
             $fileUpload,
             'certifcate/path/to/some/where',
             $language,
-            $logger,
+            'Some Root Directory',
+            'someclient',
             $fileSystem,
             $utilHelper,
             $fileUtilsHelper,
             $legacyPathHelper,
-            'Some Root Directory',
-            'someclient',
             $fileSystem
         );
 
@@ -144,10 +139,6 @@ class ilCertificateBackgroundImageUploadTest extends ilCertificateBaseTestCase
             ->method('moveOneFileTo');
 
         $language = $this->getMockBuilder(ilLanguage::class)
-            ->disableOriginalConstructor()
-            ->getMock();
-
-        $logger = $this->getMockBuilder(ilLogger::class)
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -191,13 +182,12 @@ class ilCertificateBackgroundImageUploadTest extends ilCertificateBaseTestCase
             $fileUpload,
             'certifcate/path/to/some/where',
             $language,
-            $logger,
+            'Some Root Directory',
+            'someclient',
             $fileSystem,
             $utilHelper,
             $fileUtilsHelper,
             $legacyPathHelper,
-            'Some Root Directory',
-            'someclient',
             $tmp_file_system
         );
 

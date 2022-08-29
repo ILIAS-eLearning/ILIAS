@@ -2830,8 +2830,6 @@ class ilObjCourseGUI extends ilContainerGUI
      */
     public function deliverCertificateObject(): void
     {
-        global $DIC;
-
         $user_id = null;
         if ($this->access->checkAccess('manage_members', '', $this->ref_id)) {
             $user_id = 0;
@@ -2857,11 +2855,9 @@ class ilObjCourseGUI extends ilContainerGUI
 
         $repository = new ilUserCertificateRepository();
 
-        $certLogger = $DIC->logger()->cert();
-        $pdfGenerator = new ilPdfGenerator($repository, $certLogger);
+        $pdfGenerator = new ilPdfGenerator($repository);
 
         $pdfAction = new ilCertificatePdfAction(
-            $certLogger,
             $pdfGenerator,
             new ilCertificateUtilHelper(),
             $this->lng->txt('error_creating_certificate_pdf')

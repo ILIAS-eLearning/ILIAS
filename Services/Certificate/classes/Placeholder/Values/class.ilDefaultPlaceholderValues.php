@@ -18,8 +18,6 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
-require_once 'Services/Calendar/classes/class.ilDateTime.php';
-
 /**
  * Collection of basic placeholder values that can be used
  * @author  Niels Theen <ntheen@databay.de>
@@ -33,7 +31,6 @@ class ilDefaultPlaceholderValues implements ilCertificatePlaceholderValues
     private ilLanguage $language;
     private ilCertificateUtilHelper $utilHelper;
     private ilUserDefinedFieldsPlaceholderValues $userDefinedFieldsPlaceholderValues;
-    private int $birthdayDateFormat;
 
     public function __construct(
         ?ilCertificateObjectHelper $objectHelper = null,
@@ -42,7 +39,7 @@ class ilDefaultPlaceholderValues implements ilCertificatePlaceholderValues
         ?ilLanguage $language = null,
         ?ilCertificateUtilHelper $utilHelper = null,
         ?ilUserDefinedFieldsPlaceholderValues $userDefinedFieldsPlaceholderValues = null,
-        int $birthdayDateFormat = IL_CAL_DATE
+        private int $birthdayDateFormat = IL_CAL_DATE
     ) {
         if (null === $objectHelper) {
             $objectHelper = new ilCertificateObjectHelper();
@@ -76,8 +73,6 @@ class ilDefaultPlaceholderValues implements ilCertificatePlaceholderValues
         }
         $this->userDefinedFieldsPlaceholderValues = $userDefinedFieldsPlaceholderValues;
 
-        $this->birthdayDateFormat = $birthdayDateFormat;
-
         $this->placeholder = [
             'USER_LOGIN' => '',
             'USER_FULLNAME' => '',
@@ -101,9 +96,6 @@ class ilDefaultPlaceholderValues implements ilCertificatePlaceholderValues
     }
 
     /**
-     * @param int $userId
-     * @param int $objId
-     * @return array - Array with a mapping of [placholder_key] => actual value
      * @throws ilDatabaseException
      * @throws ilDateTimeException
      * @throws ilException
@@ -112,7 +104,7 @@ class ilDefaultPlaceholderValues implements ilCertificatePlaceholderValues
      */
     public function getPlaceholderValues(int $userId, int $objId): array
     {
-        /** @var ilObjUser $user */
+        /** @var ilObjUser|null $user */
         $user = $this->objectHelper->getInstanceByObjId($userId);
         if (!$user instanceof ilObjUser) {
             throw new ilException('The entered id: ' . $userId . ' is not an user object');
@@ -169,9 +161,6 @@ class ilDefaultPlaceholderValues implements ilCertificatePlaceholderValues
      * that is used to create a preview certificate.
      * Due the fact that this is a class to create default values
      * the placeholder values will be identical to the description
-     * @param int $userId
-     * @param int $objId
-     * @return array
      * @throws ilDateTimeException
      * @throws ilException
      */

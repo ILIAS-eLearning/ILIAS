@@ -23,54 +23,30 @@ declare(strict_types=1);
  */
 class ilUserCertificate
 {
-    private int $patternCertificateId;
-    private int $objId;
-    private string $objType;
-    private int $userId;
-    private string $userName;
-    private int $acquiredTimestamp;
-    private string $certificateContent;
-    private string $templateValues;
     private int $validUntil;
-    private int $version;
-    private string $iliasVersion;
-    private bool $currentlyActive;
-    private ?int $id;
     private ?string $backgroundImagePath;
     private ?string $thumbnailImagePath;
 
     public function __construct(
-        int $patternCertificateId,
-        int $objId,
-        string $objType,
-        int $userId,
-        string $userName,
-        int $acquiredTimestamp,
-        string $certificateContent,
-        string $templateValues,
+        private int $patternCertificateId,
+        private int $objId,
+        private string $objType,
+        private int $userId,
+        private string $userName,
+        private int $acquiredTimestamp,
+        private string $certificateContent,
+        private string $templateValues,
         ?int $validUntil,
-        int $version,
-        string $iliasVersion,
-        bool $currentlyActive,
+        private int $version,
+        private string $iliasVersion,
+        private bool $currentlyActive,
         ?string $backgroundImagePath = null,
         ?string $thumbnailImagePath = null,
-        ?int $id = null
+        private ?int $id = null
     ) {
-        $this->patternCertificateId = $patternCertificateId;
-        $this->objId = $objId;
-        $this->objType = $objType;
-        $this->userId = $userId;
-        $this->userName = $userName;
-        $this->acquiredTimestamp = $acquiredTimestamp;
-        $this->certificateContent = $certificateContent;
-        $this->templateValues = $templateValues;
         $this->validUntil = (int) $validUntil;
-        $this->version = $version;
-        $this->iliasVersion = $iliasVersion;
-        $this->currentlyActive = $currentlyActive;
         $this->backgroundImagePath = (string) $backgroundImagePath;
         $this->thumbnailImagePath = (string) $thumbnailImagePath;
-        $this->id = $id;
     }
 
     public function withId(int $id): self

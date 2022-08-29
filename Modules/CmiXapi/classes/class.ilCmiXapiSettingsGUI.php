@@ -641,11 +641,9 @@ class ilCmiXapiSettingsGUI
 
         $repository = new ilUserCertificateRepository();
 
-        $certLogger = $this->dic->logger()->root();//->cert();
-        $pdfGenerator = new ilPdfGenerator($repository, $certLogger);
+        $pdfGenerator = new ilPdfGenerator($repository);
 
         $pdfAction = new ilCertificatePdfAction(
-            $certLogger,
             $pdfGenerator,
             new ilCertificateUtilHelper(),
             $this->language->txt('error_creating_certificate_pdf')

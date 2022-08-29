@@ -106,10 +106,6 @@ class ilCertificateCloneActionTest extends ilCertificateBaseTestCase
             ->expects($this->exactly(7))
             ->method('copy');
 
-        $logger = $this->getMockBuilder(ilLogger::class)
-            ->disableOriginalConstructor()
-            ->getMock();
-
         $objectHelper = $this->getMockBuilder(ilCertificateObjectHelper::class)
             ->getMock();
 
@@ -121,7 +117,6 @@ class ilCertificateCloneActionTest extends ilCertificateBaseTestCase
             new ilCertificatePathFactory(),
             $templateRepository,
             $fileSystem,
-            $logger,
             $objectHelper,
             'some/web/directory',
             '/certificates/default/background.jpg'

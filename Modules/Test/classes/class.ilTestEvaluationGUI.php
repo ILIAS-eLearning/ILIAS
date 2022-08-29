@@ -839,14 +839,13 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
         );
 
         $archive_dir = $zipAction->createArchiveDirectory();
-        $total_users = array();
 
         $this->object->setAccessFilteredParticipantList(
             $this->object->buildStatisticsAccessFilteredParticipantList()
         );
 
         $ilUserCertificateRepository = new ilUserCertificateRepository($database, $logger);
-        $pdfGenerator = new ilPdfGenerator($ilUserCertificateRepository, $logger);
+        $pdfGenerator = new ilPdfGenerator($ilUserCertificateRepository);
 
         $total_users = $this->object->evalTotalPersonsArray();
         if (count($total_users)) {
@@ -860,7 +859,6 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
                 }
 
                 $pdfAction = new ilCertificatePdfAction(
-                    $logger,
                     $pdfGenerator,
                     new ilCertificateUtilHelper(),
                     $this->lng->txt('error_creating_certificate_pdf')
@@ -1745,10 +1743,9 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
         $logger = $DIC->logger()->root();
 
         $ilUserCertificateRepository = new ilUserCertificateRepository($database, $logger);
-        $pdfGenerator = new ilPdfGenerator($ilUserCertificateRepository, $logger);
+        $pdfGenerator = new ilPdfGenerator($ilUserCertificateRepository);
 
         $pdfAction = new ilCertificatePdfAction(
-            $logger,
             $pdfGenerator,
             new ilCertificateUtilHelper(),
             $this->lng->txt('error_creating_certificate_pdf')
