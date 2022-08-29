@@ -41,7 +41,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
     protected ?int $adv_ref_id = null;
     protected ?string $adv_type = null;
     protected ?string $adv_subtype = null;
-    protected \ILIAS\MediaObjects\MediaType\MediaType $media_type;
+    protected \ILIAS\MediaObjects\MediaType\MediaTypeManager $media_type;
     public string $header = "";
     public string $target_script = "";
     public bool $enabledmapareas = true;
@@ -66,7 +66,10 @@ class ilObjMediaObjectGUI extends ilObjectGUI
         $this->user = $DIC->user();
         $lng = $DIC->language();
         $ilCtrl = $DIC->ctrl();
-        $this->media_type = new ILIAS\MediaObjects\MediaType\MediaType();
+        $this->media_type = $DIC->mediaObjects()
+            ->internal()
+            ->domain()
+            ->mediaType();
 
         $this->ctrl = $ilCtrl;
         parent::__construct($a_data, $a_id, $a_call_by_reference, $a_prepare_output);

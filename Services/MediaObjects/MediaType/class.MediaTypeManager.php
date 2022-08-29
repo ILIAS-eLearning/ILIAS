@@ -21,7 +21,7 @@ namespace ILIAS\MediaObjects\MediaType;
 /**
  * @author Alexander Killing <killing@leifos.de>
  */
-class MediaType
+class MediaTypeManager
 {
     public function __construct()
     {
@@ -68,5 +68,69 @@ class MediaType
     public function usesAltTextProperty(string $mime): bool
     {
         return $this->isImage($mime);
+    }
+
+    /**
+     * @return string[]
+     */
+    public function getVideoMimeTypes(): array
+    {
+        return [
+            "video/vimeo",
+            "video/youtube",
+            "video/mp4"
+        ];
+    }
+
+    /**
+     * @return string[]
+     */
+    public function getVideoSuffixes(): array
+    {
+        return [
+            "mp4"
+        ];
+    }
+
+    /**
+     * @return string[]
+     */
+    public function getAudioMimeTypes(): array
+    {
+        return [
+            "audio/mpeg"
+        ];
+    }
+
+    /**
+     * @return string[]
+     */
+    public function getAudioSuffixes(): array
+    {
+        return [
+            "mp3"
+        ];
+    }
+
+    /**
+     * @return string[]
+     */
+    public function getImageMimeTypes(): array
+    {
+        return [
+            "image/png",
+            "image/jpeg",
+            "image/gif"
+        ];
+    }
+
+    /**
+     * @return string[]
+     */
+    public function getImageSuffixes(): array
+    {
+        return [
+            "jpeg", "jpg", "png"
+        ];
     }
 }
