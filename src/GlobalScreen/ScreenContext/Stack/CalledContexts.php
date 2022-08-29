@@ -21,6 +21,7 @@ namespace ILIAS\GlobalScreen\ScreenContext\Stack;
 
 use ILIAS\GlobalScreen\ScreenContext\ScreenContext;
 use LogicException;
+use ILIAS\GlobalScreen\ScreenContext\ContextRepository;
 
 /**
  * Class CalledContexts
@@ -30,20 +31,24 @@ final class CalledContexts extends ContextCollection
 {
     private array $call_locations = [];
 
-    /**
-     * @return ScreenContext
-     */
     public function current(): ScreenContext
     {
         return $this->getLast();
     }
 
-    /**
-     * @param ScreenContext $context
-     */
     public function push(ScreenContext $context): void
     {
-        $this->claim($context);
+        $this->claim(
+            $context,
+            $context->getUniqueContextIdentifier() === 'external'
+        ); // external can be claimed multiple times
+    }
+
+    public function external(): ContextCollection
+    {
+        $this->claim($this->repo->external(), true);
+
+        return $this;
     }
 
     public function clear(): void
@@ -52,14 +57,11 @@ final class CalledContexts extends ContextCollection
         $this->stack = [];
     }
 
-    /**
-     * @param ScreenContext $context
-     */
-    public function claim(ScreenContext $context): void
+    protected function claim(ScreenContext $context, bool $silent = false): void
     {
-        $this->checkCallLocation($context);
+        $this->checkCallLocation($context, $silent);
 
-        if (in_array($context, $this->stack)) {
+        if (!$silent && in_array($context, $this->stack)) {
             throw new LogicException("A context can only be claimed once");
         }
         if (end($this->stack) instanceof ScreenContext) {
@@ -69,10 +71,7 @@ final class CalledContexts extends ContextCollection
         parent::push($context);
     }
 
-    /**
-     * @param ScreenContext $context
-     */
-    private function checkCallLocation(ScreenContext $context): void
+    private function checkCallLocation(ScreenContext $context, bool $silent = false): void
     {
         $called_classes = array_filter(
             debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS),
@@ -86,14 +85,14 @@ final class CalledContexts extends ContextCollection
         );
         array_walk(
             $called_classes,
-            function (&$item): void {
-                $item = $item['class'] . ":" . ($item['line'] ?? '');
+            function (& $item) {
+                $item = ($item['class'] ?? '') . ":" . ($item['line'] ?? '');
             }
         );
 
         $call_location = reset($called_classes);
 
-        if (isset($this->call_locations[$context->getUniqueContextIdentifier()])) {
+        if (!$silent && isset($this->call_locations[$context->getUniqueContextIdentifier()])) {
             $first_location = $this->call_locations[$context->getUniqueContextIdentifier()];
             throw new LogicException("context '{$context->getUniqueContextIdentifier()}' already claimed in $first_location, second try in $call_location");
         }
