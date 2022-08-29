@@ -221,7 +221,7 @@ class ilObjTermsOfServiceGUI extends ilObject2GUI implements ilTermsOfServiceCon
 
             $formData = $form->getData();
             if (!is_null($formData)) {
-                $hasDocuments = true;// ilTermsOfServiceDocument::where([])->count() > 0;
+                $hasDocuments = ilTermsOfServiceDocument::where([])->count() > 0;
                 if (!$hasDocuments) {
                     $this->tpl->setOnScreenMessage('failure', $this->lng->txt('tos_no_documents_exist_cant_save'), true);
                 } else {
