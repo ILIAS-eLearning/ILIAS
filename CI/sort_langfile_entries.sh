@@ -9,6 +9,21 @@ header_end='<!-- language file start -->'
 
 langfiles=$(find . -name "*.lang")
 
+script=$(cat <<EOF
+\$c = explode("\\n", file_get_contents("php://stdin"));
+\$h = [];
+while(\$l = array_shift(\$c)) {
+    \$h[] = \$l;
+    if (\$l === "${header_end}") {
+        break;
+    }
+}
+\$c = array_filter(\$c, function(\$v) { return !empty(\$v); } );
+array_multisort(\$c);
+file_put_contents("php://stdout",join("\n",array_merge(\$h, \$c)));
+EOF
+)
+
 for file in $langfiles
 do
     header_length=1
@@ -27,8 +42,7 @@ do
         fi
     done
 
-    (cat ${file} | php -r '$c=explode("\n",file_get_contents("php://stdin"));array_multisort($c);file_put_contents("php://stdout",join("\n",$c));') > ${file}.tmp
-
+    (cat ${file} | php -r "${script}") > ${file}.tmp
     LANGFILEDIFF=$(diff ${file} ${file}.tmp)
     if [ ! -z "${LANGFILEDIFF}" ]
     then

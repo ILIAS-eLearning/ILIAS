@@ -9729,6 +9729,13 @@ footer {
 .il-maincontrols-slate #ilHelpPanel .btn-bulky .bulky-label {
   margin-top: 3px;
 }
+.il-maincontrols-slate .panel-body::after {
+  content: "";
+  display: inline;
+  height: 0;
+  clear: both;
+  visibility: hidden;
+}
 .il-maincontrols-slate.engaged[data-depth-level="2"] .btn-bulky:not(:hover),
 .il-maincontrols-slate.engaged[data-depth-level="2"] .link-bulky:not(:hover) {
   background-color: #f9f9f9;
@@ -9974,7 +9981,7 @@ footer {
     font-size: 0.875rem;
     position: absolute;
     right: 12px;
-    top: 1.42857143;
+    top: 20px;
   }
   .il-metabar-slates .il-maincontrols-slate {
     min-width: 260px;
