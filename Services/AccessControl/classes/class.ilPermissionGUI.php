@@ -607,7 +607,7 @@ class ilPermissionGUI extends ilPermission2GUI
 
         $pro = new ilCheckboxInputGUI($this->lng->txt('role_protect_permissions'), 'pro');
         $pro->setInfo($this->lng->txt('role_protect_permissions_desc'));
-        $pro->setValue((string) 1);
+        $pro->setValue("1");
         $form->addItem($pro);
 
         $pd = new ilCheckboxInputGUI($this->lng->txt('rbac_add_recommended_content'), 'desktop');
@@ -645,7 +645,7 @@ class ilPermissionGUI extends ilPermission2GUI
                         )) . ": " . ilObjRole::_getTranslation($par["title"]),
                         (string) $par["obj_id"]
                     );
-                    $option->setInfo($par["desc"]);
+                    $option->setInfo($par["desc"] ?? '');
                     $rights->addOption($option);
                 }
                 $key++;
