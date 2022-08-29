@@ -44,7 +44,6 @@ class ilAdministrationSettingsFormHandler
     public const FORM_TAGGING = 13;
     public const FORM_CERTIFICATE = 14;
     public const FORM_META_COPYRIGHT = 15;
-    public const FORM_TOS = 16;
 
     public const SETTINGS_USER = "usrf";
     public const SETTINGS_GENERAL = "adm";
@@ -150,10 +149,6 @@ class ilAdministrationSettingsFormHandler
 
             case self::FORM_CERTIFICATE:
                 $types = array(self::SETTINGS_LP_COMPLETION_STATUS);
-                break;
-
-            case self::FORM_TOS:
-                $types = [self::SETTINGS_USER];
                 break;
 
             default:
