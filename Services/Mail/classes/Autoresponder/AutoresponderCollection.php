@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -22,31 +24,31 @@ use InvalidArgumentException;
 
 interface AutoresponderCollection
 {
-    public function add(AutoresponderDto $element) : void;
+    public function add(AutoresponderDto $element): void;
     /**
      * @param string|int $key
      * @throws InvalidArgumentException
      */
-    public function remove($key) : void;
+    public function remove($key): void;
     /** @throws InvalidArgumentException */
-    public function removeElement(AutoresponderDto $element) : void;
+    public function removeElement(AutoresponderDto $element): void;
     /** @param int|string $key */
-    public function containsKey($key) : bool;
-    public function getKey(AutoresponderDto $element) : int;
-    public function clear() : void;
-    public function contains(AutoresponderDto $element) : bool;
+    public function containsKey($key): bool;
+    public function getKey(AutoresponderDto $element): int;
+    public function clear(): void;
+    public function contains(AutoresponderDto $element): bool;
     /** @param int|string $key */
-    public function get($key) : ?AutoresponderDto;
+    public function get($key): ?AutoresponderDto;
     /** @param int|string $key */
-    public function set($key, AutoresponderDto $value) : void;
-    public function isEmpty() : bool;
+    public function set($key, AutoresponderDto $value): void;
+    public function isEmpty(): bool;
     /** @return array<int|string> $key */
-    public function getKeys() : array;
+    public function getKeys(): array;
     /** @return AutoresponderDto[] $*/
-    public function getValues() : array;
-    public function filter(callable $callable) : self;
-    public function slice(int $offset, int $length = null) : self;
+    public function getValues(): array;
+    public function filter(callable $callable): self;
+    public function slice(int $offset, int $length = null): self;
     /** @return AutoresponderDto[]|array<int|string, AutoresponderDto> */
-    public function toArray() : array;
-    public function equals($other) : bool;
+    public function toArray(): array;
+    public function equals($other): bool;
 }

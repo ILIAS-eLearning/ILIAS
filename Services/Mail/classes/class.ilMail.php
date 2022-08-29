@@ -102,7 +102,7 @@ class ilMail
         $this->setSaveInSentbox(false);
     }
 
-    public function autoresponder() : AutoresponderService
+    public function autoresponder(): AutoresponderService
     {
         return $this->auto_responder_service;
     }

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -35,7 +37,7 @@ final class AutoresponderDatabaseRepository implements AutoresponderRepository
         $this->db = $db;
     }
 
-    public function findBySenderId(int $sender_id) : AutoresponderArrayCollection
+    public function findBySenderId(int $sender_id): AutoresponderArrayCollection
     {
         $query = "SELECT * FROM " . self::TABLE_NAME . " WHERE sender_id = " . $this->db->quote($sender_id, ilDBConstants::T_INTEGER);
 
@@ -53,7 +55,7 @@ final class AutoresponderDatabaseRepository implements AutoresponderRepository
         return $auto_responder_results;
     }
 
-    public function findByReceiverId(int $receiver_id) : AutoresponderArrayCollection
+    public function findByReceiverId(int $receiver_id): AutoresponderArrayCollection
     {
         $query = "SELECT * FROM " . self::TABLE_NAME . " WHERE receiver_id = " . $this->db->quote(
             $receiver_id,
@@ -77,7 +79,7 @@ final class AutoresponderDatabaseRepository implements AutoresponderRepository
     /**
      * @throws ilObjectNotFoundException
      */
-    public function findBySenderIdAndReceiverId(int $sender_id, int $receiver_id) : AutoresponderDto
+    public function findBySenderIdAndReceiverId(int $sender_id, int $receiver_id): AutoresponderDto
     {
         $query = "SELECT * FROM " . self::TABLE_NAME . " WHERE sender_id = " . $this->db->quote(
             $sender_id,
@@ -98,7 +100,7 @@ final class AutoresponderDatabaseRepository implements AutoresponderRepository
         );
     }
 
-    public function store(AutoresponderDto $auto_responder) : void
+    public function store(AutoresponderDto $auto_responder): void
     {
         $timestamp_sent_time = $auto_responder->getSentTime()->setTimezone(new DateTimeZone('UTC'))->format('Y-m-d H:i:s');
         $this->db->replace(
@@ -113,7 +115,7 @@ final class AutoresponderDatabaseRepository implements AutoresponderRepository
         );
     }
 
-    public function delete(AutoresponderDto $auto_responder) : void
+    public function delete(AutoresponderDto $auto_responder): void
     {
         $this->db->manipulate('DELETE FROM ' . self::TABLE_NAME . ' WHERE sender_id = ' . $this->db->quote(
             $auto_responder->getSenderId(),
@@ -121,7 +123,7 @@ final class AutoresponderDatabaseRepository implements AutoresponderRepository
         ) . ' AND receiver_id = ' . $this->db->quote($auto_responder->getReceiverId(), ilDBConstants::T_INTEGER));
     }
 
-    public function deleteBySenderId(int $sender_id) : void
+    public function deleteBySenderId(int $sender_id): void
     {
         $this->db->manipulate('DELETE FROM ' . self::TABLE_NAME . ' WHERE sender_id = ' . $this->db->quote(
             $sender_id,
@@ -129,7 +131,7 @@ final class AutoresponderDatabaseRepository implements AutoresponderRepository
         ));
     }
 
-    public function exists(int $sender_id, int $receiver_id) : bool
+    public function exists(int $sender_id, int $receiver_id): bool
     {
         $query = "SELECT 1 existing_record FROM " . self::TABLE_NAME . " WHERE sender_id = " . $this->db->quote(
             $sender_id,

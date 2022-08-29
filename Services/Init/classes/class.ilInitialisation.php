@@ -658,7 +658,7 @@ class ilInitialisation
         }
     }
 
-    protected static function initCron(\ILIAS\DI\Container $c) : void
+    protected static function initCron(\ILIAS\DI\Container $c): void
     {
         $c['cron.repository'] = static function (\ILIAS\DI\Container $c): ilCronJobRepository {
             return new ilCronJobRepositoryImpl(

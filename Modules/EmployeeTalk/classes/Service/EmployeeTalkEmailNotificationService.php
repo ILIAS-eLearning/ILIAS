@@ -47,7 +47,7 @@ final class EmployeeTalkEmailNotificationService
      *
      * @return bool
      */
-    public function send() : bool
+    public function send(): bool
     {
         $notif = new \ilSystemNotification();
         $notif->setLangModules(['etal', 'orgu']);
@@ -109,7 +109,7 @@ final class EmployeeTalkEmailNotificationService
 
 
 
-    private function getIcalEvent(string $mime_boundary) : string
+    private function getIcalEvent(string $mime_boundary): string
     {
         $message = "--$mime_boundary\r\n";
         $message .= 'Content-Type: text/calendar;name="appointment.ics";method=' . $this->calendar->getMethod() . "\r\n";

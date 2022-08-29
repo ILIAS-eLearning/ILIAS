@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -20,11 +22,11 @@ namespace ILIAS\Mail\Autoresponder;
 
 interface AutoresponderRepository
 {
-    public function exists(int $sender_id, int $receiver_id) : bool;
-    public function findBySenderId(int $sender_id) : AutoresponderCollection;
-    public function findByReceiverId(int $receiver_id) : AutoresponderCollection;
-    public function findBySenderIdAndReceiverId(int $sender_id, int $receiver_id) : AutoresponderDto;
-    public function store(AutoresponderDto $auto_responder) : void;
-    public function delete(AutoresponderDto $auto_responder) : void;
-    public function deleteBySenderId(int $sender_id) : void;
+    public function exists(int $sender_id, int $receiver_id): bool;
+    public function findBySenderId(int $sender_id): AutoresponderCollection;
+    public function findByReceiverId(int $receiver_id): AutoresponderCollection;
+    public function findBySenderIdAndReceiverId(int $sender_id, int $receiver_id): AutoresponderDto;
+    public function store(AutoresponderDto $auto_responder): void;
+    public function delete(AutoresponderDto $auto_responder): void;
+    public function deleteBySenderId(int $sender_id): void;
 }

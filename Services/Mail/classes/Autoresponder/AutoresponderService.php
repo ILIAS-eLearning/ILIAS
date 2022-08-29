@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -22,10 +24,10 @@ use ilMailOptions;
 
 interface AutoresponderService
 {
-    public function isAutoresponderEnabled() : bool;
-    public function enableAutoresponder() : void;
-    public function disableAutoresponder() : void;
-    public function handleAutoresponderMails(int $auto_responder_receiver_usr_id) : void;
-    public function enqueueAutoresponderIfEnabled(ilMailOptions $mail_recipient_mail_options) : void;
-    public function emptyAutoresponderData() : void;
+    public function isAutoresponderEnabled(): bool;
+    public function enableAutoresponder(): void;
+    public function disableAutoresponder(): void;
+    public function handleAutoresponderMails(int $auto_responder_receiver_usr_id): void;
+    public function enqueueAutoresponderIfEnabled(ilMailOptions $mail_recipient_mail_options): void;
+    public function emptyAutoresponderData(): void;
 }

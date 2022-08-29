@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -33,36 +35,36 @@ final class AutoresponderDto
         $this->sent_time = $sent_time;
     }
 
-    public function getSenderId() : int
+    public function getSenderId(): int
     {
         return $this->sender_id;
     }
 
-    public function withSenderId(int $sender_id) : self
+    public function withSenderId(int $sender_id): self
     {
         $clone = clone $this;
         $clone->sender_id = $sender_id;
         return $clone;
     }
 
-    public function getReceiverId() : int
+    public function getReceiverId(): int
     {
         return $this->receiver_id;
     }
 
-    public function withReceiverId(int $receiver_id) : self
+    public function withReceiverId(int $receiver_id): self
     {
         $clone = clone $this;
         $clone->receiver_id = $receiver_id;
         return $clone;
     }
 
-    public function getSentTime() : DateTimeImmutable
+    public function getSentTime(): DateTimeImmutable
     {
         return $this->sent_time;
     }
 
-    public function withSentTime(DateTimeImmutable $sent_time) : self
+    public function withSentTime(DateTimeImmutable $sent_time): self
     {
         $clone = clone $this;
         $clone->sent_time = $sent_time;

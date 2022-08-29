@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -43,7 +45,7 @@ class AutoresponderNotification extends ilMailNotification
         $this->setRecipients([$receiver_mail_options->getUsrId()]);
     }
 
-    public function send() : bool
+    public function send(): bool
     {
         $use_relative_dates = ilDatePresentation::useRelativeDates();
         ilDatePresentation::setUseRelativeDates(false);

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -33,7 +35,7 @@ final class AutoresponderServiceImpl implements AutoresponderService
     /** @var callable */
     private $mail_action;
     private DateInterval $idle_time_interval;
-    
+
     /** @var ilMailOptions[] $auto_responder_data */
     protected array $auto_responder_data = [];
 
@@ -52,12 +54,12 @@ final class AutoresponderServiceImpl implements AutoresponderService
         $this->idle_time_interval = new DateInterval('P' . $global_idle_time_interval . 'D');
     }
 
-    private function normalizeDateTimezone(DateTimeImmutable $date_time) : DateTimeImmutable
+    private function normalizeDateTimezone(DateTimeImmutable $date_time): DateTimeImmutable
     {
         return $date_time->setTimezone(new DateTimeZone('UTC'));
     }
 
-    private function shouldSendAutoresponder(AutoresponderDto $auto_responder) : bool
+    private function shouldSendAutoresponder(AutoresponderDto $auto_responder): bool
     {
         // Normalize timezones
         $last_send_time_with_added_interval = $this
@@ -70,22 +72,22 @@ final class AutoresponderServiceImpl implements AutoresponderService
         return $last_send_time_with_added_interval->format('Y-m-d H:i:s') <= $now->format('Y-m-d H:i:s');
     }
 
-    public function isAutoresponderEnabled() : bool
+    public function isAutoresponderEnabled(): bool
     {
         return $this->auto_responder_status;
     }
 
-    public function enableAutoresponder() : void
+    public function enableAutoresponder(): void
     {
         $this->auto_responder_status = true;
     }
 
-    public function disableAutoresponder() : void
+    public function disableAutoresponder(): void
     {
         $this->auto_responder_status = false;
     }
 
-    public function handleAutoresponderMails(int $auto_responder_receiver_usr_id) : void
+    public function handleAutoresponderMails(int $auto_responder_receiver_usr_id): void
     {
         if ($this->auto_responder_data === []) {
             return;
@@ -109,7 +111,7 @@ final class AutoresponderServiceImpl implements AutoresponderService
 
             if ($this->shouldSendAutoresponder($auto_responder)) {
                 $auto_responder = $auto_responder->withSentTime($this->clock->now());
-                
+
                 if ($this->mail_action !== null) {
                     ($this->mail_action)(
                         $auto_responder_sender_usr_id,
@@ -130,14 +132,14 @@ final class AutoresponderServiceImpl implements AutoresponderService
         }
     }
 
-    public function enqueueAutoresponderIfEnabled(ilMailOptions $mail_recipient_mail_options) : void
+    public function enqueueAutoresponderIfEnabled(ilMailOptions $mail_recipient_mail_options): void
     {
         if ($this->auto_responder_status && $mail_recipient_mail_options->isAbsent()) {
             $this->auto_responder_data[$mail_recipient_mail_options->getUsrId()] = $mail_recipient_mail_options;
         }
     }
 
-    public function emptyAutoresponderData() : void
+    public function emptyAutoresponderData(): void
     {
         $this->auto_responder_data = [];
     }

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -35,7 +37,7 @@ class ilMailAutoresponderServiceTest extends ilMailBaseTest
         DateTimeImmutable $faked_now,
         int $interval,
         bool $expects_active_auto_responder
-    ) : void {
+    ): void {
         $clock = $this->createMock(ClockInterface::class);
         $clock->method('now')->willReturn($faked_now);
 
@@ -56,14 +58,14 @@ class ilMailAutoresponderServiceTest extends ilMailBaseTest
                 self::MAIL_SENDER_USER_ID,
                 $last_auto_responder_time
             );
-            
+
             $repository->expects($this->once())->method('exists')->willReturn(true);
             $repository->expects($this->once())->method('findBySenderIdAndReceiverId')->willReturn($auto_responder_record);
         }
 
         if ($expects_active_auto_responder) {
             $repository->expects($this->once())->method('store')->with(
-                $this->callback(static function (AutoresponderDto $actual) use ($faked_now, $auto_responder_record) : bool {
+                $this->callback(static function (AutoresponderDto $actual) use ($faked_now, $auto_responder_record): bool {
                     return (
                         // Compare by values, not identity (and ignore sent time)
                         $actual->getReceiverId() === $auto_responder_record->getReceiverId() &&
@@ -94,7 +96,7 @@ class ilMailAutoresponderServiceTest extends ilMailBaseTest
         int $global_idle_time_interval,
         AutoresponderRepository $auto_responder_repository,
         ClockInterface $clock
-    ) : AutoresponderService {
+    ): AutoresponderService {
         return new AutoresponderServiceImpl(
             $global_idle_time_interval,
             true,
@@ -104,7 +106,7 @@ class ilMailAutoresponderServiceTest extends ilMailBaseTest
                 int $sender_id,
                 ilMailOptions $receiver_mail_options,
                 DateTimeImmutable $next_auto_responder_datetime
-            ) : void {
+            ): void {
             }
         );
     }
@@ -113,7 +115,7 @@ class ilMailAutoresponderServiceTest extends ilMailBaseTest
         int $auto_responder_sender_usr_id,
         int $auto_responder_receiver_id,
         DateTimeImmutable $sender_time
-    ) : AutoresponderDto {
+    ): AutoresponderDto {
         return new AutoresponderDto(
             $auto_responder_sender_usr_id,
             $auto_responder_receiver_id,
@@ -121,7 +123,7 @@ class ilMailAutoresponderServiceTest extends ilMailBaseTest
         );
     }
 
-    public function autoresponderProvider() : Generator
+    public function autoresponderProvider(): Generator
     {
         $now = new DateTimeImmutable('now', new DateTimeZone('UTC'));
 

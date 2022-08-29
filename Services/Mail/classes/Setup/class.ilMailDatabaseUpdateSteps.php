@@ -107,7 +107,7 @@ class ilMailDatabaseUpdateSteps implements ilDatabaseUpdateSteps
         }
     }
 
-    public function step_7() : void
+    public function step_7(): void
     {
         if (!$this->db->tableColumnExists('mail_options', 'absent_from')) {
             $this->db->addTableColumn(
@@ -123,7 +123,7 @@ class ilMailDatabaseUpdateSteps implements ilDatabaseUpdateSteps
         }
     }
 
-    public function step_8() : void
+    public function step_8(): void
     {
         if (!$this->db->tableColumnExists('mail_options', 'absent_until')) {
             $this->db->addTableColumn(
@@ -139,7 +139,7 @@ class ilMailDatabaseUpdateSteps implements ilDatabaseUpdateSteps
         }
     }
 
-    public function step_9() : void
+    public function step_9(): void
     {
         if (!$this->db->tableColumnExists('mail_options', 'absence_ar_body')) {
             $this->db->addTableColumn(
@@ -154,7 +154,7 @@ class ilMailDatabaseUpdateSteps implements ilDatabaseUpdateSteps
         }
     }
 
-    public function step_10() : void
+    public function step_10(): void
     {
         if (!$this->db->tableColumnExists('mail_options', 'absence_ar_subject')) {
             $this->db->addTableColumn(
@@ -170,7 +170,7 @@ class ilMailDatabaseUpdateSteps implements ilDatabaseUpdateSteps
         }
     }
 
-    public function step_10() : void
+    public function step_10(): void
     {
         if (!$this->db->tableExists('mail_auto_responder')) {
             $this->db->createTable(

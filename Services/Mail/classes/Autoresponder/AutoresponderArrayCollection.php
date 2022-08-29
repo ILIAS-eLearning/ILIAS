@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -34,22 +36,22 @@ final class AutoresponderArrayCollection implements AutoresponderCollection
         $this->elements = $elements;
     }
 
-    public function getIterator() : ArrayIterator
+    public function getIterator(): ArrayIterator
     {
         return new ArrayIterator($this->elements);
     }
 
-    public function offsetExists(int $offset) : bool
+    public function offsetExists(int $offset): bool
     {
         return $this->containsKey($offset);
     }
 
-    public function offsetGet(int $offset) : AutoresponderDto
+    public function offsetGet(int $offset): AutoresponderDto
     {
         return $this->get($offset);
     }
 
-    public function offsetSet(int $offset, AutoresponderDto $value) : void
+    public function offsetSet(int $offset, AutoresponderDto $value): void
     {
         if (!isset($offset)) {
             $this->add($value);
@@ -60,22 +62,22 @@ final class AutoresponderArrayCollection implements AutoresponderCollection
         $this->set($offset, $value);
     }
 
-    public function offsetUnset(int $offset) : void
+    public function offsetUnset(int $offset): void
     {
         $this->remove($offset);
     }
 
-    public function count() : int
+    public function count(): int
     {
         return count($this->elements);
     }
 
-    public function add(AutoresponderDto $element) : void
+    public function add(AutoresponderDto $element): void
     {
         $this->elements[] = $element;
     }
 
-    public function remove($key) : void
+    public function remove($key): void
     {
         if (!$this->containsKey($key)) {
             throw new InvalidArgumentException("Key $key does not exist.");
@@ -83,7 +85,7 @@ final class AutoresponderArrayCollection implements AutoresponderCollection
         unset($this->elements[$key]);
     }
 
-    public function removeElement(AutoresponderDto $element) : void
+    public function removeElement(AutoresponderDto $element): void
     {
         $key = array_search($element, $this->elements, true);
         if (false === $key) {
@@ -92,12 +94,12 @@ final class AutoresponderArrayCollection implements AutoresponderCollection
         unset($this->elements[$key]);
     }
 
-    public function containsKey($key) : bool
+    public function containsKey($key): bool
     {
         return isset($this->elements[$key]);
     }
 
-    public function getKey(AutoresponderDto $element) : int
+    public function getKey(AutoresponderDto $element): int
     {
         $key = array_search($element, $this->elements, true);
         if (false === $key) {
@@ -106,59 +108,59 @@ final class AutoresponderArrayCollection implements AutoresponderCollection
         return $key;
     }
 
-    public function clear() : void
+    public function clear(): void
     {
         $this->elements = [];
     }
 
-    public function contains(AutoresponderDto $element) : bool
+    public function contains(AutoresponderDto $element): bool
     {
         return in_array($element, $this->elements, true);
     }
 
-    public function get($key) : ?AutoresponderDto
+    public function get($key): ?AutoresponderDto
     {
         return $this->elements[$key] ?? null;
     }
 
-    public function set($key, AutoresponderDto $value) : void
+    public function set($key, AutoresponderDto $value): void
     {
         $this->elements[$key] = $value;
     }
 
-    public function isEmpty() : bool
+    public function isEmpty(): bool
     {
         return empty($this->elements);
     }
 
-    public function getKeys() : array
+    public function getKeys(): array
     {
         return array_keys($this->elements);
     }
 
-    public function getValues() : array
+    public function getValues(): array
     {
         return array_values($this->elements);
     }
 
-    public function filter(callable $callable) : AutoresponderCollection
+    public function filter(callable $callable): AutoresponderCollection
     {
         $filtered = array_filter($this->elements, $callable);
         return new self($filtered);
     }
 
-    public function slice(int $offset, int $length = null) : AutoresponderCollection
+    public function slice(int $offset, int $length = null): AutoresponderCollection
     {
         $sliced = array_slice($this->elements, $offset, $length, true);
         return new self($sliced);
     }
 
-    public function toArray() : array
+    public function toArray(): array
     {
         return $this->elements;
     }
 
-    public function equals($other) : bool
+    public function equals($other): bool
     {
         if (!$other instanceof self) {
             return false;
