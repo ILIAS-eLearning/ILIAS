@@ -3700,7 +3700,7 @@ abstract class ilPageObject
     public function moveContentAfter($a_source, $a_target, $a_spcid = "", $a_tpcid = "")
     {
         if ($a_source == $a_target) {
-            return;
+            return true;
         }
 
         // clone the node
