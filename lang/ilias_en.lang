@@ -11385,15 +11385,27 @@ meta#:#md_record_list_table#:#Custom Metadata Sets
 meta#:#md_separated_by#:#Separated by %s
 meta#:#md_time#:#Time:
 meta#:#md_used#:#Current Number of Usages
+meta#:#meta_1#:#1
+meta#:#meta_2#:#2
+meta#:#meta_3#:#3
+meta#:#meta_4#:#4
 meta#:#meta_accessibility_restrictions#:#Accessibility Restrictions
 meta#:#meta_active#:#Active
 meta#:#meta_add#:#Add
+meta#:#meta_add_element#:#Add %s
+meta#:#meta_add_element_success#:#Element added successfully
 meta#:#meta_advmd_add_field#:#Add New Field
 meta#:#meta_advmd_select_options#:#Entries
+meta#:#meta_aggregation_level#:#Aggregation Level
+meta#:#meta_amaya#:#Amaya
 meta#:#meta_annotation#:#Annotation
+meta#:#meta_annotation_plural#:#Annotations
+meta#:#meta_any#:#Any
 meta#:#meta_atomic#:#Atomic
 meta#:#meta_author#:#Author
+meta#:#meta_authors#:#Authors
 meta#:#meta_browser#:#Browser
+meta#:#meta_button_to_full_editor_label#:#Edit the Full Learning Object Metadata
 meta#:#meta_c_AD#:#Andorra
 meta#:#meta_c_AE#:#United Arab Emirates
 meta#:#meta_c_AF#:#Afghanistan
@@ -11643,50 +11655,70 @@ meta#:#meta_c_ZM#:#Zambia
 meta#:#meta_c_ZW#:#Zimbabwe
 meta#:#meta_catalog#:#Catalogue
 meta#:#meta_classification#:#Classification
+meta#:#meta_classification_plural#:#Classifications
 meta#:#meta_collection#:#Collection
 meta#:#meta_competency#:#Competency
 meta#:#meta_contentprovider#:#Content Provider
 meta#:#meta_context#:#Context
+meta#:#meta_context_plural#:#Contexts
 meta#:#meta_contribute#:#Contribute
+meta#:#meta_contribute_plural#:#Contribute
 meta#:#meta_copyright#:#Copyright
 meta#:#meta_copyright_and_other_restrictions#:#Copyright and Other Restrictions
 meta#:#meta_copyright_change_info#:#You are about to change the copyright licence assigned to this content. This should only be done with the permission of the copyright holder. Please continue only if the new licence is not more restrictive than the one used before.
 meta#:#meta_copyright_change_warning_title#:#Changing a Copyright
 meta#:#meta_copyright_in_use#:#In use
 meta#:#meta_copyright_outdated#:#Outdated / No longer in use
+meta#:#meta_copyright_outdated_error#:#The chosen copyright is outdated and no longer in use.
 meta#:#meta_copyright_show_usages#:#Show Usages
 meta#:#meta_copyright_status#:#Status
 meta#:#meta_copyright_sub_items#:#Sub Items
 meta#:#meta_copyright_usage#:#Usage
 meta#:#meta_cost#:#Cost
 meta#:#meta_coverage#:#Coverage
+meta#:#meta_coverage_plural#:#Coverage
 meta#:#meta_cp_own#:#Own Copyright Information:
 meta#:#meta_creator#:#Creator
 meta#:#meta_current_value#:#Current value
 meta#:#meta_date#:#Date
+meta#:#meta_date_time#:#Date
 meta#:#meta_delete#:#Delete
+meta#:#meta_delete_confirm#:#Are you sure you want to delete this element and its content?
+meta#:#meta_delete_element#:#Delete %s
+meta#:#meta_delete_element_success#:#Element deleted successfully
+meta#:#meta_delete_this_element#:#Delete This Element
 meta#:#meta_description#:#Description
+meta#:#meta_description_plural#:#Descriptions
 meta#:#meta_diagramm#:#Diagram
 meta#:#meta_difficult#:#Difficult
 meta#:#meta_difficulty#:#Difficulty
+meta#:#meta_discipline#:#Discipline
 meta#:#meta_draft#:#Draft
 meta#:#meta_duration#:#Duration
 meta#:#meta_easy#:#Easy
+meta#:#meta_edit_element#:#Edit %s
+meta#:#meta_edit_element_success#:#Element edited successfully
 meta#:#meta_editor#:#Editor
 meta#:#meta_education#:#Education
 meta#:#meta_educational#:#Educational
 meta#:#meta_educational_level#:#Educational Level
 meta#:#meta_educational_objective#:#Educational Objective
+meta#:#meta_educational_plural#:#Educational
 meta#:#meta_educationalvalidator#:#Educational Validation
 meta#:#meta_entity#:#Entity
+meta#:#meta_entity_plural#:#Entities
 meta#:#meta_entry#:#Entry
+meta#:#meta_error_empty_input#:#Please make sure that at least one of the following input fields is not empty.
 meta#:#meta_exam#:#Exam
 meta#:#meta_exercise#:#Exercise
 meta#:#meta_experiment#:#Experiment
 meta#:#meta_expositive#:#Expository
 meta#:#meta_figure#:#Image / Illustration
 meta#:#meta_final#:#Final Version
+meta#:#meta_first_author#:#First Author
 meta#:#meta_format#:#Format
+meta#:#meta_format_plural#:#Formats
+meta#:#meta_full_editor_navigation_info#:#To navigate and edit this metadata set, use the ‘LOM’-tree in the ‘Tools’ entry of the main menu.
 meta#:#meta_general#:#General
 meta#:#meta_global#:#Global
 meta#:#meta_graph#:#Graph
@@ -11700,13 +11732,14 @@ meta#:#meta_higher_education#:#Higher Education
 meta#:#meta_id#:#ID
 meta#:#meta_idea#:#Idea
 meta#:#meta_identifier#:#Identifier
+meta#:#meta_identifier_plural#:#Identifiers
 meta#:#meta_index#:#Index
 meta#:#meta_info_only_repository_objects#:#Only repository objects are listed below (but not media objects or learning module pages).
-meta#:#meta_info_tlt_not_valid#:#The current value is not valid. Therefore it can not be used in other sections, such as learning progress statistics. Please insert a typical learning time in hours and/or minutes.
 meta#:#meta_initiator#:#Initiator
 meta#:#meta_installation_remarks#:#Installation Notes
 meta#:#meta_instructionaldesigner#:#Instructional Design
 meta#:#meta_intended_end_user_role#:#Intended End User Role
+meta#:#meta_intended_end_user_role_plural#:#Intended End User Roles
 meta#:#meta_interactivity_level#:#Interactivity Level
 meta#:#meta_interactivity_type#:#Interactivity Type
 meta#:#meta_is_based_on#:#Is based on …
@@ -11717,6 +11750,7 @@ meta#:#meta_is_referenced_by#:#Is referenced by
 meta#:#meta_is_required_by#:#Is required by
 meta#:#meta_is_version_of#:#Is version of
 meta#:#meta_keyword#:#Keyword
+meta#:#meta_keyword_plural#:#Keywords
 meta#:#meta_kind#:#Type
 meta#:#meta_l_aa#:#Afar
 meta#:#meta_l_ab#:#Abkhazian
@@ -11852,40 +11886,45 @@ meta#:#meta_l_vi#:#Vietnamese
 meta#:#meta_l_vo#:#Volapük
 meta#:#meta_l_wo#:#Wolof
 meta#:#meta_l_xh#:#Xhosa
+meta#:#meta_l_xx#:#none
 meta#:#meta_l_yi#:#Yiddish
 meta#:#meta_l_yo#:#Yoruba
 meta#:#meta_l_za#:#Zhuang
 meta#:#meta_l_zh#:#Chinese
 meta#:#meta_l_zu#:#Zulu
 meta#:#meta_language#:#Language
+meta#:#meta_language_plural#:#Languages
 meta#:#meta_learner#:#Learner
 meta#:#meta_learning_resource_type#:#Learning Resource Type
+meta#:#meta_learning_resource_type_plural#:#Learning Resource Types
 meta#:#meta_lecture#:#Lecture
 meta#:#meta_lifecycle#:#Lifecycle
 meta#:#meta_linear#:#Linear
 meta#:#meta_local#:#Local
 meta#:#meta_location#:#Location
+meta#:#meta_location_plural#:#Locations
+meta#:#meta_lom#:#Learning Object Metadata
+meta#:#meta_lom_short#:#LOM
 meta#:#meta_low#:#Low
+meta#:#meta_macos#:#MAC-OS
 meta#:#meta_manager#:#Manager
 meta#:#meta_maximum_version#:#Maximum Version
 meta#:#meta_medium#:#Medium
 meta#:#meta_meta_metadata#:#Meta-Metadata
-meta#:#meta_metadatascheme#:#Metadata Scheme
+meta#:#meta_metadatascheme#:#Metadata Schema
+meta#:#meta_metadatascheme_plural#:#Metadata Schemas
 meta#:#meta_minimum_version#:#Minimum Version
 meta#:#meta_mixed#:#Mixed
+meta#:#meta_ms-internet_explorer#:#MS-Internet Explorer
+meta#:#meta_ms-windows#:#MS-Windows
+meta#:#meta_multi-os#:#Multi-OS
 meta#:#meta_name#:#Name
 meta#:#meta_narrative_text#:#Narrative Text
+meta#:#meta_netscape_communicator#:#Netscape Communicator
 meta#:#meta_networked#:#Networked
 meta#:#meta_new_element#:#New Element
 meta#:#meta_no#:#No
-meta#:#meta_no_annotation#:#No metadata available for the Annotation section.
-meta#:#meta_no_classification#:#No metadata available for the Classification section.
-meta#:#meta_no_educational#:#No metadata available for the Educational section.
-meta#:#meta_no_lifecycle#:#No metadata available for the Lifecycle section.
-meta#:#meta_no_meta_metadata#:#No metadata available for the Meta-Metadata section.
-meta#:#meta_no_relation#:#No metadata available for the Relation section.
-meta#:#meta_no_rights#:#No metadata available for the Rights section.
-meta#:#meta_no_technical#:#No metadata available for the Technical section.
+meta#:#meta_none#:#None
 meta#:#meta_obj_type_active#:#Dataset offered
 meta#:#meta_obj_type_inactive#:#Data set not used
 meta#:#meta_obj_type_mandatory#:#Data set always offered
@@ -11897,23 +11936,25 @@ meta#:#meta_oer_copyright_selection_info#:#Only objects that have been published
 meta#:#meta_oer_harvester#:#OER Harvester
 meta#:#meta_oer_harvester_desc#:#Scans all File objects in the repository for their license. The OER Harvester adds all resources under selected CC licenses to the category defined in the cronjob settings. To get results from this cronjob it is necessary to activate and configurate the copyright selection in the administration of 'Metadata'.
 meta#:#meta_oer_target#:#Category for Release OER Content
+meta#:#meta_opera#:#Opera
 meta#:#meta_operating_system#:#Operating System
 meta#:#meta_or_composite#:#Or Composite
+meta#:#meta_or_composite_plural#:#Or Composites
 meta#:#meta_order#:#Order
 meta#:#meta_other#:#Other
 meta#:#meta_other_plattform_requirements#:#Other Platform Requirements
-meta#:#meta_pc_dos#:#PC-DOS
-meta#:#meta_please_select#:#Please select
+meta#:#meta_pc-dos#:#PC-DOS
 meta#:#meta_pointofcontact#:#Point(s) of Contact
 meta#:#meta_prerequisite#:#Prerequisite
 meta#:#meta_problem_statement#:#Problem Statement
 meta#:#meta_publisher#:#Publisher
 meta#:#meta_purpose#:#Purpose
 meta#:#meta_questionnaire#:#Questionnaire
-meta#:#meta_quickedit#:#Quick Edit
 meta#:#meta_references#:#References
 meta#:#meta_relation#:#Relation
+meta#:#meta_relation_plural#:#Relations
 meta#:#meta_requirement#:#Requirement
+meta#:#meta_requirement_plural#:#Requirements
 meta#:#meta_requires#:#Requires
 meta#:#meta_resource#:#Resource
 meta#:#meta_revised#:#Revised
@@ -11922,6 +11963,7 @@ meta#:#meta_role#:#Role
 meta#:#meta_save_order#:#Save Order
 meta#:#meta_school#:#School
 meta#:#meta_scriptwriter#:#Scriptwriter
+meta#:#meta_second_author#:#Second Author
 meta#:#meta_section#:#Section
 meta#:#meta_security_level#:#Security Level
 meta#:#meta_self_assessment#:#Self Assessment
@@ -11932,6 +11974,7 @@ meta#:#meta_skill_level#:#Competence Level
 meta#:#meta_slide#:#Slide
 meta#:#meta_source#:#Source
 meta#:#meta_status#:#Status
+meta#:#meta_string#:#Text
 meta#:#meta_structure#:#Structure
 meta#:#meta_subjectmatterexpert#:#Subject matter expert(s)
 meta#:#meta_tab_advmd#:#Custom Metadata
@@ -11940,17 +11983,22 @@ meta#:#meta_tab_lom#:#LOM
 meta#:#meta_table#:#Table
 meta#:#meta_taxon#:#Taxon
 meta#:#meta_taxon_path#:#Taxon Path
+meta#:#meta_taxon_path_plural#:#Taxon Paths
+meta#:#meta_taxon_plural#:#Taxons
 meta#:#meta_teacher#:#Teacher
 meta#:#meta_technical#:#Technical
 meta#:#meta_technicalimplementer#:#Technical implementer
 meta#:#meta_technicalvalidator#:#Technical validator
 meta#:#meta_terminator#:#Terminator
+meta#:#meta_third_author#:#Third Author
 meta#:#meta_title#:#Title
 meta#:#meta_training#:#Training
 meta#:#meta_type#:#Type
 meta#:#meta_typical_age_range#:#Typical Age Range
+meta#:#meta_typical_age_range_plural#:#Typical Age Ranges
 meta#:#meta_typical_learning_time#:#Typical Learning Time
 meta#:#meta_unavailable#:#Unavailable
+meta#:#meta_unix#:#Unix
 meta#:#meta_unknown#:#Unknown
 meta#:#meta_validator#:#Validator
 meta#:#meta_value#:#Value
@@ -11960,7 +12008,6 @@ meta#:#meta_very_easy#:#Very Easy
 meta#:#meta_very_high#:#Very High
 meta#:#meta_very_low#:#Very Low
 meta#:#meta_yes#:#Yes
-meta#:#sco_propagate#:#Propagate to all SCOs
 meta#:#udf_type_address#:#Address
 meta#:#udf_type_externallink#:#External Link
 meta#:#udf_type_float#:#Float

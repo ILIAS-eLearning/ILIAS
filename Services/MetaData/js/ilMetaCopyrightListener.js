@@ -1,9 +1,9 @@
 il.MetaDataCopyrightListener  = {
 
 	modalSignalId: "",
-	radioGroupName: "",
-	formId: "",
-	formButtonId: "",
+	radioGroupId: "",
+	form: HTMLFormElement,
+	formButton: HTMLButtonElement,
 
 	confirmed: false,
 
@@ -11,24 +11,22 @@ il.MetaDataCopyrightListener  = {
 	initialValue: "",
 
 
-	init: function(modalSignalId, radioGroupName, formId, formButtonId ) {
+	init: function(modalSignalId, radioGroupId) {
 
 		this.modalSignalId = modalSignalId;
-		this.radioGroupName = radioGroupName;
-		this.formId = formId;
-		this.formButtonId = formButtonId;
-
+		this.radioGroupId = radioGroupId;
+		this.form = $("input[id^='" + this.radioGroupId + "']")[0].form;
+		this.formButton = $(":submit", this.form);
 
 		this.initialValue =
-			$("input[name='" + this.radioGroupName + "']:checked").val();
+			$("input[id^='" + this.radioGroupId + "']:checked").val();
 
-
-		$("#" + this.formId).on(
+		$(this.form).on(
 			"submit",
 			function (event) {
 
 				var current_value =
-					$("input[name='" + il.MetaDataCopyrightListener.radioGroupName + "']:checked").val();
+					$("input[id^='" + il.MetaDataCopyrightListener.radioGroupId + "']:checked").val();
 
 				if(current_value != il.MetaDataCopyrightListener.initialValue) {
 
@@ -43,16 +41,16 @@ il.MetaDataCopyrightListener  = {
 
 	triggerModal: function (event) {
 
-		var buttonName = $('#' + il.MetaDataCopyrightListener.formButtonId).prop('value');
-		$('.modal-dialog').find('form').find('input').prop('value',buttonName);
+		var buttonName = il.MetaDataCopyrightListener.formButton[0].textContent;
+		$('.modal-dialog').find('form').find('input').prop('value', buttonName);
 		$('.modal-dialog').find('form').on(
 			'submit',
 			function (event) {
 
-				$('#' + il.MetaDataCopyrightListener.formId).off();
-				$('#' + il.MetaDataCopyrightListener.formButtonId).off();
+				$(il.MetaDataCopyrightListener.form).off();
+				$(il.MetaDataCopyrightListener.formButton).off();
 				il.MetaDataCopyrightListener.confirmed = true;
-				$('#' + il.MetaDataCopyrightListener.formButtonId).click();
+				$(il.MetaDataCopyrightListener.formButton).click();
 				return false;
 			}
 		);
@@ -63,7 +61,7 @@ il.MetaDataCopyrightListener  = {
 			{
 				'id': this.modalSignalId,
 				'event': event,
-				'triggerer': this.formId
+				'triggerer': this.radioGroupId //previously this was the form id
 			}
 		);
 

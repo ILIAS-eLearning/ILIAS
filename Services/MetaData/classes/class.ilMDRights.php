@@ -1,6 +1,5 @@
 <?php
 
-declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -16,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 /**
  * Meta Data class (element rights)
@@ -176,11 +177,11 @@ class ilMDRights extends ilMDBase
             while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
                 $this->setRBACId((int) $row->rbac_id);
                 $this->setObjId((int) $row->obj_id);
-                $this->setObjType((string) $row->obj_type);
-                $this->setDescription((string) $row->description);
-                $this->setDescriptionLanguage(new ilMDLanguageItem((string) $row->description_language));
-                $this->setCosts((string) $row->costs);
-                $this->setCopyrightAndOtherRestrictions((string) $row->cpr_and_or);
+                $this->setObjType($row->obj_type ?? '');
+                $this->setDescription($row->description ?? '');
+                $this->setDescriptionLanguage(new ilMDLanguageItem($row->description_language ?? ''));
+                $this->setCosts($row->costs ?? '');
+                $this->setCopyrightAndOtherRestrictions($row->cpr_and_or ?? '');
             }
             return true;
         }

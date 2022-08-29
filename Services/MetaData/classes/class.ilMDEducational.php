@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 /**
  * Meta Data class (element educational)
@@ -406,15 +406,15 @@ class ilMDEducational extends ilMDBase
             while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
                 $this->setRBACId((int) $row->rbac_id);
                 $this->setObjId((int) $row->obj_id);
-                $this->setObjType((string) $row->obj_type);
-                $this->setInteractivityType((string) $row->interactivity_type);
-                $this->setLearningResourceType((string) $row->learning_resource_type);
-                $this->setInteractivityLevel((string) $row->interactivity_level);
-                $this->setSemanticDensity((string) $row->semantic_density);
-                $this->setIntendedEndUserRole((string) $row->intended_end_user_role);
-                $this->setContext((string) $row->context);
-                $this->setDifficulty((string) $row->difficulty);
-                $this->setTypicalLearningTime((string) $row->typical_learning_time);
+                $this->setObjType($row->obj_type ?? '');
+                $this->setInteractivityType($row->interactivity_type ?? '');
+                $this->setLearningResourceType($row->learning_resource_type ?? '');
+                $this->setInteractivityLevel($row->interactivity_level ?? '');
+                $this->setSemanticDensity($row->semantic_density ?? '');
+                $this->setIntendedEndUserRole($row->intended_end_user_role ?? '');
+                $this->setContext($row->context ?? '');
+                $this->setDifficulty($row->difficulty ?? '');
+                $this->setTypicalLearningTime($row->typical_learning_time ?? '');
             }
             return true;
         }

@@ -11392,15 +11392,27 @@ meta#:#md_record_list_table#:#Benutzerdefinierte Metadatensätze
 meta#:#md_separated_by#:#Getrennt mit %s
 meta#:#md_time#:#Zeit:
 meta#:#md_used#:#Verwendung (Anzahl)
+meta#:#meta_1#:#1
+meta#:#meta_2#:#2
+meta#:#meta_3#:#3
+meta#:#meta_4#:#4
 meta#:#meta_accessibility_restrictions#:#Zugangsbeschränkungen
 meta#:#meta_active#:#Aktiv
 meta#:#meta_add#:#Hinzufügen
+meta#:#meta_add_element#:#%s hinzufügen
+meta#:#meta_add_element_success#:#Element erfolgreich hinzugefügt
 meta#:#meta_advmd_add_field#:#Neues Feld hinzufügen
 meta#:#meta_advmd_select_options#:#Einträge
+meta#:#meta_aggregation_level#:#Aggregationsstufe
+meta#:#meta_amaya#:#Amaya
 meta#:#meta_annotation#:#Anmerkung
+meta#:#meta_annotation_plural#:#Anmerkungen
+meta#:#meta_any#:#Beliebig
 meta#:#meta_atomic#:#Atomar
 meta#:#meta_author#:#Autor
+meta#:#meta_authors#:#Beitragende Personen
 meta#:#meta_browser#:#Browser
+meta#:#meta_button_to_full_editor_label#:#Vollständige Lernobjekt-Metadaten bearbeiten
 meta#:#meta_c_AD#:#Andorra
 meta#:#meta_c_AE#:#Vereinigte Arabische Emirate
 meta#:#meta_c_AF#:#Afghanistan
@@ -11650,50 +11662,70 @@ meta#:#meta_c_ZM#:#Sambia
 meta#:#meta_c_ZW#:#Simbabwe
 meta#:#meta_catalog#:#Katalog
 meta#:#meta_classification#:#Klassifizierung
+meta#:#meta_classification_plural#:#Klassifizierungen
 meta#:#meta_collection#:#Sammlung
 meta#:#meta_competency#:#Kompetenz
 meta#:#meta_contentprovider#:#Content angeboten von###Modified as part of gender mainstreaming activities for ILIAS 8
 meta#:#meta_context#:#Kontext
+meta#:#meta_context_plural#:#Kontexte
 meta#:#meta_contribute#:#Beitrag
+meta#:#meta_contribute_plural#:#Beiträge
 meta#:#meta_copyright#:#Copyright
 meta#:#meta_copyright_and_other_restrictions#:#Copyright und andere Einschränkungen
 meta#:#meta_copyright_change_info#:#Beachten Sie unbedingt das Urheberrecht, wenn Sie die Lizenz für dieses Objekt ändern. Bitte fahren Sie nur fort, wenn Sie befugt sind, über die Nutzungsrechte an dem Objekt zu entscheiden.###Modified as part of gender mainstreaming activities for ILIAS 8
 meta#:#meta_copyright_change_warning_title#:#Lizenz ändern###Modified as part of gender mainstreaming activities for ILIAS 8
 meta#:#meta_copyright_in_use#:#Aktuell
 meta#:#meta_copyright_outdated#:#Veraltet
+meta#:#meta_copyright_outdated_error#:#Die ausgewählt Lizenz ist veraltet und darf nicht mehr benutzt werden.
 meta#:#meta_copyright_show_usages#:#Verwendung anzeigen
 meta#:#meta_copyright_status#:#Status
 meta#:#meta_copyright_sub_items#:#Sub Items
 meta#:#meta_copyright_usage#:#Verwendung
 meta#:#meta_cost#:#Kosten
 meta#:#meta_coverage#:#Anwendungsbereich
+meta#:#meta_coverage_plural#:#Anwendungsbereiche
 meta#:#meta_cp_own#:#Eigene Angabe:
 meta#:#meta_creator#:#Ersteller
 meta#:#meta_current_value#:#Aktueller Wert
 meta#:#meta_date#:#Datum
+meta#:#meta_date_time#:#Datum
 meta#:#meta_delete#:#Löschen
+meta#:#meta_delete_confirm#:#Sind Sie sicher, dass sie dieses Element und dessen Inhalt löschen wollen?
+meta#:#meta_delete_element#:#%s löschen
+meta#:#meta_delete_element_success#:#Element erfolgreich gelöscht
+meta#:#meta_delete_this_element#:#Dieses Element Löschen
 meta#:#meta_description#:#Beschreibung
+meta#:#meta_description_plural#:#Beschreibungen
 meta#:#meta_diagramm#:#Diagramm
 meta#:#meta_difficult#:#Schwierig
 meta#:#meta_difficulty#:#Schwierigkeit
+meta#:#meta_discipline#:#Disziplin
 meta#:#meta_draft#:#Entwurf
 meta#:#meta_duration#:#Dauer
 meta#:#meta_easy#:#Leicht
+meta#:#meta_edit_element#:#%s bearbeiten
+meta#:#meta_edit_element_success#:#Element erfolgreich bearbeitet
 meta#:#meta_editor#:#Redakteur
 meta#:#meta_education#:#Ausbildung
 meta#:#meta_educational#:#Pädagogik
 meta#:#meta_educational_level#:#Ausbildungsstufe
 meta#:#meta_educational_objective#:#Ausbildungsziel
+meta#:#meta_educational_plural#:#Pädagogik
 meta#:#meta_educationalvalidator#:#Pädagogische Abnahme
 meta#:#meta_entity#:#Instanz
+meta#:#meta_entity_plural#:#Instanzen
 meta#:#meta_entry#:#Eintrag
+meta#:#meta_error_empty_input#:#Mindestens eines der folgenden Formularfelder muss ausgefüllt sein.
 meta#:#meta_exam#:#Prüfung
 meta#:#meta_exercise#:#Übung
 meta#:#meta_experiment#:#Experiment
 meta#:#meta_expositive#:#Erklärend
 meta#:#meta_figure#:#Abbildung
 meta#:#meta_final#:#Endfassung
+meta#:#meta_first_author#:#Erste Person
 meta#:#meta_format#:#Format
+meta#:#meta_format_plural#:#Formate
+meta#:#meta_full_editor_navigation_info#:#Um dieses Metadaten-Set zu navigieren und zu bearbeiten, benutzen Sie den "LOM"-Baum im "Tools" Eintrag des Hauptmenüs.
 meta#:#meta_general#:#Allgemein
 meta#:#meta_global#:#Global
 meta#:#meta_graph#:#Graph
@@ -11707,13 +11739,14 @@ meta#:#meta_higher_education#:#Hochschulbildung
 meta#:#meta_id#:#Id
 meta#:#meta_idea#:#Idee
 meta#:#meta_identifier#:#Kennung
+meta#:#meta_identifier_plural#:#Kennungen
 meta#:#meta_index#:#Index
 meta#:#meta_info_only_repository_objects#:#Nachfolgend werden nur Magazinobjekte angezeigt, nicht aber Medienobjekte oder Lernmodulseiten.
-meta#:#meta_info_tlt_not_valid#:#Der aktuelle Wert ist nicht gültig und kann deswegen in anderen Bereichen (z.B Lernfortschritt) nicht verwertet werden. Bitte geben Sie eine Zeit in Stunden und/oder Minuten an.
 meta#:#meta_initiator#:#Initiator
 meta#:#meta_installation_remarks#:#Installationsanmerkungen
 meta#:#meta_instructionaldesigner#:#Lern-Designer
 meta#:#meta_intended_end_user_role#:#Beabsichtige Endbenutzer Rolle
+meta#:#meta_intended_end_user_role_plural#:#Beabsichtige Endbenutzer Rollen
 meta#:#meta_interactivity_level#:#Stufe der Interaktivität
 meta#:#meta_interactivity_type#:#Art der Interaktivität
 meta#:#meta_is_based_on#:#Basiert auf
@@ -11724,6 +11757,7 @@ meta#:#meta_is_referenced_by#:#...ist referenziert von...
 meta#:#meta_is_required_by#:#...wird benötigt von...
 meta#:#meta_is_version_of#:#...ist Version von...
 meta#:#meta_keyword#:#Schlagwort
+meta#:#meta_keyword_plural#:#Schlagwörter
 meta#:#meta_kind#:#Art
 meta#:#meta_l_aa#:#Afar
 meta#:#meta_l_ab#:#Abchasisch
@@ -11859,40 +11893,45 @@ meta#:#meta_l_vi#:#Vietnamesisch
 meta#:#meta_l_vo#:#Volapük
 meta#:#meta_l_wo#:#Wolof
 meta#:#meta_l_xh#:#Xhosa
+meta#:#meta_l_xx#:#keine
 meta#:#meta_l_yi#:#Jiddish
 meta#:#meta_l_yo#:#Yoruba
 meta#:#meta_l_za#:#Zhuang
 meta#:#meta_l_zh#:#Chinesisch
 meta#:#meta_l_zu#:#Zulu
 meta#:#meta_language#:#Sprache
+meta#:#meta_language_plural#:#Sprachen
 meta#:#meta_learner#:#Lernender
 meta#:#meta_learning_resource_type#:#Art des Lernmittels
+meta#:#meta_learning_resource_type_plural#:#Arten des Lernmittels
 meta#:#meta_lecture#:#Lektüre
 meta#:#meta_lifecycle#:#Lebenszyklus
 meta#:#meta_linear#:#Linear
 meta#:#meta_local#:#Lokal
 meta#:#meta_location#:#Standort
+meta#:#meta_location_plural#:#Standorte
+meta#:#meta_lom#:#Lernobjekt-Metadaten
+meta#:#meta_lom_short#:#LOM
 meta#:#meta_low#:#niedrig
+meta#:#meta_macos#:#MAC-OS
 meta#:#meta_manager#:#Manager
 meta#:#meta_maximum_version#:#Maximum-Version
 meta#:#meta_medium#:#Mittel
 meta#:#meta_meta_metadata#:#Meta-Metadaten
 meta#:#meta_metadatascheme#:#Metadaten-Schema
+meta#:#meta_metadatascheme_plural#:#Metadaten-Schemas
 meta#:#meta_minimum_version#:#Minimal-Version
 meta#:#meta_mixed#:#Gemischt
+meta#:#meta_ms-internet_explorer#:#MS-Internet Explorer
+meta#:#meta_ms-windows#:#MS-Windows
+meta#:#meta_multi-os#:#Multi-OS
 meta#:#meta_name#:#Name
 meta#:#meta_narrative_text#:#Erzählender Text
+meta#:#meta_netscape_communicator#:#Netscape Communicator
 meta#:#meta_networked#:#Vernetzt
 meta#:#meta_new_element#:#Neues Element
 meta#:#meta_no#:#Nein
-meta#:#meta_no_annotation#:#Keine Metadaten für den Bereich 'Anmerkung' vorhanden.
-meta#:#meta_no_classification#:#Keine Metadaten für den Bereich 'Klassifizierung' vorhanden.
-meta#:#meta_no_educational#:#Keine Metadaten für den Bereich 'Pädagogik' vorhanden.
-meta#:#meta_no_lifecycle#:#Keine Metadaten für den Bereich 'Lebenszyklus' vorhanden.
-meta#:#meta_no_meta_metadata#:#Keine Metadaten für den Bereich 'Meta-Metadaten' vorhanden.
-meta#:#meta_no_relation#:#Keine Metadaten für den Bereich 'Beziehungen' vorhanden.
-meta#:#meta_no_rights#:#Keine Metadaten für den Bereich 'Rechte und Lizenzen' vorhanden.
-meta#:#meta_no_technical#:#Keine Metadaten für den Bereich 'Technische Angaben' vorhanden.
+meta#:#meta_none#:#Keines
 meta#:#meta_obj_type_active#:#Datensatz anbieten
 meta#:#meta_obj_type_inactive#:#Datensatz nicht anbieten
 meta#:#meta_obj_type_mandatory#:#Immer zum Ausfüllen anbieten
@@ -11904,23 +11943,25 @@ meta#:#meta_oer_copyright_selection_info#:#Nur Objekte, die unter den/der ausgew
 meta#:#meta_oer_harvester#:#OER Harvester
 meta#:#meta_oer_harvester_desc#:#Scannt alle Dateiobjekte im Magazin auf ihre Lizenz. Der OER-Harvester fügt alle Ressourcen unter ausgewählten CC-Lizenzen der in den Cron-Job-Einstellungen definierten Kategorie hinzu. Damit dieser Cronjob Ergebnisse liefern kann, muss die Copyright-Auswahl in der Metadaten-Administration aktiviert und konfiguriert sein.
 meta#:#meta_oer_target#:#Kategorie für OER-Freigaben
+meta#:#meta_opera#:#Opera
 meta#:#meta_operating_system#:#Betriebssystem
 meta#:#meta_or_composite#:#... oder zusammengesetzt ...
+meta#:#meta_or_composite_plural#:#... oder zusammengesetzt ...
 meta#:#meta_order#:#Order
 meta#:#meta_other#:#Andere
 meta#:#meta_other_plattform_requirements#:#Andere Plattform-Anforderungen
-meta#:#meta_pc_dos#:#PC-DOS
-meta#:#meta_please_select#:#Bitte wählen Sie
+meta#:#meta_pc-dos#:#PC-DOS
 meta#:#meta_pointofcontact#:#Kontakt
 meta#:#meta_prerequisite#:#Voraussetzung
 meta#:#meta_problem_statement#:#Problemstellung
 meta#:#meta_publisher#:#Herausgeber
 meta#:#meta_purpose#:#Zweck
 meta#:#meta_questionnaire#:#Fragebogen
-meta#:#meta_quickedit#:#Schnellbearbeitung
 meta#:#meta_references#:#Referenzen
 meta#:#meta_relation#:#Beziehung
+meta#:#meta_relation_plural#:#Beziehungen
 meta#:#meta_requirement#:#Anforderung
+meta#:#meta_requirement_plural#:#Anforderungen
 meta#:#meta_requires#:#Benötigt
 meta#:#meta_resource#:#Ressource
 meta#:#meta_revised#:#Überarbeitete Fassung
@@ -11929,6 +11970,7 @@ meta#:#meta_role#:#Rolle
 meta#:#meta_save_order#:#Reihenfolge speichern
 meta#:#meta_school#:#Schule
 meta#:#meta_scriptwriter#:#Werbetexter
+meta#:#meta_second_author#:#Zweite Person
 meta#:#meta_section#:#Bereich
 meta#:#meta_security_level#:#Sicherheitsstufe
 meta#:#meta_self_assessment#:#Selbsttest
@@ -11939,6 +11981,7 @@ meta#:#meta_skill_level#:#Stufe der Kompetenz
 meta#:#meta_slide#:#Folie
 meta#:#meta_source#:#Quelle
 meta#:#meta_status#:#Status
+meta#:#meta_string#:#Text
 meta#:#meta_structure#:#Struktur
 meta#:#meta_subjectmatterexpert#:#Experte für das Thema
 meta#:#meta_tab_advmd#:#Benutzerdefinierte Metadaten
@@ -11947,17 +11990,22 @@ meta#:#meta_tab_lom#:#LOM
 meta#:#meta_table#:#Tabelle
 meta#:#meta_taxon#:#Taxon
 meta#:#meta_taxon_path#:#Taxon-Pfad
+meta#:#meta_taxon_path_plural#:#Taxon-Pfade
+meta#:#meta_taxon_plural#:#Taxa
 meta#:#meta_teacher#:#Lehrer
 meta#:#meta_technical#:#Technische Angaben
 meta#:#meta_technicalimplementer#:#Technische Umsetzung
 meta#:#meta_technicalvalidator#:#Technische Überprüfung
 meta#:#meta_terminator#:#Schlussredakteur
+meta#:#meta_third_author#:#Dritte Person
 meta#:#meta_title#:#Titel
 meta#:#meta_training#:#Training
 meta#:#meta_type#:#Typ
 meta#:#meta_typical_age_range#:#Typische Altersspanne
+meta#:#meta_typical_age_range_plural#:#Typische Altersspannen
 meta#:#meta_typical_learning_time#:#Typische Lerndauer
 meta#:#meta_unavailable#:#Nicht verfügbar
+meta#:#meta_unix#:#Unix
 meta#:#meta_unknown#:#Unbekannt
 meta#:#meta_validator#:#Überprüfung
 meta#:#meta_value#:#Eintrag
@@ -11967,7 +12015,6 @@ meta#:#meta_very_easy#:#Sehr leicht
 meta#:#meta_very_high#:#Sehr hoch
 meta#:#meta_very_low#:#Sehr niedrig
 meta#:#meta_yes#:#Ja
-meta#:#sco_propagate#:#Auf alle SCOs übertragen
 meta#:#udf_type_address#:#Adresse
 meta#:#udf_type_externallink#:#Externer Link
 meta#:#udf_type_float#:#Gleitkommazahl
