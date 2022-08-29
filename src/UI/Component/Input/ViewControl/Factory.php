@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\UI\Component\Input\ViewControl;
 
 /**
@@ -44,5 +46,5 @@ interface Factory
         array $options,
         string $label = FieldSelection::DEFAULT_DROPDOWN_LABEL,
         string $button_label = FieldSelection::DEFAULT_BUTTON_LABEL
-    ) : FieldSelection;
+    ): FieldSelection;
 }

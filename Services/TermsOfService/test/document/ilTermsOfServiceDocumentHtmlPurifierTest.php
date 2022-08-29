@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -24,19 +26,19 @@ use org\bovigo\vfs;
  */
 class ilTermsOfServiceDocumentHtmlPurifierTest extends ilTermsOfServiceCriterionBaseTest
 {
-    private function isVsfStreamInstalled() : bool
+    private function isVsfStreamInstalled(): bool
     {
         return class_exists('org\bovigo\vfs\vfsStreamWrapper');
     }
 
-    private function skipIfvfsStreamNotSupported() : void
+    private function skipIfvfsStreamNotSupported(): void
     {
         if (!$this->isVsfStreamInstalled()) {
             $this->markTestSkipped('Skipped test, vfsStream (https://github.com/bovigo/vfsStream) required');
         }
     }
 
-    public function documentTextProvider() : array
+    public function documentTextProvider(): array
     {
         return [
             'Simple HTML Elements' => [
@@ -60,10 +62,8 @@ class ilTermsOfServiceDocumentHtmlPurifierTest extends ilTermsOfServiceCriterion
 
     /**
      * @dataProvider documentTextProvider
-     * @param string $text
-     * @param string $expected
      */
-    public function testPurifyingWorksAsExpected(string $text, string $expected) : void
+    public function testPurifyingWorksAsExpected(string $text, string $expected): void
     {
         $this->skipIfvfsStreamNotSupported();
 

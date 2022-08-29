@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 require_once(__DIR__ . "/../../../../../libs/composer/vendor/autoload.php");
 require_once(__DIR__ . "/../../../Base.php");
 require_once(__DIR__ . "/InputTest.php");
@@ -32,13 +34,13 @@ class CheckboxInputTest extends ILIAS_UI_TestBase
     protected DefNamesource $name_source;
     protected Refinery $refinery;
 
-    public function setUp() : void
+    public function setUp(): void
     {
         $this->name_source = new DefNamesource();
         $this->refinery = new Refinery($this->createMock(Data\Factory::class), $this->createMock(ilLanguage::class));
     }
 
-    protected function buildFactory() : I\Input\Field\Factory
+    protected function buildFactory(): I\Input\Field\Factory
     {
         $df = new Data\Factory();
         $language = $this->createMock(ilLanguage::class);
@@ -51,7 +53,7 @@ class CheckboxInputTest extends ILIAS_UI_TestBase
         );
     }
 
-    public function testImplementsFactoryInterface() : void
+    public function testImplementsFactoryInterface(): void
     {
         $f = $this->buildFactory();
 
@@ -61,7 +63,7 @@ class CheckboxInputTest extends ILIAS_UI_TestBase
         $this->assertInstanceOf(Field\Checkbox::class, $checkbox);
     }
 
-    public function testRender() : void
+    public function testRender(): void
     {
         $f = $this->buildFactory();
         $label = "label";
@@ -83,7 +85,7 @@ class CheckboxInputTest extends ILIAS_UI_TestBase
         $this->assertHTMLEquals($expected, $html);
     }
 
-    public function testRenderError() : void
+    public function testRenderError(): void
     {
         $f = $this->buildFactory();
         $label = "label";
@@ -107,7 +109,7 @@ class CheckboxInputTest extends ILIAS_UI_TestBase
         $this->assertHTMLEquals($expected, $html);
     }
 
-    public function testRenderNoByline() : void
+    public function testRenderNoByline(): void
     {
         $f = $this->buildFactory();
         $label = "label";
@@ -127,7 +129,7 @@ class CheckboxInputTest extends ILIAS_UI_TestBase
         $this->assertHTMLEquals($expected, $html);
     }
 
-    public function testRenderValue() : void
+    public function testRenderValue(): void
     {
         $f = $this->buildFactory();
         $label = "label";
@@ -147,7 +149,7 @@ class CheckboxInputTest extends ILIAS_UI_TestBase
         $this->assertHTMLEquals($expected, $html);
     }
 
-    public function testHandleInvalidValue() : void
+    public function testHandleInvalidValue(): void
     {
         $f = $this->buildFactory();
         $label = "label";
@@ -160,7 +162,7 @@ class CheckboxInputTest extends ILIAS_UI_TestBase
         }
     }
 
-    public function testRenderRequired() : void
+    public function testRenderRequired(): void
     {
         $f = $this->buildFactory();
         $label = "label";
@@ -179,7 +181,7 @@ class CheckboxInputTest extends ILIAS_UI_TestBase
         $this->assertHTMLEquals($expected, $html);
     }
 
-    public function testRenderDisabled() : void
+    public function testRenderDisabled(): void
     {
         $f = $this->buildFactory();
         $label = "label";
@@ -198,7 +200,7 @@ class CheckboxInputTest extends ILIAS_UI_TestBase
         $this->assertHTMLEquals($expected, $html);
     }
 
-    public function testTrueContent() : void
+    public function testTrueContent(): void
     {
         $f = $this->buildFactory();
         $label = "label";
@@ -217,7 +219,7 @@ class CheckboxInputTest extends ILIAS_UI_TestBase
         $this->assertTrue($checkbox_true->getContent()->value());
     }
 
-    public function testFalseContent() : void
+    public function testFalseContent(): void
     {
         $f = $this->buildFactory();
         $label = "label";
@@ -236,7 +238,7 @@ class CheckboxInputTest extends ILIAS_UI_TestBase
         $this->assertFalse($checkbox_false->getContent()->value());
     }
 
-    public function testDisabledContent() : void
+    public function testDisabledContent(): void
     {
         $f = $this->buildFactory();
         $label = "label";
@@ -245,13 +247,13 @@ class CheckboxInputTest extends ILIAS_UI_TestBase
             ->withDisabled(true)
             ->withValue(true)
             ->withInput($this->createMock(InputData::class))
-            ;
+        ;
 
         $this->assertIsBool($checkbox->getContent()->value());
         $this->assertTrue($checkbox->getContent()->value());
     }
 
-    public function testTransformation() : void
+    public function testTransformation(): void
     {
         $f = $this->buildFactory();
         $label = "label";
@@ -260,18 +262,18 @@ class CheckboxInputTest extends ILIAS_UI_TestBase
             ->withNameFrom($this->name_source)
             ->withDisabled(true)
             ->withValue(true)
-            ->withAdditionalTransformation($this->refinery->custom()->transformation(function ($v) use (&$called, $new_value) : string {
+            ->withAdditionalTransformation($this->refinery->custom()->transformation(function ($v) use (&$called, $new_value): string {
                 $called = $v;
                 return $new_value;
             }))
             ->withInput($this->createMock(InputData::class))
-            ;
+        ;
 
         $this->assertIsString($checkbox->getContent()->value());
         $this->assertEquals($new_value, $checkbox->getContent()->value());
     }
 
-    public function testNullValue() : void
+    public function testNullValue(): void
     {
         $f = $this->buildFactory();
         $checkbox = $f->checkbox("label");

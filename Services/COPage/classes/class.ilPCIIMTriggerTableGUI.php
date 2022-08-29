@@ -45,13 +45,13 @@ class ilPCIIMTriggerTableGUI extends ilImageMapTableGUI
         $this->lng = $DIC->language();
         $this->access = $DIC->access();
         $lng = $DIC->language();
-        
+
         $this->setId("cont_iim_tr");
 
         $this->parent_node_name = $a_parent_node_name;
         $this->pc_media_object = $a_pc_media_object;
         $this->mob = $this->pc_media_object->getMediaObject();
-        
+
         $this->areas = array();
         foreach ($this->pc_media_object->getStandardAliasItem()->getMapAreas() as $a) {
             $this->area[$a["Id"]] = $a;
@@ -70,8 +70,8 @@ class ilPCIIMTriggerTableGUI extends ilImageMapTableGUI
         parent::__construct($a_parent_obj, $a_parent_cmd, $a_pc_media_object->getMediaObject());
         $this->setRowTemplate("tpl.iim_trigger_row.html", "Services/COPage");
     }
-    
-    public function initColumns() : void
+
+    public function initColumns(): void
     {
         $this->addColumn("", "", "1");	// checkbox
         $this->addColumn($this->lng->txt("title"), "Title", "");
@@ -82,28 +82,28 @@ class ilPCIIMTriggerTableGUI extends ilImageMapTableGUI
         $this->addColumn($this->lng->txt("actions"), "", "");
     }
 
-    public function initActions() : void
+    public function initActions(): void
     {
         $lng = $this->lng;
-        
+
         // action commands
         $this->addMultiCommand("confirmDeleteTrigger", $lng->txt("delete"));
-        
+
         $data = $this->getData();
         if (count($data) > 0) {
             $this->addCommandButton("updateTrigger", $lng->txt("save"), "", "update_tr_button");
         }
     }
 
-    public function getItems() : void
+    public function getItems(): void
     {
         $triggers = $this->pc_media_object->getTriggers();
-        
+
         $triggers = ilArrayUtil::sortArray($triggers, "Title", "asc", false, true);
         $this->setData($triggers);
     }
-    
-    protected function fillRow(array $a_set) : void
+
+    protected function fillRow(array $a_set): void
     {
         $lng = $this->lng;
 
@@ -118,7 +118,7 @@ class ilPCIIMTriggerTableGUI extends ilImageMapTableGUI
             $this->tpl->setVariable("TXT_CMD", $lng->txt("cont_edit_overlay_position"));
             $this->tpl->parseCurrentBlock();
         }
-        
+
         // command: edit marker position
         if ($a_set["PopupNr"] != "") {
             $this->tpl->setCurrentBlock("cmd");
@@ -128,7 +128,7 @@ class ilPCIIMTriggerTableGUI extends ilImageMapTableGUI
             $this->tpl->setVariable("TXT_CMD", $lng->txt("cont_edit_popup_position"));
             $this->tpl->parseCurrentBlock();
         }
-        
+
         if ($a_set["Type"] == ilPCInteractiveImage::AREA) {
             $this->tpl->setCurrentBlock("coords");
             $this->tpl->setVariable(
@@ -136,7 +136,7 @@ class ilPCIIMTriggerTableGUI extends ilImageMapTableGUI
                 implode(", ", explode(",", $this->area[$a_set["Nr"]]["Coords"]))
             );
             $this->tpl->parseCurrentBlock();
-            
+
             $this->tpl->setVariable(
                 "TYPE",
                 $lng->txt("cont_" . $this->area[$a_set["Nr"]]["Shape"])
@@ -149,7 +149,7 @@ class ilPCIIMTriggerTableGUI extends ilImageMapTableGUI
             $this->tpl->setVariable("CMD_CLASS", "mark_cmd");
             $this->tpl->setVariable("TXT_CMD", $lng->txt("cont_edit_marker_position"));
             $this->tpl->parseCurrentBlock();
-            
+
             // marker position
             $this->tpl->setCurrentBlock("marker_pos");
             $this->tpl->setVariable("VAR_MARK_POS", "markpos[" . $i . "]");
@@ -158,7 +158,7 @@ class ilPCIIMTriggerTableGUI extends ilImageMapTableGUI
             $this->tpl->setVariable("TXT_MLEFT", $lng->txt("cont_left"));
             $this->tpl->setVariable("TXT_MTOP", $lng->txt("cont_top"));
             $this->tpl->parseCurrentBlock();
-            
+
             $this->tpl->setVariable("TYPE", $lng->txt("cont_marker"));
         }
 
@@ -168,8 +168,8 @@ class ilPCIIMTriggerTableGUI extends ilImageMapTableGUI
         );
         $this->tpl->setVariable("VAR_NAME", "title[" . $i . "]");
         $this->tpl->setVariable("VAL_NAME", $a_set["Title"]);
-        
-        
+
+
         $this->tpl->setVariable("VAR_POS", "ovpos[" . $i . "]");
         $this->tpl->setVariable("ID_OV_POS", "ovpos_" . $i);
         $this->tpl->setVariable("ID_POP_POS", "poppos_" . $i);

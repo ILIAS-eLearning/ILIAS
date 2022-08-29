@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\Tests\Setup\CLI;
 
 use ILIAS\Setup;
@@ -52,7 +54,7 @@ class TestConfig implements Config
 
 class TestObject extends Setup\CLI\AchieveCommand
 {
-    public function readAgentConfig(Agent $agent, InputInterface $input) : ?Config
+    public function readAgentConfig(Agent $agent, InputInterface $input): ?Config
     {
         return new Setup\ConfigCollection(["Test" => new TestConfig()]);
     }
@@ -80,7 +82,7 @@ class AchieveCommandTest extends TestCase
      */
     protected $command;
 
-    public function setUp() : void
+    public function setUp(): void
     {
         $this->config_reader = $this->createMock(Setup\CLI\ConfigReader::class);
         $this->agent_finder = $this->createMock(Setup\AgentFinder::class);
@@ -88,7 +90,7 @@ class AchieveCommandTest extends TestCase
         $this->command = new Setup\CLI\AchieveCommand($this->agent_finder, $this->config_reader, [], $this->refinery);
     }
 
-    public function testBasicFunctionality() : void
+    public function testBasicFunctionality(): void
     {
         $refinery = new Refinery($this->createMock(DataFactory::class), $this->createMock(\ilLanguage::class));
 
@@ -136,7 +138,7 @@ class AchieveCommandTest extends TestCase
         $namedObjectives = [
             "my.objective" => new Setup\ObjectiveConstructor(
                 "My Objective",
-                static function () use ($objective) : Setup\Objective {
+                static function () use ($objective): Setup\Objective {
                     return new Setup\ObjectiveCollection(
                         "My Objective",
                         false,
@@ -171,7 +173,7 @@ class AchieveCommandTest extends TestCase
         ]);
     }
 
-    public function testAchieveObjective() : void
+    public function testAchieveObjective(): void
     {
         $refinery = new Refinery($this->createMock(DataFactory::class), $this->createMock(\ilLanguage::class));
 
@@ -226,7 +228,7 @@ class AchieveCommandTest extends TestCase
                 return [
                     "my.objective" => new Setup\ObjectiveConstructor(
                         "My Objective",
-                        static function () use ($objective) : Setup\Objective {
+                        static function () use ($objective): Setup\Objective {
                             return $objective;
                         }
                     )

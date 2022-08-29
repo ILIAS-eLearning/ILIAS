@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -39,19 +41,19 @@ class ilTermsOfServiceCriterionConfig extends ArrayObject implements ilTermsOfSe
         }
     }
 
-    public function toJson() : string
+    public function toJson(): string
     {
         return json_encode($this, JSON_THROW_ON_ERROR);
     }
 
-    public function fromJson(string $json) : void
+    public function fromJson(string $json): void
     {
         $data = json_decode($json, true, 512, JSON_THROW_ON_ERROR);
 
         $this->exchangeArray($data);
     }
 
-    public function jsonSerialize() : array
+    public function jsonSerialize(): array
     {
         return $this->getArrayCopy();
     }

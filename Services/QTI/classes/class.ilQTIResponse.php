@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,7 +18,7 @@
  *
  ********************************************************************
  */
-    
+
 /**
 * QTI response class
 *
@@ -70,7 +72,7 @@ class ilQTIResponse
     /**
      * @param string|int $a_responsetype
      */
-    public function setResponsetype($a_responsetype) : void
+    public function setResponsetype($a_responsetype): void
     {
         $this->response_type = $a_responsetype;
     }
@@ -83,17 +85,17 @@ class ilQTIResponse
         return $this->response_type;
     }
 
-    public function setIdent(string $a_ident) : void
+    public function setIdent(string $a_ident): void
     {
         $this->ident = $a_ident;
     }
 
-    public function getIdent() : ?string
+    public function getIdent(): ?string
     {
         return $this->ident;
     }
 
-    public function setRCardinality(string $a_rcardinality) : void
+    public function setRCardinality(string $a_rcardinality): void
     {
         switch (strtolower($a_rcardinality)) {
             case "single":
@@ -111,12 +113,12 @@ class ilQTIResponse
         }
     }
 
-    public function getRCardinality() : string
+    public function getRCardinality(): string
     {
         return $this->rcardinality;
     }
 
-    public function setRTiming(string $a_rtiming) : void
+    public function setRTiming(string $a_rtiming): void
     {
         switch (strtolower($a_rtiming)) {
             case "no":
@@ -130,12 +132,12 @@ class ilQTIResponse
         }
     }
 
-    public function getRTiming() : ?string
+    public function getRTiming(): ?string
     {
         return $this->rtiming;
     }
 
-    public function setNumtype(string $a_numtype) : void
+    public function setNumtype(string $a_numtype): void
     {
         switch (strtolower($a_numtype)) {
             case "integer":
@@ -153,7 +155,7 @@ class ilQTIResponse
         }
     }
 
-    public function getNumtype() : ?string
+    public function getNumtype(): ?string
     {
         return $this->numtype;
     }
@@ -161,7 +163,7 @@ class ilQTIResponse
     /**
      * @param ilQTIRenderChoice|ilQTIRenderHotspot|ilQTIRenderFib $a_render_type
      */
-    public function setRenderType($a_render_type) : void
+    public function setRenderType($a_render_type): void
     {
         $this->render_type = $a_render_type;
     }
@@ -174,37 +176,37 @@ class ilQTIResponse
         return $this->render_type;
     }
 
-    public function setFlow(int $a_flow) : void
+    public function setFlow(int $a_flow): void
     {
         $this->flow = $a_flow;
     }
 
-    public function getFlow() : int
+    public function getFlow(): int
     {
         return $this->flow;
     }
-    
-    public function setMaterial1(ilQTIMaterial $a_material) : void
+
+    public function setMaterial1(ilQTIMaterial $a_material): void
     {
         $this->material1 = $a_material;
     }
-    
-    public function getMaterial1() : ?ilQTIMaterial
+
+    public function getMaterial1(): ?ilQTIMaterial
     {
         return $this->material1;
     }
 
-    public function setMaterial2(ilQTIMaterial $a_material) : void
+    public function setMaterial2(ilQTIMaterial $a_material): void
     {
         $this->material2 = $a_material;
     }
-    
-    public function getMaterial2() : ?ilQTIMaterial
+
+    public function getMaterial2(): ?ilQTIMaterial
     {
         return $this->material2;
     }
-    
-    public function hasRendering() : bool
+
+    public function hasRendering(): bool
     {
         return $this->render_type != null;
     }

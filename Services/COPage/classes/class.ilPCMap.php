@@ -25,12 +25,12 @@ class ilPCMap extends ilPageContent
 {
     public php4DOMElement $map_node;
 
-    public function init() : void
+    public function init(): void
     {
         $this->setType("map");
     }
 
-    public function setNode(php4DOMElement $a_node) : void
+    public function setNode(php4DOMElement $a_node): void
     {
         parent::setNode($a_node);		// this is the PageContent node
         $this->map_node = $a_node->first_child();		// this is the Map node
@@ -40,7 +40,7 @@ class ilPCMap extends ilPageContent
         ilPageObject $a_pg_obj,
         string $a_hier_id,
         string $a_pc_id = ""
-    ) : void {
+    ): void {
         $this->node = $this->createPageContentNode();
 
         $a_pg_obj->insertContent($this, $a_hier_id, IL_INSERT_AFTER, $a_pc_id);
@@ -51,7 +51,7 @@ class ilPCMap extends ilPageContent
         $this->map_node->set_attribute("Zoom", "3");
     }
 
-    public function setLatitude(?float $a_lat = null) : void
+    public function setLatitude(?float $a_lat = null): void
     {
         if (!is_null($a_lat)) {
             $this->map_node->set_attribute("Latitude", (string) $a_lat);
@@ -62,7 +62,7 @@ class ilPCMap extends ilPageContent
         }
     }
 
-    public function getLatitude() : ?float
+    public function getLatitude(): ?float
     {
         if (is_object($this->map_node)) {
             return (float) $this->map_node->get_attribute("Latitude");
@@ -70,7 +70,7 @@ class ilPCMap extends ilPageContent
         return null;
     }
 
-    public function setLongitude(?float $a_long = null) : void
+    public function setLongitude(?float $a_long = null): void
     {
         if (!is_null($a_long)) {
             $this->map_node->set_attribute("Longitude", $a_long);
@@ -81,7 +81,7 @@ class ilPCMap extends ilPageContent
         }
     }
 
-    public function getLongitude() : ?float
+    public function getLongitude(): ?float
     {
         if (is_object($this->map_node)) {
             return (float) $this->map_node->get_attribute("Longitude");
@@ -89,7 +89,7 @@ class ilPCMap extends ilPageContent
         return null;
     }
 
-    public function setZoom(?int $a_zoom) : void
+    public function setZoom(?int $a_zoom): void
     {
         //if (!empty($a_zoom)) {
         $this->map_node->set_attribute("Zoom", (int) $a_zoom);
@@ -100,19 +100,19 @@ class ilPCMap extends ilPageContent
         }*/
     }
 
-    public function getZoom() : ?int
+    public function getZoom(): ?int
     {
         if (is_object($this->map_node)) {
             return (int) $this->map_node->get_attribute("Zoom");
         }
         return null;
     }
-    
+
     public function setLayout(
         ?int $a_width,
         ?int $a_height,
         string $a_horizontal_align
-    ) : void {
+    ): void {
         if (is_object($this->map_node)) {
             ilDOMUtil::setFirstOptionalElement(
                 $this->dom,
@@ -126,7 +126,7 @@ class ilPCMap extends ilPageContent
         }
     }
 
-    public function getWidth() : ?int
+    public function getWidth(): ?int
     {
         if (is_object($this->map_node)) {
             $childs = $this->map_node->child_nodes();
@@ -142,7 +142,7 @@ class ilPCMap extends ilPageContent
         return null;
     }
 
-    public function getHeight() : ?int
+    public function getHeight(): ?int
     {
         if (is_object($this->map_node)) {
             $childs = $this->map_node->child_nodes();
@@ -158,7 +158,7 @@ class ilPCMap extends ilPageContent
         return null;
     }
 
-    public function getHorizontalAlign() : string
+    public function getHorizontalAlign(): string
     {
         if (is_object($this->map_node)) {
             $childs = $this->map_node->child_nodes();
@@ -171,7 +171,7 @@ class ilPCMap extends ilPageContent
         return "";
     }
 
-    public function setCaption(string $a_caption) : void
+    public function setCaption(string $a_caption): void
     {
         if (is_object($this->map_node)) {
             ilDOMUtil::setFirstOptionalElement(
@@ -185,7 +185,7 @@ class ilPCMap extends ilPageContent
         }
     }
 
-    public function getCaption() : string
+    public function getCaption(): string
     {
         if (is_object($this->map_node)) {
             $childs = $this->map_node->child_nodes();
@@ -200,20 +200,20 @@ class ilPCMap extends ilPageContent
 
     public static function handleCaptionInput(
         string $a_text
-    ) : string {
+    ): string {
         $a_text = str_replace(chr(13) . chr(10), "<br />", $a_text);
         $a_text = str_replace(chr(13), "<br />", $a_text);
         $a_text = str_replace(chr(10), "<br />", $a_text);
-        
+
         return $a_text;
     }
-    
+
     public static function handleCaptionFormOutput(
         string $a_text
-    ) : string {
+    ): string {
         $a_text = str_replace("<br />", "\n", $a_text);
         $a_text = str_replace("<br/>", "\n", $a_text);
-        
+
         return $a_text;
     }
 
@@ -221,7 +221,7 @@ class ilPCMap extends ilPageContent
         string $a_output,
         string $a_mode,
         bool $a_abstract_only = false
-    ) : string {
+    ): string {
         $end = 0;
         $start = strpos($a_output, "[[[[[Map;");
         if (is_int($start)) {
@@ -230,7 +230,7 @@ class ilPCMap extends ilPageContent
         $i = 1;
         while ($end > 0) {
             $param = substr($a_output, $start + 9, $end - $start - 9);
-            
+
             $param = explode(";", $param);
             if (is_numeric($param[0]) && is_numeric($param[1]) && is_numeric($param[2])) {
                 $map_gui = ilMapUtil::getMapGUI();
@@ -255,7 +255,7 @@ class ilPCMap extends ilPageContent
                 $end = strpos($a_output, "]]]]]", $start);
             }
         }
-                
+
         return $a_output;
     }
 }

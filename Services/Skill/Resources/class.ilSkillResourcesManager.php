@@ -34,7 +34,7 @@ class ilSkillResourcesManager
         $this->res = new ilSkillResources($a_base_skill, $a_tref_id);
     }
 
-    public function isLevelTooLow(array $a_levels, array $profile_levels, array $actual_levels) : bool
+    public function isLevelTooLow(array $a_levels, array $profile_levels, array $actual_levels): bool
     {
         $too_low = true;
 
@@ -58,7 +58,7 @@ class ilSkillResourcesManager
     /**
      * @return array{level_id: int, rep_ref_id: int, trigger: int, imparting: int}[]
      */
-    public function getSuggestedResources() : array
+    public function getSuggestedResources(): array
     {
         $resources = $this->res->getResources();
         $imp_resources = [];

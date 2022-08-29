@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -34,47 +36,47 @@ class ilMDAnnotation extends ilMDBase
     private ?ilMDLanguageItem $description_language = null;
 
     // SET/GET
-    public function setEntity(string $a_entity) : void
+    public function setEntity(string $a_entity): void
     {
         $this->entity = $a_entity;
     }
 
-    public function getEntity() : string
+    public function getEntity(): string
     {
         return $this->entity;
     }
 
-    public function setDate(string $a_date) : void
+    public function setDate(string $a_date): void
     {
         $this->date = $a_date;
     }
 
-    public function getDate() : string
+    public function getDate(): string
     {
         return $this->date;
     }
 
-    public function setDescription(string $a_desc) : void
+    public function setDescription(string $a_desc): void
     {
         $this->description = $a_desc;
     }
 
-    public function getDescription() : string
+    public function getDescription(): string
     {
         return $this->description;
     }
 
-    public function setDescriptionLanguage(ilMDLanguageItem $lng_obj) : void
+    public function setDescriptionLanguage(ilMDLanguageItem $lng_obj): void
     {
         $this->description_language = $lng_obj;
     }
 
-    public function getDescriptionLanguage() : ilMDLanguageItem
+    public function getDescriptionLanguage(): ilMDLanguageItem
     {
         return $this->description_language;
     }
 
-    public function getDescriptionLanguageCode() : string
+    public function getDescriptionLanguageCode(): string
     {
         if (is_object($this->description_language)) {
             return $this->description_language->getLanguageCode();
@@ -82,7 +84,7 @@ class ilMDAnnotation extends ilMDBase
         return '';
     }
 
-    public function save() : int
+    public function save(): int
     {
         $fields = $this->__getFields();
         $fields['meta_annotation_id'] = array('integer', $next_id = $this->db->nextId('il_meta_annotation'));
@@ -94,7 +96,7 @@ class ilMDAnnotation extends ilMDBase
         return 0;
     }
 
-    public function update() : bool
+    public function update(): bool
     {
         return $this->getMetaId() && $this->db->update(
             'il_meta_annotation',
@@ -103,7 +105,7 @@ class ilMDAnnotation extends ilMDBase
         );
     }
 
-    public function delete() : bool
+    public function delete(): bool
     {
         if ($this->getMetaId()) {
             $query = "DELETE FROM il_meta_annotation " .
@@ -118,7 +120,7 @@ class ilMDAnnotation extends ilMDBase
     /**
      * @return array<string, array<string, mixed>>
      */
-    public function __getFields() : array
+    public function __getFields(): array
     {
         return array(
             'rbac_id' => array('integer', $this->getRBACId()),
@@ -131,7 +133,7 @@ class ilMDAnnotation extends ilMDBase
         );
     }
 
-    public function read() : bool
+    public function read(): bool
     {
         if ($this->getMetaId()) {
             $query = "SELECT * FROM il_meta_annotation " .
@@ -151,7 +153,7 @@ class ilMDAnnotation extends ilMDBase
         return true;
     }
 
-    public function toXML(ilXmlWriter $writer) : void
+    public function toXML(ilXmlWriter $writer): void
     {
         $writer->xmlStartTag('Annotation');
         $writer->xmlElement('Entity', null, $this->getEntity());
@@ -171,7 +173,7 @@ class ilMDAnnotation extends ilMDBase
     /**
      * @return int[]
      */
-    public static function _getIds(int $a_rbac_id, int $a_obj_id) : array
+    public static function _getIds(int $a_rbac_id, int $a_obj_id): array
     {
         global $DIC;
 

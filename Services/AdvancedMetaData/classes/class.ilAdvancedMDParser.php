@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /******************************************************************************
  *
  * This file is part of ILIAS, a powerful learning management system.
@@ -54,14 +56,14 @@ class ilAdvancedMDParser extends ilSaxParser implements ilSaxSubsetParser
         $this->mapping = $a_mapping;
     }
 
-    public function setHandlers($a_xml_parser) : void
+    public function setHandlers($a_xml_parser): void
     {
         $this->sax_controller = new ilSaxController();
         $this->sax_controller->setHandlers($a_xml_parser);
         $this->sax_controller->setDefaultElementHandler($this);
     }
 
-    public function createLocalRecord(int $a_old_id, string $a_xml, int $a_obj_id, ?string $a_sub_type = null) : void
+    public function createLocalRecord(int $a_old_id, string $a_xml, int $a_obj_id, ?string $a_sub_type = null): void
     {
         $tmp_file = ilFileUtils::ilTempnam();
         file_put_contents($tmp_file, $a_xml);
@@ -98,7 +100,7 @@ class ilAdvancedMDParser extends ilSaxParser implements ilSaxSubsetParser
         $this->local_rec_map[$a_old_id] = $new_id;
     }
 
-    public function handlerBeginTag($a_xml_parser, string $a_name, array $a_attribs) : void
+    public function handlerBeginTag($a_xml_parser, string $a_name, array $a_attribs): void
     {
         switch ($a_name) {
             case 'AdvancedMetaData':
@@ -119,7 +121,7 @@ class ilAdvancedMDParser extends ilSaxParser implements ilSaxSubsetParser
         }
     }
 
-    public function handlerEndTag($a_xml_parser, string $a_name) : void
+    public function handlerEndTag($a_xml_parser, string $a_name): void
     {
         switch ($a_name) {
             case 'AdvancedMetaData':
@@ -144,8 +146,8 @@ class ilAdvancedMDParser extends ilSaxParser implements ilSaxSubsetParser
         }
         $this->cdata = '';
     }
-    
-    public function handlerCharacterData($a_xml_parser, string $a_data) : void
+
+    public function handlerCharacterData($a_xml_parser, string $a_data): void
     {
         if ($a_data != "\n") {
             // Replace multiple tabs with one space
@@ -160,7 +162,7 @@ class ilAdvancedMDParser extends ilSaxParser implements ilSaxSubsetParser
         string $a_sub_type = "",
         int $a_sub_id = 0,
         int $a_local_rec_id = null
-    ) : void {
+    ): void {
         $this->current_value = null;
 
         // get parent objects
@@ -271,7 +273,7 @@ class ilAdvancedMDParser extends ilSaxParser implements ilSaxSubsetParser
     /**
      * @return int[]
      */
-    public function getRecordIds() : array
+    public function getRecordIds(): array
     {
         return $this->record_ids;
     }

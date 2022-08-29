@@ -26,7 +26,7 @@ class ilUserFormSettings
     protected string $id;
     protected array $settings = array(); // Missing array type.
     private bool $has_stored_entry = false;
-    
+
     public function __construct(
         string $a_id,
         ?int $a_user_id = null
@@ -35,47 +35,47 @@ class ilUserFormSettings
 
         $ilDB = $DIC['ilDB'];
         $ilUser = $DIC['ilUser'];
-        
+
         $this->user_id = (int) $a_user_id;
         $this->id = $a_id;
         $this->db = $ilDB;
-        
+
         if (!$this->user_id) {
             $this->user_id = $ilUser->getId();
         }
-        
+
         $this->read();
     }
-    
+
     /**
      * Check if entry exist
      */
-    public function hasStoredEntry() : bool
+    public function hasStoredEntry(): bool
     {
         return $this->has_stored_entry;
     }
-    
+
     /**
      * @param array Array of Settings
      */
-    public function set(array $a_data) : void // Missing array type.
+    public function set(array $a_data): void // Missing array type.
     {
         $this->settings = $a_data;
     }
-    
-    public function reset() : void
+
+    public function reset(): void
     {
         $this->settings = array();
     }
-    
+
     /**
      * Check if a specific option is enabled
      */
-    public function enabled(string $a_option) : bool
+    public function enabled(string $a_option): bool
     {
         return (bool) $this->getValue($a_option);
     }
-    
+
     /**
      * Get value
      * @return mixed
@@ -87,37 +87,37 @@ class ilUserFormSettings
         }
         return null;
     }
-    
+
     /**
      * @param mixed $a_value
      */
-    public function setValue(string $a_option, $a_value) : void
+    public function setValue(string $a_option, $a_value): void
     {
         $this->settings[$a_option] = $a_value;
     }
-    
+
     /**
      * Delete value
      */
-    public function deleteValue(string $a_option) : void
+    public function deleteValue(string $a_option): void
     {
         if ($this->valueExists($a_option)) {
             unset($this->settings[$a_option]);
         }
     }
-    
+
     /**
      * Does value exist in settings?
      */
-    public function valueExists(string $a_option) : bool
+    public function valueExists(string $a_option): bool
     {
         return array_key_exists($a_option, $this->settings);
     }
 
-    public function store() : void
+    public function store(): void
     {
         $this->delete(false);
-            
+
         $query = "INSERT INTO usr_form_settings (user_id,id,settings) " .
             "VALUES( " .
                 $this->db->quote($this->user_id, 'integer') . ", " .
@@ -126,43 +126,43 @@ class ilUserFormSettings
             ")";
         $this->db->manipulate($query);
     }
-    
-    protected function read() : void
+
+    protected function read(): void
     {
         $query = "SELECT * FROM usr_form_settings" .
             " WHERE user_id = " . $this->db->quote($this->user_id, 'integer') .
             " AND id = " . $this->db->quote($this->id, 'text');
         $res = $this->db->query($query);
-        
+
         if ($res->numRows()) {
             $this->has_stored_entry = true;
         }
-        
+
         $this->reset();
         if ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             $this->settings = unserialize($row->settings, ['allowed_classes' => false]);
         }
     }
-        
+
     /**
      * Delete user related data
      */
-    public function delete(bool $a_reset = true) : void
+    public function delete(bool $a_reset = true): void
     {
         $query = "DELETE FROM usr_form_settings" .
             " WHERE user_id = " . $this->db->quote($this->user_id, 'integer') .
             " AND id = " . $this->db->quote($this->id, 'text');
         $this->db->manipulate($query);
-        
+
         if ($a_reset) {
             $this->reset();
         }
     }
-    
+
     /**
      * Delete all settings for user id
      */
-    public static function deleteAllForUser(int $a_user_id) : void
+    public static function deleteAllForUser(int $a_user_id): void
     {
         global $DIC;
 
@@ -171,40 +171,40 @@ class ilUserFormSettings
             " WHERE user_id = " . $ilDB->quote($a_user_id, 'integer');
         $ilDB->manipulate($query);
     }
-    
+
     /**
      * Delete for id
      */
-    public static function deleteAllForId(string $a_id) : void
+    public static function deleteAllForId(string $a_id): void
     {
         $query = "DELETE FROM usr_form_settings" .
             " WHERE id = " . $GLOBALS['DIC']['ilDB']->quote($a_id, 'text');
         $GLOBALS['DIC']['ilDB']->manipulate($query);
     }
-    
+
     /**
      * Delete all entries for prefix
      */
-    public static function deleteAllForPrefix(string $a_prefix) : void
+    public static function deleteAllForPrefix(string $a_prefix): void
     {
         $query = "DELETE FROM usr_form_settings " .
             'WHERE ' . $GLOBALS['DIC']['ilDB']->like('id', 'text', $a_prefix . '%');
-        
+
         $GLOBALS['DIC']['ilDB']->manipulate($query);
     }
-    
+
     /**
      * Import settings from form
      */
-    public function importFromForm(ilPropertyFormGUI $a_form) : void
+    public function importFromForm(ilPropertyFormGUI $a_form): void
     {
         $this->reset();
         $value = null;
-        
+
         foreach ($a_form->getItems() as $item) {
             if (method_exists($item, "getPostVar")) {
                 $field = $item->getPostVar();
-                
+
                 if (method_exists($item, "getDate")) {
                     $value = $item->getDate();
                     if ($value && !$value->isNull()) {
@@ -217,23 +217,23 @@ class ilUserFormSettings
                 } elseif (method_exists($item, "getValue")) {
                     $value = $item->getValue();
                 }
-                
+
                 $this->setValue($field, $value);
             }
         }
     }
-    
+
     /**
      * Export settings to form
      */
     public function exportToForm(
         ilPropertyFormGUI $a_form,
         bool $a_set_post = false
-    ) : void {
+    ): void {
         foreach ($a_form->getItems() as $item) {
             if (method_exists($item, "getPostVar")) {
                 $field = $item->getPostVar();
-                
+
                 if ($this->valueExists($field)) {
                     $value = $this->getValue($field);
 

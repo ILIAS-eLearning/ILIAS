@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,36 +18,36 @@
  *
  *********************************************************************/
 
-/**
- * ilMailCronOrphanedMailNotifier
- * @author Nadia Matuschek <nmatuschek@databay.de>
- */
-class ilMailCronOrphanedMailsNotifier
+namespace ILIAS\Mail\Cron\ExpiredOrOrphanedMails;
+
+use ILIAS\Data\Clock\ClockInterface;
+use ILIAS\Data\Factory;
+use ReportDto;
+use ilDBStatement;
+use ilDBConstants;
+use ilMailCronOrphanedMails;
+use ilDBInterface;
+
+class Notifier
 {
     private const NOTIFICATION_MARKER_PING_THRESHOLD = 250;
     private const MAIL_DELIVERY_PING_THRESHOLD = 25;
-
-    private ilMailCronOrphanedMails $job;
-    private ilMailCronOrphanedMailsNotificationCollector $collector;
     private ilDBInterface $db;
-    private int $threshold = 0;
-    private int $mail_notify_orphaned = 0;
+    private ClockInterface $clock;
     private ilDBStatement $mark_as_notified_stmt;
 
     public function __construct(
-        ilMailCronOrphanedMails $job,
-        ilMailCronOrphanedMailsNotificationCollector $collector,
-        int $threshold,
-        int $mail_notify_orphaned
+        private ilMailCronOrphanedMails $job,
+        private NotificationsCollector $collector,
+        private int $mail_expiration_days,
+        private int $mail_expiration_warning_days,
+        ?ilDBInterface $db = null,
+        ?ClockInterface $clock = null
     ) {
         global $DIC;
 
-        $this->db = $DIC->database();
-
-        $this->job = $job;
-        $this->collector = $collector;
-        $this->threshold = $threshold;
-        $this->mail_notify_orphaned = $mail_notify_orphaned;
+        $this->db = $db ?? $DIC->database();
+        $this->clock = $clock ?? (new Factory())->clock()->system();
 
         $this->mark_as_notified_stmt = $this->db->prepareManip(
             'INSERT INTO mail_cron_orphaned (mail_id, folder_id, ts_do_delete) VALUES (?, ?, ?)',
@@ -53,22 +55,16 @@ class ilMailCronOrphanedMailsNotifier
         );
     }
 
-    private function markAsNotified(ilMailCronOrphanedMailsNotificationCollectionObj $collection_obj) : void
+    private function markAsNotified(ReportDto $collection_obj): void
     {
         $notify_days_before = 1;
-        if ($this->threshold > $this->mail_notify_orphaned) {
-            $notify_days_before = $this->threshold - $this->mail_notify_orphaned;
+        if ($this->mail_expiration_days > $this->mail_expiration_warning_days) {
+            $notify_days_before = $this->mail_expiration_days - $this->mail_expiration_warning_days;
         }
 
-        $ts_delete = strtotime("+ " . $notify_days_before . " days");
-        $ts_for_deletion = mktime(
-            0,
-            0,
-            0,
-            (int) date('m', $ts_delete),
-            (int) date('d', $ts_delete),
-            (int) date('Y', $ts_delete)
-        );
+        $deletion_datetime = $this->clock->now()
+                                         ->modify('+ ' . $notify_days_before . ' days')
+                                         ->setTime(0, 0);
 
         $i = 0;
         foreach ($collection_obj->getFolderObjects() as $folder_obj) {
@@ -83,23 +79,22 @@ class ilMailCronOrphanedMailsNotifier
 
                 $this->db->execute(
                     $this->mark_as_notified_stmt,
-                    [$mail_id, $folder_id, $ts_for_deletion]
+                    [$mail_id, $folder_id, $deletion_datetime->getTimestamp()]
                 );
                 $i++;
             }
         }
     }
 
-    private function sendMail(ilMailCronOrphanedMailsNotificationCollectionObj $collection_obj) : void
+    private function sendMail(ReportDto $collection_obj): void
     {
-        $mail = new ilMailCronOrphanedMailsNotification();
-
+        $mail = new MailNotification();
         $mail->setRecipients([$collection_obj->getUserId()]);
         $mail->setAdditionalInformation(['mail_folders' => $collection_obj->getFolderObjects()]);
         $mail->send();
     }
 
-    public function processNotification() : void
+    public function send(): void
     {
         $i = 0;
         foreach ($this->collector->getCollection() as $collection_obj) {

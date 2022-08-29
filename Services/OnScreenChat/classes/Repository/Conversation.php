@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -42,7 +44,7 @@ class Conversation
      * @param string[] $conversationIds
      * @return ConversationDto[]
      */
-    public function findByIds(array $conversationIds) : array
+    public function findByIds(array $conversationIds): array
     {
         $conversations = [];
 
@@ -57,7 +59,7 @@ class Conversation
 
         while ($row = $this->db->fetchAssoc($res)) {
             $participants = json_decode($row['participants'], true, 512, JSON_THROW_ON_ERROR);
-            $participantIds = array_filter(array_map(static function ($user) : int {
+            $participantIds = array_filter(array_map(static function ($user): int {
                 if (is_array($user) && isset($user['id'])) {
                     return (int) $user['id'];
                 }
@@ -68,7 +70,7 @@ class Conversation
             if (!in_array($this->user->getId(), $participantIds, true)) {
                 continue;
             }
-            
+
             $conversation = new ConversationDto($row['id']);
             $conversation->setIsGroup((bool) $row['is_group']);
             $conversation->setSubscriberUsrIds($participantIds);

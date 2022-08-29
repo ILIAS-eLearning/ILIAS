@@ -52,12 +52,12 @@ class ilPortfolioRoleAssignmentTableGUI extends ilTable2GUI
         $this->addMultiCommand("confirmAssignmentDeletion", $this->lng->txt("prtf_delete_assignment"));
     }
 
-    protected function getItems() : array
+    protected function getItems(): array
     {
         return $this->manager->getAllAssignmentData();
     }
 
-    protected function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set): void
     {
         $tpl = $this->tpl;
         $tpl->setVariable("ROLE_ID", $a_set["role_id"]);

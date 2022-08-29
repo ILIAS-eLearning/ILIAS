@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,5 +18,5 @@
  *
  *********************************************************************/
 
-require_once 'libs/composer/vendor/autoload.php';
-require_once 'ilMailBaseTest.php';
+require_once __DIR__ . '/../../../libs/composer/vendor/autoload.php';
+require_once __DIR__ . '/ilMailBaseTest.php';

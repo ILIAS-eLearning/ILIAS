@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * Class ilDatabaseException
  *
@@ -34,7 +36,7 @@ class ilDatabaseException extends ilException
     }
 
 
-    protected function tranlateException(int $code) : string
+    protected function tranlateException(int $code): string
     {
         $message = 'An undefined Database Exception occured';
         if ($code === static::DB_GENERAL) {

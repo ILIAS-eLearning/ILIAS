@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,18 +17,17 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * Class ilMySQLQueryUtils
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
 class ilMySQLQueryUtils extends ilQueryUtils
 {
-
     /**
      * @param string[] $values
      */
-    public function in(string $field, array $values, bool $negate = false, string $type = "") : string
+    public function in(string $field, array $values, bool $negate = false, string $type = ""): string
     {
         if (!is_array($values) || count($values) === 0) {
             // BEGIN fixed mantis #0014191:
@@ -52,12 +53,12 @@ class ilMySQLQueryUtils extends ilQueryUtils
     /**
      * @param mixed $value
      */
-    public function quote($value, ?string $type = null) : string
+    public function quote($value, ?string $type = null): string
     {
         return $this->db_instance->quote($value, $type);
     }
 
-    public function concat(array $values, bool $allow_null = true) : string
+    public function concat(array $values, bool $allow_null = true): string
     {
         if (count($values) === 0) {
             return ' ';
@@ -88,7 +89,7 @@ class ilMySQLQueryUtils extends ilQueryUtils
         return $concat . ') ';
     }
 
-    public function locate(string $a_needle, string $a_string, int $a_start_pos = 1) : string
+    public function locate(string $a_needle, string $a_string, int $a_start_pos = 1): string
     {
         $locate = ' LOCATE( ';
         $locate .= $a_needle;
@@ -101,14 +102,14 @@ class ilMySQLQueryUtils extends ilQueryUtils
         return $locate;
     }
 
-    public function free(ilPDOStatement $statement) : bool
+    public function free(ilPDOStatement $statement): bool
     {
         $statement->closeCursor();
 
         return true;
     }
 
-    public function quoteIdentifier(string $identifier) : string
+    public function quoteIdentifier(string $identifier): string
     {
         return $this->db_instance->quoteIdentifier($identifier);
     }
@@ -116,7 +117,7 @@ class ilMySQLQueryUtils extends ilQueryUtils
     /**
      * @throws \ilDatabaseException
      */
-    public function createTable(string $name, array $fields, array $options = []) : string
+    public function createTable(string $name, array $fields, array $options = []): string
     {
         if ($name === '') {
             throw new ilDatabaseException('no valid table name specified');
@@ -175,7 +176,7 @@ class ilMySQLQueryUtils extends ilQueryUtils
     /**
      * @throws \ilDatabaseException
      */
-    public function like(string $column, string $type, string $value = "?", bool $case_insensitive = true) : string
+    public function like(string $column, string $type, string $value = "?", bool $case_insensitive = true): string
     {
         if (!in_array($type, array(
             ilDBConstants::T_TEXT,
@@ -202,12 +203,12 @@ class ilMySQLQueryUtils extends ilQueryUtils
         return " " . $column . " LIKE(" . $this->quote($value, 'text') . ")";
     }
 
-    public function now() : string
+    public function now(): string
     {
         return "NOW()";
     }
 
-    public function lock(array $tables) : string
+    public function lock(array $tables): string
     {
         $lock = 'LOCK TABLES ';
 
@@ -243,12 +244,12 @@ class ilMySQLQueryUtils extends ilQueryUtils
         return $lock;
     }
 
-    public function unlock() : string
+    public function unlock(): string
     {
         return 'UNLOCK TABLES';
     }
 
-    public function createDatabase(string $name, string $charset = "utf8", string $collation = "") : string
+    public function createDatabase(string $name, string $charset = "utf8", string $collation = ""): string
     {
         if ($collation !== "") {
             $sql = "CREATE DATABASE `" . $name . "` CHARACTER SET " . $charset . " COLLATE " . $collation;
@@ -259,7 +260,7 @@ class ilMySQLQueryUtils extends ilQueryUtils
         return $sql;
     }
 
-    public function groupConcat(string $field_name, string $seperator = ",", string $order = null) : string
+    public function groupConcat(string $field_name, string $seperator = ",", string $order = null): string
     {
         if ($order === null) {
             $sql = "GROUP_CONCAT(" . $field_name . " SEPARATOR " . $this->quote($seperator, "text") . ")";
@@ -275,7 +276,7 @@ class ilMySQLQueryUtils extends ilQueryUtils
     /**
      * @inheritdoc
      */
-    public function cast(string $a_field_name, $a_dest_type) : string
+    public function cast(string $a_field_name, $a_dest_type): string
     {
         return $a_field_name;
     }

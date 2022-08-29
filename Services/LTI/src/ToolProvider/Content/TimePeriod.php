@@ -27,7 +27,6 @@ namespace ILIAS\LTI\ToolProvider\Content;
  */
 class TimePeriod
 {
-
     /**
      * Start date/time.
      *
@@ -68,7 +67,7 @@ class TimePeriod
      *
      * @return \stdClass
      */
-    public function toJsonObject() : \stdClass
+    public function toJsonObject(): \stdClass
     {
         $timePeriod = new \stdClass();
         if (!is_null($this->startDateTime)) {
@@ -86,7 +85,7 @@ class TimePeriod
      * @param object $item A JSON or JSON-LD object representing a content-item
      * @return TimePeriod|null  The LineItem object
      */
-    public static function fromJsonObject(object $item) : ?TimePeriod
+    public static function fromJsonObject(object $item): ?TimePeriod
     {
         $obj = null;
         $startDateTime = null;

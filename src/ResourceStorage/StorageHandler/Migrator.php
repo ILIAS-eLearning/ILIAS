@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -14,7 +16,7 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *********************************************************************/
- 
+
 namespace ILIAS\ResourceStorage\StorageHandler;
 
 use ILIAS\ResourceStorage\Resource\StorableResource;
@@ -49,7 +51,7 @@ class Migrator
         $this->filesystem_base_path = $filesystem_base_path;
     }
 
-    public function migrate(StorableResource $resource, string $to_handler_id) : bool
+    public function migrate(StorableResource $resource, string $to_handler_id): bool
     {
         $existing_handler = $this->handler_factory->getHandlerForResource($resource);
         $existing_path = $this->filesystem_base_path . '/' . $existing_handler->getFullContainerPath($resource->getIdentification());
@@ -83,7 +85,7 @@ class Migrator
         return false;
     }
 
-    public function removeEmptySubFolders(string $path) : bool
+    public function removeEmptySubFolders(string $path): bool
     {
         $empty = true;
         foreach (glob($path . DIRECTORY_SEPARATOR . "*") as $file) {

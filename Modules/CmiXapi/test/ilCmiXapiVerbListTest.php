@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -25,7 +27,7 @@ use PHPUnit\Framework\TestCase;
  */
 class ilCmiXapiVerbListTest extends TestCase
 {
-    public function testVerbList() : void
+    public function testVerbList(): void
     {
         $verbList = ilCmiXapiVerbList::getInstance();
         $this->assertEquals(
@@ -33,20 +35,20 @@ class ilCmiXapiVerbListTest extends TestCase
             $verbList->getVerbUri('answered')
         );
     }
-    
-    public function testVerbTranslation() : void
+
+    public function testVerbTranslation(): void
     {
         $lng = $this->getMockBuilder(ilLanguage::class)
                     ->disableOriginalConstructor()
                     ->getMock();
-        
+
         $lng->expects($this->exactly(2))
             ->method('txt')
             ->willReturnOnConsecutiveCalls(
                 '-cmix_answered',
                 'answered'
             );
-        
+
         $verbList = ilCmiXapiVerbList::getInstance();
         $this->assertEquals(
             'answered',

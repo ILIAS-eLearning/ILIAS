@@ -8,7 +8,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        php: [7.4, 8.0, 8.1]
+        php: [8.0, 8.1]
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -33,6 +33,13 @@ jobs:
 
       - name: PHP CS Fixer
         run: CI/PHP-CS-Fixer/run_check.sh
+        env:
+          GHRUN: "yes"
+          PR_NUMBER: ${{ github.event.number }}
+          GH_SHA: ${{ github.sha }}
+
+      - name: Language Sort Check
+        run: CI/sort_langfile_entries.sh check
         env:
           GHRUN: "yes"
           PR_NUMBER: ${{ github.event.number }}

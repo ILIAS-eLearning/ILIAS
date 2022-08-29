@@ -34,12 +34,12 @@ class ilHelpGSToolProvider extends AbstractDynamicToolProvider
 
     public const SHOW_HELP_TOOL = 'show_help_tool';
 
-    public function isInterestedInContexts() : ContextCollection
+    public function isInterestedInContexts(): ContextCollection
     {
         return $this->context_collection->main();
     }
 
-    public function getToolsForContextStack(CalledContexts $called_contexts) : array
+    public function getToolsForContextStack(CalledContexts $called_contexts): array
     {
         global $DIC;
 
@@ -68,7 +68,7 @@ class ilHelpGSToolProvider extends AbstractDynamicToolProvider
             $identification = $iff("help");
             $hashed = $this->hash($identification->serialize());
             $tools[] = $this->factory->tool($identification)
-                                            ->addComponentDecorator(static function (ILIAS\UI\Component\Component $c) use ($hashed, $hidden) : ILIAS\UI\Component\Component {
+                                            ->addComponentDecorator(static function (ILIAS\UI\Component\Component $c) use ($hashed, $hidden): ILIAS\UI\Component\Component {
                                                 if ($c instanceof LegacySlate) {
                                                     $signal_id = $c->getToggleSignal()->getId();
                                                     return $c->withAdditionalOnLoadCode(static function ($id) use ($hashed) {
@@ -97,7 +97,7 @@ class ilHelpGSToolProvider extends AbstractDynamicToolProvider
         return $tools;
     }
 
-    private function getHelpContent() : string
+    private function getHelpContent(): string
     {
         global $DIC;
 

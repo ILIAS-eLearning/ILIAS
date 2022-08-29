@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -28,20 +30,17 @@ class ilTermsOfServiceDocumentCriterionAssignmentConstraintTest extends ilTermsO
     /**
      * @return MockObject&ilTermsOfServiceCriterionTypeFactoryInterface
      */
-    protected function getCriterionTypeFactoryMock() : ilTermsOfServiceCriterionTypeFactoryInterface
+    protected function getCriterionTypeFactoryMock(): ilTermsOfServiceCriterionTypeFactoryInterface
     {
-        $criterionTypeFactory = $this
+        return $this
             ->getMockBuilder(ilTermsOfServiceCriterionTypeFactoryInterface::class)
             ->getMock();
-
-        return $criterionTypeFactory;
     }
 
     /**
-     * @param string $typeIdent
      * @return MockObject&ilTermsOfServiceCriterionType
      */
-    protected function getCriterionTypeMock(string $typeIdent) : ilTermsOfServiceCriterionType
+    protected function getCriterionTypeMock(string $typeIdent): ilTermsOfServiceCriterionType
     {
         $criterionType = $this
             ->getMockBuilder(ilTermsOfServiceCriterionType::class)
@@ -57,7 +56,7 @@ class ilTermsOfServiceDocumentCriterionAssignmentConstraintTest extends ilTermsO
     /**
      * @return MockObject&ilTermsOfServiceCriterionTypeFactoryInterface
      */
-    protected function getTypeMockForConstraint() : ilTermsOfServiceCriterionTypeFactoryInterface
+    protected function getTypeMockForConstraint(): ilTermsOfServiceCriterionTypeFactoryInterface
     {
         $criterionTypeFactory = $this->getCriterionTypeFactoryMock();
 
@@ -80,7 +79,7 @@ class ilTermsOfServiceDocumentCriterionAssignmentConstraintTest extends ilTermsO
         return $criterionTypeFactory;
     }
 
-    public function criteriaAssignmentProvider() : array
+    public function criteriaAssignmentProvider(): array
     {
         $criterionAssignment1 = $this
             ->getMockBuilder(ilTermsOfServiceDocumentCriterionAssignment::class)
@@ -165,17 +164,13 @@ class ilTermsOfServiceDocumentCriterionAssignmentConstraintTest extends ilTermsO
 
     /**
      * @dataProvider criteriaAssignmentProvider
-     * @param ilTermsOfServiceDocumentCriterionAssignment $criterionAssignment1
-     * @param ilTermsOfServiceDocumentCriterionAssignment $criterionAssignment2
-     * @param ilTermsOfServiceDocumentCriterionAssignment $criterionAssignment3
-     * @param ilTermsOfServiceDocumentCriterionAssignment $criterionAssignment4
      */
     public function testConstraintAcceptanceWorksAsExpected(
         ilTermsOfServiceDocumentCriterionAssignment $criterionAssignment1,
         ilTermsOfServiceDocumentCriterionAssignment $criterionAssignment2,
         ilTermsOfServiceDocumentCriterionAssignment $criterionAssignment3,
         ilTermsOfServiceDocumentCriterionAssignment $criterionAssignment4
-    ) : void {
+    ): void {
         $document1 = $this
             ->getMockBuilder(ilTermsOfServiceDocument::class)
             ->disableOriginalConstructor()
@@ -201,17 +196,13 @@ class ilTermsOfServiceDocumentCriterionAssignmentConstraintTest extends ilTermsO
 
     /**
      * @dataProvider criteriaAssignmentProvider
-     * @param ilTermsOfServiceDocumentCriterionAssignment $criterionAssignment1
-     * @param ilTermsOfServiceDocumentCriterionAssignment $criterionAssignment2
-     * @param ilTermsOfServiceDocumentCriterionAssignment $criterionAssignment3
-     * @param ilTermsOfServiceDocumentCriterionAssignment $criterionAssignment4
      */
     public function testConstraintCheckWorksAsExpected(
         ilTermsOfServiceDocumentCriterionAssignment $criterionAssignment1,
         ilTermsOfServiceDocumentCriterionAssignment $criterionAssignment2,
         ilTermsOfServiceDocumentCriterionAssignment $criterionAssignment3,
         ilTermsOfServiceDocumentCriterionAssignment $criterionAssignment4
-    ) : void {
+    ): void {
         $document1 = $this
             ->getMockBuilder(ilTermsOfServiceDocument::class)
             ->disableOriginalConstructor()
@@ -252,17 +243,13 @@ class ilTermsOfServiceDocumentCriterionAssignmentConstraintTest extends ilTermsO
 
     /**
      * @dataProvider criteriaAssignmentProvider
-     * @param ilTermsOfServiceDocumentCriterionAssignment $criterionAssignment1
-     * @param ilTermsOfServiceDocumentCriterionAssignment $criterionAssignment2
-     * @param ilTermsOfServiceDocumentCriterionAssignment $criterionAssignment3
-     * @param ilTermsOfServiceDocumentCriterionAssignment $criterionAssignment4
      */
     public function testConstraintProblemDetectionWorksAsExpected(
         ilTermsOfServiceDocumentCriterionAssignment $criterionAssignment1,
         ilTermsOfServiceDocumentCriterionAssignment $criterionAssignment2,
         ilTermsOfServiceDocumentCriterionAssignment $criterionAssignment3,
         ilTermsOfServiceDocumentCriterionAssignment $criterionAssignment4
-    ) : void {
+    ): void {
         $document1 = $this
             ->getMockBuilder(ilTermsOfServiceDocument::class)
             ->disableOriginalConstructor()
@@ -288,17 +275,13 @@ class ilTermsOfServiceDocumentCriterionAssignmentConstraintTest extends ilTermsO
 
     /**
      * @dataProvider criteriaAssignmentProvider
-     * @param ilTermsOfServiceDocumentCriterionAssignment $criterionAssignment1
-     * @param ilTermsOfServiceDocumentCriterionAssignment $criterionAssignment2
-     * @param ilTermsOfServiceDocumentCriterionAssignment $criterionAssignment3
-     * @param ilTermsOfServiceDocumentCriterionAssignment $criterionAssignment4
      */
     public function testConstraintRestrictionWorksAsExpected(
         ilTermsOfServiceDocumentCriterionAssignment $criterionAssignment1,
         ilTermsOfServiceDocumentCriterionAssignment $criterionAssignment2,
         ilTermsOfServiceDocumentCriterionAssignment $criterionAssignment3,
         ilTermsOfServiceDocumentCriterionAssignment $criterionAssignment4
-    ) : void {
+    ): void {
         $document1 = $this
             ->getMockBuilder(ilTermsOfServiceDocument::class)
             ->disableOriginalConstructor()
@@ -334,17 +317,13 @@ class ilTermsOfServiceDocumentCriterionAssignmentConstraintTest extends ilTermsO
 
     /**
      * @dataProvider criteriaAssignmentProvider
-     * @param ilTermsOfServiceDocumentCriterionAssignment $criterionAssignment1
-     * @param ilTermsOfServiceDocumentCriterionAssignment $criterionAssignment2
-     * @param ilTermsOfServiceDocumentCriterionAssignment $criterionAssignment3
-     * @param ilTermsOfServiceDocumentCriterionAssignment $criterionAssignment4
      */
     public function testConstraintProblemBuilderWorksAsExpected(
         ilTermsOfServiceDocumentCriterionAssignment $criterionAssignment1,
         ilTermsOfServiceDocumentCriterionAssignment $criterionAssignment2,
         ilTermsOfServiceDocumentCriterionAssignment $criterionAssignment3,
         ilTermsOfServiceDocumentCriterionAssignment $criterionAssignment4
-    ) : void {
+    ): void {
         $document1 = $this
             ->getMockBuilder(ilTermsOfServiceDocument::class)
             ->disableOriginalConstructor()
@@ -362,7 +341,7 @@ class ilTermsOfServiceDocumentCriterionAssignmentConstraintTest extends ilTermsO
             $this->getLanguageMock()
         );
 
-        $newConstraint = $constraint->withProblemBuilder(function () {
+        $newConstraint = $constraint->withProblemBuilder(function (): string {
             return 'phpunit';
         });
         $this->assertSame('phpunit', $newConstraint->problemWith($criterionAssignment3));
@@ -370,17 +349,13 @@ class ilTermsOfServiceDocumentCriterionAssignmentConstraintTest extends ilTermsO
 
     /**
      * @dataProvider criteriaAssignmentProvider
-     * @param ilTermsOfServiceDocumentCriterionAssignment $criterionAssignment1
-     * @param ilTermsOfServiceDocumentCriterionAssignment $criterionAssignment2
-     * @param ilTermsOfServiceDocumentCriterionAssignment $criterionAssignment3
-     * @param ilTermsOfServiceDocumentCriterionAssignment $criterionAssignment4
      */
     public function testConstraintExposesCorrectErrorMessagesAfterMultiAccept(
         ilTermsOfServiceDocumentCriterionAssignment $criterionAssignment1,
         ilTermsOfServiceDocumentCriterionAssignment $criterionAssignment2,
         ilTermsOfServiceDocumentCriterionAssignment $criterionAssignment3,
         ilTermsOfServiceDocumentCriterionAssignment $criterionAssignment4
-    ) : void {
+    ): void {
         $document1 = $this
             ->getMockBuilder(ilTermsOfServiceDocument::class)
             ->disableOriginalConstructor()
@@ -418,17 +393,13 @@ class ilTermsOfServiceDocumentCriterionAssignmentConstraintTest extends ilTermsO
 
     /**
      * @dataProvider criteriaAssignmentProvider
-     * @param ilTermsOfServiceDocumentCriterionAssignment $criterionAssignment1
-     * @param ilTermsOfServiceDocumentCriterionAssignment $criterionAssignment2
-     * @param ilTermsOfServiceDocumentCriterionAssignment $criterionAssignment3
-     * @param ilTermsOfServiceDocumentCriterionAssignment $criterionAssignment4
      */
     public function testCriterionWithSameNatureIsNotAcceptedWhenAlreadyAssigned(
         ilTermsOfServiceDocumentCriterionAssignment $criterionAssignment1,
         ilTermsOfServiceDocumentCriterionAssignment $criterionAssignment2,
         ilTermsOfServiceDocumentCriterionAssignment $criterionAssignment3,
         ilTermsOfServiceDocumentCriterionAssignment $criterionAssignment4
-    ) : void {
+    ): void {
         $document = $this
             ->getMockBuilder(ilTermsOfServiceDocument::class)
             ->disableOriginalConstructor()

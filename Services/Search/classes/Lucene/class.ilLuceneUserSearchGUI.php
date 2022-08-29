@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 
@@ -17,7 +19,7 @@ class ilLuceneUserSearchGUI extends ilSearchBaseGUI
 {
     protected ilTabsGUI $tabs;
     protected ilHelpGUI $help;
-    
+
     /**
      * Constructor
      */
@@ -30,15 +32,15 @@ class ilLuceneUserSearchGUI extends ilSearchBaseGUI
         parent::__construct();
         $this->initUserSearchCache();
     }
-    
+
     /**
      * Execute Command
      */
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         $next_class = $this->ctrl->getNextClass($this);
         $cmd = $this->ctrl->getCmd();
-        
+
         $this->prepareOutput();
         switch ($next_class) {
             case "ilpublicuserprofilegui":
@@ -56,7 +58,7 @@ class ilLuceneUserSearchGUI extends ilSearchBaseGUI
                 $this->tpl->setContent($ret);
                 break;
 
-            
+
             default:
                 $this->initStandardSearchForm(ilSearchBaseGUI::SEARCH_FORM_USER);
                 if (!$cmd) {
@@ -67,38 +69,38 @@ class ilLuceneUserSearchGUI extends ilSearchBaseGUI
         }
     }
 
-    public function prepareOutput() : void
+    public function prepareOutput(): void
     {
         parent::prepareOutput();
         $this->getTabs();
     }
-    
-    
-    
+
+
+
     /**
      * Get type of search (details | fast)
      * @todo rename
      * Needed for base class search form
      */
-    protected function getType() : int
+    protected function getType(): int
     {
         return self::SEARCH_DETAILS;
     }
-    
+
     /**
      * Needed for base class search form
      * @todo rename
      */
-    protected function getDetails() : array
+    protected function getDetails(): array
     {
         return $this->search_cache->getItemFilter();
     }
-    
-    
+
+
     /**
      * Search from main menu
      */
-    protected function remoteSearch() : void
+    protected function remoteSearch(): void
     {
         $root_id = 0;
         if ($this->http->wrapper()->post()->has('root_id')) {
@@ -119,12 +121,12 @@ class ilLuceneUserSearchGUI extends ilSearchBaseGUI
         $this->search_cache->save();
         $this->search();
     }
-    
+
     /**
      * Show saved results
      * @return void
      */
-    protected function showSavedResults() : void
+    protected function showSavedResults(): void
     {
         if (strlen($this->search_cache->getQuery())) {
             $this->performSearch();
@@ -133,12 +135,12 @@ class ilLuceneUserSearchGUI extends ilSearchBaseGUI
 
         $this->showSearchForm();
     }
-    
+
     /**
      * Search (button pressed)
      * @return void
      */
-    protected function search() : void
+    protected function search(): void
     {
         if (!$this->form->checkInput()) {
             $this->search_cache->deleteCachedEntries();
@@ -149,25 +151,25 @@ class ilLuceneUserSearchGUI extends ilSearchBaseGUI
         }
         ilSession::clear('max_page');
         $this->search_cache->deleteCachedEntries();
-        
+
         // Reset details
         ilSubItemListGUI::resetDetails();
         $this->performSearch();
     }
-    
+
     /**
      * Perform search
      */
-    protected function performSearch() : void
+    protected function performSearch(): void
     {
         $qp = new ilLuceneQueryParser($this->search_cache->getQuery());
         $qp->parse();
         $searcher = ilLuceneSearcher::getInstance($qp);
         $searcher->setType(ilLuceneSearcher::TYPE_USER);
         $searcher->search();
-        
+
         $this->showSearchForm();
-        
+
         $user_table = new ilRepositoryUserResultTableGUI(
             $this,
             'performSearch',
@@ -179,35 +181,35 @@ class ilLuceneUserSearchGUI extends ilSearchBaseGUI
 
         $this->tpl->setVariable('SEARCH_RESULTS', $user_table->getHTML());
     }
-    
+
     /**
      * get tabs
      */
-    protected function getTabs() : void
+    protected function getTabs(): void
     {
         $this->help->setScreenIdComponent("src_luc");
 
         $this->tabs->addTarget('search', $this->ctrl->getLinkTargetByClass('illucenesearchgui'));
-        
+
         if (ilSearchSettings::getInstance()->isLuceneUserSearchEnabled()) {
             $this->tabs->addTarget('search_user', $this->ctrl->getLinkTargetByClass('illuceneusersearchgui'));
         }
-        
+
         $fields = ilLuceneAdvancedSearchFields::getInstance();
-        
+
         if (
             !ilSearchSettings::getInstance()->getHideAdvancedSearch() and
             $fields->getActiveFields()) {
             $this->tabs->addTarget('search_advanced', $this->ctrl->getLinkTargetByClass('illuceneadvancedsearchgui'));
         }
-        
+
         $this->tabs->setTabActive('search_user');
     }
-    
+
     /**
      * Init user search cache
      */
-    protected function initUserSearchCache() : void
+    protected function initUserSearchCache(): void
     {
         $this->search_cache = ilUserSearchCache::_getInstance($this->user->getId());
         $this->search_cache->switchSearchType(ilUserSearchCache::LUCENE_USER_SEARCH);
@@ -227,9 +229,9 @@ class ilLuceneUserSearchGUI extends ilSearchBaseGUI
             $this->search_cache->save();
         }
     }
-    
-    
-    
+
+
+
     /**
      * Show search form
      * @return boolean
@@ -248,7 +250,7 @@ class ilLuceneUserSearchGUI extends ilSearchBaseGUI
         $btn->setCommand("performSearch");
         $btn->setCaption("search");
         $this->tpl->setVariable("SUBMIT_BTN", $btn->render());
-        
+
         return true;
     }
 }

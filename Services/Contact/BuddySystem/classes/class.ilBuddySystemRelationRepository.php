@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -41,7 +43,7 @@ class ilBuddySystemRelationRepository
      * Reads all items from database
      * @return ilBuddySystemRelation[]
      */
-    public function getAll() : array
+    public function getAll(): array
     {
         $relations = [];
 
@@ -90,7 +92,7 @@ class ilBuddySystemRelationRepository
         return $relations;
     }
 
-    private function getRelationByDatabaseRecord(array $row) : ilBuddySystemRelation
+    private function getRelationByDatabaseRecord(array $row): ilBuddySystemRelation
     {
         if (self::TYPE_APPROVED === $row['rel_type']) {
             return new ilBuddySystemRelation(
@@ -121,7 +123,7 @@ class ilBuddySystemRelationRepository
         );
     }
 
-    public function destroy() : void
+    public function destroy(): void
     {
         $this->db->manipulateF(
             'DELETE FROM buddylist WHERE usr_id = %s OR buddy_usr_id = %s',
@@ -136,7 +138,7 @@ class ilBuddySystemRelationRepository
         );
     }
 
-    private function addToApprovedBuddies(ilBuddySystemRelation $relation) : void
+    private function addToApprovedBuddies(ilBuddySystemRelation $relation): void
     {
         $this->db->replace(
             'buddylist',
@@ -161,7 +163,7 @@ class ilBuddySystemRelationRepository
         );
     }
 
-    private function removeFromApprovedBuddies(ilBuddySystemRelation $relation) : void
+    private function removeFromApprovedBuddies(ilBuddySystemRelation $relation): void
     {
         $this->db->manipulateF(
             'DELETE FROM buddylist WHERE usr_id = %s AND buddy_usr_id = %s',
@@ -176,7 +178,7 @@ class ilBuddySystemRelationRepository
         );
     }
 
-    private function addToRequestedBuddies(ilBuddySystemRelation $relation, bool $ignored) : void
+    private function addToRequestedBuddies(ilBuddySystemRelation $relation, bool $ignored): void
     {
         $this->db->replace(
             'buddylist_requests',
@@ -191,7 +193,7 @@ class ilBuddySystemRelationRepository
         );
     }
 
-    private function removeFromRequestedBuddies(ilBuddySystemRelation $relation) : void
+    private function removeFromRequestedBuddies(ilBuddySystemRelation $relation): void
     {
         $this->db->manipulateF(
             'DELETE FROM buddylist_requests WHERE usr_id = %s AND buddy_usr_id = %s',
@@ -206,13 +208,13 @@ class ilBuddySystemRelationRepository
         );
     }
 
-    public function save(ilBuddySystemRelation $relation) : void
+    public function save(ilBuddySystemRelation $relation): void
     {
         $ilAtomQuery = $this->db->buildAtomQuery();
         $ilAtomQuery->addTableLock('buddylist_requests');
         $ilAtomQuery->addTableLock('buddylist');
 
-        $ilAtomQuery->addQueryCallable(function (ilDBInterface $ilDB) use ($relation) : void {
+        $ilAtomQuery->addQueryCallable(function (ilDBInterface $ilDB) use ($relation): void {
             if ($relation->isLinked()) {
                 $this->addToApprovedBuddies($relation);
             } elseif ($relation->wasLinked()) {

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -25,7 +27,7 @@ class ilDidacticTemplateLocalPolicyAction extends ilDidacticTemplateAction
         parent::__construct($action_id);
     }
 
-    public function addFilterPattern(ilDidacticTemplateFilterPattern $pattern) : void
+    public function addFilterPattern(ilDidacticTemplateFilterPattern $pattern): void
     {
         $this->pattern[] = $pattern;
     }
@@ -34,7 +36,7 @@ class ilDidacticTemplateLocalPolicyAction extends ilDidacticTemplateAction
      * Set filter patterns
      * @param ilDidacticTemplateExcludeFilterPattern[] $patterns
      */
-    public function setFilterPatterns(array $patterns) : void
+    public function setFilterPatterns(array $patterns): void
     {
         $this->pattern = $patterns;
     }
@@ -43,42 +45,42 @@ class ilDidacticTemplateLocalPolicyAction extends ilDidacticTemplateAction
      * Get filter pattern
      * @return ilDidacticTemplateFilterPattern[]
      */
-    public function getFilterPattern() : array
+    public function getFilterPattern(): array
     {
         return $this->pattern;
     }
 
-    public function setFilterType(int $a_type) : void
+    public function setFilterType(int $a_type): void
     {
         $this->filter_type = $a_type;
     }
 
-    public function getFilterType() : int
+    public function getFilterType(): int
     {
         return $this->filter_type;
     }
 
-    public function setRoleTemplateType(int $a_tpl_type) : void
+    public function setRoleTemplateType(int $a_tpl_type): void
     {
         $this->role_template_type = $a_tpl_type;
     }
 
-    public function getRoleTemplateType() : int
+    public function getRoleTemplateType(): int
     {
         return $this->role_template_type;
     }
 
-    public function setRoleTemplateId(int $a_id) : void
+    public function setRoleTemplateId(int $a_id): void
     {
         $this->role_template_id = $a_id;
     }
 
-    public function getRoleTemplateId() : int
+    public function getRoleTemplateId(): int
     {
         return $this->role_template_id;
     }
 
-    public function save() : int
+    public function save(): int
     {
         if (!parent::save()) {
             return 0;
@@ -103,7 +105,7 @@ class ilDidacticTemplateLocalPolicyAction extends ilDidacticTemplateAction
         return $this->getActionId();
     }
 
-    public function delete() : void
+    public function delete(): void
     {
         parent::delete();
         $query = 'DELETE FROM didactic_tpl_alp ' .
@@ -115,7 +117,7 @@ class ilDidacticTemplateLocalPolicyAction extends ilDidacticTemplateAction
         }
     }
 
-    public function apply() : bool
+    public function apply(): bool
     {
         $source = $this->initSourceObject();
         // Create a role folder for the new local policies
@@ -141,7 +143,7 @@ class ilDidacticTemplateLocalPolicyAction extends ilDidacticTemplateAction
         return true;
     }
 
-    public function revert() : bool
+    public function revert(): bool
     {
         $source = $this->initSourceObject();
         $roles = $this->filterRoles($source);
@@ -178,17 +180,16 @@ class ilDidacticTemplateLocalPolicyAction extends ilDidacticTemplateAction
         return true;
     }
 
-    public function getType() : int
+    public function getType(): int
     {
         return self::TYPE_LOCAL_POLICY;
     }
 
-    public function toXml(ilXmlWriter $writer) : void
+    public function toXml(ilXmlWriter $writer): void
     {
         $writer->xmlStartTag('localPolicyAction');
 
         switch ($this->getFilterType()) {
-
             case self::FILTER_SOURCE_OBJ_ID:
                 $writer->xmlStartTag('roleFilter', ['source' => 'objId']);
                 break;
@@ -266,7 +267,7 @@ class ilDidacticTemplateLocalPolicyAction extends ilDidacticTemplateAction
         $this->setFilterPatterns($clones);
     }
 
-    public function read() : void
+    public function read(): void
     {
         parent::read();
         $query = 'SELECT * FROM didactic_tpl_alp ' .
@@ -286,7 +287,7 @@ class ilDidacticTemplateLocalPolicyAction extends ilDidacticTemplateAction
         }
     }
 
-    protected function createLocalPolicy(ilObject $source, array $role) : bool
+    protected function createLocalPolicy(ilObject $source, array $role): bool
     {
         // fetch role information
         $role_data = [];
@@ -352,7 +353,6 @@ class ilDidacticTemplateLocalPolicyAction extends ilDidacticTemplateAction
                     (int) $role_data['obj_id']
                 );
                 break;
-
         }
         // Change existing object
         $role_obj = new ilObjRole((int) $role_data['obj_id']);
@@ -365,7 +365,7 @@ class ilDidacticTemplateLocalPolicyAction extends ilDidacticTemplateAction
         return true;
     }
 
-    protected function revertLocalPolicy(ilObject $source, array $role) : bool
+    protected function revertLocalPolicy(ilObject $source, array $role): bool
     {
         $this->logger->info('Reverting policy for role ' . $role['title']);
         // Local policies can only be reverted for auto generated roles. Otherwise the

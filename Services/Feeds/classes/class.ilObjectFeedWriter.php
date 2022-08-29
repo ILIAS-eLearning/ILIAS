@@ -159,7 +159,7 @@ class ilObjectFeedWriter extends ilFeedWriter
                 $feed_item->setLink(ILIAS_HTTP_PATH . "/goto.php?client_id=" . CLIENT_ID .
                     "&amp;target=" . $item["context_obj_type"] . "_" . $item["ref_id"]);
                 //echo "<br>".ILIAS_HTTP_PATH."/goto.php?client_id=".CLIENT_ID.
-//					"&amp;target=".$item["context_obj_type"]."_".$item["ref_id"];
+                //					"&amp;target=".$item["context_obj_type"]."_".$item["ref_id"];
             }
 
             $feed_item->setAbout($feed_item->getLink() . "&amp;il_about_feed=" . $item["id"]);

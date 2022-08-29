@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -48,7 +50,7 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
         $this->lng->loadLanguageModule('auth');
     }
 
-    public function viewObject() : void
+    public function viewObject(): void
     {
         $this->authSettingsObject();
     }
@@ -56,7 +58,7 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
     /**
     * display settings menu
     */
-    public function authSettingsObject() : void
+    public function authSettingsObject(): void
     {
         if (!$this->rbac_system->checkAccess("visible,read", $this->object->getRefId())) {
             $this->ilias->raiseError($this->lng->txt("permission_denied"), $this->ilias->error_obj->MESSAGE);
@@ -151,12 +153,12 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
             $generalSettingsTpl->setVariable("CMD_SUBMIT", "setAuthMode");
             $generalSettingsTpl->parseCurrentBlock();
         }
-        
+
         // auth mode determinitation
         if ($this->initAuthModeDetermination()) {
             $generalSettingsTpl->setVariable('TABLE_AUTH_DETERMINATION', $this->form->getHTML());
         }
-        
+
         // roles table
         $generalSettingsTpl->setVariable(
             "FORMACTION_ROLES",
@@ -169,9 +171,9 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
             $generalSettingsTpl->setVariable("CMD_SUBMIT_ROLES", "updateAuthRoles");
             $generalSettingsTpl->setVariable('BTN_SUBMIT_ROLES', $this->lng->txt('save'));
         }
-        
+
         $reg_roles = ilObjRole::_lookupRegisterAllowed();
-        
+
         // auth mode selection
         $active_auth_modes = ilAuthUtils::_getActiveAuthModes();
 
@@ -222,14 +224,14 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 
         $this->tpl->setContent($generalSettingsTpl->get());
     }
-    
-    
+
+
     /**
      * displays login information of all installed languages
      *
      * @author Michael Jansen
      */
-    public function loginInfoObject() : void
+    public function loginInfoObject(): void
     {
         if (!$this->rbac_system->checkAccess("visible,read", $this->object->getRefId())) {
             $this->ilias->raiseError($this->lng->txt("permission_denied"), $this->ilias->error_obj->MESSAGE);
@@ -238,9 +240,9 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
         $this->tabs_gui->setTabActive("authentication_settings");
         $this->setSubTabs("authSettings");
         $this->tabs_gui->setSubTabActive("auth_login_editor");
-        
+
         $this->lng->loadLanguageModule("meta");
-        
+
         $this->tpl->addBlockFile(
             "ADM_CONTENT",
             "adm_content",
@@ -255,12 +257,12 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
     }
 
 
-    public function cancelObject() : void
+    public function cancelObject(): void
     {
         $this->ctrl->redirect($this, "authSettings");
     }
 
-    public function setAuthModeObject() : void
+    public function setAuthModeObject(): void
     {
         if (!$this->rbac_system->checkAccess("write", $this->object->getRefId())) {
             $this->ilias->raiseError($this->lng->txt("permission_denied"), $this->ilias->error_obj->MESSAGE);
@@ -283,7 +285,7 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
                 break;
 
             case ilAuthUtils::AUTH_LDAP:
-        
+
                 /*
                 if ($this->object->checkAuthLDAP() !== true)
                 {
@@ -292,7 +294,7 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
                 }
                 */
                 break;
-                
+
                 // @fix changed from AUTH_SHIB > is not defined
             case ilAuthUtils::AUTH_SHIBBOLETH:
                 if ($this->object->checkAuthSHIB() !== true) {
@@ -319,16 +321,16 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
                 }
                 break;
         }
-        
+
         $this->ilias->setSetting("auth_mode", $new_auth_mode);
-        
+
         $this->tpl->setOnScreenMessage('success', $this->lng->txt("auth_default_mode_changed_to") . " " . $this->getAuthModeTitle(), true);
         $this->ctrl->redirect($this, 'authSettings');
     }
 
     private function buildSOAPForm(
         string $submit_action
-    ) : \ILIAS\UI\Component\Input\Container\Form\Form {
+    ): \ILIAS\UI\Component\Input\Container\Form\Form {
         // compose role list
         $role_list = $this->rbac_review->getRolesByFilter(2, $this->object->getId());
         $roles = [];
@@ -416,7 +418,7 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 
     private function buildSOAPTestForm(
         string $submit_action
-    ) : \ILIAS\UI\Component\Input\Container\Form\Form {
+    ): \ILIAS\UI\Component\Input\Container\Form\Form {
         $ext_uid = $this->ui->input()->field()->text(
             "ext_uid"
         );
@@ -439,7 +441,7 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
     /**
     * Configure soap settings
     */
-    public function editSOAPObject() : void
+    public function editSOAPObject(): void
     {
         if (!$this->rbac_system->checkAccess("read", $this->object->getRefId())) {
             $this->ilias->raiseError($this->lng->txt("permission_denied"), $this->ilias->error_obj->MESSAGE);
@@ -452,8 +454,8 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
         $panel = $this->ui->panel()->standard("SOAP", [$soap_form, $test_form]);
         $this->tpl->setContent($this->renderer->render($panel));
     }
-    
-    public function testSoapAuthConnectionObject() : void
+
+    public function testSoapAuthConnectionObject(): void
     {
         if (!$this->rbac_system->checkAccess("read", $this->object->getRefId())) {
             $this->ilias->raiseError($this->lng->txt("permission_denied"), $this->ilias->error_obj->MESSAGE);
@@ -476,11 +478,11 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
         $panel = $this->ui->panel()->standard("SOAP", $panel_content);
         $this->tpl->setContent($this->renderer->render($panel));
     }
-    
+
     /**
     * validates all input data, save them to database if correct and active chosen auth mode
     */
-    public function saveSOAPObject() : void
+    public function saveSOAPObject(): void
     {
         if (!$this->rbac_system->checkAccess("write", $this->object->getRefId())) {
             $this->ilias->raiseError($this->lng->txt("permission_denied"), $this->ilias->error_obj->MESSAGE);
@@ -518,12 +520,12 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
     /**
     * Configure Custom settings
     */
-    public function editScriptObject() : void
+    public function editScriptObject(): void
     {
         if (!$this->rbac_system->checkAccess("write", $this->object->getRefId())) {
             $this->ilias->raiseError($this->lng->txt("permission_denied"), $this->ilias->error_obj->MESSAGE);
         }
-        
+
         if ($_SESSION["error_post_vars"]) {
             $this->tpl->setVariable("AUTH_SCRIPT_NAME", $_SESSION["error_post_vars"]["auth_script"]["name"]);
         } else {
@@ -541,13 +543,13 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
             "tpl.auth_script.html",
             "Services/Authentication"
         );
-        
+
         $this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
         $this->tpl->setVariable("COLSPAN", 3);
         $this->tpl->setVariable("TXT_AUTH_SCRIPT_TITLE", $this->lng->txt("auth_script_configure"));
         $this->tpl->setVariable("TXT_OPTIONS", $this->lng->txt("options"));
         $this->tpl->setVariable("TXT_AUTH_SCRIPT_NAME", $this->lng->txt("auth_script_name"));
-        
+
         $this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
         $this->tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
         $this->tpl->setVariable("TXT_SUBMIT", $this->lng->txt("save"));
@@ -557,7 +559,7 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
     /**
     * validates all input data, save them to database if correct and active chosen auth mode
     */
-    public function saveScriptObject() : void
+    public function saveScriptObject(): void
     {
         // validate required data
         if (!$_POST["auth_script"]["name"]) {
@@ -570,9 +572,9 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
         {
             $this->ilias->raiseError($this->lng->txt("err_invalid_server"),$this->ilias->error_obj->MESSAGE);
         }*/
-        
+
         // TODO: check connection to server
-        
+
         // all ok. save settings and activate auth by external script
         $this->ilias->setSetting("auth_script_name", $_POST["auth_script"]["name"]);
         $this->ilias->setSetting("auth_mode", (string) ilAuthUtils::AUTH_SCRIPT);
@@ -580,24 +582,24 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
         $this->tpl->setOnScreenMessage('success', $this->lng->txt("auth_mode_changed_to") . " " . $this->getAuthModeTitle(), true);
         $this->ctrl->redirect($this, 'editScript');
     }
-    
-    
+
+
     /**
     * get the title of auth mode
     *
     * @return string language dependent title of auth mode
     */
-    public function getAuthModeTitle() : string
+    public function getAuthModeTitle(): string
     {
         switch ($this->ilias->getSetting("auth_mode")) {
             case ilAuthUtils::AUTH_LOCAL:
                 return $this->lng->txt("auth_local");
                 break;
-            
+
             case ilAuthUtils::AUTH_LDAP:
                 return $this->lng->txt("auth_ldap");
                 break;
-            
+
             case ilAuthUtils::AUTH_SHIBBOLETH:
                 return $this->lng->txt("auth_shib");
                 break;
@@ -606,7 +608,7 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
                 return $this->lng->txt("auth_saml");
                 break;
 
-        
+
             case ilAuthUtils::AUTH_SCRIPT:
                 return $this->lng->txt("auth_script");
                 break;
@@ -620,8 +622,8 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
                 break;
         }
     }
-    
-    public function updateAuthRolesObject() : void
+
+    public function updateAuthRolesObject(): void
     {
         if (!$this->rbac_system->checkAccess("write", $this->object->getRefId())) {
             $this->ilias->raiseError($this->lng->txt("permission_denied"), $this->ilias->error_obj->MESSAGE);
@@ -639,20 +641,20 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
             $f_object[substr($role_id, 2)] = $auth_mode;
         }
         ilObjRole::_updateAuthMode($f_object);
-        
+
         $this->tpl->setOnScreenMessage('success', $this->lng->txt("auth_mode_roles_changed"), true);
         $this->ctrl->redirect($this, 'authSettings');
     }
-    
+
     /**
      * init auth mode determinitation form
      */
-    protected function initAuthModeDetermination() : bool
+    protected function initAuthModeDetermination(): bool
     {
         if (isset($this->form) && is_object($this->form)) {
             return true;
         }
-        
+
         $this->form = new ilPropertyFormGUI();
         $this->form->setFormAction($this->ctrl->getFormAction($this));
         $this->form->setTableWidth('100%');
@@ -670,17 +672,17 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
         $header = new ilFormSectionHeaderGUI();
         $header->setTitle($this->lng->txt('auth_auth_mode_determination'));
         $this->form->addItem($header);
-        
+
         $kind = new ilRadioGroupInputGUI($this->lng->txt('auth_kind_determination'), 'kind');
         $kind->setInfo($this->lng->txt('auth_mode_determination_info'));
         $kind->setValue((string) $det->getKind());
         $kind->setRequired(true);
-        
+
         $option_user = new ilRadioOption($this->lng->txt('auth_by_user'), "0");
         $kind->addOption($option_user);
-        
+
         $option_determination = new ilRadioOption($this->lng->txt('auth_automatic'), "1");
-                
+
         $auth_sequenced = $det->getAuthModeSequence();
         $counter = 1;
         $text = "";
@@ -707,7 +709,7 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
                     }
                     break;
             }
-            
+
             $pos = new ilTextInputGUI($text, 'position[m' . $auth_mode . ']');
             $pos->setValue($counter++);
             $pos->setSize(1);
@@ -718,11 +720,11 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
         $this->form->addItem($kind);
         return true;
     }
-    
+
     /**
      * update auth mode determination
      */
-    public function updateAuthModeDeterminationObject() : void
+    public function updateAuthModeDeterminationObject(): void
     {
         if (!$this->rbac_system->checkAccess("write", $this->object->getRefId())) {
             $this->ilias->raiseError($this->lng->txt("permission_denied"), $this->ilias->error_obj->MESSAGE);
@@ -764,7 +766,7 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
     /**
      * Execute command. Called from control class
      */
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         $next_class = $this->ctrl->getNextClass($this);
         $cmd = $this->ctrl->getCmd();
@@ -773,7 +775,7 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
         if (!$this->rbac_system->checkAccess("visible,read", $this->object->getRefId())) {
             $this->error->raiseError($this->lng->txt('msg_no_perm_read'), $this->error->WARNING);
         }
-        
+
         switch ($next_class) {
             case 'ilopenidconnectsettingsgui':
 
@@ -799,25 +801,25 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
                 break;
 
             case 'ilpermissiongui':
-            
+
                 // Enable tabs
                 $this->tabs_gui->setTabActive('perm_settings');
-            
+
                 $perm_gui = new ilPermissionGUI($this);
                 $this->ctrl->forwardCommand($perm_gui);
                 break;
-                
+
             case 'illdapsettingsgui':
-            
+
                 // Enable Tabs
                 $this->tabs_gui->setTabActive('auth_ldap');
-                
+
                 $ldap_settings_gui = new ilLDAPSettingsGUI($this->object->getRefId());
                 $this->ctrl->forwardCommand($ldap_settings_gui);
                 break;
-                
+
             case 'ilauthshibbolethsettingsgui':
-            
+
                 $this->tabs_gui->setTabActive('auth_shib');
                 $shib_settings_gui = new ilAuthShibbolethSettingsGUI($this->object->getRefId());
                 $this->ctrl->forwardCommand($shib_settings_gui);
@@ -831,7 +833,7 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
                 break;
 
             case 'ilauthloginpageeditorgui':
-                
+
                 $this->setSubTabs("authSettings");
                 $this->tabs_gui->setTabActive('authentication_settings');
                 $this->tabs_gui->setSubTabActive("auth_login_editor");
@@ -850,8 +852,8 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
                 break;
         }
     }
-    
-    public function getAdminTabs() : void
+
+    public function getAdminTabs(): void
     {
         $this->getTabs();
     }
@@ -859,7 +861,7 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
     /**
     * get tabs
     */
-    protected function getTabs() : void
+    protected function getTabs(): void
     {
         $this->ctrl->setParameter($this, "ref_id", $this->object->getRefId());
 
@@ -871,12 +873,12 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
                 "",
                 ""
             );
-        
+
             $this->tabs_gui->addTarget(
                 'registration_settings',
                 $this->ctrl->getLinkTargetByClass('ilregistrationsettingsgui', 'view')
             );
-            
+
             $this->tabs_gui->addTarget(
                 "auth_ldap",
                 $this->ctrl->getLinkTargetByClass('illdapsettingsgui', 'serverList'),
@@ -885,10 +887,10 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
                 ""
             );
 
-                                         
+
             #$this->tabs_gui->addTarget("auth_ldap", $this->ctrl->getLinkTarget($this, "editLDAP"),
             #					   "", "", "");
-            
+
             $this->tabs_gui->addTarget('auth_shib', $this->ctrl->getLinkTargetByClass('ilauthshibbolethsettingsgui', 'settings'));
 
             $this->tabs_gui->addTarget(
@@ -903,7 +905,7 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
                 "",
                 ""
             );
-                                 
+
             $this->tabs_gui->addTarget(
                 "apache_auth_settings",
                 $this->ctrl->getLinkTarget($this, 'apacheAuthSettings'),
@@ -936,11 +938,11 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
             );
         }
     }
-    
+
     /**
     * set sub tabs
     */
-    public function setSubTabs(string $a_tab) : void
+    public function setSubTabs(string $a_tab): void
     {
         $this->lng->loadLanguageModule('auth');
 
@@ -963,7 +965,7 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
     }
 
 
-    public function apacheAuthSettingsObject(?ilPropertyFormGUI $form = null) : void
+    public function apacheAuthSettingsObject(?ilPropertyFormGUI $form = null): void
     {
         $this->tabs_gui->setTabActive("apache_auth_settings");
 
@@ -977,13 +979,13 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
             if (file_exists($path) && is_readable($path)) {
                 $settingsMap['apache_auth_domains'] = file_get_contents($path);
             }
-            
+
             $form->setValuesByArray($settingsMap);
         }
         $this->tpl->setVariable('ADM_CONTENT', $form->getHtml());
     }
 
-    public function saveApacheSettingsObject() : void
+    public function saveApacheSettingsObject(): void
     {
         $form = $this->getApacheAuthSettingsForm();
         $form->setValuesByPost();
@@ -1018,7 +1020,7 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 
             $allowedDomains = $this->validateApacheAuthAllowedDomains((string) $form->getInput('apache_auth_domains'));
             file_put_contents(ILIAS_DATA_DIR . '/' . CLIENT_ID . '/apache_auth_allowed_domains.txt', $allowedDomains);
-            
+
             $this->tpl->setOnScreenMessage('success', $this->lng->txt('apache_settings_changed_success'), true);
             $this->ctrl->redirect($this, 'apacheAuthSettings');
         } else {
@@ -1026,7 +1028,7 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
         }
     }
 
-    public function getApacheAuthSettingsForm() : ilPropertyFormGUI
+    public function getApacheAuthSettingsForm(): ilPropertyFormGUI
     {
         $form = new ilPropertyFormGUI();
         $form->setFormAction($this->ctrl->getFormAction($this));
@@ -1059,7 +1061,7 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
         $chb_local->setValue('1');
 
         $chb_ldap->setInfo($this->lng->txt('apache_ldap_hint_ldap_must_be_configured'));
-        
+
         $this->lng->loadLanguageModule('auth');
 
         $servers = ilLDAPServer::getServerIds();
@@ -1124,10 +1126,10 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
         $sec = new ilFormSectionHeaderGUI();
         $sec->setTitle($this->lng->txt('apache_auth_security'));
         $form->addItem($sec);
-        
+
         $txt = new ilTextAreaInputGUI($this->lng->txt('apache_auth_domains'), 'apache_auth_domains');
         $txt->setInfo($this->lng->txt('apache_auth_domains_description'));
-        
+
         $form->addItem($txt);
 
         if ($this->access->checkAccess('write', '', $this->ref_id)) {
@@ -1137,13 +1139,13 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 
         return $form;
     }
-    
-    private function validateApacheAuthAllowedDomains(string $text) : string
+
+    private function validateApacheAuthAllowedDomains(string $text): string
     {
         return implode("\n", preg_split("/[\r\n]+/", $text));
     }
 
-    public function registrationSettingsObject() : void
+    public function registrationSettingsObject(): void
     {
         $registration_gui = new ilRegistrationSettingsGUI();
         $this->ctrl->redirect($registration_gui);

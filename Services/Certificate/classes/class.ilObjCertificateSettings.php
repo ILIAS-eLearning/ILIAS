@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -37,7 +39,7 @@ class ilObjCertificateSettings extends ilObject
      * @return bool An errorcode if the image upload fails, 0 otherwise
      * @throws ilException
      */
-    public function uploadBackgroundImage(string $image_tempfilename) : bool
+    public function uploadBackgroundImage(string $image_tempfilename): bool
     {
         if (!empty($image_tempfilename)) {
             $convert_filename = ilCertificateBackgroundImageFileService::BACKGROUND_IMAGE_NAME;
@@ -81,7 +83,7 @@ class ilObjCertificateSettings extends ilObject
         return false;
     }
 
-    public function deleteBackgroundImage() : bool
+    public function deleteBackgroundImage(): bool
     {
         $result = true;
         if (is_file($this->getDefaultBackgroundImageThumbPath())) {
@@ -99,27 +101,27 @@ class ilObjCertificateSettings extends ilObject
         return (bool) $result; // Don't remove the cast, otherwise $result will be 1 or 0
     }
 
-    private function getBackgroundImageDefaultFolder() : string
+    private function getBackgroundImageDefaultFolder(): string
     {
         return CLIENT_WEB_DIR . "/certificates/default/";
     }
 
-    private function getDefaultBackgroundImagePath() : string
+    private function getDefaultBackgroundImagePath(): string
     {
         return $this->getBackgroundImageDefaultFolder() . ilCertificateBackgroundImageFileService::BACKGROUND_IMAGE_NAME;
     }
 
-    private function getDefaultBackgroundImageThumbPath() : string
+    private function getDefaultBackgroundImageThumbPath(): string
     {
         return $this->getBackgroundImageDefaultFolder() . ilCertificateBackgroundImageFileService::BACKGROUND_IMAGE_NAME . ilCertificateBackgroundImageFileService::BACKGROUND_THUMBNAIL_FILE_ENDING;
     }
 
-    private function getDefaultBackgroundImageTempfilePath() : string
+    private function getDefaultBackgroundImageTempfilePath(): string
     {
         return $this->getBackgroundImageDefaultFolder() . ilCertificateBackgroundImageFileService::BACKGROUND_TEMPORARY_UPLOAD_FILE_NAME;
     }
 
-    public function hasBackgroundImage() : bool
+    public function hasBackgroundImage(): bool
     {
         $filePath = $this->getDefaultBackgroundImagePath();
         if (is_file($filePath) && filesize($filePath) > 0) {
@@ -129,7 +131,7 @@ class ilObjCertificateSettings extends ilObject
         return false;
     }
 
-    public function getDefaultBackgroundImagePathWeb() : string
+    public function getDefaultBackgroundImagePathWeb(): string
     {
         return str_replace(
             ilFileUtils::removeTrailingPathSeparators(ILIAS_ABSOLUTE_PATH),
@@ -138,7 +140,7 @@ class ilObjCertificateSettings extends ilObject
         );
     }
 
-    public function getBackgroundImageThumbPathWeb() : string
+    public function getBackgroundImageThumbPathWeb(): string
     {
         return str_replace(
             ilFileUtils::removeTrailingPathSeparators(ILIAS_ABSOLUTE_PATH),

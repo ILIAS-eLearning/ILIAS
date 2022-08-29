@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -18,7 +20,7 @@
 
 class ilTermsOfServiceHistorizedCriterionTest extends ilTermsOfServiceCriterionBaseTest
 {
-    public function testHistorizedCriteriaCanBeBuildFromJsonStrings() : ilTermsOfServiceAcceptanceHistoryCriteriaBag
+    public function testHistorizedCriteriaCanBeBuildFromJsonStrings(): ilTermsOfServiceAcceptanceHistoryCriteriaBag
     {
         $criteria = [
             '{"id":"usr_language","value":{"lng":"de"}}',
@@ -32,14 +34,13 @@ class ilTermsOfServiceHistorizedCriterionTest extends ilTermsOfServiceCriterionB
         self::assertSame($config, $bag->toJson());
         self::assertCount(count($criteria), $bag);
 
-        for ($i = 0, $iMax = count($criteria); $i < $iMax; $i++) {
-            $criterion = new ilTermsOfServiceHistorizedCriterion(
+        foreach ($criteria as $i => $criterion) {
+            $historized_criterion = new ilTermsOfServiceHistorizedCriterion(
                 $bag[$i]['id'],
                 $bag[$i]['value']
             );
-
-            self::assertStringContainsString($criterion->getCriterionId(), $criteria[$i]);
-            self::assertStringContainsString($criterion->getCriterionValue()->toJson(), $criteria[$i]);
+            self::assertStringContainsString($historized_criterion->getCriterionId(), $criterion);
+            self::assertStringContainsString($historized_criterion->getCriterionValue()->toJson(), $criterion);
         }
 
         return $bag;
@@ -47,12 +48,10 @@ class ilTermsOfServiceHistorizedCriterionTest extends ilTermsOfServiceCriterionB
 
     /**
      * @depends testHistorizedCriteriaCanBeBuildFromJsonStrings
-     * @param ilTermsOfServiceAcceptanceHistoryCriteriaBag $criteria_bag
-     * @return void
      */
     public function testHistorizedDocumentCanBeCreated(
         ilTermsOfServiceAcceptanceHistoryCriteriaBag $criteria_bag
-    ) : void {
+    ): void {
         $historizedDocument = new ilTermsOfServiceHistorizedDocument(
             $this->getMockBuilder(ilTermsOfServiceAcceptanceEntity::class)->disableOriginalConstructor()->getMock(),
             $criteria_bag

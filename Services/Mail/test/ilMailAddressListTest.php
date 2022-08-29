@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -22,7 +24,7 @@
  */
 class ilMailAddressListTest extends ilMailBaseTest
 {
-    public function addressTestProvider() : array
+    public function addressTestProvider(): array
     {
         return [
             'Username Addresses' => [
@@ -58,7 +60,7 @@ class ilMailAddressListTest extends ilMailBaseTest
         array $leftAddresses,
         array $rightAddresses,
         int $numberOfExpectedItems
-    ) : void {
+    ): void {
         $left = new ilMailAddressListImpl($leftAddresses);
         $right = new ilMailAddressListImpl($rightAddresses);
 
@@ -66,7 +68,7 @@ class ilMailAddressListTest extends ilMailBaseTest
         $this->assertCount($numberOfExpectedItems, $list->value());
     }
 
-    public function externalAddressTestProvider() : array
+    public function externalAddressTestProvider(): array
     {
         return [
             'Username' => [
@@ -98,15 +100,13 @@ class ilMailAddressListTest extends ilMailBaseTest
 
     /**
      * @dataProvider externalAddressTestProvider
-     * @param ilMailAddress $address
-     * @param int $numberOfExpectedItems
      */
     public function testExternalAddressListDecoratorFiltersExternalAddresses(
         ilMailAddress $address,
         int $numberOfExpectedItems
-    ) : void {
+    ): void {
         $list = new ilMailAddressListImpl([$address]);
-        $externalList = new ilMailOnlyExternalAddressList($list, 'ilias', static function (string $address) : int {
+        $externalList = new ilMailOnlyExternalAddressList($list, 'ilias', static function (string $address): int {
             if ('max.mustermann@ilias.de' === $address) {
                 return 4711;
             }

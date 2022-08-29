@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 use ILIAS\ResourceStorage\StorageHandler\StorageHandlerFactory;
 use ILIAS\Setup;
@@ -39,7 +41,7 @@ class ilStorageContainersExistingObjective extends Objective\DirectoryCreatedObj
         $this->base_dir = StorageHandlerFactory::BASE_DIRECTORY;
     }
 
-    protected function buildStorageBasePath(Setup\Environment $environment) : string
+    protected function buildStorageBasePath(Setup\Environment $environment): string
     {
         $ini = $environment->getResource(Setup\Environment::RESOURCE_ILIAS_INI);
         $client_id = $environment->getResource(Setup\Environment::RESOURCE_CLIENT_ID);
@@ -52,7 +54,7 @@ class ilStorageContainersExistingObjective extends Objective\DirectoryCreatedObj
     /**
      * @return \ilFileSystemDirectoriesCreatedObjective[]|\ilIniFilesLoadedObjective[]
      */
-    public function getPreconditions(Setup\Environment $environment) : array
+    public function getPreconditions(Setup\Environment $environment): array
     {
         // case if it is a fresh ILIAS installation
         if ($environment->hasConfigFor("filesystem")) {
@@ -68,7 +70,7 @@ class ilStorageContainersExistingObjective extends Objective\DirectoryCreatedObj
         ];
     }
 
-    public function achieve(Setup\Environment $environment) : Setup\Environment
+    public function achieve(Setup\Environment $environment): Setup\Environment
     {
         $base_path = $this->buildStorageBasePath($environment);
         $this->path = $base_path;
@@ -84,7 +86,7 @@ class ilStorageContainersExistingObjective extends Objective\DirectoryCreatedObj
     /**
      * @inheritDoc
      */
-    public function isApplicable(Setup\Environment $environment) : bool
+    public function isApplicable(Setup\Environment $environment): bool
     {
         $base_path = $this->buildStorageBasePath($environment);
         $this->path = $base_path;

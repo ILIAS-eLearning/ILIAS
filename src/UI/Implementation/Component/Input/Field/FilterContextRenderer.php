@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\UI\Implementation\Component\Input\Field;
 
 use ILIAS\UI\Component;
@@ -39,7 +41,7 @@ class FilterContextRenderer extends AbstractComponentRenderer
     /**
      * @inheritdoc
      */
-    public function render(Component\Component $component, RendererInterface $default_renderer) : string
+    public function render(Component\Component $component, RendererInterface $default_renderer): string
     {
         /**
          * @var $component Input
@@ -71,7 +73,7 @@ class FilterContextRenderer extends AbstractComponentRenderer
         }
     }
 
-    protected function renderFieldGroups(Group $group, RendererInterface $default_renderer) : string
+    protected function renderFieldGroups(Group $group, RendererInterface $default_renderer): string
     {
         $inputs = "";
         $input_labels = array();
@@ -84,7 +86,7 @@ class FilterContextRenderer extends AbstractComponentRenderer
         return $inputs;
     }
 
-    protected function renderAddField(array $input_labels, RendererInterface $default_renderer) : string
+    protected function renderAddField(array $input_labels, RendererInterface $default_renderer): string
     {
         $f = $this->getUIFactory();
         $tpl = $this->getTemplate("tpl.context_filter.html", true, true);
@@ -115,7 +117,7 @@ class FilterContextRenderer extends AbstractComponentRenderer
         string $input_html,
         RendererInterface $default_renderer,
         string $id_pointing_to_input = ''
-    ) : string {
+    ): string {
         $f = $this->getUIFactory();
         $tpl = $this->getTemplate("tpl.context_filter.html", true, true);
 
@@ -150,7 +152,7 @@ class FilterContextRenderer extends AbstractComponentRenderer
     protected function renderProxyField(
         string $input_html,
         RendererInterface $default_renderer
-    ) : string {
+    ): string {
         $f = $this->getUIFactory();
         $tpl = $this->getTemplate("tpl.filter_field.html", true, true);
 
@@ -165,14 +167,14 @@ class FilterContextRenderer extends AbstractComponentRenderer
         return $tpl->get();
     }
 
-    protected function applyName(FilterInput $component, Template $tpl) : ?string
+    protected function applyName(FilterInput $component, Template $tpl): ?string
     {
         $name = $component->getName();
         $tpl->setVariable("NAME", $name);
         return $name;
     }
 
-    protected function bindJSandApplyId($component, Template $tpl) : string
+    protected function bindJSandApplyId($component, Template $tpl): string
     {
         $id = $this->bindJavaScript($component) ?? $this->createId();
         $tpl->setVariable("ID", $id);
@@ -187,7 +189,7 @@ class FilterContextRenderer extends AbstractComponentRenderer
      * for this specific component and the placement of {VALUE} in its template.
      * Please note: this may not work for customized templates!
      */
-    protected function applyValue(FilterInput $component, Template $tpl, callable $escape = null) : void
+    protected function applyValue(FilterInput $component, Template $tpl, callable $escape = null): void
     {
         $value = $component->getValue();
         if (!is_null($escape)) {
@@ -198,12 +200,12 @@ class FilterContextRenderer extends AbstractComponentRenderer
         }
     }
 
-    protected function escapeSpecialChars() : Closure
+    protected function escapeSpecialChars(): Closure
     {
         return fn ($v) => htmlspecialchars((string) $v, ENT_QUOTES);
     }
 
-    protected function renderTextField(F\Text $component, RendererInterface $default_renderer) : string
+    protected function renderTextField(F\Text $component, RendererInterface $default_renderer): string
     {
         $tpl = $this->getTemplate("tpl.text.html", true, true);
         $this->applyName($component, $tpl);
@@ -217,7 +219,7 @@ class FilterContextRenderer extends AbstractComponentRenderer
         return $this->wrapInFilterContext($component, $tpl->get(), $default_renderer, $id);
     }
 
-    protected function renderNumericField(F\Numeric $component, RendererInterface $default_renderer) : string
+    protected function renderNumericField(F\Numeric $component, RendererInterface $default_renderer): string
     {
         $tpl = $this->getTemplate("tpl.numeric.html", true, true);
         $this->applyName($component, $tpl);
@@ -226,7 +228,7 @@ class FilterContextRenderer extends AbstractComponentRenderer
         return $this->wrapInFilterContext($component, $tpl->get(), $default_renderer, $id);
     }
 
-    public function renderSelectField(F\Select $component, RendererInterface $default_renderer) : string
+    public function renderSelectField(F\Select $component, RendererInterface $default_renderer): string
     {
         $tpl = $this->getTemplate("tpl.select.html", true, true);
         $this->applyName($component, $tpl);
@@ -260,7 +262,7 @@ class FilterContextRenderer extends AbstractComponentRenderer
         return $this->wrapInFilterContext($component, $tpl->get(), $default_renderer, $id);
     }
 
-    protected function renderMultiSelectField(F\MultiSelect $component, RendererInterface $default_renderer) : string
+    protected function renderMultiSelectField(F\MultiSelect $component, RendererInterface $default_renderer): string
     {
         $tpl = $this->getTemplate("tpl.multiselect.html", true, true);
         $name = $this->applyName($component, $tpl);
@@ -290,7 +292,7 @@ class FilterContextRenderer extends AbstractComponentRenderer
     /**
      * @inheritdoc
      */
-    public function registerResources(ResourceRegistry $registry) : void
+    public function registerResources(ResourceRegistry $registry): void
     {
         parent::registerResources($registry);
         $registry->register('./src/UI/templates/js/Input/Container/dist/filter.js');
@@ -301,7 +303,7 @@ class FilterContextRenderer extends AbstractComponentRenderer
     /**
      * @return FilterInput|JavaScriptBindable
      */
-    protected function setSignals(Input $input) : \ILIAS\UI\Implementation\Component\Input\Field\Input
+    protected function setSignals(Input $input): \ILIAS\UI\Implementation\Component\Input\Field\Input
     {
         $signals = null;
         foreach ($input->getTriggeredSignals() as $s) {
@@ -327,7 +329,7 @@ class FilterContextRenderer extends AbstractComponentRenderer
     /**
      * @inheritdoc
      */
-    protected function getComponentInterfaceName() : array
+    protected function getComponentInterfaceName(): array
     {
         return [
             Component\Input\Field\Text::class,

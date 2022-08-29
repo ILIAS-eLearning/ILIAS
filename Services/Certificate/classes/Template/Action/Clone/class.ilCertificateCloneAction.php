@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -95,7 +97,7 @@ class ilCertificateCloneAction
         ilObject $newObject,
         string $iliasVersion = ILIAS_VERSION_NUMERIC,
         string $webDir = CLIENT_WEB_DIR
-    ) : void {
+    ): void {
         $oldType = $oldObject->getType();
         $newType = $newObject->getType();
 
@@ -202,7 +204,7 @@ class ilCertificateCloneAction
         }
     }
 
-    private function isActive(int $objectId) : bool
+    private function isActive(int $objectId): bool
     {
         $sql = 'SELECT 1 FROM il_certificate WHERE obj_id = ' . $this->database->quote($objectId, 'integer');
 
@@ -213,12 +215,12 @@ class ilCertificateCloneAction
         return false;
     }
 
-    private function getBackgroundImageName() : string
+    private function getBackgroundImageName(): string
     {
         return "background.jpg";
     }
 
-    private function getBackgroundImageThumbPath(string $certificatePath) : string
+    private function getBackgroundImageThumbPath(string $certificatePath): string
     {
         return $this->webDirectory . $certificatePath . $this->getBackgroundImageName() . ".thumb.jpg";
     }

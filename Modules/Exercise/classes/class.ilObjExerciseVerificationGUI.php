@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * GUI class for exercise verification
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
@@ -24,12 +26,12 @@
  */
 class ilObjExerciseVerificationGUI extends ilObject2GUI
 {
-    public function getType() : string
+    public function getType(): string
     {
         return "excv";
     }
 
-    public function create() : void
+    public function create(): void
     {
         $ilTabs = $this->tabs_gui;
 
@@ -47,7 +49,7 @@ class ilObjExerciseVerificationGUI extends ilObject2GUI
     /**
      * @throws ilException
      */
-    public function save() : void
+    public function save(): void
     {
         global $DIC;
 
@@ -93,7 +95,7 @@ class ilObjExerciseVerificationGUI extends ilObject2GUI
         $this->create();
     }
 
-    public function deliver() : void
+    public function deliver(): void
     {
         $file = $this->object->getFilePath();
         if ($file) {
@@ -104,7 +106,7 @@ class ilObjExerciseVerificationGUI extends ilObject2GUI
     public function render(
         $a_return = false,
         $a_url = false
-    ) : string {
+    ): string {
         $ilUser = $this->user;
         $lng = $this->lng;
 
@@ -145,7 +147,7 @@ class ilObjExerciseVerificationGUI extends ilObject2GUI
     /**
      * @throws ilExerciseException
      */
-    public function downloadFromPortfolioPage(ilPortfolioPage $a_page) : void
+    public function downloadFromPortfolioPage(ilPortfolioPage $a_page): void
     {
         if (ilPCVerification::isInPortfolioPage($a_page, $this->object->getType(), $this->object->getId())) {
             $this->deliver();
@@ -154,7 +156,7 @@ class ilObjExerciseVerificationGUI extends ilObject2GUI
         throw new ilExerciseException($this->lng->txt('permission_denied'));
     }
 
-    public static function _goto(string $a_target) : void
+    public static function _goto(string $a_target): void
     {
         /** @var \ILIAS\DI\Container $DIC */
         global $DIC;

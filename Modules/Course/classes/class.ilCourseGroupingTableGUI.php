@@ -1,4 +1,6 @@
-<?php declare(strict_types=0);
+<?php
+
+declare(strict_types=0);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -14,7 +16,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * @author  Jörg Lützenkirchen <luetzenkirchen@leifos.com>
  * @ingroup ModulesCourse
@@ -48,7 +50,7 @@ class ilCourseGroupingTableGUI extends ilTable2GUI
         $this->getItems($a_content_obj);
     }
 
-    protected function getItems(ilObject $a_content_obj) : void
+    protected function getItems(ilObject $a_content_obj): void
     {
         $items = ilObjCourseGrouping::_getVisibleGroupings($a_content_obj->getId());
 
@@ -73,7 +75,7 @@ class ilCourseGroupingTableGUI extends ilTable2GUI
         $this->setData($data);
     }
 
-    protected function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set): void
     {
         if (is_array($a_set["assigned"]) && count($a_set["assigned"]) > 0) {
             foreach ($a_set["assigned"] as $item) {

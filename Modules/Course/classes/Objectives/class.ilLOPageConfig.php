@@ -1,4 +1,6 @@
-<?php declare(strict_types=0);
+<?php
+
+declare(strict_types=0);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * (Course) learning objective page configuration
  * @author  Jörg Lützenkirchen <luetzenkirchen@leifos.com>
@@ -26,7 +28,7 @@ class ilLOPageConfig extends ilPageConfig
     /**
      * Init
      */
-    public function init() : void
+    public function init(): void
     {
         $this->setEnableInternalLinks(true);
         $this->setIntLinkHelpDefaultType("RepositoryItem");

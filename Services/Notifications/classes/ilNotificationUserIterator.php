@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /******************************************************************************
  *
@@ -51,21 +53,21 @@ class ilNotificationUserIterator implements Iterator
         $this->db->free($this->rset);
     }
 
-    public function current() : array
+    public function current(): array
     {
         return $this->data;
     }
 
-    public function key() : int
+    public function key(): int
     {
         return (int) $this->data['usr_id'];
     }
 
-    public function next() : void
+    public function next(): void
     {
     }
 
-    public function rewind() : void
+    public function rewind(): void
     {
         $query = 'SELECT usr_id, module, channel FROM ' . ilNotificationSetupHelper::$tbl_userconfig . ' WHERE module=%s AND ' . $this->db->in('usr_id', $this->userids, false, 'integer');
         $types = array('text');
@@ -73,7 +75,7 @@ class ilNotificationUserIterator implements Iterator
         $this->rset = $this->db->queryF($query, $types, $values);
     }
 
-    public function valid() : bool
+    public function valid(): bool
     {
         $this->data = $this->db->fetchAssoc($this->rset);
         return is_array($this->data);

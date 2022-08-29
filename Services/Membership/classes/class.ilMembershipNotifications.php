@@ -1,5 +1,7 @@
-<?php declare(strict_types=1);
-    
+<?php
+
+declare(strict_types=1);
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * Membership notification settings
  * @author  Jörg Lützenkirchen <luetzenkirchen@leifos.com>
@@ -30,7 +32,7 @@ class ilMembershipNotifications
     protected const MODE_ALL = 2;
     protected const MODE_ALL_BLOCKED = 3;
     protected const MODE_CUSTOM = 4;
-    
+
     protected int $ref_id;
     protected int $mode;
     /** @var array<int, int>  */
@@ -58,7 +60,7 @@ class ilMembershipNotifications
         }
     }
 
-    public static function isActive() : bool
+    public static function isActive(): bool
     {
         global $DIC;
 
@@ -69,7 +71,7 @@ class ilMembershipNotifications
         return true;
     }
 
-    public static function isActiveForRefId(int $ref_id) : bool
+    public static function isActiveForRefId(int $ref_id): bool
     {
         if (!self::isActive()) {
             return false;
@@ -88,7 +90,7 @@ class ilMembershipNotifications
         return true;
     }
 
-    protected function read() : void
+    protected function read(): void
     {
         $set = $this->db->query("SELECT nmode mode" .
             " FROM member_noti" .
@@ -108,19 +110,19 @@ class ilMembershipNotifications
         }
     }
 
-    public function getMode() : int
+    public function getMode(): int
     {
         return $this->mode;
     }
 
-    protected function setMode(int $a_value) : void
+    protected function setMode(int $a_value): void
     {
         if ($this->isValidMode($a_value)) {
             $this->mode = $a_value;
         }
     }
 
-    protected function isValidMode(int $a_value) : bool
+    protected function isValidMode(int $a_value): bool
     {
         $valid = array(
             self::MODE_SELF
@@ -132,7 +134,7 @@ class ilMembershipNotifications
         return in_array($a_value, $valid);
     }
 
-    public function switchMode(int $a_new_mode) : void
+    public function switchMode(int $a_new_mode): void
     {
         if (!$this->ref_id) {
             return;
@@ -169,7 +171,7 @@ class ilMembershipNotifications
         $this->setMode($a_new_mode);
     }
 
-    protected function getParticipants() : \ilParticipants
+    protected function getParticipants(): \ilParticipants
     {
         if ($this->participants === null) {
             $grp_ref_id = $this->tree->checkForParentType($this->ref_id, "grp");
@@ -187,7 +189,7 @@ class ilMembershipNotifications
         return $this->participants;
     }
 
-    public function getActiveUsers() : array
+    public function getActiveUsers(): array
     {
         $users = $all = array();
         $part_obj = $this->getParticipants();
@@ -210,7 +212,7 @@ class ilMembershipNotifications
                 }
                 break;
 
-            // all members, mind opt-out
+                // all members, mind opt-out
             case self::MODE_ALL:
                 // users who did opt-out
                 $inactive = array();
@@ -224,12 +226,12 @@ class ilMembershipNotifications
                 $users = array_diff($all, $inactive);
                 break;
 
-            // all members, no opt-out
+                // all members, no opt-out
             case self::MODE_ALL_BLOCKED:
                 $users = $all;
                 break;
 
-            // custom settings
+                // custom settings
             case self::MODE_CUSTOM:
                 foreach ($this->custom as $user_id => $status) {
                     if ($status !== self::VALUE_OFF) {
@@ -241,17 +243,17 @@ class ilMembershipNotifications
         return array_intersect($all, $users);
     }
 
-    public function activateUser(int $a_user_id = null) : bool
+    public function activateUser(int $a_user_id = null): bool
     {
         return $this->toggleUser(true, $a_user_id);
     }
 
-    public function deactivateUser(int $a_user_id = null) : bool
+    public function deactivateUser(int $a_user_id = null): bool
     {
         return $this->toggleUser(false, $a_user_id);
     }
 
-    protected function getUser(int $a_user_id = null) : ?ilObjUser
+    protected function getUser(int $a_user_id = null): ?ilObjUser
     {
         if (
             $a_user_id === null ||
@@ -271,7 +273,7 @@ class ilMembershipNotifications
         return null;
     }
 
-    protected function toggleUser(bool $a_status, int $a_user_id = null) : bool
+    protected function toggleUser(bool $a_status, int $a_user_id = null): bool
     {
         if (!self::isActive()) {
             return false;
@@ -327,12 +329,12 @@ class ilMembershipNotifications
         return false;
     }
 
-    public function isCurrentUserActive() : bool
+    public function isCurrentUserActive(): bool
     {
         return in_array($this->user->getId(), $this->getActiveUsers());
     }
 
-    public function canCurrentUserEdit() : bool
+    public function canCurrentUserEdit(): bool
     {
         $user_id = $this->user->getId();
         if ($user_id === ANONYMOUS_USER_ID) {
@@ -356,7 +358,7 @@ class ilMembershipNotifications
     /**
      * Get active notifications for all objects
      */
-    public static function getActiveUsersforAllObjects() : array
+    public static function getActiveUsersforAllObjects(): array
     {
         global $DIC;
 
@@ -410,7 +412,7 @@ class ilMembershipNotifications
         int $a_ref_id,
         ?ilPropertyFormGUI $a_form = null,
         ?ilFormPropertyGUI $a_input = null
-    ) : void {
+    ): void {
         global $DIC;
 
         $lng = $DIC->language();
@@ -479,7 +481,7 @@ class ilMembershipNotifications
         }
     }
 
-    public static function importFromForm(int $a_ref_id, ?ilPropertyFormGUI $a_form = null) : void
+    public static function importFromForm(int $a_ref_id, ?ilPropertyFormGUI $a_form = null): void
     {
         global $DIC;
 
@@ -522,7 +524,7 @@ class ilMembershipNotifications
         }
     }
 
-    public function cloneSettings(int $new_ref_id) : void
+    public function cloneSettings(int $new_ref_id): void
     {
         $set = $this->db->queryF(
             "SELECT * FROM member_noti " .

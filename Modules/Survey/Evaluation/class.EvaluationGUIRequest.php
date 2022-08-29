@@ -43,86 +43,86 @@ class EvaluationGUIRequest
         );
     }
 
-    public function getShowTable() : bool
+    public function getShowTable(): bool
     {
         $vw = $this->str("vw");
         return $vw === "" || is_int(strpos($vw, "t"));
     }
 
-    public function getShowChart() : bool
+    public function getShowChart(): bool
     {
         $vw = $this->str("vw");
         return $vw === "" || is_int(strpos($vw, "c"));
     }
 
-    public function getVW() : string
+    public function getVW(): string
     {
         return $this->str("vw");
     }
 
-    public function getShowAbsolute() : bool
+    public function getShowAbsolute(): bool
     {
         $cp = $this->str("cp");
         return $cp === "" || is_int(strpos($cp, "a"));
     }
 
-    public function getShowPercentage() : bool
+    public function getShowPercentage(): bool
     {
         $cp = $this->str("cp");
         return $cp === "" || is_int(strpos($cp, "p"));
     }
 
-    public function getCP() : string
+    public function getCP(): string
     {
         return $this->str("cp");
     }
 
-    public function getAppraiseeId() : int
+    public function getAppraiseeId(): int
     {
         return $this->int("appr_id");
     }
 
-    public function getRaterId() : string
+    public function getRaterId(): string
     {
         return $this->str("rater_id");
     }
 
-    public function getRefId() : int
+    public function getRefId(): int
     {
         return $this->int("ref_id");
     }
 
-    public function getCompEvalMode() : string
+    public function getCompEvalMode(): string
     {
         return $this->str("comp_eval_mode");
     }
 
-    public function getSurveyCode() : string
+    public function getSurveyCode(): string
     {
         return $this->str("surveycode");
     }
 
-    public function getExportLabel() : string
+    public function getExportLabel(): string
     {
         return $this->str("export_label");
     }
 
-    public function getExportFormat() : string
+    public function getExportFormat(): string
     {
         return $this->str("export_format");
     }
 
-    public function getPrintSelection() : string
+    public function getPrintSelection(): string
     {
         return $this->str("print_selection");
     }
 
-    public function getQuestionIds() : array
+    public function getQuestionIds(): array
     {
         return $this->intArray("qids");
     }
 
-    public function getActiveIds() : array
+    public function getActiveIds(): array
     {
         return $this->intArray("active_ids");
     }

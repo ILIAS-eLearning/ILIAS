@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -58,7 +60,7 @@ abstract class ilMDBase
 
     protected ilLogger $log;
     protected ilDBInterface $db;
-    
+
     /**
      * constructor
      *
@@ -87,41 +89,41 @@ abstract class ilMDBase
         $this->obj_id = $a_obj_id;
         $this->obj_type = $a_type;
     }
-    
-    abstract public function read() : bool;
+
+    abstract public function read(): bool;
 
     // SET/GET
-    public function setRBACId(int $a_id) : void
+    public function setRBACId(int $a_id): void
     {
         $this->rbac_id = $a_id;
     }
 
-    public function getRBACId() : int
+    public function getRBACId(): int
     {
         return $this->rbac_id;
     }
 
-    public function setObjId(int $a_id) : void
+    public function setObjId(int $a_id): void
     {
         $this->obj_id = $a_id;
     }
 
-    public function getObjId() : int
+    public function getObjId(): int
     {
         return $this->obj_id;
     }
 
-    public function setObjType(string $a_type) : void
+    public function setObjType(string $a_type): void
     {
         $this->obj_type = $a_type;
     }
 
-    public function getObjType() : string
+    public function getObjType(): string
     {
         return $this->obj_type;
     }
 
-    public function setMetaId(int $a_meta_id, bool $a_read_data = true) : void
+    public function setMetaId(int $a_meta_id, bool $a_read_data = true): void
     {
         $this->meta_id = $a_meta_id;
 
@@ -130,62 +132,62 @@ abstract class ilMDBase
         }
     }
 
-    public function getMetaId() : ?int
+    public function getMetaId(): ?int
     {
         return $this->meta_id;
     }
 
-    public function setParentType(string $a_parent_type) : void
+    public function setParentType(string $a_parent_type): void
     {
         $this->parent_type = $a_parent_type;
     }
 
-    public function getParentType() : string
+    public function getParentType(): string
     {
         return $this->parent_type;
     }
 
-    public function setParentId(int $a_id) : void
+    public function setParentId(int $a_id): void
     {
         $this->parent_id = $a_id;
     }
 
-    public function getParentId() : int
+    public function getParentId(): int
     {
         return $this->parent_id;
     }
 
-    public function setExportMode(bool $a_export_mode = true) : void
+    public function setExportMode(bool $a_export_mode = true): void
     {
         $this->export_mode = $a_export_mode;
     }
 
-    public function getExportMode() : bool
+    public function getExportMode(): bool
     {
         return $this->export_mode;
     }
 
-    public function validate() : bool
+    public function validate(): bool
     {
         return false;
     }
 
-    public function update() : bool
+    public function update(): bool
     {
         return false;
     }
 
-    public function save() : int
+    public function save(): int
     {
         return 0;
     }
 
-    public function delete() : bool
+    public function delete(): bool
     {
         return false;
     }
 
-    public function toXML(ilXmlWriter $writer) : void
+    public function toXML(ilXmlWriter $writer): void
     {
     }
 }

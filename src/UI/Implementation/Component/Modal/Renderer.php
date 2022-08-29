@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\UI\Implementation\Component\Modal;
 
 use ILIAS\UI\Component\Modal\LightboxDescriptionEnabledPage;
@@ -32,7 +34,7 @@ class Renderer extends AbstractComponentRenderer
     /**
      * @inheritdoc
      */
-    public function render(Component\Component $component, RendererInterface $default_renderer) : string
+    public function render(Component\Component $component, RendererInterface $default_renderer): string
     {
         $this->checkComponent($component);
 
@@ -56,13 +58,13 @@ class Renderer extends AbstractComponentRenderer
     /**
      * @inheritdoc
      */
-    public function registerResources(ResourceRegistry $registry) : void
+    public function registerResources(ResourceRegistry $registry): void
     {
         parent::registerResources($registry);
         $registry->register('./src/UI/templates/js/Modal/modal.js');
     }
 
-    protected function registerSignals(Component\Modal\Modal $modal) : Component\JavaScriptBindable
+    protected function registerSignals(Component\Modal\Modal $modal): Component\JavaScriptBindable
     {
         $show = $modal->getShowSignal();
         $close = $modal->getCloseSignal();
@@ -92,7 +94,7 @@ class Renderer extends AbstractComponentRenderer
         //   created
         // * since withAdditionalOnLoadCode refers to some yet unknown future, it disencourages
         //   tempering with the id _here_.
-        return $modal->withAdditionalOnLoadCode(function ($id) use ($show, $close, $options, $replace) : string {
+        return $modal->withAdditionalOnLoadCode(function ($id) use ($show, $close, $options, $replace): string {
             $options["url"] = "#$id";
             $options = json_encode($options);
             $code =
@@ -105,7 +107,7 @@ class Renderer extends AbstractComponentRenderer
         });
     }
 
-    protected function renderAsync(Component\Modal\Modal $modal) : string
+    protected function renderAsync(Component\Modal\Modal $modal): string
     {
         $modal = $this->registerSignals($modal);
         $id = $this->bindJavaScript($modal);
@@ -115,7 +117,7 @@ class Renderer extends AbstractComponentRenderer
     protected function renderInterruptive(
         Component\Modal\Interruptive $modal,
         RendererInterface $default_renderer
-    ) : string {
+    ): string {
         $tpl = $this->getTemplate('tpl.interruptive.html', true, true);
         $modal = $this->registerSignals($modal);
         $id = $this->bindJavaScript($modal);
@@ -143,7 +145,7 @@ class Renderer extends AbstractComponentRenderer
         return $tpl->get();
     }
 
-    protected function renderRoundTrip(Component\Modal\RoundTrip $modal, RendererInterface $default_renderer) : string
+    protected function renderRoundTrip(Component\Modal\RoundTrip $modal, RendererInterface $default_renderer): string
     {
         $tpl = $this->getTemplate('tpl.roundtrip.html', true, true);
         $modal = $this->registerSignals($modal);
@@ -164,7 +166,7 @@ class Renderer extends AbstractComponentRenderer
         return $tpl->get();
     }
 
-    protected function renderLightbox(Component\Modal\Lightbox $modal, RendererInterface $default_renderer) : string
+    protected function renderLightbox(Component\Modal\Lightbox $modal, RendererInterface $default_renderer): string
     {
         $tpl = $this->getTemplate('tpl.lightbox.html', true, true);
         $modal = $this->registerSignals($modal);
@@ -211,7 +213,7 @@ class Renderer extends AbstractComponentRenderer
     /**
      * @inheritdoc
      */
-    protected function getComponentInterfaceName() : array
+    protected function getComponentInterfaceName(): array
     {
         return array(
             Component\Modal\Interruptive::class,

@@ -32,7 +32,7 @@ class ilPCTableDataGUI extends ilPageContentGUI
         parent::__construct($a_pg_obj, $a_content_obj, $a_hier_id, $a_pc_id);
     }
 
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         // get next class that processes or forwards current command
         $next_class = $this->ctrl->getNextClass($this);
@@ -48,61 +48,61 @@ class ilPCTableDataGUI extends ilPageContentGUI
     }
 
 
-    public function newRowAfter() : void
+    public function newRowAfter(): void
     {
         $this->content_obj->newRowAfter();
         $this->updateAndReturn();
     }
 
-    public function newRowBefore() : void
+    public function newRowBefore(): void
     {
         $this->content_obj->newRowBefore();
         $this->updateAndReturn();
     }
 
-    public function deleteRow() : void
+    public function deleteRow(): void
     {
         $this->content_obj->deleteRow();
         $this->updateAndReturn();
     }
 
-    public function newColAfter() : void
+    public function newColAfter(): void
     {
         $this->content_obj->newColAfter();
         $this->updateAndReturn();
     }
 
-    public function newColBefore() : void
+    public function newColBefore(): void
     {
         $this->content_obj->newColBefore();
         $this->updateAndReturn();
     }
 
-    public function deleteCol() : void
+    public function deleteCol(): void
     {
         $this->content_obj->deleteCol();
         $this->updateAndReturn();
     }
 
-    public function moveRowDown() : void
+    public function moveRowDown(): void
     {
         $this->content_obj->moveRowDown();
         $this->updateAndReturn();
     }
 
-    public function moveRowUp() : void
+    public function moveRowUp(): void
     {
         $this->content_obj->moveRowUp();
         $this->updateAndReturn();
     }
 
-    public function moveColRight() : void
+    public function moveColRight(): void
     {
         $this->content_obj->moveColRight();
         $this->updateAndReturn();
     }
 
-    public function moveColLeft() : void
+    public function moveColLeft(): void
     {
         $this->content_obj->moveColLeft();
         $this->updateAndReturn();

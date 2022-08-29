@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 class ilObjectCommonSettingFormAdapter implements ilObjectCommonSettingFormAdapterInterface
 {
     protected ilObjectService $service;
@@ -33,7 +35,7 @@ class ilObjectCommonSettingFormAdapter implements ilObjectCommonSettingFormAdapt
         $lng->loadLanguageModule('cntr');
     }
 
-    public function addIcon() : ?ilPropertyFormGUI
+    public function addIcon(): ?ilPropertyFormGUI
     {
         global $DIC;
 
@@ -47,7 +49,7 @@ class ilObjectCommonSettingFormAdapter implements ilObjectCommonSettingFormAdapt
         return $this->legacy_form;
     }
 
-    public function saveIcon() : void
+    public function saveIcon(): void
     {
         global $DIC;
 
@@ -58,7 +60,7 @@ class ilObjectCommonSettingFormAdapter implements ilObjectCommonSettingFormAdapt
         }
     }
 
-    public function addTileImage() : ?ilPropertyFormGUI
+    public function addTileImage(): ?ilPropertyFormGUI
     {
         $lng = $this->service->language();
         $tile_image_fac = $this->service->commonSettings()->tileImage();
@@ -83,7 +85,7 @@ class ilObjectCommonSettingFormAdapter implements ilObjectCommonSettingFormAdapt
         return $this->legacy_form;
     }
 
-    public function saveTileImage() : void
+    public function saveTileImage(): void
     {
         $tile_image_fac = $this->service->commonSettings()->tileImage();
 
@@ -103,7 +105,7 @@ class ilObjectCommonSettingFormAdapter implements ilObjectCommonSettingFormAdapt
         }
     }
 
-    public function addTitleIconVisibility() : ilPropertyFormGUI
+    public function addTitleIconVisibility(): ilPropertyFormGUI
     {
         $hide = new ilCheckboxInputGUI(
             $this->service->language()->txt('obj_show_title_and_icon'),
@@ -118,7 +120,7 @@ class ilObjectCommonSettingFormAdapter implements ilObjectCommonSettingFormAdapt
         return $this->legacy_form;
     }
 
-    public function saveTitleIconVisibility() : void
+    public function saveTitleIconVisibility(): void
     {
         if (!is_null($this->legacy_form)) {
             // hide icon/title
@@ -130,7 +132,7 @@ class ilObjectCommonSettingFormAdapter implements ilObjectCommonSettingFormAdapt
         }
     }
 
-    public function addTopActionsVisibility() : ilPropertyFormGUI
+    public function addTopActionsVisibility(): ilPropertyFormGUI
     {
         $hide = new ilCheckboxInputGUI(
             $this->service->language()->txt('obj_show_header_actions'),
@@ -145,7 +147,7 @@ class ilObjectCommonSettingFormAdapter implements ilObjectCommonSettingFormAdapt
         return $this->legacy_form;
     }
 
-    public function saveTopActionsVisibility() : void
+    public function saveTopActionsVisibility(): void
     {
         if (!is_null($this->legacy_form)) {
             // hide icon/title

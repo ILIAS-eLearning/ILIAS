@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -18,7 +20,6 @@
 
 class ilMailTemplateContextDefinitionProcessor implements ilComponentDefinitionProcessor
 {
-    protected ilDBInterface $db;
     protected ?string $component;
     protected bool $in_mailtemplates = false;
 
@@ -27,30 +28,29 @@ class ilMailTemplateContextDefinitionProcessor implements ilComponentDefinitionP
      */
     protected array $mail_templates = [];
 
-    public function __construct(ilDBInterface $db)
-    {
-        $this->db = $db;
-    }
-
-    public function purge() : void
+    public function __construct(protected ilDBInterface $db)
     {
     }
 
-    public function beginComponent(string $component, string $type) : void
+    public function purge(): void
+    {
+    }
+
+    public function beginComponent(string $component, string $type): void
     {
         $this->component = $type . '/' . $component;
         $this->in_mailtemplates = false;
         $this->mail_templates = [];
     }
 
-    public function endComponent(string $component, string $type) : void
+    public function endComponent(string $component, string $type): void
     {
         $this->component = null;
         $this->in_mailtemplates = false;
         $this->mail_templates = [];
     }
 
-    public function beginTag(string $name, array $attributes) : void
+    public function beginTag(string $name, array $attributes): void
     {
         if ($name === 'mailtemplates') {
             $this->in_mailtemplates = true;
@@ -74,7 +74,7 @@ class ilMailTemplateContextDefinitionProcessor implements ilComponentDefinitionP
         $this->mail_templates[] = $attributes['id'];
     }
 
-    public function endTag(string $name) : void
+    public function endTag(string $name): void
     {
         if ($name === 'mailtemplates') {
             $this->in_mailtemplates = false;

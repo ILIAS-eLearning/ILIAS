@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -16,6 +18,7 @@
  *********************************************************************/
 
 /** @noinspection PhpIncompatibleReturnTypeInspection */
+
 namespace ILIAS\GlobalScreen\Collector;
 
 use ILIAS\GlobalScreen\Provider\ProviderFactory;
@@ -52,7 +55,7 @@ class CollectorFactory
      * @return MainMenuMainCollector
      * @throws Throwable
      */
-    public function mainmenu() : MainMenuMainCollector
+    public function mainmenu(): MainMenuMainCollector
     {
         if (!$this->has(MainMenuMainCollector::class)) {
             $providers = $this->provider_factory->getMainBarProvider();
@@ -71,12 +74,12 @@ class CollectorFactory
         return $this->get(MainMenuMainCollector::class);
     }
 
-    public function metaBar() : MetaBarMainCollector
+    public function metaBar(): MetaBarMainCollector
     {
         return $this->getWithArgument(MetaBarMainCollector::class, $this->provider_factory->getMetaBarProvider());
     }
 
-    public function tool() : MainToolCollector
+    public function tool(): MainToolCollector
     {
         if (!$this->has(MainToolCollector::class)) {
             $providers = $this->provider_factory->getToolProvider();
@@ -88,12 +91,12 @@ class CollectorFactory
         return $this->get(MainToolCollector::class);
     }
 
-    public function layout() : MainLayoutCollector
+    public function layout(): MainLayoutCollector
     {
         return $this->getWithMultipleArguments(MainLayoutCollector::class, [$this->provider_factory->getModificationProvider()]);
     }
 
-    public function notifications() : MainNotificationCollector
+    public function notifications(): MainNotificationCollector
     {
         return $this->getWithArgument(MainNotificationCollector::class, $this->provider_factory->getNotificationsProvider());
     }

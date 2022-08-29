@@ -15,7 +15,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 use ILIAS\GlobalScreen\ScreenContext\ContextServices;
 use ILIAS\Exercise\Assignment\Mandatory\MandatoryAssignmentsManager;
 use ILIAS\Exercise\GUIRequest;
@@ -57,7 +57,7 @@ abstract class ilExSubmissionBaseGUI
         $ilTabs = $DIC->tabs();
         $lng = $DIC->language();
         $tpl = $DIC["tpl"];
-        
+
         $this->exercise = $a_exercise;
         $this->submission = $a_submission;
         $this->assignment = $a_submission->getAssignment();
@@ -71,7 +71,7 @@ abstract class ilExSubmissionBaseGUI
 
         $this->request = $DIC->exercise()->internal()->gui()->request();
         $this->requested_ref_id = $this->request->getRefId();
-        
+
         // :TODO:
         $this->ctrl = $ilCtrl;
         $this->tabs_gui = $ilTabs;
@@ -81,54 +81,54 @@ abstract class ilExSubmissionBaseGUI
         $this->type_guis = ilExAssignmentTypesGUI::getInstance();
         $this->tool_context = $DIC->globalScreen()->tool()->context();
     }
-    
+
     abstract public static function getOverviewContent(
         ilInfoScreenGUI $a_info,
         ilExSubmission $a_submission
-    ) : void;
-    
-    protected function handleTabs() : void
+    ): void;
+
+    protected function handleTabs(): void
     {
         $this->tabs_gui->clearTargets();
         $this->tabs_gui->setBackTarget(
             $this->lng->txt("back"),
             $this->ctrl->getLinkTarget($this, "returnToParent")
         );
-        
+
         $this->tabs_gui->addTab(
             "submission",
             $this->lng->txt("exc_submission"),
             $this->ctrl->getLinkTarget($this, "")
         );
         $this->tabs_gui->activateTab("submission");
-                    
+
         if ($this->assignment->hasTeam()) {
             ilExSubmissionTeamGUI::handleTabs();
         }
     }
-    
-    public function returnToParentObject() : void
+
+    public function returnToParentObject(): void
     {
         $this->ctrl->returnToParent($this);
     }
-    
-    
+
+
     //
     // RETURNED/EXERCISE STATUS
     //
-    
+
     protected function handleNewUpload(
         bool $a_no_notifications = false
-    ) : void {
+    ): void {
         $has_submitted = $this->submission->hasSubmitted();
-        
+
         $this->exercise->processExerciseStatus(
             $this->assignment,
             $this->submission->getUserIds(),
             $has_submitted,
             $this->submission->validatePeerReviews()
         );
-        
+
         if ($has_submitted &&
             !$a_no_notifications) {
             $users = ilNotification::getNotificationsForObject(ilNotification::TYPE_EXERCISE_SUBMISSION, $this->exercise->getId());
@@ -141,14 +141,14 @@ abstract class ilExSubmissionBaseGUI
             $not->send();
         }
     }
-    
-    protected function handleRemovedUpload() : void
+
+    protected function handleRemovedUpload(): void
     {
         // #16532 - always send notifications
         $this->handleNewUpload();
     }
 
-    protected function triggerAssignmentTool() : void
+    protected function triggerAssignmentTool(): void
     {
         $ass_ids = [$this->assignment->getId()];
         $this->tool_context->current()->addAdditionalData(ilExerciseGSToolProvider::SHOW_EXC_ASSIGNMENT_INFO, true);

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -25,7 +27,7 @@ class ilStudyProgrammeAutoCategoryTest extends TestCase
     protected int $usr_id;
     protected DateTimeImmutable $dat;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         $this->prg_obj_id = 123;
         $this->cat_ref_id = 666;
@@ -33,7 +35,7 @@ class ilStudyProgrammeAutoCategoryTest extends TestCase
         $this->dat = new DateTimeImmutable('2019-06-05 15:25:12');
     }
 
-    public function testConstruction() : ilStudyProgrammeAutoCategory
+    public function testConstruction(): ilStudyProgrammeAutoCategory
     {
         $ac = new ilStudyProgrammeAutoCategory(
             $this->prg_obj_id,
@@ -51,7 +53,7 @@ class ilStudyProgrammeAutoCategoryTest extends TestCase
     /**
      * @depends testConstruction
      */
-    public function testGetPrgObjId(ilStudyProgrammeAutoCategory $ac) : void
+    public function testGetPrgObjId(ilStudyProgrammeAutoCategory $ac): void
     {
         $this->assertEquals(
             $this->prg_obj_id,
@@ -62,7 +64,7 @@ class ilStudyProgrammeAutoCategoryTest extends TestCase
     /**
      * @depends testConstruction
      */
-    public function testGetCategoryRefId(ilStudyProgrammeAutoCategory $ac) : void
+    public function testGetCategoryRefId(ilStudyProgrammeAutoCategory $ac): void
     {
         $this->assertEquals(
             $this->cat_ref_id,
@@ -73,7 +75,7 @@ class ilStudyProgrammeAutoCategoryTest extends TestCase
     /**
      * @depends testConstruction
      */
-    public function testGetLastEditorId(ilStudyProgrammeAutoCategory $ac) : void
+    public function testGetLastEditorId(ilStudyProgrammeAutoCategory $ac): void
     {
         $this->assertEquals(
             $this->usr_id,
@@ -84,7 +86,7 @@ class ilStudyProgrammeAutoCategoryTest extends TestCase
     /**
      * @depends testConstruction
      */
-    public function testGetLastEdited(ilStudyProgrammeAutoCategory $ac) : void
+    public function testGetLastEdited(ilStudyProgrammeAutoCategory $ac): void
     {
         $this->assertEquals(
             $this->dat,

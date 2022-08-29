@@ -1,4 +1,6 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -33,7 +35,7 @@ class InternalRepoService
         $this->db = $db;
     }
 
-    public function note() : NoteDBRepository
+    public function note(): NoteDBRepository
     {
         return new NoteDBRepository(
             $this->data,
@@ -41,12 +43,12 @@ class InternalRepoService
         );
     }
 
-    public function notesSession() : NotesSessionRepository
+    public function notesSession(): NotesSessionRepository
     {
         return new NotesSessionRepository();
     }
 
-    public function settings() : NoteSettingsDBRepository
+    public function settings(): NoteSettingsDBRepository
     {
         return new NoteSettingsDBRepository(
             $this->data,

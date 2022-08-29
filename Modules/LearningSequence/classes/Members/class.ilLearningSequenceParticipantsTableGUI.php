@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 class ilLearningSequenceParticipantsTableGUI extends ilParticipantTableGUI
 {
     protected ilLearningSequenceMembershipGUI $parent_gui;
@@ -64,7 +66,7 @@ class ilLearningSequenceParticipantsTableGUI extends ilParticipantTableGUI
         $this->initForm();
     }
 
-    protected function initForm() : void
+    protected function initForm(): void
     {
         $this->setFormName('participants');
         $this->setDefaultOrderField('roles');
@@ -108,7 +110,7 @@ class ilLearningSequenceParticipantsTableGUI extends ilParticipantTableGUI
         $this->addCommandButton('updateParticipantsStatus', $this->lng->txt('save'));
     }
 
-    protected function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set): void
     {
         $this->tpl->setVariable('VAL_ID', $a_set['usr_id']);
         $this->tpl->setVariable('VAL_NAME', $a_set['lastname'] . ', ' . $a_set['firstname']);
@@ -186,7 +188,7 @@ class ilLearningSequenceParticipantsTableGUI extends ilParticipantTableGUI
         $this->tpl->setVariable('VAL_LOGIN', $a_set['login']);
     }
 
-    protected function getFirstAccess(int $user_id) : string
+    protected function getFirstAccess(int $user_id): string
     {
         $data = $this->getRepositoryObject()->getStateDB()->getFirstAccessFor(
             $this->getRepositoryObject()->getRefId(),
@@ -200,7 +202,7 @@ class ilLearningSequenceParticipantsTableGUI extends ilParticipantTableGUI
         return $data[$user_id];
     }
 
-    protected function getLastAccess(int $user_id) : string
+    protected function getLastAccess(int $user_id): string
     {
         $data = $this->getRepositoryObject()->getStateDB()->getLastAccessFor(
             $this->getRepositoryObject()->getRefId(),
@@ -214,7 +216,7 @@ class ilLearningSequenceParticipantsTableGUI extends ilParticipantTableGUI
         return $data[$user_id];
     }
 
-    protected function getCompletedSteps(int $user_id) : string
+    protected function getCompletedSteps(int $user_id): string
     {
         $passed = 0;
 
@@ -238,7 +240,7 @@ class ilLearningSequenceParticipantsTableGUI extends ilParticipantTableGUI
      * the object instead of its actually number in the ls items list.
      * The ls item list could change and the number isn't very revealing.
      */
-    protected function getLastVisitedStep(int $user_id) : string
+    protected function getLastVisitedStep(int $user_id): string
     {
         $data = $this->getRepositoryObject()->getStateDB()->getCurrentItemsFor(
             $this->getRepositoryObject()->getRefId(),
@@ -252,12 +254,12 @@ class ilLearningSequenceParticipantsTableGUI extends ilParticipantTableGUI
         return $this->getTitleFor((int) $data[$user_id]);
     }
 
-    protected function getTitleFor(int $ref_id) : string
+    protected function getTitleFor(int $ref_id): string
     {
         return ilObject::_lookupTitle(ilObject::_lookupObjId($ref_id));
     }
 
-    public function parse() : void
+    public function parse(): void
     {
         $this->determineOffsetAndOrder(true);
 
@@ -377,7 +379,7 @@ class ilLearningSequenceParticipantsTableGUI extends ilParticipantTableGUI
         $this->setData($user_data);
     }
 
-    public function getSelectableColumns() : array
+    public function getSelectableColumns(): array
     {
         $ef = $this->getExportFieldsInfo();
         $columns = $ef->getSelectableFieldsInfo(
@@ -408,7 +410,7 @@ class ilLearningSequenceParticipantsTableGUI extends ilParticipantTableGUI
         );
     }
 
-    protected function getExportFieldsInfo() : ilExportFieldsInfo
+    protected function getExportFieldsInfo(): ilExportFieldsInfo
     {
         return ilExportFieldsInfo::_getInstanceByType(
             $this->getRepositoryObject()->getType()

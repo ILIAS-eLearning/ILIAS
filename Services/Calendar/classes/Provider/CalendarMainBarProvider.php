@@ -12,11 +12,10 @@ use ILIAS\MainMenu\Provider\StandardTopItemsProvider;
  */
 class CalendarMainBarProvider extends AbstractStaticMainMenuProvider
 {
-
     /**
      * @inheritDoc
      */
-    public function getStaticTopItems() : array
+    public function getStaticTopItems(): array
     {
         return [];
     }
@@ -24,7 +23,7 @@ class CalendarMainBarProvider extends AbstractStaticMainMenuProvider
     /**
      * @inheritDoc
      */
-    public function getStaticSubItems() : array
+    public function getStaticSubItems(): array
     {
         $title = $this->dic->language()->txt("mm_calendar");
         $icon = $this->dic->ui()->factory()->symbol()->icon()->standard("cals", $title);

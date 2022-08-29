@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -61,7 +63,7 @@ class ilLanguageExtTableGUI extends ilTable2GUI
     /**
      * Fill a single data row.
      */
-    protected function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set): void
     {
         global $DIC;
         $ilDB = $DIC->database();
@@ -105,7 +107,7 @@ class ilLanguageExtTableGUI extends ilTable2GUI
 
         $this->tpl->setVariable("MODULE", ilLegacyFormElementsUtil::prepareFormOutput($a_set["module"]));
         $this->tpl->setVariable("TOPIC", ilLegacyFormElementsUtil::prepareFormOutput($a_set["topic"]));
-        
+
         $this->tpl->setVariable("DEFAULT_VALUE", ilLegacyFormElementsUtil::prepareFormOutput($a_set["default"] ?? ""));
         $this->tpl->setVariable("COMMENT", ilLegacyFormElementsUtil::prepareFormOutput($a_set["default_comment"] ?? ""));
     }
@@ -113,7 +115,7 @@ class ilLanguageExtTableGUI extends ilTable2GUI
     /**
      * Init filter
     */
-    public function initFilter() : void
+    public function initFilter(): void
     {
         global $DIC;
         $lng = $DIC->language();
@@ -189,7 +191,7 @@ class ilLanguageExtTableGUI extends ilTable2GUI
         foreach ($langlist as $lang_key) {
             $options[$lang_key] = $lng->txt("meta_l_" . $lang_key);
         }
-    
+
         include_once "./Services/Form/classes/class.ilSelectInputGUI.php";
         $si = new ilSelectInputGUI($lng->txt("language_compare"), "compare");
         //$si->setParent($this->parent_obj);

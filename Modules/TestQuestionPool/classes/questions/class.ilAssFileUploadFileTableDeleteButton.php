@@ -1,4 +1,5 @@
 <?php
+
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 require_once 'Modules/TestQuestionPool/classes/questions/class.ilAssFileUploadFileTableCommandButton.php';
@@ -11,10 +12,10 @@ require_once 'Modules/TestQuestionPool/classes/questions/class.ilAssFileUploadFi
  */
 class ilAssFileUploadFileTableDeleteButton extends ilAssFileUploadFileTableCommandButton
 {
-    const ACTION = 'delete';
-    
-    const ILC_SUBMIT_CSS_CLASS = 'ilc_qsubmit_Submit';
-    
+    public const ACTION = 'delete';
+
+    public const ILC_SUBMIT_CSS_CLASS = 'ilc_qsubmit_Submit';
+
     public function __construct($type)
     {
         parent::__construct($type);
@@ -22,8 +23,8 @@ class ilAssFileUploadFileTableDeleteButton extends ilAssFileUploadFileTableComma
         $this->addCSSClass(self::ILC_SUBMIT_CSS_CLASS);
         $this->setCaption($this->lng()->txt('delete'), false);
     }
-    
-    public static function getInstance() : self
+
+    public static function getInstance(): self
     {
         return new self(self::TYPE_SUBMIT);
     }

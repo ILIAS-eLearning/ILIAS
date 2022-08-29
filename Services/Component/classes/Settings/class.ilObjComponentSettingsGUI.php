@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /* Copyright (c) 2021 - Daniel Weise <daniel.weise@concepts-and-training.de> - Extended GPL, see LICENSE */
 
@@ -67,7 +69,7 @@ class ilObjComponentSettingsGUI extends ilObjectGUI
         $this->lng->loadLanguageModule(self::TYPE);
     }
 
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         $next_class = $this->ctrl->getNextClass($this);
         $cmd = $this->ctrl->getCmd();
@@ -116,7 +118,7 @@ class ilObjComponentSettingsGUI extends ilObjectGUI
         }
     }
 
-    protected function forwardConfigGUI(string $name) : void
+    protected function forwardConfigGUI(string $name): void
     {
         if (!class_exists($name)) {
             throw new Exception("class $name not found!");
@@ -129,7 +131,7 @@ class ilObjComponentSettingsGUI extends ilObjectGUI
         $this->ctrl->forwardCommand($gui);
     }
 
-    protected function installPlugin() : void
+    protected function installPlugin(): void
     {
         $pl = $this->getPlugin();
 
@@ -137,7 +139,7 @@ class ilObjComponentSettingsGUI extends ilObjectGUI
         $this->update($pl);
     }
 
-    protected function update(ilPlugin $plugin) : void
+    protected function update(ilPlugin $plugin): void
     {
         try {
             $plugin->update();
@@ -149,7 +151,7 @@ class ilObjComponentSettingsGUI extends ilObjectGUI
         $this->ctrl->redirectByClass(ilAdministrationGUI::class, self::CMD_JUMP_TO_PLUGIN_SLOT);
     }
 
-    protected function refreshLanguages() : void
+    protected function refreshLanguages(): void
     {
         try {
             $plugin_name = $this->request_wrapper->retrieve(self::P_PLUGIN_NAME, $this->refinery->kindlyTo()->string());
@@ -163,7 +165,7 @@ class ilObjComponentSettingsGUI extends ilObjectGUI
         $this->ctrl->redirect($this, self::CMD_DEFAULT);
     }
 
-    protected function activatePlugin() : void
+    protected function activatePlugin(): void
     {
         $pl = $this->getPlugin();
 
@@ -177,7 +179,7 @@ class ilObjComponentSettingsGUI extends ilObjectGUI
         $this->ctrl->redirect($this, self::CMD_DEFAULT);
     }
 
-    protected function deactivatePlugin() : void
+    protected function deactivatePlugin(): void
     {
         $pl = $this->getPlugin();
 
@@ -191,13 +193,13 @@ class ilObjComponentSettingsGUI extends ilObjectGUI
         $this->ctrl->redirect($this, self::CMD_DEFAULT);
     }
 
-    protected function updatePlugin() : void
+    protected function updatePlugin(): void
     {
         $pl = $this->getPlugin();
         $this->update($pl);
     }
 
-    protected function confirmUninstallPlugin() : void
+    protected function confirmUninstallPlugin(): void
     {
         $pl = $this->getPlugin();
 
@@ -233,7 +235,7 @@ class ilObjComponentSettingsGUI extends ilObjectGUI
         $this->tpl->setContent($this->renderer->render($this->ui->messageBox()->confirmation($question)->withButtons($buttons)));
     }
 
-    protected function uninstallPlugin() : void
+    protected function uninstallPlugin(): void
     {
         $pl = $this->getPlugin();
 
@@ -247,7 +249,7 @@ class ilObjComponentSettingsGUI extends ilObjectGUI
         $this->ctrl->redirect($this, self::CMD_DEFAULT);
     }
 
-    protected function getPlugin() : ilPlugin
+    protected function getPlugin(): ilPlugin
     {
         $plugin_name = $this->request_wrapper->retrieve(self::P_PLUGIN_NAME, $this->refinery->kindlyTo()->string());
         return $this->component_factory->getPlugin(
@@ -255,7 +257,7 @@ class ilObjComponentSettingsGUI extends ilObjectGUI
         );
     }
 
-    protected function listPlugins() : void
+    protected function listPlugins(): void
     {
         $this->tabs->activateTab(self::TAB_PLUGINS);
 
@@ -280,7 +282,7 @@ class ilObjComponentSettingsGUI extends ilObjectGUI
         $this->tpl->setContent($filters->getHTML() . $table);
     }
 
-    public function getAdminTabs() : void
+    public function getAdminTabs(): void
     {
         if ($this->rbac_system->checkAccess("visible,read", $this->object->getRefId())) {
             $this->tabs_gui->addTab(

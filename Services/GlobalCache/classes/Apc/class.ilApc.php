@@ -15,7 +15,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * Class ilApc
  * @beta
@@ -29,7 +29,7 @@ class ilApc extends ilGlobalCacheService implements ilGlobalCacheServiceInterfac
      */
     private const MIN_MEMORY = 16;
 
-    public function exists(string $key) : bool
+    public function exists(string $key): bool
     {
         if (function_exists('apcu_exists')) {
             return apcu_exists($this->returnKey($key));
@@ -37,7 +37,7 @@ class ilApc extends ilGlobalCacheService implements ilGlobalCacheServiceInterfac
         return (bool) apcu_fetch($this->returnKey($key));
     }
 
-    public function set(string $key, $serialized_value, int $ttl = null) : bool
+    public function set(string $key, $serialized_value, int $ttl = null): bool
     {
         return apcu_store($this->returnKey($key), $serialized_value, $ttl);
     }
@@ -53,12 +53,12 @@ class ilApc extends ilGlobalCacheService implements ilGlobalCacheServiceInterfac
     /**
      * @return bool|string[]
      */
-    public function delete(string $key) : bool
+    public function delete(string $key): bool
     {
         return apcu_delete($this->returnKey($key));
     }
 
-    public function flush(bool $complete = false) : bool
+    public function flush(bool $complete = false): bool
     {
         if ($complete) {
             return apcu_clear_cache();
@@ -97,7 +97,7 @@ class ilApc extends ilGlobalCacheService implements ilGlobalCacheServiceInterfac
         return ($serialized_value);
     }
 
-    public function getInfo() : array
+    public function getInfo(): array
     {
         $return = array();
 
@@ -127,17 +127,17 @@ class ilApc extends ilGlobalCacheService implements ilGlobalCacheServiceInterfac
         return $return;
     }
 
-    protected function getActive() : bool
+    protected function getActive(): bool
     {
         return function_exists('apcu_store');
     }
 
-    protected function getInstallable() : bool
+    protected function getInstallable(): bool
     {
         return function_exists('apcu_store');
     }
 
-    protected function getMemoryLimit() : string
+    protected function getMemoryLimit(): string
     {
         if (ilRuntime::getInstance()->isHHVM()) {
             return $this->getMinMemory() . 'M';
@@ -149,7 +149,7 @@ class ilApc extends ilGlobalCacheService implements ilGlobalCacheServiceInterfac
     /**
      * @inheritDoc
      */
-    protected function getMinMemory() : int
+    protected function getMinMemory(): int
     {
         return self::MIN_MEMORY;
     }
@@ -157,7 +157,7 @@ class ilApc extends ilGlobalCacheService implements ilGlobalCacheServiceInterfac
     /**
      * @inheritdoc
      */
-    public function isValid(string $key) : bool
+    public function isValid(string $key): bool
     {
         return true;
     }

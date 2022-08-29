@@ -48,12 +48,12 @@ class ilCaseNode extends ilBaseNode
         $this->activities = [];
     }
 
-    public function setIsExclusiveJoin(bool $is_exclusive) : void
+    public function setIsExclusiveJoin(bool $is_exclusive): void
     {
         $this->is_exclusive_join = $is_exclusive;
     }
 
-    public function setIsExclusiveFork(bool $is_exclusive) : void
+    public function setIsExclusiveFork(bool $is_exclusive): void
     {
         $this->is_exclusive_fork = $is_exclusive;
     }
@@ -92,7 +92,7 @@ class ilCaseNode extends ilBaseNode
      *
      * @return bool True, if node is ready to transit.
      */
-    public function checkTransitionPreconditions() : bool
+    public function checkTransitionPreconditions(): bool
     {
         // queries the $detectors if their conditions are met.
         $isPreconditionMet = true;
@@ -115,7 +115,7 @@ class ilCaseNode extends ilBaseNode
      *
      * @return bool True, if transition succeeded.
      */
-    public function attemptTransition() : bool
+    public function attemptTransition(): bool
     {
         if ($this->checkTransitionPreconditions() === true) {
             $this->executeTransition();
@@ -158,7 +158,7 @@ class ilCaseNode extends ilBaseNode
      * @param ilEmitter $emitter
      * @param string|bool   $else True, if the emitter should be an 'else'-emitter.
      */
-    public function addEmitter(ilEmitter $emitter, $else = 'return true;') : void
+    public function addEmitter(ilEmitter $emitter, $else = 'return true;'): void
     {
         $this->condition_emitter_pairs[] = [
             'emitter' => $emitter,
@@ -173,7 +173,7 @@ class ilCaseNode extends ilBaseNode
      *
      * @return void
      */
-    public function notifyDetectorSatisfaction(ilDetector $detector) : void
+    public function notifyDetectorSatisfaction(ilDetector $detector): void
     {
         if ($this->isActive()) {
             $this->attemptTransition();

@@ -51,7 +51,7 @@ class ilContSkillCollector
         $this->profile_service = $DIC->skills()->profile();
     }
 
-    public function getSkillsForTableGUI() : array
+    public function getSkillsForTableGUI(): array
     {
         // Get single and profile skills WITHOUT array keys so as not to remove multiple occurrences when merging
 
@@ -67,7 +67,7 @@ class ilContSkillCollector
         return $this->tab_skills;
     }
 
-    public function getSkillsForPresentationGUI() : array
+    public function getSkillsForPresentationGUI(): array
     {
         // Get single and profile skills WITH array keys so as to remove multiple occurrences when merging
 
@@ -88,9 +88,9 @@ class ilContSkillCollector
         return $this->pres_skills;
     }
 
-    protected function getSingleSkills() : array
+    protected function getSingleSkills(): array
     {
-        $s_skills = array_map(static function (array $v) : array {
+        $s_skills = array_map(static function (array $v): array {
             return [
                 "base_skill_id" => $v["skill_id"],
                 "tref_id" => $v["tref_id"],
@@ -101,7 +101,7 @@ class ilContSkillCollector
         return $s_skills;
     }
 
-    protected function getProfileSkills() : array
+    protected function getProfileSkills(): array
     {
         $p_skills = [];
         // Global skills

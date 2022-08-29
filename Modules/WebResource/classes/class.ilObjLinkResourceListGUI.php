@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,19 +17,19 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * Class ilObjLinkResourceListGUI
  * @author        Alex Killing <alex.killing@gmx.de>
  */
 class ilObjLinkResourceListGUI extends ilObjectListGUI
 {
-    protected function getWebLinkRepo() : ilWebLinkRepository
+    protected function getWebLinkRepo(): ilWebLinkRepository
     {
         return new ilWebLinkDatabaseRepository($this->obj_id);
     }
 
-    public function getTitle() : string
+    public function getTitle(): string
     {
         if (ilObjLinkResourceAccess::_checkDirectLink($this->obj_id) &&
             !$this->getWebLinkRepo()->doesListExist()) {
@@ -37,7 +39,7 @@ class ilObjLinkResourceListGUI extends ilObjectListGUI
         return parent::getTitle();
     }
 
-    public function getDescription() : string
+    public function getDescription(): string
     {
         if (ilObjLinkResourceAccess::_checkDirectLink($this->obj_id) &&
             !$this->getWebLinkRepo()->doesListExist()) {
@@ -60,7 +62,7 @@ class ilObjLinkResourceListGUI extends ilObjectListGUI
         return parent::getDescription();
     }
 
-    public function init() : void
+    public function init(): void
     {
         $this->delete_enabled = true;
         $this->cut_enabled = true;
@@ -75,7 +77,7 @@ class ilObjLinkResourceListGUI extends ilObjectListGUI
         $this->commands = ilObjLinkResourceAccess::_getCommands();
     }
 
-    public function getCommandFrame(string $cmd) : string
+    public function getCommandFrame(string $cmd): string
     {
         // #16820 / #18419 / #18622
         if ($cmd == "" &&
@@ -91,12 +93,12 @@ class ilObjLinkResourceListGUI extends ilObjectListGUI
         return "";
     }
 
-    public function getProperties() : array
+    public function getProperties(): array
     {
         return [];
     }
 
-    public function getCommandLink(string $cmd) : string
+    public function getCommandLink(string $cmd): string
     {
         $cmd_class = '';
         if ($this->request_wrapper->has('cmd_class')) {

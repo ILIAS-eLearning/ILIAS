@@ -1,4 +1,5 @@
 <?php
+
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 require_once 'Services/UIComponent/Toolbar/classes/class.ilToolbarGUI.php';
@@ -14,7 +15,7 @@ class ilTestRandomQuestionSetSourcePoolDefinitionListToolbarGUI extends ilToolba
     public ilCtrl $ctrl;
     public ilTestRandomQuestionSetConfigGUI $questionSetConfigGUI;
     public ilTestRandomQuestionSetConfig $questionSetConfig;
-    
+
     public function __construct(ilCtrl $ctrl, ilLanguage $lng, ilTestRandomQuestionSetConfigGUI $questionSetConfigGUI, ilTestRandomQuestionSetConfig $questionSetConfig)
     {
         $this->ctrl = $ctrl;
@@ -24,8 +25,8 @@ class ilTestRandomQuestionSetSourcePoolDefinitionListToolbarGUI extends ilToolba
 
         parent::__construct();
     }
-    
-    public function build() : void
+
+    public function build(): void
     {
         $this->setFormAction($this->ctrl->getFormAction($this->questionSetConfigGUI));
 
@@ -33,19 +34,19 @@ class ilTestRandomQuestionSetSourcePoolDefinitionListToolbarGUI extends ilToolba
             $this->populateNewQuestionSelectionRuleInputs();
         }
     }
-    
-    private function buildSourcePoolSelectOptionsArray($availablePools) : array
+
+    private function buildSourcePoolSelectOptionsArray($availablePools): array
     {
         $sourcePoolSelectOptionArray = array();
-        
+
         foreach ($availablePools as $poolId => $poolData) {
             $sourcePoolSelectOptionArray[$poolId] = $poolData['title'];
         }
-        
+
         return $sourcePoolSelectOptionArray;
     }
 
-    private function populateNewQuestionSelectionRuleInputs() : void
+    private function populateNewQuestionSelectionRuleInputs(): void
     {
         $this->addFormButton(
             $this->lng->txt('tst_rnd_quest_set_tb_add_pool_btn'),

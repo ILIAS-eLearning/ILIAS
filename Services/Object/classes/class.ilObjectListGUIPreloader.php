@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * Preloader for object list GUIs
  *
@@ -50,35 +52,35 @@ class ilObjectListGUIPreloader
         $this->fav_manager = new ilFavouritesManager();
         $this->context = $context;
     }
-    
-    public function addItem(int $obj_id, string $type, ?int $ref_id = null) : void
+
+    public function addItem(int $obj_id, string $type, ?int $ref_id = null): void
     {
         $this->obj_ids[] = $obj_id;
         $this->obj_ids_by_type[$type][] = $obj_id;
         $this->types[] = $type;
-        
+
         if ($ref_id) {
             $this->ref_ids[] = $ref_id;
             $this->ref_ids_by_type[$type][] = $ref_id;
         }
     }
-    
-    public function preload() : void
+
+    public function preload(): void
     {
         if (!$this->obj_ids) {
             return;
         }
-        
+
         $this->obj_ids = array_unique($this->obj_ids);
         $this->types = array_unique($this->types);
         if ($this->ref_ids) {
             $this->ref_ids = array_unique($this->ref_ids);
         }
-                        
+
         // type specific preloads
         foreach ($this->types as $type) {
             $this->obj_ids_by_type[$type] = array_unique($this->obj_ids_by_type[$type]);
-            
+
             if (isset($this->ref_ids_by_type[$type])) {
                 $this->ref_ids_by_type[$type] = array_unique($this->ref_ids_by_type[$type]);
             }
@@ -108,29 +110,29 @@ class ilObjectListGUIPreloader
                 }
             }
         }
-        
+
         if ($this->ref_ids) {
             $this->tree->preloadDeleted($this->ref_ids);
             $this->tree->preloadDepthParent($this->ref_ids);
             $this->obj_data_cache->preloadReferenceCache($this->ref_ids, false);
             $this->rbacsystem->preloadRbacPaCache($this->ref_ids, $this->user->getId());
-            
+
             if ($this->user->getId() != ANONYMOUS_USER_ID &&
                 $this->context != ilObjectListGUI::CONTEXT_PERSONAL_DESKTOP) {
                 $this->fav_manager->loadData($this->user->getId(), $this->ref_ids);
             }
-            
+
             ilObjectActivation::preloadData($this->ref_ids);
         }
-                        
+
         ilObjectListGUI::preloadCommonProperties($this->obj_ids, $this->context);
-        
+
         if ($this->context == ilObjectListGUI::CONTEXT_REPOSITORY) {
             ilRating::preloadListGUIData($this->obj_ids);
-            
+
             ilAdvancedMDValues::preloadByObjIds($this->obj_ids);
         }
-        
+
         if ($this->context == ilObjectListGUI::CONTEXT_REPOSITORY ||
             $this->context == ilObjectListGUI::CONTEXT_PERSONAL_DESKTOP ||
             $this->context == ilObjectListGUI::CONTEXT_SEARCH) {

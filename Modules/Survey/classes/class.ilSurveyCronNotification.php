@@ -37,48 +37,48 @@ class ilSurveyCronNotification extends ilCronJob
         }
     }
 
-    public function getId() : string
+    public function getId(): string
     {
         return "survey_notification";
     }
-    
-    public function getTitle() : string
+
+    public function getTitle(): string
     {
         $lng = $this->lng;
-        
+
         $lng->loadLanguageModule("survey");
         return $lng->txt("survey_reminder_cron");
     }
-    
-    public function getDescription() : string
+
+    public function getDescription(): string
     {
         $lng = $this->lng;
-        
+
         $lng->loadLanguageModule("survey");
         return $lng->txt("survey_reminder_cron_info");
     }
-    
-    public function getDefaultScheduleType() : int
+
+    public function getDefaultScheduleType(): int
     {
         return self::SCHEDULE_TYPE_DAILY;
     }
-    
-    public function getDefaultScheduleValue() : ?int
+
+    public function getDefaultScheduleValue(): ?int
     {
         return null;
     }
-    
-    public function hasAutoActivation() : bool
+
+    public function hasAutoActivation(): bool
     {
         return true;
     }
-    
-    public function hasFlexibleSchedule() : bool
+
+    public function hasFlexibleSchedule(): bool
     {
         return false;
     }
-    
-    public function run() : ilCronJobResult
+
+    public function run(): ilCronJobResult
     {
         global $tree;
 
@@ -87,7 +87,7 @@ class ilSurveyCronNotification extends ilCronJob
 
         $status = ilCronJobResult::STATUS_NO_ACTION;
         $message = array();
-                
+
         $root = $tree->getNodeData(ROOT_FOLDER_ID);
         foreach ($tree->getSubTree($root, false, ["svy"]) as $svy_ref_id) {
             $svy = new ilObjSurvey($svy_ref_id);
@@ -97,10 +97,10 @@ class ilSurveyCronNotification extends ilCronJob
                 $status = ilCronJobResult::STATUS_OK;
             }
         }
-        
+
         $result = new ilCronJobResult();
         $result->setStatus($status);
-        
+
         if (count($message)) {
             $result->setMessage("Ref-Ids: " . implode(", ", $message) . ' / ' . "#" . count($message));
         }

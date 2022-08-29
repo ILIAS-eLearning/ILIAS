@@ -1,4 +1,5 @@
 <?php
+
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -21,7 +22,7 @@ interface ilObjFileHandlingQuestionType
      *
      * @return boolean TRUE if file uploads exist, FALSE otherwise
      */
-    public function hasFileUploads($test_id) : bool;
+    public function hasFileUploads($test_id): bool;
 
     /**
      * Generates a ZIP file containing all file uploads for a given test and the original id of the question
@@ -41,5 +42,5 @@ interface ilObjFileHandlingQuestionType
      * @param integer|null $question_id
      * @return string
      */
-    public function getFileUploadPath($test_id, $active_id, $question_id = null) : string;
+    public function getFileUploadPath($test_id, $active_id, $question_id = null): string;
 }

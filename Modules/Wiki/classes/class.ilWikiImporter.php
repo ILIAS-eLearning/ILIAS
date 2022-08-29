@@ -25,7 +25,7 @@ class ilWikiImporter extends ilXmlImporter
 {
     protected ilWikiDataSet $ds;
 
-    public function init() : void
+    public function init(): void
     {
         $this->ds = new ilWikiDataSet();
         $this->ds->setDSPrefix("ds");
@@ -36,7 +36,7 @@ class ilWikiImporter extends ilXmlImporter
         string $a_id,
         string $a_xml,
         ilImportMapping $a_mapping
-    ) : void {
+    ): void {
         $parser = new ilDataSetImportParser(
             $a_entity,
             $this->getSchemaVersion(),
@@ -48,7 +48,7 @@ class ilWikiImporter extends ilXmlImporter
 
     public function finalProcessing(
         ilImportMapping $a_mapping
-    ) : void {
+    ): void {
         $wpg_map = $a_mapping->getMappingsOfEntity("Modules/Wiki", "wpg");
 
         foreach ($wpg_map as $wpg_id) {

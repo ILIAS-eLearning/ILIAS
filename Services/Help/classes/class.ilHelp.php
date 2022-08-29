@@ -25,18 +25,18 @@ class ilHelp
 {
     public static function getTooltipPresentationText(
         string $a_tt_id
-    ) : string {
+    ): string {
         global $DIC;
 
         $ilDB = $DIC->database();
         $ilSetting = $DIC->settings();
         $ilUser = $DIC->user();
-        
-        
+
+
         if ($ilUser->getLanguage() !== "de") {
             return "";
         }
-        
+
         if ($ilSetting->get("help_mode") === "1") {
             return "";
         }
@@ -44,7 +44,7 @@ class ilHelp
         if ($ilUser->getPref("hide_help_tt")) {
             return "";
         }
-        
+
         if (defined('OH_REF_ID') && (int) OH_REF_ID > 0) {
             $module_id = 0;
         } else {
@@ -53,7 +53,7 @@ class ilHelp
                 return "";
             }
         }
-        
+
         $set = $ilDB->query(
             "SELECT tt_text FROM help_tooltip " .
             " WHERE tt_id = " . $ilDB->quote($a_tt_id, "text") .
@@ -94,7 +94,7 @@ class ilHelp
      */
     public static function getObjCreationTooltipText(
         string $a_type
-    ) : string {
+    ): string {
         return self::getTooltipPresentationText($a_type . "_create");
     }
 
@@ -103,18 +103,18 @@ class ilHelp
      */
     public static function getMainMenuTooltip(
         string $a_item_id
-    ) : string {
+    ): string {
         return self::getTooltipPresentationText($a_item_id);
     }
 
     public static function getAllTooltips(
         string $a_comp = "",
         int $a_module_id = 0
-    ) : array {
+    ): array {
         global $DIC;
 
         $ilDB = $DIC->database();
-        
+
         $q = "SELECT * FROM help_tooltip";
         $q .= " WHERE module_id = " . $ilDB->quote($a_module_id, "integer");
         if ($a_comp !== "") {
@@ -128,19 +128,19 @@ class ilHelp
         }
         return $tts;
     }
-    
+
     public static function addTooltip(
         string $a_tt_id,
         string $a_text,
         int $a_module_id = 0
-    ) : void {
+    ): void {
         global $DIC;
 
         $ilDB = $DIC->database();
-        
+
         $fu = strpos($a_tt_id, "_");
         $comp = substr($a_tt_id, 0, $fu);
-        
+
         $nid = $ilDB->nextId("help_tooltip");
         $ilDB->manipulate("INSERT INTO help_tooltip " .
             "(id, tt_text, tt_id, comp,module_id) VALUES (" .
@@ -151,19 +151,19 @@ class ilHelp
             $ilDB->quote($a_module_id, "integer") .
             ")");
     }
-    
+
     public static function updateTooltip(
         int $a_id,
         string $a_text,
         string $a_tt_id
-    ) : void {
+    ): void {
         global $DIC;
 
         $ilDB = $DIC->database();
 
         $fu = strpos($a_tt_id, "_");
         $comp = substr($a_tt_id, 0, $fu);
-        
+
         $ilDB->manipulate(
             "UPDATE help_tooltip SET " .
             " tt_text = " . $ilDB->quote($a_text, "text") . ", " .
@@ -172,19 +172,19 @@ class ilHelp
             " WHERE id = " . $ilDB->quote($a_id, "integer")
         );
     }
-    
-    
+
+
     /**
      * Get all tooltip components
      */
     public static function getTooltipComponents(
         int $a_module_id = 0
-    ) : array {
+    ): array {
         global $DIC;
 
         $ilDB = $DIC->database();
         $lng = $DIC->language();
-        
+
         $set = $ilDB->query("SELECT DISTINCT comp FROM help_tooltip " .
             " WHERE module_id = " . $ilDB->quote($a_module_id, "integer") .
             " ORDER BY comp ");
@@ -194,27 +194,27 @@ class ilHelp
         }
         return $comps;
     }
-    
+
     public static function deleteTooltip(
         int $a_id
-    ) : void {
+    ): void {
         global $DIC;
 
         $ilDB = $DIC->database();
-        
+
         $ilDB->manipulate(
             "DELETE FROM help_tooltip WHERE " .
             " id = " . $ilDB->quote($a_id, "integer")
         );
     }
-    
+
     public static function deleteTooltipsOfModule(
         int $a_id
-    ) : void {
+    ): void {
         global $DIC;
 
         $ilDB = $DIC->database();
-        
+
         $ilDB->manipulate(
             "DELETE FROM help_tooltip WHERE " .
             " module_id = " . $ilDB->quote($a_id, "integer")
@@ -225,7 +225,7 @@ class ilHelp
      * Get help lm id
      * @return int help learning module id
      */
-    public static function getHelpLMId() : int
+    public static function getHelpLMId(): int
     {
         global $DIC;
 

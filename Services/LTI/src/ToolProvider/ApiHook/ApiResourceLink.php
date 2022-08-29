@@ -29,7 +29,6 @@ use ILIAS\LTI\ToolProvider\Service;
  */
 class ApiResourceLink
 {
-
     /**
      * Resource link object.
      *
@@ -49,7 +48,7 @@ class ApiResourceLink
     /**
      * Check if the API hook has been configured.
      */
-    public function isConfigured() : bool
+    public function isConfigured(): bool
     {
         return true;
     }
@@ -92,7 +91,7 @@ class ApiResourceLink
      * @param array $settings An associative array of settings (optional, default is none)
      * @return bool    True if action was successful, otherwise false
      */
-    public function setToolSettings(array $settings = array()) : bool
+    public function setToolSettings(array $settings = array()): bool
     {
         return false;
     }

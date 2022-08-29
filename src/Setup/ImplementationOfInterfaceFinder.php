@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\Setup;
 
 /**
@@ -69,7 +71,7 @@ class ImplementationOfInterfaceFinder
         string $interface,
         array $additional_ignore = [],
         string $matching_path = null
-    ) : \Iterator {
+    ): \Iterator {
         foreach ($this->getAllClassNames($additional_ignore, $matching_path) as $class_name) {
             try {
                 $r = new \ReflectionClass($class_name);
@@ -85,7 +87,7 @@ class ImplementationOfInterfaceFinder
     /**
      * @param   string[] $additional_ignore
      */
-    protected function getAllClassNames(array $additional_ignore, string $matching_path = null) : \Iterator
+    protected function getAllClassNames(array $additional_ignore, string $matching_path = null): \Iterator
     {
         $ignore = array_merge($this->ignore, $additional_ignore);
 
@@ -97,7 +99,7 @@ class ImplementationOfInterfaceFinder
             "|",
             array_map(
                 // fix path-separators to respect windows' backspaces.
-                fn ($v) : string => "(" . str_replace('/', '(/|\\\\)', $v) . ")",
+                fn ($v): string => "(" . str_replace('/', '(/|\\\\)', $v) . ")",
                 $ignore
             )
         );

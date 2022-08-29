@@ -28,7 +28,7 @@ class ilObjSurveyQuestionPool extends ilObject
     public bool $online = false;
     protected ilComponentRepository $component_repository;
     private \ilGlobalTemplateInterface $main_tpl;
-    
+
     public function __construct(
         int $a_id = 0,
         bool $a_call_by_reference = true
@@ -48,7 +48,7 @@ class ilObjSurveyQuestionPool extends ilObject
             ->editing();
     }
 
-    public function create($a_upload = false) : int
+    public function create($a_upload = false): int
     {
         $id = parent::create();
         if (!$a_upload) {
@@ -57,7 +57,7 @@ class ilObjSurveyQuestionPool extends ilObject
         return $id;
     }
 
-    public function update() : bool
+    public function update(): bool
     {
         $this->updateMetaData();
         if (!parent::update()) {
@@ -66,13 +66,13 @@ class ilObjSurveyQuestionPool extends ilObject
         return true;
     }
 
-    public function read() : void
+    public function read(): void
     {
         parent::read();
         $this->loadFromDb();
     }
 
-    public function cloneObject(int $target_id, int $copy_id = 0, bool $omit_tree = false) : ?ilObject
+    public function cloneObject(int $target_id, int $copy_id = 0, bool $omit_tree = false): ?ilObject
     {
         $newObj = parent::cloneObject($target_id, $copy_id, $omit_tree);
 
@@ -105,7 +105,7 @@ class ilObjSurveyQuestionPool extends ilObject
     public function createQuestion(
         string $question_type,
         int $question_id = -1
-    ) : SurveyQuestionGUI {
+    ): SurveyQuestionGUI {
         if ((!$question_type) and ($question_id > 0)) {
             $question_type = $this->getQuestiontype($question_id);
         }
@@ -127,7 +127,7 @@ class ilObjSurveyQuestionPool extends ilObject
     public function copyQuestion(
         int $question_id,
         int $questionpool_to
-    ) : void {
+    ): void {
         $question_gui = $this->createQuestion("", $question_id);
         if ($question_gui->object->getObjId() === $questionpool_to) {
             // the question is copied into the same question pool
@@ -146,10 +146,10 @@ class ilObjSurveyQuestionPool extends ilObject
         }
     }
 
-    public function loadFromDb() : void
+    public function loadFromDb(): void
     {
         $ilDB = $this->db;
-        
+
         $result = $ilDB->queryF(
             "SELECT isonline FROM svy_qpl WHERE obj_fi = %s",
             array('integer'),
@@ -160,13 +160,13 @@ class ilObjSurveyQuestionPool extends ilObject
             $this->setOnline((bool) $row["isonline"]);
         }
     }
-    
-    public function saveToDb() : void
+
+    public function saveToDb(): void
     {
         $ilDB = $this->db;
-        
+
         parent::update();
-        
+
         $result = $ilDB->queryF(
             "SELECT * FROM svy_qpl WHERE obj_fi = %s",
             array('integer'),
@@ -187,8 +187,8 @@ class ilObjSurveyQuestionPool extends ilObject
             );
         }
     }
-    
-    public function delete() : bool
+
+    public function delete(): bool
     {
         $remove = parent::delete();
         // always call parent delete function first!!
@@ -201,11 +201,11 @@ class ilObjSurveyQuestionPool extends ilObject
 
         // delete meta data
         $this->deleteMetaData();
-        
+
         return true;
     }
 
-    public function deleteAllData() : void
+    public function deleteAllData(): void
     {
         $ilDB = $this->db;
         $result = $ilDB->queryF(
@@ -229,7 +229,7 @@ class ilObjSurveyQuestionPool extends ilObject
     /**
      * Removes a question from the question pool
      */
-    public function removeQuestion(int $question_id) : void
+    public function removeQuestion(int $question_id): void
     {
         if ($question_id < 1) {
             return;
@@ -243,7 +243,7 @@ class ilObjSurveyQuestionPool extends ilObject
      */
     public function getQuestiontype(
         int $question_id
-    ) : ?string {
+    ): ?string {
         $ilDB = $this->db;
         if ($question_id < 1) {
             return null;
@@ -260,13 +260,13 @@ class ilObjSurveyQuestionPool extends ilObject
             return null;
         }
     }
-    
+
     /**
      * Checks if a question is in use by a survey
      * @return mixed array of the surveys which use the question,
      * when the question is in use by at least one survey, otherwise false
      */
-    public function isInUse(int $question_id) : ?array
+    public function isInUse(int $question_id): ?array
     {
         $ilDB = $this->db;
         // check out the already answered questions
@@ -276,7 +276,7 @@ class ilObjSurveyQuestionPool extends ilObject
             array($question_id)
         );
         $answered = $result->numRows();
-        
+
         // check out the questions inserted in surveys
         $result = $ilDB->queryF(
             "SELECT svy_svy.* FROM svy_svy, svy_svy_qst WHERE svy_svy_qst.survey_fi = svy_svy.survey_id AND svy_svy_qst.question_fi = %s",
@@ -293,22 +293,22 @@ class ilObjSurveyQuestionPool extends ilObject
         }
         return $result_array;
     }
-    
+
     /**
      * Pastes a duplicate of a question in the question pool
      */
-    public function paste(int $question_id) : void
+    public function paste(int $question_id): void
     {
         $this->duplicateQuestion($question_id, $this->getId());
     }
-    
+
     /**
      * @param int[] $question_array question ids
      * @todo move to question manager/repo, use dto
      */
     public function getQuestionsInfo(
         array $question_array
-    ) : array {
+    ): array {
         $ilDB = $this->db;
         $result_array = array();
         $result = $ilDB->query("SELECT svy_question.*, svy_qtype.type_tag, svy_qtype.plugin FROM svy_question, svy_qtype WHERE svy_question.questiontype_fi = svy_qtype.questiontype_id AND svy_question.tstamp > 0 AND " . $ilDB->in('svy_question.question_id', $question_array, false, 'integer'));
@@ -323,14 +323,14 @@ class ilObjSurveyQuestionPool extends ilObject
         }
         return $result_array;
     }
-    
+
     /**
      * Duplicates a question for a question pool
      */
     public function duplicateQuestion(
         int $question_id,
         int $obj_id = 0
-    ) : void {
+    ): void {
         $ilUser = $this->user;
         $question = SurveyQuestion::_instanciateQuestion($question_id);
         $suffix = "";
@@ -346,14 +346,14 @@ class ilObjSurveyQuestionPool extends ilObject
         }
         $question->duplicate(false, $question->getTitle() . $suffix, $ilUser->fullname, $ilUser->id);
     }
-    
+
     /**
      * Retrieve the data for the output of the question pool
      * @todo move to question/pool manager
      */
     public function getQuestionsData(
         array $arrFilter
-    ) : array {
+    ): array {
         $ilDB = $this->db;
         $where = "";
         if (count($arrFilter) > 0) {
@@ -398,14 +398,14 @@ class ilObjSurveyQuestionPool extends ilObject
      * data_dir/spl_data/spl_<id>/export
      * @throws ilSurveyException
      */
-    public function createExportDirectory() : void
+    public function createExportDirectory(): void
     {
         $spl_data_dir = ilFileUtils::getDataDir() . "/spl_data";
         ilFileUtils::makeDir($spl_data_dir);
         if (!is_writable($spl_data_dir)) {
             throw new ilSurveyException("Survey Questionpool Data Directory (" . $spl_data_dir . ") not writeable.");
         }
-        
+
         // create learning module directory (data_dir/lm_data/lm_<id>)
         $spl_dir = $spl_data_dir . "/spl_" . $this->getId();
         ilFileUtils::makeDir($spl_dir);
@@ -423,16 +423,16 @@ class ilObjSurveyQuestionPool extends ilObject
     /**
      * get export directory of survey
      */
-    public function getExportDirectory() : string
+    public function getExportDirectory(): string
     {
         $export_dir = ilFileUtils::getDataDir() . "/spl_data" . "/spl_" . $this->getId() . "/export";
         return $export_dir;
     }
-    
+
     /**
      * get export files
      */
-    public function getExportFiles(string $dir) : array
+    public function getExportFiles(string $dir): array
     {
         // quit if import dir not available
         if (!is_dir($dir) or
@@ -468,11 +468,11 @@ class ilObjSurveyQuestionPool extends ilObject
      * (data_dir/spl_data/spl_<id>/import
      * @throws ilSurveyException
      */
-    public function createImportDirectory() : void
+    public function createImportDirectory(): void
     {
         $spl_data_dir = ilFileUtils::getDataDir() . "/spl_data";
         ilFileUtils::makeDir($spl_data_dir);
-        
+
         if (!is_writable($spl_data_dir)) {
             throw new ilSurveyException("Survey Questionpool Data Directory (" . $spl_data_dir . ") not writeable.");
         }
@@ -492,7 +492,7 @@ class ilObjSurveyQuestionPool extends ilObject
         }
     }
 
-    public function getImportDirectory() : string
+    public function getImportDirectory(): string
     {
         return ilFileUtils::getDataDir() . "/spl_data" .
             "/spl_" . $this->getId() . "/import";
@@ -502,7 +502,7 @@ class ilObjSurveyQuestionPool extends ilObject
      * export questions to xml
      * @todo move to export sub-component
      */
-    public function toXML(?array $questions) : string
+    public function toXML(?array $questions): string
     {
         if (is_null($questions) || count($questions) === 0) {
             $questions = $this->getQuestions();
@@ -547,12 +547,12 @@ class ilObjSurveyQuestionPool extends ilObject
             $question->loadFromDb($value);
             $questionxml .= $question->toXML(false);
         }
-        
+
         $xml = str_replace("<dummy>dummy</dummy>", $questionxml, $xml);
         return $xml;
     }
 
-    public function getQuestions() : array
+    public function getQuestions(): array
     {
         $ilDB = $this->db;
         $questions = array();
@@ -577,7 +577,7 @@ class ilObjSurveyQuestionPool extends ilObject
     public function importObject(
         string $source,
         bool $spl_exists = false
-    ) : void {
+    ): void {
         if (is_file($source)) {
             $isZip = (strcmp(strtolower(substr($source, -3)), 'zip') === 0);
             if ($isZip) {
@@ -612,7 +612,7 @@ class ilObjSurveyQuestionPool extends ilObject
     public static function _setOnline(
         int $a_obj_id,
         bool $a_online_status
-    ) : void {
+    ): void {
         global $DIC;
 
         $status = (string) (int) $a_online_status;
@@ -624,23 +624,23 @@ class ilObjSurveyQuestionPool extends ilObject
             array($status, $a_obj_id)
         );
     }
-    
-    public function setOnline(bool $a_online_status) : void
+
+    public function setOnline(bool $a_online_status): void
     {
         $this->online = $a_online_status;
     }
-    
-    public function getOnline() : bool
+
+    public function getOnline(): bool
     {
         return $this->online;
     }
-    
-    public static function _lookupOnline(int $a_obj_id) : bool
+
+    public static function _lookupOnline(int $a_obj_id): bool
     {
         global $DIC;
 
         $ilDB = $DIC->database();
-        
+
         $result = $ilDB->queryF(
             "SELECT isonline FROM svy_qpl WHERE obj_fi = %s",
             array('integer'),
@@ -658,7 +658,7 @@ class ilObjSurveyQuestionPool extends ilObject
      */
     public static function _isWriteable(
         int $object_id
-    ) : bool {
+    ): bool {
         global $DIC;
 
         $rbacsystem = $DIC->rbac()->system();
@@ -676,13 +676,13 @@ class ilObjSurveyQuestionPool extends ilObject
      * Get all available question types
      * @todo move to question manager, use dto
      */
-    public static function _getQuestiontypes() : array
+    public static function _getQuestiontypes(): array
     {
         global $DIC;
 
         $ilDB = $DIC->database();
         $lng = $DIC->language();
-        
+
         $lng->loadLanguageModule("survey");
         $types = array();
         $query_result = $ilDB->query("SELECT * FROM svy_qtype ORDER BY type_tag");
@@ -702,10 +702,10 @@ class ilObjSurveyQuestionPool extends ilObject
             }
         }
         ksort($types);
-        
-        
+
+
         // #14263 - default sorting
-        
+
         $default_sorting = array_flip(array(
             "SurveySingleChoiceQuestion",
             "SurveyMultipleChoiceQuestion",
@@ -713,13 +713,13 @@ class ilObjSurveyQuestionPool extends ilObject
             "SurveyMetricQuestion",
             "SurveyTextQuestion"
         ));
-   
+
         $sorted = array();
         $idx = count($default_sorting);
         foreach ($types as $caption => $item) {
             $type = $item["type_tag"];
             $item["caption"] = $caption;
-            
+
             // default
             if (array_key_exists($type, $default_sorting)) {
                 $sorted[$default_sorting[$type]] = $item;
@@ -731,20 +731,20 @@ class ilObjSurveyQuestionPool extends ilObject
             }
         }
         ksort($sorted);
-        
+
         // redo captions as index
         $types = array();
         foreach ($sorted as $item) {
             $types[$item["caption"]] = $item;
         }
-        
+
         return $types;
     }
 
-    public static function _getQuestionClasses() : array
+    public static function _getQuestionClasses(): array
     {
         $classes = array_map(
-            static function (array $c) : string {
+            static function (array $c): string {
                 return $c["type_tag"];
             },
             self::_getQuestiontypes()
@@ -755,7 +755,7 @@ class ilObjSurveyQuestionPool extends ilObject
     /**
      * @todo move to question manager, use dto
      */
-    public static function _getQuestionTypeTranslations() : array
+    public static function _getQuestionTypeTranslations(): array
     {
         global $DIC;
 
@@ -763,7 +763,7 @@ class ilObjSurveyQuestionPool extends ilObject
         $lng = $DIC->language();
 
         $component_factory = $DIC["component.factory"];
-        
+
         $lng->loadLanguageModule("survey");
         $result = $ilDB->query("SELECT * FROM svy_qtype");
         $types = array();
@@ -791,7 +791,7 @@ class ilObjSurveyQuestionPool extends ilObject
         bool $could_be_offline = false,
         bool $showPath = false,
         string $permission = "read"
-    ) : array {
+    ): array {
         global $DIC;
 
         $ilUser = $DIC->user();
@@ -823,21 +823,21 @@ class ilObjSurveyQuestionPool extends ilObject
     /**
      * Checks whether or not a question plugin with a given name is active
      */
-    public function isPluginActive(string $a_pname) : bool
+    public function isPluginActive(string $a_pname): bool
     {
         return $this->component_repository->getPluginByName($a_pname)->isActive();
     }
-    
+
     /**
      * Returns title, description and type for an array of question id's
      * @param int[] $question_ids An array of question id's
      * @return array Array of associated arrays with title, description, type_tag
      * @todo move to question manager, use dto
      */
-    public function getQuestionInfos(array $question_ids) : array
+    public function getQuestionInfos(array $question_ids): array
     {
         $ilDB = $this->db;
-        
+
         $found = array();
         $query_result = $ilDB->query("SELECT svy_question.*, svy_qtype.type_tag FROM svy_question, svy_qtype " .
             "WHERE svy_question.questiontype_fi = svy_qtype.questiontype_id " .
@@ -860,11 +860,11 @@ class ilObjSurveyQuestionPool extends ilObject
     /**
      * Remove all questions with tstamp = 0
      */
-    public function purgeQuestions() : void
+    public function purgeQuestions(): void
     {
         $ilDB = $this->db;
         $ilUser = $this->user;
-        
+
         $result = $ilDB->queryF(
             "SELECT question_id FROM svy_question WHERE owner_fi = %s AND tstamp = %s",
             array("integer", "integer"),
@@ -881,23 +881,23 @@ class ilObjSurveyQuestionPool extends ilObject
      */
     public function copyToClipboard(
         int $question_id
-    ) : void {
+    ): void {
         $this->edit_manager->addQuestionToClipboard($question_id, "copy");
     }
-    
+
     /**
      * Moves a question to the clipboard
      */
     public function moveToClipboard(
         int $question_id
-    ) : void {
+    ): void {
         $this->edit_manager->addQuestionToClipboard($question_id, "move");
     }
 
     /**
      * Copies/Moves a question from the clipboard
      */
-    public function pasteFromClipboard() : void
+    public function pasteFromClipboard(): void
     {
         $ilDB = $this->db;
 
@@ -943,17 +943,17 @@ class ilObjSurveyQuestionPool extends ilObject
         $this->main_tpl->setOnScreenMessage('success', $this->lng->txt("spl_paste_success"), true);
         $this->edit_manager->clearClipboardQuestions();
     }
-    
+
     /**
      * @param int[] $obligatory_questions obligatory question ids
      */
     public function setObligatoryStates(
         array $obligatory_questions
-    ) : void {
+    ): void {
         $ilDB = $this->db;
         foreach ($this->getQuestions() as $question_id) {
             $status = (int) (isset($obligatory_questions["$question_id"]));
-            
+
             $ilDB->manipulate("UPDATE svy_question" .
                 " SET obligatory = " . $ilDB->quote($status, "integer") .
                 " WHERE question_id = " . $ilDB->quote($question_id, "integer"));

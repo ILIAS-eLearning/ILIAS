@@ -35,7 +35,7 @@ class ilGhostscriptRenderer extends ilFilePreviewRenderer
      *
      * @return array An array containing the supported file formats.
      */
-    public function getSupportedFileFormats() : array
+    public function getSupportedFileFormats(): array
     {
         // build formats only once
         if (!isset(self::$supported_formats)) {
@@ -48,7 +48,7 @@ class ilGhostscriptRenderer extends ilFilePreviewRenderer
     /**
      * Determines whether Ghostscript is installed.
      */
-    public static function isGhostscriptInstalled() : bool
+    public static function isGhostscriptInstalled(): bool
     {
         return (defined('PATH_TO_GHOSTSCRIPT') && PATH_TO_GHOSTSCRIPT !== "");
     }
@@ -60,7 +60,7 @@ class ilGhostscriptRenderer extends ilFilePreviewRenderer
      * @param ilObjFile $obj The object to create images from.
      * @return ilRenderedImage[] An array of ilRenderedImage containing the absolute file paths to the images.
      */
-    protected function renderImages(\ilObject $obj) : array
+    protected function renderImages(\ilObject $obj): array
     {
         $numOfPreviews = $this->getMaximumNumberOfPreviews();
 

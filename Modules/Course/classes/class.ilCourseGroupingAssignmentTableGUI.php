@@ -1,4 +1,6 @@
-<?php declare(strict_types=0);
+<?php
+
+declare(strict_types=0);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -14,7 +16,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * @author  Jörg Lützenkirchen <luetzenkirchen@leifos.com>
  * @version $Id$
@@ -63,7 +65,7 @@ class ilCourseGroupingAssignmentTableGUI extends ilTable2GUI
         $this->getItems($a_group_obj);
     }
 
-    protected function getItems(ilObjCourseGrouping $a_group_obj) : void
+    protected function getItems(ilObjCourseGrouping $a_group_obj): void
     {
         $items = ilUtil::_getObjectsByOperations(
             $this->type,
@@ -110,7 +112,7 @@ class ilCourseGroupingAssignmentTableGUI extends ilTable2GUI
     /**
      * @todo use ilPathGUI
      */
-    public function __formatPath(array $a_path_arr) : string
+    public function __formatPath(array $a_path_arr): string
     {
         $counter = 0;
         $path = '';
@@ -126,7 +128,7 @@ class ilCourseGroupingAssignmentTableGUI extends ilTable2GUI
         return $path;
     }
 
-    protected function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set): void
     {
         $this->tpl->setVariable("ID", $a_set["id"]);
         $this->tpl->setVariable("TXT_TITLE", $a_set["title"]);

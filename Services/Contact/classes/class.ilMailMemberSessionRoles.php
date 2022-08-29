@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -33,18 +35,17 @@ class ilMailMemberSessionRoles extends ilAbstractMailMemberRoles
         $this->rbacreview = $DIC['rbacreview'];
     }
 
-    
-    public function getRadioOptionTitle() : string
+
+    public function getRadioOptionTitle(): string
     {
         return $this->lng->txt('mail_roles');
     }
 
-    public function getMailRoles(int $ref_id) : array
+    public function getMailRoles(int $ref_id): array
     {
         $role_ids = $this->rbacreview->getLocalRoles($ref_id);
 
         $sorted_role_ids = [];
-        $counter = 2;
 
         foreach ($role_ids as $role_id) {
             $role_title = ilObject::_lookupTitle($role_id);

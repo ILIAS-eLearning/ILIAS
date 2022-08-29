@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -24,36 +26,36 @@
 abstract class ilContainerReferenceImporter extends ilXmlImporter
 {
     protected ?ilContainerReference $ref = null;
-    
-    public function init() : void
+
+    public function init(): void
     {
     }
-    
-    protected function initReference(int $a_ref_id = 0) : void
+
+    protected function initReference(int $a_ref_id = 0): void
     {
         /** @var ilContainerReference $ref */
         $ref = ilObjectFactory::getInstanceByRefId($a_ref_id, true);
         $this->ref = $ref;
     }
-    
+
     /**
      * Get reference type
      */
-    abstract protected function getType() : string;
+    abstract protected function getType(): string;
 
-    abstract protected function initParser(string $a_xml) : ilContainerReferenceXmlParser;
-    
-    protected function getReference() : ilContainerReference
+    abstract protected function initParser(string $a_xml): ilContainerReferenceXmlParser;
+
+    protected function getReference(): ilContainerReference
     {
         return $this->ref;
     }
-    
+
     public function importXmlRepresentation(
         string $a_entity,
         string $a_id,
         string $a_xml,
         ilImportMapping $a_mapping
-    ) : void {
+    ): void {
         global $DIC;
 
         $objDefinition = $DIC["objDefinition"];
@@ -78,7 +80,7 @@ abstract class ilContainerReferenceImporter extends ilXmlImporter
             $parser->setReference($this->getReference());
             $parser->setMode(ilContainerReferenceXmlParser::MODE_UPDATE);
             $parser->startParsing();
-            
+
             $a_mapping->addMapping(
                 $objDefinition->getComponentForType($this->getType()),
                 $this->getType(),

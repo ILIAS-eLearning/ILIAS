@@ -70,7 +70,7 @@ class assFormulaQuestionVariable
                 );
             }
         }
-        
+
         include_once "./Services/Math/classes/class.ilMath.php";
         $mul = ilMath::_pow(10, $this->getPrecision());
         $r1 = round(ilMath::_mul($this->getRangeMin(), $mul));
@@ -81,9 +81,7 @@ class assFormulaQuestionVariable
         $roundedRangeMIN = round($this->getRangeMin(), $this->getPrecision());
         $roundedRangeMAX = round($this->getRangeMax(), $this->getPrecision());
         while ($calcval < $roundedRangeMIN || $calcval > $roundedRangeMAX) {
-        
-    
-//		while($calcval < $this->getRangeMin() || $calcval > $this->getRangeMax())
+            //		while($calcval < $this->getRangeMin() || $calcval > $this->getRangeMax())
             $rnd = mt_rand($r1, $r2);
             $calcval = ilMath::_div($rnd, $mul, $this->getPrecision());
             if (($this->getPrecision() == 0) && ($this->getIntprecision() != 0)) {
@@ -102,11 +100,11 @@ class assFormulaQuestionVariable
         return $calcval;
     }
 
-    public function setRandomValue() : void
+    public function setRandomValue(): void
     {
         $this->setValue($this->getRandomValue());
     }
-    
+
     public function isIntPrecisionValid($int_precision, $min_range, $max_range)
     {
         $min_abs = abs($min_range);
@@ -122,7 +120,7 @@ class assFormulaQuestionVariable
      * Getter and Setter
      ************************************/
 
-    public function setValue($value) : void
+    public function setValue($value): void
     {
         $this->value = $value;
     }
@@ -142,44 +140,44 @@ class assFormulaQuestionVariable
         }
     }
 
-    public function setPrecision($precision) : void
+    public function setPrecision($precision): void
     {
         $this->precision = $precision;
     }
 
-    public function getPrecision() : int
+    public function getPrecision(): int
     {
         //@todo TEST
-        
+
         return $this->precision;
     }
 
-    public function setVariable($variable) : void
+    public function setVariable($variable): void
     {
         $this->variable = $variable;
     }
 
-    public function getVariable() : string
+    public function getVariable(): string
     {
         return $this->variable;
     }
 
-    public function setRangeMin($range_min) : void
+    public function setRangeMin($range_min): void
     {
         include_once "./Services/Math/classes/class.EvalMath.php";
         $math = new EvalMath();
         $math->suppress_errors = true;
         $result = $math->evaluate($range_min);
-        
+
         $this->range_min = $result;
     }
 
-    public function getRangeMin() : float
+    public function getRangeMin(): float
     {
-        return (double) $this->range_min;
+        return (float) $this->range_min;
     }
 
-    public function setRangeMax($range_max) : void
+    public function setRangeMax($range_max): void
     {
         include_once "./Services/Math/classes/class.EvalMath.php";
         $math = new EvalMath();
@@ -188,32 +186,32 @@ class assFormulaQuestionVariable
         $this->range_max = $result;
     }
 
-    public function getRangeMax() : float
+    public function getRangeMax(): float
     {
-        return (double) $this->range_max;
+        return (float) $this->range_max;
     }
 
-    public function setUnit($unit) : void
+    public function setUnit($unit): void
     {
         $this->unit = $unit;
     }
 
-    public function getUnit() : ?object
+    public function getUnit(): ?object
     {
         return $this->unit;
     }
 
-    public function setIntprecision($intprecision) : void
+    public function setIntprecision($intprecision): void
     {
         $this->intprecision = $intprecision;
     }
 
-    public function getIntprecision() : int
+    public function getIntprecision(): int
     {
         return $this->intprecision;
     }
 
-    public function setRangeMaxTxt($range_max_txt) : void
+    public function setRangeMaxTxt($range_max_txt): void
     {
         $this->range_max_txt = $range_max_txt;
     }
@@ -223,7 +221,7 @@ class assFormulaQuestionVariable
         return $this->range_max_txt;
     }
 
-    public function setRangeMinTxt($range_min_txt) : void
+    public function setRangeMinTxt($range_min_txt): void
     {
         $this->range_min_txt = $range_min_txt;
     }

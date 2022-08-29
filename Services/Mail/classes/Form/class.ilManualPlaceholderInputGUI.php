@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -32,70 +34,67 @@ class ilManualPlaceholderInputGUI extends ilSubEnabledFormPropertyGUI
     protected array $placeholders = [];
     protected string $rerenderUrl = '';
     protected string $rerenderTriggerElementName = '';
-    protected string $dependencyElementId;
     protected string $instructionText = '';
     protected string $adviseText = '';
     protected ilGlobalTemplateInterface $tpl;
     /** @var mixed */
     protected $value;
 
-    public function __construct(string $dependencyElementId)
+    public function __construct(protected string $dependencyElementId)
     {
         global $DIC;
 
         $this->tpl = $DIC->ui()->mainTemplate();
         $this->httpState = $DIC->http();
 
-        $this->dependencyElementId = $dependencyElementId;
-
         parent::__construct();
 
         $this->tpl->addJavaScript('Services/Mail/js/ilMailComposeFunctions.js');
     }
 
-    public function getRerenderUrl() : ?string
+    public function getRerenderUrl(): ?string
     {
         return $this->rerenderUrl;
     }
 
-    public function getRerenderTriggerElementName() : string
+    public function getRerenderTriggerElementName(): string
     {
         return $this->rerenderTriggerElementName;
     }
 
-    public function supportsRerenderSignal(string $elementId, string $url) : void
+    public function supportsRerenderSignal(string $elementId, string $url): void
     {
         $this->rerenderTriggerElementName = $elementId;
         $this->rerenderUrl = $url;
     }
 
-    public function getAdviseText() : string
+    public function getAdviseText(): string
     {
         return $this->adviseText;
     }
 
-    public function setAdviseText(string $adviseText) : void
+    public function setAdviseText(string $adviseText): void
     {
         $this->adviseText = $adviseText;
     }
 
-    public function getInstructionText() : string
+    public function getInstructionText(): string
     {
         return $this->instructionText;
     }
 
-    public function setInstructionText(string $instructionText) : void
+    public function setInstructionText(string $instructionText): void
     {
         $this->instructionText = $instructionText;
     }
 
-    public function addPlaceholder(string $placeholder, string $title) : void
+    public function addPlaceholder(string $placeholder, string $title): void
     {
         $this->placeholders[$placeholder]['placeholder'] = $placeholder;
         $this->placeholders[$placeholder]['title'] = $title;
     }
 
-    public function insert(ilTemplate $a_tpl) : void
+    public function insert(ilTemplate $a_tpl): void
     {
         $html = $this->render();
 
@@ -104,7 +103,7 @@ class ilManualPlaceholderInputGUI extends ilSubEnabledFormPropertyGUI
         $a_tpl->parseCurrentBlock();
     }
 
-    public function render(bool $ajax = false) : string
+    public function render(bool $ajax = false): string
     {
         $subtpl = new ilTemplate(
             'tpl.mail_manual_placeholders.html',
@@ -113,18 +112,16 @@ class ilManualPlaceholderInputGUI extends ilSubEnabledFormPropertyGUI
             'Services/Mail'
         );
         $subtpl->setVariable('TXT_USE_PLACEHOLDERS', $this->lng->txt('mail_nacc_use_placeholder'));
-        if ($this->getAdviseText()) {
+        if ($this->getAdviseText() !== '') {
             $subtpl->setVariable('TXT_PLACEHOLDERS_ADVISE', $this->getAdviseText());
         }
 
-        if (count($this->placeholders) > 0) {
-            foreach ($this->placeholders as $placeholder) {
-                $subtpl->setCurrentBlock('man_placeholder');
-                $subtpl->setVariable('DEPENDENCY_ELM_ID', $this->dependencyElementId);
-                $subtpl->setVariable('MANUAL_PLACEHOLDER', $placeholder['placeholder']);
-                $subtpl->setVariable('TXT_MANUAL_PLACEHOLDER', $placeholder['title']);
-                $subtpl->parseCurrentBlock();
-            }
+        foreach ($this->placeholders as $placeholder) {
+            $subtpl->setCurrentBlock('man_placeholder');
+            $subtpl->setVariable('DEPENDENCY_ELM_ID', $this->dependencyElementId);
+            $subtpl->setVariable('MANUAL_PLACEHOLDER', $placeholder['placeholder']);
+            $subtpl->setVariable('TXT_MANUAL_PLACEHOLDER', $placeholder['title']);
+            $subtpl->parseCurrentBlock();
         }
 
         if ($this->getRerenderTriggerElementName() && $this->getRerenderUrl()) {
@@ -145,12 +142,12 @@ class ilManualPlaceholderInputGUI extends ilSubEnabledFormPropertyGUI
         return $subtpl->get();
     }
 
-    public function setValueByArray(array $a_values) : void
+    public function setValueByArray(array $a_values): void
     {
         $this->setValue($a_values[$this->getPostVar()] ?? null);
     }
 
-    public function setValue($a_value) : void
+    public function setValue($a_value): void
     {
         if (is_array($a_value) && $this->getMulti()) {
             $this->setMultiValues($a_value);
@@ -158,8 +155,8 @@ class ilManualPlaceholderInputGUI extends ilSubEnabledFormPropertyGUI
         }
         $this->value = $a_value;
     }
-    
-    public function checkInput() : bool
+
+    public function checkInput(): bool
     {
         return true;
     }

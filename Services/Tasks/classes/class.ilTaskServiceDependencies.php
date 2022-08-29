@@ -55,7 +55,7 @@ class ilTaskServiceDependencies
     /**
      * Get derived task provider master factory
      */
-    public function getDerivedTaskProviderMasterFactory() : ilDerivedTaskProviderMasterFactory
+    public function getDerivedTaskProviderMasterFactory(): ilDerivedTaskProviderMasterFactory
     {
         return $this->derived_task_provider_master_factory;
     }
@@ -63,7 +63,7 @@ class ilTaskServiceDependencies
     /**
      * Get language object
      */
-    public function language() : ilLanguage
+    public function language(): ilLanguage
     {
         return $this->lng;
     }
@@ -71,7 +71,7 @@ class ilTaskServiceDependencies
     /**
      * Get current user
      */
-    public function user() : ilObjUser
+    public function user(): ilObjUser
     {
         return $this->user;
     }
@@ -79,7 +79,7 @@ class ilTaskServiceDependencies
     /**
      * Get ui service
      */
-    public function ui() : UIServices
+    public function ui(): UIServices
     {
         return $this->ui;
     }
@@ -87,7 +87,7 @@ class ilTaskServiceDependencies
     /**
      * Get access
      */
-    protected function getAccess() : ilAccessHandler
+    protected function getAccess(): ilAccessHandler
     {
         return $this->access;
     }

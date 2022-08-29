@@ -14,39 +14,39 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 require_once("libs/composer/vendor/autoload.php");
 
 require_once(__DIR__ . "/../../Base.php");
 
-use \ILIAS\UI\Component as C;
+use ILIAS\UI\Component as C;
 use ILIAS\UI\Implementation as I;
 
 class ToastClientHtmlTest extends ILIAS_UI_TestBase
 {
-    public function getUIFactory() : NoUIFactory
+    public function getUIFactory(): NoUIFactory
     {
-        return new class extends NoUIFactory {
-            public function button() : C\Button\Factory
+        return new class () extends NoUIFactory {
+            public function button(): C\Button\Factory
             {
                 return new I\Component\Button\Factory();
             }
         };
     }
 
-    public function getToastFactory() : \ILIAS\UI\Implementation\Component\Toast\Factory
+    public function getToastFactory(): \ILIAS\UI\Implementation\Component\Toast\Factory
     {
         return new ILIAS\UI\Implementation\Component\Toast\Factory(
             $this->createMock(ILIAS\UI\Implementation\Component\SignalGenerator::class)
         );
     }
 
-    public function getIconFactory() : \ILIAS\UI\Implementation\Component\Symbol\Icon\Factory
+    public function getIconFactory(): \ILIAS\UI\Implementation\Component\Symbol\Icon\Factory
     {
         return new ILIAS\UI\Implementation\Component\Symbol\Icon\Factory();
     }
 
-    public function testRenderClientHtml() : void
+    public function testRenderClientHtml(): void
     {
         $expected_html = file_get_contents(__DIR__ . "/../../Client/Toast/ToastTest.html");
 

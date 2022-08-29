@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\Tests\UI\Component\Dropzone\File;
 
 /**
@@ -23,7 +25,7 @@ namespace ILIAS\Tests\UI\Component\Dropzone\File;
  */
 class WrapperTest extends FileTestBase
 {
-    public function testRenderWrapper() : void
+    public function testRenderWrapper(): void
     {
         $expected_html = $this->brutallyTrimHTML('
             <div id="id_6" class="ui-dropzone ui-dropzone-wrapper">
@@ -68,7 +70,7 @@ class WrapperTest extends FileTestBase
         $this->assertEquals($expected_html, $this->getDropzoneHtml($dropzone));
     }
 
-    public function testRenderWrapperWithMetadata() : void
+    public function testRenderWrapperWithMetadata(): void
     {
         $expected_html = $this->brutallyTrimHTML('
             <div id="id_7" class="ui-dropzone ui-dropzone-wrapper">
@@ -114,7 +116,7 @@ class WrapperTest extends FileTestBase
         $this->assertEquals($expected_html, $this->getDropzoneHtml($dropzone));
     }
 
-    public function testRenderWrapperWithTitle() : void
+    public function testRenderWrapperWithTitle(): void
     {
         $expected_html = $this->brutallyTrimHTML('
             <div id="id_6" class="ui-dropzone ui-dropzone-wrapper">

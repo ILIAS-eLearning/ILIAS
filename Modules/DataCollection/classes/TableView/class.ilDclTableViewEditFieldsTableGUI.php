@@ -41,7 +41,7 @@ class ilDclTableViewEditFieldsTableGUI extends ilTable2GUI
         $this->parseData($a_parent_obj->tableview->getFieldSettings());
     }
 
-    public function parseData(array $data) : void
+    public function parseData(array $data): void
     {
         //enable/disable comments
         if (!$this->parent_obj->table->getPublicCommentsEnabled()) {
@@ -57,7 +57,7 @@ class ilDclTableViewEditFieldsTableGUI extends ilTable2GUI
     /**
      * Get HTML
      */
-    public function getHTML() : string
+    public function getHTML(): string
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
@@ -183,7 +183,7 @@ class ilDclTableViewEditFieldsTableGUI extends ilTable2GUI
     /**
      * @param array $a_set
      */
-    public function fillRowFromObject(object $a_set) : void
+    public function fillRowFromObject(object $a_set): void
     {
         $field = $a_set->getFieldObject();
         if ($field->getId() == 'comments' && !$this->parent_obj->table->getPublicCommentsEnabled()) {
@@ -206,7 +206,7 @@ class ilDclTableViewEditFieldsTableGUI extends ilTable2GUI
     /**
      * @throws ilDclException
      */
-    protected function getStandardFilterHTML(ilDclBaseFieldModel $field, array $value) : string
+    protected function getStandardFilterHTML(ilDclBaseFieldModel $field, array $value): string
     {
         $field_representation = ilDclFieldFactory::getFieldRepresentationInstance($field);
         $field_representation->addFilterInputFieldToTable($this);

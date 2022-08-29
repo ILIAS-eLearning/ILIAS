@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,19 +17,19 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\UI\Implementation\Component\Symbol\Avatar;
 
 use ILIAS\UI\Component as C;
 
 class Letter extends Avatar implements C\Symbol\Avatar\Letter
 {
-    public function getAbbreviation() : string
+    public function getAbbreviation(): string
     {
         return (substr($this->getUsername(), 0, 2));
     }
 
-    public function getBackgroundColorVariant() : int
+    public function getBackgroundColorVariant(): int
     {
         return ((crc32($this->getAbbreviation()) % 26) + 1);
     }

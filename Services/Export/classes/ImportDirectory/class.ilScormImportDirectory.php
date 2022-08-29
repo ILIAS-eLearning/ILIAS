@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -27,7 +29,7 @@ class ilScormImportDirectory extends ilImportDirectory
 {
     private const PATH_PREFIX = 'learningModule';
 
-    protected function getPathPrefix() : string
+    protected function getPathPrefix(): string
     {
         return self::PATH_PREFIX;
     }

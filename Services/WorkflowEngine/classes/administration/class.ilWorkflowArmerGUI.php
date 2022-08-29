@@ -46,7 +46,7 @@ class ilWorkflowArmerGUI
      * @param array $event_definition
      * @return ilPropertyFormGUI
      */
-    public function getForm(array $input_vars, array $event_definition) : ilPropertyFormGUI
+    public function getForm(array $input_vars, array $event_definition): ilPropertyFormGUI
     {
         $form = new ilPropertyFormGUI();
         $form->setTitle($this->lng->txt('input_variables_required'));
@@ -67,7 +67,7 @@ class ilWorkflowArmerGUI
         return $form;
     }
 
-    public function getRepositoryObjectSelector($config) : ilSelectInputGUI
+    public function getRepositoryObjectSelector($config): ilSelectInputGUI
     {
         $item = new ilSelectInputGUI($config['caption'], $config['name']);
 
@@ -101,7 +101,7 @@ class ilWorkflowArmerGUI
      * @param array             $input_vars
      * @param ilPropertyFormGUI $form
      */
-    public function addStaticInputItems(ilLanguage $lng, array $input_vars, ilPropertyFormGUI $form) : void
+    public function addStaticInputItems(ilLanguage $lng, array $input_vars, ilPropertyFormGUI $form): void
     {
         if (count($input_vars)) {
             $section = new ilFormSectionHeaderGUI();
@@ -121,7 +121,6 @@ class ilWorkflowArmerGUI
                 default:
                     $item = new ilTextInputGUI($input_var['caption'], $input_var['name']);
                     break;
-
             }
 
             $item->setRequired($input_var['requirement'] === 'required');
@@ -135,7 +134,7 @@ class ilWorkflowArmerGUI
      * @param array             $event
      * @param ilPropertyFormGUI $form
      */
-    public function addStartEventInputItems(ilLanguage $lng, array $event, ilPropertyFormGUI $form) : void
+    public function addStartEventInputItems(ilLanguage $lng, array $event, ilPropertyFormGUI $form): void
     {
         $section = new ilFormSectionHeaderGUI();
         $section->setTitle($lng->txt('start_event_form_header'));

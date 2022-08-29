@@ -25,7 +25,7 @@ class ilPortfolioPageConfig extends ilPageConfig
     protected ilSetting $settings;
     protected ilRbacSystem $rbacsystem;
 
-    public function init() : void
+    public function init(): void
     {
         global $DIC;
 
@@ -38,7 +38,7 @@ class ilPortfolioPageConfig extends ilPageConfig
             ->standardRequest();
 
         $rbacsystem = $this->rbacsystem;
-        
+
         $prfa_set = new ilSetting("prfa");
         $this->setPreventHTMLUnmasking(!(bool) $prfa_set->get("mask", false));
 
@@ -61,14 +61,14 @@ class ilPortfolioPageConfig extends ilPageConfig
         if ($skmg_set->get("enable_skmg")) {
             $this->setEnablePCType("Skills", true);
         }
-            
+
         $settings = ilCalendarSettings::_getInstance();
         if ($settings->isEnabled() &&
             $rbacsystem->checkAccess('add_consultation_hours', $settings->getCalendarSettingsId()) &&
             $settings->areConsultationHoursEnabled()) {
             $this->setEnablePCType("ConsultationHours", true);
         }
-        
+
         $prfa_set = new ilSetting("prfa");
         if ($prfa_set->get("mycrs", true)) {
             $this->setEnablePCType("MyCourses", true);

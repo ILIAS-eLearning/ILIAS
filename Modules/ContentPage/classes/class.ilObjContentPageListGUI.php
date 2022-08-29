@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -37,7 +39,7 @@ class ilObjContentPageListGUI extends ilObjectListGUI implements ilContentPageOb
         );
     }
 
-    public function init() : void
+    public function init(): void
     {
         $this->static_link_enabled = true;
         $this->delete_enabled = true;
@@ -54,7 +56,7 @@ class ilObjContentPageListGUI extends ilObjectListGUI implements ilContentPageOb
         $this->lng->loadLanguageModule('copa');
     }
 
-    public function getInfoScreenStatus() : bool
+    public function getInfoScreenStatus(): bool
     {
         if (ilContainer::_lookupContainerSetting(
             $this->obj_id,
@@ -67,7 +69,7 @@ class ilObjContentPageListGUI extends ilObjectListGUI implements ilContentPageOb
         return false;
     }
 
-    public function getProperties() : array
+    public function getProperties(): array
     {
         $properties = [];
 
@@ -119,7 +121,7 @@ class ilObjContentPageListGUI extends ilObjectListGUI implements ilContentPageOb
         return $properties;
     }
 
-    public function checkInfoPageOnAsynchronousRendering() : bool
+    public function checkInfoPageOnAsynchronousRendering(): bool
     {
         return true;
     }

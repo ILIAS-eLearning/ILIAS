@@ -35,25 +35,25 @@ class ilMediaAnalyzer
     /**
      * Set Full File Path.
      */
-    public function setFile(string $a_file) : void
+    public function setFile(string $a_file): void
     {
         $this->file = $a_file;
     }
 
-    public function getFile() : string
+    public function getFile(): string
     {
         return $this->file;
     }
-    
+
     /**
      * Get PlaytimeString.
      */
-    public function getPlaytimeString() : string
+    public function getPlaytimeString(): string
     {
         return $this->file_info["playtime_string"];
     }
 
-    public function getPlaytimeSeconds() : int
+    public function getPlaytimeSeconds(): int
     {
         return $this->file_info["playtime_seconds"] ?? 0;
     }
@@ -61,7 +61,7 @@ class ilMediaAnalyzer
     /**
      * Analyze current file.
      */
-    public function analyzeFile() : void
+    public function analyzeFile(): void
     {
         $this->file_info = $this->getid3->analyze($this->getFile());
     }

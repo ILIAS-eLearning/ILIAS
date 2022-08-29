@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -22,33 +24,36 @@ use PHPUnit\Framework\TestCase;
  * Class ilHtmlPurifierLibWrapperTest
  * @author Michael Jansen <mjansen@databay.de>
  */
-class ilHtmlPurifierLibWrapperTest extends TestCase
+final class ilHtmlPurifierLibWrapperTest extends TestCase
 {
-    private function getPurifier() : ilHtmlPurifierAbstractLibWrapper
+    private const TO_PURIFY = [
+        'phpunit1',
+        'phpunit2',
+        'phpunit3',
+    ];
+
+    private function getPurifier(): ilHtmlPurifierAbstractLibWrapper
     {
-        return new class extends ilHtmlPurifierAbstractLibWrapper {
-            protected function getPurifierConfigInstance() : HTMLPurifier_Config
+        return new class () extends ilHtmlPurifierAbstractLibWrapper {
+            protected function getPurifierConfigInstance(): HTMLPurifier_Config
             {
                 return HTMLPurifier_Config::createDefault();
             }
         };
     }
 
-    public function testPurifierIsCalledIfStringsArePurified() : void
+    public function testPurifierIsCalledIfStringsArePurified(): void
     {
         $purifier = $this->getPurifier();
 
         $this->assertSame('phpunit', $purifier->purify('phpunit'));
-
-        $toPurify = [
-            'phpunit1',
-            'phpunit2',
-            'phpunit3',
-        ];
-        $this->assertSame($toPurify, $purifier->purifyArray($toPurify));
+        $this->assertSame(self::TO_PURIFY, $purifier->purifyArray(self::TO_PURIFY));
     }
 
-    public function invalidHtmlDataTypeProvider() : array
+    /**
+     * @return array{integer: int[], float: float[], null: null[], array: never[][], object: \stdClass[], bool: false[], resource: resource[]|false[]}
+     */
+    public function invalidHtmlDataTypeProvider(): array
     {
         return [
             'integer' => [5],
@@ -64,7 +69,7 @@ class ilHtmlPurifierLibWrapperTest extends TestCase
     /**
      * @dataProvider invalidHtmlDataTypeProvider
      */
-    public function testExceptionIsRaisedIfNonStringElementsArePassedForHtmlBatchProcessing($element) : void
+    public function testExceptionIsRaisedIfNonStringElementsArePassedForHtmlBatchProcessing($element): void
     {
         $this->expectException(InvalidArgumentException::class);
 

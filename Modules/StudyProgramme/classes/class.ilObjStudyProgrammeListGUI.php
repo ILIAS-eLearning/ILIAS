@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -25,7 +27,7 @@ class ilObjStudyProgrammeListGUI extends ilObjectListGUI
         $this->lng->loadLanguageModule("prg");
     }
 
-    public function init() : void
+    public function init(): void
     {
         $this->static_link_enabled = true;
         $this->delete_enabled = true;
@@ -45,21 +47,21 @@ class ilObjStudyProgrammeListGUI extends ilObjectListGUI
     /**
      * no timing commands needed for program.
      */
-    public function insertTimingsCommand() : void
+    public function insertTimingsCommand(): void
     {
     }
 
     /**
      * no social commands needed in program.
      */
-    public function insertCommonSocialCommands($header_actions = false) : void
+    public function insertCommonSocialCommands($header_actions = false): void
     {
     }
 
     /**
      * @inheritdoc
      */
-    public function getCommandLink(string $cmd) : string
+    public function getCommandLink(string $cmd): string
     {
         $this->ctrl->setParameterByClass("ilobjstudyprogrammegui", "ref_id", $this->ref_id);
 
@@ -78,7 +80,7 @@ class ilObjStudyProgrammeListGUI extends ilObjectListGUI
         bool $get_async_commands = false,
         string $async_url = "",
         int $context = self::CONTEXT_REPOSITORY
-    ) : string {
+    ): string {
         $prg = new ilObjStudyProgramme($ref_id);
         $assignments = $prg->getAssignments();
         if ($this->getCheckboxStatus() && count($assignments) > 0) {

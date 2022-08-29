@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -32,5 +34,5 @@ abstract class ilComplexGatewayPlugin extends ilPlugin
      *
      * @return bool
      */
-    abstract public function evaluate(ilNode $context) : bool;
+    abstract public function evaluate(ilNode $context): bool;
 }

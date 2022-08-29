@@ -1,4 +1,5 @@
 <?php
+
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -17,7 +18,7 @@ class ilTestPlayerFactory
      * @var ilObjTest
      */
     private $testOBJ = null;
-    
+
     /**
      * constructor
      *
@@ -27,7 +28,7 @@ class ilTestPlayerFactory
     {
         $this->testOBJ = $testOBJ;
     }
-    
+
     /**
      * creates and returns an instance of a player gui
      * that corresponds to the current test mode

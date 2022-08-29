@@ -90,12 +90,12 @@ class ilAccessibilityDocumentCriterionAssignment extends ActiveRecord implements
      */
     protected int $last_modified_usr_id = 0;
 
-    public static function returnDbTableName() : string
+    public static function returnDbTableName(): string
     {
         return self::TABLE_NAME;
     }
 
-    public function create() : void
+    public function create(): void
     {
         $this->setAssignedTs(time());
 
@@ -109,22 +109,22 @@ class ilAccessibilityDocumentCriterionAssignment extends ActiveRecord implements
         parent::update();
     }
 
-    public function setCriterionValue(ilAccessibilityCriterionConfig $config) : void
+    public function setCriterionValue(ilAccessibilityCriterionConfig $config): void
     {
         $this->criterion_value = $config->toJson();
     }
 
-    public function getCriterionValue() : ilAccessibilityCriterionConfig
+    public function getCriterionValue(): ilAccessibilityCriterionConfig
     {
         return new ilAccessibilityCriterionConfig($this->criterion_value);
     }
 
-    public function getCriterionId() : string
+    public function getCriterionId(): string
     {
         return $this->criterion_id;
     }
 
-    public function equals($other) : bool
+    public function equals($other): bool
     {
         if (!($other instanceof static)) {
             return false;

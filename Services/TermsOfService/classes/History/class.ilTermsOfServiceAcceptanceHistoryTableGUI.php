@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -25,23 +27,16 @@ use ILIAS\UI\Renderer;
  */
 class ilTermsOfServiceAcceptanceHistoryTableGUI extends ilTermsOfServiceTableGUI
 {
-    protected Factory $uiFactory;
-    protected Renderer $uiRenderer;
     protected int $numRenderedCriteria = 0;
-    protected ilTermsOfServiceCriterionTypeFactoryInterface $criterionTypeFactory;
 
     public function __construct(
         ilTermsOfServiceControllerEnabled $controller,
         string $command,
-        ilTermsOfServiceCriterionTypeFactoryInterface $criterionTypeFactory,
-        Factory $uiFactory,
-        Renderer $uiRenderer,
+        protected ilTermsOfServiceCriterionTypeFactoryInterface $criterionTypeFactory,
+        protected Factory $uiFactory,
+        protected Renderer $uiRenderer,
         ilGlobalTemplateInterface $globalTemplate
     ) {
-        $this->criterionTypeFactory = $criterionTypeFactory;
-        $this->uiFactory = $uiFactory;
-        $this->uiRenderer = $uiRenderer;
-
         $this->setId('tos_acceptance_history');
         $this->setFormName('tos_acceptance_history');
 
@@ -69,7 +64,7 @@ class ilTermsOfServiceAcceptanceHistoryTableGUI extends ilTermsOfServiceTableGUI
         $this->setResetCommand('resetAcceptanceHistoryFilter');
     }
 
-    protected function getColumnDefinition() : array
+    protected function getColumnDefinition(): array
     {
         $i = 0;
 
@@ -119,7 +114,7 @@ class ilTermsOfServiceAcceptanceHistoryTableGUI extends ilTermsOfServiceTableGUI
         ];
     }
 
-    protected function formatCellValue(string $column, array $row) : string
+    protected function formatCellValue(string $column, array $row): string
     {
         if ('ts' === $column) {
             return ilDatePresentation::formatDate(new ilDateTime($row[$column], IL_CAL_UNIX));
@@ -132,12 +127,12 @@ class ilTermsOfServiceAcceptanceHistoryTableGUI extends ilTermsOfServiceTableGUI
         return parent::formatCellValue($column, $row);
     }
 
-    protected function getUniqueCriterionListingAttribute() : string
+    protected function getUniqueCriterionListingAttribute(): string
     {
         return '<span class="ilNoDisplay">' . ($this->numRenderedCriteria++) . '</span>';
     }
 
-    protected function formatCriterionAssignments(string $column, array $row) : string
+    protected function formatCriterionAssignments(string $column, array $row): string
     {
         $items = [];
 
@@ -167,7 +162,7 @@ class ilTermsOfServiceAcceptanceHistoryTableGUI extends ilTermsOfServiceTableGUI
         ]);
     }
 
-    protected function formatTitle(string $column, array $row) : string
+    protected function formatTitle(string $column, array $row): string
     {
         $modal = $this->uiFactory
             ->modal()
@@ -181,12 +176,12 @@ class ilTermsOfServiceAcceptanceHistoryTableGUI extends ilTermsOfServiceTableGUI
         return $this->uiRenderer->render([$titleLink, $modal]);
     }
 
-    public function numericOrdering(string $a_field) : bool
+    public function numericOrdering(string $a_field): bool
     {
         return 'ts' === $a_field;
     }
 
-    public function initFilter() : void
+    public function initFilter(): void
     {
         $ul = new ilTextInputGUI(
             $this->lng->txt('login') . '/' . $this->lng->txt('email') . '/' . $this->lng->txt('name'),

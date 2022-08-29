@@ -15,7 +15,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * Interface ilBiblTypeFactoryInterface
  *
@@ -31,14 +31,14 @@ interface ilBiblTypeFactoryInterface
      * @throws ilException when type not found
      *
      */
-    public function getInstanceForType(int $type) : ilBiblTypeInterface;
+    public function getInstanceForType(int $type): ilBiblTypeInterface;
 
 
     /**
      * @throws ilException when type not found
      *
      */
-    public function getInstanceForFileName(string $filename) : ilBiblTypeInterface;
+    public function getInstanceForFileName(string $filename): ilBiblTypeInterface;
 
 
     /**
@@ -46,7 +46,7 @@ interface ilBiblTypeFactoryInterface
      * @deprecated Legacy REFACTOR use type factory
      *
      */
-    public function getInstanceForString(string $string) : ilBiblTypeInterface;
+    public function getInstanceForString(string $string): ilBiblTypeInterface;
 
 
     /**
@@ -54,8 +54,8 @@ interface ilBiblTypeFactoryInterface
      * @throws ilException when no data type for file_ending was found
      *
      */
-    public function convertFileEndingToDataType(string $file_ending) : int;
+    public function convertFileEndingToDataType(string $file_ending): int;
 
 
-    public function getDataTypeIdentifierByInstance(ilBiblTypeInterface $type_inst) : int;
+    public function getDataTypeIdentifierByInstance(ilBiblTypeInterface $type_inst): int;
 }

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -24,29 +26,24 @@ use PHPMailer\PHPMailer\PHPMailer;
 abstract class ilMailMimeTransportBase implements ilMailMimeTransport
 {
     protected PHPMailer $mailer;
-    protected ilSetting $settings;
-    private ilAppEventHandler $eventHandler;
 
-    public function __construct(ilSetting $settings, ilAppEventHandler $eventHandler)
+    public function __construct(protected ilSetting $settings, private ilAppEventHandler $eventHandler)
     {
-        $this->settings = $settings;
-        $this->eventHandler = $eventHandler;
-
         $mail = new PHPMailer();
         $this->setMailer($mail);
     }
 
-    protected function getMailer() : PHPMailer
+    protected function getMailer(): PHPMailer
     {
         return $this->mailer;
     }
 
-    protected function setMailer(PHPMailer $mailer) : void
+    protected function setMailer(PHPMailer $mailer): void
     {
         $this->mailer = $mailer;
     }
 
-    protected function resetMailer() : void
+    protected function resetMailer(): void
     {
         $this->getMailer()->clearAllRecipients();
         $this->getMailer()->clearAttachments();
@@ -54,11 +51,11 @@ abstract class ilMailMimeTransportBase implements ilMailMimeTransport
         $this->getMailer()->ErrorInfo = '';
     }
 
-    protected function onBeforeSend() : void
+    protected function onBeforeSend(): void
     {
     }
 
-    final public function send(ilMimeMail $mail) : bool
+    final public function send(ilMimeMail $mail): bool
     {
         $this->resetMailer();
 
@@ -67,7 +64,7 @@ abstract class ilMailMimeTransportBase implements ilMailMimeTransport
         foreach ($mail->getTo() as $recipients) {
             $recipient_pieces = array_filter(array_map('trim', explode(',', $recipients)));
             foreach ($recipient_pieces as $recipient) {
-                if ($this->getMailer()->addAddress($recipient)) {
+                if (!$this->getMailer()->addAddress($recipient)) {
                     ilLoggerFactory::getLogger('mail')->warning($this->getMailer()->ErrorInfo);
                 }
             }
@@ -93,10 +90,11 @@ abstract class ilMailMimeTransportBase implements ilMailMimeTransport
 
         $this->getMailer()->Subject = $mail->getSubject();
 
-        if ($mail->getFrom()->hasReplyToAddress()) {
-            if (!$this->getMailer()->addReplyTo($mail->getFrom()->getReplyToAddress(), $mail->getFrom()->getReplyToName())) {
-                ilLoggerFactory::getLogger('mail')->warning($this->getMailer()->ErrorInfo);
-            }
+        if ($mail->getFrom()->hasReplyToAddress() && !$this->getMailer()->addReplyTo(
+            $mail->getFrom()->getReplyToAddress(),
+            $mail->getFrom()->getReplyToName()
+        )) {
+            ilLoggerFactory::getLogger('mail')->warning($this->getMailer()->ErrorInfo);
         }
         if ($mail->getFrom()->hasEnvelopFromAddress()) {
             $this->getMailer()->Sender = $mail->getFrom()->getEnvelopFromAddress();
@@ -118,7 +116,7 @@ abstract class ilMailMimeTransportBase implements ilMailMimeTransport
             }
         }
 
-        if ($mail->getFinalBodyAlt()) {
+        if ($mail->getFinalBodyAlt() !== '') {
             $this->getMailer()->isHTML(true);
             $this->getMailer()->AltBody = $mail->getFinalBodyAlt();
         } else {
@@ -154,7 +152,7 @@ abstract class ilMailMimeTransportBase implements ilMailMimeTransport
 
         $this->getMailer()->CharSet = 'utf-8';
 
-        $this->mailer->Debugoutput = static function (string $message, $level) : void {
+        $this->mailer->Debugoutput = static function (string $message, $level): void {
             if (
                 strpos($message, 'Invalid address') ||
                 strpos($message, 'Message body empty')

@@ -16,7 +16,6 @@
  *
  *********************************************************************/
 
-
 namespace ILIAS\LTI\ToolProvider;
 
 /**
@@ -28,11 +27,10 @@ namespace ILIAS\LTI\ToolProvider;
  */
 class Outcome
 {
-
     /**
      * Allowed values for Activity Progress.
      */
-    const ALLOWED_ACTIVITY_PROGRESS = array(
+    public const ALLOWED_ACTIVITY_PROGRESS = array(
         'Initialized',
         'Started',
         'InProgress',
@@ -43,7 +41,7 @@ class Outcome
     /**
      * Allowed values for Grading Progress.
      */
-    const ALLOWED_GRADING_PROGRESS = array(
+    public const ALLOWED_GRADING_PROGRESS = array(
         'FullyGraded',
         'Pending',
         'PendingManual',
@@ -157,7 +155,7 @@ class Outcome
      *
      * @return string Outcome value
      */
-    public function getValue() : ?string
+    public function getValue(): ?string
     {
         return $this->value;
     }
@@ -176,7 +174,7 @@ class Outcome
      *
      * @return int|null Points possible value
      */
-    public function getPointsPossible() : ?int
+    public function getPointsPossible(): ?int
     {
         return $this->pointsPossible;
     }

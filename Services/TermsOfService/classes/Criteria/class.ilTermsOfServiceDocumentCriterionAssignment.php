@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -91,36 +93,36 @@ class ilTermsOfServiceDocumentCriterionAssignment extends ActiveRecord implement
      */
     protected int $last_modified_usr_id = 0;
 
-    public static function returnDbTableName() : string
+    public static function returnDbTableName(): string
     {
         return self::TABLE_NAME;
     }
 
-    public function create() : void
+    public function create(): void
     {
         $this->setAssignedTs(time());
 
         parent::create();
     }
 
-    public function update() : void
+    public function update(): void
     {
         $this->setModificationTs(time());
 
         parent::update();
     }
 
-    public function setCriterionValue(ilTermsOfServiceCriterionConfig $config) : void
+    public function setCriterionValue(ilTermsOfServiceCriterionConfig $config): void
     {
         $this->criterion_value = $config->toJson();
     }
 
-    public function getCriterionValue() : ilTermsOfServiceCriterionConfig
+    public function getCriterionValue(): ilTermsOfServiceCriterionConfig
     {
         return new ilTermsOfServiceCriterionConfig($this->criterion_value);
     }
 
-    public function getCriterionId() : string
+    public function getCriterionId(): string
     {
         return $this->criterion_id;
     }
@@ -128,7 +130,7 @@ class ilTermsOfServiceDocumentCriterionAssignment extends ActiveRecord implement
     /**
      * @inheritDoc
      */
-    public function equals($other) : bool
+    public function equals($other): bool
     {
         if (!($other instanceof static)) {
             return false;
@@ -140,11 +142,6 @@ class ilTermsOfServiceDocumentCriterionAssignment extends ActiveRecord implement
         $valueCurrent = $this->getCriterionValue();
         $valueNew = $other->getCriterionValue();
 
-        $equals = (
-            $criterionIdCurrent === $criterionIdNew &&
-            $valueCurrent == $valueNew
-        );
-
-        return $equals;
+        return $criterionIdCurrent === $criterionIdNew && $valueCurrent == $valueNew;
     }
 }

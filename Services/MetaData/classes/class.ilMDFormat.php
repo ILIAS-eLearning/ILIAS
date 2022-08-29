@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -32,17 +34,17 @@ class ilMDFormat extends ilMDBase
     private string $format = '';
 
     // SET/_GET
-    public function setFormat(string $a_format) : void
+    public function setFormat(string $a_format): void
     {
         $this->format = $a_format;
     }
 
-    public function getFormat() : string
+    public function getFormat(): string
     {
         return $this->format;
     }
 
-    public function save() : int
+    public function save(): int
     {
         $fields = $this->__getFields();
         $fields['meta_format_id'] = array('integer', $next_id = $this->db->nextId('il_meta_format'));
@@ -54,7 +56,7 @@ class ilMDFormat extends ilMDBase
         return 0;
     }
 
-    public function update() : bool
+    public function update(): bool
     {
         return $this->getMetaId() && $this->db->update(
             'il_meta_format',
@@ -63,7 +65,7 @@ class ilMDFormat extends ilMDBase
         );
     }
 
-    public function delete() : bool
+    public function delete(): bool
     {
         if ($this->getMetaId()) {
             $query = "DELETE FROM il_meta_format " .
@@ -78,7 +80,7 @@ class ilMDFormat extends ilMDBase
     /**
      * @return array<string, array<string, mixed>>
      */
-    public function __getFields() : array
+    public function __getFields(): array
     {
         return array(
             'rbac_id' => array('integer', $this->getRBACId()),
@@ -88,7 +90,7 @@ class ilMDFormat extends ilMDBase
         );
     }
 
-    public function read() : bool
+    public function read(): bool
     {
         if ($this->getMetaId()) {
             $query = "SELECT * FROM il_meta_format " .
@@ -105,7 +107,7 @@ class ilMDFormat extends ilMDBase
         return true;
     }
 
-    public function toXML(ilXmlWriter $writer) : void
+    public function toXML(ilXmlWriter $writer): void
     {
         if ($this->getFormat()) {
             $writer->xmlElement('Format', null, $this->getFormat());
@@ -117,7 +119,7 @@ class ilMDFormat extends ilMDBase
     /**
      * @return int[]
      */
-    public static function _getIds(int $a_rbac_id, int $a_obj_id) : array
+    public static function _getIds(int $a_rbac_id, int $a_obj_id): array
     {
         global $DIC;
 

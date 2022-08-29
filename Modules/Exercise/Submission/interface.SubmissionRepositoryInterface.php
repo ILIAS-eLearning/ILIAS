@@ -15,7 +15,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\Exercise\Submission;
 
 /**
@@ -27,8 +27,8 @@ namespace ILIAS\Exercise\Submission;
 interface SubmissionRepositoryInterface
 {
     // Get User ID for a submission ID
-    public function getUserId(int $submission_id) : int;
+    public function getUserId(int $submission_id): int;
 
     // Get number of submissions from assignment id
-    public function hasSubmissions(int $assignment_id) : int;
+    public function hasSubmissions(int $assignment_id): int;
 }

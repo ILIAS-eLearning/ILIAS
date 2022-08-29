@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -32,64 +34,64 @@ interface LayoutModification
     /**
      * @return int (LayoutModification::PRIORITY_LOW|LayoutModification::PRIORITY_HIGH)
      */
-    public function getPriority() : int;
+    public function getPriority(): int;
 
     /**
      * @param int $priority (LayoutModification::PRIORITY_LOW|LayoutModification::PRIORITY_HIGH)
      * @return LayoutModification|ContentModification|MainBarModification|MetaBarModification|BreadCrumbsModification|LogoModification|FooterModification
      * @throws LogicException if not LayoutModification::PRIORITY_LOW|LayoutModification::PRIORITY_HIGH
      */
-    public function withPriority(int $priority) : LayoutModification;
+    public function withPriority(int $priority): LayoutModification;
 
     /**
      * @return LayoutModification|ContentModification|MainBarModification|MetaBarModification|BreadCrumbsModification|LogoModification|FooterModification
      */
-    public function withHighPriority() : LayoutModification;
+    public function withHighPriority(): LayoutModification;
 
     /**
      * @return LayoutModification|ContentModification|MainBarModification|MetaBarModification|BreadCrumbsModification|LogoModification|FooterModification
      */
-    public function withLowPriority() : LayoutModification;
+    public function withLowPriority(): LayoutModification;
 
     /**
      * @return bool
      * @deprecated
      */
-    public function isFinal() : bool;
+    public function isFinal(): bool;
 
     /**
      * @param Closure $closure
      * @return LayoutModification|ContentModification|MainBarModification|MetaBarModification|BreadCrumbsModification|LogoModification|FooterModification
      */
-    public function withModification(Closure $closure) : LayoutModification;
+    public function withModification(Closure $closure): LayoutModification;
 
     /**
      * @return bool
      */
-    public function hasValidModification() : bool;
+    public function hasValidModification(): bool;
 
     /**
      * @return Closure
      */
-    public function getModification() : Closure;
+    public function getModification(): Closure;
 
     /**
      * @return string|null
      */
-    public function getClosureFirstArgumentType() : string;
+    public function getClosureFirstArgumentType(): string;
 
     /**
      * @return string
      */
-    public function getClosureReturnType() : string;
+    public function getClosureReturnType(): string;
 
     /**
      * @return bool
      */
-    public function firstArgumentAllowsNull() : bool;
+    public function firstArgumentAllowsNull(): bool;
 
     /**
      * @return bool
      */
-    public function returnTypeAllowsNull() : bool;
+    public function returnTypeAllowsNull(): bool;
 }

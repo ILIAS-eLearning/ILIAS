@@ -15,7 +15,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\Setup;
 
 use ilDatabaseInitializedObjective;
@@ -33,7 +33,7 @@ class ilMysqlMyIsamToInnoDbMigration implements Migration
     /**
      * @inheritDoc
      */
-    public function getLabel() : string
+    public function getLabel(): string
     {
         return "Migration to convert tables from MyISAM to Innodb service";
     }
@@ -41,7 +41,7 @@ class ilMysqlMyIsamToInnoDbMigration implements Migration
     /**
      * @inheritDoc
      */
-    public function getDefaultAmountOfStepsPerRun() : int
+    public function getDefaultAmountOfStepsPerRun(): int
     {
         return 20;
     }
@@ -49,7 +49,7 @@ class ilMysqlMyIsamToInnoDbMigration implements Migration
     /**
      * @inheritDoc
      */
-    public function getPreconditions(Environment $environment) : array
+    public function getPreconditions(Environment $environment): array
     {
         return [
             new ilIniFilesLoadedObjective(),
@@ -61,7 +61,7 @@ class ilMysqlMyIsamToInnoDbMigration implements Migration
     /**
      * @inheritDoc
      */
-    public function prepare(Environment $environment) : void
+    public function prepare(Environment $environment): void
     {
         /**
          * @var $client_id  string
@@ -75,7 +75,7 @@ class ilMysqlMyIsamToInnoDbMigration implements Migration
      * @inheritDoc
      * @throws ilException
      */
-    public function step(Environment $environment) : void
+    public function step(Environment $environment): void
     {
         $rows = $this->getNonInnoDBTables();
         $table_name = array_pop($rows);
@@ -90,7 +90,7 @@ class ilMysqlMyIsamToInnoDbMigration implements Migration
     /**
      * @inheritDoc
      */
-    public function getRemainingAmountOfSteps() : int
+    public function getRemainingAmountOfSteps(): int
     {
         if ($this->db_name !== null) {
             $rows = $this->getNonInnoDBTables();
@@ -99,7 +99,7 @@ class ilMysqlMyIsamToInnoDbMigration implements Migration
         return 0;
     }
 
-    protected function getNonInnoDBTables() : array
+    protected function getNonInnoDBTables(): array
     {
         $tables = [];
         $set = $this->database->queryF("SELECT table_name

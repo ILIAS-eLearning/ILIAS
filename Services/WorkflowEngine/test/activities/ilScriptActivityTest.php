@@ -1,4 +1,5 @@
 <?php
+
 /* Copyright (c) 1998-2014 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 use org\bovigo\vfs;
@@ -21,24 +22,24 @@ class ilScriptActivityTest extends TestCase
     /** vfsStream Test Directory, see setup. */
     public vfs\vfsStreamDirectory $test_dir;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         chdir(__DIR__);
         chdir('../../../../');
 
         // Empty workflow.
         $this->workflow = new ilEmptyWorkflow();
-        
+
         // Basic node
         $this->node = new ilBasicNode($this->workflow);
-        
+
         // Wiring up so the node is attached to the workflow.
         $this->workflow->addNode($this->node);
-                
+
         $this->test_dir = vfs\vfsStream::setup('example');
     }
 
-    protected function tearDown() : void
+    protected function tearDown(): void
     {
         global $ilSetting;
         if ($ilSetting != null) {
@@ -46,12 +47,12 @@ class ilScriptActivityTest extends TestCase
             //$ilSetting->delete('IL_PHPUNIT_TEST_MICROTIME');
         }
     }
-    
-    public function testConstructorValidContext() : void
+
+    public function testConstructorValidContext(): void
     {
         // Act
         $activity = new ilScriptActivity($this->node);
-        
+
         // Assert
         // No exception - good
         $this->assertTrue(
@@ -60,7 +61,7 @@ class ilScriptActivityTest extends TestCase
         );
     }
 
-    public function testGetContext() : void
+    public function testGetContext(): void
     {
         // Arrange
         $activity = new ilScriptActivity($this->node);
@@ -76,7 +77,7 @@ class ilScriptActivityTest extends TestCase
         }
     }
 
-    public function testSetGetMethod() : void
+    public function testSetGetMethod(): void
     {
         // Arrange
         $activity = new ilScriptActivity($this->node);

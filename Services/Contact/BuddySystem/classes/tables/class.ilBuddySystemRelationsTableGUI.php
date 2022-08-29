@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -33,10 +35,6 @@ class ilBuddySystemRelationsTableGUI extends ilTable2GUI
     /** @var array<string, mixed>  */
     protected array $filter = [];
 
-    /**
-     * @param object $a_parent_obj
-     * @param string $a_parent_cmd
-     */
     public function __construct(object $a_parent_obj, string $a_parent_cmd)
     {
         global $DIC;
@@ -89,7 +87,7 @@ class ilBuddySystemRelationsTableGUI extends ilTable2GUI
     /**
      * @inheritDoc
      */
-    public function initFilter() : void
+    public function initFilter(): void
     {
         $this->filters = [];
         $this->filter = [];
@@ -121,11 +119,9 @@ class ilBuddySystemRelationsTableGUI extends ilTable2GUI
     }
 
     /**
-     * @param string $filterKey
      * @param mixed $value
-     * @return void
      */
-    public function applyFilterValue(string $filterKey, $value) : void
+    public function applyFilterValue(string $filterKey, $value): void
     {
         foreach ([$this->getFilterItems(), $this->getFilterItems(true)] as $filterItems) {
             foreach ($filterItems as $item) {
@@ -139,7 +135,7 @@ class ilBuddySystemRelationsTableGUI extends ilTable2GUI
         }
     }
 
-    public function populate() : void
+    public function populate(): void
     {
         $this->setExternalSorting(false);
         $this->setExternalSegmentation(false);
@@ -150,7 +146,7 @@ class ilBuddySystemRelationsTableGUI extends ilTable2GUI
 
         $state_filter = (string) $this->filter[self::STATE_FILTER_ELM_ID];
         $state_factory = ilBuddySystemRelationStateFactory::getInstance();
-        $relations = $relations->filter(function (ilBuddySystemRelation $relation) use ($state_filter, $state_factory) : bool {
+        $relations = $relations->filter(function (ilBuddySystemRelation $relation) use ($state_filter, $state_factory): bool {
             $state_filter_mapper = $state_factory->getTableFilterStateMapper($relation->getState());
             return $state_filter === '' || $state_filter_mapper->filterMatchesRelation($state_filter, $relation);
         });
@@ -158,7 +154,7 @@ class ilBuddySystemRelationsTableGUI extends ilTable2GUI
         $public_names = ilUserUtil::getNamePresentation($relations->getKeys(), false, false, '', false, true, false);
         $logins = ilUserUtil::getNamePresentation($relations->getKeys(), false, false, '', false, false, false);
 
-        $logins = array_map(static function (string $value) : string {
+        $logins = array_map(static function (string $value): string {
             $matches = null;
             preg_match_all('/\[([^\[]+?)\]/', $value, $matches);
             return (
@@ -175,7 +171,7 @@ class ilBuddySystemRelationsTableGUI extends ilTable2GUI
             $relations,
             $public_names,
             $logins
-        ) : bool {
+        ): bool {
             $usrId = $relations->getKey($relation);
 
             $hasMatchingName = (
@@ -194,7 +190,7 @@ class ilBuddySystemRelationsTableGUI extends ilTable2GUI
             return ilObjUser::_lookupActive($usrId);
         });
 
-        foreach ($relations->toArray() as $usr_id => $relation) {
+        foreach (array_keys($relations->toArray()) as $usr_id) {
             $data[] = [
                 'usr_id' => $usr_id,
                 'public_name' => $public_names[$usr_id],
@@ -208,7 +204,7 @@ class ilBuddySystemRelationsTableGUI extends ilTable2GUI
     /**
      * @inheritDoc
      */
-    protected function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set): void
     {
         if ($this->hasAccessToMailSystem) {
             $a_set['chb'] = ilLegacyFormElementsUtil::formCheckbox(false, 'usr_id[]', (string) $a_set['usr_id']);
@@ -238,7 +234,7 @@ class ilBuddySystemRelationsTableGUI extends ilTable2GUI
     /**
      * @inheritDoc
      */
-    public function render() : string
+    public function render(): string
     {
         $listener_tpl = new ilTemplate(
             'tpl.buddy_system_relation_table_listener.html',

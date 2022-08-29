@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /******************************************************************************
  *
@@ -26,9 +28,9 @@ use ILIAS\Notifications\Model\ilNotificationObject;
  */
 abstract class ilNotificationHandler
 {
-    abstract public function notify(ilNotificationObject $notification) : void;
+    abstract public function notify(ilNotificationObject $notification): void;
 
-    public function showSettings($form) : void
+    public function showSettings($form): void
     {
     }
 }

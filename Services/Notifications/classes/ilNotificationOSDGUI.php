@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /******************************************************************************
  *
@@ -49,7 +51,7 @@ class ilNotificationOSDGUI
     /**
      *
      */
-    public function populatePage() : void
+    public function populatePage(): void
     {
         if ($this->user->isAnonymous() || 0 === $this->user->getId()) {
             return;
@@ -61,7 +63,7 @@ class ilNotificationOSDGUI
 
         $osdTemplate->setVariable(
             'OSD_INTERVAL',
-            $notificationSettings->get('osd_interval') ? : '60'
+            $notificationSettings->get('osd_interval') ?: '60'
         );
         $osdTemplate->setVariable(
             'OSD_PLAY_SOUND',

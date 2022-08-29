@@ -1,4 +1,6 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -58,22 +60,22 @@ class InternalService
         $this->mode_factory->setInternalService($this);
     }
 
-    public function gui() : InternalGUIService
+    public function gui(): InternalGUIService
     {
         return $this->gui;
     }
 
-    public function repo() : InternalRepoService
+    public function repo(): InternalRepoService
     {
         return $this->repo;
     }
 
-    public function data() : InternalDataService
+    public function data(): InternalDataService
     {
         return $this->data;
     }
 
-    public function domain() : InternalDomainService
+    public function domain(): InternalDomainService
     {
         return $this->domain;
     }

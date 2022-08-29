@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -28,7 +30,7 @@ class ilForumThreadSettingsSessionStorage
     /**
      * @return array<string, mixed>
      */
-    private function getSessionCollection() : array
+    private function getSessionCollection(): array
     {
         $frm_sess = ilSession::get('frm_sess');
         if (!is_array($frm_sess)) {
@@ -58,7 +60,7 @@ class ilForumThreadSettingsSessionStorage
      * @param int $thread_id
      * @param mixed $value
      */
-    public function set(int $thread_id, $value) : void
+    public function set(int $thread_id, $value): void
     {
         $frm_sess = $this->getSessionCollection();
 

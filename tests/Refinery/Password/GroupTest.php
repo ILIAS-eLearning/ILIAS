@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -34,7 +36,7 @@ class GroupTest extends TestCase
     private DataFactory $dataFactory;
     private ilLanguage $language;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         $this->dataFactory = new DataFactory();
         $this->language = $this->getMockBuilder(ilLanguage::class)
@@ -43,32 +45,32 @@ class GroupTest extends TestCase
 
         $this->group = new PasswordGroup($this->dataFactory, $this->language);
     }
-    
-    public function testHasMinLength() : void
+
+    public function testHasMinLength(): void
     {
         $instance = $this->group->hasMinLength(4);
         $this->assertInstanceOf(HasMinLength::class, $instance);
     }
 
-    public function testHasLowerChars() : void
+    public function testHasLowerChars(): void
     {
         $instance = $this->group->hasLowerChars();
         $this->assertInstanceOf(HasLowerChars::class, $instance);
     }
 
-    public function testHasNumbers() : void
+    public function testHasNumbers(): void
     {
         $instance = $this->group->hasNumbers();
         $this->assertInstanceOf(HasNumbers::class, $instance);
     }
 
-    public function testHasSpecialChars() : void
+    public function testHasSpecialChars(): void
     {
         $instance = $this->group->hasSpecialChars();
         $this->assertInstanceOf(HasSpecialChars::class, $instance);
     }
 
-    public function testHasUpperChars() : void
+    public function testHasUpperChars(): void
     {
         $instance = $this->group->hasUpperChars();
         $this->assertInstanceOf(HasUpperChars::class, $instance);

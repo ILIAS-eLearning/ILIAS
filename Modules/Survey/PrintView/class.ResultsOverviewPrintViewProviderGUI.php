@@ -52,16 +52,16 @@ class ResultsOverviewPrintViewProviderGUI extends Export\AbstractPrintViewProvid
         $this->survey = new \ilObjSurvey($this->ref_id);
     }
 
-    public function getTemplateInjectors() : array
+    public function getTemplateInjectors(): array
     {
         return [
-            static function (\ilGlobalTemplate $tpl) : void {
+            static function (\ilGlobalTemplate $tpl): void {
                 //$tpl add js/css
             }
         ];
     }
 
-    public function getSelectionForm() : ?ilPropertyFormGUI
+    public function getSelectionForm(): ?ilPropertyFormGUI
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
@@ -76,7 +76,7 @@ class ResultsOverviewPrintViewProviderGUI extends Export\AbstractPrintViewProvid
         return $form;
     }
 
-    public function getOnSubmitCode() : string
+    public function getOnSubmitCode(): string
     {
         return "event.preventDefault(); if(il.Accordion) { il.Accordion.preparePrint(); } " .
             "window.setTimeout(() => { window.print();}, 500);";

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\UI\Component\Chart;
 
 use ILIAS\UI\Component\Component;
@@ -29,11 +31,11 @@ interface ScaleBar extends Component
      * Sets a key value pair as items for the list. Key is used as title and value is a boolean marking highlighted values.
      * @param array string => boolean Set of elements to be rendered, boolean should be true if highlighted
      */
-    public function withItems(array $items) : ScaleBar;
+    public function withItems(array $items): ScaleBar;
 
     /**
      * Gets the key value pair as array. Key is used as title and value is a boolean marking highlighted values.
      * @return array $items string => boolean
      */
-    public function getItems() : array;
+    public function getItems(): array;
 }

@@ -22,19 +22,19 @@
  */
 class ilMediaCastLP extends ilObjectLP
 {
-    public static function getDefaultModes(bool $a_lp_active) : array
+    public static function getDefaultModes(bool $a_lp_active): array
     {
         return array(
             ilLPObjSettings::LP_MODE_DEACTIVATED
         );
     }
-    
-    public function getDefaultMode() : int
+
+    public function getDefaultMode(): int
     {
         return ilLPObjSettings::LP_MODE_DEACTIVATED;
     }
 
-    public function getValidModes() : array
+    public function getValidModes(): array
     {
         return array(
             ilLPObjSettings::LP_MODE_DEACTIVATED,

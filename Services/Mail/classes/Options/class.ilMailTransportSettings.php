@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -21,14 +23,11 @@
  */
 class ilMailTransportSettings
 {
-    private ilMailOptions $mailOptions;
-
-    public function __construct(ilMailOptions $mailOptions)
+    public function __construct(private ilMailOptions $mailOptions)
     {
-        $this->mailOptions = $mailOptions;
     }
 
-    public function adjust(string $firstMail, string $secondMail) : void
+    public function adjust(string $firstMail, string $secondMail): void
     {
         if ($this->mailOptions->getIncomingType() === ilMailOptions::INCOMING_LOCAL) {
             return;
@@ -52,7 +51,6 @@ class ilMailTransportSettings
         if (!$hasSecondEmail && $this->mailOptions->getEmailAddressMode() !== ilMailOptions::FIRST_EMAIL) {
             $this->mailOptions->setEmailAddressMode(ilMailOptions::FIRST_EMAIL);
             $this->mailOptions->updateOptions();
-            return;
         }
     }
 }

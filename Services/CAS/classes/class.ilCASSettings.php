@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /******************************************************************************
  *
@@ -35,7 +37,7 @@ class ilCASSettings
     private bool $allow_local = false;
     private int $user_default_role = 0;
     private int $default_role = 0;
-    
+
     /**
      * Singleton constructor
      */
@@ -46,11 +48,11 @@ class ilCASSettings
         $this->storage = $DIC->settings();
         $this->read();
     }
-    
+
     /**
      * Get singleton instance
      */
-    public static function getInstance() : ilCASSettings
+    public static function getInstance(): ilCASSettings
     {
         if (self::$instance) {
             return self::$instance;
@@ -58,87 +60,87 @@ class ilCASSettings
         return self::$instance = new ilCASSettings();
     }
 
-    public function setServer(string $a_server) : void
+    public function setServer(string $a_server): void
     {
         $this->server = $a_server;
     }
 
-    public function getServer() : string
+    public function getServer(): string
     {
         return $this->server;
     }
 
-    public function setPort(int $a_port) : void
+    public function setPort(int $a_port): void
     {
         $this->port = $a_port;
     }
 
-    public function getPort() : int
+    public function getPort(): int
     {
         return $this->port;
     }
 
-    public function setUri(string $a_uri) : void
+    public function setUri(string $a_uri): void
     {
         $this->uri = $a_uri;
     }
 
-    public function getUri() : string
+    public function getUri(): string
     {
         return $this->uri;
     }
 
-    public function setLoginInstruction(string $a_inst) : void
+    public function setLoginInstruction(string $a_inst): void
     {
         $this->login_instructions = $a_inst;
     }
 
-    public function getLoginInstruction() : string
+    public function getLoginInstruction(): string
     {
         return $this->login_instructions;
     }
 
-    public function setActive($a_active) : void
+    public function setActive($a_active): void
     {
         $this->active = $a_active;
     }
 
-    public function isActive() : bool
+    public function isActive(): bool
     {
         return $this->active;
     }
 
-    public function enableUserCreation($a_uc) : void
+    public function enableUserCreation($a_uc): void
     {
         $this->create_users = $a_uc;
     }
 
-    public function isUserCreationEnabled() : bool
+    public function isUserCreationEnabled(): bool
     {
         return $this->create_users;
     }
 
-    public function enableLocalAuthentication($a_local) : void
+    public function enableLocalAuthentication($a_local): void
     {
         $this->allow_local = $a_local;
     }
 
-    public function isLocalAuthenticationEnabled() : bool
+    public function isLocalAuthenticationEnabled(): bool
     {
         return $this->allow_local;
     }
 
-    public function setDefaultRole($a_role) : void
+    public function setDefaultRole($a_role): void
     {
         $this->default_role = $a_role;
     }
 
-    public function getDefaultRole() : int
+    public function getDefaultRole(): int
     {
         return $this->default_role;
     }
 
-    public function save() : void
+    public function save(): void
     {
         $this->getStorage()->set('cas_server', $this->getServer());
         $this->getStorage()->set('cas_port', (string) $this->getPort());
@@ -150,7 +152,7 @@ class ilCASSettings
         $this->getStorage()->set('cas_user_default_role', (string) $this->getDefaultRole());
     }
 
-    private function read() : void
+    private function read(): void
     {
         $this->setServer($this->getStorage()->get('cas_server', $this->server));
         $this->setPort((int) $this->getStorage()->get('cas_port', (string) $this->port));
@@ -162,7 +164,7 @@ class ilCASSettings
         $this->enableUserCreation((bool) $this->getStorage()->get('cas_create_users', (string) $this->create_users));
     }
 
-    private function getStorage() : ilSetting
+    private function getStorage(): ilSetting
     {
         return $this->storage;
     }

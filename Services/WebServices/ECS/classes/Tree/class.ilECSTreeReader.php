@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /******************************************************************************
  *
@@ -22,7 +24,7 @@
 class ilECSTreeReader
 {
     private ilLogger $logger;
-    
+
     private int $server_id;
     private int $mid;
 
@@ -32,9 +34,9 @@ class ilECSTreeReader
     public function __construct(int $server_id, int $mid)
     {
         global $DIC;
-        
+
         $this->logger = $DIC->logger()->wsrv();
-        
+
         $this->server_id = $server_id;
         $this->mid = $mid;
     }
@@ -46,7 +48,7 @@ class ilECSTreeReader
      *
      * @throws ilECSConnectorException
      */
-    public function read() : void
+    public function read(): void
     {
         $this->logger->debug('Begin read');
         $dir_reader = new ilECSDirectoryTreeConnector(
@@ -64,11 +66,11 @@ class ilECSTreeReader
         }
     }
 
-    protected function storeTree($tree_id, $a_nodes) : void
+    protected function storeTree($tree_id, $a_nodes): void
     {
         $tree = new ilECSCmsTree($tree_id);
-        
-        
+
+
         $cms_tree = $a_nodes;
 
         $data = new ilECSCmsData();
@@ -82,8 +84,8 @@ class ilECSTreeReader
 
         $tree->insertRootNode($tree_id, $data->getObjId());
         $tree->setRootId($data->getObjId());
-        
-        
+
+
         foreach ((array) $cms_tree->nodes as $node) {
             // Add data entry
             $data = new ilECSCmsData();

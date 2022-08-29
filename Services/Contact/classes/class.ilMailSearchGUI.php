@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -32,19 +34,13 @@ class ilMailSearchGUI
     protected ilObjectDataCache $object_data_cache;
     private ilLanguage $lng;
     private ilFormatMail $umail;
-    private bool $errorDelete = false;
-    /**
-     * @var ilWorkspaceAccessHandler|null|ilPortfolioAccessHandler
-     */
-    private $wsp_access_handler = null;
-    private ?int $wsp_node_id = null;
     private GlobalHttpState $http;
     private Refinery $refinery;
 
     /**
      * @param ilWorkspaceAccessHandler|null|ilPortfolioAccessHandler $wsp_access_handler
      */
-    public function __construct($wsp_access_handler = null, ?int $wsp_node_id = null)
+    public function __construct(private $wsp_access_handler = null, private ?int $wsp_node_id = null)
     {
         /** @var $DIC \ILIAS\DI\Container */
         global $DIC;
@@ -57,32 +53,21 @@ class ilMailSearchGUI
         $this->http = $DIC->http();
         $this->refinery = $DIC->refinery();
 
-        $this->wsp_access_handler = $wsp_access_handler;
-        $this->wsp_node_id = $wsp_node_id;
-        
         $this->ctrl->saveParameter($this, 'mobj_id');
         $this->ctrl->saveParameter($this, 'ref');
 
         $this->umail = new ilFormatMail($DIC->user()->getId());
     }
 
-    public function executeCommand() : bool
+    public function executeCommand(): bool
     {
-        $forward_class = $this->ctrl->getNextClass($this);
-        switch ($forward_class) {
-            default:
-                if (!($cmd = $this->ctrl->getCmd())) {
-                    $cmd = "showResults";
-                }
-
-                $this->$cmd();
-                break;
+        if (!($cmd = $this->ctrl->getCmd())) {
+            $cmd = "showResults";
         }
-
-        return true;
+        $this->$cmd();
     }
 
-    private function isDefaultRequestContext() : bool
+    private function isDefaultRequestContext(): bool
     {
         return (
             !$this->http->wrapper()->query()->has('ref') ||
@@ -90,13 +75,13 @@ class ilMailSearchGUI
         );
     }
 
-    public function adopt() : void
+    public function adopt(): void
     {
         $trafo = $this->refinery->kindlyTo()->int();
         if ($this->isDefaultRequestContext()) {
             $trafo = $this->refinery->kindlyTo()->string();
         }
-        
+
         $recipients_to = [];
         foreach (['addr', 'usr', 'grp'] as $search_type) {
             if ($this->http->wrapper()->post()->has('search_name_to_' . $search_type)) {
@@ -126,7 +111,7 @@ class ilMailSearchGUI
             ));
         }
         ilSession::set('mail_search_results_bcc', $recipients_bcc);
-        
+
         if ($this->isDefaultRequestContext()) {
             $this->saveMailData();
         } else {
@@ -136,7 +121,7 @@ class ilMailSearchGUI
         $this->ctrl->returnToParent($this);
     }
 
-    private function saveMailData() : void
+    private function saveMailData(): void
     {
         $mail_data = $this->umail->getSavedData();
 
@@ -154,12 +139,12 @@ class ilMailSearchGUI
         );
     }
 
-    public function cancel() : void
+    public function cancel(): void
     {
         $this->ctrl->returnToParent($this);
     }
 
-    public function search() : bool
+    public function search(): bool
     {
         $search = '';
         if ($this->http->wrapper()->post()->has('search')) {
@@ -180,7 +165,7 @@ class ilMailSearchGUI
         return true;
     }
 
-    protected function initSearchForm() : ilPropertyFormGUI
+    protected function initSearchForm(): ilPropertyFormGUI
     {
         if ($this->isDefaultRequestContext()) {
             $this->saveMailData();
@@ -217,7 +202,7 @@ class ilMailSearchGUI
         return $form;
     }
 
-    public function lookupRecipientAsync() : void
+    public function lookupRecipientAsync(): void
     {
         $search = '';
         if ($this->http->wrapper()->query()->has('term')) {
@@ -241,7 +226,7 @@ class ilMailSearchGUI
             $quoted = ilUtil::stripSlashes($search);
             $quoted = str_replace(['%', '_'], ['\%', '\_'], $quoted);
 
-            $mailFormObj = new ilMailForm;
+            $mailFormObj = new ilMailForm();
             $result = $mailFormObj->getRecipientAsync(
                 "%" . $quoted . "%",
                 ilUtil::stripSlashes($search),
@@ -259,7 +244,7 @@ class ilMailSearchGUI
     }
 
 
-    public function showResults() : void
+    public function showResults(): void
     {
         $form = $this->initSearchForm();
 
@@ -281,7 +266,7 @@ class ilMailSearchGUI
         }
 
         $relations = ilBuddyList::getInstanceByGlobalUser()->getLinkedRelations();
-        if (count($relations)) {
+        if (count($relations) > 0) {
             $contacts_search_result = new ilSearchResult();
 
             $query_parser = new ilQueryParser(addcslashes(ilSession::get('mail_search_search'), '%_'));
@@ -330,7 +315,7 @@ class ilMailSearchGUI
                     $result[$counter]['check'] = ilLegacyFormElementsUtil::formCheckbox(
                         false,
                         'search_name_to_addr[]',
-                        $user
+                        (string) $user
                     );
                 }
 
@@ -366,7 +351,7 @@ class ilMailSearchGUI
             $tbl_contacts->addColumn($this->lng->txt('lastname'), 'lastname', '15%');
             if ($has_mail_addr) {
                 foreach ($result as $key => $val) {
-                    if (!isset($val['email']) || (string) $val['email'] === '') {
+                    if (!isset($val['email']) || $val['email'] === '') {
                         $result[$key]['email'] = '&nbsp;';
                     }
                 }
@@ -411,7 +396,7 @@ class ilMailSearchGUI
         // Filter users (depends on setting in user accounts)
         $has_mail_usr = false;
         $users = ilUserFilter::getInstance()->filter($all_results->getResultIds());
-        if (count($users)) {
+        if ($users !== []) {
             $tbl_users = new ilMailSearchResultsTableGUI($this, 'usr');
             $tbl_users->setTitle($this->lng->txt('system') . ': ' . $this->lng->txt('persons'));
             $tbl_users->setRowTemplate('tpl.mail_search_users_row.html', 'Services/Contact');
@@ -467,9 +452,9 @@ class ilMailSearchGUI
             $tbl_users->addColumn($this->lng->txt('login'), 'login', '15%');
             $tbl_users->addColumn($this->lng->txt('firstname'), 'firstname', '15%');
             $tbl_users->addColumn($this->lng->txt('lastname'), 'lastname', '15%');
-            if ($has_mail_usr === true) {
+            if ($has_mail_usr) {
                 foreach ($result as $key => $val) {
-                    if (!isset($val['email']) || (string) $val['email'] === '') {
+                    if (!isset($val['email']) || $val['email'] === '') {
                         $result[$key]['email'] = '&nbsp;';
                     }
                 }
@@ -524,8 +509,8 @@ class ilMailSearchGUI
                     $roles = $this->rbacreview->getAssignableChildRoles($grp['ref_id']);
                     foreach ($roles as $role) {
                         if (
-                            strpos($role['title'], 'il_grp_member_') === 0 ||
-                            strpos($role['title'], 'il_grp_admin_') === 0
+                            str_starts_with($role['title'], 'il_grp_member_') ||
+                            str_starts_with($role['title'], 'il_grp_admin_')
                         ) {
                             // FIX for Mantis: 7523
                             $members[] = '#' . $role['title'];
@@ -551,7 +536,7 @@ class ilMailSearchGUI
                 $visible_groups[] = $grp;
             }
 
-            if ($visible_groups) {
+            if ($visible_groups !== []) {
                 $tbl_grp->setData($result);
 
                 if ($this->isDefaultRequestContext()) {
@@ -599,7 +584,7 @@ class ilMailSearchGUI
     /**
      * @param int[] $a_obj_ids
      */
-    protected function addPermission(array $a_obj_ids) : void
+    protected function addPermission(array $a_obj_ids): void
     {
         if (!is_array($a_obj_ids)) {
             $a_obj_ids = [$a_obj_ids];

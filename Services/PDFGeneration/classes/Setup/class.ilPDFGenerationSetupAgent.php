@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -30,24 +32,24 @@ class ilPDFGenerationSetupAgent implements Setup\Agent
         $this->refinery = $refinery;
     }
 
-    public function hasConfig() : bool
+    public function hasConfig(): bool
     {
         return true;
     }
 
-    public function getArrayToConfigTransformation() : Refinery\Transformation
+    public function getArrayToConfigTransformation(): Refinery\Transformation
     {
-        return $this->refinery->custom()->transformation(fn ($data) : ilPDFGenerationSetupConfig => new ilPDFGenerationSetupConfig(
+        return $this->refinery->custom()->transformation(fn ($data): ilPDFGenerationSetupConfig => new ilPDFGenerationSetupConfig(
             $data["path_to_phantom_js"] ?? null
         ));
     }
 
-    public function getInstallObjective(Setup\Config $config = null) : Setup\Objective
+    public function getInstallObjective(Setup\Config $config = null): Setup\Objective
     {
         return new ilPDFGenerationConfigStoredObjective($config);
     }
 
-    public function getUpdateObjective(Setup\Config $config = null) : Setup\Objective
+    public function getUpdateObjective(Setup\Config $config = null): Setup\Objective
     {
         if ($config !== null) {
             return new ilPDFGenerationConfigStoredObjective($config);
@@ -55,17 +57,17 @@ class ilPDFGenerationSetupAgent implements Setup\Agent
         return new Setup\Objective\NullObjective();
     }
 
-    public function getBuildArtifactObjective() : Setup\Objective
+    public function getBuildArtifactObjective(): Setup\Objective
     {
         return new Setup\Objective\NullObjective();
     }
 
-    public function getStatusObjective(Setup\Metrics\Storage $storage) : Setup\Objective
+    public function getStatusObjective(Setup\Metrics\Storage $storage): Setup\Objective
     {
         return new ilPDFGenerationMetricsCollectedObjective($storage);
     }
 
-    public function getMigrations() : array
+    public function getMigrations(): array
     {
         return [];
     }

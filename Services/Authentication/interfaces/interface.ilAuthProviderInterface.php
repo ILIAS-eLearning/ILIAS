@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -29,5 +31,5 @@ interface ilAuthProviderInterface
      * @param \ilAuthStatus $status Authentication status
      * @return bool
      */
-    public function doAuthentication(\ilAuthStatus $status) : bool;
+    public function doAuthentication(\ilAuthStatus $status): bool;
 }

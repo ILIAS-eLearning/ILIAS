@@ -25,7 +25,7 @@ class ilMediaCastExporter extends ilXmlExporter
 {
     private ilMediaCastDataSet $ds;
 
-    public function init() : void
+    public function init(): void
     {
         $this->ds = new ilMediaCastDataSet();
         $this->ds->setExportDirectories($this->dir_relative, $this->dir_absolute);
@@ -36,7 +36,7 @@ class ilMediaCastExporter extends ilXmlExporter
         string $a_entity,
         string $a_target_release,
         array $a_ids
-    ) : array {
+    ): array {
         $news_ids = [];
         foreach ($a_ids as $id) {
             $mcst = new ilObjMediaCast($id, false);
@@ -67,11 +67,11 @@ class ilMediaCastExporter extends ilXmlExporter
         string $a_entity,
         string $a_schema_version,
         string $a_id
-    ) : string {
+    ): string {
         return $this->ds->getXmlRepresentation($a_entity, $a_schema_version, [$a_id], "", true, true);
     }
 
-    public function getValidSchemaVersions(string $a_entity) : array
+    public function getValidSchemaVersions(string $a_entity): array
     {
         return array(
             "5.0.0" => array(

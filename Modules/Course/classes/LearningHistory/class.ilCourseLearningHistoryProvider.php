@@ -15,7 +15,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * Learning history provider: Course learning objectives
  * @author  killing@leifos.de
@@ -23,11 +23,10 @@
  */
 class ilCourseLearningHistoryProvider extends ilAbstractLearningHistoryProvider implements ilLearningHistoryProviderInterface
 {
-
     /**
      * @inheritdoc
      */
-    public function isActive() : bool
+    public function isActive(): bool
     {
         return true;
     }
@@ -35,7 +34,7 @@ class ilCourseLearningHistoryProvider extends ilAbstractLearningHistoryProvider 
     /**
      * @inheritdoc
      */
-    public function getEntries(int $ts_start, int $ts_end) : array
+    public function getEntries(int $ts_start, int $ts_end): array
     {
         $lng = $this->getLanguage();
         $lng->loadLanguageModule("crs");
@@ -62,7 +61,7 @@ class ilCourseLearningHistoryProvider extends ilAbstractLearningHistoryProvider 
     /**
      * @inheritdoc
      */
-    public function getName() : string
+    public function getName(): string
     {
         $lng = $this->getLanguage();
         $lng->loadLanguageModule("crs");

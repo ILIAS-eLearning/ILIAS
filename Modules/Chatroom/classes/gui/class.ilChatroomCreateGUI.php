@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -25,7 +27,7 @@
  */
 class ilChatroomCreateGUI extends ilChatroomGUIHandler
 {
-    public function save() : void
+    public function save(): void
     {
         $formFactory = new ilChatroomFormFactory();
         $form = $formFactory->getCreationForm();
@@ -44,7 +46,7 @@ class ilChatroomCreateGUI extends ilChatroomGUIHandler
         }
     }
 
-    public function executeDefault(string $requestedMethod) : void
+    public function executeDefault(string $requestedMethod): void
     {
         $this->gui->switchToVisibleMode();
         $this->gui->createObject();

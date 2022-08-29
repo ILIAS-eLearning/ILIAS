@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -22,10 +24,9 @@
 class ilMailTemplateContextService
 {
     /**
-     * @param string $a_component
      * @param string[] $a_new_templates
      */
-    public static function clearFromXml(string $a_component, array $a_new_templates) : void
+    public static function clearFromXml(string $a_component, array $a_new_templates): void
     {
         global $DIC;
         if (!$DIC->database()->tableExists('mail_tpl_ctx')) {
@@ -38,8 +39,8 @@ class ilMailTemplateContextService
             $persisted_templates[] = $row['id'];
         }
 
-        if (count($persisted_templates)) {
-            if (count($a_new_templates)) {
+        if ($persisted_templates !== []) {
+            if ($a_new_templates !== []) {
                 foreach ($persisted_templates as $id) {
                     if (!in_array($id, $a_new_templates, true)) {
                         $DIC->database()->manipulate(
@@ -61,7 +62,7 @@ class ilMailTemplateContextService
         }
     }
 
-    public static function insertFromXML(string $a_component, string $a_id, string $a_class, ?string $a_path) : void
+    public static function insertFromXML(string $a_component, string $a_id, string $a_class, ?string $a_path): void
     {
         global $DIC;
 
@@ -76,11 +77,9 @@ class ilMailTemplateContextService
     }
 
     /**
-     * @param string $a_id
-     * @return ilMailTemplateContext
      * @throws ilMailException
      */
-    public static function getTemplateContextById(string $a_id) : ilMailTemplateContext
+    public static function getTemplateContextById(string $a_id): ilMailTemplateContext
     {
         $contexts = self::getTemplateContexts([$a_id]);
         $first_context = current($contexts);
@@ -96,7 +95,7 @@ class ilMailTemplateContextService
      * @param string[] $a_id
      * @return ilMailTemplateContext[]
      */
-    public static function getTemplateContexts(?array $a_id = null) : array
+    public static function getTemplateContexts(?array $a_id = null): array
     {
         global $DIC;
         $templates = [];
@@ -106,7 +105,7 @@ class ilMailTemplateContextService
         if (is_array($a_id) && count($a_id)) {
             $where[] = $DIC->database()->in('id', $a_id, false, 'text');
         }
-        if (count($where)) {
+        if ($where !== []) {
             $query .= ' WHERE ' . implode(' AND ', $where);
         }
 
@@ -127,7 +126,7 @@ class ilMailTemplateContextService
         string $a_class,
         ?string $a_path,
         bool $isCreationContext = false
-    ) : ?ilMailTemplateContext {
+    ): ?ilMailTemplateContext {
         if (!$a_path) {
             $a_path = $a_component . '/classes/';
         }
@@ -153,7 +152,7 @@ class ilMailTemplateContextService
         string $a_component,
         string $a_class,
         ?string $a_path
-    ) : void {
+    ): void {
         global $DIC;
 
         $query = "SELECT id FROM mail_tpl_ctx WHERE id = %s";

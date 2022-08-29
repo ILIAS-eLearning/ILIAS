@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -50,10 +52,11 @@ class ilMailAttachmentTableGUI extends ilTable2GUI
         $this->addColumn($this->lng->txt('mail_file_size'), 'filesize');
         $this->addColumn($this->lng->txt('create_date'), 'filecreatedate');
         // Show all attachments on one page
+        $this->setShowRowsSelector(false);
         $this->setLimit(PHP_INT_MAX);
     }
 
-    protected function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set): void
     {
         /**
          * We need to encode this because of filenames with the following format: "anystring".txt (with ")
@@ -76,22 +79,17 @@ class ilMailAttachmentTableGUI extends ilTable2GUI
         );
     }
 
-    public function numericOrdering(string $a_field) : bool
+    public function numericOrdering(string $a_field): bool
     {
         return $a_field === 'filesize' || $a_field === 'filecreatedate';
     }
 
-    protected function formatValue(string $column, string $value) : ?string
+    protected function formatValue(string $column, string $value): ?string
     {
-        switch ($column) {
-            case 'filecreatedate':
-                return ilDatePresentation::formatDate(new ilDateTime($value, IL_CAL_UNIX));
-
-            case 'filesize':
-                return ilUtil::formatSize((int) $value);
-
-            default:
-                return $value;
-        }
+        return match ($column) {
+            'filecreatedate' => ilDatePresentation::formatDate(new ilDateTime($value, IL_CAL_UNIX)),
+            'filesize' => ilUtil::formatSize((int) $value),
+            default => $value,
+        };
     }
 }

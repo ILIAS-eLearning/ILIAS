@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -24,7 +26,7 @@ class ilMailValueObjectJsonService
     /**
      * @param ilMailValueObject[] $mailValueObjects
      */
-    public function convertToJson(array $mailValueObjects) : string
+    public function convertToJson(array $mailValueObjects): string
     {
         $mailArray = [];
         foreach ($mailValueObjects as $mailValueObject) {
@@ -49,7 +51,7 @@ class ilMailValueObjectJsonService
     /**
      * @return ilMailValueObject[]
      */
-    public function convertFromJson(string $json) : array
+    public function convertFromJson(string $json): array
     {
         $result = [];
         $array = json_decode($json, true, 512, JSON_THROW_ON_ERROR);

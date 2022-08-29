@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -32,7 +34,7 @@ class ilMailUserCache
     /**
      * @param int[] $usr_ids
      */
-    public static function preloadUserObjects(array $usr_ids) : void
+    public static function preloadUserObjects(array $usr_ids): void
     {
         global $DIC;
 
@@ -40,7 +42,7 @@ class ilMailUserCache
         self::$requested_usr_ids = array_merge(self::$requested_usr_ids, $usr_ids_to_request);
         self::$requested_usr_ids_key_map = array_flip(self::$requested_usr_ids);
 
-        if ($usr_ids_to_request) {
+        if ($usr_ids_to_request !== []) {
             $in = $DIC->database()->in('ud.usr_id', $usr_ids_to_request, false, 'integer');
             $query = "
 				SELECT ud.usr_id, login, firstname, lastname, title, gender, 
@@ -75,7 +77,7 @@ class ilMailUserCache
         }
     }
 
-    public static function getUserObjectById(int $usr_id) : ?ilObjUser
+    public static function getUserObjectById(int $usr_id): ?ilObjUser
     {
         if ($usr_id < 1) {
             return null;

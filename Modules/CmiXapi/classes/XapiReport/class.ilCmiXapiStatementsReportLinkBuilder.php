@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -30,14 +32,14 @@ class ilCmiXapiStatementsReportLinkBuilder extends ilCmiXapiAbstractReportLinkBu
     /**
      * @return array<int, array<string|mixed[]>>
      */
-    protected function buildPipeline() : array
+    protected function buildPipeline(): array
     {
         $pipeline = [];
-        
+
         $pipeline[] = $this->buildFilterStage();
 
         $pipeline[] = $this->buildOrderingStage();
-        
+
         $pipeline[] = ['$facet' => [
             'stage1' => [
                 ['$group' => ['_id' => null, 'count' => ['$sum' => 1]]]
@@ -45,41 +47,41 @@ class ilCmiXapiStatementsReportLinkBuilder extends ilCmiXapiAbstractReportLinkBu
             'stage2' => $this->buildLimitStage()
         ]
         ];
-        
+
         $pipeline[] = ['$unwind' => '$stage1'];
-    
+
         $pipeline[] = [
             '$project' => [
                 'maxcount' => '$stage1.count',
                 'statements' => '$stage2.statement'
             ]
         ];
-        
+
         $log = ilLoggerFactory::getLogger('cmix');
         //$log->debug("aggregation pipeline:\n" . json_encode($pipeline, JSON_PRETTY_PRINT));
-        
+
         return $pipeline;
     }
-    
+
     /**
      * @return array<int, mixed[]>
      */
-    protected function buildLimitStage() : array
+    protected function buildLimitStage(): array
     {
         $stage = array(
             array('$skip' => (int) $this->filter->getOffset())
         );
-        
+
         if ($this->filter->getLimit() !== 0) {
             $stage[] = array('$limit' => (int) $this->filter->getLimit());
         }
         return $stage;
     }
-    
+
     /**
      * @return mixed[][]
      */
-    protected function buildFilterStage() : array
+    protected function buildFilterStage(): array
     {
         $cmi5_extensions_query = false;
 
@@ -89,14 +91,14 @@ class ilCmiXapiStatementsReportLinkBuilder extends ilCmiXapiAbstractReportLinkBu
         if ($this->filter->getVerb()) {
             $stage['statement.verb.id'] = $this->filter->getVerb();
         }
-        
+
         if ($this->filter->getStartDate() || $this->filter->getEndDate()) {
             $stage['statement.timestamp'] = array();
-            
+
             if ($this->filter->getStartDate() !== null) {
                 $stage['statement.timestamp']['$gt'] = $this->filter->getStartDate()->toXapiTimestamp();
             }
-            
+
             if ($this->filter->getEndDate() !== null) {
                 $stage['statement.timestamp']['$lt'] = $this->filter->getEndDate()->toXapiTimestamp();
             }
@@ -123,7 +125,7 @@ class ilCmiXapiStatementsReportLinkBuilder extends ilCmiXapiAbstractReportLinkBu
         }
 
         $actor = array();
-        
+
         // mixed
         if ($obj->isMixedContentType()) {
             if ($this->filter->getActor()) {
@@ -178,11 +180,11 @@ class ilCmiXapiStatementsReportLinkBuilder extends ilCmiXapiAbstractReportLinkBu
         }
         return array('$match' => $stage);
     }
-    
+
     /**
      * @return array<string, int[]>
      */
-    protected function buildOrderingStage() : array
+    protected function buildOrderingStage(): array
     {
         $obj = $this->getObj();
         $actor = '';
@@ -203,25 +205,25 @@ class ilCmiXapiStatementsReportLinkBuilder extends ilCmiXapiAbstractReportLinkBu
             case 'object': // definition/description are displayed in the Table if not empty => sorting not alphabetical on displayed fields
                 $field = 'statement.object.id';
                 break;
-                
+
             case 'verb':
                 $field = 'statement.verb.id';
                 break;
-                
+
             case 'actor':
                 $field = $actor;
                 break;
-                
+
             case 'date':
             default:
                 $field = 'statement.timestamp';
                 break;
         }
-        
+
         $orderingFields = array(
             $field => $this->filter->getOrderDirection() == 'desc' ? -1 : 1
         );
-        
+
         return ['$sort' => $orderingFields];
     }
 }

@@ -34,14 +34,14 @@ class ilObjFileAccessSettings extends ilObject
     private bool $download_with_uploaded_filename = false;
     private ilIniFile $ini_file;
     private ilSetting $settings;
-    
+
     /**
      * Constructor
      */
     public function __construct(int $a_id = 0, bool $a_call_by_reference = true)
     {
         global $DIC;
-        
+
         $this->type = "facs";
         parent::__construct($a_id, $a_call_by_reference);
         $this->ini_file = $DIC['ilClientIniFile'];
@@ -54,7 +54,7 @@ class ilObjFileAccessSettings extends ilObject
      *
      * @param string $value a space separated list of filename extensions.
      */
-    public function setInlineFileExtensions(string $value) : void
+    public function setInlineFileExtensions(string $value): void
     {
         $this->inline_file_extensions = $value;
     }
@@ -63,7 +63,7 @@ class ilObjFileAccessSettings extends ilObject
     /**
      * Gets the inlineFileExtensions property.
      */
-    public function getInlineFileExtensions() : string
+    public function getInlineFileExtensions(): string
     {
         return $this->inline_file_extensions;
     }
@@ -72,15 +72,15 @@ class ilObjFileAccessSettings extends ilObject
     /**
      * Sets the downloadWithUploadedFilename property.
      */
-    public function setDownloadWithUploadedFilename(bool $value) : void
+    public function setDownloadWithUploadedFilename(bool $value): void
     {
         $this->download_with_uploaded_filename = $value;
     }
-    
+
     /**
      * Gets the downloadWithUploadedFilename property.
      */
-    public function isDownloadWithUploadedFilename() : bool
+    public function isDownloadWithUploadedFilename(): bool
     {
         return $this->download_with_uploaded_filename;
     }
@@ -93,7 +93,7 @@ class ilObjFileAccessSettings extends ilObject
      *
      * @return    integer        object id
      */
-    public function create() : int
+    public function create(): int
     {
         $id = parent::create();
         $this->write();
@@ -105,7 +105,7 @@ class ilObjFileAccessSettings extends ilObject
     /**
      * update object in db
      */
-    public function update() : bool
+    public function update(): bool
     {
         parent::update();
         $this->write();
@@ -117,7 +117,7 @@ class ilObjFileAccessSettings extends ilObject
     /**
      * write object data into db
      */
-    private function write() : void
+    private function write(): void
     {
         if (!$this->ini_file->groupExists('file_access')) {
             $this->ini_file->addGroup('file_access');
@@ -137,15 +137,15 @@ class ilObjFileAccessSettings extends ilObject
     /**
      * read object data from db into object
      */
-    public function read() : void
+    public function read(): void
     {
         parent::read();
-    
+
         $this->download_with_uploaded_filename = $this->ini_file->readVariable(
             'file_access',
             'download_with_uploaded_filename'
         ) === '1';
-        
+
         $this->inline_file_extensions = $this->settings->get('inline_file_extensions', '');
     }
 }

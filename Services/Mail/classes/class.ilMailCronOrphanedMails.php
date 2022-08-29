@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -19,6 +21,10 @@
 use ILIAS\HTTP\GlobalHttpState;
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\Refinery\Transformation;
+use ILIAS\Mail\Cron\ExpiredOrOrphanedMails\ExpiredOrOrphanedMailsCollector;
+use ILIAS\Mail\Cron\ExpiredOrOrphanedMails\MailDeletionHandler;
+use ILIAS\Mail\Cron\ExpiredOrOrphanedMails\NotificationsCollector;
+use ILIAS\Mail\Cron\ExpiredOrOrphanedMails\Notifier;
 
 /**
  * Delete orphaned mails
@@ -36,7 +42,7 @@ class ilMailCronOrphanedMails extends ilCronJob
     private bool $initDone = false;
     private ilCronManager $cron_manager;
 
-    private function init() : void
+    private function init(): void
     {
         global $DIC;
 
@@ -54,9 +60,9 @@ class ilMailCronOrphanedMails extends ilCronJob
         }
     }
 
-    private function emptyStringOrFloatOrIntToEmptyOrIntegerString() : Transformation
+    private function emptyStringOrFloatOrIntToEmptyOrIntegerString(): Transformation
     {
-        $empty_string_or_null_to_stirng_trafo = $this->refinery->custom()->transformation(static function ($value) : string {
+        $empty_string_or_null_to_stirng_trafo = $this->refinery->custom()->transformation(static function ($value): string {
             if ($value === '' || null === $value) {
                 return '';
             }
@@ -77,34 +83,34 @@ class ilMailCronOrphanedMails extends ilCronJob
         ]);
     }
 
-    public function getId() : string
+    public function getId(): string
     {
         return 'mail_orphaned_mails';
     }
 
-    public function getTitle() : string
+    public function getTitle(): string
     {
         $this->init();
         return $this->lng->txt('mail_orphaned_mails');
     }
 
-    public function getDescription() : string
+    public function getDescription(): string
     {
         $this->init();
         return $this->lng->txt('mail_orphaned_mails_desc');
     }
 
-    public function hasAutoActivation() : bool
+    public function hasAutoActivation(): bool
     {
         return false;
     }
 
-    public function hasFlexibleSchedule() : bool
+    public function hasFlexibleSchedule(): bool
     {
         return true;
     }
 
-    public function getValidScheduleTypes() : array
+    public function getValidScheduleTypes(): array
     {
         return [
             self::SCHEDULE_TYPE_DAILY,
@@ -116,22 +122,22 @@ class ilMailCronOrphanedMails extends ilCronJob
         ];
     }
 
-    public function getDefaultScheduleType() : int
+    public function getDefaultScheduleType(): int
     {
         return self::SCHEDULE_TYPE_DAILY;
     }
 
-    public function getDefaultScheduleValue() : ?int
+    public function getDefaultScheduleValue(): ?int
     {
         return 1;
     }
 
-    public function hasCustomSettings() : bool
+    public function hasCustomSettings(): bool
     {
         return true;
     }
 
-    public function addCustomSettingsToForm(ilPropertyFormGUI $a_form) : void
+    public function addCustomSettingsToForm(ilPropertyFormGUI $a_form): void
     {
         $this->init();
 
@@ -146,7 +152,7 @@ class ilMailCronOrphanedMails extends ilCronJob
         $threshold->setValue($this->settings->get('mail_threshold', ''));
 
         $a_form->addItem($threshold);
-        
+
         $mail_folder = new ilCheckboxInputGUI(
             $this->lng->txt('only_inbox_trash'),
             'mail_only_inbox_trash'
@@ -155,7 +161,7 @@ class ilMailCronOrphanedMails extends ilCronJob
         $mail_folder->setInfo($this->lng->txt('only_inbox_trash_info'));
         $mail_folder->setChecked((bool) $this->settings->get('mail_only_inbox_trash', '0'));
         $a_form->addItem($mail_folder);
-        
+
         $notification = new ilNumberInputGUI(
             $this->lng->txt('mail_notify_orphaned'),
             'mail_notify_orphaned'
@@ -180,7 +186,7 @@ class ilMailCronOrphanedMails extends ilCronJob
         $a_form->addItem($notification);
     }
 
-    public function saveCustomSettings(ilPropertyFormGUI $a_form) : bool
+    public function saveCustomSettings(ilPropertyFormGUI $a_form): bool
     {
         $this->init();
 
@@ -200,7 +206,7 @@ class ilMailCronOrphanedMails extends ilCronJob
 
             ilLoggerFactory::getLogger('mail')->info(sprintf(
                 "Deleted all scheduled mail deletions " .
-                "because a reminder should't be sent (login: %s|usr_id: %s) anymore!",
+                "because a reminder shouldn't be sent (login: %s|usr_id: %s) anymore!",
                 $this->user->getLogin(),
                 $this->user->getId()
             ));
@@ -209,27 +215,27 @@ class ilMailCronOrphanedMails extends ilCronJob
         return true;
     }
 
-    public function ping() : void
+    public function ping(): void
     {
         $this->cron_manager->ping($this->getId());
     }
 
-    public function run() : ilCronJobResult
+    public function run(): ilCronJobResult
     {
         $this->init();
 
-        $mail_threshold = (int) $this->settings->get('mail_threshold', '0');
+        $mail_expiration_days = (int) $this->settings->get('mail_threshold', '0');
 
         ilLoggerFactory::getLogger('mail')->info(sprintf(
             'Started mail deletion job with threshold: %s day(s)',
-            var_export($mail_threshold, true)
+            var_export($mail_expiration_days, true)
         ));
 
-        if ($mail_threshold >= 1 && (int) $this->settings->get('mail_notify_orphaned', '0') >= 1) {
+        if ($mail_expiration_days >= 1 && (int) $this->settings->get('mail_notify_orphaned', '0') >= 1) {
             $this->processNotification();
         }
 
-        if ($mail_threshold >= 1 && (int) $this->settings->get('last_cronjob_start_ts', (string) time())) {
+        if ($mail_expiration_days >= 1 && (int) $this->settings->get('last_cronjob_start_ts', (string) time())) {
             $this->processDeletion();
         }
 
@@ -239,33 +245,30 @@ class ilMailCronOrphanedMails extends ilCronJob
 
         ilLoggerFactory::getLogger('mail')->info(sprintf(
             'Finished mail deletion job with threshold: %s day(s)',
-            var_export($mail_threshold, true)
+            var_export($mail_expiration_days, true)
         ));
 
         return $result;
     }
 
-    private function processNotification() : void
+    private function processNotification(): void
     {
         $this->init();
 
-        $collector = new ilMailCronOrphanedMailsNotificationCollector($this);
-
-        $notifier = new ilMailCronOrphanedMailsNotifier(
+        $notifier = new Notifier(
             $this,
-            $collector,
+            new NotificationsCollector($this),
             (int) $this->settings->get('mail_threshold', '0'),
             (int) $this->settings->get('mail_notify_orphaned', '0')
         );
-        $notifier->processNotification();
+        $notifier->send();
     }
 
-    private function processDeletion() : void
+    private function processDeletion(): void
     {
         $this->init();
 
-        $collector = new ilMailCronOrphanedMailsDeletionCollector($this);
-        $processor = new ilMailCronOrphanedMailsDeletionProcessor($this, $collector);
-        $processor->processDeletion();
+        $processor = new MailDeletionHandler($this, new ExpiredOrOrphanedMailsCollector($this));
+        $processor->delete();
     }
 }

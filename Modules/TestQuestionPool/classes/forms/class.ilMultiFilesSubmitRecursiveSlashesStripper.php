@@ -11,46 +11,46 @@ class ilMultiFilesSubmitRecursiveSlashesStripper implements ilFormValuesManipula
      * @var string
      */
     protected $postVar = null;
-    
+
     /**
      * @return string
      */
-    public function getPostVar() : ?string
+    public function getPostVar(): ?string
     {
         return $this->postVar;
     }
-    
+
     /**
      * @param string $postVar
      */
-    public function setPostVar($postVar) : void
+    public function setPostVar($postVar): void
     {
         $this->postVar = $postVar;
     }
-    
+
     /**
      * @param array $inputValues
      * @return array $inputValues
      */
-    public function manipulateFormInputValues(array $inputValues) : array
+    public function manipulateFormInputValues(array $inputValues): array
     {
         return $inputValues;
     }
-    
+
     /**
      * @param array $submitValues
      * @return array $submitValues
      */
-    public function manipulateFormSubmitValues(array $submitValues) : array
+    public function manipulateFormSubmitValues(array $submitValues): array
     {
         $this->manipulateFileSubmitValues();
         return $submitValues;
     }
-    
+
     /**
      * perform the strip slashing on files submit
      */
-    protected function manipulateFileSubmitValues() : void
+    protected function manipulateFileSubmitValues(): void
     {
         if ($_FILES) {
             $_FILES[$this->getPostVar()] = ilArrayUtil::stripSlashesRecursive(

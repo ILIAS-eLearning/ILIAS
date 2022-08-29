@@ -77,7 +77,7 @@ class ilPersonalSkillExplorerGUI extends ilTreeExplorerGUI
 
         $this->ctrl = $DIC->ctrl();
         $this->lng = $DIC->language();
-        
+
         $this->select_gui = (is_object($a_select_gui))
             ? strtolower(get_class($a_select_gui))
             : $a_select_gui;
@@ -89,10 +89,10 @@ class ilPersonalSkillExplorerGUI extends ilTreeExplorerGUI
         $this->skill_tree_manager = $DIC->skills()->internal()->manager()->getTreeManager();
 
         $this->lng->loadLanguageModule("skmg");
-        
+
         $this->tree = $this->skill_tree_factory->getGlobalTree();
         $this->root_id = $this->tree->readRootId();
-        
+
         parent::__construct("pskill_sel", $a_parent_obj, $a_parent_cmd, $this->tree);
         $this->setSkipRootNode(true);
 
@@ -110,27 +110,27 @@ class ilPersonalSkillExplorerGUI extends ilTreeExplorerGUI
             }
         }
 
-        
+
         //		$this->setTypeWhiteList(array("skrt", "skll", "scat", "sktr"));
         $this->buildSelectableTree(0);
     }
 
-    protected function getRootId() : int
+    protected function getRootId(): int
     {
         return 0;
     }
 
-    protected function setHasSelectableNodes(bool $a_val) : void
+    protected function setHasSelectableNodes(bool $a_val): void
     {
         $this->has_selectable_nodes = $a_val;
     }
 
-    public function getHasSelectableNodes() : bool
+    public function getHasSelectableNodes(): bool
     {
         return $this->has_selectable_nodes;
     }
 
-    public function buildSelectableTree(int $a_node_id) : void
+    public function buildSelectableTree(int $a_node_id): void
     {
         if (in_array(ilSkillTreeNode::_lookupStatus($a_node_id), array(ilSkillTreeNode::STATUS_DRAFT, ilSkillTreeNode::STATUS_OUTDATED))) {
             if ($a_node_id != 0 && ilSkillTreeNode::_lookupType($a_node_id) !== "skrt") {
@@ -165,7 +165,7 @@ class ilPersonalSkillExplorerGUI extends ilTreeExplorerGUI
      * @param int $a_parent_node_id parent id
      * @return array childs
      */
-    public function getChildsOfNode($a_parent_node_id) : array
+    public function getChildsOfNode($a_parent_node_id): array
     {
         if (isset($this->selectable_child_nodes[$a_parent_node_id])
             && is_array($this->selectable_child_nodes[$a_parent_node_id])) {
@@ -179,7 +179,7 @@ class ilPersonalSkillExplorerGUI extends ilTreeExplorerGUI
     /**
      * Get original childs of node (whole tree)
      */
-    public function getOriginalChildsOfNode(int $a_parent_id) : array
+    public function getOriginalChildsOfNode(int $a_parent_id): array
     {
         if (isset($this->child_nodes[$a_parent_id]) && is_array($this->child_nodes[$a_parent_id])) {
             return $this->child_nodes[$a_parent_id];
@@ -191,16 +191,16 @@ class ilPersonalSkillExplorerGUI extends ilTreeExplorerGUI
      * @param object|array $a_node
      * @return string
      */
-    public function getNodeHref($a_node) : string
+    public function getNodeHref($a_node): string
     {
         $ilCtrl = $this->ctrl;
-        
+
         $skill_id = $a_node["child"];
-        
+
         $ilCtrl->setParameterByClass($this->select_gui, $this->select_par, $skill_id);
         $ret = $ilCtrl->getLinkTargetByClass($this->select_gui, $this->select_cmd);
         $ilCtrl->setParameterByClass($this->select_gui, $this->select_par, "");
-        
+
         return $ret;
     }
 
@@ -208,7 +208,7 @@ class ilPersonalSkillExplorerGUI extends ilTreeExplorerGUI
      * @param object|array $a_node
      * @return string
      */
-    public function getNodeContent($a_node) : string
+    public function getNodeContent($a_node): string
     {
         $lng = $this->lng;
 
@@ -227,7 +227,7 @@ class ilPersonalSkillExplorerGUI extends ilTreeExplorerGUI
      * @param object|array $a_node
      * @return bool
      */
-    public function isNodeClickable($a_node) : bool
+    public function isNodeClickable($a_node): bool
     {
         if (!ilSkillTreeNode::_lookupSelfEvaluation($a_node["child"])) {
             return false;
@@ -240,7 +240,7 @@ class ilPersonalSkillExplorerGUI extends ilTreeExplorerGUI
      * @param object|array $a_node
      * @return string
      */
-    public function getNodeIcon($a_node) : string
+    public function getNodeIcon($a_node): string
     {
         $t = $a_node["type"];
         if ($t == "sktr") {
@@ -253,7 +253,7 @@ class ilPersonalSkillExplorerGUI extends ilTreeExplorerGUI
      * @param object|array $a_node
      * @return string
      */
-    public function getNodeIconAlt($a_node) : string
+    public function getNodeIconAlt($a_node): string
     {
         $lng = $this->lng;
 

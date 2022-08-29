@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -25,33 +25,33 @@ class ilObjRepositorySettings extends ilObject
 {
     public const NEW_ITEM_GROUP_TYPE_GROUP = 1;
     public const NEW_ITEM_GROUP_TYPE_SEPARATOR = 2;
-    
+
     public function __construct(int $a_id, bool $a_call_by_reference = true)
     {
         $this->type = "reps";
         parent::__construct($a_id, $a_call_by_reference);
     }
 
-    public function delete() : bool
+    public function delete(): bool
     {
         // DISABLED
         return false;
     }
-    
-    public static function addNewItemGroupSeparator() : bool
+
+    public static function addNewItemGroupSeparator(): bool
     {
         global $DIC;
 
         $ilDB = $DIC->database();
-        
+
         // append
         $pos = $ilDB->query("SELECT max(pos) mpos FROM il_new_item_grp");
         $pos = $ilDB->fetchAssoc($pos);
         $pos = (int) $pos["mpos"];
         $pos += 10;
-        
+
         $seq = $ilDB->nextID("il_new_item_grp");
-        
+
         $ilDB->manipulate("INSERT INTO il_new_item_grp" .
             " (id, pos, type) VALUES (" .
             $ilDB->quote($seq, "integer") .
@@ -60,21 +60,21 @@ class ilObjRepositorySettings extends ilObject
             ")");
         return true;
     }
-    
-    public static function addNewItemGroup(array $a_titles) : bool
+
+    public static function addNewItemGroup(array $a_titles): bool
     {
         global $DIC;
 
         $ilDB = $DIC->database();
-        
+
         // append
         $pos = $ilDB->query("SELECT max(pos) mpos FROM il_new_item_grp");
         $pos = $ilDB->fetchAssoc($pos);
         $pos = (int) $pos["mpos"];
         $pos += 10;
-        
+
         $seq = $ilDB->nextID("il_new_item_grp");
-        
+
         $ilDB->manipulate("INSERT INTO il_new_item_grp" .
             " (id, titles, pos, type) VALUES (" .
             $ilDB->quote($seq, "integer") .
@@ -84,29 +84,29 @@ class ilObjRepositorySettings extends ilObject
             ")");
         return true;
     }
-    
-    public static function updateNewItemGroup(int $a_id, array $a_titles) : bool
+
+    public static function updateNewItemGroup(int $a_id, array $a_titles): bool
     {
         global $DIC;
 
         $ilDB = $DIC->database();
-        
+
         $ilDB->manipulate("UPDATE il_new_item_grp" .
             " SET titles = " . $ilDB->quote(serialize($a_titles), "text") .
             " WHERE id = " . $ilDB->quote($a_id, "integer"));
         return true;
     }
-    
-    public static function deleteNewItemGroup(int $a_id) : bool
+
+    public static function deleteNewItemGroup(int $a_id): bool
     {
         global $DIC;
 
         $ilDB = $DIC->database();
         $ilSetting = $DIC->settings();
-        
+
         // move subitems to unassigned
         $sub_items = self::getNewItemGroupSubItems();
-        $sub_items = $sub_items[$a_id];
+        $sub_items = $sub_items[$a_id] ?? null;
         if ($sub_items) {
             foreach ($sub_items as $obj_type) {
                 $old_pos = $ilSetting->get("obj_add_new_pos_" . $obj_type);
@@ -117,25 +117,25 @@ class ilObjRepositorySettings extends ilObject
                 }
             }
         }
-        
+
         $ilDB->manipulate("DELETE FROM il_new_item_grp" .
             " WHERE id = " . $ilDB->quote($a_id, "integer"));
         return true;
     }
-    
-    public static function getNewItemGroups() : array
+
+    public static function getNewItemGroups(): array
     {
         global $DIC;
 
         $ilDB = $DIC->database();
         $lng = $DIC->language();
         $ilUser = $DIC->user();
-        
+
         $def_lng = $lng->getDefaultLanguage();
         $usr_lng = $ilUser->getLanguage();
-        
+
         $res = [];
-        
+
         $set = $ilDB->query("SELECT * FROM il_new_item_grp ORDER BY pos");
         while ($row = $ilDB->fetchAssoc($set)) {
             if ((int) $row["type"] === self::NEW_ITEM_GROUP_TYPE_GROUP) {
@@ -152,39 +152,39 @@ class ilObjRepositorySettings extends ilObject
             } else {
                 $row["title"] = $lng->txt("rep_new_item_group_separator");
             }
-            
+
             $res[$row["id"]] = $row;
         }
-        
+
         return $res;
     }
 
-    public static function updateNewItemGroupOrder(array $a_order) : void
+    public static function updateNewItemGroupOrder(array $a_order): void
     {
         global $DIC;
 
         $ilDB = $DIC->database();
-        
+
         asort($a_order);
         $pos = 0;
         foreach (array_keys($a_order) as $id) {
             $pos += 10;
-            
+
             $ilDB->manipulate("UPDATE il_new_item_grp" .
                 " SET pos = " . $ilDB->quote($pos, "integer") .
                 " WHERE id = " . $ilDB->quote($id, "integer"));
         }
     }
-    
-    protected static function getAllObjTypes() : array
+
+    protected static function getAllObjTypes(): array
     {
         global $DIC;
 
         $component_repository = $DIC["component.repository"];
         $objDefinition = $DIC["objDefinition"];
-        
+
         $res = [];
-        
+
         // parse modules
         foreach ($component_repository->getComponents() as $mod) {
             if ($mod->getType() !== ilComponentInfo::TYPE_MODULES) {
@@ -208,40 +208,40 @@ class ilObjRepositorySettings extends ilObject
                 }
             }
         }
-        
+
         // parse plugins
         $pl_names = $component_repository->getPluginSlotById("robj")->getActivePlugins();
         foreach ($pl_names as $plugin) {
             $res[] = $plugin->getId();
         }
-        
+
         return $res;
     }
-    
-    public static function getNewItemGroupSubItems() : array
+
+    public static function getNewItemGroupSubItems(): array
     {
         global $DIC;
 
         $ilSetting = $DIC->settings();
-        
+
         $res = [];
-        
+
         foreach (self::getAllObjTypes() as $type) {
             $pos_grp = $ilSetting->get("obj_add_new_pos_grp_" . $type, '0');
             $res[$pos_grp][] = $type;
         }
-        
+
         return $res;
     }
-    
-    public static function getDefaultNewItemGrouping() : array
+
+    public static function getDefaultNewItemGrouping(): array
     {
         global $DIC;
 
         $lng = $DIC->language();
-        
+
         $res = [];
-                                
+
         $groups = [
             "organisation" => ["fold", "sess", "cat", "catr", "crs", "crsr", "grp", "grpr", "itgr", "book", "prg", "prgr"],
             "communication" => ["frm", "chtr"],
@@ -252,7 +252,7 @@ class ilObjRepositorySettings extends ilObject
             "feedback" => ["poll", "svy", "spl"],
             "templates" => ["prtt"]
         ];
-        
+
         $pos = 0;
         foreach ($groups as $group => $items) {
             $pos += 10;
@@ -260,7 +260,7 @@ class ilObjRepositorySettings extends ilObject
 
             if (is_array($items)) {
                 $title = $lng->txt("rep_add_new_def_grp_" . $group);
-                
+
                 $res["groups"][$grp_id] = [
                     "id" => $grp_id,
                     "titles" => [$lng->getUserLanguage() => $title],
@@ -272,11 +272,11 @@ class ilObjRepositorySettings extends ilObject
                 foreach ($items as $idx => $item) {
                     $res["items"][$item] = $grp_id;
                     $res["sort"][$item] = str_pad((string) $pos, 4, "0", STR_PAD_LEFT) .
-                        str_pad($idx + 1, 4, "0", STR_PAD_LEFT);
+                        str_pad((string) ($idx + 1), 4, "0", STR_PAD_LEFT);
                 }
             } else {
                 $title = "COL_SEP";
-                
+
                 $res["groups"][$grp_id] = [
                     "id" => $grp_id,
                     "titles" => [$lng->getUserLanguage() => $title],
@@ -286,16 +286,16 @@ class ilObjRepositorySettings extends ilObject
                 ];
             }
         }
-        
+
         return $res;
     }
-    
-    public static function deleteObjectType(string $a_type) : void
+
+    public static function deleteObjectType(string $a_type): void
     {
         global $DIC;
 
         $ilSetting = $DIC->settings();
-        
+
         // see ilObjRepositorySettingsGUI::saveModules()
         $ilSetting->delete("obj_dis_creation_" . $a_type);
         $ilSetting->delete("obj_add_new_pos_" . $a_type);

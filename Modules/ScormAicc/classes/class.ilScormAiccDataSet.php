@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -80,11 +82,11 @@ class ilScormAiccDataSet extends ilDataSet
         string $a_version,
         ?array $a_rec = null,
         ?array $a_ids = null
-    ) : array {
+    ): array {
         return [];
     }
 
-    public function writeData(string $a_entity, string $a_version, int $a_id, array $data) : void
+    public function writeData(string $a_entity, string $a_version, int $a_id, array $data): void
     {
         global $DIC;
         $ilDB = $DIC->database();
@@ -151,7 +153,7 @@ class ilScormAiccDataSet extends ilDataSet
         string $a_field = "",
         bool $a_omit_header = false,
         bool $a_omit_types = false
-    ) : string {
+    ): string {
         $GLOBALS['DIC']["ilLog"]->write(json_encode($this->getTypes("sahs", "5.1.0"), JSON_PRETTY_PRINT));
 
         $this->dircnt = 1;
@@ -266,7 +268,7 @@ class ilScormAiccDataSet extends ilDataSet
      * @param string $a_version version number
      * @return array types array
      */
-    protected function getTypes(string $a_entity, string $a_version) : array
+    protected function getTypes(string $a_entity, string $a_version): array
     {
         if ($a_entity === "sahs") {
             switch ($a_version) {
@@ -281,7 +283,7 @@ class ilScormAiccDataSet extends ilDataSet
         return [];
     }
 
-    public function readData(string $a_entity, string $a_version, array $a_ids) : void
+    public function readData(string $a_entity, string $a_version, array $a_ids): void
     {
         global $DIC;
         $ilDB = $DIC->database();
@@ -312,7 +314,7 @@ class ilScormAiccDataSet extends ilDataSet
     /**
      * retrieve element name by database column name
      */
-    public function getElementNameByDbColumn(string $db_col_name) : string
+    public function getElementNameByDbColumn(string $db_col_name): string
     {
         if ($db_col_name === "title") {
             return "Title";
@@ -323,7 +325,7 @@ class ilScormAiccDataSet extends ilDataSet
         return $this->element_db_mapping[$db_col_name];
     }
 
-    public function buildMetaData(int $id) : string
+    public function buildMetaData(int $id): string
     {
         $md2xml = new ilMD2XML($id, $id, "sahs");
         $md2xml->startExport();
@@ -333,7 +335,7 @@ class ilScormAiccDataSet extends ilDataSet
     /**
      * Get xml namespace
      */
-    public function getXmlNamespace(string $a_entity, string $a_schema_version) : string
+    public function getXmlNamespace(string $a_entity, string $a_schema_version): string
     {
         return "http://www.ilias.de/xml/Modules/ScormAicc/" . $a_entity;
     }
@@ -341,7 +343,7 @@ class ilScormAiccDataSet extends ilDataSet
     /**
      * @return string[]
      */
-    public function getSupportedVersions() : array
+    public function getSupportedVersions(): array
     {
         return ["5.1.0"];
     }

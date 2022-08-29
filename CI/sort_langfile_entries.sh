@@ -1,7 +1,28 @@
-#!/bin/sh
+#!/bin/bash
+
+source CI/Import/Functions.sh
+
+CHECKS=true
+CHECKFLAG=${1}
 
 header_end='<!-- language file start -->'
-langfiles=$(git diff --cached --name-only --diff-filter=ACM -- '*.lang')
+
+langfiles=$(find . -name "*.lang")
+
+script=$(cat <<EOF
+\$c = explode("\\n", file_get_contents("php://stdin"));
+\$h = [];
+while(\$l = array_shift(\$c)) {
+    \$h[] = \$l;
+    if (\$l === "${header_end}") {
+        break;
+    }
+}
+\$c = array_filter(\$c, function(\$v) { return !empty(\$v); } );
+array_multisort(\$c);
+file_put_contents("php://stdout",join("\n",array_merge(\$h, \$c)));
+EOF
+)
 
 for file in $langfiles
 do
@@ -21,9 +42,25 @@ do
         fi
     done
 
-    echo  "sorting entries in ${file}";
-    (head -n $header_length ${file} && tail -n +$((header_length + 1)) ${file} | sort ) > ${file}.tmp
-    mv ${file}.tmp ${file}
-
+    (cat ${file} | php -r "${script}") > ${file}.tmp
+    LANGFILEDIFF=$(diff ${file} ${file}.tmp)
+    if [ ! -z "${LANGFILEDIFF}" ]
+    then
+        if [ ! -z ${CHECKFLAG} ]
+        then
+            CHECKS=false
+            echo "language file ${file} needs to be sorted."
+        else
+            cp ${file}.tmp ${file}
+            echo "modified ${file}"
+        fi
+    fi
+    rm ${file}.tmp
 done
-exit 0
+
+if [ $CHECKS = false ]
+then
+    exit 127
+else
+    exit 0
+fi

@@ -1,4 +1,5 @@
 <?php
+
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 require_once 'Modules/Test/classes/class.ilTestRandomQuestionSetNonAvailablePool.php';
@@ -16,7 +17,7 @@ class ilTestRandomQuestionSetSourcePoolDefinitionList implements Iterator
     private ilTestRandomQuestionSetSourcePoolDefinitionFactory $sourcePoolDefinitionFactory;
     protected array $lostPools = array();
     protected array $trashedPools = array();
-    
+
     public function __construct(ilDBInterface $db, ilObjTest $testOBJ, ilTestRandomQuestionSetSourcePoolDefinitionFactory $sourcePoolDefinitionFactory)
     {
         $this->db = $db;
@@ -28,51 +29,51 @@ class ilTestRandomQuestionSetSourcePoolDefinitionList implements Iterator
     {
         $this->sourcePoolDefinitions[ $sourcePoolDefinition->getId() ] = $sourcePoolDefinition;
     }
-    
+
     protected function addLostPool(ilTestRandomQuestionSetNonAvailablePool $lostPool)
     {
         $this->lostPools[$lostPool->getId()] = $lostPool;
     }
-    
-    public function isLostPool($poolId) : bool
+
+    public function isLostPool($poolId): bool
     {
         return isset($this->lostPools[$poolId]);
     }
 
-    public function hasLostPool() : bool
+    public function hasLostPool(): bool
     {
         return (bool) count($this->lostPools);
     }
-    
-    public function getLostPools() : array
+
+    public function getLostPools(): array
     {
         return $this->lostPools;
     }
-    
+
     public function getLostPool($poolId)
     {
         if ($this->isLostPool($poolId)) {
             return $this->lostPools[$poolId];
         }
-        
+
         return null;
     }
-    
-    public function isTrashedPool($poolId) : bool
+
+    public function isTrashedPool($poolId): bool
     {
         return isset($this->trashedPools[$poolId]);
     }
-    
-    public function hasTrashedPool() : bool
+
+    public function hasTrashedPool(): bool
     {
         return (bool) count($this->trashedPools);
     }
 
-    public function getTrashedPools() : array
+    public function getTrashedPools(): array
     {
         return $this->trashedPools;
     }
-    
+
     /**
      * @param array $trashedPools
      */
@@ -80,47 +81,47 @@ class ilTestRandomQuestionSetSourcePoolDefinitionList implements Iterator
     {
         $this->trashedPools = $trashedPools;
     }
-    
+
     // hey: fixRandomTestBuildable - provide single definitions, quantities distribution likes to deal with objects
-    
-    public function hasDefinition($sourcePoolDefinitionId) : bool
+
+    public function hasDefinition($sourcePoolDefinitionId): bool
     {
         return $this->getDefinition($sourcePoolDefinitionId) !== null;
     }
-    
-    public function getDefinition($sourcePoolDefinitionId) : ?ilTestRandomQuestionSetSourcePoolDefinition
+
+    public function getDefinition($sourcePoolDefinitionId): ?ilTestRandomQuestionSetSourcePoolDefinition
     {
         if (isset($this->sourcePoolDefinitions[$sourcePoolDefinitionId])) {
             return $this->sourcePoolDefinitions[$sourcePoolDefinitionId];
         }
-        
+
         return null;
     }
-    
-    public function getDefinitionBySourcePoolId($sourcePoolId) : ilTestRandomQuestionSetSourcePoolDefinition
+
+    public function getDefinitionBySourcePoolId($sourcePoolId): ilTestRandomQuestionSetSourcePoolDefinition
     {
         foreach ($this as $definition) {
             if ($definition->getPoolId() != $sourcePoolId) {
                 continue;
             }
-            
+
             return $definition;
         }
-        
+
         throw new InvalidArgumentException('invalid source pool id given');
     }
-    
-    public function getDefinitionIds() : array
+
+    public function getDefinitionIds(): array
     {
         return array_keys($this->sourcePoolDefinitions);
     }
-    
-    public function getDefinitionCount() : int
+
+    public function getDefinitionCount(): int
     {
         return count($this->sourcePoolDefinitions);
     }
     // hey.
-    
+
     public function loadDefinitions()
     {
         $query = "
@@ -136,55 +137,55 @@ class ilTestRandomQuestionSetSourcePoolDefinitionList implements Iterator
 			WHERE test_fi = %s
 			ORDER BY sequence_pos ASC
 		";
-        
+
         $res = $this->db->queryF($query, array('integer', 'integer'), array(1, $this->testOBJ->getTestId()));
 
         $handledDefinitions = array();
         $trashedPools = array();
-        
+
         while ($row = $this->db->fetchAssoc($res)) {
             $sourcePoolDefinition = $this->sourcePoolDefinitionFactory->getEmptySourcePoolDefinition();
             $sourcePoolDefinition->initFromArray($row);
-            
+
             if (!isset($handledDefinitions[$sourcePoolDefinition->getId()])) {
                 $this->addDefinition($sourcePoolDefinition);
                 $handledDefinitions[$sourcePoolDefinition->getId()] = $sourcePoolDefinition->getId();
-                
+
                 $trashedPool = new ilTestRandomQuestionSetNonAvailablePool();
                 $trashedPool->assignDbRow($row);
-                
+
                 $trashedPool->setUnavailabilityStatus(
                     ilTestRandomQuestionSetNonAvailablePool::UNAVAILABILITY_STATUS_TRASHED
                 );
-                
+
                 $trashedPools[$trashedPool->getId()] = $trashedPool;
             }
-            
+
             if (!$this->isLostPool($row['pool_id'])) {
                 if (!$row['pool_id']) {
                     $lostPool = new ilTestRandomQuestionSetNonAvailablePool();
                     $lostPool->assignDbRow($row);
-                    
+
                     $lostPool->setUnavailabilityStatus(
                         ilTestRandomQuestionSetNonAvailablePool::UNAVAILABILITY_STATUS_LOST
                     );
-                    
+
                     $this->addLostPool($lostPool);
-                    
+
                     if (isset($trashedPools[$lostPool->getId()])) {
                         unset($trashedPools[$lostPool->getId()]);
                     }
                 }
             }
-            
+
             if ($row['child']) {
                 unset($trashedPools[$row['pool_id']]);
             }
         }
-        
+
         $this->setTrashedPools($trashedPools);
     }
-    
+
     public function saveDefinitions()
     {
         foreach ($this as $sourcePoolDefinition) {
@@ -193,13 +194,13 @@ class ilTestRandomQuestionSetSourcePoolDefinitionList implements Iterator
         }
     }
 
-    public function cloneDefinitionsForTestId($testId) : array
+    public function cloneDefinitionsForTestId($testId): array
     {
         $definitionIdMap = array();
-        
+
         foreach ($this as $definition) {
             /** @var ilTestRandomQuestionSetSourcePoolDefinition $definition */
-            
+
             $originalId = $definition->getId();
             $definition->cloneToDbForTestId($testId);
             $cloneId = $definition->getId();
@@ -237,13 +238,13 @@ class ilTestRandomQuestionSetSourcePoolDefinitionList implements Iterator
             $definition->setSequencePosition($positionIndex[$definition->getId()]);
         }
     }
-    
-    public function getNextPosition() : int
+
+    public function getNextPosition(): int
     {
         return (count($this->sourcePoolDefinitions) + 1);
     }
 
-    public function getInvolvedSourcePoolIds() : array
+    public function getInvolvedSourcePoolIds(): array
     {
         $involvedSourcePoolIds = array();
 
@@ -255,7 +256,7 @@ class ilTestRandomQuestionSetSourcePoolDefinitionList implements Iterator
         return array_values($involvedSourcePoolIds);
     }
 
-    public function getQuestionAmount() : ?int
+    public function getQuestionAmount(): ?int
     {
         $questionAmount = 0;
 
@@ -270,7 +271,7 @@ class ilTestRandomQuestionSetSourcePoolDefinitionList implements Iterator
     /**
      * @return bool
      */
-    public function savedDefinitionsExist() : bool
+    public function savedDefinitionsExist(): bool
     {
         $query = "SELECT COUNT(*) cnt FROM tst_rnd_quest_set_qpls WHERE test_fi = %s";
         $res = $this->db->queryF($query, array('integer'), array($this->testOBJ->getTestId()));
@@ -280,7 +281,7 @@ class ilTestRandomQuestionSetSourcePoolDefinitionList implements Iterator
         return $row['cnt'] > 0;
     }
 
-    public function hasTaxonomyFilters() : bool
+    public function hasTaxonomyFilters(): bool
     {
         foreach ($this as $definition) {
             /** @var ilTestRandomQuestionSetSourcePoolDefinition $definition */
@@ -294,12 +295,12 @@ class ilTestRandomQuestionSetSourcePoolDefinitionList implements Iterator
             #}
             // fau.
         }
-        
+
         return false;
     }
-    
+
     // fau: taxFilter/typeFilter - check for existing type filters
-    public function hasTypeFilters() : bool
+    public function hasTypeFilters(): bool
     {
         foreach ($this as $definition) {
             if (count($definition->getTypeFilter())) {
@@ -310,16 +311,16 @@ class ilTestRandomQuestionSetSourcePoolDefinitionList implements Iterator
     }
     // fau.
 
-    public function areAllUsedPoolsAvailable() : bool
+    public function areAllUsedPoolsAvailable(): bool
     {
         if ($this->hasLostPool()) {
             return false;
         }
-        
+
         if ($this->hasTrashedPool()) {
             return false;
         }
-        
+
         return true;
     }
 
@@ -358,12 +359,12 @@ class ilTestRandomQuestionSetSourcePoolDefinitionList implements Iterator
     /**
      * @return boolean
      */
-    public function valid() : bool
+    public function valid(): bool
     {
         return key($this->sourcePoolDefinitions) !== null;
     }
-    
-    public function getNonAvailablePools() : array
+
+    public function getNonAvailablePools(): array
     {
         return array_merge($this->getTrashedPools(), $this->getLostPools());
     }

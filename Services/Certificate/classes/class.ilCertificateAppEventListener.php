@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -51,7 +53,7 @@ class ilCertificateAppEventListener implements ilAppEventListener
         $this->userCertificateRepository = new ilUserCertificateRepository($this->db, $this->logger);
     }
 
-    public function withComponent(string $component) : self
+    public function withComponent(string $component): self
     {
         $clone = clone $this;
 
@@ -60,7 +62,7 @@ class ilCertificateAppEventListener implements ilAppEventListener
         return $clone;
     }
 
-    public function withEvent(string $event) : self
+    public function withEvent(string $event): self
     {
         $clone = clone $this;
 
@@ -69,7 +71,7 @@ class ilCertificateAppEventListener implements ilAppEventListener
         return $clone;
     }
 
-    public function withParameters(array $parameters) : self
+    public function withParameters(array $parameters): self
     {
         $clone = clone $this;
 
@@ -78,7 +80,7 @@ class ilCertificateAppEventListener implements ilAppEventListener
         return $clone;
     }
 
-    protected function isLearningAchievementEvent() : bool
+    protected function isLearningAchievementEvent(): bool
     {
         return (
             'Services/Tracking' === $this->component &&
@@ -86,7 +88,7 @@ class ilCertificateAppEventListener implements ilAppEventListener
         );
     }
 
-    protected function isUserDeletedEvent() : bool
+    protected function isUserDeletedEvent(): bool
     {
         return (
             'Services/User' === $this->component &&
@@ -94,7 +96,7 @@ class ilCertificateAppEventListener implements ilAppEventListener
         );
     }
 
-    protected function isCompletedStudyProgramme() : bool
+    protected function isCompletedStudyProgramme(): bool
     {
         return (
             'Modules/StudyProgramme' === $this->component &&
@@ -105,7 +107,7 @@ class ilCertificateAppEventListener implements ilAppEventListener
     /**
      * @throws IOException
      */
-    public function handle() : void
+    public function handle(): void
     {
         try {
             if ($this->isLearningAchievementEvent()) {
@@ -126,7 +128,7 @@ class ilCertificateAppEventListener implements ilAppEventListener
      * @param array  $a_parameter
      * @throws IOException
      */
-    public static function handleEvent(string $a_component, string $a_event, array $a_parameter) : void
+    public static function handleEvent(string $a_component, string $a_event, array $a_parameter): void
     {
         global $DIC;
 
@@ -143,7 +145,7 @@ class ilCertificateAppEventListener implements ilAppEventListener
             ->handle();
     }
 
-    private function handleLPUpdate() : void
+    private function handleLPUpdate(): void
     {
         $status = (int) ($this->parameters['status'] ?? ilLPStatus::LP_STATUS_NOT_ATTEMPTED_NUM);
 
@@ -269,7 +271,7 @@ class ilCertificateAppEventListener implements ilAppEventListener
     /**
      * @throws IOException
      */
-    private function handleDeletedUser() : void
+    private function handleDeletedUser(): void
     {
         $portfolioFileService = new ilPortfolioCertificateFileService();
 
@@ -300,7 +302,7 @@ class ilCertificateAppEventListener implements ilAppEventListener
         int $userId,
         ilCertificateTemplate $template,
         ilSetting $settings
-    ) : void {
+    ): void {
         $className = $this->certificateClassMap->getPlaceHolderClassNameByType($type);
 
         $entry = new ilCertificateQueueEntry(
@@ -323,7 +325,7 @@ class ilCertificateAppEventListener implements ilAppEventListener
         $this->certificateQueueRepository->addToQueue($entry);
     }
 
-    private function handleCompletedStudyProgramme() : void
+    private function handleCompletedStudyProgramme(): void
     {
         $settings = new ilSetting('certificate');
         $objectId = $this->parameters['prg_id'] ?? 0;

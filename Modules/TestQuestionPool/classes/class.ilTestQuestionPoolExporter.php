@@ -1,4 +1,5 @@
 <?php
+
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 include_once("./Services/Export/classes/class.ilXmlExporter.php");
@@ -17,7 +18,7 @@ class ilTestQuestionPoolExporter extends ilXmlExporter
     /**
      * Initialisation
      */
-    public function init() : void
+    public function init(): void
     {
     }
 
@@ -27,7 +28,7 @@ class ilTestQuestionPoolExporter extends ilXmlExporter
      * @param int    $a_obj_id
      * @param string $a_export_type
      */
-    public static function lookupExportDirectory(string $a_obj_type, int $a_obj_id, string $a_export_type = 'xml', string $a_entity = "") : string
+    public static function lookupExportDirectory(string $a_obj_type, int $a_obj_id, string $a_export_type = 'xml', string $a_entity = ""): string
     {
         if ($a_export_type == 'xml') {
             return ilFileUtils::getDataDir() . "/qpl_data" . "/qpl_" . $a_obj_id . "/export_zip";
@@ -43,16 +44,16 @@ class ilTestQuestionPoolExporter extends ilXmlExporter
      * @param	string		id
      * @return	string		xml string
      */
-    public function getXmlRepresentation(string $a_entity, string $a_schema_version, string $a_id) : string
+    public function getXmlRepresentation(string $a_entity, string $a_schema_version, string $a_id): string
     {
         include_once './Modules/TestQuestionPool/classes/class.ilObjQuestionPool.php';
         $qpl = new ilObjQuestionPool($a_id, false);
         $qpl->loadFromDb();
-        
+
         include_once("./Modules/TestQuestionPool/classes/class.ilQuestionpoolExport.php");
         $qpl_exp = new ilQuestionpoolExport($qpl, 'xml');
         $qpl_exp->buildExportFile();
-        
+
         global $DIC; /* @var ILIAS\DI\Container $DIC */
         $DIC['ilLog']->write(__METHOD__ . ': Created zip file');
         return ''; // sagt mjansen
@@ -65,7 +66,7 @@ class ilTestQuestionPoolExporter extends ilXmlExporter
      * @param		array		ids
      * @return        array        array of array with keys "component", entity", "ids"
      */
-    public function getXmlExportTailDependencies(string $a_entity, string $a_target_release, array $a_ids) : array
+    public function getXmlExportTailDependencies(string $a_entity, string $a_target_release, array $a_ids): array
     {
         if ($a_entity == 'qpl') {
             $deps = array();
@@ -90,7 +91,7 @@ class ilTestQuestionPoolExporter extends ilXmlExporter
      * @param array $testObjIds
      * @return array $taxIds
      */
-    private function getDependingTaxonomyIds($poolObjIds) : array
+    private function getDependingTaxonomyIds($poolObjIds): array
     {
         include_once 'Services/Taxonomy/classes/class.ilObjTaxonomy.php';
 
@@ -111,7 +112,7 @@ class ilTestQuestionPoolExporter extends ilXmlExporter
      * fit to the target release. Please put the newest on top.
      * @return array
      */
-    public function getValidSchemaVersions(string $a_entity) : array
+    public function getValidSchemaVersions(string $a_entity): array
     {
         return array(
             "4.1.0" => array(

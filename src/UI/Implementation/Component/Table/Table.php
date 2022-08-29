@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\UI\Implementation\Component\Table;
 
 use ILIAS\UI\Component\Table as T;
@@ -32,7 +34,7 @@ abstract class Table implements T\Table
     /**
      * @inheritdoc
      */
-    public function withTitle(string $title) : T\Table
+    public function withTitle(string $title): T\Table
     {
         $clone = clone $this;
         $clone->title = $title;
@@ -42,7 +44,7 @@ abstract class Table implements T\Table
     /**
      * @inheritdoc
      */
-    public function getTitle() : string
+    public function getTitle(): string
     {
         return $this->title;
     }

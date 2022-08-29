@@ -31,7 +31,6 @@ use ILIAS\FileUpload\Handler\BasicFileInfoResult;
  */
 class ilObjFileUploadHandler extends ilCtrlAwareStorageUploadHandler
 {
-    
     /**
      * ilObjFileUploadHandler constructor
      */

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 class ilObjLearningSequenceAdmin extends ilObject2
 {
     public function __construct(int $id = 0, bool $call_by_reference = true)
@@ -23,7 +25,7 @@ class ilObjLearningSequenceAdmin extends ilObject2
         parent::__construct($id, $call_by_reference);
     }
 
-    protected function initType() : void
+    protected function initType(): void
     {
         $this->type = "lsos";
     }

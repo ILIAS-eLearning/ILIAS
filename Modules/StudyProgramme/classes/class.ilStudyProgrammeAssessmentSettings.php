@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -48,12 +50,12 @@ class ilStudyProgrammeAssessmentSettings
         $this->status = $status;
     }
 
-    public function getPoints() : int
+    public function getPoints(): int
     {
         return $this->points;
     }
 
-    public function withPoints(int $points) : ilStudyProgrammeAssessmentSettings
+    public function withPoints(int $points): ilStudyProgrammeAssessmentSettings
     {
         if (0 > $points) {
             throw new InvalidArgumentException('Numbers less than 0 are not allowed');
@@ -64,12 +66,12 @@ class ilStudyProgrammeAssessmentSettings
         return $clone;
     }
 
-    public function getStatus() : int
+    public function getStatus(): int
     {
         return $this->status;
     }
 
-    public function withStatus(int $status) : ilStudyProgrammeAssessmentSettings
+    public function withStatus(int $status): ilStudyProgrammeAssessmentSettings
     {
         if (!in_array($status, self::$STATUS)) {
             throw new InvalidArgumentException("No valid status: '$status'");
@@ -84,7 +86,7 @@ class ilStudyProgrammeAssessmentSettings
         Field\Factory $input,
         ilLanguage $lng,
         Refinery $refinery
-    ) : Field\Input {
+    ): Field\Input {
         $num = $input
             ->numeric($lng->txt('prg_points'), $lng->txt('prg_points_byline'))
             ->withValue($this->getPoints())
@@ -115,7 +117,7 @@ class ilStudyProgrammeAssessmentSettings
         }));
     }
 
-    protected function getStatusOptions(ilLanguage $lng) : array
+    protected function getStatusOptions(ilLanguage $lng): array
     {
         return [
             ilStudyProgrammeSettings::STATUS_DRAFT => $lng->txt("prg_status_draft"),

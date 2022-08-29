@@ -67,7 +67,7 @@ class ilPluginNode extends ilBaseNode
     /**
      * Activates the node.
      */
-    public function activate() : void
+    public function activate(): void
     {
         $this->active = true;
         foreach ($this->detectors as $detector) {
@@ -80,7 +80,7 @@ class ilPluginNode extends ilBaseNode
     /**
      * Deactivates the node.
      */
-    public function deactivate() : void
+    public function deactivate(): void
     {
         $this->active = false;
         foreach ($this->detectors as $detector) {
@@ -92,7 +92,7 @@ class ilPluginNode extends ilBaseNode
     /**
      * Passes a trigger to attached detectors.
      */
-    public function trigger(string $a_type, ?array $a_params = null) : void
+    public function trigger(string $a_type, ?array $a_params = null): void
     {
         if ($this->active === true && count($this->detectors) !== 0) {
             foreach ($this->detectors as $detector) {
@@ -113,7 +113,7 @@ class ilPluginNode extends ilBaseNode
      *
      * @return bool True, if node is ready to transit.
      */
-    public function checkTransitionPreconditions() : bool
+    public function checkTransitionPreconditions(): bool
     {
         // TODO Call Plugin here.
         $eval_function = function ($detectors) {
@@ -135,7 +135,7 @@ class ilPluginNode extends ilBaseNode
      *
      * @return bool True, if transition succeeded.
      */
-    public function attemptTransition() : bool
+    public function attemptTransition(): bool
     {
         // TODO Call Plugin here.
         $eval_function = function ($detectors) {
@@ -145,7 +145,7 @@ class ilPluginNode extends ilBaseNode
         if ($eval_function($this->detectors) === null) {
             return false;
         }
-        
+
         if ($eval_function($this->detectors) === true) {
             $this->executeTransition();
             return true;
@@ -159,7 +159,7 @@ class ilPluginNode extends ilBaseNode
     /**
      * Executes all 'then'-activities attached to the node.
      */
-    private function executeActivities() : void
+    private function executeActivities(): void
     {
         if (count($this->activities) !== 0) {
             foreach ($this->activities as $activity) {
@@ -171,7 +171,7 @@ class ilPluginNode extends ilBaseNode
     /**
      * Executes all 'then'-emitters attached to the node.
      */
-    private function executeEmitters() : void
+    private function executeEmitters(): void
     {
         if (count($this->emitters) !== 0) {
             foreach ($this->emitters as $emitter) {
@@ -195,7 +195,7 @@ class ilPluginNode extends ilBaseNode
      * @param ilEmitter $emitter
      * @param bool   $else_emitter True, if the emitter should be an 'else'-emitter.
      */
-    public function addEmitter(ilEmitter $emitter, bool $else = false) : void
+    public function addEmitter(ilEmitter $emitter, bool $else = false): void
     {
         if (!$else) {
             $this->emitters[] = $emitter;
@@ -209,7 +209,7 @@ class ilPluginNode extends ilBaseNode
      * @param ilActivity $activity
      * @param bool    $else_activity True, if the activity should be an 'else'-activity.
      */
-    public function addActivity(ilActivity $activity, bool $else = false) : void
+    public function addActivity(ilActivity $activity, bool $else = false): void
     {
         if (!$else) {
             $this->activities[] = $activity;
@@ -254,7 +254,7 @@ class ilPluginNode extends ilBaseNode
      *
      * @var string PHP code to be executed to determine the 'decision' of the node.
      */
-    public function setEvaluationExpression(string $a_expression) : void
+    public function setEvaluationExpression(string $a_expression): void
     {
         // TODO Rework to use a Plugin here.
         $this->evaluation_expression = $a_expression;
@@ -267,7 +267,7 @@ class ilPluginNode extends ilBaseNode
      *
      * @return
      */
-    public function notifyDetectorSatisfaction(ilDetector $detector) : void
+    public function notifyDetectorSatisfaction(ilDetector $detector): void
     {
         if ($this->isActive()) {
             $this->attemptTransition();
@@ -279,7 +279,7 @@ class ilPluginNode extends ilBaseNode
      * @param bool $else True, if else activities should be returned.
      * @return Array Array with objects of ilActivity
      */
-    public function getActivities(bool $else = false) : array
+    public function getActivities(bool $else = false): array
     {
         if ($else) {
             return $this->else_activities;
@@ -292,7 +292,7 @@ class ilPluginNode extends ilBaseNode
      * @param bool $else True, if else emitters should be returned.
      * @return Array Array with objects of ilEmitter
      */
-    public function getEmitters(bool $else = false) : array
+    public function getEmitters(bool $else = false): array
     {
         if ($else) {
             return $this->else_emitters;

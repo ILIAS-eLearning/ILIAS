@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -54,7 +56,7 @@ class ilForumThreadFormGUI extends ilPropertyFormGUI
         $this->draftId = $draftId;
     }
 
-    private function addAliasInput() : void
+    private function addAliasInput(): void
     {
         if ($this->allowPseudonyms) {
             $alias = new ilTextInputGUI($this->lng->txt('forums_your_name'), 'alias');
@@ -68,7 +70,7 @@ class ilForumThreadFormGUI extends ilPropertyFormGUI
         $this->addItem($alias);
     }
 
-    private function addSubjectInput() : void
+    private function addSubjectInput(): void
     {
         $subject = new ilTextInputGUI($this->lng->txt('forums_thread'), 'subject');
         $subject->setMaxLength(255);
@@ -77,7 +79,7 @@ class ilForumThreadFormGUI extends ilPropertyFormGUI
         $this->addItem($subject);
     }
 
-    private function addMessageInput() : void
+    private function addMessageInput(): void
     {
         $message = new ilTextAreaInputGUI($this->lng->txt('forums_the_post'), 'message');
         $message->setCols(50);
@@ -111,7 +113,7 @@ class ilForumThreadFormGUI extends ilPropertyFormGUI
         $this->addItem($message);
     }
 
-    private function addFileUploadInput() : void
+    private function addFileUploadInput(): void
     {
         if ($this->properties->isFileUploadAllowed()) {
             $files = new ilFileWizardInputGUI($this->lng->txt('forums_attachments_add'), 'userfile');
@@ -137,7 +139,7 @@ class ilForumThreadFormGUI extends ilPropertyFormGUI
         }
     }
 
-    private function addAllowNotificationInput() : void
+    private function addAllowNotificationInput(): void
     {
         if ($this->allowNotification) {
             $notifyOnAnswer = new ilCheckboxInputGUI($this->lng->txt('forum_direct_notification'), 'notify');
@@ -147,7 +149,7 @@ class ilForumThreadFormGUI extends ilPropertyFormGUI
         }
     }
 
-    private function generateInputItems() : void
+    private function generateInputItems(): void
     {
         $this->setTitleIcon(ilUtil::getImagePath('icon_frm.svg'));
         $this->setTableWidth('100%');
@@ -181,12 +183,12 @@ class ilForumThreadFormGUI extends ilPropertyFormGUI
         }
     }
 
-    public function addInputItem(string $input_item) : void
+    public function addInputItem(string $input_item): void
     {
         $this->input_items[] = $input_item;
     }
 
-    public function generateDefaultForm() : void
+    public function generateDefaultForm(): void
     {
         $this->generateInputItems();
 
@@ -209,7 +211,7 @@ class ilForumThreadFormGUI extends ilPropertyFormGUI
         }
     }
 
-    public function generateMinimalForm() : void
+    public function generateMinimalForm(): void
     {
         $this->generateInputItems();
 

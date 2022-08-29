@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\Tests\UI\Component\Dropzone\File;
 
 /**
@@ -23,7 +25,7 @@ namespace ILIAS\Tests\UI\Component\Dropzone\File;
  */
 class StandardTest extends FileTestBase
 {
-    public function testRenderStandard() : void
+    public function testRenderStandard(): void
     {
         $expected_html = $this->brutallyTrimHTML('
             <div id="id_5" class="ui-dropzone ">
@@ -65,7 +67,7 @@ class StandardTest extends FileTestBase
         $this->assertEquals($expected_html, $this->getDropzoneHtml($dropzone));
     }
 
-    public function testRenderStandardWithUploadButton() : void
+    public function testRenderStandardWithUploadButton(): void
     {
         $expected_html = $this->brutallyTrimHTML('
             <div id="id_6" class="ui-dropzone ">
@@ -109,7 +111,7 @@ class StandardTest extends FileTestBase
         $this->assertEquals($expected_html, $this->getDropzoneHtml($dropzone));
     }
 
-    public function testRenderStandardWithMetadata() : void
+    public function testRenderStandardWithMetadata(): void
     {
         $expected_html = $this->brutallyTrimHTML('
             <div id="id_6" class="ui-dropzone ">
@@ -152,7 +154,7 @@ class StandardTest extends FileTestBase
         $this->assertEquals($expected_html, $this->getDropzoneHtml($dropzone));
     }
 
-    public function testRenderStandardWithMessage() : void
+    public function testRenderStandardWithMessage(): void
     {
         $expected_html = $this->brutallyTrimHTML('
             <div id="id_5" class="ui-dropzone ">
@@ -194,7 +196,7 @@ class StandardTest extends FileTestBase
         $this->assertEquals($expected_html, $this->getDropzoneHtml($dropzone));
     }
 
-    public function testRenderStandardWithTitle() : void
+    public function testRenderStandardWithTitle(): void
     {
         $expected_html = $this->brutallyTrimHTML('
             <div id="id_5" class="ui-dropzone ">

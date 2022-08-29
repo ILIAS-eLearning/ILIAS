@@ -103,11 +103,10 @@ class ilCourseReferenceAppEventListener implements ilAppEventListener
      * @param    string $a_event     event e.g. "createUser", "updateUser", "deleteUser", ...
      * @param    array  $a_parameter parameter array (assoc), array("name" => ..., "phone_office" => ...)
      */
-    public static function handleEvent(string $a_component, string $a_event, array $a_parameter) : void
+    public static function handleEvent(string $a_component, string $a_event, array $a_parameter): void
     {
         ilLoggerFactory::getLogger('crs')->warning($a_component);
         switch ($a_component) {
-
             case 'Services/AccessControl':
                 $self = new self();
                 $self->handleUserAssignments($a_event, $a_parameter);

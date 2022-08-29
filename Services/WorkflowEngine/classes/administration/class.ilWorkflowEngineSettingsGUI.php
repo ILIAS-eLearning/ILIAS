@@ -39,7 +39,7 @@ class ilWorkflowEngineSettingsGUI
      * @param string $command
      * @return string
      */
-    public function handle(string $command) : string
+    public function handle(string $command): string
     {
         global $DIC;
         /** @var ilSetting $ilSetting */

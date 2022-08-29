@@ -1,4 +1,22 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 use PHPUnit\Framework\TestCase;
 
@@ -17,6 +35,7 @@ final class RootFolderTest extends TestCase
         'phpstan.local.neon',
         'phpstan-baseline.neon',
         '.php_cs.cache',
+        '.php-cs-fixer.cache',
         'calendar.php',
         'captainhook.json',
         'composer.json',
@@ -55,7 +74,7 @@ final class RootFolderTest extends TestCase
         '.buildpath',
         '.project'
     ];
-    
+
     private const ALLOWED_ROOT_FOLDER_DIRS = [
         '.git',
         '.github',
@@ -83,11 +102,11 @@ final class RootFolderTest extends TestCase
         'xml',
         '.settings'
     ];
-    
+
     protected array $ALLOWED_ROOT_FOLDER_DIRS = [];
     protected array $ALLOWED_ROOT_FOLDER_FILES = [];
-    
-    protected function setUp() : void
+
+    protected function setUp(): void
     {
         $this->ALLOWED_ROOT_FOLDER_DIRS = array_merge(
             self::ALLOWED_ROOT_FOLDER_DIRS,
@@ -98,8 +117,8 @@ final class RootFolderTest extends TestCase
             explode(",", (string) getenv('ALLOWED_ROOT_FOLDER_FILES'))
         );
     }
-    
-    private function getAppRootFolderOrFail() : string
+
+    private function getAppRootFolderOrFail(): string
     {
         $app_root_folder = getcwd();
 
@@ -110,16 +129,16 @@ final class RootFolderTest extends TestCase
         if (!is_file($app_root_folder . '/index.php')) {
             $this->fail('Could not determine ILIAS root folder');
         }
-        
+
         return $app_root_folder;
     }
 
-    public function testAppRootFolderOnlyContainsDefinedFiles() : void
+    public function testAppRootFolderOnlyContainsDefinedFiles(): void
     {
         $found_files = [];
         $iter = new CallbackFilterIterator(
             new DirectoryIterator($this->getAppRootFolderOrFail()),
-            static function (DirectoryIterator $file) : bool {
+            static function (DirectoryIterator $file): bool {
                 return $file->isFile();
             }
         );
@@ -140,12 +159,12 @@ final class RootFolderTest extends TestCase
         );
     }
 
-    public function testAppRootFolderOnlyContainsDefinedFolders() : void
+    public function testAppRootFolderOnlyContainsDefinedFolders(): void
     {
         $found_directories = [];
         $iter = new CallbackFilterIterator(
             new DirectoryIterator($this->getAppRootFolderOrFail()),
-            static function (DirectoryIterator $file) : bool {
+            static function (DirectoryIterator $file): bool {
                 return $file->isDir() && !$file->isDot();
             }
         );

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -21,21 +23,19 @@
  */
 class ilMailAutoCompleteSearch
 {
-    protected ilMailAutoCompleteRecipientResult $result;
     /** @var Iterator[] */
     protected array $providers = [];
 
-    public function __construct(ilMailAutoCompleteRecipientResult $result)
+    public function __construct(protected ilMailAutoCompleteRecipientResult $result)
     {
-        $this->result = $result;
     }
 
-    public function addProvider(Iterator $provider) : void
+    public function addProvider(Iterator $provider): void
     {
         $this->providers[] = $provider;
     }
 
-    public function search() : void
+    public function search(): void
     {
         foreach ($this->providers as $provider) {
             foreach ($provider as $row) {

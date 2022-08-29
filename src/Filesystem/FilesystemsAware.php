@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace ILIAS\Filesystem;
@@ -35,7 +36,7 @@ trait FilesystemsAware
      *
      * @return Filesystems
      */
-    private static function filesystems() : Filesystems
+    private static function filesystems(): Filesystems
     {
         if (!isset(self::$filesystems)) {
             global $DIC;

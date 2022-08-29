@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * GUI class for course/group waiting list
  * @author  Stefan Meyer <smeyer.ilias@gmx.de>
@@ -93,12 +95,12 @@ class ilWaitingListTableGUI extends ilTable2GUI
         self::$has_odf_definitions = (bool) ilCourseDefinedFieldDefinition::_hasFields($this->getRepositoryObject()->getId());
     }
 
-    protected function getWaitingList() : ilWaitingList
+    protected function getWaitingList(): ilWaitingList
     {
         return $this->waiting_list;
     }
 
-    protected function getRepositoryObject() : ilObject
+    protected function getRepositoryObject(): ilObject
     {
         return $this->rep_object;
     }
@@ -107,7 +109,7 @@ class ilWaitingListTableGUI extends ilTable2GUI
      * Set user ids
      * @param int[] $a_user_ids
      */
-    public function setUserIds(array $a_user_ids) : void
+    public function setUserIds(array $a_user_ids): void
     {
         $this->wait_user_ids = $this->wait = [];
         foreach ($a_user_ids as $usr_id) {
@@ -116,7 +118,7 @@ class ilWaitingListTableGUI extends ilTable2GUI
         }
     }
 
-    public function numericOrdering(string $a_field) : bool
+    public function numericOrdering(string $a_field): bool
     {
         switch ($a_field) {
             case 'sub_time':
@@ -125,7 +127,7 @@ class ilWaitingListTableGUI extends ilTable2GUI
         return parent::numericOrdering($a_field);
     }
 
-    public function getSelectableColumns() : array
+    public function getSelectableColumns(): array
     {
         if (self::$all_columns) {
             return self::$all_columns;
@@ -154,10 +156,10 @@ class ilWaitingListTableGUI extends ilTable2GUI
         return self::$all_columns;
     }
 
-    protected function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set): void
     {
         if (
-            !ilObjCourseGrouping::_checkGroupingDependencies($this->getRepositoryObject(), $a_set['usr_id']) &&
+            !ilObjCourseGrouping::_checkGroupingDependencies($this->getRepositoryObject(), (int) $a_set['usr_id']) &&
             ($ids = ilObjCourseGrouping::getAssignedObjects())
         ) {
             $prefix = $this->getRepositoryObject()->getType();
@@ -200,7 +202,7 @@ class ilWaitingListTableGUI extends ilTable2GUI
                     $this->tpl->setCurrentBlock('custom_fields');
                     $this->tpl->setVariable(
                         'VAL_CUST',
-                        ilOrgUnitPathStorage::getTextRepresentationOfUsersOrgUnits($a_set['usr_id'])
+                        ilOrgUnitPathStorage::getTextRepresentationOfUsersOrgUnits((int) $a_set['usr_id'])
                     );
                     $this->tpl->parseCurrentBlock();
                     break;
@@ -219,7 +221,7 @@ class ilWaitingListTableGUI extends ilTable2GUI
         $this->showActionLinks($a_set);
     }
 
-    public function readUserData() : void
+    public function readUserData(): void
     {
         $this->determineOffsetAndOrder();
 
@@ -245,7 +247,7 @@ class ilWaitingListTableGUI extends ilTable2GUI
 
             $usr_data_fields[] = $field;
         }
-        
+
         $usr_data = ilUserQuery::getUserListData(
             $this->getOrderField(),
             $this->getOrderDirection(),
@@ -284,14 +286,14 @@ class ilWaitingListTableGUI extends ilTable2GUI
         }
         $usr_ids = [];
         foreach ((array) $usr_data['set'] as $user) {
-            $usr_ids[] = $user['usr_id'];
+            $usr_ids[] = (int) $user['usr_id'];
         }
 
         // merge course data
         $course_user_data = $this->getParentObject()->readMemberData($usr_ids, array());
         $a_user_data = array();
         foreach ((array) $usr_data['set'] as $ud) {
-            $a_user_data[$ud['usr_id']] = array_merge($ud, $course_user_data[$ud['usr_id']]);
+            $a_user_data[(int) $ud['usr_id']] = array_merge($ud, $course_user_data[(int) $ud['usr_id']]);
         }
 
         // Custom user data fields
@@ -346,12 +348,12 @@ class ilWaitingListTableGUI extends ilTable2GUI
 
         foreach ($usr_data['set'] as $user) {
             // Check acceptance
-            if (!$this->checkAcceptance($user['usr_id'])) {
+            if (!$this->checkAcceptance((int) $user['usr_id'])) {
                 continue;
             }
             // DONE: accepted
             foreach ($usr_data_fields as $field) {
-                $a_user_data[$user['usr_id']][$field] = $user[$field] ?: '';
+                $a_user_data[(int) $user['usr_id']][$field] = $user[$field] ?: '';
             }
         }
 
@@ -362,11 +364,11 @@ class ilWaitingListTableGUI extends ilTable2GUI
             }
         }
 
-        $this->setMaxCount($usr_data['cnt'] ?: 0);
+        $this->setMaxCount((int) ($usr_data['cnt'] ?? 0));
         $this->setData($a_user_data);
     }
 
-    public function showActionLinks(array $a_set) : void
+    public function showActionLinks(array $a_set): void
     {
         if (!self::$has_odf_definitions) {
             $this->ctrl->setParameterByClass(get_class($this->getParentObject()), 'member_id', $a_set['usr_id']);
@@ -396,7 +398,7 @@ class ilWaitingListTableGUI extends ilTable2GUI
         $this->tpl->setVariable('ACTION_USER', $list->getHTML());
     }
 
-    protected function checkAcceptance(int $a_usr_id) : bool
+    protected function checkAcceptance(int $a_usr_id): bool
     {
         return true;
     }

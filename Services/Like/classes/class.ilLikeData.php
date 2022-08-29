@@ -58,11 +58,11 @@ class ilLikeData
         $this->loadDataForObjects($a_obj_ids);
         $this->lng->loadLanguageModule("like");
     }
-    
+
     /**
      * Get types
      */
-    public function getExpressionTypes() : array
+    public function getExpressionTypes(): array
     {
         return array(
             self::TYPE_LIKE => $this->lng->txt("like_like"),
@@ -74,8 +74,8 @@ class ilLikeData
             self::TYPE_ANGRY => $this->lng->txt("like_angry")
         );
     }
-    
-    
+
+
     /**
      * Add expression for a user and object
      *
@@ -95,7 +95,7 @@ class ilLikeData
         int $a_sub_obj_id = 0,
         string $a_sub_obj_type = "",
         int $a_news_id = 0
-    ) : void {
+    ): void {
         $ilDB = $this->db;
 
         if ($a_user_id == ANONYMOUS_USER_ID) {
@@ -144,7 +144,7 @@ class ilLikeData
         int $a_sub_obj_id = 0,
         string $a_sub_obj_type = "",
         int $a_news_id = 0
-    ) : void {
+    ): void {
         $ilDB = $this->db;
 
         if ($a_user_id == ANONYMOUS_USER_ID) {
@@ -177,7 +177,7 @@ class ilLikeData
      */
     protected function loadDataForObjects(
         array $a_obj_ids = array()
-    ) : void {
+    ): void {
         $ilDB = $this->db;
 
         foreach ($a_obj_ids as $id) {
@@ -213,7 +213,7 @@ class ilLikeData
         int $sub_obj_id,
         string $sub_obj_type,
         int $news_id
-    ) : array {
+    ): array {
         if (!is_array($this->data[$obj_id])) {
             throw new ilLikeDataException("No data loaded for object $obj_id.");
         }
@@ -252,7 +252,7 @@ class ilLikeData
         int $a_sub_obj_id = 0,
         string $a_sub_obj_type = "",
         int $a_news_id = 0
-    ) : bool {
+    ): bool {
         if (isset($this->data[$a_obj_id][$a_sub_obj_id][$a_sub_obj_type][$a_news_id][$a_like_type][$a_user_id])) {
             return true;
         }
@@ -269,7 +269,7 @@ class ilLikeData
         int $sub_obj_id,
         string $sub_obj_type,
         int $news_id
-    ) : array {
+    ): array {
         if (!is_array($this->data[$obj_id])) {
             throw new ilLikeDataException("No data loaded for object $obj_id.");
         }
@@ -306,7 +306,7 @@ class ilLikeData
     public function getExpressionEntriesForObject(
         int $obj_id,
         ?int $since_ts = null
-    ) : array {
+    ): array {
         if (!is_array($this->data[$obj_id])) {
             throw new ilLikeDataException("No data loaded for object $obj_id.");
         }

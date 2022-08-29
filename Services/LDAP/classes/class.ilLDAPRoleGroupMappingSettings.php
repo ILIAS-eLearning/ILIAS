@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -34,14 +36,14 @@ class ilLDAPRoleGroupMappingSettings
 
     public const MAPPING_INFO_ALL = 1;
     public const MAPPING_INFO_INFO_ONLY = 0;
-    
+
     /**
      * Private constructor (Singleton for each server_id)
      */
     private function __construct($a_server_id)
     {
         global $DIC;
-        
+
         $this->db = $DIC->database();
         $this->lng = $DIC->language();
         $this->rbacreview = $DIC->rbac()->review();
@@ -50,51 +52,51 @@ class ilLDAPRoleGroupMappingSettings
         $this->server_id = $a_server_id;
         $this->read();
     }
-    
+
     /**
      * Get instance of class
      */
-    public static function _getInstanceByServerId(int $a_server_id) : ilLDAPRoleGroupMappingSettings
+    public static function _getInstanceByServerId(int $a_server_id): ilLDAPRoleGroupMappingSettings
     {
         if (array_key_exists($a_server_id, self::$instances) && is_object(self::$instances[$a_server_id])) {
             return self::$instances[$a_server_id];
         }
         return self::$instances[$a_server_id] = new ilLDAPRoleGroupMappingSettings($a_server_id);
     }
-    
-    public static function _deleteByRole(int $a_role_id) : bool
+
+    public static function _deleteByRole(int $a_role_id): bool
     {
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
-        
+
         $query = "DELETE FROM ldap_rg_mapping " .
             "WHERE role = " . $ilDB->quote($a_role_id, 'integer');
         $ilDB->manipulate($query);
-        
+
         return true;
     }
-    
-    public static function _deleteByServerId(int $a_server_id) : bool
+
+    public static function _deleteByServerId(int $a_server_id): bool
     {
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
-        
+
         $query = "DELETE FROM ldap_rg_mapping " .
             "WHERE server_id = " . $ilDB->quote($a_server_id, 'integer');
         $ilDB->manipulate($query);
 
         return true;
     }
-    
-    public static function _getAllActiveMappings() : array
+
+    public static function _getAllActiveMappings(): array
     {
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
         $rbacreview = $DIC['rbacreview'];
-        
+
         $query = "SELECT rgm.* FROM ldap_rg_mapping rgm JOIN ldap_server_settings lss " .
             "ON rgm.server_id = lss.server_id " .
             "WHERE lss.active = 1 " .
@@ -112,31 +114,31 @@ class ilLDAPRoleGroupMappingSettings
             $data['info_type'] = $row->mapping_info_type;
             // read assigned object
             $data['object_id'] = $rbacreview->getObjectOfRole($row->role);
-            
+
             $active[$row->role][] = $data;
         }
         return $active;
     }
-    
-    public function getServerId() : int
+
+    public function getServerId(): int
     {
         return $this->server_id;
     }
-    
+
     /**
      * Get already configured mappings
      */
-    public function getMappings() : array
+    public function getMappings(): array
     {
         return $this->mappings;
     }
-    
-    public function loadFromPost(array $a_mappings) : void
+
+    public function loadFromPost(array $a_mappings): void
     {
         if (!$a_mappings) {
             return;
         }
-        
+
         $this->mappings = [];
         foreach ($a_mappings as $mapping_id => $data) {
             if ($mapping_id === 0 && !$data['dn'] && !$data['member'] && !$data['memberisdn'] && !$data['role']) {
@@ -152,14 +154,14 @@ class ilLDAPRoleGroupMappingSettings
             $this->mappings[$mapping_id]['info_type'] = ilUtil::stripSlashes($data['info_type']);
         }
     }
-    
+
     /**
      * Validate mappings
      *
      * @access public
      *
      */
-    public function validate() : bool
+    public function validate(): bool
     {
         $this->ilErr->setMessage('');
         $found_missing = false;
@@ -179,7 +181,7 @@ class ilLDAPRoleGroupMappingSettings
 
         return $this->ilErr->getMessage() === '';
     }
-    
+
     /**
      * Save mappings
      *
@@ -187,7 +189,7 @@ class ilLDAPRoleGroupMappingSettings
      * @param
      *
      */
-    public function save() : void
+    public function save(): void
     {
         foreach ($this->mappings as $mapping_id => $data) {
             if (!$mapping_id) {
@@ -220,15 +222,15 @@ class ilLDAPRoleGroupMappingSettings
         }
         $this->read();
     }
-    
-    
+
+
     /**
      * Delete a mapping
 
      * @param int mapping_id
      *
      */
-    public function delete($a_mapping_id) : void
+    public function delete($a_mapping_id): void
     {
         $query = "DELETE FROM ldap_rg_mapping " .
             "WHERE server_id = " . $this->db->quote($this->getServerId(), 'integer') . " " .
@@ -236,33 +238,33 @@ class ilLDAPRoleGroupMappingSettings
         $this->db->manipulate($query);
         $this->read();
     }
-    
-    
+
+
     /**
      * Create an info string for a role group mapping
      *
      * @param int $a_mapping_id mapping_id
      */
     //TODO check if method gets called somewhere
-    public function getMappingInfoString(int $a_mapping_id) : string
+    public function getMappingInfoString(int $a_mapping_id): string
     {
         $dn_parts = explode(',', $this->mappings[$a_mapping_id]['dn']);
-        
+
         return $dn_parts ? $dn_parts[0] : "''";
     }
-    
-    
+
+
     /**
      * Read mappings
      */
-    private function read() : void
+    private function read(): void
     {
         $this->mappings = array();
         $query = "SELECT * FROM ldap_rg_mapping LEFT JOIN object_data " .
             "ON role = obj_id " .
             "WHERE server_id =" . $this->db->quote($this->getServerId(), 'integer') . ' ' .
             "ORDER BY title,dn";
-            
+
         $res = $this->db->query($query);
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             $this->mappings[$row->mapping_id]['mapping_id'] = $row->mapping_id;

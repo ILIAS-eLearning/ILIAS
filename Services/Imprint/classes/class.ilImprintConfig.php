@@ -20,7 +20,7 @@
  */
 class ilImprintConfig extends ilPageConfig
 {
-    public function init() : void
+    public function init(): void
     {
         $this->setPreventHTMLUnmasking(true);
         $this->setEnableInternalLinks(false);

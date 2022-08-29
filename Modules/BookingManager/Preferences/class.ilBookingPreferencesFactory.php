@@ -29,7 +29,7 @@ class ilBookingPreferencesFactory
     /**
      * @param int[][] $preferences
      */
-    public function preferences(array $preferences) : ilBookingPreferences
+    public function preferences(array $preferences): ilBookingPreferences
     {
         return new ilBookingPreferences($preferences);
     }

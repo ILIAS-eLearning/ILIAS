@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /* Copyright (c) 2021 - Daniel Weise <daniel.weise@concepts-and-training.de> - Extended GPL, see LICENSE */
 
@@ -7,7 +9,7 @@ class ilObjIndividualAssessmentAccess extends ilObjectAccess implements ilCondit
     /**
      * @inheritdoc
      */
-    public static function _getCommands() : array
+    public static function _getCommands(): array
     {
         return [
             ["permission" => "read", "cmd" => "", "lang_var" => "show", "default" => true],
@@ -20,7 +22,7 @@ class ilObjIndividualAssessmentAccess extends ilObjectAccess implements ilCondit
      *
      * @inheritdoc
      */
-    public static function getConditionOperators() : array
+    public static function getConditionOperators(): array
     {
         return [
             ilConditionHandler::OPERATOR_PASSED,
@@ -31,7 +33,7 @@ class ilObjIndividualAssessmentAccess extends ilObjectAccess implements ilCondit
     /**
      * @inheritdoc
      */
-    public static function checkCondition(int $a_trigger_obj_id, string $a_operator, string $a_value, int $a_usr_id) : bool
+    public static function checkCondition(int $a_trigger_obj_id, string $a_operator, string $a_value, int $a_usr_id): bool
     {
         switch ($a_operator) {
             case ilConditionHandler::OPERATOR_PASSED:

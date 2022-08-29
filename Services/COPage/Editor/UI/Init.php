@@ -37,7 +37,7 @@ class Init
     public function initUI(
         \ilGlobalTemplateInterface $main_tpl,
         string $openPlaceHolderPcId = ""
-    ) : void {
+    ): void {
         $ctrl = $this->ctrl;
         $lng = $this->lng;
 

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -30,18 +32,15 @@ class ilTermsOfServiceWithdrawalGUIHelper
     protected ilLanguage $lng;
     protected ilCtrlInterface $ctrl;
     protected ilSetting $setting;
-    protected ilObjUser $user;
     protected Factory $uiFactory;
     protected Renderer $uiRenderer;
     protected ilTermsOfServiceHelper $tosHelper;
     private ilGlobalTemplateInterface $main_tpl;
 
-    public function __construct(ilObjUser $subjectUser)
+    public function __construct(protected ilObjUser $user)
     {
         global $DIC;
         $this->main_tpl = $DIC->ui()->mainTemplate();
-
-        $this->user = $subjectUser;
 
         $this->lng = $DIC->language();
         $this->ctrl = $DIC->ctrl();
@@ -51,7 +50,7 @@ class ilTermsOfServiceWithdrawalGUIHelper
         $this->tosHelper = new ilTermsOfServiceHelper();
     }
 
-    private function getWithdrawalSectionForModal() : ilTemplate
+    private function getWithdrawalSectionForModal(): ilTemplate
     {
         $template = new ilTemplate('tpl.tos_withdrawal_section.html', true, true, 'Services/TermsOfService');
         $template->setVariable('TXT_TOS_WITHDRAWAL_HEADLINE', $this->lng->txt('withdraw_consent_header'));
@@ -67,11 +66,9 @@ class ilTermsOfServiceWithdrawalGUIHelper
     }
 
     /**
-     * @param Footer $footer
-     * @return Footer
      * @throws ilTermsOfServiceMissingDatabaseAdapterException
      */
-    public function modifyFooter(Footer $footer) : Footer
+    public function modifyFooter(Footer $footer): Footer
     {
         if (
             $this->tosHelper->isGloballyEnabled() &&
@@ -79,7 +76,7 @@ class ilTermsOfServiceWithdrawalGUIHelper
             $this->user->getAgreeDate()
         ) {
             $entity = $this->tosHelper->getCurrentAcceptanceForUser($this->user);
-            if ($entity->getId()) {
+            if ($entity->getId() !== 0) {
                 $footer = $footer->withAdditionalModalAndTrigger(
                     $this->uiFactory->modal()->roundtrip(
                         $entity->getTitle(),
@@ -96,7 +93,7 @@ class ilTermsOfServiceWithdrawalGUIHelper
     public function handleWithdrawalLogoutRequest(
         ServerRequestInterface $httpRequest,
         object $guiClass
-    ) : void {
+    ): void {
         if (!isset($httpRequest->getQueryParams()['withdraw_consent'])) {
             return;
         }
@@ -129,7 +126,7 @@ class ilTermsOfServiceWithdrawalGUIHelper
         }
     }
 
-    public function getWithdrawalTextForLogoutScreen(ServerRequestInterface $httpRequest) : string
+    public function getWithdrawalTextForLogoutScreen(ServerRequestInterface $httpRequest): string
     {
         $withdrawalStatus = ($httpRequest->getQueryParams()['withdrawal_relogin_content'] ?? 0);
 
@@ -146,7 +143,7 @@ class ilTermsOfServiceWithdrawalGUIHelper
         return $text;
     }
 
-    public function getConsentWithdrawalConfirmation(object $parentObject) : string
+    public function getConsentWithdrawalConfirmation(object $parentObject): string
     {
         $defaultAuth = ilAuthUtils::AUTH_LOCAL;
         if ($this->setting->get('auth_mode')) {
@@ -204,7 +201,7 @@ class ilTermsOfServiceWithdrawalGUIHelper
         return $content;
     }
 
-    public function setWithdrawalInfoForLoginScreen(ServerRequestInterface $httpRequest) : void
+    public function setWithdrawalInfoForLoginScreen(ServerRequestInterface $httpRequest): void
     {
         if (isset($httpRequest->getQueryParams()['tos_withdrawal_type'])) {
             $withdrawalType = (int) $httpRequest->getQueryParams()['tos_withdrawal_type'];

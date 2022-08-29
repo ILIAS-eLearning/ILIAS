@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -54,37 +56,37 @@ class ilAccountMail
         $this->senderFactory = $DIC['mail.mime.sender.factory'];
     }
 
-    public function useLangVariablesAsFallback(bool $a_status) : void
+    public function useLangVariablesAsFallback(bool $a_status): void
     {
         $this->lang_variables_as_fallback = $a_status;
     }
 
-    public function areLangVariablesUsedAsFallback() : bool
+    public function areLangVariablesUsedAsFallback(): bool
     {
         return $this->lang_variables_as_fallback;
     }
 
-    public function shouldAttachConfiguredFiles() : bool
+    public function shouldAttachConfiguredFiles(): bool
     {
         return $this->attachConfiguredFiles;
     }
 
-    public function setAttachConfiguredFiles(bool $attachConfiguredFiles) : void
+    public function setAttachConfiguredFiles(bool $attachConfiguredFiles): void
     {
         $this->attachConfiguredFiles = $attachConfiguredFiles;
     }
 
-    public function setUserPassword(string $a_pwd) : void
+    public function setUserPassword(string $a_pwd): void
     {
         $this->u_password = $a_pwd;
     }
 
-    public function getUserPassword() : string
+    public function getUserPassword(): string
     {
         return $this->u_password;
     }
 
-    public function setUser(ilObjUser $a_user) : void
+    public function setUser(ilObjUser $a_user): void
     {
         if (
             $this->user instanceof ilObjUser &&
@@ -96,17 +98,17 @@ class ilAccountMail
         $this->user = $a_user;
     }
 
-    public function getUser() : ?ilObjUser
+    public function getUser(): ?ilObjUser
     {
         return $this->user;
     }
 
-    public function getTarget() : string
+    public function getTarget(): string
     {
         return $this->target;
     }
 
-    public function reset() : void
+    public function reset(): void
     {
         unset($this->u_password, $this->user, $this->target);
     }
@@ -115,7 +117,7 @@ class ilAccountMail
      * @param array{lang?: string, subject?: string, body?: string, sal_f?: string, sal_g?: string, sal_m?: string, type?: string, att_file?: string} $mailData
      * @return array{lang?: string, subject?: string, body?: string, sal_f?: string, sal_g?: string, sal_m?: string, type?: string, att_file?: string}
      */
-    private function ensureValidMailDataShape(array $mailData) : array
+    private function ensureValidMailDataShape(array $mailData): array
     {
         foreach (['lang', 'subject', 'body', 'sal_f', 'sal_g', 'sal_m', 'type'] as $key) {
             if (!isset($mailData[$key])) {
@@ -132,9 +134,9 @@ class ilAccountMail
     /**
      * @return array{lang?: string, subject?: string, body?: string, sal_f?: string, sal_g?: string, sal_m?: string, type?: string}
      */
-    private function readAccountMail(string $a_lang) : array
+    private function readAccountMail(string $a_lang): array
     {
-        if (!is_array($this->amail[$a_lang])) {
+        if (!isset($this->amail[$a_lang]) || !is_array($this->amail[$a_lang])) {
             $this->amail[$a_lang] = $this->ensureValidMailDataShape(
                 ilObjUserFolder::_lookupNewAccountMail($a_lang)
             );
@@ -145,16 +147,15 @@ class ilAccountMail
 
     /**
      * @param array{lang?: string, subject?: string, body?: string, sal_f?: string, sal_g?: string, sal_m?: string, type?: string, att_file?: string} $mailData
-     * @return void
      * @throws \ILIAS\Filesystem\Exception\IOException
      */
-    private function addAttachments(array $mailData) : void
+    private function addAttachments(array $mailData): void
     {
         if (isset($mailData['att_file']) && $this->shouldAttachConfiguredFiles()) {
             $fs = new ilFSStorageUserFolder(USER_FOLDER_ID);
             $fs->create();
 
-            $pathToFile = '/' . implode('/', array_map(static function (string $pathPart) : string {
+            $pathToFile = '/' . implode('/', array_map(static function (string $pathPart): string {
                 return trim($pathPart, '/');
             }, [
                 $fs->getAbsolutePath(),
@@ -170,17 +171,16 @@ class ilAccountMail
      * It first tries to read the mail body, subject and sender address from posted named formular fields.
      * If no field values found the defaults are used.
      * Placehoders will be replaced by the appropriate data.
-     * @return bool
      * @throws RuntimeException
      */
-    public function send() : bool
+    public function send(): bool
     {
         $user = $this->getUser();
-        if (null === $user) {
+        if (!$user instanceof ilObjUser) {
             throw new RuntimeException('A user instance must be passed when sending emails');
         }
 
-        if (!$user->getEmail()) {
+        if ($user->getEmail() === '') {
             return false;
         }
 
@@ -245,18 +245,13 @@ class ilAccountMail
         return true;
     }
 
-    public function replacePlaceholders(string $a_string, ilObjUser $a_user, array $a_amail, string $a_lang) : string
+    public function replacePlaceholders(string $a_string, ilObjUser $a_user, array $a_amail, string $a_lang): string
     {
-        switch ($a_user->getGender()) {
-            case 'f':
-                $gender_salut = $a_amail['sal_f'];
-                break;
-            case 'm':
-                $gender_salut = $a_amail['sal_m'];
-                break;
-            default:
-                $gender_salut = $a_amail['sal_g'];
-        }
+        $gender_salut = match ($a_user->getGender()) {
+            'f' => $a_amail['sal_f'],
+            'm' => $a_amail['sal_m'],
+            default => $a_amail['sal_g'],
+        };
         $gender_salut = trim($gender_salut);
 
         $a_string = str_replace(
@@ -374,7 +369,7 @@ class ilAccountMail
         return $a_string;
     }
 
-    public function addAttachment(string $a_filename, string $a_display_name) : void
+    public function addAttachment(string $a_filename, string $a_display_name): void
     {
         $this->attachments[$a_filename] = $a_display_name;
     }

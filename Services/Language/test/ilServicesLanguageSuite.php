@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -28,12 +30,11 @@ require_once __DIR__ . '/bootstrap.php';
  */
 class ilServicesLanguageSuite extends TestSuite
 {
-
     /**
      * @return self
      * @throws ReflectionException
      */
-    public static function suite() : self
+    public static function suite(): self
     {
         $suite = new self();
 
@@ -62,9 +63,9 @@ class ilServicesLanguageSuite extends TestSuite
             if (class_exists($className)) {
                 $reflection = new ReflectionClass($className);
                 if (
-                        !$reflection->isAbstract() &&
-                        !$reflection->isInterface() &&
-                        $reflection->isSubclassOf(TestCase::class)) {
+                    !$reflection->isAbstract() &&
+                    !$reflection->isInterface() &&
+                    $reflection->isSubclassOf(TestCase::class)) {
                     $suite->addTestSuite($className);
                 }
             }

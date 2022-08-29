@@ -58,7 +58,7 @@ class ilWikiPageTemplatesTableGUI extends ilTable2GUI
         $this->addCommandButton("saveTemplateSettings", $lng->txt("save"));
     }
 
-    protected function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set): void
     {
         $this->tpl->setVariable("ID", $a_set["wpage_id"]);
         $this->tpl->setVariable("TITLE", $a_set["title"]);

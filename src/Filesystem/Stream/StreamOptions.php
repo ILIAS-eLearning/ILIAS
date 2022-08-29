@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace ILIAS\Filesystem\Stream;
@@ -31,7 +32,7 @@ namespace ILIAS\Filesystem\Stream;
  */
 final class StreamOptions
 {
-    const UNKNOWN_STREAM_SIZE = -1;
+    public const UNKNOWN_STREAM_SIZE = -1;
 
     private int $size;
     /**
@@ -56,7 +57,7 @@ final class StreamOptions
     /**
      * @return int
      */
-    public function getSize() : int
+    public function getSize(): int
     {
         return $this->size;
     }
@@ -65,7 +66,7 @@ final class StreamOptions
     /**
      * @return \string[]
      */
-    public function getMetadata() : array
+    public function getMetadata(): array
     {
         return $this->metadata;
     }

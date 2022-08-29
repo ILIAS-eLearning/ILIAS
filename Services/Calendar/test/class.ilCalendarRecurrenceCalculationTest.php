@@ -8,7 +8,7 @@ class ilCalendarRecurrenceCalculationTest extends TestCase
     protected $backupGlobals = false;
     protected Container $dic;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         $this->initDependencies();
         parent::setUp();
@@ -61,7 +61,7 @@ class ilCalendarRecurrenceCalculationTest extends TestCase
 
 
 
-    protected function setGlobalVariable(string $name, $value) : void
+    protected function setGlobalVariable(string $name, $value): void
     {
         global $DIC;
 
@@ -72,7 +72,7 @@ class ilCalendarRecurrenceCalculationTest extends TestCase
         };
     }
 
-    protected function initDependencies() : void
+    protected function initDependencies(): void
     {
         $this->dic = new Container();
         $GLOBALS['DIC'] = $this->dic;

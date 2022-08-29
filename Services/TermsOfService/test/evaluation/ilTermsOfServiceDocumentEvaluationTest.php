@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -22,7 +24,7 @@
  */
 class ilTermsOfServiceDocumentEvaluationTest extends ilTermsOfServiceEvaluationBaseTest
 {
-    public function testAskingEvaluatorForDocumentExistenceIfNoDocumentExistAtAllResultsInANegativeAnswer() : void
+    public function testAskingEvaluatorForDocumentExistenceIfNoDocumentExistAtAllResultsInANegativeAnswer(): void
     {
         $evaluator = $this->getEvaluatorMock();
         $user = $this->getUserMock();
@@ -38,7 +40,7 @@ class ilTermsOfServiceDocumentEvaluationTest extends ilTermsOfServiceEvaluationB
         $this->assertFalse($evaluation->hasDocument());
     }
 
-    public function testExceptionIsRaisedIfADocumentIsRequestedFromEvaluatorAndNoDocumentExistsAtAll() : void
+    public function testExceptionIsRaisedIfADocumentIsRequestedFromEvaluatorAndNoDocumentExistsAtAll(): void
     {
         $evaluator = $this->getEvaluatorMock();
         $user = $this->getUserMock();
@@ -56,7 +58,7 @@ class ilTermsOfServiceDocumentEvaluationTest extends ilTermsOfServiceEvaluationB
         $evaluation->document();
     }
 
-    public function testFirstDocumentIsReturnedIfEvaluationOfFirstDocumentSucceeded() : void
+    public function testFirstDocumentIsReturnedIfEvaluationOfFirstDocumentSucceeded(): void
     {
         $evaluator = $this->getEvaluatorMock();
         $user = $this->getUserMock();
@@ -83,7 +85,7 @@ class ilTermsOfServiceDocumentEvaluationTest extends ilTermsOfServiceEvaluationB
         $this->assertSame($doc, $evaluation->document());
     }
 
-    public function testDocumentOnArbitraryPositionIsReturnedMatchingFirstDocumentWithASucceededEvaluation() : void
+    public function testDocumentOnArbitraryPositionIsReturnedMatchingFirstDocumentWithASucceededEvaluation(): void
     {
         $evaluator = $this->getEvaluatorMock();
         $user = $this->getUserMock();
@@ -126,7 +128,7 @@ class ilTermsOfServiceDocumentEvaluationTest extends ilTermsOfServiceEvaluationB
         $this->assertSame($doc2, $evaluation->document());
     }
 
-    public function testFirstMatchingDocumentIsReturnedIfEvaluationOfMultipleDocumentsSucceeded() : void
+    public function testFirstMatchingDocumentIsReturnedIfEvaluationOfMultipleDocumentsSucceeded(): void
     {
         $evaluator = $this->getEvaluatorMock();
         $user = $this->getUserMock();

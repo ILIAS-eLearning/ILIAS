@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\UI\Implementation\Component\Chart\ProgressMeter;
 
 use ILIAS\UI\Component as C;
@@ -70,7 +72,7 @@ class ProgressMeter implements C\Chart\ProgressMeter\ProgressMeter
     /**
      * Get required value as percent
      */
-    public function getRequiredAsPercent() : int
+    public function getRequiredAsPercent(): int
     {
         return $this->getAsPercentage($this->required);
     }
@@ -86,7 +88,7 @@ class ProgressMeter implements C\Chart\ProgressMeter\ProgressMeter
     /**
      * Get main value as percent
      */
-    public function getMainValueAsPercent() : int
+    public function getMainValueAsPercent(): int
     {
         return $this->getAsPercentage($this->main);
     }
@@ -94,7 +96,7 @@ class ProgressMeter implements C\Chart\ProgressMeter\ProgressMeter
     /**
      * Get integer value "1" if a value is negative or "maximum" if value is more than maximum
      */
-    protected function getSafe(int $int) : int
+    protected function getSafe(int $int): int
     {
         return (($int < 0) ? 0 : ($int > $this->getMaximum() ? $this->getMaximum() : $int));
     }
@@ -102,7 +104,7 @@ class ProgressMeter implements C\Chart\ProgressMeter\ProgressMeter
     /**
      * get an integer value as percent value
      */
-    protected function getAsPercentage(int $int) : int
+    protected function getAsPercentage(int $int): int
     {
         return (int) round(100 / $this->getMaximum() * $this->getSafe($int), 0, PHP_ROUND_HALF_UP);
     }

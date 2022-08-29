@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /******************************************************************************
  *
@@ -22,7 +24,7 @@
 
 include_once './webservice/soap/lib/nusoap.php';
 
-function isValidSession(string $ext_uid, string $soap_pw, bool $new_user) : array
+function isValidSession(string $ext_uid, string $soap_pw, bool $new_user): array
 {
     $ret = [
         "firstname" => "",
@@ -68,23 +70,22 @@ class ilSoapDummyAuthServer
         $this->registerMethods();
     }
 
-    public function start() : void
+    public function start(): void
     {
         $postdata = file_get_contents("php://input");
         $this->server->service($postdata);
         exit();
     }
 
-    public function enableWSDL() : bool
+    public function enableWSDL(): bool
     {
         $this->server->configureWSDL(SERVICE_NAME, SERVICE_NAMESPACE);
 
         return true;
     }
 
-    public function registerMethods() : bool
+    public function registerMethods(): bool
     {
-
         // Add useful complex types. E.g. array("a","b") or array(1,2)
         $this->server->wsdl->addComplexType(
             'intArray',

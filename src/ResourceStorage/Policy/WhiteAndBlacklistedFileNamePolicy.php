@@ -14,7 +14,7 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *********************************************************************/
- 
+
 namespace ILIAS\ResourceStorage\Policy;
 
 /**
@@ -32,7 +32,7 @@ abstract class WhiteAndBlacklistedFileNamePolicy implements FileNamePolicy
      * @var string[]
      */
     protected array $whitelisted = [];
-    
+
     /**
      * WhiteAndBlacklistedFileNamePolicy constructor.
      */
@@ -41,18 +41,18 @@ abstract class WhiteAndBlacklistedFileNamePolicy implements FileNamePolicy
         $this->blacklisted = $blacklisted;
         $this->whitelisted = $whitelisted;
     }
-    
-    public function isValidExtension(string $extension) : bool
+
+    public function isValidExtension(string $extension): bool
     {
         return in_array($extension, $this->whitelisted) && !in_array($extension, $this->blacklisted);
     }
-    
-    public function isBlockedExtension(string $extension) : bool
+
+    public function isBlockedExtension(string $extension): bool
     {
         return in_array($extension, $this->blacklisted);
     }
-    
-    public function check(string $extension) : bool
+
+    public function check(string $extension): bool
     {
         if ($this->isBlockedExtension($extension)) {
             throw new FileNamePolicyException("Extension '$extension' is blacklisted.");

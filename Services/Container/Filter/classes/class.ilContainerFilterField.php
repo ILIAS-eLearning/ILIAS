@@ -40,12 +40,12 @@ class ilContainerFilterField
         $this->field_id = $field_id;
     }
 
-    public function getFieldId() : int
+    public function getFieldId(): int
     {
         return $this->field_id;
     }
 
-    public function getRecordSetId() : int
+    public function getRecordSetId(): int
     {
         return $this->record_set_id;
     }

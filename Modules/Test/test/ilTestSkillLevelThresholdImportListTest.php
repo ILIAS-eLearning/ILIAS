@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /* Copyright (c) 1998-2020 ILIAS open source, Extended GPL, see docs/LICENSE */
 
@@ -10,19 +12,19 @@ class ilTestSkillLevelThresholdImportListTest extends ilTestBaseTestCase
 {
     private ilTestSkillLevelThresholdImportList $testObj;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         parent::setUp();
 
         $this->testObj = new ilTestSkillLevelThresholdImportList();
     }
 
-    public function test_instantiateObject_shouldReturnInstance() : void
+    public function test_instantiateObject_shouldReturnInstance(): void
     {
         $this->assertInstanceOf(ilTestSkillLevelThresholdImportList::class, $this->testObj);
     }
 
-    public function testAddOriginalSkillTitle() : void
+    public function testAddOriginalSkillTitle(): void
     {
         $this->testObj->addOriginalSkillTitle(17, 15, "Test");
 
@@ -33,7 +35,7 @@ class ilTestSkillLevelThresholdImportListTest extends ilTestBaseTestCase
         $this->assertEquals(["17:15" => "Test"], $value);
     }
 
-    public function testAddOriginalSkillPath() : void
+    public function testAddOriginalSkillPath(): void
     {
         $this->testObj->addOriginalSkillPath(17, 15, "test/path");
 
@@ -44,7 +46,7 @@ class ilTestSkillLevelThresholdImportListTest extends ilTestBaseTestCase
         $this->assertEquals(["17:15" => "test/path"], $value);
     }
 
-    public function testAddSkillLevelThreshold() : void
+    public function testAddSkillLevelThreshold(): void
     {
         $testSkillLevelThresholdImport = new ilTestSkillLevelThresholdImport();
         $this->testObj->addSkillLevelThreshold($testSkillLevelThresholdImport);
@@ -56,7 +58,7 @@ class ilTestSkillLevelThresholdImportListTest extends ilTestBaseTestCase
         $this->assertEquals([$testSkillLevelThresholdImport], $value);
     }
 
-    public function testCurrent() : void
+    public function testCurrent(): void
     {
         $testSkillLevelThresholdImport = new ilTestSkillLevelThresholdImport();
         $this->testObj->addSkillLevelThreshold($testSkillLevelThresholdImport);
@@ -64,7 +66,7 @@ class ilTestSkillLevelThresholdImportListTest extends ilTestBaseTestCase
         $this->assertEquals($testSkillLevelThresholdImport, $this->testObj->current());
     }
 
-    public function testNext() : void
+    public function testNext(): void
     {
         $testSkillLevelThresholdImport1 = new ilTestSkillLevelThresholdImport();
         $testSkillLevelThresholdImport2 = new ilTestSkillLevelThresholdImport();
@@ -76,7 +78,7 @@ class ilTestSkillLevelThresholdImportListTest extends ilTestBaseTestCase
         $this->assertEquals($testSkillLevelThresholdImport2, $this->testObj->current());
     }
 
-    public function testKey() : void
+    public function testKey(): void
     {
         $testSkillLevelThresholdImport1 = new ilTestSkillLevelThresholdImport();
         $testSkillLevelThresholdImport2 = new ilTestSkillLevelThresholdImport();
@@ -88,7 +90,7 @@ class ilTestSkillLevelThresholdImportListTest extends ilTestBaseTestCase
         $this->assertEquals(1, $this->testObj->key());
     }
 
-    public function testValid() : void
+    public function testValid(): void
     {
         $this->assertFalse($this->testObj->valid());
         $testSkillLevelThresholdImport1 = new ilTestSkillLevelThresholdImport();
@@ -100,7 +102,7 @@ class ilTestSkillLevelThresholdImportListTest extends ilTestBaseTestCase
         $this->assertTrue($this->testObj->valid());
     }
 
-    public function testRewind() : void
+    public function testRewind(): void
     {
         $testSkillLevelThresholdImport1 = new ilTestSkillLevelThresholdImport();
         $testSkillLevelThresholdImport2 = new ilTestSkillLevelThresholdImport();

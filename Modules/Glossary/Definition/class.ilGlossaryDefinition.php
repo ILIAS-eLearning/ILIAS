@@ -56,10 +56,10 @@ class ilGlossaryDefinition
         }
     }
 
-    public function read() : void
+    public function read(): void
     {
         $ilDB = $this->db;
-        
+
         $q = "SELECT * FROM glossary_definition WHERE id = " .
             $ilDB->quote($this->id, "integer");
         $def_set = $ilDB->query($q);
@@ -73,96 +73,96 @@ class ilGlossaryDefinition
         $this->page_object = new ilGlossaryDefPage($this->id);
     }
 
-    public function setId(int $a_id) : void
+    public function setId(int $a_id): void
     {
         $this->id = $a_id;
     }
 
-    public function getId() : int
+    public function getId(): int
     {
         return $this->id;
     }
 
-    public function getType() : string
+    public function getType(): string
     {
         return "gdf";
     }
 
-    public function setTermId(int $a_term_id) : void
+    public function setTermId(int $a_term_id): void
     {
         $this->term_id = $a_term_id;
     }
 
-    public function getTermId() : int
+    public function getTermId(): int
     {
         return $this->term_id;
     }
 
-    public function setShortText(string $a_text) : void
+    public function setShortText(string $a_text): void
     {
         $this->short_text = $this->shortenShortText($a_text);
     }
 
-    public function getShortText() : string
+    public function getShortText(): string
     {
         return $this->short_text;
     }
 
-    public function setNr(int $a_nr) : void
+    public function setNr(int $a_nr): void
     {
         $this->nr = $a_nr;
     }
 
-    public function getNr() : int
+    public function getNr(): int
     {
         return $this->nr;
     }
 
-    public function assignPageObject(ilGlossaryDefPage $a_page_object) : void
+    public function assignPageObject(ilGlossaryDefPage $a_page_object): void
     {
         $this->page_object = $a_page_object;
     }
 
-    public function getPageObject() : ilGlossaryDefPage
+    public function getPageObject(): ilGlossaryDefPage
     {
         return $this->page_object;
     }
 
-    public function getTitle() : string
+    public function getTitle(): string
     {
         return $this->title;
     }
 
-    public function setTitle(string $a_title) : void
+    public function setTitle(string $a_title): void
     {
         $this->title = $a_title;
     }
 
-    public function getDescription() : string
+    public function getDescription(): string
     {
         return $this->description;
     }
 
-    public function setDescription(string $a_description) : void
+    public function setDescription(string $a_description): void
     {
         $this->description = $a_description;
     }
 
-    public function setShortTextDirty(bool $a_val) : void
+    public function setShortTextDirty(bool $a_val): void
     {
         $this->short_text_dirty = $a_val;
     }
 
-    public function getShortTextDirty() : bool
+    public function getShortTextDirty(): bool
     {
         return $this->short_text_dirty;
     }
     public function create(
         bool $a_upload = false,
         bool $a_omit_page_creation = false
-    ) : void {
+    ): void {
         $ilDB = $this->db;
-        
+
         $term = new ilGlossaryTerm($this->getTermId());
 
         $this->setId($ilDB->nextId("glossary_definition"));
@@ -171,7 +171,6 @@ class ilGlossaryDefinition
         $ilAtomQuery->addTableLock('glossary_definition');
 
         $ilAtomQuery->addQueryCallable(function (ilDBInterface $ilDB) {
-
             // get maximum definition number
             $q = "SELECT max(nr) AS max_nr FROM glossary_definition WHERE term_id = " .
                 $ilDB->quote($this->getTermId(), "integer");
@@ -213,7 +212,7 @@ class ilGlossaryDefinition
         }
     }
 
-    public function delete() : void
+    public function delete(): void
     {
         $ilDB = $this->db;
 
@@ -221,7 +220,6 @@ class ilGlossaryDefinition
         $ilAtomQuery->addTableLock("glossary_definition");
 
         $ilAtomQuery->addQueryCallable(function (ilDBInterface $ilDB) {
-
             // be sure to get the right number
             $q = "SELECT * FROM glossary_definition WHERE id = " .
                 $ilDB->quote($this->id, "integer");
@@ -249,7 +247,7 @@ class ilGlossaryDefinition
     }
 
 
-    public function moveUp() : void
+    public function moveUp(): void
     {
         $ilDB = $this->db;
 
@@ -257,7 +255,6 @@ class ilGlossaryDefinition
         $ilAtomQuery->addTableLock('glossary_definition');
 
         $ilAtomQuery->addQueryCallable(function (ilDBInterface $ilDB) {
-
             // be sure to get the right number
             $q = "SELECT * FROM glossary_definition WHERE id = " .
                 $ilDB->quote($this->id, "integer");
@@ -284,7 +281,7 @@ class ilGlossaryDefinition
         $ilAtomQuery->run();
     }
 
-    public function moveDown() : void
+    public function moveDown(): void
     {
         $ilDB = $this->db;
 
@@ -292,7 +289,6 @@ class ilGlossaryDefinition
         $ilAtomQuery->addTableLock('glossary_definition');
 
         $ilAtomQuery->addQueryCallable(function (ilDBInterface $ilDB) {
-
             // be sure to get the right number
             $q = "SELECT * FROM glossary_definition WHERE id = " .
                 $ilDB->quote($this->id, "integer");
@@ -326,10 +322,10 @@ class ilGlossaryDefinition
         $ilAtomQuery->run();
     }
 
-    public function update() : void
+    public function update(): void
     {
         $ilDB = $this->db;
-        
+
         $this->updateMetaData();
 
         $ilDB->manipulate("UPDATE glossary_definition SET " .
@@ -343,7 +339,7 @@ class ilGlossaryDefinition
     /**
      * Shorten short text
      */
-    public function shortenShortText(string $text) : string
+    public function shortenShortText(string $text): string
     {
         $a_length = 196;
 
@@ -362,7 +358,7 @@ class ilGlossaryDefinition
             $offset = 5;
         }
         $short = ilStr::shortenTextExtended($text, $a_length - 16 + $offset, true);
-        
+
         // make short text longer, if tex end tag is missing
         $ltexs = strrpos($short, "[tex]");
         $ltexe = strrpos($short, "[/tex]");
@@ -372,13 +368,13 @@ class ilGlossaryDefinition
                 $text = ilStr::shortenTextExtended($text, $ltexe + 6, true);
             }
         }
-        
+
         $short = ilStr::shortenTextExtended($text, $a_length, true);
 
         return $short;
     }
 
-    public function updateShortText() : void
+    public function updateShortText(): void
     {
         $this->page_object->buildDom();
         $text = $this->page_object->getFirstParagraphText();
@@ -389,12 +385,12 @@ class ilGlossaryDefinition
         $this->update();
     }
 
-    public static function getDefinitionList(int $a_term_id) : array
+    public static function getDefinitionList(int $a_term_id): array
     {
         global $DIC;
 
         $ilDB = $DIC->database();
-        
+
         $defs = array();
         $q = "SELECT * FROM glossary_definition WHERE term_id = " .
             $ilDB->quote($a_term_id, "integer") .
@@ -413,7 +409,7 @@ class ilGlossaryDefinition
     public function exportXML(
         ilXmlWriter $a_xml_writer,
         int $a_inst
-    ) : void {
+    ): void {
         $attrs = array();
         $a_xml_writer->xmlStartTag("Definition", $attrs);
 
@@ -426,7 +422,7 @@ class ilGlossaryDefinition
 
     public function exportXMLMetaData(
         ilXmlWriter $a_xml_writer
-    ) : void {
+    ): void {
         $glo_id = ilGlossaryTerm::_lookGlossaryID($this->getTermId());
         $md2xml = new ilMD2XML($glo_id, $this->getId(), $this->getType());
         $md2xml->setExportMode(true);
@@ -438,7 +434,7 @@ class ilGlossaryDefinition
         string $a_tag,
         string $a_param,
         string $a_value
-    ) : string {
+    ): string {
         if ($a_tag == "Identifier" && $a_param == "Entry") {
             $a_value = "il_" . IL_INST_ID . "_gdf_" . $this->getId();
         }
@@ -452,7 +448,7 @@ class ilGlossaryDefinition
     public function exportXMLDefinition(
         ilXmlWriter $a_xml_writer,
         int $a_inst = 0
-    ) : void {
+    ): void {
         $this->page_object->buildDom();
         $this->page_object->insertInstIntoIDs($a_inst);
         $this->mobs_contained = $this->page_object->collectMediaObjects(false);
@@ -464,7 +460,7 @@ class ilGlossaryDefinition
         $this->page_object->freeDom();
     }
 
-    public function createMetaData() : void
+    public function createMetaData(): void
     {
         $glo_id = ilGlossaryTerm::_lookGlossaryID($this->getTermId());
         $lang = ilGlossaryTerm::_lookLanguage($this->getTermId());
@@ -478,7 +474,7 @@ class ilGlossaryDefinition
         $md_creator->create();
     }
 
-    public function updateMetaData() : void
+    public function updateMetaData(): void
     {
         $glo_id = ilGlossaryTerm::_lookGlossaryID($this->getTermId());
         $md = new ilMD($glo_id, $this->getId(), $this->getType());
@@ -495,7 +491,7 @@ class ilGlossaryDefinition
         $md_gen->update();
     }
 
-    public function deleteMetaData() : void
+    public function deleteMetaData(): void
     {
         // Delete meta data
         $glo_id = ilGlossaryTerm::_lookGlossaryID($this->getTermId());
@@ -515,7 +511,7 @@ class ilGlossaryDefinition
      * Even if this is not stored to db, it should be stored to the object
      * e.g. for during import parsing
      */
-    public function MDUpdateListener(string $a_element) : bool
+    public function MDUpdateListener(string $a_element): bool
     {
         switch ($a_element) {
             case 'General':
@@ -546,12 +542,12 @@ class ilGlossaryDefinition
      * Looks up term id for a definition id
      * @param	int		$a_def_id		definition id
      */
-    public static function _lookupTermId(int $a_def_id) : int
+    public static function _lookupTermId(int $a_def_id): int
     {
         global $DIC;
 
         $ilDB = $DIC->database();
-        
+
         $q = "SELECT * FROM glossary_definition WHERE id = " .
             $ilDB->quote($a_def_id, "integer");
         $def_set = $ilDB->query($q);
@@ -564,7 +560,7 @@ class ilGlossaryDefinition
      * Set all short texts of glossary dirty
      * (e.g. if length is changed in settings)
      */
-    public static function setShortTextsDirty(int $a_glo_id) : void
+    public static function setShortTextsDirty(int $a_glo_id): void
     {
         global $DIC;
 
@@ -584,7 +580,7 @@ class ilGlossaryDefinition
     /**
      * Set short texts dirty (for all glossaries)
      */
-    public static function setShortTextsDirtyGlobally() : void
+    public static function setShortTextsDirtyGlobally(): void
     {
         global $DIC;
 

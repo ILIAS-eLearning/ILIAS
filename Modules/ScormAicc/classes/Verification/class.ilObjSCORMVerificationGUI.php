@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -23,7 +25,7 @@
  */
 class ilObjSCORMVerificationGUI extends ilObject2GUI
 {
-    public function getType() : string
+    public function getType(): string
     {
         return "scov";
     }
@@ -31,7 +33,7 @@ class ilObjSCORMVerificationGUI extends ilObject2GUI
     /**
      * @throws ilCtrlException
      */
-    public function create() : void
+    public function create(): void
     {
         global $DIC;
         $ilTabs = $DIC->tabs();
@@ -52,7 +54,7 @@ class ilObjSCORMVerificationGUI extends ilObject2GUI
      * @throws ilCtrlException
      * @throws ilException
      */
-    public function save() : void
+    public function save(): void
     {
         global $DIC;
 
@@ -97,7 +99,7 @@ class ilObjSCORMVerificationGUI extends ilObject2GUI
         $this->create();
     }
 
-    public function deliver() : void
+    public function deliver(): void
     {
         $file = $this->object->getFilePath();
         if ($file) {
@@ -105,7 +107,7 @@ class ilObjSCORMVerificationGUI extends ilObject2GUI
         }
     }
 
-    public function render(bool $a_return = false, string $a_url = '') : string
+    public function render(bool $a_return = false, string $a_url = ''): string
     {
         global $DIC;
         $ilUser = $DIC->user();
@@ -145,7 +147,7 @@ class ilObjSCORMVerificationGUI extends ilObject2GUI
         return "";
     }
 
-    public function downloadFromPortfolioPage(ilPortfolioPage $a_page) : void
+    public function downloadFromPortfolioPage(ilPortfolioPage $a_page): void
     {
         global $DIC;
         $ilErr = $DIC['ilErr'];
@@ -157,7 +159,7 @@ class ilObjSCORMVerificationGUI extends ilObject2GUI
         $ilErr->raiseError($this->lng->txt('permission_denied'), $ilErr->MESSAGE);
     }
 
-    public static function _goto(string $a_target) : void
+    public static function _goto(string $a_target): void
     {
         global $DIC;
         $id = explode("_", $a_target);

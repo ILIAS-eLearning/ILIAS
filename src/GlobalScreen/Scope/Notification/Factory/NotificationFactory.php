@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -25,12 +27,11 @@ use ILIAS\GlobalScreen\Identification\IdentificationInterface;
  */
 class NotificationFactory
 {
-
     /**
      * @param IdentificationInterface $identification
      * @return StandardNotification
      */
-    public function standard(IdentificationInterface $identification) : StandardNotification
+    public function standard(IdentificationInterface $identification): StandardNotification
     {
         return new StandardNotification($identification);
     }
@@ -39,12 +40,12 @@ class NotificationFactory
      * @param IdentificationInterface $identification
      * @return StandardNotificationGroup
      */
-    public function standardGroup(IdentificationInterface $identification) : StandardNotificationGroup
+    public function standardGroup(IdentificationInterface $identification): StandardNotificationGroup
     {
         return new StandardNotificationGroup($identification);
     }
 
-    public function administrative(IdentificationInterface $identification) : AdministrativeNotification
+    public function administrative(IdentificationInterface $identification): AdministrativeNotification
     {
         return new AdministrativeNotification($identification);
     }

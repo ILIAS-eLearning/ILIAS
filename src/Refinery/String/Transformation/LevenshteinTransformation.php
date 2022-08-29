@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -9,14 +11,12 @@
  * You should have received a copy of said license along with the
  * source code, too.
  *
- * If this is not the case, or you just want to try ILIAS, you'll find
+ * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
-
-declare(strict_types=1);
 
 namespace ILIAS\Refinery\String\Transformation;
 
@@ -31,16 +31,11 @@ class LevenshteinTransformation implements Transformation
     use DeriveApplyToFromTransform;
     use DeriveInvokeFromTransform;
 
-    /** @var string  */
-    private $primary_string;
-    /** @var int  */
-    private $maximum_distance;
-    /** @var float  */
-    private $cost_insertion;
-    /** @var float  */
-    private $cost_replacement;
-    /** @var float  */
-    private $cost_deletion;
+    private string $primary_string;
+    private int $maximum_distance;
+    private float $cost_insertion;
+    private float $cost_replacement;
+    private float $cost_deletion;
 
     /**
      * This constructor allows to parameterize the levenshtein distance function.
@@ -55,13 +50,13 @@ class LevenshteinTransformation implements Transformation
      * @param float $cost_deletion custom cost for deletion, default 1.0
      */
     public function __construct(
-        string $primary_string = "",
-        int    $maximum_distance = 0,
-        float  $cost_insertion = 1.0,
-        float  $cost_replacement = 1.0,
-        float  $cost_deletion = 1.0
+        string $primary_string = '',
+        int $maximum_distance = 0,
+        float $cost_insertion = 1.0,
+        float $cost_replacement = 1.0,
+        float $cost_deletion = 1.0
     ) {
-        $this->primary_string= $primary_string;
+        $this->primary_string = $primary_string;
         $this->maximum_distance = $maximum_distance;
         $this->cost_insertion = $cost_insertion;
         $this->cost_replacement = $cost_replacement;
@@ -91,7 +86,7 @@ class LevenshteinTransformation implements Transformation
 
         // if the difference between string length is bigger than the maximum allowed levenshtein distance
         // the code can be skipped
-        if (abs($primary_string_length - $secondary_string_length) > $this->maximum_distance && $this->maximum_distance != 0) {
+        if ($this->maximum_distance !== 0 && abs($primary_string_length - $secondary_string_length) > $this->maximum_distance) {
             return -1.0;
         }
 
@@ -113,7 +108,7 @@ class LevenshteinTransformation implements Transformation
                 );
             }
             // maximum distance reached
-            if (min($current_row) > $this->maximum_distance && $this->maximum_distance != 0) {
+            if ($this->maximum_distance !== 0 && min($current_row) > $this->maximum_distance) {
                 return -1.0;
             }
             $cost_matrix[$i + 1] = $current_row;
@@ -148,12 +143,10 @@ class LevenshteinTransformation implements Transformation
      */
     public function transform($from): float
     {
-        // check if $from is string otherwise exception
         if (!is_string($from)) {
             throw new InvalidArgumentException(__METHOD__ . " the argument is not a string.");
         }
 
-        // call levenshtein methode return result
         return $this->levenshtein($from);
     }
 }

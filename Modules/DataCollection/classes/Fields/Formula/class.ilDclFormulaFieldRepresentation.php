@@ -22,7 +22,7 @@
  */
 class ilDclFormulaFieldRepresentation extends ilDclBaseFieldRepresentation
 {
-    public function getInputField(ilPropertyFormGUI $form, int $record_id = 0) : ilTextInputGUI
+    public function getInputField(ilPropertyFormGUI $form, int $record_id = 0): ilTextInputGUI
     {
         $input = new ilTextInputGUI($this->getField()->getTitle(), 'field_' . $this->getField()->getId());
         $input->setDisabled(true);
@@ -32,7 +32,7 @@ class ilDclFormulaFieldRepresentation extends ilDclBaseFieldRepresentation
         return $input;
     }
 
-    protected function buildFieldCreationInput(ilObjDataCollection $dcl, string $mode = 'create') : ilRadioOption
+    protected function buildFieldCreationInput(ilObjDataCollection $dcl, string $mode = 'create'): ilRadioOption
     {
         $opt = parent::buildFieldCreationInput($dcl, $mode);
 
@@ -43,12 +43,18 @@ class ilDclFormulaFieldRepresentation extends ilDclBaseFieldRepresentation
             $placeholder = ($f->isStandardField()) ? $f->getId() : $f->getTitle();
             $fields[] = '<a class="dclPropExpressionField" data-placeholder="' . $placeholder . '">' . $f->getTitle() . '</a>';
         }
-        $subitem = new ilTextAreaInputGUI($this->lng->txt('dcl_prop_expression'),
-            'prop_' . ilDclBaseFieldModel::PROP_FORMULA_EXPRESSION);
+        $subitem = new ilTextAreaInputGUI(
+            $this->lng->txt('dcl_prop_expression'),
+            'prop_' . ilDclBaseFieldModel::PROP_FORMULA_EXPRESSION
+        );
         $operators = implode(', ', array_keys(ilDclExpressionParser::getOperators()));
         $functions = implode(', ', ilDclExpressionParser::getFunctions());
-        $subitem->setInfo(sprintf($this->lng->txt('dcl_prop_expression_info'), $operators, $functions,
-            implode('<br>', $fields)));
+        $subitem->setInfo(sprintf(
+            $this->lng->txt('dcl_prop_expression_info'),
+            $operators,
+            $functions,
+            implode('<br>', $fields)
+        ));
         $opt->addSubItem($subitem);
 
         return $opt;

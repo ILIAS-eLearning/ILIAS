@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -22,7 +24,6 @@
  */
 class ilMailingList
 {
-    private int $mail_id;
     private int $user_id;
     private string $title = '';
     private string $description = '';
@@ -35,13 +36,11 @@ class ilMailingList
     public const MODE_TEMPORARY = 2;
     private int $mode;
 
-    public function __construct(ilObjUser $user, int $id = 0)
+    public function __construct(ilObjUser $user, private int $mail_id = 0)
     {
         global $DIC;
 
         $this->db = $DIC['ilDB'];
-
-        $this->mail_id = $id;
         $this->user_id = $user->getId();
 
         $this->setMode(self::MODE_ADDRESSBOOK);
@@ -49,10 +48,10 @@ class ilMailingList
         $this->read();
     }
 
-    public function insert() : bool
+    public function insert(): bool
     {
         $nextId = $this->db->nextId('addressbook_mlist');
-        $statement = $this->db->manipulateF(
+        $this->db->manipulateF(
             '
 			INSERT INTO addressbook_mlist 
 			(   ml_id,
@@ -89,10 +88,10 @@ class ilMailingList
         return true;
     }
 
-    public function update() : bool
+    public function update(): bool
     {
         if ($this->mail_id && $this->user_id) {
-            $statement = $this->db->manipulateF(
+            $this->db->manipulateF(
                 '
 				UPDATE addressbook_mlist
 				SET title = %s,
@@ -125,12 +124,12 @@ class ilMailingList
         return false;
     }
 
-    public function delete() : bool
+    public function delete(): bool
     {
         if ($this->mail_id && $this->user_id) {
             $this->deassignAllEntries();
 
-            $statement = $this->db->manipulateF(
+            $this->db->manipulateF(
                 'DELETE FROM addressbook_mlist WHERE ml_id = %s AND user_id = %s',
                 ['integer', 'integer'],
                 [$this->getId(), $this->getUserId()]
@@ -142,7 +141,7 @@ class ilMailingList
         return false;
     }
 
-    private function read() : void
+    private function read(): void
     {
         if ($this->getId() && $this->getUserId()) {
             $res = $this->db->queryF(
@@ -168,7 +167,7 @@ class ilMailingList
     /**
      * @return array<int, array{a_id: int, usr_id: int}>
      */
-    public function getAssignedEntries() : array
+    public function getAssignedEntries(): array
     {
         $res = $this->db->queryF(
             'SELECT a_id, usr_data.usr_id FROM addressbook_mlist_ass ' .
@@ -178,7 +177,6 @@ class ilMailingList
         );
 
         $entries = [];
-        $counter = 0;
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             $entries[(int) $row->a_id] = [
                 'a_id' => (int) $row->a_id,
@@ -190,7 +188,7 @@ class ilMailingList
     }
 
 
-    public function assignUser(int $usr_id = 0) : bool
+    public function assignUser(int $usr_id = 0): bool
     {
         $nextId = $this->db->nextId('addressbook_mlist_ass');
         $this->db->manipulateF(
@@ -202,7 +200,7 @@ class ilMailingList
     }
 
 
-    public function deleteEntry(int $a_id = 0) : bool
+    public function deleteEntry(int $a_id = 0): bool
     {
         $this->db->manipulateF(
             'DELETE FROM addressbook_mlist_ass WHERE a_id = %s',
@@ -213,7 +211,7 @@ class ilMailingList
     }
 
 
-    public function deassignAllEntries() : bool
+    public function deassignAllEntries(): bool
     {
         $this->db->manipulateF(
             'DELETE FROM addressbook_mlist_ass WHERE ml_id = %s',
@@ -223,74 +221,74 @@ class ilMailingList
         return true;
     }
 
-    public function setId(int $a_mail_id = 0) : void
+    public function setId(int $a_mail_id = 0): void
     {
         $this->mail_id = $a_mail_id;
     }
 
-    public function getId() : int
+    public function getId(): int
     {
         return $this->mail_id;
     }
 
-    public function setUserId(int $a_user_id = 0) : void
+    public function setUserId(int $a_user_id = 0): void
     {
         $this->user_id = $a_user_id;
     }
 
-    public function getUserId() : int
+    public function getUserId(): int
     {
         return $this->user_id;
     }
 
-    public function setTitle(string $a_title = '') : void
+    public function setTitle(string $a_title = ''): void
     {
         $this->title = $a_title;
     }
 
-    public function getTitle() : string
+    public function getTitle(): string
     {
         return $this->title;
     }
 
-    public function setDescription(string $a_description = '') : void
+    public function setDescription(string $a_description = ''): void
     {
         $this->description = $a_description;
     }
 
-    public function getDescription() : string
+    public function getDescription(): string
     {
         return $this->description;
     }
 
-    public function setCreatedate(string $_createdate) : void
+    public function setCreatedate(string $_createdate): void
     {
         $this->createdate = $_createdate;
     }
 
-    public function getCreatedate() : string
+    public function getCreatedate(): string
     {
         return $this->createdate;
     }
 
-    public function setChangedate(?string $a_changedate) : void
+    public function setChangedate(?string $a_changedate): void
     {
         $this->changedate = $a_changedate;
     }
 
-    public function getChangedate() : ?string
+    public function getChangedate(): ?string
     {
         return $this->changedate;
     }
 
-    public function setMode(int $a_mode) : void
+    public function setMode(int $a_mode): void
     {
         if (in_array($a_mode, [self::MODE_ADDRESSBOOK, self::MODE_TEMPORARY], true)) {
             $this->mode = $a_mode;
         }
     }
 
-    public function getMode() : int
+    public function getMode(): int
     {
         return $this->mode;
     }

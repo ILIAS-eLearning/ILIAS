@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Handler\TypeHandler;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\hasAction;
@@ -12,7 +14,7 @@ use ILIAS\GlobalScreen\Scope\MainMenu\Factory\TopItem\TopLinkItem;
  */
 class ilMMTypeHandlerTopLink extends ilMMAbstractBaseTypeHandlerAction implements TypeHandler
 {
-    public function matchesForType() : string
+    public function matchesForType(): string
     {
         return TopLinkItem::class;
     }
@@ -21,7 +23,7 @@ class ilMMTypeHandlerTopLink extends ilMMAbstractBaseTypeHandlerAction implement
     /**
      * @inheritdoc
      */
-    public function enrichItem(isItem $item) : isItem
+    public function enrichItem(isItem $item): isItem
     {
         if ($item instanceof hasAction && isset($this->links[$item->getProviderIdentification()->serialize()])) {
             $action = (string) $this->links[$item->getProviderIdentification()->serialize()][self::F_ACTION];
@@ -36,7 +38,7 @@ class ilMMTypeHandlerTopLink extends ilMMAbstractBaseTypeHandlerAction implement
     /**
      * @inheritDoc
      */
-    protected function getFieldTranslation() : string
+    protected function getFieldTranslation(): string
     {
         global $DIC;
 
@@ -47,7 +49,7 @@ class ilMMTypeHandlerTopLink extends ilMMAbstractBaseTypeHandlerAction implement
     /**
      * @inheritDoc
      */
-    protected function getFieldInfoTranslation() : string
+    protected function getFieldInfoTranslation(): string
     {
         global $DIC;
 

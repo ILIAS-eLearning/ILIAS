@@ -22,7 +22,7 @@
  */
 class ilUserUserActionProvider extends ilUserActionProvider
 {
-    public function getComponentId() : string
+    public function getComponentId(): string
     {
         return "user";
     }
@@ -30,14 +30,14 @@ class ilUserUserActionProvider extends ilUserActionProvider
     /**
      * @return array<string,string>
      */
-    public function getActionTypes() : array
+    public function getActionTypes(): array
     {
         return array(
             "profile" => $this->lng->txt("profile")
         );
     }
 
-    public function collectActionsForTargetUser(int $a_target_user) : ilUserActionCollection
+    public function collectActionsForTargetUser(int $a_target_user): ilUserActionCollection
     {
         $coll = ilUserActionCollection::getInstance();
 

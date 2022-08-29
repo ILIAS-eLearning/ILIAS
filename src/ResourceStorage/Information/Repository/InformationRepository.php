@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -14,7 +16,7 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *********************************************************************/
- 
+
 namespace ILIAS\ResourceStorage\Information\Repository;
 
 use ILIAS\ResourceStorage\Information\Information;
@@ -29,14 +31,14 @@ use ILIAS\ResourceStorage\Preloader\PreloadableRepository;
  */
 interface InformationRepository extends LockingRepository, PreloadableRepository
 {
-    public function blank() : Information;
+    public function blank(): Information;
 
 
-    public function store(Information $information, Revision $revision) : void;
+    public function store(Information $information, Revision $revision): void;
 
 
-    public function get(Revision $revision) : Information;
+    public function get(Revision $revision): Information;
 
 
-    public function delete(Information $information, Revision $revision) : void;
+    public function delete(Information $information, Revision $revision): void;
 }

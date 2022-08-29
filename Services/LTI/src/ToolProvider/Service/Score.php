@@ -16,7 +16,6 @@
  *
  *********************************************************************/
 
-
 namespace ILIAS\LTI\ToolProvider\Service;
 
 use ILIAS\LTI\ToolProvider;
@@ -30,7 +29,6 @@ use ILIAS\LTI\ToolProvider;
  */
 class Score extends AssignmentGrade
 {
-
     /**
      * Access scope.
      */
@@ -54,7 +52,7 @@ class Score extends AssignmentGrade
      * @param ToolProvider\User    $user       User object
      * @return bool  True if successful, otherwise false
      */
-    public function submit(ToolProvider\Outcome $ltiOutcome, ToolProvider\User $user) : bool
+    public function submit(ToolProvider\Outcome $ltiOutcome, ToolProvider\User $user): bool
     {
         $score = $ltiOutcome->getValue();
         if (!is_null($score)) {

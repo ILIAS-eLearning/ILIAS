@@ -69,7 +69,7 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
     *
     * @return boolean True, if the single choice question is complete for use, otherwise false
     */
-    public function isComplete() : bool
+    public function isComplete(): bool
     {
         if (strlen($this->title)
             && ($this->author)
@@ -85,7 +85,7 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
     * Saves a the object to the database
     *
     */
-    public function saveToDb($original_id = "") : void
+    public function saveToDb($original_id = ""): void
     {
         if ($original_id == '') {
             $this->saveQuestionDataToDb();
@@ -141,7 +141,7 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
             array( "integer" ),
             array( $this->getId() )
         );
-        
+
         $ilDB->manipulateF(
             "INSERT INTO " . $this->getAdditionalTableName() . " (question_fi, errortext, textsize, points_wrong) VALUES (%s, %s, %s, %s)",
             array("integer", "text", "float", "float"),
@@ -160,7 +160,7 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
     * @param object $db A pear DB object
     * @param integer $question_id A unique key which defines the multiple choice test in the database
     */
-    public function loadFromDb($question_id) : void
+    public function loadFromDb($question_id): void
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -187,13 +187,13 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
             $this->setTextSize($data["textsize"]);
             $this->setPointsWrong($data["points_wrong"]);
             $this->setEstimatedWorkingTime(substr($data["working_time"], 0, 2), substr($data["working_time"], 3, 2), substr($data["working_time"], 6, 2));
-            
+
             try {
                 $this->setLifecycle(ilAssQuestionLifecycle::getInstance($data['lifecycle']));
             } catch (ilTestQuestionPoolInvalidArgumentException $e) {
                 $this->setLifecycle(ilAssQuestionLifecycle::getDraftInstance());
             }
-            
+
             try {
                 $this->setAdditionalContentEditingMode($data['add_cont_edit_mode']);
             } catch (ilTestQuestionPoolException $e) {
@@ -218,7 +218,7 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
     /**
     * Duplicates the object
     */
-    public function duplicate(bool $for_test = true, string $title = "", string $author = "", string $owner = "", $testObjId = null) : int
+    public function duplicate(bool $for_test = true, string $title = "", string $author = "", string $owner = "", $testObjId = null): int
     {
         if ($this->id <= 0) {
             // The question has not been saved. It cannot be duplicated
@@ -227,16 +227,16 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
         // duplicate the question in database
         $this_id = $this->getId();
         $thisObjId = $this->getObjId();
-        
+
         $clone = $this;
         include_once("./Modules/TestQuestionPool/classes/class.assQuestion.php");
         $original_id = assQuestion::_getOriginalId($this->id);
         $clone->id = -1;
-        
+
         if ((int) $testObjId > 0) {
             $clone->setObjId($testObjId);
         }
-        
+
         if ($title) {
             $clone->setTitle($title);
         }
@@ -265,16 +265,16 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
     /**
     * Copies an object
     */
-    public function copyObject($target_questionpool_id, $title = "") : int
+    public function copyObject($target_questionpool_id, $title = ""): int
     {
         if ($this->getId() <= 0) {
             throw new RuntimeException('The question has not been saved. It cannot be duplicated');
         }
         // duplicate the question in database
-        
+
         $thisId = $this->getId();
         $thisObjId = $this->getObjId();
-        
+
         $clone = $this;
         include_once("./Modules/TestQuestionPool/classes/class.assQuestion.php");
         $original_id = assQuestion::_getOriginalId($this->id);
@@ -295,7 +295,7 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
         return $clone->id;
     }
 
-    public function createNewOriginalFromThisDuplicate($targetParentId, $targetQuestionTitle = "") : int
+    public function createNewOriginalFromThisDuplicate($targetParentId, $targetQuestionTitle = ""): int
     {
         if ($this->getId() <= 0) {
             throw new RuntimeException('The question has not been saved. It cannot be duplicated');
@@ -332,7 +332,7 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
     *
     * @see $points
     */
-    public function getMaximumPoints() : float
+    public function getMaximumPoints(): float
     {
         $maxpoints = 0.0;
         foreach ($this->errordata as $object) {
@@ -353,7 +353,7 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
      * @param boolean $returndetails (deprecated !!)
      * @return integer/array $points/$details (array $details is deprecated !!)
      */
-    public function calculateReachedPoints($active_id, $pass = null, $authorizedSolution = true, $returndetails = false) : int
+    public function calculateReachedPoints($active_id, $pass = null, $authorizedSolution = true, $returndetails = false): int
     {
         if ($returndetails) {
             throw new ilTestException('return details not implemented for ' . __METHOD__);
@@ -391,7 +391,7 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
      * @param integer $pass Test pass
      * @return boolean $status
      */
-    public function saveWorkingData($active_id, $pass = null, $authorized = true) : bool
+    public function saveWorkingData($active_id, $pass = null, $authorized = true): bool
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -439,14 +439,14 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
         return true;
     }
 
-    public function savePreviewData(ilAssQuestionPreviewSession $previewSession) : void
+    public function savePreviewData(ilAssQuestionPreviewSession $previewSession): void
     {
         if (strlen($_POST["qst_" . $this->getId()])) {
             $selection = explode(',', $_POST["qst_{$this->getId()}"]);
         } else {
             $selection = array();
         }
-        
+
         $previewSession->setParticipantsSolution($selection);
     }
 
@@ -455,7 +455,7 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
     *
     * @return integer The question type of the question
     */
-    public function getQuestionType() : string
+    public function getQuestionType(): string
     {
         return "assErrorText";
     }
@@ -465,7 +465,7 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
     *
     * @return string The additional table name
     */
-    public function getAdditionalTableName() : string
+    public function getAdditionalTableName(): string
     {
         return "qpl_qst_errortext";
     }
@@ -475,7 +475,7 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
     *
     * @return string The answer table name
     */
-    public function getAnswerTableName() : string
+    public function getAnswerTableName(): string
     {
         return "qpl_a_errortext";
     }
@@ -484,7 +484,7 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
     * Collects all text in the question which could contain media objects
     * which were created with the Rich Text Editor
     */
-    public function getRTETextWithMediaObjects() : string
+    public function getRTETextWithMediaObjects(): string
     {
         $text = parent::getRTETextWithMediaObjects();
         return $text;
@@ -493,7 +493,7 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
     /**
      * {@inheritdoc}
      */
-    public function setExportDetailsXLS(ilAssExcelFormatHelper $worksheet, int $startrow, int $active_id, int $pass) : int
+    public function setExportDetailsXLS(ilAssExcelFormatHelper $worksheet, int $startrow, int $active_id, int $pass): int
     {
         parent::setExportDetailsXLS($worksheet, $startrow, $active_id, $pass);
 
@@ -526,7 +526,7 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
     * @param integer $question_counter A reference to a question counter to count the questions of an imported question pool
     * @param array $import_mapping An array containing references to included ILIAS objects
     */
-    public function fromXML($item, int $questionpool_id, ?int $tst_id, $tst_object, int $question_counter, array $import_mapping) : void
+    public function fromXML($item, int $questionpool_id, ?int $tst_id, $tst_object, int $question_counter, array $import_mapping, array $solutionhints = []): void
     {
         include_once "./Modules/TestQuestionPool/classes/import/qti12/class.assErrorTextImport.php";
         $import = new assErrorTextImport($this);
@@ -539,7 +539,7 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
     *
     * @return string The QTI xml representation of the question
     */
-    public function toXML($a_include_header = true, $a_include_binary = true, $a_shuffle = false, $test_output = false, $force_image_references = false) : string
+    public function toXML($a_include_header = true, $a_include_binary = true, $a_shuffle = false, $test_output = false, $force_image_references = false): string
     {
         include_once "./Modules/TestQuestionPool/classes/export/qti12/class.assErrorTextExport.php";
         $export = new assErrorTextExport($this);
@@ -551,13 +551,13 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
     *
     * @return array An associated array containing the best solution
     */
-    public function getBestSolution($active_id, $pass) : array
+    public function getBestSolution($active_id, $pass): array
     {
         $user_solution = array();
         return $user_solution;
     }
 
-    public function getErrorsFromText($a_text = "") : array
+    public function getErrorsFromText($a_text = ""): array
     {
         if (strlen($a_text) == 0) {
             $a_text = $this->getErrorText();
@@ -593,7 +593,7 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
         return array();
     }
 
-    public function setErrorData($a_data) : void
+    public function setErrorData($a_data): void
     {
         include_once "./Modules/TestQuestionPool/classes/class.assAnswerErrorText.php";
         $temp = $this->errordata;
@@ -618,7 +618,7 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
         ksort($this->errordata);
     }
 
-    public function createErrorTextOutput($selections = null, $graphicalOutput = false, $correct_solution = false, $use_link_tags = true) : string
+    public function createErrorTextOutput($selections = null, $graphicalOutput = false, $correct_solution = false, $use_link_tags = true): string
     {
         $counter = 0;
         $errorcounter = 0;
@@ -671,7 +671,7 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
                         $errorcounter++;
                     }
                 }
-                
+
                 if ($in_passage && !$passage_end) {
                     $items_in_passage[$idx] = $item;
                     $items[$idx] = '';
@@ -687,7 +687,7 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
                             $this->isTokenSelected($counter, $selections) ?
                             "ilc_qetitem_ErrorTextSelected" : "ilc_qetitem_ErrorTextItem"
                         );
-                        
+
                         $errorobject = $this->errordata[$errorcounter];
                         if (is_object($errorobject)) {
                             $item = strlen($errorobject->text_correct) ? $errorobject->text_correct : '&nbsp;';
@@ -697,7 +697,7 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
                         $counter++;
                         continue;
                     }
-                    
+
                     $group_selected = true;
                     if ($graphicalOutput) {
                         $start_idx = $passage_start_idx;
@@ -706,7 +706,7 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
                                 $group_selected = false;
                                 break;
                             }
-                            
+
                             ++$start_idx;
                         }
                         if ($group_selected) {
@@ -737,17 +737,17 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
                             $img = ' <img src="' . ilUtil::getImagePath("icon_not_ok.svg") . '" alt="' . $this->lng->txt("answer_is_wrong") . '" title="' . $this->lng->txt("answer_is_wrong") . '" /> ';
                         }
                     }
-                    
+
                     $item_stack[] = $this->getErrorTokenHtml($item, $class, $use_link_tags) . $img;
                     $item_stack = trim(implode(" ", $item_stack));
                     $item_stack = strlen($item_stack) ? $item_stack : '&nbsp;';
-                    
+
                     if ($graphicalOutput) {
                         $items[$idx] = '<span class="selGroup">' . $item_stack . '</span>';
                     } else {
                         $items[$idx] = $item_stack;
                     }
-                    
+
                     $counter++;
                     continue;
                 }
@@ -771,11 +771,11 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
             }
             $textarray[$textidx] = '<p>' . implode(" ", $items) . '</p>';
         }
-        
+
         return implode("\n", $textarray);
     }
-    
-    protected function isTokenSelected($counter, array $selection) : bool
+
+    protected function isTokenSelected($counter, array $selection): bool
     {
         foreach ($selection as $data) {
             if (!is_array($data)) {
@@ -786,11 +786,11 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
                 return true;
             }
         }
-        
+
         return false;
     }
 
-    public function createErrorTextExport($selections = null) : string
+    public function createErrorTextExport($selections = null): string
     {
         $counter = 0;
         $errorcounter = 0;
@@ -843,7 +843,7 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
         return join("\n", $textarray);
     }
 
-    public function getBestSelection($withPositivePointsOnly = true) : array
+    public function getBestSelection($withPositivePointsOnly = true): array
     {
         $passages = array();
         $words = array();
@@ -882,7 +882,7 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
                             $passages[$cur_pidx]['score'] = $errorobject->points;
                             $passages[$cur_pidx]['isError'] = true;
                         }
-                        
+
                         $errorcounter++;
                     }
 
@@ -911,9 +911,9 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
         }
 
         ksort($selections);
-        
+
         $selections = array_values($selections);
-        
+
         return $selections;
     }
 
@@ -968,13 +968,14 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
 
         /* Calculate reached points */
         $total = 0;
-        foreach ($positions as $position) {
-            /* First iterate through positions
-               to identify single-word-selections. */
+        if (is_array($positions)) {
+            foreach ($positions as $position) {
+                /* First iterate through positions
+                   to identify single-word-selections. */
 
-            $total += $words[$position]['points'];
+                $total += $words[$position]['points'];
+            }
         }
-
         foreach ($passages as $cnt => $p_data) {
             /* Iterate through configured passages to check
                wether the entire passage is selected or not.
@@ -996,12 +997,12 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
     /**
     * Flush error data
     */
-    public function flushErrorData() : void
+    public function flushErrorData(): void
     {
         $this->errordata = array();
     }
 
-    public function addErrorData($text_wrong, $text_correct, $points) : void
+    public function addErrorData($text_wrong, $text_correct, $points): void
     {
         include_once "./Modules/TestQuestionPool/classes/class.assAnswerErrorText.php";
         array_push($this->errordata, new assAnswerErrorText($text_wrong, $text_correct, $points));
@@ -1012,7 +1013,7 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
     *
     * @return string[] Error data
     */
-    public function getErrorData() : array
+    public function getErrorData(): array
     {
         return $this->errordata ?? array();
     }
@@ -1022,7 +1023,7 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
     *
     * @return string Error text
     */
-    public function getErrorText() : string
+    public function getErrorText(): string
     {
         return $this->errortext ?? '';
     }
@@ -1032,7 +1033,7 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
     *
     * @param string $a_value Error text
     */
-    public function setErrorText($a_value) : void
+    public function setErrorText($a_value): void
     {
         $this->errortext = $a_value;
     }
@@ -1042,7 +1043,7 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
     *
     * @return double Text size in percent
     */
-    public function getTextSize() : float
+    public function getTextSize(): float
     {
         return $this->textsize;
     }
@@ -1052,7 +1053,7 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
     *
     * @param double $a_value text size in percent
     */
-    public function setTextSize($a_value) : void
+    public function setTextSize($a_value): void
     {
         // in self-assesment-mode value should always be set (and must not be null)
         if ($a_value === null) {
@@ -1066,7 +1067,7 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
     *
     * @return double Points for wrong selection
     */
-    public function getPointsWrong() : ?float
+    public function getPointsWrong(): ?float
     {
         return $this->points_wrong;
     }
@@ -1076,7 +1077,7 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
     *
     * @param double $a_value Points for wrong selection
     */
-    public function setPointsWrong($a_value) : void
+    public function setPointsWrong($a_value): void
     {
         $this->points_wrong = $a_value;
     }
@@ -1116,7 +1117,7 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
     /**
     * Returns a JSON representation of the question
     */
-    public function toJSON() : string
+    public function toJSON(): string
     {
         include_once("./Services/RTE/classes/class.ilRTE.php");
         $result = array();
@@ -1151,7 +1152,7 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
             foreach ($items as $idx => $item) {
                 if (substr($item, 0, 1) == "#") {
                     $item = substr($item, 1);
-                    
+
                     // #14115 - add position to correct answer
                     foreach ($result["correct_answers"] as $aidx => $answer) {
                         if ($answer["answertext_wrong"] == $item && !$answer["pos"]) {
@@ -1176,7 +1177,7 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
 
         $mobs = ilObjMediaObject::_getMobsOfObject("qpl:html", $this->getId());
         $result['mobs'] = $mobs;
-        
+
         return json_encode($result);
     }
 
@@ -1188,7 +1189,7 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
      * @internal param string $expression_type
      * @return array
      */
-    public function getOperators($expression) : array
+    public function getOperators($expression): array
     {
         require_once "./Modules/TestQuestionPool/classes/class.ilOperatorsExpressionMapping.php";
         return ilOperatorsExpressionMapping::getOperatorsByExpression($expression);
@@ -1198,7 +1199,7 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
      * Get all available expression types for a specific question
      * @return array
      */
-    public function getExpressionTypes() : array
+    public function getExpressionTypes(): array
     {
         return array(
             iQuestionCondition::PercentageResultExpression,
@@ -1216,7 +1217,7 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
     *
     * @return ilUserQuestionResult
     */
-    public function getUserQuestionResult($active_id, $pass) : ilUserQuestionResult
+    public function getUserQuestionResult($active_id, $pass): ilUserQuestionResult
     {
         /** @var ilDBInterface $ilDB */
         global $DIC;
@@ -1253,7 +1254,7 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
     public function getAvailableAnswerOptions($index = null)
     {
         $error_text_array = explode(' ', $this->errortext);
-        
+
         if ($index !== null) {
             if (array_key_exists($index, $error_text_array)) {
                 return $error_text_array[$index];
@@ -1269,14 +1270,14 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
      * @param $class
      * @return string
      */
-    private function getErrorTokenHtml($item, $class, $useLinkTags) : string
+    private function getErrorTokenHtml($item, $class, $useLinkTags): string
     {
         if ($useLinkTags) {
             return '<a class="' . $class . '" href="#">' . ($item == '&nbsp;' ? $item : ilLegacyFormElementsUtil::prepareFormOutput(
                 $item
             )) . '</a>';
         }
-        
+
         return '<span class="' . $class . '">' . ($item == '&nbsp;' ? $item : ilLegacyFormElementsUtil::prepareFormOutput(
             $item
         )) . '</span>';

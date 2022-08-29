@@ -1,4 +1,5 @@
 <?php
+
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 require_once 'Modules/Test/classes/class.ilTestRandomQuestionSetQuestionCollection.php';
@@ -67,8 +68,8 @@ abstract class ilTestRandomQuestionSetBuilder implements ilTestRandomSourcePoolD
 
 
     // hey: fixRandomTestBuildable - rename/public-access to be aware for building interface
-    public function getSrcPoolDefListRelatedQuestCombinationCollection(ilTestRandomQuestionSetSourcePoolDefinitionList $sourcePoolDefinitionList) : ilTestRandomQuestionSetQuestionCollection
-        // hey.
+    public function getSrcPoolDefListRelatedQuestCombinationCollection(ilTestRandomQuestionSetSourcePoolDefinitionList $sourcePoolDefinitionList): ilTestRandomQuestionSetQuestionCollection
+    // hey.
     {
         $questionStage = new ilTestRandomQuestionSetQuestionCollection();
 
@@ -89,8 +90,8 @@ abstract class ilTestRandomQuestionSetBuilder implements ilTestRandomSourcePoolD
      * @param ilTestRandomQuestionSetSourcePoolDefinition $definition
      * @return ilTestRandomQuestionSetQuestionCollection
      */
-    public function getSrcPoolDefRelatedQuestCollection(ilTestRandomQuestionSetSourcePoolDefinition $definition) : ilTestRandomQuestionSetQuestionCollection
-        // hey.
+    public function getSrcPoolDefRelatedQuestCollection(ilTestRandomQuestionSetSourcePoolDefinition $definition): ilTestRandomQuestionSetQuestionCollection
+    // hey.
     {
         $questionIds = $this->getQuestionIdsForSourcePoolDefinitionIds($definition);
         $questionStage = $this->buildSetQuestionCollection($definition, $questionIds);
@@ -103,14 +104,14 @@ abstract class ilTestRandomQuestionSetBuilder implements ilTestRandomSourcePoolD
      * @param ilTestRandomQuestionSetSourcePoolDefinitionList $sourcePoolDefinitionList
      * @return ilTestRandomQuestionSetQuestionCollection
      */
-    public function getSrcPoolDefListRelatedQuestUniqueCollection(ilTestRandomQuestionSetSourcePoolDefinitionList $sourcePoolDefinitionList) : ilTestRandomQuestionSetQuestionCollection
+    public function getSrcPoolDefListRelatedQuestUniqueCollection(ilTestRandomQuestionSetSourcePoolDefinitionList $sourcePoolDefinitionList): ilTestRandomQuestionSetQuestionCollection
     {
         $combinationCollection = $this->getSrcPoolDefListRelatedQuestCombinationCollection($sourcePoolDefinitionList);
         return $combinationCollection->getUniqueQuestionCollection();
     }
     // hey.
 
-    private function getQuestionIdsForSourcePoolDefinitionIds(ilTestRandomQuestionSetSourcePoolDefinition $definition) : array
+    private function getQuestionIdsForSourcePoolDefinitionIds(ilTestRandomQuestionSetSourcePoolDefinition $definition): array
     {
         $this->stagingPoolQuestionList->resetQuestionList();
 
@@ -144,7 +145,7 @@ abstract class ilTestRandomQuestionSetBuilder implements ilTestRandomSourcePoolD
         return $this->stagingPoolQuestionList->getQuestions();
     }
 
-    private function buildSetQuestionCollection(ilTestRandomQuestionSetSourcePoolDefinition $definition, $questionIds) : ilTestRandomQuestionSetQuestionCollection
+    private function buildSetQuestionCollection(ilTestRandomQuestionSetSourcePoolDefinition $definition, $questionIds): ilTestRandomQuestionSetQuestionCollection
     {
         $setQuestionCollection = new ilTestRandomQuestionSetQuestionCollection();
 
@@ -160,7 +161,7 @@ abstract class ilTestRandomQuestionSetBuilder implements ilTestRandomSourcePoolD
         return $setQuestionCollection;
     }
 
-    private function hasTaxonomyFilter(ilTestRandomQuestionSetSourcePoolDefinition $definition) : bool
+    private function hasTaxonomyFilter(ilTestRandomQuestionSetSourcePoolDefinition $definition): bool
     {
         // fau: taxFilter - check for existing taxonomy filter
         if (!count($definition->getMappedTaxonomyFilter())) {
@@ -180,7 +181,7 @@ abstract class ilTestRandomQuestionSetBuilder implements ilTestRandomSourcePoolD
     }
 
     //	fau: typeFilter - check for existing type filter
-    private function hasTypeFilter(ilTestRandomQuestionSetSourcePoolDefinition $definition) : bool
+    private function hasTypeFilter(ilTestRandomQuestionSetSourcePoolDefinition $definition): bool
     {
         if (count($definition->getTypeFilter())) {
             return true;
@@ -218,7 +219,7 @@ abstract class ilTestRandomQuestionSetBuilder implements ilTestRandomSourcePoolD
         ));
     }
 
-    protected function fetchQuestionsFromStageRandomly(ilTestRandomQuestionSetQuestionCollection $questionStage, $requiredQuestionAmount) : ilTestRandomQuestionSetQuestionCollection
+    protected function fetchQuestionsFromStageRandomly(ilTestRandomQuestionSetQuestionCollection $questionStage, $requiredQuestionAmount): ilTestRandomQuestionSetQuestionCollection
     {
         $questionSet = $questionStage->getRandomQuestionCollection($requiredQuestionAmount);
 
@@ -268,7 +269,7 @@ abstract class ilTestRandomQuestionSetBuilder implements ilTestRandomSourcePoolD
     /**
      * @return array
      */
-    public function getCheckMessages() : array
+    public function getCheckMessages(): array
     {
         return $this->checkMessages;
     }

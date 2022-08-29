@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -27,7 +29,7 @@ class ilGitInformation implements ilVersionControlInformation
      */
     private static ?array $revision_information = null;
 
-    private static function detect() : void
+    private static function detect(): void
     {
         global $DIC;
 
@@ -80,7 +82,7 @@ class ilGitInformation implements ilVersionControlInformation
         if ($branch) {
             $info[] = $branch;
         }
-        
+
         if ($version_number) {
             $info[] = sprintf($lng->txt('git_revision'), $version_number);
         }
@@ -96,7 +98,7 @@ class ilGitInformation implements ilVersionControlInformation
         self::$revision_information = $info;
     }
 
-    public function getInformationAsHtml() : string
+    public function getInformationAsHtml(): string
     {
         self::detect();
 

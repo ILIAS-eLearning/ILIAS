@@ -15,7 +15,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * Class ilBenchmark
  */
@@ -44,7 +44,7 @@ class ilBenchmark
         $this->general_bechmark_enabled = (bool) ($this->retrieveSetting("enable_bench") ?? false);
     }
 
-    private function retrieveSetting(string $identifier) : ?string
+    private function retrieveSetting(string $identifier): ?string
     {
         global $DIC;
         if (!$this->settings instanceof ilSetting && $DIC->isDependencyAvailable('settings')) {
@@ -55,7 +55,7 @@ class ilBenchmark
         return null;
     }
 
-    private function retrieveDB() : ?ilDBInterface
+    private function retrieveDB(): ?ilDBInterface
     {
         global $DIC;
         if (!$this->db instanceof ilDBInterface && $DIC->isDependencyAvailable('database')) {
@@ -64,12 +64,12 @@ class ilBenchmark
         return $this->db;
     }
 
-    private function isDBavailable() : bool
+    private function isDBavailable(): bool
     {
         return !is_null($this->retrieveDB());
     }
 
-    private function retrieveUser() : ?ilObjUser
+    private function retrieveUser(): ?ilObjUser
     {
         global $DIC;
         if (!$this->user instanceof ilObjUser && $DIC->isDependencyAvailable('user')) {
@@ -78,12 +78,12 @@ class ilBenchmark
         return $this->user;
     }
 
-    private function isUserAvailable() : bool
+    private function isUserAvailable(): bool
     {
         return !is_null($this->retrieveUser());
     }
 
-    private function microtimeDiff(string $t1, string $t2) : string
+    private function microtimeDiff(string $t1, string $t2): string
     {
         $partials1 = explode(" ", $t1);
         $partials2 = explode(" ", $t2);
@@ -94,7 +94,7 @@ class ilBenchmark
     /**
      * delete all measurement data
      */
-    public function clearData() : void
+    public function clearData(): void
     {
         if ($this->isDBavailable()) {
             $db = $this->retrieveDB();
@@ -109,7 +109,7 @@ class ilBenchmark
      *
      * @deprecated
      */
-    public function start(string $a_module, string $a_bench) : void
+    public function start(string $a_module, string $a_bench): void
     {
     }
 
@@ -118,14 +118,14 @@ class ilBenchmark
      *
      * @deprecated
      */
-    public function stop(string $a_module, string $a_bench) : void
+    public function stop(string $a_module, string $a_bench): void
     {
     }
 
     /**
      * save all measurements
      */
-    public function save() : void
+    public function save(): void
     {
         if (!$this->isDBavailable() || !$this->isUserAvailable()) {
             return;
@@ -155,7 +155,7 @@ class ilBenchmark
     /**
      * get current number of benchmark records
      */
-    private function getCurrentRecordNumber() : int
+    private function getCurrentRecordNumber(): int
     {
         if ($this->isDBavailable()) {
             $db = $this->retrieveDB();
@@ -171,7 +171,7 @@ class ilBenchmark
     /**
      * get maximum number of benchmark records
      */
-    private function getMaximumRecords() : int
+    private function getMaximumRecords(): int
     {
         return $this->bench_max_records;
     }
@@ -179,7 +179,7 @@ class ilBenchmark
     /**
      * set maximum number of benchmark records
      */
-    private function setMaximumRecords(int $a_max) : void
+    private function setMaximumRecords(int $a_max): void
     {
         $this->settings->set("bench_max_records", (string) $a_max);
         $this->bench_max_records = $a_max;
@@ -188,7 +188,7 @@ class ilBenchmark
     /**
      * check wether benchmarking is enabled or not
      */
-    public function isGeneralbechmarkEnabled() : bool
+    public function isGeneralbechmarkEnabled(): bool
     {
         return $this->general_bechmark_enabled;
     }
@@ -196,7 +196,7 @@ class ilBenchmark
     /**
      * enable benchmarking
      */
-    public function enable(bool $a_enable) : void
+    public function enable(bool $a_enable): void
     {
         $this->general_bechmark_enabled = $a_enable;
         $this->settings->set('enable_bench', $a_enable ? '1' : '0');
@@ -212,12 +212,12 @@ class ilBenchmark
     /**
      * Check wether benchmarking is enabled or not
      */
-    public function isDbBenchEnabled() : bool
+    public function isDbBenchEnabled(): bool
     {
         return $this->db_bechmark_enabled && $this->isDBavailable();
     }
 
-    public function enableDbBenchmarkForUser(int $a_user) : void
+    public function enableDbBenchmarkForUser(int $a_user): void
     {
         $this->db_bechmark_enabled = true;
         $this->settings->set("enable_db_bench", '1');
@@ -236,7 +236,7 @@ class ilBenchmark
     /**
      * start measurement
      */
-    public function startDbBench(string $a_sql) : void
+    public function startDbBench(string $a_sql): void
     {
         if (
             !$this->stop_db_recording
@@ -249,7 +249,7 @@ class ilBenchmark
         }
     }
 
-    public function stopDbBench() : bool
+    public function stopDbBench(): bool
     {
         if (
             !$this->stop_db_recording
@@ -269,7 +269,7 @@ class ilBenchmark
         return false;
     }
 
-    public function getDbBenchRecords() : array
+    public function getDbBenchRecords(): array
     {
         if ($this->isDBavailable()) {
             $db = $this->retrieveDB();

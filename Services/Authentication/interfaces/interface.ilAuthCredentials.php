@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -27,32 +29,32 @@ interface ilAuthCredentials
     /**
      * Set username
      */
-    public function setUsername(string $a_name) : void;
-    
+    public function setUsername(string $a_name): void;
+
     /**
      * Get username
      */
-    public function getUsername() : string;
-    
+    public function getUsername(): string;
+
     /**
      * Set password
      */
-    public function setPassword(string $a_password) : void;
-    
+    public function setPassword(string $a_password): void;
+
     /**
      * Get password
      */
-    public function getPassword() : string;
+    public function getPassword(): string;
 
     /**
      * Set auth mode.
      * Used - for instance - for manual selection on login screen.
      * @param string $a_auth_mode
      */
-    public function setAuthMode(string $a_auth_mode) : void;
-    
+    public function setAuthMode(string $a_auth_mode): void;
+
     /**
      * Get auth mode
      */
-    public function getAuthMode() : string;
+    public function getAuthMode(): string;
 }

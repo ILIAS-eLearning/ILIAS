@@ -353,7 +353,7 @@ CONTROL;
         global $wgMemc;
         $fname = 'DifferenceEngine::getDiffBody';
         //wfProfileIn( $fname );
-        
+
         // Cacheable?
         $key = false;
         if ($this->mOldid && $this->mNewid) {
@@ -380,7 +380,7 @@ CONTROL;
         }
 
         $difftext = $this->generateDiffBody($this->mOldtext, $this->mNewtext);
-        
+
         // Save to cache for 7 days
         if ($key !== false && $difftext !== false) {
             wfIncrStats('diff_cache_miss');
@@ -407,7 +407,7 @@ CONTROL;
 
         $otext = str_replace("\r\n", "\n", $otext);
         $ntext = str_replace("\r\n", "\n", $ntext);
-        
+
         if ($wgExternalDiffEngine == 'wikidiff') {
             # For historical reasons, external diff engine expects
             # input text to be HTML-escaped already
@@ -418,7 +418,7 @@ CONTROL;
             }
             return $wgContLang->unsegementForDiff(wikidiff_do_diff($otext, $ntext, 2));
         }
-        
+
         if ($wgExternalDiffEngine == 'wikidiff2') {
             # Better external diff engine, the 2 may some day be dropped
             # This one does the escaping and segmenting itself
@@ -462,7 +462,7 @@ CONTROL;
             unlink($tempName2);
             return $difftext;
         }
-        
+
         # Native PHP diff
         $ota = explode("\n", $wgContLang->segmentForDiff($otext));
         $nta = explode("\n", $wgContLang->segmentForDiff($ntext));
@@ -470,7 +470,7 @@ CONTROL;
         $formatter = new TableDiffFormatter();
         return $wgContLang->unsegmentForDiff($formatter->format($diffs));
     }
-        
+
 
     /**
      * Replace line numbers with the text in the user's language
@@ -490,7 +490,7 @@ CONTROL;
         return wfMsgExt('lineno', array('parseinline'), $wgLang->formatNum($matches[1]));
     }
 
-    
+
     /**
      * If there are revisions between the ones being compared, return a note saying so.
      */
@@ -499,12 +499,12 @@ CONTROL;
         if (!is_object($this->mOldRev) || !is_object($this->mNewRev)) {
             return '';
         }
-        
+
         if (!$this->mOldPage->equals($this->mNewPage)) {
             // Comparing two different pages? Count would be meaningless.
             return '';
         }
-        
+
         $oldid = $this->mOldRev->getId();
         $newid = $this->mNewRev->getId();
         if ($oldid > $newid) {
@@ -528,7 +528,7 @@ CONTROL;
     public function addHeader($diff, $otitle, $ntitle, $multi = '')
     {
         global $wgOut;
-    
+
         if ($this->mOldRev && $this->mOldRev->isDeleted(Revision::DELETED_TEXT)) {
             $otitle = '<span class="history-deleted">' . $otitle . '</span>';
         }
@@ -843,7 +843,7 @@ class _DiffOp_Change extends _DiffOp
  */
 class _DiffEngine
 {
-    const MAX_XREF_LENGTH = 10000;
+    public const MAX_XREF_LENGTH = 10000;
 
     public function diff($from_lines, $to_lines)
     {
@@ -1308,7 +1308,7 @@ class Diff
      */
     public function __construct($from_lines, $to_lines)
     {
-        $eng = new _DiffEngine;
+        $eng = new _DiffEngine();
         $this->edits = $eng->diff($from_lines, $to_lines);
         //$this->_check($from_lines, $to_lines);
     }
@@ -1782,7 +1782,7 @@ class _HWLDF_WordAccumulator
  */
 class WordLevelDiff extends MappedDiff
 {
-    const MAX_LINE_LENGTH = 10000;
+    public const MAX_LINE_LENGTH = 10000;
 
     public function __construct($orig_lines, $closing_lines)
     {
@@ -1841,7 +1841,7 @@ class WordLevelDiff extends MappedDiff
     {
         $fname = 'WordLevelDiff::orig';
         //wfProfileIn( $fname );
-        $orig = new _HWLDF_WordAccumulator;
+        $orig = new _HWLDF_WordAccumulator();
 
         foreach ($this->edits as $edit) {
             if ($edit->type == 'copy') {
@@ -1859,7 +1859,7 @@ class WordLevelDiff extends MappedDiff
     {
         $fname = 'WordLevelDiff::closing';
         //wfProfileIn( $fname );
-        $closing = new _HWLDF_WordAccumulator;
+        $closing = new _HWLDF_WordAccumulator();
 
         foreach ($this->edits as $edit) {
             if ($edit->type == 'copy') {

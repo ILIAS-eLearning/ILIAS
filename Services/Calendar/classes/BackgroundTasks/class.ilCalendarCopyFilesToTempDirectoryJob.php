@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 use ILIAS\BackgroundTasks\Implementation\Tasks\AbstractJob;
 use ILIAS\BackgroundTasks\Types\Type;
@@ -34,7 +36,7 @@ class ilCalendarCopyFilesToTempDirectoryJob extends AbstractJob
     /**
      * @inheritDoc
      */
-    public function getInputTypes() : array
+    public function getInputTypes(): array
     {
         return
             [
@@ -46,7 +48,7 @@ class ilCalendarCopyFilesToTempDirectoryJob extends AbstractJob
      * @inheritDoc
      * @todo output should be file type
      */
-    public function getOutputType() : Type
+    public function getOutputType(): Type
     {
         return new SingleType(StringValue::class);
     }
@@ -54,7 +56,7 @@ class ilCalendarCopyFilesToTempDirectoryJob extends AbstractJob
     /**
      * @inheritDoc
      */
-    public function isStateless() : bool
+    public function isStateless(): bool
     {
         return true;
     }
@@ -62,7 +64,7 @@ class ilCalendarCopyFilesToTempDirectoryJob extends AbstractJob
     /**
      * @inheritDoc
      */
-    public function run(array $input, Observer $observer) : Value
+    public function run(array $input, Observer $observer): Value
     {
         $cal_copy_def = $input[0];
 
@@ -94,7 +96,7 @@ class ilCalendarCopyFilesToTempDirectoryJob extends AbstractJob
      * @todo refactor to new file system access
      * Create unique temp directory
      */
-    protected function createUniqueTempDirectory() : string
+    protected function createUniqueTempDirectory(): string
     {
         $tmpdir = ilFileUtils::ilTempnam();
         ilFileUtils::makeDirParents($tmpdir);
@@ -102,7 +104,7 @@ class ilCalendarCopyFilesToTempDirectoryJob extends AbstractJob
         return $tmpdir;
     }
 
-    protected function createTargetDirectory(string $a_tmpdir) : string
+    protected function createTargetDirectory(string $a_tmpdir): string
     {
         $final_dir = $a_tmpdir . "/" . $this->target_directory;
         ilFileUtils::makeDirParents($final_dir);
@@ -115,7 +117,7 @@ class ilCalendarCopyFilesToTempDirectoryJob extends AbstractJob
      * @param string                   $tmpdir
      * @param ilCalendarCopyDefinition $definition
      */
-    protected function copyFiles(string $tmpdir, ilCalendarCopyDefinition $definition) : void
+    protected function copyFiles(string $tmpdir, ilCalendarCopyDefinition $definition): void
     {
         foreach ($definition->getCopyDefinitions() as $copy_task) {
             if (!file_exists($copy_task[ilCalendarCopyDefinition::COPY_SOURCE_DIR])) {
@@ -144,7 +146,7 @@ class ilCalendarCopyFilesToTempDirectoryJob extends AbstractJob
     /**
      * @inheritdoc
      */
-    public function getExpectedTimeOfTaskInSeconds() : int
+    public function getExpectedTimeOfTaskInSeconds(): int
     {
         return 30;
     }

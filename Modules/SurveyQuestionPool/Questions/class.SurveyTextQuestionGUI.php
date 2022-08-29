@@ -24,22 +24,22 @@
  */
 class SurveyTextQuestionGUI extends SurveyQuestionGUI
 {
-    protected function initObject() : void
+    protected function initObject(): void
     {
         $this->object = new SurveyTextQuestion();
     }
-    
-    
+
+
     //
     // EDITOR
     //
-    
-    public function setQuestionTabs() : void
+
+    public function setQuestionTabs(): void
     {
         $this->setQuestionTabsForClass("surveytextquestiongui");
     }
 
-    protected function addFieldsToEditForm(ilPropertyFormGUI $a_form) : void
+    protected function addFieldsToEditForm(ilPropertyFormGUI $a_form): void
     {
         // maximum number of characters
         $maxchars = new ilNumberInputGUI($this->lng->txt("maxchars"), "maxchars");
@@ -47,7 +47,7 @@ class SurveyTextQuestionGUI extends SurveyQuestionGUI
         $maxchars->setSize(5);
         $maxchars->setDecimals(0);
         $a_form->addItem($maxchars);
-        
+
         // textwidth
         $textwidth = new ilNumberInputGUI($this->lng->txt("width"), "textwidth");
         $textwidth->setRequired(true);
@@ -55,16 +55,16 @@ class SurveyTextQuestionGUI extends SurveyQuestionGUI
         $textwidth->setDecimals(0);
         $textwidth->setMinValue(10, true);
         $a_form->addItem($textwidth);
-        
+
         // textheight
         $textheight = new ilNumberInputGUI($this->lng->txt("height"), "textheight");
         $textheight->setRequired(true);
         $textheight->setSize(3);
-        
+
         $textheight->setDecimals(0);
         $textheight->setMinValue(1);
         $a_form->addItem($textheight);
-        
+
         // values
         if ($this->object->getMaxChars() > 0) {
             $maxchars->setValue($this->object->getMaxChars());
@@ -72,40 +72,40 @@ class SurveyTextQuestionGUI extends SurveyQuestionGUI
         $textwidth->setValue($this->object->getTextWidth());
         $textheight->setValue($this->object->getTextHeight());
     }
-    
-    protected function importEditFormValues(ilPropertyFormGUI $a_form) : void
+
+    protected function importEditFormValues(ilPropertyFormGUI $a_form): void
     {
         $max = $a_form->getInput("maxchars");
         $this->object->setMaxChars((int) $max);
         $this->object->setTextWidth($a_form->getInput("textwidth"));
         $this->object->setTextHeight($a_form->getInput("textheight"));
     }
-    
+
     public function getParsedAnswers(
         array $a_working_data = null,
         $a_only_user_anwers = false
-    ) : array {
+    ): array {
         $res = array();
-        
+
         if (is_array($a_working_data)) {
             $res[] = array("textanswer" => trim($a_working_data[0]["textanswer"]));
         }
-        
+
         return $res;
     }
-    
+
     public function getPrintView(
         int $question_title = 1,
         bool $show_questiontext = true,
         ?int $survey_id = null,
         ?array $working_data = null
-    ) : string {
+    ): string {
         $user_answer = null;
         if ($working_data) {
             $user_answer = $this->getParsedAnswers($working_data);
             $user_answer = $user_answer[0]["textanswer"];
         }
-        
+
         $template = new ilTemplate("tpl.il_svy_qpl_text_printview.html", true, true, "Modules/SurveyQuestionPool");
         if ($show_questiontext) {
             $this->outQuestionText($template);
@@ -128,8 +128,8 @@ class SurveyTextQuestionGUI extends SurveyQuestionGUI
         }
         return $template->get();
     }
-    
-    
+
+
     //
     // EXECUTION
     //
@@ -144,7 +144,7 @@ class SurveyTextQuestionGUI extends SurveyQuestionGUI
         string $error_message = "",
         int $survey_id = null,
         bool $compress_view = false
-    ) : string {
+    ): string {
         $template = new ilTemplate("tpl.il_svy_out_text.html", true, true, "Modules/SurveyQuestionPool");
         $template->setCurrentBlock("material_text");
         $template->setVariable("TEXT_MATERIAL", $this->getMaterialOutput());

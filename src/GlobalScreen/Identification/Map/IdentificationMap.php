@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -27,17 +29,17 @@ class IdentificationMap
 {
     protected static array $map = [];
 
-    public function addToMap(IdentificationInterface $identification) : void
+    public function addToMap(IdentificationInterface $identification): void
     {
         self::$map[$identification->serialize()] = $identification;
     }
 
-    public function isInMap(string $serialized) : bool
+    public function isInMap(string $serialized): bool
     {
         return isset(self::$map[$serialized]);
     }
 
-    public function getFromMap(string $serialized) : IdentificationInterface
+    public function getFromMap(string $serialized): IdentificationInterface
     {
         return self::$map[$serialized];
     }

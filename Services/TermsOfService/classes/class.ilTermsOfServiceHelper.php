@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -57,21 +59,20 @@ class ilTermsOfServiceHelper
         $this->tos = $tos;
     }
 
-    public static function isEnabled() : bool
+    public static function isEnabled(): bool
     {
         return (new self())->tos->getStatus();
     }
 
-    public function isGloballyEnabled() : bool
+    public function isGloballyEnabled(): bool
     {
         return $this->tos->getStatus();
     }
 
     /**
-     * @param int $userId
      * @throws ilTermsOfServiceMissingDatabaseAdapterException
      */
-    public function deleteAcceptanceHistoryByUser(int $userId) : void
+    public function deleteAcceptanceHistoryByUser(int $userId): void
     {
         $entity = $this->getEntityFactory()->getByName('ilTermsOfServiceAcceptanceEntity');
         $databaseGateway = $this->getDataGatewayFactory()->getByName('ilTermsOfServiceAcceptanceDatabaseGateway');
@@ -80,11 +81,9 @@ class ilTermsOfServiceHelper
     }
 
     /**
-     * @param ilObjUser $user
-     * @return ilTermsOfServiceAcceptanceEntity
      * @throws ilTermsOfServiceMissingDatabaseAdapterException
      */
-    public function getCurrentAcceptanceForUser(ilObjUser $user) : ilTermsOfServiceAcceptanceEntity
+    public function getCurrentAcceptanceForUser(ilObjUser $user): ilTermsOfServiceAcceptanceEntity
     {
         $entity = $this->getEntityFactory()->getByName('ilTermsOfServiceAcceptanceEntity');
         $databaseGateway = $this->getDataGatewayFactory()->getByName('ilTermsOfServiceAcceptanceDatabaseGateway');
@@ -93,11 +92,9 @@ class ilTermsOfServiceHelper
     }
 
     /**
-     * @param int $id
-     * @return ilTermsOfServiceAcceptanceEntity
      * @throws ilTermsOfServiceMissingDatabaseAdapterException
      */
-    public function getById(int $id) : ilTermsOfServiceAcceptanceEntity
+    public function getById(int $id): ilTermsOfServiceAcceptanceEntity
     {
         $entity = $this->getEntityFactory()->getByName('ilTermsOfServiceAcceptanceEntity');
         $databaseGateway = $this->getDataGatewayFactory()->getByName('ilTermsOfServiceAcceptanceDatabaseGateway');
@@ -106,12 +103,10 @@ class ilTermsOfServiceHelper
     }
 
     /**
-     * @param ilObjUser $user
-     * @param ilTermsOfServiceSignableDocument $document
      * @throws ilTermsOfServiceMissingDatabaseAdapterException
      * @throws ilTermsOfServiceUnexpectedCriteriaBagContentException
      */
-    public function trackAcceptance(ilObjUser $user, ilTermsOfServiceSignableDocument $document) : void
+    public function trackAcceptance(ilObjUser $user, ilTermsOfServiceSignableDocument $document): void
     {
         $entity = $this->getEntityFactory()->getByName('ilTermsOfServiceAcceptanceEntity');
         $databaseGateway = $this->getDataGatewayFactory()->getByName('ilTermsOfServiceAcceptanceDatabaseGateway');
@@ -134,13 +129,13 @@ class ilTermsOfServiceHelper
         $user->hasToAcceptTermsOfServiceInSession(false);
     }
 
-    public function resetAcceptance(ilObjUser $user) : void
+    public function resetAcceptance(ilObjUser $user): void
     {
         $user->setAgreeDate(null);
         $user->update();
     }
 
-    public function isIncludedUser(ilObjUser $user) : bool
+    public function isIncludedUser(ilObjUser $user): bool
     {
         $excluded_roles = [];
         if (defined('ANONYMOUS_USER_ID')) {
@@ -158,7 +153,7 @@ class ilTermsOfServiceHelper
         );
     }
 
-    public function hasToResignAcceptance(ilObjUser $user, ilLogger $logger) : bool
+    public function hasToResignAcceptance(ilObjUser $user, ilLogger $logger): bool
     {
         $logger->debug(sprintf(
             'Checking reevaluation of Terms of Service for user "%s" (id: %s) ...',
@@ -193,7 +188,7 @@ class ilTermsOfServiceHelper
         }
 
         $entity = $this->getCurrentAcceptanceForUser($user);
-        if (!($entity->getId() > 0)) {
+        if ($entity->getId() <= 0) {
             $logger->debug('No signed Terms of Service document found, resigning not required ...');
             return false;
         }
@@ -212,12 +207,12 @@ class ilTermsOfServiceHelper
         return true;
     }
 
-    private function getEntityFactory() : ilTermsOfServiceEntityFactory
+    private function getEntityFactory(): ilTermsOfServiceEntityFactory
     {
         return new ilTermsOfServiceEntityFactory();
     }
 
-    private function getDataGatewayFactory() : ilTermsOfServiceDataGatewayFactory
+    private function getDataGatewayFactory(): ilTermsOfServiceDataGatewayFactory
     {
         return $this->dataGatewayFactory;
     }

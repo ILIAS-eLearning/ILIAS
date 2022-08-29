@@ -86,7 +86,7 @@ class ilBookingProcessGUI
         $this->ctrl->saveParameter($this, ["bkusr"]);
     }
 
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         $ctrl = $this->ctrl;
 
@@ -110,17 +110,17 @@ class ilBookingProcessGUI
     }
 
     // Back to parent
-    protected function back() : void
+    protected function back(): void
     {
         $this->ctrl->returnToParent($this);
     }
 
-    protected function setHelpId(string $a_id) : void
+    protected function setHelpId(string $a_id): void
     {
         $this->help->setHelpId($a_id);
     }
 
-    protected function checkPermissionBool(string $a_perm) : bool
+    protected function checkPermissionBool(string $a_perm): bool
     {
         $ilAccess = $this->access;
 
@@ -130,7 +130,7 @@ class ilBookingProcessGUI
         return true;
     }
 
-    protected function checkPermission(string $a_perm) : void
+    protected function checkPermission(string $a_perm): void
     {
         if (!$this->checkPermissionBool($a_perm)) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt("no_permission"), true);
@@ -146,7 +146,7 @@ class ilBookingProcessGUI
     /**
      * First step in booking process
      */
-    public function book() : void // ok
+    public function book(): void // ok
     {
         $tpl = $this->tpl;
 
@@ -186,7 +186,7 @@ class ilBookingProcessGUI
         ilBookingSchedule $schedule,
         array $object_ids,
         string $title
-    ) : string {
+    ): string {
         $ilUser = $this->user;
 
         // fix
@@ -246,7 +246,6 @@ class ilBookingProcessGUI
             if (!$find_first_open) {
                 $this->buildDatesBySchedule($week_start, $hours, $schedule, $object_ids, $seed, $dates);
             } else {
-
                 //loop for 1 week
                 $has_open_slot = $this->buildDatesBySchedule($week_start, $hours, $schedule, $object_ids, $seed, $dates);
 
@@ -348,7 +347,7 @@ class ilBookingProcessGUI
         array $object_ids,
         ilDate $seed,
         array &$dates
-    ) : bool {
+    ): bool {
         $ilUser = $this->user;
 
         $user_settings = ilCalendarUserSettings::_getInstanceByUserId($ilUser->getId());
@@ -484,7 +483,7 @@ class ilBookingProcessGUI
     //
 
     // Table to assign participants to an object.
-    public function assignParticipants() : void
+    public function assignParticipants(): void
     {
         $this->tabs_gui->clearTargets();
         $this->tabs_gui->setBackTarget($this->lng->txt('book_back_to_list'), $this->ctrl->getLinkTarget($this, 'back'));
@@ -497,7 +496,7 @@ class ilBookingProcessGUI
     /**
      * Create reservations for a bunch of booking pool participants.
      */
-    public function bookMultipleParticipants() : void
+    public function bookMultipleParticipants(): void
     {
         $participants = $this->book_request->getParticipants();
         if (count($participants) === 0) {
@@ -538,7 +537,7 @@ class ilBookingProcessGUI
         $this->tpl->setContent($conf->getHTML());
     }
 
-    public function redirectToList() : void
+    public function redirectToList(): void
     {
         $this->ctrl->redirect($this, 'assignParticipants');
     }
@@ -547,7 +546,7 @@ class ilBookingProcessGUI
      * Save multiple users reservations for one booking pool object.
      * @todo check if object/user exist in the DB,
      */
-    public function saveMultipleBookings() : void
+    public function saveMultipleBookings(): void
     {
         $participants = $this->book_request->getParticipants();
         $object_id = $this->book_request->getObjectId();
@@ -576,7 +575,7 @@ class ilBookingProcessGUI
     //
 
     // Book object - either of type or specific - for given dates
-    public function confirmedBooking() : bool
+    public function confirmedBooking(): bool
     {
         $success = false;
         $rsv_ids = array();
@@ -650,7 +649,7 @@ class ilBookingProcessGUI
     /**
      * save booking participant
      */
-    protected function saveParticipant() : void
+    protected function saveParticipant(): void
     {
         $participant = new ilBookingParticipant($this->user_id_to_book, $this->pool->getId());
     }
@@ -665,7 +664,7 @@ class ilBookingProcessGUI
         int $a_from = null,
         int $a_to = null,
         int $a_group_id = null
-    ) : int {
+    ): int {
         // #11995
         $this->checkPermission('read');
 
@@ -709,7 +708,7 @@ class ilBookingProcessGUI
         array $a_objects_counter,
         int $a_group_id,
         ilPropertyFormGUI $a_form = null
-    ) : void {
+    ): void {
         $tpl = $this->tpl;
 
         $this->tabs_gui->clearTargets();
@@ -730,7 +729,7 @@ class ilBookingProcessGUI
         array $a_objects_counter,
         int $a_group_id,
         bool $a_reload = false
-    ) : ilPropertyFormGUI {
+    ): ilPropertyFormGUI {
         $form = new ilPropertyFormGUI();
         $form->setFormAction($this->ctrl->getFormAction($this, "confirmedBooking"));
         $form->setTitle($this->lng->txt("book_confirm_booking_schedule_number_of_objects"));
@@ -818,9 +817,8 @@ class ilBookingProcessGUI
         return $form;
     }
 
-    public function confirmedBookingNumbers() : void
+    public function confirmedBookingNumbers(): void
     {
-
         //get the user who will get the booking.
         if ($this->book_request->getBookedUser() > 0) {
             $this->user_id_to_book = $this->book_request->getBookedUser();
@@ -952,7 +950,7 @@ class ilBookingProcessGUI
     protected function addDaysDate(
         string $a_date,
         int $a_days
-    ) : string {
+    ): string {
         $date = date_parse($a_date);
         $stamp = mktime(0, 0, 1, $date["month"], $date["day"] + $a_days, $date["year"]);
         return date("Y-m-d", $stamp);
@@ -961,7 +959,7 @@ class ilBookingProcessGUI
     protected function addDaysStamp(
         int $a_stamp,
         int $a_days
-    ) : int {
+    ): int {
         $date = getdate($a_stamp);
         return mktime(
             $date["hours"],
@@ -980,7 +978,7 @@ class ilBookingProcessGUI
     protected function handleBookingSuccess(
         int $a_obj_id,
         array $a_rsv_ids = null
-    ) : void {
+    ): void {
         $this->tpl->setOnScreenMessage('success', $this->lng->txt('book_reservation_confirmed'), true);
 
         // show post booking information?
@@ -1001,7 +999,7 @@ class ilBookingProcessGUI
     /**
      * Display post booking informations
      */
-    public function displayPostInfo() : void
+    public function displayPostInfo(): void
     {
         $tpl = $this->tpl;
         $lng = $this->lng;
@@ -1091,7 +1089,7 @@ class ilBookingProcessGUI
     /**
      * Deliver post booking file
      */
-    public function deliverPostFile() : void
+    public function deliverPostFile(): void
     {
         $id = $this->book_obj_id;
         if (!$id) {

@@ -45,7 +45,7 @@ class BasicPersistenceTest extends TestCase
     /** @var  BasicPersistence */
     protected $persistence;
 
-    public function setUp() : void
+    public function setUp(): void
     {
         $dic = new Container();
         $dic[Bucket::class] = function ($c) {

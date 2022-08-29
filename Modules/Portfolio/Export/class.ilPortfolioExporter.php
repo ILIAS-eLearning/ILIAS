@@ -24,25 +24,25 @@
 class ilPortfolioExporter extends ilXmlExporter
 {
     protected ilPortfolioDataSet $ds;
-    
-    public function init() : void
+
+    public function init(): void
     {
         $this->ds = new ilPortfolioDataSet();
         $this->ds->setDSPrefix("ds");
     }
-    
+
     public function getXmlExportTailDependencies(
         string $a_entity,
         string $a_target_release,
         array $a_ids
-    ) : array {
+    ): array {
         $pg_ids = array();
         foreach ($a_ids as $id) {
             foreach (ilPortfolioTemplatePage::getAllPortfolioPages($id) as $p) {
                 $pg_ids[] = "prtt:" . $p["id"];
             }
         }
-        
+
         $deps[] =
             array(
                 "component" => "Services/COPage",
@@ -61,19 +61,19 @@ class ilPortfolioExporter extends ilXmlExporter
 
         return $deps;
     }
-    
+
     public function getXmlRepresentation(
         string $a_entity,
         string $a_schema_version,
         string $a_id
-    ) : string {
+    ): string {
         $this->ds->setExportDirectories($this->dir_relative, $this->dir_absolute);
         return $this->ds->getXmlRepresentation($a_entity, $a_schema_version, [$a_id], "", true, true);
     }
-    
+
     public function getValidSchemaVersions(
         string $a_entity
-    ) : array {
+    ): array {
         return array(
                 "4.4.0" => array(
                         "namespace" => "https://www.ilias.de/Modules/Portfolio/4_4",

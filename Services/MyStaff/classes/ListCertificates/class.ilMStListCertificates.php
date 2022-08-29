@@ -48,7 +48,7 @@ class ilMStListCertificates
     /**
      * @return UserCertificateDto[]
      */
-    final public function getData(array $options = array()) : array
+    final public function getData(array $options = array()): array
     {
         //Permission Filter
         $operation_access = ilOrgUnitOperation::OP_VIEW_CERTIFICATES;

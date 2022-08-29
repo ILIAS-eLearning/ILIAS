@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -71,17 +73,17 @@ class ilCertificateCron extends ilCronJob
         $this->lng = $language;
     }
 
-    public function getTitle() : string
+    public function getTitle(): string
     {
         return $this->lng->txt('cert_cron_task_title');
     }
 
-    public function getDescription() : string
+    public function getDescription(): string
     {
         return $this->lng->txt('cert_cron_task_desc');
     }
 
-    public function init() : void
+    public function init(): void
     {
         if (null === $this->dic) {
             global $DIC;
@@ -123,7 +125,7 @@ class ilCertificateCron extends ilCronJob
         }
     }
 
-    public function run() : ilCronJobResult
+    public function run(): ilCronJobResult
     {
         $this->init();
 
@@ -187,27 +189,27 @@ class ilCertificateCron extends ilCronJob
         return $result;
     }
 
-    public function getId() : string
+    public function getId(): string
     {
         return 'certificate';
     }
 
-    public function hasAutoActivation() : bool
+    public function hasAutoActivation(): bool
     {
         return true;
     }
 
-    public function hasFlexibleSchedule() : bool
+    public function hasFlexibleSchedule(): bool
     {
         return true;
     }
 
-    public function getDefaultScheduleType() : int
+    public function getDefaultScheduleType(): int
     {
         return self::SCHEDULE_TYPE_IN_MINUTES;
     }
 
-    public function getDefaultScheduleValue() : ?int
+    public function getDefaultScheduleValue(): ?int
     {
         return 1;
     }
@@ -222,7 +224,7 @@ class ilCertificateCron extends ilCronJob
      * @throws ilInvalidCertificateException
      * @throws ilObjectNotFoundException
      */
-    public function processEntry(int $entryCounter, ilCertificateQueueEntry $entry, array $succeededGenerations) : array
+    public function processEntry(int $entryCounter, ilCertificateQueueEntry $entry, array $succeededGenerations): array
     {
         if ($entryCounter > 0 && $entryCounter % 10 === 0) {
             $this->cronManager->ping($this->getId());
@@ -311,7 +313,9 @@ class ilCertificateCron extends ilCronJob
             'usr_id: ' . $userId
         ]);
 
-        $this->queueRepository->removeFromQueue($entry->getId());
+        if ($entry->getId() !== null) {
+            $this->queueRepository->removeFromQueue($entry->getId());
+        }
 
         $this->dic->event()->raise(
             'Services/Certificate',

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -14,7 +16,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * Meta Data class (element entity)
  * @author  Stefan Meyer <meyer@leifos.com>
@@ -26,17 +28,17 @@ class ilMDEntity extends ilMDBase
     private string $entity = '';
 
     // SET/GET
-    public function setEntity(string $a_entity) : void
+    public function setEntity(string $a_entity): void
     {
         $this->entity = $a_entity;
     }
 
-    public function getEntity() : string
+    public function getEntity(): string
     {
         return $this->entity;
     }
 
-    public function save() : int
+    public function save(): int
     {
         $fields = $this->__getFields();
         $fields['meta_entity_id'] = array('integer', $next_id = $this->db->nextId('il_meta_entity'));
@@ -48,7 +50,7 @@ class ilMDEntity extends ilMDBase
         return 0;
     }
 
-    public function update() : bool
+    public function update(): bool
     {
         return $this->getMetaId() && $this->db->update(
             'il_meta_entity',
@@ -57,7 +59,7 @@ class ilMDEntity extends ilMDBase
         );
     }
 
-    public function delete() : bool
+    public function delete(): bool
     {
         if ($this->getMetaId()) {
             $query = "DELETE FROM il_meta_entity " .
@@ -74,7 +76,7 @@ class ilMDEntity extends ilMDBase
     /**
      * @return array<string, array<string, mixed>>
      */
-    public function __getFields() : array
+    public function __getFields(): array
     {
         return array(
             'rbac_id' => array('integer', $this->getRBACId()),
@@ -86,7 +88,7 @@ class ilMDEntity extends ilMDBase
         );
     }
 
-    public function read() : bool
+    public function read(): bool
     {
         if ($this->getMetaId()) {
             $query = "SELECT * FROM il_meta_entity " .
@@ -105,7 +107,7 @@ class ilMDEntity extends ilMDBase
         return true;
     }
 
-    public function toXML(ilXmlWriter $writer) : void
+    public function toXML(ilXmlWriter $writer): void
     {
         $writer->xmlElement('Entity', null, $this->getEntity());
     }
@@ -115,7 +117,7 @@ class ilMDEntity extends ilMDBase
     /**
      * @return int[]
      */
-    public static function _getIds(int $a_rbac_id, int $a_obj_id, int $a_parent_id, string $a_parent_type) : array
+    public static function _getIds(int $a_rbac_id, int $a_obj_id, int $a_parent_id, string $a_parent_type): array
     {
         global $DIC;
 

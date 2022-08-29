@@ -15,7 +15,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\BackgroundTasks\Implementation\Tasks\UserInteraction;
 
 use ILIAS\BackgroundTasks\Task\UserInteraction\Option;
@@ -24,7 +24,7 @@ class UserInteractionOption implements Option
 {
     protected string $lang_var;
     protected string $value;
-    
+
     /**
      * UserInteractionOption constructor.
      */
@@ -33,26 +33,26 @@ class UserInteractionOption implements Option
         $this->lang_var = $lang_var;
         $this->value = $value;
     }
-    
 
-    public function getLangVar() : string
+
+    public function getLangVar(): string
     {
         return $this->lang_var;
     }
-    
-    public function setLangVar(string $lang_var) : void
+
+    public function setLangVar(string $lang_var): void
     {
         $this->lang_var = $lang_var;
     }
-    
 
-    public function getValue() : string
+
+    public function getValue(): string
     {
         return $this->value;
     }
-    
 
-    public function setValue(string $value) : void
+
+    public function setValue(string $value): void
     {
         $this->value = $value;
     }

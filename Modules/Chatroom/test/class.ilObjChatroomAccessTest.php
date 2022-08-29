@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -28,7 +30,7 @@ class ilObjChatroomAccessTest extends ilChatroomAbstractTest
     /** @var ilDBInterface&MockObject */
     protected ilDBInterface $db;
 
-    public function testCommandDefitionFullfilsExpectations() : void
+    public function testCommandDefitionFullfilsExpectations(): void
     {
         $expected = [
             ['permission' => 'read', 'cmd' => 'view', 'lang_var' => 'enter', 'default' => true],
@@ -41,7 +43,7 @@ class ilObjChatroomAccessTest extends ilChatroomAbstractTest
         $this->assertSame($expected, $commands);
     }
 
-    public function testGotoCheckFails() : void
+    public function testGotoCheckFails(): void
     {
         $user = $this->getMockBuilder(ilObjUser::class)->disableOriginalConstructor()->onlyMethods(
             ['getId']
@@ -96,7 +98,7 @@ class ilObjChatroomAccessTest extends ilChatroomAbstractTest
         $this->assertFalse($this->access::_checkGoto('chtr_1'));
     }
 
-    public function testGotoCheckSucceeds() : void
+    public function testGotoCheckSucceeds(): void
     {
         $user = $this->getMockBuilder(ilObjUser::class)->disableOriginalConstructor()->onlyMethods(
             ['getId']
@@ -146,7 +148,7 @@ class ilObjChatroomAccessTest extends ilChatroomAbstractTest
         $this->assertTrue($this->access::_checkGoto('chtr_5'));
     }
 
-    public function testAccessChecksFail() : void
+    public function testAccessChecksFail(): void
     {
         $userId = 1;
         $refId = 99;
@@ -173,7 +175,7 @@ class ilObjChatroomAccessTest extends ilChatroomAbstractTest
         $this->assertFalse($this->access->_checkAccess('unused', 'write', $refId, $objId));
     }
 
-    public function testAccessChecksSucceed() : void
+    public function testAccessChecksSucceed(): void
     {
         $userId = 1;
         $refId = 99;
@@ -205,7 +207,7 @@ class ilObjChatroomAccessTest extends ilChatroomAbstractTest
         $this->assertTrue($this->access->_checkAccess('unused', 'write', $refId, $objId));
     }
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         parent::setUp();
 

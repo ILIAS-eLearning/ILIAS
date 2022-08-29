@@ -34,12 +34,12 @@ abstract class ilBaseExtractor implements ilExtractor
      * @param string $event
      * @param array  $parameters
      */
-    abstract public function extract(string $event, array $parameters) : ilExtractedParams;
+    abstract public function extract(string $event, array $parameters): ilExtractedParams;
 
     /**
      * @param array $parameters
      */
-    protected function extractWithUser(array $parameters) : void
+    protected function extractWithUser(array $parameters): void
     {
         $this->ilExtractedParams->setSubjectId($parameters['obj_id']);
         $this->ilExtractedParams->setContextType('usr_id');
@@ -49,7 +49,7 @@ abstract class ilBaseExtractor implements ilExtractor
     /**
      * @param array $parameters
      */
-    protected function extractWithoutUser(array $parameters) : void
+    protected function extractWithoutUser(array $parameters): void
     {
         $this->ilExtractedParams->setSubjectId($parameters['obj_id']);
         $this->ilExtractedParams->setContextType('null');

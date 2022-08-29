@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -21,29 +23,20 @@
  */
 class ilTermsOfServiceSettingsFormGUI extends ilPropertyFormGUI
 {
-    protected ilObjTermsOfService $tos;
-    protected string $formAction = '';
-    protected string $saveCommand = '';
-    protected bool $isEditable = false;
     protected string $translatedError = '';
 
     public function __construct(
-        ilObjTermsOfService $tos,
-        string $formAction = '',
-        string $saveCommand = 'saveSettings',
-        bool $isEditable = false
+        protected ilObjTermsOfService $tos,
+        protected string $formAction = '',
+        protected string $saveCommand = 'saveSettings',
+        protected bool $isEditable = false
     ) {
-        $this->tos = $tos;
-        $this->formAction = $formAction;
-        $this->saveCommand = $saveCommand;
-        $this->isEditable = $isEditable;
-
         parent::__construct();
 
         $this->initForm();
     }
 
-    protected function initForm() : void
+    protected function initForm(): void
     {
         $this->setTitle($this->lng->txt('tos_tos_settings'));
         $this->setFormAction($this->formAction);
@@ -67,29 +60,29 @@ class ilTermsOfServiceSettingsFormGUI extends ilPropertyFormGUI
         }
     }
 
-    public function setCheckInputCalled(bool $status) : void
+    public function setCheckInputCalled(bool $status): void
     {
         $this->check_input_called = $status;
     }
 
-    public function hasTranslatedError() : bool
+    public function hasTranslatedError(): bool
     {
         return $this->translatedError !== '';
     }
 
-    public function getTranslatedError() : string
+    public function getTranslatedError(): string
     {
         return $this->translatedError;
     }
 
-    public function saveObject() : bool
+    public function saveObject(): bool
     {
         if (!$this->fillObject()) {
             $this->setValuesByPost();
             return false;
         }
 
-        if (!(int) $this->getInput('tos_status')) {
+        if ((int) $this->getInput('tos_status') === 0) {
             $this->tos->saveStatus((bool) $this->getInput('tos_status'));
             return true;
         }
@@ -114,12 +107,8 @@ class ilTermsOfServiceSettingsFormGUI extends ilPropertyFormGUI
         return true;
     }
 
-    protected function fillObject() : bool
+    protected function fillObject(): bool
     {
-        if (!$this->checkInput()) {
-            return false;
-        }
-
-        return true;
+        return $this->checkInput();
     }
 }

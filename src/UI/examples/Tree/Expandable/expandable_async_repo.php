@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace ILIAS\UI\examples\Tree\Expandable;
 
@@ -31,8 +33,8 @@ function expandable_async_repo($ref = null)
         }
     }
 
-    $recursion = new class implements \ILIAS\UI\Component\Tree\TreeRecursion {
-        public function getChildren($record, $environment = null) : array
+    $recursion = new class () implements \ILIAS\UI\Component\Tree\TreeRecursion {
+        public function getChildren($record, $environment = null): array
         {
             return [];
         }
@@ -41,7 +43,7 @@ function expandable_async_repo($ref = null)
             \ILIAS\UI\Component\Tree\Node\Factory $factory,
             $record,
             $environment = null
-        ) : \ILIAS\UI\Component\Tree\Node\Node {
+        ): \ILIAS\UI\Component\Tree\Node\Node {
             $ref_id = $record['ref_id'];
             $label = $record['title']
                 . ' (' . $record['type'] . ', ' . $ref_id . ')';
@@ -63,7 +65,7 @@ function expandable_async_repo($ref = null)
             return $node;
         }
 
-        protected function getAsyncURL($environment, string $ref_id) : string
+        protected function getAsyncURL($environment, string $ref_id): string
         {
             $url = $environment['url'];
             $base = substr($url, 0, strpos($url, '?') + 1);

@@ -1,4 +1,6 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -55,7 +57,7 @@ class StatusManager
     /**
      * Checks if a user can add himself as an appraisee
      */
-    public function canAddItselfAsAppraisee() : bool
+    public function canAddItselfAsAppraisee(): bool
     {
         $survey = $this->survey;
         $user_id = $this->user_id;
@@ -77,7 +79,7 @@ class StatusManager
      * Note: Code will be gathered from session
      * @return bool
      */
-    public function cantStartAgain() : bool
+    public function cantStartAgain(): bool
     {
         $feature_config = $this->feature_config;
 
@@ -99,7 +101,7 @@ class StatusManager
      * Can the current user see the own results
      * @return bool
      */
-    public function canViewUserResults() : bool
+    public function canViewUserResults(): bool
     {
         if ($this->cantStartAgain() &&
             $this->user_id !== ANONYMOUS_USER_ID &&
@@ -113,7 +115,7 @@ class StatusManager
      * Can the current user mail the confirmation
      * @return bool
      */
-    public function canMailUserResults() : bool
+    public function canMailUserResults(): bool
     {
         if ($this->cantStartAgain() &&
             $this->user_id !== ANONYMOUS_USER_ID &&
@@ -126,7 +128,7 @@ class StatusManager
     /**
      * Check if user must enter code to start (and currently is able to start)
      */
-    public function mustEnterCode(string $code = "") : bool
+    public function mustEnterCode(string $code = ""): bool
     {
         if ($this->access->canStartSurvey()) {
             // code is mandatory and not given yet
@@ -139,7 +141,7 @@ class StatusManager
         return false;
     }
 
-    public function isExternalRater() : bool
+    public function isExternalRater(): bool
     {
         $survey = $this->survey;
         $feature_config = $this->feature_config;
@@ -169,7 +171,7 @@ class StatusManager
         return false;
     }
 
-    public function isAppraisee() : bool
+    public function isAppraisee(): bool
     {
         $survey = $this->survey;
         $feature_config = $this->feature_config;

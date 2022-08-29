@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 class ilObjLearningSequenceListGUI extends ilObjectListGUI
 {
     public function __construct()
@@ -28,13 +30,13 @@ class ilObjLearningSequenceListGUI extends ilObjectListGUI
         $this->lng->loadLanguageModule($obj_type);
     }
 
-    protected function getDIC() : ILIAS\DI\Container
+    protected function getDIC(): ILIAS\DI\Container
     {
         global $DIC;
         return $DIC;
     }
 
-    public function init() : void
+    public function init(): void
     {
         $this->static_link_enabled = true;
         $this->delete_enabled = true;
@@ -48,7 +50,7 @@ class ilObjLearningSequenceListGUI extends ilObjectListGUI
         $this->commands = ilObjLearningSequenceAccess::_getCommands();
     }
 
-    public function getProperties() : array
+    public function getProperties(): array
     {
         $props = parent::getProperties();
 

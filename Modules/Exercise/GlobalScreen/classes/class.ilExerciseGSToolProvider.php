@@ -15,7 +15,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 use ILIAS\GlobalScreen\Scope\Tool\Provider\AbstractDynamicToolProvider;
 use ILIAS\GlobalScreen\ScreenContext\Stack\CalledContexts;
 use ILIAS\GlobalScreen\ScreenContext\Stack\ContextCollection;
@@ -32,14 +32,14 @@ class ilExerciseGSToolProvider extends AbstractDynamicToolProvider
     public const EXC_ASS_IDS = 'exc_ass_ids';
     public const EXC_ASS_BUTTONS = "exc_ass_buttons";
 
-    public function isInterestedInContexts() : ContextCollection
+    public function isInterestedInContexts(): ContextCollection
     {
         return $this->context_collection->main()->main();
     }
 
     public function getToolsForContextStack(
         CalledContexts $called_contexts
-    ) : array {
+    ): array {
         global $DIC;
 
         $lng = $DIC->language();
@@ -61,19 +61,19 @@ class ilExerciseGSToolProvider extends AbstractDynamicToolProvider
                 ->withTitle($title)
                 ->withSymbol($icon)
                 ->withContentWrapper(
-                /**
-                 * @throws ilExcUnknownAssignmentTypeException
-                 * @throws ilDateTimeException
-                 */
-                function () use ($l, $additional_data) {
-                    $buttons = $additional_data->exists(self::EXC_ASS_BUTTONS)
-                        ? $additional_data->get(self::EXC_ASS_BUTTONS)
-                        : [];
-                    return $l($this->getAssignmentInfo(
-                        $additional_data->get(self::EXC_ASS_IDS),
-                        $buttons
-                    ));
-                }
+                    /**
+                     * @throws ilExcUnknownAssignmentTypeException
+                     * @throws ilDateTimeException
+                     */
+                    function () use ($l, $additional_data) {
+                        $buttons = $additional_data->exists(self::EXC_ASS_BUTTONS)
+                            ? $additional_data->get(self::EXC_ASS_BUTTONS)
+                            : [];
+                        return $l($this->getAssignmentInfo(
+                            $additional_data->get(self::EXC_ASS_IDS),
+                            $buttons
+                        ));
+                    }
                 );
         }
 
@@ -90,7 +90,7 @@ class ilExerciseGSToolProvider extends AbstractDynamicToolProvider
     private function getAssignmentInfo(
         array $ass_ids,
         array $buttons
-    ) : string {
+    ): string {
         global $DIC;
 
         $lng = $DIC->language();
@@ -172,7 +172,7 @@ class ilExerciseGSToolProvider extends AbstractDynamicToolProvider
         ilTemplate $tpl,
         string $title,
         string $content
-    ) : void {
+    ): void {
         $tpl->setCurrentBlock("section");
         $tpl->setVariable("TITLE", $title);
         $tpl->setVariable("CONTENT", $content);

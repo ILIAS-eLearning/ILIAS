@@ -14,7 +14,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * Stores current objective, questions and max points
  * @author  Stefan Meyer <smeyer.ilias@gmx.de>
@@ -45,7 +45,7 @@ class ilLOTestRun
         $this->read();
     }
 
-    public static function lookupRunExistsForObjective(int $a_test_id, int $a_objective_id, int $a_user_id) : bool
+    public static function lookupRunExistsForObjective(int $a_test_id, int $a_objective_id, int $a_user_id): bool
     {
         global $DIC;
 
@@ -61,7 +61,7 @@ class ilLOTestRun
         return false;
     }
 
-    public static function deleteRuns(int $a_container_id, int $a_user_id) : void
+    public static function deleteRuns(int $a_container_id, int $a_user_id): void
     {
         global $DIC;
 
@@ -72,7 +72,7 @@ class ilLOTestRun
         $ilDB->manipulate($query);
     }
 
-    public static function deleteRun(int $a_container_id, int $a_user_id, int $a_test_id) : void
+    public static function deleteRun(int $a_container_id, int $a_user_id, int $a_test_id): void
     {
         global $DIC;
 
@@ -84,7 +84,7 @@ class ilLOTestRun
         $ilDB->manipulate($query);
     }
 
-    public static function lookupObjectives(int $a_container_id, int $a_user_id, int $a_test_id) : array
+    public static function lookupObjectives(int $a_container_id, int $a_user_id, int $a_test_id): array
     {
         global $DIC;
 
@@ -104,7 +104,7 @@ class ilLOTestRun
     /**
      * @return \ilLOTestRun[]
      */
-    public static function getRun(int $a_container_id, int $a_user_id, int $a_test_id) : array
+    public static function getRun(int $a_container_id, int $a_user_id, int $a_test_id): array
     {
         global $DIC;
 
@@ -122,62 +122,62 @@ class ilLOTestRun
         return $run;
     }
 
-    public function getContainerId() : int
+    public function getContainerId(): int
     {
         return $this->container_id;
     }
 
-    public function getUserId() : int
+    public function getUserId(): int
     {
         return $this->user_id;
     }
 
-    public function getTestId() : int
+    public function getTestId(): int
     {
         return $this->test_id;
     }
 
-    public function getObjectiveId() : int
+    public function getObjectiveId(): int
     {
         return $this->objective_id;
     }
 
-    public function getMaxPoints() : int
+    public function getMaxPoints(): int
     {
         return $this->max_points;
     }
 
-    public function setMaxPoints(int $a_points) : void
+    public function setMaxPoints(int $a_points): void
     {
         $this->max_points = $a_points;
     }
 
-    public function getQuestions() : array
+    public function getQuestions(): array
     {
         return $this->questions;
     }
 
-    public function clearQuestions() : void
+    public function clearQuestions(): void
     {
         $this->questions = array();
     }
 
-    public function addQuestion(int $a_id) : void
+    public function addQuestion(int $a_id): void
     {
         $this->questions[$a_id] = 0;
     }
 
-    public function questionExists(int $a_question_id) : bool
+    public function questionExists(int $a_question_id): bool
     {
         return array_key_exists($a_question_id, $this->questions);
     }
 
-    public function setQuestionResult(int $a_qst_id, int $a_points) : void
+    public function setQuestionResult(int $a_qst_id, int $a_points): void
     {
         $this->questions[$a_qst_id] = $a_points;
     }
 
-    public function getResult() : array
+    public function getResult(): array
     {
         $sum_points = 0;
         foreach ($this->questions as $points) {
@@ -196,7 +196,7 @@ class ilLOTestRun
         );
     }
 
-    public function delete() : void
+    public function delete(): void
     {
         $query = 'DELETE FROM loc_tst_run ' .
             'WHERE container_id = ' . $this->db->quote($this->getContainerId(), 'integer') . ' ' .
@@ -206,7 +206,7 @@ class ilLOTestRun
         $this->db->manipulate($query);
     }
 
-    public function create() : void
+    public function create(): void
     {
         $query = 'INSERT INTO loc_tst_run ' .
             '(container_id, user_id, test_id, objective_id,max_points,questions) ' .
@@ -221,7 +221,7 @@ class ilLOTestRun
         $this->db->manipulate($query);
     }
 
-    public function update() : void
+    public function update(): void
     {
         $query = 'UPDATE loc_tst_run SET ' .
             'max_points = ' . $this->db->quote($this->getMaxPoints(), 'integer') . ', ' .
@@ -233,7 +233,7 @@ class ilLOTestRun
         $this->db->manipulate($query);
     }
 
-    public function read() : void
+    public function read(): void
     {
         $query = 'SELECT * FROM loc_tst_run ' .
             'WHERE container_id = ' . $this->db->quote($this->getContainerId(), 'integer') . ' ' .

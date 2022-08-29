@@ -39,7 +39,7 @@ class ilWorkflowEngine
         int $subject_id,
         string $context_type,
         int $context_id
-    ) : void {
+    ): void {
         global $DIC;
         $ilSetting = $DIC->settings();
 
@@ -85,7 +85,7 @@ class ilWorkflowEngine
      * @param array  $parameter
      * @noinspection PhpUndefinedMethodInspection
      */
-    public function handleEvent(string $component, string $event, array $parameter) : void
+    public function handleEvent(string $component, string $event, array $parameter): void
     {
         global $DIC;
         /** @var ilSetting $ilSetting */
@@ -139,7 +139,7 @@ class ilWorkflowEngine
         }
     }
 
-    public function launchArmedWorkflows(string $component, string $event, ilExtractedParams $extractedParams) : void
+    public function launchArmedWorkflows(string $component, string $event, ilExtractedParams $extractedParams): void
     {
         global $DIC;
         /** @var ilSetting $ilSetting */
@@ -161,7 +161,7 @@ class ilWorkflowEngine
             require_once ilObjWorkflowEngine::getRepositoryDir() . $workflow['workflow'] . '.php';
             $class = substr($workflow['workflow'], 4);
             /** @var ilBaseWorkflow $workflow_instance */
-            $workflow_instance = new $class;
+            $workflow_instance = new $class();
 
             $workflow_instance->setWorkflowClass('wfd.' . $class . '.php');
             $workflow_instance->setWorkflowLocation(ilObjWorkflowEngine::getRepositoryDir());

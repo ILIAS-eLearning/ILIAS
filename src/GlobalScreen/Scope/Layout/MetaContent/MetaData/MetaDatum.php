@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -33,12 +35,12 @@ class MetaDatum
         $this->value = $value;
     }
 
-    public function getKey() : string
+    public function getKey(): string
     {
         return $this->key;
     }
 
-    public function getValue() : string
+    public function getValue(): string
     {
         return $this->value;
     }

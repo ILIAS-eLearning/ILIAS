@@ -24,9 +24,9 @@
  */
 abstract class ilDclFieldTypePlugin extends ilPlugin
 {
-    const COMPONENT_NAME = "DataCollection";
-    const SLOT_NAME = "FieldTypeHook";
-    const SLOT_ID = "dclfth";
+    public const COMPONENT_NAME = "DataCollection";
+    public const SLOT_NAME = "FieldTypeHook";
+    public const SLOT_ID = "dclfth";
 
     /**
      * @var ilDclFieldTypePlugin[] singleton-instance
@@ -36,7 +36,7 @@ abstract class ilDclFieldTypePlugin extends ilPlugin
     /**
      * Singleton for abstract class
      */
-    public static function getInstance() : ilDclFieldTypePlugin
+    public static function getInstance(): ilDclFieldTypePlugin
     {
         $class = get_called_class();
         if (!isset(self::$instances[$class])) {
@@ -46,22 +46,22 @@ abstract class ilDclFieldTypePlugin extends ilPlugin
         return self::$instances[$class];
     }
 
-    public function getPluginTablePrefix() : string
+    public function getPluginTablePrefix(): string
     {
         return $this->getLanguageHandler()->getPrefix();
     }
 
-    public function getPluginTableName() : string
+    public function getPluginTableName(): string
     {
         return $this->getPluginTablePrefix() . "_props";
     }
 
-    public function getPluginConfigTableName() : string
+    public function getPluginConfigTableName(): string
     {
         return $this->getPluginTablePrefix() . "_config";
     }
 
-    public function getPluginClassPrefix() : string
+    public function getPluginClassPrefix(): string
     {
         return 'il';
     }

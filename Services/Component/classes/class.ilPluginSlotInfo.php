@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * Simple value class for basic information about a pluginslot.
@@ -25,27 +27,27 @@ class ilPluginSlotInfo
         $this->plugins = &$plugins;
     }
 
-    public function getComponent() : ilComponentInfo
+    public function getComponent(): ilComponentInfo
     {
         return $this->component;
     }
 
-    public function getId() : string
+    public function getId(): string
     {
         return $this->id;
     }
 
-    public function getName() : string
+    public function getName(): string
     {
         return $this->name;
     }
 
-    public function getQualifiedName() : string
+    public function getQualifiedName(): string
     {
         return $this->component->getQualifiedName() . "/" . $this->getName();
     }
 
-    public function getPath() : string
+    public function getPath(): string
     {
         return ilComponentRepository::PLUGIN_BASE_PATH . "/" . $this->getQualifiedName();
     }
@@ -53,14 +55,14 @@ class ilPluginSlotInfo
     /**
      * @return Iterator <ilPluginInfo>
      */
-    public function getPlugins() : Iterator
+    public function getPlugins(): Iterator
     {
         foreach ($this->plugins as $id => $plugin) {
             yield $id => $plugin;
         }
     }
 
-    public function hasPluginId(string $id) : bool
+    public function hasPluginId(string $id): bool
     {
         return isset($this->plugins[$id]);
     }
@@ -68,7 +70,7 @@ class ilPluginSlotInfo
     /**
      * @throws \InvalidArgumentException if plugin does not exist
      */
-    public function getPluginById(string $id) : \ilPluginInfo
+    public function getPluginById(string $id): \ilPluginInfo
     {
         if (!$this->hasPluginId($id)) {
             throw new \InvalidArgumentException(
@@ -78,7 +80,7 @@ class ilPluginSlotInfo
         return $this->plugins[$id];
     }
 
-    public function hasPluginName(string $name) : bool
+    public function hasPluginName(string $name): bool
     {
         foreach ($this->getPlugins() as $plugin) {
             if ($plugin->getName() === $name) {
@@ -91,7 +93,7 @@ class ilPluginSlotInfo
     /**
      * @throws \InvalidArgumentException if plugin does not exist
      */
-    public function getPluginByName(string $name) : \ilPluginInfo
+    public function getPluginByName(string $name): \ilPluginInfo
     {
         foreach ($this->getPlugins() as $plugin) {
             if ($plugin->getName() === $name) {
@@ -106,7 +108,7 @@ class ilPluginSlotInfo
     /**
      * @return Iterator <ilPluginInfo>
      */
-    public function getActivePlugins() : Iterator
+    public function getActivePlugins(): Iterator
     {
         foreach ($this->getPlugins() as $id => $plugin) {
             if ($plugin->isActive()) {
@@ -115,7 +117,7 @@ class ilPluginSlotInfo
         }
     }
 
-    public function hasActivePlugins() : bool
+    public function hasActivePlugins(): bool
     {
         foreach ($this->getActivePlugins() as $_) {
             return true;

@@ -72,12 +72,12 @@ class ilSkillDataSet extends ilDataSet
         $this->skill_factory = $DIC->skills()->internal()->factory();
     }
 
-    public function setMode(string $a_val) : void
+    public function setMode(string $a_val): void
     {
         $this->mode = $a_val;
     }
 
-    public function getMode() : string
+    public function getMode(): string
     {
         return $this->mode;
     }
@@ -85,7 +85,7 @@ class ilSkillDataSet extends ilDataSet
     /**
      * @param int[] $a_val
      */
-    public function setSelectedNodes(array $a_val) : void
+    public function setSelectedNodes(array $a_val): void
     {
         $this->selected_nodes = $a_val;
     }
@@ -93,7 +93,7 @@ class ilSkillDataSet extends ilDataSet
     /**
      * @return int[]
      */
-    public function getSelectedNodes() : array
+    public function getSelectedNodes(): array
     {
         return $this->selected_nodes;
     }
@@ -101,7 +101,7 @@ class ilSkillDataSet extends ilDataSet
     /**
      * @param int[] $a_val (profile ids)
      */
-    public function setSelectedProfiles(array $a_val) : void
+    public function setSelectedProfiles(array $a_val): void
     {
         $this->selected_profiles = $a_val;
     }
@@ -109,17 +109,17 @@ class ilSkillDataSet extends ilDataSet
     /**
      * @return int[] (profile ids)
      */
-    public function getSelectedProfiles() : array
+    public function getSelectedProfiles(): array
     {
         return $this->selected_profiles;
     }
 
-    public function setSkillTreeId(int $skill_tree_id) : void
+    public function setSkillTreeId(int $skill_tree_id): void
     {
         $this->skill_tree_id = $skill_tree_id;
     }
 
-    public function getSkillTreeId() : int
+    public function getSkillTreeId(): int
     {
         return $this->skill_tree_id;
     }
@@ -127,20 +127,20 @@ class ilSkillDataSet extends ilDataSet
     /**
      * @return string[]
      */
-    public function getSupportedVersions() : array
+    public function getSupportedVersions(): array
     {
         return array("5.1.0", "7.0", "8.0");
     }
 
-    protected function getXmlNamespace(string $a_entity, string $a_schema_version) : string
+    protected function getXmlNamespace(string $a_entity, string $a_schema_version): string
     {
         return "http://www.ilias.de/xml/Services/Skill/" . $a_entity;
     }
-    
+
     /**
      * Get field types for entity
      */
-    protected function getTypes(string $a_entity, string $a_version) : array
+    protected function getTypes(string $a_entity, string $a_version): array
     {
         if ($a_entity == "skmg") {
             switch ($a_version) {
@@ -279,7 +279,7 @@ class ilSkillDataSet extends ilDataSet
         return [];
     }
 
-    public function readData(string $a_entity, string $a_version, array $a_ids) : void
+    public function readData(string $a_entity, string $a_version, array $a_ids): void
     {
         $ilDB = $this->db;
         $skill_tree = $this->skill_tree_factory->getTreeById($this->getSkillTreeId());
@@ -309,21 +309,20 @@ class ilSkillDataSet extends ilDataSet
         if ($a_entity == "skee") {	// dummy node
             switch ($a_version) {
                 case "8.0":
-                foreach ($a_ids as $id) {
-                    if ($this->getMode() == self::MODE_SKILLS) {
-                        $this->data[] = array(
-                            "Id" => $id,
-                            "Mode" => "Skills"
-                        );
-                    } elseif ($this->getMode() == self::MODE_PROFILES) {
-                        $this->data[] = array(
-                            "Id" => $id,
-                            "Mode" => "Profiles"
-                        );
+                    foreach ($a_ids as $id) {
+                        if ($this->getMode() == self::MODE_SKILLS) {
+                            $this->data[] = array(
+                                "Id" => $id,
+                                "Mode" => "Skills"
+                            );
+                        } elseif ($this->getMode() == self::MODE_PROFILES) {
+                            $this->data[] = array(
+                                "Id" => $id,
+                                "Mode" => "Profiles"
+                            );
+                        }
                     }
-                }
-                break;
-
+                    break;
             }
         }
         if ($a_entity == "skl_subtree") {	// get subtree for top node
@@ -360,7 +359,6 @@ class ilSkillDataSet extends ilDataSet
                         }
                     }
                     break;
-
             }
         }
 
@@ -391,7 +389,6 @@ class ilSkillDataSet extends ilDataSet
                         }
                     }
                     break;
-
             }
         }
 
@@ -404,7 +401,6 @@ class ilSkillDataSet extends ilDataSet
                             " FROM skl_level WHERE " .
                             $ilDB->in("skill_id", $a_ids, false, "integer") . " ORDER BY skill_id ASC, nr ASC");
                     break;
-
             }
         }
 
@@ -430,7 +426,6 @@ class ilSkillDataSet extends ilDataSet
                         ];
                     }
                     break;
-
             }
         }
 
@@ -483,7 +478,6 @@ class ilSkillDataSet extends ilDataSet
                         }
                     }
                     break;
-
             }
         }
 
@@ -514,7 +508,7 @@ class ilSkillDataSet extends ilDataSet
         string $a_version,
         ?array $a_rec = null,
         ?array $a_ids = null
-    ) : array {
+    ): array {
         $ilDB = $this->db;
 
         switch ($a_entity) {
@@ -602,7 +596,7 @@ class ilSkillDataSet extends ilDataSet
         array $a_rec,
         ilImportMapping $a_mapping,
         string $a_schema_version
-    ) : void {
+    ): void {
         $skill_tree = $this->skill_tree_factory->getTreeById($this->getSkillTreeId());
         $skill_tree_root_id = $skill_tree->readRootId();
         $tree_node_manager = $this->skill_manager->getTreeNodeManager($this->getSkillTreeId());
@@ -666,7 +660,6 @@ class ilSkillDataSet extends ilDataSet
                             $a_mapping->addMapping("Services/Skill", "skl_tree", $a_rec["Child"], $sktr->getId());
                         }
                         break;
-
                 }
                 break;
 

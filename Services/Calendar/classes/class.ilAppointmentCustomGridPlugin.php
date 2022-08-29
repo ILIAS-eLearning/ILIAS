@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /* Copyright (c) 1998-2017 ILIAS open source, Extended GPL, see docs/LICENSE */
 
@@ -15,7 +17,7 @@ abstract class ilAppointmentCustomGridPlugin extends ilPlugin
     protected ?ilCalendarEntry $appointment;
     protected ?ilDateTime $start_date;
 
-    public function setAppointment(ilCalendarEntry $a_appointment, ilDateTime $a_start_date) : void
+    public function setAppointment(ilCalendarEntry $a_appointment, ilDateTime $a_start_date): void
     {
         $this->appointment = $a_appointment;
         $this->start_date = $a_start_date;
@@ -24,7 +26,7 @@ abstract class ilAppointmentCustomGridPlugin extends ilPlugin
     /**
      * Get the calendar entry (appointment['event'])
      */
-    public function getAppointment() : ?ilCalendarEntry
+    public function getAppointment(): ?ilCalendarEntry
     {
         return $this->appointment;
     }
@@ -32,7 +34,7 @@ abstract class ilAppointmentCustomGridPlugin extends ilPlugin
     /**
      * Get the specific start date of the calendar entry, not the appointment starting date.
      */
-    public function getStartDate() : ?ilDateTime
+    public function getStartDate(): ?ilDateTime
     {
         return $this->start_date;
     }
@@ -40,25 +42,25 @@ abstract class ilAppointmentCustomGridPlugin extends ilPlugin
     /**
      * Replaces the complete content in a calendar Grid.
      */
-    abstract public function replaceContent(string $content) : string;
+    abstract public function replaceContent(string $content): string;
 
     /**
      * Add extra content in the grid after the event title
      */
-    abstract public function addExtraContent() : string;
+    abstract public function addExtraContent(): string;
 
     /**
      * Add glyph before the appointment title.
      */
-    abstract public function addGlyph() : string;
+    abstract public function addGlyph(): string;
 
     /**
      * Edit the shy button title.
      */
-    abstract public function editShyButtonTitle() : string;
+    abstract public function editShyButtonTitle(): string;
 
     /**
      * Modify the agenda item
      */
-    abstract public function editAgendaItem(UiComponentItem $item) : UiComponentItem;
+    abstract public function editAgendaItem(UiComponentItem $item): UiComponentItem;
 }

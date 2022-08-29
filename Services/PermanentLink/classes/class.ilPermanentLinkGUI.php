@@ -15,7 +15,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * Class for permanent links
  * @author Alexander Killing <killing@leifos.de>
@@ -54,85 +54,85 @@ class ilPermanentLinkGUI
         $this->setIncludePermanentLinkText(true);
         $this->setTarget($a_target);
     }
-    
+
     /**
      * Set Include permanent link text.
      */
-    public function setIncludePermanentLinkText(bool $a_includepermanentlinktext) : void
+    public function setIncludePermanentLinkText(bool $a_includepermanentlinktext): void
     {
         $this->includepermanentlinktext = $a_includepermanentlinktext;
     }
-    
+
     /**
      * Include permanent link text
      */
-    public function getIncludePermanentLinkText() : bool
+    public function getIncludePermanentLinkText(): bool
     {
         return $this->includepermanentlinktext;
     }
 
-    public function setType(string $a_type) : void
+    public function setType(string $a_type): void
     {
         $this->type = $a_type;
     }
 
-    public function getType() : string
+    public function getType(): string
     {
         return $this->type;
     }
 
-    public function setId(string $a_id) : void
+    public function setId(string $a_id): void
     {
         $this->id = $a_id;
     }
 
-    public function getId() : string
+    public function getId(): string
     {
         return $this->id;
     }
 
-    public function setAppend(string $a_append) : void
+    public function setAppend(string $a_append): void
     {
         $this->append = $a_append;
     }
 
-    public function getAppend() : string
+    public function getAppend(): string
     {
         return $this->append;
     }
 
-    public function setTarget(string $a_target) : void
+    public function setTarget(string $a_target): void
     {
         $this->target = $a_target;
     }
 
-    public function getTarget() : string
+    public function getTarget(): string
     {
         return $this->target;
     }
 
-    public function setTitle(string $a_val) : void
+    public function setTitle(string $a_val): void
     {
         $this->title = $a_val;
     }
-    
-    public function getTitle() : string
+
+    public function getTitle(): string
     {
         return $this->title;
     }
-    
-    public function getHTML() : string
+
+    public function getHTML(): string
     {
         $lng = $this->lng;
         $ilObjDataCache = $this->obj_data_cache;
-        
+
         $tpl = new ilTemplate(
             "tpl.permanent_link.html",
             true,
             true,
             "Services/PermanentLink"
         );
-        
+
         $href = ilLink::_getStaticLink(
             $this->getId(),
             $this->getType(),
@@ -144,7 +144,7 @@ class ilPermanentLinkGUI
         }
 
         $title = '';
-        
+
         if ($this->getTitle() != "") {
             $title = $this->getTitle();
         } elseif (is_numeric($this->getId())) {
@@ -155,7 +155,7 @@ class ilPermanentLinkGUI
         $tpl->setVariable("TXT_BOOKMARK_DEFAULT", $title);
 
         $tpl->setVariable("LINK", $href);
-        
+
         $tpl->setVariable("ALIGN", "left");
 
         if ($this->getTarget() != "") {

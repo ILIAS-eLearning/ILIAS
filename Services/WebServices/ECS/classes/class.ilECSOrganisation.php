@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /******************************************************************************
  *
@@ -37,7 +39,7 @@ class ilECSOrganisation
      * @param object json representation
      * @throws ilException
      */
-    public function loadFromJson($a_json) : void
+    public function loadFromJson($a_json): void
     {
         if (!is_object($a_json)) {
             $this->logger->warning(__METHOD__ . ': Cannot load from JSON. No object given.');
@@ -50,7 +52,7 @@ class ilECSOrganisation
     /**
      * Get name
      */
-    public function getName() : string
+    public function getName(): string
     {
         return $this->name;
     }
@@ -58,7 +60,7 @@ class ilECSOrganisation
     /**
      * Get abbreviation
      */
-    public function getAbbreviation() : string
+    public function getAbbreviation(): string
     {
         return $this->abbr;
     }

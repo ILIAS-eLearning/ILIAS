@@ -61,7 +61,7 @@ class ilGlyphGUI
     public static function get(
         string $a_glyph,
         string $a_text = ""
-    ) : string {
+    ): string {
         global $DIC;
 
         $lng = $DIC->language();
@@ -80,7 +80,6 @@ class ilGlyphGUI
                 $html = '<span class="sr-only">' . $text .
                     '</span><span class="' . self::$map[$a_glyph]["class"] . '"></span>';
                 break;
-
         }
         return $html;
     }

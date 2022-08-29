@@ -30,7 +30,7 @@ class SkillProfileLevelsDBRepository
         $this->db = ($db) ?: $DIC->database();
     }
 
-    public function getProfileLevels(int $profile_id) : array
+    public function getProfileLevels(int $profile_id): array
     {
         $ilDB = $this->db;
 
@@ -52,7 +52,7 @@ class SkillProfileLevelsDBRepository
         return $levels;
     }
 
-    public function createProfileLevels(int $profile_id, array $levels) : void
+    public function createProfileLevels(int $profile_id, array $levels): void
     {
         $ilDB = $this->db;
 
@@ -70,7 +70,7 @@ class SkillProfileLevelsDBRepository
         }
     }
 
-    public function updateProfileLevels(int $profile_id, array $levels) : void
+    public function updateProfileLevels(int $profile_id, array $levels): void
     {
         $ilDB = $this->db;
 
@@ -92,7 +92,7 @@ class SkillProfileLevelsDBRepository
         }
     }
 
-    public function deleteProfileLevels(int $profile_id) : void
+    public function deleteProfileLevels(int $profile_id): void
     {
         $ilDB = $this->db;
 
@@ -102,7 +102,7 @@ class SkillProfileLevelsDBRepository
         );
     }
 
-    public function updateSkillOrder(int $profile_id, array $order) : void
+    public function updateSkillOrder(int $profile_id, array $order): void
     {
         $ilDB = $this->db;
 
@@ -120,7 +120,7 @@ class SkillProfileLevelsDBRepository
         }
     }
 
-    public function fixSkillOrderNumbering(int $profile_id) : void
+    public function fixSkillOrderNumbering(int $profile_id): void
     {
         $ilDB = $this->db;
 
@@ -142,7 +142,7 @@ class SkillProfileLevelsDBRepository
         }
     }
 
-    public function getMaxLevelOrderNr(int $profile_id) : int
+    public function getMaxLevelOrderNr(int $profile_id): int
     {
         $ilDB = $this->db;
 

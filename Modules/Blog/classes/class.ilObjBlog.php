@@ -69,12 +69,12 @@ class ilObjBlog extends ilObject2
             ->styleForObjId($this->getId());
     }
 
-    protected function initType() : void
+    protected function initType(): void
     {
         $this->type = "blog";
     }
 
-    protected function doRead() : void
+    protected function doRead(): void
     {
         $ilDB = $this->db;
 
@@ -101,17 +101,17 @@ class ilObjBlog extends ilObject2
         if (trim($row["nav_order"])) {
             $this->setOrder(explode(";", $row["nav_order"]));
         }
-        
+
         // #14661
         $this->setNotesStatus(
             $this->notes_service->domain()->commentsActive($this->id)
         );
     }
 
-    protected function doCreate(bool $clone_mode = false) : void
+    protected function doCreate(bool $clone_mode = false): void
     {
         $ilDB = $this->db;
-        
+
         $ilDB->manipulate("INSERT INTO il_blog (id,ppic,rss_active,approval" .
             ",abs_shorten,abs_shorten_len,abs_image,abs_img_width,abs_img_height" .
             ",keywords,authors,nav_mode,nav_list_mon_with_post,ov_post) VALUES (" .
@@ -130,30 +130,30 @@ class ilObjBlog extends ilObject2
             $ilDB->quote($this->getNavModeListMonthsWithPostings(), "integer") . "," .
             $ilDB->quote($this->getOverviewPostings(), "integer") .
             ")");
-        
+
         // #14661
         $this->notes_service->domain()->activateComments($this->id);
     }
-    
-    protected function doDelete() : void
+
+    protected function doDelete(): void
     {
         $ilDB = $this->db;
-        
+
         $this->deleteImage();
 
         ilBlogPosting::deleteAllBlogPostings($this->id);
-        
+
         // remove all notifications
         ilNotification::removeForObject(ilNotification::TYPE_BLOG, $this->id);
 
         $ilDB->manipulate("DELETE FROM il_blog" .
             " WHERE id = " . $ilDB->quote($this->id, "integer"));
     }
-    
-    protected function doUpdate() : void
+
+    protected function doUpdate(): void
     {
         $ilDB = $this->db;
-    
+
         if ($this->id) {
             $ilDB->manipulate("UPDATE il_blog" .
                     " SET ppic = " . $ilDB->quote($this->hasProfilePicture(), "integer") .
@@ -175,7 +175,7 @@ class ilObjBlog extends ilObject2
                     ",ov_post = " . $ilDB->quote($this->getOverviewPostings(), "integer") .
                     ",nav_order = " . $ilDB->quote(implode(";", $this->getOrder()), "text") .
                     " WHERE id = " . $ilDB->quote($this->id, "integer"));
-                        
+
             // #14661
             $this->notes_service->domain()->activateComments(
                 $this->id,
@@ -184,20 +184,20 @@ class ilObjBlog extends ilObject2
         }
     }
 
-    protected function doCloneObject(ilObject2 $new_obj, int $a_target_id, ?int $a_copy_id = null) : void
+    protected function doCloneObject(ilObject2 $new_obj, int $a_target_id, ?int $a_copy_id = null): void
     {
         assert($new_obj instanceof ilObjBlog);
         // banner?
         $img = $this->getImage();
         if ($img) {
             $new_obj->setImage($img);
-            
+
             $source = self::initStorage($this->getId());
             $target = $new_obj->initStorage($new_obj->getId());
-            
+
             copy($source . $img, $target . $img);
         }
-        
+
         $new_obj->setNotesStatus($this->getNotesStatus());
         $new_obj->setProfilePicture($this->hasProfilePicture());
         $new_obj->setBackgroundColor($this->getBackgroundColor());
@@ -210,32 +210,32 @@ class ilObjBlog extends ilObject2
         $new_obj->setAbstractImageWidth($this->getAbstractImageWidth());
         $new_obj->setAbstractImageHeight($this->getAbstractImageHeight());
         $new_obj->update();
-        
+
         // set/copy stylesheet
         $this->content_style_service->cloneTo($new_obj->getId());
     }
-    
-    public function getNotesStatus() : bool
+
+    public function getNotesStatus(): bool
     {
         return $this->notes;
     }
 
-    public function setNotesStatus(bool $a_status) : void
+    public function setNotesStatus(bool $a_status): void
     {
         $this->notes = $a_status;
     }
-    
-    public function hasProfilePicture() : bool
+
+    public function hasProfilePicture(): bool
     {
         return $this->ppic;
     }
 
-    public function setProfilePicture(bool $a_status) : void
+    public function setProfilePicture(bool $a_status): void
     {
         $this->ppic = $a_status;
     }
-    
-    public function getBackgroundColor() : string
+
+    public function getBackgroundColor(): string
     {
         if (!$this->bg_color) {
             $this->bg_color = "ffffff";
@@ -243,12 +243,12 @@ class ilObjBlog extends ilObject2
         return $this->bg_color;
     }
 
-    public function setBackgroundColor(string $a_value) : void
+    public function setBackgroundColor(string $a_value): void
     {
         $this->bg_color = $a_value;
     }
-    
-    public function getFontColor() : string
+
+    public function getFontColor(): string
     {
         if (!$this->font_color) {
             $this->font_color = "505050";
@@ -256,24 +256,24 @@ class ilObjBlog extends ilObject2
         return $this->font_color;
     }
 
-    public function setFontColor(string $a_value) : void
+    public function setFontColor(string $a_value): void
     {
         $this->font_color = $a_value;
     }
-    
-    public function getImage() : string
+
+    public function getImage(): string
     {
         return $this->img;
     }
 
-    public function setImage(string $a_value) : void
+    public function setImage(string $a_value): void
     {
         $this->img = $a_value;
     }
-    
+
     public function getImageFullPath(
         bool $a_as_thumb = false
-    ) : string {
+    ): string {
         if ($this->img) {
             $path = self::initStorage($this->id);
             if (!$a_as_thumb) {
@@ -284,15 +284,15 @@ class ilObjBlog extends ilObject2
         }
         return "";
     }
-    
-    public function deleteImage() : void
+
+    public function deleteImage(): void
     {
         if ($this->id) {
             $storage = new ilFSStorageBlog($this->id);
             $storage->delete();
-            
+
             $this->setImage("");
-            
+
             $this->handleQuotaUpdate();
         }
     }
@@ -303,37 +303,37 @@ class ilObjBlog extends ilObject2
     public static function initStorage(
         int $a_id,
         string $a_subdir = null
-    ) : string {
+    ): string {
         $storage = new ilFSStorageBlog($a_id);
         $storage->create();
-        
+
         $path = $storage->getAbsolutePath() . "/";
-        
+
         if ($a_subdir) {
             $path .= $a_subdir . "/";
-            
+
             if (!is_dir($path) && !mkdir($path) && !is_dir($path)) {
                 throw new \RuntimeException(sprintf('Directory "%s" was not created', $path));
             }
         }
-                
+
         return $path;
     }
-    
+
     /**
      * Upload new image file
      */
-    public function uploadImage(array $a_upload) : bool
+    public function uploadImage(array $a_upload): bool
     {
         if (!$this->id) {
             return false;
         }
-        
+
         $this->deleteImage();
-        
+
         // #10074
         $clean_name = preg_replace("/[^a-zA-Z0-9\_\.\-]/", "", $a_upload["name"]);
-    
+
         $path = self::initStorage($this->id);
         $original = "org_" . $this->id . "_" . $clean_name;
         $thumb = "thb_" . $this->id . "_" . $clean_name;
@@ -348,7 +348,7 @@ class ilObjBlog extends ilObject2
                 $blga_set->get("banner_height");
             */
             $dimensions = $blga_set->get("banner_width");
-            
+
             // take quality 100 to avoid jpeg artefacts when uploading jpeg files
             // taking only frame [0] to avoid problems with animated gifs
             $original_file = ilShellUtil::escapeShellArg($path . $original);
@@ -358,170 +358,170 @@ class ilObjBlog extends ilObject2
             ilShellUtil::execConvert(
                 $original_file . "[0] -geometry " . $dimensions . " -quality 100 JPEG:" . $processed_file
             );
-            
+
             $this->setImage($processed);
-            
+
             $this->handleQuotaUpdate();
-            
+
             return true;
         }
         return false;
     }
-        
-    public function hasRSS() : bool
+
+    public function hasRSS(): bool
     {
         return $this->rss;
     }
 
-    public function setRSS(bool $a_status) : void
+    public function setRSS(bool $a_status): void
     {
         $this->rss = $a_status;
     }
-    
-    public function hasApproval() : bool
+
+    public function hasApproval(): bool
     {
         return $this->approval;
     }
 
-    public function setApproval(bool $a_status) : void
+    public function setApproval(bool $a_status): void
     {
         $this->approval = $a_status;
     }
-    
 
-    public function hasAbstractShorten() : bool
+
+    public function hasAbstractShorten(): bool
     {
         return $this->abstract_shorten;
     }
-    
-    public function setAbstractShorten(bool $a_value) : void
+
+    public function setAbstractShorten(bool $a_value): void
     {
         $this->abstract_shorten = $a_value;
     }
-    
-    public function getAbstractShortenLength() : int
+
+    public function getAbstractShortenLength(): int
     {
         return $this->abstract_shorten_length;
     }
-    
-    public function setAbstractShortenLength(int $a_value) : void
+
+    public function setAbstractShortenLength(int $a_value): void
     {
         $this->abstract_shorten_length = $a_value;
     }
-            
-    public function hasAbstractImage() : bool
+
+    public function hasAbstractImage(): bool
     {
         return $this->abstract_image;
     }
-    
-    public function setAbstractImage(bool $a_value) : void
+
+    public function setAbstractImage(bool $a_value): void
     {
         $this->abstract_image = $a_value;
     }
-    
-    public function getAbstractImageWidth() : int
+
+    public function getAbstractImageWidth(): int
     {
         return $this->abstract_image_width;
     }
-    
-    public function setAbstractImageWidth(int $a_value) : void
+
+    public function setAbstractImageWidth(int $a_value): void
     {
         $this->abstract_image_width = $a_value;
     }
-    
-    public function getAbstractImageHeight() : int
+
+    public function getAbstractImageHeight(): int
     {
         return $this->abstract_image_height;
     }
-    
-    public function setAbstractImageHeight(int $a_value) : void
+
+    public function setAbstractImageHeight(int $a_value): void
     {
         $this->abstract_image_height = $a_value;
     }
-    
-    public function setKeywords(bool $a_value) : void
+
+    public function setKeywords(bool $a_value): void
     {
         $this->keywords = $a_value;
     }
-    
-    public function hasKeywords() : bool
+
+    public function hasKeywords(): bool
     {
         return $this->keywords;
     }
-    
-    public function setAuthors(bool $a_value) : void
+
+    public function setAuthors(bool $a_value): void
     {
         $this->authors = $a_value;
     }
-    
-    public function hasAuthors() : bool
+
+    public function hasAuthors(): bool
     {
         return $this->authors;
     }
-    
-    public function setNavMode(int $a_value) : void
+
+    public function setNavMode(int $a_value): void
     {
         if (in_array($a_value, array(self::NAV_MODE_LIST, self::NAV_MODE_MONTH))) {
             $this->nav_mode = $a_value;
         }
     }
-    
-    public function getNavMode() : int
+
+    public function getNavMode(): int
     {
         return $this->nav_mode;
     }
-    
-    public function setNavModeListMonthsWithPostings(int $a_value) : void
+
+    public function setNavModeListMonthsWithPostings(int $a_value): void
     {
         $this->nav_mode_list_months_with_post = $a_value;
     }
-    
-    public function getNavModeListMonthsWithPostings() : int
+
+    public function getNavModeListMonthsWithPostings(): int
     {
         return $this->nav_mode_list_months_with_post;
     }
-    
-    public function setNavModeListMonths(?int $a_value) : void
+
+    public function setNavModeListMonths(?int $a_value): void
     {
         $this->nav_mode_list_months = $a_value;
     }
-    
-    public function getNavModeListMonths() : ?int
+
+    public function getNavModeListMonths(): ?int
     {
         return $this->nav_mode_list_months;
     }
-    
-    public function setOverviewPostings(?int $a_value) : void
+
+    public function setOverviewPostings(?int $a_value): void
     {
         $this->overview_postings = $a_value;
     }
-    
-    public function getOverviewPostings() : ?int
+
+    public function getOverviewPostings(): ?int
     {
         return $this->overview_postings;
     }
-    
-    public function setOrder(array $a_values = []) : void
+
+    public function setOrder(array $a_values = []): void
     {
         $this->order = $a_values;
     }
-    
-    public function getOrder() : array
+
+    public function getOrder(): array
     {
         return $this->order;
     }
-        
+
     public static function sendNotification(
         string $a_action,
         bool $a_in_wsp,
         int $a_blog_node_id,
         int $a_posting_id,
         ?string $a_comment = null
-    ) : void {
+    ): void {
         global $DIC;
 
         $ilUser = $DIC->user();
-        
+
         // get blog object id (repository or workspace)
         if ($a_in_wsp) {
             $tree = new ilWorkspaceTree($ilUser->getId()); // owner of tree is irrelevant
@@ -534,14 +534,14 @@ class ilObjBlog extends ilObject2
         if (!$blog_obj_id) {
             return;
         }
-                
+
         $posting = new ilBlogPosting($a_posting_id);
-                                
+
         // #11138
         $ignore_threshold = ($a_action === "comment");
-        
+
         $admin_only = false;
-        
+
         // approval handling
         if (!$posting->isApproved()) {
             $blog = new self($blog_obj_id, false);
@@ -560,13 +560,13 @@ class ilObjBlog extends ilObject2
                 }
             }
         }
-        
+
         // create/update news item (only in repository)
         if (!$a_in_wsp &&
             in_array($a_action, array("update", "new"))) {
             $posting->handleNews(($a_action === "update"));
         }
-        
+
         // recipients
         $users = ilNotification::getNotificationsForObject(
             ilNotification::TYPE_BLOG,
@@ -590,7 +590,7 @@ class ilObjBlog extends ilObject2
         }
         $ntf->setGotoLangId('blog_change_notification_link');
         $ntf->setReasonLangId('blog_change_notification_reason');
-        
+
         $abstract = $posting->getNotificationAbstract();
         if ($abstract) {
             $ntf->addAdditionalInfo('content', $abstract, true);
@@ -601,27 +601,27 @@ class ilObjBlog extends ilObject2
             "_" . $a_posting_id,
             ($admin_only ? "write" : "read")
         );
-                
+
         // #14387
         if (count($notified)) {
             ilNotification::updateNotificationTime(ilNotification::TYPE_BLOG, $blog_obj_id, $notified, $a_posting_id);
         }
     }
-            
+
     /**
      * Deliver blog as rss feed
      */
-    public static function deliverRSS(string $a_wsp_id) : void
+    public static function deliverRSS(string $a_wsp_id): void
     {
         global $DIC;
 
         $tpl = $DIC["tpl"];
         $ilSetting = $DIC->settings();
-        
+
         if (!$ilSetting->get('enable_global_profiles')) {
             return;
         }
-        
+
         // #10827
         if (substr($a_wsp_id, -4) !== "_cll") {
             $wsp_id = new ilWorkspaceTree(0);
@@ -635,25 +635,25 @@ class ilObjBlog extends ilObject2
         if (!$obj_id) {
             return;
         }
-        
+
         $blog = new self($obj_id, false);
         if (!$blog->hasRSS()) {
             return;
         }
-                    
+
         $feed = new ilFeedWriter();
-                
+
         $url = ilLink::_getStaticLink($a_wsp_id, "blog", true, $is_wsp);
         $url = str_replace("&", "&amp;", $url);
-        
+
         // #11870
         $feed->setChannelTitle(str_replace("&", "&amp;", $blog->getTitle()));
         $feed->setChannelDescription(str_replace("&", "&amp;", $blog->getDescription()));
         $feed->setChannelLink($url);
-        
+
         // needed for blogpostinggui / pagegui
         $tpl = new ilGlobalTemplate("tpl.main.html", true, true);
-        
+
         foreach (ilBlogPosting::getAllPostings($obj_id) as $item) {
             $id = $item["id"];
 
@@ -662,7 +662,7 @@ class ilObjBlog extends ilObject2
             if (!$is_active) {
                 continue;
             }
-                                    
+
             // #16434
             $snippet = strip_tags(ilBlogPostingGUI::getSnippet($id), "<br><br/><div><p>");
             $snippet = str_replace("&", "&amp;", $snippet);
@@ -679,12 +679,12 @@ class ilObjBlog extends ilObject2
             $feed_item->setAbout($url);
             $feed->addItem($feed_item);
         }
-        
+
         $feed->showFeed();
         exit();
     }
-    
-    public function initDefaultRoles() : void
+
+    public function initDefaultRoles(): void
     {
         ilObjRole::createDefaultRole(
             'il_blog_contributor_' . $this->getRefId(),
@@ -692,7 +692,7 @@ class ilObjBlog extends ilObject2
             'il_blog_contributor',
             $this->getRefId()
         );
-        
+
         ilObjRole::createDefaultRole(
             'il_blog_editor_' . $this->getRefId(),
             "Editor of blog obj_no." . $this->getId(),
@@ -700,8 +700,8 @@ class ilObjBlog extends ilObject2
             $this->getRefId()
         );
     }
-    
-    public function getLocalContributorRole(int $a_node_id) : int
+
+    public function getLocalContributorRole(int $a_node_id): int
     {
         foreach ($this->rbac_review->getLocalRoles($a_node_id) as $role_id) {
             if (strpos(ilObject::_lookupTitle($role_id), "il_blog_contributor") === 0) {
@@ -710,8 +710,8 @@ class ilObjBlog extends ilObject2
         }
         return 0;
     }
-    
-    public function getLocalEditorRole(int $a_node_id) : int
+
+    public function getLocalEditorRole(int $a_node_id): int
     {
         foreach ($this->rbac_review->getLocalRoles($a_node_id) as $role_id) {
             if (strpos(ilObject::_lookupTitle($role_id), "il_blog_editor") === 0) {
@@ -720,25 +720,25 @@ class ilObjBlog extends ilObject2
         }
         return 0;
     }
-    
-    public function getAllLocalRoles(int $a_node_id) : array
+
+    public function getAllLocalRoles(int $a_node_id): array
     {
         $res = array();
         foreach ($this->rbac_review->getLocalRoles($a_node_id) as $role_id) {
             $res[$role_id] = ilObjRole::_getTranslation(ilObject::_lookupTitle($role_id));
         }
-        
+
         asort($res);
         return $res;
     }
-    
-    public function getRolesWithContributeOrRedact(int $a_node_id) : array
+
+    public function getRolesWithContributeOrRedact(int $a_node_id): array
     {
         $contr_op_id = ilRbacReview::_getOperationIdByName("contribute");
         $redact_op_id = ilRbacReview::_getOperationIdByName("redact");
         $contr_role_id = $this->getLocalContributorRole($a_node_id);
         $editor_role_id = $this->getLocalEditorRole($a_node_id);
-        
+
         $res = array();
         foreach ($this->rbac_review->getParentRoleIds($a_node_id) as $role_id => $role) {
             if ($role_id != $contr_role_id &&
@@ -750,11 +750,11 @@ class ilObjBlog extends ilObject2
                 }
             }
         }
-    
+
         return $res;
     }
-    
-    protected function handleQuotaUpdate() : void
+
+    protected function handleQuotaUpdate(): void
     {
     }
 }

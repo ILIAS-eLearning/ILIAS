@@ -25,7 +25,7 @@ class ilCopyWizardSettingsXMLParser extends ilSaxParser
      * @param XMLParser|resource $a_xml_parser
      * @return void
      */
-    public function setHandlers($a_xml_parser) : void
+    public function setHandlers($a_xml_parser): void
     {
         xml_set_object($a_xml_parser, $this);
         xml_set_element_handler($a_xml_parser, 'handlerBeginTag', 'handlerEndTag');
@@ -35,7 +35,7 @@ class ilCopyWizardSettingsXMLParser extends ilSaxParser
     /**
      * @param XMLParser|resource $a_xml_parser
      */
-    public function handlerBeginTag($a_xml_parser, string $a_name, array $a_attribs) : void
+    public function handlerBeginTag($a_xml_parser, string $a_name, array $a_attribs): void
     {
         global $DIC;
 
@@ -96,22 +96,22 @@ class ilCopyWizardSettingsXMLParser extends ilSaxParser
         }
     }
 
-    public function getOptions() : array
+    public function getOptions(): array
     {
         return $this->options;
     }
 
-    public function getSourceId() : ?int
+    public function getSourceId(): ?int
     {
         return $this->source_id;
     }
 
-    public function getTargetId() : ?int
+    public function getTargetId(): ?int
     {
         return $this->target_id;
     }
 
-    private static function getActionForString($s) : int
+    private static function getActionForString($s): int
     {
         if ($s === "COPY") {
             return ilCopyWizardOptions::COPY_WIZARD_COPY;
@@ -127,14 +127,14 @@ class ilCopyWizardSettingsXMLParser extends ilSaxParser
     /**
      * @param XMLParser|resource $a_xml_parser
      */
-    public function handlerEndTag($a_xml_parser, string $a_name) : void
+    public function handlerEndTag($a_xml_parser, string $a_name): void
     {
     }
 
     /**
      * @param XMLParser|resource $a_xml_parser
      */
-    public function handlerCharacterData($a_xml_parser, string $a_data) : void
+    public function handlerCharacterData($a_xml_parser, string $a_data): void
     {
     }
 }

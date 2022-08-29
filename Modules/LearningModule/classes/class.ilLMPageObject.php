@@ -55,7 +55,7 @@ class ilLMPageObject extends ilLMObject
         }
     }
 
-    public function read() : void
+    public function read(): void
     {
         parent::read();
         $this->page_object = new ilLMPage($this->id, 0);
@@ -65,7 +65,7 @@ class ilLMPageObject extends ilLMObject
         bool $a_upload = false,
         bool $a_omit_page_object_creation = false,
         int $a_layout_id = 0
-    ) : void {
+    ): void {
         parent::create($a_upload);
         if ($a_omit_page_object_creation) {
             return;
@@ -82,7 +82,7 @@ class ilLMPageObject extends ilLMObject
         }
     }
 
-    public function delete(bool $a_delete_meta_data = true) : void
+    public function delete(bool $a_delete_meta_data = true): void
     {
         parent::delete($a_delete_meta_data);
         $this->page_object->delete();
@@ -91,7 +91,7 @@ class ilLMPageObject extends ilLMObject
     // copy page
     public function copy(
         ilObjLearningModule $a_target_lm
-    ) : ilLMPageObject {
+    ): ilLMPageObject {
         // copy page
         $lm_page = new ilLMPageObject($a_target_lm);
         $lm_page->setTitle($this->getTitle());
@@ -144,7 +144,7 @@ class ilLMPageObject extends ilLMObject
     public function copyToOtherContObject(
         ilObjLearningModule $a_cont_obj,
         array &$a_copied_nodes
-    ) : ilLMPageObject {
+    ): ilLMPageObject {
         // copy page
         $lm_page = new ilLMPageObject($a_cont_obj);
         $lm_page->setTitle($this->getTitle());
@@ -168,7 +168,7 @@ class ilLMPageObject extends ilLMObject
 
         return $lm_page;
     }
-    
+
     /**
      * split page at hierarchical id
      * the main reason for this method being static is that a lm page
@@ -179,7 +179,7 @@ class ilLMPageObject extends ilLMObject
         int $a_page_id,
         string $a_pg_parent_type,
         string $a_hier_id
-    ) : ilLMPageObject {
+    ): ilLMPageObject {
         // get content object (learning module / digilib book)
         $lm_id = ilLMObject::_lookupContObjID($a_page_id);
         $type = ilObject::_lookupType($lm_id, false);
@@ -193,7 +193,7 @@ class ilLMPageObject extends ilLMObject
         $lm_page->setType($source_lm_page->getType());
         $lm_page->setDescription($source_lm_page->getDescription());
         $lm_page->create(true);
-        
+
 
         // copy complete content of source page to new page
         $source_page = $source_lm_page->getPageObject();
@@ -224,7 +224,7 @@ class ilLMPageObject extends ilLMObject
         $source_page->buildDom();
         $source_page->addHierIDs();
         $source_page->deleteContentFromHierId($a_hier_id);
-                
+
         return $lm_page;
     }
 
@@ -239,7 +239,7 @@ class ilLMPageObject extends ilLMObject
         int $a_page_id,
         string $a_pg_parent_type,
         string $a_hier_id
-    ) : int {
+    ): int {
         // get content object (learning module / digilib book)
         $lm_id = ilLMObject::_lookupContObjID($a_page_id);
         $type = ilObject::_lookupType($lm_id, false);
@@ -250,7 +250,7 @@ class ilLMPageObject extends ilLMObject
 
         $source_lm_page = new ilLMPageObject($cont_obj, $a_page_id);
         $source_page = $source_lm_page->getPageObject();
-        
+
         // get next page
         $succ = $tree->fetchSuccessorNode($a_page_id, "pg");
         if ($succ["child"] > 0) {
@@ -258,47 +258,47 @@ class ilLMPageObject extends ilLMObject
             $target_page = $target_lm_page->getPageObject();
             $target_page->buildDom();
             $target_page->addHierIDs();
-            
+
             // move nodes to target page
             $source_page->buildDom();
             $source_page->addHierIDs();
             ilLMPage::_moveContentAfterHierId($source_page, $target_page, $a_hier_id);
             //$source_page->deleteContentFromHierId($a_hier_id);
-            
+
             return (int) $succ["child"];
         }
         return 0;
     }
 
-    
+
     /**
      * assign page object
      */
-    public function assignPageObject(ilLMPage $a_page_obj) : void
+    public function assignPageObject(ilLMPage $a_page_obj): void
     {
         $this->page_object = $a_page_obj;
     }
 
-    
+
     /**
      * get assigned page object
      */
-    public function getPageObject() : ilLMPage
+    public function getPageObject(): ilLMPage
     {
         return $this->page_object;
     }
 
-    public function setId(int $a_id) : void
+    public function setId(int $a_id): void
     {
         $this->id = $a_id;
     }
 
-    public function getId() : int
+    public function getId(): int
     {
         return $this->id;
     }
 
-    public static function getPageList(int $lm_id) : array
+    public static function getPageList(int $lm_id): array
     {
         return ilLMObject::getObjectList($lm_id, "pg");
     }
@@ -309,7 +309,7 @@ class ilLMPageObject extends ilLMObject
     public static function getPagesWithLinksList(
         int $a_lm_id,
         string $a_par_type
-    ) : array {
+    ): array {
         $pages = ilLMPageObject::getPageList($a_lm_id);
         $linked_pages = ilLMPage::getPagesWithLinks($a_par_type, $a_lm_id);
         $result = array();
@@ -335,7 +335,7 @@ class ilLMPageObject extends ilLMObject
         int $a_lm_id = 0,
         string $a_lang = "-",
         bool $a_include_short = false
-    ) : string {
+    ): string {
         if ($a_mode == self::NO_HEADER && !$a_force_content) {
             return "";
         }
@@ -407,7 +407,7 @@ class ilLMPageObject extends ilLMObject
                             $active = true;
                         }
                     }
-                    
+
                     if ($child["type"] != "pg" || $active) {
                         $cnt++;
                     }
@@ -441,7 +441,7 @@ class ilLMPageObject extends ilLMObject
         ilXmlWriter $a_xml_writer,
         string $a_mode = "normal",
         int $a_inst = 0
-    ) : void {
+    ): void {
         $attrs = array();
         $a_xml_writer->xmlStartTag("PageObject", $attrs);
 
@@ -471,7 +471,7 @@ class ilLMPageObject extends ilLMObject
         ilXmlWriter $a_xml_writer,
         int $a_id,
         int $a_inst = 0
-    ) : void {
+    ): void {
         $attrs = array();
         $a_xml_writer->xmlStartTag("PageObject", $attrs);
 
@@ -485,7 +485,7 @@ class ilLMPageObject extends ilLMObject
 
     public function exportXMLMetaData(
         ilXmlWriter $a_xml_writer
-    ) : void {
+    ): void {
         $md2xml = new ilMD2XML($this->getLMId(), $this->getId(), $this->getType());
         $md2xml->setExportMode(true);
         $md2xml->startExport();
@@ -496,7 +496,7 @@ class ilLMPageObject extends ilLMObject
         string $a_tag,
         string $a_param,
         string $a_value
-    ) : string {
+    ): string {
         if ($a_tag == "Identifier" && $a_param == "Entry") {
             $a_value = "il_" . IL_INST_ID . "_pg_" . $this->getId();
         }
@@ -507,7 +507,7 @@ class ilLMPageObject extends ilLMObject
     public function exportXMLPageContent(
         ilXmlWriter $a_xml_writer,
         int $a_inst = 0
-    ) : void {
+    ): void {
         $this->page_object->buildDom();
         $this->page_object->insertInstIntoIDs($a_inst);
         $this->mobs_contained = $this->page_object->collectMediaObjects(false);
@@ -523,7 +523,7 @@ class ilLMPageObject extends ilLMObject
      * Get question ids
      * note: this method must be called afer exportXMLPageContent
      */
-    public function getQuestionIds() : array
+    public function getQuestionIds(): array
     {
         return ilPCQuestion::_getQuestionIdsForPage(
             $this->content_object->getType(),
@@ -535,7 +535,7 @@ class ilLMPageObject extends ilLMObject
      * get ids of all media objects within the page
      * note: this method must be called afer exportXMLPageContent
      */
-    public function getMediaObjectIds() : array
+    public function getMediaObjectIds(): array
     {
         return $this->mobs_contained;
     }
@@ -544,7 +544,7 @@ class ilLMPageObject extends ilLMObject
      * get ids of all file items within the page
      * note: this method must be called afer exportXMLPageContent
      */
-    public function getFileItemIds() : array
+    public function getFileItemIds(): array
     {
         return $this->files_contained;
     }
@@ -554,7 +554,7 @@ class ilLMPageObject extends ilLMObject
      */
     public function exportFO(
         ilXmlWriter $a_xml_writer
-    ) : void {
+    ): void {
         $title = ilLMPageObject::_getPresentationTitle($this->getId());
         if ($title != "") {
             $attrs = array();
@@ -578,7 +578,7 @@ class ilLMPageObject extends ilLMObject
         string $a_order_dir,
         int $a_offset,
         int $a_limit
-    ) : array {
+    ): array {
         global $DIC;
 
         $ilDB = $DIC->database();
@@ -627,7 +627,7 @@ class ilLMPageObject extends ilLMObject
         bool $first_child,
         int $layout_id,
         string $title = ""
-    ) : array {
+    ): array {
         global $DIC;
 
         $lng = $DIC->language();

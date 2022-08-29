@@ -69,12 +69,12 @@ class ilTermDefinitionEditorGUI
     }
 
 
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         $tpl = $this->tpl;
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
-        
+
         $next_class = $this->ctrl->getNextClass($this);
         $cmd = $this->ctrl->getCmd();
 
@@ -106,7 +106,6 @@ class ilTermDefinitionEditorGUI
         }
 
         switch ($next_class) {
-
             case "ilglossarydefpagegui":
                 // output number of usages
                 if ($ilCtrl->getCmd() == "edit" &&
@@ -179,16 +178,15 @@ class ilTermDefinitionEditorGUI
                 $gloss_loc->display();
                 $this->$cmd();
                 break;
-
         }
     }
 
-    public function setTabs() : void
+    public function setTabs(): void
     {
         $this->getTabs();
     }
 
-    public function getTabs() : void
+    public function getTabs(): void
     {
         // back to glossary
         $this->tabs_gui->setBack2Target(
@@ -203,7 +201,7 @@ class ilTermDefinitionEditorGUI
         );
     }
 
-    public function saveShortText() : void
+    public function saveShortText(): void
     {
         $this->definition->updateShortText();
     }

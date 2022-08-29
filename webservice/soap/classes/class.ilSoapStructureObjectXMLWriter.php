@@ -27,12 +27,12 @@ class ilSoapStructureObjectXMLWriter extends ilXmlWriter
         parent::__construct();
     }
 
-    public function setStructureObject(ilSoapStructureObject $structureObject) : void
+    public function setStructureObject(ilSoapStructureObject $structureObject): void
     {
         $this->structureObject = $structureObject;
     }
 
-    public function start() : bool
+    public function start(): bool
     {
         if (!is_object($this->structureObject)) {
             return false;
@@ -44,19 +44,19 @@ class ilSoapStructureObjectXMLWriter extends ilXmlWriter
         return true;
     }
 
-    public function getXML() : string
+    public function getXML(): string
     {
         return $this->xmlDumpMem(false);
     }
 
-    private function buildHeader() : void
+    private function buildHeader(): void
     {
         $this->xmlSetDtdDef("<!DOCTYPE RepositoryObject PUBLIC \"-//ILIAS//DTD UserImport//EN\" \"" . ILIAS_HTTP_PATH . "/xml/ilias_soap_structure_object_3_7.dtd\">");
         $this->xmlSetGenCmt("Internal Structure Information of Repository Object");
         $this->xmlHeader();
     }
 
-    private function buildFooter() : void
+    private function buildFooter(): void
     {
     }
 }

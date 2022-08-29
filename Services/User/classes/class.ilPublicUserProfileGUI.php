@@ -56,22 +56,22 @@ class ilPublicUserProfileGUI implements ilCtrlBaseClassInterface
         } else {
             $this->setUserId($this->profile_request->getUserId());
         }
-        
+
         $ilCtrl->saveParameter($this, array("user_id","back_url", "user"));
         $back_url = $this->profile_request->getBackUrl();
         if ($back_url != "") {
             $this->setBackUrl($back_url);
         }
-        
+
         $lng->loadLanguageModule("user");
     }
-    
-    public function setUserId(int $a_userid) : void
+
+    public function setUserId(int $a_userid): void
     {
         $this->userid = $a_userid;
     }
 
-    public function getUserId() : int
+    public function getUserId(): int
     {
         return $this->userid;
     }
@@ -79,12 +79,12 @@ class ilPublicUserProfileGUI implements ilCtrlBaseClassInterface
     /**
      * Set Additonal Information.
      */
-    public function setAdditional(array $a_additional) : void // Missing array type.
+    public function setAdditional(array $a_additional): void // Missing array type.
     {
         $this->additional = $a_additional;
     }
 
-    public function getAdditional() : array // Missing array type.
+    public function getAdditional(): array // Missing array type.
     {
         return $this->additional;
     }
@@ -92,12 +92,12 @@ class ilPublicUserProfileGUI implements ilCtrlBaseClassInterface
     /**
      * Set Back Link URL.
      */
-    public function setBackUrl(string $a_backurl) : void
+    public function setBackUrl(string $a_backurl): void
     {
         global $DIC;
 
         $ilCtrl = $DIC['ilCtrl'];
-        
+
         // we only allow relative links
         $parts = parse_url($a_backurl);
         $host = $parts['host'] ?? '';
@@ -108,12 +108,12 @@ class ilPublicUserProfileGUI implements ilCtrlBaseClassInterface
         $ilCtrl->setParameter($this, "back_url", rawurlencode($a_backurl));
     }
 
-    public function getBackUrl() : string
+    public function getBackUrl(): string
     {
         return $this->backurl;
     }
-        
-    protected function handleBackUrl(bool $a_is_portfolio = false) : void
+
+    protected function handleBackUrl(bool $a_is_portfolio = false): void
     {
         global $DIC;
 
@@ -124,7 +124,7 @@ class ilPublicUserProfileGUI implements ilCtrlBaseClassInterface
         $back = ($this->getBackUrl() != "")
             ? $this->getBackUrl()
             : $back_url;
-        
+
         if (!$back) {
             if ($DIC->user()->getId() != ANONYMOUS_USER_ID) {
                 // #15984
@@ -143,11 +143,11 @@ class ilPublicUserProfileGUI implements ilCtrlBaseClassInterface
             );
         }
     }
-    
+
     /**
      * Set custom preferences for public profile fields
      */
-    public function setCustomPrefs(array $a_prefs) : void // Missing array type.
+    public function setCustomPrefs(array $a_prefs): void // Missing array type.
     {
         $this->custom_prefs = $a_prefs;
     }
@@ -155,7 +155,7 @@ class ilPublicUserProfileGUI implements ilCtrlBaseClassInterface
     /**
      * Get user preference for public profile
      */
-    protected function getPublicPref(ilObjUser $a_user, string $a_id) : string
+    protected function getPublicPref(ilObjUser $a_user, string $a_id): string
     {
         if (!$this->custom_prefs) {
             return (string) $a_user->getPref($a_id);
@@ -163,14 +163,14 @@ class ilPublicUserProfileGUI implements ilCtrlBaseClassInterface
             return (string) $this->custom_prefs[$a_id];
         }
     }
-    
-    public function setEmbedded(bool $a_value, bool $a_offline = false) : void
+
+    public function setEmbedded(bool $a_value, bool $a_offline = false): void
     {
         $this->embedded = $a_value;
         $this->offline = $a_offline;
     }
-    
-    public function executeCommand() : string
+
+    public function executeCommand(): string
     {
         global $DIC;
 
@@ -183,9 +183,9 @@ class ilPublicUserProfileGUI implements ilCtrlBaseClassInterface
 
         $next_class = $ilCtrl->getNextClass($this);
         $cmd = $ilCtrl->getCmd();
-        
+
         $tpl->loadStandardTemplate();
-        
+
         switch ($next_class) {
             case "ilobjportfoliogui":
                 $portfolio_id = $this->getProfilePortfolio();
@@ -212,23 +212,23 @@ class ilPublicUserProfileGUI implements ilCtrlBaseClassInterface
                 $tpl->setContent($ret);
                 break;
         }
-            
+
         // only for direct links
         if (strtolower($this->profile_request->getBaseClass()) == "ilpublicuserprofilegui") {
             $tpl->printToStdout();
         }
         return (string) $ret;
     }
-    
+
     /**
      * View. This one is called e.g. through the goto script
      */
-    public function view() : string
+    public function view(): string
     {
         return $this->getHTML();
     }
 
-    protected function isProfilePublic() : bool
+    protected function isProfilePublic(): bool
     {
         $setting = $this->setting;
         $user = new ilObjUser($this->getUserId());
@@ -240,7 +240,7 @@ class ilPublicUserProfileGUI implements ilCtrlBaseClassInterface
         return in_array($current, ["g", "y"]);
     }
 
-    public function getHTML() : string
+    public function getHTML(): string
     {
         global $DIC;
         $ilCtrl = $DIC['ilCtrl'];
@@ -249,7 +249,7 @@ class ilPublicUserProfileGUI implements ilCtrlBaseClassInterface
         if ($this->embedded) {
             return $this->getEmbeddable();
         }
-                
+
         // #15438 - (currently) inactive user?
         $is_active = true;
         $user = new ilObjUser($this->getUserId());
@@ -257,14 +257,14 @@ class ilPublicUserProfileGUI implements ilCtrlBaseClassInterface
             !$user->checkTimeLimit()) {
             $is_active = false;
         }
-        
+
         if ($is_active && $this->getProfilePortfolio()) {
             $ilCtrl->redirectByClass("ilobjportfoliogui", "preview");
         } else {
             if (!$is_active) {
                 ilUtil::redirect('ilias.php?baseClass=ilDashboardGUI');
             }
-            
+
             // Check from Database if value
             // of public_profile = "y" show user infomation
             $user = new ilObjUser($this->getUserId());
@@ -273,7 +273,7 @@ class ilPublicUserProfileGUI implements ilCtrlBaseClassInterface
             if ($user->getPref("public_profile") == "g" && !$ilSetting->get('enable_global_profiles')) {
                 $current = "y";
             }
-            
+
             if ($current != "y" &&
                 ($current != "g" || !$ilSetting->get('enable_global_profiles')) &&
                 !$this->custom_prefs) {
@@ -291,7 +291,7 @@ class ilPublicUserProfileGUI implements ilCtrlBaseClassInterface
      * get public profile html code
      * Used in Personal Profile (as preview) and Portfolio (as page block)
      */
-    public function getEmbeddable(bool $a_add_goto = false) : string
+    public function getEmbeddable(bool $a_add_goto = false): string
     {
         global $DIC;
 
@@ -308,7 +308,7 @@ class ilPublicUserProfileGUI implements ilCtrlBaseClassInterface
             return "";
         }
         $user = new ilObjUser($this->getUserId());
-        
+
         $tpl = new ilTemplate(
             "tpl.usr_public_profile.html",
             true,
@@ -325,7 +325,7 @@ class ilPublicUserProfileGUI implements ilCtrlBaseClassInterface
             if (!$ref_url) {
                 $ref_url = basename($_SERVER['REQUEST_URI']);
             }
-            
+
             $tpl->setCurrentBlock("mail");
             $tpl->setVariable("TXT_MAIL", $lng->txt("send_mail"));
             $tpl->setVariable(
@@ -371,7 +371,7 @@ class ilPublicUserProfileGUI implements ilCtrlBaseClassInterface
             $tpl->setVariable("VAL_BIRTHDAY", ilDatePresentation::formatDate(new ilDate($user->getBirthday(), IL_CAL_DATE)));
             $tpl->parseCurrentBlock();
         }
-        
+
         if (!$this->offline) {
             // vcard
             $tpl->setCurrentBlock("vcard");
@@ -380,7 +380,7 @@ class ilPublicUserProfileGUI implements ilCtrlBaseClassInterface
             $ilCtrl->setParameter($this, "user", $this->getUserId());
             $tpl->setVariable("HREF_VCARD", $ilCtrl->getLinkTarget($this, "deliverVCard"));
         }
-        
+
         $webspace_dir = ilFileUtils::getWebspaceDir("user");
         $check_dir = ilFileUtils::getWebspaceDir();
         $random = new \ilRandom();
@@ -408,7 +408,7 @@ class ilPublicUserProfileGUI implements ilCtrlBaseClassInterface
             $tpl->setVariable("IMAGE_ALT", $lng->txt("personal_picture"));
             $tpl->parseCurrentBlock();
         }
-        
+
         // address
         if ($this->getPublicPref($user, "public_street") == "y" ||
             $this->getPublicPref($user, "public_zipcode") == "y" ||
@@ -424,24 +424,24 @@ class ilPublicUserProfileGUI implements ilCtrlBaseClassInterface
                 // if value "y" show information
                 if ($this->getPublicPref($user, "public_" . $value) == "y") {
                     $address_value = $user->$key();
-                    
+
                     // only if set
                     if (trim($address_value) != "") {
                         switch ($value) {
                             case "street":
                                 $address[0] = $address_value;
                                 break;
-                            
+
                             case "zipcode":
                             case "city":
                                 $address[1] = ($address[1] ?? '') . $address_value;
                                 break;
-                            
+
                             case "sel_country":
                                 $lng->loadLanguageModule("meta");
                                 $address[2] = $lng->txt("meta_c_" . $address_value);
                                 break;
-                            
+
                             case "country":
                                 $address[2] = $address_value;
                                 break;
@@ -509,7 +509,7 @@ class ilPublicUserProfileGUI implements ilCtrlBaseClassInterface
             $tpl->parseCurrentBlock();
         }
 
-        
+
         $val_arr = array(
             "getHobby" => "hobby",
             "getGeneralInterestsAsText" => "interests_general",
@@ -517,7 +517,7 @@ class ilPublicUserProfileGUI implements ilCtrlBaseClassInterface
             "getLookingForHelpAsText" => "interests_help_looking",
             "getMatriculation" => "matriculation",
             "getClientIP" => "client_ip");
-            
+
         foreach ($val_arr as $key => $value) {
             // if value "y" show information
             if ($this->getPublicPref($user, "public_" . $value) == "y") {
@@ -572,7 +572,7 @@ class ilPublicUserProfileGUI implements ilCtrlBaseClassInterface
 
             $tpl->setVariable("MAP_CONTENT", $map_gui->getHtml());
         }
-        
+
         // additional defined user data fields
         $this->user_defined_fields = ilUserDefinedFields::_getInstance();
         $user_defined_data = $user->getUserDefinedData();
@@ -587,7 +587,7 @@ class ilPublicUserProfileGUI implements ilCtrlBaseClassInterface
                 }
             }
         }
-        
+
         // additional information
         $additional = $this->getAdditional();
         if (is_array($additional)) {
@@ -607,20 +607,20 @@ class ilPublicUserProfileGUI implements ilCtrlBaseClassInterface
             $button = ilBuddySystemLinkButton::getInstanceByUserId($user->getId());
             $tpl->setVariable('BUDDY_HTML', $button->getHtml());
         }
-        
+
         // badges
         $user_badges = ilBadgeAssignment::getInstancesByUserId($user->getId());
         if ($user_badges) {
             $has_public_badge = false;
             $cnt = 0;
-            
+
             $cut = 20;
-            
+
             foreach ($user_badges as $ass) {
                 // only active
                 if ($ass->getPosition()) {
                     $cnt++;
-                    
+
                     $renderer = new ilBadgeRenderer($ass);
 
                     // limit to 20, [MORE] link
@@ -636,14 +636,14 @@ class ilPublicUserProfileGUI implements ilCtrlBaseClassInterface
                     $has_public_badge = true;
                 }
             }
-            
+
             if ($cnt > $cut) {
                 $lng->loadLanguageModule("badge");
                 $tpl->setVariable("BADGE_HIDDEN_TXT_MORE", $lng->txt("badge_profile_more"));
                 $tpl->setVariable("BADGE_HIDDEN_TXT_LESS", $lng->txt("badge_profile_less"));
                 $tpl->touchBlock("badge_js_bl");
             }
-            
+
             if ($has_public_badge) {
                 $tpl->setVariable("TXT_BADGES", $lng->txt("obj_bdga"));
             }
@@ -664,11 +664,11 @@ class ilPublicUserProfileGUI implements ilCtrlBaseClassInterface
         }
         return $tpl->get() . $goto;
     }
-    
+
     /**
     * Deliver vcard information.
     */
-    public function deliverVCard() : void
+    public function deliverVCard(): void
     {
         $type = "";
         // get user object
@@ -676,9 +676,9 @@ class ilPublicUserProfileGUI implements ilCtrlBaseClassInterface
             return;
         }
         $user = new ilObjUser($this->getUserId());
-        
+
         $vcard = new ilvCard();
-        
+
         // ilsharedresourceGUI: embedded in shared portfolio
         if ($user->getPref("public_profile") != "y" &&
             $user->getPref("public_profile") != "g" &&
@@ -687,10 +687,10 @@ class ilPublicUserProfileGUI implements ilCtrlBaseClassInterface
         ) {
             return;
         }
-        
+
         $vcard->setName($user->getLastname(), $user->getFirstname(), "", $user->getUTitle());
         $vcard->setNickname($user->getLogin());
-        
+
         $webspace_dir = ilFileUtils::getWebspaceDir("output");
         $imagefile = $webspace_dir . "/usr_images/" . $user->getPref("profile_image");
         if ($user->getPref("public_upload") == "y" && is_file($imagefile)) {
@@ -762,7 +762,7 @@ class ilPublicUserProfileGUI implements ilCtrlBaseClassInterface
                 }
             }
         }
-        
+
         if (count($org)) {
             $vcard->setOrganization(implode(";", $org));
         }
@@ -777,14 +777,14 @@ class ilPublicUserProfileGUI implements ilCtrlBaseClassInterface
                 $adr[6] ?? ""
             );
         }
-        
+
         ilUtil::deliverData($vcard->buildVCard(), $vcard->getFilename(), $vcard->getMimetype());
     }
-    
+
     /**
      * Check if given user id is valid
      */
-    protected static function validateUser(int $usrId) : bool
+    protected static function validateUser(int $usrId): bool
     {
         global $DIC;
 
@@ -816,24 +816,24 @@ class ilPublicUserProfileGUI implements ilCtrlBaseClassInterface
 
         return true;
     }
-    
-    public function renderTitle() : void
+
+    public function renderTitle(): void
     {
         global $DIC;
 
         $tpl = $DIC['tpl'];
-        
+
         $tpl->resetHeaderBlock();
         $tpl->setTitle(ilUserUtil::getNamePresentation($this->getUserId()));
         $tpl->setTitleIcon(ilObjUser::_getPersonalPicturePath($this->getUserId(), "xsmall"));
-        
+
         $this->handleBackUrl();
     }
-    
+
     /**
      * Check if current profile portfolio is accessible
      */
-    protected function getProfilePortfolio() : ?int
+    protected function getProfilePortfolio(): ?int
     {
         $portfolio_id = ilObjPortfolio::getDefaultPortfolio($this->getUserId());
         if ($portfolio_id) {
@@ -844,16 +844,16 @@ class ilPublicUserProfileGUI implements ilCtrlBaseClassInterface
         }
         return null;
     }
-    
+
     public static function getAutocompleteResult(
         string $a_field_id,
         string $a_term
-    ) : array {
+    ): array {
         global $DIC;
 
         $ilUser = $DIC['ilUser'];
         $result = [];
-        
+
         $multi_fields = array("interests_general", "interests_help_offered", "interests_help_looking");
         if (in_array($a_field_id, $multi_fields) && $a_term) {
             // registration has no current user
@@ -882,22 +882,22 @@ class ilPublicUserProfileGUI implements ilCtrlBaseClassInterface
                 $cnt++;
             }*/
         }
-        
+
         return $result;
     }
-    
-    protected function doProfileAutoComplete() : void
+
+    protected function doProfileAutoComplete(): void
     {
         $field_id = $this->profile_request->getFieldId();
         $term = $this->profile_request->getTerm();
-                
+
         $result = self::getAutocompleteResult($field_id, $term);
 
         echo json_encode($result, JSON_THROW_ON_ERROR);
         exit();
     }
 
-    protected function approveContactRequest() : void
+    protected function approveContactRequest(): void
     {
         global $DIC;
 
@@ -910,7 +910,7 @@ class ilPublicUserProfileGUI implements ilCtrlBaseClassInterface
         $ilCtrl->redirectByClass(array('ilPublicUserProfileGUI', 'ilBuddySystemGUI'), 'link');
     }
 
-    protected function ignoreContactRequest() : void
+    protected function ignoreContactRequest(): void
     {
         global $DIC;
 

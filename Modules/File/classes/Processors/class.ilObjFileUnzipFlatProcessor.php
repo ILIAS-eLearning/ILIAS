@@ -9,7 +9,7 @@ use ILIAS\ResourceStorage\Identification\ResourceIdentification;
  */
 class ilObjFileUnzipFlatProcessor extends ilObjFileAbstractZipProcessor
 {
-    public function process(ResourceIdentification $rid, array $options = []) : void
+    public function process(ResourceIdentification $rid, array $options = []): void
     {
         $this->openZip($rid);
 

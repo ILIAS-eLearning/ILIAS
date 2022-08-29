@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -33,14 +35,14 @@ interface ilNotificationOSDRepositoryInterface
 {
     public function __construct();
 
-    public function createOSDNotification(int $user_id, ilNotificationObject $object) : ?ilOSDNotificationObject;
+    public function createOSDNotification(int $user_id, ilNotificationObject $object): ?ilOSDNotificationObject;
 
-    public function ifOSDNotificationExistsById(int $id) : bool;
+    public function ifOSDNotificationExistsById(int $id): bool;
 
     /**
      * @return ilOSDNotificationObject[]
      */
-    public function getOSDNotificationsByUser(int $user_id) : array;
+    public function getOSDNotificationsByUser(int $user_id): array;
 
-    public function deleteOSDNotificationById(int $id) : bool;
+    public function deleteOSDNotificationById(int $id): bool;
 }

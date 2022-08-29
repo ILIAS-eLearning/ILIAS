@@ -23,7 +23,6 @@
  */
 class ilDclDatetimeFieldModel extends ilDclBaseFieldModel
 {
-
     /**
      * Returns a query-object for building the record-loader-sql-query
      * @param string|int $filter_value
@@ -31,7 +30,7 @@ class ilDclDatetimeFieldModel extends ilDclBaseFieldModel
     public function getRecordQueryFilterObject(
         $filter_value = "",
         ?ilDclBaseFieldModel $sort_field = null
-    ) : ?ilDclRecordQueryObject {
+    ): ?ilDclRecordQueryObject {
         global $DIC;
         $ilDB = $DIC['ilDB'];
 
@@ -60,7 +59,7 @@ class ilDclDatetimeFieldModel extends ilDclBaseFieldModel
      * @param string|int $value
      * @throws ilDclInputException
      */
-    public function checkValidity($value, ?int $record_id = null) : bool
+    public function checkValidity($value, ?int $record_id = null): bool
     {
         if ($value == null) {
             return true;

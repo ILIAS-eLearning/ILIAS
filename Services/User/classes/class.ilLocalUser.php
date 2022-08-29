@@ -25,7 +25,7 @@ class ilLocalUser
 {
     public ilDBInterface $db;
     public int $parent_id;
-        
+
     public function __construct(
         int $a_parent_id
     ) {
@@ -37,12 +37,12 @@ class ilLocalUser
         $this->parent_id = $a_parent_id;
     }
 
-    public function setParentId(int $a_parent_id) : void
+    public function setParentId(int $a_parent_id): void
     {
         $this->parent_id = $a_parent_id;
     }
 
-    public function getParentId() : int
+    public function getParentId(): int
     {
         return $this->parent_id;
     }
@@ -53,7 +53,7 @@ class ilLocalUser
      */
     public static function _getFolderIds(
         bool $access_with_orgunit = false
-    ) : array {
+    ): array {
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
@@ -91,7 +91,7 @@ class ilLocalUser
      */
     public static function _getAllUserIds(
         int $a_filter = 0
-    ) : array {
+    ): array {
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
@@ -100,8 +100,8 @@ class ilLocalUser
                 if (self::_getFolderIds()) {
                     $where = "WHERE " . $ilDB->in("time_limit_owner", self::_getFolderIds(), false, "integer") . " ";
                 //$where .= '(';
-                    //$where .= implode(",",ilUtil::quoteArray(ilLocalUser::_getFolderIds()));
-                    //$where .= ')';
+                //$where .= implode(",",ilUtil::quoteArray(ilLocalUser::_getFolderIds()));
+                //$where .= ')';
                 } else {
                     //$where = "WHERE time_limit_owner IN ('')";
                     return [];
@@ -114,7 +114,7 @@ class ilLocalUser
 
                 break;
         }
-        
+
         $query = "SELECT usr_id FROM usr_data " . $where;
         $res = $ilDB->query($query);
 
@@ -126,7 +126,7 @@ class ilLocalUser
         return $users;
     }
 
-    public static function _getUserFolderId() : int
+    public static function _getUserFolderId(): int
     {
         return 7;
     }

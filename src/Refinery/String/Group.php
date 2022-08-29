@@ -110,7 +110,7 @@ class Group
      * Creates a transformation to replace URL's like www.ilias.de to <a href="www.ilias.de">www.ilias.de</a>. But does not replace URL's already in anchor tags.
      * Expects a string of mixed HTML and plain text.
      */
-    public function makeClickable() : Transformation
+    public function makeClickable(): Transformation
     {
         return new MakeClickable();
     }

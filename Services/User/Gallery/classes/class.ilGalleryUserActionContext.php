@@ -22,12 +22,12 @@
  */
 class ilGalleryUserActionContext extends ilUserActionContext
 {
-    public function getComponentId() : string
+    public function getComponentId(): string
     {
         return "user";
     }
 
-    public function getContextId() : string
+    public function getContextId(): string
     {
         return "gallery";
     }

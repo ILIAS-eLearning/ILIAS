@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -25,7 +27,7 @@
  */
 class ilChatroomSmiliesGUI
 {
-    public static function _getExistingSmiliesTable(ilChatroomObjectGUI $a_ref) : string
+    public static function _getExistingSmiliesTable(ilChatroomObjectGUI $a_ref): string
     {
         $table = new ilChatroomSmiliesTableGUI($a_ref, 'smiley');
         $values = ilChatroomSmilies::_getSmilies();

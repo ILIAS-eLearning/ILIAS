@@ -63,7 +63,7 @@ class ilUserRoleStartingPointTableGUI extends ilTable2GUI
     /**
      * Get data
      */
-    public function getItems() : void
+    public function getItems(): void
     {
         global $DIC;
 
@@ -73,7 +73,7 @@ class ilUserRoleStartingPointTableGUI extends ilTable2GUI
 
         $valid_points = ilUserUtil::getPossibleStartingPoints();
 
-        $status = (ilUserUtil::hasPersonalStartingPoint()? $lng->txt("yes") : $lng->txt("no"));
+        $status = (ilUserUtil::hasPersonalStartingPoint() ? $lng->txt("yes") : $lng->txt("no"));
 
         $result = array();
         $result[] = array(
@@ -140,7 +140,7 @@ class ilUserRoleStartingPointTableGUI extends ilTable2GUI
         $this->setData($result);
     }
 
-    protected function fillRow(array $a_set) : void // Missing array type.
+    protected function fillRow(array $a_set): void // Missing array type.
     {
         global $DIC;
 

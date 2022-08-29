@@ -25,7 +25,7 @@ class ilGlossaryImporter extends ilXmlImporter
     protected ilImportConfig $config;
     protected ilGlossaryDataSet $ds;
 
-    public function init() : void
+    public function init(): void
     {
         $this->ds = new ilGlossaryDataSet();
         $this->ds->setDSPrefix("ds");
@@ -37,7 +37,7 @@ class ilGlossaryImporter extends ilXmlImporter
         string $a_id,
         string $a_xml,
         ilImportMapping $a_mapping
-    ) : void {
+    ): void {
         if ($a_entity == "glo") {
             // case i container
             if ($new_id = $a_mapping->getMapping('Services/Container', 'objs', $a_id)) {
@@ -67,11 +67,10 @@ class ilGlossaryImporter extends ilXmlImporter
             }
         }
     }
-    
+
     public function finalProcessing(
         ilImportMapping $a_mapping
-    ) : void {
-
+    ): void {
         // get all glossaries of the import
         $maps = $a_mapping->getMappingsOfEntity("Modules/Glossary", "glo");
         foreach ($maps as $old => $new) {

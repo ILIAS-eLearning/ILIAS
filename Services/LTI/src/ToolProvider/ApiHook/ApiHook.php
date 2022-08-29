@@ -27,7 +27,6 @@ namespace ILIAS\LTI\ToolProvider\ApiHook;
  */
 trait ApiHook
 {
-
     /**
      * User Id hook name.
      */
@@ -98,7 +97,7 @@ trait ApiHook
      * @param string $familyCode Family code for current platform
      * @return bool    True if the API hook is registered
      */
-    private static function hasApiHook(string $hookName, string $familyCode) : bool
+    private static function hasApiHook(string $hookName, string $familyCode): bool
     {
         $class = self::class;
         return isset(self::$API_HOOKS["{$class}-{$hookName}-{$familyCode}"]);
@@ -113,7 +112,7 @@ trait ApiHook
      * @param \ILIAS\LTI\ToolProvider\Platform|\ILIAS\LTI\ToolProvider\Context|\ILIAS\LTI\ToolProvider\ResourceLink|\ILIAS\LTI\ToolProvider\Tool $sourceObject Source object for which hook is to be used
      * @return bool    True if the API hook is registered and configured
      */
-    private static function hasConfiguredApiHook(string $hookName, string $familyCode, $sourceObject) : bool
+    private static function hasConfiguredApiHook(string $hookName, string $familyCode, $sourceObject): bool
     {
         $ok = false;
         $class = self::class;

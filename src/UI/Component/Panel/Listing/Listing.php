@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\UI\Component\Panel\Listing;
 
 use ILIAS\UI\Component\Component;
@@ -31,22 +33,22 @@ interface Listing extends Component
     /**
      * Gets the title of the appointment listing
      */
-    public function getTitle() : string;
+    public function getTitle(): string;
 
     /**
      * Get item list
      *
      * @return Group[]
      */
-    public function getItemGroups() : array;
+    public function getItemGroups(): array;
 
     /**
      * Sets the action dropdown to be displayed on the right of the title
      */
-    public function withActions(Dropdown\Standard $actions) : Listing;
+    public function withActions(Dropdown\Standard $actions): Listing;
 
     /**
      * Gets the action dropdown to be displayed on the right of the title
      */
-    public function getActions() : ?Dropdown\Standard;
+    public function getActions(): ?Dropdown\Standard;
 }

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\UI\Component\Input;
 
 /**
@@ -110,7 +112,7 @@ interface Factory
      * ---
      * @return    \ILIAS\UI\Component\Input\Field\Factory
      */
-    public function field() : Field\Factory;
+    public function field(): Field\Factory;
 
     /**
      * ---
@@ -131,7 +133,7 @@ interface Factory
      * ---
      * @return    \ILIAS\UI\Component\Input\Container\Factory
      */
-    public function container() : Container\Factory;
+    public function container(): Container\Factory;
 
     /**
      * ---
@@ -157,5 +159,5 @@ interface Factory
      * ---
      * @return \ILIAS\UI\Component\Input\ViewControl\Factory
      */
-    public function viewControl() : ViewControl\Factory;
+    public function viewControl(): ViewControl\Factory;
 }

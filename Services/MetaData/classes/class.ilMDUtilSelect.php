@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -40,8 +42,7 @@ class ilMDUtilSelect
         string $a_name,
         array $prepend = array(),
         bool $a_options_only = false
-    ) // END PATCH Lucene Search
-    {
+    ) { // END PATCH Lucene Search
         global $DIC;
 
         $lng = $DIC['lng'];
@@ -78,8 +79,7 @@ class ilMDUtilSelect
         string $a_name,
         array $prepend = array(),
         bool $a_options_only = false
-    ) // END PATCH Lucene Search
-    {
+    ) { // END PATCH Lucene Search
         global $DIC;
 
         $lng = $DIC['lng'];
@@ -115,8 +115,7 @@ class ilMDUtilSelect
         string $a_name,
         array $prepend = array(),
         bool $a_options_only = false
-    ) // END PATCH Lucene Search
-    {
+    ) { // END PATCH Lucene Search
         global $DIC;
 
         $lng = $DIC['lng'];
@@ -152,8 +151,7 @@ class ilMDUtilSelect
         string $a_name,
         array $prepend = array(),
         bool $a_options_only = false
-    ) // END PATCH Lucene Search
-    {
+    ) { // END PATCH Lucene Search
         global $DIC;
 
         $lng = $DIC['lng'];
@@ -207,8 +205,7 @@ class ilMDUtilSelect
         string $a_name,
         array $prepend = array(),
         bool $a_options_only = false
-    ) // END PATCH Lucene Search
-    {
+    ) { // END PATCH Lucene Search
         global $DIC;
 
         $lng = $DIC['lng'];
@@ -244,8 +241,7 @@ class ilMDUtilSelect
         string $a_name,
         array $prepend = array(),
         bool $a_options_only = false
-    ) // END PATCH Lucene Search
-    {
+    ) { // END PATCH Lucene Search
         global $DIC;
 
         $lng = $DIC['lng'];
@@ -281,8 +277,7 @@ class ilMDUtilSelect
         string $a_name,
         array $prepend = array(),
         bool $a_options_only = false
-    ) // END PATCH Lucene Search
-    {
+    ) { // END PATCH Lucene Search
         global $DIC;
 
         $lng = $DIC['lng'];
@@ -323,7 +318,7 @@ class ilMDUtilSelect
      * All possible entries in meta_format are shown
      * @param array $prepend array(value => 'string') of first item. E.g: array(0,'-Please select-')
      */
-    public static function _getDurationSelect(string $a_selected, string $a_name, array $prepend = array()) : string
+    public static function _getDurationSelect(string $a_selected, string $a_name, array $prepend = array()): string
     {
         global $DIC;
 
@@ -362,8 +357,7 @@ class ilMDUtilSelect
         string $a_name,
         array $prepend = array(),
         bool $a_options_only = false
-    ) // END PATCH Lucene Search
-    {
+    ) { // END PATCH Lucene Search
         global $DIC;
 
         $lng = $DIC['lng'];
@@ -400,8 +394,7 @@ class ilMDUtilSelect
         string $a_name,
         array $prepend = array(),
         bool $a_options_only = false
-    ) // END PATCH Lucene Search
-    {
+    ) { // END PATCH Lucene Search
         global $DIC;
 
         $lng = $DIC['lng'];
@@ -490,8 +483,7 @@ class ilMDUtilSelect
         string $a_name,
         array $prepend = array(),
         bool $a_options_only = false
-    ) // END PATCH Lucene Search
-    {
+    ) { // END PATCH Lucene Search
         global $DIC;
 
         $lng = $DIC['lng'];
@@ -528,8 +520,7 @@ class ilMDUtilSelect
         string $a_name,
         array $prepend = array(),
         bool $a_options_only = false
-    ) // END PATCH Lucene Search
-    {
+    ) { // END PATCH Lucene Search
         global $DIC;
 
         $lng = $DIC['lng'];
@@ -565,8 +556,7 @@ class ilMDUtilSelect
         string $a_name,
         array $prepend = array(),
         bool $a_options_only = false
-    ) // END PATCH Lucene Search
-    {
+    ) { // END PATCH Lucene Search
         global $DIC;
 
         $lng = $DIC['lng'];
@@ -595,7 +585,7 @@ class ilMDUtilSelect
      * Prepare a meta location type
      * @param array $prepend array(value => 'string') of first item. E.g: array(0,'-Please select-')
      */
-    public static function _getLocationTypeSelect(string $a_selected, string $a_name, array $prepend = array()) : string
+    public static function _getLocationTypeSelect(string $a_selected, string $a_name, array $prepend = array()): string
     {
         global $DIC;
 
@@ -625,8 +615,7 @@ class ilMDUtilSelect
         string $a_name,
         array $prepend = array(),
         bool $a_options_only = false
-    ) // END PATCH Lucene Search
-    {
+    ) { // END PATCH Lucene Search
         global $DIC;
 
         $lng = $DIC['lng'];
@@ -660,7 +649,7 @@ class ilMDUtilSelect
         string $a_selected,
         string $a_name,
         array $prepend = array()
-    ) : string {
+    ): string {
         global $DIC;
 
         $lng = $DIC['lng'];
@@ -688,7 +677,7 @@ class ilMDUtilSelect
         string $a_selected,
         string $a_name,
         array $prepend = array()
-    ) : string {
+    ): string {
         global $DIC;
 
         $lng = $DIC['lng'];
@@ -725,8 +714,7 @@ class ilMDUtilSelect
         string $a_name,
         array $prepend = array(),
         bool $a_options_only = false
-    ) // END PATCH Lucene Search
-    {
+    ) { // END PATCH Lucene Search
         global $DIC;
 
         $lng = $DIC['lng'];
@@ -763,8 +751,7 @@ class ilMDUtilSelect
         string $a_name,
         array $prepend = array(),
         bool $a_options_only = false
-    ) // END PATCH Lucene Search
-    {
+    ) { // END PATCH Lucene Search
         global $DIC;
 
         $lng = $DIC['lng'];
@@ -801,8 +788,7 @@ class ilMDUtilSelect
         string $a_name,
         array $prepend = array(),
         bool $a_options_only = false
-    ) // END PATCH Lucene Search
-    {
+    ) { // END PATCH Lucene Search
         global $DIC;
 
         $lng = $DIC['lng'];

@@ -29,17 +29,17 @@ class ilCOPageExportConfig extends ilExportConfig
     public function setMasterLanguageOnly(
         bool $a_val,
         bool $a_include_media = true
-    ) : void {
+    ): void {
         $this->master_only = $a_val;
         $this->include_media = $a_include_media;
     }
 
-    public function getMasterLanguageOnly() : bool
+    public function getMasterLanguageOnly(): bool
     {
         return $this->master_only;
     }
 
-    public function getIncludeMedia() : bool
+    public function getIncludeMedia(): bool
     {
         return $this->include_media;
     }

@@ -25,7 +25,7 @@ use ILIAS\ResourceStorage\AbstractBaseResourceBuilderTest;
  */
 class FileNamePolicyTest extends AbstractBaseResourceBuilderTest
 {
-    protected function getResourceBuilder(string $denied_ending) : ResourceBuilder
+    protected function getResourceBuilder(string $denied_ending): ResourceBuilder
     {
         $policy = $this->getFileNamePolicy($denied_ending);
         return new ResourceBuilder(
@@ -39,15 +39,15 @@ class FileNamePolicyTest extends AbstractBaseResourceBuilderTest
         );
     }
 
-    protected function getFileNamePolicy(string $denied_ending) : \ILIAS\ResourceStorage\Policy\FileNamePolicy
+    protected function getFileNamePolicy(string $denied_ending): \ILIAS\ResourceStorage\Policy\FileNamePolicy
     {
-        return new class($denied_ending) implements FileNamePolicy {
+        return new class ($denied_ending) implements FileNamePolicy {
             public function __construct(string $denied_ending)
             {
                 $this->denied_ending = $denied_ending;
             }
 
-            public function check(string $extension) : bool
+            public function check(string $extension): bool
             {
                 if ($this->denied_ending === $extension) {
                     throw new FileNamePolicyException('ERROR');
@@ -55,24 +55,24 @@ class FileNamePolicyTest extends AbstractBaseResourceBuilderTest
                 return true;
             }
 
-            public function isValidExtension(string $extension) : bool
+            public function isValidExtension(string $extension): bool
             {
                 return $this->denied_ending !== $extension;
             }
 
-            public function isBlockedExtension(string $extension) : bool
+            public function isBlockedExtension(string $extension): bool
             {
                 return $this->denied_ending === $extension;
             }
 
-            public function prepareFileNameForConsumer(string $filename_with_extension) : string
+            public function prepareFileNameForConsumer(string $filename_with_extension): string
             {
                 return $filename_with_extension;
             }
         };
     }
 
-    public function testDeniedFileEnding() : void
+    public function testDeniedFileEnding(): void
     {
         $denied_ending = 'xml';
         $resource_builder = $this->getResourceBuilder($denied_ending);
@@ -99,7 +99,7 @@ class FileNamePolicyTest extends AbstractBaseResourceBuilderTest
         $resource_builder->store($resource);
     }
 
-    public function testValidFileEnding() : void
+    public function testValidFileEnding(): void
     {
         $denied_ending = 'xml';
         $resource_builder = $this->getResourceBuilder($denied_ending);

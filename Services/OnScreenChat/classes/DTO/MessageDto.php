@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -38,52 +40,52 @@ class MessageDto
     }
 
 
-    public function getId() : string
+    public function getId(): string
     {
         return $this->id;
     }
 
-    public function setId(string $id) : void
+    public function setId(string $id): void
     {
         $this->id = $id;
     }
 
-    public function getConversation() : ConversationDto
+    public function getConversation(): ConversationDto
     {
         return $this->conversation;
     }
 
-    public function setConversation(ConversationDto $conversation) : void
+    public function setConversation(ConversationDto $conversation): void
     {
         $this->conversation = $conversation;
     }
 
-    public function getAuthorUsrId() : int
+    public function getAuthorUsrId(): int
     {
         return $this->authorUsrId;
     }
 
-    public function setAuthorUsrId(int $authorUsrId) : void
+    public function setAuthorUsrId(int $authorUsrId): void
     {
         $this->authorUsrId = $authorUsrId;
     }
 
-    public function getCreatedTimestamp() : int
+    public function getCreatedTimestamp(): int
     {
         return $this->createdTimestamp;
     }
 
-    public function setCreatedTimestamp(int $createdTimestamp) : void
+    public function setCreatedTimestamp(int $createdTimestamp): void
     {
         $this->createdTimestamp = $createdTimestamp;
     }
 
-    public function getMessage() : string
+    public function getMessage(): string
     {
         return $this->message;
     }
 
-    public function setMessage(string $message) : void
+    public function setMessage(string $message): void
     {
         $this->message = $message;
     }

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -27,7 +29,7 @@
  */
 class ilObjCmiXapiVerificationListGUI extends ilObjectListGUI
 {
-    public function init() : void
+    public function init(): void
     {
         $this->delete_enabled = true;
         $this->cut_enabled = true;
@@ -37,18 +39,18 @@ class ilObjCmiXapiVerificationListGUI extends ilObjectListGUI
         $this->info_screen_enabled = false;
         $this->type = "cmxv";
         $this->gui_class_name = ilObjCmiXapiVerificationGUI::class;
-        
+
         // general commands array
         $this->commands = ilObjCmiXapiVerificationAccess::_getCommands();
     }
-    
+
     /**
      * @return array<int, array<string, mixed>>
      */
-    public function getProperties() : array
+    public function getProperties(): array
     {
         global $lng;
-        
+
         return [
             [
                 "alert" => false,

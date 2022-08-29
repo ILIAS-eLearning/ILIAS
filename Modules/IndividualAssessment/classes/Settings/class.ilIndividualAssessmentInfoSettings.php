@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /* Copyright (c) 2021 - Daniel Weise <daniel.weise@concepts-and-training.de> - Extended GPL, see LICENSE */
 
@@ -30,32 +32,32 @@ class ilIndividualAssessmentInfoSettings
         $this->consultation_hours = $consultation_hours;
     }
 
-    public function getObjId() : int
+    public function getObjId(): int
     {
         return $this->obj_id;
     }
 
-    public function getContact() : ?string
+    public function getContact(): ?string
     {
         return $this->contact;
     }
 
-    public function getResponsibility() : ?string
+    public function getResponsibility(): ?string
     {
         return $this->responsibility;
     }
 
-    public function getPhone() : ?string
+    public function getPhone(): ?string
     {
         return $this->phone;
     }
 
-    public function getMails() : ?string
+    public function getMails(): ?string
     {
         return $this->mails;
     }
 
-    public function getConsultationHours() : ?string
+    public function getConsultationHours(): ?string
     {
         return $this->consultation_hours;
     }
@@ -64,7 +66,7 @@ class ilIndividualAssessmentInfoSettings
         Field\Factory $input,
         ilLanguage $lng,
         Refinery $refinery
-    ) : Field\Input {
+    ): Field\Input {
         return $input->section(
             [
                 $input->text($lng->txt("iass_contact"))

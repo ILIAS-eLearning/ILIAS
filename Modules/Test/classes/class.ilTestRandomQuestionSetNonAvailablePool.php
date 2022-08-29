@@ -1,4 +1,5 @@
 <?php
+
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 
@@ -10,14 +11,14 @@
  */
 class ilTestRandomQuestionSetNonAvailablePool
 {
-    const UNAVAILABILITY_STATUS_LOST = 'lost';
-    const UNAVAILABILITY_STATUS_TRASHED = 'trashed';
-    
+    public const UNAVAILABILITY_STATUS_LOST = 'lost';
+    public const UNAVAILABILITY_STATUS_TRASHED = 'trashed';
+
     /**
      * @var string
      */
     protected $unavailabilityStatus;
-    
+
     /**
      * @var integer
      */
@@ -39,7 +40,7 @@ class ilTestRandomQuestionSetNonAvailablePool
     /**
      * @return int
      */
-    public function getId() : int
+    public function getId(): int
     {
         return $this->id;
     }
@@ -55,7 +56,7 @@ class ilTestRandomQuestionSetNonAvailablePool
     /**
      * @return string
      */
-    public function getTitle() : string
+    public function getTitle(): string
     {
         return $this->title;
     }
@@ -71,7 +72,7 @@ class ilTestRandomQuestionSetNonAvailablePool
     /**
      * @return string
      */
-    public function getPath() : string
+    public function getPath(): string
     {
         return $this->path;
     }
@@ -83,15 +84,15 @@ class ilTestRandomQuestionSetNonAvailablePool
     {
         $this->path = $path;
     }
-    
+
     /**
      * @return string
      */
-    public function getUnavailabilityStatus() : string
+    public function getUnavailabilityStatus(): string
     {
         return $this->unavailabilityStatus;
     }
-    
+
     /**
      * @param string $unavailabilityStatus
      */
@@ -100,12 +101,12 @@ class ilTestRandomQuestionSetNonAvailablePool
         $this->unavailabilityStatus = $unavailabilityStatus;
     }
 
-    public function getRefId() : ?int
+    public function getRefId(): ?int
     {
         return $this->ref_id;
     }
 
-    public function setRefId(?int $ref_id) : void
+    public function setRefId(?int $ref_id): void
     {
         $this->ref_id = $ref_id;
     }
@@ -117,10 +118,14 @@ class ilTestRandomQuestionSetNonAvailablePool
     {
         foreach ($row as $field => $value) {
             switch ($field) {
-                case 'pool_fi': $this->setId($value); break;
-                case 'pool_ref_id': $this->setRefId($value ? (int) $value : null); break;
-                case 'pool_title': $this->setTitle($value); break;
-                case 'pool_path': $this->setPath($value); break;
+                case 'pool_fi': $this->setId($value);
+                    break;
+                case 'pool_ref_id': $this->setRefId($value ? (int) $value : null);
+                    break;
+                case 'pool_title': $this->setTitle($value);
+                    break;
+                case 'pool_path': $this->setPath($value);
+                    break;
             }
         }
     }

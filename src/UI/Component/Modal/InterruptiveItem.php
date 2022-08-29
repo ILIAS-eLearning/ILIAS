@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\UI\Component\Modal;
 
 use ILIAS\UI\Component\Image\Image;
@@ -30,20 +32,20 @@ interface InterruptiveItem
     /**
      * Return an ID of the item
      */
-    public function getId() : string;
+    public function getId(): string;
 
     /**
      * Get the title of the item
      */
-    public function getTitle() : string;
+    public function getTitle(): string;
 
     /**
      * Get the description of a title
      */
-    public function getDescription() : string;
+    public function getDescription(): string;
 
     /**
      * Get the icon of the item
      */
-    public function getIcon() : ?Image;
+    public function getIcon(): ?Image;
 }

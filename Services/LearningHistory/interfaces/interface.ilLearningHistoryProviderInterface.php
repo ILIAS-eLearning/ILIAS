@@ -23,10 +23,10 @@
  */
 interface ilLearningHistoryProviderInterface
 {
-    public function isActive() : bool;
+    public function isActive(): bool;
 
-    public function getEntries(int $ts_start, int $ts_end) : array;
+    public function getEntries(int $ts_start, int $ts_end): array;
 
     // Get name of provider (in user language)
-    public function getName() : string;
+    public function getName(): string;
 }

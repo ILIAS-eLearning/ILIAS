@@ -14,7 +14,7 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *********************************************************************/
- 
+
 namespace ILIAS\ResourceStorage\Revision;
 
 use ILIAS\ResourceStorage\Identification\ResourceIdentification;
@@ -28,21 +28,21 @@ interface Revision
 {
     public const STATUS_ACTIVE = 1;
 
-    public function getIdentification() : ResourceIdentification;
+    public function getIdentification(): ResourceIdentification;
 
-    public function getVersionNumber() : int;
+    public function getVersionNumber(): int;
 
-    public function getInformation() : Information;
+    public function getInformation(): Information;
 
-    public function setInformation(Information $information) : void;
+    public function setInformation(Information $information): void;
 
-    public function setUnavailable() : void;
+    public function setUnavailable(): void;
 
-    public function isAvailable() : bool;
+    public function isAvailable(): bool;
 
-    public function getOwnerId() : int;
+    public function getOwnerId(): int;
 
-    public function setTitle(string $title) : Revision;
+    public function setTitle(string $title): Revision;
 
-    public function getTitle() : string;
+    public function getTitle(): string;
 }

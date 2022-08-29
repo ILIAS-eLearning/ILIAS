@@ -44,18 +44,18 @@ class EditingGUIRequest
         );
     }
 
-    public function getRefId() : int
+    public function getRefId(): int
     {
         return $this->int("ref_id");
     }
 
-    public function getQuestionId() : int
+    public function getQuestionId(): int
     {
         return $this->int("q_id");
     }
 
     /** @return int[] */
-    public function getQuestionIds() : array
+    public function getQuestionIds(): array
     {
         $ids = $this->intArray("q_id");
         if (count($ids) === 0) {
@@ -64,145 +64,145 @@ class EditingGUIRequest
         return $ids;
     }
 
-    public function getPreview() : int
+    public function getPreview(): int
     {
         return $this->int("preview");
     }
 
-    public function getSelectedQuestionTypes() : string
+    public function getSelectedQuestionTypes(): string
     {
         return $this->str("sel_question_types");
     }
 
-    public function getBaseClass() : string
+    public function getBaseClass(): string
     {
         return $this->str("baseClass");
     }
 
     /** @return string[] */
-    public function getSort() : array
+    public function getSort(): array
     {
         return $this->strArray("sort");
     }
 
 
-    public function getPhraseId() : int
+    public function getPhraseId(): int
     {
         return $this->int("p_id");
     }
 
-    public function getPhraseIds() : array
+    public function getPhraseIds(): array
     {
         return $this->intArray("phrase");
     }
 
-    public function getPhraseTitle() : string
+    public function getPhraseTitle(): string
     {
         return $this->str("phrase_title");
     }
 
 
-    public function getAnswers() : array
+    public function getAnswers(): array
     {
         $ans = $this->arrayArray("answers");
         return ilArrayUtil::stripSlashesRecursive($ans);
     }
 
-    public function getColumns() : array
+    public function getColumns(): array
     {
         $ans = $this->arrayArray("columns");
         return ilArrayUtil::stripSlashesRecursive($ans);
     }
 
-    public function getRows() : array
+    public function getRows(): array
     {
         $ans = $this->arrayArray("rows");
         return ilArrayUtil::stripSlashesRecursive($ans);
     }
 
-    public function getNeutralScale() : string
+    public function getNeutralScale(): string
     {
         return $this->str("answers_neutral_scale");
     }
 
-    public function getNeutral() : string
+    public function getNeutral(): string
     {
         $ans = $this->strArray("answers");
         return $ans["neutral"];
     }
 
-    public function getColumnNeutralScale() : string
+    public function getColumnNeutralScale(): string
     {
         return $this->str("columns_neutral_scale");
     }
 
-    public function getNewLinkType() : string
+    public function getNewLinkType(): string
     {
         return $this->str("internalLinkType");
     }
 
-    public function getNewForSurvey() : int
+    public function getNewForSurvey(): int
     {
         return $this->int("new_for_survey");
     }
 
-    public function getNewType() : string
+    public function getNewType(): string
     {
         return $this->str("new_type");
     }
 
-    public function getLinkSourceId() : int
+    public function getLinkSourceId(): int
     {
         return $this->int("source_id");
     }
 
-    public function getLinkItemId($type) : int
+    public function getLinkItemId($type): int
     {
         return $this->int($type);
     }
 
-    public function getReturn() : bool
+    public function getReturn(): bool
     {
         return (bool) $this->int("rtrn");
     }
 
     /** @return string[] */
-    public function getFiles() : array
+    public function getFiles(): array
     {
         return $this->strArray("file");
     }
 
-    public function getMaterialIndexes() : array
+    public function getMaterialIndexes(): array
     {
         return $this->intArray("idx");
     }
 
-    public function getPercentRow() : int
+    public function getPercentRow(): int
     {
         return $this->int("percent_row");
     }
 
-    public function getPercentColumns() : int
+    public function getPercentColumns(): int
     {
         return $this->int("percent_columns");
     }
 
-    public function getPercentBipAdj1() : int
+    public function getPercentBipAdj1(): int
     {
         return $this->int("percent_bipolar_adjective1");
     }
 
-    public function getPercentBipAdj2() : int
+    public function getPercentBipAdj2(): int
     {
         return $this->int("percent_bipolar_adjective2");
     }
 
-    public function getPercentNeutral() : int
+    public function getPercentNeutral(): int
     {
         return $this->int("percent_neutral");
     }
 
-    public function getObligatory() : array
+    public function getObligatory(): array
     {
         return $this->intArray("obligatory");
     }

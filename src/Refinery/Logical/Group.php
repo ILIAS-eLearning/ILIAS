@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -38,12 +40,12 @@ class Group
      * @param Constraint[] $other
      * @return ConstraintInterface
      */
-    public function logicalOr(array $other) : ConstraintInterface
+    public function logicalOr(array $other): ConstraintInterface
     {
         return new LogicalOr($other, $this->dataFactory, $this->language);
     }
 
-    public function not(Constraint $constraint) : ConstraintInterface
+    public function not(Constraint $constraint): ConstraintInterface
     {
         return new Not($constraint, $this->dataFactory, $this->language);
     }
@@ -52,7 +54,7 @@ class Group
      * @param Constraint[] $constraints
      * @return ConstraintInterface
      */
-    public function parallel(array $constraints) : ConstraintInterface
+    public function parallel(array $constraints): ConstraintInterface
     {
         return new Parallel($constraints, $this->dataFactory, $this->language);
     }
@@ -61,7 +63,7 @@ class Group
      * @param Constraint[] $constraints
      * @return ConstraintInterface
      */
-    public function sequential(array $constraints) : ConstraintInterface
+    public function sequential(array $constraints): ConstraintInterface
     {
         return new Sequential($constraints, $this->dataFactory, $this->language);
     }

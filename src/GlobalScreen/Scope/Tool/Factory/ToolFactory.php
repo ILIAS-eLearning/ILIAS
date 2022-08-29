@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -26,23 +28,22 @@ use ILIAS\GlobalScreen\Identification\IdentificationInterface;
  */
 class ToolFactory
 {
-    
     /**
      * Returns you a Tool which can contain special features in s context
      * @param IdentificationInterface $identification
      * @return Tool
      * @see CalledContexts
      */
-    public function tool(IdentificationInterface $identification) : Tool
+    public function tool(IdentificationInterface $identification): Tool
     {
         return new Tool($identification);
     }
-    
+
     /**
      * @param IdentificationInterface $identification
      * @return TreeTool
      */
-    public function treeTool(IdentificationInterface $identification) : TreeTool
+    public function treeTool(IdentificationInterface $identification): TreeTool
     {
         return new TreeTool($identification);
     }

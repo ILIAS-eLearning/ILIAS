@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 /**
@@ -24,7 +25,6 @@ namespace ILIAS\Modules\EmployeeTalk\TalkSeries\DTO;
  */
 final class EmployeeTalkSerieSettingsDto
 {
-
     /** @var int  $objectId*/
     private int $objectId = -1;
     /** @var bool $lockedEditing */
@@ -46,7 +46,7 @@ final class EmployeeTalkSerieSettingsDto
     /**
      * @return int
      */
-    public function getObjectId() : int
+    public function getObjectId(): int
     {
         return $this->objectId;
     }
@@ -55,7 +55,7 @@ final class EmployeeTalkSerieSettingsDto
      * @param int $objectId
      * @return EmployeeTalkSerieSettingsDto
      */
-    public function setObjectId(int $objectId) : EmployeeTalkSerieSettingsDto
+    public function setObjectId(int $objectId): EmployeeTalkSerieSettingsDto
     {
         $this->objectId = $objectId;
         return $this;
@@ -64,7 +64,7 @@ final class EmployeeTalkSerieSettingsDto
     /**
      * @return bool
      */
-    public function isLockedEditing() : bool
+    public function isLockedEditing(): bool
     {
         return $this->lockedEditing;
     }
@@ -73,7 +73,7 @@ final class EmployeeTalkSerieSettingsDto
      * @param bool $lockedEditing
      * @return EmployeeTalkSerieSettingsDto
      */
-    public function setLockedEditing(bool $lockedEditing) : EmployeeTalkSerieSettingsDto
+    public function setLockedEditing(bool $lockedEditing): EmployeeTalkSerieSettingsDto
     {
         $this->lockedEditing = $lockedEditing;
         return $this;

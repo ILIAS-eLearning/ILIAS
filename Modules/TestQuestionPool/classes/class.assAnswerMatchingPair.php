@@ -1,4 +1,5 @@
 <?php
+
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -25,6 +26,6 @@ class assAnswerMatchingPair
     {
         $this->term = $term;
         $this->definition = $definition;
-        $this->points = $points;
+        $this->points = (float) $points;
     }
 }

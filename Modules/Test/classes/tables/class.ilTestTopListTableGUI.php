@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * Class ilTestTopListTableGUI
@@ -23,7 +25,7 @@ class ilTestTopListTableGUI extends ilTable2GUI
         $this->buildColumns();
     }
 
-    private function buildColumns() : void
+    private function buildColumns(): void
     {
         $this->addColumn($this->lng->txt('toplist_col_rank'));
         $this->addColumn($this->lng->txt('toplist_col_participant'));
@@ -49,7 +51,7 @@ class ilTestTopListTableGUI extends ilTable2GUI
         }
     }
 
-    protected function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set): void
     {
         $rowHighlightClass = '';
 

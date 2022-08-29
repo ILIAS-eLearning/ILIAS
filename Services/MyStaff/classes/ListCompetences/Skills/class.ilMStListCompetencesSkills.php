@@ -41,7 +41,7 @@ class ilMStListCompetencesSkills
      * @param int[] $options
      * @return ilMStListCompetencesSkill[]
      */
-    final public function getData(array $options) : ListFetcherResult
+    final public function getData(array $options): ListFetcherResult
     {
         //Permission Filter
         $operation_access = ilOrgUnitOperation::OP_VIEW_COMPETENCES;
@@ -109,7 +109,7 @@ class ilMStListCompetencesSkills
         return new ListFetcherResult($skills, $numRows);
     }
 
-    protected function getAdditionalWhereStatement(array $filters) : string
+    protected function getAdditionalWhereStatement(array $filters): string
     {
         $wheres = [];
 

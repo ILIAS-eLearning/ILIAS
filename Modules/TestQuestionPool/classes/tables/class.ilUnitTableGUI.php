@@ -1,4 +1,5 @@
 <?php
+
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 require_once 'Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php';
@@ -42,7 +43,7 @@ class ilUnitTableGUI extends ilTable2GUI
         }
 
         $this->setTitle(sprintf($this->lng->txt('un_units_of_category_x'), $category->getDisplayString()));
-        
+
         $this->addColumn($this->lng->txt('un_sequence'), '');
         $this->addColumn($this->lng->txt('unit'), '');
         $this->addColumn($this->lng->txt('baseunit'), '');
@@ -63,7 +64,7 @@ class ilUnitTableGUI extends ilTable2GUI
     /**
      * @param array $a_set
      */
-    public function fillRow(array $a_set) : void
+    public function fillRow(array $a_set): void
     {
         /**
          * @var $ilCtrl ilCtrl

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -29,29 +31,28 @@ use ILIAS\GlobalScreen\Scope\Tool\Provider\AbstractDynamicToolPluginProvider;
  */
 interface ProviderCollection
 {
-
     /**
      * @return AbstractModificationPluginProvider
      */
-    public function getModificationProvider() : ?AbstractModificationPluginProvider;
+    public function getModificationProvider(): ?AbstractModificationPluginProvider;
 
     /**
      * @return AbstractStaticMainMenuPluginProvider
      */
-    public function getMainBarProvider() : ?AbstractStaticMainMenuPluginProvider;
+    public function getMainBarProvider(): ?AbstractStaticMainMenuPluginProvider;
 
     /**
      * @return AbstractDynamicToolPluginProvider
      */
-    public function getToolProvider() : ?AbstractDynamicToolPluginProvider;
+    public function getToolProvider(): ?AbstractDynamicToolPluginProvider;
 
     /**
      * @return AbstractStaticMetaBarPluginProvider
      */
-    public function getMetaBarProvider() : ?AbstractStaticMetaBarPluginProvider;
+    public function getMetaBarProvider(): ?AbstractStaticMetaBarPluginProvider;
 
     /**
      * @return AbstractNotificationPluginProvider
      */
-    public function getNotificationProvider() : ?AbstractNotificationPluginProvider;
+    public function getNotificationProvider(): ?AbstractNotificationPluginProvider;
 }

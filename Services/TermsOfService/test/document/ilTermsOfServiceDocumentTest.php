@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -24,7 +26,7 @@ use PHPUnit\Framework\MockObject\MockObject;
  */
 class ilTermsOfServiceDocumentTest extends ilTermsOfServiceCriterionBaseTest
 {
-    public function criteriaAssignmentProvider() : array
+    public function criteriaAssignmentProvider(): array
     {
         $criterionAssignment1 = $this
             ->getMockBuilder(ilTermsOfServiceDocumentCriterionAssignment::class)
@@ -90,22 +92,19 @@ class ilTermsOfServiceDocumentTest extends ilTermsOfServiceCriterionBaseTest
 
     /**
      * @dataProvider criteriaAssignmentProvider
-     * @param ilTermsOfServiceDocumentCriterionAssignment $criterionAssignment1
-     * @param ilTermsOfServiceDocumentCriterionAssignment $criterionAssignment2
-     * @param ilTermsOfServiceDocumentCriterionAssignment $criterionAssignment3
      */
     public function testDocumentModelCanBeBuiltFromArrayWithAttachedCriteriaBeingRead(
         ilTermsOfServiceDocumentCriterionAssignment $criterionAssignment1,
         ilTermsOfServiceDocumentCriterionAssignment $criterionAssignment2,
         ilTermsOfServiceDocumentCriterionAssignment $criterionAssignment3
-    ) : void {
+    ): void {
         $documentConnector = $this->getMockBuilder(arConnector::class)->getMock();
         $criterionConnector = $this->getMockBuilder(arConnector::class)->getMock();
 
         $criterionConnector
             ->expects($this->once())
             ->method('readSet')
-            ->willReturnCallback(function () use ($criterionAssignment1, $criterionAssignment2, $criterionAssignment3) {
+            ->willReturnCallback(function () use ($criterionAssignment1, $criterionAssignment2, $criterionAssignment3): array {
                 return [
                     [
                         'id' => $criterionAssignment1->getId(),
@@ -143,22 +142,19 @@ class ilTermsOfServiceDocumentTest extends ilTermsOfServiceCriterionBaseTest
 
     /**
      * @dataProvider criteriaAssignmentProvider
-     * @param ilTermsOfServiceDocumentCriterionAssignment $criterionAssignment1
-     * @param ilTermsOfServiceDocumentCriterionAssignment $criterionAssignment2
-     * @param ilTermsOfServiceDocumentCriterionAssignment $criterionAssignment3
      */
     public function testDocumentModelCanBeCreatedByIdWithAttachedCriteriaBeingRead(
         ilTermsOfServiceDocumentCriterionAssignment $criterionAssignment1,
         ilTermsOfServiceDocumentCriterionAssignment $criterionAssignment2,
         ilTermsOfServiceDocumentCriterionAssignment $criterionAssignment3
-    ) : void {
+    ): void {
         $documentConnector = $this->getMockBuilder(arConnector::class)->getMock();
         $criterionConnector = $this->getMockBuilder(arConnector::class)->getMock();
 
         $documentConnector
             ->expects($this->once())
             ->method('read')
-            ->willReturnCallback(function () {
+            ->willReturnCallback(function (): array {
                 $object = new stdClass();
 
                 $object->id = 4711;
@@ -176,7 +172,7 @@ class ilTermsOfServiceDocumentTest extends ilTermsOfServiceCriterionBaseTest
         $criterionConnector
             ->expects($this->once())
             ->method('readSet')
-            ->willReturnCallback(function () use ($criterionAssignment1, $criterionAssignment2, $criterionAssignment3) {
+            ->willReturnCallback(function () use ($criterionAssignment1, $criterionAssignment2, $criterionAssignment3): array {
                 return [
                     [
                         'id' => $criterionAssignment1->getId(),
@@ -209,15 +205,12 @@ class ilTermsOfServiceDocumentTest extends ilTermsOfServiceCriterionBaseTest
 
     /**
      * @dataProvider criteriaAssignmentProvider
-     * @param ilTermsOfServiceDocumentCriterionAssignment $criterionAssignment1
-     * @param ilTermsOfServiceDocumentCriterionAssignment $criterionAssignment2
-     * @param ilTermsOfServiceDocumentCriterionAssignment $criterionAssignment3
      */
     public function testCriteriaCanBeAttachedToDocument(
         ilTermsOfServiceDocumentCriterionAssignment $criterionAssignment1,
         ilTermsOfServiceDocumentCriterionAssignment $criterionAssignment2,
         ilTermsOfServiceDocumentCriterionAssignment $criterionAssignment3
-    ) : void {
+    ): void {
         $document = new ilTermsOfServiceDocument();
         $document->attachCriterion($criterionAssignment1);
         $document->attachCriterion($criterionAssignment2);
@@ -228,15 +221,12 @@ class ilTermsOfServiceDocumentTest extends ilTermsOfServiceCriterionBaseTest
 
     /**
      * @dataProvider criteriaAssignmentProvider
-     * @param ilTermsOfServiceDocumentCriterionAssignment $criterionAssignment1
-     * @param ilTermsOfServiceDocumentCriterionAssignment $criterionAssignment2
-     * @param ilTermsOfServiceDocumentCriterionAssignment $criterionAssignment3
      */
     public function testCriteriaCanBeDetachedFromDocument(
         ilTermsOfServiceDocumentCriterionAssignment $criterionAssignment1,
         ilTermsOfServiceDocumentCriterionAssignment $criterionAssignment2,
         ilTermsOfServiceDocumentCriterionAssignment $criterionAssignment3
-    ) : void {
+    ): void {
         $document = new ilTermsOfServiceDocument();
         $document->attachCriterion($criterionAssignment1);
         $document->attachCriterion($criterionAssignment2);
@@ -258,7 +248,7 @@ class ilTermsOfServiceDocumentTest extends ilTermsOfServiceCriterionBaseTest
         ilTermsOfServiceDocumentCriterionAssignment $criterionAssignment1,
         ilTermsOfServiceDocumentCriterionAssignment $criterionAssignment2,
         ilTermsOfServiceDocumentCriterionAssignment $criterionAssignment3
-    ) : void {
+    ): void {
         $documentConnector = $this->getMockBuilder(arConnector::class)->getMock();
 
         $document = new ilTermsOfServiceDocument();
@@ -325,7 +315,7 @@ class ilTermsOfServiceDocumentTest extends ilTermsOfServiceCriterionBaseTest
         $document->delete();
     }
 
-    public function testExceptionIsRaisedWhenAttachingDuplicateCriteria() : void
+    public function testExceptionIsRaisedWhenAttachingDuplicateCriteria(): void
     {
         $this->expectException(ilTermsOfServiceDuplicateCriterionAssignmentException::class);
 
@@ -373,7 +363,7 @@ class ilTermsOfServiceDocumentTest extends ilTermsOfServiceCriterionBaseTest
         $document->attachCriterion($criterionAssignment2);
     }
 
-    public function testExceptionIsRaisedWhenAttachingDuplicateCriteriaEvenWithDifferentIds() : void
+    public function testExceptionIsRaisedWhenAttachingDuplicateCriteriaEvenWithDifferentIds(): void
     {
         $this->expectException(ilTermsOfServiceDuplicateCriterionAssignmentException::class);
 
@@ -421,7 +411,7 @@ class ilTermsOfServiceDocumentTest extends ilTermsOfServiceCriterionBaseTest
         $document->attachCriterion($criterionAssignment2);
     }
 
-    public function testExceptionIsRaisedWhenRemovingUnknownCriterion() : void
+    public function testExceptionIsRaisedWhenRemovingUnknownCriterion(): void
     {
         $this->expectException(OutOfBoundsException::class);
 

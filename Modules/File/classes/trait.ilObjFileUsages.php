@@ -15,7 +15,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * Trait ilObjFileUsages
  * @author Fabian Schmid <fs@studer-raimann.ch>
@@ -81,7 +81,7 @@ trait ilObjFileUsages
      * get all usages of file object
      * @return array<int, array<string, mixed>>
      */
-    public function getUsages() : array
+    public function getUsages(): array
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -105,7 +105,7 @@ trait ilObjFileUsages
     /**
      * @deprecated
      */
-    public static function _getFilesOfObject(string $a_type, int $a_id, int $a_usage_hist_nr = 0, string $a_usage_lang = "-") : array
+    public static function _getFilesOfObject(string $a_type, int $a_id, int $a_usage_hist_nr = 0, string $a_usage_lang = "-"): array
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -54,7 +56,7 @@ class Complex extends AbstractChildItem implements
     /**
      * @inheritDoc
      */
-    public function withContentWrapper(Closure $content_wrapper) : hasContent
+    public function withContentWrapper(Closure $content_wrapper): hasContent
     {
         $clone = clone($this);
         $clone->content_wrapper = $content_wrapper;
@@ -65,7 +67,7 @@ class Complex extends AbstractChildItem implements
     /**
      * @inheritDoc
      */
-    public function withContent(Component $ui_component) : hasContent
+    public function withContent(Component $ui_component): hasContent
     {
         $clone = clone($this);
         $clone->content = $ui_component;
@@ -76,7 +78,7 @@ class Complex extends AbstractChildItem implements
     /**
      * @inheritDoc
      */
-    public function getContent() : Component
+    public function getContent(): Component
     {
         if ($this->content_wrapper !== null) {
             $wrapper = $this->content_wrapper;
@@ -91,7 +93,7 @@ class Complex extends AbstractChildItem implements
      * @param string $title
      * @return Complex
      */
-    public function withTitle(string $title) : hasTitle
+    public function withTitle(string $title): hasTitle
     {
         $clone = clone($this);
         $clone->title = $title;
@@ -102,7 +104,7 @@ class Complex extends AbstractChildItem implements
     /**
      * @inheritDoc
      */
-    public function getTitle() : string
+    public function getTitle(): string
     {
         return $this->title;
     }
@@ -110,7 +112,7 @@ class Complex extends AbstractChildItem implements
     /**
      * @inheritDoc
      */
-    public function withSupportsAsynchronousLoading(bool $supported) : supportsAsynchronousLoading
+    public function withSupportsAsynchronousLoading(bool $supported): supportsAsynchronousLoading
     {
         $clone = clone($this);
         $clone->supports_async_loading = $supported;
@@ -121,7 +123,7 @@ class Complex extends AbstractChildItem implements
     /**
      * @inheritDoc
      */
-    public function supportsAsynchronousLoading() : bool
+    public function supportsAsynchronousLoading(): bool
     {
         return $this->supports_async_loading;
     }

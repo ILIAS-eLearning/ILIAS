@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /* Copyright (c) 2021 Thibeau Fuhrer <thf@studer-raimann.ch> Extended GPL, see docs/LICENSE */
 
@@ -10,7 +12,7 @@ use PHPUnit\Framework\TestCase;
  */
 class ilCtrlStructureTest extends TestCase
 {
-    public function testStructureBaseClasses() : void
+    public function testStructureBaseClasses(): void
     {
         $structure = new ilCtrlStructure([
             'baseclass1' => [ilCtrlStructureInterface::KEY_CLASS_CID => 'cid1'],
@@ -29,7 +31,7 @@ class ilCtrlStructureTest extends TestCase
         $this->assertFalse($structure->isBaseClass(''));
     }
 
-    public function testStructureSecurityInfos() : void
+    public function testStructureSecurityInfos(): void
     {
         $structure = new ilCtrlStructure([
             'cmdclass1' => [
@@ -74,7 +76,7 @@ class ilCtrlStructureTest extends TestCase
         $this->assertEmpty($structure->getSafeCommandsByName(''));
     }
 
-    public function testStructureCtrlInfos() : void
+    public function testStructureCtrlInfos(): void
     {
         $structure = new ilCtrlStructure([
             'class1' => [
@@ -133,7 +135,7 @@ class ilCtrlStructureTest extends TestCase
         $this->assertNull($structure->getParentsByName('Class3'));
     }
 
-    public function testStructureSavedParameters() : void
+    public function testStructureSavedParameters(): void
     {
         $structure = new ilCtrlStructure([], [], []);
 
@@ -169,14 +171,14 @@ class ilCtrlStructureTest extends TestCase
     /**
      * @dataProvider getProtectedParameters
      */
-    public function testStructureSavedParametersWithProtectedKey($protected_parameter) : void
+    public function testStructureSavedParametersWithProtectedKey($protected_parameter): void
     {
         $structure = new ilCtrlStructure([], [], []);
         $this->expectException(ilCtrlException::class);
         $structure->setPermanentParameterByClass('a_class', $protected_parameter);
     }
 
-    public function testStructureTemporaryParameters() : void
+    public function testStructureTemporaryParameters(): void
     {
         $structure = new ilCtrlStructure([], [], []);
 
@@ -215,7 +217,7 @@ class ilCtrlStructureTest extends TestCase
         $structure->setTemporaryParameterByClass('Class3', $parameter_name, 0);
     }
 
-    public function testStructureReturnTargets() : void
+    public function testStructureReturnTargets(): void
     {
         $structure = new ilCtrlStructure([], [], []);
 
@@ -225,7 +227,7 @@ class ilCtrlStructureTest extends TestCase
         $this->assertNull($structure->getReturnTargetByClass('Class2'));
     }
 
-    public function getProtectedParameters() : array
+    public function getProtectedParameters(): array
     {
         return [
             ['baseClass'],

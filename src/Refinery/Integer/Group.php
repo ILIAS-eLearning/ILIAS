@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -37,7 +39,7 @@ class Group
      * Creates a constraint that can be used to check if an integer value is
      * greater than the defined lower limit.
      */
-    public function isGreaterThan(int $minimum) : Constraint
+    public function isGreaterThan(int $minimum): Constraint
     {
         return new GreaterThan($minimum, $this->dataFactory, $this->language);
     }
@@ -46,7 +48,7 @@ class Group
      * Creates a constraint that can be used to check if an integer value is
      * less than the defined upper limit.
      */
-    public function isLessThan(int $maximum) : Constraint
+    public function isLessThan(int $maximum): Constraint
     {
         return new LessThan($maximum, $this->dataFactory, $this->language);
     }
@@ -55,7 +57,7 @@ class Group
      * Creates a constraint that can be used to check if an integer value is
      * greater than or equal the defined lower limit.
      */
-    public function isGreaterThanOrEqual(int $minimum) : Constraint
+    public function isGreaterThanOrEqual(int $minimum): Constraint
     {
         return new GreaterThanOrEqual($minimum, $this->dataFactory, $this->language);
     }
@@ -64,7 +66,7 @@ class Group
      * Creates a constraint that can be used to check if an integer value is
      * less than or equal the defined upper limit.
      */
-    public function isLessThanOrEqual(int $maximum) : Constraint
+    public function isLessThanOrEqual(int $maximum): Constraint
     {
         return new LessThanOrEqual($maximum, $this->dataFactory, $this->language);
     }

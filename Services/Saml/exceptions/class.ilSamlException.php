@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -20,6 +22,6 @@
  * Class ilSamlException
  * @author Michael Jansen <mjansen@databay.de>
  */
-class ilSamlException extends ilException
+final class ilSamlException extends Exception
 {
 }

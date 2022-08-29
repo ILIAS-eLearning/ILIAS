@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -24,17 +26,19 @@
  */
 class ilAuthProviderLTI extends \ilAuthProvider implements \ilAuthProviderInterface
 {
-    const AUTH_MODE_PREFIX = 'lti';
+    public const AUTH_MODE_PREFIX = 'lti';
     private ?ilLTIDataConnector $dataConnector = null;
     private string $lti_context_id = "";
     private int $ref_id = 0;
+    private ?ilLTITool $provider = null;
+    private ?array $messageParameters = null;
 
     /**
      * Get auth mode by key
      * @param string $a_auth_mode
      * @return string auth_mode
      */
-    public static function getAuthModeByKey(string $a_auth_key) : string
+    public static function getAuthModeByKey(string $a_auth_key): string
     {
         $auth_arr = explode('_', $a_auth_key);
         if (count($auth_arr) > 1) {
@@ -61,7 +65,7 @@ class ilAuthProviderLTI extends \ilAuthProvider implements \ilAuthProviderInterf
      * get all active authmode server ids
      * @return array
      */
-    public static function getActiveAuthModes() : array
+    public static function getActiveAuthModes(): array
     {
         global $ilDB;
 
@@ -79,7 +83,7 @@ class ilAuthProviderLTI extends \ilAuthProvider implements \ilAuthProviderInterf
     /**
      * @return array
      */
-    public static function getAuthModes() : array
+    public static function getAuthModes(): array
     {
         global $ilDB;
 
@@ -99,7 +103,7 @@ class ilAuthProviderLTI extends \ilAuthProvider implements \ilAuthProviderInterf
      * @param int $a_sid
      * @return string
      */
-    public static function lookupConsumer(int $a_sid) : string
+    public static function lookupConsumer(int $a_sid): string
     {
         $connector = new ilLTIDataConnector();
         $consumer = ilLTIPlatform::fromRecordId($a_sid, $connector);
@@ -111,7 +115,7 @@ class ilAuthProviderLTI extends \ilAuthProvider implements \ilAuthProviderInterf
      * @param string $a_auth_mode
      * @return int|null
      */
-    public static function getServerIdByAuthMode(string $a_auth_mode) : ?int
+    public static function getServerIdByAuthMode(string $a_auth_mode): ?int
     {
         if (self::isAuthModeLTI($a_auth_mode)) {
             $auth_arr = explode('_', $a_auth_mode);
@@ -125,7 +129,7 @@ class ilAuthProviderLTI extends \ilAuthProvider implements \ilAuthProviderInterf
      * @param string $a_auth_mode
      * @return bool
      */
-    public static function isAuthModeLTI(string $a_auth_mode) : bool
+    public static function isAuthModeLTI(string $a_auth_mode): bool
     {
         if (!$a_auth_mode) {
             ilLoggerFactory::getLogger('ltis')->warning('No auth mode given.');
@@ -140,7 +144,7 @@ class ilAuthProviderLTI extends \ilAuthProvider implements \ilAuthProviderInterf
      * @param string $a_oauth_consumer_key
      * @return int
      */
-    protected function findAuthKeyId(string $a_oauth_consumer_key) : int
+    protected function findAuthKeyId(string $a_oauth_consumer_key): int
     {
         global $ilDB;
 
@@ -166,7 +170,7 @@ class ilAuthProviderLTI extends \ilAuthProvider implements \ilAuthProviderInterf
      * @param int $a_lti_id
      * @return string
      */
-    protected function findAuthPrefix(int $a_lti_id) : string
+    protected function findAuthPrefix(int $a_lti_id): string
     {
         global $ilDB;
 
@@ -188,7 +192,7 @@ class ilAuthProviderLTI extends \ilAuthProvider implements \ilAuthProviderInterf
      * @param int $a_lti_id
      * @return int|null
      */
-    protected function findGlobalRole(int $a_lti_id) : ?int
+    protected function findGlobalRole(int $a_lti_id): ?int
     {
         global $ilDB;
 
@@ -209,10 +213,11 @@ class ilAuthProviderLTI extends \ilAuthProvider implements \ilAuthProviderInterf
      * @param \ilAuthStatus $status
      * @return bool
      */
-    public function doAuthentication(\ilAuthStatus $status) : bool
+    public function doAuthentication(\ilAuthStatus $status): bool
     {
         global $DIC;
         //fix for Ilias Consumer
+        // schneider: required?
         if ($DIC->http()->wrapper()->post()->has('launch_presentation_document_target') &&
             $DIC->http()->wrapper()->post()->retrieve(
                 'launch_presentation_document_target',
@@ -243,11 +248,23 @@ class ilAuthProviderLTI extends \ilAuthProvider implements \ilAuthProviderInterf
          */
         //LTI 1.1
         // sm: this does only load the standard lti date connector, not the ilLTIPlatform with extended data, like prefix.
+        // schneider: not required. platform is already initialized by authenticate function in Tool lib
+        /*
         $consumer = ilLTIPlatform::fromConsumerKey(
             $DIC->http()->wrapper()->post()->retrieve('oauth_consumer_key', $DIC->refinery()->kindlyTo()->string()),
             $this->dataConnector
         );
-        $this->ref_id = $consumer->getRefId();
+        */
+        $this->provider = $lti_provider;
+        $this->messageParameters = $this->provider->getMessageParameters();
+
+        if (empty($this->messageParameters)) {
+            $status->setReason('empty_lti_message_parameters');
+            $status->setStatus(ilAuthStatus::STATUS_AUTHENTICATION_FAILED);
+            return false;
+        }
+
+        $this->ref_id = $this->provider->platform->getRefId();
         // stores ref_ids of all lti consumer within active LTI User Session
         $lti_context_ids = ilSession::get('lti_context_ids');
         // if session object exists only add ref_id if not already exists
@@ -272,41 +289,41 @@ class ilAuthProviderLTI extends \ilAuthProvider implements \ilAuthProviderInterf
         ilSession::set('lti_init_target', ilObject::_lookupType($this->ref_id, true) . '_' . $this->ref_id);
 
         // lti service activation
-        if (!$consumer->enabled) {
+        if (!$this->provider->platform->enabled) {
             $this->getLogger()->warning('Consumer is not enabled');
             $status->setReason('lti_consumer_inactive');
             $status->setStatus(ilAuthStatus::STATUS_AUTHENTICATION_FAILED);
             return false;
         }
         // global activation status
-        if (!$consumer->getActive()) {
+        if (!$this->provider->platform->getActive()) {
             $this->getLogger()->warning('Consumer is not active');
             $status->setReason('lti_consumer_inactive');
             $status->setStatus(ilAuthStatus::STATUS_AUTHENTICATION_FAILED);
             return false;
         }
-        $lti_id = $consumer->getExtConsumerId();
+        $lti_id = $this->provider->platform->getExtConsumerId();
         if (!$lti_id) {
             $status->setReason('lti_auth_failed_invalid_key');
             $status->setStatus(ilAuthStatus::STATUS_AUTHENTICATION_FAILED);
             return false;
         }
 
-        $this->getLogger()->debug('Using prefix:' . $consumer->getPrefix());
+        $this->getLogger()->debug('Using prefix:' . $this->provider->platform->getPrefix());
 
         $internal_account = $this->findUserId(
             $this->getCredentials()->getUsername(),
             (string) $lti_id,
-            $consumer->getPrefix()
+            $this->provider->platform->getPrefix()
         );
 
         if ($internal_account) {
-            $this->updateUser($internal_account, $consumer);
+            $this->updateUser($internal_account, $this->provider->platform);
         } else {
-            $internal_account = $this->createUser($consumer);
+            $internal_account = $this->createUser($this->provider->platform);
         }
 
-        $this->handleLocalRoleAssignments($internal_account, $consumer);
+        $this->handleLocalRoleAssignments($internal_account, $this->provider->platform);
 
         $status->setStatus(ilAuthStatus::STATUS_AUTHENTICATED);
         $status->setAuthenticatedUserId($internal_account);
@@ -321,7 +338,7 @@ class ilAuthProviderLTI extends \ilAuthProvider implements \ilAuthProviderInterf
      * @param string $a_user_prefix
      * @return int
      */
-    protected function findUserId(string $a_oauth_user, string $a_oauth_id, string $a_user_prefix) : int
+    protected function findUserId(string $a_oauth_user, string $a_oauth_id, string $a_user_prefix): int
     {
         $user_name = ilObjUser::_checkExternalAuthAccount(
             self::AUTH_MODE_PREFIX . '_' . $a_oauth_id,
@@ -342,23 +359,19 @@ class ilAuthProviderLTI extends \ilAuthProvider implements \ilAuthProviderInterf
      * @param ilLTIPlatform $consumer
      * @return int
      */
-    protected function updateUser(int $a_local_user_id, ilLTIPlatform $consumer) : int
+    protected function updateUser(int $a_local_user_id, ilLTIPlatform $consumer): int
     {
         global $ilClientIniFile, $DIC;
-
+//        if (empty($this->messageParameters)) {
+//            $status->setReason('empty_lti_message_parameters');
+//            $status->setStatus(ilAuthStatus::STATUS_AUTHENTICATION_FAILED);
+//            return false;
+//        }
         $user_obj = new ilObjUser($a_local_user_id);
-        $user_obj->setFirstname($DIC->http()->wrapper()->post()->retrieve(
-            'lis_person_name_given',
-            $DIC->refinery()->kindlyTo()->string()
-        ));
-        $user_obj->setLastname($DIC->http()->wrapper()->post()->retrieve(
-            'lis_person_name_family',
-            $DIC->refinery()->kindlyTo()->string()
-        ));
-        $user_obj->setEmail($DIC->http()->wrapper()->post()->retrieve(
-            'lis_person_contact_email_primary',
-            $DIC->refinery()->kindlyTo()->string()
-        ));
+        $user_obj->setFirstname($this->messageParameters['lis_person_name_given']);
+        $user_obj->setLastname($this->messageParameters['lis_person_name_family']);
+        $user_obj->setEmail($this->messageParameters['lis_person_contact_email_primary']);
+
         $user_obj->setActive(true);
 
         $until = $user_obj->getTimeLimitUntil();
@@ -385,26 +398,21 @@ class ilAuthProviderLTI extends \ilAuthProvider implements \ilAuthProviderInterf
      * @throws ilPasswordException
      * @throws ilUserException
      */
-    protected function createUser(ilLTIPlatform $consumer) : int
+    protected function createUser(ilLTIPlatform $consumer): int
     {
         global $ilClientIniFile, $DIC;
-
+//        if (empty($this->messageParameters)) {
+//            $status->setReason('empty_lti_message_parameters');
+//            $status->setStatus(ilAuthStatus::STATUS_AUTHENTICATION_FAILED);
+//            return false;
+//        }
         $userObj = new ilObjUser();
         $local_user = ilAuthUtils::_generateLogin($consumer->getPrefix() . '_' . $this->getCredentials()->getUsername());
 
         $newUser["login"] = $local_user;
-        $newUser["firstname"] = $DIC->http()->wrapper()->post()->retrieve(
-            'lis_person_name_given',
-            $DIC->refinery()->kindlyTo()->string()
-        );
-        $newUser["lastname"] = $DIC->http()->wrapper()->post()->retrieve(
-            'lis_person_name_family',
-            $DIC->refinery()->kindlyTo()->string()
-        );
-        $newUser['email'] = $DIC->http()->wrapper()->post()->retrieve(
-            'lis_person_contact_email_primary',
-            $DIC->refinery()->kindlyTo()->string()
-        );
+        $newUser["firstname"] = $this->messageParameters['lis_person_name_given'];
+        $newUser["lastname"] = $this->messageParameters['lis_person_name_family'];
+        $newUser['email'] = $this->messageParameters['lis_person_contact_email_primary'];
 
         // set "plain md5" password (= no valid password)
 //        $newUser["passwd"] = "";
@@ -490,9 +498,14 @@ class ilAuthProviderLTI extends \ilAuthProvider implements \ilAuthProviderInterf
         return $userObj->getId();
     }
 
-    protected function handleLocalRoleAssignments(int $user_id, ilLTIPlatform $consumer) : bool
+    protected function handleLocalRoleAssignments(int $user_id, ilLTIPlatform $consumer): bool
     {
         global $DIC;
+//        if (empty($this->messageParameters)) {
+//            $status->setReason('empty_lti_message_parameters');
+//            $status->setStatus(ilAuthStatus::STATUS_AUTHENTICATION_FAILED);
+//            return false;
+//        }
         //$target_ref_id = $_SESSION['lti_current_context_id'];
         $target_ref_id = $this->ref_id;
         $this->getLogger()->info('$target_ref_id: ' . $target_ref_id);
@@ -504,7 +517,9 @@ class ilAuthProviderLTI extends \ilAuthProvider implements \ilAuthProviderInterf
         $obj_settings = new ilLTIProviderObjectSetting($target_ref_id, $consumer->getExtConsumerId());
 
         // @todo read from lti data
-        $roles = $DIC->http()->wrapper()->post()->retrieve('roles', $DIC->refinery()->kindlyTo()->string());
+        //$roles = $DIC->http()->wrapper()->post()->retrieve('roles', $DIC->refinery()->kindlyTo()->string());
+        $roles = $this->messageParameters['roles'];
+
         if (!strlen($roles)) {
             $this->getLogger()->warning('No role information given');
             return false;
@@ -544,6 +559,14 @@ class ilAuthProviderLTI extends \ilAuthProvider implements \ilAuthProviderInterf
                         );
                     }
                     break;
+                default: // ToDo: correct parsing of lti1.3 roles
+                    $this->getLogger()->info('default role handling');
+                    if ($obj_settings->getMemberRole()) {
+                        $GLOBALS['DIC']->rbac()->admin()->assignUser(
+                            $obj_settings->getMemberRole(),
+                            $user_id
+                        );
+                    }
             }
         }
         return true;

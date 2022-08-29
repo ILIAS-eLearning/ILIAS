@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -71,7 +73,7 @@ class ilRegistrationSettingsGUI
         $this->ref_id = $this->initRefIdFromQuery();
     }
 
-    protected function initRefIdFromQuery() : int
+    protected function initRefIdFromQuery(): int
     {
         if ($this->http->wrapper()->query()->has('ref_id')) {
             return $this->http->wrapper()->query()->retrieve(
@@ -82,7 +84,7 @@ class ilRegistrationSettingsGUI
         return 0;
     }
 
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         $next_class = $this->ctrl->getNextClass($this);
         $cmd = $this->ctrl->getCmd();
@@ -96,19 +98,19 @@ class ilRegistrationSettingsGUI
         }
     }
 
-    protected function checkAccess(string $a_permission) : void
+    protected function checkAccess(string $a_permission): void
     {
         if (!$this->checkAccessBool($a_permission)) {
             $this->error->raiseError($this->lng->txt('msg_no_perm_read'), $this->error->WARNING);
         }
     }
 
-    protected function checkAccessBool(string $a_permission) : bool
+    protected function checkAccessBool(string $a_permission): bool
     {
         return $this->access->checkAccess($a_permission, '', $this->ref_id);
     }
 
-    public function setSubTabs(string $activeTab = 'registration_settings') : void
+    public function setSubTabs(string $activeTab = 'registration_settings'): void
     {
         $this->tabs->addSubTab(
             "registration_settings",
@@ -123,7 +125,7 @@ class ilRegistrationSettingsGUI
         $this->tabs->activateSubTab($activeTab);
     }
 
-    public function initForm() : ilPropertyFormGUI
+    public function initForm(): ilPropertyFormGUI
     {
         $form_gui = new ilPropertyFormGUI();
         $form_gui->setFormAction($this->ctrl->getFormAction($this, 'save'));
@@ -226,7 +228,7 @@ class ilRegistrationSettingsGUI
         return $form_gui;
     }
 
-    public function initFormValues(ilPropertyFormGUI $formGUI) : void
+    public function initFormValues(ilPropertyFormGUI $formGUI): void
     {
         $role_type = ilRegistrationSettings::IL_REG_ROLE_UNDEFINED;
         if ($this->registration_settings->roleSelectionEnabled()) {
@@ -259,7 +261,7 @@ class ilRegistrationSettingsGUI
         $formGUI->setValuesByArray($values);
     }
 
-    public function view() : void
+    public function view(): void
     {
         $this->checkAccess('visible,read');
         $this->setSubTabs();
@@ -285,7 +287,7 @@ class ilRegistrationSettingsGUI
         $this->tpl->setContent($form->getHTML());
     }
 
-    public function save() : bool
+    public function save(): bool
     {
         $this->checkAccess('write');
 
@@ -330,7 +332,6 @@ class ilRegistrationSettingsGUI
                     $this->tpl->setOnScreenMessage('failure', $this->lng->txt('reg_approve_needs_recipient') . ' ' . $this->registration_settings->getUnknown());
                     $this->view();
                     return false;
-
             }
         }
 
@@ -340,7 +341,7 @@ class ilRegistrationSettingsGUI
         return true;
     }
 
-    protected function initRolesForm() : ilPropertyFormGUI
+    protected function initRolesForm(): ilPropertyFormGUI
     {
         $role_form = new ilPropertyFormGUI();
         $role_form->setFormAction($this->ctrl->getFormAction($this, 'save'));
@@ -369,7 +370,7 @@ class ilRegistrationSettingsGUI
         return $role_form;
     }
 
-    public function editRoles(?ilPropertyFormGUI $form = null) : void
+    public function editRoles(?ilPropertyFormGUI $form = null): void
     {
         $this->checkAccess('write');
         $this->tabs->clearTargets();
@@ -383,7 +384,7 @@ class ilRegistrationSettingsGUI
         $this->tpl->setContent($form->getHTML());
     }
 
-    public function updateRoles() : bool
+    public function updateRoles(): bool
     {
         $this->checkAccess('write');
         $form = $this->initRolesForm();
@@ -408,7 +409,7 @@ class ilRegistrationSettingsGUI
         return true;
     }
 
-    public function editEmailAssignments(ilPropertyFormGUI $form = null) : void
+    public function editEmailAssignments(ilPropertyFormGUI $form = null): void
     {
         $this->checkAccess('write');
         $this->tabs->clearTargets();
@@ -422,7 +423,7 @@ class ilRegistrationSettingsGUI
         $this->tpl->setContent($form->getHTML());
     }
 
-    public function initEmailAssignmentForm() : ilPropertyFormGUI
+    public function initEmailAssignmentForm(): ilPropertyFormGUI
     {
         $role_assignment_form = new ilPropertyFormGUI();
         $role_assignment_form->setFormAction($this->ctrl->getFormAction($this));
@@ -465,7 +466,7 @@ class ilRegistrationSettingsGUI
         return $role_assignment_form;
     }
 
-    public function editRoleAccessLimitations(ilPropertyFormGUI $form = null) : void
+    public function editRoleAccessLimitations(ilPropertyFormGUI $form = null): void
     {
         global $DIC;
 
@@ -482,7 +483,7 @@ class ilRegistrationSettingsGUI
         $this->tpl->setContent($form->getHTML());
     }
 
-    public function initRoleAccessForm() : ilPropertyFormGUI
+    public function initRoleAccessForm(): ilPropertyFormGUI
     {
         $form = new ilPropertyFormGUI();
         $form->setFormAction($this->ctrl->getFormAction($this));
@@ -524,7 +525,7 @@ class ilRegistrationSettingsGUI
         return $form;
     }
 
-    public function saveAssignment() : bool
+    public function saveAssignment(): bool
     {
         $this->checkAccess('write');
         $this->initRoleAssignments();
@@ -561,7 +562,7 @@ class ilRegistrationSettingsGUI
         return true;
     }
 
-    public function saveRoleAccessLimitations() : bool
+    public function saveRoleAccessLimitations(): bool
     {
         $this->checkAccess('write');
         $this->initRoleAccessLimitations();
@@ -605,7 +606,7 @@ class ilRegistrationSettingsGUI
      * @param string $url
      * @return string
      */
-    private function parseRoleList(array $roles, string $url) : string
+    private function parseRoleList(array $roles, string $url): string
     {
         $tpl = new ilTemplate('tpl.registration_roles.html', true, true, 'Services/Registration');
 
@@ -627,7 +628,7 @@ class ilRegistrationSettingsGUI
     /***
      * @return string[]
      */
-    private function prepareRoleList() : array
+    private function prepareRoleList(): array
     {
         $all = [];
         foreach (ilObjRole::_lookupRegisterAllowed() as $role) {
@@ -640,7 +641,7 @@ class ilRegistrationSettingsGUI
     /**
      * @return string[]
      */
-    private function prepareAutomaticRoleList() : array
+    private function prepareAutomaticRoleList(): array
     {
         $this->initRoleAssignments();
         $all = [];
@@ -657,7 +658,7 @@ class ilRegistrationSettingsGUI
         return $all;
     }
 
-    private function prepareAccessLimitationRoleList() : array
+    private function prepareAccessLimitationRoleList(): array
     {
         $this->initRoleAccessLimitations();
         $all = [];
@@ -712,21 +713,21 @@ class ilRegistrationSettingsGUI
         return $all;
     }
 
-    private function initRoleAssignments() : void
+    private function initRoleAssignments(): void
     {
         if (!$this->assignments_obj instanceof ilRegistrationRoleAssignments) {
             $this->assignments_obj = new ilRegistrationRoleAssignments();
         }
     }
 
-    private function initRoleAccessLimitations() : void
+    private function initRoleAccessLimitations(): void
     {
         if (!$this->access_limitations_obj instanceof ilRegistrationRoleAccessLimitations) {
             $this->access_limitations_obj = new ilRegistrationRoleAccessLimitations();
         }
     }
 
-    public function listCodes() : void
+    public function listCodes(): void
     {
         $this->checkAccess("visible,read");
         $this->setSubTabs('registration_codes');
@@ -740,7 +741,7 @@ class ilRegistrationSettingsGUI
         $this->tpl->setContent($ctab->getHTML());
     }
 
-    public function initAddCodesForm() : ilPropertyFormGUI
+    public function initAddCodesForm(): ilPropertyFormGUI
     {
         $this->form_gui = new ilPropertyFormGUI();
         $this->form_gui->setFormAction($this->ctrl->getFormAction($this, 'createCodes'));
@@ -832,7 +833,7 @@ class ilRegistrationSettingsGUI
     }
 
     // see ilRoleAutoCompleteInputGUI
-    public function getLocalRoleAutoComplete() : void
+    public function getLocalRoleAutoComplete(): void
     {
         $q = $_REQUEST["term"];
         $list = ilRoleAutoComplete::getList($q);
@@ -840,7 +841,7 @@ class ilRegistrationSettingsGUI
         exit;
     }
 
-    public function addCodes() : void
+    public function addCodes(): void
     {
         $this->checkAccess('write');
         $this->setSubTabs('registration_codes');
@@ -852,7 +853,7 @@ class ilRegistrationSettingsGUI
         $this->tpl->setContent($this->form_gui->getHTML());
     }
 
-    public function createCodes() : void
+    public function createCodes(): void
     {
         $this->checkAccess('write');
         $this->setSubTabs('registration_codes');
@@ -934,7 +935,7 @@ class ilRegistrationSettingsGUI
         }
     }
 
-    public function deleteCodes() : void
+    public function deleteCodes(): void
     {
         $this->checkAccess("write");
 
@@ -952,7 +953,7 @@ class ilRegistrationSettingsGUI
         $this->ctrl->redirect($this, "listCodes");
     }
 
-    public function deleteConfirmation() : void
+    public function deleteConfirmation(): void
     {
         $this->checkAccess("write");
 
@@ -987,7 +988,7 @@ class ilRegistrationSettingsGUI
         $this->tpl->setContent($gui->getHTML());
     }
 
-    public function resetCodesFilter() : void
+    public function resetCodesFilter(): void
     {
         $utab = new ilRegistrationCodesTableGUI($this, "listCodes");
         $utab->resetOffset();
@@ -996,7 +997,7 @@ class ilRegistrationSettingsGUI
         $this->listCodes();
     }
 
-    public function applyCodesFilter() : void
+    public function applyCodesFilter(): void
     {
         $utab = new ilRegistrationCodesTableGUI($this, "listCodes");
         $utab->resetOffset();
@@ -1005,7 +1006,7 @@ class ilRegistrationSettingsGUI
         $this->listCodes();
     }
 
-    public function exportCodes() : void
+    public function exportCodes(): void
     {
         $this->checkAccess('read');
         $utab = new ilRegistrationCodesTableGUI($this, "listCodes");

@@ -29,7 +29,7 @@ class ilTestSkillLevelThresholdXmlParser extends ilSaxParser
      * @var string
      */
     protected $characterDataBuffer = null;
-    
+
     protected ?ilTestSkillLevelThresholdImportList
         $skillLevelThresholdImportList = null;
 
@@ -48,17 +48,17 @@ class ilTestSkillLevelThresholdXmlParser extends ilSaxParser
      */
     protected $curSkillLevelThreshold = null;
 
-    public function isParsingActive() : bool
+    public function isParsingActive(): bool
     {
         return $this->parsingActive;
     }
 
-    public function setParsingActive(bool $parsingActive) : void
+    public function setParsingActive(bool $parsingActive): void
     {
         $this->parsingActive = $parsingActive;
     }
 
-    protected function getCharacterDataBuffer() : string
+    protected function getCharacterDataBuffer(): string
     {
         return $this->characterDataBuffer;
     }
@@ -66,68 +66,68 @@ class ilTestSkillLevelThresholdXmlParser extends ilSaxParser
     /**
      * @param string $characterDataBuffer
      */
-    protected function resetCharacterDataBuffer() : void
+    protected function resetCharacterDataBuffer(): void
     {
         $this->characterDataBuffer = '';
     }
 
-    protected function appendToCharacterDataBuffer(string $characterData) : void
+    protected function appendToCharacterDataBuffer(string $characterData): void
     {
         $this->characterDataBuffer .= $characterData;
     }
 
-    public function getSkillLevelThresholdImportList() : \ilTestSkillLevelThresholdImportList
+    public function getSkillLevelThresholdImportList(): \ilTestSkillLevelThresholdImportList
     {
         return $this->skillLevelThresholdImportList;
     }
 
     /**
      */
-    public function initSkillLevelThresholdImportList() : void
+    public function initSkillLevelThresholdImportList(): void
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
         $this->skillLevelThresholdImportList = new ilTestSkillLevelThresholdImportList($ilDB);
     }
 
-    public function getCurSkillBaseId() : int
+    public function getCurSkillBaseId(): int
     {
         return $this->curSkillBaseId;
     }
 
-    public function setCurSkillBaseId(int $curSkillBaseId) : void
+    public function setCurSkillBaseId(int $curSkillBaseId): void
     {
         $this->curSkillBaseId = $curSkillBaseId;
     }
 
-    public function getCurSkillTrefId() : int
+    public function getCurSkillTrefId(): int
     {
         return $this->curSkillTrefId;
     }
 
-    public function setCurSkillTrefId(int $curSkillTrefId) : void
+    public function setCurSkillTrefId(int $curSkillTrefId): void
     {
         $this->curSkillTrefId = $curSkillTrefId;
     }
 
-    public function getCurSkillLevelThreshold() : \ilTestSkillLevelThresholdImport
+    public function getCurSkillLevelThreshold(): \ilTestSkillLevelThresholdImport
     {
         return $this->curSkillLevelThreshold;
     }
 
-    public function setCurSkillLevelThreshold(\ilTestSkillLevelThresholdImport $curSkillLevelThreshold) : void
+    public function setCurSkillLevelThreshold(\ilTestSkillLevelThresholdImport $curSkillLevelThreshold): void
     {
         $this->curSkillLevelThreshold = $curSkillLevelThreshold;
     }
 
-    public function setHandlers($a_xml_parser) : void
+    public function setHandlers($a_xml_parser): void
     {
         xml_set_object($a_xml_parser, $this);
         xml_set_element_handler($a_xml_parser, 'handlerBeginTag', 'handlerEndTag');
         xml_set_character_data_handler($a_xml_parser, 'handlerCharacterData');
     }
 
-    public function handlerBeginTag($xmlParser, $tagName, $tagAttributes) : void
+    public function handlerBeginTag($xmlParser, $tagName, $tagAttributes): void
     {
         if ($tagName != 'SkillsLevelThresholds' && !$this->isParsingActive()) {
             return;
@@ -162,11 +162,10 @@ class ilTestSkillLevelThresholdXmlParser extends ilSaxParser
                 $skillLevelThreshold->setOrderIndex($tagAttributes['Nr']);
                 $this->setCurSkillLevelThreshold($skillLevelThreshold);
                 break;
-
         }
     }
 
-    public function handlerEndTag($xmlParser, $tagName) : void
+    public function handlerEndTag($xmlParser, $tagName): void
     {
         if (!$this->isParsingActive()) {
             return;
@@ -224,7 +223,7 @@ class ilTestSkillLevelThresholdXmlParser extends ilSaxParser
         }
     }
 
-    public function handlerCharacterData($xmlParser, $charData) : void
+    public function handlerCharacterData($xmlParser, $charData): void
     {
         if (!$this->isParsingActive()) {
             return;

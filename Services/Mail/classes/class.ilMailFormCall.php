@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -32,11 +34,6 @@ class ilMailFormCall
 
     /**
      * @param object|string $gui
-     * @param string $cmd
-     * @param array $gui_params
-     * @param array $mail_params
-     * @param array $context_params
-     * @return string
      */
     public static function getLinkTarget(
         $gui,
@@ -44,17 +41,12 @@ class ilMailFormCall
         array $gui_params = [],
         array $mail_params = [],
         array $context_params = []
-    ) : string {
+    ): string {
         return self::getTargetUrl('&', $gui, $cmd, $gui_params, $mail_params, $context_params);
     }
 
     /**
      * @param object|string $gui
-     * @param string $cmd
-     * @param array $gui_params
-     * @param array $mail_params
-     * @param array $context_params
-     * @return string
      */
     public static function getRedirectTarget(
         $gui,
@@ -62,18 +54,12 @@ class ilMailFormCall
         array $gui_params = [],
         array $mail_params = [],
         array $context_params = []
-    ) : string {
+    ): string {
         return self::getTargetUrl('&', $gui, $cmd, $gui_params, $mail_params, $context_params);
     }
 
     /**
-     * @param string $argument_separator
      * @param object|string $gui
-     * @param string $cmd
-     * @param array $gui_params
-     * @param array $mail_params
-     * @param array $context_params
-     * @return string
      */
     protected static function getTargetUrl(
         string $argument_separator,
@@ -82,7 +68,7 @@ class ilMailFormCall
         array $gui_params = [],
         array $mail_params = [],
         array $context_params = []
-    ) : string {
+    ): string {
         global $DIC;
 
         $mparams = '';
@@ -118,7 +104,7 @@ class ilMailFormCall
     /**
      * @param array<string, mixed> $queryParameters
      */
-    public static function storeReferer(array $queryParameters) : void
+    public static function storeReferer(array $queryParameters): void
     {
         $session = ilSession::get(self::SESSION_KEY);
 
@@ -157,7 +143,7 @@ class ilMailFormCall
         ilSession::set(self::SESSION_KEY, $session);
     }
 
-    public static function getSignature() : string
+    public static function getSignature(): string
     {
         $sig = '';
         $session = ilSession::get(self::SESSION_KEY);
@@ -171,8 +157,8 @@ class ilMailFormCall
 
         return $sig;
     }
-    
-    public static function getRefererRedirectUrl() : string
+
+    public static function getRefererRedirectUrl(): string
     {
         $url = '';
         $session = ilSession::get(self::SESSION_KEY);
@@ -200,7 +186,7 @@ class ilMailFormCall
         return $url;
     }
 
-    public static function isRefererStored() : bool
+    public static function isRefererStored(): bool
     {
         $session = ilSession::get(self::SESSION_KEY);
 
@@ -211,7 +197,7 @@ class ilMailFormCall
         );
     }
 
-    public static function getContextId() : ?string
+    public static function getContextId(): ?string
     {
         $session = ilSession::get(self::SESSION_KEY);
         return (
@@ -220,15 +206,15 @@ class ilMailFormCall
             $session[self::CONTEXT_PREFIX][self::CONTEXT_KEY] : null
         );
     }
-    
-    public static function setContextId(?string $id) : void
+
+    public static function setContextId(?string $id): void
     {
         $session = ilSession::get(self::SESSION_KEY);
         $session[self::CONTEXT_KEY] = $id;
         ilSession::set(self::SESSION_KEY, $session);
     }
 
-    public static function getContextParameters() : array
+    public static function getContextParameters(): array
     {
         $session = ilSession::get(self::SESSION_KEY);
         if (isset($session[self::CONTEXT_PREFIX]) && is_array($session[self::CONTEXT_PREFIX])) {
@@ -238,7 +224,7 @@ class ilMailFormCall
         return [];
     }
 
-    public static function setContextParameters(array $parameters) : void
+    public static function setContextParameters(array $parameters): void
     {
         $session = ilSession::get(self::SESSION_KEY);
         $session[self::CONTEXT_PREFIX] = $parameters;
@@ -248,7 +234,7 @@ class ilMailFormCall
     /**
      * @param string[] $recipients
      */
-    public static function setRecipients(array $recipients) : void
+    public static function setRecipients(array $recipients): void
     {
         $session = ilSession::get(self::SESSION_KEY);
         $session['rcp_to'] = $recipients;
@@ -258,7 +244,7 @@ class ilMailFormCall
     /**
      * @return string[]
      */
-    public static function getRecipients() : array
+    public static function getRecipients(): array
     {
         $session = ilSession::get(self::SESSION_KEY);
         if (isset($session['rcp_to']) && is_array($session['rcp_to'])) {

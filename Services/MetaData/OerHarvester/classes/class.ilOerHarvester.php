@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
@@ -28,7 +30,7 @@ class ilOerHarvester
         $this->settings = ilOerHarvesterSettings::getInstance();
     }
 
-    public function run() : ilCronJobResult
+    public function run(): ilCronJobResult
     {
         try {
             $obj_ids = $this->collect();
@@ -59,7 +61,7 @@ class ilOerHarvester
      * Collect all obj_ids with copyright settings which are collectable.
      * @return int[]
      */
-    protected function collect() : array
+    protected function collect(): array
     {
         $collectable_types = $this->settings->getHarvestingTypes();
         $copyright_ids = $this->settings->getCopyRightTemplatesInLomFormat();
@@ -79,7 +81,7 @@ class ilOerHarvester
      * @param int[] $a_collectable_obj_ids
      * @return int[]
      */
-    protected function filter(array $a_collectable_obj_ids) : array
+    protected function filter(array $a_collectable_obj_ids): array
     {
         $filtered = [];
         foreach ($a_collectable_obj_ids as $obj_id) {
@@ -115,7 +117,7 @@ class ilOerHarvester
     /**
      * @param int[] $a_collectable_obj_ids
      */
-    protected function harvest(array $a_collectable_obj_ids) : int
+    protected function harvest(array $a_collectable_obj_ids): int
     {
         $num = 0;
         foreach ($a_collectable_obj_ids as $obj_id) {
@@ -134,7 +136,7 @@ class ilOerHarvester
         return $num;
     }
 
-    protected function harvestObject(ilObject $object) : bool
+    protected function harvestObject(ilObject $object): bool
     {
         $this->logger->debug('Create new reference');
         $new_ref_id = $object->createReference();
@@ -152,7 +154,7 @@ class ilOerHarvester
         return true;
     }
 
-    protected function deleteObject(int $a_ref_id) : bool
+    protected function deleteObject(int $a_ref_id): bool
     {
         $object = ilObjectFactory::getInstanceByRefId($a_ref_id, false);
 
@@ -170,7 +172,7 @@ class ilOerHarvester
         return true;
     }
 
-    protected function deleteDeprecated() : int
+    protected function deleteDeprecated(): int
     {
         $num_deleted = 0;
         foreach (ilOerHarvesterObjectStatus::lookupHarvested() as $ref_id) {

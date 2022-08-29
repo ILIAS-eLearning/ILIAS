@@ -20,7 +20,7 @@
  */
 class arHavingCollection extends arStatementCollection
 {
-    public function asSQLStatement() : string
+    public function asSQLStatement(): string
     {
         $return = '';
         if ($this->hasStatements()) {
@@ -41,7 +41,7 @@ class arHavingCollection extends arStatementCollection
     /**
      * @return arHaving[]
      */
-    public function getHavings() : array
+    public function getHavings(): array
     {
         return $this->statements;
     }

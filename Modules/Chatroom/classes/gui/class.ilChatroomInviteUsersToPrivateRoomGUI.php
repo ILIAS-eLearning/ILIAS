@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -24,18 +26,18 @@
  */
 class ilChatroomInviteUsersToPrivateRoomGUI extends ilChatroomGUIHandler
 {
-    public function executeDefault(string $requestedMethod) : void
+    public function executeDefault(string $requestedMethod): void
     {
         $this->byLogin();
     }
 
-    public function byLogin() : void
+    public function byLogin(): void
     {
         $user = $this->getRequestValue('user', $this->refinery->kindlyTo()->string());
         $this->inviteById((int) ilObjUser::_lookupId($user));
     }
 
-    private function inviteById(int $invited_id) : void
+    private function inviteById(int $invited_id): void
     {
         $this->redirectIfNoPermission('read');
 
@@ -63,12 +65,12 @@ class ilChatroomInviteUsersToPrivateRoomGUI extends ilChatroomGUIHandler
         $this->sendResponse($response);
     }
 
-    public function byId() : void
+    public function byId(): void
     {
         $this->inviteById($this->getRequestValue('user', $this->refinery->kindlyTo()->int()));
     }
 
-    public function getUserList() : void
+    public function getUserList(): void
     {
         $auto = new ilUserAutoComplete();
         $auto->setUser($this->ilUser);
@@ -76,7 +78,7 @@ class ilChatroomInviteUsersToPrivateRoomGUI extends ilChatroomGUIHandler
         if ($this->ilUser->isAnonymous()) {
             $auto->setSearchType(ilUserAutoComplete::SEARCH_TYPE_EQUALS);
         }
-        
+
         $query = ilUtil::stripSlashes(
             $this->getRequestValue('q', $this->refinery->kindlyTo()->string(), '')
         );

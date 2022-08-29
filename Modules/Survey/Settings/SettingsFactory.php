@@ -1,4 +1,6 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -28,12 +30,12 @@ class SettingsFactory
     public function __construct()
     {
     }
-    
+
     public function accessSettings(
         int $start_date,
         int $end_date,
         bool $access_by_codes
-    ) : AccessSettings {
+    ): AccessSettings {
         return new AccessSettings(
             $start_date,
             $end_date,

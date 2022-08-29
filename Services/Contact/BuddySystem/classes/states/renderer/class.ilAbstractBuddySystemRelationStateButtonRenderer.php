@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -22,17 +24,12 @@
  */
 abstract class ilAbstractBuddySystemRelationStateButtonRenderer implements ilBuddySystemRelationStateButtonRenderer
 {
-    protected ilBuddySystemRelation $relation;
-    protected int $usrId;
     protected ilTemplate $tpl;
     protected ilLanguage $lng;
 
-    public function __construct(int $usrId, ilBuddySystemRelation $relation)
+    public function __construct(protected int $usrId, protected ilBuddySystemRelation $relation, ilLanguage $lng = null)
     {
         global $DIC;
-
-        $this->usrId = $usrId;
-        $this->relation = $relation;
 
         $this->tpl = new ilTemplate(
             'tpl.buddy_system_state_' . ilStr::convertUpperCamelCaseToUnderscoreCase($this->relation->getState()->getName()) . '.html',
@@ -41,10 +38,10 @@ abstract class ilAbstractBuddySystemRelationStateButtonRenderer implements ilBud
             'Services/Contact/BuddySystem'
         );
 
-        $this->lng = $DIC['lng'];
+        $this->lng = $lng ?? $DIC['lng'];
     }
 
-    protected function getLanguageVariableSuffix() : string
+    protected function getLanguageVariableSuffix(): string
     {
         $suffix = '_p';
         if ($this->relation->isOwnedByActor()) {
@@ -54,7 +51,7 @@ abstract class ilAbstractBuddySystemRelationStateButtonRenderer implements ilBud
         return $suffix;
     }
 
-    protected function render() : void
+    protected function render(): void
     {
         $this->renderStateButton();
         $states = $this->relation->getCurrentPossibleTargetStates();
@@ -63,12 +60,12 @@ abstract class ilAbstractBuddySystemRelationStateButtonRenderer implements ilBud
         }
     }
 
-    protected function getTemplateVariablePrefix() : string
+    protected function getTemplateVariablePrefix(): string
     {
         return '';
     }
 
-    protected function renderStateButton() : void
+    protected function renderStateButton(): void
     {
         $state_id = ilStr::convertUpperCamelCaseToUnderscoreCase($this->relation->getState()->getName());
 
@@ -80,14 +77,14 @@ abstract class ilAbstractBuddySystemRelationStateButtonRenderer implements ilBud
         );
     }
 
-    protected function renderTargetState(ilBuddySystemRelationState $target_state) : void
+    protected function renderTargetState(ilBuddySystemRelationState $target_state): void
     {
         $state_id = ilStr::convertUpperCamelCaseToUnderscoreCase($this->relation->getState()->getName());
         $target_state_id = ilStr::convertUpperCamelCaseToUnderscoreCase($target_state->getName());
 
         $this->tpl->setVariable(
             $this->getTemplateVariablePrefix() . 'TARGET_STATE_' . strtoupper($target_state_id),
-            get_class($target_state)
+            $target_state::class
         );
         $this->tpl->setVariable(
             $this->getTemplateVariablePrefix() . 'TARGET_STATE_ACTION_' . strtoupper($target_state_id),
@@ -101,7 +98,7 @@ abstract class ilAbstractBuddySystemRelationStateButtonRenderer implements ilBud
         );
     }
 
-    public function getHtml() : string
+    public function getHtml(): string
     {
         $this->render();
 

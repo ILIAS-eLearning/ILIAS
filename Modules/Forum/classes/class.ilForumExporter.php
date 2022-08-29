@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -26,7 +28,7 @@ class ilForumExporter extends ilXmlExporter implements ilForumObjectConstants
 {
     protected \ILIAS\Style\Content\DomainService $content_style_domain;
 
-    public function init() : void
+    public function init(): void
     {
         global $DIC;
         $this->content_style_domain = $DIC
@@ -35,7 +37,7 @@ class ilForumExporter extends ilXmlExporter implements ilForumObjectConstants
     }
 
 
-    public function getXmlRepresentation(string $a_entity, string $a_schema_version, string $a_id) : string
+    public function getXmlRepresentation(string $a_entity, string $a_schema_version, string $a_id): string
     {
         $xml = '';
 
@@ -51,7 +53,7 @@ class ilForumExporter extends ilXmlExporter implements ilForumObjectConstants
         return $xml;
     }
 
-    public function getXmlExportTailDependencies(string $a_entity, string $a_target_release, array $a_ids) : array
+    public function getXmlExportTailDependencies(string $a_entity, string $a_target_release, array $a_ids): array
     {
         $deps = [];
 
@@ -113,7 +115,7 @@ class ilForumExporter extends ilXmlExporter implements ilForumObjectConstants
      * ILIAS chooses the first one, that has min/max constraints which
      * fit to the target release. Please put the newest on top.
      */
-    public function getValidSchemaVersions(string $a_entity) : array
+    public function getValidSchemaVersions(string $a_entity): array
     {
         return [
             "4.1.0" => [

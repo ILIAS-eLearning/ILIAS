@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -30,7 +32,7 @@ class ilWkhtmlToPdfConfigFormGUI
         $this->request = new ilPDFGenerationRequest($DIC->refinery(), $DIC->http());
     }
 
-    public function addConfigForm(ilPropertyFormGUI $form) : void
+    public function addConfigForm(ilPropertyFormGUI $form): void
     {
         $path = new ilTextInputGUI($this->translate('path'), 'path');
         $form->addItem($path);
@@ -39,12 +41,12 @@ class ilWkhtmlToPdfConfigFormGUI
         $this->appendPageSettingsForm($form);
     }
 
-    protected function translate(string $txt) : string
+    protected function translate(string $txt): string
     {
         return $this->lng->txt($txt);
     }
 
-    protected function appendOutputOptionsForm(ilPropertyFormGUI $form) : void
+    protected function appendOutputOptionsForm(ilPropertyFormGUI $form): void
     {
         $section_header = new ilFormSectionHeaderGUI();
         $section_header->setTitle($this->translate('output_options'));
@@ -64,82 +66,82 @@ class ilWkhtmlToPdfConfigFormGUI
         $form->addItem($this->buildOverwriteDefaultFont());
     }
 
-    protected function buildExternalLinksForm() : ilCheckboxInputGUI
+    protected function buildExternalLinksForm(): ilCheckboxInputGUI
     {
         $external_links = new ilCheckboxInputGUI($this->translate('external_links'), 'external_links');
         $external_links->setInfo($this->translate('external_links_info'));
         return $external_links;
     }
 
-    protected function buildEnableFormsForm() : ilCheckboxInputGUI
+    protected function buildEnableFormsForm(): ilCheckboxInputGUI
     {
         $enable_forms = new ilCheckboxInputGUI($this->translate('enable_forms'), 'enable_forms');
         $enable_forms->setInfo($this->translate('enable_forms_info'));
         return $enable_forms;
     }
 
-    protected function buildUserStylesheetForm() : ilTextInputGUI
+    protected function buildUserStylesheetForm(): ilTextInputGUI
     {
         $user_stylesheet = new ilTextInputGUI($this->translate('user_stylesheet'), 'user_stylesheet');
         return $user_stylesheet;
     }
 
-    protected function buildLowQualityForm() : ilCheckboxInputGUI
+    protected function buildLowQualityForm(): ilCheckboxInputGUI
     {
         $low_quality = new ilCheckboxInputGUI($this->translate('low_quality'), 'low_quality');
         $low_quality->setInfo($this->translate('low_quality_info'));
         return $low_quality;
     }
 
-    protected function buildGreyScaleForm() : ilCheckboxInputGUI
+    protected function buildGreyScaleForm(): ilCheckboxInputGUI
     {
         $grey_scale = new ilCheckboxInputGUI($this->translate('greyscale'), 'greyscale');
         $grey_scale->setInfo($this->translate('greyscale_info'));
         return $grey_scale;
     }
 
-    protected function buildPrintMediaTypeForm() : ilCheckboxInputGUI
+    protected function buildPrintMediaTypeForm(): ilCheckboxInputGUI
     {
         $print_media = new ilCheckboxInputGUI($this->translate('print_media_type'), 'print_media_type');
         $print_media->setInfo($this->translate('print_media_info'));
         return $print_media;
     }
 
-    protected function buildJavascriptDelayForm() : ilTextInputGUI
+    protected function buildJavascriptDelayForm(): ilTextInputGUI
     {
         $javascript_delay = new ilTextInputGUI($this->translate('javascript_delay'), 'javascript_delay');
         $javascript_delay->setInfo($this->translate('javascript_delay_info'));
         return $javascript_delay;
     }
 
-    protected function buildCheckboxSvgForm() : ilTextInputGUI
+    protected function buildCheckboxSvgForm(): ilTextInputGUI
     {
         return new ilTextInputGUI($this->translate('checkbox_svg'), 'checkbox_svg');
     }
 
-    protected function buildCheckedCheckboxSvgForm() : ilTextInputGUI
+    protected function buildCheckedCheckboxSvgForm(): ilTextInputGUI
     {
         return new ilTextInputGUI($this->translate('checkbox_checked_svg'), 'checkbox_checked_svg');
     }
 
-    protected function buildRadiobuttonSvgForm() : ilTextInputGUI
+    protected function buildRadiobuttonSvgForm(): ilTextInputGUI
     {
         return new ilTextInputGUI($this->translate('radio_button_svg'), 'radio_button_svg');
     }
 
-    protected function buildCheckedRadiobuttonSvgForm() : ilTextInputGUI
+    protected function buildCheckedRadiobuttonSvgForm(): ilTextInputGUI
     {
         return new ilTextInputGUI($this->translate('radio_button_checked_svg'), 'radio_button_checked_svg');
     }
 
-    protected function buildOverwriteDefaultFont() : ilTextInputGUI
+    protected function buildOverwriteDefaultFont(): ilTextInputGUI
     {
         $overwrite_font = new ilTextInputGUI($this->translate('overwrite_font'), 'overwrite_font');
         $overwrite_font->setInfo($this->translate('overwrite_font_info'));
         return $overwrite_font;
     }
 
-    protected function appendPageSettingsForm(ilPropertyFormGUI $form) : void
+    protected function appendPageSettingsForm(ilPropertyFormGUI $form): void
     {
         $section_header = new ilFormSectionHeaderGUI();
         $section_header->setTitle($this->translate('page_settings'));
@@ -156,54 +158,54 @@ class ilWkhtmlToPdfConfigFormGUI
         $form->addItem($this->buildFooterForm());
     }
 
-    protected function buildZoomForm() : ilTextInputGUI
+    protected function buildZoomForm(): ilTextInputGUI
     {
         return new ilTextInputGUI($this->translate('zoom'), 'zoom');
     }
 
-    protected function buildOrientationsForm() : ilSelectInputGUI
+    protected function buildOrientationsForm(): ilSelectInputGUI
     {
         $orientation = new ilSelectInputGUI($this->translate('orientation'), 'orientation');
         $orientation->setOptions(ilPDFGenerationConstants::getOrientations());
         return $orientation;
     }
 
-    protected function buildPageSizesForm() : ilSelectInputGUI
+    protected function buildPageSizesForm(): ilSelectInputGUI
     {
         $page_size = new ilSelectInputGUI($this->translate('page_size'), 'page_size');
         $page_size->setOptions(ilPDFGenerationConstants::getPageSizesNames());
         return $page_size;
     }
 
-    protected function buildMarginLeftForm() : ilTextInputGUI
+    protected function buildMarginLeftForm(): ilTextInputGUI
     {
         $margin_left = new ilTextInputGUI($this->translate('margin_left'), 'margin_left');
         $margin_left->setInfo($this->translate('margin_info'));
         return $margin_left;
     }
 
-    protected function buildMarginRightForm() : ilTextInputGUI
+    protected function buildMarginRightForm(): ilTextInputGUI
     {
         $margin_right = new ilTextInputGUI($this->translate('margin_right'), 'margin_right');
         $margin_right->setInfo($this->translate('margin_info'));
         return $margin_right;
     }
 
-    protected function buildMarginTopForm() : ilTextInputGUI
+    protected function buildMarginTopForm(): ilTextInputGUI
     {
         $margin_top = new ilTextInputGUI($this->translate('margin_top'), 'margin_top');
         $margin_top->setInfo($this->translate('margin_info'));
         return $margin_top;
     }
 
-    protected function buildMarginBottomForm() : ilTextInputGUI
+    protected function buildMarginBottomForm(): ilTextInputGUI
     {
         $margin_bottom = new ilTextInputGUI($this->translate('margin_bottom'), 'margin_bottom');
         $margin_bottom->setInfo($this->translate('margin_info'));
         return $margin_bottom;
     }
 
-    protected function buildHeaderForm() : ilRadioGroupInputGUI
+    protected function buildHeaderForm(): ilRadioGroupInputGUI
     {
         $header_select = new ilRadioGroupInputGUI($this->translate('header_type'), 'header_select');
         $header_select->addOption(new ilRadioOption(
@@ -217,7 +219,7 @@ class ilWkhtmlToPdfConfigFormGUI
         return $header_select;
     }
 
-    protected function buildHeaderTextForm() : ilRadioOption
+    protected function buildHeaderTextForm(): ilRadioOption
     {
         $header_text_option = new ilRadioOption(
             $this->translate('text'),
@@ -243,7 +245,7 @@ class ilWkhtmlToPdfConfigFormGUI
         return $header_text_option;
     }
 
-    protected function buildHeaderHtmlForm() : ilRadioOption
+    protected function buildHeaderHtmlForm(): ilRadioOption
     {
         $header_html_option = new ilRadioOption(
             $this->translate("html"),
@@ -262,7 +264,7 @@ class ilWkhtmlToPdfConfigFormGUI
         return $header_html_option;
     }
 
-    protected function buildFooterForm() : ilRadioGroupInputGUI
+    protected function buildFooterForm(): ilRadioGroupInputGUI
     {
         $footer_select = new ilRadioGroupInputGUI($this->translate('footer_type'), 'footer_select');
         $footer_select->addOption(new ilRadioOption(
@@ -276,7 +278,7 @@ class ilWkhtmlToPdfConfigFormGUI
         return $footer_select;
     }
 
-    protected function buildFooterTextForm() : ilRadioOption
+    protected function buildFooterTextForm(): ilRadioOption
     {
         $footer_text_option = new ilRadioOption(
             $this->translate('text'),
@@ -302,7 +304,7 @@ class ilWkhtmlToPdfConfigFormGUI
         return $footer_text_option;
     }
 
-    protected function buildFooterHtmlForm() : ilRadioOption
+    protected function buildFooterHtmlForm(): ilRadioOption
     {
         $footer_html_option = new ilRadioOption(
             $this->translate('html'),
@@ -320,8 +322,8 @@ class ilWkhtmlToPdfConfigFormGUI
         $footer_html_option->addSubItem($footer_html_line);
         return $footer_html_option;
     }
-    
-    public function validateForm() : bool
+
+    public function validateForm(): bool
     {
         $everything_ok = true;
         $config = new ilWkhtmlToPdfConfig();
@@ -373,17 +375,17 @@ class ilWkhtmlToPdfConfigFormGUI
         return $everything_ok;
     }
 
-    protected function saveNewDefaultBinaryPath(string $path) : void
+    protected function saveNewDefaultBinaryPath(string $path): void
     {
         $settings = new ilSetting('wkhtmltopdfrenderer');
         $settings->set('path', $path);
     }
-    
+
     /**
      * @param ilPropertyFormGUI $form
      * @return array<string, mixed>
      */
-    public function getConfigFromForm(ilPropertyFormGUI $form) : array
+    public function getConfigFromForm(ilPropertyFormGUI $form): array
     {
         return [
             'path' => $form->getItemByPostVar('path')->getValue(),
@@ -426,7 +428,7 @@ class ilWkhtmlToPdfConfigFormGUI
         ];
     }
 
-    public function populateForm(ilPropertyFormGUI $form, ilWkhtmlToPdfConfig $config) : void
+    public function populateForm(ilPropertyFormGUI $form, ilWkhtmlToPdfConfig $config): void
     {
         $form->getItemByPostVar('path')->setValue($config->getWKHTMLToPdfDefaultPath());
         $form->getItemByPostVar('zoom')->setValue($config->getZoom());

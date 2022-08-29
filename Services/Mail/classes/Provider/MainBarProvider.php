@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -29,12 +31,12 @@ use ilMailGlobalServices;
  */
 class MainBarProvider extends AbstractStaticMainMenuProvider
 {
-    public function getStaticTopItems() : array
+    public function getStaticTopItems(): array
     {
         return [];
     }
 
-    public function getStaticSubItems() : array
+    public function getStaticSubItems(): array
     {
         $dic = $this->dic;
 
@@ -55,12 +57,12 @@ class MainBarProvider extends AbstractStaticMainMenuProvider
                     $this->dic->ui()->factory()->legacy($this->dic->language()->txt('component_not_active'))
                 )
                 ->withAvailableCallable(
-                    static function () use ($dic) : bool {
+                    static function () use ($dic): bool {
                         return !$dic->user()->isAnonymous() && $dic->user()->getId() !== 0;
                     }
                 )
                 ->withVisibilityCallable(
-                    static function () use ($dic) : bool {
+                    static function () use ($dic): bool {
                         return $dic->rbac()->system()->checkAccess(
                             'internal_mail',
                             ilMailGlobalServices::getMailObjectRefId()

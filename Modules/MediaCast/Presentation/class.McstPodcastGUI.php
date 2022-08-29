@@ -44,7 +44,7 @@ class McstPodcastGUI
         $this->ctrl = $DIC->ctrl();
     }
 
-    public function getHTML() : string
+    public function getHTML(): string
     {
         $f = $this->ui->factory();
         $renderer = $this->ui->renderer();

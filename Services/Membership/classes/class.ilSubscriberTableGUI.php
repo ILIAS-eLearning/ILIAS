@@ -1,5 +1,7 @@
-<?php declare(strict_types=1);
-    
+<?php
+
+declare(strict_types=1);
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * GUI class for course/group subscriptions
  * @author  Stefan Meyer <smeyer.ilias@gmx.de>
@@ -28,7 +30,7 @@ class ilSubscriberTableGUI extends ilTable2GUI
     protected array $subscribers = array();
     protected bool $show_subject = true;
     protected ilObject $rep_object;
-    
+
     public function __construct(
         object $a_parent_obj,
         ilObject $rep_object,
@@ -98,12 +100,12 @@ class ilSubscriberTableGUI extends ilTable2GUI
         self::$has_odf_definitions = (bool) ilCourseDefinedFieldDefinition::_hasFields($this->getRepositoryObject()->getId());
     }
 
-    protected function getRepositoryObject() : ilObject
+    protected function getRepositoryObject(): ilObject
     {
         return $this->rep_object;
     }
 
-    public function getSelectableColumns() : array
+    public function getSelectableColumns(): array
     {
         if (self::$all_columns) {
             return self::$all_columns;
@@ -130,7 +132,7 @@ class ilSubscriberTableGUI extends ilTable2GUI
         return self::$all_columns;
     }
 
-    protected function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set): void
     {
         if (!ilObjCourseGrouping::_checkGroupingDependencies($this->getRepositoryObject(), (int) $a_set['usr_id']) and
             ($ids = ilObjCourseGrouping::getAssignedObjects())) {
@@ -205,7 +207,7 @@ class ilSubscriberTableGUI extends ilTable2GUI
     /**
      * Show action links (mail ; edit crs|grp data)
      */
-    public function showActionLinks(array $a_set) : void
+    public function showActionLinks(array $a_set): void
     {
         if (!self::$has_odf_definitions) {
             $this->ctrl->setParameterByClass(get_class($this->getParentObject()), 'member_id', $a_set['usr_id']);
@@ -241,7 +243,7 @@ class ilSubscriberTableGUI extends ilTable2GUI
      * @param int[] subscriber ids
      * @throws ilDateTimeException
      */
-    public function readSubscriberData(array $a_subscriber_ids) : void
+    public function readSubscriberData(array $a_subscriber_ids): void
     {
         $subscriber_data = ilParticipants::lookupSubscribersData($this->getRepositoryObject()->getId());
         $sub_ids = $sub_data = [];
@@ -378,17 +380,17 @@ class ilSubscriberTableGUI extends ilTable2GUI
         $this->setData($a_user_data);
     }
 
-    protected function checkAcceptance(int $a_usr_id) : bool
+    protected function checkAcceptance(int $a_usr_id): bool
     {
         return true;
     }
 
-    public function setShowSubject(bool $a_value) : void
+    public function setShowSubject(bool $a_value): void
     {
         $this->show_subject = $a_value;
     }
 
-    public function getShowSubject() : bool
+    public function getShowSubject(): bool
     {
         return $this->show_subject;
     }

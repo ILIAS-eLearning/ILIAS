@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\UI\Component\Tree;
 
 use ILIAS\UI\Component\Component;
@@ -29,17 +31,17 @@ interface Tree extends Component
      * Configure the Tree with additional information that will be
      * relayed to TreeRecursion.
      */
-    public function withEnvironment($environment) : Tree;
+    public function withEnvironment($environment): Tree;
 
     /**
      * Get the (aria-)label
      */
-    public function getLabel() : string;
+    public function getLabel(): string;
 
     /**
      * Apply data to the Tree.
      */
-    public function withData($data) : Tree;
+    public function withData($data): Tree;
 
     /**
      * Get the environment.
@@ -54,25 +56,25 @@ interface Tree extends Component
     /**
      * Get the mapping-class.
      */
-    public function getRecursion() : TreeRecursion;
+    public function getRecursion(): TreeRecursion;
 
     /**
      * Should a clicked node be highlighted?
      */
-    public function withHighlightOnNodeClick(bool $highlight) : Tree;
+    public function withHighlightOnNodeClick(bool $highlight): Tree;
 
     /**
      * Is the tree configured to highlight a clicked node?
      */
-    public function getHighlightOnNodeClick() : bool;
+    public function getHighlightOnNodeClick(): bool;
 
     /**
      * Is this only a part of a tree? Needed if parts are loaded async
      */
-    public function isSubTree() : bool;
+    public function isSubTree(): bool;
 
     /**
      * Set this tree to be a part of a tree. Needed if parts are loaded async.
      */
-    public function withIsSubTree(bool $is_sub) : Tree;
+    public function withIsSubTree(bool $is_sub): Tree;
 }

@@ -15,7 +15,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * Interface ilObjFileImplementationInterface
  * @author Fabian Schmid <fs@studer-raimann.ch>
@@ -25,41 +25,41 @@ interface ilObjFileImplementationInterface
     /**
      * @deprecated
      */
-    public function getDirectory(int $a_version = 0) : string;
-    
+    public function getDirectory(int $a_version = 0): string;
+
     /**
      * Deletes the specified history entries or all entries if no ids are specified.
      * @param array|null $a_hist_entry_ids The ids of the entries to delete or null to delete all entries
      * @deprecated
      */
-    public function deleteVersions(?array $a_hist_entry_ids = null) : void;
-    
-    public function getFileType() : string;
-    
-    public function getStorageID() : ?string;
-    
-    public function getFileSize() : int;
-    
+    public function deleteVersions(?array $a_hist_entry_ids = null): void;
+
+    public function getFileType(): string;
+
+    public function getStorageID(): ?string;
+
+    public function getFileSize(): int;
+
     /**
      * @deprecated
      */
-    public function getFile(?int $a_hist_entry_id = null) : string;
-    
-    public function getVersion() : int;
-    
-    public function getMaxVersion() : int;
-    
+    public function getFile(?int $a_hist_entry_id = null): string;
+
+    public function getVersion(): int;
+
+    public function getMaxVersion(): int;
+
     /**
      * @deprecated
      */
-    public function sendFile(?int $a_hist_entry_id = null) : void;
-    
+    public function sendFile(?int $a_hist_entry_id = null): void;
+
     /**
      * Returns the extension of the file name converted to lower-case.
      * e.g. returns 'pdf' for 'document.pdf'.
      */
-    public function getFileExtension() : string;
-    
+    public function getFileExtension(): string;
+
     /**
      * Gets the file versions for this object.
      * @param array $version_ids The file versions to get. If not specified all versions are
@@ -77,5 +77,5 @@ interface ilObjFileImplementationInterface
      *                           'title' => NULL,
      *                           )
      */
-    public function getVersions(?array $version_ids = null) : array;
+    public function getVersions(?array $version_ids = null): array;
 }

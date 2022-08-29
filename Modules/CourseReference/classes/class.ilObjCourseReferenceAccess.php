@@ -38,17 +38,17 @@ class ilObjCourseReferenceAccess extends ilContainerReferenceAccess
     /**
      * @inheritdoc
      */
-    public function _checkAccess(string $cmd, string $permission, int $ref_id, int $obj_id, ?int $user_id = null) : bool
+    public function _checkAccess(string $cmd, string $permission, int $ref_id, int $obj_id, ?int $user_id = null): bool
     {
         global $DIC;
-        
+
         switch ($permission) {
             case 'visible':
             case 'read':
             case 'edit_learning_progress':
                 include_once './Modules/CourseReference/classes/class.ilObjCourseReference.php';
                 $target_ref_id = ilObjCourseReference::_lookupTargetRefId($obj_id);
-                
+
                 if (!$DIC->access()->checkAccessOfUser($user_id, $permission, $cmd, $target_ref_id)) {
                     return false;
                 }
@@ -61,7 +61,7 @@ class ilObjCourseReferenceAccess extends ilContainerReferenceAccess
     /**
      * @inheritdoc
      */
-    public static function _preloadData(array $obj_ids, array $ref_ids) : void
+    public static function _preloadData(array $obj_ids, array $ref_ids): void
     {
         global $DIC;
 
@@ -75,10 +75,10 @@ class ilObjCourseReferenceAccess extends ilContainerReferenceAccess
     /**
      * @inheritdoc
      */
-    public static function _getCommands($a_ref_id = 0) : array
+    public static function _getCommands($a_ref_id = 0): array
     {
         global $DIC;
-        
+
         if ($DIC->access()->checkAccess('write', '', $a_ref_id)) {
             // Only local (reference specific commands)
             $commands = array(

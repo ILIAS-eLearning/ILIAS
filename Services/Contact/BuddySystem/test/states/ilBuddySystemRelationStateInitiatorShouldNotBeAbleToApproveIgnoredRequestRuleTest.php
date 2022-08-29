@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -20,7 +22,7 @@ use ilBuddySystemRelationStateInitiatorShouldNotBeAbleToApproveIgnoredRequestRul
 
 class ilBuddySystemRelationStateInitiatorShouldNotBeAbleToApproveIgnoredRequestRuleTest extends ilBuddySystemBaseTest
 {
-    public function testConstruct() : void
+    public function testConstruct(): void
     {
         $relation = $this->getMockBuilder(ilBuddySystemRelation::class)->disableOriginalConstructor()->getMock();
         $this->assertInstanceOf(
@@ -29,7 +31,7 @@ class ilBuddySystemRelationStateInitiatorShouldNotBeAbleToApproveIgnoredRequestR
         );
     }
 
-    public function testMatches() : void
+    public function testMatches(): void
     {
         $relation = $this->getMockBuilder(ilBuddySystemRelation::class)->disableOriginalConstructor()->getMock();
         $relation->expects(self::once())->method('isIgnored')->willReturn(true);
@@ -39,7 +41,7 @@ class ilBuddySystemRelationStateInitiatorShouldNotBeAbleToApproveIgnoredRequestR
         $this->assertTrue($instance->matches());
     }
 
-    public function testMatchesIgnored() : void
+    public function testMatchesIgnored(): void
     {
         $relation = $this->getMockBuilder(ilBuddySystemRelation::class)->disableOriginalConstructor()->getMock();
         $relation->expects(self::once())->method('isIgnored')->willReturn(false);
@@ -49,7 +51,7 @@ class ilBuddySystemRelationStateInitiatorShouldNotBeAbleToApproveIgnoredRequestR
         $this->assertFalse($instance->matches());
     }
 
-    public function testMatchesOwned() : void
+    public function testMatchesOwned(): void
     {
         $relation = $this->getMockBuilder(ilBuddySystemRelation::class)->disableOriginalConstructor()->getMock();
         $relation->expects(self::once())->method('isIgnored')->willReturn(true);
@@ -59,7 +61,7 @@ class ilBuddySystemRelationStateInitiatorShouldNotBeAbleToApproveIgnoredRequestR
         $this->assertFalse($instance->matches());
     }
 
-    public function testInvoke() : void
+    public function testInvoke(): void
     {
         $relation = $this->getMockBuilder(ilBuddySystemRelation::class)->disableOriginalConstructor()->getMock();
         $state = $this->getMockBuilder(ilBuddySystemRelationState::class)->disableOriginalConstructor()->getMock();
@@ -69,7 +71,7 @@ class ilBuddySystemRelationStateInitiatorShouldNotBeAbleToApproveIgnoredRequestR
         $this->assertTrue($instance($state));
     }
 
-    public function testInvokeFalse() : void
+    public function testInvokeFalse(): void
     {
         $relation = $this->getMockBuilder(ilBuddySystemRelation::class)->disableOriginalConstructor()->getMock();
         $state = $this->getMockBuilder(ilBuddySystemLinkedRelationState::class)->disableOriginalConstructor()->getMock();

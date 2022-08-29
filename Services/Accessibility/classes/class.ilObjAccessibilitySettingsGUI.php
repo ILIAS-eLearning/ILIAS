@@ -51,7 +51,7 @@ class ilObjAccessibilitySettingsGUI extends ilObjectGUI
         $this->lng->loadLanguageModule('meta');
     }
 
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         $rbacsystem = $this->rbacsystem;
 
@@ -112,7 +112,7 @@ class ilObjAccessibilitySettingsGUI extends ilObjectGUI
         }
     }
 
-    protected function getSettingsForm() : ilPropertyFormGUI
+    protected function getSettingsForm(): ilPropertyFormGUI
     {
         $this->form = new ilPropertyFormGUI();
         $this->form->setTitle($this->lng->txt('settings'));
@@ -144,7 +144,7 @@ class ilObjAccessibilitySettingsGUI extends ilObjectGUI
     /**
      * Save accessibility settings form
      */
-    public function saveAccessibilitySettings() : void
+    public function saveAccessibilitySettings(): void
     {
         $tpl = $this->tpl;
         $lng = $this->lng;
@@ -172,17 +172,17 @@ class ilObjAccessibilitySettingsGUI extends ilObjectGUI
         }
     }
 
-    protected function editAccessibilitySettings(ilPropertyFormGUI $form = null) : void
+    protected function editAccessibilitySettings(ilPropertyFormGUI $form = null): void
     {
         $this->tabs_gui->setTabActive('acc_settings');
         if (!$form) {
             $this->form = $this->getSettingsForm();
         }
-        
+
         $this->tpl->setContent($this->form->getHTML());
     }
 
-    public function getAdminTabs() : void
+    public function getAdminTabs(): void
     {
         $rbacsystem = $this->rbacsystem;
         $ilTabs = $this->tabs;

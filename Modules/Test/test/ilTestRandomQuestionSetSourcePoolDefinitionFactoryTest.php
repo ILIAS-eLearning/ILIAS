@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /* Copyright (c) 1998-2020 ILIAS open source, Extended GPL, see docs/LICENSE */
 
@@ -10,7 +12,7 @@ class ilTestRandomQuestionSetSourcePoolDefinitionFactoryTest extends ilTestBaseT
 {
     private ilTestRandomQuestionSetSourcePoolDefinitionFactory $testObj;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -20,12 +22,12 @@ class ilTestRandomQuestionSetSourcePoolDefinitionFactoryTest extends ilTestBaseT
         );
     }
 
-    public function test_instantiateObject_shouldReturnInstance() : void
+    public function test_instantiateObject_shouldReturnInstance(): void
     {
         $this->assertInstanceOf(ilTestRandomQuestionSetSourcePoolDefinitionFactory::class, $this->testObj);
     }
 
-    public function testGetSourcePoolDefinitionByOriginalPoolData() : void
+    public function testGetSourcePoolDefinitionByOriginalPoolData(): void
     {
         $originalPoolData = [
             "qpl_id" => 2,
@@ -43,7 +45,7 @@ class ilTestRandomQuestionSetSourcePoolDefinitionFactoryTest extends ilTestBaseT
         $this->assertEquals($originalPoolData["count"], $result->getPoolQuestionCount());
     }
 
-    public function testGetEmptySourcePoolDefinition() : void
+    public function testGetEmptySourcePoolDefinition(): void
     {
         $this->assertInstanceOf(
             ilTestRandomQuestionSetSourcePoolDefinition::class,

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /* Copyright (c) 2021 Thibeau Fuhrer <thf@studer-raimann.ch> Extended GPL, see docs/LICENSE */
 
@@ -11,7 +13,7 @@ use PHPUnit\Framework\TestCase;
  */
 class ilCtrlTokenRepositoryTest extends TestCase
 {
-    public function testTokenStorage() : void
+    public function testTokenStorage(): void
     {
         $repository = new ilCtrlTokenRepository();
         $token_one = $repository->getToken();
@@ -25,9 +27,9 @@ class ilCtrlTokenRepositoryTest extends TestCase
         );
     }
 
-    public function testTokenGeneration() : void
+    public function testTokenGeneration(): void
     {
-        $repository = new class() extends ilCtrlTokenRepository {
+        $repository = new class () extends ilCtrlTokenRepository {
             public function generate()
             {
                 return $this->generateToken();

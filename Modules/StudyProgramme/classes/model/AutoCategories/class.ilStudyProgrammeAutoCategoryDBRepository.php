@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -43,7 +45,7 @@ class ilStudyProgrammeAutoCategoryDBRepository implements ilStudyProgrammeAutoCa
     /**
      * @inheritdoc
      */
-    public function getFor(int $prg_obj_id) : array
+    public function getFor(int $prg_obj_id): array
     {
         $query = 'SELECT '
             . self::FIELD_PRG_OBJ_ID . ','
@@ -75,7 +77,7 @@ class ilStudyProgrammeAutoCategoryDBRepository implements ilStudyProgrammeAutoCa
         int $category_ref_id,
         int $last_edited_usr_id = null,
         DateTimeImmutable $last_edited = null
-    ) : ilStudyProgrammeAutoCategory {
+    ): ilStudyProgrammeAutoCategory {
         if (is_null($last_edited_usr_id)) {
             $last_edited_usr_id = $this->current_usr_id;
         }
@@ -94,7 +96,7 @@ class ilStudyProgrammeAutoCategoryDBRepository implements ilStudyProgrammeAutoCa
     /**
      * @inheritdoc
      */
-    public function update(ilStudyProgrammeAutoCategory $ac) : void
+    public function update(ilStudyProgrammeAutoCategory $ac): void
     {
         $ilAtomQuery = $this->db->buildAtomQuery();
         $ilAtomQuery->addTableLock(self::TABLE);
@@ -129,7 +131,7 @@ class ilStudyProgrammeAutoCategoryDBRepository implements ilStudyProgrammeAutoCa
     /**
      * @inheritdoc
      */
-    public function delete(int $prg_obj_id, array $cat_ref_ids) : void
+    public function delete(int $prg_obj_id, array $cat_ref_ids): void
     {
         $ids = array_map(
             function ($id) {
@@ -150,7 +152,7 @@ class ilStudyProgrammeAutoCategoryDBRepository implements ilStudyProgrammeAutoCa
     /**
      * @inheritdoc
      */
-    public function deleteFor(int $prg_obj_id) : void
+    public function deleteFor(int $prg_obj_id): void
     {
         $query =
              'DELETE FROM ' . self::TABLE . PHP_EOL
@@ -163,7 +165,7 @@ class ilStudyProgrammeAutoCategoryDBRepository implements ilStudyProgrammeAutoCa
     /**
      * @inheritdoc
      */
-    public static function getProgrammesFor(int $cat_ref_id) : array
+    public static function getProgrammesFor(int $cat_ref_id): array
     {
         global $ilDB;
         $query = 'SELECT ' . self::FIELD_PRG_OBJ_ID

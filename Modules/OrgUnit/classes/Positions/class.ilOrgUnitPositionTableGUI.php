@@ -24,7 +24,6 @@ use ILIAS\Modules\OrgUnit\ARHelper\BaseCommands;
  */
 class ilOrgUnitPositionTableGUI extends ilTable2GUI
 {
-
     /**
      * @var \ILIAS\DI\Container
      */
@@ -61,7 +60,7 @@ class ilOrgUnitPositionTableGUI extends ilTable2GUI
      * Pass data to row template
      * @param array $a_set
      */
-    public function fillRow(array $a_set) : void
+    public function fillRow(array $a_set): void
     {
         /**
          * @var $obj ilOrgUnitPosition
@@ -78,12 +77,16 @@ class ilOrgUnitPositionTableGUI extends ilTable2GUI
         $selection->setListTitle($this->DIC->language()->txt('actions'));
         $selection->setId(BaseCommands::AR_ID . $a_set['id']);
         $selection->addItem($this->DIC->language()->txt('edit'), 'edit', $this->DIC->ctrl()
-                                                                                   ->getLinkTargetByClass(ilOrgUnitPositionGUI::class,
-                                                                                       ilOrgUnitPositionGUI::CMD_EDIT));
+                                                                                   ->getLinkTargetByClass(
+                                                                                       ilOrgUnitPositionGUI::class,
+                                                                                       ilOrgUnitPositionGUI::CMD_EDIT
+                                                                                   ));
         if (!$obj->isCorePosition()) {
             $selection->addItem($this->DIC->language()->txt('delete'), 'delete', $this->DIC->ctrl()
-                                                                                           ->getLinkTargetByClass(ilOrgUnitPositionGUI::class,
-                                                                                               ilOrgUnitPositionGUI::CMD_CONFIRM_DELETION));
+                                                                                           ->getLinkTargetByClass(
+                                                                                               ilOrgUnitPositionGUI::class,
+                                                                                               ilOrgUnitPositionGUI::CMD_CONFIRM_DELETION
+                                                                                           ));
         }
 
         $this->tpl->setVariable('ACTIONS', $selection->getHTML());

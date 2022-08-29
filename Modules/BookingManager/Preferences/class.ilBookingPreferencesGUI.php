@@ -52,7 +52,7 @@ class ilBookingPreferencesGUI
         $this->access = $DIC->access();
     }
 
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         $ctrl = $this->ctrl;
 
@@ -68,8 +68,8 @@ class ilBookingPreferencesGUI
                 }
         }
     }
-    
-    protected function show() : void
+
+    protected function show(): void
     {
         $preferences = $this->service->domain()->preferences($this->pool);
 
@@ -82,7 +82,7 @@ class ilBookingPreferencesGUI
 
     protected function listPreferenceOptions(
         Form\Standard $form = null
-    ) : void {
+    ): void {
         $ui = $this->ui;
         if (count(ilBookingObject::getList($this->pool->getId())) > 0) {
             if (is_null($form)) {
@@ -94,7 +94,7 @@ class ilBookingPreferencesGUI
         }
     }
 
-    public function initPreferenceForm() : Form\Standard
+    public function initPreferenceForm(): Form\Standard
     {
         $ui = $this->ui;
         $f = $ui->factory();
@@ -123,7 +123,7 @@ class ilBookingPreferencesGUI
         return $f->input()->container()->form()->standard($form_action, ["sec" => $section1]);
     }
 
-    public function savePreferences() : void
+    public function savePreferences(): void
     {
         $preferences = $this->service->domain()->preferences($this->pool);
 
@@ -181,7 +181,7 @@ class ilBookingPreferencesGUI
 
 
 
-    protected function renderBookingInfo() : void
+    protected function renderBookingInfo(): void
     {
         $lng = $this->lng;
         $info = $lng->txt("book_preference_info");
@@ -194,7 +194,7 @@ class ilBookingPreferencesGUI
         $this->main_tpl->setOnScreenMessage('info', $info);
     }
 
-    protected function listBookingResults() : void
+    protected function listBookingResults(): void
     {
         $main_tpl = $this->main_tpl;
         $lng = $this->lng;

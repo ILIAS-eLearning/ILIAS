@@ -15,7 +15,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\BackgroundTasks\Implementation\Values;
 
 use ILIAS\BackgroundTasks\Types\Type;
@@ -31,12 +31,12 @@ use ILIAS\BackgroundTasks\Value;
 class ThunkValue extends AbstractValue
 {
     protected Type $type;
-    
-    public function getType() : Type
+
+    public function getType(): Type
     {
         return $this->parentTask->getOutputType();
     }
-    
+
     /**
      * String representation of object
      * @link  http://php.net/manual/en/serializable.serialize.php
@@ -47,7 +47,7 @@ class ThunkValue extends AbstractValue
     {
         return '';
     }
-    
+
     /**
      * Constructs the object
      * @link  http://php.net/manual/en/serializable.unserialize.php
@@ -61,26 +61,26 @@ class ThunkValue extends AbstractValue
     {
         // Nothing to do.
     }
-    
+
     /**
      * @return string Gets a hash for this IO. If two objects are the same the hash must be the
      * same! if two objects are different you need to have as view collitions as
      * possible.
      */
-    public function getHash() : string
+    public function getHash(): string
     {
         return '';
     }
-    
-    public function equals(Value $other) : bool
+
+    public function equals(Value $other): bool
     {
         return false;
     }
-    
+
     /**
      * @param $value
      */
-    public function setValue($value) : void
+    public function setValue($value): void
     {
         // TODO: Implement setValue() method.
     }

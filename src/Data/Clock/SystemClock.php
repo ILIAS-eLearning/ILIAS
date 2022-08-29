@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /******************************************************************************
  *
@@ -20,7 +22,7 @@ use DateTimeImmutable;
 
 class SystemClock implements ClockInterface
 {
-    public function now() : DateTimeImmutable
+    public function now(): DateTimeImmutable
     {
         return new DateTimeImmutable('now');
     }

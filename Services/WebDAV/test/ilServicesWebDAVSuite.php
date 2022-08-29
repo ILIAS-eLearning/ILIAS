@@ -1,4 +1,6 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -26,19 +28,19 @@ require_once __DIR__ . "/../../../libs/composer/vendor/autoload.php";
  */
 class ilServicesWebDAVSuite extends TestSuite
 {
-    public static function suite() : ilServicesWebDAVSuite
+    public static function suite(): ilServicesWebDAVSuite
     {
         $suite = new ilServicesWebDAVSuite();
-        
+
         require_once "./Services/WebDAV/test/traits/ilWebDAVCheckValidTitleTraitTest.php";
         $suite->addTestSuite("ilWebDAVCheckValidTitleTraitTest");
-        
+
         require_once "./Services/WebDAV/test/lock/ilWebDAVLockUriPathResolverTest.php";
         $suite->addTestSuite("ilWebDAVLockUriPathResolverTest");
-        
+
         require_once "./Services/WebDAV/test/dav/class.ilDAVContainerTest.php";
         $suite->addTestSuite("ilDAVContainerTest");
-        
+
         require_once "./Services/WebDAV/test/dav/class.ilDAVClientNodeTest.php";
         $suite->addTestSuite("ilDAVClientNodeTest");
 

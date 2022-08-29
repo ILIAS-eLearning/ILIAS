@@ -15,7 +15,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * Class ilRisInterface
  *
@@ -24,11 +24,10 @@
  */
 class ilRis implements ilBiblTypeInterface
 {
-
     /**
      * @inheritDoc
      */
-    public function getId() : int
+    public function getId(): int
     {
         return ilBiblTypeFactoryInterface::DATA_TYPE_RIS;
     }
@@ -37,7 +36,7 @@ class ilRis implements ilBiblTypeInterface
     /**
      * @inheritDoc
      */
-    public function getStringRepresentation() : string
+    public function getStringRepresentation(): string
     {
         return "ris";
     }
@@ -46,7 +45,7 @@ class ilRis implements ilBiblTypeInterface
     /**
      * @inheritDoc
      */
-    public function getStandardFieldIdentifiers() : array
+    public function getStandardFieldIdentifiers(): array
     {
         return self::$standard_fields;
     }
@@ -254,13 +253,13 @@ class ilRis implements ilBiblTypeInterface
         );
 
 
-    public function isStandardField(string $field_name) : bool
+    public function isStandardField(string $field_name): bool
     {
         return in_array(strtoupper($field_name), self::$standard_fields);
     }
 
 
-    public function isEntryType(string $entry_ype) : bool
+    public function isEntryType(string $entry_ype): bool
     {
         return in_array(strtoupper($entry_ype), self::$entry_types);
     }

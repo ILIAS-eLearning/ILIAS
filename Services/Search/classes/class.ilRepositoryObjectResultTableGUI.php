@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 
@@ -19,16 +21,16 @@ class ilRepositoryObjectResultTableGUI extends ilTable2GUI
     public function __construct($a_parent_obj, $a_parent_cmd, $a_allow_object_selection = false)
     {
         global $DIC;
-        
+
         parent::__construct($a_parent_obj, $a_parent_cmd);
 
         $this->admin = $DIC->rbac()->admin();
         $this->review = $DIC->rbac()->review();
-        
+
         $this->addColumn("", "", "1", true);
         $this->addColumn($this->lng->txt("title"), "title", "80%");
         $this->addColumn($this->lng->txt("members"), "member", "20%");
-        
+
         $this->setFormAction($this->ctrl->getFormAction($this->parent_obj));
         $this->setRowTemplate("tpl.rep_search_obj_result_row.html", "Services/Search");
         $this->setTitle($this->lng->txt('search_results'));
@@ -60,12 +62,12 @@ class ilRepositoryObjectResultTableGUI extends ilTable2GUI
             $this->addMultiCommand('selectObject', $this->lng->txt('grp_select_object'));
         }
     }
-    
+
     /**
      * @param array $a_set
      * @return void
      */
-    protected function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set): void
     {
         /*
         TODO: Checkboxes must be always enabled now because of role assignment. An alternative to pretend showing
@@ -81,28 +83,27 @@ class ilRepositoryObjectResultTableGUI extends ilTable2GUI
         }
         $this->tpl->setVariable('VAL_MEMBER', $a_set['member']);
     }
-    
 
-    public function parseObjectIds(array $a_ids) : void
+
+    public function parseObjectIds(array $a_ids): void
     {
         $data = [];
         foreach ($a_ids as $object_id) {
             $row = array();
             $type = ilObject::_lookupType($object_id);
-            
+
             if ($type == 'role') {
                 if ($this->review->isRoleDeleted($object_id)) {
                     continue;
                 }
             }
-            
-            
+
+
             $row['title'] = ilObject::_lookupTitle($object_id);
             $row['desc'] = ilObject::_lookupDescription($object_id);
             $row['id'] = $object_id;
-            
+
             switch ($type) {
-                
                 case 'crs':
                 case 'grp':
                     if (ilParticipants::hasParticipantListAccess($object_id)) {
@@ -111,12 +112,12 @@ class ilRepositoryObjectResultTableGUI extends ilTable2GUI
                         $row['member'] = 0;
                     }
                     break;
-                    
+
                 case 'role':
                     $row['member'] = count(ilUserFilter::getInstance()->filter($this->review->assignedUsers($object_id)));
                     break;
             }
-            
+
             $data[] = $row;
         }
         $this->setData($data);
@@ -125,7 +126,7 @@ class ilRepositoryObjectResultTableGUI extends ilTable2GUI
     /**
      * @inheritDoc
      */
-    public function numericOrdering(string $a_field) : bool
+    public function numericOrdering(string $a_field): bool
     {
         if ($a_field == "member") {
             return true;

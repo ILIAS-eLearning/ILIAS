@@ -24,14 +24,14 @@ use PHPUnit\Framework\TestCase;
 
 class ilSystemStyleIconColorSetTest extends TestCase
 {
-    public function testConstruct() : void
+    public function testConstruct(): void
     {
         $set = new ilSystemStyleIconColorSet();
 
         $this->assertEquals([], $set->getColors());
     }
 
-    public function testAddColor() : void
+    public function testAddColor(): void
     {
         $color1 = new ilSystemStyleIconColor('id1', 'name', 'FF0000', 'description');
         $color2 = new ilSystemStyleIconColor('id2', 'name', 'FF0000', 'description');
@@ -56,7 +56,7 @@ class ilSystemStyleIconColorSetTest extends TestCase
         $this->assertEquals($color2, $set->getColorById('id2'));
     }
 
-    public function testGetInvalidId() : void
+    public function testGetInvalidId(): void
     {
         $color1 = new ilSystemStyleIconColor('id1', 'name', 'FF0000', 'description');
         $set = new ilSystemStyleIconColorSet();
@@ -70,7 +70,7 @@ class ilSystemStyleIconColorSetTest extends TestCase
         }
     }
 
-    public function testDoesColorExist() : void
+    public function testDoesColorExist(): void
     {
         $color1 = new ilSystemStyleIconColor('id1', 'name', 'FF0000', 'description');
         $set = new ilSystemStyleIconColorSet();
@@ -81,7 +81,7 @@ class ilSystemStyleIconColorSetTest extends TestCase
         $this->assertFalse($set->doesColorExist(''));
     }
 
-    public function testMergeColorSet() : void
+    public function testMergeColorSet(): void
     {
         $color1 = new ilSystemStyleIconColor('id1', 'name', 'FF0000', 'description');
         $color2 = new ilSystemStyleIconColor('id2', 'name', 'FF0000', 'description');
@@ -108,7 +108,7 @@ class ilSystemStyleIconColorSetTest extends TestCase
         $this->assertEquals($color3, $set2->getColorById('id3'));
     }
 
-    public function testGetColorsSortedAsArray() : void
+    public function testGetColorsSortedAsArray(): void
     {
         $white = new ilSystemStyleIconColor('id1', 'name', 'FFFFFF', 'description');
         $black = new ilSystemStyleIconColor('id2', 'name', '000000', 'description');
@@ -137,7 +137,7 @@ class ilSystemStyleIconColorSetTest extends TestCase
         $this->assertEquals($ordered_array, $set1->getColorsSortedAsArray());
     }
 
-    public function testAsArray() : void
+    public function testAsArray(): void
     {
         $white = new ilSystemStyleIconColor('id1', 'name', 'FFFFFF', 'description');
         $black = new ilSystemStyleIconColor('id2', 'name', '000000', 'description');
@@ -161,7 +161,7 @@ class ilSystemStyleIconColorSetTest extends TestCase
         $this->assertEquals($as_array, $set1->asArray());
     }
 
-    public function testAsString() : void
+    public function testAsString(): void
     {
         $white = new ilSystemStyleIconColor('id1', 'name', 'FFFFFF', 'description');
         $black = new ilSystemStyleIconColor('id2', 'name', '000000', 'description');

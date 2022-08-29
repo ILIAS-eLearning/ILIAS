@@ -20,7 +20,7 @@
  */
 class arWhereCollection extends arStatementCollection
 {
-    public function asSQLStatement() : string
+    public function asSQLStatement(): string
     {
         $return = '';
         if ($this->hasStatements()) {
@@ -41,7 +41,7 @@ class arWhereCollection extends arStatementCollection
     /**
      * @return arWhere[]
      */
-    public function getWheres() : array
+    public function getWheres(): array
     {
         return $this->statements;
     }

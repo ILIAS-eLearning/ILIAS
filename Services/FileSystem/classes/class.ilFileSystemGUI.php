@@ -27,17 +27,17 @@ use ILIAS\FileUpload\MimeType;
  */
 class ilFileSystemGUI
 {
-    const PARAMETER_CDIR = "cdir";
-    const SESSION_LAST_COMMAND = "fsys_lastcomm";
-    const PARAMETER_NEWDIR = "newdir";
-    const PARAMETER_FHSH = "fhsh";
-    const POST_PARAM_FILE = "file";
-    const PARAM_RESETOFFSET = "resetoffset";
-    const PARAM_OLD_NAME = "old_name";
-    const PARAM_UPFILE = "upfile";
-    const POST_PARAM_NEW_NAME = "new_name";
-    const POST_PARAM_NEW_DIR = "new_dir";
-    const POST_PARAM_UPLOADED_FILE = "uploaded_file";
+    public const PARAMETER_CDIR = "cdir";
+    public const SESSION_LAST_COMMAND = "fsys_lastcomm";
+    public const PARAMETER_NEWDIR = "newdir";
+    public const PARAMETER_FHSH = "fhsh";
+    public const POST_PARAM_FILE = "file";
+    public const PARAM_RESETOFFSET = "resetoffset";
+    public const PARAM_OLD_NAME = "old_name";
+    public const PARAM_UPFILE = "upfile";
+    public const POST_PARAM_NEW_NAME = "new_name";
+    public const POST_PARAM_NEW_DIR = "new_dir";
+    public const POST_PARAM_UPLOADED_FILE = "uploaded_file";
 
     protected ilCtrl $ctrl;
     protected bool $use_upload_directory = false;
@@ -86,7 +86,7 @@ class ilFileSystemGUI
     /**
      * @param string[] $a_suffixes
      */
-    public function setAllowedSuffixes(array $a_suffixes) : void
+    public function setAllowedSuffixes(array $a_suffixes): void
     {
         $this->allowed_suffixes = $a_suffixes;
     }
@@ -94,7 +94,7 @@ class ilFileSystemGUI
     /**
      * @return string[]
      */
-    public function getAllowedSuffixes() : array
+    public function getAllowedSuffixes(): array
     {
         return $this->allowed_suffixes;
     }
@@ -102,7 +102,7 @@ class ilFileSystemGUI
     /**
      * @param string[] $a_suffixes
      */
-    public function setForbiddenSuffixes(array $a_suffixes) : void
+    public function setForbiddenSuffixes(array $a_suffixes): void
     {
         $this->forbidden_suffixes = $a_suffixes;
     }
@@ -110,12 +110,12 @@ class ilFileSystemGUI
     /**
      * @return string[]
      */
-    public function getForbiddenSuffixes() : array
+    public function getForbiddenSuffixes(): array
     {
         return $this->forbidden_suffixes;
     }
 
-    public function isValidSuffix(string $a_suffix) : bool
+    public function isValidSuffix(string $a_suffix): bool
     {
         if (is_array($this->getForbiddenSuffixes()) && in_array($a_suffix, $this->getForbiddenSuffixes())) {
             return false;
@@ -129,52 +129,52 @@ class ilFileSystemGUI
         return false;
     }
 
-    public function setAllowDirectories(bool $a_val) : void
+    public function setAllowDirectories(bool $a_val): void
     {
         $this->allow_directories = $a_val;
     }
 
-    public function getAllowDirectories() : bool
+    public function getAllowDirectories(): bool
     {
         return $this->allow_directories;
     }
 
-    public function setPostDirPath(bool $a_val) : void
+    public function setPostDirPath(bool $a_val): void
     {
         $this->post_dir_path = $a_val;
     }
 
-    public function getPostDirPath() : bool
+    public function getPostDirPath(): bool
     {
         return $this->post_dir_path;
     }
 
-    public function setTableId(string $a_val) : void
+    public function setTableId(string $a_val): void
     {
         $this->table_id = $a_val;
     }
 
-    public function getTableId() : string
+    public function getTableId(): string
     {
         return $this->table_id;
     }
 
-    public function setTitle(string $a_val) : void
+    public function setTitle(string $a_val): void
     {
         $this->title = $a_val;
     }
 
-    public function getTitle() : string
+    public function getTitle(): string
     {
         return $this->title;
     }
 
-    public function setUseUploadDirectory(bool $a_val) : void
+    public function setUseUploadDirectory(bool $a_val): void
     {
         $this->use_upload_directory = $a_val;
     }
 
-    public function getUseUploadDirectory() : bool
+    public function getUseUploadDirectory(): bool
     {
         return $this->use_upload_directory;
     }
@@ -184,7 +184,7 @@ class ilFileSystemGUI
      * @param array        $pars
      * @return void
      */
-    protected function setPerformedCommand($command, array $pars = []) : void
+    protected function setPerformedCommand($command, array $pars = []): void
     {
         if (!is_array($pars)) {
             $pars = [];
@@ -198,7 +198,7 @@ class ilFileSystemGUI
     /**
      * @return string[]
      */
-    public function getLastPerformedCommand() : array
+    public function getLastPerformedCommand(): array
     {
         if (!ilSession::has(self::SESSION_LAST_COMMAND)) {
             return [];
@@ -208,7 +208,7 @@ class ilFileSystemGUI
         return (array) $ret;
     }
 
-    public function executeCommand() : string
+    public function executeCommand(): string
     {
         $next_class = $this->ctrl->getNextClass($this);
         $cmd = $this->ctrl->getCmd("listFiles");
@@ -227,7 +227,7 @@ class ilFileSystemGUI
         string $a_name,
         bool $a_single = true,
         bool $a_allow_dir = false
-    ) : void {
+    ): void {
         $i = count($this->commands);
 
         $this->commands[$i]["object"] = $a_obj;
@@ -237,17 +237,17 @@ class ilFileSystemGUI
         $this->commands[$i]["allow_dir"] = $a_allow_dir;
     }
 
-    public function clearCommands() : void
+    public function clearCommands(): void
     {
         $this->commands = [];
     }
 
-    public function labelFile(string $a_file, string $a_label) : void
+    public function labelFile(string $a_file, string $a_label): void
     {
         $this->file_labels[$a_file][] = $a_label;
     }
 
-    public function activateLabels(bool $a_act, string $a_label_header) : void
+    public function activateLabels(bool $a_act, string $a_label_header): void
     {
         $this->label_enable = $a_act;
         $this->label_header = $a_label_header;
@@ -256,7 +256,7 @@ class ilFileSystemGUI
     /**
      * @return array<string, mixed>
      */
-    protected function parseCurrentDirectory() : array
+    protected function parseCurrentDirectory(): array
     {
         // determine directory
         // FIXME: I have to call stripSlashes here twice, because I could not
@@ -300,7 +300,7 @@ class ilFileSystemGUI
     /**
      * @return array<int, array<string, mixed>>
      */
-    protected function getFileList(string $a_dir, ?string $a_subdir = null) : array
+    protected function getFileList(string $a_dir, ?string $a_subdir = null): array
     {
         $items = [];
 
@@ -334,7 +334,7 @@ class ilFileSystemGUI
     /**
      * @return string[]
      */
-    protected function getIncomingFiles() : array
+    protected function getIncomingFiles(): array
     {
         $sel_files = $hashes = [];
         if ($this->wrapper->post()->has(self::POST_PARAM_FILE)) {
@@ -370,7 +370,7 @@ class ilFileSystemGUI
         return $sel_files;
     }
 
-    private function extCommand(int $a_nr) : string
+    private function extCommand(int $a_nr): string
     {
         $selected = $this->getIncomingFiles();
 
@@ -415,12 +415,12 @@ class ilFileSystemGUI
         return (string) $obj->$method($files);
     }
 
-    public function setAllowDirectoryCreation(bool $a_val) : void
+    public function setAllowDirectoryCreation(bool $a_val): void
     {
         $this->directory_creation = $a_val;
     }
 
-    public function getAllowDirectoryCreation() : bool
+    public function getAllowDirectoryCreation(): bool
     {
         return $this->directory_creation;
     }
@@ -428,17 +428,17 @@ class ilFileSystemGUI
     /**
      * Set allowed file creation
      */
-    public function setAllowFileCreation(bool $a_val) : void
+    public function setAllowFileCreation(bool $a_val): void
     {
         $this->file_creation = $a_val;
     }
 
-    public function getAllowFileCreation() : bool
+    public function getAllowFileCreation(): bool
     {
         return $this->file_creation;
     }
 
-    public function listFiles(?ilTable2GUI $a_table_gui = null) : void
+    public function listFiles(?ilTable2GUI $a_table_gui = null): void
     {
         global $DIC;
         $ilToolbar = $DIC['ilToolbar'];
@@ -497,7 +497,7 @@ class ilFileSystemGUI
         $this->tpl->setContent($fs_table->getHTML());
     }
 
-    public function getTable(string $a_dir, string $a_subdir) : \ilFileSystemTableGUI
+    public function getTable(string $a_dir, string $a_subdir): \ilFileSystemTableGUI
     {
         return new ilFileSystemTableGUI(
             $this,
@@ -513,7 +513,7 @@ class ilFileSystemGUI
         );
     }
 
-    public function renameFileForm(string $a_file) : void
+    public function renameFileForm(string $a_file): void
     {
         $cur_subdir = $this->sanitizeCurrentDirectory();
         $file = $this->main_relative_dir . "/" . $a_file;
@@ -543,7 +543,7 @@ class ilFileSystemGUI
         $this->tpl->setContent($form->getHTML());
     }
 
-    public function renameFile() : void
+    public function renameFile(): void
     {
         $new_name = $this->wrapper->post()->has(self::POST_PARAM_NEW_NAME)
             ? $this->wrapper->post()->retrieve(self::POST_PARAM_NEW_NAME, $this->refinery->to()->string())
@@ -604,12 +604,12 @@ class ilFileSystemGUI
         $this->ctrl->redirect($this, "listFiles");
     }
 
-    public function cancelRename() : void
+    public function cancelRename(): void
     {
         $this->ctrl->redirect($this, "listFiles");
     }
 
-    public function createDirectory() : void
+    public function createDirectory(): void
     {
         global $DIC;
         $lng = $DIC['lng'];
@@ -640,7 +640,7 @@ class ilFileSystemGUI
         $this->ctrl->redirect($this, 'listFiles');
     }
 
-    public function uploadFile() : void
+    public function uploadFile(): void
     {
         global $DIC;
         $lng = $DIC['lng'];
@@ -686,7 +686,7 @@ class ilFileSystemGUI
             if ($upload_result instanceof UploadResult) {
                 $processing_status = $upload_result->getStatus();
                 if ($processing_status->getCode(
-                        ) === ProcessingStatus::REJECTED) {
+                ) === ProcessingStatus::REJECTED) {
                     throw new ilException($processing_status->getMessage());
                 }
             }
@@ -738,7 +738,7 @@ class ilFileSystemGUI
         $this->ctrl->redirect($this, 'listFiles');
     }
 
-    public function confirmDeleteFile(array $a_files) : void
+    public function confirmDeleteFile(array $a_files): void
     {
         global $DIC;
         $ilCtrl = $DIC['ilCtrl'];
@@ -758,7 +758,7 @@ class ilFileSystemGUI
         $tpl->setContent($cgui->getHTML());
     }
 
-    public function deleteFile() : void
+    public function deleteFile(): void
     {
         if (!$this->wrapper->post()->has(self::POST_PARAM_FILE)) {
             throw new LogicException($this->lng->txt("no_checkbox"));
@@ -812,7 +812,7 @@ class ilFileSystemGUI
         $this->ctrl->redirect($this, 'listFiles');
     }
 
-    public function unzipFile(?string $a_file = null) : void
+    public function unzipFile(?string $a_file = null): void
     {
         // #17470 - direct unzip call (after upload)
         $upname = $this->wrapper->query()->has(self::PARAM_UPFILE)
@@ -886,7 +886,7 @@ class ilFileSystemGUI
         $this->ctrl->redirect($this, "listFiles");
     }
 
-    public function downloadFile(string $a_file) : void
+    public function downloadFile(string $a_file): void
     {
         $file = $this->main_relative_dir . "/" . $a_file;
 
@@ -902,12 +902,12 @@ class ilFileSystemGUI
     /**
      * @return string[]
      */
-    public function getActionCommands() : array
+    public function getActionCommands(): array
     {
         return $this->commands;
     }
 
-    public function defineCommands() : void
+    public function defineCommands(): void
     {
         $this->commands = array(
             0 => array(
@@ -942,7 +942,7 @@ class ilFileSystemGUI
         );
     }
 
-    private function sanitizeCurrentDirectory() : string
+    private function sanitizeCurrentDirectory(): string
     {
         $cur_subdir = $this->wrapper->query()->has(self::PARAMETER_CDIR)
             ? $this->wrapper->query()->retrieve(self::PARAMETER_CDIR, $this->refinery->to()->string())

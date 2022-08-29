@@ -23,7 +23,7 @@
  */
 class ilObjWikiSettings extends ilObject2
 {
-    protected function initType() : void
+    protected function initType(): void
     {
         $this->type = "wiks";
     }

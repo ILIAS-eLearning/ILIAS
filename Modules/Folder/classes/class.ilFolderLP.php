@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -20,19 +22,19 @@
  */
 class ilFolderLP extends ilObjectLP
 {
-    public static function getDefaultModes(bool $lp_active) : array
+    public static function getDefaultModes(bool $lp_active): array
     {
         return [
             ilLPObjSettings::LP_MODE_DEACTIVATED
         ];
     }
-    
-    public function getDefaultMode() : int
+
+    public function getDefaultMode(): int
     {
         return ilLPObjSettings::LP_MODE_DEACTIVATED;
     }
-    
-    public function getValidModes() : array
+
+    public function getValidModes(): array
     {
         return [
             ilLPObjSettings::LP_MODE_DEACTIVATED,

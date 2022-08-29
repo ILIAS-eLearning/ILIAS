@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -31,7 +33,7 @@ use ILIAS\BackgroundTasks\Value;
  */
 class ilMailDeliveryJob extends AbstractJob
 {
-    public function run(array $input, Observer $observer) : Value
+    public function run(array $input, Observer $observer): Value
     {
         global $DIC;
 
@@ -74,7 +76,7 @@ class ilMailDeliveryJob extends AbstractJob
         return $output;
     }
 
-    public function getInputTypes() : array
+    public function getInputTypes(): array
     {
         return [
             new SingleType(IntegerValue::class), // 0. User Id
@@ -91,17 +93,17 @@ class ilMailDeliveryJob extends AbstractJob
         ];
     }
 
-    public function isStateless() : bool
+    public function isStateless(): bool
     {
         return true;
     }
 
-    public function getExpectedTimeOfTaskInSeconds() : int
+    public function getExpectedTimeOfTaskInSeconds(): int
     {
         return 30;
     }
 
-    public function getOutputType() : Type
+    public function getOutputType(): Type
     {
         return new SingleType(BooleanValue::class);
     }

@@ -44,77 +44,77 @@ class ilObjectXMLWriter extends ilXmlWriter
         $this->user_id = $ilUser->getId();
     }
 
-    public function setMode(int $a_mode) : void
+    public function setMode(int $a_mode): void
     {
         $this->mode = $a_mode;
     }
 
-    public function getMode() : int
+    public function getMode(): int
     {
         return $this->mode;
     }
 
-    public function setHighlighter(ilLuceneHighlighterResultParser $a_highlighter) : void
+    public function setHighlighter(ilLuceneHighlighterResultParser $a_highlighter): void
     {
         $this->highlighter = $a_highlighter;
     }
 
-    public function getHighlighter() : ?ilLuceneHighlighterResultParser
+    public function getHighlighter(): ?ilLuceneHighlighterResultParser
     {
         return $this->highlighter;
     }
 
-    public function enablePermissionCheck(bool $a_status) : void
+    public function enablePermissionCheck(bool $a_status): void
     {
         $this->check_permission = $a_status;
     }
 
-    public function isPermissionCheckEnabled() : bool
+    public function isPermissionCheckEnabled(): bool
     {
         return $this->check_permission;
     }
 
-    public function setUserId(int $a_id) : void
+    public function setUserId(int $a_id): void
     {
         $this->user_id = $a_id;
     }
 
-    public function getUserId() : int
+    public function getUserId(): int
     {
         return $this->user_id;
     }
 
-    public function enableOperations(bool $a_status) : void
+    public function enableOperations(bool $a_status): void
     {
         $this->enable_operations = $a_status;
     }
 
-    public function enabledOperations() : bool
+    public function enabledOperations(): bool
     {
         return $this->enable_operations;
     }
 
-    public function enableReferences(bool $a_stat) : void
+    public function enableReferences(bool $a_stat): void
     {
         $this->enable_references = $a_stat;
     }
 
-    public function enabledReferences() : bool
+    public function enabledReferences(): bool
     {
         return $this->enable_references;
     }
 
-    public function setObjects(array $objects) : void
+    public function setObjects(array $objects): void
     {
         $this->objects = $objects;
     }
 
-    public function getObjects() : array
+    public function getObjects(): array
     {
         return $this->objects;
     }
 
-    public function start() : bool
+    public function start(): bool
     {
         global $DIC;
 
@@ -140,12 +140,12 @@ class ilObjectXMLWriter extends ilXmlWriter
         return true;
     }
 
-    public function getXML() : string
+    public function getXML(): string
     {
         return $this->xmlDumpMem(false);
     }
 
-    private function appendObject(ilObject $object) : void
+    private function appendObject(ilObject $object): void
     {
         global $DIC;
 
@@ -209,7 +209,7 @@ class ilObjectXMLWriter extends ilXmlWriter
      * @param int $ref_id Reference id of object
      * @return void
      */
-    private function appendTimeTargets(int $a_ref_id) : void
+    private function appendTimeTargets(int $a_ref_id): void
     {
         global $DIC;
 
@@ -256,7 +256,7 @@ class ilObjectXMLWriter extends ilXmlWriter
         $this->xmlEndTag('TimeTarget');
     }
 
-    private function appendObjectProperties(ilObject $obj) : void
+    private function appendObjectProperties(ilObject $obj): void
     {
         switch ($obj->getType()) {
             case 'file':
@@ -278,7 +278,7 @@ class ilObjectXMLWriter extends ilXmlWriter
         }
     }
 
-    private function appendOperations(int $a_ref_id, string $a_type) : void
+    private function appendOperations(int $a_ref_id, string $a_type): void
     {
         global $DIC;
 
@@ -327,12 +327,12 @@ class ilObjectXMLWriter extends ilXmlWriter
         }
     }
 
-    private function appendPath(int $refid) : void
+    private function appendPath(int $refid): void
     {
         self::appendPathToObject($this, $refid);
     }
 
-    private function buildHeader() : void
+    private function buildHeader(): void
     {
         $this->xmlSetDtdDef("<!DOCTYPE Objects PUBLIC \"-//ILIAS//DTD ILIAS Repositoryobjects//EN\" \"" . ILIAS_HTTP_PATH . "/xml/ilias_object_4_0.dtd\">");
         $this->xmlSetGenCmt("Export of ILIAS objects");
@@ -340,12 +340,12 @@ class ilObjectXMLWriter extends ilXmlWriter
         $this->xmlStartTag("Objects");
     }
 
-    private function buildFooter() : void
+    private function buildFooter(): void
     {
         $this->xmlEndTag('Objects');
     }
 
-    private function getAccessInfo(ilObject $object, int $ref_id) : string
+    private function getAccessInfo(ilObject $object, int $ref_id): string
     {
         global $DIC;
 
@@ -362,7 +362,7 @@ class ilObjectXMLWriter extends ilXmlWriter
         return $info[0]['type'];
     }
 
-    public static function appendPathToObject(ilXmlWriter $writer, int $refid) : void
+    public static function appendPathToObject(ilXmlWriter $writer, int $refid): void
     {
         global $DIC;
 

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -31,7 +33,7 @@ class ilCmiXapiLrsTypeList
      * @param mixed        required availability or null
      * @return    array        array of assoc data arrays
      */
-    public static function getTypesData(bool $a_extended = false, ?int $a_availability = null) : array
+    public static function getTypesData(bool $a_extended = false, ?int $a_availability = null): array
     {
         global $ilDB;
 
@@ -57,7 +59,7 @@ class ilCmiXapiLrsTypeList
     /**
      * Count the number of untrashed usages of a type
      */
-    public static function countUntrashedUsages(int $a_type_id) : int
+    public static function countUntrashedUsages(int $a_type_id): int
     {
         global $ilDB;
 
@@ -80,7 +82,7 @@ class ilCmiXapiLrsTypeList
      * @param     int|null  $a_availability required availability or null
      * @return    array     id => title
      */
-    public static function getTypeOptions(?int $a_availability = null) : array
+    public static function getTypeOptions(?int $a_availability = null): array
     {
         global $ilDB;
 
@@ -100,7 +102,7 @@ class ilCmiXapiLrsTypeList
     /**
      * @return array<string, mixed[]>
      */
-    public static function getTypesStruct() : array
+    public static function getTypesStruct(): array
     {
         return array(
             'type_name' => array('type' => 'text', 'maxlength' => 32)
@@ -133,7 +135,7 @@ class ilCmiXapiLrsTypeList
         );
     }
 
-    public static function getCountTypesForCreate() : int
+    public static function getCountTypesForCreate(): int
     {
         global $ilDB;
         $query = "SELECT COUNT(*) counter FROM " . ilCmiXapiLrsType::getDbTableName() . "

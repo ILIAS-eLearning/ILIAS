@@ -25,37 +25,37 @@
 class ilObjTestXMLParser extends ilSaxParser
 {
     protected ?ilObjTest $testOBJ = null;
-    
+
     protected ?ilImportMapping $importMapping = null;
 
-    public function getTestOBJ() : ?\ilObjTest
+    public function getTestOBJ(): ?\ilObjTest
     {
         return $this->testOBJ;
     }
 
-    public function setTestOBJ(\ilObjTest $testOBJ) : void
+    public function setTestOBJ(\ilObjTest $testOBJ): void
     {
         $this->testOBJ = $testOBJ;
     }
 
-    public function getImportMapping() : ?\ilImportMapping
+    public function getImportMapping(): ?\ilImportMapping
     {
         return $this->importMapping;
     }
 
-    public function setImportMapping(\ilImportMapping $importMapping) : void
+    public function setImportMapping(\ilImportMapping $importMapping): void
     {
         $this->importMapping = $importMapping;
     }
 
-    public function setHandlers($a_xml_parser) : void
+    public function setHandlers($a_xml_parser): void
     {
         xml_set_object($a_xml_parser, $this);
         xml_set_element_handler($a_xml_parser, 'handlerBeginTag', 'handlerEndTag');
         xml_set_character_data_handler($a_xml_parser, 'handlerCharacterData');
     }
 
-    public function handlerBeginTag($xmlParser, $tagName, $tagAttributes) : void
+    public function handlerBeginTag($xmlParser, $tagName, $tagAttributes): void
     {
         switch ($tagName) {
             case 'RandomQuestionSetConfig':
@@ -105,7 +105,7 @@ class ilObjTestXMLParser extends ilSaxParser
         }
     }
 
-    public function handlerEndTag($xmlParser, $tagName) : void
+    public function handlerEndTag($xmlParser, $tagName): void
     {
         switch ($tagName) {
             case 'RandomQuestionSetConfig':
@@ -172,7 +172,7 @@ class ilObjTestXMLParser extends ilSaxParser
         }
     }
 
-    public function handlerCharacterData($xmlParser, $charData) : void
+    public function handlerCharacterData($xmlParser, $charData): void
     {
         if ($charData != "\n") {
             // Replace multiple tabs with one space
@@ -182,7 +182,7 @@ class ilObjTestXMLParser extends ilSaxParser
         }
     }
 
-    protected function importRandomQuestionSetSettings($attr) : void
+    protected function importRandomQuestionSetSettings($attr): void
     {
         global $DIC;
         $tree = $DIC['tree'];
@@ -204,7 +204,7 @@ class ilObjTestXMLParser extends ilSaxParser
         $questionSetConfig->saveToDb();
     }
 
-    protected function importRandomQuestionStagingPool($attr, $cdata) : void
+    protected function importRandomQuestionStagingPool($attr, $cdata): void
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -237,7 +237,7 @@ class ilObjTestXMLParser extends ilSaxParser
         }
     }
 
-    protected function getRandomQuestionSourcePoolDefinitionInstance() : \ilTestRandomQuestionSetSourcePoolDefinition
+    protected function getRandomQuestionSourcePoolDefinitionInstance(): \ilTestRandomQuestionSetSourcePoolDefinition
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -245,7 +245,7 @@ class ilObjTestXMLParser extends ilSaxParser
         return new ilTestRandomQuestionSetSourcePoolDefinition($ilDB, $this->testOBJ);
     }
 
-    protected function importRandomQuestionSourcePoolDefinition(ilTestRandomQuestionSetSourcePoolDefinition $sourcePoolDefinition, $attr) : void
+    protected function importRandomQuestionSourcePoolDefinition(ilTestRandomQuestionSetSourcePoolDefinition $sourcePoolDefinition, $attr): void
     {
         $source_pool_id = (int) $attr['poolId'];
         $effective_pool_id = (int) $this->getImportMapping()->getMapping(

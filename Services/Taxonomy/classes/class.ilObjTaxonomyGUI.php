@@ -15,7 +15,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * Taxonomy GUI class
  * @author       Alexander Killing <killing@leifos.de>
@@ -69,7 +69,7 @@ class ilObjTaxonomyGUI extends ilObject2GUI
         $this->requested_move_ids = (string) ($params["move_ids"] ?? "");
     }
 
-    public function getType() : string
+    public function getType(): string
     {
         return "tax";
     }
@@ -77,12 +77,12 @@ class ilObjTaxonomyGUI extends ilObject2GUI
     /**
      * @param int $a_val object id
      */
-    public function setAssignedObject(int $a_val) : void
+    public function setAssignedObject(int $a_val): void
     {
         $this->assigned_object_id = $a_val;
     }
 
-    public function getAssignedObject() : int
+    public function getAssignedObject(): int
     {
         return $this->assigned_object_id;
     }
@@ -91,22 +91,22 @@ class ilObjTaxonomyGUI extends ilObject2GUI
      * Set multiple
      * @param bool $a_val multiple
      */
-    public function setMultiple(bool $a_val) : void
+    public function setMultiple(bool $a_val): void
     {
         $this->multiple = $a_val;
     }
 
-    public function getMultiple() : bool
+    public function getMultiple(): bool
     {
         return $this->multiple;
     }
 
-    public function setListInfo(string $a_val) : void
+    public function setListInfo(string $a_val): void
     {
         $this->list_info = trim($a_val);
     }
 
-    public function getListInfo() : string
+    public function getListInfo(): string
     {
         return $this->list_info;
     }
@@ -119,7 +119,7 @@ class ilObjTaxonomyGUI extends ilObject2GUI
         string $a_component_id,
         int $a_obj_id,
         string $a_item_type
-    ) : void {
+    ): void {
         $this->assigned_item_sorting = true;
         $this->assigned_item_info_obj = $a_item_info_obj;
         $this->assigned_item_comp_id = $a_component_id;
@@ -130,7 +130,7 @@ class ilObjTaxonomyGUI extends ilObject2GUI
     /**
      * Execute command
      */
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         $ilCtrl = $this->ctrl;
 
@@ -141,7 +141,7 @@ class ilObjTaxonomyGUI extends ilObject2GUI
     /**
      * Init creation forms
      */
-    protected function initCreationForms(string $a_new_type) : array
+    protected function initCreationForms(string $a_new_type): array
     {
         return array(
             self::CFORM_NEW => $this->initCreateForm("tax")
@@ -153,12 +153,12 @@ class ilObjTaxonomyGUI extends ilObject2GUI
     //// Features that work on the base of an assigned object (AO)
     ////
 
-    public function editAOTaxonomySettings() : void
+    public function editAOTaxonomySettings(): void
     {
         $this->listTaxonomies();
     }
 
-    public function getCurrentTaxonomyId() : ?int
+    public function getCurrentTaxonomyId(): ?int
     {
         $tax_ids = ilObjTaxonomy::getUsageOfObject($this->getAssignedObject());
         $tax_id = $this->requested_tax_id;
@@ -168,7 +168,7 @@ class ilObjTaxonomyGUI extends ilObject2GUI
         return null;
     }
 
-    public function getCurrentTaxonomy() : ?ilObjTaxonomy
+    public function getCurrentTaxonomy(): ?ilObjTaxonomy
     {
         $tax_id = $this->getCurrentTaxonomyId();
         if ($tax_id > 0) {
@@ -180,7 +180,7 @@ class ilObjTaxonomyGUI extends ilObject2GUI
     /**
      * List items
      */
-    public function listNodes() : void
+    public function listNodes(): void
     {
         $tpl = $this->tpl;
         $ilToolbar = $this->toolbar;
@@ -225,7 +225,7 @@ class ilObjTaxonomyGUI extends ilObject2GUI
     /**
      * Create assigned taxonomy
      */
-    public function createAssignedTaxonomy() : void
+    public function createAssignedTaxonomy(): void
     {
         $this->create();
     }
@@ -235,7 +235,7 @@ class ilObjTaxonomyGUI extends ilObject2GUI
         string $cmd = "",
         string $type = "",
         ?int $node_id = null
-    ) : bool {
+    ): bool {
         if ($this->getAssignedObject() > 0) {
             return true;
         } else {
@@ -246,7 +246,7 @@ class ilObjTaxonomyGUI extends ilObject2GUI
     /**
      * Cancel creation
      */
-    public function cancel() : void
+    public function cancel(): void
     {
         $ilCtrl = $this->ctrl;
         if ($this->getAssignedObject() > 0) {
@@ -255,7 +255,7 @@ class ilObjTaxonomyGUI extends ilObject2GUI
         parent::cancel();
     }
 
-    public function save() : void
+    public function save(): void
     {
         if ($this->getAssignedObject() > 0) {
             $this->requested_new_type = "tax";
@@ -266,7 +266,7 @@ class ilObjTaxonomyGUI extends ilObject2GUI
     /**
      * After saving,
      */
-    protected function afterSave(ilObject $a_new_object) : void
+    protected function afterSave(ilObject $a_new_object): void
     {
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
@@ -282,7 +282,7 @@ class ilObjTaxonomyGUI extends ilObject2GUI
         }
     }
 
-    public function showTree(bool $a_ass_items = false) : void
+    public function showTree(bool $a_ass_items = false): void
     {
         global $DIC;
 
@@ -332,7 +332,7 @@ class ilObjTaxonomyGUI extends ilObject2GUI
     /**
      * Create tax node
      */
-    public function createTaxNode() : void
+    public function createTaxNode(): void
     {
         $tpl = $this->tpl;
         $ilHelp = $this->help;
@@ -345,7 +345,7 @@ class ilObjTaxonomyGUI extends ilObject2GUI
     }
 
     // Init tax node form
-    public function initTaxNodeForm(string $a_mode = "edit") : ilPropertyFormGUI
+    public function initTaxNodeForm(string $a_mode = "edit"): ilPropertyFormGUI
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
@@ -393,7 +393,7 @@ class ilObjTaxonomyGUI extends ilObject2GUI
     /**
      * Save tax node form
      */
-    public function saveTaxNode() : void
+    public function saveTaxNode(): void
     {
         $tpl = $this->tpl;
         $lng = $this->lng;
@@ -434,7 +434,7 @@ class ilObjTaxonomyGUI extends ilObject2GUI
     /**
      * Update tax node
      */
-    public function updateTaxNode() : void
+    public function updateTaxNode(): void
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
@@ -464,7 +464,7 @@ class ilObjTaxonomyGUI extends ilObject2GUI
     /**
      * Confirm deletion screen for items
      */
-    public function deleteItems() : void
+    public function deleteItems(): void
     {
         $lng = $this->lng;
         $tpl = $this->tpl;
@@ -505,7 +505,7 @@ class ilObjTaxonomyGUI extends ilObject2GUI
     /**
      * Delete taxonomy nodes
      */
-    public function confirmedDelete() : void
+    public function confirmedDelete(): void
     {
         $ilCtrl = $this->ctrl;
         $body = $this->request->getParsedBody();
@@ -534,7 +534,7 @@ class ilObjTaxonomyGUI extends ilObject2GUI
     /**
      * Save settings and sorting
      */
-    public function saveSorting() : void
+    public function saveSorting(): void
     {
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
@@ -564,7 +564,7 @@ class ilObjTaxonomyGUI extends ilObject2GUI
     /**
      * Move items
      */
-    public function moveItems() : void
+    public function moveItems(): void
     {
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
@@ -609,7 +609,7 @@ class ilObjTaxonomyGUI extends ilObject2GUI
     /**
      * Paste items (move operation)
      */
-    public function pasteItems() : void
+    public function pasteItems(): void
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
@@ -649,7 +649,7 @@ class ilObjTaxonomyGUI extends ilObject2GUI
     /**
      * Confirm taxonomy deletion
      */
-    public function confirmDeleteTaxonomy() : void
+    public function confirmDeleteTaxonomy(): void
     {
         $ilCtrl = $this->ctrl;
         $tpl = $this->tpl;
@@ -671,7 +671,7 @@ class ilObjTaxonomyGUI extends ilObject2GUI
     /**
      * Delete taxonomy
      */
-    public function deleteTaxonomy() : void
+    public function deleteTaxonomy(): void
     {
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
@@ -686,7 +686,7 @@ class ilObjTaxonomyGUI extends ilObject2GUI
     /**
      * List taxonomies
      */
-    public function listTaxonomies() : void
+    public function listTaxonomies(): void
     {
         $tpl = $this->tpl;
         $ilToolbar = $this->toolbar;
@@ -716,7 +716,7 @@ class ilObjTaxonomyGUI extends ilObject2GUI
     /**
      * @inheritDoc
      */
-    protected function setTabs($a_id = "") : void
+    protected function setTabs($a_id = ""): void
     {
         $ilTabs = $this->tabs;
         $ilCtrl = $this->ctrl;
@@ -761,7 +761,7 @@ class ilObjTaxonomyGUI extends ilObject2GUI
     /**
      * Edit settings
      */
-    public function editSettings() : void
+    public function editSettings(): void
     {
         $tpl = $this->tpl;
 
@@ -771,7 +771,7 @@ class ilObjTaxonomyGUI extends ilObject2GUI
         $tpl->setContent($form->getHTML());
     }
 
-    public function initSettingsForm() : ilPropertyFormGUI
+    public function initSettingsForm(): ilPropertyFormGUI
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
@@ -823,7 +823,7 @@ class ilObjTaxonomyGUI extends ilObject2GUI
     /**
      * Update taxonomy settings
      */
-    public function updateSettings() : void
+    public function updateSettings(): void
     {
         $tpl = $this->tpl;
         $lng = $this->lng;
@@ -849,7 +849,7 @@ class ilObjTaxonomyGUI extends ilObject2GUI
     /**
      * List assigned items
      */
-    public function listAssignedItems() : void
+    public function listAssignedItems(): void
     {
         $tpl = $this->tpl;
 
@@ -876,7 +876,7 @@ class ilObjTaxonomyGUI extends ilObject2GUI
     /**
      * Save assigned items sorting
      */
-    public function saveAssignedItemsSorting() : void
+    public function saveAssignedItemsSorting(): void
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;

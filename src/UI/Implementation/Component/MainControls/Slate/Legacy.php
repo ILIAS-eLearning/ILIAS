@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\UI\Implementation\Component\MainControls\Slate;
 
 use ILIAS\UI\Component\MainControls\Slate as ISlate;
@@ -47,12 +49,12 @@ class Legacy extends Slate implements ISlate\Legacy
     /**
      * @inheritdoc
      */
-    public function getContents() : array
+    public function getContents(): array
     {
         return $this->contents;
     }
 
-    public function withMappedSubNodes(callable $f) : ISlate\Legacy
+    public function withMappedSubNodes(callable $f): ISlate\Legacy
     {
         return $this;
     }

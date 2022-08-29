@@ -46,17 +46,10 @@ class ilADNNotificationUIFormGUI
     public const F_DISPLAY_DATE_END = 'display_date_end';
     public const F_EVENT_DATE_START = 'event_date_start';
     public const F_EVENT_DATE_END = 'event_date_end';
-    
+    public const F_SHOW_TO_ALL_ROLES = 'show_to_all_roles';
+    public const F_PRESENTATION = 'presentation';
     protected string $action;
-    protected static array $tags = array(
-        'a',
-        'strong',
-        'ol',
-        'ul',
-        'li',
-        'p',
-    );
-    
+
     protected ilADNNotification $notification;
     protected ilCtrlInterface $ctrl;
     protected \ILIAS\UI\Factory $ui;
@@ -66,7 +59,7 @@ class ilADNNotificationUIFormGUI
     protected ilLanguage $lng;
     protected ilRbacReview $rbac_review;
     protected Services $http;
-    
+
     public function __construct(ilADNNotification $notification, string $action)
     {
         /**
@@ -85,20 +78,20 @@ class ilADNNotificationUIFormGUI
         $this->initForm();
     }
 
-    protected function txt(string $var) : string
+    protected function txt(string $var): string
     {
         return $this->lng->txt('msg_' . $var);
     }
 
-    protected function infoTxt(string $var) : string
+    protected function infoTxt(string $var): string
     {
         return $this->txt($var . '_info');
     }
-    
+
     /**
      * @return string[]
      */
-    protected function getDenotations() : array
+    protected function getDenotations(): array
     {
         return [
             ilADNNotification::TYPE_INFO => $this->txt(self::F_TYPE . '_' . ilADNNotification::TYPE_INFO),
@@ -106,51 +99,51 @@ class ilADNNotificationUIFormGUI
             ilADNNotification::TYPE_ERROR => $this->txt(self::F_TYPE . '_' . ilADNNotification::TYPE_ERROR),
         ];
     }
-    
-    public function getHTML() : string
+
+    public function getHTML(): string
     {
         return $this->renderer->render($this->form);
     }
-    
-    public function initForm() : void
+
+    public function initForm(): void
     {
         $field = $this->ui->input()->field();
         $custom_trafo = fn (callable $c) => $this->refinery->custom()->transformation($c);
         $custom_constraint = fn (callable $c, string $error) => $this->refinery->custom()->constraint($c, $error);
-        
+
         // DENOTATION
         $types = $this->getDenotations();
         $denotation = $field->select($this->txt(self::F_TYPE), $types, $this->infoTxt(self::F_TYPE))
                             ->withRequired(true)
                             ->withValue($this->notification->getType())
-                            ->withAdditionalTransformation($custom_trafo(function ($v) : void {
+                            ->withAdditionalTransformation($custom_trafo(function ($v): void {
                                 $this->notification->setType((int) $v);
                             }));
-        
+
         // TITLE
         $title = $field->text($this->txt(self::F_TITLE), $this->infoTxt(self::F_TITLE))
                        ->withRequired(true)
                        ->withValue($this->notification->getTitle())
-                       ->withAdditionalTransformation($custom_trafo(function ($v) : void {
+                       ->withAdditionalTransformation($custom_trafo(function ($v): void {
                            $this->notification->setTitle((string) $v);
                        }));
-        
+
         // BODY
         $body = $field->textarea($this->txt(self::F_BODY), $this->infoTxt(self::F_BODY))
                       ->withValue($this->notification->getBody())
-                      ->withAdditionalTransformation($custom_trafo(function ($v) : void {
+                      ->withAdditionalTransformation($custom_trafo(function ($v): void {
                           $this->notification->setBody((string) $v);
                       }));
-        
+
         // PERMANENT AND DATES
         $format = (new ILIAS\Data\Factory())->dateFormat()->standard();
         $str = $format->toString() . ' H:i:s';
-        
+
         $display_date_start = $field->dateTime($this->txt(self::F_DISPLAY_DATE_START))
                                     ->withUseTime(true)
                                     ->withFormat($format)
                                     ->withValue($this->notification->getDisplayStart()->format($str))
-                                    ->withAdditionalTransformation($custom_trafo(function (?DateTimeImmutable $v) : ?\DateTimeImmutable {
+                                    ->withAdditionalTransformation($custom_trafo(function (?DateTimeImmutable $v): ?\DateTimeImmutable {
                                         $this->notification->setDisplayStart($v ?? new DateTimeImmutable());
                                         return $v;
                                     }));
@@ -158,7 +151,7 @@ class ilADNNotificationUIFormGUI
                                     ->withUseTime(true)
                                     ->withFormat($format)
                                     ->withValue($this->notification->getDisplayEnd()->format($str))
-                                    ->withAdditionalTransformation($custom_trafo(function (?DateTimeImmutable $v) : ?\DateTimeImmutable {
+                                    ->withAdditionalTransformation($custom_trafo(function (?DateTimeImmutable $v): ?\DateTimeImmutable {
                                         $this->notification->setDisplayEnd($v ?? new DateTimeImmutable());
                                         return $v;
                                     }));
@@ -166,7 +159,7 @@ class ilADNNotificationUIFormGUI
                                     ->withUseTime(true)
                                     ->withFormat($format)
                                     ->withValue($this->notification->getEventStart()->format($str))
-                                    ->withAdditionalTransformation($custom_trafo(function (?DateTimeImmutable $v) : ?\DateTimeImmutable {
+                                    ->withAdditionalTransformation($custom_trafo(function (?DateTimeImmutable $v): ?\DateTimeImmutable {
                                         $this->notification->setEventStart($v ?? new DateTimeImmutable());
                                         return $v;
                                     }));
@@ -174,17 +167,17 @@ class ilADNNotificationUIFormGUI
                                     ->withUseTime(true)
                                     ->withFormat($format)
                                     ->withValue($this->notification->getEventEnd()->format($str))
-                                    ->withAdditionalTransformation($custom_trafo(function (?DateTimeImmutable $v) : ?\DateTimeImmutable {
+                                    ->withAdditionalTransformation($custom_trafo(function (?DateTimeImmutable $v): ?\DateTimeImmutable {
                                         $this->notification->setEventEnd($v ?? new DateTimeImmutable());
                                         return $v;
                                     }));
-        
+
         $type_during_event = $field->select($this->txt(self::F_TYPE_DURING_EVENT), $types)
                                    ->withValue($this->notification->getTypeDuringEvent())
-                                   ->withAdditionalTransformation($custom_trafo(function ($v) : void {
+                                   ->withAdditionalTransformation($custom_trafo(function ($v): void {
                                        $this->notification->setTypeDuringEvent((int) $v);
                                    }));
-        
+
         $permanent = $field->switchableGroup([
             self::F_PERMANENT . '_yes' => $field->group([], $this->txt(self::F_PERMANENT . '_yes')),
             self::F_PERMANENT . '_no' => $field->group(
@@ -204,7 +197,7 @@ class ilADNNotificationUIFormGUI
                                $this->notification->setPermanent($permanent);
                                return $permanent ? null : $v[1];
                            }))
-                           ->withAdditionalTransformation($custom_constraint(static function ($v) : bool {
+                           ->withAdditionalTransformation($custom_constraint(static function ($v): bool {
                                if (is_null($v)) {
                                    return true;
                                }
@@ -215,7 +208,7 @@ class ilADNNotificationUIFormGUI
                                $display_end = $v[self::F_DISPLAY_DATE_END];
                                $event_start = $v[self::F_EVENT_DATE_START];
                                $event_end = $v[self::F_EVENT_DATE_END];
-            
+
                                if ($display_start >= $display_end) {
                                    return false;
                                }
@@ -227,30 +220,45 @@ class ilADNNotificationUIFormGUI
                                }
                                return $event_end <= $display_end;
                            }, $this->txt('error_false_date_configuration')));
-        
+
         // DISMISSABLE
         $dismissable = $field->checkbox($this->txt(self::F_DISMISSABLE), $this->infoTxt(self::F_DISMISSABLE))
                              ->withValue($this->notification->getDismissable())
-                             ->withAdditionalTransformation($custom_trafo(function ($v) : void {
+                             ->withAdditionalTransformation($custom_trafo(function ($v): void {
                                  $this->notification->setDismissable((bool) $v);
                              }));
-        
+
         // LIMITED TO ROLES
         $available_roles = $this->getRoles(ilRbacReview::FILTER_ALL_GLOBAL);
-        $limited_to_role_ids = $field->multiSelect($this->txt(self::F_LIMITED_TO_ROLE_IDS), $available_roles)
-                                     ->withValue($this->notification->getLimitedToRoleIds())
-                                     ->withAdditionalTransformation($custom_trafo(function ($v) : void {
-                                         $this->notification->setLimitedToRoleIds((array) $v);
-                                     }));
-        
-        $roles = $field->optionalGroup([
-            self::F_LIMITED_TO_ROLE_IDS => $limited_to_role_ids
-        ], $this->txt(self::F_LIMIT_TO_ROLES), $this->infoTxt(self::F_LIMIT_TO_ROLES))
-                       ->withValue($this->notification->isLimitToRoles() ? [self::F_LIMITED_TO_ROLE_IDS => $this->notification->getLimitedToRoleIds()] : null)
-                       ->withAdditionalTransformation($custom_trafo(function ($v) : void {
-                           $this->notification->setLimitToRoles((bool) $v);
-                       }));
-        
+        $limited_to_role_ids = $field->multiSelect('', $available_roles)
+                                     ->withAdditionalTransformation(
+                                         $custom_trafo(function ($v) {
+                                             $this->notification->setLimitedToRoleIds((array) $v);
+                                         })
+                                     );
+
+        $value = $this->notification->isLimitToRoles()
+            ? self::F_LIMIT_TO_ROLES
+            : self::F_SHOW_TO_ALL_ROLES;
+
+
+        $roles = $field->switchableGroup([
+            self::F_SHOW_TO_ALL_ROLES => $field->group(
+                [],
+                $this->txt(self::F_SHOW_TO_ALL_ROLES)
+            )->withByline($this->infoTxt(self::F_SHOW_TO_ALL_ROLES)),
+            self::F_LIMIT_TO_ROLES => $field->group(
+                [$limited_to_role_ids],
+                $this->txt(self::F_LIMIT_TO_ROLES)
+            )->withByline($this->infoTxt(self::F_LIMIT_TO_ROLES))
+        ], $this->txt(self::F_PRESENTATION))
+                       ->withValue($value)
+                       ->withAdditionalTransformation(
+                           $custom_trafo(function ($v) {
+                               $this->notification->setLimitToRoles(($v[0] ?? null) === self::F_PRESENTATION);
+                           })
+                       );
+
         // COMPLETE FORM
         $section = $field->section([
             self::F_TYPE => $denotation,
@@ -259,20 +267,20 @@ class ilADNNotificationUIFormGUI
             self::F_PERMANENT => $permanent,
             self::F_DISMISSABLE => $dismissable,
             self::F_LIMIT_TO_ROLES => $roles,
-        ], $this->txt('form_title'))->withAdditionalTransformation($custom_trafo(fn ($v) : ilADNNotification => $this->notification));
+        ], $this->txt('form_title'))->withAdditionalTransformation($custom_trafo(fn ($v): ilADNNotification => $this->notification));
 
         $this->form = $this->ui->input()->container()->form()->standard(
             $this->action,
             [$section]
         )->withAdditionalTransformation($this->refinery->custom()->transformation(fn ($v) => array_shift($v)));
     }
-    
-    public function setValuesByPost() : void
+
+    public function setValuesByPost(): void
     {
         $this->form = $this->form->withRequest($this->http->request());
     }
-    
-    protected function fillObject() : bool
+
+    protected function fillObject(): bool
     {
         $data = $this->form->getData();
         if (!$data instanceof ilADNNotification) {
@@ -281,8 +289,8 @@ class ilADNNotificationUIFormGUI
         $this->notification = $data;
         return true;
     }
-    
-    public function saveObject() : bool
+
+    public function saveObject(): bool
     {
         if (!$this->fillObject()) {
             return false;
@@ -292,20 +300,20 @@ class ilADNNotificationUIFormGUI
         } else {
             $this->notification->create();
         }
-    
+
         return $this->notification->getId() > 0;
     }
-    
+
     /**
      * @return array<int, string>
      */
-    protected function getRoles(int $filter) : array
+    protected function getRoles(int $filter): array
     {
         $opt = [];
         foreach ($this->rbac_review->getRolesByFilter($filter) as $role) {
             $opt[(int) $role['obj_id']] = $role['title'] . ' (' . $role['obj_id'] . ')';
         }
-        
+
         return $opt;
     }
 }

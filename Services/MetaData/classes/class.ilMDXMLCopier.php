@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /******************************************************************************
  *
  * This file is part of ILIAS, a powerful learning management system.
@@ -39,7 +41,7 @@ class ilMDXMLCopier extends ilMDSaxParser
     /**
      * @param XMLParser|resource $a_xml_parser reference to the xml parser
      */
-    public function handlerBeginTag($a_xml_parser, string $a_name, array $a_attribs) : void
+    public function handlerBeginTag($a_xml_parser, string $a_name, array $a_attribs): void
     {
         if ($this->in_meta_data && !$this->__inFilter($a_name)) {
             parent::handlerBeginTag($a_xml_parser, $a_name, $a_attribs);
@@ -66,7 +68,7 @@ class ilMDXMLCopier extends ilMDSaxParser
     /**
      * @param XMLParser|resource $a_xml_parser reference to the xml parser
      */
-    public function handlerEndTag($a_xml_parser, string $a_name) : void
+    public function handlerEndTag($a_xml_parser, string $a_name): void
     {
         if ($this->in_meta_data && !$this->__inFilter($a_name)) {
             parent::handlerEndTag($a_xml_parser, $a_name);
@@ -89,19 +91,19 @@ class ilMDXMLCopier extends ilMDSaxParser
     /**
      * @param XMLParser|resource $a_xml_parser reference to the xml parser
      */
-    public function handlerCharacterData($a_xml_parser, string $a_data) : void
+    public function handlerCharacterData($a_xml_parser, string $a_data): void
     {
         if ($this->in_meta_data) {
             parent::handlerCharacterData($a_xml_parser, $a_data);
         }
     }
 
-    public function __setFilter() : void
+    public function __setFilter(): void
     {
         $this->filter[] = 'Identifier';
     }
 
-    public function __inFilter(string $a_tag_name) : bool
+    public function __inFilter(string $a_tag_name): bool
     {
         return in_array($a_tag_name, $this->filter, true);
     }

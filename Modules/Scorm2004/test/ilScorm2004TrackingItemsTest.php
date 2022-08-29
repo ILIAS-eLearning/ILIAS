@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -24,7 +26,7 @@ class ilScorm2004TrackingItemsTest extends ilScorm2004BaseTestCase
 {
     private ilSCORM2004TrackingItems $testObj;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -36,12 +38,12 @@ class ilScorm2004TrackingItemsTest extends ilScorm2004BaseTestCase
         $this->testObj = new ilSCORM2004TrackingItems();
     }
 
-    public function test_instantiateObject_shouldReturnInstance() : void
+    public function test_instantiateObject_shouldReturnInstance(): void
     {
         $this->assertInstanceOf(ilSCORM2004TrackingItems::class, $this->testObj);
     }
 
-    public function test_parentObjectMethodExistsAndReturns() : void
+    public function test_parentObjectMethodExistsAndReturns(): void
     {
         $timeStr = '2:22:22';
         $timeInt = 8542;

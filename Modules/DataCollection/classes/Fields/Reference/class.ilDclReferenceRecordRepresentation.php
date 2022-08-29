@@ -23,7 +23,7 @@
  */
 class ilDclReferenceRecordRepresentation extends ilDclBaseRecordRepresentation
 {
-    public function getHTML(bool $link = true) : string
+    public function getHTML(bool $link = true): string
     {
         $value = $this->getRecordField()->getValue();
         $record_field = $this->getRecordField();
@@ -75,7 +75,7 @@ class ilDclReferenceRecordRepresentation extends ilDclBaseRecordRepresentation
     /**
      * @param string|null|int $value
      */
-    protected function getLinkHTML(?string $link_name = null, $value) : string
+    protected function getLinkHTML(?string $link_name = null, $value): string
     {
         global $DIC;
         $ilCtrl = $DIC['ilCtrl'];
@@ -95,8 +95,10 @@ class ilDclReferenceRecordRepresentation extends ilDclBaseRecordRepresentation
 
         $tableview_id = $this->http->wrapper()->query()->retrieve('tableview_id', $this->refinery->kindlyTo()->int());
         $ilCtrl->setParameterByClass(ilDclDetailedViewGUI::class, "back_tableview_id", $tableview_id);
-        $html = "<a href='" . $ilCtrl->getLinkTargetByClass(ilDclDetailedViewGUI::class,
-                "renderRecord") . "&disable_paging=1'>" . $link_name . "</a>";
+        $html = "<a href='" . $ilCtrl->getLinkTargetByClass(
+            ilDclDetailedViewGUI::class,
+            "renderRecord"
+        ) . "&disable_paging=1'>" . $link_name . "</a>";
 
         return $html;
     }

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\UI\Implementation\Component\Chart;
 
 use ILIAS\UI\Component as C;
@@ -39,7 +41,7 @@ class ScaleBar implements C\Chart\ScaleBar
     /**
      * @inheritdoc
      */
-    public function withItems(array $items) : C\Chart\ScaleBar
+    public function withItems(array $items): C\Chart\ScaleBar
     {
         $clone = clone $this;
         $clone->items = $items;
@@ -49,7 +51,7 @@ class ScaleBar implements C\Chart\ScaleBar
     /**
      * @inheritdoc
      */
-    public function getItems() : array
+    public function getItems(): array
     {
         return $this->items;
     }

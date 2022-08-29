@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -30,7 +32,7 @@ class ilCategoryExporter extends ilXmlExporter
      * @param		array		ids
      * @return		array		array of array with keys "component", entity", "ids"
      */
-    public function getXmlExportHeadDependencies(string $a_entity, string $a_target_release, array $a_ids) : array
+    public function getXmlExportHeadDependencies(string $a_entity, string $a_target_release, array $a_ids): array
     {
         // always trigger container because of co-page(s)
         return [
@@ -41,8 +43,8 @@ class ilCategoryExporter extends ilXmlExporter
             ]
         ];
     }
-    
-    public function getXmlExportTailDependencies(string $a_entity, string $a_target_release, array $a_ids) : array
+
+    public function getXmlExportTailDependencies(string $a_entity, string $a_target_release, array $a_ids): array
     {
         if ($a_entity === "cat") {
             $tax_ids = [];
@@ -68,7 +70,7 @@ class ilCategoryExporter extends ilXmlExporter
      * @throws ilDatabaseException
      * @throws ilObjectNotFoundException
      */
-    public function getXmlRepresentation(string $a_entity, string $a_schema_version, string $a_id) : string
+    public function getXmlRepresentation(string $a_entity, string $a_schema_version, string $a_id): string
     {
         $all_ref = ilObject::_getAllReferences((int) $a_id);
         $cat_ref_id = end($all_ref);
@@ -91,7 +93,7 @@ class ilCategoryExporter extends ilXmlExporter
      * ILIAS chooses the first one, that has min/max constraints which
      * fit to the target release. Please put the newest on top.
      */
-    public function getValidSchemaVersions(string $a_entity) : array
+    public function getValidSchemaVersions(string $a_entity): array
     {
         return [
             "4.3.0" => [
@@ -107,7 +109,7 @@ class ilCategoryExporter extends ilXmlExporter
     /**
      * Init method
      */
-    public function init() : void
+    public function init(): void
     {
     }
 }

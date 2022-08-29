@@ -1,4 +1,6 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -64,26 +66,26 @@ class InternalRepoService
     }
 
     public function characteristic(
-    ) : CharacteristicDBRepo {
+    ): CharacteristicDBRepo {
         return $this->characteristic_repo;
     }
 
     public function characteristicCopyPaste(
-    ) : CharacteristicCopyPasteSessionRepo {
+    ): CharacteristicCopyPasteSessionRepo {
         return $this->characteristic_copy_paste_repo;
     }
 
-    public function color() : ColorDBRepo
+    public function color(): ColorDBRepo
     {
         return $this->color_repo;
     }
 
-    public function image() : ImageFileRepo
+    public function image(): ImageFileRepo
     {
         return $this->image_repo;
     }
 
-    public function repositoryContainer() : Container\ContainerDBRepository
+    public function repositoryContainer(): Container\ContainerDBRepository
     {
         return new Container\ContainerDBRepository(
             $this->db
@@ -94,7 +96,7 @@ class InternalRepoService
      * Objects without ref id (e.g. portfolios) can use
      * the manager with a ref_id of 0, e.g. to get selectable styles
      */
-    public function object() : Object\ObjectDBRepository
+    public function object(): Object\ObjectDBRepository
     {
         return new Object\ObjectDBRepository(
             $this->db

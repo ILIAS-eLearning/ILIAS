@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 use ILIAS\Setup;
 use ILIAS\DI;
 
@@ -24,7 +26,7 @@ class ilDatabaseMetricsCollectedObjective extends Setup\Metrics\CollectedObjecti
     /**
      * @return array<\ilDatabaseInitializedObjective|\ilIniFilesLoadedObjective>
      */
-    protected function getTentativePreconditions(Setup\Environment $environment) : array
+    protected function getTentativePreconditions(Setup\Environment $environment): array
     {
         return [
             new \ilIniFilesLoadedObjective(),
@@ -32,7 +34,7 @@ class ilDatabaseMetricsCollectedObjective extends Setup\Metrics\CollectedObjecti
         ];
     }
 
-    protected function collectFrom(Setup\Environment $environment, Setup\Metrics\Storage $storage) : void
+    protected function collectFrom(Setup\Environment $environment, Setup\Metrics\Storage $storage): void
     {
         $client_ini = $environment->getResource(Setup\Environment::RESOURCE_CLIENT_INI);
         if ($client_ini) {
@@ -85,37 +87,37 @@ class ilDatabaseMetricsCollectedObjective extends Setup\Metrics\CollectedObjecti
         $GLOBALS["DIC"]["ilDB"] = $db;
         $GLOBALS["ilDB"] = $db;
         $GLOBALS["DIC"]["ilBench"] = null;
-        $GLOBALS["DIC"]["ilLog"] = new class() {
-            public function write() : void
+        $GLOBALS["DIC"]["ilLog"] = new class () {
+            public function write(): void
             {
             }
-            public function info() : void
+            public function info(): void
             {
             }
-            public function warning($msg) : void
+            public function warning($msg): void
             {
             }
-            public function error($msg) : void
+            public function error($msg): void
             {
             }
         };
         $GLOBALS["ilLog"] = $GLOBALS["DIC"]["ilLog"];
         /** @noinspection PhpArrayIndexImmediatelyRewrittenInspection */
-        $GLOBALS["DIC"]["ilLoggerFactory"] = new class() {
-            public function getRootLogger() : object
+        $GLOBALS["DIC"]["ilLoggerFactory"] = new class () {
+            public function getRootLogger(): object
             {
-                return new class() {
-                    public function write() : void
+                return new class () {
+                    public function write(): void
                     {
                     }
                 };
             }
         };
-        $GLOBALS["ilCtrlStructureReader"] = new class() {
-            public function getStructure() : void
+        $GLOBALS["ilCtrlStructureReader"] = new class () {
+            public function getStructure(): void
             {
             }
-            public function setIniFile() : void
+            public function setIniFile(): void
             {
             }
         };

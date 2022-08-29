@@ -45,7 +45,7 @@ class ilObjCourseReferenceGUI extends ilContainerReferenceGUI
      * Execute command
      * @access public
      */
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         global $DIC;
 
@@ -71,7 +71,7 @@ class ilObjCourseReferenceGUI extends ilContainerReferenceGUI
      * Add tabs
      * @access public
      */
-    protected function getTabs() : void
+    protected function getTabs(): void
     {
         global $DIC;
 
@@ -117,7 +117,7 @@ class ilObjCourseReferenceGUI extends ilContainerReferenceGUI
     /**
      * @inheritdoc
      */
-    public function initForm($a_mode = self::MODE_EDIT) : ilPropertyFormGUI
+    public function initForm($a_mode = self::MODE_EDIT): ilPropertyFormGUI
     {
         $form = parent::initForm($a_mode);
 
@@ -150,7 +150,7 @@ class ilObjCourseReferenceGUI extends ilContainerReferenceGUI
      * @param \ilPropertyFormGUI $form
      * @return bool
      */
-    protected function loadPropertiesFromSettingsForm(ilPropertyFormGUI $form) : bool
+    protected function loadPropertiesFromSettingsForm(ilPropertyFormGUI $form): bool
     {
         $ok = true;
         $ok = parent::loadPropertiesFromSettingsForm($form);

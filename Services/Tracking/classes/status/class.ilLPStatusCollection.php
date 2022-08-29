@@ -1,4 +1,6 @@
-<?php declare(strict_types=0);
+<?php
+
+declare(strict_types=0);
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -27,7 +29,7 @@
  */
 class ilLPStatusCollection extends ilLPStatus
 {
-    public static function _getNotAttempted(int $a_obj_id) : array
+    public static function _getNotAttempted(int $a_obj_id): array
     {
         $users = array();
 
@@ -51,7 +53,7 @@ class ilLPStatusCollection extends ilLPStatus
         return $users;
     }
 
-    public static function _getInProgress(int $a_obj_id) : array
+    public static function _getInProgress(int $a_obj_id): array
     {
         $users = ilChangeEvent::lookupUsersInProgress($a_obj_id);
 
@@ -97,7 +99,7 @@ class ilLPStatusCollection extends ilLPStatus
      * Get completed users
      * New handling for optional grouped assignments.
      */
-    public static function _getCompleted(int $a_obj_id) : array
+    public static function _getCompleted(int $a_obj_id): array
     {
         global $DIC;
 
@@ -163,7 +165,7 @@ class ilLPStatusCollection extends ilLPStatus
         return (array) $users;
     }
 
-    public static function _getFailed(int $a_obj_id) : array
+    public static function _getFailed(int $a_obj_id): array
     {
         global $DIC;
 
@@ -218,7 +220,7 @@ class ilLPStatusCollection extends ilLPStatus
         return array_unique($users);
     }
 
-    public static function _getStatusInfo(int $a_obj_id) : array
+    public static function _getStatusInfo(int $a_obj_id): array
     {
         $status_info = array();
 
@@ -234,7 +236,7 @@ class ilLPStatusCollection extends ilLPStatus
         return $status_info;
     }
 
-    public static function _getTypicalLearningTime(int $a_obj_id) : int
+    public static function _getTypicalLearningTime(int $a_obj_id): int
     {
         global $DIC;
 
@@ -258,7 +260,7 @@ class ilLPStatusCollection extends ilLPStatus
         int $a_obj_id,
         int $a_usr_id,
         object $a_obj = null
-    ) : int {
+    ): int {
         global $DIC;
 
         $ilObjDataCache = $DIC['ilObjDataCache'];
@@ -319,7 +321,7 @@ class ilLPStatusCollection extends ilLPStatus
         array $gr_info,
         int $user_id,
         bool $is_grouping
-    ) : array {
+    ): array {
         global $DIC;
 
         $ilObjDataCache = $DIC['ilObjDataCache'];
@@ -367,7 +369,7 @@ class ilLPStatusCollection extends ilLPStatus
      * @param int $a_obj_id
      * @return int[]
      */
-    protected static function getMembers(int $a_obj_id) : array
+    protected static function getMembers(int $a_obj_id): array
     {
         global $DIC;
 
@@ -418,7 +420,7 @@ class ilLPStatusCollection extends ilLPStatus
     public static function _lookupCompletedForObject(
         int $a_obj_id,
         ?array $a_user_ids = null
-    ) : array {
+    ): array {
         if (!$a_user_ids) {
             $a_user_ids = self::getMembers($a_obj_id);
             if (!$a_user_ids) {
@@ -438,7 +440,7 @@ class ilLPStatusCollection extends ilLPStatus
     public static function _lookupFailedForObject(
         int $a_obj_id,
         ?array $a_user_ids = null
-    ) : array {
+    ): array {
         if (!$a_user_ids) {
             $a_user_ids = self::getMembers($a_obj_id);
             if (!$a_user_ids) {
@@ -458,7 +460,7 @@ class ilLPStatusCollection extends ilLPStatus
     public static function _lookupInProgressForObject(
         int $a_obj_id,
         ?array $a_user_ids = null
-    ) : array {
+    ): array {
         if (!$a_user_ids) {
             $a_user_ids = self::getMembers($a_obj_id);
             if (!$a_user_ids) {

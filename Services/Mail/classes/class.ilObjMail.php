@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -24,7 +26,7 @@ class ilObjMail extends ilObject
 {
     public function __construct(int $a_id, bool $a_call_by_reference = true)
     {
-        $this->type = "mail";
+        $this->type = 'mail';
         parent::__construct($a_id, $a_call_by_reference);
     }
 }

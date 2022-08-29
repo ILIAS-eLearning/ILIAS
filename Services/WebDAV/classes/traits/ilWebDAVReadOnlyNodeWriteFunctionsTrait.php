@@ -1,4 +1,6 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 use Sabre\DAV\Exception\Forbidden;
 
 trait ilWebDAVReadOnlyNodeWriteFunctionsTrait
@@ -24,34 +26,34 @@ trait ilWebDAVReadOnlyNodeWriteFunctionsTrait
      * {@inheritDoc}
      * @see \Sabre\DAV\ICollection::createDirectory()
      */
-    public function createDirectory($name) : void
+    public function createDirectory($name): void
     {
         throw new Forbidden("It is not possible to create a directory here");
     }
-    
+
     /**
      * {@inheritDoc}
      * @see \Sabre\DAV\ICollection::createFile()
      */
-    public function createFile($name, $data = null) : ?string
+    public function createFile($name, $data = null): ?string
     {
         throw new Forbidden("It is not possible to create a file here");
     }
-    
+
     /**
      * {@inheritDoc}
      * @see \Sabre\DAV\INode::setName()
      */
-    public function setName($name) : void
+    public function setName($name): void
     {
         throw new Forbidden("It is not possible to change the name of the root");
     }
-    
+
     /**
      * {@inheritDoc}
      * @see \Sabre\DAV\INode::delete()
      */
-    public function delete() : void
+    public function delete(): void
     {
         throw new Forbidden("It is not possible to delete the root");
     }

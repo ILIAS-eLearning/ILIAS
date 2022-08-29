@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * Cache for object definitions, based on ilGlobalCache.
  */
@@ -31,7 +33,7 @@ class ilCachedObjectDefinition
     protected array $grouped_rep_obj_types = [];
     protected array $il_object_group = [];
     protected array $il_object_sub_type = [];
-    
+
     protected function __construct()
     {
         $this->global_cache = ilGlobalCache::getInstance(ilGlobalCache::COMP_OBJ_DEF);
@@ -39,7 +41,7 @@ class ilCachedObjectDefinition
     }
 
 
-    protected function readFromDB() : void
+    protected function readFromDB(): void
     {
         global $DIC;
         $db = $DIC->database();
@@ -99,22 +101,22 @@ class ilCachedObjectDefinition
         }
     }
 
-    public function getIlObjectDef() : array
+    public function getIlObjectDef(): array
     {
         return $this->il_object_def;
     }
 
-    public function getIlObjectGroup() : array
+    public function getIlObjectGroup(): array
     {
         return $this->il_object_group;
     }
 
-    public function getIlObjectSubType() : array
+    public function getIlObjectSubType(): array
     {
         return $this->il_object_sub_type;
     }
 
-    public static function getInstance() : ilCachedObjectDefinition
+    public static function getInstance(): ilCachedObjectDefinition
     {
         if (!isset(self::$instance)) {
             $global_cache = ilGlobalCache::getInstance(ilGlobalCache::COMP_OBJ_DEF);
@@ -131,7 +133,7 @@ class ilCachedObjectDefinition
     }
 
 
-    public static function flush() : void
+    public static function flush(): void
     {
         ilGlobalCache::getInstance(ilGlobalCache::COMP_OBJ_DEF)->flush();
         self::$instance = null;

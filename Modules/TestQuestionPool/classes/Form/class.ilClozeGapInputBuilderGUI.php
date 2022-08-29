@@ -24,7 +24,7 @@ class ilClozeGapInputBuilderGUI extends ilSubEnabledFormPropertyGUI
      * Set Value.
      * @param    string $a_value Value
      */
-    public function setValue($a_value) : void
+    public function setValue($a_value): void
     {
         $this->value = $a_value;
     }
@@ -39,7 +39,7 @@ class ilClozeGapInputBuilderGUI extends ilSubEnabledFormPropertyGUI
         return $this->value;
     }
 
-    public function setValueCombination($value) : void
+    public function setValueCombination($value): void
     {
         $this->value_combination = $value;
     }
@@ -54,7 +54,7 @@ class ilClozeGapInputBuilderGUI extends ilSubEnabledFormPropertyGUI
         return (array) $this->value_combination;
     }
 
-    public function setValueCombinationFromDb($value) : void
+    public function setValueCombinationFromDb($value): void
     {
         $return_array = array();
         if ($value) {
@@ -69,7 +69,7 @@ class ilClozeGapInputBuilderGUI extends ilSubEnabledFormPropertyGUI
         }
     }
 
-    public function checkInput() : bool
+    public function checkInput(): bool
     {
         $error = false;
         $json = self::stripSlashesRecursive(json_decode($_POST['gap_json_post'], true), false);
@@ -80,7 +80,7 @@ class ilClozeGapInputBuilderGUI extends ilSubEnabledFormPropertyGUI
             $_POST['gap_combination_values'] = self::stripSlashesRecursive($_POST['gap_combination_values']);
             $gap_with_points = array();
 
-            for ($i = 0; $i < count($_POST['gap_combination']['select']); $i++) {
+            for ($i = 0, $iMax = count($_POST['gap_combination']['select']); $i < $iMax; $i++) {
                 foreach ($_POST['gap_combination']['select'][$i] as $key => $item) {
                     if ($item == 'none_selected_minus_one') {
                         return false;
@@ -109,7 +109,7 @@ class ilClozeGapInputBuilderGUI extends ilSubEnabledFormPropertyGUI
             foreach ($gap as $key => $item) {
                 $getType = ilUtil::stripSlashes($this->raw('clozetype_' . $key));
                 $gapsize = $this->raw('gap_' . $key . '_gapsize');
-                
+
                 //$json[0][$key]->text_field_length = $gapsize > 0 ? $gapsize : '';
                 $json[0][$key]['text_field_length'] = $gapsize > 0 ? $gapsize : '';
 
@@ -142,7 +142,7 @@ class ilClozeGapInputBuilderGUI extends ilSubEnabledFormPropertyGUI
                             }
                         }
                         if ($getType == CLOZE_SELECT) {
-                            if (!strlen(ilUtil::stripSlashes($this->raw('shuffle_' . $key)))) {
+                            if (ilUtil::stripSlashes($this->raw('shuffle_' . $key) ?? '') === '') {
                                 $error = true;
                             }
                         }
@@ -171,7 +171,7 @@ class ilClozeGapInputBuilderGUI extends ilSubEnabledFormPropertyGUI
                         }
                     }
 
-                    if ($gap_with_points && is_array($gap_with_points) && array_key_exists($key, $gap_with_points)) {
+                    if (isset($gap_with_points) && is_array($gap_with_points) && array_key_exists($key, $gap_with_points)) {
                         $points += $gap_with_points[$key];
                     }
 
@@ -189,7 +189,7 @@ class ilClozeGapInputBuilderGUI extends ilSubEnabledFormPropertyGUI
         return !$error;
     }
 
-    public function setValueByArray($data) : void
+    public function setValueByArray($data): void
     {
         $this->setValue($data);
     }
@@ -197,7 +197,7 @@ class ilClozeGapInputBuilderGUI extends ilSubEnabledFormPropertyGUI
     /**
      * @param ilTemplate $template
      */
-    public function insert(ilTemplate $template) : void
+    public function insert(ilTemplate $template): void
     {
         global $DIC;
         $lng = $DIC['lng'];

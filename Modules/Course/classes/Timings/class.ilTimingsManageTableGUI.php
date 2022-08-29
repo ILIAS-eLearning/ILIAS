@@ -1,4 +1,6 @@
-<?php declare(strict_types=0);
+<?php
+
+declare(strict_types=0);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -14,7 +16,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\HTTP\Services as HTTPServices;
 
@@ -53,12 +55,12 @@ class ilTimingsManageTableGUI extends ilTable2GUI
         parent::__construct($a_parent_class, $a_parent_cmd);
     }
 
-    public function getContainerObject() : ilObject
+    public function getContainerObject(): ilObject
     {
         return $this->container;
     }
 
-    public function getMainContainer() : ilObjCourse
+    public function getMainContainer(): ilObjCourse
     {
         return $this->main_container;
     }
@@ -66,7 +68,7 @@ class ilTimingsManageTableGUI extends ilTable2GUI
     /**
      * Init table
      */
-    public function init() : void
+    public function init(): void
     {
         $this->setFormAction($this->ctrl->getFormAction($this->getParentObject()));
         $this->setRowTemplate('tpl.crs_manage_timings_row.html', 'Modules/Course');
@@ -88,17 +90,17 @@ class ilTimingsManageTableGUI extends ilTable2GUI
         $this->setShowRowsSelector(false);
     }
 
-    public function setFailureStatus(bool $a_status) : void
+    public function setFailureStatus(bool $a_status): void
     {
         $this->failure = $a_status;
     }
 
-    public function getFailureStatus() : bool
+    public function getFailureStatus(): bool
     {
         return $this->failure;
     }
 
-    protected function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set): void
     {
         if ($a_set['error'] ?? false) {
             $this->tpl->setVariable('TD_CLASS', 'warning');
@@ -209,7 +211,7 @@ class ilTimingsManageTableGUI extends ilTable2GUI
         }
     }
 
-    public function parse(array $a_item_data, array $a_failed_update = array()) : void
+    public function parse(array $a_item_data, array $a_failed_update = array()): void
     {
         $rows = array();
         foreach ($a_item_data as $item) {
@@ -234,7 +236,7 @@ class ilTimingsManageTableGUI extends ilTable2GUI
         $this->setData($rows);
     }
 
-    protected function parseTitle(array $current_row, array $item) : array
+    protected function parseTitle(array $current_row, array $item): array
     {
         switch ($item['type']) {
             case 'fold':
@@ -261,7 +263,6 @@ class ilTimingsManageTableGUI extends ilTable2GUI
                 $current_row['title'] = $item['title'];
                 $current_row['title_link'] = '';
                 break;
-
         }
         $current_row['desc'] = $item['desc'];
 

@@ -1,4 +1,6 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -31,12 +33,12 @@ class ClipboardSessionRepository
     {
     }
 
-    public function setFolder(int $fold_id) : void
+    public function setFolder(int $fold_id): void
     {
         \ilSession::set(self::KEY_BASE . "_folder", $fold_id);
     }
 
-    public function getFolder() : int
+    public function getFolder(): int
     {
         if (\ilSession::has(self::KEY_BASE . "_folder")) {
             return (int) \ilSession::get(self::KEY_BASE . "_folder");
@@ -44,12 +46,12 @@ class ClipboardSessionRepository
         return 0;
     }
 
-    public function setIds(array $ids) : void
+    public function setIds(array $ids): void
     {
         \ilSession::set(self::KEY_BASE . "_ids", $ids);
     }
 
-    public function getIds() : array
+    public function getIds(): array
     {
         if (\ilSession::has(self::KEY_BASE . "_ids")) {
             return \ilSession::get(self::KEY_BASE . "_ids");

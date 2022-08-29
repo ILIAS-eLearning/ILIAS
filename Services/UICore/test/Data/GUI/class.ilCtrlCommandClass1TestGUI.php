@@ -1,4 +1,6 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -28,7 +30,7 @@ class ilCtrlCommandClass1TestGUI implements ilCtrlSecurityInterface
     /**
      * @inheritDoc
      */
-    public function getUnsafeGetCommands() : array
+    public function getUnsafeGetCommands(): array
     {
         return [];
     }
@@ -36,12 +38,12 @@ class ilCtrlCommandClass1TestGUI implements ilCtrlSecurityInterface
     /**
      * @inheritDoc
      */
-    public function getSafePostCommands() : array
+    public function getSafePostCommands(): array
     {
         return [];
     }
 
-    public function executeCommand() : string
+    public function executeCommand(): string
     {
         return self::class;
     }

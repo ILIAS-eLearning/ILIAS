@@ -1,5 +1,19 @@
 <?php
-/* Copyright (c) 2016 Fabian Schmid <fs@studer-raimann.ch> Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 namespace ILIAS\HTTP;
 
@@ -9,20 +23,9 @@ use ILIAS\HTTP\Wrapper\WrapperFactory;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use ILIAS\HTTP\Duration\CallbackDuration;
+use ILIAS\HTTP\Duration\DurationFactory;
 
-/******************************************************************************
- *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
- *
- * If this is not the case or you just want to try ILIAS, you'll find
- * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
- *
- *****************************************************************************/
 /**
  * Interface GlobalHttpState
  *
@@ -38,20 +41,22 @@ use Psr\Http\Message\ServerRequestInterface;
  */
 interface GlobalHttpState
 {
-    public function wrapper() : WrapperFactory;
+    public function durations(): DurationFactory;
+
+    public function wrapper(): WrapperFactory;
 
     /**
      * Returns the current psr-7 server request.
      *
      * @return ServerRequestInterface
      */
-    public function request() : RequestInterface;
+    public function request(): RequestInterface;
 
 
     /**
      * Returns the current psr-7 response.
      */
-    public function response() : ResponseInterface;
+    public function response(): ResponseInterface;
 
 
     /**
@@ -59,7 +64,7 @@ interface GlobalHttpState
      * Make sure to call the saveResponse method when the cookies are rendered into the response
      * object.
      */
-    public function cookieJar() : CookieJar;
+    public function cookieJar(): CookieJar;
 
 
     /**
@@ -69,7 +74,7 @@ interface GlobalHttpState
      *
      * @param ServerRequestInterface $request The server request which should be saved.
      */
-    public function saveRequest(ServerRequestInterface $request) : void;
+    public function saveRequest(ServerRequestInterface $request): void;
 
 
     /**
@@ -77,7 +82,7 @@ interface GlobalHttpState
      *
      * @param ResponseInterface $response The response which should be saved.
      */
-    public function saveResponse(ResponseInterface $response) : void;
+    public function saveResponse(ResponseInterface $response): void;
 
 
     /**
@@ -85,8 +90,8 @@ interface GlobalHttpState
      *
      * @throws ResponseSendingException Each subsequent call will throw this exception.
      */
-    public function sendResponse() : void;
+    public function sendResponse(): void;
 
 
-    public function close() : void;
+    public function close(): void;
 }

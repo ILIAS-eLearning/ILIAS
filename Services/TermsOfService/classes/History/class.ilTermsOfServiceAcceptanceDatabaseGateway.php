@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -22,14 +24,11 @@
  */
 class ilTermsOfServiceAcceptanceDatabaseGateway implements ilTermsOfServiceAcceptanceDataGateway
 {
-    protected ilDBInterface $db;
-
-    public function __construct(ilDBInterface $db)
+    public function __construct(protected ilDBInterface $db)
     {
-        $this->db = $db;
     }
 
-    public function trackAcceptance(ilTermsOfServiceAcceptanceEntity $entity) : void
+    public function trackAcceptance(ilTermsOfServiceAcceptanceEntity $entity): void
     {
         $res = $this->db->queryF(
             'SELECT id FROM tos_versions WHERE hash = %s AND doc_id = %s',
@@ -37,7 +36,7 @@ class ilTermsOfServiceAcceptanceDatabaseGateway implements ilTermsOfServiceAccep
             [$entity->getHash(), $entity->getDocumentId()]
         );
 
-        if ($this->db->numRows($res)) {
+        if ($this->db->numRows($res) !== 0) {
             $row = $this->db->fetchAssoc($res);
             $versionId = $row['id'];
         } else {
@@ -68,7 +67,7 @@ class ilTermsOfServiceAcceptanceDatabaseGateway implements ilTermsOfServiceAccep
 
     public function loadCurrentAcceptanceOfUser(
         ilTermsOfServiceAcceptanceEntity $entity
-    ) : ilTermsOfServiceAcceptanceEntity {
+    ): ilTermsOfServiceAcceptanceEntity {
         $this->db->setLimit(1, 0);
 
         $res = $this->db->queryF(
@@ -87,7 +86,7 @@ class ilTermsOfServiceAcceptanceDatabaseGateway implements ilTermsOfServiceAccep
         );
         $row = $this->db->fetchAssoc($res);
 
-        $entity = $entity
+        return $entity
             ->withId((int) $row['id'])
             ->withUserId((int) $row['usr_id'])
             ->withText((string) $row['text'])
@@ -96,11 +95,9 @@ class ilTermsOfServiceAcceptanceDatabaseGateway implements ilTermsOfServiceAccep
             ->withDocumentId((int) $row['doc_id'])
             ->withTitle((string) $row['title'])
             ->withSerializedCriteria((string) $row['criteria']);
-
-        return $entity;
     }
 
-    public function loadById(ilTermsOfServiceAcceptanceEntity $entity) : ilTermsOfServiceAcceptanceEntity
+    public function loadById(ilTermsOfServiceAcceptanceEntity $entity): ilTermsOfServiceAcceptanceEntity
     {
         $res = $this->db->queryF(
             '
@@ -113,17 +110,15 @@ class ilTermsOfServiceAcceptanceDatabaseGateway implements ilTermsOfServiceAccep
         );
         $row = $this->db->fetchAssoc($res);
 
-        $entity = $entity
+        return $entity
             ->withId($row['id'])
             ->withText($row['text'])
             ->withHash($row['hash'])
             ->withDocumentId($row['doc_id'])
             ->withTitle($row['title']);
-
-        return $entity;
     }
 
-    public function deleteAcceptanceHistoryByUser(ilTermsOfServiceAcceptanceEntity $entity) : void
+    public function deleteAcceptanceHistoryByUser(ilTermsOfServiceAcceptanceEntity $entity): void
     {
         $this->db->manipulate(
             'DELETE FROM tos_acceptance_track WHERE usr_id = ' . $this->db->quote($entity->getUserId(), 'integer')

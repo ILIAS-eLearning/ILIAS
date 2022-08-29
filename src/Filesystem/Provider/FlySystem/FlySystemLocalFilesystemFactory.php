@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace ILIAS\Filesystem\Provider\FlySystem;
@@ -32,17 +33,17 @@ use League\Flysystem\Adapter\Local;
  */
 final class FlySystemLocalFilesystemFactory
 {
-    const PRIVATE_ACCESS_KEY = 'private';
-    const PUBLIC_ACCESS_KEY = 'public';
-    const FILE_ACCESS_KEY = 'file';
-    const DIRECTORY_ACCESS_KEY = 'dir';
+    public const PRIVATE_ACCESS_KEY = 'private';
+    public const PUBLIC_ACCESS_KEY = 'public';
+    public const FILE_ACCESS_KEY = 'file';
+    public const DIRECTORY_ACCESS_KEY = 'dir';
 
     /**
      * Creates a new instance of the local filesystem adapter used by fly system.
      *
      * @param LocalConfig $config The configuration which should be used to initialise the adapter.
      */
-    public function getInstance(LocalConfig $config) : \ILIAS\Filesystem\FilesystemFacade
+    public function getInstance(LocalConfig $config): \ILIAS\Filesystem\FilesystemFacade
     {
         $this->validateFileLockMode($config->getLockMode());
 
@@ -95,7 +96,7 @@ final class FlySystemLocalFilesystemFactory
      *
      * @return int The mapped code of the Local filesystem adapter.
      */
-    private function mapConfigLinkToLocalLinks(int $configLinkBehaviour) : int
+    private function mapConfigLinkToLocalLinks(int $configLinkBehaviour): int
     {
         switch ($configLinkBehaviour) {
             case LocalConfig::DISALLOW_LINKS:
@@ -120,7 +121,7 @@ final class FlySystemLocalFilesystemFactory
      * @see LOCK_SH
      * @see LOCK_EX
      */
-    private function validateFileLockMode(int $code) : void
+    private function validateFileLockMode(int $code): void
     {
         if ($code === LOCK_EX || $code === LOCK_SH) {
             return;

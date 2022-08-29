@@ -50,7 +50,7 @@ class ilDclDetailedViewGUI
 
     private function init(
         ilDataCollectionOutboundsAdapter $adapter
-    ) : void {
+    ): void {
         $this->dclUi = $adapter->getDataCollectionUi();
         $this->dclAccess = $adapter->getDataCollectionAccess();
         $this->dclEndPoint = $adapter->getDataCollectionEndpoint();
@@ -73,12 +73,16 @@ class ilDclDetailedViewGUI
         $this->main_tpl = $DIC->ui()->mainTemplate();
 
         if ($this->http->wrapper()->query()->has('record_id')) {
-            $this->record_id = $this->http->wrapper()->query()->retrieve('record_id',
-                $this->refinery->kindlyTo()->int());
+            $this->record_id = $this->http->wrapper()->query()->retrieve(
+                'record_id',
+                $this->refinery->kindlyTo()->int()
+            );
         }
         if ($this->http->wrapper()->post()->has('record_id')) {
-            $this->record_id = $this->http->wrapper()->post()->retrieve('record_id',
-                $this->refinery->kindlyTo()->int());
+            $this->record_id = $this->http->wrapper()->post()->retrieve(
+                'record_id',
+                $this->refinery->kindlyTo()->int()
+            );
         }
         $this->record_obj = ilDclCache::getRecordCache($this->record_id);
 
@@ -124,14 +128,16 @@ class ilDclDetailedViewGUI
                                           );
     }
 
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         global $DIC;
         $ilCtrl = $DIC['ilCtrl'];
 
         if ($this->http->wrapper()->query()->has('tableview_id')) {
-            $this->tableview_id = $this->http->wrapper()->query()->retrieve('tableview_id',
-                $this->refinery->kindlyTo()->int());
+            $this->tableview_id = $this->http->wrapper()->query()->retrieve(
+                'tableview_id',
+                $this->refinery->kindlyTo()->int()
+            );
         } else {
             $ref_id = $this->http->wrapper()->query()->retrieve('ref_id', $this->refinery->kindlyTo()->int());
             $this->tableview_id = $this->table->getFirstTableViewId($ref_id);
@@ -191,7 +197,7 @@ class ilDclDetailedViewGUI
         }
     }
 
-    protected function offerAlternativeViews() : void
+    protected function offerAlternativeViews(): void
     {
         global $DIC;
         $tpl = $DIC['tpl'];
@@ -200,7 +206,7 @@ class ilDclDetailedViewGUI
         $tpl->setContent($table_gui->getHTML());
     }
 
-    public function renderRecord(bool $editComments = false) : void
+    public function renderRecord(bool $editComments = false): void
     {
         global $DIC;
         $ilTabs = $DIC->tabs();
@@ -313,12 +319,12 @@ class ilDclDetailedViewGUI
         $tpl->setContent($rctpl->get());
     }
 
-    public function doReplace(array $found) : string
+    public function doReplace(array $found): string
     {
         return $this->record_obj->getRecordFieldSingleHTML($this->currentField->getId(), $this->setOptions($found[1]));
     }
 
-    public function doExtReplace(array $found) : ?string
+    public function doExtReplace(array $found): ?string
     {
         $ref_rec_ids = $this->record_obj->getRecordFieldValue($this->currentField->getId());
         if (!is_array($ref_rec_ids)) {
@@ -362,7 +368,7 @@ class ilDclDetailedViewGUI
         return null;
     }
 
-    protected function renderComments(bool $edit = false) : string
+    protected function renderComments(bool $edit = false): string
     {
         if (!$edit) {
             return $this->notesGUI->getCommentsHtml();
@@ -374,7 +380,7 @@ class ilDclDetailedViewGUI
     /**
      * Find the previous/next record from the current position. Also determine position of current record in whole set.
      */
-    protected function determineNextPrevRecords() : void
+    protected function determineNextPrevRecords(): void
     {
         if (!ilSession::has("dcl_record_ids") || ilSession::get('dcl_record_ids') != $this->table->getId()) {
             $this->loadSession();
@@ -400,7 +406,7 @@ class ilDclDetailedViewGUI
     /**
      * Determine and return the markup for the previous/next records
      */
-    protected function renderPrevNextLinks() : string
+    protected function renderPrevNextLinks(): string
     {
         global $DIC;
         $ilCtrl = $DIC['ilCtrl'];
@@ -421,7 +427,7 @@ class ilDclDetailedViewGUI
     /**
      * Render select options
      */
-    protected function renderSelectOptions() : string
+    protected function renderSelectOptions(): string
     {
         $out = '';
         foreach ($this->record_ids as $k => $recId) {
@@ -436,7 +442,7 @@ class ilDclDetailedViewGUI
      * setOptions
      * string $link_name
      */
-    private function setOptions(string $link_name) : array
+    private function setOptions(string $link_name): array
     {
         $options = array();
         $options['link']['display'] = true;
@@ -448,7 +454,7 @@ class ilDclDetailedViewGUI
     /**
      * If we come from a goto Link we need to build up the session data.
      */
-    private function loadSession() : void
+    private function loadSession(): void
     {
         // We need the default sorting etc. to dertermine on which position we currently are, thus we instantiate the table gui.
         $list = new ilDclRecordListTableGUI(
@@ -470,13 +476,13 @@ class ilDclDetailedViewGUI
     /**
      * @return bool
      */
-    protected function checkAccess() : bool
+    protected function checkAccess(): bool
     {
         return ilObjDataCollectionAccess::hasAccessTo(
-                filter_input(INPUT_GET, 'ref_id'),
-                $this->table->getId(),
-                $this->tableview_id
-            )
+            filter_input(INPUT_GET, 'ref_id'),
+            $this->table->getId(),
+            $this->tableview_id
+        )
             && ilDclDetailedViewDefinition::isActive($this->tableview_id);
     }
 }

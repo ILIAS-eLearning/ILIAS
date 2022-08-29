@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -30,7 +32,7 @@ class GivenSeed implements Seed
     /**
      * @inheritDoc
      */
-    public function seedRandomGenerator() : void
+    public function seedRandomGenerator(): void
     {
         mt_srand($this->seed);
     }

@@ -1,4 +1,6 @@
-<?php declare(strict_types=0);
+<?php
+
+declare(strict_types=0);
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -35,7 +37,7 @@ class ilLearningProgressAccess
         string $a_permission,
         int $a_ref_id,
         ?int $a_user_id = null
-    ) : bool {
+    ): bool {
         global $DIC;
 
         if ($a_user_id === null) {
@@ -64,7 +66,7 @@ class ilLearningProgressAccess
     public static function checkAccess(
         int $a_ref_id,
         bool $a_allow_only_read = true
-    ) : bool {
+    ): bool {
         global $DIC;
 
         if ($DIC->user()->getId() == ANONYMOUS_USER_ID) {

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /******************************************************************************
  *
@@ -30,11 +32,11 @@ class NotificationCenterProvider extends AbstractStaticMetaBarProvider
     /**
      * @inheritDoc
      */
-    public function getMetaBarItems() : array
+    public function getMetaBarItems(): array
     {
         $mb = $this->globalScreen()->metaBar();
 
-        $id = function (string $id) : IdentificationInterface {
+        $id = function (string $id): IdentificationInterface {
             return $this->if->identifier($id);
         };
 
@@ -48,11 +50,11 @@ class NotificationCenterProvider extends AbstractStaticMetaBarProvider
                 ->withAmountOfOldNotifications($new + $old)
                 ->withAmountOfNewNotifications($new)
                 ->withNotifications($nc->getNotifications())
-                ->withAvailableCallable(function () : bool {
+                ->withAvailableCallable(function (): bool {
                     return $this->dic->ctrl()->getCmd() !== "showLogout";
                 })
                 ->withVisibilityCallable(
-                    function () : bool {
+                    function (): bool {
                         return (
                             !$this->dic->user()->isAnonymous() &&
                             $this->dic->globalScreen()->collector()->notifications()->hasItems()

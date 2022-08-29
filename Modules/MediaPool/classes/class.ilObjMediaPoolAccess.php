@@ -23,7 +23,7 @@
  */
 class ilObjMediaPoolAccess extends ilObjectAccess
 {
-    public static function _getCommands() : array
+    public static function _getCommands(): array
     {
         $commands = array(
             array("permission" => "read", "cmd" => "", "lang_var" => "show",
@@ -33,14 +33,14 @@ class ilObjMediaPoolAccess extends ilObjectAccess
             array("permission" => "write", "cmd" => "edit", "lang_var" => "settings",
                 "default" => false)
         );
-        
+
         return $commands;
     }
 
     /**
      * check whether goto script will succeed
      */
-    public static function _checkGoto(string $target) : bool
+    public static function _checkGoto(string $target): bool
     {
         global $DIC;
 

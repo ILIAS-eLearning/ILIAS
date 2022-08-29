@@ -48,7 +48,7 @@ class VideoPreviewGUI
     /**
      * @throws \ilTemplateException
      */
-    public function render() : string
+    public function render(): string
     {
         $lng = $this->lng;
 

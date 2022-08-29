@@ -34,7 +34,7 @@ class SkillProfileDBRepository
         $this->factory_service = ($factory_service) ?: $DIC->skills()->internal()->factory();
     }
 
-    public function getById(int $profile_id) : SkillProfile
+    public function getById(int $profile_id): SkillProfile
     {
         $ilDB = $this->db;
 
@@ -49,7 +49,7 @@ class SkillProfileDBRepository
         throw new \ilSkillProfileNotFoundException("Profile with ID $profile_id not found.");
     }
 
-    protected function getProfileFromRecord(array $rec) : SkillProfile
+    protected function getProfileFromRecord(array $rec): SkillProfile
     {
         $rec["id"] = (int) $rec["id"];
         $rec["ref_id"] = (int) $rec["ref_id"];
@@ -65,7 +65,7 @@ class SkillProfileDBRepository
         );
     }
 
-    public function getNextId() : int
+    public function getNextId(): int
     {
         $ilDB = $this->db;
 
@@ -75,7 +75,7 @@ class SkillProfileDBRepository
 
     public function createProfile(
         SkillProfile $profile
-    ) : SkillProfile {
+    ): SkillProfile {
         $ilDB = $this->db;
 
         $new_profile_id = $this->getNextId();
@@ -94,7 +94,7 @@ class SkillProfileDBRepository
 
     public function updateProfile(
         SkillProfile $profile
-    ) : SkillProfile {
+    ): SkillProfile {
         $ilDB = $this->db;
 
         // profile
@@ -110,7 +110,7 @@ class SkillProfileDBRepository
         return $this->getById($profile->getId());
     }
 
-    public function deleteProfile(int $profile_id) : void
+    public function deleteProfile(int $profile_id): void
     {
         $ilDB = $this->db;
 
@@ -120,7 +120,7 @@ class SkillProfileDBRepository
         );
     }
 
-    public function deleteProfilesFromObject(int $ref_id) : void
+    public function deleteProfilesFromObject(int $ref_id): void
     {
         $ilDB = $this->db;
 
@@ -130,7 +130,7 @@ class SkillProfileDBRepository
         );
     }
 
-    public function getProfilesForAllSkillTrees() : array
+    public function getProfilesForAllSkillTrees(): array
     {
         $ilDB = $this->db;
 
@@ -146,7 +146,7 @@ class SkillProfileDBRepository
         return $profiles;
     }
 
-    public function getProfilesForSkillTree(int $skill_tree_id) : array
+    public function getProfilesForSkillTree(int $skill_tree_id): array
     {
         $ilDB = $this->db;
 
@@ -163,7 +163,7 @@ class SkillProfileDBRepository
         return $profiles;
     }
 
-    public function getAllGlobalProfiles() : array
+    public function getAllGlobalProfiles(): array
     {
         $ilDB = $this->db;
 
@@ -180,7 +180,7 @@ class SkillProfileDBRepository
         return $profiles;
     }
 
-    public function getLocalProfilesForObject(int $ref_id) : array
+    public function getLocalProfilesForObject(int $ref_id): array
     {
         $ilDB = $this->db;
 
@@ -197,7 +197,7 @@ class SkillProfileDBRepository
         return $profiles;
     }
 
-    public function lookup(int $id, string $field) : ?string
+    public function lookup(int $id, string $field): ?string
     {
         $ilDB = $this->db;
 
@@ -210,7 +210,7 @@ class SkillProfileDBRepository
         return isset($rec[$field]) ? (string) $rec[$field] : null;
     }
 
-    public function updateRefIdAfterImport(int $profile_id, int $new_ref_id) : void
+    public function updateRefIdAfterImport(int $profile_id, int $new_ref_id): void
     {
         $ilDB = $this->db;
 
@@ -225,7 +225,7 @@ class SkillProfileDBRepository
         );
     }
 
-    public function getTreeId(int $profile_id) : int
+    public function getTreeId(int $profile_id): int
     {
         $db = $this->db;
 

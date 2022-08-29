@@ -1,4 +1,5 @@
 <?php
+
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 require_once './Modules/Test/classes/inc.AssessmentConstants.php';
@@ -71,7 +72,7 @@ class ASS_AnswerSimple
      *
      * @see $id
      */
-    public function getId() : int
+    public function getId(): int
     {
         return $this->id;
     }
@@ -85,7 +86,7 @@ class ASS_AnswerSimple
      *
      * @see $answertext
      */
-    public function getAnswertext() : string
+    public function getAnswertext(): string
     {
         return $this->answertext;
     }
@@ -99,7 +100,7 @@ class ASS_AnswerSimple
      *
      * @see $points
      */
-    public function getPoints() : float
+    public function getPoints(): float
     {
         return $this->points;
     }
@@ -115,7 +116,7 @@ class ASS_AnswerSimple
      *
      * @TODO Find usages and see if this method can be set deprecated due to the simpleton-pattern it is on is_numeric.
      */
-    public function checkPoints($a_points) : bool
+    public function checkPoints($a_points): bool
     {
         return is_numeric($a_points);
     }
@@ -129,7 +130,7 @@ class ASS_AnswerSimple
      *
      * @see $order
      */
-    public function getOrder() : int
+    public function getOrder(): int
     {
         return $this->order;
     }
@@ -145,7 +146,7 @@ class ASS_AnswerSimple
      *
      * @TODO Find usage and see if we can get rid of "magic ignorance" of the input value.
      */
-    public function setOrder($order = 0) : void
+    public function setOrder($order = 0): void
     {
         if ($order >= 0) {
             $this->order = $order;
@@ -159,7 +160,7 @@ class ASS_AnswerSimple
      *
      * @see $id
      */
-    public function setId($id = -1) : void
+    public function setId($id = -1): void
     {
         $this->id = $id;
     }
@@ -173,7 +174,7 @@ class ASS_AnswerSimple
      *
      * @see $answertext
      */
-    public function setAnswertext($answertext = "") : void
+    public function setAnswertext($answertext = ""): void
     {
         $this->answertext = $answertext;
     }
@@ -189,7 +190,7 @@ class ASS_AnswerSimple
      *
      * @TODO Find usages and see if we can get rid of "magic nullification" here.
      */
-    public function setPoints($points = 0.0) : void
+    public function setPoints($points = 0.0): void
     {
         $new_points = str_replace(",", ".", $points);
         if ($this->checkPoints($new_points)) {

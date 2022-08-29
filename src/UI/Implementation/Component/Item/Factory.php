@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\UI\Implementation\Component\Item;
 
 use ILIAS\UI\Component\Item;
@@ -26,7 +28,7 @@ class Factory implements Item\Factory
     /**
      * @inheritdoc
      */
-    public function standard($title) : Item\Standard
+    public function standard($title): Item\Standard
     {
         return new Standard($title);
     }
@@ -34,7 +36,7 @@ class Factory implements Item\Factory
     /**
      * @inheritdoc
      */
-    public function shy(string $title) : Item\Shy
+    public function shy(string $title): Item\Shy
     {
         return new Shy($title);
     }
@@ -42,7 +44,7 @@ class Factory implements Item\Factory
     /**
      * @inheritdoc
      */
-    public function group(string $title, array $items) : Item\Group
+    public function group(string $title, array $items): Item\Group
     {
         return new Group($title, $items);
     }
@@ -50,7 +52,7 @@ class Factory implements Item\Factory
     /**
      * @inheritdoc
      */
-    public function notification($title, Icon $icon) : Item\Notification
+    public function notification($title, Icon $icon): Item\Notification
     {
         return new Notification($title, $icon);
     }

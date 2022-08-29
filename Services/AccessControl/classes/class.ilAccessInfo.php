@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -14,7 +16,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * class ilAccessInfo
  * @author  Alex Killing <alex.killing@gmx.de>
@@ -33,7 +35,7 @@ class ilAccessInfo
 
     private array $info_items = [];
 
-    public function clear() : void
+    public function clear(): void
     {
         $this->info_items = [];
     }
@@ -41,7 +43,7 @@ class ilAccessInfo
     /**
      * add an info item
      */
-    public function addInfoItem(string $a_type, string $a_text, string $a_data = "") : void
+    public function addInfoItem(string $a_type, string $a_text, string $a_data = ""): void
     {
         $this->info_items[] = array(
             "type" => $a_type,
@@ -53,7 +55,7 @@ class ilAccessInfo
     /**
      * get all info items
      */
-    public function getInfoItems() : array
+    public function getInfoItems(): array
     {
         return $this->info_items;
     }

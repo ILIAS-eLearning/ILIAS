@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -44,27 +46,27 @@ class Context
         $this->in_repo = $in_repo;
     }
 
-    public function getObjId() : int
+    public function getObjId(): int
     {
         return $this->obj_id;
     }
 
-    public function getSubObjId() : int
+    public function getSubObjId(): int
     {
         return $this->sub_obj_id;
     }
 
-    public function getNewsId() : int
+    public function getNewsId(): int
     {
         return $this->news_id;
     }
 
-    public function getType() : string
+    public function getType(): string
     {
         return $this->type;
     }
 
-    public function getInRepository() : bool
+    public function getInRepository(): bool
     {
         return $this->in_repo;
     }

@@ -31,7 +31,6 @@ namespace ILIAS\FileUpload;
  */
 trait ScalarTypeCheckAware
 {
-
     /**
      * Type check for string variables.
      *
@@ -41,7 +40,7 @@ trait ScalarTypeCheckAware
      * @throws \InvalidArgumentException Thrown if the variable is not of the type string.
      * @since 5.3
      */
-    private function stringTypeCheck(string $variable, string $name) : void
+    private function stringTypeCheck(string $variable, string $name): void
     {
         if (!is_string($variable)) {
             $varType = gettype($variable);
@@ -59,7 +58,7 @@ trait ScalarTypeCheckAware
      * @throws \InvalidArgumentException Thrown if the variable is not of the type int.
      * @since 5.3
      */
-    private function intTypeCheck(int $variable, string $name) : void
+    private function intTypeCheck(int $variable, string $name): void
     {
         if (!is_int($variable)) {
             $varType = gettype($variable);

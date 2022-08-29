@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -24,7 +26,7 @@ class ilObjTestDynamicQuestionSetConfigTest extends ilTestBaseTestCase
 {
     private ilObjTestDynamicQuestionSetConfig $testObj;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -36,24 +38,24 @@ class ilObjTestDynamicQuestionSetConfigTest extends ilTestBaseTestCase
         );
     }
 
-    public function test_instantiateObject_shouldReturnInstance() : void
+    public function test_instantiateObject_shouldReturnInstance(): void
     {
         $this->assertInstanceOf(ilObjTestDynamicQuestionSetConfig::class, $this->testObj);
     }
 
-    public function testSourceQuestionPoolId() : void
+    public function testSourceQuestionPoolId(): void
     {
         $this->testObj->setSourceQuestionPoolId(125);
         $this->assertEquals(125, $this->testObj->getSourceQuestionPoolId());
     }
 
-    public function testSourceQuestionPoolTitle() : void
+    public function testSourceQuestionPoolTitle(): void
     {
         $this->testObj->setSourceQuestionPoolTitle("testString");
         $this->assertEquals("testString", $this->testObj->getSourceQuestionPoolTitle());
     }
 
-    public function testAnswerStatusFilterEnabled() : void
+    public function testAnswerStatusFilterEnabled(): void
     {
         $this->testObj->setAnswerStatusFilterEnabled(false);
         $this->assertFalse($this->testObj->isAnswerStatusFilterEnabled());
@@ -62,7 +64,7 @@ class ilObjTestDynamicQuestionSetConfigTest extends ilTestBaseTestCase
         $this->assertTrue($this->testObj->isAnswerStatusFilterEnabled());
     }
 
-    public function testTaxonomyFilterEnabled() : void
+    public function testTaxonomyFilterEnabled(): void
     {
         $this->testObj->setTaxonomyFilterEnabled(false);
         $this->assertFalse($this->testObj->isTaxonomyFilterEnabled());
@@ -71,13 +73,13 @@ class ilObjTestDynamicQuestionSetConfigTest extends ilTestBaseTestCase
         $this->assertTrue($this->testObj->isTaxonomyFilterEnabled());
     }
 
-    public function testOrderingTaxonomyId() : void
+    public function testOrderingTaxonomyId(): void
     {
         $this->testObj->setOrderingTaxonomyId(1231);
         $this->assertEquals(1231, $this->testObj->getOrderingTaxonomyId());
     }
 
-    public function testInitFromArray() : void
+    public function testInitFromArray(): void
     {
         $expected = [
             "source_qpl_fi" => 126,
@@ -96,7 +98,7 @@ class ilObjTestDynamicQuestionSetConfigTest extends ilTestBaseTestCase
         $this->assertEquals($expected["order_tax"], $this->testObj->getOrderingTaxonomyId());
     }
 
-    public function testIsQuestionSetConfigured() : void
+    public function testIsQuestionSetConfigured(): void
     {
         $this->assertFalse($this->testObj->isQuestionSetConfigured());
 
@@ -104,7 +106,7 @@ class ilObjTestDynamicQuestionSetConfigTest extends ilTestBaseTestCase
         $this->assertTrue($this->testObj->isQuestionSetConfigured());
     }
 
-    public function testDoesQuestionSetRelatedDataExist() : void
+    public function testDoesQuestionSetRelatedDataExist(): void
     {
         $this->assertFalse($this->testObj->isQuestionSetConfigured());
         $this->assertFalse($this->testObj->doesQuestionSetRelatedDataExist());
@@ -114,7 +116,7 @@ class ilObjTestDynamicQuestionSetConfigTest extends ilTestBaseTestCase
         $this->assertTrue($this->testObj->doesQuestionSetRelatedDataExist());
     }
 
-    public function testGetSourceQuestionPoolSummaryString() : void
+    public function testGetSourceQuestionPoolSummaryString(): void
     {
         $this->addGlobal_ilDB();
 
@@ -132,7 +134,7 @@ class ilObjTestDynamicQuestionSetConfigTest extends ilTestBaseTestCase
         $this->assertEquals("testString", $result);
     }
 
-    public function testGetDepenciesInVulnerableStateMessage() : void
+    public function testGetDepenciesInVulnerableStateMessage(): void
     {
         $this->addGlobal_ilDB();
 
@@ -150,7 +152,7 @@ class ilObjTestDynamicQuestionSetConfigTest extends ilTestBaseTestCase
         $this->assertEquals("testString", $result);
     }
 
-    public function testAreDepenciesBroken() : void
+    public function testAreDepenciesBroken(): void
     {
         $this->addGlobal_ilDB();
 
@@ -160,7 +162,7 @@ class ilObjTestDynamicQuestionSetConfigTest extends ilTestBaseTestCase
         $this->assertTrue($this->testObj->areDepenciesBroken());
     }
 
-    public function testGetDepenciesBrokenMessage() : void
+    public function testGetDepenciesBrokenMessage(): void
     {
         $this->addGlobal_ilDB();
 
@@ -178,7 +180,7 @@ class ilObjTestDynamicQuestionSetConfigTest extends ilTestBaseTestCase
         $this->assertEquals("testString", $result);
     }
 
-    public function testGetHiddenTabsOnBrokenDepencies() : void
+    public function testGetHiddenTabsOnBrokenDepencies(): void
     {
         $expected = [
             'settings',
@@ -193,12 +195,12 @@ class ilObjTestDynamicQuestionSetConfigTest extends ilTestBaseTestCase
         $this->assertEquals($expected, $result);
     }
 
-    public function testIsResultTaxonomyFilterSupported() : void
+    public function testIsResultTaxonomyFilterSupported(): void
     {
         $this->assertFalse($this->testObj->isResultTaxonomyFilterSupported());
     }
 
-    public function testIsAnyQuestionFilterEnabled() : void
+    public function testIsAnyQuestionFilterEnabled(): void
     {
         $this->assertFalse($this->testObj->isAnyQuestionFilterEnabled());
 

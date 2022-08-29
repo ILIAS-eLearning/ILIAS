@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /******************************************************************************
  *
@@ -37,7 +39,7 @@ class ilObjECSSettingsGUI extends ilObjectGUI
      * @access public
      *
      */
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         $next_class = $this->ctrl->getNextClass($this);
 
@@ -53,13 +55,13 @@ class ilObjECSSettingsGUI extends ilObjectGUI
                 $perm_gui = new ilPermissionGUI($this);
                 $this->ctrl->forwardCommand($perm_gui);
                 break;
-            
+
             case 'ilecssettingsgui':
                 $this->tabs_gui->setTabActive('settings');
                 $settings = new ilECSSettingsGUI();
                 $this->ctrl->forwardCommand($settings);
                 break;
-            
+
             default:
                 $this->tabs_gui->setTabActive('settings');
                 $settings = new ilECSSettingsGUI();
@@ -68,7 +70,7 @@ class ilObjECSSettingsGUI extends ilObjectGUI
                 break;
         }
     }
-    
+
 
     /**
      * Get tabs
@@ -76,7 +78,7 @@ class ilObjECSSettingsGUI extends ilObjectGUI
      * @access public
      *
      */
-    public function getAdminTabs() : void
+    public function getAdminTabs(): void
     {
         if ($this->access->checkAccess("read", '', $this->object->getRefId())) {
             $this->tabs_gui->addTarget(

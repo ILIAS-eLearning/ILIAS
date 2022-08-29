@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -24,12 +26,12 @@ use ILIAS\Refinery\ConstraintViolationException;
 
 class MakeClickableTest extends TestCase
 {
-    public function testConstruct() : void
+    public function testConstruct(): void
     {
         $this->assertInstanceOf(MakeClickable::class, new MakeClickable());
     }
 
-    public function testTransformFailure() : void
+    public function testTransformFailure(): void
     {
         $this->expectException(ConstraintViolationException::class);
         $clickable = new MakeClickable();
@@ -40,14 +42,14 @@ class MakeClickableTest extends TestCase
     /**
      * @dataProvider provideInput
      */
-    public function testTransformSuccess(string $expected, string $input) : void
+    public function testTransformSuccess(string $expected, string $input): void
     {
         $clickable = new MakeClickable();
 
         $this->assertEquals($expected, $clickable->transform($input));
     }
 
-    public function provideInput() : array
+    public function provideInput(): array
     {
         return [
             'test empty string' => ['', ''],

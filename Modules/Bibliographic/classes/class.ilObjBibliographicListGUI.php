@@ -15,7 +15,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * Class ilObjDataCollectionListGUI
  *
@@ -24,11 +24,10 @@
  */
 class ilObjBibliographicListGUI extends ilObjectListGUI
 {
-
     /**
      * initialisation
      */
-    public function init() : void
+    public function init(): void
     {
         $this->lng->loadLanguageModule('bibl');
         $this->copy_enabled = true;
@@ -51,7 +50,7 @@ class ilObjBibliographicListGUI extends ilObjectListGUI
      *                    "property" (string) => property name
      *                    "value" (string) => property value
      */
-    public function getProperties() : array
+    public function getProperties(): array
     {
         global $DIC;
         $lng = $DIC['lng'];

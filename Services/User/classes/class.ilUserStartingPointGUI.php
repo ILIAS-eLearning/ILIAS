@@ -55,7 +55,7 @@ class ilUserStartingPointGUI
         );
     }
 
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         global $DIC;
 
@@ -72,7 +72,7 @@ class ilUserStartingPointGUI
     /**
      * table form to set up starting points depends of user roles
      */
-    public function startingPoints() : void
+    public function startingPoints(): void
     {
         $roles_without_point = ilStartingPoint::getGlobalRolesWithoutStartingPoint();
 
@@ -91,7 +91,7 @@ class ilUserStartingPointGUI
         $this->tpl->setContent($tbl->getHTML());
     }
 
-    public function initUserStartingPointForm(ilPropertyFormGUI $form = null) : void
+    public function initUserStartingPointForm(ilPropertyFormGUI $form = null): void
     {
         if (!($form instanceof ilPropertyFormGUI)) {
             $form = $this->getUserStartingPointForm();
@@ -99,7 +99,7 @@ class ilUserStartingPointGUI
         $this->tpl->setContent($form->getHTML());
     }
 
-    public function initRoleStartingPointForm(ilPropertyFormGUI $form = null) : void
+    public function initRoleStartingPointForm(ilPropertyFormGUI $form = null): void
     {
         if (!($form instanceof ilPropertyFormGUI)) {
             $form = $this->getRoleStartingPointForm();
@@ -107,7 +107,7 @@ class ilUserStartingPointGUI
         $this->tpl->setContent($form->getHTML());
     }
 
-    protected function getUserStartingPointForm() : ilPropertyFormGUI
+    protected function getUserStartingPointForm(): ilPropertyFormGUI
     {
         global $DIC;
 
@@ -131,7 +131,7 @@ class ilUserStartingPointGUI
     /**
      * @return ilPropertyFormGUI
      */
-    protected function getRoleStartingPointForm() : ilPropertyFormGUI
+    protected function getRoleStartingPointForm(): ilPropertyFormGUI
     {
         global $DIC;
 
@@ -297,12 +297,12 @@ class ilUserStartingPointGUI
         return $form;
     }
 
-    public function addRoleAutoCompleteObject() : void
+    public function addRoleAutoCompleteObject(): void
     {
         ilRoleAutoCompleteInputGUI::echoAutoCompleteList();
     }
 
-    protected function saveUserStartingPoint() : void
+    protected function saveUserStartingPoint(): void
     {
         global $DIC;
 
@@ -328,7 +328,7 @@ class ilUserStartingPointGUI
     /**
      * store starting point from the form
      */
-    protected function saveStartingPoint() : void
+    protected function saveStartingPoint(): void
     {
         global $DIC;
 
@@ -352,7 +352,6 @@ class ilUserStartingPointGUI
         if ($form->checkInput()) {
             //if role
             if ($form->getInput('role')) {
-
                 // check if we have a locale role
                 if ($form->getInput('role_type') == 1) {
                     if ($this->user_request->getRoleId() > 0) {
@@ -448,7 +447,7 @@ class ilUserStartingPointGUI
         string $role_search,
         string $start_point,
         string $start_object
-    ) : void {
+    ): void {
         $parser = new ilQueryParser($role_search);
         $parser->setMinWordLength(1);
         $parser->setCombination(ilQueryParser::QP_COMBINATION_AND);
@@ -475,7 +474,7 @@ class ilUserStartingPointGUI
         $this->tpl->setContent($table->getHTML());
     }
 
-    public function saveOrder() : void
+    public function saveOrder(): void
     {
         global $DIC;
 
@@ -499,7 +498,7 @@ class ilUserStartingPointGUI
     /**
      * Confirm delete starting point
      */
-    public function confirmDeleteStartingPoint() : void
+    public function confirmDeleteStartingPoint(): void
     {
         global $DIC;
 
@@ -538,7 +537,7 @@ class ilUserStartingPointGUI
     /**
      * Set to 0 the starting point values
      */
-    protected function deleteStartingPoint() : void
+    protected function deleteStartingPoint(): void
     {
         global $DIC;
 

@@ -25,17 +25,17 @@ class ilMediaObjectsExporter extends ilXmlExporter
 {
     private ilMediaObjectDataSet $ds;
 
-    public function init() : void
+    public function init(): void
     {
         $this->ds = new ilMediaObjectDataSet();
         $this->ds->setDSPrefix("ds");
     }
-    
+
     public function getXmlExportTailDependencies(
         string $a_entity,
         string $a_target_release,
         array $a_ids
-    ) : array {
+    ): array {
         $md_ids = array();
         foreach ($a_ids as $mob_id) {
             $md_ids[] = "0:" . $mob_id . ":mob";
@@ -53,7 +53,7 @@ class ilMediaObjectsExporter extends ilXmlExporter
         string $a_entity,
         string $a_schema_version,
         string $a_id
-    ) : string {
+    ): string {
         ilFileUtils::makeDirParents($this->getAbsoluteExportDirectory());
         $this->ds->setExportDirectories($this->dir_relative, $this->dir_absolute);
         return $this->ds->getXmlRepresentation($a_entity, $a_schema_version, [$a_id], "", true, true);
@@ -64,7 +64,7 @@ class ilMediaObjectsExporter extends ilXmlExporter
      */
     public function getValidSchemaVersions(
         string $a_entity
-    ) : array {
+    ): array {
         return array(
             "5.1.0" => array(
                 "namespace" => "https://www.ilias.de/Services/MediaObjects/mob/5_1",

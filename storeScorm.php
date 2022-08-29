@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 ilContext::init(ilContext::CONTEXT_SCORM);
 ilInitialisation::initILIAS();
 

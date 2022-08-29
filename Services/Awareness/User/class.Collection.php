@@ -30,7 +30,7 @@ class Collection implements \Countable
     /**
      * @param int $a_id user id
      */
-    public function addUser(int $a_id) : void
+    public function addUser(int $a_id): void
     {
         $this->users[$a_id] = $a_id;
     }
@@ -38,7 +38,7 @@ class Collection implements \Countable
     /**
      * @param int $a_id user id
      */
-    public function removeUser(int $a_id) : void
+    public function removeUser(int $a_id): void
     {
         if (isset($this->users[$a_id])) {
             unset($this->users[$a_id]);
@@ -48,12 +48,12 @@ class Collection implements \Countable
     /**
      * @return int[] array of user ids
      */
-    public function getUsers() : array
+    public function getUsers(): array
     {
         return $this->users;
     }
 
-    public function count() : int
+    public function count(): int
     {
         return count($this->users);
     }

@@ -1,4 +1,5 @@
 <?php
+
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 require_once 'Modules/TestQuestionPool/classes/questions/class.ilAssQuestionSkillAssignmentRegistry.php';
@@ -8,7 +9,7 @@ require_once 'Modules/TestQuestionPool/classes/questions/class.ilAssQuestionSkil
  */
 class ilAssQuestionSkillAssignmentRegistryTest extends assBaseTestCase
 {
-    const TEST_KEY = 'phpunit_tst';
+    public const TEST_KEY = 'phpunit_tst';
 
     /**
      * @var array
@@ -18,7 +19,7 @@ class ilAssQuestionSkillAssignmentRegistryTest extends assBaseTestCase
     /**
      *
      */
-    public function setUp() : void
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -32,7 +33,7 @@ class ilAssQuestionSkillAssignmentRegistryTest extends assBaseTestCase
      * @param callable $preCallback
      * @param callable $postCallback
      */
-    public function testSkillAssignmentsCanBetStoredAndFetchedBySerializationStrategy($value, $chunkSize, callable $preCallback, callable $postCallback) : void
+    public function testSkillAssignmentsCanBetStoredAndFetchedBySerializationStrategy($value, $chunkSize, callable $preCallback, callable $postCallback): void
     {
         require_once 'Services/Administration/classes/class.ilSetting.php';
         $settingsMock = $this->getMockBuilder('ilSetting')->disableOriginalConstructor()->onlyMethods(array('set', 'get', 'delete'))->getMock();
@@ -71,7 +72,7 @@ class ilAssQuestionSkillAssignmentRegistryTest extends assBaseTestCase
     /**
      * @doesNotPerformAssertions
      */
-    public function testInvalidChunkSizeWillRaiseException() : void
+    public function testInvalidChunkSizeWillRaiseException(): void
     {
         require_once 'Services/Administration/classes/class.ilSetting.php';
         $settingsMock = $this->getMockBuilder('ilSetting')->disableOriginalConstructor()->onlyMethods(array('set', 'get', 'delete'))->getMock();
@@ -96,7 +97,7 @@ class ilAssQuestionSkillAssignmentRegistryTest extends assBaseTestCase
      * @param callable $post
      * @return array
      */
-    protected function getTestData(callable $pre, callable $post) : array
+    protected function getTestData(callable $pre, callable $post): array
     {
         $data = [];
 
@@ -138,7 +139,7 @@ class ilAssQuestionSkillAssignmentRegistryTest extends assBaseTestCase
     /**
      * @return array
      */
-    public function serializedData() : array
+    public function serializedData(): array
     {
         $pre = function ($value) {
             return \serialize($value);

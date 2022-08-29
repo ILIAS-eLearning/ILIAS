@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -24,15 +26,15 @@
  */
 class ilECSCategorySettings extends ilECSObjectSettings
 {
-    protected function getECSObjectType() : string
+    protected function getECSObjectType(): string
     {
         return '/campusconnect/categories';
     }
-    
+
     protected function buildJson(ilECSSetting $a_server)
     {
         $json = $this->getJsonCore('application/ecs-category');
-        
+
         return $json;
     }
 }

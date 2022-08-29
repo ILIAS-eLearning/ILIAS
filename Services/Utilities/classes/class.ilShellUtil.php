@@ -31,7 +31,6 @@
  */
 class ilShellUtil
 {
-
     /**
      * resize image
      *
@@ -48,7 +47,7 @@ class ilShellUtil
         int $a_width,
         int $a_height,
         bool $a_constrain_prop = false
-    ) : void {
+    ): void {
         if ($a_constrain_prop) {
             $size = " -geometry " . $a_width . "x" . $a_height . " ";
         } else {
@@ -59,7 +58,7 @@ class ilShellUtil
         ilShellUtil::execConvert($convert_cmd);
     }
 
-    public static function escapeShellArg(string $a_arg) : string
+    public static function escapeShellArg(string $a_arg): string
     {
         setlocale(
             LC_CTYPE,
@@ -76,7 +75,7 @@ class ilShellUtil
      * @param string $a_version w.x.y-z
      * @return int
      */
-    protected static function processConvertVersion(string $a_version) : int
+    protected static function processConvertVersion(string $a_version): int
     {
         if (preg_match("/([0-9]+)\.([0-9]+)\.([0-9]+)([\.|\-]([0-9]+))?/", $a_version, $match)) {
             $version = str_pad($match[1], 2, "0", STR_PAD_LEFT) .
@@ -91,7 +90,7 @@ class ilShellUtil
     /**
      * @deprecated
      */
-    public static function escapeShellCmd(string $a_arg) : string
+    public static function escapeShellCmd(string $a_arg): string
     {
         if (ini_get('safe_mode') == 1) {
             return $a_arg;
@@ -107,7 +106,7 @@ class ilShellUtil
     /**
      * @deprecated
      */
-    public static function execQuoted(string $cmd, ?string $args = null) : array
+    public static function execQuoted(string $cmd, ?string $args = null): array
     {
         global $DIC;
 
@@ -140,7 +139,7 @@ class ilShellUtil
      * @param string $a_version w.x.y-z
      * @return bool
      */
-    public static function isConvertVersionAtLeast(string $a_version) : bool
+    public static function isConvertVersionAtLeast(string $a_version): bool
     {
         $current_version = ilShellUtil::execQuoted(PATH_TO_CONVERT, "--version");
         $current_version = self::processConvertVersion($current_version[0]);
@@ -159,7 +158,7 @@ class ilShellUtil
      * @static
      *
      */
-    public static function getConvertCmd() : string
+    public static function getConvertCmd(): string
     {
         return PATH_TO_CONVERT;
     }
@@ -179,7 +178,7 @@ class ilShellUtil
         string $a_target_format = "",
         string $a_geometry = "",
         string $a_background_color = ""
-    ) : void {
+    ): void {
         $format_str = ($a_target_format != "")
             ? strtoupper($a_target_format) . ":"
             : "";
@@ -208,7 +207,7 @@ class ilShellUtil
      * @static
      *
      */
-    public static function execConvert(string $args) : void
+    public static function execConvert(string $args): void
     {
         $args = self::escapeShellCmd($args);
         ilShellUtil::execQuoted(PATH_TO_CONVERT, $args);

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -32,7 +34,7 @@ class ilStudyProgrammeAppEventListener
     /**
      * @throws ilException
      */
-    public static function handleEvent(string $component, string $event, array $parameter) : void
+    public static function handleEvent(string $component, string $event, array $parameter): void
     {
         switch ($component) {
             case "Services/User":
@@ -158,7 +160,7 @@ class ilStudyProgrammeAppEventListener
         }
     }
 
-    private static function onServiceUserDeleteUser(array $parameter) : void
+    private static function onServiceUserDeleteUser(array $parameter): void
     {
         $assignments = ilStudyProgrammeDIC::dic()['ilStudyProgrammeUserAssignmentDB']
             ->getInstancesOfUser((int) $parameter["usr_id"])
@@ -170,7 +172,7 @@ class ilStudyProgrammeAppEventListener
         }
     }
 
-    private static function onServiceTrackingUpdateStatus(array $parameter) : void
+    private static function onServiceTrackingUpdateStatus(array $parameter): void
     {
         if ((int) $parameter["status"] !== ilLPStatus::LP_STATUS_COMPLETED_NUM) {
             return;
@@ -179,7 +181,7 @@ class ilStudyProgrammeAppEventListener
         ilObjStudyProgramme::setProgressesCompletedFor((int) $parameter["obj_id"], (int) $parameter["usr_id"]);
     }
 
-    private static function onServiceTreeInsertNode(array $parameter) : void
+    private static function onServiceTreeInsertNode(array $parameter): void
     {
         $node_ref_id = (int) $parameter["node_id"];
         $parent_ref_id = (int) $parameter["parent_id"];
@@ -198,7 +200,7 @@ class ilStudyProgrammeAppEventListener
         }
     }
 
-    private static function onServiceTreeMoveTree(array $parameter) : void
+    private static function onServiceTreeMoveTree(array $parameter): void
     {
         $node_ref_id = (int) $parameter["source_id"];
         $new_parent_ref_id = (int) $parameter["target_id"];
@@ -232,7 +234,7 @@ class ilStudyProgrammeAppEventListener
         }
     }
 
-    private static function onServiceObjectDeleteOrToTrash(array $parameter) : void
+    private static function onServiceObjectDeleteOrToTrash(array $parameter): void
     {
         $old_parent_ref_id = (int) $parameter["old_parent_ref_id"];
 
@@ -245,34 +247,34 @@ class ilStudyProgrammeAppEventListener
         self::adjustProgrammeLPMode($old_parent_ref_id);
     }
 
-    private static function getStudyProgramme(int $ref_id) : ilObjStudyProgramme
+    private static function getStudyProgramme(int $ref_id): ilObjStudyProgramme
     {
         return ilObjStudyProgramme::getInstanceByRefId($ref_id);
     }
 
-    private static function adjustProgrammeLPMode(int $ref_id) : void
+    private static function adjustProgrammeLPMode(int $ref_id): void
     {
         $obj = self::getStudyProgramme($ref_id);
         $obj->adjustLPMode();
     }
 
-    private static function addMissingProgresses(int $ref_id) : void
+    private static function addMissingProgresses(int $ref_id): void
     {
         $obj = self::getStudyProgramme($ref_id);
         $obj->addMissingProgresses();
     }
 
-    private static function addCrsToProgrammes(int $crs_ref_id, int $cat_ref_id) : void
+    private static function addCrsToProgrammes(int $crs_ref_id, int $cat_ref_id): void
     {
         ilObjStudyProgramme::addCrsToProgrammes($crs_ref_id, $cat_ref_id);
     }
 
-    private static function removeCrsFromProgrammes(int $crs_ref_id, int $cat_ref_id) : void
+    private static function removeCrsFromProgrammes(int $crs_ref_id, int $cat_ref_id): void
     {
         ilObjStudyProgramme::removeCrsFromProgrammes($crs_ref_id, $cat_ref_id);
     }
 
-    private static function addMemberToProgrammes(string $src_type, array $params) : void
+    private static function addMemberToProgrammes(string $src_type, array $params): void
     {
         $usr_id = $params['usr_id'];
         $id = $params['obj_id'];
@@ -290,7 +292,7 @@ class ilStudyProgrammeAppEventListener
         ilObjStudyProgramme::addMemberToProgrammes($src_type, $id, $usr_id);
     }
 
-    private static function removeMemberFromProgrammes(string $src_type, array $params) : void
+    private static function removeMemberFromProgrammes(string $src_type, array $params): void
     {
         $usr_id = $params['usr_id'];
         $id = $params['obj_id'];
@@ -308,14 +310,14 @@ class ilStudyProgrammeAppEventListener
         ilObjStudyProgramme::removeMemberFromProgrammes($src_type, $id, $usr_id);
     }
 
-    private static function sendReAssignedMail(array $params) : void
+    private static function sendReAssignedMail(array $params): void
     {
         $usr_id = $params['usr_id'];
         $ref_id = $params['root_prg_ref_id'];
         ilObjStudyProgramme::sendReAssignedMail($ref_id, $usr_id);
     }
 
-    private static function sendInformToReAssignMail(array $params) : void
+    private static function sendInformToReAssignMail(array $params): void
     {
         $usr_id = $params['usr_id'];
         $progress_id = $params['progress_id'];
@@ -325,7 +327,7 @@ class ilStudyProgrammeAppEventListener
     /**
      * @throws ilException
      */
-    private static function sendRiskyToFailMail(array $params) : void
+    private static function sendRiskyToFailMail(array $params): void
     {
         $usr_id = $params['usr_id'];
         $progress_id = $params['progress_id'];

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -33,7 +35,7 @@ trait hasSymbolTrait
     /**
      * @inheritDoc
      */
-    public function withSymbol(Symbol $symbol) : hasSymbol
+    public function withSymbol(Symbol $symbol): hasSymbol
     {
         // bugfix mantis 25526: make aria labels mandatory
         if (($symbol instanceof Glyph && $symbol->getAriaLabel() === "") ||
@@ -50,7 +52,7 @@ trait hasSymbolTrait
     /**
      * @inheritDoc
      */
-    public function getSymbol() : Symbol
+    public function getSymbol(): Symbol
     {
         return $this->symbol;
     }
@@ -58,7 +60,7 @@ trait hasSymbolTrait
     /**
      * @inheritDoc
      */
-    public function hasSymbol() : bool
+    public function hasSymbol(): bool
     {
         return $this->symbol instanceof Symbol;
     }

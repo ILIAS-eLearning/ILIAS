@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -45,7 +47,7 @@ class ilStudyProgrammeTypeGUI
     protected Renderer $renderer;
     protected Psr\Http\Message\ServerRequestInterface $request;
     protected Refinery\Factory $refinery_factory;
-    protected /*ilObjStudyProgrammeGUI|ilObjStudyProgrammeAdminGUI*/ $parent_gui;
+    /*ilObjStudyProgrammeGUI|ilObjStudyProgrammeAdminGUI*/ protected $parent_gui;
     protected ?array $installed_languages = null;
     protected Filesystem $web_dir;
     protected RequestWrapper $request_wrapper;
@@ -88,7 +90,7 @@ class ilStudyProgrammeTypeGUI
         $this->lng->loadLanguageModule('meta');
     }
 
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         $this->checkAccess();
         $cmd = $this->ctrl->getCmd();
@@ -139,12 +141,12 @@ class ilStudyProgrammeTypeGUI
         }
     }
 
-    public function setParentGUI($parent_gui) : void
+    public function setParentGUI($parent_gui): void
     {
         $this->parent_gui = $parent_gui;
     }
 
-    protected function checkAccess() : void
+    protected function checkAccess(): void
     {
         if (!$this->access->checkAccess("read", "", $this->parent_gui->getObject()->getRefId())) {
             $this->tpl->setOnScreenMessage("failure", $this->lng->txt("permission_denied"), true);
@@ -152,7 +154,7 @@ class ilStudyProgrammeTypeGUI
         }
     }
 
-    protected function setSubTabsEdit(string $active_tab_id) : void
+    protected function setSubTabsEdit(string $active_tab_id): void
     {
         $this->tabs->addSubTab(
             'general',
@@ -179,7 +181,7 @@ class ilStudyProgrammeTypeGUI
         $this->tabs->activateSubTab($active_tab_id);
     }
 
-    protected function editCustomIcons() : void
+    protected function editCustomIcons(): void
     {
         $form = new ilStudyProgrammeTypeCustomIconsFormGUI(
             $this,
@@ -196,7 +198,7 @@ class ilStudyProgrammeTypeGUI
         $this->tpl->setContent($form->getHTML());
     }
 
-    protected function updateCustomIcons() : void
+    protected function updateCustomIcons(): void
     {
         $form = new ilStudyProgrammeTypeCustomIconsFormGUI(
             $this,
@@ -216,7 +218,7 @@ class ilStudyProgrammeTypeGUI
         }
     }
 
-    protected function editAMD() : void
+    protected function editAMD(): void
     {
         $form = new ilStudyProgrammeTypeAdvancedMetaDataFormGUI(
             $this,
@@ -230,7 +232,7 @@ class ilStudyProgrammeTypeGUI
         $this->tpl->setContent($form->getHTML());
     }
 
-    protected function updateAMD() : void
+    protected function updateAMD(): void
     {
         $form = new ilStudyProgrammeTypeAdvancedMetaDataFormGUI(
             $this,
@@ -248,7 +250,7 @@ class ilStudyProgrammeTypeGUI
         }
     }
 
-    protected function listTypes() : void
+    protected function listTypes(): void
     {
         if ($this->access->checkAccess("write", "", $this->parent_gui->getObject()->getRefId())) {
             $button = ilLinkButton::getInstance();
@@ -270,7 +272,7 @@ class ilStudyProgrammeTypeGUI
         $this->tpl->setContent($table->getHTML());
     }
 
-    protected function add() : void
+    protected function add(): void
     {
         $form = $this->buildForm(
             $this->ctrl->getFormActionByClass(
@@ -283,7 +285,7 @@ class ilStudyProgrammeTypeGUI
         $this->tpl->setContent($this->renderer->render($form));
     }
 
-    protected function edit() : void
+    protected function edit(): void
     {
         $type_id = $this->request_wrapper->retrieve("type_id", $this->refinery_factory->kindlyTo()->int());
         $type = $this->type_repository->getType($type_id);
@@ -300,7 +302,7 @@ class ilStudyProgrammeTypeGUI
         $this->tpl->setContent($this->renderer->render($form));
     }
 
-    protected function create() : void
+    protected function create(): void
     {
         $form = $this->buildForm(
             $this->ctrl->getFormActionByClass(
@@ -322,7 +324,7 @@ class ilStudyProgrammeTypeGUI
         }
     }
 
-    protected function update() : void
+    protected function update(): void
     {
         $type_id = $this->request_wrapper->retrieve("type_id", $this->refinery_factory->kindlyTo()->int());
         $type = $this->type_repository->getType($type_id);
@@ -346,7 +348,7 @@ class ilStudyProgrammeTypeGUI
         }
     }
 
-    protected function updateTypeFromFormResult(ilStudyProgrammeType $type, array $result) : void
+    protected function updateTypeFromFormResult(ilStudyProgrammeType $type, array $result): void
     {
         if (isset($result['default_lang'])) {
             $type->setDefaultLang($result['default_lang']);
@@ -362,7 +364,7 @@ class ilStudyProgrammeTypeGUI
         $this->type_repository->updateType($type);
     }
 
-    protected function delete() : void
+    protected function delete(): void
     {
         $type_id = $this->request_wrapper->retrieve("type_id", $this->refinery_factory->kindlyTo()->int());
         $type = $this->type_repository->getType($type_id);
@@ -380,7 +382,7 @@ class ilStudyProgrammeTypeGUI
         string $submit_action,
         string $type_action,
         ilStudyProgrammeType $type = null
-    ) : Input\Container\Form\Form {
+    ): Input\Container\Form\Form {
         $default_lng = "";
         if (!is_null($type)) {
             $default_lng = $type->getDefaultLang();
@@ -404,7 +406,7 @@ class ilStudyProgrammeTypeGUI
         );
     }
 
-    protected function buildModalHeading(string $title, string $default_lng) : InputField
+    protected function buildModalHeading(string $title, string $default_lng): InputField
     {
         $options = [];
         foreach ($this->getInstalledLanguages() as $lang_code) {
@@ -421,7 +423,7 @@ class ilStudyProgrammeTypeGUI
         return $this->input_factory->field()->section(['default_lang' => $select], $title);
     }
 
-    protected function buildLanguagesForms(ilStudyProgrammeType $type = null) : InputField
+    protected function buildLanguagesForms(ilStudyProgrammeType $type = null): InputField
     {
         $return = [];
         foreach ($this->getInstalledLanguages() as $lng_code) {
@@ -442,7 +444,7 @@ class ilStudyProgrammeTypeGUI
         return $this->input_factory->field()->group($return);
     }
 
-    protected function getInstalledLanguages() : array
+    protected function getInstalledLanguages(): array
     {
         if (is_null($this->installed_languages)) {
             $this->installed_languages = $this->lng->getInstalledLanguages();

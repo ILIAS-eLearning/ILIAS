@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -18,12 +20,12 @@ class ilObjTestVerificationGUI extends ilObject2GUI
         parent::__construct($id, $id_type, $parent_node_id);
     }
 
-    public function getType() : string
+    public function getType(): string
     {
         return "tstv";
     }
 
-    public function create() : void
+    public function create(): void
     {
         global $DIC;
         $ilTabs = $DIC['ilTabs'];
@@ -39,7 +41,7 @@ class ilObjTestVerificationGUI extends ilObject2GUI
         $this->tpl->setContent($table->getHTML());
     }
 
-    public function save() : void
+    public function save(): void
     {
         global $DIC;
         $ilUser = $DIC['ilUser'];
@@ -83,7 +85,7 @@ class ilObjTestVerificationGUI extends ilObject2GUI
         $this->create();
     }
 
-    public function deliver() : void
+    public function deliver(): void
     {
         $file = $this->object->getFilePath();
         if ($file) {
@@ -91,7 +93,7 @@ class ilObjTestVerificationGUI extends ilObject2GUI
         }
     }
 
-    public function render(bool $a_return = false, string $a_url = '') : string
+    public function render(bool $a_return = false, string $a_url = ''): string
     {
         global $DIC;
         $ilUser = $DIC['ilUser'];
@@ -130,7 +132,7 @@ class ilObjTestVerificationGUI extends ilObject2GUI
         return "";
     }
 
-    public function downloadFromPortfolioPage(ilPortfolioPage $a_page) : void
+    public function downloadFromPortfolioPage(ilPortfolioPage $a_page): void
     {
         global $DIC;
         $ilErr = $DIC['ilErr'];
@@ -142,7 +144,7 @@ class ilObjTestVerificationGUI extends ilObject2GUI
         $ilErr->raiseError($this->lng->txt('permission_denied'), $ilErr->MESSAGE);
     }
 
-    public static function _goto(string $a_target) : void
+    public static function _goto(string $a_target): void
     {
         global $DIC;
         $id = explode("_", $a_target);

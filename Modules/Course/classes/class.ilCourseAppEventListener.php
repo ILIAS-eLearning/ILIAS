@@ -1,4 +1,6 @@
-<?php declare(strict_types=0);
+<?php
+
+declare(strict_types=0);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -14,7 +16,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * Course Pool listener. Listens to events of other components.
  * @author  Stefan Meyer <smeyer.ilias@gmx.de>
@@ -39,12 +41,12 @@ class ilCourseAppEventListener
         $this->logger = $DIC->logger()->crs();
     }
 
-    public function getLogger() : ilLogger
+    public function getLogger(): ilLogger
     {
         return $this->logger;
     }
 
-    protected function handleUserAssignments(string $a_event, array $a_parameters) : void
+    protected function handleUserAssignments(string $a_event, array $a_parameters): void
     {
         if ($a_parameters['type'] != 'crs') {
             $this->getLogger()->debug('Ignoring event for type ' . $a_parameters['type']);
@@ -78,7 +80,7 @@ class ilCourseAppEventListener
     /**
      * Trigger autofill from waiting list
      */
-    protected function doAutoFill(int $a_obj_id) : void
+    protected function doAutoFill(int $a_obj_id): void
     {
         $this->getLogger()->debug('Handling event deassign user -> waiting list auto fill');
 
@@ -93,7 +95,7 @@ class ilCourseAppEventListener
         $course->handleAutoFill();
     }
 
-    public static function initializeTimings(int $a_obj_id, int $a_usr_id, int $a_role_id) : bool
+    public static function initializeTimings(int $a_obj_id, int $a_usr_id, int $a_role_id): bool
     {
         static $timing_mode = array();
 
@@ -112,7 +114,7 @@ class ilCourseAppEventListener
     /**
      * Delete timings for user
      */
-    public static function destroyTimings(int $a_obj_id, int $a_usr_id) : bool
+    public static function destroyTimings(int $a_obj_id, int $a_usr_id): bool
     {
         $user_timings = ilTimingsUser::getInstanceByContainerId($a_obj_id);
         $user_timings->init();
@@ -120,7 +122,7 @@ class ilCourseAppEventListener
         return true;
     }
 
-    public static function handleEvent(string $a_component, string $a_event, array $a_parameter) : void
+    public static function handleEvent(string $a_component, string $a_event, array $a_parameter): void
     {
         if ($a_component == 'Services/AccessControl') {
             $listener = new self();
@@ -207,7 +209,7 @@ class ilCourseAppEventListener
     /**
      * Toggle LP blocking property status
      */
-    public static function setBlockedForLP(bool $a_status) : void
+    public static function setBlockedForLP(bool $a_status): void
     {
         self::$blocked_for_lp = $a_status;
     }

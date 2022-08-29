@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -32,16 +34,16 @@ class ilObjStudyProgrammeReferenceGUI extends ilContainerReferenceGUI
         parent::__construct($data, $id, $call_by_reference, $prepare_output);
     }
 
-    public static function _goto(int $target) : void
+    public static function _goto(int $target): void
     {
         $target_ref_id = ilContainerReference::_lookupTargetRefId(ilObject::_lookupObjId($target));
         ilObjStudyProgrammeGUI::_goto($target_ref_id . "_");
     }
 
-    public function saveObject() : void
+    public function saveObject(): void
     {
         $ilAccess = $this->access;
-        
+
         if (!(int) $_REQUEST['target_id']) {
             $this->createObject();
         }
@@ -56,7 +58,7 @@ class ilObjStudyProgrammeReferenceGUI extends ilContainerReferenceGUI
         parent::saveObject();
     }
 
-    public function putObjectInTree(ilObject $obj, $parent_node_id = null) : void
+    public function putObjectInTree(ilObject $obj, $parent_node_id = null): void
     {
         // when this is called, the target already should be defined...
         $target_obj_id = ilObject::_lookupObjId((int) $this->form->getInput('target_id'));
@@ -65,7 +67,7 @@ class ilObjStudyProgrammeReferenceGUI extends ilContainerReferenceGUI
         parent::putObjectInTree($obj, $parent_node_id);
     }
 
-    protected function tryingToCreateCircularReference(int $obj_to_be_referenced, int $reference_position) : bool
+    protected function tryingToCreateCircularReference(int $obj_to_be_referenced, int $reference_position): bool
     {
         if ($reference_position === $obj_to_be_referenced) {
             return true;

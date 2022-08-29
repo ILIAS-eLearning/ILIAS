@@ -38,17 +38,17 @@ class StandardGUIRequest
         );
     }
 
-    public function getExpressionKey() : int
+    public function getExpressionKey(): int
     {
         return $this->int("exp");
     }
 
-    public function getValue() : int
+    public function getValue(): int
     {
         return $this->int("val");
     }
 
-    public function getModalSignalId() : string
+    public function getModalSignalId(): string
     {
         return $this->str("modal_show_sig_id");
     }

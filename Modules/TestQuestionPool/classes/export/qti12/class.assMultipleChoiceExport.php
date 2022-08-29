@@ -32,13 +32,13 @@ class assMultipleChoiceExport extends assQuestionExport
     * domxml variable with the DOM XML representation of the QTI xml representation
     * @access public
     */
-    public function toXML($a_include_header = true, $a_include_binary = true, $a_shuffle = false, $test_output = false, $force_image_references = false) : string
+    public function toXML($a_include_header = true, $a_include_binary = true, $a_shuffle = false, $test_output = false, $force_image_references = false): string
     {
         global $DIC;
         $ilias = $DIC['ilias'];
-        
+
         include_once("./Services/Xml/classes/class.ilXmlWriter.php");
-        $a_xml_writer = new ilXmlWriter;
+        $a_xml_writer = new ilXmlWriter();
         // set xml header
         $a_xml_writer->xmlHeader();
         $a_xml_writer->xmlStartTag("questestinterop");
@@ -69,11 +69,11 @@ class assMultipleChoiceExport extends assQuestionExport
         $a_xml_writer->xmlElement("fieldlabel", null, "AUTHOR");
         $a_xml_writer->xmlElement("fieldentry", null, $this->object->getAuthor());
         $a_xml_writer->xmlEndTag("qtimetadatafield");
-        
+
         // additional content editing information
         $this->addAdditionalContentEditingModeInformation($a_xml_writer);
         $this->addGeneralMetadata($a_xml_writer);
-        
+
         $a_xml_writer->xmlStartTag("qtimetadatafield");
         $a_xml_writer->xmlElement("fieldlabel", null, "thumb_size");
         $a_xml_writer->xmlElement("fieldentry", null, $this->object->getThumbSize());
@@ -83,7 +83,7 @@ class assMultipleChoiceExport extends assQuestionExport
         $a_xml_writer->xmlElement("fieldlabel", null, "feedback_setting");
         $a_xml_writer->xmlElement("fieldentry", null, $this->object->getSpecificFeedbackSetting());
         $a_xml_writer->xmlEndTag("qtimetadatafield");
-        
+
         $this->addQtiMetaDataField($a_xml_writer, 'singleline', $this->object->isSingleline() ? 1 : 0);
 
         $a_xml_writer->xmlEndTag("qtimetadata");
@@ -105,7 +105,7 @@ class assMultipleChoiceExport extends assQuestionExport
         );
         $a_xml_writer->xmlStartTag("response_lid", $attrs);
         $solution = $this->object->getSuggestedSolution(0);
-        if (count($solution)) {
+        if ($solution !== null && count($solution)) {
             if (preg_match("/il_(\d*?)_(\w+)_(\d+)/", $solution["internal_link"], $matches)) {
                 $a_xml_writer->xmlStartTag("material");
                 $intlink = "il_" . IL_INST_ID . "_" . $matches[2] . "_" . $matches[3];
@@ -138,7 +138,7 @@ class assMultipleChoiceExport extends assQuestionExport
                 "ident" => $index
             );
             $a_xml_writer->xmlStartTag("response_label", $attrs);
-            
+
             if (strlen($answer->getImage())) {
                 $this->object->addQTIMaterial($a_xml_writer, $answer->getAnswertext(), false, false);
                 $imagetype = "image/jpeg";
@@ -177,7 +177,7 @@ class assMultipleChoiceExport extends assQuestionExport
         $a_xml_writer->xmlEndTag("response_lid");
         $a_xml_writer->xmlEndTag("flow");
         $a_xml_writer->xmlEndTag("presentation");
-        
+
         // PART II: qti resprocessing
         $a_xml_writer->xmlStartTag("resprocessing");
         $a_xml_writer->xmlStartTag("outcomes");
@@ -214,7 +214,7 @@ class assMultipleChoiceExport extends assQuestionExport
                 "continue" => "Yes"
             );
             $a_xml_writer->xmlStartTag("respcondition", $attrs);
-            
+
             // qti conditionvar
             $a_xml_writer->xmlStartTag("conditionvar");
             $attrs = array(
@@ -346,7 +346,9 @@ class assMultipleChoiceExport extends assQuestionExport
             $a_xml_writer->xmlEndTag("flow_mat");
             $a_xml_writer->xmlEndTag("itemfeedback");
         }
-        
+
+        $a_xml_writer = $this->addSolutionHints($a_xml_writer);
+
         $a_xml_writer->xmlEndTag("item");
         $a_xml_writer->xmlEndTag("questestinterop");
 

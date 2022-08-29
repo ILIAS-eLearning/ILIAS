@@ -1,10 +1,12 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace ILIAS\UI\examples\MainControls\Footer;
 
 use ILIAS\DI\Container;
 
-function footer_with_modals() : string
+function footer_with_modals(): string
 {
     global $DIC;
     $f = $DIC->ui()->factory();
@@ -20,7 +22,7 @@ function footer_with_modals() : string
     ]);
 }
 
-function pageFooterDemo2Footer() : \ILIAS\UI\Component\MainControls\Footer
+function pageFooterDemo2Footer(): \ILIAS\UI\Component\MainControls\Footer
 {
     global $DIC;
     $f = $DIC->ui()->factory();
@@ -52,7 +54,7 @@ if (isset($request_wrapper) && isset($refinery) && $request_wrapper->has('new_fo
     echo renderFooterWithModalsInFullscreenMode($DIC);
 }
 
-function renderFooterWithModalsInFullscreenMode(Container $dic) : string
+function renderFooterWithModalsInFullscreenMode(Container $dic): string
 {
     require_once("src/UI/examples/MainControls/Footer/footer.php");
 

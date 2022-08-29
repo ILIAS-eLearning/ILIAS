@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -22,16 +24,11 @@
  */
 class ilMailGlobalAddressSettingsChangedCommand
 {
-    private ilDBInterface $db;
-    private int $option;
-
-    public function __construct(ilDBInterface $db, int $option)
+    public function __construct(private ilDBInterface $db, private int $option)
     {
-        $this->db = $db;
-        $this->option = $option;
     }
 
-    public function execute() : void
+    public function execute(): void
     {
         $this->db->manipulateF(
             "UPDATE settings SET value = %s WHERE module = 'common' AND keyword = 'mail_address_option'",

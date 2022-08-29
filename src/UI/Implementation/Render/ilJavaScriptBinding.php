@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\UI\Implementation\Render;
 
 use ilGlobalTemplateInterface;
@@ -42,7 +44,7 @@ class ilJavaScriptBinding implements JavaScriptBinding
     /**
      * @inheritdoc
      */
-    public function createId() : string
+    public function createId(): string
     {
         return str_replace(".", "_", uniqid(self::PREFIX, true));
     }
@@ -50,7 +52,7 @@ class ilJavaScriptBinding implements JavaScriptBinding
     /**
      * @inheritdoc
      */
-    public function addOnLoadCode(string $code) : void
+    public function addOnLoadCode(string $code): void
     {
         $this->global_tpl->addOnLoadCode($code, 1);
         $this->code[] = $code;
@@ -59,7 +61,7 @@ class ilJavaScriptBinding implements JavaScriptBinding
     /**
      * @inheritdoc
      */
-    public function getOnLoadCodeAsync() : string
+    public function getOnLoadCodeAsync(): string
     {
         if (!count($this->code)) {
             return '';

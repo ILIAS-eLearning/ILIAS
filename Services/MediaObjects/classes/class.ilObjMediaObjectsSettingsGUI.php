@@ -49,7 +49,7 @@ class ilObjMediaObjectsSettingsGUI extends ilObjectGUI
         $this->lng->loadLanguageModule('content');
     }
 
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         $next_class = $this->ctrl->getNextClass($this);
         $cmd = $this->ctrl->getCmd();
@@ -76,7 +76,7 @@ class ilObjMediaObjectsSettingsGUI extends ilObjectGUI
         }
     }
 
-    public function getAdminTabs() : void
+    public function getAdminTabs(): void
     {
         $ilAccess = $this->access;
         $ilTabs = $this->tabs;
@@ -101,23 +101,23 @@ class ilObjMediaObjectsSettingsGUI extends ilObjectGUI
 
     public function editSettings(
         bool $a_omit_init = false
-    ) : void {
+    ): void {
         $tpl = $this->tpl;
-        
+
         if (!$a_omit_init) {
             $this->initMediaObjectsSettingsForm();
             $this->getSettingsValues();
         }
         $tpl->setContent($this->form->getHTML());
     }
-        
-    public function saveSettings() : void
+
+    public function saveSettings(): void
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
-    
+
         $this->checkPermission("write");
-        
+
         $this->initMediaObjectsSettingsForm();
         if ($this->form->checkInput()) {
             // perform save
@@ -130,33 +130,33 @@ class ilObjMediaObjectsSettingsGUI extends ilObjectGUI
             $this->tpl->setOnScreenMessage('success', $lng->txt("msg_obj_modified"), true);
             $ilCtrl->redirect($this, "editSettings");
         }
-        
+
         $this->form->setValuesByPost();
         $this->editSettings(true);
     }
-    
+
     /**
      * Init media objects settings form.
      */
-    public function initMediaObjectsSettingsForm() : void
+    public function initMediaObjectsSettingsForm(): void
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
         $ilAccess = $this->access;
-        
-    
+
+
         $this->form = new ilPropertyFormGUI();
-    
+
         // activate page in media pool
         $cb = new ilCheckboxInputGUI($lng->txt("mobs_activate_pages"), "activate_pages");
         $cb->setInfo($lng->txt("mobs_activate_pages_info"));
         $this->form->addItem($cb);
-    
+
         // activate page in media pool
         $cb = new ilCheckboxInputGUI($lng->txt("mobs_always_show_file_manager"), "file_manager_always");
         $cb->setInfo($lng->txt("mobs_always_show_file_manager_info"));
         $this->form->addItem($cb);
-        
+
         // allowed file types
         $ta = new ilTextAreaInputGUI($this->lng->txt("mobs_restrict_file_types"), "restricted_file_types");
         //$ta->setCols();
@@ -177,10 +177,10 @@ class ilObjMediaObjectsSettingsGUI extends ilObjectGUI
         $this->form->setFormAction($ilCtrl->getFormAction($this));
     }
 
-    public function getSettingsValues() : void
+    public function getSettingsValues(): void
     {
         $values = array();
-    
+
         $mset = new ilSetting("mobs");
         $values["activate_pages"] = $mset->get("mep_activate_pages");
         $values["file_manager_always"] = $mset->get("file_manager_always");

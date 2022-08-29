@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /*
  +-----------------------------------------------------------------------------+
@@ -36,7 +38,7 @@ class ilXMLResultSet
     private array $colspecs = [];
     private array $rows = [];
 
-    public function getColumnName(int $index) : ?string
+    public function getColumnName(int $index): ?string
     {
         if ($index < 0 || $index > count($this->colspecs)) {
             return null;
@@ -47,7 +49,7 @@ class ilXMLResultSet
     /**
      * create a new column with columnname and attach it to column list
      */
-    public function addColumn(string $columnname) : void
+    public function addColumn(string $columnname): void
     {
         $this->colspecs[] = new ilXMLResultSetColumn(count($this->colspecs), $columnname);
     }
@@ -55,7 +57,7 @@ class ilXMLResultSet
     /**
      * return index for column name
      */
-    public function getIndexForColumn(string $columnname) : int
+    public function getIndexForColumn(string $columnname): int
     {
         $idx = 0;
         foreach ($this->colspecs as $colspec) {
@@ -70,7 +72,7 @@ class ilXMLResultSet
     /**
      * has column name
      */
-    public function hasColumn(string $columnname) : bool
+    public function hasColumn(string $columnname): bool
     {
         return $this->getIndexForColumn($columnname) !== -1;
     }
@@ -79,7 +81,7 @@ class ilXMLResultSet
      * return array of ilXMLResultSetColumn
      * @return ilXMLResultSetColumn[]
      */
-    public function getColSpecs() : array
+    public function getColSpecs(): array
     {
         return $this->colspecs;
     }
@@ -88,12 +90,12 @@ class ilXMLResultSet
      * return array of ilXMLResultSetRow
      * @return ilXMLResultSetRow[]
      */
-    public function getRows() : array
+    public function getRows(): array
     {
         return $this->rows;
     }
 
-    public function addRow(ilXMLResultSetRow $row) : void
+    public function addRow(ilXMLResultSetRow $row): void
     {
         $this->rows[] = $row;
     }
@@ -105,7 +107,7 @@ class ilXMLResultSet
      *                    val1_1      va11_2
      *                    val2_1      val2_2
      */
-    public function setArray(array $array) : void
+    public function setArray(array $array): void
     {
         $this->addArray($array, true);
     }
@@ -119,7 +121,7 @@ class ilXMLResultSet
      * @param array $array     2 dimensional array
      * @param bool  $overwrite if false, column names won't be changed, rows will be added,true: result set will be reset to null and data will be added.
      */
-    public function addArray(array $array, bool $overwrite = false) : void
+    public function addArray(array $array, bool $overwrite = false): void
     {
         if ($overwrite) {
             $this->clear();
@@ -139,18 +141,18 @@ class ilXMLResultSet
         }
     }
 
-    public function clear() : void
+    public function clear(): void
     {
         $this->rows = array();
         $this->colspecs = array();
     }
 
-    public function getColumnCount() : int
+    public function getColumnCount(): int
     {
         return count($this->colspecs);
     }
 
-    public function getRowCount() : int
+    public function getRowCount(): int
     {
         return count($this->rows);
     }
@@ -158,7 +160,7 @@ class ilXMLResultSet
     /**
      * return row for index idx
      */
-    public function getRow($idx) : ilXMLResultSetRow
+    public function getRow($idx): ilXMLResultSetRow
     {
         if ($idx < 0 || $idx >= $this->getRowCount()) {
             throw new DomainException("Index too small or too big: " . $idx);
@@ -172,7 +174,7 @@ class ilXMLResultSet
      * @param int|string $colIdx
      * @return string
      */
-    public function getValue(int $rowIdx, $colIdx) : string
+    public function getValue(int $rowIdx, $colIdx): string
     {
         $row = $this->getRow($rowIdx);
 

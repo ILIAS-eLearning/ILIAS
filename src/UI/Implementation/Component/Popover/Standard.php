@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\UI\Implementation\Component\Popover;
 
 use ILIAS\UI\Component as C;
@@ -49,7 +51,7 @@ class Standard extends Popover implements C\Popover\Standard
     /**
      * @inheritdoc
      */
-    public function getContent() : array
+    public function getContent(): array
     {
         return $this->content;
     }

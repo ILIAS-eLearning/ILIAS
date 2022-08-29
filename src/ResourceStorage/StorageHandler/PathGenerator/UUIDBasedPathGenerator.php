@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -14,7 +16,7 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *********************************************************************/
- 
+
 namespace ILIAS\ResourceStorage\StorageHandler\PathGenerator;
 
 use ILIAS\ResourceStorage\Identification\ResourceIdentification;
@@ -27,12 +29,12 @@ use ILIAS\ResourceStorage\Identification\ResourceIdentification;
  */
 class UUIDBasedPathGenerator implements PathGenerator
 {
-    public function getPathFor(ResourceIdentification $i) : string
+    public function getPathFor(ResourceIdentification $i): string
     {
         return str_replace("-", "/", $i->serialize());
     }
 
-    public function getIdentificationFor(string $path) : ResourceIdentification
+    public function getIdentificationFor(string $path): ResourceIdentification
     {
         return new ResourceIdentification(str_replace("/", "-", $path));
     }

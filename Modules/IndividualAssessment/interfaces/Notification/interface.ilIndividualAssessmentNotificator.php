@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /* Copyright (c) 2018 - Denis Klöpfer <denis.kloepfer@concepts-and-training.de> - Extended GPL, see LICENSE */
 
@@ -11,20 +13,20 @@ interface ilIndividualAssessmentNotificator
     /**
      * Define the member, that should receive the message.
      */
-    public function withReceiver(ilIndividualAssessmentMember $member) : ilIndividualAssessmentNotificator;
+    public function withReceiver(ilIndividualAssessmentMember $member): ilIndividualAssessmentNotificator;
 
     /**
      * Set message mode to failed.
      */
-    public function withOccasionFailed() : ilIndividualAssessmentNotificator;
+    public function withOccasionFailed(): ilIndividualAssessmentNotificator;
 
     /**
      * Set message mode to complete.
      */
-    public function withOccasionCompleted() : ilIndividualAssessmentNotificator;
+    public function withOccasionCompleted(): ilIndividualAssessmentNotificator;
 
     /**
      * Send message.
      */
-    public function send() : void;
+    public function send(): void;
 }

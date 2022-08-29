@@ -1,4 +1,5 @@
 <?php
+
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 require_once 'Modules/Test/classes/class.ilTestProcessLocker.php';
@@ -56,7 +57,7 @@ class ilTestProcessLockerDb extends ilTestProcessLocker
             $this->atom_query->addTableLock('tax_node_assignment');
         }
     }
-    
+
     /**
      * {@inheritdoc}
      */
@@ -76,12 +77,12 @@ class ilTestProcessLockerDb extends ilTestProcessLocker
         $this->atom_query->run();
     }
 
-    protected function onBeforeExecutingNamedOperation(string $operationDescriptor) : void
+    protected function onBeforeExecutingNamedOperation(string $operationDescriptor): void
     {
         throw new RuntimeException('Operation not supported');
     }
 
-    protected function onAfterExecutingNamedOperation(string $operationDescriptor) : void
+    protected function onAfterExecutingNamedOperation(string $operationDescriptor): void
     {
         throw new RuntimeException('Operation not supported');
     }

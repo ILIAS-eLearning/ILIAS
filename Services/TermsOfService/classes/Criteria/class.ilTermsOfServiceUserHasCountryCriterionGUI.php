@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -25,28 +27,18 @@ use ILIAS\UI\Factory;
  */
 class ilTermsOfServiceUserHasCountryCriterionGUI implements ilTermsOfServiceCriterionTypeGUI
 {
-    protected ilTermsOfServiceUserHasCountryCriterion $type;
-    protected ilLanguage $lng;
-    /** @var string[] */
-    protected array $countryCodes = [];
-
     /**
      * ilTermsOfServiceUserHasLanguageCriterionGUI constructor.
-     * @param ilTermsOfServiceUserHasCountryCriterion $type
-     * @param ilLanguage $lng
      * @param string[] $countryCodes
      */
     public function __construct(
-        ilTermsOfServiceUserHasCountryCriterion $type,
-        ilLanguage $lng,
-        array $countryCodes
+        protected ilTermsOfServiceUserHasCountryCriterion $type,
+        protected ilLanguage $lng,
+        protected array $countryCodes
     ) {
-        $this->type = $type;
-        $this->lng = $lng;
-        $this->countryCodes = $countryCodes;
     }
 
-    public function appendOption(ilRadioGroupInputGUI $group, ilTermsOfServiceCriterionConfig $config) : void
+    public function appendOption(ilRadioGroupInputGUI $group, ilTermsOfServiceCriterionConfig $config): void
     {
         $option = new ilRadioOption($this->getIdentPresentation(), $this->type->getTypeIdent());
         $option->setInfo($this->lng->txt('tos_crit_type_usr_country_info'));
@@ -71,21 +63,19 @@ class ilTermsOfServiceUserHasCountryCriterionGUI implements ilTermsOfServiceCrit
         $group->addOption($option);
     }
 
-    public function getConfigByForm(ilPropertyFormGUI $form) : ilTermsOfServiceCriterionConfig
+    public function getConfigByForm(ilPropertyFormGUI $form): ilTermsOfServiceCriterionConfig
     {
-        $config = new ilTermsOfServiceCriterionConfig([
+        return new ilTermsOfServiceCriterionConfig([
             'country' => (string) $form->getInput($this->type->getTypeIdent() . '_country')
         ]);
-
-        return $config;
     }
 
-    public function getIdentPresentation() : string
+    public function getIdentPresentation(): string
     {
         return $this->lng->txt('tos_crit_type_usr_country');
     }
 
-    public function getValuePresentation(ilTermsOfServiceCriterionConfig $config, Factory $uiFactory) : Component
+    public function getValuePresentation(ilTermsOfServiceCriterionConfig $config, Factory $uiFactory): Component
     {
         $country = $config['country'] ?? '';
 

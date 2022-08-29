@@ -1,4 +1,6 @@
-<?php declare(strict_types=0);
+<?php
+
+declare(strict_types=0);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -14,7 +16,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * Course Verification
  * @author  Jörg Lützenkirchen <luetzenkirchen@leifos.com>
@@ -22,12 +24,12 @@
  */
 class ilObjCourseVerification extends ilVerificationObject
 {
-    protected function initType() : void
+    protected function initType(): void
     {
         $this->type = 'crsv';
     }
 
-    protected function getPropertyMap() : array
+    protected function getPropertyMap(): array
     {
         return [
             'issued_on' => self::TYPE_DATE,

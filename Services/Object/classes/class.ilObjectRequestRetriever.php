@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 use ILIAS\HTTP\Wrapper\WrapperFactory;
 use ILIAS\Refinery\Factory;
 use ILIAS\Refinery\Transformation;
@@ -29,13 +31,13 @@ class ilObjectRequestRetriever
 {
     protected WrapperFactory $wrapper;
     protected Factory $refinery;
-    
+
     public function __construct(WrapperFactory $wrapper, Factory $refinery)
     {
         $this->wrapper = $wrapper;
         $this->refinery = $refinery;
     }
-    
+
     /**
      * @return mixed
      */
@@ -49,24 +51,24 @@ class ilObjectRequestRetriever
         }
         return null;
     }
-    
-    public function has(string $key) : bool
+
+    public function has(string $key): bool
     {
         return $this->wrapper->query()->has($key)
             || $this->wrapper->post()->has($key);
     }
-    
-    public function getMaybeInt(string $key, ?int $fallback = null) : ?int
+
+    public function getMaybeInt(string $key, ?int $fallback = null): ?int
     {
         return $this->getFromRequest($key, $this->refinery->kindlyTo()->int()) ?? $fallback;
     }
-    
-    public function getMaybeString(string $key, ?string $fallback = null) : ?string
+
+    public function getMaybeString(string $key, ?string $fallback = null): ?string
     {
         return $this->getFromRequest($key, $this->refinery->kindlyTo()->string()) ?? $fallback;
     }
-    
-    public function getBool(string $key) : bool
+
+    public function getBool(string $key): bool
     {
         return $this->getFromRequest($key, $this->refinery->kindlyTo()->bool()) ?? false;
     }

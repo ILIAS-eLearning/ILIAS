@@ -1,4 +1,5 @@
 <?php
+
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 
@@ -58,7 +59,7 @@ class ilAssQuestionSolutionComparisonExpression
         $this->points = null;
     }
 
-    public function save() : void
+    public function save(): void
     {
         $this->db->replace(
             'qpl_qst_skl_sol_expr',
@@ -78,7 +79,7 @@ class ilAssQuestionSolutionComparisonExpression
     /**
      * @return ilDBInterface
      */
-    public function getDb() : ilDBInterface
+    public function getDb(): ilDBInterface
     {
         return $this->db;
     }
@@ -86,7 +87,7 @@ class ilAssQuestionSolutionComparisonExpression
     /**
      * @param ilDBInterface $db
      */
-    public function setDb($db) : void
+    public function setDb($db): void
     {
         $this->db = $db;
     }
@@ -94,7 +95,7 @@ class ilAssQuestionSolutionComparisonExpression
     /**
      * @return int
      */
-    public function getQuestionId() : ?int
+    public function getQuestionId(): ?int
     {
         return $this->questionId;
     }
@@ -102,7 +103,7 @@ class ilAssQuestionSolutionComparisonExpression
     /**
      * @param int $questionId
      */
-    public function setQuestionId($questionId) : void
+    public function setQuestionId($questionId): void
     {
         $this->questionId = $questionId;
     }
@@ -110,7 +111,7 @@ class ilAssQuestionSolutionComparisonExpression
     /**
      * @return int
      */
-    public function getSkillBaseId() : ?int
+    public function getSkillBaseId(): ?int
     {
         return $this->skillBaseId;
     }
@@ -118,7 +119,7 @@ class ilAssQuestionSolutionComparisonExpression
     /**
      * @param int $skillBaseId
      */
-    public function setSkillBaseId($skillBaseId) : void
+    public function setSkillBaseId($skillBaseId): void
     {
         $this->skillBaseId = $skillBaseId;
     }
@@ -126,7 +127,7 @@ class ilAssQuestionSolutionComparisonExpression
     /**
      * @return int
      */
-    public function getSkillTrefId() : ?int
+    public function getSkillTrefId(): ?int
     {
         return $this->skillTrefId;
     }
@@ -134,7 +135,7 @@ class ilAssQuestionSolutionComparisonExpression
     /**
      * @param int $skillTrefId
      */
-    public function setSkillTrefId($skillTrefId) : void
+    public function setSkillTrefId($skillTrefId): void
     {
         $this->skillTrefId = $skillTrefId;
     }
@@ -142,7 +143,7 @@ class ilAssQuestionSolutionComparisonExpression
     /**
      * @return int
      */
-    public function getOrderIndex() : ?int
+    public function getOrderIndex(): ?int
     {
         return $this->orderIndex;
     }
@@ -150,7 +151,7 @@ class ilAssQuestionSolutionComparisonExpression
     /**
      * @param int $orderIndex
      */
-    public function setOrderIndex($orderIndex) : void
+    public function setOrderIndex($orderIndex): void
     {
         $this->orderIndex = $orderIndex;
     }
@@ -158,7 +159,7 @@ class ilAssQuestionSolutionComparisonExpression
     /**
      * @return string
      */
-    public function getExpression() : ?string
+    public function getExpression(): ?string
     {
         return $this->expression;
     }
@@ -166,7 +167,7 @@ class ilAssQuestionSolutionComparisonExpression
     /**
      * @param string $expression
      */
-    public function setExpression($expression) : void
+    public function setExpression($expression): void
     {
         $this->expression = $expression;
     }
@@ -174,7 +175,7 @@ class ilAssQuestionSolutionComparisonExpression
     /**
      * @return int
      */
-    public function getPoints() : ?int
+    public function getPoints(): ?int
     {
         return $this->points;
     }
@@ -182,7 +183,7 @@ class ilAssQuestionSolutionComparisonExpression
     /**
      * @param int $points
      */
-    public function setPoints($points) : void
+    public function setPoints($points): void
     {
         $this->points = $points;
     }
@@ -190,7 +191,7 @@ class ilAssQuestionSolutionComparisonExpression
     /**
      * @param array $data
      */
-    public function initInstanceFromArray($data) : void
+    public function initInstanceFromArray($data): void
     {
         $this->setQuestionId($data['question_fi']);
         $this->setSkillBaseId($data['skill_base_fi']);

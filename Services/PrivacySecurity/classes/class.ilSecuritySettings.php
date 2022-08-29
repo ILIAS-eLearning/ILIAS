@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -87,7 +89,7 @@ class ilSecuritySettings
      * @return ilSecuritySettings  instance
      * @access public
      */
-    public static function _getInstance() : ilSecuritySettings
+    public static function _getInstance(): ilSecuritySettings
     {
         if (!self::$instance instanceof self) {
             self::$instance = new self();
@@ -99,7 +101,7 @@ class ilSecuritySettings
      * set if the passwords have to contain
      * characters and numbers
      */
-    public function setPasswordCharsAndNumbersEnabled(bool $a_chars_and_numbers_enabled) : void
+    public function setPasswordCharsAndNumbersEnabled(bool $a_chars_and_numbers_enabled): void
     {
         $this->password_chars_and_numbers_enabled = $a_chars_and_numbers_enabled;
     }
@@ -108,7 +110,7 @@ class ilSecuritySettings
      * get boolean if the passwords have to contain
      * characters and numbers
      */
-    public function isPasswordCharsAndNumbersEnabled() : bool
+    public function isPasswordCharsAndNumbersEnabled(): bool
     {
         return $this->password_chars_and_numbers_enabled;
     }
@@ -117,7 +119,7 @@ class ilSecuritySettings
      * set if the passwords have to contain
      * special characters
      */
-    public function setPasswordSpecialCharsEnabled(bool $a_password_special_chars_enabled) : void
+    public function setPasswordSpecialCharsEnabled(bool $a_password_special_chars_enabled): void
     {
         $this->password_special_chars_enabled = $a_password_special_chars_enabled;
     }
@@ -126,7 +128,7 @@ class ilSecuritySettings
      * get boolean if the passwords have to contain
      * special characters
      */
-    public function isPasswordSpecialCharsEnabled() : bool
+    public function isPasswordSpecialCharsEnabled(): bool
     {
         return $this->password_special_chars_enabled;
     }
@@ -134,7 +136,7 @@ class ilSecuritySettings
     /**
      * set the minimum length for passwords
      */
-    public function setPasswordMinLength(int $a_password_min_length) : void
+    public function setPasswordMinLength(int $a_password_min_length): void
     {
         $this->password_min_length = $a_password_min_length;
     }
@@ -142,7 +144,7 @@ class ilSecuritySettings
     /**
      * get the minimum length for passwords
      */
-    public function getPasswordMinLength() : int
+    public function getPasswordMinLength(): int
     {
         return $this->password_min_length;
     }
@@ -150,7 +152,7 @@ class ilSecuritySettings
     /**
      * set the maximum length for passwords
      */
-    public function setPasswordMaxLength(int $a_password_max_length) : void
+    public function setPasswordMaxLength(int $a_password_max_length): void
     {
         $this->password_max_length = $a_password_max_length;
     }
@@ -158,7 +160,7 @@ class ilSecuritySettings
     /**
      * get the maximum length for passwords
      */
-    public function getPasswordMaxLength() : int
+    public function getPasswordMaxLength(): int
     {
         return $this->password_max_length;
     }
@@ -166,7 +168,7 @@ class ilSecuritySettings
     /**
      * set the maximum password age
      */
-    public function setPasswordMaxAge(int $a_password_max_age) : void
+    public function setPasswordMaxAge(int $a_password_max_age): void
     {
         $this->password_max_age = $a_password_max_age;
     }
@@ -174,7 +176,7 @@ class ilSecuritySettings
     /**
      * get the maximum password age
      */
-    public function getPasswordMaxAge() : int
+    public function getPasswordMaxAge(): int
     {
         return $this->password_max_age;
     }
@@ -182,7 +184,7 @@ class ilSecuritySettings
     /**
      * set the maximum count of login attempts
      */
-    public function setLoginMaxAttempts(int $a_login_max_attempts) : void
+    public function setLoginMaxAttempts(int $a_login_max_attempts): void
     {
         $this->login_max_attempts = $a_login_max_attempts;
     }
@@ -190,7 +192,7 @@ class ilSecuritySettings
     /**
      * get the maximum count of login attempts
      */
-    public function getLoginMaxAttempts() : int
+    public function getLoginMaxAttempts(): int
     {
         return $this->login_max_attempts;
     }
@@ -198,7 +200,7 @@ class ilSecuritySettings
     /**
      * Enable https for certain scripts
      */
-    public function setHTTPSEnabled(bool $value) : void
+    public function setHTTPSEnabled(bool $value): void
     {
         $this->https_enable = $value;
     }
@@ -206,7 +208,7 @@ class ilSecuritySettings
     /**
      * read access to https enabled property
      */
-    public function isHTTPSEnabled() : bool
+    public function isHTTPSEnabled(): bool
     {
         return $this->https_enable;
     }
@@ -215,7 +217,7 @@ class ilSecuritySettings
      * set if the passwords have to be changed by users
      * on first login
      */
-    public function setPasswordChangeOnFirstLoginEnabled(bool $a_password_change_on_first_login_enabled) : void
+    public function setPasswordChangeOnFirstLoginEnabled(bool $a_password_change_on_first_login_enabled): void
     {
         $this->password_change_on_first_login_enabled = $a_password_change_on_first_login_enabled;
     }
@@ -224,17 +226,17 @@ class ilSecuritySettings
      * get boolean if the passwords have to be changed by users
      * on first login
      */
-    public function isPasswordChangeOnFirstLoginEnabled() : bool
+    public function isPasswordChangeOnFirstLoginEnabled(): bool
     {
         return $this->password_change_on_first_login_enabled;
     }
 
-    public function isAdminRoleProtected() : bool
+    public function isAdminRoleProtected(): bool
     {
         return (bool) $this->protect_admin_role;
     }
 
-    public function protectedAdminRole(bool $a_stat) : void
+    public function protectedAdminRole(bool $a_stat): void
     {
         $this->protect_admin_role = $a_stat;
     }
@@ -242,7 +244,7 @@ class ilSecuritySettings
     /**
      * Check if the administrator role is accessible for a specific user
      */
-    public function checkAdminRoleAccessible(int $a_usr_id) : bool
+    public function checkAdminRoleAccessible(int $a_usr_id): bool
     {
         if (!$this->isAdminRoleProtected()) {
             return true;
@@ -256,7 +258,7 @@ class ilSecuritySettings
     /**
      * Save settings
      */
-    public function save() : void
+    public function save(): void
     {
         $this->settings->set('https', (string) $this->isHTTPSEnabled());
 
@@ -286,7 +288,7 @@ class ilSecuritySettings
      * @access private
      * @param
      */
-    private function read() : void
+    private function read(): void
     {
         $query = "SELECT object_reference.ref_id FROM object_reference,tree,object_data " .
             "WHERE tree.parent = " . $this->db->quote(SYSTEM_FOLDER_ID, 'integer') . " " .
@@ -341,7 +343,7 @@ class ilSecuritySettings
      * @param ilPropertyFormGUI|null $a_form
      * @return int|null 0, if everything is ok, an error code otherwise
      */
-    public function validate(ilPropertyFormGUI $a_form = null) : ?int
+    public function validate(ilPropertyFormGUI $a_form = null): ?int
     {
         $code = null;
 
@@ -458,7 +460,7 @@ class ilSecuritySettings
      * Prevention of simultaneous logins with the same account
      * @return bool true, if prevention of simultaneous logins with the same account is enabled, false otherwise
      */
-    public function isPreventionOfSimultaneousLoginsEnabled() : bool
+    public function isPreventionOfSimultaneousLoginsEnabled(): bool
     {
         return $this->prevent_simultaneous_logins;
     }
@@ -466,7 +468,7 @@ class ilSecuritySettings
     /**
      * Enable/Disable prevention of simultaneous logins with the same account
      */
-    public function setPreventionOfSimultaneousLogins(bool $value) : void
+    public function setPreventionOfSimultaneousLogins(bool $value): void
     {
         $this->prevent_simultaneous_logins = $value;
     }
@@ -474,7 +476,7 @@ class ilSecuritySettings
     /**
      * Set number of uppercase characters required
      */
-    public function setPasswordNumberOfUppercaseChars(int $password_ucase_chars_num) : void
+    public function setPasswordNumberOfUppercaseChars(int $password_ucase_chars_num): void
     {
         $this->password_ucase_chars_num = $password_ucase_chars_num;
     }
@@ -482,7 +484,7 @@ class ilSecuritySettings
     /**
      * Returns number of uppercase characters required
      */
-    public function getPasswordNumberOfUppercaseChars() : int
+    public function getPasswordNumberOfUppercaseChars(): int
     {
         return $this->password_ucase_chars_num;
     }
@@ -490,7 +492,7 @@ class ilSecuritySettings
     /**
      * Set number of lowercase characters required
      */
-    public function setPasswordNumberOfLowercaseChars(int $password_lcase_chars_num) : void
+    public function setPasswordNumberOfLowercaseChars(int $password_lcase_chars_num): void
     {
         $this->password_lcase_chars_num = $password_lcase_chars_num;
     }
@@ -498,7 +500,7 @@ class ilSecuritySettings
     /**
      * Returns number of lowercase characters required
      */
-    public function getPasswordNumberOfLowercaseChars() : int
+    public function getPasswordNumberOfLowercaseChars(): int
     {
         return $this->password_lcase_chars_num;
     }
@@ -506,7 +508,7 @@ class ilSecuritySettings
     /**
      * Set whether the password must not contain the loginname or not
      */
-    public function setPasswordMustNotContainLoginnameStatus($status) : void
+    public function setPasswordMustNotContainLoginnameStatus($status): void
     {
         $this->password_must_not_contain_loginname = (bool) $status;
     }
@@ -514,7 +516,7 @@ class ilSecuritySettings
     /**
      * Return whether the password must not contain the loginname or not
      */
-    public function getPasswordMustNotContainLoginnameStatus() : bool
+    public function getPasswordMustNotContainLoginnameStatus(): bool
     {
         return $this->password_must_not_contain_loginname;
     }

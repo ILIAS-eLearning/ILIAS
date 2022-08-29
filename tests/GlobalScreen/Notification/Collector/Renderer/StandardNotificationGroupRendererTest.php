@@ -1,4 +1,5 @@
 <?php
+
 use ILIAS\GlobalScreen\Scope\Notification\Collector\Renderer\StandardNotificationGroupRenderer;
 
 require_once(__DIR__ . "/../../BaseNotificationSetUp.php");

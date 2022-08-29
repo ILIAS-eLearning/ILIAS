@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -55,7 +57,7 @@ class ilCalendarUserSettingsGUI
         $this->user_settings = ilCalendarUserSettings::_getInstanceByUserId($this->user->getId());
     }
 
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         $next_class = $this->ctrl->getNextClass();
         switch ($next_class) {
@@ -66,7 +68,7 @@ class ilCalendarUserSettingsGUI
         }
     }
 
-    public function show(?ilPropertyFormGUI $form = null) : void
+    public function show(?ilPropertyFormGUI $form = null): void
     {
         if (!$form instanceof ilPropertyFormGUI) {
             $form = $this->initSettingsForm();
@@ -74,7 +76,7 @@ class ilCalendarUserSettingsGUI
         $this->tpl->setContent($form->getHTML());
     }
 
-    public function cancel() : void
+    public function cancel(): void
     {
         $this->ctrl->returnToParent($this);
     }
@@ -103,7 +105,7 @@ class ilCalendarUserSettingsGUI
         }
     }
 
-    public function initSettingsForm() : ilPropertyFormGUI
+    public function initSettingsForm(): ilPropertyFormGUI
     {
         $form = new ilPropertyFormGUI();
         $form->setFormAction($this->ctrl->getFormAction($this, 'save'));

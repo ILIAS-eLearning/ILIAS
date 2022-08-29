@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -20,7 +22,7 @@ interface ilUsersGalleryCollectionProvider
     /**
      * @return ilUsersGalleryUserCollection[]
      */
-    public function getGroupedCollections() : array;
+    public function getGroupedCollections(): array;
 
-    public function hasRemovableUsers() : bool;
+    public function hasRemovableUsers(): bool;
 }

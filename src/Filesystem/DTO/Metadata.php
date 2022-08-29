@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace ILIAS\Filesystem\DTO;
@@ -52,7 +53,7 @@ final class Metadata
      * @return string
      * @since 5.3
      */
-    public function getPath() : string
+    public function getPath(): string
     {
         return $this->path;
     }
@@ -70,7 +71,7 @@ final class Metadata
      *
      * @see MetadataType
      */
-    public function getType() : string
+    public function getType(): string
     {
         return $this->type;
     }
@@ -82,7 +83,7 @@ final class Metadata
      * @return bool
      * @since 5.3
      */
-    public function isDir() : bool
+    public function isDir(): bool
     {
         return (strcmp($this->getType(), MetadataType::DIRECTORY) === 0);
     }
@@ -94,7 +95,7 @@ final class Metadata
      * @return bool
      * @since 5.3
      */
-    public function isFile() : bool
+    public function isFile(): bool
     {
         return (strcmp($this->getType(), MetadataType::FILE) === 0);
     }

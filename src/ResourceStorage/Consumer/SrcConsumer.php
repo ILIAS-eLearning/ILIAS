@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -14,7 +16,7 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *********************************************************************/
- 
+
 namespace ILIAS\ResourceStorage\Consumer;
 
 use ILIAS\ResourceStorage\Resource\StorableResource;
@@ -41,7 +43,7 @@ class SrcConsumer
         $this->storage_handler = $storage_handler;
     }
 
-    public function getSrc() : string
+    public function getSrc(): string
     {
         $revision = $this->getRevision();
         $stream = $this->storage_handler->getStream($revision);
@@ -54,7 +56,7 @@ class SrcConsumer
     /**
      * @inheritDoc
      */
-    public function setRevisionNumber(int $revision_number) : self
+    public function setRevisionNumber(int $revision_number): self
     {
         $this->revision_number = $revision_number;
         return $this;

@@ -33,7 +33,7 @@ class ilTestExportRandomQuestionSet extends ilTestExport
      * @var array[ilTestRandomQuestionSetStagingPoolQuestionList]
      */
     protected $stagingPoolQuestionListByPoolId;
-    
+
     protected function initXmlExport()
     {
         global $DIC;
@@ -45,7 +45,7 @@ class ilTestExportRandomQuestionSet extends ilTestExport
             $ilDB,
             $this->test_obj
         );
-        
+
         require_once 'Modules/Test/classes/class.ilTestRandomQuestionSetSourcePoolDefinitionList.php';
         $this->srcPoolDefList = new ilTestRandomQuestionSetSourcePoolDefinitionList(
             $ilDB,
@@ -73,14 +73,14 @@ class ilTestExportRandomQuestionSet extends ilTestExport
         $this->populateSelectionDefinitions($xmlWriter);
         $xmlWriter->xmlEndTag('RandomQuestionSetConfig');
     }
-    
+
     protected function populateCommonSettings(ilXmlWriter $xmlWriter)
     {
         global $DIC;
         $tree = $DIC['tree'];
         $ilDB = $DIC['ilDB'];
         $component_repository = $DIC['component.repository'];
-        
+
         $questionSetConfig = new ilTestRandomQuestionSetConfig($tree, $ilDB, $component_repository, $this->test_obj);
         $questionSetConfig->loadFromDb();
 
@@ -91,14 +91,14 @@ class ilTestExportRandomQuestionSet extends ilTestExport
             'synctimestamp' => $questionSetConfig->getLastQuestionSyncTimestamp()
         ));
     }
-    
+
     protected function populateQuestionStages(ilXmlWriter $xmlWriter)
     {
         $xmlWriter->xmlStartTag('RandomQuestionStage');
-            
+
         foreach ($this->srcPoolDefList->getInvolvedSourcePoolIds() as $poolId) {
             $questionList = $this->getLoadedStagingPoolQuestionList($poolId);
-            
+
             $xmlWriter->xmlStartTag('RandomQuestionStagingPool', array('poolId' => $poolId));
             $xmlWriter->xmlData(implode(',', $questionList->getQuestions()));
             $xmlWriter->xmlEndTag('RandomQuestionStagingPool');
@@ -110,7 +110,7 @@ class ilTestExportRandomQuestionSet extends ilTestExport
     protected function populateSelectionDefinitions(ilXmlWriter $xmlWriter)
     {
         $xmlWriter->xmlStartTag('RandomQuestionSelectionDefinitions');
-        
+
         foreach ($this->srcPoolDefList as $definition) {
             $attributes = array(
                 'id' => $definition->getId(),
@@ -132,17 +132,17 @@ class ilTestExportRandomQuestionSet extends ilTestExport
             $xmlWriter->xmlElement('RandomQuestionSourcePoolPath', null, $definition->getPoolPath());
             $xmlWriter->xmlEndTag('RandomQuestionSelectionDefinition');
         }
-        
+
         $xmlWriter->xmlEndTag('RandomQuestionSelectionDefinitions');
     }
 
-    protected function getQuestionsQtiXml() : string
+    protected function getQuestionsQtiXml(): string
     {
         $questionQtiXml = '';
 
         foreach ($this->srcPoolDefList->getInvolvedSourcePoolIds() as $poolId) {
             $questionList = $this->getLoadedStagingPoolQuestionList($poolId);
-            
+
             foreach ($questionList as $questionId) {
                 $questionQtiXml .= $this->getQuestionQtiXml($questionId);
             }
@@ -150,22 +150,22 @@ class ilTestExportRandomQuestionSet extends ilTestExport
 
         return $questionQtiXml;
     }
-    
+
     /**
      * @return array
      */
-    protected function getQuestionIds() : array
+    protected function getQuestionIds(): array
     {
         $questionIds = array();
-        
+
         foreach ($this->srcPoolDefList->getInvolvedSourcePoolIds() as $poolId) {
             $questionList = $this->getLoadedStagingPoolQuestionList($poolId);
-            
+
             foreach ($questionList as $questionId) {
                 $questionIds[] = $questionId;
             }
         }
-        
+
         return $questionIds;
     }
 
@@ -173,18 +173,18 @@ class ilTestExportRandomQuestionSet extends ilTestExport
      * @param $poolId
      * @return ilTestRandomQuestionSetStagingPoolQuestionList
      */
-    protected function getLoadedStagingPoolQuestionList($poolId) : ilTestRandomQuestionSetStagingPoolQuestionList
+    protected function getLoadedStagingPoolQuestionList($poolId): ilTestRandomQuestionSetStagingPoolQuestionList
     {
         if (!isset($this->stagingPoolQuestionListByPoolId[$poolId])) {
             global $DIC;
             $ilDB = $DIC['ilDB'];
             $component_repository = $DIC['component.repository'];
-            
+
             $questionList = new ilTestRandomQuestionSetStagingPoolQuestionList($ilDB, $component_repository);
             $questionList->setTestId($this->test_obj->getTestId());
             $questionList->setPoolId($poolId);
             $questionList->loadQuestions();
-            
+
             $this->stagingPoolQuestionListByPoolId[$poolId] = $questionList;
         }
 

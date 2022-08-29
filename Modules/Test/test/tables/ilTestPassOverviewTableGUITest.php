@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -25,7 +27,7 @@ class ilTestPassOverviewTableGUITest extends ilTestBaseTestCase
     private ilTestPassOverviewTableGUI $tableGui;
     private ilObjTestGUI $parentObj_mock;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -51,12 +53,12 @@ class ilTestPassOverviewTableGUITest extends ilTestBaseTestCase
         $this->tableGui = new ilTestPassOverviewTableGUI($this->parentObj_mock, "");
     }
 
-    public function test_instantiateObject_shouldReturnInstance() : void
+    public function test_instantiateObject_shouldReturnInstance(): void
     {
         $this->assertInstanceOf(ilTestPassOverviewTableGUI::class, $this->tableGui);
     }
 
-    public function testNumericOrdering() : void
+    public function testNumericOrdering(): void
     {
         $this->assertTrue($this->tableGui->numericOrdering("pass"));
         $this->assertTrue($this->tableGui->numericOrdering("date"));
@@ -64,7 +66,7 @@ class ilTestPassOverviewTableGUITest extends ilTestBaseTestCase
         $this->assertFalse($this->tableGui->numericOrdering("randomText"));
     }
 
-    public function testResultPresentationEnabled() : void
+    public function testResultPresentationEnabled(): void
     {
         $this->assertIsBool($this->tableGui->isResultPresentationEnabled());
         $this->tableGui->setResultPresentationEnabled(false);
@@ -73,7 +75,7 @@ class ilTestPassOverviewTableGUITest extends ilTestBaseTestCase
         $this->assertTrue($this->tableGui->isResultPresentationEnabled());
     }
 
-    public function testPdfPresentationEnabled() : void
+    public function testPdfPresentationEnabled(): void
     {
         $this->assertIsBool($this->tableGui->isPdfPresentationEnabled());
         $this->tableGui->setPdfPresentationEnabled(false);
@@ -82,7 +84,7 @@ class ilTestPassOverviewTableGUITest extends ilTestBaseTestCase
         $this->assertTrue($this->tableGui->isPdfPresentationEnabled());
     }
 
-    public function testObjectiveOrientedPresentationEnabled() : void
+    public function testObjectiveOrientedPresentationEnabled(): void
     {
         $this->assertIsBool($this->tableGui->isObjectiveOrientedPresentationEnabled());
         $this->tableGui->setObjectiveOrientedPresentationEnabled(false);
@@ -91,20 +93,20 @@ class ilTestPassOverviewTableGUITest extends ilTestBaseTestCase
         $this->assertTrue($this->tableGui->isObjectiveOrientedPresentationEnabled());
     }
 
-    public function testActiveId() : void
+    public function testActiveId(): void
     {
         $this->tableGui->setActiveId(20);
         $this->assertEquals(20, $this->tableGui->getActiveId());
     }
 
-    public function testPassDetailsCommand() : void
+    public function testPassDetailsCommand(): void
     {
         $this->assertIsString($this->tableGui->getPassDetailsCommand());
         $this->tableGui->setPassDetailsCommand("testString");
         $this->assertEquals("testString", $this->tableGui->getPassDetailsCommand());
     }
 
-    public function testPassDeletionCommand() : void
+    public function testPassDeletionCommand(): void
     {
         $this->assertIsString($this->tableGui->getPassDeletionCommand());
         $this->tableGui->setPassDeletionCommand("testString");

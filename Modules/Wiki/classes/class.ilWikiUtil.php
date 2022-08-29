@@ -53,7 +53,7 @@ class ilWikiUtil
         string $s,
         int $a_wiki_id,
         bool $a_offline = false
-    ) : string {
+    ): string {
         return self::processInternalLinks(
             $s,
             $a_wiki_id,
@@ -70,7 +70,7 @@ class ilWikiUtil
         string $s,
         int $a_wiki_id,
         bool $a_collect_non_ex = false
-    ) : array {
+    ): array {
         return self::processInternalLinks(
             $s,
             $a_wiki_id,
@@ -78,7 +78,7 @@ class ilWikiUtil
             $a_collect_non_ex
         );
     }
-    
+
     /**
      * Process internal links
      * (internal)
@@ -97,18 +97,18 @@ class ilWikiUtil
         $wgLegalTitleChars = " %!\"$&'()*,\\-.\\/0-9:;=?@A-Z\\\\^_`a-z~\\x80-\\xFF+";
 
         // dummies for wiki globals
-        $GLOBALS["wgContLang"] = new class {
-            public function getNsIndex($a_p) : bool
+        $GLOBALS["wgContLang"] = new class () {
+            public function getNsIndex($a_p): bool
             {
                 return false;
             }
-            public function lc($a_key) : bool
+            public function lc($a_key): bool
             {
                 return false;
             }
         };
         $GLOBALS["wgInterWikiCache"] = false;
-        
+
         # the % is needed to support urlencoded titles as well
         //$tc = Title::legalChars().'#%';
         $tc = $wgLegalTitleChars . '#%';
@@ -123,7 +123,7 @@ class ilWikiUtil
 
         # Match a link having the form [[namespace:link|alternate]]trail
         $e1 = "/^([{$tc}]+)(?:\\|(.+?))?]](.*)\$/sD";
-        
+
         # Match cases where there is no "]]", which might still be images
         //		static $e1_img = FALSE;
         //		if ( !$e1_img ) { $e1_img = "/^([{$tc}]+)\\|(.*)\$/sD"; }
@@ -151,7 +151,7 @@ class ilWikiUtil
         //		}
 
         $useSubpages = false;
-        
+
         # Loop for each link
         for ($k = 0; isset($a[$k]); $k++) {
             $line = $a[$k];
@@ -183,13 +183,13 @@ class ilWikiUtil
                     $m[1] = str_replace(array('<', '>'), array('&lt;', '&gt;'), urldecode($m[1]));
                 }
                 $trail = $m[3];
-            /*			} elseif( preg_match($e1_img, $line, $m) ) { # Invalid, but might be an image with a link in its caption
-                            $might_be_img = true;
-                            $text = $m[2];
-                            if ( strpos( $m[1], '%' ) !== false ) {
-                                $m[1] = urldecode($m[1]);
-                            }
-                            $trail = "";*/
+                /*			} elseif( preg_match($e1_img, $line, $m) ) { # Invalid, but might be an image with a link in its caption
+                                $might_be_img = true;
+                                $text = $m[2];
+                                if ( strpos( $m[1], '%' ) !== false ) {
+                                    $m[1] = urldecode($m[1]);
+                                }
+                                $trail = "";*/
             } else { # Invalid form; output directly
                 $s .= $prefix . '[[' . $line ;
                 //wfProfileOut( "$fname-e1" );
@@ -279,10 +279,10 @@ class ilWikiUtil
 
     public static function removeUnsafeCharacters(
         string $a_str
-    ) : string {
+    ): string {
         return str_replace(array("\x00", "\n", "\r", "\\", "'", '"', "\x1a"), "", $a_str);
     }
-    
+
     /**
      * Make a wiki link, the following formats are supported:
      *
@@ -300,7 +300,7 @@ class ilWikiUtil
         string $trail = '',
         string $prefix = '',
         bool $a_offline = false
-    ) : string {
+    ): string {
         global $DIC;
 
         $request = $DIC
@@ -316,7 +316,6 @@ class ilWikiUtil
             # Fail gracefully
             $retVal = "<!-- ERROR -->{$prefix}{$text}{$trail}";
         } else {
-            
             // remove anchor from text, define anchor
             $anc = "";
             if ($nt->mFragment != "") {
@@ -325,11 +324,11 @@ class ilWikiUtil
                 }
                 $anc = "#" . $nt->mFragment;
             }
-            
+
             # Separate the link trail from the rest of the link
             // outcommented due to bug #14590
             //			list( $inside, $trail ) = ilWikiUtil::splitTrail( $trail );
-            
+
             $retVal = '***' . $text . "***" . $trail;
             $url_title = self::makeUrlTitle($nt->mTextform);
             $db_title = self::makeDbTitle($nt->mTextform);
@@ -339,7 +338,7 @@ class ilWikiUtil
                 // links on same page (only anchor used)
                 $pg_exists = true;
             }
-            
+
             //var_dump($nt);
             //var_dump($inside);
             //var_dump($trail);
@@ -382,12 +381,12 @@ class ilWikiUtil
         }
         return $retVal;
     }
-    
+
     /**
      * From mediawiki GlobalFunctions.php
      * @return string
      */
-    public static function wfUrlProtocols() : string
+    public static function wfUrlProtocols(): string
     {
         $wgUrlProtocols = array(
             'http://',
@@ -411,38 +410,38 @@ class ilWikiUtil
 
         return implode('|', $protocols);
     }
-    
+
     public static function wfUrlencode(
         string $s
-    ) : string {
+    ): string {
         $s = urlencode($s);
         return $s;
     }
 
     public static function makeDbTitle(
         string $a_par
-    ) : string {
+    ): string {
         $a_par = self::removeUnsafeCharacters($a_par);
         return str_replace("_", " ", $a_par);
     }
 
     public static function makeUrlTitle(
         string $a_par
-    ) : string {
+    ): string {
         $a_par = self::removeUnsafeCharacters($a_par);
         $a_par = str_replace(" ", "_", $a_par);
         return self::wfUrlencode($a_par);
     }
-    
+
     public static function splitTrail(
         string $trail
-    ) : array {
+    ): array {
         $regex = '/^([a-z]+)(.*)$/sD';
-        
+
         $inside = '';
         if ('' != $trail) {
             $m = array();
-            
+
             if (preg_match($regex, $trail, $m)) {
                 $inside = $m[1];
                 $trail = $m[2];
@@ -458,7 +457,7 @@ class ilWikiUtil
         int $a_wiki_ref_id,
         int $a_page_id,
         ?string $a_comment = null
-    ) : void {
+    ): void {
         global $DIC;
 
         $log = ilLoggerFactory::getLogger('wiki');
@@ -471,10 +470,10 @@ class ilWikiUtil
         $wiki_id = $ilObjDataCache->lookupObjId($a_wiki_ref_id);
         $wiki = new ilObjWiki($a_wiki_ref_id, true);
         $page = new ilWikiPage($a_page_id);
-        
+
         // #11138
         $ignore_threshold = ($a_action === "comment");
-        
+
         // 1st update will be converted to new - see below
         if ($a_action === "new") {
             return;
@@ -498,9 +497,9 @@ class ilWikiUtil
                 return;
             }
         }
-        
+
         ilNotification::updateNotificationTime(ilNotification::TYPE_WIKI, $wiki_id, $users, $a_page_id);
-        
+
         // #15192 - should always be present
         if ($a_page_id) {
             // #18804 - see ilWikiPageGUI::preview()

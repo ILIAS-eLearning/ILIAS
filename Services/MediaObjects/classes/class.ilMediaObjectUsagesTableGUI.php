@@ -59,10 +59,10 @@ class ilMediaObjectUsagesTableGUI extends ilTable2GUI
     /**
      * Get items of current folder
      */
-    public function getItems() : void
+    public function getItems(): void
     {
         $usages = $this->media_object->getUsages($this->include_hist);
-        
+
         $clip_cnt = 0;
         $to_del = array();
         $agg_usages = array();
@@ -111,8 +111,8 @@ class ilMediaObjectUsagesTableGUI extends ilTable2GUI
 
         $this->setData($agg_usages);
     }
-    
-    protected function fillRow(array $a_set) : void
+
+    protected function fillRow(array $a_set): void
     {
         $lng = $this->lng;
         $cont_type = "";
@@ -260,7 +260,7 @@ class ilMediaObjectUsagesTableGUI extends ilTable2GUI
             } else {
                 $this->tpl->setVariable("TXT_OBJECT_NO_LINK", $item["obj_title"]);
             }
-            
+
             if (($item["sub_txt"] ?? "") != "") {
                 $this->tpl->setVariable("SEP", ", ");
                 $this->tpl->setVariable("SUB_TXT", $item["sub_txt"]);
@@ -277,9 +277,9 @@ class ilMediaObjectUsagesTableGUI extends ilTable2GUI
 
     public function getFirstWritableRefId(
         int $a_obj_id
-    ) : int {
+    ): int {
         $ilAccess = $this->access;
-        
+
         $ref_ids = ilObject::_getAllReferences($a_obj_id);
         foreach ($ref_ids as $ref_id) {
             if ($ilAccess->checkAccess("write", "", $ref_id)) {

@@ -1,4 +1,6 @@
-<?php declare(strict_types=0);
+<?php
+
+declare(strict_types=0);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 use ILIAS\Style\Content\Object\ObjectFacade;
 use ILIAS\HTTP\GlobalHttpState;
 use ILIAS\Refinery\Factory;
@@ -76,7 +78,7 @@ class ilLOEditorGUI
         $this->refinery = $DIC->refinery();
     }
 
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         $next_class = $this->ctrl->getNextClass($this);
         $cmd = $this->ctrl->getCmd();
@@ -179,7 +181,7 @@ class ilLOEditorGUI
         }
     }
 
-    protected function initObjectiveIdFromQuery() : int
+    protected function initObjectiveIdFromQuery(): int
     {
         if ($this->http->wrapper()->query()->has('objective_id')) {
             return $this->http->wrapper()->query()->retrieve(
@@ -190,7 +192,7 @@ class ilLOEditorGUI
         return 0;
     }
 
-    protected function initObjectiveIdsFromPost() : array
+    protected function initObjectiveIdsFromPost(): array
     {
         if ($this->http->wrapper()->post()->has('objective')) {
             return $this->http->wrapper()->post()->retrieve(
@@ -203,7 +205,7 @@ class ilLOEditorGUI
         return [];
     }
 
-    protected function initTestTypeFromQuery() : int
+    protected function initTestTypeFromQuery(): int
     {
         if ($this->http->wrapper()->query()->has('tt')) {
             return $this->http->wrapper()->query()->retrieve(
@@ -214,33 +216,33 @@ class ilLOEditorGUI
         return 0;
     }
 
-    protected function returnFromObjectives() : void
+    protected function returnFromObjectives(): void
     {
         ilSession::set('objective_mode', ilCourseObjectivesGUI::MODE_UNDEFINED);
         $this->listObjectives();
     }
 
-    public function getParentObject() : ilObject
+    public function getParentObject(): ilObject
     {
         return $this->parent_obj;
     }
 
-    public function getSettings() : ilLOSettings
+    public function getSettings(): ilLOSettings
     {
         return $this->settings;
     }
 
-    public function setTestType(int $a_type) : void
+    public function setTestType(int $a_type): void
     {
         $this->test_type = $a_type;
     }
 
-    public function getTestType() : int
+    public function getTestType(): int
     {
         return $this->test_type;
     }
 
-    protected function settings(?ilPropertyFormGUI $form = null) : void
+    protected function settings(?ilPropertyFormGUI $form = null): void
     {
         if (!$form instanceof ilPropertyFormGUI) {
             $form = $this->initSettingsForm();
@@ -250,7 +252,7 @@ class ilLOEditorGUI
         $this->showStatus(ilLOEditorStatus::SECTION_SETTINGS);
     }
 
-    protected function deleteAssignments(int $a_type) : void
+    protected function deleteAssignments(int $a_type): void
     {
         $assignments = ilLOTestAssignments::getInstance($this->getParentObject()->getId());
         foreach ($assignments->getAssignmentsByType($a_type) as $assignment) {
@@ -258,14 +260,14 @@ class ilLOEditorGUI
         }
     }
 
-    protected function updateTestAssignments(ilLOSettings $settings) : void
+    protected function updateTestAssignments(ilLOSettings $settings): void
     {
         switch ($settings->getInitialTestType()) {
             case ilLOSettings::TYPE_INITIAL_NONE:
                 $settings->setInitialTest(0);
                 $this->deleteAssignments(ilLOSettings::TYPE_TEST_INITIAL);
 
-            // no break
+                // no break
             case ilLOSettings::TYPE_INITIAL_PLACEMENT_ALL:
             case ilLOSettings::TYPE_INITIAL_QUALIFYING_ALL:
                 $this->deleteAssignments(ilLOSettings::TYPE_TEST_INITIAL);
@@ -290,7 +292,7 @@ class ilLOEditorGUI
         $settings->update();
     }
 
-    protected function saveSettings() : void
+    protected function saveSettings(): void
     {
         $form = $this->initSettingsForm();
         if ($form->checkInput()) {
@@ -359,7 +361,7 @@ class ilLOEditorGUI
     /**
      * Init settings form
      */
-    protected function initSettingsForm() : ilPropertyFormGUI
+    protected function initSettingsForm(): ilPropertyFormGUI
     {
         $form = new ilPropertyFormGUI();
         $form->setFormAction($this->ctrl->getFormAction($this));
@@ -472,7 +474,7 @@ class ilLOEditorGUI
         return $form;
     }
 
-    protected function materials() : void
+    protected function materials(): void
     {
         $this->tabs->activateSubTab('materials');
 
@@ -494,7 +496,7 @@ class ilLOEditorGUI
         $this->showStatus(ilLOEditorStatus::SECTION_MATERIALS);
     }
 
-    protected function testsOverview() : void
+    protected function testsOverview(): void
     {
         $this->setTestType($this->initTestTypeFromQuery());
         $this->ctrl->setParameter($this, 'tt', $this->getTestType());
@@ -542,7 +544,7 @@ class ilLOEditorGUI
     /**
      * Show test overview
      */
-    protected function testOverview() : void
+    protected function testOverview(): void
     {
         $this->setTestType($this->initTestTypeFromQuery());
         $this->ctrl->setParameter($this, 'tt', $this->getTestType());
@@ -589,7 +591,7 @@ class ilLOEditorGUI
     /**
      * Show delete test confirmation
      */
-    protected function confirmDeleteTests() : void
+    protected function confirmDeleteTests(): void
     {
         $this->setTestType($this->initTestTypeFromQuery());
         $this->ctrl->setParameter($this, 'tt', $this->getTestType());
@@ -642,7 +644,7 @@ class ilLOEditorGUI
     /**
      * Show delete confirmation screen
      */
-    protected function confirmDeleteTest() : void
+    protected function confirmDeleteTest(): void
     {
         $this->setTestType($this->initTestTypeFromQuery());
         $this->ctrl->setParameter($this, 'tt', $this->getTestType());
@@ -691,7 +693,7 @@ class ilLOEditorGUI
         );
     }
 
-    protected function deleteTests() : void
+    protected function deleteTests(): void
     {
         $this->setTestType($this->initTestTypeFromQuery());
         $this->ctrl->setParameter($this, 'tt', $this->getTestType());
@@ -735,7 +737,7 @@ class ilLOEditorGUI
         $this->ctrl->redirect($this, 'testsOverview');
     }
 
-    protected function deleteTest() : void
+    protected function deleteTest(): void
     {
         $this->setTestType($this->initTestTypeFromQuery());
         $this->ctrl->setParameter($this, 'tt', $this->getTestType());
@@ -787,7 +789,7 @@ class ilLOEditorGUI
         $this->ctrl->redirect($this, 'testOverview');
     }
 
-    protected function testAssignment(ilPropertyFormGUI $form = null) : void
+    protected function testAssignment(ilPropertyFormGUI $form = null): void
     {
         $this->setTestType($this->initTestTypeFromQuery());
         $this->ctrl->setParameter($this, 'tt', $this->getTestType());
@@ -814,7 +816,7 @@ class ilLOEditorGUI
         );
     }
 
-    protected function testSettings(ilPropertyFormGUI $form = null) : void
+    protected function testSettings(ilPropertyFormGUI $form = null): void
     {
         $this->ctrl->setParameter($this, 'tt', $this->initTestTypeFromQuery());
         switch ($this->getTestType()) {
@@ -840,7 +842,7 @@ class ilLOEditorGUI
         );
     }
 
-    protected function applySettingsTemplate(ilObjTest $tst) : bool
+    protected function applySettingsTemplate(ilObjTest $tst): bool
     {
         $tpl_id = 0;
         foreach (ilSettingsTemplate::getAllSettingsTemplates('tst', true) as $nr => $template) {
@@ -875,13 +877,13 @@ class ilLOEditorGUI
         return true;
     }
 
-    protected function updateStartObjects() : void
+    protected function updateStartObjects(): void
     {
         $start = new ilContainerStartObjects(0, $this->getParentObject()->getId());
         $this->getSettings()->updateStartObjects($start);
     }
 
-    protected function saveMultiTestAssignment() : void
+    protected function saveMultiTestAssignment(): void
     {
         $this->ctrl->setParameter($this, 'tt', $this->initTestTypeFromQuery());
         $this->setTestType($this->initTestTypeFromQuery());
@@ -946,7 +948,7 @@ class ilLOEditorGUI
         $this->testAssignment($form);
     }
 
-    protected function updateMaterialAssignments(ilObjTest $test) : void
+    protected function updateMaterialAssignments(ilObjTest $test): void
     {
         foreach (ilCourseObjective::_getObjectiveIds($this->getParentObject()->getId()) as $objective_id) {
             $materials = new ilCourseObjectiveMaterials($objective_id);
@@ -958,7 +960,7 @@ class ilLOEditorGUI
         }
     }
 
-    protected function saveTest() : void
+    protected function saveTest(): void
     {
         $this->ctrl->setParameter($this, 'tt', $this->initTestTypeFromQuery());
         $this->setTestType($this->initTestTypeFromQuery());
@@ -1023,7 +1025,7 @@ class ilLOEditorGUI
         $this->testSettings($form);
     }
 
-    protected function listObjectives() : void
+    protected function listObjectives(): void
     {
         ilSession::set('objective_mode', ilCourseObjectivesGUI::MODE_UNDEFINED);
         $this->tabs->activateSubTab('objectives');
@@ -1051,7 +1053,7 @@ class ilLOEditorGUI
         $this->showStatus(ilLOEditorStatus::SECTION_OBJECTIVES);
     }
 
-    protected function showObjectiveCreation(ilPropertyFormGUI $form = null) : void
+    protected function showObjectiveCreation(ilPropertyFormGUI $form = null): void
     {
         $this->tabs->activateSubTab('objectives');
         if (!$form instanceof ilPropertyFormGUI) {
@@ -1061,7 +1063,7 @@ class ilLOEditorGUI
         $this->showStatus(ilLOEditorStatus::SECTION_OBJECTIVES_NEW);
     }
 
-    protected function initSimpleObjectiveForm() : ilPropertyFormGUI
+    protected function initSimpleObjectiveForm(): ilPropertyFormGUI
     {
         $form = new ilPropertyFormGUI();
         $form->setTitle($this->lng->txt('crs_loc_form_create_objectives'));
@@ -1076,7 +1078,7 @@ class ilLOEditorGUI
         return $form;
     }
 
-    protected function saveObjectiveCreation() : void
+    protected function saveObjectiveCreation(): void
     {
         $form = $this->initSimpleObjectiveForm();
         if ($form->checkInput()) {
@@ -1096,7 +1098,7 @@ class ilLOEditorGUI
         $this->showObjectiveCreation($form);
     }
 
-    protected function saveSorting() : void
+    protected function saveSorting(): void
     {
         $post_position = $this->http->wrapper()->post()->retrieve(
             'position',
@@ -1114,7 +1116,7 @@ class ilLOEditorGUI
         $this->listObjectives();
     }
 
-    protected function askDeleteObjectives() : void
+    protected function askDeleteObjectives(): void
     {
         $this->tabs->activateSubTab('objectives');
 
@@ -1147,7 +1149,7 @@ class ilLOEditorGUI
         $this->showStatus(ilLOEditorStatus::SECTION_OBJECTIVES);
     }
 
-    protected function activateObjectives() : void
+    protected function activateObjectives(): void
     {
         $enabled = $this->initObjectiveIdsFromPost();
         $objectives = ilCourseObjective::_getObjectiveIds($this->getParentObject()->getId(), false);
@@ -1163,7 +1165,7 @@ class ilLOEditorGUI
         $this->ctrl->redirect($this, 'listObjectives');
     }
 
-    protected function deactivateObjectives() : void
+    protected function deactivateObjectives(): void
     {
         $disabled = $this->initObjectiveIdsFromPost();
         $objectives = ilCourseObjective::_getObjectiveIds($this->getParentObject()->getId(), false);
@@ -1179,7 +1181,7 @@ class ilLOEditorGUI
         $this->ctrl->redirect($this, 'listObjectives');
     }
 
-    protected function deleteObjectives() : void
+    protected function deleteObjectives(): void
     {
         $objective_ids = [];
         if ($this->http->wrapper()->post()->has('objective_ids')) {
@@ -1199,7 +1201,7 @@ class ilLOEditorGUI
         $this->ctrl->redirect($this, 'listObjectives');
     }
 
-    protected function showStatus(int $a_section) : void
+    protected function showStatus(int $a_section): void
     {
         $status = new ilLOEditorStatus($this->getParentObject());
         $status->setSection($a_section);
@@ -1207,7 +1209,7 @@ class ilLOEditorGUI
         $this->tpl->setRightContent($status->getHTML());
     }
 
-    protected function setTabs(string $a_section = '') : void
+    protected function setTabs(string $a_section = ''): void
     {
         // objective settings
         $this->tabs->addSubTab(

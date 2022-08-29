@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -39,27 +41,27 @@ class ilObjUserPasswordTest extends ilUserBaseTest
     protected vfs\vfsStreamDirectory  $testDirectory;
     protected string $testDirectoryUrl;
 
-    public function getTestDirectory() : vfs\vfsStreamDirectory
+    public function getTestDirectory(): vfs\vfsStreamDirectory
     {
         return $this->testDirectory;
     }
 
-    public function setTestDirectory(vfs\vfsStreamDirectory $testDirectory) : void
+    public function setTestDirectory(vfs\vfsStreamDirectory $testDirectory): void
     {
         $this->testDirectory = $testDirectory;
     }
 
-    public function getTestDirectoryUrl() : string
+    public function getTestDirectoryUrl(): string
     {
         return $this->testDirectoryUrl;
     }
 
-    public function setTestDirectoryUrl(string $testDirectoryUrl) : void
+    public function setTestDirectoryUrl(string $testDirectoryUrl): void
     {
         $this->testDirectoryUrl = $testDirectoryUrl;
     }
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         vfs\vfsStream::setup();
         $this->setTestDirectory(vfs\vfsStream::newDirectory('tests')->at(vfs\vfsStreamWrapper::getRoot()));
@@ -71,7 +73,7 @@ class ilObjUserPasswordTest extends ilUserBaseTest
     /**
      * @throws ilUserException
      */
-    public function testExceptionIsRaisedIfPasswordManagerIsCreatedWithoutEncoderInformation() : void
+    public function testExceptionIsRaisedIfPasswordManagerIsCreatedWithoutEncoderInformation(): void
     {
         $this->assertException(ilUserException::class);
         new ilUserPasswordManager(['data_directory' => $this->getTestDirectoryUrl()]);
@@ -80,7 +82,7 @@ class ilObjUserPasswordTest extends ilUserBaseTest
     /**
      * @throws ilUserException
      */
-    public function testExceptionIsRaisedIfPasswordManagerIsCreatedWithoutFactory() : void
+    public function testExceptionIsRaisedIfPasswordManagerIsCreatedWithoutFactory(): void
     {
         $this->assertException(ilUserException::class);
         new ilUserPasswordManager([
@@ -92,7 +94,7 @@ class ilObjUserPasswordTest extends ilUserBaseTest
     /**
      * @throws ilUserException
      */
-    public function testExceptionIsRaisedIfPasswordManagerIsCreatedWithoutValidFactory() : void
+    public function testExceptionIsRaisedIfPasswordManagerIsCreatedWithoutValidFactory(): void
     {
         $this->expectError();
 
@@ -111,7 +113,7 @@ class ilObjUserPasswordTest extends ilUserBaseTest
      * @throws ilUserException
      * @throws ReflectionException
      */
-    public function testInstanceCanBeCreated() : void
+    public function testInstanceCanBeCreated(): void
     {
         $factory_mock = $this->getMockBuilder(ilUserPasswordEncoderFactory::class)->disableOriginalConstructor()->getMock();
         $factory_mock->expects($this->exactly(2))->method('getSupportedEncoderNames')->will($this->onConsecutiveCalls(
@@ -141,7 +143,7 @@ class ilObjUserPasswordTest extends ilUserBaseTest
      * @throws ilUserException
      * @throws ReflectionException
      */
-    public function testPasswordManagerEncodesRawPasswordWithSalt() : void
+    public function testPasswordManagerEncodesRawPasswordWithSalt(): void
     {
         $user_mock = $this->getMockBuilder(ilObjUser::class)->disableOriginalConstructor()->getMock();
         $encoder = $this->getMockBuilder(ilBasePasswordEncoder::class)->disableOriginalConstructor()->getMock();
@@ -178,7 +180,7 @@ class ilObjUserPasswordTest extends ilUserBaseTest
      * @throws ilUserException
      * @throws ReflectionException
      */
-    public function testPasswordManagerEncodesRawPasswordWithoutSalt() : void
+    public function testPasswordManagerEncodesRawPasswordWithoutSalt(): void
     {
         $user_mock = $this->getMockBuilder(ilObjUser::class)->disableOriginalConstructor()->getMock();
         $encoder = $this->getMockBuilder(ilBasePasswordEncoder::class)->disableOriginalConstructor()->getMock();
@@ -214,7 +216,7 @@ class ilObjUserPasswordTest extends ilUserBaseTest
      * @throws ilUserException
      * @throws ReflectionException
      */
-    public function testPasswordManagerVerifiesPassword() : void
+    public function testPasswordManagerVerifiesPassword(): void
     {
         $user_mock = $this->getMockBuilder(ilObjUser::class)->disableOriginalConstructor()->getMock();
         $encoder = $this->getMockBuilder(ilBasePasswordEncoder::class)->disableOriginalConstructor()->getMock();
@@ -250,7 +252,7 @@ class ilObjUserPasswordTest extends ilUserBaseTest
      * @throws ilUserException
      * @throws ReflectionException
      */
-    public function testPasswordManagerMigratesPasswordOnVerificationWithVariantEncoders() : void
+    public function testPasswordManagerMigratesPasswordOnVerificationWithVariantEncoders(): void
     {
         $user_mock = $this->getMockBuilder(ilObjUser::class)->disableOriginalConstructor()->getMock();
         $encoder = $this->getMockBuilder(ilBasePasswordEncoder::class)->disableOriginalConstructor()->getMock();
@@ -289,7 +291,7 @@ class ilObjUserPasswordTest extends ilUserBaseTest
      * @throws ilUserException
      * @throws ReflectionException
      */
-    public function testPasswordManagerReencodesPasswordIfReencodingIsNecessary() : void
+    public function testPasswordManagerReencodesPasswordIfReencodingIsNecessary(): void
     {
         $user_mock = $this->getMockBuilder(ilObjUser::class)->disableOriginalConstructor()->getMock();
         $encoder = $this->getMockBuilder(ilBasePasswordEncoder::class)->disableOriginalConstructor()->getMock();
@@ -328,7 +330,7 @@ class ilObjUserPasswordTest extends ilUserBaseTest
      * @throws ilUserException
      * @throws ReflectionException
      */
-    public function testPasswordManagerNeverMigratesPasswordOnFailedVerificationWithVariantEncoders() : void
+    public function testPasswordManagerNeverMigratesPasswordOnFailedVerificationWithVariantEncoders(): void
     {
         $user_mock = $this->getMockBuilder(ilObjUser::class)->disableOriginalConstructor()->getMock();
         $encoder = $this->getMockBuilder(ilBasePasswordEncoder::class)->disableOriginalConstructor()->getMock();
@@ -362,7 +364,7 @@ class ilObjUserPasswordTest extends ilUserBaseTest
     /**
      * @throws ilPasswordException
      */
-    public function testFactoryCanBeCreated() : void
+    public function testFactoryCanBeCreated(): void
     {
         $factory = new ilUserPasswordEncoderFactory([
             'data_directory' => $this->getTestDirectoryUrl()
@@ -375,7 +377,7 @@ class ilObjUserPasswordTest extends ilUserBaseTest
      * @throws ilPasswordException
      * @throws ilUserException
      */
-    public function testGettersOfFactoryShouldReturnWhatWasSetBySetters() : void
+    public function testGettersOfFactoryShouldReturnWhatWasSetBySetters(): void
     {
         $factory = new ilUserPasswordEncoderFactory([
             'default_password_encoder' => 'md5',
@@ -420,7 +422,7 @@ class ilObjUserPasswordTest extends ilUserBaseTest
      * @throws ilPasswordException
      * @throws ilUserException
      */
-    public function testExceptionIsRaisedIfAnUnsupportedEncoderIsRequestedFromFactory() : void
+    public function testExceptionIsRaisedIfAnUnsupportedEncoderIsRequestedFromFactory(): void
     {
         $this->assertException(ilUserException::class);
         $factory = new ilUserPasswordEncoderFactory([
@@ -434,7 +436,7 @@ class ilObjUserPasswordTest extends ilUserBaseTest
      * @throws ilPasswordException
      * @throws ilUserException
      */
-    public function testFactoryRaisesAnExceptionIfAnUnsupportedEncoderIsRequestedAndNoDefaultEncoderWasSpecifiedInFallbackMode() : void
+    public function testFactoryRaisesAnExceptionIfAnUnsupportedEncoderIsRequestedAndNoDefaultEncoderWasSpecifiedInFallbackMode(): void
     {
         $this->assertException(ilUserException::class);
         $factory = new ilUserPasswordEncoderFactory([
@@ -447,7 +449,7 @@ class ilObjUserPasswordTest extends ilUserBaseTest
      * @throws ilPasswordException
      * @throws ilUserException
      */
-    public function testFactoryRaisesAnExceptionIfAnUnsupportedEncoderIsRequestedAndTheDefaultEncoderDoesNotMatchOneOfTheSupportedEncodersInFallbackMode() : void
+    public function testFactoryRaisesAnExceptionIfAnUnsupportedEncoderIsRequestedAndTheDefaultEncoderDoesNotMatchOneOfTheSupportedEncodersInFallbackMode(): void
     {
         $this->assertException(ilUserException::class);
         $factory = new ilUserPasswordEncoderFactory([
@@ -462,7 +464,7 @@ class ilObjUserPasswordTest extends ilUserBaseTest
      * @throws ilPasswordException
      * @throws ilUserException
      */
-    public function testFactoryReturnsTheDefaultEncoderIfAnUnsupportedEncoderIsRequestedAndASupportedDefaultEncoderWasSpecifiedInFallbackMode() : void
+    public function testFactoryReturnsTheDefaultEncoderIfAnUnsupportedEncoderIsRequestedAndASupportedDefaultEncoderWasSpecifiedInFallbackMode(): void
     {
         $encoder = $this->getMockBuilder(ilBasePasswordEncoder::class)->disableOriginalConstructor()->getMock();
         $encoder->expects($this->atLeastOnce())->method('getName')->willReturn('mockencoder');
@@ -480,7 +482,7 @@ class ilObjUserPasswordTest extends ilUserBaseTest
      * @throws ilPasswordException
      * @throws ReflectionException
      */
-    public function testFactoryReturnsCorrectEncoderIfAMatchingEncoderWasFound() : void
+    public function testFactoryReturnsCorrectEncoderIfAMatchingEncoderWasFound(): void
     {
         $encoder = $this->getMockBuilder(ilBasePasswordEncoder::class)->disableOriginalConstructor()->getMock();
         $encoder->expects($this->atLeastOnce())->method('getName')->willReturn('mockencoder');

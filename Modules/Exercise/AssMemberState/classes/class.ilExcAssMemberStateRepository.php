@@ -15,7 +15,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * This class determines assignment member state information
  * directly on the persistence layer. Thus its procedures are fast
@@ -35,7 +35,7 @@ class ilExcAssMemberStateRepository
             ? $DIC->database()
             : $db;
     }
-    
+
     /**
      * Get all assignments for a user where the user may hand in submissions
      *
@@ -45,7 +45,7 @@ class ilExcAssMemberStateRepository
     public function getSubmitableAssignmentIdsOfUser(
         array $exc_ids,
         int $user_id
-    ) : array {
+    ): array {
         $db = $this->db;
         $set = $db->queryF(
             'SELECT ass.id FROM exc_assignment ass LEFT JOIN exc_idl idl
@@ -75,7 +75,7 @@ class ilExcAssMemberStateRepository
      * @param int[] $exc_ids exercises the user is "tutor" of
      * @return int[]
      */
-    public function getAssignmentIdsWithGradingNeeded(array $exc_ids) : array
+    public function getAssignmentIdsWithGradingNeeded(array $exc_ids): array
     {
         $db = $this->db;
 
@@ -105,7 +105,7 @@ class ilExcAssMemberStateRepository
     public function getAssignmentIdsWithPeerFeedbackNeeded(
         array $exc_ids,
         int $user_id
-    ) : array {
+    ): array {
         $db = $this->db;
 
         // peer groups exist

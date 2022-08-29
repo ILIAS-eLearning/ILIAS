@@ -22,5 +22,5 @@ declare(strict_types=1);
  */
 abstract class ilSystemStyleLessItem
 {
-    abstract public function __toString() : string;
+    abstract public function __toString(): string;
 }

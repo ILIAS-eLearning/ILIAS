@@ -15,7 +15,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * Class ilBiblFileReaderFactory
  * @author Fabian Schmid <fs@studer-raimann.ch>
@@ -27,7 +27,7 @@ class ilBiblFileReaderFactory implements ilBiblFileReaderFactoryInterface
         ilBiblEntryFactoryInterface $entry_factory,
         ilBiblFieldFactoryInterface $field_factory,
         ilBiblAttributeFactoryInterface $attribute_factory
-    ) : ilBiblFileReaderInterface {
+    ): ilBiblFileReaderInterface {
         switch ($type) {
             case ilBiblTypeFactoryInterface::DATA_TYPE_BIBTEX:
                 return new ilBiblTexFileReader($entry_factory, $field_factory, $attribute_factory);

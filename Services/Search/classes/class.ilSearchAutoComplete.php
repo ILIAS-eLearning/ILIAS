@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 
@@ -7,7 +9,7 @@
 */
 class ilSearchAutoComplete
 {
-    public static function getLuceneList(string $a_str) : string
+    public static function getLuceneList(string $a_str): string
     {
         $qp = new ilLuceneQueryParser('title:' . $a_str . '*');
         $qp->parse();
@@ -15,14 +17,14 @@ class ilSearchAutoComplete
         $searcher = ilLuceneSearcher::getInstance($qp);
         $searcher->setType(ilLuceneSearcher::TYPE_STANDARD);
         $searcher->search();
-        
+
         $res = $searcher->getResult()->getCandidates();
-        
+
         $max_entries = ilSearchSettings::getInstance()->getAutoCompleteLength() ?
             ilSearchSettings::getInstance()->getAutoCompleteLength() :
             10;
-        
-        
+
+
         $list = array();
         $num_entries = 0;
         foreach ($res as $res_obj_id) {
@@ -34,7 +36,7 @@ class ilSearchAutoComplete
                 break;
             }
         }
-        
+
         $i = 0;
         $result = array();
         foreach ($list as $entry) {
@@ -45,10 +47,10 @@ class ilSearchAutoComplete
 
         return json_encode($result, JSON_THROW_ON_ERROR);
     }
-    
-    
 
-    public static function getList(string $a_str) : string
+
+
+    public static function getList(string $a_str): string
     {
         global $DIC;
 
@@ -57,12 +59,12 @@ class ilSearchAutoComplete
         if (ilSearchSettings::getInstance()->enabledLucene()) {
             return self::getLuceneList($a_str);
         }
-        
-        
+
+
         $a_str = str_replace('"', "", $a_str);
-        
+
         $settings = new ilSearchSettings();
-        
+
         $object_types = array('cat','dbk','crs','fold','frm','grp','lm','sahs','glo','mep','htlm','exc','file','qpl','tst','svy','spl',
             'chat', 'webr','mcst','sess','pg','st','gdf','wiki', 'copa');
 
@@ -72,7 +74,7 @@ class ilSearchAutoComplete
         $max = ($settings->getAutoCompleteLength() > 0)
             ? $settings->getAutoCompleteLength()
             : 10;
-        
+
         $cnt = 0;
         $list = array();
         $checked = array();
@@ -89,7 +91,7 @@ class ilSearchAutoComplete
                 $checked[] = $rec["obj_id"];
             }
         }
-        
+
         $set = $ilDB->query("SELECT rbac_id,obj_id,obj_type, keyword FROM il_meta_keyword WHERE "
             . $ilDB->like('keyword', 'text', $a_str . "%") . " AND "
             . $ilDB->in('obj_type', $object_types, false, 'text') . " ORDER BY keyword");
@@ -117,12 +119,12 @@ class ilSearchAutoComplete
         return json_encode($result, JSON_THROW_ON_ERROR);
     }
 
-    public static function checkObjectPermission(int $a_obj_id) : bool
+    public static function checkObjectPermission(int $a_obj_id): bool
     {
         global $DIC;
 
         $ilAccess = $DIC->access();
-        
+
         $refs = ilObject::_getAllReferences($a_obj_id);
         foreach ($refs as $ref) {
             if ($ilAccess->checkAccess("read", "", $ref)) {

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -40,4 +42,5 @@ interface ilContentPageObjectConstants
     public const UI_TAB_ID_LP = 'learning_progress';
     public const UI_TAB_ID_EXPORT = 'export';
     public const UI_TAB_ID_PERMISSIONS = 'perm_settings';
+    public const UI_TAB_ID_MD = 'meta_data';
 }

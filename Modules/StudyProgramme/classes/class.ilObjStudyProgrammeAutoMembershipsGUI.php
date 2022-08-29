@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -105,7 +107,7 @@ class ilObjStudyProgrammeAutoMembershipsGUI
         // some reason.
         $tpl->addJavaScript("Services/Form/js/Form.js");
     }
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         $cmd = $this->ctrl->getCmd();
         switch ($cmd) {
@@ -130,7 +132,7 @@ class ilObjStudyProgrammeAutoMembershipsGUI
         }
     }
 
-    protected function nextStep() : void
+    protected function nextStep(): void
     {
         $current_src_type = null;
         if ($this->request_wrapper->has(self::F_ORIGINAL_SOURCE_TYPE)) {
@@ -179,7 +181,7 @@ class ilObjStudyProgrammeAutoMembershipsGUI
     /**
      * Render.
      */
-    protected function view(bool $profile_not_public = false) : void
+    protected function view(bool $profile_not_public = false): void
     {
         if ($profile_not_public) {
             $this->tpl->setOnScreenMessage("info", $this->lng->txt('prg_profile_not_public'));
@@ -217,7 +219,7 @@ class ilObjStudyProgrammeAutoMembershipsGUI
         );
     }
 
-    protected function save() : void
+    protected function save(): void
     {
         $form = $this->getForm();
         $form->checkInput();
@@ -256,7 +258,7 @@ class ilObjStudyProgrammeAutoMembershipsGUI
         $this->ctrl->redirect($this, self::CMD_VIEW);
     }
 
-    protected function deleteConfirmation() : void
+    protected function deleteConfirmation(): void
     {
         $get = $this->request->getQueryParams();
         $post = $this->request->getParsedBody();
@@ -295,7 +297,7 @@ class ilObjStudyProgrammeAutoMembershipsGUI
         $this->tpl->setContent($this->ui_renderer->render($message_box));
     }
 
-    protected function delete() : void
+    protected function delete(): void
     {
         $field = self::CHECKBOX_SOURCE_IDS;
         $get = $this->request->getQueryParams();
@@ -325,7 +327,7 @@ class ilObjStudyProgrammeAutoMembershipsGUI
     /**
      * Enable single entry.
      */
-    protected function enable() : void
+    protected function enable(): void
     {
         $get = $this->request->getQueryParams();
         $field = self::CHECKBOX_SOURCE_IDS;
@@ -339,7 +341,7 @@ class ilObjStudyProgrammeAutoMembershipsGUI
     /**
      * Disable single entry.
      */
-    protected function disable() : void
+    protected function disable(): void
     {
         $get = $this->request->getQueryParams();
         $field = self::CHECKBOX_SOURCE_IDS;
@@ -353,7 +355,7 @@ class ilObjStudyProgrammeAutoMembershipsGUI
     /**
      * Set ref-id of StudyProgramme before using this GUI.
      */
-    public function setRefId(int $prg_ref_id) : void
+    public function setRefId(int $prg_ref_id): void
     {
         $this->prg_ref_id = $prg_ref_id;
     }
@@ -361,7 +363,7 @@ class ilObjStudyProgrammeAutoMembershipsGUI
     /**
      * Set this GUI's parent gui.
      */
-    public function setParentGUI(ilContainerGUI $a_parent_gui) : void
+    public function setParentGUI(ilContainerGUI $a_parent_gui): void
     {
         $this->parent_gui = $a_parent_gui;
     }
@@ -369,7 +371,7 @@ class ilObjStudyProgrammeAutoMembershipsGUI
     /**
      * Get current StudyProgramme-object.
      */
-    protected function getObject() : ilObjStudyProgramme
+    protected function getObject(): ilObjStudyProgramme
     {
         if ($this->object === null ||
             $this->object->getRefId() !== $this->prg_ref_id
@@ -379,7 +381,7 @@ class ilObjStudyProgrammeAutoMembershipsGUI
         return $this->object;
     }
 
-    protected function getModal(string $source_type = null, int $source_id = null) : RoundTrip
+    protected function getModal(string $source_type = null, int $source_id = null): RoundTrip
     {
         $this->ctrl->setParameter($this, self::F_ORIGINAL_SOURCE_TYPE, $source_type);
         $this->ctrl->setParameter($this, self::F_ORIGINAL_SOURCE_ID, $source_id);
@@ -395,7 +397,7 @@ class ilObjStudyProgrammeAutoMembershipsGUI
         );
     }
 
-    protected function getAsynchModalOutput() : void
+    protected function getAsynchModalOutput(): void
     {
         $current_src_type = null;
         if ($this->request_wrapper->has(self::F_ORIGINAL_SOURCE_TYPE)) {
@@ -467,7 +469,7 @@ class ilObjStudyProgrammeAutoMembershipsGUI
         exit;
     }
 
-    protected function getForm(string $source_type = null, int $source_id = null) : ilPropertyFormGUI
+    protected function getForm(string $source_type = null, int $source_id = null): ilPropertyFormGUI
     {
         $form = new ilPropertyFormGUI();
 
@@ -575,7 +577,7 @@ class ilObjStudyProgrammeAutoMembershipsGUI
         string $selected_source,
         string $source_type = null,
         int $source_id = null
-    ) : ilPropertyFormGUI {
+    ): ilPropertyFormGUI {
         $form = new ilPropertyFormGUI();
         $form->setFormAction($this->ctrl->getFormAction($this, "save"));
 
@@ -633,7 +635,7 @@ class ilObjStudyProgrammeAutoMembershipsGUI
     /**
      * Setup toolbar.
      */
-    protected function getToolbar(Signal $add_cat_signal) : void
+    protected function getToolbar(Signal $add_cat_signal): void
     {
         $btn = $this->ui_factory->button()->primary($this->txt('add_automembership_source'), '')
             ->withOnClick($add_cat_signal);
@@ -646,7 +648,7 @@ class ilObjStudyProgrammeAutoMembershipsGUI
         string $src_id,
         Signal $signal,
         bool $is_enabled
-    ) : Dropdown\Standard {
+    ): Dropdown\Standard {
         $items = [];
 
         $items[] = $this->ui_factory->button()->shy($this->txt('edit'), '')
@@ -676,7 +678,7 @@ class ilObjStudyProgrammeAutoMembershipsGUI
         return $this->ui_factory->dropdown()->standard($items);
     }
 
-    protected function getUserRepresentation(int $usr_id) : Link\Standard
+    protected function getUserRepresentation(int $usr_id): Link\Standard
     {
         $username = ilObjUser::_lookupName($usr_id);
         $editor = implode(' ', [
@@ -696,7 +698,7 @@ class ilObjStudyProgrammeAutoMembershipsGUI
 
     protected function getTitleRepresentation(
         ilStudyProgrammeAutoMembershipSource $ams
-    ) : Link\Standard {
+    ): Link\Standard {
         $src_id = $ams->getSourceId();
 
         switch ($ams->getSourceType()) {
@@ -715,7 +717,7 @@ class ilObjStudyProgrammeAutoMembershipsGUI
             case ilStudyProgrammeAutoMembershipSource::TYPE_GROUP:
                 $url = ilLink::_getStaticLink($src_id, 'grp');
                 $hops = array_map(
-                    static function (array $c) : string {
+                    static function (array $c): string {
                         return ilObject::_lookupTitle((int) $c["obj_id"]);
                     },
                     $this->tree->getPathFull($src_id)
@@ -726,7 +728,7 @@ class ilObjStudyProgrammeAutoMembershipsGUI
 
             case ilStudyProgrammeAutoMembershipSource::TYPE_ORGU:
                 $hops = array_map(
-                    static function (array $c) : string {
+                    static function (array $c): string {
                         return ilObject::_lookupTitle($c["obj_id"]);
                     },
                     $this->tree->getPathFull($src_id)
@@ -742,7 +744,7 @@ class ilObjStudyProgrammeAutoMembershipsGUI
         return $this->ui_factory->link()->standard($title, $url);
     }
 
-    protected function txt(string $code) : string
+    protected function txt(string $code): string
     {
         return $this->lng->txt($code);
     }

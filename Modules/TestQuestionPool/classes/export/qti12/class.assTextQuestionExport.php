@@ -1,7 +1,19 @@
 <?php
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-include_once "./Modules/TestQuestionPool/classes/export/qti12/class.assQuestionExport.php";
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
 * Class for essay question exports
@@ -18,19 +30,19 @@ class assTextQuestionExport extends assQuestionExport
      * @var assTextQuestion
      */
     public $object;
-    
+
     /**
     * Returns a QTI xml representation of the question
     * Returns a QTI xml representation of the question and sets the internal
     * domxml variable with the DOM XML representation of the QTI xml representation
     */
-    public function toXML($a_include_header = true, $a_include_binary = true, $a_shuffle = false, $test_output = false, $force_image_references = false) : string
+    public function toXML($a_include_header = true, $a_include_binary = true, $a_shuffle = false, $test_output = false, $force_image_references = false): string
     {
         global $DIC;
         $ilias = $DIC['ilias'];
-        
+
         include_once("./Services/Xml/classes/class.ilXmlWriter.php");
-        $a_xml_writer = new ilXmlWriter;
+        $a_xml_writer = new ilXmlWriter();
         // set xml header
         $a_xml_writer->xmlHeader();
         $a_xml_writer->xmlStartTag("questestinterop");
@@ -61,28 +73,28 @@ class assTextQuestionExport extends assQuestionExport
         $a_xml_writer->xmlElement("fieldlabel", null, "AUTHOR");
         $a_xml_writer->xmlElement("fieldentry", null, $this->object->getAuthor());
         $a_xml_writer->xmlEndTag("qtimetadatafield");
-        
+
         // additional content editing information
         $this->addAdditionalContentEditingModeInformation($a_xml_writer);
         $this->addGeneralMetadata($a_xml_writer);
-        
+
         $this->addQtiMetaDataField($a_xml_writer, 'wordcounter', (int) $this->object->isWordCounterEnabled());
-        
+
         $a_xml_writer->xmlStartTag("qtimetadatafield");
         $a_xml_writer->xmlElement("fieldlabel", null, "textrating");
         $a_xml_writer->xmlElement("fieldentry", null, $this->object->getTextRating());
         $a_xml_writer->xmlEndTag("qtimetadatafield");
-        
+
         /*
         $a_xml_writer->xmlStartTag("qtimetadatafield");
         $a_xml_writer->xmlElement("fieldlabel", NULL, "keywords");
         $a_xml_writer->xmlElement("fieldentry", NULL, $this->object->getKeywords());
         $a_xml_writer->xmlEndTag("qtimetadatafield");
         */
-        
+
         $a_xml_writer->xmlStartTag("qtimetadatafield");
         $a_xml_writer->xmlElement("fieldlabel", null, "matchcondition");
-        $a_xml_writer->xmlElement("fieldentry", null, $this->object->matchcondition);
+        $a_xml_writer->xmlElement("fieldentry", null, $this->object->getMatchcondition());
         $a_xml_writer->xmlEndTag("qtimetadatafield");
 
         $a_xml_writer->xmlStartTag("qtimetadatafield");
@@ -90,7 +102,7 @@ class assTextQuestionExport extends assQuestionExport
         $scores = base64_encode(serialize($this->object->getAnswers()));
         $a_xml_writer->xmlElement("fieldentry", null, $scores);
         $a_xml_writer->xmlEndTag("qtimetadatafield");
-        
+
         $a_xml_writer->xmlStartTag("qtimetadatafield");
         $a_xml_writer->xmlElement("fieldlabel", null, "termrelation");
         $a_xml_writer->xmlElement("fieldentry", null, $this->object->getKeywordRelation());
@@ -135,7 +147,7 @@ class assTextQuestionExport extends assQuestionExport
         $a_xml_writer->xmlEndTag("render_fib");
 
         $solution = $this->object->getSuggestedSolution(0);
-        if (count($solution)) {
+        if ($solution !== null && count($solution)) {
             if (preg_match("/il_(\d*?)_(\w+)_(\d+)/", $solution["internal_link"], $matches)) {
                 $a_xml_writer->xmlStartTag("material");
                 $intlink = "il_" . IL_INST_ID . "_" . $matches[2] . "_" . $matches[3];
@@ -222,7 +234,7 @@ class assTextQuestionExport extends assQuestionExport
                 $a_xml_writer->xmlEndTag("respcondition");
             }
         }
-        
+
         $a_xml_writer->xmlStartTag("respcondition");
         $a_xml_writer->xmlStartTag("conditionvar");
         $a_xml_writer->xmlElement("other", null, "tutor_rated");
@@ -231,7 +243,7 @@ class assTextQuestionExport extends assQuestionExport
         $a_xml_writer->xmlEndTag("resprocessing");
 
         $this->addAnswerSpecificFeedback($a_xml_writer, $this->object->feedbackOBJ->getAnswerOptionsByAnswerIndex());
-        
+
         if (strlen($feedback_allcorrect)) {
             $attrs = array(
                 "ident" => "response_allcorrect",
@@ -256,6 +268,8 @@ class assTextQuestionExport extends assQuestionExport
             $a_xml_writer->xmlEndTag("flow_mat");
             $a_xml_writer->xmlEndTag("itemfeedback");
         }
+
+        $a_xml_writer = $this->addSolutionHints($a_xml_writer);
 
         $a_xml_writer->xmlEndTag("item");
         $a_xml_writer->xmlEndTag("questestinterop");

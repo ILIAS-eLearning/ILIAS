@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -14,7 +16,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * Class ilRbacAdmin
  *  Core functions for role based access control.
@@ -44,7 +46,7 @@ class ilRbacAdmin
         $this->logger = $DIC->logger()->ac();
     }
 
-    public function setBlockedStatus(int $a_role_id, int $a_ref_id, bool $a_blocked_status) : void
+    public function setBlockedStatus(int $a_role_id, int $a_ref_id, bool $a_blocked_status): void
     {
         ilLoggerFactory::getLogger('crs')->logStack();
         $query = 'UPDATE rbac_fa set blocked = ' . $this->db->quote($a_blocked_status, 'integer') . ' ' .
@@ -57,7 +59,7 @@ class ilRbacAdmin
      * deletes a user from rbac_ua
      * all user <-> role relations are deleted
      */
-    public function removeUser(int $a_usr_id) : void
+    public function removeUser(int $a_usr_id): void
     {
         foreach ($this->rbacreview->assignedRoles($a_usr_id) as $role_id) {
             $this->deassignUser($role_id, $a_usr_id);
@@ -69,7 +71,7 @@ class ilRbacAdmin
     /**
      * Deletes a role and deletes entries in rbac_pa, rbac_templates, rbac_ua, rbac_fa
      */
-    public function deleteRole(int $a_rol_id, int $a_ref_id) : void
+    public function deleteRole(int $a_rol_id, int $a_ref_id): void
     {
         if ($a_rol_id == SYSTEM_ROLE_ID) {
             $this->logger->logStack(ilLogLevel::DEBUG);
@@ -99,7 +101,7 @@ class ilRbacAdmin
     /**
      * Deletes a template from role folder and deletes all entries in rbac_templates, rbac_fa
      */
-    public function deleteTemplate(int $a_obj_id) : void
+    public function deleteTemplate(int $a_obj_id): void
     {
         $query = 'DELETE FROM rbac_templates ' .
             'WHERE rol_id = ' . $this->db->quote($a_obj_id, 'integer');
@@ -113,12 +115,13 @@ class ilRbacAdmin
     /**
      * Deletes a local role and entries in rbac_fa and rbac_templates
      */
-    public function deleteLocalRole(int $a_rol_id, int $a_ref_id = 0) : void
+    public function deleteLocalRole(int $a_rol_id, int $a_ref_id = 0): void
     {
         // exclude system role from rbac
         if ($a_rol_id == SYSTEM_ROLE_ID) {
-            $this->logger->logStack(ilLogLevel::WARNING);
-            throw new DomainException('System administrator role is not deletable.');
+            $this->logger->logStack(ilLogLevel::NOTICE);
+            $this->logger->notice('System administrator role is not deletable.');
+            return;
         }
 
         $clause = '';
@@ -142,12 +145,12 @@ class ilRbacAdmin
         int $a_usr_id,
         int $a_limit,
         array $a_limited_roles = []
-    ) : void {
+    ): void {
         $ilDB = $this->db;
         $ilAtomQuery = $this->db->buildAtomQuery();
         $ilAtomQuery->addTableLock('rbac_ua');
         $ilAtomQuery->addQueryCallable(
-            function (ilDBInterface $ilDB) use (&$ret, $a_role_id, $a_usr_id, $a_limit, $a_limited_roles) : void {
+            function (ilDBInterface $ilDB) use (&$ret, $a_role_id, $a_usr_id, $a_limit, $a_limited_roles): void {
                 $ret = true;
                 $limit_query = 'SELECT COUNT(*) num FROM rbac_ua ' .
                     'WHERE ' . $ilDB->in('rol_id', (array) $a_limited_roles, false, 'integer');
@@ -179,7 +182,7 @@ class ilRbacAdmin
     /**
      * Assigns an user to a role. Update of table rbac_ua
      */
-    public function assignUser(int $a_rol_id, int $a_usr_id) : void
+    public function assignUser(int $a_rol_id, int $a_usr_id): void
     {
         // check if already assigned user id and role_id
         $alreadyAssigned = $this->rbacreview->isAssigned($a_usr_id, $a_rol_id);
@@ -221,7 +224,7 @@ class ilRbacAdmin
     /**
      * Deassigns a user from a role. Update of table rbac_ua
      */
-    public function deassignUser(int $a_rol_id, int $a_usr_id) : void
+    public function deassignUser(int $a_rol_id, int $a_usr_id): void
     {
         $query = "DELETE FROM rbac_ua " .
             "WHERE usr_id = " . $this->db->quote($a_usr_id, 'integer') . " " .
@@ -251,7 +254,7 @@ class ilRbacAdmin
     /**
      * Grants a permission to an object and a specific role. Update of table rbac_pa
      */
-    public function grantPermission(int $a_rol_id, array $a_ops, int $a_ref_id) : void
+    public function grantPermission(int $a_rol_id, array $a_ops, int $a_ref_id): void
     {
         // exclude system role from rbac
         if ($a_rol_id == SYSTEM_ROLE_ID) {
@@ -293,7 +296,7 @@ class ilRbacAdmin
      * Revokes all permission for all roles for that object (with this reference).
      * When a role_id is given this applies only to that role
      */
-    public function revokePermission(int $a_ref_id, int $a_rol_id = 0, bool $a_keep_protected = true) : void
+    public function revokePermission(int $a_ref_id, int $a_rol_id = 0, bool $a_keep_protected = true): void
     {
         if ($a_rol_id == SYSTEM_ROLE_ID) {
             $this->logger->logStack(ilLogLevel::DEBUG);
@@ -356,7 +359,7 @@ class ilRbacAdmin
     /**
      * Revoke subtree permissions
      */
-    public function revokeSubtreePermissions(int $a_ref_id, int $a_role_id) : void
+    public function revokeSubtreePermissions(int $a_ref_id, int $a_role_id): void
     {
         $query = 'DELETE FROM rbac_pa ' .
             'WHERE ref_id IN ' .
@@ -369,7 +372,7 @@ class ilRbacAdmin
     /**
      * Delete all template permissions of subtree nodes
      */
-    public function deleteSubtreeTemplates(int $a_ref_id, int $a_rol_id) : void
+    public function deleteSubtreeTemplates(int $a_ref_id, int $a_rol_id): void
     {
         $query = 'DELETE FROM rbac_templates ' .
             'WHERE parent IN ( ' .
@@ -389,7 +392,7 @@ class ilRbacAdmin
     /**
      * Revokes permissions of a LIST of objects of ONE role. Update of table rbac_pa.
      */
-    public function revokePermissionList(array $a_ref_ids, int $a_rol_id) : void
+    public function revokePermissionList(array $a_ref_ids, int $a_rol_id): void
     {
         // exclude system role from rbac
         if ($a_rol_id == SYSTEM_ROLE_ID) {
@@ -411,7 +414,7 @@ class ilRbacAdmin
         int $a_dest_parent,
         int $a_dest_id,
         bool $a_consider_protected = true
-    ) : void {
+    ): void {
         // Copy template permissions
         $this->copyRoleTemplatePermissions(
             $a_source_id,
@@ -436,7 +439,7 @@ class ilRbacAdmin
         int $a_dest_parent,
         int $a_dest_id,
         bool $a_consider_protected = true
-    ) : void {
+    ): void {
         // exclude system role from rbac
         if ($a_dest_id == SYSTEM_ROLE_ID) {
             $this->logger->logStack(ilLogLevel::DEBUG);
@@ -490,7 +493,7 @@ class ilRbacAdmin
         int $a_source2_parent,
         int $a_dest_parent,
         int $a_dest_id
-    ) : void {
+    ): void {
         // exclude system role from rbac
         if ($a_dest_id == SYSTEM_ROLE_ID) {
             $this->logger->logStack(ilLogLevel::DEBUG);
@@ -540,8 +543,7 @@ class ilRbacAdmin
         int $a_source2_parent,
         int $a_dest_id,
         int $a_dest_parent
-    ) : void {
-
+    ): void {
         // exclude system role from rbac
         if ($a_dest_id == SYSTEM_ROLE_ID) {
             $this->logger->logStack(ilLogLevel::DEBUG);
@@ -591,7 +593,7 @@ class ilRbacAdmin
         int $a_source_parent,
         int $a_dest_id,
         int $a_dest_parent
-    ) : void {
+    ): void {
         if ($a_dest_id == SYSTEM_ROLE_ID) {
             $this->logger->logStack(ilLogLevel::DEBUG);
             return;
@@ -622,7 +624,7 @@ class ilRbacAdmin
         int $a_rol_id,
         int $a_ref_id,
         ?string $a_type = null
-    ) : void {
+    ): void {
         if ($a_rol_id == SYSTEM_ROLE_ID) {
             $this->logger->logStack(ilLogLevel::DEBUG);
             return;
@@ -642,7 +644,7 @@ class ilRbacAdmin
      * Inserts template permissions in rbac_templates for an specific object type.
      *  Update of table rbac_templates
      */
-    public function setRolePermission(int $a_rol_id, string $a_type, array $a_ops, int $a_ref_id) : void
+    public function setRolePermission(int $a_rol_id, string $a_type, array $a_ops, int $a_ref_id): void
     {
         if ($a_rol_id == SYSTEM_ROLE_ID) {
             $this->logger->logStack();
@@ -673,7 +675,7 @@ class ilRbacAdmin
         int $a_rol_id,
         int $a_parent,
         string $a_assign = "y"
-    ) : void {
+    ): void {
         if ($a_rol_id == SYSTEM_ROLE_ID) {
             throw new DomainException('System administrator role is not writeable.');
         }
@@ -705,7 +707,7 @@ class ilRbacAdmin
      * Assign an existing operation to an object
      *  Update of rbac_ta.
      */
-    public function assignOperationToObject(int $a_type_id, int $a_ops_id) : void
+    public function assignOperationToObject(int $a_type_id, int $a_ops_id): void
     {
         $query = "INSERT INTO rbac_ta (typ_id, ops_id) " .
             "VALUES(" . $this->db->quote($a_type_id, 'integer') . "," . $this->db->quote($a_ops_id, 'integer') . ")";
@@ -716,7 +718,7 @@ class ilRbacAdmin
      * Deassign an existing operation from an object
      * Update of rbac_ta
      */
-    public function deassignOperationFromObject(int $a_type_id, int $a_ops_id) : void
+    public function deassignOperationFromObject(int $a_type_id, int $a_ops_id): void
     {
         $query = "DELETE FROM rbac_ta " .
             "WHERE typ_id = " . $this->db->quote($a_type_id, 'integer') . " " .
@@ -727,7 +729,7 @@ class ilRbacAdmin
     /**
      * Set protected
      */
-    public function setProtected(int $a_ref_id, int $a_role_id, string $a_value) : void
+    public function setProtected(int $a_ref_id, int $a_role_id, string $a_value): void
     {
         // ref_id not used yet. protected permission acts 'global' for each role,
         // regardless of any broken inheritance before
@@ -742,7 +744,7 @@ class ilRbacAdmin
      * This method creates a copy of all local role.
      * Note: auto generated roles are excluded
      */
-    public function copyLocalRoles(int $a_source_id, int $a_target_id) : void
+    public function copyLocalRoles(int $a_source_id, int $a_target_id): void
     {
         $real_local = [];
         foreach ($this->rbacreview->getRolesOfRoleFolder($a_source_id, false) as $role_data) {
@@ -777,7 +779,7 @@ class ilRbacAdmin
         int $a_role_parent,
         int $a_template_id,
         int $a_template_parent
-    ) : void {
+    ): void {
         if ($this->rbacreview->isProtected($a_role_parent, $a_role_id)) {
             // Assign object permissions
             $new_ops = $this->rbacreview->getOperationsOfRole(
@@ -838,7 +840,7 @@ class ilRbacAdmin
      * @deprecated since version 5.1.0 will be removed with 5.4 and implemented using event handler
      * @todo       implement using event handler
      */
-    protected function applyMovedObjectDidacticTemplates(int $a_ref_id, int $a_old_parent) : void
+    protected function applyMovedObjectDidacticTemplates(int $a_ref_id, int $a_old_parent): void
     {
         $tpl_id = ilDidacticTemplateObjSettings::lookupTemplateId($a_ref_id);
         if (!$tpl_id) {
@@ -859,7 +861,7 @@ class ilRbacAdmin
      * - Delete role templates of parent roles that do not exist in new context
      * - Add permissions for parent roles that did not exist in old context
      */
-    public function adjustMovedObjectPermissions(int $a_ref_id, int $a_old_parent) : void
+    public function adjustMovedObjectPermissions(int $a_ref_id, int $a_old_parent): void
     {
         global $DIC;
 
@@ -952,7 +954,6 @@ class ilRbacAdmin
                             $node_id
                         );
                         break;
-
                 }
             }
 

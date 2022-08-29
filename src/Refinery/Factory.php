@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -40,7 +42,7 @@ class Factory
      * Combined validations and transformations for primitive data types that
      * establish a baseline for further constraints and more complex transformations
      */
-    public function to() : To\Group
+    public function to(): To\Group
     {
         return new To\Group($this->dataFactory);
     }
@@ -54,7 +56,7 @@ class Factory
      * reasonably liberal when interpreting data. Look into the various transformations
      * in the group for detailed information what works exactly.
      */
-    public function kindlyTo() : KindlyTo\Group
+    public function kindlyTo(): KindlyTo\Group
     {
         return new KindlyTo\Group($this->dataFactory);
     }
@@ -64,7 +66,7 @@ class Factory
      * can be used to execute other transformation objects in a desired
      * order.
      */
-    public function in() : In\Group
+    public function in(): In\Group
     {
         return new In\Group();
     }
@@ -73,7 +75,7 @@ class Factory
      * Contains constraints and transformations on numbers. Each constraint
      * on an int will attempt to transform to int as well.
      */
-    public function int() : Integer\Group
+    public function int(): Integer\Group
     {
         return new Integer\Group($this->dataFactory, $this->language);
     }
@@ -81,7 +83,7 @@ class Factory
     /**
      * Contains constraints for string
      */
-    public function string() : String\Group
+    public function string(): String\Group
     {
         return new String\Group($this->dataFactory, $this->language);
     }
@@ -89,7 +91,7 @@ class Factory
     /**
      * Contains constraints and transformations for custom functions.
      */
-    public function custom() : Custom\Group
+    public function custom(): Custom\Group
     {
         return new Custom\Group($this->dataFactory, $this->language);
     }
@@ -97,7 +99,7 @@ class Factory
     /**
      * Contains constraints for container types (e.g. arrays)
      */
-    public function container() : Container\Group
+    public function container(): Container\Group
     {
         return new Container\Group($this->dataFactory);
     }
@@ -105,7 +107,7 @@ class Factory
     /**
      * Contains constraints for password strings
      */
-    public function password() : Password\Group
+    public function password(): Password\Group
     {
         return new Password\Group($this->dataFactory, $this->language);
     }
@@ -113,7 +115,7 @@ class Factory
     /**
      * Contains constraints for logical compositions with other constraints
      */
-    public function logical() : Logical\Group
+    public function logical(): Logical\Group
     {
         return new Logical\Group($this->dataFactory, $this->language);
     }
@@ -121,7 +123,7 @@ class Factory
     /**
      * Contains constraints for null types
      */
-    public function null() : Constraint
+    public function null(): Constraint
     {
         return new IsNull($this->dataFactory, $this->language);
     }
@@ -129,7 +131,7 @@ class Factory
     /**
      * Contains constraints for numeric data types
      */
-    public function numeric() : Numeric\Group
+    public function numeric(): Numeric\Group
     {
         return new Numeric\Group($this->dataFactory, $this->language);
     }
@@ -137,7 +139,7 @@ class Factory
     /**
      * Contains transformations for DateTime
      */
-    public function dateTime() : DateTime\Group
+    public function dateTime(): DateTime\Group
     {
         return new DateTime\Group();
     }
@@ -145,7 +147,7 @@ class Factory
     /**
      * Contains transformations for Data\URI
      */
-    public function uri() : URI\Group
+    public function uri(): URI\Group
     {
         return new URI\Group();
     }
@@ -154,22 +156,22 @@ class Factory
      * Accepts Transformations and uses first successful one.
      * @param Transformation[] $transformations
      */
-    public function byTrying(array $transformations) : ByTrying
+    public function byTrying(array $transformations): ByTrying
     {
         return new ByTrying($transformations, $this->dataFactory);
     }
 
-    public function random() : RandomGroup
+    public function random(): RandomGroup
     {
         return new RandomGroup();
     }
 
-    public function identity() : Transformation
+    public function identity(): Transformation
     {
         return new IdentityTransformation();
     }
 
-    public function always($value) : Transformation
+    public function always($value): Transformation
     {
         return new ConstantTransformation($value);
     }

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\Setup;
 
 interface AgentFinder
@@ -23,12 +25,12 @@ interface AgentFinder
     /**
      * Collect all agents from the system, core and plugin, bundled in a collection.
      */
-    public function getAgents() : AgentCollection;
+    public function getAgents(): AgentCollection;
 
     /**
      * Collect core agents from the system bundled in a collection.
      */
-    public function getCoreAgents() : AgentCollection;
+    public function getCoreAgents(): AgentCollection;
 
     /**
      * Get a agent from a specific plugin.
@@ -38,7 +40,7 @@ interface AgentFinder
      *
      * @param string $name of the plugin to get the agent from
      */
-    public function getPluginAgent(string $name) : Agent;
+    public function getPluginAgent(string $name): Agent;
 
     /**
      * Get an agent by class name.
@@ -49,10 +51,10 @@ interface AgentFinder
      * @return AgentCollection
      * @throws \InvalidArgumentException
      */
-    public function getAgentByClassName(string $class_name) : Agent;
+    public function getAgentByClassName(string $class_name): Agent;
 
     /**
      * Derive a name for the agent based on a class name.
      */
-    public function getAgentNameByClassName(string $class_name) : string;
+    public function getAgentNameByClassName(string $class_name): string;
 }

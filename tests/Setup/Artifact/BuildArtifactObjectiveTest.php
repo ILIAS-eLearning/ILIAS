@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\Tests\Setup\Artifact;
 
 use ILIAS\Setup;
@@ -29,7 +31,7 @@ class BuildArtifactObjectiveTest extends TestCase
     protected Artifact $artifact;
     protected Setup\Environment $env;
 
-    public function setUp() : void
+    public function setUp(): void
     {
         $this->o = $this
             ->getMockBuilder(Artifact\BuildArtifactObjective::class)
@@ -40,7 +42,7 @@ class BuildArtifactObjectiveTest extends TestCase
         $this->env = $this->createMock(Setup\Environment::class);
     }
 
-    public function testBuildInDefaultsToBuild() : void
+    public function testBuildInDefaultsToBuild(): void
     {
         $this->o = $this
             ->getMockBuilder(Artifact\BuildArtifactObjective::class)
@@ -56,12 +58,12 @@ class BuildArtifactObjectiveTest extends TestCase
         $this->assertSame($this->artifact, $this->o->buildIn($this->env));
     }
 
-    public function testGetPreconditions() : void
+    public function testGetPreconditions(): void
     {
         $this->assertEquals([], $this->o->getPreconditions($this->env));
     }
 
-    public function testGetHash() : void
+    public function testGetHash(): void
     {
         $path = "path/to/artifact";
 
@@ -74,7 +76,7 @@ class BuildArtifactObjectiveTest extends TestCase
         $this->assertIsString($this->o->getHash());
     }
 
-    public function testGetLabel() : void
+    public function testGetLabel(): void
     {
         $path = "path/to/artifact";
 
@@ -87,14 +89,14 @@ class BuildArtifactObjectiveTest extends TestCase
         $this->assertEquals("Build $path", $this->o->getLabel());
     }
 
-    public function testIsNotable() : void
+    public function testIsNotable(): void
     {
         $this->assertTrue($this->o->isNotable());
     }
 
-    const TEST_PATH = "BuildArtifactObjectiveTest_testAchive";
+    public const TEST_PATH = "BuildArtifactObjectiveTest_testAchive";
 
-    public function testAchieve() : void
+    public function testAchieve(): void
     {
         $path = self::TEST_PATH;
         $this->o
@@ -121,7 +123,7 @@ class BuildArtifactObjectiveTest extends TestCase
         $this->assertEquals($artifact, file_get_contents($path));
     }
 
-    public function tearDown() : void
+    public function tearDown(): void
     {
         if (file_exists(getcwd() . "/" . self::TEST_PATH)) {
             unlink(getcwd() . "/" . self::TEST_PATH);

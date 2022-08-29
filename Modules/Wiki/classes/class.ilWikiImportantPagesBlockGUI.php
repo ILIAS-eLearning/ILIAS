@@ -25,7 +25,7 @@ class ilWikiImportantPagesBlockGUI extends ilBlockGUI
 {
     public static string $block_type = "wikiimppages";
     protected bool $export = false;
-    
+
     public function __construct()
     {
         global $DIC;
@@ -34,22 +34,22 @@ class ilWikiImportantPagesBlockGUI extends ilBlockGUI
         $this->lng = $DIC->language();
         $this->access = $DIC->access();
         $lng = $DIC->language();
-        
+
         parent::__construct();
-        
+
         $lng->loadLanguageModule("wiki");
         $this->setEnableNumInfo(false);
-        
+
         $this->setTitle($lng->txt("wiki_navigation"));
         $this->allow_moving = false;
     }
 
-    public function getBlockType() : string
+    public function getBlockType(): string
     {
         return self::$block_type;
     }
 
-    protected function isRepositoryObject() : bool
+    protected function isRepositoryObject(): bool
     {
         return false;
     }
@@ -70,7 +70,7 @@ class ilWikiImportantPagesBlockGUI extends ilBlockGUI
         }
     }
 
-    public function getHTML(bool $a_export = false) : string
+    public function getHTML(bool $a_export = false): string
     {
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
@@ -83,11 +83,11 @@ class ilWikiImportantPagesBlockGUI extends ilBlockGUI
                 $lng->txt("edit")
             );
         }
-        
+
         return parent::getHTML();
     }
 
-    public function fillDataSection() : void
+    public function fillDataSection(): void
     {
         $this->setDataSection($this->getLegacyContent());
     }
@@ -99,16 +99,16 @@ class ilWikiImportantPagesBlockGUI extends ilBlockGUI
     protected bool $new_rendering = true;
 
 
-    protected function getLegacyContent() : string
+    protected function getLegacyContent(): string
     {
         $ilCtrl = $this->ctrl;
         $cpar[1] = 0;
-        
+
         $list = new ilNestedList();
         $list->setItemClass("ilWikiBlockItem");
         $list->setListClass("ilWikiBlockList");
         $list->setListClass("ilWikiBlockListNoIndent", 1);
-        
+
         $cnt = 1;
         $title = ilObjWiki::_lookupStartPage(ilObject::_lookupObjId($this->requested_ref_id));
         if (!$this->export) {
@@ -121,7 +121,7 @@ class ilWikiImportantPagesBlockGUI extends ilBlockGUI
                 "'>" . $title . "</a></p>", 1, 0);
         }
         $cpar[0] = 1;
-        
+
         $ipages = ilObjWiki::_lookupImportantPagesList(ilObject::_lookupObjId($this->requested_ref_id));
         foreach ($ipages as $p) {
             $cnt++;
@@ -137,7 +137,7 @@ class ilWikiImportantPagesBlockGUI extends ilBlockGUI
             }
             $cpar[$p["indent"]] = $cnt;
         }
-        
+
         return $list->getHTML();
     }
 }

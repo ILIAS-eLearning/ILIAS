@@ -64,7 +64,7 @@ class ilUploadDirFilesTableGUI extends ilTable2GUI
     /**
      * Get files
      */
-    public function getFiles(array $a_files) : array
+    public function getFiles(array $a_files): array
     {
         $files = array();
         foreach ($a_files as $f) {
@@ -83,7 +83,7 @@ class ilUploadDirFilesTableGUI extends ilTable2GUI
         return $files;
     }
 
-    protected function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set): void
     {
         $this->tpl->setVariable("TXT_FILE", $a_set);
         $this->tpl->setVariable("VAL_FILE", $a_set);

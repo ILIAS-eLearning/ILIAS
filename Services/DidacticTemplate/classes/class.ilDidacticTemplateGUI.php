@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -47,12 +49,12 @@ class ilDidacticTemplateGUI
         }
     }
 
-    public function getParentObject() : object
+    public function getParentObject(): object
     {
         return $this->parent_object;
     }
 
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         $next_class = $this->ctrl->getNextClass($this);
         $cmd = $this->ctrl->getCmd();
@@ -68,7 +70,7 @@ class ilDidacticTemplateGUI
         }
     }
 
-    public function appendToolbarSwitch(ilToolbarGUI $toolbar, string $a_obj_type, int $a_ref_id) : bool
+    public function appendToolbarSwitch(ilToolbarGUI $toolbar, string $a_obj_type, int $a_ref_id): bool
     {
         $tpls = ilDidacticTemplateSettings::getInstanceByObjectType($a_obj_type)->getTemplates();
         $value = ilDidacticTemplateObjSettings::lookupTemplateId($this->getParentObject()->getObject()->getRefId());
@@ -124,7 +126,7 @@ class ilDidacticTemplateGUI
     /**
      * Show didactic template switch confirmation screen
      */
-    protected function confirmTemplateSwitch() : void
+    protected function confirmTemplateSwitch(): void
     {
         // Check if template is changed
         $new_tpl_id = $this->requested_template_id;
@@ -173,12 +175,12 @@ class ilDidacticTemplateGUI
     /**
      * Return to parent gui
      */
-    protected function cancel() : void
+    protected function cancel(): void
     {
         $this->ctrl->returnToParent($this);
     }
 
-    protected function switchTemplate() : void
+    protected function switchTemplate(): void
     {
         $new_tpl_id = $this->requested_template_id;
         ilDidacticTemplateUtils::switchTemplate($this->getParentObject()->getObject()->getRefId(), $new_tpl_id);

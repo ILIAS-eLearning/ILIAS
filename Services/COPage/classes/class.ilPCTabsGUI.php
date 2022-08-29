@@ -43,8 +43,8 @@ class ilPCTabsGUI extends ilPageContentGUI
         $this->toolbar = $DIC->toolbar();
         parent::__construct($a_pg_obj, $a_content_obj, $a_hier_id, $a_pc_id);
     }
-    
-    public function executeCommand() : void
+
+    public function executeCommand(): void
     {
         // get next class that processes or forwards current command
         $next_class = $this->ctrl->getNextClass($this);
@@ -64,9 +64,9 @@ class ilPCTabsGUI extends ilPageContentGUI
      */
     public function insert(
         bool $a_omit_form_init = false
-    ) : void {
+    ): void {
         $tpl = $this->tpl;
-        
+
         $this->displayValidationError();
 
         if (!$a_omit_form_init) {
@@ -76,10 +76,10 @@ class ilPCTabsGUI extends ilPageContentGUI
         $tpl->setContent($html);
     }
 
-    public function editProperties($init_form = true) : void
+    public function editProperties($init_form = true): void
     {
         $tpl = $this->tpl;
-        
+
         $this->displayValidationError();
         $this->setTabs();
 
@@ -93,7 +93,7 @@ class ilPCTabsGUI extends ilPageContentGUI
 
     public function initForm(
         string $a_mode = "edit"
-    ) : void {
+    ): void {
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
 
@@ -107,7 +107,7 @@ class ilPCTabsGUI extends ilPageContentGUI
         } else {
             $this->form->setTitle($lng->txt("cont_edit_tabs"));
         }
-        
+
 
         // type selection
         $radg = new ilRadioGroupInputGUI($lng->txt("cont_type"), "type");
@@ -188,8 +188,8 @@ class ilPCTabsGUI extends ilPageContentGUI
 
         $radg->addOption($op3);
         $this->form->addItem($radg);
-        
-        
+
+
         // number of initial tabs
         if ($a_mode == "create") {
             $nr_prop = new ilSelectInputGUI(
@@ -201,12 +201,12 @@ class ilPCTabsGUI extends ilPageContentGUI
             $nr_prop->setOptions($nrs);
             $this->form->addItem($nr_prop);
         }
-        
+
         $ni = new ilNumberInputGUI($this->lng->txt("cont_tab_cont_width"), "content_width");
         $ni->setMaxLength(4);
         $ni->setSize(4);
         $this->form->addItem($ni);
-        
+
         $ni = new ilNumberInputGUI($this->lng->txt("cont_tab_cont_height"), "content_height");
         $ni->setMaxLength(4);
         $ni->setSize(4);
@@ -224,8 +224,8 @@ class ilPCTabsGUI extends ilPageContentGUI
         $si = new ilSelectInputGUI($this->lng->txt("cont_behavior"), "hbehavior");
         $si->setOptions($options);
         $op2->addSubItem($si);
-        
-        
+
+
         // alignment
         $align_opts = array("Left" => $lng->txt("cont_left"),
             "Right" => $lng->txt("cont_right"), "Center" => $lng->txt("cont_center"),
@@ -266,7 +266,7 @@ class ilPCTabsGUI extends ilPageContentGUI
         }
     }
 
-    public function getFormValues() : void
+    public function getFormValues(): void
     {
         $values["type"] = $this->content_obj->getTabType();
         $values["content_width"] = $this->content_obj->getContentWidth();
@@ -280,7 +280,7 @@ class ilPCTabsGUI extends ilPageContentGUI
         $values["rand_start"] = $this->content_obj->getRandomStart();
 
         $this->form->setValuesByArray($values);
-        
+
         if ($values["type"] == ilPCTabs::ACCORDION_VER) {
             $va = $this->form->getItemByPostVar("vaccord_templ");
             $v = "t:" .
@@ -304,10 +304,10 @@ class ilPCTabsGUI extends ilPageContentGUI
         }
     }
 
-    public function create() : void
+    public function create(): void
     {
         $lng = $this->lng;
-        
+
         $this->initForm("create");
         if ($this->form->checkInput()) {
             $this->content_obj = new ilPCTabs($this->getPage());
@@ -331,8 +331,8 @@ class ilPCTabsGUI extends ilPageContentGUI
             $this->insert(true);
         }
     }
-    
-    public function afterCreation() : void
+
+    public function afterCreation(): void
     {
         $ilCtrl = $this->ctrl;
 
@@ -346,7 +346,7 @@ class ilPCTabsGUI extends ilPageContentGUI
         $this->edit();
     }
 
-    public function setPropertiesByForm() : void
+    public function setPropertiesByForm(): void
     {
         $c = $this->content_obj;
         $f = $this->form;
@@ -380,7 +380,7 @@ class ilPCTabsGUI extends ilPageContentGUI
         }
     }
 
-    public function update() : void
+    public function update(): void
     {
         $this->initForm();
         $this->updated = false;
@@ -400,8 +400,8 @@ class ilPCTabsGUI extends ilPageContentGUI
             $this->editProperties(false);
         }
     }
-    
-    public function edit() : void
+
+    public function edit(): void
     {
         $tpl = $this->tpl;
         $ilTabs = $this->tabs;
@@ -421,11 +421,11 @@ class ilPCTabsGUI extends ilPageContentGUI
         $table_gui = new ilPCTabsTableGUI($this, "edit", $tabs);
         $tpl->setContent($table_gui->getHTML());
     }
-    
+
     /**
      * Save tabs properties in db and return to page edit screen
      */
-    public function saveTabs() : void
+    public function saveTabs(): void
     {
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
@@ -446,19 +446,19 @@ class ilPCTabsGUI extends ilPageContentGUI
     /**
      * Save tabs properties in db and return to page edit screen
      */
-    public function addTab() : void
+    public function addTab(): void
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
-        
+
         $this->content_obj->addTab($lng->txt("cont_new_tab"));
         $this->updated = $this->pg_obj->update();
 
         $this->tpl->setOnScreenMessage('success', $lng->txt("cont_added_tab"), true);
         $ilCtrl->redirect($this, "edit");
     }
-    
-    public function confirmTabsDeletion() : void
+
+    public function confirmTabsDeletion(): void
     {
         $ilCtrl = $this->ctrl;
         $tpl = $this->tpl;
@@ -476,7 +476,7 @@ class ilPCTabsGUI extends ilPageContentGUI
             $cgui->setHeaderText($lng->txt("cont_tabs_confirm_deletion"));
             $cgui->setCancel($lng->txt("cancel"), "cancelTabDeletion");
             $cgui->setConfirm($lng->txt("delete"), "deleteTabs");
-            
+
             foreach ($tids as $k => $i) {
                 $id = explode(":", $k);
                 $cgui->addItem(
@@ -485,18 +485,18 @@ class ilPCTabsGUI extends ilPageContentGUI
                     $this->content_obj->getCaption($id[0], $id[1])
                 );
             }
-            
+
             $tpl->setContent($cgui->getHTML());
         }
     }
-    
-    public function cancelTabDeletion() : void
+
+    public function cancelTabDeletion(): void
     {
         $ilCtrl = $this->ctrl;
         $ilCtrl->redirect($this, "edit");
     }
-    
-    public function deleteTabs() : void
+
+    public function deleteTabs(): void
     {
         $ilCtrl = $this->ctrl;
 
@@ -506,11 +506,11 @@ class ilPCTabsGUI extends ilPageContentGUI
             $this->content_obj->deleteTab($ids[0], $ids[1]);
         }
         $this->updated = $this->pg_obj->update();
-        
+
         $ilCtrl->redirect($this, "edit");
     }
-    
-    public function setTabs() : void
+
+    public function setTabs(): void
     {
         $ilTabs = $this->tabs;
         $ilCtrl = $this->ctrl;

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -56,7 +58,7 @@ class ilMailOptionsGUI
         $this->ctrl->saveParameter($this, 'mobj_id');
     }
 
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         if (!$this->settings->get('show_mail_settings', '0')) {
             $referrer = '';
@@ -72,24 +74,18 @@ class ilMailOptionsGUI
             $this->ctrl->redirectByClass(ilMailGUI::class);
         }
 
-        $nextClass = $this->ctrl->getNextClass($this);
-        switch ($nextClass) {
-            default:
-                if (!($cmd = $this->ctrl->getCmd())) {
-                    $cmd = 'showOptions';
-                }
-
-                $this->$cmd();
-                break;
+        if (!($cmd = $this->ctrl->getCmd())) {
+            $cmd = 'showOptions';
         }
+        $this->$cmd();
     }
 
-    public function setForm(ilMailOptionsFormGUI $form) : void
+    public function setForm(ilMailOptionsFormGUI $form): void
     {
         $this->form = $form;
     }
 
-    protected function getForm() : ilMailOptionsFormGUI
+    protected function getForm(): ilMailOptionsFormGUI
     {
         return $this->form ?? new ilMailOptionsFormGUI(
             new ilMailOptions($this->user->getId()),
@@ -98,7 +94,7 @@ class ilMailOptionsGUI
         );
     }
 
-    protected function saveOptions() : void
+    protected function saveOptions(): void
     {
         $this->tpl->setTitle($this->lng->txt('mail'));
 
@@ -111,7 +107,7 @@ class ilMailOptionsGUI
         $this->showOptions($form);
     }
 
-    protected function showOptions(ilMailOptionsFormGUI $form = null) : void
+    protected function showOptions(ilMailOptionsFormGUI $form = null): void
     {
         if (null === $form) {
             $form = $this->getForm();

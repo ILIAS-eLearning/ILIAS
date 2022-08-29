@@ -39,7 +39,7 @@ class ilObjNotificationSettingsGUI
         $this->settings = new ilObjNotificationSettings($this->obj_id);
     }
 
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         $ctrl = $this->ctrl;
 
@@ -54,7 +54,7 @@ class ilObjNotificationSettingsGUI
         }
     }
 
-    protected function show() : void
+    protected function show(): void
     {
         $tpl = $this->tpl;
 
@@ -62,7 +62,7 @@ class ilObjNotificationSettingsGUI
         $tpl->setContent($form->getHTML());
     }
 
-    protected function initForm() : ilPropertyFormGUI
+    protected function initForm(): ilPropertyFormGUI
     {
         $ctrl = $this->ctrl;
         $lng = $this->lng;
@@ -102,7 +102,7 @@ class ilObjNotificationSettingsGUI
         return $form;
     }
 
-    protected function save() : void
+    protected function save(): void
     {
         $ctrl = $this->ctrl;
 

@@ -185,7 +185,7 @@ $ilDB->modifyTableColumn(
             "notnull" => false,
             'fixed' => true
         )
-    );
+);
 ?>
 
 <#4190>
@@ -200,7 +200,7 @@ $ilDB->modifyTableColumn(
             "notnull" => true,
             'fixed' => true
         )
-    );
+);
 ?>
 
 <#4191>
@@ -490,7 +490,7 @@ if (!$ilDB->tableColumnExists('il_poll', 'show_comments')) {
                 "notnull" => false,
                 'fixed' => false
             )
-        );
+    );
 ?>
 <#4206>
 
@@ -505,7 +505,7 @@ if (!$ilDB->tableColumnExists('il_poll', 'show_comments')) {
                 "notnull" => true,
                 'fixed' => false
             )
-        );
+    );
 ?>
 <#4207>
 		<?php
@@ -2037,7 +2037,7 @@ if ($wiki_type_id) {
             "notnull" => true,
             'fixed' => false
         )
-    );
+);
 ?>
 <#4270>
 	<?php
@@ -2050,7 +2050,7 @@ if ($wiki_type_id) {
             "notnull" => true,
             'fixed' => false
         )
-    );
+);
 ?>
 <#4271>
 <?php
@@ -4137,7 +4137,7 @@ $ilCtrlStructureReader->getStructure();
     'tst_tests',
     array('forcejs' => array('integer', 1)),
     array('forcejs' => array('integer', 0))
-    );
+);
 ?>
 <#4388>
 <?php
@@ -5482,7 +5482,7 @@ if ($tgt_ops_id) {
                     " AND trigger_obj_id = " . $ilDB->quote(0, "integer") .
                     " AND tref_id = " . $ilDB->quote($rec["tref_id"], "integer") .
                     " AND self_eval = " . $ilDB->quote(1, "integer")
-                    );
+                );
             }
             $q = "INSERT INTO skl_user_skill_level " .
                 "(level_id, user_id, status_date, skill_id, trigger_ref_id, trigger_obj_id, trigger_title, tref_id, trigger_obj_type, self_eval, status, valid) VALUES (" .
@@ -5912,7 +5912,7 @@ if (!$ilDB->tableColumnExists('tst_tests', 'broken')) {
 $ilDB->manipulate(
     "UPDATE style_data SET " .
     " uptodate = " . $ilDB->quote(0, "integer")
-    );
+);
 ?>
 <#4480>
 <?php
@@ -9072,7 +9072,7 @@ if (!$ilDB->tableExists('itgr_data')) {
 $set = $ilDB->query(
     "SELECT * FROM object_data " .
     " WHERE type = " . $ilDB->quote("itgr", "text")
-    );
+);
 while ($rec = $ilDB->fetchAssoc($set)) {
     $ilDB->manipulate("INSERT INTO itgr_data " .
         "(id, hide_title) VALUES (" .
@@ -9113,7 +9113,7 @@ if (!$ilDB->tableColumnExists("content_object", "for_translation")) {
 $set = $ilDB->query(
     "SELECT * FROM mep_item JOIN mep_tree ON (mep_item.obj_id = mep_tree.child) " .
     " WHERE mep_item.type = " . $ilDB->quote("pg", "text")
-    );
+);
 while ($rec = $ilDB->fetchAssoc($set)) {
     $q = "UPDATE page_object SET " .
         " parent_id = " . $ilDB->quote($rec["mep_id"], "integer") .
@@ -11139,7 +11139,7 @@ if (!$ilDB->tableExists('prg_usr_progress')) {
 $ilDB->addUniqueConstraint(
     ilStudyProgrammeProgress::returnDbTableName(),
     array("assignment_id", "prg_id", "usr_id")
-                          );
+);
 
 // ActiveRecord seems to not interpret con_is_null correctly, so we have to set
 // it manually.
@@ -11149,14 +11149,14 @@ $ilDB->modifyTableColumn(
     array( "notnull" => false
                                , "default" => null
                                )
-                        );
+);
 $ilDB->modifyTableColumn(
     ilStudyProgrammeProgress::returnDbTableName(),
     "last_change_by",
     array( "notnull" => false
                                , "default" => null
                                )
-                        );
+);
 
 require_once("./Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php");
 $obj_type_id = ilDBUpdateNewObjectType::addNewType("prg", "StudyProgramme");
@@ -11312,7 +11312,7 @@ if (!$ilDB->tableColumnExists("obj_members", "admin")) {
                     'notnull' => false,
                     'default' => 0
         )
-        );
+    );
 }
 if (!$ilDB->tableColumnExists("obj_members", "tutor")) {
     $ilDB->addTableColumn(
@@ -11324,7 +11324,7 @@ if (!$ilDB->tableColumnExists("obj_members", "tutor")) {
                     'notnull' => false,
                     'default' => 0
         )
-        );
+    );
 }
 if (!$ilDB->tableColumnExists("obj_members", "member")) {
     $ilDB->addTableColumn(
@@ -11336,7 +11336,7 @@ if (!$ilDB->tableColumnExists("obj_members", "member")) {
                     'notnull' => false,
                     'default' => 0
         )
-        );
+    );
 }
 ?>
 <#4750>
@@ -12382,7 +12382,7 @@ if (!$ilDB->tableColumnExists('adl_shared_data', 'cp_node_id')) {
     $dataRes = $ilDB->query(
         "select cp_datamap.cp_node_id, cp_datamap.slm_id, cp_datamap.target_id from cp_datamap, adl_shared_data "
         . "WHERE cp_datamap.slm_id = adl_shared_data.slm_id AND cp_datamap.target_id = adl_shared_data.target_id"
-        );
+    );
     while ($row = $ilDB->fetchAssoc($dataRes)) {
         $ilDB->manipulateF(
             "UPDATE adl_shared_data SET cp_node_id = %s WHERE slm_id = %s AND target_id = %s",
@@ -13970,14 +13970,14 @@ if ($ilDB->tableExists('mob_parameter_tmp')) {
 		WHERE
 		med_item_id = " . $ilDB->quote($row['med_item_id'], 'integer') . " AND
 		name = " . $ilDB->quote($row['name'], 'text')
-    );
+        );
         $data = $ilDB->fetchAssoc($res_data);
 
         $ilDB->manipulate(
             "DELETE FROM mob_parameter WHERE" .
                       " med_item_id = " . $ilDB->quote($row['med_item_id'], 'integer') .
                       " AND name = " . $ilDB->quote($row['name'], 'integer')
-    );
+        );
 
         $ilDB->manipulate("INSERT INTO mob_parameter (med_item_id, name, value) " .
                       "VALUES ( " .
@@ -13990,7 +13990,7 @@ if ($ilDB->tableExists('mob_parameter_tmp')) {
             "DELETE FROM mob_parameter_tmp WHERE" .
                       " med_item_id = " . $ilDB->quote($row['med_item_id'], 'integer') .
                       " AND name = " . $ilDB->quote($row['name'], 'text')
-    );
+        );
     }
 }
 ?>
@@ -15773,7 +15773,7 @@ if (!$ilDB->tableColumnExists('badge_badge', 'image')) {
             'type' => 'text',
             'length' => 255,
             'notnull' => false)
-        );
+    );
 }
 
 ?>
@@ -15848,7 +15848,7 @@ if (!$ilDB->tableColumnExists('badge_badge', 'valid')) {
             'type' => 'text',
             'length' => 255,
             'notnull' => false)
-        );
+    );
 }
 
 ?>
@@ -15891,7 +15891,7 @@ if (!$ilDB->tableColumnExists('object_data_del', 'type')) {
             'length' => 4,
             'fixed' => true,
             'notnull' => false)
-        );
+    );
 }
 
 ?>
@@ -15977,7 +15977,7 @@ if (count($dublicates)) {
                         . $ilDB->quote($first['lft'], 'integer') . ', '
                         . $ilDB->quote($first['rgt'], 'integer') . ', '
                         . $ilDB->quote($first['depth'], 'integer') . ')'
-                    );
+        );
     }
 }
 
@@ -17896,7 +17896,7 @@ if ($ilDB->tableColumnExists('frm_posts', 'pos_activation_date')) {
 		UPDATE frm_posts SET pos_activation_date = pos_date
 		WHERE pos_status = ' . $ilDB->quote(1, 'integer')
         . ' AND pos_activation_date is NULL'
-        );
+    );
 }
 ?>
 <#5082>
@@ -19014,7 +19014,7 @@ if (!$ilDB->tableColumnExists('itgr_data', 'behaviour')) {
         'renderer' => array('text', 'TCPDF'),
         'path' => array('text', 'Services/PDFGeneration/classes/renderer/tcpdf/class.ilTCPDFRenderer.php')
         )
-    );
+);
 ?>
 <#5134>
 <?php
@@ -19025,7 +19025,7 @@ if (!$ilDB->tableColumnExists('itgr_data', 'behaviour')) {
         'renderer' => array('text','PhantomJS'),
         'path' => array('text','Services/PDFGeneration/classes/renderer/phantomjs/class.ilPhantomJSRenderer.php')
         )
-    );
+);
 ?>
 <#5135>
 <?php
@@ -19037,7 +19037,7 @@ if (!$ilDB->tableColumnExists('itgr_data', 'behaviour')) {
         'purpose' => array('text', 'PrintViewOfQuestions'),
         'renderer' => array('text', 'PhantomJS')
         )
-    );
+);
 ?>
 <#5136>
 <?php
@@ -19049,7 +19049,7 @@ if (!$ilDB->tableColumnExists('itgr_data', 'behaviour')) {
             'purpose' => array('text', 'UserResult'),
             'renderer' => array('text', 'PhantomJS')
         )
-    );
+);
 ?>
 <#5137>
 <?php
@@ -19061,7 +19061,7 @@ if (!$ilDB->tableColumnExists('itgr_data', 'behaviour')) {
             'purpose' => array('text', 'PrintViewOfQuestions'),
             'renderer' => array('text', 'TCPDF')
         )
-    );
+);
 ?>
 <#5138>
 <?php
@@ -19865,7 +19865,7 @@ $ilDB->modifyTableColumn(
     array(
             "length" => 127
         )
-    );
+);
     ilOrgUnitOperation::resetDB();
     ilOrgUnitOperationQueries::registerNewOperationForMultipleContexts(ilOrgUnitOperation::OP_READ_LEARNING_PROGRESS, 'Read the learning Progress of a User', array(
         ilOrgUnitOperationContext::CONTEXT_CRS,
@@ -20849,7 +20849,7 @@ $ilDB->modifyTableColumn(
             "length" => 4,
             "notnull" => true
         )
-    );
+);
 ?>
 <#5240>
 <?php
@@ -20861,7 +20861,7 @@ $ilDB->modifyTableColumn(
             "length" => 4,
             "notnull" => true
         )
-    );
+);
 ?>
 <#5241>
 <?php
@@ -21080,7 +21080,7 @@ while ($res = $ilDB->fetchAssoc($set)) {
         $user_id,
         $position_id,
         $orgu_ref_id
-  )) {
+    )) {
         //$ilLog->write("User $user_id could not be assigned to position $position_id, in orgunit $orgu_ref_id . One of the ids might not actually exist in the db. Skipping.");
     }
 }

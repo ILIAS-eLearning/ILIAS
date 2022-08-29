@@ -39,7 +39,7 @@ class ilObjOrgUnitListGUI extends ilObjectListGUI
     /**
      * initialisation
      */
-    public function init() : void
+    public function init(): void
     {
         $this->static_link_enabled = true;
         $this->delete_enabled = true;
@@ -59,23 +59,21 @@ class ilObjOrgUnitListGUI extends ilObjectListGUI
     /**
      * no timing commands needed in orgunits.
      */
-    public function insertTimingsCommand() : void
+    public function insertTimingsCommand(): void
     {
-
     }
 
     /**
      * no social commands needed in orgunits.
      */
-    public function insertCommonSocialCommands(bool $a_header_actions = false) : void
+    public function insertCommonSocialCommands(bool $a_header_actions = false): void
     {
-
     }
 
     /**
      * insert info screen command
      */
-    public function insertInfoScreenCommand() : void
+    public function insertInfoScreenCommand(): void
     {
         if ($this->std_cmd_only) {
             return;
@@ -83,20 +81,23 @@ class ilObjOrgUnitListGUI extends ilObjectListGUI
         $cmd_link = $this->ctrl->getLinkTargetByClass("ilinfoscreengui", "showSummary");
         $cmd_frame = $this->getCommandFrame("infoScreen");
 
-        $this->insertCommand($cmd_link, $this->lng->txt("info_short"), $cmd_frame,
-            ilUtil::getImagePath("icon_info.svg"));
+        $this->insertCommand(
+            $cmd_link,
+            $this->lng->txt("info_short"),
+            $cmd_frame,
+            ilUtil::getImagePath("icon_info.svg")
+        );
     }
 
-    public function getCommandLink(string $a_cmd) : string
+    public function getCommandLink(string $a_cmd): string
     {
         $this->ctrl->setParameterByClass("ilobjorgunitgui", "ref_id", $this->ref_id);
 
         return $this->ctrl->getLinkTargetByClass("ilobjorgunitgui", $a_cmd);
     }
 
-    public function insertIconsAndCheckboxes() : void
+    public function insertIconsAndCheckboxes(): void
     {
-
         // FSX removed $this->getCheckboxStatus() in if-Statement: 0014726
         if (!$this->settings->get('custom_icons')) {
             parent::insertIconsAndCheckboxes();
@@ -129,8 +130,10 @@ class ilObjOrgUnitListGUI extends ilObjectListGUI
 
             parent::insertIconsAndCheckboxes();
             $this->tpl->setCurrentBlock("icon");
-            $this->tpl->setVariable("ALT_ICON",
-                $this->lng->txt("icon") . " " . $this->lng->txt("obj_" . $this->getIconImageType()));
+            $this->tpl->setVariable(
+                "ALT_ICON",
+                $this->lng->txt("icon") . " " . $this->lng->txt("obj_" . $this->getIconImageType())
+            );
             $this->tpl->setVariable("SRC_ICON", $icon_file);
             $this->tpl->parseCurrentBlock();
             $this->enableIcon(true);

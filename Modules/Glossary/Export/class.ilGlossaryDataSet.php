@@ -42,17 +42,17 @@ class ilGlossaryDataSet extends ilDataSet
         parent::__construct();
     }
 
-    public function getSupportedVersions() : array
+    public function getSupportedVersions(): array
     {
         return array("5.1.0", "5.4.0");
     }
 
-    protected function getXmlNamespace(string $a_entity, string $a_schema_version) : string
+    protected function getXmlNamespace(string $a_entity, string $a_schema_version): string
     {
         return "https://www.ilias.de/xml/Modules/Glossary/" . $a_entity;
     }
-    
-    protected function getTypes(string $a_entity, string $a_version) : array
+
+    protected function getTypes(string $a_entity, string $a_version): array
     {
         if ($a_entity == "glo") {
             switch ($a_version) {
@@ -123,7 +123,7 @@ class ilGlossaryDataSet extends ilDataSet
         return [];
     }
 
-    public function readData(string $a_entity, string $a_version, array $a_ids) : void
+    public function readData(string $a_entity, string $a_version, array $a_ids): void
     {
         $ilDB = $this->db;
 
@@ -205,7 +205,7 @@ class ilGlossaryDataSet extends ilDataSet
             }
         }
     }
-    
+
     /**
      * Determine the dependent sets of data
      */
@@ -214,7 +214,7 @@ class ilGlossaryDataSet extends ilDataSet
         string $a_version,
         ?array $a_rec = null,
         ?array $a_ids = null
-    ) : array {
+    ): array {
         switch ($a_entity) {
             case "glo":
                 return array(
@@ -231,15 +231,15 @@ class ilGlossaryDataSet extends ilDataSet
 
         return [];
     }
-    
-    
+
+
     public function importRecord(
         string $a_entity,
         array $a_types,
         array $a_rec,
         ilImportMapping $a_mapping,
         string $a_schema_version
-    ) : void {
+    ): void {
         switch ($a_entity) {
             case "glo":
 
@@ -249,7 +249,7 @@ class ilGlossaryDataSet extends ilDataSet
                     $newObj = new ilObjGlossary();
                     $newObj->create(true);
                 }
-                    
+
                 $newObj->setTitle($a_rec["Title"]);
                 $newObj->setDescription($a_rec["Description"]);
                 $newObj->setVirtualMode($a_rec["Virtual"]);

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -22,14 +24,12 @@
  */
 class ilMailMimeSenderFactory
 {
-    protected ilSetting $settings;
     /** @var ilMailMimeSender[] */
     protected array $senders = [];
     protected int $anonymousUsrId = 0;
 
-    public function __construct(ilSetting $settings, int $anonymousUsrId = null)
+    public function __construct(protected ilSetting $settings, int $anonymousUsrId = null)
     {
-        $this->settings = $settings;
         if (null === $anonymousUsrId && defined('ANONYMOUS_USER_ID')) {
             $anonymousUsrId = ANONYMOUS_USER_ID;
         }
@@ -40,12 +40,12 @@ class ilMailMimeSenderFactory
         $this->anonymousUsrId = $anonymousUsrId;
     }
 
-    protected function isSystemMail(int $usrId) : bool
+    protected function isSystemMail(int $usrId): bool
     {
         return $usrId === $this->anonymousUsrId;
     }
 
-    public function getSenderByUsrId(int $usrId) : ilMailMimeSender
+    public function getSenderByUsrId(int $usrId): ilMailMimeSender
     {
         if (array_key_exists($usrId, $this->senders)) {
             return $this->senders[$usrId];
@@ -62,17 +62,17 @@ class ilMailMimeSenderFactory
         return $sender;
     }
 
-    public function system() : ilMailMimeSenderSystem
+    public function system(): ilMailMimeSenderSystem
     {
         return new ilMailMimeSenderSystem($this->settings);
     }
 
-    public function user(int $usrId) : ilMailMimeSenderUser
+    public function user(int $usrId): ilMailMimeSenderUser
     {
         return new ilMailMimeSenderUserById($this->settings, $usrId);
     }
 
-    public function userByEmailAddress(string $emailAddress) : ilMailMimeSenderUser
+    public function userByEmailAddress(string $emailAddress): ilMailMimeSenderUser
     {
         return new ilMailMimeSenderUserByEmailAddress($this->settings, $emailAddress);
     }

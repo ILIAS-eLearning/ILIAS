@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /* Copyright (c) 1998-2020 ILIAS open source, Extended GPL, see docs/LICENSE */
 
@@ -10,7 +12,7 @@ class ilTestPersonalSkillsGUITest extends ilTestBaseTestCase
 {
     private ilTestPersonalSkillsGUI $testObj;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -20,12 +22,12 @@ class ilTestPersonalSkillsGUITest extends ilTestBaseTestCase
         );
     }
 
-    public function test_instantiateObject_shouldReturnInstance() : void
+    public function test_instantiateObject_shouldReturnInstance(): void
     {
         $this->assertInstanceOf(ilTestPersonalSkillsGUI::class, $this->testObj);
     }
 
-    public function testAvailableSkills() : void
+    public function testAvailableSkills(): void
     {
         $expected = [
             "test123" => "test12",
@@ -35,13 +37,13 @@ class ilTestPersonalSkillsGUITest extends ilTestBaseTestCase
         $this->assertEquals($expected, $this->testObj->getAvailableSkills());
     }
 
-    public function testSelectedSkillProfile() : void
+    public function testSelectedSkillProfile(): void
     {
         $this->testObj->setSelectedSkillProfile("testString");
         $this->assertEquals("testString", $this->testObj->getSelectedSkillProfile());
     }
 
-    public function testReachedSkillLevels() : void
+    public function testReachedSkillLevels(): void
     {
         $expected = [
             "test123" => "test12",
@@ -51,7 +53,7 @@ class ilTestPersonalSkillsGUITest extends ilTestBaseTestCase
         $this->assertEquals($expected, $this->testObj->getReachedSkillLevels());
     }
 
-    public function testUsrId() : void
+    public function testUsrId(): void
     {
         $this->testObj->setUsrId(212);
         $this->assertEquals(212, $this->testObj->getUsrId());

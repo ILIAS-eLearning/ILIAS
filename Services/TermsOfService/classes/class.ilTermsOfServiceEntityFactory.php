@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -23,18 +25,13 @@
 class ilTermsOfServiceEntityFactory
 {
     /**
-     * @param string $name
-     * @return ilTermsOfServiceAcceptanceEntity
      * @throws InvalidArgumentException
      */
-    public function getByName(string $name) : ilTermsOfServiceAcceptanceEntity
+    public function getByName(string $name): ilTermsOfServiceAcceptanceEntity
     {
-        switch (strtolower($name)) {
-            case 'iltermsofserviceacceptanceentity':
-                return new ilTermsOfServiceAcceptanceEntity();
-
-            default:
-                throw new InvalidArgumentException('Entity not supported');
-        }
+        return match (strtolower($name)) {
+            'iltermsofserviceacceptanceentity' => new ilTermsOfServiceAcceptanceEntity(),
+            default => throw new InvalidArgumentException('Entity not supported'),
+        };
     }
 }

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Renderer\Hasher;
 
@@ -12,23 +14,23 @@ class ilMMSubItemGUI extends ilMMAbstractItemGUI
 {
     use Hasher;
 
-    const CMD_VIEW_SUB_ITEMS = 'subtab_subitems';
-    const CMD_ADD = 'subitem_add';
-    const CMD_CREATE = 'subitem_create';
-    const CMD_CONFIRM_MOVE = 'confirm_move';
-    const CMD_MOVE = 'move';
-    const CMD_DELETE = 'delete';
-    const CMD_CONFIRM_DELETE = 'subitem_confirm_delete';
-    const CMD_EDIT = 'subitem_edit';
-    const CMD_TRANSLATE = 'subitem_translate';
-    const CMD_UPDATE = 'subitem_update';
-    const CMD_SAVE_TABLE = 'save_table';
-    const CMD_APPLY_FILTER = 'applyFilter';
-    const CMD_RESET_FILTER = 'resetFilter';
-    const CMD_RENDER_INTERRUPTIVE = 'render_interruptive_modal';
-    const CMD_CANCEL = 'cancel';
+    public const CMD_VIEW_SUB_ITEMS = 'subtab_subitems';
+    public const CMD_ADD = 'subitem_add';
+    public const CMD_CREATE = 'subitem_create';
+    public const CMD_CONFIRM_MOVE = 'confirm_move';
+    public const CMD_MOVE = 'move';
+    public const CMD_DELETE = 'delete';
+    public const CMD_CONFIRM_DELETE = 'subitem_confirm_delete';
+    public const CMD_EDIT = 'subitem_edit';
+    public const CMD_TRANSLATE = 'subitem_translate';
+    public const CMD_UPDATE = 'subitem_update';
+    public const CMD_SAVE_TABLE = 'save_table';
+    public const CMD_APPLY_FILTER = 'applyFilter';
+    public const CMD_RESET_FILTER = 'resetFilter';
+    public const CMD_RENDER_INTERRUPTIVE = 'render_interruptive_modal';
+    public const CMD_CANCEL = 'cancel';
 
-    private function dispatchCommand(string $cmd) : string
+    private function dispatchCommand(string $cmd): string
     {
         global $DIC;
         switch ($cmd) {
@@ -95,7 +97,7 @@ class ilMMSubItemGUI extends ilMMAbstractItemGUI
         return "";
     }
 
-    private function saveTable() : void
+    private function saveTable(): void
     {
         global $DIC;
         $r = $DIC->http()->request()->getParsedBody();
@@ -110,7 +112,7 @@ class ilMMSubItemGUI extends ilMMAbstractItemGUI
         $this->cancel();
     }
 
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         $next_class = $this->ctrl->getNextClass();
 
@@ -137,7 +139,7 @@ class ilMMSubItemGUI extends ilMMAbstractItemGUI
      * @return string
      * @throws Throwable
      */
-    private function add($DIC) : string
+    private function add($DIC): string
     {
         $f = new ilMMSubitemFormGUI($DIC->ctrl(), $DIC->ui()->factory(), $DIC->ui()->renderer(), $this->lng, $this->repository->getItemFacade(), $this->repository);
 
@@ -149,7 +151,7 @@ class ilMMSubItemGUI extends ilMMAbstractItemGUI
      * @return string
      * @throws Throwable
      */
-    private function create($DIC) : string
+    private function create($DIC): string
     {
         $f = new ilMMSubitemFormGUI($DIC->ctrl(), $DIC->ui()->factory(), $DIC->ui()->renderer(), $this->lng, $this->repository->getItemFacade(), $this->repository);
         if ($f->save()) {
@@ -164,7 +166,7 @@ class ilMMSubItemGUI extends ilMMAbstractItemGUI
      * @return string
      * @throws Throwable
      */
-    private function edit($DIC) : string
+    private function edit($DIC): string
     {
         $f = new ilMMSubitemFormGUI($DIC->ctrl(), $DIC->ui()->factory(), $DIC->ui()->renderer(), $this->lng, $this->getMMItemFromRequest(), $this->repository);
 
@@ -176,7 +178,7 @@ class ilMMSubItemGUI extends ilMMAbstractItemGUI
      * @return string
      * @throws Throwable
      */
-    private function update($DIC) : string
+    private function update($DIC): string
     {
         $f = new ilMMSubitemFormGUI($DIC->ctrl(), $DIC->ui()->factory(), $DIC->ui()->renderer(), $this->lng, $this->getMMItemFromRequest(), $this->repository);
         if ($f->save()) {
@@ -186,7 +188,7 @@ class ilMMSubItemGUI extends ilMMAbstractItemGUI
         return $f->getHTML();
     }
 
-    private function applyFilter() : void
+    private function applyFilter(): void
     {
         $table = new ilMMSubItemTableGUI($this, $this->repository, $this->access);
         $table->writeFilterToSession();
@@ -194,7 +196,7 @@ class ilMMSubItemGUI extends ilMMAbstractItemGUI
         $this->cancel();
     }
 
-    private function resetFilter() : void
+    private function resetFilter(): void
     {
         $table = new ilMMSubItemTableGUI($this, $this->repository, $this->access);
         $table->resetFilter();
@@ -206,7 +208,7 @@ class ilMMSubItemGUI extends ilMMAbstractItemGUI
     /**
      * @return string
      */
-    private function index() : string
+    private function index(): string
     {
         // ADD NEW
         if ($this->access->hasUserPermissionTo('write')) {
@@ -224,7 +226,7 @@ class ilMMSubItemGUI extends ilMMAbstractItemGUI
         return $table->getHTML();
     }
 
-    private function delete() : void
+    private function delete(): void
     {
         $item = $this->getMMItemFromRequest();
         if ($item->isCustom()) {
@@ -235,7 +237,7 @@ class ilMMSubItemGUI extends ilMMAbstractItemGUI
         $this->cancel();
     }
 
-    private function cancel() : void
+    private function cancel(): void
     {
         $this->ctrl->redirectByClass(self::class, self::CMD_VIEW_SUB_ITEMS);
     }
@@ -244,7 +246,7 @@ class ilMMSubItemGUI extends ilMMAbstractItemGUI
      * @return string
      * @throws Throwable
      */
-    private function confirmDelete() : string
+    private function confirmDelete(): string
     {
         $this->ctrl->saveParameterByClass(self::class, self::IDENTIFIER);
         $i = $this->getMMItemFromRequest();
@@ -262,7 +264,7 @@ class ilMMSubItemGUI extends ilMMAbstractItemGUI
      * @return string
      * @throws Throwable
      */
-    private function confirmMove() : string
+    private function confirmMove(): string
     {
         $this->ctrl->saveParameterByClass(self::class, self::IDENTIFIER);
         $i = $this->getMMItemFromRequest();
@@ -276,7 +278,7 @@ class ilMMSubItemGUI extends ilMMAbstractItemGUI
         return $c->getHTML();
     }
 
-    private function move() : void
+    private function move(): void
     {
         $item = $this->getMMItemFromRequest();
         if ($item->isInterchangeable()) {

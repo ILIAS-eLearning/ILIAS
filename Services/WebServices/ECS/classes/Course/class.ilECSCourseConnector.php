@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /******************************************************************************
  *
@@ -26,7 +28,7 @@ class ilECSCourseConnector extends ilECSConnector
     public function getCourse($course_id, $a_details = false)
     {
         $this->path_postfix = '/campusconnect/courses/' . (int) $course_id;
-        
+
         if ($a_details && $course_id) {
             $this->path_postfix .= '/details';
         }
@@ -41,14 +43,14 @@ class ilECSCourseConnector extends ilECSConnector
             }
             $this->curl->setOpt(CURLOPT_HTTPHEADER, $this->getHeader());
             $res = $this->call();
-            
+
             if (strpos($res, 'http') === 0) {
                 $json = file_get_contents($res);
                 $ecs_result = new ilECSResult($json);
             } else {
                 $ecs_result = new ilECSResult($res);
             }
-            
+
             // Return ECSEContentDetails for details switch
             if ($a_details) {
                 $details = new ilECSEContentDetails();

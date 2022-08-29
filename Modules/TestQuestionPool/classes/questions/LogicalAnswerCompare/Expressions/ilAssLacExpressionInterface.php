@@ -9,13 +9,12 @@
 
 interface ilAssLacExpressionInterface
 {
-
     /**
      * Get the value of this Expression
      *
      * @return string
      */
-    public function getValue() : string;
+    public function getValue(): string;
 
     /**
      * Parses the delivered Value and sets the relevant information for an Expression as attributes

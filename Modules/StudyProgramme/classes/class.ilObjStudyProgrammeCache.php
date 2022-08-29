@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -35,7 +37,7 @@ class ilObjStudyProgrammeCache
         $this->instances = array();
     }
 
-    public static function singleton() : ilObjStudyProgrammeCache
+    public static function singleton(): ilObjStudyProgrammeCache
     {
         if (self::$instance === null) {
             self::$instance = new ilObjStudyProgrammeCache();
@@ -43,7 +45,7 @@ class ilObjStudyProgrammeCache
         return self::$instance;
     }
 
-    public function getInstanceByRefId(int $ref_id) : ilObjStudyProgramme
+    public function getInstanceByRefId(int $ref_id): ilObjStudyProgramme
     {
         // TODO: Maybe this should be done via obj_id instead of ref_id, since two
         // ref_ids could point to the same object, hence leading to two instances of
@@ -54,26 +56,26 @@ class ilObjStudyProgrammeCache
         }
         return $this->instances[$ref_id];
     }
-    
-    public function addInstance(ilObjStudyProgramme $prg) : void
+
+    public function addInstance(ilObjStudyProgramme $prg): void
     {
         if (!$prg->getRefId()) {
             throw new ilException("ilObjStudyProgrammeCache::addInstance: Can't add instance without ref_id.");
         }
         $this->instances[$prg->getRefId()] = $prg;
     }
-    
+
     /**
      * For testing purpose.
      *
      * TODO: Move to mock class in tests.
      */
-    public function test_clear() : void
+    public function test_clear(): void
     {
         $this->instances = array();
     }
 
-    public function test_isEmpty() : bool
+    public function test_isEmpty(): bool
     {
         return count($this->instances) === 0;
     }

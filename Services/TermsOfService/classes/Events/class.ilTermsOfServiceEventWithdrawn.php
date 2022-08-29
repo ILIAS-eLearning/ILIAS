@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -22,14 +24,11 @@
  */
 final class ilTermsOfServiceEventWithdrawn
 {
-    private ilObjUser $user;
-
-    public function __construct(ilObjUser $user)
+    public function __construct(private ilObjUser $user)
     {
-        $this->user = $user;
     }
 
-    public function getUser() : ilObjUser
+    public function getUser(): ilObjUser
     {
         return $this->user;
     }

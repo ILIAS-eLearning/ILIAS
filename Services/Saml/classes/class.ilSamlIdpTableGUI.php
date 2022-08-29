@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -20,20 +22,14 @@
  * Class ilSamlIdpTableGUI
  * @author Michael Jansen <mjansen@databay.de>
  */
-class ilSamlIdpTableGUI extends ilTable2GUI
+final class ilSamlIdpTableGUI extends ilTable2GUI
 {
-    private ILIAS\DI\Container $dic;
-    private bool $hasWriteAccess;
-
-    public function __construct(object $parent_gui, string $parent_cmd, bool $hasWriteAccess)
+    public function __construct(ilSamlSettingsGUI $parent_gui, string $parent_cmd, private bool $hasWriteAccess)
     {
         global $DIC;
 
-        $this->dic = $DIC;
-        $this->hasWriteAccess = $hasWriteAccess;
-
-        $f = $this->dic->ui()->factory();
-        $renderer = $this->dic->ui()->renderer();
+        $f = $DIC->ui()->factory();
+        $renderer = $DIC->ui()->renderer();
 
         $this->setId('saml_idp_list');
         parent::__construct($parent_gui, $parent_cmd);
@@ -61,7 +57,7 @@ class ilSamlIdpTableGUI extends ilTable2GUI
         $this->getItems();
     }
 
-    private function getItems() : void
+    private function getItems(): void
     {
         $idp_data = [];
 
@@ -72,7 +68,7 @@ class ilSamlIdpTableGUI extends ilTable2GUI
         $this->setData($idp_data);
     }
 
-    protected function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set): void
     {
         if ($a_set['is_active']) {
             $this->tpl->setVariable('IMAGE_OK', ilUtil::getImagePath('icon_ok.svg'));

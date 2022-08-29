@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -22,7 +24,7 @@
  */
 class ilTermsOfServiceWithdrawnMimeMail extends ilMimeMailNotification
 {
-    public function send() : void
+    public function send(): void
     {
         global $DIC;
 
@@ -35,7 +37,7 @@ class ilTermsOfServiceWithdrawnMimeMail extends ilMimeMailNotification
         foreach ($this->getRecipients() as $rcp) {
             try {
                 $this->handleCurrentRecipient($rcp);
-            } catch (ilMailException $e) {
+            } catch (ilMailException) {
                 continue;
             }
 

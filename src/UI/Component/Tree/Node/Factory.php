@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\UI\Component\Tree\Node;
 
 use ILIAS\Data\URI;
@@ -53,7 +55,7 @@ interface Factory
      * @param URI|null                                  $uri
      * @return \ILIAS\UI\Component\Tree\Node\Simple
      */
-    public function simple(string $label, Icon $icon = null, URI $uri = null) : Simple;
+    public function simple(string $label, Icon $icon = null, URI $uri = null): Simple;
 
     /**
      * ---

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\UI\Implementation\Component;
 
 use ILIAS\UI\Component as C;
@@ -70,7 +72,7 @@ trait Triggerer
      * ATTENTION: This mutates the original object and should only be used when there
      * is no other possibility.
      */
-    protected function setTriggeredSignal(C\Signal $signal, string $event) : void
+    protected function setTriggeredSignal(C\Signal $signal, string $event): void
     {
         $this->triggered_signals[$event] = array();
         $this->triggered_signals[$event][] = new TriggeredSignal($signal, $event);
@@ -79,7 +81,7 @@ trait Triggerer
     /**
      * @return TriggeredSignal[]
      */
-    public function getTriggeredSignals() : array
+    public function getTriggeredSignals(): array
     {
         return $this->flattenArray($this->triggered_signals);
     }
@@ -89,7 +91,7 @@ trait Triggerer
      *
      * @return C\Signal[]
      */
-    public function getTriggeredSignalsFor(string $event) : array
+    public function getTriggeredSignalsFor(string $event): array
     {
         if (!isset($this->triggered_signals[$event])) {
             return [];
@@ -100,7 +102,7 @@ trait Triggerer
         );
     }
 
-    public function withResetTriggeredSignals() : C\Triggerer
+    public function withResetTriggeredSignals(): C\Triggerer
     {
         $clone = clone $this;
         $clone->triggered_signals = array();
@@ -110,7 +112,7 @@ trait Triggerer
     /**
      * Flatten a multidimensional array to a single dimension
      */
-    private function flattenArray(array $array) : array
+    private function flattenArray(array $array): array
     {
         $flatten = array();
         array_walk_recursive($array, function ($a) use (&$flatten) {

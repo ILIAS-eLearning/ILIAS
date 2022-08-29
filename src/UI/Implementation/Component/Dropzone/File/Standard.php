@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\UI\Implementation\Component\Dropzone\File;
 
 use ILIAS\UI\Component\Dropzone\File\Standard as StandardInterface;
@@ -34,26 +36,26 @@ class Standard extends File implements StandardInterface
     protected string $message = "";
     protected ?Button $upload_button = null;
 
-    public function withMessage(string $message) : self
+    public function withMessage(string $message): self
     {
         $clone = clone $this;
         $clone->message = $message;
         return $clone;
     }
 
-    public function getMessage() : string
+    public function getMessage(): string
     {
         return $this->message;
     }
 
-    public function withUploadButton(Button $button) : self
+    public function withUploadButton(Button $button): self
     {
         $clone = clone $this;
         $clone->upload_button = $button;
         return $clone;
     }
 
-    public function getUploadButton() : ?Button
+    public function getUploadButton(): ?Button
     {
         return $this->upload_button;
     }

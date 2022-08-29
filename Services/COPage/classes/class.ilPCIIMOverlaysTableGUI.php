@@ -40,23 +40,23 @@ class ilPCIIMOverlaysTableGUI extends ilTable2GUI
         $lng = $DIC->language();
         $ilAccess = $DIC->access();
         $lng = $DIC->language();
-        
+
         parent::__construct($a_parent_obj, $a_parent_cmd);
         $this->mob = $a_mob;
         $this->setData($this->getOverlays());
         $this->setTitle($lng->txt("cont_overlay_images"));
-        
+
         $this->addColumn("", "", "1", true);
         $this->addColumn($this->lng->txt("thumbnail"), "", "20px");
         $this->addColumn($this->lng->txt("filename"));
-        
+
         $this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
         $this->setRowTemplate("tpl.iim_overlays_row.html", "Services/COPage");
 
         $this->addMultiCommand("confirmDeleteOverlays", $lng->txt("delete"));
     }
-    
-    public function getOverlays() : array
+
+    public function getOverlays(): array
     {
         $ov = array();
         $files = $this->mob->getFilesOfDirectory("overlays");
@@ -65,8 +65,8 @@ class ilPCIIMOverlaysTableGUI extends ilTable2GUI
         }
         return $ov;
     }
-    
-    protected function fillRow(array $a_set) : void
+
+    protected function fillRow(array $a_set): void
     {
         $lng = $this->lng;
 

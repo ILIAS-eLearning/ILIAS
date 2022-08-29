@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -47,7 +49,7 @@ class ImageFileRepo
     }
 
     // get image directory
-    protected function dir(int $style_id) : string
+    protected function dir(int $style_id): string
     {
         return str_replace("%id%", (string) $style_id, self::DIR_PATH);
     }
@@ -60,7 +62,7 @@ class ImageFileRepo
      */
     public function getImages(
         int $style_id
-    ) : Generator {
+    ): Generator {
         $dir = $this->dir($style_id);
         if ($this->web_files->hasDir($dir)) {
             foreach ($this->web_files->listContents($dir) as $meta) {
@@ -84,13 +86,13 @@ class ImageFileRepo
     }
 
     // get full web path for relative file path
-    public function getWebPath(string $path) : string
+    public function getWebPath(string $path): string
     {
         return ILIAS_WEB_DIR . "/" . CLIENT_ID . "/" . $path;
     }
 
     // get image data object by filename
-    public function getByFilename(int $style_id, string $filename) : ?Image
+    public function getByFilename(int $style_id, string $filename): ?Image
     {
         /** @var Image $i */
         foreach ($this->getImages($style_id) as $i) {
@@ -106,7 +108,7 @@ class ImageFileRepo
      * @throws Filesystem\Exception\IOException
      * @throws \ILIAS\FileUpload\Exception\IllegalStateException
      */
-    public function uploadImage(int $style_id) : void
+    public function uploadImage(int $style_id): void
     {
         $upload = $this->upload;
 
@@ -124,7 +126,7 @@ class ImageFileRepo
     }
 
     // delete image
-    public function deleteImageByFilename(int $style_id, string $filename) : void
+    public function deleteImageByFilename(int $style_id, string $filename): void
     {
         $dir = $this->dir($style_id);
         $this->web_files->delete($dir . "/" . $filename);

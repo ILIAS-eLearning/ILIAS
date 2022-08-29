@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\UI\Implementation\Component\ViewControl;
 
 use ILIAS\UI\Implementation\Render\AbstractComponentRenderer;
@@ -34,7 +36,7 @@ class Renderer extends AbstractComponentRenderer
 {
     public const MODE_ROLE = "group";
 
-    public function render(Component\Component $component, RendererInterface $default_renderer) : string
+    public function render(Component\Component $component, RendererInterface $default_renderer): string
     {
         $this->checkComponent($component);
 
@@ -53,7 +55,7 @@ class Renderer extends AbstractComponentRenderer
         throw new LogicException("Component '{$component->getCanonicalName()}' isn't supported by this renderer.");
     }
 
-    protected function renderMode(Component\ViewControl\Mode $component, RendererInterface $default_renderer) : string
+    protected function renderMode(Component\ViewControl\Mode $component, RendererInterface $default_renderer): string
     {
         $f = $this->getUIFactory();
 
@@ -92,7 +94,7 @@ class Renderer extends AbstractComponentRenderer
     protected function renderSection(
         Component\ViewControl\Section $component,
         RendererInterface $default_renderer
-    ) : string {
+    ): string {
         $tpl = $this->getTemplate("tpl.section.html", true, true);
 
         // render middle button
@@ -107,7 +109,7 @@ class Renderer extends AbstractComponentRenderer
         return $tpl->get();
     }
 
-    protected function renderSectionButton(Component\Button\Button $component, Template $tpl, string $type) : void
+    protected function renderSectionButton(Component\Button\Button $component, Template $tpl, string $type): void
     {
         $uptype = strtoupper($type);
 
@@ -130,7 +132,7 @@ class Renderer extends AbstractComponentRenderer
     protected function renderSortation(
         Component\ViewControl\Sortation $component,
         RendererInterface $default_renderer
-    ) : string {
+    ): string {
         $f = $this->getUIFactory();
 
         $tpl = $this->getTemplate("tpl.sortation.html", true, true);
@@ -158,7 +160,7 @@ class Renderer extends AbstractComponentRenderer
                 $shy = $f->button()->shy($label, $val)->withOnClick($internal_signal);
             } else {
                 $url = $component->getTargetURL() ?? '';
-                $url .= (strpos($url, '?') === false) ?  '?' : '&';
+                $url .= (strpos($url, '?') === false) ? '?' : '&';
                 $url .= $component->getParameterName() . '=' . $val;
                 $shy = $f->button()->shy($label, $url);
             }
@@ -175,7 +177,7 @@ class Renderer extends AbstractComponentRenderer
     protected function renderPagination(
         Component\ViewControl\Pagination $component,
         RendererInterface $default_renderer
-    ) : string {
+    ): string {
         $tpl = $this->getTemplate("tpl.pagination.html", true, true);
 
         /**
@@ -245,7 +247,7 @@ class Renderer extends AbstractComponentRenderer
      *
      * @return  int[]
      */
-    protected function getPaginationRange(Component\ViewControl\Pagination $component) : array
+    protected function getPaginationRange(Component\ViewControl\Pagination $component): array
     {
         if (!$component->getMaxPaginationButtons()) {
             $start = 0;
@@ -270,7 +272,7 @@ class Renderer extends AbstractComponentRenderer
         int $val,
         Component\ViewControl\Pagination $component,
         string $label = ''
-    ) : Shy {
+    ): Shy {
         $f = $this->getUIFactory();
 
         if ($label === '') {
@@ -302,7 +304,7 @@ class Renderer extends AbstractComponentRenderer
         Component\ViewControl\Pagination $component,
         RendererInterface $default_renderer,
         Template $tpl
-    ) : void {
+    ): void {
         $prev = max(0, $component->getCurrentPage() - 1);
         $next = $component->getCurrentPage() + 1;
 
@@ -352,7 +354,7 @@ class Renderer extends AbstractComponentRenderer
         array $range,
         RendererInterface $default_renderer,
         Template $tpl
-    ) : void {
+    ): void {
         if (!in_array(0, $range)) {
             $shy = $this->getPaginationShyButton(0, $component);
             $tpl->setVariable('FIRST', $default_renderer->render($shy));
@@ -367,7 +369,7 @@ class Renderer extends AbstractComponentRenderer
     /**
      * @inheritdoc
      */
-    public function registerResources(ResourceRegistry $registry) : void
+    public function registerResources(ResourceRegistry $registry): void
     {
         parent::registerResources($registry);
         $registry->register('./src/UI/templates/js/ViewControl/sortation.js');
@@ -379,7 +381,7 @@ class Renderer extends AbstractComponentRenderer
         Template $tpl,
         string $block,
         string $template_var
-    ) : void {
+    ): void {
         $id = $this->bindJavaScript($component);
         if (!$id) {
             $id = $this->createId();
@@ -392,7 +394,7 @@ class Renderer extends AbstractComponentRenderer
     /**
      * @inheritdoc
      */
-    protected function getComponentInterfaceName() : array
+    protected function getComponentInterfaceName(): array
     {
         return array(
             Component\ViewControl\Mode::class,

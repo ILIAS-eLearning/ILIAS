@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\UI\Implementation\Component\Divider;
 
 use ILIAS\UI\Component as C;
@@ -37,7 +39,7 @@ class Horizontal implements C\Divider\Horizontal
     /**
      * @inheritdoc
      */
-    public function getLabel() : ?string
+    public function getLabel(): ?string
     {
         return $this->label;
     }
@@ -45,7 +47,7 @@ class Horizontal implements C\Divider\Horizontal
     /**
      * @inheritdoc
      */
-    public function withLabel(string $label) : C\Divider\Horizontal
+    public function withLabel(string $label): C\Divider\Horizontal
     {
         $this->checkStringArg("label", $label);
         $clone = clone $this;

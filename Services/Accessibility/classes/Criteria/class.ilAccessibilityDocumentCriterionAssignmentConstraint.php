@@ -54,7 +54,7 @@ class ilAccessibilityDocumentCriterionAssignmentConstraint extends Constraint
      */
     protected function filterEqualValues(
         ilAccessibilityDocumentCriterionAssignment $value
-    ) : array {
+    ): array {
         $otherValues = $this->document->criteria();
 
         return array_filter(
@@ -86,7 +86,7 @@ class ilAccessibilityDocumentCriterionAssignmentConstraint extends Constraint
     protected function haveSameNature(
         ilAccessibilityDocumentCriterionAssignment $value,
         ilAccessibilityDocumentCriterionAssignment $otherValue
-    ) : bool {
+    ): bool {
         if ($value->getCriterionId() !== $otherValue->getCriterionId()) {
             return false;
         }

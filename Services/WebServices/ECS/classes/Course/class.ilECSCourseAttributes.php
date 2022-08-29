@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /******************************************************************************
  *
@@ -25,66 +27,66 @@ class ilECSCourseAttributes
 
     private int $server_id ;
     private int $mid;
-    
+
     private array $attributes = array();
-    
+
     private ilDBInterface $db;
-    
+
     /**
      * Constructor
      */
     public function __construct(int $a_server_id, int $a_mid)
     {
         global $DIC;
-        
+
         $this->db = $DIC->database();
-        
+
         $this->server_id = $a_server_id;
         $this->mid = $a_mid;
-        
+
         $this->read();
     }
-    
+
     /**
      * Get instance
      */
-    public static function getInstance(int $a_server_id, int $a_mid) : \ilECSCourseAttributes
+    public static function getInstance(int $a_server_id, int $a_mid): \ilECSCourseAttributes
     {
         $id = $a_server_id . '_' . $a_mid;
         return self::$instances[$id] ?? (self::$instances[$id] = new ilECSCourseAttributes($a_server_id, $a_mid));
     }
-    
+
     /**
      * Get current attributes
      */
-    public function getAttributes() : array
+    public function getAttributes(): array
     {
         return $this->attributes;
     }
-    
+
     /**
      * Get first defined attribute
      */
-    public function getFirstAttribute() : ?\ilECSCourseAttribute
+    public function getFirstAttribute(): ?\ilECSCourseAttribute
     {
         return $this->getAttributes()[0] ?? null;
     }
-    
+
     /**
      * Get first attribute name
      */
-    public function getFirstAttributeName() : string
+    public function getFirstAttributeName(): string
     {
         if ($this->getFirstAttribute() instanceof ilECSCourseAttribute) {
             return $this->getFirstAttribute()->getName();
         }
         return '';
     }
-    
+
     /**
      * Get attribute sequence
      */
-    public function getAttributeSequence($a_last_attribute) : array
+    public function getAttributeSequence($a_last_attribute): array
     {
         if (!$a_last_attribute) {
             return [];
@@ -98,14 +100,14 @@ class ilECSCourseAttributes
         }
         return $sequence;
     }
-    
+
     /**
      * Get upper attributes in hierarchy
      */
-    public function getUpperAttributes($a_name) : array
+    public function getUpperAttributes($a_name): array
     {
         $reverse_attributes = array_reverse($this->getAttributes());
-        
+
         $found = false;
         $upper = array();
         foreach ($reverse_attributes as $att) {
@@ -119,11 +121,11 @@ class ilECSCourseAttributes
         }
         return array_reverse($upper);
     }
-    
+
     /**
      * Get next attribute name in sequence
      */
-    public function getNextAttributeName(string $a_name) : string
+    public function getNextAttributeName(string $a_name): string
     {
         if (!$a_name) {
             return $this->getFirstAttributeName();
@@ -140,11 +142,11 @@ class ilECSCourseAttributes
         }
         return '';
     }
-    
+
     /**
      * Get next attribute name in sequence
      */
-    public function getPreviousAttributeName(string $a_name) : string
+    public function getPreviousAttributeName(string $a_name): string
     {
         if (!$a_name) {
             return '';
@@ -166,7 +168,7 @@ class ilECSCourseAttributes
     /**
      * Get active attribute values
      */
-    public function getAttributeValues() : array
+    public function getAttributeValues(): array
     {
         $values = array();
         foreach ($this->getAttributes() as $att) {
@@ -174,11 +176,11 @@ class ilECSCourseAttributes
         }
         return $values;
     }
-    
+
     /**
      * Delete all mappings
      */
-    public function delete() : void
+    public function delete(): void
     {
         foreach ($this->getAttributes() as $att) {
             $att->delete();
@@ -190,10 +192,10 @@ class ilECSCourseAttributes
     /**
      * Read attributes
      */
-    protected function read() : void
+    protected function read(): void
     {
         $this->attributes = [];
-        
+
         $query = 'SELECT * FROM ecs_crs_mapping_atts ' .
                 'WHERE sid = ' . $this->db->quote($this->server_id, 'integer') . ' ' .
                 'AND mid = ' . $this->db->quote($this->mid, 'integer') . ' ' .

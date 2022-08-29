@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -28,14 +30,13 @@ use ILIAS\UI\Component\Component;
  */
 interface TypeRenderer
 {
-    
     /**
      * @param isItem $item
      * @param bool   $with_content
      * @return Component
      */
-    public function getComponentForItem(isItem $item, bool $with_content = true) : Component;
-    
+    public function getComponentForItem(isItem $item, bool $with_content = true): Component;
+
     /**
      * This is called in cases when the Full Item with it's content is needed,
      * e.g. for Items which do not support async loading or for async-items when
@@ -43,8 +44,8 @@ interface TypeRenderer
      * @param isItem $item
      * @return Component
      */
-    public function getComponentWithContent(isItem $item) : Component;
-    
+    public function getComponentWithContent(isItem $item): Component;
+
     /**
      * This is called when only the relevant part of the item is needed during
      * the synchronous rendering of the MainBar. Async-Items can therefore render
@@ -52,5 +53,5 @@ interface TypeRenderer
      * @param isItem $item
      * @return Component
      */
-    public function getComponentWithoutContent(isItem $item) : Component;
+    public function getComponentWithoutContent(isItem $item): Component;
 }

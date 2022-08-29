@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -22,11 +24,8 @@
  */
 class ilMailErrorFormatter
 {
-    protected ilLanguage $lng;
-
-    public function __construct(ilLanguage $lng)
+    public function __construct(protected ilLanguage $lng)
     {
-        $this->lng = $lng;
     }
 
     /**
@@ -34,9 +33,9 @@ class ilMailErrorFormatter
      * will be used as a headline for the list of errors.
      * @param ilMailError[] $errors
      */
-    public function format(array $errors) : string
+    public function format(array $errors): string
     {
-        if (0 === count($errors)) {
+        if ([] === $errors) {
             return '';
         }
 
@@ -49,11 +48,11 @@ class ilMailErrorFormatter
 
             if (
                 $translation === $error->getLanguageVariable() ||
-                0 === count($error->getPlaceHolderValues())
+                [] === $error->getPlaceHolderValues()
             ) {
                 $errorsToDisplay[] = $translation;
             } else {
-                $escapedPlaceholderValues = array_map(static function (string $address) : string {
+                $escapedPlaceholderValues = array_map(static function (string $address): string {
                     return ilLegacyFormElementsUtil::prepareFormOutput($address);
                 }, $error->getPlaceHolderValues());
 

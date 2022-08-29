@@ -23,27 +23,27 @@ class arLimit extends arStatement
     protected int $start = 0;
     protected int $end = 0;
 
-    public function asSQLStatement(ActiveRecord $ar) : string
+    public function asSQLStatement(ActiveRecord $ar): string
     {
         return ' LIMIT ' . $this->getStart() . ', ' . $this->getEnd();
     }
 
-    public function setEnd(int $end) : void
+    public function setEnd(int $end): void
     {
         $this->end = $end;
     }
 
-    public function getEnd() : int
+    public function getEnd(): int
     {
         return $this->end;
     }
 
-    public function setStart(int $start) : void
+    public function setStart(int $start): void
     {
         $this->start = $start;
     }
 
-    public function getStart() : int
+    public function getStart(): int
     {
         return $this->start;
     }

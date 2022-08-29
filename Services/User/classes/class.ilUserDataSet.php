@@ -24,18 +24,18 @@ class ilUserDataSet extends ilDataSet
     protected array $temp_picture_dirs = array(); // Missing array type.
     public array $multi = array(); // Missing array type.
     protected array $users; // Missing array type.
-    
-    public function getSupportedVersions() : array // Missing array type.
+
+    public function getSupportedVersions(): array // Missing array type.
     {
         return array("4.3.0", "4.5.0", "5.1.0", "5.2.0", "5.3.0");
     }
-    
-    protected function getXmlNamespace(string $a_entity, string $a_schema_version) : string
+
+    protected function getXmlNamespace(string $a_entity, string $a_schema_version): string
     {
         return "https://www.ilias.de/xml/Services/User/" . $a_entity;
     }
-    
-    protected function getTypes(string $a_entity, string $a_version) : array // Missing array type.
+
+    protected function getTypes(string $a_entity, string $a_version): array // Missing array type.
     {
         // user profile type
         if ($a_entity == "usr_profile") {
@@ -121,7 +121,7 @@ class ilUserDataSet extends ilDataSet
         return [];
     }
 
-    public function getXmlRecord(string $a_entity, string $a_version, array $a_set) : array // Missing array type.
+    public function getXmlRecord(string $a_entity, string $a_version, array $a_set): array // Missing array type.
     {
         global $DIC;
 
@@ -139,16 +139,16 @@ class ilUserDataSet extends ilDataSet
             if ($im != "") {
                 ilObjUser::copyProfilePicturesToDirectory($a_set["Id"], $tmp_dir);
             }
-            
+
             $this->temp_picture_dirs[$a_set["Id"]] = $tmp_dir;
-            
+
             $a_set["Picture"] = $tmp_dir;
         }
 
         return $a_set;
     }
 
-    public function afterXmlRecordWriting(string $a_entity, string $a_version, array $a_set) : void // Missing array type.
+    public function afterXmlRecordWriting(string $a_entity, string $a_version, array $a_set): void // Missing array type.
     {
         if ($a_entity == "usr_profile") {
             // cleanup temp dirs for pictures
@@ -159,7 +159,7 @@ class ilUserDataSet extends ilDataSet
         }
     }
 
-    public function readData(string $a_entity, string $a_version, array $a_ids) : void // Missing array type.
+    public function readData(string $a_entity, string $a_version, array $a_ids): void // Missing array type.
     {
         global $DIC;
 
@@ -168,7 +168,7 @@ class ilUserDataSet extends ilDataSet
         if (!is_array($a_ids)) {
             $a_ids = array($a_ids);
         }
-                
+
         if ($a_entity == "personal_data") {
             switch ($a_version) {
                 case "4.3.0":
@@ -183,7 +183,7 @@ class ilUserDataSet extends ilDataSet
                     break;
             }
         }
-        
+
         if ($a_entity == "usr_profile") {
             switch ($a_version) {
                 case "4.3.0":
@@ -218,7 +218,7 @@ class ilUserDataSet extends ilDataSet
                     break;
             }
         }
-        
+
         if ($a_entity == "usr_setting") {
             switch ($a_version) {
                 case "4.3.0":
@@ -280,7 +280,7 @@ class ilUserDataSet extends ilDataSet
         array $a_rec,
         ilImportMapping $a_mapping,
         string $a_schema_version
-    ) : void {
+    ): void {
         global $DIC;
 
         $ilSetting = $DIC['ilSetting'];
@@ -292,7 +292,7 @@ class ilUserDataSet extends ilDataSet
                 // thus we can map the import id of the dataset to the current user
                 $a_mapping->addMapping("Services/User", "usr", $a_rec["Id"], $ilUser->getId());
                 break;
-                
+
             case "usr_profile":
                 $usr_id = $a_mapping->getMapping("Services/User", "usr", $a_rec["Id"]);
                 if ($usr_id > 0 && ilObject::_lookupType($usr_id) == "usr") {
@@ -322,7 +322,7 @@ class ilUserDataSet extends ilDataSet
                     $user->setLocationZoom($a_rec["LocZoom"]);
 
                     $user->update();
-                    
+
                     // personal picture
                     $pic_dir = $this->getImportDirectory() . "/" . str_replace("..", "", $a_rec["Picture"]);
                     if ($pic_dir != "" && is_dir($pic_dir)) {
@@ -347,7 +347,7 @@ class ilUserDataSet extends ilDataSet
                     $user->writePref($a_rec["Keyword"], ilUtil::secureString($a_rec["Value"]));
                 }
                 break;
-                
+
             case "usr_multi":
                 $usr_id = $a_mapping->getMapping("Services/User", "usr", $a_rec["UserId"]);
                 if ($usr_id > 0 && ilObject::_lookupType($usr_id) == "usr") {

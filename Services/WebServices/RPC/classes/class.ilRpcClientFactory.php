@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -28,7 +30,6 @@
  */
 class ilRpcClientFactory
 {
-
     /**
      * Creates an ilRpcClient instance to our ilServer
      *
@@ -36,7 +37,7 @@ class ilRpcClientFactory
      * @param int $a_timeout The maximum number of seconds to allow ilRpcClient to connect.
      * @return ilRpcClient
      */
-    public static function factory(string $a_package, int $a_timeout = 0) : ilRpcClient
+    public static function factory(string $a_package, int $a_timeout = 0): ilRpcClient
     {
         return new ilRpcClient(
             ilRPCServerSettings::getInstance()->getServerUrl(),

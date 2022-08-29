@@ -86,7 +86,7 @@ class ilMStListUsersTableGUI extends ilTable2GUI
         $this->parseData();
     }
 
-    protected function parseData() : void
+    protected function parseData(): void
     {
         global $DIC;
 
@@ -114,18 +114,18 @@ class ilMStListUsersTableGUI extends ilTable2GUI
 
         $list_users_fetcher = new ilMStListUsers($DIC);
         $result = $list_users_fetcher->getData($arr_usr_id, $options);
-        
+
         $this->setMaxCount($result->getTotalDatasetCount());
         $data = $result->getDataset();
-        
+
         // Workaround because the fillRow Method only accepts arrays
-        $data = array_map(function (ilMStListUser $it) : array {
+        $data = array_map(function (ilMStListUser $it): array {
             return [$it];
         }, $data);
         $this->setData($data);
     }
 
-    final public function initFilter() : void
+    final public function initFilter(): void
     {
         global $DIC;
 
@@ -157,7 +157,7 @@ class ilMStListUsersTableGUI extends ilTable2GUI
         }
     }
 
-    final public function getSelectableColumns() : array
+    final public function getSelectableColumns(): array
     {
         $arr_fields_without_table_sort = array(
             'org_units',
@@ -176,7 +176,7 @@ class ilMStListUsersTableGUI extends ilTable2GUI
         return $cols;
     }
 
-    private function addColumns() : void
+    private function addColumns(): void
     {
         global $DIC;
 
@@ -207,7 +207,7 @@ class ilMStListUsersTableGUI extends ilTable2GUI
      * @throws \ilCtrlException
      * @throws \ilTemplateException
      */
-    final public function fillRow(array $a_set) : void
+    final public function fillRow(array $a_set): void
     {
         global $DIC;
 
@@ -298,7 +298,7 @@ class ilMStListUsersTableGUI extends ilTable2GUI
         $this->tpl->parseCurrentBlock();
     }
 
-    private function getProfileBackUrl() : string
+    private function getProfileBackUrl(): string
     {
         global $DIC;
 
@@ -308,7 +308,7 @@ class ilMStListUsersTableGUI extends ilTable2GUI
         ));
     }
 
-    protected function fillRowExcel(ilExcel $a_excel, int &$a_row, array $a_set) : void
+    protected function fillRowExcel(ilExcel $a_excel, int &$a_row, array $a_set): void
     {
         $set = array_pop($a_set);
 
@@ -319,7 +319,7 @@ class ilMStListUsersTableGUI extends ilTable2GUI
         }
     }
 
-    protected function fillRowCSV(ilCSVWriter $a_csv, array $a_set) : void
+    protected function fillRowCSV(ilCSVWriter $a_csv, array $a_set): void
     {
         $set = array_pop($a_set);
 
@@ -329,7 +329,7 @@ class ilMStListUsersTableGUI extends ilTable2GUI
         $a_csv->addRow();
     }
 
-    protected function getFieldValuesForExport(ilMStListUser $my_staff_user) : array
+    protected function getFieldValuesForExport(ilMStListUser $my_staff_user): array
     {
         global $DIC;
 

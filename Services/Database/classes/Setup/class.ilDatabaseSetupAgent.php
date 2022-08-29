@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 use ILIAS\Setup;
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\Refinery\Transformation;
@@ -34,7 +36,7 @@ class ilDatabaseSetupAgent implements Setup\Agent
     /**
      * @inheritdocs
      */
-    public function hasConfig() : bool
+    public function hasConfig(): bool
     {
         return true;
     }
@@ -42,10 +44,10 @@ class ilDatabaseSetupAgent implements Setup\Agent
     /**
      * @inheritdocs
      */
-    public function getArrayToConfigTransformation() : Transformation
+    public function getArrayToConfigTransformation(): Transformation
     {
         // TODO: Migrate this to refinery-methods once possible.
-        return $this->refinery->custom()->transformation(function ($data) : \ilDatabaseSetupConfig {
+        return $this->refinery->custom()->transformation(function ($data): \ilDatabaseSetupConfig {
             $data["password"] = $data["password"] ?? null; // password can be empty
             $password = $this->refinery->to()->data("password");
             return new \ilDatabaseSetupConfig(
@@ -65,7 +67,7 @@ class ilDatabaseSetupAgent implements Setup\Agent
     /**
      * @inheritdocs
      */
-    public function getInstallObjective(Setup\Config $config = null) : Setup\Objective
+    public function getInstallObjective(Setup\Config $config = null): Setup\Objective
     {
         if (!$config instanceof \ilDatabaseSetupConfig) {
             return new Setup\Objective\NullObjective();
@@ -82,7 +84,7 @@ class ilDatabaseSetupAgent implements Setup\Agent
     /**
      * @inheritdocs
      */
-    public function getUpdateObjective(Setup\Config $config = null) : Setup\Objective
+    public function getUpdateObjective(Setup\Config $config = null): Setup\Objective
     {
         $p = [];
         if ($config instanceof ilDatabaseSetupConfig) {
@@ -99,7 +101,7 @@ class ilDatabaseSetupAgent implements Setup\Agent
     /**
      * @inheritdocs
      */
-    public function getBuildArtifactObjective() : Setup\Objective
+    public function getBuildArtifactObjective(): Setup\Objective
     {
         return new Setup\Objective\NullObjective();
     }
@@ -107,7 +109,7 @@ class ilDatabaseSetupAgent implements Setup\Agent
     /**
      * @inheritdoc
      */
-    public function getStatusObjective(Setup\Metrics\Storage $storage) : Setup\Objective
+    public function getStatusObjective(Setup\Metrics\Storage $storage): Setup\Objective
     {
         return new ilDatabaseMetricsCollectedObjective($storage);
     }
@@ -115,7 +117,7 @@ class ilDatabaseSetupAgent implements Setup\Agent
     /**
      * @inheritDoc
      */
-    public function getMigrations() : array
+    public function getMigrations(): array
     {
         return [
             new Setup\ilMysqlMyIsamToInnoDbMigration()

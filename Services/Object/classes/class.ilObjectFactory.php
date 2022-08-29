@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * Class ilObjectFactory
  * This class offers methods to get instances of
@@ -32,7 +34,7 @@ class ilObjectFactory
     /**
      * check if obj_id exists. To check for ref_ids use ilTree::isInTree()
      */
-    public function ObjectIdExists(int $obj_id) : bool
+    public function ObjectIdExists(int $obj_id): bool
     {
         global $DIC;
         $ilDB = $DIC->database();
@@ -51,7 +53,7 @@ class ilObjectFactory
     /**
      * returns all objects of an owner, filtered by type, objects are not deleted!
      */
-    public function getObjectsForOwner(string $object_type, int $owner_id) : array
+    public function getObjectsForOwner(string $object_type, int $owner_id): array
     {
         global $DIC;
         $ilDB = $DIC->database();
@@ -79,7 +81,7 @@ class ilObjectFactory
      * @throws ilDatabaseException
      * @throws ilObjectNotFoundException
      */
-    public static function getInstanceByObjId(?int $obj_id, bool $stop_on_error = true) : ?ilObject
+    public static function getInstanceByObjId(?int $obj_id, bool $stop_on_error = true): ?ilObject
     {
         global $DIC;
         $objDefinition = $DIC["objDefinition"];
@@ -138,7 +140,7 @@ class ilObjectFactory
      * @throws ilDatabaseException
      * @throws ilObjectNotFoundException
      */
-    public static function getInstanceByRefId(int $ref_id, bool $stop_on_error = true) : ?ilObject
+    public static function getInstanceByRefId(int $ref_id, bool $stop_on_error = true): ?ilObject
     {
         global $DIC;
         $objDefinition = $DIC["objDefinition"];
@@ -200,7 +202,7 @@ class ilObjectFactory
      * @throws ilObjectNotFoundException
      * @deprecated since version 5.3
      */
-    public static function getTypeByRefId(int $ref_id, bool $stop_on_error = true) : ?string
+    public static function getTypeByRefId(int $ref_id, bool $stop_on_error = true): ?string
     {
         global $DIC;
         $ilDB = $DIC->database();
@@ -235,7 +237,7 @@ class ilObjectFactory
         return $row["type"];
     }
 
-    public static function getClassByType(string $obj_type) : string
+    public static function getClassByType(string $obj_type): string
     {
         global $DIC;
         $objDefinition = $DIC["objDefinition"];
@@ -259,7 +261,7 @@ class ilObjectFactory
         string $class_name,
         string $a_obj_type,
         ilObjectDefinition $objDefinition
-    ) : void {
+    ): void {
         if (!class_exists($class_name)) {
             $location = $objDefinition->getLocation($a_obj_type);
             include_once($location . "/class." . $class_name . ".php");

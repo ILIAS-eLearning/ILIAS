@@ -1,4 +1,6 @@
-<?php namespace ILIAS\Tasks\DerivedTasks\Provider;
+<?php
+
+namespace ILIAS\Tasks\DerivedTasks\Provider;
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -28,11 +30,10 @@ use ilDerivedTasksGUI;
  */
 class DerivedTaskMainBarProvider extends AbstractStaticMainMenuProvider
 {
-
     /**
      * @inheritDoc
      */
-    public function getStaticTopItems() : array
+    public function getStaticTopItems(): array
     {
         return [];
     }
@@ -41,7 +42,7 @@ class DerivedTaskMainBarProvider extends AbstractStaticMainMenuProvider
     /**
      * @inheritDoc
      */
-    public function getStaticSubItems() : array
+    public function getStaticSubItems(): array
     {
         $dic = $this->dic;
 
@@ -56,7 +57,7 @@ class DerivedTaskMainBarProvider extends AbstractStaticMainMenuProvider
             ->withAction($dic->ctrl()->getLinkTargetByClass([ilDerivedTasksGUI::class], ""))
             ->withParent(StandardTopItemsProvider::getInstance()->getPersonalWorkspaceIdentification())
             ->withVisibilityCallable(
-                fn () : bool => true
+                fn (): bool => true
             );
 
         return $entries;

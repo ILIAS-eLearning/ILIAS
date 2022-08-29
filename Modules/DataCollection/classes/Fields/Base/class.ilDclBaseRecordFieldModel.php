@@ -64,14 +64,16 @@ class ilDclBaseRecordFieldModel
     /**
      * Read object data from database
      */
-    protected function doRead() : void
+    protected function doRead(): void
     {
         if (!$this->getRecord()->getId()) {
             return;
         }
 
-        $query = "SELECT * FROM il_dcl_record_field WHERE field_id = " . $this->db->quote($this->getField()->getId(),
-                "integer") . " AND record_id = "
+        $query = "SELECT * FROM il_dcl_record_field WHERE field_id = " . $this->db->quote(
+            $this->getField()->getId(),
+            "integer"
+        ) . " AND record_id = "
             . $this->db->quote($this->getRecord()->getId(), "integer");
         $set = $this->db->query($query);
         $rec = $this->db->fetchAssoc($set);
@@ -83,13 +85,17 @@ class ilDclBaseRecordFieldModel
     /**
      * Creates an Id and a database entry.
      */
-    public function doCreate() : void
+    public function doCreate(): void
     {
         $id = $this->db->nextId("il_dcl_record_field");
-        $query = "INSERT INTO il_dcl_record_field (id, record_id, field_id) VALUES (" . $this->db->quote($id,
-                "integer") . ", "
-            . $this->db->quote($this->getRecord()->getId(),
-                "integer") . ", " . $this->db->quote($this->getField()->getId(), "text") . ")";
+        $query = "INSERT INTO il_dcl_record_field (id, record_id, field_id) VALUES (" . $this->db->quote(
+            $id,
+            "integer"
+        ) . ", "
+            . $this->db->quote(
+                $this->getRecord()->getId(),
+                "integer"
+            ) . ", " . $this->db->quote($this->getField()->getId(), "text") . ")";
         $this->db->manipulate($query);
         $this->id = $id;
     }
@@ -97,7 +103,7 @@ class ilDclBaseRecordFieldModel
     /**
      * Update object in database
      */
-    public function doUpdate() : void
+    public function doUpdate(): void
     {
         //$this->loadValue(); //Removed Mantis #0011799
         $datatype = $this->getField()->getDatatype();
@@ -134,7 +140,7 @@ class ilDclBaseRecordFieldModel
     /**
      * Delete record field in database
      */
-    public function delete() : void
+    public function delete(): void
     {
         $datatype = $this->getField()->getDatatype();
         $storage_location = ($this->getField()->getStorageLocationOverride() !== null) ? $this->getField()->getStorageLocationOverride() : $datatype->getStorageLocation();
@@ -201,7 +207,7 @@ class ilDclBaseRecordFieldModel
      * @param mixed $value
      * @param bool  $omit_parsing If true, does not parse the value and stores it in the given format
      */
-    public function setValue($value, bool $omit_parsing = false) : void
+    public function setValue($value, bool $omit_parsing = false): void
     {
         $this->loadValue();
         if (!$omit_parsing) {
@@ -216,14 +222,14 @@ class ilDclBaseRecordFieldModel
         }
     }
 
-    public function setValueFromForm(ilPropertyFormGUI $form) : void
+    public function setValueFromForm(ilPropertyFormGUI $form): void
     {
         $value = $form->getInput("field_" . $this->getField()->getId());
 
         $this->setValue($value);
     }
 
-    public function getFormulaValue() : string
+    public function getFormulaValue(): string
     {
         return $this->getExportValue();
     }
@@ -265,7 +271,7 @@ class ilDclBaseRecordFieldModel
         return $this->parseExportValue($this->getValue());
     }
 
-    public function fillExcelExport(ilExcel $worksheet, int &$row, int &$col) : void
+    public function fillExcelExport(ilExcel $worksheet, int &$row, int &$col): void
     {
         $worksheet->setCell($row, $col, $this->getExportValue());
         $col++;
@@ -316,7 +322,7 @@ class ilDclBaseRecordFieldModel
     /**
      * Load the value
      */
-    protected function loadValue() : void
+    protected function loadValue(): void
     {
         if ($this->value === null) {
             $datatype = $this->getField()->getDatatype();
@@ -337,7 +343,7 @@ class ilDclBaseRecordFieldModel
     /**
      * @param ilDclBaseRecordFieldModel $old_record_field
      */
-    public function cloneStructure(ilDclBaseRecordFieldModel $old_record_field) : void
+    public function cloneStructure(ilDclBaseRecordFieldModel $old_record_field): void
     {
         $this->setValue($old_record_field->getValue());
         $this->doUpdate();
@@ -346,41 +352,41 @@ class ilDclBaseRecordFieldModel
     /**
      *
      */
-    public function afterClone() : void
+    public function afterClone(): void
     {
     }
 
-    public function getField() : ilDclBaseFieldModel
+    public function getField(): ilDclBaseFieldModel
     {
         return $this->field;
     }
 
-    public function getId() : int
+    public function getId(): int
     {
         return $this->id;
     }
 
-    public function getRecord() : ilDclBaseRecordModel
+    public function getRecord(): ilDclBaseRecordModel
     {
         return $this->record;
     }
 
-    public function getRecordRepresentation() : ?ilDclBaseRecordRepresentation
+    public function getRecordRepresentation(): ?ilDclBaseRecordRepresentation
     {
         return $this->record_representation;
     }
 
-    public function setRecordRepresentation(ilDclBaseRecordRepresentation $record_representation) : void
+    public function setRecordRepresentation(ilDclBaseRecordRepresentation $record_representation): void
     {
         $this->record_representation = $record_representation;
     }
 
-    public function getFieldRepresentation() : ?ilDclBaseFieldRepresentation
+    public function getFieldRepresentation(): ?ilDclBaseFieldRepresentation
     {
         return $this->field_representation;
     }
 
-    public function setFieldRepresentation(ilDclBaseFieldRepresentation $field_representation) : void
+    public function setFieldRepresentation(ilDclBaseFieldRepresentation $field_representation): void
     {
         $this->field_representation = $field_representation;
     }

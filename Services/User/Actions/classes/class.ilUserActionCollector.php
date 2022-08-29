@@ -41,7 +41,7 @@ class ilUserActionCollector
     public static function getInstance(
         int $a_user_id,
         ilUserActionContext $a_context
-    ) : self {
+    ): self {
         if (!isset(self::$instances[$a_user_id])) {
             self::$instances[$a_user_id] = new ilUserActionCollector($a_user_id, $a_context);
         }
@@ -49,7 +49,7 @@ class ilUserActionCollector
         return self::$instances[$a_user_id];
     }
 
-    public function getActionsForTargetUser(int $a_target_user) : ilUserActionCollection
+    public function getActionsForTargetUser(int $a_target_user): ilUserActionCollection
     {
         // overall collection of users
         $this->collection = ilUserActionCollection::getInstance();
@@ -74,7 +74,7 @@ class ilUserActionCollector
         return $this->collection;
     }
 
-    protected function hasProviderActiveActions(ilUserActionProvider $prov) : bool
+    protected function hasProviderActiveActions(ilUserActionProvider $prov): bool
     {
         foreach ($prov->getActionTypes() as $act_type => $act_txt) {
             if (ilUserActionAdmin::lookupActive(

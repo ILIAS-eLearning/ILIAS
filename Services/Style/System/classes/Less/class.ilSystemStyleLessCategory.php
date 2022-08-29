@@ -43,23 +43,23 @@ class ilSystemStyleLessCategory extends ilSystemStyleLessItem
         $this->setComment($comment);
     }
 
-    public function getName() : string
+    public function getName(): string
     {
         return $this->name;
     }
 
-    public function setName(string $name) : void
+    public function setName(string $name): void
     {
         $name = str_replace(PHP_EOL, '', $name);
         $this->name = str_replace("\n", '', $name);
     }
 
-    public function getComment() : string
+    public function getComment(): string
     {
         return $this->comment;
     }
 
-    public function setComment(string $comment) : void
+    public function setComment(string $comment): void
     {
         $comment = str_replace(PHP_EOL, '', $comment);
         $this->comment = str_replace("\n", '', $comment);
@@ -69,7 +69,7 @@ class ilSystemStyleLessCategory extends ilSystemStyleLessItem
      * This function will be needed to write the category back to the less file and restore it's initial structure
      * in less.
      */
-    public function __toString() : string
+    public function __toString(): string
     {
         if ($this->getComment()) {
             return '//== ' . $this->getName() . "\n//\n//## " . $this->getComment() . "\n";

@@ -1,4 +1,5 @@
 <?php
+
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 /**
 * Unit tests
@@ -11,13 +12,13 @@ class assAnswerOrderingTest extends assBaseTestCase
 {
     protected $backupGlobals = false;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         chdir(dirname(__FILE__));
         chdir('../../../');
     }
 
-    public function test_instantiateObject_shouldReturnInstance() : void
+    public function test_instantiateObject_shouldReturnInstance(): void
     {
         // Arrange
         require_once './Modules/TestQuestionPool/classes/questions/class.ilAssOrderingElement.php';
@@ -28,7 +29,7 @@ class assAnswerOrderingTest extends assBaseTestCase
         $this->assertInstanceOf('ilAssOrderingElement', $instance);
     }
 
-    public function test_setGetRandomId() : void
+    public function test_setGetRandomId(): void
     {
         // Arrange
         require_once './Modules/TestQuestionPool/classes/questions/class.ilAssOrderingElement.php';
@@ -43,7 +44,7 @@ class assAnswerOrderingTest extends assBaseTestCase
         $this->assertEquals($expected, $actual);
     }
 
-    public function test_setGetAnswerId() : void
+    public function test_setGetAnswerId(): void
     {
         // Arrange
         require_once './Modules/TestQuestionPool/classes/questions/class.ilAssOrderingElement.php';
@@ -59,7 +60,7 @@ class assAnswerOrderingTest extends assBaseTestCase
     }
 
 
-    public function test_setGetOrdeingDepth() : void
+    public function test_setGetOrdeingDepth(): void
     {
         // Arrange
         require_once './Modules/TestQuestionPool/classes/questions/class.ilAssOrderingElement.php';

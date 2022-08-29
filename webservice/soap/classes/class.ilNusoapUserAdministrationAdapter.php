@@ -62,21 +62,20 @@ class ilNusoapUserAdministrationAdapter
         $this->registerMethods();
     }
 
-    public function start() : void
+    public function start(): void
     {
         $postdata = file_get_contents("php://input");
         $this->server->service($postdata);
         exit();
     }
 
-    private function enableWSDL() : void
+    private function enableWSDL(): void
     {
         $this->server->configureWSDL(SERVICE_NAME, SERVICE_NAMESPACE);
     }
 
-    private function registerMethods() : void
+    private function registerMethods(): void
     {
-
         // Add useful complex types. E.g. array("a","b") or array(1,2)
         $this->server->wsdl->addComplexType(
             'intArray',
@@ -1510,7 +1509,7 @@ class ilNusoapUserAdministrationAdapter
     /**
      * Register any methods and types of SOAP plugins to the SOAP server
      */
-    protected function handleSoapPlugins() : void
+    protected function handleSoapPlugins(): void
     {
         // Note: We need a context that does not handle authentication at this point, because this is
         // handled by an actual SOAP request which always contains the session ID and client

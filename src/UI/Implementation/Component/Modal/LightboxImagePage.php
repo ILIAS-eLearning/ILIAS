@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,13 +17,13 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\UI\Implementation\Component\Modal;
 
 use ILIAS\UI\Component\Image\Image;
 use ILIAS\UI\Component\Modal\LightboxDescriptionEnabledPage;
 use ILIAS\UI\Implementation\Component\ComponentHelper;
-use \ILIAS\UI\Component\Modal\LightboxImagePage as ILightboxImagePage;
+use ILIAS\UI\Component\Modal\LightboxImagePage as ILightboxImagePage;
 
 /**
  * Class LightboxImagePage
@@ -49,7 +51,7 @@ class LightboxImagePage implements LightboxDescriptionEnabledPage, ILightboxImag
     /**
      * @inheritdoc
      */
-    public function getTitle() : string
+    public function getTitle(): string
     {
         return $this->title;
     }
@@ -57,7 +59,7 @@ class LightboxImagePage implements LightboxDescriptionEnabledPage, ILightboxImag
     /**
      * @inheritdoc
      */
-    public function getDescription() : string
+    public function getDescription(): string
     {
         return $this->description ?: $this->image->getAlt();
     }
@@ -65,7 +67,7 @@ class LightboxImagePage implements LightboxDescriptionEnabledPage, ILightboxImag
     /**
      * @inheritdoc
      */
-    public function getComponent() : Image
+    public function getComponent(): Image
     {
         return $this->image;
     }

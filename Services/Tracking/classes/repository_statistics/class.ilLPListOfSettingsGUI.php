@@ -1,4 +1,6 @@
-<?php declare(strict_types=0);
+<?php
+
+declare(strict_types=0);
 
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
@@ -24,17 +26,16 @@ class ilLPListOfSettingsGUI extends ilLearningProgressBaseGUI
     /**
      * execute command
      */
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         switch ($this->ctrl->getNextClass()) {
             default:
                 $cmd = $this->__getDefaultCommand();
                 $this->$cmd();
-
         }
     }
 
-    protected function initItemIdsFromPost() : array
+    protected function initItemIdsFromPost(): array
     {
         if ($this->http->wrapper()->post()->has('item_ids')) {
             return $this->http->wrapper()->post()->retrieve(
@@ -50,7 +51,7 @@ class ilLPListOfSettingsGUI extends ilLearningProgressBaseGUI
     /**
      * Show settings tables
      */
-    protected function show() : void
+    protected function show(): void
     {
         $this->help->setSubScreenId("trac_settings");
         $info = $this->obj_lp->getSettingsInfo();
@@ -66,7 +67,7 @@ class ilLPListOfSettingsGUI extends ilLearningProgressBaseGUI
         );
     }
 
-    protected function initFormSettings() : ilPropertyFormGUI
+    protected function initFormSettings(): ilPropertyFormGUI
     {
         $form = new ilPropertyFormGUI();
         $form->setTitle($this->lng->txt('tracking_settings'));
@@ -115,7 +116,7 @@ class ilLPListOfSettingsGUI extends ilLearningProgressBaseGUI
         return $form;
     }
 
-    protected function saveSettings() : void
+    protected function saveSettings(): void
     {
         $form = $this->initFormSettings();
         if ($form->checkInput()) {
@@ -193,7 +194,7 @@ class ilLPListOfSettingsGUI extends ilLearningProgressBaseGUI
     /**
      * Get tables by mode
      */
-    protected function getTableByMode() : string
+    protected function getTableByMode(): string
     {
         $collection = $this->obj_lp->getCollectionInstance();
         if ($collection && $collection->hasSelectableItems()) {
@@ -209,7 +210,7 @@ class ilLPListOfSettingsGUI extends ilLearningProgressBaseGUI
         return '';
     }
 
-    protected function assign() : void
+    protected function assign(): void
     {
         if (!$this->initItemIdsFromPost()) {
             $this->tpl->setOnScreenMessage(
@@ -239,7 +240,7 @@ class ilLPListOfSettingsGUI extends ilLearningProgressBaseGUI
         $this->ctrl->redirect($this, 'show');
     }
 
-    protected function deassign() : void
+    protected function deassign(): void
     {
         if (!$this->initItemIdsFromPost()) {
             $this->tpl->setOnScreenMessage(
@@ -273,7 +274,7 @@ class ilLPListOfSettingsGUI extends ilLearningProgressBaseGUI
     /**
      * Group materials
      */
-    protected function groupMaterials() : void
+    protected function groupMaterials(): void
     {
         if (!count((array) $this->initItemIdsFromPost())) {
             $this->tpl->setOnScreenMessage(
@@ -304,7 +305,7 @@ class ilLPListOfSettingsGUI extends ilLearningProgressBaseGUI
     /**
      *
      */
-    protected function releaseMaterials() : void
+    protected function releaseMaterials(): void
     {
         if (!count((array) $this->initItemIdsFromPost())) {
             $this->tpl->setOnScreenMessage(
@@ -334,7 +335,7 @@ class ilLPListOfSettingsGUI extends ilLearningProgressBaseGUI
     /**
      * Save obligatory state per grouped materials
      */
-    protected function saveObligatoryMaterials() : void
+    protected function saveObligatoryMaterials(): void
     {
         $groups = [];
         if ($this->http->wrapper()->post()->has('grp')) {
@@ -389,7 +390,7 @@ class ilLPListOfSettingsGUI extends ilLearningProgressBaseGUI
     /**
      * @throws ilCtrlException
      */
-    protected function updateTLT() : void
+    protected function updateTLT(): void
     {
         $tlt = (array) ($this->http->request()->getParsedBody()['tlt'] ?? []);
         foreach ($tlt as $item_id => $item) {
@@ -419,7 +420,7 @@ class ilLPListOfSettingsGUI extends ilLearningProgressBaseGUI
         $this->ctrl->redirect($this, 'show');
     }
 
-    protected function getLPPathInfo(int $a_ref_id, array &$a_res) : bool
+    protected function getLPPathInfo(int $a_ref_id, array &$a_res): bool
     {
         $has_lp_parents = false;
 
@@ -462,7 +463,7 @@ class ilLPListOfSettingsGUI extends ilLearningProgressBaseGUI
         return $has_lp_parents;
     }
 
-    protected function handleLPUsageInfo() : string
+    protected function handleLPUsageInfo(): string
     {
         $ref_id = 0;
         if ($this->http->wrapper()->query()->has('ref_id')) {

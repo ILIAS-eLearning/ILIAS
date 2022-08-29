@@ -31,54 +31,54 @@ class ilUserAccountSettings
         $this->storage = new ilSetting('user_account');
         $this->read();
     }
-    
-    public static function getInstance() : self
+
+    public static function getInstance(): self
     {
         if (self::$instance) {
             return self::$instance;
         }
         return self::$instance = new ilUserAccountSettings();
     }
-    
+
     /**
      * Check if local user administration is enabled
      */
-    public function isLocalUserAdministrationEnabled() : bool
+    public function isLocalUserAdministrationEnabled(): bool
     {
         return $this->lua_enabled;
     }
-    
+
     /**
      * Enable local user administration
      */
-    public function enableLocalUserAdministration(bool $a_status) : void
+    public function enableLocalUserAdministration(bool $a_status): void
     {
         $this->lua_enabled = $a_status;
     }
-    
+
     /**
      * Check if user access is restricted
      */
-    public function isUserAccessRestricted() : bool
+    public function isUserAccessRestricted(): bool
     {
         return $this->lua_access_filter;
     }
-    
+
     /**
      * En/disable user access
      */
-    public function restrictUserAccess(bool $a_status) : void
+    public function restrictUserAccess(bool $a_status): void
     {
         $this->lua_access_filter = $a_status;
     }
-    
-    public function update() : void
+
+    public function update(): void
     {
         $this->storage->set('lua_enabled', $this->isLocalUserAdministrationEnabled());
         $this->storage->set('lua_access_restricted', $this->isUserAccessRestricted());
     }
-    
-    private function read() : void
+
+    private function read(): void
     {
         $this->enableLocalUserAdministration($this->storage->get('lua_enabled', $this->isLocalUserAdministrationEnabled()));
         $this->restrictUserAccess($this->storage->get('lua_access_restricted', $this->isUserAccessRestricted()));

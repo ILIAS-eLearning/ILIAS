@@ -28,7 +28,7 @@ class ilDataCollectionEndpointAdapter implements ilDataCollectionEndpointPort
         $this->ctrl = $ctrl;
     }
 
-    public static function new() : self
+    public static function new(): self
     {
         global $DIC;
         return new self($DIC->ctrl());
@@ -37,12 +37,12 @@ class ilDataCollectionEndpointAdapter implements ilDataCollectionEndpointPort
     /**
      * @throws ilCtrlException
      */
-    public function getListTablesLink() : string
+    public function getListTablesLink(): string
     {
         return $this->ctrl->getLinkTargetByClass("ilDclTableListGUI", "listTables");
     }
 
-    public function getEditRecordLink(int $viewId, int $recordId) : string
+    public function getEditRecordLink(int $viewId, int $recordId): string
     {
         $this->ctrl->setParameterByClass(ilDclDetailedViewGUI::class, 'tableview_id', $viewId);
         $this->ctrl->setParameterByClass(ilDclDetailedViewGUI::class, 'record_id', $recordId);
@@ -52,7 +52,7 @@ class ilDataCollectionEndpointAdapter implements ilDataCollectionEndpointPort
     /**
      * @throws ilCtrlException
      */
-    public function getListRecordsLink(?string $viewId = null) : string
+    public function getListRecordsLink(?string $viewId = null): string
     {
         if ($viewId !== null) {
             $this->ctrl->setParameterByClass("ildclrecordlistgui", "tableview_id", $viewId);
@@ -60,12 +60,12 @@ class ilDataCollectionEndpointAdapter implements ilDataCollectionEndpointPort
         return $this->ctrl->getLinkTargetByClass("ildclrecordlistgui", "show");
     }
 
-    public function getInfoScreenLink() : string
+    public function getInfoScreenLink(): string
     {
         return $this->ctrl->getLinkTargetByClass("ilinfoscreengui", "showSummary");
     }
 
-    public function redirect(string $link) : void
+    public function redirect(string $link): void
     {
         $this->ctrl->redirectToURL($link);
     }
@@ -73,7 +73,7 @@ class ilDataCollectionEndpointAdapter implements ilDataCollectionEndpointPort
     /**
      * @throws ilCtrlException
      */
-    public function getEditDclLink(ilObjDataCollectionGUI $dataCollectionGUI) : string
+    public function getEditDclLink(ilObjDataCollectionGUI $dataCollectionGUI): string
     {
         return $this->ctrl->getLinkTarget($dataCollectionGUI, "editObject");
     }
@@ -81,7 +81,7 @@ class ilDataCollectionEndpointAdapter implements ilDataCollectionEndpointPort
     /**
      * @throws ilCtrlException
      */
-    public function getDataCollectionExportLink() : string
+    public function getDataCollectionExportLink(): string
     {
         return $this->ctrl->getLinkTargetByClass("ildclexportgui", "");
     }
@@ -89,22 +89,22 @@ class ilDataCollectionEndpointAdapter implements ilDataCollectionEndpointPort
     /**
      * @throws ilCtrlException
      */
-    public function getListPermissionsLink() : string
+    public function getListPermissionsLink(): string
     {
         return $this->ctrl->getLinkTargetByClass("ilpermissiongui", "perm");
     }
 
-    public function getCreateDclLink(ilObjDataCollectionGUI $dataCollectionGUI) : string
+    public function getCreateDclLink(ilObjDataCollectionGUI $dataCollectionGUI): string
     {
         return $this->ctrl->getLinkTarget($dataCollectionGUI, "createObject");
     }
 
-    public function getSaveDclEndpoint(ilObjDataCollectionGUI $dataCollectionGUI) : string
+    public function getSaveDclEndpoint(ilObjDataCollectionGUI $dataCollectionGUI): string
     {
         return $this->ctrl->getLinkTarget($dataCollectionGUI, "saveObject");
     }
 
-    public function getQueryRecordDataEndpoint() : string
+    public function getQueryRecordDataEndpoint(): string
     {
         return $this->ctrl->getLinkTargetByClass(
             array(
@@ -121,12 +121,12 @@ class ilDataCollectionEndpointAdapter implements ilDataCollectionEndpointPort
     /**
      * @throws ilCtrlException
      */
-    public function getDataCollectionHomeLink(ilObjDataCollectionGUI $dataCollectionGUI) : string
+    public function getDataCollectionHomeLink(ilObjDataCollectionGUI $dataCollectionGUI): string
     {
         return $this->ctrl->getLinkTarget($dataCollectionGUI, "render");
     }
 
-    public function isAsyncCall() : bool
+    public function isAsyncCall(): bool
     {
         return $this->ctrl->isAsynch();
     }
@@ -134,7 +134,7 @@ class ilDataCollectionEndpointAdapter implements ilDataCollectionEndpointPort
     /**
      * @throws ilCtrlException
      */
-    public function forwardCommand(object $guiObject) : void
+    public function forwardCommand(object $guiObject): void
     {
         $this->ctrl->forwardCommand($guiObject);
     }
@@ -142,12 +142,12 @@ class ilDataCollectionEndpointAdapter implements ilDataCollectionEndpointPort
     /**
      * @throws ilCtrlException
      */
-    public function saveParameterTableId(object $guiObject) : void
+    public function saveParameterTableId(object $guiObject): void
     {
         $this->ctrl->saveParameter($guiObject, "table_id");
     }
 
-    public function saveParameterTableviewId(object $guiObject) : void
+    public function saveParameterTableviewId(object $guiObject): void
     {
         $this->ctrl->saveParameter($guiObject, "tableview_id");
     }

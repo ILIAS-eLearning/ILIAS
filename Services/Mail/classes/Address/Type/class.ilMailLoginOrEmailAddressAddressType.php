@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -22,19 +24,16 @@
  */
 class ilMailLoginOrEmailAddressAddressType extends ilBaseMailAddressType
 {
-    protected ilRbacSystem $rbacsystem;
-
     public function __construct(
         ilMailAddressTypeHelper $typeHelper,
         ilMailAddress $address,
         ilLogger $logger,
-        ilRbacSystem $rbacsystem
+        protected ilRbacSystem $rbacsystem
     ) {
         parent::__construct($typeHelper, $address, $logger);
-        $this->rbacsystem = $rbacsystem;
     }
 
-    protected function isValid(int $senderId) : bool
+    protected function isValid(int $senderId): bool
     {
         if ($this->address->getHost() === $this->typeHelper->getInstallationHost()) {
             $usrId = $this->typeHelper->getUserIdByLogin($this->address->getMailbox());
@@ -69,7 +68,7 @@ class ilMailLoginOrEmailAddressAddressType extends ilBaseMailAddressType
         return true;
     }
 
-    public function resolve() : array
+    public function resolve(): array
     {
         if ($this->address->getHost() === $this->typeHelper->getInstallationHost()) {
             $address = $this->address->getMailbox();
@@ -81,7 +80,7 @@ class ilMailLoginOrEmailAddressAddressType extends ilBaseMailAddressType
             $this->typeHelper->getUserIdByLogin($address),
         ]);
 
-        if (count($usrIds) > 0) {
+        if ($usrIds !== []) {
             $this->logger->debug(sprintf(
                 "Found the following user ids for address (login) '%s': %s",
                 $address,

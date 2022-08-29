@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\UI\Implementation\Component\Button;
 
 use ILIAS\UI\Implementation\Render\AbstractComponentRenderer;
@@ -29,7 +31,7 @@ class Renderer extends AbstractComponentRenderer
     /**
      * @inheritdoc
      */
-    public function render(Component\Component $component, RendererInterface $default_renderer) : string
+    public function render(Component\Component $component, RendererInterface $default_renderer): string
     {
         $this->checkComponent($component);
 
@@ -49,7 +51,7 @@ class Renderer extends AbstractComponentRenderer
         }
     }
 
-    protected function renderButton(Component\Button\Button $component, RendererInterface $default_renderer) : string
+    protected function renderButton(Component\Button\Button $component, RendererInterface $default_renderer): string
     {
         $tpl_name = "";
         if ($component instanceof Component\Button\Primary) {
@@ -144,7 +146,7 @@ class Renderer extends AbstractComponentRenderer
     /**
      * @inheritdoc
      */
-    public function registerResources(ResourceRegistry $registry) : void
+    public function registerResources(ResourceRegistry $registry): void
     {
         parent::registerResources($registry);
         $registry->register('./src/UI/templates/js/Button/button.js');
@@ -152,7 +154,7 @@ class Renderer extends AbstractComponentRenderer
         $registry->register("./node_modules/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js");
     }
 
-    protected function renderClose(Component\Button\Close $component) : string
+    protected function renderClose(Component\Button\Close $component): string
     {
         $tpl = $this->getTemplate("tpl.close.html", true, true);
         // This is required as the rendering seems to only create any output at all
@@ -163,7 +165,7 @@ class Renderer extends AbstractComponentRenderer
         return $tpl->get();
     }
 
-    protected function renderMinimize(Component\Button\Minimize $component) : string
+    protected function renderMinimize(Component\Button\Minimize $component): string
     {
         $tpl = $this->getTemplate("tpl.minimize.html", true, true);
         $tpl->setVariable("ARIA_LABEL", $this->txt("minimize"));
@@ -171,7 +173,7 @@ class Renderer extends AbstractComponentRenderer
         return $tpl->get();
     }
 
-    protected function renderToggle(Component\Button\Toggle $component) : string
+    protected function renderToggle(Component\Button\Toggle $component): string
     {
         $tpl = $this->getTemplate("tpl.toggle.html", true, true);
 
@@ -235,7 +237,7 @@ class Renderer extends AbstractComponentRenderer
         return $tpl->get();
     }
 
-    protected function maybeRenderId(Component\JavaScriptBindable $component, Template $tpl) : void
+    protected function maybeRenderId(Component\JavaScriptBindable $component, Template $tpl): void
     {
         $id = $this->bindJavaScript($component);
         if ($id !== null) {
@@ -245,7 +247,7 @@ class Renderer extends AbstractComponentRenderer
         }
     }
 
-    protected function renderMonth(Component\Button\Month $component) : string
+    protected function renderMonth(Component\Button\Month $component): string
     {
         $def = $component->getDefault();
 
@@ -276,7 +278,7 @@ class Renderer extends AbstractComponentRenderer
         return $tpl->get();
     }
 
-    protected function additionalRenderTag(Component\Button\Tag $component, Template $tpl) : void
+    protected function additionalRenderTag(Component\Button\Tag $component, Template $tpl): void
     {
         $tpl->touchBlock('rel_' . $component->getRelevance());
 
@@ -299,7 +301,7 @@ class Renderer extends AbstractComponentRenderer
         Component\Button\Button $component,
         RendererInterface $default_renderer,
         Template $tpl
-    ) : void {
+    ): void {
         $renderer = $default_renderer->withAdditionalContext($component);
         $tpl->setVariable("ICON_OR_GLYPH", $renderer->render($component->getIconOrGlyph()));
         $label = $component->getLabel();
@@ -332,7 +334,7 @@ class Renderer extends AbstractComponentRenderer
     /**
      * @inheritdoc
      */
-    protected function getComponentInterfaceName() : array
+    protected function getComponentInterfaceName(): array
     {
         return array(Component\Button\Primary::class
         , Component\Button\Standard::class

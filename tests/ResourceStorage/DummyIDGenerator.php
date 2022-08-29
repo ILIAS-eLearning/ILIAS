@@ -33,7 +33,7 @@ class DummyIDGenerator implements IdentificationGenerator
     /**
      * @inheritDoc
      */
-    public function getUniqueResourceIdentification() : ResourceIdentification
+    public function getUniqueResourceIdentification(): ResourceIdentification
     {
         return new ResourceIdentification($this->id);
     }

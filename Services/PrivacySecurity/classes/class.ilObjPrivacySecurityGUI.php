@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -32,7 +34,7 @@ class ilObjPrivacySecurityGUI extends ilObjectGUI
         self::initErrorMessages();
     }
 
-    public static function initErrorMessages() : void
+    public static function initErrorMessages(): void
     {
         global $DIC;
 
@@ -57,7 +59,7 @@ class ilObjPrivacySecurityGUI extends ilObjectGUI
         ];
     }
 
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         $next_class = $this->ctrl->getNextClass($this);
         $cmd = $this->ctrl->getCmd();
@@ -89,7 +91,7 @@ class ilObjPrivacySecurityGUI extends ilObjectGUI
      * Get tabs
      * @access public
      */
-    public function getAdminTabs() : void
+    public function getAdminTabs(): void
     {
         if ($this->rbac_system->checkAccess("visible,read", $this->object->getRefId())) {
             $this->tabs_gui->addTarget(
@@ -114,7 +116,7 @@ class ilObjPrivacySecurityGUI extends ilObjectGUI
         }
     }
 
-    protected function initPrivacyForm() : ilPropertyFormGUI
+    protected function initPrivacyForm(): ilPropertyFormGUI
     {
         $privacy = ilPrivacySettings::getInstance();
 
@@ -198,7 +200,7 @@ class ilObjPrivacySecurityGUI extends ilObjectGUI
      * Show Privacy settings
      * @access public
      */
-    public function showPrivacy(?ilPropertyFormGUI $form = null) : void
+    public function showPrivacy(?ilPropertyFormGUI $form = null): void
     {
         if (!$form instanceof ilPropertyFormGUI) {
             $form = $this->initPrivacyForm();
@@ -209,7 +211,7 @@ class ilObjPrivacySecurityGUI extends ilObjectGUI
     /**
      * Show Privacy settings
      */
-    public function showSecurity() : void
+    public function showSecurity(): void
     {
         $security = ilSecuritySettings::_getInstance();
 
@@ -227,7 +229,7 @@ class ilObjPrivacySecurityGUI extends ilObjectGUI
         $this->tpl->setContent($form->getHTML());
     }
 
-    public function save_privacy() : void
+    public function save_privacy(): void
     {
         if (!$this->access->checkAccess('write', '', $this->object->getRefId())) {
             $this->error->raiseError($this->lng->txt('no_permission'), $this->error->WARNING);
@@ -308,7 +310,7 @@ class ilObjPrivacySecurityGUI extends ilObjectGUI
     /**
      * Save security settings
      */
-    public function save_security() : void
+    public function save_security(): void
     {
         if (!$this->access->checkAccess('write', '', $this->object->getRefId())) {
             $this->error->raiseError($this->lng->txt('no_permission'), $this->error->WARNING);
@@ -322,7 +324,7 @@ class ilObjPrivacySecurityGUI extends ilObjectGUI
      * @return string
      */
 
-    public static function getErrorMessage(int $code) : string
+    public static function getErrorMessage(int $code): string
     {
         self::initErrorMessages();
         if (array_key_exists($code, self::$ERROR_MESSAGE)) {
@@ -331,7 +333,7 @@ class ilObjPrivacySecurityGUI extends ilObjectGUI
         return '';
     }
 
-    public function addToExternalSettingsForm(int $a_form_id) : array
+    public function addToExternalSettingsForm(int $a_form_id): array
     {
         switch ($a_form_id) {
             case ilAdministrationSettingsFormHandler::FORM_COURSE:

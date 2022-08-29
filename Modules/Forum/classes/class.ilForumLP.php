@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -22,7 +24,7 @@
  */
 class ilForumLP extends ilObjectLP
 {
-    public function appendModeConfiguration(int $mode, ilRadioOption $modeElement) : void
+    public function appendModeConfiguration(int $mode, ilRadioOption $modeElement): void
     {
         global $DIC;
 
@@ -44,7 +46,7 @@ class ilForumLP extends ilObjectLP
         }
     }
 
-    public function saveModeConfiguration(ilPropertyFormGUI $form, bool &$modeChanged) : void
+    public function saveModeConfiguration(ilPropertyFormGUI $form, bool &$modeChanged): void
     {
         $frm_properties = ilForumProperties::getInstance($this->obj_id);
 
@@ -64,7 +66,7 @@ class ilForumLP extends ilObjectLP
         }
     }
 
-    public static function getDefaultModes(bool $lp_active) : array
+    public static function getDefaultModes(bool $lp_active): array
     {
         if (true === $lp_active) {
             return [
@@ -78,12 +80,12 @@ class ilForumLP extends ilObjectLP
         ];
     }
 
-    public function getDefaultMode() : int
+    public function getDefaultMode(): int
     {
         return ilLPObjSettings::LP_MODE_DEACTIVATED;
     }
 
-    public function getValidModes() : array
+    public function getValidModes(): array
     {
         return [
             ilLPObjSettings::LP_MODE_DEACTIVATED,

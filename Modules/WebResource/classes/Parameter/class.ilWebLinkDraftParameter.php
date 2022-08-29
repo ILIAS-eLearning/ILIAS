@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -32,13 +34,13 @@ class ilWebLinkDraftParameter extends ilWebLinkBaseParameter
 
     protected ?ilWebLinkParameter $old_parameter = null;
 
-    public function replaces(?ilWebLinkParameter $old_parameter) : ilWebLinkDraftParameter
+    public function replaces(?ilWebLinkParameter $old_parameter): ilWebLinkDraftParameter
     {
         $this->old_parameter = $old_parameter;
         return $this;
     }
 
-    public function getOldParameter() : ?ilWebLinkParameter
+    public function getOldParameter(): ?ilWebLinkParameter
     {
         return $this->old_parameter;
     }
@@ -47,7 +49,7 @@ class ilWebLinkDraftParameter extends ilWebLinkBaseParameter
      * TODO: Modernizing the forms to input parameters will make this
      *   additional layer of input validation obsolete.
      */
-    public function validate() : string
+    public function validate(): string
     {
         if (!strlen($this->getName()) && !$this->getValue()) {
             return self::LINKS_ERR_NO_NAME_VALUE;

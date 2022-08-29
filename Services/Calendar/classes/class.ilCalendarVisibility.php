@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /*
         +-----------------------------------------------------------------------------+
         | ILIAS open source                                                           |
@@ -51,7 +53,7 @@ class ilCalendarVisibility
         $this->read();
     }
 
-    public static function _getInstanceByUserId(int $a_user_id, int $a_ref_id = 0) : ilCalendarVisibility
+    public static function _getInstanceByUserId(int $a_user_id, int $a_ref_id = 0): ilCalendarVisibility
     {
         if (!isset(self::$instances[$a_user_id][$a_ref_id])) {
             self::$instances[$a_user_id][$a_ref_id] = new ilCalendarVisibility($a_user_id, $a_ref_id);
@@ -59,7 +61,7 @@ class ilCalendarVisibility
         return self::$instances[$a_user_id][$a_ref_id];
     }
 
-    public static function _deleteCategories(int $a_cat_id) : void
+    public static function _deleteCategories(int $a_cat_id): void
     {
         global $DIC;
 
@@ -69,7 +71,7 @@ class ilCalendarVisibility
         $ilDB->manipulate($query);
     }
 
-    public static function _deleteUser(int $a_user_id) : void
+    public static function _deleteUser(int $a_user_id): void
     {
         global $DIC;
 
@@ -83,7 +85,7 @@ class ilCalendarVisibility
     /**
      * Filter hidden categories (and hidden subitem categories) from category array
      */
-    public function filterHidden(array $categories, array $category_info) : array
+    public function filterHidden(array $categories, array $category_info): array
     {
         $hidden = array();
         foreach ($category_info as $cat_id => $info) {
@@ -91,7 +93,7 @@ class ilCalendarVisibility
             if (array_key_exists('subitem_ids', $info) && is_array($info['subitem_ids'])) {
                 $subitem_ids = $info['subitem_ids'];
             }
-            
+
             if ($this->isHidden($cat_id, $info)) {
                 $hidden = array_merge((array) $hidden, $subitem_ids, array($cat_id));
             }
@@ -99,7 +101,7 @@ class ilCalendarVisibility
         return array_diff($categories, $hidden);
     }
 
-    protected function isHidden(int $a_cat_id, array $info) : bool
+    protected function isHidden(int $a_cat_id, array $info): bool
     {
         // personal desktop
         if ($this->obj_id == 0) {
@@ -117,7 +119,7 @@ class ilCalendarVisibility
         return !in_array($a_cat_id, $this->visible);
     }
 
-    public function isAppointmentVisible(int $a_cal_id) : bool
+    public function isAppointmentVisible(int $a_cal_id): bool
     {
         foreach (ilCalendarCategoryAssignments::_lookupCategories($a_cal_id) as $cat_id) {
             if (in_array($cat_id, $this->hidden)) {
@@ -127,27 +129,27 @@ class ilCalendarVisibility
         return false;
     }
 
-    public function getHidden() : array
+    public function getHidden(): array
     {
         return $this->hidden;
     }
 
-    public function getVisible() : array
+    public function getVisible(): array
     {
         return $this->visible;
     }
 
-    public function hideSelected(array $a_hidden) : void
+    public function hideSelected(array $a_hidden): void
     {
         $this->hidden = $a_hidden;
     }
 
-    public function showSelected(array $a_visible) : void
+    public function showSelected(array $a_visible): void
     {
         $this->visible = $a_visible;
     }
 
-    public function save() : void
+    public function save(): void
     {
         $this->delete();
         foreach ($this->hidden as $hidden) {
@@ -172,7 +174,7 @@ class ilCalendarVisibility
         }
     }
 
-    public function delete(int $a_cat_id = null) : void
+    public function delete(int $a_cat_id = null): void
     {
         if ($a_cat_id) {
             $query = "DELETE FROM cal_cat_visibility " .
@@ -187,7 +189,7 @@ class ilCalendarVisibility
         $this->db->manipulate($query);
     }
 
-    protected function read() : void
+    protected function read(): void
     {
         $query = "SELECT * FROM cal_cat_visibility " .
             "WHERE user_id = " . $this->db->quote($this->user_id, 'integer') . " " .
@@ -203,7 +205,7 @@ class ilCalendarVisibility
         }
     }
 
-    public function forceVisibility(int $a_cat_id) : void
+    public function forceVisibility(int $a_cat_id): void
     {
         if (($key = array_search($a_cat_id, $this->hidden)) !== false) {
             unset($this->hidden[$key]);

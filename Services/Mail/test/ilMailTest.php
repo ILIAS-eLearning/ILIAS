@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -39,7 +41,7 @@ class ilMailTest extends ilMailBaseTest
     /**
      * @throws ReflectionException
      */
-    public function testExternalMailDeliveryToLocalRecipientsWorksAsExpected() : void
+    public function testExternalMailDeliveryToLocalRecipientsWorksAsExpected(): void
     {
         $refineryMock = $this->getMockBuilder(Factory::class)->disableOriginalConstructor()->getMock();
         $this->setGlobalVariable('refinery', $refineryMock);
@@ -56,7 +58,7 @@ class ilMailTest extends ilMailBaseTest
         ];
         $userInstanceById = [];
         $mailOptionsById = [];
-        foreach ($loginToIdMap as $login => $usrId) {
+        foreach ($loginToIdMap as $usrId) {
             $user = $this
                 ->getMockBuilder(ilObjUser::class)
                 ->disableOriginalConstructor()
@@ -90,35 +92,33 @@ class ilMailTest extends ilMailBaseTest
             ->getMock();
         $addressTypeFactory
             ->method('getByPrefix')
-            ->willReturnCallback(function ($arg) use ($loginToIdMap) {
-                return new class($arg, $loginToIdMap) implements ilMailAddressType {
+            ->willReturnCallback(function ($arg) use ($loginToIdMap): object {
+                return new class ($arg, $loginToIdMap) implements ilMailAddressType {
                     protected array $loginToIdMap = [];
-                    protected ilMailAddress $address;
 
-                    public function __construct(ilMailAddress $address, $loginToIdMap)
+                    public function __construct(protected ilMailAddress $address, $loginToIdMap)
                     {
-                        $this->address = $address;
-                        $this->loginToIdMap = array_map(static function (int $usrId) : array {
+                        $this->loginToIdMap = array_map(static function (int $usrId): array {
                             return [$usrId];
                         }, $loginToIdMap);
                     }
 
-                    public function resolve() : array
+                    public function resolve(): array
                     {
                         return $this->loginToIdMap[$this->address->getMailbox()] ?? [];
                     }
 
-                    public function validate(int $senderId) : bool
+                    public function validate(int $senderId): bool
                     {
                         return true;
                     }
 
-                    public function getErrors() : array
+                    public function getErrors(): array
                     {
                         return [];
                     }
 
-                    public function getAddress() : ilMailAddress
+                    public function getAddress(): ilMailAddress
                     {
                         return $this->address;
                     }
@@ -127,7 +127,7 @@ class ilMailTest extends ilMailBaseTest
 
         $db = $this->getMockBuilder(ilDBInterface::class)->getMock();
         $nextId = 0;
-        $db->method('nextId')->willReturnCallback(function () use (&$nextId) : int {
+        $db->method('nextId')->willReturnCallback(function () use (&$nextId): int {
             ++$nextId;
 
             return $nextId;
@@ -156,7 +156,7 @@ class ilMailTest extends ilMailBaseTest
             $mailOptions,
             $mailBox,
             new ilMailMimeSenderFactory($settings),
-            static function (string $login) use ($loginToIdMap) : int {
+            static function (string $login) use ($loginToIdMap): int {
                 return $loginToIdMap[$login] ?? 0;
             },
             4711,
@@ -170,7 +170,7 @@ class ilMailTest extends ilMailBaseTest
             ->getMock();
         $mailTransport->expects($this->once())->method('send')->with($this->callback(function (
             ilMimeMail $mailer
-        ) use ($loginToIdMap) : bool {
+        ) use ($loginToIdMap): bool {
             $totalBcc = [];
             foreach ($mailer->getBcc() as $bcc) {
                 $totalBcc = array_filter(array_map('trim', explode(',', $bcc))) + $totalBcc;
@@ -196,7 +196,7 @@ class ilMailTest extends ilMailBaseTest
         ilMimeMail::setDefaultTransport($oldTransport);
     }
 
-    public function testGetMailObjectReferenceId() : void
+    public function testGetMailObjectReferenceId(): void
     {
         $refId = 364;
         $instance = $this->create($refId);
@@ -204,7 +204,7 @@ class ilMailTest extends ilMailBaseTest
         $this->assertSame($refId, $instance->getMailObjectReferenceId());
     }
 
-    public function testFormatNamesForOutput() : void
+    public function testFormatNamesForOutput(): void
     {
         $instance = $this->create();
 
@@ -217,7 +217,7 @@ class ilMailTest extends ilMailBaseTest
     /**
      * @dataProvider provideGetPreviousMail
      */
-    public function testGetPreviousMail(array $rowData) : void
+    public function testGetPreviousMail(array $rowData): void
     {
         $mailId = 3454;
         $instance = $this->createAndExpectDatabaseCall($mailId, $rowData);
@@ -225,7 +225,7 @@ class ilMailTest extends ilMailBaseTest
         $instance->getPreviousMail($mailId);
     }
 
-    public function provideGetPreviousMail() : array
+    public function provideGetPreviousMail(): array
     {
         return [
             [[]],
@@ -248,7 +248,7 @@ class ilMailTest extends ilMailBaseTest
         ];
     }
 
-    public function testGetNextMail() : void
+    public function testGetNextMail(): void
     {
         $mailId = 8484;
         $instance = $this->createAndExpectDatabaseCall($mailId, []);
@@ -256,7 +256,7 @@ class ilMailTest extends ilMailBaseTest
         $instance->getNextMail($mailId);
     }
 
-    public function testGetMailsOfFolder() : void
+    public function testGetMailsOfFolder(): void
     {
         $filter = ['status' => 'yes'];
         $rowData = ['mail_id' => 8908];
@@ -275,7 +275,7 @@ class ilMailTest extends ilMailBaseTest
         $this->assertEquals($expected, $instance->getMailsOfFolder($folderId, $filter));
     }
 
-    public function testCountMailsOfFolder() : void
+    public function testCountMailsOfFolder(): void
     {
         $userId = 46;
         $folderId = 68;
@@ -288,38 +288,38 @@ class ilMailTest extends ilMailBaseTest
         $this->assertSame($numRows, $instance->countMailsOfFolder($folderId));
     }
 
-    public function testGetMail() : void
+    public function testGetMail(): void
     {
         $mailId = 7890;
         $instance = $this->createAndExpectDatabaseCall($mailId, []);
         $instance->getMail($mailId);
     }
 
-    public function testMarkRead() : void
+    public function testMarkRead(): void
     {
         $mailIds = [1, 2, 3, 4, 5, 6];
         $userId = 987;
         $instance = $this->create(567, $userId);
-        $mockStatement = $this->getMockBuilder(ilDBStatement::class)->getMock();
+        $this->getMockBuilder(ilDBStatement::class)->getMock();
         $this->mockDatabase->expects(self::once())->method('in')->with('mail_id', $mailIds, false, 'integer')->willReturn('');
         $this->mockDatabase->expects(self::once())->method('manipulateF')->willReturnCallback($this->queryCallback(0, ['text', 'integer'], ['read', $userId]));
 
         $instance->markRead($mailIds);
     }
 
-    public function testMarkUnread() : void
+    public function testMarkUnread(): void
     {
         $mailIds = [1, 2, 3, 4, 5, 6];
         $userId = 987;
         $instance = $this->create(567, $userId);
-        $mockStatement = $this->getMockBuilder(ilDBStatement::class)->getMock();
+        $this->getMockBuilder(ilDBStatement::class)->getMock();
         $this->mockDatabase->expects(self::once())->method('in')->with('mail_id', $mailIds, false, 'integer')->willReturn('');
         $this->mockDatabase->expects(self::once())->method('manipulateF')->willReturnCallback($this->queryCallback(0, ['text', 'integer'], ['unread', $userId]));
 
         $instance->markUnread($mailIds);
     }
 
-    public function testMoveMailsToFolder() : void
+    public function testMoveMailsToFolder(): void
     {
         $mailIds = [1, 2, 3, 4, 5, 6];
         $folderId = 890;
@@ -331,7 +331,7 @@ class ilMailTest extends ilMailBaseTest
         $this->assertTrue($instance->moveMailsToFolder($mailIds, $folderId));
     }
 
-    public function testMoveMailsToFolderFalse() : void
+    public function testMoveMailsToFolderFalse(): void
     {
         $mailIds = [];
         $instance = $this->create();
@@ -341,7 +341,7 @@ class ilMailTest extends ilMailBaseTest
         $this->assertFalse($instance->moveMailsToFolder($mailIds, 892));
     }
 
-    public function testGetNewDraftId() : void
+    public function testGetNewDraftId(): void
     {
         $nextId = 789;
         $userId = 5678;
@@ -359,7 +359,7 @@ class ilMailTest extends ilMailBaseTest
         $this->assertSame($nextId, $instance->getNewDraftId($folderId));
     }
 
-    public function testUpdateDraft() : void
+    public function testUpdateDraft(): void
     {
         $folderId = 7890;
         $instance = $this->create();
@@ -393,7 +393,7 @@ class ilMailTest extends ilMailBaseTest
         $this->assertSame($draftId, $instance->updateDraft($folderId, [], $to, $cc, $bcc, $subject, $message, $draftId, $usePlaceholders, $contextId, $params));
     }
 
-    public function testSavePostData() : void
+    public function testSavePostData(): void
     {
         $userId = 897;
         $attachments = [];
@@ -436,7 +436,7 @@ class ilMailTest extends ilMailBaseTest
         );
     }
 
-    public function testGetSavedData() : void
+    public function testGetSavedData(): void
     {
         $userId = 789;
         $instance = $this->create(67, $userId);
@@ -447,7 +447,7 @@ class ilMailTest extends ilMailBaseTest
         $this->assertNull($instance->getSavedData());
     }
 
-    public function testValidateRecipients($errors = []) : void
+    public function testValidateRecipients($errors = []): void
     {
         $to = 'jkhk';
         $cc = 'hjhjkl';
@@ -477,7 +477,7 @@ class ilMailTest extends ilMailBaseTest
         $this->assertSame([], $instance->validateRecipients($to, $cc, $bcc));
     }
 
-    public function provideValidateRecipients() : array
+    public function provideValidateRecipients(): array
     {
         return [
             [[]],
@@ -485,7 +485,7 @@ class ilMailTest extends ilMailBaseTest
         ];
     }
 
-    public function testGetIliasMailerName() : void
+    public function testGetIliasMailerName(): void
     {
         $expected = 'Phasellus lacus';
         $mockSystem = $this->getMockBuilder(ilMailMimeSenderSystem::class)->disableOriginalConstructor()->getMock();
@@ -497,7 +497,7 @@ class ilMailTest extends ilMailBaseTest
         $this->assertSame($expected, ilMail::_getIliasMailerName());
     }
 
-    public function testSaveAttachments() : void
+    public function testSaveAttachments(): void
     {
         $userId = 89;
         $attachments = ['aaa', 'bb', 'cc', 'rrr'];
@@ -516,7 +516,7 @@ class ilMailTest extends ilMailBaseTest
         $instance->saveAttachments($attachments);
     }
 
-    private function queryCallback($returnValue, array $expectedTypes, array $expectedValues) : Closure
+    private function queryCallback($returnValue, array $expectedTypes, array $expectedValues): Closure
     {
         return function (string $query, array $types, array $values) use ($expectedTypes, $expectedValues, $returnValue) {
             $this->assertEquals($expectedTypes, $types);
@@ -526,7 +526,7 @@ class ilMailTest extends ilMailBaseTest
         };
     }
 
-    private function createAndExpectDatabaseCall(int $someMailId, array $rowData) : ilMail
+    private function createAndExpectDatabaseCall(int $someMailId, array $rowData): ilMail
     {
         $userId = 900;
         $instance = $this->create(234, $userId);
@@ -537,9 +537,9 @@ class ilMailTest extends ilMailBaseTest
         return $instance;
     }
 
-    private function create(int $refId = 234, int $userId = 123) : ilMail
+    private function create(int $refId = 234, int $userId = 123): ilMail
     {
-        $instance = new ilMail(
+        return new ilMail(
             $userId,
             ($this->mockAddressTypeFactory = $this->getMockBuilder(ilMailAddressTypeFactory::class)->disableOriginalConstructor()->getMock()),
             ($this->mockParserFactory = $this->getMockBuilder(ilMailRfc822AddressParserFactory::class)->disableOriginalConstructor()->getMock()),
@@ -551,13 +551,11 @@ class ilMailTest extends ilMailBaseTest
             $this->getMockBuilder(ilMailOptions::class)->disableOriginalConstructor()->getMock(),
             $this->getMockBuilder(ilMailbox::class)->disableOriginalConstructor()->getMock(),
             $this->getMockBuilder(ilMailMimeSenderFactory::class)->disableOriginalConstructor()->getMock(),
-            static function (string $login) : int {
+            static function (string $login): int {
                 return 780;
             },
             $refId,
             $this->getMockBuilder(ilObjUser::class)->disableOriginalConstructor()->getMock()
         );
-
-        return $instance;
     }
 }

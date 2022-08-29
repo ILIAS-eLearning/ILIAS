@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -28,7 +30,6 @@ use ILIAS\UI\Factory as UIFactory;
  */
 class StandardNotificationGroup extends AbstractBaseNotification implements isStandardItem
 {
-
     /**
      * @var StandardNotification[]
      */
@@ -39,7 +40,7 @@ class StandardNotificationGroup extends AbstractBaseNotification implements isSt
      */
     protected string $title = "";
 
-    public function withTitle(string $title) : self
+    public function withTitle(string $title): self
     {
         $clone = clone $this;
         $clone->title = $title;
@@ -50,12 +51,12 @@ class StandardNotificationGroup extends AbstractBaseNotification implements isSt
     /**
      * @return string
      */
-    public function getTitle() : string
+    public function getTitle(): string
     {
         return $this->title;
     }
 
-    public function addNotification(StandardNotification $notification) : self
+    public function addNotification(StandardNotification $notification): self
     {
         $this->notifications[] = $notification;
 
@@ -65,7 +66,7 @@ class StandardNotificationGroup extends AbstractBaseNotification implements isSt
     /**
      * @return StandardNotification[]
      */
-    public function getNotifications() : array
+    public function getNotifications(): array
     {
         return $this->notifications;
     }
@@ -73,7 +74,7 @@ class StandardNotificationGroup extends AbstractBaseNotification implements isSt
     /**
      * @return int
      */
-    public function getNotificationsCount() : int
+    public function getNotificationsCount(): int
     {
         return count($this->notifications);
     }
@@ -81,7 +82,7 @@ class StandardNotificationGroup extends AbstractBaseNotification implements isSt
     /**
      * @return int
      */
-    public function getOldNotificationsCount() : int
+    public function getOldNotificationsCount(): int
     {
         $count = 0;
         foreach ($this->notifications as $notification) {
@@ -93,7 +94,7 @@ class StandardNotificationGroup extends AbstractBaseNotification implements isSt
     /**
      * @return int
      */
-    public function getNewNotificationsCount() : int
+    public function getNewNotificationsCount(): int
     {
         $count = 0;
         foreach ($this->notifications as $notification) {
@@ -105,7 +106,7 @@ class StandardNotificationGroup extends AbstractBaseNotification implements isSt
     /**
      * @inheritDoc
      */
-    public function getRenderer(UIFactory $factory) : NotificationRenderer
+    public function getRenderer(UIFactory $factory): NotificationRenderer
     {
         return new StandardNotificationGroupRenderer($factory);
     }

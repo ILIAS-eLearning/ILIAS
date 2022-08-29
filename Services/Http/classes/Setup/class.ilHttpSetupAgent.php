@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 use ILIAS\Setup;
 use ILIAS\Refinery;
@@ -33,7 +35,7 @@ class ilHttpSetupAgent implements Setup\Agent
     /**
      * @inheritdoc
      */
-    public function hasConfig() : bool
+    public function hasConfig(): bool
     {
         return true;
     }
@@ -41,9 +43,9 @@ class ilHttpSetupAgent implements Setup\Agent
     /**
      * @inheritdoc
      */
-    public function getArrayToConfigTransformation() : Refinery\Transformation
+    public function getArrayToConfigTransformation(): Refinery\Transformation
     {
-        return $this->refinery->custom()->transformation(function ($data) : \ilHttpSetupConfig {
+        return $this->refinery->custom()->transformation(function ($data): \ilHttpSetupConfig {
             return new \ilHttpSetupConfig(
                 $data["path"],
                 isset($data["https_autodetection"]) && $data["https_autodetection"],
@@ -68,7 +70,7 @@ class ilHttpSetupAgent implements Setup\Agent
     /**
      * @inheritdoc
      */
-    public function getInstallObjective(Setup\Config $config = null) : Setup\Objective
+    public function getInstallObjective(Setup\Config $config = null): Setup\Objective
     {
         $http_config_stored = new ilHttpConfigStoredObjective($config);
 
@@ -85,7 +87,7 @@ class ilHttpSetupAgent implements Setup\Agent
     /**
      * @inheritdoc
      */
-    public function getUpdateObjective(Setup\Config $config = null) : Setup\Objective
+    public function getUpdateObjective(Setup\Config $config = null): Setup\Objective
     {
         if ($config !== null) {
             return new ilHttpConfigStoredObjective($config);
@@ -96,7 +98,7 @@ class ilHttpSetupAgent implements Setup\Agent
     /**
      * @inheritdoc
      */
-    public function getBuildArtifactObjective() : Setup\Objective
+    public function getBuildArtifactObjective(): Setup\Objective
     {
         return new Setup\Objective\NullObjective();
     }
@@ -104,7 +106,7 @@ class ilHttpSetupAgent implements Setup\Agent
     /**
      * @inheritdoc
      */
-    public function getStatusObjective(Setup\Metrics\Storage $storage) : Setup\Objective
+    public function getStatusObjective(Setup\Metrics\Storage $storage): Setup\Objective
     {
         return new ilHttpMetricsCollectedObjective($storage);
     }
@@ -112,7 +114,7 @@ class ilHttpSetupAgent implements Setup\Agent
     /**
      * @inheritDoc
      */
-    public function getMigrations() : array
+    public function getMigrations(): array
     {
         return [];
     }

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -34,7 +36,7 @@ class ilCertificateObjectsForUserPreloader
      * @param int   $userId
      * @param int[] $objIds
      */
-    public function preLoad(int $userId, array $objIds) : void
+    public function preLoad(int $userId, array $objIds): void
     {
         if (!array_key_exists($userId, self::$certificates)) {
             self::$certificates[$userId] = [];
@@ -51,7 +53,7 @@ class ilCertificateObjectsForUserPreloader
         ));
     }
 
-    public function isPreloaded(int $userId, int $objId) : bool
+    public function isPreloaded(int $userId, int $objId): bool
     {
         if (false === array_key_exists($userId, self::$certificates)) {
             return false;

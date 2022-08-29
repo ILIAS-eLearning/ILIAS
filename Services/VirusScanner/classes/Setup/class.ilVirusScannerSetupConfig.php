@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -76,7 +78,7 @@ class ilVirusScannerSetupConfig implements Setup\Config
         $this->path_to_clean = $this->toLinuxConvention($path_to_clean);
     }
 
-    protected function toLinuxConvention(?string $p) : ?string
+    protected function toLinuxConvention(?string $p): ?string
     {
         if (!$p) {
             return null;
@@ -84,37 +86,37 @@ class ilVirusScannerSetupConfig implements Setup\Config
         return preg_replace("/\\\\/", "/", $p);
     }
 
-    public function getVirusScanner() : string
+    public function getVirusScanner(): string
     {
         return $this->virus_scanner;
     }
 
-    public function getPathToScan() : ?string
+    public function getPathToScan(): ?string
     {
         return $this->path_to_scan;
     }
 
-    public function getPathToClean() : ?string
+    public function getPathToClean(): ?string
     {
         return $this->path_to_clean;
     }
 
-    public function getIcapHost() : ?string
+    public function getIcapHost(): ?string
     {
         return $this->icap_host;
     }
 
-    public function getIcapPort() : ?string
+    public function getIcapPort(): ?string
     {
         return $this->icap_port;
     }
 
-    public function getIcapServiceName() : ?string
+    public function getIcapServiceName(): ?string
     {
         return $this->icap_service_name;
     }
 
-    public function getIcapClientPath() : ?string
+    public function getIcapClientPath(): ?string
     {
         return $this->icap_client_path;
     }

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -25,21 +27,21 @@ class ilSystemCheckDefinitionProcessor implements ilComponentDefinitionProcessor
         $this->db = $db;
     }
 
-    public function purge() : void
+    public function purge(): void
     {
     }
 
-    public function beginComponent(string $component, string $type) : void
-    {
-        $this->component_id = null;
-    }
-
-    public function endComponent(string $component, string $type) : void
+    public function beginComponent(string $component, string $type): void
     {
         $this->component_id = null;
     }
 
-    public function beginTag(string $name, array $attributes) : void
+    public function endComponent(string $component, string $type): void
+    {
+        $this->component_id = null;
+    }
+
+    public function beginTag(string $name, array $attributes): void
     {
         if ($name === "module" || $name === "service") {
             $this->component_id = $attributes["id"] ?? null;
@@ -64,7 +66,7 @@ class ilSystemCheckDefinitionProcessor implements ilComponentDefinitionProcessor
         }
     }
 
-    public function endTag(string $name) : void
+    public function endTag(string $name): void
     {
         if ($name === "module" || $name === "service") {
             $this->component_id = null;

@@ -1,4 +1,6 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -34,12 +36,12 @@ class ItemManager
         $this->container = $container;
     }
 
-    public function setExpanded(int $id, int $val) : void
+    public function setExpanded(int $id, int $val): void
     {
         $this->item_repo->setExpanded($id, $val);
     }
 
-    public function getExpanded(int $id) : ?int
+    public function getExpanded(int $id): ?int
     {
         return $this->item_repo->getExpanded($id);
     }

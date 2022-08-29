@@ -49,27 +49,29 @@ class ilOrgUnitExportGUI extends ilExportGUI
         }
     }
 
-    public function listExportFiles() : void
+    public function listExportFiles(): void
     {
         if ($this->ilObjOrgUnit->getRefId() != ilObjOrgUnit::getRootOrgRefId()) {
             parent::listExportFiles();
         }
     }
 
-    private function extendExportGUI() : void
+    private function extendExportGUI(): void
     {
         $this->toolbar->addButton($this->lng->txt("simple_xml"), $this->ctrl->getLinkTarget($this, "simpleExport"));
-        $this->toolbar->addButton($this->lng->txt("simple_xls"),
-            $this->ctrl->getLinkTarget($this, "simpleExportExcel"));
+        $this->toolbar->addButton(
+            $this->lng->txt("simple_xls"),
+            $this->ctrl->getLinkTarget($this, "simpleExportExcel")
+        );
     }
 
-    public function simpleExport() : void
+    public function simpleExport(): void
     {
         $ilOrgUnitExporter = new ilOrgUnitExporter();
         $ilOrgUnitExporter->sendAndCreateSimpleExportFile();
     }
 
-    public function simpleExportExcel() : void
+    public function simpleExportExcel(): void
     {
         $ilOrgUnitExporter = new ilOrgUnitExporter();
         $ilOrgUnitExporter->simpleExportExcel(ilObjOrgUnit::getRootOrgRefId());

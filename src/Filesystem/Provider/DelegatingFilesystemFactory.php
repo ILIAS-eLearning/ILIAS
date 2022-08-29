@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace ILIAS\Filesystem\Provider;
@@ -46,7 +47,6 @@ final class DelegatingFilesystemFactory implements FilesystemFactory
      */
     public function __construct(FilenameSanitizer $sanitizer)
     {
-
         /*
          * ---------- ABSTRACTION SWITCH -------------
          * Change the factory to switch to another filesystem abstraction!
@@ -62,7 +62,7 @@ final class DelegatingFilesystemFactory implements FilesystemFactory
     /**
      * @inheritDoc
      */
-    public function getLocal(LocalConfig $config, bool $read_only = false) : Filesystem
+    public function getLocal(LocalConfig $config, bool $read_only = false): Filesystem
     {
         if ($read_only) {
             return new ReadOnlyDecorator(new FilesystemWhitelistDecorator($this->implementation->getLocal($config), $this->sanitizer));

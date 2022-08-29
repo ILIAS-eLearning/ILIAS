@@ -112,7 +112,7 @@ class ilObjSkillManagementGUI extends ilObjectGUI
         $this->requested_node_ids = $this->admin_gui_request->getNodeIds();
     }
 
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         $rbacsystem = $this->rbacsystem;
         $ilErr = $this->error;
@@ -126,7 +126,6 @@ class ilObjSkillManagementGUI extends ilObjectGUI
         }
 
         switch ($next_class) {
-
             case 'ilskillrootgui':
                 $skrt_gui = new ilSkillRootGUI(
                     $this->skill_tree_node_manager,
@@ -135,53 +134,53 @@ class ilObjSkillManagementGUI extends ilObjectGUI
                 $skrt_gui->setParentGUI($this);
                 $ret = $this->ctrl->forwardCommand($skrt_gui);
                 break;
-            /*
-            case 'ilskillcategorygui':
-                $this->tabs_gui->activateTab("skills");
-                $scat_gui = new ilSkillCategoryGUI($this->requested_node_id);
-                $scat_gui->setParentGUI($this);
-                $this->showTree(false, $scat_gui, "listItems");
-                $ret = $this->ctrl->forwardCommand($scat_gui);
-                break;
+                /*
+                case 'ilskillcategorygui':
+                    $this->tabs_gui->activateTab("skills");
+                    $scat_gui = new ilSkillCategoryGUI($this->requested_node_id);
+                    $scat_gui->setParentGUI($this);
+                    $this->showTree(false, $scat_gui, "listItems");
+                    $ret = $this->ctrl->forwardCommand($scat_gui);
+                    break;
 
-            case 'ilbasicskillgui':
-                $this->tabs_gui->activateTab("skills");
-                $skill_gui = new ilBasicSkillGUI($this->requested_node_id);
-                $skill_gui->setParentGUI($this);
-                $this->showTree(false, $skill_gui, "edit");
-                $ret = $this->ctrl->forwardCommand($skill_gui);
-                break;
+                case 'ilbasicskillgui':
+                    $this->tabs_gui->activateTab("skills");
+                    $skill_gui = new ilBasicSkillGUI($this->requested_node_id);
+                    $skill_gui->setParentGUI($this);
+                    $this->showTree(false, $skill_gui, "edit");
+                    $ret = $this->ctrl->forwardCommand($skill_gui);
+                    break;
 
-            case 'ilskilltemplatecategorygui':
-                $this->tabs_gui->activateTab("skill_templates");
-                $sctp_gui = new ilSkillTemplateCategoryGUI($this->requested_node_id, $this->requested_tref_id);
-                $sctp_gui->setParentGUI($this);
-                $this->showTree(($this->requested_tref_id == 0), $sctp_gui, "listItems");
-                $ret = $this->ctrl->forwardCommand($sctp_gui);
-                break;
+                case 'ilskilltemplatecategorygui':
+                    $this->tabs_gui->activateTab("skill_templates");
+                    $sctp_gui = new ilSkillTemplateCategoryGUI($this->requested_node_id, $this->requested_tref_id);
+                    $sctp_gui->setParentGUI($this);
+                    $this->showTree(($this->requested_tref_id == 0), $sctp_gui, "listItems");
+                    $ret = $this->ctrl->forwardCommand($sctp_gui);
+                    break;
 
-            case 'ilbasicskilltemplategui':
-                $this->tabs_gui->activateTab("skill_templates");
-                $sktp_gui = new ilBasicSkillTemplateGUI($this->requested_node_id, $this->requested_tref_id);
-                $sktp_gui->setParentGUI($this);
-                $this->showTree(($this->requested_tref_id == 0), $sktp_gui, "edit");
-                $ret = $this->ctrl->forwardCommand($sktp_gui);
-                break;
+                case 'ilbasicskilltemplategui':
+                    $this->tabs_gui->activateTab("skill_templates");
+                    $sktp_gui = new ilBasicSkillTemplateGUI($this->requested_node_id, $this->requested_tref_id);
+                    $sktp_gui->setParentGUI($this);
+                    $this->showTree(($this->requested_tref_id == 0), $sktp_gui, "edit");
+                    $ret = $this->ctrl->forwardCommand($sktp_gui);
+                    break;
 
-            case 'ilskilltemplatereferencegui':
-                $this->tabs_gui->activateTab("skills");
-                $sktr_gui = new ilSkillTemplateReferenceGUI($this->requested_tref_id);
-                $sktr_gui->setParentGUI($this);
-                $this->showTree(false, $sktr_gui, "listItems");
-                $ret = $this->ctrl->forwardCommand($sktr_gui);
-                break;
+                case 'ilskilltemplatereferencegui':
+                    $this->tabs_gui->activateTab("skills");
+                    $sktr_gui = new ilSkillTemplateReferenceGUI($this->requested_tref_id);
+                    $sktr_gui->setParentGUI($this);
+                    $this->showTree(false, $sktr_gui, "listItems");
+                    $ret = $this->ctrl->forwardCommand($sktr_gui);
+                    break;
 
-            case "ilskillprofilegui":
-                $ilTabs->activateTab("profiles");
-                $skprof_gui = new ilSkillProfileGUI();
-                $ret = $this->ctrl->forwardCommand($skprof_gui);
-                break;
-                */
+                case "ilskillprofilegui":
+                    $ilTabs->activateTab("profiles");
+                    $skprof_gui = new ilSkillProfileGUI();
+                    $ret = $this->ctrl->forwardCommand($skprof_gui);
+                    break;
+                    */
             case "ilskillprofileuploadhandlergui":
                 $skprof_upl_gui = new ilSkillProfileUploadHandlerGUI();
                 $ret = $this->ctrl->forwardCommand($skprof_upl_gui);
@@ -215,7 +214,7 @@ class ilObjSkillManagementGUI extends ilObjectGUI
                 if (!$cmd || $cmd == 'view') {
                     $cmd = "listTrees";
                 }
-                
+
                 if ($cmd == "showTree") {
                     $this->showTree((bool) $this->requested_templates_tree);
                 } else {
@@ -225,7 +224,7 @@ class ilObjSkillManagementGUI extends ilObjectGUI
         }
     }
 
-    public function getAdminTabs() : void
+    public function getAdminTabs(): void
     {
         $rbacsystem = $this->rbacsystem;
         $ilAccess = $this->access;
@@ -282,7 +281,7 @@ class ilObjSkillManagementGUI extends ilObjectGUI
         }
     }
 
-    public function editSettings() : void
+    public function editSettings(): void
     {
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
@@ -354,12 +353,12 @@ class ilObjSkillManagementGUI extends ilObjectGUI
         $this->tpl->setContent($this->ui_ren->render([$form]));
     }
 
-    public function listTrees() : void
+    public function listTrees(): void
     {
         $this->ctrl->redirectByClass("skilltreeadmingui", "listTrees");
     }
 
-    public function saveAllTitles(bool $a_succ_mess = true) : void
+    public function saveAllTitles(bool $a_succ_mess = true): void
     {
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
@@ -379,7 +378,7 @@ class ilObjSkillManagementGUI extends ilObjectGUI
         $ilCtrl->redirect($this, "editSkills");
     }
 
-    public function saveAllTemplateTitles(bool $a_succ_mess = true) : void
+    public function saveAllTemplateTitles(bool $a_succ_mess = true): void
     {
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
@@ -399,7 +398,7 @@ class ilObjSkillManagementGUI extends ilObjectGUI
         $ilCtrl->redirect($this, "editSkillTemplates");
     }
 
-    public function expandAll(bool $a_redirect = true) : void
+    public function expandAll(bool $a_redirect = true): void
     {
         $this->requested_skexpand = "";
         $n_id = ($this->requested_node_id > 0)
@@ -414,7 +413,7 @@ class ilObjSkillManagementGUI extends ilObjectGUI
         $this->saveAllTitles(false);
     }
 
-    public function collapseAll(bool $a_redirect = true) : void
+    public function collapseAll(bool $a_redirect = true): void
     {
         $this->requested_skexpand = "";
         $n_id = ($this->requested_node_id > 0)
@@ -432,7 +431,7 @@ class ilObjSkillManagementGUI extends ilObjectGUI
         $this->saveAllTitles(false);
     }
 
-    public function deleteNodes(object $a_gui) : void
+    public function deleteNodes(object $a_gui): void
     {
         $lng = $this->lng;
         $tpl = $this->tpl;
@@ -498,7 +497,7 @@ class ilObjSkillManagementGUI extends ilObjectGUI
         } else {
             $this->ilias->raiseError("Skill Deletion - type mismatch.", $this->ilias->error_obj->MESSAGE);
         }
-        
+
         // SAVE POST VALUES
         ilSession::set("saved_post", $this->requested_node_ids);
 
@@ -528,12 +527,12 @@ class ilObjSkillManagementGUI extends ilObjectGUI
         $tpl->setContent($confirmation_gui->getHTML());
     }
 
-    public function cancelDelete() : void
+    public function cancelDelete(): void
     {
         $this->ctrl->redirect($this, "editSkills");
     }
 
-    public function confirmedDelete() : void
+    public function confirmedDelete(): void
     {
         $ilCtrl = $this->ctrl;
 
@@ -559,7 +558,7 @@ class ilObjSkillManagementGUI extends ilObjectGUI
     // Skill Templates
     //
 
-    public function editSkillTemplates() : void
+    public function editSkillTemplates(): void
     {
         $tpl = $this->tpl;
         $ilTabs = $this->tabs;
@@ -575,7 +574,7 @@ class ilObjSkillManagementGUI extends ilObjectGUI
     // Tree
     //
 
-    public function showTree(bool $a_templates, $a_gui = null, string $a_gui_cmd = "") : void
+    public function showTree(bool $a_templates, $a_gui = null, string $a_gui_cmd = ""): void
     {
         $ilUser = $this->user;
         $tpl = $this->tpl;
@@ -596,7 +595,7 @@ class ilObjSkillManagementGUI extends ilObjectGUI
         }
 
         $ilCtrl->setParameter($this, "templates_tree", (int) $a_templates);
-        
+
         if ($a_templates) {
             $this->tool_context->current()->addAdditionalData(ilSkillGSToolProvider::SHOW_TEMPLATE_TREE, true);
             $exp = new ilSkillTemplateTreeExplorerGUI($this, "showTree", $this->skill_tree->getTreeId());

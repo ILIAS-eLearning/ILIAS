@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
@@ -32,7 +34,7 @@ class ilSCTreeTasksGUI extends ilSCComponentTaskGUI
         $this->refinery = $DIC->refinery();
     }
 
-    protected function getDuplicateIdFromRequest() : int
+    protected function getDuplicateIdFromRequest(): int
     {
         if ($this->http->wrapper()->query()->has('duplicate_id')) {
             return $this->http->wrapper()->query()->retrieve(
@@ -43,17 +45,17 @@ class ilSCTreeTasksGUI extends ilSCComponentTaskGUI
         return 0;
     }
 
-    public function getGroupTitle() : string
+    public function getGroupTitle(): string
     {
         return $this->getLang()->txt('sysc_grp_tree');
     }
 
-    public function getGroupDescription() : string
+    public function getGroupDescription(): string
     {
         return $this->getLang()->txt('sysc_grp_tree_desc');
     }
 
-    public function getTitle() : string
+    public function getTitle(): string
     {
         switch ($this->getTask()->getIdentifier()) {
             case self::TYPE_DUMP:
@@ -74,7 +76,7 @@ class ilSCTreeTasksGUI extends ilSCComponentTaskGUI
         return '';
     }
 
-    public function getDescription() : string
+    public function getDescription(): string
     {
         switch ($this->getTask()->getIdentifier()) {
             case self::TYPE_DUMP:
@@ -95,7 +97,7 @@ class ilSCTreeTasksGUI extends ilSCComponentTaskGUI
         return '';
     }
 
-    public function getActions() : array
+    public function getActions(): array
     {
         $repair = false;
         if ($this->getTask()->getStatus() == ilSCTask::STATUS_FAILED) {
@@ -179,12 +181,11 @@ class ilSCTreeTasksGUI extends ilSCComponentTaskGUI
                     );
                 }
                 break;
-
         }
         return $actions;
     }
 
-    public function analyzeStructure() : void
+    public function analyzeStructure(): void
     {
         $tasks = new ilSCTreeTasks($this->getTask());
         $num_failures = $tasks->validateStructure();
@@ -198,7 +199,7 @@ class ilSCTreeTasksGUI extends ilSCComponentTaskGUI
         $this->getCtrl()->returnToParent($this);
     }
 
-    protected function confirmRepairStructure() : void
+    protected function confirmRepairStructure(): void
     {
         $this->showSimpleConfirmation(
             $this->getLang()->txt('sysc_message_tree_structure_confirm'),
@@ -207,7 +208,7 @@ class ilSCTreeTasksGUI extends ilSCComponentTaskGUI
         );
     }
 
-    protected function repairStructure() : void
+    protected function repairStructure(): void
     {
         $tasks = new ilSCTreeTasks($this->getTask());
 
@@ -225,7 +226,7 @@ class ilSCTreeTasksGUI extends ilSCComponentTaskGUI
         $this->getCtrl()->returnToParent($this);
     }
 
-    public function listTree() : void
+    public function listTree(): void
     {
         $validator = new ilValidator(true);
         $errors_count = $validator->dumpTree();
@@ -244,7 +245,7 @@ class ilSCTreeTasksGUI extends ilSCComponentTaskGUI
         $this->getCtrl()->returnToParent($this);
     }
 
-    public function showTree() : void
+    public function showTree(): void
     {
         $validator = new ilValidator();
         $scan_log = $validator->readScanLog();
@@ -255,7 +256,7 @@ class ilSCTreeTasksGUI extends ilSCComponentTaskGUI
         }
     }
 
-    public function validateDuplicates() : void
+    public function validateDuplicates(): void
     {
         $tasks = new ilSCTreeTasks($this->getTask());
         $num_failures = $tasks->validateDuplicates();
@@ -269,7 +270,7 @@ class ilSCTreeTasksGUI extends ilSCComponentTaskGUI
         $this->getCtrl()->returnToParent($this);
     }
 
-    protected function repairDuplicates() : void
+    protected function repairDuplicates(): void
     {
         $deepest_duplicate = ilSCTreeTasks::findDeepestDuplicate();
 
@@ -280,7 +281,7 @@ class ilSCTreeTasksGUI extends ilSCComponentTaskGUI
         $this->tpl->setContent($table->getHTML());
     }
 
-    protected function deleteDuplicatesFromRepository() : void
+    protected function deleteDuplicatesFromRepository(): void
     {
         ilSCTreeTasks::deleteDuplicateFromTree($this->getDuplicateIdFromRequest(), false);
 
@@ -293,7 +294,7 @@ class ilSCTreeTasksGUI extends ilSCComponentTaskGUI
         $this->getCtrl()->returnToParent($this);
     }
 
-    protected function deleteDuplicatesFromTrash() : void
+    protected function deleteDuplicatesFromTrash(): void
     {
         ilSCTreeTasks::deleteDuplicateFromTree($this->getDuplicateIdFromRequest(), true);
 
@@ -306,7 +307,7 @@ class ilSCTreeTasksGUI extends ilSCComponentTaskGUI
         $this->getCtrl()->returnToParent($this);
     }
 
-    protected function findMissing() : void
+    protected function findMissing(): void
     {
         $tasks = new ilSCTreeTasks($this->getTask());
         $num_failures = $tasks->findMissing();
@@ -320,7 +321,7 @@ class ilSCTreeTasksGUI extends ilSCComponentTaskGUI
         $this->getCtrl()->returnToParent($this);
     }
 
-    protected function confirmRepairMissing() : void
+    protected function confirmRepairMissing(): void
     {
         $this->showSimpleConfirmation(
             $this->getLang()->txt('sysc_message_tree_missing_confirm'),
@@ -329,7 +330,7 @@ class ilSCTreeTasksGUI extends ilSCComponentTaskGUI
         );
     }
 
-    protected function repairMissing() : void
+    protected function repairMissing(): void
     {
         $tasks = new ilSCTreeTasks($this->getTask());
         $tasks->repairMissing();
@@ -342,7 +343,7 @@ class ilSCTreeTasksGUI extends ilSCComponentTaskGUI
         $this->getCtrl()->returnToParent($this);
     }
 
-    protected function findMissingTreeEntries() : void
+    protected function findMissingTreeEntries(): void
     {
         $tasks = new ilSCTreeTasks($this->getTask());
         $num_failures = $tasks->findMissingTreeEntries();
@@ -356,7 +357,7 @@ class ilSCTreeTasksGUI extends ilSCComponentTaskGUI
         $this->getCtrl()->returnToParent($this);
     }
 
-    protected function confirmRepairMissingTreeEntries() : void
+    protected function confirmRepairMissingTreeEntries(): void
     {
         $this->showSimpleConfirmation(
             $this->getLang()->txt('sysc_message_tree_missing_confirm'),
@@ -365,7 +366,7 @@ class ilSCTreeTasksGUI extends ilSCComponentTaskGUI
         );
     }
 
-    protected function repairMissingTreeEntries() : void
+    protected function repairMissingTreeEntries(): void
     {
         $tasks = new ilSCTreeTasks($this->getTask());
         $tasks->repairMissingTreeEntries();

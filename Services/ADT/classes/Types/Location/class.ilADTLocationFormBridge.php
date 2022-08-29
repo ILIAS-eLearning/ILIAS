@@ -1,13 +1,15 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 class ilADTLocationFormBridge extends ilADTFormBridge
 {
-    protected function isValidADT(ilADT $a_adt) : bool
+    protected function isValidADT(ilADT $a_adt): bool
     {
         return ($a_adt instanceof ilADTLocation);
     }
 
-    public function addToForm() : void
+    public function addToForm(): void
     {
         $adt = $this->getADT();
 
@@ -48,7 +50,7 @@ class ilADTLocationFormBridge extends ilADTFormBridge
         }
     }
 
-    public function importFromPost() : void
+    public function importFromPost(): void
     {
         $do_import = true;
         if (!$this->isRequired()) {

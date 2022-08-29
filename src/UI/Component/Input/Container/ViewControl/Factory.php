@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\UI\Component\Input\Container\ViewControl;
 
 /**
@@ -36,5 +38,5 @@ interface Factory
      * @param array<string,\ILIAS\UI\Component\Input\ViewControl\ViewControl> $controls
      * @return \ILIAS\UI\Component\Input\Container\ViewControl\Standard
      */
-    public function standard(array $controls) : Standard;
+    public function standard(array $controls): Standard;
 }

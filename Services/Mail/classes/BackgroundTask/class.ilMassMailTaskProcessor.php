@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -81,7 +83,7 @@ class ilMassMailTaskProcessor
      * @param string $contextId - context ID of the Background task
      * @param array $contextParameters - context parameters for the background tasks
      * @param int $mailsPerTask - Defines how many mails will be added before a background task is executed
-     * @throws ilException
+     * @throws ilMailException
      */
     public function run(
         array $mailValueObjects,
@@ -89,15 +91,15 @@ class ilMassMailTaskProcessor
         string $contextId,
         array $contextParameters,
         int $mailsPerTask = 100
-    ) : void {
+    ): void {
         $objectsServiceSize = count($mailValueObjects);
 
         if ($objectsServiceSize <= 0) {
-            throw new ilException('First parameter must contain at least 1 array element');
+            throw new ilMailException('First parameter must contain at least 1 array element');
         }
 
         if ($mailsPerTask <= 0) {
-            throw new ilException(
+            throw new ilMailException(
                 sprintf(
                     'The mails per task MUST be a positive integer, "%s" given',
                     $mailsPerTask
@@ -107,11 +109,9 @@ class ilMassMailTaskProcessor
 
         foreach ($mailValueObjects as $mailValueObject) {
             if (!($mailValueObject instanceof ilMailValueObject)) {
-                throw new ilException('Array MUST contain ilMailValueObjects ONLY');
+                throw new ilMailException('Array MUST contain ilMailValueObjects ONLY');
             }
         }
-
-        $lastTask = null;
         $taskCounter = 0;
 
         $remainingObjects = [];
@@ -136,7 +136,7 @@ class ilMassMailTaskProcessor
         }
     }
 
-    private function runTask(\ILIAS\BackgroundTasks\Task $task, int $userId) : void
+    private function runTask(\ILIAS\BackgroundTasks\Task $task, int $userId): void
     {
         $bucket = new BasicBucket();
         $bucket->setUserId($userId);
@@ -153,7 +153,7 @@ class ilMassMailTaskProcessor
         string $contextId,
         array $contextParameters,
         $remainingObjects
-    ) : ILIAS\BackgroundTasks\Task {
+    ): ILIAS\BackgroundTasks\Task {
         $jsonString = $this->objectJsonService->convertToJson($remainingObjects);
 
         $task = $this->taskFactory->createTask(ilMassMailDeliveryJob::class, [

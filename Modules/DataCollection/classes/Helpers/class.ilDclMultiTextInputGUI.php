@@ -22,37 +22,37 @@
  */
 class ilDclMultiTextInputGUI extends ilMultipleTextsInputGUI
 {
-    public function setValues($values) : void
+    public function setValues($values): void
     {
         $this->setIdentifiedMultiValues($values);
     }
 
-    public function getValues() : array
+    public function getValues(): array
     {
         return $this->getIdentifiedMultiValues();
     }
 
-    public function setValue($value) : void
+    public function setValue($value): void
     {
         $this->setIdentifiedMultiValues($value);
     }
 
-    public function getValue() : array
+    public function getValue(): array
     {
         return $this->getIdentifiedMultiValues();
     }
 
-    public function setMultiValues(array $values) : void
+    public function setMultiValues(array $values): void
     {
         $this->setIdentifiedMultiValues($values);
     }
 
-    public function getMultiValues() : array
+    public function getMultiValues(): array
     {
         return $this->getIdentifiedMultiValues();
     }
 
-    public function render(string $a_mode = "") : string
+    public function render(string $a_mode = ""): string
     {
         $tpl = new ilTemplate("tpl.prop_multi_text_inp.html", true, true, "Services/Form");
         $i = 0;

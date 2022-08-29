@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 /**
@@ -55,7 +56,7 @@ final class EmployeeTalkEmailNotification
     /**
      * @return string
      */
-    public function getSalutation() : string
+    public function getSalutation(): string
     {
         return $this->salutation;
     }
@@ -63,7 +64,7 @@ final class EmployeeTalkEmailNotification
     /**
      * @return string
      */
-    public function getDateHeader() : string
+    public function getDateHeader(): string
     {
         return $this->dateHeader;
     }
@@ -71,7 +72,7 @@ final class EmployeeTalkEmailNotification
     /**
      * @return string
      */
-    public function getTalkTitle() : string
+    public function getTalkTitle(): string
     {
         return $this->talkTitle;
     }
@@ -79,7 +80,7 @@ final class EmployeeTalkEmailNotification
     /**
      * @return string
      */
-    public function getAppointmentDetails() : string
+    public function getAppointmentDetails(): string
     {
         return $this->appointmentDetails;
     }
@@ -87,7 +88,7 @@ final class EmployeeTalkEmailNotification
     /**
      * @return string[]
      */
-    public function getDates() : array
+    public function getDates(): array
     {
         return $this->dates;
     }
@@ -105,5 +106,4 @@ final class EmployeeTalkEmailNotification
             . $this->getDateHeader() . ":\r\n"
             . $dateList;
     }
-
 }

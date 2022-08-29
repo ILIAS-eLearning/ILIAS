@@ -25,7 +25,7 @@ class ilItemGroupImporter extends ilXmlImporter
 {
     protected ilItemGroupDataSet $ds;
 
-    public function init() : void
+    public function init(): void
     {
         $this->ds = new ilItemGroupDataSet();
         $this->ds->setDSPrefix("ds");
@@ -36,7 +36,7 @@ class ilItemGroupImporter extends ilXmlImporter
         string $a_id,
         string $a_xml,
         ilImportMapping $a_mapping
-    ) : void {
+    ): void {
         $parser = new ilDataSetImportParser(
             $a_entity,
             $this->getSchemaVersion(),

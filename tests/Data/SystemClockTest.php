@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /******************************************************************************
  *
@@ -23,17 +25,17 @@ class SystemClockTest extends TestCase
 {
     private string $default_timezone;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         $this->default_timezone = date_default_timezone_get();
     }
 
-    protected function tearDown() : void
+    protected function tearDown(): void
     {
         date_default_timezone_set($this->default_timezone);
     }
 
-    public function testUtcClockIsNotAffectedByGlobalTimezoneChanges() : void
+    public function testUtcClockIsNotAffectedByGlobalTimezoneChanges(): void
     {
         date_default_timezone_set('Africa/Windhoek');
 

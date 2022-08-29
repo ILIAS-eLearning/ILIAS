@@ -52,7 +52,7 @@ class SkillUserLevelManager
         bool $a_self_eval,
         string $a_unique_identifier,
         float $a_next_level_fulfilment
-    ) : void {
+    ): void {
         $skill_id = $this->level_repo->lookupLevelSkillId($a_level_id);
         $trigger_ref_id = $a_trigger_ref_id;
         $trigger_obj_id = $this->obj_adapter->getObjIdForRefId($trigger_ref_id);

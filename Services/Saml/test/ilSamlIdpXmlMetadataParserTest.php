@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -22,7 +24,7 @@ class ilSamlIdpXmlMetadataParserTest extends TestCase
 {
     private ilSamlIdpXmlMetadataParser $parser;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         parent::setUp();
         $this->parser = new ilSamlIdpXmlMetadataParser(
@@ -31,7 +33,7 @@ class ilSamlIdpXmlMetadataParserTest extends TestCase
         );
     }
 
-    public function testErrorsCanBeRetrievedWhenParsingNonXmlDocument() : void
+    public function testErrorsCanBeRetrievedWhenParsingNonXmlDocument(): void
     {
         $this->parser->parse('phpunit');
 
@@ -45,7 +47,7 @@ class ilSamlIdpXmlMetadataParserTest extends TestCase
      * @see https://en.wikipedia.org/wiki/SAML_metadata#Identity_provider_metadata
      * @license https://creativecommons.org/licenses/by-sa/3.0/
      */
-    public function testMetadataCanBeParsedFromValidXmlDocument() : void
+    public function testMetadataCanBeParsedFromValidXmlDocument(): void
     {
         $xml = <<<EOT
 <md:EntityDescriptor entityID="https://sso.example.org/idp" validUntil="2017-08-30T19:10:29Z"
@@ -105,7 +107,7 @@ EOT;
      * @see https://en.wikipedia.org/wiki/SAML_metadata#Identity_provider_metadata
      * @license https://creativecommons.org/licenses/by-sa/3.0/
      */
-    public function testMetadataCannotBeParsedFromValidXmlDocument() : void
+    public function testMetadataCannotBeParsedFromValidXmlDocument(): void
     {
         $xml = <<<EOT
 <md:EntityDescriptor xmlns:md="urn:oasis:names:tc:SAML:2.0:metadata"

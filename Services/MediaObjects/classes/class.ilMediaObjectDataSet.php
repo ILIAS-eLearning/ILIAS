@@ -45,12 +45,12 @@ class ilMediaObjectDataSet extends ilDataSet
      *
      * @param bool $a_val use previous import ids
      */
-    public function setUsePreviousImportIds(bool $a_val) : void
+    public function setUsePreviousImportIds(bool $a_val): void
     {
         $this->use_previous_import_ids = $a_val;
     }
 
-    public function getUsePreviousImportIds() : bool
+    public function getUsePreviousImportIds(): bool
     {
         return $this->use_previous_import_ids;
     }
@@ -58,17 +58,17 @@ class ilMediaObjectDataSet extends ilDataSet
     /**
      * @return string[]
      */
-    public function getSupportedVersions() : array
+    public function getSupportedVersions(): array
     {
         return array("5.1.0", "4.3.0", "4.1.0");
     }
-    
-    protected function getXmlNamespace(string $a_entity, string $a_schema_version) : string
+
+    protected function getXmlNamespace(string $a_entity, string $a_schema_version): string
     {
         return "https://www.ilias.de/xml/Services/MediaObject/" . $a_entity;
     }
-    
-    protected function getTypes(string $a_entity, string $a_version) : array
+
+    protected function getTypes(string $a_entity, string $a_version): array
     {
         // mob
         if ($a_entity == "mob") {
@@ -92,7 +92,7 @@ class ilMediaObjectDataSet extends ilDataSet
                     );
             }
         }
-        
+
         // media item
         if ($a_entity == "mob_media_item") {
             switch ($a_version) {
@@ -113,7 +113,6 @@ class ilMediaObjectDataSet extends ilDataSet
                         "Format" => "text",
                         "TextRepresentation" => "text"
                     );
-
             }
         }
 
@@ -123,20 +122,20 @@ class ilMediaObjectDataSet extends ilDataSet
                 case "4.1.0":
                 case "4.3.0":
                 case "5.1.0":
-                        return array(
-                            "MiId" => "integer",
-                            "Nr" => "integer",
-                            "Shape" => "text",
-                            "Coords" => "text",
-                            "LinkType" => "text",
-                            "Title" => "text",
-                            "Href" => "text",
-                            "Target" => "text",
-                            "Type" => "text",
-                            "TargetFrame" => "text",
-                            "HighlightMode" => "text",
-                            "HighlightText" => "text"
-                        );
+                    return array(
+                        "MiId" => "integer",
+                        "Nr" => "integer",
+                        "Shape" => "text",
+                        "Coords" => "text",
+                        "LinkType" => "text",
+                        "Title" => "text",
+                        "Href" => "text",
+                        "Target" => "text",
+                        "Type" => "text",
+                        "TargetFrame" => "text",
+                        "HighlightMode" => "text",
+                        "HighlightText" => "text"
+                    );
             }
         }
 
@@ -146,11 +145,11 @@ class ilMediaObjectDataSet extends ilDataSet
                 case "4.1.0":
                 case "4.3.0":
                 case "5.1.0":
-                        return array(
-                            "MiId" => "integer",
-                            "Name" => "text",
-                            "Value" => "text"
-                        );
+                    return array(
+                        "MiId" => "integer",
+                        "Name" => "text",
+                        "Value" => "text"
+                    );
             }
         }
         return [];
@@ -160,7 +159,7 @@ class ilMediaObjectDataSet extends ilDataSet
         string $a_entity,
         string $a_version,
         array $a_ids
-    ) : void {
+    ): void {
         $ilDB = $this->db;
 
         if (!is_array($a_ids)) {
@@ -209,11 +208,10 @@ class ilMediaObjectDataSet extends ilDataSet
                         " FROM media_item WHERE " .
                         $ilDB->in("mob_id", $a_ids, false, "integer"));
                     break;
-
             }
         }
 
-        
+
         // media item map area
         if ($a_entity == "mob_mi_map_area") {
             switch ($a_version) {
@@ -262,7 +260,7 @@ class ilMediaObjectDataSet extends ilDataSet
             }
         }
     }
-    
+
     /**
      * Determine the dependent sets of data
      */
@@ -271,13 +269,13 @@ class ilMediaObjectDataSet extends ilDataSet
         string $a_version,
         ?array $a_rec = null,
         ?array $a_ids = null
-    ) : array {
+    ): array {
         switch ($a_entity) {
             case "mob":
                 return array(
                     "mob_media_item" => array("ids" => $a_rec["Id"] ?? null)
                 );
-                
+
             case "mob_media_item":
                 return array(
                     "mob_mi_map_area" => array("ids" => $a_rec["Id"] ?? null),
@@ -286,12 +284,12 @@ class ilMediaObjectDataSet extends ilDataSet
         }
         return [];
     }
-    
+
     public function getXmlRecord(
         string $a_entity,
         string $a_version,
         array $a_set
-    ) : array {
+    ): array {
         if ($a_entity == "mob") {
             $dir = ilObjMediaObject::_getDirectory($a_set["Id"]);
             $a_set["Dir"] = $dir;
@@ -299,14 +297,14 @@ class ilMediaObjectDataSet extends ilDataSet
 
         return $a_set;
     }
-    
+
     public function importRecord(
         string $a_entity,
         array $a_types,
         array $a_rec,
         ilImportMapping $a_mapping,
         string $a_schema_version
-    ) : void {
+    ): void {
         switch ($a_entity) {
             case "mob":
 

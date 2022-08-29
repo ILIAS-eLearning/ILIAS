@@ -42,17 +42,17 @@ class TableGUIRequest
         );
     }
 
-    public function getExportMode(string $prefix) : bool
+    public function getExportMode(string $prefix): bool
     {
         return (bool) $this->int($prefix . "_xpt");
     }
 
-    public function getTemplate(string $prefix) : string
+    public function getTemplate(string $prefix): string
     {
         return $this->str($prefix . "_tpl");
     }
 
-    public function getRows(string $prefix) : ?int
+    public function getRows(string $prefix): ?int
     {
         $rows = $this->str($prefix . "_trows");
         if ($rows == "") {
@@ -61,12 +61,12 @@ class TableGUIRequest
         return (int) $rows;
     }
 
-    public function getPostVar() : string
+    public function getPostVar(): string
     {
         return $this->str("postvar");
     }
 
-    public function getNavPar(string $np, int $nr = 0) : string
+    public function getNavPar(string $np, int $nr = 0): string
     {
         if ($nr > 0) {
             $np .= (string) $nr;
@@ -74,42 +74,42 @@ class TableGUIRequest
         return $this->str($np);
     }
 
-    public function getFF(string $id) : array
+    public function getFF(string $id): array
     {
         return $this->strArray("tblff" . $id);
     }
 
-    public function getFS(string $id) : array
+    public function getFS(string $id): array
     {
         return $this->strArray("tblfs" . $id);
     }
 
-    public function getFSH(string $id) : bool
+    public function getFSH(string $id): bool
     {
         return (bool) $this->int("tblfsh" . $id);
     }
 
-    public function getFSF(string $id) : bool
+    public function getFSF(string $id): bool
     {
         return (bool) $this->int("tblfsf" . $id);
     }
 
-    public function getTemplCreate() : string
+    public function getTemplCreate(): string
     {
         return $this->str("tbltplcrt");
     }
 
-    public function getTemplDelete() : string
+    public function getTemplDelete(): string
     {
         return $this->str("tbltpldel");
     }
 
-    public function getTableId() : string
+    public function getTableId(): string
     {
         return $this->str("table_id");
     }
 
-    public function getUserId() : int
+    public function getUserId(): int
     {
         return $this->int("user_id");
     }

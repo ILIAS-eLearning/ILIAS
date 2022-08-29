@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /******************************************************************************
  *
@@ -24,7 +26,7 @@ class ilECSMappingUtils
     public const MAPPED_WHOLE_TREE = 1;
     public const MAPPED_MANUAL = 2;
     public const MAPPED_UNMAPPED = 3;
-    
+
     public const PARALLEL_ONE_COURSE = 0;
     public const PARALLEL_GROUPS_IN_COURSE = 1;
     public const PARALLEL_ALL_COURSES = 2;
@@ -33,7 +35,7 @@ class ilECSMappingUtils
     /**
      * Lookup mapping status
      */
-    public static function lookupMappingStatus(int $a_server_id, int $a_mid, int $a_tree_id) : int
+    public static function lookupMappingStatus(int $a_server_id, int $a_mid, int $a_tree_id): int
     {
         if (ilECSNodeMappingAssignments::hasAssignments($a_server_id, $a_mid, $a_tree_id)) {
             if (ilECSNodeMappingAssignments::isWholeTreeMapped($a_server_id, $a_mid, $a_tree_id)) {
@@ -43,24 +45,24 @@ class ilECSMappingUtils
         }
         return self::MAPPED_UNMAPPED;
     }
-    
+
     /**
      * Get mapping status as string
      */
-    public static function mappingStatusToString(int $a_status) : string
+    public static function mappingStatusToString(int $a_status): string
     {
         global $DIC;
 
         return $DIC->language()->txt('ecs_node_mapping_status_' . $a_status);
     }
-    
-    
-    public static function getCourseMappingFieldInfo() : array
+
+
+    public static function getCourseMappingFieldInfo(): array
     {
         global $DIC;
 
         $lng = $DIC['lng'];
-        
+
         $field_info = array();
         $counter = 0;
         foreach (
@@ -81,42 +83,42 @@ class ilECSMappingUtils
         }
         return $field_info;
     }
-    
-    public static function getCourseMappingFieldSelectOptions() : array
+
+    public static function getCourseMappingFieldSelectOptions(): array
     {
         global $DIC;
 
         $lng = $DIC['lng'];
-        
+
         $options[''] = $lng->txt('select_one');
         foreach (self::getCourseMappingFieldInfo() as $info) {
             $options[$info['name']] = $info['translation'];
         }
         return $options;
     }
-    
+
     /**
      * Get course value by mapping
      */
-    public static function getCourseValueByMappingAttribute($course, $a_field) : array
+    public static function getCourseValueByMappingAttribute($course, $a_field): array
     {
         switch ($a_field) {
             case 'organisation':
                 return array((string) $course->organisation);
-                
+
             case 'term':
                 return array((string) $course->term);
-                
+
             case 'title':
                 return array((string) $course->title);
-                
+
             case 'orgunit':
                 $units = array();
                 foreach ((array) $course->organisationalUnits as $unit) {
                     $units[] = (string) $unit->title;
                 }
                 return $units;
-                
+
             case 'lecturer':
                 $lecturers = array();
                 foreach ((array) $course->groups as $group) {
@@ -125,24 +127,24 @@ class ilECSMappingUtils
                     }
                 }
                 return $lecturers;
-                
+
             case 'courseType':
                 return array((string) $course->lectureType);
-                
+
             case 'degreeProgramme':
                 $degree_programmes = array();
                 foreach ((array) $course->degreeProgrammes as $prog) {
                     $degree_programmes[] = (string) $prog->title;
                 }
                 return $degree_programmes;
-                
+
             case 'module':
                 $modules = array();
                 foreach ((array) $course->modules as $mod) {
                     $modules[] = (string) $mod->title;
                 }
                 return $modules;
-                
+
             case 'venue':
                 $venues = [];
                 foreach ((array) $course->groups as $group) {
@@ -154,12 +156,12 @@ class ilECSMappingUtils
         }
         return array();
     }
-    
-    
+
+
     /**
      * Get role mapping info
      */
-    public static function getRoleMappingInfo($a_role_type_info = 0) : array
+    public static function getRoleMappingInfo($a_role_type_info = 0): array
     {
         //KEEP!!! until the defines are turned into proper constants
         include_once './Services/Membership/classes/class.ilParticipants.php';
@@ -200,12 +202,12 @@ class ilECSMappingUtils
         }
         return $roles[$a_role_type_info];
     }
-    
+
     /**
      * Get auth mode selection with active authentication modes
      * @return array<string, string>
      */
-    public static function getAuthModeSelection() : array
+    public static function getAuthModeSelection(): array
     {
         global $DIC;
 

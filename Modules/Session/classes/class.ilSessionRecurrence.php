@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -31,15 +33,15 @@ class ilSessionRecurrence extends ilCalendarRecurrence
         parent::__construct();
     }
 
-    public function save() : void
+    public function save(): void
     {
     }
 
-    public function update() : void
+    public function update(): void
     {
     }
 
-    public function delete() : void
+    public function delete(): void
     {
     }
 }

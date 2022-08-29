@@ -14,7 +14,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * Exporter class for files
  *
@@ -24,11 +24,10 @@
  */
 class ilFileExporter extends ilXmlExporter
 {
-
     /**
      * Initialisation
      */
-    public function init() : void
+    public function init(): void
     {
     }
 
@@ -40,7 +39,7 @@ class ilFileExporter extends ilXmlExporter
      * @param array        ids
      * @return        array        array of array with keys "component", entity", "ids"
      */
-    public function getXmlExportTailDependencies(string $a_entity, string $a_target_release, array $a_ids) : array
+    public function getXmlExportTailDependencies(string $a_entity, string $a_target_release, array $a_ids): array
     {
         $md_ids = array();
         foreach ($a_ids as $file_id) {
@@ -64,7 +63,7 @@ class ilFileExporter extends ilXmlExporter
      * @param string        id
      * @return    string        xml string
      */
-    public function getXmlRepresentation(string $a_entity, string $a_schema_version, string $a_id) : string
+    public function getXmlRepresentation(string $a_entity, string $a_schema_version, string $a_id): string
     {
         $xml = '';
         if (ilObject::_lookupType($a_id) == "file") {
@@ -91,7 +90,7 @@ class ilFileExporter extends ilXmlExporter
      * ILIAS chooses the first one, that has min/max constraints which
      * fit to the target release. Please put the newest on top.
      */
-    public function getValidSchemaVersions(string $a_entity) : array
+    public function getValidSchemaVersions(string $a_entity): array
     {
         return array(
             "4.1.0" => array(

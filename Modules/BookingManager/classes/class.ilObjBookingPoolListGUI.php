@@ -36,7 +36,7 @@ class ilObjBookingPoolListGUI extends ilObjectListGUI
                                   ->standardRequest();
     }
 
-    public function init() : void
+    public function init(): void
     {
         $this->static_link_enabled = true;
         $this->delete_enabled = true;
@@ -52,10 +52,10 @@ class ilObjBookingPoolListGUI extends ilObjectListGUI
         $this->commands = ilObjBookingPoolAccess::_getCommands();
     }
 
-    public function getCommandLink(string $cmd) : string
+    public function getCommandLink(string $cmd): string
     {
         $ilCtrl = $this->ctrl;
-        
+
         switch ($cmd) {
             default:
                 $ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $this->ref_id);
@@ -70,11 +70,11 @@ class ilObjBookingPoolListGUI extends ilObjectListGUI
 
         return $cmd_link;
     }
-    
-    public function getProperties() : array
+
+    public function getProperties(): array
     {
         $lng = $this->lng;
-        
+
         // #11193
 
         $props = array();

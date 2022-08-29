@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -30,7 +32,7 @@ class ilLTIRouterGUI implements ilCtrlBaseClassInterface
 {
     protected ilCtrl $ilCtrl;
     protected ilGlobalTemplateInterface $main_tpl;
-    
+
     public function __construct()
     {
         global $DIC;
@@ -41,7 +43,7 @@ class ilLTIRouterGUI implements ilCtrlBaseClassInterface
     /**
      * The only thing this execute Command does is forward the command in the command chain.
      */
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         $next_class = $this->ilCtrl->getNextClass($this);
         $class_file = $this->ilCtrl->lookupClassPath($next_class);

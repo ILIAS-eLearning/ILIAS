@@ -25,7 +25,7 @@ abstract class ilUDFClaimingPlugin extends ilPlugin
     //
     // permission
     //
-    
+
     /**
      * Check permission
      */
@@ -35,58 +35,58 @@ abstract class ilUDFClaimingPlugin extends ilPlugin
         int $a_context_id,
         int $a_action_id,
         int $a_action_sub_id
-    ) : bool;
-    
-    
+    ): bool;
+
+
     //
     // db update helper
     //
-    
+
     /**
      * Check if field has db entry
      */
-    public static function hasDBField(string $a_field_id) : bool
+    public static function hasDBField(string $a_field_id): bool
     {
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
-        
+
         $set = $ilDB->query("SELECT field_id FROM udf_definition" .
             " WHERE field_id = " . $ilDB->quote($a_field_id, "integer"));
         return (bool) $ilDB->numRows($set);
     }
-    
+
     /**
      * Get existing field values
      */
-    protected static function getDBField(string $a_field_id) : array // Missing array type.
+    protected static function getDBField(string $a_field_id): array // Missing array type.
     {
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
-        
+
         $set = $ilDB->query("SELECT * FROM udf_definition" .
             " WHERE field_id = " . $ilDB->quote($a_field_id, "integer"));
         return $ilDB->fetchAssoc($set);
     }
-    
+
     /**
      * Validate field type
      */
-    protected static function isValidFieldType(int $a_field_type) : bool
+    protected static function isValidFieldType(int $a_field_type): bool
     {
         $valid = array(UDF_TYPE_TEXT, UDF_TYPE_SELECT, UDF_TYPE_WYSIWYG);
         return in_array($a_field_type, $valid);
     }
-    
+
     /**
      * Convert access array to DB columns
      */
     protected static function handleAccesss(
         array &$fields,
         ?array $a_access = null,
-        ? array $a_existing = null
-    ) : void {
+        ?array $a_existing = null
+    ): void {
         $map = array("visible", "changeable", "searchable", "required", "export",
             "course_export", "group_export", "registration_visible", "visible_lua",
             "changeable_lua", "certificate");
@@ -100,7 +100,7 @@ abstract class ilUDFClaimingPlugin extends ilPlugin
             }
         }
     }
-    
+
     /**
      * Create field db entry
      */
@@ -109,38 +109,38 @@ abstract class ilUDFClaimingPlugin extends ilPlugin
         string $a_title,
         array $a_access = null,
         array $a_options = null
-    ) : ?int {
+    ): ?int {
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
-        
+
         $field_id = $ilDB->nextId("udf_definition");
-        
+
         // validating type
         if (!self::isValidFieldType($a_type)) {
             return null;
         }
-        
+
         if ($a_type != UDF_TYPE_SELECT) {
             $a_options = null;
         }
-        
+
         // :TODO: check unique title?
-        
+
         $fields = array(
             "field_id" => array("integer", $field_id),
             "field_type" => array("integer", $a_type),
             "field_name" => array("text", trim($a_title)),
             "field_values" => array("text", serialize((array) $a_options))
         );
-        
+
         self::handleAccesss($fields, $a_access);
-        
+
         $ilDB->insert("udf_definition", $fields);
-        
+
         return $field_id;
     }
-    
+
     /**
      * Update field db entry
      */
@@ -149,25 +149,25 @@ abstract class ilUDFClaimingPlugin extends ilPlugin
         string $a_title,
         array $a_access = null,
         array $a_options = null
-    ) : bool {
+    ): bool {
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
-                
+
         if (self::hasDBField($a_field_id)) {
             $old = self::getDBField($a_field_id);
-            
+
             if ($old["field_type"] != UDF_TYPE_SELECT) {
                 $a_options = null;
             }
-            
+
             $fields = array(
                 "field_name" => array("text", trim($a_title)),
                 "field_values" => array("text", serialize((array) $a_options))
             );
-            
+
             self::handleAccesss($fields, $a_access, $old);
-            
+
             $ilDB->update(
                 "udf_definition",
                 $fields,
@@ -175,27 +175,27 @@ abstract class ilUDFClaimingPlugin extends ilPlugin
             );
             return true;
         }
-        
+
         return false;
     }
-    
+
     /**
      * Delete field db entry
      */
-    public static function deleteDBField(int $a_field_id) : bool
+    public static function deleteDBField(int $a_field_id): bool
     {
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
-        
+
         if (self::hasDBField($a_field_id)) {
             // :TODO: we are not deleting any values here
-            
+
             $ilDB->manipulate("DELETE FROM udf_definition" .
                 " WHERE field_id = " . $ilDB->quote($a_field_id, "integer"));
             return true;
         }
-        
+
         return false;
     }
 }

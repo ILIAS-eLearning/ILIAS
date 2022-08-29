@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -22,7 +24,7 @@
  */
 class ilTermsOfServiceDocumentsContainsHtmlValidatorTest extends \PHPUnit\Framework\TestCase
 {
-    public function textProvider() : array
+    public function textProvider(): array
     {
         return [
             'Plain Text' => ['phpunit', false,],
@@ -37,10 +39,8 @@ class ilTermsOfServiceDocumentsContainsHtmlValidatorTest extends \PHPUnit\Framew
 
     /**
      * @dataProvider textProvider
-     * @param string $text
-     * @param bool $result
      */
-    public function testHtmlCanBeDetected(string $text, bool $result) : void
+    public function testHtmlCanBeDetected(string $text, bool $result): void
     {
         $validator = new ilTermsOfServiceDocumentsContainsHtmlValidator($text);
         $this->assertSame($result, $validator->isValid());

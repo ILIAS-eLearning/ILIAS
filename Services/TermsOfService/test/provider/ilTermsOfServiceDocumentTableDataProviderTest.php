@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -22,7 +24,7 @@
  */
 class ilTermsOfServiceDocumentTableDataProviderTest extends ilTermsOfServiceBaseTest
 {
-    public function testDocumentProviderCanBeCreatedByFactory() : ilTermsOfServiceTableDataProvider
+    public function testDocumentProviderCanBeCreatedByFactory(): ilTermsOfServiceTableDataProvider
     {
         $factory = new ilTermsOfServiceTableDataProviderFactory();
         $factory->setDatabaseAdapter($this->getMockBuilder(ilDBInterface::class)->getMock());
@@ -37,9 +39,8 @@ class ilTermsOfServiceDocumentTableDataProviderTest extends ilTermsOfServiceBase
 
     /**
      * @depends testDocumentProviderCanBeCreatedByFactory
-     * @param ilTermsOfServiceDocumentTableDataProvider $provider
      */
-    public function testListOfDocumentsCanBeRetrieved(ilTermsOfServiceDocumentTableDataProvider $provider) : void
+    public function testListOfDocumentsCanBeRetrieved(ilTermsOfServiceDocumentTableDataProvider $provider): void
     {
         $documentConnector = $this->getMockBuilder(arConnector::class)->getMock();
         $criterionConnector = $this->getMockBuilder(arConnector::class)->getMock();
@@ -64,7 +65,7 @@ class ilTermsOfServiceDocumentTableDataProviderTest extends ilTermsOfServiceBase
         $criterionConnector
             ->expects($this->exactly(count($documentData)))
             ->method('readSet')
-            ->willReturnCallback(function () {
+            ->willReturnCallback(function (): array {
                 return [];
             });
 

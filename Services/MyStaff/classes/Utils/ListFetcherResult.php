@@ -33,7 +33,7 @@ final class ListFetcherResult
     /**
      * @return int
      */
-    public function getTotalDatasetCount() : int
+    public function getTotalDatasetCount(): int
     {
         return $this->totalDatasetCount;
     }
@@ -41,7 +41,7 @@ final class ListFetcherResult
     /**
      * @return array
      */
-    public function getDataset() : array
+    public function getDataset(): array
     {
         return $this->dataset;
     }

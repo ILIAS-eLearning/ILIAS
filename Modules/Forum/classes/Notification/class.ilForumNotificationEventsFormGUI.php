@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -43,7 +45,7 @@ class ilForumNotificationEventsFormGUI
         $this->lng = $lng;
     }
 
-    public function getValueForEvent(string $event) : int
+    public function getValueForEvent(string $event): int
     {
         if (isset($this->events[$event])) {
             return $this->events[$event];
@@ -55,12 +57,12 @@ class ilForumNotificationEventsFormGUI
     /**
      * @return list<string>
      */
-    public function getValidEvents() : array
+    public function getValidEvents(): array
     {
         return array_keys($this->events);
     }
 
-    public function build() : \ILIAS\UI\Component\Input\Container\Form\Form
+    public function build(): \ILIAS\UI\Component\Input\Container\Form\Form
     {
         $items = [];
 

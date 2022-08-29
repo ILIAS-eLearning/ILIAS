@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -44,7 +46,7 @@ class SplitString implements Transformation
      * @inheritDoc
      * @return string[]
      */
-    public function transform($from) : array
+    public function transform($from): array
     {
         if (!is_string($from)) {
             throw new InvalidArgumentException(__METHOD__ . " the argument is not a string.");
@@ -56,7 +58,7 @@ class SplitString implements Transformation
     /**
      * @inheritDoc
      */
-    public function applyTo(Result $result) : Result
+    public function applyTo(Result $result): Result
     {
         $dataValue = $result->value();
         if (false === is_string($dataValue)) {

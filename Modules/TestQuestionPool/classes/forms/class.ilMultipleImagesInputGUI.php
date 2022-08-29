@@ -21,35 +21,35 @@
  */
 abstract class ilMultipleImagesInputGUI extends ilIdentifiedMultiValuesInputGUI
 {
-    const RENDERING_TEMPLATE = 'tpl.prop_multi_image_inp.html';
-    
-    const ITERATOR_SUBFIELD_NAME = 'iteratorfield';
-    const STORED_IMAGE_SUBFIELD_NAME = 'storedimage';
-    const IMAGE_UPLOAD_SUBFIELD_NAME = 'imageupload';
-    
-    const FILE_DATA_INDEX_DODGING_FILE = 'dodging_file';
+    public const RENDERING_TEMPLATE = 'tpl.prop_multi_image_inp.html';
+
+    public const ITERATOR_SUBFIELD_NAME = 'iteratorfield';
+    public const STORED_IMAGE_SUBFIELD_NAME = 'storedimage';
+    public const IMAGE_UPLOAD_SUBFIELD_NAME = 'imageupload';
+
+    public const FILE_DATA_INDEX_DODGING_FILE = 'dodging_file';
 
     /**
      * @var bool
      */
     protected $editElementOccuranceEnabled = false;
-    
+
     /**
      * @var bool
      */
     protected $editElementOrderEnabled = false;
 
     protected stdClass $dodging_files;
-    
+
     /**
      * @var array
      */
     protected $suffixes = array();
-    
+
     protected $imageRemovalCommand = 'removeImage';
-    
+
     protected $imageUploadCommand = 'uploadImage';
-    
+
     /**
      * Constructor
      *
@@ -62,7 +62,7 @@ abstract class ilMultipleImagesInputGUI extends ilIdentifiedMultiValuesInputGUI
 
         $this->lng = $DIC->language();
         parent::__construct($a_title, $a_postvar);
-        
+
         $this->setSuffixes(["jpg", "jpeg", "png", "gif"]);
         $this->setSize(25);
         $this->validationRegexp = "";
@@ -75,112 +75,112 @@ abstract class ilMultipleImagesInputGUI extends ilIdentifiedMultiValuesInputGUI
 
         $manipulator = new ilMultipleImagesFileSubmissionDataCompletion($this->dodging_files);
         $this->addFormValuesManipulator($manipulator);
-        
+
         $manipulator = new ilIdentifiedMultiFilesJsPositionIndexRemover();
         $manipulator->setPostVar($this->getPostVar());
         $this->addFormValuesManipulator($manipulator);
-        
+
         $manipulator = new ilMultiFilesSubmitRecursiveSlashesStripper();
         $manipulator->setPostVar($this->getPostVar());
         $this->addFormValuesManipulator($manipulator);
     }
-    
+
     /**
      * Set Accepted Suffixes.
      *
      * @param	array	$a_suffixes	Accepted Suffixes
      */
-    public function setSuffixes($a_suffixes) : void
+    public function setSuffixes($a_suffixes): void
     {
         $this->suffixes = $a_suffixes;
     }
-    
+
     /**
      * Get Accepted Suffixes.
      *
      * @return	array	Accepted Suffixes
      */
-    public function getSuffixes() : array
+    public function getSuffixes(): array
     {
         return $this->suffixes;
     }
-    
+
     /**
      * @return string
      */
-    public function getImageRemovalCommand() : string
+    public function getImageRemovalCommand(): string
     {
         return $this->imageRemovalCommand;
     }
-    
+
     /**
      * @param string $imageRemovalCommand
      */
-    public function setImageRemovalCommand($imageRemovalCommand) : void
+    public function setImageRemovalCommand($imageRemovalCommand): void
     {
         $this->imageRemovalCommand = $imageRemovalCommand;
     }
-    
+
     /**
      * @return string
      */
-    public function getImageUploadCommand() : string
+    public function getImageUploadCommand(): string
     {
         return $this->imageUploadCommand;
     }
-    
+
     /**
      * @param string $imageUploadCommand
      */
-    public function setImageUploadCommand($imageUploadCommand) : void
+    public function setImageUploadCommand($imageUploadCommand): void
     {
         $this->imageUploadCommand = $imageUploadCommand;
     }
-    
+
     /**
      * @return	boolean $editElementOccuranceEnabled
      */
-    public function isEditElementOccuranceEnabled() : bool
+    public function isEditElementOccuranceEnabled(): bool
     {
         return $this->editElementOccuranceEnabled;
     }
-    
+
     /**
      * @param	boolean	$editElementOccuranceEnabled
      */
-    public function setEditElementOccuranceEnabled($editElementOccuranceEnabled) : void
+    public function setEditElementOccuranceEnabled($editElementOccuranceEnabled): void
     {
         $this->editElementOccuranceEnabled = $editElementOccuranceEnabled;
     }
-    
+
     /**
      * @return boolean
      */
-    public function isEditElementOrderEnabled() : bool
+    public function isEditElementOrderEnabled(): bool
     {
         return $this->editElementOrderEnabled;
     }
-    
+
     /**
      * @param boolean $editElementOrderEnabled
      */
-    public function setEditElementOrderEnabled($editElementOrderEnabled) : void
+    public function setEditElementOrderEnabled($editElementOrderEnabled): void
     {
         $this->editElementOrderEnabled = $editElementOrderEnabled;
     }
-    
+
     /**
      * @param mixed $value
      * @return bool
      */
-    abstract protected function isValidFilenameInput($filenameInput) : bool;
-    
+    abstract protected function isValidFilenameInput($filenameInput): bool;
+
     /**
      * Check input, strip slashes etc. set alert, if input is not ok.
      *
      * @return	boolean	$validationSuccess
      */
-    public function onCheckInput() : bool
+    public function onCheckInput(): bool
     {
         $F = $_FILES[$this->getPostVar()];
 
@@ -200,44 +200,44 @@ abstract class ilMultipleImagesInputGUI extends ilIdentifiedMultiValuesInputGUI
                     switch ($error) {
                         case UPLOAD_ERR_FORM_SIZE:
                         case UPLOAD_ERR_INI_SIZE:
-                        $this->setAlert($this->lng->txt("form_msg_file_size_exceeds"));
-                        return false;
-                        break;
+                            $this->setAlert($this->lng->txt("form_msg_file_size_exceeds"));
+                            return false;
+                            break;
 
                         case UPLOAD_ERR_PARTIAL:
-                        $this->setAlert($this->lng->txt("form_msg_file_partially_uploaded"));
-                        return false;
-                        break;
-                    
-                    case UPLOAD_ERR_NO_FILE:
-                        if (!$this->getRequired()) {
+                            $this->setAlert($this->lng->txt("form_msg_file_partially_uploaded"));
+                            return false;
                             break;
-                        } elseif (isset($F[self::FILE_DATA_INDEX_DODGING_FILE][$index]) && $F[self::FILE_DATA_INDEX_DODGING_FILE][$index] !== '') {
+
+                        case UPLOAD_ERR_NO_FILE:
+                            if (!$this->getRequired()) {
+                                break;
+                            } elseif (isset($F[self::FILE_DATA_INDEX_DODGING_FILE][$index]) && $F[self::FILE_DATA_INDEX_DODGING_FILE][$index] !== '') {
+                                break;
+                            }
+                            $this->setAlert($this->lng->txt("form_msg_file_no_upload"));
+                            return false;
                             break;
-                        }
-                        $this->setAlert($this->lng->txt("form_msg_file_no_upload"));
-                        return false;
-                        break;
-                    
-                    case UPLOAD_ERR_NO_TMP_DIR:
-                        $this->setAlert($this->lng->txt("form_msg_file_missing_tmp_dir"));
-                        return false;
-                        break;
-                    
-                    case UPLOAD_ERR_CANT_WRITE:
-                        $this->setAlert($this->lng->txt("form_msg_file_cannot_write_to_disk"));
-                        return false;
-                        break;
-                    
-                    case UPLOAD_ERR_EXTENSION:
-                        $this->setAlert($this->lng->txt("form_msg_file_upload_stopped_ext"));
-                        return false;
-                        break;
-                }
+
+                        case UPLOAD_ERR_NO_TMP_DIR:
+                            $this->setAlert($this->lng->txt("form_msg_file_missing_tmp_dir"));
+                            return false;
+                            break;
+
+                        case UPLOAD_ERR_CANT_WRITE:
+                            $this->setAlert($this->lng->txt("form_msg_file_cannot_write_to_disk"));
+                            return false;
+                            break;
+
+                        case UPLOAD_ERR_EXTENSION:
+                            $this->setAlert($this->lng->txt("form_msg_file_upload_stopped_ext"));
+                            return false;
+                            break;
+                    }
                 }
             }
         }
-        
+
         if (is_array($F['tmp_name'])) {
             foreach ($F['tmp_name'] as $index => $tmpname) {
                 $filename = $F['name'][$index];
@@ -254,7 +254,7 @@ abstract class ilMultipleImagesInputGUI extends ilIdentifiedMultiValuesInputGUI
                 }
             }
         }
-        
+
         foreach ($F['tmp_name'] as $index => $tmpname) {
             $filename = $F['name'][$index];
             $filename_arr = pathinfo($filename);
@@ -270,24 +270,24 @@ abstract class ilMultipleImagesInputGUI extends ilIdentifiedMultiValuesInputGUI
                 }
             }
         }
-        
+
         return $this->checkSubItemsInput();
     }
-    
+
     /**
      * @param string $mode
      * @return string
      */
-    public function render(string $a_mode = "") : string
+    public function render(string $a_mode = ""): string
     {
         $lng = $this->lng;
-        
+
         $tpl = $this->getTemplate();
         $i = 0;
         foreach ($this->getIdentifiedMultiValues() as $identifier => $value) {
             if ($this->valueHasContentImageSource($value)) {
                 $tpl->setCurrentBlock('image');
-                
+
                 $tpl->setVariable('STORED_IMAGE_SRC', $this->fetchContentImageSourceFromValue($value));
                 $tpl->setVariable(
                     'STORED_IMAGE_ALT',
@@ -295,24 +295,24 @@ abstract class ilMultipleImagesInputGUI extends ilIdentifiedMultiValuesInputGUI
                 );
                 $tpl->setVariable('STORED_IMAGE_FILENAME', $this->fetchContentImageTitleFromValue($value));
                 $tpl->setVariable("STORED_IMAGE_POST_VAR", $this->getMultiValuePostVarSubFieldPosIndexed($identifier, self::STORED_IMAGE_SUBFIELD_NAME, $i));
-                
+
                 $tpl->setVariable("TXT_DELETE_EXISTING", $lng->txt("delete_existing_file"));
                 $tpl->setVariable("IMAGE_CMD_REMOVE", $this->buildMultiValueSubmitVar($identifier, $i, $this->getImageRemovalCommand()));
-                
+
                 $tpl->parseCurrentBlock();
             }
-            
+
             $tpl->setCurrentBlock('addimage');
-            
+
             $tpl->setVariable("IMAGE_BROWSE", $lng->txt('select_file'));
             $tpl->setVariable("IMAGE_ID", $this->getMultiValuePosIndexedSubFieldId($identifier, self::IMAGE_UPLOAD_SUBFIELD_NAME, $i));
             $tpl->setVariable("TXT_IMAGE_SUBMIT", $lng->txt("upload"));
             $tpl->setVariable("IMAGE_CMD_UPLOAD", $this->buildMultiValueSubmitVar($identifier, $i, $this->getImageUploadCommand()));
             $tpl->setVariable("UPLOAD_IMAGE_POST_VAR", $this->getMultiValuePostVarSubFieldPosIndexed($identifier, self::IMAGE_UPLOAD_SUBFIELD_NAME, $i));
             $tpl->setVariable("COUNT_POST_VAR", $this->getMultiValuePostVarSubFieldPosIndexed($identifier, self::ITERATOR_SUBFIELD_NAME, $i));
-            
+
             $tpl->parseCurrentBlock();
-            
+
             if ($this->isEditElementOrderEnabled()) {
                 $tpl->setCurrentBlock("move");
                 $tpl->setVariable("ID_UP", $this->getMultiValuePosIndexedSubFieldId($identifier, 'up', $i));
@@ -323,7 +323,7 @@ abstract class ilMultipleImagesInputGUI extends ilIdentifiedMultiValuesInputGUI
                 $tpl->setVariable("DOWN_BUTTON", ilGlyphGUI::get(ilGlyphGUI::DOWN));
                 $tpl->parseCurrentBlock();
             }
-            
+
             if ($this->isEditElementOccuranceEnabled()) {
                 $tpl->setCurrentBlock("row");
                 $tpl->setVariable("ID_ADD", $this->getMultiValuePosIndexedSubFieldId($identifier, 'add', $i));
@@ -334,10 +334,10 @@ abstract class ilMultipleImagesInputGUI extends ilIdentifiedMultiValuesInputGUI
                 $tpl->setVariable("REMOVE_BUTTON", ilGlyphGUI::get(ilGlyphGUI::REMOVE));
                 $tpl->parseCurrentBlock();
             }
-            
+
             $i++;
         }
-        
+
         if (is_array($this->getSuffixes())) {
             $suff_str = $delim = "";
             foreach ($this->getSuffixes() as $suffix) {
@@ -353,7 +353,7 @@ abstract class ilMultipleImagesInputGUI extends ilIdentifiedMultiValuesInputGUI
         $tpl->setVariable("ANSWER_IMAGE", $lng->txt('answer_image'));
         $tpl->parseCurrentBlock();
         */
-        
+
         $tpl->setVariable("TXT_MAX_SIZE", ilFileUtils::getFileSizeInfo());
         $tpl->setVariable("ELEMENT_ID", $this->getPostVar());
         $tpl->setVariable("TEXT_YES", $lng->txt('yes'));
@@ -362,7 +362,7 @@ abstract class ilMultipleImagesInputGUI extends ilIdentifiedMultiValuesInputGUI
         $tpl->setVariable("DELETE_IMAGE_QUESTION", $lng->txt('delete_image_question'));
         $tpl->setVariable("ANSWER_TEXT", $lng->txt('answer_text'));
         $tpl->setVariable("COMMANDS_TEXT", $lng->txt('actions'));
-        
+
         if (!$this->getDisabled()) {
             $tpl->setCurrentBlock('js_engine_initialisation');
             $tpl->setVariable('UPLOAD_CMD', $this->getImageUploadCommand());
@@ -377,54 +377,54 @@ abstract class ilMultipleImagesInputGUI extends ilIdentifiedMultiValuesInputGUI
             $globalTpl->addJavascript("./Services/Form/js/ServiceFormIdentifiedWizardInputExtend.js");
             //$globalTpl->addJavascript("./Services/Form/js/ServiceFormIdentifiedImageWizardInputConcrete.js");
         }
-        
+
         return $tpl->get();
     }
-    
+
     /**
      * @param $value
      * @return bool
      */
-    protected function valueHasContentImageSource($value) : bool
+    protected function valueHasContentImageSource($value): bool
     {
         return isset($value['src']) && strlen($value['src']);
     }
-    
+
     /**
      * @param $value
      * @return string
      */
-    protected function fetchContentImageSourceFromValue($value) : ?string
+    protected function fetchContentImageSourceFromValue($value): ?string
     {
         if ($this->valueHasContentImageSource($value)) {
             return $value['src'];
         }
-        
+
         return null;
     }
-    
+
     /**
      * @param $value
      * @return bool
      */
-    protected function valueHasContentImageTitle($value) : bool
+    protected function valueHasContentImageTitle($value): bool
     {
         return isset($value['title']) && strlen($value['title']);
     }
-    
-    protected function fetchContentImageTitleFromValue($value) : ?string
+
+    protected function fetchContentImageTitleFromValue($value): ?string
     {
         if ($this->valueHasContentImageTitle($value)) {
             return $value['title'];
         }
-        
+
         return $this->fetchContentImageSourceFromValue($value);
     }
-    
+
     /**
      * @return ilTemplate
      */
-    protected function getTemplate() : ilTemplate
+    protected function getTemplate(): ilTemplate
     {
         return new ilTemplate(self::RENDERING_TEMPLATE, true, true, "Services/Form");
     }

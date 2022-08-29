@@ -28,7 +28,6 @@ require_once('./webservice/soap/classes/class.ilSoapAdministration.php');
  */
 class ilSoapDataCollectionAdministration extends ilSoapAdministration
 {
-
     /**
      * Export DataCollection async
      * @return soap_fault|SoapFault|null|bool

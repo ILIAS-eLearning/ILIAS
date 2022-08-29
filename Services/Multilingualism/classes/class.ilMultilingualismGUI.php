@@ -57,7 +57,7 @@ class ilMultilingualismGUI
     /**
      * Set enable title/description only mode
      */
-    public function setTitleDescrOnlyMode(bool $a_val) : void
+    public function setTitleDescrOnlyMode(bool $a_val): void
     {
         $this->title_descr_only = $a_val;
     }
@@ -65,12 +65,12 @@ class ilMultilingualismGUI
     /**
      * Get enable title/description only mode
      */
-    public function getTitleDescrOnlyMode() : bool
+    public function getTitleDescrOnlyMode(): bool
     {
         return $this->title_descr_only;
     }
 
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         $next_class = $this->ctrl->getNextClass($this);
 
@@ -90,7 +90,7 @@ class ilMultilingualismGUI
     public function listTranslations(
         bool $a_get_post_values = false,
         bool $a_add = false
-    ) : void {
+    ): void {
         $this->lng->loadLanguageModule("translation");
 
 
@@ -132,7 +132,7 @@ class ilMultilingualismGUI
         $this->tpl->setContent($table->getHTML());
     }
 
-    public function addToolbar() : void
+    public function addToolbar(): void
     {
         $ilToolbar = $this->toolbar;
         if ($this->getTitleDescrOnlyMode()) {
@@ -143,7 +143,7 @@ class ilMultilingualismGUI
         }
     }
 
-    public function saveTranslations() : void
+    public function saveTranslations(): void
     {
         $default = $this->request->getDefault();
         $langs = $this->request->getLanguages();
@@ -191,7 +191,7 @@ class ilMultilingualismGUI
         $this->ctrl->redirect($this, "listTranslations");
     }
 
-    public function deleteTranslations() : void
+    public function deleteTranslations(): void
     {
         $default = $this->request->getDefault();
         $langs = $this->request->getLanguages();
@@ -221,7 +221,7 @@ class ilMultilingualismGUI
     /**
      * Get multi language form
      */
-    public function getMultiLangForm(bool $a_add = false) : ilPropertyFormGUI
+    public function getMultiLangForm(bool $a_add = false): ilPropertyFormGUI
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
@@ -268,7 +268,7 @@ class ilMultilingualismGUI
     /**
      * Confirm page translation creation
      */
-    public function confirmDeactivateContentMultiLang() : void
+    public function confirmDeactivateContentMultiLang(): void
     {
         $ilCtrl = $this->ctrl;
         $tpl = $this->tpl;
@@ -290,7 +290,7 @@ class ilMultilingualismGUI
     /**
      * Add language
      */
-    public function addLanguages(ilPropertyFormGUI $form = null) : void
+    public function addLanguages(ilPropertyFormGUI $form = null): void
     {
         $tpl = $this->tpl;
 
@@ -300,19 +300,19 @@ class ilMultilingualismGUI
         $tpl->setContent($form->getHTML());
     }
 
-    public function saveLanguages() : void
+    public function saveLanguages(): void
     {
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
-        
+
         ilLoggerFactory::getLogger('otpl')->debug('Save languages');
 
         $form = $this->getMultiLangForm(true);
         if ($form->checkInput()) {
             $ad = $form->getInput("additional_langs");
-            
+
             ilLoggerFactory::getLogger('otpl')->dump($ad);
-            
+
             if (is_array($ad)) {
                 foreach ($ad as $l) {
                     if ($l != "") {
@@ -340,7 +340,7 @@ class ilMultilingualismGUI
     /**
      * Confirm remove languages
      */
-    public function confirmRemoveLanguages() : void
+    public function confirmRemoveLanguages(): void
     {
         $ilCtrl = $this->ctrl;
         $tpl = $this->tpl;
@@ -370,7 +370,7 @@ class ilMultilingualismGUI
     /**
      * Remove languages
      */
-    public function removeLanguages() : void
+    public function removeLanguages(): void
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
@@ -393,7 +393,7 @@ class ilMultilingualismGUI
     public function setStartValues(
         string $a_title,
         string $a_description
-    ) : void {
+    ): void {
         $this->start_title = $a_title;
         $this->start_description = $a_description;
     }

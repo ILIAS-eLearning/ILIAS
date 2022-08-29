@@ -69,7 +69,7 @@ class SkillTreeAdminGUI
         $this->skill_management_access_manager = $this->skill_manager->getManagementAccessManager($this->requested_ref_id);
     }
 
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         $ctrl = $this->ctrl;
 
@@ -77,7 +77,6 @@ class SkillTreeAdminGUI
         $cmd = $ctrl->getCmd("listTrees");
 
         switch ($next_class) {
-
             case "ilobjskilltreegui":
                 $this->tabs->clearTargets();
                 $gui = new ilObjSkillTreeGUI([], $this->requested_ref_id, true, false);
@@ -92,7 +91,7 @@ class SkillTreeAdminGUI
         }
     }
 
-    protected function listTrees() : void
+    protected function listTrees(): void
     {
         $mtpl = $this->main_tpl;
         $toolbar = $this->toolbar;

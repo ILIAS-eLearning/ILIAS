@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /******************************************************************************
  *
@@ -50,7 +52,7 @@ class ilConditionSelector extends ilRepositorySelectorExplorerGUI
     /**
      * @inheritDoc
      */
-    public function isNodeVisible($a_node) : bool
+    public function isNodeVisible($a_node): bool
     {
         global $DIC;
 
@@ -71,7 +73,7 @@ class ilConditionSelector extends ilRepositorySelectorExplorerGUI
     /**
      * @inheritDoc
      */
-    public function isNodeClickable($a_node) : bool
+    public function isNodeClickable($a_node): bool
     {
         if (!parent::isNodeClickable($a_node)) {
             return false;
@@ -84,7 +86,7 @@ class ilConditionSelector extends ilRepositorySelectorExplorerGUI
         return true;
     }
 
-    public function setRefId(int $a_ref_id) : void
+    public function setRefId(int $a_ref_id): void
     {
         $this->ref_id = $a_ref_id;
 
@@ -96,7 +98,7 @@ class ilConditionSelector extends ilRepositorySelectorExplorerGUI
         }
     }
 
-    public function getRefId() : ?int
+    public function getRefId(): ?int
     {
         return $this->ref_id;
     }
@@ -104,7 +106,7 @@ class ilConditionSelector extends ilRepositorySelectorExplorerGUI
     /**
      * @inheritDoc
      */
-    public function isNodeHighlighted($a_node) : bool
+    public function isNodeHighlighted($a_node): bool
     {
         //highlight parent if target object cant be highlighted
         if ($this->highlighted_parent == $a_node["child"]) {

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -32,11 +34,9 @@ class ilBuddyList
     protected ?ilBuddySystemRelationCollection $relations = null;
 
     /**
-     * @param int $usrId
-     * @return self
      * @throws ilBuddySystemException
      */
-    public static function getInstanceByUserId(int $usrId) : self
+    public static function getInstanceByUserId(int $usrId): self
     {
         if (ilObjUser::_isAnonymous($usrId)) {
             throw new ilBuddySystemException(sprintf(
@@ -53,53 +53,53 @@ class ilBuddyList
         return self::$instances[$usrId];
     }
 
-    /**
-     * @return self
-     * @throws ilBuddySystemException
-     */
-    public static function getInstanceByGlobalUser() : self
+    public static function getInstanceByGlobalUser(ilObjUser $user = null): self
     {
         global $DIC;
 
-        return self::getInstanceByUserId($DIC->user()->getId());
+        if (null === $user) {
+            $user = $DIC->user();
+        }
+
+        return self::getInstanceByUserId($user->getId());
     }
 
-    protected function __construct(int $ownerId)
+    protected function __construct(int $ownerId, ilAppEventHandler $event_handler = null)
     {
         global $DIC;
+
+        $this->eventHandler = $event_handler ?? $DIC['ilAppEventHandler'];
 
         $this->setOwnerId($ownerId);
         $this->setRepository(new ilBuddySystemRelationRepository($this->getOwnerId()));
-
-        $this->eventHandler = $DIC['ilAppEventHandler'];
     }
 
     /**
      * Remove the singleton instance from static array, used for unit tests
      */
-    public function reset() : void
+    public function reset(): void
     {
         $this->relationsRead = false;
         $this->relations = null;
         unset(self::$instances[$this->getOwnerId()]);
     }
 
-    public function getRepository() : ilBuddySystemRelationRepository
+    public function getRepository(): ilBuddySystemRelationRepository
     {
         return $this->repository;
     }
 
-    public function setRepository(ilBuddySystemRelationRepository $repository) : void
+    public function setRepository(ilBuddySystemRelationRepository $repository): void
     {
         $this->repository = $repository;
     }
 
-    public function readFromRepository() : void
+    public function readFromRepository(): void
     {
         $this->setRelations(new ilBuddySystemRelationCollection($this->getRepository()->getAll()));
     }
 
-    protected function performLazyLoading() : void
+    protected function performLazyLoading(): void
     {
         if (!$this->relationsRead) {
             $this->readFromRepository();
@@ -107,7 +107,7 @@ class ilBuddyList
         }
     }
 
-    public function getRelations() : ilBuddySystemRelationCollection
+    public function getRelations(): ilBuddySystemRelationCollection
     {
         if (null === $this->relations) {
             $this->performLazyLoading();
@@ -116,93 +116,85 @@ class ilBuddyList
         return $this->relations;
     }
 
-    public function setRelations(ilBuddySystemRelationCollection $relations) : void
+    public function setRelations(ilBuddySystemRelationCollection $relations): void
     {
         $this->relations = $relations;
     }
 
     /**
      * Returns the user id of the buddy list owner
-     * @return int
      */
-    public function getOwnerId() : int
+    public function getOwnerId(): int
     {
         return $this->ownerId;
     }
 
     /**
      * Gets all linked/approved relations
-     * @return ilBuddySystemRelationCollection
      */
-    public function getLinkedRelations() : ilBuddySystemRelationCollection
+    public function getLinkedRelations(): ilBuddySystemRelationCollection
     {
-        return $this->getRelations()->filter(static function (ilBuddySystemRelation $relation) : bool {
+        return $this->getRelations()->filter(static function (ilBuddySystemRelation $relation): bool {
             return $relation->isLinked();
         });
     }
 
     /**
      * Gets all requested relations the buddy list owner has to interact with
-     * @return ilBuddySystemRelationCollection
      */
-    public function getRequestRelationsForOwner() : ilBuddySystemRelationCollection
+    public function getRequestRelationsForOwner(): ilBuddySystemRelationCollection
     {
-        return $this->getRequestedRelations()->filter(function (ilBuddySystemRelation $relation) : bool {
+        return $this->getRequestedRelations()->filter(function (ilBuddySystemRelation $relation): bool {
             return $relation->getBuddyUsrId() === $this->getOwnerId();
         });
     }
 
     /**
      * Gets all requested relations the buddy list owner initiated
-     * @return ilBuddySystemRelationCollection
      */
-    public function getRequestRelationsByOwner() : ilBuddySystemRelationCollection
+    public function getRequestRelationsByOwner(): ilBuddySystemRelationCollection
     {
-        return $this->getRequestedRelations()->filter(function (ilBuddySystemRelation $relation) : bool {
+        return $this->getRequestedRelations()->filter(function (ilBuddySystemRelation $relation): bool {
             return $relation->getUsrId() === $this->getOwnerId();
         });
     }
 
     /**
      * Gets all requested relations
-     * @return ilBuddySystemRelationCollection
      */
-    public function getRequestedRelations() : ilBuddySystemRelationCollection
+    public function getRequestedRelations(): ilBuddySystemRelationCollection
     {
-        return $this->getRelations()->filter(static function (ilBuddySystemRelation $relation) : bool {
+        return $this->getRelations()->filter(static function (ilBuddySystemRelation $relation): bool {
             return $relation->isRequested();
         });
     }
 
     /**
      * Gets all ignored relations the buddy list owner has to interact with
-     * @return ilBuddySystemRelationCollection
      */
-    public function getIgnoredRelationsForOwner() : ilBuddySystemRelationCollection
+    public function getIgnoredRelationsForOwner(): ilBuddySystemRelationCollection
     {
-        return $this->getIgnoredRelations()->filter(function (ilBuddySystemRelation $relation) : bool {
+        return $this->getIgnoredRelations()->filter(function (ilBuddySystemRelation $relation): bool {
             return $relation->getBuddyUsrId() === $this->getOwnerId();
         });
     }
 
     /**
      * Gets all ignored relations the buddy list owner initiated
-     * @return ilBuddySystemRelationCollection
      */
-    public function getIgnoredRelationsByOwner() : ilBuddySystemRelationCollection
+    public function getIgnoredRelationsByOwner(): ilBuddySystemRelationCollection
     {
-        return $this->getIgnoredRelations()->filter(function (ilBuddySystemRelation $relation) : bool {
+        return $this->getIgnoredRelations()->filter(function (ilBuddySystemRelation $relation): bool {
             return $relation->getUsrId() === $this->getOwnerId();
         });
     }
 
     /**
      * Gets all ignored relations: ilBuddySystemRelationCollection
-     * @return ilBuddySystemRelationCollection
      */
-    public function getIgnoredRelations() : ilBuddySystemRelationCollection
+    public function getIgnoredRelations(): ilBuddySystemRelationCollection
     {
-        return $this->getRelations()->filter(static function (ilBuddySystemRelation $relation) : bool {
+        return $this->getRelations()->filter(static function (ilBuddySystemRelation $relation): bool {
             return $relation->isIgnored();
         });
     }
@@ -211,22 +203,22 @@ class ilBuddyList
      * Returns an array of all user ids the buddy list owner has a relation with
      * @return int[]
      */
-    public function getRelationUserIds() : array
+    public function getRelationUserIds(): array
     {
         return $this->getRelations()->getKeys();
     }
 
-    public function setOwnerId(int $ownerId) : void
+    public function setOwnerId(int $ownerId): void
     {
         $this->ownerId = $ownerId;
     }
 
-    protected function getRelationTargetUserId(ilBuddySystemRelation $relation) : int
+    protected function getRelationTargetUserId(ilBuddySystemRelation $relation): int
     {
         return ($relation->getUsrId() === $this->getOwnerId() ? $relation->getBuddyUsrId() : $relation->getUsrId());
     }
 
-    public function getRelationByUserId(int $usrId) : ilBuddySystemRelation
+    public function getRelationByUserId(int $usrId): ilBuddySystemRelation
     {
         if ($this->getRelations()->containsKey($usrId)) {
             return $this->getRelations()->get($usrId);
@@ -246,11 +238,9 @@ class ilBuddyList
     }
 
     /**
-     * @param ilBuddySystemRelation $relation
-     * @return self
      * @throws ilBuddySystemException
      */
-    public function link(ilBuddySystemRelation $relation) : self
+    public function link(ilBuddySystemRelation $relation): self
     {
         if ($relation->isLinked()) {
             throw new ilBuddySystemRelationStateAlreadyGivenException('buddy_bs_action_already_linked');
@@ -269,11 +259,9 @@ class ilBuddyList
     }
 
     /**
-     * @param ilBuddySystemRelation $relation
-     * @return self
      * @throws ilBuddySystemException
      */
-    public function unlink(ilBuddySystemRelation $relation) : self
+    public function unlink(ilBuddySystemRelation $relation): self
     {
         try {
             $relation->unlink();
@@ -281,7 +269,7 @@ class ilBuddyList
             $this->getRelations()->set($this->getRelationTargetUserId($relation), $relation);
         } catch (ilBuddySystemException $e) {
             if ($relation->isUnlinked()) {
-                throw new ilBuddySystemRelationStateAlreadyGivenException('buddy_bs_action_already_unlinked');
+                throw new ilBuddySystemRelationStateAlreadyGivenException('buddy_bs_action_already_unlinked', $e->getCode(), $e);
             }
 
             throw $e;
@@ -291,11 +279,9 @@ class ilBuddyList
     }
 
     /**
-     * @param ilBuddySystemRelation $relation
-     * @return self
      * @throws ilBuddySystemException
      */
-    public function request(ilBuddySystemRelation $relation) : self
+    public function request(ilBuddySystemRelation $relation): self
     {
         if (ilObjUser::_isAnonymous($this->getRelationTargetUserId($relation))) {
             throw new ilBuddySystemException(sprintf(
@@ -318,7 +304,7 @@ class ilBuddyList
             $this->getRelations()->set($this->getRelationTargetUserId($relation), $relation);
         } catch (ilBuddySystemException $e) {
             if ($relation->isRequested()) {
-                throw new ilBuddySystemRelationStateAlreadyGivenException('buddy_bs_action_already_requested');
+                throw new ilBuddySystemRelationStateAlreadyGivenException('buddy_bs_action_already_requested', $e->getCode(), $e);
             }
 
             throw $e;
@@ -336,11 +322,9 @@ class ilBuddyList
     }
 
     /**
-     * @param ilBuddySystemRelation $relation
-     * @return self
      * @throws ilBuddySystemException
      */
-    public function ignore(ilBuddySystemRelation $relation) : self
+    public function ignore(ilBuddySystemRelation $relation): self
     {
         try {
             if ($relation->isLinked()) {
@@ -357,7 +341,7 @@ class ilBuddyList
             $this->getRelations()->set($this->getRelationTargetUserId($relation), $relation);
         } catch (ilBuddySystemException $e) {
             if ($relation->isIgnored()) {
-                throw new ilBuddySystemRelationStateAlreadyGivenException('buddy_bs_action_already_ignored');
+                throw new ilBuddySystemRelationStateAlreadyGivenException('buddy_bs_action_already_ignored', $e->getCode(), $e);
             }
 
             throw $e;
@@ -368,9 +352,8 @@ class ilBuddyList
 
     /**
      * Removes all buddy system references of the user (persistently)
-     * @return self
      */
-    public function destroy() : self
+    public function destroy(): self
     {
         $this->getRepository()->destroy();
         $this->getRelations()->clear();

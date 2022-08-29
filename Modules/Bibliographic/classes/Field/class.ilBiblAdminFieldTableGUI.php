@@ -14,7 +14,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * Class ilBiblAdminFieldTableGUI
  * @author: Benjamin Seglias   <bs@studer-raimann.ch>
@@ -23,11 +23,11 @@ class ilBiblAdminFieldTableGUI extends ilTable2GUI
 {
     use \ILIAS\Modules\OrgUnit\ARHelper\DIC;
 
-    const TBL_ID = 'tbl_bibl_fields';
+    public const TBL_ID = 'tbl_bibl_fields';
     protected \ilBiblAdminFactoryFacadeInterface $facade;
     protected int $position_index = 1;
     protected array $filter = [];
-    
+
     /**
      * ilBiblAdminFieldTableGUI constructor.
      * @param object                             $a_parent_obj
@@ -65,7 +65,7 @@ class ilBiblAdminFieldTableGUI extends ilTable2GUI
         $this->parseData();
     }
 
-    protected function initColumns() : void
+    protected function initColumns(): void
     {
         $this->addColumn($this->lng()->txt('order'));
         $this->addColumn($this->lng()->txt('identifier'));
@@ -74,13 +74,13 @@ class ilBiblAdminFieldTableGUI extends ilTable2GUI
         $this->addColumn($this->lng()->txt('actions'), '', '150px');
     }
 
-    protected function addFilterItems() : void
+    protected function addFilterItems(): void
     {
         $field = new ilTextInputGUI($this->lng()->txt('identifier'), 'identifier');
         $this->addAndReadFilterItem($field);
     }
 
-    protected function addAndReadFilterItem(ilTableFilterItem $field) : void
+    protected function addAndReadFilterItem(ilTableFilterItem $field): void
     {
         $this->addFilterItem($field);
         $field->readFromSession();
@@ -90,7 +90,7 @@ class ilBiblAdminFieldTableGUI extends ilTable2GUI
     /**
      * Fills table rows with content from $a_set.
      */
-    public function fillRow(array $a_set) : void
+    public function fillRow(array $a_set): void
     {
         $field = $this->facade->fieldFactory()->findById($a_set['id']);
 
@@ -122,7 +122,7 @@ class ilBiblAdminFieldTableGUI extends ilTable2GUI
         $this->position_index++;
     }
 
-    protected function addActionMenu(ilBiblFieldInterface $field) : void
+    protected function addActionMenu(ilBiblFieldInterface $field): void
     {
         $selectionList = new ilAdvancedSelectionListGUI();
         $selectionList->setListTitle($this->lng->txt('actions'));
@@ -147,7 +147,7 @@ class ilBiblAdminFieldTableGUI extends ilTable2GUI
         $this->tpl->setVariable('VAL_ACTIONS', $selectionList->getHTML());
     }
 
-    protected function parseData() : void
+    protected function parseData(): void
     {
         $this->determineOffsetAndOrder();
         $this->determineLimit();

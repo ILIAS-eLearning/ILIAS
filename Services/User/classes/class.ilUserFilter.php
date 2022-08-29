@@ -29,7 +29,7 @@ class ilUserFilter
         $this->init();
     }
 
-    public static function getInstance() : self
+    public static function getInstance(): self
     {
         if (self::$instance) {
             return self::$instance;
@@ -40,34 +40,34 @@ class ilUserFilter
     /**
      * Filter user accounts
      */
-    public function filter(array $a_user_ids) : array // Missing array type.
+    public function filter(array $a_user_ids): array // Missing array type.
     {
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
-        
+
         if (!ilUserAccountSettings::getInstance()->isUserAccessRestricted()) {
             return $a_user_ids;
         }
-        
+
         $query = "SELECT usr_id FROM usr_data " .
             "WHERE " . $ilDB->in('time_limit_owner', $this->folder_ids, false, 'integer') . " " .
             "AND " . $ilDB->in('usr_id', $a_user_ids, false, 'integer');
         $res = $ilDB->query($query);
-        
+
         $filtered = array();
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_ASSOC)) {
             $filtered[] = $row['usr_id'];
         }
         return $filtered;
     }
-    
-    public function getFolderIds() : array // Missing array type.
+
+    public function getFolderIds(): array // Missing array type.
     {
         return $this->folder_ids;
     }
 
-    private function init() : void
+    private function init(): void
     {
         if (ilUserAccountSettings::getInstance()->isUserAccessRestricted()) {
             $this->folder_ids = ilLocalUser::_getFolderIds();

@@ -101,7 +101,7 @@ class ilvCard
     /**
      * Encode data with "b" type encoding according to RFC 2045
      */
-    public function encode(string $string) : string
+    public function encode(string $string): string
     {
         return $this->escape(quoted_printable_encode($string));
     }
@@ -109,7 +109,7 @@ class ilvCard
     /**
      * Fold a string according to RFC 2425
      */
-    public function fold(string $string = "") : string
+    public function fold(string $string = ""): string
     {
         $folded_string = "";
         preg_match_all("/(.{1,74})/", $string, $matches);
@@ -128,7 +128,7 @@ class ilvCard
     /**
      * Escapes a string according to RFC 2426
      */
-    public function escape(string $string) : string
+    public function escape(string $string): string
     {
         $string = preg_replace("/(?<!\\\\)(\\\\)([^;,n\\\\])/", "\${1}\${1}\${2}", $string);
         $string = preg_replace("/(?<!\\\\);/", "\\;", $string);
@@ -141,7 +141,7 @@ class ilvCard
      * Splits a variable into an array using a separator and escapes every value
      * @return array<string,string>
      */
-    public function explodeVar(string $variable, string $separator = ",") : array
+    public function explodeVar(string $variable, string $separator = ","): array
     {
         $exploded = explode($separator, $variable);
         foreach ($exploded as $index => $var) {
@@ -153,7 +153,7 @@ class ilvCard
     /**
      * Builds a vCard string out of the attributes of this object
      */
-    public function buildVCard() : string
+    public function buildVCard(): string
     {
         $fn = $n = $nickname = $photo = $bday = $adr = $label = $tel = $email = $mailer =
         $tz = $geo = $title = $role = $logo = $agent = $org = $categories = $note = $prodid =
@@ -552,7 +552,7 @@ class ilvCard
     /**
      * Creates a quoted printable encoded string according to RFC 2045
      */
-    public function quoted_printable_encode(string $input, int $line_max = 76) : string
+    public function quoted_printable_encode(string $input, int $line_max = 76): string
     {
         $hex = array('0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F');
         $lines = preg_split("/(\r\n|\r|\n)/", $input);
@@ -602,7 +602,7 @@ class ilvCard
      * Type example:
      * FN:Mr. John Q. Public\, Esq.
      */
-    public function setFormattedName(string $formatted_name) : void
+    public function setFormattedName(string $formatted_name): void
     {
         $this->types["FN"] = $this->escape($formatted_name);
     }
@@ -635,7 +635,7 @@ class ilvCard
         string $additional_names = "",
         string $honorific_prefixes = "",
         string $honorific_suffixes = ""
-    ) : void {
+    ): void {
         $familynames = $this->explodeVar($family_name);
         $givennames = $this->explodeVar($given_name);
         $addnames = $this->explodeVar($additional_names);
@@ -674,7 +674,7 @@ class ilvCard
      * It can also be used to specify a familiar form of a proper name
      * specified by the FN or N types.
      */
-    public function setNickname(string $nickname) : void
+    public function setNickname(string $nickname): void
     {
         $nicknames = $this->explodeVar($nickname);
         $this->types["NICKNAME"] = implode(",", $nicknames);
@@ -709,7 +709,7 @@ class ilvCard
     public function setPhoto(
         string $photo,
         string $type = ""
-    ) : void {
+    ): void {
         $value = "";
         $encoding = "";
         if (preg_match("/^http/", $photo)) {
@@ -740,7 +740,7 @@ class ilvCard
      * @param int $month The month of the birthday
      * @param int $day   The day of the birthday
      */
-    public function setBirthday(int $year, int $month, int $day) : void
+    public function setBirthday(int $year, int $month, int $day): void
     {
         if (($year < 1) or ($day < 1) or ($month < 1)) {
             $this->types["BDAY"] = "";
@@ -809,7 +809,7 @@ class ilvCard
         string $postal_code = "",
         string $country = "",
         int $type = ADR_TYPE_NONE
-    ) : void {
+    ): void {
         if ($type == ADR_TYPE_NONE) {
             $type = ADR_TYPE_INTL + ADR_TYPE_POSTAL + ADR_TYPE_PARCEL + ADR_TYPE_WORK;
         }
@@ -865,7 +865,7 @@ class ilvCard
     public function setLabel(
         string $label = "",
         int $type = ADR_TYPE_NONE
-    ) : void {
+    ): void {
         if ($type == ADR_TYPE_NONE) {
             $type = ADR_TYPE_INTL + ADR_TYPE_POSTAL + ADR_TYPE_PARCEL + ADR_TYPE_WORK;
         }
@@ -917,7 +917,7 @@ class ilvCard
     public function setPhone(
         string $number = "",
         int $type = TEL_TYPE_VOICE
-    ) : void {
+    ): void {
         $this->types["TEL"][] = array(
             "TEL" => $this->escape($number),
             "TYPE" => $type
@@ -947,7 +947,7 @@ class ilvCard
     public function setEmail(
         string $address = "",
         int $type = EMAIL_TYPE_INTERNET
-    ) : void {
+    ): void {
         $this->types["EMAIL"][] = array(
             "EMAIL" => $this->escape($address),
             "TYPE" => $type
@@ -968,7 +968,7 @@ class ilvCard
      * agent products.
      * @param string $name The mailer name
      */
-    public function setMailer(string $name = "") : void
+    public function setMailer(string $name = ""): void
     {
         $this->types["MAILER"] = $this->escape($name);
     }
@@ -989,7 +989,7 @@ class ilvCard
      * Type special notes: The type value consists of a single value.
      * @param string $zone The timezone as utc-offset value
      */
-    public function setTimezone(string $zone = "") : void
+    public function setTimezone(string $zone = ""): void
     {
         $this->types["TZ"] = $this->escape($zone);
     }
@@ -1020,7 +1020,7 @@ class ilvCard
      * @param string $latitude  The latitude of the position
      * @param string $longitude The longitude of the position
      */
-    public function setPosition(string $latitude = "", string $longitude = "") : void
+    public function setPosition(string $latitude = "", string $longitude = ""): void
     {
         $this->types["GEO"] = array(
             "LAT" => $latitude,
@@ -1043,7 +1043,7 @@ class ilvCard
      * Type special notes: This type is based on the X.520 Title attribute.
      * @param string $title Job title
      */
-    public function setTitle(string $title = "") : void
+    public function setTitle(string $title = ""): void
     {
         $this->types["TITLE"] = $this->escape($title);
     }
@@ -1062,7 +1062,7 @@ class ilvCard
      * intended.
      * @param string $role Role title
      */
-    public function setRole(string $role = "") : void
+    public function setRole(string $role = ""): void
     {
         $this->types["ROLE"] = $this->escape($role);
     }
@@ -1092,7 +1092,7 @@ class ilvCard
      * @param string $logo A binary string containing the logo or an uri
      * @param string $type The IANA type of the image format
      */
-    public function setLogo(string $logo, string $type = "") : void
+    public function setLogo(string $logo, string $type = ""): void
     {
         $value = "";
         $encoding = "";
@@ -1130,7 +1130,7 @@ class ilvCard
      * represents somebody or something that is separately addressable.
      * @param string $agent Agent type
      */
-    public function setAgent(string $agent = "") : void
+    public function setAgent(string $agent = ""): void
     {
         $this->types["AGENT"] = $this->escape($agent);
     }
@@ -1149,7 +1149,7 @@ class ilvCard
      * of organizational unit names.
      * @param string $organization Organization description
      */
-    public function setOrganization(string $organization = "") : void
+    public function setOrganization(string $organization = ""): void
     {
         $organization = implode(";", $this->explodeVar($organization, ";"));
         $this->types["ORG"] = $organization;
@@ -1170,7 +1170,7 @@ class ilvCard
      * (ASCII decimal 44).
      * @access    public
      */
-    public function setCategories(string $categories) : void
+    public function setCategories(string $categories): void
     {
         $categories = implode(",", $this->explodeVar($categories));
         $this->types["CATEGORIES"] = $categories;
@@ -1188,7 +1188,7 @@ class ilvCard
      * attribute.
      * @param string $note A note or comment
      */
-    public function setNote(string $note = "") : void
+    public function setNote(string $note = ""): void
     {
         $this->types["NOTE"] = $this->escape($note);
     }
@@ -1205,7 +1205,7 @@ class ilvCard
      * the text value is unique.
      * @param string $product_id Product identifier
      */
-    public function setProductId(string $product_id = "") : void
+    public function setProductId(string $product_id = ""): void
     {
         $this->types["PRODID"] = $this->escape($product_id);
     }
@@ -1224,7 +1224,7 @@ class ilvCard
      * information.
      * @param string $revision_date Revision date
      */
-    public function setRevision(string $revision_date = "") : void
+    public function setRevision(string $revision_date = ""): void
     {
         $this->types["REV"] = $this->escape($revision_date);
     }
@@ -1261,7 +1261,7 @@ class ilvCard
      * for sorting the vCard.
      * @param string $string Sort string
      */
-    public function setSortString(string $string = "") : void
+    public function setSortString(string $string = ""): void
     {
         $this->types["SORT-STRING"] = $this->escape($string);
     }
@@ -1292,7 +1292,7 @@ class ilvCard
      * @param string $sound Binary string containing the sound
      * @param string $type  The IANA registered sound type
      */
-    public function setSound(string $sound = "", string $type = "") : void
+    public function setSound(string $sound = "", string $type = ""): void
     {
         $value = "";
         $encoding = "";
@@ -1328,7 +1328,7 @@ class ilvCard
      * @param string $uid  Globally unique identifier
      * @param string $type IANA registered identifier format
      */
-    public function setUID(string $uid = "", string $type = "") : void
+    public function setUID(string $uid = "", string $type = ""): void
     {
         $this->types["UID"] = array(
             "UID" => $this->escape($uid),
@@ -1346,7 +1346,7 @@ class ilvCard
      * Type value: A single text value.
      * @param string $uri URL
      */
-    public function setURL(string $uri = "") : void
+    public function setURL(string $uri = ""): void
     {
         $this->types["URL"] = $this->escape($uri);
     }
@@ -1361,7 +1361,7 @@ class ilvCard
      * The value MUST be "3.0" if the vCard corresponds to the vCard 3.0 specification.
      * @param string $version Version string
      */
-    public function setVersion(string $version = "3.0") : void
+    public function setVersion(string $version = "3.0"): void
     {
         $this->types["VERSION"] = $version;
     }
@@ -1386,7 +1386,7 @@ class ilvCard
      * object.
      * @param string $classification Classification string
      */
-    public function setClassification(string $classification = "") : void
+    public function setClassification(string $classification = ""): void
     {
         $this->types["CLASS"] = $this->escape($classification);
     }
@@ -1427,7 +1427,7 @@ class ilvCard
      * @param string $key  Public key
      * @param string $type IANA registered public key or authentication certificate format
      */
-    public function setKey(string $key = "", string $type = "") : void
+    public function setKey(string $key = "", string $type = ""): void
     {
         $encoding = "b";
         $key = base64_encode($key);
@@ -1438,7 +1438,7 @@ class ilvCard
         );
     }
 
-    public function getFilename() : string
+    public function getFilename(): string
     {
         if (strcmp($this->filename, "") == 0) {
             return "vcard.vcf";
@@ -1447,7 +1447,7 @@ class ilvCard
         }
     }
 
-    public function getMimetype() : string
+    public function getMimetype(): string
     {
         return "text/x-vcard";
     }

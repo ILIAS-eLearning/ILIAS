@@ -38,7 +38,7 @@ class ilObjSurveyListGUI extends ilObjectListGUI
         $this->info_screen_enabled = true;
     }
 
-    public function init() : void
+    public function init(): void
     {
         $this->static_link_enabled = true;
         $this->delete_enabled = true;
@@ -54,7 +54,7 @@ class ilObjSurveyListGUI extends ilObjectListGUI
     }
 
 
-    public function getProperties() : array
+    public function getProperties(): array
     {
         $lng = $this->lng;
         $ilUser = $this->user;
@@ -67,7 +67,7 @@ class ilObjSurveyListGUI extends ilObjectListGUI
         }
 
         $props = parent::getProperties();
-        
+
         if (!ilObject::lookupOfflineStatus($this->obj_id)) {
             // BEGIN Usability Distinguish between status and participation
             if (!ilObjSurveyAccess::_lookupCreationComplete($this->obj_id)) {
@@ -109,7 +109,7 @@ class ilObjSurveyListGUI extends ilObjectListGUI
         return $props;
     }
 
-    public function getCommandLink(string $cmd) : string
+    public function getCommandLink(string $cmd): string
     {
         $link = "ilias.php?baseClass=ilObjSurveyGUI&amp;ref_id=" . $this->ref_id .
             "&amp;cmd=$cmd";

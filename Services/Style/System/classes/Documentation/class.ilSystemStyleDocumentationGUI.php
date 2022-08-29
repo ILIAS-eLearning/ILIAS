@@ -46,7 +46,7 @@ class ilSystemStyleDocumentationGUI
         $this->tpl = $tpl;
     }
 
-    public function show(Entries $entries, string $current_opened_node_id) : void
+    public function show(Entries $entries, string $current_opened_node_id): void
     {
         $entry_gui = new ilKSDocumentationEntryGUI(
             $this->f,

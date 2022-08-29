@@ -61,7 +61,7 @@ class ilEditClipboardGUI
             ->gui()
             ->clipboard()
             ->request();
-        
+
         $this->multiple = false;
         $this->page_back_title = $lng->txt("cont_back");
         $this->requested_return_cmd = $this->request->getReturnCmd();
@@ -87,13 +87,13 @@ class ilEditClipboardGUI
         $ilCtrl->saveParameter($this, array("clip_item_id", "pcid"));
     }
 
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         $ilUser = $this->user;
         $ilCtrl = $this->ctrl;
         $ilTabs = $this->tabs;
         $lng = $this->lng;
-        
+
         $next_class = $ilCtrl->getNextClass($this);
         $cmd = $ilCtrl->getCmd();
         switch ($next_class) {
@@ -124,34 +124,34 @@ class ilEditClipboardGUI
                 break;
         }
     }
-    
-    public function setMultipleSelections(bool $a_multiple = true) : void
+
+    public function setMultipleSelections(bool $a_multiple = true): void
     {
         $this->multiple = $a_multiple;
     }
 
-    public function getMultipleSelections() : bool
+    public function getMultipleSelections(): bool
     {
         return $this->multiple;
     }
 
-    public function setInsertButtonTitle(string $a_insertbuttontitle) : void
+    public function setInsertButtonTitle(string $a_insertbuttontitle): void
     {
         $this->insertbuttontitle = $a_insertbuttontitle;
     }
 
-    public function getInsertButtonTitle() : string
+    public function getInsertButtonTitle(): string
     {
         $lng = $this->lng;
-        
+
         if ($this->insertbuttontitle === "") {
             return $lng->txt("insert");
         }
-        
+
         return $this->insertbuttontitle;
     }
 
-    public function view() : void
+    public function view(): void
     {
         $ilCtrl = $this->ctrl;
         $tpl = $this->tpl;
@@ -167,7 +167,7 @@ class ilEditClipboardGUI
     }
 
 
-    public function getObject() : void
+    public function getObject(): void
     {
         $this->mode = "getObject";
         $this->view();
@@ -177,12 +177,12 @@ class ilEditClipboardGUI
     /**
      * remove item from clipboard
      */
-    public function remove() : void
+    public function remove(): void
     {
         $ilUser = $this->user;
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
-        
+
         // check number of objects
         $ids = $this->request->getItemIds();
 
@@ -206,7 +206,7 @@ class ilEditClipboardGUI
         $ilCtrl->redirect($this, "view");
     }
 
-    public function insert() : void
+    public function insert(): void
     {
         $lng = $this->lng;
 
@@ -222,7 +222,7 @@ class ilEditClipboardGUI
             $this->tpl->setOnScreenMessage('failure', $lng->txt("no_checkbox"), true);
             ilUtil::redirect($return);
         }
-        
+
         if (!$this->getMultipleSelections() && count($ids) > 1) {
             $this->tpl->setOnScreenMessage('failure', $lng->txt("cont_select_max_one_item"), true);
             ilUtil::redirect($return);
@@ -232,7 +232,7 @@ class ilEditClipboardGUI
         ilUtil::redirect($return);
     }
 
-    public static function _getSelectedIDs() : array
+    public static function _getSelectedIDs(): array
     {
         global $DIC;
         $clipboard_manager = $DIC->mediaPool()
@@ -243,7 +243,7 @@ class ilEditClipboardGUI
         return $clipboard_manager->getIds();
     }
 
-    public function setTabs() : void
+    public function setTabs(): void
     {
         $ilTabs = $this->tabs;
         $lng = $this->lng;
@@ -252,16 +252,16 @@ class ilEditClipboardGUI
         $tpl->setTitle($lng->txt("clipboard"));
         $this->getTabs($ilTabs);
     }
-    
-    public function setPageBackTitle(string $a_title) : void
+
+    public function setPageBackTitle(string $a_title): void
     {
         $this->page_back_title = $a_title;
     }
 
-    public function getTabs($tabs_gui) : void
+    public function getTabs($tabs_gui): void
     {
         $ilCtrl = $this->ctrl;
-        
+
         // back to upper context
         $tabs_gui->setBackTarget(
             $this->page_back_title,

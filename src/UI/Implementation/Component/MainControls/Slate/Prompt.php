@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\UI\Implementation\Component\MainControls\Slate;
 
 use ILIAS\UI\Component\MainControls\Slate as ISlate;
@@ -41,25 +43,25 @@ abstract class Prompt extends Slate implements ISlate\Prompt
         parent::__construct($signal_generator, $name, $symbol);
     }
 
-    protected function getCounterFactory() : CounterFactory
+    protected function getCounterFactory(): CounterFactory
     {
         return $this->counter_factory;
     }
 
-    protected function updateCounter(Counter $counter) : ISlate\Prompt
+    protected function updateCounter(Counter $counter): ISlate\Prompt
     {
         $clone = clone $this;
         $clone->symbol = $clone->symbol->withCounter($counter);
         return $clone;
     }
 
-    public function withUpdatedStatusCounter(int $count) : ISlate\Prompt
+    public function withUpdatedStatusCounter(int $count): ISlate\Prompt
     {
         $counter = $this->getCounterFactory()->status($count);
         return $this->updateCounter($counter);
     }
 
-    public function withUpdatedNoveltyCounter(int $count) : ISlate\Prompt
+    public function withUpdatedNoveltyCounter(int $count): ISlate\Prompt
     {
         $counter = $this->getCounterFactory()->novelty($count);
         return $this->updateCounter($counter);

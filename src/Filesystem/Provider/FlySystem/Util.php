@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace ILIAS\Filesystem\Provider\FlySystem;
@@ -23,11 +24,10 @@ namespace ILIAS\Filesystem\Provider\FlySystem;
  */
 class Util extends \League\Flysystem\Util
 {
-
     /**
      * @param string $path
      */
-    public static function normalizeRelativePath($path) : string
+    public static function normalizeRelativePath($path): string
     {
         $path = preg_replace("#\\\\(?!['\\\])#m", '/', $path); // this only replaces backslashes
         $path = static::removeFunkyWhiteSpace($path);

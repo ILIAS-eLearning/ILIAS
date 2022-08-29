@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -29,17 +31,17 @@
 */
 class ilLikeAdvancedSearch extends ilAdvancedSearch
 {
-    public function __createTaxonWhereCondition() : string
+    public function __createTaxonWhereCondition(): string
     {
         if ($this->options['lom_taxon']) {
             $where = " WHERE (";
-            
+
             $counter = 0;
             foreach ($this->query_parser->getQuotedWords() as $word) {
                 if ($counter++) {
                     $where .= "OR";
                 }
-                
+
                 $where .= $this->db->like('taxon', 'text', '%' . $word . '%');
             }
             $where .= ') ';
@@ -47,34 +49,34 @@ class ilLikeAdvancedSearch extends ilAdvancedSearch
         }
         return '';
     }
-    
-    public function __createKeywordWhereCondition() : string
+
+    public function __createKeywordWhereCondition(): string
     {
         $where = " WHERE (";
-        
+
         $counter = 0;
         foreach ($this->query_parser->getQuotedWords() as $word) {
             if ($counter++) {
                 $where .= "OR";
             }
-            
+
             $where .= $this->db->like('keyword', 'text', '%' . $word . '%');
         }
         $where .= ') ';
         return $where;
     }
-    
-    public function __createLifecycleWhereCondition() : string
+
+    public function __createLifecycleWhereCondition(): string
     {
         if ($this->options['lom_version']) {
             $where = " WHERE (";
-            
+
             $counter = 0;
             foreach ($this->query_parser->getQuotedWords() as $word) {
                 if ($counter++) {
                     $where .= "OR";
                 }
-                
+
                 $where .= $this->db->like('meta_version', 'text', '%' . $word . '%');
             }
             $where .= ') ';
@@ -82,18 +84,18 @@ class ilLikeAdvancedSearch extends ilAdvancedSearch
         }
         return '';
     }
-    
-    public function __createEntityWhereCondition() : string
+
+    public function __createEntityWhereCondition(): string
     {
         if ($this->options['lom_role_entry']) {
             $where = " WHERE (";
-            
+
             $counter = 0;
             foreach ($this->query_parser->getQuotedWords() as $word) {
                 if ($counter++) {
                     $where .= "OR";
                 }
-                
+
                 $where .= $this->db->like('entity', 'text', '%' . $word . '%');
             }
             $where .= ') ';
@@ -102,17 +104,17 @@ class ilLikeAdvancedSearch extends ilAdvancedSearch
         return '';
     }
 
-    public function __createCoverageAndCondition() : string
+    public function __createCoverageAndCondition(): string
     {
         if ($this->options['lom_coverage']) {
             $where = " AND (";
-            
+
             $counter = 0;
             foreach ($this->query_parser->getQuotedWords() as $word) {
                 if ($counter++) {
                     $where .= "OR";
                 }
-                
+
                 $where .= $this->db->like('coverage', 'text', '%' . $word . '%');
             }
             $where .= ') ';
@@ -120,8 +122,8 @@ class ilLikeAdvancedSearch extends ilAdvancedSearch
         }
         return '';
     }
-    
-    public function __createTitleDescriptionWhereCondition() : string
+
+    public function __createTitleDescriptionWhereCondition(): string
     {
         $concat = $this->db->concat(
             array(
@@ -136,11 +138,11 @@ class ilLikeAdvancedSearch extends ilAdvancedSearch
             if ($counter++) {
                 $where .= "OR";
             }
-            
+
             $where .= $this->db->like($concat, 'text', '%' . $word . '%');
         }
         $where .= ') ';
-        
+
         return $where;
     }
 }

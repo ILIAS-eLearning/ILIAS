@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -16,21 +18,21 @@
  *
  *********************************************************************/
 
-    class SeqObjective
+class SeqObjective
+{
+    public string $mObjID = "_primary_";
+
+    public bool $mSatisfiedByMeasure = false;
+
+    public bool $mActiveMeasure = true;
+
+    public float $mMinMeasure = 1.0;
+
+    public bool $mContributesToRollup = false;
+
+    public ?array $mMaps = null;
+
+    public function __construct()
     {
-        public string $mObjID = "_primary_";
-        
-        public bool $mSatisfiedByMeasure = false;
-        
-        public bool $mActiveMeasure = true;
-        
-        public float $mMinMeasure = 1.0;
-        
-        public bool $mContributesToRollup = false;
-        
-        public ?array $mMaps = null;
-        
-        public function __construct()
-        {
-        }
     }
+}

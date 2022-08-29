@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -26,12 +28,12 @@ abstract class ilUserAvatarBase implements ilUserAvatar
     protected string $name = '';
     protected int $usrId = 0;
 
-    public function setName(string $name) : void
+    public function setName(string $name): void
     {
         $this->name = $name;
     }
 
-    public function setUsrId(int $usrId) : void
+    public function setUsrId(int $usrId): void
     {
         $this->usrId = $usrId;
     }

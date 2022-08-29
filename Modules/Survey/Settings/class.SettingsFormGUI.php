@@ -1,4 +1,6 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -57,7 +59,7 @@ class SettingsFormGUI
         $this->feature_config = $this->domain_service->modeFeatureConfig($survey->getMode());
     }
 
-    public function checkForm(\ilPropertyFormGUI $form) : bool
+    public function checkForm(\ilPropertyFormGUI $form): bool
     {
         $feature_config = $this->feature_config;
         $lng = $this->ui_service->lng();
@@ -103,7 +105,7 @@ class SettingsFormGUI
      * @param \ilPropertyFormGUI $form
      * @return array
      */
-    protected function getTutorIdsFromForm(\ilPropertyFormGUI $form) : array
+    protected function getTutorIdsFromForm(\ilPropertyFormGUI $form): array
     {
         $rbacsystem = $this->rbacsystem;
         $survey = $this->survey;
@@ -123,7 +125,7 @@ class SettingsFormGUI
      * @param \ilPropertyFormGUI $form
      * @return array
      */
-    protected function getTutorResIdsFromForm(\ilPropertyFormGUI $form) : array
+    protected function getTutorResIdsFromForm(\ilPropertyFormGUI $form): array
     {
         $rbacsystem = $this->rbacsystem;
         $survey = $this->survey;
@@ -145,7 +147,7 @@ class SettingsFormGUI
      */
     public function getForm(
         string $target_class
-    ) : \ilPropertyFormGUI {
+    ): \ilPropertyFormGUI {
         $ctrl = $this->ui_service->ctrl();
         $lng = $this->ui_service->lng();
 
@@ -176,7 +178,7 @@ class SettingsFormGUI
      */
     public function withGeneral(
         \ilPropertyFormGUI $form
-    ) : \ilPropertyFormGUI {
+    ): \ilPropertyFormGUI {
         $survey = $this->survey;
         $lng = $this->ui_service->lng();
         $feature_config = $this->feature_config;
@@ -240,7 +242,7 @@ class SettingsFormGUI
      */
     public function withActivation(
         \ilPropertyFormGUI $form
-    ) : \ilPropertyFormGUI {
+    ): \ilPropertyFormGUI {
         $lng = $this->ui_service->lng();
         $survey = $this->survey;
 
@@ -288,7 +290,7 @@ class SettingsFormGUI
      */
     public function withPresentation(
         \ilPropertyFormGUI $form
-    ) : \ilPropertyFormGUI {
+    ): \ilPropertyFormGUI {
         $obj_service = $this->object_service;
         $survey = $this->survey;
         $lng = $this->ui_service->lng();
@@ -309,7 +311,7 @@ class SettingsFormGUI
      */
     public function withBeforeStart(
         \ilPropertyFormGUI $form
-    ) : \ilPropertyFormGUI {
+    ): \ilPropertyFormGUI {
         $survey = $this->survey;
         $lng = $this->ui_service->lng();
 
@@ -339,7 +341,7 @@ class SettingsFormGUI
      */
     public function withAccess(
         \ilPropertyFormGUI $form
-    ) : \ilPropertyFormGUI {
+    ): \ilPropertyFormGUI {
         $survey = $this->survey;
         $lng = $this->ui_service->lng();
         $feature_config = $this->feature_config;
@@ -390,7 +392,7 @@ class SettingsFormGUI
      */
     public function withQuestionBehaviour(
         \ilPropertyFormGUI $form
-    ) : \ilPropertyFormGUI {
+    ): \ilPropertyFormGUI {
         $survey = $this->survey;
         $lng = $this->ui_service->lng();
 
@@ -415,7 +417,7 @@ class SettingsFormGUI
     public function withAfterEnd(
         \ilPropertyFormGUI $form,
         string $target_class
-    ) : \ilPropertyFormGUI {
+    ): \ilPropertyFormGUI {
         $survey = $this->survey;
         $lng = $this->ui_service->lng();
         $feature_config = $this->feature_config;
@@ -588,7 +590,7 @@ class SettingsFormGUI
     /**
      * Check for group course parent
      */
-    protected function hasGroupCourseParent() : bool
+    protected function hasGroupCourseParent(): bool
     {
         $survey = $this->survey;
 
@@ -605,7 +607,7 @@ class SettingsFormGUI
      */
     public function withReminders(
         \ilPropertyFormGUI $form
-    ) : \ilPropertyFormGUI {
+    ): \ilPropertyFormGUI {
         $survey = $this->survey;
         $lng = $this->ui_service->lng();
         $feature_config = $this->feature_config;
@@ -706,7 +708,7 @@ class SettingsFormGUI
      */
     public function withResults(
         \ilPropertyFormGUI $form
-    ) : \ilPropertyFormGUI {
+    ): \ilPropertyFormGUI {
         $lng = $this->ui_service->lng();
         $survey = $this->survey;
         $feature_config = $this->feature_config;
@@ -741,7 +743,7 @@ class SettingsFormGUI
      */
     public function withOther(
         \ilPropertyFormGUI $form
-    ) : \ilPropertyFormGUI {
+    ): \ilPropertyFormGUI {
         $lng = $this->ui_service->lng();
         $survey = $this->survey;
         $feature_config = $this->feature_config;
@@ -790,7 +792,7 @@ class SettingsFormGUI
 
     public function saveForm(
         \ilPropertyFormGUI $form
-    ) : void {
+    ): void {
         $survey = $this->survey;
         $feature_config = $this->feature_config;
         $obj_service = $this->object_service;
@@ -819,7 +821,6 @@ class SettingsFormGUI
         }
 
         if (!$feature_config->supportsTutorNotification()) {
-
             // "one mail after all participants finished"
             if ($form->getInput("tut")) {
                 $tut_ids = $this->getTutorIdsFromForm($form);

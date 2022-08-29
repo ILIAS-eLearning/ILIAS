@@ -15,7 +15,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * Represents search sub item lists
  *
@@ -36,22 +36,22 @@ class ilObjExerciseSubItemListGUI extends ilSubItemListGUI
 
     protected function isAssignmentVisible(
         int $a_ass_id
-    ) : bool {
+    ): bool {
         $ilAccess = $this->access;
-        
+
         if ($ilAccess->checkAccess('write', '', $this->getRefId())) {
             return true;
         }
-        
+
         return ilExAssignment::lookupAssignmentOnline($a_ass_id);
     }
 
-    public function getHTML() : string
+    public function getHTML(): string
     {
         $lng = $this->lng;
-        
+
         $lng->loadLanguageModule('exc');
-        
+
         $valid = false;
         foreach ($this->getSubItemIds(true) as $sub_item) {
             if (!$this->isAssignmentVisible($sub_item)) {
@@ -67,19 +67,19 @@ class ilObjExerciseSubItemListGUI extends ilSubItemListGUI
             $this->tpl->setCurrentBlock('subitem');
             $this->tpl->setVariable('SUBITEM_TYPE', $lng->txt('exc_assignment'));
             $this->tpl->setVariable('SEPERATOR', ':');
-            
+
             $this->tpl->setVariable('LINK', 'ilias.php?baseClass=ilExerciseHandlerGUI&cmd=showOverview&ref_id=' . $this->getRefId() . '&ass_id=' . $sub_item);
             $this->tpl->setVariable('TITLE', ilExAssignment::lookupTitle($sub_item));
 
             if (count($this->getSubItemIds(true)) > 1) {
                 $this->parseRelevance($sub_item);
             }
-            
+
             $this->tpl->parseCurrentBlock();
         }
-        
+
         $this->showDetailsLink();
-        
+
         return $valid ? $this->tpl->get() : '';
     }
 }

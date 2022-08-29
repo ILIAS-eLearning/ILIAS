@@ -22,7 +22,7 @@
  */
 class ilBlogPostingConfig extends ilPageConfig
 {
-    public function init() : void
+    public function init(): void
     {
         global $DIC;
 
@@ -32,7 +32,7 @@ class ilBlogPostingConfig extends ilPageConfig
         $this->setEnableInternalLinks($req->getRefId() > 0); // #15668
         $this->setPreventHTMLUnmasking(false);
         $this->setEnableActivation(true);
-        
+
         $blga_set = new ilSetting("blga");
         $this->setPreventHTMLUnmasking(!(bool) $blga_set->get("mask", false));
     }

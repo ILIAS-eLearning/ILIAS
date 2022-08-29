@@ -24,20 +24,20 @@ interface ilAccessibilitySignableDocument
     /**
      * @return string
      */
-    public function content() : string;
+    public function content(): string;
 
     /**
      * @return string
      */
-    public function title() : string;
+    public function title(): string;
 
     /**
      * @return int
      */
-    public function id() : int;
+    public function id(): int;
 
     /**
      * @return ilAccessibilityEvaluableCriterion[]
      */
-    public function criteria() : array;
+    public function criteria(): array;
 }

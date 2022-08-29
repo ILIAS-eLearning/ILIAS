@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -34,7 +36,7 @@
 
 class ilLikeMediaPoolSearch extends ilMediaPoolSearch
 {
-    public function __createAndCondition() : string
+    public function __createAndCondition(): string
     {
         $concat = $this->db->concat(
             array(
@@ -56,12 +58,12 @@ class ilLikeMediaPoolSearch extends ilMediaPoolSearch
         }
         return $and . ") ";
     }
-    
+
     /**
      * Condition for mob keyword search
      * @return string
      */
-    public function __createKeywordAndCondition() : string
+    public function __createKeywordAndCondition(): string
     {
         $concat = ' keyword ';
 

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -31,7 +33,7 @@ class ilBackgroundPositionInputGUI extends ilFormPropertyGUI
     protected string $horizontalvalue = "";
     protected ilObjUser $user;
     protected string $value = "";
-    
+
     public function __construct(string $a_title = "", string $a_postvar = "")
     {
         global $DIC;
@@ -43,27 +45,27 @@ class ilBackgroundPositionInputGUI extends ilFormPropertyGUI
         $this->dirs = array("horizontal", "vertical");
     }
 
-    public function setHorizontalValue(string $a_horizontalvalue) : void
+    public function setHorizontalValue(string $a_horizontalvalue): void
     {
         $this->horizontalvalue = $a_horizontalvalue;
     }
 
-    public function getHorizontalValue() : string
+    public function getHorizontalValue(): string
     {
         return $this->horizontalvalue;
     }
 
-    public function setVerticalValue(string $a_verticalvalue) : void
+    public function setVerticalValue(string $a_verticalvalue): void
     {
         $this->verticalvalue = $a_verticalvalue;
     }
 
-    public function getVerticalValue() : string
+    public function getVerticalValue(): string
     {
         return $this->verticalvalue;
     }
 
-    public function getValue() : string
+    public function getValue(): string
     {
         if ($this->getHorizontalValue() != "") {
             if ($this->getVerticalValue() != "") {
@@ -78,8 +80,8 @@ class ilBackgroundPositionInputGUI extends ilFormPropertyGUI
         }
         return "";
     }
-    
-    public function setValue(string $a_val) : void
+
+    public function setValue(string $a_val): void
     {
         $a_val = trim($a_val);
         $a_val_arr = explode(" ", $a_val);
@@ -91,24 +93,24 @@ class ilBackgroundPositionInputGUI extends ilFormPropertyGUI
         $this->setHorizontalValue($hor);
         $this->setVerticalValue($ver);
     }
-    
-    public function checkInput() : bool
+
+    public function checkInput(): bool
     {
         $lng = $this->lng;
 
         $input = $this->getInput();
-        
+
         foreach ($this->dirs as $dir) {
             $type = $input[$dir]["type"];
             $num_value = $input[$dir]["num_value"];
             $num_unit = $input[$dir]["num_unit"];
             $pre_value = $input[$dir]["pre_value"];
-                
+
             if (!is_numeric($num_value) && trim($num_value) != "") {
                 $this->setAlert($lng->txt("sty_msg_input_must_be_numeric"));
                 return false;
             }
-            
+
             $value = "";
             if ($type == "numeric") {
                 if ($num_value != "") {
@@ -117,29 +119,31 @@ class ilBackgroundPositionInputGUI extends ilFormPropertyGUI
             } else {
                 $value = $pre_value;
             }
-            
+
             if (trim($value) != "") {
                 switch ($dir) {
-                    case "horizontal": $this->setHorizontalValue($value); break;
-                    case "vertical": $this->setVerticalValue($value); break;
+                    case "horizontal": $this->setHorizontalValue($value);
+                        break;
+                    case "vertical": $this->setVerticalValue($value);
+                        break;
                 }
             }
         }
-        
+
         return true;
     }
 
-    public function getInput() : array
+    public function getInput(): array
     {
         return $this->arrayArray($this->getPostVar());
     }
 
-    public function insert(ilTemplate $a_tpl) : void
+    public function insert(ilTemplate $a_tpl): void
     {
         $lng = $this->lng;
-        
+
         $layout_tpl = new ilTemplate("tpl.prop_hv_layout.html", true, true, "Services/Style/Content");
-        
+
         foreach ($this->dirs as $dir) {
             $value = "";
             $current_unit = "";
@@ -148,10 +152,12 @@ class ilBackgroundPositionInputGUI extends ilFormPropertyGUI
             $pre_options = ilObjStyleSheet::_getStyleParameterValues("background-position");
             $pre_options = $pre_options[$dir];
             switch ($dir) {
-                case "horizontal": $value = strtolower(trim($this->getHorizontalValue())); break;
-                case "vertical": $value = strtolower(trim($this->getVerticalValue())); break;
+                case "horizontal": $value = strtolower(trim($this->getHorizontalValue()));
+                    break;
+                case "vertical": $value = strtolower(trim($this->getVerticalValue()));
+                    break;
             }
-    
+
             if (in_array($value, $pre_options)) {
                 $current_type = "pre";
                 $tpl->setVariable("PREDEFINED_SELECTED", 'checked="checked"');
@@ -170,7 +176,7 @@ class ilBackgroundPositionInputGUI extends ilFormPropertyGUI
                 }
                 $tpl->setVariable("VAL_NUM", $disp_val);
             }
-            
+
             foreach ($unit_options as $option) {
                 $tpl->setCurrentBlock("unit_option");
                 $tpl->setVariable("VAL_UNIT", $option);
@@ -180,7 +186,7 @@ class ilBackgroundPositionInputGUI extends ilFormPropertyGUI
                 }
                 $tpl->parseCurrentBlock();
             }
-            
+
             foreach ($pre_options as $option) {
                 $tpl->setCurrentBlock("pre_option");
                 $tpl->setVariable("VAL_PRE", $option);
@@ -194,17 +200,17 @@ class ilBackgroundPositionInputGUI extends ilFormPropertyGUI
             $tpl->setVariable("POSTVAR", $this->getPostVar());
             $tpl->setVariable("TXT_DIR", $lng->txt("sty_$dir"));
             $tpl->setVariable("DIR", $dir);
-            
+
             $layout_tpl->setVariable(strtoupper($dir), $tpl->get());
         }
         $layout_tpl->setVariable("COLSPAN", "2");
-        
+
         $a_tpl->setCurrentBlock("prop_generic");
         $a_tpl->setVariable("PROP_GENERIC", $layout_tpl->get());
         $a_tpl->parseCurrentBlock();
     }
 
-    public function setValueByArray(array $a_values) : void
+    public function setValueByArray(array $a_values): void
     {
         if ($a_values[$this->getPostVar()]["horizontal"]["type"] == "predefined") {
             $this->setHorizontalValue($a_values[$this->getPostVar()]["horizontal"]["pre_value"]);

@@ -1,4 +1,6 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types=1);
 
 /******************************************************************************
  *
@@ -23,7 +25,7 @@ class ilECSDataMappingSettings
 
     private ilECSSetting $settings;
     private array $mappings;
-    
+
     private ilDbInterface $db;
     /**
      * Singleton Constructor
@@ -40,7 +42,7 @@ class ilECSDataMappingSettings
     /**
      * Get singleton instance
      */
-    public static function getInstanceByServerId(int $a_server_id) : ilECSDataMappingSettings
+    public static function getInstanceByServerId(int $a_server_id): ilECSDataMappingSettings
     {
         return self::$instances[$a_server_id] ?? (self::$instances[$a_server_id] = new ilECSDataMappingSettings($a_server_id));
     }
@@ -48,7 +50,7 @@ class ilECSDataMappingSettings
     /**
      * Delete server
      */
-    public function delete() : void
+    public function delete(): void
     {
         $server_id = $this->settings->getServerId();
         unset(self::$instances[$server_id]);
@@ -61,7 +63,7 @@ class ilECSDataMappingSettings
     /**
      * Get actice ecs setting
      */
-    public function getServer() : ilECSSetting
+    public function getServer(): ilECSSetting
     {
         return $this->settings;
     }
@@ -71,12 +73,12 @@ class ilECSDataMappingSettings
      * get mappings
      *
      */
-    public function getMappings($a_mapping_type = ilECSDataMappingSetting::MAPPING_IMPORT_RCRS) : array
+    public function getMappings($a_mapping_type = ilECSDataMappingSetting::MAPPING_IMPORT_RCRS): array
     {
         return $this->mappings[$a_mapping_type];
     }
-    
-    
+
+
     /**
      * get mapping by key
      *
@@ -85,18 +87,18 @@ class ilECSDataMappingSettings
      * @return int AdvancedMetaData field id or 0 (no mapping)
      *
      */
-    public function getMappingByECSName(int $a_mapping_type, string $a_key) : int
+    public function getMappingByECSName(int $a_mapping_type, string $a_key): int
     {
         return $this->mappings[$a_mapping_type][$a_key] ?? 0;
     }
 
-    
+
 
     /**
      * Read settings
      *
      */
-    private function read() : void
+    private function read(): void
     {
         $this->mappings = array();
 

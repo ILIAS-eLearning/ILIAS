@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -64,7 +66,7 @@ class StandardPagePartProvider implements PagePartProvider
     /**
      * @inheritDoc
      */
-    public function getContent() : ?Legacy
+    public function getContent(): ?Legacy
     {
         return $this->content ?? $this->ui->factory()->legacy("");
     }
@@ -72,7 +74,7 @@ class StandardPagePartProvider implements PagePartProvider
     /**
      * @inheritDoc
      */
-    public function getMetaBar() : ?MetaBar
+    public function getMetaBar(): ?MetaBar
     {
         $this->gs->collector()->metaBar()->collectOnce();
         if (!$this->gs->collector()->metaBar()->hasItems()) {
@@ -95,7 +97,7 @@ class StandardPagePartProvider implements PagePartProvider
     /**
      * @inheritDoc
      */
-    public function getMainBar() : ?MainBar
+    public function getMainBar(): ?MainBar
     {
         $this->gs->collector()->mainmenu()->collectOnce();
         if (!$this->gs->collector()->mainmenu()->hasVisibleItems()
@@ -158,7 +160,7 @@ class StandardPagePartProvider implements PagePartProvider
     /**
      * @inheritDoc
      */
-    public function getBreadCrumbs() : ?Breadcrumbs
+    public function getBreadCrumbs(): ?Breadcrumbs
     {
         // TODO this currently gets the items from ilLocatorGUI, should that serve be removed with
         // something like GlobalScreen\Scope\Locator\Item
@@ -179,7 +181,7 @@ class StandardPagePartProvider implements PagePartProvider
     /**
      * @inheritDoc
      */
-    public function getLogo() : ?Image
+    public function getLogo(): ?Image
     {
         $std_logo = ilUtil::getImagePath("HeaderIcon.svg");
 
@@ -191,7 +193,7 @@ class StandardPagePartProvider implements PagePartProvider
     /**
      * @inheritDoc
      */
-    public function getResponsiveLogo() : ?Image
+    public function getResponsiveLogo(): ?Image
     {
         $responsive_logo = ilUtil::getImagePath("HeaderIconResponsive.svg");
 
@@ -203,12 +205,12 @@ class StandardPagePartProvider implements PagePartProvider
     /**
      * @inheritDoc
      */
-    public function getFaviconPath() : string
+    public function getFaviconPath(): string
     {
         return ilUtil::getImagePath("favicon.ico");
     }
 
-    protected function getStartingPointAsUrl() : string
+    protected function getStartingPointAsUrl(): string
     {
         $std_logo_link = ilUserUtil::getStartingPointAsUrl();
         if (!$std_logo_link) {
@@ -220,7 +222,7 @@ class StandardPagePartProvider implements PagePartProvider
     /**
      * @inheritDoc
      */
-    public function getSystemInfos() : array
+    public function getSystemInfos(): array
     {
         $system_infos = [];
 
@@ -234,7 +236,7 @@ class StandardPagePartProvider implements PagePartProvider
     /**
      * @inheritDoc
      */
-    public function getFooter() : ?Footer
+    public function getFooter(): ?Footer
     {
         return $this->ui->factory()->mainControls()->footer([]);
     }
@@ -242,7 +244,7 @@ class StandardPagePartProvider implements PagePartProvider
     /**
      * @inheritDoc
      */
-    public function getTitle() : string
+    public function getTitle(): string
     {
         return 'title';
     }
@@ -250,7 +252,7 @@ class StandardPagePartProvider implements PagePartProvider
     /**
      * @inheritDoc
      */
-    public function getShortTitle() : string
+    public function getShortTitle(): string
     {
         return 'short';
     }
@@ -258,7 +260,7 @@ class StandardPagePartProvider implements PagePartProvider
     /**
      * @inheritDoc
      */
-    public function getViewTitle() : string
+    public function getViewTitle(): string
     {
         return 'view';
     }

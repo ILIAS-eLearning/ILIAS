@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -42,42 +44,42 @@ class ilSCORMObject
         }
     }
 
-    public function getId() : int
+    public function getId(): int
     {
         return $this->id;
     }
 
-    public function setId(int $a_id) : void
+    public function setId(int $a_id): void
     {
         $this->id = $a_id;
     }
 
-    public function getType() : ?string
+    public function getType(): ?string
     {
         return $this->type;
     }
 
-    public function setType(?string $a_type) : void
+    public function setType(?string $a_type): void
     {
         $this->type = $a_type;
     }
 
-    public function getTitle() : string
+    public function getTitle(): string
     {
         return $this->title;
     }
 
-    public function setTitle(string $a_title) : void
+    public function setTitle(string $a_title): void
     {
         $this->title = $a_title;
     }
 
-    public function getSLMId() : int
+    public function getSLMId(): int
     {
         return $this->slm_id;
     }
 
-    public function setSLMId(int $a_slm_id) : void
+    public function setSLMId(int $a_slm_id): void
     {
         $this->slm_id = $a_slm_id;
     }
@@ -85,11 +87,11 @@ class ilSCORMObject
     /**
      * @return void
      */
-    public function read() : void
+    public function read(): void
     {
         global $DIC;
         $ilDB = $DIC->database();
-        
+
         $obj_set = $ilDB->queryF(
             'SELECT * FROM scorm_object WHERE obj_id = %s',
             array('integer'),
@@ -104,11 +106,11 @@ class ilSCORMObject
     /**
      * Count number of presentable SCOs/Assets of SCORM learning module.
      */
-    public static function _lookupPresentableItems(int $a_slm_id) : array
+    public static function _lookupPresentableItems(int $a_slm_id): array
     {
         global $DIC;
         $ilDB = $DIC->database();
-        
+
         $set = $ilDB->queryF(
             "
 			SELECT sit.obj_id id 
@@ -123,21 +125,21 @@ class ilSCORMObject
         while ($rec = $ilDB->fetchAssoc($set)) {
             $items[] = $rec["id"];
         }
-        
+
         return $items;
     }
 
     /**
      * Create database record for SCORM object.
      */
-    public function create() : void
+    public function create(): void
     {
         global $DIC;
         $ilDB = $DIC->database();
-      
+
         $nextId = $ilDB->nextId('scorm_object');
         $this->setId($nextId);
-         
+
         $ilDB->manipulateF(
             '
         INSERT INTO scorm_object (obj_id,title, c_type, slm_id) 
@@ -150,11 +152,11 @@ class ilSCORMObject
     /**
      * Updates database record for SCORM object.
      */
-    public function update() : void
+    public function update(): void
     {
         global $DIC;
         $ilDB = $DIC->database();
-        
+
         $ilDB->manipulateF(
             '
         UPDATE scorm_object 
@@ -167,7 +169,7 @@ class ilSCORMObject
         );
     }
 
-    public function delete() : void
+    public function delete(): void
     {
         global $DIC;
         $ilDB = $DIC->database();
@@ -195,7 +197,7 @@ class ilSCORMObject
             array($a_id, $a_slm_id)
         );
         $sc_rec = $ilDB->fetchAssoc($sc_set);
-            
+
         switch ($sc_rec["c_type"]) {
             case "sit":					$item = new ilSCORMItem($a_id);
                 return $item;

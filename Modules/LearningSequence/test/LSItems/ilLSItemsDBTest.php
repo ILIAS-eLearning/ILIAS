@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,17 +17,17 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 use PHPUnit\Framework\TestCase;
 
 class ilLSItemsDBStub extends ilLSItemsDB
 {
-    protected function getIconPathForType(string $type) : string
+    protected function getIconPathForType(string $type): string
     {
         return './image/tester/myimage.png';
     }
 }
- 
+
 class ilLSItemsDBTest extends TestCase
 {
     protected ilTree $tree;
@@ -34,7 +36,7 @@ class ilLSItemsDBTest extends TestCase
     protected LSItemOnlineStatus $ls_item_online_status;
     protected ilContainerSortingSettings $sorting_settings;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         $this->tree = $this->createMock(ilTree::class);
         $this->container_sorting = $this->createMock(ilContainerSorting::class);
@@ -43,7 +45,7 @@ class ilLSItemsDBTest extends TestCase
         $this->sorting_settings = $this->createMock(ilContainerSortingSettings::class);
     }
 
-    public function testCreateObject() : void
+    public function testCreateObject(): void
     {
         $obj = new ilLSItemsDB(
             $this->tree,
@@ -55,7 +57,7 @@ class ilLSItemsDBTest extends TestCase
         $this->assertInstanceOf(ilLSItemsDB::class, $obj);
     }
 
-    public function testGetLSItemsWithoutData() : void
+    public function testGetLSItemsWithoutData(): void
     {
         $this->tree
             ->expects($this->once())
@@ -95,7 +97,7 @@ class ilLSItemsDBTest extends TestCase
         $this->assertEmpty($result);
     }
 
-    public function testGetLSItemsWithData() : void
+    public function testGetLSItemsWithData(): void
     {
         $value = [
             '22' => [
@@ -173,7 +175,7 @@ class ilLSItemsDBTest extends TestCase
         }
     }
 
-    public function testStoreItems() : void
+    public function testStoreItems(): void
     {
         $condition = $this->createMock(ilLSPostCondition::class);
 

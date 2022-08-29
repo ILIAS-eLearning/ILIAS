@@ -28,7 +28,6 @@ use ILIAS\LTI\ToolProvider\Tool;
 
 trait System
 {
-
     /**
      * True if the last request was successful.
      *
@@ -60,9 +59,9 @@ trait System
     /**
      * Data connector object.
      *
-     * @var DataConnector|null $dataConnector
+     * @var \ilLTIDataConnector|null $dataConnector //changed from DataConnector|null
      */
-    public ?DataConnector $dataConnector = null;
+    public ?\ilLTIDataConnector $dataConnector = null;
 
     /**
      * RSA key in PEM or JSON format.
@@ -212,7 +211,7 @@ trait System
      *
      * @return int|null  System record ID value
      */
-    public function getRecordId() : ?int
+    public function getRecordId(): ?int
     {
         return $this->id;
     }
@@ -231,7 +230,7 @@ trait System
      *
      * @return string|null  Consumer key value //UK: added |null
      */
-    public function getKey() : ?string
+    public function getKey(): ?string
     {
         return $this->key;
     }
@@ -251,7 +250,7 @@ trait System
      * @param string $default Value to return if the setting does not exist (optional, default is an empty string)
      * @return string Setting value
      */
-    public function getSetting(string $name, string $default = '') : string
+    public function getSetting(string $name, string $default = ''): string
     {
         if (array_key_exists($name, $this->settings)) {
             $value = $this->settings[$name];
@@ -285,7 +284,7 @@ trait System
      *
      * @return array Associative array of setting values
      */
-    public function getSettings() : array
+    public function getSettings(): array
     {
         return $this->settings;
     }
@@ -304,7 +303,7 @@ trait System
      *
      * @return bool    True if the settings were successfully saved
      */
-    public function saveSettings() : bool
+    public function saveSettings(): bool
     {
         if ($this->settingsChanged) {
             $ok = $this->save();
@@ -320,7 +319,7 @@ trait System
      *
      * @return bool True if a JWT exists
      */
-    public function hasJwt() : bool
+    public function hasJwt(): bool
     {
         return !empty($this->jwt) && $this->jwt->hasJwt();
     }
@@ -330,7 +329,7 @@ trait System
      *
      * @return ClientInterface The JWT
      */
-    public function getJwt() : ClientInterface
+    public function getJwt(): ClientInterface
     {
         return $this->jwt;
     }
@@ -340,7 +339,7 @@ trait System
      *
      * @return array The POST parameter array
      */
-    public function getRawParameters() : array
+    public function getRawParameters(): array
     {
         if (is_null($this->rawParameters)) {
             $this->rawParameters = LTIOAuth\OAuthUtil::parse_parameters(file_get_contents(LTIOAuth\OAuthRequest::$POST_INPUT));
@@ -355,7 +354,7 @@ trait System
      * @param bool $fullyQualified True if claims should be fully qualified rather than grouped (default is false)
      * @return array The message claim array
      */
-    public function getMessageClaims(bool $fullyQualified = false) : array
+    public function getMessageClaims(bool $fullyQualified = false): array
     {
         $messageClaims = null;
         if (!is_null($this->messageParameters)) {
@@ -536,7 +535,7 @@ trait System
      * @param string $ltiVersion LTI version (default is LTI-1p0)
      * @return array Array of roles
      */
-    public static function parseRoles($roles, string $ltiVersion = Util::LTI_VERSION1) : array
+    public static function parseRoles($roles, string $ltiVersion = Util::LTI_VERSION1): array
     {
         if (!is_array($roles)) {
             $roles = array_filter(explode(',', str_replace(' ', '', $roles)), 'strlen');
@@ -642,7 +641,7 @@ trait System
      * @param string      $hint          LTI message hint (optional, use null for none)
      * @return string
      */
-    public function sendMessage(string $url, string $type, array $messageParams, string $target = '', ?string $userId = null, string $hint = '') : string
+    public function sendMessage(string $url, string $type, array $messageParams, string $target = '', ?string $userId = null, string $hint = ''): string
     {
         $sendParams = $this->signMessage($url, $type, $this->ltiVersion, $messageParams, $userId, $hint);
         $html = Util::sendForm($url, $sendParams, $target);
@@ -658,7 +657,7 @@ trait System
      * @param string|array|null $data   Data being passed in request body (optional) //UK: added array
      * @return string Headers to include with service request
      */
-    public function signServiceRequest(string $url, string $method, string $type, $data = null) : string
+    public function signServiceRequest(string $url, string $method, string $type, $data = null): string
     {
         $header = '';
         if (!empty($url)) {
@@ -676,7 +675,7 @@ trait System
      * @param mixed  $data    Array of parameters or body string
      * @return HttpMessage HTTP object containing request and response details
      */
-    public function doServiceRequest(object $service, string $method, string $format, $data) : HTTPMessage
+    public function doServiceRequest(object $service, string $method, string $format, $data): HTTPMessage
     {
         $header = $this->addSignature($service->endpoint, $data, $method, $format);
 
@@ -696,7 +695,7 @@ trait System
      *
      * @return bool  True if OAuth 1 security model should be used
      */
-    public function useOAuth1() : bool
+    public function useOAuth1(): bool
     {
         return empty($this->signatureMethod) || (substr($this->signatureMethod, 0, 2) !== 'RS');
     }
@@ -726,7 +725,7 @@ trait System
      *
      * @return bool  True if it is a valid LTI message
      */
-    public function checkMessage() : bool
+    public function checkMessage(): bool
     {
         $this->ok = $_SERVER['REQUEST_METHOD'] === 'POST';
         if (!$this->ok) {
@@ -779,10 +778,11 @@ trait System
      *
      * @return bool  True if the signature is valid
      */
-    public function verifySignature() : bool
+    public function verifySignature(): bool
     {
         $ok = false;
         $key = $this->key;
+        $publicKey = ''; //changed
         if (!empty($key)) {
             $secret = $this->secret;
         } elseif (($this instanceof Tool) && !empty($this->platform)) {
@@ -806,6 +806,7 @@ trait System
                 $jku = $this->jku;
             }
         }
+
         if (empty($this->jwt) || empty($this->jwt->hasJwt())) {  // OAuth-signed message
             try {
                 $store = new OAuthDataStore($this);
@@ -847,6 +848,7 @@ trait System
             }
         } else {  // JWT-signed message
             $nonce = new PlatformNonce($platform, $this->jwt->getClaim('nonce'));
+
             $ok = !$nonce->load();
             if ($ok) {
                 $ok = $nonce->save();
@@ -854,6 +856,12 @@ trait System
             if (!$ok) {
                 $this->reason = 'Invalid nonce.';
             } elseif (!empty($publicKey) || !empty($jku) || Jwt::$allowJkuHeader) {
+                if (empty($publicKey)) { //added
+                    $publicKey = "";
+                }
+                if (empty($jku)) { //added
+                    $jku = "";
+                }
                 $ok = $this->jwt->verify($publicKey, $jku);
                 if (!$ok) {
                     $this->reason = 'JWT signature check failed - perhaps an invalid public key or timestamp';
@@ -926,7 +934,7 @@ trait System
                             }
                             if ($this->ok) {
                                 if ($this instanceof Tool) {
-                                    $this->platform = Platform::fromPlatformId($iss, $aud, $deploymentId, $this->dataConnector);
+                                    $this->platform = \ilLTIPlatform::fromPlatformId($iss, $aud, $deploymentId, $this->dataConnector);
                                     $this->platform->platformId = $iss;
                                     if (isset($this->rawParameters['id_token'])) {
                                         $this->ok = !empty($this->rawParameters['state']);
@@ -934,12 +942,12 @@ trait System
                                             $nonce = new PlatformNonce($this->platform, $this->rawParameters['state']);
                                             $this->ok = $nonce->load();
                                             if (!$this->ok) {
-                                                $platform = Platform::fromPlatformId($iss, $aud, null, $this->dataConnector);
+                                                $platform = \ilLTIPlatform::fromPlatformId($iss, $aud, null, $this->dataConnector);
                                                 $nonce = new PlatformNonce($platform, $this->rawParameters['state']);
                                                 $this->ok = $nonce->load();
                                             }
                                             if (!$this->ok) {
-                                                $platform = Platform::fromPlatformId($iss, null, null, $this->dataConnector);
+                                                $platform = \ilLTIPlatform::fromPlatformId($iss, null, null, $this->dataConnector);
                                                 $nonce = new PlatformNonce($platform, $this->rawParameters['state']);
                                                 $this->ok = $nonce->load();
                                             }
@@ -1412,7 +1420,7 @@ trait System
      * @param string $value Value of claim
      * @return string[] Array of individual claims and values
      */
-    private static function fullyQualifyClaim(string $claim, string $value) : array
+    private static function fullyQualifyClaim(string $claim, string $value): array
     {
         $claims = array();
         $empty = true;

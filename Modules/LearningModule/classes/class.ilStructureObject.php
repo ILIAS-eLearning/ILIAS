@@ -35,7 +35,7 @@ class ilStructureObject extends ilLMObject
         $this->tree = new ilLMTree($this->getLMId());
     }
 
-    public function delete(bool $a_delete_meta_data = true) : void
+    public function delete(bool $a_delete_meta_data = true): void
     {
         // only relevant for online help authoring
         ilHelpMapping::removeScreenIdsOfChapter($this->getId());
@@ -51,7 +51,7 @@ class ilStructureObject extends ilLMObject
     private function delete_rec(
         ilLMTree $a_tree,
         bool $a_delete_meta_data = true
-    ) : void {
+    ): void {
         $childs = $a_tree->getChilds($this->getId());
         foreach ($childs as $child) {
             $obj = ilLMObjectFactory::getInstance($this->content_object, $child["obj_id"], false);
@@ -73,7 +73,7 @@ class ilStructureObject extends ilLMObject
      */
     public function copy(
         ilObjLearningModule $a_target_lm
-    ) : ilStructureObject {
+    ): ilStructureObject {
         $chap = new ilStructureObject($a_target_lm);
         $chap->setTitle($this->getTitle());
         if ($this->getLMId() != $a_target_lm->getId()) {
@@ -84,7 +84,7 @@ class ilStructureObject extends ilLMObject
         $chap->setDescription($this->getDescription());
         $chap->create(true);
         $a_copied_nodes[$this->getId()] = $chap->getId();
-        
+
         // copy meta data
         $md = new ilMD($this->getLMId(), $this->getId(), $this->getType());
         $new_md = $md->cloneMD($a_target_lm->getId(), $chap->getId(), $this->getType());
@@ -100,7 +100,7 @@ class ilStructureObject extends ilLMObject
         ilXmlWriter $a_xml_writer,
         int $a_inst,
         ilLog $expLog
-    ) : void {
+    ): void {
         $expLog->write(date("[y-m-d H:i:s] ") . "Structure Object " . $this->getId());
         $attrs = array();
         $a_xml_writer->xmlStartTag("StructureObject", $attrs);
@@ -119,7 +119,7 @@ class ilStructureObject extends ilLMObject
 
     public function exportXMLMetaData(
         ilXmlWriter $a_xml_writer
-    ) : void {
+    ): void {
         $md2xml = new ilMD2XML($this->getLMId(), $this->getId(), $this->getType());
         $md2xml->setExportMode(true);
         $md2xml->startExport();
@@ -130,14 +130,14 @@ class ilStructureObject extends ilLMObject
         string $a_tag,
         string $a_param,
         string $a_value
-    ) : string {
+    ): string {
         if ($a_tag == "Identifier" && $a_param == "Entry") {
             $a_value = "il_" . IL_INST_ID . "_st_" . $this->getId();
         }
 
         return $a_value;
     }
-    
+
     public static function _getPresentationTitle(
         int $a_st_id,
         string $a_mode = self::CHAPTER_TITLE,
@@ -147,7 +147,7 @@ class ilStructureObject extends ilLMObject
         int $a_lm_id = 0,
         string $a_lang = "-",
         bool $a_include_short = false
-    ) : string {
+    ): string {
         global $DIC;
 
         $ilDB = $DIC->database();
@@ -228,7 +228,7 @@ class ilStructureObject extends ilLMObject
     public function exportXMLPageObjects(
         ilXmlWriter $a_xml_writer,
         int $a_inst = 0
-    ) : void {
+    ): void {
         $childs = $this->tree->getChilds($this->getId());
         foreach ($childs as $child) {
             if ($child["type"] != "pg") {
@@ -244,7 +244,7 @@ class ilStructureObject extends ilLMObject
         ilXmlWriter $a_xml_writer,
         int $a_inst,
         ilLog $expLog
-    ) : void {
+    ): void {
         $childs = $this->tree->getChilds($this->getId());
         foreach ($childs as $child) {
             if ($child["type"] != "st") {
@@ -263,8 +263,7 @@ class ilStructureObject extends ilLMObject
 
     public function exportFO(
         ilXmlWriter $a_xml_writer
-    ) : void {
-
+    ): void {
         // fo:block (complete)
         $attrs = array();
         $attrs["font-family"] = "Times";
@@ -277,7 +276,7 @@ class ilStructureObject extends ilLMObject
 
     public function exportFOPageObjects(
         ilXmlWriter $a_xml_writer
-    ) : void {
+    ): void {
         $childs = $this->tree->getChilds($this->getId());
         foreach ($childs as $child) {
             if ($child["type"] != "pg") {
@@ -292,7 +291,7 @@ class ilStructureObject extends ilLMObject
 
     public static function getChapterList(
         int $a_lm_id
-    ) : array {
+    ): array {
         $tree = new ilLMTree($a_lm_id);
 
         $chapters = array();

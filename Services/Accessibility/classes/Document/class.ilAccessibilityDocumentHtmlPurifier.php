@@ -40,7 +40,7 @@ class ilAccessibilityDocumentHtmlPurifier extends ilHtmlPurifierAbstractLibWrapp
         $this->allowedTags = $allowedTags;
     }
 
-    protected function getPurifierConfigInstance() : HTMLPurifier_Config
+    protected function getPurifierConfigInstance(): HTMLPurifier_Config
     {
         $config = HTMLPurifier_Config::createDefault();
         $config->set('HTML.DefinitionID', 'ilias accessibility document');

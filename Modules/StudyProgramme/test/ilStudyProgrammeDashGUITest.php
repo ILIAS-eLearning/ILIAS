@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -28,7 +30,7 @@ class mockSPRGDashGUI extends ilStudyProgrammeDashboardViewGUI
     {
     }
 
-    public function mockCalculatePercent(ilObjStudyProgramme $prg, int $current_points) : array
+    public function mockCalculatePercent(ilObjStudyProgramme $prg, int $current_points): array
     {
         return $this->calculatePercent($prg, $current_points);
     }
@@ -45,7 +47,7 @@ class ilStudyProgrammeDashGUITest extends TestCase
      */
     private $prg;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         $this->gui = new mockSPRGDashGUI();
         $this->prg = $this->getMockBuilder(ilObjStudyProgramme::class)
@@ -58,7 +60,7 @@ class ilStudyProgrammeDashGUITest extends TestCase
             ->getMock();
     }
 
-    public function userPointsDataProvider() : array
+    public function userPointsDataProvider(): array
     {
         return [
             'zero' => [0, 0],
@@ -74,7 +76,7 @@ class ilStudyProgrammeDashGUITest extends TestCase
     /**
      * @dataProvider userPointsDataProvider
      */
-    public function testPercentageWithoutChildren(int $current_user_points) : void
+    public function testPercentageWithoutChildren(int $current_user_points): void
     {
         $this->prg->method('hasLPChildren')
             ->willReturn(false);
@@ -91,7 +93,7 @@ class ilStudyProgrammeDashGUITest extends TestCase
     /**
      * @dataProvider userPointsDataProvider
      */
-    public function testPercentageWithCoursesAtTopLevel(int $current_user_points) : void
+    public function testPercentageWithCoursesAtTopLevel(int $current_user_points): void
     {
         $this->prg->method('hasLPChildren')
             ->willReturn(true);
@@ -111,7 +113,7 @@ class ilStudyProgrammeDashGUITest extends TestCase
     /**
      * @dataProvider userPointsDataProvider
      */
-    public function testPercentageWithPrograms(int $current_user_points, float $expected) : void
+    public function testPercentageWithPrograms(int $current_user_points, float $expected): void
     {
         $node = $this->getMockBuilder(ilObjStudyProgramme::class)
             ->disableOriginalConstructor()

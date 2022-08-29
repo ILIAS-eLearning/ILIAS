@@ -1,10 +1,12 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace ILIAS\UI\examples\MainControls\Footer;
 
 use ILIAS\DI\Container;
 
-function footer() : string
+function footer(): string
 {
     global $DIC;
     $f = $DIC->ui()->factory();
@@ -19,7 +21,7 @@ function footer() : string
     ]);
 }
 
-function pageFooterDemoFooter() : \ILIAS\UI\Component\MainControls\Footer
+function pageFooterDemoFooter(): \ILIAS\UI\Component\MainControls\Footer
 {
     global $DIC;
     $f = $DIC->ui()->factory();
@@ -58,7 +60,7 @@ if (isset($request_wrapper) && isset($refinery) && $request_wrapper->has('new_fo
     echo renderFooterInFullscreenMode($DIC);
 }
 
-function renderFooterInFullscreenMode(Container $dic) : string
+function renderFooterInFullscreenMode(Container $dic): string
 {
     $f = $dic->ui()->factory();
     $renderer = $dic->ui()->renderer();
@@ -90,7 +92,7 @@ function renderFooterInFullscreenMode(Container $dic) : string
     return $renderer->render($page);
 }
 
-function pageFooterDemoContent(\ILIAS\UI\Factory $f) : array
+function pageFooterDemoContent(\ILIAS\UI\Factory $f): array
 {
     return [
         $f->panel()->standard(
@@ -102,18 +104,18 @@ function pageFooterDemoContent(\ILIAS\UI\Factory $f) : array
     ];
 }
 
-function pageFooterDemoMetabar(\ILIAS\UI\Factory $f) : \ILIAS\UI\Component\MainControls\MetaBar
+function pageFooterDemoMetabar(\ILIAS\UI\Factory $f): \ILIAS\UI\Component\MainControls\MetaBar
 {
     $help = $f->button()->bulky($f->symbol()->glyph()->help(), 'Help', '#');
     return $f->mainControls()->metaBar()->withAdditionalEntry('help', $help);
 }
 
-function pageFooterDemoCrumbs(\ILIAS\UI\Factory $f) : \ILIAS\UI\Component\Breadcrumbs\Breadcrumbs
+function pageFooterDemoCrumbs(\ILIAS\UI\Factory $f): \ILIAS\UI\Component\Breadcrumbs\Breadcrumbs
 {
     return $f->breadcrumbs([]);
 }
 
-function pageFooterDemoMainbar(\ILIAS\UI\Factory $f) : \ILIAS\UI\Component\MainControls\MainBar
+function pageFooterDemoMainbar(\ILIAS\UI\Factory $f): \ILIAS\UI\Component\MainControls\MainBar
 {
     return $f->mainControls()->mainBar();
 }

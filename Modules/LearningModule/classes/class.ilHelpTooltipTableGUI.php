@@ -41,7 +41,7 @@ class ilHelpTooltipTableGUI extends ilTable2GUI
         $this->setId("lm_help_tooltips");
 
         parent::__construct($a_parent_obj, $a_parent_cmd);
-        
+
         $this->setData(ilHelp::getAllTooltips($a_comp));
 
         $this->setTitle($lng->txt("help_tooltips"));
@@ -59,7 +59,7 @@ class ilHelpTooltipTableGUI extends ilTable2GUI
         $this->addMultiCommand("deleteTooltips", $lng->txt("delete"));
     }
 
-    protected function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set): void
     {
         $this->tpl->setVariable("ID", $a_set["id"]);
         $this->tpl->setVariable("TEXT", ilLegacyFormElementsUtil::prepareFormOutput($a_set["text"]));

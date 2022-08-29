@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -36,12 +38,12 @@ class ilLuceneSubItemListGUIFactory
     /**
      * get instance by type
      */
-    public static function getInstanceByType(string $a_type, object $a_cmd_class) : ilObjectSubItemListGUI
+    public static function getInstanceByType(string $a_type, object $a_cmd_class): ilObjectSubItemListGUI
     {
         global $DIC;
 
         $objDefinition = $DIC['objDefinition'];
-        
+
         if (isset(self::$instances[$a_type])) {
             return self::$instances[$a_type];
         }

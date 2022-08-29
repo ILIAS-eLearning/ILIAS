@@ -15,7 +15,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * Tutor repository class.
  *
@@ -34,7 +34,7 @@ class ilExcTutorRepository
     /**
      * @return int[]
      */
-    public function getExerciseIdsBeingTutor(int $user_id) : array
+    public function getExerciseIdsBeingTutor(int $user_id): array
     {
         return ilNotification::getActivatedNotifications(ilNotification::TYPE_EXERCISE_SUBMISSION, $user_id);
     }

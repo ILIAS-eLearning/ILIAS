@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -38,31 +40,31 @@ class ilSCORMOrganization extends ilSCORMObject
         $this->setType('sor');
     }
 
-    public function getImportId() : string
+    public function getImportId(): string
     {
         return $this->import_id;
     }
 
-    public function setImportId(string $a_import_id) : void
+    public function setImportId(string $a_import_id): void
     {
         $this->import_id = $a_import_id;
     }
 
-    public function getStructure() : ?string
+    public function getStructure(): ?string
     {
         return $this->structure;
     }
 
-    public function setStructure(?string $a_structure) : void
+    public function setStructure(?string $a_structure): void
     {
         $this->structure = $a_structure;
     }
 
-    public function read() : void
+    public function read(): void
     {
         global $DIC;
         $ilDB = $DIC->database();
-        
+
         parent::read();
 
         $query = 'SELECT import_id, structure FROM sc_organization WHERE obj_id = %s';
@@ -77,13 +79,13 @@ class ilSCORMOrganization extends ilSCORMObject
         $this->setStructure($obj_rec['structure']);
     }
 
-    public function create() : void
+    public function create(): void
     {
         global $DIC;
         $ilDB = $DIC->database();
-        
+
         parent::create();
-        
+
         $query = 'INSERT INTO sc_organization (obj_id, import_id, structure) VALUES(%s, %s, %s)';
         $ilDB->manipulateF(
             $query,
@@ -92,13 +94,13 @@ class ilSCORMOrganization extends ilSCORMObject
         );
     }
 
-    public function update() : void
+    public function update(): void
     {
         global $DIC;
         $ilDB = $DIC->database();
-        
+
         parent::update();
-        
+
         $query = 'UPDATE sc_organization SET import_id = %s, structure = %s WHERE obj_id = %s';
         $ilDB->manipulateF(
             $query,
@@ -107,13 +109,13 @@ class ilSCORMOrganization extends ilSCORMObject
         );
     }
 
-    public function delete() : void
+    public function delete(): void
     {
         global $DIC;
         $ilDB = $DIC->database();
 
         parent::delete();
-        
+
         $query = 'DELETE FROM sc_organization WHERE obj_id = %s';
         $ilDB->manipulateF(
             $query,

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -71,7 +73,7 @@ class ilLDAPQuery
     /**
      * Get server
      */
-    public function getServer() : ilLDAPServer
+    public function getServer(): ilLDAPServer
     {
         return $this->settings;
     }
@@ -82,7 +84,7 @@ class ilLDAPQuery
      * @param string $a_name login name
      * @return array of user data
      */
-    public function fetchUser(string $a_name) : array
+    public function fetchUser(string $a_name): array
     {
         if (!$this->readUserData($a_name)) {
             return [];
@@ -97,7 +99,7 @@ class ilLDAPQuery
      *
      * @return array array of user data
      */
-    public function fetchUsers() : array
+    public function fetchUsers(): array
     {
         // First of all check if a group restriction is enabled
         // YES: => fetch all group members
@@ -126,7 +128,7 @@ class ilLDAPQuery
      * Perform a query
      * @throws ilLDAPQueryException
      */
-    public function query(string $a_search_base, string $a_filter, int $a_scope, array $a_attributes) : ilLDAPResult
+    public function query(string $a_search_base, string $a_filter, int $a_scope, array $a_attributes): ilLDAPResult
     {
         $res = $this->queryByScope($a_scope, $a_search_base, $a_filter, $a_attributes);
         if ($res === false) {
@@ -147,7 +149,7 @@ class ilLDAPQuery
      *
      * @throws ilLDAPQueryException
      */
-    public function modAdd(string $a_dn, array $a_attribute) : bool
+    public function modAdd(string $a_dn, array $a_attribute): bool
     {
         if (ldap_mod_add($this->lh, $a_dn, $a_attribute)) {
             return true;
@@ -161,7 +163,7 @@ class ilLDAPQuery
      *
      * @throws ilLDAPQueryException
      */
-    public function modDelete(string $a_dn, array $a_attribute) : bool
+    public function modDelete(string $a_dn, array $a_attribute): bool
     {
         if (ldap_mod_del($this->lh, $a_dn, $a_attribute)) {
             return true;
@@ -174,7 +176,7 @@ class ilLDAPQuery
      * This function splits the query to filters like e.g (uid=a*) (uid=b*)...
      * This avoids AD page_size_limit
      */
-    private function readAllUsers() : void
+    private function readAllUsers(): void
     {
         // Build search base
         $this->logger->debug($this->settings->getSearchBase());
@@ -214,7 +216,7 @@ class ilLDAPQuery
      *
      * @throws ilLDAPPagingException
      */
-    private function runReadAllUsersPaged(string $dn) : ilLDAPResult
+    private function runReadAllUsersPaged(string $dn): ilLDAPResult
     {
         $filter = '(&' . $this->settings->getFilter();
         $filter .= ('(' . $this->settings->getUserAttribute() . '=*))');
@@ -268,7 +270,7 @@ class ilLDAPQuery
      * @param string $dn
      * @return ilLDAPResult
      */
-    private function runReadAllUsersPartial(string $dn) : ilLDAPResult
+    private function runReadAllUsersPartial(string $dn): ilLDAPResult
     {
         $filter = $this->settings->getFilter();
         $page_filter = array('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', '-');
@@ -309,7 +311,7 @@ class ilLDAPQuery
      * @param array user data
      * @return bool
      */
-    public function checkGroupMembership(string $a_ldap_user_name, array $ldap_user_data) : bool
+    public function checkGroupMembership(string $a_ldap_user_name, array $ldap_user_data): bool
     {
         $group_names = $this->getServer()->getGroupNames();
 
@@ -385,7 +387,7 @@ class ilLDAPQuery
     /**
      * Fetch group member ids
      */
-    private function fetchGroupMembers(string $a_name = '') : void
+    private function fetchGroupMembers(string $a_name = ''): void
     {
         $group_name = $a_name !== '' ? $a_name : $this->settings->getGroupName();
 
@@ -444,7 +446,7 @@ class ilLDAPQuery
      * @param bool $a_check_dn check dn
      * @param bool $a_try_group_user_filter use group filter
      */
-    private function readUserData(string $a_name, bool $a_check_dn = false, bool $a_try_group_user_filter = false) : bool
+    private function readUserData(string $a_name, bool $a_check_dn = false, bool $a_try_group_user_filter = false): bool
     {
         $filter = $this->settings->getFilter();
         if ($a_try_group_user_filter && $this->settings->isMembershipOptional()) {
@@ -550,7 +552,7 @@ class ilLDAPQuery
      * @throws ilLDAPQueryException
      *
      */
-    private function connect() : void
+    private function connect(): void
     {
         $this->lh = ldap_connect($this->ldap_server_url);
 
@@ -585,14 +587,14 @@ class ilLDAPQuery
      * @throws ilLDAPQueryException on connection failure.
      *
      */
-    public function bind(int $a_binding_type = ilLDAPQuery::LDAP_BIND_DEFAULT, string $a_user_dn = '', string $a_password = '') : void
+    public function bind(int $a_binding_type = ilLDAPQuery::LDAP_BIND_DEFAULT, string $a_user_dn = '', string $a_password = ''): void
     {
         switch ($a_binding_type) {
             /** @noinspection PhpMissingBreakStatementInspection */
             case self::LDAP_BIND_TEST:
                 ldap_set_option($this->lh, LDAP_OPT_NETWORK_TIMEOUT, ilLDAPServer::DEFAULT_NETWORK_TIMEOUT);
-            // fall through
-            // no break
+                // fall through
+                // no break
             case self::LDAP_BIND_DEFAULT:
                 // Now bind anonymously or as user
                 if (
@@ -640,7 +642,7 @@ class ilLDAPQuery
     /**
      * fetch required fields of user profile data
      */
-    private function fetchUserProfileFields() : void
+    private function fetchUserProfileFields(): void
     {
         $this->user_fields = array_merge(
             array($this->settings->getUserAttribute()),
@@ -663,7 +665,7 @@ class ilLDAPQuery
     /**
      * Check if pagination is enabled (rfc: 2696)
      */
-    public function checkPaginationEnabled() : bool
+    public function checkPaginationEnabled(): bool
     {
         if ($this->getServer()->getVersion() !== 3) {
             $this->logger->info('Pagination control unavailable for ldap v' . $this->getServer()->getVersion());

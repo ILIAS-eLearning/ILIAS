@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -16,7 +18,7 @@ class ilDidacticTemplateCopier
         $this->tpl_id = $a_tpl_id;
     }
 
-    public static function appendCopyInfo(string $a_orig_title) : string
+    public static function appendCopyInfo(string $a_orig_title): string
     {
         global $DIC;
 
@@ -39,12 +41,12 @@ class ilDidacticTemplateCopier
         return $a_orig_title . ' ' . sprintf($lng->txt('copy_n_of_suffix'), $num);
     }
 
-    public function getTemplateId() : int
+    public function getTemplateId(): int
     {
         return $this->tpl_id;
     }
 
-    public function getNewTemplateId() : int
+    public function getNewTemplateId(): int
     {
         return $this->new_tpl_id;
     }
@@ -52,7 +54,7 @@ class ilDidacticTemplateCopier
     /**
      * Start copy process
      */
-    public function start() : void
+    public function start(): void
     {
         $orig = new ilDidacticTemplateSetting($this->getTemplateId());
         $copy = clone $orig;

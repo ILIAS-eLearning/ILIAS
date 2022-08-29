@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -30,17 +32,17 @@ class ilManifestFileNotFoundImportException extends ilImportException
         $this->manifest_dir = $a_val;
     }
 
-    public function getManifestDir() : string
+    public function getManifestDir(): string
     {
         return $this->manifest_dir;
     }
 
-    public function setTmpDir(string $a_val) : void
+    public function setTmpDir(string $a_val): void
     {
         $this->tmp_dir = $a_val;
     }
 
-    public function getTmpDir() : string
+    public function getTmpDir(): string
     {
         return $this->tmp_dir;
     }

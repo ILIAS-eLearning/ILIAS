@@ -39,14 +39,14 @@ class ilLearningHistoryFactory
         int $ts,
         int $obj_id,
         int $ref_id = 0
-    ) : ilLearningHistoryEntry {
+    ): ilLearningHistoryEntry {
         return new ilLearningHistoryEntry($achieve_text, $achieve_in_text, $icon_path, $ts, $obj_id, $ref_id);
     }
 
     /**
      * Entry collector
      */
-    public function collector() : ilLearningHistoryEntryCollector
+    public function collector(): ilLearningHistoryEntryCollector
     {
         return new ilLearningHistoryEntryCollector($this->service);
     }

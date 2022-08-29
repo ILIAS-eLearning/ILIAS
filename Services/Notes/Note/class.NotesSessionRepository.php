@@ -1,4 +1,6 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -29,12 +31,12 @@ class NotesSessionRepository
     {
     }
 
-    public function setSortAscending(bool $asc) : void
+    public function setSortAscending(bool $asc): void
     {
         \ilSession::set(self::KEY_BASE . "_asc", $asc);
     }
 
-    public function getSortAscending() : bool
+    public function getSortAscending(): bool
     {
         if (\ilSession::has(self::KEY_BASE . "_asc")) {
             return \ilSession::get(self::KEY_BASE . "_asc");

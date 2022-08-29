@@ -32,9 +32,9 @@ class ilAssQuestionFeedbackEditingGUI
     /**
      * command constants
      */
-    const CMD_SHOW = 'showFeedbackForm';
-    const CMD_SAVE = 'saveFeedbackForm';
-    const CMD_SHOW_SYNC = 'showSync';
+    public const CMD_SHOW = 'showFeedbackForm';
+    public const CMD_SAVE = 'saveFeedbackForm';
+    public const CMD_SHOW_SYNC = 'showSync';
     private \ILIAS\TestQuestionPool\InternalRequestService $request;
 
     /**
@@ -44,7 +44,7 @@ class ilAssQuestionFeedbackEditingGUI
      * @var assQuestionGUI
      */
     protected $questionGUI = null;
-    
+
     /**
      * object instance of current question
      *
@@ -52,7 +52,7 @@ class ilAssQuestionFeedbackEditingGUI
      * @var assQuestion
      */
     protected $questionOBJ = null;
-    
+
     /**
      * object instance of current question's feedback
      *
@@ -60,7 +60,7 @@ class ilAssQuestionFeedbackEditingGUI
      * @var ilAssQuestionFeedback
      */
     protected $feedbackOBJ = null;
-    
+
     /**
      * global $ilCtrl
      *
@@ -68,7 +68,7 @@ class ilAssQuestionFeedbackEditingGUI
      * @var ilCtrl
      */
     protected $ctrl = null;
-    
+
     /**
      * global $ilAccess
      *
@@ -100,7 +100,7 @@ class ilAssQuestionFeedbackEditingGUI
      * @var ilLanguage
      */
     protected $lng = null;
-    
+
     /**
      * Constructor
      *
@@ -125,13 +125,13 @@ class ilAssQuestionFeedbackEditingGUI
         $this->tabs = $tabs;
         $this->lng = $lng;
     }
-    
+
     /**
      * Execute Command
      *
      * @access public
      */
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
         $ilHelp = $DIC['ilHelp']; /* @var ilHelpGUI $ilHelp */
@@ -139,7 +139,7 @@ class ilAssQuestionFeedbackEditingGUI
 
         $cmd = $this->ctrl->getCmd(self::CMD_SHOW);
         $nextClass = $this->ctrl->getNextClass($this);
-        
+
         $this->ctrl->setParameter($this, 'q_id', $this->request->getQuestionId());
 
         $this->setContentStyle();
@@ -152,7 +152,7 @@ class ilAssQuestionFeedbackEditingGUI
                 break;
 
             default:
-                
+
                 $cmd .= 'Cmd';
                 $this->$cmd();
                 break;
@@ -162,7 +162,7 @@ class ilAssQuestionFeedbackEditingGUI
     /**
      * Set content style
      */
-    protected function setContentStyle() : void
+    protected function setContentStyle(): void
     {
         $this->tpl->addCss(ilObjStyleSheet::getContentStylePath(0));
     }
@@ -172,20 +172,20 @@ class ilAssQuestionFeedbackEditingGUI
      *
      * @access private
      */
-    private function showFeedbackFormCmd() : void
+    private function showFeedbackFormCmd(): void
     {
         $this->tpl->setCurrentBlock("ContentStyle");
         $this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET", ilObjStyleSheet::getContentStylePath(0));
         $this->tpl->parseCurrentBlock();
-        
+
         $form = $this->buildForm();
 
         $this->feedbackOBJ->initGenericFormProperties($form);
         $this->feedbackOBJ->initSpecificFormProperties($form);
-        
+
         $this->tpl->setContent($this->ctrl->getHTML($form));
     }
-    
+
     /**
      * command for processing the submitted feedback editing form.
      * first it validates the submitted values.
@@ -195,16 +195,16 @@ class ilAssQuestionFeedbackEditingGUI
      *
      * @access private
      */
-    private function saveFeedbackFormCmd() : void
+    private function saveFeedbackFormCmd(): void
     {
         $form = $this->buildForm();
-        
+
         $form->setValuesByPost();
-        
+
         if ($form->checkInput()) {
             $this->feedbackOBJ->saveGenericFormProperties($form);
             $this->feedbackOBJ->saveSpecificFormProperties($form);
-            
+
             $this->questionOBJ->cleanupMediaObjectUsage();
             $this->questionOBJ->updateTimestamp();
 
@@ -216,7 +216,7 @@ class ilAssQuestionFeedbackEditingGUI
             $this->tpl->setOnScreenMessage('success', $this->lng->txt('saved_successfully'), true);
             $this->ctrl->redirect($this, self::CMD_SHOW);
         }
-        
+
         $this->tpl->setOnScreenMessage('failure', $this->lng->txt('form_input_not_valid'));
         $this->tpl->setContent($this->ctrl->getHTML($form));
     }
@@ -227,24 +227,24 @@ class ilAssQuestionFeedbackEditingGUI
      * @access private
      * @return \ilPropertyFormGUI
      */
-    private function buildForm() : ilPropertyFormGUI
+    private function buildForm(): ilPropertyFormGUI
     {
         $form = new ilPropertyFormGUI();
         $form->setFormAction($this->ctrl->getFormAction($this));
         $form->setTitle($this->lng->txt('feedback_generic'));
         $form->setTableWidth("100%");
         $form->setId("feedback");
-        
+
         $this->feedbackOBJ->completeGenericFormProperties($form);
         $this->feedbackOBJ->completeSpecificFormProperties($form);
-        
+
         if ($this->isFormSaveable()) {
             $form->addCommandButton(self::CMD_SAVE, $this->lng->txt("save"));
         }
-        
+
         return $form;
     }
-    
+
     /**
      * returns the fact wether the feedback editing form has to be saveable or not.
      * this depends on the additional content editing mode and the current question type,
@@ -254,19 +254,19 @@ class ilAssQuestionFeedbackEditingGUI
      * @access private
      * @return boolean $isFormSaveable
      */
-    private function isFormSaveable() : bool
+    private function isFormSaveable(): bool
     {
         if ($this->questionOBJ->isAdditionalContentEditingModePageObject()
             && !($this->feedbackOBJ->isSaveableInPageObjectEditingMode())) {
             return false;
         }
-        
+
         $hasWriteAccess = $this->access->checkAccess("write", "", $this->request->getRefId());
         $isSelfAssessmentEditingMode = $this->questionOBJ->getSelfAssessmentEditingMode();
-        
+
         return $hasWriteAccess || $isSelfAssessmentEditingMode;
     }
-    
+
     /**
      * returns the fact wether the presentation of the question sync2pool form
      * is required after saving the form or not
@@ -274,19 +274,19 @@ class ilAssQuestionFeedbackEditingGUI
      * @access private
      * @return boolean $isSyncAfterSaveRequired
      */
-    private function isSyncAfterSaveRequired() : bool
+    private function isSyncAfterSaveRequired(): bool
     {
         global $DIC;
         $ilUser = $DIC['ilUser'];
-        
+
         if (!$this->request->isset("calling_test")) {
             return false;
         }
-        
+
         if ($this->questionOBJ->isAdditionalContentEditingModePageObject()) {
             return false;
         }
-        
+
         if (!$this->questionOBJ->_questionExistsInPool((int) $this->questionOBJ->getOriginalId())) {
             return false;
         }
@@ -298,11 +298,11 @@ class ilAssQuestionFeedbackEditingGUI
         if (!assQuestion::_isWriteable($this->questionOBJ->getOriginalId(), $ilUser->getId())) {
             return false;
         }
-        
+
         return true;
     }
-    
-    public function showSyncCmd() : void
+
+    public function showSyncCmd(): void
     {
         $this->questionGUI->originalSyncForm('', 'true');
     }

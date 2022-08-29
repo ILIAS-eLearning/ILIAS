@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -24,7 +26,7 @@ use PHPUnit\Framework\TestCase;
  */
 class ilSamlMappedUserAttributeValueParserTest extends TestCase
 {
-    protected function getMappingRuleMock(string $externalAttributeReference) : ilExternalAuthUserAttributeMappingRule
+    protected function getMappingRuleMock(string $externalAttributeReference): ilExternalAuthUserAttributeMappingRule
     {
         $rule = $this->getMockBuilder(ilExternalAuthUserAttributeMappingRule::class)
             ->disableOriginalConstructor()
@@ -39,7 +41,7 @@ class ilSamlMappedUserAttributeValueParserTest extends TestCase
         return $rule;
     }
 
-    public function testValueGivenAsStringCanBeRetrievedForExternalAttribute() : void
+    public function testValueGivenAsStringCanBeRetrievedForExternalAttribute(): void
     {
         $expectedValue = 'ILIAS';
 
@@ -52,7 +54,7 @@ class ilSamlMappedUserAttributeValueParserTest extends TestCase
         $this->assertSame($expectedValue, $parser->parse());
     }
 
-    public function testValueGivenAsArrayCanBeRetrievedForExternalAttribute() : void
+    public function testValueGivenAsArrayCanBeRetrievedForExternalAttribute(): void
     {
         $expectedValue = 'ILIAS';
 
@@ -65,7 +67,7 @@ class ilSamlMappedUserAttributeValueParserTest extends TestCase
         $this->assertSame($expectedValue, $parser->parse());
     }
 
-    public function testValueGivenAsArrayCanBeRetrievedForExternalAttributeWithSpecificIndex() : void
+    public function testValueGivenAsArrayCanBeRetrievedForExternalAttributeWithSpecificIndex(): void
     {
         $expectedValue = 'ILIAS';
         $expectedValueIndex = 5;
@@ -82,7 +84,7 @@ class ilSamlMappedUserAttributeValueParserTest extends TestCase
         $this->assertSame($expectedValue, $parser->parse());
     }
 
-    public function testExceptionIsRaisedIfAnExpectedAttributeIsMissing() : void
+    public function testExceptionIsRaisedIfAnExpectedAttributeIsMissing(): void
     {
         $this->expectException(ilSamlException::class);
 
@@ -93,7 +95,7 @@ class ilSamlMappedUserAttributeValueParserTest extends TestCase
         $parser->parse();
     }
 
-    public function testExceptionIsRaisedIfAnExpectedValueCouldNotBeFoundForAnExpectedValueIndex() : void
+    public function testExceptionIsRaisedIfAnExpectedValueCouldNotBeFoundForAnExpectedValueIndex(): void
     {
         $this->expectException(ilSamlException::class);
 
@@ -112,7 +114,7 @@ class ilSamlMappedUserAttributeValueParserTest extends TestCase
         $parser->parse();
     }
 
-    public function testExceptionIsRaisedForNonScalarValues() : void
+    public function testExceptionIsRaisedForNonScalarValues(): void
     {
         $this->expectException(ilSamlException::class);
 

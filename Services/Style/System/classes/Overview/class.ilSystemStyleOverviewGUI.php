@@ -89,7 +89,7 @@ class ilSystemStyleOverviewGUI
         $this->setManagementEnabled($management_enabled);
     }
 
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         $cmd = $this->ctrl->getCmd();
 
@@ -125,23 +125,22 @@ class ilSystemStyleOverviewGUI
             case 'view':
                 $this->$cmd();
                 break;
-
         }
         $this->message_stack->sendMessages();
     }
 
-    protected function view() : void
+    protected function view(): void
     {
         $table = new ilSystemStylesTableGUI($this, 'edit');
         $this->tpl->setContent($table->getHTML());
     }
 
-    protected function cancel() : void
+    protected function cancel(): void
     {
         $this->edit();
     }
 
-    public function edit() : void
+    public function edit(): void
     {
         if ($this->isManagementEnabled()) {
             // Add Button for adding skins
@@ -190,7 +189,7 @@ class ilSystemStyleOverviewGUI
         $this->tpl->setContent($table->getHTML());
     }
 
-    public function moveUserStyles() : void
+    public function moveUserStyles(): void
     {
         $to = $this->request_wrapper->post()->retrieve('to_style', $this->refinery->string()->splitString(':'));
 
@@ -217,7 +216,7 @@ class ilSystemStyleOverviewGUI
         $this->edit();
     }
 
-    public function saveStyleSettings() : void
+    public function saveStyleSettings(): void
     {
         $active_styles = $this->request_wrapper->post()->retrieve('st_act', $this->refinery->identity());
 
@@ -248,7 +247,7 @@ class ilSystemStyleOverviewGUI
         $this->ctrl->redirect($this, 'edit');
     }
 
-    protected function checkStyleSettings(ilSystemStyleMessageStack $message_stack, array $active_styles) : bool
+    protected function checkStyleSettings(ilSystemStyleMessageStack $message_stack, array $active_styles): bool
     {
         $passed = true;
 
@@ -291,12 +290,12 @@ class ilSystemStyleOverviewGUI
         return $passed;
     }
 
-    protected function addSystemStyle() : void
+    protected function addSystemStyle(): void
     {
         $this->addSystemStyleForms();
     }
 
-    protected function saveNewSystemStyle() : void
+    protected function saveNewSystemStyle(): void
     {
         $form = $this->createSystemStyleForm();
 
@@ -338,7 +337,7 @@ class ilSystemStyleOverviewGUI
         $this->tpl->setContent($form->getHTML());
     }
 
-    protected function addSystemStyleForms() : void
+    protected function addSystemStyleForms(): void
     {
         $this->tabs->clearTargets();
         /**
@@ -357,7 +356,7 @@ class ilSystemStyleOverviewGUI
         $this->tpl->setContent($this->getCreationFormsHTML($forms));
     }
 
-    protected function createSystemStyleForm() : ilPropertyFormGUI
+    protected function createSystemStyleForm(): ilPropertyFormGUI
     {
         $form = new ilPropertyFormGUI();
         $form->setFormAction($this->ctrl->getFormAction($this));
@@ -397,7 +396,7 @@ class ilSystemStyleOverviewGUI
         return $form;
     }
 
-    protected function importSystemStyleForm() : ilPropertyFormGUI
+    protected function importSystemStyleForm(): ilPropertyFormGUI
     {
         $form = new ilPropertyFormGUI();
         $form->setFormAction($this->ctrl->getFormAction($this, 'importStyle'));
@@ -415,7 +414,7 @@ class ilSystemStyleOverviewGUI
         return $form;
     }
 
-    protected function cloneSystemStyleForm() : ilPropertyFormGUI
+    protected function cloneSystemStyleForm(): ilPropertyFormGUI
     {
         $form = new ilPropertyFormGUI();
         $form->setFormAction($this->ctrl->getFormAction($this));
@@ -442,7 +441,7 @@ class ilSystemStyleOverviewGUI
         return $form;
     }
 
-    protected function getCreationFormsHTML(array $a_forms) : string
+    protected function getCreationFormsHTML(array $a_forms): string
     {
         include_once('./Services/Accordion/classes/class.ilAccordionGUI.php');
 
@@ -479,7 +478,7 @@ class ilSystemStyleOverviewGUI
         return "<div class='ilCreationFormSection'>" . $acc->getHTML() . '</div>';
     }
 
-    protected function copyStyle() : void
+    protected function copyStyle(): void
     {
         $imploded_skin_style_id = $this->request_wrapper->post()->retrieve(
             'source_style',
@@ -520,7 +519,7 @@ class ilSystemStyleOverviewGUI
         $this->ctrl->redirectByClass('ilSystemStyleSettingsGUI');
     }
 
-    protected function deleteStyle() : void
+    protected function deleteStyle(): void
     {
         $skin_id = $this->style_container->getSkin()->getId();
         $style_id = $this->style_id;
@@ -543,7 +542,7 @@ class ilSystemStyleOverviewGUI
         }
     }
 
-    protected function deleteStyles() : void
+    protected function deleteStyles(): void
     {
         $delete_form_table = new ilSystemStyleDeleteGUI($this->lng, $this->ctrl);
 
@@ -584,7 +583,7 @@ class ilSystemStyleOverviewGUI
         string $skin_id,
         string $style_id,
         ilSystemStyleMessageStack $message_stack
-    ) : bool {
+    ): bool {
         $passed = true;
         if (ilObjUser::_getNumberOfUsersForStyle($skin_id, $style_id) > 0) {
             $message_stack->addMessage(new ilSystemStyleMessage(
@@ -618,7 +617,7 @@ class ilSystemStyleOverviewGUI
         return $passed;
     }
 
-    protected function confirmDelete() : void
+    protected function confirmDelete(): void
     {
         $i = 0;
         while ($this->request_wrapper->post()->has('style_' . $i)) {
@@ -645,7 +644,7 @@ class ilSystemStyleOverviewGUI
         $this->ctrl->redirect($this);
     }
 
-    protected function importStyle() : void
+    protected function importStyle(): void
     {
         $form = $this->importSystemStyleForm();
 
@@ -688,7 +687,7 @@ class ilSystemStyleOverviewGUI
         $this->tpl->setContent($form->getHTML());
     }
 
-    protected function export() : void
+    protected function export(): void
     {
         $container = $this->skin_factory->skinStyleContainerFromId($this->style_container->getSkin()->getId(), $this->message_stack);
         try {
@@ -704,7 +703,7 @@ class ilSystemStyleOverviewGUI
     /**
      *
      */
-    protected function addSubStyle() : void
+    protected function addSubStyle(): void
     {
         $this->tabs->clearTargets();
         /**
@@ -719,7 +718,7 @@ class ilSystemStyleOverviewGUI
         $this->tpl->setContent($form->getHTML());
     }
 
-    protected function addSubStyleForms() : ilPropertyFormGUI
+    protected function addSubStyleForms(): ilPropertyFormGUI
     {
         $form = new ilPropertyFormGUI();
         $form->setFormAction($this->ctrl->getFormAction($this));
@@ -760,7 +759,7 @@ class ilSystemStyleOverviewGUI
         return $form;
     }
 
-    protected function saveNewSubStyle() : void
+    protected function saveNewSubStyle(): void
     {
         $form = $this->addSubStyleForms();
 
@@ -818,22 +817,22 @@ class ilSystemStyleOverviewGUI
         $this->tpl->setContent($form->getHTML());
     }
 
-    public function isReadOnly() : bool
+    public function isReadOnly(): bool
     {
         return $this->read_only;
     }
 
-    public function setReadOnly(bool $read_only) : void
+    public function setReadOnly(bool $read_only): void
     {
         $this->read_only = $read_only;
     }
 
-    public function isManagementEnabled() : bool
+    public function isManagementEnabled(): bool
     {
         return $this->management_enabled;
     }
 
-    public function setManagementEnabled(bool $management_enabled) : void
+    public function setManagementEnabled(bool $management_enabled): void
     {
         $this->management_enabled = $management_enabled;
     }

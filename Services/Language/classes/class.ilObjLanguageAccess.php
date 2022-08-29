@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -15,7 +17,7 @@
  *
  ********************************************************************
  */
- 
+
 /**
 * Class ilObjLanguageAccess
 *
@@ -42,7 +44,7 @@ class ilObjLanguageAccess
     *
     * Return whether translation is possible (true/false)
     */
-    public static function _checkTranslate() : bool
+    public static function _checkTranslate(): bool
     {
         global $DIC;
         $lng = $DIC->language();
@@ -76,7 +78,7 @@ class ilObjLanguageAccess
     *
     * Return whether maintenance is possible (true/false)
     */
-    public static function _checkMaintenance() : bool
+    public static function _checkMaintenance(): bool
     {
         global $DIC;
         $ilSetting = $DIC->settings();
@@ -96,7 +98,7 @@ class ilObjLanguageAccess
     *
     * Return language folder ref_id
     */
-    public static function _lookupLangFolderRefId() : int
+    public static function _lookupLangFolderRefId(): int
     {
         global $DIC;
         $ilDB = $DIC->database();
@@ -107,7 +109,7 @@ class ilObjLanguageAccess
         $row = $ilDB->fetchAssoc($set);
         return (int) $row["ref_id"];
     }
-    
+
 
     /**
     * Lookup the object ID for a language key
@@ -115,7 +117,7 @@ class ilObjLanguageAccess
     * $a_key     language key
     * Return     language object id
     */
-    public static function _lookupId(string $a_key) : int
+    public static function _lookupId(string $a_key): int
     {
         global $DIC;
         $ilDB = $DIC->database();
@@ -134,7 +136,7 @@ class ilObjLanguageAccess
      *
      * Return translation link
      */
-    public static function _getTranslationLink() : string
+    public static function _getTranslationLink(): string
     {
         // ref id must be given to prevent params being deleted by ilAdministrtionGUI
         return "ilias.php"
@@ -155,7 +157,7 @@ class ilObjLanguageAccess
      *
      * @return   bool      page translation (true or false)
      */
-    public static function _isPageTranslation() : bool
+    public static function _isPageTranslation(): bool
     {
         global $DIC;
         $cmdClass = "";
@@ -179,7 +181,7 @@ class ilObjLanguageAccess
      * Store the collected language variable usages in the user session
      * This should be called as late as possible in a request
      */
-    public static function _saveUsages() : void
+    public static function _saveUsages(): void
     {
         global $DIC;
         $lng = $DIC->language();
@@ -195,7 +197,7 @@ class ilObjLanguageAccess
      *
      * Return list of module names
      */
-    public static function _getSavedModules() : array
+    public static function _getSavedModules(): array
     {
         $saved = [];
         $lang_ext_maintenance_from_session = ilSession::get("lang_ext_maintenance");
@@ -210,7 +212,7 @@ class ilObjLanguageAccess
      *
      * Return list of module names
      */
-    public static function _getSavedTopics() : array
+    public static function _getSavedTopics(): array
     {
         $saved = [];
         $lang_ext_maintenance_from_session = ilSession::get("lang_ext_maintenance");

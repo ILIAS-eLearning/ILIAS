@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -27,19 +29,19 @@ class StringTransformationTest extends TestCase
 {
     private StringTransformation $transformation;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         $this->transformation = new StringTransformation();
     }
 
-    public function testStringToStringTransformation() : void
+    public function testStringToStringTransformation(): void
     {
         $transformedValue = $this->transformation->transform('hello');
 
         $this->assertEquals('hello', $transformedValue);
     }
 
-    public function testIntegerToStringTransformation() : void
+    public function testIntegerToStringTransformation(): void
     {
         $this->expectNotToPerformAssertions();
 
@@ -52,7 +54,7 @@ class StringTransformationTest extends TestCase
         $this->fail();
     }
 
-    public function testNegativeIntegerToIntegerTransformation() : void
+    public function testNegativeIntegerToIntegerTransformation(): void
     {
         $this->expectNotToPerformAssertions();
 
@@ -65,7 +67,7 @@ class StringTransformationTest extends TestCase
         $this->assertEquals('-200', $transformedValue);
     }
 
-    public function testZeroIntegerToIntegerTransformation() : void
+    public function testZeroIntegerToIntegerTransformation(): void
     {
         $this->expectNotToPerformAssertions();
 
@@ -78,7 +80,7 @@ class StringTransformationTest extends TestCase
         $this->fail();
     }
 
-    public function testFloatToStringTransformation() : void
+    public function testFloatToStringTransformation(): void
     {
         $this->expectNotToPerformAssertions();
 
@@ -93,7 +95,7 @@ class StringTransformationTest extends TestCase
         $this->fail();
     }
 
-    public function testPositiveBooleanToStringTransformation() : void
+    public function testPositiveBooleanToStringTransformation(): void
     {
         $this->expectNotToPerformAssertions();
 
@@ -106,7 +108,7 @@ class StringTransformationTest extends TestCase
         $this->fail();
     }
 
-    public function testNegativeBooleanToStringTransformation() : void
+    public function testNegativeBooleanToStringTransformation(): void
     {
         $this->expectNotToPerformAssertions();
 
@@ -119,7 +121,7 @@ class StringTransformationTest extends TestCase
         $this->fail();
     }
 
-    public function testStringToStringApply() : void
+    public function testStringToStringApply(): void
     {
         $resultObject = new Result\Ok('hello');
 
@@ -128,7 +130,7 @@ class StringTransformationTest extends TestCase
         $this->assertEquals('hello', $transformedObject->value());
     }
 
-    public function testPositiveIntegerToIntegerApply() : void
+    public function testPositiveIntegerToIntegerApply(): void
     {
         $resultObject = new Result\Ok(200);
 
@@ -137,7 +139,7 @@ class StringTransformationTest extends TestCase
         $this->assertTrue($transformedObject->isError());
     }
 
-    public function testNegativeIntegerToIntegerApply() : void
+    public function testNegativeIntegerToIntegerApply(): void
     {
         $resultObject = new Result\Ok(-200);
 
@@ -146,7 +148,7 @@ class StringTransformationTest extends TestCase
         $this->assertTrue($transformedObject->isError());
     }
 
-    public function testZeroIntegerToIntegerApply() : void
+    public function testZeroIntegerToIntegerApply(): void
     {
         $resultObject = new Result\Ok(0);
 
@@ -155,7 +157,7 @@ class StringTransformationTest extends TestCase
         $this->assertTrue($transformedObject->isError());
     }
 
-    public function testFloatToStringApply() : void
+    public function testFloatToStringApply(): void
     {
         $resultObject = new Result\Ok(10.5);
 
@@ -164,7 +166,7 @@ class StringTransformationTest extends TestCase
         $this->assertTrue($transformedObject->isError());
     }
 
-    public function testBooleanToStringApply() : void
+    public function testBooleanToStringApply(): void
     {
         $resultObject = new Result\Ok(true);
 

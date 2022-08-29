@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /* Copyright (c) 2019 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
@@ -13,7 +15,7 @@ class ilOverwritesExistingInstallationConfirmed extends ilSetupObjective
     /**
      * @inheritdoc
      */
-    public function getHash() : string
+    public function getHash(): string
     {
         return hash(
             "sha256",
@@ -24,7 +26,7 @@ class ilOverwritesExistingInstallationConfirmed extends ilSetupObjective
     /**
      * @inheritdoc
      */
-    public function getLabel() : string
+    public function getLabel(): string
     {
         return "Confirm that an existing installation should be overwritten.";
     }
@@ -32,7 +34,7 @@ class ilOverwritesExistingInstallationConfirmed extends ilSetupObjective
     /**
      * @inheritdoc
      */
-    public function isNotable() : bool
+    public function isNotable(): bool
     {
         return false;
     }
@@ -40,7 +42,7 @@ class ilOverwritesExistingInstallationConfirmed extends ilSetupObjective
     /**
      * @inheritdoc
      */
-    public function getPreconditions(Setup\Environment $environment) : array
+    public function getPreconditions(Setup\Environment $environment): array
     {
         return [];
     }
@@ -48,7 +50,7 @@ class ilOverwritesExistingInstallationConfirmed extends ilSetupObjective
     /**
      * @inheritdoc
      */
-    public function achieve(Setup\Environment $environment) : Setup\Environment
+    public function achieve(Setup\Environment $environment): Setup\Environment
     {
         if (!$this->iniExists() && !$this->clientIniExists()) {
             return $environment;
@@ -71,22 +73,22 @@ class ilOverwritesExistingInstallationConfirmed extends ilSetupObjective
     /**
      * @inheritDoc
      */
-    public function isApplicable(Setup\Environment $environment) : bool
+    public function isApplicable(Setup\Environment $environment): bool
     {
         return $this->iniExists() || $this->clientIniExists();
     }
 
-    public function iniExists() : bool
+    public function iniExists(): bool
     {
         return file_exists(dirname(__DIR__, 2) . "/ilias.ini.php");
     }
 
-    public function clientIniExists() : bool
+    public function clientIniExists(): bool
     {
         return file_exists($this->getClientDir() . "/client.ini.php");
     }
 
-    protected function getClientDir() : string
+    protected function getClientDir(): string
     {
         return dirname(__DIR__, 2) . "/data/" . ((string) $this->config->getClientId());
     }

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -20,7 +22,7 @@ require_once __DIR__ . '/ilMathJaxBaseTest.php';
  */
 class ilMathJaxTest extends ilMathJaxBaseTest
 {
-    public function testInstanceCanBeCreated() : void
+    public function testInstanceCanBeCreated(): void
     {
         $config = $this->getEmptyConfig();
         $mathjax = ilMathJax::getIndependent($this->getEmptyConfig(), $this->getFactoryMock());
@@ -31,7 +33,7 @@ class ilMathJaxTest extends ilMathJaxBaseTest
      * @depends testInstanceCanBeCreated
      * @dataProvider clientSideData
      */
-    public function testClientSideRendering(int $limiter, string $input, ?string $start, ?string $end, string $expected) : void
+    public function testClientSideRendering(int $limiter, string $input, ?string $start, ?string $end, string $expected): void
     {
         $config = $this->getEmptyConfig()->withClientEnabled(true)->withClientLimiter($limiter);
         $mathjax = ilMathJax::getIndependent($config, $this->getFactoryMock());
@@ -39,7 +41,7 @@ class ilMathJaxTest extends ilMathJaxBaseTest
         $this->assertEquals($expected, $result, 'input: ' . $input);
     }
 
-    public function clientSideData() : array
+    public function clientSideData(): array
     {
         return  [
             [0, '[tex]e=m*c^2[/tex]', null, null, '\(e=m*c^2\)'],
@@ -66,7 +68,7 @@ class ilMathJaxTest extends ilMathJaxBaseTest
      * @depends testInstanceCanBeCreated
      * @dataProvider serverSideData
      */
-    public function testServerSideRendering(string $purpose, ?string $imagefile, string $expected) : void
+    public function testServerSideRendering(string $purpose, ?string $imagefile, string $expected): void
     {
         $input = '[tex]f(x)=\int_{-\infty}^x e^{-t^2}dt[/tex]';
 
@@ -82,7 +84,7 @@ class ilMathJaxTest extends ilMathJaxBaseTest
         $this->assertEquals($expected, $head, 'purpose: ' . $purpose);
     }
 
-    public function serverSideData() : array
+    public function serverSideData(): array
     {
         return  [
             ['browser', 'example.svg', '<svg xmlns:xlink="http://www.w3.org/1999/xlink" width="17.47'],

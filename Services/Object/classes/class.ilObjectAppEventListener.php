@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * Class ilObjectAppEventListener
  * @author Michael Jansen <mjansen@databay.de>
@@ -25,7 +27,7 @@ class ilObjectAppEventListener implements ilAppEventListener
     /**
      * @inheritdoc
      */
-    public static function handleEvent(string $component, string $event, array $parameter) : void
+    public static function handleEvent(string $component, string $event, array $parameter): void
     {
         global $DIC;
 

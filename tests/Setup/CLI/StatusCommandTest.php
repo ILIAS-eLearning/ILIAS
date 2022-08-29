@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\Tests\Setup\CLI;
 
 use ILIAS\Setup;
@@ -27,7 +29,7 @@ use Hamcrest\Core\Set;
 
 class StatusCommandTest extends TestCase
 {
-    public function testMetrics() : void
+    public function testMetrics(): void
     {
         $agent_finder = $this->createMock(Setup\AgentFinder::class);
         $obj = new Setup\CLI\StatusCommand($agent_finder);

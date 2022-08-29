@@ -1,18 +1,20 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 class ilADTEnumDBBridge extends ilADTDBBridge
 {
-    protected function isValidADT(ilADT $a_adt) : bool
+    protected function isValidADT(ilADT $a_adt): bool
     {
         return ($a_adt instanceof ilADTEnum);
     }
 
-    public function readRecord(array $a_row) : void
+    public function readRecord(array $a_row): void
     {
         $this->getADT()->setSelection($a_row[$this->getElementId()]);
     }
 
-    public function prepareInsert(array &$a_fields) : void
+    public function prepareInsert(array &$a_fields): void
     {
         $a_fields[$this->getElementId()] = [
             ilDBConstants::T_INTEGER,
@@ -24,7 +26,7 @@ class ilADTEnumDBBridge extends ilADTDBBridge
      * Column is value_index
      * @return bool
      */
-    public function supportsDefaultValueColumn() : bool
+    public function supportsDefaultValueColumn(): bool
     {
         return false;
     }

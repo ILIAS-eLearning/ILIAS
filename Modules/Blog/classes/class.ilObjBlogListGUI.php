@@ -26,7 +26,7 @@ class ilObjBlogListGUI extends ilObjectListGUI
 {
     private ?Modal $comment_modal = null;
 
-    public function init() : void
+    public function init(): void
     {
         $this->copy_enabled = true;
         $this->delete_enabled = true;
@@ -40,11 +40,11 @@ class ilObjBlogListGUI extends ilObjectListGUI
         // general commands array
         $this->commands = ilObjBlogAccess::_getCommands();
     }
-    
-    public function getCommands() : array
+
+    public function getCommands(): array
     {
         $commands = parent::getCommands();
-        
+
         // #10182 - handle edit and contribute
         $permissions = array();
         foreach ($commands as $idx => $item) {
@@ -55,7 +55,7 @@ class ilObjBlogListGUI extends ilObjectListGUI
         if (count($permissions) === 2) {
             unset($commands[$permissions["contribute"]]);
         }
-        
+
         return $commands;
     }
 
@@ -66,7 +66,7 @@ class ilObjBlogListGUI extends ilObjectListGUI
         string $img = "",
         string $cmd = "",
         string $onclick = ""
-    ) : void {
+    ): void {
         $ctrl = $this->ctrl;
 
         if ($cmd !== "export" || !ilObjBlogAccess::isCommentsExportPossible($this->obj_id)) {
@@ -117,7 +117,7 @@ class ilObjBlogListGUI extends ilObjectListGUI
         bool $use_async = false,
         bool $get_async_commands = false,
         string $async_url = ""
-    ) : string {
+    ): string {
         $html = parent::getListItemHTML(
             $ref_id,
             $obj_id,

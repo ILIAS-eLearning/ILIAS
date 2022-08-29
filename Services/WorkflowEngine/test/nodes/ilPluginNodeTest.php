@@ -1,4 +1,5 @@
 <?php
+
 /* Copyright (c) 1998-2014 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -17,14 +18,14 @@ class ilPluginNodeTest extends ilWorkflowEngineBaseTest
     /** @var ilBaseWorkflow $workflow */
     public $workflow;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         // Empty workflow.
         require_once './Services/WorkflowEngine/classes/workflows/class.ilEmptyWorkflow.php';
         $this->workflow = new ilEmptyWorkflow();
     }
-    
-    protected function tearDown() : void
+
+    protected function tearDown(): void
     {
         global $DIC;
 
@@ -33,12 +34,12 @@ class ilPluginNodeTest extends ilWorkflowEngineBaseTest
             $DIC['ilSetting']->delete('IL_PHPUNIT_TEST_MICROTIME');
         }
     }
-    
-    public function testConstructorValidContext() : void
+
+    public function testConstructorValidContext(): void
     {
         // Act
         $node = new ilPluginNode($this->workflow);
-        
+
         // Assert
         // No exception - good
         $this->assertTrue(
@@ -47,7 +48,7 @@ class ilPluginNodeTest extends ilWorkflowEngineBaseTest
         );
     }
 
-    public function testGetContext() : void
+    public function testGetContext(): void
     {
         // Arrange
         $node = new ilPluginNode($this->workflow);
@@ -63,7 +64,7 @@ class ilPluginNodeTest extends ilWorkflowEngineBaseTest
         }
     }
 
-    public function testIsActiveAndActivate() : void
+    public function testIsActiveAndActivate(): void
     {
         // Arrange
         $node = new ilPluginNode($this->workflow);
@@ -79,7 +80,7 @@ class ilPluginNodeTest extends ilWorkflowEngineBaseTest
         $this->assertTrue($actual);
     }
 
-    public function testDeactivate() : void
+    public function testDeactivate(): void
     {
         // Arrange
         $node = new ilPluginNode($this->workflow);

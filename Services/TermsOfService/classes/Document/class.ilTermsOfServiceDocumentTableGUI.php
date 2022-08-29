@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -25,29 +27,20 @@ use ILIAS\UI\Renderer;
  */
 class ilTermsOfServiceDocumentTableGUI extends ilTermsOfServiceTableGUI
 {
-    protected Factory $uiFactory;
-    protected Renderer $uiRenderer;
-    protected bool $isEditable = false;
     protected int $factor = 10;
     protected int $i = 1;
     protected int $numRenderedCriteria = 0;
-    protected ilTermsOfServiceCriterionTypeFactoryInterface $criterionTypeFactory;
     /** @var ILIAS\UI\Component\Component[] */
     protected array $uiComponents = [];
 
     public function __construct(
         ilTermsOfServiceControllerEnabled $a_parent_obj,
         string $command,
-        ilTermsOfServiceCriterionTypeFactoryInterface $criterionTypeFactory,
-        Factory $uiFactory,
-        Renderer $uiRenderer,
-        bool $isEditable = false
+        protected ilTermsOfServiceCriterionTypeFactoryInterface $criterionTypeFactory,
+        protected Factory $uiFactory,
+        protected Renderer $uiRenderer,
+        protected bool $isEditable = false
     ) {
-        $this->criterionTypeFactory = $criterionTypeFactory;
-        $this->uiFactory = $uiFactory;
-        $this->uiRenderer = $uiRenderer;
-        $this->isEditable = $isEditable;
-
         $this->setId('tos_documents');
         $this->setFormName('tos_documents');
 
@@ -71,7 +64,7 @@ class ilTermsOfServiceDocumentTableGUI extends ilTermsOfServiceTableGUI
         }
     }
 
-    protected function getColumnDefinition() : array
+    protected function getColumnDefinition(): array
     {
         $i = 0;
 
@@ -145,7 +138,7 @@ class ilTermsOfServiceDocumentTableGUI extends ilTermsOfServiceTableGUI
         return $columns;
     }
 
-    protected function preProcessData(array &$data) : void
+    protected function preProcessData(array &$data): void
     {
         foreach ($data['items'] as $key => $document) {
             /** @var ilTermsOfServiceDocument $document */
@@ -162,7 +155,7 @@ class ilTermsOfServiceDocumentTableGUI extends ilTermsOfServiceTableGUI
         }
     }
 
-    protected function formatCellValue(string $column, array $row) : string
+    protected function formatCellValue(string $column, array $row): string
     {
         if (in_array($column, ['creation_ts', 'modification_ts'])) {
             return ilDatePresentation::formatDate(new ilDateTime($row[$column], IL_CAL_UNIX));
@@ -181,7 +174,7 @@ class ilTermsOfServiceDocumentTableGUI extends ilTermsOfServiceTableGUI
         return parent::formatCellValue($column, $row);
     }
 
-    protected function formatActionsDropDown(string $column, array $row) : string
+    protected function formatActionsDropDown(string $column, array $row): string
     {
         if (!$this->isEditable) {
             return '';
@@ -228,7 +221,7 @@ class ilTermsOfServiceDocumentTableGUI extends ilTermsOfServiceTableGUI
         return $this->uiRenderer->render([$dropDown]);
     }
 
-    protected function formatCriterionAssignments(string $column, array $row) : string
+    protected function formatCriterionAssignments(string $column, array $row): string
     {
         $items = [];
 
@@ -237,8 +230,6 @@ class ilTermsOfServiceDocumentTableGUI extends ilTermsOfServiceTableGUI
         }
 
         foreach ($row['criteriaAssignments'] as $criterion) {
-            /** @var ilTermsOfServiceDocumentCriterionAssignment $criterion */
-
             $this->ctrl->setParameter($this->getParentObject(), 'tos_id', $row['id']);
             $this->ctrl->setParameter($this->getParentObject(), 'crit_id', $criterion->getId());
 
@@ -299,7 +290,7 @@ class ilTermsOfServiceDocumentTableGUI extends ilTermsOfServiceTableGUI
         ]);
     }
 
-    protected function formatTitle(string $column, array $row) : string
+    protected function formatTitle(string $column, array $row): string
     {
         $modal = $this->uiFactory
             ->modal()
@@ -313,7 +304,7 @@ class ilTermsOfServiceDocumentTableGUI extends ilTermsOfServiceTableGUI
         return $this->uiRenderer->render([$titleLink, $modal]);
     }
 
-    protected function formatSorting(array $row) : string
+    protected function formatSorting(array $row): string
     {
         $value = ($this->i++) * $this->factor;
         if (!$this->isEditable) {
@@ -328,7 +319,7 @@ class ilTermsOfServiceDocumentTableGUI extends ilTermsOfServiceTableGUI
         return $sortingField->render();
     }
 
-    public function getHTML() : string
+    public function getHTML(): string
     {
         return parent::getHTML() . $this->uiRenderer->render($this->uiComponents);
     }

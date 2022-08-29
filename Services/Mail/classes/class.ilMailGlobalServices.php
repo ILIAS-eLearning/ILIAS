@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -30,7 +32,7 @@ class ilMailGlobalServices
     public const CACHE_TYPE_NEW_MAILS = 1;
     protected static array $global_mail_services_cache = [];
 
-    public static function getMailObjectRefId() : int
+    public static function getMailObjectRefId(): int
     {
         global $DIC;
 
@@ -64,11 +66,9 @@ class ilMailGlobalServices
     }
 
     /**
-     * @param ilObjUser $user
-     * @param int $leftInterval
      * @return array{count: int, max_time: string}
      */
-    public static function getNewMailsData(ilObjUser $user, int $leftInterval = 0) : array
+    public static function getNewMailsData(ilObjUser $user, int $leftInterval = 0): array
     {
         global $DIC;
 

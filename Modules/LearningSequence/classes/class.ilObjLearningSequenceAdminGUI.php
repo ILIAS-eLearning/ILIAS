@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 use ILIAS\UI\Component\Input;
 use ILIAS\UI\Factory;
 use ILIAS\UI\Renderer;
@@ -27,10 +29,10 @@ use ILIAS\UI\Renderer;
  */
 class ilObjLearningSequenceAdminGUI extends ilObjectGUI
 {
-    const CMD_VIEW = 'view';
-    const CMD_EDIT = 'edit';
-    const CMD_SAVE = 'save';
-    const F_POLL_INTERVAL = 'polling';
+    public const CMD_VIEW = 'view';
+    public const CMD_EDIT = 'edit';
+    public const CMD_SAVE = 'save';
+    public const F_POLL_INTERVAL = 'polling';
 
     protected Factory $ui_factory;
     protected Renderer $ui_renderer;
@@ -53,7 +55,7 @@ class ilObjLearningSequenceAdminGUI extends ilObjectGUI
         $this->request = $DIC->http()->request();
     }
 
-    public function getAdminTabs() : void
+    public function getAdminTabs(): void
     {
         $this->tabs_gui->addTarget('settings', $this->ctrl->getLinkTargetByClass(self::class, self::CMD_EDIT));
         if ($this->rbac_system->checkAccess('edit_permission', $this->object->getRefId())) {
@@ -61,7 +63,7 @@ class ilObjLearningSequenceAdminGUI extends ilObjectGUI
         }
     }
 
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         $this->checkPermission('read');
         $next_class = $this->ctrl->getNextClass($this);
@@ -90,7 +92,7 @@ class ilObjLearningSequenceAdminGUI extends ilObjectGUI
         }
     }
 
-    protected function getForm(array $values = []) : Input\Container\Form\Form
+    protected function getForm(array $values = []): Input\Container\Form\Form
     {
         $target = $this->ctrl->getLinkTargetByClass(self::class, self::CMD_SAVE);
         $poll_interval = $this->ui_factory->input()->field()->numeric(
@@ -125,14 +127,14 @@ class ilObjLearningSequenceAdminGUI extends ilObjectGUI
             );
     }
 
-    protected function show(Input\Container\Form\Form $form) : void
+    protected function show(Input\Container\Form\Form $form): void
     {
         $this->tpl->setContent(
             $this->ui_renderer->render($form)
         );
     }
 
-    protected function edit() : void
+    protected function edit(): void
     {
         $values = [
             self::F_POLL_INTERVAL => $this->settings_db->getSettings()->getPollingIntervalSeconds()
@@ -141,7 +143,7 @@ class ilObjLearningSequenceAdminGUI extends ilObjectGUI
         $this->show($form);
     }
 
-    protected function save() : void
+    protected function save(): void
     {
         $form = $this->getForm()->withRequest($this->request);
         $data = $form->getData();

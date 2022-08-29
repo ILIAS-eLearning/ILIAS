@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\UI\Component\Listing\Workflow;
 
 use ILIAS\UI\Component\Component;
@@ -28,24 +30,24 @@ interface Workflow extends Component
     /**
      * Get the title of this workflow.
      */
-    public function getTitle() : string;
+    public function getTitle(): string;
 
     /**
      * The step at this position is set to active.
      *
      * @throws \InvalidArgumentException 	if $active exceeds the amount of steps
      */
-    public function withActive(int $active) : Workflow;
+    public function withActive(int $active): Workflow;
 
     /**
      * This is the index of the active step.
      */
-    public function getActive() : int;
+    public function getActive(): int;
 
     /**
      * Get the steps of this workflow.
      *
      * @return Step[]
      */
-    public function getSteps() : array;
+    public function getSteps(): array;
 }

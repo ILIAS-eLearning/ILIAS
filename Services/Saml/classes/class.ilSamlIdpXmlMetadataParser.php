@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -21,23 +23,19 @@ use ILIAS\Data\Result;
 
 final class ilSamlIdpXmlMetadataParser
 {
-    private DataTypeFactory $dataFactory;
-    private ilSamlIdpXmlMetadataErrorFormatter $errorFormatter;
     private Result $result;
     private bool $xmlErrorState = false;
     /** @var array<int, LibXMLError[]> */
     private array $errorStack = [];
 
-    public function __construct(DataTypeFactory $dataFactory, ilSamlIdpXmlMetadataErrorFormatter $errorFormatter)
+    public function __construct(private DataTypeFactory $dataFactory, private ilSamlIdpXmlMetadataErrorFormatter $errorFormatter)
     {
-        $this->dataFactory = $dataFactory;
-        $this->errorFormatter = $errorFormatter;
         $this->result = new Result\Error('No metadata parsed, yet');
     }
 
-    private function beginLogging() : void
+    private function beginLogging(): void
     {
-        if (0 === count($this->errorStack)) {
+        if ([] === $this->errorStack) {
             $this->xmlErrorState = libxml_use_internal_errors(true);
             libxml_clear_errors();
         } else {
@@ -47,7 +45,7 @@ final class ilSamlIdpXmlMetadataParser
         $this->errorStack[] = [];
     }
 
-    private function addErrors() : void
+    private function addErrors(): void
     {
         $currentErrors = libxml_get_errors();
         libxml_clear_errors();
@@ -59,20 +57,20 @@ final class ilSamlIdpXmlMetadataParser
     /**
      * @return LibXMLError[] An array with the LibXMLErrors which has occurred since beginLogging() was called.
      */
-    private function endLogging() : array
+    private function endLogging(): array
     {
         $this->addErrors();
 
         $errors = array_pop($this->errorStack);
 
-        if (0 === count($this->errorStack)) {
+        if ([] === $this->errorStack) {
             libxml_use_internal_errors($this->xmlErrorState);
         }
 
         return $errors;
     }
 
-    public function parse(string $xmlString) : void
+    public function parse(string $xmlString): void
     {
         try {
             $this->beginLogging();
@@ -108,12 +106,12 @@ final class ilSamlIdpXmlMetadataParser
             $errors[] = $error;
 
             $this->result = $this->dataFactory->error($this->errorFormatter->formatErrors(...$errors));
-        } catch (Exception $e) {
+        } catch (Exception) {
             $this->result = $this->dataFactory->error($this->errorFormatter->formatErrors(...$this->endLogging()));
         }
     }
 
-    public function result() : Result
+    public function result(): Result
     {
         return $this->result;
     }

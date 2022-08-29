@@ -36,24 +36,24 @@ abstract class ilPageComponentPlugin extends ilPlugin
      * @param string $a_type Parent type (e.g. "cat", "lm", "glo", "wiki", ...)
      * @return bool true/false if the resource type allows
      */
-    abstract public function isValidParentType(string $a_type) : bool;
-    
-    public function getJavascriptFiles(string $a_mode) : array
+    abstract public function isValidParentType(string $a_type): bool;
+
+    public function getJavascriptFiles(string $a_mode): array
     {
         return array();
     }
-    
-    public function getCssFiles(string $a_mode) : array
+
+    public function getCssFiles(string $a_mode): array
     {
         return array();
     }
-    
-    final public function setMode(string $a_mode) : void
+
+    final public function setMode(string $a_mode): void
     {
         $this->mode = $a_mode;
     }
 
-    final public function getMode() : string
+    final public function getMode(): string
     {
         return $this->mode;
     }
@@ -61,7 +61,7 @@ abstract class ilPageComponentPlugin extends ilPlugin
     /**
      * Get UI plugin class
      */
-    public function getUIClassInstance() : ilPageComponentPluginGUI
+    public function getUIClassInstance(): ilPageComponentPluginGUI
     {
         $class = "il" . $this->getPluginName() . "PluginGUI";
         $obj = new $class();
@@ -74,7 +74,7 @@ abstract class ilPageComponentPlugin extends ilPlugin
      * This must be public to be called by ilPCPlugged
      * But the page object should not directly be accessible by plugins
      */
-    public function setPageObj(ilPageObject $a_page_obj) : void
+    public function setPageObj(ilPageObject $a_page_obj): void
     {
         $this->page_obj = $a_page_obj;
     }
@@ -82,7 +82,7 @@ abstract class ilPageComponentPlugin extends ilPlugin
     /**
      * Get the id of the page
      */
-    public function getPageId() : int
+    public function getPageId(): int
     {
         if (isset($this->page_obj)) {
             return $this->page_obj->getId();
@@ -93,7 +93,7 @@ abstract class ilPageComponentPlugin extends ilPlugin
     /**
      * Get the object id of the parent object
      */
-    public function getParentId() : int
+    public function getParentId(): int
     {
         if (isset($this->page_obj)) {
             return $this->page_obj->getParentId();
@@ -104,7 +104,7 @@ abstract class ilPageComponentPlugin extends ilPlugin
     /**
      * Get the object type og the parent object
      */
-    public function getParentType() : string
+    public function getParentType(): string
     {
         if (isset($this->page_obj)) {
             return $this->page_obj->getParentType();
@@ -120,7 +120,7 @@ abstract class ilPageComponentPlugin extends ilPlugin
     public function onClone(
         array &$a_properties,
         string $a_plugin_version
-    ) : void {
+    ): void {
     }
 
     /**
@@ -136,7 +136,7 @@ abstract class ilPageComponentPlugin extends ilPlugin
         array $mapping,
         int $source_ref_id,
         string $a_plugin_version
-    ) : void {
+    ): void {
     }
 
     /**
@@ -147,6 +147,6 @@ abstract class ilPageComponentPlugin extends ilPlugin
     public function onDelete(
         array $a_properties,
         string $a_plugin_version
-    ) : void {
+    ): void {
     }
 }

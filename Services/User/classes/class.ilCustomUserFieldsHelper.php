@@ -28,17 +28,17 @@ class ilCustomUserFieldsHelper
     private ilLanguage $lng;
     protected ilComponentRepository $component_repository;
     protected ilComponentFactory $component_factory;
-    
+
     public function __construct()
     {
         global $DIC;
-        
+
         $this->lng = $DIC->language();
         $this->component_repository = $DIC['component.repository'];
         $this->component_factory = $DIC['component.factory'];
     }
-    
-    public static function getInstance() : ilCustomUserFieldsHelper
+
+    public static function getInstance(): ilCustomUserFieldsHelper
     {
         if (self::$instance) {
             return self::$instance;
@@ -49,7 +49,7 @@ class ilCustomUserFieldsHelper
     /**
      * @return array<int,string>
      */
-    public function getUDFTypes() : array
+    public function getUDFTypes(): array
     {
         $types = array(
             UDF_TYPE_TEXT => $this->lng->txt('udf_type_text'),
@@ -61,11 +61,11 @@ class ilCustomUserFieldsHelper
         }
         return $types;
     }
-    
+
     /**
      * Get plugin for udf type
      */
-    public function getPluginForType(string $a_type) : ?ilUDFDefinitionPlugin
+    public function getPluginForType(string $a_type): ?ilUDFDefinitionPlugin
     {
         foreach ($this->getActivePlugins() as $plugin) {
             if ($plugin->getDefinitionType() == $a_type) {
@@ -74,16 +74,16 @@ class ilCustomUserFieldsHelper
         }
         return null;
     }
-    
+
     /**
      * Get plugins for fields
      * @return ilUDFDefinitionPlugin[]
      */
-    public function getActivePlugins() : array
+    public function getActivePlugins(): array
     {
         return iterator_to_array($this->component_factory->getActivePluginsInSlot(ilUDFDefinitionPlugin::UDF_SLOT_ID));
     }
-    
+
     /**
      * Get form property for definition
      */
@@ -91,9 +91,9 @@ class ilCustomUserFieldsHelper
         array $definition,
         bool $a_changeable = true,
         string $a_default_value = null
-    ) : ?ilFormPropertyGUI {
+    ): ?ilFormPropertyGUI {
         $fprop = null;
-        
+
         switch ($definition['field_type']) {
             case UDF_TYPE_TEXT:
                 $fprop = new ilTextInputGUI(
@@ -106,7 +106,7 @@ class ilCustomUserFieldsHelper
                 $fprop->setMaxLength(255);
                 $fprop->setRequired((bool) $definition['required']);
                 break;
-            
+
             case UDF_TYPE_WYSIWYG:
                 $fprop = new ilTextAreaInputGUI(
                     $definition['field_name'],
@@ -117,21 +117,21 @@ class ilCustomUserFieldsHelper
                 $fprop->setUseRte(true);
                 $fprop->setRequired((bool) $definition['required']);
                 break;
-            
+
             case UDF_TYPE_SELECT:
                 $fprop = new ilSelectInputGUI(
                     $definition['field_name'],
                     'udf_' . $definition['field_id']
                 );
                 $fprop->setDisabled(!$a_changeable);
-                
+
                 $user_defined_fields = ilUserDefinedFields::_getInstance();
-                
+
                 $fprop->setOptions($user_defined_fields->fieldValuesToSelectArray($definition['field_values']));
                 $fprop->setValue($a_default_value);
                 $fprop->setRequired((bool) $definition['required']);
                 break;
-            
+
             default:
                 // should be a plugin
                 foreach ($this->getActivePlugins() as $plugin) {
@@ -142,7 +142,7 @@ class ilCustomUserFieldsHelper
                 }
                 break;
         }
-        
+
         return $fprop;
     }
 }

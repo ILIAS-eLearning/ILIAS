@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -43,42 +45,42 @@ abstract class ilDidacticTemplateAction
         $this->read();
     }
 
-    public function getLogger() : ilLogger
+    public function getLogger(): ilLogger
     {
         return $this->logger;
     }
 
-    public function getActionId() : int
+    public function getActionId(): int
     {
         return $this->action_id;
     }
 
-    public function setActionId(int $a_action_id) : void
+    public function setActionId(int $a_action_id): void
     {
         $this->action_id = $a_action_id;
     }
 
-    public function setType(int $a_type_id) : void
+    public function setType(int $a_type_id): void
     {
         $this->type = $a_type_id;
     }
 
-    public function setTemplateId(int $a_id) : void
+    public function setTemplateId(int $a_id): void
     {
         $this->tpl_id = $a_id;
     }
 
-    public function getTemplateId() : int
+    public function getTemplateId(): int
     {
         return $this->tpl_id;
     }
 
-    public function setRefId(int $a_ref_id) : void
+    public function setRefId(int $a_ref_id): void
     {
         $this->ref_id = $a_ref_id;
     }
 
-    public function getRefId() : int
+    public function getRefId(): int
     {
         return $this->ref_id;
     }
@@ -88,7 +90,7 @@ abstract class ilDidacticTemplateAction
      * Overwrite for filling additional db fields
      * @return int
      */
-    public function save() : int
+    public function save(): int
     {
         if ($this->getActionId()) {
             return 0;
@@ -110,14 +112,14 @@ abstract class ilDidacticTemplateAction
      * Delete didactic template action
      * Overwrite for filling additional db fields
      */
-    public function delete() : void
+    public function delete(): void
     {
         $query = 'DELETE FROM didactic_tpl_a ' .
             'WHERE id = ' . $this->db->quote($this->getActionId(), 'integer');
         $this->db->manipulate($query);
     }
 
-    public function read() : void
+    public function read(): void
     {
         $query = 'SELECT * FROM didactic_tpl_a ' .
             'WHERE id = ' . $this->db->quote($this->getActionId(), 'integer');
@@ -131,34 +133,34 @@ abstract class ilDidacticTemplateAction
      * Get type of template
      * @return int $type
      */
-    abstract public function getType() : int;
+    abstract public function getType(): int;
 
     /**
      * Apply action
      * @return bool
      */
-    abstract public function apply() : bool;
+    abstract public function apply(): bool;
 
     /**
      * Implement everthing that is necessary to revert a didactic template
      * return bool
      */
-    abstract public function revert() : bool;
+    abstract public function revert(): bool;
 
     public function __clone()
     {
         $this->setActionId(0);
     }
 
-    abstract public function toXml(ilXmlWriter $writer) : void;
+    abstract public function toXml(ilXmlWriter $writer): void;
 
-    protected function initSourceObject() : ilObject
+    protected function initSourceObject(): ilObject
     {
         $s = ilObjectFactory::getInstanceByRefId($this->getRefId(), false);
         return $s;
     }
 
-    protected function filterRoles(ilObject $source) : array
+    protected function filterRoles(ilObject $source): array
     {
         $patterns = ilDidacticTemplateFilterPatternFactory::lookupPatternsByParentId(
             $this->getActionId(),
@@ -174,7 +176,7 @@ abstract class ilDidacticTemplateAction
                     if (
                         $role['assign'] === 'y' &&
                         (int) $role['parent'] === $source->getRefId()
-                        
+
                     ) {
                         $this->logger->debug('Excluding local role: ' . $role['title']);
                         break;

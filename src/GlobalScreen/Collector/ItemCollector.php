@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -26,22 +28,22 @@ use Generator;
  */
 interface ItemCollector extends Collector
 {
-    public function collectStructure() : void;
+    public function collectStructure(): void;
 
-    public function filterItemsByVisibilty(bool $async_only = false) : void;
+    public function filterItemsByVisibilty(bool $async_only = false): void;
 
-    public function prepareItemsForUIRepresentation() : void;
+    public function prepareItemsForUIRepresentation(): void;
 
     /**
      * @return Generator
      */
-    public function getItemsForUIRepresentation() : Generator;
+    public function getItemsForUIRepresentation(): Generator;
 
     /**
      * @return bool
      * @throws LogicException if collectOnce() has not been run first
      */
-    public function hasItems() : bool;
+    public function hasItems(): bool;
 
-    public function hasVisibleItems() : bool;
+    public function hasVisibleItems(): bool;
 }

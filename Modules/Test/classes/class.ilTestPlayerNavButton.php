@@ -1,4 +1,5 @@
 <?php
+
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 require_once 'Services/UIComponent/Button/classes/class.ilLinkButton.php';
@@ -30,7 +31,7 @@ class ilTestPlayerNavButton extends ilLinkButton
         $this->rightGlyph = $glyph;
     }
 
-    protected function renderCaption() : string
+    protected function renderCaption(): string
     {
         $caption = '';
 
@@ -51,7 +52,7 @@ class ilTestPlayerNavButton extends ilLinkButton
     /**
      * @return string
      */
-    public function getNextCommand() : string
+    public function getNextCommand(): string
     {
         return $this->nextCommand;
     }
@@ -67,7 +68,7 @@ class ilTestPlayerNavButton extends ilLinkButton
     /**
      * @return string
      */
-    public function render() : string
+    public function render(): string
     {
         $this->prepareRender();
 
@@ -75,7 +76,7 @@ class ilTestPlayerNavButton extends ilLinkButton
             'href' => $this->getUrl() ? $this->getUrl() : "#",
             'target' => $this->getTarget()
         );
-        
+
         if (strlen($this->getNextCommand())) {
             $attr['data-nextcmd'] = $this->getNextCommand();
         }
@@ -83,7 +84,7 @@ class ilTestPlayerNavButton extends ilLinkButton
         return '<a' . $this->renderAttributes($attr) . '>' . $this->renderCaption() . '</a>';
     }
 
-    public static function getInstance() : self
+    public static function getInstance(): self
     {
         return new self(self::TYPE_LINK);
     }

@@ -14,7 +14,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\Setup\CLI;
 
 use ILIAS\Setup\Config;
@@ -33,7 +33,7 @@ trait HasConfigReader
      */
     protected ConfigReader $config_reader;
 
-    protected function readAgentConfig(Agent $agent, InputInterface $input) : ?Config
+    protected function readAgentConfig(Agent $agent, InputInterface $input): ?Config
     {
         if (!($this->config_reader instanceof ConfigReader)) {
             throw new \LogicException("\$this->config_reader not properly initialized.");
@@ -68,7 +68,7 @@ trait HasConfigReader
         Agent $agent,
         Config $config,
         Environment $environment
-    ) : Environment {
+    ): Environment {
         if ($agent instanceof AgentCollection) {
             foreach ($config->getKeys() as $k) {
                 $environment = $environment->withConfigFor($k, $config->getConfig($k));
@@ -78,7 +78,7 @@ trait HasConfigReader
         return $environment;
     }
 
-    protected function isConfigInRoot(string $config_file) : bool
+    protected function isConfigInRoot(string $config_file): bool
     {
         $webroot = realpath(__DIR__ . "/../../../");
         $config_file = realpath($config_file);

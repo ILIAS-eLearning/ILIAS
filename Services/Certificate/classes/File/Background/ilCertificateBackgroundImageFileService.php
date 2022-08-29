@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -42,7 +44,7 @@ class ilCertificateBackgroundImageFileService
         $this->webDirectory = $webDirectory;
     }
 
-    public function hasBackgroundImage(ilCertificateTemplate $template) : bool
+    public function hasBackgroundImage(ilCertificateTemplate $template): bool
     {
         $backgroundImagePath = $template->getBackgroundImagePath();
         if ($backgroundImagePath === '') {
@@ -56,7 +58,7 @@ class ilCertificateBackgroundImageFileService
         return false;
     }
 
-    public function hasBackgroundImageThumbnail(ilCertificateTemplate $template) : bool
+    public function hasBackgroundImageThumbnail(ilCertificateTemplate $template): bool
     {
         $backgroundImagePath = $template->getThumbnailImagePath();
         if ($backgroundImagePath === '') {
@@ -70,12 +72,12 @@ class ilCertificateBackgroundImageFileService
         return false;
     }
 
-    public function getBackgroundImageThumbPath() : string
+    public function getBackgroundImageThumbPath(): string
     {
         return $this->webDirectory . $this->certificatePath . self::BACKGROUND_IMAGE_NAME . self::BACKGROUND_THUMBNAIL_FILE_ENDING;
     }
 
-    public function getBackgroundImageDirectory(string $backgroundImagePath = '') : string
+    public function getBackgroundImageDirectory(string $backgroundImagePath = ''): string
     {
         return str_replace(
             [$this->webDirectory, '//'],
@@ -84,7 +86,7 @@ class ilCertificateBackgroundImageFileService
         );
     }
 
-    public function getBackgroundImageTempfilePath() : string
+    public function getBackgroundImageTempfilePath(): string
     {
         return $this->webDirectory . $this->certificatePath . self::BACKGROUND_TEMPORARY_UPLOAD_FILE_NAME;
     }

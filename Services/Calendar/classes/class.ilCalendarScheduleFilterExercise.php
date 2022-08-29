@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
@@ -20,7 +22,7 @@ class ilCalendarScheduleFilterExercise implements ilCalendarScheduleFilter
         $this->logger = $DIC->logger()->exc();
     }
 
-    public function getLogger() : ilLogger
+    public function getLogger(): ilLogger
     {
         return $this->logger;
     }
@@ -28,7 +30,7 @@ class ilCalendarScheduleFilterExercise implements ilCalendarScheduleFilter
     /**
      * @inheritDoc
      */
-    public function filterCategories(array $a_cats) : array
+    public function filterCategories(array $a_cats): array
     {
         return $a_cats;
     }
@@ -36,7 +38,7 @@ class ilCalendarScheduleFilterExercise implements ilCalendarScheduleFilter
     /**
      * @inheritDoc
      */
-    public function modifyEvent(ilCalendarEntry $a_event) : ?ilCalendarEntry
+    public function modifyEvent(ilCalendarEntry $a_event): ?ilCalendarEntry
     {
         $cal_cat = $this->isExerciseCategory(ilCalendarCategoryAssignments::_lookupCategory($a_event->getEntryId()));
         if ($cal_cat) {
@@ -69,7 +71,7 @@ class ilCalendarScheduleFilterExercise implements ilCalendarScheduleFilter
     /**
      * @inheritDoc
      */
-    public function addCustomEvents(ilDate $start, ilDate $end, array $a_categories) : array
+    public function addCustomEvents(ilDate $start, ilDate $end, array $a_categories): array
     {
         $all_events = array();
 
@@ -134,7 +136,7 @@ class ilCalendarScheduleFilterExercise implements ilCalendarScheduleFilter
     /**
      * Check valid exercise calendar category
      */
-    protected function isExerciseCategory($a_cat_id) : ?ilCalendarCategory
+    protected function isExerciseCategory($a_cat_id): ?ilCalendarCategory
     {
         $category = ilCalendarCategory::getInstanceByCategoryId($a_cat_id);
 

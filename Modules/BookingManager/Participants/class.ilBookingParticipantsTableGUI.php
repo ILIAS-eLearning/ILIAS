@@ -28,7 +28,7 @@ class ilBookingParticipantsTableGUI extends ilTable2GUI
     protected int $pool_id;
     protected array $filter;
     protected array $objects;
-    
+
     public function __construct(
         ilBookingParticipantGUI $a_parent_obj,
         string $a_parent_cmd,
@@ -69,7 +69,7 @@ class ilBookingParticipantsTableGUI extends ilTable2GUI
         $this->getItems($this->getCurrentFilter());
     }
 
-    public function initFilter() : void
+    public function initFilter(): void
     {
         //object
         $this->objects = array();
@@ -104,7 +104,7 @@ class ilBookingParticipantsTableGUI extends ilTable2GUI
     /**
      * Get current filter settings
      */
-    public function getCurrentFilter() : array
+    public function getCurrentFilter(): array
     {
         $filter = array();
         if ($this->filter["object"]) {
@@ -123,7 +123,7 @@ class ilBookingParticipantsTableGUI extends ilTable2GUI
     /**
      * Gather data and build rows
      */
-    public function getItems(array $filter) : void
+    public function getItems(array $filter): void
     {
         $filter_object = (int) ($filter["object"] ?? 0);
         if ($filter_object > 0) {
@@ -141,7 +141,7 @@ class ilBookingParticipantsTableGUI extends ilTable2GUI
         $this->setData($data);
     }
 
-    protected function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set): void
     {
         $ctrl = $this->ctrl;
         $lng = $this->lng;

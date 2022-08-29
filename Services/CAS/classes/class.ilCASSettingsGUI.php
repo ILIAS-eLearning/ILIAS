@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /******************************************************************************
  *
@@ -33,7 +35,7 @@ class ilCASSettingsGUI
     private ilRbacSystem $rbacSystem;
     private ilRbacReview $rbacReview;
     private ilErrorHandling $ilErr;
-    
+
     public function __construct(int $a_auth_ref_id)
     {
         global $DIC;
@@ -52,12 +54,12 @@ class ilCASSettingsGUI
         $this->settings = ilCASSettings::getInstance();
     }
 
-    protected function getSettings() : ilCASSettings
+    protected function getSettings(): ilCASSettings
     {
         return $this->settings;
     }
 
-    public function executeCommand() : bool
+    public function executeCommand(): bool
     {
         $next_class = $this->ctrl->getNextClass($this);
         $cmd = $this->ctrl->getCmd("settings");
@@ -77,7 +79,7 @@ class ilCASSettingsGUI
         return true;
     }
 
-    protected function initFormSettings() : ilPropertyFormGUI
+    protected function initFormSettings(): ilPropertyFormGUI
     {
         $this->lng->loadLanguageModule('auth');
 
@@ -205,13 +207,13 @@ class ilCASSettingsGUI
         return $form;
     }
 
-    public function settings() : void
+    public function settings(): void
     {
         $form = $this->initFormSettings();
         $this->tpl->setContent($form->getHTML());
     }
 
-    public function save() : void
+    public function save(): void
     {
         $form = $this->initFormSettings();
         if ($form->checkInput()) {
@@ -252,7 +254,7 @@ class ilCASSettingsGUI
         $this->tpl->setContent($form->getHTML());
     }
 
-    private function prepareRoleSelection() : array
+    private function prepareRoleSelection(): array
     {
         $global_roles = ilUtil::_sortIds(
             $this->rbacReview->getGlobalRoles(),

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -47,22 +49,22 @@ class ilImageFileInputGUI extends ilFileInputGUI
         $this->tpl = $DIC->ui()->mainTemplate();
     }
 
-    public function setAllowDeletion(bool $a_val) : void
+    public function setAllowDeletion(bool $a_val): void
     {
         $this->allow_deletion = $a_val;
     }
-    
-    public function getALlowDeletion() : bool
+
+    public function getALlowDeletion(): bool
     {
         return $this->allow_deletion;
     }
 
-    public function setAllowCapture(bool $a_val) : void
+    public function setAllowCapture(bool $a_val): void
     {
         $this->allow_capture = $a_val;
     }
 
-    public function getAllowCapture() : bool
+    public function getAllowCapture(): bool
     {
         return $this->allow_capture;
     }
@@ -73,40 +75,40 @@ class ilImageFileInputGUI extends ilFileInputGUI
      * @param bool $a_cache If false, the image will be forced to reload in the browser
      * by adding an URL parameter with the actual timestamp
      */
-    public function setUseCache(bool $a_cache) : void
+    public function setUseCache(bool $a_cache): void
     {
         $this->cache = $a_cache;
     }
-    
-    public function getUseCache() : bool
+
+    public function getUseCache(): bool
     {
         return $this->cache;
     }
 
-    public function setImage(string $a_image) : void
+    public function setImage(string $a_image): void
     {
         $this->image = $a_image;
     }
 
-    public function getImage() : string
+    public function getImage(): string
     {
         return $this->image;
     }
 
-    public function setAlt(string $a_alt) : void
+    public function setAlt(string $a_alt): void
     {
         $this->alt = $a_alt;
     }
 
-    public function getAlt() : string
+    public function getAlt(): string
     {
         return $this->alt;
     }
 
-    public function insert(ilTemplate $a_tpl) : void
+    public function insert(ilTemplate $a_tpl): void
     {
         $lng = $this->lng;
-        
+
         $quota_exceeded = $quota_legend = false;
         $i_tpl = new ilTemplate("tpl.prop_image_file.html", true, true, "Services/Form");
 
@@ -130,7 +132,7 @@ class ilImageFileInputGUI extends ilFileInputGUI
                 );
                 $i_tpl->parseCurrentBlock();
             }
-            
+
             if (strlen($this->getValue())) {
                 $i_tpl->setCurrentBlock("has_value");
                 $i_tpl->setVariable("TEXT_IMAGE_NAME", $this->getValue());
@@ -151,7 +153,7 @@ class ilImageFileInputGUI extends ilFileInputGUI
             $i_tpl->setVariable("ALT_IMAGE", $this->getAlt());
             $i_tpl->parseCurrentBlock();
         }
-        
+
         $pending = $this->getPending();
         if ($pending) {
             $i_tpl->setCurrentBlock("pending");
@@ -159,37 +161,37 @@ class ilImageFileInputGUI extends ilFileInputGUI
                 ": " . htmlentities($pending));
             $i_tpl->parseCurrentBlock();
         }
-        
+
         $i_tpl->setVariable("POST_VAR", $this->getPostVar());
         $i_tpl->setVariable("ID", $this->getFieldId());
-        
-        
+
+
         /* experimental: bootstrap'ed file upload */
         $i_tpl->setVariable("TXT_BROWSE", $lng->txt("select_file"));
-        
-        
+
+
         if (!$quota_exceeded) {
             $i_tpl->setVariable("TXT_MAX_SIZE", $lng->txt("file_notice") . " " .
                 $this->getMaxFileSizeString() . $quota_legend);
-            
+
             $this->outputSuffixes($i_tpl, "allowed_image_suffixes");
         } else {
             $i_tpl->setVariable("TXT_MAX_SIZE", $quota_exceeded);
         }
-            
+
         if ($this->getDisabled() || $quota_exceeded) {
             $i_tpl->setVariable(
                 "DISABLED",
                 " disabled=\"disabled\""
             );
         }
-            
+
         $a_tpl->setCurrentBlock("prop_generic");
         $a_tpl->setVariable("PROP_GENERIC", $i_tpl->get());
         $a_tpl->parseCurrentBlock();
     }
 
-    public function getDeletionFlag() : bool
+    public function getDeletionFlag(): bool
     {
         if ($this->str($this->getPostVar() . "_delete") != "") {
             return true;

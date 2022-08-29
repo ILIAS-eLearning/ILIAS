@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -24,43 +26,28 @@ use ILIAS\Data\Factory;
  */
 class ilTermsOfServiceCriterionFormGUI extends ilPropertyFormGUI
 {
-    protected ilTermsOfServiceDocument $document;
-    protected ilTermsOfServiceDocumentCriterionAssignment $assignment;
-    protected string $formAction;
-    protected ilObjUser $actor;
-    protected string $saveCommand;
-    protected string $cancelCommand;
     protected string $translatedError = '';
-    protected ilTermsOfServiceCriterionTypeFactoryInterface $criterionTypeFactory;
 
     public function __construct(
-        ilTermsOfServiceDocument $document,
-        ilTermsOfServiceDocumentCriterionAssignment $assignment,
-        ilTermsOfServiceCriterionTypeFactoryInterface $criterionTypeFactory,
-        ilObjUser $actor,
-        string $formAction = '',
-        string $saveCommand = 'saveDocument',
-        string $cancelCommand = 'showDocuments'
+        protected ilTermsOfServiceDocument $document,
+        protected ilTermsOfServiceDocumentCriterionAssignment $assignment,
+        protected ilTermsOfServiceCriterionTypeFactoryInterface $criterionTypeFactory,
+        protected ilObjUser $actor,
+        protected string $formAction = '',
+        protected string $saveCommand = 'saveDocument',
+        protected string $cancelCommand = 'showDocuments'
     ) {
-        $this->document = $document;
-        $this->assignment = $assignment;
-        $this->criterionTypeFactory = $criterionTypeFactory;
-        $this->actor = $actor;
-        $this->formAction = $formAction;
-        $this->saveCommand = $saveCommand;
-        $this->cancelCommand = $cancelCommand;
-
         parent::__construct();
 
         $this->initForm();
     }
 
-    public function setCheckInputCalled(bool $status) : void
+    public function setCheckInputCalled(bool $status): void
     {
         $this->check_input_called = $status;
     }
 
-    protected function initForm() : void
+    protected function initForm(): void
     {
         if ($this->assignment->getId() > 0) {
             $this->setTitle($this->lng->txt('tos_form_edit_criterion_head'));
@@ -102,17 +89,17 @@ class ilTermsOfServiceCriterionFormGUI extends ilPropertyFormGUI
         $this->addCommandButton($this->cancelCommand, $this->lng->txt('cancel'));
     }
 
-    public function hasTranslatedError() : bool
+    public function hasTranslatedError(): bool
     {
         return $this->translatedError !== '';
     }
 
-    public function getTranslatedError() : string
+    public function getTranslatedError(): string
     {
         return $this->translatedError;
     }
 
-    public function saveObject() : bool
+    public function saveObject(): bool
     {
         if (!$this->fillObject()) {
             $this->setValuesByPost();
@@ -145,7 +132,7 @@ class ilTermsOfServiceCriterionFormGUI extends ilPropertyFormGUI
         return true;
     }
 
-    protected function fillObject() : bool
+    protected function fillObject(): bool
     {
         if (!$this->checkInput()) {
             return false;

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -32,7 +34,7 @@ class NewMethodTransformationTest extends TestCase
      * @throws \ilException
      * @throws \ReflectionException
      */
-    public function testNewObjectTransformation() : void
+    public function testNewObjectTransformation(): void
     {
         $transformation = new NewMethodTransformation(new NewMethodTransformationTestClass(), 'myMethod');
 
@@ -41,7 +43,7 @@ class NewMethodTransformationTest extends TestCase
         $this->assertEquals(['hello', 42], $result);
     }
 
-    public function testNewMethodTransformationThrowsTypeErrorOnInvalidConstructorArguments() : void
+    public function testNewMethodTransformationThrowsTypeErrorOnInvalidConstructorArguments(): void
     {
         $this->expectNotToPerformAssertions();
 
@@ -56,7 +58,7 @@ class NewMethodTransformationTest extends TestCase
         $this->fail();
     }
 
-    public function testClassDoesNotExistWillThrowException() : void
+    public function testClassDoesNotExistWillThrowException(): void
     {
         $this->expectNotToPerformAssertions();
 
@@ -69,7 +71,7 @@ class NewMethodTransformationTest extends TestCase
         $this->fail();
     }
 
-    public function testMethodDoesNotExistOnClassWillThrowException() : void
+    public function testMethodDoesNotExistOnClassWillThrowException(): void
     {
         $this->expectNotToPerformAssertions();
 
@@ -82,7 +84,7 @@ class NewMethodTransformationTest extends TestCase
         $this->fail();
     }
 
-    public function testPrivateMethodCanNotBeCalledInTransform() : void
+    public function testPrivateMethodCanNotBeCalledInTransform(): void
     {
         $this->expectNotToPerformAssertions();
 
@@ -97,7 +99,7 @@ class NewMethodTransformationTest extends TestCase
         $this->fail();
     }
 
-    public function testPrivateMethodCanNotBeCalledInApplyto() : void
+    public function testPrivateMethodCanNotBeCalledInApplyto(): void
     {
         $this->expectNotToPerformAssertions();
 
@@ -111,7 +113,7 @@ class NewMethodTransformationTest extends TestCase
         $this->fail();
     }
 
-    public function testMethodThrowsExceptionInTransform() : void
+    public function testMethodThrowsExceptionInTransform(): void
     {
         $this->expectNotToPerformAssertions();
 
@@ -126,7 +128,7 @@ class NewMethodTransformationTest extends TestCase
         $this->fail();
     }
 
-    public function testMethodThrowsExceptionInApplyTo() : void
+    public function testMethodThrowsExceptionInApplyTo(): void
     {
         $transformation = new NewMethodTransformation(new NewMethodTransformationTestClass(), 'methodThrowsException');
 
@@ -138,17 +140,17 @@ class NewMethodTransformationTest extends TestCase
 
 class NewMethodTransformationTestClass
 {
-    public function myMethod(string $string, int $integer) : array
+    public function myMethod(string $string, int $integer): array
     {
         return [$string, $integer];
     }
 
-    private function myPrivateMethod(string $string, int $integer) : array
+    private function myPrivateMethod(string $string, int $integer): array
     {
         return [$string, $integer];
     }
 
-    public function methodThrowsException(string $string, int $integer) : void
+    public function methodThrowsException(string $string, int $integer): void
     {
         throw new Exception('SomeException');
     }

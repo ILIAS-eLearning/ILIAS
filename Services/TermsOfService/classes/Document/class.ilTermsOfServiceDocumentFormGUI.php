@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -27,50 +29,31 @@ use ILIAS\FileUpload\Location;
  */
 class ilTermsOfServiceDocumentFormGUI extends ilPropertyFormGUI
 {
-    protected ilTermsOfServiceDocument $document;
-    protected ilObjUser $actor;
-    protected FileUpload $fileUpload;
-    protected Filesystem $tmpFileSystem;
-    protected string $formAction;
-    protected string $saveCommand;
-    protected string $cancelCommand;
-    protected bool $isEditable = false;
     protected string $translatedError = '';
     protected string $translatedInfo = '';
-    protected ilHtmlPurifierInterface $documentPurifier;
 
     public function __construct(
-        ilTermsOfServiceDocument $document,
-        ilHtmlPurifierInterface $documentPurifier,
-        ilObjUser $actor,
-        Filesystem $tmpFileSystem,
-        FileUpload $fileUpload,
-        string $formAction = '',
-        string $saveCommand = 'saveDocument',
-        string $cancelCommand = 'showDocuments',
-        bool $isEditable = false
+        protected ilTermsOfServiceDocument $document,
+        protected ilHtmlPurifierInterface $documentPurifier,
+        protected ilObjUser $actor,
+        protected Filesystem $tmpFileSystem,
+        protected FileUpload $fileUpload,
+        protected string $formAction = '',
+        protected string $saveCommand = 'saveDocument',
+        protected string $cancelCommand = 'showDocuments',
+        protected bool $isEditable = false
     ) {
-        $this->document = $document;
-        $this->documentPurifier = $documentPurifier;
-        $this->actor = $actor;
-        $this->tmpFileSystem = $tmpFileSystem;
-        $this->fileUpload = $fileUpload;
-        $this->formAction = $formAction;
-        $this->saveCommand = $saveCommand;
-        $this->cancelCommand = $cancelCommand;
-        $this->isEditable = $isEditable;
-
         parent::__construct();
 
         $this->initForm();
     }
 
-    public function setCheckInputCalled(bool $status) : void
+    public function setCheckInputCalled(bool $status): void
     {
         $this->check_input_called = $status;
     }
 
-    protected function initForm() : void
+    protected function initForm(): void
     {
         if ($this->document->getId() > 0) {
             $this->setTitle($this->lng->txt('tos_form_edit_doc_head'));
@@ -111,27 +94,27 @@ class ilTermsOfServiceDocumentFormGUI extends ilPropertyFormGUI
         $this->addCommandButton($this->cancelCommand, $this->lng->txt('cancel'));
     }
 
-    public function hasTranslatedError() : bool
+    public function hasTranslatedError(): bool
     {
         return $this->translatedError !== '';
     }
 
-    public function getTranslatedError() : string
+    public function getTranslatedError(): string
     {
         return $this->translatedError;
     }
 
-    public function hasTranslatedInfo() : bool
+    public function hasTranslatedInfo(): bool
     {
         return $this->translatedInfo !== '';
     }
 
-    public function getTranslatedInfo() : string
+    public function getTranslatedInfo(): string
     {
         return $this->translatedInfo;
     }
 
-    public function saveObject() : bool
+    public function saveObject(): bool
     {
         if (!$this->fillObject()) {
             $this->setValuesByPost();
@@ -143,7 +126,7 @@ class ilTermsOfServiceDocumentFormGUI extends ilPropertyFormGUI
         return true;
     }
 
-    protected function fillObject() : bool
+    protected function fillObject(): bool
     {
         if (!$this->checkInput()) {
             return false;

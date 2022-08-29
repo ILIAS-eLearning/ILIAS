@@ -28,15 +28,15 @@ class ilMediaPoolGSToolProvider extends AbstractDynamicToolProvider
 {
     public const SHOW_FOLDERS_TOOL = 'show_folders_tool';
 
-    public function isInterestedInContexts() : ContextCollection
+    public function isInterestedInContexts(): ContextCollection
     {
         return $this->context_collection->main()->repository();
     }
 
-    public function getToolsForContextStack(CalledContexts $called_contexts) : array
+    public function getToolsForContextStack(CalledContexts $called_contexts): array
     {
         global $DIC;
-        
+
         $access = $DIC->access();
 
         $tools = [];
@@ -68,7 +68,7 @@ class ilMediaPoolGSToolProvider extends AbstractDynamicToolProvider
     }
 
 
-    private function getTree(int $ref_id) : string
+    private function getTree(int $ref_id): string
     {
         try {
             /** @var ilObjMediaPool $pool */

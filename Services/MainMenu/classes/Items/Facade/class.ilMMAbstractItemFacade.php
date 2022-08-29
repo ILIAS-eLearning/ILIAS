@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 use ILIAS\GlobalScreen\Identification\IdentificationInterface;
 use ILIAS\GlobalScreen\Identification\NullIdentification;
@@ -27,18 +29,18 @@ use ILIAS\GlobalScreen\Scope\MainMenu\Factory\hasTitle;
 abstract class ilMMAbstractItemFacade implements ilMMItemFacadeInterface
 {
     protected bool $role_based_visibility = false;
-    
+
     protected array $global_role_ids = [];
-    
+
     protected TypeInformation $type_information;
-    
+
     protected ilMMItemStorage $mm_item;
     protected isItem $filtered_item;
     protected isItem $raw_item;
-    
+
     protected IdentificationInterface $identification;
     protected string $default_title = "-";
-    
+
     /**
      * ilMMAbstractItemFacade constructor.
      * @param IdentificationInterface $identification
@@ -55,135 +57,135 @@ abstract class ilMMAbstractItemFacade implements ilMMItemFacadeInterface
         $this->type_information = $collector->getTypeInformationCollection()->get(get_class($this->raw_item));
         $this->mm_item = ilMMItemStorage::register($this->raw_item);
     }
-    
-    public function getId() : string
+
+    public function getId(): string
     {
         return $this->identification->serialize();
     }
-    
+
     /**
      * @return bool
      */
-    public function hasStorage() : bool
+    public function hasStorage(): bool
     {
         return ilMMItemStorage::find($this->getId()) !== null;
     }
-    
+
     /**
      * @inheritDoc
      */
-    public function supportsRoleBasedVisibility() : bool
+    public function supportsRoleBasedVisibility(): bool
     {
         return false;
     }
-    
+
     /**
      * @inheritDoc
      */
-    public function hasRoleBasedVisibility() : bool
+    public function hasRoleBasedVisibility(): bool
     {
         return $this->role_based_visibility;
     }
-    
+
     /**
      * @inheritDoc
      */
-    public function setRoleBasedVisibility(bool $role_based_visibility) : void
+    public function setRoleBasedVisibility(bool $role_based_visibility): void
     {
         $this->role_based_visibility = $role_based_visibility;
     }
-    
+
     /**
      * @inheritDoc
      */
-    public function getGlobalRoleIDs() : array
+    public function getGlobalRoleIDs(): array
     {
         return $this->global_role_ids;
     }
-    
+
     /**
      * @inheritDoc
      */
-    public function setGlobalRoleIDs(array $global_role_ids) : void
+    public function setGlobalRoleIDs(array $global_role_ids): void
     {
         $this->global_role_ids = $global_role_ids;
     }
-    
+
     /**
      * @return bool
      */
-    public function isEmpty() : bool
+    public function isEmpty(): bool
     {
         return $this->mm_item->getIdentification() == '';
     }
-    
+
     /**
      * @return ilMMItemStorage
      */
-    public function itemStorage() : ilMMItemStorage
+    public function itemStorage(): ilMMItemStorage
     {
         return $this->mm_item;
     }
-    
+
     /**
      * @return IdentificationInterface
      */
-    public function identification() : IdentificationInterface
+    public function identification(): IdentificationInterface
     {
         return $this->identification;
     }
-    
-    public function getRawItem() : isItem
+
+    public function getRawItem(): isItem
     {
         return $this->raw_item;
     }
-    public function getFilteredItem() : isItem
+    public function getFilteredItem(): isItem
     {
         return $this->filtered_item;
     }
-    
-    public function getAmountOfChildren() : int
+
+    public function getAmountOfChildren(): int
     {
         if ($this->filtered_item instanceof isParent) {
             return count($this->filtered_item->getChildren());
         }
-        
+
         return 0;
     }
-    
-    public function isAvailable() : bool
+
+    public function isAvailable(): bool
     {
         return $this->filtered_item->isAvailable() || $this->filtered_item->isAlwaysAvailable();
     }
-    
+
     /**
      * @inheritDoc
      */
-    public function isActivated() : bool
+    public function isActivated(): bool
     {
         return $this->mm_item->isActive() && $this->getRawItem()->isAvailable() || $this->getRawItem()->isAlwaysAvailable();
     }
-    
+
     /**
      * @inheritDoc
      */
-    public function isAlwaysAvailable() : bool
+    public function isAlwaysAvailable(): bool
     {
         return $this->getRawItem()->isAlwaysAvailable();
     }
-    
+
     /**
      * @return string
      */
-    public function getProviderNameForPresentation() : string
+    public function getProviderNameForPresentation(): string
     {
         return $this->identification->getProviderNameForPresentation();
     }
-    
+
     /**
      * @return string
      */
-    public function getDefaultTitle() : string
+    public function getDefaultTitle(): string
     {
         $default_translation = ilMMItemTranslationStorage::getDefaultTranslation($this->identification);
         if ($default_translation !== "") {
@@ -192,60 +194,60 @@ abstract class ilMMAbstractItemFacade implements ilMMItemFacadeInterface
         if ($this->default_title == "-" && $this->raw_item instanceof hasTitle) {
             $this->default_title = $this->raw_item->getTitle();
         }
-        
+
         return $this->default_title;
     }
-    
+
     /**
      * @param string $default_title
      */
-    public function setDefaultTitle(string $default_title) : void
+    public function setDefaultTitle(string $default_title): void
     {
         $this->default_title = $default_title;
     }
-    
+
     /**
      * @return string
      */
-    public function getStatus() : string
+    public function getStatus(): string
     {
         global $DIC;
         if (!$this->raw_item->isAvailable() || $this->raw_item->isAlwaysAvailable()) {
             return $DIC->ui()->renderer()->render($this->raw_item->getNonAvailableReason());
         }
-        
+
         return "";
     }
-    
+
     /**
      * @return string
      * @throws ReflectionException
      */
-    public function getTypeForPresentation() : string
+    public function getTypeForPresentation(): string
     {
         return $this->type_information->getTypeNameForPresentation();
     }
-    
-    public function getParentIdentificationString() : string
+
+    public function getParentIdentificationString(): string
     {
         if ($this->getFilteredItem() instanceof isChild || $this->getFilteredItem() instanceof isInterchangeableItem) {
             $provider_name_for_presentation = $this->raw_item->getParent()->serialize();
-            
+
             $storage_parent = $this->mm_item->getParentIdentification();
             if ($storage_parent !== $provider_name_for_presentation) {
                 return $storage_parent;
             }
-            
+
             return $provider_name_for_presentation;
         }
-        
+
         return "";
     }
-    
+
     /**
      * @return bool
      */
-    public function isCustomType() : bool
+    public function isCustomType(): bool
     {
         $known_core_types = [
             Complex::class,
@@ -262,129 +264,129 @@ abstract class ilMMAbstractItemFacade implements ilMMItemFacadeInterface
                 return false;
             }
         }
-        
+
         return true;
     }
-    
+
     /**
      * @inheritDoc
      */
-    public function isTopItem() : bool
+    public function isTopItem(): bool
     {
         return $this->raw_item instanceof isTopItem;
     }
-    
-    public function isChild() : bool
+
+    public function isChild(): bool
     {
         $item = $this->getFilteredItem();
         return $item instanceof isChild
             || ($item instanceof isInterchangeableItem && $item->hasChanged());
     }
-    
+
     /**
      * @inheritDoc
      */
-    public function isInLostItem() : bool
+    public function isInLostItem(): bool
     {
         if ($this->raw_item instanceof isChild) {
             return $this->raw_item->getParent() instanceof NullIdentification;
         }
-        
+
         return false;
     }
-    
+
     /**
      * @inheritDoc
      */
-    public function setIsTopItm(bool $top_item) : void
+    public function setIsTopItm(bool $top_item): void
     {
         // TODO: Implement setIsTopItm() method.
     }
-    
+
     /**
      * @inheritDoc
      */
-    public function isInterchangeable() : bool
+    public function isInterchangeable(): bool
     {
         return $this->raw_item instanceof isInterchangeableItem;
     }
-    
+
     /**
      * FSX check if doublette
      * @inheritDoc
      */
-    public function getType() : string
+    public function getType(): string
     {
         return $this->type_information->getType();
     }
-    
+
     /**
      * @param string $parent
      */
-    public function setParent(string $parent) : void
+    public function setParent(string $parent): void
     {
         $this->mm_item->setParentIdentification($parent);
     }
-    
+
     /**
      * @inheritdoc
      */
-    public function setPosition(int $position) : void
+    public function setPosition(int $position): void
     {
         $this->mm_item->setPosition($position);
     }
-    
+
     /**
      * @param bool $status
      */
-    public function setActiveStatus(bool $status) : void
+    public function setActiveStatus(bool $status): void
     {
         $this->mm_item->setActive($status);
     }
-    
-    public function supportsCustomIcon() : bool
+
+    public function supportsCustomIcon(): bool
     {
         return $this->raw_item instanceof hasSymbol;
     }
-    
-    public function getIconID() : ?string
+
+    public function getIconID(): ?string
     {
         return $this->mm_item->getIconId();
     }
-    
+
     /**
      * @inheritDoc
      */
-    public function setIconID(string $icon_id) : void
+    public function setIconID(string $icon_id): void
     {
         $this->mm_item->setIconId($icon_id);
     }
-    
+
     // CRUD
-    
-    public function update() : void
+
+    public function update(): void
     {
         ilMMItemTranslationStorage::storeDefaultTranslation($this->identification, $this->default_title);
         $this->mm_item->update();
     }
-    
-    public function create() : void
+
+    public function create(): void
     {
         ilMMItemTranslationStorage::storeDefaultTranslation($this->identification, $this->default_title);
         $this->mm_item->create();
         ilMMItemStorage::register($this->raw_item);
     }
-    
+
     /**
      * deletes all translations associated with the current identification.
      * @throws Exception
      */
-    protected function deleteAssociatedTranslations() : void
+    protected function deleteAssociatedTranslations(): void
     {
         $ts = ilMMItemTranslationStorage::where([
             'identification' => $this->identification->serialize(),
         ], '=')->get();
-        
+
         if (!empty($ts)) {
             foreach ($ts as $translation) {
                 if ($translation instanceof ilMMItemTranslationStorage) {
@@ -393,11 +395,11 @@ abstract class ilMMAbstractItemFacade implements ilMMItemFacadeInterface
             }
         }
     }
-    
+
     /**
      * @inheritDoc
      */
-    public function delete() : void
+    public function delete(): void
     {
         if ($this->isDeletable()) {
             $this->deleteAssociatedTranslations();

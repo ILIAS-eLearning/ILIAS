@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 use ILIAS\Filesystem\Filesystem;
 use ILIAS\FileUpload\FileUpload;
 
@@ -35,7 +37,7 @@ class ilObjectCustomIconFactory
         $this->objectCache = $objectCache;
     }
 
-    public function getConfigurationByType(string $type) : ilCustomIconObjectConfiguration
+    public function getConfigurationByType(string $type): ilCustomIconObjectConfiguration
     {
         switch ($type) {
             case 'grp':
@@ -55,7 +57,7 @@ class ilObjectCustomIconFactory
         return $configuration;
     }
 
-    public function getByObjId(int $objId, string $objType = '') : ilObjectCustomIcon
+    public function getByObjId(int $objId, string $objType = ''): ilObjectCustomIcon
     {
         if ($objType === '') {
             $objType = $this->objectCache->lookupType($objId);
@@ -69,7 +71,7 @@ class ilObjectCustomIconFactory
         );
     }
 
-    public function getPresenterByObjId(int $objId, string $objType) : ilObjectCustomIconPresenter
+    public function getPresenterByObjId(int $objId, string $objType): ilObjectCustomIconPresenter
     {
         if ($objType === '') {
             $objType = $this->objectCache->lookupType($objId);
@@ -86,7 +88,6 @@ class ilObjectCustomIconFactory
             default:
                 $presenter = new ilObjectCustomIconPresenterImpl($this->getByObjId($objId, $objType));
                 break;
-
         }
 
         return $presenter;

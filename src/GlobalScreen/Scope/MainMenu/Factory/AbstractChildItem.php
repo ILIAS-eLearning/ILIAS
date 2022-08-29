@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -31,7 +33,7 @@ abstract class AbstractChildItem extends AbstractBaseItem
     /**
      * @inheritDoc
      */
-    public function withParent(IdentificationInterface $identification) : self
+    public function withParent(IdentificationInterface $identification): self
     {
         $clone = clone($this);
         $clone->parent = $identification;
@@ -42,7 +44,7 @@ abstract class AbstractChildItem extends AbstractBaseItem
     /**
      * @inheritDoc
      */
-    public function hasParent() : bool
+    public function hasParent(): bool
     {
         return $this->parent instanceof IdentificationInterface;
     }
@@ -50,12 +52,12 @@ abstract class AbstractChildItem extends AbstractBaseItem
     /**
      * @inheritDoc
      */
-    public function getParent() : IdentificationInterface
+    public function getParent(): IdentificationInterface
     {
         return $this->parent instanceof IdentificationInterface ? $this->parent : new NullIdentification();
     }
 
-    public function overrideParent(IdentificationInterface $identification) : isItem
+    public function overrideParent(IdentificationInterface $identification): isItem
     {
         $this->parent = $identification;
 

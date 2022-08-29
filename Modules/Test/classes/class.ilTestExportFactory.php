@@ -1,4 +1,5 @@
 <?php
+
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 
@@ -14,7 +15,7 @@ class ilTestExportFactory
      * @var ilObjTest
      */
     protected $testOBJ;
-    
+
     public function __construct(ilObjTest $testOBJ)
     {
         $this->testOBJ = $testOBJ;

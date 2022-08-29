@@ -1,4 +1,6 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -21,6 +23,7 @@ namespace ILIAS\MediaObjects;
 use ILIAS\DI\Container;
 use ILIAS\MediaObjects\ImageMap\ImageMapManager;
 use ILIAS\Repository\GlobalDICDomainServices;
+use ILIAS\MediaObjects\MediaType\MediaTypeManager;
 
 /**
  * @author Alexander Killing <killing@leifos.de>
@@ -53,10 +56,15 @@ class InternalDomainService
         );
     }*/
 
-    public function imageMap() : ImageMapManager
+    public function imageMap(): ImageMapManager
     {
         return new ImageMapManager(
             $this->repo_service->imageMap()
         );
+    }
+
+    public function mediaType(): MediaTypeManager
+    {
+        return new MediaTypeManager();
     }
 }

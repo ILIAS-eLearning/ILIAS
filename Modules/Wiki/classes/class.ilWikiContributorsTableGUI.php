@@ -37,10 +37,10 @@ class ilWikiContributorsTableGUI extends ilTable2GUI
         $this->lng = $DIC->language();
         $ilCtrl = $DIC->ctrl();
         $lng = $DIC->language();
-        
+
         parent::__construct($a_parent_obj, $a_parent_cmd);
         $this->wiki_id = $a_wiki_id;
-        
+
         $this->addColumn("", "", "1");
         //$this->addColumn("", "", "1");
         $this->addColumn($lng->txt("wiki_contributor"), "", "33%");
@@ -56,25 +56,25 @@ class ilWikiContributorsTableGUI extends ilTable2GUI
         $this->setFormAction($ilCtrl->getFormAction($this->getParentObject(), "saveGrading"));
         $this->addCommandButton("saveGrading", $lng->txt("save"));
         //$this->addMultiCommand("saveGrading", $lng->txt("save"));
-        
+
         $this->setShowRowsSelector(true);
-        
+
         $this->setTitle($lng->txt("wiki_contributors"));
         $this->ui = $DIC->ui();
     }
-    
-    public function getContributors() : void
+
+    public function getContributors(): void
     {
         $contributors = ilWikiPage::getWikiContributors($this->wiki_id);
         $this->setDefaultOrderField("lastname");
         $this->setDefaultOrderDirection("asc");
         $this->setData($contributors);
     }
-    
-    protected function fillRow(array $a_set) : void
+
+    protected function fillRow(array $a_set): void
     {
         $lng = $this->lng;
-        
+
         if (ilObject::_exists($a_set["user_id"])) {
             arsort($a_set["pages"]);
 
@@ -94,7 +94,7 @@ class ilWikiContributorsTableGUI extends ilTable2GUI
                 "TXT_LINKED_USER",
                 $user["lastname"] . ", " . $user["firstname"] . " [" . $login . "]"
             );*/
-                
+
             // profile link
             //$ilCtrl->setParameterByClass("ilpublicuserprofilegui", "user", $a_set["user"]);
             //$ilCtrl->setParameterByClass("ilpublicuserprofilegui", "back_url",
@@ -108,7 +108,7 @@ class ilWikiContributorsTableGUI extends ilTable2GUI
                 htmlspecialchars($a_set["lastname"] . ", " . $a_set["firstname"])
             );
             $this->tpl->setVariable("USER_ID", $a_set["user_id"]);
-                
+
             // comment for learner
             $this->tpl->setVariable("TXT_LCOMMENT", $lng->txt("wiki_comment_for_learner"));
             $this->tpl->setVariable(
@@ -168,7 +168,7 @@ class ilWikiContributorsTableGUI extends ilTable2GUI
             }
 
             $this->tpl->setVariable("ICON_STATUS", $icon_rendered);
-            
+
             // mark
             $this->tpl->setVariable("TXT_MARK", $lng->txt("wiki_mark"));
             $this->tpl->setVariable(

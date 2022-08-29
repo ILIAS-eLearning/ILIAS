@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 use PHPUnit\Framework\TestCase;
 use ILIAS\DI\Container;
 
@@ -30,13 +32,13 @@ class ilRBACTest extends TestCase
 
     protected Container $dic;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         $this->initACDependencies();
         parent::setUp();
     }
 
-    public function testConstruct() : void
+    public function testConstruct(): void
     {
         $system = ilRbacSystem::getInstance();
         $this->assertTrue($system instanceof ilRbacSystem);
@@ -48,7 +50,7 @@ class ilRBACTest extends TestCase
         $this->assertTrue($review instanceof ilRbacReview);
     }
 
-    protected function setGlobalVariable(string $name, $value) : void
+    protected function setGlobalVariable(string $name, $value): void
     {
         global $DIC;
 
@@ -59,7 +61,7 @@ class ilRBACTest extends TestCase
         };
     }
 
-    protected function initACDependencies() : void
+    protected function initACDependencies(): void
     {
         $this->dic = new Container();
         $GLOBALS['DIC'] = $this->dic;

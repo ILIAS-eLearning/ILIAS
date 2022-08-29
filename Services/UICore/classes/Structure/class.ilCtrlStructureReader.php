@@ -1,4 +1,6 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types=1);
 
 /* Copyright (c) 2021 Thibeau Fuhrer <thf@studer-raimann.ch> Extended GPL, see docs/LICENSE */
 
@@ -83,7 +85,7 @@ class ilCtrlStructureReader
      *
      * @return bool
      */
-    public function isExecuted() : bool
+    public function isExecuted(): bool
     {
         return $this->is_executed;
     }
@@ -93,7 +95,7 @@ class ilCtrlStructureReader
      *
      * @return array
      */
-    public function readStructure() : array
+    public function readStructure(): array
     {
         $base_classes = $structure = [];
         foreach ($this->iterator as $class_name => $path) {
@@ -150,7 +152,7 @@ class ilCtrlStructureReader
      * @param string          $regex
      * @return array
      */
-    private function getReferencedClassesByReflection(ReflectionClass $reflection, string $regex) : array
+    private function getReferencedClassesByReflection(ReflectionClass $reflection, string $regex): array
     {
         // abort if the class has no PHPDoc comment.
         if (!$reflection->getDocComment()) {
@@ -189,7 +191,7 @@ class ilCtrlStructureReader
      * @param string $absolute_path
      * @return string
      */
-    private function getRelativePath(string $absolute_path) : string
+    private function getRelativePath(string $absolute_path): string
     {
         // some paths might contain syntax like '../../../' etc.
         // and realpath() resolves that in order to cut off the
@@ -205,7 +207,7 @@ class ilCtrlStructureReader
      * @param ReflectionClass $reflection
      * @return array
      */
-    private function getChildren(ReflectionClass $reflection) : array
+    private function getChildren(ReflectionClass $reflection): array
     {
         return $this->getReferencedClassesByReflection($reflection, self::REGEX_PHPDOC_CALLS);
     }
@@ -216,7 +218,7 @@ class ilCtrlStructureReader
      * @param ReflectionClass $reflection
      * @return array
      */
-    private function getParents(ReflectionClass $reflection) : array
+    private function getParents(ReflectionClass $reflection): array
     {
         return $this->getReferencedClassesByReflection($reflection, self::REGEX_PHPDOC_CALLED_BYS);
     }
@@ -228,7 +230,7 @@ class ilCtrlStructureReader
      * @param string $string
      * @return string
      */
-    private function stripWhitespaces(string $string) : string
+    private function stripWhitespaces(string $string): string
     {
         return (string) preg_replace('/\s+/', '', $string);
     }
@@ -239,7 +241,7 @@ class ilCtrlStructureReader
      * @param string $path
      * @return bool
      */
-    private function isGuiClass(string $path) : bool
+    private function isGuiClass(string $path): bool
     {
         return (bool) preg_match(self::REGEX_GUI_CLASS_NAME, basename($path));
     }
@@ -250,7 +252,7 @@ class ilCtrlStructureReader
      * @param string $class_name
      * @return bool
      */
-    private function isNamespaced(string $class_name) : bool
+    private function isNamespaced(string $class_name): bool
     {
         return (false !== strpos($class_name, '\\'));
     }

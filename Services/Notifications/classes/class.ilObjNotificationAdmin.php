@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /******************************************************************************
  *
@@ -37,19 +39,19 @@ class ilObjNotificationAdmin extends ilObject
     /**
      * @access	public
      */
-    public function delete() : bool
+    public function delete(): bool
     {
         return false;
     }
 
-    public function getRootRefId() : int
+    public function getRootRefId(): int
     {
         $this->loadRootRefIdAndId();
 
         return $this->root_ref_id;
     }
 
-    public function getRootId() : int
+    public function getRootId(): int
     {
         $this->loadRootRefIdAndId();
 
@@ -59,7 +61,7 @@ class ilObjNotificationAdmin extends ilObject
     /**
      * @throws PDOException
      */
-    private function loadRootRefIdAndId() : void
+    private function loadRootRefIdAndId(): void
     {
         if ($this->root_ref_id === 0 || $this->root_id === 0) {
             $q = "SELECT object_reference.obj_id, object_reference.ref_id FROM object_data

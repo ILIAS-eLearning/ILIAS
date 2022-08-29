@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -107,7 +109,7 @@ class ilObjStudyProgramme extends ilContainer
         self::initStudyProgrammeCache();
     }
 
-    public static function initStudyProgrammeCache() : void
+    public static function initStudyProgrammeCache(): void
     {
         if (self::$study_programme_cache === null) {
             self::$study_programme_cache = ilObjStudyProgrammeCache::singleton();
@@ -117,7 +119,7 @@ class ilObjStudyProgramme extends ilContainer
     /**
      * Clear the cached parent to query it again at the tree.
      */
-    protected function clearParentCache() : void
+    protected function clearParentCache(): void
     {
         // This is not initialized, but we need null if there is no parent.
         $this->parent = false;
@@ -126,7 +128,7 @@ class ilObjStudyProgramme extends ilContainer
     /**
      * Clear the cached children.
      */
-    protected function clearChildrenCache() : void
+    protected function clearChildrenCache(): void
     {
         $this->children = null;
     }
@@ -134,12 +136,12 @@ class ilObjStudyProgramme extends ilContainer
     /**
      * Clear the cached lp children.
      */
-    protected function clearLPChildrenCache() : void
+    protected function clearLPChildrenCache(): void
     {
         $this->lp_children = null;
     }
 
-    public static function getRefIdFor(int $obj_id) : int
+    public static function getRefIdFor(int $obj_id): int
     {
         $refs = ilObject::_getAllReferences($obj_id);
         if (count($refs) < 1) {
@@ -148,17 +150,17 @@ class ilObjStudyProgramme extends ilContainer
         return (int) array_shift($refs);
     }
 
-    protected function getPrgInstanceByObjId(int $obj_id) : ilObjStudyProgramme
+    protected function getPrgInstanceByObjId(int $obj_id): ilObjStudyProgramme
     {
         return self::getInstanceByRefId(self::getRefIdFor($obj_id));
     }
 
-    public static function getInstanceByObjId(int $obj_id) : ilObjStudyProgramme
+    public static function getInstanceByObjId(int $obj_id): ilObjStudyProgramme
     {
         return self::getInstanceByRefId(self::getRefIdFor($obj_id));
     }
 
-    public static function getInstanceByRefId($ref_id) : ilObjStudyProgramme
+    public static function getInstanceByRefId($ref_id): ilObjStudyProgramme
     {
         if (self::$study_programme_cache === null) {
             self::initStudyProgrammeCache();
@@ -166,23 +168,23 @@ class ilObjStudyProgramme extends ilContainer
         return self::$study_programme_cache->getInstanceByRefId((int) $ref_id);
     }
 
-    protected function getProgressRepository() : ilStudyProgrammeProgressRepository
+    protected function getProgressRepository(): ilStudyProgrammeProgressRepository
     {
         return $this->progress_repository;
     }
-    protected function getAssignmentRepository() : ilStudyProgrammeAssignmentRepository
+    protected function getAssignmentRepository(): ilStudyProgrammeAssignmentRepository
     {
         return $this->assignment_repository;
     }
-    protected function getSettingsRepository() : ilStudyProgrammeSettingsRepository
+    protected function getSettingsRepository(): ilStudyProgrammeSettingsRepository
     {
         return $this->settings_repository;
     }
-    protected function getTree() : ilTree
+    protected function getTree(): ilTree
     {
         return $this->tree;
     }
-    protected function getLogger() : ilLogger
+    protected function getLogger(): ilLogger
     {
         return $this->logger;
     }
@@ -192,7 +194,7 @@ class ilObjStudyProgramme extends ilContainer
      *
      * @throws ilException
      */
-    public static function createInstance() : ilObjStudyProgramme
+    public static function createInstance(): ilObjStudyProgramme
     {
         $obj = new ilObjStudyProgramme();
         $obj->create();
@@ -204,13 +206,13 @@ class ilObjStudyProgramme extends ilContainer
     ////////////////////////////////////
     // CRUD
     ////////////////////////////////////
-    
-    public function getSettings() : ilStudyProgrammeSettings
+
+    public function getSettings(): ilStudyProgrammeSettings
     {
         return $this->getSettingsRepository()->get($this->getId());
     }
 
-    public function updateSettings(ilStudyProgrammeSettings $settings) : bool
+    public function updateSettings(ilStudyProgrammeSettings $settings): bool
     {
         if ($settings->getObjId() !== $this->getId()) {
             throw new Exception("The given settings-object does not belong to this programme", 1);
@@ -220,7 +222,7 @@ class ilObjStudyProgramme extends ilContainer
         return true;
     }
 
-    protected function deleteSettings() : void
+    protected function deleteSettings(): void
     {
         $this->getSettingsRepository()->delete($this->getSettings());
     }
@@ -230,7 +232,7 @@ class ilObjStudyProgramme extends ilContainer
      *
      * @throws ilException
      */
-    protected function deleteAssignmentsAndProgresses() : void
+    protected function deleteAssignmentsAndProgresses(): void
     {
         $assignment_repository = $this->getAssignmentRepository();
         $assignment_repository->deleteAllAssignmentsForProgrammeId($this->getId());
@@ -243,7 +245,7 @@ class ilObjStudyProgramme extends ilContainer
     /**
      * @throws ilException
      */
-    public function create() : int
+    public function create(): int
     {
         $id = parent::create();
         $this->getSettingsRepository()->createFor($id);
@@ -253,7 +255,7 @@ class ilObjStudyProgramme extends ilContainer
     /**
      * @throws ilException
      */
-    public function update() : bool
+    public function update(): bool
     {
         parent::update();
 
@@ -277,7 +279,7 @@ class ilObjStudyProgramme extends ilContainer
      *
      * @throws ilException
      */
-    public function delete() : bool
+    public function delete(): bool
     {
         // always call parent delete function first!!
         if (!parent::delete()) {
@@ -299,7 +301,7 @@ class ilObjStudyProgramme extends ilContainer
         return true;
     }
 
-    public function hasAdvancedMetadata() : bool
+    public function hasAdvancedMetadata(): bool
     {
         $sub_type_id = $this->getSettings()->getTypeSettings()->getTypeId();
         $type = null;
@@ -317,7 +319,7 @@ class ilObjStudyProgramme extends ilContainer
     /**
      * Get the timestamp of the last change on this program or sub program.
      */
-    public function getLastChange() : DateTime
+    public function getLastChange(): DateTime
     {
         return $this->getSettings()->getLastChange();
     }
@@ -325,7 +327,7 @@ class ilObjStudyProgramme extends ilContainer
     /**
      * Get the amount of points
      */
-    public function getPoints() : int
+    public function getPoints(): int
     {
         return $this->getSettings()->getAssessmentSettings()->getPoints();
     }
@@ -335,7 +337,7 @@ class ilObjStudyProgramme extends ilContainer
      *
      * @throws ilException
      */
-    public function setPoints(int $points) : ilObjStudyProgramme
+    public function setPoints(int $points): ilObjStudyProgramme
     {
         $settings = $this->getSettings();
         $this->updateSettings(
@@ -345,7 +347,7 @@ class ilObjStudyProgramme extends ilContainer
         return $this;
     }
 
-    public function getLPMode() : int
+    public function getLPMode(): int
     {
         return $this->getSettings()->getLPMode();
     }
@@ -358,7 +360,7 @@ class ilObjStudyProgramme extends ilContainer
      *
      * @throws ilException        when programme is not in draft mode.
      */
-    public function adjustLPMode() : void
+    public function adjustLPMode(): void
     {
         // Clear caches here, there have been some changes, because this method
         // would not have been called otherwise, and the changer just does not
@@ -381,7 +383,7 @@ class ilObjStudyProgramme extends ilContainer
         }
     }
 
-    public function getStatus() : int
+    public function getStatus(): int
     {
         return $this->getSettings()->getAssessmentSettings()->getStatus();
     }
@@ -391,7 +393,7 @@ class ilObjStudyProgramme extends ilContainer
      *
      * @throws ilException
      */
-    public function setStatus(int $a_status) : ilObjStudyProgramme
+    public function setStatus(int $a_status): ilObjStudyProgramme
     {
         $settings = $this->getSettings();
         $this->updateSettings(
@@ -401,7 +403,7 @@ class ilObjStudyProgramme extends ilContainer
         return $this;
     }
 
-    public function isActive() : bool
+    public function isActive(): bool
     {
         return $this->getStatus() === ilStudyProgrammeSettings::STATUS_ACTIVE;
     }
@@ -409,7 +411,7 @@ class ilObjStudyProgramme extends ilContainer
     /**
      * Gets the SubType Object
      */
-    public function getSubType() : ?ilStudyProgrammeType
+    public function getSubType(): ?ilStudyProgrammeType
     {
         $type_settings = $this->getSettings()->getTypeSettings();
         if (!in_array($type_settings->getTypeId(), array("-", "0"))) {
@@ -433,7 +435,7 @@ class ilObjStudyProgramme extends ilContainer
      *
      * @return ilObjStudyProgramme[]
      */
-    public static function getAllChildren(int $a_ref_id, bool $include_references = false) : array
+    public static function getAllChildren(int $a_ref_id, bool $include_references = false): array
     {
         $ret = array();
         $root = self::getInstanceByRefId($a_ref_id);
@@ -448,7 +450,7 @@ class ilObjStudyProgramme extends ilContainer
         return $ret;
     }
 
-    public function getAllPrgChildren() : array
+    public function getAllPrgChildren(): array
     {
         $ret = [];
         $this->applyToSubTreeNodes(
@@ -469,7 +471,7 @@ class ilObjStudyProgramme extends ilContainer
      * @return ilObjStudyProgramme[]
      * @throws ilStudyProgrammeTreeException when this object is not in tree.
      */
-    public function getChildren(bool $include_references = false) : array
+    public function getChildren(bool $include_references = false): array
     {
         $this->throwIfNotInTree();
 
@@ -523,7 +525,7 @@ class ilObjStudyProgramme extends ilContainer
      *
      * @throws ilException when this object is not in tree.
      */
-    public function getParent() : ?ilObjStudyProgramme
+    public function getParent(): ?ilObjStudyProgramme
     {
         if ($this->parent === false) {
             $this->throwIfNotInTree();
@@ -537,7 +539,7 @@ class ilObjStudyProgramme extends ilContainer
         return $this->parent;
     }
 
-    protected function getReferencesTo(ilObjStudyProgramme $prg) : array
+    protected function getReferencesTo(ilObjStudyProgramme $prg): array
     {
         $tree = $this->tree;
         return array_filter(
@@ -556,7 +558,7 @@ class ilObjStudyProgramme extends ilContainer
         );
     }
 
-    public function getReferencesToSelf() : array
+    public function getReferencesToSelf(): array
     {
         return $this->getReferencesTo($this);
     }
@@ -566,7 +568,7 @@ class ilObjStudyProgramme extends ilContainer
      *
      * @return ilObjStudyProgramme[]
      */
-    public function getParents(bool $include_references = false) : array
+    public function getParents(bool $include_references = false): array
     {
         $current = $this;
         $parents = [];
@@ -598,7 +600,7 @@ class ilObjStudyProgramme extends ilContainer
      *
      * @throws ilStudyProgrammeTreeException
      */
-    public function hasChildren(bool $include_references = false) : bool
+    public function hasChildren(bool $include_references = false): bool
     {
         return $this->getAmountOfChildren($include_references) > 0;
     }
@@ -609,7 +611,7 @@ class ilObjStudyProgramme extends ilContainer
      *
      * @throws ilStudyProgrammeTreeException when this object is not in tree.
      */
-    public function getAmountOfChildren($include_references = false) : int
+    public function getAmountOfChildren($include_references = false): int
     {
         return count($this->getChildren($include_references));
     }
@@ -620,7 +622,7 @@ class ilObjStudyProgramme extends ilContainer
      *
      * @throws ilException when this object is not in tree.
      */
-    public function getDepth() : int
+    public function getDepth(): int
     {
         $cur = $this;
         $count = 0;
@@ -634,7 +636,7 @@ class ilObjStudyProgramme extends ilContainer
      * Get the ilObjStudyProgramme that is the root node of the tree this programme
      * is in.
      */
-    public function getRoot() : ilObjStudyProgramme
+    public function getRoot(): ilObjStudyProgramme
     {
         $parents = $this->getParents();
         if (count($parents) < 1) {
@@ -649,7 +651,7 @@ class ilObjStudyProgramme extends ilContainer
      * @return ilObjCourseReference[]
      * @throws ilStudyProgrammeTreeException when this object is not in tree.
      */
-    public function getLPChildren() : array
+    public function getLPChildren(): array
     {
         $this->throwIfNotInTree();
 
@@ -681,7 +683,7 @@ class ilObjStudyProgramme extends ilContainer
      * @return int[]
      * @throws ilStudyProgrammeTreeException
      */
-    public function getLPChildrenIds() : array
+    public function getLPChildrenIds(): array
     {
         return array_map(static function ($child) {
             return $child->getId();
@@ -693,12 +695,12 @@ class ilObjStudyProgramme extends ilContainer
      *
      * Throws when this object is not in tree.
      */
-    public function getAmountOfLPChildren() : int
+    public function getAmountOfLPChildren(): int
     {
         return count($this->getLPChildren());
     }
 
-    public function hasLPChildren() : bool
+    public function hasLPChildren(): bool
     {
         return ($this->getAmountOfLPChildren() > 0);
     }
@@ -706,7 +708,7 @@ class ilObjStudyProgramme extends ilContainer
     /**
      * @throws ilStudyProgrammeTreeException if object is not in tree.
      */
-    protected function throwIfNotInTree() : void
+    protected function throwIfNotInTree(): void
     {
         if (!$this->tree->isInTree($this->getRefId())) {
             throw new ilStudyProgrammeTreeException("This program is not in tree.");
@@ -724,7 +726,7 @@ class ilObjStudyProgramme extends ilContainer
      *
      * @throws ilStudyProgrammeTreeException Throws when this object is not in tree.
      */
-    public function applyToSubTreeNodes(Closure $fun, bool $include_references = false) : void
+    public function applyToSubTreeNodes(Closure $fun, bool $include_references = false): void
     {
         $this->throwIfNotInTree();
 
@@ -740,7 +742,7 @@ class ilObjStudyProgramme extends ilContainer
      *
      * @return int[]
      */
-    public function getCompletedCourses(int $a_user_id) : array
+    public function getCompletedCourses(int $a_user_id): array
     {
         $node_data = $this->tree->getNodeData($this->getRefId());
         $crsrs = $this->tree->getSubTree($node_data, true, ["crsr"]);
@@ -782,7 +784,7 @@ class ilObjStudyProgramme extends ilContainer
      * @throws ilException
      * @throws ilStudyProgrammeTreeException
      */
-    public function addNode(ilObjStudyProgramme $a_prg) : ilObjStudyProgramme
+    public function addNode(ilObjStudyProgramme $a_prg): ilObjStudyProgramme
     {
         $this->throwIfNotInTree();
 
@@ -808,7 +810,7 @@ class ilObjStudyProgramme extends ilContainer
      * @throws ilStudyProgrammeTreeException
      * @throws ilException
      */
-    public function nodeInserted(ilObjStudyProgramme $a_prg) : void
+    public function nodeInserted(ilObjStudyProgramme $a_prg): void
     {
         if ($this->getLPMode() === ilStudyProgrammeSettings::MODE_LP_COMPLETED) {
             throw new ilStudyProgrammeTreeException("Program already contains leafs.");
@@ -831,7 +833,7 @@ class ilObjStudyProgramme extends ilContainer
      * @throws ilStudyProgrammeTreeException
      * @throws ilException
      */
-    public function putInTree(int $parent_ref_id) : void
+    public function putInTree(int $parent_ref_id): void
     {
         parent::putInTree($parent_ref_id);
 
@@ -850,7 +852,7 @@ class ilObjStudyProgramme extends ilContainer
      * @throws ilException
      * @throws ilStudyProgrammeTreeException
      */
-    public function removeNode(ilObjStudyProgramme $a_prg) : ilObjStudyProgramme
+    public function removeNode(ilObjStudyProgramme $a_prg): ilObjStudyProgramme
     {
         if ($a_prg->getParent()->getId() !== $this->getId()) {
             throw new ilStudyProgrammeTreeException("This is no parent of the given programm.");
@@ -873,7 +875,7 @@ class ilObjStudyProgramme extends ilContainer
      * Check weather a node can be removed. This is allowed when all progresses on the node
      * are marked as not relevant programmatically.
      */
-    public function canBeRemoved() : bool
+    public function canBeRemoved(): bool
     {
         foreach ($this->getProgresses() as $progress) {
             if ($progress->getStatus() !== ilStudyProgrammeProgress::STATUS_NOT_RELEVANT) {
@@ -895,13 +897,12 @@ class ilObjStudyProgramme extends ilContainer
      * @throws ilStudyProgrammeTreeException
      * @throws ilException
      */
-    public function moveTo(ilObjStudyProgramme $new_parent) : ilObjStudyProgramme
+    public function moveTo(ilObjStudyProgramme $new_parent): ilObjStudyProgramme
     {
         global $DIC;
         $rbacadmin = $DIC['rbacadmin'];
 
         if ($parent = $this->getParent()) {
-
             // TODO: check if there some leafs in the new parent
 
             $this->tree->moveTree($this->getRefId(), $new_parent->getRefId());
@@ -937,7 +938,7 @@ class ilObjStudyProgramme extends ilContainer
      *
      * @throws ilException
      */
-    public function assignUser(int $usr_id, int $acting_usr_id = null) : ilStudyProgrammeAssignment
+    public function assignUser(int $usr_id, int $acting_usr_id = null): ilStudyProgrammeAssignment
     {
         $this->members_cache = null;
 
@@ -974,7 +975,7 @@ class ilObjStudyProgramme extends ilContainer
      *
      * @throws ilException
      */
-    public function removeAssignment(ilStudyProgrammeAssignment $assignment) : ilObjStudyProgramme
+    public function removeAssignment(ilStudyProgrammeAssignment $assignment): ilObjStudyProgramme
     {
         $this->members_cache = null;
         if ($assignment->getRootId() !== $this->getId()) {
@@ -999,7 +1000,7 @@ class ilObjStudyProgramme extends ilContainer
     /**
      * Check whether user is assigned to this program or any node above.
      */
-    public function hasAssignmentOf(int $user_id) : bool
+    public function hasAssignmentOf(int $user_id): bool
     {
         return $this->getAmountOfAssignmentsOf($user_id) > 0;
     }
@@ -1008,7 +1009,7 @@ class ilObjStudyProgramme extends ilContainer
      * Get the amount of assignments a user has on this program node or any
      * node above.
      */
-    public function getAmountOfAssignmentsOf(int $user_id) : int
+    public function getAmountOfAssignmentsOf(int $user_id): int
     {
         return count($this->getAssignmentsOf($user_id));
     }
@@ -1020,7 +1021,7 @@ class ilObjStudyProgramme extends ilContainer
      *
      * @return ilStudyProgrammeAssignment[]
      */
-    public function getAssignmentsOf(int $user_id) : array
+    public function getAssignmentsOf(int $user_id): array
     {
         $prg_ids = $this->getIdsFromNodesOnPathFromRootToHere();
         $assignments = [];
@@ -1047,7 +1048,7 @@ class ilObjStudyProgramme extends ilContainer
      *
      * @return ilStudyProgrammeAssignment[]
      */
-    public function getAssignments() : array
+    public function getAssignments(): array
     {
         $assignment_repository = $this->assignment_repository;
         return array_map(static function ($ass) use ($assignment_repository) {
@@ -1059,7 +1060,7 @@ class ilObjStudyProgramme extends ilContainer
      * get usr_ids with any progress on this node
      * @return int[]
      */
-    public function getMembers() : array
+    public function getMembers(): array
     {
         $usr_ids = [];
         foreach ($this->getProgresses() as $progress) {
@@ -1070,7 +1071,7 @@ class ilObjStudyProgramme extends ilContainer
     /**
      * get usr_ids with assignment on this node
      */
-    public function getLocalMembers() : array
+    public function getLocalMembers(): array
     {
         if (!$this->members_cache) {
             $this->members_cache = array_map(
@@ -1086,7 +1087,7 @@ class ilObjStudyProgramme extends ilContainer
     /**
      * Are there any assignments on this node or any node above?
      */
-    public function hasAssignments() : bool
+    public function hasAssignments(): bool
     {
         return count($this->getAssignments()) > 0;
     }
@@ -1096,7 +1097,7 @@ class ilObjStudyProgramme extends ilContainer
      *
      * @return ilStudyProgrammeAssignment[]
      */
-    public function getAssignmentsOfSingleProgramForUser(int $usr_id) : array
+    public function getAssignmentsOfSingleProgramForUser(int $usr_id): array
     {
         return $this->assignment_repository->getByUsrIdAndPrgId($usr_id, $this->getId());
     }
@@ -1104,7 +1105,7 @@ class ilObjStudyProgramme extends ilContainer
     /**
      * Get assignments of user to this program-node only.
      */
-    public function hasAssignmentsOfSingleProgramForUser(int $usr_id) : bool
+    public function hasAssignmentsOfSingleProgramForUser(int $usr_id): bool
     {
         return count($this->getAssignmentsOfSingleProgramForUser($usr_id)) > 0;
     }
@@ -1120,7 +1121,7 @@ class ilObjStudyProgramme extends ilContainer
     public function createProgressForAssignment(
         ilStudyProgrammeAssignment $ass,
         int $acting_user = null
-    ) : ilStudyProgrammeProgress {
+    ): ilStudyProgrammeProgress {
         return $this->progress_repository->createFor($this->getSettings(), $ass, $acting_user);
     }
 
@@ -1129,12 +1130,12 @@ class ilObjStudyProgramme extends ilContainer
      *
      * @return ilStudyProgrammeProgress[]
      */
-    public function getProgressesOf(int $user_id) : array
+    public function getProgressesOf(int $user_id): array
     {
         return $this->progress_repository->getByPrgIdAndUserId($this->getId(), $user_id);
     }
 
-    public function getProgressForAssignment(int $assignment_id) : ?ilStudyProgrammeProgress
+    public function getProgressForAssignment(int $assignment_id): ?ilStudyProgrammeProgress
     {
         return $this->getProgressRepository()->getByPrgIdAndAssignmentId($this->getId(), $assignment_id);
     }
@@ -1145,7 +1146,7 @@ class ilObjStudyProgramme extends ilContainer
      * Use this after the structure of the programme was modified,
      * i.e.: there was a node added below this one.
      */
-    public function addMissingProgresses() : void
+    public function addMissingProgresses(): void
     {
         $logger = $this->getLogger();
         $progress_repository = $this->getProgressRepository();
@@ -1174,7 +1175,7 @@ class ilObjStudyProgramme extends ilContainer
                     $progress_repository->update(
                         $new_progress->withStatus(ilStudyProgrammeProgress::STATUS_NOT_RELEVANT)
                     );
-                    
+
                     $logger->log("Added progress for assingnment $ass_id at node $node_id.");
                 }
                 $node->addMissingProgresses();
@@ -1187,7 +1188,7 @@ class ilObjStudyProgramme extends ilContainer
      *
      * @return ilStudyProgrammeProgress[]
      */
-    public function getProgresses() : array
+    public function getProgresses(): array
     {
         return $this->progress_repository->getByPrgId($this->getId());
     }
@@ -1195,7 +1196,7 @@ class ilObjStudyProgramme extends ilContainer
     /**
      * Are there any users that have progress on this programme?
      */
-    public function hasProgresses() : bool
+    public function hasProgresses(): bool
     {
         return count($this->getProgresses()) > 0;
     }
@@ -1203,7 +1204,7 @@ class ilObjStudyProgramme extends ilContainer
     /**
      * Are there any users that have relevant progress on this programme?
      */
-    public function hasRelevantProgresses() : bool
+    public function hasRelevantProgresses(): bool
     {
         foreach ($this->getProgresses() as $progress) {
             if ($progress->isRelevant()) {
@@ -1218,7 +1219,7 @@ class ilObjStudyProgramme extends ilContainer
      *
      * @return int[]
      */
-    public function getIdsOfUsersWithRelevantProgress() : array
+    public function getIdsOfUsersWithRelevantProgress(): array
     {
         $returns = array();
         foreach ($this->getProgresses() as $progress) {
@@ -1234,7 +1235,7 @@ class ilObjStudyProgramme extends ilContainer
      *
      * @return int[]
      */
-    public function getIdsOfUsersWithCompletedProgress() : array
+    public function getIdsOfUsersWithCompletedProgress(): array
     {
         $returns = array();
         foreach ($this->getProgresses() as $progress) {
@@ -1250,7 +1251,7 @@ class ilObjStudyProgramme extends ilContainer
      *
      * @return int[]
      */
-    public function getIdsOfUsersWithFailedProgress() : array
+    public function getIdsOfUsersWithFailedProgress(): array
     {
         $returns = array();
         foreach ($this->getProgresses() as $progress) {
@@ -1268,7 +1269,7 @@ class ilObjStudyProgramme extends ilContainer
      *
      * @return int[]
      */
-    public function getIdsOfUsersWithNotCompletedAndRelevantProgress() : array
+    public function getIdsOfUsersWithNotCompletedAndRelevantProgress(): array
     {
         $returns = array();
         foreach ($this->getProgresses() as $progress) {
@@ -1288,12 +1289,12 @@ class ilObjStudyProgramme extends ilContainer
      * Get configuration of categories with auto-content for this StudyProgramme;
      * @return ilStudyProgrammeAutoCategory[]
      */
-    public function getAutomaticContentCategories() : array
+    public function getAutomaticContentCategories(): array
     {
         return $this->auto_categories_repository->getFor($this->getId());
     }
 
-    public function hasAutomaticContentCategories() : bool
+    public function hasAutomaticContentCategories(): bool
     {
         return count($this->getAutomaticContentCategories()) > 0;
     }
@@ -1303,7 +1304,7 @@ class ilObjStudyProgramme extends ilContainer
      * Store a Category with auto-content for this StudyProgramme;
      * a category can only be referenced once (per programme).
      */
-    public function storeAutomaticContentCategory(int $category_ref_id) : void
+    public function storeAutomaticContentCategory(int $category_ref_id): void
     {
         $ac = $this->auto_categories_repository->create(
             $this->getId(),
@@ -1316,7 +1317,7 @@ class ilObjStudyProgramme extends ilContainer
      * Delete configuration of categories with auto-content for this StudyProgramme;
      * @param int[] $category_ids
      */
-    public function deleteAutomaticContentCategories(array $category_ids = []) : void
+    public function deleteAutomaticContentCategories(array $category_ids = []): void
     {
         $this->auto_categories_repository->delete($this->getId(), $category_ids);
     }
@@ -1324,7 +1325,7 @@ class ilObjStudyProgramme extends ilContainer
     /**
      * Delete all configuration of categories with auto-content for this StudyProgramme;
      */
-    public function deleteAllAutomaticContentCategories() : void
+    public function deleteAllAutomaticContentCategories(): void
     {
         $this->auto_categories_repository->deleteFor($this->getId());
     }
@@ -1332,7 +1333,7 @@ class ilObjStudyProgramme extends ilContainer
     /**
      * Check, if a category is under surveilllance and automatically add the course
      */
-    public static function addCrsToProgrammes(int $crs_ref_id, int $cat_ref_id) : void
+    public static function addCrsToProgrammes(int $crs_ref_id, int $cat_ref_id): void
     {
         foreach (self::getProgrammesMonitoringCategory($cat_ref_id) as $prg) {
             $course_ref = new ilObjCourseReference();
@@ -1352,7 +1353,7 @@ class ilObjStudyProgramme extends ilContainer
      *
      * @throws ilStudyProgrammeTreeException
      */
-    public static function removeCrsFromProgrammes(int $crs_ref_id, int $cat_ref_id) : void
+    public static function removeCrsFromProgrammes(int $crs_ref_id, int $cat_ref_id): void
     {
         foreach (self::getProgrammesMonitoringCategory($cat_ref_id) as $prg) {
             foreach ($prg->getLPChildren() as $child) {
@@ -1367,7 +1368,7 @@ class ilObjStudyProgramme extends ilContainer
      * Get all StudyProgrammes monitoring this category.
      * @return ilObjStudyProgramme[]
      */
-    protected static function getProgrammesMonitoringCategory(int $cat_ref_id) : array
+    protected static function getProgrammesMonitoringCategory(int $cat_ref_id): array
     {
         $db = ilStudyProgrammeDIC::dic()['model.AutoCategories.ilStudyProgrammeAutoCategoriesRepository'];
         $programmes = array_map(
@@ -1394,7 +1395,7 @@ class ilObjStudyProgramme extends ilContainer
      *
      * @throws ilStudyProgrammeTreeException
      */
-    public function isAutoContentApplicable() : bool
+    public function isAutoContentApplicable(): bool
     {
         $valid_status = in_array(
             $this->getSettings()->getAssessmentSettings()->getStatus(),
@@ -1422,7 +1423,7 @@ class ilObjStudyProgramme extends ilContainer
      * Get sources for auto-memberships.
      * @return ilStudyProgrammeAutoMembershipSource[]
      */
-    public function getAutomaticMembershipSources() : array
+    public function getAutomaticMembershipSources(): array
     {
         return $this->auto_memberships_repository->getFor($this->getId());
     }
@@ -1430,7 +1431,7 @@ class ilObjStudyProgramme extends ilContainer
     /**
      * Store a source to be monitored for automatic memberships.
      */
-    public function storeAutomaticMembershipSource(string $type, int $src_id) : void
+    public function storeAutomaticMembershipSource(string $type, int $src_id): void
     {
         $ams = $this->auto_memberships_repository->create($this->getId(), $type, $src_id, false);
         $this->auto_memberships_repository->update($ams);
@@ -1439,7 +1440,7 @@ class ilObjStudyProgramme extends ilContainer
     /**
      * Delete a membership source.
      */
-    public function deleteAutomaticMembershipSource(string $type, int $src_id) : void
+    public function deleteAutomaticMembershipSource(string $type, int $src_id): void
     {
         $this->auto_memberships_repository->delete($this->getId(), $type, $src_id);
     }
@@ -1447,7 +1448,7 @@ class ilObjStudyProgramme extends ilContainer
     /**
      * Delete all membership sources of this StudyProgramme;
      */
-    public function deleteAllAutomaticMembershipSources() : void
+    public function deleteAllAutomaticMembershipSources(): void
     {
         $this->auto_memberships_repository->deleteFor($this->getId());
     }
@@ -1455,7 +1456,7 @@ class ilObjStudyProgramme extends ilContainer
     /**
      * Disable a membership source.
      */
-    public function disableAutomaticMembershipSource(string $type, int $src_id) : void
+    public function disableAutomaticMembershipSource(string $type, int $src_id): void
     {
         $ams = $this->auto_memberships_repository->create($this->getId(), $type, $src_id, false);
         $this->auto_memberships_repository->update($ams);
@@ -1465,7 +1466,7 @@ class ilObjStudyProgramme extends ilContainer
      * Enable a membership source.
      * @throws ilException
      */
-    public function enableAutomaticMembershipSource(string $type, int $src_id, bool $assign_now = false) : void
+    public function enableAutomaticMembershipSource(string $type, int $src_id, bool $assign_now = false): void
     {
         if ($assign_now) {
             $assigned_by = ilStudyProgrammeAutoMembershipSource::SOURCE_MAPPING[$type];
@@ -1485,7 +1486,7 @@ class ilObjStudyProgramme extends ilContainer
      * @return int[]
      * @throws InvalidArgumentException if $src_type is not in AutoMembershipSource-types
      */
-    protected function getMembersOfMembershipSource(string $src_type, int $src_id) : array
+    protected function getMembersOfMembershipSource(string $src_type, int $src_id): array
     {
         $source_reader = $this->membersourcereader_factory->getReaderFor($src_type, $src_id);
         return $source_reader->getMemberIds();
@@ -1496,7 +1497,7 @@ class ilObjStudyProgramme extends ilContainer
      * Get all StudyProgrammes monitoring this membership-source.
      * @return ilObjStudyProgramme[]
      */
-    protected static function getProgrammesMonitoringMemberSource(string $src_type, int $src_id) : array
+    protected static function getProgrammesMonitoringMemberSource(string $src_type, int $src_id): array
     {
         $db = ilStudyProgrammeDIC::dic()['model.AutoMemberships.ilStudyProgrammeAutoMembershipsRepository'];
         $programmes = array_map(
@@ -1515,7 +1516,7 @@ class ilObjStudyProgramme extends ilContainer
         return $programmes;
     }
 
-    public static function addMemberToProgrammes(string $src_type, int $src_id, int $usr_id) : void
+    public static function addMemberToProgrammes(string $src_type, int $src_id, int $usr_id): void
     {
         foreach (self::getProgrammesMonitoringMemberSource($src_type, $src_id) as $prg) {
             if ($prg->isActive() &&
@@ -1526,7 +1527,7 @@ class ilObjStudyProgramme extends ilContainer
         }
     }
 
-    public static function removeMemberFromProgrammes(string $src_type, int $src_id, int $usr_id) : void
+    public static function removeMemberFromProgrammes(string $src_type, int $src_id, int $usr_id): void
     {
         $now = new DateTimeImmutable();
         foreach (self::getProgrammesMonitoringMemberSource($src_type, $src_id) as $prg) {
@@ -1557,7 +1558,7 @@ class ilObjStudyProgramme extends ilContainer
     public function getApplicableMembershipSourceForUser(
         int $usr_id,
         string $exclude_type
-    ) : ?ilStudyProgrammeAutoMembershipSource {
+    ): ?ilStudyProgrammeAutoMembershipSource {
         foreach ($this->getAutomaticMembershipSources() as $ams) {
             $src_type = $ams->getSourceType();
             if ($src_type !== $exclude_type) {
@@ -1577,7 +1578,7 @@ class ilObjStudyProgramme extends ilContainer
     /**
      * Update last change timestamp on this node and its parents.
      */
-    protected function updateLastChange() : void
+    protected function updateLastChange(): void
     {
         $this->getSettings()->updateLastChange();
         if ($parent = $this->getParent()) {
@@ -1592,7 +1593,7 @@ class ilObjStudyProgramme extends ilContainer
      *
      * @return int[]
      */
-    protected function getIdsFromNodesOnPathFromRootToHere(bool $include_references = false) : array
+    protected function getIdsFromNodesOnPathFromRootToHere(bool $include_references = false): array
     {
         $prg_ids = array_map(static function ($par) {
             return $par->getId();
@@ -1606,7 +1607,7 @@ class ilObjStudyProgramme extends ilContainer
      *
      * @return ilStudyProgrammeAssignment[]
      */
-    protected function getAssignmentsRaw() : array
+    protected function getAssignmentsRaw(): array
     {
         $assignments = [];
         foreach ($this->getIdsFromNodesOnPathFromRootToHere(true) as $prg_id) {
@@ -1630,7 +1631,7 @@ class ilObjStudyProgramme extends ilContainer
      *
      * This is exclusively called via event "Services/Tracking, updateStatus" (onServiceTrackingUpdateStatus)
      */
-    public static function setProgressesCompletedFor(int $obj_id, int $user_id) : void
+    public static function setProgressesCompletedFor(int $obj_id, int $user_id): void
     {
         // We only use courses via crs_refs
         $type = ilObject::_lookupType($obj_id);
@@ -1656,7 +1657,7 @@ class ilObjStudyProgramme extends ilContainer
         int $ref_id,
         int $obj_id,
         int $user_id
-    ) : void {
+    ): void {
         global $DIC; // TODO: replace this by a settable static for testing purpose?
         $tree = $DIC['tree'];
         $node_data = $tree->getParentNodeData($ref_id);
@@ -1685,7 +1686,7 @@ class ilObjStudyProgramme extends ilContainer
      * Get the obj id of the parent object for the given object. Returns null if
      * object is not in the tree currently.
      */
-    protected static function getParentId(ilObjCourseReference $leaf) : ?int
+    protected static function getParentId(ilObjCourseReference $leaf): ?int
     {
         global $DIC;
         $tree = $DIC['tree'];
@@ -1698,7 +1699,7 @@ class ilObjStudyProgramme extends ilContainer
     }
 
 
-    public function updateCustomIcon() : void
+    public function updateCustomIcon(): void
     {
         $customIcon = $this->custom_icon_factory->getByObjId($this->getId(), $this->getType());
         $subtype = $this->getSubType();
@@ -1728,7 +1729,7 @@ class ilObjStudyProgramme extends ilContainer
      *
      * @param string[] $subobjects
      */
-    public static function getCreatableSubObjects(array $subobjects, $ref_id) : array
+    public static function getCreatableSubObjects(array $subobjects, $ref_id): array
     {
         if ($ref_id === null) {
             return $subobjects;
@@ -1771,7 +1772,7 @@ class ilObjStudyProgramme extends ilContainer
         return $possible_subobjects;
     }
 
-    public static function sendReAssignedMail(int $ref_id, int $usr_id) : bool
+    public static function sendReAssignedMail(int $ref_id, int $usr_id): bool
     {
         global $DIC;
         $lng = $DIC['lng'];
@@ -1814,7 +1815,7 @@ class ilObjStudyProgramme extends ilContainer
         return $send;
     }
 
-    public static function sendInvalidateMail(int $ref_id, int $usr_id) : bool
+    public static function sendInvalidateMail(int $ref_id, int $usr_id): bool
     {
         global $DIC;
         $lng = $DIC['lng'];
@@ -1851,7 +1852,7 @@ class ilObjStudyProgramme extends ilContainer
         return $send;
     }
 
-    public static function sendInformToReAssignMail(int $progress_id, int $usr_id) : void
+    public static function sendInformToReAssignMail(int $progress_id, int $usr_id): void
     {
         global $DIC;
         $lng = $DIC['lng'];
@@ -1903,7 +1904,7 @@ class ilObjStudyProgramme extends ilContainer
     /**
      * @throws ilException
      */
-    public static function sendRiskyToFailMail(int $progress_id, int $usr_id) : void
+    public static function sendRiskyToFailMail(int $progress_id, int $usr_id): void
     {
         global $DIC;
         $lng = $DIC['lng'];
@@ -1955,12 +1956,12 @@ class ilObjStudyProgramme extends ilContainer
     /**
      * @return array <obj_id, ref_id>
      */
-    public function getIdsOfSuccessfulChildren(int $ass_id) : array
+    public function getIdsOfSuccessfulChildren(int $ass_id): array
     {
         $children = $this->getChildren(true);
-        
+
         $ids = array();
-        
+
         foreach ($children as $child) {
             $prgrs = $child->getProgressForAssignment($ass_id);
             if (!$prgrs->isSuccessful()) {
@@ -1991,7 +1992,7 @@ class ilObjStudyProgramme extends ilContainer
         return $ids;
     }
 
-    public function getNamesOfCompletedOrAccreditedChildren(int $ass_id) : array
+    public function getNamesOfCompletedOrAccreditedChildren(int $ass_id): array
     {
         return array_map(
             static function ($entry) {
@@ -2002,28 +2003,28 @@ class ilObjStudyProgramme extends ilContainer
         );
     }
 
-    protected function getLoggedInUserId() : int
+    protected function getLoggedInUserId(): int
     {
         return $this->ilUser->getId();
     }
 
-    protected function getNow() : DateTimeImmutable
+    protected function getNow(): DateTimeImmutable
     {
         return new DateTimeImmutable();
     }
 
-    protected function getAssignmentForProgress(ilStudyProgrammeProgress $progress) : ilStudyProgrammeAssignment
+    protected function getAssignmentForProgress(ilStudyProgrammeProgress $progress): ilStudyProgrammeAssignment
     {
         return $this->assignment_repository->get($progress->getAssignmentId());
     }
 
-    protected function getProgrammeSettingsForProgress(ilStudyProgrammeProgress $progress) : ilStudyProgrammeSettings
+    protected function getProgrammeSettingsForProgress(ilStudyProgrammeProgress $progress): ilStudyProgrammeSettings
     {
         return $this->settings_repository->get($progress->getNodeId());
     }
 
 
-    protected function getObjIdsOfChildren(int $node_obj_id) : array
+    protected function getObjIdsOfChildren(int $node_obj_id): array
     {
         $node_ref_id = self::getRefIdFor($node_obj_id);
 
@@ -2048,7 +2049,7 @@ class ilObjStudyProgramme extends ilContainer
     /**
      * @return ilStudyProgrammeProgress[]
      */
-    public function getChildrenProgress($progress) : array
+    public function getChildrenProgress($progress): array
     {
         $children = $this->getObjIdsOfChildren($progress->getNodeId());
         $ass_id = $progress->getAssignmentId();
@@ -2061,8 +2062,8 @@ class ilObjStudyProgramme extends ilContainer
 
         return $ret;
     }
-    
-    public function getParentProgress(ilStudyProgrammeProgress $progress) : ?ilStudyProgrammeProgress
+
+    public function getParentProgress(ilStudyProgrammeProgress $progress): ?ilStudyProgrammeProgress
     {
         $assignment_id = $progress->getAssignmentId();
 
@@ -2097,7 +2098,7 @@ class ilObjStudyProgramme extends ilContainer
     }
 
 
-    public function getPossiblePointsOfRelevantChildren(ilStudyProgrammeProgress $progress) : int
+    public function getPossiblePointsOfRelevantChildren(ilStudyProgrammeProgress $progress): int
     {
         $sum = 0;
         foreach ($this->getChildrenProgress($progress) as $child_progress) {
@@ -2108,7 +2109,7 @@ class ilObjStudyProgramme extends ilContainer
         return $sum;
     }
 
-    public function getAchievedPointsOfChildren(ilStudyProgrammeProgress $progress) : int
+    public function getAchievedPointsOfChildren(ilStudyProgrammeProgress $progress): int
     {
         $sum = 0;
         $children = $this->getChildrenProgress($progress);
@@ -2120,7 +2121,7 @@ class ilObjStudyProgramme extends ilContainer
         return $sum;
     }
 
-    protected function refreshLPStatus(int $usr_id, int $node_obj_id = null) : void
+    protected function refreshLPStatus(int $usr_id, int $node_obj_id = null): void
     {
         if (is_null($node_obj_id)) {
             $node_obj_id = $this->getId();
@@ -2128,7 +2129,7 @@ class ilObjStudyProgramme extends ilContainer
         ilLPStatusWrapper::_updateStatus($node_obj_id, $usr_id);
     }
 
-    protected function updateParentProgress(ilStudyProgrammeProgress $progress) : ilStudyProgrammeProgress
+    protected function updateParentProgress(ilStudyProgrammeProgress $progress): ilStudyProgrammeProgress
     {
         $parent_progress = $this->getParentProgress($progress);
         if (is_null($parent_progress)) {
@@ -2139,7 +2140,7 @@ class ilObjStudyProgramme extends ilContainer
         return $this->updateParentProgress($parent_progress); //recurse
     }
 
-    protected function recalculateProgressStatus(ilStudyProgrammeProgress $progress) : ilStudyProgrammeProgress
+    protected function recalculateProgressStatus(ilStudyProgrammeProgress $progress): ilStudyProgrammeProgress
     {
         if (!$progress->isRelevant()) {
             return $progress;
@@ -2173,7 +2174,7 @@ class ilObjStudyProgramme extends ilContainer
         if ($completion_mode === ilStudyProgrammeSettings::MODE_POINTS) {
             $achieved_points = $this->getAchievedPointsOfChildren($progress);
         }
-         
+
         $progress = $progress->withCurrentAmountOfPoints($achieved_points);
         $successful = ($achieved_points >= $required_points);
 
@@ -2181,7 +2182,7 @@ class ilObjStudyProgramme extends ilContainer
             $progress = $progress
                 ->withStatus(ilStudyProgrammeProgress::STATUS_COMPLETED)
                 ->withCompletion(null, new DateTimeImmutable());
-          
+
             // there was a status change, so:
             $this->events->userSuccessful($progress);
         }
@@ -2192,14 +2193,14 @@ class ilObjStudyProgramme extends ilContainer
                 ->withCompletion()
                 ->withValidityOfQualification();
         }
-        
+
         return $progress;
     }
 
     protected function applyProgressDeadline(
         ilStudyProgrammeProgress $progress,
         int $acting_usr_id = null
-    ) : ilStudyProgrammeProgress {
+    ): ilStudyProgrammeProgress {
         $today = $this->getNow();
         $format = ilStudyProgrammeProgress::DATE_FORMAT;
         $deadline = $progress->getDeadline();
@@ -2207,9 +2208,8 @@ class ilObjStudyProgramme extends ilContainer
         if (is_null($acting_usr_id)) {
             $acting_usr_id = $this->getLoggedInUserId();
         }
-        
-        switch ($progress->getStatus()) {
 
+        switch ($progress->getStatus()) {
             case ilStudyProgrammeProgress::STATUS_IN_PROGRESS:
                 if (!is_null($deadline)
                     && $deadline->format($format) < $today->format($format)
@@ -2234,7 +2234,7 @@ class ilObjStudyProgramme extends ilContainer
         int $progress_id,
         int $acting_usr_id,
         ilPRGMessageCollection $err_collection
-    ) : void {
+    ): void {
         $progress = $this->getProgressRepository()->get($progress_id);
         $new_status = $progress::STATUS_ACCREDITED;
 
@@ -2258,7 +2258,7 @@ class ilObjStudyProgramme extends ilContainer
         if (!$progress->getValidityOfQualification()) {
             $progress = $this->updateProgressValidityFromSettings($progress);
         }
-  
+
         $this->events->userSuccessful($progress);
 
         $this->getProgressRepository()->update($progress);
@@ -2271,7 +2271,7 @@ class ilObjStudyProgramme extends ilContainer
         int $progress_id,
         int $acting_usr_id,
         ilPRGMessageCollection $err_collection
-    ) : void {
+    ): void {
         $progress = $this->getProgressRepository()->get($progress_id);
         $new_status = $progress::STATUS_IN_PROGRESS;
 
@@ -2290,7 +2290,7 @@ class ilObjStudyProgramme extends ilContainer
             $err_collection->add(false, 'status_transition_not_allowed', $this->getProgressIdString($progress));
             return;
         }
-        
+
         $progress = $progress
             ->unmarkAccredited($this->getNow(), $acting_usr_id);
 
@@ -2305,7 +2305,7 @@ class ilObjStudyProgramme extends ilContainer
         $err_collection->add(true, 'status_changed', $this->getProgressIdString($progress));
     }
 
-    public function markFailed(int $progress_id, int $acting_usr_id) : void
+    public function markFailed(int $progress_id, int $acting_usr_id): void
     {
         $progress = $this->getProgressRepository()->get($progress_id);
         if (!$progress->isRelevant()) {
@@ -2318,7 +2318,7 @@ class ilObjStudyProgramme extends ilContainer
         $this->updateParentProgress($progress);
     }
 
-    public function markNotFailed(int $progress_id, int $acting_usr_id) : void
+    public function markNotFailed(int $progress_id, int $acting_usr_id): void
     {
         $progress = $this->getProgressRepository()->get($progress_id);
 
@@ -2336,7 +2336,7 @@ class ilObjStudyProgramme extends ilContainer
         int $progress_id,
         int $acting_usr_id,
         ilPRGMessageCollection $err_collection
-    ) : void {
+    ): void {
         $progress = $this->getProgressRepository()->get($progress_id);
         if (!$progress->isRelevant()) {
             $err_collection->add(false, 'will_not_modify_irrelevant_progress', $this->getProgressIdString($progress));
@@ -2350,7 +2350,7 @@ class ilObjStudyProgramme extends ilContainer
             $err_collection->add(false, 'will_not_set_completed_progress_to_irrelevant_', $this->getProgressIdString($progress));
             return;
         }
-        
+
         $progress = $progress
             ->markNotRelevant($this->getNow(), $acting_usr_id);
 
@@ -2364,7 +2364,7 @@ class ilObjStudyProgramme extends ilContainer
         int $progress_id,
         int $acting_usr_id,
         ilPRGMessageCollection $err_collection
-    ) : void {
+    ): void {
         $progress = $this->getProgressRepository()->get($progress_id);
         if ($progress->isRelevant()) {
             $err_collection->add(false, 'will_not_modify_relevant_progress', $this->getProgressIdString($progress));
@@ -2373,7 +2373,7 @@ class ilObjStudyProgramme extends ilContainer
 
         $progress = $progress
             ->markRelevant($this->getNow(), $acting_usr_id);
-    
+
         $progress = $this->recalculateProgressStatus($progress);
 
         $this->getProgressRepository()->update($progress);
@@ -2382,7 +2382,7 @@ class ilObjStudyProgramme extends ilContainer
         $err_collection->add(true, 'set_to_relevant', $this->getProgressIdString($progress));
     }
 
-    public function invalidate(int $progress_id) : void
+    public function invalidate(int $progress_id): void
     {
         $progress = $this->getProgressRepository()->get($progress_id)
             ->invalidate();
@@ -2392,11 +2392,11 @@ class ilObjStudyProgramme extends ilContainer
         $this->updateParentProgress($progress);
     }
 
-    public function succeed(int $progress_id, int $triggering_obj_id) : void
+    public function succeed(int $progress_id, int $triggering_obj_id): void
     {
         $progress = $this->getProgressRepository()->get($progress_id)
             ->succeed($this->getNow(), $triggering_obj_id);
-                
+
         $achieved_points = $progress->getAmountOfPoints();
         $progress = $progress->withCurrentAmountOfPoints($achieved_points);
         $progress = $this->updateProgressValidityFromSettings($progress);
@@ -2412,7 +2412,7 @@ class ilObjStudyProgramme extends ilContainer
         int $acting_usr_id,
         ilPRGMessageCollection $err_collection,
         ?DateTimeImmutable $deadline
-    ) : void {
+    ): void {
         $progress = $this->getProgressRepository()->get($progress_id);
 
         if (!$progress->isRelevant()) {
@@ -2446,7 +2446,7 @@ class ilObjStudyProgramme extends ilContainer
         int $acting_usr_id,
         ilPRGMessageCollection $err_collection,
         ?DateTimeImmutable $validity
-    ) : void {
+    ): void {
         $progress = $this->getProgressRepository()->get($progress_id);
 
         if (!$progress->isRelevant()) {
@@ -2479,9 +2479,9 @@ class ilObjStudyProgramme extends ilContainer
         int $acting_usr_id,
         ilPRGMessageCollection $err_collection,
         ?int $points
-    ) : void {
+    ): void {
         $progress = $this->getProgressRepository()->get($progress_id);
-        
+
         if (!$progress->isRelevant()) {
             $err_collection->add(false, 'will_not_modify_irrelevant_progress', $this->getProgressIdString($progress));
             return;
@@ -2490,7 +2490,7 @@ class ilObjStudyProgramme extends ilContainer
             $err_collection->add(false, 'will_not_modify_successful_progress', $this->getProgressIdString($progress));
             return;
         }
-        
+
         $progress = $progress
             ->withAmountOfPoints($points)
             ->withLastChange($acting_usr_id, $this->getNow())
@@ -2508,11 +2508,11 @@ class ilObjStudyProgramme extends ilContainer
         int $progress_id,
         int $acting_usr_id,
         ilPRGMessageCollection $err_collection = null
-    ) : void {
+    ): void {
         $progress = $this->getProgressRepository()->get($progress_id);
         $assignment_id = $progress->getAssignmentId();
         $progresses = $this->getProgressRepository()->getByAssignmentId($assignment_id);
-        
+
         $leafs = [];
         foreach ($progresses as $progress) {
             // get node for progress; settings are pulled from the node, which might not be "this"
@@ -2539,7 +2539,7 @@ class ilObjStudyProgramme extends ilContainer
     protected function resetProgressToSettings(
         ilStudyProgrammeProgress $progress,
         int $acting_usr_id
-    ) : ilStudyProgrammeProgress {
+    ): ilStudyProgrammeProgress {
         if ($progress->isRelevant()) {
             $progress = $this->updateProgressValidityFromSettings($progress);
             $progress = $this->updateProgressDeadlineFromSettings($progress);
@@ -2557,7 +2557,7 @@ class ilObjStudyProgramme extends ilContainer
         return $progress;
     }
 
-    protected function updateProgressRelevanceFromSettings(ilStudyProgrammeProgress $progress) : ilStudyProgrammeProgress
+    protected function updateProgressRelevanceFromSettings(ilStudyProgrammeProgress $progress): ilStudyProgrammeProgress
     {
         if ($this->isActive() && !$progress->isRelevant()) {
             $progress = $progress->withStatus(ilStudyProgrammeProgress::STATUS_IN_PROGRESS);
@@ -2565,11 +2565,11 @@ class ilObjStudyProgramme extends ilContainer
         if (!$this->isActive() && $progress->isInProgress()) {
             $progress = $progress->withStatus(ilStudyProgrammeProgress::STATUS_NOT_RELEVANT);
         }
-        
+
         return $progress;
     }
 
-    protected function updateProgressValidityFromSettings(ilStudyProgrammeProgress $progress) : ilStudyProgrammeProgress
+    protected function updateProgressValidityFromSettings(ilStudyProgrammeProgress $progress): ilStudyProgrammeProgress
     {
         $cdate = $progress->getCompletionDate();
         if (!$cdate
@@ -2593,7 +2593,7 @@ class ilObjStudyProgramme extends ilContainer
         return $progress->withValidityOfQualification($date);
     }
 
-    protected function updateProgressDeadlineFromSettings(ilStudyProgrammeProgress $progress) : ilStudyProgrammeProgress
+    protected function updateProgressDeadlineFromSettings(ilStudyProgrammeProgress $progress): ilStudyProgrammeProgress
     {
         $settings = $this->getSettings()->getDeadlineSettings();
         $period = $settings->getDeadlinePeriod();
@@ -2609,7 +2609,7 @@ class ilObjStudyProgramme extends ilContainer
         return $progress->withDeadline($date);
     }
 
-    public function canBeCompleted(ilStudyProgrammeProgress $progress) : bool
+    public function canBeCompleted(ilStudyProgrammeProgress $progress): bool
     {
         if ($this->getLPMode() === ilStudyProgrammeSettings::MODE_LP_COMPLETED) {
             return true;
@@ -2621,7 +2621,7 @@ class ilObjStudyProgramme extends ilContainer
     /**
      * Get a user readable representation of a status.
      */
-    public function statusToRepr(int $status) : string
+    public function statusToRepr(int $status): string
     {
         $lng = $this->lng;
         $lng->loadLanguageModule("prg");
@@ -2644,7 +2644,7 @@ class ilObjStudyProgramme extends ilContainer
         throw new ilException("Unknown status: '$status'");
     }
 
-    protected function getProgressIdString(ilStudyProgrammeProgress $progress) : string
+    protected function getProgressIdString(ilStudyProgrammeProgress $progress): string
     {
         $username = ilObjUser::_lookupFullname($progress->getUserId());
         return sprintf(

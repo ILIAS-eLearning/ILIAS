@@ -14,7 +14,7 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *********************************************************************/
- 
+
 namespace ILIAS\ResourceStorage\Consumer;
 
 /**
@@ -23,18 +23,17 @@ namespace ILIAS\ResourceStorage\Consumer;
  */
 interface DeliveryConsumer
 {
-
     /**
      * This runs the actual DeliveryConsumer. E.g. a DownloadConsumer will pass the
      * Stream of a Ressource to the HTTP-Service and download the file.
      */
-    public function run() : void;
+    public function run(): void;
 
     /**
      * @param int $revision_number of a specific revision. otherwise the latest
      *                             will be chosen during run()
      */
-    public function setRevisionNumber(int $revision_number) : DeliveryConsumer;
+    public function setRevisionNumber(int $revision_number): DeliveryConsumer;
 
-    public function overrideFileName(string $file_name) : DeliveryConsumer;
+    public function overrideFileName(string $file_name): DeliveryConsumer;
 }

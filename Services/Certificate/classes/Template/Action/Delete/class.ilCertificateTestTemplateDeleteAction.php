@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -32,7 +34,7 @@ class ilCertificateTestTemplateDeleteAction implements ilCertificateDeleteAction
         $this->objectHelper = $objectHelper;
     }
 
-    public function delete(int $templateId, int $objectId) : void
+    public function delete(int $templateId, int $objectId): void
     {
         $this->deleteAction->delete($templateId, $objectId);
     }

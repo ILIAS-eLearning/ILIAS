@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -68,7 +70,7 @@ class ilTermsOfServiceDocumentGUITest extends ilTermsOfServiceBaseTest
     protected ilHtmlPurifierInterface $documentPurifier;
     protected Refinery $refinery;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -90,12 +92,12 @@ class ilTermsOfServiceDocumentGUITest extends ilTermsOfServiceBaseTest
         $this->tableDataProviderFactory = $this->getMockBuilder(ilTermsOfServiceTableDataProviderFactory::class)->disableOriginalConstructor()->getMock();
         $this->documentPurifier = $this->getMockBuilder(ilHtmlPurifierInterface::class)->getMock();
         $this->refinery = new ILIAS\Refinery\Factory(
-            new \ILIAS\Data\Factory,
+            new \ILIAS\Data\Factory(),
             $this->lng
         );
     }
 
-    public function commandProvider() : array
+    public function commandProvider(): array
     {
         return [
             ['default_____read', [false]],
@@ -117,10 +119,9 @@ class ilTermsOfServiceDocumentGUITest extends ilTermsOfServiceBaseTest
 
     /**
      * @dataProvider commandProvider
-     * @param string $command
      * @param bool[] $accessResults
      */
-    public function testAccessDeniedErrorIsRaisedWhenPermissionsAreMissing(string $command, array $accessResults) : void
+    public function testAccessDeniedErrorIsRaisedWhenPermissionsAreMissing(string $command, array $accessResults): void
     {
         $this->ctrl
             ->expects($this->once())
@@ -131,7 +132,7 @@ class ilTermsOfServiceDocumentGUITest extends ilTermsOfServiceBaseTest
         $this->rbacsystem
             ->expects($this->exactly(count($accessResults)))
             ->method('checkAccess')
-            ->willReturnCallback(function () use ($accessResults, &$accessResultCounter) {
+            ->willReturnCallback(function () use ($accessResults, &$accessResultCounter): bool {
                 $result = $accessResults[$accessResultCounter];
 
                 $accessResultCounter++;
@@ -169,7 +170,7 @@ class ilTermsOfServiceDocumentGUITest extends ilTermsOfServiceBaseTest
         $gui->executeCommand();
     }
 
-    public function testLastResetDateIsDisplayedInMessageBoxWhenAgreementsHaveBeenResetAtLeastOnce() : void
+    public function testLastResetDateIsDisplayedInMessageBoxWhenAgreementsHaveBeenResetAtLeastOnce(): void
     {
         $this->setGlobalVariable('lng', clone $this->lng);
         $this->setGlobalVariable('ilUser', clone $this->user);
@@ -295,7 +296,7 @@ class ilTermsOfServiceDocumentGUITest extends ilTermsOfServiceBaseTest
         $gui->executeCommand();
     }
 
-    public function testNoLastResetDateIsDisplayedInMessageBoxWhenAgreementsHaveBeenResetAtLeastOnce() : void
+    public function testNoLastResetDateIsDisplayedInMessageBoxWhenAgreementsHaveBeenResetAtLeastOnce(): void
     {
         $this->setGlobalVariable('lng', clone $this->lng);
         $this->setGlobalVariable('ilUser', clone $this->user);

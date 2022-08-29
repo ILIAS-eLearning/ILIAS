@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -17,21 +19,21 @@
  *********************************************************************/
 interface ilUsersGalleryUserCollection extends Iterator, Countable
 {
-    public function setHighlighted(bool $status) : void;
+    public function setHighlighted(bool $status): void;
 
-    public function isHighlighted() : bool;
+    public function isHighlighted(): bool;
 
-    public function getLabel() : string;
+    public function getLabel(): string;
 
-    public function setLabel(string $label) : void;
+    public function setLabel(string $label): void;
 
     /**
      * @param ilUsersGalleryUser[] $items
      */
-    public function setItems(array $items) : void;
+    public function setItems(array $items): void;
 
     /**
      * @return ilUsersGalleryUser[]
      */
-    public function getItems() : array;
+    public function getItems(): array;
 }

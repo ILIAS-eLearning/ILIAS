@@ -49,11 +49,11 @@ class ilObjBookingPool extends ilObject
         $this->setScheduleType(self::TYPE_FIX_SCHEDULE);
         parent::__construct($a_id, $a_call_by_reference);
     }
-    
+
     /**
      * Parse properties for sql statements
      */
-    protected function getDBFields() : array
+    protected function getDBFields(): array
     {
         return array(
             "schedule_type" => array("integer", $this->getScheduleType()),
@@ -68,12 +68,12 @@ class ilObjBookingPool extends ilObject
         );
     }
 
-    public function create() : int
+    public function create(): int
     {
         $ilDB = $this->db;
-        
+
         $new_id = parent::create();
-        
+
         $fields = $this->getDBFields();
         $fields["booking_pool_id"] = array("integer", $new_id);
 
@@ -82,10 +82,10 @@ class ilObjBookingPool extends ilObject
         return $new_id;
     }
 
-    public function update() : bool
+    public function update(): bool
     {
         $ilDB = $this->db;
-        
+
         if (!parent::update()) {
             return false;
         }
@@ -102,10 +102,10 @@ class ilObjBookingPool extends ilObject
         return true;
     }
 
-    public function read() : void
+    public function read(): void
     {
         $ilDB = $this->db;
-        
+
         parent::read();
 
         // put here object specific stuff
@@ -128,7 +128,7 @@ class ilObjBookingPool extends ilObject
     /**
      * Get pools with reminders
      */
-    public static function getPoolsWithReminders() : array
+    public static function getPoolsWithReminders(): array
     {
         global $DIC;
 
@@ -155,7 +155,7 @@ class ilObjBookingPool extends ilObject
     public static function writeLastReminderTimestamp(
         int $a_obj_id,
         int $a_ts
-    ) : void {
+    ): void {
         global $DIC;
         $db = $DIC->database();
         $db->update("booking_settings", array(
@@ -165,7 +165,7 @@ class ilObjBookingPool extends ilObject
             ));
     }
 
-    public function delete() : bool
+    public function delete(): bool
     {
         $ilDB = $this->db;
 
@@ -177,13 +177,13 @@ class ilObjBookingPool extends ilObject
         }
 
         // put here your module specific stuff
-        
+
         $ilDB->manipulate('DELETE FROM booking_settings' .
                 ' WHERE booking_pool_id = ' . $ilDB->quote($id, 'integer'));
 
         $ilDB->manipulate('DELETE FROM booking_schedule' .
                 ' WHERE pool_id = ' . $ilDB->quote($id, 'integer'));
-        
+
         $objects = array();
         $set = $ilDB->query('SELECT booking_object_id FROM booking_object' .
             ' WHERE pool_id = ' . $ilDB->quote($id, 'integer'));
@@ -201,8 +201,8 @@ class ilObjBookingPool extends ilObject
 
         return true;
     }
-    
-    public function cloneObject(int $target_id, int $copy_id = 0, bool $omit_tree = false) : ?ilObject
+
+    public function cloneObject(int $target_id, int $copy_id = 0, bool $omit_tree = false): ?ilObject
     {
         $new_obj = parent::cloneObject($target_id, $copy_id, $omit_tree);
 
@@ -243,14 +243,14 @@ class ilObjBookingPool extends ilObject
         }
         return null;
     }
-    
+
     public function setOffline(
         bool $a_value = true
-    ) : void {
+    ): void {
         $this->offline = $a_value;
     }
 
-    public function isOffline() : bool
+    public function isOffline(): bool
     {
         return $this->offline;
     }
@@ -260,121 +260,121 @@ class ilObjBookingPool extends ilObject
      */
     public function setPublicLog(
         bool $a_value = true
-    ) : void {
+    ): void {
         $this->public_log = $a_value;
     }
 
-    public function hasPublicLog() : bool
+    public function hasPublicLog(): bool
     {
         return $this->public_log;
     }
 
-    public function setScheduleType(int $a_value) : void
+    public function setScheduleType(int $a_value): void
     {
         $this->schedule_type = $a_value;
     }
 
-    public function getScheduleType() : int
+    public function getScheduleType(): int
     {
         return $this->schedule_type;
     }
-    
-    public function setReminderStatus(int $a_val) : void
+
+    public function setReminderStatus(int $a_val): void
     {
         $this->reminder_status = $a_val;
     }
-    
-    public function getReminderStatus() : int
+
+    public function getReminderStatus(): int
     {
         return $this->reminder_status;
     }
 
-    public function setReminderDay(int $a_val) : void
+    public function setReminderDay(int $a_val): void
     {
         $this->reminder_day = $a_val;
     }
 
-    public function getReminderDay() : int
+    public function getReminderDay(): int
     {
         return $this->reminder_day;
     }
-    
-    public function setPreferenceNumber(int $a_val) : void
+
+    public function setPreferenceNumber(int $a_val): void
     {
         $this->preference_nr = $a_val;
     }
-    
-    public function getPreferenceNumber() : int
+
+    public function getPreferenceNumber(): int
     {
         return $this->preference_nr;
     }
-    
+
     /**
      * @param int $a_val preference deadline unix timestamp
      */
-    public function setPreferenceDeadline(int $a_val) : void
+    public function setPreferenceDeadline(int $a_val): void
     {
         $this->pref_deadline = $a_val;
     }
-    
+
     /**
      * @return int preference deadline unix timestamp
      */
-    public function getPreferenceDeadline() : int
+    public function getPreferenceDeadline(): int
     {
         return $this->pref_deadline;
     }
-    
-    public static function _lookupOnline(int $a_obj_id) : bool
+
+    public static function _lookupOnline(int $a_obj_id): bool
     {
         global $DIC;
 
         $ilDB = $DIC->database();
-        
+
         $set = $ilDB->query("SELECT pool_offline" .
             " FROM booking_settings" .
             " WHERE booking_pool_id = " . $ilDB->quote($a_obj_id, "integer"));
         $row = $ilDB->fetchAssoc($set);
         return !$row["pool_offline"];
     }
-    
+
     /**
      * Set overall / global booking limit
      */
-    public function setOverallLimit(?int $a_value = null) : void
+    public function setOverallLimit(?int $a_value = null): void
     {
         $this->overall_limit = $a_value;
     }
-    
-    public function getOverallLimit() : ?int
+
+    public function getOverallLimit(): ?int
     {
         return $this->overall_limit;
     }
-    
+
     /**
      * Set reservation filter period default
      */
     public function setReservationFilterPeriod(
         ?int $a_value = null
-    ) : void {
+    ): void {
         $this->reservation_period = $a_value;
     }
-    
-    public function getReservationFilterPeriod() : ?int
+
+    public function getReservationFilterPeriod(): ?int
     {
         return $this->reservation_period;
     }
-    
-    
+
+
     //
     // advanced metadata
     //
-    
+
     public static function getAdvancedMDFields(
         int $a_ref_id
-    ) : array {
+    ): array {
         $fields = array();
-        
+
         $recs = ilAdvancedMDRecord::_getSelectedRecordsByObject("book", $a_ref_id, "bobj");
 
         foreach ($recs as $record_obj) {

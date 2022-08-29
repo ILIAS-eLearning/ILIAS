@@ -381,7 +381,7 @@ class ilSoapLearningProgressAdministration extends ilSoapAdministration
         return $writer->xmlDumpMem();
     }
 
-    protected function addUserProgress(ilXmlWriter $writer, array $users, int $a_type) : void
+    protected function addUserProgress(ilXmlWriter $writer, array $users, int $a_type): void
     {
         foreach ($users as $user_id) {
             $writer->xmlStartTag(
@@ -407,7 +407,7 @@ class ilSoapLearningProgressAdministration extends ilSoapAdministration
      * @param array $filter
      * @return array $filtered_users
      */
-    protected function applyProgressFilter(int $obj_id, array $usr_ids, array $filter) : array
+    protected function applyProgressFilter(int $obj_id, array $usr_ids, array $filter): array
     {
         include_once './Services/Tracking/classes/class.ilLPStatusWrapper.php';
 
@@ -450,7 +450,7 @@ class ilSoapLearningProgressAdministration extends ilSoapAdministration
     /**
      * Delete SCORM Tracking
      */
-    protected function deleteScormTracking(int $a_obj_id, array $a_usr_ids) : bool
+    protected function deleteScormTracking(int $a_obj_id, array $a_usr_ids): bool
     {
         global $DIC;
 
@@ -466,7 +466,7 @@ class ilSoapLearningProgressAdministration extends ilSoapAdministration
     /**
      * Delete scorm 2004 tracking
      */
-    protected function deleteScorm2004Tracking(int $a_obj_id, array $a_usr_ids) : void
+    protected function deleteScorm2004Tracking(int $a_obj_id, array $a_usr_ids): void
     {
         global $DIC;
 

@@ -42,9 +42,9 @@ class ilSurveySkillTableGUI extends ilTable2GUI
         $this->lng = $DIC->language();
         $ilCtrl = $DIC->ctrl();
         $lng = $DIC->language();
-        
+
         $this->survey = $a_survey;
-        
+
         parent::__construct($a_parent_obj, $a_parent_cmd);
         $this->getSkills();
         $this->setTitle($lng->txt("survey_competences"));
@@ -64,8 +64,8 @@ class ilSurveySkillTableGUI extends ilTable2GUI
         $this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
         $this->setRowTemplate("tpl.svy_skill_row.html", "Modules/Survey");
     }
-    
-    public function getSkills() : void
+
+    public function getSkills(): void
     {
         $sskill = new ilSurveySkill($this->survey);
         $opts = $sskill->getAllAssignedSkillsAsOptions();
@@ -83,11 +83,11 @@ class ilSurveySkillTableGUI extends ilTable2GUI
                 "scale_sum" => $scale_sum
                 );
         }
-        
+
         $this->setData($data);
     }
-    
-    protected function fillRow(array $a_set) : void
+
+    protected function fillRow(array $a_set): void
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
@@ -114,7 +114,7 @@ class ilSurveySkillTableGUI extends ilTable2GUI
         $this->tpl->setVariable("MAX_SCALE_POINTS", $a_set["scale_sum"]);
         $this->tpl->setVariable("CMD", $ilCtrl->getLinkTarget($this->parent_obj, "listSkillThresholds"));
         $this->tpl->setVariable("ACTION", $lng->txt("edit"));
-        
+
         $bs = new ilBasicSkill($a_set["base_skill"]);
         $ld = $bs->getLevelData();
         foreach ($ld as $l) {

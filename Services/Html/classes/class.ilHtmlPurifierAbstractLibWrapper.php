@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -22,6 +24,20 @@
  */
 abstract class ilHtmlPurifierAbstractLibWrapper implements ilHtmlPurifierInterface
 {
+    private const HTML_PURIFIER_DIRECTORY = '/HTMLPurifier';
+    private const NOT_SUPPORTED_TAGS = [
+        'rp',
+        'rt',
+        'rb',
+        'rtc',
+        'rbc',
+        'ruby',
+        'u',
+        'strike',
+        'param',
+        'object'
+    ];
+
     protected HTMLPurifier $purifier;
 
     /**
@@ -34,12 +50,12 @@ abstract class ilHtmlPurifierAbstractLibWrapper implements ilHtmlPurifierInterfa
         );
     }
 
-    final public function purify(string $html) : string
+    final public function purify(string $html): string
     {
         return $this->purifier->purify($html);
     }
 
-    final public function purifyArray(array $htmlCollection) : array
+    final public function purifyArray(array $htmlCollection): array
     {
         foreach ($htmlCollection as $key => $html) {
             if (!is_string($html)) {
@@ -54,26 +70,26 @@ abstract class ilHtmlPurifierAbstractLibWrapper implements ilHtmlPurifierInterfa
         return $this->purifier->purifyArray($htmlCollection);
     }
 
-    abstract protected function getPurifierConfigInstance() : HTMLPurifier_Config;
+    abstract protected function getPurifierConfigInstance(): HTMLPurifier_Config;
 
-    final protected function setPurifier(HTMLPurifier $purifier) : self
+    final protected function setPurifier(HTMLPurifier $purifier): self
     {
         $this->purifier = $purifier;
         return $this;
     }
 
-    final protected function getPurifier() : HTMLPurifier
+    final protected function getPurifier(): HTMLPurifier
     {
         return $this->purifier;
     }
 
-    final public static function _getCacheDirectory() : string
+    final public static function _getCacheDirectory(): string
     {
-        if (!is_dir(ilFileUtils::getDataDir() . '/HTMLPurifier')) {
-            ilFileUtils::makeDirParents(ilFileUtils::getDataDir() . '/HTMLPurifier');
+        if (!is_dir(ilFileUtils::getDataDir() . self::HTML_PURIFIER_DIRECTORY)) {
+            ilFileUtils::makeDirParents(ilFileUtils::getDataDir() . self::HTML_PURIFIER_DIRECTORY);
         }
 
-        return ilFileUtils::getDataDir() . '/HTMLPurifier';
+        return ilFileUtils::getDataDir() . self::HTML_PURIFIER_DIRECTORY;
     }
 
     /**
@@ -81,25 +97,12 @@ abstract class ilHtmlPurifierAbstractLibWrapper implements ilHtmlPurifierInterfa
      * @param string[] $elements
      * @return string[]
      */
-    final protected function removeUnsupportedElements(array $elements) : array
+    final protected function removeUnsupportedElements(array $elements): array
     {
         $supportedElements = [];
 
-        $notSupportedTags = [
-            'rp',
-            'rt',
-            'rb',
-            'rtc',
-            'rbc',
-            'ruby',
-            'u',
-            'strike',
-            'param',
-            'object'
-        ];
-
         foreach ($elements as $element) {
-            if (!in_array($element, $notSupportedTags)) {
+            if (!in_array($element, self::NOT_SUPPORTED_TAGS)) {
                 $supportedElements[] = $element;
             }
         }
@@ -111,7 +114,7 @@ abstract class ilHtmlPurifierAbstractLibWrapper implements ilHtmlPurifierInterfa
      * @param string[] $elements
      * @return string[]
      */
-    final protected function makeElementListTinyMceCompliant(array $elements) : array
+    final protected function makeElementListTinyMceCompliant(array $elements): array
     {
         // Bugfix #5945: Necessary because TinyMCE does not use the "u"
         // html element but <span style="text-decoration: underline">E</span>

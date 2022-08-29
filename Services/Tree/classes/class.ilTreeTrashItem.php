@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
@@ -29,72 +31,72 @@ class ilTreeTrashItem
     {
     }
 
-    public function setObjId(int $obj_id) : void
+    public function setObjId(int $obj_id): void
     {
         $this->obj_id = $obj_id;
     }
 
-    public function getObjId() : int
+    public function getObjId(): int
     {
         return $this->obj_id;
     }
 
-    public function setRefId(int $ref_id) : void
+    public function setRefId(int $ref_id): void
     {
         $this->ref_id = $ref_id;
     }
 
-    public function getRefId() : int
+    public function getRefId(): int
     {
         return $this->ref_id;
     }
 
-    public function setTitle(string $title) : void
+    public function setTitle(string $title): void
     {
         $this->title = $title;
     }
 
-    public function getTitle() : string
+    public function getTitle(): string
     {
         return $this->title;
     }
 
-    public function setDescription(?string $description) : void
+    public function setDescription(?string $description): void
     {
         $this->description = $description;
     }
 
-    public function getDescription() : ?string
+    public function getDescription(): ?string
     {
         return $this->description;
     }
 
-    public function setType(string $type) : void
+    public function setType(string $type): void
     {
         $this->type = $type;
     }
 
-    public function getType() : string
+    public function getType(): string
     {
         return $this->type;
     }
 
-    public function setDeleted(?string $deleted) : void
+    public function setDeleted(?string $deleted): void
     {
         $this->deleted = $deleted;
     }
 
-    public function getDeleted() : ?string
+    public function getDeleted(): ?string
     {
         return $this->deleted;
     }
 
-    public function setDeletedBy(int $deleted_by) : void
+    public function setDeletedBy(int $deleted_by): void
     {
         $this->deleted_by = $deleted_by;
     }
 
-    public function getDeletedBy() : int
+    public function getDeletedBy(): int
     {
         return $this->deleted_by;
     }

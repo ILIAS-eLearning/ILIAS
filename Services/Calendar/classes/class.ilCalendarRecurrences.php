@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /*
         +-----------------------------------------------------------------------------+
         | ILIAS open source                                                           |
@@ -30,7 +32,7 @@ class ilCalendarRecurrences
     /**
      * get all recurrences of an appointment
      */
-    public static function _getRecurrences(int $a_cal_id) : array
+    public static function _getRecurrences(int $a_cal_id): array
     {
         global $DIC;
 
@@ -45,7 +47,7 @@ class ilCalendarRecurrences
         return $recurrences;
     }
 
-    public static function _getFirstRecurrence($a_cal_id) : ilCalendarRecurrence
+    public static function _getFirstRecurrence($a_cal_id): ilCalendarRecurrence
     {
         $recs = self::_getRecurrences($a_cal_id);
         if (count($recs)) {

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -7,7 +9,7 @@
  */
 class ilDidacticTemplateActionFactory
 {
-    public static function factoryByType(int $a_action_type) : ilDidacticTemplateAction
+    public static function factoryByType(int $a_action_type): ilDidacticTemplateAction
     {
         switch ($a_action_type) {
             case ilDidacticTemplateAction::TYPE_LOCAL_POLICY:
@@ -24,7 +26,7 @@ class ilDidacticTemplateActionFactory
         }
     }
 
-    public static function factoryByTypeAndId(int $a_action_id, int $a_action_type) : ilDidacticTemplateAction
+    public static function factoryByTypeAndId(int $a_action_id, int $a_action_type): ilDidacticTemplateAction
     {
         switch ($a_action_type) {
             case ilDidacticTemplateAction::TYPE_LOCAL_POLICY:
@@ -46,7 +48,7 @@ class ilDidacticTemplateActionFactory
      * @param int $a_tpl_id
      * @return ilDidacticTemplateAction[]
      */
-    public static function getActionsByTemplateId(int $a_tpl_id) : array
+    public static function getActionsByTemplateId(int $a_tpl_id): array
     {
         global $DIC;
 

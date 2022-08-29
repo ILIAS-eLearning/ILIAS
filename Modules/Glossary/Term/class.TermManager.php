@@ -1,4 +1,6 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -43,12 +45,12 @@ class TermManager
         $this->domain = $domain_service;
     }
 
-    public function setSessionLang(string $lang) : void
+    public function setSessionLang(string $lang): void
     {
         $this->session_repo->setLang($this->glossary->getRefId(), $lang);
     }
 
-    public function getSessionLang() : string
+    public function getSessionLang(): string
     {
         return $this->session_repo->getLang($this->glossary->getRefId());
     }
@@ -56,7 +58,7 @@ class TermManager
     public function copyTermFromOtherGlossary(
         int $other_glossary_ref_id,
         int $term_id
-    ) : void {
+    ): void {
         $access = $this->domain->access();
 
         if (!$access->checkAccessOfUser(
@@ -92,7 +94,7 @@ class TermManager
     public function referenceTermsFromOtherGlossary(
         int $other_glossary_ref_id,
         array $term_ids
-    ) : void {
+    ): void {
         $access = $this->domain->access();
 
         if (!$access->checkAccessOfUser(

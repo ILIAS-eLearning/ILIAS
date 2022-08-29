@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -22,7 +24,10 @@
  */
 class ilTermsOfServiceDocumentTableDataProvider implements ilTermsOfServiceTableDataProvider
 {
-    public function getList(array $params, array $filter) : array
+    /**
+     * @return array{items: ActiveRecord[], cnt: int}
+     */
+    public function getList(array $params, array $filter): array
     {
         $items = ilTermsOfServiceDocument::orderBy('sorting')->get();
 

@@ -25,12 +25,12 @@ class ilItemGroupDBUpdateSteps implements \ilDatabaseUpdateSteps
 {
     protected \ilDBInterface $db;
 
-    public function prepare(\ilDBInterface $db) : void
+    public function prepare(\ilDBInterface $db): void
     {
         $this->db = $db;
     }
 
-    public function step_1() : void
+    public function step_1(): void
     {
         if (!$this->db->tableColumnExists('itgr_data', 'list_presentation')) {
             $this->db->addTableColumn('itgr_data', 'list_presentation', array(

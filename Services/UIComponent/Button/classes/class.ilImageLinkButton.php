@@ -26,51 +26,51 @@ class ilImageLinkButton extends ilLinkButton
 {
     protected string $src = "";
     protected bool $force_title = false;
-    
-    public static function getInstance() : self
+
+    public static function getInstance(): self
     {
         return new self(self::TYPE_LINK);
     }
-    
-    
+
+
     //
     // properties
     //
-    
-    public function setImage(string $a_value, bool $a_is_internal = true) : void
+
+    public function setImage(string $a_value, bool $a_is_internal = true): void
     {
         if ($a_is_internal) {
             $a_value = ilUtil::getImagePath($a_value);
         }
         $this->src = trim($a_value);
     }
-    
-    public function getImage() : string
+
+    public function getImage(): string
     {
         return $this->src;
     }
-    
-    public function forceTitle(bool $a_value) : void
+
+    public function forceTitle(bool $a_value): void
     {
         $this->force_title = $a_value;
     }
-    
-    public function hasForceTitle() : bool
+
+    public function hasForceTitle(): bool
     {
         return $this->force_title;
     }
-    
-    
+
+
     //
     // render
     //
-    
-    protected function prepareRender() : void
+
+    protected function prepareRender(): void
     {
         // get rid of parent "submit" css class...
     }
-    
-    protected function renderCaption() : string
+
+    protected function renderCaption(): string
     {
         $attr = array();
         $attr["src"] = $this->getImage();

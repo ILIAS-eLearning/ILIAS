@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /******************************************************************************
  *
@@ -44,7 +46,7 @@ class ilAuthProviderSoap extends ilAuthProvider
         parent::__construct($credentials);
     }
 
-    private function initClient() : void
+    private function initClient(): void
     {
         $this->server_host = (string) $this->settings->get('soap_auth_server', '');
         $this->server_port = (string) $this->settings->get('soap_auth_port', '');
@@ -68,7 +70,7 @@ class ilAuthProviderSoap extends ilAuthProvider
     /**
      * @inheritDoc
      */
-    public function doAuthentication(ilAuthStatus $status) : bool
+    public function doAuthentication(ilAuthStatus $status): bool
     {
         try {
             $this->initClient();
@@ -91,7 +93,7 @@ class ilAuthProviderSoap extends ilAuthProvider
         return false;
     }
 
-    private function handleSoapAuth(ilAuthStatus $status) : bool
+    private function handleSoapAuth(ilAuthStatus $status): bool
     {
         $this->logger->debug(sprintf(
             'Login observer called for SOAP authentication request of ext_account "%s" and auth_mode "%s".',

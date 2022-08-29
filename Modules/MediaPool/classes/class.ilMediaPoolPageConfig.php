@@ -23,7 +23,7 @@
  */
 class ilMediaPoolPageConfig extends ilPageConfig
 {
-    public function init() : void
+    public function init(): void
     {
         $this->setEnableInternalLinks(false);
         $this->setPreventHTMLUnmasking(false);

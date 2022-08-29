@@ -28,7 +28,7 @@ class ilOrgUnitAuthorityFormGUI extends BaseForm
     private const F_TITLE = 'title';
     private const F_DESCRIPTION = 'description';
 
-    public function initFormElements() : void
+    public function initFormElements(): void
     {
         $te = new ilTextInputGUI($this->lng->txt(self::F_TITLE), self::F_TITLE);
         $te->setRequired(true);
@@ -49,7 +49,7 @@ class ilOrgUnitAuthorityFormGUI extends BaseForm
         $this->addItem($c);
     }
 
-    public function fillForm() : void
+    public function fillForm(): void
     {
         $array = array(
             self::F_TITLE => $this->object->getTitle(),

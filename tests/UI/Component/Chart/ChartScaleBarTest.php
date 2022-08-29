@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 require_once(__DIR__ . "/../../../../libs/composer/vendor/autoload.php");
 require_once(__DIR__ . "/../../Base.php");
 
@@ -27,7 +29,7 @@ use ILIAS\UI\Implementation as I;
  */
 class ChartScaleBarTest extends ILIAS_UI_TestBase
 {
-    protected function getFactory() : C\Chart\Factory
+    protected function getFactory(): C\Chart\Factory
     {
         return new I\Component\Chart\Factory(
             $this->createMock(C\Chart\ProgressMeter\Factory::class),
@@ -35,14 +37,14 @@ class ChartScaleBarTest extends ILIAS_UI_TestBase
         );
     }
 
-    public function test_implements_factory_interface() : void
+    public function test_implements_factory_interface(): void
     {
         $f = $this->getFactory();
 
         $this->assertInstanceOf("ILIAS\\UI\\Component\\Chart\\ScaleBar", $f->scaleBar(array("1" => false)));
     }
 
-    public function test_get_items() : void
+    public function test_get_items(): void
     {
         $f = $this->getFactory();
 
@@ -58,7 +60,7 @@ class ChartScaleBarTest extends ILIAS_UI_TestBase
         $this->assertEquals($c->getItems(), $items);
     }
 
-    public function test_render() : void
+    public function test_render(): void
     {
         $f = $this->getFactory();
         $r = $this->getDefaultRenderer();

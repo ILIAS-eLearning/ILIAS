@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -38,20 +40,20 @@ class ilPollDataSet extends ilDataSet
         $this->notes = $DIC->notes();
     }
 
-    public function getSupportedVersions() : array
+    public function getSupportedVersions(): array
     {
         return array("4.3.0", "5.0.0");
     }
-    
-    protected function getXmlNamespace(string $a_entity, string $a_schema_version) : string
+
+    protected function getXmlNamespace(string $a_entity, string $a_schema_version): string
     {
         return "http://www.ilias.de/xml/Modules/Poll/" . $a_entity;
     }
-    
+
     /**
      * @inheritdoc
      */
-    protected function getTypes(string $a_entity, string $a_version) : array
+    protected function getTypes(string $a_entity, string $a_version): array
     {
         if ($a_entity === "poll") {
             switch ($a_version) {
@@ -85,10 +87,10 @@ class ilPollDataSet extends ilDataSet
                         "PeriodEnd" => "integer"
 
                     );
-                break;
+                    break;
             }
         }
-        
+
         if ($a_entity === "poll_answer") {
             switch ($a_version) {
                 case "4.3.0":
@@ -106,10 +108,10 @@ class ilPollDataSet extends ilDataSet
         return [];
     }
 
-    public function readData(string $a_entity, string $a_version, array $a_ids) : void
+    public function readData(string $a_entity, string $a_version, array $a_ids): void
     {
         $ilDB = $this->db;
-        
+
         if ($a_entity === "poll") {
             switch ($a_version) {
                 case "4.3.0":
@@ -129,7 +131,6 @@ class ilPollDataSet extends ilDataSet
                         " WHERE " . $ilDB->in("pl.id", $a_ids, false, "integer") .
                         " AND od.type = " . $ilDB->quote("poll", "text"));
                     break;
-
             }
         }
 
@@ -144,13 +145,13 @@ class ilPollDataSet extends ilDataSet
             }
         }
     }
-    
+
     protected function getDependencies(
         string $a_entity,
         string $a_version,
         ?array $a_rec = null,
         ?array $a_ids = null
-    ) : array {
+    ): array {
         switch ($a_entity) {
             case "poll":
                 return array(
@@ -160,12 +161,12 @@ class ilPollDataSet extends ilDataSet
         return [];
     }
 
-    public function getXmlRecord(string $a_entity, string $a_version, array $a_set) : array
+    public function getXmlRecord(string $a_entity, string $a_version, array $a_set): array
     {
         if ($a_entity === "poll") {
             $dir = ilObjPoll::initStorage((int) $a_set["Id"]);
             $a_set["Dir"] = $dir;
-            
+
             $a_set["ShowComments"] = $this->notes->domain()->commentsActive((int) $a_set["Id"]);
         }
 
@@ -178,7 +179,7 @@ class ilPollDataSet extends ilDataSet
         array $a_rec,
         ilImportMapping $a_mapping,
         string $a_schema_version
-    ) : void {
+    ): void {
         switch ($a_entity) {
             case "poll":
                 // container copy
@@ -188,7 +189,7 @@ class ilPollDataSet extends ilDataSet
                     $newObj = new ilObjPoll();
                     $newObj->create();
                 }
-                    
+
                 $newObj->setTitle((string) ($a_rec["Title"] ?? ''));
                 $newObj->setDescription((string) ($a_rec["Description"]));
                 if ((int) $a_rec["MaxAnswers"]) {
@@ -207,7 +208,7 @@ class ilPollDataSet extends ilDataSet
                 $newObj->setVotingPeriodBegin((int) ($a_rec["PeriodBegin"] ?? 0));
                 $newObj->setVotingPeriodEnd((int) ($a_rec["PeriodEnd"] ?? 0));
                 $newObj->update();
-                
+
                 // handle image(s)
                 if ($a_rec["Image"]) {
                     $dir = str_replace("..", "", (string) ($a_rec["Dir"] ?? ''));

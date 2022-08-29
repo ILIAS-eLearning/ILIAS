@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * TableGUI class for title/description translations
  *
@@ -57,7 +59,7 @@ class ilObjectTranslation2TableGUI extends ilTable2GUI
         $this->fallback_lang = $fallback_lang;
 
         $this->setLimit(9999);
-        
+
         $this->addColumn("", "", "1");
         $this->addColumn($this->lng->txt("language"));
         $this->addColumn($this->lng->txt("default"));
@@ -74,8 +76,8 @@ class ilObjectTranslation2TableGUI extends ilTable2GUI
 
         $this->nr = 0;
     }
-    
-    protected function prepareOutput() : void
+
+    protected function prepareOutput(): void
     {
         $this->addMultiCommand("delete" . $this->base_cmd . "s", $this->lng->txt("remove"));
         if ($this->fallback_mode) {
@@ -85,8 +87,8 @@ class ilObjectTranslation2TableGUI extends ilTable2GUI
             $this->addCommandButton("save" . $this->base_cmd . "s", $this->lng->txt("save"));
         }
     }
-    
-    protected function fillRow(array $set) : void
+
+    protected function fillRow(array $set): void
     {
         $this->nr++;
 
@@ -116,9 +118,9 @@ class ilObjectTranslation2TableGUI extends ilTable2GUI
             $this->tpl->setVariable("DNR", $this->nr);
             $this->tpl->parseCurrentBlock();
         }
-        
+
         $this->tpl->setVariable("NR", $this->nr);
-        
+
         // lang selection
         $languages = ilMDLanguageItem::_getLanguages();
         $this->tpl->setVariable(

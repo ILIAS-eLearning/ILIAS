@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -51,7 +53,7 @@ class ilMDCopyrightSelectionGUI
         $this->settings = ilMDSettings::_getInstance();
     }
 
-    public function fillTemplate() : bool
+    public function fillTemplate(): bool
     {
         $desc = ilMDRights::_lookupDescription($this->rbac_id, $this->obj_id);
 

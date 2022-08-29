@@ -1,4 +1,5 @@
 <?php
+
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 require_once 'Services/Component/classes/class.ilPlugin.php';
@@ -16,7 +17,7 @@ abstract class ilTestSignaturePlugin extends ilPlugin
 {
     /** @var \ilTestSignatureGUI */
     protected $GUIObject;
-    
+
     /**
      * @param \ilTestSignatureGUI $GUIObject
      */
@@ -28,7 +29,7 @@ abstract class ilTestSignaturePlugin extends ilPlugin
     /**
      * @return \ilTestSignatureGUI
      */
-    public function getGUIObject() : ilTestSignatureGUI
+    public function getGUIObject(): ilTestSignatureGUI
     {
         return $this->GUIObject;
     }
@@ -38,7 +39,7 @@ abstract class ilTestSignaturePlugin extends ilPlugin
      *
      * @return string
      */
-    protected function getLinkTargetForCmd($cmd) : string
+    protected function getLinkTargetForCmd($cmd): string
     {
         /** @var $ilCtrl ilCtrl */
         global $DIC;
@@ -55,7 +56,7 @@ abstract class ilTestSignaturePlugin extends ilPlugin
      *
      * @return string
      */
-    protected function getLinkTargetForRessource($cmd, $ressource) : string
+    protected function getLinkTargetForRessource($cmd, $ressource): string
     {
         /** @var $ilCtrl ilCtrl */
         global $DIC;
@@ -72,7 +73,7 @@ abstract class ilTestSignaturePlugin extends ilPlugin
      *
      * @return string
      */
-    protected function getFormAction($default_cmd) : string
+    protected function getFormAction($default_cmd): string
     {
         /** @var $ilCtrl ilCtrl */
         global $DIC;
@@ -120,7 +121,7 @@ abstract class ilTestSignaturePlugin extends ilPlugin
     {
         $this->getGUIObject()->redirectToTest($success);
     }
-    
+
     /**
      * Method all commands are forwarded to.
      *

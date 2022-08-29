@@ -61,7 +61,7 @@ class ilObjCommentsSettingsGUI extends ilObjectGUI
      * @throws ilCtrlException
      * @throws ilPermissionException
      */
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         $ctrl = $this->ctrl;
         $tabs = $this->tabs;
@@ -94,7 +94,7 @@ class ilObjCommentsSettingsGUI extends ilObjectGUI
         }
     }
 
-    public function getAdminTabs() : void
+    public function getAdminTabs(): void
     {
         $rbacsystem = $this->rbacsystem;
         $lng = $this->lng;
@@ -118,7 +118,7 @@ class ilObjCommentsSettingsGUI extends ilObjectGUI
         }
     }
 
-    public function editSettings() : void
+    public function editSettings(): void
     {
         $main_tpl = $this->main_tpl;
         $ui = $this->ui;
@@ -130,7 +130,7 @@ class ilObjCommentsSettingsGUI extends ilObjectGUI
         $main_tpl->setContent($ui->renderer()->render($form));
     }
 
-    public function initForm() : \ILIAS\UI\Component\Input\Container\Form\Standard
+    public function initForm(): \ILIAS\UI\Component\Input\Container\Form\Standard
     {
         $ui = $this->ui;
         $f = $ui->factory();
@@ -177,7 +177,7 @@ class ilObjCommentsSettingsGUI extends ilObjectGUI
         return $f->input()->container()->form()->standard($form_action, ["sec" => $section1]);
     }
 
-    public function saveSettings() : void
+    public function saveSettings(): void
     {
         $request = $this->request;
         $form = $this->initForm();
@@ -205,7 +205,7 @@ class ilObjCommentsSettingsGUI extends ilObjectGUI
         $ctrl->redirect($this, "editSettings");
     }
 
-    public function addToExternalSettingsForm(int $a_form_id) : ?array
+    public function addToExternalSettingsForm(int $a_form_id): ?array
     {
         switch ($a_form_id) {
             case ilAdministrationSettingsFormHandler::FORM_PRIVACY:

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -14,7 +16,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\UI\Component\Item;
 
 use ILIAS\UI\Component\Button\Close;
@@ -29,14 +31,14 @@ interface Shy extends Item
     /**
      * Get a copy of that shy with a close button.
      */
-    public function withClose(Close $close) : Shy;
+    public function withClose(Close $close): Shy;
 
-    public function getClose() : ?Close;
+    public function getClose(): ?Close;
 
     /**
      * Get a copy of that shy with a lead icon.
      */
-    public function withLeadIcon(Icon $lead) : Shy;
+    public function withLeadIcon(Icon $lead): Shy;
 
-    public function getLeadIcon() : ?Icon;
+    public function getLeadIcon(): ?Icon;
 }

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /* Copyright (c) 1998-2020 ILIAS open source, Extended GPL, see docs/LICENSE */
 
@@ -10,7 +12,7 @@ class ilTestVirtualSequenceTest extends ilTestBaseTestCase
 {
     private ilTestVirtualSequence $testObj;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -21,12 +23,12 @@ class ilTestVirtualSequenceTest extends ilTestBaseTestCase
         );
     }
 
-    public function test_instantiateObject_shouldReturnInstance() : void
+    public function test_instantiateObject_shouldReturnInstance(): void
     {
         $this->assertInstanceOf(ilTestVirtualSequence::class, $this->testObj);
     }
 
-    public function testActiveId() : void
+    public function testActiveId(): void
     {
         $this->testObj->setActiveId(12);
         $this->assertEquals(12, $this->testObj->getActiveId());

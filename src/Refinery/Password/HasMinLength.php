@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -27,10 +29,10 @@ class HasMinLength extends Constraint
     public function __construct(int $min_length, Data\Factory $data_factory, ilLanguage $lng)
     {
         parent::__construct(
-            static function (Data\Password $value) use ($min_length) : bool {
+            static function (Data\Password $value) use ($min_length): bool {
                 return strlen($value->toString()) >= $min_length;
             },
-            static function ($value) use ($min_length) : string {
+            static function ($value) use ($min_length): string {
                 return "Password has a length less than '$min_length'.";
             },
             $data_factory,

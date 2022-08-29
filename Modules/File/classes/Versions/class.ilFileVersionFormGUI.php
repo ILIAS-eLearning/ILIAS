@@ -28,13 +28,13 @@ use Psr\Http\Message\RequestInterface;
  */
 class ilFileVersionFormGUI
 {
-    const MODE_ADD = 1;
-    const MODE_REPLACE = 2;
-    const F_TITLE = 'title';
-    const F_DESCRIPTION = "description";
-    const F_FILE = "file";
-    const F_SAVE_MODE = 'save_mode';
-    
+    public const MODE_ADD = 1;
+    public const MODE_REPLACE = 2;
+    public const F_TITLE = 'title';
+    public const F_DESCRIPTION = "description";
+    public const F_FILE = "file";
+    public const F_SAVE_MODE = 'save_mode';
+
     private \ilObjFile $file;
     private ?\ILIAS\UI\Component\Input\Container\Form\Standard $form;
     private \ILIAS\UI\Factory $ui_factory;
@@ -43,10 +43,10 @@ class ilFileVersionFormGUI
     private ilGlobalTemplateInterface $global_tpl;
     private ilLanguage $lng;
     private \ILIAS\ResourceStorage\Services $resource_services;
-    
+
     private int $save_mode = self::MODE_ADD;
     private string $post_url;
-    
+
     /**
      * ilFileVersionFormGUI constructor.
      */
@@ -69,8 +69,8 @@ class ilFileVersionFormGUI
         $this->lng->loadLanguageModule('file');
         $this->initForm();
     }
-    
-    private function initForm() : void
+
+    private function initForm(): void
     {
         switch ($this->save_mode) {
             case self::MODE_REPLACE:
@@ -83,7 +83,7 @@ class ilFileVersionFormGUI
                 $group_title = $this->lng->txt('file_new_version');
                 break;
         }
-        
+
         $inputs = [
             self::F_TITLE => $this->ui_factory->input()->field()->text(
                 $this->lng->txt(self::F_TITLE),
@@ -103,41 +103,41 @@ class ilFileVersionFormGUI
                 $this->lng->txt(self::F_FILE)
             )->withMaxFileSize(ilFileUtils::getUploadSizeLimitBytes())
         ];
-        
+
         $group = $this->ui_factory->input()->field()->group($inputs, $group_title);
-        
+
         $this->form = $this->ui_factory->input()->container()->form()->standard($this->post_url, [$group]);
     }
-    
-    public function saveObject() : bool
+
+    public function saveObject(): bool
     {
         $this->form = $this->form->withRequest($this->request);
         $data = $this->form->getData()[0];
-        
+
         $title = $data[self::F_TITLE] !== '' ? $data[self::F_TITLE] : $this->file->getTitle();
         $description = $data[self::F_DESCRIPTION] !== '' ? $data[self::F_DESCRIPTION] : $this->file->getDescription();
         $revision_number = (int) $data[self::F_FILE][0];
-        
+
         // Title differs, update Revision and Object
         $rid = $this->resource_services->manage()->find($this->file->getResourceId());
         $resource = $this->resource_services->manage()->getResource($rid);
         $new_revision = $resource->getSpecificRevision($revision_number);
         $new_revision->setTitle($title);
         $this->resource_services->manage()->updateRevision($new_revision);
-        
+
         $this->file->setTitle($title);
         $this->file->setDescription($description);
         $this->file->update();
-        
+
         return true;
     }
-    
-    public function getHTML() : string
+
+    public function getHTML(): string
     {
         return $this->ui_renderer->render($this->form);
     }
-    
-    private function resolveParentCommand(int $mode) : string
+
+    private function resolveParentCommand(int $mode): string
     {
         switch ($mode) {
             case self::MODE_ADD:

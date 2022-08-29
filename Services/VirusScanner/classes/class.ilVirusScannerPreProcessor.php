@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -30,7 +32,7 @@ final class ilVirusScannerPreProcessor implements PreProcessor
         $this->scanner = $scanner;
     }
 
-    public function process(FileStream $stream, Metadata $metadata) : ProcessingStatus
+    public function process(FileStream $stream, Metadata $metadata): ProcessingStatus
     {
         $uri = $stream->getMetadata()["uri"];
         // chmod($uri, 0755); // we must find a way e.g. ClamAV can read the file

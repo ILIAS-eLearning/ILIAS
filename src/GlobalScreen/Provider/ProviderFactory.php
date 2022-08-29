@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -30,52 +32,51 @@ use ILIAS\GlobalScreen\Scope\Tool\Provider\DynamicToolProvider;
  */
 interface ProviderFactory
 {
-
     /**
      * @return ModificationProvider[]
      */
-    public function getModificationProvider() : array;
+    public function getModificationProvider(): array;
 
     /**
      * @return StaticMainMenuProvider[]
      */
-    public function getMainBarProvider() : array;
+    public function getMainBarProvider(): array;
 
     /**
      * @return ItemInformation
      */
-    public function getMainBarItemInformation() : ItemInformation;
+    public function getMainBarItemInformation(): ItemInformation;
 
     /**
      * @return DynamicToolProvider[]
      */
-    public function getToolProvider() : array;
+    public function getToolProvider(): array;
 
     /**
      * @return StaticMetaBarProvider[]
      */
-    public function getMetaBarProvider() : array;
+    public function getMetaBarProvider(): array;
 
     /**
      * @return NotificationProvider[]
      */
-    public function getNotificationsProvider() : array;
+    public function getNotificationsProvider(): array;
 
     /**
      * @param string $class_name
      * @return Provider
      */
-    public function getProviderByClassName(string $class_name) : Provider;
+    public function getProviderByClassName(string $class_name): Provider;
 
     /**
      * @param string $class_name
      * @return bool
      */
-    public function isInstanceCreationPossible(string $class_name) : bool;
+    public function isInstanceCreationPossible(string $class_name): bool;
 
     /**
      * @param string $class_name
      * @return bool
      */
-    public function isRegistered(string $class_name) : bool;
+    public function isRegistered(string $class_name): bool;
 }

@@ -66,7 +66,7 @@ class WidgetManager
     /**
      * Maximum for online user data
      */
-    public function getMaxOnlineUserCnt() : int
+    public function getMaxOnlineUserCnt(): int
     {
         return 20;
     }
@@ -74,7 +74,7 @@ class WidgetManager
     /**
      * Send OSD notification on new users
      */
-    public function notifyOnNewOnlineContacts() : void
+    public function notifyOnNewOnlineContacts(): void
     {
         $lng = $this->lng;
         $awrn_set = $this->settings;
@@ -117,7 +117,7 @@ class WidgetManager
         $notification->notifyByUsers(array($this->user_id));
     }
 
-    public function isWidgetVisible() : bool
+    public function isWidgetVisible(): bool
     {
         $awrn_set = $this->settings;
         if (!$awrn_set->get("awrn_enabled", "0") ||
@@ -127,8 +127,8 @@ class WidgetManager
         }
         return true;
     }
-    
-    public function processMetaBar() : Counter
+
+    public function processMetaBar(): Counter
     {
         $cache_period = (int) $this->settings->get("caching_period");
         $last_update = $this->session_repo->getLastUpdate();
@@ -154,7 +154,7 @@ class WidgetManager
      * @param bool $a_online_only true, if only online users should be collected
      * @return array array of collections
      */
-    public function getUserCollections(bool $a_online_only = false) : array
+    public function getUserCollections(bool $a_online_only = false): array
     {
         if (!isset($this->user_collections[(int) $a_online_only])) {
             $this->user_collections[(int) $a_online_only] = $this->user_collector->collectUsers($a_online_only);
@@ -162,7 +162,7 @@ class WidgetManager
         return $this->user_collections[(int) $a_online_only];
     }
 
-    public function getUserCounter() : Counter
+    public function getUserCounter(): Counter
     {
         $all_user_ids = array();
         $hall_user_ids = array();
@@ -195,7 +195,7 @@ class WidgetManager
      * @param string $a_ts timestamp
      * @return array array of data objects
      */
-    public function getOnlineUserData(string $a_ts = "") : array
+    public function getOnlineUserData(string $a_ts = ""): array
     {
         $online_user_data = array();
         $online_users = $this->user_collector->getOnlineUsers();
@@ -264,7 +264,7 @@ class WidgetManager
      * @return array array of data objects
      * @throws \ilWACException
      */
-    public function getListData(string $filter = "") : array
+    public function getListData(string $filter = ""): array
     {
         if ($this->user_id == ANONYMOUS_USER_ID) {
             return [
@@ -286,7 +286,6 @@ class WidgetManager
             $this->data = array();
 
             foreach ($user_collections as $uc) {
-
                 // limit part 1
                 if (count($this->data) >= $max) {
                     continue;
@@ -400,7 +399,7 @@ class WidgetManager
     protected function updateCounter(
         int $cnt,
         int $hcnt
-    ) : void {
+    ): void {
         // update counter
         $now = time();
         $this->session_repo->setLastUpdate($now);

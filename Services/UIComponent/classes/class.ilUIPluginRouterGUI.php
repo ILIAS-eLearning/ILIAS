@@ -36,7 +36,7 @@ class ilUIPluginRouterGUI implements ilCtrlBaseClassInterface
         $this->ctrl = $DIC->ctrl();
     }
 
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         $next_class = $this->ctrl->getNextClass($this);
         switch ($next_class) {

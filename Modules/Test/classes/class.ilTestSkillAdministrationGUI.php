@@ -79,7 +79,7 @@ class ilTestSkillAdministrationGUI
             case 'ilassquestionskillassignmentsgui':
 
                 $questionContainerId = $this->getQuestionContainerId();
-                
+
                 $questionList = new ilAssQuestionList($this->db, $this->lng, $this->component_repository);
                 $questionList->setParentObjId($questionContainerId);
                 $questionList->setQuestionInstanceTypeFilter($this->getRequiredQuestionInstanceTypeFilter());
@@ -89,7 +89,7 @@ class ilTestSkillAdministrationGUI
                 $gui->setAssignmentEditingEnabled($this->isAssignmentEditingRequired());
                 $gui->setQuestionContainerId($questionContainerId);
                 $gui->setQuestionList($questionList);
-                
+
                 if ($this->testOBJ->isFixedTest()) {
                     $gui->setQuestionOrderSequence($this->testOBJ->getQuestions());
                 } else {
@@ -97,7 +97,7 @@ class ilTestSkillAdministrationGUI
                 }
 
                 $this->ctrl->forwardCommand($gui);
-                
+
                 break;
 
             case 'iltestskilllevelthresholdsgui':
@@ -109,17 +109,17 @@ class ilTestSkillAdministrationGUI
                 break;
         }
     }
-    
-    private function isAssignmentEditingRequired() : bool
+
+    private function isAssignmentEditingRequired(): bool
     {
         if (!$this->testOBJ->isFixedTest()) {
             return false;
         }
-        
+
         if ($this->testOBJ->participantDataExist()) {
             return false;
         }
-        
+
         return true;
     }
 
@@ -149,7 +149,7 @@ class ilTestSkillAdministrationGUI
         $this->tabs->activateSubTab($activeSubTabId);
     }
 
-    private function isAccessDenied() : bool
+    private function isAccessDenied(): bool
     {
         if (!$this->testOBJ->isSkillServiceEnabled()) {
             return true;
@@ -165,8 +165,8 @@ class ilTestSkillAdministrationGUI
 
         return false;
     }
-    
-    private function getQuestionContainerId() : ?int
+
+    private function getQuestionContainerId(): ?int
     {
         if ($this->testOBJ->isDynamicTest()) {
             $questionSetConfigFactory = new ilTestQuestionSetConfigFactory(
@@ -183,21 +183,21 @@ class ilTestSkillAdministrationGUI
 
         return $this->testOBJ->getId();
     }
-    
-    private function getRequiredQuestionInstanceTypeFilter() : ?string
+
+    private function getRequiredQuestionInstanceTypeFilter(): ?string
     {
         if ($this->testOBJ->isDynamicTest()) {
             return ilAssQuestionList::QUESTION_INSTANCE_TYPE_ORIGINALS;
         }
-        
+
         if ($this->testOBJ->isRandomTest()) {
             return ilAssQuestionList::QUESTION_INSTANCE_TYPE_DUPLICATES;
         }
-        
+
         return null;
     }
-    
-    private function buildAssignmentConfigurationInPoolHintMessage() : string
+
+    private function buildAssignmentConfigurationInPoolHintMessage(): string
     {
         $questionSetConfigFactory = new ilTestQuestionSetConfigFactory(
             $this->tree,
@@ -205,9 +205,9 @@ class ilTestSkillAdministrationGUI
             $this->component_repository,
             $this->testOBJ
         );
-        
+
         $questionSetConfig = $questionSetConfigFactory->getQuestionSetConfig();
-        
+
         if ($this->testOBJ->isRandomTest()) {
             $testMode = $this->lng->txt('tst_question_set_type_random');
             $poolLinks = $questionSetConfig->getCommaSeparatedSourceQuestionPoolLinks();

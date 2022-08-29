@@ -14,7 +14,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * Class ilFSStorageFile
  *
@@ -22,7 +22,6 @@
  */
 class ilFSStorageFile extends ilFileSystemAbstractionStorage
 {
-
     /**
      * ilFSStorageFile constructor.
      */
@@ -32,13 +31,13 @@ class ilFSStorageFile extends ilFileSystemAbstractionStorage
     }
 
 
-    protected function getPathPostfix() : string
+    protected function getPathPostfix(): string
     {
         return 'file';
     }
 
 
-    protected function getPathPrefix() : string
+    protected function getPathPrefix(): string
     {
         return 'ilFile';
     }

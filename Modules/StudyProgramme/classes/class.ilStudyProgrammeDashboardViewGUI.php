@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -52,7 +54,7 @@ class ilStudyProgrammeDashboardViewGUI
         $this->ctrl = $ctrl;
     }
 
-    protected function getProgressRepository() : ilStudyProgrammeProgressRepository
+    protected function getProgressRepository(): ilStudyProgrammeProgressRepository
     {
         if (!$this->progress_repository) {
             $this->progress_repository = ilStudyProgrammeDIC::dic()['ilStudyProgrammeUserProgressDB'];
@@ -60,7 +62,7 @@ class ilStudyProgrammeDashboardViewGUI
         return $this->progress_repository;
     }
 
-    protected function getAssignmentRepository() : ilStudyProgrammeAssignmentRepository
+    protected function getAssignmentRepository(): ilStudyProgrammeAssignmentRepository
     {
         if (!$this->assignment_repository) {
             $this->assignment_repository = ilStudyProgrammeDIC::dic()['ilStudyProgrammeUserAssignmentDB'];
@@ -68,7 +70,7 @@ class ilStudyProgrammeDashboardViewGUI
         return $this->assignment_repository;
     }
 
-    protected function getUsersAssignments() : array
+    protected function getUsersAssignments(): array
     {
         return $this->getAssignmentRepository()->getDashboardInstancesforUser($this->user->getId());
     }
@@ -76,7 +78,7 @@ class ilStudyProgrammeDashboardViewGUI
     /**
      * @throws ilException
      */
-    public function getHTML() : string
+    public function getHTML(): string
     {
         $items = [];
         $now = new DateTimeImmutable();
@@ -108,7 +110,7 @@ class ilStudyProgrammeDashboardViewGUI
 
             if ($progress->isSuccessful()) {
                 $properties[] = $this->fillRestartFrom($restart_date);
-                
+
                 $valid = $progress->hasValidQualification($now);
                 $validation_expiry_date = $progress->getValidityOfQualification();
                 $properties[] = $this->fillValidation($valid, $validation_expiry_date);
@@ -134,13 +136,13 @@ class ilStudyProgrammeDashboardViewGUI
 
 
 
-    protected function isInProgress(int $current_status) : bool
+    protected function isInProgress(int $current_status): bool
     {
         $status = [ilStudyProgrammeProgress::STATUS_IN_PROGRESS];
         return in_array($current_status, $status);
     }
 
-    protected function fillValidation(?bool $valid, ?DateTimeImmutable $validation_expiry_date) : array
+    protected function fillValidation(?bool $valid, ?DateTimeImmutable $validation_expiry_date): array
     {
         $validation = '';
         if (!$valid) {
@@ -157,24 +159,24 @@ class ilStudyProgrammeDashboardViewGUI
         return [$this->txt('prg_dash_label_valid') => $validation];
     }
 
-    protected function fillMinimumCompletion(float $value) : array
+    protected function fillMinimumCompletion(float $value): array
     {
         $title = $value . " " . $this->txt('percentage');
         return [$this->txt('prg_dash_label_minimum') => $title];
     }
 
-    protected function fillCurrentCompletion(float $value) : array
+    protected function fillCurrentCompletion(float $value): array
     {
         $title = $value . " " . $this->txt('percentage');
         return [$this->txt('prg_dash_label_gain') => $title];
     }
 
-    protected function fillStatus(string $status) : array
+    protected function fillStatus(string $status): array
     {
         return [$this->txt('prg_dash_label_status') => $this->txt('prg_status_' . $status)];
     }
 
-    protected function fillFinishUntil(DateTimeImmutable $value = null) : array
+    protected function fillFinishUntil(DateTimeImmutable $value = null): array
     {
         $ret = [];
         if (!is_null($value)) {
@@ -188,7 +190,7 @@ class ilStudyProgrammeDashboardViewGUI
         return $ret;
     }
 
-    protected function fillRestartFrom(DateTimeImmutable $value = null) : array
+    protected function fillRestartFrom(DateTimeImmutable $value = null): array
     {
         $ret = [];
         if (!is_null($value)) {
@@ -202,7 +204,7 @@ class ilStudyProgrammeDashboardViewGUI
         return $ret;
     }
 
-    protected function getVisibleOnPDMode() : string
+    protected function getVisibleOnPDMode(): string
     {
         if (is_null($this->visible_on_pd_mode)) {
             $this->visible_on_pd_mode =
@@ -220,7 +222,7 @@ class ilStudyProgrammeDashboardViewGUI
     protected function hasPermission(
         ilStudyProgrammeAssignment $assignment,
         string $permission
-    ) : bool {
+    ): bool {
         try {
             $prg = ilObjStudyProgramme::getInstanceByObjId($assignment->getRootId());
         } catch (ilException $e) {
@@ -232,7 +234,7 @@ class ilStudyProgrammeDashboardViewGUI
     /**
      * @throws ilException
      */
-    protected function isReadable(ilStudyProgrammeAssignment $assignment) : bool
+    protected function isReadable(ilStudyProgrammeAssignment $assignment): bool
     {
         if ($this->getVisibleOnPDMode() === ilObjStudyProgrammeAdmin::SETTING_VISIBLE_ON_PD_ALLWAYS) {
             return true;
@@ -241,12 +243,12 @@ class ilStudyProgrammeDashboardViewGUI
         return $this->hasPermission($assignment, "read");
     }
 
-    protected function txt(string $code) : string
+    protected function txt(string $code): string
     {
         return $this->lng->txt($code);
     }
 
-    protected function calculatePercent(ilObjStudyProgramme $prg, int $current_points) : array
+    protected function calculatePercent(ilObjStudyProgramme $prg, int $current_points): array
     {
         $minimum_percents = 0;
         $current_percents = 0;
@@ -280,7 +282,7 @@ class ilStudyProgrammeDashboardViewGUI
         ];
     }
 
-    protected function findValidationValues(array $assignments) : array
+    protected function findValidationValues(array $assignments): array
     {
         $validation_date = $this->findValid($assignments);
 
@@ -290,7 +292,7 @@ class ilStudyProgrammeDashboardViewGUI
         ];
     }
 
-    protected function findValid(array $assignments) : ?DateTimeImmutable
+    protected function findValid(array $assignments): ?DateTimeImmutable
     {
         $status = [
             ilStudyProgrammeProgress::STATUS_COMPLETED,
@@ -299,7 +301,7 @@ class ilStudyProgrammeDashboardViewGUI
         foreach ($assignments as $assignment) {
             $prg = ilObjStudyProgramme::getInstanceByObjId($assignment->getRootId());
             $progress = $prg->getProgressForAssignment($assignment->getId());
-            
+
             if (in_array($progress->getStatus(), $status)) {
                 return $progress->getValidityOfQualification();
             }
@@ -310,7 +312,7 @@ class ilStudyProgrammeDashboardViewGUI
     protected function buildItem(
         ilObjStudyProgramme $prg,
         array $properties
-    ) : ILIAS\UI\Component\Item\Item {
+    ): ILIAS\UI\Component\Item\Item {
         $title = $prg->getTitle();
         $link = $this->getDefaultTargetUrl($prg->getRefId());
         $title_btn = $this->factory->button()->shy($title, $link);
@@ -328,7 +330,7 @@ class ilStudyProgrammeDashboardViewGUI
         ;
     }
 
-    protected function getDefaultTargetUrl(int $prg_ref_id) : string
+    protected function getDefaultTargetUrl(int $prg_ref_id): string
     {
         $this->ctrl->setParameterByClass(
             ilObjStudyProgrammeGUI::class,

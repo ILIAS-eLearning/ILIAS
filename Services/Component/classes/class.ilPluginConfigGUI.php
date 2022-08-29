@@ -1,4 +1,5 @@
 <?php
+
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -20,13 +21,13 @@
 abstract class ilPluginConfigGUI
 {
     protected ?ilPlugin $plugin_object = null;
-    
-    final public function setPluginObject(ilPlugin $a_val) : void
+
+    final public function setPluginObject(ilPlugin $a_val): void
     {
         $this->plugin_object = $a_val;
     }
 
-    final public function getPluginObject() : ?ilPlugin
+    final public function getPluginObject(): ?ilPlugin
     {
         return $this->plugin_object;
     }
@@ -37,7 +38,7 @@ abstract class ilPluginConfigGUI
      * @param
      * @return
      */
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         global $DIC;
         $ilCtrl = $DIC->ctrl();
@@ -57,7 +58,7 @@ abstract class ilPluginConfigGUI
         $tpl->setDescription("");
 
         $ilTabs->clearTargets();
-        
+
         if ($request_wrapper->retrieve("plugin_id", $string_trafo)) {
             $ilTabs->setBackTarget(
                 $lng->txt("cmps_plugin"),
@@ -73,5 +74,5 @@ abstract class ilPluginConfigGUI
         $this->performCommand($ilCtrl->getCmd("configure"));
     }
 
-    abstract public function performCommand(string $cmd) : void;
+    abstract public function performCommand(string $cmd): void;
 }

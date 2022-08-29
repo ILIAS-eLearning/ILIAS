@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -51,7 +53,7 @@ class ilCertificateTemplateDeleteAction implements ilCertificateDeleteAction
         $this->iliasVersion = $iliasVersion;
     }
 
-    public function delete(int $templateId, int $objectId) : void
+    public function delete(int $templateId, int $objectId): void
     {
         $template = $this->templateRepository->fetchCurrentlyUsedCertificate($objectId);
 
@@ -77,7 +79,7 @@ class ilCertificateTemplateDeleteAction implements ilCertificateDeleteAction
         $this->overwriteBackgroundImageThumbnail($certificateTemplate);
     }
 
-    private function overwriteBackgroundImageThumbnail(ilCertificateTemplate $previousTemplate) : void
+    private function overwriteBackgroundImageThumbnail(ilCertificateTemplate $previousTemplate): void
     {
         $relativePath = $previousTemplate->getBackgroundImagePath();
 

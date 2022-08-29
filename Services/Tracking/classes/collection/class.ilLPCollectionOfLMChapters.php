@@ -1,4 +1,6 @@
-<?php declare(strict_types=0);
+<?php
+
+declare(strict_types=0);
 
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
@@ -44,7 +46,7 @@ class ilLPCollectionOfLMChapters extends ilLPCollection
     /**
      * @return array
      */
-    public function getTableGUIData(int $a_parent_ref_id) : array
+    public function getTableGUIData(int $a_parent_ref_id): array
     {
         $data = array();
 

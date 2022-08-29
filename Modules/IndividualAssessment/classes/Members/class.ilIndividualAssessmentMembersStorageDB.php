@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -21,7 +23,7 @@
  */
 class ilIndividualAssessmentMembersStorageDB implements ilIndividualAssessmentMembersStorage
 {
-    const MEMBERS_TABLE = "iass_members";
+    public const MEMBERS_TABLE = "iass_members";
 
     protected ilDBInterface $db;
 
@@ -33,7 +35,7 @@ class ilIndividualAssessmentMembersStorageDB implements ilIndividualAssessmentMe
     /**
      * @inheritdoc
      */
-    public function loadMembers(ilObjIndividualAssessment $obj) : ilIndividualAssessmentMembers
+    public function loadMembers(ilObjIndividualAssessment $obj): ilIndividualAssessmentMembers
     {
         $members = new ilIndividualAssessmentMembers($obj);
         $obj_id = $obj->getId();
@@ -52,7 +54,7 @@ class ilIndividualAssessmentMembersStorageDB implements ilIndividualAssessmentMe
         ilObjIndividualAssessment $obj,
         string $filter = null,
         string $sort = null
-    ) : array {
+    ): array {
         $members = [];
         $sql = $this->loadMemberQuery();
         $sql .= "	WHERE obj_id = " . $this->db->quote($obj->getId(), 'integer');
@@ -75,7 +77,7 @@ class ilIndividualAssessmentMembersStorageDB implements ilIndividualAssessmentMe
     /**
      * @inheritdoc
      */
-    public function loadMember(ilObjIndividualAssessment $obj, ilObjUser $usr) : ilIndividualAssessmentMember
+    public function loadMember(ilObjIndividualAssessment $obj, ilObjUser $usr): ilIndividualAssessmentMember
     {
         $obj_id = $obj->getId();
         $usr_id = $usr->getId();
@@ -95,7 +97,7 @@ class ilIndividualAssessmentMembersStorageDB implements ilIndividualAssessmentMe
         ilObjIndividualAssessment $obj,
         ilObjUser $usr,
         array $record
-    ) : ilIndividualAssessmentMember {
+    ): ilIndividualAssessmentMember {
         $changer_id = $record[ilIndividualAssessmentMembers::FIELD_CHANGER_ID];
         if (!is_null($changer_id)) {
             $changer_id = (int) $changer_id;
@@ -120,7 +122,7 @@ class ilIndividualAssessmentMembersStorageDB implements ilIndividualAssessmentMe
         );
     }
 
-    protected function createGrading(array $record, string $user_fullname) : ilIndividualAssessmentUserGrading
+    protected function createGrading(array $record, string $user_fullname): ilIndividualAssessmentUserGrading
     {
         $event_time = null;
         $event_time_db = $record[ilIndividualAssessmentMembers::FIELD_EVENTTIME];
@@ -145,7 +147,7 @@ class ilIndividualAssessmentMembersStorageDB implements ilIndividualAssessmentMe
     /**
      * @inheritdoc
      */
-    public function updateMember(ilIndividualAssessmentMember $member) : void
+    public function updateMember(ilIndividualAssessmentMember $member): void
     {
         $where = [
             "obj_id" => ["integer", $member->assessmentId()],
@@ -176,7 +178,7 @@ class ilIndividualAssessmentMembersStorageDB implements ilIndividualAssessmentMe
         $this->db->update(self::MEMBERS_TABLE, $values, $where);
     }
 
-    protected function getActualDateTime() : string
+    protected function getActualDateTime(): string
     {
         return date("Y-m-d H:i:s");
     }
@@ -184,13 +186,13 @@ class ilIndividualAssessmentMembersStorageDB implements ilIndividualAssessmentMe
     /**
      * @inheritdoc
      */
-    public function deleteMembers(ilObjIndividualAssessment $obj) : void
+    public function deleteMembers(ilObjIndividualAssessment $obj): void
     {
         $sql = "DELETE FROM " . self::MEMBERS_TABLE . " WHERE obj_id = " . $this->db->quote($obj->getId(), 'integer');
         $this->db->manipulate($sql);
     }
 
-    protected function loadMemberQuery() : string
+    protected function loadMemberQuery(): string
     {
         return "SELECT "
             . "iassme.obj_id,"
@@ -216,7 +218,7 @@ class ilIndividualAssessmentMembersStorageDB implements ilIndividualAssessmentMe
         ;
     }
 
-    protected function loadMembersQuery(int $obj_id) : string
+    protected function loadMembersQuery(int $obj_id): string
     {
         return "SELECT ex.firstname as " . ilIndividualAssessmentMembers::FIELD_EXAMINER_FIRSTNAME
                 . "     , ex.lastname as " . ilIndividualAssessmentMembers::FIELD_EXAMINER_LASTNAME
@@ -239,7 +241,7 @@ class ilIndividualAssessmentMembersStorageDB implements ilIndividualAssessmentMe
     /**
      * @inheritdoc
      */
-    public function insertMembersRecord(ilObjIndividualAssessment $iass, array $record) : void
+    public function insertMembersRecord(ilObjIndividualAssessment $iass, array $record): void
     {
         $values = [
             "obj_id" => [
@@ -338,7 +340,7 @@ class ilIndividualAssessmentMembersStorageDB implements ilIndividualAssessmentMe
     /**
      * @inheritdoc
      */
-    public function removeMembersRecord(ilObjIndividualAssessment $iass, array $record) : void
+    public function removeMembersRecord(ilObjIndividualAssessment $iass, array $record): void
     {
         $sql =
              "DELETE FROM " . self::MEMBERS_TABLE . PHP_EOL
@@ -352,7 +354,7 @@ class ilIndividualAssessmentMembersStorageDB implements ilIndividualAssessmentMe
     /**
      * @param string|int $filter
      */
-    protected function getWhereFromFilter($filter) : string
+    protected function getWhereFromFilter($filter): string
     {
         switch ($filter) {
             case ilIndividualAssessmentMembers::LP_ASSESSMENT_NOT_COMPLETED:
@@ -368,7 +370,7 @@ class ilIndividualAssessmentMembersStorageDB implements ilIndividualAssessmentMe
         }
     }
 
-    protected function getOrderByFromSort(string $sort) : string
+    protected function getOrderByFromSort(string $sort): string
     {
         $vals = explode(":", $sort);
 

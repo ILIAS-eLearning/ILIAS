@@ -28,5 +28,5 @@ interface ilDerivedTaskProviderFactory
      *
      * @return ilDerivedTaskProvider[]
      */
-    public function getProviders() : array;
+    public function getProviders(): array;
 }

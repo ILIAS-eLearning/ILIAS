@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -22,7 +24,7 @@
  */
 abstract class ilAbstractBuddySystemRelationState implements ilBuddySystemRelationState
 {
-    public function isInitial() : bool
+    public function isInitial(): bool
     {
         return false;
     }
@@ -30,7 +32,7 @@ abstract class ilAbstractBuddySystemRelationState implements ilBuddySystemRelati
     /**
      * @throws ilBuddySystemRelationStateException
      */
-    public function request(ilBuddySystemRelation $relation) : void
+    public function request(ilBuddySystemRelation $relation): void
     {
         throw new ilBuddySystemRelationStateException('Invalid state transition: ' . __FUNCTION__);
     }
@@ -38,7 +40,7 @@ abstract class ilAbstractBuddySystemRelationState implements ilBuddySystemRelati
     /**
      * @throws ilBuddySystemRelationStateException
      */
-    public function ignore(ilBuddySystemRelation $relation) : void
+    public function ignore(ilBuddySystemRelation $relation): void
     {
         throw new ilBuddySystemRelationStateException('Invalid state transition: ' . __FUNCTION__);
     }
@@ -46,7 +48,7 @@ abstract class ilAbstractBuddySystemRelationState implements ilBuddySystemRelati
     /**
      * @throws ilBuddySystemRelationStateException
      */
-    public function link(ilBuddySystemRelation $relation) : void
+    public function link(ilBuddySystemRelation $relation): void
     {
         throw new ilBuddySystemRelationStateException('Invalid state transition: ' . __FUNCTION__);
     }
@@ -54,7 +56,7 @@ abstract class ilAbstractBuddySystemRelationState implements ilBuddySystemRelati
     /**
      * @throws ilBuddySystemRelationStateException
      */
-    public function unlink(ilBuddySystemRelation $relation) : void
+    public function unlink(ilBuddySystemRelation $relation): void
     {
         throw new ilBuddySystemRelationStateException('Invalid state transition: ' . __FUNCTION__);
     }

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -36,42 +38,42 @@ class ilPrgUpdateProgressCronJob extends ilCronJob
         $this->dic = ilStudyProgrammeDIC::dic();
     }
 
-    public function getTitle() : string
+    public function getTitle(): string
     {
         return $this->lng->txt('prg_update_progress_title');
     }
 
-    public function getDescription() : string
+    public function getDescription(): string
     {
         return $this->lng->txt('prg_update_progress_description');
     }
 
-    public function getId() : string
+    public function getId(): string
     {
         return self::ID;
     }
 
-    public function hasAutoActivation() : bool
+    public function hasAutoActivation(): bool
     {
         return true;
     }
 
-    public function hasFlexibleSchedule() : bool
+    public function hasFlexibleSchedule(): bool
     {
         return true;
     }
 
-    public function getDefaultScheduleType() : int
+    public function getDefaultScheduleType(): int
     {
         return self::SCHEDULE_TYPE_IN_DAYS;
     }
 
-    public function getDefaultScheduleValue() : ?int
+    public function getDefaultScheduleValue(): ?int
     {
         return 1;
     }
 
-    public function run() : ilCronJobResult
+    public function run(): ilCronJobResult
     {
         $result = new ilCronJobResult();
         $result->setStatus(ilCronJobResult::STATUS_NO_ACTION);
@@ -86,12 +88,12 @@ class ilPrgUpdateProgressCronJob extends ilCronJob
         return $result;
     }
 
-    protected function getProgressRepository() : ilStudyProgrammeProgressDBRepository
+    protected function getProgressRepository(): ilStudyProgrammeProgressDBRepository
     {
         return $this->dic['ilStudyProgrammeUserProgressDB'];
     }
 
-    protected function getActingUserId() : int
+    protected function getActingUserId(): int
     {
         return $this->dic['current_user']->getId();
     }

@@ -15,7 +15,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * Yahoo YUI Library Utility functions
  * @author Alexander Killing <killing@leifos.de>
@@ -23,20 +23,20 @@
 class ilYuiUtil
 {
     protected const YUI_BASE = "./libs/bower/bower_components/yui2/build";
-    
+
     private static function ensureGlobalTemplate(
         ?ilGlobalTemplateInterface $main_tpl = null
-    ) : ilGlobalTemplateInterface {
+    ): ilGlobalTemplateInterface {
         global $DIC;
         return $main_tpl === null ? $DIC->ui()->mainTemplate() : $main_tpl;
     }
-    
+
     /**
      * Init YUI Connection module
      */
     public static function initConnection(
         ?ilGlobalTemplateInterface $a_main_tpl = null
-    ) : void {
+    ): void {
         $tpl = self::ensureGlobalTemplate($a_main_tpl);
         $tpl->addJavaScript(self::YUI_BASE . "/yahoo-dom-event/yahoo-dom-event.js");
         $tpl->addJavaScript(self::YUI_BASE . "/connection/connection-min.js");
@@ -48,7 +48,7 @@ class ilYuiUtil
      */
     public static function initEvent(
         ?ilGlobalTemplateInterface $a_main_tpl = null
-    ) : void {
+    ): void {
         $tpl = self::ensureGlobalTemplate($a_main_tpl);
         $tpl->addJavaScript(self::YUI_BASE . "/yahoo-dom-event/yahoo-dom-event.js");
     }
@@ -59,7 +59,7 @@ class ilYuiUtil
      */
     public static function initDom(
         ?ilGlobalTemplateInterface $a_main_tpl = null
-    ) : void {
+    ): void {
         $tpl = self::ensureGlobalTemplate($a_main_tpl);
         $tpl->addJavaScript(self::YUI_BASE . "/yahoo-dom-event/yahoo-dom-event.js");
     }
@@ -72,7 +72,7 @@ class ilYuiUtil
      */
     public static function initDragDrop(
         ?ilGlobalTemplateInterface $a_main_tpl = null
-    ) : void {
+    ): void {
         $tpl = self::ensureGlobalTemplate($a_main_tpl);
         $tpl->addJavaScript(self::YUI_BASE . "/yahoo-dom-event/yahoo-dom-event.js");
         $tpl->addJavaScript(self::YUI_BASE . "/dragdrop/dragdrop-min.js");
@@ -87,7 +87,7 @@ class ilYuiUtil
      */
     public static function initDomEvent(
         ?ilGlobalTemplateInterface $a_main_tpl = null
-    ) : void {
+    ): void {
         $tpl = self::ensureGlobalTemplate($a_main_tpl);
         $tpl->addJavaScript(self::YUI_BASE . "/yahoo-dom-event/yahoo-dom-event.js");
     }
@@ -100,7 +100,7 @@ class ilYuiUtil
     public static function initPanel(
         bool $a_resize = false,
         ?ilGlobalTemplateInterface $a_main_tpl = null
-    ) : void {
+    ): void {
         $tpl = self::ensureGlobalTemplate($a_main_tpl);
         $tpl->addJavaScript(self::YUI_BASE . "/yahoo-dom-event/yahoo-dom-event.js");
         $tpl->addJavaScript(self::YUI_BASE . "/container/container-min.js");
@@ -120,7 +120,7 @@ class ilYuiUtil
      * used in Modules/Test (Jan 2022)
      * @deprecated
      */
-    public static function initConnectionWithAnimation() : void
+    public static function initConnectionWithAnimation(): void
     {
         $tpl = self::ensureGlobalTemplate();
         $tpl->addJavaScript(self::YUI_BASE . "/yahoo-dom-event/yahoo-dom-event.js");
@@ -137,7 +137,7 @@ class ilYuiUtil
      */
     public static function initOverlay(
         ?ilGlobalTemplateInterface $a_main_tpl = null
-    ) : void {
+    ): void {
         $tpl = self::ensureGlobalTemplate($a_main_tpl);
         $tpl->addJavaScript(self::YUI_BASE . "/yahoo-dom-event/yahoo-dom-event.js");
         $tpl->addJavaScript(self::YUI_BASE . "/container/container_core-min.js");
@@ -149,7 +149,7 @@ class ilYuiUtil
      * init button control
      * In the moment used for calendar color picker button
      */
-    public static function initButtonControl() : void
+    public static function initButtonControl(): void
     {
         $tpl = self::ensureGlobalTemplate();
         $tpl->addJavaScript(self::YUI_BASE . "/yahoo-dom-event/yahoo-dom-event.js");
@@ -168,7 +168,7 @@ class ilYuiUtil
      * used in Services/Authentication (Session Reminder) Jan 2022
      * @deprecated
      */
-    public static function initCookie() : void
+    public static function initCookie(): void
     {
         $tpl = self::ensureGlobalTemplate();
         $tpl->addJavaScript(self::YUI_BASE . "/yahoo/yahoo-min.js", 1);
@@ -179,7 +179,7 @@ class ilYuiUtil
     /**
      * Get local path of a YUI js file
      */
-    public static function getLocalPath(string $a_name = "") : string
+    public static function getLocalPath(string $a_name = ""): string
     {
         return self::YUI_BASE . "/" . $a_name;
     }
@@ -190,7 +190,7 @@ class ilYuiUtil
      */
     protected static function addContainerCss(
         ?ilGlobalTemplateInterface $a_main_tpl = null
-    ) : void {
+    ): void {
         $tpl = self::ensureGlobalTemplate($a_main_tpl);
         $tpl->addCss(self::getLocalPath("container/assets/skins/sam/container.css"));
     }

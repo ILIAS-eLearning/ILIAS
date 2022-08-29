@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -33,42 +35,42 @@ class ilMDTaxon extends ilMDBase
     private string $taxon_id = '';
 
     // SET/GET
-    public function setTaxon(string $a_taxon) : void
+    public function setTaxon(string $a_taxon): void
     {
         $this->taxon = $a_taxon;
     }
 
-    public function getTaxon() : string
+    public function getTaxon(): string
     {
         return $this->taxon;
     }
 
-    public function setTaxonLanguage(ilMDLanguageItem $lng_obj) : void
+    public function setTaxonLanguage(ilMDLanguageItem $lng_obj): void
     {
         $this->taxon_language = $lng_obj;
     }
 
-    public function getTaxonLanguage() : ?ilMDLanguageItem
+    public function getTaxonLanguage(): ?ilMDLanguageItem
     {
         return is_object($this->taxon_language) ? $this->taxon_language : null;
     }
 
-    public function getTaxonLanguageCode() : string
+    public function getTaxonLanguageCode(): string
     {
         return is_object($this->taxon_language) ? $this->taxon_language->getLanguageCode() : '';
     }
 
-    public function setTaxonId(string $a_taxon_id) : void
+    public function setTaxonId(string $a_taxon_id): void
     {
         $this->taxon_id = $a_taxon_id;
     }
 
-    public function getTaxonId() : string
+    public function getTaxonId(): string
     {
         return $this->taxon_id;
     }
 
-    public function save() : int
+    public function save(): int
     {
         $fields = $this->__getFields();
         $fields['meta_taxon_id'] = array('integer', $next_id = $this->db->nextId('il_meta_taxon'));
@@ -80,7 +82,7 @@ class ilMDTaxon extends ilMDBase
         return 0;
     }
 
-    public function update() : bool
+    public function update(): bool
     {
         return $this->getMetaId() && $this->db->update(
             'il_meta_taxon',
@@ -89,7 +91,7 @@ class ilMDTaxon extends ilMDBase
         );
     }
 
-    public function delete() : bool
+    public function delete(): bool
     {
         if ($this->getMetaId()) {
             $query = "DELETE FROM il_meta_taxon " .
@@ -105,7 +107,7 @@ class ilMDTaxon extends ilMDBase
     /**
      * @return array<string, array<string, mixed>>
      */
-    public function __getFields() : array
+    public function __getFields(): array
     {
         return array(
             'rbac_id' => array('integer', $this->getRBACId()),
@@ -119,7 +121,7 @@ class ilMDTaxon extends ilMDBase
         );
     }
 
-    public function read() : bool
+    public function read(): bool
     {
         if ($this->getMetaId()) {
             $query = "SELECT * FROM il_meta_taxon " .
@@ -140,7 +142,7 @@ class ilMDTaxon extends ilMDBase
         return true;
     }
 
-    public function toXML(ilXmlWriter $writer) : void
+    public function toXML(ilXmlWriter $writer): void
     {
         $random = new \ilRandom();
         $writer->xmlElement(
@@ -158,7 +160,7 @@ class ilMDTaxon extends ilMDBase
     /**
      * @return int[]
      */
-    public static function _getIds(int $a_rbac_id, int $a_obj_id, int $a_parent_id, string $a_parent_type) : array
+    public static function _getIds(int $a_rbac_id, int $a_obj_id, int $a_parent_id, string $a_parent_type): array
     {
         global $DIC;
 
