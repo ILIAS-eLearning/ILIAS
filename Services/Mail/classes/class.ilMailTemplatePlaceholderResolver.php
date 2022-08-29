@@ -24,13 +24,8 @@ declare(strict_types=1);
  */
 class ilMailTemplatePlaceholderResolver
 {
-    protected ilMailTemplateContext $context;
-    protected string $message = '';
-
-    public function __construct(ilMailTemplateContext $context, string $a_message)
+    public function __construct(protected ilMailTemplateContext $context, protected string $message)
     {
-        $this->context = $context;
-        $this->message = $a_message;
     }
 
     public function resolve(

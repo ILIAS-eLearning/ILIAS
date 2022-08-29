@@ -20,13 +20,8 @@ declare(strict_types=1);
 
 class ilMailMimeTransportFactory
 {
-    protected ilSetting $settings;
-    private ilAppEventHandler $eventHandler;
-
-    public function __construct(ilSetting $settings, ilAppEventHandler $eventHandler)
+    public function __construct(protected ilSetting $settings, private ilAppEventHandler $eventHandler)
     {
-        $this->settings = $settings;
-        $this->eventHandler = $eventHandler;
     }
 
     public function getTransport(): ilMailMimeTransport

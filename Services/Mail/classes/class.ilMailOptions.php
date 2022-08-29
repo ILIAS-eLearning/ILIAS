@@ -34,7 +34,6 @@ class ilMailOptions
     public const DEFAULT_LINE_BREAK = 60;
     protected ILIAS $ilias;
     protected ilDBInterface $db;
-    protected int $usrId = 0;
     protected ilSetting $settings;
     protected string $table_mail_options = 'mail_options';
     protected int $linebreak = 0;
@@ -46,10 +45,9 @@ class ilMailOptions
     protected string $firstEmailAddress = '';
     protected string $secondEmailAddress = '';
 
-    public function __construct(int $usrId, ilMailTransportSettings $mailTransportSettings = null)
+    public function __construct(protected int $usrId, ilMailTransportSettings $mailTransportSettings = null)
     {
         global $DIC;
-        $this->usrId = $usrId;
         $this->db = $DIC->database();
         $this->settings = $DIC->settings();
         $this->mailTransportSettings = $mailTransportSettings ?? new ilMailTransportSettings($this);

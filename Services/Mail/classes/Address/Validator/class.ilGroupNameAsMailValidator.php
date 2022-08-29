@@ -25,15 +25,11 @@ declare(strict_types=1);
  */
 class ilGroupNameAsMailValidator
 {
-    protected string $host;
     /** @var callable */
     protected $groupNameCheckCallable;
 
-
-    public function __construct(string $host, callable $groupNameCheckCallable = null)
+    public function __construct(protected string $host, callable $groupNameCheckCallable = null)
     {
-        $this->host = $host;
-
         if (null === $groupNameCheckCallable) {
             $groupNameCheckCallable = static function (string $groupName): bool {
                 return ilUtil::groupNameExists($groupName);

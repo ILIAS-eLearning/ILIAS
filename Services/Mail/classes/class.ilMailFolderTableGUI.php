@@ -31,13 +31,8 @@ class ilMailFolderTableGUI extends ilTable2GUI
 {
     private GlobalHttpState $http;
     protected array $_folderNode = [];
-    protected ilMailFolderGUI $_parentObject;
-    protected int $_currentFolderId = 0;
     protected int $_number_of_mails = 0;
     protected array $_selectedItems = [];
-    protected bool $_isTrashFolder = false;
-    protected bool $_isDraftsFolder = false;
-    protected bool $_isSentFolder = false;
     protected ilObjUser $user;
     protected array $filter = [];
     protected array $sub_filter = [];
@@ -49,12 +44,12 @@ class ilMailFolderTableGUI extends ilTable2GUI
     private ?array $column_definition = null;
 
     public function __construct(
-        ilMailFolderGUI $a_parent_obj,
-        int $a_current_folder_id,
+        protected ilMailFolderGUI $_parentObject,
+        protected int $_currentFolderId,
         string $a_parent_cmd,
-        bool $isTrashFolder,
-        bool $isSentFolder,
-        bool $isDraftsFolder,
+        protected bool $_isTrashFolder,
+        protected bool $_isSentFolder,
+        protected bool $_isDraftsFolder,
         Factory $uiFactory = null,
         Renderer $uiRenderer = null
     ) {
@@ -64,14 +59,7 @@ class ilMailFolderTableGUI extends ilTable2GUI
         $this->uiRenderer = $uiRenderer ?? $DIC->ui()->renderer();
         $this->http = $DIC->http();
 
-        $this->_currentFolderId = $a_current_folder_id;
-        $this->_parentObject = $a_parent_obj;
-
-        $this->_isTrashFolder = $isTrashFolder;
-        $this->_isSentFolder = $isSentFolder;
-        $this->_isDraftsFolder = $isDraftsFolder;
-
-        $this->setId('mail_folder_tbl_' . $a_current_folder_id);
+        $this->setId('mail_folder_tbl_' . $_currentFolderId);
         $this->setPrefix('mtable');
 
         $this->setExternalSorting(true);
@@ -79,7 +67,7 @@ class ilMailFolderTableGUI extends ilTable2GUI
         $this->setDefaultOrderField('send_time');
         $this->setDefaultOrderDirection('desc');
 
-        parent::__construct($a_parent_obj, $a_parent_cmd);
+        parent::__construct($_parentObject, $a_parent_cmd);
 
         $this->ctrl->setParameter($this->getParentObject(), 'mobj_id', $this->_currentFolderId);
         $this->setFormAction($this->ctrl->getFormAction($this->getParentObject(), 'showFolder'));
@@ -384,7 +372,7 @@ class ilMailFolderTableGUI extends ilTable2GUI
                 $searcher->search($this->user->getId(), $this->_currentFolderId);
 
                 if (!$result->getIds()) {
-                    throw new ilException('mail_search_empty_result');
+                    throw new ilMailException('mail_search_empty_result');
                 }
 
                 ilMailBoxQuery::$filtered_ids = $result->getIds();
@@ -417,7 +405,7 @@ class ilMailFolderTableGUI extends ilTable2GUI
             ilMailBoxQuery::$orderColumn = $this->getOrderField();
             $data = ilMailBoxQuery::_getMailBoxListData();
 
-            if (!count($data['set']) && $this->getOffset() > 0) {
+            if ($data['set'] === [] && $this->getOffset() > 0) {
                 $this->resetOffset();
 
                 ilMailBoxQuery::$limit = $this->getLimit();
@@ -467,7 +455,7 @@ class ilMailFolderTableGUI extends ilTable2GUI
             } else {
                 $user = ilMailUserCache::getUserObjectById($mail['sender_id']);
 
-                if ($user) {
+                if ($user !== null) {
                     $mail['img_sender'] = $user->getPersonalPicturePath('xxsmall');
                     $mail['from'] = $mail['mail_login'] = $mail['alt_sender'] = htmlspecialchars(
                         $user->getPublicName()
@@ -542,7 +530,7 @@ class ilMailFolderTableGUI extends ilTable2GUI
             );
 
             $mail['attachment_indicator'] = '';
-            if (is_array($mail['attachments']) && count($mail['attachments']) > 0) {
+            if (is_array($mail['attachments']) && $mail['attachments'] !== []) {
                 $this->ctrl->setParameter($this->getParentObject(), 'mail_id', (int) $mail['mail_id']);
                 if ($this->isDraftFolder()) {
                     $this->ctrl->setParameter($this->getParentObject(), 'type', ilMailFormGUI::MAIL_FORM_TYPE_DRAFT);

@@ -99,7 +99,7 @@ class ilMailMimeTest extends ilMailBaseTest
             'get',
         ])->getMock();
         $settings->method('get')->willReturnCallback(static function ($key): ?string {
-            return (string) !('mail_allow_external' === $key);
+            return (string) ('mail_allow_external' !== $key);
         });
         $this->setGlobalVariable('ilSetting', $settings);
 
@@ -121,11 +121,6 @@ class ilMailMimeTest extends ilMailBaseTest
             'get',
         ])->getMock();
         $settings->method('get')->willReturnCallback(static function ($key): ?string {
-            if ('mail_allow_external' === $key) {
-                return '1';
-            }
-
-
             return '1';
         });
         $this->setGlobalVariable('ilSetting', $settings);

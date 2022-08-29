@@ -83,7 +83,7 @@ class ilMassMailTaskProcessor
      * @param string $contextId - context ID of the Background task
      * @param array $contextParameters - context parameters for the background tasks
      * @param int $mailsPerTask - Defines how many mails will be added before a background task is executed
-     * @throws ilException
+     * @throws ilMailException
      */
     public function run(
         array $mailValueObjects,
@@ -95,11 +95,11 @@ class ilMassMailTaskProcessor
         $objectsServiceSize = count($mailValueObjects);
 
         if ($objectsServiceSize <= 0) {
-            throw new ilException('First parameter must contain at least 1 array element');
+            throw new ilMailException('First parameter must contain at least 1 array element');
         }
 
         if ($mailsPerTask <= 0) {
-            throw new ilException(
+            throw new ilMailException(
                 sprintf(
                     'The mails per task MUST be a positive integer, "%s" given',
                     $mailsPerTask
@@ -109,11 +109,9 @@ class ilMassMailTaskProcessor
 
         foreach ($mailValueObjects as $mailValueObject) {
             if (!($mailValueObject instanceof ilMailValueObject)) {
-                throw new ilException('Array MUST contain ilMailValueObjects ONLY');
+                throw new ilMailException('Array MUST contain ilMailValueObjects ONLY');
             }
         }
-
-        $lastTask = null;
         $taskCounter = 0;
 
         $remainingObjects = [];

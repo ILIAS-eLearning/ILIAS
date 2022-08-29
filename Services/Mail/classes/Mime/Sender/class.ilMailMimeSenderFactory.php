@@ -24,14 +24,12 @@ declare(strict_types=1);
  */
 class ilMailMimeSenderFactory
 {
-    protected ilSetting $settings;
     /** @var ilMailMimeSender[] */
     protected array $senders = [];
     protected int $anonymousUsrId = 0;
 
-    public function __construct(ilSetting $settings, int $anonymousUsrId = null)
+    public function __construct(protected ilSetting $settings, int $anonymousUsrId = null)
     {
-        $this->settings = $settings;
         if (null === $anonymousUsrId && defined('ANONYMOUS_USER_ID')) {
             $anonymousUsrId = ANONYMOUS_USER_ID;
         }

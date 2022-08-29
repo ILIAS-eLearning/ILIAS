@@ -74,16 +74,10 @@ class ilMailOptionsGUI
             $this->ctrl->redirectByClass(ilMailGUI::class);
         }
 
-        $nextClass = $this->ctrl->getNextClass($this);
-        switch ($nextClass) {
-            default:
-                if (!($cmd = $this->ctrl->getCmd())) {
-                    $cmd = 'showOptions';
-                }
-
-                $this->$cmd();
-                break;
+        if (!($cmd = $this->ctrl->getCmd())) {
+            $cmd = 'showOptions';
         }
+        $this->$cmd();
     }
 
     public function setForm(ilMailOptionsFormGUI $form): void

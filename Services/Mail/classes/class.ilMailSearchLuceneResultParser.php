@@ -24,13 +24,8 @@ declare(strict_types=1);
  */
 class ilMailSearchLuceneResultParser
 {
-    protected ilMailSearchResult $result;
-    protected string $xml;
-
-    public function __construct(ilMailSearchResult $result, string $xml)
+    public function __construct(protected ilMailSearchResult $result, protected string $xml)
     {
-        $this->result = $result;
-        $this->xml = $xml;
     }
 
     public function getXml(): string

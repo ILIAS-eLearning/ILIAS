@@ -124,7 +124,7 @@ class ilObjMailGUI extends ilObjectGUI
         if ($this->isPermissionChangeAllowed()) {
             $this->tabs->addTarget(
                 'perm_settings',
-                $this->ctrl->getLinkTargetByClass([get_class($this), ilPermissionGUI::class], 'perm'),
+                $this->ctrl->getLinkTargetByClass([$this::class, ilPermissionGUI::class], 'perm'),
                 ['perm', 'info', 'owner'],
                 ilPermissionGUI::class
             );
@@ -655,7 +655,6 @@ class ilObjMailGUI extends ilObjectGUI
         $main_tpl = $DIC->ui()->mainTemplate();
 
         $mail = new ilMail($DIC->user()->getId());
-        $request = $DIC->http()->request();
 
         if ($DIC->rbac()->system()->checkAccess('internal_mail', $mail->getMailObjectReferenceId())) {
             $DIC->ctrl()->redirectToURL('ilias.php?baseClass=ilMailGUI');

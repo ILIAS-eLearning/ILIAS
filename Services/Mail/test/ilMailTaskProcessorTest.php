@@ -54,7 +54,7 @@ class ilMailTaskProcessorTest extends ilMailBaseTest
     }
 
     /**
-     * @throws ilException
+     * @throws ilMailException
      * @throws ReflectionException
      */
     public function testOneTask(): void
@@ -123,7 +123,7 @@ class ilMailTaskProcessorTest extends ilMailBaseTest
     }
 
     /**
-     * @throws ilException
+     * @throws ilMailException
      * @throws ReflectionException
      */
     public function testRunTwoTasks(): void
@@ -200,7 +200,7 @@ class ilMailTaskProcessorTest extends ilMailBaseTest
     }
 
     /**
-     * @throws ilException
+     * @throws ilMailException
      * @throws ReflectionException
      */
     public function testRunThreeTasksInDifferentBuckets(): void
@@ -289,11 +289,11 @@ class ilMailTaskProcessorTest extends ilMailBaseTest
 
     /**
      * @throws ReflectionException
-     * @throws ilException
+     * @throws ilMailException
      */
     public function testRunHasWrongTypeAndWillResultInException(): void
     {
-        $this->expectException(ilException::class);
+        $this->expectException(ilMailException::class);
 
         $taskManager = $this->getMockBuilder(BasicTaskManager::class)
             ->onlyMethods(['run'])

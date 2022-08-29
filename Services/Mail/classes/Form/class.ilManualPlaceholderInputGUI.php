@@ -34,21 +34,18 @@ class ilManualPlaceholderInputGUI extends ilSubEnabledFormPropertyGUI
     protected array $placeholders = [];
     protected string $rerenderUrl = '';
     protected string $rerenderTriggerElementName = '';
-    protected string $dependencyElementId;
     protected string $instructionText = '';
     protected string $adviseText = '';
     protected ilGlobalTemplateInterface $tpl;
     /** @var mixed */
     protected $value;
 
-    public function __construct(string $dependencyElementId)
+    public function __construct(protected string $dependencyElementId)
     {
         global $DIC;
 
         $this->tpl = $DIC->ui()->mainTemplate();
         $this->httpState = $DIC->http();
-
-        $this->dependencyElementId = $dependencyElementId;
 
         parent::__construct();
 
@@ -115,18 +112,16 @@ class ilManualPlaceholderInputGUI extends ilSubEnabledFormPropertyGUI
             'Services/Mail'
         );
         $subtpl->setVariable('TXT_USE_PLACEHOLDERS', $this->lng->txt('mail_nacc_use_placeholder'));
-        if ($this->getAdviseText()) {
+        if ($this->getAdviseText() !== '') {
             $subtpl->setVariable('TXT_PLACEHOLDERS_ADVISE', $this->getAdviseText());
         }
 
-        if (count($this->placeholders) > 0) {
-            foreach ($this->placeholders as $placeholder) {
-                $subtpl->setCurrentBlock('man_placeholder');
-                $subtpl->setVariable('DEPENDENCY_ELM_ID', $this->dependencyElementId);
-                $subtpl->setVariable('MANUAL_PLACEHOLDER', $placeholder['placeholder']);
-                $subtpl->setVariable('TXT_MANUAL_PLACEHOLDER', $placeholder['title']);
-                $subtpl->parseCurrentBlock();
-            }
+        foreach ($this->placeholders as $placeholder) {
+            $subtpl->setCurrentBlock('man_placeholder');
+            $subtpl->setVariable('DEPENDENCY_ELM_ID', $this->dependencyElementId);
+            $subtpl->setVariable('MANUAL_PLACEHOLDER', $placeholder['placeholder']);
+            $subtpl->setVariable('TXT_MANUAL_PLACEHOLDER', $placeholder['title']);
+            $subtpl->parseCurrentBlock();
         }
 
         if ($this->getRerenderTriggerElementName() && $this->getRerenderUrl()) {

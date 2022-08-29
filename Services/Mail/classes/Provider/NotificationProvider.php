@@ -110,7 +110,7 @@ class NotificationProvider extends AbstractNotificationProvider
                     new ilDateTime($dateTime->getTimestamp(), IL_CAL_UNIX)
                 ),
             ]);
-        } catch (Throwable $e) {
+        } catch (Throwable) {
         }
 
         $group = $factory->standardGroup($id('mail_bucket_group'))

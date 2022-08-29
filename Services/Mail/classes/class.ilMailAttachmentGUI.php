@@ -58,16 +58,10 @@ class ilMailAttachmentGUI
 
     public function executeCommand(): void
     {
-        $forward_class = $this->ctrl->getNextClass($this);
-        switch ($forward_class) {
-            default:
-                if (!($cmd = $this->ctrl->getCmd())) {
-                    $cmd = 'showAttachments';
-                }
-
-                $this->$cmd();
-                break;
+        if (!($cmd = $this->ctrl->getCmd())) {
+            $cmd = 'showAttachments';
         }
+        $this->$cmd();
     }
 
     public function saveAttachments(): void

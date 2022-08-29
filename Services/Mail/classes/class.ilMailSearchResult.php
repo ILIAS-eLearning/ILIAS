@@ -27,10 +27,6 @@ class ilMailSearchResult
     /** @var array[] */
     protected array $result = [];
 
-    public function __construct()
-    {
-    }
-
     public function addItem(int $id, array $fields): void
     {
         $this->result[$id] = $fields;
@@ -44,10 +40,6 @@ class ilMailSearchResult
         return array_keys($this->result);
     }
 
-    /**
-     * @param int $id
-     * @return array
-     */
     public function getFields(int $id): array
     {
         if (!isset($this->result[$id])) {

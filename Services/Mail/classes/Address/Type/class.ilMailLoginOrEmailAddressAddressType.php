@@ -24,16 +24,13 @@ declare(strict_types=1);
  */
 class ilMailLoginOrEmailAddressAddressType extends ilBaseMailAddressType
 {
-    protected ilRbacSystem $rbacsystem;
-
     public function __construct(
         ilMailAddressTypeHelper $typeHelper,
         ilMailAddress $address,
         ilLogger $logger,
-        ilRbacSystem $rbacsystem
+        protected ilRbacSystem $rbacsystem
     ) {
         parent::__construct($typeHelper, $address, $logger);
-        $this->rbacsystem = $rbacsystem;
     }
 
     protected function isValid(int $senderId): bool
@@ -83,7 +80,7 @@ class ilMailLoginOrEmailAddressAddressType extends ilBaseMailAddressType
             $this->typeHelper->getUserIdByLogin($address),
         ]);
 
-        if (count($usrIds) > 0) {
+        if ($usrIds !== []) {
             $this->logger->debug(sprintf(
                 "Found the following user ids for address (login) '%s': %s",
                 $address,

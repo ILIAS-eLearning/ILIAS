@@ -23,15 +23,9 @@ declare(strict_types=1);
  */
 class ilMailTemplateSelectInputGUI extends ilSelectInputGUI
 {
-    protected array $fields = [];
-    protected string $url;
-
-    public function __construct(string $a_title, string $a_postvar, string $url, array $fields)
+    public function __construct(string $a_title, string $a_postvar, protected string $url, protected array $fields)
     {
         parent::__construct($a_title, $a_postvar);
-
-        $this->url = $url;
-        $this->fields = $fields;
     }
 
     public function render($a_mode = ''): string

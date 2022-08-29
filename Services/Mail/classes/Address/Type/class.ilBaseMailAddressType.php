@@ -24,20 +24,14 @@ declare(strict_types=1);
  */
 abstract class ilBaseMailAddressType implements ilMailAddressType
 {
-    protected ilMailAddressTypeHelper $typeHelper;
-    protected ilMailAddress $address;
-    protected ilLogger $logger;
     /** @var ilMailError[] */
     private array $errors = [];
 
     public function __construct(
-        ilMailAddressTypeHelper $typeHelper,
-        ilMailAddress $address,
-        ilLogger $logger
+        protected ilMailAddressTypeHelper $typeHelper,
+        protected ilMailAddress $address,
+        protected ilLogger $logger
     ) {
-        $this->address = $address;
-        $this->typeHelper = $typeHelper;
-        $this->logger = $logger;
     }
 
     abstract protected function isValid(int $senderId): bool;
@@ -49,6 +43,9 @@ abstract class ilBaseMailAddressType implements ilMailAddressType
         return $this->isValid($senderId);
     }
 
+    /**
+     * @param string[] $placeHolderValues
+     */
     protected function pushError(string $languageVariable, array $placeHolderValues = []): void
     {
         $this->errors[] = new ilMailError($languageVariable, $placeHolderValues);

@@ -100,8 +100,6 @@ class ilMailAddressListTest extends ilMailBaseTest
 
     /**
      * @dataProvider externalAddressTestProvider
-     * @param ilMailAddress $address
-     * @param int $numberOfExpectedItems
      */
     public function testExternalAddressListDecoratorFiltersExternalAddresses(
         ilMailAddress $address,

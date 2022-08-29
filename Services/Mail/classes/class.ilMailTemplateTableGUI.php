@@ -29,23 +29,16 @@ class ilMailTemplateTableGUI extends ilTable2GUI
 {
     /** @var ilMailTemplateContext[] */
     protected array $contexts = [];
-    protected bool $readOnly = false;
-    protected Factory $uiFactory;
-    protected Renderer $uiRenderer;
     /** @var ILIAS\UI\Component\Component[] */
     protected array $uiComponents = [];
 
     public function __construct(
         ilMailTemplateGUI $a_parent_obj,
         string $a_parent_cmd,
-        Factory $uiFactory,
-        Renderer $uiRenderer,
-        bool $readOnly = false
+        protected Factory $uiFactory,
+        protected Renderer $uiRenderer,
+        protected bool $readOnly = false
     ) {
-        $this->uiFactory = $uiFactory;
-        $this->uiRenderer = $uiRenderer;
-        $this->readOnly = $readOnly;
-
         $this->setId('mail_man_tpl');
         parent::__construct($a_parent_obj, $a_parent_cmd);
 
@@ -116,7 +109,7 @@ class ilMailTemplateTableGUI extends ilTable2GUI
 
         $buttons = [];
 
-        if (count($this->contexts) > 0) {
+        if ($this->contexts !== []) {
             if (!$this->readOnly) {
                 $buttons[] = $this->uiFactory
                     ->button()

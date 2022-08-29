@@ -23,39 +23,23 @@ declare(strict_types=1);
  */
 class ilMailValueObject
 {
-    private string $recipients;
-    private string $recipientsCC;
-    private string $recipientsBCC;
-    private string $subject;
-    private string $body;
     /** @var string[] */
     private array $attachments;
-    private bool $usePlaceholders;
-    private bool $saveInSentBox;
-    private string $from;
     /**
      * @param string[] $attachments
      */
     public function __construct(
-        string $from,
-        string $recipients,
-        string $recipientsCC,
-        string $recipientsBCC,
-        string $subject,
-        string $body,
+        private string $from,
+        private string $recipients,
+        private string $recipientsCC,
+        private string $recipientsBCC,
+        private string $subject,
+        private string $body,
         array $attachments,
-        bool $usePlaceholders = false,
-        bool $saveInSentBox = false
+        private bool $usePlaceholders = false,
+        private bool $saveInSentBox = false
     ) {
-        $this->from = $from;
-        $this->recipients = $recipients;
-        $this->recipientsCC = $recipientsCC;
-        $this->recipientsBCC = $recipientsBCC;
-        $this->subject = $subject;
-        $this->body = $body;
         $this->attachments = array_filter(array_map('trim', $attachments));
-        $this->usePlaceholders = $usePlaceholders;
-        $this->saveInSentBox = $saveInSentBox;
     }
 
     public function getRecipients(): string

@@ -87,7 +87,6 @@ class ilPDMailGUI
 
         $tpl->setVariable('TXT_FROM', $this->lng->txt('from'));
 
-        /** @var ilObjUser|null $sender */
         $sender = ilObjectFactory::getInstanceByObjId($mail_data['sender_id'], false);
         if ($sender instanceof ilObjUser && $sender->getId() !== 0 && $sender->getId() !== ANONYMOUS_USER_ID) {
             $tpl->setCurrentBlock('pers_image');
@@ -96,7 +95,7 @@ class ilPDMailGUI
             $tpl->parseCurrentBlock();
 
             $tpl->setVariable('PUBLIC_NAME', $sender->getPublicName());
-        } elseif (null === $sender) {
+        } elseif (!$sender instanceof ilObjUser) {
             $tpl->setVariable(
                 'PUBLIC_NAME',
                 $mail_data['import_name'] . ' (' . $this->lng->txt('user_deleted') . ')'

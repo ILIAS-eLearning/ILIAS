@@ -26,14 +26,9 @@ use PHPMailer\PHPMailer\PHPMailer;
 abstract class ilMailMimeTransportBase implements ilMailMimeTransport
 {
     protected PHPMailer $mailer;
-    protected ilSetting $settings;
-    private ilAppEventHandler $eventHandler;
 
-    public function __construct(ilSetting $settings, ilAppEventHandler $eventHandler)
+    public function __construct(protected ilSetting $settings, private ilAppEventHandler $eventHandler)
     {
-        $this->settings = $settings;
-        $this->eventHandler = $eventHandler;
-
         $mail = new PHPMailer();
         $this->setMailer($mail);
     }
@@ -69,7 +64,7 @@ abstract class ilMailMimeTransportBase implements ilMailMimeTransport
         foreach ($mail->getTo() as $recipients) {
             $recipient_pieces = array_filter(array_map('trim', explode(',', $recipients)));
             foreach ($recipient_pieces as $recipient) {
-                if ($this->getMailer()->addAddress($recipient)) {
+                if (!$this->getMailer()->addAddress($recipient)) {
                     ilLoggerFactory::getLogger('mail')->warning($this->getMailer()->ErrorInfo);
                 }
             }
@@ -95,10 +90,11 @@ abstract class ilMailMimeTransportBase implements ilMailMimeTransport
 
         $this->getMailer()->Subject = $mail->getSubject();
 
-        if ($mail->getFrom()->hasReplyToAddress()) {
-            if (!$this->getMailer()->addReplyTo($mail->getFrom()->getReplyToAddress(), $mail->getFrom()->getReplyToName())) {
-                ilLoggerFactory::getLogger('mail')->warning($this->getMailer()->ErrorInfo);
-            }
+        if ($mail->getFrom()->hasReplyToAddress() && !$this->getMailer()->addReplyTo(
+            $mail->getFrom()->getReplyToAddress(),
+            $mail->getFrom()->getReplyToName()
+        )) {
+            ilLoggerFactory::getLogger('mail')->warning($this->getMailer()->ErrorInfo);
         }
         if ($mail->getFrom()->hasEnvelopFromAddress()) {
             $this->getMailer()->Sender = $mail->getFrom()->getEnvelopFromAddress();
@@ -120,7 +116,7 @@ abstract class ilMailMimeTransportBase implements ilMailMimeTransport
             }
         }
 
-        if ($mail->getFinalBodyAlt()) {
+        if ($mail->getFinalBodyAlt() !== '') {
             $this->getMailer()->isHTML(true);
             $this->getMailer()->AltBody = $mail->getFinalBodyAlt();
         } else {

@@ -24,13 +24,8 @@ declare(strict_types=1);
  */
 class ilMailMimeSubjectBuilder
 {
-    private ilSetting $settings;
-    private string $defaultPrefix;
-
-    public function __construct(ilSetting $settings, string $defaultPrefix)
+    public function __construct(private ilSetting $settings, private string $defaultPrefix)
     {
-        $this->settings = $settings;
-        $this->defaultPrefix = $defaultPrefix;
     }
 
     public function subject(string $subject, bool $addPrefix = false, string $contextPrefix = ''): string

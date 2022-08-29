@@ -22,15 +22,10 @@ declare(strict_types=1);
  * Class ilMailAddress
  * @author Michael Jansen <mjansen@databay.de>
  */
-class ilMailAddress
+class ilMailAddress implements Stringable
 {
-    protected string $mailbox = '';
-    protected string $host = '';
-
-    public function __construct(string $mailbox, string $host)
+    public function __construct(protected string $mailbox, protected string $host)
     {
-        $this->mailbox = $mailbox;
-        $this->host = $host;
     }
 
     public function setHost(string $host): void

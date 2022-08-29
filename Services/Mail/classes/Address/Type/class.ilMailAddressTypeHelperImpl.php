@@ -24,11 +24,8 @@ declare(strict_types=1);
  */
 class ilMailAddressTypeHelperImpl implements ilMailAddressTypeHelper
 {
-    protected string $installationHost = '';
-
-    public function __construct(string $installationHost)
+    public function __construct(protected string $installationHost)
     {
-        $this->installationHost = $installationHost;
     }
 
     public function doesGroupNameExists(string $name): bool

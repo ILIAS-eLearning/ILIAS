@@ -24,13 +24,8 @@ declare(strict_types=1);
  */
 class ilMailError
 {
-    protected string $languageVariable = '';
-    protected array $placeHolderValues = [];
-
-    public function __construct(string $languageVariable, array $placeHolderValues = [])
+    public function __construct(protected string $languageVariable, protected array $placeHolderValues = [])
     {
-        $this->languageVariable = $languageVariable;
-        $this->placeHolderValues = $placeHolderValues;
     }
 
     public function getLanguageVariable(): string

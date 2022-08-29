@@ -24,17 +24,13 @@ declare(strict_types=1);
  */
 class ilMailMailingListAddressType extends ilBaseMailAddressType
 {
-    private ilMailingLists $lists;
-
     public function __construct(
         ilMailAddressTypeHelper $typeHelper,
         ilMailAddress $address,
         ilLogger $logger,
-        ilMailingLists $lists
+        private ilMailingLists $lists
     ) {
         parent::__construct($typeHelper, $address, $logger);
-
-        $this->lists = $lists;
     }
 
     protected function isValid(int $senderId): bool

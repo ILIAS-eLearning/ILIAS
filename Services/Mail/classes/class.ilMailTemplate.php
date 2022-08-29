@@ -45,6 +45,9 @@ class ilMailTemplate
         }
     }
 
+    /**
+     * @return array{tpl_id: int, title: string, context: string, lang: string, m_subject: string, m_message: string, is_default: bool}
+     */
     public function toArray(): array
     {
         return [

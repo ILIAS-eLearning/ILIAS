@@ -475,7 +475,7 @@ class ilMailFormGUI
             $template = $this->templateService->loadTemplateForId(
                 $this->http->wrapper()->query()->retrieve('template_id', $this->refinery->kindlyTo()->int())
             );
-            $context = ilMailTemplateContextService::getTemplateContextById($template->getContext());
+            ilMailTemplateContextService::getTemplateContextById($template->getContext());
 
             $this->http->saveResponse(
                 $this->http->response()
@@ -485,7 +485,7 @@ class ilMailFormGUI
                         'm_message' => $this->umail->appendSignature($template->getMessage()),
                     ], JSON_THROW_ON_ERROR)))
             );
-        } catch (Exception $e) {
+        } catch (Exception) {
         }
 
         $this->http->sendResponse();
@@ -525,7 +525,7 @@ class ilMailFormGUI
 
         switch ($type) {
             case self::MAIL_FORM_TYPE_REPLY:
-                if ((int) ilSession::get('mail_id')) {
+                if ((int) ilSession::get('mail_id') !== 0) {
                     $mailId = (int) ilSession::get('mail_id');
                     ilSession::clear('mail_id');
                 }
@@ -794,7 +794,7 @@ class ilMailFormGUI
                 $context = ilMailTemplateContextService::getTemplateContextById($context_id);
 
                 $templates = $this->templateService->loadTemplatesForContextId($context->getId());
-                if (count($templates) > 0) {
+                if ($templates !== []) {
                     $options = [];
 
                     $template_chb = new ilMailTemplateSelectInputGUI(
@@ -824,7 +824,7 @@ class ilMailFormGUI
                     $template_chb->setOptions(['' => $this->lng->txt('please_choose')] + $options);
                     $form_gui->addItem($template_chb);
                 }
-            } catch (Exception $e) {
+            } catch (Exception) {
                 ilLoggerFactory::getLogger('mail')->error(sprintf(
                     '%s has been called with invalid context id: %s.',
                     __METHOD__,
@@ -850,7 +850,7 @@ class ilMailFormGUI
         $placeholders = new ilManualPlaceholderInputGUI('m_message');
         $placeholders->setInstructionText($this->lng->txt('mail_nacc_use_placeholder'));
         $placeholders->setAdviseText(sprintf($this->lng->txt('placeholders_advise'), '<br />'));
-        foreach ($context->getPlaceholders() as $key => $value) {
+        foreach ($context->getPlaceholders() as $value) {
             $placeholders->addPlaceholder($value['placeholder'], $value['label']);
         }
         $chb->addSubItem($placeholders);

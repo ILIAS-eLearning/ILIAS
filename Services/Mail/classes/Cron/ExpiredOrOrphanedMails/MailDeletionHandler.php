@@ -33,9 +33,6 @@ use Throwable;
 class MailDeletionHandler
 {
     private const PING_THRESHOLD = 250;
-
-    private ilMailCronOrphanedMails $job;
-    private ExpiredOrOrphanedMailsCollector $collector;
     private ilDBInterface $db;
     private ilSetting $settings;
     private ilLogger $logger;
@@ -44,8 +41,8 @@ class MailDeletionHandler
     private $delete_directory_callback;
 
     public function __construct(
-        ilMailCronOrphanedMails $job,
-        ExpiredOrOrphanedMailsCollector $collector,
+        private ilMailCronOrphanedMails $job,
+        private ExpiredOrOrphanedMailsCollector $collector,
         ?ilDBInterface $db = null,
         ?ilSetting $setting = null,
         ?ilLogger $logger = null,
@@ -57,9 +54,6 @@ class MailDeletionHandler
         $this->settings = $setting ?? $DIC->settings();
         $this->logger = $logger ?? ilLoggerFactory::getLogger('mail');
         $this->delete_directory_callback = $delete_directory_callback;
-
-        $this->job = $job;
-        $this->collector = $collector;
 
         $this->mail_ids_for_path_stmt = $this->db->prepare(
             'SELECT COUNT(*) cnt FROM mail_attachment WHERE path = ?',
@@ -158,8 +152,7 @@ class MailDeletionHandler
                     } else {
                         $this->logger->info(
                             sprintf(
-                                "Attachment file '%s' for mail_id could not be deleted " .
-                                "due to missing file system permissions",
+                                'Attachment file \'%s\' for mail_id could not be deleted due to missing file system permissions',
                                 $path_name
                             )
                         );
@@ -209,7 +202,7 @@ class MailDeletionHandler
 
     public function delete(): void
     {
-        if (count($this->collector->mailIdsToDelete()) > 0) {
+        if ($this->collector->mailIdsToDelete() !== []) {
             $this->deleteAttachments();
 
             $this->deleteMails();

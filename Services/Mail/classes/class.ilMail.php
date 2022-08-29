@@ -38,7 +38,6 @@ class ilMail
     protected string $table_mail_saved;
     /** @var string[]|null */
     protected ?array $mail_data = [];
-    protected ?int $mail_obj_ref_id = null;
     protected bool $save_in_sentbox;
     protected bool $appendInstallationSignature = false;
     private ilAppEventHandler $eventHandler;
@@ -69,7 +68,7 @@ class ilMail
         ilMailbox $mailBox = null,
         ilMailMimeSenderFactory $senderFactory = null,
         callable $usrIdByLoginCallable = null,
-        int $mailAdminNodeRefId = null,
+        protected ?int $mail_obj_ref_id = null,
         ilObjUser $actor = null
     ) {
         global $DIC;
@@ -88,7 +87,6 @@ class ilMail
             return (int) ilObjUser::_lookupId($login);
         };
         $this->user_id = $a_user_id;
-        $this->mail_obj_ref_id = $mailAdminNodeRefId;
         if (null === $this->mail_obj_ref_id) {
             $this->readMailObjectReferenceId();
         }
@@ -130,7 +128,7 @@ class ilMail
 
         $diffedAddresses = $list->value();
 
-        return count($diffedAddresses) === 0;
+        return $diffedAddresses === [];
     }
 
     public function setSaveInSentbox(bool $saveInSentbox): void
@@ -294,10 +292,12 @@ class ilMail
         $types = [];
 
         $query = "UPDATE $this->table_mail SET m_status = %s WHERE user_id = %s ";
-        array_push($types, 'text', 'integer');
-        array_push($values, 'read', $this->user_id);
+        $types[] = 'text';
+        $types[] = 'integer';
+        $values[] = 'read';
+        $values[] = $this->user_id;
 
-        if (count($mailIds) > 0) {
+        if ($mailIds !== []) {
             $query .= ' AND ' . $this->db->in('mail_id', $mailIds, false, 'integer');
         }
 
@@ -313,10 +313,12 @@ class ilMail
         $types = [];
 
         $query = "UPDATE $this->table_mail SET m_status = %s WHERE user_id = %s ";
-        array_push($types, 'text', 'integer');
-        array_push($values, 'unread', $this->user_id);
+        $types[] = 'text';
+        $types[] = 'integer';
+        $values[] = 'unread';
+        $values[] = $this->user_id;
 
-        if (count($mailIds) > 0) {
+        if ($mailIds !== []) {
             $query .= ' AND ' . $this->db->in('mail_id', $mailIds, false, 'integer');
         }
 
@@ -325,8 +327,6 @@ class ilMail
 
     /**
      * @param int[] $mailIds
-     * @param int $folderId
-     * @return bool
      */
     public function moveMailsToFolder(array $mailIds, int $folderId): bool
     {
@@ -335,7 +335,7 @@ class ilMail
 
         $mailIds = array_filter(array_map('intval', $mailIds));
 
-        if (0 === count($mailIds)) {
+        if ([] === $mailIds) {
             return false;
         }
 
@@ -345,8 +345,12 @@ class ilMail
             "ON mail_obj_data.obj_id = %s AND mail_obj_data.user_id = %s " .
             "SET $this->table_mail.folder_id = mail_obj_data.obj_id " .
             "WHERE $this->table_mail.user_id = %s";
-        array_push($types, 'integer', 'integer', 'integer');
-        array_push($values, $folderId, $this->user_id, $this->user_id);
+        $types[] = 'integer';
+        $types[] = 'integer';
+        $types[] = 'integer';
+        $values[] = $folderId;
+        $values[] = $this->user_id;
+        $values[] = $this->user_id;
 
         $query .= ' AND ' . $this->db->in('mail_id', $mailIds, false, 'integer');
 
@@ -371,10 +375,6 @@ class ilMail
         }
     }
 
-    /**
-     * @param array|null $row
-     * @return array|null
-     */
     protected function fetchMailData(?array $row): ?array
     {
         if (!is_array($row) || empty($row)) {
@@ -431,18 +431,7 @@ class ilMail
     }
 
     /**
-     * @param int $a_folder_id
      * @param string[] $a_attachments
-     * @param string $a_rcp_to
-     * @param string $a_rcp_cc
-     * @param string $a_rcp_bcc
-     * @param string $a_m_subject
-     * @param string $a_m_message
-     * @param int $a_draft_id
-     * @param bool $a_use_placeholders
-     * @param string|null $a_tpl_context_id
-     * @param array $a_tpl_context_params
-     * @return int
      */
     public function updateDraft(
         int $a_folder_id,
@@ -535,7 +524,7 @@ class ilMail
             $this->eventHandler->raise('Services/Mail', 'sentInternalMail', [
                 'id' => $nextId,
                 'subject' => $subject,
-                'body' => (string) $message,
+                'body' => $message,
                 'from_usr_id' => $senderUsrId,
                 'to_usr_id' => $usrId,
                 'rcp_to' => $to,
@@ -563,7 +552,7 @@ class ilMail
 
             $processor = new ilMailTemplatePlaceholderResolver($context, $message);
             $message = $processor->resolve($user, $this->contextParameters, $replaceEmptyPlaceholders);
-        } catch (Exception $e) {
+        } catch (Exception) {
             $this->logger->error(__METHOD__ . ' has been called with invalid context.');
         }
 
@@ -571,15 +560,7 @@ class ilMail
     }
 
     /**
-     * @param string $to
-     * @param string $cc
-     * @param string $bcc
-     * @param string $subject
-     * @param string $message
      * @param string[] $attachments
-     * @param int $sentMailId
-     * @param bool $usePlaceholders
-     * @return bool
      */
     protected function distributeMail(
         string $to,
@@ -649,15 +630,8 @@ class ilMail
     }
 
     /**
-     * @param string $to
-     * @param string $cc
-     * @param string $bcc
      * @param int[] $usrIds
-     * @param string $subject
-     * @param string $message
      * @param string[] $attachments
-     * @param int $sentMailId
-     * @param bool $usePlaceholders
      */
     protected function sendChanneledMails(
         string $to,
@@ -741,7 +715,7 @@ class ilMail
                 $user->getId()
             );
 
-            if (count($attachments) > 0) {
+            if ($attachments !== []) {
                 $this->mfile->assignAttachmentsToDirectory($internalMailId, $sentMailId);
             }
         }
@@ -757,10 +731,7 @@ class ilMail
     }
 
     /**
-     * @param string $subject
-     * @param string $message
      * @param string[] $attachments
-     * @param bool $usePlaceholders
      * @param array<int, string[]> $usrIdToExternalEmailAddressesMap
      * @param array<int, string> $usrIdToMessageMap
      */
@@ -791,7 +762,7 @@ class ilMail
         } elseif (count($usrIdToExternalEmailAddressesMap) > 1) {
             if ($usePlaceholders) {
                 foreach ($usrIdToExternalEmailAddressesMap as $usrId => $addresses) {
-                    if (0 === count($addresses)) {
+                    if ([] === $addresses) {
                         continue;
                     }
 
@@ -872,10 +843,6 @@ class ilMail
     }
 
     /**
-     * @param string $to
-     * @param string $cc
-     * @param string $bcc
-     * @param string $subject
      * @return ilMailError[]
      */
     protected function checkMail(string $to, string $cc, string $bcc, string $subject): array
@@ -896,7 +863,6 @@ class ilMail
     }
 
     /**
-     * @param string $recipients
      * @return ilMailError[]
      * @throws ilMailException
      */
@@ -912,7 +878,7 @@ class ilMail
                     $errors[] = $address_type->getErrors();
                 }
             }
-        } catch (ilException $e) {
+        } catch (Exception $e) {
             $colonPosition = strpos($e->getMessage(), ':');
             throw new ilMailException(
                 ($colonPosition === false) ?
@@ -925,17 +891,7 @@ class ilMail
     }
 
     /**
-     * @param int $a_user_id
      * @param string[] $a_attachments
-     * @param string $a_rcp_to
-     * @param string $a_rcp_cc
-     * @param string $a_rcp_bcc
-     * @param string $a_m_subject
-     * @param string $a_m_message
-     * @param bool $a_use_placeholders
-     * @param string|null $a_tpl_context_id
-     * @param array|null $a_tpl_ctx_params
-     * @return bool
      */
     public function savePostData(
         int $a_user_id,
@@ -987,13 +943,7 @@ class ilMail
 
     /**
      * Should be used to enqueue a 'mail'. A validation is executed before, errors are returned
-     * @param string $a_rcp_to
-     * @param string $a_rcp_cc
-     * @param string $a_rcp_bcc
-     * @param string $a_m_subject
-     * @param string $a_m_message
      * @param string[] $a_attachment
-     * @param bool $a_use_placeholders
      * @return ilMailError[]
      */
     public function enqueue(
@@ -1020,12 +970,12 @@ class ilMail
         }
 
         $errors = $this->checkMail($a_rcp_to, $a_rcp_cc, $a_rcp_bcc, $a_m_subject);
-        if (count($errors) > 0) {
+        if ($errors !== []) {
             return $errors;
         }
 
         $errors = $this->validateRecipients($a_rcp_to, $a_rcp_cc, $a_rcp_bcc);
-        if (count($errors) > 0) {
+        if ($errors !== []) {
             return $errors;
         }
 
@@ -1095,13 +1045,7 @@ class ilMail
     /**
      * This method is used to finally send internal messages and external emails
      * To use the mail system as a consumer, please use ilMail::enqueue
-     * @param string $to
-     * @param string $cc
-     * @param string $bcc
-     * @param string $subject
-     * @param string $message
      * @param string[] $attachments
-     * @param bool $usePlaceholders
      * @return ilMailError[]
      * @see ilMail::enqueue()
      * @internal
@@ -1124,7 +1068,7 @@ class ilMail
             $message
         );
 
-        if (count($attachments) > 0) {
+        if ($attachments !== []) {
             $this->mfile->assignAttachmentsToDirectory($internalMessageId, $internalMessageId);
             $this->mfile->saveFiles($internalMessageId, $attachments);
         }
@@ -1183,9 +1127,6 @@ class ilMail
     }
 
     /**
-     * @param string $to
-     * @param string $cc
-     * @param string $bcc
      * @return ilMailError[]
      */
     public function validateRecipients(string $to, string $cc, string $bcc): array
@@ -1196,7 +1137,7 @@ class ilMail
             $errors = array_merge($errors, $this->checkRecipients($cc));
             $errors = array_merge($errors, $this->checkRecipients($bcc));
 
-            if (count($errors) > 0) {
+            if ($errors !== []) {
                 return array_merge([new ilMailError('mail_following_rcp_not_valid')], $errors);
             }
         } catch (ilMailException $e) {
@@ -1218,12 +1159,6 @@ class ilMail
 
     /**
      * @param string[] $attachment
-     * @param string $to
-     * @param string $cc
-     * @param string $bcc
-     * @param string $subject
-     * @param string $message
-     * @return int
      */
     protected function saveInSentbox(
         array $attachment,
@@ -1248,11 +1183,6 @@ class ilMail
     }
 
     /**
-     * @param string $to
-     * @param string $cc
-     * @param string $bcc
-     * @param string $subject
-     * @param string $message
      * @param string[] $attachments
      */
     private function sendMimeMail(
@@ -1273,11 +1203,11 @@ class ilMail
         );
         $mailer->Body($message);
 
-        if ($cc) {
+        if ($cc !== '') {
             $mailer->Cc($cc);
         }
 
-        if ($bcc) {
+        if ($bcc !== '') {
             $mailer->Bcc($bcc);
         }
 
@@ -1311,7 +1241,6 @@ class ilMail
 
     /**
      * Explode recipient string, allowed separators are ',' ';' ' '
-     * @param string $addresses
      * @return ilMailAddress[]
      */
     protected function parseAddresses(string $addresses): array

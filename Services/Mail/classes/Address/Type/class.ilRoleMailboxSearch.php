@@ -26,16 +26,13 @@ declare(strict_types=1);
  */
 class ilRoleMailboxSearch
 {
-    protected ilMailRfc822AddressParserFactory $parserFactory;
     protected ilDBInterface $db;
 
     public function __construct(
-        ilMailRfc822AddressParserFactory $parserFactory,
+        protected ilMailRfc822AddressParserFactory $parserFactory,
         ilDBInterface $db = null
     ) {
         global $DIC;
-
-        $this->parserFactory = $parserFactory;
 
         if (null === $db) {
             $db = $DIC->database();
@@ -93,7 +90,7 @@ class ilRoleMailboxSearch
         $role_ids = [];
         foreach ($parsedList as $address) {
             $local_part = $address->getMailbox();
-            if (strpos($local_part, '#') !== 0 && !($local_part[0] === '"' && $local_part[1] === "#")) {
+            if (!str_starts_with($local_part, '#') && !($local_part[0] === '"' && $local_part[1] === "#")) {
                 // A local-part which doesn't start with a '#' doesn't denote a role.
                 // Therefore we can skip it.
                 continue;
@@ -107,7 +104,7 @@ class ilRoleMailboxSearch
                 $local_part = substr($local_part, 0, -1);
             }
 
-            if (strpos($local_part, 'il_role_') === 0) {
+            if (str_starts_with($local_part, 'il_role_')) {
                 $role_id = substr($local_part, 8);
                 $query = "SELECT t.tree " .
                     "FROM rbac_fa fa " .
@@ -123,7 +120,7 @@ class ilRoleMailboxSearch
             }
 
             $domain = $address->getHost();
-            if (strpos($domain, '[') === 0 && strrpos($domain, ']')) {
+            if (str_starts_with($domain, '[') && strrpos($domain, ']')) {
                 $domain = substr($domain, 1, -1);
             }
             if ($local_part === '') {

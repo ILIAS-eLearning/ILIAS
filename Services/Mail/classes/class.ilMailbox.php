@@ -31,7 +31,6 @@ class ilMailbox
     protected ilLanguage $lng;
     protected ilDBInterface $db;
     protected ilTree $mtree;
-    protected int $usrId;
     /** @var array{moveMails: string, markMailsRead: string, markMailsUnread: string, deleteMails: string} */
     protected array $actions = [
         'moveMails' => '',
@@ -50,18 +49,16 @@ class ilMailbox
     protected string $table_mail_obj_data;
     protected string $table_tree;
 
-    public function __construct(int $a_user_id = 0)
+    public function __construct(protected int $usrId = 0)
     {
         global $DIC;
 
         $this->lng = $DIC->language();
         $this->db = $DIC->database();
-
-        $this->usrId = $a_user_id;
         $this->table_mail_obj_data = 'mail_obj_data';
         $this->table_tree = 'mail_tree';
 
-        if ($this->usrId) {
+        if ($this->usrId !== 0) {
             $this->mtree = new ilTree($this->usrId);
             $this->mtree->setTableNames($this->table_tree, $this->table_mail_obj_data);
         }
@@ -133,18 +130,12 @@ class ilMailbox
         return (int) $row['obj_id'];
     }
 
-    private function getRootFolderId(): int
-    {
-        return $this->mtree->getRootId();
-    }
-
     /**
-     * @param int $folderId
      * @return array{moveMails: string, markMailsRead: string, markMailsUnread: string, deleteMails: string}
      */
     public function getActions(int $folderId): array
     {
-        if ($folderId) {
+        if ($folderId !== 0) {
             $folder_data = $this->getFolderData($folderId);
             if ($folder_data['type'] === 'user_folder' || $folder_data['type'] === 'local') {
                 return $this->actions;
@@ -269,7 +260,6 @@ class ilMailbox
     }
 
     /**
-     * @param int $folderId
      * @return array{obj_id: int, title: string, type: string}
      */
     public function getFolderData(int $folderId): array
@@ -304,7 +294,7 @@ class ilMailbox
     {
         $userFolders = [];
 
-        foreach ($this->defaultFolders as $key => $value) {
+        foreach (array_keys($this->defaultFolders) as $key) {
             $res = $this->db->queryF(
                 'SELECT obj_id, m_type FROM ' . $this->table_mail_obj_data . ' WHERE user_id = %s AND title = %s',
                 ['integer', 'text'],

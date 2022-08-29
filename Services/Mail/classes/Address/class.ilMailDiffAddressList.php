@@ -24,13 +24,8 @@ declare(strict_types=1);
  */
 class ilMailDiffAddressList implements ilMailAddressList
 {
-    protected ilMailAddressList $left;
-    protected ilMailAddressList $right;
-
-    public function __construct(ilMailAddressList $left, ilMailAddressList $right)
+    public function __construct(protected ilMailAddressList $left, protected ilMailAddressList $right)
     {
-        $this->left = $left;
-        $this->right = $right;
     }
 
     public function value(): array

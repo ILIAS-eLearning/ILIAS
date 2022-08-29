@@ -28,11 +28,9 @@ class ilObjMailAccess extends ilObjectAccess
     {
         global $DIC;
 
-        $mail = new ilMail($DIC->user()->getId());
-        if ($DIC->rbac()->system()->checkAccess('internal_mail', $mail->getMailObjectReferenceId())) {
-            return true;
-        }
-
-        return false;
+        return $DIC->rbac()->system()->checkAccess(
+            'internal_mail',
+            (new ilMail($DIC->user()->getId()))->getMailObjectReferenceId()
+        );
     }
 }

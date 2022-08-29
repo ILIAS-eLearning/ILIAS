@@ -71,8 +71,6 @@ class ilMailErrorFormatterTest extends ilMailBaseTest
     /**
      * @dataProvider errorCollectionProvider
      * @param ilMailError[] $errors
-     * @param string $expectedHtml
-     * @return void
      */
     public function testErrorFormatter(array $errors, string $expectedHtml): void
     {

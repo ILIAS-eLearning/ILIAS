@@ -26,23 +26,18 @@ declare(strict_types=1);
  */
 class ilRoleMailboxAddress
 {
-    protected int $roleId;
-    protected bool $localize = true;
     protected ilMailRfc822AddressParserFactory $parserFactory;
     protected ilDBInterface $db;
     protected ilLanguage $lng;
 
     public function __construct(
-        int $roleId,
-        bool $localize = true,
+        protected int $roleId,
+        protected bool $localize = true,
         ilMailRfc822AddressParserFactory $parserFactory = null,
         ilDBInterface $db = null,
         ilLanguage $lng = null
     ) {
         global $DIC;
-
-        $this->roleId = $roleId;
-        $this->localize = $localize;
 
         if (null === $db) {
             $db = $DIC->database();
@@ -131,7 +126,7 @@ class ilRoleMailboxAddress
             "WHERE rdat.obj_id = " . $this->db->quote($this->roleId, 'integer') . " " .
             "AND fa.assign = 'y' ";
         $res = $this->db->query($query);
-        if (!$row = $this->db->fetchObject($res)) {
+        if (($row = $this->db->fetchObject($res)) === null) {
             return '';
         }
 
@@ -180,7 +175,7 @@ class ilRoleMailboxAddress
         // If the role title is one of the ILIAS reserved role titles,
         //     we can use a shorthand version of it for the local part
         //     of the mailbox address.
-        if ($domain !== null && strpos($role_title, 'il_') === 0) {
+        if ($domain !== null && str_starts_with($role_title, 'il_')) {
             $unambiguous_role_title = $role_title;
 
             $pos = strpos($role_title, '_', 3) + 1;
@@ -251,7 +246,7 @@ class ilRoleMailboxAddress
             $local_part . '@' . $domain;
 
         if ($this->localize) {
-            if (strpos($role_title, 'il_') === 0) {
+            if (str_starts_with($role_title, 'il_')) {
                 $phrase = $this->lng->txt(substr($role_title, 0, strrpos($role_title, '_')));
             } else {
                 $phrase = $role_title;
@@ -273,12 +268,12 @@ class ilRoleMailboxAddress
             $parser->parse();
 
             return $mailbox;
-        } catch (ilException $e) {
+        } catch (ilMailException) {
             $res = $this->db->query("SELECT title FROM object_data WHERE obj_id = " . $this->db->quote(
                 $this->roleId,
                 'integer'
             ));
-            if ($row = $this->db->fetchObject($res)) {
+            if (($row = $this->db->fetchObject($res)) !== null) {
                 return '#' . $row->title;
             }
 

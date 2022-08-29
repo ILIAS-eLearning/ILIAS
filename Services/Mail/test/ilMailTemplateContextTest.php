@@ -182,7 +182,7 @@ class ilMailTemplateContextTest extends ilMailBaseTest
         if ($superiors === []) {
             $expectedIdsConstraint = [];
         } else {
-            $expectedIdsConstraint = self::logicalAnd(...array_map(static function (ilOrgUnitUser $user) {
+            $expectedIdsConstraint = self::logicalAnd(...array_map(static function (ilOrgUnitUser $user): \PHPUnit\Framework\Constraint\TraversableContainsEqual {
                 return self::containsEqual($user->getUserId());
             }, $superiors));
         }

@@ -24,23 +24,15 @@ declare(strict_types=1);
  */
 class ilMailRoleAddressType extends ilBaseMailAddressType
 {
-    protected ilRbacSystem $rbacsystem;
-    protected ilRbacReview $rbacreview;
-    protected ilRoleMailboxSearch $roleMailboxSearch;
-
     public function __construct(
         ilMailAddressTypeHelper $typeHelper,
         ilMailAddress $address,
-        ilRoleMailboxSearch $roleMailboxSearch,
+        protected ilRoleMailboxSearch $roleMailboxSearch,
         ilLogger $logger,
-        ilRbacSystem $rbacsystem,
-        ilRbacReview $rbacreview
+        protected ilRbacSystem $rbacsystem,
+        protected ilRbacReview $rbacreview
     ) {
         parent::__construct($typeHelper, $address, $logger);
-
-        $this->roleMailboxSearch = $roleMailboxSearch;
-        $this->rbacsystem = $rbacsystem;
-        $this->rbacreview = $rbacreview;
     }
 
     /**
@@ -50,9 +42,7 @@ class ilMailRoleAddressType extends ilBaseMailAddressType
     {
         $combinedAddress = (string) $address;
 
-        $roleIds = $this->roleMailboxSearch->searchRoleIdsByAddressString($combinedAddress);
-
-        return $roleIds;
+        return $this->roleMailboxSearch->searchRoleIdsByAddressString($combinedAddress);
     }
 
     protected function maySendToGlobalRole(int $senderId): bool
@@ -61,13 +51,11 @@ class ilMailRoleAddressType extends ilBaseMailAddressType
             return true;
         }
 
-        $maySendToGlobalRoles = $this->rbacsystem->checkAccessOfUser(
+        return $this->rbacsystem->checkAccessOfUser(
             $senderId,
             'mail_to_global_roles',
             $this->typeHelper->getGlobalMailSystemId()
         );
-
-        return $maySendToGlobalRoles;
     }
 
     protected function isValid(int $senderId): bool
@@ -104,7 +92,7 @@ class ilMailRoleAddressType extends ilBaseMailAddressType
 
         $roleIds = $this->getRoleIdsByAddress($this->address);
 
-        if (count($roleIds) > 0) {
+        if ($roleIds !== []) {
             $this->logger->debug(sprintf(
                 "Found the following role ids for address '%s': %s",
                 $this->address,
@@ -117,7 +105,7 @@ class ilMailRoleAddressType extends ilBaseMailAddressType
                 }
             }
 
-            if (count($usrIds) > 0) {
+            if ($usrIds !== []) {
                 $this->logger->debug(sprintf(
                     "Found the following user ids for roles determined by address '%s': %s",
                     $this->address,

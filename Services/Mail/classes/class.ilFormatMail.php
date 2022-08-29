@@ -24,11 +24,6 @@ declare(strict_types=1);
  */
 class ilFormatMail extends ilMail
 {
-    public function __construct(int $a_user_id)
-    {
-        parent::__construct($a_user_id);
-    }
-
     public function formatReplyRecipientsForCC(): string
     {
         global $DIC;
@@ -70,8 +65,6 @@ class ilFormatMail extends ilMail
 
     /**
      * @param string[] $a_names
-     * @param string $a_type
-     * @return array
      */
     public function appendSearchResult(array $a_names, string $a_type): array
     {
@@ -117,9 +110,7 @@ class ilFormatMail extends ilMail
 
     public function appendSignature(string $message): string
     {
-        $message .= chr(13) . chr(10) . $this->mail_options->getSignature();
-
-        return $message;
+        return $message . (chr(13) . chr(10) . $this->mail_options->getSignature());
     }
 
     public function prependSignature(string $message): string

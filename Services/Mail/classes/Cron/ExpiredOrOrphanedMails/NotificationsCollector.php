@@ -31,8 +31,6 @@ use ilDBInterface;
 class NotificationsCollector
 {
     private const PING_THRESHOLD = 500;
-
-    private ilMailCronOrphanedMails $job;
     /** @var array<int, ReportDto> */
     private array $collection = [];
     private ilDBInterface $db;
@@ -40,7 +38,7 @@ class NotificationsCollector
     private ClockInterface $clock;
 
     public function __construct(
-        ilMailCronOrphanedMails $job,
+        private ilMailCronOrphanedMails $job,
         ?ilDBInterface $db = null,
         ?ilSetting $settings = null,
         ?ClockInterface $clock = null
@@ -50,8 +48,6 @@ class NotificationsCollector
         $this->db = $db ?? $DIC->database();
         $this->setting = $settings ?? $DIC->settings();
         $this->clock = $clock ?? (new Factory())->clock()->system();
-
-        $this->job = $job;
 
         $this->collect();
     }
@@ -82,8 +78,10 @@ class NotificationsCollector
 
         if ((int) $this->setting->get('mail_only_inbox_trash', '0') > 0) {
             $notification_query .= " AND ((mdata.m_type = %s OR mdata.m_type = %s) OR mdata.obj_id IS NULL)";
-            array_push($types, ilDBConstants::T_TEXT, ilDBConstants::T_TEXT);
-            array_push($data, 'inbox', 'trash');
+            $types[] = ilDBConstants::T_TEXT;
+            $types[] = ilDBConstants::T_TEXT;
+            $data[] = 'inbox';
+            $data[] = 'trash';
         }
 
         $notification_query .= " ORDER BY m.user_id, m.folder_id, m.mail_id";

@@ -24,28 +24,18 @@ declare(strict_types=1);
 class ilMailOptionsFormGUI extends ilPropertyFormGUI
 {
     protected object $parentGui;
-    protected string $positiveCmd = '';
-    protected ilMailOptions $options;
 
-    /**
-     * @param ilMailOptions $options
-     * @param object $parentGui
-     * @param string $positiveCmd
-     */
-    public function __construct(ilMailOptions $options, object $parentGui, string $positiveCmd)
+    public function __construct(protected ilMailOptions $options, object $parentGui, protected string $positiveCmd)
     {
         if (!method_exists($parentGui, 'executeCommand')) {
             throw new InvalidArgumentException(sprintf(
                 'Parameter $parentGui must be ilCtrlInterface enabled by implementing executeCommand(), %s given.',
-                get_class($parentGui)
+                $parentGui::class
             ));
         }
 
         parent::__construct();
-
-        $this->options = $options;
         $this->parentGui = $parentGui;
-        $this->positiveCmd = $positiveCmd;
 
         $this->init();
     }

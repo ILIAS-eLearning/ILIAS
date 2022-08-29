@@ -86,15 +86,10 @@ class ilMailAttachmentTableGUI extends ilTable2GUI
 
     protected function formatValue(string $column, string $value): ?string
     {
-        switch ($column) {
-            case 'filecreatedate':
-                return ilDatePresentation::formatDate(new ilDateTime($value, IL_CAL_UNIX));
-
-            case 'filesize':
-                return ilUtil::formatSize((int) $value);
-
-            default:
-                return $value;
-        }
+        return match ($column) {
+            'filecreatedate' => ilDatePresentation::formatDate(new ilDateTime($value, IL_CAL_UNIX)),
+            'filesize' => ilUtil::formatSize((int) $value),
+            default => $value,
+        };
     }
 }

@@ -39,7 +39,7 @@ class ilMailAutoCompleteSentMailsRecipientsProvider extends ilMailAutoCompleteRe
             ];
         }
 
-        if (count($this->users_stack) > 0) {
+        if ($this->users_stack !== []) {
             return [
                 'login' => array_shift($this->users_stack),
                 'firstname' => '',
@@ -60,7 +60,7 @@ class ilMailAutoCompleteSentMailsRecipientsProvider extends ilMailAutoCompleteRe
             return $this->data['login'];
         }
 
-        if (count($this->users_stack) > 0) {
+        if ($this->users_stack !== []) {
             return $this->users_stack[0];
         }
 
@@ -93,12 +93,12 @@ class ilMailAutoCompleteSentMailsRecipientsProvider extends ilMailAutoCompleteRe
             }
         }
 
-        return is_array($this->data) || count($this->users_stack) > 0;
+        return is_array($this->data) || $this->users_stack !== [];
     }
 
     public function rewind(): void
     {
-        if ($this->res) {
+        if ($this->res !== null) {
             $this->db->free($this->res);
             $this->res = null;
         }

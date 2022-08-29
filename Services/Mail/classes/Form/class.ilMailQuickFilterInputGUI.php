@@ -114,14 +114,14 @@ class ilMailQuickFilterInputGUI extends ilTextInputGUI
         }
 
         $postvar = $this->getPostVar();
-        if ($this->getMulti() && substr($postvar, -2) !== '[]') {
+        if ($this->getMulti() && !str_ends_with($postvar, '[]')) {
             $postvar .= '[]';
         }
 
         if ($this->getDisabled()) {
+            $hidden = '';
             if ($this->getMulti()) {
                 $value = $this->getMultiValues();
-                $hidden = '';
                 if (is_array($value)) {
                     foreach ($value as $item) {
                         $hidden .= $this->getHiddenTag($postvar, $item);
@@ -130,7 +130,7 @@ class ilMailQuickFilterInputGUI extends ilTextInputGUI
             } else {
                 $hidden = $this->getHiddenTag($postvar, $this->getValue());
             }
-            if ($hidden) {
+            if ($hidden !== '') {
                 $tpl->setVariable('DISABLED', ' disabled=\'disabled\'');
                 $tpl->setVariable('HIDDEN_INPUT', $hidden);
             }

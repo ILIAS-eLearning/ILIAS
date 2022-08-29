@@ -24,11 +24,8 @@ declare(strict_types=1);
  */
 class ilMailMimeSenderSystem implements ilMailMimeSender
 {
-    protected ilSetting $settings;
-
-    public function __construct(ilSetting $settings)
+    public function __construct(protected ilSetting $settings)
     {
-        $this->settings = $settings;
     }
 
     public function hasReplyToAddress(): bool

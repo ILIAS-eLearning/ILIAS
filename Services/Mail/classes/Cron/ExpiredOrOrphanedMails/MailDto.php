@@ -22,13 +22,8 @@ namespace ILIAS\Mail\Cron\ExpiredOrOrphanedMails;
 
 class MailDto
 {
-    private int $mail_id;
-    private ?string $mail_subject;
-
-    public function __construct(int $mail_id, ?string $mail_subject)
+    public function __construct(private int $mail_id, private ?string $mail_subject)
     {
-        $this->mail_id = $mail_id;
-        $this->mail_subject = $mail_subject;
     }
 
     public function getMailId(): int

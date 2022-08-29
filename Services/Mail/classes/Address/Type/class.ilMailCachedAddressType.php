@@ -27,13 +27,9 @@ class ilMailCachedAddressType implements ilMailAddressType
     protected static array $usrIdsByAddressCache = [];
     /** @var array<string, bool> */
     protected static array $isValidCache = [];
-    protected ilMailAddressType $inner;
-    protected bool $useCache = true;
 
-    public function __construct(ilMailAddressType $inner, bool $useCache)
+    public function __construct(protected ilMailAddressType $inner, protected bool $useCache)
     {
-        $this->inner = $inner;
-        $this->useCache = $useCache;
     }
 
     public static function clearCache(): void

@@ -22,6 +22,6 @@ declare(strict_types=1);
  * Class ilMailException
  * @author Nadia Matuschek <nmatuschek@databay.de>
  */
-class ilMailException extends ilException
+class ilMailException extends Exception
 {
 }

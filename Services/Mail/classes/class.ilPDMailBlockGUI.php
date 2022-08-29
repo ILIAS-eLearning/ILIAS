@@ -120,7 +120,7 @@ class ilPDMailBlockGUI extends ilBlockGUI
         $this->getMails();
         $this->setData($this->mails);
 
-        if (count($this->mails) > 0) {
+        if ($this->mails !== []) {
             $this->setRowTemplate("tpl.pd_mail_row.html", "Services/Mail");
             parent::fillDataSection();
         } else {
@@ -138,7 +138,7 @@ class ilPDMailBlockGUI extends ilBlockGUI
             $this->tpl->setVariable('PUBLIC_NAME_LONG', $user->getPublicName());
             $this->tpl->setVariable('IMG_SENDER', $user->getPersonalPicturePath('xxsmall'));
             $this->tpl->setVariable('ALT_SENDER', htmlspecialchars($user->getPublicName()));
-        } elseif (!$user) {
+        } elseif (!$user instanceof ilObjUser) {
             $this->tpl->setVariable(
                 'PUBLIC_NAME_LONG',
                 $a_set['import_name'] . ' (' . $this->lng->txt('user_deleted') . ')'
@@ -274,7 +274,7 @@ class ilPDMailBlockGUI extends ilBlockGUI
             $public_name_long = $user->getPublicName();
             $img_sender = $user->getPersonalPicturePath('xxsmall');
             $alt_sender = htmlspecialchars($user->getPublicName());
-        } elseif (!$user) {
+        } elseif (!$user instanceof ilObjUser) {
             $public_name_long = $data['import_name'] . ' (' . $this->lng->txt('user_deleted') . ')';
             $img_sender = "";
             $alt_sender = "";

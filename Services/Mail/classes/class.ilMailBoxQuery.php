@@ -73,7 +73,7 @@ class ilMailBoxQuery
         }
 
         $filter_qry = '';
-        if ($filter_parts) {
+        if ($filter_parts !== []) {
             $filter_qry = 'AND (' . implode(' OR ', $filter_parts) . ')';
         }
 

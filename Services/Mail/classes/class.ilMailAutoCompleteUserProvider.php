@@ -42,7 +42,7 @@ class ilMailAutoCompleteUserProvider extends ilMailAutoCompleteRecipientProvider
 
     public function rewind(): void
     {
-        if ($this->res) {
+        if ($this->res !== null) {
             $this->db->free($this->res);
             $this->res = null;
         }
@@ -53,8 +53,8 @@ class ilMailAutoCompleteUserProvider extends ilMailAutoCompleteRecipientProvider
         $query = implode(" ", [
             'SELECT ' . $select_part,
             'FROM ' . $this->getFromPart(),
-            $where_part ? 'WHERE ' . $where_part : '',
-            $order_by_part ? 'ORDER BY ' . $order_by_part : '',
+            $where_part !== '' ? 'WHERE ' . $where_part : '',
+            $order_by_part !== '' ? 'ORDER BY ' . $order_by_part : '',
         ]);
 
         $this->res = $this->db->query($query);
@@ -65,14 +65,12 @@ class ilMailAutoCompleteUserProvider extends ilMailAutoCompleteRecipientProvider
         $fields = [
             'login',
             sprintf(
-                "(CASE WHEN (profpref.value = %s OR profpref.value = %s) " .
-                "THEN firstname ELSE '' END) firstname",
+                '(CASE WHEN (profpref.value = %s OR profpref.value = %s) THEN firstname ELSE \'\' END) firstname',
                 $this->db->quote('y', 'text'),
                 $this->db->quote('g', 'text')
             ),
             sprintf(
-                "(CASE WHEN (profpref.value = %s OR profpref.value = %s) " .
-                "THEN lastname ELSE '' END) lastname",
+                '(CASE WHEN (profpref.value = %s OR profpref.value = %s) THEN lastname ELSE \'\' END) lastname',
                 $this->db->quote('y', 'text'),
                 $this->db->quote('g', 'text')
             ),
@@ -136,7 +134,7 @@ class ilMailAutoCompleteUserProvider extends ilMailAutoCompleteRecipientProvider
         // should only be searchable if the users' profile is published (y oder g)
         // In 'anonymous' context we do not need this additional conditions,
         // because we checked the privacy setting in the condition above: profile = 'g'
-        if ($field_conditions) {
+        if ($field_conditions !== []) {
             $fields = '(' . implode(' OR ', $field_conditions) . ')';
 
             $field_conditions = ['(' . implode(' AND ', [
@@ -158,7 +156,7 @@ class ilMailAutoCompleteUserProvider extends ilMailAutoCompleteRecipientProvider
             );
         }
 
-        if ($field_conditions) {
+        if ($field_conditions !== []) {
             $outer_conditions[] = '(' . implode(' OR ', $field_conditions) . ')';
         }
 

@@ -39,14 +39,12 @@ abstract class ilMailNotification
     protected int $obj_id;
     protected string $obj_type;
     protected array $additional_info = [];
-    protected bool $is_in_wsp;
     protected ilWorkspaceTree $wsp_tree;
     protected ilWorkspaceAccessHandler $wsp_access_handler;
 
-    public function __construct(bool $a_is_personal_workspace = false)
+    public function __construct(protected bool $is_in_wsp = false)
     {
         global $DIC;
-        $this->is_in_wsp = $a_is_personal_workspace;
         $this->setSender(ANONYMOUS_USER_ID);
         $this->language = ilLanguageFactory::_getLanguage($DIC->language()->getDefaultLanguage());
 
@@ -136,10 +134,8 @@ abstract class ilMailNotification
         $language = ilLanguageFactory::_getLanguageOfUser($a_usr_id);
         $language->loadLanguageModule('mail');
 
-        if (count($this->lang_modules)) {
-            foreach ($this->lang_modules as $lmod) {
-                $language->loadLanguageModule($lmod);
-            }
+        foreach ($this->lang_modules as $lmod) {
+            $language->loadLanguageModule($lmod);
         }
 
         return $language;
@@ -150,10 +146,8 @@ abstract class ilMailNotification
         $this->language = ilLanguageFactory::_getLanguage($a_code);
         $this->language->loadLanguageModule('mail');
 
-        if (count($this->lang_modules)) {
-            foreach ($this->lang_modules as $lmod) {
-                $this->language->loadLanguageModule($lmod);
-            }
+        foreach ($this->lang_modules as $lmod) {
+            $this->language->loadLanguageModule($lmod);
         }
     }
 
@@ -218,7 +212,7 @@ abstract class ilMailNotification
 
     protected function getObjectTitle(bool $a_shorten = false): string
     {
-        if (!$this->getObjId()) {
+        if ($this->getObjId() === 0) {
             return '';
         }
         $txt = ilObject::_lookupTitle($this->getObjId());
@@ -247,7 +241,7 @@ abstract class ilMailNotification
             $this->getBody(),
             $this->getAttachments()
         );
-        if (count($errors) > 0) {
+        if ($errors !== []) {
             ilLoggerFactory::getLogger('mail')->dump($errors, ilLogLevel::ERROR);
         }
     }
@@ -264,7 +258,7 @@ abstract class ilMailNotification
 
     protected function createPermanentLink(array $a_params = [], string $a_append = ''): ?string
     {
-        if ($this->getRefId()) {
+        if ($this->getRefId() !== 0) {
             if (!$this->is_in_wsp) {
                 return ilLink::_getLink($this->ref_id, $this->getObjType(), $a_params, $a_append);
             }

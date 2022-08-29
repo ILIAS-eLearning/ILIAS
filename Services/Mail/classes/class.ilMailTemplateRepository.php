@@ -47,10 +47,6 @@ class ilMailTemplateRepository
         return $templates;
     }
 
-    /**
-     * @param int $templateId
-     * @return ilMailTemplate
-     */
     public function findById(int $templateId): ilMailTemplate
     {
         $res = $this->db->queryF(
@@ -68,7 +64,6 @@ class ilMailTemplateRepository
     }
 
     /**
-     * @param string $contextId
      * @return ilMailTemplate[]
      */
     public function findByContextId(string $contextId): array
@@ -83,7 +78,7 @@ class ilMailTemplateRepository
      */
     public function deleteByIds(array $templateIds): void
     {
-        if (count($templateIds) > 0) {
+        if ($templateIds !== []) {
             $this->db->manipulate(
                 'DELETE FROM mail_man_tpl WHERE ' . $this->db->in('tpl_id', $templateIds, false, 'integer')
             );

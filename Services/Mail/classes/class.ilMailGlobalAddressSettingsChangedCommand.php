@@ -24,13 +24,8 @@ declare(strict_types=1);
  */
 class ilMailGlobalAddressSettingsChangedCommand
 {
-    private ilDBInterface $db;
-    private int $option;
-
-    public function __construct(ilDBInterface $db, int $option)
+    public function __construct(private ilDBInterface $db, private int $option)
     {
-        $this->db = $db;
-        $this->option = $option;
     }
 
     public function execute(): void

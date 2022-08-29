@@ -66,8 +66,6 @@ class ilMailGlobalServices
     }
 
     /**
-     * @param ilObjUser $user
-     * @param int $leftInterval
      * @return array{count: int, max_time: string}
      */
     public static function getNewMailsData(ilObjUser $user, int $leftInterval = 0): array

@@ -22,15 +22,11 @@ namespace ILIAS\Mail\Cron\ExpiredOrOrphanedMails;
 
 class FolderDto
 {
-    private int $folder_id;
-    private ?string $folder_title;
     /** @var MailDto[] */
     private array $orphaned_mail_objects = [];
 
-    public function __construct(int $folder_id, ?string $folder_title)
+    public function __construct(private int $folder_id, private ?string $folder_title)
     {
-        $this->folder_id = $folder_id;
-        $this->folder_title = $folder_title;
     }
 
     public function getFolderId(): int

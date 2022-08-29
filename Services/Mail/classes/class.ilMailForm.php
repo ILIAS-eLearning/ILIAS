@@ -25,9 +25,6 @@ declare(strict_types=1);
 class ilMailForm
 {
     /**
-     * @param string $quotedTerm
-     * @param string $term
-     * @param bool $doRecipientSearch
      * @return array{hasMoreResults: bool, items: array}
      */
     public function getRecipientAsync(string $quotedTerm, string $term, bool $doRecipientSearch = true): array

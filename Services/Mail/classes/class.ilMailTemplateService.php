@@ -25,11 +25,8 @@ declare(strict_types=1);
  */
 class ilMailTemplateService
 {
-    protected ilMailTemplateRepository $repository;
-
-    public function __construct(ilMailTemplateRepository $repository)
+    public function __construct(protected ilMailTemplateRepository $repository)
     {
-        $this->repository = $repository;
     }
 
     public function createNewTemplate(
@@ -76,7 +73,6 @@ class ilMailTemplateService
     }
 
     /**
-     * @param string $contextId
      * @return ilMailTemplate[]
      */
     public function loadTemplatesForContextId(string $contextId): array

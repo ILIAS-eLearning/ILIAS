@@ -20,7 +20,6 @@ declare(strict_types=1);
 
 class ilMailTemplateContextDefinitionProcessor implements ilComponentDefinitionProcessor
 {
-    protected ilDBInterface $db;
     protected ?string $component;
     protected bool $in_mailtemplates = false;
 
@@ -29,9 +28,8 @@ class ilMailTemplateContextDefinitionProcessor implements ilComponentDefinitionP
      */
     protected array $mail_templates = [];
 
-    public function __construct(ilDBInterface $db)
+    public function __construct(protected ilDBInterface $db)
     {
-        $this->db = $db;
     }
 
     public function purge(): void

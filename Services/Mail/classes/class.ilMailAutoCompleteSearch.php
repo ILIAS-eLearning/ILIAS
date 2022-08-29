@@ -23,13 +23,11 @@ declare(strict_types=1);
  */
 class ilMailAutoCompleteSearch
 {
-    protected ilMailAutoCompleteRecipientResult $result;
     /** @var Iterator[] */
     protected array $providers = [];
 
-    public function __construct(ilMailAutoCompleteRecipientResult $result)
+    public function __construct(protected ilMailAutoCompleteRecipientResult $result)
     {
-        $this->result = $result;
     }
 
     public function addProvider(Iterator $provider): void

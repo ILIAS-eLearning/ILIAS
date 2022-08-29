@@ -27,17 +27,13 @@ abstract class ilMailAutoCompleteRecipientProvider implements Iterator
     protected ?ilDBStatement $res = null;
     /** @var null|array{login?: string, firstname?: string, lastname?: string} */
     protected ?array $data = null;
-    protected string $quoted_term ;
-    protected string $term = '';
     protected int $user_id = 0;
 
-    public function __construct(string $quoted_term, string $term)
+    public function __construct(protected string $quoted_term, protected string $term)
     {
         global $DIC;
 
         $this->db = $DIC->database();
-        $this->quoted_term = $quoted_term;
-        $this->term = $term;
         $this->user_id = $DIC->user()->getId();
     }
 
@@ -54,7 +50,7 @@ abstract class ilMailAutoCompleteRecipientProvider implements Iterator
 
     public function __destruct()
     {
-        if ($this->res) {
+        if ($this->res !== null) {
             $this->db->free($this->res);
             $this->res = null;
         }

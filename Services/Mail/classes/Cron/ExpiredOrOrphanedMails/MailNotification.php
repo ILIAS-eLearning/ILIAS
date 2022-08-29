@@ -54,7 +54,7 @@ class MailNotification extends ilMimeMailNotification
         foreach ($this->getRecipients() as $rcp) {
             try {
                 $this->handleCurrentRecipient($rcp);
-            } catch (ilMailException $e) {
+            } catch (ilMailException) {
                 continue;
             }
             $this->initMimeMail();

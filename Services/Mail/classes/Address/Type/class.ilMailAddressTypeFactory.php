@@ -82,44 +82,36 @@ class ilMailAddressTypeFactory
 
     public function getByPrefix(ilMailAddress $address, bool $cached = true): ilMailAddressType
     {
-        switch (true) {
-            case strpos($address->getMailbox(), '#') !== 0 && strpos($address->getMailbox(), '"#') !== 0:
-                $addressType = new ilMailLoginOrEmailAddressAddressType(
-                    $this->typeHelper,
-                    $address,
-                    $this->logger,
-                    $this->rbacsystem
-                );
-                break;
-
-            case strpos($address->getMailbox(), '#il_ml_') === 0:
-                $addressType = new ilMailMailingListAddressType(
-                    $this->typeHelper,
-                    $address,
-                    $this->logger,
-                    $this->lists
-                );
-                break;
-
-            case ($this->groupNameValidator->validate($address)):
-                $addressType = new ilMailGroupAddressType(
-                    $this->typeHelper,
-                    $address,
-                    $this->logger
-                );
-                break;
-
-            default:
-                $addressType = new ilMailRoleAddressType(
-                    $this->typeHelper,
-                    $address,
-                    $this->roleMailboxSearch,
-                    $this->logger,
-                    $this->rbacsystem,
-                    $this->rbacreview
-                );
-                break;
-        }
+        $addressType = match (true) {
+            str_starts_with($address->getMailbox(), '#il_ml_') => new ilMailMailingListAddressType(
+                $this->typeHelper,
+                $address,
+                $this->logger,
+                $this->lists
+            ),
+            !str_starts_with($address->getMailbox(), '#') && !str_starts_with(
+                $address->getMailbox(),
+                '"#'
+            ) => new ilMailLoginOrEmailAddressAddressType(
+                $this->typeHelper,
+                $address,
+                $this->logger,
+                $this->rbacsystem
+            ),
+            $this->groupNameValidator->validate($address) => new ilMailGroupAddressType(
+                $this->typeHelper,
+                $address,
+                $this->logger
+            ),
+            default => new ilMailRoleAddressType(
+                $this->typeHelper,
+                $address,
+                $this->roleMailboxSearch,
+                $this->logger,
+                $this->rbacsystem,
+                $this->rbacreview
+            ),
+        };
 
         return new ilMailCachedAddressType($addressType, $cached);
     }

@@ -22,13 +22,11 @@ use ILIAS\Mail\Cron\ExpiredOrOrphanedMails\FolderDto;
 
 class ReportDto
 {
-    private int $user_id;
     /** @var array<int, FolderDto> */
     private array $folder_objects = [];
 
-    public function __construct(int $user_id)
+    public function __construct(private int $user_id)
     {
-        $this->user_id = $user_id;
     }
 
     public function getUserId(): int

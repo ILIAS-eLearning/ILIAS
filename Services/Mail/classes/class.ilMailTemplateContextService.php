@@ -24,7 +24,6 @@ declare(strict_types=1);
 class ilMailTemplateContextService
 {
     /**
-     * @param string $a_component
      * @param string[] $a_new_templates
      */
     public static function clearFromXml(string $a_component, array $a_new_templates): void
@@ -40,8 +39,8 @@ class ilMailTemplateContextService
             $persisted_templates[] = $row['id'];
         }
 
-        if (count($persisted_templates)) {
-            if (count($a_new_templates)) {
+        if ($persisted_templates !== []) {
+            if ($a_new_templates !== []) {
                 foreach ($persisted_templates as $id) {
                     if (!in_array($id, $a_new_templates, true)) {
                         $DIC->database()->manipulate(
@@ -78,8 +77,6 @@ class ilMailTemplateContextService
     }
 
     /**
-     * @param string $a_id
-     * @return ilMailTemplateContext
      * @throws ilMailException
      */
     public static function getTemplateContextById(string $a_id): ilMailTemplateContext
@@ -108,7 +105,7 @@ class ilMailTemplateContextService
         if (is_array($a_id) && count($a_id)) {
             $where[] = $DIC->database()->in('id', $a_id, false, 'text');
         }
-        if (count($where)) {
+        if ($where !== []) {
             $query .= ' WHERE ' . implode(' AND ', $where);
         }
 

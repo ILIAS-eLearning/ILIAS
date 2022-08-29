@@ -58,7 +58,7 @@ class ilMailTest extends ilMailBaseTest
         ];
         $userInstanceById = [];
         $mailOptionsById = [];
-        foreach ($loginToIdMap as $login => $usrId) {
+        foreach ($loginToIdMap as $usrId) {
             $user = $this
                 ->getMockBuilder(ilObjUser::class)
                 ->disableOriginalConstructor()
@@ -92,14 +92,12 @@ class ilMailTest extends ilMailBaseTest
             ->getMock();
         $addressTypeFactory
             ->method('getByPrefix')
-            ->willReturnCallback(function ($arg) use ($loginToIdMap) {
+            ->willReturnCallback(function ($arg) use ($loginToIdMap): object {
                 return new class ($arg, $loginToIdMap) implements ilMailAddressType {
                     protected array $loginToIdMap = [];
-                    protected ilMailAddress $address;
 
-                    public function __construct(ilMailAddress $address, $loginToIdMap)
+                    public function __construct(protected ilMailAddress $address, $loginToIdMap)
                     {
-                        $this->address = $address;
                         $this->loginToIdMap = array_map(static function (int $usrId): array {
                             return [$usrId];
                         }, $loginToIdMap);
@@ -302,7 +300,7 @@ class ilMailTest extends ilMailBaseTest
         $mailIds = [1, 2, 3, 4, 5, 6];
         $userId = 987;
         $instance = $this->create(567, $userId);
-        $mockStatement = $this->getMockBuilder(ilDBStatement::class)->getMock();
+        $this->getMockBuilder(ilDBStatement::class)->getMock();
         $this->mockDatabase->expects(self::once())->method('in')->with('mail_id', $mailIds, false, 'integer')->willReturn('');
         $this->mockDatabase->expects(self::once())->method('manipulateF')->willReturnCallback($this->queryCallback(0, ['text', 'integer'], ['read', $userId]));
 
@@ -314,7 +312,7 @@ class ilMailTest extends ilMailBaseTest
         $mailIds = [1, 2, 3, 4, 5, 6];
         $userId = 987;
         $instance = $this->create(567, $userId);
-        $mockStatement = $this->getMockBuilder(ilDBStatement::class)->getMock();
+        $this->getMockBuilder(ilDBStatement::class)->getMock();
         $this->mockDatabase->expects(self::once())->method('in')->with('mail_id', $mailIds, false, 'integer')->willReturn('');
         $this->mockDatabase->expects(self::once())->method('manipulateF')->willReturnCallback($this->queryCallback(0, ['text', 'integer'], ['unread', $userId]));
 
@@ -541,7 +539,7 @@ class ilMailTest extends ilMailBaseTest
 
     private function create(int $refId = 234, int $userId = 123): ilMail
     {
-        $instance = new ilMail(
+        return new ilMail(
             $userId,
             ($this->mockAddressTypeFactory = $this->getMockBuilder(ilMailAddressTypeFactory::class)->disableOriginalConstructor()->getMock()),
             ($this->mockParserFactory = $this->getMockBuilder(ilMailRfc822AddressParserFactory::class)->disableOriginalConstructor()->getMock()),
@@ -559,7 +557,5 @@ class ilMailTest extends ilMailBaseTest
             $refId,
             $this->getMockBuilder(ilObjUser::class)->disableOriginalConstructor()->getMock()
         );
-
-        return $instance;
     }
 }
