@@ -798,8 +798,10 @@ class ilPageObjectGUI
     public function executeCommand(): string
     {
         $ret = "";
-        $this->ctrl->setReturn($this, "edit");
         $next_class = $this->ctrl->getNextClass($this);
+        if ($next_class !== "") {
+            $this->ctrl->setReturn($this, "edit");
+        }
         $this->log->debug("next_class: " . $next_class);
         if ($next_class == "" && $this->ctrl->getCmd() == "edit") {
             $this->tabs_gui->clearTargets();
