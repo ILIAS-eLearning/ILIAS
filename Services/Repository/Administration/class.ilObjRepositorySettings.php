@@ -272,7 +272,7 @@ class ilObjRepositorySettings extends ilObject
                 foreach ($items as $idx => $item) {
                     $res["items"][$item] = $grp_id;
                     $res["sort"][$item] = str_pad((string) $pos, 4, "0", STR_PAD_LEFT) .
-                        str_pad($idx + 1, 4, "0", STR_PAD_LEFT);
+                        str_pad((string) ($idx + 1), 4, "0", STR_PAD_LEFT);
                 }
             } else {
                 $title = "COL_SEP";
