@@ -8889,7 +8889,7 @@ fieldset[disabled] .il-table-presentation-viewcontrols .btn-default.engaged.focu
   color: #161616;
   font-size: 1.115rem;
   font-weight: 400;
-  margin-bottom: 30px;
+  margin-bottom: 27px;
   margin-top: 0;
   padding: 6px 12px;
 }
@@ -8991,7 +8991,7 @@ fieldset[disabled] .il-table-presentation-viewcontrols .btn-default.engaged.focu
   color: #161616;
   font-size: 1rem;
   font-weight: 400;
-  margin-top: -5px;
+  margin-top: -4.5px;
 }
 #il_right_col .il-workflow {
   border: 1px solid #dddddd;
@@ -9626,10 +9626,10 @@ footer {
   display: none;
 }
 .il-maincontrols-slate .btn-bulky {
-  padding: 10px 40px 15px 10px;
+  padding: 15px 40px 15px 9px;
 }
 .il-maincontrols-slate .link-bulky {
-  padding: 10px 10px 15px 10px;
+  padding: 15px 9px 15px 9px;
 }
 .il-maincontrols-slate .btn-bulky,
 .il-maincontrols-slate .link-bulky {
@@ -9647,8 +9647,9 @@ footer {
   font-family: "il-icons";
   font-size: 1.0625rem;
   position: absolute;
-  right: 10px;
-  top: 17px;
+  right: 9px;
+  top: 15px;
+  line-height: 20px;
 }
 .il-maincontrols-slate .btn-bulky.engaged::before,
 .il-maincontrols-slate .link-bulky.engaged::before {
@@ -9671,7 +9672,7 @@ footer {
 }
 .il-maincontrols-slate .btn-bulky .icon,
 .il-maincontrols-slate .link-bulky .icon {
-  margin-right: 5px;
+  margin-right: 6px;
   filter: invert(50%);
 }
 .il-maincontrols-slate .btn-bulky .icon.small,
@@ -9685,7 +9686,7 @@ footer {
 .il-maincontrols-slate .btn-bulky .bulky-label,
 .il-maincontrols-slate .link-bulky .bulky-label {
   font-size: 0.9375rem;
-  line-height: 0.99609375rem;
+  line-height: 20px;
   text-align: left;
   word-break: normal;
 }
@@ -9753,16 +9754,16 @@ footer {
 .il-maincontrols-slate-content h2,
 .il-maincontrols-slate-content h3,
 .il-maincontrols-slate-content li {
-  padding: 10px 20px;
+  padding: 9px 18px;
 }
 .il-maincontrols-slate-content > hr {
-  margin: 10px 0;
+  margin: 9px 0;
 }
 .il-maincontrols-slate-content li.jstree-node {
-  padding: 4px 0;
+  padding: 3px 0;
 }
 .il-maincontrols-slate-content li.il-workflow-step {
-  padding: 0 20px;
+  padding: 0 18px;
 }
 .il-maincontrols-slate-close button,
 .il-maincontrols-slate-back button {
@@ -9844,7 +9845,7 @@ footer {
   filter: invert(50%);
   font-family: 'il-icons';
   font-size: 1.0625rem;
-  margin-right: 5px;
+  margin-right: 6px;
   position: relative;
 }
 .il-maincontrols-metabar .input-group {
@@ -9978,10 +9979,11 @@ footer {
   .il-metabar-slates .il-metabar-more-slate .btn-bulky:after {
     content: "\e606";
     font-family: "il-icons";
-    font-size: 0.875rem;
     position: absolute;
+    font-size: 1.0625rem;
     right: 12px;
-    top: 1.42857143;
+    top: 15px;
+    line-height: 20px;
   }
   .il-metabar-slates .il-maincontrols-slate {
     min-width: 260px;
@@ -10636,7 +10638,7 @@ footer {
   position: relative;
   display: flex;
   align-items: center;
-  min-height: 48px;
+  min-height: 50px;
   margin-bottom: 2px;
   padding: 6px 12px;
   padding-left: 0;
@@ -10683,7 +10685,7 @@ footer {
   align-items: center;
   justify-content: space-between;
   width: 100%;
-  min-height: 48px;
+  min-height: 50px;
   padding: 6px 12px;
   margin-bottom: 2px;
   font-size: 0.9375rem;
