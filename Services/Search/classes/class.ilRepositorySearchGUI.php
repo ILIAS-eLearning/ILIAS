@@ -107,26 +107,26 @@ class ilRepositorySearchGUI
         $this->settings = new ilSearchSettings();
     }
 
-    protected function initUserTypeFromQuery(): int
+    protected function initUserTypeFromQuery(): string
     {
         if ($this->http->wrapper()->query()->has('user_type')) {
             return $this->http->wrapper()->query()->retrieve(
                 'user_type',
-                $this->refinery->kindlyTo()->int()
+                $this->refinery->kindlyTo()->string()
             );
         }
-        return 0;
+        return '';
     }
 
-    protected function initUserTypeFromPost(): int
+    protected function initUserTypeFromPost(): string
     {
         if ($this->http->wrapper()->post()->has('user_type')) {
             return $this->http->wrapper()->post()->retrieve(
                 'user_type',
-                $this->refinery->kindlyTo()->int()
+                $this->refinery->kindlyTo()->string()
             );
         }
-        return 0;
+        return '';
     }
 
     /**
