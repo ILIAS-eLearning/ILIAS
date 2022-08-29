@@ -3574,8 +3574,9 @@ s     */
         string $a_spcid = "",
         string $a_tpcid = ""
     ) {
-        if ($a_source == $a_target) {
-            return false;
+        // nothing to do...
+        if ($a_source === $a_target) {
+            return true;
         }
 
         // clone the node
