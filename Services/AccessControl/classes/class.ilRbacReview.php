@@ -311,9 +311,8 @@ class ilRbacReview
 
     /**
      * get all assigned users to a given role
-     * @access    public
-     * @param int    role_id
-     * @return    array    all users (id) assigned to role
+     * @param int $a_rol_id
+     * @return int[] all users (id) assigned to role
      */
     public function assignedUsers(int $a_rol_id): array
     {
@@ -321,7 +320,7 @@ class ilRbacReview
             return self::$assigned_users_cache[$a_rol_id];
         }
 
-        $result_arr = array();
+        $result_arr = [];
         $query = "SELECT usr_id FROM rbac_ua WHERE rol_id= " . $this->db->quote($a_rol_id, 'integer');
         $res = $this->db->query($query);
         while ($row = $this->db->fetchAssoc($res)) {
