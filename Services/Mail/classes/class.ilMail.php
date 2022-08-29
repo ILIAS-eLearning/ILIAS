@@ -881,9 +881,9 @@ class ilMail
         } catch (Exception $e) {
             $colonPosition = strpos($e->getMessage(), ':');
             throw new ilMailException(
-                ($colonPosition === false) ?
-                    $e->getMessage() :
-                    substr($e->getMessage(), $colonPosition + 2)
+                ($colonPosition === false) ? $e->getMessage() : substr($e->getMessage(), $colonPosition + 2),
+                $e->getCode(),
+                $e
             );
         }
 
