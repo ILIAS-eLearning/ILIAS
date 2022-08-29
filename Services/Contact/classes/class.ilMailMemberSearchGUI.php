@@ -59,7 +59,6 @@ class ilMailMemberSearchGUI
 
     public function executeCommand(): bool
     {
-        $this->ctrl->getNextClass($this);
         $cmd = $this->ctrl->getCmd();
 
         $this->ctrl->setReturn($this, '');
