@@ -25,7 +25,6 @@ use ILIAS\Refinery\Factory as Refinery;
  * @author       Jens Conze
  * @version      $Id$
  * @ingroup      ServicesMail
- * @ilCtrl_Calls ilMailFolderGUI: ilMailOptionsGUI, ilMailAttachmentGUI, ilMailSearchGUI
  * @ilCtrl_Calls ilMailFolderGUI: ilPublicUserProfileGUI
  */
 class ilMailFolderGUI
@@ -112,11 +111,6 @@ class ilMailFolderGUI
         switch (strtolower($nextClass)) {
             case strtolower(ilContactGUI::class):
                 $this->ctrl->forwardCommand(new ilContactGUI());
-                break;
-
-            case strtolower(ilMailOptionsGUI::class):
-                $this->tpl->setTitle($this->lng->txt('mail'));
-                $this->ctrl->forwardCommand(new ilMailOptionsGUI());
                 break;
 
             case strtolower(ilPublicUserProfileGUI::class):
