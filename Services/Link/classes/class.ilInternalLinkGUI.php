@@ -24,7 +24,7 @@ use ILIAS\Link\StandardGUIRequest;
  */
 class ilInternalLinkGUI
 {
-    protected ilObjFile $uploaded_file;
+    protected ?ilObjFile $uploaded_file = null;
     protected int $parent_fold_id;
     protected string $default_parent_obj_type;
     protected StandardGUIRequest $request;
@@ -646,7 +646,7 @@ class ilInternalLinkGUI
 
             // file download link
             case "File":
-                if (!is_object($this->uploaded_file)) {
+                if (!isset($this->uploaded_file)) {
                     $tpl->setVariable("LINK_HELP_CONTENT", $this->getFileLinkHTML());
                 } else {
                     echo $this->getFileLinkHTML();

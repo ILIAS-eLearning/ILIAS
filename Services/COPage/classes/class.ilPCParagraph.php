@@ -1240,7 +1240,7 @@ class ilPCParagraph extends ilPageContent
 
                 // User
                 case "User":
-                    $a_text = preg_replace('~<IntLink' . $found[1] . '>~i', "[iln " . $inst_str . "user=\"" . ilObjUser::_lookupLogin($target_id) . "\"/]", $a_text);
+                    $a_text = preg_replace('~<IntLink' . $found[1] . '>~i', "[iln " . $inst_str . "user=\"" . ilObjUser::_lookupLogin((int) $target_id) . "\"/]", $a_text);
                     break;
 
                 default:
