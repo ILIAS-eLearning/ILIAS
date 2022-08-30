@@ -54,6 +54,12 @@ abstract class assBaseTestCase extends TestCase
         $dbMock = $this->createMock(ilDBInterface::class);
         $this->setGlobalVariable('ilDB', $dbMock);
 
+        $treeMock = $this->createMock(ilTree::class);
+        $this->setGlobalVariable('tree', $treeMock);
+
+        $repository_mock = $this->createMock(ilComponentRepository::class);
+        $this->setGlobalVariable('component.repository', $repository_mock);
+
         $this->setGlobalVariable('http', $this->getMockBuilder(ILIAS\HTTP\Services::class)->disableOriginalConstructor()->getMock());
 
         $this->setGlobalVariable('upload', $this->createMock(ILIAS\FileUpload\FileUpload::class));
