@@ -3512,8 +3512,10 @@
 					</xsl:choose>
 				</xsl:variable>
 				<script type="text/javascript">
-					$(function () {
-						il.Accordion.add({
+					if (typeof variable === 'undefined') {
+						var ilAccordionsInits = [];
+					}
+					ilAccordionsInits.push({
 							id: 'ilc_accordion_<xsl:value-of select = "$pg_id"/>_<xsl:number count="Tabs" level="any" />',
 							toggle_class: 'il_VAccordionToggleDef',
 							toggle_act_class: 'il_VAccordionToggleActiveDef',
@@ -3526,8 +3528,8 @@
 							active_head_class: '<xsl:value-of select="$aheadclass"/>',
 							int_id: '',
 							multi: false
-							});
-						});
+							}
+					);
 				</script>
 			</xsl:if>
 			<xsl:if test="@Type = 'HorizontalAccordion' and $mode != 'print' and $compare_mode = 'n'">
@@ -3538,8 +3540,10 @@
 					</xsl:choose>
 				</xsl:variable>
 				<script type="text/javascript">
-					$(function () {
-						il.Accordion.add({
+					if (typeof variable === 'undefined') {
+						var ilAccordionsInits = [];
+					}
+					ilAccordionsInits.push({
 							id: 'ilc_accordion_<xsl:value-of select = "$pg_id"/>_<xsl:number count="Tabs" level="any" />',
 							toggle_class: 'il_HAccordionToggleDef',
 							toggle_act_class: 'il_HAccordionToggleActiveDef',
@@ -3552,14 +3556,15 @@
 							active_head_class: '<xsl:value-of select="$aheadclass"/>',
 							int_id: '',
 							multi: false
-							});
 						});
 				</script>
 			</xsl:if>
 			<xsl:if test="@Type = 'Carousel' and $mode != 'print' and $compare_mode = 'n'">
 				<script type="text/javascript">
-					$(function () {
-					il.Accordion.add({
+					if (typeof variable === 'undefined') {
+						var ilAccordionsInits = [];
+					}
+					ilAccordionsInits.push({
 					id: 'ilc_accordion_<xsl:value-of select = "$pg_id"/>_<xsl:number count="Tabs" level="any" />',
 					toggle_class: '',
 					toggle_act_class: '',
@@ -3574,7 +3579,6 @@
 					multi: false,
 					auto_anim_wait: <xsl:value-of select="number(@AutoAnimWait)" />,
 					random_start: <xsl:value-of select="number(@RandomStart)" />
-					});
 					});
 				</script>
 			</xsl:if>
