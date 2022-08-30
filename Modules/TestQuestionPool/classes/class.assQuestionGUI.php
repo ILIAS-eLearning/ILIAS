@@ -809,7 +809,7 @@ abstract class assQuestionGUI
                 $this->ctrl->redirect($this, 'editQuestion');
             }
         }
-        $tabs = $DIC['ilTabs'];
+        $tabs = $this->ilTabs;
         $tabs->setTabActive('edit_question');
     }
 
