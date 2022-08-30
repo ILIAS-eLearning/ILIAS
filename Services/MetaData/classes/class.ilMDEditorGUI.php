@@ -786,7 +786,7 @@ class ilMDEditorGUI
                 $this->md_section->setDescription('il_copyright_entry__' . IL_INST_ID . '__' . (int) $copyright);
             } else {
                 $this->md_section->setCopyrightAndOtherRestrictions("Yes");
-                $this->md_section->setDescription($copyright_text);
+                $this->md_section->setDescription((string) $copyright_text);
             }
             $this->md_section->update();
 
@@ -3594,7 +3594,7 @@ class ilMDEditorGUI
             );
         }
         if ($this->http->wrapper()->post()->has('section_element')) {
-            $section_element = $this->http->wrapper()->query()->retrieve(
+            $section_element = $this->http->wrapper()->post()->retrieve(
                 'section_element',
                 $this->refinery->kindlyTo()->string()
             );
