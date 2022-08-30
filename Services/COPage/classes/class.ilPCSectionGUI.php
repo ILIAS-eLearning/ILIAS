@@ -380,7 +380,7 @@ class ilPCSectionGUI extends ilPageContentGUI
         }
 
         if ($this->getPageConfig()->getEnablePermissionChecks()) {
-            $this->content_obj->setPermissionRefId($form->getInput("permission_ref_id"));
+            $this->content_obj->setPermissionRefId((int) $form->getInput("permission_ref_id"));
             $this->content_obj->setPermission($form->getInput("permission"));
         }
 
