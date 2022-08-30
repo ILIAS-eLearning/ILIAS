@@ -365,7 +365,6 @@ abstract class ilPageObject
         //$options = DOMXML_LOAD_VALIDATING;
         //$options = LIBXML_DTDLOAD;
         //$options = LIBXML_NOXMLDECL;
-        //echo htmlentities($this->getXMLContent(true))."<br>";
         $this->dom = domxml_open_mem($this->getXMLContent(true), $options, $error);
         $xpc = xpath_new_context($this->dom);
         $path = "//PageObject";
