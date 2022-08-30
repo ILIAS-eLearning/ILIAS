@@ -501,7 +501,8 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
 
     public function getPreviewFileUploads(ilAssQuestionPreviewSession $previewSession): array
     {
-        if ($previewSession->getParticipantsSolution() === false) {
+        if (is_null($previewSession->getParticipantsSolution()) ||
+            $previewSession->getParticipantsSolution() === false) {
             return [];
         }
 
