@@ -102,7 +102,7 @@ class MediaObjectCommandActionHandler implements Server\CommandActionHandler
         $quick_edit->setClass(\ilUtil::stripSlashes($body["characteristic"] ?? ""));
         $quick_edit->setHorizontalAlign(\ilUtil::stripSlashes($body["horizontal_align"] ?? ""));
 
-        $quick_edit->setUseFullscreen((bool) ($body["fullscreen"]));
+        $quick_edit->setUseFullscreen((bool) ($body["fullscreen"] ?? false));
         $quick_edit->setCaption(\ilUtil::stripSlashes($body["standard_caption"] ?? ""));
         $quick_edit->setTextRepresentation(\ilUtil::stripSlashes($body["text_representation"] ?? ""));
 
