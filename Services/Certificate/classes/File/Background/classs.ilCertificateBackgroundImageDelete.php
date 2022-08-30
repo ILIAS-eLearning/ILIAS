@@ -43,7 +43,7 @@ class ilCertificateBackgroundImageDelete
             $version_string = (string) $version;
         }
 
-        $filename = $this->certificatePath . 'background_' . $version . '.jpg';
+        $filename = $this->certificatePath . 'background_' . $version_string . '.jpg';
         if (is_file($filename)) {
             unlink($filename);
         }

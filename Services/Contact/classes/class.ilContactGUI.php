@@ -22,7 +22,7 @@ declare(strict_types=1);
 * @author Jens Conze
 * @ingroup ServicesMail
 * @ilCtrl_Calls ilContactGUI: ilMailSearchCoursesGUI, ilMailSearchGroupsGUI, ilMailSearchLearningSequenceGUI, ilMailingListsGUI
-* @ilCtrl_Calls ilContactGUI: ilMailFormGUI, ilUsersGalleryGUI, ilPublicUserProfileGUI
+* @ilCtrl_Calls ilContactGUI: ilUsersGalleryGUI, ilPublicUserProfileGUI
 */
 class ilContactGUI
 {
@@ -78,10 +78,6 @@ class ilContactGUI
         $this->umail->savePostData($this->user->getId(), [], '', '', '', '', '', false);
 
         switch (strtolower($forward_class)) {
-            case strtolower(ilMailFormGUI::class):
-                $this->ctrl->forwardCommand(new ilMailFormGUI());
-                break;
-
             case strtolower(ilMailSearchCoursesGUI::class):
                 $this->activateTab('mail_my_courses');
 
