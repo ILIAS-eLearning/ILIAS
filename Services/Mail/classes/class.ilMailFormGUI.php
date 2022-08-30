@@ -27,7 +27,7 @@ use ILIAS\Filesystem\Stream\Streams;
 /**
  * @author Jens Conze
  * @ingroup ServicesMail
- * @ilCtrl_Calls ilMailFormGUI: ilMailFolderGUI, ilMailAttachmentGUI, ilMailSearchGUI, ilMailSearchCoursesGUI, ilMailSearchGroupsGUI, ilMailingListsGUI
+ * @ilCtrl_Calls ilMailFormGUI: ilMailAttachmentGUI, ilMailSearchGUI, ilMailSearchCoursesGUI, ilMailSearchGroupsGUI, ilMailingListsGUI
  */
 class ilMailFormGUI
 {
@@ -120,10 +120,6 @@ class ilMailFormGUI
     {
         $forward_class = $this->ctrl->getNextClass($this);
         switch (strtolower($forward_class)) {
-            case strtolower(ilMailFolderGUI::class):
-                $this->ctrl->forwardCommand(new ilMailFolderGUI());
-                break;
-
             case strtolower(ilMailAttachmentGUI::class):
                 $this->ctrl->setReturn($this, 'returnFromAttachments');
                 $this->ctrl->forwardCommand(new ilMailAttachmentGUI());
