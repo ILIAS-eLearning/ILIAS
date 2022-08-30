@@ -1757,7 +1757,7 @@ s     */
     public function getPCIdForHierId(string $hier_id): string
     {
         $hier_ids = $this->getPCIdsForHierIds([$hier_id]);
-        return $hier_ids[$hier_id];
+        return ($hier_ids[$hier_id] ?? "");
     }
 
     /**
