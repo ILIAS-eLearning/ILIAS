@@ -415,6 +415,7 @@ class ilLMPresentationLinker implements \ILIAS\COPage\PageLinker
                         } else {
                             $this->ctrl->setParameterByClass("illmpagegui", "ref_id", $this->lm->getRefId());
                             $this->ctrl->setParameterByClass("illmpagegui", "mob_id", $target_id);
+                            $this->ctrl->setParameterByClass(self::TARGET_GUI, "obj_id", $this->current_page);
                             $href = $this->ctrl->getLinkTargetByClass(
                                 "illmpagegui",
                                 "displayMedia",
@@ -423,6 +424,7 @@ class ilLMPresentationLinker implements \ILIAS\COPage\PageLinker
                                 true
                             );
                             $this->ctrl->setParameterByClass("illmpagegui", "mob_id", "");
+                            $ilCtrl->setParameterByClass(self::TARGET_GUI, "obj_id", $this->obj_id);
                         }
                         break;
 

@@ -1057,7 +1057,7 @@ class ilObjWikiGUI extends ilObjectGUI
         if ($a_target === "wpage") {
             $a_page_arr = explode("_", $a_page);
             $wpg_id = (int) $a_page_arr[0];
-            $ref_id = (int) $a_page_arr[1];
+            $ref_id = (int) ($a_page_arr[1] ?? 0);
             $w_id = ilWikiPage::lookupWikiId($wpg_id);
             if ($ref_id > 0) {
                 $refs = array($ref_id);
