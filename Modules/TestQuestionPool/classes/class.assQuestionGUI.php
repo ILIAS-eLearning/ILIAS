@@ -41,6 +41,11 @@ abstract class assQuestionGUI
     private ilAccessHandler $access;
     private ilObjUser $ilUser;
     private ilTabsGUI $ilTabs;
+
+    private $tree;
+    private ilDBInterface $ilDB;
+    private $component_repository;
+
     protected \ILIAS\Notes\GUIService $notes_gui;
 
     protected ilCtrl $ctrl;
@@ -111,7 +116,9 @@ abstract class assQuestionGUI
         $this->ilTabs = $DIC['ilTabs'];
         $this->rbacsystem = $DIC['rbacsystem'];
         $this->request = $DIC->testQuestionPool()->internal()->request();
-
+        $this->tree = $DIC['tree'];
+        $this->ilDB = $DIC->database();
+        $this->component_repository = $DIC['component.repository'];
         $this->ctrl->saveParameter($this, "q_id");
         $this->ctrl->saveParameter($this, "prev_qid");
         $this->ctrl->saveParameter($this, "calling_test");
@@ -712,11 +719,14 @@ abstract class assQuestionGUI
                 $this->ctrl->setParameter($this, 'return_to', 'editQuestion');
                 $this->ctrl->redirect($this, "originalSyncForm");
                 return;
-            } elseif ($this->request->raw("calling_test")) {
+            }
+
+            if ($this->request->raw("calling_test")) {
                 $test = new ilObjTest($this->request->raw("calling_test"));
                 if (!assQuestion::_questionExistsInTest($this->object->getId(), $test->getTestId())) {
-                    $tree = $DIC['tree'];
-                    $ilDB = $DIC['ilDB'];
+                    $tree = $this->tree;
+                    $ilDB = $this->ilDB;
+                    global $DIC;
                     $component_repository = $DIC['component.repository'];
 
                     // TODO: Courier Antipattern!
@@ -759,9 +769,10 @@ abstract class assQuestionGUI
                         $test->moveQuestionAfter($this->request->raw('prev_qid'), $this->object->getId());
                     }
                     if ( /*$___test_express_mode || */ $this->request->raw('express_mode')) {
-                        $tree = $DIC['tree'];
-                        $ilDB = $DIC['ilDB'];
-                        $component_repository = $DIC['component.repository'];
+                        $tree = $this->tree;
+                        $ilDB = $this->ilDB;
+                        $component_repository = $this->component_repository;
+
                         // TODO: Courier Antipattern!
                         $test = new ilObjTest($this->request->getRefId(), true);
                         $testQuestionSetConfigFactory = new ilTestQuestionSetConfigFactory($tree, $ilDB, $component_repository, $test);
@@ -813,9 +824,9 @@ abstract class assQuestionGUI
                 #var_dump(assQuestion::_questionExistsInTest($this->object->getId(), $test->getTestId()));
                 $q_id = $this->object->getId();
                 if (!assQuestion::_questionExistsInTest($this->object->getId(), $test->getTestId())) {
-                    $tree = $DIC['tree'];
-                    $ilDB = $DIC['ilDB'];
-                    $component_repository = $DIC['component.repository'];
+                    $tree = $this->tree;
+                    $ilDB = $this->ilDB;
+                    $component_repository = $this->component_repository;
                     // TODO: Courier Antipattern!
                     //$_GET["ref_id"] = $this->request->raw("calling_test");
                     $test = new ilObjTest($this->request->raw("calling_test"), true);
