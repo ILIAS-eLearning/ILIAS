@@ -172,7 +172,7 @@ class ilObjTermsOfServiceGUI extends ilObject2GUI implements ilTermsOfServiceCon
         }
     }
 
-    protected function getSettingsForm(): ILIAS\UI\Component\Input\Container\Form\Standard
+    public function getSettingsForm(): ILIAS\UI\Component\Input\Container\Form\Standard
     {
         /** @var ilObjTermsOfService $obj */
         $obj = $this->object;

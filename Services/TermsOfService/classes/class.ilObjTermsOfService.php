@@ -47,7 +47,7 @@ class ilObjTermsOfService extends ilObject2
     }
 
 
-    protected function doRead() : void
+    protected function doRead(): void
     {
         $this->status = (bool) $this->settings->get('tos_status', '0');
         $this->reevaluateOnLogin = (bool) $this->settings->get('tos_reevaluate_on_login', '0');
@@ -86,7 +86,7 @@ class ilObjTermsOfService extends ilObject2
         return $this->reevaluateOnLogin;
     }
 
-    public function bindFormInput(array $values) : void
+    public function bindFormInput(array $values): void
     {
         $status = (bool) ($values[ilObjTermsOfServiceGUI::F_TOS_STATUS] ?? false);
         $reevaluate_on_login = (bool) ($values[ilObjTermsOfServiceGUI::F_TOS_STATUS][ilObjTermsOfServiceGUI::F_TOS_REEVALUATE_ON_LOGIN] ?? $this->shouldReevaluateOnLogin());
@@ -98,7 +98,7 @@ class ilObjTermsOfService extends ilObject2
         }
     }
 
-    public function store() : void
+    public function store(): void
     {
         $this->settings->set('tos_status', (string) ((int) $this->getStatus()));
         $this->settings->set('tos_reevaluate_on_login', (string) ((int) $this->shouldReevaluateOnLogin()));
