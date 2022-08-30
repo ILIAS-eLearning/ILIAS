@@ -2381,7 +2381,7 @@ class ilMDEditorGUI
         // update metametadata section
         $met_language = '';
         if ($this->http->wrapper()->post()->has('met_language')) {
-            $met_language = (array) $this->http->wrapper()->post()->retrieve(
+            $met_language = (string) $this->http->wrapper()->post()->retrieve(
                 'met_language',
                 $this->refinery->kindlyTo()->string()
             );
