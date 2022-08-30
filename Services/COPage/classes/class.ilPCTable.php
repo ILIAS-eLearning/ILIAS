@@ -190,7 +190,7 @@ class ilPCTable extends ilPageContent
             $aRow = $this->addRow();
             for ($j = 0; $j < $max_cols; $j++) {
                 // mask html
-                $data = str_replace("&", "&amp;", $row[$j]);
+                $data = str_replace("&", "&amp;", ($row[$j] ?? ""));
                 $data = str_replace("<", "&lt;", $data);
                 $data = str_replace(">", "&gt;", $data);
 
