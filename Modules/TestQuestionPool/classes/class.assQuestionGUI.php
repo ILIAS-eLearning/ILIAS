@@ -1940,17 +1940,6 @@ abstract class assQuestionGUI
         
         // add tab for question's suggested solution within common class assQuestionGUI
         $this->addTab_SuggestedSolution($ilTabs, $classname);
-        
-        // Assessment of questions sub menu entry
-        if ($_GET["q_id"]) {
-            $ilTabs->addTarget(
-                "statistics",
-                $this->ctrl->getLinkTargetByClass($classname, "assessment"),
-                array("assessment"),
-                $classname,
-                ""
-            );
-        }
     }
     
     protected function setQuestionSpecificTabs(ilTabsGUI $ilTabs)
