@@ -27,6 +27,7 @@ il.COPagePres =
 		this.initMapAreas();
 		this.initAdvancedContent();
 		this.initAudioVideo();
+		this.initAccordions();
 	},
 	
 	//
@@ -42,6 +43,14 @@ il.COPagePres =
 		if (cookiePos > -1 && document.cookie.charAt(cookiePos + 11) == 1)
 		{
 			this.toggleToc();
+		}
+	},
+
+	initAccordions: function () {
+		if (typeof ilAccordionsInits !== "undefined") {
+			for (var i = 0; i < ilAccordionsInits.length; i++) {
+				il.Accordion.add(ilAccordionsInits[i]);
+			}
 		}
 	},
 
