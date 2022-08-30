@@ -48,7 +48,7 @@ abstract class assQuestionGUI
 
     private $tree;
     private ilDBInterface $ilDB;
-    private $component_repository;
+    private ilComponentRepository $component_repository;
 
     protected \ILIAS\Notes\GUIService $notes_gui;
 
