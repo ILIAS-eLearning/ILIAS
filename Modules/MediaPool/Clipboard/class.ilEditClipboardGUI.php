@@ -29,7 +29,7 @@ class ilEditClipboardGUI
     protected bool $multiple = false;
     protected \ILIAS\MediaPool\Clipboard\ClipboardGUIRequest $request;
     protected \ILIAS\MediaPool\Clipboard\ClipboardManager $clipboard_manager;
-    protected string $insertbuttontitle;
+    protected string $insertbuttontitle = "";
     protected ilLanguage $lng;
     protected ilCtrl $ctrl;
     protected ilObjUser $user;
