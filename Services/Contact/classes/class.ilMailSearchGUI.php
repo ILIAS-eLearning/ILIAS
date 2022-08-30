@@ -64,7 +64,10 @@ class ilMailSearchGUI
         if (!($cmd = $this->ctrl->getCmd())) {
             $cmd = "showResults";
         }
+
         $this->$cmd();
+
+        return true;
     }
 
     private function isDefaultRequestContext(): bool

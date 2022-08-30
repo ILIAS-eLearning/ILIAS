@@ -80,7 +80,10 @@ class ilMailingListsGUI
         if (!($cmd = $this->ctrl->getCmd())) {
             $cmd = 'showMailingLists';
         }
+
         $this->$cmd();
+
+        return true;
     }
 
     /**

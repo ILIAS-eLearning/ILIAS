@@ -88,7 +88,6 @@ class ilMailMemberSearchGUI
                 break;
         }
 
-
         return true;
     }
 
