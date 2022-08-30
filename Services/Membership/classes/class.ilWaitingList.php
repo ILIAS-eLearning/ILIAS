@@ -228,7 +228,7 @@ abstract class ilWaitingList
             $this->users[(int) $row->usr_id]['time'] = (int) $row->sub_time;
             $this->users[(int) $row->usr_id]['usr_id'] = (int) $row->usr_id;
 
-            $this->user_ids[] = $row->usr_id;
+            $this->user_ids[] = (int) $row->usr_id;
         }
     }
 }

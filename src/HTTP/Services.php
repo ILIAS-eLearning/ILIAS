@@ -2,6 +2,21 @@
 
 declare(strict_types=1);
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
+
 namespace ILIAS\HTTP;
 
 use ILIAS\HTTP\Cookies\CookieJar;
@@ -11,20 +26,8 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use ILIAS\DI\Container;
 use ILIAS\HTTP\Agent\AgentDetermination;
+use ILIAS\HTTP\Duration\DurationFactory;
 
-/******************************************************************************
- *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
- *
- * If this is not the case or you just want to try ILIAS, you'll find
- * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
- *
- *****************************************************************************/
 /**
  * Class Services
  * @author              Fabian Schmid <fs@studer-raimann.ch>
@@ -46,13 +49,19 @@ class Services implements GlobalHttpState
             $dic['http.response_sender_strategy'],
             $dic['http.cookie_jar_factory'],
             $dic['http.request_factory'],
-            $dic['http.response_factory']
+            $dic['http.response_factory'],
+            $dic['http.duration_factory']
         );
         $this->wrapper = new WrapperFactory($this->raw->request());
         $this->agent = new AgentDetermination();
     }
 
-    public function wrapper(): WrapperFactory
+    public function durations() : DurationFactory
+    {
+        return $this->raw->durations();
+    }
+
+    public function wrapper() : WrapperFactory
     {
         return $this->wrapper;
     }

@@ -33,7 +33,7 @@ class ilOrgUnitType
     protected int $owner;
     protected string $create_date;
     protected string $last_update;
-    protected string $icon;
+    protected ?string $icon;
     protected array $translations = array();
     protected array $amd_records_assigned;
     protected static array $amd_records_available;
@@ -773,10 +773,9 @@ class ilOrgUnitType
      * Note that if you did also send a new icon image file with a form, make sure to call
      * ilOrgUnitType::processAndStoreIconFile() to store the file additionally on disk.
      * If you want to delete the icon, set call ilOrgUnitType::removeIconFile() first and set an empty string here.
-     * @param string $icon
      * @throws ilOrgUnitTypeException
      */
-    public function setIcon(string $icon): void
+    public function setIcon(?string $icon): void
     {
         if ($icon and !preg_match('/\.(svg)$/', $icon)) {
             throw new ilOrgUnitTypeException('Icon must be set with file extension svg');
@@ -784,7 +783,7 @@ class ilOrgUnitType
         $this->icon = $icon;
     }
 
-    public function getIcon(): string
+    public function getIcon(): ?string
     {
         return $this->icon;
     }

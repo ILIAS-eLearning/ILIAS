@@ -69,7 +69,7 @@ abstract class ilMailMimeTransportBase implements ilMailMimeTransport
         foreach ($mail->getTo() as $recipients) {
             $recipient_pieces = array_filter(array_map('trim', explode(',', $recipients)));
             foreach ($recipient_pieces as $recipient) {
-                if ($this->getMailer()->addAddress($recipient)) {
+                if (!$this->getMailer()->addAddress($recipient)) {
                     ilLoggerFactory::getLogger('mail')->warning($this->getMailer()->ErrorInfo);
                 }
             }

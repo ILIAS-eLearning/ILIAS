@@ -27,7 +27,7 @@ use ILIAS\Filesystem\Stream\Streams;
 /**
  * @author Jens Conze
  * @ingroup ServicesMail
- * @ilCtrl_Calls ilMailFormGUI: ilMailFolderGUI, ilMailAttachmentGUI, ilMailSearchGUI, ilMailSearchCoursesGUI, ilMailSearchGroupsGUI, ilMailingListsGUI
+ * @ilCtrl_Calls ilMailFormGUI: ilMailAttachmentGUI, ilMailSearchGUI, ilMailSearchCoursesGUI, ilMailSearchGroupsGUI, ilMailingListsGUI
  */
 class ilMailFormGUI
 {
@@ -120,10 +120,6 @@ class ilMailFormGUI
     {
         $forward_class = $this->ctrl->getNextClass($this);
         switch (strtolower($forward_class)) {
-            case strtolower(ilMailFolderGUI::class):
-                $this->ctrl->forwardCommand(new ilMailFolderGUI());
-                break;
-
             case strtolower(ilMailAttachmentGUI::class):
                 $this->ctrl->setReturn($this, 'returnFromAttachments');
                 $this->ctrl->forwardCommand(new ilMailAttachmentGUI());
@@ -626,7 +622,7 @@ class ilMailFormGUI
                         . chr(13)
                         . chr(10);
                 }
-                $mailData['m_message'] .= $this->umail->appendSignature($mailData['m_message']);
+                $mailData['m_message'] .= $this->umail->appendSignature('');
 
                 ilSession::set('rcp_to', '');
                 ilSession::set('rcp_cc', '');
@@ -671,7 +667,7 @@ class ilMailFormGUI
                 $mailData['m_message'] .= $additionalMessageText
                     . chr(13)
                     . chr(10)
-                    . $this->umail->appendSignature($mailData['m_message']);
+                    . $this->umail->appendSignature('');
                 ilSession::set('mail_roles', []);
                 break;
 

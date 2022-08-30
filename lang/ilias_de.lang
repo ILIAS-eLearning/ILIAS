@@ -1,34 +1,33 @@
-
-*
-*
-*
-*
-* @author 		Matthias Kunkel <mkunkel@me.com>
-* @module		language file German
-* @modulegroup	language
-* @version		$Id$
-* ILIAS is licensed with the GPL-3.0,
-* ILIAS language file
-* If this is not the case or you just want to try ILIAS, you'll find
+/**
 * This file is part of ILIAS, a powerful learning management system
-* You should have received a copy of said license along with the
-* https://github.com/ILIAS-eLearning
-* https://www.ilias.de
 * published by ILIAS open source e-Learning e.V.
+*
+* ILIAS is licensed with the GPL-3.0,
 * see https://www.gnu.org/licenses/gpl-3.0.en.html
+* You should have received a copy of said license along with the
 * source code, too.
+*
+* If this is not the case or you just want to try ILIAS, you'll find
 * us at:
+* https://www.ilias.de
+* https://github.com/ILIAS-eLearning
+*
 ********************************************************************
 */
+/**
+* ILIAS language file
+*
+* @module		language file German
+* @modulegroup	language
+* @author 		Matthias Kunkel <mkunkel@me.com>
+* @version		$Id$
 */
-/**
-/**
-// Language file names refer to ISO 639, see: http://www.oasis-open.org/cover/iso639a.html
-// NOTICE: Character coding of all ILIAS lang files is UTF-8! Please set your editor
 // The language file starts beyond the HTML-comment below. DO NOT modify this line!
 // To edit your language file with a spreadsheet (i.e. Excel or StarCalc) remove all lines
 // from the first line to the HTML-comment. After editing paste the lines in place again.
+// NOTICE: Character coding of all ILIAS lang files is UTF-8! Please set your editor
 // to the corresponding mode!
+// Language file names refer to ISO 639, see: http://www.oasis-open.org/cover/iso639a.html
 <!-- language file start -->
 acc#:#acc_add_document_btn_label#:#Dokument hinzufügen
 acc#:#acc_crit_type_usr_language#:#Benutzersprache
@@ -4194,6 +4193,7 @@ common#:#grpr_add#:#Gruppenlink anlegen
 common#:#grpr_edit#:#Gruppenlink bearbeiten
 common#:#grpr_edit_info#:#Bitte wählen Sie die Gruppe aus, für die Sie einen Link erstellen möchten.
 common#:#grpr_new#:#Neuen Gruppenlink anlegen
+common#:#grpr_settings#:#Einstellungen des Gruppenlinks
 common#:#header_searchable#:#Durchsuchbar
 common#:#header_title#:#Installationsüberschrift
 common#:#header_visible_registration#:#Sichtbar im Registrierungsformular
@@ -11924,6 +11924,8 @@ mob#:#mob_upload_multi_srt#:#Hochladen als ZIP-Datei
 mob#:#mob_upload_multi_srt_howto#:#Die .zip-Datei / .zip-Archiv darf keine Unterverzeichnisse enthalten. Alle .srt-Dateien müssen auf oberster Ebene liegen, um erkannt zu werden. Die Dateinamen müssen enden mit "_&lt;SPRACHE&gt;.srt", wobei SPRACHE die entsprechende Sprachkennung ist (z. B. "en", "it" oder "de"). Der Rest des Dateinamens muss dem Namen der zugehörigen Videodatei entsprechen. Die Datei für englische Untertitel des Videos "my_video.mp4" heißt entsprechend "my_video_en.srt".
 mob#:#mob_url#:#URL
 mob#:#mob_url_info#:#Externe URL, z.B. Youtube oder Vimeo URL.
+mob#:#mob_url_info1#:#External resource URL, allowed suffixes are:
+mob#:#mob_url_info_video#:#You may also refer to a Youtube or Vimeo URL.
 mst#:#mst_cert_issued_on#:#Ausgestellt am
 mst#:#mst_courses_of#:#Einschreibungen von %s
 mst#:#mst_download_certificate#:#Zertifikat herunterladen

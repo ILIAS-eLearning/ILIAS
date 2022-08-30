@@ -24,6 +24,8 @@ class ilSurveyQuestionsTableGUI extends ilTable2GUI
     protected \ILIAS\SurveyQuestionPool\Editing\EditManager $edit_manager;
     protected ilRbacReview $rbacreview;
     protected ilObjUser $user;
+    protected \ILIAS\UI\Factory $ui_factory;
+    protected \ILIAS\UI\Renderer $renderer;
     protected bool $editable = true;
     protected bool $writeAccess = false;
     protected array $filter = [];
@@ -48,6 +50,9 @@ class ilSurveyQuestionsTableGUI extends ilTable2GUI
 
         $lng = $DIC->language();
         $ilCtrl = $DIC->ctrl();
+
+        $this->renderer = $DIC->ui()->renderer();
+        $this->ui_factory = $DIC->ui()->factory();
 
         $this->lng = $lng;
         $this->ctrl = $ilCtrl;
@@ -204,10 +209,9 @@ class ilSurveyQuestionsTableGUI extends ilTable2GUI
         $this->tpl->parseCurrentBlock();
 
         if ((int) $a_set["complete"] === 0) {
+            $icon = $this->ui_factory->symbol()->icon()->custom(ilUtil::getImagePath("icon_alert.svg"), $this->lng->txt("warning_question_not_complete"));
             $this->tpl->setCurrentBlock("qpl_warning");
-            $this->tpl->setVariable("IMAGE_WARNING", ilUtil::getImagePath("icon_alert.svg"));
-            $this->tpl->setVariable("ALT_WARNING", $this->lng->txt("warning_question_not_complete"));
-            $this->tpl->setVariable("TITLE_WARNING", $this->lng->txt("warning_question_not_complete"));
+            $this->tpl->setVariable("ICON_WARNING", $this->renderer->render($icon));
             $this->tpl->parseCurrentBlock();
         }
 

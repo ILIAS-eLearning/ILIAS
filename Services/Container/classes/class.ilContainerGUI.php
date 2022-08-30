@@ -225,7 +225,6 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
         }
 
         // get page object
-        $this->ctrl->setReturnByClass("ilcontainerpagegui", "edit");
         $page_gui = new ilContainerPageGUI($this->object->getId());
         $style = $this->content_style_domain->styleForRefId($this->object->getRefId());
         $page_gui->setStyleId(

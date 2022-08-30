@@ -17,6 +17,7 @@
  *********************************************************************/
 
 /**
+/**
  * GUI class for course objective view
  *
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
@@ -28,7 +29,7 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
 
     private ilLogger $logger;
     protected ilTabsGUI $tabs;
-    protected array $objective_map;
+    protected array $objective_map = [];
     protected ilToolbarGUI $toolbar;
     protected int $force_details = 0;
     protected ilCourseObjectiveListGUI $objective_list_gui;
@@ -333,12 +334,10 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
 
         $this->clearAdminCommandsDetermination();
 
-        if (is_array($this->items["_all"])) {
+        if (is_array($this->items["_all"] ?? false)) {
             $this->objective_map = $this->buildObjectiveMap();
-
             // all rows
             $item_r = [];
-
             $position = 1;
             foreach ($this->items["_all"] as $k => $item_data) {
                 if ($a_mode === self::MATERIALS_TESTS && $item_data['type'] !== 'tst') {
@@ -355,8 +354,8 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
                     }
                 }
 
-                if ($this->rendered_items[$item_data["child"]] !== true &&
-                    !$this->renderer->hasItem($item_data["child"])) {
+                if (($this->rendered_items[$item_data["child"]] ?? false) !== true &&
+                    !$this->renderer->hasItem($item_data["child"] ?? 0)) {
                     $this->rendered_items[$item_data['child']] = true;
 
                     // TODO: Position (DONE ?)
@@ -496,7 +495,7 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
                     ];
                 }
             }
-            if ($this->objective_map["test_i"] == $item_ref_id) {
+            if (($this->objective_map["test_i"] ?? 0) == $item_ref_id) {
                 $ilCtrl->setParameterByClass('illoeditorgui', 'tt', 1);
                 $details[] = [
                     'desc' => '',
@@ -506,7 +505,7 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
                 ];
                 $ilCtrl->setParameterByClass('illoeditorgui', 'tt', 0);
             }
-            if ($this->objective_map["test_q"] == $item_ref_id) {
+            if (($this->objective_map["test_q"] ?? 0) == $item_ref_id) {
                 $ilCtrl->setParameterByClass('illoeditorgui', 'tt', 2);
                 $details[] = [
                     'desc' => '',
@@ -518,7 +517,7 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
             }
 
             // #15367
-            if (is_array($this->objective_map["test_ass"][$item_ref_id])) {
+            if (is_array($this->objective_map["test_ass"][$item_ref_id] ?? false)) {
                 foreach ($this->objective_map["test_ass"][$item_ref_id] as $type => $items) {
                     if ($type == ilLOSettings::TYPE_TEST_INITIAL) {
                         $caption = $lng->txt('crs_loc_tab_itest');
@@ -558,7 +557,7 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
             $a_item_list_gui->enableProperties(false);
         }
 
-        if ($a_item['objective_id']) {
+        if ($a_item['objective_id'] ?? false) {
             $a_item_list_gui->setDefaultCommandParameters(['objective_id' => $a_item['objective_id']]);
 
 
@@ -579,7 +578,7 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
 
             $res = $this->updateResult($res, $a_item['ref_id'], $a_item['objective_id'], $ilUser->getId());
 
-            if ($res['is_final']) {
+            if ($res['is_final'] ?? false) {
                 $a_item_list_gui->disableTitleLink(true);
                 $a_item_list_gui->enableProperties(true);
                 $a_item_list_gui->addCustomProperty(
@@ -961,9 +960,9 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
      * @return string
      */
     public static function renderProgressMeter(
-        int $a_perc_result = null,
-        int $a_perc_limit = null,
-        int $a_compare_value = null,
+        ?int $a_perc_result = null,
+        ?int $a_perc_limit = null,
+        ?int $a_compare_value = null,
         string $a_caption = null,
         string $a_url = null,
         string $a_tt_id = null,
@@ -1048,10 +1047,10 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
         $is_qualified_initial =
             (
                 $a_lo_result['type'] == ilLOUserResults::TYPE_INITIAL &&
-                ilLOSettings::getInstanceByObjId($a_lo_result['course_id'])->isInitialTestQualifying()
+                ilLOSettings::getInstanceByObjId($a_lo_result['course_id'] ?? 0)->isInitialTestQualifying()
             );
         $has_completed =
-            ($a_lo_result["status"] == ilLOUserResults::STATUS_COMPLETED);
+            (($a_lo_result["status"] ?? 0) == ilLOUserResults::STATUS_COMPLETED);
 
         $next_step = '';
 
@@ -1064,7 +1063,7 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
                 $next_step = $lng->txt("crs_loc_progress_do_qualifying_again");
             }
         } // initial test
-        elseif ($a_lo_result["status"]) {
+        elseif ($a_lo_result["status"] ?? false) {
             $next_step =
                 $has_completed ?
                     $lng->txt("crs_loc_progress_do_qualifying") :
@@ -1102,15 +1101,15 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
 
         $tt_txt = sprintf(
             $lng->txt("crs_loc_tt_info"),
-            $a_lo_result["result_perc"],
-            $a_lo_result["limit_perc"]
+            $a_lo_result["result_perc"] ?? '0',
+            $a_lo_result["limit_perc"] ?? '0'
         );
 
 
         $is_qualified = ($a_lo_result["type"] == ilLOUserResults::TYPE_QUALIFIED);
         $is_qualified_initial = ($a_lo_result['type'] == ilLOUserResults::TYPE_INITIAL &&
-            ilLOSettings::getInstanceByObjId($a_lo_result['course_id'])->isInitialTestQualifying());
-        $has_completed = ($a_lo_result["status"] == ilLOUserResults::STATUS_COMPLETED);
+            ilLOSettings::getInstanceByObjId($a_lo_result['course_id'] ?? 0)->isInitialTestQualifying());
+        $has_completed = (($a_lo_result["status"] ?? 0) == ilLOUserResults::STATUS_COMPLETED);
 
         $next_step = $progress_txt = $bar_color = $test_url = $initial_sub = null;
         $compare_value = null;
@@ -1140,7 +1139,7 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
             }
         }
         // initial test
-        elseif ($a_lo_result["status"]) {
+        elseif ($a_lo_result["status"] ?? false) {
             $progress_txt = $lng->txt("crs_loc_progress_result_itest");
             $tt_txt = $lng->txt("crs_loc_tab_itest") . ": " . $tt_txt;
 
@@ -1157,10 +1156,10 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
         }
 
         // link to test statistics
-        $relevant_test_id = $a_lo_result["qtest"]
-            ?: $a_lo_result["itest"];
+        $relevant_test_id = ($a_lo_result["qtest"] ?? 0)
+            ?: ($a_lo_result["itest"] ?? 0);
         if ($relevant_test_id) {
-            $test_url = ilLOUtils::getTestResultLinkForUser($relevant_test_id, $a_lo_result["user_id"]);
+            $test_url = ilLOUtils::getTestResultLinkForUser($relevant_test_id, $a_lo_result["user_id"] ?? 0);
         }
 
         $main_text = $lng->txt('crs_loc_itest_info');
@@ -1171,8 +1170,8 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
 
 
         return self::renderProgressMeter(
-            $a_lo_result["result_perc"],
-            $a_lo_result["limit_perc"],
+            $a_lo_result["result_perc"] ?? null,
+            $a_lo_result["limit_perc"] ?? null,
             $compare_value,
             $progress_txt,
             $test_url,
@@ -1181,7 +1180,7 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
             $a_list_mode
                 ? null
                 : $next_step,
-            $initial_sub,
+            (bool) $initial_sub,
             $a_list_mode
                 ? 30
                 : 10,

@@ -1,6 +1,5 @@
 <?php
 
-declare(strict_types=0);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,8 +16,7 @@ declare(strict_types=0);
  *
  *********************************************************************/
 
-// begin-patch lok
-// end-patch lok
+
 /**
  * @author  Stefan Meyer <smeyer.ilias@gmx.de>
  * @version $Id$
@@ -104,7 +102,7 @@ class ilCourseObjectivesTableGUI extends ilTable2GUI
 
         // materials
         foreach ($a_set['materials'] as $data) {
-            if ($data['items']) {
+            if ($data['items'] ?? false) {
                 $this->tpl->touchBlock('ul_begin');
                 foreach ($data['items'] as $pg_st) {
                     $this->tpl->setCurrentBlock('st_pg');
@@ -137,7 +135,7 @@ class ilCourseObjectivesTableGUI extends ilTable2GUI
         // begin-patch lok
         if ($this->getSettings()->worksWithInitialTest()) {
             if ($this->getSettings()->hasSeparateInitialTests()) {
-                if ($a_set['initial']) {
+                if ($a_set['initial'] ?? false) {
                     $obj_id = ilObject::_lookupObjId($a_set['initial']);
                     $this->tpl->setCurrentBlock('initial_test_per_objective');
                     $this->tpl->setVariable('IT_IMG', ilObject::_getIcon($obj_id, 'tiny'));
@@ -157,7 +155,7 @@ class ilCourseObjectivesTableGUI extends ilTable2GUI
                     $this->tpl->touchBlock('initial_test_per_objective');
                 }
             } else {
-                foreach ($a_set['self'] as $test) {
+                foreach (($a_set['self'] ?? []) as $test) {
                     // begin-patch lok
                     foreach ((array) $test['questions'] as $question) {
                         $this->tpl->setCurrentBlock('self_qst_row');
@@ -167,7 +165,7 @@ class ilCourseObjectivesTableGUI extends ilTable2GUI
                     // end-patch lok
                 }
                 // begin-patch lok
-                if (count($a_set['self']) === 0) {
+                if (count($a_set['self'] ?? []) === 0) {
                     $this->tpl->touchBlock('self_qst_row');
                 }
             }
@@ -178,7 +176,7 @@ class ilCourseObjectivesTableGUI extends ilTable2GUI
 
         // final test questions
         if ($this->getSettings()->getQualifyingTestType() == ilLOSettings::TYPE_QUALIFYING_SELECTED) {
-            if ($a_set['final']) {
+            if ($a_set['final'] ?? false) {
                 $obj_id = ilObject::_lookupObjId($a_set['final']);
                 $this->tpl->setCurrentBlock('final_test_per_objective');
                 $this->tpl->setVariable('FT_IMG', ilObject::_getIcon($obj_id, 'tiny'));
@@ -197,10 +195,10 @@ class ilCourseObjectivesTableGUI extends ilTable2GUI
                 $this->tpl->touchBlock('final_test_per_objective');
             }
         } else {
-            foreach ((array) $a_set['final'] as $test) {
-                foreach ((array) $test['questions'] as $question) {
+            foreach ((array) ($a_set['final'] ?? []) as $test) {
+                foreach ((array) ($test['questions'] ?? []) as $question) {
                     $this->tpl->setCurrentBlock('final_qst_row');
-                    $this->tpl->setVariable('FINAL_QST_TITLE', $question['title']);
+                    $this->tpl->setVariable('FINAL_QST_TITLE', $question['title'] ?? '');
                     $this->tpl->parseCurrentBlock();
                 }
             }

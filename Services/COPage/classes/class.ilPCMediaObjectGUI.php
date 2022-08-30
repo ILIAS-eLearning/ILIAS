@@ -35,7 +35,7 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
     protected string $pool_view;
     public string $header;
     protected string $sub_cmd;
-    protected \ILIAS\MediaObjects\MediaType\MediaType $media_type;
+    protected \ILIAS\MediaObjects\MediaType\MediaTypeManager $media_type;
 
     public function __construct(
         ilPageObject $a_pg_obj,
@@ -61,7 +61,10 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
             ->pc()
             ->editRequest();
 
-        $this->media_type = new ILIAS\MediaObjects\MediaType\MediaType();
+        $this->media_type = $DIC->mediaObjects()
+            ->internal()
+            ->domain()
+            ->mediaType();
 
         $pc_id = $request->getPCId();
         if ($pc_id != "" && $a_hier_id == "") {

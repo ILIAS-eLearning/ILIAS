@@ -39,6 +39,7 @@ class ilMediaCreationGUI
     public const TYPE_ALL = 5;
     public const POOL_VIEW_FOLDER = "fold";
     public const POOL_VIEW_ALL = "all";
+    protected \ILIAS\MediaObjects\MediaType\MediaTypeManager $type_manager;
     protected InternalGUIService $gui;
     protected ?FormAdapterGUI $bulk_upload_form = null;
     protected CreationGUIRequest $request;
@@ -94,6 +95,10 @@ class ilMediaCreationGUI
         $this->after_pool_insert = $after_pool_insert;
         $this->finish_single_upload = $finish_single_upload;
         $this->on_mob_update = $on_mob_update;
+        $this->type_manager = $DIC->mediaObjects()
+            ->internal()
+            ->domain()
+            ->mediaType();
 
         $this->ctrl->saveParameter($this, ["mep", "pool_view"]);
 
@@ -104,6 +109,7 @@ class ilMediaCreationGUI
             ->request();
 
         $this->requested_mep = $this->request->getMediaPoolId();
+        $this->ctrl->setParameter($this, "mep", $this->requested_mep);
 
         $pv = $this->request->getPoolView();
         $this->pool_view = (in_array($pv, [self::POOL_VIEW_FOLDER, self::POOL_VIEW_ALL]))
@@ -143,20 +149,17 @@ class ilMediaCreationGUI
     protected function getSuffixes(): array
     {
         $suffixes = [];
-        if (in_array(self::TYPE_ALL, $this->accept_types)) {
+        if (in_array(self::TYPE_ALL, $this->accept_types, true)) {
             $suffixes = $this->getAllSuffixes();
         }
-        if (in_array(self::TYPE_VIDEO, $this->accept_types)) {
-            $suffixes[] = "mp4";
+        if (in_array(self::TYPE_VIDEO, $this->accept_types, true)) {
+            $suffixes = array_merge($suffixes, $this->type_manager->getImageSuffixes());
         }
-        if (in_array(self::TYPE_AUDIO, $this->accept_types)) {
-            $suffixes[] = "mp3";
+        if (in_array(self::TYPE_AUDIO, $this->accept_types, true)) {
+            $suffixes = array_merge($suffixes, $this->type_manager->getAudioMimeTypes());
         }
         if (in_array(self::TYPE_IMAGE, $this->accept_types)) {
-            $suffixes[] = "jpeg";
-            $suffixes[] = "jpg";
-            $suffixes[] = "png";
-            $suffixes[] = "gif";
+            $suffixes = array_merge($suffixes, $this->type_manager->getImageSuffixes());
         }
         return $suffixes;
     }
@@ -172,6 +175,7 @@ class ilMediaCreationGUI
         }
         if (in_array(self::TYPE_VIDEO, $this->accept_types)) {
             $mimes[] = "video/vimeo";
+            $mimes[] = "video/youtube";
             $mimes[] = "video/mp4";
         }
         if (in_array(self::TYPE_AUDIO, $this->accept_types)) {
@@ -270,6 +274,7 @@ class ilMediaCreationGUI
                     $this->lng->txt("files"),
                     \Closure::fromCallable([$this, 'handleUploadResult']),
                     "mep_id",
+                    "",
                     20,
                     $this->getMimeTypes()
                 );
@@ -287,7 +292,11 @@ class ilMediaCreationGUI
 
         //
         $ti = new \ilTextInputGUI($lng->txt("mob_url"), "url");
-        $ti->setInfo($lng->txt("mob_url_info"));
+        $info = $lng->txt("mob_url_info1") . " " . implode(", ", $this->getSuffixes()) . ".";
+        if (in_array(self::TYPE_VIDEO, $this->accept_types)) {
+            $info.= " " . $lng->txt("mob_url_info_video");
+        }
+        $ti->setInfo($info);
         $ti->setRequired(true);
         $form->addItem($ti);
 
@@ -581,6 +590,15 @@ class ilMediaCreationGUI
 
             // get mime type, if not already set!
             $format = ilObjMediaObject::getMimeType($url, true);
+            if (!in_array($format, $this->getMimeTypes())) {
+                $this->main_tpl->setOnScreenMessage(
+                    "failure",
+                    $this->lng->txt("mob_type_not_supported") . " " . $format
+                );
+                $form->setValuesByPost();
+                $this->main_tpl->setContent($form->getHTML());
+                return;
+            }
             // set real meta and object data
             $mediaItem->setFormat($format);
             $mediaItem->setLocation($url);

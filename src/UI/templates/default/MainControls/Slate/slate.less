@@ -25,8 +25,9 @@
 				font-family: "il-icons";
 				font-size: @il-slate-bulky-glyph-size;
 				position: absolute;
-				right: 10px;
-				top: 17px;
+				right: @il-padding-base-horizontal;
+				top: @il-slate-bulky-padding-vertical;
+				line-height: @il-line-height-computed;
 		}
 		&.engaged::before {
 				content: " \e604";
@@ -55,7 +56,7 @@
 		}
 		.bulky-label {
 			font-size: @il-slate-bulky-label-size;
-			line-height: @il-slate-bulky-label-size * @il-slate-bulky-icon-size;
+			line-height: @il-line-height-computed;
 			text-align: left;
 			word-break: normal;
 		}
@@ -109,6 +110,17 @@
 			padding: @il-padding-small-horizontal;
 			text-align: center;
 			text-transform: uppercase;
+		}
+	}
+
+	.panel-body {
+		//See #33757
+		&::after {
+			content: "";
+			display: inline;
+			height: 0;
+			clear: both;
+			visibility: hidden;
 		}
 	}
 

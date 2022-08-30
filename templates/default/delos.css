@@ -8889,7 +8889,7 @@ fieldset[disabled] .il-table-presentation-viewcontrols .btn-default.engaged.focu
   color: #161616;
   font-size: 1.115rem;
   font-weight: 400;
-  margin-bottom: 30px;
+  margin-bottom: 27px;
   margin-top: 0;
   padding: 6px 12px;
 }
@@ -8991,7 +8991,7 @@ fieldset[disabled] .il-table-presentation-viewcontrols .btn-default.engaged.focu
   color: #161616;
   font-size: 1rem;
   font-weight: 400;
-  margin-top: -5px;
+  margin-top: -4.5px;
 }
 #il_right_col .il-workflow {
   border: 1px solid #dddddd;
@@ -9626,10 +9626,10 @@ footer {
   display: none;
 }
 .il-maincontrols-slate .btn-bulky {
-  padding: 10px 40px 15px 10px;
+  padding: 15px 40px 15px 9px;
 }
 .il-maincontrols-slate .link-bulky {
-  padding: 10px 10px 15px 10px;
+  padding: 15px 9px 15px 9px;
 }
 .il-maincontrols-slate .btn-bulky,
 .il-maincontrols-slate .link-bulky {
@@ -9647,8 +9647,9 @@ footer {
   font-family: "il-icons";
   font-size: 1.0625rem;
   position: absolute;
-  right: 10px;
-  top: 17px;
+  right: 9px;
+  top: 15px;
+  line-height: 20px;
 }
 .il-maincontrols-slate .btn-bulky.engaged::before,
 .il-maincontrols-slate .link-bulky.engaged::before {
@@ -9671,7 +9672,7 @@ footer {
 }
 .il-maincontrols-slate .btn-bulky .icon,
 .il-maincontrols-slate .link-bulky .icon {
-  margin-right: 5px;
+  margin-right: 6px;
   filter: invert(50%);
 }
 .il-maincontrols-slate .btn-bulky .icon.small,
@@ -9685,7 +9686,7 @@ footer {
 .il-maincontrols-slate .btn-bulky .bulky-label,
 .il-maincontrols-slate .link-bulky .bulky-label {
   font-size: 0.9375rem;
-  line-height: 0.99609375rem;
+  line-height: 20px;
   text-align: left;
   word-break: normal;
 }
@@ -9729,6 +9730,13 @@ footer {
 .il-maincontrols-slate #ilHelpPanel .btn-bulky .bulky-label {
   margin-top: 3px;
 }
+.il-maincontrols-slate .panel-body::after {
+  content: "";
+  display: inline;
+  height: 0;
+  clear: both;
+  visibility: hidden;
+}
 .il-maincontrols-slate.engaged[data-depth-level="2"] .btn-bulky:not(:hover),
 .il-maincontrols-slate.engaged[data-depth-level="2"] .link-bulky:not(:hover) {
   background-color: #f9f9f9;
@@ -9746,16 +9754,16 @@ footer {
 .il-maincontrols-slate-content h2,
 .il-maincontrols-slate-content h3,
 .il-maincontrols-slate-content li {
-  padding: 10px 20px;
+  padding: 9px 18px;
 }
 .il-maincontrols-slate-content > hr {
-  margin: 10px 0;
+  margin: 9px 0;
 }
 .il-maincontrols-slate-content li.jstree-node {
-  padding: 4px 0;
+  padding: 3px 0;
 }
 .il-maincontrols-slate-content li.il-workflow-step {
-  padding: 0 20px;
+  padding: 0 18px;
 }
 .il-maincontrols-slate-close button,
 .il-maincontrols-slate-back button {
@@ -9837,7 +9845,7 @@ footer {
   filter: invert(50%);
   font-family: 'il-icons';
   font-size: 1.0625rem;
-  margin-right: 5px;
+  margin-right: 6px;
   position: relative;
 }
 .il-maincontrols-metabar .input-group {
@@ -9971,10 +9979,11 @@ footer {
   .il-metabar-slates .il-metabar-more-slate .btn-bulky:after {
     content: "\e606";
     font-family: "il-icons";
-    font-size: 0.875rem;
     position: absolute;
+    font-size: 1.0625rem;
     right: 12px;
-    top: 1.42857143;
+    top: 15px;
+    line-height: 20px;
   }
   .il-metabar-slates .il-maincontrols-slate {
     min-width: 260px;
@@ -10629,7 +10638,7 @@ footer {
   position: relative;
   display: flex;
   align-items: center;
-  min-height: 48px;
+  min-height: 50px;
   margin-bottom: 2px;
   padding: 6px 12px;
   padding-left: 0;
@@ -10676,7 +10685,7 @@ footer {
   align-items: center;
   justify-content: space-between;
   width: 100%;
-  min-height: 48px;
+  min-height: 50px;
   padding: 6px 12px;
   margin-bottom: 2px;
   font-size: 0.9375rem;
@@ -12693,7 +12702,7 @@ div.il_info {
   text-align: right;
 }
 /* ---------------- headlines ------------------ */
-a#il_mhead_t_focus {
+#il_mhead_t_focus {
   color: #2c2c2c;
   vertical-align: middle;
   font-size: 1.75rem;
@@ -12701,11 +12710,11 @@ a#il_mhead_t_focus {
   cursor: default;
 }
 @media only screen and (max-width: 768px) {
-  a#il_mhead_t_focus {
+  #il_mhead_t_focus {
     font-size: 1.5rem;
   }
 }
-a#il_mhead_t_focus[href] {
+#il_mhead_t_focus[href] {
   cursor: pointer;
 }
 h1.ilHeader {
@@ -13064,8 +13073,8 @@ div.ilRightPanel {
   /* may causes a scrollbar when omitted */
   right: -2000px;
 }
-a.ilAccAnchor,
-a.ilAccAnchor:hover {
+div.ilAccAnchor,
+div.ilAccAnchor:hover {
   text-decoration: none;
   color: inherit;
 }
@@ -13267,11 +13276,13 @@ img.ilSmallIcon {
   width: 100%;
 }
 .il_VAccordionInnerContainer {
+  border: 1px solid #dddddd;
   margin-bottom: 12px;
+  border-radius: 3px;
 }
-.il_VAccordionContent .form-horizontal,
-.il_HAccordionContent .form-horizontal {
-  background-color: #f9f9f9;
+.il_VAccordionContent,
+.il_HAccordionContent {
+  padding-top: 9px;
 }
 .il_HAccordionHeadActive,
 .il_VAccordionHeadActive {
@@ -13644,14 +13655,14 @@ blockquote.ilForumQuote {
 div.ilForumQuoteHead {
   font-weight: 600;
   font-size: 0.75rem;
-  margin: 0 0 10px;
+  margin: 0 0 12px;
 }
 /* Modules/Forum */
 #ilFrmPostList {
   list-style: none;
   margin: 0;
   padding: 0;
-  background-color: #f9f9f9;
+  background-color: white;
 }
 .ilFrmPostImage {
   float: left;
@@ -13660,14 +13671,14 @@ div.ilForumQuoteHead {
 }
 .ilFrmPostImage img {
   vertical-align: top;
-  margin: 5px 20px 5px 5px;
+  margin: 9px 18px 9px 6px;
   border: none;
   max-width: 100%;
 }
 @media only screen and (min-width: 768px) {
   .ilFrmPostImage img {
     margin: 0 !important;
-    padding: 5px 8px 5px 5px;
+    padding: 6px 9px 9px 6px;
   }
 }
 .ilFrmPostClear {
@@ -13682,7 +13693,7 @@ div.ilForumQuoteHead {
 }
 @media only screen and (max-width: 768px) {
   .ilFrmPostTitle {
-    margin-top: 5px;
+    margin-top: 6px;
     font-size: 0.875rem;
   }
 }
@@ -13690,12 +13701,13 @@ div.ilFrmPostHeader span.small {
   color: #6f6f6f;
 }
 .ilFrmPostContentContainer {
-  margin: 0 0 10px;
+  margin: 0 0 3px;
   width: 80%;
   float: left;
 }
 @media only screen and (max-width: 768px) {
   .ilFrmPostContentContainer {
+    padding-left: 6px;
     width: 100%;
   }
 }
@@ -13719,31 +13731,36 @@ div.ilFrmPostHeader span.small {
   display: none;
 }
 .ilFrmPostContent {
-  margin-top: 20px;
+  margin-top: 15px;
 }
-.ilFrmPostRow {
-  padding: 3px;
-  border-top: 1px solid #f0f0f0;
+li.ilFrmPostRow {
+  padding: 3px 0 3px 3px;
+  margin-bottom: 15px;
+  border-left: 6px solid #dddddd;
 }
-.ilFrmPostRow div.ilForm {
+li.ilFrmPostRow.tblrowmarked {
+  background-color: white;
+  border-left: 6px solid #e2e8ef;
+}
+li.ilFrmPostRow div.ilForm {
   width: 100%;
   max-width: 1000px;
 }
-.ilFrmPostRow div.ilForm div.ilFormValue {
+li.ilFrmPostRow div.ilForm div.ilFormValue {
   width: auto;
 }
-.ilFrmPostRow div.ilForm div.ilFormOption {
+li.ilFrmPostRow div.ilForm div.ilFormOption {
   width: 150px;
 }
 @media only screen and (max-width: 768px) {
-  .ilFrmPostRow div.ilForm,
-  .ilFrmPostRow div.ilForm input[type=text],
-  .ilFrmPostRow div.ilForm textarea {
+  li.ilFrmPostRow div.ilForm,
+  li.ilFrmPostRow div.ilForm input[type=text],
+  li.ilFrmPostRow div.ilForm textarea {
     width: 100%;
   }
 }
 @media only screen and (max-width: 768px) {
-  .ilFrmPostRow img.ilUserIcon {
+  li.ilFrmPostRow img.ilUserIcon {
     width: 50px;
     height: 50px;
   }
@@ -13777,13 +13794,13 @@ div.ilFrmPostHeader span.small {
     padding-left: 300px;
   }
 }
-.ilFrmPostCensorshipAdvice {
+li.ilFrmPostCensorshipAdvice {
   margin: 0;
   padding: 0;
   font-weight: 600;
 }
 .ilFrmPostAttachmentsContainer {
-  margin: 20px 0 0;
+  margin: 15px 0 0;
   font-weight: 600;
 }
 .ilFrmPostAttachmentsContainer a {
@@ -13796,16 +13813,14 @@ div.ilFrmPostHeader span.small {
   float: right;
   margin: 0 0 3px;
 }
-.ilModeratorPosting {
-  background-color: #ff9;
-  padding: 0 5px;
+li.ilModeratorPosting {
+  border-left: 6px solid #f3de2c;
 }
-.ilPostingNeedsActivation {
-  background-color: #ffe4e4;
-  padding: 0 5px;
+li.ilPostingNeedsActivation {
+  border-left: 6px solid #82639e;
 }
 .ilFrmBottomToolbar {
-  margin-top: 20px;
+  margin-top: 15px;
 }
 .ilForumTreeTitle {
   display: inline-block;
@@ -15297,7 +15312,7 @@ tr.tblheader {
   background-color: #d0d0ff;
 }
 .tblrowmarked {
-  background-color: #ffe4e4 !important;
+  background-color: #e2e8ef;
   color: #161616;
   padding: 3px;
 }
@@ -15314,7 +15329,7 @@ tr.tblheader {
   vertical-align: top;
 }
 .tblrowmarkedtop {
-  background-color: #ffe4e4;
+  background-color: #e2e8ef;
   color: #161616;
   padding: 3px;
   vertical-align: top;
@@ -17148,8 +17163,8 @@ div.ilRatingOverlay {
 }
 /* Modules/Excercise */
 .ilExcAssignmentBody {
-  padding: 20px;
-  background-color: #f9f9f9;
+  padding-left: 15px;
+  padding-right: 15px;
 }
 .ilExcAssignmentHead img {
   display: block;

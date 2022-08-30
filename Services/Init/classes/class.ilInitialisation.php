@@ -1504,8 +1504,8 @@ class ilInitialisation
         $client_ini = $container['ilClientIniFile'];
 
         $replace_super_globals = (
-            !$client_ini->variableExists('system', 'prevent_super_global_replacement') ||
-            !(bool) $client_ini->readVariable('system', 'prevent_super_global_replacement')
+            !$client_ini->variableExists('server', 'prevent_super_global_replacement') ||
+            !(bool) $client_ini->readVariable('server', 'prevent_super_global_replacement')
         );
 
         if ($replace_super_globals) {

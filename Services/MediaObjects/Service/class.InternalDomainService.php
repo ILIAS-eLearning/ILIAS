@@ -23,6 +23,7 @@ namespace ILIAS\MediaObjects;
 use ILIAS\DI\Container;
 use ILIAS\MediaObjects\ImageMap\ImageMapManager;
 use ILIAS\Repository\GlobalDICDomainServices;
+use ILIAS\MediaObjects\MediaType\MediaTypeManager;
 
 /**
  * @author Alexander Killing <killing@leifos.de>
@@ -60,5 +61,10 @@ class InternalDomainService
         return new ImageMapManager(
             $this->repo_service->imageMap()
         );
+    }
+
+    public function mediaType(): MediaTypeManager
+    {
+        return new MediaTypeManager();
     }
 }
