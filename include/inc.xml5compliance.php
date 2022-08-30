@@ -20,16 +20,16 @@
     +-----------------------------------------------------------------------------+
 */
 
-function staticxmlerror($errno, $errstr, $errfile, $errline, $errcontext, $ret = false)
+function staticxmlerror(int $errno, string $errstr, ?string $errfile = null, ?int $errline = null, ?array $errcontext = null, bool $ret = false)
 {
     static $errs = array();
+
+    $tag = 'DOMDocument::validate(): ';
+    $errs[] = str_replace($tag, '', $errstr);
 
     if ($ret === true) {
         return $errs;
     }
-
-    $tag = 'DOMDocument::validate(): ';
-    $errs[] = str_replace($tag, '', $errstr);
 }
 
 function domxml_open_file($filename)
@@ -130,7 +130,7 @@ class php4DOMDocument
         restore_error_handler();
 
         if (!$this->success) {
-            $this->error_arr = staticxmlerror(null, null, null, null, null, true);
+            $this->error_arr = staticxmlerror(0, "", "", 0, null, true);
             foreach ($this->error_arr as $error) {
                 $error = str_replace("DOMDocument::loadXML():", "", $error);
                 $this->error .= $error . "<br />";

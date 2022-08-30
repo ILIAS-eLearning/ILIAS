@@ -1218,7 +1218,7 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
 
         $chars = $this->getCharacteristics();
         if (is_object($this->content_obj)) {
-            if ($chars[$a_seleted_value] == "" && ($this->content_obj->getClass() != "")) {
+            if (($chars[$a_seleted_value] ?? "") === "" && ($this->content_obj->getClass() !== "")) {
                 $chars = array_merge(
                     array($this->content_obj->getClass() => $this->content_obj->getClass()),
                     $chars

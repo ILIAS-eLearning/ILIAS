@@ -114,7 +114,7 @@ class ilObjWikiAccess extends ilObjectAccess
         if ($t_arr[1] === "wpage") {
             $wpg_id = (int) $t_arr[2];
             $w_id = ilWikiPage::lookupWikiId($wpg_id);
-            if ((int) $t_arr[3] > 0) {
+            if ((int) ($t_arr[3] ?? 0) > 0) {
                 $refs = array((int) $t_arr[3]);
             } else {
                 $refs = ilObject::_getAllReferences($w_id);

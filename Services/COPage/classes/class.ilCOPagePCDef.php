@@ -60,10 +60,10 @@ class ilCOPagePCDef
     /**
      * Get PC definition by type
      */
-    public static function getPCDefinitionByType(string $a_pc_type): array
+    public static function getPCDefinitionByType(string $a_pc_type): ?array
     {
         self::init();
-        return self::$pc_def[$a_pc_type];
+        return (self::$pc_def[$a_pc_type] ?? null);
     }
 
     /**
