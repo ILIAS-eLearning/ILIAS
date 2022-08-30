@@ -243,6 +243,7 @@ class assOrderingHorizontalGUI extends assQuestionGUI implements ilGuiQuestionSc
         return $solutionoutput;
     }
 
+
     public function getPreview($show_question_only = false, $showInlineFeedback = false): string
     {
         if (is_object($this->getPreviewSession()) && strlen((string) $this->getPreviewSession()->getParticipantsSolution())) {
@@ -253,6 +254,17 @@ class assOrderingHorizontalGUI extends assQuestionGUI implements ilGuiQuestionSc
         }
 
         $template = new ilTemplate("tpl.il_as_qpl_orderinghorizontal_preview.html", true, true, "Modules/TestQuestionPool");
+        $js = <<<JS
+    
+        $('#horizontal_{QUESTION_ID}').ilHorizontalOrderingQuestion({
+            result_value_selector  : '.ilOrderingValue',
+            result_separator       : '{::}'
+        });
+    
+JS;
+        $js = str_replace('{QUESTION_ID}', $this->object->getId(), $js);
+        $this->tpl->addOnLoadCode($js);
+
         foreach ($elements as $id => $element) {
             $template->setCurrentBlock("element");
             $template->setVariable("ELEMENT_ID", "e_" . $this->object->getId() . "_$id");
@@ -288,6 +300,20 @@ class assOrderingHorizontalGUI extends assQuestionGUI implements ilGuiQuestionSc
     {
         // generate the question output
         $template = new ilTemplate("tpl.il_as_qpl_orderinghorizontal_output.html", true, true, "Modules/TestQuestionPool");
+        $js = <<<JS
+    $().ready(function() {
+        if (typeof $.fn.ilHorizontalOrderingQuestion != 'undefined') {
+            $('#horizontal_{QUESTION_ID}').ilHorizontalOrderingQuestion({
+                result_value_selector: '.ilOrderingValue',
+                result_separator: '{::}'
+            });
+        }
+    });
+JS;
+        $js = str_replace('{QUESTION_ID}', $this->object->getId(), $js);
+        $this->tpl->addOnLoadCode($js);
+
+
         $elements = $this->object->getRandomOrderingElements();
 
         if ($active_id) {
