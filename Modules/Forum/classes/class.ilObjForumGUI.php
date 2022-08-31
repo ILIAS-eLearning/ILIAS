@@ -51,7 +51,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
     public ilForumProperties $objProperties;
     private ilForumTopic $objCurrentTopic;
     private ilForumPost $objCurrentPost;
-    private int $display_confirm_post_activation = 0;
+    private bool $display_confirm_post_activation = false;
     private bool $is_moderator;
     private ?ilPropertyFormGUI $replyEditForm = null;
     private bool $hideToolbar = false;
@@ -1614,7 +1614,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
         }
 
         $threads = [];
-        array_walk($threadIds, function ($threadId) use (&$threads) {
+        array_walk($threadIds, function (int $threadId) use (&$threads) {
             $thread = new ilForumTopic($threadId);
             $this->ensureThreadBelongsToForum($this->object->getId(), $thread);
 
@@ -1651,7 +1651,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
 
         /** @var ilForumTopic[] $threads */
         $threads = [];
-        array_walk($thread_ids, function ($threadId) use (&$threads): void {
+        array_walk($thread_ids, function (int $threadId) use (&$threads): void {
             $thread = new ilForumTopic($threadId);
             $this->ensureThreadBelongsToForum($this->object->getId(), $thread);
 
@@ -1867,12 +1867,12 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
         $this->viewThreadObject();
     }
 
-    public function setDisplayConfirmPostActivation($status = 0): void
+    public function setDisplayConfirmPostActivation(bool $status = false): void
     {
         $this->display_confirm_post_activation = $status;
     }
 
-    public function displayConfirmPostActivation(): int
+    public function displayConfirmPostActivation(): bool
     {
         return $this->display_confirm_post_activation;
     }
@@ -3656,7 +3656,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
         }
 
         $threads = [];
-        array_walk($threads2move, function ($threadId) use (&$threads) {
+        array_walk($threads2move, function (int $threadId) use (&$threads) {
             $thread = new ilForumTopic($threadId);
             $this->ensureThreadBelongsToForum($this->object->getId(), $thread);
 
@@ -3716,7 +3716,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
 
         $threads = [];
         $isModerator = $this->is_moderator;
-        array_walk($threads2move, function ($threadId) use (&$threads, $isModerator) {
+        array_walk($threads2move, function (int $threadId) use (&$threads, $isModerator) {
             $thread = new ilForumTopic($threadId, $isModerator);
             $this->ensureThreadBelongsToForum($this->object->getId(), $thread);
 
@@ -4518,7 +4518,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
         $threadIdToSortValueMap = (array) ($this->httpRequest->getParsedBody()['thread_sorting'] ?? []);
 
         array_walk($threadIdToSortValueMap, function ($sortValue, $threadId) {
-            $this->ensureThreadBelongsToForum($this->object->getId(), new ilForumTopic($threadId));
+            $this->ensureThreadBelongsToForum($this->object->getId(), new ilForumTopic((int) $threadId));
         });
 
         foreach ($threadIdToSortValueMap as $threadId => $sortValue) {
