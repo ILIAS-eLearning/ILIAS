@@ -29,6 +29,9 @@ use ilFileUtils;
 use ilMailCronOrphanedMails;
 use ilDBInterface;
 use Throwable;
+use RecursiveIteratorIterator;
+use RecursiveDirectoryIterator;
+use SplFileInfo;
 
 class MailDeletionHandler
 {
