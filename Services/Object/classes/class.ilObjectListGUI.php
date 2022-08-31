@@ -65,6 +65,7 @@ class ilObjectListGUI
     protected static string $tpl_file_name = "tpl.container_list_item.html";
     protected static string $tpl_component = "Services/Container";
     private \ILIAS\Notes\Service $notes_service;
+    protected bool $force_rate_parent = false;
 
     protected array $access_cache;
     protected ilAccessHandler $access;
@@ -2190,7 +2191,8 @@ class ilObjectListGUI
         bool $value,
         string $text = null,
         bool $categories = false,
-        array $ctrl_path = null
+        array $ctrl_path = null,
+        bool $force_rate_parent = false
     ): void {
         $this->rating_enabled = $value;
 
@@ -2198,6 +2200,7 @@ class ilObjectListGUI
             $this->rating_categories_enabled = $categories;
             $this->rating_text = $text;
             $this->rating_ctrl_path = $ctrl_path;
+            $this->force_rate_parent = $force_rate_parent;
         }
     }
 
@@ -2420,7 +2423,10 @@ class ilObjectListGUI
                 $rating_gui->setYourRatingText($this->rating_text);
             }
 
-            $this->ctrl->setParameterByClass("ilRatingGUI", "cadh", $this->ajax_hash);
+            $ajax_hash = $this->force_rate_parent
+                ? ilCommonActionDispatcherGUI::removeSubObjFromAjaxHash($this->ajax_hash)
+                : $this->ajax_hash;
+            $this->ctrl->setParameterByClass("ilRatingGUI", "cadh", $ajax_hash);
             $this->ctrl->setParameterByClass("ilRatingGUI", "rnsb", true);
             if ($this->rating_ctrl_path) {
                 $rating_gui->setCtrlPath($this->rating_ctrl_path);
