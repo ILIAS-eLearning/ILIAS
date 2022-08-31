@@ -240,7 +240,7 @@ class CharacteristicManager
                 $this->style_id,
                 $type,
                 $char,
-                $nr
+                (int) $nr
             );
         }
     }
@@ -296,7 +296,7 @@ class CharacteristicManager
     public function getCopyCharacteristicStyleId(): int
     {
         $data = $this->session->getData();
-        return $data->style_id;
+        return (int) $data->style_id;
     }
 
     public function getCopyCharacteristicStyleType(): string
