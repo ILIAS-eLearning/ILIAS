@@ -1212,8 +1212,16 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
             $solutionoutput
         );
 
-        $this->tpl->setCurrentBlock('readonly_css_class');
-        $this->tpl->touchBlock('readonly_css_class');
+        //$this->tpl->setCurrentBlock('readonly_css_class');
+        //$this->tpl->touchBlock('readonly_css_class');
+        global $DIC;
+        $f = $DIC->ui()->factory();
+        $renderer = $DIC->ui()->renderer();
+
+        $this->tpl->setVariable(
+            'LOCKSTATE_INFOBOX',
+            $renderer->render($f->messageBox()->info("Answer is saved and locked and can no longer be changed"))
+        );
         $this->tpl->parseCurrentBlock();
 
         $this->tpl->setVariable('QUESTION_OUTPUT', $pageoutput);
