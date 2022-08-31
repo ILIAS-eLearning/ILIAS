@@ -334,7 +334,7 @@ class BlogHtmlExport
                 if (!isset(self::$keyword_export_map)) {
                     self::$keyword_export_map = array_flip(array_keys($keywords));
                 }
-                $a_id = self::$keyword_export_map[$a_id];
+                $a_id = (string) (self::$keyword_export_map[$a_id] ?? "");
                 $a_type = "k";
                 break;
 
