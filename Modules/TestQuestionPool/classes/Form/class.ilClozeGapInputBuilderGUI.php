@@ -1,5 +1,7 @@
 <?php
 
+use ILIAS\HTTP\Wrapper\ArrayBasedRequestWrapper;
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -19,6 +21,15 @@ class ilClozeGapInputBuilderGUI extends ilSubEnabledFormPropertyGUI
 {
     private $value_combination;
     private $value;
+    private ArrayBasedRequestWrapper $post;
+    private ArrayBasedRequestWrapper $query;
+
+    public function __construct(string $a_title = "", string $a_postvar = "")
+    {
+        parent::__construct($a_title, $a_postvar);
+        $this->post = $this->http->wrapper()->post();
+        $this->query = $this->http->wrapper()->query();
+    }
 
     /**
      * Set Value.
@@ -75,7 +86,7 @@ class ilClozeGapInputBuilderGUI extends ilSubEnabledFormPropertyGUI
         $json = self::stripSlashesRecursive(json_decode($_POST['gap_json_post'], true), false);
         $gap = self::stripSlashesRecursive($this->raw('gap'));
         $gaps_used_in_combination = array();
-        if (isset($_POST['gap_combination'])) {
+        if ($this->http->wrapper()->post()->has('gap_combination')) {
             $_POST['gap_combination'] = self::stripSlashesRecursive($_POST['gap_combination']);
             $_POST['gap_combination_values'] = self::stripSlashesRecursive($_POST['gap_combination_values']);
             $gap_with_points = array();
