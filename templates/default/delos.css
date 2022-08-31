@@ -8619,21 +8619,22 @@ input[type="checkbox"]:focus:focus-visible {
   margin-bottom: 6px;
   padding: 9px;
 }
-.ui-input-file-input .glyph[aria-label="Close"],
-.ui-input-file-input .glyph[aria-label="Close Disabled"] {
-  margin-right: 9px;
-  float: right;
+.ui-input-file-input span {
+  font-size: 0.875rem;
 }
-.ui-input-file-input .glyph[aria-label="Expand Content"],
-.ui-input-file-input .glyph[aria-label="Collapse Content"] {
+.ui-input-file-input span[data-action="collapse"],
+.ui-input-file-input span [data-file-action="expand"] {
   margin: 9px 0;
 }
-.ui-input-file-info span[data-dz-name],
-.ui-input-file-info span[data-dz-size] {
-  font-size: 0.875rem;
+.ui-input-file-input span[data-action="remove"] .glyph {
   margin-left: 9px;
+  float: right;
 }
-.ui-input-file-info span[data-dz-size] {
+.ui-input-file-input span[data-dz-name] {
+  margin-right: 9px;
+}
+.ui-input-file-input span[data-dz-size] {
+  margin-right: 9px;
   font-style: italic;
 }
 .il-table-presentation-viewcontrols {
@@ -19964,4 +19965,3 @@ table.mceToolbar td {
     content: "";
   }
 }
-/*# sourceMappingURL=delos.css.map */
