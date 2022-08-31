@@ -181,7 +181,7 @@ class ilClozeGapInputBuilderGUI extends ilSubEnabledFormPropertyGUI
                         }
                     }
 
-                    $json[0][$key]->values[0]->error = $mark_errors;
+                    $json[0][$key]["values"][0]["error"] = $mark_errors;
                 }
             }
         }
