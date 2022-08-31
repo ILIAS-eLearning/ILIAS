@@ -37,6 +37,8 @@ class ilWorkspaceShareTableGUI extends ilTable2GUI
     protected array $grp_ids;
     protected bool $portfolio_mode = false;
     protected StandardGUIRequest $std_request;
+    protected \ILIAS\UI\Factory $ui_factory;
+    protected \ILIAS\UI\Renderer $renderer;
 
     public function __construct(
         object $a_parent_obj,
@@ -47,6 +49,9 @@ class ilWorkspaceShareTableGUI extends ilTable2GUI
     ) {
         global $DIC;
         $main_tpl = $DIC->ui()->mainTemplate();
+
+        $this->ui_factory = $DIC->ui()->factory();
+        $this->renderer = $DIC->ui()->renderer();
 
         $this->ctrl = $DIC->ctrl();
         $this->lng = $DIC->language();
@@ -283,10 +288,9 @@ class ilWorkspaceShareTableGUI extends ilTable2GUI
         $this->tpl->setVariable("TITLE", $a_set["title"]);
 
         if (!$this->portfolio_mode) {
+            $icon = $this->ui_factory->symbol()->icon()->standard($a_set["type"], "");
+            $this->tpl->setVariable("ICON", $this->renderer->render($icon));
             $this->tpl->setVariable("TYPE", $a_set["obj_type"]);
-            $this->tpl->setVariable("ICON_ALT", $a_set["obj_type"]);
-            $this->tpl->setVariable("ICON", ilObject::_getIcon(0, "tiny", $a_set["type"]));
-
             $url = $this->handler->getGotoLink($a_set["wsp_id"], $a_set["obj_id"]);
         } else {
             $url = ilLink::_getStaticLink($a_set["obj_id"], "prtf", true);
@@ -319,10 +323,6 @@ class ilWorkspaceShareTableGUI extends ilTable2GUI
 
                 default:
                     $type = ilObject::_lookupType($obj_id);
-                    /*
-                    $icon = ilUtil::getTypeIconPath($type, null, "tiny");
-                    $icon_alt = $this->lng->txt("obj_".$type);
-                    */
                     if ($type != "usr") {
                         $title = ilObject::_lookupTitle($obj_id);
                     } else {
@@ -330,16 +330,6 @@ class ilWorkspaceShareTableGUI extends ilTable2GUI
                     }
                     break;
             }
-
-            /* #17758
-            if($icon)
-            {
-                $this->tpl->setCurrentBlock("acl_type_icon_bl");
-                $this->tpl->setVariable("ACL_ICON", $icon);
-                $this->tpl->setVariable("ACL_ICON_ALT", $icon_alt);
-                $this->tpl->parseCurrentBlock();
-            }
-            */
 
             $this->tpl->setCurrentBlock("acl_type_bl");
             $this->tpl->setVariable("ACL_TYPE", $title);
