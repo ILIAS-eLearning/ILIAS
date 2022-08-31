@@ -96,7 +96,7 @@ class ilObjForumAdministrationGUI extends ilObjectGUI
     {
         $this->tabs_gui->activateTab('settings');
 
-        if (!$form) {
+        if ($form === null) {
             $form = $this->getSettingsForm();
             $this->populateForm($form);
         }
@@ -244,21 +244,18 @@ class ilObjForumAdministrationGUI extends ilObjectGUI
 
     public function addToExternalSettingsForm(int $a_form_id): array
     {
-        switch ($a_form_id) {
-            case ilAdministrationSettingsFormHandler::FORM_PRIVACY:
-
-                $fields = [
-                    'enable_fora_statistics' => [
-                        (bool) $this->settings->get('enable_fora_statistics', '0'),
-                        ilAdministrationSettingsFormHandler::VALUE_BOOL
-                    ],
-                    'enable_anonymous_fora' => [
-                        (bool) $this->settings->get('enable_anonymous_fora', '0'),
-                        ilAdministrationSettingsFormHandler::VALUE_BOOL
-                    ]
-                ];
-
-                return [['editSettings', $fields]];
+        if ($a_form_id === ilAdministrationSettingsFormHandler::FORM_PRIVACY) {
+            $fields = [
+                'enable_fora_statistics' => [
+                    (bool) $this->settings->get('enable_fora_statistics', '0'),
+                    ilAdministrationSettingsFormHandler::VALUE_BOOL
+                ],
+                'enable_anonymous_fora' => [
+                    (bool) $this->settings->get('enable_anonymous_fora', '0'),
+                    ilAdministrationSettingsFormHandler::VALUE_BOOL
+                ]
+            ];
+            return [['editSettings', $fields]];
         }
         return [];
     }

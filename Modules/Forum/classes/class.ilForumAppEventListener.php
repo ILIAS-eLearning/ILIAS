@@ -129,8 +129,7 @@ class ilForumAppEventListener implements ilAppEventListener
                                     $parent_post->getPosAuthorId() !== $post->getPosAuthorId()
                                 ) {
                                     $logger->debug(
-                                        'Author of parent posting wants to be notified: ' .
-                                        'Delegating "Reply to Posting" notification ...'
+                                        'Author of parent posting wants to be notified: Delegating "Reply to Posting" notification ...'
                                     );
 
                                     self::delegateNotification(
@@ -370,13 +369,11 @@ class ilForumAppEventListener implements ilAppEventListener
                                     $notificationType = ilForumMailNotification::TYPE_THREAD_DELETED;
 
                                     $logger->debug(
-                                        'Immediate notification delivery is enabled : ' .
-                                        'Delegating "Thread Deleted" notifications ...'
+                                        'Immediate notification delivery is enabled : Delegating "Thread Deleted" notifications ...'
                                     );
                                 } else {
                                     $logger->debug(
-                                        'Immediate notification delivery is enabled : ' .
-                                        'Delegating "Posting Deleted" notifications ...'
+                                        'Immediate notification delivery is enabled : Delegating "Posting Deleted" notifications ...'
                                     );
                                 }
 
@@ -388,8 +385,7 @@ class ilForumAppEventListener implements ilAppEventListener
                             }
                         } else {
                             $logger->debug(
-                                'Posting is not published: ' .
-                                '"Posting Deleted" or "Thread Deleted" notifications will not be send ...'
+                                'Posting is not published: "Posting Deleted" or "Thread Deleted" notifications will not be send ...'
                             );
                         }
                         break;
@@ -432,19 +428,13 @@ class ilForumAppEventListener implements ilAppEventListener
                 break;
 
             case "Services/News":
-                switch ($a_event) {
-                    case "readNews":
-                        // here we could set postings to read, if news is
-                        // read (has to be implemented)
-                        break;
+                if ($a_event === "readNews") {
                 }
                 break;
 
             case "Services/Tree":
-                switch ($a_event) {
-                    case "moveTree":
-                        ilForumNotification::_clearForcedForumNotifications($a_parameter);
-                        break;
+                if ($a_event === "moveTree") {
+                    ilForumNotification::_clearForcedForumNotifications($a_parameter);
                 }
                 break;
 
@@ -473,17 +463,14 @@ class ilForumAppEventListener implements ilAppEventListener
                 break;
 
             case 'Services/User':
-                switch ($a_event) {
-                    case 'deleteUser':
-                        ilForumPostDraft::deleteDraftsByUserId($a_parameter['usr_id']);
-                        break;
+                if ($a_event === 'deleteUser') {
+                    ilForumPostDraft::deleteDraftsByUserId($a_parameter['usr_id']);
                 }
                 break;
         }
     }
 
     /**
-     * @param int $obj_id
      * @return int[]
      */
     private static function getCachedReferences(int $obj_id): array
@@ -531,9 +518,6 @@ class ilForumAppEventListener implements ilAppEventListener
     }
 
     /**
-     * @param ilForumNotificationDataProvider $provider
-     * @param ilLogger                        $logger
-     * @param int                             $notificationTypes
      * @param int[]                           $recipients
      */
     public static function sendNotification(
@@ -542,7 +526,7 @@ class ilForumAppEventListener implements ilAppEventListener
         int $notificationTypes,
         array $recipients
     ): void {
-        if (count($recipients)) {
+        if ($recipients !== []) {
             $logger->debug(sprintf(
                 'Will send %s notification(s) to: %s',
                 count($recipients),

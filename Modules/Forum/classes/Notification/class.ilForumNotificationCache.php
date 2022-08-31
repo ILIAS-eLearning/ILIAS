@@ -28,12 +28,11 @@ class ilForumNotificationCache
     private array $storage = [];
 
     /**
-     * @param string $id
      * @return mixed
      */
     public function fetch(string $id)
     {
-        if (false === $this->exists($id)) {
+        if (!$this->exists($id)) {
             throw new InvalidArgumentException('Storage id doesn\'t exist');
         }
 
@@ -41,9 +40,7 @@ class ilForumNotificationCache
     }
 
     /**
-     * @param string $key
      * @param mixed $data
-     * @return void
      */
     public function store(string $key, $data): void
     {
@@ -56,7 +53,6 @@ class ilForumNotificationCache
     }
 
     /**
-     * @param array $values
      * @return string An´ MD5 encoded key based on the given arrays
      */
     public function createKeyByValues(array $values): string

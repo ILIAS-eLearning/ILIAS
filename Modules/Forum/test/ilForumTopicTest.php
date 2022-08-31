@@ -477,8 +477,6 @@ class ilForumTopicTest extends TestCase
 
     public function testMakeStickyFailed(): void
     {
-        $id = 1929;
-
         $this->mockDatabase->expects(self::never())->method('manipulateF');
 
         $instance = new ilForumTopic();
@@ -568,9 +566,9 @@ class ilForumTopicTest extends TestCase
         parent::tearDown();
     }
 
-    private function withIgnoredQuery(InvocationMocker $mock, ...$expected): InvocationMocker
+    private function withIgnoredQuery(InvocationMocker $mock, array ...$expected): InvocationMocker
     {
-        return $mock->willReturnCallback(function ($ignored, ...$actual) use ($expected) {
+        return $mock->willReturnCallback(function ($ignored, ...$actual) use ($expected): void {
             $this->assertSame($expected, $actual);
         });
     }

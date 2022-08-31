@@ -24,7 +24,6 @@ declare(strict_types=1);
  */
 class ilForumNotificationDataProvider implements ilForumNotificationMailData
 {
-    protected int $ref_id = 0;
     protected int $obj_id = 0;
     protected ?string $post_user_name = null;
     protected ?string $update_user_name = null;
@@ -34,27 +33,24 @@ class ilForumNotificationDataProvider implements ilForumNotificationMailData
     protected ?ilObject $closest_container = null;
     protected string $forum_title = '';
     protected string $thread_title = '';
+    /** @var array<string, string> */
     protected array $attachments = [];
-    public ilForumPost $objPost;
     private ilDBInterface $db;
     private ilAccessHandler $access;
     private ilObjUser $user;
     private ilTree $tree;
     protected bool $is_anonymized = false;
-    private ilForumNotificationCache $notificationCache;
 
-    public function __construct(ilForumPost $objPost, int $ref_id, ilForumNotificationCache $notificationCache)
-    {
+    public function __construct(
+        public ilForumPost $objPost,
+        protected int $ref_id,
+        private ilForumNotificationCache $notificationCache
+    ) {
         global $DIC;
         $this->db = $DIC->database();
         $this->access = $DIC->access();
         $this->user = $DIC->user();
         $this->tree = $DIC->repositoryTree();
-
-        $this->notificationCache = $notificationCache;
-
-        $this->objPost = $objPost;
-        $this->ref_id = $ref_id;
         $this->obj_id = ilObject::_lookupObjId($ref_id);
         $this->read();
     }
@@ -144,6 +140,9 @@ class ilForumNotificationDataProvider implements ilForumNotificationMailData
         return $this->objPost->getCensorshipComment();
     }
 
+    /**
+     * @return array<string, string>
+     */
     public function getAttachments(): array
     {
         return $this->attachments;
@@ -183,7 +182,7 @@ class ilForumNotificationDataProvider implements ilForumNotificationMailData
             $this->post_user_name = $this->getPublicUserInformation($authorinfo);
         }
 
-        return (string) $this->post_user_name;
+        return $this->post_user_name;
     }
 
     public function getPostUpdateUserName(ilLanguage $user_lang): string
@@ -206,7 +205,7 @@ class ilForumNotificationDataProvider implements ilForumNotificationMailData
             return $this->objPost->getUserAlias();
         }
 
-        return (string) $this->update_user_name;
+        return $this->update_user_name;
     }
 
     public function getPublicUserInformation(ilForumAuthorInformation $authorinfo): string
@@ -238,7 +237,7 @@ class ilForumNotificationDataProvider implements ilForumNotificationMailData
             $this->getObjId()
         ]);
 
-        if (false === $this->notificationCache->exists($cacheKey)) {
+        if (!$this->notificationCache->exists($cacheKey)) {
             $result = $this->db->queryF(
                 '
 				SELECT thr_subject FROM frm_threads 
@@ -262,7 +261,7 @@ class ilForumNotificationDataProvider implements ilForumNotificationMailData
             $this->getObjId()
         ]);
 
-        if (false === $this->notificationCache->exists($cacheKey)) {
+        if (!$this->notificationCache->exists($cacheKey)) {
             $result = $this->db->queryF(
                 '
 				SELECT top_pk, top_name, frm_settings.anonymized FROM frm_data
@@ -297,9 +296,9 @@ class ilForumNotificationDataProvider implements ilForumNotificationMailData
             $frm_ref_id
         ]);
 
-        if (false === $this->notificationCache->exists($cacheKey)) {
+        if (!$this->notificationCache->exists($cacheKey)) {
             $ref_id = $this->tree->checkForParentType($frm_ref_id, 'crs');
-            if (!($ref_id > 0)) {
+            if ($ref_id <= 0) {
                 $ref_id = $this->tree->checkForParentType($frm_ref_id, 'grp');
             }
 
@@ -329,7 +328,6 @@ class ilForumNotificationDataProvider implements ilForumNotificationMailData
     }
 
     /**
-     * @param int $notification_type
      * @return int[]
      */
     public function getForumNotificationRecipients(int $notification_type): array
@@ -342,7 +340,7 @@ class ilForumNotificationDataProvider implements ilForumNotificationMailData
             $this->user->getId()
         ]);
 
-        if (false === $this->notificationCache->exists($cacheKey)) {
+        if (!$this->notificationCache->exists($cacheKey)) {
             $condition = ' ';
             if ($event_type === 0) {
                 $condition = ' OR frm_notification.interested_events >= ' . $this->db->quote(0, 'integer');
@@ -370,12 +368,11 @@ class ilForumNotificationDataProvider implements ilForumNotificationMailData
     }
 
     /**
-     * @param int $notification_type
      * @return int[]
      */
     public function getThreadNotificationRecipients(int $notification_type): array
     {
-        if (!$this->getThreadId()) {
+        if ($this->getThreadId() === 0) {
             return [];
         }
 
@@ -387,7 +384,7 @@ class ilForumNotificationDataProvider implements ilForumNotificationMailData
             $this->user->getId()
         ]);
 
-        if (false === $this->notificationCache->exists($cacheKey)) {
+        if (!$this->notificationCache->exists($cacheKey)) {
             $condition = ' ';
             if ($event_type === 0) {
                 $condition = ' OR interested_events >= ' . $this->db->quote(0, 'integer');
@@ -422,7 +419,7 @@ class ilForumNotificationDataProvider implements ilForumNotificationMailData
             $this->objPost->getParentId()
         ]);
 
-        if (false === $this->notificationCache->exists($cacheKey)) {
+        if (!$this->notificationCache->exists($cacheKey)) {
             $parent_objPost = new ilForumPost($this->objPost->getParentId());
 
             $this->notificationCache->store($cacheKey, $parent_objPost);
@@ -446,7 +443,7 @@ class ilForumNotificationDataProvider implements ilForumNotificationMailData
             $this->getRefId()
         ]);
 
-        if (false === $this->notificationCache->exists($cacheKey)) {
+        if (!$this->notificationCache->exists($cacheKey)) {
             // get moderators to notify about needed activation
             $rcps = ilForum::_getModerators($this->getRefId());
             $this->notificationCache->store($cacheKey, $rcps);
@@ -457,18 +454,12 @@ class ilForumNotificationDataProvider implements ilForumNotificationMailData
         return (array) $rcps;
     }
 
-    public function setPosAuthorId(int $pos_author_id): void
-    {
-        $this->pos_author_id = $pos_author_id;
-    }
-
     public function getPosAuthorId(): int
     {
         return $this->pos_author_id;
     }
 
     /**
-     * @param int $objId
      * @return int[]
      */
     private function getRefIdsByObjId(int $objId): array
@@ -486,7 +477,6 @@ class ilForumNotificationDataProvider implements ilForumNotificationMailData
     }
 
     /**
-     * @param ilDBStatement $statement
      * @return int[]
      */
     private function createRecipientArray(ilDBStatement $statement): array
@@ -517,28 +507,13 @@ class ilForumNotificationDataProvider implements ilForumNotificationMailData
 
     private function getEventType(int $notification_type): int
     {
-        $event_type = 0;
-        switch ($notification_type) {
-            case ilForumMailNotification::TYPE_POST_UPDATED:
-                $event_type = ilForumNotificationEvents::UPDATED;
-                break;
-            case ilForumMailNotification::TYPE_POST_CENSORED:
-                $event_type = ilForumNotificationEvents::CENSORED;
-                break;
-            case ilForumMailNotification::TYPE_POST_UNCENSORED:
-                $event_type = ilForumNotificationEvents::UNCENSORED;
-                break;
-            case ilForumMailNotification::TYPE_POST_DELETED:
-                $event_type = ilForumNotificationEvents::POST_DELETED;
-                break;
-            case ilForumMailNotification::TYPE_THREAD_DELETED:
-                $event_type = ilForumNotificationEvents::THREAD_DELETED;
-                break;
-            default:
-                $event_type = 0;
-                break;
-        }
-
-        return $event_type;
+        return match ($notification_type) {
+            ilForumMailNotification::TYPE_POST_UPDATED => ilForumNotificationEvents::UPDATED,
+            ilForumMailNotification::TYPE_POST_CENSORED => ilForumNotificationEvents::CENSORED,
+            ilForumMailNotification::TYPE_POST_UNCENSORED => ilForumNotificationEvents::UNCENSORED,
+            ilForumMailNotification::TYPE_POST_DELETED => ilForumNotificationEvents::POST_DELETED,
+            ilForumMailNotification::TYPE_THREAD_DELETED => ilForumNotificationEvents::THREAD_DELETED,
+            default => 0,
+        };
     }
 }

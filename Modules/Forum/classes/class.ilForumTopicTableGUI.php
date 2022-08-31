@@ -278,7 +278,7 @@ class ilForumTopicTableGUI extends ilTable2GUI
             $draft_statistics = ilForumPostDraft::getDraftsStatisticsByRefId($this->getRefId());
             $this->tpl->setVariable(
                 'VAL_DRAFTS',
-                (int) isset($draft_statistics[$thread->getId()]) ? $draft_statistics[$thread->getId()] : 0
+                (int) isset($draft_statistics[$thread->getId()]) !== 0 ? $draft_statistics[$thread->getId()] : 0
             );
         }
 
@@ -340,7 +340,7 @@ class ilForumTopicTableGUI extends ilTable2GUI
             $this->getLimit(),
             $this->getOffset()
         );
-        if (!count($data['items']) && $this->getOffset() > 0) {
+        if ($data['items'] === [] && $this->getOffset() > 0) {
             $this->resetOffset();
             $data = $this->getMapper()->getAllThreads(
                 $this->topicData->getTopPk(),

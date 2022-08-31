@@ -20,10 +20,6 @@ declare(strict_types=1);
 
 class ilForumNotificationEventsFormGUI
 {
-    private string $action;
-    private ?array $predefined_values;
-    private \ILIAS\UI\Factory $ui_factory;
-    private ilLanguage $lng;
     /** @var array<string, int> */
     private array $events = [
         'notify_modified' => ilForumNotificationEvents::UPDATED,
@@ -34,15 +30,11 @@ class ilForumNotificationEventsFormGUI
     ];
 
     public function __construct(
-        string $action,
-        ?array $predefined_values,
-        \ILIAS\UI\Factory $ui_factory,
-        ilLanguage $lng
+        private string $action,
+        private ?array $predefined_values,
+        private \ILIAS\UI\Factory $ui_factory,
+        private ilLanguage $lng
     ) {
-        $this->action = $action;
-        $this->predefined_values = $predefined_values;
-        $this->ui_factory = $ui_factory;
-        $this->lng = $lng;
     }
 
     public function getValueForEvent(string $event): int
@@ -66,7 +58,7 @@ class ilForumNotificationEventsFormGUI
     {
         $items = [];
 
-        foreach ($this->events as $key => $id) {
+        foreach (array_keys($this->events) as $key) {
             $checkbox = $this->ui_factory->input()->field()->checkbox($this->lng->txt($key));
             if ($this->predefined_values !== null && isset($this->predefined_values[$key])) {
                 $checkbox = $checkbox->withValue($this->predefined_values[$key]);

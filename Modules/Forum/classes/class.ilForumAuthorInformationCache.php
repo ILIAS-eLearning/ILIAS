@@ -45,7 +45,7 @@ class ilForumAuthorInformationCache
         self::$requested_usr_ids = array_merge(self::$requested_usr_ids, $usr_ids_to_request);
         self::$requested_usr_ids_key_map = array_flip(self::$requested_usr_ids);
 
-        if ($usr_ids_to_request) {
+        if ($usr_ids_to_request !== []) {
             $in = $ilDB->in('ud.usr_id', $usr_ids_to_request, false, 'integer');
             $query = "
 				SELECT ud.usr_id, od.create_date, login, firstname, lastname, ud.title, gender, pprof.value public_profile, pgen.value public_gender, pup.value public_upload
@@ -82,7 +82,7 @@ class ilForumAuthorInformationCache
 
     public static function getUserObjectById(int $usr_id): ?ilObjUser
     {
-        if (!$usr_id) {
+        if ($usr_id === 0) {
             return null;
         }
 

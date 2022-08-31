@@ -112,7 +112,6 @@ class ilForumDraftsHistory
     }
 
     /**
-     * @param int $draft_id
      * @return ilForumDraftsHistory[]
      */
     public static function getInstancesByDraftId(int $draft_id): array

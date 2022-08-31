@@ -39,7 +39,6 @@ class ilForumProperties
     private static array $instances = [];
 
     private ilDBInterface $db;
-    private int $obj_id;
     private int $default_view = self::VIEW_DATE_ASC;
     private bool $anonymized = false;
     private bool $statistics_enabled = false;
@@ -68,21 +67,16 @@ class ilForumProperties
     private ?int $lp_req_num_postings = null;
     protected \ILIAS\Style\Content\Object\ObjectFacade $content_style_service;
 
-    protected function __construct(int $a_obj_id = 0)
+    protected function __construct(private int $obj_id = 0)
     {
         global $DIC;
 
         $this->db = $DIC->database();
-        $this->obj_id = $a_obj_id;
         $this->read();
         $this->content_style_service = $DIC
             ->contentStyle()
             ->domain()
-            ->styleForObjId($a_obj_id);
-    }
-
-    private function __clone()
-    {
+            ->styleForObjId($obj_id);
     }
 
     public static function getInstance(int $a_obj_id = 0): self
@@ -96,7 +90,7 @@ class ilForumProperties
 
     private function read(): void
     {
-        if ($this->obj_id) {
+        if ($this->obj_id !== 0) {
             $res = $this->db->queryF(
                 'SELECT * FROM frm_settings WHERE obj_id = %s',
                 ['integer'],
@@ -159,7 +153,7 @@ class ilForumProperties
 
     public function update(): void
     {
-        if ($this->obj_id) {
+        if ($this->obj_id !== 0) {
             if (!$this->exists) {
                 $this->insert();
                 return;
@@ -193,7 +187,7 @@ class ilForumProperties
 
     public function copy(int $a_new_obj_id): bool
     {
-        if ($a_new_obj_id) {
+        if ($a_new_obj_id !== 0) {
             $this->content_style_service->cloneTo($a_new_obj_id);
 
             $this->db->update(
@@ -236,7 +230,7 @@ class ilForumProperties
         $this->is_thread_rating_enabled = $is_thread_rating_enabled;
     }
 
-    public function setDefaultView($a_default_view): void
+    public function setDefaultView(int $a_default_view): void
     {
         $this->default_view = $a_default_view;
     }
@@ -472,11 +466,7 @@ class ilForumProperties
             return true;
         }
 
-        if ($this->getFileUploadAllowed()) {
-            return true;
-        }
-
-        return false;
+        return $this->getFileUploadAllowed();
     }
 
     public static function isFileUploadGloballyAllowed(): bool

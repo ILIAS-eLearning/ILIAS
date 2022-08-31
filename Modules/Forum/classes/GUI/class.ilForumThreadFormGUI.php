@@ -31,29 +31,16 @@ class ilForumThreadFormGUI extends ilPropertyFormGUI
 
     /** @var string[] */
     private array $input_items = [];
-    private ilObjForumGUI $delegatingGui;
-    private ilForumProperties $properties;
-    private bool $allowPseudonyms;
-    private bool $allowNotification;
-    private bool $isDraftContext;
-    private int $draftId;
 
     public function __construct(
-        ilObjForumGUI $delegatingGui,
-        ilForumProperties $properties,
-        bool $allowPseudonyms,
-        bool $allowNotification,
-        bool $isDraftContext,
-        int $draftId
+        private ilObjForumGUI $delegatingGui,
+        private ilForumProperties $properties,
+        private bool $allowPseudonyms,
+        private bool $allowNotification,
+        private bool $isDraftContext,
+        private int $draftId
     ) {
         parent::__construct();
-
-        $this->delegatingGui = $delegatingGui;
-        $this->properties = $properties;
-        $this->allowPseudonyms = $allowPseudonyms;
-        $this->allowNotification = $allowNotification;
-        $this->isDraftContext = $isDraftContext;
-        $this->draftId = $draftId;
     }
 
     private function addAliasInput(): void
@@ -124,7 +111,7 @@ class ilForumThreadFormGUI extends ilPropertyFormGUI
                 $threadDraft = ilForumPostDraft::newInstanceByDraftId($this->draftId);
                 if ($threadDraft->getDraftId() > 0) {
                     $draftFileData = new ilFileDataForumDrafts(0, $threadDraft->getDraftId());
-                    if (count($draftFileData->getFilesOfPost()) > 0) {
+                    if ($draftFileData->getFilesOfPost() !== []) {
                         $existingFileSelection = new ilCheckboxGroupInputGUI(
                             $this->lng->txt('forums_delete_file'),
                             'del_file'

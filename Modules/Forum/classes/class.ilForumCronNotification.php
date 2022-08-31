@@ -171,7 +171,7 @@ class ilForumCronNotification extends ilCronJob
         $this->logger->info('Finished forum notification job');
 
         $result = new ilCronJobResult();
-        if ($this->num_sent_messages) {
+        if ($this->num_sent_messages !== 0) {
             $status = ilCronJobResult::STATUS_OK;
             $result->setMessage($mess);
         }
@@ -251,13 +251,13 @@ class ilForumCronNotification extends ilCronJob
 
         $usrIdsToPreload = [];
         foreach (self::$providerObject as $provider) {
-            if ($provider->getPosAuthorId()) {
+            if ($provider->getPosAuthorId() !== 0) {
                 $usrIdsToPreload[$provider->getPosAuthorId()] = $provider->getPosAuthorId();
             }
-            if ($provider->getPosDisplayUserId()) {
+            if ($provider->getPosDisplayUserId() !== 0) {
                 $usrIdsToPreload[$provider->getPosDisplayUserId()] = $provider->getPosDisplayUserId();
             }
-            if ($provider->getPostUpdateUserId()) {
+            if ($provider->getPostUpdateUserId() !== 0) {
                 $usrIdsToPreload[$provider->getPostUpdateUserId()] = $provider->getPostUpdateUserId();
             }
         }
@@ -296,7 +296,6 @@ class ilForumCronNotification extends ilCronJob
     }
 
     /**
-     * @param int $frm_ref_id
      * @return ilObjCourse|ilObjGroup|null
      */
     public function determineClosestContainer(int $frm_ref_id): ?ilObject
@@ -306,7 +305,7 @@ class ilForumCronNotification extends ilCronJob
         }
 
         $ref_id = $this->tree->checkForParentType($frm_ref_id, 'crs');
-        if (!($ref_id > 0)) {
+        if ($ref_id <= 0) {
             $ref_id = $this->tree->checkForParentType($frm_ref_id, 'grp');
         }
 
@@ -322,10 +321,7 @@ class ilForumCronNotification extends ilCronJob
 
     public function existsProviderObject(int $post_id, int $notification_type): bool
     {
-        if (isset(self::$providerObject[$post_id . '_' . $notification_type])) {
-            return true;
-        }
-        return false;
+        return isset(self::$providerObject[$post_id . '_' . $notification_type]);
     }
 
     private function addProviderObject(array $row, int $notification_type): void
@@ -342,12 +338,10 @@ class ilForumCronNotification extends ilCronJob
 
     public function addToExternalSettingsForm(int $a_form_id, array &$a_fields, bool $a_is_active): void
     {
-        switch ($a_form_id) {
-            case ilAdministrationSettingsFormHandler::FORM_FORUM:
-                $a_fields['cron_forum_notification'] = $a_is_active ?
-                    $this->lng->txt('enabled') :
-                    $this->lng->txt('disabled');
-                break;
+        if ($a_form_id === ilAdministrationSettingsFormHandler::FORM_FORUM) {
+            $a_fields['cron_forum_notification'] = $a_is_active ?
+                $this->lng->txt('enabled') :
+                $this->lng->txt('disabled');
         }
     }
 
@@ -540,7 +534,7 @@ class ilForumCronNotification extends ilCronJob
         if ($numRows > 0) {
             $this->logger->info(sprintf('Sending notifications for %s "%s" events ...', $numRows, $actionDescription));
             $this->sendCronForumNotification($res, $notificationType);
-            if (count(self::$deleted_ids_cache) > 0) {
+            if (self::$deleted_ids_cache !== []) {
                 $this->ilDB->manipulate('DELETE FROM frm_posts_deleted WHERE ' . $this->ilDB->in(
                     'deleted_id',
                     self::$deleted_ids_cache,
