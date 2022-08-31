@@ -169,7 +169,7 @@ class ilPageObjectGUI
         $this->initPageObject();
         $this->setPageConfig($this->getPageObject()->getPageConfig());
 
-        $this->page_linker = new ilPageLinker(get_class($this));
+        $this->page_linker = new ilPageLinker(get_class($this), false, $this->getProfileBackUrl());
 
         $this->output2template = true;
         $this->question_xml = "";
