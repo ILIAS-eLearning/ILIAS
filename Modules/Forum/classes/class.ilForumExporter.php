@@ -91,7 +91,7 @@ class ilForumExporter extends ilXmlExporter implements ilForumObjectConstants
             }
         }
 
-        if (count($pageObjectIds) > 0) {
+        if ($pageObjectIds !== []) {
             $deps[] = [
                 'component' => 'Services/COPage',
                 'entity' => 'pg',
@@ -99,7 +99,7 @@ class ilForumExporter extends ilXmlExporter implements ilForumObjectConstants
             ];
         }
 
-        if (count($styleIds) > 0) {
+        if ($styleIds !== []) {
             $deps[] = [
                 'component' => 'Services/Style',
                 'entity' => 'sty',

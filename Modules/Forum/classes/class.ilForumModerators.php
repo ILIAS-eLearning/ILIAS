@@ -25,15 +25,13 @@ declare(strict_types=1);
  */
 class ilForumModerators
 {
-    private int $ref_id;
     private \ILIAS\DI\RBACServices $rbac;
 
-    public function __construct(int $a_ref_id)
+    public function __construct(private int $ref_id)
     {
         global $DIC;
 
         $this->rbac = $DIC->rbac();
-        $this->ref_id = $a_ref_id;
     }
 
     public function setRefId(int $ref_id): void
@@ -51,7 +49,7 @@ class ilForumModerators
         $a_rol_id = null;
         $role_list = $this->rbac->review()->getRoleListByObject($this->getRefId());
         foreach ($role_list as $role) {
-            if (strpos($role['title'], 'il_frm_moderator') !== false) {
+            if (str_contains($role['title'], 'il_frm_moderator')) {
                 $a_rol_id = (int) $role['obj_id'];
                 break;
             }
@@ -70,7 +68,7 @@ class ilForumModerators
         $a_rol_id = null;
         $role_list = $this->rbac->review()->getRoleListByObject($this->getRefId());
         foreach ($role_list as $role) {
-            if (strpos($role['title'], 'il_frm_moderator') !== false) {
+            if (str_contains($role['title'], 'il_frm_moderator')) {
                 $a_rol_id = (int) $role['obj_id'];
                 break;
             }
@@ -92,7 +90,7 @@ class ilForumModerators
         $assigned_users = [];
         $roles = $this->rbac->review()->getRoleListByObject($this->getRefId());
         foreach ($roles as $role) {
-            if (strpos($role['title'], 'il_frm_moderator') !== false) {
+            if (str_contains($role['title'], 'il_frm_moderator')) {
                 $assigned_users = $this->rbac->review()->assignedUsers((int) $role['rol_id']);
                 break;
             }
@@ -109,7 +107,7 @@ class ilForumModerators
         $assigned_users = [];
         $roles = $this->rbac->review()->getRoleListByObject($this->getRefId());
         foreach ($roles as $role) {
-            if (strpos($role['title'], 'il_frm_moderator') !== false) {
+            if (str_contains($role['title'], 'il_frm_moderator')) {
                 $assigned_users = array_map('intval', $this->rbac->review()->assignedUsers((int) $role['rol_id']));
                 break;
             }

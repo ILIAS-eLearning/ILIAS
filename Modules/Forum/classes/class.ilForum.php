@@ -344,15 +344,13 @@ class ilForum
 
     /**
      * @param int[] $thread_ids
-     * @param ilObjForum $src_forum
-     * @param int $target_obj_id
      * @return string[] A list of error message strings
      */
     public function moveThreads(array $thread_ids, ilObjForum $src_forum, int $target_obj_id): array
     {
         $errorMessages = [];
 
-        if (!($target_obj_id > 0) || !($src_forum->getId() > 0)) {
+        if ($target_obj_id <= 0 || $src_forum->getId() <= 0) {
             return $errorMessages;
         }
 
@@ -394,7 +392,7 @@ class ilForum
 
                 $objTmpThread->setForumId($newFrmData->getTopPk());
                 $objTmpThread->update();
-            } catch (ilFileUtilsException $exception) {
+            } catch (ilFileUtilsException) {
                 $errorMessages[] = sprintf($this->lng->txt('frm_move_invalid_file_type'), $objTmpThread->getSubject());
                 continue;
             }
@@ -521,15 +519,12 @@ class ilForum
 
     /**
      * @param int|array<string, mixed> $postIdOrRecord
-     * @param bool $raiseEvents
-     * @return int
      */
     public function deletePost($postIdOrRecord, bool $raiseEvents = true): int
     {
+        $p_node = $postIdOrRecord;
         if (is_numeric($postIdOrRecord)) {
             $p_node = $this->getPostNode($postIdOrRecord);
-        } else {
-            $p_node = $postIdOrRecord;
         }
 
         $post = new ilForumPost((int) $p_node['pos_pk']);
@@ -597,7 +592,7 @@ class ilForum
                             $mob_obj->delete();
                         }
                     }
-                } catch (Exception $e) {
+                } catch (Exception) {
                 }
             }
 
@@ -626,7 +621,7 @@ class ilForum
                             $mob_obj->delete();
                         }
                     }
-                } catch (Exception $e) {
+                } catch (Exception) {
                 }
             }
 
@@ -711,10 +706,6 @@ class ilForum
     }
 
     /**
-     * @param int $a_topic_id
-     * @param array $params
-     * @param int $limit
-     * @param int $offset
      * @return array{cnt: int, items: array<int, ilForumTopic>}
      */
     public function getAllThreads(int $a_topic_id, array $params = [], int $limit = 0, int $offset = 0): array
@@ -779,7 +770,7 @@ class ilForum
         }
 
         $additional_sort = '';
-        if ($frm_props->getThreadSorting()) {
+        if ($frm_props->getThreadSorting() !== 0) {
             $additional_sort .= ' , thread_sorting ASC ';
         }
 
@@ -866,12 +857,14 @@ class ilForum
                 $data_types[] = 'integer';
                 $data_types[] = 'integer';
                 if ($is_post_activation_enabled && !$params['is_moderator']) {
-                    array_push($data_types, 'integer', 'integer');
+                    $data_types[] = 'integer';
+                    $data_types[] = 'integer';
                 }
             }
             $data_types[] = 'integer';
             if ($is_post_activation_enabled && !$params['is_moderator']) {
-                array_push($data_types, 'integer', 'integer');
+                $data_types[] = 'integer';
+                $data_types[] = 'integer';
             }
             $data_types[] = 'integer';
             $data_types[] = 'integer';
@@ -882,12 +875,14 @@ class ilForum
                 $data[] = $user_id;
                 $data[] = $user_id;
                 if ($is_post_activation_enabled && !$params['is_moderator']) {
-                    array_push($data, 1, $user_id);
+                    $data[] = 1;
+                    $data[] = $user_id;
                 }
             }
             $data[] = $user_id;
             if ($is_post_activation_enabled && !$params['is_moderator']) {
-                array_push($data, 1, $user_id);
+                $data[] = 1;
+                $data[] = $user_id;
             }
             $data[] = $user_id;
         } else {
@@ -915,11 +910,13 @@ class ilForum
 						ORDER BY is_sticky DESC $additional_sort, thr_date DESC";
 
             if ($is_post_activation_enabled && !$params['is_moderator']) {
-                array_push($data_types, 'integer', 'integer');
+                $data_types[] = 'integer';
+                $data_types[] = 'integer';
             }
             $data_types[] = 'integer';
             if ($is_post_activation_enabled && !$params['is_moderator']) {
-                array_push($data, 1, $user_id);
+                $data[] = 1;
+                $data[] = $user_id;
             }
         }
         $data[] = $a_topic_id;
@@ -1006,7 +1003,6 @@ class ilForum
     }
 
     /**
-     * @param bool $post_activation_required
      * @return array{usr_id: int, pos_author_id: int, firstname: string, lastname: string, login: string, public_profile: string, num_postings: int}[]
      */
     public function getUserStatistics(bool $post_activation_required): array
@@ -1095,7 +1091,6 @@ class ilForum
     }
 
     /**
-     * @param int $a_ref_id
      * @return int[]
      */
     public static function _getModerators(int $a_ref_id): array
@@ -1260,7 +1255,7 @@ class ilForum
 
     public function getPostDepth(int $a_node_id, int $tree_id): int
     {
-        if ($tree_id) {
+        if ($tree_id !== 0) {
             $res = $this->db->queryF(
                 'SELECT depth FROM frm_posts_tree WHERE pos_fk = %s AND thr_fk = %s',
                 ['integer', 'integer'],
@@ -1284,7 +1279,7 @@ class ilForum
             [0, $tree_id]
         );
 
-        if ($row = $this->db->fetchObject($res)) {
+        if (($row = $this->db->fetchObject($res)) !== null) {
             return $this->fetchPostNodeData($row);
         }
 
@@ -1299,13 +1294,16 @@ class ilForum
             [$post_id]
         );
 
-        if ($row = $this->db->fetchObject($res)) {
+        if (($row = $this->db->fetchObject($res)) !== null) {
             return $this->fetchPostNodeData($row);
         }
 
         return [];
     }
 
+    /**
+     * @return array{type: string, pos_pk: int, child: int, author: int, alias: string, title: mixed, loginname: string, message: string, subject: string, pos_cens_com: string, pos_cens: int, date: mixed, create_date: mixed, update: mixed, update_user: int, tree: int, parent: int, lft: int, rgt: int, depth: int, id: int, notify: int, import_name: mixed, pos_status: int}
+     */
     public function fetchPostNodeData(stdClass $a_row): array
     {
         $fullname = '';
@@ -1353,7 +1351,6 @@ class ilForum
     }
 
     /**
-     * @param array $a_node
      * @return int[] An list of deleted post ids
      */
     public function deletePostTree(array $a_node): array
@@ -1629,24 +1626,16 @@ class ilForum
     }
 
     /**
-     * @param int $a_obj_id
-     * @param int $a_sort_mode
      * @return array<int, string>
      */
     public static function getSortedThreadSubjects(int $a_obj_id, int $a_sort_mode = self::SORT_DATE): array
     {
         global $DIC;
 
-        switch ($a_sort_mode) {
-            case self::SORT_DATE:
-                $sort = 'thr_date';
-                break;
-
-            case self::SORT_TITLE:
-            default:
-                $sort = 'thr_subject';
-                break;
-        }
+        $sort = match ($a_sort_mode) {
+            self::SORT_DATE => 'thr_date',
+            default => 'thr_subject',
+        };
 
         $res = $DIC->database()->queryF(
             'SELECT thr_pk, thr_subject FROM frm_threads INNER JOIN frm_data ON top_pk = thr_top_fk WHERE top_frm_fk = %s ORDER BY %s',
@@ -1698,7 +1687,7 @@ class ilForum
         $targetWasClosedBeforeMerge = $targetThreadForMerge->isClosed();
         $sourceThreadForMerge->close();
 
-        if (false === $targetWasClosedBeforeMerge) {
+        if (!$targetWasClosedBeforeMerge) {
             $targetThreadForMerge->close();
         }
 
@@ -1720,7 +1709,7 @@ class ilForum
             $targetThreadRootNode,
             $sourceThreadRootNode,
             $allSourcePostings
-        ) {
+        ): void {
             $targetRootNodeRgt = $targetThreadRootNode->getRgt();
             $targetRootNodeId = $targetThreadRootNode->getId();
 
@@ -1776,7 +1765,7 @@ class ilForum
             try {
                 $exp[2] = $targetThreadForMerge->getLastPost()->getId();
                 $lastPostString = implode('#', $exp);
-            } catch (OutOfBoundsException $e) {
+            } catch (OutOfBoundsException) {
                 $lastPostString = null;
             }
         }

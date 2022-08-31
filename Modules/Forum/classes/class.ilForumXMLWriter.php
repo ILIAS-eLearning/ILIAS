@@ -34,11 +34,6 @@ class ilForumXMLWriter extends ilXmlWriter
     private ?string $target_dir_relative;
     private ?string $target_dir_absolute;
 
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
     public function setForumId(int $id): void
     {
         $this->forum_id = $id;
@@ -186,16 +181,14 @@ class ilForumXMLWriter extends ilXmlWriter
                     (int) $rowPost->pos_pk
                 );
 
-                if (count($tmp_file_obj->getFilesOfPost())) {
-                    foreach ($tmp_file_obj->getFilesOfPost() as $file) {
-                        $this->xmlStartTag("Attachment");
+                foreach ($tmp_file_obj->getFilesOfPost() as $file) {
+                    $this->xmlStartTag("Attachment");
 
-                        copy($file['path'], $this->target_dir_absolute . "/" . basename($file['path']));
-                        $content = $this->target_dir_relative . "/" . basename($file['path']);
-                        $this->xmlElement("Content", null, $content);
+                    copy($file['path'], $this->target_dir_absolute . "/" . basename($file['path']));
+                    $content = $this->target_dir_relative . "/" . basename($file['path']);
+                    $this->xmlElement("Content", null, $content);
 
-                        $this->xmlEndTag("Attachment");
-                    }
+                    $this->xmlEndTag("Attachment");
                 }
 
                 $this->xmlEndTag("Post");

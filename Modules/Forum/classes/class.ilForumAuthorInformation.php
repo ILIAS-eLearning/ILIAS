@@ -26,10 +26,6 @@ declare(strict_types=1);
  */
 class ilForumAuthorInformation
 {
-    private int $display_id;
-    private string $alias;
-    private string $import_name;
-    private array $public_profile_link_attributes;
     private string $author_name = '';
     private string $author_short_name = '';
     private string $linked_public_name = '';
@@ -37,31 +33,22 @@ class ilForumAuthorInformation
     private string $suffix = '';
     private string $profilePicture;
     private ?ilObjUser $author = null;
-    private int $author_id;
-    private ?ilLanguage $lng = null;
     private ilLanguage $globalLng;
     private ilObjUser $globalUser;
     private bool $is_deleted = false;
 
     public function __construct(
-        int $author_id,
-        int $display_id,
-        string $alias,
-        string $import_name,
-        array $public_profile_link_attributes = [],
-        ?ilLanguage $lng = null
+        private int $author_id,
+        private int $display_id,
+        private string $alias,
+        private string $import_name,
+        private array $public_profile_link_attributes = [],
+        private ?ilLanguage $lng = null
     ) {
         global $DIC;
 
         $this->globalUser = $DIC->user();
         $this->globalLng = $DIC->language();
-
-        $this->author_id = $author_id;
-        $this->display_id = $display_id;
-        $this->alias = $alias;
-        $this->import_name = $import_name;
-        $this->public_profile_link_attributes = $public_profile_link_attributes;
-        $this->lng = $lng;
 
         $this->init();
     }
@@ -71,7 +58,7 @@ class ilForumAuthorInformation
         if ($this->display_id > 0) {
             // Try to read user instance from preloaded cache array
             $this->author = ilForumAuthorInformationCache::getUserObjectById($this->display_id);
-            if (!$this->author) {
+            if (!$this->author instanceof ilObjUser) {
                 // Get a user instance from forum module's cache method
                 $this->author = ilObjForumAccess::getCachedUserInstance($this->display_id);
             }
@@ -172,7 +159,7 @@ class ilForumAuthorInformation
                     $this->getAuthor()->getId()
                 );
             }
-        } elseif ($this->display_id > 0 && $this->alias !== '' && $this->doesAuthorAccountExists() === false) {
+        } elseif ($this->display_id > 0 && $this->alias !== '') {
             // The author did use a pseudonym and the account does not exist anymore (deleted, lost on import etc.)
             $this->author_short_name = $this->author_name = $translationLanguage->txt('deleted');
             $this->is_deleted = true;

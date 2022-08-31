@@ -24,37 +24,20 @@ declare(strict_types=1);
  */
 class ilForumAutoSaveAsyncDraftAction
 {
-    private ilObjUser $actor;
-    private ilPropertyFormGUI $form;
-    private ilForumProperties $forumProperties;
-    private ilForumTopic $thread;
-    private ?ilForumPost $relatedPost;
     private Closure $subjectFormatterCallable;
-    private int $relatedDraftId;
-    private int $relatedForumId;
-    private string $action;
 
     public function __construct(
-        ilObjUser $actor,
-        ilPropertyFormGUI $form,
-        ilForumProperties $forumProperties,
-        ilForumTopic $thread,
-        ?ilForumPost $relatedPost,
+        private ilObjUser $actor,
+        private ilPropertyFormGUI $form,
+        private ilForumProperties $forumProperties,
+        private ilForumTopic $thread,
+        private ?ilForumPost $relatedPost,
         Closure $subjectFormatterCallable,
-        int $relatedDraftId,
-        int $relatedForumId,
-        string $action
+        private int $relatedDraftId,
+        private int $relatedForumId,
+        private string $action
     ) {
-        $this->actor = $actor;
-        $this->form = $form;
-        $this->forumProperties = $forumProperties;
-        $this->thread = $thread;
-        $this->relatedPost = $relatedPost;
         $this->subjectFormatterCallable = $subjectFormatterCallable;
-
-        $this->relatedDraftId = $relatedDraftId;
-        $this->relatedForumId = $relatedForumId;
-        $this->action = $action;
     }
 
     public function executeAndGetResponseObject(): stdClass
@@ -62,7 +45,7 @@ class ilForumAutoSaveAsyncDraftAction
         $response = new stdClass();
         $response->draft_id = 0;
 
-        if ($this->actor->isAnonymous() || !($this->actor->getId() > 0)) {
+        if ($this->actor->isAnonymous() || $this->actor->getId() <= 0) {
             return $response;
         }
 
@@ -172,8 +155,6 @@ class ilForumAutoSaveAsyncDraftAction
     }
 
     /**
-     * @param string $type
-     * @param int $draftId
      * @param int[] $uploadedObjects
      * @param int[] $oldMediaObjects
      * @param int[] $curMediaObjects
@@ -199,18 +180,19 @@ class ilForumAutoSaveAsyncDraftAction
         }
     }
 
+    /**
+     * @return array{subject: string, message: string, notify: int, alias: string}
+     */
     protected function getInputValuesFromForm(): array
     {
-        $inputValues = [];
-
-        $inputValues['subject'] = $this->form->getInput('subject');
-        $inputValues['message'] = $this->form->getInput('message');
-        $inputValues['notify'] = (int) $this->form->getInput('notify');
-        $inputValues['alias'] = ilForumUtil::getPublicUserAlias(
-            $this->form->getInput('alias'),
-            $this->forumProperties->isAnonymized()
-        );
-
-        return $inputValues;
+        return [
+            'subject' => (string) $this->form->getInput('subject'),
+            'message' => (string) $this->form->getInput('message'),
+            'notify' => (int) $this->form->getInput('notify'),
+            'alias' => ilForumUtil::getPublicUserAlias(
+                $this->form->getInput('alias'),
+                $this->forumProperties->isAnonymized()
+            )
+        ];
     }
 }

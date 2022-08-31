@@ -24,7 +24,6 @@ declare(strict_types=1);
  */
 class ilForumCronNotificationDataProvider implements ilForumNotificationMailData
 {
-    private ?int $notification_type = null;
     private int $ref_id;
     private int $obj_id;
     private int $forum_id;
@@ -45,6 +44,7 @@ class ilForumCronNotificationDataProvider implements ilForumNotificationMailData
     private int $pos_display_user_id;
     private bool $is_anonymized = false;
     private string $import_name;
+    /** @var list<string> */
     private array $attachments = [];
     /** @var int[] */
     private array $cron_recipients = [];
@@ -55,9 +55,11 @@ class ilForumCronNotificationDataProvider implements ilForumNotificationMailData
     private ?string $update_user_name = null;
     private ilForumNotificationCache $notificationCache;
 
-    public function __construct(array $row, int $notification_type, ilForumNotificationCache $notificationCache = null)
-    {
-        $this->notification_type = $notification_type;
+    public function __construct(
+        array $row,
+        private int $notification_type,
+        ilForumNotificationCache $notificationCache = null
+    ) {
         $this->obj_id = (int) $row['obj_id'];
         $this->ref_id = (int) $row['ref_id'];
         $this->closest_container = $row['closest_container'];
@@ -206,14 +208,12 @@ class ilForumCronNotificationDataProvider implements ilForumNotificationMailData
         return $this->post_censored_comment;
     }
 
+    /**
+     * @return list<string>
+     */
     public function getAttachments(): array
     {
         return $this->attachments;
-    }
-
-    public function setNotificationType(int $notification_type): void
-    {
-        $this->notification_type = $notification_type;
     }
 
     public function getPosDisplayUserId(): int
@@ -229,16 +229,6 @@ class ilForumCronNotificationDataProvider implements ilForumNotificationMailData
     public function getPostUpdateUserId(): int
     {
         return $this->post_update_user_id;
-    }
-
-    public function setPostUpdateUserId(int $post_update_user_id): void
-    {
-        $this->post_update_user_id = $post_update_user_id;
-    }
-
-    public function setPosAuthorId(int $pos_author_id): void
-    {
-        $this->pos_author_id = $pos_author_id;
     }
 
     public function getPosAuthorId(): int
@@ -273,7 +263,7 @@ class ilForumCronNotificationDataProvider implements ilForumNotificationMailData
             ));
         }
 
-        return (string) $this->post_user_name;
+        return $this->post_user_name;
     }
 
     public function getPostUpdateUserName(ilLanguage $user_lang): string
@@ -296,7 +286,7 @@ class ilForumCronNotificationDataProvider implements ilForumNotificationMailData
             return $this->getPosUserAlias();
         }
 
-        return (string) $this->update_user_name;
+        return $this->update_user_name;
     }
 
     public function getPublicUserInformation(ilForumAuthorInformation $authorinfo): string
@@ -328,7 +318,7 @@ class ilForumCronNotificationDataProvider implements ilForumNotificationMailData
             $importName
         ]);
 
-        if (false === $this->notificationCache->exists($cacheKey)) {
+        if (!$this->notificationCache->exists($cacheKey)) {
             $authorInformation = new ilForumAuthorInformation(
                 $authorUsrId,
                 $displayUserId,

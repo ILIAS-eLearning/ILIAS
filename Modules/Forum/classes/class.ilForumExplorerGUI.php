@@ -26,8 +26,6 @@ use ILIAS\UI\Component\Tree\Tree;
  */
 class ilForumExplorerGUI extends ilTreeExplorerGUI
 {
-    private ilForumTopic $thread;
-    private ilForumPost $root_node;
     private int $max_entries;
     /** @var array<int, array<int, array<string, mixed>>> */
     private array $preloaded_children = [];
@@ -39,8 +37,8 @@ class ilForumExplorerGUI extends ilTreeExplorerGUI
         string $a_expl_id,
         object $a_parent_obj,
         string $a_parent_cmd,
-        ilForumTopic $thread,
-        ilForumPost $root
+        private ilForumTopic $thread,
+        private ilForumPost $root_node
     ) {
         global $DIC;
 
@@ -49,9 +47,6 @@ class ilForumExplorerGUI extends ilTreeExplorerGUI
         $this->setSkipRootNode(false);
         $this->setAjax(false);
         $this->setPreloadChilds(true);
-
-        $this->thread = $thread;
-        $this->root_node = $root;
 
         $this->ctrl->setParameter($this->parent_obj, 'thr_pk', $this->thread->getId());
 

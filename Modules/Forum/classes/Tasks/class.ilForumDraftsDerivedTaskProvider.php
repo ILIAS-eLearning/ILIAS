@@ -24,25 +24,13 @@ declare(strict_types=1);
  */
 class ilForumDraftsDerivedTaskProvider implements ilDerivedTaskProvider
 {
-    protected ilTaskService $taskService;
-    protected ilAccessHandler $accessHandler;
-    protected ilLanguage $lng;
-    protected ilSetting $settings;
-    protected ilCtrlInterface $ctrl;
-
     public function __construct(
-        ilTaskService $taskService,
-        ilAccessHandler $accessHandler,
-        ilLanguage $lng,
-        ilSetting $settings,
-        ilCtrlInterface $ctrl
+        protected ilTaskService $taskService,
+        protected ilAccessHandler $accessHandler,
+        protected ilLanguage $lng,
+        protected ilSetting $settings,
+        protected ilCtrlInterface $ctrl
     ) {
-        $this->taskService = $taskService;
-        $this->accessHandler = $accessHandler;
-        $this->lng = $lng;
-        $this->settings = $settings;
-        $this->ctrl = $ctrl;
-
         $this->lng->loadLanguageModule('forum');
     }
 

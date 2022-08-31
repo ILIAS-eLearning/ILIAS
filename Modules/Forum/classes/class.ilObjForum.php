@@ -215,7 +215,7 @@ class ilObjForum extends ilObject
             [$a_usr_id, $this->getId(), $a_thread_id, $a_post_id]
         );
 
-        if (!$this->db->numRows($res)) {
+        if ($this->db->numRows($res) === 0) {
             $this->db->manipulateF(
                 '
                 INSERT INTO frm_user_read
@@ -403,7 +403,7 @@ class ilObjForum extends ilObject
         $new_frm->setForumRefId($new_obj->getRefId());
 
         $new_topic = $new_frm->getOneTopic();
-        foreach ($options['threads'] as $thread_id => $thread_subject) {
+        foreach (array_keys($options['threads']) as $thread_id) {
             $this->Forum->setMDB2WhereCondition('thr_pk = %s ', ['integer'], [$thread_id]);
 
             $old_thread = $this->Forum->getOneThread();
@@ -421,7 +421,7 @@ class ilObjForum extends ilObject
 
             try {
                 $top_pos = $old_thread->getFirstVisiblePostNode();
-            } catch (OutOfBoundsException $e) {
+            } catch (OutOfBoundsException) {
                 $top_pos = new ilForumPost($old_post_id);
             }
 
@@ -591,7 +591,7 @@ class ilObjForum extends ilObject
             $draft_ids[] = (int) $row['draft_id'];
         }
 
-        if (count($draft_ids) > 0) {
+        if ($draft_ids !== []) {
             $historyObj = new ilForumDraftsHistory();
             $historyObj->deleteHistoryByDraftIds($draft_ids);
 
@@ -802,7 +802,6 @@ class ilObjForum extends ilObject
     }
 
     /**
-     * @param int $ref_id
      * @return array{num_posts: int, num_unread_posts: int, num_new_posts: int}
      */
     public static function lookupStatisticsByRefId(int $ref_id): array
@@ -825,7 +824,7 @@ class ilObjForum extends ilObject
         ];
 
         $forumId = self::lookupForumIdByRefId($ref_id);
-        if (!$forumId) {
+        if ($forumId === 0) {
             self::$forum_statistics_cache[$ref_id] = $statistics;
             return self::$forum_statistics_cache[$ref_id];
         }
@@ -959,7 +958,7 @@ class ilObjForum extends ilObject
         }
 
         $forumId = self::lookupForumIdByRefId($ref_id);
-        if (!$forumId) {
+        if ($forumId === 0) {
             self::$forum_last_post_cache[$ref_id] = [];
             return self::$forum_last_post_cache[$ref_id];
         }
@@ -1021,7 +1020,6 @@ class ilObjForum extends ilObject
     }
 
     /**
-     * @param int $ref_id
      * @param int[] $thread_ids
      * @return int[]
      */
@@ -1068,10 +1066,10 @@ class ilObjForum extends ilObject
 
         $res = $ilDB->query($query);
         while ($row = $ilDB->fetchAssoc($res)) {
-            if ((int) $row['pos_display_user_id']) {
+            if ((int) $row['pos_display_user_id'] !== 0) {
                 $usr_ids[] = (int) $row['pos_display_user_id'];
             }
-            if ((int) $row['update_user']) {
+            if ((int) $row['update_user'] !== 0) {
                 $usr_ids[] = (int) $row['update_user'];
             }
         }

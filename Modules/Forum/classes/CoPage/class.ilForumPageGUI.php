@@ -17,6 +17,7 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
 /**
  * @ilCtrl_Calls ilForumPageGUI: ilPageEditorGUI, ilEditClipboardGUI, ilMDEditorGUI
  * @ilCtrl_Calls ilForumPageGUI: ilPublicUserProfileGUI, ilNoteGUI
@@ -24,15 +25,17 @@ declare(strict_types=1);
  */
 class ilForumPageGUI extends ilPageObjectGUI implements ilForumObjectConstants
 {
-    protected bool $isEmbeddedMode = false;
     protected string $language = '-';
 
-    public function __construct(int $a_id = 0, int $a_old_nr = 0, bool $isEmbeddedMode = false, string $language = '')
-    {
+    public function __construct(
+        int $a_id = 0,
+        int $a_old_nr = 0,
+        protected bool $isEmbeddedMode = false,
+        string $language = ''
+    ) {
         parent::__construct(self::OBJ_TYPE, $a_id, $a_old_nr, false, $language);
         $this->setTemplateTargetVar('ADM_CONTENT');
         $this->setTemplateOutput(false);
-        $this->isEmbeddedMode = $isEmbeddedMode;
     }
 
     public function getProfileBackUrl(): string

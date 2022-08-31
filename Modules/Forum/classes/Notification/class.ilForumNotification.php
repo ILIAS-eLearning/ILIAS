@@ -40,16 +40,14 @@ class ilForumNotification
     private bool $admin_force = false;
     private bool $user_toggle = false;
     private int $interested_events = 0;
-    private int $ref_id;
     private int $user_id_noti;
 
-    public function __construct(int $ref_id)
+    public function __construct(private int $ref_id)
     {
         global $DIC;
 
         $this->db = $DIC->database();
         $this->user = $DIC->user();
-        $this->ref_id = $ref_id;
         $this->forum_id = $DIC['ilObjDataCache']->lookupObjId($ref_id);
     }
 
@@ -93,7 +91,7 @@ class ilForumNotification
         return $this->thread_id;
     }
 
-    public function setInterestedEvents($interested_events): void
+    public function setInterestedEvents(int $interested_events): void
     {
         $this->interested_events = $interested_events;
     }
@@ -272,7 +270,7 @@ class ilForumNotification
             if ($admin_force || $user_toggle) {
                 $frm_noti->setUserToggle($user_toggle);
                 $frm_noti->setForumId((int) $data['obj_id']);
-                if ($frm_noti->existsNotification() === false) {
+                if (!$frm_noti->existsNotification()) {
                     $frm_noti->insertAdminForce();
                 }
             }

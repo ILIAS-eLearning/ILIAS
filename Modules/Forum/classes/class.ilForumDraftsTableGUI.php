@@ -24,11 +24,8 @@ declare(strict_types=1);
  */
 class ilForumDraftsTableGUI extends ilTable2GUI
 {
-    protected bool $mayEdit = false;
-
-    public function __construct(ilObjForumGUI $a_parent_obj, string $a_parent_cmd, bool $mayEdit)
+    public function __construct(ilObjForumGUI $a_parent_obj, string $a_parent_cmd, protected bool $mayEdit)
     {
-        $this->mayEdit = $mayEdit;
         $this->setId('frm_drafts_' . substr(md5($a_parent_cmd), 0, 3) . '_' . $a_parent_obj->getObject()->getId());
 
         parent::__construct($a_parent_obj, $a_parent_cmd);
