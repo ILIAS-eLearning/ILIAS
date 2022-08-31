@@ -134,7 +134,7 @@ class ilBuddySystemGUI
             static function (ilBuddySystemRelation $relation): void {
                 if (
                     $relation->isUnlinked() &&
-                    !ilUtil::yn2tf(ilObjUser::_lookupPref($relation->getBuddyUsrId(), 'bs_allow_to_contact_me'))
+                    !ilUtil::yn2tf((string) ilObjUser::_lookupPref($relation->getBuddyUsrId(), 'bs_allow_to_contact_me'))
                 ) {
                     throw new ilException('The requested user does not want to get contact requests');
                 }
@@ -228,7 +228,7 @@ class ilBuddySystemGUI
             // The ILIAS JF decided to add a new personal setting
             if (
                 $relation->isUnlinked() &&
-                !ilUtil::yn2tf(ilObjUser::_lookupPref($relation->getBuddyUsrId(), 'bs_allow_to_contact_me'))
+                !ilUtil::yn2tf((string) ilObjUser::_lookupPref($relation->getBuddyUsrId(), 'bs_allow_to_contact_me'))
             ) {
                 throw new ilException('The requested user does not want to get contact requests');
             }
