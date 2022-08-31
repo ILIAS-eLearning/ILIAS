@@ -78,7 +78,7 @@ class ilBuddySystemLinkButton implements ilBuddySystemLinkButtonType
         // The ILIAS JF decided to add a new personal setting
         if (
             $relation->isUnlinked() &&
-            !ilUtil::yn2tf(ilObjUser::_lookupPref($this->getUsrId(), 'bs_allow_to_contact_me'))
+            !ilUtil::yn2tf((string) ilObjUser::_lookupPref($this->getUsrId(), 'bs_allow_to_contact_me'))
         ) {
             return '';
         }
