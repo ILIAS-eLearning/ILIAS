@@ -119,7 +119,7 @@ class ImageFileRepo
         if ($upload->hasUploads() && !$upload->hasBeenProcessed()) {
             $upload->process();
             $result = array_values($upload->getResults())[0];
-            if ($result->getStatus() == ProcessingStatus::OK) {
+            if ($result->getStatus()->getCode() === ProcessingStatus::OK) {
                 $upload->moveFilesTo($dir, Location::WEB);
             }
         }

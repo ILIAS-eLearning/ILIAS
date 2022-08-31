@@ -220,9 +220,9 @@ class ilContentStyleImageGUI
 
             $this->manager->resizeImage(
                 $this->current_image,
-                (int) $wh["width"],
-                (int) $wh["height"],
-                (bool) $wh["const_prop"]
+                (int) ($wh["width"] ?? 0),
+                (int) ($wh["height"] ?? 0),
+                (bool) ($wh["const_prop"] ?? false)
             );
 
             $this->tpl->setOnScreenMessage('success', $lng->txt("msg_obj_modified"), true);

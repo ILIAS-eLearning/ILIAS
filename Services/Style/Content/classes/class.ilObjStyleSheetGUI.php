@@ -477,7 +477,7 @@ class ilObjStyleSheetGUI extends ilObjectGUI
         $new_id = 0;
 
         if ($form->getInput("source_style") > 0) {
-            $style_obj = ilObjectFactory::getInstanceByObjId($form->getInput("source_style"));
+            $style_obj = ilObjectFactory::getInstanceByObjId((int) $form->getInput("source_style"));
             $new_id = $style_obj->ilClone();
         }
 
