@@ -203,7 +203,7 @@ il.UI.Input = il.UI.Input || {};
 				return;
 			}
 
-			let file_entry = removal_glyph.closest(SELECTOR.file_list);
+			let file_entry = removal_glyph.closest(SELECTOR.file_list_entry);
 			let file_entry_input = getFileEntryInput(file_entry);
 
 			dropzone.options.current_file_count--;
