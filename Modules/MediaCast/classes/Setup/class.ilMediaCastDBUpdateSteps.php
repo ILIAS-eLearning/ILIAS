@@ -68,4 +68,29 @@ class ilMediaCastDBUpdateSteps implements \ilDatabaseUpdateSteps
             ));
         }
     }
+
+    public function step_4(): void
+    {
+        $db = $this->db;
+        $analyzer = new \ilDBAnalyzer($db);
+        $info = $analyzer->getFieldInformation('settings');
+
+        if ($info['value']['type'] === 'clob') {
+            $type = 'clob';
+        } else {
+            $type = 'text';
+        }
+
+        $db = $this->db;
+
+        $db->manipulate("DELETE FROM settings WHERE keyword = " .
+            $db->quote("video_threshold", "text") . " AND module = " .
+            $db->quote("mcst", "text"));
+
+        $db->insert("settings", array(
+            "module" => array("text", "mcst"),
+            "keyword" => array("text", "video_threshold"),
+            "value" => array($type, "80")));
+    }
+
 }
