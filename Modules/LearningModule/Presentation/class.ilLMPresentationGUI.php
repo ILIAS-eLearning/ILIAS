@@ -828,9 +828,9 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
         );
         $dispatcher->setSubObject("pg", $this->getCurrentPageId());
 
-        $this->ctrl->setParameter($this, "embed_mode", $this->embed_mode);
-        $this->ctrl->setParameterByClass("ilnotegui", "embed_mode", $this->embed_mode);
-        $this->ctrl->setParameterByClass("iltagginggui", "embed_mode", $this->embed_mode);
+        $this->ctrl->setParameter($this, "embed_mode", (int) $this->embed_mode);
+        $this->ctrl->setParameterByClass("ilnotegui", "embed_mode", (int) $this->embed_mode);
+        $this->ctrl->setParameterByClass("iltagginggui", "embed_mode", (int) $this->embed_mode);
         ilObjectListGUI::prepareJsLinks(
             $this->ctrl->getLinkTarget($this, "redrawHeaderAction", "", true),
             "",
