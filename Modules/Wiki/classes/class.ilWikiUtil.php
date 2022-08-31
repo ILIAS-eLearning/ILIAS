@@ -504,7 +504,7 @@ class ilWikiUtil
         // #15192 - should always be present
         if ($a_page_id) {
             // #18804 - see ilWikiPageGUI::preview()
-            $link = ilLink::_getLink("", "wiki", null, "wpage_" . $a_page_id . "_" . $a_wiki_ref_id);
+            $link = ilLink::_getLink(null, "wiki", [], "wpage_" . $a_page_id . "_" . $a_wiki_ref_id);
         } else {
             $link = ilLink::_getLink($a_wiki_ref_id);
         }
@@ -527,7 +527,7 @@ class ilWikiUtil
         // "fake" new (to enable snippet - if any)
         $hist = $page->getHistoryEntries();
         $current_version = array_shift($hist);
-        $current_version = $current_version["nr"];
+        $current_version = $current_version["nr"] ?? 0;
         if (!$current_version && $a_action !== "comment") {
             $a_type = ilNotification::TYPE_WIKI;
             $a_action = "new";
