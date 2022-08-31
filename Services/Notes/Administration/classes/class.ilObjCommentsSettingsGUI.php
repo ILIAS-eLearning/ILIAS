@@ -188,17 +188,19 @@ class ilObjCommentsSettingsGUI extends ilObjectGUI
         if ($request->getMethod() === "POST") {
             $form = $form->withRequest($request);
             $data = $form->getData();
-            if (is_array($data["sec"])) {
+            if (isset($data["sec"])) {
                 $data = $data["sec"]["enable_comments"];
+                $disable_comments = (bool) (is_array($data) ? 0 : 1);
                 $setting->set("disable_comments", (is_array($data) ? 0 : 1));
-                $setting->set("comments_del_user", ($data["comm_del_user"] ? 1 : 0));
-                $setting->set("comments_del_tutor", ($data["comm_del_tutor"] ? 1 : 0));
-                $setting->set("comments_noti_recip", $data["comments_noti_recip"]);
+                if (!$disable_comments) {
+                    $setting->set("comments_del_user", ($data["comm_del_user"] ? 1 : 0));
+                    $setting->set("comments_del_tutor", ($data["comm_del_tutor"] ? 1 : 0));
+                    $setting->set("comments_noti_recip", $data["comments_noti_recip"]);
 
-                $privacy = ilPrivacySettings::getInstance();
-                $privacy->enableCommentsExport((bool) $data['enable_comments_export']);
-                $privacy->save();
-
+                    $privacy = ilPrivacySettings::getInstance();
+                    $privacy->enableCommentsExport((bool) $data['enable_comments_export']);
+                    $privacy->save();
+                }
                 $this->main_tpl->setOnScreenMessage('info', $lng->txt("msg_obj_modified"), true);
             }
         }
