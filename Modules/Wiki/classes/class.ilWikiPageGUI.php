@@ -265,7 +265,7 @@ class ilWikiPageGUI extends ilPageObjectGUI
         );
 
         // see #33422
-        // $dispatcher->setSubObject("wpg", $page_id);
+        $dispatcher->setSubObject("wpg", $page_id);
 
         ilObjectListGUI::prepareJsLinks(
             $this->ctrl->getLinkTarget($this, "redrawHeaderAction", "", true),
@@ -284,7 +284,8 @@ class ilWikiPageGUI extends ilPageObjectGUI
                 $this->lng->txt("wiki_rate_overall"),
                 false,
                 // so ilCtrl does not use the shortcut via ilWikiGUI
-                array("ilcommonactiondispatchergui", "ilratinggui")
+                array("ilcommonactiondispatchergui", "ilratinggui"),
+                true
             );
         }
 

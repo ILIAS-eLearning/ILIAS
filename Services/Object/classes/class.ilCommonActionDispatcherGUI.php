@@ -109,6 +109,15 @@ class ilCommonActionDispatcherGUI
         ;
     }
 
+    public static function removeSubObjFromAjaxHash(string $hash) : string {
+        $arr = explode(";", $hash);
+        if (isset($arr[4]) && isset($arr[5])) {
+            $arr[4] = "";
+            $arr[5] = "";
+        }
+        return implode(";", $arr);
+    }
+
     /**
      * (Re-)Build instance from ajax call
      */
