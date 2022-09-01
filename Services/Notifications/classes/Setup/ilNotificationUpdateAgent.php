@@ -20,7 +20,6 @@ declare(strict_types=1);
 
 use ILIAS\Setup;
 use ILIAS\Refinery;
-use ILIAS\Setup\Environment;
 use ILIAS\Setup\Objective\ObjectiveWithPreconditions;
 
 class ilNotificationUpdateAgent implements Setup\Agent
@@ -44,13 +43,15 @@ class ilNotificationUpdateAgent implements Setup\Agent
 
     public function getUpdateObjective(Setup\Config $config = null): Setup\Objective
     {
-        return new ObjectiveWithPreconditions(
-            new ilDatabaseUpdateStepsExecutedObjective(
-                new ilNotificationUpdateSteps()
-            ),
+        return new Setup\ObjectiveCollection(
+            'Notification Objectives',
+            true,
             new ilTreeAdminNodeAddedObjective(
                 'nota',
                 'Notification Service Administration Object'
+            ),
+            new ilDatabaseUpdateStepsExecutedObjective(
+                new ilNotificationUpdateSteps()
             )
         );
     }

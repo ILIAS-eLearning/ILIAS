@@ -81,11 +81,11 @@ class ilNotificationUpdateSteps implements ilDatabaseUpdateSteps
         );
         $this->db->insert(
             'notification_usercfg',
-            array(
-                'usr_id' => array('integer', -1),
-                'module' => array('text', 'who_is_online'),
-                'channel' => array('text', 'osd')
-            )
+            [
+                'usr_id' => ['integer', -1],
+                'module' => ['text', 'who_is_online'],
+                'channel' => ['text', 'osd']
+            ]
         );
         $this->db->manipulateF(
             'UPDATE notification_osd SET type = %s WHERE type = %s AND serialized LIKE %s',
@@ -105,11 +105,11 @@ class ilNotificationUpdateSteps implements ilDatabaseUpdateSteps
         );
         $this->db->insert(
             'notification_usercfg',
-            array(
-                'usr_id' => array('integer', -1),
-                'module' => array('text', 'badge_received'),
-                'channel' => array('text', 'osd')
-            )
+            [
+                'usr_id' => ['integer', -1],
+                'module' => ['text', 'badge_received'],
+                'channel' => ['text', 'osd']
+            ]
         );
         $this->db->manipulateF(
             'UPDATE notification_osd SET type = %s WHERE type = %s AND serialized LIKE %s',
@@ -129,6 +129,15 @@ class ilNotificationUpdateSteps implements ilDatabaseUpdateSteps
             'module' => ['text', 'notifications'],
             'keyword' => ['text', 'osd_delay'],
             'value' => ['integer', 500]
+        ]);
+    }
+
+    public function step_7(): void
+    {
+        $this->db->insert('settings', [
+            'module' => ['text', 'notifications'],
+            'keyword' => ['text', 'enable_mail'],
+            'value' => ['text', '1']
         ]);
     }
 }
