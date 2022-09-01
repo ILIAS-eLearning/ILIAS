@@ -302,7 +302,7 @@ class ilFSStorageExercise extends ilFileSystemAbstractionStorage
                     ilFileUtils::moveUploadedFile(
                         $tmp_name,
                         basename($name),
-                        $this->path . DIRECTORY_SEPARATOR . basename($name),
+                        $this->getAbsolutePath() . DIRECTORY_SEPARATOR . basename($name),
                         false
                     );
                 }
