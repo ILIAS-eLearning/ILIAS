@@ -20,6 +20,7 @@ class ilPageObjectGUI
     const PREVIEW = "preview";
     const OFFLINE = "offline";
     const PRINTING = "print";
+    protected $profile_back_url = "";
 
     /**
      * @var ilTemplate
@@ -169,7 +170,7 @@ class ilPageObjectGUI
         $this->initPageObject();
         $this->setPageConfig($this->getPageObject()->getPageConfig());
 
-        $this->page_linker = new ilPageLinker(get_class($this), false, $this->getProfileBackUrl());
+        $this->page_linker = new ilPageLinker(get_class($this));
 
         $this->output2template = true;
         $this->question_xml = "";
@@ -1919,6 +1920,7 @@ class ilPageObjectGUI
                 $pc_obj->setSourcecodeDownloadScript($this->determineSourcecodeDownloadScript());
                 $pc_obj->setFileDownloadLink($this->determineFileDownloadLink());
                 $pc_obj->setFullscreenLink($this->determineFullscreenLink());
+                $pc_obj->setProfileBackUrl($this->getProfileBackUrl());
 
                 // post xsl page content modification by pc elements
                 $output = $pc_obj->modifyPageContentPostXsl($output, $this->getOutputMode(), $this->getAbstractOnly());
@@ -2530,6 +2532,7 @@ class ilPageObjectGUI
      */
     public function setDefaultLinkXml()
     {
+        $this->page_linker->setProfileBackUrl($this->getProfileBackUrl());
         $this->page_linker->setOffline($this->getOutputMode() == self::OFFLINE);
         $this->setLinkXML($this->page_linker->getLinkXml($this->getPageObject()->getInternalLinks()));
     }
@@ -2551,10 +2554,21 @@ class ilPageObjectGUI
      */
     public function getProfileBackUrl()
     {
+        if ($this->profile_back_url != "") {
+            return $this->profile_back_url;
+        }
         return $this->ctrl->getLinkTargetByClass(strtolower(get_class($this)), "preview");
     }
 
-    
+    /**
+     * Get profile back url
+     */
+    public function setProfileBackUrl($url)
+    {
+        $this->profile_back_url = $url;
+    }
+
+
     /**
      * Download file of file lists
      */

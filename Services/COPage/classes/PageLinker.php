@@ -17,6 +17,8 @@ interface PageLinker
      */
     public function setOffline($offline = true);
 
+    public function setProfileBackUrl($url);
+
     /**
      * @return array
      */

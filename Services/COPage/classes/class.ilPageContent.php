@@ -17,6 +17,7 @@
 abstract class ilPageContent
 {
     //var $type;		// type
+    protected $profile_back_url;
     public $hier_id; 		// hierarchical editing id
     public $node;			// node in page xml
     public $dom;			// dom object
@@ -227,6 +228,16 @@ abstract class ilPageContent
     public function getFileDownloadLink()
     {
         return $this->file_download_link;
+    }
+
+    public function setProfileBackUrl($url)
+    {
+        $this->profile_back_url = $url;
+    }
+
+    public function getProfileBackUrl()
+    {
+        return $this->profile_back_url;
     }
 
     /**

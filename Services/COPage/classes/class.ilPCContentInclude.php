@@ -249,6 +249,7 @@ class ilPCContentInclude extends ilPageContent
                     if ($a_mode != "offline") {
                         $page_gui->setFileDownloadLink($this->getFileDownloadLink());
                         $page_gui->setFullscreenLink($this->getFullscreenLink()."&pg_type=mep");
+                        $page_gui->setProfileBackUrl($this->getProfileBackUrl());
                         $page_gui->setSourcecodeDownloadScript($this->getSourcecodeDownloadScript());
                     } else {
                         $page_gui->setOutputMode(ilPageObjectGUI::OFFLINE);
