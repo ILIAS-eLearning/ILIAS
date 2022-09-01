@@ -42,6 +42,8 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
     public const MODE_FILELIST = "filelist";
     public const MODE_OBJECT = "object";
     public const OBJECT_TYPE = "file";
+    public const CLICK_MODE_DOWNLOAD = 1;
+    public const CLICK_MODE_INFOPAGE = 2;
 
     protected ilObjFileImplementationInterface $implementation;
 
@@ -59,6 +61,8 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
     protected Manager $manager;
     protected FileUpload $upload;
     protected ilObjFileStakeholder $stakeholder;
+    private ilDBInterface $database;
+    protected int $on_click_mode = self::CLICK_MODE_DOWNLOAD;
 
     /**
      * ilObjFile constructor.
@@ -68,10 +72,8 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
     public function __construct(int $a_id = 0, bool $a_call_by_reference = true)
     {
         global $DIC;
-        /**
-         * @var $DIC Container
-         */
         $this->manager = $DIC->resourceStorage()->manage();
+        $this->database = $DIC->database();
         $this->implementation = new ilObjFileImplementationEmpty();
         $this->stakeholder = new ilObjFileStakeholder($DIC->user()->getId());
         $this->upload = $DIC->upload();
@@ -309,6 +311,21 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
         return $this->action;
     }
 
+    public function directDownload(): bool
+    {
+        return $this->on_click_mode === self::CLICK_MODE_DOWNLOAD;
+    }
+
+    public function getOnClickMode(): int
+    {
+        return $this->on_click_mode;
+    }
+
+    public function setOnclickMode(int $on_click_mode): void
+    {
+        $this->on_click_mode = $on_click_mode;
+    }
+
     /**
      * @param $a_action
      * @deprecated
@@ -318,21 +335,18 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
         throw new LogicException('cannot change action');
     }
 
+
     protected function doCreate(bool $clone_mode = false): void
     {
         $this->createProperties(true);
         $this->notifyCreation($this->getId(), $this->getDescription());
     }
 
+
     protected function doRead(): void
     {
-        global $DIC;
-        /**
-         * @var $DIC Container
-         */
-
         $q = "SELECT * FROM file_data WHERE file_id = %s";
-        $r = $DIC->database()->queryF($q, ['integer'], [$this->getId()]);
+        $r = $this->database->queryF($q, ['integer'], [$this->getId()]);
         $row = $r->fetchObject();
 
         $this->filename = $this->secure($row->file_name ?? '');
@@ -344,6 +358,7 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
         $this->rating = $row->rating;
         $this->page_count = (int) $row->page_count;
         $this->resource_id = $row->rid;
+        $this->on_click_mode = (int) ($row->on_click_mode ?? self::CLICK_MODE_DOWNLOAD);
 
         $this->initImplementation();
     }
@@ -379,10 +394,8 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
 
     protected function doUpdate(): void
     {
-        global $DIC;
-
         $a_columns = $this->getArrayForDatabase();
-        $DIC->database()->update('file_data', $a_columns, [
+        $this->database->update('file_data', $a_columns, [
             'file_id' => [
                 'integer',
                 $this->getId(),
@@ -391,8 +404,8 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
 
         // update metadata with the current file version
         $meta_version_column = ['meta_version' => ['integer', $this->getVersion()]];
-        $DIC->database()->update('il_meta_lifecycle', $meta_version_column, [
-            'rbac_id' => [
+        $this->database->update('il_meta_lifecycle', $meta_version_column, [
+            'obj_id' => [
                 'integer',
                 $this->getId(),
             ],
@@ -421,10 +434,8 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
 
     protected function doDelete(): void
     {
-        global $DIC;
-
         // delete file data entry
-        $DIC->database()->manipulateF("DELETE FROM file_data WHERE file_id = %s", ['integer'], [$this->getId()]);
+        $this->database->manipulateF("DELETE FROM file_data WHERE file_id = %s", ['integer'], [$this->getId()]);
 
         // delete history entries
         ilHistory::_removeEntriesForObject($this->getId());
@@ -456,6 +467,7 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
             'page_count' => ['text', $this->getPageCount()],
             'rating' => ['integer', $this->hasRating()],
             'rid' => ['text', $this->resource_id ?? ''],
+            'on_click_mode' => ['integer', $this->getOnClickMode()],
         ];
     }
 

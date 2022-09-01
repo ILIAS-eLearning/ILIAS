@@ -1702,6 +1702,29 @@ class ilAdvancedMDSettingsGUI
                 ,
                 "newline" => $perm[ilAdvancedMDPermissionHelper::ACTION_SUBSTITUTION_EXERCISE_EDIT_FIELD_PROPERTY][ilAdvancedMDPermissionHelper::SUBACTION_SUBSTITUTION_NEWLINE]
             );
+        } elseif ($a_obj_type == "file") {
+            $perm = $this->getPermissions()->hasPermissions(
+                ilAdvancedMDPermissionHelper::CONTEXT_SUBSTITUTION_FILE,
+                (string) $a_field_id,
+                array(
+                    ilAdvancedMDPermissionHelper::ACTION_SUBSTITUTION_FILE_SHOW_FIELD
+                    ,
+                    array(ilAdvancedMDPermissionHelper::ACTION_SUBSTITUTION_FILE_EDIT_FIELD_PROPERTY,
+                          ilAdvancedMDPermissionHelper::SUBACTION_SUBSTITUTION_BOLD
+                    )
+                    ,
+                    array(ilAdvancedMDPermissionHelper::ACTION_SUBSTITUTION_FILE_EDIT_FIELD_PROPERTY,
+                          ilAdvancedMDPermissionHelper::SUBACTION_SUBSTITUTION_NEWLINE
+                    )
+                )
+            );
+            return array(
+                "show" => $perm[ilAdvancedMDPermissionHelper::ACTION_SUBSTITUTION_FILE_SHOW_FIELD]
+                ,
+                "bold" => $perm[ilAdvancedMDPermissionHelper::ACTION_SUBSTITUTION_FILE_EDIT_FIELD_PROPERTY][ilAdvancedMDPermissionHelper::SUBACTION_SUBSTITUTION_BOLD]
+                ,
+                "newline" => $perm[ilAdvancedMDPermissionHelper::ACTION_SUBSTITUTION_FILE_EDIT_FIELD_PROPERTY][ilAdvancedMDPermissionHelper::SUBACTION_SUBSTITUTION_NEWLINE]
+            );
         }
         return [];
     }

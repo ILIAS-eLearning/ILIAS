@@ -48,7 +48,6 @@ class ilHelpMetaBarProvider extends AbstractStaticMetaBarProvider
                            if ($c instanceof BulkyButton || $c instanceof BulkyLink) {
                                return $c->withAdditionalOnLoadCode(static function (string $id): string {
                                    return "$('#$id').on('click', function() {
-                                    console.log('trigger help slate');
                                     $('body').trigger('il-help-toggle-slate');
                                     return false;
                                 })";

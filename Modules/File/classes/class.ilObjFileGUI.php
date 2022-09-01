@@ -433,7 +433,7 @@ class ilObjFileGUI extends ilObject2GUI
         global $DIC;
         $ilTabs = $DIC['ilTabs'];
 
-        $form = $this->initPropertiesForm();
+        $form = $this->initPropertiesForm(self::CMD_EDIT);
         if (!$form->checkInput()) {
             $ilTabs->activateTab("settings");
             $form->setValuesByPost();
@@ -453,7 +453,7 @@ class ilObjFileGUI extends ilObject2GUI
         $this->object->setTitle($title);
         $this->object->setDescription($form->getInput('description'));
         $this->object->setRating($form->getInput('rating'));
-
+        $this->object->setOnclickMode((int) $form->getInput('on_click_action'));
         $this->object->update();
         $this->obj_service->commonSettings()->legacyForm($form, $this->object)->saveTileImage();
 
@@ -492,6 +492,7 @@ class ilObjFileGUI extends ilObject2GUI
         $val['title'] = $this->object->getTitle();
         $val['description'] = $this->object->getLongDescription();
         $val['rating'] = $this->object->hasRating();
+        $val['on_click_action'] = (string) $this->object->getOnClickMode();
         $form->setValuesByArray($val);
         $ecs = new ilECSFileSettings($this->object);
         $ecs->addSettingsToForm($form, ilObjFile::OBJECT_TYPE);
@@ -527,6 +528,18 @@ class ilObjFileGUI extends ilObject2GUI
             $rate->setInfo($this->lng->txt('rating_activate_rating_info'));
             $form->addItem($rate);
         }
+
+        $on_click_action = new ilRadioGroupInputGUI($this->lng->txt('on_click_action'), 'on_click_action');
+        $on_click_action->addOption(
+            new ilRadioOption(
+                $this->lng->txt('action_download'),
+                (string) ilObjFile::CLICK_MODE_DOWNLOAD
+            )
+        );
+        $on_click_action->addOption(
+            new ilRadioOption($this->lng->txt('action_show'), (string) ilObjFile::CLICK_MODE_INFOPAGE)
+        );
+        $form->addItem($on_click_action);
 
         $presentationHeader = new ilFormSectionHeaderGUI();
         $presentationHeader->setTitle($this->lng->txt('settings_presentation_header'));
@@ -638,6 +651,10 @@ class ilObjFileGUI extends ilObject2GUI
                 $info->setBlockProperty("news", "public_notifications_option", true);
             }
         }
+
+        $record_gui = new ilAdvancedMDRecordGUI(ilAdvancedMDRecordGUI::MODE_INFO, 'file', $this->object->getId());
+        $record_gui->setInfoObject($info);
+        $record_gui->parse();
 
         // standard meta data
         $info->addMetaDataSections($this->object->getId(), 0, $this->object->getType());

@@ -240,7 +240,7 @@ abstract class ilClaimingPermissionHelper
      */
     public function getAllowedObjectTypes(): array
     {
-        $accepted_types = ['cat','crs','sess','grp','iass', 'exc'];
+        $accepted_types = ['cat','crs','sess','grp','iass','exc','file'];
 
         $obj_def = new ilObjectDefinition();
         $adv_md_types = $obj_def->getAdvancedMetaDataTypes();

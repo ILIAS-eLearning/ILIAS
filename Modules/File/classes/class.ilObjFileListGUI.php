@@ -23,6 +23,7 @@ use ILIAS\FileUpload\MimeType;
  * @author        Alex Killing <alex.killing@gmx.de>
  * @author        Stefan Born <stefan.born@phzh.ch>
  * @author        Fabian Schmid <fs@studer-raimann.ch>
+ * @author        Thibeau Fuhrer <thibeau@sr.solutions>
  */
 class ilObjFileListGUI extends ilObjectListGUI
 {
@@ -43,6 +44,12 @@ class ilObjFileListGUI extends ilObjectListGUI
         $this->info_screen_enabled = true;
         $this->type = ilObjFile::OBJECT_TYPE;
         $this->gui_class_name = ilObjFileGUI::class;
+
+        $this->substitutions = ilAdvancedMDSubstitution::_getInstanceByObjectType($this->type);
+        if ($this->substitutions->isActive()) {
+            $this->substitutions_enabled = true;
+        }
+
         $this->commands = ilObjFileAccess::_getCommands();
     }
 
@@ -54,7 +61,9 @@ class ilObjFileListGUI extends ilObjectListGUI
         $frame = "";
         switch ($cmd) {
             case 'sendfile':
-                if (ilObjFileAccess::_isFileInline($this->title)) {
+                if (ilObjFileAccess::_shouldDownloadDirectly($this->obj_id) &&
+                    ilObjFileAccess::_isFileInline($this->title)
+                ) {
                     $frame = '_blank';
                 }
                 break;
@@ -209,9 +218,17 @@ class ilObjFileListGUI extends ilObjectListGUI
     public function getCommandLink(string $cmd): string
     {
         // only create permalink for repository
-        if ($cmd == "sendfile" && $this->context === self::CONTEXT_REPOSITORY) {
-            // return the perma link for downloads
-            return ilObjFileAccess::_getPermanentDownloadLink($this->ref_id);
+        if ($cmd === "sendfile" && $this->context === self::CONTEXT_REPOSITORY) {
+            if (ilObjFileAccess::_shouldDownloadDirectly($this->obj_id)) {
+                // return the perma link for downloads
+                return ilObjFileAccess::_getPermanentDownloadLink($this->ref_id);
+            }
+
+            $this->ctrl->setParameterByClass(ilRepositoryGUI::class, 'ref_id', $this->ref_id);
+            return $this->ctrl->getLinkTargetByClass(
+                ilRepositoryGUI::class,
+                'infoScreen'
+            );
         }
 
         if (ilFileVersionsGUI::CMD_UNZIP_CURRENT_REVISION === $cmd) {

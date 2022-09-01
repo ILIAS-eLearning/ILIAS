@@ -72,4 +72,9 @@ class StandardGUIRequest
     {
         return $this->int("hm_id");
     }
+
+    public function getHelpMode(): string
+    {
+        return $this->str("help_mode");
+    }
 }
