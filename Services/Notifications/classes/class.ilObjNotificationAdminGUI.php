@@ -32,21 +32,22 @@ class ilObjNotificationAdminGUI extends ilObjectGUI
 {
     protected Container $dic;
 
-    /**
-     * @inheritDoc
-     */
-    public function __construct($a_data, $a_id = 0, $a_call_by_reference = true, $a_prepare_output = true)
+    public function __construct($a_data, int $a_id = 0, bool $a_call_by_reference = true, bool $a_prepare_output = true)
     {
         global $DIC;
         $this->dic = $DIC;
 
-        $this->type = "nota";
+        $this->type = 'nota';
         parent::__construct($a_data, $a_id, $a_call_by_reference, false);
         $this->lng->loadLanguageModule('notification_adm');
     }
 
     public function executeCommand(): void
     {
+        if (!$this->rbac_system->checkAccess('visible,read', $this->object->getRefId())) {
+            $this->error->raiseError($this->lng->txt('no_permission'), $this->error->WARNING);
+        }
+
         $this->prepareOutput();
 
         switch (strtolower($this->ctrl->getNextClass())) {
@@ -72,18 +73,18 @@ class ilObjNotificationAdminGUI extends ilObjectGUI
     {
         if ($form === null) {
             $settings = new ilSetting('notifications');
-            $value = [];
+            $values = [];
             if ($settings->get('enable_osd') === '0' || $settings->get('enable_osd') === null) {
-                $value['enable_osd'] = null;
+                $values['enable_osd'] = null;
             } else {
-                $value['enable_osd'] = [
+                $values['enable_osd'] = [
                     'osd_interval' => (int) $settings->get('osd_interval'),
                     'osd_vanish' => (int) $settings->get('osd_vanish'),
                     'osd_delay' => (int) $settings->get('osd_delay'),
                     'play_sound' => (bool) $settings->get('play_sound'),
                 ];
             }
-            $form = $this->getForm($value);
+            $form = $this->getForm($values);
         }
 
         $this->tpl->setContent($this->dic->ui()->renderer()->render($form));
@@ -94,6 +95,10 @@ class ilObjNotificationAdminGUI extends ilObjectGUI
      */
     public function saveGeneralSettings(): void
     {
+        if (!$this->checkPermissionBool('write')) {
+            $this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
+        }
+
         $settings = new ilSetting('notifications');
 
         $form = $this->getForm()->withRequest($this->dic->http()->request());
@@ -116,7 +121,7 @@ class ilObjNotificationAdminGUI extends ilObjectGUI
     /**
      * @throws ilCtrlException
      */
-    protected function getForm(array $value = null): Form
+    protected function getForm(array $values = null): Form
     {
         $enable_osd = $this->dic->ui()->factory()->input()->field()->optionalGroup(
             [
@@ -142,8 +147,8 @@ class ilObjNotificationAdminGUI extends ilObjectGUI
             $this->lng->txt('enable_osd_desc')
         );
 
-        if ($value !== null) {
-            $enable_osd = $enable_osd->withValue($value['enable_osd'] ?? null);
+        if ($values !== null) {
+            $enable_osd = $enable_osd->withValue($values['enable_osd'] ?? null);
         }
 
         return $this->dic->ui()->factory()->input()->container()->form()->standard(
