@@ -106,6 +106,9 @@ class ilObjSessionAccess extends ilObjectAccess
                 if (ilSessionWaitingList::_isOnList($a_user_id, $a_obj_id)) {
                     return false;
                 }
+                if ($this->isRegistrationLimitExceeded($a_ref_id, $a_obj_id)) {
+                    return false;
+                }
                 break;
                 
             case 'unregister':
@@ -115,6 +118,19 @@ class ilObjSessionAccess extends ilObjectAccess
                 return false;
         }
         return true;
+    }
+
+    public function isRegistrationLimitExceeded(int $ref_id, int $obj_id) : bool
+    {
+        $session_data = new ilObjSession($obj_id, false);
+        if (!$session_data->isRegistrationUserLimitEnabled()) {
+            return false;
+        }
+        $part = ilSessionParticipants::getInstance($ref_id);
+        if ($part->getCountMembers() >= $session_data->getRegistrationMaxUsers()) {
+            return true;
+        }
+        return false;
     }
     
     
