@@ -9935,6 +9935,7 @@ help#:#help_modules#:#Help Packages
 help#:#help_no_content#:#There is no help content available for the current screen. You may use the search tool.
 help#:#help_open_online_help#:#Open Online Help
 help#:#help_search_label#:#Search Help
+help#:#help_select_a_file#:#Please select a file.
 help#:#help_set_mode#:#Set Mode
 help#:#help_sure_delete_help_modules#:#Are you sure that these packages should be deleted?
 help#:#help_toggle_tooltips#:#Help Tooltips

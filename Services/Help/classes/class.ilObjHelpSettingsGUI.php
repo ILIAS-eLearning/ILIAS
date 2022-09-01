@@ -155,6 +155,10 @@ class ilObjHelpSettingsGUI extends ilObject2GUI
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
 
+        if (!isset($_FILES["help_file"]["tmp_name"]) || $_FILES["help_file"]["tmp_name"] === "") {
+            $this->tpl->setOnScreenMessage('failure', $lng->txt("help_select_a_file"), true);
+            $ilCtrl->redirect($this, "editSettings");
+        }
         if ($this->checkPermissionBool("write")) {
             $this->object->uploadHelpModule($_FILES["help_file"]);
             $this->tpl->setOnScreenMessage('success', $lng->txt("help_module_uploaded"), true);
