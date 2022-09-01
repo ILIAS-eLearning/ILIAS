@@ -45,8 +45,6 @@ class ilNotificationObject
     {
         $this->baseNotification = $baseNotification;
         $this->user = $user;
-
-        $this->links = $this->baseNotification->getLinks();
         $this->handlerParams = $this->baseNotification->getHandlerParams();
     }
 
