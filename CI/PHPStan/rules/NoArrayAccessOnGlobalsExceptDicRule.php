@@ -30,7 +30,7 @@ final class NoArrayAccessOnGlobalsExceptDicRule implements Rule
 {
     public function getNodeType(): string
     {
-        return Node::class;
+        return ArrayDimFetch::class;
     }
 
     /**
