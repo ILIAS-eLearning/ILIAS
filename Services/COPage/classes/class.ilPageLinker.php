@@ -23,7 +23,7 @@
 class ilPageLinker implements \ILIAS\COPage\PageLinker
 {
     protected bool $offline;
-    protected string $profile_back_url;
+    protected string $profile_back_url = "";
     protected ilCtrl $ctrl;
     protected string $cmd_gui;
 
@@ -47,6 +47,11 @@ class ilPageLinker implements \ILIAS\COPage\PageLinker
     public function setOffline(bool $offline = true): void
     {
         $this->offline = $offline;
+    }
+
+    public function setProfileBackUrl(string $url): void
+    {
+        $this->profile_back_url = $url;
     }
 
 

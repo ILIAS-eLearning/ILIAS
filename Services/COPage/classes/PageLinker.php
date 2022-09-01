@@ -28,7 +28,7 @@ interface PageLinker
     public function setOffline(bool $offline = true): void;
 
     public function getLayoutLinkTargets(): array;
-
+    public function setProfileBackUrl(string $url): void;
     public function getLinkXML(array $int_links): string;
 
     public function getFullscreenLink(): string;

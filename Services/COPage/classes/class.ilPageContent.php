@@ -38,6 +38,7 @@ abstract class ilPageContent
     // needed for post processing (e.g. content includes)
     protected string $sourcecode_download_script;
     protected ilLogger $log;
+    protected string $profile_back_url = "";
 
     final public function __construct(ilPageObject $a_pg_obj)
     {
@@ -152,6 +153,16 @@ abstract class ilPageContent
     public function getFileDownloadLink(): string
     {
         return $this->file_download_link;
+    }
+
+    public function setProfileBackUrl(string $url): void
+    {
+        $this->profile_back_url = $url;
+    }
+
+    public function getProfileBackUrl(): string
+    {
+        return $this->profile_back_url;
     }
 
     public function setFullscreenLink(string $a_fullscreen_link): void
