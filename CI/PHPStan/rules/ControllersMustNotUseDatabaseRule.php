@@ -27,8 +27,9 @@ use PHPStan\Rules\RuleErrorBuilder;
 use PhpParser\Node\Expr\MethodCall;
 use PHPStan\Type\ObjectType;
 use ilDBInterface;
+use ILIAS\CI\PHPStan\services\ControllerDetermination;
 
-final class ControllersMustNotUseDatabase implements Rule
+final class ControllersMustNotUseDatabaseRule implements Rule
 {
     public function __construct(
         private ControllerDetermination $determination

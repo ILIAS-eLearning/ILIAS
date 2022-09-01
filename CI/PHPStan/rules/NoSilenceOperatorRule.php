@@ -37,7 +37,7 @@ final class NoSilenceOperatorRule implements Rule
     {
         return [
             RuleErrorBuilder::message(
-                'You should not use the silencing operator (@)'
+                'You must not use the silencing operator (@)'
             )->build(),
         ];
     }

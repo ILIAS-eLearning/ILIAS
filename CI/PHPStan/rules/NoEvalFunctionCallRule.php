@@ -26,7 +26,7 @@ use PHPStan\Analyser\Scope;
 use PHPStan\Rules\RuleErrorBuilder;
 use PhpParser\Node\Expr\Eval_;
 
-final class NoEvalFunctionCall implements Rule
+final class NoEvalFunctionCallRule implements Rule
 {
     public function getNodeType(): string
     {
@@ -37,7 +37,7 @@ final class NoEvalFunctionCall implements Rule
     {
         return [
             RuleErrorBuilder::message(
-                'You should not use eval()'
+                'You must not use eval()'
             )->build(),
         ];
     }

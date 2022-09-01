@@ -22,30 +22,23 @@ namespace ILIAS\CI\PHPStan\rules;
 
 use PHPStan\Rules\Rule;
 use PhpParser\Node;
-use PhpParser\Node\Expr\FuncCall;
 use PHPStan\Analyser\Scope;
 use PHPStan\Rules\RuleErrorBuilder;
+use PhpParser\Node\Expr\Exit_;
 
-final class NoTriggerErrorFunctionCall implements Rule
+final class NoScriptTerminationRule implements Rule
 {
     public function getNodeType(): string
     {
-        return FuncCall::class;
+        return Exit_::class;
     }
 
-    /**
-     * @param FuncCall $node
-     */
     public function processNode(Node $node, Scope $scope): array
     {
-        if (strtolower((string) $node->name) == 'trigger_error') {
-            return [
-                RuleErrorBuilder::message(
-                    'You should not call trigger_error()'
-                )->build(),
-            ];
-        }
-
-        return [];
+        return [
+            RuleErrorBuilder::message(
+                'You must not terminate a script with die() or exit()'
+            )->build(),
+        ];
     }
 }

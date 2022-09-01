@@ -18,11 +18,19 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
-namespace ILIAS\CI\PHPStan\rules;
+namespace ILIAS\CI\PHPStan\services;
 
 use PHPStan\Reflection\ClassReflection;
 
-interface ControllerDetermination
+class SuffixBasedControllerDetermination implements ControllerDetermination
 {
-    public function isController(ClassReflection $class_reflection): bool;
+    public function __construct(
+        private string $suffix = 'GUI'
+    ) {
+    }
+
+    public function isController(ClassReflection $class): bool
+    {
+        return str_ends_with($class->getName(), $this->suffix);
+    }
 }
