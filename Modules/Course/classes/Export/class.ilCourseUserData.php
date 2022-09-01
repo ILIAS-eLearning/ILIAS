@@ -148,8 +148,9 @@ class ilCourseUserData
             "WHERE usr_id = " . $this->db->quote($this->user_id, 'integer') . " " .
             "AND field_id = " . $this->db->quote($this->field_id, 'integer');
         $res = $this->db->query($query);
-        $row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT);
-
-        $this->setValue((string) $row->value);
+        $this->setValue('');
+        while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
+            $this->setValue((string) $row->value);
+        }
     }
 }
