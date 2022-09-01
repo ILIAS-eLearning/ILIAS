@@ -26,6 +26,7 @@ class ilLMPresentationLinker implements \ILIAS\COPage\PageLinker
     protected int $obj_id;
     protected string $frame;
     protected int $requested_ref_id;
+    protected string $profile_back_url = "";
 
     protected bool $offline;
     protected bool $embed_mode;
@@ -80,6 +81,11 @@ class ilLMPresentationLinker implements \ILIAS\COPage\PageLinker
         bool $offline = true
     ): void {
         $this->offline = $offline;
+    }
+
+    public function setProfileBackUrl(string $url) : void
+    {
+        $this->profile_back_url = $url;
     }
 
     /**

@@ -244,6 +244,7 @@ class ilPCContentInclude extends ilPageContent
                     $page_gui = new ilMediaPoolPageGUI($param[1], 0, true, $snippet_lang);
                     if ($a_mode != "offline") {
                         $page_gui->setFileDownloadLink($this->getFileDownloadLink());
+                        $page_gui->setProfileBackUrl($this->getProfileBackUrl());
                         $page_gui->setFullscreenLink($this->getFullscreenLink() . "&pg_type=mep");
                         $page_gui->setSourcecodeDownloadScript($this->getSourcecodeDownloadScript());
                     } else {

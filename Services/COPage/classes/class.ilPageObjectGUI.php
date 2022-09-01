@@ -129,6 +129,7 @@ class ilPageObjectGUI
     protected ?string $adv_type = null;
     protected ?string $adv_subtype = null;
     protected string $concrete_lang = "";
+    protected string $profile_back_url = "";
 
     protected ilComponentFactory $component_factory;
 
@@ -197,7 +198,7 @@ class ilPageObjectGUI
         $this->initPageObject();
         $this->setPageConfig($this->getPageObject()->getPageConfig());
 
-        $this->page_linker = new ilPageLinker(get_class($this), false, $this->getProfileBackUrl());
+        $this->page_linker = new ilPageLinker(get_class($this));
 
         $this->output2template = true;
 
@@ -1644,6 +1645,7 @@ class ilPageObjectGUI
                 $pc_obj->setSourcecodeDownloadScript($this->determineSourcecodeDownloadScript());
                 $pc_obj->setFileDownloadLink($this->determineFileDownloadLink());
                 $pc_obj->setFullscreenLink($this->determineFullscreenLink());
+                $pc_obj->setProfileBackUrl($this->getProfileBackUrl());
 
                 // post xsl page content modification by pc elements
                 $output = $pc_obj->modifyPageContentPostXsl($output, $this->getOutputMode(), $this->getAbstractOnly());
@@ -1994,6 +1996,7 @@ class ilPageObjectGUI
 
     public function setDefaultLinkXml(): void
     {
+        $this->page_linker->setProfileBackUrl($this->getProfileBackUrl());
         $this->page_linker->setOffline($this->getOutputMode() == self::OFFLINE);
         $this->setLinkXml($this->page_linker->getLinkXML($this->getPageObject()->getInternalLinks()));
     }
@@ -2007,8 +2010,17 @@ class ilPageObjectGUI
 
     public function getProfileBackUrl(): string
     {
+        if ($this->profile_back_url != "") {
+            return $this->profile_back_url;
+        }
         return $this->ctrl->getLinkTargetByClass(strtolower(get_class($this)), "preview");
     }
+
+    public function setProfileBackUrl(string $url) : void
+    {
+        $this->profile_back_url = $url;
+    }
+
 
     public function downloadFile(): void
     {
