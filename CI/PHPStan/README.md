@@ -13,7 +13,8 @@ rules:
   - ILIAS\CI\PHPStan\rules\NoSilenceOperatorRule
   - ILIAS\CI\PHPStan\rules\NoScriptTerminationRule
   - ILIAS\CI\PHPStan\rules\NoEvalFunctionCallRule
-  - ILIAS\CI\PHPStan\rules\ControllersMustNotUseDatabaseRule
+  - ILIAS\CI\PHPStan\rules\NoDatabaseUsageInControllersRule
+  - ILIAS\CI\PHPStan\rules\NoGlobalsExceptDicRule
 services:
   -
     class: ILIAS\CI\PHPStan\services\SuffixBasedControllerDetermination

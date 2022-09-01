@@ -29,7 +29,7 @@ use PHPStan\Type\ObjectType;
 use ilDBInterface;
 use ILIAS\CI\PHPStan\services\ControllerDetermination;
 
-final class ControllersMustNotUseDatabaseRule implements Rule
+final class NoDatabaseUsageInControllersRule implements Rule
 {
     public function __construct(
         private ControllerDetermination $determination
@@ -54,10 +54,10 @@ final class ControllersMustNotUseDatabaseRule implements Rule
             return [];
         }
 
-        $objectType = $scope->getType($node->var);
-        $containerType = new ObjectType(ilDBInterface::class);
+        $current_object_type = $scope->getType($node->var);
+        $database_interface = new ObjectType(ilDBInterface::class);
 
-        if (!$containerType->isSuperTypeOf($objectType)->yes()) {
+        if (!$database_interface->isSuperTypeOf($current_object_type)->yes()) {
             return [];
         }
 
