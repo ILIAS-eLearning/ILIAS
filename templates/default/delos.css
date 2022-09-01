@@ -14652,6 +14652,29 @@ p#copg-auto-save {
 #il-copg-ed-modal .modal-content .Whoops.container .details-container {
   position: static;
 }
+.ilPageVideo button:focus-visible,
+.ilPageAudio button:focus-visible {
+  position: relative;
+  outline: 2px solid #FFFFFF;
+  outline-offset: 4px;
+}
+.ilPageVideo button:focus-visible::after,
+.ilPageAudio button:focus-visible::after {
+  content: " ";
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  border: 2px solid #FFFFFF;
+  outline: 3px solid #0078D7;
+}
+.ilPageVideo button:active,
+.ilPageAudio button:active,
+.ilPageVideo button.engaged,
+.ilPageAudio button.engaged {
+  outline: none;
+}
 /* Services/Calendar */
 td.even {
   color: #161616;
