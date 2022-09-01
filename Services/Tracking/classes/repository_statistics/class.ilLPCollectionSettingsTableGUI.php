@@ -14,6 +14,9 @@ class ilLPCollectionSettingsTableGUI extends ilTable2GUI
 
     protected ilObjectDefinition $obj_definition;
 
+    protected \ILIAS\UI\Factory $ui_factory;
+    protected \ILIAS\UI\Renderer $renderer;
+
     public function __construct(
         ?object $a_parent_obj,
         string $a_parent_cmd,
@@ -21,6 +24,9 @@ class ilLPCollectionSettingsTableGUI extends ilTable2GUI
         int $a_mode
     ) {
         global $DIC;
+
+        $this->ui_factory = $DIC->ui()->factory();
+        $this->renderer = $DIC->ui()->renderer();
 
         $this->obj_definition = $DIC["objDefinition"];
         $this->node_id = $a_node_id;
@@ -81,23 +87,9 @@ class ilLPCollectionSettingsTableGUI extends ilTable2GUI
         $this->tpl->setVariable('COLL_TITLE', $a_set['title'] ?? "");
         $this->tpl->setVariable('COLL_DESC', $a_set['description'] ?? "");
 
-        if ($this->obj_definition->isPluginTypeName($a_set["type"])) {
-            $alt = ilObjectPlugin::lookupTxtById(
-                $a_set['type'],
-                "obj_" . $a_set['type']
-            );
-        } else {
-            $alt = $this->lng->txt('obj_' . $a_set['type']);
-        }
-        $this->tpl->setVariable('ALT_IMG', $alt);
-        $this->tpl->setVariable(
-            'TYPE_IMG',
-            ilObject::_getIcon(
-                (int) ($a_set['obj_id'] ?? 0),
-                'tiny',
-                $a_set['type']
-            )
-        );
+        $icon_path = ilObject::_getIcon((int) ($a_set['obj_id'] ?? 0), 'tiny', $a_set['type']);
+        $icon = $this->ui_factory->symbol()->icon()->custom($icon_path, "");
+        $this->tpl->setVariable("ICON", $this->renderer->render($icon));
 
         if (
             $this->getMode() != ilLPObjSettings::LP_MODE_COLLECTION_MANUAL &&
