@@ -19445,6 +19445,14 @@ div.ilc_Question {
   margin-top: 10px;
   margin-bottom: 10px;
 }
+.ilc_qinput_TextInput {
+  max-width: 65vw;
+}
+@media only screen and (max-width: 768px) {
+  .ilc_qinput_TextInput {
+    max-width: 100%;
+  }
+}
 .testSheet {
   background: #EEEEEE;
   border-spacing: 1px;
