@@ -24,35 +24,32 @@ use PhpParser\Node;
 use PHPStan\Analyser\Scope;
 use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleErrorBuilder;
-use PhpParser\Node\Stmt\Global_;
+use PhpParser\Node\Expr\ArrayDimFetch;
 
-final class NoGlobalsExceptDicRule implements Rule
+final class NoArrayAccessOnGlobalsExceptDicRule implements Rule
 {
     public function getNodeType(): string
     {
-        return Global_::class;
+        return Node::class;
     }
 
     /**
-     * @param Global_ $node
+     * @param ArrayDimFetch $node
      */
     public function processNode(Node $node, Scope $scope): array
     {
-        foreach ($node->vars as $variable) {
-            $forbidden_globals = [];
-
-            if ($variable->name !== 'DIC') {
-                $forbidden_globals[] =  $variable->name;
-            }
-
-            if ($forbidden_globals !== []) {
+        if ($node->var->name === 'GLOBALS' && $node->dim !== null) {
+            $infered_type = $scope->getType($node->dim);
+            if ($infered_type->isString() && $infered_type->getValue() !== 'DIC') {
                 return [
                     RuleErrorBuilder::message(
-                        'You must not use global variables excecpt $DIC: ' . implode(', ', $forbidden_globals)
+                        'You must not use global variables except $DIC: ' . $infered_type->getValue()
                     )->build()
                 ];
             }
         }
+
+        // Currently we cannot detect violations like this: $foo = $GLOBALS; $foo['ilDB'];
 
         return [];
     }

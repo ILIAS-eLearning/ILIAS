@@ -15,6 +15,7 @@ rules:
   - ILIAS\CI\PHPStan\rules\NoEvalFunctionCallRule
   - ILIAS\CI\PHPStan\rules\NoDatabaseUsageInControllersRule
   - ILIAS\CI\PHPStan\rules\NoGlobalsExceptDicRule
+  - ILIAS\CI\PHPStan\rules\NoArrayAccessOnGlobalsExceptDicRule
 services:
   -
     class: ILIAS\CI\PHPStan\services\SuffixBasedControllerDetermination
