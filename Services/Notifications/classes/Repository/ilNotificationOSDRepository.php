@@ -59,8 +59,8 @@ class ilNotificationOSDRepository implements ilNotificationOSDRepositoryInterfac
             $user_id,
             $object,
             $now,
-            $base->getValidForSeconds() ? $base->getVisibleForSeconds() + $now : 0,
-            $base->getVisibleForSeconds() ?? 0,
+            $base->getValidForSeconds() ? $base->getValidForSeconds() + $now : 0,
+            $base->getVisibleForSeconds(),
             $base->getType()
         );
 
