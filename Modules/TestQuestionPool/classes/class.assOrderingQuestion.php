@@ -1329,7 +1329,14 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
     public function getSolutionListFromPostSubmit(): ilAssOrderingElementList
     {
         if ($this->postSolutionOrderingElementList === null) {
-            $list = $this->fetchSolutionListFromFormSubmissionData($_POST);
+            $post_array = $_POST;
+            if (! is_array($post_array)) {
+                global $DIC;
+                $request = $DIC->http()->request();
+                $post_array = $request->getParsedBody();
+            }
+
+            $list = $this->fetchSolutionListFromFormSubmissionData($post_array);
             $this->postSolutionOrderingElementList = $list;
         }
 
