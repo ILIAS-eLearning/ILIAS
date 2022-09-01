@@ -1092,7 +1092,10 @@ class ilRepositorySearchGUI
     public function __appendToStoredResults(array $a_usr_ids): array
     {
         if (!ilSession::get('search_append')) {
-            ilSession::set('rep_search', ['usr' => $a_usr_ids]);
+            $rep_search = ilSession::get('rep_search') ?? [];
+            $rep_search['usr'] = $a_usr_ids;
+            ilSession::set('rep_search', $rep_search);
+            return $a_usr_ids;
         }
         $rep_search = ilSession::get('rep_search') ?? [];
         foreach ($a_usr_ids as $usr_id) {
