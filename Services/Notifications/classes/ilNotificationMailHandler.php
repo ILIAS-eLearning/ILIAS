@@ -32,7 +32,7 @@ class ilNotificationMailHandler extends ilNotificationHandler
     public function notify(ilNotificationObject $notification): void
     {
         $sender_id = $notification->handlerParams['mail']['sender'] ?? ANONYMOUS_USER_ID;
-        $mail = new ilMail($sender_id);
+        $mail = new ilMail((int) $sender_id);
         $mail->appendInstallationSignature(true);
         $mail->enqueue(
             $notification->user->getLogin(),
