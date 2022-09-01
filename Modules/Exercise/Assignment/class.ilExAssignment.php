@@ -1296,7 +1296,7 @@ class ilExAssignment
     public function uploadAssignmentFiles(array $a_files): void
     {
         ilLoggerFactory::getLogger("exc")->debug("upload assignment files files = ", $a_files);
-        $storage = new ilFSWebStorageExercise($this->getExerciseId(), $this->getId());
+        $storage = new ilFSStorageExercise($this->getExerciseId(), $this->getId());
         $storage->create();
         $storage->uploadAssignmentFiles($a_files);
     }
