@@ -248,6 +248,7 @@ class ilNotificationConfig
         }
         $notificationObject->longDescription = $long;
 
+        $process_links = [];
         foreach ($this->links as $link) {
             $link_title = $link->getTitle()->getName();
             if (isset($languageVars[$link->getTitle()->getName()])) {
@@ -258,8 +259,12 @@ class ilNotificationConfig
                     $link_title = $var[$defaultLanguage];
                 }
             }
-            $link->setTitle($link_title);
+
+            $process_link = clone $link;
+            $process_link->setTitle($link_title);
+            $process_links[] = $process_link;
         }
+        $notificationObject->links = $process_links;
 
         $notificationObject->iconPath = $this->iconPath;
 
