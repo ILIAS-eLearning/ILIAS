@@ -68,6 +68,11 @@ class ilHelpGSToolProvider extends AbstractDynamicToolProvider
                                                         il.UI.maincontrols.mainbar.removeTool('$hashed');
                                                     } else {
                                                         il.UI.maincontrols.mainbar.engageTool('$hashed');
+                                                        const panel = document.getElementById('ilHelpPanel');
+                                                        const firstFocusElement = panel.querySelector('a,input,[role=\'button\'],button');
+                                                        if (firstFocusElement) {
+                                                            firstFocusElement.focus();
+                                                        }
                                                     }
                                                  });";
                                                     });
