@@ -3431,7 +3431,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
             'enable_archiving' => 'setEnableArchiving'
         );
 
-        if (!$templateData['results_presentation']['value']) {
+        if (isset($templateData['results_presentation']['value'])) {
             $templateData['results_presentation']['value'] = array();
         }
 
