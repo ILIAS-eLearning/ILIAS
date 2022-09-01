@@ -248,7 +248,7 @@ class ilObjHelpSettingsGUI extends ilObject2GUI
         if ($this->checkPermissionBool("write")) {
             $ilSetting->set(
                 "help_mode",
-                $this->help_request->getHelpModule()
+                $this->help_request->getHelpMode()
             );
             $this->tpl->setOnScreenMessage('success', $lng->txt("msg_obj_modified"), true);
         }
