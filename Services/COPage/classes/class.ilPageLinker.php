@@ -53,6 +53,11 @@ class ilPageLinker implements \ILIAS\COPage\PageLinker
         $this->offline = $offline;
     }
 
+    public function setProfileBackUrl($url)
+    {
+        $this->profile_back_url = $url;
+    }
+
 
     /**
      * @inheritDoc

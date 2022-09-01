@@ -10,6 +10,7 @@
 class ilLMPresentationLinker implements \ILIAS\COPage\PageLinker
 {
     const TARGET_GUI = "illmpresentationgui";
+    protected $profile_back_url;
 
     /**
      * @var bool
@@ -108,6 +109,11 @@ class ilLMPresentationLinker implements \ILIAS\COPage\PageLinker
     public function setOffline($offline = true)
     {
         $this->offline = $offline;
+    }
+
+    public function setProfileBackUrl($url)
+    {
+        $this->profile_back_url = $url;
     }
 
     /**
