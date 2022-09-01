@@ -2,7 +2,21 @@
 
 declare(strict_types=0);
 
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * @author     Stefan Meyer <meyer@leifos.com>
@@ -95,14 +109,13 @@ class ilLPStatusVisits extends ilLPStatus
         $reqv = ilLPObjSettings::_lookupVisits($a_obj_id);
 
         $re = ilChangeEvent::_lookupReadEvents($a_obj_id, $a_usr_id);
-        $rc = (int) $re[0]["read_count"];
+        $rc = (int) ($re[0]["read_count"] ?? 0);
 
-        if ($reqv > 0) {
+        if ($reqv > 0 && $rc) {
             $per = min(100, 100 / $reqv * $rc);
         } else {
             $per = 100;
         }
-
         return $per;
     }
 }
