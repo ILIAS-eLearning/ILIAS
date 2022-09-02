@@ -989,7 +989,9 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
             $export_file = $qpl_exp->buildExportFile();
             $filename = $export_file;
             $filename = preg_replace("/.*\//", "", $filename);
-            if($export_file === '') $export_file = "StandIn";
+            if ($export_file === '') {
+                $export_file = "StandIn";
+            }
             ilFileDelivery::deliverFileLegacy($export_file, $filename);
             exit();
         } else {
@@ -1482,7 +1484,8 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
         }
         // questions
         $force_active = false;
-        $commands = $_POST["cmd"];
+        //$commands = $_POST["cmd"];
+        $commands = $this->getQueryParamString("cmd");
         if (is_array($commands)) {
             foreach ($commands as $key => $value) {
                 if (preg_match("/^delete_.*/", $key, $matches) ||
