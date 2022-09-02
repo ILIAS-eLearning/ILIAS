@@ -108,7 +108,7 @@ class ilExAssignmentEditorGUI
 
                 $fstorage = new ilFSWebStorageExercise($this->exercise_id, $this->assignment->getId());
                 $fstorage->create();
-                $fs_gui = new ilExAssignmentFileSystemGUI($fstorage->getPath());
+                $fs_gui = new ilExAssignmentFileSystemGUI($fstorage->getAbsolutePath());
                 $fs_gui->setTitle($lng->txt("exc_instruction_files"));
                 $fs_gui->setTableId("excassfil" . $this->assignment->getId());
                 $fs_gui->setAllowDirectories(false);
