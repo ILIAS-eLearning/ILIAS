@@ -1156,7 +1156,7 @@ class ilStyleCharacteristicGUI
         $lng->loadLanguageModule("meta");
 
         $char_regexp_constraint = $refinery->custom()->constraint(function ($v) use ($lng) {
-            return preg_match("/^[a-zA-Z]+[a-zA-Z0-9]*$/", $v);
+            return (bool) preg_match("/^[a-zA-Z]+[a-zA-Z0-9]*$/", $v);
         }, $lng->txt("sty_msg_characteristic_must_only_include") . " A-Z, a-z, 0-9");
 
         $char_exists_constraint = $refinery->custom()->constraint(function ($v) use ($style_obj, $style_type) {
