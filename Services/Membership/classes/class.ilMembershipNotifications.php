@@ -171,7 +171,7 @@ class ilMembershipNotifications
         $this->setMode($a_new_mode);
     }
 
-    protected function getParticipants(): \ilParticipants
+    protected function getParticipants(): ?\ilParticipants
     {
         if ($this->participants === null) {
             $grp_ref_id = $this->tree->checkForParentType($this->ref_id, "grp");
