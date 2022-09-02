@@ -2618,6 +2618,9 @@ class ilPageObjectGUI
 
     public function getTabs(string $a_activate = ""): void
     {
+        if (in_array($this->getOutputMode(), [self::OFFLINE])) {
+            return;
+        }
         $this->setScreenIdComponent();
 
         if (!$this->getEnabledTabs()) {
