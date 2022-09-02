@@ -1296,7 +1296,7 @@ class ilExAssignment
     public function uploadAssignmentFiles(array $a_files): void
     {
         ilLoggerFactory::getLogger("exc")->debug("upload assignment files files = ", $a_files);
-        $storage = new ilFSStorageExercise($this->getExerciseId(), $this->getId());
+        $storage = new ilFSWebStorageExercise($this->getExerciseId(), $this->getId());
         $storage->create();
         $storage->uploadAssignmentFiles($a_files);
     }
@@ -2064,8 +2064,8 @@ class ilExAssignment
 
         $order = $this->getInstructionFilesOrder();
         foreach ($a_entries as $k => $e) {
-            $a_entries[$k]["order_val"] = $order[$e["file"]]["order_nr"];
-            $a_entries[$k]["order_id"] = $order[$e["file"]]["id"];
+            $a_entries[$k]["order_val"] = $order[$e["file"]]["order_nr"] ?? 0;
+            $a_entries[$k]["order_id"] = $order[$e["file"]]["id"] ?? "";
         }
 
         return $a_entries;
