@@ -824,6 +824,7 @@ class ilBlogPostingGUI extends ilPageObjectGUI
         $bpgui->setFileDownloadLink(".");
         $bpgui->setFullscreenLink(".");
         $bpgui->setSourcecodeDownloadScript(".");
+        $bpgui->setProfileBackUrl(".");
          
         // render without title
         $page = $bpgui->showPage();
