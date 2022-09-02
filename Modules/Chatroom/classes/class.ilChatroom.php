@@ -879,7 +879,8 @@ class ilChatroom
                 'link' => $invitationLink !== '' ? $this->getChatURL($gui, $subScope) : '',
                 'inviter_name' => $public_name,
                 'room_name' => $this->getTitle(),
-                'salutation' => ilMail::getSalutation($recipient_id, $userLang)
+                'salutation' => ilMail::getSalutation($recipient_id, $userLang),
+                'BR' => "\n",
             ];
 
             if ($subScope) {
