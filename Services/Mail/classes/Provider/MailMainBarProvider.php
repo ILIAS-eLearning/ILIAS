@@ -26,10 +26,10 @@ use ILIAS\UI\Component\Symbol\Icon\Standard;
 use ilMailGlobalServices;
 
 /**
- * Class MainBarProvider
+ * Class MailMainBarProvider
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-class MainBarProvider extends AbstractStaticMainMenuProvider
+class MailMainBarProvider extends AbstractStaticMainMenuProvider
 {
     public function getStaticTopItems(): array
     {

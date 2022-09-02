@@ -20,7 +20,7 @@ declare(strict_types=1);
 
 use ILIAS\HTTP\GlobalHttpState;
 use ILIAS\Refinery\Factory as Refinery;
-use ILIAS\Mail\Provider\GlobalScreenToolProvider;
+use ILIAS\Mail\Provider\MailGlobalScreenToolProvider;
 
 /**
  * @author       Jens Conze
@@ -72,10 +72,10 @@ class ilMailGUI implements ilCtrlBaseClassInterface
                            ->current();
 
         $additionalDataExists = $toolContext->getAdditionalData()->exists(
-            GlobalScreenToolProvider::SHOW_MAIL_FOLDERS_TOOL
+            MailGlobalScreenToolProvider::SHOW_MAIL_FOLDERS_TOOL
         );
         if (false === $additionalDataExists) {
-            $toolContext->addAdditionalData(GlobalScreenToolProvider::SHOW_MAIL_FOLDERS_TOOL, true);
+            $toolContext->addAdditionalData(MailGlobalScreenToolProvider::SHOW_MAIL_FOLDERS_TOOL, true);
         }
     }
 
