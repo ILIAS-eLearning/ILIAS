@@ -2612,9 +2612,11 @@ buddysystem#:#buddy_enable_info#:#Falls aktiviert, können Benutzer im System ü
 buddysystem#:#buddy_handle_contact_request#:#Kontaktanfrage
 buddysystem#:#buddy_noti_cr_profile_not_published#:#Profil nicht veröffentlicht
 buddysystem#:#buddy_notification_contact_request#:#Kontaktanfrage
+buddysystem#:#buddy_notification_contact_request_ignore#:#Anfrage ignorieren
 buddysystem#:#buddy_notification_contact_request_ignore_osd#:#Anfrage ignorieren
+buddysystem#:#buddy_notification_contact_request_link#:#Anfrage bestätigen
 buddysystem#:#buddy_notification_contact_request_link_osd#:#Anfrage bestätigen
-buddysystem#:#buddy_notification_contact_request_long#:#[SALUTATION], "[REQUESTING_USER]" möchte mit Ihnen in Kontakt treten.
+buddysystem#:#buddy_notification_contact_request_long#:#[SALUTATION][BR][BR]"[REQUESTING_USER]" möchte mit Ihnen in Kontakt treten.[BR][BR]Link zum Persönlichen Profil: [PERSONAL_PROFILE_LINK][BR][BR][APPROVE_REQUEST_TXT] [APPROVE_REQUEST][BR][IGNORE_REQUEST_TXT] [IGNORE_REQUEST]
 buddysystem#:#buddy_notification_contact_request_short#:#Der Benutzer "[REQUESTING_USER]" möchte mit Ihnen in Kontakt treten.
 buddysystem#:#buddy_relation_requested#:#Dem Benutzer wurde eine Kontaktanfrage gesendet.
 buddysystem#:#buddy_request_approved#:#Der Kontakt wurde erfolgreich hergestellt.
@@ -2805,7 +2807,7 @@ chatroom#:#chat_https_cert_info#:#Bitte geben Sie den absoluten Serverpfad zum S
 chatroom#:#chat_https_dhparam_info#:#Bitte geben Sie hier den absoluten Serverpfad zu einer Datei an (bspw.: /etc/ssl/private/dhparam.pem), um Diffie-Hellman-Parameter auszuhandeln (z.B. generiert via: openssl dhparam -out /etc/ssl/private/dhparam.pem 2048 ).
 chatroom#:#chat_https_key_info#:#Bitte geben Sie den absoluten Serverpfad zum privaten Schlüssel an (bspw.: /etc/ssl/private/server.key).
 chatroom#:#chat_invitation#:#"[INVITER_NAME]" lädt ein in Chatraum "[ROOM_NAME]"
-chatroom#:#chat_invitation_long#:#[SALUTATION]  Sie wurden in einen Chatraum eingeladen: Titel des Chatraums: [ROOM_NAME] Eingeladen von: [INVITER_NAME] Zum Betreten des Chatraums folgen Sie bitte dem angegebenen Link.
+chatroom#:#chat_invitation_long#:#[SALUTATION][BR][BR]Sie wurden in einen Chatraum eingeladen:[BR]Titel des Chatraums: [ROOM_NAME][BR]Eingeladen von: [INVITER_NAME][BR]URL: [LINK][BR][BR]Zum Betreten des Chatraums folgen Sie bitte der angegebenen URL.
 chatroom#:#chat_invitation_nc_inv_x#:#Sie haben %s Chateinladungen.
 chatroom#:#chat_invitation_nc_no_inv#:#Sie haben keine Chateinaldungen.
 chatroom#:#chat_invitation_short#:#Klicken Sie auf den Link, um den Chatraum zu betreten.
@@ -9440,7 +9442,6 @@ file#:#storage_id#:#Storage ID
 file#:#upload_info#:#Datei
 file#:#upload_info_desc#:#Sie können die Dateien und die Dateiversionen im Tab "Versionen" verwalten.
 file#:#version_uploaded#:#Version hochgeladen am
-file#:#versionname#:#Titel
 file#:#versionname#:#Titel
 fils#:#file_services#:#Datei-Services
 fils#:#file_services_description#:#Konfiguration der Datei-Service Einstellungen.

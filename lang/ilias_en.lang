@@ -2613,9 +2613,11 @@ buddysystem#:#buddy_enable_info#:#If enabled, users are allowed to contact each 
 buddysystem#:#buddy_handle_contact_request#:#Contact Request
 buddysystem#:#buddy_noti_cr_profile_not_published#:#Profile not published
 buddysystem#:#buddy_notification_contact_request#:#Contact Request
+buddysystem#:#buddy_notification_contact_request_ignore#:#Ignore Request
 buddysystem#:#buddy_notification_contact_request_ignore_osd#:#Ignore Request
+buddysystem#:#buddy_notification_contact_request_link#:#Approve Request
 buddysystem#:#buddy_notification_contact_request_link_osd#:#Approve Request
-buddysystem#:#buddy_notification_contact_request_long#:#[SALUTATION], "[REQUESTING_USER]" wants to add you to his friends list.
+buddysystem#:#buddy_notification_contact_request_long#:#[SALUTATION][BR][BR]"[REQUESTING_USER]" wants to add you to his friends list.[BR][BR]Personal Profile Link: [PERSONAL_PROFILE_LINK][BR][BR][APPROVE_REQUEST_TXT] [APPROVE_REQUEST][BR][IGNORE_REQUEST_TXT] [IGNORE_REQUEST]
 buddysystem#:#buddy_notification_contact_request_short#:#The user "[REQUESTING_USER]" wants to add you to his friends list.
 buddysystem#:#buddy_relation_requested#:#A request has been sent to the user.
 buddysystem#:#buddy_request_approved#:#You successfully approved the contact.
@@ -2806,7 +2808,7 @@ chatroom#:#chat_https_cert_info#:#Please define an absolute server path to the S
 chatroom#:#chat_https_dhparam_info#:#Please define an absolute server path to a file (e.g.: /etc/ssl/private/dhparam.pem), used for the negotiation of Diffie Hellman parameters (e.g. generated via: openssl dhparam -out /etc/ssl/private/dhparam.pem 2048 ).
 chatroom#:#chat_https_key_info#:#Please define an absolute server path to the private key file (e.g..: /etc/ssl/private/server.key).
 chatroom#:#chat_invitation#:#"[INVITER_NAME]" invites you into chat room "[ROOM_NAME]"
-chatroom#:#chat_invitation_long#:#[SALUTATION] You have been invited to a chat room: Chat Room Title: [ROOM_NAME] Invited by: [INVITER_NAME] To join the chat room, please follow the given link.
+chatroom#:#chat_invitation_long#:#[SALUTATION][BR][BR]You have been invited to a chat room:[BR]Chat Room Title: [ROOM_NAME][BR]Invited by: [INVITER_NAME][BR]URL: [LINK][BR][BR]To join the chat room, please follow the given URL.
 chatroom#:#chat_invitation_nc_inv_x#:#You have %s chat invitations.
 chatroom#:#chat_invitation_nc_no_inv#:#You have no chat invitations.
 chatroom#:#chat_invitation_short#:#Please click the link to enter the chat room.
@@ -9441,7 +9443,6 @@ file#:#storage_id#:#Storage ID
 file#:#upload_info#:#File
 file#:#upload_info_desc#:#Manage Uploads and Versions in Tab "Versions"
 file#:#version_uploaded#:#Version uploaded
-file#:#versionname#:#Title
 file#:#versionname#:#Title
 fils#:#file_services#:#File Services
 fils#:#file_services_description#:#Configuration of File Service Settings.

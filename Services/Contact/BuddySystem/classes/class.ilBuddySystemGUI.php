@@ -223,7 +223,7 @@ class ilBuddySystemGUI
             try {
                 $this->buddyList->{$action}($relation);
                 $response->success = true;
-            } catch (ilBuddySystemRelationStateAlreadyGivenException | ilBuddySystemRelationStateTransitionException $e) {
+            } catch (ilBuddySystemRelationStateAlreadyGivenException|ilBuddySystemRelationStateTransitionException $e) {
                 $response->message = sprintf($this->lng->txt($e->getMessage()), $login);
             } catch (Exception) {
                 $response->message = $this->lng->txt('buddy_bs_action_not_possible');

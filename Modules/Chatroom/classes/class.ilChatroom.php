@@ -876,6 +876,7 @@ class ilChatroom
             $userLang = ilLanguageFactory::_getLanguageOfUser($recipient_id);
             $userLang->loadLanguageModule('mail');
             $bodyParams = [
+                'link' => $invitationLink !== '' ? $this->getChatURL($gui, $subScope) : '',
                 'inviter_name' => $public_name,
                 'room_name' => $this->getTitle(),
                 'salutation' => ilMail::getSalutation($recipient_id, $userLang)
