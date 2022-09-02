@@ -1,6 +1,7 @@
 <?php
 
 use ILIAS\HTTP\Wrapper\ArrayBasedRequestWrapper;
+use ILIAS\Refinery\To\Transformation\ListTransformation;
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -40,11 +41,17 @@ class ilClozeGapInputBuilderGUI extends ilSubEnabledFormPropertyGUI
         $this->value = $a_value;
     }
 
+    /**
+     * @throws JsonException
+     */
     public function getValue()
     {
         $editOrOpen = $this->value;
         if (isset($editOrOpen['author'])) {
-            $json = json_decode(ilUtil::stripSlashes($_POST['gap_json_post']));
+            $json = json_decode($this->post->retrieve(
+                "gap_json_post",
+                $this->refinery->kindlyTo()->string()
+            ), true, 512, JSON_THROW_ON_ERROR);
             return $json[0];
         }
         return $this->value;
@@ -55,12 +62,17 @@ class ilClozeGapInputBuilderGUI extends ilSubEnabledFormPropertyGUI
         $this->value_combination = $value;
     }
 
+    /**
+     * @throws JsonException
+     */
     public function getValueCombination()
     {
         $editOrOpen = $this->value;
         if (isset($editOrOpen['author'])) {
-            $json = json_decode(ilUtil::stripSlashes($_POST['gap_json_combination_post']));
-            return $json;
+            return json_decode($this->post->retrieve(
+                "gap_json_combination_post",
+                $this->refinery->kindlyTo()->string()
+            ), true, 512, JSON_THROW_ON_ERROR);
         }
         return (array) $this->value_combination;
     }
@@ -80,31 +92,65 @@ class ilClozeGapInputBuilderGUI extends ilSubEnabledFormPropertyGUI
         }
     }
 
+    /**
+     * @throws JsonException
+     */
     public function checkInput(): bool
     {
         $error = false;
-        $json = self::stripSlashesRecursive(json_decode($_POST['gap_json_post'], true), false);
+        $json = self::stripSlashesRecursive(
+            json_decode(
+                $this->post->retrieve(
+                    "gap_json_post",
+                    $this->refinery->kindlyTo()->string()
+                ),
+                true,
+                512,
+                JSON_THROW_ON_ERROR
+            ),
+            false
+        );
         $gap = self::stripSlashesRecursive($this->raw('gap'));
         $gaps_used_in_combination = array();
-        if ($this->http->wrapper()->post()->has('gap_combination')) {
-            $_POST['gap_combination'] = self::stripSlashesRecursive($_POST['gap_combination']);
-            $_POST['gap_combination_values'] = self::stripSlashesRecursive($_POST['gap_combination_values']);
+        if ($this->post->has('gap_combination')) {
+            $gapCombination = $this->post->retrieve(
+                "gap_combination",
+                $this->refinery->kindlyTo()->recordOf(
+                    [
+                        'select' => new ListTransformation(
+                            new ListTransformation($this->refinery->kindlyTo()->string())
+                        ),
+                        'points' => new ListTransformation(
+                            new ListTransformation($this->refinery->kindlyTo()->string())
+                        ),
+                    ]
+                )
+            );
+            $gapCombinationValues = $this->post->retrieve(
+                "gap_combination_values",
+                $this->refinery->kindlyTo()->listOf(
+                    new ListTransformation(
+                        new ListTransformation($this->refinery->kindlyTo()->string())
+                    )
+                )
+            );
+
             $gap_with_points = array();
 
-            for ($i = 0, $iMax = count($_POST['gap_combination']['select']); $i < $iMax; $i++) {
-                foreach ($_POST['gap_combination']['select'][$i] as $key => $item) {
+            for ($i = 0, $iMax = count($gapCombination['select']); $i < $iMax; $i++) {
+                foreach ($gapCombination['select'][$i] as $key => $item) {
                     if ($item == 'none_selected_minus_one') {
                         return false;
                     }
                     $gaps_used_in_combination[$item] = $item;
                     $check_points_for_best_scoring = false;
-                    foreach ($_POST['gap_combination_values'][$i] as $index => $answeritems) {
+                    foreach ($gapCombinationValues[$i] as $index => $answeritems) {
                         foreach ($answeritems as $answeritem) {
                             if ($answeritem == 'none_selected_minus_one') {
                                 return false;
                             }
                         }
-                        $points = $_POST['gap_combination']['points'][$i][$index];
+                        $points = $gapCombination['points'][$i][$index];
                         if ($points > 0) {
                             $check_points_for_best_scoring = true;
                         }
