@@ -29,23 +29,25 @@ use ILIAS\Notifications\ilNotificationOSDHandler;
 
 class ChatInvitationNotificationProvider extends AbstractNotificationProvider
 {
-    /**
-     * @inheritDoc
-     */
+    public const MUTED_UNTIL_PREFERENCE_KEY = 'chatinv_nc_muted_until';
+    public const NOTIFICATION_TYPE = 'chat_invitation';
+
     public function getNotifications(): array
     {
         if (0 === $this->dic->user()->getId() || $this->dic->user()->isAnonymous()) {
             return [];
         }
 
-        $invitations = [];
+        $leftIntervalTimestamp = $this->dic->user()->getPref(self::MUTED_UNTIL_PREFERENCE_KEY);
+
         $latest_time = 0;
-        $repository = new ilNotificationOSDRepository($this->dic->database());
-        foreach ((new ilNotificationOSDHandler($repository))->getNotificationsForUser(
+        $osd_notification_handler = new ilNotificationOSDHandler(new ilNotificationOSDRepository($this->dic->database()));
+        $invitations = [];
+        foreach ($osd_notification_handler->getNotificationsForUser(
             $this->dic->user()->getId(),
             true,
-            0,
-            'chat_invitation'
+            time() - $leftIntervalTimestamp,
+            self::NOTIFICATION_TYPE
         ) as $osd) {
             $invitations[] = $osd;
             if ($latest_time < $osd->getTimeAdded()) {
@@ -105,6 +107,16 @@ class ChatInvitationNotificationProvider extends AbstractNotificationProvider
                      $this->if->identifier('chat_invitation_bucket')
                  )->withNotificationItem($notificationItem)
                   ->withNewAmount(count($invitations))
+                  ->withClosedCallable(
+                      function () use ($osd_notification_handler): void {
+                          $this->dic->user()->writePref(self::MUTED_UNTIL_PREFERENCE_KEY, (string) time());
+
+                          $osd_notification_handler->deleteStaleNotificationsForUserAndType(
+                              $this->dic->user()->getId(),
+                              self::NOTIFICATION_TYPE
+                          );
+                      }
+                  )
              )
         ];
     }

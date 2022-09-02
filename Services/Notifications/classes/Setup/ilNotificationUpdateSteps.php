@@ -140,4 +140,9 @@ class ilNotificationUpdateSteps implements ilDatabaseUpdateSteps
             'value' => ['text', '1']
         ]);
     }
+
+    public function step_8(): void
+    {
+        $this->db->addIndex('notification_osd', ['usr_id', 'type', 'time_added'], 'i1');
+    }
 }

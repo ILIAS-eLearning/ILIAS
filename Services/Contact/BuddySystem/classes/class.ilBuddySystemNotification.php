@@ -21,6 +21,7 @@ declare(strict_types=1);
 use ILIAS\Notifications\Model\ilNotificationConfig;
 use ILIAS\Notifications\Model\ilNotificationLink;
 use ILIAS\Notifications\Model\ilNotificationParameter;
+use ILIAS\Contact\Provider\ContactNotificationProvider;
 
 /**
  * Class ilBuddyList
@@ -67,7 +68,7 @@ class ilBuddySystemNotification
             $recipientLanguage = ilLanguageFactory::_getLanguage($user->getLanguage());
             $recipientLanguage->loadLanguageModule('buddysystem');
 
-            $notification = new ilNotificationConfig('buddysystem_request');
+            $notification = new ilNotificationConfig(ContactNotificationProvider::NOTIFICATION_TYPE);
 
             $personalProfileLink = $recipientLanguage->txt('buddy_noti_cr_profile_not_published');
             if ($this->hasPublicProfile($this->sender->getId())) {
