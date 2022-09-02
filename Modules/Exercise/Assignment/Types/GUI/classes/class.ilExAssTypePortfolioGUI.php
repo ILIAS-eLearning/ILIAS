@@ -49,8 +49,9 @@ class ilExAssTypePortfolioGUI implements ilExAssignmentTypeGUIInterface
 
         $rd_template = new ilRadioGroupInputGUI($lng->txt("exc_template"), "template");
         $rd_template->setRequired(true);
-        $radio_no_template = new ilRadioOption($lng->txt("exc_without_template"), 0, $lng->txt("exc_without_template_info", "without_template_info"));
-        $radio_with_template = new ilRadioOption($lng->txt("exc_with_template"), 1, $lng->txt("exc_with_template_info", "with_template_info"));
+        $rd_template->setValue("0");
+        $radio_no_template = new ilRadioOption($lng->txt("exc_without_template"), "0", $lng->txt("exc_without_template_info", "without_template_info"));
+        $radio_with_template = new ilRadioOption($lng->txt("exc_with_template"), "1", $lng->txt("exc_with_template_info", "with_template_info"));
 
         $repo = new ilRepositorySelector2InputGUI($lng->txt("exc_portfolio_template"), "template_id");
         $repo->setRequired(true);
@@ -81,9 +82,10 @@ class ilExAssTypePortfolioGUI implements ilExAssignmentTypeGUIInterface
     {
         $values = [];
 
+        $values["template"] = "0";
         if ($ass->getPortfolioTemplateId() > 0) {
             $values["template_id"] = $ass->getPortfolioTemplateId();
-            $values["template"] = 1;
+            $values["template"] = "1";
         }
 
         return $values;
