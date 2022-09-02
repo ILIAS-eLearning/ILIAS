@@ -31,10 +31,10 @@ use Throwable;
 use ILIAS\UI\Component\Item\Notification;
 
 /**
- * Class NotificationProvider
+ * Class MailNotificationProvider
  * @author Michael Jansen <mjansen@databay.de>
  */
-class NotificationProvider extends AbstractNotificationProvider
+class MailNotificationProvider extends AbstractNotificationProvider
 {
     public const MUTED_UNTIL_PREFERENCE_KEY = 'mail_nc_muted_until';
 

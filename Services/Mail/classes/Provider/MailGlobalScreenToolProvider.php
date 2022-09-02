@@ -28,10 +28,10 @@ use ilMailExplorer;
 use ilMailGUI;
 
 /**
- * Class GlobalScreenToolProvider
+ * Class MailGlobalScreenToolProvider
  * @author Michael Jansen <mjansen@databay.de>
  */
-class GlobalScreenToolProvider extends AbstractDynamicToolProvider
+class MailGlobalScreenToolProvider extends AbstractDynamicToolProvider
 {
     public const SHOW_MAIL_FOLDERS_TOOL = 'show_mail_folders_tool';
 
