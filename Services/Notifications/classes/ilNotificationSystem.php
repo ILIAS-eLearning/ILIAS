@@ -36,7 +36,6 @@ class ilNotificationSystem
 
     public function __construct(ilRbacReview $rbacReview = null)
     {
-        $this->addHandler('echo', new ilNotificationEchoHandler());
         $this->addHandler('osd', new ilNotificationOSDHandler());
         $this->addHandler('mail', new ilNotificationMailHandler());
         if ($rbacReview === null) {
