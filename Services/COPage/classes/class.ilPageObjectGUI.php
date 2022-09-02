@@ -2557,6 +2557,9 @@ class ilPageObjectGUI
         if ($this->profile_back_url != "") {
             return $this->profile_back_url;
         }
+        if ($this->getOutputMode() === self::OFFLINE) {
+            return "";
+        }
         return $this->ctrl->getLinkTargetByClass(strtolower(get_class($this)), "preview");
     }
 
