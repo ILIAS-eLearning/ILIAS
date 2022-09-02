@@ -117,7 +117,8 @@ class ilAssQuestionPreviewGUI
                     if (strlen($ref_id) === 0) {
                         $ref_id = $_GET["test_ref_id"];
                     }
-                    if (!$_GET['test_express_mode'] &&
+                    if (is_array($_GET) && !array_key_exists('test_express_mode', $_GET) ||
+                        !$_GET['test_express_mode'] &&
                         (
                             !array_key_exists('___test_express_mode', $GLOBALS) ||
                             !$GLOBALS['___test_express_mode']
