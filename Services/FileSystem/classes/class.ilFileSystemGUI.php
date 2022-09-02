@@ -19,6 +19,7 @@ use ILIAS\FileUpload\DTO\ProcessingStatus;
 use ILIAS\FileUpload\DTO\UploadResult;
 use ILIAS\FileUpload\Location;
 use ILIAS\FileUpload\MimeType;
+use ILIAS\Filesystem\Util\LegacyPathHelper;
 
 /**
  * File System Explorer GUI class
@@ -38,13 +39,12 @@ class ilFileSystemGUI
     public const POST_PARAM_NEW_NAME = "new_name";
     public const POST_PARAM_NEW_DIR = "new_dir";
     public const POST_PARAM_UPLOADED_FILE = "uploaded_file";
-
-    protected ilCtrl $ctrl;
+    protected ilCtrlInterface $ctrl;
     protected bool $use_upload_directory = false;
     protected array $allowed_suffixes = [];
     protected array $forbidden_suffixes = [];
     protected ilLanguage $lng;
-    protected string $main_relative_dir;
+    protected string $main_absolute_dir;
     protected bool $post_dir_path = false;
     protected ilGlobalTemplateInterface $tpl;
     protected array $file_labels = [];
@@ -59,11 +59,10 @@ class ilFileSystemGUI
     protected \ILIAS\HTTP\Wrapper\WrapperFactory $wrapper;
     protected \ILIAS\Refinery\Factory $refinery;
 
-
     /**
-     * @param string $main_relative_directory This must be a relative directory inside the Location::STORAGE of the FileSystemService
+     * @param string $main_absolute_directory
      */
-    public function __construct(string $main_relative_directory)
+    public function __construct(string $main_absolute_directory)
     {
         global $DIC;
 
@@ -72,7 +71,7 @@ class ilFileSystemGUI
         $this->tpl = $DIC->ui()->mainTemplate();
         $this->wrapper = $DIC->http()->wrapper();
         $this->refinery = $DIC->refinery();
-        $this->main_relative_dir = $main_relative_directory;
+        $this->main_absolute_dir = realpath($main_absolute_directory);
 
         $this->defineCommands();
 
@@ -288,11 +287,11 @@ class ilFileSystemGUI
 
         $cur_subdir = str_replace("..", "", $cur_subdir);
         $cur_dir = (!empty($cur_subdir))
-            ? $this->main_relative_dir . "/" . $cur_subdir
-            : $this->main_relative_dir;
+            ? $this->main_absolute_dir . "/" . $cur_subdir
+            : $this->main_absolute_dir;
 
         return [
-            "dir" => $cur_dir,
+            "dir" => realpath($cur_dir),
             "subdir" => $cur_subdir
         ];
     }
@@ -396,7 +395,7 @@ class ilFileSystemGUI
                 : $file;
 
             // check wether selected item is a directory
-            if (is_dir($this->main_relative_dir . "/" . $file) &&
+            if (is_dir($this->main_absolute_dir . "/" . $file) &&
                 !$this->commands[$a_nr]["allow_dir"]) {
                 $this->tpl->setOnScreenMessage('failure', $this->lng->txt("select_a_file"), true);
                 $this->ctrl->redirect($this, "listFiles");
@@ -516,7 +515,7 @@ class ilFileSystemGUI
     public function renameFileForm(string $a_file): void
     {
         $cur_subdir = $this->sanitizeCurrentDirectory();
-        $file = $this->main_relative_dir . "/" . $a_file;
+        $file = $this->main_absolute_dir . "/" . $a_file;
 
         $this->ctrl->setParameter($this, self::PARAM_OLD_NAME, basename($a_file));
         $this->ctrl->saveParameter($this, self::PARAMETER_CDIR);
@@ -564,8 +563,8 @@ class ilFileSystemGUI
 
         $cur_subdir = $this->sanitizeCurrentDirectory();
         $dir = (!empty($cur_subdir))
-            ? $this->main_relative_dir . "/" . $cur_subdir . "/"
-            : $this->main_relative_dir . "/";
+            ? $this->main_absolute_dir . "/" . $cur_subdir . "/"
+            : $this->main_absolute_dir . "/";
 
         $old_name = $this->wrapper->query()->has(self::PARAM_OLD_NAME)
             ? $this->wrapper->query()->retrieve(self::PARAM_OLD_NAME, $this->refinery->to()->string())
@@ -581,7 +580,7 @@ class ilFileSystemGUI
             }
         }
 
-        ilFileUtils::renameExecutables($this->main_relative_dir);
+        ilFileUtils::renameExecutables($this->main_absolute_dir);
         if (is_dir($dir . $new_name)) {
             $this->tpl->setOnScreenMessage(
                 'success',
@@ -617,8 +616,8 @@ class ilFileSystemGUI
         // determine directory
         $cur_subdir = $this->sanitizeCurrentDirectory();
         $cur_dir = (!empty($cur_subdir))
-            ? $this->main_relative_dir . "/" . $cur_subdir
-            : $this->main_relative_dir;
+            ? $this->main_absolute_dir . "/" . $cur_subdir
+            : $this->main_absolute_dir;
 
         $new_dir = $this->wrapper->post()->has(self::POST_PARAM_NEW_DIR)
             ? $this->wrapper->post()->retrieve(self::POST_PARAM_NEW_DIR, $this->refinery->to()->string())
@@ -648,8 +647,8 @@ class ilFileSystemGUI
         // determine directory
         $cur_subdir = $this->sanitizeCurrentDirectory();
         $cur_dir = (!empty($cur_subdir))
-            ? $this->main_relative_dir . "/" . $cur_subdir
-            : $this->main_relative_dir;
+            ? $this->main_absolute_dir . "/" . $cur_subdir
+            : $this->main_absolute_dir;
 
         $tgt_file = null;
 
@@ -693,8 +692,8 @@ class ilFileSystemGUI
 
             $upload->moveOneFileTo(
                 $upload_result,
-                $cur_dir . "/",
-                Location::STORAGE,
+                LegacyPathHelper::createRelativePath($cur_dir . "/"),
+                LegacyPathHelper::deriveLocationFrom($cur_dir),
                 $name,
                 true
             );
@@ -727,13 +726,13 @@ class ilFileSystemGUI
 
             $this->setPerformedCommand(
                 "create_file",
-                array("name" => substr($tgt_file, strlen($this->main_relative_dir) + 1))
+                array("name" => substr($tgt_file, strlen($this->main_absolute_dir) + 1))
             );
         }
 
         $this->ctrl->saveParameter($this, self::PARAMETER_CDIR);
 
-        ilFileUtils::renameExecutables($this->main_relative_dir);
+        ilFileUtils::renameExecutables($this->main_absolute_dir);
 
         $this->ctrl->redirect($this, 'listFiles');
     }
@@ -780,8 +779,8 @@ class ilFileSystemGUI
 
             $cur_subdir = $this->sanitizeCurrentDirectory();
             $cur_dir = (!empty($cur_subdir))
-                ? $this->main_relative_dir . "/" . $cur_subdir
-                : $this->main_relative_dir;
+                ? $this->main_absolute_dir . "/" . $cur_subdir
+                : $this->main_absolute_dir;
             $pi = pathinfo($post_file);
             $file = $cur_dir . "/" . ilUtil::stripSlashes($pi["basename"]);
 
@@ -824,9 +823,9 @@ class ilFileSystemGUI
 
         $cur_subdir = $this->sanitizeCurrentDirectory();
         $cur_dir = (!empty($cur_subdir))
-            ? $this->main_relative_dir . "/" . $cur_subdir
-            : $this->main_relative_dir;
-        $a_file = $this->main_relative_dir . "/" . $a_file;
+            ? $this->main_absolute_dir . "/" . $cur_subdir
+            : $this->main_absolute_dir;
+        $a_file = $this->main_absolute_dir . "/" . $a_file;
 
         if (is_file($a_file)) {
             $cur_files = array_keys(ilFileUtils::getDir($cur_dir));
@@ -865,7 +864,7 @@ class ilFileSystemGUI
 
                     if (isset($new_files["path"])) {
                         foreach ($new_files["path"] as $idx => $path) {
-                            $path = substr($path, strlen($this->main_relative_dir) + 1);
+                            $path = substr($path, strlen($this->main_absolute_dir) + 1);
                             $diff[] = $path . $new_files[self::POST_PARAM_FILE][$idx];
                         }
                     }
@@ -879,7 +878,7 @@ class ilFileSystemGUI
             }
         }
 
-        ilFileUtils::renameExecutables($this->main_relative_dir);
+        ilFileUtils::renameExecutables($this->main_absolute_dir);
 
         $this->ctrl->saveParameter($this, self::PARAMETER_CDIR);
         $this->tpl->setOnScreenMessage('success', $this->lng->txt("cont_file_unzipped"), true);
@@ -888,7 +887,7 @@ class ilFileSystemGUI
 
     public function downloadFile(string $a_file): void
     {
-        $file = $this->main_relative_dir . "/" . $a_file;
+        $file = $this->main_absolute_dir . "/" . $a_file;
 
         if (is_file($file) && !(is_dir($file))) {
             ilFileDelivery::deliverFileLegacy($file, basename($a_file));
