@@ -21,6 +21,7 @@ declare(strict_types=1);
 use ILIAS\Notifications\Model\ilNotificationConfig;
 use ILIAS\Notifications\Model\ilNotificationLink;
 use ILIAS\Notifications\Model\ilNotificationParameter;
+use ILIAS\Chatroom\GlobalScreen\ChatInvitationNotificationProvider;
 
 /**
  * Class ilChatroom
@@ -887,7 +888,7 @@ class ilChatroom
                 $bodyParams['room_name'] .= ' - ' . self::lookupPrivateRoomTitle($subScope);
             }
 
-            $notification = new ilNotificationConfig('chat_invitation');
+            $notification = new ilNotificationConfig(ChatInvitationNotificationProvider::NOTIFICATION_TYPE);
             $notification->setTitleVar('chat_invitation', $bodyParams, 'chatroom');
             $notification->setShortDescriptionVar('chat_invitation_short', $bodyParams, 'chatroom');
             $notification->setLongDescriptionVar('chat_invitation_long', $bodyParams, 'chatroom');

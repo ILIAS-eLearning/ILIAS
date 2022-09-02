@@ -27,6 +27,12 @@ use ILIAS\GlobalScreen\Scope\Notification\Provider\AbstractNotificationProvider;
 use ILIAS\UI\Component\Symbol\Icon\Standard;
 use ilBuddyList;
 use ilObjUser;
+use ilBuddySystem;
+use ilBuddySystemRelation;
+use ilDatePresentation;
+use ilDateTime;
+use ILIAS\Notifications\Repository\ilNotificationOSDRepository;
+use ILIAS\Notifications\ilNotificationOSDHandler;
 
 /**
  * Class ContactNotificationProvider
@@ -36,7 +42,7 @@ use ilObjUser;
 class ContactNotificationProvider extends AbstractNotificationProvider
 {
     public const MUTED_UNTIL_PREFERENCE_KEY = 'bs_nc_muted_until';
-
+    public const NOTIFICATION_TYPE = 'buddysystem_request';
 
     private function getIdentifier(string $id): IdentificationInterface
     {
@@ -51,7 +57,7 @@ class ContactNotificationProvider extends AbstractNotificationProvider
         if (
             0 === $this->dic->user()->getId() ||
             $this->dic->user()->isAnonymous() ||
-            !\ilBuddySystem::getInstance()->isEnabled()
+            !ilBuddySystem::getInstance()->isEnabled()
         ) {
             return [];
         }
@@ -62,7 +68,7 @@ class ContactNotificationProvider extends AbstractNotificationProvider
         $relations = ilBuddyList::getInstanceByGlobalUser()->getRequestRelationsForOwner();
 
         $openRequests = $relations->filter(
-            function (\ilBuddySystemRelation $relation) use ($leftIntervalTimestamp, &$latestRequestTimestamp, $relations): bool {
+            function (ilBuddySystemRelation $relation) use ($leftIntervalTimestamp, &$latestRequestTimestamp, $relations): bool {
                 $timeStamp = $relation->getTimestamp();
 
                 if ($timeStamp > $latestRequestTimestamp) {
@@ -112,10 +118,12 @@ class ContactNotificationProvider extends AbstractNotificationProvider
             ->notification($title, $icon)
             ->withDescription($description)
             ->withProperties([
-                $this->dic->language()->txt('nc_contact_requests_prop_time') => \ilDatePresentation::formatDate(
-                    new \ilDateTime($latestRequestTimestamp, IL_CAL_UNIX)
+                $this->dic->language()->txt('nc_contact_requests_prop_time') => ilDatePresentation::formatDate(
+                    new ilDateTime($latestRequestTimestamp, IL_CAL_UNIX)
                 )
             ]);
+
+        $osd_notification_handler = new ilNotificationOSDHandler(new ilNotificationOSDRepository($this->dic->database()));
 
         $group = $factory
             ->standardGroup($this->getIdentifier('contact_bucket_group'))
@@ -124,8 +132,13 @@ class ContactNotificationProvider extends AbstractNotificationProvider
                 $factory->standard($this->getIdentifier('contact_bucket'))
                     ->withNotificationItem($notificationItem)
                     ->withClosedCallable(
-                        function (): void {
+                        function () use ($osd_notification_handler): void {
                             $this->dic->user()->writePref(self::MUTED_UNTIL_PREFERENCE_KEY, (string) time());
+
+                            $osd_notification_handler->deleteStaleNotificationsForUserAndType(
+                                $this->dic->user()->getId(),
+                                self::NOTIFICATION_TYPE
+                            );
                         }
                     )->withNewAmount(1)
             );
