@@ -1,7 +1,4 @@
-<?php declare(strict_types=1);
-
-use ILIAS\HTTP\Wrapper\ArrayBasedRequestWrapper;
-use ILIAS\Refinery\To\Transformation\ListTransformation;
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -18,6 +15,9 @@ use ILIAS\Refinery\To\Transformation\ListTransformation;
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+use ILIAS\HTTP\Wrapper\ArrayBasedRequestWrapper;
+use ILIAS\Refinery\To\Transformation\ListTransformation;
 
 class ilClozeGapInputBuilderGUI extends ilSubEnabledFormPropertyGUI
 {
