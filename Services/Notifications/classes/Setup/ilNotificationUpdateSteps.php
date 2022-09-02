@@ -2,8 +2,6 @@
 
 declare(strict_types=1);
 
-use ILIAS\Notifications\ilNotificationSetupHelper;
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -19,6 +17,8 @@ use ILIAS\Notifications\ilNotificationSetupHelper;
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+use ILIAS\Notifications\ilNotificationSetupHelper;
 
 class ilNotificationUpdateSteps implements ilDatabaseUpdateSteps
 {
