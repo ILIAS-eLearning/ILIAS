@@ -27,7 +27,7 @@ function with_value()
     //Step 3: Define some data processing
     if ($request->getMethod() == "POST") {
         $form = $form->withRequest($request);
-        $result = $form->getData()[0];
+        $result = $form->getData()[0] ?? "";
     } else {
         $result = "No result yet.";
     }
