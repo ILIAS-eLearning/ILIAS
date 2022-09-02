@@ -121,7 +121,7 @@ class ilExcCriteriaText extends ilExcCriteria
 
         $min = $this->getMinChars();
         if ($min) {
-            if (ilStr::strLen($a_value) < $min) {
+            if (ilStr::strLen((string) $a_value) < $min) {
                 if ($this->form) {
                     $mess = sprintf($lng->txt("exc_peer_review_chars_invalid"), $min);
                     $this->form->getItemByPostVar("prccc_text_" . $this->getId())->setAlert($mess);
