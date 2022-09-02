@@ -112,11 +112,17 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
     */
     public function isComplete(): bool
     {
+        $elements = array_filter(
+            $this->getOrderingElementList()->getElements(),
+            fn ($element) => trim($element->getContent()) != ''
+        );
+        $has_at_least_two_elements = count($elements) > 1;
+
         return  $this->getAuthor()
             && $this->getTitle()
             && $this->getQuestion()
             && $this->getMaximumPoints()
-            && $this->getOrderingElementList()->countElements();
+            && $has_at_least_two_elements;
     }
 
 
