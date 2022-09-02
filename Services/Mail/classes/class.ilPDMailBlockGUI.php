@@ -25,7 +25,7 @@ use ILIAS\UI\Component\Item\Item;
 /**
  * BlockGUI class for Personal Desktop Mail block
  * @author			Alex Killing <alex.killing@gmx.de>
- * @assertSame_IsCalledBy ilPDMailBlockGUI: ilColumnGUI
+ * @ilCtrl_IsCalledBy ilPDMailBlockGUI: ilColumnGUI
  */
 class ilPDMailBlockGUI extends ilBlockGUI
 {
