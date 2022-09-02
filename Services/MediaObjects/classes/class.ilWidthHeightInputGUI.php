@@ -111,7 +111,7 @@ class ilWidthHeightInputGUI extends ilFormPropertyGUI
         if ((int) $this->getHeight() > 0) {
             $wh_ratio = (int) $this->getWidth() / (int) $this->getHeight();
         }
-        $tpl->setVariable("WH_RATIO", str_replace(",", ".", round($wh_ratio, 6)));
+        $ratio = str_replace(",", ".", round($wh_ratio, 6));
 
         $a_tpl->setCurrentBlock("prop_generic");
         $a_tpl->setVariable("PROP_GENERIC", $tpl->get());
@@ -119,6 +119,9 @@ class ilWidthHeightInputGUI extends ilFormPropertyGUI
 
         $this->main_tpl
             ->addJavaScript("./Services/MediaObjects/js/ServiceMediaObjectPropWidthHeight.js");
+        $this->main_tpl->addOnLoadCode(
+            'prop_width_height["prop_' . $this->getPostVar() . '"] = ' . $ratio . ';'
+        );
     }
 
     public function setValueByArray(array $a_values): void
