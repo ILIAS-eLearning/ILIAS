@@ -521,11 +521,6 @@ class ilMailFormGUI
 
         switch ($type) {
             case self::MAIL_FORM_TYPE_REPLY:
-                if ((int) ilSession::get('mail_id') !== 0) {
-                    $mailId = (int) ilSession::get('mail_id');
-                    ilSession::clear('mail_id');
-                }
-
                 $mailData = $this->umail->getMail($mailId);
 
                 $mailData['m_subject'] = $this->umail->formatReplySubject($mailData['m_subject'] ?? '');

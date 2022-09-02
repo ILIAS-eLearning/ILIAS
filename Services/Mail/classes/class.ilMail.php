@@ -36,7 +36,7 @@ class ilMail
     public int $user_id;
     protected string $table_mail;
     protected string $table_mail_saved;
-    /** @var string[]|null */
+    /** @var array<string, mixed>|null */
     protected ?array $mail_data = [];
     protected bool $save_in_sentbox;
     protected bool $appendInstallationSignature = false;
