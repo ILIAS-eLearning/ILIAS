@@ -51,7 +51,7 @@ class ilMailTemplateRepository
     {
         $res = $this->db->queryF(
             'SELECT * FROM mail_man_tpl WHERE tpl_id  = %s',
-            ['integer'],
+            [ilDBConstants::T_INTEGER],
             [$templateId]
         );
 
@@ -80,7 +80,7 @@ class ilMailTemplateRepository
     {
         if ($templateIds !== []) {
             $this->db->manipulate(
-                'DELETE FROM mail_man_tpl WHERE ' . $this->db->in('tpl_id', $templateIds, false, 'integer')
+                'DELETE FROM mail_man_tpl WHERE ' . $this->db->in('tpl_id', $templateIds, false, ilDBConstants::T_INTEGER)
             );
         }
     }
@@ -91,27 +91,27 @@ class ilMailTemplateRepository
             $this->db->update(
                 'mail_man_tpl',
                 [
-                    'title' => ['text', $template->getTitle()],
-                    'context' => ['text', $template->getContext()],
-                    'lang' => ['text', $template->getLang()],
-                    'm_subject' => ['text', $template->getSubject()],
-                    'm_message' => ['text', $template->getMessage()],
-                    'is_default' => ['text', $template->isDefault()],
+                    'title' => [ilDBConstants::T_TEXT, $template->getTitle()],
+                    'context' => [ilDBConstants::T_TEXT, $template->getContext()],
+                    'lang' => [ilDBConstants::T_TEXT, $template->getLang()],
+                    'm_subject' => [ilDBConstants::T_TEXT, $template->getSubject()],
+                    'm_message' => [ilDBConstants::T_TEXT, $template->getMessage()],
+                    'is_default' => [ilDBConstants::T_INTEGER, $template->isDefault()],
                 ],
                 [
-                    'tpl_id' => ['integer', $template->getTplId()],
+                    'tpl_id' => [ilDBConstants::T_INTEGER, $template->getTplId()],
                 ]
             );
         } else {
             $nextId = $this->db->nextId('mail_man_tpl');
             $this->db->insert('mail_man_tpl', [
-                'tpl_id' => ['integer', $nextId],
-                'title' => ['text', $template->getTitle()],
-                'context' => ['text', $template->getContext()],
-                'lang' => ['text', $template->getLang()],
-                'm_subject' => ['text', $template->getSubject()],
-                'm_message' => ['text', $template->getMessage()],
-                'is_default' => ['integer', $template->isDefault()],
+                'tpl_id' => [ilDBConstants::T_INTEGER, $nextId],
+                'title' => [ilDBConstants::T_TEXT, $template->getTitle()],
+                'context' => [ilDBConstants::T_TEXT, $template->getContext()],
+                'lang' => [ilDBConstants::T_TEXT, $template->getLang()],
+                'm_subject' => [ilDBConstants::T_TEXT, $template->getSubject()],
+                'm_message' => [ilDBConstants::T_TEXT, $template->getMessage()],
+                'is_default' => [ilDBConstants::T_INTEGER, $template->isDefault()],
             ]);
             $template->setTplId($nextId);
         }
