@@ -3787,6 +3787,7 @@ common#:#crsr#:#Course Link
 common#:#crsr_add#:#Add Course Link
 common#:#crsr_edit_info#:#Please choose one course for creating a new link.
 common#:#crsr_new#:#Create Course Link
+common#:#crsr_settings#:#Course Link Settings
 common#:#csv_export#:#CSV-Export
 common#:#current_ip#:#Current IP:
 common#:#current_ip_alert#:#Notice: if you enter a wrong ip you won't be able to access the system with this profile anymore.

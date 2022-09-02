@@ -3786,6 +3786,7 @@ common#:#crsr#:#Kurslink
 common#:#crsr_add#:#Kurslink anlegen
 common#:#crsr_edit_info#:#Bitte wählen Sie den Kurs aus, für den Sie einen Link erstellen möchten.
 common#:#crsr_new#:#Neuen Kurslink anlegen
+common#:#crsr_settings#:#Einstellungen des Kurslinks
 common#:#csv_export#:#CSV-Export
 common#:#current_ip#:#Aktuelle IP:
 common#:#current_ip_alert#:#Warnung: Wird hier eine falsche IP eingetragen, wird der Zugriff auf das System für diesen Benutzer verwehrt.
