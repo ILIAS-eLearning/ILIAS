@@ -2,8 +2,7 @@
 
 declare(strict_types=1);
 
-/******************************************************************************
- *
+/**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
  *
@@ -14,10 +13,10 @@ declare(strict_types=1);
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- *     https://www.ilias.de
- *     https://github.com/ILIAS-eLearning
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
  *
- *****************************************************************************/
+ *********************************************************************/
 
 namespace ILIAS\Notifications\Provider;
 
