@@ -432,6 +432,7 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
             } else {
                 $this->setOrderingType(self::OQ_PICTURES);
             }
+            $this->setThumbGeometry($this->getThumbGeometry());
         }
         if ($ct == self::OQ_CT_TERMS) {
             if ($this->isOrderingTypeNested()) {
@@ -1076,7 +1077,7 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
     */
     public function setThumbGeometry($a_geometry): void
     {
-        $this->thumb_geometry = ($a_geometry < 1) ? 100 : $a_geometry;
+        $this->thumb_geometry = ((int)$a_geometry < 1) ? 100 : $a_geometry;
     }
 
     public function getElementHeight(): ?int
