@@ -1,6 +1,7 @@
 <?php
 
 declare(strict_types=1);
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -67,7 +68,7 @@ class Notifications
     /**
      * Location of the endpoint handling async notification requests
      */
-    public const NOTIFY_ENDPOINT = ILIAS_HTTP_PATH . "/src/GlobalScreen/Client/notify.php";
+    public const NOTIFY_ENDPOINT = "./src/GlobalScreen/Client/notify.php";
     protected array $identifiers_to_handle = [];
     protected ?string $single_identifier_to_handle;
     protected array $administrative_notifications = [];
