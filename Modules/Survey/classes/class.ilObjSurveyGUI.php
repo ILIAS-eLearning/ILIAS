@@ -138,7 +138,9 @@ class ilObjSurveyGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
         }
 
         $next_class = $this->ctrl->getNextClass($this);
-        $this->ctrl->setReturn($this, "properties");
+        if ($next_class !== "") {
+            $this->ctrl->setReturn($this, "properties");
+        }
         // deprecated, moved for less file
         //$this->tpl->addCss(ilUtil::getStyleSheetLocation("output", "survey.css", "Modules/Survey"), "screen");
         $this->prepareOutput();
