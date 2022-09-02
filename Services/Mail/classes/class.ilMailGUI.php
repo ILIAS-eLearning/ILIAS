@@ -139,14 +139,12 @@ class ilMailGUI implements ilCtrlBaseClassInterface
             ilMailFormCall::storeReferer($this->http->request()->getQueryParams());
             $this->ctrl->redirectByClass(ilMailFormGUI::class, 'mailUser');
         } elseif (ilMailFormGUI::MAIL_FORM_TYPE_REPLY === $type) {
-            ilSession::set('mail_id', $mailId);
+            $this->ctrl->setParameterByClass(ilMailFormGUI::class, 'mail_id', $mailId);
             $this->ctrl->redirectByClass(ilMailFormGUI::class, 'replyMail');
         } elseif ('read' === $type) {
-            ilSession::set('mail_id', $mailId);
+            $this->ctrl->setParameterByClass(ilMailFolderGUI::class, 'mail_id', $mailId);
             $this->ctrl->redirectByClass(ilMailFolderGUI::class, 'showMail');
         } elseif ('deliverFile' === $type) {
-            ilSession::set('mail_id', $mailId);
-
             $fileName = "";
             if ($this->http->wrapper()->post()->has('filename')) {
                 $fileName = $this->http->wrapper()->post()->retrieve(
@@ -161,6 +159,7 @@ class ilMailGUI implements ilCtrlBaseClassInterface
             }
 
             ilSession::set('filename', ilUtil::stripSlashes($fileName));
+            $this->ctrl->setParameterByClass(ilMailFolderGUI::class, 'mail_id', $mailId);
             $this->ctrl->redirectByClass(ilMailFolderGUI::class, 'deliverFile');
         } elseif ('message_sent' === $type) {
             $this->tpl->setOnScreenMessage('success', $this->lng->txt('mail_message_send'), true);
