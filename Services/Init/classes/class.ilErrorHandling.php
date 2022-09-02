@@ -389,7 +389,9 @@ class ilErrorHandling extends PEAR
         $mappings = explode('|', $pathTranslationConfig);
         foreach ($mappings as $mapping) {
             $parts = explode(',', $mapping);
-            $pathTranslations[trim($parts[0])] = trim($parts[1]);
+            if (count($parts) === 2) {
+                $pathTranslations[trim($parts[0])] = trim($parts[1]);
+            }
         }
 
         return $pathTranslations;
