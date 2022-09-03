@@ -47,11 +47,11 @@ function show_modal_on_button_click_async_rendered()
         $post_wrapper->has('interruptive_items') &&
         $request_wrapper->has('modal_nr') && $request_wrapper->retrieve('modal_nr', $refinery->kindlyTo()->string()) === '2'
     ) {
-        $panel = $factory->panel()->standard(
-            'Affected Items',
-            $factory->legacy(print_r($post_wrapper->retrieve('interruptive_items', $refinery->kindlyTo()->string()), true))
-        );
-        $out[] = $panel;
+        $out[] = $post_wrapper->retrieve('interruptive_items', $refinery->custom()->transformation(
+            function ($v) use ($factory, $post_wrapper, $items) {
+                return $factory->panel()->standard('Affected Item', $factory->legacy($items[$v[0]]));
+            }
+        ));
     }
 
     return $renderer->render($out);
