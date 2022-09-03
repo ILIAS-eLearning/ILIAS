@@ -284,8 +284,9 @@ abstract class ilDataSet
             foreach ($rec as $f => $c) {
                 if ((($types[$f] ?? "") == "directory") && $this->absolute_export_dir !== "" && $this->relative_export_dir !== "") {
                     ilFileUtils::makeDirParents($this->absolute_export_dir . "/dsDir_" . $this->dircnt);
-                    ilFileUtils::rCopy($c, $this->absolute_export_dir . "/dsDir_" . $this->dircnt);
-                    //echo "<br>copy-".$c."-".$this->absolute_export_dir."/dsDir_".$this->dircnt."-";
+                    $sdir = realpath($c);
+                    $tdir = realpath($this->absolute_export_dir . "/dsDir_" . $this->dircnt);
+                    ilFileUtils::rCopy($sdir, $tdir);
                     $c = $this->relative_export_dir . "/dsDir_" . $this->dircnt;
                     $this->dircnt++;
                 }
