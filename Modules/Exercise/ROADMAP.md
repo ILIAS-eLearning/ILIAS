@@ -16,11 +16,17 @@ The deletion process needs to be checked. Some data is left behind, if exercises
 
 - The business logic of the different assignment phases (assignment member state) should be separated more strongly and put under unit tests.
 
-### Add PRIVACY.md
-
-- Add a PRIVACY.md file.
-
 ## Mid Term
+
+### Clariy use of table exc_returned
+
+Current situation in ilExSubmission/exc_returned table
+- exc_returned entries are used for text and blog/portfolios submissions, too!
+  - filetitle is the wsp_id for blog/portfolios, the ref_id for wikis now!
+  - getFiles() also returns entries for text
+  -> This is confusing.
+- FUTURE: exc_returned entries should be refactored in a more general concept "Submission Items" (files, text,
+  wsp objects, repo objects, ...)
 
 ### Fix ilExcCriteria
 
