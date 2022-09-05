@@ -2892,32 +2892,22 @@ class ilObjTestGUI extends ilObjectGUI
             $info->addProperty($this->lng->txt("author"), $this->object->getAuthor());
             $info->addProperty($this->lng->txt("title"), $this->object->getTitle());
         }
-        if (!$this->object->getOfflineStatus() && $this->object->isComplete($this->testQuestionSetConfigFactory->getQuestionSetConfig())) {
-            // note smeyer: $online_access is not defined here
-            if ((!$this->object->getFixedParticipants() || $online_access) && $ilAccess->checkAccess("read", "", $this->ref_id)) {
-                if ($this->object->getShowInfo() || !$this->object->getForceJS()) {
-                    // use javascript
-                    $checked_javascript = false;
-                    if ($this->object->getJavaScriptOutput()) {
-                        $checked_javascript = true;
-                    }
+        if (!$this->object->getOfflineStatus() &&
+            $this->object->isComplete($this->testQuestionSetConfigFactory->getQuestionSetConfig()) &&
+            $ilAccess->checkAccess("read", "", $this->ref_id) &&
+            !$this->object->isRandomTest() &&
+            !$this->getObjectiveOrientedContainer()->isObjectiveOrientedPresentationRequired() &&
+            $this->object->getNrOfTries() != 1) {
+            if ($this->object->getUsePreviousAnswers() == 0) {
+                if ($this->object->getShowInfo()) {
+                    $info->addProperty($this->lng->txt("tst_use_previous_answers"), $this->lng->txt("tst_dont_use_previous_answers"));
                 }
-                // hide previous results
-                if (!$this->object->isRandomTest() && !$this->getObjectiveOrientedContainer()->isObjectiveOrientedPresentationRequired()) {
-                    if ($this->object->getNrOfTries() != 1) {
-                        if ($this->object->getUsePreviousAnswers() == 0) {
-                            if ($this->object->getShowInfo()) {
-                                $info->addProperty($this->lng->txt("tst_use_previous_answers"), $this->lng->txt("tst_dont_use_previous_answers"));
-                            }
-                        } else {
-                            $use_previous_answers = false;
-                            if ($ilUser->prefs["tst_use_previous_answers"]) {
-                                $checked_previous_answers = true;
-                            }
-                            $info->addPropertyCheckbox($this->lng->txt("tst_use_previous_answers"), "chb_use_previous_answers", 1, $this->lng->txt("tst_use_previous_answers_user"), $checked_previous_answers);
-                        }
-                    }
+            } else {
+                $checked_previous_answers = false;
+                if ($ilUser->prefs["tst_use_previous_answers"]) {
+                    $checked_previous_answers = true;
                 }
+                $info->addPropertyCheckbox($this->lng->txt("tst_use_previous_answers"), "chb_use_previous_answers", 1, $this->lng->txt("tst_use_previous_answers_user"), $checked_previous_answers);
             }
         }
 
