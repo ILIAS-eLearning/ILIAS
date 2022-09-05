@@ -21,42 +21,6 @@
 	}
 </style>
 
-<script src="./Modules/TestQuestionPool/templates/default/gapInsertingWizard.js"></script>
-<script src="./Modules/TestQuestionPool/templates/default/longMenuQuestion.js"></script>
-
-<script>
-	function debugPrinter(message)
-	{
-		if(false)
-		{
-			console.log(message)
-		}
-	}
-	var long_menu_language = {
-		'edit' 				: '[{EDIT_TXT}]',
-		'type' 				: '{TYPE_TXT}',
-		'answers'			: '{ANSWERS_TXT}',
-		'answer_options' 	: '{ANSWER_OPTIONS_TXT}',
-		'correct_answers'	: '{CORRECT_ANSWER_TXT}',
-		'add_answers'	 	: '[{ADD_ANSWER_TXT}]',
-		'info_text_gap'	 	: '{INFO_TEXT_GAP}',
-		'manual_editing' 	: '{MANUAL_EDITING}'
-	};
-	
-	$( document ).ready(function() {
-		longMenuQuestion.questionParts = {
-			list 					: {CORRECT_ANSWERS},
-			gap_placeholder			: "{GAP_PLACEHOLDER}",
-			last_updated_element 	: 0,
-			replacement_word 		: '',
-			filereader_usable		: false,
-			max_input_fields		: {MAX_INPUT_FIELDS}
-		};
-		longMenuQuestion.answers = {ALL_ANSWERS};
-		longMenuQuestion.Init();
-	});
-
-</script>
 <div class="prototype_long_menu">
 	<div class="gap_title">
 		<div class="ilFormHeader">
