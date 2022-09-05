@@ -332,7 +332,7 @@ class ilForumCronNotification extends ilCronJob
     {
         $tmp_provider = new ilForumCronNotificationDataProvider($row, $notification_type, $this->notificationCache);
         self::$providerObject[$row['pos_pk'] . '_' . $notification_type] = $tmp_provider;
-        self::$providerObject[$row['pos_pk'] . '_' . $notification_type]->addRecipient($row['user_id']);
+        self::$providerObject[$row['pos_pk'] . '_' . $notification_type]->addRecipient((int) $row['user_id']);
     }
 
     private function resetProviderCache(): void
