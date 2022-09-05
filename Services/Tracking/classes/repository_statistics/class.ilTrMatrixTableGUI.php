@@ -127,7 +127,7 @@ class ilTrMatrixTableGUI extends ilLPTableBaseGUI
 
             $tooltip = array();
             if (isset($labels[$c]["icon"])) {
-                $alt = $this->lng->txt($labels[$c]["type"]);
+                $alt = $this->lng->txt($labels[$c]["type"] ?? "");
                 $icon = '<img class="ilListItemIcon" src="' . $labels[$c]["icon"] . '" alt="' . $alt . '" />';
                 if (sizeof($selected) > 5) {
                     $tooltip[] = $title;

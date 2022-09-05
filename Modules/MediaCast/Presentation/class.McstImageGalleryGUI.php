@@ -107,6 +107,10 @@ class McstImageGalleryGUI
             $mob = new \ilObjMediaObject($item["mob_id"]);
             $med = $mob->getMediaItem("Standard");
 
+            if (!in_array($med->getFormat(), ["image/png","image/jpeg","image/gif"])) {
+                continue;
+            }
+
             if (strcasecmp("Reference", $med->getLocationType()) == 0) {
                 $resource = $med->getLocation();
             } else {
