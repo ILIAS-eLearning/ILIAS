@@ -1,6 +1,8 @@
-/*globals debugPrinter, long_menu_language, GapInsertingWizard, alert, performance, JSON */
+/*globals longMenuQuestionGapBuilder, alert, performance, JSON */
 var longMenuQuestion = (function () {
 	'use strict';
+	
+	let scrollable_page_element_class = 'il-layout-page-content';
 	
 	var pub = {},
 	    pro = {},
@@ -11,33 +13,30 @@ var longMenuQuestion = (function () {
 	pri.ignoreCallbackItemOnRedraw = true;
 	pri.gapTypeText = 1;
 
-	pro.buildAndInitGapWizard = function()
+	pro.buildAndInitGapBuilder = function()
 	{
-		var gap_wizard = GapInsertingWizard;
-		gap_wizard.textarea 		= 'longmenu_text';
-		gap_wizard.trigger_id		= '#gaptrigger';
-		gap_wizard.replacement_word = pub.questionParts.gap_placeholder;
-		gap_wizard.show_end			= false;
+		var gap_builder = longMenuQuestionGapBuilder;
+		gap_builder.textarea			= 'longmenu_text';
+		gap_builder.trigger			= 'gaptrigger';
+		gap_builder.replacement_word	= pub.questionParts.gap_placeholder;
+		gap_builder.gap_regexp			= '\\[' + pub.questionParts.gap_placeholder + '\\s?[\\d]*?\\]';
 
-		pub.questionParts.replacement_word = gap_wizard.replacement_word;
-
-		gap_wizard.callbackActiveGapChange 	= function (){debugPrinter('clicked ' + gap_wizard.active_gap);};
-		gap_wizard.callbackClickedInGap 	= function ()
+		pub.questionParts.replacement_word = gap_builder.replacement_word;
+		gap_builder.callbackClickedInGap 	= function ()
 		{
-			var gap         = gap_wizard.active_gap - 1;
-			pro.scrollToPageObject('#title_' + gap);
+			var gap         = gap_builder.active_gap - 1;
+			pro.scrollToPageObject('title_' + gap);
 		};
-		gap_wizard.callbackNewGap = function (gap_id)
+		gap_builder.callbackNewGap = function (gap_id)
 		{
 			pro.sliceInNewQuestionPart(gap_id);
 		};
-		gap_wizard.callbackCleanGapCode 	= function (){debugPrinter('cleanup done');};
-		gap_wizard.checkDataConsistencyAfterGapRemoval = function ( existing_gaps )
+		gap_builder.checkDataConsistencyAfterGapRemoval = function ( existing_gaps )
 		{
 			pro.checkDataConsistency(existing_gaps);
 		};
 		
-		gap_wizard.Init();
+		gap_builder.Init();
 	};
 
 	pro.checkDataConsistency = function (existing_gaps)
@@ -48,14 +47,7 @@ var longMenuQuestion = (function () {
 		{
 			pub.answers = [];
 			pub.questionParts.list = [];
-			debugPrinter('checkDataConsistency removed all gaps.');
 		}
-		/*else if(existing_gaps.length > pub.questionParts.list.length )
-		{
-			debugPrinter(existing_gaps);
-			debugPrinter(pub.questionParts.list);
-			pro.redrawFormParts();
-		}*/
 		else
 		{
 			var answers = [];
@@ -74,7 +66,6 @@ var longMenuQuestion = (function () {
 		}
 		pro.redrawFormParts();
 		pro.syncWithHiddenTextField();
-		debugPrinter('consistency check');
 	};
 	
 	pro.appendFormParts = function()  {
@@ -85,7 +76,6 @@ var longMenuQuestion = (function () {
 		$.each(pub.questionParts.list , function( index ) {
 			footer_class.parent().append(new_title.clone());
 			title = parseInt(index, 10) + 1;
-			console.log(index, title)
 			$(document).find('.longmenu_head').last().find('.ilHeader')
 				.attr('id', 'title_' + index)
 				.html(pub.questionParts.replacement_word + ' ' + title);
@@ -105,7 +95,7 @@ var longMenuQuestion = (function () {
 		var id = 'select_type_' + index;
 		footer_class.parent().append($('#layout_dummy_select').clone().attr({'id': id}).addClass('longmenu'));
 		var selector = $('#' + id);
-		selector.find('label').html(long_menu_language.type);
+		selector.find('label').html(pub.language.type);
 		selector.find('.form-control').attr('name', 'long_menu_type[]').attr({'data-id': index}).val(pub.questionParts.list[index][2]);
 	};
 
@@ -113,7 +103,7 @@ var longMenuQuestion = (function () {
 		var id = 'answer_overview_' + index;
 		footer_class.parent().append($('#layout_dummy_answers').clone().attr({'id': id}).addClass('longmenu'));
 		var selector = $('#' + id);
-		selector.find('label').html(long_menu_language.answers + ' <span class="asterisk">*</span>');
+		selector.find('label').html(pub.language.answers + ' <span class="asterisk">*</span>');
 		var html = pro.buildAnswerOverview(index);
 		selector.find('.form-inline').html(html);
 		pro.appendPointsField(footer_class, index);
@@ -123,7 +113,7 @@ var longMenuQuestion = (function () {
 		var id = 'points_' + index;
 		var name = 'points[' + index + ']';
 		footer_class.parent().append($('#layout_dummy_points').clone().attr({'id': id}).addClass('longmenu'));
-		$('#' + id).find('input').attr({'name' : name, 'data-id' : index}).addClass('points').val(pub.questionParts.list[index][1]);
+		$('#' + id).find('input').attr({'n.il-layout-page-contentame' : name, 'data-id' : index}).addClass('points').val(pub.questionParts.list[index][1]);
 		pro.appendErrorHandlerHtml(footer_class, index);
 	};
 
@@ -132,18 +122,18 @@ var longMenuQuestion = (function () {
 		var html 	= '';
 		if( length > 0 )
 		{
-			html =	'<p>' + long_menu_language.answer_options + ' ' + pub.answers[question_id].length;
+			html =	'<p>' + pub.language.answer_options + ' ' + pub.answers[question_id].length;
 			html += ' <a data-id="' + question_id +
 					'" class="answer_options"> ' +
-					long_menu_language.edit + '</a></p>';
-			html += '<p>' + long_menu_language.correct_answers;
+					pub.language.edit + '</a></p>';
+			html += '<p>' + pub.language.correct_answers;
 			html += '<span data-id="' + question_id + '" class="correct_answers"></span></p>';
 		}
 		else
 		{
 			html = 	' <a data-id="' + question_id +
 					'" class="answer_options">' +
-					long_menu_language.add_answers + '</a></p>';
+					pub.language.add_answers + '</a></p>';
 		}
 		return html;
 	};
@@ -218,8 +208,7 @@ var longMenuQuestion = (function () {
 		var gap_id = that.attr('data-id');
 		var modal_body = $('#ilGapModal .modal-body');
 		temp_answers = pub.answers[gap_id];
-		debugPrinter('answer_options ' + gap_id );
-		pro.appendModalTitle(long_menu_language.answer_options, gap_id);
+		pro.appendModalTitle(pub.language.answer_options, gap_id);
 		modal_body.html(pro.appendUploadButtons());
 		modal_body.find('.upload').attr('id', 'fileinput');
 		document.getElementById('fileinput').addEventListener('change', pro.readSingleFile, false);
@@ -245,7 +234,7 @@ var longMenuQuestion = (function () {
 															'data-id' : question_id
 															});
 			$(this).parent().html(dom_object);
-			$('#' +'tagsinput_' + question_id).parent().prepend(long_menu_language.correct_answers);
+			$('#' +'tagsinput_' + question_id).parent().prepend(pub.language.correct_answers);
 			ilBootstrapTaggingOnLoad.appendId('#tagsinput_' + question_id);
 			ilBootstrapTaggingOnLoad.appendTerms(question_id, pub.answers[question_id]);
 			pri.ignoreCallbackItemOnRedraw = true;
@@ -328,7 +317,7 @@ var longMenuQuestion = (function () {
 	pro.appendUploadButtons = function()
 	{
 		var html = $('#layout_dummy_upload').clone().html();
-		html += long_menu_language.manual_editing + '<div class="modal_answer_options"></div>';
+		html += pub.language.manual_editing + '<div class="modal_answer_options"></div>';
 		html += $('#layout_dummy_buttons').clone().attr('id', '').html();
 		return html;
 	};
@@ -340,7 +329,7 @@ var longMenuQuestion = (function () {
 		var view_id     = parseInt(question_id,10) + 1;
 		modal_header.find('.help-block').remove();
 		modal_header.append($('.layout_dummy_help-block').html());
-		modal_header.find('.help-block').html(long_menu_language.info_text_gap);
+		modal_header.find('.help-block').html(pub.language.info_text_gap);
 		modal_title.attr('data-id', question_id)
 			.html(pub.questionParts.replacement_word + ' ' + view_id + ' ' + text );
 	};
@@ -354,7 +343,6 @@ var longMenuQuestion = (function () {
 
 	pro.redrawFormParts = function()
 	{
-		debugPrinter('redraw form parts');
 		$('.longmenu').remove();
 		pro.appendFormParts();
 		pro.ensureAutoCompleteIsPossibleWithTextInput();
@@ -362,7 +350,6 @@ var longMenuQuestion = (function () {
 
 	pro.redrawAnswerList = function(question_id)
 	{
-		debugPrinter('redraw answer list');
 		pro.checkAnswersArray(question_id);
 		var buttons = $('.layout_dummy_add_remove_buttons').html();
 		var html = '';
@@ -396,21 +383,18 @@ var longMenuQuestion = (function () {
 	
 	pro.redrawAnswerListFast = function(gap_id, answer_id, addRow)
 	{
-		debugPrinter('redraw answer list fast');
 		var answerList_object = $('.answerlist');
 		pro.checkAnswersArray(gap_id);
 		if(pro.inputFieldsStillPossible(gap_id))
 		{
 			if(addRow)
 			{
-				debugPrinter('Added answer ' + answer_id + ' in gap ' + gap_id);
 				var buttons = $('.layout_dummy_add_remove_buttons').html();
 				var input_string = 'type="text" class="col-sm-10 answerlist" size="5" value=""';
 				answerList_object.eq(answer_id).next().after('<input ' + input_string + '>' + buttons);
 			}
 			else
 			{
-				debugPrinter('Removed answer ' + answer_id + ' in gap ' + gap_id);
 				answerList_object.eq(answer_id).next().remove();
 				answerList_object.eq(answer_id).remove();
 			}
@@ -542,7 +526,6 @@ var longMenuQuestion = (function () {
 	{
 		to_remove.sort(function(a, b){ return b - a; } );
 		$.each(to_remove , function( index, position ) {
-			debugPrinter('value on pos ' + position + ' removed because it is no part of the answer list anymore.');
 			pub.questionParts.list[question_id][0].splice(position, 1);
 		});
 	};
@@ -564,8 +547,6 @@ var longMenuQuestion = (function () {
 		pro.benchmarkCallsDummyNotForUsage('checkAnswersArray', t0);
 		var removed = pub.answers[question_id].length - result.length;
 		pub.answers[question_id] = result.sort();
-		debugPrinter(removed + ' duplicate or empty elements where removed.');
-		debugPrinter(pub.answers[question_id].length + ' Answers for gap ' + question_id);
 		pro.syncWithCorrectAnswers(question_id);
 		pro.syncWithHiddenTextField();
 	};
@@ -622,11 +603,21 @@ var longMenuQuestion = (function () {
 	
 	pro.scrollToPageObject = function(object)
 	{
-		var headerSize  = parseInt($('#ilTopBar').height(), 10) + parseInt($('.ilMainHeader').height(), 10);
-		$('html, body').animate(
-			{ 
-				scrollTop: $(object).offset().top - headerSize	
-			}, 200);
+		let scrollable_page_element;
+		let html = document.getElementsByTagName('html');
+		if (window.getComputedStyle(document.body).overflow === 'visible') {
+			scrollable_page_element = html;
+		} else {
+		 	scrollable_page_element = (document.getElementsByClassName(scrollable_page_element_class))[0];
+		}
+		let target = document.getElementById(object);
+		if (target) {
+			let scroll_position = target.getBoundingClientRect().y - scrollable_page_element.getBoundingClientRect().y;
+			scrollable_page_element.scrollTo({ 
+				top: scroll_position,
+				behavior: 'smooth'
+			});
+		}
 	};
 	
 	pro.benchmarkCallsDummyNotForUsage = function(function_caller, t0)
@@ -638,7 +629,6 @@ var longMenuQuestion = (function () {
 		else
 		{
 			var t1 = performance.now();
-			debugPrinter('Call to ' + function_caller + ' took ' + (t1 - t0) + ' milliseconds.');
 		}
 	};
 
@@ -653,9 +643,12 @@ var longMenuQuestion = (function () {
 	
 	//Public property
 
-	pub.Init = function()
+	pub.Init = function(language, questionParts, answers)
 	{
-		pro.buildAndInitGapWizard();
+		pub.language = language;
+		pub.questionParts = questionParts;
+		pub.answers = answers;
+		pro.buildAndInitGapBuilder();
 		pro.appendFormParts();
 		pro.syncWithHiddenTextField();
 		pub.questionParts.list = $().ensureNoArrayIsAnObjectRecursive(pub.questionParts.list);
