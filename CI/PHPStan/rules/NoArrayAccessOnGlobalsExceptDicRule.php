@@ -25,6 +25,7 @@ use PHPStan\Analyser\Scope;
 use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleErrorBuilder;
 use PhpParser\Node\Expr\ArrayDimFetch;
+use ilInitialisation;
 
 final class NoArrayAccessOnGlobalsExceptDicRule implements Rule
 {
@@ -38,6 +39,10 @@ final class NoArrayAccessOnGlobalsExceptDicRule implements Rule
      */
     public function processNode(Node $node, Scope $scope): array
     {
+        if ($scope->isInClass() && $scope->getClassReflection()->getName() === ilInitialisation::class) {
+            return [];
+        }
+
         if ($node->var->name === 'GLOBALS' && $node->dim !== null) {
             $infered_type = $scope->getType($node->dim);
             if ($infered_type->isString() && $infered_type->getValue() !== 'DIC') {

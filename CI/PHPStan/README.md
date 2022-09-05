@@ -16,6 +16,7 @@ rules:
   - ILIAS\CI\PHPStan\rules\NoDatabaseUsageInControllersRule
   - ILIAS\CI\PHPStan\rules\NoGlobalsExceptDicRule
   - ILIAS\CI\PHPStan\rules\NoArrayAccessOnGlobalsExceptDicRule
+  - ILIAS\CI\PHPStan\rules\NoUserInterfaceComponentsInNonControllersRule
 services:
   -
     class: ILIAS\CI\PHPStan\services\SuffixBasedControllerDetermination

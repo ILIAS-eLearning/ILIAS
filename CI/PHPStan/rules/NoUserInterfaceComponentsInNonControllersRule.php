@@ -26,11 +26,26 @@ use PHPStan\Analyser\Scope;
 use PHPStan\Rules\RuleErrorBuilder;
 use PhpParser\Node\Expr\MethodCall;
 use PHPStan\Type\ObjectType;
-use ilDBInterface;
 use ILIAS\CI\PHPStan\services\ControllerDetermination;
+use ilTabsGUI;
+use ilTemplate;
+use ilGlobalTemplateInterface;
+use ilLocatorGUI;
+use ilToolbarGUI;
 
-final class NoDatabaseUsageInControllersRule implements Rule
+final class NoUserInterfaceComponentsInNonControllersRule implements Rule
 {
+    private const FORBIDDEN_TYPES = [
+        ilTemplate::class,
+        ilGlobalTemplateInterface::class,
+        ilTabsGUI::class,
+        ilToolbarGUI::class,
+        ilLocatorGUI::class,
+        \ILIAS\UI\Component\Component::class,
+        \ILIAS\UI\Factory::class,
+        \ILIAS\UI\Renderer::class,
+    ];
+
     public function __construct(
         private ControllerDetermination $determination
     ) {
@@ -50,21 +65,22 @@ final class NoDatabaseUsageInControllersRule implements Rule
             return [];
         }
 
-        if (!$this->determination->isController($scope->getClassReflection())) {
+        if ($this->determination->isController($scope->getClassReflection())) {
             return [];
         }
 
-        $database_interface = new ObjectType(ilDBInterface::class);
         $current_object_type = $scope->getType($node->var);
 
-        if (!$database_interface->isSuperTypeOf($current_object_type)->yes()) {
-            return [];
+        $violations = [];
+        foreach (self::FORBIDDEN_TYPES as $class_string) {
+            $component = new ObjectType($class_string);
+            if ($component->isSuperTypeOf($current_object_type)->yes()) {
+                $violations[] = RuleErrorBuilder::message(
+                    'A non controller class must not call any method of ' . $class_string
+                )->build();
+            }
         }
 
-        return [
-            RuleErrorBuilder::message(
-                'A controller class must not call any method of ilDBInterface'
-            )->build(),
-        ];
+        return $violations;
     }
 }

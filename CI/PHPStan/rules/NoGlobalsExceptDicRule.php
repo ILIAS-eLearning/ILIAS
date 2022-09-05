@@ -25,6 +25,7 @@ use PHPStan\Analyser\Scope;
 use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleErrorBuilder;
 use PhpParser\Node\Stmt\Global_;
+use ilInitialisation;
 
 final class NoGlobalsExceptDicRule implements Rule
 {
@@ -38,6 +39,10 @@ final class NoGlobalsExceptDicRule implements Rule
      */
     public function processNode(Node $node, Scope $scope): array
     {
+        if ($scope->isInClass() && $scope->getClassReflection()->getName() === ilInitialisation::class) {
+            return [];
+        }
+
         foreach ($node->vars as $variable) {
             $forbidden_globals = [];
 
