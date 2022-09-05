@@ -183,14 +183,13 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
         $long_menu_text->setValue($this->object->prepareTextareaOutput($this->object->getLongMenuTextValue()));
         $form->addItem($long_menu_text);
 
-        $tpl = new ilTemplate("tpl.il_as_qpl_long_menu_gap_button_code.html", true, true, "Modules/TestQuestionPool");
+        $tpl = new ilTemplate("tpl.il_as_qpl_longmenu_question_gap_button_code.html", true, true, "Modules/TestQuestionPool");
         $tpl->setVariable('INSERT_GAP', $this->lng->txt('insert_gap'));
         $tpl->parseCurrentBlock();
         $button = new ilCustomInputGUI('&nbsp;', '');
         $button->setHtml($tpl->get());
         $form->addItem($button);
 
-        require_once("./Services/UIComponent/Modal/classes/class.ilModalGUI.php");
         $modal = ilModalGUI::getInstance();
         $modal->setHeading('');
         $modal->setId("ilGapModal");
@@ -221,14 +220,34 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
         $hidden_correct = new ilHiddenInputGUI('hidden_correct_answers');
         $form->addItem($hidden_correct);
 
-        $tpl = new ilTemplate("tpl.il_as_qpl_long_menu_gap.html", true, true, "Modules/TestQuestionPool");
+        $long_menu_language = [
+            'edit' => '[' . $this->lng->txt('edit') . ']',
+            'type' => $this->lng->txt('type'),
+            'answers' => $this->lng->txt('answers'),
+            'answer_options' => $this->lng->txt('answer_options'),
+            'correct_answers' => $this->lng->txt('correct_answers'),
+            'add_answers' => '[' . $this->lng->txt('add_answers') . ']',
+            'manual_editing' => $this->lng->txt('manual_editing')
+        ];
+
+        $question_parts = [
+            'list' => json_decode($this->object->getJsonStructure()),
+            'gap_placeholder' => assLongMenu::GAP_PLACEHOLDER,
+            'last_updated_element' => 0,
+            'replacement_word' => '',
+            'filereader_usable' => false,
+            'max_input_fields' => assLongMenu::MAX_INPUT_FIELDS
+        ];
+        $answers = $this->object->getAnswersObject();
+
         if (is_array($_POST) && array_key_exists('hidden_text_files', $_POST)) {
-            $tpl->setVariable('CORRECT_ANSWERS', $_POST['hidden_correct_answers']);
-            $tpl->setVariable('ALL_ANSWERS', $_POST['hidden_text_files']);
-        } else {
-            $tpl->setVariable('CORRECT_ANSWERS', $this->object->getJsonStructure());
-            $tpl->setVariable('ALL_ANSWERS', $this->object->getAnswersObject());
+            $question_parts['list'] = json_decode($_POST['hidden_correct_answers']);
+            $answers = $_POST['hidden_text_files'];
         }
+
+        $this->tpl->addJavaScript('./Modules/TestQuestionPool/templates/default/longMenuQuestionGapBuilder.js');
+        $this->tpl->addJavaScript('./Modules/TestQuestionPool/templates/default/longMenuQuestion.js');
+        $tpl = new ilTemplate("tpl.il_as_qpl_longmenu_question_gap.html", true, true, "Modules/TestQuestionPool");
         $tpl->setVariable('MAX_INPUT_FIELDS', assLongMenu::MAX_INPUT_FIELDS);
         $tpl->setVariable('GAP_PLACEHOLDER', assLongMenu::GAP_PLACEHOLDER);
         $tpl->setVariable('SELECT_BOX', $this->lng->txt('insert_gap'));
@@ -237,13 +256,6 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
         $tpl->setVariable("POINTS", $this->lng->txt('points'));
         $tpl->setVariable("INFO_TEXT_UPLOAD", $this->lng->txt('info_text_upload'));
         $tpl->setVariable("TXT_BROWSE", $this->lng->txt('select_file'));
-        $tpl->setVariable("MANUAL_EDITING", $this->lng->txt('manual_editing'));
-        $tpl->setVariable("CORRECT_ANSWER_TXT", $this->lng->txt('correct_answers'));
-        $tpl->setVariable("ANSWER_OPTIONS_TXT", $this->lng->txt('answer_options'));
-        $tpl->setVariable("ANSWERS_TXT", $this->lng->txt('answers'));
-        $tpl->setVariable("TYPE_TXT", $this->lng->txt('type'));
-        $tpl->setVariable("EDIT_TXT", $this->lng->txt('edit'));
-        $tpl->setVariable("ADD_ANSWER_TXT", $this->lng->txt('add_answers'));
         $tpl->setVariable('POINTS_ERROR', $this->lng->txt('enter_enough_positive_points'));
         $tpl->setVariable('AUTOCOMPLETE_ERROR', $this->lng->txt('autocomplete_error'));
         $tpl->setVariable('MISSING_VALUE', $this->lng->txt('msg_input_is_required'));
@@ -259,6 +271,10 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
         $tpl->setVariable("MY_MODAL", $modal->getHTML());
 
         $tpl->parseCurrentBlock();
+        $this->tpl->addOnLoadCode('longMenuQuestion.Init(' .
+            json_encode($long_menu_language) . ', ' .
+            json_encode($question_parts) . ', ' .
+            $answers . ');');
         $button = new ilCustomInputGUI('&nbsp;', '');
         $button->setHtml($tpl->get());
         $form->addItem($button);
@@ -297,8 +313,7 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
         $show_manual_scoring = false,
         $show_question_text = true
     ): string {
-        include_once "./Services/UICore/classes/class.ilTemplate.php";
-        $template = new ilTemplate("tpl.il_as_qpl_lome_question_output_solution.html", true, true, "Modules/TestQuestionPool");
+        $template = new ilTemplate("tpl.il_as_qpl_longmenu_question_output_solution.html", true, true, "Modules/TestQuestionPool");
 
         if ($show_question_text) {
             $question_text = $this->object->getQuestion();
@@ -348,8 +363,7 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
         $user_solution = is_object($this->getPreviewSession()) ? (array) $this->getPreviewSession()->getParticipantsSolution() : array();
         $user_solution = array_values($user_solution);
 
-        include_once "./Services/UICore/classes/class.ilTemplate.php";
-        $template = new ilTemplate("tpl.il_as_qpl_longmenu_output.html", true, true, "Modules/TestQuestionPool");
+        $template = new ilTemplate("tpl.il_as_qpl_longmenu_question_output.html", true, true, "Modules/TestQuestionPool");
 
         $question_text = $this->object->getQuestion();
         $template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($question_text, true));
@@ -390,9 +404,7 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
             }
         }
 
-        // generate the question output
-        include_once "./Services/UICore/classes/class.ilTemplate.php";
-        $template = new ilTemplate("tpl.il_as_qpl_longmenu_output.html", true, true, "Modules/TestQuestionPool");
+        $template = new ilTemplate("tpl.il_as_qpl_longmenu_question_output.html", true, true, "Modules/TestQuestionPool");
 
         $question_text = $this->object->getQuestion();
         $template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($question_text, true));
@@ -465,7 +477,7 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
                 }
             }
         }
-        $tpl = new ilTemplate('tpl.il_as_aggregated_long_menu_answers_table.html', true, true, "Modules/TestQuestionPool");
+        $tpl = new ilTemplate('tpl.il_as_aggregated_longmenu_question_answers_table.html', true, true, "Modules/TestQuestionPool");
         $json = json_decode($this->object->getJsonStructure());
         foreach ($json as $key => $value) {
             $tpl->setVariable('TITLE', 'Longmenu ' . ($key + 1));
@@ -518,7 +530,7 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
 
     private function getTextGapTemplate($key, $value, $solution, $ok = false, $graphical = false): string
     {
-        $tpl = new ilTemplate("tpl.il_as_qpl_long_menu_text_gap.html", true, true, "Modules/TestQuestionPool");
+        $tpl = new ilTemplate("tpl.il_as_qpl_longmenu_question_text_gap.html", true, true, "Modules/TestQuestionPool");
         if ($solution) {
             $tpl->setVariable('DISABLED', 'disabled');
             $tpl->setVariable('JS_IGNORE', '_ignore');
@@ -540,7 +552,7 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
 
     private function getSelectGapTemplate($key, $answers, $user_value, $solution, $ok = false, $graphical = false): string
     {
-        $tpl = new ilTemplate("tpl.il_as_qpl_long_menu_select_gap.html", true, true, "Modules/TestQuestionPool");
+        $tpl = new ilTemplate("tpl.il_as_qpl_longmenu_question_select_gap.html", true, true, "Modules/TestQuestionPool");
         $tpl->setVariable('KEY', $key);
         if ($solution) {
             $tpl->setVariable('DISABLED', 'disabled');
