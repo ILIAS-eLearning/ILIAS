@@ -56,9 +56,10 @@ class ilArrayUtil
 
     /**
      * @param $data string|array
+     * @return string|array
      * @deprecated
      */
-    public static function stripSlashesRecursive($a_data, bool $a_strip_html = true, string $a_allow = ""): array
+    public static function stripSlashesRecursive($a_data, bool $a_strip_html = true, string $a_allow = "")
     {
         if (is_array($a_data)) {
             foreach ($a_data as $k => $v) {
