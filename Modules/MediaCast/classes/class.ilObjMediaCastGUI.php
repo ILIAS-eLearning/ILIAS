@@ -190,6 +190,11 @@ class ilObjMediaCastGUI extends ilObjectGUI
                 $this->ctrl->forwardCommand($view);
                 break;
 
+            case "mcstpodcastgui":
+                $view = new \McstPodcastGUI($this->object, $this->tpl);
+                $this->ctrl->forwardCommand($view);
+                break;
+
             default:
                 if (!$cmd) {
                     $cmd = "infoScreen";

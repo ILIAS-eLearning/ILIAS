@@ -19,6 +19,7 @@
 /**
  * User interface for media player. Wraps flash mp3 player and similar tools.
  * @author Alexander Killing <killing@leifos.de>
+ * @deprecated use KS Player element instead
  */
 class ilMediaPlayerGUI
 {
