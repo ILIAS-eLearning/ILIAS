@@ -208,7 +208,7 @@ class ilPasswordAssistanceGUI
         }
 
         $username = $form->getInput('username');
-        $email = $form->getInput('email');
+        $email = trim($form->getInput('email'));
 
         $usrId = \ilObjUser::getUserIdByLogin($username);
         if (!is_numeric($usrId) || !($usrId > 0)) {
@@ -613,7 +613,7 @@ class ilPasswordAssistanceGUI
             return;
         }
 
-        $email = $form->getInput('email');
+        $email = trim($form->getInput('email'));
         $logins = ilObjUser::getUserLoginsByEmail($email);
 
         if (is_array($logins) && count($logins) > 0) {
