@@ -1472,7 +1472,7 @@ var ClozeGapCombinationBuilder = (function () {
 					'class': 'form-control gap_combination gap_comb_values'
 				});
 				$(this).val(default_value);
-				if ($(this).val() === '') {
+				if ($(this).val() === null || $(this).val() === '') {
 					$(this).val('none_selected_minus_one');
 				}
 			});
