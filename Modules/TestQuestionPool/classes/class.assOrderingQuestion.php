@@ -117,11 +117,13 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
         );
         $has_at_least_two_elements = count($elements) > 1;
 
-        return  $this->getAuthor()
+        $complete = $this->getAuthor()
             && $this->getTitle()
             && $this->getQuestion()
             && $this->getMaximumPoints()
             && $has_at_least_two_elements;
+
+        return $complete;
     }
 
 
@@ -146,7 +148,11 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
      */
     public function saveToDb($original_id = "")
     {
-        $this->saveQuestionDataToDb($original_id);
+        if ($original_id == '') {
+            $this->saveQuestionDataToDb();
+        } else {
+            $this->saveQuestionDataToDb((int) $original_id);
+        }
         $this->saveAdditionalQuestionDataToDb();
         parent::saveToDb($original_id);
     }
@@ -206,8 +212,13 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
     *
     * @access public
     */
-    public function duplicate($for_test = true, $title = "", $author = "", $owner = "", $testObjId = null)
-    {
+    public function duplicate(
+        bool $for_test = true,
+        ?string $title = "",
+        ?string $author = "",
+        ?string $owner = "",
+        $testObjId = null
+    ): int {
         if ($this->id <= 0) {
             // The question has not been saved. It cannot be duplicated
             return;
@@ -216,8 +227,7 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
         $this_id = $this->getId();
         $thisObjId = $this->getObjId();
 
-        $clone = $this;
-        include_once("./Modules/TestQuestionPool/classes/class.assQuestion.php");
+        $clone = clone $this;
         $original_id = assQuestion::_getOriginalId($this->id);
         $clone->id = -1;
 
@@ -240,28 +250,19 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
             $clone->saveToDb();
         }
 
-        //was:
-        //$clone->duplicateOrderlingElementList();
-        $list = $this->getRepository()->getOrderingList($original_id);
+        //$list = $this->getRepository()->getOrderingList($original_id)
+        $list = $this->getRepository()->getOrderingList($this_id)
+            ->withQuestionId($clone->getId());
         $list->distributeNewRandomIdentifiers();
         $clone->setOrderingElementList($list);
+        $clone->saveToDb();
 
-        if ($for_test) {
-            $clone->saveToDb($original_id);
-        } else {
-            $clone->saveToDb();
-        }
-
-        // copy question page content
         $clone->copyPageOfQuestion($this_id);
-        // copy XHTML media objects
         $clone->copyXHTMLMediaObjectsOfQuestion($this_id);
-        // duplicate the image
         $clone->duplicateImages($this_id, $thisObjId, $clone->getId(), $testObjId);
 
         $clone->onDuplicate($thisObjId, $this_id, $clone->getObjId(), $clone->getId());
-
-        return $clone->id;
+        return $clone->getId();
     }
 
     /**
@@ -276,28 +277,30 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
             return;
         }
         // duplicate the question in database
-        $clone = $this;
-        include_once("./Modules/TestQuestionPool/classes/class.assQuestion.php");
-        $original_id = assQuestion::_getOriginalId($this->id);
+        $clone = clone $this;
+        $this_id = $this->getId();
+        $original_id = assQuestion::_getOriginalId($this_id);
         $clone->id = -1;
         $source_questionpool_id = $this->getObjId();
         $clone->setObjId($target_questionpool_id);
         if ($title) {
             $clone->setTitle($title);
         }
-
         $clone->saveToDb();
 
-        // copy question page content
+        $list = $this->getRepository()->getOrderingList($this_id)
+            ->withQuestionId($clone->getId());
+        $list->distributeNewRandomIdentifiers();
+        $clone->setOrderingElementList($list);
+        $clone->saveToDb();
+
         $clone->copyPageOfQuestion($original_id);
-        // copy XHTML media objects
         $clone->copyXHTMLMediaObjectsOfQuestion($original_id);
-        // duplicate the image
         $clone->duplicateImages($original_id, $source_questionpool_id, $clone->getId(), $target_questionpool_id);
 
         $clone->onCopy($source_questionpool_id, $original_id, $clone->getObjId(), $clone->getId());
 
-        return $clone->id;
+        return $clone->getId();
     }
 
     public function createNewOriginalFromThisDuplicate($targetParentId, $targetQuestionTitle = "")
@@ -339,7 +342,7 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
     {
         global $DIC;
         $ilLog = $DIC['ilLog'];
-        if ($this->getOrderingType() == OQ_PICTURES || $this->getOrderingType() == OQ_NESTED_PICTURES) {
+        if ($this->isImageOrderingType()) {
             $imagepath_original = $this->getImagePath($src_question_id, $src_object_id);
             $imagepath = $this->getImagePath($dest_question_id, $dest_object_id);
 
@@ -348,8 +351,11 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
             }
             foreach ($this->getOrderingElementList() as $element) {
                 $filename = $element->getContent();
-                if (!@copy($imagepath_original . $filename, $imagepath . $filename)) {
+                //if (!@copy($imagepath_original . $filename, $imagepath . $filename)) {
+                if (!copy($imagepath_original . $filename, $imagepath . $filename)) {
                     $ilLog->write("image could not be duplicated!!!!");
+                    $ilLog->write($imagepath_original . $filename);
+                    $ilLog->write($imagepath . $filename);
                 }
                 if (@file_exists($imagepath_original . $this->getThumbPrefix() . $filename)) {
                     if (!@copy($imagepath_original . $this->getThumbPrefix() . $filename, $imagepath . $this->getThumbPrefix() . $filename)) {
