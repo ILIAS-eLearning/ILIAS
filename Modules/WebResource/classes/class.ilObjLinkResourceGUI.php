@@ -259,8 +259,12 @@ class ilObjLinkResourceGUI extends ilObject2GUI
         if ($valid) {
             // update list
             $this->initList(self::LINK_MOD_EDIT_LIST);
-            $list = $this->getWebLinkRepo()->getList();
-            $this->getWebLinkRepo()->updateList($list, $this->draft_list);
+            try {
+                $list = $this->getWebLinkRepo()->getList();
+                $this->getWebLinkRepo()->updateList($list, $this->draft_list);
+            } catch (ilWebLinkDatabaseRepositoryException $e) {
+                // no weblink list here => update tile image, title, description, sorting
+            }
 
             // update object
             $this->object->setTitle($form->getInput('title'));
@@ -672,7 +676,7 @@ class ilObjLinkResourceGUI extends ilObject2GUI
         }
 
         $link_post = (array) ($this->http->request()->getParsedBody(
-        )['links'] ?? []);
+            )['links'] ?? []);
 
         // Validate
         $invalid = [];
