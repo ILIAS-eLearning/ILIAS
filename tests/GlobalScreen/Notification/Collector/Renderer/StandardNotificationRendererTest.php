@@ -67,7 +67,7 @@ class StandardNotificationRendererTest extends BaseNotificationSetUp
             ->withClosedCallable(function () {
             });
 
-        $item = $item->withCloseAction("./src/GlobalScreen/Client/notify.php?mode=closed&item_id=" . $this->hash($this->id->serialize()));
+        $item = $item->withCloseAction("src/GlobalScreen/Client/notify.php?mode=closed&item_id=" . $this->hash($this->id->serialize()));
         $this->assertEquals($item, $renderer->getNotificationComponentForItem($standard_notification));
     }
 }
