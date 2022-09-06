@@ -318,7 +318,7 @@ class ilObjectPermissionStatusGUI
 
                     case ilAccessInfo::IL_NO_PARENT_ACCESS:
                         $factory = new ilObjectFactory();
-                        $obj = $factory->getInstanceByRefId($info['data']);
+                        $obj = $factory->getInstanceByRefId((int) $info['data']);
                         $text .= "<span class=\"" . $alert . "\">" . $info['text'] . " (" . $this->lng->txt("obj_" . $obj->getType()) . " #" . $obj->getId() . ": " . $obj->getTitle() . ")</span><br/> ";
                         break;
 
