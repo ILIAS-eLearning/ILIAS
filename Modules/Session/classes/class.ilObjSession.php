@@ -597,11 +597,11 @@ class ilObjSession extends ilObject
         $res = $this->db->query($query);
 
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            $this->setLocation($row->location);
-            $this->setName($row->tutor_name);
-            $this->setPhone($row->tutor_phone);
-            $this->setEmail($row->tutor_email);
-            $this->setDetails($row->details);
+            $this->setLocation((string) $row->location);
+            $this->setName((string) $row->tutor_name);
+            $this->setPhone((string) $row->tutor_phone);
+            $this->setEmail((string) $row->tutor_email);
+            $this->setDetails((string) $row->details);
             $this->setRegistrationType((int) $row->reg_type);
             $this->enableRegistrationUserLimit((int) $row->reg_limited);
             $this->enableRegistrationWaitingList((bool) $row->reg_waiting_list);
@@ -611,7 +611,7 @@ class ilObjSession extends ilObject
             $this->setShowMembers((bool) $row->show_members);
             $this->setMailToMembersType((int) $row->mail_members);
             $this->setRegistrationNotificationEnabled((bool) $row->reg_notification);
-            $this->setRegistrationNotificationOption($row->notification_opt);
+            $this->setRegistrationNotificationOption((string) $row->notification_opt);
             $this->enableCannotParticipateOption((bool) $row->show_cannot_part);
             $this->event_id = (int) $row->event_id;
         }
