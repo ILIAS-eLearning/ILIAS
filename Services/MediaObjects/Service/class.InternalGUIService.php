@@ -66,4 +66,12 @@ class InternalGUIService
             $this
         );
     }
+
+    public function player(): Player\GUIService
+    {
+        return new Player\GUIService(
+            $this->domain_service,
+            $this
+        );
+    }
 }

@@ -1079,14 +1079,21 @@ class ilObjWikiGUI extends ilObjectGUI
                 ilWikiUtil::makeUrlTitle($a_page)
             );
             $ctrl->setParameterByClass(
-                "ilobjwikigui",
+                "ilwikihandlergui",
                 "ref_id",
                 $a_target
             );
-            $ctrl->redirectByClass(
-                ["ilwikihandlergui", "ilobjwikigui"],
-                "viewPage"
-            );
+            if ($a_page != "") {
+                $ctrl->redirectByClass(
+                    ["ilwikihandlergui", "ilobjwikigui"],
+                    "viewPage"
+                );
+            } else {
+                $ctrl->redirectByClass(
+                    ["ilwikihandlergui"],
+                    "view"
+                );
+            }
         } elseif ($ilAccess->checkAccess("visible", "", $a_target)) {
             ilObjectGUI::_gotoRepositoryNode($a_target, "infoScreen");
         } elseif ($ilAccess->checkAccess("read", "", ROOT_FOLDER_ID)) {

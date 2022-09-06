@@ -65,8 +65,7 @@ function data_processing()
         [ $number_input->withLabel("Left")
         , $number_input->withLabel("Right")
         ]
-    )
-        ->withAdditionalTransformation($sum);
+    )->withAdditionalTransformation($sum);
 
     //Step 6: Define some data processing.
     if ($request->getMethod() == "POST"

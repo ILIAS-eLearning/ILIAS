@@ -28,11 +28,6 @@ class ilObjForumListGUI extends ilObjectListGUI
 {
     private int $child_id;
 
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
     public function init(): void
     {
         $this->static_link_enabled = true;

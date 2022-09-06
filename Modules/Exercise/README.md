@@ -36,6 +36,7 @@ This section documents the general concepts and structures of the Exercise Modul
 * [Criteria Catalog](#criteria-catalog)
 * [Calendar Appointments](#calendar-appointments)
 * [Tasks](#tasks)
+* [File System](#file-system)
 
 
 ## Exercise
@@ -127,6 +128,40 @@ Tasks are created for handing-in and for providing a peer feedback..
 
 - Task for handing-in will only be visible during **Submission Period**.
 - Task for peer-review will only be visible during **Peer Review Period**.
+
+## File System
+
+### Storage Data Directory
+
+*Sample Solution*
+- `ilExercise/X/exc_*EXC_ID*/feedb_*ASS_ID*/0/`
+- sample solution file (with original name)
+
+*Evaluation Feedback Files from Tutors*
+- `ilExercise/X/exc_*EXC_ID*/feedb_*ASS_ID*/*USER_ID*/`
+- evaluation/feedback files from tutors for learner *USER_ID*
+
+*File Submissions*
+- `ilExercise/X/exc_*EXC_ID*/subm_*ASS_ID*/*USER_ID*/*TIMESTAMP*_filename.pdf`
+- file submissions (also blogs and porfilios, filename = obj_id)
+
+*Peer Feedback Files*
+- `ilExercise/X/exc_*EXC_ID*/peer_up_*ASS_ID*/*TAKER_ID*/*GIVER_ID*/*CRIT_ID*/`
+- peer feedback file (original name)
+
+*Multi-Feedback Zip File Structure*
+- `ilExercise/X/exc_*EXC_ID*/mfb_up_*ASS_ID*/*UPLOADER_ID*/`
+- multi-feedback zip file/structure from tutor *UPLOADER_ID*
+
+*Download All Assignemtns Processing*
+- `ilExercise/X/exc_*EXC_ID*/tmp_*ASS_ID*/`
+- temp dir for "download all assignments" process (creates random subdir before starting)
+
+### Web Data Directory
+
+- `ilExercise/X/exc_*EXC_ID*/ass_*ASS_ID*/`
+- directory holds all instruction files (with original names)
+
 
 # Other Specs
 

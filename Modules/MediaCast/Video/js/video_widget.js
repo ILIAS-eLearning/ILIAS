@@ -31,10 +31,14 @@ il.VideoWidget = il.VideoWidget || {};
 
     const progress = () => {
       console.log("monitoring progress");
+      // for all wrappers
       t.wrapper_ids.forEach(function(wrapper_id, i, a) {
+        // get player
         let p = t.widget[wrapper_id].player
+        // if the wrapper defines a progress callback, call it
         if (t.widget[wrapper_id].progress_cb) {
           console.log(p);
+          // get current time, duration and ended information to callback
           t.widget[wrapper_id].progress_cb(wrapper_id, p.getCurrentTime(), p.node.duration, p.node.ended);
         }
       });

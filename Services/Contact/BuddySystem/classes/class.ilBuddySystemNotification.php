@@ -21,6 +21,7 @@ declare(strict_types=1);
 use ILIAS\Notifications\Model\ilNotificationConfig;
 use ILIAS\Notifications\Model\ilNotificationLink;
 use ILIAS\Notifications\Model\ilNotificationParameter;
+use ILIAS\Contact\Provider\ContactNotificationProvider;
 
 /**
  * Class ilBuddyList
@@ -67,16 +68,19 @@ class ilBuddySystemNotification
             $recipientLanguage = ilLanguageFactory::_getLanguage($user->getLanguage());
             $recipientLanguage->loadLanguageModule('buddysystem');
 
-            $notification = new ilNotificationConfig('buddysystem_request');
+            $notification = new ilNotificationConfig(ContactNotificationProvider::NOTIFICATION_TYPE);
 
+            $personalProfileLink = $recipientLanguage->txt('buddy_noti_cr_profile_not_published');
             if ($this->hasPublicProfile($this->sender->getId())) {
+                $personalProfileLink = ilLink::_getStaticLink($this->sender->getId(), 'usr', true);
+
                 $links[] = new ilNotificationLink(
                     new ilNotificationParameter(
                         $this->sender->getFirstname() . ', ' .
                         $this->sender->getLastname() . ' ' .
                         $this->sender->getLogin()
                     ),
-                    ilLink::_getStaticLink($this->sender->getId(), 'usr')
+                    $personalProfileLink
                 );
             } else {
                 $links[] = new ilNotificationLink(
@@ -105,7 +109,13 @@ class ilBuddySystemNotification
 
             $bodyParams = [
                 'SALUTATION' => ilMail::getSalutation($user->getId(), $recipientLanguage),
+                'BR' => "\n",
+                'APPROVE_REQUEST' => ilLink::_getStaticLink($this->sender->getId(), 'usr', true, '_contact_approved'),
+                'APPROVE_REQUEST_TXT' => $recipientLanguage->txt('buddy_notification_contact_request_link'),
+                'IGNORE_REQUEST' => ilLink::_getStaticLink($this->sender->getId(), 'usr', true, '_contact_ignored'),
+                'IGNORE_REQUEST_TXT' => $recipientLanguage->txt('buddy_notification_contact_request_ignore'),
                 'REQUESTING_USER' => ilUserUtil::getNamePresentation($this->sender->getId()),
+                'PERSONAL_PROFILE_LINK' => $personalProfileLink,
             ];
             $notification->setTitleVar('buddy_notification_contact_request', [], 'buddysystem');
             $notification->setShortDescriptionVar('buddy_notification_contact_request_short', $bodyParams, 'buddysystem');

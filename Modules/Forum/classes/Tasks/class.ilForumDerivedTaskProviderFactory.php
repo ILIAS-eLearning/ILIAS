@@ -24,22 +24,19 @@ declare(strict_types=1);
  */
 class ilForumDerivedTaskProviderFactory implements ilDerivedTaskProviderFactory
 {
-    protected ilTaskService $taskService;
     protected ilAccessHandler $accessHandler;
     protected ilSetting $settings;
     protected ilLanguage $lng;
     protected ilCtrlInterface $ctrl;
 
     public function __construct(
-        ilTaskService $taskService,
+        protected ilTaskService $taskService,
         ilAccessHandler $accessHandler = null,
         ilSetting $settings = null,
         ilLanguage $lng = null,
         ilCtrlInterface $ctrl = null
     ) {
         global $DIC;
-
-        $this->taskService = $taskService;
         $this->accessHandler = is_null($accessHandler)
             ? $DIC->access()
             : $accessHandler;

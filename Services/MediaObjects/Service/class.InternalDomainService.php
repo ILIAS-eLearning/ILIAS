@@ -24,6 +24,7 @@ use ILIAS\DI\Container;
 use ILIAS\MediaObjects\ImageMap\ImageMapManager;
 use ILIAS\Repository\GlobalDICDomainServices;
 use ILIAS\MediaObjects\MediaType\MediaTypeManager;
+use ILIAS\MediaObjects\Tracking\TrackingManager;
 
 /**
  * @author Alexander Killing <killing@leifos.de>
@@ -66,5 +67,12 @@ class InternalDomainService
     public function mediaType(): MediaTypeManager
     {
         return new MediaTypeManager();
+    }
+
+    public function tracking(): TrackingManager
+    {
+        return new TrackingManager(
+            $this
+        );
     }
 }

@@ -17,6 +17,9 @@
 
 use ILIAS\Refinery\Random\Group as RandomGroup;
 use ILIAS\Refinery\Random\Seed;
+use ILIAS\DI\Container;
+use ILIAS\HTTP\Wrapper\ArrayBasedRequestWrapper;
+use ILIAS\Refinery\Factory;
 
 /**
  * Cloze test question GUI representation
@@ -84,6 +87,9 @@ JS;
     private $gapIndex;
 
     private RandomGroup $randomGroup;
+    private Container $dic;
+    private Factory $refinery;
+    private ArrayBasedRequestWrapper $post;
 
     /**
     * assClozeTestGUI constructor
@@ -92,16 +98,18 @@ JS;
     */
     public function __construct(int $id = -1)
     {
-        global $DIC;
-
         parent::__construct();
+        global $DIC;
+        $this->dic = $DIC;
+        $this->refinery = $this->dic->refinery();
+        $this->post = $this->dic->http()->wrapper()->post();
 
         $this->object = new assClozeTest();
         if ($id >= 0) {
             $this->object->loadFromDb($id);
         }
 
-        $this->randomGroup = $DIC->refinery()->random();
+        $this->randomGroup = $this->refinery->random();
     }
 
     public function getCommand($cmd)
@@ -149,8 +157,8 @@ JS;
 
     public function writeAnswerSpecificPostData(ilPropertyFormGUI $form): void
     {
-        if (is_array($_POST['gap'])) {
-            if ($this->ctrl->getCmd() != 'createGaps') {
+        if (is_array($this->post->has('gap'))) {
+            if ($this->ctrl->getCmd() !== 'createGaps') {
                 $this->object->clearGapAnswers();
             }
 
@@ -219,8 +227,8 @@ JS;
 
                         $this->object->getGap($idx)->clearItems();
 
-                        if (array_key_exists('gap_' . $idx . '_numeric', $_POST)) {
-                            if ($this->ctrl->getCmd() != 'createGaps') {
+                        if ($this->post->has('gap_' . $idx . '_numeric')) {
+                            if ($this->ctrl->getCmd() !== 'createGaps') {
                                 $this->object->addGapAnswer(
                                     $idx,
                                     0,
@@ -251,7 +259,7 @@ JS;
                             $this->object->setGapAnswerUpperBound($idx, 0, '');
                         }
 
-                        if (array_key_exists('gap_' . $idx . '_gapsize', $_POST)) {
+                        if ($this->post->has('gap_' . $idx . '_gapsize')) {
                             $this->object->setGapSize($idx, $order, $_POST['gap_' . $idx . '_gapsize']);
                         }
                         break;
@@ -1328,9 +1336,6 @@ JS;
             return '';
         }
 
-        global $DIC;
-        $lng = $DIC['lng'];
-
         $feedback = '<table class="test_specific_feedback"><tbody>';
 
         foreach ($this->object->gaps as $gapIndex => $gap) {
@@ -1338,7 +1343,7 @@ JS;
             $answerIndex = $this->object->feedbackOBJ->determineAnswerIndexForAnswerValue($gap, $answerValue);
             $fb = $this->object->feedbackOBJ->determineTestOutputGapFeedback($gapIndex, $answerIndex);
 
-            $caption = $lng->txt('gap') . ' ' . ($gapIndex + 1) . ': ';
+            $caption = $this->lng->txt('gap') . ' ' . ($gapIndex + 1) . ': ';
             $feedback .= '<tr><td>';
             $feedback .= $caption . '</td><td>';
             $feedback .= $fb . '</td> </tr>';
@@ -1523,8 +1528,6 @@ JS;
 
     public function getAnswerFrequencyTableGUI($parentGui, $parentCmd, $relevantAnswers, $questionIndex): ilAnswerFrequencyStatisticTableGUI
     {
-        global $DIC; /* @var ILIAS\DI\Container $DIC */
-
         $table = parent::getAnswerFrequencyTableGUI(
             $parentGui,
             $parentCmd,
@@ -1534,8 +1537,8 @@ JS;
 
         $table->setTitle(
             sprintf(
-                $DIC->language()->txt('tst_corrections_answers_tbl_subindex'),
-                $DIC->language()->txt('gap') . ' ' . ($questionIndex + 1)
+                $this->lng->txt('tst_corrections_answers_tbl_subindex'),
+                $this->lng->txt('gap') . ' ' . ($questionIndex + 1)
             )
         );
 

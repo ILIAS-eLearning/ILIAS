@@ -28,7 +28,7 @@ var ClozeGlobals = {
 
 var ClozeSettings = {};
 
-var ClozeGapBuilder = (function () {
+var ClozeQuestionGapBuilder = (function () {
 	'use strict';
 	var pub = {}, pro = {};
 
@@ -213,10 +213,12 @@ var ClozeGapBuilder = (function () {
 		}
 	};
 
-	pro.bindTextareaHandlerTiny = function () {
-		var tinymce_iframe_selector = $('.mceIframeContainer iframe').eq(1).contents().find('body');
+	pro.bindTextareaHandlerTiny = function (ed) {
+		if (ed.id !== 'cloze_text') {
+			return;
+		}
 
-		tinymce_iframe_selector.off([
+		ed.off([
 			"keydown",
 			"keyup",
 			"click",
@@ -225,25 +227,14 @@ var ClozeGapBuilder = (function () {
 			"paste"
 		].join(" "));
 
-		tinymce_iframe_selector.on("keydown", function () {
-			//ToDo: find out why location function breaks keyboard input
-			/*var inst = tinyMCE.activeEditor;
-			 var cursorPosition = getCursorPositionTiny(inst);
-			 var pos = pro.cursorInGap(cursorPosition);
-			 g_cursor_pos = cursorPosition;
-			 if (pos[1] != -1) {
-			 pro.setCursorPositionTiny(inst, pos[1]);
-			 pro.focusOnFormular(pos);
-			 }*/
-		});
-		tinymce_iframe_selector.on("keyup", function (e) {
+		ed.on("keyup", function (e) {
 			if (e.keyCode == 8 || e.keyCode == 46) {
 				pro.deferredCallbackFactory('TinyMceKeyup')(function () {
 					pro.checkTextAreaAgainstJson();
 				}, 200);
 			}
 		});
-		tinymce_iframe_selector.on("click", function () {
+		ed.on("click", function () {
 			pro.deferredCallbackFactory('TinyMceClick')(function () {
 				var inst = tinyMCE.activeEditor;
 				var cursorPosition = pro.getCursorPositionTiny(inst, false);
@@ -256,13 +247,13 @@ var ClozeGapBuilder = (function () {
 				}
 			}, 200);
 		});
-		tinymce_iframe_selector.on("blur", function () {
+		ed.on("blur", function () {
 			pro.deferredCallbackFactory('TinyMceBlur')(function () {
 				pro.checkTextAreaAgainstJson();
 			}, 200);
 		});
 
-		tinymce_iframe_selector.on("mouseleave", function () {
+		ed.on("mouseleave", function () {
 			pro.deferredCallbackFactory('TinyMceMouseLeave')(function () {
 				var inst = tinyMCE.activeEditor;
 				var cursorPosition = pro.getCursorPositionTiny(inst, false);
@@ -270,7 +261,7 @@ var ClozeGapBuilder = (function () {
 			}, 200);
 		});
 
-		tinymce_iframe_selector.on('paste', function (event) {
+		ed.on('paste', function (event) {
 				event.preventDefault();
 				var clipboard_text = (event.originalEvent || event).clipboardData.getData('text/plain');
 				clipboard_text = clipboard_text.replace(/\[gap[\s\S\d]*?\]/g, '[gap]');
@@ -1357,12 +1348,7 @@ var ClozeGapBuilder = (function () {
 			pro.cloneFormPart(ClozeGlobals.clone_active);
 		}
 		if (typeof(tinyMCE) != 'undefined') {
-			if (tinyMCE.activeEditor === null || tinyMCE.activeEditor.isHidden() !== false) {
-				ilTinyMceInitCallbackRegistry.addCallback(pro.bindTextareaHandlerTiny);
-			}
-			else if (tinyMCE.editors.length > 0) {
-				pro.bindTextareaHandlerTiny();
-			}
+			ilTinyMceInitCallbackRegistry.addCallback(pro.bindTextareaHandlerTiny);
 		}
 		$(window).scrollTop(last_position);
 	};
@@ -1386,7 +1372,7 @@ var ClozeGapCombinationBuilder = (function () {
 			'id':    'gap_combination_header_' + combinationCounter
 		}).appendTo(ClozeGlobals.form_class);
 		var gapCombinationHeader = $('#gap_combination_header_' + combinationCounter);
-		ClozeGapBuilder.appendFormHeaderClasses(gapCombinationHeader);
+		ClozeQuestionGapBuilder.appendFormHeaderClasses(gapCombinationHeader);
 		gapCombinationHeader.find('.ilHeader').html(ClozeSettings.combination_text + ' ' + combinationCounter + '');
 		gapCombinationHeader.attr('copy', '<h3>' + ClozeSettings.combination_text + ' ' + combinationCounter + '</h3>');
 
@@ -1397,7 +1383,7 @@ var ClozeGapCombinationBuilder = (function () {
 		$('#gap_combination_' + i).find('.form-group').attr({
 			'id': 'gap_id_select_append_' + i + '_0'
 		});
-		ClozeGapBuilder.appendFormClasses($('#gap_combination_' + i));
+		ClozeQuestionGapBuilder.appendFormClasses($('#gap_combination_' + i));
 	};
 
 	pro.fillCombinationSelectWithGapOptions = function (gaps, i, g) {
@@ -1472,7 +1458,7 @@ var ClozeGapCombinationBuilder = (function () {
 					'class': 'form-control gap_combination gap_comb_values'
 				});
 				$(this).val(default_value);
-				if ($(this).val() === '') {
+				if ($(this).val() === null || $(this).val() === '') {
 					$(this).val('none_selected_minus_one');
 				}
 			});
@@ -1513,7 +1499,7 @@ var ClozeGapCombinationBuilder = (function () {
 		ClozeSettings.gaps_combination.forEach(function (gaps) {
 			gaps[0].forEach(function (gap) {
 				ClozeSettings.unused_gaps_comb[gap] = true;
-				ClozeGapBuilder.showHidePointsFieldForGaps(gap, 'none');
+				ClozeGapQuestionBuilder.showHidePointsFieldForGaps(gap, 'none');
 			});
 		});
 	};
@@ -1559,7 +1545,7 @@ var ClozeGapCombinationBuilder = (function () {
 				'class': 'value_container_' + i + '_0 form-inline'
 			});
 			var gapCombinationValues = $('#gap_combination_values_' + i);
-			ClozeGapBuilder.appendFormClasses(gapCombinationValues);
+			ClozeQuestionGapBuilder.appendFormClasses(gapCombinationValues);
 			first_row = true;
 
 			$.each(combination[1][0], function (a, answers) {
@@ -1621,7 +1607,7 @@ var ClozeGapCombinationBuilder = (function () {
 				var points = new Array(1);
 				var insert = [gaps, answers, points];
 				ClozeSettings.gaps_combination.splice(position, 0, insert);
-				ClozeGapBuilder.paintGaps();
+				ClozeQuestionGapBuilder.paintGaps();
 			});
 		}
 	};

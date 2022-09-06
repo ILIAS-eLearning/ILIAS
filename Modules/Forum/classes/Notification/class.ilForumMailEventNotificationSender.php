@@ -33,16 +33,11 @@ class ilForumMailEventNotificationSender extends ilMailNotification
     private const TYPE_POST_UNCENSORED = 66;
     private const PERMANENT_LINK_POST = 'PL_Post';
     private const PERMANENT_LINK_FORUM = 'PL_Forum';
-
-    protected ilForumNotificationMailData $provider;
-    protected ilLogger $logger;
     protected bool $is_cronjob = false;
 
-    public function __construct(ilForumNotificationMailData $provider, ilLogger $logger)
+    public function __construct(protected ilForumNotificationMailData $provider, protected ilLogger $logger)
     {
         parent::__construct(false);
-        $this->provider = $provider;
-        $this->logger = $logger;
     }
 
     protected function initMail(): ilMail
@@ -334,7 +329,6 @@ class ilForumMailEventNotificationSender extends ilMailNotification
      * @param string $customText        - mail text after salutation
      * @param string $action            - Language id of action
      * @param string $date              - date to be added in mail
-     * @return ilMailValueObject
      */
     private function createMailValueObjectsWithAttachments(
         string $subjectLanguageId,
@@ -374,12 +368,6 @@ class ilForumMailEventNotificationSender extends ilMailNotification
 
     /**
      * Add body and send mail without attachments
-     * @param string $subjectLanguageId - Language id of subject
-     * @param int    $recipientUserId
-     * @param string $customText        - mail text after salutation
-     * @param string $action            - Language id of action
-     * @param string $date              - date to be added in mail
-     * @return ilMailValueObject
      */
     private function createMailValueObjectWithoutAttachments(
         string $subjectLanguageId,
@@ -453,15 +441,14 @@ class ilForumMailEventNotificationSender extends ilMailNotification
         }
 
         $body .= $message . "\n";
-        $body .= "------------------------------------------------------------\n";
 
-        return $body;
+        return $body . "------------------------------------------------------------\n";
     }
 
     private function createAttachmentText(): string
     {
         $attachmentText = '';
-        if (count($this->provider->getAttachments()) > 0) {
+        if ($this->provider->getAttachments() !== []) {
             $this->logger->debug('Adding attachments ...');
             foreach ($this->provider->getAttachments() as $attachment) {
                 $attachmentText .= $this->getLanguageText('attachment') . ": " . $attachment . "\n";
@@ -475,9 +462,8 @@ class ilForumMailEventNotificationSender extends ilMailNotification
     private function createAttachmentLinkText(): string
     {
         $body = $this->getPermanentLink();
-        $body .= ilMail::_getInstallationSignature();
 
-        return $body;
+        return $body . ilMail::_getInstallationSignature();
     }
 
     private function addMailSubject(string $subject): void

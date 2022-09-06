@@ -227,7 +227,7 @@ abstract class ilMailNotification
         $recipients = [];
         foreach ($a_rcp as $rcp) {
             if ($a_parse_recipients) {
-                $recipients[] = ilObjUser::_lookupLogin($rcp);
+                $recipients[] = ilObjUser::_lookupLogin((int) $rcp);
             } else {
                 $recipients[] = $rcp;
             }

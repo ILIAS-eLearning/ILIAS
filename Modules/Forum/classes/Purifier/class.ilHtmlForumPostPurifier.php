@@ -37,7 +37,7 @@ class ilHtmlForumPostPurifier extends ilHtmlPurifierAbstractLibWrapper
         $config->set('HTML.AllowedElements', $this->removeUnsupportedElements($tags));
         $config->set('HTML.ForbiddenAttributes', 'div@style');
 
-        if ($def = $config->maybeGetRawHTMLDefinition()) {
+        if (($def = $config->maybeGetRawHTMLDefinition()) !== null) {
             $def->addAttribute('a', 'target', 'Enum#_blank,_self,_target,_top');
         }
 

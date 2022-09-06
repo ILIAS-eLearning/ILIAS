@@ -101,14 +101,8 @@ class ilForumExportGUI
 
     public function executeCommand(): void
     {
-        $next_class = $this->ctrl->getNextClass($this);
         $cmd = $this->ctrl->getCmd();
-
-        switch ($next_class) {
-            default:
-                $this->$cmd();
-                break;
-        }
+        $this->$cmd();
     }
 
     protected function renderPostHtml(ilGlobalTemplateInterface $tpl, ilForumPost $post, int $counter, int $mode): void
@@ -170,7 +164,7 @@ class ilForumExportGUI
                 );
             }
 
-            if ($post->getDisplayUserId()) {
+            if ($post->getDisplayUserId() !== 0) {
                 if ($this->is_moderator) {
                     $num_posts = $this->frm->countUserArticles($post->getDisplayUserId());
                 } else {
@@ -366,7 +360,7 @@ class ilForumExportGUI
         $tpl = new ilGlobalTemplate('tpl.forums_export_html.html', true, true, 'Modules/Forum');
         $location_stylesheet = ilUtil::getStyleSheetLocation();
         $tpl->setVariable('LOCATION_STYLESHEET', $location_stylesheet);
-        $tpl->setVariable('BASE', (substr(ILIAS_HTTP_PATH, -1) === '/' ? ILIAS_HTTP_PATH : ILIAS_HTTP_PATH . '/'));
+        $tpl->setVariable('BASE', (str_ends_with(ILIAS_HTTP_PATH, '/') ? ILIAS_HTTP_PATH : ILIAS_HTTP_PATH . '/'));
 
         iljQueryUtil::initjQuery($tpl);
         ilMathJax::getInstance()->includeMathJax($tpl);

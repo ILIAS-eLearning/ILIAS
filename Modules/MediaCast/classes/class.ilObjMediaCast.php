@@ -34,7 +34,7 @@ class ilObjMediaCast extends ilObject
     public const AUTOPLAY_NO = 0;
     public const AUTOPLAY_ACT = 1;
     public const AUTOPLAY_INACT = 2;
-
+    protected \ILIAS\MediaObjects\Tracking\TrackingManager $mob_tracking;
 
     protected array $itemsarray;
     protected ilObjUser $user;
@@ -62,6 +62,9 @@ class ilObjMediaCast extends ilObject
         $mcst_set = new ilSetting("mcst");
         $this->setDefaultAccess($mcst_set->get("defaultaccess") == "users" ? 0 : 1);
         $this->setOrder(self::ORDER_CREATION_DATE_DESC);
+        $this->mob_tracking = $DIC->mediaObjects()->internal()
+            ->domain()
+            ->tracking();
         parent::__construct($a_id, $a_call_by_reference);
     }
 
@@ -473,16 +476,11 @@ class ilObjMediaCast extends ilObject
         int $a_user_id,
         int $a_mob_id
     ): void {
-        // using read events to persist mob status
-        ilChangeEvent::_recordReadEvent(
-            "mob",
-            $this->getRefId(),
+        $this->mob_tracking->saveCompletion(
             $a_mob_id,
+            $this->getRefId(),
             $a_user_id
         );
-
-        // trigger LP update
-        ilLPStatusWrapper::_updateStatus($this->getId(), $a_user_id);
     }
 
     /**

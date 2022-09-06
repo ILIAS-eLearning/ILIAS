@@ -136,7 +136,7 @@ class ilLPStatusCollectionMobs extends ilLPStatus
 
         // an empty collection is always not attempted
         $items = self::getCollectionItems($a_obj_id);
-        if (sizeof($items)) {
+        if (count($items) > 0) {
             // process mob status for user
 
             $found = array();
@@ -150,14 +150,44 @@ class ilLPStatusCollectionMobs extends ilLPStatus
                 $found[] = (int) $row["obj_id"];
             }
 
-            if (sizeof($found)) {
+            if (count($found) > 0) {
                 $status = self::LP_STATUS_IN_PROGRESS_NUM;
 
-                if (sizeof($found) == sizeof($items)) {
+                if (count($found) == count($items)) {
                     $status = self::LP_STATUS_COMPLETED_NUM;
                 }
             }
         }
         return $status;
+    }
+
+    public function determinePercentage(
+        int $a_obj_id,
+        int $a_usr_id,
+        ?object $a_obj = null
+    ): int {
+        $per = 0;
+
+        // an empty collection is always not attempted
+        $items = self::getCollectionItems($a_obj_id);
+        if (count($items) > 0) {
+            // process mob status for user
+
+            $found = array();
+            $set = $this->db->query(
+                "SELECT obj_id FROM read_event" .
+                " WHERE usr_id = " . $this->db->quote($a_usr_id, "integer") .
+                " AND " . $this->db->in("obj_id", $items, false, "integer")
+            );
+            while ($row = $this->db->fetchAssoc($set)) {
+                $found[] = (int) $row["obj_id"];
+            }
+
+            if (count($found) > 0 && count($items) > 0) {
+                $per = round(100 / count($items) * count($found));
+            }
+        }
+
+        return $per;
     }
 }

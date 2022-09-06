@@ -65,11 +65,11 @@ class ilForumModeratorsGUI
             );
         }
 
-        if (!$this->access->checkAccess('write', '', (int) $this->ref_id)) {
+        if (!$this->access->checkAccess('write', '', $this->ref_id)) {
             $this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
         }
 
-        $this->oForumModerators = new ilForumModerators((int) $this->ref_id);
+        $this->oForumModerators = new ilForumModerators($this->ref_id);
     }
 
     public function executeCommand(): void

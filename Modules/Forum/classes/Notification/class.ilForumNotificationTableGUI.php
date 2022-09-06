@@ -25,7 +25,6 @@ declare(strict_types=1);
  */
 class ilForumNotificationTableGUI extends ilTable2GUI
 {
-    private ilGlobalTemplateInterface $mainTemplate;
     private array $notification_modals = [];
     private \ILIAS\UI\Factory $ui_factory;
     private ILIAS\UI\Renderer $ui_renderer;
@@ -39,7 +38,6 @@ class ilForumNotificationTableGUI extends ilTable2GUI
 
         $this->lng = $DIC->language();
         $this->ctrl = $DIC->ctrl();
-        $this->mainTemplate = $DIC->ui()->mainTemplate();
 
         $this->setId('frmevents_' . $settings_gui->getRefId() . '_' . $type);
 

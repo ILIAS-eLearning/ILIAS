@@ -61,7 +61,7 @@ class ForumNotificationCacheTest extends TestCase
         $this->expectException(InvalidArgumentException::class);
 
         $cache = new ilForumNotificationCache();
-        $key = $cache->createKeyByValues([$nonScalarValue, $nonScalarValue]);
+        $cache->createKeyByValues([$nonScalarValue, $nonScalarValue]);
     }
 
     public function scalarValuesAndNullProvider(): array
@@ -76,7 +76,7 @@ class ForumNotificationCacheTest extends TestCase
     }
 
     /**
-     * @param scalar $scalarValue
+     * @param scalar|null $scalarValue
      * @dataProvider scalarValuesAndNullProvider
      */
     public function testCacheKeyCouldBeGeneratedByArray($scalarValue): void

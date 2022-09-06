@@ -17,6 +17,9 @@
  *********************************************************************/
 
 use ILIAS\Notifications\Model\ilNotificationConfig;
+use ILIAS\Notifications\Model\ilNotificationLink;
+use ILIAS\Notifications\Model\ilNotificationParameter;
+use ILIAS\Badge\GlobalScreen\BadgeNotificationProvider;
 
 /**
  * Class ilBadgeHandler
@@ -343,7 +346,7 @@ class ilBadgeHandler
             return;
         }
 
-        $new_badges = array();
+        $new_badges = [];
         foreach (ilBadge::getInstancesByType($a_type_id) as $badge) {
             if ($badge->isActive()) {
                 // already assigned?
@@ -477,10 +480,10 @@ class ilBadgeHandler
         array $a_user_map,
         int $a_parent_ref_id = null
     ): void {
-        $badges = array();
+        $badges = [];
 
         foreach ($a_user_map as $user_id => $badge_ids) {
-            $user_badges = array();
+            $user_badges = [];
 
             foreach ($badge_ids as $badge_id) {
                 // making extra sure
@@ -501,7 +504,7 @@ class ilBadgeHandler
                 // compose and send mail
 
                 $ntf = new ilSystemNotification(false);
-                $ntf->setLangModules(array("badge"));
+                $ntf->setLangModules(["badge"]);
 
                 if (isset($a_parent_ref_id)) {
                     $ntf->setRefId($a_parent_ref_id);
@@ -515,7 +518,7 @@ class ilBadgeHandler
 
                 $ntf->addAdditionalInfo("badge_notification_badges", implode("\n", $user_badges), true);
 
-                $url = ilLink::_getLink($user_id, "usr", array(), "_bdg");
+                $url = ilLink::_getLink($user_id, "usr", [], "_bdg");
                 $ntf->addAdditionalInfo("badge_notification_badges_goto", $url);
 
                 $ntf->setReasonLangId("badge_notification_reason");
@@ -536,17 +539,17 @@ class ilBadgeHandler
                 // bug #24562
                 if (ilContext::hasHTML()) {
                     $url = new ilNotificationLink(new ilNotificationParameter('badge_notification_badges_goto', [], 'badge'), $url);
-                    $osd_params = array("badge_list" => implode(", ", $user_badges));
+                    $osd_params = ["badge_list" => implode(", ", $user_badges)];
 
-                    $notification = new ilNotificationConfig("badge_received");
-                    $notification->setTitleVar("badge_notification_subject", array(), "badge");
+                    $notification = new ilNotificationConfig(BadgeNotificationProvider::NOTIFICATION_TYPE);
+                    $notification->setTitleVar("badge_notification_subject", [], "badge");
                     $notification->setShortDescriptionVar("badge_notification_osd", $osd_params, "badge");
                     $notification->setLongDescriptionVar("");
                     $notification->setLinks([$url]);
                     $notification->setIconPath(ilUtil::getImagePath('icon_bdga.svg'));
                     $notification->setValidForSeconds(ilNotificationConfig::TTL_SHORT);
                     $notification->setVisibleForSeconds(ilNotificationConfig::DEFAULT_TTS);
-                    $notification->notifyByUsers(array($user_id));
+                    $notification->notifyByUsers([$user_id]);
                 }
             }
         }

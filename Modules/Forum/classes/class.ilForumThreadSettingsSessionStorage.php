@@ -20,11 +20,8 @@ declare(strict_types=1);
 
 class ilForumThreadSettingsSessionStorage
 {
-    private string $key;
-
-    public function __construct(string $session_key)
+    public function __construct(private string $key)
     {
-        $this->key = $session_key;
     }
 
     /**
@@ -45,7 +42,6 @@ class ilForumThreadSettingsSessionStorage
     }
 
     /**
-     * @param int $thread_id
      * @param mixed|null $default
      * @return mixed
      */
@@ -57,7 +53,6 @@ class ilForumThreadSettingsSessionStorage
     }
 
     /**
-     * @param int $thread_id
      * @param mixed $value
      */
     public function set(int $thread_id, $value): void

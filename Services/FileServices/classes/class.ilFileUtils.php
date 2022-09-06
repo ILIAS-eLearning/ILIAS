@@ -47,7 +47,7 @@ class ilFileUtils
         $file = $pathinfo["basename"];
 
         // see 22727
-        if ($pathinfo["extension"] == "") {
+        if ($pathinfo["extension"] ?? '' === '') {
             $file .= ".zip";
         }
 

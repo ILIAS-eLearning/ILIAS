@@ -45,11 +45,11 @@ class ilForumStatisticsTableGUI extends ilTable2GUI
         $this->setRowTemplate('tpl.statistics_table_row.html', 'Modules/Forum');
 
         $columns = $this->getColumnDefinition();
-        foreach ($columns as $index => $column) {
+        foreach ($columns as $column) {
             $this->addColumn(
                 $column['txt'],
                 isset($column['sortable']) && $column['sortable'] ? $column['field'] : '',
-                ((string) ceil((100 / count($columns)))) . '%s'
+                (ceil((100 / count($columns)))) . '%'
             );
         }
 
@@ -154,12 +154,9 @@ class ilForumStatisticsTableGUI extends ilTable2GUI
 
     public function numericOrdering(string $a_field): bool
     {
-        switch ($a_field) {
-            case 'ranking':
-                return true;
-
-            default:
-                return false;
-        }
+        return match ($a_field) {
+            'ranking' => true,
+            default => false,
+        };
     }
 }

@@ -26,14 +26,11 @@ declare(strict_types=1);
 class ilFileDataForum extends ilFileData
 {
     private const FORUM_PATH = 'forum';
-
-    private int $obj_id;
-    private int $pos_id;
     private string $forum_path;
     private ilErrorHandling $error;
     private ilGlobalTemplateInterface $main_tpl;
 
-    public function __construct(int $a_obj_id = 0, int $a_pos_id = 0)
+    public function __construct(private int $obj_id = 0, private int $pos_id = 0)
     {
         global $DIC;
         $this->main_tpl = $DIC->ui()->mainTemplate();
@@ -46,8 +43,6 @@ class ilFileDataForum extends ilFileData
         if (!$this->checkForumPath()) {
             $this->initDirectory();
         }
-        $this->obj_id = $a_obj_id;
-        $this->pos_id = $a_pos_id;
     }
 
     public function getObjId(): int
@@ -131,7 +126,7 @@ class ilFileDataForum extends ilFileData
 
     public function moveFilesOfPost(int $a_new_frm_id = 0): bool
     {
-        if ($a_new_frm_id) {
+        if ($a_new_frm_id !== 0) {
             foreach (new DirectoryIterator($this->forum_path) as $file) {
                 /** @var $file SplFileInfo */
                 if ($file->isDir()) {
@@ -224,7 +219,6 @@ class ilFileDataForum extends ilFileData
     }
 
     /**
-     * @param string $hashedFilename
      * @return array{path: string, filename: string, clean_filename: string}|null
      */
     public function getFileDataByMD5Filename(string $hashedFilename): ?array
@@ -245,7 +239,6 @@ class ilFileDataForum extends ilFileData
 
     /**
      * @param string|string[] $hashedFilenameOrFilenames
-     * @return bool
      */
     public function unlinkFilesByMD5Filenames($hashedFilenameOrFilenames): bool
     {

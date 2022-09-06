@@ -356,10 +356,9 @@ class ilPageLayoutAdministrationGUI
 
         $tmpdir = ilFileUtils::ilTempnam();
         ilFileUtils::makeDir($tmpdir);
-
         $succ = $exp->exportEntity(
             "pgtp",
-            $this->admin_request->getLayoutId(),
+            $this->admin_request->getObjId(),
             "4.2.0",
             "Services/COPage",
             "Title",

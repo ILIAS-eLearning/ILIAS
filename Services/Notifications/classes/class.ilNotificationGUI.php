@@ -2,8 +2,7 @@
 
 declare(strict_types=1);
 
-/******************************************************************************
- *
+/**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
  *
@@ -14,17 +13,16 @@ declare(strict_types=1);
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- *     https://www.ilias.de
- *     https://github.com/ILIAS-eLearning
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
  *
- *****************************************************************************/
+ *********************************************************************/
 
 use ILIAS\DI\Container;
 use ILIAS\Filesystem\Stream\Streams;
 use ILIAS\Notifications\ilNotificationDatabaseHandler;
 use ILIAS\Notifications\ilNotificationHandler;
 use ILIAS\Notifications\ilNotificationOSDHandler;
-use ILIAS\Notifications\Repository\ilNotificationOSDRepository;
 use ILIAS\Notifications\ilNotificationSettingsTable;
 
 /**
@@ -157,9 +155,13 @@ class ilNotificationGUI implements ilCtrlBaseClassInterface
     {
         ilSession::enableWebAccessWithoutSession(true);
         (new ilNotificationOSDHandler())->removeNotification(
-            $this->dic->http()->wrapper()->query()->retrieve('notification_id', $this->dic->refinery()->kindlyTo()->int())
+            $this->dic->http()->wrapper()->query()->retrieve(
+                'notification_id',
+                $this->dic->refinery()->kindlyTo()->int()
+            )
         );
-        exit;
+        $this->dic->http()->sendResponse();
+        $this->dic->http()->close();
     }
 
     public function addHandler(string $channel, ilNotificationHandler $handler): void
@@ -198,10 +200,10 @@ class ilNotificationGUI implements ilCtrlBaseClassInterface
         $form->addCommandButton('saveCustomizingOption', $this->language->txt('save'));
         $form->addCommandButton('showSettings', $this->language->txt('cancel'));
 
-        $table = new ilNotificationSettingsTable($this, 'a title', $this->getAvailableChannels(array('set_by_user')), $userTypes);
+        $table = new ilNotificationSettingsTable($this, 'a title', $this->getAvailableChannels(['set_by_user']), $userTypes);
 
         $table->setFormAction($this->controller->getFormAction($this, 'saveSettings'));
-        $table->setData($this->getAvailableTypes(array('set_by_user')));
+        $table->setData($this->getAvailableTypes(['set_by_user']));
 
         if (
             $this->dic->refinery()->kindlyTo()->int()->transform(

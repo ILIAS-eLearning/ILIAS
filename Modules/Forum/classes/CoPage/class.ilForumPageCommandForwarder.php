@@ -39,32 +39,17 @@ class ilForumPageCommandForwarder implements ilForumObjectConstants
     public const PRESENTATION_MODE_EMBEDDED_PRESENTATION = 'PRESENTATION_MODE_EMBEDDED_PRESENTATION';
 
     protected string $presentationMode = self::PRESENTATION_MODE_EDITING;
-    protected ilCtrlInterface $ctrl;
-    protected ilLanguage $lng;
-    protected ilTabsGUI $tabs;
-    protected ilObjForum $parentObject;
     protected string $backUrl = '';
-    protected ilObjUser $actor;
-    protected GlobalHttpState $http;
-    protected ObjectFacade $content_style_domain;
 
     public function __construct(
-        GlobalHttpState $http,
-        ilCtrlInterface $ctrl,
-        ilTabsGUI $tabs,
-        ilLanguage $lng,
-        ilObjForum $parentObject,
-        ilObjUser $actor,
-        ObjectFacade $content_style_domain
+        protected GlobalHttpState $http,
+        protected ilCtrlInterface $ctrl,
+        protected ilTabsGUI $tabs,
+        protected ilLanguage $lng,
+        protected ilObjForum $parentObject,
+        protected ilObjUser $actor,
+        protected ObjectFacade $content_style_domain
     ) {
-        $this->http = $http;
-        $this->ctrl = $ctrl;
-        $this->tabs = $tabs;
-        $this->lng = $lng;
-        $this->parentObject = $parentObject;
-        $this->actor = $actor;
-        $this->content_style_domain = $content_style_domain;
-
         $this->lng->loadLanguageModule('content');
 
         $this->backUrl = '';
@@ -185,8 +170,6 @@ class ilForumPageCommandForwarder implements ilForumObjectConstants
     }
 
     /**
-     * @param string $ctrlLink
-     * @return string
      * @throws ilCtrlException
      * @throws ilException
      */

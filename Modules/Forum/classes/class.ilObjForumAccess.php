@@ -55,14 +55,10 @@ class ilObjForumAccess extends ilObjectAccess
             return false;
         }
 
-        if (
+        return (
             $DIC->access()->checkAccess('read', '', (int) $t_arr[1]) ||
             $DIC->access()->checkAccess('visible', '', (int) $t_arr[1])
-        ) {
-            return true;
-        }
-
-        return false;
+        );
     }
 
     public static function _getThreadForPosting(int $a_pos_id): int
@@ -108,7 +104,6 @@ class ilObjForumAccess extends ilObjectAccess
     }
 
     /**
-     * @param int $ref_id
      * @return array{num_posts: int, num_unread_posts: int, num_new_posts: int}
      */
     public static function getStatisticsByRefId(int $ref_id): array

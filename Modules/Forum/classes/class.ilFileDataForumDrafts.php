@@ -25,23 +25,18 @@ declare(strict_types=1);
  */
 class ilFileDataForumDrafts extends ilFileData
 {
-    private int $obj_id;
-    private int $draft_id;
     private string $drafts_path;
     private ilLanguage $lng;
     private ilErrorHandling $error;
     private ilGlobalTemplateInterface $main_tpl;
 
-    public function __construct(int $obj_id, int $draft_id)
+    public function __construct(private int $obj_id, private int $draft_id)
     {
         global $DIC;
         $this->main_tpl = $DIC->ui()->mainTemplate();
 
         $this->lng = $DIC->language();
         $this->error = $DIC['ilErr'];
-
-        $this->obj_id = $obj_id;
-        $this->draft_id = $draft_id;
 
         parent::__construct();
         $this->drafts_path = $this->getPath() . '/forum/drafts';
@@ -193,7 +188,6 @@ class ilFileDataForumDrafts extends ilFileData
     }
 
     /**
-     * @param string $hashedFilename
      * @return array{path: string, filename: string, clean_filename: string}|null
      */
     public function getFileDataByMD5Filename(string $hashedFilename): ?array
@@ -214,7 +208,6 @@ class ilFileDataForumDrafts extends ilFileData
 
     /**
      * @param string|string[] $hashedFilenameOrFilenames
-     * @return bool
      */
     public function unlinkFilesByMD5Filenames($hashedFilenameOrFilenames): bool
     {
@@ -308,7 +301,7 @@ class ilFileDataForumDrafts extends ilFileData
         ilFileUtils::makeDirParents($this->getDraftsPath() . '/drafts_zip/' . $this->getDraftId());
         $tmp_dir = $this->getDraftsPath() . '/drafts_zip/' . $this->getDraftId();
 
-        if (count($filesOfDraft)) {
+        if ($filesOfDraft !== []) {
             ksort($filesOfDraft);
 
             foreach ($filesOfDraft as $file) {
