@@ -127,12 +127,12 @@ class ilTaggingClassificationProvider extends ilClassificationProvider
                     $tpl->setCurrentBlock("tag_bl");
                     foreach ($tags as $tag => $counter) {
                         $ctrl->setParameter($a_parent_gui, "tag_type", $type);
-                        $ctrl->setParameter($a_parent_gui, "tag", md5($tag));
+                        $ctrl->setParameter($a_parent_gui, "tag", md5((string) $tag));
                         $tpl->setVariable("HREF", $ctrl->getLinkTarget($a_parent_gui, "toggle"));
 
                         $tpl->setVariable("TAG_TYPE", $type);
                         $tpl->setVariable("TAG_TITLE", $tag);
-                        $tpl->setVariable("TAG_CODE", md5($tag));
+                        $tpl->setVariable("TAG_CODE", md5((string) $tag));
                         $tpl->setVariable(
                             "REL_CLASS",
                             ilTagging::getRelevanceClass($counter, $max)
