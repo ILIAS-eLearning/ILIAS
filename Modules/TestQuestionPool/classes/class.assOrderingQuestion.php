@@ -111,7 +111,9 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
     {
         $elements = array_filter(
             $this->getOrderingElementList()->getElements(),
-            fn ($element) => trim($element->getContent()) != ''
+            function ($element) {
+                return trim($element->getContent()) != '';
+            }
         );
         $has_at_least_two_elements = count($elements) > 1;
 
