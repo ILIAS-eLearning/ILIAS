@@ -899,7 +899,7 @@ class ilRbacAdmin
         }
 
         foreach ($nodes = $tree->getSubTree($tree->getNodeData($a_ref_id), true) as $node_data) {
-            $node_id = $node_data['child'];
+            $node_id = (int) $node_data['child'];
 
             if ($rbac_log_active) {
                 $log_old = ilRbacLog::gatherFaPa($node_id, $role_ids);
@@ -908,7 +908,7 @@ class ilRbacAdmin
             // If $node_data['type'] is not set, this means there is a tree entry without
             // object_reference and/or object_data entry
             // Continue in this case
-            if (!$node_data['type']) {
+            if (!($node_data['type'] ?? false)) {
                 continue;
             }
             if (!$node_id) {
@@ -916,6 +916,7 @@ class ilRbacAdmin
             }
 
             foreach (array_keys($for_deletion) as $role_id) {
+                $role_id = (int) $role_id;
                 $this->deleteLocalRole($role_id, $node_id);
                 $this->revokePermission($node_id, $role_id, false);
                 //var_dump("<pre>",'REVOKE',$role_id,$node_id,$rolf_id,"</pre>");
