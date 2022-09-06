@@ -2118,7 +2118,7 @@ class ilObjContentObject extends ilObject
                 $chap["child"],
                 $parent_id,
                 ilTree::POS_LAST_NODE,
-                $time,
+                (string) $time,
                 $copied_nodes,
                 true,
                 $this->lm

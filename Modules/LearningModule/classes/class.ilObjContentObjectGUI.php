@@ -2475,7 +2475,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
                 $chap["id"],
                 $parent_id,
                 $target,
-                $chap["insert_time"],
+                (string) ($chap["insert_time"] ?? ""),
                 $copied_nodes,
                 (ilEditClipboard::getAction() == "copy")
             );
