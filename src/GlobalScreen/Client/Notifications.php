@@ -68,7 +68,7 @@ class Notifications
     /**
      * Location of the endpoint handling async notification requests
      */
-    public const NOTIFY_ENDPOINT = "./src/GlobalScreen/Client/notify.php";
+    public const NOTIFY_ENDPOINT = "src/GlobalScreen/Client/notify.php";
     protected array $identifiers_to_handle = [];
     protected ?string $single_identifier_to_handle;
     protected array $administrative_notifications = [];
