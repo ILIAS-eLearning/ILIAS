@@ -80,4 +80,14 @@ class ilAssOrderingImagesInputGUI extends ilMultipleImagesInputGUI
         /* @var ilAssOrderingElement $filenameInput */
         return (bool) strlen($filenameInput->getContent());
     }
+
+    public function setPending(string $a_val): void
+    {
+        $this->pending = $a_val;
+    }
+
+    public function getPending(): string
+    {
+        return $this->pending;
+    }
 }
