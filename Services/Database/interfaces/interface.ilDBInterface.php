@@ -293,4 +293,10 @@ interface ilDBInterface
     public function groupConcat(string $a_field_name, string $a_seperator = ",", ?string $a_order = null): string;
 
     public function cast(string $a_field_name, string $a_dest_type): string;
+
+    public function addForeignKey(string $foreign_key_name, string $field_name, string $table_name, string $reference_field_name, string $reference_table): string;
+
+    public function dropForeignKey(string $foreign_key_name, string $table_name): string;
+
+    public function foreignKeyExists(string $foreign_key_name, string $table_name): string;
 }
