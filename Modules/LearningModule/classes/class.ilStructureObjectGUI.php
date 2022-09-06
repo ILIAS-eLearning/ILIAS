@@ -702,7 +702,7 @@ class ilStructureObjectGUI extends ilLMObjectGUI
                 $chap["id"],
                 $parent_id,
                 $target,
-                $chap["insert_time"],
+                (string) ($chap["insert_time"] ?? ""),
                 $copied_nodes,
                 (ilEditClipboard::getAction() == "copy")
             );
@@ -778,7 +778,7 @@ class ilStructureObjectGUI extends ilLMObjectGUI
                 $pg["id"],
                 $parent_id,
                 $target,
-                $pg["insert_time"],
+                (string) ($pg["insert_time"] ?? ""),
                 $copied_nodes,
                 (ilEditClipboard::getAction() == "copy")
             );
