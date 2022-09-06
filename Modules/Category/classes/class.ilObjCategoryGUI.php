@@ -352,7 +352,7 @@ class ilObjCategoryGUI extends ilContainerGUI
                     foreach ($tax as $tax_id => $tax_item) {
                         $option = new ilCheckboxOption(
                             $tax_item["title"],
-                            $tax_id,
+                            (string) $tax_id,
                             ilObject::_lookupDescription($tax_id)
                         );
 
