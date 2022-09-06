@@ -62,7 +62,7 @@ class ilRecommendedContentRoleTableGUI extends ilTable2GUI
 
         $this->setFormAction($this->ctrl->getFormAction($a_parent_obj, $a_parent_cmd));
         $this->addMultiCommand('confirmRemoveItems', $this->lng->txt('remove'));
-        $this->setSelectAllCheckbox('del_desk_item');
+        $this->setSelectAllCheckbox('item_ref_ids');
 
         $this->manager = $manager;
 
