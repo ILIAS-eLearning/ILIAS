@@ -540,8 +540,8 @@ class ilPermissionGUI extends ilPermission2GUI
                 $imp->getMapping()->addMapping(
                     'Services/AccessControl',
                     'rolf',
-                    (string) 0,
-                    $this->getCurrentObject()->getRefId()
+                    '0',
+                    (string) $this->getCurrentObject()->getRefId()
                 );
 
                 $imp->importObject(
