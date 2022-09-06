@@ -53,7 +53,7 @@ class ilAccessControlExporter extends ilXmlExporter
         $eo->read();
 
         $rolf = $eo->getOptionByObjId((int) $a_id, ilExportOptions::KEY_ROOT);
-        $writer->setRoles(array($a_id => $rolf));
+        $writer->setRoles(array((int) $a_id => (int) $rolf));
         $writer->write();
         return $writer->xmlDumpMem(false);
     }
