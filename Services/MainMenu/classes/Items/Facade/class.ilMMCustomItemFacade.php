@@ -1,23 +1,24 @@
-<?php
+<?php declare(strict_types=1);
 
-declare(strict_types=1);
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 use ILIAS\GlobalScreen\Identification\IdentificationInterface;
 use ILIAS\GlobalScreen\Scope\MainMenu\Collector\MainMenuMainCollector as Main;
 
-/******************************************************************************
- *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
- *
- * If this is not the case or you just want to try ILIAS, you'll find
- * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
- *
- *****************************************************************************/
 /**
  * Class ilMMCustomItemFacade
  * @author Fabian Schmid <fs@studer-raimann.ch>
@@ -58,8 +59,10 @@ class ilMMCustomItemFacade extends ilMMAbstractItemFacade
         if ($this->isCustom()) {
             $mm = $this->getCustomStorage();
             if ($mm instanceof ilMMCustomItemStorage) {
-                $default_title = ilMMItemTranslationStorage::getDefaultTranslation($this->identification());
-                $mm->setDefaultTitle($default_title);
+                if ($this->default_title === '-') {
+                    $this->default_title = ilMMItemTranslationStorage::getDefaultTranslation($this->identification());
+                }
+                $mm->setDefaultTitle($this->default_title);
                 $mm->setType($this->getType());
                 $mm->setRoleBasedVisibility($this->role_based_visibility);
                 if ($this->role_based_visibility) {
