@@ -76,7 +76,7 @@ class ilADNNotificationTableGUI extends ilTable2GUI
 
     protected function formatDate(DateTimeImmutable $timestamp) : string
     {
-        return $timestamp->format($this->data_factory->dateFormat()->germanLong()->toString() . ' - H:i:s') ?? '';
+        return ilDatePresentation::formatDate(new ilDateTime($timestamp->getTimestamp(), IL_CAL_UNIX));
     }
 
     protected function fillRow($a_set)
