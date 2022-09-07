@@ -297,7 +297,7 @@ class ResourceBuilder
                 $existing_revision
             );
 
-            $stream = new FileStreamConsumer($resource, $this->primary_storage_handler);
+            $stream = new FileStreamConsumer($resource, $this->storage_handler_factory->getHandlerForResource($resource));
             $stream->setRevisionNumber($existing_revision->getVersionNumber());
 
             $cloned_revision = new FileStreamRevision($new_resource->getIdentification(), $stream->getStream(), true);
