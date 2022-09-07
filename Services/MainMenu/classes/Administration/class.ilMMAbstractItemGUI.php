@@ -2,31 +2,35 @@
 
 declare(strict_types=1);
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Renderer\Hasher;
 use ILIAS\DI\UIServices;
 use ILIAS\HTTP\Services;
 
-/******************************************************************************
- *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
- *
- * If this is not the case or you just want to try ILIAS, you'll find
- * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
- *
- *****************************************************************************/
 /**
  * Class ilMMAbstractItemGUI
  * @author            Fabian Schmid <fs@studer-raimann.ch>
  */
-class ilMMAbstractItemGUI
+abstract class ilMMAbstractItemGUI
 {
     use Hasher;
     public const IDENTIFIER = 'identifier';
+    public const CMD_FLUSH = 'flush';
 
     protected UIServices $ui;
 
@@ -119,4 +123,13 @@ class ilMMAbstractItemGUI
 
         return $this->repository->getItemFacadeForIdentificationString($identification);
     }
+
+    protected function flush(): void
+    {
+        $this->repository->flushLostItems();
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_subitem_flushed"), true);
+        $this->cancel();
+    }
+
+    abstract protected function cancel(): void;
 }
