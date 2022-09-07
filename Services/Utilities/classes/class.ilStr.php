@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -190,6 +190,11 @@ class ilStr
         bool $a_keep_extension = false
     ) : string {
         if (ilStr::strLen($a_str) > $a_len) {
+            /*
+             * When adding dots, the dots have to be included in the length such
+             * that the total length of the resulting string does not exceed
+             * the given maximum length (see BT 33865).
+             */
             if ($a_dots) {
                 $a_len--;
             }
