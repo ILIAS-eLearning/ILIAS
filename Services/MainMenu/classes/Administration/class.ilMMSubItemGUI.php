@@ -2,6 +2,22 @@
 
 declare(strict_types=1);
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Renderer\Hasher;
 
 /**
@@ -91,6 +107,10 @@ class ilMMSubItemGUI extends ilMMAbstractItemGUI
                 break;
             case self::CMD_CANCEL:
                 $this->cancel();
+                break;
+            case self::CMD_FLUSH:
+                $this->access->checkAccessAndThrowException('write');
+                $this->flush();
                 break;
         }
 
@@ -217,6 +237,14 @@ class ilMMSubItemGUI extends ilMMAbstractItemGUI
             $b->setCaption($this->lng->txt(ilMMSubItemGUI::CMD_ADD), false);
 
             $this->toolbar->addButtonInstance($b);
+
+            // REMOVE LOST ITEMS
+            if ($this->repository->hasLostItems()) {
+                $b = ilLinkButton::getInstance();
+                $b->setUrl($this->ctrl->getLinkTarget($this, self::CMD_FLUSH));
+                $b->setCaption($this->lng->txt(self::CMD_FLUSH), false);
+                $this->toolbar->addButtonInstance($b);
+            }
         }
 
         // TABLE
@@ -229,7 +257,7 @@ class ilMMSubItemGUI extends ilMMAbstractItemGUI
     private function delete(): void
     {
         $item = $this->getMMItemFromRequest();
-        if ($item->isCustom()) {
+        if ($item->isDeletable()) {
             $this->repository->deleteItem($item);
         }
 
@@ -237,7 +265,7 @@ class ilMMSubItemGUI extends ilMMAbstractItemGUI
         $this->cancel();
     }
 
-    private function cancel(): void
+    protected function cancel(): void
     {
         $this->ctrl->redirectByClass(self::class, self::CMD_VIEW_SUB_ITEMS);
     }
