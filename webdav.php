@@ -46,7 +46,7 @@ if (!ilDAVActivationChecker::_isActive()) {
     header("HTTP/1.1 403 Forbidden");
     header("X-WebDAV-Status: 403 Forbidden", true);
     echo '<html><body><h1>Sorry</h1>' .
-      '<p><b>Please enable the WebDAV plugin in the ILIAS Administration panel.</b></p>' .
+      '<p><b>Please enable WebDAV in the ILIAS Administration panel.</b></p>' .
       '<p>You can only access this page, if WebDAV is enabled on this server.</p>' .
       '</body></html>';
     exit;
