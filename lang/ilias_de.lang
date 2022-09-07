@@ -2001,10 +2001,10 @@ auth#:#auth_account_code#:#Code
 auth#:#auth_account_code_info#:#Um Ihr Benutzerkonto zu reaktivieren, können Sie einen ILIAS-Benutzerkonten-Code benutzen.
 auth#:#auth_account_code_title#:#Benutzerkonten-Code
 auth#:#auth_account_code_used#:#Ihr Account wurde re-aktiviert. Bitte loggen Sie sich zur Sicherheit erneut ein.
-auth#:#auth_account_migration#:#Neues ILIAS-Benutzerkonto
+auth#:#auth_account_migration#:#Neues ILIAS-Konto
 auth#:#auth_account_migration_keep#:#Bestehendes Benutzerkonto migrieren
 auth#:#auth_account_migration_name#:#Migration
-auth#:#auth_account_migration_new#:#Neues ILIAS-Benutzerkonto anlegen
+auth#:#auth_account_migration_new#:#Neues ILIAS-Konto anlegen
 auth#:#auth_activation_code_success#:#Ihr Zugang wurde aktiviert. Sie können sich nun einloggen.
 auth#:#auth_allow_local_info#:#Wenn aktiviert, ist die lokale Authentifizierung gegen die ILIAS-Datenbank mit Benutzername/Passwort auch für jene Benutzerkonten möglich, deren Authentifizierungsmodus SAML ist.
 auth#:#auth_auth_settings#:#Einstellungen
@@ -2013,9 +2013,9 @@ auth#:#auth_cas_ldap_info#:#Wenn aktiviert, wird die Synchronisierung der Benutz
 auth#:#auth_err_expired#:#Ihre Sitzung ist abgelaufen. Bitte melden Sie sich erneut an.
 auth#:#auth_err_invalid_user_account#:#Die Authentifizierung konnte wegen eines internen Fehlers nicht durchgeführt werden.
 auth#:#auth_err_ldap_exception#:#Die Authentifizierung konnte wegen eines Fehlers im Anmeldungsverfahren (LDAP) nicht durchgeführt werden.
-auth#:#auth_err_login_attempts_deactivation#:#Das Benutzerkonto wurde wegen zu vieler falscher Login-Versuche deaktiviert.
-auth#:#auth_info_add#:#Wählen Sie diese Einstellung, falls Sie sich noch nie für ILIAS registriert haben. In diesem Fall wird ein neues Benutzerkonto angelegt.
-auth#:#auth_info_migrate#:#Wenn Sie bereits ein ILIAS-Benutzerkonto besitzen, geben Sie bitte den Benutzernamen und das Passwort ein, um Ihre persönlichen Daten (Mails, Testergebnisse ...) zu übernehmen.
+auth#:#auth_err_login_attempts_deactivation#:#Das ILIAS-Konto wurde wegen zu vieler falscher Login-Versuche deaktiviert.
+auth#:#auth_info_add#:#Wählen Sie diese Einstellung, falls Sie sich noch nie für ILIAS registriert haben. In diesem Fall wird ein neues ILIAS-Konto angelegt.
+auth#:#auth_info_migrate#:#Wenn Sie bereits ein ILIAS-Konto besitzen, geben Sie bitte den Anmeldenamen und das Passwort ein, um Ihre persönlichen Daten (Mails, Testergebnisse ...) zu übernehmen.
 auth#:#auth_ldap_server_ds#:#LDAP-Server
 auth#:#auth_login_editor#:#Loginseite gestalten
 auth#:#auth_oidc#:#OpenId Connect
@@ -2085,7 +2085,7 @@ auth#:#auth_saml_migration_info#:#Aktivieren Sie diese Einstellung, um neuen Ben
 auth#:#auth_saml_role_select#:#Rolle:
 auth#:#auth_saml_sure_delete_idp#:#Sind Sie sicher, dass Sie den gewählten Identity-Provider unwiderruflich löschen möchten? Für die betroffenen Benutzerkonten wird anschließend die Standard-Authentifizierung gewählt.
 auth#:#auth_saml_sync#:#Benutzer-Synchronisierung
-auth#:#auth_saml_sync_info#:#Wenn aktiviert, wird automatisch ein ILIAS-Benutzerkonto für Personen angelegt, wenn sich diese erfolgreich gegen SAML authentifiziert haben, bisher aber noch nicht über einen ILIAS-Account verfügen.  Des Weiteren werden bei Aktivierung bereits vorhandene Benutzerkonten aktualisiert.
+auth#:#auth_saml_sync_info#:#Wenn aktiviert, wird automatisch ein ILIAS-Konto für Personen angelegt, wenn sich diese erfolgreich gegen SAML authentifiziert haben, bisher aber noch nicht über ein eigenes ILIAS-Konto verfügen. Des Weiteren werden bei Aktivierung bereits vorhandene ILIAS-Konten aktualisiert.
 auth#:#auth_saml_uid_claim#:#Eindeutiges Attribut für die Benutzerkonten-Identifikation
 auth#:#auth_saml_uid_claim_info#:#Definieren Sie hier das Attribut, anhand dessen ILIAS bei der Authentifizierung ermitteln kann, ob ein Benutzerkonto bereits existiert, oder ob es sich um ein bereits vorhandenes Benutzerkonto handelt.
 auth#:#auth_saml_unknow_idp#:#Der Identity-Provider existiert nicht.
@@ -2095,7 +2095,7 @@ auth#:#auth_saml_username_claim#:#Attribut für den Anzeigenamen/Benutzernamen
 auth#:#auth_saml_username_claim_info#:#Definieren Sie hier das Attribut, anhand dessen ILIAS den Anzeigenamen/Benutzernamen generieren soll.
 auth#:#auth_sync#:#Benutzer-Synchronisierung
 auth#:#auth_sync_cas#:#Automatische Generierung von ILIAS-Benutzerkonten
-auth#:#auth_sync_cas_info#:#Benutzer, die sich erfolgreich gegen CAS authentifiziert haben, jedoch über keinen ILIAS-Benutzerkonto verfügen, werden automatisch angelegt.
+auth#:#auth_sync_cas_info#:#Benutzer, die sich erfolgreich gegen CAS authentifiziert haben, jedoch über kein ILIAS-Konto verfügen, werden automatisch angelegt.
 auth#:#err_auth_ldap_failed#:#Die Authentifizierung ist fehlgeschlagen. Bitte kontaktieren Sie Ihren ILIAS-Administrator.
 auth#:#err_auth_saml_failed#:#Die Authentifizierung ist fehlgeschlagen. Bitte kontaktieren Sie Ihren Administrator.
 auth#:#err_auth_saml_no_ilias_user#:#Die Authentifizierung ist fehlgeschlagen. Bitte kontaktieren Sie Ihren Administrator.
@@ -3521,7 +3521,7 @@ common#:#auth_soap#:#SOAP
 common#:#auth_soap_allow_local_desc#:#Erlaubt SOAP-Benutzern, sich mit ihrem lokalen ILIAS-Benutzernamen und -Passwort zu authentifizieren/anzumelden.
 common#:#auth_soap_auth#:#Konfiguriere SOAP-Authentifizierung
 common#:#auth_soap_auth_desc#:#Diese Einstellung betrifft nur die SOAP-basierte Benutzerauthentifizierung, nicht aber das ILIAS-SOAP-Interface.
-common#:#auth_soap_create_users_desc#:#Erzeugt automatisch ein ILIAS-Benutzerkonto für Personen, die sich erfolgreich gegen SOAP authentifiziert haben, bisher aber noch nicht über einen ILIAS-Account verfügten.
+common#:#auth_soap_create_users_desc#:#Erzeugt automatisch ein ILIAS-Konto für Personen, die sich erfolgreich gegen SOAP authentifiziert haben, bisher aber noch nicht über ein ILIAS-Konto verfügen.
 common#:#auth_soap_namespace#:#Namensraum
 common#:#auth_soap_namespace_desc#:#Entsprechend Definition in WSDL. Muss angegeben werden, wenn .NET-SOAP-Style genutzt wird.
 common#:#auth_soap_port_desc#:#Zum Beispiel "8080", wenn die absolute SOAP-Server-URI http://auth.yourserver.com:8080/dir/server.php lautet.
@@ -3753,7 +3753,7 @@ common#:#cron_mail_notification_never#:#Nie
 common#:#cron_users_without_login_del_create_date_thr#:#Schwellenwert
 common#:#cron_users_without_login_del_create_date_thr_info#:#Alle Benutzerkonten, deren Erstellung länger her ist als der hier definierte Schwellenwert, werden für eine Löschung berücksichtigt.
 common#:#cron_users_without_login_del_role_whitelist#:#Berücksichtigte Rollen
-common#:#cron_users_without_login_del_role_whitelist_info#:#Nur Benutzer mit einer der ausgewählten globalen Rollen werden gelöscht. Hat ein Benutzer eine der nicht ausgewählten Rollen inne, bleibt das Benutzerkonto weiter bestehen.
+common#:#cron_users_without_login_del_role_whitelist_info#:#Nur Benutzer mit einer der ausgewählten globalen Rollen werden gelöscht. Hat ein Benutzer eine der nicht ausgewählten Rollen inne, bleibt das ILIAS-Konto weiter bestehen.
 common#:#cronjob_last_start#:#Letzter Start des Cron-Jobs
 common#:#cronjob_last_start_unknown#:#Konnte nicht ermittelt werden
 common#:#crs#:#Kurs
@@ -3831,13 +3831,13 @@ common#:#delete_existing_file#:#Bestehende Datei löschen
 common#:#delete_inactivated_user_accounts#:#Inaktive Benutzerzugänge löschen
 common#:#delete_inactivated_user_accounts_desc#:#Wenn eingeschaltet, werden Benutzerzugänge %s Tage nach ihrer Inaktivierung gelöscht.
 common#:#delete_inactivated_user_accounts_include_roles#:#Berücksichtigte Rollen
-common#:#delete_inactivated_user_accounts_include_roles_desc#:#Nur inaktivierte Benutzer mit einer der ausgewählten globalen Rollen werden gelöscht. Hat ein Benutzer eine der nicht ausgewählten Rollen inne, bleibt das Benutzerkonto weiter bestehen.
+common#:#delete_inactivated_user_accounts_include_roles_desc#:#Nur inaktive Benutzer mit einer der ausgewählten globalen Rollen werden gelöscht. Hat ein Benutzer eine der nicht ausgewählten Rollen inne, bleibt das ILIAS-Konto weiter bestehen.
 common#:#delete_inactivated_user_accounts_period#:#Vergangene Tage seit Inaktivierung
 common#:#delete_inactivated_user_accounts_period_desc#:#Benutzerzugang wird gelöscht, wenn seit dessen Inaktivierung diese Anzahl an Tagen verstrichen ist.
 common#:#delete_inactive_user_accounts#:#Benutzer mit lange zurückliegendem Login löschen
 common#:#delete_inactive_user_accounts_desc#:#Wenn eingeschaltet, werden Benutzerzugänge abhängig vom Zeitpunkt des letzten Logins gelöscht.
 common#:#delete_inactive_user_accounts_include_roles#:#Berücksichtigte Rollen
-common#:#delete_inactive_user_accounts_include_roles_desc#:#Nur inaktive Benutzer mit einer der ausgewählten globalen Rollen werden gelöscht. Hat ein Benutzer eine der nicht ausgewählten Rollen inne, bleibt das Benutzerkonto weiter bestehen.
+common#:#delete_inactive_user_accounts_include_roles_desc#:#Nur inaktivierte Benutzer mit einer der ausgewählten globalen Rollen werden gelöscht. Hat ein Benutzer eine der nicht ausgewählten Rollen inne, bleibt das ILIAS-Konto weiter bestehen.
 common#:#delete_inactive_user_accounts_period#:#Vergangene Tage seit letzter Anmeldung
 common#:#delete_inactive_user_accounts_period_desc#:#Benutzerzugang wird gelöscht, wenn seit der letzten Anmeldung diese Anzahl an Tagen verstrichen ist.
 common#:#delete_parameter#:#Parameter löschen
@@ -3940,8 +3940,8 @@ common#:#err_auth_soap_no_ilias_user#:#Anmeldung fehlgeschlagen! Die SOAP-Authen
 common#:#err_check_input#:#Die Einstellungen konnten nicht gespeichert werden. Bitte überprüfen Sie Ihre Eingaben.
 common#:#err_count_param#:#Grund: Falsche Parameteranzahl
 common#:#err_in_line#:#Fehler in Zeile
-common#:#err_inactive#:#Dieses Benutzerkonto ist nicht aktiv bzw. noch nicht aktiviert worden. Bitte kontaktieren Sie den Technischen Support (siehe Link unten) für weitere Unterstützung.
-common#:#err_inactive_login_attempts#:#Ihr Benutzerkonto wurde wegen falscher Login-Versuche deaktiviert. Klicken Sie auf 'Technische Betreuung kontaktieren' am Fuße dieser Seite, um die Administratoren zu informieren, dass sie Ihr Benutzerkonto wieder aktivieren sollen.
+common#:#err_inactive#:#Dieses ILIAS-Konto ist nicht aktiv bzw. noch nicht aktiviert worden. Bitte kontaktieren Sie den Technischen Support (siehe Link unten) für weitere Unterstützung.
+common#:#err_inactive_login_attempts#:#Ihr ILIAS-Konto wurde wegen falscher Login-Versuche deaktiviert. Klicken Sie auf „Technische Betreuung kontaktieren“ am Fuße dieser Seite, um die Administratoren zu informieren, dass diese Ihr ILIAS-Konto wieder aktivieren sollen.
 common#:#err_invalid_port#:#Ungültige Portnummer
 common#:#err_no_cookies#:#Bitte aktivieren Sie Session-Cookies in Ihrem Browser!
 common#:#err_no_langfile_found#:#Keine Sprachdateien gefunden!
@@ -5298,7 +5298,7 @@ common#:#refresh#:#Aktualisieren
 common#:#refresh_languages#:#Alle Sprachen aktualisieren
 common#:#refuse#:#Antrag ablehnen
 common#:#refuse_tos_acceptance#:#Akzeptanz der Nutzungsvereinbarung ablehnen
-common#:#reg_account_confirmation_successful#:#Das Benutzerkonto wurde bestätigt und aktiviert.
+common#:#reg_account_confirmation_successful#:#Das ILIAS-Konto wurde bestätigt und aktiviert.
 common#:#reg_goto_parent_membership_info#:#Nur Mitglieder können auf das Zielobjekt zugreifen.
 common#:#reg_mail_body_2_confirmation#:#Der Link wird nur für %s gültig sein, danach müssen Sie sich erneut registrieren.
 common#:#reg_mail_body_3_confirmation#:#Falls Sie diese E-Mail unerwartet erhalten haben, ist es möglich, dass eine andere Person Ihre E-Mail-Adresse versehentlich oder vorsätzlich angegeben hat. In diesem Fall ignorieren Sie diese Mail bitte.
@@ -5315,7 +5315,7 @@ common#:#register_notification#:#"%s" hat die Teilnahme an der Sitzung "%s" bean
 common#:#registered_since#:#Eingetragen seit
 common#:#registered_user#:#registrierter Benutzer
 common#:#registered_users#:#registrierte Benutzer
-common#:#registration#:#Neues Benutzerkonto registrieren
+common#:#registration#:#Neues ILIAS-Konto registrieren
 common#:#related_to#:#Bezieht sich auf
 common#:#remove#:#Entfernen
 common#:#remove_entries#:#Einträge löschen
@@ -5688,7 +5688,7 @@ common#:#tst_warning_test_not_complete#:#Der Test ist nicht vollständig!
 common#:#tutors#:#Tutoren
 common#:#txt_registered#:#Sie haben sich erfolgreich bei ILIAS registriert. Klicken Sie bitte auf den untenstehenden Button, um in ILIAS zu gelangen.
 common#:#txt_registered_passw_gen#:#Sie haben sich erfolgreich bei ILIAS registriert. Sie werden in Kürze eine E-Mail mit Ihrem Passwort erhalten.
-common#:#txt_submitted#:#Sie haben sich erfolgreich bei ILIAS registriert. Ihr Benutzerkonto muss noch vom Systemadministrator freigegeben werden. Wir bitten um Ihre Geduld.
+common#:#txt_submitted#:#Sie haben sich erfolgreich bei ILIAS registriert. Ihr Konto muss noch von der Systemadministration freigegeben werden. Wir bitten um Ihre Geduld.
 common#:#typ#:#Objekttyp-Definition
 common#:#type#:#Typ
 common#:#udf_added_field#:#Ein neues Feld wurde angelegt.
@@ -5807,12 +5807,12 @@ common#:#usr_settings_visib_lua#:#Sichtbar in lokaler Benutzerverwaltung
 common#:#usr_skin_style#:#Skin/Style
 common#:#usr_without_courses#:#Benutzer ohne Kurse zugewiesen
 common#:#usrf#:#Benutzerkonten
-common#:#usrf_profile_link#:#Link zum Benutzerkonto
+common#:#usrf_profile_link#:#Link zum ILIAS-Konto
 common#:#usrimport_action_ignored#:#Aktion %1$s ignoriert.
 common#:#usrimport_action_replaced#:#Aktion %1$s durch %2$s ersetzt.
-common#:#usrimport_cant_delete#:#Kann "Delete" Aktion nicht ausführen. Kein Benutzerkonto in Datenbank vorhanden.
-common#:#usrimport_cant_insert#:#Kann "Insert" Aktion nicht ausführen. Benutzerkonto bereits in Datenbank vorhanden.
-common#:#usrimport_cant_update#:#Kann "Update" Aktion nicht ausführen. Kein Benutzerkonto in Datenbank vorhanden.
+common#:#usrimport_cant_delete#:#Kann „Delete“ Aktion nicht ausführen. Kein passendes ILIAS-Konto in der Datenbank vorhanden.
+common#:#usrimport_cant_insert#:#Kann „Insert“ Aktion nicht ausführen. ILIAS-Konto ist bereits in der Datenbank vorhanden.
+common#:#usrimport_cant_update#:#Kann „Update“ Aktion nicht ausführen. Kein passendes ILIAS-Konto in der Datenbank vorhanden.
 common#:#usrimport_conflict_handling_info#:#Bei „Ignoriere bei Konflikt“ überspringt ILIAS alle Daten, die nicht problemlos importiert werden können. In diesem Fall würde zum Beispiel eine „Insert“-Aktion nicht ausgeführt, wenn bereits ein Konto mit dem gleichen Anmeldenamen in der Datenbank vorhanden ist. Sie erhalten einen Fehlerbericht, um Ihre Importdatei zu korrigieren. <br>Bei „Aktualisieren bei Konflikt“ überschreibt ILIAS bei Problemen die Inhalte auf der Datenbank. Hierbei kann es zu einem Datenverlust kommen. Nutzen Sie diese Option nur, wenn Sie sicher sind, dass Ihre Importdatei fehlerfrei ist.
 common#:#usrimport_form_not_evaluabe#:#Das Formular konnte nicht ausgelesen werden.
 common#:#usrimport_global_role_for_action_required#:#Für die "%1$s" Aktion muss mindestens eine globale Rolle angegeben werden.
@@ -5913,8 +5913,8 @@ common#:#withdrawal_mail_info#:#Die folgende Nachricht wird in Ihrem Auftrag ver
 common#:#withdrawal_mail_subject#:#Widerruf Einverständnis zu Nutzungsvereinbarungen
 common#:#withdrawal_mail_text#:#Guten Tag,[BR][BR]hiermit widerrufe ich mein Einverständnis zur Nutzungsvereinbarung Ihrer ILIAS-Installation. Bitte leiten Sie die entsprechenden Maßnahmen ein.[BR][BR]Name: %1$s[BR]Anmeldename: %2$s[BR]Externes Konto: %3$s[BR][BR]Mit freundlichen Grüßen[BR]%1$s
 common#:#withdrawal_sure_account#:#Sind Sie sicher, dass Sie Ihr Einverständnis zu den Nutzungsvereinbarungen widerrufen möchten?
-common#:#withdrawal_sure_account_deletion#:#Sind Sie sicher, dass Sie Ihr Einverständnis zu den Nutzungsvereinbarungen widerrufen möchten? Ihr Benutzerkonto wird in Folge dessen unwiderruflich gelöscht.
-common#:#withdrawal_sure_account_deletion_no_consent_yet#:#Sind Sie sicher, dass Sie Ihr Einverständnis zu den Nutzungsvereinbarungen nicht erteilen möchten? Ihr Benutzerkonto wird in Folge dessen unwiderruflich gelöscht.
+common#:#withdrawal_sure_account_deletion#:#Sind Sie sicher, dass Sie Ihr Einverständnis zu den Nutzungsvereinbarungen widerrufen möchten? Ihr ILIAS-Konto wird in Folge dessen unwiderruflich gelöscht.
+common#:#withdrawal_sure_account_deletion_no_consent_yet#:#Sind Sie sicher, dass Sie Ihr Einverständnis zu den Nutzungsvereinbarungen nicht erteilen möchten? Ihr ILIAS-Konto wird in Folge dessen unwiderruflich gelöscht.
 common#:#withdrawal_sure_account_no_consent_yet#:#Sind Sie sicher, dass Sie Ihr Einverständnis zu den Nutzungsvereinbarungen nicht erteilen möchten?
 common#:#wizard_search_list#:#Ihre Suche ergab folgende Ergebnisse. Bitte wählen Sie eines aus.
 common#:#wizard_title_info#:#    Geben Sie bitte den Titel ein, um das Objekt zu suchen, das Sie kopieren wollen. Auch Teile des Titels reichen aus. Klicken Sie auf „Suchen“, um die Treffer angezeigt zu bekommen.
@@ -10899,7 +10899,7 @@ mail#:#mail_system_sys_signature#:#Signatur
 mail#:#mail_system_usr_env_from_addr#:#Technische Absendeadresse („SENDER“)###Modified as part of gender mainstreaming activities for ILIAS 8
 mail#:#mail_system_usr_env_from_addr_info#:#Tragen Sie hier die technische Absendeadresse („SENDER”-Header) ein. Lassen Sie das Feld leer, wird bei externem Versand die E-Mail-Adresse der absendenden Person („FROM“-Header) genutzt. Andernfalls ist es die Aufgabe der Server-Administration, den Header zu konfigurieren.###Modified as part of gender mainstreaming activities for ILIAS 8
 mail#:#mail_system_usr_from_addr#:#„FROM”-Adresse für manuell versendete E-Mails###Modified as part of gender mainstreaming activities for ILIAS 8
-mail#:#mail_system_usr_from_addr_info#:#Damit die manuell aus ILIAS versendeten E-Mails nicht als Spam abgelehnt werden, muss hier eine absendende Adresse (technisch: „FROM”-Header) eingetragen werden. Bei manuell verschickten E-Mails wird die zu einem Benutzerkonto gehörige Adresse als Antwortadresse (technisch: „REPLY- TO”-Header) übernommen. <br /><br />Beispiele: <span style="font-style: italic">info@institution.de</span> oder <span style="font-style: italic">no-reply@institution.de</span>###Modified as part of gender mainstreaming activities for ILIAS 8
+mail#:#mail_system_usr_from_addr_info#:#Damit die manuell aus ILIAS versendeten E-Mails nicht als Spam abgelehnt werden, muss hier eine absendende Adresse (technisch: „FROM”-Header) eingetragen werden. Bei manuell verschickten E-Mails wird die zu einem ILIAS-Konto gehörige Adresse als Antwortadresse (technisch: „REPLY-TO”-Header) übernommen. <br /><br />Beispiele: <span style="font-style: italic">info@institution.de</span> oder <span style="font-style: italic">no-reply@institution.de</span>###Modified as part of gender mainstreaming activities for ILIAS 8
 mail#:#mail_system_usr_from_name#:#„FROM”-Name und Format###Modified as part of gender mainstreaming activities for ILIAS 8
 mail#:#mail_system_usr_from_name_info#:#Dieser Name wird üblicherweise im E-Mail-Client in der Spalte „Von“ angezeigt. Als Platzhalter können [FULLNAME], [FIRSTNAME] und [LASTNAME] genutzt werden. Diese werden dann durch die jeweiligen Daten der Person ersetzt, die eine manuelle E-Mail versendet hat.###Modified as part of gender mainstreaming activities for ILIAS 8
 mail#:#mail_tbl_head_attachments#:#Anhang
@@ -13936,8 +13936,8 @@ registration#:#reg_available_roles#:#Verfügbare Rollen:
 registration#:#reg_confirmation_hash_life_time#:#Gültigkeitsdauer
 registration#:#reg_confirmation_hash_life_time_expired#:#Der Bestätigungslink ist nicht mehr gültig. Bitte registrieren Sie sich erneut!
 registration#:#reg_confirmation_hash_life_time_info#:#Geben Sie die Gültigkeitsdauer des Bestätigungslinks (in Sekunden) an. Empfohlener Wert sind 1800 Sekunden.
-registration#:#reg_confirmation_hash_not_found#:#Dieser Bestätigungslink passt zu keinem Benutzerkonto.
-registration#:#reg_confirmation_link_successful#:#Sie haben sich erfolgreich bei ILIAS registriert. Jetzt müssen Sie noch Ihr Benutzerkonto aktivieren. Dazu wurde Ihnen soeben eine E-Mail mit einem Bestätigungslink geschickt. Bitte klicken Sie innerhalb der nächsten Minuten auf den Bestätigungslink, um Ihr Benutzerkonto zu aktivieren. Danach können Sie sich in ILIAS einloggen.
+registration#:#reg_confirmation_hash_not_found#:#Dieser Bestätigungslink passt zu keinem ILIAS-Konto.
+registration#:#reg_confirmation_link_successful#:#Sie haben sich erfolgreich bei ILIAS registriert. Jetzt müssen Sie noch Ihr ILIAS-Konto aktivieren. Dazu wurde Ihnen soeben eine E-Mail mit einem Bestätigungslink geschickt. Bitte klicken Sie innerhalb der nächsten Minuten auf den Bestätigungslink, um Ihr ILIAS-Konto zu aktivieren. Danach können Sie sich in ILIAS einloggen.
 registration#:#reg_default#:#Standard
 registration#:#reg_deleted_assignment#:#Die Zuordnungen wurde(n) gelöscht.
 registration#:#reg_direct#:#Direkte Anmeldung
@@ -13952,7 +13952,7 @@ registration#:#reg_fixed#:#Auswahl aus vorgegebener Liste
 registration#:#reg_info_pwd#:#Wenn eingeschaltet, wird neu angemeldeten Benutzern ein automatisch generiertes Passwort vergeben und zugesandt.
 registration#:#reg_mail_body_activation#:#um Ihr Konto freizuschalten, klicken Sie bitte den folgenden Link an:###Modified as part of gender mainstreaming activities for ILIAS 8
 registration#:#reg_mail_body_approve#:#Sie haben sich bereits bei der eLearning-Plattform angemeldet und eine Mail mit Ihren Zugangsdaten erhalten. Jetzt ist Ihr Zugang von Ihrem/Ihrer AdministratorIn freigeschaltet worden. Bei Fragen und Problemen, wenden Sie sich am besten per Mail an ihn/sie.
-registration#:#reg_mail_body_confirmation#:#Um das Benutzerkonto zu aktivieren, müssen Sie es in der ILIAS-Benutzerverwaltung freischalten.
+registration#:#reg_mail_body_confirmation#:#Um das ILIAS-Konto zu aktivieren, müssen Sie es in der ILIAS-Benutzerverwaltung freischalten.
 registration#:#reg_mail_body_profile#:#Profildaten:
 registration#:#reg_mail_body_profile_changed#:#Ihre Profildaten wurden geändert.
 registration#:#reg_mail_body_pwd_generation#:#Allerdings muss Ihr Zugang noch von dem/der AdministratorIn freigeschaltet werden. Wenn dies erfolgt ist, erhalten Sie noch eine Bestätigungsmail.
@@ -13973,7 +13973,7 @@ registration#:#reg_selectable_roles#:#Auswählbare Rollen
 registration#:#reg_settings_header#:#Einstellungen
 registration#:#reg_type#:#Registrierungsart
 registration#:#reg_type_confirmation#:#Registrieren mit E-Mail-Bestätigung
-registration#:#reg_type_confirmation_info#:#Bei dieser Registrierungsmethode erhält der neue Benutzer zunächst per E-Mail-Adresse einen Bestätigungslink zugesandt. Wird dieser bestätigt, erfolgt die automatische Freischaltung des Benutzerkontos.
+registration#:#reg_type_confirmation_info#:#Bei dieser Registrierungsmethode erhält der neue Benutzer zunächst per E-Mail-Adresse einen Bestätigungslink zugesandt. Wird dieser bestätigt, erfolgt die automatische Freischaltung des ILIAS-Kontos.
 registration#:#reg_unknown_recipients#:#Die folgenden Benutzer sind nicht gültig:
 registration#:#registration_code#:#Code
 registration#:#registration_code_not_valid#:#Der gegebene Registrierungscode ist ungültig oder wurde bereits benutzt.
@@ -16187,8 +16187,8 @@ tos#:#tos_tbl_hist_head_firstname#:#Vorname
 tos#:#tos_tbl_hist_head_lastname#:#Nachname
 tos#:#tos_tbl_hist_head_login#:#Anmeldename
 tos#:#tos_tos_settings#:#Einstellungen
-tos#:#tos_withdrawal_usr_deletion#:#Löschung des Benutzerkontos beim Widerruf
-tos#:#tos_withdrawal_usr_deletion_info#:#Falls aktiviert, resultiert der bestätigte Widerruf der Nutzungsvereinbarung in der Löschung des Benutzerkontos.
+tos#:#tos_withdrawal_usr_deletion#:#Löschung des ILIAS-Kontos beim Widerruf
+tos#:#tos_withdrawal_usr_deletion_info#:#Wird die Zustimmung zur Nutzungsvereinbarung widerrufen, erfolgt automatisch die Löschung des ILIAS-Kontos.
 trac#:#cmix_lp_mode_deactivated#:#Lernfortschritt wird deaktiviert
 trac#:#cmix_lp_mode_deactivated_info#:#Der Lernfortschrittsstatus wird nicht angezeigt und hat keinen Einfluss auf übergeordnete Objekte.
 trac#:#cmix_lp_mode_when_completed#:#Abgeschlossen, wenn "completed".
@@ -16481,8 +16481,8 @@ user#:#clipboard_user_added#:#Die ausgewählten Benutzer wurden der Zwischenabla
 user#:#confirm_delete_starting_point#:#Sind Sie sich sicher, dass diese Regel gelöscht werden soll?
 user#:#create_starting_point#:#Regel erstellen
 user#:#criteria#:#Kriterium
-user#:#del_mail_body#:#Hallo %1$s, %2$sSie haben sich seit längerer Zeit nicht mehr auf der Lernplattform %3$s angemeldet. Ihr Benutzerkonto wird daher vorraussichtlich am %4$s gelöscht. Bitte melden Sie sich erneut an, damit Ihr Benutzerkonto erhalten bleibt.
-user#:#del_mail_subject#:#(ILIAS) – Ihr Benutzerkonto wird bald gelöscht
+user#:#del_mail_body#:#Hallo %1$s, %2$sSie haben sich seit längerer Zeit nicht mehr auf der Lernplattform %3$s angemeldet. Ihr ILIAS-Konto wird daher voraussichtlich am %4$s gelöscht. Bitte melden Sie sich erneut an, damit Ihr ILIAS-Konto erhalten bleibt.
+user#:#del_mail_subject#:#[ILIAS] – Ihr ILIAS-Konto wird bald gelöscht
 user#:#delete_inactive_user_accounts_frequency#:#Intervall
 user#:#delete_inactive_user_accounts_frequency_desc#:#Intervall, mit welchem auf Löschung sowie auf E-Mail-Versand getestet wird.
 user#:#editing_this_role#:#Regel editieren
@@ -16544,11 +16544,11 @@ user#:#user_awrn_all_users_info#:#Alle Benutzer der Plattform werden aufgelistet
 user#:#user_check_profile_data#:#Prüfen Sie die Profildaten
 user#:#user_chooses_starting_page#:#Benutzer setzt Startseite
 user#:#user_delete_own_account#:#Account löschen
-user#:#user_delete_own_account_aborted#:#Der Lösch-Prozess wurde abgebrochen, der Account ist unverändert.
-user#:#user_delete_own_account_email_body#:#Ihr Benutzerkonto "%s" auf %s wurde am %s gelöscht.
-user#:#user_delete_own_account_email_subject#:#Benutzerkonto gelöscht
-user#:#user_delete_own_account_final_confirmation#:#Bitte bestätigen Sie ein letztes Mal, dass Ihr Benutzer-Account unwiderruflich aus dem System entfernt werden soll.
-user#:#user_delete_own_account_info#:#Hier können Sie Ihren aktuellen Benutzer-Account löschen. Bedenken Sie, dass dieser Vorgang nicht rückgängig gemacht werden kann!
+user#:#user_delete_own_account_aborted#:#Der Löschprozess wurde abgebrochen. Der Account ist unverändert.
+user#:#user_delete_own_account_email_body#:#Ihr ILIAS-Konto "%s" auf %s wurde am %s gelöscht.
+user#:#user_delete_own_account_email_subject#:#ILIAS-Konto gelöscht
+user#:#user_delete_own_account_final_confirmation#:#Bitte bestätigen Sie ein letztes Mal, dass Ihr ILIAS-Konto unwiderruflich aus dem System entfernt werden soll.
+user#:#user_delete_own_account_info#:#Hier können Sie Ihren aktuellen ILIAS-Konto löschen. Bedenken Sie, dass dieser Vorgang nicht rückgängig gemacht werden kann!
 user#:#user_delete_own_account_logout_button#:#Mit Authentifizierung fortsetzen
 user#:#user_delete_own_account_logout_confirmation#:#Ihr Account wurde zur Löschung markiert, bitte authentifizieren Sie sich, um den Vorgang fortzusetzen.
 user#:#user_delete_own_account_notification_email#:#Benachrichtigungs-E-Mail
