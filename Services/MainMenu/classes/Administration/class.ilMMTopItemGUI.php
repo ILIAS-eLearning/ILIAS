@@ -48,7 +48,6 @@ class ilMMTopItemGUI extends ilMMAbstractItemGUI
     public const CMD_UPLOAD = 'upload';
     public const CMD_SELECT_PARENT = 'selectParent';
     public const CMD_MOVE = 'move';
-    public const CMD_FLUSH = 'flush';
 
     private function dispatchCommand(string $cmd): string
     {
@@ -194,7 +193,7 @@ class ilMMTopItemGUI extends ilMMAbstractItemGUI
         return $table->getHTML();
     }
 
-    private function cancel(): void
+    protected function cancel(): void
     {
         $this->ctrl->redirectByClass(self::class, self::CMD_VIEW_TOP_ITEMS);
     }
@@ -302,12 +301,6 @@ class ilMMTopItemGUI extends ilMMAbstractItemGUI
         return $c->getHTML();
     }
 
-    private function flush(): void
-    {
-        $this->repository->flushLostItems();
-        $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_subitem_flushed"), true);
-        $this->cancel();
-    }
 
     private function restore(): void
     {
