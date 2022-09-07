@@ -12041,7 +12041,7 @@ news#:#passwd_equals_ilpasswd#:#Bitte geben Sie aus Sicherheitsgründen ein ande
 news#:#priv_feed_disabled#:#Privater Newsfeed wurde deaktiviert.
 news#:#priv_feed_settings#:#Einstellungen für privaten Newsfeed
 note#:#note_comment_notification_link#:#Link
-note#:#note_comment_notification_reason#:#Sie erhalten diese Nachricht, da Ihr Account als Empfänger für alle Kommentare in der ILIAS Adminstration gepflegt ist.
+note#:#note_comment_notification_reason#:#Sie erhalten diese Nachricht, weil in der ILIAS-Adminstration eingetragen ist, Sie über alle Kommentare zu benachrichtigen.
 note#:#note_comment_notification_salutation#:#Hallo %s,
 note#:#note_comment_notification_subject#:#Neuer Kommentar in "%s".
 note#:#note_comment_notification_subjectc#:#Geänderter Kommentar in "%s".
@@ -15431,11 +15431,11 @@ survey#:#export_all_survey_codes#:#Alle Zugangsschlüssel exportieren
 survey#:#export_label_only#:#Nur Label exportieren
 survey#:#export_title_label#:#Titel und Label exportieren
 survey#:#export_title_only#:#Nur Titel exportieren
-survey#:#external_recipients_imported#:#Es wurden externe Empfänger importiert.
+survey#:#external_recipients_imported#:#Die Daten wurden importiert.
 survey#:#externalmails#:#Importdatei
-survey#:#externalmails_info#:#Die Importdatei muss eine CSV-Datei sein. Die Spalten müssen durch ein Semikolon getrennt werden. Die erste Zeile muss die Spaltenüberschriften beinhalten. Die Datei muss mindestens eine Spalte mit der Spaltenüberschrift 'email' für die externen Empfänger beinhalten.
+survey#:#externalmails_info#:#Die Importdatei muss eine CSV-Datei sein. Die Spalten müssen durch ein Semikolon getrennt werden. Die erste Zeile muss die Spaltenüberschriften beinhalten. Die Datei muss mindestens eine Spalte mit der Spaltenüberschrift „email" enthalten. So können Personen ohne ILIAS-Konto Zugangsschlüssel per E-Mail empfangen.
 survey#:#externaltext#:#Text importieren
-survey#:#externaltext_info#:#Der importierte Text muss in Zeilen und Spalten aufgeteilt sein. Spalten müssen per Semikolon getrennt sein. Die erste Zeile beinhaltet die Spaltentitel. Der Text muss mindestens einen Eintrag für die E-Mail-Adresse des jeweiligen Empfängers enthalten.
+survey#:#externaltext_info#:#Der importierte Text muss in Zeilen und Spalten aufgeteilt sein. Spalten müssen durch ein Semikolon getrennt sein. Die erste Zeile beinhaltet die Spaltentitel. Der Text muss mindestens einen Eintrag für die jeweilige E-Mail-Adresse enthalten. So können Personen ohne ILIAS-Konto Zugangsschlüssel per E-Mail empfangen.
 survey#:#filter#:#Filter
 survey#:#filter_all_question_types#:#Alle Fragetypen
 survey#:#filter_all_questionpools#:#Alle Fragenpools
@@ -15473,8 +15473,8 @@ survey#:#mail_import_example2#:#ralfkoenig@domain.tld;Ralf;König
 survey#:#mail_import_example3#:#ugoldschmidt@domain.tld;Ute;Goldschmidt
 survey#:#mail_sent_short#:#Versendet
 survey#:#mail_survey_codes#:#Zugangsschlüssel und Nachrichten versenden
-survey#:#mailaddresses#:#Empfängeradressen
-survey#:#mailaddresses_info#:#Tragen Sie hier eine kommagetrennte Liste der Empfänger ein, an die eine Benachrichtigung über abgeschlossene Umfragen versendet werden soll.
+survey#:#mailaddresses#:#Senden an
+survey#:#mailaddresses_info#:#Tragen Sie kommagetrennte Anmeldenamen ein.
 survey#:#mailnotification#:#Einzelne E-Mail je beendeter Umfrage
 survey#:#mailparticipantdata#:#Zusätzliche Teilnehmerdaten
 survey#:#mailparticipantdata_info#:#Fügen Sie einen einleitenden Text hinzu, der vor den Ergebnisdaten eines Teilnehmers in die E-Mail eingetragen wird.
@@ -15512,7 +15512,7 @@ survey#:#median#:#Median
 survey#:#median_between#:#zwischen
 survey#:#menuback#:#Zurück
 survey#:#menubacktosurvey#:#Zurück zur Umfrage
-survey#:#message_content_info#:#Geben Sie einen Benachrichtigungstext für das Versenden des Zugangsschlüssels ein. Sie sollten die Platzhalter [code] (Zugangsschlüssel), [url] (die URL zu dieser Umfrage) verwenden und Platzhalter, die Sie in den Importdaten der Mailempfänger verwendet haben: %s. Die Platzhalter werden mit den importierten Teilnehmerdaten ersetzt.
+survey#:#message_content_info#:#Geben Sie hier den Text ein, mit welchem die Zugangsschlüssel versendet werden. Nutzen Sie die Platzhalter [code] für den Zugangsschlüssel, [url] für den Link zu dieser Umfrage und die Platzhalter [%s], die Sie in den Importdaten verwendet haben. Die Platzhalter werden automatisch ersetzt.
 survey#:#metric_question_floating_point#:#Der angegebene Wert ist eine Fließkommazahl. Fließkommazahlen sind für diesen Fragetyp nicht erlaubt!
 survey#:#metric_question_not_a_value#:#Der angegebene Wert ist kein nummerischer Wert!
 survey#:#metric_question_out_of_bounds#:#Der von Ihnen eingegebene Wert liegt nicht zwischen dem Minimalwert und dem Maximalwert!
@@ -15544,7 +15544,7 @@ survey#:#no_questions_available#:#Es sind keine Fragen verfügbar!
 survey#:#no_target_selected_for_move#:#Sie müssen eine Zielposition auswählen!
 survey#:#no_user_invited#:#Allen eingeladenen Benutzern fehlen die notwendigen Rechte, um die Umfrage durchzuführen. Es wurde niemand eingeladen.
 survey#:#non_ratio#:#Intervallskala
-survey#:#not_sent_only#:#Nur an neue Empfänger versenden (die bislang noch keine Mail erhalten haben)
+survey#:#not_sent_only#:#Personen, die bislang noch keine Mail erhalten haben
 survey#:#not_used#:#noch nicht verwendet
 survey#:#nr_max_answers#:#Maximum
 survey#:#nr_min_answers#:#Minimum
@@ -15595,7 +15595,7 @@ survey#:#questions_removed#:#Fragen und/oder Fragenblock entfernt!
 survey#:#questiontype#:#Fragetyp
 survey#:#ratio_absolute#:#Absolutskaliert
 survey#:#ratio_non_absolute#:#Verhältnisskaliert
-survey#:#recipients#:#Empfänger
+survey#:#recipients#:#Senden an
 survey#:#remove_question#:#Entfernen
 survey#:#remove_questions#:#Sind Sie sicher, dass Sie die folgenden Fragen und/oder Fragenblöcke aus der Umfrage entfernen wollen?
 survey#:#reset_filter#:#Filter zurücksetzen
@@ -15622,9 +15622,9 @@ survey#:#select_relation#:#Relation auswählen
 survey#:#select_target_position_for_move_question#:#Bitte wählen Sie eine Zielposition aus, um Fragen zu verschieben und drücken Sie dann eine der beiden Einfügen-Schaltflächen!
 survey#:#select_value#:#Wert festlegen
 survey#:#selection#:#Auswahl
-survey#:#send_to_all#:#An alle eingetragenen externen Empfänger von Zugangsschlüsseln
-survey#:#send_to_answered#:#An alle Empfänger, welche die Umfrage bereits beendet haben
-survey#:#send_to_unanswered#:#An alle Empfänger, welche die Umfrage noch nicht beendet haben (Erinnerung)
+survey#:#send_to_all#:#Alle Personen, für welche Zugangsschlüssel erzeugt wurden
+survey#:#send_to_answered#:#Alle Personen, welche die Umfrage bereits beendet haben
+survey#:#send_to_unanswered#:#Personen, welche die Umfrage noch nicht beendet haben
 survey#:#show_questiontext#:#Fragentext anzeigen
 survey#:#show_questiontext_description#:#Wenn dieses Kontrollkästchen aktiviert ist, wird für jede Frage innerhalb des Fragenblocks der Fragentext angezeigt (Standard). Wenn dieses Kontrollkästchen nicht aktiviert ist, werden die Fragentexte nicht angezeigt und nur die Antworten angeboten. Dies kann sinnvoll sein, wenn Sie mehrere Fragen mit identischen Fragentexten in einem Fragenblock anbieten.
 survey#:#skipped#:#übersprungen
@@ -15683,7 +15683,7 @@ survey#:#survey_360_results_own#:#Nur eigene Feedback-Geber
 survey#:#survey_360_results_own_info#:#Feedback-Nehmer können nur die Antworten einsehen, welche Feedback-Geber zu ihnen persönlich ausgewählt haben.
 survey#:#survey_360_select_appraisee#:#Auswählen
 survey#:#survey_360_self_appraisee#:#Offenes Feedback
-survey#:#survey_360_self_appraisee_info#:#Allen Benutzern wird ein Link auf dem Reiter "Info" angezeigt. Über diesen Link können diese sich selbst als Feedback-Empfänger für diese Umfrage eintragen.
+survey#:#survey_360_self_appraisee_info#:#Im Reiter „Info“ wird allen ein Link angezeigt. Über diesen Link können sich Personen selbst als Feedback-Nehmer für diese Umfrage eintragen.
 survey#:#survey_360_self_evaluation#:#Selbsteinschätzung
 survey#:#survey_360_self_evaluation_info#:#Feedback-Nehmer können anhand der Fragen eine Selbsteinschätzung vornehmen.
 survey#:#survey_360_self_raters#:#Feedback-Geber auswählen
@@ -15754,7 +15754,7 @@ survey#:#survey_notification_finished_introduction#:#der folgende Teilnehmer hat
 survey#:#survey_notification_finished_reason#:#Sie erhalten diese Nachricht, da Sie die Benachrichtigungsfunktion für die oben genannte Umfrage aktiviert haben.
 survey#:#survey_notification_target_group#:#Zielgruppe
 survey#:#survey_notification_target_group_invited#:#Teilnehmer, denen die Umfrage auf den Persönlichen Schreibtisch gelegt wurde und die die Umfrage noch nicht abgeschlossen haben
-survey#:#survey_notification_target_group_invited_info#:#Aktuelle Anzahl der Empfänger: %s
+survey#:#survey_notification_target_group_invited_info#:#Aktuelle Anzahl: %s
 survey#:#survey_notification_target_group_parent_course#:#Alle Teilnehmer des übergeordneten Kurses/Gruppe, welche die Umfrage noch nicht abgeschlossen haben
 survey#:#survey_notification_target_group_parent_course_inactive#:#Kein übergeordneter Kurs/Gruppe - keine Erinnerung möglich!
 survey#:#survey_notification_tutor_body#:#die folgende Umfrage ist von allen Teilnehmern beendet worden
@@ -15924,7 +15924,7 @@ survey#:#svy_rater#:#Feedback-Geber
 survey#:#svy_rater_see_app_info#:#Feedbackgebende werden die Namen der Feedbacknehmenden angezeigt, damit diese die Fragen in Bezug auf den Feedbacknehmenden beantworten können.
 survey#:#svy_reminder_mail_template#:#Mail-Vorlage
 survey#:#svy_reminder_mail_template_none#:#Keine Vorlage verwenden
-survey#:#svy_result_mail_notification_info#:#Nach Beenden einer Umfrage werden die Antworten des Teilnehmers an die eingetragen Empfänger gesendet.
+survey#:#svy_result_mail_notification_info#:#Nachdem eine Person die Umfrage beendet hat, werden ihre Ergebnisse per Mail versendet.
 survey#:#svy_results#:#Ergebnisse
 survey#:#svy_results_mail_confirm#:#Teilnehmer kann sich Teilnahmebestätigung senden
 survey#:#svy_results_mail_confirm_info#:#Teilnehmer können sich nach Beendigung der Umfrage eine Teilnahmebestätigung per E-Mail zusenden lassen.
