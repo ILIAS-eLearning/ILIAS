@@ -164,8 +164,10 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
     {
         if (!$this->object->getSelfAssessmentEditingMode()) {
             $this->object->setShuffle($_POST["shuffle"]);
+            $this->object->setShuffleMode($_POST["shuffle"]);
         } else {
             $this->object->setShuffle(1);
+            $this->object->setShuffleMode(1);
         }
         $this->object->setThumbGeometry($_POST["thumb_geometry"]);
         $this->object->setMatchingMode($_POST['matching_mode']);
@@ -409,7 +411,7 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
                 3 => $this->lng->txt("matching_shuffle_definitions")
             );
             $shuffle->setOptions($shuffle_options);
-            $shuffle->setValue($this->object->getShuffle() != null ? $this->object->getShuffle() : 1);
+            $shuffle->setValue($this->object->getShuffleMode());
             $shuffle->setRequired(false);
             $form->addItem($shuffle);
 
@@ -672,7 +674,7 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
         // shuffle output
         $terms = $this->object->getTerms();
         $definitions = $this->object->getDefinitions();
-        switch ($this->object->getShuffle()) {
+        switch ($this->object->getShuffleMode()) {
             case 1:
                 $terms = $this->object->getShuffler()->transform($terms);
                 $definitions = $this->object->getShuffler()->transform($definitions);
@@ -865,7 +867,7 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 
         $terms = $this->object->getTerms();
         $definitions = $this->object->getDefinitions();
-        switch ($this->object->getShuffle()) {
+        switch ($this->object->getShuffleMode()) {
             case 1:
                 $terms = $this->object->getShuffler()->transform($terms);
                 if (count($solutions)) {
