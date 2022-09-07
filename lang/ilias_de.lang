@@ -2006,7 +2006,7 @@ auth#:#auth_account_migration_keep#:#Bestehendes Benutzerkonto migrieren
 auth#:#auth_account_migration_name#:#Migration
 auth#:#auth_account_migration_new#:#Neues ILIAS-Konto anlegen
 auth#:#auth_activation_code_success#:#Ihr Zugang wurde aktiviert. Sie können sich nun einloggen.
-auth#:#auth_allow_local_info#:#Wenn aktiviert, ist die lokale Authentifizierung gegen die ILIAS-Datenbank mit Benutzername/Passwort auch für jene Benutzerkonten möglich, deren Authentifizierungsmodus SAML ist.
+auth#:#auth_allow_local_info#:#Wenn aktiviert, ist die lokale Authentifizierung gegen die ILIAS-Datenbank mit Anmeldename/Passwort auch für jene Benutzerkonten möglich, deren Authentifizierungsmodus SAML ist.
 auth#:#auth_auth_settings#:#Einstellungen
 auth#:#auth_cas_ldap#:#Synchronisierung über LDAP-Einstellungen
 auth#:#auth_cas_ldap_info#:#Wenn aktiviert, wird die Synchronisierung der Benutzerdaten und Rollenzuordnungen, gemäß der LDAP-Einstellungen vorgenommen.
@@ -2091,8 +2091,8 @@ auth#:#auth_saml_uid_claim_info#:#Definieren Sie hier das Attribut, anhand desse
 auth#:#auth_saml_unknow_idp#:#Der Identity-Provider existiert nicht.
 auth#:#auth_saml_update_field_info#:#Automatisch aktualisieren
 auth#:#auth_saml_user_mapping#:#Zuordnung der Profildaten
-auth#:#auth_saml_username_claim#:#Attribut für den Anzeigenamen/Benutzernamen
-auth#:#auth_saml_username_claim_info#:#Definieren Sie hier das Attribut, anhand dessen ILIAS den Anzeigenamen/Benutzernamen generieren soll.
+auth#:#auth_saml_username_claim#:#Attribut für den Anzeigenamen/Anmeldenamen
+auth#:#auth_saml_username_claim_info#:#Definieren Sie hier das Attribut, anhand dessen ILIAS den Anzeigenamen/Anmeldenamen generieren soll.
 auth#:#auth_sync#:#Benutzer-Synchronisierung
 auth#:#auth_sync_cas#:#Automatische Generierung von ILIAS-Benutzerkonten
 auth#:#auth_sync_cas_info#:#Benutzer, die sich erfolgreich gegen CAS authentifiziert haben, jedoch über kein ILIAS-Konto verfügen, werden automatisch angelegt.
@@ -2916,7 +2916,7 @@ chatroom#:#history_title_private_room#:#Unterhaltungen im Séparée "%s"
 chatroom#:#ilias_chatserver_connection#:#Verbindung ILIAS zum Server
 chatroom#:#ilias_proxy_info#:#Falls der Server nicht über die eigentliche IP-Adresse und Port erreichbar ist, ist es möglich, einen alternative URL für die Verbindung zwischen ILIAS und Server zu definieren.
 chatroom#:#invite_to_private_room#:#In aktuellen Raum einladen
-chatroom#:#invite_username#:#Benutzername
+chatroom#:#invite_username#:#Anmeldename
 chatroom#:#key#:#Schlüssel
 chatroom#:#kick_question#:#Wollen Sie den Benutzer wirklich aus dem aktuellen Chatraum rauswerfen?
 chatroom#:#kicked#:#Die Moderation hat Sie aus dem Chat entfernt.###Modified as part of gender mainstreaming activities for ILIAS 8
@@ -2927,7 +2927,7 @@ chatroom#:#lost_connection#:#Die Verbindung zum Chat-Server wurde unterbrochen.
 chatroom#:#main#:#Hauptraum
 chatroom#:#no_further_users#:#Keine weiteren Benutzer anwesend
 chatroom#:#no_messages#:#Es sind keine Nachrichten für den ausgewählten Zeitraum verfügbar.
-chatroom#:#no_username_given#:#Bitte wählen Sie einen Benutzernamen
+chatroom#:#no_username_given#:#Bitte wählen Sie einen Anmeldenamen
 chatroom#:#obj_chtr#:#Chatroom
 chatroom#:#osc_browser_noti_no_permission_error#:#Bitte entfernen Sie die ILIAS-Domain von der Liste der blockierten Websites in den Benachrichtigungs-Einstellungen Ihres Browsers oder Betriebssystems. Andernfalls kann ILIAS keine Browser-Benachrichtigungen zustellen.
 chatroom#:#osc_browser_noti_no_support_error#:#Browser-Benachrichtigungen werden mit Ihrem aktuellem Browser nicht unterstützt. Bitte stellen Sie sicher, dass Sie via HTTPS auf ILIAS zugreifen, und Ihr Browser als <a href="https://caniuse.com/#feat=notifications" target="_blank" rel="noopener noreferrer">unterstützter Browser</a> aufgelistet wird.
@@ -3098,7 +3098,7 @@ cmix#:#conf_privacy_ident_il_uuid_SHA256_info#:#Dies ist identisch mit jedem Auf
 cmix#:#conf_privacy_ident_il_uuid_ext_account#:#Externe Benutzer-ID kombiniert mit einer eindeutigen ILIAS-Plattform-ID, die als E-Mail-Adresse formatiert ist
 cmix#:#conf_privacy_ident_il_uuid_ext_account_info#:#Dies ist identisch mit jedem Aufruf, kann aber eine direkte Rückschlüsse auf den Benutzer zulassen.
 cmix#:#conf_privacy_ident_il_uuid_login#:#ILIAS-Login kombiniert mit einer eindeutigen ILIAS-Plattform-ID, die als E-Mail-Adresse formatiert ist
-cmix#:#conf_privacy_ident_il_uuid_login_info#:#Sendet den Benutzernamen. Dies ist identisch mit jedem Aufruf, kann aber eine direkte Rückschlüsse auf den ILIAS-Benutzer zulassen.
+cmix#:#conf_privacy_ident_il_uuid_login_info#:#Sendet den Anmeldenamen. Dies ist identisch mit jedem Aufruf, kann aber eine direkte Rückschlüsse auf den ILIAS-Benutzer zulassen.
 cmix#:#conf_privacy_ident_il_uuid_random#:#Zufalls-ID kombiniert mit einer eindeutigen ILIAS-Plattform-ID, die als E-Mail-Adresse formatiert ist
 cmix#:#conf_privacy_ident_il_uuid_random_info#:#Pro ILIAS-Objekt und ILIAS-Benutzer wird eine Zufalls-ID erzeugt, die bei jedem Aufruf identisch bleibt. Rückschlüsse auf einen Benutzer sind sehr eingeschränkt, da Objekt-übergreifende Nutzerprofile praktisch nicht erstellt werden können.
 cmix#:#conf_privacy_ident_il_uuid_user_id#:#ILIAS-Benutzer-ID kombiniert mit einer eindeutigen ILIAS-Plattform-ID, die als E-Mail-Adresse formatiert ist
@@ -3106,12 +3106,12 @@ cmix#:#conf_privacy_ident_il_uuid_user_id_info#:#Sendet die interne numerische B
 cmix#:#conf_privacy_ident_info#:#Standard ist häufig die E-Mail-Adresse. Die eindeutige ILIAS-Plattform-ID lautet:
 cmix#:#conf_privacy_ident_real_email#:#E-Mail-Adresse
 cmix#:#conf_privacy_ident_real_email_info#:#Sendet die E-Mail-Adresse des Benutzers als Identifikation (Achtung: eine E-Mail-Adresse kann von mehreren Benutzern verwendet werden!)
-cmix#:#conf_privacy_name#:#Benutzername
+cmix#:#conf_privacy_name#:#Anmeldename
 cmix#:#conf_privacy_name_firstname#:#Vorname
 cmix#:#conf_privacy_name_firstname_info#:#Sendet den Vornamen
 cmix#:#conf_privacy_name_fullname#:#Vollständiger Name
 cmix#:#conf_privacy_name_fullname_info#:#Sendet Titel, Vorname und Nachname.
-cmix#:#conf_privacy_name_info#:#Das Senden eines Benutzernamens ist in der Regel nicht erforderlich.
+cmix#:#conf_privacy_name_info#:#Das Senden eines Anmeldenamens ist in der Regel nicht erforderlich.
 cmix#:#conf_privacy_name_lastname#:#Titel und Nachname
 cmix#:#conf_privacy_name_lastname_info#:#Sendet Herr oder Frau (sofern nicht anders angegeben) und den Nachnamen.
 cmix#:#conf_privacy_name_none#:#Keiner
@@ -3134,19 +3134,19 @@ cmix#:#conf_user_ident_il_uuid_user_id_info#:#Dies ist identisch mit jedem Aufru
 cmix#:#conf_user_ident_info#:#Standard ist häufig die E-Mail-Adresse. Die eindeutige ILIAS-Plattform-ID lautet:
 cmix#:#conf_user_ident_real_email#:#E-Mail-Adresse
 cmix#:#conf_user_ident_real_email_info#:#Sendet die E-Mail-Adresse des Benutzers als Identifikation (Achtung: eine E-Mail-Adresse kann von mehreren Benutzern verwendet werden!)
-cmix#:#conf_user_name#:#Benutzername
+cmix#:#conf_user_name#:#Anmeldename
 cmix#:#conf_user_name_firstname#:#Vorname
 cmix#:#conf_user_name_firstname_info#:#Sendet den Vornamen
 cmix#:#conf_user_name_fullname#:#Vollständiger Name
 cmix#:#conf_user_name_fullname_info#:#Sendet Titel, Vorname und Nachname.
-cmix#:#conf_user_name_info#:#Das Senden eines Benutzernamens ist in der Regel nicht erforderlich.
+cmix#:#conf_user_name_info#:#Das Senden eines Anmeldenamens ist in der Regel nicht erforderlich.
 cmix#:#conf_user_name_lastname#:#Titel und Nachname
 cmix#:#conf_user_name_lastname_info#:#Sendet Herr oder Frau (sofern nicht anders angegeben) und den Nachnamen.
 cmix#:#conf_user_name_none#:#Keiner
 cmix#:#conf_user_name_none_info#:#Sendet '-' anstelle eines Namens
 cmix#:#conf_user_registered_mail#:#Registrierte E-Mail-Adresse
 cmix#:#content_privacy_ident#:#Benutzeridentifikation
-cmix#:#content_privacy_name#:#Benutzername
+cmix#:#content_privacy_name#:#Anmeldename
 cmix#:#create_lrs_type_form#:#Neuer LRS-Typ
 cmix#:#create_registration#:#Registrieren Sie Ihre E-Mail-Adresse
 cmix#:#cron_xapi_results_evaluation#:#xAPI/cmi5 Ergebnisse holen
@@ -3445,7 +3445,7 @@ common#:#apply#:#Übernehmen
 common#:#apply_filter#:#Filter anwenden
 common#:#appointment#:#Termin
 common#:#approve_date#:#Freigegeben am
-common#:#approve_recipient#:#E-Mail-Benachrichtigung für (Benutzername ID)
+common#:#approve_recipient#:#E-Mail-Benachrichtigung für (Anmeldename ID)
 common#:#archive#:#Archiv
 common#:#archive_broken#:#Archiv scheint beschädigt oder leer zu sein.
 common#:#are_you_sure#:#Sind Sie sicher?
@@ -3484,7 +3484,7 @@ common#:#attempts#:#Versuche
 common#:#auth_active_roles#:#Verfügbare globale Rollen auf dem Registrierformular
 common#:#auth_allow_local#:#Erlaube lokale Authentifizierung
 common#:#auth_cas#:#CAS
-common#:#auth_cas_allow_local_desc#:#Erlaubt CAS-Benutzern, sich mit ihrem lokalen ILIAS-Benutzernamen und -Passwort anzumelden/zu authentifizieren.
+common#:#auth_cas_allow_local_desc#:#Erlaubt CAS-Benutzern, sich mit ihrem lokalen ILIAS-Anmeldenamen und -Passwort anzumelden/zu authentifizieren.
 common#:#auth_cas_auth#:#Konfiguriere CAS-Authentifizierung
 common#:#auth_cas_auth_desc#:#CAS erfordert PHP 4.3.1 oder höher mit CURL-Unterstützung (7.5 oder höher)
 common#:#auth_cas_port_desc#:#Zum Beispiel "443" bei einer CAS-Server-URI "https://auth.yourserver.com:443/cas/"
@@ -3506,7 +3506,7 @@ common#:#auth_mode_not_changed#:#(Keine Änderung)
 common#:#auth_mode_roles_changed#:#Authentifizierungsmodus für diese Rolle geändert
 common#:#auth_new_account_mail_desc#:#Mail für neue Benutzer.
 common#:#auth_per_default#:#Standardwert
-common#:#auth_remark_non_local_auth#:#Bei allen Authentifizierungsmethoden, die nicht über die ILIAS-Datenbank erfolgen, sind Benutzername und -passwort nicht mehr änderbar.
+common#:#auth_remark_non_local_auth#:#Bei allen Authentifizierungsmethoden, die nicht über die ILIAS-Datenbank erfolgen, sind Anmeldename und -passwort nicht mehr änderbar.
 common#:#auth_role_auth_mode#:#Authentifizierungsmethode
 common#:#auth_saml#:#SAML
 common#:#auth_script#:#Benutzerdefiniert
@@ -3518,7 +3518,7 @@ common#:#auth_shib_instructions#:#Bitte lesen Sie die Hinweise (README) zur Konf
 common#:#auth_shib_not_configured#:#Shibboleth ist noch nicht eingerichtet
 common#:#auth_shibboleth#:#Shibboleth
 common#:#auth_soap#:#SOAP
-common#:#auth_soap_allow_local_desc#:#Erlaubt SOAP-Benutzern, sich mit ihrem lokalen ILIAS-Benutzernamen und -Passwort zu authentifizieren/anzumelden.
+common#:#auth_soap_allow_local_desc#:#Erlaubt SOAP-Benutzern, sich mit ihrem lokalen ILIAS-Anmeldenamen und -Passwort zu authentifizieren/anzumelden.
 common#:#auth_soap_auth#:#Konfiguriere SOAP-Authentifizierung
 common#:#auth_soap_auth_desc#:#Diese Einstellung betrifft nur die SOAP-basierte Benutzerauthentifizierung, nicht aber das ILIAS-SOAP-Interface.
 common#:#auth_soap_create_users_desc#:#Erzeugt automatisch ein ILIAS-Konto für Personen, die sich erfolgreich gegen SOAP authentifiziert haben, bisher aber noch nicht über ein ILIAS-Konto verfügen.
@@ -3624,7 +3624,7 @@ common#:#change_owner#:#Speichern###Modified as part of gender mainstreaming act
 common#:#change_sort_direction#:#Sortierrichtung ändern
 common#:#changeable#:#Kann durch Benutzer selbst im Profil geändert werden
 common#:#changed_to#:#gewechselt zu
-common#:#changing_loginname_not_possible_info#:#Sie haben Ihren Benutzernamen zuletzt am %s geändert. Die nächsten Änderung kann erst am %s erfolgen.
+common#:#changing_loginname_not_possible_info#:#Sie haben Ihren Anmeldenamen zuletzt am %s geändert. Die nächsten Änderung kann erst am %s erfolgen.
 common#:#chapter#:#Kapitel
 common#:#characters#:#Zeichen
 common#:#chat_enter_public_room#:#Öffentl. Chat
@@ -3951,7 +3951,7 @@ common#:#err_role_not_assignable#:#Der Rolle können an dieser Position keine Be
 common#:#err_session_expired#:#Ihre Session ist abgelaufen!
 common#:#err_valid_login_account_creation_disabled#:#Die Authentifizierung war erfolgreich, jedoch ist die Erstellung neuer Benutzerkonten nicht aktiviert. Bitte wenden Sie Sich an Ihren Systemadministrator.
 common#:#err_wrong_header#:#Grund: Falscher Header
-common#:#err_wrong_login#:#Benutzername oder Passwort ungültig
+common#:#err_wrong_login#:#Anmeldename oder Passwort ungültig
 common#:#err_wrong_password#:#Falsches Passwort
 common#:#error#:#Fehler
 common#:#error_empty_file_or_folder#:#Die Datei ist entweder 0 Byte gross oder es handelt sich um einen Ordner.
@@ -4083,7 +4083,7 @@ common#:#folders#:#Ordner
 common#:#follow_link_to_read_mails#:#Um diese Mails zu lesen, klicken Sie bitte auf den folgenden Link:
 common#:#force_accept_usr_agreement#:#Sie müssen die Nutzungsvereinbarung akzeptieren!
 common#:#forgot_password#:#Passwort vergessen?
-common#:#forgot_username#:#Benutzernamen vergessen?
+common#:#forgot_username#:#Anmeldenamen vergessen?
 common#:#form_input_not_valid#:#Einige Angaben sind unvollständig oder ungültig. Bitte korrigieren Sie Ihre Eingabe.
 common#:#forum#:#Forum
 common#:#forum_direct_notification#:#Benachrichtigung
@@ -5416,8 +5416,8 @@ common#:#scorm_create_export_file_pdf#:#PDF-Exportdatei erzeugen
 common#:#scorm_create_export_file_scrom12#:#SCORM 1.2-Exportdatei erzeugen
 common#:#scorm_create_export_file_scrom2004#:#SCORM 2004-Exportdatei erzeugen
 common#:#scorm_create_export_file_scrom2004_4th#:#SCORM 2004-4th_edition-Exportdatei erstellen
-common#:#scorm_login_as_learner_id#:#SCORM 2004: Setze ILIAS-Benutzernamen als cmi.learner_id
-common#:#scorm_login_as_learner_id_info#:#Wenn aktiviert wird der ILIAS-Benutzername an Stelle der ILIAS-Benutzer-ID für die cmi.learner_id gesetzt.
+common#:#scorm_login_as_learner_id#:#SCORM 2004: Setze ILIAS-Anmeldenamen als cmi.learner_id
+common#:#scorm_login_as_learner_id_info#:#An Stelle der ILIAS-Benutzer-ID wird der ILIAS-Anmeldename für die cmi.learner_id gesetzt.
 common#:#scorm_lp_auto_activate#:#Standardeinstellungen für den Lernfortschritt
 common#:#scorm_lp_auto_activate_info#:#Wenn der Lernfortschritt im Allgemeinen aktiviert ist, wird bei neuen SCORM-Lernmodulen der Gesamtstatus des Lernfortschritts bestimmt durch ausgewählte SCORM-Materialien (SCOs) und alle SCOs werden für die Lernfortschritts-Bestimmung ausgewählt. Anpassungen sind weiterhin bei jedem SCORM-Lernmodul möglich.
 common#:#scorm_new#:#Neues SCORM-Lernmodul anlegen
@@ -6846,13 +6846,13 @@ content#:#cont_sc_auto_review_passed#:#nicht speichern ab Status 'bestanden'
 content#:#cont_sc_auto_review_passed_or_failed#:#nicht speichern ab Status 'bestanden' oder 'nicht bestanden'
 content#:#cont_sc_id_setting#:#student_id gemäß SCORM 1.2 entspricht
 content#:#cont_sc_id_setting_2004#:#learner_id gemäß SCORM 2004 entspricht
-content#:#cont_sc_id_setting_info#:#Für den Fall, dass eine numerische Id für student_id (SCORM 1.2) bzw. learner_id (SCORM 2004) beim Lernmodul zu Problemen führt, nutzen Sie die Option 'ILIAS-Benutzername'. Der Zusatz RefId bzw. ObjId kann für Lernmodule sinnvoll sein, die sich mit einem externen Server verbinden.
+content#:#cont_sc_id_setting_info#:#Für den Fall, dass eine numerische Id für student_id (SCORM 1.2) bzw. learner_id (SCORM 2004) beim Lernmodul zu Problemen führt, nutzen Sie die Option 'ILIAS-Anmeldename'. Der Zusatz RefId bzw. ObjId kann für Lernmodule sinnvoll sein, die sich mit einem externen Server verbinden.
 content#:#cont_sc_id_setting_user_id#:#ILIAS-UserId (Standard)
 content#:#cont_sc_id_setting_user_id_plus_obj_id#:#ILIAS-UserId zuzüglich ObjId des Lernmoduls
 content#:#cont_sc_id_setting_user_id_plus_ref_id#:#ILIAS-UserId zuzüglich RefId des Lernmoduls
-content#:#cont_sc_id_setting_user_login#:#ILIAS-Benutzername
-content#:#cont_sc_id_setting_user_login_plus_obj_id#:#ILIAS-Benutzername zuzüglich ObjId des Lernmoduls
-content#:#cont_sc_id_setting_user_login_plus_ref_id#:#ILIAS-Benutzername zuzüglich RefId des Lernmoduls
+content#:#cont_sc_id_setting_user_login#:#ILIAS-Anmeldename
+content#:#cont_sc_id_setting_user_login_plus_obj_id#:#ILIAS-Anmeldename zuzüglich ObjId des Lernmoduls
+content#:#cont_sc_id_setting_user_login_plus_ref_id#:#ILIAS-Anmeldename zuzüglich RefId des Lernmoduls
 content#:#cont_sc_less_mode_browse#:#Nur Vorschau / Preview ('browse')
 content#:#cont_sc_less_mode_normal#:#Normale Nutzung ('normal')
 content#:#cont_sc_max_attempt_exceed#:#Die maximale Anzahl an Versuchen für dieses Modul wurde erreicht.
@@ -8054,7 +8054,7 @@ dateplaner#:#cal_ch_grp_selection#:#Zuordnung zu Sprechstundengruppen
 dateplaner#:#cal_ch_grp_update_tbl#:#Sprechstundengruppe bearbeiten
 dateplaner#:#cal_ch_grps#:#Sprechstundengruppen
 dateplaner#:#cal_ch_manager#:#Sprechstunden-Manager
-dateplaner#:#cal_ch_manager_info#:#Benutzername des Anwenders, der ebenfalls Ihre Sprechstunden bearbeiten und betreuen darf.
+dateplaner#:#cal_ch_manager_info#:#Anmeldename des Anwenders, der ebenfalls Ihre Sprechstunden bearbeiten und betreuen darf.
 dateplaner#:#cal_ch_max_books#:#Buchungen pro Teilnehmer
 dateplaner#:#cal_ch_multi_edit_sequence#:#Termine editieren
 dateplaner#:#cal_ch_num_appointments#:#Anzahl an Terminen pro Sprechstunde
@@ -8066,7 +8066,7 @@ dateplaner#:#cal_ch_reject_booking#:#Terminbuchung absagen
 dateplaner#:#cal_ch_target_object#:#Objekt im Magazin
 dateplaner#:#cal_ch_target_object_info#:#Die Sprechstunden werden in Kursen und Gruppen in einem kleinen Block rechts angezeigt. Um dies auf bestimmte Kurse oder Gruppen zu beschränken, geben Sie die Ref-ID des betreffenden Objektes ein. Sie finden diese in der URL des entsprechenden Objekts. Mehrere Ref-IDs geben Sie kommagetrennt ein. Unabhängig davon können Sprechstunden auch in Ihren E-Portfolios erscheinen.
 dateplaner#:#cal_ch_unknown_repository_object#:#Die angegebene Kennung des Objekts ist nicht gültig.
-dateplaner#:#cal_ch_unknown_user#:#Der eingegebene Benutzername existiert nicht.
+dateplaner#:#cal_ch_unknown_user#:#Der eingegebene Anmeldename existiert nicht.
 dateplaner#:#cal_ch_user_assignment_failed_info#:#Die folgenden Benutzer konnten keinem Termin zugeordnet werden, da die maximale Anzahl an Buchungen überschritten wurde.
 dateplaner#:#cal_change_calendar_view#:#Kalenderansicht ändern
 dateplaner#:#cal_change_responsible_users#:#Verantwortliche Mitglieder ändern
@@ -8272,7 +8272,7 @@ dateplaner#:#cal_unshared_selected_usr#:#Die Freigabe für die ausgewählten Ben
 dateplaner#:#cal_upcoming_events_header#:#Zukünftige Termine
 dateplaner#:#cal_user_date_format#:#Datumsformat für die Eingabe
 dateplaner#:#cal_user_notification#:#Benutzerbenachrichtigung
-dateplaner#:#cal_user_notification_info#:#Die ausgewählten Benutzer erhalten eine E-Mail mit den Termindetails. Bitte geben Sie ILIAS-Benutzernamen oder gültige E-Mail-Adressen ein.
+dateplaner#:#cal_user_notification_info#:#Die ausgewählten Benutzer erhalten eine E-Mail mit den Termindetails. Bitte geben Sie ILIAS-Anmeldenamen oder gültige E-Mail-Adressen ein.
 dateplaner#:#cal_user_settings#:#Kalendereinstellungen
 dateplaner#:#cal_user_time_format#:#Zeitformat
 dateplaner#:#cal_user_timezone#:#ILIAS-Zeitzone
@@ -10183,7 +10183,7 @@ ldap#:#ldap_mapping_table#:#Zuordnung von LDAP-Attributen zu ILIAS-Benutzerdaten
 ldap#:#ldap_mapping_template#:#Vorlage benutzen für Objektklasse:
 ldap#:#ldap_member_info#:#Geben Sie hier den Attributnamen ein, dem die Gruppenmitglieder zugeordnet sind. Wählen Sie 'Attributwert ist DN', wenn die Mitgliedernamen als DN angelegt werden.
 ldap#:#ldap_memberisdn#:#Attributwert ist DN
-ldap#:#ldap_missing_bind_user#:#Sie haben als Verbindungsart 'Als Benutzer verbinden ausgewählt': Bitte tragen Sie einen Benutzernamen und das Passwort ein.
+ldap#:#ldap_missing_bind_user#:#Sie haben als Verbindungsart 'Als Benutzer verbinden ausgewählt': Bitte tragen Sie einen Anmeldenamen und das Passwort ein.
 ldap#:#ldap_missing_role_assignment#:#Bitte wählen Sie eine globale Rolle aus, der neu anzulegende Benutzer zugeordnet werden sollen.
 ldap#:#ldap_moment_sync#:#Synchronisierungsart
 ldap#:#ldap_new_role_assignment#:#Neue Zuordnung anlegen
@@ -10200,8 +10200,8 @@ ldap#:#ldap_role_at_name#:#Attributname
 ldap#:#ldap_role_at_value#:#Attributwert
 ldap#:#ldap_role_bind_pass#:#Passwort
 ldap#:#ldap_role_bind_pass_info#:#Passwort des LDAP-Benutzers.
-ldap#:#ldap_role_bind_user#:#Benutzername
-ldap#:#ldap_role_bind_user_info#:#Bitte geben einen LDAP-Benutzernamen ein. Dieser Benutzer muss Schreibzugriff auf die zu aktualisierenden Gruppen besitzen.
+ldap#:#ldap_role_bind_user#:#Anmeldename
+ldap#:#ldap_role_bind_user_info#:#Bitte geben einen LDAP-Anmeldenamen ein. Dieser Benutzer muss Schreibzugriff auf die zu aktualisierenden Gruppen besitzen.
 ldap#:#ldap_role_by_attribute#:#Benutzerattribut
 ldap#:#ldap_role_by_group#:#Gruppenzugehörigkeit
 ldap#:#ldap_role_by_plugin#:#Per Plugin
@@ -10249,7 +10249,7 @@ ldap#:#ldap_user_sync#:#Einstellungen zur Benutzersynchronisierung
 ldap#:#ldap_user_sync_cron#:#LDAP-Benutzersynchronisierung
 ldap#:#ldap_user_sync_cron_info#:#Wenn aktiviert, werden Benutzerkonten aus dem LDAP-Verzeichnis importiert und optional laufend synchronisiert.
 ldap#:#ldap_user_sync_info#:#Legt fest, ob noch nicht in ILIAS vorhandene Benutzer automatisch beim ersten Login oder aber regelmäßig per Cron-Job angelegt werden.
-ldap#:#ldap_username_filter#:#Benutzernamen Filter
+ldap#:#ldap_username_filter#:#Anmeldenamen-Filter
 ldap#:#ldap_username_filter_info#:#Benutzen Sie * als Wildcard.
 lhist#:#cont_create_lhist#:#Element für Lernverlauf erstellen
 lhist#:#cont_update_lhist#:#Element für Lernverlaufs bearbeiten
@@ -10426,18 +10426,18 @@ lti#:#conf_privacy_ident_il_uuid_SHA256_info#:#Dies ist identisch mit jedem Aufr
 lti#:#conf_privacy_ident_il_uuid_ext_account#:#Externe Benutzer-ID kombiniert mit einer eindeutigen ILIAS-Plattform-ID, die als E-Mail-Adresse formatiert ist
 lti#:#conf_privacy_ident_il_uuid_ext_account_info#:#Dies ist identisch mit jedem Aufruf, kann aber direkte Rückschlüsse auf den Benutzer zulassen.
 lti#:#conf_privacy_ident_il_uuid_login#:#ILIAS-Login kombiniert mit einer eindeutigen ILIAS-Plattform-ID, die als E-Mail-Adresse formatiert ist
-lti#:#conf_privacy_ident_il_uuid_login_info#:#Sendet den Benutzernamen. Dies ist identisch mit jedem Aufruf, kann aber direkte Rückschlüsse auf den ILIAS-Benutzer zulassen.
+lti#:#conf_privacy_ident_il_uuid_login_info#:#Sendet den Anmeldenamen. Dies ist identisch mit jedem Aufruf, kann aber direkte Rückschlüsse auf den ILIAS-Benutzer zulassen.
 lti#:#conf_privacy_ident_il_uuid_user_id#:#ILIAS-Benutzer-ID kombiniert mit einer eindeutigen ILIAS-Plattform-ID, die als E-Mail-Adresse formatiert ist
 lti#:#conf_privacy_ident_il_uuid_user_id_info#:#Sendet die interne numerische Benutzer-Id. Dies ist identisch mit jedem Aufruf, ermöglicht aber Rückschlüsse auf den ILIAS-Benutzer.
 lti#:#conf_privacy_ident_info#:#Standard ist häufig die E-Mail-Adresse. Die eindeutige ILIAS-Plattform-ID lautet:
 lti#:#conf_privacy_ident_real_email#:#E-Mail-Adresse
 lti#:#conf_privacy_ident_real_email_info#:#Sendet die E-Mail-Adresse des Benutzers als Identifikation (Achtung: eine E-Mail-Adresse kann von mehreren Benutzern verwendet werden!)
-lti#:#conf_privacy_name#:#Benutzername
+lti#:#conf_privacy_name#:#Anmeldename
 lti#:#conf_privacy_name_firstname#:#Vorname
 lti#:#conf_privacy_name_firstname_info#:#Sendet den Vornamen.
 lti#:#conf_privacy_name_fullname#:#Vollständiger Name
 lti#:#conf_privacy_name_fullname_info#:#Sendet Titel, Vorname und Nachname.
-lti#:#conf_privacy_name_info#:#Das Senden eines Benutzernamens ist in der Regel nicht erforderlich.
+lti#:#conf_privacy_name_info#:#Das Senden eines Anmeldenamens ist in der Regel nicht erforderlich.
 lti#:#conf_privacy_name_lastname#:#Titel und Nachname
 lti#:#conf_privacy_name_lastname_info#:#Sendet Herr oder Frau (sofern nicht anders angegeben) und den Nachnamen.
 lti#:#conf_privacy_name_none#:#Keiner
@@ -10452,12 +10452,12 @@ lti#:#conf_user_ident_il_uuid_user_id_info#:#Dies ist identisch mit jedem Aufruf
 lti#:#conf_user_ident_info#:#Standard ist häufig die E-Mail-Adresse. Die eindeutige ILIAS-Plattform-ID lautet:
 lti#:#conf_user_ident_real_email#:#E-Mail-Adresse
 lti#:#conf_user_ident_real_email_info#:#Sendet die E-Mail-Adresse des Benutzers als Identifikation (Achtung: eine E-Mail-Adresse kann von mehreren Benutzern verwendet werden!)
-lti#:#conf_user_name#:#Benutzername
+lti#:#conf_user_name#:#Anmeldename
 lti#:#conf_user_name_firstname#:#Vorname
 lti#:#conf_user_name_firstname_info#:#Sendet den Vornamen.
 lti#:#conf_user_name_fullname#:#Vollständiger Name
 lti#:#conf_user_name_fullname_info#:#Sendet Titel, Vorname und Nachname.
-lti#:#conf_user_name_info#:#Das Senden eines Benutzernamens ist in der Regel nicht erforderlich.
+lti#:#conf_user_name_info#:#Das Senden eines Anmeldenamens ist in der Regel nicht erforderlich.
 lti#:#conf_user_name_lastname#:#Titel und Nachname
 lti#:#conf_user_name_lastname_info#:#Sendet Herr oder Frau (sofern nicht anders angegeben) und den Nachnamen.
 lti#:#conf_user_name_none#:#Keiner
@@ -12964,14 +12964,14 @@ pwassist#:#pwassist_enter_email#:#Geben Sie hier Ihre E-Mail-Adresse ein. ILIAS 
 pwassist#:#pwassist_enter_username_and_email#:#Geben Sie einen Anmeldenamen und die dazugehörige E-Mail-Adresse ein. ILIAS sendet an diese Adresse eine Anleitung, um ein neues Passwort festzulegen. Falls Sie keine E-Mail erhalten, benachrichtigen Sie bitte Ihre Kursleitung oder senden Sie ein E-Mail an %1$s.###Modified as part of gender mainstreaming activities for ILIAS 8
 pwassist#:#pwassist_enter_username_and_new_password#:#Tragen Sie den Anmeldenamen ein, und vergeben Sie ein neues Passwort.###Modified as part of gender mainstreaming activities for ILIAS 8
 pwassist#:#pwassist_login_not_match#:#Der eingegebene Anmeldename stimmt nicht überein mit dem Anmeldenamen, für den Sie die Passwort-Unterstützung angefordert hatten. Bitte geben Sie den korrekten Anmeldenamen ein.###Modified as part of gender mainstreaming activities for ILIAS 8
-pwassist#:#pwassist_mail_body#:#Tragen Sie ein neues Passwort ein für Ihr Benutzerkonto %1$s <br><br>Diese Nachricht wurde automatisch generiert von der ILIAS-Installation: %2$s <br><br>Sie (oder jemand mit der Adresse %3$s) hat Passwort-Unterstützung für den Benutzernamen "%4$s" angefordert. Bitte prüfen Sie sorgfältig die nachfolgend aufgeführten Fälle, und handeln Sie wie vorgeschlagen:<br><br>• Sie haben die Passwort-Unterstützung versehentlich benutzt: Löschen Sie diese Mail.<br><br>• Sie sind sicher, dass Sie nie Passwort-Unterstützung für den angegebenen ILIAS-Server angefordert haben: Bitte nehmen Sie mit %5$s Kontakt auf.<br><br>Sie haben um Passwort-Unterstützung angefragt. Bitte gehen Sie wie folgt vor:<br><br>1. Starten Sie Ihren Browser.<br>2. Geben Sie folgende Adresse in Ihrem Browser ein: %6$s  Wichtig: Die Adresse besteht aus einer einzigen Zeile. Wenn Sie die Adresse aufgetrennt in mehrere Zeilen sehen, dann hat Ihr E-Mail-Programm diese Zeilenumbrüche eingefügt.<br>3. Ihr Browser zeigt nun eine Seite an, mit der Sie ein neues Passwort an das Benutzerkonto zuweisen können.<br><br>Bitte beachten Sie: Aus Sicherheitsgründen können Sie diese drei Schritte nur exakt einmal und innerhalb einer begrenzten Zeit ausführen. Danach wird die Adresse ungültig, und Sie müssen die Passwort-Unterstützung auf dem ILIAS-Server erneut anfordern.
+pwassist#:#pwassist_mail_body#:#Tragen Sie ein neues Passwort ein für Ihr Benutzerkonto %1$s <br><br>Diese Nachricht wurde automatisch generiert von der ILIAS-Installation: %2$s <br><br>Sie (oder jemand mit der Adresse %3$s) hat Passwort-Unterstützung für den Anmeldenamen "%4$s" angefordert. Bitte prüfen Sie sorgfältig die nachfolgend aufgeführten Fälle, und handeln Sie wie vorgeschlagen:<br><br>• Sie haben die Passwort-Unterstützung versehentlich benutzt: Löschen Sie diese Mail.<br><br>• Sie sind sicher, dass Sie nie Passwort-Unterstützung für den angegebenen ILIAS-Server angefordert haben: Bitte nehmen Sie mit %5$s Kontakt auf.<br><br>Sie haben um Passwort-Unterstützung angefragt. Bitte gehen Sie wie folgt vor:<br><br>1. Starten Sie Ihren Browser.<br>2. Geben Sie folgende Adresse in Ihrem Browser ein: %6$s  Wichtig: Die Adresse besteht aus einer einzigen Zeile. Wenn Sie die Adresse aufgetrennt in mehrere Zeilen sehen, dann hat Ihr E-Mail-Programm diese Zeilenumbrüche eingefügt.<br>3. Ihr Browser zeigt nun eine Seite an, mit der Sie ein neues Passwort an das Benutzerkonto zuweisen können.<br><br>Bitte beachten Sie: Aus Sicherheitsgründen können Sie diese drei Schritte nur exakt einmal und innerhalb einer begrenzten Zeit ausführen. Danach wird die Adresse ungültig, und Sie müssen die Passwort-Unterstützung auf dem ILIAS-Server erneut anfordern.
 pwassist#:#pwassist_mail_sent#:#ILIAS hat eine E-Mail an die Adresse %1$s versandt. Weitere Anweisungen finden Sie in dieser Mail.
 pwassist#:#pwassist_mail_sent_generic#:#ILIAS hat eine E-Mail an die hinterlegte Adresse versandt. Weitere Anweisungen finden Sie in dieser Mail.
 pwassist#:#pwassist_mail_subject#:#ILIAS-Passwort-Unterstützung
 pwassist#:#pwassist_password_assigned#:#Das Passwort für den Anmeldenamen %1$s wurde erfolgreich gespeichert.
 pwassist#:#pwassist_session_expired#:#Bitte füllen Sie das Formular erneut aus. Die Zeit für die Durchführung der Passwort-Unterstützung ist abgelaufen. Dies kann passiert sein, weil Sie versucht haben, die Adresse, die Ihnen per E-Mail zugesandt wurde, mehr als einmal zu verwenden, oder weil zu viel Zeit verstrichen ist, seit die Adresse zu Ihnen gesandt wurde.
-pwassist#:#pwassist_username_mail_body#:#Dies sind die aktiven Benutzernamen, die in ILIAS dieser E-Mail-Adresse zugeordnet sind: %s  <br><br>Diese Mail ist automatisch generiert worden von der ILIAS-Installation: %s<br><br>Sie (oder jemand mit der Adresse %s) hat die Benutzernamenauflistung für die E-Mail-Adresse '%s' angefordert. Bitte prüfen Sie sorgfältig die nachfolgend aufgeführten Fälle, und handeln Sie wie vorgeschlagen:<br><br>• Sie haben die Benutzernamen-Unterstützung auf dem Server versehentlich benutzt: Löschen Sie diese E-Mail.<br><br>• Sie sind sicher, dass Sie nie Benutzernamen-Unterstützung für den angegebenen ILIAS-Server angefordert haben: Bitte nehmen Sie mit %s Kontakt auf.<br><br>• Sie haben um Benutzernamen-Unterstützung angefragt: Bitte gehen Sie wie folgt vor:<br>1. Starten Sie Ihren Browser.<br>2. Geben Sie folgende Adresse in Ihrem Browser ein: %s  <br>Wichtig: Die Adresse besteht aus einer einzigen Zeile. Wenn Sie die Adresse aufgetrennt in mehrere Zeilen sehen, dann hat Ihr E-Mail-Programm diese Zeilenumbrüche eingefügt.<br>3. Ihr Browser zeigt nun die Passwort-Unterstützungs-Seite an. Verwenden Sie diese Funktion, um sich zu einer Kombination aus Benutzernamen und E-Mail ein neues Passwort schicken zu lassen.
-pwassist#:#unassist_disabled_no_access#:#Die Benutzernamen-Unterstützung ist nicht aktiviert. Bitte kontaktieren Sie einen System-Administrator für weitere Unterstützung: %s
+pwassist#:#pwassist_username_mail_body#:#Dies sind die aktiven Anmeldenamen, die in ILIAS dieser E-Mail-Adresse zugeordnet sind: %s  <br><br>Diese Mail ist automatisch generiert worden von der ILIAS-Installation: %s<br><br>Sie (oder jemand mit der Adresse %s) hat die Anmeldenamenauflistung für die E-Mail-Adresse '%s' angefordert. Bitte prüfen Sie sorgfältig die nachfolgend aufgeführten Fälle, und handeln Sie wie vorgeschlagen:<br><br>• Sie haben die Anmeldenamen-Unterstützung auf dem Server versehentlich benutzt: Löschen Sie diese E-Mail.<br><br>• Sie sind sicher, dass Sie nie Anmeldenamen-Unterstützung für den angegebenen ILIAS-Server angefordert haben: Bitte nehmen Sie mit %s Kontakt auf.<br><br>• Sie haben um Anmeldenamen-Unterstützung angefragt: Bitte gehen Sie wie folgt vor:<br>1. Starten Sie Ihren Browser.<br>2. Geben Sie folgende Adresse in Ihrem Browser ein: %s  <br>Wichtig: Die Adresse besteht aus einer einzigen Zeile. Wenn Sie die Adresse aufgetrennt in mehrere Zeilen sehen, dann hat Ihr E-Mail-Programm diese Zeilenumbrüche eingefügt.<br>3. Ihr Browser zeigt nun die Passwort-Unterstützungs-Seite an. Verwenden Sie diese Funktion, um sich zu einer Kombination aus Anmeldenamen und E-Mail ein neues Passwort schicken zu lassen.
+pwassist#:#unassist_disabled_no_access#:#Die Anmeldenamen-Unterstützung ist nicht aktiviert. Bitte kontaktieren Sie einen System-Administrator für weitere Unterstützung: %s
 pwsp#:#pwsp_enable_personal_resources#:#Persönliche Ressourcen aktivieren
 pwsp#:#pwsp_enable_wsp_blogs#:#Blogs aktivieren
 pwsp#:#pwsp_enable_wsp_files#:#Dateien aktivieren
