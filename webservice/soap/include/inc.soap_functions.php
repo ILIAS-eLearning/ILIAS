@@ -848,14 +848,14 @@ class ilSoapFunctions
      */
     public static function buildHTTPPath(): string
     {
-        if ($_SERVER["HTTPS"] === "on") {
+        if (($_SERVER["HTTPS"] ?? '') === "on") {
             $protocol = 'https://';
         } else {
             $protocol = 'http://';
         }
-        $host = $_SERVER['HTTP_HOST'];
+        $host = $_SERVER['HTTP_HOST'] ?? '';
 
-        $path = dirname($_SERVER['REQUEST_URI']);
+        $path = dirname($_SERVER['REQUEST_URI'] ?? '');
 
         //dirname cuts the last directory from a directory path e.g content/classes return content
         include_once 'Services/FileServices/classes/class.ilFileUtils.php';

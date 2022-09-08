@@ -137,9 +137,16 @@ class ilSoapAdministration
 
     protected function initAuth(string $sid): void
     {
+        global $DIC;
+
         [$sid, $client] = $this->explodeSid($sid);
-        $_COOKIE['ilClientId'] = $client;
-        $_COOKIE[session_name()] = $sid;
+
+        if (isset($DIC)) {
+            ilUtil::setCookie(session_name(), $sid);
+        } else {
+            $_COOKIE['ilClientId'] = $client;
+            $_COOKIE[session_name()] = $sid;
+        }
     }
 
     protected function initIlias(): void

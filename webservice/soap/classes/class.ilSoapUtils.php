@@ -1,6 +1,7 @@
 <?php
 
 declare(strict_types=1);
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -207,7 +208,7 @@ class ilSoapUtils extends ilSoapAdministration
     {
         $default_mode = \ilCopyWizardOptions::COPY_WIZARD_UNDEFINED;
         if (array_key_exists('type', $options)) {
-            $default_mode = $options['type'];
+            $default_mode = (int) $options['type'];
         }
         if (
             array_key_exists('child', $node) &&
@@ -229,7 +230,7 @@ class ilSoapUtils extends ilSoapAdministration
         $logger = $DIC->logger()->obj();
         $tree = $DIC->repositoryTree();
         $root = $cpo->getRootNode();
-        $obj_id = $node['obj_id'];
+        $obj_id = (int) $node['obj_id'];
 
         $mappings = $cpo->getMappings();
         foreach (\ilObject::_getAllReferences($obj_id) as $ref_id => $also_ref_id) {
