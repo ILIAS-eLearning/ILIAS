@@ -899,7 +899,6 @@ class ilRbacAdmin
 
         foreach ($nodes = $tree->getSubTree($tree->getNodeData($a_ref_id), true) as $node_data) {
             $node_id = (int) $node_data['child'];
-
             if ($rbac_log_active) {
                 $log_old = ilRbacLog::gatherFaPa($node_id, $role_ids);
             }
@@ -923,11 +922,11 @@ class ilRbacAdmin
             foreach ($for_addition as $role_id => $role_data) {
                 switch ($node_data['type']) {
                     case 'grp':
-                        $tpl_id = ilObjGroup::lookupGroupStatusTemplateId($node_data['obj_id']);
+                        $tpl_id = ilObjGroup::lookupGroupStatusTemplateId((int) $node_data['obj_id']);
                         $this->initIntersectionPermissions(
-                            $node_data['child'],
+                            $node_id,
                             $role_id,
-                            $role_data['parent'],
+                            (int) $role_data['parent'],
                             $tpl_id,
                             ROLE_FOLDER_ID
                         );
@@ -936,9 +935,9 @@ class ilRbacAdmin
                     case 'crs':
                         $tpl_id = ilObjCourse::lookupCourseNonMemberTemplatesId();
                         $this->initIntersectionPermissions(
-                            $node_data['child'],
+                            $node_id,
                             $role_id,
-                            $role_data['parent'],
+                            (int) $role_data['parent'],
                             $tpl_id,
                             ROLE_FOLDER_ID
                         );
@@ -950,7 +949,7 @@ class ilRbacAdmin
                             $ops = $this->rbacreview->getOperationsOfRole(
                                 $role_id,
                                 $node_data['type'],
-                                $role_data['parent']
+                                (int) $role_data['parent']
                             ),
                             $node_id
                         );

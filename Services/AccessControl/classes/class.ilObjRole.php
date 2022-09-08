@@ -877,7 +877,7 @@ class ilObjRole extends ilObject
                             $query = "SELECT obj_id FROM object_data WHERE type='rolt' AND title='il_grp_status_closed'";
                             $res = $this->db->query($query);
                             while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-                                $group_closed_id = $row->obj_id;
+                                $group_closed_id = (int) $row->obj_id;
                             }
                         }
                         $template_id = $group_closed_id;
@@ -890,7 +890,7 @@ class ilObjRole extends ilObject
                             $query = "SELECT obj_id FROM object_data WHERE type='rolt' AND title='il_grp_status_open'";
                             $res = $this->db->query($query);
                             while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-                                $group_open_id = $row->obj_id;
+                                $group_open_id = (int) $row->obj_id;
                             }
                         }
                         $template_id = $group_open_id;
@@ -903,7 +903,7 @@ class ilObjRole extends ilObject
                     $query = "SELECT obj_id FROM object_data WHERE type='rolt' AND title='il_crs_non_member'";
                     $res = $this->db->query($query);
                     while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-                        $course_non_member_id = $row->obj_id;
+                        $course_non_member_id = (int) $row->obj_id;
                     }
                 }
                 $template_id = $course_non_member_id;
