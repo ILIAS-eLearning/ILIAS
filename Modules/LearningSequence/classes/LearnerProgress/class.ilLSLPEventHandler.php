@@ -62,7 +62,7 @@ class ilLSLPEventHandler
     private function getParentLSOIdFromTree(int $child_ref_id): ?int
     {
         $parent_nd = $this->tree->getParentNodeData($child_ref_id);
-        if ($parent_nd['type'] === 'lso') {
+        if (isset($parent_nd['type']) && $parent_nd['type'] === 'lso') {
             return (int) $parent_nd['obj_id'];
         }
         return null;
