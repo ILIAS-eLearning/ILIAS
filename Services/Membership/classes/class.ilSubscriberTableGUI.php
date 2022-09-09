@@ -175,7 +175,7 @@ class ilSubscriberTableGUI extends ilTable2GUI
                     $this->tpl->setCurrentBlock('custom_fields');
                     $this->tpl->setVariable(
                         'VAL_CUST',
-                        ilOrgUnitPathStorage::getTextRepresentationOfUsersOrgUnits($a_set['usr_id'])
+                        ilOrgUnitPathStorage::getTextRepresentationOfUsersOrgUnits((int)$a_set['usr_id'])
                     );
                     $this->tpl->parseCurrentBlock();
                     break;
