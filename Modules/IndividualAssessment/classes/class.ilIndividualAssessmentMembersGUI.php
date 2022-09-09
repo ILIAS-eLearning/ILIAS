@@ -367,9 +367,12 @@ class ilIndividualAssessmentMembersGUI
      */
     protected function getLinkForStatusFilter($value): string
     {
+        $this->ctrl->setParameterByClass("ilIndividualAssessmentMembersGUI", self::F_SORT, $this->getSortValue());
         $this->ctrl->setParameterByClass("ilIndividualAssessmentMembersGUI", self::F_STATUS, $value);
         $link = $this->ctrl->getLinkTargetByClass("ilIndividualAssessmentMembersGUI", "view");
         $this->ctrl->setParameterByClass("ilIndividualAssessmentMembersGUI", self::F_STATUS, null);
+
+        $this->ctrl->setParameterByClass("ilIndividualAssessmentMembersGUI", self::F_SORT, null);
 
         return $link;
     }
