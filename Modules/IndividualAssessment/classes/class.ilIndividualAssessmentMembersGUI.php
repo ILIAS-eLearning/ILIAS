@@ -34,8 +34,8 @@ class ilIndividualAssessmentMembersGUI
     public const F_STATUS = "status";
     public const F_SORT = "sortation";
 
-    public const S_NAME_ASC = "user_lastname:asc";
-    public const S_NAME_DESC = "user_lastname:desc";
+    public const S_NAME_ASC = "user_login:asc";
+    public const S_NAME_DESC = "user_login:desc";
     public const S_EXAMINER_ASC = "examiner_login:asc";
     public const S_EXAMINER_DESC = "examiner_login:desc";
     public const S_CHANGETIME_ASC = "change_time:asc";
