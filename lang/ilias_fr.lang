@@ -9972,7 +9972,6 @@ iass#:#iass_remove_user_qst#:#La personne examinée doit-elle vraiment être ret
 iass#:#iass_responsibility#:#Responsabilité
 iass#:#iass_save_amend#:#Sauvegarder le dossier modifié
 iass#:#iass_settings_saved#:#Paramètres sauvegardés.
-iass#:#iass_sort#:#Sortation
 iass#:#iass_sort_changetime_asc#:#Last Change ascending###07 02 2020 new variable
 iass#:#iass_sort_changetime_desc#:#Last Change descending###07 02 2020 new variable
 iass#:#iass_sort_examiner_login_asc#:#Examiner ascending
