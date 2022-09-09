@@ -9973,7 +9973,6 @@ iass#:#iass_remove_user_qst#:#Biztos, hogy eltávolítja az értékelendőt?
 iass#:#iass_responsibility#:#Felelősségi kör
 iass#:#iass_save_amend#:#Utólagos módosított értékelés mentése
 iass#:#iass_settings_saved#:#A beállításokat sikeresen mentette.
-iass#:#iass_sort#:#Rendezés
 iass#:#iass_sort_changetime_asc#:#Utolsó módosítás (növekvő)
 iass#:#iass_sort_changetime_desc#:#Utolsó módosítás (csökkenő)
 iass#:#iass_sort_examiner_login_asc#:#Értékelő (növekvő)

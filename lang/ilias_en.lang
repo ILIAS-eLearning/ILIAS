@@ -10018,7 +10018,6 @@ iass#:#iass_remove_user_qst#:#Should the examinee really be removed?
 iass#:#iass_responsibility#:#Responsibility
 iass#:#iass_save_amend#:#Save Amended Record
 iass#:#iass_settings_saved#:#Settings saved.
-iass#:#iass_sort#:#Sortation
 iass#:#iass_sort_changetime_asc#:#Last Change ascending
 iass#:#iass_sort_changetime_desc#:#Last Change descending
 iass#:#iass_sort_examiner_login_asc#:#Examiner ascending

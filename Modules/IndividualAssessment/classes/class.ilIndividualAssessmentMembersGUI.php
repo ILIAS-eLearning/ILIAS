@@ -318,7 +318,7 @@ class ilIndividualAssessmentMembersGUI
             $this->getSortOptions()
         )
         ->withTargetURL($target, self::F_SORT)
-        ->withLabel($this->txt("iass_sort"));
+        ->withLabel($this->getSortOptions()[$this->getSortValue() ?? self::S_NAME_ASC]);
     }
 
     /**
