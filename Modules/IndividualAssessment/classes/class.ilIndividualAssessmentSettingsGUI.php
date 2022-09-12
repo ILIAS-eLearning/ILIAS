@@ -141,7 +141,7 @@ class ilIndividualAssessmentSettingsGUI
         $cmd = $this->ctrl->getCmd();
         switch ($next_class) {
             case 'ilindividualassessmentcommonsettingsgui':
-                $this->tabs_gui->activateSubTab('common_settings');
+                $this->tabs_gui->activateSubTab(self::TAB_COMMON_SETTINGS);
                 $this->ctrl->forwardCommand($this->common_settings_gui);
                 break;
             default:
