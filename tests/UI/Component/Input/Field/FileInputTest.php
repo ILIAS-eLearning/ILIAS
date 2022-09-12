@@ -263,9 +263,17 @@ class FileInputTest extends ILIAS_UI_TestBase
                         <div class="ui-input-file-input-list ui-input-dynamic-inputs-list">
                             <div class="ui-input-file-input ui-input-dynamic-input">
                                 <div class="ui-input-file-info">
+                                    <span data-action="expand">
+                                    </span>
+                                    <span data-action="collapse">
+                                    </span>
                                     <span data-dz-name>test file name 1</span>
                                     <span data-dz-size>1 MB</span>
-                                    <a class="glyph" aria-label="close"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a>
+                                    <span data-action="remove">
+                                    <a class="glyph" aria-label="close">
+                                        <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                                    </a>
+                                    </span>
                                     <span class="ui-input-file-input-error-msg" data-dz-error-msg></span>
                                 </div>
                                 <div class="ui-input-file-metadata" style="display: none;">
@@ -312,17 +320,23 @@ class FileInputTest extends ILIAS_UI_TestBase
                         <div class="ui-input-file-input-list ui-input-dynamic-inputs-list">
                             <div class="ui-input-file-input ui-input-dynamic-input">
                                 <div class="ui-input-file-info">
+                                    <span data-action="expand">
                                     <a class="glyph" aria-label="expand_content">
                                         <span class="glyphicon glyphicon-triangle-right" aria-hidden="true"></span>
                                     </a>
+                                    </span>
+                                    <span data-action="collapse">
                                     <a class="glyph" aria-label="collapse_content">
                                         <span class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span>
                                     </a>
+                                    </span>
                                     <span data-dz-name></span>
                                     <span data-dz-size></span>
+                                    <span data-action="remove">
                                     <a class="glyph" aria-label="close">
                                         <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
                                     </a>
+                                    </span>
                                     <span class="ui-input-file-input-error-msg" data-dz-error-msg></span>
                                 </div>
                                 <div class="ui-input-file-metadata" style="display: none;">
@@ -381,17 +395,23 @@ class FileInputTest extends ILIAS_UI_TestBase
                         <div class="ui-input-file-input-list ui-input-dynamic-inputs-list">
                             <div class="ui-input-file-input ui-input-dynamic-input">
                                 <div class="ui-input-file-info">
+                                    <span data-action="expand">
                                     <a class="glyph" aria-label="expand_content">
                                         <span class="glyphicon glyphicon-triangle-right" aria-hidden="true"></span>
                                     </a>
+                                    </span>
+                                    <span data-action="collapse">
                                     <a class="glyph" aria-label="collapse_content">
                                         <span class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span>
                                     </a>
+                                    </span>
                                     <span data-dz-name>test file name 1</span>
                                     <span data-dz-size>1 MB</span>
+                                    <span data-action="remove">
                                     <a class="glyph" aria-label="close">
                                         <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
                                     </a>
+                                    </span>
                                     <span class="ui-input-file-input-error-msg" data-dz-error-msg></span>
                                 </div>
                                 <div class="ui-input-file-metadata" style="display: none;">

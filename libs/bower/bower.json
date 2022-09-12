@@ -31,8 +31,7 @@
     "bootstrap-tagsinput": "^0.8.0",
     "typeahead.js": "^0.11.1",
     "openlayers": "^4.6.4",
-    "owl.carousel": "^2.3.3",
-    "dropzone": "^5.5.0"
+    "owl.carousel": "^2.3.3"
   },
   "extra": {
     "jquery": {
@@ -170,13 +169,6 @@
       "approved-by": "Jour Fixe",
       "developer": "bheyser",
       "purpose": "Assessment Nested Ordering",
-      "last-update-for-ilias": "6.0.0"
-    },
-    "dropzone": {
-      "introduction-date": "2019-11-21",
-      "approved-by": "Jour Fixe",
-      "developer": "fschmid",
-      "purpose": "File Input",
       "last-update-for-ilias": "6.0.0"
     }
   }

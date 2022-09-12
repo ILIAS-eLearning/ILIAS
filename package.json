@@ -12,7 +12,7 @@
     "@yaireo/tagify": "^4.9.4",
     "bootstrap": "3.4.1",
     "chart.js": "^3.6.0",
-    "dropzone": "^5.5.0",
+    "dropzone": "^5.9.3",
     "eonasdan-bootstrap-datetimepicker": "^4.17.47",
     "fine-uploader": "^5.16.2",
     "jquery": "^3.6.0",
