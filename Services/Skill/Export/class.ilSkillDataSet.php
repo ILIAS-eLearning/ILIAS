@@ -523,7 +523,7 @@ class ilSkillDataSet extends ilDataSet
                 return $deps;
 
             case "skee":
-                if (is_null($a_rec["Id"])) {
+                if (!isset($a_rec["Id"]) || is_null($a_rec["Id"])) {
                     return [];
                 }
                 $skill_tree = $this->skill_tree_factory->getTreeById($a_rec["Id"]);
