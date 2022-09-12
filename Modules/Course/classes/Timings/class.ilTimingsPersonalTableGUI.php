@@ -98,14 +98,14 @@ class ilTimingsPersonalTableGUI extends ilTable2GUI
 
     protected function fillRow(array $a_set): void
     {
-        if ($a_set['error'] == true) {
+        if ($a_set['error'] ?? false) {
             $this->tpl->setVariable('TD_CLASS', 'warning');
         } else {
             $this->tpl->setVariable('TD_CLASS', 'std');
         }
 
         // title
-        if (strlen($a_set['title_link'])) {
+        if (strlen($a_set['title_link'] ?? '')) {
             $this->tpl->setCurrentBlock('title_link');
             $this->tpl->setVariable('TITLE_LINK', $a_set['title_link']);
             $this->tpl->setVariable('TITLE_LINK_NAME', $a_set['title']);
@@ -115,12 +115,12 @@ class ilTimingsPersonalTableGUI extends ilTable2GUI
             $this->tpl->setVariable('TITLE', $a_set['title']);
             $this->tpl->parseCurrentBlock();
         }
-        if (strlen($a_set['desc'])) {
+        if (strlen($a_set['desc'] ?? '')) {
             $this->tpl->setCurrentBlock('item_description');
             $this->tpl->setVariable('DESC', $a_set['desc']);
             $this->tpl->parseCurrentBlock();
         }
-        if ($a_set['failure']) {
+        if ($a_set['failure'] ?? false) {
             $this->tpl->setCurrentBlock('alert');
             $this->tpl->setVariable('IMG_ALERT', ilUtil::getImagePath("icon_alert.svg"));
             $this->tpl->setVariable('ALT_ALERT', $this->lng->txt("alert"));
@@ -144,7 +144,7 @@ class ilTimingsPersonalTableGUI extends ilTable2GUI
             $dt_input->setDate(new ilDate($error_post_item[$a_set['ref_id']]['sug_start'] ?? '', IL_CAL_DATE));
         }
 
-        if (!$a_set['item']['changeable']) {
+        if (!($a_set['item']['changeable'] ?? false)) {
             $dt_input->setDisabled(true);
         }
 
@@ -159,7 +159,7 @@ class ilTimingsPersonalTableGUI extends ilTable2GUI
             $dt_end->setDate(new ilDate($error_post_item[$a_set['ref_id']]['sug_end'] ?? '', IL_CAL_DATE));
         }
 
-        if (!$a_set['item']['changeable']) {
+        if (!($a_set['item']['changeable'] ?? false)) {
             $dt_end->setDisabled(true);
         }
         $this->tpl->setVariable('end_abs');
