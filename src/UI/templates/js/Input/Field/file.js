@@ -31,7 +31,7 @@ il.UI.Input = il.UI.Input || {};
 			error_message: '.ui-input-file-input-error-msg',
 			removal_glyph: '[data-action="remove"] .glyph',
 			expand_glyph: '[data-action="expand"] .glyph',
-			collapse_glyph: '[data-file-action="collapse"] .glyph',
+			collapse_glyph: '[data-action="collapse"] .glyph',
 			form_submit_buttons: '.il-standard-form-cmd > button',
 		};
 
