@@ -158,7 +158,7 @@ class ilLPTableBaseGUI extends ilTable2GUI
                     }
                     break;
 
-                    // page selector
+                // page selector
                 default:
                     $this->determineOffsetAndOrder();
                     $this->storeNavParameter();
@@ -773,7 +773,7 @@ class ilLPTableBaseGUI extends ilTable2GUI
                 $a_user = $this->user;
             }
             $user .= ", " . $a_user->getFullName(
-            ); // " [".$a_user->getLogin()."]";
+                ); // " [".$a_user->getLogin()."]";
         }
 
         if ($a_obj_id != ROOT_FOLDER_ID) {
@@ -1115,15 +1115,15 @@ class ilLPTableBaseGUI extends ilTable2GUI
             )) {
                 // other user profile fields
                 foreach ($ufs as $f => $fd) {
-                    if (!isset($cols[$f]) && $f != "username" && !$fd["lists_hide"]) {
+                    if (!isset($cols[$f]) && $f != "username" && !($fd["lists_hide"] ?? false)) {
                         if ($a_in_course &&
-                            !($fd["course_export_fix_value"] || $this->setting->get(
+                            !(!($fd["course_export_fix_value"] ?? false) || $this->setting->get(
                                 "usr_settings_course_export_" . $f
                             ))) {
                             continue;
                         }
                         if ($a_in_group &&
-                            !($fd["group_export_fix_value"] || $this->setting->get(
+                            !(!($fd["group_export_fix_value"] ?? false) || $this->setting->get(
                                 "usr_settings_group_export_" . $f
                             ))) {
                             continue;
@@ -1133,7 +1133,6 @@ class ilLPTableBaseGUI extends ilTable2GUI
                             "txt" => $this->lng->txt($f),
                             "default" => false
                         );
-
                         $privacy_fields[] = $f;
                     }
                 }

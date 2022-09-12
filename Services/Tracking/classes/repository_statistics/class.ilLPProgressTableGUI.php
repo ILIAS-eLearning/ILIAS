@@ -243,7 +243,7 @@ class ilLPProgressTableGUI extends ilLPTableBaseGUI
                         $obj_ids
                     );
                     foreach ($data as $idx => $item) {
-                        if (!$item["status"] && !$this->filter["status"] && !$this->details) {
+                        if (!($item["status"] ?? false) && !($this->filter["status"] ?? false) && !$this->details) {
                             unset($data[$idx]);
                         } else {
                             $data[$idx]["offline"] = ilLearningProgressBaseGUI::isObjectOffline(
