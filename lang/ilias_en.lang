@@ -9634,7 +9634,7 @@ forum#:#frm_noti_subject_act_post#:#Posting activated in forum "%1$s"%2$s, threa
 forum#:#frm_noti_subject_answ_post#:#Posting answered in forum "%1$s"%2$s, thread "%3$s"
 forum#:#frm_noti_subject_cens_post#:#Posting censored in forum "%1$s"%2$s, thread "%3$s"
 forum#:#frm_noti_subject_del_post#:#Posting deleted in forum "%1$s"%2$s, thread "%3$s"
-forum#:#frm_noti_subject_del_thread#:#Thread "%4$s" deleted in forum "%1$s"%3$s
+forum#:#frm_noti_subject_del_thread#:#Thread "%3$s" deleted in forum "%1$s"%2$s
 forum#:#frm_noti_subject_new_post#:#New posting in forum "%1$s"%2$s, thread "%3$s"
 forum#:#frm_noti_subject_uncens_post#:#Posting uncensored in forum "%1$s"%2$s, thread "%3$s"
 forum#:#frm_noti_subject_upt_post#:#Posting modified in forum "%1$s"%2$s, thread "%3$s"
