@@ -129,7 +129,14 @@ class File extends HasDynamicInputsBase implements C\Input\Field\File
 
     protected function getConstraintForRequirement(): ?Constraint
     {
-        return $this->refinery->to()->string();
+        return $this->refinery->custom()->constraint(
+            function ($value) {
+                return (is_array($value) && count($value) > 0);
+            },
+            function ($txt, $value) {
+                return $txt("msg_no_files_selected");
+            },
+        );
     }
 
     protected function isClientSideValueOk($value): bool
