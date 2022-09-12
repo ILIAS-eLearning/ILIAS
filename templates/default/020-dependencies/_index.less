@@ -1,0 +1,66 @@
+/*
+* Bootstrap 3
+*/
+
+@bsbase: "../../../node_modules/bootstrap/less/";
+
+// This part should be a copy of the less/bootstrap.less file
+// containing all imports needed.
+// The variables.less should point to a customized version.
+
+// Core variables and mixins
+@import "@{bsbase}variables.less";    // original
+@import "@{bsbase}mixins.less";
+
+// Reset and dependencies
+@import "@{bsbase}normalize.less";
+//@import "@{bsbase}print.less";
+@import "@{bsbase}glyphicons.less";
+
+// Core CSS
+@import "@{bsbase}scaffolding.less";
+@import "@{bsbase}type.less";
+@import "@{bsbase}tables.less";
+@import "@{bsbase}buttons.less";
+
+// Components
+@import "@{bsbase}component-animations.less";
+@import "@{bsbase}dropdowns.less";
+@import "@{bsbase}button-groups.less";
+@import "@{bsbase}input-groups.less";
+@import "@{bsbase}navs.less";
+@import "@{bsbase}pagination.less";
+@import "@{bsbase}pager.less";
+@import "@{bsbase}labels.less";
+@import "@{bsbase}badges.less";
+@import "@{bsbase}jumbotron.less";
+@import "@{bsbase}thumbnails.less";
+@import "@{bsbase}alerts.less";
+@import "@{bsbase}progress-bars.less";
+@import "@{bsbase}media.less";
+@import "@{bsbase}list-group.less";
+@import "@{bsbase}panels.less";
+@import "@{bsbase}responsive-embed.less";
+@import "@{bsbase}wells.less";
+@import "@{bsbase}breadcrumbs.less";
+
+// Components w/ JavaScript
+@import "@{bsbase}modals.less";
+@import "@{bsbase}tooltip.less";
+@import "@{bsbase}popovers.less";
+@import "@{bsbase}carousel.less";
+
+// Utility classes
+@import "@{bsbase}utilities.less";
+@import "@{bsbase}responsive-utilities.less";
+
+/* Overrides */
+
+@boostrap_delos: "../less/bootstrap/";
+@import "@{boostrap_delos}focus-mixin.less";
+@import "@{boostrap_delos}code.less";
+@import "@{boostrap_delos}bootstrap-variables.less"; //Boostrap Variales, overwritten by ILIAS
+@import "@{boostrap_delos}screenreader-only-mixins.less";
+@import "@{boostrap_delos}grid.less";
+@import "@{boostrap_delos}forms.less";
+@import "@{boostrap_delos}navbar.less";

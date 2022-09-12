@@ -1,122 +1,59 @@
 //out: delos.css, sourcemap: true, compress: false
 
-@import "less/font.less";
- /* rtl-review is this font safe for RTL languages? */
-
- /* rtl-review */
-[dir="ltr"] * { direction: ltr; unicode-bidi: embed; } //bidi-override
-[dir="rtl"] * { text-align: right; direction: rtl; unicode-bidi: embed; } //bidi-override
-
-bdo[dir="ltr"] { direction: ltr; unicode-bidi: bidi-override; }
-bdo[dir="rtl"] { direction: rtl; unicode-bidi: bidi-override; }
-
 /*
-/* rtl-review */
-/* with specifics imports
-add [dir="rtl"] SELECTOR ([dir="ltr"] is default)
-to elements with different left/right margin, padding, border, position, float, clear, text-align and, when needed, Background-position.
-In theory, you should also invert shadow... but i think we could postpone this to another release...
-All parts that aren't checked yet are actually marked with "rtl-review"
+* Settings
 */
 
-@bsbase: "../../node_modules/bootstrap/less/";
+@import "./010-settings/index.less";
 
-// This part should be a copy of the less/bootstrap.less file
-// containing all imports needed.
-// The variables.less should point to a customized version.
+/*
+* Dependencies
+*/
 
-// Core variables and mixins
-@import "@{bsbase}variables.less";    // original
-@import "@{bsbase}mixins.less";
+@import "./020-dependencies/index.less";
 
-// Reset and dependencies
-@import "@{bsbase}normalize.less";
-//@import "@{bsbase}print.less";
-@import "@{bsbase}glyphicons.less";
+/*
+* Tools
+*/
 
-// Core CSS
-@import "@{bsbase}scaffolding.less";
-@import "@{bsbase}type.less";
-@import "@{bsbase}tables.less";
-@import "@{bsbase}buttons.less";
+@import "./030-tools/index.less";
 
-// Components
-@import "@{bsbase}component-animations.less";
-@import "@{bsbase}dropdowns.less";
-@import "@{bsbase}button-groups.less";
-@import "@{bsbase}input-groups.less";
-@import "@{bsbase}navs.less";
-@import "@{bsbase}pagination.less";
-@import "@{bsbase}pager.less";
-@import "@{bsbase}labels.less";
-@import "@{bsbase}badges.less";
-@import "@{bsbase}jumbotron.less";
-@import "@{bsbase}thumbnails.less";
-@import "@{bsbase}alerts.less";
-@import "@{bsbase}progress-bars.less";
-@import "@{bsbase}media.less";
-@import "@{bsbase}list-group.less";
-@import "@{bsbase}panels.less";
-@import "@{bsbase}responsive-embed.less";
-@import "@{bsbase}wells.less";
-@import "@{bsbase}breadcrumbs.less";
+/*
+* Normalize
+*/
 
-// Components w/ JavaScript
-@import "@{bsbase}modals.less";
-@import "@{bsbase}tooltip.less";
-@import "@{bsbase}popovers.less";
-@import "@{bsbase}carousel.less";
+@import "./040-normalize/index.less";
 
-// Utility classes
-@import "@{bsbase}utilities.less";
-@import "@{bsbase}responsive-utilities.less";
+/*
+* Layout
+*/
 
-// Bootstrap overrides
-@boostrap_delos: "less/bootstrap/";
-@import "@{boostrap_delos}focus-mixin.less";
-@import "@{boostrap_delos}code.less";
-@import "@{boostrap_delos}bootstrap-variables.less"; //Boostrap Variales, overwritten by ILIAS
-@import "@{boostrap_delos}screenreader-only-mixins.less";
-@import "@{boostrap_delos}grid.less";
-@import "@{boostrap_delos}forms.less";
-@import "@{boostrap_delos}navbar.less";
+@import "./050-layout/index.less";
 
-// UI framework
-@uibase: "../../src/UI/templates/default/";
-@import "@{uibase}Counter/counter.less";
-@import "@{uibase}Panel/panel.less";
-@import "@{uibase}Card/card.less";
-@import "@{uibase}Deck/deck.less";
-@import "@{uibase}Dropzone/dropzone.less";
-@import "@{uibase}Button/button.less";
-@import "@{uibase}Button/tag.less";
-@import "@{uibase}Button/toggle.less";
-@import "@{uibase}Divider/divider.less";
-@import "@{uibase}Dropdown/dropdown.less";
-@import "@{uibase}Item/item.less";
-@import "@{uibase}ViewControl/viewcontrol.less";
-@import "@{uibase}Breadcrumbs/breadcrumbs.less";
-@import "@{uibase}Chart/chart.less";
-@import "@{uibase}Input/input.less";
-@import "@{uibase}Table/table.less";
-@import "@{uibase}Listing/workflow.less";
-@import "@{uibase}Listing/characteristic_value.less";
-@import "@{uibase}MessageBox/messagebox.less";
-@import "@{uibase}Modal/modal.less";
-@import "@{uibase}Tree/tree.less";
-@import "@{uibase}Layout/layout.less";
-@import "@{uibase}MainControls/maincontrols.less";
-@import "@{uibase}Menu/menu.less";
-@import "@{uibase}Symbol/symbol.less";
-@import "@{uibase}Link/link.less";
-@import "@{uibase}Toast/toast.less";
-@import "@{uibase}Player/player.less";
+/*
+* Elements
+*/
 
-@import "less/variables.less"; //ILIAS Less variables
+@import "./060-elements/index.less";
 
-// UI framework components which make use of variables from less/variables.less
-// Note: These files need to be imported after less/variables.less
-@import "@{uibase}Popover/popover.less";
+/*
+* Components
+*/
+
+@import "./070-components/index.less";
+
+/*
+* Hacks & Tweaks
+*/
+
+@import "./080-hacks/index.less";
+
+
+
+
+
+
+
 
 //Extended color import depending on variables.less
 @import "less/color.less";             // customized

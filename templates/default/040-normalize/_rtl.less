@@ -1,0 +1,15 @@
+/* rtl-review */
+[dir="ltr"] * { direction: ltr; unicode-bidi: embed; } //bidi-override
+[dir="rtl"] * { text-align: right; direction: rtl; unicode-bidi: embed; } //bidi-override
+
+bdo[dir="ltr"] { direction: ltr; unicode-bidi: bidi-override; }
+bdo[dir="rtl"] { direction: rtl; unicode-bidi: bidi-override; }
+
+
+/* rtl-review */
+/* with specifics imports
+add [dir="rtl"] SELECTOR ([dir="ltr"] is default)
+to elements with different left/right margin, padding, border, position, float, clear, text-align and, when needed, Background-position.
+In theory, you should also invert shadow... but i think we could postpone this to another release...
+All parts that aren't checked yet are actually marked with "rtl-review"
+*/
