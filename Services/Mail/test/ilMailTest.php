@@ -162,6 +162,7 @@ class ilMailTest extends ilMailBaseTest
                 return $loginToIdMap[$login] ?? 0;
             },
             $this->createMock(AutoresponderService::class),
+            0,
             4711,
             $actor
         );
@@ -568,6 +569,7 @@ class ilMailTest extends ilMailBaseTest
                 return 780;
             },
             $this->createMock(AutoresponderService::class),
+            0,
             $refId,
             $this->getMockBuilder(ilObjUser::class)->disableOriginalConstructor()->getMock()
         );
