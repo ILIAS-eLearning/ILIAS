@@ -1,0 +1,28 @@
+/*
+* from legacy template delos.less
+*/
+
+ul, ol, p {
+	margin: .8em 0;
+}
+
+ol, ul {
+	padding-left: 40px;
+    list-style-image: none;//mantis #19613: stop the inheritance for nested list until specifically setted
+}
+[dir="rtl"] ol, [dir="rtl"] ul {
+	padding-right: 40px;
+	padding-left: 0;
+}
+
+ol ul, ul ol,
+ul ul, ol ol {
+	margin-top: 0;
+	margin-bottom: 0
+}
+
+@media print {
+	ul, ol, dl {
+		page-break-before: avoid;
+	}
+}

@@ -13,3 +13,111 @@ to elements with different left/right margin, padding, border, position, float, 
 In theory, you should also invert shadow... but i think we could postpone this to another release...
 All parts that aren't checked yet are actually marked with "rtl-review"
 */
+
+/* RTL review overwrite some specifics [bootstrap] styles
+ *
+ * use class "noMirror" to avoid image flip
+*/
+[dir="rtl"] img:not(.noMirror) {
+    transform: scaleX(-1);
+}
+
+[dir="rtl"] *[align="left"] {
+	text-align: right !important;
+}
+
+[dir="rtl"] *[align="right"] {
+	text-align: left !important;
+}
+
+[dir="rtl"] .navbar-header {
+  @media (min-width: @grid-float-breakpoint) {
+    float: right;
+  }
+}
+
+[dir="rtl"] .navbar-brand {
+  float: right;
+  @media (min-width: @grid-float-breakpoint) {
+    .navbar > .container &,
+    .navbar > .container-fluid & {
+      margin-left: 0;
+      margin-right: -@navbar-padding-horizontal;
+    }
+  }
+}
+
+[dir="rtl"] .navbar-toggle {
+  float: left;
+  margin-right: 0;
+  margin-left: @navbar-padding-horizontal;
+}
+
+
+[dir="rtl"] .navbar-nav {
+  @media (max-width: @grid-float-breakpoint-max) {
+    // Dropdowns get custom display when collapsed
+    .open .dropdown-menu {
+      > li > a,
+      .dropdown-header {
+        padding: 5px 25px 5px 15px;
+      }
+    }
+  }
+
+  @media (min-width: @grid-float-breakpoint) {
+    float: right;
+    margin: 0;
+
+    > li {
+      float: right;
+    }
+
+    &.navbar-right:last-child {
+      margin-right: 0;
+      margin-left: -@navbar-padding-horizontal;
+    }
+  }
+}
+@media (min-width: @grid-float-breakpoint) {
+  [dir="rtl"] .navbar-left  { .pull-right(); }
+  [dir="rtl"] .navbar-right { .pull-left(); }
+}
+
+[dir="rtl"] .navbar-form {
+  @media (min-width: @grid-float-breakpoint) {
+    &.navbar-right:last-child {
+      margin-right: 0;
+      margin-left: -@navbar-padding-horizontal;
+    }
+  }
+}
+
+[dir="rtl"] .navbar-text {
+  @media (min-width: @grid-float-breakpoint) {
+    float: right;
+    &.navbar-right:last-child {
+		margin-right: @navbar-padding-horizontal;
+		margin-left: 0;
+    }
+  }
+}
+
+[dir="rtl"] form .col-sm-1,
+[dir="rtl"] form .col-sm-2,
+[dir="rtl"] form .col-sm-3,
+[dir="rtl"] form .col-sm-4,
+[dir="rtl"] form .col-sm-5,
+[dir="rtl"] form .col-sm-6,
+[dir="rtl"] form .col-sm-7,
+[dir="rtl"] form .col-sm-8,
+[dir="rtl"] form .col-sm-9,
+[dir="rtl"] form .col-sm-10,
+[dir="rtl"] form .col-sm-11,
+[dir="rtl"] form .col-sm-12 {
+    float: right;
+}
+
+[dir="rtl"] .nav-pills > li {
+  float: right;
+}

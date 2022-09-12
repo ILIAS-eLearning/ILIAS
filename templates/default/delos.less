@@ -4,362 +4,50 @@
 * Settings
 */
 
-@import "./010-settings/index.less";
+@import "./010-settings/_index.less";
 
 /*
 * Dependencies
 */
 
-@import "./020-dependencies/index.less";
+@import "./020-dependencies/_index.less";
 
 /*
 * Tools
 */
 
-@import "./030-tools/index.less";
+@import "./030-tools/_index.less";
 
 /*
 * Normalize
 */
 
-@import "./040-normalize/index.less";
+@import "./040-normalize/_index.less";
 
 /*
 * Layout
 */
 
-@import "./050-layout/index.less";
+@import "./050-layout/_index.less";
 
 /*
 * Elements
 */
 
-@import "./060-elements/index.less";
+@import "./060-elements/_index.less";
 
 /*
 * Components
 */
 
-@import "./070-components/index.less";
+@import "./070-components/_index.less";
 
 /*
 * Hacks & Tweaks
 */
 
-@import "./080-hacks/index.less";
+@import "./080-hacks/_index.less";
 
-
-
-
-
-
-
-
-//Extended color import depending on variables.less
-@import "less/color.less";             // customized
-
-.bg-primary {
-  color: white;
-}
-
-// general multi line cap
-@import "less/multi-line-cap.less";
-
-
-
-/* flex grid support start */
-
-// solved problem with nested grids by adding width: 100% to mixin from bootstrap's grid-framework.less
- .make-grid-columns() {
-  // Common styles for all sizes of grid columns, widths 1-12
-  .col(@index) { // initial
-    @item: ~".col-xs-@{index}, .col-sm-@{index}, .col-md-@{index}, .col-lg-@{index}";
-    .col((@index + 1), @item);
-  }
-  .col(@index, @list) when (@index =< @grid-columns) { // general; "=<" isn't a typo
-    @item: ~".col-xs-@{index}, .col-sm-@{index}, .col-md-@{index}, .col-lg-@{index}";
-    .col((@index + 1), ~"@{list}, @{item}");
-  }
-  .col(@index, @list) when (@index > @grid-columns) { // terminal
-    @{list} {
-      position: relative;
-      // Prevent columns from collapsing when empty
-      min-height: 1px;
-      // Inner gutter via padding
-      padding-left:  ceil((@grid-gutter-width / 2));
-      padding-right: floor((@grid-gutter-width / 2));
-	  width: 100%; // this was added for ilias flex grid support
-    }
-  }
-  .col(1); // kickstart it
-}
-
-script {
-	display: none!important;
-}
-
-.row-flex {
-	display: -webkit-box;
-	display: -moz-box;
-	display: -ms-flexbox;
-	display: -webkit-flex;
-	display: flex;
-}
-
-.row-flex-wrap {
-	-webkit-flex-flow: row wrap;
-	flex-flow: row wrap;
-	align-content: flex-start;
-}
-
-.flex-col {
-	display: flex;
-	display: -webkit-flex;
-	flex-flow: column nowrap;
-	height: 100%; // to allow equal height cols inside
-}
-
-// omitted .flex-grow for now as it has no effect where it is currently used.
-
-/* flex grid support end */
-
-/* RTL review overwrite some specifics [bootstrap] styles
- *
- * use class "noMirror" to avoid image flip
-*/
-[dir="rtl"] img:not(.noMirror) {
-    transform: scaleX(-1);
-}
-
-[dir="rtl"] *[align="left"] {
-	text-align: right !important;
-}
-
-[dir="rtl"] *[align="right"] {
-	text-align: left !important;
-}
-
-[dir="rtl"] .navbar-header {
-  @media (min-width: @grid-float-breakpoint) {
-    float: right;
-  }
-}
-
-[dir="rtl"] .navbar-brand {
-  float: right;
-  @media (min-width: @grid-float-breakpoint) {
-    .navbar > .container &,
-    .navbar > .container-fluid & {
-      margin-left: 0;
-      margin-right: -@navbar-padding-horizontal;
-    }
-  }
-}
-
-[dir="rtl"] .navbar-toggle {
-  float: left;
-  margin-right: 0;
-  margin-left: @navbar-padding-horizontal;
-}
-
-
-[dir="rtl"] .navbar-nav {
-  @media (max-width: @grid-float-breakpoint-max) {
-    // Dropdowns get custom display when collapsed
-    .open .dropdown-menu {
-      > li > a,
-      .dropdown-header {
-        padding: 5px 25px 5px 15px;
-      }
-    }
-  }
-
-  @media (min-width: @grid-float-breakpoint) {
-    float: right;
-    margin: 0;
-
-    > li {
-      float: right;
-    }
-
-    &.navbar-right:last-child {
-      margin-right: 0;
-      margin-left: -@navbar-padding-horizontal;
-    }
-  }
-}
-@media (min-width: @grid-float-breakpoint) {
-  [dir="rtl"] .navbar-left  { .pull-right(); }
-  [dir="rtl"] .navbar-right { .pull-left(); }
-}
-
-[dir="rtl"] .navbar-form {
-  @media (min-width: @grid-float-breakpoint) {
-    &.navbar-right:last-child {
-      margin-right: 0;
-      margin-left: -@navbar-padding-horizontal;
-    }
-  }
-}
-
-[dir="rtl"] .navbar-text {
-  @media (min-width: @grid-float-breakpoint) {
-    float: right;
-    &.navbar-right:last-child {
-		margin-right: @navbar-padding-horizontal;
-		margin-left: 0;
-    }
-  }
-}
-
-[dir="rtl"] form .col-sm-1,
-[dir="rtl"] form .col-sm-2,
-[dir="rtl"] form .col-sm-3,
-[dir="rtl"] form .col-sm-4,
-[dir="rtl"] form .col-sm-5,
-[dir="rtl"] form .col-sm-6,
-[dir="rtl"] form .col-sm-7,
-[dir="rtl"] form .col-sm-8,
-[dir="rtl"] form .col-sm-9,
-[dir="rtl"] form .col-sm-10,
-[dir="rtl"] form .col-sm-11,
-[dir="rtl"] form .col-sm-12 {
-    float: right;
-}
-
-[dir="rtl"] .nav-pills > li {
-  float: right;
-}
-
-// warning inline text
-span.ilAlert {
-	color: @il-warning-color;
-}
-
-/* Drop Downs */
-
-.dropdown-header {
-	padding: 3px 10px;
-	color: @il-text-color;
-	background-color: @dropdown-header-bg;
-	margin-bottom: 4px;
-	border-bottom: 1px solid @il-main-border-color;
-	> h2 {
-		margin-bottom: 2px;
-	}
-}
-.dropdown-menu {
-	background-color: @dropdown-bg;
-	font-weight: @il-font-weight-base;
-	border: 0 none;
-    .box-shadow(3px 9px 9px 0 rgba(0,0,0,0.3));
-	// Links within the dropdown menu
-	li > a {
-		display: block;
-		clear: both;
-		padding: 3px 10px;
-		font-weight: @il-font-weight-base;
-		font-size: @il-font-size-dropdown;
-		line-height: @line-height-base;
-		background-color: @dropdown-link-bg;
-		color: @dropdown-link-color;
-		white-space: nowrap; // prevent links from randomly breaking onto new lines
-		&:hover,
-		&:focus {
-			text-decoration: none;
-			color: @dropdown-link-hover-color;
-			background-color: @dropdown-link-hover-bg;
-		}
-	}
-	img {
-		border: 0;
-		width: 22px;
-		height: 22px;
-		margin: 0 3px 0 0;
-		display: @il-nav-icons;
-	}
-}
-[dir="rtl"] .dropdown-menu {
-	padding: 5px 0;
-}
-// must be like dropdown-menu img
-.ilAdvNoImg {
-	display: inline-block;
-	width: 22px;
-}
-.yamm .dropdown-menu {
-	li > a {
-		white-space: normal;
-	}
-}
-
-.btn-group.open .dropdown-toggle {
-    .box-shadow(inset 0 1px 1px rgba(0, 0, 0, 0.05));
-}
-
-/* BS tables */
-.table {
-	margin-bottom: 0;
-}
-
-/* ILIAS part candidates */
-
-html, body {
-	height:100%;
-	overflow: hidden;
-}
-html {
-	font-size: 100%;
-	@media only screen and (max-width: @grid-float-breakpoint-max) {
-		-webkit-text-size-adjust: none;
-	}
-}
-html, body {
-	@media only screen and (max-width: @grid-float-breakpoint-max) {
-		overflow: initial;
-		height: auto;
-		min-height: 100vh;
-	}
-}
-/* see bug ILIAS bug #17589 and http://stackoverflow.com/questions/17045132/scrollbar-overlay-in-ie10-how-do-you-stop-that */
-body{
-	-ms-overflow-style: scrollbar;
-}
-
-#ilAll {
-	position: relative;
-	height: auto !important;
-	min-height: calc(~"100% - 1px");
-	margin: 0 auto;
-}
-
-div#minheight {
-	height: 180px;
-	clear: both;
-	}
-
-div.ilFrame {
-	margin-top: -40px;
-	margin-left: auto;
-	margin-right: auto;
-	max-width: 1200px;
-    .box-shadow(0 0 40px #808080);
-	padding-top: 129px;
-	background-color: @il-main-dark-bg;
-	min-height: 100%;
-	@media only screen and (max-width: @grid-float-breakpoint-max) {
-		margin: 0;
-		width: 100%;
-	}
-}
-
-.ilContainerWidth {
-	max-width: 1400px;
-	padding: 0 30px;
-	@media only screen and (max-width: @grid-float-breakpoint-max) {
-		padding: 0 15px;
-	}
-}
 
 
 
@@ -367,128 +55,18 @@ div.ilFrame {
    GLOBAL STYLES
 -------------------------------------------------------------- */
 
-ul, ol, p {
-	margin: .8em 0;
-}
 
-ol, ul {
-	padding-left: 40px;
-    list-style-image: none;//mantis #19613: stop the inheritance for nested list until specifically setted
-}
-[dir="rtl"] ol, [dir="rtl"] ul {
-	padding-right: 40px;
-	padding-left: 0;
-}
-
-ol ul, ul ol,
-ul ul, ol ol {
-	margin-top: 0;
-	margin-bottom: 0
-}
-
-small, sub, sup {
-	font-size: @il-font-size-xsmall;
-}
-
-em, i {
-	font-style: italic;
-}
-
-u {
-	text-decoration: underline;
-}
-
-sub {
-	vertical-align: sub;
-}
-
-sup {
-	vertical-align: super;
-}
-
-/* see bug #15971 */
-sub, sup {
-	position: static;
-}
-
-strong, b {
-	font-weight: @il-font-weight-bold;
-}
-
-a {
-	text-decoration: none;
-	cursor: pointer;
-	/* BEGIN WebDAV: Enable links with AnchorClick behavior for Internet Explorer.
-	 * All skins which want to support mounting of Webfolders using Internet Explorer
-	 * must explicitly enable AnchorClick behavior.
-	 */
-	behavior: url(#default#AnchorClick);
-	/* END WebDAV: Enable links with AnchorClick behavior for Internet Explorer. */
-	&:hover {
-		color: @link-hover-color;
-		text-decoration: underline;
-	}
-	
-	.il-focus();
-}
-
-hr {
-	margin-bottom: .8em;
-	border: none;
-	border-top: 1px solid @il-main-border-color;
-}
-
-table {
-	font-size: @il-font-size-base;
-}
-
-img {
-	vertical-align: middle;
+img.olTileImage {
 	@media only screen and (max-width: @grid-float-breakpoint-max) {
-		/* height: auto; messes e.g. survey progress bar */
-		max-width: 100%;
-	}
-	&.olTileImage {
-		@media only screen and (max-width: @grid-float-breakpoint-max) {
-			// this fixes the open street map images, not the best place to
-			// to this. another option would be to not put the
-			// max-width behaviour above on every img...
-			max-width: none;
-		}
+		// this fixes the open street map images, not the best place to
+		// to this. another option would be to not put the
+		// max-width behaviour above on every img...
+		max-width: none;
 	}
 }
 
-tr, td {
-    vertical-align: top;
-	white-space: normal;
-    word-wrap: break-word;
-}
 
-code {
-	font-family: Pragmata, Menlo, 'DejaVu LGC Sans Mono', 'DejaVu Sans Mono', Consolas, 'Everson Mono', 'Lucida Console', 'Andale Mono', 'Nimbus Mono L', 'Liberation Mono', FreeMono, 'Osaka Monospaced', Courier, 'New Courier', monospace;
-	font-size: @il-font-size-small;
-	color: @il-text-light-color;
-}
 
-::selection {
-	background: lighten(@il-main-color, 50%);
-}
-
-::-moz-selection {
-	background: lighten(@il-main-color, 50%);
-}
-
-textarea {
-	@media only screen and (max-width: @grid-float-breakpoint-max) {
-		max-width: 100%;
-	}
-}
-
-input, select {
-	@media only screen and (max-width: @grid-float-breakpoint-max) {
-		max-width: 100%;
-	}
-}
 
 //please move to template/default/less/modules/Test when created
 div.ilc_Mob img {
@@ -497,48 +75,14 @@ div.ilc_Mob img {
 	}
 }
 
-@media print {
-	h1, h2, h3, h4, h5, h6 {
-		page-break-after: avoid;
-	}
-
-	ul, ol, dl {
-		page-break-before: avoid;
-	}
-}
-
 /* --------------------------------------------------------------
    SPECIAL STYLES
 -------------------------------------------------------------- */
 
-body#tinymce, body.mceContentBody {
-	height: auto;
-}
 
 
-body#tinymce {
-	background-color: white;
-	overflow: initial;
-}
-
-html.il-no-tiny-bg body#tinymce {
-	background-color: transparent;
-	margin-top: 0 !important;
-	margin-bottom: 0 !important;
-}
 
 
-.ilHidden {
-	visibility: hidden;
-}
-
-.ilNoDisplay {
-	display: none !important;
-}
-
-.ilDisplayBlock {
-	display: block;
-}
 
 .ilClearFloat {
 	clear: both;
@@ -579,29 +123,7 @@ html.il-no-tiny-bg body#tinymce {
 	padding: 0 15px;
 }
 
-.ilCenter {
-	text-align: center;
-}
 
-.ilRight {
-	text-align: right;
-}
-
-[dir="rtl"] .ilRight {
-	text-align: left;
-}
-
-.ilLeft {
-	text-align: left;
-}
-
-[dir="rtl"] .ilLeft {
-	text-align: right;
-}
-
-.ilValignMiddle {
-	vertical-align: middle;
-}
 
 .registration {
   margin: 5px auto 0;
@@ -891,9 +413,7 @@ a.il_ItemProperty:hover {
 	color: black;
 }
 
-span.il_ItemAlertProperty {
-	color: @il-warning-color;
-}
+
 
 /* Table Links */
 /* --- description text ---*/
@@ -1016,11 +536,7 @@ div.ilHeaderDesc {
 	color: @il-text-color;
 }
 
-div.ilHeaderAlert {
-	font-size: @il-font-size-small;
-	padding: 0;
-	color: @il-warning-color;
-}
+
 
 div.il_HeaderInner {
 	padding: 15px;
@@ -1690,16 +1206,7 @@ table.mceToolbar {
 	}
 }
 
-.alert {
-	> a {
-		text-decoration: underline;
-	}
-}
-.alert {
-	> a.btn {
-		text-decoration: none;
-	}
-}
+
 
 
 //Horizontal Scroll Bar for Code, see: #27132
