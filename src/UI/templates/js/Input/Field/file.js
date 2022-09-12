@@ -29,9 +29,9 @@ il.UI.Input = il.UI.Input || {};
 
 			dropzone: '.ui-input-file-input-dropzone',
 			error_message: '.ui-input-file-input-error-msg',
-			removal_glyph: '.glyph[aria-label="Close"]',
-			expand_glyph: '.glyph[aria-label="Expand Content"]',
-			collapse_glyph: '.glyph[aria-label="Collapse Content"]',
+			removal_glyph: '[data-action="remove"] .glyph',
+			expand_glyph: '[data-action="expand"] .glyph',
+			collapse_glyph: '[data-file-action="collapse"] .glyph',
 			form_submit_buttons: '.il-standard-form-cmd > button',
 		};
 
@@ -203,7 +203,7 @@ il.UI.Input = il.UI.Input || {};
 				return;
 			}
 
-			let file_entry = removal_glyph.closest(SELECTOR.file_list);
+			let file_entry = removal_glyph.closest(SELECTOR.file_list_entry);
 			let file_entry_input = getFileEntryInput(file_entry);
 
 			dropzone.options.current_file_count--;
@@ -221,7 +221,7 @@ il.UI.Input = il.UI.Input || {};
 
 			// disable the removal button, by changing the aria-label
 			// the global event listener won't trigger this hook again.
-			removal_glyph.attr('aria-label', 'Close Disabled');
+			removal_glyph.attr('disabled');
 			removal_glyph.css('color', 'grey');
 
 			$.ajax({
@@ -261,7 +261,8 @@ il.UI.Input = il.UI.Input || {};
 
 		let toggleExpansionGlyphsHook = function () {
 			let current_glyph = $(this);
-			let other_glyph = ('Expand Content' === current_glyph.attr('aria-label')) ?
+
+			let other_glyph = current_glyph.parent().data('action') === 'expand' ?
 				current_glyph.closest(SELECTOR.file_list_entry).find(SELECTOR.collapse_glyph) :
 				current_glyph.closest(SELECTOR.file_list_entry).find(SELECTOR.expand_glyph)
 			;
@@ -472,17 +473,18 @@ il.UI.Input = il.UI.Input || {};
 		 * @param {string} input_id
 		 */
 		let maybeRemoveFileFromQueue = function (dropzone, input_id) {
-			let file_index = null;
+			let file_to_remove = null;
 			for (let i = 0, i_max = dropzone.files.length; i < i_max; i++) {
 				let current_input_id = dropzone.files[i].input_id;
 				if (typeof current_input_id !== 'undefined' && current_input_id === input_id) {
-					file_index = i;
+					file_to_remove = dropzone.files[i];
+          break;
 				}
 			}
 
-			if (null !== file_index) {
+			if (null !== file_to_remove) {
 				// removes ONE file object at found position.
-				dropzone.files.splice(file_index, 1);
+				dropzone.removeFile(file_to_remove);
 			}
 		}
 
