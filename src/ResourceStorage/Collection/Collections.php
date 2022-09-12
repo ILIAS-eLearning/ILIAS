@@ -1,0 +1,158 @@
+<?php
+
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+namespace ILIAS\ResourceStorage\Collection;
+
+use ILIAS\ResourceStorage\Collection\Sorter\ByCreationDate;
+use ILIAS\ResourceStorage\Collection\Sorter\ByTitle;
+use ILIAS\ResourceStorage\Collection\Sorter\CollectionSorter;
+use ILIAS\ResourceStorage\Collection\Sorter\Sorter;
+use ILIAS\ResourceStorage\Identification\ResourceCollectionIdentification;
+use ILIAS\ResourceStorage\Identification\ResourceIdentification;
+use ILIAS\ResourceStorage\Lock\LockHandler;
+use ILIAS\ResourceStorage\Preloader\RepositoryPreloader;
+use ILIAS\ResourceStorage\Resource\ResourceBuilder;
+
+/**
+ * Class Collections
+ *
+ * @author Fabian Schmid <fabian@sr.solutions>
+ * @internal
+ */
+class Collections
+{
+    private \ILIAS\ResourceStorage\Resource\ResourceBuilder $resource_builder;
+    private CollectionBuilder $collection_builder;
+    private \ILIAS\ResourceStorage\Preloader\RepositoryPreloader $preloader;
+    private array $cache = [];
+
+    /**
+     * Consumers constructor.
+     */
+    public function __construct(
+        ResourceBuilder $r,
+        CollectionBuilder $c,
+        RepositoryPreloader $preloader
+    ) {
+        $this->resource_builder = $r;
+        $this->collection_builder = $c;
+        $this->preloader = $preloader;
+    }
+
+    /**
+     * @param string|null $collection_identification an existing collection identification or null for a new
+     * @param int|null $owner if this colletion is owned by a users, you must prvide it's owner ID
+     */
+    public function id(
+        ?string $collection_identification = null,
+        ?int $owner = null
+    ): ResourceCollectionIdentification {
+        if ($collection_identification === null
+            || $collection_identification === ''
+            || !$this->collection_builder->has(new ResourceCollectionIdentification($collection_identification))
+        ) {
+            $collection = $this->collection_builder->new($owner);
+            $identification = $collection->getIdentification();
+            $this->cache[$identification->serialize()] = $collection;
+
+            return $identification;
+        }
+
+        return new ResourceCollectionIdentification($collection_identification);
+    }
+
+    public function exists(string $collection_identification): bool
+    {
+        return $this->collection_builder->has(new ResourceCollectionIdentification($collection_identification));
+    }
+
+    public function idOrNull(
+        ?string $collection_identification = null,
+        ?int $owner = null
+    ): ?ResourceCollectionIdentification {
+        if ($this->exists($collection_identification)) {
+            return $this->id($collection_identification, $owner);
+        }
+        return null;
+    }
+
+    public function get(
+        ResourceCollectionIdentification $identification,
+        ?int $owner = null
+    ): ResourceCollection {
+        $collection = $this->cache[$identification->serialize()]
+            ?? $this->collection_builder->get(
+                $identification,
+                $owner
+            );
+
+        $preload = [];
+        foreach ($this->collection_builder->getResourceIds($identification) as $resource_identification) {
+            if ($this->resource_builder->has($resource_identification)) {
+                $collection->add($resource_identification);
+                $preload[] = $resource_identification;
+            }
+        }
+        $this->preloader->preload($preload);
+
+        return $this->cache[$identification->serialize()] = $collection;
+    }
+
+    public function store(ResourceCollection $collection): bool
+    {
+        return $this->collection_builder->store($collection);
+    }
+
+    /**
+     * @return ResourceIdentification[]
+     */
+    public function rangeAsArray(ResourceCollection $collection, int $from, int $amout)
+    {
+        $return = [];
+        foreach ($collection->getResourceIdentifications() as $position => $identification) {
+            if ($position >= $from && $position < $from + $amout) {
+                $return[] = $identification;
+            }
+        }
+        return $return;
+    }
+
+    /**
+     * @return \Generator|ResourceIdentification[]
+     */
+    public function rangeAsGenerator(ResourceCollection $collection, int $from, int $to): \Generator
+    {
+        foreach ($collection->getResourceIdentifications() as $position => $identification) {
+            if ($position >= $from && $position <= $to) {
+                yield $identification;
+            }
+        }
+    }
+
+    public function sort(
+        ResourceCollection $collection,
+    ): Sorter {
+        return new Sorter(
+            $this->resource_builder,
+            $this->collection_builder,
+            $collection
+        );
+    }
+}

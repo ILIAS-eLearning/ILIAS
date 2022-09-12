@@ -1,5 +1,21 @@
 <?php
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 namespace ILIAS\ResourceStorage;
 
 /** @noRector  */
@@ -21,20 +37,8 @@ use ILIAS\ResourceStorage\Resource\ResourceBuilder;
 use ILIAS\ResourceStorage\Stakeholder\Repository\StakeholderRepository;
 use ILIAS\ResourceStorage\Lock\LockHandler;
 use ILIAS\ResourceStorage\StorageHandler\StorageHandlerFactory;
+use ILIAS\ResourceStorage\Collection\Repository\CollectionRepository;
 
-/******************************************************************************
- *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
- *
- * If this is not the case or you just want to try ILIAS, you'll find
- * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
- *
- *****************************************************************************/
 /**
  * Class AbstractBaseResourceBuilderTest
  * @author Fabian Schmid <fs@studer-raimann.ch>
@@ -61,6 +65,10 @@ abstract class AbstractBaseResourceBuilderTest extends AbstractBaseTest
      * @var \PHPUnit\Framework\MockObject\MockObject|ResourceRepository
      */
     protected $resource_repository;
+    /**
+     * @var \PHPUnit\Framework\MockObject\MockObject|CollectionRepository
+     */
+    protected $collection_repository;
     /**
      * @var \PHPUnit\Framework\MockObject\MockObject|RevisionRepository
      */
@@ -91,6 +99,7 @@ abstract class AbstractBaseResourceBuilderTest extends AbstractBaseTest
         $this->storage_handler_factory->method('getPrimary')->willReturn($this->storage_handler);
         $this->revision_repository = $this->createMock(RevisionRepository::class);
         $this->resource_repository = $this->createMock(ResourceRepository::class);
+        $this->collection_repository = $this->createMock(CollectionRepository::class);
         $this->information_repository = $this->createMock(InformationRepository::class);
         $this->stakeholder_repository = $this->createMock(StakeholderRepository::class);
         $this->locking = $this->createMock(LockHandler::class);

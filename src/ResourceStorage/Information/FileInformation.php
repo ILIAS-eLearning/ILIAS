@@ -86,8 +86,10 @@ class FileInformation implements Information
         return $this->creation_date ?? new DateTimeImmutable();
     }
 
-    public function setCreationDate(DateTimeImmutable $creation_date): void
+    public function setCreationDate(DateTimeImmutable $creation_date): self
     {
         $this->creation_date = $creation_date;
+
+        return $this;
     }
 }

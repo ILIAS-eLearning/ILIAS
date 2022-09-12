@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -16,17 +18,17 @@
  *
  *********************************************************************/
 
-namespace ILIAS\ResourceStorage\Identification;
+namespace ILIAS\ResourceStorage\Collection\Sorter;
+
+use ILIAS\ResourceStorage\Collection\ResourceCollection;
 
 /**
- * Class UniqueIDIdentificationGenerator
+ * Interface CollectionSorter
  *
- * @author Fabian Schmid <fs@studer-raimann.ch>
+ * @author Fabian Schmid <fabian@sr.solutions>
+ * @internal
  */
-interface IdentificationGenerator
+interface CollectionSorter
 {
-    /**
-     * @throws \Exception
-     */
-    public function getUniqueResourceIdentification(): ResourceIdentification;
+    public function sort(ResourceCollection $collection): ResourceCollection;
 }

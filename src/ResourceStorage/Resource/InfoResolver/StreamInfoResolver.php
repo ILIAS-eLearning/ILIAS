@@ -42,12 +42,13 @@ class StreamInfoResolver extends AbstractInfoResolver implements InfoResolver
         FileStream $stream,
         int $next_version_number,
         int $revision_owner_id,
-        string $revision_title
+        string $revision_title,
+        ?string $file_name = null,
     ) {
         parent::__construct($next_version_number, $revision_owner_id, $revision_title);
         $this->file_stream = $stream;
         $this->path = $stream->getMetadata('uri');
-        $this->initFileName();
+        $this->initFileName($file_name);
         $this->suffix = pathinfo($this->file_name, PATHINFO_EXTENSION);
         $this->initSize();
         $this->initMimeType();
@@ -104,8 +105,12 @@ class StreamInfoResolver extends AbstractInfoResolver implements InfoResolver
         $this->creation_date = $filectime ? (new \DateTimeImmutable())->setTimestamp($filectime) : new \DateTimeImmutable();
     }
 
-    protected function initFileName(): void
+    protected function initFileName(?string $file_name = null): void
     {
+        if ($file_name !== null) {
+            $this->file_name = $file_name;
+            return;
+        }
         $this->file_name = basename($this->path);
         if ($this->file_name === 'memory' || $this->file_name === 'input') { // in case the stream is ofString or of php://input
             $this->file_name = $this->getRevisionTitle();

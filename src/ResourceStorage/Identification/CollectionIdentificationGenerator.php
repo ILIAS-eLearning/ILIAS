@@ -19,14 +19,13 @@
 namespace ILIAS\ResourceStorage\Identification;
 
 /**
- * Class UniqueIDIdentificationGenerator
+ * Class CollectionIdentificationGenerator
  *
- * @author Fabian Schmid <fs@studer-raimann.ch>
+ * @author Fabian Schmid <fabian@sr.solutions>
  */
-interface IdentificationGenerator
+interface CollectionIdentificationGenerator
 {
-    /**
-     * @throws \Exception
-     */
-    public function getUniqueResourceIdentification(): ResourceIdentification;
+    public function getUniqueResourceCollectionIdentification(): ResourceCollectionIdentification;
+
+    public function validateScheme(string $existing): bool;
 }

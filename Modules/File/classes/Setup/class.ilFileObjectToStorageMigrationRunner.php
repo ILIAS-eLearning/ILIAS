@@ -18,6 +18,7 @@
 
 use ILIAS\Filesystem\Stream\Streams;
 use ILIAS\FileUpload\Location;
+use ILIAS\ResourceStorage\Collection\CollectionBuilder;
 use ILIAS\ResourceStorage\Manager\Manager;
 use ILIAS\ResourceStorage\Resource\ResourceBuilder;
 use ILIAS\ResourceStorage\Lock\LockHandlerilDB;
@@ -33,6 +34,7 @@ use ILIAS\ResourceStorage\Revision\Repository\RevisionDBRepository;
 use ILIAS\ResourceStorage\Resource\Repository\ResourceDBRepository;
 use ILIAS\ResourceStorage\Stakeholder\Repository\StakeholderDBRepository;
 use ILIAS\ResourceStorage\Preloader\StandardRepositoryPreloader;
+use ILIAS\ResourceStorage\Resource\Repository\CollectionDBRepository;
 
 class ilFileObjectToStorageMigrationRunner
 {
@@ -50,6 +52,7 @@ class ilFileObjectToStorageMigrationRunner
     protected bool $keep_originals = false;
     protected ?int $migrate_to_new_object_id = null;
     protected ilObjFileStakeholder $stakeholder;
+    protected CollectionBuilder $collection_builder;
 
     /**
      * ilFileObjectToStorageMigration constructor.
@@ -73,7 +76,8 @@ class ilFileObjectToStorageMigrationRunner
         $resourceDBRepository = new ResourceDBRepository($database);
         $informationDBRepository = new InformationDBRepository($database);
         $stakeholderDBRepository = new StakeholderDBRepository($database);
-        $builder = new ResourceBuilder(
+        $collectionDBRepository = new CollectionDBRepository($database);
+        $this->resource_builder  = new ResourceBuilder(
             $storage_handler_factory,
             $revisionDBRepository,
             $resourceDBRepository,
@@ -81,13 +85,19 @@ class ilFileObjectToStorageMigrationRunner
             $stakeholderDBRepository,
             new LockHandlerilDB($database)
         );
-        $this->resource_builder = $builder;
-        $this->storage_manager = new Manager($builder, new StandardRepositoryPreloader(
-            $resourceDBRepository,
-            $revisionDBRepository,
-            $informationDBRepository,
-            $stakeholderDBRepository
-        ));
+        $this->collection_builder = new CollectionBuilder(
+            $collectionDBRepository
+        );
+        $this->storage_manager = new Manager(
+            $this->resource_builder,
+            $this->collection_builder,
+            new StandardRepositoryPreloader(
+                $resourceDBRepository,
+                $revisionDBRepository,
+                $informationDBRepository,
+                $stakeholderDBRepository
+            )
+        );
         $this->consumer_factory = new ConsumerFactory($storage_handler_factory);
         $this->stakeholder = new ilObjFileStakeholder();
     }

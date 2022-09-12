@@ -153,16 +153,24 @@ abstract class AbstractFileSystemStorageHandler implements StorageHandler
                 $this->fs->writeStream($this->getRevisionPath($revision) . '/' . self::DATA, $stream);
                 $stream->close();
             } else {
-                $target = $revision->getStream()->getMetadata('uri');
+                $original_path = $revision->getStream()->getMetadata('uri');
                 if ($this->links_possible) {
                     $this->fs->createDir($this->getRevisionPath($revision));
-                    link($target, $this->getAbsoluteRevisionPath($revision) . '/' . self::DATA);
-                    unlink($target);
+                    link($original_path, $this->getAbsoluteRevisionPath($revision) . '/' . self::DATA);
+                    unlink($original_path);
                 } else {
-                    $this->fs->rename(
-                        LegacyPathHelper::createRelativePath($target),
-                        $this->getRevisionPath($revision) . '/' . self::DATA
-                    );
+                    $source_fs = LegacyPathHelper::deriveLocationFrom($original_path);
+                    if ($source_fs !== Location::STORAGE) {
+                        $stream = $revision->getStream();
+                        $this->fs->writeStream($this->getRevisionPath($revision) . '/' . self::DATA, $stream);
+                        $stream->close();
+                        unlink($original_path);
+                    } else {
+                        $this->fs->rename(
+                            LegacyPathHelper::createRelativePath($original_path),
+                            $this->getRevisionPath($revision) . '/' . self::DATA
+                        );
+                    }
                 }
                 $revision->getStream()->close();
             }

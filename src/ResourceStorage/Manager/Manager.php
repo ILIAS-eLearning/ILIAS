@@ -15,11 +15,13 @@ declare(strict_types=1);
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
+ *
  *********************************************************************/
 
 namespace ILIAS\ResourceStorage\Manager;
 
 use ILIAS\FileUpload\DTO\UploadResult;
+use ILIAS\ResourceStorage\Collection\CollectionBuilder;
 use ILIAS\ResourceStorage\Identification\ResourceIdentification;
 use ILIAS\ResourceStorage\Resource\ResourceBuilder;
 use ILIAS\ResourceStorage\Stakeholder\ResourceStakeholder;
@@ -39,15 +41,18 @@ class Manager
 {
     protected \ILIAS\ResourceStorage\Resource\ResourceBuilder $resource_builder;
     protected \ILIAS\ResourceStorage\Preloader\RepositoryPreloader $preloader;
+    protected CollectionBuilder $collection_builder;
 
     /**
      * Manager constructor.
      */
     public function __construct(
         ResourceBuilder $b,
+        CollectionBuilder $c,
         RepositoryPreloader $l
     ) {
         $this->resource_builder = $b;
+        $this->collection_builder = $c;
         $this->preloader = $l;
     }
 
@@ -121,6 +126,9 @@ class Manager
     public function remove(ResourceIdentification $identification, ResourceStakeholder $stakeholder): void
     {
         $this->resource_builder->remove($this->resource_builder->get($identification), $stakeholder);
+        if (!$this->resource_builder->has($identification)) {
+            $this->collection_builder->notififyResourceDeletion($identification);
+        }
     }
 
     public function clone(ResourceIdentification $identification): ResourceIdentification

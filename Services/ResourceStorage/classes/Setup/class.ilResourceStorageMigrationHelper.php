@@ -16,6 +16,10 @@
  *
  *********************************************************************/
 
+use ILIAS\ResourceStorage\Collection\CollectionBuilder;
+use ILIAS\ResourceStorage\Collection\ResourceCollection;
+use ILIAS\ResourceStorage\Identification\ResourceCollectionIdentification;
+use ILIAS\ResourceStorage\Identification\UniqueIDIdentificationGenerator;
 use ILIAS\ResourceStorage\Stakeholder\ResourceStakeholder;
 use ILIAS\ResourceStorage\Resource\ResourceBuilder;
 use ILIAS\Filesystem\Provider\Configuration\LocalConfig;
@@ -32,6 +36,7 @@ use ILIAS\ResourceStorage\Revision\Repository\RevisionDBRepository;
 use ILIAS\ResourceStorage\Resource\Repository\ResourceDBRepository;
 use ILIAS\ResourceStorage\Information\Repository\InformationDBRepository;
 use ILIAS\ResourceStorage\Stakeholder\Repository\StakeholderDBRepository;
+use ILIAS\ResourceStorage\Resource\Repository\CollectionDBRepository;
 
 /**
  * Class ilResourceStorageMigrationHelper
@@ -43,6 +48,7 @@ class ilResourceStorageMigrationHelper
     protected string $client_data_dir;
     protected ilDBInterface $database;
     protected ResourceBuilder $resource_builder;
+    protected CollectionBuilder $collection_builder;
 
     /**
      * ilResourceStorageMigrationHelper constructor.
@@ -88,6 +94,9 @@ class ilResourceStorageMigrationHelper
             new StakeholderDBRepository($db),
             new LockHandlerilDB($this->database)
         );
+        $this->collection_builder = new CollectionBuilder(
+            new CollectionDBRepository($db)
+        );
     }
 
     /**
@@ -122,21 +131,113 @@ class ilResourceStorageMigrationHelper
         return $this->resource_builder;
     }
 
-    public function movePathToStorage(string $absolute_path, int $owner_user_id): ?ResourceIdentification
+    public function getCollectionBuilder(): CollectionBuilder
     {
+        return $this->collection_builder;
+    }
+
+    public function moveFilesOfPathToCollection(
+        string $absolute_path,
+        int $resource_owner_id,
+        int $collection_owner_user_id = ResourceCollection::NO_SPECIFIC_OWNER,
+        ?Closure $file_name_callback = null,
+        ?Closure $revision_name_callback = null
+    ): ?ResourceCollectionIdentification {
+        $collection = $this->getCollectionBuilder()->new($collection_owner_user_id);
+        /** @var SplFileInfo $file_info */
+        foreach (new DirectoryIterator($absolute_path) as $file_info) {
+            if (!$file_info->isFile()) {
+                continue;
+            }
+            $resource_id = $this->movePathToStorage(
+                $file_info->getRealPath(),
+                $resource_owner_id,
+                $file_name_callback,
+                $revision_name_callback
+            );
+            if ($resource_id !== null) {
+                $collection->add($resource_id);
+            }
+        }
+        if ($collection->count() === 0) {
+            return null;
+        }
+
+        if ($this->getCollectionBuilder()->store($collection)) {
+            return $collection->getIdentification();
+        }
+        return null;
+    }
+
+    public function moveFilesOfPatternToCollection(
+        string $absolute_base_path,
+        string $pattern,
+        int $resource_owner_id,
+        int $collection_owner_user_id = ResourceCollection::NO_SPECIFIC_OWNER,
+        ?Closure $file_name_callback = null,
+        ?Closure $revision_name_callback = null
+    ): ?ResourceCollectionIdentification {
+        $collection = $this->getCollectionBuilder()->new($collection_owner_user_id);
+
+        $regex_iterator = new RecursiveRegexIterator(
+            new RecursiveDirectoryIterator($absolute_base_path),
+            $pattern,
+            RecursiveRegexIterator::MATCH
+        );
+
+        foreach ($regex_iterator as $file_info) {
+            if (!$file_info->isFile()) {
+                continue;
+            }
+            $resource_id = $this->movePathToStorage(
+                $file_info->getRealPath(),
+                $resource_owner_id,
+                $file_name_callback,
+                $revision_name_callback
+            );
+            if ($resource_id !== null) {
+                $collection->add($resource_id);
+            }
+        }
+        if ($collection->count() === 0) {
+            return null;
+        }
+
+        if ($this->getCollectionBuilder()->store($collection)) {
+            return $collection->getIdentification();
+        }
+        return null;
+    }
+
+    public function movePathToStorage(
+        string $absolute_path,
+        int $owner_user_id,
+        ?Closure $file_name_callback = null,
+        ?Closure $revision_name_callback = null
+    ): ?ResourceIdentification {
         $open_path = fopen($absolute_path, 'rb');
         if ($open_path === false) {
             return null;
         }
         $stream = Streams::ofResource($open_path);
+
         // create new resource from legacy files stream
+        $revision_title = $revision_name_callback !== null
+            ? $revision_name_callback(basename($absolute_path))
+            : basename($absolute_path);
+
+        $file_name = $file_name_callback !== null
+            ? $file_name_callback(basename($absolute_path))
+            : null;
+
         $resource = $this->resource_builder->newFromStream(
             $stream,
             new StreamInfoResolver(
                 $stream,
                 1,
                 $owner_user_id,
-                basename($absolute_path)
+                $revision_title,
+                $file_name
             ),
             false
         );

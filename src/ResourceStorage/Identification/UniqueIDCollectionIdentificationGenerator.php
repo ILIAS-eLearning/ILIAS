@@ -23,11 +23,11 @@ namespace ILIAS\ResourceStorage\Identification;
 use ILIAS\Data\UUID\Factory;
 
 /**
- * Class UniqueIDIdentificationGenerator
- * @author Fabian Schmid <fs@studer-raimann.ch>
+ * Class UniqueIDCollectionIdentificationGenerator
+ * @author Fabian Schmid <fabian@sr.solutions>
  * @internal
  */
-class UniqueIDIdentificationGenerator implements IdentificationGenerator
+class UniqueIDCollectionIdentificationGenerator implements CollectionIdentificationGenerator
 {
     protected \ILIAS\Data\UUID\Factory $factory;
 
@@ -39,17 +39,20 @@ class UniqueIDIdentificationGenerator implements IdentificationGenerator
         $this->factory = new Factory();
     }
 
-    /**
-     * @throws \Exception
-     */
-    public function getUniqueResourceIdentification(): ResourceIdentification
+
+    public function getUniqueResourceCollectionIdentification(): ResourceCollectionIdentification
     {
         try {
             $unique_id = $this->factory->uuid4AsString();
         } catch (\Exception $e) {
             throw new \LogicException('Generating uuid failed: ' . $e->getMessage(), $e->getCode(), $e);
         } finally {
-            return new ResourceIdentification($unique_id);
+            return new ResourceCollectionIdentification($unique_id);
         }
+    }
+
+    public function validateScheme(string $existing): bool
+    {
+        return preg_match('/^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$/', $existing) === 1;
     }
 }
