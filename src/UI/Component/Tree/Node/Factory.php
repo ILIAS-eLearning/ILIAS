@@ -78,5 +78,36 @@ interface Factory
      * @param \ILIAS\UI\Component\Symbol\Icon\Icon|null $icon
      * @return \ILIAS\UI\Component\Tree\Node\Bylined
      */
-    public function bylined(string $label, string $byline, Icon $icon = null): Bylined;
+    public function bylined(string $label, string $byline, Icon $icon = null) : Bylined;
+
+    /**
+     * ---
+     * description:
+     *   purpose: >
+     *     The Key Value node is an entry containing a value paired to its label,
+     *     to better distinguish it from other nodes or clarify its function.
+     *   composition: >
+     *     It consists of a string-label complemented by additional string as a
+     *     key-value pair, and an optional Icon.
+     *   rivals:
+     *     Bylined Node: >
+     *       The byline of the Bylined node is non-essential, and can be dropped
+     *       without affecting the users' ability to navigate the tree. In
+     *       contrast, the value of Key Value nodes is used to distinguish between
+     *       nodes or to illustrate a node's function where the label alone is
+     *       insufficient, and thus needs to be included to ensure the tree can be
+     *       used effectively.
+     * rules:
+     *   usage:
+     *      1: >
+     *        A Key Value node SHOULD be used when additional information besides
+     *        the label is needed to adequately identify a tree node and its
+     *        function.
+     * ---
+     * @param string                                    $label
+     * @param string                                    $byline
+     * @param \ILIAS\UI\Component\Symbol\Icon\Icon|null $icon
+     * @return \ILIAS\UI\Component\Tree\Node\KeyValue
+     */
+    public function keyValue(string $label, string $value, Icon $icon = null) : KeyValue;
 }

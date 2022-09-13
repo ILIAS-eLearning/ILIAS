@@ -9158,12 +9158,19 @@ div.alert ul > li:before {
   cursor: pointer;
   display: flex;
   flex-wrap: wrap;
+  align-items: baseline;
 }
 .il-tree li.il-tree-node .node-line > .node-label {
   padding-left: 4px;
 }
 .il-tree li.il-tree-node .node-line > .node-label .icon {
   vertical-align: text-bottom;
+}
+.il-tree li.il-tree-node .node-line > .node-value {
+  font-style: italic;
+  font-size: 0.75rem;
+  color: #6f6f6f;
+  padding-left: 4px;
 }
 .il-tree li.il-tree-node .node-line > .node-byline {
   padding-left: 4px;

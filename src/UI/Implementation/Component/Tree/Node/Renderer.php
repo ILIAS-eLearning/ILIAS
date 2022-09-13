@@ -63,6 +63,8 @@ class Renderer extends AbstractComponentRenderer
             }
             if ($component instanceof Node\Bylined && null !== $component->getByline()) {
                 $tpl->setVariable('BYLINE_LINKED', $component->getByline());
+            } elseif ($component instanceof Node\KeyValue && null !== $component->getValue()) {
+                $tpl->setVariable('VALUE_LINKED', $component->getValue());
             }
         } else {
             $tpl->setCurrentBlock("node_without_link");
@@ -72,6 +74,8 @@ class Renderer extends AbstractComponentRenderer
             }
             if ($component instanceof Node\Bylined && null !== $component->getByline()) {
                 $tpl->setVariable('BYLINE', $component->getByline());
+            } elseif ($component instanceof Node\KeyValue && null !== $component->getValue()) {
+                $tpl->setVariable('VALUE', $component->getValue());
             }
         }
 
@@ -80,7 +84,7 @@ class Renderer extends AbstractComponentRenderer
         }
 
         /**
-         * @var $component Node\Simple|Node\Bylined
+         * @var $component Node\Simple|Node\Bylined|Node\KeyValue
          */
         $triggered_signals = $component->getTriggeredSignals();
         if (count($triggered_signals) > 0) {
@@ -158,7 +162,8 @@ class Renderer extends AbstractComponentRenderer
     {
         return array(
             Node\Simple::class,
-            Node\Bylined::class
+            Node\Bylined::class,
+            Node\KeyValue::class
         );
     }
 }
