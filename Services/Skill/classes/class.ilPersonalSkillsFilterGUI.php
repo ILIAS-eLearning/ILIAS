@@ -114,7 +114,9 @@ class ilPersonalSkillsFilterGUI
 
         // to
         if (ilSession::get("skmg_pf_to") != "") {
-            if ($level_entry["status_date"] > ilSession::get("skmg_pf_to")) {
+            $to = new ilDateTime(ilSession::get("skmg_pf_to"), IL_CAL_DATETIME);
+            $to->increment(IL_CAL_DAY, 1);
+            if ($level_entry["status_date"] > $to) {
                 return false;
             }
         }
