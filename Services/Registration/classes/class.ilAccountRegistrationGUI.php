@@ -1,18 +1,22 @@
 <?php
 
 declare(strict_types=1);
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * Class ilAccountRegistrationGUI
@@ -221,7 +225,7 @@ class ilAccountRegistrationGUI
         $this->form->addCommandButton("saveForm", $this->lng->txt("register"));
     }
 
-    public function saveForm(): ilTemplate
+    public function saveForm(): ilGlobalTemplateInterface
     {
         $this->initForm();
         $form_valid = $this->form->checkInput();
@@ -234,8 +238,8 @@ class ilAccountRegistrationGUI
             $code = $this->form->getInput('usr_registration_code');
             // could be optional
             if (
-                $this->registration_settings->registrationCodeRequired() ||
-                $code != ''
+                $code !== '' ||
+                $this->registration_settings->registrationCodeRequired()
             ) {
                 // code validation
                 if (!ilRegistrationCode::isValidRegistrationCode($code)) {
@@ -520,8 +524,6 @@ class ilAccountRegistrationGUI
             $this->userObj->setActive(false, 0);
         }
 
-        $this->userObj->updateOwner();
-
         // set a timestamp for last_password_change
         // this ts is needed by ilSecuritySettings
         $this->userObj->setLastPasswordChangeTS(time());
@@ -530,6 +532,9 @@ class ilAccountRegistrationGUI
 
         //insert user data in table user_data
         $this->userObj->saveAsNew();
+
+        // don't update owner before the first save. updateOwner rereads the object which fails if it not save before
+        $this->userObj->updateOwner();
 
         // setup user preferences
         $this->userObj->setLanguage($this->form->getInput('usr_language'));
