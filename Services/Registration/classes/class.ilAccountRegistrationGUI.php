@@ -595,20 +595,24 @@ class ilAccountRegistrationGUI
 
     protected function distributeMails(string $password): void
     {
-        // Always send mail to approvers
-        $mail = new ilRegistrationMailNotification();
-        if ($this->registration_settings->getRegistrationType() === ilRegistrationSettings::IL_REG_APPROVE && !$this->code_was_used) {
-            $mail->setType(ilRegistrationMailNotification::TYPE_NOTIFICATION_CONFIRMATION);
-        } else {
-            $mail->setType(ilRegistrationMailNotification::TYPE_NOTIFICATION_APPROVERS);
-        }
-        $mail->setRecipients($this->registration_settings->getApproveRecipients());
-        $mail->setAdditionalInformation(['usr' => $this->userObj]);
-        $mail->send();
+        // Send mail to approvers, if they are defined
+        if ($this->registration_settings->getApproveRecipients()) {
+            $mail = new ilRegistrationMailNotification();
 
+            if (!$this->code_was_used &&
+                $this->registration_settings->getRegistrationType() === ilRegistrationSettings::IL_REG_APPROVE) {
+                $mail->setType(ilRegistrationMailNotification::TYPE_NOTIFICATION_CONFIRMATION);
+            } else {
+                $mail->setType(ilRegistrationMailNotification::TYPE_NOTIFICATION_APPROVERS);
+            }
+            $mail->setRecipients($this->registration_settings->getApproveRecipients());
+            $mail->setAdditionalInformation(['usr' => $this->userObj]);
+            $mail->send();
+        }
         // Send mail to new user
         // Registration with confirmation link ist enabled
-        if ($this->registration_settings->getRegistrationType() === ilRegistrationSettings::IL_REG_ACTIVATION && !$this->code_was_used) {
+        if (!$this->code_was_used &&
+            $this->registration_settings->getRegistrationType() === ilRegistrationSettings::IL_REG_ACTIVATION) {
             $mail = new ilRegistrationMimeMailNotification();
             $mail->setType(ilRegistrationMimeMailNotification::TYPE_NOTIFICATION_ACTIVATION);
             $mail->setRecipients([$this->userObj]);
