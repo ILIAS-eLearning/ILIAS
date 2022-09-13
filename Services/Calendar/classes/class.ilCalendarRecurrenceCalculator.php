@@ -1,27 +1,22 @@
 <?php
 
 declare(strict_types=1);
-/*
-    +-----------------------------------------------------------------------------+
-    | ILIAS open source                                                           |
-    +-----------------------------------------------------------------------------+
-    | Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
-    |                                                                             |
-    | This program is free software; you can redistribute it and/or               |
-    | modify it under the terms of the GNU General Public License                 |
-    | as published by the Free Software Foundation; either version 2              |
-    | of the License, or (at your option) any later version.                      |
-    |                                                                             |
-    | This program is distributed in the hope that it will be useful,             |
-    | but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-    | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-    | GNU General Public License for more details.                                |
-    |                                                                             |
-    | You should have received a copy of the GNU General Public License           |
-    | along with this program; if not, write to the Free Software                 |
-    | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-    +-----------------------------------------------------------------------------+
-*/
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Calculates an <code>ilDateList</code> for a given calendar entry and recurrence rule.
@@ -399,8 +394,8 @@ class ilCalendarRecurrenceCalculator
         $days_list = $this->initDateList();
         foreach ($list->get() as $seed) {
             $num_days = ilCalendarUtil::_getMaxDayOfMonth(
-                $seed->get(IL_CAL_FKT_DATE, 'Y', $this->timezone),
-                $seed->get(IL_CAL_FKT_DATE, 'n', $this->timezone)
+                (int) $seed->get(IL_CAL_FKT_DATE, 'Y', $this->timezone),
+                (int) $seed->get(IL_CAL_FKT_DATE, 'n', $this->timezone)
             );
             foreach ($this->recurrence->getBYMONTHDAYList() as $bymonth_no) {
                 $day_no = $bymonth_no < 0 ? ($num_days + $bymonth_no + 1) : $bymonth_no;
@@ -440,10 +435,10 @@ class ilCalendarRecurrenceCalculator
                         break;
 
                     case ilCalendarRecurrence::FREQ_YEARLY:
-                        $h = $this->event->isFullday() ? 0 : $seed->get(IL_CAL_FKT_DATE, 'H', $this->timezone);
-                        $i = $this->event->isFullday() ? 0 : $seed->get(IL_CAL_FKT_DATE, 'i', $this->timezone);
-                        $s = $this->event->isFullday() ? 0 : $seed->get(IL_CAL_FKT_DATE, 's', $this->timezone);
-                        $y = $seed->get(IL_CAL_FKT_DATE, 'Y', $this->timezone);
+                        $h = (int) ($this->event->isFullday() ? 0 : $seed->get(IL_CAL_FKT_DATE, 'H', $this->timezone));
+                        $i = (int) ($this->event->isFullday() ? 0 : $seed->get(IL_CAL_FKT_DATE, 'i', $this->timezone));
+                        $s = (int) ($this->event->isFullday() ? 0 : $seed->get(IL_CAL_FKT_DATE, 's', $this->timezone));
+                        $y = (int) $seed->get(IL_CAL_FKT_DATE, 'Y', $this->timezone);
 
                         // TODO: the chosen monthday has to added to all months
                         for ($month = 1; $month <= 12; $month++) {
@@ -572,7 +567,7 @@ class ilCalendarRecurrenceCalculator
         return $year_days;
     }
 
-    protected function getMonthWeekDays(string $year, string $month): array
+    protected function getMonthWeekDays(int $year, int $month): array
     {
         static $month_days = array();
 
@@ -589,8 +584,8 @@ class ilCalendarRecurrenceCalculator
             next($days);
         }
         for ($i = $begin_month_info['yday']; $i < $begin_month_info['yday'] + ilCalendarUtil::_getMaxDayOfMonth(
-            (int) $year,
-            (int) $month
+            $year,
+            $month
         ); $i++) {
             if (!($current_day = current($days))) {
                 $current_day = reset($days);

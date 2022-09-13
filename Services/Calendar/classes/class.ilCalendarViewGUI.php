@@ -2,7 +2,22 @@
 
 declare(strict_types=1);
 
-/* Copyright (c) 1998-2017 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 
 use ILIAS\UI\Factory;
 use ILIAS\UI\Renderer;
@@ -97,7 +112,18 @@ class ilCalendarViewGUI
         return 0;
     }
 
-    protected function initInitialDateFromQuery(): int
+    protected function initInitialDateFromQuery(): string
+    {
+        if ($this->http->wrapper()->query()->has('idate')) {
+            return $this->http->wrapper()->query()->retrieve(
+                'idate',
+                $this->refinery->kindlyTo()->string()
+            );
+        }
+        return '';
+    }
+
+    protected function initInitialDateTimeFromQuery(): int
     {
         if ($this->http->wrapper()->query()->has('dt')) {
             return $this->http->wrapper()->query()->retrieve(
@@ -239,7 +265,7 @@ class ilCalendarViewGUI
 
         //item => array containing ilcalendary object, dstart of the event , dend etc.
         foreach ($events as $item) {
-            if ($item["event"]->getEntryId() == $this->initAppointmentIdFromQuery() && $item['dstart'] == $this->initInitialDateFromQuery()) {
+            if ($item["event"]->getEntryId() == $this->initAppointmentIdFromQuery() && $item['dstart'] == $this->initInitialDateTimeFromQuery()) {
                 $dates = $this->getDatesForItem($item);
                 // content of modal
                 $next_gui = ilCalendarAppointmentPresentationGUI::_getInstance($this->seed, $item);
@@ -278,7 +304,7 @@ class ilCalendarViewGUI
         $this->ctrl->setParameter($this, 'seed', $this->seed->get(IL_CAL_DATE));
         $url = $this->ctrl->getLinkTarget($this, "getModalForApp", "", true, false);
         $this->ctrl->setParameter($this, "app_id", $this->initAppointmentIdFromQuery());
-        $this->ctrl->setParameter($this, "dt", $this->initInitialDateFromQuery());
+        $this->ctrl->setParameter($this, "dt", $this->initInitialDateTimeFromQuery());
         $this->ctrl->setParameter($this, 'seed', $this->seed->get(IL_CAL_DATE));
 
         $modal = $this->ui_factory->modal()->roundtrip('', [])->withAsyncRenderUrl($url);
