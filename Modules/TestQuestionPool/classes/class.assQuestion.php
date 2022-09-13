@@ -3194,10 +3194,6 @@ abstract class assQuestion
         $this->syncHints();
     }
 
-    public function createRandomSolution($test_id, $user_id)
-    {
-    }
-
     /**
     * Returns true if the question already exists in the database
     *

@@ -717,10 +717,6 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
         }
     }
 
-    public function createRandomSolution($test_id, $user_id)
-    {
-    }
-
     /**
     * Returns the question type of the question
     *
