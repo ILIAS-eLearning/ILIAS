@@ -1,0 +1,25 @@
+/* right panel (e.g. notes, comments) */
+div.ilRightPanel {
+	overflow: auto;
+	position: fixed;
+	top: 0;
+	bottom: 0;
+	right: 0;
+	width: 500px;
+	left: auto !important;
+}
+
+[dir="rtl"] div.ilRightPanel {
+	right: auto !important;
+	width: 500px;
+	left: 0 !important;
+}
+
+#ilRightPanelClose {
+	display: block;
+	float: right;
+}
+
+[dir="rtl"] #ilRightPanelClose {
+	float: left;
+}

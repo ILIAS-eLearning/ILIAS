@@ -1,0 +1,78 @@
+/*
+* Hacks & Tweaks
+*/
+
+//please move to template/default/less/modules/Test when created
+div.ilc_Mob img {
+	@media only screen and (max-width: @grid-float-breakpoint-max) {
+		height: auto !important;
+	}
+}
+
+// is this really in use?
+div.input {
+	border: 1px solid @il-main-border-dark-color;
+	padding: 3px;
+	text-decoration: none;
+	font-size: @il-font-size-small;
+	background-color: white;
+	overflow: auto;
+}
+div.input:focus {
+	border-color: @il-focus-color;
+}
+
+// used where? Could it be adressed semantically?
+.ilWhiteSpaceNowrap.ilRight {
+	a, .btn-group {
+		padding-left: @il-padding-small-horizontal;
+		border: 1px solid transparent;
+	}
+}
+
+// needed? solve with tools?
+.registration {
+    margin: 5px auto 0;
+    width: 700px;
+}
+
+// used where?
+input[type=text].numeric {
+    text-align: right;
+}
+
+// seems to be hidden in html template
+div.il_TreeIcons {
+	padding: 15px 15px 0 0;
+	margin: 0;
+	float: right;
+}
+
+[dir="rtl"] div.il_TreeIcons {
+	padding: 15px 0 0 15px;
+	float: left;
+}
+
+// add component for context if needed
+img[src$="icon_checked.svg"] {
+	height: 11px;
+    margin: 0 6px 0 5px;
+    opacity: 0.5;
+    width: 11px;
+}
+
+[dir="rtl"] img[src$="icon_checked.svg"] {
+    margin: 0 5px 0 6px;
+}
+
+// too general
+.glyphicon-ok {
+    font-size: @il-font-size-small;
+	text-align: center;
+}
+
+// part of kitchen sink documentation UI
+// Horizontal Scroll Bar for Code, see: #27132
+.code-container{
+	display: grid;
+}

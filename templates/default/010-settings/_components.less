@@ -1,0 +1,389 @@
+//== Tables
+//
+//##
+@il-table-head-bg: @il-main-bg;
+@il-data-table-bg: @il-main-bg;
+@il-table-cmd-bg: @il-main-dark-bg;
+
+//** Presentation Table borders
+@il-table-presentation-rowborder-top: 1px solid @table-border-color;
+;
+
+//** Presentation Table colum widths
+@il-table-presentation-rowcontrol-colwidth: 5%;
+@il-table-presentation-contents-colwidth: 95%;
+
+@il-table-presentation-details-viewcontrols-bg-color: @il-highlight-bg;
+@il-table-presentation-details-viewcontrols-btn-color: @il-main-color;
+@il-table-presentation-details-viewcontrols-btn-bg: white;
+
+//== Toolbar
+//
+//##
+@il-toolbar-margin: @il-margin-xlarge-horizontal;
+@il-toolbar-bg: @il-main-dark-bg;
+@il-toolbar-height: 40px;
+@il-toolbar-border: 1px solid @il-main-border-color;
+
+//== Postings
+//
+//##
+@il-posting-left-border-width: @il-padding-small-horizontal;
+@il-posting-by-moderator-bg: @il-extended-color-1;
+@il-posting-needs-moderation-bg: @il-extended-color-6;
+
+//== Glyph
+//
+//##
+@il-glyph-color: @il-link-color;
+@il-glyph-hover-color: @il-link-hover-color;
+@il-glyph-highlighted-color: @il-warning-color;
+@il-glyph-highlighted-hover-color: @il-warning-color;
+@il-glyph-disabled-color: @il-neutral-light-color;
+
+//== Counter
+//
+//##
+@il-counter-padding: 2px 4px;
+@il-counter-font-size: @il-font-size-xsmall;
+@il-counter-margin-left: -4px;
+
+//== Status Counter
+//
+//##
+@il-counter-status-bg: @il-neutral-light-color;
+@il-counter-status-margin-top: 10px;
+
+//== Novelty Counter
+//
+//##
+@il-counter-novelty-bg: @il-warning-color;
+@il-counter-novelty-margin-top: -5px;
+
+//== Dropzones
+//
+//## Customizes the Drozpones component
+
+//** Default background color used for dropzones.
+@il-dropzone-bg: @il-main-bg;
+@il-dropzone-bg-inactive: #F4F4F4;
+//** Background color used when a dropzone is highlighted (not when hovered).
+@il-dropzone-highlight-bg: #FFFFD6;
+//** Background color used when a dropzone is hovered.
+@il-dropzone-hover-bg: #FFF9BC;
+@il-dropzone-border-radius: 0px;
+@il-dropzone-border-style: dashed;
+@il-dropzone-border-width: 1px;
+//** Default border color
+@il-dropzone-border-color: @il-main-border-dark-color;
+//** Border color used when a dropzone is hovered.
+@il-dropzone-border-color-hover: darken(@il-main-border-dark-color, 10%);
+//** Border of one file after dragging them to the dropzone
+@il-dropzone-filelist-border-color: @il-dropzone-border-color;
+@il-dropzone-filelist-border-type: solid;
+@il-dropzone-filelist-border-width: @il-dropzone-border-width;
+@il-dropzone-filelist-border-radius: @il-dropzone-border-radius;
+
+//== Popover
+//
+//## Customizes the Popover component
+
+//** Minimal width of the Popover
+@il-popover-min-width: 50px;
+//** Minimal height of the Popover
+@il-popover-min-height: 32px;
+//** Maximal width of the Popover
+@il-popover-max-width: 400px;
+//** Background color of the Popover
+@il-popover-background-color: @il-main-dark-bg;
+//** Background color of the title
+@il-popover-title-background-color: @il-popover-background-color;
+//** Border color of the Popover
+@il-popover-border-color: rgba(0, 0, 0, .2);
+//** Width of the arrow pointing from the Popover to its Triggerer component, e.g. a Button
+@il-popover-arrow-width: 10px;
+//** Background color of the arrow
+@il-popover-arrow-background-color: @il-popover-background-color;
+//** z-index used for the Popover
+@il-popover-z-index: 9999;
+//** Maximum Height of a popover (overflow scroll)
+@il-popover-max-height: 500px;
+
+//== Tooltips
+//
+//## Tooltips displayed by the online help
+//** Text color of those tooltips
+@il-tooltip-color: white;
+//** Background color of those tooltips
+@il-tooltip-bg-color: @il-main-color;
+//** Border color of those tooltips
+@il-tooltip-border-color: @il-main-color;
+//** Border radius of those tooltips
+@il-tooltip-border-radius: 4px;
+//** Shadow of those tooltips
+@il-tooltip-shadow: 1px 1px 3px 1px rgba(0, 0, 0, 0.15);
+
+//== Divider
+//
+//##
+@il-divider-bg: @il-main-bg;
+
+@il-divider-color: @il-text-color;
+
+@il-divider-color: @il-text-color;
+
+//== Item
+//
+//##
+@il-item-divider-padding: 10px 0 0 0;
+@il-item-divider-margin: 0 0 10px 0;
+@il-item-divider-border-bottom: dashed 0.5px @il-main-border-color;
+@il-item-description-padding: 10px 0 0 0;
+@il-item-audio-padding: @il-padding-large-vertical 0;
+@il-item-padding: @il-padding-xlarge-horizontal;
+@il-item-marker-border-left: 5px solid;
+@il-item-h5-margin: 4px 0px 2px 0px;
+@il-item-border-bottom: 1px solid @il-main-border-color;
+@il-item-border-bottom-small: 1px solid @il-main-border-color;
+@il-item-gap-base: 6px;
+@il-item-gap-large: 10px;
+@il-item-gap-small: 5px;
+@il-item-gap-xs: 1px;
+
+//== Charts
+//
+//## Charts are used to graphically represent data in various forms such as maps, graphs or diagrams.
+
+@il-chart-item-active-bg: @il-main-color;
+@il-chart-item-active-color: white;
+@il-chart-item-inactive-bg: #e0e0e0;
+@il-chart-item-inactive-color: @il-text-color;
+@il-chart-item-space: 2px;
+
+//** Progress Meter: minimal width
+@il-chart-progressmeter-min-width: 80px;
+//** Progress Meter: maximal width / height
+@il-chart-progressmeter-max-width: 800px;
+//** Progress Meter: background stroke width
+@il-chart-progressmeter-bg-stroke-width: 6;
+//** Progress Meter: multi bar progress stroke width
+@il-chart-progressmeter-multi-stroke-width: (@il-chart-progressmeter-mini-bg-stroke-width / 3);
+//** Progress Meter: single bar progress stroke width
+@il-chart-progressmeter-mono-stroke-width: (@il-chart-progressmeter-mini-bg-stroke-width - 1);
+//** Progress Meter: background color
+@il-chart-progressmeter-bg-color: #dddddd;
+//** Progress Meter: marker color
+@il-chart-progressmeter-marker-color: #efefef;
+//** Progress Meter: marker border color
+@il-chart-progressmeter-marker-shadow-color: #bcbcbc;
+//** Progress Meter main bar: success color
+@il-chart-progressmeter-success: #6ea03c;
+//** Progress Meter main bar: no-success color
+@il-chart-progressmeter-no-success: #d9534f;
+//** Progress Meter comparision bar: no-user-score color
+@il-chart-progressmeter-not-active: #f0ad4e;
+//** Progress Meter comparision bar: user-score color
+@il-chart-progressmeter-active: #aaaaaa;
+//** Progress Meter score text color
+@il-chart-progressmeter-score-text-color: #000000;
+//** Progress Meter info-text color
+@il-chart-progressmeter-info-text-color: #bcbcbc;
+
+//** Progress Meter Fixed-Size: width
+@il-chart-progressmeter-fixed-size: 350px;
+
+//** Progress Meter Mini: minimal width
+@il-chart-progressmeter-mini-min-width: 20px;
+//** Progress Meter Mini: maximal width / height
+@il-chart-progressmeter-mini-max-width: 250px;
+//** Progress Meter Mini: background stroke width
+@il-chart-progressmeter-mini-bg-stroke-width: 5;
+//** Progress Meter Mini: progress stroke width
+@il-chart-progressmeter-mini-stroke-width: @il-chart-progressmeter-mini-bg-stroke-width;
+//** Progress Meter Mini: marker stroke width
+@il-chart-progressmeter-mini-marker-stroke-width: 4;
+//** Progress Meter Mini: background color
+@il-chart-progressmeter-mini-bg-color: #dddddd;
+//** Progress Meter Mini: marker color
+@il-chart-progressmeter-mini-marker-color: #bcbcbc;
+//** Progress Meter Mini: progress stroke color (no success)
+@il-chart-progressmeter-mini-no-success: #d9534f;
+//** Progress Meter Mini: progress stroke color (success)
+@il-chart-progressmeter-mini-success: #6ea03c;
+
+//== Icons
+//
+//## Icons are used to represent (and quickly identify) objects.
+
+//** Path to the font of the glyphicons. Note that the path must be put in "" for less to compile.
+@il-icon-font-path: "../../node_modules/bootstrap/fonts/";
+//** if left unchanged, you have to copy all the background images to your skin/images folder. To use the delos background images in your skin, please change this value (in custom less data or in variables.less of your custom skin) to "../../../../templates/default/images/"
+@il-background-images-path: "images/";
+
+//** Size for icons: xsmall is used in the tree. e.g.
+@il-icon-size-xsmall: 15px;
+//** Size for icons: Small is used in the tree. e.g.
+@il-icon-size-small: 20px;
+//** Size for icons: Medium is used in the content-listing. e.g.
+@il-icon-size-medium: 35px;
+//** Size for icons: Large is used in the header. e.g.
+@il-icon-size-large: 45px;
+//** Path for standard icons in ILIAS
+@il-standard-icon-path: @il-background-images-path;
+//** Standard filter for the outlined icons to be used if disabled (rendering them with a grey outline).
+@il-standard-disabled-icon-filter: grayscale(100%);
+//** Standard filter for the outlined icons to be used if disabled (rendering them with a grey outline).
+@il-standard-outlined-disabled-icon-filter: contrast(0%);
+
+//== Avatar
+//
+//** Size for avatars: used in the header. e.g. standard (and recommended) is @il-icon-size-large
+@il-avatar-size: @il-icon-size-large;
+@il-avatar-size-small: @il-avatar-size / 2;
+@il-avatar-size-large: @il-avatar-size * 2;
+//** border-radius for image avatar
+@il-avatar-border-radius: 50%;
+//** border size for letter avatars
+@il-avatar-border-size: 2px;
+@il-avatar-small-border-size: 0px;
+//** border style for letter avatars
+@il-avatar-border-style: solid;
+//** border color for picture avatars
+@il-avatar-picture-border-color: @il-main-border-color;
+//** there are 26 colors for letter avatar backgrounds, this is for the abbreviation ant the border color
+@il-avatar-letter-border-color-contrast-lighten: 40%;
+@il-avatar-letter-border-color-contrast-darken: 20%;
+//** change the abbreviations font weight
+@il-avatar-letter-abbreviation-font-weight: @il-font-weight-light;
+//** change the abbreviations font transform
+@il-avatar-letter-abbreviation-font-transform: inherit;
+//** all variants of letter avatar background colors (MUST be 26), note for a11y reason, they must be in contrast 3x1 to white (foreground color)
+@il-avatar-letter-color-variants: #0e6252, #107360, #aa890a, #c87e0a, #176437, #196f3d, #bf6516, #a04000, #1d6fa5, #1b557a, #bf2718, #81261d, #713b87, #522764, #78848c, #34495e, #2c3e50, #566566, #90175a, #9e2b6e, #d22f10, #666d4e, #715a32, #83693a, #963a30, #e74c3c;
+
+
+//== System Info
+//
+//##
+/** headline text transform **/
+@il-standard-page-system-info-headline-transform: uppercase;
+@il-standard-page-system-info-headline-font-weight: @il-font-weight-bold;
+/** inline shadow of a message container **/
+@il-standard-page-system-info-shadow: inset 0px -10px 4px -10px rgba(0, 0, 0, 0.25);
+/** border configuration, the color is automatically computed from the three color variants **/
+@il-standard-page-system-info-border-color: @il-main-border-color;
+@il-standard-page-system-info-border-top-and-bottom: none;
+@il-standard-page-system-info-border-left-and-right: none;
+/** nagtive or positive contrast color for text and glyph **/
+@il-standard-page-system-info-contrast: 60%;
+/** contrast threshold for contrast color **/
+@il-standard-page-system-info-contrast-threshold: 43%;
+/** three color variants for neutral, important, breaking Head Infos **/
+@il-standard-page-system-info-color-variant-neutral: lighten(@il-main-color, 50%); // looks nice with @il-mainbar-btn-bg-color as well
+@il-standard-page-system-info-color-variant-important: lighten(@il-danger-color, 40%);
+@il-standard-page-system-info-color-variant-breaking: darken(@il-danger-color, 10%);
+
+//== View Control
+//
+//##
+@il-vc-glyph-padding-vertical: @padding-base-vertical+2;
+@il-vc-glyph-padding-horizontal: @padding-base-horizontal;
+@il-vc-glyph-hover-bg: lighten(@il-main-color, 5%);
+@il-vc-mode-btn-active: @il-vc-glyph-hover-bg;
+@il-vc-pagination-btn-active-bg: @il-main-bg;
+
+//== Panel
+//
+//##
+@il-panel-heading-padding: @il-padding-xlarge-vertical @il-padding-xlarge-horizontal;
+@il-panel-heading-color: @il-text-color;
+@il-panel-shadow: none;
+@il-panel-border: 1px solid @il-main-border-color;
+@il-panel-border-radius: 3px;
+
+//== Card
+//
+//##
+@il-card-border: 1px solid @il-main-border-color;
+@il-card-background: @il-main-bg;
+@il-card-highlight-bg: @il-warning-color;
+@il-card-highlight-height: @il-padding-large-vertical;
+@il-card-list-key-color: @il-text-light-color;
+@il-card-repository-head-color: rgba(0, 0, 0, 0.5);
+@il-card-repository-dropdown-border: @il-main-border-color 1px solid;
+@il-card-repository-outlined-icon-filter: brightness(3);
+@il-card-repository-outlined-disabled-icon-filter: @il-card-repository-outlined-icon-filter;
+//** Sets the maximum width of cards in small screens
+@il-card-max-width-xs: 350px;
+@il-card-box-shadow: @il-panel-shadow;
+@il-card-border: @il-panel-border;
+@il-card-border-radius: 0;
+
+//== Workflow
+//
+//##Workflow-steps have an icon indicating their status. The label changes color and size accordingly.
+@il-workflow-icon-size: 21px;
+@il-workflow-icon-font-color: white;
+@il-workflow-available-text-color: @il-text-color;
+@il-workflow-unavailable-text-color: @il-main-border-color;
+
+//== Message Boxes
+//
+//##
+@il-messagebox-link-bullet: "\00BB \0020";
+@il-messagebox-margin-top: 10px;
+@il-messagebox-link-list-margin-top: 15px;
+
+//== Modal
+//
+//## Variables that modify and minpulate the appearance of modals
+//** Controls the speed of the fade in/out of the modal
+@il-modal-transition-speed: 0.15s;
+
+//== Tree
+//
+//## Basic adjustments for the tree
+@il-tree-node-indentation: @il-font-size-base;
+//** Vertical Space between nodes
+@il-tree-node-vertical-spacing: 3px;
+//** Horizontal space between expand/collapse icon, an optional node icon and node label
+@il-tree-node-horizontal-spacing: 4px;
+//== Characteristic Value Listing
+//** item rows layout
+@il-characteristic-value-border-color: @il-main-border-color;
+
+//== DropDowns
+//
+//##
+@il-font-size-dropdown: @il-font-size-base;
+@il-dropdown-shodow: 3px 9px 9px 0 rgba(0,0,0,0.3);
+
+//== Drilldown Menu
+//
+//##
+@il-drilldown-item-height: 2 * @il-slate-bulky-padding-vertical + @il-line-height-computed;
+
+//== Toast
+//
+//##
+@il-toast-container-top: @il-standard-page-header-height;
+@il-toast-margin-right: @il-margin-xlarge-horizontal;
+@il-toast-horizontal-division: 20px 1fr 20px;
+@il-toast-transition: all .25s ease-in-out;
+@il-toast-width: 300px;
+@il-toast-z-index: @il-popover-z-index + 1000;
+//Same as Action Menu
+@il-toast-shadow: 3px 9px 9px 0 rgb(0 0 0 / 0.3);
+//== Player
+@il-player-audio-width: 100%;
+
+//== Test Assessment
+@il-test-shortlist-min-width: 200px;
+
+@il-test-padding-large-vertical: @padding-large-vertical;
+@il-test-padding-large-horizontal: @padding-large-horizontal;
+
+@il-test-margin-large-vertical: @padding-large-vertical;
+@il-test-margin-large-horizontal: @padding-large-horizontal;
+
+@il-test-working-time-font-size: @il-font-size-large;
+@il-test-working-time-font-weight: @il-font-weight-bold;

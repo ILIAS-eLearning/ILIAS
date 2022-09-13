@@ -1,6 +1,8 @@
 /*
-* Bootstrap 3
+* Dependencies
 */
+
+/* Bootstrap 3 */
 
 @bsbase: "../../../node_modules/bootstrap/less/";
 
@@ -10,6 +12,7 @@
 
 // Core variables and mixins
 @import "@{bsbase}variables.less";    // original
+@import "./bootstrap-overrides/bootstrap-variables.less"; //Boostrap Variales, overwritten by ILIAS
 @import "@{bsbase}mixins.less";
 
 // Reset and dependencies
@@ -54,13 +57,18 @@
 @import "@{bsbase}utilities.less";
 @import "@{bsbase}responsive-utilities.less";
 
-/* Overrides */
+/* Bootstrap Overrides & Additions */
 
-@boostrap_delos: "./bootstrap-overrides/";
-@import "@{boostrap_delos}focus-mixin.less";
-@import "@{boostrap_delos}code.less";
-@import "@{boostrap_delos}bootstrap-variables.less"; //Boostrap Variales, overwritten by ILIAS
-@import "@{boostrap_delos}screenreader-only-mixins.less";
-@import "@{boostrap_delos}grid.less";
-@import "@{boostrap_delos}forms.less";
-@import "@{boostrap_delos}navbar.less";
+@import "./bootstrap-additions/_dropdown.less";
+@import "./bootstrap-additions/_tables.less";
+@import "./bootstrap-overrides/code.less";
+@import "./bootstrap-overrides/focus-mixin.less";
+@import "./bootstrap-overrides/forms.less";
+@import "./bootstrap-overrides/grid.less";
+@import "./bootstrap-overrides/navbar.less";
+@import "./bootstrap-overrides/screenreader-only-mixins.less";
+
+/* Other Dependency Additions */
+
+@import "./_tinymce-additions.less";
+@import "./_yui2-additions.less";

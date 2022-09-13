@@ -1,38 +1,121 @@
+/*
+* Components
+*/
+
 /* UI Framework */
 
-@import "@{uibase}Counter/counter.less";
-@import "@{uibase}Panel/panel.less";
-@import "@{uibase}Card/card.less";
-@import "@{uibase}Dropzone/dropzone.less";
+@import "@{uibase}Breadcrumbs/breadcrumbs.less";
 @import "@{uibase}Button/button.less";
 @import "@{uibase}Button/tag.less";
 @import "@{uibase}Button/toggle.less";
+@import "@{uibase}Card/card.less";
+@import "@{uibase}Chart/chart.less";
+@import "@{uibase}Counter/counter.less";
 @import "@{uibase}Divider/divider.less";
 @import "@{uibase}Dropdown/dropdown.less";
-@import "@{uibase}Item/item.less";
-@import "@{uibase}ViewControl/viewcontrol.less";
-@import "@{uibase}Breadcrumbs/breadcrumbs.less";
-@import "@{uibase}Chart/chart.less";
+@import "@{uibase}Dropzone/dropzone.less";
 @import "@{uibase}Input/input.less";
-@import "@{uibase}Table/table.less";
-@import "@{uibase}Listing/workflow.less";
+@import "@{uibase}Item/item.less";
+@import "@{uibase}Link/link.less";
 @import "@{uibase}Listing/characteristic_value.less";
-@import "@{uibase}MessageBox/messagebox.less";
-@import "@{uibase}Modal/modal.less";
-@import "@{uibase}Tree/tree.less";
+@import "@{uibase}Listing/workflow.less";
 @import "@{uibase}MainControls/maincontrols.less";
 @import "@{uibase}Menu/menu.less";
-@import "@{uibase}Symbol/symbol.less";
-@import "@{uibase}Link/link.less";
-@import "@{uibase}Toast/toast.less";
+@import "@{uibase}MessageBox/messagebox.less";
+@import "@{uibase}Modal/modal.less";
+@import "@{uibase}Panel/panel.less";
 @import "@{uibase}Player/player.less";
 @import "@{uibase}Popover/popover.less";
+@import "@{uibase}Symbol/symbol.less";
+@import "@{uibase}Table/table.less";
+@import "@{uibase}Toast/toast.less";
+@import "@{uibase}Tree/tree.less";
+@import "@{uibase}ViewControl/viewcontrol.less";
 
 /* Components from old delos.less */
 
+@import "./legacy/_agreement.less";
 @import "./legacy/_alert.less";
-@import "./legacy/_tinymce.less";
+@import "./legacy/_headline.less";
+@import "./legacy/_help.less";
+@import "./legacy/_icon.less";
+@import "./legacy/_jquery-autocomplete.less";
+@import "./legacy/_LeftNavSpace.less";
+@import "./legacy/_link.less";
+@import "./legacy/_map.less";
+@import "./legacy/_overlay.less";
+@import "./legacy/_permalinks.less";
+@import "./legacy/_rightPanel.less";
+@import "./legacy/_table.less";
 
-/* Legacy Modules */
+/* Legacy Modules & Services */
 
-/* Legacy Services */
+@import "./legacy/Modules/Bibliographic/delos.less";
+@import "./legacy/Modules/Blog/delos.less";
+@import "./legacy/Modules/BookingManager/delos.less";
+@import "./legacy/Modules/Chatroom/delos.less";
+@import "./legacy/Modules/Course/delos.less";
+@import "./legacy/Modules/DataCollection/delos.less";
+@import "./legacy/Modules/Excercise/delos.less";
+@import "./legacy/Modules/Forum/delos.less";
+@import "./legacy/Modules/LearningModule/delos.less";
+@import "./legacy/Modules/LearningSequence/delos.less";
+@import "./legacy/Modules/LTIConsumer/delos.less";
+@import "./legacy/Modules/MediaCast/delos.less";
+@import "./legacy/Modules/MediaPool/delos.less";
+@import "./legacy/Modules/OrgUnit/delos.less";
+@import "./legacy/Modules/Poll/delos.less";
+@import "./legacy/Modules/Portfolio/delos.less";
+@import "./legacy/Modules/ScormAicc/delos.less";
+@import "./legacy/Modules/Survey/delos.less";
+@import "./legacy/Modules/Test/delos.less";
+@import "./legacy/Modules/Wiki/delos.less";
+@import "./legacy/Modules/WorkspaceFolder/delos.less";
+
+@import "./legacy/Services/AccessControl/delos.less";
+@import "./legacy/Services/Accordion/delos.less";
+@import "./legacy/Services/Awareness/delos.less";
+@import "./legacy/Services/Badge/delos.less";
+@import "./legacy/Services/Block/delos.less";
+@import "./legacy/Services/Bookmarks/delos.less";
+@import "./legacy/Services/Calendar/bootstrap-datetimepicker.less";
+@import "./legacy/Services/Calendar/delos.less";
+@import "./legacy/Services/Certificate/delos.less";
+@import "./legacy/Services/Chart/delos.less";
+@import "./legacy/Services/Container/delos.less";
+@import "./legacy/Services/COPage/delos.less";
+@import "./legacy/Services/FileUpload/delos.less";
+@import "./legacy/Services/Form/delos.less";
+@import "./legacy/Services/Help/delos.less";
+@import "./legacy/Services/InfoScreen/delos.less";
+@import "./legacy/Services/Init/delos.less";
+@import "./legacy/Services/LearningHistory/delos.less";
+@import "./legacy/Services/Like/delos.less";
+@import "./legacy/Services/Mail/delos.less";
+@import "./legacy/Services/MediaObjects/delos.less";
+@import "./legacy/Services/Membership/delos.less";
+@import "./legacy/Services/Navigation/delos.less";
+@import "./legacy/Services/News/delos.less";
+@import "./legacy/Services/Notes/delos.less";
+@import "./legacy/Services/Object/delos.less";
+@import "./legacy/Services/OnScreenChat/delos.less";
+@import "./legacy/Services/Preview/delos.less";
+@import "./legacy/Services/Rating/delos.less";
+@import "./legacy/Services/Search/delos.less";
+@import "./legacy/Services/Skill/delos.less";
+@import "./legacy/Services/Style/delos.less";
+@import "./legacy/Services/Table/delos.less";
+@import "./legacy/Services/Tags/delos.less";
+@import "./legacy/Services/TermsOfService/delos.less";
+@import "./legacy/Services/UIComponent/AdvancedSelectionList/delos.less";
+@import "./legacy/Services/UIComponent/Checklist/delos.less";
+@import "./legacy/Services/UIComponent/Explorer2/delos.less";
+@import "./legacy/Services/UIComponent/GroupedList/delos.less";
+@import "./legacy/Services/UIComponent/Lightbox/delos.less";
+@import "./legacy/Services/UIComponent/Modal/delos.less";
+@import "./legacy/Services/UIComponent/ProgressBar/delos.less";
+@import "./legacy/Services/UIComponent/Tabs/delos.less";
+@import "./legacy/Services/UIComponent/Toolbar/delos.less";
+@import "./legacy/Services/UIComponent/Tooltip/delos.less";
+@import "./legacy/Services/User/delos.less";
+@import "./legacy/Services/WebDAV/delos.less";

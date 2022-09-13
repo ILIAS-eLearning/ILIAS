@@ -1,0 +1,40 @@
+/* bottom center area (optional bottom area, used e.g. in learning modules) */
+div#bot_center_area {
+	bottom:	0;
+	height: 300px;
+	position: fixed;
+	padding: 5px;
+	background-color: @body-bg;
+	border-top: 3px solid @il-main-border-color;
+	-webkit-overflow-scrolling: touch; /* Bug 11209 */
+	overflow: auto; /* Bug 11209 */
+}
+
+div#bot_center_area iframe {
+	-webkit-overflow-scrolling: touch; /* Bug 11209 */
+	overflow: auto; /* Bug 11209 */
+	border: none;
+	width: 100%;
+	height: 100%;
+}
+
+div#bot_center_area_drag {
+	left: 0;
+	right: 0;
+	height: 4px;
+	cursor: row-resize;
+	margin-top: -8px;
+	position: absolute;
+}
+
+#drag_zmove {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	z-index: 7;
+	display: none;
+}
+
+div#bot_center_area_drag:hover {
+	background: none #fa9;
+}

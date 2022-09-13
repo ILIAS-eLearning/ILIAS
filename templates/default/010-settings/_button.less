@@ -1,0 +1,104 @@
+//== Buttons
+//
+//## For each of ILIAS's buttons, define text, background and border color.
+
+//** Size of the font displayed inside a button
+@il-button-font-size: @il-font-size-small;
+
+//** Text color of the standard button (most button instances)
+@il-btn-standard-color: white;
+//** Background color of the standard button (most button instances)
+@il-btn-standard-bg: @il-main-color;
+//** Border color of the standard button (most button instances)
+@il-btn-standard-border: @il-main-color;
+
+//** Text color of the primary button (most important button on the screen)
+@il-btn-primary-color: white;
+//** Background color of the primary button (most important button on the screen)
+@il-btn-primary-bg: darken(@il-secondary-color, 10%);
+//** Border color of the primary button (most important button on the screen)
+@il-btn-primary-border: darken(@il-secondary-color, 10%);
+
+//** Text color of inactive buttons
+@il-disabled-btn-color: white;
+//** Background color of inactive buttons
+@il-disabled-btn-bg: #b0b0b0;
+//** Border color of inactive buttons
+@il-disabled-btn-border: #e0e0e0;
+
+//** Text color of inactive buttons
+@il-engaged-btn-color: @il-text-color;
+//** Background color of inactive buttons
+@il-engaged-btn-bg: white;
+
+@il-disabled-btn-bg: #b0b0b0;
+@il-disabled-btn-border: #b0b0b0;
+@il-disabled-btn-color: darken(@il-text-color, 20%);
+//** Background color for tags with relevance 5; by default, color is desaturated in steps of 20%.
+@il-btn-tag-bg: #75deea;
+@il-btn-tag-bg-relevance-verylow: desaturate(@il-btn-tag-bg, 80%);
+@il-btn-tag-bg-relevance-low: desaturate(@il-btn-tag-bg, 60%);
+@il-btn-tag-bg-relevance-middle: desaturate(@il-btn-tag-bg, 40%);
+@il-btn-tag-bg-relevance-high: desaturate(@il-btn-tag-bg, 20%);
+@il-btn-tag-bg-relevance-veryhigh: @il-btn-tag-bg;
+@il-btn-tag-bg-highlighted: @il-warning-color;
+//** Foreground colors for tags; usually black/white depending on the background color
+@il-btn-tag-fg-relevance-verylow: contrast(desaturate(@il-btn-tag-bg, 80%));
+@il-btn-tag-fg-relevance-low: contrast(desaturate(@il-btn-tag-bg, 60%));
+@il-btn-tag-fg-relevance-middle: contrast(desaturate(@il-btn-tag-bg, 40%));
+@il-btn-tag-fg-relevance-high: contrast(desaturate(@il-btn-tag-bg, 20%));
+@il-btn-tag-fg-relevance-veryhigh: contrast(@il-btn-tag-bg);
+@il-btn-tag-fg-highlighted: white;
+//** Border radius of tags
+@il-btn-tag-border-radius: 3px;
+//** margin of tags
+@il-btn-tag-margin: 2px 4px 2px 0;
+
+//== Toggle Buttons
+//
+//##
+
+//** The Toggle Button without the Switch
+@il-btn-toggle-height: 24px;
+@il-btn-toggle-padding: 27px;
+@il-btn-toggle-border: 1px solid;
+@il-btn-toggle-border-color: rgba(0, 0, 0, 0.1);
+@il-btn-toggle-border-radius: 40px;
+@il-enabled-btn-toggle-bg: lighten(@il-enabled-btn-toggle-switch-color, 30%);
+@il-disabled-btn-toggle-bg: lighten(@il-disabled-btn-toggle-switch-color, 30%);
+
+//** The Switch of the Toggle Button
+@il-btn-toggle-switch-position-top: 2px;
+@il-btn-toggle-switch-size: 18px;
+@il-btn-toggle-switch-border-color: rgba(0, 0, 0, 0.2);
+@il-btn-toggle-switch-transition: all 0.25s ease-in-out;
+@il-enabled-btn-toggle-switch-color: @il-main-color;
+@il-enabled-btn-toggle-switch-position-left: 63%;
+@il-disabled-btn-toggle-switch-color: #808080;
+@il-disabled-btn-toggle-switch-position-left: 4%;
+
+//** The ON/OFF Label of the Toggle Button
+@il-btn-toggle-label-position-top:3px;
+@il-btn-toggle-label-on-position-left: 9px;
+@il-btn-toggle-label-off-position-left: 24px;
+@il-btn-toggle-label-font-weight: @il-font-weight-bold;
+@il-btn-toggle-label-font-size: @il-font-size-small;
+@il-btn-toggle-label-on-color: @il-main-bg;
+
+//** on
+@il-btn-toggle-bg-color-on: @il-secondary-color;
+@il-btn-toggle-border-color-on: @il-secondary-color;
+@il-btn-toggle-switch-bg-color-on: @il-main-bg;
+@il-btn-toggle-switch-border-color-on: @il-main-bg;
+
+//** off
+@il-btn-toggle-bg-color-off: @il-main-border-color;
+@il-btn-toggle-border-color-off: @il-main-border-color;
+@il-btn-toggle-switch-bg-color-off: @il-main-bg;
+@il-btn-toggle-switch-border-color-off: @il-main-bg;
+
+//** unavailable
+@il-btn-toggle-bg-color-unavailable: @il-neutral-light-color;
+@il-btn-toggle-border-color-unavailable: @il-neutral-light-color;
+@il-btn-toggle-switch-bg-color-unavailable: @il-neutral-color;
+@il-btn-toggle-switch-border-color-unavailable: @il-neutral-color;

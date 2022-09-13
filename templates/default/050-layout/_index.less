@@ -1,5 +1,17 @@
+/*
+* Layout
+*/
+
+// general layout tools
+@import "./_positioning.less";
+@import "./_sizing.less";
+@import "./_spacing.less";
+
 // UI framework
 @uibase: "../../../src/UI/templates/default/";
-@import "@{uibase}Layout/layout.less";
 @import "@{uibase}Deck/deck.less";
+@import "@{uibase}Layout/layout.less";
+
+// legacy layout
 @import "./legacy/_page.less";
+@import "./legacy/_print.less";
