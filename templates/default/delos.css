@@ -9122,8 +9122,8 @@ div.alert ul > li:before {
 .carousel .carousel-control {
   background: transparent;
   color: #4c6586;
-  text-shadow: 0px 0px 5px white;
-  opacity: 0.8;
+  text-shadow: 0px 0px 8px white;
+  opacity: 0.9;
 }
 .carousel .carousel-control:hover,
 .carousel .carousel-control:focus-visible {
