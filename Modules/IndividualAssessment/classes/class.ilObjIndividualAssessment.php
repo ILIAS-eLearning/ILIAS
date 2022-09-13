@@ -66,12 +66,11 @@ class ilObjIndividualAssessment extends ilObject
     /**
      * @inheritdoc
      */
-    public function create($a_upload = false)
+    public function create()
     {
         parent::create();
-        if (!$a_upload) {
-            $this->createMetaData();
-        }
+        $this->createMetaData();
+
         $this->settings = new ilIndividualAssessmentSettings(
             (int) $this->getId(),
             '',
