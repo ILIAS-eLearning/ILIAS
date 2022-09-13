@@ -2346,11 +2346,14 @@ abstract class assQuestion
         $this->syncHints();
     }
 
-    public function createRandomSolution(int $test_id, int $user_id): void
-    {
-    }
-
-    public function _questionExists(int $question_id): bool
+    /**
+    * Returns true if the question already exists in the database
+    *
+    * @param integer $question_id The database id of the question
+    * @result boolean True, if the question exists, otherwise False
+    * @access public
+    */
+    public function _questionExists($question_id)
     {
         if ($question_id < 1) {
             return false;

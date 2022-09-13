@@ -2647,16 +2647,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
         $ilUser = $DIC['ilUser'];
         $ilToolbar = $DIC['ilToolbar'];
 
-        if ($this->testrequest->raw('createRandomSolutions')) {
-            global $DIC;
-            $ilCtrl = $DIC['ilCtrl'];
-
-            $this->object->createRandomSolutions($this->testrequest->raw('createRandomSolutions'));
-
-            $ilCtrl->redirect($this);
-        }
-
-        if (!$ilAccess->checkAccess("visible", "", $this->ref_id) && !$ilAccess->checkAccess("read", "", $this->testrequest->getRefId())) {
+        if (!$ilAccess->checkAccess("visible", "", $this->ref_id) && !$ilAccess->checkAccess("read", "", $_GET["ref_id"])) {
             $this->ilias->raiseError($this->lng->txt("msg_no_perm_read"), $this->ilias->error_obj->MESSAGE);
         }
 
