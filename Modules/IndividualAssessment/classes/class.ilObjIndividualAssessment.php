@@ -66,9 +66,12 @@ class ilObjIndividualAssessment extends ilObject
     /**
      * @inheritdoc
      */
-    public function create()
+    public function create($a_upload = false)
     {
         parent::create();
+        if (!$a_upload) {
+            $this->createMetaData();
+        }
         $this->settings = new ilIndividualAssessmentSettings(
             (int) $this->getId(),
             '',
@@ -173,6 +176,7 @@ class ilObjIndividualAssessment extends ilObject
      */
     public function delete()
     {
+        $this->deleteMetaData();
         $this->settings_storage->deleteSettings($this);
         $this->members_storage->deleteMembers($this);
         parent::delete();
@@ -184,6 +188,8 @@ class ilObjIndividualAssessment extends ilObject
     public function update()
     {
         parent::update();
+        $this->updateMetaData();
+
         $this->settings_storage->updateSettings($this->settings);
     }
 
