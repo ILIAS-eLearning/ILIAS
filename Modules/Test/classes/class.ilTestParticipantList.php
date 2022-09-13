@@ -50,7 +50,9 @@ class ilTestParticipantList implements Iterator
     
     public function addParticipant(ilTestParticipant $participant) : void
     {
-        $this->participants_by_active_id[$participant->getActiveId()] = $participant;
+        if ($participant-> getActiveId()) {
+            $this->participants_by_active_id[$participant->getActiveId()] = $participant;
+        }
         $this->participants_by_usr_id[$participant->getUsrId()] = $participant;
     }
     
@@ -155,23 +157,23 @@ class ilTestParticipantList implements Iterator
 
     public function current()
     {
-        return current($this->participants_by_active_id);
+        return current($this->participants_by_usr_id);
     }
     public function next()
     {
-        return next($this->participants_by_active_id);
+        return next($this->participants_by_usr_id);
     }
     public function key()
     {
-        return key($this->participants_by_active_id);
+        return key($this->participants_by_usr_id);
     }
     public function valid()
     {
-        return key($this->participants_by_active_id) !== null;
+        return key($this->participants_by_usr_id) !== null;
     }
     public function rewind()
     {
-        return reset($this->participants_by_active_id);
+        return reset($this->participants_by_usr_id);
     }
     
     /**
