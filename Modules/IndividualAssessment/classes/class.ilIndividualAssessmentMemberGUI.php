@@ -212,9 +212,7 @@ class ilIndividualAssessmentMemberGUI extends AbstractCtrlAwareUploadHandler
 
         if ($grading->getFile() == '') {
             $storage = $this->getUserFileStorage();
-            if (!$storage->isEmpty()) {
-                $storage->deleteCurrentFile();
-            }
+            $storage->deleteCurrentFile();
         }
 
         if ($grading->isFinalized()) {
@@ -456,6 +454,17 @@ class ilIndividualAssessmentMemberGUI extends AbstractCtrlAwareUploadHandler
     protected function getInfoResult(string $identifier) : FileInfoResult
     {
         $filename = $this->getFileName();
+
+        if (empty($filename)) {
+            return new BasicFileInfoResult(
+                $this->getFileIdentifierParameterName(),
+                'unknown',
+                'unknown',
+                0,
+                'unknown'
+            );
+        }
+
         if ($filename != $identifier) {
             throw new LogicException("Wrong filename $identifier");
         }
