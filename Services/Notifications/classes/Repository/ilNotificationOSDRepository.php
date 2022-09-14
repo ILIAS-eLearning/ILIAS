@@ -90,7 +90,7 @@ class ilNotificationOSDRepository implements ilNotificationOSDRepositoryInterfac
         $query = 'SELECT count(*) AS count FROM ' . ilNotificationSetupHelper::$tbl_notification_osd_handler . ' WHERE notification_osd_id = %s';
         $result = $this->database->queryF($query, [ilDBConstants::T_INTEGER], [$id]);
         $row = $this->database->fetchAssoc($result);
-        return ($row['count'] ?? 0) === 1;
+        return ((int) ($row['count'] ?? 0)) === 1;
     }
 
     /**

@@ -24,6 +24,7 @@ use ILIAS\Notifications\ilNotificationDatabaseHandler;
 use ILIAS\Notifications\ilNotificationHandler;
 use ILIAS\Notifications\ilNotificationOSDHandler;
 use ILIAS\Notifications\ilNotificationSettingsTable;
+use ILIAS\Services\Notifications\ToastsOfNotifications;
 
 /**
  * @author Ingmar Szmais <iszmais@databay.de>
@@ -107,40 +108,18 @@ class ilNotificationGUI implements ilCtrlBaseClassInterface
     public function getOSDNotificationsObject(): void
     {
         $settings = new ilSetting('notifications');
-
         ilSession::enableWebAccessWithoutSession(true);
-
         $notifications = (new ilNotificationOSDHandler())->getNotificationsForUser(
             $this->user->getId(),
             true,
             $this->dic->http()->wrapper()->query()->retrieve('max_age', $this->dic->refinery()->kindlyTo()->int())
         );
 
-        $result = new stdClass();
-        $result->notifications = $notifications;
-        $toasts = [];
-        foreach ($result->notifications as $notification) {
-            $toast = $this->dic->ui()->factory()->toast()->standard(
-                $notification->getObject()->title,
-                $this->dic->ui()->factory()->symbol()->icon()->custom($notification->getObject()->iconPath, '')
-            )
-            ->withAction('ilias.php?' . http_build_query([
-                    'baseClass' => 'ilNotificationGUI',
-                    'cmd' => 'removeOSDNotifications',
-                    'cmdMode' => 'asynch',
-                    'notification_id' => $notification->getId()
-            ]))
-            ->withDescription($notification->getObject()->shortDescription)
-            ->withVanishTime($settings->get('osd_vanish') * 1000)
-            ->withDelayTime((int) $settings->get('osd_delay'));
-            foreach ($notification->getObject()->links as $link) {
-                $toast = $toast->withAdditionalLink($this->dic->ui()->factory()->link()->standard(
-                    $link->getTitle(),
-                    $link->getUrl()
-                ));
-            }
-            $toasts[] = $toast;
-        }
+        $toasts = (new ToastsOfNotifications(
+            $this->dic->ui()->factory(),
+            $settings
+        ))->create($notifications);
+
         $this->dic->http()->saveResponse(
             $this->dic->http()->response()
                 ->withBody(Streams::ofString(
