@@ -407,7 +407,7 @@ class assOrderingHorizontal extends assQuestion implements ilObjQuestionScoringA
             array(
                                 $this->getId(),
                                 $this->getOrderText(),
-                                ($this->getTextSize() < 10) ? null : $this->getTextSize()
+                                ($this->getTextSize() < 10) ? null : (float)$this->getTextSize()
                             )
         );
     }
