@@ -1,0 +1,120 @@
+@il-drilldown-spacing-vertical: @il-padding-large-vertical;
+@il-drilldown-spacing-horizontal: @il-padding-large-horizontal;
+@il-drilldown-menulevel-bg: @il-slate-bulky-bg-color;
+@il-drilldown-bulky-bg: transparent;
+@il-drilldown-item-hover-bg: @il-slate-bulky-bg-color-engaged;
+@il-drilldown-item-font-size: @il-slate-bulky-label-size;
+@il-drilldown-item-spacing: @il-slate-content-spacing;
+@il-drilldown-item-font-line-height: @il-slate-bulky-label-size * 1.133333333333333; // line-height of slate bulky btn/link
+
+.il-drilldown {
+	// reset user agent CSS for lists
+	ul, li {
+		padding: 0;
+		margin: 0;
+		list-style: none;
+	}
+	// reset user agent CSS for menulevel button
+	.menulevel, .menulevel:focus, .menulevel:active {
+		text-align: left;
+		background: transparent;
+		border: none;
+	}
+
+	header {
+		position: relative; // so backnav can be positioned on top
+		display: flex;
+		align-items: center;
+		min-height: @il-drilldown-item-height; // content is centered by flex-box, not through padding
+		margin-bottom: @il-drilldown-item-spacing;
+		padding: @il-drilldown-spacing-vertical @il-drilldown-spacing-horizontal;
+		padding-left: 0;
+		z-index: initial; // so slate can cover up this specific header
+		h2 {
+			// remove default headline margin, headline is centered using flex, padding keeps distance to border
+			margin: 0;
+		}
+		.backnav {
+			display: none;
+			position: absolute;
+			// overlay that spans over entire header size
+			top: 0;
+			left: 0;
+			right: 0;
+			bottom: 0;
+			.btn-bulky {
+				height: 100%;
+			}
+		}
+	}
+	header.show-backnav {
+		padding-left: @il-drilldown-spacing-horizontal * 3.25; // make room for back arrow icon
+		.backnav {
+			display: block;
+		}
+	}
+
+	// visibility of menu items
+	li > .menulevel,
+	li > .btn-bulky,
+	li > .link-bulky,
+	li > hr {
+    	display: none;
+	}
+	.engaged ~ ul > li > .menulevel,
+	.engaged ~ ul > li > .btn-bulky,
+	.engaged ~ ul > li > .link-bulky {
+    	display: flex;
+	}
+	.engaged ~ ul > li > hr {
+		display: block;
+	}
+
+	// styling shared by many menu items
+	.menulevel,
+	.btn-bulky,
+	.link-bulky {
+		display: flex;
+		align-items: center; // icons, arrow glyphs and labels are vertically centered
+		justify-content: space-between;
+		width: 100%;
+		min-height: @il-drilldown-item-height; // two lines fit into the item without extending the height
+		padding: @il-drilldown-spacing-vertical @il-drilldown-spacing-horizontal;
+		margin-bottom: @il-drilldown-item-spacing;
+		font-size: @il-drilldown-item-font-size;
+		line-height: @il-drilldown-item-font-line-height;
+	}
+
+	// styling for individual menu items (parts taken from slate.less)
+	hr {
+		margin: @il-drilldown-spacing-vertical 0;
+	}
+	.menulevel {
+		background-color: @il-drilldown-menulevel-bg;
+		&:hover {
+			background-color: @il-drilldown-item-hover-bg;
+		    color: inherit;
+		}
+		.glyphicon-triangle-right:before {
+			margin-left: @il-drilldown-spacing-horizontal;
+		}
+	}
+	.btn-bulky,
+	.link-bulky {
+		background-color: @il-drilldown-bulky-bg;
+		&:hover {
+			background-color: @il-drilldown-item-hover-bg; // has to be a color with transparency so h2 can be seen underneath backnav
+		    color: inherit;
+		}
+		.icon {
+			margin-right: @il-drilldown-spacing-horizontal;
+			filter: invert(50%);
+		}
+		.bulky-label {
+			flex-grow: 1; // pushes elements before and after to the outer sides
+			white-space: normal; // to allow linebreaks
+			text-align: left;
+			word-break: normal;
+		}
+	}
+}

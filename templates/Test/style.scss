@@ -1,0 +1,18 @@
+:root {
+    --color-var-1: red;
+}
+
+p {
+    color: var(--color-var-1);
+}
+
+:root {
+    --color-var-1: green;
+}
+
+/*
+@use "table" with (
+    $table-head-bg: green
+);
+*/
+

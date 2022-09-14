@@ -1,0 +1,148 @@
+//** Presentation Table borders
+@il-table-presentation-rowborder-top: 1px solid @table-border-color;
+
+//** Presentation Table colum widths
+@il-table-presentation-rowcontrol-colwidth: 5%;
+@il-table-presentation-contents-colwidth: 95%;
+
+@il-table-presentation-details-viewcontrols-bg-color: @il-highlight-bg;
+@il-table-presentation-details-viewcontrols-btn-color: @il-main-color;
+@il-table-presentation-details-viewcontrols-btn-bg: white;
+
+.il-table-presentation-viewcontrols {
+    background-color: @il-table-presentation-details-viewcontrols-bg-color;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+
+    > div {
+        padding: @il-padding-large-vertical;
+    }
+
+    .btn-default:not(.disabled):not(.engaged)  {
+        //Using Mixin for buttons
+        .button-variant(@il-table-presentation-details-viewcontrols-btn-color; @il-table-presentation-details-viewcontrols-btn-bg; @il-btn-standard-border);
+    }
+
+    .btn-default.engaged  {
+        //Using Mixin for buttons
+        .button-variant(@il-btn-standard-color; @il-btn-standard-bg; @il-btn-standard-border);
+    }
+
+    .il-viewcontrol-pagination {
+        order: 1;
+    }
+    .il-viewcontrol-mode {
+        order: 2;
+    }
+    .il-viewcontrol-sortatio {
+        order: 3;
+    }
+}
+
+.il-table-presentation-row {
+    background-color: @il-main-bg;
+    border-top: @il-table-presentation-rowborder-top;
+    margin: 0;
+    padding-top: @il-padding-large-vertical;
+    padding-bottom: @il-padding-large-vertical;
+    position: relative;
+    white-space: nowrap;
+
+    .il-table-presentation-actions {
+        right: 10px;
+        position: absolute;
+    }
+
+    .il-table-presentation-row-controls,
+    .il-table-presentation-row-contents {
+        display: inline-block;
+        vertical-align: top;
+    }
+
+    .il-table-presentation-row-controls {
+        width: @il-table-presentation-rowcontrol-colwidth;
+        padding-left: @il-padding-small-horizontal;
+        .il-table-presentation-row-controls-collapser {
+            display: none; /*initially hidden*/
+        }
+
+        .il-table-presentation-row-controls-expander {
+            display: block; /*initially visible*/
+        }
+    }
+
+    .il-table-presentation-row-contents {
+        white-space: normal;
+        width: @il-table-presentation-contents-colwidth;
+    }
+
+    .il-table-presentation-actions {
+        margin: 5px 0;
+    }
+
+    .il-table-presentation-row-header {
+        h4 {
+            font-size: @il-font-size-large;
+            font-weight: @il-font-weight-base;
+            padding: 0;
+            margin: 0;
+            cursor: pointer;
+        }
+
+        .il-table-presentation-row-header-fields {
+            display: block; /*initially visible*/
+        }
+    }
+
+    .il-table-presentation-row-expanded {
+        //Using row mixin, to make this responsive
+        .make-row;
+        display: none; /*initially hidden*/
+        margin-top:  @il-margin-large-vertical;
+        margin-left: 0;
+        margin-right: 0;
+
+        .il-table-presentation-desclist {
+            //Using column mixin, to make this responsive
+            padding-right: @il-padding-small-horizontal;
+            &.desclist-column {
+                .make-sm-column(7);
+                padding-left: 0;
+            }
+        }
+
+        .il-table-presentation-details {
+            //Using column mixin, to make this responsive
+            .make-sm-column(5);
+            .il-table-presentation-actions {
+                margin-bottom: @il-margin-large-vertical;
+            }
+
+            .il-table-presentation-fields {
+                //Inherit from well
+                .well;
+                font-size: @il-font-size-small;
+                .il-item-property-name {
+                    color: @il-text-light-color;
+                }
+            }
+        }
+    }
+}
+
+.il-table-data {
+    display: table;
+
+    .row {
+        display:table-row;
+        .cell {
+            display:table-cell;
+            border:thin solid black;
+            padding:5px;
+        }
+    }
+    .header.cell {
+        font-weight: @il-font-weight-bold;
+    }
+}

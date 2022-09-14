@@ -3,6 +3,29 @@
 // Easily pump classes for the various color variants
 // Example: To render a div with color variant 1 in the light version use:
 // <div class="extended-color-variant-1 il-extended-color-variant-light">
+
+//** Factor by witch a specific color variant is darkened in the standard coloring
+@il-extended-color-factor-standard: 0%;
+//** Factor by witch a specific color variant is lightened in the light coloring
+@il-extended-color-factor-light: 14%;
+//** Factor by witch a specific variant is lightened in the lighter coloring
+@il-extended-color-factor-lighter: 24%;
+//** Factor by witch a specific variant is darkened in the dark coloring
+@il-extended-color-factor-dark: 14%;
+//** Factor by witch a specific variant is darkened in the darker coloring
+@il-extended-color-factor-darker: 22%;
+
+//** Factor by witch text colored by a specific color variant in the standard coloring shown inside a background of this exact variant is lightened
+@il-extended-text-color-factor-standard: 30%;
+//** Factor by witch text colored by a specific color variant in the light coloring shown inside a background of this exact variant is darkened
+@il-extended-text-color-factor-light: 17%;
+//** Factor by witch text colored by a specific color variant in the lighter coloring shown inside a background of this exact variant is darkened
+@il-extended-text-color-factor-lighter: 15%;
+//** Factor by witch text colored by a specific color variant in the dark coloring shown inside a background of this exact variant is lightened
+@il-extended-text-color-factor-dark: 40%;
+//** Factor by witch text colored by a specific color variant in the darker coloring shown inside a background of this exact variant is lightened
+@il-extended-text-color-factor-darker: 60%;
+
 .il-extended-color-variant-mixin(@background-color;){
   &.il-extended-color-variant-standard{
     color: darken(@background-color,@il-extended-text-color-factor-standard);

@@ -1,0 +1,161 @@
+.btn {
+	font-size: @il-button-font-size;
+	.il-focus();
+
+  &:active {
+    outline: 0;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+  }
+}
+
+//This is legacy for the old forms implementation. Can be removed as soon as the old implementation is removed.
+input.btn{
+  display: inline-block;
+  min-width: @il-button-min-width-forms;
+  vertical-align: top;
+
+  @media (max-width: @grid-float-breakpoint-max){
+    min-width: 0;
+  }
+}
+
+.btn-default {
+  .button-variant(@il-btn-standard-color; @il-btn-standard-bg; @il-btn-standard-border);
+  &:focus-visible {
+    position: relative;
+  }
+}
+
+.btn-primary {
+  .button-variant(@il-btn-primary-color; @il-btn-primary-bg; @il-btn-primary-border);
+}
+
+.btn, .btn.btn-tag{
+  &[disabled],
+  fieldset[disabled] & {
+    &,
+    &:hover,
+    &:focus,
+    &:active,
+    &.active {
+      background-color: @il-disabled-btn-bg;
+      border-color: @il-disabled-btn-border;
+      color: @il-disabled-btn-color;
+      cursor: default;
+    }
+  }
+  &.engaged {
+    &,
+    &:hover,
+    &:active,
+    &.active {
+      background-color: @il-engaged-btn-bg;
+      color: @il-engaged-btn-color;
+    }
+  }
+}
+
+
+// #16322
+button > .glyphicon {
+  pointer-events: none;
+}
+
+a[disabled], a fieldset[disabled] & {
+	&,
+	&:hover,
+	&:focus,
+	&:active,
+	&.active {
+		background-color: @il-disabled-btn-bg;;
+		color: @il-disabled-btn-color;
+		border-color: @il-disabled-btn-border;
+		padding: 0;
+		cursor: default;
+	}
+}
+
+.il-btn-month .dropdown-menu {
+  min-width:250px;
+}
+.btn-tag {
+    display: inline-block;
+    white-space: nowrap;
+    padding: @il-padding-xs-vertical @il-padding-xs-horizontal;
+    margin: @il-btn-tag-margin;
+    border-radius: @il-btn-tag-border-radius;
+
+  &.btn-tag-relevance-verylow {
+    border-color: @il-btn-tag-bg-relevance-verylow;
+    background-color: @il-btn-tag-bg-relevance-verylow;
+    color: @il-btn-tag-fg-relevance-verylow;
+  }
+  &.btn-tag-relevance-low {
+    border-color: @il-btn-tag-bg-relevance-low;
+    background-color: @il-btn-tag-bg-relevance-low;
+    color: @il-btn-tag-fg-relevance-low;
+  }
+  &.btn-tag-relevance-middle {
+    border-color: @il-btn-tag-bg-relevance-middle;
+    background-color: @il-btn-tag-bg-relevance-middle;
+    color: @il-btn-tag-fg-relevance-middle;
+  }
+  &.btn-tag-relevance-high {
+    border-color: @il-btn-tag-bg-relevance-high;
+    background-color: @il-btn-tag-bg-relevance-high;
+    color: @il-btn-tag-fg-relevance-high;
+  }
+  &.btn-tag-relevance-veryhigh {
+    border-color: @il-btn-tag-bg;
+    background-color: @il-btn-tag-bg-relevance-veryhigh;
+    color: @il-btn-tag-fg-relevance-veryhigh;
+  }
+}
+
+// shy buttons
+.btn.btn-link {
+	padding: 0;
+	text-align: left;
+	white-space: normal;
+
+    vertical-align: baseline;
+    font-size: inherit;
+}
+
+// bulky buttons
+.btn-bulky {
+	width: 100%
+}
+
+// button with loading animation
+.il-btn-with-loading-animation {
+	background-image: url("@{il-background-images-path}loader.svg");
+	background-repeat: no-repeat;
+	background-position: right center;
+	padding-right: 18px;
+}
+
+.minimize, .close {
+  font-size: (@font-size-base * 1.5);
+  font-weight: @close-font-weight;
+  line-height: 1;
+  color: @il-neutral-light-color;
+
+  &:hover,
+  &:focus {
+    color: @il-neutral-color;
+    text-decoration: none;
+  }
+
+  button& {
+    padding: 0;
+    background: transparent;
+    border: 0;
+    -webkit-appearance: none;
+  }
+}
+
+.close{
+  float: right;
+}

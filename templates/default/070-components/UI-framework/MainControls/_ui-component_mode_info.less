@@ -1,0 +1,51 @@
+
+.il-mode-info {
+  border-top: @il-mode-info-border;
+  border-left: @il-mode-info-border;
+  border-right: @il-mode-info-border;
+  text-align: center;
+
+  z-index: @il-mode-info-zindex;
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  pointer-events: none;
+}
+
+.il-mode-info + div {
+  border: @il-mode-info-border;
+  border-top: 0 none;
+  
+  @media only screen and (max-width: @grid-float-breakpoint-max) {
+    padding-top: @il-mode-info-height;
+  }
+}
+
+
+.il-mode-info span.il-mode-info-content {
+  margin: auto;
+  background-color: @il-mode-info-color;
+  padding: @il-padding-base-vertical @il-padding-base-horizontal @il-padding-base-vertical @il-padding-base-horizontal;
+  -webkit-box-shadow: @il-mode-info-shadow;
+  -moz-box-shadow: @il-mode-info-shadow;
+  box-shadow: @il-mode-info-shadow;
+
+   pointer-events: all;
+}
+
+.il-mode-info span {
+  color: @il-mode-info-text-color;
+  font-size: @il-font-size-large;
+}
+
+@media only screen and (max-width: @grid-float-breakpoint-max) {
+  .il-mode-info {
+	margin-bottom: 0;
+  }
+
+  span.il-mode-info-content {
+	display: block;
+	width: 100%;
+  }
+}
+

@@ -1,0 +1,64 @@
+@import "../../../../../libs/bower/bower_components/webui-popover/src/jquery.webui-popover.less";
+
+@popover-bg: @il-popover-background-color;
+@popover-min-width: @il-popover-min-width;
+@popover-min-height: @il-popover-min-height;
+@popover-border-color: @il-popover-border-color;
+@popover-title-bg: @il-popover-title-background-color;
+@popover-arrow-width: @il-popover-arrow-width;
+@popover-arrow-color: @il-popover-arrow-background-color;
+@popover-z-index: @il-popover-z-index;
+@popover-max-height: @il-popover-max-height;
+@popover-border-radius-base: 0px;
+@popover-border-radius-large: 0px;
+@popover-border-radius-small: 0px;
+
+.il-popover {
+  max-width: @il-popover-max-width;
+  .webui-popover-content > div:first-child {
+	width: 100%;
+  }
+  .il-popover-inner {
+	max-height: @popover-max-height;
+	overflow:   auto;
+	.close {
+	  margin: 0;
+	  &::after {
+		content: "";
+		width:   0em;
+		height:  0em;
+		padding: 0;
+	  }
+	}
+  }
+  i.icon-refresh {
+	background: url("@{il-background-images-path}loading.gif") no-repeat;
+	height:     30px;
+  }
+
+  .il-popover-title-container {
+	background-color: @il-main-darker-bg;
+	h4.il-popover-title {
+	  font-size:        @il-font-size-large;
+	  font-weight:      @il-font-weight-base;
+	  padding:          8px 14px;
+	  background-color: transparent;
+	  text-transform:   none;
+	  color:            @il-panel-heading-color;
+	}
+
+  }
+  &.webui-popover-fixed {
+	position: fixed;
+  }
+}
+
+@media (max-width: 768px) {
+  .il-popover {
+	&.webui-popover-fixed {
+	  position: absolute;
+	  left:     0 !important;
+	  width:    100%;
+	}
+  }
+}
