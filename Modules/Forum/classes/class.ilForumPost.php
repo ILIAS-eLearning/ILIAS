@@ -24,6 +24,7 @@ declare(strict_types=1);
  */
 class ilForumPost
 {
+    public const NO_RCID = '-';
     private int $forum_id = 0;
     private int $thread_id = 0;
     private int $display_user_id = 0;
@@ -51,6 +52,7 @@ class ilForumPost
     private bool $post_read = false;
     private int $pos_author_id = 0;
     private ?string $post_activation_date = null;
+    private string $rcid = self::NO_RCID;
 
     public function __construct(private int $id = 0, bool $a_is_moderator = false, bool $preventImplicitRead = false)
     {
@@ -106,7 +108,8 @@ class ilForumPost
                     'pos_cens_date' => ['timestamp', $this->censored_date],
                     'pos_cens_com' => ['text', $this->censorship_comment],
                     'notify' => ['integer', (int) $this->notification],
-                    'pos_status' => ['integer', (int) $this->status]
+                    'pos_status' => ['integer', (int) $this->status],
+                    'rcid' => ['text', ($this->rcid ?? self::NO_RCID)]
                 ],
                 [
                     'pos_pk' => ['integer', $this->id]
@@ -163,7 +166,7 @@ class ilForumPost
                 $this->pos_author_id = (int) $row->pos_author_id;
                 $this->is_author_moderator = (bool) $row->is_author_moderator;
                 $this->post_activation_date = $row->pos_activation_date;
-
+                $this->rcid = (string) $row->rcid;
                 $this->objThread = new ilForumTopic($this->thread_id, $this->is_moderator);
             }
         }
@@ -349,6 +352,16 @@ class ilForumPost
     public function getThreadId(): int
     {
         return $this->thread_id;
+    }
+
+    public function getRCID(): string
+    {
+        return $this->rcid;
+    }
+
+    public function setRCID(string $rcid): void
+    {
+        $this->rcid = $rcid;
     }
 
     public function setDisplayUserId(int $a_user_id): void
@@ -606,6 +619,7 @@ class ilForumPost
         $this->setDisplayUserId((int) $row['pos_display_user_id']);
         $this->setPosAuthorId((int) $row['pos_author_id']);
         $this->setIsAuthorModerator((bool) $row['is_author_moderator']);
+        $this->setRCID((string)($row['rcid'] ?? self::NO_RCID));
     }
 
     /**
