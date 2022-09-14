@@ -469,7 +469,14 @@ class ilIndividualAssessmentMemberGUI extends AbstractCtrlAwareUploadHandler
     {
         $name = $this->getFileName();
 
-        if (is_null($name)) {
+        $ids = array_filter($file_ids, function ($id) {
+            if ($id == "") {
+                return false;
+            }
+            return true;
+        });
+
+        if (is_null($name) || count($ids) === 0) {
             return [];
         }
 
