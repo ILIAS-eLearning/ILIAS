@@ -31,11 +31,6 @@ class ilSkillSelectorGUI extends ilVirtualSkillTreeExplorerGUI
     protected string $select_par = "";
     protected SkillAdminGUIRequest $admin_gui_request;
 
-    /**
-     * @var string[]
-     */
-    protected array $requested_selected_ids = [];
-
     public function __construct(
         $a_parent_obj,
         string $a_parent_cmd,
@@ -55,7 +50,6 @@ class ilSkillSelectorGUI extends ilVirtualSkillTreeExplorerGUI
         $this->select_cmd = $a_select_cmd;
         $this->select_par = $a_select_par;
         $this->setSkipRootNode(true);
-        $this->requested_selected_ids = $this->admin_gui_request->getSelectedIds($this->select_postvar);
     }
 
     public function setSkillSelected(string $a_id): void
@@ -66,7 +60,7 @@ class ilSkillSelectorGUI extends ilVirtualSkillTreeExplorerGUI
     public function getSelectedSkills(): array
     {
         $skills = [];
-        $pa = $this->requested_selected_ids;
+        $pa = $this->admin_gui_request->getSelectedIds($this->select_postvar);
         if (!empty($pa)) {
             foreach ($pa as $p) {
                 $skills[] = $this->vtree->getCSkillIdForVTreeId($p);
