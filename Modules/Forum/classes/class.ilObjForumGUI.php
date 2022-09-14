@@ -2445,7 +2445,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
                 $file = $_FILES['userfile'] ?? [];
                 if (is_array($file) && !empty($file)) {
                     $tmp_file_obj = new ilFileDataForum($this->object->getId(), $newPost);
-                    $tmp_file_obj->storeUploadedFile($file);
+                    $tmp_file_obj->storeUploadedFiles();
                 }
 
                 //move files of draft to posts directory
@@ -2628,7 +2628,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
                     $oFDForum = new ilFileDataForum($forumObj->getId(), $newPost);
                     $file = $_FILES['userfile'];
                     if (is_array($file) && !empty($file)) {
-                        $oFDForum->storeUploadedFile($file);
+                        $oFDForum->storeUploadedFiles();
                     }
                 }
 
@@ -2744,7 +2744,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
                     if ($this->objProperties->isFileUploadAllowed()) {
                         $file = $_FILES['userfile'];
                         if (is_array($file) && !empty($file)) {
-                            $oFDForum->storeUploadedFile($file);
+                            $oFDForum->storeUploadedFiles();
                         }
                     }
 
@@ -3979,7 +3979,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
                 $file = $_FILES['userfile'];
                 if (is_array($file) && !empty($file)) {
                     $fileData = new ilFileDataForum($this->object->getId(), $newPost);
-                    $fileData->storeUploadedFile($file);
+                    $fileData->storeUploadedFiles();
                 }
             }
 
