@@ -27,6 +27,7 @@ use ILIAS\Exercise\Assignment\Mandatory\MandatoryAssignmentsManager;
  */
 class ilExAssignmentGUI
 {
+    protected \ILIAS\MediaObjects\MediaType\MediaTypeManager $media_type;
     protected ilLanguage $lng;
     protected ilObjUser $user;
     protected ilCtrl $ctrl;
@@ -59,6 +60,7 @@ class ilExAssignmentGUI
         $this->exc = $a_exc;
         $this->service = $service;
         $this->mandatory_manager = $service->domain()->assignment()->mandatoryAssignments($this->exc);
+        $this->media_type = $DIC->mediaObjects()->internal()->domain()->mediaType();
     }
 
     /**
@@ -174,7 +176,6 @@ class ilExAssignmentGUI
 
         $info = new ilInfoScreenGUI(null);
         $info->setTableClass("");
-
         if ($state->areInstructionsVisible()) {
             $this->addInstructions($info, $a_ass);
             $this->addFiles($info, $a_ass);
@@ -197,7 +198,6 @@ class ilExAssignmentGUI
         ilExAssignment $a_ass
     ): void {
         $ilUser = $this->user;
-
         $info = new ilExAssignmentInfo($a_ass->getId(), $ilUser->getId());
         $inst = $info->getInstructionInfo();
         if (count($inst) > 0) {
@@ -288,7 +288,6 @@ class ilExAssignmentGUI
         $lng = $this->lng;
         $lng->loadLanguageModule("exc");
         $files = $a_ass->getFiles();
-
         if (count($files) > 0) {
             $a_info->addSection($lng->txt("exc_files"));
 
@@ -304,7 +303,7 @@ class ilExAssignmentGUI
                 $ui_factory = $DIC->ui()->factory();
                 $ui_renderer = $DIC->ui()->renderer();
 
-                if (in_array($mime, array("image/jpeg", "image/svg+xml", "image/gif", "image/png"))) {
+                if ($this->media_type->isImage($mime)) {
                     $item_id = "il-ex-modal-img-" . $a_ass->getId() . "-" . $cnt;
 
 
@@ -328,11 +327,15 @@ class ilExAssignmentGUI
                     $img_tpl->parseCurrentBlock();
 
                     $a_info->addProperty($file["name"], $img_tpl->get());
-                } elseif (in_array($mime, array("audio/mpeg", "audio/ogg", "video/mp4", "video/x-flv", "video/webm"))) {
+                } elseif ($this->media_type->isAudio($mime) || $this->media_type->isVideo($mime)) {
                     $media_tpl = new ilTemplate("tpl.media_file.html", true, true, "Modules/Exercise");
-                    $mp = new ilMediaPlayerGUI();
-                    $mp->setFile($file['fullpath']);
-                    $media_tpl->setVariable("MEDIA", $mp->getMediaPlayerHtml());
+
+                    if ($this->media_type->isAudio($mime)) {
+                        $p = $ui_factory->player()->audio($file['fullpath']);
+                    } else {
+                        $p = $ui_factory->player()->video($file['fullpath']);
+                    }
+                    $media_tpl->setVariable("MEDIA", $ui_renderer->render($p));
 
                     $but = $ui_factory->button()->shy(
                         $lng->txt("download"),
