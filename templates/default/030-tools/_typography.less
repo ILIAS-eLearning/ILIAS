@@ -1,0 +1,218 @@
+@font-face {
+	font-family: 'Open Sans';
+	src:	url('@{il-web-font-path}OpenSansWeb/OpenSans-Regular.woff2') format('woff2'),
+			url('@{il-web-font-path}OpenSansWeb/OpenSans-Regular.woff') format('woff');
+	font-weight: 400;
+	font-style: normal;
+}
+
+@font-face {
+	font-family: 'Open Sans';
+	src:	url('@{il-web-font-path}OpenSansWeb/OpenSans-Bold.woff2') format('woff2'),
+			url('@{il-web-font-path}OpenSansWeb/OpenSans-Bold.woff') format('woff');
+	font-weight: 700;
+	font-style: normal;
+}
+
+@font-face {
+	font-family: 'Open Sans';
+	src:	url('@{il-web-font-path}OpenSansWeb/OpenSans-Italic.woff2') format('woff2'),
+			url('@{il-web-font-path}OpenSansWeb/OpenSans-Italic.woff') format('woff');
+	font-weight: 400;
+	font-style: italic;
+}
+
+@font-face {
+	font-family: 'Open Sans';
+	src:	url('@{il-web-font-path}OpenSansWeb/OpenSans-BoldItalic.woff2') format('woff2'),
+			url('@{il-web-font-path}OpenSansWeb/OpenSans-BoldItalic.woff') format('woff');
+	font-weight: 700;
+	font-style: italic;
+}
+
+@font-face {
+	font-family: 'Open Sans';
+	src:	url('@{il-web-font-path}OpenSansWeb/OpenSans-Light.woff2') format('woff2'),
+			url('@{il-web-font-path}OpenSansWeb/OpenSans-Light.woff') format('woff');
+	font-weight: 300;
+	font-style: normal;
+}
+
+@font-face {
+	font-family: 'Open Sans';
+	src:	url('@{il-web-font-path}OpenSansWeb/OpenSans-LightItalic.woff2') format('woff2'),
+			url('@{il-web-font-path}OpenSansWeb/OpenSans-LightItalic.woff') format('woff');
+	font-weight: 300;
+	font-style: italic;
+}
+
+@font-face {
+	font-family: 'Open Sans';
+	src:	url('@{il-web-font-path}OpenSansWeb/OpenSans-Semibold.woff2') format('woff2'),
+			url('@{il-web-font-path}OpenSansWeb/OpenSans-Semibold.woff') format('woff');
+	font-weight: 600;
+	font-style: normal;
+}
+
+@font-face {
+	font-family: 'Open Sans';
+	src:	url('@{il-web-font-path}OpenSansWeb/OpenSans-SemiboldItalic.woff2') format('woff2'),
+			url('@{il-web-font-path}OpenSansWeb/OpenSans-SemiboldItalic.woff') format('woff');
+	font-weight: 600;
+	font-style: italic;
+}
+
+@font-face {
+	font-family: 'Open Sans';
+	src:	url('@{il-web-font-path}OpenSansWeb/OpenSans-ExtraBold.woff2') format('woff2'),
+			url('@{il-web-font-path}OpenSansWeb/OpenSans-ExtraBold.woff') format('woff');
+	font-weight: 800;
+	font-style: normal;
+}
+
+@font-face {
+	font-family: 'Open Sans';
+	src:	url('@{il-web-font-path}OpenSansWeb/OpenSans-ExtraBoldItalic.woff2') format('woff2'),
+			url('@{il-web-font-path}OpenSansWeb/OpenSans-ExtraBoldItalic.woff') format('woff');
+	font-weight: 800;
+	font-style: italic;
+}
+
+// currently from https://github.com/MorbZ/OpenSansEmoji
+// under http://www.apache.org/licenses/LICENSE-2.0
+@font-face {
+	font-family: 'Open Sans Emoji';
+	src:	url('@{il-web-font-path}OpenSansEmoji/OpenSansEmoji.ttf') format('truetype'),
+			url('@{il-web-font-path}OpenSansEmoji/OpenSansEmoji.otf') format('otf');
+	font-style: normal;
+}
+
+@font-face {
+	font-family: 'il-icons';
+	src:	url('@{il-web-font-path}Iconfont/il-icons.woff') format('woff'),
+			url('@{il-web-font-path}Iconfont/il-icons.ttf') format('truetype');
+
+	font-weight: 300;
+	font-style: normal;
+}
+
+.ilCenter {
+	text-align: center;
+}
+
+.ilRight {
+	text-align: right;
+}
+
+[dir="rtl"] .ilRight {
+	text-align: left;
+}
+
+.ilLeft {
+	text-align: left;
+}
+
+[dir="rtl"] .ilLeft {
+	text-align: right;
+}
+
+.ilValignMiddle {
+	vertical-align: middle;
+}
+
+.ilWhiteSpaceNowrap {
+	white-space: nowrap;
+}
+
+/* PreventBreakOut, see https://css-tricks.com/snippets/css/prevent-long-urls-from-breaking-out-of-container/ */
+.ilPreventBreakOut {
+	overflow-wrap: break-word;
+	word-wrap: break-word;
+	-ms-word-break: break-all;
+	word-break: break-word;
+	-ms-hyphens: auto;
+	-moz-hyphens: auto;
+	-webkit-hyphens: auto;
+	hyphens: auto;
+}
+
+/* ----------------- alternative text styles ------------- */
+.base {
+	text-decoration: none;
+	font-size: @il-font-size-base;
+}
+
+.small {
+	text-decoration: none;
+	font-size: @il-font-size-small;
+}
+
+.xsmall {
+	text-decoration: none;
+	font-size: @il-font-size-xsmall;
+}
+
+.smallgreen {
+	text-decoration: none;
+	font-size: @il-font-size-small;
+	color: green;
+}
+
+.smallred {
+	text-decoration: none;
+	font-size: @il-font-size-small;
+	color: @il-danger-color;
+}
+
+.obligatory {
+	font-weight: @il-font-weight-base;
+	color: #800000;
+	font-variant: normal;
+}
+
+.warning {
+	text-decoration: none;
+	font-weight: @il-font-weight-bold;
+	color: @il-danger-color;
+}
+
+div.Access {
+	text-decoration: none;
+	font-weight: @il-font-weight-bold;
+	text-decoration: underline;
+	color: @il-danger-color;
+}
+
+.asterisk {
+	color: @il-danger-color;
+	font-size: @il-font-size-small;
+}
+
+.default {
+	text-decoration: none;
+	font-weight: @il-font-weight-base;
+}
+
+
+.quote {
+	font-style: italic;
+	font-weight: @il-font-weight-base;
+}
+
+.subtitle {
+	font-style: italic;
+	font-weight: @il-font-weight-base;
+	font-size: @il-font-size-small;
+}
+
+.questiontext {
+	font-weight: @il-font-weight-bold;
+}
+
+.bold {
+	font-weight: @il-font-weight-bold;
+}
+
+.light {
+	color: @il-text-light-color;
+}
