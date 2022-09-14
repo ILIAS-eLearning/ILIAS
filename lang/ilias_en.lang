@@ -16279,7 +16279,7 @@ trac#:#trac_lp_learner_access#:#View Own Learning Progress
 trac#:#trac_lp_learner_access_info#:#If active, users can access their own learning progress status.
 trac#:#trac_lp_list_gui#:#Dashboard, Repository, Search
 trac#:#trac_lp_list_gui_info#:#If activated, the learning progress status is included in objects lists.
-trac#:#trac_lp_settings_info_parent_container#:#Learning Progress of Atop Container Objects
+trac#:#trac_lp_settings_info_parent_container#:#Learning Progress of Parent Container Objects
 trac#:#trac_lp_settings_info_parent_legend#:#The learning progress status of this object is influenced by "%s".
 trac#:#trac_manual_display#:#Display in Learning Progress
 trac#:#trac_manual_is_displayed#:#Is Displayed
