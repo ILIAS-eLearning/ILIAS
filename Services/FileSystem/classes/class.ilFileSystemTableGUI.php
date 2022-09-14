@@ -85,7 +85,6 @@ class ilFileSystemTableGUI extends ilTable2GUI
                 );
             }
         }
-
         $this->addColumns();
 
         $this->setDefaultOrderField("name");

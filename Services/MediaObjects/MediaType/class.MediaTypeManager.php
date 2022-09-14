@@ -62,12 +62,17 @@ class MediaTypeManager
 
     public function isImage(string $mime): bool
     {
-        return is_int(strpos($mime, "image"));
+        return in_array($mime, ["image/jpeg", "image/svg+xml", "image/gif", "image/png"]);
     }
 
     public function isAudio(string $mime): bool
     {
         return in_array($mime, $this->getAudioMimeTypes());
+    }
+
+    public function isVideo(string $mime): bool
+    {
+        return in_array($mime, $this->getVideoMimeTypes());
     }
 
     public function usesAltTextProperty(string $mime): bool

@@ -59,7 +59,7 @@ class ilExAssignmentFileSystemGUI extends ilFileSystemGUI
             $this->label_enable,
             $this->file_labels,
             "",
-            [],
+            $this->getActionCommands(),
             $this->getPostDirPath()
         );
     }
