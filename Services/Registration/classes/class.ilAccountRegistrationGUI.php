@@ -145,7 +145,7 @@ class ilAccountRegistrationGUI
             $fprop = ilCustomUserFieldsHelper::getInstance()->getFormPropertyForDefinition(
                 $definition,
                 true,
-                $user_defined_data['f_' . $field_id]
+                $user_defined_data['f_' . $field_id] ?? null
             );
             if ($fprop instanceof ilFormPropertyGUI) {
                 $custom_fields['udf_' . $definition['field_id']] = $fprop;
