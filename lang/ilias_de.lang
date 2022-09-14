@@ -1251,7 +1251,7 @@ assessment#:#test_next_question#:#Nächste Frage
 assessment#:#test_prev_question#:#Vorherige Frage
 assessment#:#test_question_set_type#:#Auswahl der Testfragen
 assessment#:#test_question_set_type_fixed#:#Fest definierte Fragenauswahl
-assessment#:#test_question_set_type_fixed_info#:#Alen Teilnehmenden werden die gleichen Fragen gestellt.<br>Sie können sowohl bereits vorhandene Fragen aus Fragenpools wiederverwenden als auch neue Fragen direkt im Test erstellen. Sie können auch nue erstellte Fragen zur Wiederverwendung in einem Fragenpool abspeichern.
+assessment#:#test_question_set_type_fixed_info#:#Allen Teilnehmenden werden die gleichen Fragen gestellt.<br>Sie können sowohl bereits vorhandene Fragen aus Fragenpools wiederverwenden als auch neue Fragen direkt im Test erstellen. Sie können auch nue erstellte Fragen zur Wiederverwendung in einem Fragenpool abspeichern.
 assessment#:#test_question_set_type_random#:#Zufällige Fragenauswahl
 assessment#:#test_question_set_type_random_info#:#jedem Teilnehmden werden unterschiedliche Fragen gestellt. Die Auswahl der Fragen erfolgt zufällig aus einem oder mehreren Fragenpools.
 assessment#:#test_results#:#Bekanntgabe des Testergebnisses
