@@ -23,10 +23,10 @@ class ilBuddySystemRequestedRelationStateTableFilterMapper extends ilAbstractBud
     public function optionsForState(): array
     {
         return [
-            $this->state::class . '_a' => $this->lng->txt(
+            get_class($this->state) . '_a' => $this->lng->txt(
                 'buddy_bs_state_' . strtolower($this->state->getName()) . '_filter_a'
             ),
-            $this->state::class . '_p' => $this->lng->txt(
+            get_class($this->state) . '_p' => $this->lng->txt(
                 'buddy_bs_state_' . strtolower($this->state->getName()) . '_filter_p'
             ),
         ];
@@ -38,8 +38,8 @@ class ilBuddySystemRequestedRelationStateTableFilterMapper extends ilAbstractBud
     public function filterMatchesRelation(string $filter_key, ilBuddySystemRelation $relation): bool
     {
         return (
-            (strtolower($filter_key) === strtolower($this->state::class . '_a') && $relation->isOwnedByActor()) ||
-            (strtolower($filter_key) === strtolower($this->state::class . '_p') && !$relation->isOwnedByActor())
+            (strtolower($filter_key) === strtolower(get_class($this->state) . '_a') && $relation->isOwnedByActor()) ||
+            (strtolower($filter_key) === strtolower(get_class($this->state) . '_p') && !$relation->isOwnedByActor())
         );
     }
 }
