@@ -114,9 +114,10 @@ class ilIndividualAssessmentFileStorage extends ilFileSystemStorage implements I
     /**
      * Upload the file
      *
-     * @param string[]
+     * @param UploadResult $result
      *
      * @return bool
+     * @throws ilException
      */
     public function uploadFile(UploadResult $result)
     {
@@ -143,7 +144,7 @@ class ilIndividualAssessmentFileStorage extends ilFileSystemStorage implements I
     }
 
     /**
-     * Get the path of file
+     * Get the path of the file
      *
      * @return string
      */
@@ -153,7 +154,7 @@ class ilIndividualAssessmentFileStorage extends ilFileSystemStorage implements I
     }
 
     /**
-     * Get the name of file
+     * Get the name of the file
      *
      * @return string
      */
