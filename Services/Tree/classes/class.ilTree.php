@@ -1964,7 +1964,7 @@ class ilTree
 
         // GET SUBTREE BY PARENT RELATION
         $parent_childs = [];
-        $this->__getSubTreeByParentRelation($a_node['child'], $parent_childs);
+        $this->__getSubTreeByParentRelation((int)$a_node['child'], $parent_childs);
         $this->__validateSubtrees($lft_childs, $parent_childs);
 
         return true;
