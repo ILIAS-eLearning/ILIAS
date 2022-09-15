@@ -2623,6 +2623,7 @@ buddysystem#:#buddy_relation_requested#:#A request has been sent to the user.
 buddysystem#:#buddy_request_approved#:#You successfully approved the contact.
 buddysystem#:#buddy_request_ignored#:#You ignored the user.
 buddysystem#:#buddy_tbl_filter_state#:#Status
+buddysystem#:#buddy_tbl_state_actions_col_label#:#State / Action
 buddysystem#:#buddy_tbl_title_relations#:#Relations to Other Users
 buddysystem#:#buddy_use_osd#:#Popup Contact Requests
 buddysystem#:#buddy_use_osd_info#:#Display a popup to indicate a user wants to add you to his friends lists.
@@ -10711,7 +10712,7 @@ mail#:#mail_add_subfolder#:#Add Sub-folder
 mail#:#mail_add_subject#:#Please enter a subject
 mail#:#mail_allow_external#:#External E-Mails
 mail#:#mail_allow_external_info#:#If disabled, the delivery of external e-mails (via SMTP) is globally disabled.
-mail#:#mail_assign_entry_to_mailing_list#:#Assign an Entry of Your Contacts to Mailing List
+mail#:#mail_assign_entry_to_mailing_list#:#Assign an Entry of Your Contacts to Mailing List "%s"
 mail#:#mail_attachment_file_not_exist#:#At least one of the following attachments does not exist: %1$s
 mail#:#mail_attachments#:#Attachments
 mail#:#mail_auto_generated_info#:#This mail was automatically sent to you by the ILIAS installation %s, %s
@@ -10800,7 +10801,7 @@ mail#:#mail_max_size_attachments_total#:#Please enter the maximum file size allo
 mail#:#mail_max_size_attachments_total_error#:#The allowed attachment size is:
 mail#:#mail_maxsize_attachment_error#:#The upload limit is:
 mail#:#mail_member_notification#:#Participant Notification
-mail#:#mail_members_of_mailing_list#:#Members of Mailing List
+mail#:#mail_members_of_mailing_list#:#Members of Mailing List "%s"
 mail#:#mail_members_search_continue#:#Continue
 mail#:#mail_message_send#:#Message sent
 mail#:#mail_move_error#:#Error moving mail
