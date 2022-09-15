@@ -361,17 +361,16 @@ class ilContactGUI
         }
 
         $logins = [];
+        $mail_data = $this->umail->getSavedData();
         foreach ($usr_ids as $usr_id) {
-            $logins[] = ilObjUser::_lookupLogin($usr_id);
+            $login = ilObjUser::_lookupLogin($usr_id);
+            if (!$this->umail->existsRecipient($login, (string) $mail_data['rcp_to'])) {
+                $logins[] = $login;
+            }
         }
         $logins = array_filter($logins);
 
         if ($logins !== []) {
-            $mail_data = $this->umail->getSavedData();
-            if (!is_array($mail_data)) {
-                $this->umail->savePostData($this->user->getId(), [], '', '', '', '', '', false);
-            }
-
             $mail_data = $this->umail->appendSearchResult($logins, 'to');
             $this->umail->savePostData(
                 (int) $mail_data['user_id'],
