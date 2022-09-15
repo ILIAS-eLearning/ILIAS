@@ -2356,7 +2356,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
     public function selectHeader(): void
     {
         $ids = $this->edit_request->getIds();
-        if (count($ids)) {
+        if (count($ids) == 0) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt("no_checkbox"), true);
             $this->ctrl->redirect($this, "pages");
         }
