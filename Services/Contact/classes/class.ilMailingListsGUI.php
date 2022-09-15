@@ -196,20 +196,16 @@ class ilMailingListsGUI
         }
 
         $mail_data = $this->umail->getSavedData();
-        if (!is_array($mail_data)) {
-            $this->umail->savePostData($this->user->getId(), [], '', '', '', '', '', false);
-        }
-
         $lists = [];
         foreach ($ml_ids as $id) {
             if ($this->mlists->isOwner($id, $this->user->getId()) &&
                 !$this->umail->existsRecipient('#il_ml_' . $id, (string) $mail_data['rcp_to'])) {
-                $lists[] = '#il_ml_' . $id;
+                $lists['#il_ml_' . $id] = '#il_ml_' . $id;
             }
         }
 
         if (count($lists)) {
-            $mail_data = $this->umail->appendSearchResult($lists, 'to');
+            $mail_data = $this->umail->appendSearchResult(array_values($lists), 'to');
             $this->umail->savePostData(
                 (int) $mail_data['user_id'],
                 $mail_data['attachments'],
