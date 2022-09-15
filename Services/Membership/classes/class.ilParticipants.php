@@ -238,10 +238,7 @@ abstract class ilParticipants
             "AND fa.assign = 'y' " .
             'AND ' . $ilDB->in('ua.usr_id', $a_user_ids, false, 'integer') . ' ' .
             $a2;
-
-        $logger->debug($query);
-
-
+        
         $obj_ids = [];
         $res = $ilDB->query($query);
         while ($row = $ilDB->fetchObject($res)) {
@@ -294,9 +291,10 @@ abstract class ilParticipants
             "JOIN object_reference obr ON fa.parent = obr.ref_id " .
             "JOIN object_data obd ON obr.obj_id = obd.obj_id " .
             $j2 .
-            "WHERE " . $ilDB->in("obd.type", $a_type, false, "text") .
+            "WHERE " . $ilDB->in("obd.type", $a_type, false, "text") . ' ' .
             "AND fa.assign = 'y' " .
             "AND ua.usr_id = " . $ilDB->quote($a_usr_id, 'integer') . " " .
+            'AND obr.deleted IS NULL ' .
             $a2;
         $res = $ilDB->query($query);
         while ($row = $ilDB->fetchObject($res)) {
