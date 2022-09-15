@@ -598,11 +598,13 @@ class ilObjOrgUnitGUI extends ilContainerGUI
     public function setContentSubTabs(): void
     {
         $this->addStandardContainerSubTabs();
-        //only display the import tab at the first level
-        if ($this->rbacsystem->checkAccess(
-            "visible, read",
-            $_GET["ref_id"]
-        ) and $this->object->getRefId() == ilObjOrgUnit::getRootOrgRefId()) {
+
+        $ref_id = $this->object->getRefId();
+        $may_create_orgus = $this->ilAccess->checkAccess("create_orgu", "", $ref_id, 'orgu');
+
+        if ($ref_id === ilObjOrgUnit::getRootOrgRefId() //only display the import tab at the first level
+            && $may_create_orgus
+        ) {
             $this->tabs_gui->addSubTab(
                 "import",
                 $this->lng->txt("import"),
