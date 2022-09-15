@@ -350,16 +350,13 @@ class ilMailingListsGUI
             if ($this->mlists->getCurrentMailingList()->getId()) {
                 $this->mlists->getCurrentMailingList()->setChangedate(date('Y-m-d H:i:s'));
                 $this->mlists->getCurrentMailingList()->update();
-                $this->tpl->setOnScreenMessage('success', $this->lng->txt('saved_successfully'));
             } else {
                 $this->mlists->getCurrentMailingList()->setCreatedate(date('Y-m-d H:i:s'));
                 $this->mlists->getCurrentMailingList()->insert();
-                $this->ctrl->setParameter($this, 'ml_id', $this->mlists->getCurrentMailingList()->getId());
-                $this->form_gui->setFormAction($this->ctrl->getFormAction($this, 'saveForm'));
-
-                $this->ctrl->setParameter($this, 'ml_id', $this->mlists->getCurrentMailingList()->getId());
-                $this->ctrl->redirect($this, 'showMembersList');
             }
+
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt('saved_successfully'), true);
+            $this->ctrl->redirect($this, 'showMailingLists');
         }
 
         $this->tpl->setTitle($this->lng->txt('mail_addressbook'));
