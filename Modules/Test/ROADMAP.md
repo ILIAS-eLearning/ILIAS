@@ -6,6 +6,7 @@ Priorities for the development of the Test & Assessment and the Test Question Po
 * Reducing the number of reported issues in Test & Assessment
 * Defining a concise interface for questions.
 * Separating the Test-Player from the Questions and the Question-Pool.
+* Refactoring `ilTestParticipantList`: This Class has a lot of very expensive loops in it (https://mantis.ilias.de/view.php?id=33596), but we can not remove them right now as it is used in very different contexts for all kind of lists. Sometimes users don't have $active_ids (participant list in test with access limited to selected participants), sometimes they don't have $usr_ids (anonymous tests in public section).
 
 ## Others
 * Fixing access to Learning Status when access to test results is limited (see: [Mantis 25064](https://mantis.ilias.de/view.php?id=25064&nbn=9))
