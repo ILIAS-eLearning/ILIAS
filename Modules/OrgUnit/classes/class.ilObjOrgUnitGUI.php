@@ -64,9 +64,6 @@ class ilObjOrgUnitGUI extends ilContainerGUI
     public function __construct()
     {
         global $DIC;
-
-
-
         $this->ctrl = $DIC->ctrl();
         $this->ilAccess = $DIC->access();
         $this->ilLocator = $DIC['ilLocator'];
@@ -385,7 +382,7 @@ class ilObjOrgUnitGUI extends ilContainerGUI
             $this->tabs->activateSubTab("view_content");
         }
 
-        //$container_view->setOutput();
+        $container_view->setOutput();
 
         $this->adminCommands = $container_view->adminCommands;
 
