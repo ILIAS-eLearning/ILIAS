@@ -23,5 +23,5 @@ interface ilBuddySystemRelationStateTableFilterMapper
      */
     public function optionsForState() : array;
 
-    public function filterMatchesRelation(string $filterKey, ilBuddySystemRelation $relation) : bool;
+    public function filterMatchesRelation(string $filter_key, ilBuddySystemRelation $relation) : bool;
 }
