@@ -40,7 +40,7 @@ class ilPortfolioDeclarationOfAuthorship
     public function getForLanguage(
         string $l
     ): string {
-        return $this->prtf_settings->get("decl_author_" . $l);
+        return (string) $this->prtf_settings->get("decl_author_" . $l);
     }
 
     /**
