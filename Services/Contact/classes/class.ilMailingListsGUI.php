@@ -159,10 +159,10 @@ class ilMailingListsGUI
             }
 
             if ($counter !== 0) {
-                $this->tpl->setOnScreenMessage('info', $this->lng->txt('mail_deleted_entry'));
+                $this->tpl->setOnScreenMessage('success', $this->lng->txt('mail_deleted_entry'));
             }
         } else {
-            $this->tpl->setOnScreenMessage('info', $this->lng->txt('mail_delete_error'));
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('mail_delete_error'));
         }
 
         $this->showMailingLists();
@@ -558,9 +558,9 @@ class ilMailingListsGUI
                     $this->mlists->getCurrentMailingList()->deleteEntry($id);
                 }
             }
-            $this->tpl->setOnScreenMessage('info', $this->lng->txt('mail_deleted_entry'));
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt('mail_deleted_entry'));
         } else {
-            $this->tpl->setOnScreenMessage('info', $this->lng->txt('mail_delete_error'));
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('mail_delete_error'));
         }
 
         $this->showMembersList();
@@ -574,7 +574,7 @@ class ilMailingListsGUI
         $form = new ilPropertyFormGUI();
         $this->ctrl->setParameter($this, 'ml_id', $this->mlists->getCurrentMailingList()->getId());
         $form->setFormAction($this->ctrl->getFormAction($this, 'saveAssignmentForm'));
-        $form->setTitle($this->lng->txt('mail_assign_entry_to_mailing_list') . ' ' . $this->mlists->getCurrentMailingList()->getTitle());
+        $form->setTitle(sprintf($this->lng->txt('mail_assign_entry_to_mailing_list'), $this->mlists->getCurrentMailingList()->getTitle()));
 
         $options = [];
         $options[''] = $this->lng->txt('please_select');
@@ -642,7 +642,7 @@ class ilMailingListsGUI
             $this->mlists->getCurrentMailingList()->assignUser(
                 $this->http->wrapper()->post()->retrieve('usr_id', $this->refinery->kindlyTo()->int())
             );
-            $this->tpl->setOnScreenMessage('info', $this->lng->txt('saved_successfully'));
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt('saved_successfully'));
             $this->showMembersList();
             return true;
         }
