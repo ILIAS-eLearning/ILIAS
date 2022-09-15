@@ -844,16 +844,15 @@ class ilChatroom
         string $invitationLink = ''
     ): void {
         $links = [];
-        if ($invitationLink === '') {
-            if ($gui) {
-                $links[] = new ilNotificationLink(
-                    new ilNotificationParameter('chat_join', [], 'chatroom'),
-                    $this->getChatURL($gui, $subScope)
-                );
-            }
-        } else {
-            $links[] = new ilNotificationLink(new ilNotificationParameter('chat_join', [], 'chatroom'), $invitationLink);
+
+        if ($gui && $invitationLink === '') {
+            $invitationLink = $this->getChatURL($gui, $subScope);
         }
+
+        $links[] = new ilNotificationLink(
+            new ilNotificationParameter('chat_join', [], 'chatroom'),
+            $invitationLink
+        );
 
         if ($recipient_id > 0 && ANONYMOUS_USER_ID !== $recipient_id) {
             if (is_numeric($sender) && $sender > 0) {
@@ -877,7 +876,7 @@ class ilChatroom
             $userLang = ilLanguageFactory::_getLanguageOfUser($recipient_id);
             $userLang->loadLanguageModule('mail');
             $bodyParams = [
-                'link' => $invitationLink !== '' ? $this->getChatURL($gui, $subScope) : '',
+                'link' => $invitationLink,
                 'inviter_name' => $public_name,
                 'room_name' => $this->getTitle(),
                 'salutation' => ilMail::getSalutation($recipient_id, $userLang),
