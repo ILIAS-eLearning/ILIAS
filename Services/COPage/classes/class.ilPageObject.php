@@ -99,7 +99,7 @@ abstract class ilPageObject
     protected ?string $activationstart = null;      // IL_CAL_DATETIME format
     protected ?string $activationend = null;        // IL_CAL_DATETIME format
     protected \ILIAS\COPage\ReadingTime\ReadingTimeManager $reading_time_manager;
-    protected $concrete_lang;
+    protected $concrete_lang = "";
 
     final public function __construct(
         int $a_id = 0,
