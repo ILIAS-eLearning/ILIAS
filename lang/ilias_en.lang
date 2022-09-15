@@ -1251,9 +1251,9 @@ assessment#:#test_next_question#:#Next Question
 assessment#:#test_prev_question#:#Previous Question
 assessment#:#test_question_set_type#:#Selection of Test Questions
 assessment#:#test_question_set_type_fixed#:#Use of a fixed set of questions
-assessment#:#test_question_set_type_fixed_info#:#All testees see the same questions.<br>You can create questions directly in the test as well as reuse questions from a Question Pool. If you create new questions you can decide to save them in a Question Pool.
+assessment#:#test_question_set_type_fixed_info#:#All participants get the same questions.<br>You can create questions directly in the test as well as reuse questions from a question pool. If you create new questions you can decide to save them in a question pool.
 assessment#:#test_question_set_type_random#:#Use of a random set of questions
-assessment#:#test_question_set_type_random_info#:#Every testee will see an individually generated set of questions. The questions are drawn from one or more Question Pools.
+assessment#:#test_question_set_type_random_info#:#Every participant will see an individually generated set of questions. The questions are randomly selected from one or more question pools.
 assessment#:#test_results#:#Summary Test Results
 assessment#:#test_scoring#:#Scoring Options
 assessment#:#test_template_reset#:#The template has been removed.
