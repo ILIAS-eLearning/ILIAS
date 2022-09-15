@@ -73,11 +73,11 @@ class ilGroupActionTargetExplorerGUI extends ilRepositorySelectorExplorerGUI
     public function isNodeClickable($a_node): bool
     {
         if ($this->select_parent) {
-            if ($this->access->checkAccess("create", "", $a_node["child"], "grp")) {
+            if ($this->access->checkAccess("create", "", (int) $a_node["child"], "grp")) {
                 return true;
             }
         } elseif ($a_node["type"] == $this->getClickableType() &&
-            $this->access->checkAccess("manage_members", "", $a_node["child"])) {
+            $this->access->checkAccess("manage_members", "", (int) $a_node["child"])) {
             return true;
         }
         return false;

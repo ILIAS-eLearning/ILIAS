@@ -75,6 +75,8 @@ il.Group = il.Group || {};
 
 					if ($('#il_grp_action_modal_content').length) {
 						url = url + "&modal_exists=1";
+					} else {
+						url = url + "&modal_exists=0";
 					}
 
 					il.Util.sendAjaxGetRequestToUrl(url, [], [], function (r) {

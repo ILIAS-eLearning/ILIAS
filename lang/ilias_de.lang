@@ -2623,6 +2623,7 @@ buddysystem#:#buddy_relation_requested#:#Dem Benutzer wurde eine Kontaktanfrage 
 buddysystem#:#buddy_request_approved#:#Der Kontakt wurde erfolgreich hergestellt.
 buddysystem#:#buddy_request_ignored#:#Sie haben den Benutzer ignoriert.
 buddysystem#:#buddy_tbl_filter_state#:#Status
+buddysystem#:#buddy_tbl_state_actions_col_label#:#Status / Aktion
 buddysystem#:#buddy_tbl_title_relations#:#Beziehungen zu anderen Benutzern
 buddysystem#:#buddy_use_osd#:#Popup Kontaktanfragen
 buddysystem#:#buddy_use_osd_info#:#Zeigt ein Popup an, wenn ein Benutzer mit mir in Kontakt treten möchte.
@@ -10697,7 +10698,7 @@ mail#:#current_folder#:#Aktueller Ordner: %s
 mail#:#deleteTemplate#:#Löschen
 mail#:#first_email_missing_info#:#Auswahl nicht möglich, da keine E-Mail-Adresse eingetragen wurde
 mail#:#forward#:#Weiterleiten
-mail#:#goto_invitation_chat#:#Öffne Chatraum
+mail#:#goto_invitation_chat#:#Chatraum öffnen
 mail#:#invite_to_chat#:#in Chat einladen
 mail#:#linebreak#:#Zeilenumbruch
 mail#:#link_check_affected_links#:#Betroffene Links
@@ -10711,7 +10712,7 @@ mail#:#mail_add_subfolder#:#Unterordner hinzufügen
 mail#:#mail_add_subject#:#Bitte geben Sie einen Betreff ein
 mail#:#mail_allow_external#:#Externe E-Mails
 mail#:#mail_allow_external_info#:#Sofern nicht aktiviert, wird der Versand von externen E-Mails (via SMTP) global unterdrückt.
-mail#:#mail_assign_entry_to_mailing_list#:#Zuordnung eines Kontakts zum Verteiler
+mail#:#mail_assign_entry_to_mailing_list#:#Zuordnung eines Kontakts zum Verteiler "%s"
 mail#:#mail_attachment_file_not_exist#:#Mindestens einer der folgenden Anhänge konnte nicht gefunden werden: %1$s
 mail#:#mail_attachments#:#Anhänge
 mail#:#mail_auto_generated_info#:#Diese E-Mail wurde von der ILIAS-Installation %s, %s automatisch an Sie versandt.
@@ -10800,7 +10801,7 @@ mail#:#mail_max_size_attachments_total#:#Bitte geben Sie hier die erlaubte Datei
 mail#:#mail_max_size_attachments_total_error#:#Die maximal erlaubte Dateigröße für Anhänge beträgt:
 mail#:#mail_maxsize_attachment_error#:#Die maximale Dateigröße beträgt:
 mail#:#mail_member_notification#:#Teilnehmerbenachrichtigung
-mail#:#mail_members_of_mailing_list#:#Mitglieder der Verteilerliste
+mail#:#mail_members_of_mailing_list#:#Mitglieder der Verteilerliste "%s"
 mail#:#mail_members_search_continue#:#Weiter
 mail#:#mail_message_send#:#Die Mail wurde versandt
 mail#:#mail_move_error#:#Fehler beim Mailversand
