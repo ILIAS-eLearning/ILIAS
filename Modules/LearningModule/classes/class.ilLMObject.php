@@ -842,13 +842,13 @@ class ilLMObject
                     }
                 }
             }
-            $order = ($curnode["lft"] > 0)
+            $order = (($curnode["lft"] ?? 0) > 0)
                 ? $curnode["lft"]
                 : (int) ($order + 1);
             $ilUser->addObjectToClipboard(
                 $id,
-                ilLMObject::_lookupType($id),
-                ilLMObject::_lookupTitle($id),
+                self::_lookupType($id),
+                self::_lookupTitle($id),
                 0,
                 $time,
                 $order
