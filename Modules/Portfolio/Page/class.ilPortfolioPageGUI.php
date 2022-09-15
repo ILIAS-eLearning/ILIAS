@@ -1123,6 +1123,7 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
                         $html = "<a href='" . $href . "'>" . $html . "</a>";
                         break;
 
+                        /* see #34170, may need a different change, keep code to monitor
                     case "Verification":
                         $ilCtrl->setParameterByClass("ilPCVerificationGUI", "prt_id", $this->port_request->getPortfolioId());
                         $ilCtrl->setParameterByClass("ilPCVerificationGUI", "ppage", $this->getId());
@@ -1132,6 +1133,7 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
                         $href = $ilCtrl->getLinkTargetByClass(array("ilPortfolioPageGUI", "ilPageEditorGUI", "ilPCPlaceHolderGUI", "ilPCVerificationGUI"), "insert");
                         $html = "<a href='" . $href . "'>" . $html . "</a>";
                         break;
+                        */
                 }
             }
 
