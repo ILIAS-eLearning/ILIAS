@@ -73,21 +73,21 @@ class ilBuddySystemStateFactoryTest extends ilBuddySystemBaseTest
             $this->assertThat(count($otions), $this->greaterThan(0));
 
             array_walk($otions, function (string $value, string $key) use ($tableFilterStateMapper, $state): void {
-                if ($state instanceof \ilBuddySystemRequestedRelationState) {
+                if ($state instanceof ilBuddySystemRequestedRelationState) {
                     if ($key === $state::class . '_a') {
                         $relation = $this->getMockBuilder(ilBuddySystemRelation::class)->disableOriginalConstructor()->getMock();
                         $relation->method('isOwnedByActor')->willReturn(false);
 
-                        $this->assertFalse($status = $tableFilterStateMapper->filterMatchesRelation($key, $relation));
+                        $this->assertFalse($tableFilterStateMapper->filterMatchesRelation($key, $relation));
 
                         $relation = $this->getMockBuilder(ilBuddySystemRelation::class)->disableOriginalConstructor()->getMock();
                         $relation->method('isOwnedByActor')->willReturn(true);
-                        $this->assertTrue($status = $tableFilterStateMapper->filterMatchesRelation($key, $relation));
+                        $this->assertTrue($tableFilterStateMapper->filterMatchesRelation($key, $relation));
                     } elseif ($key === $state::class . '_p') {
                         $relation = $this->getMockBuilder(ilBuddySystemRelation::class)->disableOriginalConstructor()->getMock();
                         $relation->method('isOwnedByActor')->willReturn(true);
 
-                        $this->assertFalse($status = $tableFilterStateMapper->filterMatchesRelation($key, $relation));
+                        $this->assertFalse($tableFilterStateMapper->filterMatchesRelation($key, $relation));
 
                         $relation = $this->getMockBuilder(ilBuddySystemRelation::class)->disableOriginalConstructor()->getMock();
                         $relation->method('isOwnedByActor')->willReturn(false);
