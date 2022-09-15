@@ -802,15 +802,4 @@ class ilObjOrgUnitGUI extends ilContainerGUI
             $ilCtrl->returnToParent($this);
         }
     }
-
-    /**
-     * @throws ilCtrlException
-     */
-    public function cancelMoveLinkObject(): void
-    {
-        $parent_ref_id = $_SESSION["clipboard"]["parent"];
-        unset($_SESSION["clipboard"]);
-        $this->ctrl->setParameter($this, 'ref_id', $parent_ref_id);
-        $this->ctrl->redirect($this);
-    }
 }
