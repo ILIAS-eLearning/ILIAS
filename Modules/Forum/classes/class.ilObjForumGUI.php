@@ -2929,6 +2929,20 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
             $this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
         }
 
+        $oForumObjects = $this->getForumObjects();
+        $forumObj = $oForumObjects['forumObj'];
+        $frm = $oForumObjects['frm'];
+        $file_obj = $oForumObjects['file_obj'];
+
+        $selected_draft_id = (int) ($this->httpRequest->getQueryParams()['draft_id'] ?? 0);
+        if (isset($this->httpRequest->getQueryParams()['file'])) {
+            $file_obj_for_delivery = $file_obj;
+            if ($selected_draft_id > 0 && ilForumPostDraft::isSavePostDraftAllowed()) {
+                $file_obj_for_delivery = new ilFileDataForumDrafts($forumObj->getId(), $selected_draft_id);
+            }
+            $file_obj_for_delivery->deliverFile(ilUtil::stripSlashes($this->httpRequest->getQueryParams()['file']));
+        }
+
         $pageIndex = 0;
         if (isset($this->httpRequest->getQueryParams()['page'])) {
             $pageIndex = max((int) $this->httpRequest->getQueryParams()['page'], $pageIndex);
@@ -2960,22 +2974,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
                 ->addAdditionalData(ForumGlobalScreenToolsProvider::PAGE, $pageIndex);
         }
 
-        $oForumObjects = $this->getForumObjects();
-        $forumObj = $oForumObjects['forumObj'];
-        $frm = $oForumObjects['frm'];
-        $file_obj = $oForumObjects['file_obj'];
-
-        $selected_draft_id = (int) ($this->httpRequest->getQueryParams()['draft_id'] ?? 0);
-
-        if (isset($this->httpRequest->getQueryParams()['file'])) {
-            $file_obj_for_delivery = $file_obj;
-            if ($selected_draft_id > 0 && ilForumPostDraft::isSavePostDraftAllowed()) {
-                $file_obj_for_delivery = new ilFileDataForumDrafts($forumObj->getId(), $selected_draft_id);
-            }
-            $file_obj_for_delivery->deliverFile(ilUtil::stripSlashes($this->httpRequest->getQueryParams()['file']));
-        }
-
-        if (!$this->objCurrentTopic->getId()) {
+        if ($this->objCurrentTopic->getId() === 0) {
             $this->ctrl->redirect($this, 'showThreads');
         }
 
