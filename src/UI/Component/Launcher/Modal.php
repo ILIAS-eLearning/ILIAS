@@ -20,10 +20,9 @@ declare(strict_types=1);
 
 namespace ILIAS\UI\Component\Launcher;
 
-use ILIAS\UI\Component\Component;
-use ILIAS\UI\Component\Signal;
+use ILIAS\UI\Component\Button\Button;
 
 interface Modal extends Launcher
 {
-    public function getShowSignal(): Signal;
+    public function getButton(): Button;
 }

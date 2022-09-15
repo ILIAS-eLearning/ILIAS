@@ -23,17 +23,25 @@ namespace ILIAS\UI\Component\Launcher;
 use ILIAS\UI\Component\Component;
 use ILIAS\UI\Component\Chart\ProgressMeter;
 use ILIAS\UI\Component\Symbol\Icon;
+use ILIAS\UI\Component\Input\Container\Form\Form;
 
-interface Launcher extends Component
+interface Launcher extends Component, Form
 {
-    public function withDescription(string $description) : self
+    public function withDescription(string $description) : self;
 
-    public function withInputs(Field $fields) : self
+    public function withInputs(Field $fields) : self;
 
     /**
      * @param Icon | ProgressMeter $status
      */
-    public function withStatus(Component $status) : self
+    public function withStatus(Component $status): self;
 
-    public function withButtonLabel(string $label, bool $launchable = true) : self
+    public function withButtonLabel(string $label, bool $launchable = true): self;
+
+    /**
+     * @inheritdoc
+     *
+     * If not Inputs have been configured, the method will always return true.
+     */
+    public function getData();
 }

@@ -31,21 +31,15 @@ interface Factory
      *     The Inline Launcher is meant to be used nested within Components (e.g. Cards or Panels).
      *     It provides description and status information at a glance.
      *   effect: >
-     *     Clicking the Primary Button starts an object or a process.
-     *     If the Component is configured with inputs, this will be communicated
-     *     to the user with an appropriate icon.
      *     The Form will be shown in an Interruptive Modal when clicking the Primary Button.
      *     On Submitting the modal, either a message is being displayed (in case of error)
      *     or the process/object is launched.
      *   rivals:
      *     Modal Launcher: >
-     *       The Modal Launcher will inform the user about a process after the basic
-     *       identification of the respective object was made or will further specify 
-     *       the initially chosen action.
-     * rules:
-     *   usage:
-     *     1: The Launcher SHOULD be nested in other Components like e.g. Panels or Cards.
-     *
+     *       Modal Launcher is visually only present via a Button and provides the required
+     *       information in a modal when the Button is clicked. Hence it is useful for
+     *       workflows where multiple launchable objects or workflows are presented and
+     *       the user choses among them.
      * ---
      * @return \ILIAS\UI\Component\Launcher\Inline
      */
@@ -55,25 +49,24 @@ interface Factory
      * ---
      * description:
      *   purpose: >
-     *     For further specification of a process or to avoid another view change,
-     *     the Modal Launcher can be used to show its contents wrapped within a Modal.
+     *     The Modal Launcher is presented via a Button, where the other information
+     *     are presented in a Modal that opens one the button is clicked. Hence it can
+     *     be used in cases, where multiple workflows and objects are presented and the
+     *     the user is expected to chose among them. The Modal Launcher allows to do
+     *     so without changing views.
      *   effect: >
-     *     Upon Signal, the Modal Launcher will open an Interruptive Modal and
-     *     displays a title, a desription, status information and a Primary Button.
-     *     If Inputs are configured with the Launcher, the resulting Form replaces
-     *     the contents of the Modal when the Primary Button is clicked.
-     *     Submitting the Form starts the object or process.
+     *     Upon click on the button, the Modal Launcher will open an Interruptive Modal
+     *     and display title, desription and status information and, if configured, the
+     *     inputs.
      *   rivals:
      *     Inline Launcher: >
      *       The Inline Launcher also identifies an object/process. The Modal Launcher
-     *       is a reaction to an interaction with another Component (e.g. item)
+     *       is only presented via a Button and hence requires other means to be identified
+     *       by the user correctly, such as Items or Cards.
      *     Interruptive Modal: >
      *       The Interruptive Modal is meant to display objects affected by a critical action. 
      *       The Modal Launcher presents relevant information to identify an object/process to launch
      *       or communicates that the intended launching action is permitted.
-     * context:
-     *   - List of launchable items
-     *
      * ---
      * @return \ILIAS\UI\Component\Launcher\Modal
      */
