@@ -1046,7 +1046,7 @@ class ilLMObject
                         //echo "<br>--".$copied_id;
                         //var_dump($fix);
                         $t = ilObject::_lookupType($copy_lm);
-                        if (is_array($all_fixes[$t . ":" . $copied_id])) {
+                        if (isset($all_fixes[$t . ":" . $copied_id])) {
                             $all_fixes[$t . ":" . $copied_id] += $fix;
                         } else {
                             $all_fixes[$t . ":" . $copied_id] = $fix;
@@ -1128,7 +1128,7 @@ class ilLMObject
                     if (count($fix) > 0) {
                         foreach ($fix as $page_id => $fix_array) {
                             $t = ilObject::_lookupType($copy_lm);
-                            if (is_array($all_fixes[$t . ":" . $page_id])) {
+                            if (isset($all_fixes[$t . ":" . $page_id])) {
                                 $all_fixes[$t . ":" . $page_id] += $fix_array;
                             } else {
                                 $all_fixes[$t . ":" . $page_id] = $fix_array;
