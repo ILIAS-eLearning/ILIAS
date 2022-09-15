@@ -52,7 +52,8 @@ class ilLanguageDetectorFactory
         );
 
         if ($this->settings->get("lang_detection") &&
-            ilContext::usesHTTP()
+            ilContext::usesHTTP() &&
+            array_key_exists('HTTP_ACCEPT_LANGUAGE', $this->request_information)
         ) {
             $detectors[] = $this->createDetectorByType(self::HTTP_REQUEST_DETECTOR);
         }
