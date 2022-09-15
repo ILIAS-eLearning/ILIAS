@@ -47,7 +47,11 @@ class ilOrgUnitSimpleImportGUI
         $this->ilAccess = $DIC->access();
         $this->lng->loadLanguageModule('user');
         $this->ilLog = $DIC->logger();
-        if (!$this->ilAccess->checkaccess("write", "", $this->parent_gui->getRefId())) {
+
+        $this->may_create_orgus = $this->ilAccess->checkAccess("create_orgu", "", $this->parent_gui->getRefId(), 'orgu');
+        $this->is_top_level_orgu = ($this->parent_object->getRefId() == ilObjOrgUnit::getRootOrgRefId());
+
+        if (!$this->may_create_orgus) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt("permission_denied"), true);
         }
     }
@@ -86,11 +90,7 @@ class ilOrgUnitSimpleImportGUI
 
     public function chooseImport()
     {
-        if (!$this->ilAccess->checkAccess(
-            "write",
-            "",
-            $_GET["ref_id"]
-        ) or !$this->parent_object->getRefId() == ilObjOrgUnit::getRootOrgRefId()) {
+        if (!$this->may_create_orgus || !$this->is_top_level_orgu) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt("msg_no_perm_edit"));
             $this->ctrl->redirectByClass('ilinfoscreengui', '');
         }
@@ -99,11 +99,7 @@ class ilOrgUnitSimpleImportGUI
         $this->tabs_gui->removeSubTab("page_editor");
         $this->tabs_gui->removeSubTab("ordering"); // Mantis 0014728
 
-        if ($this->ilAccess->checkAccess(
-            "write",
-            "",
-            $_GET["ref_id"]
-        ) and $this->parent_object->getRefId() == ilObjOrgUnit::getRootOrgRefId()) {
+        if ($this->may_create_orgus && $this->is_top_level_orgu) {
             $this->toolbar->addButton(
                 $this->lng->txt("simple_import"),
                 $this->ctrl->getLinkTargetByClass("ilOrgUnitSimpleImportGUI", "importScreen")
