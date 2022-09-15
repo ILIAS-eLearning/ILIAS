@@ -1082,7 +1082,11 @@ s     */
 
             if (!($inst_id > 0)) {
                 if ($q_id > 0) {
-                    $question = assQuestion::_instantiateQuestion($q_id);
+                    $question = null;
+                    try {
+                        $question = assQuestion::_instantiateQuestion($q_id);
+                    } catch (Exception $e) {
+                    }
                     // check due to #16557
                     if (is_object($question) && $question->isComplete()) {
                         // check if page for question exists
