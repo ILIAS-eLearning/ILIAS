@@ -46,15 +46,6 @@ class ilTestResultsToolbarGUI extends ilToolbarGUI
 
         $this->addButton($this->lng->txt('print'), 'javascript:window.print();');
 
-        if (strlen($this->getPdfExportLinkTarget())) {
-            require_once 'Services/UIComponent/Button/classes/class.ilLinkButton.php';
-            $link = ilLinkButton::getInstance(); // always returns a new instance
-            $link->setUrl($this->getPdfExportLinkTarget());
-            $link->setCaption($this->getPdfExportLabel(), false);
-            $link->setOmitPreventDoubleSubmission(true);
-            $this->addButtonInstance($link);
-        }
-
         if (strlen($this->getCertificateLinkTarget())) {
             $this->addButton($this->lng->txt('certificate'), $this->getCertificateLinkTarget());
         }
@@ -83,21 +74,6 @@ class ilTestResultsToolbarGUI extends ilToolbarGUI
 
             $this->tpl->addJavaScript('Modules/Test/js/ilTestResultParticipantSelector.js');
         }
-    }
-
-    private function getPdfExportLabel(): string
-    {
-        return $this->lng->txt('pdf_export');
-    }
-
-    public function setPdfExportLinkTarget(string $pdfExportLinkTarget): void
-    {
-        $this->pdfExportLinkTarget = $pdfExportLinkTarget;
-    }
-
-    public function getPdfExportLinkTarget(): ?string
-    {
-        return $this->pdfExportLinkTarget;
     }
 
     public function setCertificateLinkTarget(string $certificateLinkTarget): void

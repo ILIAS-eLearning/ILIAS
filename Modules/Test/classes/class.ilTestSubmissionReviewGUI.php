@@ -58,14 +58,6 @@ class ilTestSubmissionReviewGUI extends ilTestServiceGUI
     protected function dispatchCommand()
     {
         switch ($this->ctrl->getCmd()) {
-            case 'pdfDownload':
-
-                if ($this->object->getShowExamviewPdf()) {
-                    $this->pdfDownload();
-                }
-
-                break;
-
             case 'show':
             default:
 
@@ -96,11 +88,6 @@ class ilTestSubmissionReviewGUI extends ilTestServiceGUI
      */
     protected function buildToolbar($toolbarId): ilToolbarGUI
     {
-        require_once 'Modules/Test/classes/class.ilTestPlayerCommands.php';
-        require_once 'Services/UIComponent/Toolbar/classes/class.ilToolbarGUI.php';
-        require_once 'Services/UIComponent/Button/classes/class.ilLinkButton.php';
-        require_once 'Services/UIComponent/Button/classes/class.ilButton.php';
-
         $toolbar = new ilToolbarGUI();
         $toolbar->setId($toolbarId);
 
@@ -114,16 +101,6 @@ class ilTestSubmissionReviewGUI extends ilTestServiceGUI
         $button->setCaption('btn_previous');
         $button->setUrl($backUrl);
         $toolbar->addButtonInstance($button);
-
-        if ($this->object->getShowExamviewPdf()) {
-            $pdfUrl = $this->ctrl->getLinkTarget($this, 'pdfDownload');
-
-            $button = ilLinkButton::getInstance();
-            $button->setCaption('pdf_export');
-            $button->setUrl($pdfUrl);
-            $button->setTarget(ilButton::FORM_TARGET_BLANK);
-            $toolbar->addButtonInstance($button);
-        }
 
         $this->ctrl->setParameter($this->testOutputGUI, 'reviewed', 1);
         $nextUrl = $this->ctrl->getLinkTarget($this->testOutputGUI, ilTestPlayerCommands::FINISH_TEST);
@@ -214,44 +191,5 @@ class ilTestSubmissionReviewGUI extends ilTestServiceGUI
             $this->getContentBlockName(),
             $html
         );
-    }
-
-    protected function pdfDownload()
-    {
-        ilPDFGeneratorUtils::prepareGenerationRequest("Test", PDF_USER_RESULT);
-
-        $reviewOutput = $this->buildUserReviewOutput();
-
-        ilTestPDFGenerator::generatePDF($reviewOutput, ilTestPDFGenerator::PDF_OUTPUT_DOWNLOAD, null, PDF_USER_RESULT);
-
-        exit;
-    }
-
-    /**
-     * not in use, but we keep the code (no archive for every user at end of test !!)
-     *
-     * @return string
-     */
-    protected function buildPdfFilename(): string
-    {
-        global $DIC;
-        $ilSetting = $DIC['ilSetting'];
-
-        $inst_id = $ilSetting->get('inst_id', null);
-
-        require_once 'Services/Utilities/classes/class.ilUtil.php';
-
-        $path = ilFileUtils::getWebspaceDir() . '/assessment/' . $this->testOutputGUI->object->getId() . '/exam_pdf';
-
-        if (!is_dir($path)) {
-            ilFileUtils::makeDirParents($path);
-        }
-
-        $filename = ilFileUtils::removeTrailingPathSeparators(ILIAS_ABSOLUTE_PATH) . '/' . $path . '/exam_N';
-        $filename .= $inst_id . '-' . $this->testOutputGUI->object->getId();
-        $filename .= '-' . $this->testSession->getActiveId() . '-';
-        $filename .= $this->testSession->getPass() . '.pdf';
-
-        return $filename;
     }
 }

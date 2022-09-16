@@ -1202,7 +1202,6 @@ assessment#:#showSuggestedSolution#:#Voorgestelde oplossing
 assessment#:#show_answer_overview#:#Toon antwoordenoverzicht
 assessment#:#show_detailed_results#:#Toon gedetailleerde resultaten voor gebruiker.
 assessment#:#show_examview_html#:#Toon examenbeeld op de pagina waar toets wordt ingediend.
-assessment#:#show_examview_pdf#:#Toon examenbeeld in een automatisch geddownloade PDF.
 assessment#:#show_pass_overview#:#Toon gemarkeerde afgelopen toetsen
 assessment#:#show_user_answers#:#Toon gebruikers gemarkeerde antwoorden.
 assessment#:#showinfo#:#Toon de volledige informatiepagina

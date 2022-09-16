@@ -411,11 +411,6 @@ class ilParticipantsTestResultsGUI
      */
     public function createUserResults($show_pass_details, $show_answers, $show_reached_points, $show_user_results): ilTemplate
     {
-        // prepare generation before contents are processed (needed for mathjax)
-        if ($this->isPdfDeliveryRequest()) {
-            ilPDFGeneratorUtils::prepareGenerationRequest("Test", PDF_USER_RESULT);
-        }
-
         $this->tabs->setBackTarget(
             $this->lang->txt('back'),
             $this->ctrl->getLinkTarget($this, self::CMD_SHOW_PARTICIPANTS)
@@ -429,10 +424,6 @@ class ilParticipantsTestResultsGUI
         $template = new ilTemplate("tpl.il_as_tst_participants_result_output.html", true, true, "Modules/Test");
 
         $toolbar = new ilTestResultsToolbarGUI($this->ctrl, $this->main_tpl, $this->lang);
-
-        $this->ctrl->setParameter($this, 'pdf', '1');
-        $toolbar->setPdfExportLinkTarget($this->ctrl->getLinkTarget($this, $this->ctrl->getCmd()));
-        $this->ctrl->setParameter($this, 'pdf', '');
 
         if ($show_answers) {
             if ($this->testrequest->isset('show_best_solutions')) {
@@ -501,30 +492,6 @@ class ilParticipantsTestResultsGUI
             $template->parseCurrentBlock();
         }
 
-        if ($this->isPdfDeliveryRequest()) {
-            ilTestPDFGenerator::generatePDF(
-                $template->get(),
-                ilTestPDFGenerator::PDF_OUTPUT_DOWNLOAD,
-                $this->getTestObj()->getTitleFilenameCompliant(),
-                PDF_USER_RESULT
-            );
-        }
         return $template;
-    }
-
-    /**
-     * @return bool
-     */
-    protected function isPdfDeliveryRequest(): bool
-    {
-        if (!$this->testrequest->isset('pdf')) {
-            return false;
-        }
-
-        if (!(bool) $this->testrequest->raw('pdf')) {
-            return false;
-        }
-
-        return true;
     }
 }

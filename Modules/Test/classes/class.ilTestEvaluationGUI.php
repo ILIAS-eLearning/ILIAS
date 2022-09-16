@@ -98,7 +98,6 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
             case 'iltestpassdetailsoverviewtablegui':
                 require_once 'Modules/Test/classes/tables/class.ilTestPassDetailsOverviewTableGUI.php';
                 $tableGUI = new ilTestPassDetailsOverviewTableGUI($this->ctrl, $this, 'outUserPassDetails');
-                $tableGUI->setIsPdfGenerationRequest($this->isPdfDeliveryRequest());
                 $tableGUI->initFilter();
                 $this->ctrl->forwardCommand($tableGUI);
                 break;
@@ -938,11 +937,6 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
             );
         }
 
-        // prepare generation before contents are processed (for mathjax)
-        if ($this->isPdfDeliveryRequest()) {
-            ilPDFGeneratorUtils::prepareGenerationRequest("Test", PDF_USER_RESULT);
-        }
-
         require_once 'Modules/Test/classes/class.ilTestResultHeaderLabelBuilder.php';
         $testResultHeaderLabelBuilder = new ilTestResultHeaderLabelBuilder($this->lng, $ilObjDataCache);
 
@@ -976,10 +970,6 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
         $template = new ilTemplate("tpl.il_as_tst_pass_details_overview_participants.html", true, true, "Modules/Test");
 
         $toolbar = $this->buildUserTestResultsToolbarGUI();
-
-        $this->ctrl->setParameter($this, 'pdf', '1');
-        $toolbar->setPdfExportLinkTarget($this->ctrl->getLinkTarget($this, 'outParticipantsPassDetails'));
-        $this->ctrl->setParameter($this, 'pdf', '');
 
         if ($this->testrequest->isset('show_best_solutions')) {
             ilSession::set('tst_results_show_best_solutions', true);
@@ -1041,12 +1031,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
             $this->tpl->addCss(ilUtil::getStyleSheetLocation("output", "test_print_hide_content.css", "Modules/Test"), "print");
         }
 
-        if ($this->isPdfDeliveryRequest()) {
-            //$this->object->deliverPDFfromHTML($template->get());
-            ilTestPDFGenerator::generatePDF($template->get(), ilTestPDFGenerator::PDF_OUTPUT_DOWNLOAD, $this->object->getTitleFilenameCompliant(), PDF_USER_RESULT);
-        } else {
-            $this->tpl->setVariable("ADM_CONTENT", $template->get());
-        }
+        $this->tpl->setVariable("ADM_CONTENT", $template->get());
     }
 
     /**
@@ -1084,19 +1069,9 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
             $this->ctrl->getLinkTargetByClass(['ilObjTestGUI', 'ilTestResultsGUI', 'ilParticipantsTestResultsGUI'])
         );
 
-        // prepare generation before contents are processed (for mathjax)
-        if ($this->isPdfDeliveryRequest()) {
-            ilPDFGeneratorUtils::prepareGenerationRequest("Test", PDF_USER_RESULT);
-        }
-
         $template = new ilTemplate("tpl.il_as_tst_pass_overview_participants.html", true, true, "Modules/Test");
 
         $toolbar = $this->buildUserTestResultsToolbarGUI();
-
-        $this->ctrl->setParameter($this, 'pdf', '1');
-        $toolbar->setPdfExportLinkTarget($this->ctrl->getLinkTarget($this, __FUNCTION__));
-        $this->ctrl->setParameter($this, 'pdf', '');
-
         $toolbar->build();
         $template->setVariable('RESULTS_TOOLBAR', $this->ctrl->getHTML($toolbar));
 
@@ -1236,11 +1211,6 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
         $this->ctrl->saveParameter($this, "pass");
         $pass = $this->testrequest->raw("pass");
 
-        // prepare generation before contents are processed (for mathjax)
-        if ($this->isPdfDeliveryRequest()) {
-            ilPDFGeneratorUtils::prepareGenerationRequest("Test", PDF_USER_RESULT);
-        }
-
         require_once 'Modules/Test/classes/class.ilTestResultHeaderLabelBuilder.php';
         $testResultHeaderLabelBuilder = new ilTestResultHeaderLabelBuilder($this->lng, $ilObjDataCache);
 
@@ -1283,35 +1253,29 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 
         $tpl = new ilTemplate('tpl.il_as_tst_pass_details_overview_participants.html', true, true, "Modules/Test");
 
-        if (!$this->isPdfDeliveryRequest()) {
-            $toolbar = $this->buildUserTestResultsToolbarGUI();
+        $toolbar = $this->buildUserTestResultsToolbarGUI();
 
-            $this->ctrl->setParameter($this, 'pdf', '1');
-            $toolbar->setPdfExportLinkTarget($this->ctrl->getLinkTarget($this, 'outUserPassDetails'));
-            $this->ctrl->setParameter($this, 'pdf', '');
+        $validator = new ilCertificateDownloadValidator();
+        if ($validator->isCertificateDownloadable($user_id, $this->object->getId())) {
+            $toolbar->setCertificateLinkTarget($this->ctrl->getLinkTarget($this, 'outCertificate'));
+        }
 
-            $validator = new ilCertificateDownloadValidator();
-            if ($validator->isCertificateDownloadable($user_id, $this->object->getId())) {
-                $toolbar->setCertificateLinkTarget($this->ctrl->getLinkTarget($this, 'outCertificate'));
-            }
+        $toolbar->build();
 
-            $toolbar->build();
+        $tpl->setVariable('RESULTS_TOOLBAR', $this->ctrl->getHTML($toolbar));
 
-            $tpl->setVariable('RESULTS_TOOLBAR', $this->ctrl->getHTML($toolbar));
+        $tpl->setCurrentBlock('signature');
+        $tpl->setVariable("SIGNATURE", $this->getResultsSignature());
+        $tpl->parseCurrentBlock();
 
-            $tpl->setCurrentBlock('signature');
-            $tpl->setVariable("SIGNATURE", $this->getResultsSignature());
+        if ($this->object->isShowExamIdInTestResultsEnabled()) {
+            $tpl->setCurrentBlock('exam_id');
+            $tpl->setVariable('EXAM_ID', ilObjTest::lookupExamId(
+                $testSession->getActiveId(),
+                $pass
+            ));
+            $tpl->setVariable('EXAM_ID_TXT', $this->lng->txt('exam_id'));
             $tpl->parseCurrentBlock();
-
-            if ($this->object->isShowExamIdInTestResultsEnabled()) {
-                $tpl->setCurrentBlock('exam_id');
-                $tpl->setVariable('EXAM_ID', ilObjTest::lookupExamId(
-                    $testSession->getActiveId(),
-                    $pass
-                ));
-                $tpl->setVariable('EXAM_ID_TXT', $this->lng->txt('exam_id'));
-                $tpl->parseCurrentBlock();
-            }
         }
 
         if (!$this->getObjectiveOrientedContainer()->isObjectiveOrientedPresentationRequired() &&
@@ -1319,10 +1283,6 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
             $gradingMessageBuilder = $this->getGradingMessageBuilder($active_id);
             $gradingMessageBuilder->buildMessage();
             $gradingMessageBuilder->sendMessage();
-
-            #$template->setCurrentBlock('grading_message');
-            #$template->setVariable('GRADING_MESSAGE', );
-            #$template->parseCurrentBlock();
         }
 
         $overviewTableGUI = $this->getPassDetailsOverviewTableGUI(
@@ -1383,11 +1343,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
             $this->tpl->addCss(ilUtil::getStyleSheetLocation("output", "test_print_hide_content.css", "Modules/Test"), "print");
         }
 
-        if ($this->isPdfDeliveryRequest()) {
-            ilTestPDFGenerator::generatePDF($tpl->get(), ilTestPDFGenerator::PDF_OUTPUT_DOWNLOAD, $this->object->getTitleFilenameCompliant(), PDF_USER_RESULT);
-        } else {
-            $this->tpl->setContent($tpl->get());
-        }
+        $this->tpl->setContent($tpl->get());
     }
 
     /**
@@ -1410,19 +1366,10 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
             $this->ctrl->redirectByClass("ilobjtestgui", "infoScreen");
         }
 
-        // prepare generation before contents are processed (for mathjax)
-        if ($this->isPdfDeliveryRequest()) {
-            ilPDFGeneratorUtils::prepareGenerationRequest("Test", PDF_USER_RESULT);
-        }
-
         $templatehead = new ilTemplate("tpl.il_as_tst_results_participants.html", true, true, "Modules/Test");
         $template = new ilTemplate("tpl.il_as_tst_results_participant.html", true, true, "Modules/Test");
 
         $toolbar = $this->buildUserTestResultsToolbarGUI();
-
-        $this->ctrl->setParameter($this, 'pdf', '1');
-        $toolbar->setPdfExportLinkTarget($this->ctrl->getLinkTarget($this, 'outUserResultsOverview'));
-        $this->ctrl->setParameter($this, 'pdf', '');
 
         $validator = new ilCertificateDownloadValidator();
         if ($validator->isCertificateDownloadable($user_id, $this->object->getId())) {
@@ -1434,13 +1381,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
         $templatehead->setVariable('RESULTS_TOOLBAR', $this->ctrl->getHTML($toolbar));
 
         $passDetailsEnabled = $this->object->getShowPassDetails();
-        #if (!$passDetailsEnabled)
-        #{
-        #	$executable = $this->object->isExecutable($testSession, $ilUser->getId());
-        #	if (!$executable["executable"]) $passDetailsEnabled = true;
-        #}
 
-        require_once 'Modules/Test/classes/class.ilTestResultHeaderLabelBuilder.php';
         $testResultHeaderLabelBuilder = new ilTestResultHeaderLabelBuilder($this->lng, $ilObjDataCache);
         if ($this->getObjectiveOrientedContainer()->isObjectiveOrientedPresentationRequired()) {
             $testResultHeaderLabelBuilder->setObjectiveOrientedContainerId($testSession->getObjectiveOrientedContainerId());
@@ -1508,11 +1449,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
         }
         $templatehead->setVariable("RESULTS_PARTICIPANT", $template->get());
 
-        if ($this->isPdfDeliveryRequest()) {
-            ilTestPDFGenerator::generatePDF($template->get(), ilTestPDFGenerator::PDF_OUTPUT_DOWNLOAD, $this->object->getTitleFilenameCompliant(), PDF_USER_RESULT);
-        } else {
-            $this->tpl->setContent($templatehead->get());
-        }
+        $this->tpl->setContent($templatehead->get());
     }
 
     /**
