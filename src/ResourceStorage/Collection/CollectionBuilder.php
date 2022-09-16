@@ -126,6 +126,12 @@ class CollectionBuilder
         return true;
     }
 
+    public function delete(ResourceCollectionIdentification $identification): bool
+    {
+        $this->collection_repository->delete($identification);
+        return true;
+    }
+
     public function notififyResourceDeletion(ResourceIdentification $identification): void
     {
         $this->collection_repository->removeResourceFromAllCollections($identification);

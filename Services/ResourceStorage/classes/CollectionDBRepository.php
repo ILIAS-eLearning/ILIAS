@@ -176,6 +176,20 @@ class CollectionDBRepository implements CollectionRepository
         );
     }
 
+    public function delete(ResourceCollectionIdentification $identification): void
+    {
+        $this->db->manipulateF(
+            "DELETE FROM " . self::COLLECTION_ASSIGNMENT_TABLE_NAME . " WHERE " . self::C_IDENTIFICATION . " = %s",
+            ['text'],
+            [$identification->serialize()]
+        );
+        $this->db->manipulateF(
+            "DELETE FROM " . self::COLLECTION_TABLE_NAME . " WHERE " . self::C_IDENTIFICATION . " = %s",
+            ['text'],
+            [$identification->serialize()]
+        );
+    }
+
 
     public function preload(array $identification_strings): void
     {

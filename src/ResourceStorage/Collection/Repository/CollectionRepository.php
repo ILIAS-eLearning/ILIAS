@@ -51,5 +51,7 @@ interface CollectionRepository extends LockingRepository
 
     public function update(ResourceCollection $collection): void;
 
+    public function delete(ResourceCollectionIdentification $identification): void;
+
     public function removeResourceFromAllCollections(ResourceIdentification $resource_identification): void;
 }

@@ -29,6 +29,7 @@ use ILIAS\ResourceStorage\Identification\ResourceIdentification;
 use ILIAS\ResourceStorage\Lock\LockHandler;
 use ILIAS\ResourceStorage\Preloader\RepositoryPreloader;
 use ILIAS\ResourceStorage\Resource\ResourceBuilder;
+use ILIAS\ResourceStorage\Stakeholder\ResourceStakeholder;
 
 /**
  * Class Collections
@@ -118,6 +119,36 @@ class Collections
     public function store(ResourceCollection $collection): bool
     {
         return $this->collection_builder->store($collection);
+    }
+
+    public function clone(ResourceCollectionIdentification $source_collection_id): ResourceCollectionIdentification
+    {
+        $target_collection_id = $this->id();
+        $target_collection = $this->get($target_collection_id);
+        $source_collection = $this->get($source_collection_id);
+
+        foreach ($source_collection->getResourceIdentifications() as $identification) {
+            $resource = $this->resource_builder->get($identification);
+            $cloned_resource = $this->resource_builder->clone($resource);
+            $target_collection->add($cloned_resource->getIdentification());
+        }
+        $this->store($target_collection);
+
+        return $target_collection_id;
+    }
+
+    public function remove(
+        ResourceCollectionIdentification $collection_id,
+        ResourceStakeholder $stakeholder,
+        bool $delete_resources_as_well = false
+    ): bool {
+        $collection = $this->get($collection_id);
+        if ($delete_resources_as_well) {
+            foreach ($collection->getResourceIdentifications() as $resource_identification) {
+                $this->resource_builder->remove($resource_identification, $stakeholder);
+            }
+        }
+        return $this->collection_builder->delete($collection_id);
     }
 
     /**
