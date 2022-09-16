@@ -207,7 +207,10 @@ class ilLMNavigationStatus
             }
         }
         while (!$found) {
-            $succ_node = $this->lm_tree->fetchSuccessorNode($c_id, "pg");
+            $succ_node = null;
+            if ($this->lm_tree->isInTree($c_id)) {
+                $succ_node = $this->lm_tree->fetchSuccessorNode($c_id, "pg");
+            }
             if (is_array($succ_node)) {
                 $c_id = $succ_node["obj_id"];
 
@@ -259,7 +262,10 @@ class ilLMNavigationStatus
             $c_id = $page_id;
         }
         while (!$found) {
-            $pre_node = $this->lm_tree->fetchPredecessorNode($c_id, "pg");
+            $pre_node = null;
+            if ($this->lm_tree->isInTree($c_id)) {
+                $pre_node = $this->lm_tree->fetchPredecessorNode($c_id, "pg");
+            }
             if (is_array($pre_node)) {
                 $c_id = $pre_node["obj_id"];
                 $active = ilLMPage::_lookupActive(

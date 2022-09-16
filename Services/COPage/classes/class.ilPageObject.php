@@ -279,7 +279,10 @@ abstract class ilPageObject
                 " AND parent_type=" . $this->db->quote($this->getParentType(), "text") .
                 " AND lang = " . $this->db->quote($this->getLanguage(), "text");
             $pg_set = $this->db->query($query);
-            $this->page_record = $this->db->fetchAssoc($pg_set);
+            if (!$this->page_record = $this->db->fetchAssoc($pg_set)) {
+                throw new ilCOPageNotFoundException("Error: Page " . $this->id . " is not in database" .
+                    " (parent type " . $this->getParentType() . ", lang: " . $this->getLanguage() . ").");
+            }
             $this->setActive($this->page_record["active"]);
             $this->setActivationStart($this->page_record["activation_start"]);
             $this->setActivationEnd($this->page_record["activation_end"]);

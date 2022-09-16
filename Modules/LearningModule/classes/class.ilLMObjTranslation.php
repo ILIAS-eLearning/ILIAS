@@ -23,13 +23,13 @@
  */
 class ilLMObjTranslation
 {
-    protected int $id;
+    protected int $id = 0;
     protected ilDBInterface $db;
-    protected string $lang;
-    protected string $title;
-    protected string $short_title;
-    protected string $create_date;
-    protected string $last_update;
+    protected string $lang = "";
+    protected string $title = "";
+    protected string $short_title = "";
+    protected string $create_date = "";
+    protected string $last_update = "";
 
     public function __construct(
         int $a_id = 0,
