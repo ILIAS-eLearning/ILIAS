@@ -24,6 +24,7 @@ interpreted as described in [RFC 2119](https://www.ietf.org/rfc/rfc2119.txt).
 * [Clock](#clock)
 * [Dimension](#dimension)
 * [Dataset](#dataset)
+* [Enum Trait](#enum-trait)
 
 Other examples for data types that could (and maybe should) be added here:
 
@@ -563,3 +564,52 @@ function itIsTrueThat(bool $truth) {
 
 ?>
 ```
+
+## Enum Trait
+
+The `Enum` trait can be used to emulate an `Enum` type for PHP < 8.1. The `@method` docs will help
+`PhpStorm` (or other IDEs) for autocomplete/intellisense suggestions.
+
+```php
+/**
+ * @method self NOT_ATTEMPTED()
+ * @method self IN_PROGRESS()
+ * @method self COMPLETED()
+ * @method self FAILED()
+ */
+class LearningProgress
+{
+    use \ILIAS\Data\Enum;
+    
+    private const NOT_ATTEMPTED = 'not_attempted';
+    private const IN_PROGRESS = 'not_attempted';
+    private const COMPLETED = 'completed';
+    private const FAILED = 'failed';
+}
+
+$not_attempted = LearningProgress::NOT_ATTEMPTED();
+```
+
+In userland code, this can be used as shown here:
+
+```php
+$not_attempted = LearningProgress::NOT_ATTEMPTED();
+```
+
+Or, if you want to create a type from a persisted value:
+
+```php
+$not_attempted = LearningProgress::from('not_attempted');
+$value = $not_attempted->value();
+
+$will_throw_exception = LearningProgress::from('phpunit');
+$will_return_null_if_value_is_invalid = LearningProgress::tryFrom('phpunit');
+```
+
+What are the advantages of having this `trait`?
+
+- You can type hint the type, `LearningProgress` in this example.
+- An instance can only be created with valid values defined in the emulated `Enum`.
+
+*A word of warning*: The emulated approach uses introspection (`Reflections`), so obsessive use will
+potentially cause performance issues.
