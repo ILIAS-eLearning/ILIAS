@@ -157,11 +157,11 @@ class ilMailSearchObjectMembershipsTableGUI extends ilTable2GUI
     protected function fillRow(array $a_set): void
     {
         $trafo = $this->refinery->custom()->transformation(function ($value): string {
-            if (!is_array($value)) {
-                return $this->refinery->in()->series([
-                    $this->refinery->kindlyTo()->int(),
-                    $this->refinery->kindlyTo()->string()
-                ])->transform($value);
+            if (is_string($value)) {
+                return $this->refinery
+                    ->custom()
+                    ->transformation(fn (string $value): string => ilUtil::stripSlashes($value))
+                    ->transform($value);
             }
 
             return implode(
