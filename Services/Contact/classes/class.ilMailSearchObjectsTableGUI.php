@@ -120,9 +120,9 @@ class ilMailSearchObjectsTableGUI extends ilTable2GUI
         $this->setShowRowsSelector(true);
 
         $this->addColumn('', '', '1px', true);
-        $this->addColumn($mode["lng_mail"], 'CRS_NAME', '30%');
-        $this->addColumn($this->lng->txt('path'), 'CRS_PATH', '30%');
-        $this->addColumn($this->lng->txt('crs_count_members'), 'OBJECT_NO_MEMBERS', '20%');
+        $this->addColumn($mode["lng_mail"], 'OBJECT_NAME', '30%');
+        $this->addColumn($this->lng->txt('path'), 'OBJECT_PATH', '30%');
+        $this->addColumn($this->lng->txt('obj_count_members'), 'OBJECT_NO_MEMBERS', '20%');
         $this->addColumn($this->lng->txt('actions'), '', '19%');
 
         if ($context === "mail") {
