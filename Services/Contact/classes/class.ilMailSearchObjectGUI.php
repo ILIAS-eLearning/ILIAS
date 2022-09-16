@@ -538,7 +538,6 @@ abstract class ilMailSearchObjectGUI
                         }
                         $path .= $data['title'];
                     }
-                    $path = $this->lng->txt('path') . ': ' . $path;
 
                     $current_selection_list = new ilAdvancedSelectionListGUI();
                     $current_selection_list->setListTitle($this->lng->txt('actions'));
