@@ -1209,7 +1209,6 @@ assessment#:#showSuggestedSolution#:#Type
 assessment#:#show_answer_overview#:#Show Answer Overview
 assessment#:#show_detailed_results#:#Show User’s Detailed Results (Marked Pass)
 assessment#:#show_examview_html#:#On screen
-assessment#:#show_examview_pdf#:#PDF Download
 assessment#:#show_pass_overview#:#Show Marked Pass Overview
 assessment#:#show_user_answers#:#Show User’s Marked Answers
 assessment#:#showinfo#:#Show all Test Properties

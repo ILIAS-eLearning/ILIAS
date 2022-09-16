@@ -317,22 +317,6 @@ class ilTestServiceGUI
     }
 
     /**
-     * @return bool
-     */
-    protected function isPdfDeliveryRequest(): bool
-    {
-        if (!$this->testrequest->isset('pdf')) {
-            return false;
-        }
-
-        if (!(bool) $this->testrequest->raw('pdf')) {
-            return false;
-        }
-
-        return true;
-    }
-
-    /**
      * @return ilTestPassOverviewTableGUI $tableGUI
      */
     public function buildPassOverviewTableGUI($targetGUI): ilTestPassOverviewTableGUI
@@ -382,10 +366,6 @@ class ilTestServiceGUI
                         (int) $pass
                     ));
                     if (is_object($question_gui)) {
-                        if ($this->isPdfDeliveryRequest()) {
-                            $question_gui->setRenderPurpose(assQuestionGUI::RENDER_PURPOSE_PRINT_PDF);
-                        }
-
                         if ($anchorNav) {
                             $template->setCurrentBlock('block_id');
                             $template->setVariable('BLOCK_ID', "detailed_answer_block_act_{$active_id}_qst_{$question_id}");
@@ -581,11 +561,6 @@ class ilTestServiceGUI
         $this->ctrl->setParameter($targetGUI, 'pass', $pass);
 
         $tableGUI = $this->buildPassDetailsOverviewTableGUI($targetGUI, $targetCMD);
-
-        if (!$this->isPdfDeliveryRequest()) {
-            $tableGUI->setAnswerListAnchorEnabled($questionAnchorNav);
-        }
-
         $tableGUI->setSingleAnswerScreenCmd($questionDetailsCMD);
         $tableGUI->setShowHintCount($this->object->isOfferingQuestionHintsEnabled());
 
@@ -732,10 +707,6 @@ class ilTestServiceGUI
 
         $test_id = $this->object->getTestId();
         $question_gui = $this->object->createQuestionGUI("", $question_id);
-
-        if ($this->isPdfDeliveryRequest()) {
-            $question_gui->setRenderPurpose(assQuestionGUI::RENDER_PURPOSE_PRINT_PDF);
-        }
 
         $template = new ilTemplate("tpl.il_as_tst_correct_solution_output.html", true, true, "Modules/Test");
         $show_question_only = ($this->object->getShowSolutionAnswersOnly()) ? true : false;
@@ -1024,7 +995,6 @@ class ilTestServiceGUI
 
         require_once 'Modules/Test/classes/tables/class.ilTestPassDetailsOverviewTableGUI.php';
         $tableGUI = new ilTestPassDetailsOverviewTableGUI($this->ctrl, $targetGUI, $targetCMD);
-        $tableGUI->setIsPdfGenerationRequest($this->isPdfDeliveryRequest());
         return $tableGUI;
     }
 
@@ -1128,16 +1098,7 @@ class ilTestServiceGUI
      */
     protected function populateContent($content)
     {
-        if ($this->isPdfDeliveryRequest()) {
-            ilTestPDFGenerator::generatePDF(
-                $content,
-                ilTestPDFGenerator::PDF_OUTPUT_DOWNLOAD,
-                $this->object->getTitleFilenameCompliant(),
-                PDF_USER_RESULT
-            );
-        } else {
-            $this->tpl->setContent($content);
-        }
+        $this->tpl->setContent($content);
     }
 
     /**
