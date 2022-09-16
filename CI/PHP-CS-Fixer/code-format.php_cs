@@ -23,6 +23,7 @@ return (new PhpCsFixer\Config())
         '@PSR12' => true,
         'strict_param' => false,
         'concat_space' => ['spacing' => 'one'],
-        'function_typehint_space' => true
+        'function_typehint_space' => true,
+        'blank_line_after_opening_tag' => false,
 	])
 	->setFinder($finder);
