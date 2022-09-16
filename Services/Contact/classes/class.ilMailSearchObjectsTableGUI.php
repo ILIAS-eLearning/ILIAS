@@ -120,7 +120,7 @@ class ilMailSearchObjectsTableGUI extends ilTable2GUI
         $this->addColumn('', '', '1px', true);
         $this->addColumn($mode["lng_mail"], 'CRS_NAME', '30%');
         $this->addColumn($this->lng->txt('path'), 'CRS_PATH', '30%');
-        $this->addColumn($this->lng->txt('crs_count_members'), 'CRS_NO_MEMBERS', '20%');
+        $this->addColumn($this->lng->txt('crs_count_members'), 'OBJECT_NO_MEMBERS', '20%');
         $this->addColumn($this->lng->txt('actions'), '', '19%');
 
         if ($context === "mail") {
@@ -156,6 +156,6 @@ class ilMailSearchObjectsTableGUI extends ilTable2GUI
 
     public function numericOrdering(string $a_field): bool
     {
-        return $a_field === 'CRS_NO_MEMBERS';
+        return $a_field === 'OBJECT_NO_MEMBERS';
     }
 }
