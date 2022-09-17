@@ -27,15 +27,15 @@ class ilObjTaxonomyGUI extends ilObject2GUI
     protected ilHelpGUI $help;
     protected bool $multiple = false;
     protected bool $assigned_item_sorting = false;
-    protected int $assigned_object_id;
+    protected int $assigned_object_id = 0;
     protected ilTaxAssignedItemInfo $assigned_item_info_obj;
-    protected string $assigned_item_comp_id;
-    protected int $assigned_item_obj_id;
-    protected string $assigned_item_type;
+    protected string $assigned_item_comp_id = "";
+    protected int $assigned_item_obj_id = 0;
+    protected string $assigned_item_type = "";
     protected string $list_info = '';
-    protected int $current_tax_node;
-    protected int $requested_tax_id;
-    protected string $requested_move_ids;
+    protected int $current_tax_node = 0;
+    protected int $requested_tax_id = 0;
+    protected string $requested_move_ids = "";
 
     /**
      * @inheritDoc
