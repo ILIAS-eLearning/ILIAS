@@ -186,9 +186,10 @@ class ilTaxonomyNode
         $query = "SELECT $a_field FROM tax_node WHERE obj_id = " .
             $ilDB->quote($a_obj_id, "integer");
         $obj_set = $ilDB->query($query);
-        $obj_rec = $ilDB->fetchAssoc($obj_set);
-
-        return $obj_rec[$a_field];
+        if ($obj_rec = $ilDB->fetchAssoc($obj_set)) {
+            return $obj_rec[$a_field];
+        }
+        return "";
     }
 
     public static function _lookupTitle(int $a_obj_id): string
