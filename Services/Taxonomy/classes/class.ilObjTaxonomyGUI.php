@@ -863,7 +863,7 @@ class ilObjTaxonomyGUI extends ilObject2GUI
             $this,
             "listAssignedItems",
             $this->current_tax_node,
-            (int) $this->getCurrentTaxonomy(),
+            $this->getCurrentTaxonomy(),
             $this->assigned_item_comp_id,
             $this->assigned_item_obj_id,
             $this->assigned_item_type,
