@@ -401,9 +401,13 @@ class ilObjSAHSLearningModule extends ilObject
     /**
      * set auto review as Char for SCORM 2004
      */
-    public function setAutoReviewChar(string $a_auto_review): void
+    public function setAutoReviewChar(?string $a_auto_review): void
     {
-        $this->auto_review = $a_auto_review;
+        if ($a_auto_review == null) {
+            $this->auto_review = 'n';
+        } else {
+            $this->auto_review = $a_auto_review;
+        }
     }
 
     /**
