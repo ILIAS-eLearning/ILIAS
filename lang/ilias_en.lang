@@ -4801,8 +4801,8 @@ common#:#obj_chta#:#Chat Room
 common#:#obj_chtr#:#Chat Room
 common#:#obj_chtr_duplicate#:#Copy Chat Room
 common#:#obj_cld#:#Cloud Object
-common#:#obj_cmis#:#xAPI/cmi5
-common#:#obj_cmis_desc#:#Learning Record Store Types Configuration
+common#:#obj_cmis#:#LRS
+common#:#obj_cmis_desc#:#Configure the Types of Learning Record Stores
 common#:#obj_cmix#:#xAPI/cmi5
 common#:#obj_cmps#:#Plugins
 common#:#obj_cmps_desc#:#General settings for Plugins

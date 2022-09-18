@@ -4801,8 +4801,8 @@ common#:#obj_chta#:#Chat
 common#:#obj_chtr#:#Chatraum
 common#:#obj_chtr_duplicate#:#Chatraum kopieren
 common#:#obj_cld#:#Cloud Object###29 07 2022 new variable
-common#:#obj_cmis#:#xAPI/cmi5
-common#:#obj_cmis_desc#:#Konfiguration Learning Record Store Typen
+common#:#obj_cmis#:#LRS
+common#:#obj_cmis_desc#:#Typen von Learning Record Stores konfigurieren
 common#:#obj_cmix#:#xAPI/cmi5
 common#:#obj_cmps#:#Plugins
 common#:#obj_cmps_desc#:#Allgemeine Einstellungen für Plugins
