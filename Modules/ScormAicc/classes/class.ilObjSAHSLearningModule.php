@@ -161,7 +161,7 @@ class ilObjSAHSLearningModule extends ilObject
 //            $this->setOfflineMode(ilUtil::yn2tf($lm_rec["offline_mode"]));
             $this->setAutoSuspend(ilUtil::yn2tf($lm_rec["auto_suspend"]));
             $this->setIe_force_render(ilUtil::yn2tf($lm_rec["ie_force_render"]));
-            $this->setMasteryScore($lm_rec["mastery_score"]);
+            $this->setMasteryScore((int) $lm_rec["mastery_score"]);
             $this->setIdSetting((int) $lm_rec["id_setting"]);
             $this->setNameSetting((int) $lm_rec["name_setting"]);
             if (ilObject::_lookupType($this->getStyleSheetId()) !== "sty") {
