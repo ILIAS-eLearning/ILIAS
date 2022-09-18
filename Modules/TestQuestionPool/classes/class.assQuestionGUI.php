@@ -34,6 +34,8 @@ abstract class assQuestionGUI
     public const FORM_ENCODING_URLENCODE = 'application/x-www-form-urlencoded';
     public const FORM_ENCODING_MULTIPART = 'multipart/form-data';
 
+    protected const HAS_SPECIAL_QUESTION_COMMANDS = false;
+
     public const SESSION_PREVIEW_DATA_BASE_INDEX = 'ilAssQuestionPreviewAnswers';
     private $ui;
     private ilObjectDataCache $ilObjDataCache;
@@ -195,27 +197,32 @@ abstract class assQuestionGUI
     {
         $this->ilHelp->setScreenIdComponent('qpl');
 
-        $cmd = $this->ctrl->getCmd("editQuestion");
         $next_class = $this->ctrl->getNextClass($this);
 
         switch ($next_class) {
             case 'ilformpropertydispatchgui':
                 $form = $this->buildEditForm();
-
                 $form_prop_dispatch = new ilFormPropertyDispatchGUI();
                 $form_prop_dispatch->setItem($form->getItemByPostVar(ilUtil::stripSlashes($this->request->raw('postvar'))));
-                return $this->ctrl->forwardCommand($form_prop_dispatch);
+                $this->ctrl->forwardCommand($form_prop_dispatch);
+                break;
 
             default:
-                $ret = $this->$cmd();
-                break;
+                $cmd = $this->ctrl->getCmd('editQuestion');
+                if (method_exists($this, $cmd)) {
+                    $this->$cmd();
+                    return;
+                }
+
+                if ($this->hasSpecialQuestionCommands() === true) {
+                    $this->callSpecialQuestionCommands($cmd);
+                }
         }
-        return $ret;
     }
 
-    public function getCommand($cmd)
+    protected function hasSpecialQuestionCommands(): bool
     {
-        return $cmd;
+        return static::HAS_SPECIAL_QUESTION_COMMANDS;
     }
 
     /** needed for page editor compliance */
