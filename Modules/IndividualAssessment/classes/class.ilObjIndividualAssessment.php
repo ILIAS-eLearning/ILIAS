@@ -63,6 +63,8 @@ class ilObjIndividualAssessment extends ilObject
     public function create(): int
     {
         $id = parent::create();
+        $this->createMetaData();
+
         $this->settings = new ilIndividualAssessmentSettings(
             $this->getId(),
             '',
@@ -162,6 +164,7 @@ class ilObjIndividualAssessment extends ilObject
      */
     public function delete(): bool
     {
+        $this->deleteMetaData();
         $this->settings_storage->deleteSettings($this);
         $this->members_storage->deleteMembers($this);
         return parent::delete();
@@ -173,6 +176,8 @@ class ilObjIndividualAssessment extends ilObject
     public function update(): bool
     {
         parent::update();
+        $this->updateMetaData();
+
         $this->settings_storage->updateSettings($this->settings);
         return true;
     }
