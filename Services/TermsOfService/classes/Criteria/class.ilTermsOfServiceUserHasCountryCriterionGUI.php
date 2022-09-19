@@ -53,7 +53,7 @@ class ilTermsOfServiceUserHasCountryCriterionGUI implements ilTermsOfServiceCrit
         foreach ($this->countryCodes as $country) {
             $options[strtolower($country)] = $this->lng->txt('meta_c_' . strtoupper($country));
         }
-        asort($options);
+        natcasesort($options);
 
         $countrySelection->setOptions(['' => $this->lng->txt('please_choose')] + $options);
         $countrySelection->setValue((string) ($config['country'] ?? ''));
