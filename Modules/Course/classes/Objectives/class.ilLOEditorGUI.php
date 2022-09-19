@@ -38,9 +38,6 @@ class ilLOEditorGUI
     public const TEST_NEW = 1;
     public const TEST_ASSIGN = 2;
 
-    public const SETTINGS_TEMPLATE_IT = 'il_astpl_loc_initial';
-    public const SETTINGS_TEMPLATE_QT = 'il_astpl_loc_qualified';
-
     private ilLogger $logger;
 
     private ilObject $parent_obj;
@@ -842,41 +839,6 @@ class ilLOEditorGUI
         );
     }
 
-    protected function applySettingsTemplate(ilObjTest $tst): bool
-    {
-        $tpl_id = 0;
-        foreach (ilSettingsTemplate::getAllSettingsTemplates('tst', true) as $nr => $template) {
-            switch ($this->getTestType()) {
-                case self::TEST_TYPE_IT:
-                    if ($template['title'] == self::SETTINGS_TEMPLATE_IT) {
-                        $tpl_id = $template['id'];
-                    }
-                    break;
-                case self::TEST_TYPE_QT:
-                    if ($template['title'] == self::SETTINGS_TEMPLATE_QT) {
-                        $tpl_id = $template['id'];
-                    }
-                    break;
-            }
-            if ($tpl_id) {
-                break;
-            }
-        }
-
-        if (!$tpl_id) {
-            return false;
-        }
-
-        $template = new ilSettingsTemplate($tpl_id, ilObjAssessmentFolderGUI::getSettingsTemplateConfig());
-        $template_settings = $template->getSettings();
-        if ($template_settings !== []) {
-            $tst_gui = new ilObjTestGUI();
-            $tst_gui->applyTemplate($template_settings, $tst);
-        }
-        $tst->setTemplate($tpl_id);
-        return true;
-    }
-
     protected function updateStartObjects(): void
     {
         $start = new ilContainerStartObjects(0, $this->getParentObject()->getId());
@@ -905,10 +867,6 @@ class ilLOEditorGUI
                 $tst->createReference();
                 $tst->putInTree($this->getParentObject()->getRefId());
                 $tst->setPermissions($this->getParentObject()->getRefId());
-
-                // apply settings template
-                $this->applySettingsTemplate($tst);
-
                 $tst->setQuestionSetType($form->getInput('qtype'));
 
                 $tst->saveToDb();
@@ -928,7 +886,6 @@ class ilLOEditorGUI
                 $assignment->save();
 
                 $tst = new ilObjTest($form->getInput('tst'), true);
-                $this->applySettingsTemplate($tst);
                 $tst->saveToDb();
             }
 
@@ -982,10 +939,6 @@ class ilLOEditorGUI
                 $tst->createReference();
                 $tst->putInTree($this->getParentObject()->getRefId());
                 $tst->setPermissions($this->getParentObject()->getRefId());
-
-                // apply settings template
-                $this->applySettingsTemplate($tst);
-
                 $tst->setQuestionSetType($form->getInput('qtype'));
 
                 $tst->saveToDb();
@@ -1005,7 +958,6 @@ class ilLOEditorGUI
 
                 $this->getSettings()->update();
                 $tst = new ilObjTest($settings->getTestByType($this->getTestType()), true);
-                $this->applySettingsTemplate($tst);
                 $tst->saveToDb();
             }
 

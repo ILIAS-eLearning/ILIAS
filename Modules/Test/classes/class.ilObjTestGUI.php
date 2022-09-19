@@ -127,7 +127,6 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
             $tabsManager->setTestOBJ($this->object);
             $tabsManager->setTestSession($this->testSessionFactory->getSession());
             $tabsManager->setTestQuestionSetConfig($this->testQuestionSetConfigFactory->getQuestionSetConfig());
-            $tabsManager->initSettingsTemplate();
             if ($this->object->isDynamicTest()) {
                 $hidden_tabs = $tabsManager->getHiddenTabs();
                 $tabsManager->setHiddenTabs(array_merge($hidden_tabs, ['manscoring', 'scoringadjust']));
@@ -1045,13 +1044,6 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
                     $this->lng->txt("tst_default_settings"));
             }
         }
-        $templates = ilSettingsTemplate::getAllSettingsTemplates("tst");
-        if ($templates) {
-            foreach ($templates as $item) {
-                $options["tsttpl_" . $item["id"]] = array($item["title"],
-                    nl2br(trim($item["description"])));
-            }
-        }
     }
 
     /**
@@ -1065,20 +1057,6 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
             $testDefaultsId = $tstdef;
             $testDefaults = ilObjTest::_getTestDefaults($testDefaultsId);
             $new_object->applyDefaults($testDefaults);
-        }
-
-        $template_id = $this->getDidacticTemplateVar("tsttpl");
-        if ($template_id) {
-            $template = new ilSettingsTemplate($template_id, ilObjAssessmentFolderGUI::getSettingsTemplateConfig());
-
-            $template_settings = $template->getSettings();
-            if ($template_settings) {
-                /** @var ilObjTest $obj */
-                $obj = $new_object;
-                $this->applyTemplate($template_settings, $obj);
-            }
-
-            $new_object->setTemplate($template_id);
         }
 
         $new_object->saveToDb();

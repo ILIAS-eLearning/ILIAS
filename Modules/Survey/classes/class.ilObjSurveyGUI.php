@@ -315,29 +315,6 @@ class ilObjSurveyGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
         $this->ctrl->redirect($eval_gui, "evaluation");
     }
 
-    protected function addDidacticTemplateOptions(array &$a_options): void
-    {
-        $templates = ilSettingsTemplate::getAllSettingsTemplates("svy");
-        if ($templates) {
-            foreach ($templates as $item) {
-                $a_options["svytpl_" . $item["id"]] = array($item["title"],
-                    nl2br(trim($item["description"])));
-            }
-        }
-
-        // JF, 2013-06-10
-        $a_options["svy360_1"] = array($this->lng->txt("survey_360_mode"),
-            $this->lng->txt("survey_360_mode_info"));
-
-        //Self evaluation only
-        $a_options["svyselfeval_1"] = array($this->lng->txt("svy_self_ev_mode"),
-            $this->lng->txt("svy_self_ev_info"));
-
-        // individual feedback
-        $a_options["individfeedb_1"] = array($this->lng->txt("svy_ind_feedb_mode"),
-            $this->lng->txt("svy_ind_feedb_info"));
-    }
-
     protected function afterSave(ilObject $new_object): void
     {
         // #16446
@@ -671,37 +648,6 @@ class ilObjSurveyGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
             $this->tpl->setOnScreenMessage('success', $this->lng->txt("object_imported"), true);
             ilUtil::redirect("ilias.php?ref_id=" . $newObj->getRefId() .
                 "&baseClass=ilObjSurveyGUI");
-
-            // using template?
-            $templates = ilSettingsTemplate::getAllSettingsTemplates("svy");
-            if ($templates) {
-                $tpl = $this->tpl;
-                $tpl->addJavaScript("./Modules/Scorm2004/scripts/questions/jquery.js");
-                // $tpl->addJavaScript("./Modules/Scorm2004/scripts/questions/jquery-ui-min.js");
-
-                $this->tpl->setCurrentBlock("template_option");
-                $this->tpl->setVariable("VAL_TEMPLATE_OPTION", "");
-                $this->tpl->setVariable("TXT_TEMPLATE_OPTION", $this->lng->txt("none"));
-                $this->tpl->parseCurrentBlock();
-
-                foreach ($templates as $item) {
-                    $this->tpl->setCurrentBlock("template_option");
-                    $this->tpl->setVariable("VAL_TEMPLATE_OPTION", $item["id"]);
-                    $this->tpl->setVariable("TXT_TEMPLATE_OPTION", $item["title"]);
-                    $this->tpl->parseCurrentBlock();
-
-                    $desc = str_replace(["\n", "\r"], "", nl2br($item["description"]));
-
-                    $this->tpl->setCurrentBlock("js_data");
-                    $this->tpl->setVariable("JS_DATA_ID", $item["id"]);
-                    $this->tpl->setVariable("JS_DATA_TEXT", $desc);
-                    $this->tpl->parseCurrentBlock();
-                }
-
-                $this->tpl->setCurrentBlock("templates");
-                $this->tpl->setVariable("TXT_TEMPLATE", $this->lng->txt("svy_settings_template"));
-                $this->tpl->parseCurrentBlock();
-            }
         }
 
         // display form to correct errors

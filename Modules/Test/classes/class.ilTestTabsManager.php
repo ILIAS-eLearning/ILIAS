@@ -269,24 +269,6 @@ class ilTestTabsManager
     }
 
     /**
-     */
-    public function initSettingsTemplate()
-    {
-        $this->resetHiddenTabs();
-
-        if ($this->getTestOBJ()->getTemplate()) {
-            require_once 'Services/Administration/classes/class.ilSettingsTemplate.php';
-
-            $template = new ilSettingsTemplate(
-                $this->getTestOBJ()->getTemplate(),
-                ilObjAssessmentFolderGUI::getSettingsTemplateConfig()
-            );
-
-            $this->setHiddenTabs($template->getHiddenTabs());
-        }
-    }
-
-    /**
      * @param string $tabId
      * @return bool
      */
@@ -777,9 +759,6 @@ class ilTestTabsManager
             );
         }
         */
-
-        //include_once "Services/Administration/classes/class.ilSettingsTemplate.php";
-        //$template = new ilSettingsTemplate($this->getTestOBJ()->getTemplate(), ilObjAssessmentFolderGUI::getSettingsTemplateConfig());
 
         if (!$this->isHiddenTab('questions')) {
             $this->tabs->addSubTab(
