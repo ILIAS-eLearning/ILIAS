@@ -23,20 +23,16 @@
  */
 class ilOrgUnitTypeCustomIconsFormGUI extends ilPropertyFormGUI
 {
-    protected ilObjectGUI $parent_gui;
+    protected ilOrgUnitTypeGUI $parent_gui;
     protected ilOrgUnitType $type;
     protected ilCtrl $ctrl;
     protected ilLanguage $lng;
 
-    public function __construct(ilObjectGUI $parent_gui, ilOrgUnitType $type)
+    public function __construct(ilOrgUnitTypeGUI $parent_gui, ilOrgUnitType $type)
     {
-        global $DIC;
         parent::__construct();
         $this->parent_gui = $parent_gui;
         $this->type = $type;
-        $this->tpl =  $DIC->ui()->mainTemplate();
-        $this->ctrl = $DIC->ctrl();
-        $this->lng = $DIC->language();
         $this->lng->loadLanguageModule('meta');
         $this->initForm();
     }
