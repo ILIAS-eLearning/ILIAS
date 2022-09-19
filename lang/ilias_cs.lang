@@ -81,7 +81,6 @@ adm#:#adm_support_contacts_info#:#Kontakty podpory použité v odkazu zápatí a
 administration#:#adm_achievements#:#Achievements###07 02 2020 new variable
 administration#:#adm_activate_db_benchmark#:#Aktivovat Benchmark
 administration#:#adm_activate_db_benchmark_desc#:#Benchmarking bude automaticky vypnut po prvním požadavku.
-administration#:#adm_add_settings_template#:#Přidat šablonu
 administration#:#adm_adm_role_protect#:#Chránit role správce
 administration#:#adm_adm_role_protect_info#:#Je-li zapnuto, pak jen správce má povoleno zařadit/odebírat uživatele z/do role správce.
 administration#:#adm_auth_login#:#Authentication Login###29 07 2022 new variable
@@ -94,7 +93,6 @@ administration#:#adm_db_bench_sorted_by_sql#:#Řazeno dle SQL
 administration#:#adm_db_benchmark#:#DB Benchmarku
 administration#:#adm_db_benchmark_user#:#Jméno uživatelského účtu
 administration#:#adm_db_benchmark_user_desc#:#Bude provedeno měření jen pro tohoto uživatele.
-administration#:#adm_edit_settings_template#:#Upravit šablonu
 administration#:#adm_extending_ilias#:#Extending ILIAS###07 02 2020 new variable
 administration#:#adm_external_setting_edit#:#Upravit nastavení
 administration#:#adm_hide#:#Skrýt ve formuláři nastavení
@@ -128,11 +126,9 @@ administration#:#adm_rep_tree_only_cntr_info#:#Jsou vypsány jen kategorie, kurz
 administration#:#adm_rep_tree_presentation#:#Prezentace stromu úložiště
 administration#:#adm_repository_and_objects#:#Repository and Objects###07 02 2020 new variable
 administration#:#adm_search_and_find#:#Search and Find###07 02 2020 new variable
-administration#:#adm_settings_templates#:#Nastavení šablon
 administration#:#adm_show_comments_tagging_in_lists#:#Ukaž počet poznámek, komentářů a tagů v seznamech objektu
 administration#:#adm_show_comments_tagging_in_lists_tags#:#Zobrazte tagy místo čísla
 administration#:#adm_sql#:#SQL
-administration#:#adm_sure_delete_settings_template#:#Skutečně chcete smazat následující šablony?
 administration#:#adm_table#:#Tabulka
 administration#:#adm_time#:#Čas
 administration#:#adm_user_administration#:#Správa uživatelů
@@ -469,7 +465,6 @@ assessment#:#add_imagemap#:#Importovat mapu obrázku
 assessment#:#add_poly#:#Přidat plochu polygonu
 assessment#:#add_rect#:#Přidat trojúhelníkovou plochu
 assessment#:#additional_rating_info#:#Povšimněte si, že zde uvedené hodnoty jsou vyjádřeny jako procenta a jejich součet musí být 100.
-assessment#:#adm_settings_templates#:#Nastavení šablon
 assessment#:#advanced_rating#:#Rozšířené hodnocení
 assessment#:#advanced_rating_info#:#Rozšířené hodnocení je dostupné jen když jednotka je přiřazena k výsledku.
 assessment#:#all_available_question_pools#:#Všechny dostupné zásobníky otázek
@@ -15670,7 +15665,6 @@ survey#:#survey_pool_selection#:#Výběr zásobníku
 survey#:#survey_prev_question#:#Předchozí stránka
 survey#:#survey_previous#:#<< Předchozí
 survey#:#survey_question_editor#:#Zobrazení seznamu
-survey#:#survey_question_editor_settings_template#:#Zobrazení seznamu (v tabulce "Otázky")
 survey#:#survey_question_obligatory#:#Tato otázka je povinná. Musíte na tuto otázku odpovědět.
 survey#:#survey_question_pool#:#Zásobník otázek
 survey#:#survey_question_pool_title#:#Zázev zásobníku
@@ -15848,7 +15842,6 @@ survey#:#svy_settings_section_before_start#:#Informace před zahájením průzku
 survey#:#svy_settings_section_finishing#:#Dokončení přehledu:
 survey#:#svy_settings_section_question_behaviour#:#Správa přehledu: Chování otázky
 survey#:#svy_settings_section_reminders#:#Připomenutí
-survey#:#svy_settings_template#:#Šablona
 survey#:#svy_show_questiontitles#:#Zobrazit názvy otázek v anketě
 survey#:#svy_skl_comp_assignm_not_supported#:#Přiřazení způsobilostí není pro tento typ otázky podporováno.
 survey#:#svy_sum_score#:#Sum Score###29 07 2022 new variable

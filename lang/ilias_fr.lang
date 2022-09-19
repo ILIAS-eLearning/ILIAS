@@ -81,7 +81,6 @@ adm#:#adm_support_contacts_info#:#Contacts de support technique utilisés dans l
 administration#:#adm_achievements#:#Achievements###07 02 2020 new variable
 administration#:#adm_activate_db_benchmark#:#Activer Benchmark
 administration#:#adm_activate_db_benchmark_desc#:#Le test de performance sera automatiquement désactivé après avoir été effectué.
-administration#:#adm_add_settings_template#:#Ajouter Modèle
 administration#:#adm_adm_role_protect#:#Protéger le Rôle Administrateur
 administration#:#adm_adm_role_protect_info#:#Lorsque activé, seuls les administrateurs sont autorisés à attribuer/retirer le rôle administrateur.
 administration#:#adm_auth_login#:#Authentication Login###29 07 2022 new variable
@@ -94,7 +93,6 @@ administration#:#adm_db_bench_sorted_by_sql#:#Trié par SQL
 administration#:#adm_db_benchmark#:#Référence DB
 administration#:#adm_db_benchmark_user#:#Nom du compte de l'utilisateur
 administration#:#adm_db_benchmark_user_desc#:#Seules les mesures pour cet utilisateur seront effectuées.
-administration#:#adm_edit_settings_template#:#Modifier le Modèle
 administration#:#adm_extending_ilias#:#Extending ILIAS###07 02 2020 new variable
 administration#:#adm_external_setting_edit#:#Modifier Paramètres
 administration#:#adm_hide#:#Cacher dans le Formulaire de Paramétrage
@@ -128,11 +126,9 @@ administration#:#adm_rep_tree_only_cntr_info#:#Uniquement les catégories, cours
 administration#:#adm_rep_tree_presentation#:#Présentation de l'Arborescence du Catalogue
 administration#:#adm_repository_and_objects#:#Repository and Objects###07 02 2020 new variable
 administration#:#adm_search_and_find#:#Search and Find###07 02 2020 new variable
-administration#:#adm_settings_templates#:#Modèles de Paramétrage
 administration#:#adm_show_comments_tagging_in_lists#:#Afficher le nombre de notes, commentaires et mots-clés dans les listes d'objets
 administration#:#adm_show_comments_tagging_in_lists_tags#:#Afficher les mot-clés au lieu du nombre
 administration#:#adm_sql#:#SQL
-administration#:#adm_sure_delete_settings_template#:#Voulez-vous vraiment supprimer les modèles suivants ?
 administration#:#adm_table#:#Tableau
 administration#:#adm_time#:#Durée
 administration#:#adm_user_administration#:#Utilisateurs
@@ -469,7 +465,6 @@ assessment#:#add_imagemap#:#Ajouter Carte des Interactions
 assessment#:#add_poly#:#Ajouter Polygone
 assessment#:#add_rect#:#Ajouter Rectangle
 assessment#:#additional_rating_info#:#Veuillez noter que les valeurs indiquées ici sont exprimées en pourcentage et celles-ci doivent totaliser 100.
-assessment#:#adm_settings_templates#:#Modèle de Paramétrage
 assessment#:#advanced_rating#:#Notation Avancée
 assessment#:#advanced_rating_info#:#La notation avancée n'est disponible que si une unité a été assignée au résultat.
 assessment#:#all_available_question_pools#:#Toutes les banques de questions disponibles
@@ -15670,7 +15665,6 @@ survey#:#survey_pool_selection#:#Choix d'un réservoir
 survey#:#survey_prev_question#:#Page Précédente
 survey#:#survey_previous#:#<<<  Précédent
 survey#:#survey_question_editor#:#Liste des Questions
-survey#:#survey_question_editor_settings_template#:#Liste des Questions (dans l'onglet "Questions")
 survey#:#survey_question_obligatory#:#Cette question est obligatoire. Vous devez y répondre !
 survey#:#survey_question_pool#:#Banque de Questions
 survey#:#survey_question_pool_title#:#Titre de la Banque
@@ -15848,7 +15842,6 @@ survey#:#svy_settings_section_before_start#:#Informations avant le début de l�
 survey#:#svy_settings_section_finishing#:#En train de finir l’enquête
 survey#:#svy_settings_section_question_behaviour#:#Administering the Survey: Behaviour of the Question
 survey#:#svy_settings_section_reminders#:#Rappels
-survey#:#svy_settings_template#:#Modèle
 survey#:#svy_show_questiontitles#:#Montrer les Titres de Question dans l'Enquête
 survey#:#svy_skl_comp_assignm_not_supported#:#L'assignation de compétences n'est pas supportée pour ce type de question.
 survey#:#svy_sum_score#:#Sum Score###29 07 2022 new variable

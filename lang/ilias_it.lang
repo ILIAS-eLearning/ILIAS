@@ -81,7 +81,6 @@ adm#:#adm_support_contacts_info#:#Contatti di supporto utilizzati nel collegamen
 administration#:#adm_achievements#:#Achievements###07 02 2020 new variable
 administration#:#adm_activate_db_benchmark#:#Attiva Benchmark
 administration#:#adm_activate_db_benchmark_desc#:#Il Benchmarking verrà disabilitato automaticamente dopo una richiesta.
-administration#:#adm_add_settings_template#:#Aggiungi Template
 administration#:#adm_adm_role_protect#:#Proteggere il ruolo di Amministratore
 administration#:#adm_adm_role_protect_info#:#Se abilitato, solo l'amministratore è autorizzato a (de)assegnare gli utenti da/per il ruolo di amministratore.
 administration#:#adm_auth_login#:#Authentication Login###29 07 2022 new variable
@@ -94,7 +93,6 @@ administration#:#adm_db_bench_sorted_by_sql#:#Ordinato da SQL
 administration#:#adm_db_benchmark#:#Riferimento DB
 administration#:#adm_db_benchmark_user#:#Nome dell'Account Utente
 administration#:#adm_db_benchmark_user_desc#:#Verranno eseguite le misurazioni del solo utente attuale.
-administration#:#adm_edit_settings_template#:#Modifica Template
 administration#:#adm_extending_ilias#:#Extending ILIAS###07 02 2020 new variable
 administration#:#adm_external_setting_edit#:#Modifica impostazioni
 administration#:#adm_hide#:#Nascosto nelle Impostazioni del Form
@@ -128,11 +126,9 @@ administration#:#adm_rep_tree_only_cntr_info#:#Sono elencate solo categorie, cor
 administration#:#adm_rep_tree_presentation#:#Rappresentazione dell'albero delle Risorse
 administration#:#adm_repository_and_objects#:#Repository and Objects###07 02 2020 new variable
 administration#:#adm_search_and_find#:#Search and Find###07 02 2020 new variable
-administration#:#adm_settings_templates#:#Impostazioni Template
 administration#:#adm_show_comments_tagging_in_lists#:#Visualizza il numero di note, commenti e tag nella lista degli oggetti
 administration#:#adm_show_comments_tagging_in_lists_tags#:#Visualizzare i tag anziché il numero
 administration#:#adm_sql#:#SQL
-administration#:#adm_sure_delete_settings_template#:#Vuoi davvero eliminare i seguenti template?
 administration#:#adm_table#:#Tabella
 administration#:#adm_time#:#Tempo
 administration#:#adm_user_administration#:#Amministrazione utente
@@ -469,7 +465,6 @@ assessment#:#add_imagemap#:#Importa immagine Mappa
 assessment#:#add_poly#:#Aggiungi area poligonale
 assessment#:#add_rect#:#Aggiungi area rettangolare
 assessment#:#additional_rating_info#:#Si prega di notare che i valori indicati qui sono espressi in percentuali e questi devono aggiungere fino a 100.
-assessment#:#adm_settings_templates#:#Impostazioni dei Template
 assessment#:#advanced_rating#:#Classificazione avanzata
 assessment#:#advanced_rating_info#:#The advanced rating is only available if a unit is assigned to the result.
 assessment#:#all_available_question_pools#:#Tutti le raccolte di domande disponibili
@@ -15670,7 +15665,6 @@ survey#:#survey_pool_selection#:#Selezione del gruppo
 survey#:#survey_prev_question#:#Pagina precedente
 survey#:#survey_previous#:#<<< Salva e torna indietro
 survey#:#survey_question_editor#:#Lista Domande
-survey#:#survey_question_editor_settings_template#:#List View (in Tab "Questions")
 survey#:#survey_question_obligatory#:#(Questa domanda &
 survey#:#survey_question_pool#:#Gruppo di domande
 survey#:#survey_question_pool_title#:#Titolo del gruppo
@@ -15848,7 +15842,6 @@ survey#:#svy_settings_section_before_start#:#Informazioni prima di iniziare il s
 survey#:#svy_settings_section_finishing#:#Terminare il sondaggio
 survey#:#svy_settings_section_question_behaviour#:#Administering the Survey: Behaviour of the Question
 survey#:#svy_settings_section_reminders#:#Promemoria
-survey#:#svy_settings_template#:#Modello
 survey#:#svy_show_questiontitles#:#Mostra i titoli delle domande nel sondaggio
 survey#:#svy_skl_comp_assignm_not_supported#:#L'assegnazione delle competenze non è supportata per questo tipo di domanda.
 survey#:#svy_sum_score#:#Sum Score###29 07 2022 new variable

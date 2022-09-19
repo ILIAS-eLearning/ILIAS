@@ -81,7 +81,6 @@ adm#:#adm_support_contacts_info#:#Support contacts used in the footer link and (
 administration#:#adm_achievements#:#Achievements###07 02 2020 new variable
 administration#:#adm_activate_db_benchmark#:#Aktivovat Benchmark
 administration#:#adm_activate_db_benchmark_desc#:#Benchmarking bude automaticky vypnut po prvním požadavku.
-administration#:#adm_add_settings_template#:#Add Template###12 06 2011 new variable
 administration#:#adm_adm_role_protect#:#Protect Administrator Role###28 08 2012 new variable
 administration#:#adm_adm_role_protect_info#:#If enabled, only administrator are allowed to de/assign users from/to the administrator role.###28 08 2012 new variable
 administration#:#adm_auth_login#:#Authentication Login###29 07 2022 new variable
@@ -94,7 +93,6 @@ administration#:#adm_db_bench_sorted_by_sql#:#Řazeno dle SQL
 administration#:#adm_db_benchmark#:#DB Benchmarku
 administration#:#adm_db_benchmark_user#:#Jméno uživatelského účtu
 administration#:#adm_db_benchmark_user_desc#:#Bude provedeno měření jen pro tohoto uživatele.
-administration#:#adm_edit_settings_template#:#Edit Template###12 06 2011 new variable
 administration#:#adm_extending_ilias#:#Extending ILIAS###07 02 2020 new variable
 administration#:#adm_external_setting_edit#:#Edit Settings###24 10 2013 new variable
 administration#:#adm_hide#:#Hide###12 06 2011 new variable
@@ -128,11 +126,9 @@ administration#:#adm_rep_tree_only_cntr_info#:#Jsou vypsány jen kategorie, kurz
 administration#:#adm_rep_tree_presentation#:#Zobrazení stromu úložiště
 administration#:#adm_repository_and_objects#:#Repository and Objects###07 02 2020 new variable
 administration#:#adm_search_and_find#:#Search and Find###07 02 2020 new variable
-administration#:#adm_settings_templates#:#Settings Templates###12 06 2011 new variable
 administration#:#adm_show_comments_tagging_in_lists#:#Show number of notes, comments and tags in object lists###14 09 2011 new variable
 administration#:#adm_show_comments_tagging_in_lists_tags#:#Display tags instead of number###26 09 2014 new variable
 administration#:#adm_sql#:#SQL
-administration#:#adm_sure_delete_settings_template#:#Do you really want to delete the following templates?###12 06 2011 new variable
 administration#:#adm_table#:#Tabulka
 administration#:#adm_time#:#Čas
 administration#:#adm_user_administration#:#User Administration###23 12 2015 new variable
@@ -469,7 +465,6 @@ assessment#:#add_imagemap#:#Importovat mapu obrázku
 assessment#:#add_poly#:#Přidat plochu polygonu
 assessment#:#add_rect#:#Přidat plochu trojúheníku
 assessment#:#additional_rating_info#:#Please note that the values given here are expressed as percentages and these must add up to 100.###26 03 2014 new variable
-assessment#:#adm_settings_templates#:#Settings Templates###12 06 2011 new variable
 assessment#:#advanced_rating#:#Advanced Rating###24 10 2013 new variable
 assessment#:#advanced_rating_info#:#The advanced rating is only available if a unit is assigned to the result.###24 10 2013 new variable
 assessment#:#all_available_question_pools#:#Všechny dostupné zásobníky otázek
@@ -15670,7 +15665,6 @@ survey#:#survey_pool_selection#:#Pool Selection###12 06 2011 new variable
 survey#:#survey_prev_question#:#Previous Page###12 06 2011 new variable
 survey#:#survey_previous#:#<< Předchozí
 survey#:#survey_question_editor#:#Seznam otázek
-survey#:#survey_question_editor_settings_template#:#List View (in Tab "Questions")###01 10 2011 new variable
 survey#:#survey_question_obligatory#:#Tato otázka je povinná. Musíte na tuto otázku odpovědět.
 survey#:#survey_question_pool#:#Question Pool###12 06 2011 new variable
 survey#:#survey_question_pool_title#:#Pool Title###12 06 2011 new variable
@@ -15848,7 +15842,6 @@ survey#:#svy_settings_section_before_start#:#Information before Start of Survey#
 survey#:#svy_settings_section_finishing#:#Finishing the Survey###27 01 2015 new variable
 survey#:#svy_settings_section_question_behaviour#:#Administering the Survey: Behaviour of the Question###27 01 2015 new variable
 survey#:#svy_settings_section_reminders#:#Reminders###27 01 2015 new variable
-survey#:#svy_settings_template#:#Template###12 06 2011 new variable
 survey#:#svy_show_questiontitles#:#Zobrazit názvy otázek v anketě
 survey#:#svy_skl_comp_assignm_not_supported#:#Competence assignment is not supported for this question type.###24 10 2013 new variable
 survey#:#svy_sum_score#:#Sum Score###29 07 2022 new variable

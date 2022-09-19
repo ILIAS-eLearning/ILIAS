@@ -81,7 +81,6 @@ adm#:#adm_support_contacts_info#:#Technical support contacts accessible via link
 administration#:#adm_achievements#:#Achievements
 administration#:#adm_activate_db_benchmark#:#Activate Benchmarking
 administration#:#adm_activate_db_benchmark_desc#:#Benchmarking will be automatically disabled after one request.
-administration#:#adm_add_settings_template#:#Add Template
 administration#:#adm_adm_role_protect#:#Protect Administrator Role
 administration#:#adm_adm_role_protect_info#:#Only allow administrators to assign or remove users from the role of administrator.
 administration#:#adm_auth_login#:#Authentication Login
@@ -94,7 +93,6 @@ administration#:#adm_db_bench_sorted_by_sql#:#Sorted by SQL
 administration#:#adm_db_benchmark#:#DB Benchmark
 administration#:#adm_db_benchmark_user#:#User Account Name
 administration#:#adm_db_benchmark_user_desc#:#Measurements will be made for this user only. The username entered should not belong to the user initiating the benchmarking.
-administration#:#adm_edit_settings_template#:#Edit Template
 administration#:#adm_extending_ilias#:#Extending ILIAS
 administration#:#adm_external_setting_edit#:#Edit Settings
 administration#:#adm_hide#:#Hide in Settings Form
@@ -128,11 +126,9 @@ administration#:#adm_rep_tree_only_cntr_info#:#Only categories, courses and grou
 administration#:#adm_rep_tree_presentation#:#Repository Tree Presentation
 administration#:#adm_repository_and_objects#:#Repository and Objects
 administration#:#adm_search_and_find#:#Search and Find
-administration#:#adm_settings_templates#:#Settings Templates
 administration#:#adm_show_comments_tagging_in_lists#:#Show Number of Notes, Comments and Tags in Object Lists
 administration#:#adm_show_comments_tagging_in_lists_tags#:#Display tags instead of number
 administration#:#adm_sql#:#SQL
-administration#:#adm_sure_delete_settings_template#:#Do you really want to delete the following templates?
 administration#:#adm_table#:#Table
 administration#:#adm_time#:#Time
 administration#:#adm_user_administration#:#Users and Roles
@@ -472,7 +468,6 @@ assessment#:#add_imagemap#:#Import Image Map
 assessment#:#add_poly#:#Add polygon area
 assessment#:#add_rect#:#Add rectangle area
 assessment#:#additional_rating_info#:#Please note that the values given here are expressed as percentages and these must add up to 100.
-assessment#:#adm_settings_templates#:#Settings Templates
 assessment#:#advanced_rating#:#Advanced Rating
 assessment#:#advanced_rating_info#:#The advanced rating is only available if a unit is assigned to the result. Further rating settings are displayed after saving the specified units.
 assessment#:#all_available_question_pools#:#All available question pools
@@ -15770,7 +15765,6 @@ survey#:#survey_pool_selection#:#Pool Selection
 survey#:#survey_prev_question#:#Previous Page
 survey#:#survey_previous#:#<< Previous
 survey#:#survey_question_editor#:#List View
-survey#:#survey_question_editor_settings_template#:#List View (in Tab ‘Questions’)
 survey#:#survey_question_obligatory#:#This question is compulsory. You must answer the question!
 survey#:#survey_question_pool#:#Question Pool
 survey#:#survey_question_pool_title#:#Pool Title
@@ -15948,7 +15942,6 @@ survey#:#svy_settings_section_before_start#:#Information before start of survey
 survey#:#svy_settings_section_finishing#:#Finishing the survey
 survey#:#svy_settings_section_question_behaviour#:#Administering the survey: Behaviour of question
 survey#:#svy_settings_section_reminders#:#Reminders
-survey#:#svy_settings_template#:#Template
 survey#:#svy_show_questiontitles#:#Show Question Title
 survey#:#svy_skl_comp_assignm_not_supported#:#Competence assignment is not supported for this question type.
 survey#:#svy_sum_score#:#Sum Score
