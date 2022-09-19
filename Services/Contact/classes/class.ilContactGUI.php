@@ -46,6 +46,8 @@ class ilContactGUI
     protected ilRbacSystem $rbacsystem;
     protected bool $has_sub_tabs = false;
     protected ILIAS\Refinery\Factory $refinery;
+    protected \ILIAS\UI\Factory $ui_factory;
+    protected \ILIAS\UI\Renderer $ui_renderer;
 
     public function __construct()
     {
@@ -62,6 +64,8 @@ class ilContactGUI
         $this->rbacsystem = $DIC['rbacsystem'];
         $this->http = $DIC->http();
         $this->refinery = $DIC->refinery();
+        $this->ui_factory = $DIC->ui()->factory();
+        $this->ui_renderer = $DIC->ui()->renderer();
 
         $this->ctrl->saveParameter($this, "mobj_id");
 
@@ -370,7 +374,7 @@ class ilContactGUI
         }
         $logins = array_filter($logins);
 
-        if (count($logins) > 0) {
+        if ($logins !== []) {
             $mail_data = $this->umail->appendSearchResult($logins, 'to');
             $this->umail->savePostData(
                 (int) $mail_data['user_id'],
@@ -503,7 +507,9 @@ class ilContactGUI
         } else {
             $url = ilLink::_getStaticLink($ref_id, 'chtr');
         }
-        $link = '<p><a target="chatframe" href="' . $url . '" title="' . $this->lng->txt('goto_invitation_chat') . '">' . $this->lng->txt('goto_invitation_chat') . '</a></p>';
+        $link = '<div>' . $this->ui_renderer->render(
+            $this->ui_factory->button()->standard($this->lng->txt('goto_invitation_chat'), $url)
+        ) . '</div>';
 
         $userlist = [];
         foreach ($valid_users as $id) {
