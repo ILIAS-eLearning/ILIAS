@@ -1046,7 +1046,7 @@ class ilForumTopic
             $first_node = $this->getFirstVisiblePostNode();
             $first_node->setSubject($this->getSubject());
             $first_node->update();
-        } catch (OutOfBoundsException) {
+        } catch (OutOfBoundsException $e) {
         }
     }
 
