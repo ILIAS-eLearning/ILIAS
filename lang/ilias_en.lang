@@ -5244,6 +5244,7 @@ common#:#prg_wizard_page#:#Copy Study Program (Step 2/2)
 common#:#prgr_add#:#Add Study Programme Link
 common#:#prgr_edit_info#:#Please choose one Study Programme for creating a new link.
 common#:#prgr_new#:#Create Study Programme Link
+common#:#prgr_settings#:#Settings of Study Programme Link
 common#:#print#:#Print
 common#:#print_view#:#Print View
 common#:#private_notes#:#Private Notes
