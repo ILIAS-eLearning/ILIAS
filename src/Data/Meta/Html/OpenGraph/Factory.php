@@ -23,7 +23,6 @@ use ILIAS\Data\Meta\Html\TagCollection;
 use ILIAS\Data\Meta\Html\Tag as HTMLTag;
 use ILIAS\Data\Meta\Html\Undefined;
 use ILIAS\Data\URI;
-use org\bovigo\vfs\vfsStreamWrapperUnregisterTestCase;
 
 /**
  * @author Thibeau Fuhrer <thibeau@sr.solutions>

@@ -582,4 +582,5 @@ $og_html_metadata = $f->htmlMetadata()->openGraph()->website(
     $f->uri('https://docu.ilias.de'),
     'hello world!'
 );
+?>
 ```
