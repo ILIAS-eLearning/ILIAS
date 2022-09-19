@@ -506,11 +506,17 @@ class ilEventParticipants
             $lp_mark = new ilLPMarks($this->getEventId(), (int) $row->usr_id);
             $this->participants[(int) $row->usr_id]['mark'] = $lp_mark->getMark();
             $this->participants[(int) $row->usr_id]['comment'] = $lp_mark->getComment();
-            $this->participants[(int) $row->usr_id]['notification_enabled'] = false;
-            if (in_array((int) $row->usr_id, $parentRecipients)) {
-                $this->participants[(int) $row->usr_id]['notification_enabled'] = true;
-            }
 
+            if (
+                $session->isRegistrationNotificationEnabled() &&
+                $session->getRegistrationNotificationOption() === ilSessionConstants::NOTIFICATION_MANUAL_OPTION
+            ) {
+                $this->participants[(int) $row->usr_id]['notification_enabled'] = (bool) $row->notification_enabled;
+            } elseif (in_array((int) $row->usr_id, $parentRecipients)) {
+                $this->participants[(int) $row->usr_id]['notification_enabled'] = true;
+            } else {
+                $this->participants[(int) $row->usr_id]['notification_enabled'] = false;
+            }
             if ($row->registered) {
                 $this->participants_registered[] = (int) $row->usr_id;
             }

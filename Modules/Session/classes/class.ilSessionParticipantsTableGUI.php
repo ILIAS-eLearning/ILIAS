@@ -214,7 +214,6 @@ class ilSessionParticipantsTableGUI extends ilTable2GUI
         $part = [];
         foreach ($all_participants as $counter => $participant) {
             $usr_data = $this->getParticipants()->getEventParticipants()->getUser((int) $participant['usr_id']);
-
             $tmp_data = [];
             $tmp_data['id'] = $participant['usr_id'];
 
@@ -232,13 +231,12 @@ class ilSessionParticipantsTableGUI extends ilTable2GUI
             $notificationShown = false;
             if (true === $this->getRepositoryObject()->isRegistrationNotificationEnabled()) {
                 $notificationShown = true;
-
                 $notificationCheckboxEnabled = true;
                 if (ilSessionConstants::NOTIFICATION_INHERIT_OPTION === $this->getRepositoryObject()->getRegistrationNotificationOption()) {
                     $notificationCheckboxEnabled = false;
                 }
                 $tmp_data['notification_checkbox_enabled'] = $notificationCheckboxEnabled;
-                $tmp_data['notification_checked'] = $usr_data['notification_enabled'];
+                $tmp_data['notification_checked'] = $usr_data['notification_enabled'] ?? false;
             }
             $tmp_data['show_notification'] = $notificationShown;
 
