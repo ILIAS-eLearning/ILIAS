@@ -1,6 +1,5 @@
 <?php
 
-declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,14 +16,18 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
-if (!file_exists(getcwd() . '/ilias.ini.php')) {
-    exit();
+use ILIAS\Setup;
+use ILIAS\Setup\Objective;
+use ILIAS\Setup\Metrics;
+
+class ilRegistrationAgent extends Setup\Agent\NullAgent
+{
+    public function getUpdateObjective(Setup\Config $config = null): Setup\Objective
+    {
+        return new Setup\ObjectiveCollection(
+            "Service/Registation Objectives",
+            false,
+            new \ilRegistrationConfigUpdateObjective()
+        );
+    }
 }
-
-require_once 'Services/Init/classes/class.ilInitialisation.php';
-ilInitialisation::initILIAS();
-
-/** @var ILIAS\DI\Container $DIC */
-$DIC->ctrl()->setCmd('confirmRegistration');
-$DIC->ctrl()->callBaseClass(ilStartUpGUI::class);
-$DIC->http()-close();
