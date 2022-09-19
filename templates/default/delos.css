@@ -18312,10 +18312,14 @@ body.ilPrtfPdfBody .ilPCMyCoursesToggle img {
   height: 16px;
   vertical-align: sub;
 }
-#onscreenchat-container .chat-window-wrapper .panel .panel-heading .minimize,
-#onscreenchat-container .chat-window-wrapper .panel .panel-heading .close {
-  margin-top: -2px;
+#onscreenchat-container .chat-window-wrapper .panel .panel-heading a.glyph {
+  display: inline-block;
+  vertical-align: middle;
+}
+#onscreenchat-container .chat-window-wrapper .panel .panel-heading .minimize {
   margin-left: 5px;
+  display: inline-block;
+  vertical-align: middle;
 }
 #onscreenchat-container .chat-window-wrapper .panel .panel .slidedown .glyphicon,
 #onscreenchat-container .chat-window-wrapper .panel .chat .glyphicon {
