@@ -9606,6 +9606,7 @@ forum#:#frm_action_not_possible_parent_deleted#:#Die Aktion kann nicht durchgef�
 forum#:#frm_action_not_possible_thr_closed#:#Die Aktion kann nicht durchgeführt werden, das Thema wurde geschlossen.
 forum#:#frm_action_not_possible_thr_deleted#:#Die Aktion kann nicht durchgeführt werden, das Thema wurde gelöscht.
 forum#:#frm_activation_online_info#:#Nur wenn das Forum online geschaltet ist, können Benutzer auf das Forum zugreifen. Wenn nicht, ist das Forum nur für Administratoren verfügbar.
+forum#:#frm_all_threads#:#Alle Themen
 forum#:#frm_anonymous_posting#:#Mit Pseudonym schreiben
 forum#:#frm_anonymous_posting_desc#:#Beiträge können unter beliebigem Namen geschrieben werden. Ist die Option „Beiträge der Moderation markieren“ aktiviert, kann die Moderation kein Pseudonym verwenden.###Modified as part of gender mainstreaming activities for ILIAS 8
 forum#:#frm_at_least_one_moderator#:#Es muss mindestens eine Person für die Moderation zuständig sein.###Modified as part of gender mainstreaming activities for ILIAS 8
