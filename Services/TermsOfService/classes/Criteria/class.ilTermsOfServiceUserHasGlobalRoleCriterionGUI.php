@@ -62,7 +62,7 @@ class ilTermsOfServiceUserHasGlobalRoleCriterionGUI implements ilTermsOfServiceC
             $options[$roleId] = $this->objectCache->lookupTitle($roleId);
         }
 
-        asort($options);
+        natcasesort($options);
 
         $roleSelection->setOptions(['' => $this->lng->txt('please_choose')] + $options);
         $roleSelection->setValue((string) ((int) ($config['role_id'] ?? 0)));

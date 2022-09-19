@@ -54,7 +54,7 @@ class ilTermsOfServiceUserHasLanguageCriterionGUI implements ilTermsOfServiceCri
             $options[$lng] = $this->lng->txt('meta_l_' . $lng);
         }
 
-        asort($options);
+        natcasesort($options);
 
         $languageSelection->setOptions(['' => $this->lng->txt('please_choose')] + $options);
         $languageSelection->setValue((string) ($config['lng'] ?? ''));
