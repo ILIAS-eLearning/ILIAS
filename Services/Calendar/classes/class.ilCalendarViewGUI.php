@@ -145,9 +145,6 @@ class ilCalendarViewGUI
         return 0;
     }
 
-    /**
-     * @todo refactor the GET usage
-     */
     public function getCurrentApp(): ?array
     {
         // @todo: this needs optimization
