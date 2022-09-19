@@ -296,7 +296,7 @@ class ilOnScreenChatGUI implements ilCtrlBaseClassInterface
                 'chat_osc_emoticons',
                 'chat_osc_write_a_msg',
                 'autocomplete_more',
-                'close',
+                'chat_osc_minimize',
                 'chat_osc_invite_to_conversation',
                 'chat_osc_user',
                 'chat_osc_add_user',

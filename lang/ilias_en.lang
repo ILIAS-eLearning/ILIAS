@@ -2839,6 +2839,7 @@ chatroom#:#chat_osc_emoticons#:#Emoticons
 chatroom#:#chat_osc_head_grp_x_persons#:#%s Users
 chatroom#:#chat_osc_invite_to_conversation#:#Add to Conversation
 chatroom#:#chat_osc_leave_grp_conv#:#Leave Conversation
+chatroom#:#chat_osc_minimize#:#Minimize
 chatroom#:#chat_osc_nc_conv_x_p#:#You have %s hidden conversations.
 chatroom#:#chat_osc_nc_conv_x_s#:#You have one hidden conversation.
 chatroom#:#chat_osc_nc_no_conv#:#No Conversations available

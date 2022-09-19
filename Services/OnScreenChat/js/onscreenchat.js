@@ -101,7 +101,7 @@
 
 			$('body')
 				.on('click', '[data-onscreenchat-userid]', $scope.il.OnScreenChatJQueryTriggers.triggers.participantEvent)
-				.on('click', '[data-onscreenchat-close]', $scope.il.OnScreenChatJQueryTriggers.triggers.onEmitCloseConversation)
+				.on('click', '[data-onscreenchat-minimize]', $scope.il.OnScreenChatJQueryTriggers.triggers.onEmitCloseConversation)
 				.on('click', '[data-action="onscreenchat-submit"]', $scope.il.OnScreenChatJQueryTriggers.triggers.submitEvent)
 				.on('click', '[data-onscreenchat-add]', $scope.il.OnScreenChatJQueryTriggers.triggers.addEvent)
 				.on('click', '[data-onscreenchat-window]', $scope.il.OnScreenChatJQueryTriggers.triggers.windowClicked)
@@ -425,7 +425,6 @@
 				template = template.replace(/\[\[participants-header\]\]/g, participantsNames.join(', '));
 			}
 			template = template.replace(/\[\[conversationId\]\]/g, conversation.id);
-			template = template.replace('#:#close#:#', il.Language.txt('close'));
 			template = template.replace('#:#chat_osc_write_a_msg#:#', il.Language.txt('chat_osc_write_a_msg'));
 
 			var $template = $(template);
@@ -437,8 +436,8 @@
 				"data-placement":        "auto"
 			});
 			$template.find('.minimize').attr({
-				"title":                   il.Language.txt('close'),
-				"data-onscreenchat-close": conversation.id,
+				"title":                   il.Language.txt('chat_osc_minimize'),
+				"data-onscreenchat-minimize": conversation.id,
 				"data-toggle":             "tooltip",
 				"data-placement":          "auto"
 			});
@@ -546,7 +545,7 @@
 			e.preventDefault();
 			e.stopPropagation();
 
-			var conversation = getModule().storage.get($(this).attr('data-onscreenchat-close'));
+			var conversation = getModule().storage.get($(this).attr('data-onscreenchat-minimize'));
 
 			conversation.action = ACTION_HIDE_CONV;
 			getModule().storage.save(conversation);
