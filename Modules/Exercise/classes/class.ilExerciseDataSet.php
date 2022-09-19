@@ -436,14 +436,14 @@ class ilExerciseDataSet extends ilDataSet
             }
 
             $fstorage = new ilFSStorageExercise($a_set["ExerciseId"], $a_set["Id"]);
-            $a_set["Dir"] = $fstorage->getPath();
+            $a_set["Dir"] = $fstorage->getAbsolutePath();
 
             $fstorage = new ilFSStorageExercise($a_set["ExerciseId"], $a_set["Id"]);
             $a_set["FeedbackDir"] = $fstorage->getGlobalFeedbackPath();
 
             //now the instruction files inside the root directory
             $fswebstorage = new ilFSWebStorageExercise($a_set['ExerciseId'], $a_set['Id']);
-            $a_set['WebDataDir'] = $fswebstorage->getPath();
+            $a_set['WebDataDir'] = $fswebstorage->getAbsolutePath();
         }
 
         //Discuss if necessary when working with timestamps.
@@ -604,9 +604,9 @@ class ilExerciseDataSet extends ilDataSet
                         $deadline = new ilDateTime($a_rec["Deadline2"], IL_CAL_DATETIME, "UTC");
                         $ass->setExtendedDeadline($deadline->get(IL_CAL_UNIX));
                     }
-                    $ass->setMaxFile($a_rec["MaxFile"]);
+                    $ass->setMaxFile((int)$a_rec["MaxFile"]);
                     $ass->setTeamTutor($a_rec["TeamTutor"]);
-                    $ass->setPeerReviewChars($a_rec["PeerChar"]);
+                    $ass->setPeerReviewChars((int)$a_rec["PeerChar"]);
                     $ass->setPeerReviewSimpleUnlock($a_rec["PeerUnlock"]);
                     $ass->setPeerReviewValid($a_rec["PeerValid"]);
                     $ass->setPeerReviewText($a_rec["PeerText"]);
@@ -632,7 +632,7 @@ class ilExerciseDataSet extends ilDataSet
                     $dir = str_replace("..", "", $a_rec["Dir"]);
                     if ($dir != "" && $this->getImportDirectory() != "") {
                         $source_dir = $this->getImportDirectory() . "/" . $dir;
-                        $target_dir = $fstorage->getPath();
+                        $target_dir = $fstorage->getAbsolutePath();
                         ilFileUtils::rCopy($source_dir, $target_dir);
                     }
 
@@ -650,7 +650,7 @@ class ilExerciseDataSet extends ilDataSet
                     $dir = str_replace("..", "", $a_rec["WebDataDir"]);
                     if ($dir != "" && $this->getImportDirectory() != "") {
                         $source_dir = $this->getImportDirectory() . "/" . $dir;
-                        $target_dir = $fwebstorage->getPath();
+                        $target_dir = $fwebstorage->getAbsolutePath();
                         ilFileUtils::rCopy($source_dir, $target_dir);
                     }
 
