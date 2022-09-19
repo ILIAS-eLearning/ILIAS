@@ -10285,7 +10285,7 @@ lso#:#lso_header_delete_members#:#Sie möchten folgende Mitglieder aus der Lerns
 lso#:#lso_header_edit_members#:#Mitglieder bearbeiten
 lso#:#lso_mail_admission_new_bod#:#Sie sind in Lernsequenz "%s" als Mitglied aufgenommen worden.
 lso#:#lso_mail_admission_new_sub#:#Mitgliedschaft in Lernsequenz "%s"
-lso#:#lso_mail_dismiss_bod#:#hre Mitgliedschaft in Lernsequenz "%s" wurde beendet.
+lso#:#lso_mail_dismiss_bod#:#Ihre Mitgliedschaft in Lernsequenz "%s" wurde beendet.
 lso#:#lso_mail_dismiss_sub#:#Mitgliedschaft in Lernsequenz "%s" beendet
 lso#:#lso_mail_notification_reg_bod#:#%s hat einen Aufnahmeantrag für die Lernsequenz "%s" gestellt.
 lso#:#lso_mail_notification_reg_req_bod#:#%s hat einen Aufnahmeantrag für die Lernsequenz "%s" gestellt.
