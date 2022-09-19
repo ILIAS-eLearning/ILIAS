@@ -5243,6 +5243,7 @@ common#:#prg_wizard_page#:#Studienprogramm kopieren (Schritt 2/2)
 common#:#prgr_add#:#Link zu Studienprogramm anlegen
 common#:#prgr_edit_info#:#Bitte wählen Sie das Studienprogramm aus, für das Sie einen Link erstellen möchten.
 common#:#prgr_new#:#Neuen Link zu einem Studienprogramm anlegen
+common#:#prgr_settings#:#Einstellungen des Links zum Studienprogramm
 common#:#print#:#Drucken
 common#:#print_view#:#Druckansicht
 common#:#private_notes#:#Private Notizen
