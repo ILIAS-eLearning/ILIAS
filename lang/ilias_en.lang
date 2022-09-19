@@ -16113,8 +16113,8 @@ tbl#:#tbl_template_created#:#The current view has been saved.
 tbl#:#tbl_template_delete#:#Delete Saved View
 tbl#:#tbl_template_deleted#:#The saved view has been deleted.
 tbl#:#tbl_templates#:#View
-tos#:#deleteDocument#:#Löschen
-tos#:#detachCriterionAssignment#:#Löschen
+tos#:#deleteDocument#:#Delete
+tos#:#detachCriterionAssignment#:#Delete
 tos#:#tos_acceptance_history#:#Acceptance History
 tos#:#tos_account_reg_not_possible#:#Self-registration is currently not possible because there is no Terms of Service agreement available. Please contact your <a href="%1$s">system administrator</a> for further information.
 tos#:#tos_add_document_btn_label#:#Add Document
