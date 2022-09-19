@@ -422,6 +422,12 @@ class ilMailTest extends ilMailBaseTest
             'tpl_ctx_params' => ['blob', json_encode($params, JSON_THROW_ON_ERROR)],
         ]);
 
+        $mockStatement = $this->getMockBuilder(ilDBStatement::class)->disableOriginalConstructor()->getMock();
+        $this->mockDatabase->expects(self::once())->method('queryF')->willReturnCallback($this->queryCallback($mockStatement, ['integer'], [$userId]));
+        $this->mockDatabase->expects(self::once())->method('fetchAssoc')->with($mockStatement)->willReturn([
+            'rcp_to' => 'phpunit'
+        ]);
+
         $instance->savePostData(
             78979078,
             $attachments,
@@ -441,10 +447,15 @@ class ilMailTest extends ilMailBaseTest
         $userId = 789;
         $instance = $this->create(67, $userId);
         $mockStatement = $this->getMockBuilder(ilDBStatement::class)->disableOriginalConstructor()->getMock();
-        $this->mockDatabase->expects(self::once())->method('fetchAssoc')->with($mockStatement)->willReturn([]);
         $this->mockDatabase->expects(self::once())->method('queryF')->willReturnCallback($this->queryCallback($mockStatement, ['integer'], [$userId]));
+        $this->mockDatabase->expects(self::once())->method('fetchAssoc')->with($mockStatement)->willReturn([
+            'rcp_to' => 'phpunit'
+        ]);
 
-        $this->assertNull($instance->getSavedData());
+        $mail_data = $instance->getSavedData();
+
+        $this->assertIsArray($mail_data);
+        $this->assertEquals('phpunit', $mail_data['rcp_to']);
     }
 
     public function testValidateRecipients($errors = []): void

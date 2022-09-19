@@ -583,7 +583,7 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
             $form = $form->withRequest($request);
             $data = $form->getData()["sec"];
 
-            $layout_id = (int) $data["layout_id"];
+            $layout_id = (int) ($data["layout_id"] ?? 0);
 
             $this->obj = new ilLMPageObject($this->content_object);
             $this->obj->setType("pg");

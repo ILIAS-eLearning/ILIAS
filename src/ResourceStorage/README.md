@@ -166,6 +166,63 @@ if (null !== $identification) {
 }
 ```
 
+# Collections
+In many cases a component does not only need a single resource to be stored, but wants to be able to use a collection of resources (e.g. in an exercise unit several files can be delivered per person). For this purpose `Collections` can be used in IRSS. A collection always contains a collection of ResourceIdentifications in a defined order.
+The management of collections is done via:
+
+```php
+$DIC['resource_storage']->collection();
+```
+
+To use a collection, a new collection can be created:
+
+```php
+$collection = $DIC['resource_storage']->collection()->id();
+```
+
+Or an existing collection can be called:
+
+```php
+$collection = $DIC['resource_storage']->collection()->id("f0e564e2-5d48-4d33-a8e6-bdc2646900d7");
+```
+
+ResourceIdentifications can now be added to such a collection, e.g. after the upload. The collection must be saved afterwards:
+
+```php
+$irss = $DIC['resource_storage'];
+$collection = $irss->collection()->id("f0e564e2-5d48-4d33-a8e6-bdc2646900d7");
+
+$this->upload->process();
+$result = array_values($this->upload->getResults())[0];
+if ($result->isOK()) {
+    $id = $irss->manage()->upload($result, $this->stakeholder);
+    $collection->add($id); // adding a resource to the collection
+}
+$irss->collection()->store($collection); // saving the collection
+```
+
+Collections can be explicitly assigned to a user ID, and such collections can later be retrieved and modified only on the basis of this user ID:
+
+```php
+// create new collection for user 6
+$collection = $DIC['resource_storage']->collection()->id(null, 6); // return a collection with e.g. ID "f0e564e2-5d48-4d33-a8e6-bdc2646900d7"
+// ... accessing the same collection with another user-id results in an exception
+$collection = $DIC['resource_storage']->collection()->id("f0e564e2-5d48-4d33-a8e6-bdc2646900d7", 13);
+```
+
+To get the ResourceIdentifications assigned to a collection, they can be accessed as follows:
+
+```php
+$collection = $DIC['resource_storage']->collection()->id("f0e564e2-5d48-4d33-a8e6-bdc2646900d7");
+
+$resource_identification = $collection->->getResourceIdentifications();
+
+foreach ($resource_identification as $rid) {
+    // do something with the resource
+    $file_stream = $DIC['resource_storage']->consume()->stream($rid)->getStream();
+}
+```
+
 # Other (involved) Services
 
 - UploadService, see [here](../FileUpload/README.md)

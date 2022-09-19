@@ -19,8 +19,11 @@ declare(strict_types=1);
 
 namespace ILIAS\ResourceStorage\Consumer;
 
+use ILIAS\ResourceStorage\Collection\CollectionBuilder;
+use ILIAS\ResourceStorage\Identification\ResourceCollectionIdentification;
 use ILIAS\ResourceStorage\Identification\ResourceIdentification;
 use ILIAS\ResourceStorage\Resource\ResourceBuilder;
+use ILIAS\ResourceStorage\Resource\StorableResource;
 
 /**
  * Class Consumers
@@ -31,16 +34,19 @@ class Consumers
 {
     private \ILIAS\ResourceStorage\Consumer\ConsumerFactory $consumer_factory;
     private \ILIAS\ResourceStorage\Resource\ResourceBuilder $resource_builder;
+    private CollectionBuilder $collection_builder;
 
     /**
      * Consumers constructor.
      */
     public function __construct(
         ConsumerFactory $cf,
-        ResourceBuilder $r
+        ResourceBuilder $r,
+        CollectionBuilder $c
     ) {
         $this->consumer_factory = $cf;
         $this->resource_builder = $r;
+        $this->collection_builder = $c;
     }
 
     public function download(ResourceIdentification $identification): DownloadConsumer
@@ -61,5 +67,33 @@ class Consumers
     public function src(ResourceIdentification $identification): SrcConsumer
     {
         return $this->consumer_factory->src($this->resource_builder->get($identification));
+    }
+
+    public function downloadCollection(
+        ResourceCollectionIdentification $identification,
+        ?string $zip_filename = null
+    ): DownloadMultipleConsumer {
+        return $this->downloadResources(
+            iterator_to_array($this->collection_builder->getResourceIds($identification)),
+            $zip_filename
+        );
+    }
+
+    public function downloadResources(
+        array $identifications,
+        ?string $zip_filename = null
+    ): DownloadMultipleConsumer {
+        $resources = [];
+        foreach ($identifications as $rid) {
+            if (!$rid instanceof ResourceIdentification) {
+                throw new \InvalidArgumentException('Expected ResourceIdentification');
+            }
+            $resources[] = $this->resource_builder->get($rid);
+        }
+
+        return $this->consumer_factory->downloadMultiple(
+            $resources,
+            $zip_filename
+        );
     }
 }

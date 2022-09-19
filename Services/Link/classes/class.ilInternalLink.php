@@ -341,7 +341,7 @@ class ilInternalLink
     public static function _extractTypeOfTarget(string $a_target): string
     {
         $target = explode("_", $a_target);
-        return (string) $target[count($target) - 2];
+        return (string) ($target[count($target) - 2] ?? "");
     }
 
     /**

@@ -46,6 +46,8 @@ class ilContactGUI
     protected ilRbacSystem $rbacsystem;
     protected bool $has_sub_tabs = false;
     protected ILIAS\Refinery\Factory $refinery;
+    protected \ILIAS\UI\Factory $ui_factory;
+    protected \ILIAS\UI\Renderer $ui_renderer;
 
     public function __construct()
     {
@@ -62,6 +64,8 @@ class ilContactGUI
         $this->rbacsystem = $DIC['rbacsystem'];
         $this->http = $DIC->http();
         $this->refinery = $DIC->refinery();
+        $this->ui_factory = $DIC->ui()->factory();
+        $this->ui_renderer = $DIC->ui()->renderer();
 
         $this->ctrl->saveParameter($this, "mobj_id");
 
@@ -361,17 +365,16 @@ class ilContactGUI
         }
 
         $logins = [];
+        $mail_data = $this->umail->getSavedData();
         foreach ($usr_ids as $usr_id) {
-            $logins[] = ilObjUser::_lookupLogin($usr_id);
+            $login = ilObjUser::_lookupLogin($usr_id);
+            if (!$this->umail->existsRecipient($login, (string) $mail_data['rcp_to'])) {
+                $logins[] = $login;
+            }
         }
         $logins = array_filter($logins);
 
         if ($logins !== []) {
-            $mail_data = $this->umail->getSavedData();
-            if (!is_array($mail_data)) {
-                $this->umail->savePostData($this->user->getId(), [], '', '', '', '', '', false);
-            }
-
             $mail_data = $this->umail->appendSearchResult($logins, 'to');
             $this->umail->savePostData(
                 (int) $mail_data['user_id'],
@@ -500,7 +503,10 @@ class ilContactGUI
         $ref_id = $room->getRefIdByRoomId($room_id);
 
         $url = $scope !== 0 ? ilLink::_getStaticLink($ref_id, 'chtr', true, '_' . $scope) : ilLink::_getStaticLink($ref_id, 'chtr');
-        $link = '<p><a target="chatframe" href="' . $url . '" title="' . $this->lng->txt('goto_invitation_chat') . '">' . $this->lng->txt('goto_invitation_chat') . '</a></p>';
+
+        $link = '<div>' . $this->ui_renderer->render(
+            $this->ui_factory->button()->standard($this->lng->txt('goto_invitation_chat'), $url)
+        ) . '</div>';
 
         $userlist = [];
         foreach ($valid_users as $id) {

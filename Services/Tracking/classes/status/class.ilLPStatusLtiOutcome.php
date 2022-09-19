@@ -17,7 +17,7 @@ class ilLPStatusLtiOutcome extends ilLPStatus
     private function getLtiUserResult(
         int $objId,
         int $usrId
-    ): ilLTIConsumerResult {
+    ): ?ilLTIConsumerResult {
         if (!isset(self::$userResultCache[$objId])) {
             self::$userResultCache[$objId] = array();
         }

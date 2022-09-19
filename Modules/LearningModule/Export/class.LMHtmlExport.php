@@ -156,7 +156,7 @@ class LMHtmlExport
                     $this->langs = [$lang];
                 } else {
                     foreach ($obj_transl->getLanguages() as $otl) {
-                        $this->langs[] = $otl["lang_code"];
+                        $this->langs[] = $otl->getLanguageCode();
                     }
                 }
             }

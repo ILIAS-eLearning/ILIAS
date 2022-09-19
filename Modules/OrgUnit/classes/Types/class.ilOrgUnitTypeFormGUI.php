@@ -23,17 +23,21 @@
 class ilOrgUnitTypeFormGUI extends ilPropertyFormGUI
 {
     protected ilOrgUnitType $type;
-    protected ilObjectGUI $parent_gui;
+    //protected ilObjectGUI $parent_gui;
+    protected ilOrgUnitTypeGUI $parent_gui;
 
-    public function __construct(ilObjectGUI $parent_gui, ilOrgUnitType $type)
+    public function __construct(ilOrgUnitTypeGUI $parent_gui, ilOrgUnitType $type)
     {
+        global $DIC;
         $this->parent_gui = $parent_gui;
         $this->type = $type;
-        $this->tpl =  $DIC->ui()->mainTemplate();
+        //$this->tpl =  $DIC->ui()->mainTemplate();
+        $this->global_tpl =  $DIC->ui()->mainTemplate();
         $this->ctrl = $DIC->ctrl();
         $this->lng = $DIC->language();
         $this->lng->loadLanguageModule('meta');
         $this->initForm();
+        $this->http = $DIC->http();
     }
 
     /**
@@ -117,6 +121,7 @@ class ilOrgUnitTypeFormGUI extends ilPropertyFormGUI
      */
     private function addTranslationInputs(string $a_lang_code): void
     {
+        $a_lang_code = $a_lang_code ?? '';
         $section = new ilFormSectionHeaderGUI();
         $section->setTitle($this->lng->txt("meta_l_{$a_lang_code}"));
         $this->addItem($section);
@@ -124,7 +129,8 @@ class ilOrgUnitTypeFormGUI extends ilPropertyFormGUI
         $item->setValue($this->type->getTitle($a_lang_code));
         $this->addItem($item);
         $item = new ilTextAreaInputGUI($this->lng->txt('description'), "description_{$a_lang_code}");
-        $item->setValue($this->type->getDescription($a_lang_code));
+        $desc = $this->type->getDescription($a_lang_code) ?? '';
+        $item->setValue($desc);
         $this->addItem($item);
     }
 }

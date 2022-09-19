@@ -878,11 +878,9 @@ class ilExAssignmentEditorGUI
         }
 
         // add global feedback file?
-        if (isset($a_input["fb"])) {
-            if (is_array($a_input["fb_file"])) {
-                $a_ass->handleGlobalFeedbackFileUpload($a_input["fb_file"]);
-                $a_ass->update();
-            }
+        if (isset($a_input["fb"], $a_input["fb_file"])) {
+            $a_ass->handleGlobalFeedbackFileUpload($a_input["fb_file"]);
+            $a_ass->update();
         }
         $this->importFormToAssignmentReminders($a_input, $a_ass->getId());
     }

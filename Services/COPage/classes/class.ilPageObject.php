@@ -99,7 +99,7 @@ abstract class ilPageObject
     protected ?string $activationstart = null;      // IL_CAL_DATETIME format
     protected ?string $activationend = null;        // IL_CAL_DATETIME format
     protected \ILIAS\COPage\ReadingTime\ReadingTimeManager $reading_time_manager;
-    protected $concrete_lang;
+    protected $concrete_lang = "";
 
     final public function __construct(
         int $a_id = 0,
@@ -279,7 +279,10 @@ abstract class ilPageObject
                 " AND parent_type=" . $this->db->quote($this->getParentType(), "text") .
                 " AND lang = " . $this->db->quote($this->getLanguage(), "text");
             $pg_set = $this->db->query($query);
-            $this->page_record = $this->db->fetchAssoc($pg_set);
+            if (!$this->page_record = $this->db->fetchAssoc($pg_set)) {
+                throw new ilCOPageNotFoundException("Error: Page " . $this->id . " is not in database" .
+                    " (parent type " . $this->getParentType() . ", lang: " . $this->getLanguage() . ").");
+            }
             $this->setActive($this->page_record["active"]);
             $this->setActivationStart($this->page_record["activation_start"]);
             $this->setActivationEnd($this->page_record["activation_end"]);
@@ -1082,7 +1085,11 @@ s     */
 
             if (!($inst_id > 0)) {
                 if ($q_id > 0) {
-                    $question = assQuestion::_instantiateQuestion($q_id);
+                    $question = null;
+                    try {
+                        $question = assQuestion::_instantiateQuestion($q_id);
+                    } catch (Exception $e) {
+                    }
                     // check due to #16557
                     if (is_object($question) && $question->isComplete()) {
                         // check if page for question exists
@@ -2004,7 +2011,7 @@ s     */
             $target = $res->nodeset[$i]->get_attribute("Target");
             $type = $res->nodeset[$i]->get_attribute("Type");
             $obj_id = ilInternalLink::_extractObjIdOfTarget($target);
-            if ($a_from_to[$obj_id] > 0 && is_int(strpos($target, "__"))) {
+            if (($a_from_to[$obj_id] ?? 0) > 0 && is_int(strpos($target, "__"))) {
                 if ($type == "PageObject" && ilLMObject::_lookupType($a_from_to[$obj_id]) == "pg") {
                     $res->nodeset[$i]->set_attribute("Target", "il__pg_" . $a_from_to[$obj_id]);
                     $changed = true;

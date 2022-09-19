@@ -251,19 +251,7 @@ abstract class ilMailSearchObjectGUI
     protected function mailObjects(): void
     {
         $members = [];
-
-        if (!is_array($old_mail_data = $this->umail->getSavedData())) {
-            $this->umail->savePostData(
-                $this->user->getId(),
-                [],
-                '',
-                '',
-                '',
-                '',
-                '',
-                false
-            );
-        }
+        $mail_data = $this->umail->getSavedData();
 
         $obj_ids = [];
         if ($this->http->wrapper()->query()->has('search_' . $this->getObjectType())) {
@@ -286,24 +274,16 @@ abstract class ilMailSearchObjectGUI
                 $roles = $this->rbacreview->getAssignableChildRoles($ref_id);
                 foreach ($roles as $role) {
                     if ($this->isLocalRoleTitle($role['title'])) {
-                        if (
-                            isset($old_mail_data['rcp_to']) &&
-                            is_string($old_mail_data['rcp_to']) &&
-                            trim($old_mail_data['rcp_to']) !== ''
-                        ) {
-                            $recipient = (new ilRoleMailboxAddress($role['obj_id']))->value();
-                            if (!$this->umail->existsRecipient($recipient, $old_mail_data['rcp_to'])) {
-                                $members[] = $recipient;
-                            }
-                        } else {
-                            $members[] = (new ilRoleMailboxAddress($role['obj_id']))->value();
+                        $recipient = (new ilRoleMailboxAddress($role['obj_id']))->value();
+                        if (!$this->umail->existsRecipient($recipient, (string) $mail_data['rcp_to'])) {
+                            $members[] = $recipient;
                         }
                     }
                 }
             }
         }
 
-        $mail_data = $members !== [] ? $this->umail->appendSearchResult($members, 'to') : $this->umail->getSavedData();
+        $mail_data = $members !== [] ? $this->umail->appendSearchResult(array_unique($members), 'to') : $this->umail->getSavedData();
 
         $this->umail->savePostData(
             (int) $mail_data['user_id'],
@@ -324,20 +304,6 @@ abstract class ilMailSearchObjectGUI
     public function mailMembers(): void
     {
         $members = [];
-
-        if (!is_array($this->umail->getSavedData())) {
-            $this->umail->savePostData(
-                $this->user->getId(),
-                [],
-                '',
-                '',
-                '',
-                '',
-                '',
-                false
-            );
-        }
-
         $usr_ids = [];
         if ($this->http->wrapper()->query()->has('search_members')) {
             $usr_ids = [
@@ -353,11 +319,14 @@ abstract class ilMailSearchObjectGUI
             );
         }
 
+        $mail_data = $this->umail->getSavedData();
         foreach ($usr_ids as $usr_id) {
             $login = ilObjUser::_lookupLogin($usr_id);
-            $members[] = $login;
+            if (!$this->umail->existsRecipient($login, (string) $mail_data['rcp_to'])) {
+                $members[] = $login;
+            }
         }
-        $mail_data = $this->umail->appendSearchResult($members, 'to');
+        $mail_data = $this->umail->appendSearchResult(array_unique($members), 'to');
 
         $this->umail->savePostData(
             (int) $mail_data['user_id'],
@@ -560,7 +529,6 @@ abstract class ilMailSearchObjectGUI
                         }
                         $path .= $data['title'];
                     }
-                    $path = $this->lng->txt('path') . ': ' . $path;
 
                     $current_selection_list = new ilAdvancedSelectionListGUI();
                     $current_selection_list->setListTitle($this->lng->txt('actions'));
