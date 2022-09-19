@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -262,11 +264,10 @@ class ilRegistrationSettings
         $this->reg_hash_life_time = (int) $this->settings->get('reg_hash_life_time');
         $this->reg_allow_codes = (bool) $this->settings->get('reg_allow_codes');
 
-        $this->approve_recipient_ids = (array) unserialize(
-            stripslashes($this->settings->get('approve_recipient')),
+        $this->approve_recipient_ids = unserialize(
+            stripslashes($this->settings->get('approve_recipient', "")),
             ['allowed_classes' => false]
-        );
-        $this->approve_recipient_ids = $this->approve_recipient_ids ?: [];
+        ) ?: [];
 
         // create login array
         $tmp_logins = [];
