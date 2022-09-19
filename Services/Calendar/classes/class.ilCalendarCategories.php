@@ -854,6 +854,7 @@ class ilCalendarCategories
                 continue;
             }
             $this->categories_info[(int) $row->cat_id]['editable'] = $editable;
+            $this->categories_info[(int) $row->cat_id]['accepted'] = false;
             $this->categories_info[(int) $row->cat_id]['settings'] = $settings;
 
             $this->categories[] = (int) $row->cat_id;
