@@ -42,7 +42,7 @@ class ilMailingListsMembersTableGUI extends ilTable2GUI
 
     protected function initColumns(): void
     {
-        $this->addColumn('', 'check', '1%', true);
+        $this->addColumn('', 'check', '1px', true);
         $this->addColumn($this->lng->txt('user'), 'user', '99%');
     }
 }
