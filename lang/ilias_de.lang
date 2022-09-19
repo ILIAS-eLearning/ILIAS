@@ -2839,6 +2839,7 @@ chatroom#:#chat_osc_emoticons#:#Emoticons
 chatroom#:#chat_osc_head_grp_x_persons#:#%s Benutzer
 chatroom#:#chat_osc_invite_to_conversation#:#Zu Konversation hinzufügen
 chatroom#:#chat_osc_leave_grp_conv#:#Konversation verlassen
+chatroom#:#chat_osc_minimize#:#Minimieren
 chatroom#:#chat_osc_nc_conv_x_p#:#Sie haben %s minimierte Konversationen.
 chatroom#:#chat_osc_nc_conv_x_s#:#Sie haben eine minimierte Konversation.
 chatroom#:#chat_osc_nc_no_conv#:#Keine Konversationen vorhanden
