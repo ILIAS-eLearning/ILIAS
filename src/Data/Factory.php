@@ -8,6 +8,7 @@ namespace ILIAS\Data;
 
 use ILIAS\Data\Clock\ClockFactory;
 use ILIAS\Data\Clock\ClockFactoryImpl;
+use ILIAS\Data\Meta;
 
 /**
  * Builds data types.
@@ -24,6 +25,7 @@ class Factory
      */
     private ?Color\Factory $colorfactory = null;
     private ?Dimension\Factory $dimensionfactory = null;
+    private ?Meta\Html\Factory $html_metadata_factory = null;
 
     /**
      * Get an ok result.
@@ -180,5 +182,10 @@ class Factory
     public function dataset(array $dimensions): Chart\Dataset
     {
         return new Chart\Dataset($dimensions);
+    }
+
+    public function htmlMetadata(): Meta\Html\Factory
+    {
+        return $this->html_metadata_factory;
     }
 }

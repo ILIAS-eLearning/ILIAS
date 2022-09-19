@@ -563,3 +563,23 @@ function itIsTrueThat(bool $truth) {
 
 ?>
 ```
+
+## HTML metadata
+
+will follow.
+
+### Example
+
+```php
+<?php
+
+$f = new \ILIAS\Data\Factory;
+
+$html_metadata = $f->htmlMetadata()->userDefined('viewport', 'widht=device-width');
+
+$og_html_metadata = $f->htmlMetadata()->openGraph()->website(
+    'ILIAS',
+    $f->uri('https://docu.ilias.de'),
+    'hello world!'
+);
+```
