@@ -455,6 +455,7 @@ class ilSetupLanguage extends ilLanguage
                     $local_changes = $this->getLocalChanges($lang_key, $min_date);
                 }
 
+                $query = "INSERT INTO lng_data (module,identifier,lang_key,value,local_change,remarks) VALUES ";
                 foreach ($content as $key => $val) {
                     // split the line of the language file
                     // [0]: module
@@ -482,37 +483,33 @@ class ilSetupLanguage extends ilLanguage
                         if ($local_value !== "" && $local_value !== $separated[2]) {
                             // keep the locally changed value
                             $lang_array[$separated[0]][$separated[1]] = $local_value;
-                        } else {
-                            // insert a new value if no local value exists
-                            // reset local_change if the values are equal
-                            self::replaceLangEntry(
-                                $separated[0],
-                                $separated[1],
-                                $lang_key,
-                                $separated[2]
-                            );
-
-                            $lang_array[$separated[0]][$separated[1]] = $separated[2];
+                            continue;
                         }
                     } elseif ($scope === "local") {
                         if ($local_value !== "") {
                             // keep a locally changed value that is newer than the local file
                             $lang_array[$separated[0]][$separated[1]] = $local_value;
-                        } else {
-                            // UPDATE because the global values have already been INSERTed
-                            self::updateLangEntry(
-                                $separated[0],
-                                $separated[1],
-                                $lang_key,
-                                $separated[2],
-                                $change_date
-                            );
-                            $lang_array[$separated[0]][$separated[1]] = $separated[2];
+                            continue;
                         }
                     }
+
+                    $query .= sprintf(
+                        "(%s,%s,%s,%s,%s,%s),",
+                        $ilDB->quote($separated[0], "text"),
+                        $ilDB->quote($separated[1], "text"),
+                        $ilDB->quote($lang_key, "text"),
+                        $ilDB->quote($separated[2], "text"),
+                        $ilDB->quote($change_date, "timestamp"),
+                        $ilDB->quote($separated[3] ?? null, "text")
+                    );
+
+                    $lang_array[$separated[0]][$separated[1]] = $separated[2];
                 }
+                $query = rtrim($query, ",") . " ON DUPLICATE KEY UPDATE value=VALUES(value),remarks=VALUES(remarks);";
+                $ilDB->manipulate($query);
             }
 
+            $query = "INSERT INTO lng_modules (module, lang_key, lang_array) VALUES ";
             foreach ($lang_array as $module => $lang_arr) {
                 if ($scope === "local") {
                     $q = "SELECT * FROM lng_modules WHERE " .
@@ -525,88 +522,23 @@ class ilSetupLanguage extends ilLanguage
                         $lang_arr = array_merge($arr2, $lang_arr);
                     }
                 }
-                self::replaceLangModule($lang_key, $module, $lang_arr);
+                $query .= sprintf(
+                    "(%s,%s,%s),",
+                    $ilDB->quote($module, "text"),
+                    $ilDB->quote($lang_key, "text"),
+                    $ilDB->quote(serialize($lang_arr), "clob"),
+                );
             }
+            $ilDB->manipulate(sprintf(
+                "DELETE FROM lng_modules WHERE lang_key = %s",
+                $ilDB->quote($lang_key, "text"),
+            ));
+
+            $query = rtrim($query, ",") . ";";
+            $ilDB->manipulate($query);
         }
 
         chdir($tmpPath);
-    }
-
-    /**
-    * Replace language module array
-    */
-    final public static function replaceLangModule(string $a_key, string $a_module, array $a_array): void
-    {
-        global $ilDB;
-
-        $ilDB->manipulate(sprintf(
-            "DELETE FROM lng_modules WHERE lang_key = %s AND module = %s",
-            $ilDB->quote($a_key, "text"),
-            $ilDB->quote($a_module, "text")
-        ));
-        $ilDB->insert("lng_modules", array(
-            "lang_key" => array("text", $a_key),
-            "module" => array("text", $a_module),
-            "lang_array" => array("clob", serialize($a_array))
-            ));
-    }
-
-    /**
-    * Replace lang entry
-    */
-    final public static function replaceLangEntry(
-        string $a_module,
-        string $a_identifier,
-        string $a_lang_key,
-        string $a_value,
-        string $a_local_change = null
-    ): void {
-        global $ilDB;
-
-        $ilDB->manipulate(sprintf(
-            "DELETE FROM lng_data WHERE module = %s AND " .
-            "identifier = %s AND lang_key = %s",
-            $ilDB->quote($a_module, "text"),
-            $ilDB->quote($a_identifier, "text"),
-            $ilDB->quote($a_lang_key, "text")
-        ));
-
-        // insert a new value if no local value exists
-        // reset local_change if the values are equal
-        $ilDB->manipulate(sprintf(
-            "INSERT INTO lng_data " .
-            "(module, identifier, lang_key, value, local_change) " .
-            "VALUES (%s,%s,%s,%s,%s)",
-            $ilDB->quote($a_module, "text"),
-            $ilDB->quote($a_identifier, "text"),
-            $ilDB->quote($a_lang_key, "text"),
-            $ilDB->quote($a_value, "text"),
-            $ilDB->quote($a_local_change, "timestamp")
-        ));
-    }
-
-    /**
-    * Update lang entry
-    */
-    final public static function updateLangEntry(
-        string $a_module,
-        string $a_identifier,
-        string $a_lang_key,
-        string $a_value,
-        string $a_local_change = null
-    ): void {
-        global $ilDB;
-
-        $ilDB->manipulate(sprintf(
-            "UPDATE lng_data " .
-            "SET value = %s, local_change = %s " .
-            "WHERE module = %s AND identifier = %s AND lang_key = %s ",
-            $ilDB->quote($a_value, "text"),
-            $ilDB->quote($a_local_change, "timestamp"),
-            $ilDB->quote($a_module, "text"),
-            $ilDB->quote($a_identifier, "text"),
-            $ilDB->quote($a_lang_key, "text")
-        ));
     }
 
     /**
