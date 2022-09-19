@@ -607,7 +607,7 @@ class ilMailFormGUI
                 if ($bcc === '' && ilSession::get('rcp_bcc')) {
                     $bcc = ilSession::get('rcp_bcc');
                 }
-                $mailData['rcp_bcc'] = $cc;
+                $mailData['rcp_bcc'] = $bcc;
 
                 $mailData['m_message'] = '';
                 if (($sig = ilMailFormCall::getSignature()) !== '') {
