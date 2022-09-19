@@ -592,7 +592,7 @@ class ilForumPost
         $this->setChangeDate($row['pos_update']);
         $this->setUpdateUserId((int) $row['update_user']);
         $this->setCensorship((bool) $row['pos_cens']);
-        $this->setCensoredDate($row['pos_cens_date'] ?? '');
+        $this->setCensoredDate($row['pos_cens_date'] ?? null);
         $this->setCensorshipComment($row['pos_cens_com']);
         $this->setNotification((bool) $row['notify']);
         $this->setImportName($row['import_name']);
