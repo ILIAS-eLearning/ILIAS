@@ -134,9 +134,9 @@ class ilObjLearningSequenceLearnerGUI
         } else {
             if (!$completed) {
                 $res_button = ilLinkButton::getInstance();
+                $res_button->setPrimary(true);
                 $res_button->setCaption("lso_player_resume");
                 if ($this->first_access === -1) {
-                    $res_button->setPrimary(true);
                     $res_button->setCaption("lso_player_start");
                 }
                 $res_button->setUrl($this->ctrl->getLinkTarget($this, self::CMD_VIEW));
